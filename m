@@ -2,65 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 013932F9B8B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 09:52:14 +0100 (CET)
-Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21D2E2F9B81
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 09:49:42 +0100 (CET)
+Received: from localhost ([::1]:35608 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1QGj-0005Z6-3M
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 03:52:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36938)
+	id 1l1QEH-0004D3-1H
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 03:49:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1QFF-0004jh-Iz
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:50:41 -0500
-Received: from indium.canonical.com ([91.189.90.7]:56344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1QFD-0008DT-0h
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:50:41 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l1QFA-0002Aq-Eb
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 08:50:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B88B2E8137
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 08:50:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1QCU-0003BJ-7k
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:47:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29046)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1QCS-0006o9-21
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:47:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610959666;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=iQng26T63oR052weeKvBe+tzGN+onjnoC+fi4ppkjFk=;
+ b=Ar8gJhaRxEQYlMiLruW9xbM/0rJxzuiNbzTAXNWjyzDLzrleJEfL1KIXIR7i2kMX6iJxsA
+ vzER1J93s8eYC1ElO2oF9EpfEZ1OlHmeGQlsPrFM6a3ddlsL2U2JykyIbJAYSVeme1exyZ
+ TCrrO3bHLEh2/lBL5D6J5Mhbv2PmVDk=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-VQ_oRnWDOvGrAy3iDBfqpQ-1; Mon, 18 Jan 2021 03:47:44 -0500
+X-MC-Unique: VQ_oRnWDOvGrAy3iDBfqpQ-1
+Received: by mail-wm1-f71.google.com with SMTP id z12so4168534wmf.9
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 00:47:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=iQng26T63oR052weeKvBe+tzGN+onjnoC+fi4ppkjFk=;
+ b=j2P0yyDTWbSRwBiSfpEZ+jGTKdo8Yxp0iIYiLG4H82cdvech0vTqJGrYSQGxm3NpEa
+ IE3nle54Sd+fc2nyu3AAokH2ELVZ5acWG+l26ceoS8dO/zWod3feKsAU44UAx495HGWv
+ 7j4QYcHj/ZDFQQeL09KScMGKr2mCbFsWPN5M+MTDxPHXkbMChnmOhut7BfctxwZ7ozaC
+ bZzkbj3p6DYQ/o5FEEmpz8LT4XHnpy/1psqC/xfoyNf7LCWfaKh8/XRerXIxDBZobxG0
+ BnCAB8WY4HgkC1afuRQpXaKeX27DDLHBkhJUK4kLhT5YgJ6/DhXn4mr07JXlYNUvdhR7
+ LegA==
+X-Gm-Message-State: AOAM530tb+LX+GdeOUpxjSovi1jx8u2uzFtofFlMmTZMWtjU1guwfJZ+
+ E3rrfBs+7L0fzFoSopVna9soO738qz5R0M73N6BcwP5wTZpg7dqX+r2corgWvlPeJNt3wWbp+s5
+ WBGO5dGLDLPELAig=
+X-Received: by 2002:a1c:e4c5:: with SMTP id b188mr19990049wmh.78.1610959663083; 
+ Mon, 18 Jan 2021 00:47:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwhtoZLB/PymTdiht3w8Uq45A5mGgWtIBNqqpUC7V9o0bojiRccu3Y950uPUZ6C8sbb1OUSjA==
+X-Received: by 2002:a1c:e4c5:: with SMTP id b188mr19990038wmh.78.1610959662916; 
+ Mon, 18 Jan 2021 00:47:42 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id b3sm21386088wme.32.2021.01.18.00.47.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 00:47:42 -0800 (PST)
+Subject: Re: [PATCH v2] ide: atapi: check logical block address and read size
+ (CVE-2020-29443)
+To: P J P <ppandit@redhat.com>
+References: <20210118063229.442350-1-ppandit@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <cdd8168a-3362-e038-8e7e-0a082a2f1917@redhat.com>
+Date: Mon, 18 Jan 2021 09:47:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 18 Jan 2021 08:45:17 -0000
-From: =?utf-8?q?Rafa=C5=82_Rudnicki?= <1912170@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bratpiorka
-X-Launchpad-Bug-Reporter: =?utf-8?q?Rafa=C5=82_Rudnicki_=28bratpiorka=29?=
-X-Launchpad-Bug-Modifier: =?utf-8?q?Rafa=C5=82_Rudnicki_=28bratpiorka=29?=
-Message-Id: <161095951776.13964.8528541534312352624.malonedeb@gac.canonical.com>
-Subject: [Bug 1912170] [NEW] NUMA nodes created with memory-backend-ram shows
- size different than requested
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
-X-Launchpad-Hash: a7fab72e3f801185dfacfd7e2664ddb57f03ca1d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210118063229.442350-1-ppandit@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,219 +100,125 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912170 <1912170@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On 18/01/21 07:32, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
+> 
+> While processing ATAPI cmd_read/cmd_read_cd commands,
+> Logical Block Address (LBA) maybe invalid OR closer to the last block,
+> leading to an OOB access issues. Add range check to avoid it.
+> 
+> Fixes: CVE-2020-29443
+> Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
+> Fix-suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 
-I created system with 7 NUMA nodes where nodes 0-3 should have 268435456 by=
-tes size and nodes 4-6 exactly 1610612736 bytes size, but when I run "numac=
-tl -H" I got different (smaller) sizes.
-It is essential for me to be able to emulate a system with nodes of exact s=
-ize - is it possible?
+Thank you!  This looks great.
 
-QEMU version:
+With the small spacing fix suggested by checkpatch,
 
-QEMU emulator version 5.1.0
-Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
-QEMU command:
+You may add a small patch on top to clamp s->nb_sectors at 
+(uint64_t)INT_MAX << 2, just to be super safe.
 
-qemu-system-x86_64 -hda qemu-image/ubuntu-1804.img -enable-kvm -cpu
-Cascadelake-Server -vnc :5 -netdev user,id=3Dnet0,hostfwd=3Dtcp::10022-:22
--device virtio-net,netdev=3Dnet0 -boot c -m 5632.0M -object memory-
-backend-ram,id=3Dram-node0,size=3D268435456 -numa
-node,nodeid=3D0,cpus=3D0-3,memdev=3Dram-node0 -object memory-backend-ram,id
-=3Dram-node1,size=3D268435456 -numa node,nodeid=3D1,cpus=3D4-7,memdev=3Dram=
--node1
--object memory-backend-ram,id=3Dram-node2,size=3D268435456 -numa
-node,nodeid=3D2,cpus=3D8-11,memdev=3Dram-node2 -object memory-backend-ram,id
-=3Dram-node3,size=3D268435456 -numa node,nodeid=3D3,cpus=3D12-15,memdev=3Dr=
-am-
-node3 -object memory-backend-ram,id=3Dram-node4,size=3D1610612736 -numa
-node,nodeid=3D4,memdev=3Dram-node4 -object memory-backend-ram,id=3Dram-
-node5,size=3D1610612736 -numa node,nodeid=3D5,memdev=3Dram-node5 -object
-memory-backend-ram,id=3Dram-node6,size=3D1610612736 -numa
-node,nodeid=3D6,memdev=3Dram-node6 -numa dist,src=3D0,dst=3D0,val=3D10 -numa
-dist,src=3D0,dst=3D1,val=3D21 -numa dist,src=3D0,dst=3D2,val=3D31 -numa
-dist,src=3D0,dst=3D3,val=3D21 -numa dist,src=3D0,dst=3D4,val=3D17 -numa
-dist,src=3D0,dst=3D5,val=3D38 -numa dist,src=3D0,dst=3D6,val=3D28 -numa
-dist,src=3D1,dst=3D0,val=3D21 -numa dist,src=3D1,dst=3D1,val=3D10 -numa
-dist,src=3D1,dst=3D2,val=3D21 -numa dist,src=3D1,dst=3D3,val=3D31 -numa
-dist,src=3D1,dst=3D4,val=3D28 -numa dist,src=3D1,dst=3D5,val=3D17 -numa
-dist,src=3D1,dst=3D6,val=3D38 -numa dist,src=3D2,dst=3D0,val=3D31 -numa
-dist,src=3D2,dst=3D1,val=3D21 -numa dist,src=3D2,dst=3D2,val=3D10 -numa
-dist,src=3D2,dst=3D3,val=3D21 -numa dist,src=3D2,dst=3D4,val=3D28 -numa
-dist,src=3D2,dst=3D5,val=3D28 -numa dist,src=3D2,dst=3D6,val=3D28 -numa
-dist,src=3D3,dst=3D0,val=3D21 -numa dist,src=3D3,dst=3D1,val=3D31 -numa
-dist,src=3D3,dst=3D2,val=3D21 -numa dist,src=3D3,dst=3D3,val=3D10 -numa
-dist,src=3D3,dst=3D4,val=3D28 -numa dist,src=3D3,dst=3D5,val=3D28 -numa
-dist,src=3D3,dst=3D6,val=3D17 -numa dist,src=3D4,dst=3D0,val=3D17 -numa
-dist,src=3D4,dst=3D1,val=3D28 -numa dist,src=3D4,dst=3D2,val=3D28 -numa
-dist,src=3D4,dst=3D3,val=3D28 -numa dist,src=3D4,dst=3D4,val=3D10 -numa
-dist,src=3D4,dst=3D5,val=3D28 -numa dist,src=3D4,dst=3D6,val=3D28 -numa
-dist,src=3D5,dst=3D0,val=3D38 -numa dist,src=3D5,dst=3D1,val=3D17 -numa
-dist,src=3D5,dst=3D2,val=3D28 -numa dist,src=3D5,dst=3D3,val=3D28 -numa
-dist,src=3D5,dst=3D4,val=3D28 -numa dist,src=3D5,dst=3D5,val=3D10 -numa
-dist,src=3D5,dst=3D6,val=3D28 -numa dist,src=3D6,dst=3D0,val=3D38 -numa
-dist,src=3D6,dst=3D1,val=3D28 -numa dist,src=3D6,dst=3D2,val=3D28 -numa
-dist,src=3D6,dst=3D3,val=3D17 -numa dist,src=3D6,dst=3D4,val=3D28 -numa
-dist,src=3D6,dst=3D5,val=3D28 -numa dist,src=3D6,dst=3D6,val=3D10  -smp
-16,sockets=3D4,dies=3D1,cores=3D4,threads=3D1  -fsdev
-local,security_model=3Dpassthrough,id=3Dfsdev0,path=3D/home/mysuser/share
--device virtio-9p-pci,id=3Dfs0,fsdev=3Dfsdev0,mount_tag=3Dshare_host
--daemonize
+Paolo
 
-output from numactl -H:
 
-$ numactl -H
-available: 7 nodes (0-6)
-node 0 cpus: 0 1 2 3
-node 0 size: 250 MB
-node 0 free: 191 MB
-node 1 cpus: 4 5 6 7
-node 1 size: 251 MB
-node 1 free: 199 MB
-node 2 cpus: 8 9 10 11
-node 2 size: 251 MB
-node 2 free: 218 MB
-node 3 cpus: 12 13 14 15
-node 3 size: 251 MB
-node 3 free: 118 MB
-node 4 cpus:
-node 4 size: 1511 MB
-node 4 free: 1507 MB
-node 5 cpus:
-node 5 size: 1447 MB
-node 5 free: 1443 MB
-node 6 cpus:
-node 6 size: 1489 MB
-node 6 free: 1484 MB
-node distances:
-node   0   1   2   3   4   5   6
-  0:  10  21  31  21  17  38  28
-  1:  21  10  21  31  28  17  38
-  2:  31  21  10  21  28  28  28
-  3:  21  31  21  10  28  28  17
-  4:  17  28  28  28  10  28  28
-  5:  38  17  28  28  28  10  28
-  6:  38  28  28  17  28  28  10
+> ---
+>   hw/ide/atapi.c | 30 ++++++++++++++++++++++++------
+>   1 file changed, 24 insertions(+), 6 deletions(-)
+> 
+> Update v2: range check lba value early in cmd_read[_cd] routines
+>    -> https://lists.gnu.org/archive/html/qemu-devel/2020-12/msg00151.html
+> 
+> diff --git a/hw/ide/atapi.c b/hw/ide/atapi.c
+> index e79157863f..35b8494dc8 100644
+> --- a/hw/ide/atapi.c
+> +++ b/hw/ide/atapi.c
+> @@ -322,6 +322,8 @@ static void ide_atapi_cmd_reply(IDEState *s, int size, int max_size)
+>   static void ide_atapi_cmd_read_pio(IDEState *s, int lba, int nb_sectors,
+>                                      int sector_size)
+>   {
+> +    assert (0 <= lba && lba < (s->nb_sectors >> 2));
+> +
+>       s->lba = lba;
+>       s->packet_transfer_size = nb_sectors * sector_size;
+>       s->elementary_transfer_size = 0;
+> @@ -420,6 +422,8 @@ eot:
+>   static void ide_atapi_cmd_read_dma(IDEState *s, int lba, int nb_sectors,
+>                                      int sector_size)
+>   {
+> +    assert (0 <= lba && lba < (s->nb_sectors >> 2));
+> +
+>       s->lba = lba;
+>       s->packet_transfer_size = nb_sectors * sector_size;
+>       s->io_buffer_size = 0;
+> @@ -973,35 +977,49 @@ static void cmd_prevent_allow_medium_removal(IDEState *s, uint8_t* buf)
+> 
+>   static void cmd_read(IDEState *s, uint8_t* buf)
+>   {
+> -    int nb_sectors, lba;
+> +    unsigned int nb_sectors, lba;
+> +
+> +    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
+> +    uint64_t total_sectors = s->nb_sectors >> 2;
+> 
+>       if (buf[0] == GPCMD_READ_10) {
+>           nb_sectors = lduw_be_p(buf + 7);
+>       } else {
+>           nb_sectors = ldl_be_p(buf + 6);
+>       }
+> -
+> -    lba = ldl_be_p(buf + 2);
+>       if (nb_sectors == 0) {
+>           ide_atapi_cmd_ok(s);
+>           return;
+>       }
+> 
+> +    lba = ldl_be_p(buf + 2);
+> +    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
+> +        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
+> +        return;
+> +    }
+> +
+>       ide_atapi_cmd_read(s, lba, nb_sectors, 2048);
+>   }
+> 
+>   static void cmd_read_cd(IDEState *s, uint8_t* buf)
+>   {
+> -    int nb_sectors, lba, transfer_request;
+> +    unsigned int nb_sectors, lba, transfer_request;
+> +
+> +    /* Total logical sectors of ATAPI_SECTOR_SIZE(=2048) bytes */
+> +    uint64_t total_sectors = s->nb_sectors >> 2;
+> 
+>       nb_sectors = (buf[6] << 16) | (buf[7] << 8) | buf[8];
+> -    lba = ldl_be_p(buf + 2);
+> -
+>       if (nb_sectors == 0) {
+>           ide_atapi_cmd_ok(s);
+>           return;
+>       }
+> 
+> +    lba = ldl_be_p(buf + 2);
+> +    if (lba >= total_sectors || lba + nb_sectors - 1 >= total_sectors) {
+> +        ide_atapi_cmd_error(s, ILLEGAL_REQUEST, ASC_LOGICAL_BLOCK_OOR);
+> +        return;
+> +    }
+> +
+>       transfer_request = buf[9] & 0xf8;
+>       if (transfer_request == 0x00) {
+>           /* nothing */
+> --
+> 2.29.2
+> 
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912170
-
-Title:
-  NUMA nodes created with memory-backend-ram shows size different than
-  requested
-
-Status in QEMU:
-  New
-
-Bug description:
-  I created system with 7 NUMA nodes where nodes 0-3 should have 268435456 =
-bytes size and nodes 4-6 exactly 1610612736 bytes size, but when I run "num=
-actl -H" I got different (smaller) sizes.
-  It is essential for me to be able to emulate a system with nodes of exact=
- size - is it possible?
-
-  QEMU version:
-
-  QEMU emulator version 5.1.0
-  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
-
-  QEMU command:
-
-  qemu-system-x86_64 -hda qemu-image/ubuntu-1804.img -enable-kvm -cpu
-  Cascadelake-Server -vnc :5 -netdev user,id=3Dnet0,hostfwd=3Dtcp::10022-:22
-  -device virtio-net,netdev=3Dnet0 -boot c -m 5632.0M -object memory-
-  backend-ram,id=3Dram-node0,size=3D268435456 -numa
-  node,nodeid=3D0,cpus=3D0-3,memdev=3Dram-node0 -object memory-backend-ram,=
-id
-  =3Dram-node1,size=3D268435456 -numa node,nodeid=3D1,cpus=3D4-7,memdev=3Dr=
-am-
-  node1 -object memory-backend-ram,id=3Dram-node2,size=3D268435456 -numa
-  node,nodeid=3D2,cpus=3D8-11,memdev=3Dram-node2 -object memory-backend-ram=
-,id
-  =3Dram-node3,size=3D268435456 -numa node,nodeid=3D3,cpus=3D12-15,memdev=
-=3Dram-
-  node3 -object memory-backend-ram,id=3Dram-node4,size=3D1610612736 -numa
-  node,nodeid=3D4,memdev=3Dram-node4 -object memory-backend-ram,id=3Dram-
-  node5,size=3D1610612736 -numa node,nodeid=3D5,memdev=3Dram-node5 -object
-  memory-backend-ram,id=3Dram-node6,size=3D1610612736 -numa
-  node,nodeid=3D6,memdev=3Dram-node6 -numa dist,src=3D0,dst=3D0,val=3D10 -n=
-uma
-  dist,src=3D0,dst=3D1,val=3D21 -numa dist,src=3D0,dst=3D2,val=3D31 -numa
-  dist,src=3D0,dst=3D3,val=3D21 -numa dist,src=3D0,dst=3D4,val=3D17 -numa
-  dist,src=3D0,dst=3D5,val=3D38 -numa dist,src=3D0,dst=3D6,val=3D28 -numa
-  dist,src=3D1,dst=3D0,val=3D21 -numa dist,src=3D1,dst=3D1,val=3D10 -numa
-  dist,src=3D1,dst=3D2,val=3D21 -numa dist,src=3D1,dst=3D3,val=3D31 -numa
-  dist,src=3D1,dst=3D4,val=3D28 -numa dist,src=3D1,dst=3D5,val=3D17 -numa
-  dist,src=3D1,dst=3D6,val=3D38 -numa dist,src=3D2,dst=3D0,val=3D31 -numa
-  dist,src=3D2,dst=3D1,val=3D21 -numa dist,src=3D2,dst=3D2,val=3D10 -numa
-  dist,src=3D2,dst=3D3,val=3D21 -numa dist,src=3D2,dst=3D4,val=3D28 -numa
-  dist,src=3D2,dst=3D5,val=3D28 -numa dist,src=3D2,dst=3D6,val=3D28 -numa
-  dist,src=3D3,dst=3D0,val=3D21 -numa dist,src=3D3,dst=3D1,val=3D31 -numa
-  dist,src=3D3,dst=3D2,val=3D21 -numa dist,src=3D3,dst=3D3,val=3D10 -numa
-  dist,src=3D3,dst=3D4,val=3D28 -numa dist,src=3D3,dst=3D5,val=3D28 -numa
-  dist,src=3D3,dst=3D6,val=3D17 -numa dist,src=3D4,dst=3D0,val=3D17 -numa
-  dist,src=3D4,dst=3D1,val=3D28 -numa dist,src=3D4,dst=3D2,val=3D28 -numa
-  dist,src=3D4,dst=3D3,val=3D28 -numa dist,src=3D4,dst=3D4,val=3D10 -numa
-  dist,src=3D4,dst=3D5,val=3D28 -numa dist,src=3D4,dst=3D6,val=3D28 -numa
-  dist,src=3D5,dst=3D0,val=3D38 -numa dist,src=3D5,dst=3D1,val=3D17 -numa
-  dist,src=3D5,dst=3D2,val=3D28 -numa dist,src=3D5,dst=3D3,val=3D28 -numa
-  dist,src=3D5,dst=3D4,val=3D28 -numa dist,src=3D5,dst=3D5,val=3D10 -numa
-  dist,src=3D5,dst=3D6,val=3D28 -numa dist,src=3D6,dst=3D0,val=3D38 -numa
-  dist,src=3D6,dst=3D1,val=3D28 -numa dist,src=3D6,dst=3D2,val=3D28 -numa
-  dist,src=3D6,dst=3D3,val=3D17 -numa dist,src=3D6,dst=3D4,val=3D28 -numa
-  dist,src=3D6,dst=3D5,val=3D28 -numa dist,src=3D6,dst=3D6,val=3D10  -smp
-  16,sockets=3D4,dies=3D1,cores=3D4,threads=3D1  -fsdev
-  local,security_model=3Dpassthrough,id=3Dfsdev0,path=3D/home/mysuser/share
-  -device virtio-9p-pci,id=3Dfs0,fsdev=3Dfsdev0,mount_tag=3Dshare_host
-  -daemonize
-
-  output from numactl -H:
-
-  $ numactl -H
-  available: 7 nodes (0-6)
-  node 0 cpus: 0 1 2 3
-  node 0 size: 250 MB
-  node 0 free: 191 MB
-  node 1 cpus: 4 5 6 7
-  node 1 size: 251 MB
-  node 1 free: 199 MB
-  node 2 cpus: 8 9 10 11
-  node 2 size: 251 MB
-  node 2 free: 218 MB
-  node 3 cpus: 12 13 14 15
-  node 3 size: 251 MB
-  node 3 free: 118 MB
-  node 4 cpus:
-  node 4 size: 1511 MB
-  node 4 free: 1507 MB
-  node 5 cpus:
-  node 5 size: 1447 MB
-  node 5 free: 1443 MB
-  node 6 cpus:
-  node 6 size: 1489 MB
-  node 6 free: 1484 MB
-  node distances:
-  node   0   1   2   3   4   5   6
-    0:  10  21  31  21  17  38  28
-    1:  21  10  21  31  28  17  38
-    2:  31  21  10  21  28  28  28
-    3:  21  31  21  10  28  28  17
-    4:  17  28  28  28  10  28  28
-    5:  38  17  28  28  28  10  28
-    6:  38  28  28  17  28  28  10
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912170/+subscriptions
 
