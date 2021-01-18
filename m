@@ -2,121 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F4222FA76D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 18:24:47 +0100 (CET)
-Received: from localhost ([::1]:55132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6FE2FA788
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 18:29:08 +0100 (CET)
+Received: from localhost ([::1]:37218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1YGj-0008SZ-Fw
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 12:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51922)
+	id 1l1YKx-0004Rc-4f
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 12:29:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l1YDR-0005hH-BC; Mon, 18 Jan 2021 12:21:23 -0500
-Received: from mail-eopbgr10126.outbound.protection.outlook.com
- ([40.107.1.126]:13434 helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+ id 1l1YIH-0002b3-GV; Mon, 18 Jan 2021 12:26:21 -0500
+Received: from mail-eopbgr60120.outbound.protection.outlook.com
+ ([40.107.6.120]:58021 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l1YDN-0003N8-GJ; Mon, 18 Jan 2021 12:21:20 -0500
+ id 1l1YIC-0004Rf-Me; Mon, 18 Jan 2021 12:26:20 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kk0oILb/XKX97FkIRuWczCJsmoAtfH1EHqsGAbtJzbUy8ECluSAthbmBEg+9itzYM5RvcARVvUPUmiXjONHMNFE13T3mS53saQqOj/o9Rc6W0THYu89O4La92DsIY9/TJ7DNdjIDxPmgYwesnv5TFWsG1+AjUXknRHRVP6jaJvoNNqu2re33bQTSrK6pm6dtb1Cct2VAY4tFFhyxjDyaNMaErFtjWOMpzXAzzGlPST41AN3w9mR6Va3Kx/3K1XyQQ0ZryxvVArMbjVyRRHKfEI23d4BVfxAAz4SC7xwmuGthSOcYAtmzRcMCLtdYy+zxEg8s+w3T1cTD4/1Bo+IcXw==
+ b=C6qWO2z8QjpVuGzUhnGmp28WMPZgdZrlEI1G+JGNxoNdaQds26XfqdCPpgt14+29+5ZZL1t4qR4MVVOgZFYB6U4L3m9AAz/ZXxPg+OPj9N3EUZXSwffGV8YCDK/YosKonbH+QtkeczQiPjZKyreEr2crAy8452CVvSEuv5k4TZdEhCYkxgeXhMR/vZPgTj1/YjfW82iMDWm/FGaZEwqdP+otxW59Aap1PD4gBT0+Q8iifH3VmFqrfd5cpwp2OJfotvofJCGvjJdu/ktBEHxB0+2vrWQxscYiKe9PcbaAeYqykcEulc3HKxo2IDjULVLpaS23Iprb/y7E371eQ5aj/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wRSrKnurYwrAiwzlkHhE3shx3+EJ9uXLWpTQk8z+1x4=;
- b=G06jt2ju+1oDBDFVS0M5Q4+zeTBBueVHOAhWbs7/nUQlJDyHfHL0dBIVfxWoFgMrscWw8zxf7e7BMsKf1iv0JuOWzlIQZPY3/JAuZ0F+3PlS4ue36rYSgMpaDbWjZwBhgih/P8GbE4Vtr8sldhQVaMNJEHbomEirtU3Mw8BvrWOnOEdrWy/bzTyWgsLqgBPIESWAiIUGUkeXdbilIyS6WbotI82BG4UeRiH5nyMjB3uENpu3cyqmTZ7iqHyT580iBaMzvhq/+SBD5u2SvZHBFug0P9LvmZR0iQfHfgH1VcuZXKK7h5i4gRCfxI2A2HHoQBF7KdLoXuApGx2AWBOBaw==
+ bh=Ziz041TR85uDg+PjneX9aey1FylKgiqPwqSxQaqDFaA=;
+ b=E4Y6ocqEWuFYzDpvTO4n+dcC2ImVc+YrgmwNi0JkRfOAFX5AExPxtBurb0b4Yq3cuzvLbpTbbz33Yco5pO2yVBfWBE6R+XdgbFx9art32PaYipgr6v6MYWoGsrFlhzzfUKxTQS+joawE8xvn8iVUOmDGlGRQ1esordo5XPP1SsaoeeSAyod394rlVr9GA+v9iyJqmZ9YL/wRRT1Jzh+CY/awoBp8R1XocxwEOC3SiVlPf9NkJz71hM3PnkJPRShWNioaGdye2ve6LtzsXI5yYXzYohtOCVdUBborJMp958R7jnAPN2eaj99Nrb8kGdBWE93Rv+aayAQTIif3i6pN8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wRSrKnurYwrAiwzlkHhE3shx3+EJ9uXLWpTQk8z+1x4=;
- b=jgMBAK1b8xjIbQDxAAklLx4K/XvhRFM7m7GX+kfGW0AekdiEIWXZ6GwGqGQK3oxWwQDNajbYq6izM++Q69ZQ/LVY99ZhRWvzwgAk7CGvFzXoA1daUvOh4VDcuuYc4wyBaWIW6z/UxG01B4IV58HFk5tcYZCsPQ2A+/pSq23zN4A=
+ bh=Ziz041TR85uDg+PjneX9aey1FylKgiqPwqSxQaqDFaA=;
+ b=q2ZiZh0TElGoWaFSjEKJLlcmYqNCmma6/2dNGWJ9CBRp7HKbWv52VJHyPzSkU3fgFnUu4vLyzbE9FrZNZvOJX0oduNQ+Dz9R5npNfMjAOHNZOoq+9TjopKVbzCysUoFJR95IvNxGLGRCCfl9xJxS0qBGIK0Ia7uVfNGqzogk4Js=
 Authentication-Results: openvz.org; dkim=none (message not signed)
  header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM5PR0801MB1908.eurprd08.prod.outlook.com (2603:10a6:203:4b::18)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Mon, 18 Jan
- 2021 17:21:13 +0000
+ 2021 17:26:12 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.014; Mon, 18 Jan 2021
- 17:21:13 +0000
-Subject: Re: [PATCH v2 03/36] block: bdrv_append(): don't consume reference
+ 17:26:12 +0000
+Subject: Re: [PATCH v2 05/36] block: add bdrv_parent_try_set_aio_context
 To: Kevin Wolf <kwolf@redhat.com>
 References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-4-vsementsov@virtuozzo.com>
- <20210118141820.GD11555@merkur.fritz.box>
+ <20201127144522.29991-6-vsementsov@virtuozzo.com>
+ <20210118150819.GF11555@merkur.fritz.box>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <d1f414b0-9cdd-a715-0310-64f34191c1a9@virtuozzo.com>
-Date: Mon, 18 Jan 2021 20:21:11 +0300
+Message-ID: <61df94ea-31eb-4e5b-d1d8-1efcc4a3a636@virtuozzo.com>
+Date: Mon, 18 Jan 2021 20:26:10 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
-In-Reply-To: <20210118141820.GD11555@merkur.fritz.box>
+In-Reply-To: <20210118150819.GF11555@merkur.fritz.box>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [185.215.60.76]
-X-ClientProxiedBy: AM4PR07CA0023.eurprd07.prod.outlook.com
- (2603:10a6:205:1::36) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM0PR01CA0144.eurprd01.prod.exchangelabs.com
+ (2603:10a6:208:168::49) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.100.8] (185.215.60.76) by
- AM4PR07CA0023.eurprd07.prod.outlook.com (2603:10a6:205:1::36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.6 via Frontend Transport; Mon, 18 Jan 2021 17:21:12 +0000
+ AM0PR01CA0144.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::49) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10 via Frontend
+ Transport; Mon, 18 Jan 2021 17:26:11 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 780ea3cc-9ec1-4289-c727-08d8bbd5744a
+X-MS-Office365-Filtering-Correlation-Id: 01fd6e31-0245-4914-eefa-08d8bbd626f5
 X-MS-TrafficTypeDiagnostic: AM5PR0801MB1908:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB1908B52359C853D023B449AFC1A40@AM5PR0801MB1908.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2399;
+X-Microsoft-Antispam-PRVS: <AM5PR0801MB19085F431E00877844A99C95C1A40@AM5PR0801MB1908.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:462;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: WeKg1+rN41IkmE3FwkCrolYnZCPmFjCtj8RRLZ+fEwt+BuOui3clBT8l4WaAxw5f5Kbmo84XY9JHUyMRz78kad4ponarO/ZvdpObhaL/xjrAS5utgSBVl+hE8Bf4z1ZX+D/5CDZRAbXPGfWpw/wQdT59LN9CG+qNKSO/XE7/dzMrOU4lX1bkELWaVn6QgnaCLyppbG5geAbCZolFesca+rbq0PDWGHkj58IW8Kmicqhll7M5YT51AS4RMOhl7nWPx5wu34oZgvcr0TiuYLsUomgLNAV3WEbfY8Tfk+lFVp+PyqJErUVip9CSoO1mkpcmzzFBmhwUDBG5KmF1xPVxuCKIuL6eYMQUxQvGKTGx1oVlpnIqFAuOS6pUHEvBptdijOfVrlSL55pBxhqm3rwsOfevKutuOcuejTRuHPbBQSFh5RYj3ueDR9409cv0CnJjd0PBRVukRnwASYyNPKpHndVTtYsSOWto79rafHSL0WU=
+X-Microsoft-Antispam-Message-Info: WJ2e8dKFmSq0bRWYwZ2Es1oGYSG9abOUvyxRC/otbsDMoUI/uAbBFOhrb0zdojGWrtBlkk0ZduNHrXgwTKYzio+Bji5GYprxXYAskAryR6KX93MbH4AU7EOhA2U9gk0oE7Zu7AarytUIPe33AyWKlj+x/WYopREsLBSiDRzZe2UGUM289lWBozvu4eP5hIZg8hKeK21BGpXDgJq7XFOKqpXOK/IUgufrI4vsqN9GUmm8uKqJkchjXH8MNnBpjCeLNudpEqwXXAXMeyIeWwPHK7QZ5m2dCaCHpBB+lqkg56QWSoeo89dKLpGnFcilK8NZ3CoySPCkN2JiJT67OtewPsmGQ457BxHtXKruZAN8p0J1m5T5aKN4PKyAyWbJsKeXjcoJ4IEoqtWr/9eGqyynav2excgAmZ/V3YaUF1IAICaL3492wN8mwy62W7H/QOBM
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(366004)(396003)(39830400003)(346002)(376002)(316002)(6486002)(86362001)(107886003)(8676002)(2906002)(52116002)(2616005)(36756003)(31696002)(83380400001)(956004)(4326008)(31686004)(16526019)(5660300002)(26005)(16576012)(8936002)(66556008)(66476007)(66946007)(6916009)(478600001)(186003)(43740500002)(45980500001);
+ SFS:(4636009)(376002)(346002)(396003)(366004)(136003)(39830400003)(16526019)(5660300002)(26005)(31686004)(4326008)(6916009)(478600001)(186003)(8936002)(16576012)(66556008)(66476007)(66946007)(86362001)(6486002)(316002)(107886003)(8676002)(956004)(2616005)(2906002)(52116002)(36756003)(31696002)(83380400001)(43740500002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?b3lnby9TWkx6STd1ZkIrK2thZ0NGNld4R1B4cytwTTJBTVVWOFNCYXNFQ3F6?=
- =?utf-8?B?MTZJaENBbnY1MDhrUG5aZ3MxZ1IzYkZBWTU5VXhWaEJPck96S0tVbllsTEtO?=
- =?utf-8?B?UVNnS3BrQWJKU3c0N3ZJKzRSMjc3TkpyR2ZWTGlMMFp4WTFsbTM2ZVRVeldw?=
- =?utf-8?B?OHlEdHB4eURCTmZyVGcxeUIySXlBT0RtU09pZExEaUkzOENKMkFnS2ZwWEQv?=
- =?utf-8?B?djU5d2hvcHUwK1luNEFYUlRNVjhGcWpodDYvYTRGbGdvZCtZRm5ZbWx1VG4w?=
- =?utf-8?B?L1RZMDRsWmY2aGlZYjU2MW01VXhnbDFBK0hlNThtM1BKWDNvalhIUEgrOWps?=
- =?utf-8?B?Zjh6dHNPNGFaMDZhZnBRT1JET01GRzIveVRGNUZHT29mbW1zaGhENHE2U3Bt?=
- =?utf-8?B?ZiszOUJ5U0U5UVJZdm91VWVLREpHeXk1RndURmVwc29DZHdoSGQ2OFF6RFAr?=
- =?utf-8?B?enVCK0pBUUhkeU9ER2FzTUF6NDVUeWpEYUFHZ0YzV25Xd1JyVnU0N3R4b3Z1?=
- =?utf-8?B?VXVLU2xHMXp0UktENi9UM0orcDc1Yit5VmtDamFFbGNMZFF1UHVwZkJNQVF4?=
- =?utf-8?B?L2p3ZE93OCt6RVpFRmRyTTlUSWltRDl6ZVdCMjN0SFY2Wnc2SnVtSEFpSnoz?=
- =?utf-8?B?a1drcitFcmppYVhSNmYzQnlJcnRDZ1g5MWVzOHBVbkFCeTFjZjRvYXpEVFhj?=
- =?utf-8?B?S2R4WU1jQkU0RnlzcUFMQTBPcERpSDZSRG12b0NjZlUwRUJzN3N1bUtBTEto?=
- =?utf-8?B?c2IzeW12eisybTZGZEp5WGVERHFxVGZqSXlwT2ZwR0w0NzJkSjdTdEs2MW05?=
- =?utf-8?B?SEhjZW9Rd2lmZTBZMCs1RjlQblJPMURkd2ZtRXN2dmJFVWg5TTFkR2dFMlhG?=
- =?utf-8?B?OTlrdmJQZU9NQng4d1lYWDNpbDhKRzFsY1hsdS80SkFzbElTK0RWVlF4VjNI?=
- =?utf-8?B?a2F6U3Y0U0FhYytkUTFjeC92Qm81SkV1VVFXb0hBTkQzYW5wcEp5bmZJdUtW?=
- =?utf-8?B?clE4b1pDbkNTUjUwQ2JoMThBVGZJT2tUcXpCNW0vYThJLzVkN21YNENRNGpX?=
- =?utf-8?B?em9LdUdiUDJmQy9lRCtGcFJuaFhJZnRZZ2dQMTJKSDZMdTFqZ3VYTEtpSWl3?=
- =?utf-8?B?TjlHTERHSm9ZSVVxY2ZWUGlZYWc4b1dlUnR3UlFrWjNKaEdRMnFOZDhtckRO?=
- =?utf-8?B?RjhHSU1welN4RnJ4eUpxZkpDdThwMHBiam1GTUR6SHlncC9qbXA1anpqM1Ez?=
- =?utf-8?B?K1F0Tkp5bTA5dDNwWithbERDVlY5d3R0V0piak1NeVQ3ZFdiZGFFcmlBYVk1?=
- =?utf-8?Q?mZboBeOU2Jxpe+7+i7n5Iqt/z5NjHgX9DC?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Y0VpTEx3ZGpSYnpJM2Fia2k0blZYREdOaDhzQlJRVG1BUlEvUURxbGdQbkUy?=
+ =?utf-8?B?Vlo0YTNjcHEvbm12SGFmZDRzWVpocmoveFFodFpTbWtrQ1hHT0RCM2p2YkJz?=
+ =?utf-8?B?YnFEU2l1eVFUQ3AwMEtkZjkvNkE5WGFJUFhFU0l4QnowYS9waVlEUGlTeVFY?=
+ =?utf-8?B?OXRhQlB1dXh1akhscVlFODR5c0srR3Rtano0c0FWbHRpOGtnbUpKNVdnY0VO?=
+ =?utf-8?B?T3NtdEFIWTl3RkFkMmljSll5a1VYd3F4ZFZSeXlKeGRobCt4SnpXaTAzNVFZ?=
+ =?utf-8?B?aGM5bUNYbGszM2pNZnpLTFdGSWI0bXNGZCtZcGxGMFY1M1VvVmlOOE56VTY0?=
+ =?utf-8?B?STBaWlJUM1RZRjJFenZZdUdIUTlORHhuM05uZ1VGY21rNFhhY0o5WE5aeEVO?=
+ =?utf-8?B?VjRxMTN3ZG5PLzZpTVVyU1N0SmJFM251NFF2bklXUUl3TnFiOGdDSm9IQzZR?=
+ =?utf-8?B?eW5WTkN1aTNXaDd6ZzludktQeU1LUGZydjUzL3AycXFtdGFyRWlhMUdoc0R1?=
+ =?utf-8?B?TkdTTGlVRDViZmpHTTcxbGZQY1JCZGFQTnZHOXJocXZZM2c1bWZqdFRhM0Zw?=
+ =?utf-8?B?cWI5M0dDbUhBdW5RcGY2QnR3N2oyU3lNSEgza25OeHZUUm41Ym5qNTArUVYz?=
+ =?utf-8?B?L1VWaGRZMHBTQUZhUzZZV1M4V0tES0N3OXlkQnpLQ3dkZ3lybTduaU4weUdh?=
+ =?utf-8?B?UHd1enREeWp6Tk8yNUJRVzBlcmViVStvWW40MiszblF4QzNjOVlEcitYeVpn?=
+ =?utf-8?B?LzFvWTFGdVByb2p4SE9tcVFOTUozTEY2NTRWTFRLZEUzU0wrTVc1YUk0T1Qr?=
+ =?utf-8?B?bndXeWh4OHc0cnZlSHlXeFY4dGlTbEMwdDdFTDhzRHh2SnBjVmZldTE0R1Vo?=
+ =?utf-8?B?ZVJJRFpSMG9LeGEyRitVV2FjVjhTTGI2ODhhbzl0VVg0QkhoaXNkWnpVbEVo?=
+ =?utf-8?B?NzVHVjM4VVZXbVlKYk5ocW9WZ0ZYeU1rdDZwemRMZTdDVm44TXhlTjBGSWVl?=
+ =?utf-8?B?NVFJK2Q5aE5aTmhRbVZZZnlYKzVqQ1IxWVlRUzgybHdKbmdabTcyVkx2T1ZG?=
+ =?utf-8?B?Zk9tbW5SaytiTTNhakhxQ2FvWmpvTDJPNFJCS09kL2EwNWRra0NwUzlpSi9j?=
+ =?utf-8?B?N1N4eE9BTTJVM05OOG9yL2FDNjFleWtxcC9rTVJXUVJZSi9WZVhVSDU2dTdQ?=
+ =?utf-8?B?RnhIaTZYTS95b213NlNQYUFsb3A5c3NHdmZKWkgxbVJZMG9jeFdEeUNtbnhs?=
+ =?utf-8?B?dGoyeERCa2NoMkt0VTJrL3BPT2xjSEJTc0NOMXJza3VtdUpIMHo5YkxXZ3lu?=
+ =?utf-8?Q?FSDslMiCXSS6/e2kLS+S/UigfqBTJrIx3f?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 780ea3cc-9ec1-4289-c727-08d8bbd5744a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01fd6e31-0245-4914-eefa-08d8bbd626f5
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2021 17:21:12.8780 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2021 17:26:12.6366 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4sab7+ytEFlXBWW+qmeazMe9/86tmHoytfEuE0V6agUyYbnhOS42iiVaesyRdw4qbZwoaBY1FpiQimsC/08qMAoy/x5rqNdKuebFcn12ryg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3qYNGX1vjLYFkESA5qKWoiCMZu/Jg/tBotPaS43OjgyawkyApply/7mFbAV8LIGjpvwRRr6LRT7eawEKnC4QJaxyLEZNVpcyJ8rpgUUOLs4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1908
-Received-SPF: pass client-ip=40.107.1.126;
+Received-SPF: pass client-ip=40.107.6.120;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR02-HE1-obe.outbound.protection.outlook.com
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -142,160 +143,135 @@ Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-18.01.2021 17:18, Kevin Wolf wrote:
+18.01.2021 18:08, Kevin Wolf wrote:
 > Am 27.11.2020 um 15:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> We have too much comments for this feature. It seems better just don't
->> do it. Most of real users (tests don't count) have to create additional
->> reference.
+>> We already have bdrv_parent_can_set_aio_context(). Add corresponding
+>> bdrv_parent_set_aio_context_ignore() and
+>> bdrv_parent_try_set_aio_context() and use them instead of open-coding.
 >>
->> Drop also comment in external_snapshot_prepare:
->>   - bdrv_append doesn't "remove" old bs in common sense, it sounds
->>     strange
->>   - the fact that bdrv_append can fail is obvious from the context
->>   - the fact that we must rollback all changes in transaction abort is
->>     known (it's the direct role of abort)
+>> Make bdrv_parent_try_set_aio_context() public, as it will be used in
+>> further commit.
 >>
 >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 >> ---
->>   block.c                     | 19 +++----------------
->>   block/backup-top.c          |  1 -
->>   block/commit.c              |  1 +
->>   block/mirror.c              |  3 ---
->>   blockdev.c                  |  4 ----
->>   tests/test-bdrv-drain.c     |  2 +-
->>   tests/test-bdrv-graph-mod.c |  2 ++
->>   7 files changed, 7 insertions(+), 25 deletions(-)
+>>   include/block/block.h |  2 ++
+>>   block.c               | 51 +++++++++++++++++++++++++++++++++----------
+>>   2 files changed, 41 insertions(+), 12 deletions(-)
 >>
+>> diff --git a/include/block/block.h b/include/block/block.h
+>> index ee3f5a6cca..550c5a7513 100644
+>> --- a/include/block/block.h
+>> +++ b/include/block/block.h
+>> @@ -686,6 +686,8 @@ bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+>>                                       GSList **ignore, Error **errp);
+>>   bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
+>>                                 GSList **ignore, Error **errp);
+>> +int bdrv_parent_try_set_aio_context(BdrvChild *c, AioContext *ctx,
+>> +                                    Error **errp);
+>>   int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz);
+>>   int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo);
+>>   
 >> diff --git a/block.c b/block.c
->> index 0dd28f0902..55efef3c9d 100644
+>> index 916087ee1a..5d925c208d 100644
 >> --- a/block.c
 >> +++ b/block.c
->> @@ -3145,11 +3145,6 @@ static BlockDriverState *bdrv_append_temp_snapshot(BlockDriverState *bs,
->>           goto out;
+>> @@ -81,6 +81,9 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+>>                                              BdrvChildRole child_role,
+>>                                              Error **errp);
+>>   
+>> +static void bdrv_parent_set_aio_context_ignore(BdrvChild *c, AioContext *ctx,
+>> +                                               GSList **ignore);
+>> +
+>>   /* If non-zero, use only whitelisted block drivers */
+>>   static int use_bdrv_whitelist;
+>>   
+>> @@ -2655,17 +2658,12 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
+>>        * try moving the parent into the AioContext of child_bs instead. */
+>>       if (bdrv_get_aio_context(child_bs) != ctx) {
+>>           ret = bdrv_try_set_aio_context(child_bs, ctx, &local_err);
+>> -        if (ret < 0 && child_class->can_set_aio_ctx) {
+>> -            GSList *ignore = g_slist_prepend(NULL, child);
+>> -            ctx = bdrv_get_aio_context(child_bs);
+> 
+> You are losing this line...
+> 
+>> -            if (child_class->can_set_aio_ctx(child, ctx, &ignore, NULL)) {
+>> -                error_free(local_err);
+>> +        if (ret < 0) {
+>> +            if (bdrv_parent_try_set_aio_context(child, ctx, NULL) == 0) {
+> 
+> ...before this one, so I think the wrong context is passed now. Instead
+> of trying to move the parent to the AioContext of the child, we'll try
+> to move it to the AioContext in which it already is (and which doesn't
+> match the AioContext of the child).
+> 
+
+Oops, right, will fix
+
+> 
+>>                   ret = 0;
+>> -                g_slist_free(ignore);
+>> -                ignore = g_slist_prepend(NULL, child);
+>> -                child_class->set_aio_ctx(child, ctx, &ignore);
+>> +                error_free(local_err);
+>> +                local_err = NULL;
+>>               }
+>> -            g_slist_free(ignore);
+>>           }
+>>           if (ret < 0) {
+>>               error_propagate(errp, local_err);
+>> @@ -6452,9 +6450,7 @@ void bdrv_set_aio_context_ignore(BlockDriverState *bs,
+>>           if (g_slist_find(*ignore, child)) {
+>>               continue;
+>>           }
+>> -        assert(child->klass->set_aio_ctx);
+>> -        *ignore = g_slist_prepend(*ignore, child);
+>> -        child->klass->set_aio_ctx(child, new_context, ignore);
+>> +        bdrv_parent_set_aio_context_ignore(child, new_context, ignore);
 >>       }
 >>   
->> -    /* bdrv_append() consumes a strong reference to bs_snapshot
->> -     * (i.e. it will call bdrv_unref() on it) even on error, so in
->> -     * order to be able to return one, we have to increase
->> -     * bs_snapshot's refcount here */
->> -    bdrv_ref(bs_snapshot);
->>       bdrv_append(bs_snapshot, bs, &local_err);
->>       if (local_err) {
->>           error_propagate(errp, local_err);
->> @@ -4608,10 +4603,8 @@ void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
->>    *
->>    * This function does not create any image files.
->>    *
->> - * bdrv_append() takes ownership of a bs_new reference and unrefs it because
->> - * that's what the callers commonly need. bs_new will be referenced by the old
->> - * parents of bs_top after bdrv_append() returns. If the caller needs to keep a
->> - * reference of its own, it must call bdrv_ref().
->> + * Recent update: bdrv_append does NOT eat bs_new reference for now. Drop this
->> + * comment several moths later.
-> 
-> A comment like this is unusual. Do you think there is a high risk of
-> somebody introducing a new bdrv_append() in parallel and that they would
-> read this comment when rebasing their existing patches?
-
-Or even later, someone may remember that bdrv_append() eat the reference, and then face some strange behavior with a new call of bdrv_append(), finally go to check the function code and see the new comment.. I don't insist, we can drop the comment
-
-> 
-> If we do keep the comment: s/for now/now/ (it has recently changed,
-> we're not intending to change it later) and s/moths/months/.
-> 
->>    */
->>   void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
->>                    Error **errp)
->> @@ -4621,20 +4614,14 @@ void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
->>       bdrv_set_backing_hd(bs_new, bs_top, &local_err);
->>       if (local_err) {
->>           error_propagate(errp, local_err);
->> -        goto out;
->> +        return;
->>       }
->>   
->>       bdrv_replace_node(bs_top, bs_new, &local_err);
->>       if (local_err) {
->>           error_propagate(errp, local_err);
->>           bdrv_set_backing_hd(bs_new, NULL, &error_abort);
->> -        goto out;
-> 
-> Can we leave a return here just in case that new code will be added at
-> the end of the function?
-
-sure
-
-> 
->>       }
->> -
->> -    /* bs_new is now referenced by its new parents, we don't need the
->> -     * additional reference any more. */
->> -out:
->> -    bdrv_unref(bs_new);
+>>       bdrv_detach_aio_context(bs);
+>> @@ -6511,6 +6507,37 @@ static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+>>       return true;
 >>   }
 >>   
->>   static void bdrv_delete(BlockDriverState *bs)
->> diff --git a/block/backup-top.c b/block/backup-top.c
->> index fe6883cc97..650ed6195c 100644
->> --- a/block/backup-top.c
->> +++ b/block/backup-top.c
->> @@ -222,7 +222,6 @@ BlockDriverState *bdrv_backup_top_append(BlockDriverState *source,
->>   
->>       bdrv_drained_begin(source);
->>   
->> -    bdrv_ref(top);
->>       bdrv_append(top, source, &local_err);
->>       if (local_err) {
->>           error_prepend(&local_err, "Cannot append backup-top filter: ");
->> diff --git a/block/commit.c b/block/commit.c
->> index 71db7ba747..61924bcf66 100644
->> --- a/block/commit.c
->> +++ b/block/commit.c
->> @@ -313,6 +313,7 @@ void commit_start(const char *job_id, BlockDriverState *bs,
->>       commit_top_bs->total_sectors = top->total_sectors;
->>   
->>       bdrv_append(commit_top_bs, top, &local_err);
->> +    bdrv_unref(commit_top_bs); /* referenced by new parents or failed */
->>       if (local_err) {
->>           commit_top_bs = NULL;
->>           error_propagate(errp, local_err);
->> diff --git a/block/mirror.c b/block/mirror.c
->> index 8e1ad6eceb..13f7ecc998 100644
->> --- a/block/mirror.c
->> +++ b/block/mirror.c
->> @@ -1605,9 +1605,6 @@ static BlockJob *mirror_start_job(
->>       bs_opaque = g_new0(MirrorBDSOpaque, 1);
->>       mirror_top_bs->opaque = bs_opaque;
->>   
->> -    /* bdrv_append takes ownership of the mirror_top_bs reference, need to keep
->> -     * it alive until block_job_create() succeeds even if bs has no parent. */
->> -    bdrv_ref(mirror_top_bs);
->>       bdrv_drained_begin(bs);
->>       bdrv_append(mirror_top_bs, bs, &local_err);
->>       bdrv_drained_end(bs);
->> diff --git a/blockdev.c b/blockdev.c
->> index b5f11c524b..96c96f8ba6 100644
->> --- a/blockdev.c
->> +++ b/blockdev.c
->> @@ -1587,10 +1587,6 @@ static void external_snapshot_prepare(BlkActionState *common,
->>           goto out;
->>       }
->>   
->> -    /* This removes our old bs and adds the new bs. This is an operation that
->> -     * can fail, so we need to do it in .prepare; undoing it for abort is
->> -     * always possible. */
-> 
-> This comment is still relevant, it's unrelated to the bdrv_ref().
-
-I described in commit message, why I dislike this comment :) I can keep it of course, it's not critical
-
-> 
->> -    bdrv_ref(state->new_bs);
->>       bdrv_append(state->new_bs, state->old_bs, &local_err);
->>       if (local_err) {
->>           error_propagate(errp, local_err);
-> 
-> Kevin
+>> +static void bdrv_parent_set_aio_context_ignore(BdrvChild *c, AioContext *ctx,
+>> +                                               GSList **ignore)
+>> +{
+>> +    if (g_slist_find(*ignore, c)) {
+>> +        return;
+>> +    }
+>> +    *ignore = g_slist_prepend(*ignore, c);
+>> +
+>> +    assert(c->klass->set_aio_ctx);
+>> +    c->klass->set_aio_ctx(c, ctx, ignore);
+>> +}
+>> +
+>> +int bdrv_parent_try_set_aio_context(BdrvChild *c, AioContext *ctx,
+>> +                                    Error **errp)
+>> +{
+>> +    GSList *ignore = NULL;
+>> +
+>> +    if (!bdrv_parent_can_set_aio_context(c, ctx, &ignore, errp)) {
+>> +        g_slist_free(ignore);
+>> +        return -EPERM;
+>> +    }
+>> +
+>> +    g_slist_free(ignore);
+>> +    ignore = NULL;
+>> +
+>> +    bdrv_parent_set_aio_context_ignore(c, ctx, &ignore);
+>> +    g_slist_free(ignore);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
+>>                                       GSList **ignore, Error **errp)
+>>   {
+>> -- 
+>> 2.21.3
+>>
 > 
 
 
