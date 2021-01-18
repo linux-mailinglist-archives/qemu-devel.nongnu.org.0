@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9FDF2F9F0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 13:06:35 +0100 (CET)
-Received: from localhost ([::1]:44094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 318592F9F12
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 13:06:58 +0100 (CET)
+Received: from localhost ([::1]:45288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1TIn-0001EL-0O
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 07:06:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39368)
+	id 1l1TJB-0001p5-93
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 07:06:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1TGN-0000DP-98
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 07:04:04 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:35674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1TGD-0006AG-Ir
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 07:04:02 -0500
-Received: by mail-ed1-x530.google.com with SMTP id u19so17303050edx.2
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 04:03:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=/wyUQ1WB7+0dZ2c02C5Y19LYt30m6p55ELFNNDFUfo0=;
- b=V7eqlOmflx6Hjr3Mk8/CZf8/wJG/kOdmnSYmT2xzLEDS5VlxiyiInwBIjRae9Ilrbv
- +hUKDHeh1OX0F49ut/UNf11371pm08xnRD+PJ12VEVD/Ani0RFrkUq4fnRBbsQqHFH/J
- hgDMtnYqybhiDu7Eh9YF9tCgfohY2uVr4N+fY1iuQ4B9uQmVoGIURVbghT4Yb9w7F4VA
- jRub3pXxpCxl8wUxcXrisJPzl8KdB8nTESRnctWsNdi2z7orU5F9R/8KeI9XlsR8L2Dn
- 7rnUVxKVuSPi277stSZ4WMDpSZ7PYOTFaa9pQhg4st0QJRucLrz/tDR+4ZxsD9sWjOUe
- 3gzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=/wyUQ1WB7+0dZ2c02C5Y19LYt30m6p55ELFNNDFUfo0=;
- b=t4jeM3NAA5fh1JuOz7q62JAf9Sd+xU5z1rVRsp7yr+tANsk/OrIJ/WdQwe+5TmdcCk
- j2JBXXVvI5NKUYuNKzrANWa47NmjpWuReyTrPbZfLttzTcPy80ZC/0Wd/1jG9KKgTxY3
- 5CHfXQafR0cSbeh24Lqq79bDByyMPwEcD2Yha3dWmlBonjtalBr1N+hGMGY1dZDiV5do
- pHrNf1P29FRU9EMeBSQq+PhKJr8cJE6mlKS/iVTQzp3oY7zix1ax6XkJoCw/nmxyVeb7
- TX8hvOjC9LxY7uQgMbV/WGmL7MBbzC+PK1R/A2+gix+Et/0jIB3oN1aiN6IDcLIetruo
- pgYg==
-X-Gm-Message-State: AOAM530AJlHAzbt4LeGKs3cW2zZnBFiG66aLorKdEeJ3H+xwEm+3SBVi
- 6pjnLOIthngkFB/NfIuDYC/mEp2EaShFOObPpAXQdA==
-X-Google-Smtp-Source: ABdhPJwg5Br7IEt+Zf4PuuVUvfd6Y5SbBpD4d7/+W3KqitwfoHtVVHYXzf8Do9MC2TQRx95LL4Qmtof3ZnSPGFtuII8=
-X-Received: by 2002:aa7:c88a:: with SMTP id p10mr17103307eds.204.1610971430740; 
- Mon, 18 Jan 2021 04:03:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1l1TH4-0000kS-OK; Mon, 18 Jan 2021 07:04:46 -0500
+Received: from mout.kundenserver.de ([217.72.192.75]:44413)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1l1TGz-0006UD-Qb; Mon, 18 Jan 2021 07:04:46 -0500
+Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
+ (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+ 1N5W4y-1m8EBn2EWI-016vNa; Mon, 18 Jan 2021 13:04:25 +0100
+Subject: Re: [RFC PATCH v2 15/20] hw/nubus/mac-nubus-bridge: Mark the device
+ with no migratable fields
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+References: <20210117192446.23753-1-f4bug@amsat.org>
+ <20210117192446.23753-16-f4bug@amsat.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <641232f7-5e65-f066-b1a3-24a89e074eab@vivier.eu>
+Date: Mon, 18 Jan 2021 13:04:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210117215403.2277103-1-alistair.francis@wdc.com>
-In-Reply-To: <20210117215403.2277103-1-alistair.francis@wdc.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 18 Jan 2021 12:03:39 +0000
-Message-ID: <CAFEAcA8joExf3krBSXEacPOUbwgQNRPHnJFAVFdBrfkmapWS_w@mail.gmail.com>
-Subject: Re: [PULL 00/12] riscv-to-apply queue
-To: Alistair Francis <alistair.francis@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+In-Reply-To: <20210117192446.23753-16-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: fr
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:uhQ20pO53uAaHGI95lgej+N+JCXx1J/pYMIgsjU6VGFH0+kSx4k
+ 1V63uBA45aafqYAWORdipxcR/yWWxhqHFI01AmpeOxdKKs98STtG2dW3DtLaDHE/K++Mjdc
+ ggoWO0xNDuo3RR45Zd0gqB8dSmQalxcxCcd1jQtc7W4WlwsvK33o0hqRWUSUXbhuZcVWPBW
+ OOb0A4g9Xp50L6cuUgcpQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oTBFu+24Gd8=:nnASlFm8m4tUi5ehpptpS9
+ L8bIe4mhb61Y8+LdlUwxk4AbbWvo9pDpfW7EUhXKp5XGZC84W+qCaAAVTJcWADRINcMIo4txb
+ Mths7T9M7o4yl4+VUia9VNdZ99mEBp8JDrwXSrqob8ICJ8wERfZsSFnmm/uyTYsGlTXEzS5Md
+ Kh3jfeiRj/IC+R2xySuftnN+FoMgTdkBdZPufIWZKsb322F+znMcOuW4ptiZabr8BJcLtLC5I
+ GI4yTCn3g7NbsUDFegEun1Qk6bUlNz7faNq2C3nM0iJuvvzjAVJKJWpRzXTdTSq3zXtRmo0TK
+ IPQYBGczR99Xx2PZMWZpmm2KTB0D2EwdeauURx4JHsiou8r5hjhIbY53SqLVxH9rbwUDfHGk+
+ oGkvxDQDPVCl/3LEIleQC4FoEu+Yql1LyuJdRQXJkYQVUibuBu2LxlEyUtLAC
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.194,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,41 +67,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Joel Stanley <joel@jms.id.au>, Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Jan 2021 at 21:54, Alistair Francis <alistair.francis@wdc.com> wrote:
->
-> The following changes since commit 825a215c003cd028e26c7d19aa5049d957345f43:
->
->   Merge remote-tracking branch 'remotes/kraxel/tags/audio-20210115-pull-request' into staging (2021-01-15 22:21:21 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:alistair23/qemu.git tags/pull-riscv-to-apply-20210117-3
->
-> for you to fetch changes up to a8259b53230782f5e0a0d66013655c4ed5d71b7e:
->
->   riscv: Pass RISCVHartArrayState by pointer (2021-01-16 14:34:46 -0800)
->
-> ----------------------------------------------------------------
-> First RISC-V PR for 6.0
->
-> This PR:
->  - Fixes some issues with the m25p80
->  - Improves GDB support for RISC-V
->  - Fixes some Linux boot issues, specifiaclly 32-bit boot failures
->  - Enforces PMP exceptions correctly
->  - Fixes some Coverity issues
->
-> ----------------------------------------------------------------
+Le 17/01/2021 à 20:24, Philippe Mathieu-Daudé a écrit :
+> This device doesn't have fields to migrate. Be explicit
+> by using vmstate_qdev_no_state_to_migrate.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  hw/nubus/mac-nubus-bridge.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/hw/nubus/mac-nubus-bridge.c b/hw/nubus/mac-nubus-bridge.c
+> index 7c329300b82..ede36ccc5dd 100644
+> --- a/hw/nubus/mac-nubus-bridge.c
+> +++ b/hw/nubus/mac-nubus-bridge.c
+> @@ -27,6 +27,7 @@ static void mac_nubus_bridge_class_init(ObjectClass *klass, void *data)
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>  
+>      dc->desc = "Nubus bridge";
+> +    dc->vmsd = vmstate_qdev_no_state_to_migrate;
+>  }
+>  
+>  static const TypeInfo mac_nubus_bridge_info = {
+> 
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
