@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F0E2F9BC6
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:16:57 +0100 (CET)
-Received: from localhost ([::1]:55214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1E192F9BCB
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:18:45 +0100 (CET)
+Received: from localhost ([::1]:59588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Qee-0005b6-Lj
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:16:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41162)
+	id 1l1QgP-0007TZ-1M
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:18:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QYt-000288-T7
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:11:02 -0500
-Received: from mx2.suse.de ([195.135.220.15]:48978)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QaB-00036I-VD
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:12:19 -0500
+Received: from mx2.suse.de ([195.135.220.15]:49706)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QYp-0008RN-Jj
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:10:59 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l1QaA-0000gh-Bn
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:12:19 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 39143AC6E;
- Mon, 18 Jan 2021 09:10:54 +0000 (UTC)
-Subject: Re: [RFC PATCH 6/6] softmmu: Restrict watchpoint handlers to TCG
- accelerator
+ by mx2.suse.de (Postfix) with ESMTP id D5929B1A1;
+ Mon, 18 Jan 2021 09:12:16 +0000 (UTC)
+Subject: Re: [PATCH 3/6] accel/tcg: Restrict tb_gen_code() from other
+ accelerators
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210117164813.4101761-1-f4bug@amsat.org>
- <20210117164813.4101761-7-f4bug@amsat.org>
+ <20210117164813.4101761-4-f4bug@amsat.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <56d3c4ca-8963-b1c3-8635-58f20fcb8e37@suse.de>
-Date: Mon, 18 Jan 2021 10:10:53 +0100
+Message-ID: <7359d7bd-ed7d-71ad-3610-b839c9c99fd5@suse.de>
+Date: Mon, 18 Jan 2021 10:12:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210117164813.4101761-7-f4bug@amsat.org>
+In-Reply-To: <20210117164813.4101761-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -66,125 +66,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/17/21 5:48 PM, Philippe Mathieu-Daudé wrote:
-> Watchpoint funtions use cpu_restore_state() which is only
-> available when TCG accelerator is built. Restrict them
-> to TCG.
+> tb_gen_code() is only called within TCG accelerator,
+> declare it locally.
+
+Is this used only in accel/tcg/cpu-exec.c ? Should it be a static function there?
+
+Ciao,
+
+Claudio
+
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-
-I am doing some of this in my series, and I did not notice that
-cpu_watchpoint_insert was also TCG only.
-
-Probably we should merge this somehow.
-
-I thought it was used by gdbstub.c as well, passing flags BP_GDB .
-
-I noticed that gdbstub does something else entirely for kvm_enabled(), ie, kvm_insert_breakpoint,
-but what about the other accels, it seems that the code flows to the cpu_breakpoint_insert and watchpoint_insert..?
-
-should cpu_breakpoint_insert have the same fate then?
-
-And is this really all TCG specific?
-
-From gdbstub.c:1020:
-
-static int gdb_breakpoint_insert(int type, target_ulong addr, target_ulong len)
-{
-    CPUState *cpu;
-    int err = 0;
-
-    if (kvm_enabled()) {
-        return kvm_insert_breakpoint(gdbserver_state.c_cpu, addr, len, type);
-    }
-
-    switch (type) {
-    case GDB_BREAKPOINT_SW:
-    case GDB_BREAKPOINT_HW:
-        CPU_FOREACH(cpu) {
-            err = cpu_breakpoint_insert(cpu, addr, BP_GDB, NULL);
-            if (err) {
-                break;
-            }
-        }
-        return err;
-#ifndef CONFIG_USER_ONLY
-    case GDB_WATCHPOINT_WRITE:
-    case GDB_WATCHPOINT_READ:
-    case GDB_WATCHPOINT_ACCESS:
-        CPU_FOREACH(cpu) {
-            err = cpu_watchpoint_insert(cpu, addr, len,
-                                        xlat_gdb_type(cpu, type), NULL);
-
-
-
-
 > ---
-> RFC because we could keep that code by adding an empty
->     stub for cpu_restore_state(), but it is unclear as
->     the function is named generically.
-> ---
->  include/hw/core/cpu.h | 4 ++--
->  softmmu/physmem.c     | 4 ++++
->  2 files changed, 6 insertions(+), 2 deletions(-)
+>  accel/tcg/internal.h    | 5 +++++
+>  include/exec/exec-all.h | 5 -----
+>  accel/tcg/cpu-exec.c    | 1 +
+>  accel/tcg/user-exec.c   | 1 +
+>  4 files changed, 7 insertions(+), 5 deletions(-)
 > 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 140fa32a5e3..1b4af30db04 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -1033,7 +1033,7 @@ static inline bool cpu_breakpoint_test(CPUState *cpu, vaddr pc, int mask)
->      return false;
->  }
+> diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+> index 4981d98dbfd..f7e18c3498b 100644
+> --- a/accel/tcg/internal.h
+> +++ b/accel/tcg/internal.h
+> @@ -11,6 +11,11 @@
 >  
-> -#ifdef CONFIG_USER_ONLY
-> +#if !defined(CONFIG_TCG) || defined(CONFIG_USER_ONLY)
->  static inline int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
->                                          int flags, CPUWatchpoint **watchpoint)
->  {
-> @@ -1098,7 +1098,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
->   * If no watchpoint is registered for the range, the result is 0.
->   */
->  int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len);
-> -#endif
-> +#endif /* !CONFIG_TCG || CONFIG_USER_ONLY */
+>  #include "exec/exec-all.h"
 >  
->  /**
->   * cpu_get_address_space:
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 65602ed548e..5135a6371b5 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -765,6 +765,7 @@ AddressSpace *cpu_get_address_space(CPUState *cpu, int asidx)
->      return cpu->cpu_ases[asidx].as;
->  }
+> +TranslationBlock *tb_gen_code(CPUState *cpu,
+> +                              target_ulong pc, target_ulong cs_base,
+> +                              uint32_t flags,
+> +                              int cflags);
+> +
+>  void tb_flush_jmp_cache(CPUState *cpu, target_ulong addr);
 >  
-> +#ifdef CONFIG_TCG
->  /* Add a watchpoint.  */
->  int cpu_watchpoint_insert(CPUState *cpu, vaddr addr, vaddr len,
->                            int flags, CPUWatchpoint **watchpoint)
-> @@ -873,6 +874,7 @@ int cpu_watchpoint_address_matches(CPUState *cpu, vaddr addr, vaddr len)
->      }
->      return ret;
->  }
-> +#endif /* CONFIG_TCG */
+>  #endif
+> diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+> index 1e3e7cf8e78..3acc7c2943a 100644
+> --- a/include/exec/exec-all.h
+> +++ b/include/exec/exec-all.h
+> @@ -64,11 +64,6 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
 >  
->  /* Called from RCU critical section */
->  static RAMBlock *qemu_get_ram_block(ram_addr_t addr)
-> @@ -2356,6 +2358,7 @@ ram_addr_t qemu_ram_addr_from_host(void *ptr)
->      return block->offset + offset;
->  }
+>  void QEMU_NORETURN cpu_loop_exit_noexc(CPUState *cpu);
+>  void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
+> -TranslationBlock *tb_gen_code(CPUState *cpu,
+> -                              target_ulong pc, target_ulong cs_base,
+> -                              uint32_t flags,
+> -                              int cflags);
+> -
+>  void QEMU_NORETURN cpu_loop_exit(CPUState *cpu);
+>  void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc);
+>  void QEMU_NORETURN cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc);
+> diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+> index e0df9b6a1dd..43676ae8d13 100644
+> --- a/accel/tcg/cpu-exec.c
+> +++ b/accel/tcg/cpu-exec.c
+> @@ -41,6 +41,7 @@
+>  #include "exec/cpu-all.h"
+>  #include "sysemu/cpu-timers.h"
+>  #include "sysemu/replay.h"
+> +#include "internal.h"
 >  
-> +#ifdef CONFIG_TCG
->  /* Generate a debug exception if a watchpoint has been hit.  */
->  void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
->                            MemTxAttrs attrs, int flags, uintptr_t ra)
-> @@ -2424,6 +2427,7 @@ void cpu_check_watchpoint(CPUState *cpu, vaddr addr, vaddr len,
->          }
->      }
->  }
-> +#endif /* CONFIG_TCG */
+>  /* -icount align implementation. */
 >  
->  static MemTxResult flatview_read(FlatView *fv, hwaddr addr,
->                                   MemTxAttrs attrs, void *buf, hwaddr len);
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index 1215b55ca08..05f3c09cbf9 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -28,6 +28,7 @@
+>  #include "qemu/atomic128.h"
+>  #include "trace/trace-root.h"
+>  #include "trace/mem.h"
+> +#include "internal.h"
+>  
+>  #undef EAX
+>  #undef ECX
 > 
 
 
