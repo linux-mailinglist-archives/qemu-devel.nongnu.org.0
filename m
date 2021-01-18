@@ -2,96 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AB522F9B74
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 09:45:08 +0100 (CET)
-Received: from localhost ([::1]:58944 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 013932F9B8B
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 09:52:14 +0100 (CET)
+Received: from localhost ([::1]:38438 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Q9l-0001n7-Rj
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 03:45:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35910)
+	id 1l1QGj-0005Z6-3M
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 03:52:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1Q8i-0001Nn-8O
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:43:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38775)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1Q8g-0004wE-Ci
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:43:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610959433;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=t/x+WG+vnjluQVbJhtmyH4c9jiwrS1ck2Ee9Tp6iZJ0=;
- b=Ez8khqL02n34f5sJrxwlboOyJkPa5mi6cQfye6BYGKkGQdKw+sPa7qtcp8QwWHWAHlP5qV
- 37UHEQT1PjYuuZXIJEo5eD5Ryx/9ib6Yu1Um9QAjzkoVUuyGTOuECljltwkDR0cfY3fmIG
- uLmGTdCI50HO2oJVwNz2XCCl7Z40YVQ=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-96-5XFRpO8xPLGDwM6V7pCwqg-1; Mon, 18 Jan 2021 03:43:50 -0500
-X-MC-Unique: 5XFRpO8xPLGDwM6V7pCwqg-1
-Received: by mail-wr1-f72.google.com with SMTP id u14so7973198wrr.15
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 00:43:50 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=t/x+WG+vnjluQVbJhtmyH4c9jiwrS1ck2Ee9Tp6iZJ0=;
- b=W4zNYrjjPqyyXATTAwtqUl27K9My4gNUs4g28b7PbXaVxp/LkrlAs+c3UQboZ7eDis
- oklGBm3TFJV60wbqih83IXFBD0B0JWtM4qW8SgD+CaBuXOHzWyb+IGQ9nbTLxoJh3r2X
- lbI7OxcdtcZ4Y5ubuGgyIi5JZSj3SVWRiPtXoPaB4fx1pNqzcXCT8AzwYtNinmsHKiAV
- pLfRDfyOBasTl5zvVjyxvr7tzKGgSaPq/0gYLpJEnkwYSuz6qgOHxiAVDtuPzyktpSpw
- OvOLfge7jGu4QxA1TpIQ/2+4MJI+kBsus0GBTJMAZnieuAu/N38fL4GFPXDfSgkim6TJ
- LHqg==
-X-Gm-Message-State: AOAM533hM0u7w1DHNBkPcWbk3b6BZPdJy+ugW4y2+emBLZ47ToLFs2U6
- qaBvW+drupupmI1foP8y98gh1GzbPsrmcMhoZPxA0l/SeumDXwcyUBxHWsLZl4UXTqhMNJpDbnq
- OxfpQwUNFDlObMqY=
-X-Received: by 2002:a5d:43d2:: with SMTP id v18mr24853582wrr.326.1610959429645; 
- Mon, 18 Jan 2021 00:43:49 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx5M8E8zniNAs9+9P++4t/gZDvnkP5i6ihCUxQXMWiENfKUcj+RVQhFnNgTkEHdQBSmAnLpkw==
-X-Received: by 2002:a5d:43d2:: with SMTP id v18mr24853561wrr.326.1610959429407; 
- Mon, 18 Jan 2021 00:43:49 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id v1sm24882149wmj.31.2021.01.18.00.43.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 00:43:48 -0800 (PST)
-Subject: pending fuzzing patches (was Re: [PATCH 2/2] fuzz: log the arguments
- used to initialize QEMU)
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20210117201014.271610-1-alxndr@bu.edu>
- <20210117201014.271610-3-alxndr@bu.edu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4e63a37a-d9f1-7841-3761-6f8cd7ac9051@redhat.com>
-Date: Mon, 18 Jan 2021 09:43:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1QFF-0004jh-Iz
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:50:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56344)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1QFD-0008DT-0h
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 03:50:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l1QFA-0002Aq-Eb
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 08:50:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 6B88B2E8137
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 08:50:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210117201014.271610-3-alxndr@bu.edu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 18 Jan 2021 08:45:17 -0000
+From: =?utf-8?q?Rafa=C5=82_Rudnicki?= <1912170@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bratpiorka
+X-Launchpad-Bug-Reporter: =?utf-8?q?Rafa=C5=82_Rudnicki_=28bratpiorka=29?=
+X-Launchpad-Bug-Modifier: =?utf-8?q?Rafa=C5=82_Rudnicki_=28bratpiorka=29?=
+Message-Id: <161095951776.13964.8528541534312352624.malonedeb@gac.canonical.com>
+Subject: [Bug 1912170] [NEW] NUMA nodes created with memory-backend-ram shows
+ size different than requested
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="511b4a3b6512aa3d421c5f7d74f3527e78bff26e"; Instance="production"
+X-Launchpad-Hash: a7fab72e3f801185dfacfd7e2664ddb57f03ca1d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,64 +69,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Bandan Das <bsd@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1912170 <1912170@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/01/21 21:10, Alexander Bulekov wrote:
-> This is useful for building reproducers. Instead checking the code or
-> the QEMU_FUZZ_ARGS, the arguments are at the top of the crash log.
-> 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->   tests/qtest/fuzz/fuzz.c | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-> index 238866a037..496d11a231 100644
-> --- a/tests/qtest/fuzz/fuzz.c
-> +++ b/tests/qtest/fuzz/fuzz.c
-> @@ -159,6 +159,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->       char *target_name;
->       const char *bindir;
->       char *datadir;
-> +    GString *cmd_line;
-> +    gchar *pretty_cmd_line;
->       bool serialize = false;
->   
->       /* Initialize qgraph and modules */
-> @@ -217,7 +219,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->       }
->   
->       /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
-> -    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
-> +    cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
->       g_string_append_printf(cmd_line, " %s -qtest /dev/null ",
->                              getenv("QTEST_LOG") ? "" : "-qtest-log none");
->   
-> @@ -226,6 +228,13 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
->       wordexp(cmd_line->str, &result, 0);
->       g_string_free(cmd_line, true);
->   
-> +    if (getenv("QTEST_LOG")) {
-> +        pretty_cmd_line  = g_strjoinv(" ", result.we_wordv + 1);
-> +        printf("Starting %s with Arguments: %s\n",
-> +                result.we_wordv[0], pretty_cmd_line);
-> +        g_free(pretty_cmd_line);
-> +    }
-> +
->       qemu_init(result.we_wordc, result.we_wordv, NULL);
->   
->       /* re-enable the rcu atfork, which was previously disabled in qemu_init */
-> 
+Public bug reported:
 
-Hi Alexander, can you send _me_ a pull request for all the pending 
-fuzzing patches?  I haven't paid much attention, but I have seen 
-external contributions and I have the feeling that they aren't being 
-applied/reviewed promptly.
+I created system with 7 NUMA nodes where nodes 0-3 should have 268435456 by=
+tes size and nodes 4-6 exactly 1610612736 bytes size, but when I run "numac=
+tl -H" I got different (smaller) sizes.
+It is essential for me to be able to emulate a system with nodes of exact s=
+ize - is it possible?
 
-Paolo
+QEMU version:
 
+QEMU emulator version 5.1.0
+Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+
+QEMU command:
+
+qemu-system-x86_64 -hda qemu-image/ubuntu-1804.img -enable-kvm -cpu
+Cascadelake-Server -vnc :5 -netdev user,id=3Dnet0,hostfwd=3Dtcp::10022-:22
+-device virtio-net,netdev=3Dnet0 -boot c -m 5632.0M -object memory-
+backend-ram,id=3Dram-node0,size=3D268435456 -numa
+node,nodeid=3D0,cpus=3D0-3,memdev=3Dram-node0 -object memory-backend-ram,id
+=3Dram-node1,size=3D268435456 -numa node,nodeid=3D1,cpus=3D4-7,memdev=3Dram=
+-node1
+-object memory-backend-ram,id=3Dram-node2,size=3D268435456 -numa
+node,nodeid=3D2,cpus=3D8-11,memdev=3Dram-node2 -object memory-backend-ram,id
+=3Dram-node3,size=3D268435456 -numa node,nodeid=3D3,cpus=3D12-15,memdev=3Dr=
+am-
+node3 -object memory-backend-ram,id=3Dram-node4,size=3D1610612736 -numa
+node,nodeid=3D4,memdev=3Dram-node4 -object memory-backend-ram,id=3Dram-
+node5,size=3D1610612736 -numa node,nodeid=3D5,memdev=3Dram-node5 -object
+memory-backend-ram,id=3Dram-node6,size=3D1610612736 -numa
+node,nodeid=3D6,memdev=3Dram-node6 -numa dist,src=3D0,dst=3D0,val=3D10 -numa
+dist,src=3D0,dst=3D1,val=3D21 -numa dist,src=3D0,dst=3D2,val=3D31 -numa
+dist,src=3D0,dst=3D3,val=3D21 -numa dist,src=3D0,dst=3D4,val=3D17 -numa
+dist,src=3D0,dst=3D5,val=3D38 -numa dist,src=3D0,dst=3D6,val=3D28 -numa
+dist,src=3D1,dst=3D0,val=3D21 -numa dist,src=3D1,dst=3D1,val=3D10 -numa
+dist,src=3D1,dst=3D2,val=3D21 -numa dist,src=3D1,dst=3D3,val=3D31 -numa
+dist,src=3D1,dst=3D4,val=3D28 -numa dist,src=3D1,dst=3D5,val=3D17 -numa
+dist,src=3D1,dst=3D6,val=3D38 -numa dist,src=3D2,dst=3D0,val=3D31 -numa
+dist,src=3D2,dst=3D1,val=3D21 -numa dist,src=3D2,dst=3D2,val=3D10 -numa
+dist,src=3D2,dst=3D3,val=3D21 -numa dist,src=3D2,dst=3D4,val=3D28 -numa
+dist,src=3D2,dst=3D5,val=3D28 -numa dist,src=3D2,dst=3D6,val=3D28 -numa
+dist,src=3D3,dst=3D0,val=3D21 -numa dist,src=3D3,dst=3D1,val=3D31 -numa
+dist,src=3D3,dst=3D2,val=3D21 -numa dist,src=3D3,dst=3D3,val=3D10 -numa
+dist,src=3D3,dst=3D4,val=3D28 -numa dist,src=3D3,dst=3D5,val=3D28 -numa
+dist,src=3D3,dst=3D6,val=3D17 -numa dist,src=3D4,dst=3D0,val=3D17 -numa
+dist,src=3D4,dst=3D1,val=3D28 -numa dist,src=3D4,dst=3D2,val=3D28 -numa
+dist,src=3D4,dst=3D3,val=3D28 -numa dist,src=3D4,dst=3D4,val=3D10 -numa
+dist,src=3D4,dst=3D5,val=3D28 -numa dist,src=3D4,dst=3D6,val=3D28 -numa
+dist,src=3D5,dst=3D0,val=3D38 -numa dist,src=3D5,dst=3D1,val=3D17 -numa
+dist,src=3D5,dst=3D2,val=3D28 -numa dist,src=3D5,dst=3D3,val=3D28 -numa
+dist,src=3D5,dst=3D4,val=3D28 -numa dist,src=3D5,dst=3D5,val=3D10 -numa
+dist,src=3D5,dst=3D6,val=3D28 -numa dist,src=3D6,dst=3D0,val=3D38 -numa
+dist,src=3D6,dst=3D1,val=3D28 -numa dist,src=3D6,dst=3D2,val=3D28 -numa
+dist,src=3D6,dst=3D3,val=3D17 -numa dist,src=3D6,dst=3D4,val=3D28 -numa
+dist,src=3D6,dst=3D5,val=3D28 -numa dist,src=3D6,dst=3D6,val=3D10  -smp
+16,sockets=3D4,dies=3D1,cores=3D4,threads=3D1  -fsdev
+local,security_model=3Dpassthrough,id=3Dfsdev0,path=3D/home/mysuser/share
+-device virtio-9p-pci,id=3Dfs0,fsdev=3Dfsdev0,mount_tag=3Dshare_host
+-daemonize
+
+output from numactl -H:
+
+$ numactl -H
+available: 7 nodes (0-6)
+node 0 cpus: 0 1 2 3
+node 0 size: 250 MB
+node 0 free: 191 MB
+node 1 cpus: 4 5 6 7
+node 1 size: 251 MB
+node 1 free: 199 MB
+node 2 cpus: 8 9 10 11
+node 2 size: 251 MB
+node 2 free: 218 MB
+node 3 cpus: 12 13 14 15
+node 3 size: 251 MB
+node 3 free: 118 MB
+node 4 cpus:
+node 4 size: 1511 MB
+node 4 free: 1507 MB
+node 5 cpus:
+node 5 size: 1447 MB
+node 5 free: 1443 MB
+node 6 cpus:
+node 6 size: 1489 MB
+node 6 free: 1484 MB
+node distances:
+node   0   1   2   3   4   5   6
+  0:  10  21  31  21  17  38  28
+  1:  21  10  21  31  28  17  38
+  2:  31  21  10  21  28  28  28
+  3:  21  31  21  10  28  28  17
+  4:  17  28  28  28  10  28  28
+  5:  38  17  28  28  28  10  28
+  6:  38  28  28  17  28  28  10
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912170
+
+Title:
+  NUMA nodes created with memory-backend-ram shows size different than
+  requested
+
+Status in QEMU:
+  New
+
+Bug description:
+  I created system with 7 NUMA nodes where nodes 0-3 should have 268435456 =
+bytes size and nodes 4-6 exactly 1610612736 bytes size, but when I run "num=
+actl -H" I got different (smaller) sizes.
+  It is essential for me to be able to emulate a system with nodes of exact=
+ size - is it possible?
+
+  QEMU version:
+
+  QEMU emulator version 5.1.0
+  Copyright (c) 2003-2020 Fabrice Bellard and the QEMU Project developers
+
+  QEMU command:
+
+  qemu-system-x86_64 -hda qemu-image/ubuntu-1804.img -enable-kvm -cpu
+  Cascadelake-Server -vnc :5 -netdev user,id=3Dnet0,hostfwd=3Dtcp::10022-:22
+  -device virtio-net,netdev=3Dnet0 -boot c -m 5632.0M -object memory-
+  backend-ram,id=3Dram-node0,size=3D268435456 -numa
+  node,nodeid=3D0,cpus=3D0-3,memdev=3Dram-node0 -object memory-backend-ram,=
+id
+  =3Dram-node1,size=3D268435456 -numa node,nodeid=3D1,cpus=3D4-7,memdev=3Dr=
+am-
+  node1 -object memory-backend-ram,id=3Dram-node2,size=3D268435456 -numa
+  node,nodeid=3D2,cpus=3D8-11,memdev=3Dram-node2 -object memory-backend-ram=
+,id
+  =3Dram-node3,size=3D268435456 -numa node,nodeid=3D3,cpus=3D12-15,memdev=
+=3Dram-
+  node3 -object memory-backend-ram,id=3Dram-node4,size=3D1610612736 -numa
+  node,nodeid=3D4,memdev=3Dram-node4 -object memory-backend-ram,id=3Dram-
+  node5,size=3D1610612736 -numa node,nodeid=3D5,memdev=3Dram-node5 -object
+  memory-backend-ram,id=3Dram-node6,size=3D1610612736 -numa
+  node,nodeid=3D6,memdev=3Dram-node6 -numa dist,src=3D0,dst=3D0,val=3D10 -n=
+uma
+  dist,src=3D0,dst=3D1,val=3D21 -numa dist,src=3D0,dst=3D2,val=3D31 -numa
+  dist,src=3D0,dst=3D3,val=3D21 -numa dist,src=3D0,dst=3D4,val=3D17 -numa
+  dist,src=3D0,dst=3D5,val=3D38 -numa dist,src=3D0,dst=3D6,val=3D28 -numa
+  dist,src=3D1,dst=3D0,val=3D21 -numa dist,src=3D1,dst=3D1,val=3D10 -numa
+  dist,src=3D1,dst=3D2,val=3D21 -numa dist,src=3D1,dst=3D3,val=3D31 -numa
+  dist,src=3D1,dst=3D4,val=3D28 -numa dist,src=3D1,dst=3D5,val=3D17 -numa
+  dist,src=3D1,dst=3D6,val=3D38 -numa dist,src=3D2,dst=3D0,val=3D31 -numa
+  dist,src=3D2,dst=3D1,val=3D21 -numa dist,src=3D2,dst=3D2,val=3D10 -numa
+  dist,src=3D2,dst=3D3,val=3D21 -numa dist,src=3D2,dst=3D4,val=3D28 -numa
+  dist,src=3D2,dst=3D5,val=3D28 -numa dist,src=3D2,dst=3D6,val=3D28 -numa
+  dist,src=3D3,dst=3D0,val=3D21 -numa dist,src=3D3,dst=3D1,val=3D31 -numa
+  dist,src=3D3,dst=3D2,val=3D21 -numa dist,src=3D3,dst=3D3,val=3D10 -numa
+  dist,src=3D3,dst=3D4,val=3D28 -numa dist,src=3D3,dst=3D5,val=3D28 -numa
+  dist,src=3D3,dst=3D6,val=3D17 -numa dist,src=3D4,dst=3D0,val=3D17 -numa
+  dist,src=3D4,dst=3D1,val=3D28 -numa dist,src=3D4,dst=3D2,val=3D28 -numa
+  dist,src=3D4,dst=3D3,val=3D28 -numa dist,src=3D4,dst=3D4,val=3D10 -numa
+  dist,src=3D4,dst=3D5,val=3D28 -numa dist,src=3D4,dst=3D6,val=3D28 -numa
+  dist,src=3D5,dst=3D0,val=3D38 -numa dist,src=3D5,dst=3D1,val=3D17 -numa
+  dist,src=3D5,dst=3D2,val=3D28 -numa dist,src=3D5,dst=3D3,val=3D28 -numa
+  dist,src=3D5,dst=3D4,val=3D28 -numa dist,src=3D5,dst=3D5,val=3D10 -numa
+  dist,src=3D5,dst=3D6,val=3D28 -numa dist,src=3D6,dst=3D0,val=3D38 -numa
+  dist,src=3D6,dst=3D1,val=3D28 -numa dist,src=3D6,dst=3D2,val=3D28 -numa
+  dist,src=3D6,dst=3D3,val=3D17 -numa dist,src=3D6,dst=3D4,val=3D28 -numa
+  dist,src=3D6,dst=3D5,val=3D28 -numa dist,src=3D6,dst=3D6,val=3D10  -smp
+  16,sockets=3D4,dies=3D1,cores=3D4,threads=3D1  -fsdev
+  local,security_model=3Dpassthrough,id=3Dfsdev0,path=3D/home/mysuser/share
+  -device virtio-9p-pci,id=3Dfs0,fsdev=3Dfsdev0,mount_tag=3Dshare_host
+  -daemonize
+
+  output from numactl -H:
+
+  $ numactl -H
+  available: 7 nodes (0-6)
+  node 0 cpus: 0 1 2 3
+  node 0 size: 250 MB
+  node 0 free: 191 MB
+  node 1 cpus: 4 5 6 7
+  node 1 size: 251 MB
+  node 1 free: 199 MB
+  node 2 cpus: 8 9 10 11
+  node 2 size: 251 MB
+  node 2 free: 218 MB
+  node 3 cpus: 12 13 14 15
+  node 3 size: 251 MB
+  node 3 free: 118 MB
+  node 4 cpus:
+  node 4 size: 1511 MB
+  node 4 free: 1507 MB
+  node 5 cpus:
+  node 5 size: 1447 MB
+  node 5 free: 1443 MB
+  node 6 cpus:
+  node 6 size: 1489 MB
+  node 6 free: 1484 MB
+  node distances:
+  node   0   1   2   3   4   5   6
+    0:  10  21  31  21  17  38  28
+    1:  21  10  21  31  28  17  38
+    2:  31  21  10  21  28  28  28
+    3:  21  31  21  10  28  28  17
+    4:  17  28  28  28  10  28  28
+    5:  38  17  28  28  28  10  28
+    6:  38  28  28  17  28  28  10
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912170/+subscriptions
 
