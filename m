@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46B42FA249
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 14:57:22 +0100 (CET)
-Received: from localhost ([::1]:36358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C3812FA266
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:03:31 +0100 (CET)
+Received: from localhost ([::1]:39342 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1V21-0000xI-DQ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 08:57:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43674)
+	id 1l1V7y-0002Tt-6c
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:03:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1V0L-0000HN-Ma
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:55:37 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:42031)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1V0G-0005k5-4Z
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:55:33 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 10IDswx4032447
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Mon, 18 Jan 2021 08:55:02 -0500
-Date: Mon, 18 Jan 2021 08:54:58 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: pending fuzzing patches (was Re: [PATCH 2/2] fuzz: log the
- arguments used to initialize QEMU)
-Message-ID: <20210118135458.agoc7hiremr2sc6e@mozz.bu.edu>
-References: <20210117201014.271610-1-alxndr@bu.edu>
- <20210117201014.271610-3-alxndr@bu.edu>
- <4e63a37a-d9f1-7841-3761-6f8cd7ac9051@redhat.com>
- <84615bb8-564e-5d5f-b134-83fa223cf583@redhat.com>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1V6Q-0001xH-4y
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:01:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38208)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1V6H-0008UG-Ud
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:01:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610978503;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SaUPNb7lmHOsXcm+gxLYWymE4UWZrId02DGDyWUXjh8=;
+ b=By7Qe4FOf+R5xK2J/x5C5NGR+Ij4+TLNvqf7eydbk2ZlKvreVPZYPod19IAt0/B5xiohFR
+ lt2hQ338guOqJbhpvQARaBjUBcEXDEDjArs+4ubXURe+rGJXwmgr5KOKAAJTYcWM32WJUu
+ 39s94T9IesMt7dqaPJ7BnElbzFCZ3c4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-472-9OJu_UcjMLakkPDWjKffww-1; Mon, 18 Jan 2021 09:01:41 -0500
+X-MC-Unique: 9OJu_UcjMLakkPDWjKffww-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D31DA9CDC1;
+ Mon, 18 Jan 2021 14:01:39 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-253.ams2.redhat.com
+ [10.36.114.253])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6593910023AD;
+ Mon, 18 Jan 2021 14:01:37 +0000 (UTC)
+Subject: Re: [PATCH v4 23/23] simplebench: add bench-backup.py
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
+ <20210116214705.822267-24-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <321fd458-d915-b373-5037-a8350f10c13f@redhat.com>
+Date: Mon, 18 Jan 2021 15:01:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <84615bb8-564e-5d5f-b134-83fa223cf583@redhat.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210116214705.822267-24-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,82 +83,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210118 1030, Thomas Huth wrote:
-> On 18/01/2021 09.43, Paolo Bonzini wrote:
-> > On 17/01/21 21:10, Alexander Bulekov wrote:
-> > > This is useful for building reproducers. Instead checking the code or
-> > > the QEMU_FUZZ_ARGS, the arguments are at the top of the crash log.
-> > > 
-> > > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > > ---
-> > >   tests/qtest/fuzz/fuzz.c | 11 ++++++++++-
-> > >   1 file changed, 10 insertions(+), 1 deletion(-)
-> > > 
-> > > diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
-> > > index 238866a037..496d11a231 100644
-> > > --- a/tests/qtest/fuzz/fuzz.c
-> > > +++ b/tests/qtest/fuzz/fuzz.c
-> > > @@ -159,6 +159,8 @@ int LLVMFuzzerInitialize(int *argc, char
-> > > ***argv, char ***envp)
-> > >       char *target_name;
-> > >       const char *bindir;
-> > >       char *datadir;
-> > > +    GString *cmd_line;
-> > > +    gchar *pretty_cmd_line;
-> > >       bool serialize = false;
-> > >       /* Initialize qgraph and modules */
-> > > @@ -217,7 +219,7 @@ int LLVMFuzzerInitialize(int *argc, char
-> > > ***argv, char ***envp)
-> > >       }
-> > >       /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
-> > > -    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
-> > > +    cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
-> > >       g_string_append_printf(cmd_line, " %s -qtest /dev/null ",
-> > >                              getenv("QTEST_LOG") ? "" : "-qtest-log none");
-> > > @@ -226,6 +228,13 @@ int LLVMFuzzerInitialize(int *argc, char
-> > > ***argv, char ***envp)
-> > >       wordexp(cmd_line->str, &result, 0);
-> > >       g_string_free(cmd_line, true);
-> > > +    if (getenv("QTEST_LOG")) {
-> > > +        pretty_cmd_line  = g_strjoinv(" ", result.we_wordv + 1);
-> > > +        printf("Starting %s with Arguments: %s\n",
-> > > +                result.we_wordv[0], pretty_cmd_line);
-> > > +        g_free(pretty_cmd_line);
-> > > +    }
-> > > +
-> > >       qemu_init(result.we_wordc, result.we_wordv, NULL);
-> > >       /* re-enable the rcu atfork, which was previously disabled in
-> > > qemu_init */
-> > > 
-> > 
-> > Hi Alexander, can you send _me_ a pull request for all the pending
-> > fuzzing patches?  I haven't paid much attention, but I have seen
-> > external contributions and I have the feeling that they aren't being
-> > applied/reviewed promptly.
+On 16.01.21 22:47, Vladimir Sementsov-Ogievskiy wrote:
+> Add script to benchmark new backup architecture.
 > 
-> I'm normally taking the fuzzing patches through the qtest tree (and also
-> merged some contributions last week, see 22ec0c696fd28e and the following
-> commits) ... which patch series that got missed did you have in mind?
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>   scripts/simplebench/bench-backup.py | 167 ++++++++++++++++++++++++++++
+>   1 file changed, 167 insertions(+)
+>   create mode 100755 scripts/simplebench/bench-backup.py
 > 
-> Anyway, the amount of fuzzer patches seems to have increased during the last
-> weeks, and I'm not very familiar with the fuzzing stuff and also sometimes I
-> do not get CC:-ed on fuzzing patches, so it might make sense indeed that
-> Alexander now gathers the fuzzing patches and starts sending pull requests
-> for these. Alexander, do you want to have a try now?
-> 
+> diff --git a/scripts/simplebench/bench-backup.py b/scripts/simplebench/bench-backup.py
+> new file mode 100755
+> index 0000000000..2cf7a852e0
+> --- /dev/null
+> +++ b/scripts/simplebench/bench-backup.py
+> @@ -0,0 +1,167 @@
+> +#!/usr/bin/env python3
+> +#
+> +# Bench backup block-job
+> +#
+> +# Copyright (c) 2020 Virtuozzo International GmbH.
+> +#
+> +# This program is free software; you can redistribute it and/or modify
+> +# it under the terms of the GNU General Public License as published by
+> +# the Free Software Foundation; either version 2 of the License, or
+> +# (at your option) any later version.
+> +#
+> +# This program is distributed in the hope that it will be useful,
+> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> +# GNU General Public License for more details.
+> +#
+> +# You should have received a copy of the GNU General Public License
+> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> +#
+> +
+> +import argparse
+> +import json
+> +
+> +import simplebench
+> +from results_to_text import results_to_text
+> +from bench_block_job import bench_block_copy, drv_file, drv_nbd
+> +
+> +
+> +def bench_func(env, case):
+> +    """ Handle one "cell" of benchmarking table. """
+> +    cmd_options = env['cmd-options'] if 'cmd-options' in env else {}
+> +    return bench_block_copy(env['qemu-binary'], env['cmd'],
+> +                            cmd_options,
+> +                            case['source'], case['target'])
+> +
+> +
+> +def bench(args):
+> +    test_cases = []
+> +
+> +    sources = {}
+> +    targets = {}
+> +    for d in args.dir:
+> +        label, path = d.split(':')  # paths with colon not unsupported
 
-Sure - I'll wait for both remaining series to be fully reviewed. Then
-I'll follow this: https://wiki.qemu.org/Contribute/SubmitAPullRequest
--Alex
+s/ un//, I think.
 
+Adding these comments (and the assert below) instead of using splitn() 
+is fine for me.
 
->  Thomas
-> 
+Max
+
 
