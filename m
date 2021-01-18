@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D68572F9C31
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:09:26 +0100 (CET)
-Received: from localhost ([::1]:49160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11E82F9C3A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:17:46 +0100 (CET)
+Received: from localhost ([::1]:36272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1RTR-0006ae-UB
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:09:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53548)
+	id 1l1RbV-0004cW-R2
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:17:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1R8F-0000zY-D9
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:47:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58622)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1RAG-0002Nn-IO
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:49:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1R8B-0001Cv-PR
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:47:31 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1RAC-00026c-6d
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:49:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610963247;
+ s=mimecast20190719; t=1610963371;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h3fuvZp+lrDwiaB7C6iDX8zQyy7iI1p6lhJanq5+GG8=;
- b=ANp00R6aCxuF8cTfuZbGqEnYgYcLze/DVu+vMAU0vc6XTBSAuBj2ApUxihKrzUQV0614Jc
- Effy28Z7hY14h93rwd2HlRkMwoOt/zU0p6NJchhebDlKNllUY2KICAMPNO5k2y4C49AOJg
- +3BvlCwcvsxkqw3/pee1lkTpndMHLGY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-472-8mvhGSxFN2OKkItYGupj5w-1; Mon, 18 Jan 2021 04:47:25 -0500
-X-MC-Unique: 8mvhGSxFN2OKkItYGupj5w-1
-Received: by mail-wm1-f72.google.com with SMTP id h21so4233000wmq.7
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 01:47:25 -0800 (PST)
+ bh=pGLt3sGOa1DX63ebI5z69+0IiO9HEDs1oee+fF3mB90=;
+ b=NaXBiqmKtn63aDGmJXbDp7XsMVgH1phqgi1PBnErhStSxJ2nk0BU90GjEXIdliowPIUhS3
+ 2x/oWHuCqk+3sFVP045hr27iV3xQj1FqaUKH7AeDL7epSswY9FyAr0X3d9rqVWi6tc8zqR
+ IegGughwa4zU6FXBQYCSk9ZjDIf4DTo=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-coLNlVm9MxSytQiSoAHeeg-1; Mon, 18 Jan 2021 04:49:30 -0500
+X-MC-Unique: coLNlVm9MxSytQiSoAHeeg-1
+Received: by mail-wr1-f69.google.com with SMTP id m20so8032757wrh.2
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 01:49:29 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=h3fuvZp+lrDwiaB7C6iDX8zQyy7iI1p6lhJanq5+GG8=;
- b=FKyD9tItuaR/Fw842+L3tUprdSaVIihl2KcWiGGIMXEXI6IYd6NrKipN0HZ3C0J1P2
- QRwBLGKPd5u1UwSEowf23yu38AgqZNGv/l/0zMbl4J1bWQPpP1q+HsFwYIb/oSN+dFRl
- rIpByHCzNA8cBruK5+VQTtQOaUmhGcvnlqmuHu1xpf1zh/IbpAdtCbPpHSy1JVoTizYy
- 2UmrRFfvguWuQ5SbMFKkEvJMihdUidRApS3s7cHDWPQ8gK+c6FmsTmpP4dc+szuYhfOK
- 6Oi0dLZzThdlNOmrXOwXFNsDFtzqKaih+EOtY+M+/uS1SP8ThT2571QDVnwDmUsxrjyd
- LfGA==
-X-Gm-Message-State: AOAM5336/Xgo8fT38Pj/T365eu+4g1fMBUOm9FErf6vKl9uTNj7IMccO
- RkNbYQyVCHybd1v1iDH7GAN6+iv1D6ml2isYcFojZ8xZSprF1Za6Bj1tLpbp9MT9cQttSgFWI/3
- BCYE2uEzlNE8WRJE=
-X-Received: by 2002:a7b:c09a:: with SMTP id r26mr4844297wmh.64.1610963244290; 
- Mon, 18 Jan 2021 01:47:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJy8COcCkXe8PQWeE8FIzffZ9MNBL4S35PWLxiBL8vLCQnUOMhWx4vouHjd3jlolTgo5leIwvQ==
-X-Received: by 2002:a7b:c09a:: with SMTP id r26mr4844288wmh.64.1610963244180; 
- Mon, 18 Jan 2021 01:47:24 -0800 (PST)
+ bh=pGLt3sGOa1DX63ebI5z69+0IiO9HEDs1oee+fF3mB90=;
+ b=lo7Y9tF4600ZWCBHtqZ0GFSxrph3QuY5p+MGKysx8G67InwLk4tU4M2HsqdhMnT8jE
+ bwgoDxbh4MOu+sRvRSnJ8TfoYvReoxalwpS5+Uv2oJI6E7WcVuMolEdZl5camLluFIGF
+ /upd+u+JGImsnMFw0GzdceHj/6zGCv+Hnna2yYwH+gv5iP7JtUJEOm5/hwOafRp7pPEo
+ g3UcuyfWx4rU578qQRICqR1NRJwFs7mvlmqiqRD44YWhPg5wZ95UafQ/2UaWIL/I7Kzx
+ FvyEh6Onu0XUtRslTs1IykSd790or/7fBMY2cuW4z4IRaKyxUlbMN8DWHSuL/6Zs6qmC
+ B9ig==
+X-Gm-Message-State: AOAM5329c5oqFhltoGbr/PYQK5E5M2xNsEdax6C0kHJOU0kWiO/+CR7A
+ YC6YDpK6/A5lECObuUaqghoIiErjhjjV4vvuhtl9GkyNAZwwKQ9aTaaVNlUaDURmqTp7mNzFmB/
+ 2+ENkaCDczMO5r5I=
+X-Received: by 2002:a1c:2c82:: with SMTP id s124mr19516801wms.81.1610963368679; 
+ Mon, 18 Jan 2021 01:49:28 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzQJ4rhWD0vYsf8kCpb4L65W2eUXLR5W0BysQ65BAZq4fitqwZjMOEnn4oD/bZqv+cQGso2lg==
+X-Received: by 2002:a1c:2c82:: with SMTP id s124mr19516786wms.81.1610963368471; 
+ Mon, 18 Jan 2021 01:49:28 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id g5sm29664539wro.60.2021.01.18.01.47.22
+ by smtp.gmail.com with ESMTPSA id g192sm16337429wmg.18.2021.01.18.01.49.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 01:47:23 -0800 (PST)
-Subject: Re: [PATCH v2 6/9] tests: Rename PAGE_SIZE definitions
-To: Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
- <20210118063808.12471-7-jiaxun.yang@flygoat.com>
+ Mon, 18 Jan 2021 01:49:27 -0800 (PST)
+Subject: Re: [PATCH v2] ide: atapi: check logical block address and read size
+ (CVE-2020-29443)
+To: P J P <ppandit@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20210118063229.442350-1-ppandit@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <abafe09d-369c-0f97-db89-b4a163843ad4@redhat.com>
-Date: Mon, 18 Jan 2021 10:47:21 +0100
+Message-ID: <d6f38367-136a-7a34-4b9e-c00c753b298c@redhat.com>
+Date: Mon, 18 Jan 2021 10:49:26 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210118063808.12471-7-jiaxun.yang@flygoat.com>
+In-Reply-To: <20210118063229.442350-1-ppandit@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
@@ -85,7 +85,7 @@ X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,63 +98,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>, kvm@vger.kernel.org,
- Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>,
+ Wenxiang Qian <leonwxqian@gmail.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/18/21 7:38 AM, Jiaxun Yang wrote:
-> As per POSIX specification of limits.h [1], OS libc may define
-> PAGE_SIZE in limits.h.
+On 1/18/21 7:32 AM, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> Self defined PAGE_SIZE is frequently used in tests, to prevent
-> collosion of definition, we give PAGE_SIZE definitons reasonable
-> prefixs.
+> While processing ATAPI cmd_read/cmd_read_cd commands,
+> Logical Block Address (LBA) maybe invalid OR closer to the last block,
+> leading to an OOB access issues. Add range check to avoid it.
 > 
-> [1]: https://pubs.opengroup.org/onlinepubs/7908799/xsh/limits.h.html
-> 
-> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Fixes: CVE-2020-29443
+> Reported-by: Wenxiang Qian <leonwxqian@gmail.com>
+> Fix-suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+
+"Suggested-by"
+
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
->  tests/migration/stress.c            | 10 ++---
->  tests/qtest/libqos/malloc-pc.c      |  4 +-
->  tests/qtest/libqos/malloc-spapr.c   |  4 +-
->  tests/qtest/m25p80-test.c           | 54 +++++++++++-----------
->  tests/tcg/multiarch/system/memory.c |  6 +--
->  tests/test-xbzrle.c                 | 70 ++++++++++++++---------------
->  6 files changed, 74 insertions(+), 74 deletions(-)
-...
-
-> diff --git a/tests/tcg/multiarch/system/memory.c b/tests/tcg/multiarch/system/memory.c
-> index d124502d73..eb0ec6f8eb 100644
-> --- a/tests/tcg/multiarch/system/memory.c
-> +++ b/tests/tcg/multiarch/system/memory.c
-> @@ -20,12 +20,12 @@
->  # error "Target does not specify CHECK_UNALIGNED"
->  #endif
->  
-> -#define PAGE_SIZE 4096             /* nominal 4k "pages" */
-> -#define TEST_SIZE (PAGE_SIZE * 4)  /* 4 pages */
-> +#define MEM_PAGE_SIZE 4096             /* nominal 4k "pages" */
-> +#define TEST_SIZE (MEM_PAGE_SIZE * 4)  /* 4 pages */
-
-Clearer renaming TEST_PAGE_SIZE and TEST_MEM_SIZE.
-
-If possible using TEST_PAGE_SIZE / TEST_MEM_SIZE:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
->  
->  #define ARRAY_SIZE(x) ((sizeof(x) / sizeof((x)[0])))
->  
-> -__attribute__((aligned(PAGE_SIZE)))
-> +__attribute__((aligned(MEM_PAGE_SIZE)))
->  static uint8_t test_data[TEST_SIZE];
+>  hw/ide/atapi.c | 30 ++++++++++++++++++++++++------
+>  1 file changed, 24 insertions(+), 6 deletions(-)
 
 
