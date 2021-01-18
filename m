@@ -2,64 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34A312F9BDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:26:36 +0100 (CET)
-Received: from localhost ([::1]:45238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 072D12F9BE1
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 10:28:33 +0100 (CET)
+Received: from localhost ([::1]:47700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Qnz-00053m-8k
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:26:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46626)
+	id 1l1Qps-000655-4A
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 04:28:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1Qmo-0003zy-9F
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:25:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30255)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Qnm-0005Qj-Vn
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:26:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29794)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1Qml-00070x-Ku
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:25:21 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1Qnk-0007Y9-R6
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 04:26:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610961918;
+ s=mimecast20190719; t=1610961979;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qSs55K3UkCBFEVquSKy98H150ZuIdBUTUxh0LVBg2QI=;
- b=bQB9IbehtFAYpCAy1EDEeeqpgp+jtG0N+qdhxP3n8QJ/ETpPySQ1HBm1gkntJkHhIlOQJ/
- wz0DFCsMbGSaxhB9T8eC3H4rrvdSYziUMROWmXlT7Qv0ZNsqvPK+ce6NqMP6HQVi5tRtgy
- elg5XWG5OawMIuX9bKS8e6lR0+nBfvw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-N_EMQiABM1-ul3fw6kTIEQ-1; Mon, 18 Jan 2021 04:25:15 -0500
-X-MC-Unique: N_EMQiABM1-ul3fw6kTIEQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05B1A806673;
- Mon, 18 Jan 2021 09:25:15 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-189.ams2.redhat.com [10.36.112.189])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C3E5709AB;
- Mon, 18 Jan 2021 09:25:07 +0000 (UTC)
-Subject: Re: [PATCH v2 1/3] fuzz: enable dynamic args for generic-fuzz configs
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-References: <20210117230924.449676-1-alxndr@bu.edu>
- <20210117230924.449676-2-alxndr@bu.edu>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <076dae16-6e1e-dab8-b822-926f1b4a9a76@redhat.com>
-Date: Mon, 18 Jan 2021 10:25:06 +0100
+ bh=ghExVL23RtxyrKBnxldYC1+AF2/yyApUT1LJvw0/W+I=;
+ b=GrhOwWQi2UsXR4NQp6QZq+rYQ8JxYsTx63qQAOVnq9Hjjw/DVH5J7p1BIucSXKp6SmfLSL
+ Z+t0ob20DqvN2T27GabwYa9eWv5Ww6ZwB0MB8x/eGW56ekLr+AvEU6fdVMiCYQGcscqirw
+ oHDie4h+ZEl6hhOrs9V3GqhPWcj3tm4=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-L7VHy3ONN5idYWphiylk1w-1; Mon, 18 Jan 2021 04:26:17 -0500
+X-MC-Unique: L7VHy3ONN5idYWphiylk1w-1
+Received: by mail-wr1-f70.google.com with SMTP id v5so8014266wrr.0
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 01:26:17 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ghExVL23RtxyrKBnxldYC1+AF2/yyApUT1LJvw0/W+I=;
+ b=idMT/VMQC+QuEuSMJIwLhDlodC8kJiW+WeLY0ChcMP/qVDV+WQWTjc3NskmDTwiBzG
+ JmAvcyhCFh0/NHVLTM1thZ+LV7pyn4i386sru0zxrq98ryvr60w5nlAk9u1q93kToPAW
+ ofiHMqLhbtbmtxDkf37h4DiM3/d7LW4j/qPB3h0MRGpNiz+6926bLyTmAlzp4mR6xNH3
+ rmtHmacMJi1wwWnriOFB/BxAP++mPD42SV8frt9G3mylL9+dPIFTqe6Y+f9xsvU4LlRS
+ VZIeOK4QTb5jsb7D59TV4/FvnVQwaDoiQd25kS8YQKrb3xKeE3VI65B20/zHq6EtlkRt
+ tLMA==
+X-Gm-Message-State: AOAM530zVghkYOVlM2wofrB4NVduBVSLB6V075StgYMNNSKVoq9G8oDa
+ Z5cSk17b4HtrjwGh7i1JnLDLwLEAmp0Q3E8bJlAezfcdM6NtMS0cUUaQ55Rns3G+AvkyYs6+Y0Z
+ 8UNC1K0wLtL/TZ0k=
+X-Received: by 2002:adf:e60f:: with SMTP id p15mr24552977wrm.60.1610961976751; 
+ Mon, 18 Jan 2021 01:26:16 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwAt/ZSYnBlR2STtILDNZoOFT7Aw5P7L4VGSrleHYQ5gaHXW0Djv8k6Vp38xc2gp6vv3xW5Fg==
+X-Received: by 2002:adf:e60f:: with SMTP id p15mr24552968wrm.60.1610961976616; 
+ Mon, 18 Jan 2021 01:26:16 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id o23sm30666887wro.57.2021.01.18.01.26.15
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 01:26:16 -0800 (PST)
+Subject: Re: [PATCH-for-5.2 2/2] gitlab-ci: Avoid running the EDK2 job when
+ not necessary
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20201110121606.2792442-1-philmd@redhat.com>
+ <20201110121606.2792442-3-philmd@redhat.com>
+ <20201110153505.GH869656@redhat.com>
+ <3ec6bc01-906b-2e34-b760-76138bbff7cb@redhat.com>
+ <1d3ef711-9509-f43b-11e0-d9ead8cc95af@redhat.com>
+ <b0268ed2-0347-1c00-265c-910b2dc0f870@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <93d7aa9e-4916-4c71-b017-36ccb5e410c8@redhat.com>
+Date: Mon, 18 Jan 2021 10:26:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210117230924.449676-2-alxndr@bu.edu>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <b0268ed2-0347-1c00-265c-910b2dc0f870@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -32
 X-Spam_score: -3.3
@@ -81,68 +104,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Bin Meng <bmeng.cn@gmail.com>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org, Willian Rampazzo <wrampazz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/01/2021 00.09, Alexander Bulekov wrote:
-> For some device configurations, it is useful to configure some
-> resources, and adjust QEMU arguments at runtime, prior to fuzzing. This
-> patch adds an "argfunc" to generic the generic_fuzz_config. When
-> specified, it is responsible for configuring the resources and returning
-> a string containing the corresponding QEMU arguments. This can be useful
-> for targets that rely on e.g.:
->   * a temporary qcow2 image
->   * a temporary directory
->   * an unused TCP port used to bind the VNC server
+On 1/18/21 9:30 AM, Thomas Huth wrote:
+> On 17/01/2021 19.48, Philippe Mathieu-Daudé wrote:
+>> On 11/11/20 10:18 AM, Philippe Mathieu-Daudé wrote:
+>>> On 11/10/20 4:35 PM, Daniel P. Berrangé wrote:
+>>>> On Tue, Nov 10, 2020 at 01:16:06PM +0100, Philippe Mathieu-Daudé wrote:
+>>>>> The EDK2 jobs use the 'changes' keyword, which "makes it
+>>>>> possible to define if a job should be created based on files
+>>>>> modified by a Git push event." (see [1]). This keyword comes
+>>>>> with a warning:
+>>>>>
+>>>>>    Caution:
+>>>>>
+>>>>>      In pipelines with sources other than the three above
+>>>>>      changes can’t determine if a given file is new or old
+>>>>>      and always returns true."
+>>>>>
+>>>>> In commit 922febe2af we moved the YAML config file from the
+>>>>> repository root directory to the .gitlab-ci.d/ directory.
+>>>>>
+>>>>> We didn't respect the previous warning and disabled the
+>>>>> 'changes' filter rule, as the files are now in a (directory)
+>>>>> three above the YAML config file.
+>>>>
+>>>> This description is a bit wierd. I don't see how the location
+>>>> in the directory tree has any relevance here.
+>>>>
+>>>> IIUC the caution docs quoted above are referring to what triggered
+>>>> the pipeline. They're saying that if the trigger was not a "branch",
+>>>> "merge request", or "external pull request", then the "changes" rule
+>>>> always evaluates true.
+>>>>
+>>>> The "branch" source us a bit wierd though, as I'm not seeing
+>>>> how gitlab figures out which commits are "new" to the pipeline
+>>>> and thus whether the files were modified or not.
+>>>>
+>>>> Strangely qemu-project/qemu CI for master seems to be behaving
+>>>> correctly and skipping the jobs.
+>>>
+>>> What about this one?
+>>>
+>>> https://gitlab.com/berrange/qemu/-/jobs/827459510
+>>
+>> Ping?
 > 
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
->   tests/qtest/fuzz/generic_fuzz.c         | 10 +++++++++-
->   tests/qtest/fuzz/generic_fuzz_configs.h |  1 +
->   2 files changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-> index be76d47d2d..6adf62a5be 100644
-> --- a/tests/qtest/fuzz/generic_fuzz.c
-> +++ b/tests/qtest/fuzz/generic_fuzz.c
-> @@ -936,12 +936,20 @@ static GString *generic_fuzz_cmdline(FuzzTarget *t)
->   
->   static GString *generic_fuzz_predefined_config_cmdline(FuzzTarget *t)
->   {
-> +    gchar *args;
->       const generic_fuzz_config *config;
->       g_assert(t->opaque);
->   
->       config = t->opaque;
->       setenv("QEMU_AVOID_DOUBLE_FETCH", "1", 1);
-> -    setenv("QEMU_FUZZ_ARGS", config->args, 1);
-> +    if (config->argfunc) {
-> +        args = config->argfunc();
-> +        setenv("QEMU_FUZZ_ARGS", args, 1);
-> +        g_free(args);
-> +    } else {
-> +        g_assert_nonnull(config->args);
-> +        setenv("QEMU_FUZZ_ARGS", config->args, 1);
-> +    }
->       setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
->       return generic_fuzz_cmdline(t);
->   }
-> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> index 7fed035345..1a133655ee 100644
-> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> @@ -16,6 +16,7 @@
->   
->   typedef struct generic_fuzz_config {
->       const char *name, *args, *objects;
-> +    gchar* (*argfunc)(void); /* Result must be free
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Daniel's comment sounded like there are some changes required here, at
+> least to improve the commit message? So I was expecting a v2 here.
+> Please clarify Daniel's concerns, then I can either pick up this version
+> here or the v2 (in case you send one).
 
-... would it make sense to also add a cleanup function pointer here, so that 
-the resources can also be freed cleanly after a test has succeeded (instead 
-of using atexit() like suggested in your third patch)? Well, just an idea, 
-it still can be done in a later patch.
+Sorry, this "ping" was for Daniel. I'm not sure how to continue,
+so shared an example in his namespace of "incorrect behavior".
+
+Meanwhile I'm tempted to put those jobs in Manual mode (2 months now),
+until we settle this with Daniel.
+
+Thanks,
+
+Phil.
 
 
