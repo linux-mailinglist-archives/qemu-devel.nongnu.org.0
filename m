@@ -2,34 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75ECA2F981F
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:19:36 +0100 (CET)
-Received: from localhost ([::1]:55844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43C5A2F9820
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:21:16 +0100 (CET)
+Received: from localhost ([::1]:32812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1L4p-0005Ci-HP
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:19:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52150)
+	id 1l1L6R-0007Hg-BQ
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:21:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhouyang789@huawei.com>)
- id 1l1L3e-0003vm-Qu
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 22:18:22 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2936)
+ id 1l1L3f-0003wB-28
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 22:18:23 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:2935)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhouyang789@huawei.com>)
- id 1l1L3c-0006ps-DR
+ id 1l1L3d-0006pt-A8
  for qemu-devel@nongnu.org; Sun, 17 Jan 2021 22:18:22 -0500
 Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DJxlf0wF7zMLb8;
+ by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DJxlf15hzzMLb7;
  Mon, 18 Jan 2021 11:16:46 +0800 (CST)
 Received: from huawei.com (10.175.104.175) by DGGEMS412-HUB.china.huawei.com
  (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Mon, 18 Jan 2021
  11:17:58 +0800
 From: zhouyang <zhouyang789@huawei.com>
 To: <alex.bennee@linaro.org>
-Subject: [PATCH v3 4/5] contrib: space required after that ','
-Date: Mon, 18 Jan 2021 11:10:03 +0800
-Message-ID: <20210118031004.1662363-5-zhouyang789@huawei.com>
+Subject: [PATCH v3 5/5] contrib: Open brace '{' following struct go on the
+ same line
+Date: Mon, 18 Jan 2021 11:10:04 +0800
+Message-ID: <20210118031004.1662363-6-zhouyang789@huawei.com>
 X-Mailer: git-send-email 2.23.0
 In-Reply-To: <20210118031004.1662363-1-zhouyang789@huawei.com>
 References: <20210118031004.1662363-1-zhouyang789@huawei.com>
@@ -62,59 +63,29 @@ Cc: alex.chen@huawei.com, qemu-devel@nongnu.org, zhouyang789@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am reading contrib related code and found some style problems while
-check the code using checkpatch.pl. This commit fixs the issue below:
-ERROR: space required after that ','
+I found some style problems whil check the code using checkpatch.pl.
+This commit fixs the issue below:
+ERROR: that open brace { should be on the previous line
 
 Signed-off-by: zhouyang <zhouyang789@huawei.com>
 ---
- contrib/plugins/howvec.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ contrib/plugins/howvec.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/contrib/plugins/howvec.c b/contrib/plugins/howvec.c
-index 2f892da17d..9d6fa33297 100644
+index 9d6fa33297..600f7facc1 100644
 --- a/contrib/plugins/howvec.c
 +++ b/contrib/plugins/howvec.c
-@@ -68,7 +68,7 @@ static InsnClassExecCount aarch64_insn_classes[] = {
-     { "Reserved",            "res",    0x1e000000, 0x00000000, COUNT_CLASS},
-     /* Data Processing Immediate */
-     { "  PCrel addr",        "pcrel",  0x1f000000, 0x10000000, COUNT_CLASS},
--    { "  Add/Sub (imm,tags)","asit",   0x1f800000, 0x11800000, COUNT_CLASS},
-+    { "  Add/Sub (imm,tags)", "asit",   0x1f800000, 0x11800000, COUNT_CLASS},
-     { "  Add/Sub (imm)",     "asi",    0x1f000000, 0x11000000, COUNT_CLASS},
-     { "  Logical (imm)",     "logi",   0x1f800000, 0x12000000, COUNT_CLASS},
-     { "  Move Wide (imm)",   "movwi",  0x1f800000, 0x12800000, COUNT_CLASS},
-@@ -91,17 +91,17 @@ static InsnClassExecCount aarch64_insn_classes[] = {
-     { "Branches",            "branch", 0x1c000000, 0x14000000, COUNT_CLASS},
-     /* Loads and Stores */
-     { "  AdvSimd ldstmult",  "advlsm", 0xbfbf0000, 0x0c000000, COUNT_CLASS},
--    { "  AdvSimd ldstmult++","advlsmp",0xbfb00000, 0x0c800000, COUNT_CLASS},
-+    { "  AdvSimd ldstmult++", "advlsmp", 0xbfb00000, 0x0c800000, COUNT_CLASS},
-     { "  AdvSimd ldst",      "advlss", 0xbf9f0000, 0x0d000000, COUNT_CLASS},
--    { "  AdvSimd ldst++",    "advlssp",0xbf800000, 0x0d800000, COUNT_CLASS},
-+    { "  AdvSimd ldst++",    "advlssp", 0xbf800000, 0x0d800000, COUNT_CLASS},
-     { "  ldst excl",         "ldstx",  0x3f000000, 0x08000000, COUNT_CLASS},
-     { "    Prefetch",        "prfm",   0xff000000, 0xd8000000, COUNT_CLASS},
-     { "  Load Reg (lit)",    "ldlit",  0x1b000000, 0x18000000, COUNT_CLASS},
--    { "  ldst noalloc pair", "ldstnap",0x3b800000, 0x28000000, COUNT_CLASS},
-+    { "  ldst noalloc pair", "ldstnap", 0x3b800000, 0x28000000, COUNT_CLASS},
-     { "  ldst pair",         "ldstp",  0x38000000, 0x28000000, COUNT_CLASS},
-     { "  ldst reg",          "ldstr",  0x3b200000, 0x38000000, COUNT_CLASS},
-     { "  Atomic ldst",       "atomic", 0x3b200c00, 0x38200000, COUNT_CLASS},
--    { "  ldst reg (reg off)","ldstro", 0x3b200b00, 0x38200800, COUNT_CLASS},
-+    { "  ldst reg (reg off)", "ldstro", 0x3b200b00, 0x38200800, COUNT_CLASS},
-     { "  ldst reg (pac)",    "ldstpa", 0x3b200200, 0x38200800, COUNT_CLASS},
-     { "  ldst reg (imm)",    "ldsti",  0x3b000000, 0x39000000, COUNT_CLASS},
-     { "Loads & Stores",      "ldst",   0x0a000000, 0x08000000, COUNT_CLASS},
-@@ -202,7 +202,7 @@ static void plugin_exit(qemu_plugin_id_t id, void *p)
+@@ -145,8 +145,7 @@ typedef struct {
+     int table_sz;
+ } ClassSelector;
  
-     counts = g_hash_table_get_values(insns);
-     if (counts && g_list_next(counts)) {
--        g_string_append_printf(report,"Individual Instructions:\n");
-+        g_string_append_printf(report, "Individual Instructions:\n");
-         counts = g_list_sort(counts, cmp_exec_count);
- 
-         for (i = 0; i < limit && g_list_next(counts);
+-static ClassSelector class_tables[] =
+-{
++static ClassSelector class_tables[] = {
+     { "aarch64", aarch64_insn_classes, ARRAY_SIZE(aarch64_insn_classes) },
+     { "sparc",   sparc32_insn_classes, ARRAY_SIZE(sparc32_insn_classes) },
+     { "sparc64", sparc64_insn_classes, ARRAY_SIZE(sparc64_insn_classes) },
 -- 
 2.23.0
 
