@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9827F2F9D66
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:02:00 +0100 (CET)
-Received: from localhost ([::1]:35392 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C002F9D68
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 12:02:09 +0100 (CET)
+Received: from localhost ([::1]:36006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1SIJ-0004bw-LF
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:01:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47596)
+	id 1l1SIS-0004sD-Rp
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 06:02:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SE3-0007u6-S2
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26971)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SEC-0008Cr-0h
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56462)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SE1-00012d-4Q
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:35 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1SEA-00017r-8U
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:57:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610967452;
+ s=mimecast20190719; t=1610967461;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HTj7WhH/l/DJ5q9eKSUIAL/TYTV8G43gOCc5SotuA+I=;
- b=DfCUWeBIinJJv9Jpcx5XZbp6IvkfCk7sOFi5kfGDC09gVv9L4kPeXMoXwFANfao7Aovv1w
- FqRiqxA0iIQloX7HZCyI0EI0REWeLRi/MMGYpY0u8jShhTX1L0uJqcfhWeG52SokK9zxeZ
- 1DFkf3sBh8QDakj/Ng4nS8gFMJcvC8s=
+ bh=mwg9YtheUz9p+HTXZghiicKLpNBK4V5ThQhnaHPn3Ls=;
+ b=MUVmwJwC8p9Zta1K9YuURRU9JiNFRc5PxovMpU9WY98u81gmC/+koYLlVAhcgYzEk8myuJ
+ jK9p6jtjnHW/IGt/FyKbzu7eeXpnJuduP0YNziGQlRn8uOKDGVsW5Pm5WjS3JRg/5qaGzK
+ hc+Zs7ziWhNBCTrUa3+FLP6Mo0GrwAA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-71-e0Ae-cjUP1OZxAzgRM8E9g-1; Mon, 18 Jan 2021 05:57:30 -0500
-X-MC-Unique: e0Ae-cjUP1OZxAzgRM8E9g-1
+ us-mta-578-AYFUAdHmOMGmX7all6fEgw-1; Mon, 18 Jan 2021 05:57:39 -0500
+X-MC-Unique: AYFUAdHmOMGmX7all6fEgw-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 73C48107ACF5;
- Mon, 18 Jan 2021 10:57:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A2D7B1005504;
+ Mon, 18 Jan 2021 10:57:38 +0000 (UTC)
 Received: from localhost (ovpn-114-253.ams2.redhat.com [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 00A5D60622;
- Mon, 18 Jan 2021 10:57:28 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4497553C9F;
+ Mon, 18 Jan 2021 10:57:38 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v5 03/10] iotests: Move try_remove to iotests.py
-Date: Mon, 18 Jan 2021 11:57:13 +0100
-Message-Id: <20210118105720.14824-4-mreitz@redhat.com>
+Subject: [PATCH v5 06/10] iotests/129: Use throttle node
+Date: Mon, 18 Jan 2021 11:57:16 +0100
+Message-Id: <20210118105720.14824-7-mreitz@redhat.com>
 In-Reply-To: <20210118105720.14824-1-mreitz@redhat.com>
 References: <20210118105720.14824-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,65 +82,90 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Throttling on the BB has not affected block jobs in a while, so it is
+possible that one of the jobs in 129 finishes before the VM is stopped.
+We can fix that by running the job from a throttle node.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 ---
- tests/qemu-iotests/124        |  8 +-------
- tests/qemu-iotests/iotests.py | 11 +++++++----
- 2 files changed, 8 insertions(+), 11 deletions(-)
+ tests/qemu-iotests/129 | 37 +++++++++++++------------------------
+ 1 file changed, 13 insertions(+), 24 deletions(-)
 
-diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
-index 3705cbb6b3..e40eeb50b9 100755
---- a/tests/qemu-iotests/124
-+++ b/tests/qemu-iotests/124
-@@ -22,6 +22,7 @@
- 
- import os
- import iotests
-+from iotests import try_remove
- 
- 
- def io_write_patterns(img, patterns):
-@@ -29,13 +30,6 @@ def io_write_patterns(img, patterns):
-         iotests.qemu_io('-c', 'write -P%s %s %s' % pattern, img)
- 
- 
--def try_remove(img):
--    try:
--        os.remove(img)
--    except OSError:
--        pass
--
--
- def transaction_action(action, **kwargs):
-     return {
-         'type': action,
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index 52facb8e04..a69b4cdc4e 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -523,12 +523,15 @@ class FilePath:
-         return False
- 
- 
-+def try_remove(img):
-+    try:
-+        os.remove(img)
-+    except OSError:
-+        pass
+diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
+index dd23bb2e5a..d40e2db24e 100755
+--- a/tests/qemu-iotests/129
++++ b/tests/qemu-iotests/129
+@@ -32,20 +32,18 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+         iotests.qemu_img('create', '-f', iotests.imgfmt, self.test_img,
+                          "-b", self.base_img, '-F', iotests.imgfmt)
+         iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write -P0x5d 1M 128M', self.test_img)
+-        self.vm = iotests.VM().add_drive(self.test_img)
++        self.vm = iotests.VM()
++        self.vm.add_object('throttle-group,id=tg0,x-bps-total=1024')
 +
- def file_path_remover():
-     for path in reversed(file_path_remover.paths):
--        try:
--            os.remove(path)
--        except OSError:
--            pass
-+        try_remove(path)
++        source_drive = 'driver=throttle,' \
++                       'throttle-group=tg0,' \
++                       f'file.driver={iotests.imgfmt},' \
++                       f'file.file.filename={self.test_img}'
++
++        self.vm.add_drive(None, source_drive)
+         self.vm.launch()
  
+     def tearDown(self):
+-        params = {"device": "drive0",
+-                  "bps": 0,
+-                  "bps_rd": 0,
+-                  "bps_wr": 0,
+-                  "iops": 0,
+-                  "iops_rd": 0,
+-                  "iops_wr": 0,
+-                 }
+-        result = self.vm.qmp("block_set_io_throttle", conv_keys=False,
+-                             **params)
+         self.vm.shutdown()
+         for img in (self.test_img, self.target_img, self.base_img):
+             iotests.try_remove(img)
+@@ -53,33 +51,24 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+     def do_test_stop(self, cmd, **args):
+         """Test 'stop' while block job is running on a throttled drive.
+         The 'stop' command shouldn't drain the job"""
+-        params = {"device": "drive0",
+-                  "bps": 1024,
+-                  "bps_rd": 0,
+-                  "bps_wr": 0,
+-                  "iops": 0,
+-                  "iops_rd": 0,
+-                  "iops_wr": 0,
+-                 }
+-        result = self.vm.qmp("block_set_io_throttle", conv_keys=False,
+-                             **params)
+-        self.assert_qmp(result, 'return', {})
+         result = self.vm.qmp(cmd, **args)
+         self.assert_qmp(result, 'return', {})
++
+         result = self.vm.qmp("stop")
+         self.assert_qmp(result, 'return', {})
+         result = self.vm.qmp("query-block-jobs")
++
+         self.assert_qmp(result, 'return[0]/status', 'running')
+         self.assert_qmp(result, 'return[0]/ready', False)
  
- def file_path(*names, base_dir=test_dir):
+     def test_drive_mirror(self):
+         self.do_test_stop("drive-mirror", device="drive0",
+-                          target=self.target_img,
++                          target=self.target_img, format=iotests.imgfmt,
+                           sync="full")
+ 
+     def test_drive_backup(self):
+         self.do_test_stop("drive-backup", device="drive0",
+-                          target=self.target_img,
++                          target=self.target_img, format=iotests.imgfmt,
+                           sync="full")
+ 
+     def test_block_commit(self):
 -- 
 2.29.2
 
