@@ -2,62 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8285E2F9A9D
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:35:44 +0100 (CET)
-Received: from localhost ([::1]:54746 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75B3F2F9AB7
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:43:37 +0100 (CET)
+Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1P4h-0000sd-Bo
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:35:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45612)
+	id 1l1PCK-0002Qj-In
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:43:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l1P2l-0000Ie-RI; Mon, 18 Jan 2021 02:33:43 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:37749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l1P2j-0005Zy-VM; Mon, 18 Jan 2021 02:33:43 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1M26n9-1l3Jmc1BBx-002TXw; Mon, 18 Jan 2021 08:33:23 +0100
-Subject: Re: [PATCH 00/18] hw: Mark the device with no migratable fields
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
-References: <20200703201911.26573-1-f4bug@amsat.org>
- <CAFEAcA8Cu2N5qX55rUk_yd4R6PdJX+X5KPQmMiQPFakP3ShZ-A@mail.gmail.com>
- <17a5ddc4-c7d9-08f3-5260-f17e1bd48dac@amsat.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <d0eb49ce-b94a-7b5f-c616-eb461e2f73b7@vivier.eu>
-Date: Mon, 18 Jan 2021 08:33:20 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1PB5-00020e-2k
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:42:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29806)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1PB2-0000km-IT
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 02:42:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610955734;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9VhC8Cl9Q5F5aeyQohLqbCS3SVX8ASRzRGBEEpyKyCs=;
+ b=BWsVpXeK7WSfdLNZ8Zn0FL04oiwJAdW3kXM/npMHGjn7fiDIt1UKqu8X/f/zeo5Ee2zp4k
+ i3HZdRSaV3JSqxq9np18RVPtCqQHe+l2izufsvVLRWKcdSKxKvu8OVlm0FUT3yZiNsW3dB
+ x4DOg4IV/ZHTh00UqwlputGKwNnIUOk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-535-PWEyao73OUC1r5e4wapo5A-1; Mon, 18 Jan 2021 02:42:12 -0500
+X-MC-Unique: PWEyao73OUC1r5e4wapo5A-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4349F806668;
+ Mon, 18 Jan 2021 07:42:11 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-189.ams2.redhat.com [10.36.112.189])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3C4DD71C91;
+ Mon, 18 Jan 2021 07:42:07 +0000 (UTC)
+Subject: Re: [PATCH 4/4] tests/qtest: add a test case for pvpanic-pci
+To: Mihai Carabas <mihai.carabas@oracle.com>, qemu-devel@nongnu.org
+References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
+ <1610735646-13313-5-git-send-email-mihai.carabas@oracle.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <aa5eba39-5fc3-597c-cf2a-6f50a898cc33@redhat.com>
+Date: Mon, 18 Jan 2021 08:42:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <17a5ddc4-c7d9-08f3-5260-f17e1bd48dac@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+rZug63ri5WgwqYSq/LsOnwykK/CVUE7Hioh0xluSxDPE1rIqRx
- uu3Z7GUCCt6aPsWSp2BVbJS/N9HQRs+dx7ZY4npajdCBlSZ/QT/GuxUCsjduMMkjcYahCx6
- 6Td8XyOsn4Ifn6xHyLT3DRZtkzLFwV2H1vuvcrQ1m7gKKVbTAKrMA8/W3Bah6r+1DpVPKrs
- 6GccAfHttiZzQzt83KU1A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:efXCHmsUCME=:u0Lt6ROW8eFB5ESjXxD83V
- Wri+LsZ5MA5+lL5YNDxoQFF/dARCfF9k7VL0t+9JX4KTcWUEoAJ7xzIBzH4liKxUS7Q/gsVl1
- MhkNQ2wcO8f3yIZ2GbWX0728sOHZiplRhT+f5HLWwaUmmEPdkqmRhrdvIpvsthGk6WTpbw2Y8
- E+dBAnxwFAdysdlKicP7zaWljytDgb+dOD1lxxXqDLr+SDt3O/9GrFOAilGTbfBphFN0+thfw
- XMbYyU1m4aOabVSS01bLTFv+0DkkFTm/oeuXoBLsZb057kXHN78fHZBuhjiUFbKN0rYHZdqSq
- W5DPTgto+3Jiw0lawn/keed+JVzSwJvM98xAWaNISKsjm86lMtH5lOcDps2Jz4aTKj0fA/iha
- lpEjNd0S+Mw0Y2u7Q9h/EBiXsbL5UYhg1e3CuidZ4ZOUB+Ey71cFajuDeoW+p
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.252,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1610735646-13313-5-git-send-email-mihai.carabas@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,64 +81,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Joel Stanley <joel@jms.id.au>
+Cc: peter.maydell@linaro.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 14/01/2021 à 16:49, Philippe Mathieu-Daudé a écrit :
-> On 7/9/20 9:19 PM, Peter Maydell wrote:
->> On Fri, 3 Jul 2020 at 21:19, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>
->>> This is a proof-of-concept after chatting with Peter Maydell
->>> on IRC earlier.
->>>
->>> Introduce the vmstate_no_state_to_migrate structure, and
->>> a reference to it: vmstate_qdev_no_state_to_migrate.
->>> Use this reference in devices with no fields to migrate.
->>>
->>> This is useful to catch devices missing vmstate, such:
->>> - ads7846
->>> - mcf-uart
->>> - mcf-fec
->>> - versatile_i2c
->>> - ...
->>>
->>> I am not sure about:
->>> - gpex-pcihost
->>
->> I think it's correct that this has no internal state:
->> the only interesting state is in the GPEXRootState, which
->> is a TYPE_GPEX_ROOT_DEVICE which migrates itself.
->>
->> I made some comments on the "meaty" bits of the patchset,
->> and reviewed one or two of the "mark this device as
->> having no migration state" patches, but it doesn't seem
->> worth reviewing all of them until the migration submaintainers
->> have a chance to weigh in on whether they like the concept
->> (I expect they're busy right now with freeze-related stuff :-))
+On 15/01/2021 19.34, Mihai Carabas wrote:
+> Add a test case for pvpanic-pci device. The scenario is the same as pvpapnic
+> ISA device, but is using the PCI bus.
 > 
-> Now that we are far from freeze-date is a good time to ping
-> again on this concept :)
+> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+> ---
+>   tests/qtest/meson.build        |  1 +
+>   tests/qtest/pvpanic-pci-test.c | 62 ++++++++++++++++++++++++++++++++++++++++++
+>   2 files changed, 63 insertions(+)
+>   create mode 100644 tests/qtest/pvpanic-pci-test.c
 > 
-> Most of the devices are ARM except:
-> - cpu-cluster (Eduardo/Marcel)
-> - hcd-ohci (Gerd)
-> - mac-nubus-bridge (Laurent)
-> - generic QOM (Daniel, Paolo)
+> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+> index b050289..f689cad 100644
+> --- a/tests/qtest/meson.build
+> +++ b/tests/qtest/meson.build
+> @@ -20,6 +20,7 @@ endif
+>   
+>   qtests_pci = \
+>     (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +                  \
+> +  (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +          \
+>     (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
+>   
+>   qtests_i386 = \
+> diff --git a/tests/qtest/pvpanic-pci-test.c b/tests/qtest/pvpanic-pci-test.c
+> new file mode 100644
+> index 0000000..79b8065
+> --- /dev/null
+> +++ b/tests/qtest/pvpanic-pci-test.c
+> @@ -0,0 +1,62 @@
+> +/*
+> + * QTest testcase for PV Panic PCI device
+> + *
+> + * Copyright (C) 2020 Oracle
+> + *
+> + * Authors:
+> + *     Mihai Carabas <mihai.carabas@oracle.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "libqos/libqtest.h"
+> +#include "qapi/qmp/qdict.h"
+> +#include "libqos/pci.h"
+> +#include "libqos/pci-pc.h"
+> +#include "hw/pci/pci_regs.h"
+> +
+> +static void test_panic(void)
+> +{
+> +    uint8_t val;
+> +    QDict *response, *data;
+> +    QTestState *qts;
+> +    QPCIBus *pcibus;
+> +    QPCIDevice *dev;
+> +    QPCIBar bar;
+> +
+> +    qts = qtest_init("-device pvpanic-pci");
+> +    pcibus = qpci_new_pc(qts, NULL);
+> +    dev = qpci_device_find(pcibus, QPCI_DEVFN(0x4, 0x0));
+> +    qpci_device_enable(dev);
+> +    bar = qpci_iomap(dev, 0, NULL);
+> +
+> +    qpci_memread(dev, bar, 0, &val, sizeof(val));
+> +    g_assert_cmpuint(val, ==, 3);
+> +
+> +    val = 1;
+> +    qpci_memwrite(dev, bar, 0, &val, sizeof(val));
+> +
+> +    response = qtest_qmp_eventwait_ref(qts, "GUEST_PANICKED");
+> +    g_assert(qdict_haskey(response, "data"));
+> +    data = qdict_get_qdict(response, "data");
+> +    g_assert(qdict_haskey(data, "action"));
+> +    g_assert_cmpstr(qdict_get_str(data, "action"), ==, "pause");
+> +    qobject_unref(response);
+> +
+> +    qtest_quit(qts);
+> +}
+> +
+> +int main(int argc, char **argv)
+> +{
+> +    int ret;
+> +
+> +    g_test_init(&argc, &argv, NULL);
+> +    qtest_add_func("/pvpanic-pci/panic", test_panic);
+> +
+> +    ret = g_test_run();
+> +
+> +    return ret;
+> +}
 > 
-> Is someone against this proposal?
 
-I'm not against the proposal, but I don't understand why we need this.
+Acked-by: Thomas Huth <thuth@redhat.com>
 
-Thanks,
-Laurent
 
