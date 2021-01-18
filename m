@@ -2,51 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2644D2F9A50
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:03:27 +0100 (CET)
-Received: from localhost ([::1]:40380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FB82F9A4C
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 08:01:51 +0100 (CET)
+Received: from localhost ([::1]:37348 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1OZS-0001CN-8D
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:03:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35362)
+	id 1l1OXu-0008Lc-IW
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 02:01:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1OO0-0001U1-KS; Mon, 18 Jan 2021 01:51:36 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:44735 helo=ozlabs.org)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l1OC8-0002qV-CA; Mon, 18 Jan 2021 01:39:20 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:48055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1ONq-000457-K9; Mon, 18 Jan 2021 01:51:35 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DK2WD22T7z9sRR; Mon, 18 Jan 2021 17:51:20 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1610952680;
- bh=7NMMFuxqR/oqmJmRsYnvF4j5LoauvHYx94eOpc6vSaQ=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mr7B7qJ1AkiT3ZWIpzqj5zv/ALvvjFMKgzxYJMu6vxfdph1hcJmItCSd1SXOoSrT8
- dW/ieNdckTW+7NF4worGTgay8tTgnOoFswsAWAHOSEOZBlXRv8HEpC3mkvVj8/PzAY
- UHiznGMwupWZj9rQzcwJ8vlHP8egzonVAigGJqV0=
-Date: Mon, 18 Jan 2021 17:31:37 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] spapr: Improve handling of memory unplug with old guests
-Message-ID: <20210118063137.GJ2089552@yekko.fritz.box>
-References: <161012708715.801107.11418801796987916516.stgit@bahia.lan>
- <20210113012058.GJ435587@yekko.fritz.box>
- <20210113180127.563126ad@bahia.lan>
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l1OC4-0007ZF-7t; Mon, 18 Jan 2021 01:39:17 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.west.internal (Postfix) with ESMTP id 318C615DB;
+ Mon, 18 Jan 2021 01:39:13 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Mon, 18 Jan 2021 01:39:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm1; bh=yDi3rR9AlpqoZ
+ Pff7ititIXIq7aDJehwY82Gzczm7E0=; b=Xs1Xs32fAu+tIcIncKODym0Mbvxkv
+ w4hiLo05Xll3jpwwYmrU9heNJn6jnJNXVHXIo3NPoVcRN00CDuNZstGfAwP85HXE
+ WiymN5G6K0C8HSAT5tvAkEjIdoxyTDs6MmpqG2W/XfhcYMSSlJ0D2eedTJA7gemQ
+ /tMg4Lztl/h5+zKirk5iIBq5bzCDFoiZ+HVqQJYzwHJqNaU8p2DR27X+o7zrfM1/
+ fUXHeLZ5umI0KpBBIdrUQqGJVT2Zt019Pe/N2IAMYPzZuJDBYeQ168Zf0pe1hVdN
+ kYmUjgHPaeY6RZ0JDOpqw8JIzEL24b9khvGYvJKODrmfggIHD97FCdFBA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=yDi3rR9AlpqoZPff7ititIXIq7aDJehwY82Gzczm7E0=; b=GbbUBH5e
+ xFrVODVI70fe2WsmMF5YADHM+VCKPr7LdJH0ilRa7dxRbX664HU7EGHPDrRzfWk8
+ jAG3S1CYDTClCTr4Gc+WK577qdhyCmlZgFOidkjsRJgZI1/PX/OtwliJE4ohjWrL
+ /6PA42tqtq4Phxh+KTwFYApJbbUyxQRSjpXFdCxXWEBk3lok6iMrucOwItbvkWpl
+ qJMzUm6bcAOJuljexvsbXuPIXpdJp+2ihgI+1mpFZyz0EIlBDbQtsht3jYeHMlGd
+ Yn4jOEIZ3CpFCRxe4jKTVc1ZiLAuEXEIevHHgGpvmFgNT4HxbEtpxu96x4Z+28Pv
+ nWcDjMPIsoHlMA==
+X-ME-Sender: <xms:Dy0FYAM3KZeQyKQ5_r98gQLmRtWsc5WQAJLxiY4v2nIEAdXHNY8esQ>
+ <xme:Dy0FYLQJVVKmO0GGtkn-xlrGduJVMKELAno2O666EB18CrfWBjWYy5uXey_f5X84m
+ a1nk2ESjgrKE1DNDtk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdeljecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomheplfhirgiguhhn
+ ucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtf
+ frrghtthgvrhhnpeejuefhkeegheehffetgfeuveeuvdeukeevkeeigeduhffhgfdvvdeh
+ hefhfffhudenucffohhmrghinheprghlphhinhgvlhhinhhugidrohhrghenucfkphepud
+ duiedrvddvkedrkeegrddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehm
+ rghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomh
+X-ME-Proxy: <xmx:Dy0FYGaMcVpS_GvjPteAHeVa01fJvyXKGSeOyRKz62xqrJZaCD6DBg>
+ <xmx:Dy0FYA1jVhpbIi4j0RwMDnf5E6mxJbZq4_ecqxCz8tUayBWdhaNHIg>
+ <xmx:Dy0FYOXiP55YfThQoV3kEQgLQ5QPCXFdmfYFRnr3a4j1WbnIRzm4og>
+ <xmx:EC0FYA3PfCH4s5O1JJhIjhx60iXNwqMGf3ozt6_SY54gl_JWsqxfwRfdj5bV2IPD>
+Received: from strike.U-LINK.com (unknown [116.228.84.2])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 090C524005B;
+ Mon, 18 Jan 2021 01:39:05 -0500 (EST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 8/9] tests/docker: Add dockerfile for Alpine Linux
+Date: Mon, 18 Jan 2021 14:38:07 +0800
+Message-Id: <20210118063808.12471-9-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.30.0
+In-Reply-To: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
+References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8jNwmpfkpox/fiJK"
-Content-Disposition: inline
-In-Reply-To: <20210113180127.563126ad@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.18;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wnew4-smtp.messagingengine.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,128 +92,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- Laurent Vivier <laurent@vivier.eu>
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>, kvm@vger.kernel.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-block@nongnu.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Alpine Linux[1] is a security-oriented, lightweight Linux distribution
+based on musl libc and busybox.
 
---8jNwmpfkpox/fiJK
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It it popular among Docker guests and embedded applications.
 
-On Wed, Jan 13, 2021 at 06:01:27PM +0100, Greg Kurz wrote:
-> On Wed, 13 Jan 2021 12:20:58 +1100
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > On Fri, Jan 08, 2021 at 06:31:27PM +0100, Greg Kurz wrote:
-> > > Since commit 1e8b5b1aa16b ("spapr: Allow memory unplug to always succ=
-eed")
-> > > trying to unplug memory from a guest that doesn't support it (eg. rhe=
-l6)
-> > > no longer generates an error like it used to. Instead, it leaves the
-> > > memory around : only a subsequent reboot or manual use of drmgr within
-> > > the guest can complete the hot-unplug sequence. A flag was added to
-> > > SpaprMachineClass so that this new behavior only applies to the defau=
-lt
-> > > machine type.
-> > >=20
-> > > We can do better. CAS processes all pending hot-unplug requests. This
-> > > means that we don't really care about what the guest supports if
-> > > the hot-unplug request happens before CAS.
-> > >=20
-> > > All guests that we care for, even old ones, set enough bits in OV5
-> > > that lead to a non-empty bitmap in spapr->ov5_cas. Use that as a
-> > > heuristic to decide if CAS has already occured or not.
-> > >=20
-> > > Always accept unplug requests that happen before CAS since CAS will
-> > > process them. Restore the previous behavior of rejecting them after
-> > > CAS when we know that the guest doesn't support memory hot-unplug.
-> > >=20
-> > > This behavior is suitable for all machine types : this allows to
-> > > drop the pre_6_0_memory_unplug flag.
-> > >=20
-> > > Fixes: 1e8b5b1aa16b ("spapr: Allow memory unplug to always succeed")
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> >=20
-> > Applied, sorry it too me so long.
-> >=20
->=20
-> No problem. Any estimate for your next PR ?
+Adding it to test against different libc.
 
-Intending to do it tomorrow (Tuesday 19th).
+[1]: https://alpinelinux.org/
 
->=20
-> > > ---
-> > >  hw/ppc/spapr.c              |   24 +++++++++++++-----------
-> > >  hw/ppc/spapr_events.c       |    3 +--
-> > >  hw/ppc/spapr_ovec.c         |    7 +++++++
-> > >  include/hw/ppc/spapr.h      |    2 +-
-> > >  include/hw/ppc/spapr_ovec.h |    1 +
-> > >  5 files changed, 23 insertions(+), 14 deletions(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index 2c403b574e37..6c47466fc2f1 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -4048,6 +4048,18 @@ static void spapr_machine_device_unplug(Hotplu=
-gHandler *hotplug_dev,
-> > >      }
-> > >  }
-> > > =20
-> > > +bool spapr_memory_hot_unplug_supported(SpaprMachineState *spapr)
-> > > +{
-> > > +    return spapr_ovec_test(spapr->ov5_cas, OV5_HP_EVT) ||
-> > > +        /*
-> > > +         * CAS will process all pending unplug requests.
-> > > +         *
-> > > +         * HACK: a guest could theoretically have cleared all bits i=
-n OV5,
-> > > +         * but none of the guests we care for do.
-> > > +         */
-> >=20
-> > Hrm.  This is pretty ugly - I thought we had a better canonical way of
-> > determining if CAS had already happened this boot, but it appears
-> > not.  I don't want to delay this patch, since it is an important fix,
-> > but it would be nice if you could do a later cleanup to have a nicer
-> > way of detecting CAS-hasn't-happened.
-> >=20
->=20
-> Yeah, I fully agree this is ugly. I'll try to find something nicer later.
->=20
-> Thanks for taking it anyway !
->=20
-> Cheers,
->=20
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ tests/docker/dockerfiles/alpine.docker | 57 ++++++++++++++++++++++++++
+ 1 file changed, 57 insertions(+)
+ create mode 100644 tests/docker/dockerfiles/alpine.docker
 
+diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+new file mode 100644
+index 0000000000..5be5198d00
+--- /dev/null
++++ b/tests/docker/dockerfiles/alpine.docker
+@@ -0,0 +1,57 @@
++
++FROM alpine:edge
++
++RUN apk update
++RUN apk upgrade
++
++# Please keep this list sorted alphabetically
++ENV PACKAGES \
++	alsa-lib-dev \
++	bash \
++	bison \
++	build-base \
++	coreutils \
++	curl-dev \
++	flex \
++	git \
++	glib-dev \
++	glib-static \
++	gnutls-dev \
++	gtk+3.0-dev \
++	libaio-dev \
++	libcap-dev \
++	libcap-ng-dev \
++	libjpeg-turbo-dev \
++	libnfs-dev \
++	libpng-dev \
++	libseccomp-dev \
++	libssh-dev \
++	libusb-dev \
++	libxml2-dev \
++	linux-headers \
++	lzo-dev \
++	mesa-dev \
++	mesa-egl \
++	mesa-gbm \
++	meson \
++	ncurses-dev \
++	ninja \
++	paxmark \
++	perl \
++	pulseaudio-dev \
++	python3 \
++	py3-sphinx \
++	shadow \
++	snappy-dev \
++	spice-dev \
++	texinfo \
++	usbredir-dev \
++	util-linux-dev \
++	vde2-dev \
++	virglrenderer-dev \
++	vte3-dev \
++	xfsprogs-dev \
++	zlib-dev \
++	zlib-static
++
++RUN apk add $PACKAGES
+-- 
+2.30.0
 
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---8jNwmpfkpox/fiJK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAFK0kACgkQbDjKyiDZ
-s5L4JQ/+L0B4sn/KZQ3S4zA1FT/1hKgpXNERpLQJi9zno2dUeFB0ROIV++ZCNq87
-qXCt9zjpPvpItD9lBS1Jxf57rayurFsbqsFoudggY8gw7awF02lWIraTOuBHaPe5
-+lwJjB9DZ/ZQmDetagUkUTukzt3QWrhLITFLOR/yTbrpVA995dPizlBND/mC62GY
-BdyxWGjcNDofzq3MUhIbYF0NmoDeeZ+acstmj9GLyYG1wM/g2EWTiby7Zmn9Q5+U
-wmVcwtV9wQa0GTCjV5uHy/RJQIglzAwwndaKfY7Ab+x/KYZyRnL1Zzvl40gdsI4z
-cxjF6fwiGrfWV4qbXuxKswuYVLZH3ZoDIMC0h8sLkJIpTlDmtVWrrLFaKNuzkb6H
-tIBs/Plzk6uSoT1Si0O1BYDvgOZ15TNr505pmY4yyvLDPhLXt0nPN731noxhrSnv
-tvawqX4JLS/e7WoQ5cbFpH88l8MKQaMpUMtYsOXJBvMP3lR1ZQf7L3IojCXr0WZo
-3xC9nijs1GQaAPX/LdEfeFeyi2rzXnjLis7ZViljz1Qi2AkUxxlXcn/CLD4mCPH3
-LPMygy1TsNFXSVaPZyQGSrL+OSQdxbxgh/JQDT3D1oO92v7Igp9FtlA0djVQJZ9n
-YlwZOhGoljLB+fz9in5w4Eo4zW5V+gJK1sj5zKvZnuU84YaHbTY=
-=8SM9
------END PGP SIGNATURE-----
-
---8jNwmpfkpox/fiJK--
 
