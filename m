@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6B52FA4E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:38:53 +0100 (CET)
-Received: from localhost ([::1]:50166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46AA2FA500
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 16:42:53 +0100 (CET)
+Received: from localhost ([::1]:55106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1WcG-00055B-Sr
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:38:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44948)
+	id 1l1Wg8-0007UL-T0
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 10:42:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1l1Wav-0004bS-Lz
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:37:29 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:42464)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <darren.kenny@oracle.com>)
- id 1l1Was-0003HE-Tu
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:37:28 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10IFUsoI156862;
- Mon, 18 Jan 2021 15:36:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : in-reply-to : references : date : message-id : mime-version :
- content-type; s=corp-2020-01-29;
- bh=4LIIaqIpgEjieaK1iEH1YvASgmi78KnXI54cAjVkjWI=;
- b=ANsJcVsnnl7dbAp28NnXe4901oTC251KHgd0Xa3oAX7oRZ/Toc4i8TrfIGqFpRmDUU4X
- gY8yc2OjfJLSwWz8UYXmU49ji8Cz+A972U5XSeEG7CGQUu4B6zLghL334YZsgNv6cD9g
- kGHfYHp/0auFB6xs0dylXhb2OQGUX5iyCeFZCgHq5769mLE37hfsGeysD8ekuaIHpNNz
- Xwx6derX1dzqOhFw6Sxnoero8CaW2Z1O6PcRUu26t+VWIrpl7WpQ0+0wvzFTnKwo40L8
- HoRlqWqNolfG7uRvWZAQ926wdcyJuHpQ7CDJyuNC/SZ6ks2KLsHXRVXoFCmmXeTDXsbh 5A== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by aserp2130.oracle.com with ESMTP id 363nnadwku-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 18 Jan 2021 15:36:35 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10IFW0Wm142929;
- Mon, 18 Jan 2021 15:36:34 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
- by userp3020.oracle.com with ESMTP id 3649wq6hp1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 18 Jan 2021 15:36:34 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
- by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 10IFaULQ006744;
- Mon, 18 Jan 2021 15:36:30 GMT
-Received: from starbug-mbp.localdomain (/79.97.215.145)
- by default (Oracle Beehive Gateway v4.0)
- with ESMTP ; Mon, 18 Jan 2021 07:36:30 -0800
-Received: from starbug-mbp (localhost [127.0.0.1])
- by starbug-mbp.localdomain (Postfix) with ESMTP id 5B0502E6B685;
- Mon, 18 Jan 2021 15:36:34 +0000 (GMT)
-From: Darren Kenny <darren.kenny@oracle.com>
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v2 3/3] fuzz: add virtio-9p configurations for fuzzing
-In-Reply-To: <20210117230924.449676-4-alxndr@bu.edu>
-References: <20210117230924.449676-1-alxndr@bu.edu>
- <20210117230924.449676-4-alxndr@bu.edu>
-Date: Mon, 18 Jan 2021 15:36:34 +0000
-Message-ID: <m25z3ufe9p.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1Wf7-0006bT-0e
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:41:49 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:45142)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1Wex-0005Lg-13
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 10:41:48 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id d26so16877801wrb.12
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 07:41:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=WP6SJAm1IAdTJ4lSNwJ5i6VyzmfHzDr0uF01SM2ibPc=;
+ b=jgbwcAECQHX5NkIVvmGsQQygMpoFyUkcKNNJwHB/ZJezGGytSlHT8A+EuHbTYkLDNl
+ g5ZdBasTDJRWG/PMslXyDRa+Z/OK3UObX4TWIPgzvWciA7fRSN1+uRj5rTfoP+4v/nVW
+ avJkvek1fcPa9uB9Wd3lM0WNQwvi3Z+12t86mMzgAGfe6WFLLlHT7o2LQGogls64XFLU
+ Kc4w89WL62lBfa2lRBOohs+tMSNRB8tD1oWhyV0JKHPiZ6B3he5rZeCGaoghN/EqX5Wp
+ ol5HUC0GsRtndCGvdpw7UOmCnVFG3U7zr3KHQ31uM1ARPNSqPkRNR6VNUkG6u07+xOWX
+ 6QIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=WP6SJAm1IAdTJ4lSNwJ5i6VyzmfHzDr0uF01SM2ibPc=;
+ b=NqiT2pRsSmUuGZzITadJt0ejQGwKKGE8HLc44wK8S1405w+osw0QAIYJOFGWWajawq
+ AgRe8AEegfEA8YII1LlzyNJgNfBLoZJIArwymsyxqPkXJ/juqoM+s/F69eooMYafKOlP
+ ukTmr9gvxHbbtxCJsdCOfGgkVM2f9W9JHCjcIJnDeEGmjFTZjCjW6cm52AyWBOpmdGCX
+ BRgGoXaGJIseohXmA4PVjIhbJyMXfC73JBQ0m2lGAjjd/lm07JMGT4t+ZlxMfyjhDjan
+ BVxbANqeLa81wQfhrs5UrkgGbjqBRjgJ9WQmJXc+2lc4U3VUxUNrXdXaA476hf6Y02J/
+ R1lA==
+X-Gm-Message-State: AOAM5307MERH/W2W5+MmhdHF1EXE5Ve5Uvk7Sg4TvuDFz3Gv8ZkFWBzt
+ WSX4OCSKt6hZpnsVj1v1ByF1KA==
+X-Google-Smtp-Source: ABdhPJwlqh6PJAfgIjmgbY+5fuj8XIQi48XGw4VgIXJEoipHRKkSs5HpJkQ4LCYxBk9LLzZW/Ri8rA==
+X-Received: by 2002:adf:fd42:: with SMTP id h2mr102565wrs.142.1610984492842;
+ Mon, 18 Jan 2021 07:41:32 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n9sm30089380wrq.41.2021.01.18.07.41.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 18 Jan 2021 07:41:31 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id ECEC81FF7E;
+ Mon, 18 Jan 2021 15:41:30 +0000 (GMT)
+References: <20210115130828.23968-1-alex.bennee@linaro.org>
+ <CAFEAcA9HzF_-HyGZDxLN+2-Ay1rtijqOOh9WJPFS+yyDKLERPg@mail.gmail.com>
+ <871reiwi7k.fsf@linaro.org>
+ <7e22d425-7e9a-afca-e035-f7e56837518d@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PULL 00/30] testing, gdbstub and semihosting
+Date: Mon, 18 Jan 2021 15:38:57 +0000
+In-reply-to: <7e22d425-7e9a-afca-e035-f7e56837518d@redhat.com>
+Message-ID: <87sg6yuuad.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=900 bulkscore=0
- spamscore=0 phishscore=0 malwarescore=0 adultscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101180094
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9867
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- spamscore=0
- mlxlogscore=896 clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101180094
-Received-SPF: pass client-ip=141.146.126.79;
- envelope-from=darren.kenny@oracle.com; helo=aserp2130.oracle.com
-X-Spam_score_int: -45
-X-Spam_score: -4.6
-X-Spam_bar: ----
-X-Spam_report: (-4.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,92 +89,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sunday, 2021-01-17 at 18:09:24 -05, Alexander Bulekov wrote:
-> virtio-9p devices are often used to expose a virtual-filesystem to the
-> guest. There have been some bugs reported in this device, such as
-> CVE-2018-19364, and CVE-2021-20181. We should fuzz this device
+
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+
+> Hi Alex,
 >
-> This patch adds two virtio-9p configurations:
->  * One with the widely used -fsdev local driver. This driver leaks some
->    state in the form of files/directories created in the shared dir.
->  * One with the synth driver. While it is not used in the real world, this
->    driver won't leak leak state between fuzz inputs.
+> On 1/18/21 1:18 PM, Alex Benn=C3=A9e wrote:
+>>=20
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>=20
+>>> On Fri, 15 Jan 2021 at 13:08, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>>>>
+>>>> The following changes since commit 7c79721606be11b5bc556449e5bcbc331ef=
+6867d:
+>>>>
+>>>>   Merge remote-tracking branch 'remotes/rth-gitlab/tags/pull-tcg-20210=
+113' into staging (2021-01-14 09:54:29 +0000)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>   https://github.com/stsquad/qemu.git tags/pull-testing-and-misc-15012=
+1-1
+>>>>
+>>>> for you to fetch changes up to be846761ca8b5a7e2e7b7108c8c156126b79982=
+4:
+>>>>
+>>>>   semihosting: Implement SYS_ISERROR (2021-01-15 11:12:34 +0000)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Testing, gdbstub and semihosting patches:
+>>>>
+>>>>   - clean-ups to docker images
+>>>>   - drop duplicate jobs from shippable
+>>>>   - prettier tag generation (+gtags)
+>>>>   - generate browsable source tree
+>>>>   - more Travis->GitLab migrations
+>>>>   - fix checkpatch to deal with commits
+>>>>   - gate gdbstub tests on 8.3.1, expand tests
+>>>>   - support Xfer:auxv:read gdb packet
+>>>>   - better gdbstub cleanup
+>>>>   - use GDB's SVE register layout
+>>>>   - make arm-compat-semihosting common
+>>>>   - add riscv semihosting support
+>>>>   - add HEAPINFO, ELAPSED, TICKFREQ, TMPNAM and ISERROR to semihosting
+>>>
+>>> Fails to build, netbsd:
+>>>
+>>> ../src/gdbstub.c: In function 'handle_query_xfer_auxv':
+>>> ../src/gdbstub.c:2258:26: error: 'struct image_info' has no member
+>>> named 'saved_auxv'
+>>>      saved_auxv =3D ts->info->saved_auxv;
+>>>                           ^~
+>>> ../src/gdbstub.c:2259:24: error: 'struct image_info' has no member
+>>> named 'auxv_len'
+>>>      auxv_len =3D ts->info->auxv_len;
+>>=20
+>> I've:
+>>=20
+>> #if defined(CONFIG_USER_ONLY) && defined(CONFIG_LINUX_USER)
+>>=20
+>> around the code so it won't build for the *BSDs.
 >
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> ---
-> CC: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> CC: Greg Kurz <groug@kaod.org>
+> CONFIG_LINUX_USER implies CONFIG_USER_ONLY, right?
+
+Probably could in a clean-up patch.
+
 >
-> I considered adding an atexit handler to remove the temp directory,
-> however I am worried that there might be some error that results in a
-> call to exit(), rather than abort(), which will cause problems for
-> future fork()-ed fuzzers. I don't think there are such calls in the 9p
-> code, however there might be something in the APIs used by 9p. As this
-> code is primarily for ephemeral OSS-Fuzz conainers, this shouldn't be
-> too much of an issue.
-
-As I understand it, this creation of a new directory should happen a lot
-less than the amount of actual executions of the target, since it is
-only run on the first 'parent' target process executed, prior to the
-process cloning operations that the fork execution performs - or any
-time that 'parent' target process is renewed, after several thousand
-cloned processes.
-
-Is that correct? Or am I misunderstanding when the
-generic_fuzzer_virtio_9p_args() function is run?
-
-Thanks,
-
-Darren.
-
->  tests/qtest/fuzz/generic_fuzz_configs.h | 20 ++++++++++++++++++++
->  1 file changed, 20 insertions(+)
+> Maybe long-term this can become:
 >
-> diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-> index 1a133655ee..f99657cdbc 100644
-> --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> @@ -19,6 +19,16 @@ typedef struct generic_fuzz_config {
->      gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
->  } generic_fuzz_config;
->  
-> +static inline gchar *generic_fuzzer_virtio_9p_args(void){
-> +    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
-> +    g_assert_nonnull(mkdtemp(tmpdir));
-> +
-> +    return g_strdup_printf("-machine q35 -nodefaults "
-> +    "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> +    "-fsdev local,id=hshare,path=%s,security_model=mapped-xattr,"
-> +    "writeout=immediate,fmode=0600,dmode=0700", tmpdir);
-> +}
-> +
->  const generic_fuzz_config predefined_configs[] = {
->      {
->          .name = "virtio-net-pci-slirp",
-> @@ -60,6 +70,16 @@ const generic_fuzz_config predefined_configs[] = {
->          .name = "virtio-mouse",
->          .args = "-machine q35 -nodefaults -device virtio-mouse",
->          .objects = "virtio*",
-> +    },{
-> +        .name = "virtio-9p",
-> +        .argfunc = generic_fuzzer_virtio_9p_args,
-> +        .objects = "virtio*",
-> +    },{
-> +        .name = "virtio-9p-synth",
-> +        .args = "-machine q35 -nodefaults "
-> +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> +        "-fsdev synth,id=hshare",
-> +        .objects = "virtio*",
->      },{
->          .name = "e1000",
->          .args = "-M q35 -nodefaults "
-> -- 
-> 2.28.0
+> #if defined(CONFIG_LINUX_USER)
+> #elif defined(...BSD...)
+> #endif
+
+Well the failure is missing the data in our own structures. I don't know
+if BSD does support auxv, I guess if it's a POSIX thing. I guess we'll
+see when we get the BSD rewrite.
+
+> (maybe worth to fix if the pullreq isn't processed,
+> else not a big deal).
+
+Already merged so =C2=AF\_(=E3=83=84)_/=C2=AF...
+
+--=20
+Alex Benn=C3=A9e
 
