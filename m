@@ -2,68 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48DE12F9FF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 13:37:52 +0100 (CET)
-Received: from localhost ([::1]:37604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876A42FA043
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 13:47:31 +0100 (CET)
+Received: from localhost ([::1]:47082 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Tn5-0004Bf-B9
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 07:37:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48032)
+	id 1l1TwQ-0008KL-Gd
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 07:47:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49364)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1Tka-0002Nm-S9
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 07:35:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34374)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1TkM-0003hL-Lq
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 07:35:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610973299;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/97PmEfPWw7p0FoZql1yaBLEJwVZY0EPwJzxKt+Q+KU=;
- b=hUvi/S8jdJVUn12EWBMX4swEhWG1RQrHxgboIQCjc5lBDxXua+Aj+NHTNYpZfXcck1j4Za
- OV9GpSoNHmV/RyWY27d6Kew132FNoBVzhu4U/ijABhLO6staLcLmY7d9/NLZYCfloZ5LsX
- HJwz+Mbnwh3QHwGcJzC6reajgutAYw8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-298-pIVN0KWcPV-kM7adS9Gp9A-1; Mon, 18 Jan 2021 07:34:56 -0500
-X-MC-Unique: pIVN0KWcPV-kM7adS9Gp9A-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F01E7800D53;
- Mon, 18 Jan 2021 12:34:54 +0000 (UTC)
-Received: from merkur.redhat.com (ovpn-115-75.ams2.redhat.com [10.36.115.75])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D164F9CA0;
- Mon, 18 Jan 2021 12:34:53 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH 2/2] virtio-scsi-test: Test writing to scsi-cd device
-Date: Mon, 18 Jan 2021 13:34:48 +0100
-Message-Id: <20210118123448.307825-3-kwolf@redhat.com>
-In-Reply-To: <20210118123448.307825-1-kwolf@redhat.com>
-References: <20210118123448.307825-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l1TqI-0007NG-IH; Mon, 18 Jan 2021 07:41:10 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:43497)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l1TqF-00060N-8O; Mon, 18 Jan 2021 07:41:09 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id c12so10126342pfo.10;
+ Mon, 18 Jan 2021 04:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=RsKLyYQT1u7re3NnG9XSfr/PoCpdxe4Y/BT9as4ZKLo=;
+ b=S6MWTNqJepZmFjlXURkiiRhPSWiPb5Cx5aCyw6kih3cHJc5RVHpsgZeMcH3q76/T6w
+ jSHa1J/8bQGSQb9RyOU6F2dzR+/amerLVh0eQWJbpum7j5b6QK19IoIcwr7deQQu2PQr
+ NleYJDti40xzKVeDrdAu5FZDNUcedV6HEFBgJions8L4/wRzu9u0FVQNYL1ztalEnU9a
+ z1WklZZyL0LI5sXL4AFwbFphFcoadfSI/MHat+e8rkJkC/MHgaW7mAtSUPw9hFtwH6bE
+ gacjPg0wRLTjnybY3+I9Z1Dk6DghSzuBpnn4lM5zLkrQdP0QbyxFHQkchBMpnkEguXvR
+ EQDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=RsKLyYQT1u7re3NnG9XSfr/PoCpdxe4Y/BT9as4ZKLo=;
+ b=jd+FbhEd45UkVEdxN3ark+taHjhiOoH20BrK+EekoAARAIP045H3jyuVFfmgq2Rx2V
+ nzQlxYIcnR3q6O8ePPdNktOFN+5aIFD47/kwqWjaaZ9fvMGpXKB4E+W4WoqS0jNTMD9D
+ RyCNGMxkEu28buGc2OZwBPbRGKQFpPtrbcdKxLtbA4rWPCY5fe1EUZxhVrTNl2icI6wH
+ v+1jcSrM6woFpBX36TdVwDgK0cOL395BfCJzxSUtBK5qeWuo0zTfGy+Lb+Tazyl34lbS
+ inYGxml/udSelOp9YUW0jwVkAUG9IS1JClOeo2UMprGtNu01NfWxltK0RSnzzzdC9l/R
+ jXzA==
+X-Gm-Message-State: AOAM533wBaBs5IjRVpMI9nopcvxDA9DPWAIuDKDNO2GIPtspxghbBbmn
+ P6/KefOiVwK6THYxGZBTMaY=
+X-Google-Smtp-Source: ABdhPJyMxt3CuDcB/3HTAYGOtJH3CvkcPUIJThWrE/agA13cwdM5HqH6wpYOD0C86NYfyAoyWLhWrg==
+X-Received: by 2002:a63:2c9:: with SMTP id 192mr25564698pgc.325.1610973663472; 
+ Mon, 18 Jan 2021 04:41:03 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id gz2sm16514400pjb.2.2021.01.18.04.41.02
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 18 Jan 2021 04:41:03 -0800 (PST)
+Date: Mon, 18 Jan 2021 21:41:00 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [PATCH v2 02/12] hw/block/nvme: fix 64 bit register hi/lo split
+ writes
+Message-ID: <20210118124100.GB18718@localhost.localdomain>
+References: <20210118094705.56772-1-its@irrelevant.dk>
+ <20210118094705.56772-3-its@irrelevant.dk>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210118094705.56772-3-its@irrelevant.dk>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,86 +83,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, alxndr@bu.edu, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests that trying to write to a (read-only) scsi-cd device backed
-by a read-write image file doesn't crash and results in the correct
-error.
+On 21-01-18 10:46:55, Klaus Jensen wrote:
+> From: Klaus Jensen <k.jensen@samsung.com>
+> 
+> 64 bit registers like ASQ and ACQ should be writable by both a hi/lo 32
+> bit write combination as well as a plain 64 bit write. The spec does not
+> define ordering on the hi/lo split, but the code currently assumes that
+> the low order bits are written first. Additionally, the code does not
+> consider that another address might already have been written into the
+> register, causing the OR'ing to result in a bad address.
+> 
+> Fix this by explicitly overwriting only the low or high order bits for
+> 32 bit writes.
+> 
+> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+> ---
+>  hw/block/nvme.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index bd7e258c3c26..40b9f8ccfc0e 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -3781,19 +3781,21 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+>          trace_pci_nvme_mmio_aqattr(data & 0xffffffff);
+>          break;
+>      case 0x28:  /* ASQ */
+> -        n->bar.asq = data;
+> +        n->bar.asq = size == 8 ? data :
+> +            (n->bar.asq & ~0xffffffff) | (data & 0xffffffff);
+                             ^^^^^^^^^^^
+If this one is to unmask lower 32bits other than higher 32bits, then
+it should be:
 
-This is a regression test for https://bugs.launchpad.net/bugs/1906693.
+	(n->bar.asq & ~0xffffffffULL)
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qtest/virtio-scsi-test.c | 39 ++++++++++++++++++++++++++++++++++
- 1 file changed, 39 insertions(+)
+Also, maybe we should take care of lower than 4bytes as:
 
-diff --git a/tests/qtest/virtio-scsi-test.c b/tests/qtest/virtio-scsi-test.c
-index 0415e75876..1b7ecc1c8f 100644
---- a/tests/qtest/virtio-scsi-test.c
-+++ b/tests/qtest/virtio-scsi-test.c
-@@ -200,6 +200,32 @@ static void test_unaligned_write_same(void *obj, void *data,
-     qvirtio_scsi_pci_free(vs);
- }
- 
-+static void test_write_to_cdrom(void *obj, void *data,
-+                                QGuestAllocator *t_alloc)
-+{
-+    QVirtioSCSI *scsi = obj;
-+    QVirtioSCSIQueues *vs;
-+    uint8_t buf[2048] = { 0 };
-+    const uint8_t write_cdb[VIRTIO_SCSI_CDB_SIZE] = {
-+        /* WRITE(10) to LBA 0, transfer length 1 */
-+        0x2a, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00
-+    };
-+    struct virtio_scsi_cmd_resp resp;
-+
-+    alloc = t_alloc;
-+    vs = qvirtio_scsi_init(scsi->vdev);
-+
-+    virtio_scsi_do_command(vs, write_cdb, NULL, 0, buf, 2048, &resp);
-+    g_assert_cmphex(resp.response, ==, 0);
-+    g_assert_cmphex(resp.status, ==, CHECK_CONDITION);
-+    g_assert_cmphex(resp.sense[0], ==, 0x70);
-+    g_assert_cmphex(resp.sense[2], ==, DATA_PROTECT);
-+    g_assert_cmphex(resp.sense[12], ==, 0x27); /* WRITE PROTECTED */
-+    g_assert_cmphex(resp.sense[13], ==, 0x00); /* WRITE PROTECTED */
-+
-+    qvirtio_scsi_pci_free(vs);
-+}
-+
- static void test_iothread_attach_node(void *obj, void *data,
-                                       QGuestAllocator *t_alloc)
- {
-@@ -267,6 +293,16 @@ static void *virtio_scsi_setup(GString *cmd_line, void *arg)
-     return arg;
- }
- 
-+static void *virtio_scsi_setup_cd(GString *cmd_line, void *arg)
-+{
-+    g_string_append(cmd_line,
-+                    " -drive file=null-co://,"
-+                    "file.read-zeroes=on,"
-+                    "if=none,id=dr1,format=raw "
-+                    "-device scsi-cd,drive=dr1,lun=0,scsi-id=1");
-+    return arg;
-+}
-+
- static void *virtio_scsi_setup_iothread(GString *cmd_line, void *arg)
- {
-     g_string_append(cmd_line,
-@@ -287,6 +323,9 @@ static void register_virtio_scsi_test(void)
-     qos_add_test("unaligned-write-same", "virtio-scsi",
-                  test_unaligned_write_same, &opts);
- 
-+    opts.before = virtio_scsi_setup_cd;
-+    qos_add_test("write-to-cdrom", "virtio-scsi", test_write_to_cdrom, &opts);
-+
-     opts.before = virtio_scsi_setup_iothread;
-     opts.edge = (QOSGraphEdgeOptions) {
-         .extra_device_opts = "iothread=thread0",
--- 
-2.29.2
+	.min_access_size = 2,
+	.max_access_size = 8,
 
+Even we have some error messages up there with:
+
+	if (unlikely(size < sizeof(uint32_t))) {
+	    NVME_GUEST_ERR(pci_nvme_ub_mmiowr_toosmall,
+			   "MMIO write smaller than 32-bits,"
+			   " offset=0x%"PRIx64", size=%u",
+			   offset, size);
+	    /* should be ignored, fall through for now */
+	}
+
+It's a fall-thru error, and that's it.  I would prefer not to have this
+error and support for 2bytes access also, OR do not support for 2bytes
+access for this MMIO area.
+
+Thanks!
 
