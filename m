@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6337D2FA200
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 14:48:18 +0100 (CET)
-Received: from localhost ([::1]:55530 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C46B42FA249
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 14:57:22 +0100 (CET)
+Received: from localhost ([::1]:36358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1UtF-000541-Eo
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 08:48:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41196)
+	id 1l1V21-0000xI-DQ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 08:57:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1UrD-0004Vi-Mp
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:46:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28723)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1UrA-0001Vc-Pw
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:46:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610977568;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2I4kTN0cmxFiOfXXGi5anG9JLQbPxKmvfXqbOEd9wpY=;
- b=UiLWY5mlPe+hQbqRshLdA/0WI2vgTYUzd29GCnG9Bg+R24Xv6czryVeZ0pbY05QVYEn31Y
- l6L+kaYGG1IoFZZLthQsQbP7unlZX5PZJCk4wKYdoeA5W89+QCAGIDgAp/S2e27mzqbqmb
- uHGDYC1unsaJZWKv88kRhlReDJI9Xns=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-145-4Y-wxnbGOx-kWKtAi4OKew-1; Mon, 18 Jan 2021 08:46:04 -0500
-X-MC-Unique: 4Y-wxnbGOx-kWKtAi4OKew-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5EF88066EC;
- Mon, 18 Jan 2021 13:46:02 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-253.ams2.redhat.com
- [10.36.114.253])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A1AA15F9D7;
- Mon, 18 Jan 2021 13:46:00 +0000 (UTC)
-Subject: Re: [PATCH v4 09/23] job: call job_enter from job_pause
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
- <20210116214705.822267-10-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <cbd92d66-c403-e37e-2bf9-2c301f9fd667@redhat.com>
-Date: Mon, 18 Jan 2021 14:45:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1V0L-0000HN-Ma
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:55:37 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:42031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1V0G-0005k5-4Z
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 08:55:33 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 10IDswx4032447
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Mon, 18 Jan 2021 08:55:02 -0500
+Date: Mon, 18 Jan 2021 08:54:58 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: pending fuzzing patches (was Re: [PATCH 2/2] fuzz: log the
+ arguments used to initialize QEMU)
+Message-ID: <20210118135458.agoc7hiremr2sc6e@mozz.bu.edu>
+References: <20210117201014.271610-1-alxndr@bu.edu>
+ <20210117201014.271610-3-alxndr@bu.edu>
+ <4e63a37a-d9f1-7841-3761-6f8cd7ac9051@redhat.com>
+ <84615bb8-564e-5d5f-b134-83fa223cf583@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210116214705.822267-10-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <84615bb8-564e-5d5f-b134-83fa223cf583@redhat.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,66 +59,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.01.21 22:46, Vladimir Sementsov-Ogievskiy wrote:
-> If main job coroutine called job_yield (while some background process
-> is in progress), we should give it a chance to call job_pause_point().
-> It will be used in backup, when moved on async block-copy.
+On 210118 1030, Thomas Huth wrote:
+> On 18/01/2021 09.43, Paolo Bonzini wrote:
+> > On 17/01/21 21:10, Alexander Bulekov wrote:
+> > > This is useful for building reproducers. Instead checking the code or
+> > > the QEMU_FUZZ_ARGS, the arguments are at the top of the crash log.
+> > > 
+> > > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> > > ---
+> > >   tests/qtest/fuzz/fuzz.c | 11 ++++++++++-
+> > >   1 file changed, 10 insertions(+), 1 deletion(-)
+> > > 
+> > > diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+> > > index 238866a037..496d11a231 100644
+> > > --- a/tests/qtest/fuzz/fuzz.c
+> > > +++ b/tests/qtest/fuzz/fuzz.c
+> > > @@ -159,6 +159,8 @@ int LLVMFuzzerInitialize(int *argc, char
+> > > ***argv, char ***envp)
+> > >       char *target_name;
+> > >       const char *bindir;
+> > >       char *datadir;
+> > > +    GString *cmd_line;
+> > > +    gchar *pretty_cmd_line;
+> > >       bool serialize = false;
+> > >       /* Initialize qgraph and modules */
+> > > @@ -217,7 +219,7 @@ int LLVMFuzzerInitialize(int *argc, char
+> > > ***argv, char ***envp)
+> > >       }
+> > >       /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
+> > > -    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
+> > > +    cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
+> > >       g_string_append_printf(cmd_line, " %s -qtest /dev/null ",
+> > >                              getenv("QTEST_LOG") ? "" : "-qtest-log none");
+> > > @@ -226,6 +228,13 @@ int LLVMFuzzerInitialize(int *argc, char
+> > > ***argv, char ***envp)
+> > >       wordexp(cmd_line->str, &result, 0);
+> > >       g_string_free(cmd_line, true);
+> > > +    if (getenv("QTEST_LOG")) {
+> > > +        pretty_cmd_line  = g_strjoinv(" ", result.we_wordv + 1);
+> > > +        printf("Starting %s with Arguments: %s\n",
+> > > +                result.we_wordv[0], pretty_cmd_line);
+> > > +        g_free(pretty_cmd_line);
+> > > +    }
+> > > +
+> > >       qemu_init(result.we_wordc, result.we_wordv, NULL);
+> > >       /* re-enable the rcu atfork, which was previously disabled in
+> > > qemu_init */
+> > > 
+> > 
+> > Hi Alexander, can you send _me_ a pull request for all the pending
+> > fuzzing patches?  I haven't paid much attention, but I have seen
+> > external contributions and I have the feeling that they aren't being
+> > applied/reviewed promptly.
 > 
-> Note, that job_user_pause is not enough: we want to handle
-> child_job_drained_begin() as well, which call job_pause().
-
-OK.
-
-> Still, if job is already in job_do_yield() in job_pause_point() we
-> should not enter it.
-
-Agreed.
-
-> iotest 109 output is modified: on stop we do bdrv_drain_all() which now
-> triggers job pause immediately (and pause after ready is standby).
-
-Sounds like a good thing.
-
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->   job.c                      |  3 +++
->   tests/qemu-iotests/109.out | 24 ++++++++++++++++++++++++
->   2 files changed, 27 insertions(+)
+> I'm normally taking the fuzzing patches through the qtest tree (and also
+> merged some contributions last week, see 22ec0c696fd28e and the following
+> commits) ... which patch series that got missed did you have in mind?
 > 
-> diff --git a/job.c b/job.c
-> index 8fecf38960..3aaaebafe2 100644
-> --- a/job.c
-> +++ b/job.c
-> @@ -553,6 +553,9 @@ static bool job_timer_not_pending(Job *job)
->   void job_pause(Job *job)
->   {
->       job->pause_count++;
-> +    if (!job->paused) {
-> +        job_enter(job);
-> +    }
->   }
+> Anyway, the amount of fuzzer patches seems to have increased during the last
+> weeks, and I'm not very familiar with the fuzzing stuff and also sometimes I
+> do not get CC:-ed on fuzzing patches, so it might make sense indeed that
+> Alexander now gathers the fuzzing patches and starts sending pull requests
+> for these. Alexander, do you want to have a try now?
+> 
 
-I see job_pause is also called from block_job_error_action() – should we 
-reenter the job there, too?
+Sure - I'll wait for both remaining series to be fully reviewed. Then
+I'll follow this: https://wiki.qemu.org/Contribute/SubmitAPullRequest
+-Alex
 
-(It looks to me like e.g. mirror would basically just continue to run, 
-then, until it needs to yield because of some other issue.  I don’t know 
-whether that’s a problem, because I suppose we don’t guarantee to stop 
-immediately on an error, though I suspect users would expect us to do 
-that as early as possible (i.e., not to launch new requests).
 
-[Quite some time later]
-
-I’ve now tested a mirror job that stops due to a target error, and it 
-actually does not make any progress; or at least it doesn’t report any. 
-  So it looks like my concern is unjustified.  I don’t know why it’s 
-unjustified, though, so perhaps you can explain it before I give my R-b O:))
-
-Max
-
+>  Thomas
+> 
 
