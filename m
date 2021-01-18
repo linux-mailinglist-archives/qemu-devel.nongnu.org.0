@@ -2,54 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B672FA2E7
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:24:54 +0100 (CET)
-Received: from localhost ([::1]:58968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E262FA2FD
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 15:29:12 +0100 (CET)
+Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1VSf-0003Jb-Pp
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:24:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51856)
+	id 1l1VWp-0006gI-GH
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 09:29:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53146)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1VR5-00026d-GV
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:23:17 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:30430)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1VVQ-0006CO-QB
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:27:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46299)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1VR3-00022p-9w
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:23:15 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1VVN-00043W-FO
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 09:27:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610980059;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=mDMfXzaahJW2NM+75XV8/L8vBralcz6upWLyIQ/JycY=;
+ b=iYj4TdzwHyxvL0+FsPzfGAjAL/xgKV8tHB9lgcRvL1HSd49aTSPMn2uWZG3fFpYnCkhl5/
+ VhkaMr64Q9uxoKlPG+2xsHOKrQwi9hvZsk67JlagMMQlZJtvI7aOM3jb09KqfgOfYlrQzC
+ OMH7XBzDueMA+A8vQOvgxwRXY5BSW30=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-513-957IcdytNSmYhtzcJ_wsyA-1; Mon, 18 Jan 2021 09:23:07 -0500
-X-MC-Unique: 957IcdytNSmYhtzcJ_wsyA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-35-VcufSRCKNFO2L0PP8UOA0A-1; Mon, 18 Jan 2021 09:27:31 -0500
+X-MC-Unique: VcufSRCKNFO2L0PP8UOA0A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5BE3B801817;
- Mon, 18 Jan 2021 14:23:06 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-112-20.ams2.redhat.com [10.36.112.20])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8373660CC4;
- Mon, 18 Jan 2021 14:23:05 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] 9pfs: Improve unreclaim loop
-Date: Mon, 18 Jan 2021 15:23:00 +0100
-Message-Id: <20210118142300.801516-4-groug@kaod.org>
-In-Reply-To: <20210118142300.801516-1-groug@kaod.org>
-References: <20210118142300.801516-1-groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1CEC7800D62;
+ Mon, 18 Jan 2021 14:27:30 +0000 (UTC)
+Received: from redhat.com (ovpn-116-34.ams2.redhat.com [10.36.116.34])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A0FA35D9D2;
+ Mon, 18 Jan 2021 14:27:24 +0000 (UTC)
+Date: Mon, 18 Jan 2021 14:27:21 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Zihao Chang <changzihao1@huawei.com>
+Subject: Re: [PATCH v2 2/2] vnc: add qmp to support reload vnc tls certificates
+Message-ID: <20210118142721.GB1799018@redhat.com>
+References: <20210107143032.752-1-changzihao1@huawei.com>
+ <20210107143032.752-3-changzihao1@huawei.com>
+ <87turil3s2.fsf@dusky.pond.sub.org>
+ <20210115134710.GH1692978@redhat.com>
+ <64ce816e-017f-1613-9001-a8cd968a9ec9@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <64ce816e-017f-1613-9001-a8cd968a9ec9@huawei.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,112 +85,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: oscar.zhangbo@huawei.com, kraxel@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, xiexiangyou@huawei.com,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a fid was actually re-open by v9fs_reopen_fid(), we re-traverse the
-fid list from the head in case some other request created a fid that
-needs to be marked unreclaimable as well (ie. the client open a new
-handle on the path that is being unlinked). This is a suboptimal since
-most if not all fids that require it have likely been taken care of
-already.
+On Mon, Jan 18, 2021 at 03:27:33PM +0800, Zihao Chang wrote:
+> 
+> 
+> On 2021/1/15 21:47, Daniel P. Berrangé wrote:
+> > On Fri, Jan 15, 2021 at 02:37:33PM +0100, Markus Armbruster wrote:
+> >> Zihao Chang <changzihao1@huawei.com> writes:
+> >>
+> >>> QEMU loads vnc tls certificates only when vm is started. This patch
+> >>> provides a new qmp to reload vnc tls certificates without restart
+> >>> vnc-server/VM.
+> >>> {"execute": "reload-vnc-cert"}
+> >>>
+> >>> Signed-off-by: Zihao Chang <changzihao1@huawei.com>
+> >>> ---
+> >>>  include/ui/console.h |  1 +
+> >>>  monitor/qmp-cmds.c   |  5 +++++
+> >>>  qapi/ui.json         | 18 ++++++++++++++++++
+> >>>  ui/vnc.c             | 24 ++++++++++++++++++++++++
+> >>>  4 files changed, 48 insertions(+)
+> >>>
+> >>> diff --git a/include/ui/console.h b/include/ui/console.h
+> >>> index 5dd21976a3..60a24a8bb5 100644
+> >>> --- a/include/ui/console.h
+> >>> +++ b/include/ui/console.h
+> >>> @@ -441,6 +441,7 @@ int vnc_display_password(const char *id, const char *password);
+> >>>  int vnc_display_pw_expire(const char *id, time_t expires);
+> >>>  QemuOpts *vnc_parse(const char *str, Error **errp);
+> >>>  int vnc_init_func(void *opaque, QemuOpts *opts, Error **errp);
+> >>> +void vnc_display_reload_cert(const char *id,  Error **errp);
+> >>
+> >> Make this return bool, please.
+> >>
+> I will fix this in the next version.
+> Thank your for your reviews.
+> 
+> >> error.h's big comment:
+> >>
+> >>  * = Rules =
+> >>  *
+> >>  * - Functions that use Error to report errors have an Error **errp
+> >>  *   parameter.  It should be the last parameter, except for functions
+> >>  *   taking variable arguments.
+> >>  *
+> >>  * - You may pass NULL to not receive the error, &error_abort to abort
+> >>  *   on error, &error_fatal to exit(1) on error, or a pointer to a
+> >>  *   variable containing NULL to receive the error.
+> >>  *
+> >>  * - Separation of concerns: the function is responsible for detecting
+> >>  *   errors and failing cleanly; handling the error is its caller's
+> >>  *   job.  Since the value of @errp is about handling the error, the
+> >>  *   function should not examine it.
+> >>  *
+> >>  * - The function may pass @errp to functions it calls to pass on
+> >>  *   their errors to its caller.  If it dereferences @errp to check
+> >>  *   for errors, it must use ERRP_GUARD().
+> >>  *
+> >>  * - On success, the function should not touch *errp.  On failure, it
+> >>  *   should set a new error, e.g. with error_setg(errp, ...), or
+> >>  *   propagate an existing one, e.g. with error_propagate(errp, ...).
+> >>  *
+> >>  * - Whenever practical, also return a value that indicates success /
+> >>  *   failure.  This can make the error checking more concise, and can
+> >>  *   avoid useless error object creation and destruction.  Note that
+> >>  *   we still have many functions returning void.  We recommend
+> >>  *   • bool-valued functions return true on success / false on failure,
+> >>  *   • pointer-valued functions return non-null / null pointer, and
+> >>  *   • integer-valued functions return non-negative / negative.
+> >>
+> >>>  
+> >>>  /* input.c */
+> >>>  int index_from_key(const char *key, size_t key_length);
+> >>> diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+> >>> index 34f7e75b7b..84f2b74ea8 100644
+> >>> --- a/monitor/qmp-cmds.c
+> >>> +++ b/monitor/qmp-cmds.c
+> >>> @@ -287,6 +287,11 @@ static void qmp_change_vnc(const char *target, bool has_arg, const char *arg,
+> >>>          qmp_change_vnc_listen(target, errp);
+> >>>      }
+> >>>  }
+> >>> +
+> >>> +void qmp_reload_vnc_cert(Error **errp)
+> >>> +{
+> >>> +    vnc_display_reload_cert(NULL, errp);
+> >>> +}
+> >>>  #endif /* !CONFIG_VNC */
+> >>>  
+> >>>  void qmp_change(const char *device, const char *target,
+> >>> diff --git a/qapi/ui.json b/qapi/ui.json
+> >>> index d08d72b439..855b1ac007 100644
+> >>> --- a/qapi/ui.json
+> >>> +++ b/qapi/ui.json
+> >>> @@ -1179,3 +1179,21 @@
+> >>>  ##
+> >>>  { 'command': 'query-display-options',
+> >>>    'returns': 'DisplayOptions' }
+> >>> +
+> >>> +##
+> >>> +# @reload-vnc-cert:
+> >>> +#
+> >>> +# Reload certificates for vnc.
+> >>> +#
+> >>> +# Returns: nothing
+> >>> +#
+> >>> +# Since: 5.2
+> >>
+> >> 6.0 now.
+> >>
+> >>> +#
+> >>> +# Example:
+> >>> +#
+> >>> +# -> { "execute": "reload-vnc-cert" }
+> >>> +# <- { "return": {} }
+> >>> +#
+> >>> +##
+> >>> +{ 'command': 'reload-vnc-cert',
+> >>> +  'if': 'defined(CONFIG_VNC)' }
+> >>
+> >> Daniel's objection to another patch that adds a rather specialized QMP
+> >> command may apply: "I'm not a fan of adding adhoc new commands for
+> >> specific properties."
+> >>
+> >>     From: Daniel P. Berrangé <berrange@redhat.com>
+> >>     Subject: Re: [PATCH] vnc: add qmp to support change authz
+> >>     Message-ID: <20210107161830.GE1029501@redhat.com>
+> > 
+> > Yeah, though this scenario is a ittle more complicated. Tihs patch is
+> > not actually changing any object properties in the VNC server config.
+> > It is simply telling the VNC server to reload the existing object it
+> > has configured.
+> > 
+> > My proposed  "display-update" command would not directly map to what
+> > this "reload-vnc-cert" command does, unless we declared the certs are
+> > always reloaded after every display-update command.
+> > 
+> > Or we could have a more generic  "display-reload" command, which has
+> > fields indicating what aspect to reload. eg a 'tls-certs: bool' field
+> > to indicate reload of TLS certs in the display. This could be useful
+> > if we wanted the ability to reload authz access control lists, though
+> > we did actually wire them up to auto-reload using inotify.
+> > 
+> > 
+> > Regards,
+> > Daniel
+> > 
+> 
+> If we add field for each reloadable attribute(tls-certs, authz,...),
+> the number of parameters for qmp_display_reload() may increase sharply
+> (bool has_tls_certs, bool tls_certs, ... twice the number of attributes).
 
-This is mostly the result of new fids being added to the head of the
-list. Since the list is now a QSIMPLEQ, add new fids at the end instead.
-Take a reference on the fid to ensure it doesn't go away during
-v9fs_reopen_fid() and that it can be safely passed to QSIMPLEQ_NEXT()
-afterwards. Since the associated put_fid() can also yield, same is done
-with the next fid. So the logic here is to get a reference on a fid and
-only put it back during the next iteration after we could get a reference
-on the next fid.
+There's a fairly limited conceptual set of VNC features which are going
+to require a reload operation, so I don't think it'll grow too unreasonably
+large.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/9pfs/9p.c | 44 ++++++++++++++++++++++++++++++--------------
- 1 file changed, 30 insertions(+), 14 deletions(-)
+> How about using a list[] to determine which attributes need to be
+> reloaded["tls_certs", "authz*"...], and define an enum to ensure the
+> validity of list elements.
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index b65f320e6518..b0ab5cf61c1f 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -311,7 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t fi=
-d)
-      * reclaim won't close the file descriptor
-      */
-     f->flags |=3D FID_REFERENCED;
--    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
-+    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
-=20
-     v9fs_readdir_init(s->proto_version, &f->fs.dir);
-     v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-@@ -497,32 +497,48 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fs=
-PDU *pdu, V9fsPath *path)
- {
-     int err;
-     V9fsState *s =3D pdu->s;
--    V9fsFidState *fidp;
-+    V9fsFidState *fidp, *fidp_next;
-=20
--again:
--    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
--        if (fidp->path.size !=3D path->size) {
--            continue;
--        }
--        if (!memcmp(fidp->path.data, path->data, path->size)) {
-+    fidp =3D QSIMPLEQ_FIRST(&s->fid_list);
-+    assert(fidp);
-+
-+    /*
-+     * v9fs_reopen_fid() can yield : a reference on the fid must be held
-+     * to ensure its pointer remains valid and we can safely pass it to
-+     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
-+     * we must keep a reference on the next fid as well. So the logic here
-+     * is to get a reference on a fid and only put it back during the next
-+     * iteration after we could get a reference on the next fid. Start wit=
-h
-+     * the first one.
-+     */
-+    for (fidp->ref++; fidp; fidp =3D fidp_next) {
-+        if (fidp->path.size =3D=3D path->size &&
-+            !memcmp(fidp->path.data, path->data, path->size)) {
-             /* Mark the fid non reclaimable. */
-             fidp->flags |=3D FID_NON_RECLAIMABLE;
-=20
-             /* reopen the file/dir if already closed */
-             err =3D v9fs_reopen_fid(pdu, fidp);
-             if (err < 0) {
-+                put_fid(pdu, fidp);
-                 return err;
-             }
-+        }
-+
-+        fidp_next =3D QSIMPLEQ_NEXT(fidp, next);
-+
-+        if (fidp_next) {
-             /*
--             * Go back to head of fid list because
--             * the list could have got updated when
--             * switched to the worker thread
-+             * Ensure the next fid survives a potential clunk request duri=
-ng
-+             * put_fid() below and v9fs_reopen_fid() in the next iteration=
-.
-              */
--            if (err =3D=3D 0) {
--                goto again;
--            }
-+            fidp_next->ref++;
-         }
-+
-+        /* We're done with this fid */
-+        put_fid(pdu, fidp);
-     }
-+
-     return 0;
- }
-=20
---=20
-2.26.2
+The enum is simple, but if we require data to be provided fr the
+reload operation, instead of a simple boolean, then it gets a bit
+more limiting.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
