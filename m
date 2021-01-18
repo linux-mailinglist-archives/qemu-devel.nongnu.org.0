@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2BA02F9A1B
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:48:09 +0100 (CET)
-Received: from localhost ([::1]:39676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ACE62F9A1A
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 07:47:56 +0100 (CET)
+Received: from localhost ([::1]:38384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1OKe-0005gB-J2
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:48:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33626)
+	id 1l1OKR-00052e-DX
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 01:47:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l1OBY-0002dk-NM; Mon, 18 Jan 2021 01:38:46 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:46713)
+ id 1l1OBa-0002eJ-LZ; Mon, 18 Jan 2021 01:38:46 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:51553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l1OBW-0007M3-H0; Mon, 18 Jan 2021 01:38:43 -0500
+ id 1l1OBX-0007NP-6z; Mon, 18 Jan 2021 01:38:45 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 2B9C51685;
- Mon, 18 Jan 2021 01:38:33 -0500 (EST)
+ by mailnew.west.internal (Postfix) with ESMTP id 3266D1679;
+ Mon, 18 Jan 2021 01:38:40 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute6.internal (MEProxy); Mon, 18 Jan 2021 01:38:34 -0500
+ by compute6.internal (MEProxy); Mon, 18 Jan 2021 01:38:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm1; bh=QGrARgnGjyQp2
- jNKv2fGZ+QG4BVHaGI9+gDNhbCJcKg=; b=o7Fy4nhxcw4xN5PZKm8cN4H3XurBl
- tCGyBmihky5l0w+LFsX1+Jc9M1PGTu8j6y+4+oC76ZbLNU+JMZ3FYzH0sOFADo2g
- H6oPmKakCTYJfaYLwRq+7NRtDyHqMrKrYofEizIjxcbJgAnHrnDL78B9Vyk4/Yc/
- GUcV7LSZAC+8BqRxRSGSxsUB64wopm47bE8mROx+yFEpwmdj3iq7FUwKydFCwEbC
- VSDDuS8Cn0rUnByLxb693Nz/DYcueDFS3IwQztRFECfxba+pYSwX4XrDlpXaczLH
- u3ew8RpiXSWNJPXpohCkOWh2R99IftoJLGNw2YE/xv4kjcvU1GznXflJQ==
+ :mime-version:content-transfer-encoding; s=fm1; bh=m0nUlI5kVEPZD
+ 2X5aInSXbR27bFcE8kwt/2olAPs5Ys=; b=OOweqU4vom2803WNTu/dQXB7Jh9xS
+ DKVoe5QTQGemUEAc878M/+ilrlyuZZBPE5JkQcxgQlUjj5gfFt0DZjZne7wGuZX/
+ ZyEs0Mj6aaO53K3H2wk4DesAlk1gI49SckxDdymMA3tBoe+FVMleO4gEGRExX8WW
+ 5sBjS+1a0E9IZA1xcY5s2E+jbPqczL8J9TMPYe1U0LVRi8Z9IGafQ6HUSdtL22LN
+ 8xgr71r8eWEkPE79vHX6VHhbgLTqbC/Q4Z1iYa6RghLWizxcdcQZETJV3RcECi45
+ AKTkUdEb2kZu7RGiNqr3OLME42QFSImfjwXQ8P82+1l1qNlr0CuO1uT2w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=QGrARgnGjyQp2jNKv2fGZ+QG4BVHaGI9+gDNhbCJcKg=; b=X6XbjIn8
- zzdxIaqWfegBBZYfl6zD/hyXx2JSH7sTD6Q+X62XcXeo6F01kR3gGQBc/yICbUiK
- lvwDSkkltphdo99qAvBnOo5RUeH1K1Sgg2C2bfbfEk8/cKk8I2d2Bw/OhOrOpyib
- JvJfdH1zuqbOOK0RdvGHtBoQ2IoJEel0/bu6UQpAT2esDPFeB2whE9XypZg495ka
- qFI4293EM8cob5t7SppXT2At6cpgfEOzWtPAh+HI4A7nSmumFIhHUayiWo6G4qax
- gD1ab1h/TIlndukNnl5Rlxp1mv6bqbze6ahhe/qm56RYHrteXbVuxgUrd+RJewLU
- 9bcQ6Q0an/KLzg==
-X-ME-Sender: <xms:6CwFYP-w4-dPfBc-cVehW3sm4oLLixI_nRq-AOND8QR_A85uYw6N5A>
- <xme:6CwFYLuSAeIggOABQEY9oRFIJll33NkIH6jvw6eLgTViulrEPpFq_WomFJsBzNqeh
- xzP068mYcxztsca-i8>
+ fm1; bh=m0nUlI5kVEPZD2X5aInSXbR27bFcE8kwt/2olAPs5Ys=; b=OQB73Un0
+ 8ip0HFvMF1jTys7cMYkzLmxveWgnHDb9mBOTm2Zbthc7BmXSxWPKPsGfKmBk8Sxx
+ V2wqsggWR5pvcUbVA5QdpvC4iVZa/OfmGdxonOXR7F2Z9pAVs5bBYfLa/C8NXplm
+ j+KOFMA+NTdBafraTNDBKJURjdAr2q5l2Rbn/UggsYO3gKxPOfYiuHRF2ZR4vgMZ
+ 7z/olhrUpyFEF/khlR6qK9GslvB8a0K5F531+sw4zYLBXXULPv3GOygys2wN/nPH
+ +dF6U4MVuJy4qVFI4bjY5+GcMWNMK2JsNFzjJ0e7Hlm1Mdj5upBCGaqNcsCQIqtj
+ VhFkrEFqOUGoUg==
+X-ME-Sender: <xms:7ywFYJYovDqfKjCbe0MH27opjT16f3DG6PsK2v58unrDMRAEjqIOGg>
+ <xme:7ywFYAYo0tS69nSegiteRXolUc4L3nikFp0wf8nY5WALEL2Fc6pl_RA1rK0zFa0hu
+ mQn0CR10hz0nvJ7_LE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdeliecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -52,20 +52,20 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdejgdeliecutefuodetggdote
  ucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtf
  frrghtthgvrhhnpeejiefhgfetleekleffudektdehvedujedvgeekkeejfefhhffhtedu
  tefgtdffueenucfkphepudduiedrvddvkedrkeegrddvnecuvehluhhsthgvrhfuihiivg
- epudenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihg
+ epvdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihg
  ohgrthdrtghomh
-X-ME-Proxy: <xmx:6CwFYNDTQwq9Zs9N_3Yv3rHusAxpcEDmcLVPGBu1PQcl5JLtTuySfg>
- <xmx:6CwFYLd70TegUCpygJnNxcFqhmfax7lR3TTzYncbrsKOFd-Wqu3LKA>
- <xmx:6CwFYEPbT_SAHAScLOmEebxNq6_typYJd89E0o3hzMr82x7U8bJVNA>
- <xmx:6CwFYJst-9J-s9Y--ZYOxuSv4lUzyNFjaU1wnfjVrK6wDS53JPB1wYm918l93KR3>
+X-ME-Proxy: <xmx:7ywFYL_GWH43qw8iTJ0_JW0Q_WV37tUud1Hr3ZoBcz-p4eL8--59dA>
+ <xmx:7ywFYHqlU63ixWF0CNXNBInOlIiU2_xDhtboUSL_Q2KXkvvEaKLSXg>
+ <xmx:7ywFYErVBIjFII8aAtkNR8ub-oAa-AWxLAsR0xdnskm4bZmFwIBmcg>
+ <xmx:7ywFYP_uSBt_dV-mftACShn8aGSFQae9Fi6lrONARZSTZsRt7qVrLtqI6625Ik5V>
 Received: from strike.U-LINK.com (unknown [116.228.84.2])
- by mail.messagingengine.com (Postfix) with ESMTPA id 1E11D24005B;
- Mon, 18 Jan 2021 01:38:26 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id D126224005C;
+ Mon, 18 Jan 2021 01:38:32 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/9] libvhost-user: Include poll.h instead of sys/poll.h
-Date: Mon, 18 Jan 2021 14:38:01 +0800
-Message-Id: <20210118063808.12471-3-jiaxun.yang@flygoat.com>
+Subject: [PATCH v2 3/9] osdep.h: Remove <sys/signal.h> include
+Date: Mon, 18 Jan 2021 14:38:02 +0800
+Message-Id: <20210118063808.12471-4-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
 References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
@@ -99,41 +99,69 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
  Alistair Francis <alistair@alistair23.me>, Greg Kurz <groug@kaod.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, Michael Forney <mforney@mforney.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-block@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Musl libc complains about it's wrong usage.
+From: Michael Forney <mforney@mforney.org>
 
-In file included from ../subprojects/libvhost-user/libvhost-user.h:20,
-                 from ../subprojects/libvhost-user/libvhost-user-glib.h:19,
-                 from ../subprojects/libvhost-user/libvhost-user-glib.c:15:
-/usr/include/sys/poll.h:1:2: error: #warning redirecting incorrect #include <sys/poll.h> to <poll.h> [-Werror=cpp]
-    1 | #warning redirecting incorrect #include <sys/poll.h> to <poll.h>
-      |  ^~~~~~~
+Prior to 2a4b472c3c, sys/signal.h was only included on OpenBSD
+(apart from two .c files). The POSIX standard location for this
+header is just <signal.h> and in fact, OpenBSD's signal.h includes
+sys/signal.h itself.
 
+Unconditionally including <sys/signal.h> on musl causes warnings
+for just about every source file:
+
+  /usr/include/sys/signal.h:1:2: warning: #warning redirecting incorrect #include <sys/signal.h> to <signal.h> [-Wcpp]
+      1 | #warning redirecting incorrect #include <sys/signal.h> to <signal.h>
+        |  ^~~~~~~
+
+Since there don't seem to be any platforms which require including
+<sys/signal.h> in addition to <signal.h>, and some platforms like
+Haiku lack it completely, just remove it.
+
+Tested building on OpenBSD after removing this include.
+
+Signed-off-by: Michael Forney <mforney@mforney.org>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+[jiaxun.yang@flygoat.com: Move to meson]
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- subprojects/libvhost-user/libvhost-user.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meson.build          | 1 -
+ include/qemu/osdep.h | 4 ----
+ 2 files changed, 5 deletions(-)
 
-diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
-index 7d47f1364a..3d13dfadde 100644
---- a/subprojects/libvhost-user/libvhost-user.h
-+++ b/subprojects/libvhost-user/libvhost-user.h
-@@ -17,7 +17,7 @@
- #include <stdint.h>
- #include <stdbool.h>
- #include <stddef.h>
--#include <sys/poll.h>
-+#include <poll.h>
- #include <linux/vhost.h>
- #include <pthread.h>
- #include "standard-headers/linux/virtio_ring.h"
+diff --git a/meson.build b/meson.build
+index 3d889857a0..af2bc89741 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1113,7 +1113,6 @@ config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
+ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+-config_host_data.set('HAVE_SYS_SIGNAL_H', cc.has_header('sys/signal.h'))
+ 
+ ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index f9ec8c84e9..a434382c58 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -104,10 +104,6 @@ extern int daemon(int, int);
+ #include <setjmp.h>
+ #include <signal.h>
+ 
+-#ifdef HAVE_SYS_SIGNAL_H
+-#include <sys/signal.h>
+-#endif
+-
+ #ifndef _WIN32
+ #include <sys/wait.h>
+ #else
 -- 
 2.30.0
 
