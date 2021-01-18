@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 916FE2F9C50
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:28:32 +0100 (CET)
-Received: from localhost ([::1]:56566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D01932F9C57
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 11:30:45 +0100 (CET)
+Received: from localhost ([::1]:59482 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1Rlv-00054I-Kj
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:28:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37004)
+	id 1l1Ro4-0006I2-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 05:30:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1Rkl-0004RU-Ca
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:27:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31078)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1Rkf-0002vF-Ms
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:27:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610965632;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dK1pllbttz9UTn7bxMjY34vsHeiPV+rmtvknraDAfqk=;
- b=K/bSdUKkViPajtLmWdyJt806ffcwIfSAEk6C+W5RBtjmYVElBD9Vau8h1spUV8w1iuaLQE
- I0UGjY4hZtlJZiTkZShbscPh+UGvc7JMm7oNX9TqAenTh+DIE5oMASWRa10lCbfsYJgF1y
- Z1GHVxiOeKQWtdX/6zja2o/RUzMnvT0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-156-rtrqrU7KM9mAYAxSt5CvWQ-1; Mon, 18 Jan 2021 05:27:10 -0500
-X-MC-Unique: rtrqrU7KM9mAYAxSt5CvWQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4CAE10054FF;
- Mon, 18 Jan 2021 10:27:08 +0000 (UTC)
-Received: from redhat.com (ovpn-116-34.ams2.redhat.com [10.36.116.34])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B658071C99;
- Mon, 18 Jan 2021 10:27:01 +0000 (UTC)
-Date: Mon, 18 Jan 2021 10:26:58 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 9/9] gitlab-ci: Add alpine to pipeline
-Message-ID: <20210118102658.GD1789637@redhat.com>
-References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
- <20210118063808.12471-10-jiaxun.yang@flygoat.com>
- <20210118101159.GC1789637@redhat.com>
- <94f9255b-59eb-3e1f-0691-c24751d04700@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1Rlq-0005Lb-R1
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:28:26 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46007)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1Rlp-0003VX-2z
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 05:28:26 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ke15so15261044ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 02:28:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=anmpIy4OMJTSHDCibpZzaSLjB1mwo9F96ST2lPZACkc=;
+ b=eItk3JK8q8IAdDlJbtNRrfgC4BuTJZW+OMjwSgDHfu3VpFl5rvGRBxA4VpZAKs8zgW
+ 0jv5Yz2h5pAmX1CROoDF4sVdvtDLr/OeLXglxhe7suvPSWb7x1UBWjH3cnhGIdhwMJX6
+ u7okasbLogqpgn2Viw+Lp3S+E3k04VlsJhZl4yJ5Fs/kZd7pTr9Qv+JJkWjd4ARRhY0r
+ AkRCVxlR40G1GhdgggPUK8NiFHo9dMwvf8CiO+QsprJn3UehenbU5M4q45uW8UMI+1xq
+ 6bGHjCOzSkExE/M1WU2pi38tn1mAW5vmWwlqaoktPRKKFKVOaT4ynKIilwtTRwwZs/i9
+ QEAQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=anmpIy4OMJTSHDCibpZzaSLjB1mwo9F96ST2lPZACkc=;
+ b=H0QZDjPt6GPnOZ84PHXJY3sMLx9cxWSy25CECxPRWinyqvjvhV8TYUZTyv4rNmARzP
+ Dt8PB9uwcT85xu57crsM6X3Khhl37CU0x0MeacZEzNc9pUX0KiatnzCEDA5GWR5xykKD
+ fcgqqZa17wa8qtKuGbOqSB+buEBDBo19U7Q100yKGgS3KoqFS9aoD+lsVnVhZ3606XiB
+ 95j6jQ7KM3TNrZfcTs8Tiq3zSlIya3bxxx7+TBACwLMiu6YxsTETJFnxA5uchv5bn3wC
+ VcrGd27crmBqi42LGgaMWhFM6qb2oFZV94Ol5UC/N1gIKFdMgj9LnjDDIiHEUME+o+iH
+ Q+QQ==
+X-Gm-Message-State: AOAM531oZy0uXJOU4/NURWQzU1DaT7VcznVzQTZdPgGrwkrzeV4UXcw7
+ zRWvECoYL+ZSRC3Eq6dSePlkz+RyRPd/Oqg1Dw+0YQ==
+X-Google-Smtp-Source: ABdhPJxQNCyMjuv0Nn2UUIjXSja9pHepDHquKmMGd1XtGXeTZ6n74SJrRD52Ry6Qf7auHzNjqvmpX5Ds4R2yJaFpPIA=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr4331006ejd.250.1610965703030; 
+ Mon, 18 Jan 2021 02:28:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <94f9255b-59eb-3e1f-0691-c24751d04700@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210117114519.539647-1-mst@redhat.com>
+In-Reply-To: <20210117114519.539647-1-mst@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 18 Jan 2021 10:28:12 +0000
+Message-ID: <CAFEAcA8As41j8qK2W=-uOvP2+dwTi7YxeqbQ=Kn3_3ZhAGd5sg@mail.gmail.com>
+Subject: Re: [PULL 00/10] pc,pci,virtio: fixes, features
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,47 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- qemu-block@nongnu.org, Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 18, 2021 at 11:22:47AM +0100, Thomas Huth wrote:
-> On 18/01/2021 11.11, Daniel P. Berrangé wrote:
-> > On Mon, Jan 18, 2021 at 02:38:08PM +0800, Jiaxun Yang wrote:
-> > > We only run build test and check-acceptance as their are too many
-> > > failures in checks due to minor string mismatch.
-> > 
-> > Can you give real examples of what's broken here, as that sounds
-> > rather suspicious, and I'm not convinced it should be ignored.
-> 
-> I haven't tried, but I guess it's the "check-block" iotests that are likely
-> failing with a different libc, since they do string comparison on the
-> textual output of the tests. If that's the case, it would maybe be still ok
-> to run "check-qtest" and "check-union" on Alpine instead of the whole
-> "check" test suite.
+On Sun, 17 Jan 2021 at 11:46, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> The following changes since commit f8e1d8852e393b3fd524fb005e38590063d99bc0:
+>
+>   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210112-1' into staging (2021-01-12 21:23:25 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>
+> for you to fetch changes up to ccee1a8140211c569156ae649474cc520eb2a36b:
+>
+>   acpi: Update _DSM method in expected files (2021-01-17 06:42:54 -0500)
+>
+> ----------------------------------------------------------------
+> pc,pci,virtio: fixes, features
+>
+> Fixes all over the place.
+> PXB support for ARM.
+> boot index for vhost-user-fs.
+>
+> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>
 
-Perhaps errno strings are different due to libc hitting block tests. I
-would expect this to be explained in the commit message though with
-example, so we have a clear record of why we needed to disable this.
+Applied, thanks.
 
-It might indicate a need to change our test suite to be more robust
-in this area, because that would also suggest the tests might fail
-on  non-Linux.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+-- PMM
 
