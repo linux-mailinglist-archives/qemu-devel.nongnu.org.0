@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5423B2FA6C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:54:28 +0100 (CET)
-Received: from localhost ([::1]:46852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962CA2FA662
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 17:39:01 +0100 (CET)
+Received: from localhost ([::1]:45488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1XnP-0003Sw-CJ
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:54:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34828)
+	id 1l1XYS-0006aB-MZ
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 11:39:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRD-0002Hg-Bd
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59376)
+ id 1l1XRH-0002LX-Qe
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:42253)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1XRA-0001SY-NA
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:31 -0500
+ id 1l1XRE-0001UN-HR
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 11:31:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1610987487;
+ s=mimecast20190719; t=1610987492;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=w/ft4yHW6Gu6rk+/3kyhPjUQ5KEBud0S4dG0X/WbxI0=;
- b=KLzpRL6Nsog/YTphToc9CXKLkfuKgbv7AABhfFElrzjdSp27ZFoIbmFd17szVLG84oA4Ls
- nulGhWy6JA3IqC7cxuXi5zzi3p5DyHPVV/i6uDlRRvNnX5tmuYT+cuZJ4HaoM8k0NTPWJm
- rorZGzglYFprkmhPGyaw7zxgfizi2hc=
+ bh=TEAlKqwM+60ep7QN+s9ZMLJy18GtUzwQAfwiX+zsRjs=;
+ b=JSlm6TQvy2Aqc2vWoZ1giPKHvW7MuI+iU8UCGjS34Ot4rnAiOlBUhmynVPH4iGDb2EF4dT
+ 03UtBUjH/P+m/DpoNHTcyaQU1hrQr01u150CZY09ncV2N1Y7TR5pcsPl2YJwnR9EdkISLt
+ al5J9Gor3vHqm7VdFOzq9B6MRnprdIo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-06TKiUWDO0u0XA_5leS1Uw-1; Mon, 18 Jan 2021 11:31:23 -0500
-X-MC-Unique: 06TKiUWDO0u0XA_5leS1Uw-1
+ us-mta-6-KM21l27fPTyUahEtnicPCg-1; Mon, 18 Jan 2021 11:31:30 -0500
+X-MC-Unique: KM21l27fPTyUahEtnicPCg-1
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
  [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC401EC1A4
- for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29D398066E8
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 16:31:29 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 58BE817B0B;
- Mon, 18 Jan 2021 16:31:22 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A651517B0B;
+ Mon, 18 Jan 2021 16:31:28 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 05/25] keyval: simplify keyval_parse_one
-Date: Mon, 18 Jan 2021 11:30:53 -0500
-Message-Id: <20210118163113.780171-6-pbonzini@redhat.com>
+Subject: [PATCH 07/25] keyval: introduce keyval_parse_into
+Date: Mon, 18 Jan 2021 11:30:55 -0500
+Message-Id: <20210118163113.780171-8-pbonzini@redhat.com>
 In-Reply-To: <20210118163113.780171-1-pbonzini@redhat.com>
 References: <20210118163113.780171-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -83,115 +83,101 @@ Cc: kwolf@redhat.com, imammedo@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the key is NULL terminated, we can remove some of the contortions
-that were done to operate on possibly '='-terminated strings in
-keyval_parse_one.
+Allow parsing multiple keyval sequences into the same dictionary.
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/keyval.c | 27 ++++++++++-----------------
- 1 file changed, 10 insertions(+), 17 deletions(-)
+ include/qemu/option.h |  2 ++
+ util/keyval.c         | 39 ++++++++++++++++++++++++++++++++-------
+ 2 files changed, 34 insertions(+), 7 deletions(-)
 
+diff --git a/include/qemu/option.h b/include/qemu/option.h
+index f73e0dc7d9..092e291c37 100644
+--- a/include/qemu/option.h
++++ b/include/qemu/option.h
+@@ -147,6 +147,8 @@ void qemu_opts_print_help(QemuOptsList *list, bool print_caption);
+ void qemu_opts_free(QemuOptsList *list);
+ QemuOptsList *qemu_opts_append(QemuOptsList *dst, QemuOptsList *list);
+ 
++QDict *keyval_parse_into(QDict *qdict, const char *params, const char *implied_key,
++                         bool *p_help, Error **errp);
+ QDict *keyval_parse(const char *params, const char *implied_key,
+                     bool *help, Error **errp);
+ 
 diff --git a/util/keyval.c b/util/keyval.c
-index eb9b9c55ec..e7f708cd1e 100644
+index e7f708cd1e..1d4ca12129 100644
 --- a/util/keyval.c
 +++ b/util/keyval.c
-@@ -170,11 +170,10 @@ static QObject *keyval_parse_put(QDict *cur,
+@@ -436,13 +436,12 @@ static QObject *keyval_listify(QDict *cur, GSList *key_of_cur, Error **errp)
+  * If @p_help is not NULL, store whether help is requested there.
+  * If @p_help is NULL and help is requested, fail.
   *
-  * On return:
-  * - either NUL or the separator (comma or equal sign) is returned.
-- * - the length of the string is stored in @len.
-  * - @start is advanced to either the NUL or the first character past the
-  *   separator.
+- * On success, return a dictionary of the parsed keys and values.
++ * On success, return @dict, now filled with the parsed keys and values.
+  * On failure, store an error through @errp and return NULL.
   */
--static char keyval_fetch_string(char **start, size_t *len, bool key)
-+static char keyval_fetch_string(char **start, bool key)
+-QDict *keyval_parse(const char *params, const char *implied_key,
+-                    bool *p_help, Error **errp)
++QDict *keyval_parse_into(QDict *qdict, const char *params, const char *implied_key,
++                         bool *p_help, Error **errp)
  {
-     char sep;
-     char *p, *unescaped;
-@@ -197,7 +196,6 @@ static char keyval_fetch_string(char **start, size_t *len, bool key)
-     }
- 
-     *unescaped = 0;
--    *len = unescaped - *start;
-     *start = p;
-     return sep;
- }
-@@ -219,7 +217,7 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-                               const char *implied_key, bool *help,
-                               Error **errp)
- {
--    const char *key, *key_end, *s, *end;
-+    const char *key, *s, *end;
-     const char *val = NULL;
-     char sep;
-     size_t len;
-@@ -229,8 +227,8 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-     QObject *next;
- 
-     key = params;
--    sep = keyval_fetch_string(&params, &len, true);
--    if (!len) {
-+    sep = keyval_fetch_string(&params, true);
-+    if (!*key) {
-         if (sep) {
-             error_setg(errp, "Expected parameter before '%c%s'", sep, params);
-         } else {
-@@ -247,13 +245,11 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-             /* Desugar implied key */
-             val = key;
-             key = implied_key;
--            len = strlen(implied_key);
-         } else {
-             error_setg(errp, "No implicit parameter name for value '%s'", key);
+-    QDict *qdict = qdict_new();
+     QObject *listified;
+     g_autofree char *dup;
+     char *s;
+@@ -452,7 +451,6 @@ QDict *keyval_parse(const char *params, const char *implied_key,
+     while (*s) {
+         s = keyval_parse_one(qdict, s, implied_key, &help, errp);
+         if (!s) {
+-            qobject_unref(qdict);
              return NULL;
          }
-     }
--    key_end = key + len;
- 
-     /*
-      * Loop over key fragments: @s points to current fragment, it
-@@ -269,24 +265,21 @@ static char *keyval_parse_one(QDict *qdict, char *params,
-             ret = parse_qapi_name(s, false);
-             len = ret < 0 ? 0 : ret;
-         }
--        assert(s + len <= key_end);
--        if (!len || (s + len < key_end && s[len] != '.')) {
-+        if (!len || (s[len] != '\0' && s[len] != '.')) {
-             assert(key != implied_key);
--            error_setg(errp, "Invalid parameter '%.*s'",
--                       (int)(key_end - key), key);
-+            error_setg(errp, "Invalid parameter '%s'", key);
-             return NULL;
-         }
-         if (len >= sizeof(key_in_cur)) {
-             assert(key != implied_key);
-             error_setg(errp, "Parameter%s '%.*s' is too long",
--                       s != key || s + len != key_end ? " fragment" : "",
-+                       s != key || s[len] == '.' ? " fragment" : "",
-                        (int)len, s);
-             return NULL;
-         }
- 
-         if (s != key) {
--            next = keyval_parse_put(cur, key_in_cur, NULL,
--                                    key, s - 1, errp);
-+            next = keyval_parse_put(cur, key_in_cur, NULL, key, s - 1, errp);
-             if (!next) {
-                 return NULL;
-             }
-@@ -301,9 +294,9 @@ static char *keyval_parse_one(QDict *qdict, char *params,
- 
-     if (key != implied_key) {
-         val = params;
--        keyval_fetch_string(&params, &len, false);
-+        keyval_fetch_string(&params, false);
-     }
--    if (!keyval_parse_put(cur, key_in_cur, val, key, key_end, errp)) {
-+    if (!keyval_parse_put(cur, key_in_cur, val, key, s - 1, errp)) {
+         implied_key = NULL;
+@@ -462,15 +460,42 @@ QDict *keyval_parse(const char *params, const char *implied_key,
+         *p_help = help;
+     } else if (help) {
+         error_setg(errp, "Help is not available for this option");
+-        qobject_unref(qdict);
          return NULL;
      }
-     return params;
+ 
+     listified = keyval_listify(qdict, NULL, errp);
+     if (!listified) {
+-        qobject_unref(qdict);
+         return NULL;
+     }
+     assert(listified == QOBJECT(qdict));
+     return qdict;
+ }
++
++/*
++ * Parse @params in QEMU's traditional KEY=VALUE,... syntax.
++ *
++ * If @implied_key, the first KEY= can be omitted.  @implied_key is
++ * implied then, and VALUE can't be empty or contain ',' or '='.
++ *
++ * A parameter "help" or "?" without a value isn't added to the
++ * resulting dictionary, but instead is interpreted as help request.
++ * All other options are parsed and returned normally so that context
++ * specific help can be printed.
++ *
++ * If @p_help is not NULL, store whether help is requested there.
++ * If @p_help is NULL and help is requested, fail.
++ *
++ * On success, return a dictionary of the parsed keys and values.
++ * On failure, store an error through @errp and return NULL.
++ */
++QDict *keyval_parse(const char *params, const char *implied_key,
++                    bool *p_help, Error **errp)
++{
++    QDict *qdict = qdict_new();
++    QDict *ret = keyval_parse_into(qdict, params, implied_key, p_help, errp);
++
++    if (!ret) {
++        qobject_unref(qdict);
++    }
++    return ret;
++}
 -- 
 2.26.2
 
