@@ -2,87 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F0682FAB79
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 21:31:14 +0100 (CET)
-Received: from localhost ([::1]:34702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC6552FAC32
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 22:05:02 +0100 (CET)
+Received: from localhost ([::1]:52632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1bB3-0000zs-KM
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 15:31:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60188)
+	id 1l1bht-0002ZS-CM
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 16:05:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39750)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1b5e-0007sv-Re; Mon, 18 Jan 2021 15:25:30 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:60315)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1b5c-000674-9P; Mon, 18 Jan 2021 15:25:30 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 1073E5C01F6;
- Mon, 18 Jan 2021 15:25:27 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 18 Jan 2021 15:25:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=i9sTf2xWdhwlMou1xdRRJQ5byPP
- 9OcLwXFagGPNT9d8=; b=3tyLE0+IGJ42JwqPGYaPKB3C2sZAVZ6DraZ0vA0vNzj
- EJIfB3VwYQYEyvG+ChQ3v5Zzf998fDnaJ0/+QpWyURHBBlODijG4EiiejopwgSMq
- ja8pei9A2wm9As/83KkhhOGacIGL87GH2Ms5+jPkkVgBF4nNGoKiIYv+9GpsVRwb
- yO80c0OB5/V55cez8FJ3aCP7AoL9bW2mswavAOP1JgGs9IJEZ/bogVIcE6BgDHfZ
- DS3kSb3tB9D/Zhsg0jSbEnEkZZZFyz6Tb5qoX5ygYYx1lIKDYbZt2WGer4gHiPDm
- 2BxXRKhkStQQM5LFs529DGsjQ3afHQ+0i3V5ljng0mQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=i9sTf2
- xWdhwlMou1xdRRJQ5byPP9OcLwXFagGPNT9d8=; b=U2h4RxW497vpDNvezMnW3d
- /PagKoeE+z0/z1TRPq9QIpgRvj2CsYaHScPnPFrNpFc+u4beVacx8a9BEu5t2VWF
- g+1Y1QDuDJnFsAfWoWFlyUX4+tggewuiTjfg7wGJLntb63sNT9tVZVRySNSDgQG6
- zko778y55IYIS4E7LJjmtgoHj4zQTbpehAPutTagIlToHhgtjm8L6wPg/dux5mLV
- 6riU7GjLSMPgMeC2N2Nm8mL6sfUrkiepunpgltEZTfKB5Rq0ljsbGnzZvq9+3aYW
- pAVrwQVTyZ4cYUoVZHXsw5S7cJvl9F18xxyfQbPCsctDIualydVQVYX6B8ZD6RGQ
- ==
-X-ME-Sender: <xms:tu4FYJWZ_bYLZPIQaDG0oC3fpuxZPrLJ9sM7otBby4sBSAgJ71sihQ>
- <xme:tu4FYJleSNUNThITjSclUcXaUMN-n7xuotKX6X3H2cZQ_kKsGVhRLBl0jXdxMY1oJ
- lmySq9bUS6Vp0UV0mY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdekgddufeekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:tu4FYFYVOq8bNgnqMul0-jmMCzu3Di7ITSZHXtc0onnkBhX6ztMi_w>
- <xmx:tu4FYMXFEU9B56usw0FnkmmOsVSmdfUrSqVvwIl1QaS9SjwQPJ8lQw>
- <xmx:tu4FYDn3HwbqksmjY1MJN2hVLw-KytCcbVhHoNHCNqQUiC1YRcByjA>
- <xmx:t-4FYMBkRg5tUfL6ir_1NZjdr7SR5vO-K8Tp0A6B3IV8VtGlnWRyiQ>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7577C24005B;
- Mon, 18 Jan 2021 15:25:25 -0500 (EST)
-Date: Mon, 18 Jan 2021 21:25:23 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [RFC PATCH V2 10/11] hw/block/nvme: add NMIC enum value for
- Identify Namespace
-Message-ID: <YAXusxmM1mUN4D7w@apples.localdomain>
-References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
- <20210117145341.23310-11-minwoo.im.dev@gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l1bg7-000270-1g
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 16:03:11 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:36332)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l1bg4-0002qF-Ag
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 16:03:10 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id l23so10667511pjg.1
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 13:03:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Gla4CH5CHtEE8ft7eGX0206Zw59earUqqgXmuUWwDI0=;
+ b=qUocEEslfMrERCDk4KcOXJiOXi3VnBbu1fpt+uKnwiFVCBtPfi0P68fVSbYHk/sjZC
+ VIobfsweDQa2yFR/84LgTCzhVw0M6cpFPqKI5Qz9yflc8DyykHJXc5nUkwKF6pGnXF8P
+ ERxBnqr5AcAxO/ZbOJW3hDrR8zQSIcGQhddT5QSB5OfsMa1CgQ92Hbt3Peh51Mn4MljS
+ pgDqg2QCrX/u6ewCuvYwQ2mKsfg9DRxjKYUt9PRRrtryKAEXQKzINASVhrZEo9lqwan8
+ 4tdjh58FQhXbppeaqi+/L4YyMH4mL/GTbrj/hrcIFjp7pOld9z4McybknCsY0KEs4UKQ
+ nn6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Gla4CH5CHtEE8ft7eGX0206Zw59earUqqgXmuUWwDI0=;
+ b=mp2Y1fMaXPFJJ8X7y2CsUNdIyX3YWLY3NR5jaVHbEjLrkx9gGCRnvAIazqbuU16PqZ
+ R+t5H4L740RtvG6QQiT3V3P0v1R4ccW11x5j/TjjoRk78y3zTJ+9HGnJ+d8oitLkBoAZ
+ yWHOycwNegBFTScvzi5WDgWQFCmD8YG5TDKZdFzSvfiwfJ1AAwo30noFSwj3r4T9kNxq
+ EJyvvfGGnvuyV4EhjbPUrHL8+jiWOwP6jVT+Qfu3rCP2rNXWaHggi2B7M2V1LeLX8xc4
+ ymwa4UDvitrxKPDGplwD2F1V+VeuUAp3P/lXvnKcp3xhfDK3KUEwdVly1HFBREP++9Y+
+ X8dQ==
+X-Gm-Message-State: AOAM532jhWkM8mWKjH0Z98K3I9F24fpkvp/sU0AJ9I9OH1jlwgUO8tfb
+ +/otmjYWrjAOPKoWFzwwXZ2TAXqtjzJWjw==
+X-Google-Smtp-Source: ABdhPJzuACoB55c6XBY+i6dJrNsH+gcGucyiNtlmYscfvZ+KZEZx9AdjgDaY/OuGhna1/dpHyJ6OOQ==
+X-Received: by 2002:a17:902:eb0d:b029:dd:f952:db29 with SMTP id
+ l13-20020a170902eb0db02900ddf952db29mr1195991plb.18.1611003786715; 
+ Mon, 18 Jan 2021 13:03:06 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id i1sm274609pjl.36.2021.01.18.13.03.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 18 Jan 2021 13:03:05 -0800 (PST)
+Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
+ constant folding
+To: Laurent Vivier <lvivier@redhat.com>,
+ Alistair Francis <alistair23@gmail.com>
+References: <20210114021654.647242-1-richard.henderson@linaro.org>
+ <20210114021654.647242-12-richard.henderson@linaro.org>
+ <CAKmqyKOezdn_bjyjAsAbiXQj_Cz-fphYCezo-tbBAjGR=Emgng@mail.gmail.com>
+ <ccc7858f-46e7-0634-cad3-fe5bb0d5e99a@linaro.org>
+ <aec0a4e1-31e3-7fde-d8d9-3f81d9a16383@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <30371a59-4a0d-5f73-7153-89cbcd61837c@linaro.org>
+Date: Mon, 18 Jan 2021 11:03:02 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="PUZND8nT4CHtFDw5"
-Content-Disposition: inline
-In-Reply-To: <20210117145341.23310-11-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <aec0a4e1-31e3-7fde-d8d9-3f81d9a16383@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.194,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,58 +94,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/18/21 10:17 AM, Laurent Vivier wrote:
+> This commit breaks the build of my hello world test program with mips64el/stretch guest
+> (and I guess some others too).
+> 
+> cat > $CHROOT/tmp/hello.c <<EOF
+> #include <stdio.h>
+> int main(void)
+> {
+>     printf("Hello World!\n");
+>     return 0;
+> }
+> EOF
+> 
+> unshare --time --ipc --uts --pid --fork --kill-child --mount --mount-proc --root \
+>         $CHROOT gcc /tmp/hello.c -o /tmp/hello
+> /tmp/hello.c:1:0: internal compiler error: Segmentation fault
+>  #include <stdio.h>
+> 
+> executable file is not ELF
+> Please submit a full bug report,
+> with preprocessed source if appropriate.
+> See <file:///usr/share/doc/gcc-6/README.Bugs> for instructions.
+> 
+> # gcc --version
+> gcc (Debian 6.3.0-18+deb9u1) 6.3.0 20170516
+> Copyright (C) 2016 Free Software Foundation, Inc.
+> This is free software; see the source for copying conditions.  There is NO
+> warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+> 
+> Any idea?
 
---PUZND8nT4CHtFDw5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Working on it:
 
-On Jan 17 23:53, Minwoo Im wrote:
-> Added Namespace Multi-path I/O and Namespace Sharing Capabilities (NMIC)
-> field to support shared namespace from controller(s).
->=20
-> This field is in Identify Namespace data structure in [30].
->=20
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> ---
->  include/block/nvme.h | 4 ++++
->  1 file changed, 4 insertions(+)
->=20
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index e83ec1e124c6..dd7b5ba9ef4c 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -1110,6 +1110,10 @@ enum NvmeNsIdentifierType {
->      NVME_NIDT_CSI               =3D 0x04,
->  };
-> =20
-> +enum NvmeNsNmic {
-> +    NVME_NMIC_NS_SHARED         =3D 1 << 0,
-> +};
-> +
+https://bugs.launchpad.net/bugs/1912065
 
-Let's keep convention (or should be convention...) of using NvmeIdNs
-prefix for identify data structure fields on the enum.
+There's a temp hack in there that may work for you.  With no change, you'll see
+an assert instead of a segv if you --enable-debug-tcg.
 
---PUZND8nT4CHtFDw5
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAF7rIACgkQTeGvMW1P
-DenI2Qf9HBxMckTTquRCD6KCwOsJhQZk3BOb8ZMgM/bSw/pN0hp2nWfNFu9LAZJM
-HyPFdSXL7jstbtkY3ClbUeFa6pxD+SGtu09Od0uhyG3MdY+6hIai/r3U5P+UNtTV
-iBarBOszFhVFiwA5zD257MGG9zx4UDGo43yRTd1gfgnXTqWYvLtfAJLCORM5fsXF
-BVx67Lv7XqizEl9nqYiptzVquMtlhMzzwn7AqbddRkmRQbfzVJNICxlmuMKQ1Odr
-E48dR3/LR5g94Dzv86QXAy72ndkWOuXawW446No/nN4NLaI6u+vgdvDKJLR7VQCL
-y2DE3fQzz/bMe2uQOOLutBOUv4tlJw==
-=uECi
------END PGP SIGNATURE-----
-
---PUZND8nT4CHtFDw5--
+r~
 
