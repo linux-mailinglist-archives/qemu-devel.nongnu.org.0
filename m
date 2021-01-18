@@ -2,50 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C5A2F9820
-	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:21:16 +0100 (CET)
-Received: from localhost ([::1]:32812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E2682F9817
+	for <lists+qemu-devel@lfdr.de>; Mon, 18 Jan 2021 04:17:26 +0100 (CET)
+Received: from localhost ([::1]:51510 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1L6R-0007Hg-BQ
-	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:21:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52152)
+	id 1l1L2j-0003RC-BP
+	for lists+qemu-devel@lfdr.de; Sun, 17 Jan 2021 22:17:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhouyang789@huawei.com>)
- id 1l1L3f-0003wB-28
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 22:18:23 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:2935)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhouyang789@huawei.com>)
- id 1l1L3d-0006pt-A8
- for qemu-devel@nongnu.org; Sun, 17 Jan 2021 22:18:22 -0500
-Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4DJxlf15hzzMLb7;
- Mon, 18 Jan 2021 11:16:46 +0800 (CST)
-Received: from huawei.com (10.175.104.175) by DGGEMS412-HUB.china.huawei.com
- (10.3.19.212) with Microsoft SMTP Server id 14.3.498.0; Mon, 18 Jan 2021
- 11:17:58 +0800
-From: zhouyang <zhouyang789@huawei.com>
-To: <alex.bennee@linaro.org>
-Subject: [PATCH v3 5/5] contrib: Open brace '{' following struct go on the
- same line
-Date: Mon, 18 Jan 2021 11:10:04 +0800
-Message-ID: <20210118031004.1662363-6-zhouyang789@huawei.com>
-X-Mailer: git-send-email 2.23.0
-In-Reply-To: <20210118031004.1662363-1-zhouyang789@huawei.com>
-References: <20210118031004.1662363-1-zhouyang789@huawei.com>
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l1L1i-00030B-6O
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 22:16:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28766)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l1L1f-0006BR-Tp
+ for qemu-devel@nongnu.org; Sun, 17 Jan 2021 22:16:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1610939778;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tWd48Y4luDpOU9+1Gb8wQ592W51KmqxN9aUnA89hxLU=;
+ b=Ys9vBeH5TNvLudvI103DuoFfk93gTd+Xel8rLt96rwaIJKkVISXVtGAJdBkxMd2XrS7jsf
+ fsXFOxVvNKEZvYdjO4aQJtjOERofPSWeUuTOGHKy552pyqnyCb6VyA3Ndj90KFVWQq2Ial
+ JpXS8Aa6j/jX0PbezmxHTkH9ei8vyCY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-453-2pHrUbRrM4aODkwP7z9hnw-1; Sun, 17 Jan 2021 22:16:16 -0500
+X-MC-Unique: 2pHrUbRrM4aODkwP7z9hnw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5D8E0107ACE3;
+ Mon, 18 Jan 2021 03:16:15 +0000 (UTC)
+Received: from [10.72.13.12] (ovpn-13-12.pek2.redhat.com [10.72.13.12])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 681395D723;
+ Mon, 18 Jan 2021 03:16:10 +0000 (UTC)
+Subject: Re: [RFC PATCH v3 5/6] virtio-net: Added eBPF RSS to virtio-net.
+To: Yuri Benditovich <yuri.benditovich@daynix.com>
+References: <20210114211612.387052-1-andrew@daynix.com>
+ <20210114211612.387052-6-andrew@daynix.com>
+ <266f9040-542e-199e-1903-fb871ae3ad81@redhat.com>
+ <CAOEp5Oe0ZDRxSVaO4Q=YiJ3LTmXzcoUot1y1WhD97SsN=-oTgg@mail.gmail.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <21d802e9-b8d9-61b0-b966-0843df2364e1@redhat.com>
+Date: Mon, 18 Jan 2021 11:16:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
+In-Reply-To: <CAOEp5Oe0ZDRxSVaO4Q=YiJ3LTmXzcoUot1y1WhD97SsN=-oTgg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.175]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.191;
- envelope-from=zhouyang789@huawei.com; helo=szxga05-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.189,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.252, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,34 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.chen@huawei.com, qemu-devel@nongnu.org, zhouyang789@huawei.com
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found some style problems whil check the code using checkpatch.pl.
-This commit fixs the issue below:
-ERROR: that open brace { should be on the previous line
 
-Signed-off-by: zhouyang <zhouyang789@huawei.com>
----
- contrib/plugins/howvec.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+On 2021/1/17 下午5:04, Yuri Benditovich wrote:
+> On Fri, Jan 15, 2021 at 9:20 AM Jason Wang<jasowang@redhat.com>  wrote:
+>> On 2021/1/15 上午5:16, Andrew Melnychenko wrote:
+>>> From: Andrew<andrew@daynix.com>
+>>>
+>>> When RSS is enabled the device tries to load the eBPF program
+>>> to select RX virtqueue in the TUN. If eBPF can be loaded
+>>> the RSS will function also with vhost (works with kernel 5.8 and later).
+>>> Software RSS is used as a fallback with vhost=off when eBPF can't be loaded
+>>> or when hash population requested by the guest.
+>>>
+>>> Signed-off-by: Yuri Benditovich<yuri.benditovich@daynix.com>
+>>> Signed-off-by: Andrew Melnychenko<andrew@daynix.com>
+>>> ---
+>>>    hw/net/vhost_net.c             |   2 +
+>>>    hw/net/virtio-net.c            | 125 +++++++++++++++++++++++++++++++--
+>>>    include/hw/virtio/virtio-net.h |   4 ++
+>>>    net/vhost-vdpa.c               |   2 +
+>>>    4 files changed, 129 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+>>> index 24d555e764..16124f99c3 100644
+>>> --- a/hw/net/vhost_net.c
+>>> +++ b/hw/net/vhost_net.c
+>>> @@ -71,6 +71,8 @@ static const int user_feature_bits[] = {
+>>>        VIRTIO_NET_F_MTU,
+>>>        VIRTIO_F_IOMMU_PLATFORM,
+>>>        VIRTIO_F_RING_PACKED,
+>>> +    VIRTIO_NET_F_RSS,
+>>> +    VIRTIO_NET_F_HASH_REPORT,
+>>>
+>>>        /* This bit implies RARP isn't sent by QEMU out of band */
+>>>        VIRTIO_NET_F_GUEST_ANNOUNCE,
+>>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+>>> index 09ceb02c9d..37016fc73a 100644
+>>> --- a/hw/net/virtio-net.c
+>>> +++ b/hw/net/virtio-net.c
+>>> @@ -691,6 +691,19 @@ static void virtio_net_set_queues(VirtIONet *n)
+>>>
+>>>    static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue);
+>>>
+>>> +static uint64_t fix_ebpf_vhost_features(uint64_t features)
+>>> +{
+>>> +    /* If vhost=on & CONFIG_EBPF doesn't set - disable RSS feature */
+>> I still think we should not clear feature silently. This may break
+>> migraiton if the feature is cleared on destination.
+> Do I understand it correctly that if we do not clear features silently
+> and implement a graceful drop to vhost=off when we can't do what we
+> need with vhost - then we do not need to add any migration blocker?
 
-diff --git a/contrib/plugins/howvec.c b/contrib/plugins/howvec.c
-index 9d6fa33297..600f7facc1 100644
---- a/contrib/plugins/howvec.c
-+++ b/contrib/plugins/howvec.c
-@@ -145,8 +145,7 @@ typedef struct {
-     int table_sz;
- } ClassSelector;
- 
--static ClassSelector class_tables[] =
--{
-+static ClassSelector class_tables[] = {
-     { "aarch64", aarch64_insn_classes, ARRAY_SIZE(aarch64_insn_classes) },
-     { "sparc",   sparc32_insn_classes, ARRAY_SIZE(sparc32_insn_classes) },
-     { "sparc64", sparc64_insn_classes, ARRAY_SIZE(sparc64_insn_classes) },
--- 
-2.23.0
+
+Yes. I think we won't go with migration blocker since we need support 
+migration in the end.
+
+Thanks
+
+
+>
 
 
