@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC8B32FBBAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:53:17 +0100 (CET)
-Received: from localhost ([::1]:43636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1836C2FBBBE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:55:04 +0100 (CET)
+Received: from localhost ([::1]:48610 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1tJk-00045g-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:53:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34460)
+	id 1l1tLT-0006zm-5h
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:55:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35166)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1tGg-0001XL-V5
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:50:08 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:46848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1tGY-0007Hx-Ex
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:50:06 -0500
-Received: by mail-ej1-x631.google.com with SMTP id rv9so10378574ejb.13
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:49:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0q4zCE3gZ5hoWYxCEGvoI7INSy2USUg86dxT5io9Pp4=;
- b=IWln7lWvF+DkgAy8dbaZC68n0EnCJw4IWnLX1uESG68S43wgAmz0ZNlwdzbbWjdXpx
- PoqgMPYOL13IfUElwuY8Dtu3tFpbtoSFL0xwcMKl8dZiV6MbWkLdd3so71M8pukkXT8f
- eNU4UWBqoIJxLJYevclcBjLVX/yCNu5x1yeznIII2+pqSRZ72auy2BGxn8mY8LacTvzX
- AhiH3y++bZfgWZ550VsOmkRs6lezT+w8NiylO41MIXdCxWtMxZDubNeAQBIIiVBvi2tB
- oPrXgg0Tvb4Wfe7XX1mVLJfpTlHvmi/6pxbogITeo9g9Lw21M05y817gq1AYmCZCmUyZ
- X79w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0q4zCE3gZ5hoWYxCEGvoI7INSy2USUg86dxT5io9Pp4=;
- b=Uo/Xv+iTjkO48moVzdFFta6X9R0a3eUQIlRIgmc99ca8OuEnP5yg+XDqW1Ep2LqE5V
- BFZQiSvb0yaxyn+cKz04VUpYo/V/PNEFdMZ5jiTEwRBBWjOjAio6o4f/OZsi/yr8ABGE
- wx7DSrAddqEtL3q57YOoJOBYmw3EGlWR/8ReQNp9B/+xeOkRfc0mUOjXfa9iSxESA1Bd
- iGOtox9pDPq/LHv7x8Q0S3kyZoEzZoWARdhXAldyN4ijS8qI6BpN4zDUg2Nmv9uZy5gB
- +2WV2sn/dYK/xP+zoUXXE/3CSYqe8JdEpBxKdUHkooi+a6Drg/N+R+DMdYyhmYCk9/vy
- B5Fw==
-X-Gm-Message-State: AOAM5311EM8QgEKjkbTF81C0Uv9f/7VE+ajrxR8htL4BwspXhTy1gCXO
- qpi6UIR21QUwGrf38j0hyF4ZnApqTr4bJpbXL6MaXE1K904=
-X-Google-Smtp-Source: ABdhPJxuefaXdI9QAiRwTBTnjO9bYahqsbWpxFPbNy7yOeZrsqQBcEsyFANSvx7x3C9vHAK/BATEXCqD4UjravDch0E=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr3490406ejd.250.1611071395293; 
- Tue, 19 Jan 2021 07:49:55 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1tIn-0004gB-PW
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:52:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35546)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1tIk-0007lm-TC
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:52:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611071533;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=XLR7fPDCVIdtWPgW9cgoLcS7Y3ULEmmYe6s5LQclo7c=;
+ b=ePQVdVvDgOoENDomd3ZUu2htZaKpz43ZjyW1Wy5MiZfIjp23cHSWH1LL2szTEwZ2IBTvCV
+ gCGTsh9Yl6P+bYBjS8P1NPVi2noN4977oTGQ0BcO1CP0gmFY5dwKYOsjaT10D4C43gs8yP
+ 4y/rGlkMyFcxZqpCkvb+d35iR7V6aU4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-116-XKFXn2kiOCC5oXwTZPV_vQ-1; Tue, 19 Jan 2021 10:52:12 -0500
+X-MC-Unique: XKFXn2kiOCC5oXwTZPV_vQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 032458066E6;
+ Tue, 19 Jan 2021 15:52:11 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-149.ams2.redhat.com [10.36.115.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A7E2519486;
+ Tue, 19 Jan 2021 15:52:09 +0000 (UTC)
+Date: Tue, 19 Jan 2021 16:52:08 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/check-block.sh: Refuse to run the iotests with
+ BusyBox' sed
+Message-ID: <20210119155208.GH5012@merkur.fritz.box>
+References: <20210119134749.401311-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210115210456.1053477-1-richard.henderson@linaro.org>
- <20210115210456.1053477-21-richard.henderson@linaro.org>
-In-Reply-To: <20210115210456.1053477-21-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 15:49:44 +0000
-Message-ID: <CAFEAcA9Ou-XjvCSzyVPM25Gzn6jORQeXbtSN1+faaKEyGqpg2Q@mail.gmail.com>
-Subject: Re: [PATCH v2 20/22] tcg/sparc: Split out constraint sets to
- tcg-target-con-set.h
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210119134749.401311-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,24 +76,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 21:20, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tcg/sparc/tcg-target-con-set.h | 32 +++++++++++++++
->  tcg/sparc/tcg-target.h         |  1 +
->  tcg/sparc/tcg-target.c.inc     | 75 +++++++++++-----------------------
->  3 files changed, 56 insertions(+), 52 deletions(-)
->  create mode 100644 tcg/sparc/tcg-target-con-set.h
->
+Am 19.01.2021 um 14:47 hat Thomas Huth geschrieben:
+> BusyBox' sed reports itself as "This is not GNU sed version 4.0"
+> when being run with the --version parameter. However, the iotests
+> really need GNU sed, they do not work with the BusyBox version.
+> So let's make sure that we really have GNU sed and refuse to run
+> the tests with BusyBox' sed.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Thanks, applied to the block branch.
 
-thanks
--- PMM
+Kevin
+
 
