@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 765612FB3DC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:17:31 +0100 (CET)
-Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEC02FB3E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:22:30 +0100 (CET)
+Received: from localhost ([::1]:43994 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1mCf-0001ek-Vw
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:17:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58932)
+	id 1l1mHV-00034l-97
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:22:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59424)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l1mBi-0001Dd-QU
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:16:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41483)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l1mFq-0002W0-M8
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:20:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39737)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l1mBh-0001hK-65
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:16:30 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l1mFh-0003k4-7Z
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:20:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611044187;
+ s=mimecast20190719; t=1611044432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M6CpEdRf4B3o+kwhJ32w+4smIUz2I29084pCD5mmSA0=;
- b=QgTuFZGs7dchc+OgOccZowlZic0nYZAp6iq9uWG3kIYTOU4NGJrqBpMjB3GG5Hn4fVdwGL
- hcHijqQ0XeaajBH0BqKj91vtfCOe1Zys/TJZO4onMqVnFa56MgRbBCC7rNnXqQwv2Jd1TR
- byh+d3xXP/s1Yy3lSkSeLxenYrQvYFs=
+ bh=FVk+dgxlEVOpaEFM6NUNwLFA1530NxzYd7Gc5WzY9pU=;
+ b=WIanBZ5VLN0zNKBKtiA8oGTpXvjkxjCVDbYdruCBVZHEw8G9UKo2ZKAbd/FVy87e3aPhAy
+ GUkTvAt4EFC97Nbe078g5LwFERyFH+XNxaUr5pH+7B3X0NrNP4lg7ZZYXsFmbvjGu+RM5i
+ s6h4clJ32gnEPIVV7/T7kKRwTljtJ4g=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-E-QR9IApNyiHivYJ-u5Tug-1; Tue, 19 Jan 2021 03:16:24 -0500
-X-MC-Unique: E-QR9IApNyiHivYJ-u5Tug-1
+ us-mta-384-fX8BVZnnMW27Ck-fLdrujQ-1; Tue, 19 Jan 2021 03:20:27 -0500
+X-MC-Unique: fX8BVZnnMW27Ck-fLdrujQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
  [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0B3F59;
- Tue, 19 Jan 2021 08:16:21 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C52C8BAF85;
+ Tue, 19 Jan 2021 08:19:58 +0000 (UTC)
 Received: from gondolin (ovpn-113-246.ams2.redhat.com [10.36.113.246])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A517A620D7;
- Tue, 19 Jan 2021 08:16:10 +0000 (UTC)
-Date: Tue, 19 Jan 2021 09:16:08 +0100
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B8B676062F;
+ Tue, 19 Jan 2021 08:19:53 +0000 (UTC)
+Date: Tue, 19 Jan 2021 09:19:50 +0100
 From: Cornelia Huck <cohuck@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v7 07/13] confidential guest support: Introduce cgs
- "ready" flag
-Message-ID: <20210119091608.34fff5dc.cohuck@redhat.com>
-In-Reply-To: <20210118194730.GH9899@work-vm>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-8-david@gibson.dropbear.id.au>
- <20210118194730.GH9899@work-vm>
+To: Ram Pai <linuxram@us.ibm.com>
+Subject: Re:  Re: [for-6.0 v5 11/13] spapr: PEF: prevent migration
+Message-ID: <20210119091950.4a27a615.cohuck@redhat.com>
+In-Reply-To: <20210115185514.GB24076@ram-ibm-com.ibm.com>
+References: <20210104071550.GA22585@ram-ibm-com.ibm.com>
+ <20210104134629.49997b53.pasic@linux.ibm.com>
+ <20210104184026.GD4102@ram-ibm-com.ibm.com>
+ <20210105115614.7daaadd6.pasic@linux.ibm.com>
+ <20210105204125.GE4102@ram-ibm-com.ibm.com>
+ <20210111175914.13adfa2e.cohuck@redhat.com>
+ <20210111195830.GA23898@ram-ibm-com.ibm.com>
+ <20210112091943.095c3b29.cohuck@redhat.com>
+ <20210112185511.GB23898@ram-ibm-com.ibm.com>
+ <20210113090629.2f41a9d3.cohuck@redhat.com>
+ <20210115185514.GB24076@ram-ibm-com.ibm.com>
 Organization: Red Hat GmbH
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -76,54 +83,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
- David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
- frankja@linux.ibm.com, pragyansri.pathi@intel.com, mst@redhat.com,
- mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
- andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org, "Michael S.
+ Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org, frankja@linux.ibm.com,
+ david@redhat.com, mdroth@linux.vnet.ibm.com, Halil Pasic <pasic@linux.ibm.com>,
+ borntraeger@de.ibm.com, David Gibson <david@gibson.dropbear.id.au>,
+ thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com,
- David Gibson <david@gibson.dropbear.id.au>, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+ dgilbert@redhat.com, qemu-s390x@nongnu.org, rth@twiddle.net,
+ berrange@redhat.com, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-ppc@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jan 2021 19:47:30 +0000
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On Fri, 15 Jan 2021 10:55:14 -0800
+Ram Pai <linuxram@us.ibm.com> wrote:
 
-> * David Gibson (david@gibson.dropbear.id.au) wrote:
-> > The platform specific details of mechanisms for implementing
-> > confidential guest support may require setup at various points during
-> > initialization.  Thus, it's not really feasible to have a single cgs
-> > initialization hook, but instead each mechanism needs its own
-> > initialization calls in arch or machine specific code.
+> On Wed, Jan 13, 2021 at 09:06:29AM +0100, Cornelia Huck wrote:
+> > On Tue, 12 Jan 2021 10:55:11 -0800
+> > Ram Pai <linuxram@us.ibm.com> wrote:
+> >   
+> > > On Tue, Jan 12, 2021 at 09:19:43AM +0100, Cornelia Huck wrote:  
+> > > > On Mon, 11 Jan 2021 11:58:30 -0800
+> > > > Ram Pai <linuxram@us.ibm.com> wrote:
+> > > >     
+> > > > > On Mon, Jan 11, 2021 at 05:59:14PM +0100, Cornelia Huck wrote:    
+> > > > > > On Tue, 5 Jan 2021 12:41:25 -0800
+> > > > > > Ram Pai <linuxram@us.ibm.com> wrote:
+> > > > > >       
+> > > > > > > On Tue, Jan 05, 2021 at 11:56:14AM +0100, Halil Pasic wrote:      
+> > > > > > > > On Mon, 4 Jan 2021 10:40:26 -0800
+> > > > > > > > Ram Pai <linuxram@us.ibm.com> wrote:      
+> > > > > >       
+> > > > > > > > > The main difference between my proposal and the other proposal is...
+> > > > > > > > > 
+> > > > > > > > >   In my proposal the guest makes the compatibility decision and acts
+> > > > > > > > >   accordingly.  In the other proposal QEMU makes the compatibility
+> > > > > > > > >   decision and acts accordingly. I argue that QEMU cannot make a good
+> > > > > > > > >   compatibility decision, because it wont know in advance, if the guest
+> > > > > > > > >   will or will-not switch-to-secure.
+> > > > > > > > >         
+> > > > > > > > 
+> > > > > > > > You have a point there when you say that QEMU does not know in advance,
+> > > > > > > > if the guest will or will-not switch-to-secure. I made that argument
+> > > > > > > > regarding VIRTIO_F_ACCESS_PLATFORM (iommu_platform) myself. My idea
+> > > > > > > > was to flip that property on demand when the conversion occurs. David
+> > > > > > > > explained to me that this is not possible for ppc, and that having the
+> > > > > > > > "securable-guest-memory" property (or whatever the name will be)
+> > > > > > > > specified is a strong indication, that the VM is intended to be used as
+> > > > > > > > a secure VM (thus it is OK to hurt the case where the guest does not
+> > > > > > > > try to transition). That argument applies here as well.        
+> > > > > > > 
+> > > > > > > As suggested by Cornelia Huck, what if QEMU disabled the
+> > > > > > > "securable-guest-memory" property if 'must-support-migrate' is enabled?
+> > > > > > > Offcourse; this has to be done with a big fat warning stating
+> > > > > > > "secure-guest-memory" feature is disabled on the machine.
+> > > > > > > Doing so, will continue to support guest that do not try to transition.
+> > > > > > > Guest that try to transition will fail and terminate themselves.      
+> > > > > > 
+> > > > > > Just to recap the s390x situation:
+> > > > > > 
+> > > > > > - We currently offer a cpu feature that indicates secure execution to
+> > > > > >   be available to the guest if the host supports it.
+> > > > > > - When we introduce the secure object, we still need to support
+> > > > > >   previous configurations and continue to offer the cpu feature, even
+> > > > > >   if the secure object is not specified.
+> > > > > > - As migration is currently not supported for secured guests, we add a
+> > > > > >   blocker once the guest actually transitions. That means that
+> > > > > >   transition fails if --only-migratable was specified on the command
+> > > > > >   line. (Guests not transitioning will obviously not notice anything.)
+> > > > > > - With the secure object, we will already fail starting QEMU if
+> > > > > >   --only-migratable was specified.
+> > > > > > 
+> > > > > > My suggestion is now that we don't even offer the cpu feature if
+> > > > > > --only-migratable has been specified. For a guest that does not want to
+> > > > > > transition to secure mode, nothing changes; a guest that wants to
+> > > > > > transition to secure mode will notice that the feature is not available
+> > > > > > and fail appropriately (or ultimately, when the ultravisor call fails).      
+> > > > > 
+> > > > > 
+> > > > > On POWER, secure-execution is not **automatically** enabled even when
+> > > > > the host supports it.  The feature is enabled only if the secure-object
+> > > > > is configured, and the host supports it.    
+> > > > 
+> > > > Yes, the cpu feature on s390x is simply pre-existing.
+> > > >     
+> > > > > 
+> > > > > However the behavior proposed above will be consistent on POWER and
+> > > > > on s390x,  when '--only-migratable' is specified and 'secure-object'
+> > > > > is NOT specified.
+> > > > > 
+> > > > > So I am in agreement till now. 
+> > > > > 
+> > > > >     
+> > > > > > We'd still fail starting QEMU for the secure object + --only-migratable
+> > > > > > combination.      
+> > > > > 
+> > > > > Why fail? 
+> > > > > 
+> > > > > Instead, print a warning and  disable the secure-object; which will
+> > > > > disable your cpu-feature. Guests that do not transition to secure, will
+> > > > > continue to operate, and guests that transition to secure, will fail.    
+> > > > 
+> > > > But that would be consistent with how other non-migratable objects are
+> > > > handled, no? It's simply a case of incompatible options on the command
+> > > > line.    
+> > > 
+> > > Actually the two options are inherently NOT incompatible.  Halil also
+> > > mentioned this in one of his replies.
+> > > 
+> > > Its just that the current implementation is lacking, which will be fixed
+> > > in the near future. 
+> > > 
+> > > We can design it upfront, with the assumption that they both are compatible.
+> > > In the short term  disable one; preferrably the secure-object, if both 
+> > > options are specified. In the long term, remove the restriction, when
+> > > the implemetation is complete.  
 > > 
-> > However, to make it harder to have a bug where a mechanism isn't
-> > properly initialized under some circumstances, we want to have a
-> > common place, relatively late in boot, where we verify that cgs has
-> > been initialized if it was requested.
-> > 
-> > This patch introduces a ready flag to the ConfidentialGuestSupport
-> > base type to accomplish this, which we verify just before the machine
-> > specific initialization function.  
+> > Can't we simply mark the object as non-migratable now, and then remove
+> > that later? I don't see what is so special about it.  
 > 
-> You may find you need to define 'ready' and the answer might be a bit
-> variable; for example, on SEV there's a setup bit and then you may end
-> up doing an attestation and receiving some data before you actaully let
-> the guest execute code.   Is it ready before it's received the
-> attestation response or only when it can run code?
-> Is a Power or 390 machine 'ready' before it's executed the magic
-> instruction to enter the confidential mode?
+> This is fine too. 
+> 
+> However I am told that libvirt has some assumptions, where it assumes
+> that the VM is guaranteed to be migratable if '--only-migratable' is
+> specified. Silently turning off that option can be bad.
+> 
 
-I would consider those machines where the guest makes the transition
-itself "ready" as soon as everything is set up so that the guest can
-actually initiate the transition. Otherwise, those machines would never
-be "ready" if the guest does not transition.
-
-Maybe we can define "ready" as "the guest can start to execute in
-secure mode", where "guest" includes the bootloader and everything that
-runs in a guest context, and "start to execute" implies that some setup
-may be done only after the guest has kicked it off?
+I meant "later" as in "when support for live migration has been added".
+Mucking around with the options does not sound like a good idea.
 
 
