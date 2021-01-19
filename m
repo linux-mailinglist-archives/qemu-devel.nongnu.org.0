@@ -2,68 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D1112FB660
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:32:11 +0100 (CET)
-Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E28A2FB662
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:34:24 +0100 (CET)
+Received: from localhost ([::1]:55856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1r7C-0005bd-A2
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:32:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51206)
+	id 1l1r9L-0007Yy-7Q
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:34:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1r4N-00050U-7o
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:29:15 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1r4L-0001dE-HB
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:29:14 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id 6so28484744ejz.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:29:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=52EKdzx4kXWy7XFoFYK+kiDCH/vHXZgODJjzdcuhIfk=;
- b=rTdmzJ8n7asWjEPKlYE+K/uymY3+DGglJMmI4+RGIVFt+6OcD1Ru5+jI9ztIfzu46m
- pcM3m9YU1B9sy4HodxkoY7oogDgkiu+U7w0XeZeY0wCKPrVMabHZad+g+8XJDP1A71oD
- znz5tvEOpIdm+Cug0A3du6o5v2Ir3acKj0scIFNMe6QvrQSZn7vmM+MG0U1I6QhQNZaM
- /vjJMTBK6eXziKm7txbXUt7KpVRJZgI1o9nq2suWz01Gxd/oHYGeejIoPLmpqg/Hese3
- dk681nChVwcpE39AcXyfqELi7tEUVlbTYzxsycb6B7img7ByXKdCU6QDnmOhXV0FndlU
- Ur8A==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1r52-0005Bo-Rj
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:29:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31270)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1r50-0001g0-8M
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:29:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611062990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bWDqIMdWMdtVAV7Js14K213ikZUf6Kg1ONzL+2SnUFI=;
+ b=KG+IjlLbxgrUkPo692wbwNGR1Vfkybv0e8afcT3BieGSylfgZuYFxwLm+y9lkFXVHGwTvq
+ X3obGORHvbkEyAXH3tFKj6RJ1u1RaRtvhl5Epl+NXkfSeLkGDMg8ilt3hQQE3dzOy2ES+o
+ U2WJ6Q4q8lKschJShMzejZtdVGssAIE=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-313-zJ1uvRzeOcCQjNWN5zgAqg-1; Tue, 19 Jan 2021 08:29:48 -0500
+X-MC-Unique: zJ1uvRzeOcCQjNWN5zgAqg-1
+Received: by mail-ed1-f72.google.com with SMTP id y6so7487488edc.17
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:29:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=52EKdzx4kXWy7XFoFYK+kiDCH/vHXZgODJjzdcuhIfk=;
- b=t3ic84Bed4EfT1Q9LtjGP38ZKEYRNzTy+bLfQg26mLhtVPZ5XQ7e60xucDlvSOaZGt
- +/Rrsgd4bIHIlrzCTfsMWCTAXOCsDu+iiCOTYiPYtz+u+LTaDcQvmNY1YVkK/bDc514b
- E61ajgySPlg3/Onp4bgOZ6fZ3SHs9fBKjDJ9dtuVlMAj1flYgUyGvcsMPKD2fLPAIOEi
- LxV/CRTi2iTt7v5rvC2voovI0WIFauSvIhxDANqF2DeDutq1WkdeOKaHTp8WC+0T5L2X
- 7TQfcDEqNoAoSVQu3GlXVUvpBowhBYwqcl6BZ/yJbKe2SIgiDbuCOOLXwXNKjM7bi1lc
- n83w==
-X-Gm-Message-State: AOAM533BvNCzIKVIiICY+PZjWR/b9IiEaN0u4jZo3Qn//kRim2lw7izM
- uHlpZnBNqLPxyxJ/mNskroi1hFYMu6FQpMu6GD1uhg==
-X-Google-Smtp-Source: ABdhPJwUg/hzWf/k2Nx9bdMsu9l1L/gFcIbskQEqbLrxuOJN6BVFhiCeVHtK2LNSqrsd1Xp33GDQlQlKjboUxvRQFcg=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr3025164ejf.85.1611062951150; 
- Tue, 19 Jan 2021 05:29:11 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bWDqIMdWMdtVAV7Js14K213ikZUf6Kg1ONzL+2SnUFI=;
+ b=iVsvJEYxrCfSoeh3goSfP2wKekir3qjNLzl/MuUD4tttgtkBkQPxUshpaky9kHBNZ9
+ dn72HsbGTBfgS49LzzpkbaRskZNmDrVFWwNkLFB0mPvfJuNl1lmJY7laIdrt6DZR1NYx
+ DYk7kM38a71i1xMTo1WUFdBfFjr/HimxylZFAnFpbTYRXNhyAxc0xFyyz0zxhYYXho18
+ eTTvKlRBlTdCgsvw9s8OnD/T1qLr724/dBZruETJ3854sW/0azh1oY61GQ6J9tkBk9Ph
+ 4+6hyYxbHhqdMmumR3w/KfyDaHmxNtc6Nr9mo8oeGXRpWw8sRgjKqfknjxKLkEF00I6p
+ FkGA==
+X-Gm-Message-State: AOAM530RVA36+qFaY9FoPmYu3NHN8HUWydFSBiydqRtlCFBb1WGqlh0k
+ KzQmP8X10nVCyjR4hnyrCi8SEHXtIsgsLzfm17OElvKqE+74lU6IJ+S7YQPjZ/EnxhcvOJJi+93
+ 5wB9vfzf2TvieWos9Ij5W6BcOW3gqbJYKMLPrAWjuyNIII2BHVC6hC96XB595EwQKQrI=
+X-Received: by 2002:a17:907:a82:: with SMTP id
+ by2mr2996131ejc.200.1611062987409; 
+ Tue, 19 Jan 2021 05:29:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzdi+7bwKWstPXUoj5+v8BxDydeWf/41qXWH5FTpGFSGH9qD+eoceJ/6F6aL3s/TV9ndjJO4A==
+X-Received: by 2002:a17:907:a82:: with SMTP id
+ by2mr2996119ejc.200.1611062987238; 
+ Tue, 19 Jan 2021 05:29:47 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u17sm12457364edr.0.2021.01.19.05.29.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 05:29:46 -0800 (PST)
+Subject: Re: git://git.qemu.org/qemu.git now pulls from gitlab
+To: Bin Meng <bmeng.cn@gmail.com>
+References: <93d438bc-4e41-5d97-9759-bfbf455fcf83@redhat.com>
+ <CAEUhbmWrp_GfZbH9fUZw_in2FuxD-Azmaoy7ytP87XvU+zpA-g@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <9b6cc15d-f44b-0f32-c5f3-7fc8fcf05695@redhat.com>
+Date: Tue, 19 Jan 2021 14:29:45 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
-In-Reply-To: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 13:29:00 +0000
-Message-ID: <CAFEAcA-0J_kH5NMjQFOBMRFxVcjAzPy5iT16BkF20xPwb4hQVA@mail.gmail.com>
-Subject: Re: [PATCH v3] Add support for pvpanic pci device
-To: Mihai Carabas <mihai.carabas@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <CAEUhbmWrp_GfZbH9fUZw_in2FuxD-Azmaoy7ytP87XvU+zpA-g@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,38 +102,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 19:21, Mihai Carabas <mihai.carabas@oracle.com> wrote:
->
-> This patchset adds support for pvpanic pci device.
->
-> v3 applied feedback:
->
-> - patch 1: made pvpanic isa device available only for PC, compile pvpanic-test
->   only when isa device is present
->
-> - patch 2: fixed device id to 0x0011, used OBJECT_DECLARE_TYPE,
->   PVPANIC_PCI_DEVICE, added VMSTATE_PCI_DEVICE, removed INTERFACE_PCIE_DEVICE
->
-> - patch 3: fixed documentation
->
-> - patch 4: add a qtest for pvpanic-pci
->
-> Mihai Carabas (4):
->   hw/misc/pvpanic: split-out generic and bus dependent code
->   hw/misc/pvpanic: add PCI interface support
->   pvpanic : update pvpanic spec document
->   tests/qtest: add a test case for pvpanic-pci
+On 19/01/21 13:25, Bin Meng wrote:
+> I see the following error in a previously cloned repo:
+> 
+> $ git fetch origin
+> fatal: remote error: access denied or repository not exported: /qemu.git
+> 
+> $ git remote -v
+> origin  git://git.qemu.org/qemu.git (fetch)
+> origin  git://git.qemu.org/qemu.git (push)
+> 
+> Is this expected?
 
-Since the only issue in this version was a minor thinko in
-the docs, I'm going to apply this to target-arm.next and
-make that s/device/bus/ docs fix there. (target-arm seems like
-a reasonable queue to use since the main reason for having
-this device is for the virt board.)
+You were very unlucky, that error lasted the time of a single restorecon 
+command. :)
 
-thanks
--- PMM
 
