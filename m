@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC70D2FB658
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:28:34 +0100 (CET)
-Received: from localhost ([::1]:49316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D1112FB660
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:32:11 +0100 (CET)
+Received: from localhost ([::1]:51590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1r3h-0004Rl-TZ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:28:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50658)
+	id 1l1r7C-0005bd-A2
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:32:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l1r1d-0003uy-3Y
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:26:28 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:40864)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1r4N-00050U-7o
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:29:15 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:38892)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l1r1b-0001NV-Bm
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:26:24 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id gx5so9227971ejb.7
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:26:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Nmv2UovycK5ssLEw/JySlZ/QjGyxAI21ZhumFuQrIjw=;
- b=NrqegB/sKTbA/f7xRa62bf+wzDw09TCHCqUuTY0utB9n9psskruTC9Sw+LehmcNOkF
- V3vZIVV5/FxZ6Xa1/XyHLGbPbyiM0Ix0kZRIer8GsQBCmYcDc+7dGjJBkPVJxaX/L1Wq
- ekRZ0BmGGxaClar6hRowTunB8zLoj5gw82HJpk3zpnHjoDymR5vHcFissZtqhH/fYbm/
- a+VmSmZtYmxgTrerlRawFM/iwjrb/QiVN4qfoGKyzT9Mgy0KZonhXI1JWe5Nrs1JNDFt
- nmvbqJRVbxbklXpOjv4iONLgKLtzvm2wkvpmCh+L20qoTY4el+NkA96tjNQX0zN9eI26
- yHkg==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1r4L-0001dE-HB
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:29:14 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id 6so28484744ejz.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:29:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=52EKdzx4kXWy7XFoFYK+kiDCH/vHXZgODJjzdcuhIfk=;
+ b=rTdmzJ8n7asWjEPKlYE+K/uymY3+DGglJMmI4+RGIVFt+6OcD1Ru5+jI9ztIfzu46m
+ pcM3m9YU1B9sy4HodxkoY7oogDgkiu+U7w0XeZeY0wCKPrVMabHZad+g+8XJDP1A71oD
+ znz5tvEOpIdm+Cug0A3du6o5v2Ir3acKj0scIFNMe6QvrQSZn7vmM+MG0U1I6QhQNZaM
+ /vjJMTBK6eXziKm7txbXUt7KpVRJZgI1o9nq2suWz01Gxd/oHYGeejIoPLmpqg/Hese3
+ dk681nChVwcpE39AcXyfqELi7tEUVlbTYzxsycb6B7img7ByXKdCU6QDnmOhXV0FndlU
+ Ur8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=Nmv2UovycK5ssLEw/JySlZ/QjGyxAI21ZhumFuQrIjw=;
- b=GXi5X6JDpj7p7zpuiMP2An9B2H2g0v40BUvgHZDso6F5Q/AaLFqbl2YvzF0sqKUjQ4
- z72PGccrTslsWqBKOaNE66R8OPlC/IQKtEOf5eiRk23/iG+sryVnke6QM13t/o2un0oc
- QJPGm58CqG9TCea4Q85uwtTJUhVllfm0l9+WZOntgStjxWmc/V1X1JhCqP2YDTbVTKpQ
- /8jlIQtvnAmesbhy7Fgm8iUafvloQm3OQNY9pLVPIUeNgOQH2RuXOPSpZVPY8CrXfJz9
- cf/0myURRcy+zIMte4pt2X0HlhOZZBc0CT3YGrLGuGKlq8RftI3Sc/IHZDqOgC6T+Jk3
- ENaA==
-X-Gm-Message-State: AOAM533pagotS+nxIzNGIpWCnH04J8XEQB/BQu9HKkDKPmkShNRQHL4w
- iKY0YTpiJ6tHv4p6CrrbeZzFaeGLt34LMA==
-X-Google-Smtp-Source: ABdhPJxYuUx+YV+Ft8f77HoYSvygkeTAAjROL/69y9hWRmo0dOqkzk4xV9EydW/nANc0t2WcXweL2Q==
-X-Received: by 2002:a17:907:968b:: with SMTP id
- hd11mr2953290ejc.177.1611062781323; 
- Tue, 19 Jan 2021 05:26:21 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id f20sm934202edd.47.2021.01.19.05.26.20
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 05:26:20 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] deploy docs to qemu-project.org from GitLab CI
-Date: Tue, 19 Jan 2021 14:26:19 +0100
-Message-Id: <20210119132619.302207-1-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=52EKdzx4kXWy7XFoFYK+kiDCH/vHXZgODJjzdcuhIfk=;
+ b=t3ic84Bed4EfT1Q9LtjGP38ZKEYRNzTy+bLfQg26mLhtVPZ5XQ7e60xucDlvSOaZGt
+ +/Rrsgd4bIHIlrzCTfsMWCTAXOCsDu+iiCOTYiPYtz+u+LTaDcQvmNY1YVkK/bDc514b
+ E61ajgySPlg3/Onp4bgOZ6fZ3SHs9fBKjDJ9dtuVlMAj1flYgUyGvcsMPKD2fLPAIOEi
+ LxV/CRTi2iTt7v5rvC2voovI0WIFauSvIhxDANqF2DeDutq1WkdeOKaHTp8WC+0T5L2X
+ 7TQfcDEqNoAoSVQu3GlXVUvpBowhBYwqcl6BZ/yJbKe2SIgiDbuCOOLXwXNKjM7bi1lc
+ n83w==
+X-Gm-Message-State: AOAM533BvNCzIKVIiICY+PZjWR/b9IiEaN0u4jZo3Qn//kRim2lw7izM
+ uHlpZnBNqLPxyxJ/mNskroi1hFYMu6FQpMu6GD1uhg==
+X-Google-Smtp-Source: ABdhPJwUg/hzWf/k2Nx9bdMsu9l1L/gFcIbskQEqbLrxuOJN6BVFhiCeVHtK2LNSqrsd1Xp33GDQlQlKjboUxvRQFcg=
+X-Received: by 2002:a17:906:3d4a:: with SMTP id
+ q10mr3025164ejf.85.1611062951150; 
+ Tue, 19 Jan 2021 05:29:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
+In-Reply-To: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 13:29:00 +0000
+Message-ID: <CAFEAcA-0J_kH5NMjQFOBMRFxVcjAzPy5iT16BkF20xPwb4hQVA@mail.gmail.com>
+Subject: Re: [PATCH v3] Add support for pvpanic pci device
+To: Mihai Carabas <mihai.carabas@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,82 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, stefanha@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the website is rebuilt on qemu-project.org using
-a separate container (https://github.com/stefanha/qemu-docs/)
-cron job hook.  We can instead reuse the GitLab's CI artifacts.
+On Fri, 15 Jan 2021 at 19:21, Mihai Carabas <mihai.carabas@oracle.com> wrote:
+>
+> This patchset adds support for pvpanic pci device.
+>
+> v3 applied feedback:
+>
+> - patch 1: made pvpanic isa device available only for PC, compile pvpanic-test
+>   only when isa device is present
+>
+> - patch 2: fixed device id to 0x0011, used OBJECT_DECLARE_TYPE,
+>   PVPANIC_PCI_DEVICE, added VMSTATE_PCI_DEVICE, removed INTERFACE_PCIE_DEVICE
+>
+> - patch 3: fixed documentation
+>
+> - patch 4: add a qtest for pvpanic-pci
+>
+> Mihai Carabas (4):
+>   hw/misc/pvpanic: split-out generic and bus dependent code
+>   hw/misc/pvpanic: add PCI interface support
+>   pvpanic : update pvpanic spec document
+>   tests/qtest: add a test case for pvpanic-pci
 
-To do so, we use the same mechanism that is already in place for
-qemu-web.git.
+Since the only issue in this version was a minor thinko in
+the docs, I'm going to apply this to target-arm.next and
+make that s/device/bus/ docs fix there. (target-arm seems like
+a reasonable queue to use since the main reason for having
+this device is for the virt board.)
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- .gitlab-ci.yml                             | 23 ++++++++++++++++++++++
- tests/docker/dockerfiles/ubuntu2004.docker |  2 ++
- 2 files changed, 25 insertions(+)
-
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index 4532f1718a..729138064c 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -6,6 +6,7 @@ stages:
-   - containers-layer2
-   - build
-   - test
-+  - update
- 
- include:
-   - local: '/.gitlab-ci.d/edk2.yml'
-@@ -609,3 +610,25 @@ pages:
-   artifacts:
-     paths:
-       - public
-+
-+deploy:
-+  image: $CI_REGISTRY_IMAGE/qemu/ubuntu2004:latest
-+  stage: update
-+  needs:
-+    - job: pages
-+      artifacts: true
-+  before_script:
-+    - eval $(ssh-agent -s)
-+    - cat "$SSH_PRIVATE_KEY_FILE" | tr -d '\r' | ssh-add -
-+    - mkdir -m700 -p ~/.ssh
-+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
-+  script:
-+    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && mkdir new-docs && rsync -az docs/ new-docs"
-+    - rsync -avz --delete public/ $SSH_DEPLOY_DESTINATION:/var/www/qemu-project.org/new-docs
-+    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && rm -rf old-docs && mv docs old-docs && mv new-docs docs"
-+  only:
-+    refs:
-+      - master
-+    variables:
-+      - $SSH_PRIVATE_KEY_FILE
-+      - $SSH_DEPLOY_DESTINATION
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index ae889d8482..2bb826c376 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -50,6 +50,7 @@ ENV PACKAGES flex bison \
-     make \
-     netcat-openbsd \
-     ninja-build \
-+    openssh-client \
-     python3-numpy \
-     python3-opencv \
-     python3-pil \
-@@ -58,6 +59,7 @@ ENV PACKAGES flex bison \
-     python3-venv \
-     python3-yaml \
-     rpm2cpio \
-+    rsync \
-     sparse \
-     tesseract-ocr \
-     tesseract-ocr-eng \
--- 
-2.29.2
-
+thanks
+-- PMM
 
