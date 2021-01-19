@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D73C12FBCCD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:46:40 +0100 (CET)
-Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 095882FBCDE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:50:33 +0100 (CET)
+Received: from localhost ([::1]:38508 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1u9P-0007kX-Ty
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:46:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
+	id 1l1uDA-0003UF-1C
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:50:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47462)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1u0C-00009i-PZ; Tue, 19 Jan 2021 11:37:08 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:38584)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1u0f-0000e2-TX; Tue, 19 Jan 2021 11:37:37 -0500
+Received: from mail-io1-xd34.google.com ([2607:f8b0:4864:20::d34]:36758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1u0B-0007ew-7t; Tue, 19 Jan 2021 11:37:08 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id 6so29404231ejz.5;
- Tue, 19 Jan 2021 08:37:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1u0c-0007m0-QI; Tue, 19 Jan 2021 11:37:37 -0500
+Received: by mail-io1-xd34.google.com with SMTP id d81so25629063iof.3;
+ Tue, 19 Jan 2021 08:37:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=UhtHNcErMUku7/zcHa+fQfHdVJYtN0YPU+jqZaPfhXY=;
- b=WWDjWpwNfPa5JBDhgEaW8pZE4ey5KTQttt9eD42IggYXT2Bq8ACVslqlnFY0giWORf
- COFbbpWELuSyGaK7grTwNv17jCsxizzoRa3Bz1ZcOF5U0bnHACX7DLaDj3YGF8htQYEP
- SwMOETyrq7EZsa8+jtkFbil9BmMQj6HkqtD0e3uqi1wop97aRNXwFW5wOJKTayFcV9++
- v88U162mn4LYUp565jDzL/M0zaJjLu9rfLwWWoKgC9k3xgrEtbO3iKG0iTnXiZ2V2kpx
- Djrk9B3+U2uexzqSTg+cLCGwpLI3ycUaVmaSToJ9MgfsK9prg/8ING9kXRNv12UwrAsB
- wZAg==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=e0ss7NliYShxPbLg2oxQZ+54H9rOvsHlimRM8y0Bwj8=;
+ b=dIl0KBG7TAm0cdZn+3v5ImxzaDGRpx9j/zUafqFu9AO8gVY1Kjgae17X/WJre5i3QO
+ kQpGbyJ8e8TDXqeSy1F8nCmUnxHlg7KcErLheKz59dSo0u7+ogskjw76WuGhnPfJXidP
+ 2vr8Vsikpa8pjixw67OZYU4ZwmCtPoTu71XMFu4nfZAzUoIZit5EiNaXEE+PC5DSlUrv
+ d+udUzkNQTIPfbFCFilnLDK06WmQR/eM5mP3UUcWrAyqAlkl7Cmf9PeQtbAUiNi8yMnZ
+ Z0lM71PvoUaWQ2UL2vQ+S5gAp00iRPj3FejUHS84wWCl0rbJWs5YtqMS3/CuakMuoRWU
+ 4Epg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=UhtHNcErMUku7/zcHa+fQfHdVJYtN0YPU+jqZaPfhXY=;
- b=c9zfi43ODkea9NsGSuqfQxPLcoWUTe/qvtzW907K3LmBP6maIJqTPPsz3b/EkFxVS5
- 7fO32kuZwrJOr9r/t4nuMMTvh2zUQYC/nl5amgwPlBE40wRb7D4gaAO9gZ9CkZ4aGVSJ
- Fh0mT5K28I3vRKR6Ye2ph7zHlB5V1yQBB48Qm8YWOmwROVgimhH2TBVS3+66556izN5O
- tlDyO7KLFBwAs78n1uKkZCibg5Z/IeCib+iFQlsG6FLKII3mr7jb9rQY9ZA5Lg7m7Z0c
- CZ4MvSzTdOPFUTFRqmtdmbLulbb9lL6pdnT9NzG9kap41FcEMvTqVhl7vc9Dhui2QO2m
- MB/w==
-X-Gm-Message-State: AOAM5332M/dXKXnVw5Zjn8g9efhiOB8YxktyvxglWP36wTXgUiCrLadI
- czFaUpVWQiT7t1s7txCOr9M=
-X-Google-Smtp-Source: ABdhPJx200oKM1ZyDGZtErLA9KB+OdVoQ/mO+WolkCid49lEXSkbyjfxd0pQwtNL9D06Jam9qoGpLA==
-X-Received: by 2002:a17:906:36d4:: with SMTP id
- b20mr3492718ejc.144.1611074225095; 
- Tue, 19 Jan 2021 08:37:05 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id y59sm13043562ede.59.2021.01.19.08.37.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 08:37:04 -0800 (PST)
-Subject: Re: [RFC PATCH v2 01/20] migration/vmstate: Restrict vmstate_dummy to
- user-mode
-To: Peter Maydell <peter.maydell@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210117192446.23753-1-f4bug@amsat.org>
- <20210117192446.23753-2-f4bug@amsat.org>
- <CAFEAcA_358tUe-O9Yb94p=xDXXLTNM8EoQRvwMKEY_bmSTfzJQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <004525a7-e8bb-9316-6ad5-ba5765471639@amsat.org>
-Date: Tue, 19 Jan 2021 17:37:02 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=e0ss7NliYShxPbLg2oxQZ+54H9rOvsHlimRM8y0Bwj8=;
+ b=PyIvA6u7dVRuyrwcUnXdwBbOw8vLQ1LzytyIKZxBj6jhSLDNZ0tbWpHysO64n04ofL
+ bwhCFwrNIa3Ud2WMospcnGtggzFXOyEys7Dqs01DNhZkYh4KWUdQ7OV7+Kgo8kVL1j/j
+ SPrvCHwXf1s+l2K1tNjVKhk8/wQPFqZsKn1iDkOcgSQ+geZ9mfiFKe77YGbwX7lth8e7
+ OVobc3MWR8+KIWOvn+ys3pbZOj9UCoeAUISFHp8FtbBRdgZTq5C1YkOP2ZYYb6uE28vL
+ hw+5lQty+QwVhK7SZREXtyw2M86AHexHjSS4+mHAOLsaK3qujx16kJHXfFUtvU/5Md/A
+ nn3g==
+X-Gm-Message-State: AOAM530ifVxSKZ8ZyeGHCErnB8Pnb09gKIFHi/bMpy9D5ZA7Ylkixqge
+ kQ0uDPclcHnaallVdjUyODiBCKW9qlKHFoxjAUA=
+X-Google-Smtp-Source: ABdhPJwL2Uo8clg28PLTnavaKUN6BpVfJpgmm+MX4OIdJeQpeRYu669F54wK1sz0/drSRdIdibkEuU7ZWfdGGHFercc=
+X-Received: by 2002:a05:6e02:20e5:: with SMTP id
+ q5mr4043745ilv.131.1611074253555; 
+ Tue, 19 Jan 2021 08:37:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_358tUe-O9Yb94p=xDXXLTNM8EoQRvwMKEY_bmSTfzJQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+References: <20210112093950.17530-1-frank.chang@sifive.com>
+ <20210112093950.17530-6-frank.chang@sifive.com>
+In-Reply-To: <20210112093950.17530-6-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Jan 2021 08:37:07 -0800
+Message-ID: <CAKmqyKM6XxKSKb8+yb_wM59Jgs2S58X1T+PTqT8dOYKnVEApvw@mail.gmail.com>
+Subject: Re: [PATCH v6 05/72] target/riscv: rvv-1.0: introduce writable misa.v
+ field
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d34;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd34.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,85 +78,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/21 2:50 PM, Peter Maydell wrote:
-> On Sun, 17 Jan 2021 at 19:24, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> 'vmstate_dummy' is special and only used for user-mode. Rename
->> it to something more specific.
->> It was introduced restricted to user-mode in commit c71c3e99b8
->> ("Add a vmstate_dummy struct for CONFIG_USER_ONLY") but this
->> restriction was later removed in commit 6afc14e92ac ("migration:
->> Fix warning caused by missing declaration of vmstate_dummy").
->> Avoid the missing declaration warning by adding a stub for the
->> symbol, and restore the #ifdef'ry.
-> 
-> So what is the actual use of vmstate_dummy ? I had a grep
-> through and as far as I can see the points where vmstate_cpu_common
-> is used are all in softmmu-only code.
+On Tue, Jan 12, 2021 at 1:42 AM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Implementations may have a writable misa.v field. Analogous to the way
+> in which the floating-point unit is handled, the mstatus.vs field may
+> exist even if misa.v is clear.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-No clue, maybe simply remnant from unfinished work?
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> I tried this patch
-> and QEMU seems to compile OK:
-> 
-> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> index 140fa32a5e3..a827417a4d8 100644
-> --- a/include/hw/core/cpu.h
-> +++ b/include/hw/core/cpu.h
-> @@ -1131,8 +1131,6 @@ bool target_words_bigendian(void);
-> 
->  #ifdef CONFIG_SOFTMMU
->  extern const VMStateDescription vmstate_cpu_common;
-> -#else
-> -#define vmstate_cpu_common vmstate_dummy
->  #endif
-> 
->  #define VMSTATE_CPU() {                                                     \
+Alistair
 
-Great! Maybe even restricting VMSTATE_CPU() to softmmu-only:
-
--- >8 --
-@@ -1131,9 +1131,6 @@ bool target_words_bigendian(void);
-
- #ifdef CONFIG_SOFTMMU
- extern const VMStateDescription vmstate_cpu_common;
--#else
--#define vmstate_cpu_common vmstate_dummy
--#endif
-
- #define VMSTATE_CPU() {
-     \
-     .name = "parent_obj",
-     \
-@@ -1142,6 +1139,7 @@ extern const VMStateDescription vmstate_cpu_common;
-     .flags = VMS_STRUCT,
-     \
-     .offset = 0,
-     \
- }
-+#endif
-
- #endif /* NEED_CPU_H */
----
-
-I'll wait if David/Juan have any comment, else respin based
-on your patch.
-
-Thanks,
-
-Phil.
+> ---
+>  target/riscv/csr.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index a70a78386da..c8b1e4954ec 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -579,7 +579,7 @@ static int write_misa(CPURISCVState *env, int csrno, target_ulong val)
+>      val &= env->misa_mask;
+>
+>      /* Mask extensions that are not supported by QEMU */
+> -    val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> +    val &= (RVI | RVE | RVM | RVA | RVF | RVD | RVC | RVS | RVU | RVV);
+>
+>      /* 'D' depends on 'F', so clear 'D' if 'F' is not present */
+>      if ((val & RVD) && !(val & RVF)) {
+> --
+> 2.17.1
+>
+>
 
