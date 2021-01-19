@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 942F82FBFEB
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:29:28 +0100 (CET)
-Received: from localhost ([::1]:49482 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A002FBFE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:20:56 +0100 (CET)
+Received: from localhost ([::1]:58960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1wgx-0002Om-0D
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:29:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47832)
+	id 1l1wYh-0002DS-Df
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:20:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=646a5f148=alistair.francis@wdc.com>)
- id 1l1vga-0002iN-01; Tue, 19 Jan 2021 13:25:00 -0500
-Received: from esa5.hgst.iphmx.com ([216.71.153.144]:8318)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1vgt-00033G-6C; Tue, 19 Jan 2021 13:25:19 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24]:52575)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=646a5f148=alistair.francis@wdc.com>)
- id 1l1vgW-0008M6-OT; Tue, 19 Jan 2021 13:24:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1611080696; x=1642616696;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=jyyeFgotAtHBsttKtybkfyF9CLt9zaVHlJoGJAIS1C0=;
- b=l9Ux65av6v2VAw3hxhkEEdnwdM58F2BDelnHlegY1UDfShz0IN4/tTMF
- Ged5CfJfdGztgtHjfKFQEbtJpEf5PuKYhx7s6qzZzTI3Z66jUhfT9fLCd
- tctR+8G5BVzw13JUEZq/wd+MNuarE6Rz1EtTyZFUjlP4849ibkozJvMji
- yt97UzWI79SJ7e43jeGb9R/Mt6AI37T/br5UByl7OC15qpc3vYWFGJW2O
- ug/UNNcN+gBsUSnUBhfb96/B4jIcYvK5ouFfgoA2OjieTAwXFGOt4Se69
- nGZYn+brwvciqqFJg99pZWJZxS5HIXHqX0lAjPBli90RKM7VJ0kND32s9 A==;
-IronPort-SDR: 5Be6bZ9Q52HZ2ukV6puQZ1ng7Cr3d9aEcccpRrngn/y0wRHfkFcRtctnEWyAD3mEotP6OF0tea
- DdE/1Pm1fr56h/XWNXTIN6LzJ4HnIzVV3fDLWyndLnwpUdUfszHXarjJW5A3+6XAtXEcpqNpg/
- iIrRdmJ8R9Xor+7KD/A9czKGvSmZcoWjWuYgn5trdDGu81epPCzUgmXLdvlyyiWor5zSJ54Ubd
- E939ojZhMg3/9oWxWLKyRe/v9tg1PW5E7EQGukGOlrUGqFpAd+Fr3R3zkIOWX3RtFyCRIAIdcQ
- ypY=
-X-IronPort-AV: E=Sophos;i="5.79,359,1602518400"; d="scan'208";a="157820559"
-Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2021 02:24:52 +0800
-IronPort-SDR: 9wIGnva2gLqmPcXydRK8BME+tVKgCcDO1+qumfo55tjdDGTHkPgbboKGqEBM1A9OunSq18IM/I
- AEdaLwF+VIA84jfa3tjQcRluAPYu36b2KWHfBmyKTucS5KBszCO3fuWCVvH0WTaz4KZCfG4FOG
- vB4tnkg6ZRCh1PlVEbk9TZ7V++I5i51H6bc9OHd+LsuB8Jr0jgufbpmo20T4ALWyb/b549JMbv
- NoS6iP0lbNcLBZFjMpB/v6sd1QsNlLCnjZQ5Q+mDrA+F2Xeh1P7NRz9rzs+PcVnxgPev0kvmsq
- KPr9TVmNfiDsFQjkNr2W6oqC
-Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 19 Jan 2021 10:09:29 -0800
-IronPort-SDR: Rv3rNxIFwjRhI51kN5ZK0KRGA8U4FTK0MQKcStcS3ZbZ5/uyiAaPKW+BbrALgWGEY9vv3DOeLA
- qoDNL2EzPiJ915F4ccgTn68I8Jydxm7V+bQcisdBgNyg8Aw6k8t05ahlplPJ40nid5VxAL/d66
- Cghxe5K7NXskf+j3pa1UMDqncOXBBrx2ixK5OieUA+oOcF8+8VF6EBxdhgpIXUT1DkA/7kvBqM
- /5hlU4dQueeH7VezbQOPCM280cv63sVMSVOW9Yzww6iEwYhwRsvThMbbVlX6+8lwpFpTZ5j6tj
- hdg=
-WDCIronportException: Internal
-Received: from usa002350.ad.shared (HELO risc6-mainframe.hgst.com)
- ([10.86.62.244])
- by uls-op-cesaip01.wdc.com with ESMTP; 19 Jan 2021 10:24:53 -0800
-From: Alistair Francis <alistair.francis@wdc.com>
-To: qemu-devel@nongnu.org,
-	qemu-riscv@nongnu.org,
-	dilfridge@gentoo.org
-Subject: [PATCH v2 1/1] linux-user/signal: Decode waitid si_code
-Date: Tue, 19 Jan 2021 10:24:52 -0800
-Message-Id: <1fb2d56aa23a81f4473e638abe9e2d78c09a3d5b.1611080607.git.alistair.francis@wdc.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l1vgp-0008Om-0i; Tue, 19 Jan 2021 13:25:18 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id DF0A5252;
+ Tue, 19 Jan 2021 13:25:11 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 19 Jan 2021 13:25:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=8ODvLl2T7HVQT3YC0WCiN3LjSmf
+ 2Kg2iHiHZ4czTC+M=; b=fU0GDNltccw/nrydKEKRX03Of55IdWoy7klHYQaOrVB
+ cR2W0GN+nNFwW0VyT1iGtpRmczBWyLxBJcf+2LS1+exkptXgYQkzlqABkhRawr/D
+ kxSmIQ0aR7rLfaxX0o26iQt2gfxRTxluFNYzecC63YXD9AWWhuWcAd7AnJbzYOCS
+ 26YguC4Au6YL4oHt9t17Sv4N2iYaRLTvei6lUZJo454Vnxmi4kLS/BKzgfjcdQ3L
+ 7thN8pdxdC2Atz9ZY0efVPbomhyapexBLP2l1GHTpqUe3c6jjf+ccoRyOLzp8V3/
+ cmgBtygswFSxrQuRT4QpKmVFAgukL6qSMtKjxz/FoXQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=8ODvLl
+ 2T7HVQT3YC0WCiN3LjSmf2Kg2iHiHZ4czTC+M=; b=DK9mNW2NJv8nEwYs8gufNm
+ LKVO99/TWaYBNDnIHJWyd5mU5qgwggXlCZgpm7O2RbnRQdJRZOoW3WJZUw6oN1ND
+ O5iUjvnUrWGhnX5K/5Q9KTrZet3nCFqmdGG14O5gZAg7GzRutRwCARbyglkODUje
+ x/ufdaGNq7uZSNzTV2feYDT9H7ahrdpkRtfo0c6W5yCesyzukukSU7nHYS10TQbM
+ 1SBtxxsvn+UrOo5eLRBrktH3ELtgGafPf/67G6101lgOZFNzgY27bh2Mt1e8RUpA
+ e0aHuNS+3Snp8e7dcQMvPG6HG/gS/qpHCUKWYfu0yFUdqgIS7DrDfEcVaiQrfcFA
+ ==
+X-ME-Sender: <xms:BiQHYIDDFXcuG1Z91veoD-S7iEhKxC7zCRhFtOF7NM3ngS5omQtCwA>
+ <xme:BiQHYKhZ38OhZj1q1g9X-leJPA7LwW3d4ILE1lYP9X_g13jCpSeUqJnpVWNIgqHLg
+ VROu16Q9e0PbvFq1wI>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgdduudefucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:ByQHYLl05l4dTKfq_Wcr0CobqGNieIn8gCU0gUUy52u1uyrC1UjB7w>
+ <xmx:ByQHYOxUbcJN5Jmd_wP9fjX1LFJxcDhALpLucbcyl7y3Gr6ROLxoXA>
+ <xmx:ByQHYNT0rDD9TcZosqXAXDiztqllmHlYg-5-hdkwJoFlP4TqDYDtkg>
+ <xmx:ByQHYLMWbUFjAyyRs4U5_2RIVR9N-orTtieOF60bF2fsWHKxairWoQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 04FB024005D;
+ Tue, 19 Jan 2021 13:25:09 -0500 (EST)
+Date: Tue, 19 Jan 2021 19:25:08 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [RFC PATCH V3 7/8] hw/block/nvme: add 'detached' param not to
+ attach namespace
+Message-ID: <YAckBNC3ReHdyP4w@apples.localdomain>
+References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
+ <20210119170147.19657-8-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.71.153.144;
- envelope-from=prvs=646a5f148=alistair.francis@wdc.com;
- helo=esa5.hgst.iphmx.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="asjrlrb8zJ6YZkI6"
+Content-Disposition: inline
+In-Reply-To: <20210119170147.19657-8-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=its@irrelevant.dk;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,44 +95,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alistair.francis@wdc.com, bmeng.cn@gmail.com, palmer@dabbelt.com,
- alistair23@gmail.com
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When mapping the host waitid status to the target status we previously
-just used decoding information in the status value. This doesn't follow
-what the waitid documentation describes, which instead suggests using
-the si_code value for the decoding. This results in the incorrect values
-seen when calling waitid. This is especially apparent on RV32 where all
-wait calls use waitid (see the bug case).
 
-This patch just passes the waitid status directly back to the guest.
+--asjrlrb8zJ6YZkI6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1906193
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
----
-v2:
- - Set tinfo->_sifields._sigchld._status directly from status
+On Jan 20 02:01, Minwoo Im wrote:
+> Introduced 'detached' parameter to nvme-ns device.  If given, the
+> namespace will not be attached to controller(s) in the subsystem.  If
+> 'subsys' is not given with this option, it should be provided with 'bus'
+> which is for private namespace.
+>=20
+> This patch also introduced 'ctrls_bitmap' in NvmeNamespace instance to
+> represent which controler id(cntlid) is attached to this namespace
+> device.  A namespace can be attached to multiple controllers in a
+> subsystem so that this bitmap maps those two relationships.
+>=20
+> The ctrls_bitmap bitmap should not be accessed directly, but through the
+> helpers introduced in this patch: nvme_ns_is_attached(),
+> nvme_ns_attach(), nvme_ns_detach().
+>=20
+> Note that this patch made identify namespace list data not hold
+> non-attached namespace ID in nvme_identify_nslist.  Currently, this
+> command handler is for CNS 0x2(Active) and 0x10(Allocated) both.  The
+> next patch will introduce a handler for later on.
+>=20
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> ---
+>  hw/block/nvme-ns.c     |  9 +++++++++
+>  hw/block/nvme-ns.h     |  6 ++++++
+>  hw/block/nvme-subsys.c |  2 ++
+>  hw/block/nvme.c        | 31 ++++++++++++++++++++++++++++++-
+>  hw/block/nvme.h        | 15 +++++++++++++++
+>  5 files changed, 62 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+> index 073f65e49cac..70d42c24065c 100644
+> --- a/hw/block/nvme-ns.c
+> +++ b/hw/block/nvme-ns.c
+> @@ -17,6 +17,7 @@
+>  #include "qemu/cutils.h"
+>  #include "qemu/log.h"
+>  #include "qemu/error-report.h"
+> +#include "qemu/hbitmap.h"
 
- linux-user/signal.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Isn't the HBitmap slightly overkill? Can qemu/bitmap.h suffice?
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 73de934c65..7eecec46c4 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -349,8 +349,7 @@ static inline void host_to_target_siginfo_noswap(target_siginfo_t *tinfo,
-         case TARGET_SIGCHLD:
-             tinfo->_sifields._sigchld._pid = info->si_pid;
-             tinfo->_sifields._sigchld._uid = info->si_uid;
--            tinfo->_sifields._sigchld._status
--                = host_to_target_waitstatus(info->si_status);
-+            tinfo->_sifields._sigchld._status = info->si_status;
-             tinfo->_sifields._sigchld._utime = info->si_utime;
-             tinfo->_sifields._sigchld._stime = info->si_stime;
-             si_type = QEMU_SI_CHLD;
--- 
-2.29.2
+>  #include "hw/block/block.h"
+>  #include "hw/pci/pci.h"
+>  #include "sysemu/sysemu.h"
 
+--asjrlrb8zJ6YZkI6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAHJAIACgkQTeGvMW1P
+DenfVAf+JooQZ2QubR2hBCgMtWfwW0eX5dyfIcnO4d321X8YPVXdzc4Kuz3c0rOi
+Tkw9r6mx1DOUNYNOPt2ciJeeyw0bvGV2j2JLkKeqbuFLPUePa5t7f1+HEuTqzhJi
+btvmy34A7yevHu2ZSEla6ncoz6Czur5tCexjOkY40ROzoOurDmPdC2fydSafrfKH
+aFGZyZHMH4eecwJEGO5iCaTbinIWmNBuyncH/VBkmlWR/wK2Rpd8j7maDo6d+oR7
+TdNh0FMKYkkLmUdUn56SAahXzJEIVlBhYiewVAC4fFPHWO9/Nt3I3V6LIUcI+O+J
+IPQvR2GMnBDjRvCv/4evGR8BSbbxRg==
+=fbct
+-----END PGP SIGNATURE-----
+
+--asjrlrb8zJ6YZkI6--
 
