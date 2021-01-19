@@ -2,92 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B502FBCE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:51:20 +0100 (CET)
-Received: from localhost ([::1]:40386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84ABA2FBCF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:53:35 +0100 (CET)
+Received: from localhost ([::1]:45170 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1uDv-0004Fz-5F
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:51:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48054)
+	id 1l1uG6-0006N6-IR
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:53:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48846)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1u2j-0002L4-1G
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:39:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29656)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1u2g-00086L-VL
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:39:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611074380;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3gwvvmnmTBYYOCfokOxnehykd/YYR6CfyhlXS4IIlU0=;
- b=P7sWcri9lgxcn6vnAkI/6LPgXeE1jpO3a2FJrdd7E5Y9+xNFbXq4m+OLx9in1LWXjVooao
- vCo0tZ4vaVS9EVTXETQ5UsD+YSDEciQHGh96qudHTmyutVuLgTFDutXF6yaUZnWegQsuTS
- rSP9LVAug5Ew2V4b3WsJRkzc1UnSfWU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-U5nQ0o6-MmaIrBDjGEZTbw-1; Tue, 19 Jan 2021 11:39:34 -0500
-X-MC-Unique: U5nQ0o6-MmaIrBDjGEZTbw-1
-Received: by mail-wm1-f70.google.com with SMTP id s10so118521wme.8
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 08:39:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3gwvvmnmTBYYOCfokOxnehykd/YYR6CfyhlXS4IIlU0=;
- b=LIh95rT9RqGKO++IREbSHxYs8B7PSqqj4xofP/loqhL6gv0HU2GIIIrVAo2EO+XbYm
- qjTvsECJ0GDURMIUflmboUo827oIF0uTDTkKtp1ijXab7uBDTM+R5i7mCIpIeCbhWJcL
- 7buscXAD2+wIUIaYor+Uc8MIfkz9nrbw7KBvTjmTeTADAzFdqMg4UdwTJzlYN6CZT92c
- FaT6n7TPB1vgiuAh5WgJposSosV+KO1nlazkO8LWqzeYzDyI7ETpCjaEcDXPLqEyC7oN
- MQeGF+kzAXv77gXZOBkaC/dDcAThWSQ4/VjuzNyMzElqdcX+MTMxshhpvhODUvEkNLqw
- IAtw==
-X-Gm-Message-State: AOAM5338j4ZS+0wxDJmkUviK9/Sl8Kmtu/zIgvOL8VnLvxahZ0L7pL+Q
- V1oU7eCq6eDvWSznjstF1UehCPBuvuCxHfgavGxBn5jHGXBNe/5EfYruSHuEo0tPhAOQkmJ20yn
- AFNKLtJh1hK2i9yE=
-X-Received: by 2002:a5d:4e8c:: with SMTP id e12mr5014986wru.321.1611074373414; 
- Tue, 19 Jan 2021 08:39:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwfTn7spzfM4fyK0WCDwObvS+zPO89f1dM7+DYbcCuYe1MNTtc/WIMqDfzlAdIGtS8N/9YOWA==
-X-Received: by 2002:a5d:4e8c:: with SMTP id e12mr5014969wru.321.1611074373171; 
- Tue, 19 Jan 2021 08:39:33 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x25sm5562666wmk.20.2021.01.19.08.39.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 08:39:32 -0800 (PST)
-To: Stefan Hajnoczi <stefanha@redhat.com>
-References: <20210119132619.302207-1-pbonzini@redhat.com>
- <20210119145622.GC288294@stefanha-x1.localdomain>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] deploy docs to qemu-project.org from GitLab CI
-Message-ID: <a593df77-47cc-2a8d-2083-74be3183ec57@redhat.com>
-Date: Tue, 19 Jan 2021 17:39:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <20210119145622.GC288294@stefanha-x1.localdomain>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-US
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l1u4G-0003ym-OT; Tue, 19 Jan 2021 11:41:23 -0500
+Received: from mail-co1nam11on2134.outbound.protection.outlook.com
+ ([40.107.220.134]:28384 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l1u49-0000EO-VJ; Tue, 19 Jan 2021 11:41:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DJw7KRAjJ/H76BHbiAG1Rr/cpOAf7FMVCuXJDzM1m74nGXRPT2L+dw9LfvtXMe9tgfelDaX3fSjjdJTwYULwEO3SuFfCoYanBpno7aAL1ZH2gSjdGzDTpPNu3ymaj1OtAZJVEGM2OgosdGzrAJJsv6ZoinxelWd9hlnXrGW45jCeLtgldPpi2vshN6DgKsb1j7YSHHb9OORrMUz+amO7r3NKKSjd3tvOgrUREg3/WWFetP2lCG14xu3DdKEeRNY+MaN/oHOFjpjkqbExW/NFYXEUvP7J2XpF6M7OixznmF1rHEA74BJWRDgUAsD5NY+x/4sQ4cObq6w9ke+d1Mwx5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SdvkesjHJd122VPKtGbhb08/Y3rRR/SbUJrwZHMpTEE=;
+ b=B6rB2VJu0aAMYQ0NrSRev6ZG+umu30Qgm4iRHtCAuMia/cK3cIEhlNuH9lsty3EiOt0MInP07CflJgFcAb5HrDsE1qTvZ7mu7WLxPfxBj3q9Lu3MUXg09TK+utKtPaEFNOIicCR//omroKWvwVAIJ1dfG1Ub9c3ljC4D0uNIX9OSZA0RQB3mvwpEhXJHU3A6y7eQqn/8qbHhpmAv4bz3PGEhAl8ecC9y3F5hL/pQGnKn3UPKxNcEnaQdRJk3OowH+esrXnLI3kFNp8JZkWq8GY6wfPI6/zI8YheQyyRi4oGfxru8UCU+wpsSgJuds5tXmJi27+bN7rJk0UAel8T+zA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
+ header.d=bu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SdvkesjHJd122VPKtGbhb08/Y3rRR/SbUJrwZHMpTEE=;
+ b=3H/FHzRc/CC4Jv07gX6P62VugqAAB0bH0wd2u0w4QiWvYd+ZyYSGb8rKPIf200BwHj7X9jZt2YDl5DDIunE9GdTS2k5qa/l2G+wUxeds23XaNweVc4Upk4np/OQpg0pvzrKW8hbh7sveOIMTCg2asC7DiidjyeMaflocEySzT4U=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
+ by SN6PR03MB4176.namprd03.prod.outlook.com (2603:10b6:805:c0::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 19 Jan
+ 2021 16:41:04 +0000
+Received: from SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::e828:cd84:e00c:6310]) by SN6PR03MB3871.namprd03.prod.outlook.com
+ ([fe80::e828:cd84:e00c:6310%6]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
+ 16:41:04 +0000
+From: Alexander Bulekov <alxndr@bu.edu>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/ide/ahci: map cmd_fis as DMA_DIRECTION_TO_DEVICE
+Date: Tue, 19 Jan 2021 11:40:51 -0500
+Message-Id: <20210119164051.89268-1-alxndr@bu.edu>
+X-Mailer: git-send-email 2.28.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-Originating-IP: [72.74.210.193]
+X-ClientProxiedBy: MN2PR20CA0011.namprd20.prod.outlook.com
+ (2603:10b6:208:e8::24) To SN6PR03MB3871.namprd03.prod.outlook.com
+ (2603:10b6:805:6d::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from stormtrooper.vrmnet (72.74.210.193) by
+ MN2PR20CA0011.namprd20.prod.outlook.com (2603:10b6:208:e8::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 16:41:03 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: b56203f3-3926-4789-3561-08d8bc990316
+X-MS-TrafficTypeDiagnostic: SN6PR03MB4176:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <SN6PR03MB4176C2B74516CF8959DEFA6FBAA30@SN6PR03MB4176.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:651;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: CrVJ8W/HPY2fuV9oLNrQgFoaQKdK6ROWul+T4SfKXYWAmFC5ONF8ArD6q3SvQt08JOWs4k5iGVTTmKBPgCKKbquRGqF13mQHymmxhUUsMM6UG3QWxD2obaNTYFFaxrUkFO8hLh9+cfP1HpCzvZsqHWosVNP+KJfXvSEx2O8KB5DrnlwyZH57krgmh03ES7uC0Z9JuQARR62seZS4egnf3+OTNN62Px4DPqLM2vfHvezC6gvJV1Wpltf9V1xeQFqPeLZ0NgrhL00UtEKdzs23jhY+buGkDLfk84ku5JQisK01lFszq4gQB8yhmsM37hXS/MQHRzSdwQLtvL+P3cUqpNE5pSF1GHGVQ/b0C289RoRBoczsdoYzsmMnoc2fVR+SigMA9V3eZReEm9z9ab2eNQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(136003)(366004)(376002)(346002)(186003)(16526019)(786003)(316002)(26005)(86362001)(75432002)(6916009)(2906002)(8936002)(1076003)(6512007)(36756003)(4326008)(478600001)(52116002)(6666004)(6486002)(54906003)(6506007)(83380400001)(8676002)(66476007)(66556008)(2616005)(956004)(5660300002)(66946007);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?1ah9NtdtWMjw9JKyiJWg+1ou5UrA9XvJxhIAYpG+3llKto0Z5RqHl6UV9FrP?=
+ =?us-ascii?Q?n5oPXp9mG5lXo7hvLH8IocFdlNGC54vTodRIcVw9GjmEw91nPbFPd+17NTPu?=
+ =?us-ascii?Q?DCGUh6Iq4SlFa2U5/WmKKUZqzc0wL4nTTPm6mRhvuR+lzV/jr0ZEnP/u1Uey?=
+ =?us-ascii?Q?SC+6DDAO9qmm57RHEPLebNDH0rdp+oOKcZUL/pERdUqnlUNAPp5d9liOTDTz?=
+ =?us-ascii?Q?vyz6lMtu2p0GUQvFG702gxQ0pGS5doI7cqUaiWZg/dNJi7Y9fWR0fcmPKpQx?=
+ =?us-ascii?Q?GvemZJwR8IfPf/sH6SaVlgvmI7/9fOzCoJJ5CESF/iqZWMQZV3sSr2pVED8Y?=
+ =?us-ascii?Q?vHZ04mypauEvdgsplfBddOaSsYTzDFTChgUZsnHziHfHkU5EXVU3E43nZQxh?=
+ =?us-ascii?Q?ZmVxFYSZGrJ2kIiG1IG4l/WPtcitVJbM2ybpKMRcLS6UyMt9jKi9Dk+nJi8G?=
+ =?us-ascii?Q?q60ycLjr+1t/Y3R0qXOwqoUQviThoStA20BgFwcPISGMmmoUIyF8UJyVwMBx?=
+ =?us-ascii?Q?0qr+9r7KvT5TX5bAU/PlyjUJCiiqfbowUkew1/cXjDTcFPFWym8LLG7+K5UE?=
+ =?us-ascii?Q?KFdzhhrbUIoLzaHWtcvCXKbRuzJTm+sLjyYDdDFxnkJv1cmfQzEoRKjKWCaF?=
+ =?us-ascii?Q?1i1H89hv1ByRJsKMYpXbOOdy3FyHmqzHjGq60E/g/HZJlMozPaYr6A4DU9I+?=
+ =?us-ascii?Q?nPaZbn3a0VgImGacF4ABqY+zM5bfbgp9shKAFNYtgUYUX/lO2EF05YNhQUp6?=
+ =?us-ascii?Q?qLOQhlQ/wolYFw2Mr+39qjyyv3u7H8iA+V6gfOI+Qsw6IeEl6F14vajROkOn?=
+ =?us-ascii?Q?FDbUseoIDJ9a5zotHIBsa2C1s5pfre2aJNAvpVD6NG6oLR5EjLlGDKdfoB/a?=
+ =?us-ascii?Q?B0/6VoqPqViHIfNPiBKqWU1zs8pq8OjNF+SN5AH33PpJJOFkDHFqbTi6zVYr?=
+ =?us-ascii?Q?x6UPPGDZr4re4SXr5izt55JSlZQruFRBUux72IUuTErEiGVxffa6Vuxclr2M?=
+ =?us-ascii?Q?WzZl?=
+X-OriginatorOrg: bu.edu
+X-MS-Exchange-CrossTenant-Network-Message-Id: b56203f3-3926-4789-3561-08d8bc990316
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 16:41:04.2876 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jyDE9nbFESFbRznmMPZ10DbLgCJLLeXnwqXjM9WexEfutPUrCRAYCOgVjN1Ivu33
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4176
+Received-SPF: pass client-ip=40.107.220.134; envelope-from=alxndr@bu.edu;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -8
+X-Spam_score: -0.9
+X-Spam_bar: /
+X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.998,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,63 +125,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, qemu-devel@nongnu.org
+Cc: Alexander Bulekov <alxndr@bu.edu>, John Snow <jsnow@redhat.com>,
+ "open list:IDE" <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/01/21 15:56, Stefan Hajnoczi wrote:
-> Hmm...the UNIX account on qemu.org is locked down to some extent but I
-> don't feel comfortable with a GitLab CI job sshing into qemu.org.
+cmd_fis is mapped as DMA_DIRECTION_FROM_DEVICE, however, it is read
+from, and not written to anywhere. Fix the DMA_DIRECTION and mark
+cmd_fis as read-only in the code.
 
-As you say, the qemu-deploy account on qemu.org is limited to writing to 
-/var/www/qemu-project.org.  Its own home directory is also limited with 
-"chattr +i".
+Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+---
+ hw/ide/ahci.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-The same CI runners are already using the qemu-deploy user to deploy the 
-website itself.  (To state the obvious, you can only do this if you can 
-push to the qemu-project GitLab organization.  Regular users can 
-configure their fork to deploy to a different server using a different 
-ssh private key, but their CI jobs won't touch qemu-project.org).
-
-There are other ways to do defense in depth.
-
-We could use https://www.hashicorp.com/cloud-platform for the ssh 
-private key.  Right now the ssh private key (which of course only grants 
-access to the qemu-deploy user) is accessible to everyone with 
-administrator access to the QEMU GitLab project; a Vault instance could 
-have more limited access.
-
-With respect to the ssh private key, however, a bigger risk factor is 
-that a botched (even if not malicious) patch can reach the QEMU or 
-qemu-web git repositories, causing the private key to appear in public 
-CI logs.  To mitigate this we could set up a restricted bash for the 
-qemu-deploy user on qemu.org.  It would require small changes to 
-gitlab-ci.yml to avoid the "cd" command, as well as configuring a 
-restricted PATH via ~/.ssh/environment, but overall it would be easy. 
-It would also protect against a malicious actor sneaking in a patch to 
-gitlab-ci.yml that makes it do bad things.
-
-Neither of these has to be done now.  The current way to do things is 
-more or less what GitLab recommends so, security-wise, it's not entirely 
-broken.
-
-> ssh access aside, we are publishing HTML from a shared CI runner to
-> qemu.org. Effectively we are allowing an untrusted machine to publish
-> HTML/JS/CSS on qemu.org. It could steal HTTP Cookies or do other
-> malicious things.
-
-Note that we don't use cookies on www.qemu.org and don't have a CORS 
-policy either.  Only wiki.qemu.org uses cookies.
-
-Paolo
-
-> That is less of a problem when there is a dedicated
-> subdomain so that the Same Origin policy can provide isolation. Maybe
-> there are more recent web security mechanisms that allow us to define a
-> policy so browsers do not treat qemu.org/docs/* the same as other
-> qemu.org pages?
-> 
-> (This wasn't a problem before since the container was running on a
-> dedicated instance under our control.)
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index 4b675b9cfd..6432d44ad8 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -699,7 +699,7 @@ static void ahci_reset_port(AHCIState *s, int port)
+ }
+ 
+ /* Buffer pretty output based on a raw FIS structure. */
+-static char *ahci_pretty_buffer_fis(uint8_t *fis, int cmd_len)
++static char *ahci_pretty_buffer_fis(const uint8_t *fis, int cmd_len)
+ {
+     int i;
+     GString *s = g_string_new("FIS:");
+@@ -1099,11 +1099,11 @@ static void execute_ncq_command(NCQTransferState *ncq_tfs)
+ }
+ 
+ 
+-static void process_ncq_command(AHCIState *s, int port, uint8_t *cmd_fis,
++static void process_ncq_command(AHCIState *s, int port, const uint8_t *cmd_fis,
+                                 uint8_t slot)
+ {
+     AHCIDevice *ad = &s->dev[port];
+-    NCQFrame *ncq_fis = (NCQFrame*)cmd_fis;
++    const NCQFrame *ncq_fis = (NCQFrame *)cmd_fis;
+     uint8_t tag = ncq_fis->tag >> 3;
+     NCQTransferState *ncq_tfs = &ad->ncq_tfs[tag];
+     size_t size;
+@@ -1183,7 +1183,7 @@ static AHCICmdHdr *get_cmd_header(AHCIState *s, uint8_t port, uint8_t slot)
+ }
+ 
+ static void handle_reg_h2d_fis(AHCIState *s, int port,
+-                               uint8_t slot, uint8_t *cmd_fis)
++                               uint8_t slot, const uint8_t *cmd_fis)
+ {
+     IDEState *ide_state = &s->dev[port].port.ifs[0];
+     AHCICmdHdr *cmd = get_cmd_header(s, port, slot);
+@@ -1299,7 +1299,7 @@ static int handle_cmd(AHCIState *s, int port, uint8_t slot)
+     tbl_addr = le64_to_cpu(cmd->tbl_addr);
+     cmd_len = 0x80;
+     cmd_fis = dma_memory_map(s->as, tbl_addr, &cmd_len,
+-                             DMA_DIRECTION_FROM_DEVICE);
++                             DMA_DIRECTION_TO_DEVICE);
+     if (!cmd_fis) {
+         trace_handle_cmd_badfis(s, port);
+         return -1;
+@@ -1324,7 +1324,7 @@ static int handle_cmd(AHCIState *s, int port, uint8_t slot)
+     }
+ 
+ out:
+-    dma_memory_unmap(s->as, cmd_fis, cmd_len, DMA_DIRECTION_FROM_DEVICE,
++    dma_memory_unmap(s->as, cmd_fis, cmd_len, DMA_DIRECTION_TO_DEVICE,
+                      cmd_len);
+ 
+     if (s->dev[port].port.ifs[0].status & (BUSY_STAT|DRQ_STAT)) {
+-- 
+2.28.0
 
 
