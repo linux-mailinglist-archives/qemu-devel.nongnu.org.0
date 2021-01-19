@@ -2,74 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF522FB4ED
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 10:33:30 +0100 (CET)
-Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A81B2FB4F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 10:38:08 +0100 (CET)
+Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1nOC-0002xF-U7
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 04:33:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
+	id 1l1nSh-0004nU-2j
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 04:38:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l1nMX-0002MN-G9
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:31:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l1nMU-0004Lx-0f
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:31:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611048699;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Xulv5qrwxLW33dgl698lNJ3S8VNsLvKeCSoAliN+00Q=;
- b=WLVgi0kZYwNJxvKv1SExsK80UYNXHAoj9KKXfLccsVugWdCTxtzj5/AkHpuvCgFCx3azrc
- T7pcDuEW+XBBQATvQ/KeCsXm6gqwol+pUpfOHhhNBr4LYAddjXTkxQRBoS22LE1XamrCz5
- 5nupxt8Rbb1Yzj4tB0+XvUpNTLoSZow=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-40-CssNfIJaMfuScwP84PLyXA-1; Tue, 19 Jan 2021 04:31:35 -0500
-X-MC-Unique: CssNfIJaMfuScwP84PLyXA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3735859;
- Tue, 19 Jan 2021 09:31:33 +0000 (UTC)
-Received: from work-vm (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FFAC27C2E;
- Tue, 19 Jan 2021 09:31:26 +0000 (UTC)
-Date: Tue, 19 Jan 2021 09:31:23 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v2 02/20] hw/core/qdev: Add
- vmstate_qdev_no_state_to_migrate
-Message-ID: <20210119093123.GB3008@work-vm>
-References: <20210117192446.23753-1-f4bug@amsat.org>
- <20210117192446.23753-3-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l1nRP-0004Di-3I
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:36:47 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:57936)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l1nRJ-0006Zk-1k
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:36:46 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:36:24 +0100
+Received: (qmail 28977 invoked from network); 19 Jan 2021 09:36:28 -0000
+Received: from ac32.vpn.kamp-intra.net (HELO ?172.20.250.32?)
+ (pl@kamp.de@::ffff:172.20.250.32)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
+ 19 Jan 2021 09:36:28 -0000
+Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
+To: dillaman@redhat.com
+References: <20201227164236.10143-1-pl@kamp.de>
+ <20201227164236.10143-8-pl@kamp.de>
+ <CA+aFP1AJ1cMdMGr-Odq+qzgZo9FF89mVy1KzNcoKifjQFwDvJA@mail.gmail.com>
+ <f7358dc9-6135-dfa7-fd50-f863d0c8890a@kamp.de>
+ <CA+aFP1Aayup5p482M8tsK3Zy62FLsfgUuQYnw_bSte-RuBrQXg@mail.gmail.com>
+ <75992ffb-3b6e-c31a-a9a0-956daa7752e6@kamp.de>
+ <CA+aFP1DMTdxvi=C2=8hXYrWBf3nXqQ9ZjHPCEbsCo5biiRnQrA@mail.gmail.com>
+From: Peter Lieven <pl@kamp.de>
+Message-ID: <1a83a103-33d5-6bfd-d6f8-87cf030521eb@kamp.de>
+Date: Tue, 19 Jan 2021 10:36:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210117192446.23753-3-f4bug@amsat.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CA+aFP1DMTdxvi=C2=8hXYrWBf3nXqQ9ZjHPCEbsCo5biiRnQrA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.194,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,138 +64,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>, Joel Stanley <joel@jms.id.au>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (f4bug@amsat.org) wrote:
-> Add vmstate_qdev_no_state_to_migrate, which is simply a
-> pointer to vmstate_no_state_to_migrate. This way all
-> qdev devices (including "hw/qdev-core.h") don't have to
-> include "migration/vmstate.h".
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> Unresolved issues:
-> 
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg721695.html
-> Peter:
-> > Does this definitely not put any data into the migration stream?
-> > We don't want to change what's on the wire for machines that
-> > use devices that start using this. (If it does by default, it
-> > would be easy to make the migration code special case the
-> > magic symbol to act like "no vmsd specified").
-> 
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg727634.html
-> Dave:
-> > I'd need to test it to be sure, but I think if we added a .needed
-> > to vmstate_no_state_to_migrate with a function that always returned
-> > false, then I think the stream would stay unchanged.
+Am 18.01.21 um 23:33 schrieb Jason Dillaman:
+> On Fri, Jan 15, 2021 at 10:39 AM Peter Lieven <pl@kamp.de> wrote:
+>> Am 15.01.21 um 16:27 schrieb Jason Dillaman:
+>>> On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
+>>>> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
+>>>>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
+>>>>>> since we implement byte interfaces and librbd supports aio on byte granularity we can lift
+>>>>>> the 512 byte alignment.
+>>>>>>
+>>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>>>>>> ---
+>>>>>>  block/rbd.c | 2 --
+>>>>>>  1 file changed, 2 deletions(-)
+>>>>>>
+>>>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>>>> index 27b4404adf..8673e8f553 100644
+>>>>>> --- a/block/rbd.c
+>>>>>> +++ b/block/rbd.c
+>>>>>> @@ -223,8 +223,6 @@ done:
+>>>>>>  static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
+>>>>>>  {
+>>>>>>      BDRVRBDState *s = bs->opaque;
+>>>>>> -    /* XXX Does RBD support AIO on less than 512-byte alignment? */
+>>>>>> -    bs->bl.request_alignment = 512;
+>>>>> Just a suggestion, but perhaps improve discard alignment, max discard,
+>>>>> optimal alignment (if that's something QEMU handles internally) if not
+>>>>> overridden by the user.
+>>>> Qemu supports max_discard and discard_alignment. Is there a call to get these limits
+>>>>
+>>>> from librbd?
+>>>>
+>>>>
+>>>> What do you mean by optimal_alignment? The object size?
+>>> krbd does a good job of initializing defaults [1] where optimal and
+>>> discard alignment is 64KiB (can actually be 4KiB now), max IO size for
+>>> writes, discards, and write-zeroes is the object size * the stripe
+>>> count.
+>>
+>> Okay, I will have a look at it. If qemu issues a write, discard, write_zero greater than
+>>
+>> obj_size  * stripe count will librbd split it internally or will the request fail?
+> librbd will handle it as needed. My goal is really just to get the
+> hints down the guest OS.
+>
+>> Regarding the alignment it seems that rbd_dev->opts->alloc_size is something that comes from the device
+>>
+>> configuration and not from rbd? I don't have that information inside the Qemu RBD driver.
+> librbd doesn't really have the information either. The 64KiB guess
+> that krbd uses was a compromise since that was the default OSD
+> allocation size for HDDs since Luminous. Starting with Pacific that
+> default is going down to 4KiB.
 
-Yes I still think you need that; if you only use this for base classes
-rather than devices themselves you're probably OK; but if you use it on
-a device I think you'll end up with an empty-state entry in the
-migration stream.
 
-Dave
+I will try to adjust these values as far as it is possible and makes sense.
 
-> ---
->  include/hw/qdev-core.h      | 2 ++
->  include/migration/vmstate.h | 1 +
->  hw/core/qdev.c              | 3 +++
->  migration/vmstate.c         | 7 +++++++
->  stubs/vmstate.c             | 7 +++++++
->  5 files changed, 20 insertions(+)
-> 
-> diff --git a/include/hw/qdev-core.h b/include/hw/qdev-core.h
-> index bafc311bfa1..d2c7a46e6a2 100644
-> --- a/include/hw/qdev-core.h
-> +++ b/include/hw/qdev-core.h
-> @@ -140,6 +140,8 @@ struct DeviceClass {
->      const char *bus_type;
->  };
->  
-> +extern const VMStateDescription *vmstate_qdev_no_state_to_migrate;
-> +
->  typedef struct NamedGPIOList NamedGPIOList;
->  
->  struct NamedGPIOList {
-> diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
-> index dda65c9987d..50559598eac 100644
-> --- a/include/migration/vmstate.h
-> +++ b/include/migration/vmstate.h
-> @@ -197,6 +197,7 @@ struct VMStateDescription {
->  #if defined(CONFIG_USER_ONLY)
->  extern const VMStateDescription vmstate_user_mode_cpu_dummy;
->  #endif
-> +extern const VMStateDescription vmstate_no_state_to_migrate;
->  
->  extern const VMStateInfo vmstate_info_bool;
->  
-> diff --git a/hw/core/qdev.c b/hw/core/qdev.c
-> index cefc5eaa0a9..f0d0afd438d 100644
-> --- a/hw/core/qdev.c
-> +++ b/hw/core/qdev.c
-> @@ -44,6 +44,9 @@
->  static bool qdev_hot_added = false;
->  bool qdev_hot_removed = false;
->  
-> +const VMStateDescription *vmstate_qdev_no_state_to_migrate =
-> +        &vmstate_no_state_to_migrate;
-> +
->  const VMStateDescription *qdev_get_vmsd(DeviceState *dev)
->  {
->      DeviceClass *dc = DEVICE_GET_CLASS(dev);
-> diff --git a/migration/vmstate.c b/migration/vmstate.c
-> index 05f87cdddc5..2c373774dfa 100644
-> --- a/migration/vmstate.c
-> +++ b/migration/vmstate.c
-> @@ -20,6 +20,13 @@
->  #include "qemu/error-report.h"
->  #include "trace.h"
->  
-> +const VMStateDescription vmstate_no_state_to_migrate = {
-> +    .name = "empty-state",
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  static int vmstate_subsection_save(QEMUFile *f, const VMStateDescription *vmsd,
->                                     void *opaque, JSONWriter *vmdesc);
->  static int vmstate_subsection_load(QEMUFile *f, const VMStateDescription *vmsd,
-> diff --git a/stubs/vmstate.c b/stubs/vmstate.c
-> index 8da777a1fb4..f561f9f39bd 100644
-> --- a/stubs/vmstate.c
-> +++ b/stubs/vmstate.c
-> @@ -5,6 +5,13 @@
->  const VMStateDescription vmstate_user_mode_cpu_dummy = {};
->  #endif
->  
-> +const VMStateDescription vmstate_no_state_to_migrate = {
-> +    .name = "empty-state",
-> +    .fields = (VMStateField[]) {
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
->  int vmstate_register_with_alias_id(VMStateIf *obj,
->                                     uint32_t instance_id,
->                                     const VMStateDescription *vmsd,
-> -- 
-> 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+Is there a way to check the minimum supported OSD release in the backend from librbd / librados?
+
+
+Anyway, I want to sent a V2 by the end of this week.
+
+
+Peter
+
 
 
