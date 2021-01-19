@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6411F2FB44C
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE112FB44B
 	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:39:13 +0100 (CET)
-Received: from localhost ([::1]:58216 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:58248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1mXg-0001Wi-DN
+	id 1l1mXg-0001XP-Bm
 	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:39:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34320)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34318)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVV-0008HT-Fx
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVV-0008HS-EW
  for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:36:57 -0500
-Received: from mail-wr1-f41.google.com ([209.85.221.41]:42088)
+Received: from mail-wm1-f49.google.com ([209.85.128.49]:35043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVT-0003R1-A7
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVT-0003Rc-P6
  for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:36:57 -0500
-Received: by mail-wr1-f41.google.com with SMTP id m4so18815341wrx.9
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 00:36:54 -0800 (PST)
+Received: by mail-wm1-f49.google.com with SMTP id e15so9498886wme.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 00:36:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=Qbd3uRup0liNXicJnrMPcveN1/VaEWxOq7+Ev6ZyREM=;
- b=JebxMztFgup2DtRO4+GcjyWeNRjrl574xDfLxKubu2fE8+8vqFXbNHdNCEgT2WRE+A
- BvJE8lO4ztV8aeF6PB/wX0DAH5aY6q+dFjSiv8mKqWm06FeEfeMXL0Z6dn04LSKeW76Q
- YsRCL/atVu4PB2CvZOzOq6bd751eeGUug+34Ou3C7RvwKVFxmxFUsGR8kFxPYVRZ2mSC
- h8KyIDRb8Tg8gJiaqnrNkzGBh3+BAKvs0B2A8trEUa4DAUztIwB811O6rkmcqDMMXaMZ
- Cmol5rZVigTWf4Paug2hhyevoCsxJN4BZsYYaEkwrLO3a4jMOTYGjJf/F9GGMIUcTYUQ
- yxDQ==
-X-Gm-Message-State: AOAM530CViy0fI2Ts0p0OD5XS8nanSRiDg21Qrz8jjPYbrxS4KaPBJS+
- JVYFFq3aSBcvZiXFXK1fpXzvFkXhahs=
-X-Google-Smtp-Source: ABdhPJxAiMlGyx+xsSQrR3SLAQ6Bl7VFyK10/rG0CE2ZBeq/SmSlIw+GFIM6g4pmRg3Rg0SuNebZuQ==
-X-Received: by 2002:a5d:4e8c:: with SMTP id e12mr3032052wru.321.1611045413155; 
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UTQI37oR54GYDHZtQ+wpT20H2kBawm8mU+1wQ7QZ7Qw=;
+ b=lZFvVuILz0BBVmtQzLvMTcVwFE5pdl38i5wsU3shbgujTEbT09JViXbSteUDq7Ugbx
+ 9IY6TQIkZkfKSE8Htfii1uINMyyoSlbN07kUSyLa9+sd/vfRUoPZF0qXo/c8OBd+Nlnb
+ sjbBTJwPGBt7k+f0F5j59GGTK22Wj3DuMLCeQlwWgFOfldyukE1s2UZAR8LdSamc8L1R
+ kX3Ikfp2w8JpbL+6dOGVIu3nrgucF0rbVyaTPfIy6aLiBzeeArpgXyK/Rz7PeJiVIyjP
+ cRCtxSY2BgiJ+wDBXbvUoLu+cWtqhpHdJt16LKb/SD77jJI4vy3/WPGdk0fXJqMU0Klg
+ YmCQ==
+X-Gm-Message-State: AOAM5307UU9O2I2TV+PbVWLqYBhHsFTpbYe0YkqGu+UlZf5cF8MvFqya
+ rEx2oG7RqMm3bM7Pw5esdeti0BpcHwg=
+X-Google-Smtp-Source: ABdhPJx8vxCbcDqvpT4C02AYwfS5E+q20jsSzbfxnBTMB5CXNIMsEEqWbfdWzxAOv4SbQ8YndLCOlA==
+X-Received: by 2002:a7b:c08f:: with SMTP id r15mr3027594wmh.22.1611045413789; 
  Tue, 19 Jan 2021 00:36:53 -0800 (PST)
 Received: from localhost.localdomain (pd9e83aed.dip0.t-ipconnect.de.
  [217.232.58.237])
- by smtp.gmail.com with ESMTPSA id z14sm540833wrm.5.2021.01.19.00.36.52
+ by smtp.gmail.com with ESMTPSA id z14sm540833wrm.5.2021.01.19.00.36.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 00:36:52 -0800 (PST)
+ Tue, 19 Jan 2021 00:36:53 -0800 (PST)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 00/11] m68k next-cube patches
-Date: Tue, 19 Jan 2021 09:36:06 +0100
-Message-Id: <20210119083617.6337-1-huth@tuxfamily.org>
+Subject: [PULL 01/11] hw/m68k/next-cube: Make next_irq() function static
+Date: Tue, 19 Jan 2021 09:36:07 +0100
+Message-Id: <20210119083617.6337-2-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210119083617.6337-1-huth@tuxfamily.org>
+References: <20210119083617.6337-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.221.41; envelope-from=th.huth@gmail.com;
- helo=mail-wr1-f41.google.com
+Received-SPF: pass client-ip=209.85.128.49; envelope-from=th.huth@gmail.com;
+ helo=mail-wm1-f49.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -74,38 +76,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+From: Peter Maydell <peter.maydell@linaro.org>
 
-the following changes since commit e43d564fa3a0d1e133935c8180ad4f4ccf699f33:
+The next_irq() function is global, but isn't actually used anywhere
+outside next-cube.c. Make it static.
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.0-pull-request' into staging (2021-01-18 15:19:06 +0000)
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20210115201206.17347-2-peter.maydell@linaro.org>
+Signed-off-by: Thomas Huth <huth@tuxfamily.org>
+---
+ hw/m68k/next-cube.c         | 2 +-
+ include/hw/m68k/next-cube.h | 2 --
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-are available in the Git repository at:
+diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
+index 37bc35dfa4..f622d6589c 100644
+--- a/hw/m68k/next-cube.c
++++ b/hw/m68k/next-cube.c
+@@ -724,7 +724,7 @@ static const MemoryRegionOps dma_ops = {
+  * TODO: set the shift numbers as values in the enum, so the first switch
+  * will not be needed
+  */
+-void next_irq(void *opaque, int number, int level)
++static void next_irq(void *opaque, int number, int level)
+ {
+     M68kCPU *cpu = opaque;
+     int shift = 0;
+diff --git a/include/hw/m68k/next-cube.h b/include/hw/m68k/next-cube.h
+index a3be2b32ab..5a56c354b8 100644
+--- a/include/hw/m68k/next-cube.h
++++ b/include/hw/m68k/next-cube.h
+@@ -42,6 +42,4 @@ enum next_irqs {
+     NEXT_SND_I
+ };
+ 
+-void next_irq(void *opaque, int number, int level);
+-
+ #endif /* NEXT_CUBE_H */
+-- 
+2.29.2
 
-  https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-19
-
-for you to fetch changes up to 41da32471183d7ca4756ad3ed8bb11c1d0c37a32:
-
-  hw/m68k/next-cube: Add missing header comment to next-cube.h (2021-01-19 09:11:52 +0100)
-
-----------------------------------------------------------------
-* Refactor next-cube interrupt and register handling into a proper QOM device
-----------------------------------------------------------------
-
-Peter Maydell (11):
-      hw/m68k/next-cube: Make next_irq() function static
-      hw/m68k/next-cube: Move register/interrupt functionality into a device
-      hw/m68k/next-cube: Move mmio_ops into NeXTPC device
-      hw/m68k/next-cube: Move scr_ops into NeXTPC device
-      hw/m68k/next-cube: Make next_irq take NeXTPC* as its opaque
-      hw/m68k/next-cube: Move int_status and int_mask to NeXTPC struct
-      hw/m68k/next-cube: Make next_irq GPIO inputs to NEXT_PC device
-      hw/m68k/next-cube: Move rtc into NeXTPC struct
-      hw/m68k/next-cube: Remove unused fields from NeXTState
-      hw/m68k/next-cube: Add vmstate for NeXTPC device
-      hw/m68k/next-cube: Add missing header comment to next-cube.h
-
- hw/m68k/next-cube.c         | 239 +++++++++++++++++++++++++++++---------------
- include/hw/m68k/next-cube.h |  15 ++-
- 2 files changed, 169 insertions(+), 85 deletions(-)
 
