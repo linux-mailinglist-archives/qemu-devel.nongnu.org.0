@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D63132FC21C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 22:22:02 +0100 (CET)
-Received: from localhost ([::1]:38090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8CC42FC223
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 22:23:33 +0100 (CET)
+Received: from localhost ([::1]:40492 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1yRt-0008MW-Ka
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 16:22:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57702)
+	id 1l1yTM-00014y-Qx
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 16:23:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57708)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l1xrk-0002UX-Vq; Tue, 19 Jan 2021 15:44:41 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:35076
- helo=mx0a-001b2d01.pphosted.com)
+ id 1l1xrl-0002V6-52; Tue, 19 Jan 2021 15:44:41 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:54746)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l1xrg-0002Q1-A0; Tue, 19 Jan 2021 15:44:40 -0500
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10JKWvMU078913; Tue, 19 Jan 2021 15:44:34 -0500
+ id 1l1xri-0002QX-VF; Tue, 19 Jan 2021 15:44:40 -0500
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10JKXTQq131384; Tue, 19 Jan 2021 15:44:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
  h=from : to : cc : subject
  : date : message-id : in-reply-to : references; s=pp1;
- bh=8WIOGFsO7qc3uj835xRDFsIDen9mvMbRQzJM4XnQmEA=;
- b=ccsOaVdV0cwvUsTEw4jHMBQCeyBIytA/LjNLvcex9ZBdUqknmiIe/rVdWPIUHj14rVVS
- k2J+DKxBJjZh+3iEOhb9f6w8rtBqBRRoe0Kg4egvnR4trk2+/scHwc3Ri54+HJN9v6uG
- l1lnaFK8z08FONkMzHmWKPpztE87cCKZomKuv54CBN/Fhg2en01czgHtY/ul+7eIFqhp
- KIQSKU8mfpWCMoI02vo/hrcrxQOP0TLuR57cNeNhvsLFqzcDB62ZlTzH4jeS6uJb0Hl4
- 92LKZezy9iQNweUo9CFQbrN1rh9hY97NRYGaCb5sLYx083IfYnZ4aHvr8PVthvvE2hTu rg== 
+ bh=VmzqrQhnsPDqK9tPpEnm7+0p0HmurgymDrI7eoZETM4=;
+ b=Xd3+Iw8IftJZKgZtdGMw6BhX2ymLV01LtbaWTvVaxSoYgFY4QJXuiZTxjOzwyk/xRH4q
+ FSPUgj6ONU2GAlZS4QnDY6E579yExbwwFlTUJLh5CIP/cU7ODZZ37jcF7uKAHOXnvLgM
+ 0guB+UTRifOkMaHkozU6LaN4yNcMqQ2v3gT2xb8wJasYHv7GUiebVMF5A2D0InskU375
+ pO5hRMmeCrnZEoQpOsdGurIF9uX8mOc1bBQBwxZUIMutL+7NkCrrYbDxAH2nqGT0knEV
+ NW8IOL+FQpIGTDmX0vTS00PfDIsbJnxD1T9DsX1u9Xc117Hm1q5KDI/fXdiQPytcB0oF tg== 
 Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3666et8ejt-1
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3665y31cas-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Jan 2021 15:44:34 -0500
-Received: from m0098413.ppops.net (m0098413.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10JKXhBM085359;
- Tue, 19 Jan 2021 15:44:34 -0500
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
- [169.63.214.131])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3666et8ejj-1
+ Tue, 19 Jan 2021 15:44:36 -0500
+Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10JKYUAl137153;
+ Tue, 19 Jan 2021 15:44:36 -0500
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3665y31c9t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Jan 2021 15:44:34 -0500
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
- by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10JKaQi9008227;
- Tue, 19 Jan 2021 20:44:33 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma01dal.us.ibm.com with ESMTP id 363qs9q67s-1
+ Tue, 19 Jan 2021 15:44:36 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10JKaNVp030702;
+ Tue, 19 Jan 2021 20:44:35 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma02dal.us.ibm.com with ESMTP id 363qs974jq-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 19 Jan 2021 20:44:33 +0000
+ Tue, 19 Jan 2021 20:44:35 +0000
 Received: from b03ledav002.gho.boulder.ibm.com
  (b03ledav002.gho.boulder.ibm.com [9.17.130.233])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10JKiV5o29032958
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10JKiXgJ27918780
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:44:31 GMT
+ Tue, 19 Jan 2021 20:44:33 GMT
 Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B3D53136051;
+ by IMSVA (Postfix) with ESMTP id ADF6613604F;
+ Tue, 19 Jan 2021 20:44:33 +0000 (GMT)
+Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F008E136051;
  Tue, 19 Jan 2021 20:44:31 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AAC78136060;
- Tue, 19 Jan 2021 20:44:29 +0000 (GMT)
 Received: from oc4221205838.ibm.com (unknown [9.211.56.144])
  by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
- Tue, 19 Jan 2021 20:44:29 +0000 (GMT)
+ Tue, 19 Jan 2021 20:44:31 +0000 (GMT)
 From: Matthew Rosato <mjrosato@linux.ibm.com>
 To: cohuck@redhat.com, thuth@redhat.com
-Subject: [PATCH 4/8] s390x/pci: Introduce the ZpciOps structure
-Date: Tue, 19 Jan 2021 15:44:15 -0500
-Message-Id: <1611089059-6468-5-git-send-email-mjrosato@linux.ibm.com>
+Subject: [PATCH 5/8] s390x/pci: Handle devices that support relaxed alignment
+Date: Tue, 19 Jan 2021 15:44:16 -0500
+Message-Id: <1611089059-6468-6-git-send-email-mjrosato@linux.ibm.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
 References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
@@ -78,12 +77,12 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
  definitions=2021-01-19_09:2021-01-18,
  2021-01-19 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 suspectscore=0
- impostorscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
- spamscore=0 lowpriorityscore=0 bulkscore=0 malwarescore=0 phishscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101190110
-Received-SPF: pass client-ip=148.163.158.5;
+ priorityscore=1501
+ impostorscore=0 mlxscore=0 adultscore=0 phishscore=0 bulkscore=0
+ malwarescore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101190114
+Received-SPF: pass client-ip=148.163.156.1;
  envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -26
 X-Spam_score: -2.7
@@ -111,425 +110,243 @@ Cc: pmorel@linux.ibm.com, david@redhat.com, schnelle@linux.ibm.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As inftrastructure to introduce different PCI instruction handlers,
-introduce the ZpciOps structure to contain function pointers for the
-handlers.  Add default handlers for the PCISTG, PCILG and PCISTB
-instructions.
+Certain zPCI device types (e.g. ISM) allow for a different set of address
+alignment rules for PCISTB instructions.  Recognize this distinction and
+perform only a subset of alignment checks for intercepted PCISTB
+instructions.  Furthermore for the default path, handle the potential for
+writes that are not aligned and sized to 8B chunks.
 
 Signed-off-by: Matthew Rosato <mjrosato@linux.ibm.com>
 ---
- hw/s390x/s390-pci-bus.c          |   3 +
- hw/s390x/s390-pci-inst.c         | 246 ++++++++++++++++++++++++++-------------
- include/hw/s390x/s390-pci-bus.h  |  22 ++++
- include/hw/s390x/s390-pci-inst.h |   1 +
- 4 files changed, 189 insertions(+), 83 deletions(-)
+ hw/s390x/s390-pci-inst.c        | 152 +++++++++++++++++++++++++++++++++-------
+ hw/s390x/s390-pci-vfio.c        |   3 +
+ include/hw/s390x/s390-pci-clp.h |   1 +
+ 3 files changed, 132 insertions(+), 24 deletions(-)
 
-diff --git a/hw/s390x/s390-pci-bus.c b/hw/s390x/s390-pci-bus.c
-index dc732e2..784ca65 100644
---- a/hw/s390x/s390-pci-bus.c
-+++ b/hw/s390x/s390-pci-bus.c
-@@ -1020,6 +1020,7 @@ static void s390_pcihost_plug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         pbdev->iommu->pbdev = pbdev;
-         pbdev->state = ZPCI_FS_DISABLED;
-         set_pbdev_info(pbdev);
-+        zpci_assign_default_ops(pbdev);
- 
-         if (object_dynamic_cast(OBJECT(dev), "vfio-pci")) {
-             pbdev->fh |= FH_SHM_VFIO;
-@@ -1079,6 +1080,8 @@ static void s390_pcihost_unplug(HotplugHandler *hotplug_dev, DeviceState *dev,
-         s390_pci_iommu_free(s, bus, devfn);
-         pbdev->pdev = NULL;
-         pbdev->state = ZPCI_FS_RESERVED;
-+        if (pbdev->pcistb_buf)
-+            qemu_vfree(pbdev->pcistb_buf);
-     } else if (object_dynamic_cast(OBJECT(dev), TYPE_S390_PCI_DEVICE)) {
-         pbdev = S390_PCI_DEVICE(dev);
-         pbdev->fid = 0;
 diff --git a/hw/s390x/s390-pci-inst.c b/hw/s390x/s390-pci-inst.c
-index 654fac6..2d440a3 100644
+index 2d440a3..67eb4a4 100644
 --- a/hw/s390x/s390-pci-inst.c
 +++ b/hw/s390x/s390-pci-inst.c
-@@ -404,16 +404,49 @@ static MemTxResult zpci_read_bar(S390PCIBusDevice *pbdev, uint8_t pcias,
-                                        MEMTXATTRS_UNSPECIFIED);
- }
- 
-+static int pcilg_default(S390PCIBusDevice *pbdev, uint64_t *data, uint8_t pcias,
-+                         uint16_t len, uint64_t offset)
-+{
-+    MemTxResult result;
-+
-+    switch (pcias) {
-+    case ZPCI_IO_BAR_MIN...ZPCI_IO_BAR_MAX:
-+        if (!len || (len > (8 - (offset & 0x7)))) {
-+            return -EINVAL;
-+        }
-+        result = zpci_read_bar(pbdev, pcias, offset, data, len);
-+        if (result != MEMTX_OK) {
-+            return -EINVAL;
-+        }
-+        break;
-+    case ZPCI_CONFIG_BAR:
-+        if (!len || (len > (4 - (offset & 0x3))) || len == 3) {
-+            return -EINVAL;
-+        }
-+        *data =  pci_host_config_read_common(
-+                   pbdev->pdev, offset, pci_config_size(pbdev->pdev), len);
-+
-+        if (zpci_endian_swap(data, len)) {
-+            return -EINVAL;
-+        }
-+        break;
-+    default:
-+        return -EFAULT;
-+    }
-+
-+    return 0;
-+}
-+
- int pcilg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
- {
-     CPUS390XState *env = &cpu->env;
-     S390PCIBusDevice *pbdev;
-     uint64_t offset;
-     uint64_t data;
--    MemTxResult result;
-     uint8_t len;
-     uint32_t fh;
-     uint8_t pcias;
-+    int ret;
- 
-     if (env->psw.mask & PSW_MASK_PSTATE) {
-         s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-@@ -452,35 +485,21 @@ int pcilg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-         break;
-     }
- 
--    switch (pcias) {
--    case ZPCI_IO_BAR_MIN...ZPCI_IO_BAR_MAX:
--        if (!len || (len > (8 - (offset & 0x7)))) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
--        result = zpci_read_bar(pbdev, pcias, offset, &data, len);
--        if (result != MEMTX_OK) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
--        break;
--    case ZPCI_CONFIG_BAR:
--        if (!len || (len > (4 - (offset & 0x3))) || len == 3) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
--        data =  pci_host_config_read_common(
--                   pbdev->pdev, offset, pci_config_size(pbdev->pdev), len);
-+    ret = pbdev->ops.pcilg(pbdev, &data, pcias, len, offset);
- 
--        if (zpci_endian_swap(&data, len)) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
--        break;
--    default:
-+    switch (ret) {
-+    case -EINVAL:
-+        s390_program_interrupt(env, PGM_OPERAND, ra);
-+        return 0;
-+    case -EFAULT:
-         DPRINTF("pcilg invalid space\n");
-         setcc(cpu, ZPCI_PCI_LS_ERR);
-         s390_set_status_code(env, r2, ZPCI_PCI_ST_INVAL_AS);
-+    case 0:
-+        break;
-+    default:
-+        DPRINTF("pcilg unexpected return %d from op\n", ret);
-+        s390_program_interrupt(env, PGM_OPERAND, ra);
-         return 0;
-     }
- 
-@@ -504,15 +523,55 @@ static MemTxResult zpci_write_bar(S390PCIBusDevice *pbdev, uint8_t pcias,
-                                         MEMTXATTRS_UNSPECIFIED);
- }
- 
-+static int pcistg_default(S390PCIBusDevice *pbdev, uint64_t data, uint8_t pcias,
-+                          uint16_t len, uint64_t offset)
-+{
-+    MemTxResult result;
-+
-+    switch (pcias) {
-+        /* A ZPCI PCI card may use any BAR from BAR 0 to BAR 5 */
-+    case ZPCI_IO_BAR_MIN...ZPCI_IO_BAR_MAX:
-+        /*
-+         * Check length:
-+         * A length of 0 is invalid and length should not cross a double word
-+         */
-+        if (!len || (len > (8 - (offset & 0x7)))) {
-+            return -EINVAL;
-+        }
-+
-+        result = zpci_write_bar(pbdev, pcias, offset, data, len);
-+        if (result != MEMTX_OK) {
-+            return -EINVAL;
-+        }
-+        break;
-+    case ZPCI_CONFIG_BAR:
-+        /* ZPCI uses the pseudo BAR number 15 as configuration space */
-+        /* possible access lengths are 1,2,4 and must not cross a word */
-+        if (!len || (len > (4 - (offset & 0x3))) || len == 3) {
-+            return -EINVAL;
-+        }
-+        /* len = 1,2,4 so we do not need to test */
-+        zpci_endian_swap(&data, len);
-+        pci_host_config_write_common(pbdev->pdev, offset,
-+                                     pci_config_size(pbdev->pdev),
-+                                     data, len);
-+        break;
-+    default:
-+        return -EFAULT;
-+    }
-+
-+    return 0;
-+}
-+
- int pcistg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
- {
-     CPUS390XState *env = &cpu->env;
-     uint64_t offset, data;
-     S390PCIBusDevice *pbdev;
--    MemTxResult result;
-     uint8_t len;
-     uint32_t fh;
-     uint8_t pcias;
-+    int ret;
- 
-     if (env->psw.mask & PSW_MASK_PSTATE) {
-         s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-@@ -555,40 +614,21 @@ int pcistg_service_call(S390CPU *cpu, uint8_t r1, uint8_t r2, uintptr_t ra)
-         break;
-     }
- 
--    switch (pcias) {
--        /* A ZPCI PCI card may use any BAR from BAR 0 to BAR 5 */
--    case ZPCI_IO_BAR_MIN...ZPCI_IO_BAR_MAX:
--        /* Check length:
--         * A length of 0 is invalid and length should not cross a double word
--         */
--        if (!len || (len > (8 - (offset & 0x7)))) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
-+    ret = pbdev->ops.pcistg(pbdev, data, pcias, len, offset);
- 
--        result = zpci_write_bar(pbdev, pcias, offset, data, len);
--        if (result != MEMTX_OK) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
--        break;
--    case ZPCI_CONFIG_BAR:
--        /* ZPCI uses the pseudo BAR number 15 as configuration space */
--        /* possible access lengths are 1,2,4 and must not cross a word */
--        if (!len || (len > (4 - (offset & 0x3))) || len == 3) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
--        /* len = 1,2,4 so we do not need to test */
--        zpci_endian_swap(&data, len);
--        pci_host_config_write_common(pbdev->pdev, offset,
--                                     pci_config_size(pbdev->pdev),
--                                     data, len);
--        break;
--    default:
-+    switch (ret) {
-+    case -EINVAL:
-+        s390_program_interrupt(env, PGM_OPERAND, ra);
-+        return 0;
-+    case -EFAULT:
-         DPRINTF("pcistg invalid space\n");
-         setcc(cpu, ZPCI_PCI_LS_ERR);
-         s390_set_status_code(env, r2, ZPCI_PCI_ST_INVAL_AS);
-+    case 0:
-+        break;
-+    default:
-+        DPRINTF("pcistg unexpected return %d from op\n", ret);
-+        s390_program_interrupt(env, PGM_OPERAND, ra);
-         return 0;
-     }
- 
-@@ -744,19 +784,55 @@ err:
+@@ -784,6 +784,92 @@ err:
      return 0;
  }
  
-+/*
-+ * The default PCISTB handler will break PCISTB instructions into a series of
-+ * 8B memory operations.
-+ */
-+static int pcistb_default(S390PCIBusDevice *pbdev, S390CPU *cpu,
-+                           uint64_t gaddr, uint8_t ar, uint8_t pcias,
-+                           uint16_t len, uint64_t offset)
++static int pcistb_write_validate(MemoryRegion *mr, uint64_t offset,
++                                 uint16_t len)
 +{
-+    MemTxResult result;
-+    MemoryRegion *mr;
-+    int i;
++    uint8_t size;
 +
-+    mr = pbdev->pdev->io_regions[pcias].memory;
-+    mr = s390_get_subregion(mr, offset, len);
-+    offset -= mr->addr;
-+
-+    for (i = 0; i < len; i += 8) {
-+        if (!memory_region_access_valid(mr, offset + i, 8, true,
-+                                        MEMTXATTRS_UNSPECIFIED)) {
-+            return -EINVAL;
++    switch (offset & 0x07UL) {
++    case 0:
++        size = 8;
++        if (size <= len) {
++            break;
 +        }
-+    }
-+
-+    if (s390_cpu_virt_mem_read(cpu, gaddr, ar, pbdev->pcistb_buf, len)) {
-+        return -EACCES;
-+    }
-+
-+    for (i = 0; i < len; i += 8) {
-+        result = memory_region_dispatch_write(mr, offset + i,
-+                                              ldq_p(pbdev->pcistb_buf + i),
-+                                              MO_64, MEMTXATTRS_UNSPECIFIED);
-+        if (result != MEMTX_OK) {
-+            return -EINVAL;
++        /* fall through */
++    case 4:
++        size = 4;
++        if (size <= len) {
++            break;
 +        }
++        /* fall through */
++    case 6:
++    case 2:
++        size = 2;
++        if (size <= len) {
++            break;
++        }
++        /* fall through */
++    default:
++        size = 1;
 +    }
 +
-+    return 0;
++    if (!memory_region_access_valid(mr, offset, size, true,
++                                    MEMTXATTRS_UNSPECIFIED)) {
++        return -EINVAL;
++    }
++
++    return size;
 +}
 +
- int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
-                         uint8_t ar, uintptr_t ra)
++static int pcistb_write(MemoryRegion *mr, uint8_t *buffer, uint64_t offset,
++                        uint16_t len)
++{
++    MemTxResult result;
++    uint64_t size;
++    uint64_t data;
++    MemOp opsize;
++
++    switch (offset & 0x07UL) {
++    case 0:
++        size = 8;
++        if (size <= len) {
++            opsize = MO_64;
++            data = ldq_p(buffer);
++            break;
++        }
++        /* fall through */
++    case 4:
++        size = 4;
++        if (size <= len) {
++            opsize = MO_32;
++            data = ldl_p(buffer);
++            break;
++        }
++        /* fall through */
++    case 6:
++    case 2:
++        size = 2;
++        if (size <= len) {
++            opsize = MO_16;
++            data = lduw_p(buffer);
++            break;
++        }
++        /* fall through */
++    default:
++        size = 1;
++        opsize = MO_8;
++        data = ldub_p(buffer);
++    }
++
++    result = memory_region_dispatch_write(mr, offset, data, opsize,
++                                          MEMTXATTRS_UNSPECIFIED);
++    if (result != MEMTX_OK) {
++        return -EINVAL;
++    }
++
++    return size;
++}
++
+ /*
+  * The default PCISTB handler will break PCISTB instructions into a series of
+  * 8B memory operations.
+@@ -792,32 +878,44 @@ static int pcistb_default(S390PCIBusDevice *pbdev, S390CPU *cpu,
+                            uint64_t gaddr, uint8_t ar, uint8_t pcias,
+                            uint16_t len, uint64_t offset)
  {
-     CPUS390XState *env = &cpu->env;
-     S390PCIBusDevice *pbdev;
--    MemoryRegion *mr;
 -    MemTxResult result;
-     uint64_t offset;
+     MemoryRegion *mr;
 -    int i;
-     uint32_t fh;
-     uint8_t pcias;
-     uint16_t len;
--    uint8_t buffer[128];
-+    int ret;
++    uint64_t curroff;
++    uint16_t currlen;
++    uint8_t *currbuff;
++    int size;
  
-     if (env->psw.mask & PSW_MASK_PSTATE) {
-         s390_program_interrupt(env, PGM_PRIVILEGED, ra);
-@@ -817,31 +893,21 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
-         goto specification_error;
-     }
+     mr = pbdev->pdev->io_regions[pcias].memory;
+     mr = s390_get_subregion(mr, offset, len);
+     offset -= mr->addr;
  
--    mr = pbdev->pdev->io_regions[pcias].memory;
--    mr = s390_get_subregion(mr, offset, len);
--    offset -= mr->addr;
--
 -    for (i = 0; i < len; i += 8) {
 -        if (!memory_region_access_valid(mr, offset + i, 8, true,
 -                                        MEMTXATTRS_UNSPECIFIED)) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
--    }
-+    ret = pbdev->ops.pcistb(pbdev, cpu, gaddr, ar, pcias, len, offset);
- 
--    if (s390_cpu_virt_mem_read(cpu, gaddr, ar, buffer, len)) {
-+    switch (ret) {
-+    case -EINVAL:
-+        s390_program_interrupt(env, PGM_OPERAND, ra);
-+        return 0;
-+    case -EACCES:
-         s390_cpu_virt_mem_handle_exc(cpu, ra);
-         return 0;
--    }
--
--    for (i = 0; i < len / 8; i++) {
--        result = memory_region_dispatch_write(mr, offset + i * 8,
--                                              ldq_p(buffer + i * 8),
--                                              MO_64, MEMTXATTRS_UNSPECIFIED);
--        if (result != MEMTX_OK) {
--            s390_program_interrupt(env, PGM_OPERAND, ra);
--            return 0;
--        }
-+    case 0:
-+        break;
-+    default:
-+        DPRINTF("pcistb unexpected return %d from op\n", ret);
-+        s390_program_interrupt(env, PGM_OPERAND, ra);
-+        return 0;
++    /* Loop over the proposed area and validate that writes will work. */
++    curroff = offset;
++    currlen = len;
++    while (currlen > 0) {
++        size = pcistb_write_validate(mr, curroff, currlen);
++        if (size <= 0) {
+             return -EINVAL;
+         }
++        curroff += size;
++        currlen -= size;
      }
  
-     pbdev->fmb.counter[ZPCI_FMB_CNT_STB]++;
-@@ -1304,3 +1370,17 @@ out:
-     setcc(cpu, cc);
+     if (s390_cpu_virt_mem_read(cpu, gaddr, ar, pbdev->pcistb_buf, len)) {
+         return -EACCES;
+     }
+ 
+-    for (i = 0; i < len; i += 8) {
+-        result = memory_region_dispatch_write(mr, offset + i,
+-                                              ldq_p(pbdev->pcistb_buf + i),
+-                                              MO_64, MEMTXATTRS_UNSPECIFIED);
+-        if (result != MEMTX_OK) {
++    /* Perform the chain of previously-validated writes */
++    currbuff = pbdev->pcistb_buf;
++    curroff = offset;
++    currlen = len;
++    while (currlen > 0) {
++        size = pcistb_write(mr, currbuff, curroff, currlen);
++        if (size < 0) {
+             return -EINVAL;
+         }
++        currbuff += size;
++        curroff += size;
++        currlen -= size;
+     }
+ 
      return 0;
- }
-+
-+void zpci_assign_default_ops(S390PCIBusDevice *pbdev)
-+{
+@@ -873,25 +971,31 @@ int pcistb_service_call(S390CPU *cpu, uint8_t r1, uint8_t r3, uint64_t gaddr,
+         return 0;
+     }
+ 
+-    /* Verify the address, offset and length */
+-    /* offset must be a multiple of 8 */
+-    if (offset % 8) {
+-        goto specification_error;
+-    }
+-    /* Length must be greater than 8, a multiple of 8 */
+-    /* and not greater than maxstbl */
+-    if ((len <= 8) || (len % 8) ||
+-        (len > pbdev->pci_group->zpci_group.maxstbl)) {
+-        goto specification_error;
 +    /*
-+     * As PCISTB operations are not allowed to cross a page boundary, use
-+     * qemu_memalign to get a single page for all subseqent PCISTB
-+     * operations.
++     * If the specified device supports relaxed alignment, some checks can
++     * be skipped.
 +     */
-+    pbdev->pcistb_buf = qemu_memalign(PAGE_SIZE, PAGE_SIZE);
-+
-+    pbdev->ops.pcistg = pcistg_default;
-+    pbdev->ops.pcilg = pcilg_default;
-+    pbdev->ops.pcistb = pcistb_default;
-+}
-diff --git a/include/hw/s390x/s390-pci-bus.h b/include/hw/s390x/s390-pci-bus.h
-index 0662e7b..7c34c5b 100644
---- a/include/hw/s390x/s390-pci-bus.h
-+++ b/include/hw/s390x/s390-pci-bus.h
-@@ -325,6 +325,26 @@ typedef struct S390PCIGroup {
- S390PCIGroup *s390_group_create(int id);
- S390PCIGroup *s390_group_find(int id);
++    if (!(pbdev->pci_group->zpci_group.fr & CLP_RSP_QPCIG_MASK_RELAXED)) {
++        /* Verify the address, offset and length */
++        /* offset must be a multiple of 8 */
++        if (offset % 8) {
++            goto specification_error;
++        }
++        /* Length must be greater than 8, a multiple of 8 */
++        /* and not greater than maxstbl */
++        if ((len <= 8) || (len % 8) ||
++            (len > pbdev->pci_group->zpci_group.maxstbl)) {
++            goto specification_error;
++        }
++        /* Guest address must be double word aligned */
++        if (gaddr & 0x07UL) {
++            goto specification_error;
++        }
+     }
+     /* Do not cross a 4K-byte boundary */
+     if (((offset & 0xfff) + len) > 0x1000) {
+         goto specification_error;
+     }
+-    /* Guest address must be double word aligned */
+-    if (gaddr & 0x07UL) {
+-        goto specification_error;
+-    }
  
-+typedef struct ZpciOps {
-+    int (*pcistg)(S390PCIBusDevice *pbdev,
-+                  uint64_t data,
-+                  uint8_t pcias,
-+                  uint16_t len,
-+                  uint64_t offset);
-+    int (*pcilg)(S390PCIBusDevice *pbdev,
-+                 uint64_t *data,
-+                 uint8_t pcias,
-+                 uint16_t len,
-+                 uint64_t offset);
-+    int (*pcistb)(S390PCIBusDevice *pbdev,
-+                  S390CPU *cpu,
-+                  uint64_t gaddr,
-+                  uint8_t ar,
-+                  uint8_t pcias,
-+                  uint16_t len,
-+                  uint64_t offset);
-+} ZpciOps;
-+
- struct S390PCIBusDevice {
-     DeviceState qdev;
-     PCIDevice *pdev;
-@@ -351,6 +371,8 @@ struct S390PCIBusDevice {
-     MemoryRegion msix_notify_mr;
-     IndAddr *summary_ind;
-     IndAddr *indicator;
-+    ZpciOps ops;
-+    uint8_t *pcistb_buf;
-     bool pci_unplug_request_processed;
-     bool unplug_requested;
-     QTAILQ_ENTRY(S390PCIBusDevice) link;
-diff --git a/include/hw/s390x/s390-pci-inst.h b/include/hw/s390x/s390-pci-inst.h
-index a55c448..c9fe3f1 100644
---- a/include/hw/s390x/s390-pci-inst.h
-+++ b/include/hw/s390x/s390-pci-inst.h
-@@ -111,6 +111,7 @@ int mpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
- int stpcifc_service_call(S390CPU *cpu, uint8_t r1, uint64_t fiba, uint8_t ar,
-                          uintptr_t ra);
- void fmb_timer_free(S390PCIBusDevice *pbdev);
-+void zpci_assign_default_ops(S390PCIBusDevice *pbdev);
+     ret = pbdev->ops.pcistb(pbdev, cpu, gaddr, ar, pcias, len, offset);
  
- #define ZPCI_IO_BAR_MIN 0
- #define ZPCI_IO_BAR_MAX 5
+diff --git a/hw/s390x/s390-pci-vfio.c b/hw/s390x/s390-pci-vfio.c
+index cb59e98..4cee640 100644
+--- a/hw/s390x/s390-pci-vfio.c
++++ b/hw/s390x/s390-pci-vfio.c
+@@ -158,6 +158,9 @@ static void s390_pci_read_group(S390PCIBusDevice *pbdev,
+         if (cap->flags & VFIO_DEVICE_INFO_ZPCI_FLAG_REFRESH) {
+             resgrp->fr = 1;
+         }
++        if (cap->flags & VFIO_DEVICE_INFO_ZPCI_FLAG_RELAXED) {
++            resgrp->fr |= CLP_RSP_QPCIG_MASK_RELAXED;
++        }
+         resgrp->dasm = cap->dasm;
+         resgrp->msia = cap->msi_addr;
+         resgrp->mui = cap->mui;
+diff --git a/include/hw/s390x/s390-pci-clp.h b/include/hw/s390x/s390-pci-clp.h
+index 96b8e3f..73a28a0 100644
+--- a/include/hw/s390x/s390-pci-clp.h
++++ b/include/hw/s390x/s390-pci-clp.h
+@@ -158,6 +158,7 @@ typedef struct ClpRspQueryPciGrp {
+ #define CLP_RSP_QPCIG_MASK_NOI 0xfff
+     uint16_t i;
+     uint8_t version;
++#define CLP_RSP_QPCIG_MASK_RELAXED 0x8
+ #define CLP_RSP_QPCIG_MASK_FRAME   0x2
+ #define CLP_RSP_QPCIG_MASK_REFRESH 0x1
+     uint8_t fr;
 -- 
 1.8.3.1
 
