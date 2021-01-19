@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C474B2FBED0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:22:31 +0100 (CET)
-Received: from localhost ([::1]:34128 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD9642FBE8E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:09:12 +0100 (CET)
+Received: from localhost ([::1]:37650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1veA-0006nm-Q9
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:22:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39216)
+	id 1l1vRH-0002yI-Nj
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:09:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vDB-00027o-E4
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:37 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:38943)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vDD-000293-Qv
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:39 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:59769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vD9-00041F-Er
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:37 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vD9-00041H-Et
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:39 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N5FtF-1m0Nb00Ghx-0117LD; Tue, 19 Jan 2021 18:54:31 +0100
+ id 1Mf0Ru-1lhHZN1xVq-00gbvc; Tue, 19 Jan 2021 18:54:31 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/5] linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls
-Date: Tue, 19 Jan 2021 18:54:23 +0100
-Message-Id: <20210119175427.2050737-2-laurent@vivier.eu>
+Subject: [PULL 2/5] linux-user: add missing UDP get/setsockopt option
+Date: Tue, 19 Jan 2021 18:54:24 +0100
+Message-Id: <20210119175427.2050737-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119175427.2050737-1-laurent@vivier.eu>
 References: <20210119175427.2050737-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:nQ/XkIVQ63nTCKEJsoyjKiUs+ljebC9TvOoOECIp9QgejxINY42
- R47V20pXbuRgE2QMrL/GeEancwtyFc1zKGeOZIF2X6xKwfkKnxGo4HSHESkGvgO7M2eWdRS
- iuxwQd646f2IQ6vIRR9eu9smIKSND0w4r4eZv+uzwfFOAGDlwa9SuksBbmd4rBTbZNTTsPN
- tFKEyAKzzqAJqenLDCt9g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:toZv0CJ7gL4=:DCkOoqPJiC5vBh5tKFXkaC
- +lqF/8ZnAc6eb5Ne19yBiSV4HCh9bZpgeHBsfu05SpYzJ8I5t073j4efSP6XSCEc5gtBMBF0Z
- QSDUyixPRq9mNp/hem3budWDl2MihI3ljjiz2BoZxwW8JFgNXKZNBsqigh0SEE+oIjSxyRAeh
- umLPIsDWf0Qi2sNBjeCrM6sPgFBf/1hp/bPQ3yxlALSC7yli0Q4TkccXC0iCWRKuj5pT1efmY
- LeaH4HHtk4mSk//ER8smLDYUkRqDp+V8koHWG/ZUYm+coRiycT9H6kQiSfUv17TQpP7Al+Rp8
- bWbL+cm4iyvyiYwgBSmpRBkvsuOZ5K1BxWDQ3ozI56v8HwDxVJl1Q2fa7XE8g0IzA6t850Vii
- ZVFHWOL54MgSN5QsGbxLis18GLwgjkRb4qKNPefMuLfnPeKY8Boa2PRZA355C
+X-Provags-ID: V03:K1:KMdifg9/aD+juG9NMB48iSLOLflGSvxgTFdmQ12t1CI5znhiv0i
+ wRfpySnZvRp/0w43ee95HzbXTjbXCIa4Ovw0qkF6FbdavbxwIDxEfjGJuG4oaoRsf5C5Aq1
+ ciUzfq5kJuf415PWhiAJ8o23nq0usZBGRXxpwmPjan7Bgn67TRN5GsKA6zr2PMokk/xtYY/
+ NiUTvEMbTWwlx133Xp0LQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:zt5CsZbw7Rs=:XB4zAGva2PaH//F9VELHSs
+ 0w8TwJeAMuCRWpcm9PKscgotMSg5ATwinrEDZkKkDhpzwBtBznxHpIzHBYj3z4nx8XFEN7Syc
+ gyod3UkLkBwhUoyiUtZnkCv+K/FZFMuVKDWIatEoPDVtsUs6eG+KWU6zmQstjU7bpsgBNhhSo
+ Hv3lJg5lNP1fIxIqo4h/QPRubHnGxbhic5kIooeiN/h8sdfuPY6+tgB0eyRqshhvg0t3IoylY
+ RgZiEXRkW4LHibmYE+vom9Xk/4NJebJjNjT4vwGtr2LR9i9A+MJ+CV4p6+SVlapAPQRqbGoX6
+ /bNSxxHAByjjzBSyDYbvyjn0m47QKHdZwxhy58dbPKAQp/jcK11Dkk+RydvLSzFhLnVH2rFps
+ p+ZZUsqPbxRxJQP9reZuV/UwJXwtlk0MkDx/SQ5x6r/KrmTxWqxkBmdNo0CWllJSZ+/+TXxp/
+ vo6x7qq+bw==
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -67,134 +68,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shu-Chun Weng <scw@google.com>
 
-Also reorder blocks so that they are all in the same order everywhere.
+SOL_UDP manipulate options at UDP level. All six options currently defined
+in linux source include/uapi/linux/udp.h take integer values.
 
 Signed-off-by: Shu-Chun Weng <scw@google.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20201218193213.3566856-2-scw@google.com>
+Message-Id: <20201218193213.3566856-3-scw@google.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c       | 39 ++++++++++++++++++++++++++++++++-------
- linux-user/syscall.c      | 10 ++++++++++
- linux-user/syscall_defs.h | 14 ++++++++------
- 3 files changed, 50 insertions(+), 13 deletions(-)
+ linux-user/strace.c  | 6 ++++++
+ linux-user/syscall.c | 7 +++++--
+ 2 files changed, 11 insertions(+), 2 deletions(-)
 
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index e00275fcb51b..227812c07e63 100644
+index 227812c07e63..64172de99d98 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -2066,11 +2066,34 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
+@@ -7,6 +7,7 @@
+ #include <sys/mount.h>
+ #include <arpa/inet.h>
+ #include <netinet/tcp.h>
++#include <netinet/udp.h>
+ #include <linux/if_packet.h>
+ #include <linux/netlink.h>
+ #include <sched.h>
+@@ -2644,6 +2645,11 @@ static void do_print_sockopt(const char *name, abi_long arg1)
+         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
+         print_pointer(optval, 0);
          break;
-     case TARGET_F_SETLEASE:
-         qemu_log("F_SETLEASE,");
--        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
-+        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-         break;
-     case TARGET_F_GETLEASE:
-         qemu_log("F_GETLEASE");
-         break;
-+#ifdef F_DUPFD_CLOEXEC
-+    case TARGET_F_DUPFD_CLOEXEC:
-+        qemu_log("F_DUPFD_CLOEXEC,");
-+        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
++    case SOL_UDP:
++        qemu_log("SOL_UDP,");
++        print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
++        print_pointer(optval, 0);
 +        break;
-+#endif
-+    case TARGET_F_NOTIFY:
-+        qemu_log("F_NOTIFY,");
-+        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-+        break;
-+#ifdef F_GETOWN_EX
-+    case TARGET_F_GETOWN_EX:
-+        qemu_log("F_GETOWN_EX,");
-+        print_pointer(arg2, 1);
-+        break;
-+#endif
-+#ifdef F_SETOWN_EX
-+    case TARGET_F_SETOWN_EX:
-+        qemu_log("F_SETOWN_EX,");
-+        print_pointer(arg2, 1);
-+        break;
-+#endif
-+#ifdef F_SETPIPE_SZ
-     case TARGET_F_SETPIPE_SZ:
-         qemu_log("F_SETPIPE_SZ,");
-         print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-@@ -2078,14 +2101,16 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
-     case TARGET_F_GETPIPE_SZ:
-         qemu_log("F_GETPIPE_SZ");
-         break;
--    case TARGET_F_DUPFD_CLOEXEC:
--        qemu_log("F_DUPFD_CLOEXEC,");
--        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
-+#endif
-+#ifdef F_ADD_SEALS
-+    case TARGET_F_ADD_SEALS:
-+        qemu_log("F_ADD_SEALS,");
-+        print_raw_param("0x"TARGET_ABI_FMT_lx, arg2, 1);
-         break;
--    case TARGET_F_NOTIFY:
--        qemu_log("F_NOTIFY,");
--        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
-+    case TARGET_F_GET_SEALS:
-+        qemu_log("F_GET_SEALS");
-         break;
-+#endif
-     default:
-         print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
-         print_pointer(arg2, 1);
+     case SOL_IP:
+         qemu_log("SOL_IP,");
+         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index d182890ff04a..98aaca01872f 100644
+index 98aaca01872f..969db2008104 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6639,6 +6639,14 @@ static int target_to_host_fcntl_cmd(int cmd)
-     case TARGET_F_GETPIPE_SZ:
-         ret = F_GETPIPE_SZ;
+@@ -53,6 +53,7 @@
+ //#include <sys/user.h>
+ #include <netinet/ip.h>
+ #include <netinet/tcp.h>
++#include <netinet/udp.h>
+ #include <linux/wireless.h>
+ #include <linux/icmp.h>
+ #include <linux/icmpv6.h>
+@@ -2184,7 +2185,8 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+ 
+     switch(level) {
+     case SOL_TCP:
+-        /* TCP options all take an 'int' value.  */
++    case SOL_UDP:
++        /* TCP and UDP options all take an 'int' value.  */
+         if (optlen < sizeof(uint32_t))
+             return -TARGET_EINVAL;
+ 
+@@ -2832,7 +2834,8 @@ get_timeout:
+         }
          break;
-+#endif
-+#ifdef F_ADD_SEALS
-+    case TARGET_F_ADD_SEALS:
-+        ret = F_ADD_SEALS;
-+        break;
-+    case TARGET_F_GET_SEALS:
-+        ret = F_GET_SEALS;
-+        break;
- #endif
-     default:
-         ret = -TARGET_EINVAL;
-@@ -6931,6 +6939,8 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
-     case TARGET_F_GETLEASE:
-     case TARGET_F_SETPIPE_SZ:
-     case TARGET_F_GETPIPE_SZ:
-+    case TARGET_F_ADD_SEALS:
-+    case TARGET_F_GET_SEALS:
-         ret = get_errno(safe_fcntl(fd, host_cmd, arg));
-         break;
- 
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index a00bfc2647c7..f98c1c1c8de4 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2408,12 +2408,14 @@ struct target_statfs64 {
- #endif
- 
- #define TARGET_F_LINUX_SPECIFIC_BASE 1024
--#define TARGET_F_SETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 0)
--#define TARGET_F_GETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 1)
--#define TARGET_F_DUPFD_CLOEXEC (TARGET_F_LINUX_SPECIFIC_BASE + 6)
--#define TARGET_F_SETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 7)
--#define TARGET_F_GETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 8)
--#define TARGET_F_NOTIFY  (TARGET_F_LINUX_SPECIFIC_BASE+2)
-+#define TARGET_F_SETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 0)
-+#define TARGET_F_GETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 1)
-+#define TARGET_F_DUPFD_CLOEXEC       (TARGET_F_LINUX_SPECIFIC_BASE + 6)
-+#define TARGET_F_NOTIFY              (TARGET_F_LINUX_SPECIFIC_BASE + 2)
-+#define TARGET_F_SETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 7)
-+#define TARGET_F_GETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 8)
-+#define TARGET_F_ADD_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 9)
-+#define TARGET_F_GET_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 10)
- 
- #include "target_fcntl.h"
- 
+     case SOL_TCP:
+-        /* TCP options all take an 'int' value.  */
++    case SOL_UDP:
++        /* TCP and UDP options all take an 'int' value.  */
+     int_case:
+         if (get_user_u32(len, optlen))
+             return -TARGET_EFAULT;
 -- 
 2.29.2
 
