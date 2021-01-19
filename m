@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3EAB2FB28F
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 08:14:07 +0100 (CET)
-Received: from localhost ([::1]:34374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CC652FB2A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 08:16:48 +0100 (CET)
+Received: from localhost ([::1]:39318 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1lDK-000734-LQ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 02:14:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46280)
+	id 1l1lFv-0000oW-9b
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 02:16:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1lAW-0005iH-00
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 02:11:12 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43986)
+ id 1l1lAX-0005iy-Tq
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 02:11:13 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1lAS-0004in-JM
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 02:11:11 -0500
+ id 1l1lAS-0004jQ-Je
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 02:11:13 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l1lAQ-0007xS-Hs
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:06 +0000
+ id 1l1lAR-00085T-Gk
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:07 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 861EB2E8138
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:06 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 7D9C82E8137
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:07 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 Jan 2021 06:56:29 -0000
-From: Thomas Huth <1811862@bugs.launchpad.net>
+Date: Tue, 19 Jan 2021 06:57:08 -0000
+From: Thomas Huth <1811711@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
@@ -38,19 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: abbbi th-huth
-X-Launchpad-Bug-Reporter: Michael Ablassmeier (abbbi)
+X-Launchpad-Bug-Commenters: berrange ipatch th-huth xanclic
+X-Launchpad-Bug-Reporter: Chris (ipatch)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154756723569.32460.9318945599039422988.malonedeb@wampee.canonical.com>
-Message-Id: <161103938923.12323.8513540185185697625.malone@gac.canonical.com>
-Subject: [Bug 1811862] Re: microcode version stays 0x1 even if -cpu host is
- used
+References: <154748542167.20943.17238616375041067992.malonedeb@soybean.canonical.com>
+Message-Id: <161103942897.26612.5707440661948648121.malone@chaenomeles.canonical.com>
+Subject: [Bug 1811711] Re: qemu-img can not convert virtualbox virtual disk
+ formats qcow
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
-X-Launchpad-Hash: 6deaec124d3fda33180b2f4b73939d75f4609558
+X-Launchpad-Hash: d37f9cd0598915c908bbc428260e1235f89d6bcc
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1811862 <1811862@bugs.launchpad.net>
+Reply-To: Bug 1811711 <1811711@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -91,61 +91,92 @@ venience.
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1811862
+https://bugs.launchpad.net/bugs/1811711
 
 Title:
-  microcode version stays 0x1 even if -cpu host is used
+  qemu-img can not convert virtualbox virtual disk formats qcow
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  The microcode version of my host cpu has the following version:
+  Hello, I'm working with QEMU on macOS, and am experiencing issues
+  working with the `qemu-img` command.
 
-  grep microcode /proc/cpuinfo | head -1
-  microcode       : 0x3d
+  Info
+  ----
+  $ sw_vers
+  ProductName:    Mac OS X
+  ProductVersion: 10.13.6
+  BuildVersion:   17G4015
 
-  while trying to run ESXi in an nested VM, the boot bailed out with
-  error message that at least microcode version 0x19 is needed. It =
+  VirtualBox
+  ----------
+  $ VBoxManage --version
+  6.0.0r127566
 
-  seems they have introduced such a check on certain CPU types.
+  $ qemu-system-x86_64 --version
+  QEMU emulator version 3.1.50 (v3.1.0-rc2-745-g147923b1a9-dirty)
+  Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
 
-  The VM in question is using the "host-passthrough" option in libvirt
-  and the qemu command line reads as this:
+  $ qemu-img --version
+  qemu-img version 3.1.50 (v3.1.0-rc2-745-g147923b1a9-dirty)
+  Copyright (c) 2003-2018 Fabrice Bellard and the QEMU Project developers
 
-  21172 ?        Sl     0:09 /usr/libexec/qemu-kvm -name guest=3Dhpe-env-
-  client1,debug-threads=3Don -S -object
-  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-33
-  -hpe-env-client1/master-key.aes -machine pc-i440fx-
-  rhel7.6.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff -cpu host <rest
-  stripped>
+  Steps to reproduce
+  ------------------
 
-  Running a regular Linux VM with `host-passthrough` shows that the
-  microcode version is still reported as 0x1.
+  > Prereq VirtualBox needs to be installed to run the `VBoxManage`
+  command
 
-  Within the VM:
+  $ VBoxManage createmedium disk --filename vbox-vdisk-exp.qcow --format qc=
+ow --size 5
+  0%...10%...20%...30%...40%...50%...60%...70%...80%...90%...100%
+  Medium created. UUID: e2b36955-3791-4c0e-93d4-913669b1d9fb
 
-  [root@hpe-env-client1 ~]# cat /proc/cpuinfo =
+  $ file vbox-vdisk-exp.qcow
+  vbox-vdisk-exp.qcow: QEMU QCOW Image (v1), 5242880 bytes
 
-  processor       : 0
-  vendor_id       : GenuineIntel
-  cpu family      : 6
-  model           : 63
-  model name      : Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz
-  stepping        : 2
-  microcode       : 0x1
-  cpu MHz         : 2397.222
+  $ qemu-img info vbox-vdisk-exp.qcow
+  image: vbox-vdisk-exp.qcow
+  file format: qcow
+  virtual size: 5.0M (5242880 bytes)
+  disk size: 8.0K
+  cluster_size: 4096
 
-  =
+  # Convert vbox virtualdisk to qcow2 format using `qemu-img`
+  $ qemu-img convert -f qcow vbox-vdisk-exp.qcow -O qcow2 vbox-vdisk-exp-co=
+nvert.qcow2
 
-  My impression is qemu should copy the hosts microcode version in this cas=
-e?
+  $ file vbox-vdisk-exp-convert.qcow2
+  vbox-vdisk-exp-convert.qcow2: QEMU QCOW Image (v3), 5242880 bytes
 
-  Running Qemu von RHEl8 beta here.
+  # Print info about qemu-img converted image from vbox created qcow image
+  $ qemu-img info vbox-vdisk-exp-convert.qcow2                             =
+                      mutts-6 | 0 < 10:53:00
+  image: vbox-vdisk-exp-convert.qcow2
+  file format: qcow2
+  virtual size: 5.0M (5242880 bytes)
+  disk size: 196K
+  cluster_size: 65536
+  Format specific information:
+      compat: 1.1
+      lazy refcounts: false
+      refcount bits: 16
+      corrupt: false
 
-  [root@3parserver ~]# /usr/libexec/qemu-kvm --version
-  QEMU emulator version 2.12.0 (qemu-kvm-2.12.0-41.el8+2104+3e32e6f8)
+  # Print info about vbox created qcow image
+  qemu-img info vbox-vdisk-exp.qcow                                        =
+                    mutts-6 | 0 < 10:53:19
+  image: vbox-vdisk-exp.qcow
+  file format: qcow
+  virtual size: 5.0M (5242880 bytes)
+  disk size: 8.0K
+  cluster_size: 4096
+
+  I've attached a zip file containing the vbox created qcow image along
+  with the image that `qemu-img` converted.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1811862/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1811711/+subscriptions
 
