@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948DC2FB478
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:45:36 +0100 (CET)
-Received: from localhost ([::1]:50790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32102FB464
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:43:25 +0100 (CET)
+Received: from localhost ([::1]:46288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1mdr-0001lP-Lc
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:45:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34438)
+	id 1l1mbk-0008Ht-Qz
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:43:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVZ-0008Jn-M0
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:37:01 -0500
-Received: from mail-wr1-f47.google.com ([209.85.221.47]:36538)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVb-0008La-DD
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:37:03 -0500
+Received: from mail-wm1-f50.google.com ([209.85.128.50]:40845)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVY-0003Vt-3C
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:37:01 -0500
-Received: by mail-wr1-f47.google.com with SMTP id 6so11547764wri.3
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 00:36:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <th.huth@gmail.com>) id 1l1mVZ-0003WI-1V
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:37:02 -0500
+Received: by mail-wm1-f50.google.com with SMTP id c127so454462wmf.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 00:37:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Lp8e+6CNq3PfO/lG5V1bR2jAbjEfRw8uEWg2058AyFU=;
- b=klIV5NYmQwkloh4SynoEb6Wz2DZCAbMYn6tMgGuRZRxnWZqLsYfd0qqbylq84y0NC0
- tZkmwR5HQafKC0fMnsxdi3DI7KzgfT6MZtKuYgGkqd7W19m0JJz1BS/f813JGQ9Qmwmu
- Us/qHtriOyp9eKNO16Nf/vROPwd+Q2DAvaMywsQHXUWFhL2dC9unhMcK9c44Toow580K
- PyYdtylG7q3BUozIgj/V3CLysJKSXUYcmUtrPgnCdWHabZMAe1LH2jMg3HdUndV4Xdx0
- 7A5HrbQYY/pLTAwIxtygXQDuPriR/DOAGDw0MljpOluKrZ5scpTbiqfNuay1qSknhKsq
- RWhg==
-X-Gm-Message-State: AOAM531u3e3Nk/Uw3gE8omne3cCYM02pgB18Zet7iIq5Cu7uOqWOriQ4
- V6uUwtZDfQ5hexQMa9I3wYV38B/+vbc=
-X-Google-Smtp-Source: ABdhPJxjGcXowrZlsbQpIwzmvS7XjGkgESMuy3ZucjlqqyHpw6f+tDtJBY4hxnXhpiomnX9RtBAn2g==
-X-Received: by 2002:a5d:660c:: with SMTP id n12mr3165700wru.291.1611045418609; 
- Tue, 19 Jan 2021 00:36:58 -0800 (PST)
+ bh=82040SlXkePZdzPsM+5O3xrDuN6hQ94MWNkWdWB/RtM=;
+ b=SOcNXFGq6JsB/0JhUXprh2DS4FlsHfu+L31+EpcMvotInLIiMhzAEX33bTYiuuG6eB
+ MunPJV3PTskGk0vEoPyJFkc1bVtxNq4804liPVWS0QbnseVNmRCPt+gWGJ3AD86PRXEQ
+ gTuRPlB1FZQOWQhERjtp1aqjiE6LOl7XPVWLJQY34MvNJi6gnxPDp9l+5+ctu3Ot/oTf
+ oAm1jtp1qZWevMUA4sfjlY/WeVBJPZ9gVbqETgWHBaBgRrl7OmpFMD7bZbBeFyzC674W
+ 0jayJqhHvOXOLqd+M+2STlHPdmEwnxLqNFOMCuRQaIvQqPGy+QTxy14dmSynFZVnBsZG
+ l9Og==
+X-Gm-Message-State: AOAM533h+StK5wkYd3WarKKXzpmtSmDFxkpVC4P3+GGcX7dkEnYnqc0q
+ nWK+8HvDL0m40Gr5seV8QL+GFgpTuA8=
+X-Google-Smtp-Source: ABdhPJz1MeapYtDenA0eRj4MBre1WajUelG1XlvtrUFcBLh9kFYwKvo7XpI92MjFIeW/jFzkSZw+aQ==
+X-Received: by 2002:a7b:c31a:: with SMTP id k26mr2924228wmj.72.1611045419262; 
+ Tue, 19 Jan 2021 00:36:59 -0800 (PST)
 Received: from localhost.localdomain (pd9e83aed.dip0.t-ipconnect.de.
  [217.232.58.237])
  by smtp.gmail.com with ESMTPSA id z14sm540833wrm.5.2021.01.19.00.36.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 00:36:58 -0800 (PST)
+ Tue, 19 Jan 2021 00:36:59 -0800 (PST)
 From: Thomas Huth <huth@tuxfamily.org>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 09/11] hw/m68k/next-cube: Remove unused fields from NeXTState
-Date: Tue, 19 Jan 2021 09:36:15 +0100
-Message-Id: <20210119083617.6337-10-huth@tuxfamily.org>
+Subject: [PULL 10/11] hw/m68k/next-cube: Add vmstate for NeXTPC device
+Date: Tue, 19 Jan 2021 09:36:16 +0100
+Message-Id: <20210119083617.6337-11-huth@tuxfamily.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119083617.6337-1-huth@tuxfamily.org>
 References: <20210119083617.6337-1-huth@tuxfamily.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.221.47; envelope-from=th.huth@gmail.com;
- helo=mail-wr1-f47.google.com
+Received-SPF: pass client-ip=209.85.128.50; envelope-from=th.huth@gmail.com;
+ helo=mail-wm1-f50.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -78,37 +78,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Peter Maydell <peter.maydell@linaro.org>
 
-The fields scsi_irq, scsi_dma, scsi_reset and fd_irq in
-NeXTState are all unused, except in commented out
-"this should do something like this" code. Remove the
-unused fields. As and when the functionality that might
-use them is added, we can put in the correct kind of
-wiring (which might or might not need to be a qemu_irq,
-but which in any case will need to be in the NeXTPC
-device, not in NeXTState).
+Add the vmstate for the new NeXTPC devic; this is in theory
+a migration compatibility break, but this machine doesn't have
+working migration currently anyway.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210115201206.17347-10-peter.maydell@linaro.org>
+Message-Id: <20210115201206.17347-11-peter.maydell@linaro.org>
 Signed-off-by: Thomas Huth <huth@tuxfamily.org>
 ---
- hw/m68k/next-cube.c | 4 ----
- 1 file changed, 4 deletions(-)
+ hw/m68k/next-cube.c | 34 +++++++++++++++++++++++++++++++++-
+ 1 file changed, 33 insertions(+), 1 deletion(-)
 
 diff --git a/hw/m68k/next-cube.c b/hw/m68k/next-cube.c
-index 57f9e9f837..1f6a2d58a1 100644
+index 1f6a2d58a1..92b45d760f 100644
 --- a/hw/m68k/next-cube.c
 +++ b/hw/m68k/next-cube.c
-@@ -74,10 +74,6 @@ struct NeXTState {
-     MachineState parent;
+@@ -28,6 +28,7 @@
+ #include "qapi/error.h"
+ #include "ui/console.h"
+ #include "target/m68k/cpu.h"
++#include "migration/vmstate.h"
  
-     next_dma dma[10];
--    qemu_irq *scsi_irq;
--    qemu_irq scsi_dma;
--    qemu_irq scsi_reset;
--    qemu_irq *fd_irq;
+ /* #define DEBUG_NEXT */
+ #ifdef DEBUG_NEXT
+@@ -891,6 +892,37 @@ static Property next_pc_properties[] = {
+     DEFINE_PROP_END_OF_LIST(),
  };
  
- #define TYPE_NEXT_PC "next-pc"
++static const VMStateDescription next_rtc_vmstate = {
++    .name = "next-rtc",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT8_ARRAY(ram, NextRtc, 32),
++        VMSTATE_UINT8(command, NextRtc),
++        VMSTATE_UINT8(value, NextRtc),
++        VMSTATE_UINT8(status, NextRtc),
++        VMSTATE_UINT8(control, NextRtc),
++        VMSTATE_UINT8(retval, NextRtc),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
++static const VMStateDescription next_pc_vmstate = {
++    .name = "next-pc",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_UINT32(scr1, NeXTPC),
++        VMSTATE_UINT32(scr2, NeXTPC),
++        VMSTATE_UINT32(int_mask, NeXTPC),
++        VMSTATE_UINT32(int_status, NeXTPC),
++        VMSTATE_UINT8(scsi_csr_1, NeXTPC),
++        VMSTATE_UINT8(scsi_csr_2, NeXTPC),
++        VMSTATE_STRUCT(rtc, NeXTPC, 0, next_rtc_vmstate, NextRtc),
++        VMSTATE_END_OF_LIST()
++    },
++};
++
+ static void next_pc_class_init(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+@@ -899,7 +931,7 @@ static void next_pc_class_init(ObjectClass *klass, void *data)
+     dc->realize = next_pc_realize;
+     dc->reset = next_pc_reset;
+     device_class_set_props(dc, next_pc_properties);
+-    /* We will add the VMState in a later commit */
++    dc->vmsd = &next_pc_vmstate;
+ }
+ 
+ static const TypeInfo next_pc_info = {
 -- 
 2.29.2
 
