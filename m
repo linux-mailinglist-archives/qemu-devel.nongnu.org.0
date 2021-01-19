@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CD92FC0D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:24:27 +0100 (CET)
-Received: from localhost ([::1]:51298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633342FC0C6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:20:57 +0100 (CET)
+Received: from localhost ([::1]:44108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1xYA-0002iA-9X
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:24:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35542)
+	id 1l1xUg-0007oQ-4n
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:20:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35492)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l1wY5-0004h3-SN; Tue, 19 Jan 2021 14:20:18 -0500
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:35377)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l1wXn-0004eA-75
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 14:19:59 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l1wY0-0007Zz-1U; Tue, 19 Jan 2021 14:20:17 -0500
-Received: by mail-io1-xd35.google.com with SMTP id y19so41906816iov.2;
- Tue, 19 Jan 2021 11:20:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2JQoIhc0KOX2a8RGsu9MXEObVIiAKy0d2dLFzQ7SXXk=;
- b=hCToVDr9Hsq55bq0NVUcgWJsyMaFrbyQ5MjtpzE2HZsr755MT0b5YkglqP7KsqY7j5
- Y+S8lLt20qvfpPaQTl+WMn1j4raugFit97nm/zlKvlxbl+0XdWwBu95eq34f3HgA4RNh
- BB+GrWnH0B5khLKFGGyFRVxNAl19V0EPTrpf8JVatfMim1fMTfvXbTnHJhG5F4xEzsZx
- 6Uaw3A9FxQKF016cu8UUip3rV+GtJ1Zo2t4Yj2KRSkBDApDXSXaNHmsrraxmnWJC7exv
- KZe6fMG6NVtnkJoqpig5+s7u4uaVoONtj3S5jUlC4jFJZ9pbhguEYbcajq6EpJJS+fh4
- SZ1w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l1wXk-0007Z7-L8
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 14:19:58 -0500
+Received: by mail-pg1-x532.google.com with SMTP id p18so13545795pgm.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 11:19:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=93bZXThkPBbLLK2hGNJCA/sR9uUbksalIT3IgCsYe7A=;
+ b=rEg05OezxtmWq6kcVMWFLsiIZh8cE223RPqhWwponnHqBKt0BzlT84g+SgIwrpuL+k
+ PyhHNh4u43cu6FXJqQQrlAKmJi4990sHKplBRg4/b5vMqVKfdpdid+aO3vraeJQ2vQkR
+ h8BDI1ghsxFUuockH15pa8OYWGQT/i4FTvvWhtHIsxU3Wt6LTMB03wKJzwrBK/iyMT+9
+ Hv/KW36MOyBlFKdcmtXIL5ojX5RnwFOsGAAO5R6FZuFxq6Xxd7w5bKAm/Ic79J+xFViJ
+ XQmgYzk8DWBIaXgNpiTTSZxtoOsODlOBkm3imhic/VOW2lmaIE5yrCVqFV/fN6NZ1Yzo
+ DfBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=2JQoIhc0KOX2a8RGsu9MXEObVIiAKy0d2dLFzQ7SXXk=;
- b=HVC1xxyc5Mgk7C53mCogfTITN8l7ZTck3mXLJIAy290laRFG2ZRiGh6jVNJvF9SClU
- 9ZN/70cX9qUOihkavGM5M8I+rFE/ZFW+ZEvlT4NK3iGOPoC2ky9tMBi4iExRcL1ijtx+
- SVy+c1OtSnA4Vqe3z0ANFYtNvzk7DHk9zIXB6CNYJ6gsODXHkcwmxI8vZgcH1gFqAH9B
- Yrea2yNmqQbnKxTzkfGklenRzHvqiev4BaFLleMlG6D3a2Lr6mAmTHnjHGshdsMF8lZi
- 2F5ClN+HJbnn5rAVlWc6q7Zo+aYd6j9lvjGoG3ok3Z8Er0sT3IXpqbPyDHs5WT7BnwAj
- Ve/A==
-X-Gm-Message-State: AOAM532Lo2fAig2wBEAoA8VlzjrndcOUWd7xPbw9jYTA77AkneKSSFGC
- N5u0KJBoGY6IPx06Tw8T1ny1N6MHAGUNdl9A9L0=
-X-Google-Smtp-Source: ABdhPJwo679QfCbav/RYQAMshAxljDaycaZbG8CjVdm+tTcxFtNbn7tNH+kROoQK1lbJIWu3PjkZY1rcWkiBXqGJzrc=
-X-Received: by 2002:a05:6e02:20e5:: with SMTP id
- q5mr4635568ilv.131.1611084009387; 
- Tue, 19 Jan 2021 11:20:09 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=93bZXThkPBbLLK2hGNJCA/sR9uUbksalIT3IgCsYe7A=;
+ b=LvrC1zyIM1DJAJScREV79lnN+WEABeXHWnQHdqYvEJc4GqipflyQcmTrusTFgqsfhJ
+ 9NXI41ojK3wo4uZek9Qo4pwrYk4fvAvjaV6kNRh/xLPVtlQD86Xh+SjMvkOn5lNt5wVe
+ C0zJKKI3Dyg45jx2vAPBfc3LwVaghXZuar822rdmfBUZt+XzJmOnELH4C5Ai1cI1Fom/
+ qUzuf3cYUm9svKnfUtIAt+RHnZPfasxM0S9Fad45DRZNa/Uai8SYgQVl1k/6VkSiLHjY
+ 22gpLdnLnsoVPRUzoZ6FGFoiDhOspTnXLac0uT94zbweG8S/MZuok7MN/3FOoSQjZd9q
+ 3rcg==
+X-Gm-Message-State: AOAM530Acgxm62H/k9fHp6RAKmkA6YsTC1WHve2TpwKW5g42EZyjBwgv
+ QaD/7J/fjl8jvk15IQSP11KDDwzgMaoHjQ==
+X-Google-Smtp-Source: ABdhPJzBK+wBCLmDM1Yt/7GlDjSUCqVE9qOosSi0JjdtNKQVCgYi7G4WN9Q8ERKMGu7a0YokxFQVhg==
+X-Received: by 2002:a62:3485:0:b029:1b7:d521:29e9 with SMTP id
+ b127-20020a6234850000b02901b7d52129e9mr5358679pfa.81.1611083994954; 
+ Tue, 19 Jan 2021 11:19:54 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id b65sm17055819pga.54.2021.01.19.11.19.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 11:19:54 -0800 (PST)
+Subject: Re: [PATCH v2 02/22] tcg/i386: Move constraint type check to
+ tcg_target_const_match
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-3-richard.henderson@linaro.org>
+ <CAFEAcA9Ng8hysJRf+odugoSUcrjzBNUvmhpTzOLmSYKELWF0TQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <7caa5d5c-fb3b-fa60-ae95-6f63cdc5c2e9@linaro.org>
+Date: Tue, 19 Jan 2021 09:19:51 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20210112093950.17530-1-frank.chang@sifive.com>
- <20210112093950.17530-22-frank.chang@sifive.com>
-In-Reply-To: <20210112093950.17530-22-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 Jan 2021 11:19:43 -0800
-Message-ID: <CAKmqyKPBv641N-zfKTyni066B3t66m7mkdJhai5sc=2Ld7p23w@mail.gmail.com>
-Subject: Re: [PATCH v6 21/72] target/riscv: rvv-1.0: fault-only-first unit
- stride load
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+In-Reply-To: <CAFEAcA9Ng8hysJRf+odugoSUcrjzBNUvmhpTzOLmSYKELWF0TQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -78,262 +91,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 1:56 AM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 1/19/21 4:27 AM, Peter Maydell wrote:
+> On Fri, 15 Jan 2021 at 21:14, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Rather than check the type when filling in the constraint,
+>> check it when matching the constant.  This removes the only
+>> use of the type argument to target_parse_constraint.
+>>
+>> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+>> ---
+>>  tcg/i386/tcg-target.c.inc | 28 +++++++++++++++++-----------
+>>  1 file changed, 17 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+>> index 050f3cb0b1..74637f654a 100644
+>> --- a/tcg/i386/tcg-target.c.inc
+>> +++ b/tcg/i386/tcg-target.c.inc
+>> @@ -263,13 +263,13 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+>>          break;
+>>
+>>      case 'e':
+>> -        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_S32);
+>> +        ct->ct |= TCG_CT_CONST_S32;
+>>          break;
+>>      case 'Z':
+>> -        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_U32);
+>> +        ct->ct |= TCG_CT_CONST_U32;
+>>          break;
+>>      case 'I':
+>> -        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_I32);
+>> +        ct->ct |= TCG_CT_CONST_I32;
+>>          break;
+>>
+>>      default:
+>> @@ -286,14 +286,20 @@ static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
+>>      if (ct & TCG_CT_CONST) {
+>>          return 1;
+>>      }
+>> -    if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
+>> -        return 1;
+>> -    }
+>> -    if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
+>> -        return 1;
+>> -    }
+>> -    if ((ct & TCG_CT_CONST_I32) && ~val == (int32_t)~val) {
+>> -        return 1;
+>> +    if (TCG_TARGET_REG_BITS == 32 || type == TCG_TYPE_I32) {
+> 
+> Where does the TCG_TARGET_REG_BITS check come from? We weren't
+> testing that in the old code in target_parse_constraint() that
+> I can see.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Premature optimization and a separate change.
+Dropped.
 
-Alistair
 
-> ---
->  target/riscv/helper.h                   | 27 +++---------
->  target/riscv/insn32.decode              | 14 +++----
->  target/riscv/insn_trans/trans_rvv.c.inc | 33 ++++-----------
->  target/riscv/vector_helper.c            | 56 +++++++++----------------
->  4 files changed, 39 insertions(+), 91 deletions(-)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 98c0c6e29b6..5eb2404a75a 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -135,28 +135,11 @@ DEF_HELPER_6(vsxei64_8_v, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vsxei64_16_v, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vsxei64_32_v, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vsxei64_64_v, void, ptr, ptr, tl, ptr, env, i32)
-> -DEF_HELPER_5(vlbff_v_b, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlbff_v_h, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlbff_v_w, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlbff_v_d, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlhff_v_h, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlhff_v_w, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlhff_v_d, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlwff_v_w, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlwff_v_d, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vleff_v_b, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vleff_v_h, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vleff_v_w, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vleff_v_d, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlbuff_v_b, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlbuff_v_h, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlbuff_v_w, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlbuff_v_d, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlhuff_v_h, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlhuff_v_w, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlhuff_v_d, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlwuff_v_w, void, ptr, ptr, tl, env, i32)
-> -DEF_HELPER_5(vlwuff_v_d, void, ptr, ptr, tl, env, i32)
-> +DEF_HELPER_5(vle8ff_v, void, ptr, ptr, tl, env, i32)
-> +DEF_HELPER_5(vle16ff_v, void, ptr, ptr, tl, env, i32)
-> +DEF_HELPER_5(vle32ff_v, void, ptr, ptr, tl, env, i32)
-> +DEF_HELPER_5(vle64ff_v, void, ptr, ptr, tl, env, i32)
-> +
->  #ifdef TARGET_RISCV64
->  DEF_HELPER_6(vamoswapw_v_d, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vamoswapd_v_d, void, ptr, ptr, tl, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index c0058c6c756..9e4fe72560b 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -260,14 +260,6 @@ vsse16_v    ... 010 . ..... ..... 101 ..... 0100111 @r_nfvm
->  vsse32_v    ... 010 . ..... ..... 110 ..... 0100111 @r_nfvm
->  vsse64_v    ... 010 . ..... ..... 111 ..... 0100111 @r_nfvm
->
-> -vlbff_v    ... 100 . 10000 ..... 000 ..... 0000111 @r2_nfvm
-> -vlhff_v    ... 100 . 10000 ..... 101 ..... 0000111 @r2_nfvm
-> -vlwff_v    ... 100 . 10000 ..... 110 ..... 0000111 @r2_nfvm
-> -vleff_v    ... 000 . 10000 ..... 111 ..... 0000111 @r2_nfvm
-> -vlbuff_v   ... 000 . 10000 ..... 000 ..... 0000111 @r2_nfvm
-> -vlhuff_v   ... 000 . 10000 ..... 101 ..... 0000111 @r2_nfvm
-> -vlwuff_v   ... 000 . 10000 ..... 110 ..... 0000111 @r2_nfvm
-> -
->  # Vector ordered-indexed and unordered-indexed load insns.
->  vlxei8_v      ... 0-1 . ..... ..... 000 ..... 0000111 @r_nfvm
->  vlxei16_v     ... 0-1 . ..... ..... 101 ..... 0000111 @r_nfvm
-> @@ -280,6 +272,12 @@ vsxei16_v     ... 0-1 . ..... ..... 101 ..... 0100111 @r_nfvm
->  vsxei32_v     ... 0-1 . ..... ..... 110 ..... 0100111 @r_nfvm
->  vsxei64_v     ... 0-1 . ..... ..... 111 ..... 0100111 @r_nfvm
->
-> +# Vector unit-stride fault-only-first load insns.
-> +vle8ff_v      ... 000 . 10000 ..... 000 ..... 0000111 @r2_nfvm
-> +vle16ff_v     ... 000 . 10000 ..... 101 ..... 0000111 @r2_nfvm
-> +vle32ff_v     ... 000 . 10000 ..... 110 ..... 0000111 @r2_nfvm
-> +vle64ff_v     ... 000 . 10000 ..... 111 ..... 0000111 @r2_nfvm
-> +
->  #*** Vector AMO operations are encoded under the standard AMO major opcode ***
->  vamoswapw_v     00001 . . ..... ..... 110 ..... 0101111 @r_wdvm
->  vamoaddw_v      00000 . . ..... ..... 110 ..... 0101111 @r_wdvm
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 320d710695f..20161b1ebe3 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -943,28 +943,16 @@ static bool ldff_trans(uint32_t vd, uint32_t rs1, uint32_t data,
->      return true;
->  }
->
-> -static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
-> +static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
->  {
->      uint32_t data = 0;
->      gen_helper_ldst_us *fn;
-> -    static gen_helper_ldst_us * const fns[7][4] = {
-> -        { gen_helper_vlbff_v_b,  gen_helper_vlbff_v_h,
-> -          gen_helper_vlbff_v_w,  gen_helper_vlbff_v_d },
-> -        { NULL,                  gen_helper_vlhff_v_h,
-> -          gen_helper_vlhff_v_w,  gen_helper_vlhff_v_d },
-> -        { NULL,                  NULL,
-> -          gen_helper_vlwff_v_w,  gen_helper_vlwff_v_d },
-> -        { gen_helper_vleff_v_b,  gen_helper_vleff_v_h,
-> -          gen_helper_vleff_v_w,  gen_helper_vleff_v_d },
-> -        { gen_helper_vlbuff_v_b, gen_helper_vlbuff_v_h,
-> -          gen_helper_vlbuff_v_w, gen_helper_vlbuff_v_d },
-> -        { NULL,                  gen_helper_vlhuff_v_h,
-> -          gen_helper_vlhuff_v_w, gen_helper_vlhuff_v_d },
-> -        { NULL,                  NULL,
-> -          gen_helper_vlwuff_v_w, gen_helper_vlwuff_v_d }
-> +    static gen_helper_ldst_us * const fns[4] = {
-> +        gen_helper_vle8ff_v, gen_helper_vle16ff_v,
-> +        gen_helper_vle32ff_v, gen_helper_vle64ff_v
->      };
->
-> -    fn =  fns[seq][s->sew];
-> +    fn = fns[eew];
->      if (fn == NULL) {
->          return false;
->      }
-> @@ -975,13 +963,10 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t seq)
->      return ldff_trans(a->rd, a->rs1, data, fn, s);
->  }
->
-> -GEN_VEXT_TRANS(vlbff_v, 0, r2nfvm, ldff_op, ld_us_check)
-> -GEN_VEXT_TRANS(vlhff_v, 1, r2nfvm, ldff_op, ld_us_check)
-> -GEN_VEXT_TRANS(vlwff_v, 2, r2nfvm, ldff_op, ld_us_check)
-> -GEN_VEXT_TRANS(vleff_v, 3, r2nfvm, ldff_op, ld_us_check)
-> -GEN_VEXT_TRANS(vlbuff_v, 4, r2nfvm, ldff_op, ld_us_check)
-> -GEN_VEXT_TRANS(vlhuff_v, 5, r2nfvm, ldff_op, ld_us_check)
-> -GEN_VEXT_TRANS(vlwuff_v, 6, r2nfvm, ldff_op, ld_us_check)
-> +GEN_VEXT_TRANS(vle8ff_v,  MO_8,  r2nfvm, ldff_op, ld_us_check)
-> +GEN_VEXT_TRANS(vle16ff_v, MO_16, r2nfvm, ldff_op, ld_us_check)
-> +GEN_VEXT_TRANS(vle32ff_v, MO_32, r2nfvm, ldff_op, ld_us_check)
-> +GEN_VEXT_TRANS(vle64ff_v, MO_64, r2nfvm, ldff_op, ld_us_check)
->
->  /*
->   *** vector atomic operation
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 9349a36b41b..fd398af8550 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -458,7 +458,7 @@ static inline void
->  vext_ldff(void *vd, void *v0, target_ulong base,
->            CPURISCVState *env, uint32_t desc,
->            vext_ldst_elem_fn *ldst_elem,
-> -          uint32_t esz, uint32_t msz, uintptr_t ra)
-> +          uint32_t esz, uintptr_t ra)
->  {
->      void *host;
->      uint32_t i, k, vl = 0;
-> @@ -472,24 +472,24 @@ vext_ldff(void *vd, void *v0, target_ulong base,
->          if (!vm && !vext_elem_mask(v0, i)) {
->              continue;
->          }
-> -        addr = base + nf * i * msz;
-> +        addr = base + nf * i * esz;
->          if (i == 0) {
-> -            probe_pages(env, addr, nf * msz, ra, MMU_DATA_LOAD);
-> +            probe_pages(env, addr, nf * esz, ra, MMU_DATA_LOAD);
->          } else {
->              /* if it triggers an exception, no need to check watchpoint */
-> -            remain = nf * msz;
-> +            remain = nf * esz;
->              while (remain > 0) {
->                  offset = -(addr | TARGET_PAGE_MASK);
->                  host = tlb_vaddr_to_host(env, addr, MMU_DATA_LOAD,
->                                           cpu_mmu_index(env, false));
->                  if (host) {
->  #ifdef CONFIG_USER_ONLY
-> -                    if (page_check_range(addr, nf * msz, PAGE_READ) < 0) {
-> +                    if (page_check_range(addr, nf * esz, PAGE_READ) < 0) {
->                          vl = i;
->                          goto ProbeSuccess;
->                      }
->  #else
-> -                    probe_pages(env, addr, nf * msz, ra, MMU_DATA_LOAD);
-> +                    probe_pages(env, addr, nf * esz, ra, MMU_DATA_LOAD);
->  #endif
->                  } else {
->                      vl = i;
-> @@ -514,43 +514,25 @@ ProbeSuccess:
->              continue;
->          }
->          while (k < nf) {
-> -            target_ulong addr = base + (i * nf + k) * msz;
-> +            target_ulong addr = base + (i * nf + k) * esz;
->              ldst_elem(env, addr, i + k * vlmax, vd, ra);
->              k++;
->          }
->      }
->  }
->
-> -#define GEN_VEXT_LDFF(NAME, MTYPE, ETYPE, LOAD_FN)               \
-> -void HELPER(NAME)(void *vd, void *v0, target_ulong base,         \
-> -                  CPURISCVState *env, uint32_t desc)             \
-> -{                                                                \
-> -    vext_ldff(vd, v0, base, env, desc, LOAD_FN,                  \
-> -              sizeof(ETYPE), sizeof(MTYPE), GETPC());            \
-> -}
-> -
-> -GEN_VEXT_LDFF(vlbff_v_b,  int8_t,   int8_t,   ldb_b)
-> -GEN_VEXT_LDFF(vlbff_v_h,  int8_t,   int16_t,  ldb_h)
-> -GEN_VEXT_LDFF(vlbff_v_w,  int8_t,   int32_t,  ldb_w)
-> -GEN_VEXT_LDFF(vlbff_v_d,  int8_t,   int64_t,  ldb_d)
-> -GEN_VEXT_LDFF(vlhff_v_h,  int16_t,  int16_t,  ldh_h)
-> -GEN_VEXT_LDFF(vlhff_v_w,  int16_t,  int32_t,  ldh_w)
-> -GEN_VEXT_LDFF(vlhff_v_d,  int16_t,  int64_t,  ldh_d)
-> -GEN_VEXT_LDFF(vlwff_v_w,  int32_t,  int32_t,  ldw_w)
-> -GEN_VEXT_LDFF(vlwff_v_d,  int32_t,  int64_t,  ldw_d)
-> -GEN_VEXT_LDFF(vleff_v_b,  int8_t,   int8_t,   lde_b)
-> -GEN_VEXT_LDFF(vleff_v_h,  int16_t,  int16_t,  lde_h)
-> -GEN_VEXT_LDFF(vleff_v_w,  int32_t,  int32_t,  lde_w)
-> -GEN_VEXT_LDFF(vleff_v_d,  int64_t,  int64_t,  lde_d)
-> -GEN_VEXT_LDFF(vlbuff_v_b, uint8_t,  uint8_t,  ldbu_b)
-> -GEN_VEXT_LDFF(vlbuff_v_h, uint8_t,  uint16_t, ldbu_h)
-> -GEN_VEXT_LDFF(vlbuff_v_w, uint8_t,  uint32_t, ldbu_w)
-> -GEN_VEXT_LDFF(vlbuff_v_d, uint8_t,  uint64_t, ldbu_d)
-> -GEN_VEXT_LDFF(vlhuff_v_h, uint16_t, uint16_t, ldhu_h)
-> -GEN_VEXT_LDFF(vlhuff_v_w, uint16_t, uint32_t, ldhu_w)
-> -GEN_VEXT_LDFF(vlhuff_v_d, uint16_t, uint64_t, ldhu_d)
-> -GEN_VEXT_LDFF(vlwuff_v_w, uint32_t, uint32_t, ldwu_w)
-> -GEN_VEXT_LDFF(vlwuff_v_d, uint32_t, uint64_t, ldwu_d)
-> +#define GEN_VEXT_LDFF(NAME, ETYPE, LOAD_FN)               \
-> +void HELPER(NAME)(void *vd, void *v0, target_ulong base,  \
-> +                  CPURISCVState *env, uint32_t desc)      \
-> +{                                                         \
-> +    vext_ldff(vd, v0, base, env, desc, LOAD_FN,           \
-> +              sizeof(ETYPE), GETPC());                    \
-> +}
-> +
-> +GEN_VEXT_LDFF(vle8ff_v,  int8_t,  lde_b)
-> +GEN_VEXT_LDFF(vle16ff_v, int16_t, lde_h)
-> +GEN_VEXT_LDFF(vle32ff_v, int32_t, lde_w)
-> +GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
->
->  /*
->   *** Vector AMO Operations (Zvamo)
-> --
-> 2.17.1
->
->
+r~
+
+> 
+>> +        if (ct & (TCG_CT_CONST_S32 | TCG_CT_CONST_U32 | TCG_CT_CONST_I32)) {
+>> +            return 1;
+>> +        }
+>> +    } else {
+>> +        if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
+>> +            return 1;
+>> +        }
+>> +        if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
+>> +            return 1;
+>> +        }
+>> +        if ((ct & TCG_CT_CONST_I32) && ~val == (int32_t)~val) {
+>> +            return 1;
+>> +        }
+>>      }
+>>      if ((ct & TCG_CT_CONST_WSZ) && val == (type == TCG_TYPE_I32 ? 32 : 64)) {
+>>          return 1;
+> 
+> thanks
+> -- PMM
+> 
+
 
