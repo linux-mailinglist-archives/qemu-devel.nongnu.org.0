@@ -2,56 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C132B2FAE1A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 01:38:34 +0100 (CET)
-Received: from localhost ([::1]:60734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 634392FAE99
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 03:07:16 +0100 (CET)
+Received: from localhost ([::1]:59142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1f2X-00085T-RR
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 19:38:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53118)
+	id 1l1gQM-0000GM-UR
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 21:07:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marian@mutex.one>)
- id 1l1ewg-00030a-3j; Mon, 18 Jan 2021 19:32:30 -0500
-Received: from mail.mutex.one ([62.77.152.124]:49554)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marian@mutex.one>)
- id 1l1ewd-0004Bn-OI; Mon, 18 Jan 2021 19:32:29 -0500
-Received: from localhost (localhost.localdomain [127.0.0.1])
- by mail.mutex.one (Postfix) with ESMTP id ED0E0BF4265B;
- Tue, 19 Jan 2021 02:32:25 +0200 (EET)
-X-Virus-Scanned: Debian amavisd-new at mail.mutex.one
-Received: from mail.mutex.one ([127.0.0.1])
- by localhost (mail.mutex.one [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id V8qHXvWHbvXq; Tue, 19 Jan 2021 02:32:25 +0200 (EET)
-Received: [127.0.0.1] (localhost [127.0.0.1])nknown [109.103.89.101])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by mail.mutex.one (Postfix) with ESMTPSA id D1476BF423B3;
- Tue, 19 Jan 2021 02:32:24 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mutex.one; s=default;
- t=1611016345; bh=y7JLysCHpkns1hYxYdlzzv9H47TyaL9EnTVW5Ece6RA=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=F48KP/GpE70+jhaT5F8fWBe7kBEe48c268fgVRdwqFnjR2AxwBJhpWegQHSyDKlxf
- bsSpqTbsYUpkbhl07q+I/11QCKMYUWJrv3vEZStehr3ALLp0AK2T3k4n2KlVVXFQpm
- DLjxRiLi0EWrRFAIxaOWlNdkAqAbe2/deZCukBkk=
-From: Marian Postevca <posteuca@mutex.one>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 5/5] tests/acpi: disallow updates for expected data files
-Date: Tue, 19 Jan 2021 02:32:16 +0200
-Message-Id: <20210119003216.17637-6-posteuca@mutex.one>
-In-Reply-To: <20210119003216.17637-1-posteuca@mutex.one>
-References: <20210119003216.17637-1-posteuca@mutex.one>
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1l1gPF-00082m-HB
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 21:06:05 -0500
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:37387)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1l1gP9-0003hz-IH
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 21:06:01 -0500
+Received: by mail-pg1-x52e.google.com with SMTP id z21so12081032pgj.4
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 18:05:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20150623.gappssmtp.com; s=20150623;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=RvzTChAIc1/SbpMCVQ4pEZrH1h53bc7Zwa1KKLM9L8I=;
+ b=ce9zYGgLZ8BImLfIRDtIRxiPX1dhshVI6FYkTDO5NQewa+XHtzaGSuEsERUfVSWkpY
+ K5ZHbQLinXVKYXB451Me4mtp6lNl2/98Y2RRRy/2MMfU9JXDxCtmm3gtZihe4iy93fvK
+ Y5HCCZOsgLQ1ur4adFYJP09GUeU7Ki6i8iwfZ6chmYfiOzEG37T92SPLOSlRppx+V1I/
+ GJvPN2OEi7NF9QS2EMXR0c7DLfeAK1CzP5MKggwmz8OCpO+NKvADH7UXkcJuHr8S9Vpy
+ 5FwNpjpP6bQX+5RhvYmF7d0lt6gyI1iriXKgrCN4EBRSHKqGZEgTL+q1d1YB1BMMFZCc
+ RBnw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RvzTChAIc1/SbpMCVQ4pEZrH1h53bc7Zwa1KKLM9L8I=;
+ b=PtUBnkw/ku4qT1icvM8/GdCq2FsosnpTzZWHxnejrLm05VatnkSvRocg8toyt51T2+
+ 36mwGUOl4TEq3wJNcv6UEiDEh4MGNXT1V45ls6o/L0J1tvhBZIb7zy4JwCDDbmb78EVl
+ gFqsqU+47KT7Cmu4beVAdGy4o8YfbdlJNK1HN+deR6Ye1GokZis2yEIaRXy3z+PHAFGH
+ 0lZv0EIQzqJ/KUs+AQXOj4zvKZ9E6GzLaU+4ekqiKjOdGEEsYuI5mgpFWzvvrttbghjl
+ 70PzNh4Ybu0MRXLlPj1DcMRvnSn0t+kvmGOTgLxoxwaZnOTpbkL+6Ypw0DJ3fagkC08g
+ Ki6A==
+X-Gm-Message-State: AOAM5332uQ4Bf3KGx6zE5cnDOebLT7bky79m4E3MVDlUHLFcvoX3UU5i
+ CUw2FXEUKYq0gD73f6XWiQlESjS8U2VTc6BnZ5w=
+X-Google-Smtp-Source: ABdhPJy14J5RV0vlrwPySbkGFfJ5sql6nq+hu4BGBFf26NoKDYKMe/grEmP/lAuJ2PBJrUAMEHGUWQ==
+X-Received: by 2002:a62:778c:0:b029:1b6:1f1e:e156 with SMTP id
+ s134-20020a62778c0000b02901b61f1ee156mr1917837pfc.26.1611021956399; 
+ Mon, 18 Jan 2021 18:05:56 -0800 (PST)
+Received: from [10.2.218.189] ([61.120.150.75])
+ by smtp.gmail.com with ESMTPSA id g30sm16177814pfr.152.2021.01.18.18.05.52
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 18 Jan 2021 18:05:55 -0800 (PST)
+Subject: Re: Re: [PATCH v4 0/3] support NVMe smart critial warning injection
+To: k.jensen@samsung.com
+References: <20210115032702.466631-1-pizhenwei@bytedance.com>
+ <YAVWGC4HKFlaKolQ@apples.localdomain>
+From: zhenwei pi <pizhenwei@bytedance.com>
+Message-ID: <1797a9bb-f0bf-4377-2fb7-e3dc6fcba733@bytedance.com>
+Date: Tue, 19 Jan 2021 10:05:50 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=62.77.152.124; envelope-from=marian@mutex.one;
- helo=mail.mutex.one
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <YAVWGC4HKFlaKolQ@apples.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52e.google.com
+X-Spam_score_int: 4
+X-Spam_score: 0.4
+X-Spam_bar: /
+X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_NONE=-0.0001, SORTED_RECIPS=2.499,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,124 +88,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Sergio Lopez <slp@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Ben Warren <ben@skyportsystems.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Dongjiu Geng <gengdongjiu@huawei.com>, Shannon Zhao <shannon.zhaosl@gmail.com>,
- Xiang Zheng <zhengxiang9@huawei.com>, qemu-arm@nongnu.org,
- Marian Postevca <posteuca@mutex.one>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Xiao Guangrong <xiaoguangrong.eric@gmail.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kbusch@kernel.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Marian Postevca <posteuca@mutex.one>
----
- tests/qtest/bios-tables-test-allowed-diff.h | 94 ---------------------
- 1 file changed, 94 deletions(-)
+On 1/18/21 5:34 PM, Klaus Jensen wrote:
+> On Jan 15 11:26, zhenwei pi wrote:
+>> v3 -> v4:
+>> - Drop "Fix overwritten bar.cap". (Already fixed)
+>>
+>> - Avoid to enqueue the duplicate event.
+>>
+>> - Several minor changes for coding style & function/variable name.
+>>
+>> v2 -> v3:
+>> - Introduce "Persistent Memory Region has become read-only or
+>>    unreliable"
+>>
+>> - Fix overwritten bar.cap
+>>
+>> - Check smart critical warning value from QOM.
+>>
+>> - Trigger asynchronous event during smart warning injection.
+>>
+>> v1 -> v2:
+>> - Suggested by Philippe & Klaus, set/get smart_critical_warning by QMP.
+>>
+>> v1:
+>> - Add smart_critical_warning for nvme device which can be set by QEMU
+>>    command line to emulate hardware error.
+>>
+>> Zhenwei Pi (3):
+>>    block/nvme: introduce bit 5 for critical warning
+>>    hw/block/nvme: add smart_critical_warning property
+>>    hw/blocl/nvme: trigger async event during injecting smart warning
+>>
+>>   hw/block/nvme.c      | 91 +++++++++++++++++++++++++++++++++++++++-----
+>>   hw/block/nvme.h      |  1 +
+>>   include/block/nvme.h |  3 ++
+>>   3 files changed, 86 insertions(+), 9 deletions(-)
+>>
+> 
+> This looks pretty good to me.
+> 
+> I think maybe we want to handle the duplicate event stuff more generally
+> from the AER/AEN code, but this does the job.
+> 
+> Tested-by: Klaus Jensen <k.jensen@samsung.com>
+> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+> 
 
-diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
-index b20ae72949..dfb8523c8b 100644
---- a/tests/qtest/bios-tables-test-allowed-diff.h
-+++ b/tests/qtest/bios-tables-test-allowed-diff.h
-@@ -1,95 +1 @@
- /* List of comma-separated changed AML files to ignore */
--"tests/data/acpi/virt/APIC",
--"tests/data/acpi/virt/FACP",
--"tests/data/acpi/virt/GTDT",
--"tests/data/acpi/virt/MCFG",
--"tests/data/acpi/virt/SPCR",
--"tests/data/acpi/virt/DSDT",
--"tests/data/acpi/virt/APIC.numamem",
--"tests/data/acpi/virt/FACP.numamem",
--"tests/data/acpi/virt/GTDT.numamem",
--"tests/data/acpi/virt/MCFG.numamem",
--"tests/data/acpi/virt/SPCR.numamem",
--"tests/data/acpi/virt/DSDT.numamem",
--"tests/data/acpi/virt/SRAT.numamem",
--"tests/data/acpi/virt/DSDT.memhp",
--"tests/data/acpi/virt/NFIT.memhp",
--"tests/data/acpi/virt/SSDT.memhp",
--"tests/data/acpi/virt/SLIT.memhp",
--"tests/data/acpi/virt/SRAT.memhp",
--"tests/data/acpi/virt/SPCR.memhp",
--"tests/data/acpi/virt/MCFG.memhp",
--"tests/data/acpi/virt/GTDT.memhp",
--"tests/data/acpi/virt/APIC.memhp",
--"tests/data/acpi/virt/FACP.memhp",
--"tests/data/acpi/virt/DSDT.pxb",
--
--"tests/data/acpi/pc/SRAT.acpihmat",
--"tests/data/acpi/pc/HPET",
--"tests/data/acpi/pc/DSDT.hpbrroot",
--"tests/data/acpi/pc/SRAT.numamem",
--"tests/data/acpi/pc/DSDT.dimmpxm",
--"tests/data/acpi/pc/DSDT.acpihmat",
--"tests/data/acpi/pc/FACP",
--"tests/data/acpi/pc/SRAT.cphp",
--"tests/data/acpi/pc/DSDT.numamem",
--"tests/data/acpi/pc/DSDT.bridge",
--"tests/data/acpi/pc/HMAT.acpihmat",
--"tests/data/acpi/pc/DSDT.cphp",
--"tests/data/acpi/pc/APIC.dimmpxm",
--"tests/data/acpi/pc/SRAT.memhp",
--"tests/data/acpi/pc/SLIT.cphp",
--"tests/data/acpi/pc/DSDT.hpbridge",
--"tests/data/acpi/pc/NFIT.dimmpxm",
--"tests/data/acpi/pc/APIC.cphp",
--"tests/data/acpi/pc/SSDT.dimmpxm",
--"tests/data/acpi/pc/SRAT.dimmpxm",
--"tests/data/acpi/pc/APIC.acpihmat",
--"tests/data/acpi/pc/DSDT.memhp",
--"tests/data/acpi/pc/DSDT.ipmikcs",
--"tests/data/acpi/pc/SLIT.memhp",
--"tests/data/acpi/pc/WAET",
--"tests/data/acpi/pc/DSDT",
--"tests/data/acpi/pc/APIC",
--"tests/data/acpi/pc/DSDT.roothp",
--
--"tests/data/acpi/q35/SRAT.acpihmat",
--"tests/data/acpi/q35/HPET",
--"tests/data/acpi/q35/SRAT.numamem",
--"tests/data/acpi/q35/DSDT.dimmpxm",
--"tests/data/acpi/q35/DSDT.acpihmat",
--"tests/data/acpi/q35/FACP",
--"tests/data/acpi/q35/DSDT.mmio64",
--"tests/data/acpi/q35/SRAT.cphp",
--"tests/data/acpi/q35/DSDT.numamem",
--"tests/data/acpi/q35/DSDT.bridge",
--"tests/data/acpi/q35/HMAT.acpihmat",
--"tests/data/acpi/q35/DSDT.cphp",
--"tests/data/acpi/q35/APIC.dimmpxm",
--"tests/data/acpi/q35/SRAT.memhp",
--"tests/data/acpi/q35/SLIT.cphp",
--"tests/data/acpi/q35/NFIT.dimmpxm",
--"tests/data/acpi/q35/APIC.cphp",
--"tests/data/acpi/q35/SSDT.dimmpxm",
--"tests/data/acpi/q35/SRAT.dimmpxm",
--"tests/data/acpi/q35/APIC.acpihmat",
--"tests/data/acpi/q35/MCFG",
--"tests/data/acpi/q35/DSDT.memhp",
--"tests/data/acpi/q35/SLIT.memhp",
--"tests/data/acpi/q35/WAET",
--"tests/data/acpi/q35/DSDT.ipmibt",
--"tests/data/acpi/q35/DSDT.tis",
--"tests/data/acpi/q35/SRAT.mmio64",
--"tests/data/acpi/q35/TPM2.tis",
--"tests/data/acpi/q35/DSDT",
--"tests/data/acpi/q35/APIC",
--
--"tests/data/acpi/microvm/APIC.pcie",
--"tests/data/acpi/microvm/DSDT.pcie",
--"tests/data/acpi/microvm/DSDT.usb",
--"tests/data/acpi/microvm/DSDT.rtc",
--"tests/data/acpi/microvm/FACP",
--"tests/data/acpi/microvm/APIC.ioapic2",
--"tests/data/acpi/microvm/DSDT.ioapic2",
--"tests/data/acpi/microvm/DSDT",
--"tests/data/acpi/microvm/APIC",
+What's the next step I should take? Should I push a new version to 
+implement this purpose? From my understanding, before inserting a new 
+event to aer_queue, I can parse all the pending aer to find the same event.
+
+nvme_enqueue_event()
+{
+     ...
+
+     QTAILQ_FOREACH_SAFE(event, &n->aer_queue, entry, next) {
+         if ((event->result.event_type == event_type)
+             && (event->result.event_info == event_info)
+             && (event->result.log_page == log_page))
+             return;
+     }
+
+     QTAILQ_INSERT_TAIL(&n->aer_queue, event, entry); 
+ 
+ 
+
+     n->aer_queued++;
+     ...
+}
+
 -- 
-2.26.2
-
+zhenwei pi
 
