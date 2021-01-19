@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198BF2FB66B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:41:31 +0100 (CET)
-Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F0E2FB66D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:43:52 +0100 (CET)
+Received: from localhost ([::1]:37214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rGB-0002db-7k
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:41:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
+	id 1l1rIV-0004Zb-1P
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:43:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l1rDm-0001tu-7B; Tue, 19 Jan 2021 08:38:59 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35792)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l1rDa-0003Eq-TD; Tue, 19 Jan 2021 08:38:50 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 24F35AB7F;
- Tue, 19 Jan 2021 13:38:43 +0000 (UTC)
-Subject: Re: [PULL 21/30] target/arm: use official org.gnu.gdb.aarch64.sve
- layout for registers
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- peter.maydell@linaro.org
-References: <20210115130828.23968-1-alex.bennee@linaro.org>
- <20210115130828.23968-22-alex.bennee@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <540354a8-bcba-aa82-814d-7f11dc75f5bf@suse.de>
-Date: Tue, 19 Jan 2021 14:38:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l1rF3-0002eU-Cl; Tue, 19 Jan 2021 08:40:17 -0500
+Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:42203)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l1rF0-0003SW-Vq; Tue, 19 Jan 2021 08:40:17 -0500
+Received: by mail-io1-xd36.google.com with SMTP id z22so12880980ioh.9;
+ Tue, 19 Jan 2021 05:40:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oiihH8sKNgK5xD8DeghnjaSCCliV7K2EmcdKNzWFMnc=;
+ b=UHaRsLyi5NJoG8COyy6jkxtOyIZODSFFa/1bT4dujU9af284rVM3EEbEyPCvqxLHUi
+ IuHVk5Sd9U7YqhUKq/ZZvA5KPHpIYO67FW7Kj++qOEV6noarNeLpz3BVDDcHiy2+Eki0
+ Bw/K49KtxOZ5R44OO4WJPwaeJJId5WTAB0x1qNxeEvWxe4JiDT75ly0IGxMTs1s/IX8k
+ /83m4sYHWwSxL3fWyJoIqVWkwqT8Huiihmwa8rcwJdcHvUrYC/PUnAaF7j/G4Prsp3AX
+ 0bL/3UKXXcYh1b5YBAK8mKPmKZHo4kgqmgUttCFICTqRO0FJoiw94uE8S/O4B+uD2dK3
+ rjLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=oiihH8sKNgK5xD8DeghnjaSCCliV7K2EmcdKNzWFMnc=;
+ b=ki6mgueQwWUYtApC/crnOixx1dWGttD45qZNA5udwVzJ7FSFSl0Xq6vuPAnkc1tmWx
+ xEwTINFLvhHH3Taku3653VwBIg22vgsQk4KF8N6+/oZRHlLOy8C0xoF62JDkcHb9WHRa
+ KyXxt4TvvnwUVJbjP+fYrNPdKxmqfjlD7yQiZ2x4Ju+sRr45e8C+FXAJtM0QDsenGNwL
+ vfj+eTho4Yr0ZAlgEDcxUDJLiFC3Sdf7f4CnUQmS/wG8K3HgDlL4b3v2MA9Ir43XCul/
+ Nl9RBJajn0uGLtdaR17sOrIDFqBop8iCY3nJ6X8bpecNEHjBJg69WZL1XTCEFyRDGdTp
+ 5PAw==
+X-Gm-Message-State: AOAM532t/iuBh5MTheLZjJH4UaH1rcP30+5DOxyIHmr/hiHbQkSq7b2K
+ FHtye0Nm3i+vA5uoncPtD+M=
+X-Google-Smtp-Source: ABdhPJxfh5HQNrYxvZ1KHzBQCjgpfg1wXcw9SNejJBLULXklP2CIK+qbeNWq4gn4DHJLpavuJRjaDg==
+X-Received: by 2002:a05:6e02:19cc:: with SMTP id
+ r12mr3507627ill.4.1611063613054; 
+ Tue, 19 Jan 2021 05:40:13 -0800 (PST)
+Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
+ [147.11.124.94])
+ by smtp.gmail.com with ESMTPSA id s6sm11089546ild.45.2021.01.19.05.40.10
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Tue, 19 Jan 2021 05:40:12 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v8 00/10] hw/ssi: imx_spi: Fix various bugs in the imx_spi
+ model
+Date: Tue, 19 Jan 2021 21:38:56 +0800
+Message-Id: <1611063546-20278-1-git-send-email-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-In-Reply-To: <20210115130828.23968-22-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-io1-xd36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,226 +85,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
- Luis Machado <luis.machado@linaro.org>, qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+From: Bin Meng <bin.meng@windriver.com>
 
-after updating to latest master today, I am getting the following error with
+This v8 series is based on the following 2 versions:
 
-make check-tcg
+- v5 series sent from Bin
+  http://patchwork.ozlabs.org/project/qemu-devel/list/?series=223919
+- v7 series sent from Philippe
+  http://patchwork.ozlabs.org/project/qemu-devel/list/?series=224612
 
-qemu-system-aarch64: -gdb unix:path=/tmp/tmp9ru5tgk8qemu-gdbstub/gdbstub.socket,server: info: QEMU waiting for connection on: disconnected:unix:/tmp/tmp9ru5tgk8qemu-gdbstub/gdbstub.socket,server
-warning: while parsing target description (at line 47): Vector "svevhf" references undefined type "ieee_half"
-warning: Could not load XML target description; ignoring
-qemu-system-aarch64: QEMU: Terminated via GDBstub
+This series fixes a bunch of bugs in current implementation of the imx
+spi controller, including the following issues:
 
-Seems to indicate it is "ieee_half" -related?
+- remove imx_spi_update_irq() in imx_spi_reset()
+- chip select signal was not lower down when spi controller is disabled
+- round up the tx burst length to be multiple of 8
+- transfer incorrect data when the burst length is larger than 32 bit
+- spi controller tx and rx fifo endianness is incorrect
+- remove pointless variable (s->burst_length) initialization (Philippe)
+- rework imx_spi_reset() to keep CONREG register value (Philippe)
+- rework imx_spi_read() to handle block disabled (Philippe)
+- rework imx_spi_write() to handle block disabled (Philippe)
 
-Thanks,
+Tested with upstream U-Boot v2020.10 (polling mode) and VxWorks 7
+(interrupt mode).
 
-Claudio
+Changes in v8:
+- keep the controller disable logic in the ECSPI_CONREG case
+  in imx_spi_write()
 
-On 1/15/21 2:08 PM, Alex Bennée wrote:
-> While GDB can work with any XML description given to it there is
-> special handling for SVE registers on the GDB side which makes the
-> users life a little better. The changes aren't that major and all the
-> registers save the $vg reported the same. All that changes is:
-> 
->   - report org.gnu.gdb.aarch64.sve
->   - use gdb nomenclature for names and types
->   - minor re-ordering of the types to match reference
->   - re-enable ieee_half (as we know gdb supports it now)
->   - $vg is now a 64 bit int
->   - check $vN and $zN aliasing in test
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Luis Machado <luis.machado@linaro.org>
-> Message-Id: <20210108224256.2321-11-alex.bennee@linaro.org>
-> 
-> diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
-> index 866595b4f1..a8fff2a3d0 100644
-> --- a/target/arm/gdbstub.c
-> +++ b/target/arm/gdbstub.c
-> @@ -195,22 +195,17 @@ static const struct TypeSize vec_lanes[] = {
->      { "uint128", 128, 'q', 'u' },
->      { "int128", 128, 'q', 's' },
->      /* 64 bit */
-> +    { "ieee_double", 64, 'd', 'f' },
->      { "uint64", 64, 'd', 'u' },
->      { "int64", 64, 'd', 's' },
-> -    { "ieee_double", 64, 'd', 'f' },
->      /* 32 bit */
-> +    { "ieee_single", 32, 's', 'f' },
->      { "uint32", 32, 's', 'u' },
->      { "int32", 32, 's', 's' },
-> -    { "ieee_single", 32, 's', 'f' },
->      /* 16 bit */
-> +    { "ieee_half", 16, 'h', 'f' },
->      { "uint16", 16, 'h', 'u' },
->      { "int16", 16, 'h', 's' },
-> -    /*
-> -     * TODO: currently there is no reliable way of telling
-> -     * if the remote gdb actually understands ieee_half so
-> -     * we don't expose it in the target description for now.
-> -     * { "ieee_half", 16, 'h', 'f' },
-> -     */
->      /* bytes */
->      { "uint8", 8, 'b', 'u' },
->      { "int8", 8, 'b', 's' },
-> @@ -223,17 +218,16 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
->      GString *s = g_string_new(NULL);
->      DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
->      g_autoptr(GString) ts = g_string_new("");
-> -    int i, bits, reg_width = (cpu->sve_max_vq * 128);
-> +    int i, j, bits, reg_width = (cpu->sve_max_vq * 128);
->      info->num = 0;
->      g_string_printf(s, "<?xml version=\"1.0\"?>");
->      g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
-> -    g_string_append_printf(s, "<feature name=\"org.qemu.gdb.aarch64.sve\">");
-> +    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.aarch64.sve\">");
->  
->      /* First define types and totals in a whole VL */
->      for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
->          int count = reg_width / vec_lanes[i].size;
-> -        g_string_printf(ts, "vq%d%c%c", count,
-> -                        vec_lanes[i].sz, vec_lanes[i].suffix);
-> +        g_string_printf(ts, "svev%c%c", vec_lanes[i].sz, vec_lanes[i].suffix);
->          g_string_append_printf(s,
->                                 "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
->                                 ts->str, vec_lanes[i].gdb_type, count);
-> @@ -243,39 +237,37 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
->       * signed and potentially float versions of each size from 128 to
->       * 8 bits.
->       */
-> -    for (bits = 128; bits >= 8; bits /= 2) {
-> -        int count = reg_width / bits;
-> -        g_string_append_printf(s, "<union id=\"vq%dn\">", count);
-> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-> -            if (vec_lanes[i].size == bits) {
-> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%d%c%c\"/>",
-> -                                       vec_lanes[i].suffix,
-> -                                       count,
-> -                                       vec_lanes[i].sz, vec_lanes[i].suffix);
-> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
-> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
-> +        g_string_append_printf(s, "<union id=\"svevn%c\">", suf[i]);
-> +        for (j = 0; j < ARRAY_SIZE(vec_lanes); j++) {
-> +            if (vec_lanes[j].size == bits) {
-> +                g_string_append_printf(s, "<field name=\"%c\" type=\"svev%c%c\"/>",
-> +                                       vec_lanes[j].suffix,
-> +                                       vec_lanes[j].sz, vec_lanes[j].suffix);
->              }
->          }
->          g_string_append(s, "</union>");
->      }
->      /* And now the final union of unions */
-> -    g_string_append(s, "<union id=\"vq\">");
-> -    for (bits = 128; bits >= 8; bits /= 2) {
-> -        int count = reg_width / bits;
-> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
-> -            if (vec_lanes[i].size == bits) {
-> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%dn\"/>",
-> -                                       vec_lanes[i].sz, count);
-> -                break;
-> -            }
-> -        }
-> +    g_string_append(s, "<union id=\"svev\">");
-> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
-> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
-> +        g_string_append_printf(s, "<field name=\"%c\" type=\"svevn%c\"/>",
-> +                               suf[i], suf[i]);
->      }
->      g_string_append(s, "</union>");
->  
-> +    /* Finally the sve prefix type */
-> +    g_string_append_printf(s,
-> +                           "<vector id=\"svep\" type=\"uint8\" count=\"%d\"/>",
-> +                           reg_width / 8);
-> +
->      /* Then define each register in parts for each vq */
->      for (i = 0; i < 32; i++) {
->          g_string_append_printf(s,
->                                 "<reg name=\"z%d\" bitsize=\"%d\""
-> -                               " regnum=\"%d\" group=\"vector\""
-> -                               " type=\"vq\"/>",
-> +                               " regnum=\"%d\" type=\"svev\"/>",
->                                 i, reg_width, base_reg++);
->          info->num++;
->      }
-> @@ -287,31 +279,22 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
->                             " regnum=\"%d\" group=\"float\""
->                             " type=\"int\"/>", base_reg++);
->      info->num += 2;
-> -    /*
-> -     * Predicate registers aren't so big they are worth splitting up
-> -     * but we do need to define a type to hold the array of quad
-> -     * references.
-> -     */
-> -    g_string_append_printf(s,
-> -                           "<vector id=\"vqp\" type=\"uint16\" count=\"%d\"/>",
-> -                           cpu->sve_max_vq);
-> +
->      for (i = 0; i < 16; i++) {
->          g_string_append_printf(s,
->                                 "<reg name=\"p%d\" bitsize=\"%d\""
-> -                               " regnum=\"%d\" group=\"vector\""
-> -                               " type=\"vqp\"/>",
-> +                               " regnum=\"%d\" type=\"svep\"/>",
->                                 i, cpu->sve_max_vq * 16, base_reg++);
->          info->num++;
->      }
->      g_string_append_printf(s,
->                             "<reg name=\"ffr\" bitsize=\"%d\""
->                             " regnum=\"%d\" group=\"vector\""
-> -                           " type=\"vqp\"/>",
-> +                           " type=\"svep\"/>",
->                             cpu->sve_max_vq * 16, base_reg++);
->      g_string_append_printf(s,
->                             "<reg name=\"vg\" bitsize=\"64\""
-> -                           " regnum=\"%d\" group=\"vector\""
-> -                           " type=\"uint32\"/>",
-> +                           " regnum=\"%d\" type=\"int\"/>",
->                             base_reg++);
->      info->num += 2;
->      g_string_append_printf(s, "</feature>");
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 5ab3f5ace3..8a492465d6 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -276,7 +276,7 @@ static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
->           * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
->           */
->          int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
-> -        return gdb_get_reg32(buf, vq * 2);
-> +        return gdb_get_reg64(buf, vq * 2);
->      }
->      default:
->          /* gdbstub asked for something out our range */
-> diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-> index 972cf73c31..b9ef169c1a 100644
-> --- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-> +++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
-> @@ -40,6 +40,17 @@ class TestBreakpoint(gdb.Breakpoint):
->          except gdb.error:
->              report(False, "checking zregs (out of range)")
->  
-> +        # Check the aliased V registers are set and GDB has correctly
-> +        # created them for us having recognised and handled SVE.
-> +        try:
-> +            for i in range(0, 16):
-> +                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
-> +                val_v = gdb.parse_and_eval("$v0.b.u[%d]" % i)
-> +                report(int(val_z) == int(val_v),
-> +                       "v0.b.u[%d] == z0.b.u[%d]" % (i, i))
-> +        except gdb.error:
-> +            report(False, "checking vregs (out of range)")
-> +
->  
->  def run_test():
->      "Run through the tests one by one"
-> 
+Changes in v7:
+- remove the RFC tag
+
+Changes in v6:
+- new patch: [RFC] remove pointless variable initialization
+- new patch: [RFC] rework imx_spi_reset() to keep CONREG register value
+- new patch: [RFC] rework imx_spi_read() to handle block disabled
+- new patch: [RFC] rework imx_spi_write() to handle block disabled
+
+Changes in v5:
+- rename imx_spi_hard_reset() to imx_spi_soft_reset()
+- round up the burst length to be multiple of 8
+
+Changes in v4:
+- adujst the patch 2,3 order
+- rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusion
+- s/normal/common/ in the commit message
+- log the burst length value in the log message
+
+Changes in v3:
+- new patch: remove imx_spi_update_irq() in imx_spi_reset()
+- Move the chip selects disable out of imx_spi_reset()
+- new patch: log unimplemented burst length
+- Simplify the tx fifo endianness handling
+
+Changes in v2:
+- Fix the "Fixes" tag in the commit message
+- Use ternary operator as Philippe suggested
+
+Bin Meng (5):
+  hw/ssi: imx_spi: Use a macro for number of chip selects supported
+  hw/ssi: imx_spi: Remove imx_spi_update_irq() in imx_spi_reset()
+  hw/ssi: imx_spi: Round up the burst length to be multiple of 8
+  hw/ssi: imx_spi: Correct the burst length > 32 bit transfer logic
+  hw/ssi: imx_spi: Correct tx and rx fifo endianness
+
+Philippe Mathieu-Daudé (4):
+  hw/ssi: imx_spi: Remove pointless variable initialization
+  hw/ssi: imx_spi: Rework imx_spi_reset() to keep CONREG register value
+  hw/ssi: imx_spi: Rework imx_spi_read() to handle block disabled
+  hw/ssi: imx_spi: Rework imx_spi_write() to handle block disabled
+
+Xuzhou Cheng (1):
+  hw/ssi: imx_spi: Disable chip selects when controller is disabled
+
+ include/hw/ssi/imx_spi.h |   5 +-
+ hw/ssi/imx_spi.c         | 138 +++++++++++++++++++++++++++++------------------
+ 2 files changed, 90 insertions(+), 53 deletions(-)
+
+-- 
+2.7.4
 
 
