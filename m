@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5928A2FBFA1
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:02:05 +0100 (CET)
-Received: from localhost ([::1]:38864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA02B2FBFE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:23:08 +0100 (CET)
+Received: from localhost ([::1]:37600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1wGS-0001bn-Bs
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:02:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42788)
+	id 1l1wap-0005R9-SQ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:23:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLh-0007sN-R8
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40243)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLf-0005UP-FU
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611079402;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s5opNEmjkiJr+km2yMFbUbb4Ju/cuOKo5wovOyY19nc=;
- b=SWxEKUFjfhK/B/zztFtJQyP+nBKP3kAHZNXRuElTjkGGaLfyqIXO/XdwBQcadOeeYYoLsL
- 5RY1T74wznKyBI7f0zG6qeb7a8ci9dVI4sM53A7WdyhCe+1iL5+dt+9iIS9C3hX+qUihGw
- S663uSSSLNg7GUL3WhqaC+2bbmvhWCM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-188-SR0rGFz-O0i33Q9IEiNaQA-1; Tue, 19 Jan 2021 13:03:21 -0500
-X-MC-Unique: SR0rGFz-O0i33Q9IEiNaQA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2AA9E1005513
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 18:03:20 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E71825D9E2;
- Tue, 19 Jan 2021 18:03:18 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 17/17] qapi: enable strict-optional checks
-Date: Tue, 19 Jan 2021 13:02:42 -0500
-Message-Id: <20210119180242.1570753-18-jsnow@redhat.com>
-In-Reply-To: <20210119180242.1570753-1-jsnow@redhat.com>
-References: <20210119180242.1570753-1-jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1vPj-0003J5-V3
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:07:36 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:45322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1vPi-00063P-5T
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:07:35 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id ke15so22136304ejc.12
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 10:07:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=OdKQmtVVjP03vzho+BTMsv4m08yb4tpUnA6YlUcfrJo=;
+ b=s1s9L7Q3UI2w/WmIPkPcho9jEdGvEden2c1uqfDYgtzS0qgzA2uvtDAyS6FYzM4JT+
+ K/PSllr799JDdgasDkZUsvrarEY1m1RFNthMUIrfR62ps7kjGgx7ae840F5ERtY/G+QQ
+ nokdHkgC50AjDMPoMWRZ+JNMkq8+D4kP95RO/qUBa4fBWPfksA6l2AajkyF7pmumcaI3
+ Fn3K4e5lOP9unDbYVx3ydJ6BlfysXeRaH4QFKhmj1Bno18n53vmzK90YVCNbSX0zFjPB
+ iMaqK8A3EbTSkZhhUH9OYamRrU7fv7lnuXg9e4499n5m2toXYm89EhIl3NROCZmuvocy
+ f0jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OdKQmtVVjP03vzho+BTMsv4m08yb4tpUnA6YlUcfrJo=;
+ b=ERb4C2oB001ITOY54RjC4RWnNyS4xfpjJOf7Afh+LGMQWozK849kDokyAkluVtlEv0
+ uPMZs2wSWKGxQPjvaapm8dX4Jfaraj6Q2q9pKHlt3BdmmpSwooFojc3JT6i1R4/+6pnL
+ ufc2sP+gKqeMYtj04BHhoxEm+vI8HItWhPrIKpaYnglbh1jIRNKJFN+X8Iky70bRkme9
+ qO1n1ZFvH3Kmq1h+otO+2GwUYt06l07n1ZacJqV0Nb7tUou58tY8n+cGBr2bSslcMgik
+ EKjsdIhz5M3B0TjU6HALabKUQZTQNiagFgeMtcc6perw2zzs92CBLApdvWQEvJeH4zfo
+ snwg==
+X-Gm-Message-State: AOAM533rNYIVqdVf+wRrFOLTacly227bLsbAiJR65PiDAn6mgghBH0hk
+ 037EYElXkeYgz77IFrPZ2bMMtBfzsRsIAEV9kYZyvA==
+X-Google-Smtp-Source: ABdhPJygK4Qc28PW4tFiSH6rAVijTAOFnIZva2VaOEl/zVSNrQD5/7UPHCO0QtoksHcuHU/0e842ByVLy+uz1nKLkcA=
+X-Received: by 2002:a17:906:4bc2:: with SMTP id x2mr3700290ejv.4.1611079652528; 
+ Tue, 19 Jan 2021 10:07:32 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-4-richard.henderson@linaro.org>
+ <CAFEAcA9pnbrQYihP8NkajM0LHYzciuoO9xNmRmCbBaqB+WV5Qg@mail.gmail.com>
+ <0852e1ab-bf36-09cf-81fe-4c6349a2cdfc@linaro.org>
+In-Reply-To: <0852e1ab-bf36-09cf-81fe-4c6349a2cdfc@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 18:07:21 +0000
+Message-ID: <CAFEAcA8kB9oaaZkgB8F0E-UQCJx68dKq6XYo+eHf_wVVr7P7Vg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/22] tcg/i386: Split out target constraints to
+ tcg-target-con-str.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,34 +80,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the modules that we are checking so far, we can be stricter about the
-difference between Optional[T] and T types. Enable that check.
+On Tue, 19 Jan 2021 at 17:46, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 1/19/21 4:38 AM, Peter Maydell wrote:
+> >> -    case 's':
+> >> -        /* qemu_st8_i32 data constraint */
+> >> -        ct->regs = 0xf;
+> >> -#ifdef CONFIG_SOFTMMU
+> >> -        tcg_regset_reset_reg(ct->regs, TCG_REG_L0);
+> >> -        tcg_regset_reset_reg(ct->regs, TCG_REG_L1);
+> >> -#endif
+> >> -        break;
+> >
+> > But in the old code the 's' constraint is 0xf for both
+> > x86-64 and i386.
+>
+> That's perhaps laziness, or simply the lack of names in the old code.  It
+> logically should be BYTEL, because that's where byte stores go from.
+>
+> In the end it doesn't matter, because this constraint is *only* used by i386.
+> The opcode INDEX_op_qemu_st8_i32 is not used by x86_64 at all.  See
+> TCG_TARGET_HAS_qemu_st8_i32 in tcg-target.h.
 
-Enabling it now will assist review on further typing and cleanup work.
+OK. Can we keep actual changes in separate commits from
+just-refactoring changes, please?
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/mypy.ini | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 74fc6c82153..04bd5db5278 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -1,6 +1,5 @@
- [mypy]
- strict = True
--strict_optional = False
- disallow_untyped_calls = False
- python_version = 3.6
- 
--- 
-2.26.2
-
+thanks
+-- PMM
 
