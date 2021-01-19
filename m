@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3D12FB67A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:49:24 +0100 (CET)
-Received: from localhost ([::1]:52386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B22DA2FB67D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:52:17 +0100 (CET)
+Received: from localhost ([::1]:59066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rNr-0002dN-QM
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:49:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55250)
+	id 1l1rQe-0005RM-Oc
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:52:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l1rFN-0002sm-GG; Tue, 19 Jan 2021 08:40:37 -0500
-Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:34354)
+ id 1l1rFP-0002yd-4L; Tue, 19 Jan 2021 08:40:39 -0500
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:45978)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l1rFJ-0003UA-Su; Tue, 19 Jan 2021 08:40:37 -0500
-Received: by mail-io1-xd2c.google.com with SMTP id u17so39614773iow.1;
- Tue, 19 Jan 2021 05:40:29 -0800 (PST)
+ id 1l1rFL-0003UU-4o; Tue, 19 Jan 2021 08:40:38 -0500
+Received: by mail-io1-xd2f.google.com with SMTP id p72so14791855iod.12;
+ Tue, 19 Jan 2021 05:40:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZGjLBdXEirecxcEY2UAZYu8cwlhOHSgOGxMxIwxYN+o=;
- b=I+nBbn2pBdNV20+c7iLT5QKyk9DcstTflI66BrJW0TQzTPjFNOgz3T2xj/SxRjgtiS
- ERGtvNBXByMSK9hm4QvnerPTJhHabFLb9c0Y02iMJn2UUbJug1n3XbBkfHg6uvtrIo56
- GyISSr6WuHzuLmHPnN7RhePEhP2gAx5iBfydKslI/5uWFyPC2xSz29TaJghNJk/vDKxH
- MUTKTkKKZAmR0JOMeiGPwAsjHbf7i+VPoXpVWW/dgg3KqpotlCP8u/01g0SyfOB113la
- bihCwfZDrAU2uTgNFDDKQmRUc4rRYwd7pCiJVj/05QC9cHOxddG/NaSXm+7NaPIX7sZ7
- g9Kg==
+ bh=G3+vtrL9NOpi9RzrlahaCTFTA/TF6kWi2FPH4n3xjHo=;
+ b=YR8Ba06jIEfT2ztj4T58FvZUHEG3IbbiYcejg35UZ55YLapWjTEY3GhB7icO6n+w5R
+ Kl66kf4FgfikCa4UkBjusazWcAa0oEgcv2preIwLh2UjxyWQoH7IL6snpRmOt2iU9Wgp
+ pTIh5NF6bnqF39epbatGW/wxx8wRpo9Jj61N3AE8Xla+Z5BdZM4gfb4mezbiQnytCGJb
+ JAHROZmeP0ru6KOwLIbss20NLsJ2y4SJDQoZe0eDoxHR+vOmBTdSB9D4SG8iJPloq9Rw
+ lJpDncwvb9OLxT+D9LpQmySehtPImy46/Ogm6aV0GfhamEJk501CT19oIIo7Oj7j8zUi
+ ZeVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZGjLBdXEirecxcEY2UAZYu8cwlhOHSgOGxMxIwxYN+o=;
- b=WOu3dHyGMk4EfVw9Bn9TRYa8PDwc5kkOrORF37u/J1I0y5Tx96QqsKTmZdu56XV8/n
- O2xaK6Prqnsjsq6O4lqjRfDakdVJdAdTtHUb80xmdXJq6MXFpgrM2piIg+JGZo6JyEWB
- 4XLdTQs87Y1iD9Xe17OwPxbA8SmHbOu8rTFmDUGfeV8ngV5H4FR5V1J6YcmyMjiikmhm
- UbCADj3uixaOZLLzR6ULDMbNO9m+rKW8CxcCV/FTkmTzY7DQGSo/LGzTE36zSenLwJyr
- TFndJzejo2f+J8utz2waGEivAdqtax9Ki9YoiGPEb7TUNR78KgSDp3iCmvrK/lUdNNsS
- 05bA==
-X-Gm-Message-State: AOAM530V394VC2S3j63gfGOSrm5lJ26E1sMvW74NznG0g9Xfsmjoxrrg
- FALAYE0iu6Wo1ID4GIiIDUY=
-X-Google-Smtp-Source: ABdhPJyd8lOM0UDQNwS3gbS3zs8S3gSmmW/8arGBf7ubWzwiaSqizg2ZmV4s7toBOKA2L0oJaIyCfA==
-X-Received: by 2002:a02:b78e:: with SMTP id f14mr3376535jam.97.1611063629205; 
- Tue, 19 Jan 2021 05:40:29 -0800 (PST)
+ bh=G3+vtrL9NOpi9RzrlahaCTFTA/TF6kWi2FPH4n3xjHo=;
+ b=L5ZudOwPFyXGN4XBoyfUJSC8vxxLdoLO8Q92ZAwwzis1zlYT2WF6ZwhKjJhpezup/k
+ wJN/lZ7m0ZIQZnbpp6i1bHr+Jtky4sqqe8025zsLgkrzwUzADcatB+585Hzl0OblNdBx
+ Kml4uQSRCRd/4GJiVVyErbz+XFJf8blsoh0FHy5phUyE6YtO4P6rrw3Hd8gVJ2SAmt89
+ FhQCkEXH4wFDYn7wdfVHIcgFQTXgY8aD8TKGMz4AnAGmjloRSZSskuTiMypuVNRudWRf
+ qWLt+saBfr9NVID2NAPlZ4THQ++kHL6Qnl3D/tRV81KDHiowFEf2P3mPk3iccs73D6TL
+ CGJg==
+X-Gm-Message-State: AOAM5319XDDJHb6HFWQNGT3PxWmBZGh108E+DLsccOIaotpZdmlP7iwL
+ 26BG/2JmYuJvg9sJXbtRqww=
+X-Google-Smtp-Source: ABdhPJxjWGMfpLngMa8A5d1m87ZoKgOMQfh/WiBa8VmDhXfhOGRFfSugxNcF7+petRlGY9by/lCFSg==
+X-Received: by 2002:a02:a183:: with SMTP id n3mr3418109jah.31.1611063632614;
+ Tue, 19 Jan 2021 05:40:32 -0800 (PST)
 Received: from pek-vx-bsp2.wrs.com (unknown-124-94.windriver.com.
  [147.11.124.94])
- by smtp.gmail.com with ESMTPSA id s6sm11089546ild.45.2021.01.19.05.40.26
+ by smtp.gmail.com with ESMTPSA id s6sm11089546ild.45.2021.01.19.05.40.29
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 19 Jan 2021 05:40:28 -0800 (PST)
+ Tue, 19 Jan 2021 05:40:32 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Jean-Christophe Dubois <jcd@tribudubois.net>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v8 05/10] hw/ssi: imx_spi: Rework imx_spi_read() to handle
+Subject: [PATCH v8 06/10] hw/ssi: imx_spi: Rework imx_spi_write() to handle
  block disabled
-Date: Tue, 19 Jan 2021 21:39:01 +0800
-Message-Id: <1611063546-20278-6-git-send-email-bmeng.cn@gmail.com>
+Date: Tue, 19 Jan 2021 21:39:02 +0800
+Message-Id: <1611063546-20278-7-git-send-email-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1611063546-20278-1-git-send-email-bmeng.cn@gmail.com>
 References: <1611063546-20278-1-git-send-email-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
- envelope-from=bmeng.cn@gmail.com; helo=mail-io1-xd2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2f;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-io1-xd2f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,108 +93,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-When the block is disabled, it stay it is 'internal reset logic'
-(internal clocks are gated off). Reading any register returns
-its reset value. Only update this value if the device is enabled.
+When the block is disabled, only the ECSPI_CONREG register can
+be modified. Setting the EN bit enabled the device, clearing it
+"disables the block and resets the internal logic with the
+exception of the ECSPI_CONREG" register.
+
+Ignore all other registers write except ECSPI_CONREG when the
+block is disabled.
 
 Ref: i.MX 6DQ Applications Processor Reference Manual (IMX6DQRM),
      chapter 21.7.3: Control Register (ECSPIx_CONREG)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210115153049.3353008-5-f4bug@amsat.org>
-Reviewed-by: Bin Meng <bin.meng@windriver.com>
+Message-Id: <20210115153049.3353008-6-f4bug@amsat.org>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 ---
 
-(no changes since v7)
+Changes in v8:
+- keep the controller disable logic in the ECSPI_CONREG case
+  in imx_spi_write()
 
 Changes in v7:
 - remove the RFC tag
 
 Changes in v6:
-- new patch: [RFC] rework imx_spi_read() to handle block disabled
+- new patch: [RFC] rework imx_spi_write() to handle block disabled
 
- hw/ssi/imx_spi.c | 60 +++++++++++++++++++++++++++-----------------------------
- 1 file changed, 29 insertions(+), 31 deletions(-)
+ hw/ssi/imx_spi.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
 diff --git a/hw/ssi/imx_spi.c b/hw/ssi/imx_spi.c
-index c952a3d..277b936 100644
+index 277b936..23f9f9d 100644
 --- a/hw/ssi/imx_spi.c
 +++ b/hw/ssi/imx_spi.c
-@@ -274,42 +274,40 @@ static uint64_t imx_spi_read(void *opaque, hwaddr offset, unsigned size)
-         return 0;
-     }
+@@ -327,6 +327,14 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+     DPRINTF("reg[%s] <= 0x%" PRIx32 "\n", imx_spi_reg_name(index),
+             (uint32_t)value);
  
--    switch (index) {
--    case ECSPI_RXDATA:
--        if (!imx_spi_is_enabled(s)) {
--            value = 0;
--        } else if (fifo32_is_empty(&s->rx_fifo)) {
--            /* value is undefined */
--            value = 0xdeadbeef;
--        } else {
--            /* read from the RX FIFO */
--            value = fifo32_pop(&s->rx_fifo);
--        }
--
--        break;
--    case ECSPI_TXDATA:
--        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Trying to read from TX FIFO\n",
--                      TYPE_IMX_SPI, __func__);
--
--        /* Reading from TXDATA gives 0 */
--
--        break;
--    case ECSPI_MSGDATA:
--        qemu_log_mask(LOG_GUEST_ERROR, "[%s]%s: Trying to read from MSG FIFO\n",
--                      TYPE_IMX_SPI, __func__);
-+    value = s->regs[index];
-+
-+    if (imx_spi_is_enabled(s)) {
-+        switch (index) {
-+        case ECSPI_RXDATA:
-+            if (fifo32_is_empty(&s->rx_fifo)) {
-+                /* value is undefined */
-+                value = 0xdeadbeef;
-+            } else {
-+                /* read from the RX FIFO */
-+                value = fifo32_pop(&s->rx_fifo);
-+            }
-+            break;
-+        case ECSPI_TXDATA:
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "[%s]%s: Trying to read from TX FIFO\n",
-+                          TYPE_IMX_SPI, __func__);
- 
--        /* Reading from MSGDATA gives 0 */
-+            /* Reading from TXDATA gives 0 */
-+            break;
-+        case ECSPI_MSGDATA:
-+            qemu_log_mask(LOG_GUEST_ERROR,
-+                          "[%s]%s: Trying to read from MSG FIFO\n",
-+                          TYPE_IMX_SPI, __func__);
-+            /* Reading from MSGDATA gives 0 */
-+            break;
-+        default:
-+            break;
++    if (!imx_spi_is_enabled(s)) {
++        /* Block is disabled */
++        if (index != ECSPI_CONREG) {
++            /* Ignore access */
++            return;
 +        }
++    }
++
+     change_mask = s->regs[index] ^ value;
  
--        break;
--    default:
--        value = s->regs[index];
--        break;
-+        imx_spi_update_irq(s);
-     }
--
-     DPRINTF("reg[%s] => 0x%" PRIx32 "\n", imx_spi_reg_name(index), value);
- 
--    imx_spi_update_irq(s);
--
-     return (uint64_t)value;
- }
- 
+     switch (index) {
+@@ -335,10 +343,7 @@ static void imx_spi_write(void *opaque, hwaddr offset, uint64_t value,
+                       TYPE_IMX_SPI, __func__);
+         break;
+     case ECSPI_TXDATA:
+-        if (!imx_spi_is_enabled(s)) {
+-            /* Ignore writes if device is disabled */
+-            break;
+-        } else if (fifo32_is_full(&s->tx_fifo)) {
++        if (fifo32_is_full(&s->tx_fifo)) {
+             /* Ignore writes if queue is full */
+             break;
+         }
 -- 
 2.7.4
 
