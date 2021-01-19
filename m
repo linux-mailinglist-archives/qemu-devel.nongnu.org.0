@@ -2,56 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A81B2FB4F9
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 10:38:08 +0100 (CET)
-Received: from localhost ([::1]:37998 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD7812FB4FE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 10:40:32 +0100 (CET)
+Received: from localhost ([::1]:41246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1nSh-0004nU-2j
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 04:38:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48988)
+	id 1l1nV1-0006Qs-U8
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 04:40:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l1nRP-0004Di-3I
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:36:47 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:57936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l1nRJ-0006Zk-1k
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:36:46 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:36:24 +0100
-Received: (qmail 28977 invoked from network); 19 Jan 2021 09:36:28 -0000
-Received: from ac32.vpn.kamp-intra.net (HELO ?172.20.250.32?)
- (pl@kamp.de@::ffff:172.20.250.32)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 19 Jan 2021 09:36:28 -0000
-Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
-To: dillaman@redhat.com
-References: <20201227164236.10143-1-pl@kamp.de>
- <20201227164236.10143-8-pl@kamp.de>
- <CA+aFP1AJ1cMdMGr-Odq+qzgZo9FF89mVy1KzNcoKifjQFwDvJA@mail.gmail.com>
- <f7358dc9-6135-dfa7-fd50-f863d0c8890a@kamp.de>
- <CA+aFP1Aayup5p482M8tsK3Zy62FLsfgUuQYnw_bSte-RuBrQXg@mail.gmail.com>
- <75992ffb-3b6e-c31a-a9a0-956daa7752e6@kamp.de>
- <CA+aFP1DMTdxvi=C2=8hXYrWBf3nXqQ9ZjHPCEbsCo5biiRnQrA@mail.gmail.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <1a83a103-33d5-6bfd-d6f8-87cf030521eb@kamp.de>
-Date: Tue, 19 Jan 2021 10:36:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l1nSQ-0004xY-St
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:37:50 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:39694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l1nSP-0007A6-8R
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:37:50 -0500
+Received: by mail-wr1-x430.google.com with SMTP id c5so19009093wrp.6
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 01:37:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=JxnePYTGu0DqhA8fnBHKBUE9Cp3WubYuWELTQuP9FVQ=;
+ b=UuC2vKDKOGqmvcS8NV9QFXPDYR7F+AWxkAJ+XB4dz6lJG/66tv8eldXRXWJZ53iG7v
+ qJMGWftnD4bvtWjIsT5vYE1Rw1JauU2dK8p5klANiu5yNpY50leDIPuwO92tLhFPgbpf
+ vELlqgzyiTXVmNEjgU8BY+VYheKf6nFE90sP2WOijo1taV60zrelBry5PFcWKiooovT4
+ Dh/W25b0z7rxKSuIcX88LVJLi74axVlCFtOQP9xMsk/c8QL5Thf2iza8aK733uhV+SKP
+ zPNiYcaMPn4Btmgdt35tpY7XMFSlDuZoGKpfdFFjY3G2rLbKlt7lY+qaqlQ/eDQEOlxg
+ 1T7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=JxnePYTGu0DqhA8fnBHKBUE9Cp3WubYuWELTQuP9FVQ=;
+ b=SaOvKXIncALblg3s1GAnnFXXAjrU/M+s6FDaLPljH1mYUtA9dWC5XkgKfkZrBGRME7
+ CHZSu4/bFR7B7Cf3y9ZU0DjApnVvVTB7jYmRhimd4STFxK8ZL3pWUzeLuKa7swHWyfRX
+ ZttfRlaE/EzOTmOUFdph8CdBnC8g9TMfuxc16WWNvIxnRjSJe3wotL1WH3IykFrsFsTZ
+ CGflVDPMYoGqt0Op8hr3T3tMg8kH+wmZsLTsaF21om1oFpwa6+6wThQeNItluNUIefvq
+ 7EDGpgckZFPV6jPk0Xs7V5Qtz+u1CHS6MWWnvBcAhEDsFQ9AJ/EtchBDM4e49oiUHxKt
+ 7TGw==
+X-Gm-Message-State: AOAM532XKJcTX6/uJAUVNkx572aEVzn3W7qn93zGdkK+k0zjtsh2pmOn
+ NJiWb9xDW5ANtZYZKTlLRudqfjWGsYErOA==
+X-Google-Smtp-Source: ABdhPJyL0hhkF9JFj4rorZel0v8NBR6W2/o0zzg+L8F14HuPLDfgx68VKwXZ21iT4QJcoBhx3b1ROA==
+X-Received: by 2002:adf:dd90:: with SMTP id x16mr3357394wrl.85.1611049067595; 
+ Tue, 19 Jan 2021 01:37:47 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id b7sm33750672wrv.47.2021.01.19.01.37.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jan 2021 01:37:47 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [qemu-web PATCH] deploy to qemu-project.org from GitLab CI
+Date: Tue, 19 Jan 2021 10:37:46 +0100
+Message-Id: <20210119093746.293342-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <CA+aFP1DMTdxvi=C2=8hXYrWBf3nXqQ9ZjHPCEbsCo5biiRnQrA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.194,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,75 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: thuth@redhat.com, berrange@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 18.01.21 um 23:33 schrieb Jason Dillaman:
-> On Fri, Jan 15, 2021 at 10:39 AM Peter Lieven <pl@kamp.de> wrote:
->> Am 15.01.21 um 16:27 schrieb Jason Dillaman:
->>> On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
->>>> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
->>>>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
->>>>>> since we implement byte interfaces and librbd supports aio on byte granularity we can lift
->>>>>> the 512 byte alignment.
->>>>>>
->>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
->>>>>> ---
->>>>>>  block/rbd.c | 2 --
->>>>>>  1 file changed, 2 deletions(-)
->>>>>>
->>>>>> diff --git a/block/rbd.c b/block/rbd.c
->>>>>> index 27b4404adf..8673e8f553 100644
->>>>>> --- a/block/rbd.c
->>>>>> +++ b/block/rbd.c
->>>>>> @@ -223,8 +223,6 @@ done:
->>>>>>  static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **errp)
->>>>>>  {
->>>>>>      BDRVRBDState *s = bs->opaque;
->>>>>> -    /* XXX Does RBD support AIO on less than 512-byte alignment? */
->>>>>> -    bs->bl.request_alignment = 512;
->>>>> Just a suggestion, but perhaps improve discard alignment, max discard,
->>>>> optimal alignment (if that's something QEMU handles internally) if not
->>>>> overridden by the user.
->>>> Qemu supports max_discard and discard_alignment. Is there a call to get these limits
->>>>
->>>> from librbd?
->>>>
->>>>
->>>> What do you mean by optimal_alignment? The object size?
->>> krbd does a good job of initializing defaults [1] where optimal and
->>> discard alignment is 64KiB (can actually be 4KiB now), max IO size for
->>> writes, discards, and write-zeroes is the object size * the stripe
->>> count.
->>
->> Okay, I will have a look at it. If qemu issues a write, discard, write_zero greater than
->>
->> obj_size  * stripe count will librbd split it internally or will the request fail?
-> librbd will handle it as needed. My goal is really just to get the
-> hints down the guest OS.
->
->> Regarding the alignment it seems that rbd_dev->opts->alloc_size is something that comes from the device
->>
->> configuration and not from rbd? I don't have that information inside the Qemu RBD driver.
-> librbd doesn't really have the information either. The 64KiB guess
-> that krbd uses was a compromise since that was the default OSD
-> allocation size for HDDs since Luminous. Starting with Pacific that
-> default is going down to 4KiB.
+Currently, the website is rebuilt on qemu-project.org using
+an update hook.  We can reuse instead the Jekyll output of
+GitLab's CI.
 
+To do so, a new user qemu-deploy has been created on qemu.org.
+The private key is stored into a file variable SSH_PRIVATE_KEY_FILE
+(be careful to include the trailing newline after "---END OPENSSH
+PRIVATE KEY---"!).
 
-I will try to adjust these values as far as it is possible and makes sense.
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ .gitlab-ci.yml | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-
-Is there a way to check the minimum supported OSD release in the backend from librbd / librados?
-
-
-Anyway, I want to sent a V2 by the end of this week.
-
-
-Peter
-
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 5fa3041..08b6d20 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -1,6 +1,11 @@
+ 
++stages:
++  - build
++  - update
++
+ pages:
+   image: centos:8
++  stage: build
+   cache:
+     paths:
+       - vendor
+@@ -14,3 +19,26 @@ pages:
+   artifacts:
+     paths:
+      - public
++
++deploy:
++  image: centos:8
++  stage: update
++  needs:
++    - job: pages
++      artifacts: true
++  before_script:
++    - dnf install -y openssh-clients rsync
++    - eval $(ssh-agent -s)
++    - cat "$SSH_PRIVATE_KEY_FILE" | tr -d '\r' | ssh-add -
++    - mkdir -m700 -p ~/.ssh
++    - - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
++  script:
++    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && mkdir new && rsync -avz root/ new"
++    - rsync -avz public/ $SSH_DEPLOY_DESTINATION:/var/www/qemu-project.org/new
++    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && rm -rf old && mv root old && mv new root"
++  only:
++    refs:
++      - master
++    variables:
++      - $SSH_PRIVATE_KEY_FILE
++      - $SSH_DEPLOY_DESTINATION
+-- 
+2.29.2
 
 
