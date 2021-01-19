@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5C602FBDE0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:40:11 +0100 (CET)
-Received: from localhost ([::1]:50314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81A252FBE2C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:46:45 +0100 (CET)
+Received: from localhost ([::1]:60058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1uzC-0006id-Lt
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:40:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58358)
+	id 1l1v5Y-0003C9-Bb
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:46:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ddstreet@canonical.com>)
- id 1l1uhT-0002D1-6Y
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:21:56 -0500
-Received: from youngberry.canonical.com ([91.189.89.112]:55833)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_CBC_SHA1:128)
- (Exim 4.90_1) (envelope-from <ddstreet@canonical.com>)
- id 1l1uhQ-0007DB-OM
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:21:50 -0500
-Received: from mail-qt1-f199.google.com ([209.85.160.199])
- by youngberry.canonical.com with esmtps
- (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.86_2)
- (envelope-from <ddstreet@canonical.com>) id 1l1uhN-0000Y7-LY
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:21:45 +0000
-Received: by mail-qt1-f199.google.com with SMTP id k12so18794627qth.23
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 09:21:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1uxh-00072p-Hc; Tue, 19 Jan 2021 12:38:37 -0500
+Received: from mail-io1-xd2c.google.com ([2607:f8b0:4864:20::d2c]:33053)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1uxg-0000qd-1A; Tue, 19 Jan 2021 12:38:37 -0500
+Received: by mail-io1-xd2c.google.com with SMTP id w18so41267228iot.0;
+ Tue, 19 Jan 2021 09:38:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=lu8LQ8daA/h8PmYD2TnZ31WFd7LjbAagekmzwQTsWzk=;
+ b=ds7z9JcabvcFrxmXH8yXqv8U1XRzpSVnaqz9mGB+d7QAtrij4cNSN+80/zi5MCyN5x
+ Za4fA/++K7SP0lTTCNY8oub44GVuwrhcXtgnDrpMHJi0Dheo7FfMwCsTYpFqmuAIGA3S
+ mXDa3/Uvqc0i3JNO2SJwCN7S41btwlgaENQkp3oHi5A4eCdmk4YI+oL8GJ+5znawE3OX
+ hc1p230ArViZ+x1bkrPQJ0eVx2yia8PD/4uVZKHyb4Dav3bCydclpeGJKvR7USehCnH0
+ YBippKk3ILMJlD+OZ99Q616jaTzG8JlXZTLHe++06oVxoNOG/RBaYsVeJLhXbzbQ6Djt
+ 8YgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=b2clO5elnTdTyASo00/lqpuN7HAZLZcrc0a6ykHiyVU=;
- b=TqO7qmAAK4MgQ9VmqAQ3AW1HuZpJacGlkFkbsmGYZajzBLIfi09IFqCZ43sqweRl3z
- bIjBk0HQF5naFi1S6tBlElQ4yRPORAUg76trYtcmul8nrvHvwqlykNYKBt9MZzVJCemf
- gmmhP1UaisqCTofEwnTxtqsXMcB4ItYEcY/KcPKAq82v9rQYU+sEmsdMoLF1VGUKmP5x
- e5tg0BzkhfeiKSDY6s0v6W1O5BEwsABDWATaLffVZ9v4ZZZfuudEj4vGOl0hTmE2tdDn
- IIJRLZu36FV7hnQM2ZNFRpwcwCCPq0KjwD4NT+AbPONesXZdE3RDZWtnKrE6luhgiYdJ
- p9Eg==
-X-Gm-Message-State: AOAM530yvRQyNAR67PCIUnVb6qN3K917wAy2vLE+yERPWPnMl/VsW++t
- hQ6ixmdFoAUiIaF8WSQtkF3v+4wZi3muqMmC+b9D7gNeCpidqkxlEJTxKxmxTHolPMJUW8uK59n
- ao5vMs713WeedbQQlLPLtZm+fANZ85e0T
-X-Received: by 2002:ae9:ebd5:: with SMTP id b204mr5314177qkg.195.1611076904221; 
- Tue, 19 Jan 2021 09:21:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxbLoCWXNMKMfjjxbiQ/ZzFbSSgbhq3SMFx8vGVmN2ad2Dsh8fjBK6z4DMxq3ubt4RUzhHObQ==
-X-Received: by 2002:ae9:ebd5:: with SMTP id b204mr5314137qkg.195.1611076903758; 
- Tue, 19 Jan 2021 09:21:43 -0800 (PST)
-Received: from thorin.shire (45-27-90-188.lightspeed.rlghnc.sbcglobal.net.
- [45.27.90.188])
- by smtp.gmail.com with ESMTPSA id x3sm12404344qtd.56.2021.01.19.09.21.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 09:21:42 -0800 (PST)
-From: Dan Streetman <ddstreet@canonical.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCHv2] configure: replace --enable/disable-git-update with
- --with-git-submodules
-Date: Tue, 19 Jan 2021 12:20:46 -0500
-Message-Id: <20210119172046.43869-1-ddstreet@canonical.com>
-X-Mailer: git-send-email 2.25.1
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=lu8LQ8daA/h8PmYD2TnZ31WFd7LjbAagekmzwQTsWzk=;
+ b=etzWqMBVVyVwj6QgbaStprtJOGQqbxAtKa0r0mRK24NQM87awVUUYEm4yJXtzYacbg
+ lPokTvB9fHTOh8s9H8Muc+PYMZ1sYGbbU1GHL5rSn90B0j8wi3EhxXfzuXEclm4Itgaf
+ 8RlZQqiOZz0unRZHEAokDfIlaMYpUbMWg98XYu/MKTE4x+PyTwdh/aOqJzC4xKWEiOsq
+ V7hwnQ796koQNZlPPdZ6QR6eguKnERL14zOMXEWXQWmXiF5oFigJQ2vy7oypb8cUKnce
+ p4Vpcu8NRjFX09eh3tbklDITRSm2lFdeAIXq8bwgjX9PmZIIosOgJhSniT45Ru4JNmCt
+ xfkw==
+X-Gm-Message-State: AOAM533Vv/piMGy5BampaznoX9vGstXhB3Kima3tYeNftww3q23Tphgp
+ l2SovDOQ6WSbaeEiKdv6Pmq+ECPBvwBtEsLqWJA=
+X-Google-Smtp-Source: ABdhPJyaz60cAssaiI1NKPUcLJgRF+OMPxeYSP0EHoXz1QiAe+TxqHeaSnQLjzEoNJvlemzxpkmWh+b6JLUrrxDXK0o=
+X-Received: by 2002:a92:4b06:: with SMTP id m6mr2299800ilg.177.1611077913463; 
+ Tue, 19 Jan 2021 09:38:33 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=91.189.89.112;
- envelope-from=ddstreet@canonical.com; helo=youngberry.canonical.com
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210112093950.17530-1-frank.chang@sifive.com>
+ <20210112093950.17530-9-frank.chang@sifive.com>
+In-Reply-To: <20210112093950.17530-9-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Jan 2021 09:38:07 -0800
+Message-ID: <CAKmqyKNhx+zkstaSHRX6z5MJ7=zW-D_zwJvV6=JSC1Ke9KE3vg@mail.gmail.com>
+Subject: Re: [PATCH v6 08/72] target/riscv: rvv-1.0: add vcsr register
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2c;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,312 +76,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dan Streetman <ddstreet@canonical.com>, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Rafael David Tinoco <rafael.tinoco@canonical.com>,
- Christian Ehrhardt <christian.ehrhardt@canonical.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace the --enable-git-update and --disable-git-update configure params
-with the param --with-git-submodules=(update|validate|ignore) to
-allow 3 options for building from a git repo.
+On Tue, Jan 12, 2021 at 1:55 AM <frank.chang@sifive.com> wrote:
+>
+> From: LIU Zhiwei <zhiwei_liu@c-sky.com>
+>
+> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-This is needed because downstream packagers, e.g. Debian, Ubuntu, etc,
-also keep the source code in git, but do not want to enable the
-'git_update' mode; with the current code, that's not possible even
-if the downstream package specifies --disable-git-update.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-The previous parameters are deprecated but still available; the
---enable-git-update parameter maps to --with-git-submodules=update and
---disable-git-update parameter maps to --with-git-submodules=validate.
+Alistair
 
-The configure script behavior is slightly modified, where previously
-the dtc, capstone, and slirp submodules were not validated when
---disable-git-update was specified (but were updated with git-update
-enabled), now they are validated when using --with-git-submodules=validate
-and are only ignored when using --with-git-submodules=ignore.
-
-Signed-off-by: Dan Streetman <ddstreet@canonical.com>
----
-v1: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04799.html
-changes since v1:
- - add --help output explaining --with-git-submodules valid values
- - validate dtc, capstone, slirp submodules also
- - update commit description text
-
- Makefile                 | 24 ++-----------------
- configure                | 51 ++++++++++++++++++++++++++++++----------
- scripts/git-submodule.sh | 34 ++++++++++++++++++++-------
- 3 files changed, 66 insertions(+), 43 deletions(-)
-
-diff --git a/Makefile b/Makefile
-index 2a926aaeb0c..f2557f37bba 100644
---- a/Makefile
-+++ b/Makefile
-@@ -47,30 +47,10 @@ git-submodule-update:
- Makefile: .git-submodule-status
- 
- .PHONY: git-submodule-update
--
--git_module_status := $(shell \
--  cd '$(SRC_PATH)' && \
--  GIT="$(GIT)" ./scripts/git-submodule.sh status $(GIT_SUBMODULES); \
--  echo $$?; \
--)
--
--ifeq (1,$(git_module_status))
--ifeq (no,$(GIT_UPDATE))
- git-submodule-update:
- 	$(call quiet-command, \
--            echo && \
--            echo "GIT submodule checkout is out of date. Please run" && \
--            echo "  scripts/git-submodule.sh update $(GIT_SUBMODULES)" && \
--            echo "from the source directory checkout $(SRC_PATH)" && \
--            echo && \
--            exit 1)
--else
--git-submodule-update:
--	$(call quiet-command, \
--          (cd $(SRC_PATH) && GIT="$(GIT)" ./scripts/git-submodule.sh update $(GIT_SUBMODULES)), \
--          "GIT","$(GIT_SUBMODULES)")
--endif
--endif
-+		(GIT="$(GIT)" "$(SRC_PATH)/scripts/git-submodule.sh" $(GIT_SUBMODULES_ACTION) $(GIT_SUBMODULES)), \
-+		"GIT","$(GIT_SUBMODULES)")
- 
- # 0. ensure the build tree is okay
- 
-diff --git a/configure b/configure
-index 9f016b06b54..725d19e4d91 100755
---- a/configure
-+++ b/configure
-@@ -254,12 +254,12 @@ gdb_bin=$(command -v "gdb-multiarch" || command -v "gdb")
- 
- if test -e "$source_path/.git"
- then
--    git_update=yes
-+    git_submodules_action="update"
-     git_submodules="ui/keycodemapdb"
-     git_submodules="$git_submodules tests/fp/berkeley-testfloat-3"
-     git_submodules="$git_submodules tests/fp/berkeley-softfloat-3"
- else
--    git_update=no
-+    git_submodules_action="ignore"
-     git_submodules=""
- 
-     if ! test -f "$source_path/ui/keycodemapdb/README"
-@@ -1508,9 +1508,16 @@ for opt do
-   ;;
-   --with-git=*) git="$optarg"
-   ;;
--  --enable-git-update) git_update=yes
-+  --enable-git-update)
-+      git_submodules_action="update"
-+      echo "--enable-git-update deprecated, use --with-git-submodules=update"
-   ;;
--  --disable-git-update) git_update=no
-+  --disable-git-update)
-+      git_submodules_action="validate"
-+      echo "--disable-git-update deprecated, use --with-git-submodules=validate"
-+  ;;
-+  --with-git-submodules=*)
-+      git_submodules_action="$optarg"
-   ;;
-   --enable-debug-mutex) debug_mutex=yes
-   ;;
-@@ -1566,6 +1573,21 @@ for opt do
-   esac
- done
- 
-+case $git_submodules_action in
-+    update|validate)
-+        if test ! -e "$source_path/.git"; then
-+            echo "ERROR: cannot $git_submodules_action git submodules without .git"
-+            exit 1
-+        fi
-+    ;;
-+    ignore)
-+    ;;
-+    *)
-+        echo "ERROR: invalid --with-git-submodules= value '$git_submodules_action'"
-+        exit 1
-+    ;;
-+esac
-+
- libdir="${libdir:-$prefix/lib}"
- libexecdir="${libexecdir:-$prefix/libexec}"
- includedir="${includedir:-$prefix/include}"
-@@ -1715,6 +1737,9 @@ Advanced options (experts only):
-   --ninja=NINJA            use specified ninja [$ninja]
-   --smbd=SMBD              use specified smbd [$smbd]
-   --with-git=GIT           use specified git [$git]
-+  --with-git-submodules=update   update git submodules (default if .git dir exists)
-+  --with-git-submodules=validate fail if git submodules are not up to date
-+  --with-git-submodules=ignore   do not update or check git submodules (default if no .git dir)
-   --static                 enable static build [$static]
-   --mandir=PATH            install man pages in PATH
-   --datadir=PATH           install firmware in PATH/$qemu_suffix
-@@ -1931,7 +1956,7 @@ python="$python -B"
- if test -z "$meson"; then
-     if test "$explicit_python" = no && has meson && version_ge "$(meson --version)" 0.55.3; then
-         meson=meson
--    elif test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-+    elif test $git_submodules_action != 'ignore' ; then
-         meson=git
-     elif test -e "${source_path}/meson/meson.py" ; then
-         meson=internal
-@@ -1999,7 +2024,7 @@ fi
- # Consult white-list to determine whether to enable werror
- # by default.  Only enable by default for git builds
- if test -z "$werror" ; then
--    if test -e "$source_path/.git" && \
-+    if test "$git_submodules_action" != "ignore" && \
-         { test "$linux" = "yes" || test "$mingw32" = "yes"; }; then
-         werror="yes"
-     else
-@@ -3559,7 +3584,7 @@ fi
- case "$fdt" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-+    if test "$git_submodules_action" != "ignore"; then
-       git_submodules="${git_submodules} dtc"
-     fi
-     ;;
-@@ -4294,7 +4319,7 @@ fi
- case "$capstone" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-+    if test "$git_submodules_action" != "ignore"; then
-       git_submodules="${git_submodules} capstone"
-     fi
-     ;;
-@@ -5241,7 +5266,7 @@ fi
- case "$slirp" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
--    if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
-+    if test "$git_submodules_action" != "ignore"; then
-       git_submodules="${git_submodules} slirp"
-     fi
-     ;;
-@@ -5458,7 +5483,7 @@ if test "$cpu" = "s390x" ; then
-     roms="$roms s390-ccw"
-     # SLOF is required for building the s390-ccw firmware on s390x,
-     # since it is using the libnet code from SLOF for network booting.
--    if test -e "${source_path}/.git" ; then
-+    if test "$git_submodules_action" != "ignore"; then
-       git_submodules="${git_submodules} roms/SLOF"
-     fi
-   fi
-@@ -5496,8 +5521,8 @@ else
-     cxx=
- fi
- 
--if test $git_update = 'yes' ; then
--    (cd "${source_path}" && GIT="$git" "./scripts/git-submodule.sh" update "$git_submodules")
-+if !(GIT="$git" "$source_path/scripts/git-submodule.sh" "$git_submodules_action" "$git_submodules"); then
-+    exit 1
- fi
- 
- config_host_mak="config-host.mak"
-@@ -5508,7 +5533,7 @@ echo >> $config_host_mak
- echo all: >> $config_host_mak
- echo "GIT=$git" >> $config_host_mak
- echo "GIT_SUBMODULES=$git_submodules" >> $config_host_mak
--echo "GIT_UPDATE=$git_update" >> $config_host_mak
-+echo "GIT_SUBMODULES_ACTION=$git_submodules_action" >> $config_host_mak
- 
- echo "ARCH=$ARCH" >> $config_host_mak
- 
-diff --git a/scripts/git-submodule.sh b/scripts/git-submodule.sh
-index 65ed877aefd..e225d3a9634 100755
---- a/scripts/git-submodule.sh
-+++ b/scripts/git-submodule.sh
-@@ -9,9 +9,14 @@ command=$1
- shift
- maybe_modules="$@"
- 
-+# if --with-git-submodules=ignore, do nothing
-+test "$command" = "ignore" && exit 0
-+
- test -z "$GIT" && GIT=git
- 
--error() {
-+cd "$(dirname "$0")/.."
-+
-+update_error() {
-     echo "$0: $*"
-     echo
-     echo "Unable to automatically checkout GIT submodules '$modules'."
-@@ -24,7 +29,7 @@ error() {
-     echo "Alternatively you may disable automatic GIT submodule checkout"
-     echo "with:"
-     echo
--    echo " $ ./configure --disable-git-update"
-+    echo " $ ./configure --with-git-submodules=validate"
-     echo
-     echo "and then manually update submodules prior to running make, with:"
-     echo
-@@ -33,6 +38,19 @@ error() {
-     exit 1
- }
- 
-+validate_error() {
-+    if test "$1" = "validate"; then
-+        echo "GIT submodules checkout is out of date, and submodules"
-+        echo "configured for validate only. Please run"
-+        echo "  scripts/git-submodule.sh update $maybe_modules"
-+        echo "from the source directory or call configure with"
-+        echo "  --with-git-submodules=update"
-+        echo "To disable GIT submodules validation, use"
-+        echo "  --with-git-submodules=ignore"
-+    fi
-+    exit 1
-+}
-+
- modules=""
- for m in $maybe_modules
- do
-@@ -52,18 +70,18 @@ then
- fi
- 
- case "$command" in
--status)
-+status|validate)
-     if test -z "$maybe_modules"
-     then
--         test -s ${substat} && exit 1 || exit 0
-+         test -s ${substat} && validate_error "$command" || exit 0
-     fi
- 
--    test -f "$substat" || exit 1
-+    test -f "$substat" || validate_error "$command"
-     for module in $modules; do
-         CURSTATUS=$($GIT submodule status $module)
-         OLDSTATUS=$(cat $substat | grep $module)
-         if test "$CURSTATUS" != "$OLDSTATUS"; then
--            exit 1
-+            validate_error "$command"
-         fi
-     done
-     exit 0
-@@ -76,10 +94,10 @@ update)
-     fi
- 
-     $GIT submodule update --init $modules 1>/dev/null
--    test $? -ne 0 && error "failed to update modules"
-+    test $? -ne 0 && update_error "failed to update modules"
- 
-     $GIT submodule status $modules > "${substat}"
--    test $? -ne 0 && error "failed to save git submodule status" >&2
-+    test $? -ne 0 && update_error "failed to save git submodule status" >&2
-     ;;
- esac
- 
--- 
-2.25.1
-
+> ---
+>  target/riscv/cpu_bits.h |  7 +++++++
+>  target/riscv/csr.c      | 21 +++++++++++++++++++++
+>  2 files changed, 28 insertions(+)
+>
+> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
+> index 8edf81692e6..2538580a62a 100644
+> --- a/target/riscv/cpu_bits.h
+> +++ b/target/riscv/cpu_bits.h
+> @@ -60,9 +60,16 @@
+>  #define CSR_VSTART          0x008
+>  #define CSR_VXSAT           0x009
+>  #define CSR_VXRM            0x00a
+> +#define CSR_VCSR            0x00f
+>  #define CSR_VL              0xc20
+>  #define CSR_VTYPE           0xc21
+>
+> +/* VCSR fields */
+> +#define VCSR_VXSAT_SHIFT    0
+> +#define VCSR_VXSAT          (0x1 << VCSR_VXSAT_SHIFT)
+> +#define VCSR_VXRM_SHIFT     1
+> +#define VCSR_VXRM           (0x3 << VCSR_VXRM_SHIFT)
+> +
+>  /* User Timers and Counters */
+>  #define CSR_CYCLE           0xc00
+>  #define CSR_TIME            0xc01
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 6eda5bacb7c..4ac1ed8cfa8 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -335,6 +335,26 @@ static int write_vstart(CPURISCVState *env, int csrno, target_ulong val)
+>      return 0;
+>  }
+>
+> +static int read_vcsr(CPURISCVState *env, int csrno, target_ulong *val)
+> +{
+> +    *val = (env->vxrm << VCSR_VXRM_SHIFT) | (env->vxsat << VCSR_VXSAT_SHIFT);
+> +    return 0;
+> +}
+> +
+> +static int write_vcsr(CPURISCVState *env, int csrno, target_ulong val)
+> +{
+> +#if !defined(CONFIG_USER_ONLY)
+> +    if (!env->debugger && !riscv_cpu_vector_enabled(env)) {
+> +        return -1;
+> +    }
+> +    env->mstatus |= MSTATUS_VS;
+> +#endif
+> +
+> +    env->vxrm = (val & VCSR_VXRM) >> VCSR_VXRM_SHIFT;
+> +    env->vxsat = (val & VCSR_VXSAT) >> VCSR_VXSAT_SHIFT;
+> +    return 0;
+> +}
+> +
+>  /* User Timers and Counters */
+>  static int read_instret(CPURISCVState *env, int csrno, target_ulong *val)
+>  {
+> @@ -1397,6 +1417,7 @@ static riscv_csr_operations csr_ops[CSR_TABLE_SIZE] = {
+>      [CSR_VSTART] =              { vs,   read_vstart,      write_vstart      },
+>      [CSR_VXSAT] =               { vs,   read_vxsat,       write_vxsat       },
+>      [CSR_VXRM] =                { vs,   read_vxrm,        write_vxrm        },
+> +    [CSR_VCSR] =                { vs,   read_vcsr,        write_vcsr        },
+>      [CSR_VL] =                  { vs,   read_vl                             },
+>      [CSR_VTYPE] =               { vs,   read_vtype                          },
+>      /* User Timers and Counters */
+> --
+> 2.17.1
+>
+>
 
