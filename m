@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 517402FB99C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:37:01 +0100 (CET)
-Received: from localhost ([::1]:42754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E0392FB9B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:39:32 +0100 (CET)
+Received: from localhost ([::1]:45964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1s7w-0004uJ-CS
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:37:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43424)
+	id 1l1sAN-0006LX-Cp
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:39:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1s5W-0003K2-Ds
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:34:30 -0500
-Received: from 9.mo52.mail-out.ovh.net ([87.98.180.222]:33526)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1s5T-0003q5-CW
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:34:30 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.156.137])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 7410523015D;
- Tue, 19 Jan 2021 15:34:14 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 19 Jan
- 2021 15:34:10 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G00587674bee-0403-4f7c-9cef-486855d552fa,
- 9B6877A1159CEF26E29E5BE572491BB707B5295E) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Tue, 19 Jan 2021 15:34:07 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 2/3] 9pfs: Convert V9fsFidState::fid_list to QSIMPLEQ
-Message-ID: <20210119153407.208c4df7@bahia.lan>
-In-Reply-To: <1901754.QplClEOiAT@silver>
-References: <20210118142300.801516-1-groug@kaod.org>
- <20210118142300.801516-3-groug@kaod.org>
- <1901754.QplClEOiAT@silver>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1s9C-0005se-Ub
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:38:18 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:41744)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1s9A-0004P7-LB
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:38:18 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id bx12so7772427edb.8
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:38:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=cssEGXk/HJVCPZEW3Bfd9u7xa2v9/ly7wKqBdc49SZw=;
+ b=D09K0RTO0AfTAeP5f+vfH5Z84bBwgwxqDTf79gZKLsNioOiFRjFdLoaKwlG/LolITA
+ JQt728gxLmSNfg7CewEU0+f9gV3WJl2cAq9fOK63WAvWdW9F9jdVgpD31JdMIPpa4pwt
+ NaNJUS4R5mQQIZtz1Uzo2VB5KDQO81RxMPAOnWWc9I7MlYrwdGPSgHiou3IY3xStClgC
+ R7ftj5rMelWCsZJXsxbKuV5dpO9HEyOn/IMtv1LJCTy85ixtIKHWv+UuAMQlX1+PPFRK
+ K5yk+v+c9vWvX3XhK1lBARFl8Z8AbH7NatFB0e8DVBazoHPwD7DQYCvEPSV/genQimof
+ fSRQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=cssEGXk/HJVCPZEW3Bfd9u7xa2v9/ly7wKqBdc49SZw=;
+ b=gd0UkL7UYabtLJ1e0C+Fj8MULdpSxU2gvA0DaEapD7STfEoxXzodDAMQX9xZ+ZRX7j
+ D7o9z6Qtxsru75g83aOd/UYDngPUssAhjTZBOqAgywu6x4xtEOaH+k+xv1FOwnvCX+c4
+ qYGbFwwBy/0T1ZC4Dhoxp7PJUUyTVE4pjKxhc6nn/2IUAyF4qqsxdr6Ro3cFTpA7Jgwh
+ DPLs2wXQEafwDesskzozMm3mJC6pCFBfFFhsZmK+Bj6wn+u96O/vdVRtDaYt85oJ0K7o
+ MpARZrJkl8JGsR1JJ9YharQo4V48JvsCWlAYMgKo4uQJWLpEcTdYA64jIZgkXruW9U8N
+ gwUA==
+X-Gm-Message-State: AOAM531MBYkESRz8m8VdvOunbcTaSnkDM4h+haW+JGtLDsKRXjQwgtZa
+ IYwLcVTkQTSL9jQOYfAe/eNNYEdT1H4t8/hdOMK9mg==
+X-Google-Smtp-Source: ABdhPJz0Nl0Rfcjp6C1kGHxbhwASEZpZ9OKb+uzcH+EwAXos6gCOJlxI1kr2jiJcMQ2GX9wav9ed5NJIA8y8PlhcG1A=
+X-Received: by 2002:a05:6402:1a55:: with SMTP id
+ bf21mr3773524edb.146.1611067094064; 
+ Tue, 19 Jan 2021 06:38:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 183a8c02-b859-4cef-b35f-b6cc33b5f71f
-X-Ovh-Tracer-Id: 17142389033884096922
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddtgdeiiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeduvdeijefgheehtdefledvleelkefgleffheekhfegueejgfeukeduheekgfdvvdenucffohhmrghinheptgdqfhgrqhdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=87.98.180.222; envelope-from=groug@kaod.org;
- helo=9.mo52.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-4-richard.henderson@linaro.org>
+In-Reply-To: <20210115210456.1053477-4-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 14:38:03 +0000
+Message-ID: <CAFEAcA9pnbrQYihP8NkajM0LHYzciuoO9xNmRmCbBaqB+WV5Qg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/22] tcg/i386: Split out target constraints to
+ tcg-target-con-str.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,231 +79,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jan 2021 14:31:26 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On Fri, 15 Jan 2021 at 21:08, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This eliminates the target-specific function target_parse_constraint
+> and folds it into the single caller, process_op_defs.  Since this is
+> done directly into the switch statement, duplicates are compilation
+> errors rather than silently ignored at runtime.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/i386/tcg-target-con-str.h |  33 +++++++++++
+>  tcg/i386/tcg-target.h         |   1 +
+>  tcg/tcg.c                     |  33 +++++++++--
+>  tcg/i386/tcg-target.c.inc     | 101 ++++++----------------------------
+>  4 files changed, 78 insertions(+), 90 deletions(-)
+>  create mode 100644 tcg/i386/tcg-target-con-str.h
 
-> On Montag, 18. Januar 2021 15:22:59 CET Greg Kurz wrote:
-> > The fid_list is currently open-coded. This doesn't seem to serve any
-> > purpose that cannot be met with QEMU's generic lists. Let's go for a
-> > QSIMPLEQ : this will allow to add new fids at the end of the list and
-> > to improve the logic in v9fs_mark_fids_unreclaim().
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> 
-> In general LGTM hence:
-> 
-> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> 
-> Some comments below ...
-> 
-> > ---
-> >  hw/9pfs/9p.c | 41 ++++++++++++++++++-----------------------
-> >  hw/9pfs/9p.h |  4 ++--
-> >  2 files changed, 20 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index 37c3379b7462..b65f320e6518 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -260,7 +260,7 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU *pdu,
-> > int32_t fid) V9fsFidState *f;
-> >      V9fsState *s = pdu->s;
-> > 
-> > -    for (f = s->fid_list; f; f = f->next) {
-> > +    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> >          BUG_ON(f->clunked);
-> >          if (f->fid == fid) {
-> >              /*
-> > @@ -295,7 +295,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> > fid) {
-> >      V9fsFidState *f;
-> > 
-> > -    for (f = s->fid_list; f; f = f->next) {
-> > +    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> >          /* If fid is already there return NULL */
-> >          BUG_ON(f->clunked);
-> >          if (f->fid == fid) {
-> > @@ -311,8 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> > fid) * reclaim won't close the file descriptor
-> >       */
-> >      f->flags |= FID_REFERENCED;
-> > -    f->next = s->fid_list;
-> > -    s->fid_list = f;
-> > +    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
-> 
-> Not related to this series, but I wonder why queue.h wraps everything into:
-> 
-> do {
-> 	...
-> } while (0);
-> 
+> +REGS('r', ALL_GENERAL_REGS)
+> +REGS('x', ALL_VECTOR_REGS)
+> +REGS('q', ALL_BYTEL_REGS)     /* regs that can be used as a byte operand */
+> +REGS('Q', ALL_BYTEH_REGS)     /* regs with a second byte (e.g. %ah) */
+> +REGS('L', ALL_GENERAL_REGS & ~SOFTMMU_RESERVE_REGS)  /* qemu_ld/st */
+> +REGS('s', ALL_BYTEL_REGS & ~SOFTMMU_RESERVE_REGS)    /* qemu_st8_i32 data */
 
-Note, this is do { ... } while (0) *without* the trailing semi-colon, which
-is the corner stone of this trick.
+In the new setup we define 's' as the BYTEL regs minus the
+softmmu reserved ones...
 
-> No comment about it in git history. Looks like a leftover of its initial 
-> import from 2009.
-> 
+> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+> index 74637f654a..c4b0b6bfca 100644
+> --- a/tcg/i386/tcg-target.c.inc
+> +++ b/tcg/i386/tcg-target.c.inc
+> @@ -132,6 +132,22 @@ static const int tcg_target_call_oarg_regs[] = {
+>  # define TCG_REG_L1 TCG_REG_EDX
+>  #endif
+>
+> +#define ALL_BYTEH_REGS         0x0000000fu
+> +#if TCG_TARGET_REG_BITS == 64
+> +# define ALL_GENERAL_REGS      0x0000ffffu
+> +# define ALL_VECTOR_REGS       0xffff0000u
+> +# define ALL_BYTEL_REGS        ALL_GENERAL_REGS
+> +#else
+> +# define ALL_GENERAL_REGS      0x000000ffu
+> +# define ALL_VECTOR_REGS       0x00ff0000u
+> +# define ALL_BYTEL_REGS        ALL_BYTEH_REGS
+> +#endif
+> +#ifdef CONFIG_SOFTMMU
+> +# define SOFTMMU_RESERVE_REGS  ((1 << TCG_REG_L0) | (1 << TCG_REG_L1))
+> +#else
+> +# define SOFTMMU_RESERVE_REGS  0
+> +#endif
 
-This is the usual way to define multi-statement macros. More details here:
+...which (ignoring L0/L1) is going to be 0xffff on x86-64, and 0xf on i386.
 
-http://c-faq.com/cpp/multistmt.html
+> -    case 's':
+> -        /* qemu_st8_i32 data constraint */
+> -        ct->regs = 0xf;
+> -#ifdef CONFIG_SOFTMMU
+> -        tcg_regset_reset_reg(ct->regs, TCG_REG_L0);
+> -        tcg_regset_reset_reg(ct->regs, TCG_REG_L1);
+> -#endif
+> -        break;
 
-> >      v9fs_readdir_init(s->proto_version, &f->fs.dir);
-> >      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-> > @@ -401,20 +400,16 @@ static int coroutine_fn put_fid(V9fsPDU *pdu,
-> > V9fsFidState *fidp)
-> > 
-> >  static V9fsFidState *clunk_fid(V9fsState *s, int32_t fid)
-> >  {
-> > -    V9fsFidState **fidpp, *fidp;
-> > +    V9fsFidState *fidp;
-> > 
-> > -    for (fidpp = &s->fid_list; *fidpp; fidpp = &(*fidpp)->next) {
-> > -        if ((*fidpp)->fid == fid) {
-> > -            break;
-> > +    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> > +        if (fidp->fid == fid) {
-> > +            QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> > +            fidp->clunked = true;
-> > +            return fidp;
-> >          }
-> >      }
-> > -    if (*fidpp == NULL) {
-> > -        return NULL;
-> > -    }
-> > -    fidp = *fidpp;
-> > -    *fidpp = fidp->next;
-> > -    fidp->clunked = true;
-> > -    return fidp;
-> > +    return NULL;
-> >  }
-> 
-> Good cleanup there!
-> 
+But in the old code the 's' constraint is 0xf for both
+x86-64 and i386. To match that I think that the new constraint
+should use BYTEH, not BYTEL:
+REGS('s', ALL_BYTEH_REGS & ~SOFTMMU_RESERVE_REGS)
 
-Thanks !
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-> >  void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-> > @@ -423,7 +418,7 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-> >      V9fsState *s = pdu->s;
-> >      V9fsFidState *f, *reclaim_list = NULL;
-> > 
-> > -    for (f = s->fid_list; f; f = f->next) {
-> > +    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> >          /*
-> >           * Unlink fids cannot be reclaimed. Check
-> >           * for them and skip them. Also skip fids
-> > @@ -505,7 +500,7 @@ static int coroutine_fn v9fs_mark_fids_unreclaim(V9fsPDU
-> > *pdu, V9fsPath *path) V9fsFidState *fidp;
-> > 
-> >  again:
-> > -    for (fidp = s->fid_list; fidp; fidp = fidp->next) {
-> > +    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> >          if (fidp->path.size != path->size) {
-> >              continue;
-> >          }
-> > @@ -537,13 +532,13 @@ static void coroutine_fn virtfs_reset(V9fsPDU *pdu)
-> >      V9fsFidState *fidp;
-> > 
-> >      /* Free all fids */
-> > -    while (s->fid_list) {
-> > +    while (!QSIMPLEQ_EMPTY(&s->fid_list)) {
-> >          /* Get fid */
-> > -        fidp = s->fid_list;
-> > +        fidp = QSIMPLEQ_FIRST(&s->fid_list);
-> >          fidp->ref++;
-> > 
-> >          /* Clunk fid */
-> > -        s->fid_list = fidp->next;
-> > +        QSIMPLEQ_REMOVE(&s->fid_list, fidp, V9fsFidState, next);
-> >          fidp->clunked = true;
-> > 
-> >          put_fid(pdu, fidp);
-> > @@ -3121,7 +3116,7 @@ static int coroutine_fn v9fs_complete_rename(V9fsPDU
-> > *pdu, V9fsFidState *fidp, * Fixup fid's pointing to the old name to
-> >       * start pointing to the new name
-> >       */
-> > -    for (tfidp = s->fid_list; tfidp; tfidp = tfidp->next) {
-> > +    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> >          if (v9fs_path_is_ancestor(&fidp->path, &tfidp->path)) {
-> >              /* replace the name */
-> >              v9fs_fix_path(&tfidp->path, &new_path,
-> > strlen(fidp->path.data)); @@ -3215,7 +3210,7 @@ static int coroutine_fn
-> > v9fs_fix_fid_paths(V9fsPDU *pdu, V9fsPath *olddir, * Fixup fid's pointing
-> > to the old name to
-> >       * start pointing to the new name
-> >       */
-> > -    for (tfidp = s->fid_list; tfidp; tfidp = tfidp->next) {
-> > +    QSIMPLEQ_FOREACH(tfidp, &s->fid_list, next) {
-> >          if (v9fs_path_is_ancestor(&oldpath, &tfidp->path)) {
-> >              /* replace the name */
-> >              v9fs_fix_path(&tfidp->path, &newpath, strlen(oldpath.data));
-> > @@ -4081,7 +4076,7 @@ int v9fs_device_realize_common(V9fsState *s, const
-> > V9fsTransport *t, s->ctx.fmode = fse->fmode;
-> >      s->ctx.dmode = fse->dmode;
-> > 
-> > -    s->fid_list = NULL;
-> > +    QSIMPLEQ_INIT(&s->fid_list);
-> >      qemu_co_rwlock_init(&s->rename_lock);
-> > 
-> >      if (s->ops->init(&s->ctx, errp) < 0) {
-> > diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-> > index 93656323d1d7..85fb6930b0ca 100644
-> > --- a/hw/9pfs/9p.h
-> > +++ b/hw/9pfs/9p.h
-> > @@ -280,7 +280,7 @@ struct V9fsFidState {
-> >      uid_t uid;
-> >      int ref;
-> >      bool clunked;
-> > -    V9fsFidState *next;
-> > +    QSIMPLEQ_ENTRY(V9fsFidState) next;
-> >      V9fsFidState *rclm_lst;
-> >  };
-> 
-> Is there a reason for not migrating 'rclm_lst' as well?
-> 
-
-Yeah. I did consider doing so at first but these were
-too many changes. Also, the fid list and the reclaim
-list have quite different needs, that each deserve its
-own patch.
-
-> Anyway, if you decide to do that as well, then it would IMO be fine with a 
-> separate patch later on, not worth making it more complicated with a v2 just 
-> for that.
-
-Yes, I already have a patch to convert the reclaim list to QSLIST.
-I'll post it later as it is merely cosmetic, while this series
-changes the behavior.
-
-> > @@ -339,7 +339,7 @@ typedef struct {
-> >  struct V9fsState {
-> >      QLIST_HEAD(, V9fsPDU) free_list;
-> >      QLIST_HEAD(, V9fsPDU) active_list;
-> > -    V9fsFidState *fid_list;
-> > +    QSIMPLEQ_HEAD(, V9fsFidState) fid_list;
-> 
-> Not an issue for this series, but I wonder whether that macro's first argument 
-> shouldn't simply be dropped in queue.h, because there are only 2 occurences in 
-> the entire QEMU code base using it. It looks like nobody really needs it.
-> 
-
-A similar macro exist for the other list types as well, with some more
-users. If we go for such a change, I think this should stay consistent
-accros list types. All users should hence be audited first.
-
-> >      FileOperations *ops;
-> >      FsContext ctx;
-> >      char *tag;
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
-
+thanks
+-- PMM
 
