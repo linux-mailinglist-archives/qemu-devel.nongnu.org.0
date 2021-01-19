@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A2052FC124
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:36:40 +0100 (CET)
-Received: from localhost ([::1]:55202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906B62FC13E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:39:49 +0100 (CET)
+Received: from localhost ([::1]:36030 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1xjz-0008Cr-0Z
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:36:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53248)
+	id 1l1xn2-0003Y9-GO
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:39:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xcj-0000pB-Tv
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:09 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:57124)
+ id 1l1xcm-0000tv-JJ
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:12 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:57168)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xcf-0000DX-BQ
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:09 -0500
+ id 1l1xci-0000E4-HA
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:12 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKNUZe002814;
- Tue, 19 Jan 2021 20:28:55 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKNaJt002873;
+ Tue, 19 Jan 2021 20:28:58 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=LnLOzmDa5T3JMJMlHyI2N+DKckhRbqWiYe6fNdWlaZg=;
- b=xFdca+Boc2gaGEV48gODMvOAuTAyWf0FI+pcI9SUrMKbG14M50n8lT5lXCb5BDyIiWgl
- jynl+NrnM2JtHgP8QRMNz8rJJxWSVVEYyB1RO46FR6IEFJBKfU936WWpUv98N0SzSM9k
- fQyvjU5KaMbvGKfbNq/M00+hY69EN6uIYC6+j8vY04pfSTy7jyfgQPIWOzm6LIVKb1j1
- QO3B3Z4aqatdlJafzAcy+Dmjik6BMY0FjkgDLxpqFEa+ZMpZED/0g6PHE2+ynVX1UuUq
- pUQqPxqUG8S1dhVsLntTOhN99AWJgp5VwxLiHAuiMbnQAWgtSocP0NUxDXxuNBPHh3TW 5w== 
+ bh=S6YIy5eSZef2MabxG1ZplSDUOQ10N7agnUBJJ/wuMMM=;
+ b=x1zRb+FwuUWFYYOn22WdwwFnPLcEkrlt0RJ8FCgumFaY/3pGT1snUHs/D8iKbGMbbeKr
+ qlK9LywwiKNZr36viYGMoTLT5Z5x/R6qdOytGhPN8utj1gtEk20JKzJu05rnsTv5gocp
+ pKqUj78sKSXlyNt5hLz0RTzTTbNkFfz+0/QGNOiv9AN6yv9q2EsrGHpJxdvmNDSb5yZk
+ IPexDr9LgraCsNPjeVLQjFdPK6xrNvNrOeW1oWB5BJd8HxuLxdIGeSnpCDViqvJtNVOQ
+ AiXLpXvbDd6E13b28P561cn0P34O1QmCRjp7Ua8PlXEGP3k2rD1JyaXYbOfZPaKD9PRf 6g== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 363xyhtarg-1
+ by userp2130.oracle.com with ESMTP id 363xyhtarw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:28:55 +0000
+ Tue, 19 Jan 2021 20:28:58 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPji9175906;
- Tue, 19 Jan 2021 20:28:54 GMT
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPkEP176110;
+ Tue, 19 Jan 2021 20:28:57 GMT
 Received: from nam02-cy1-obe.outbound.protection.outlook.com
- (mail-cys01nam02lp2054.outbound.protection.outlook.com [104.47.37.54])
- by aserp3020.oracle.com with ESMTP id 3661er941y-1
+ (mail-cys01nam02lp2050.outbound.protection.outlook.com [104.47.37.50])
+ by aserp3020.oracle.com with ESMTP id 3661er945j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:28:54 +0000
+ Tue, 19 Jan 2021 20:28:57 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PjyC5mZsixRYjI3AeZgcbJn+mcDpYJkG30oOMcu3AUqJMjk3xzD/37tP1VTbWMRbTVquw3CFQOJCmJvnWx37wGAiMXJDT5VxJdgvUOCpQ3pVnRjAYC176q/oNE14wuKVDySjflwail++10TDRCuBSbRT8024s7VGirdX5OxQLcgTbgS825DcvCUFoNV/F4eu88s1Lw1oGeaDwQtU/onfDfzQmCYIZ9EG97wsIMqHa1V+6WLsC+L3JEYDCNifDHmF3Nf/B/nSS3XtV0R5yWrsycZ+TUX4A0xS5rDvFQjvUE5Jllev2AfX9fWxBivvYj7SCtZeeqzxxDG4ppBYMHgsuA==
+ b=ZE34CkYNz0FxB6u0zVdTXYVmfFr6ONUCXTCc24h/8aN9Jhm+NR5hsUF8QZlR9BlksymAFc/QT+59LW9mO4Ivr2reytArwbRmXj/EtOlgjJEIDBItyBJ6z1limrrDoTYM0oua9kMiSn7qmyHg/jb0cmCNS0kMHeDgfhUNOpv00QNPUDKo4UbYUsrK+1+DUorf2cyILXQ2hUrI1c9zTI2C9+q7eCDzS7jPqlz5IsJwOFWFGcHxFailFnRSKkNpkITezQqv0FhNu/1RxbSHZ79dWsWad/SAUhub/rTTlc8Ineypvp52APB+OliPjzzohIRJh9A/WE0heng1Rl67ZMk45A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LnLOzmDa5T3JMJMlHyI2N+DKckhRbqWiYe6fNdWlaZg=;
- b=TPxg3zkx6ttvsSjMtWNLFN6r14GlsmkMD5kCNE/csn4TOYoobiIwrvUb+qucOrn6DYknhSQZk+C7jaabrQVf+p7aqOyfumbEiAffiLGBJEufQoxfmuXDLrHRggorTzZvVwcLeZkAyaxLaEyo+WOmcNSJLILCQfjH3DM5QthWzJVLaWKR2Genyb3iG6/27nTgLz3uv0BmNSGg6IO+BpYCrBqXjFaM0ggC6NPnYCu0jgJhBP6K7ZPzlV96rVag1vRu30b3X+m/+hfXK4efAHddRp+1sMrvAGvUO+EeVGpdtpzG3zZxUQodUfRoI/fPq9LDCAJp+EXcrX81tVYqVg4rkw==
+ bh=S6YIy5eSZef2MabxG1ZplSDUOQ10N7agnUBJJ/wuMMM=;
+ b=JvP8Qn85/pifF2tAyfztFhcc4avP9Nk84bKWlREDzeFOXUFZx8wYbpn27Ukof7B6naQfNa1TTNbEfCFprmLU42Tvbs9CJzk9SArTTylEUeOCh3J9Hu2yOhUJvq7IUf48v/COq92+RBr/1HVR6yifG5B1wPa3kdLefOO996db67KegOHfPgnwOfeelcmF7w2lOIwsyN91GMocOv3PvpspYe9qzr/6pNYr7JEn7aZOOQbzI1z3/MQg6P+KkeiOb0f3bh2Hmy3ezq/3xVarzixQD8DTEsegQ1I7GmDuwMfOubt3bLVE71lYr8JnOUYsTA+sCQAeerlgZ94HG8OxwdgcEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LnLOzmDa5T3JMJMlHyI2N+DKckhRbqWiYe6fNdWlaZg=;
- b=IIFJkCwtxKNuQD6zZwlRTs16NKF0iw+PY47IXC2TpMGvK9a+FtoKKdgqkpSEVdfCUdpUwwfpvgHRDWqAgFug6A9WDBffQN/xxe7O42WJYZ4JGKniHCeGoe0GjQ8wEFFPnosssVSHNDLMLqyE6v3SVo8L1IfjGShJKPNnlI7Bfv4=
+ bh=S6YIy5eSZef2MabxG1ZplSDUOQ10N7agnUBJJ/wuMMM=;
+ b=aBQDDcVbdDMxB4BpnOioz+4b06XVZBoRPvW7zeUaEOG2bxIhPx4yb9dj/W1bRv039yjKfvPkUQ3QrMgrD+KlWHvR/z6Y+LFpijBPkHmLRVuOOHFLk/8rdZmLnfDqeE0SpSPlHTNH0DgvH0Ems7ZfYPbxOXrtzTswqUQfuIVgntw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
  by BYAPR10MB3349.namprd10.prod.outlook.com (2603:10b6:a03:155::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 19 Jan
- 2021 20:28:52 +0000
+ 2021 20:28:55 +0000
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b]) by BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b%7]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
- 20:28:52 +0000
+ 20:28:55 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v20 03/20] memory: alloc RAM from file at offset
-Date: Tue, 19 Jan 2021 15:28:20 -0500
-Message-Id: <fdd611c958abcb5bdc18673997adfa086b64e0a5.1611081587.git.jag.raman@oracle.com>
+Subject: [PATCH v20 04/20] multi-process: Add config option for multi-process
+ QEMU
+Date: Tue, 19 Jan 2021 15:28:21 -0500
+Message-Id: <595551af14a90aa2bae9d0b9ee049a9af1379681.1611081587.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1611081587.git.jag.raman@oracle.com>
 References: <cover.1611081587.git.jag.raman@oracle.com>
@@ -87,46 +88,46 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.38) by
  DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:28:49 +0000
+ 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:28:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8b645323-ad7b-4e10-6069-08d8bcb8d5e7
+X-MS-Office365-Filtering-Correlation-Id: 0ae761f1-766d-4f8a-7031-08d8bcb8d7a5
 X-MS-TrafficTypeDiagnostic: BYAPR10MB3349:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3349B9322132151CFA751C8790A30@BYAPR10MB3349.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:1079;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB33497868B7BC5AB67300310690A30@BYAPR10MB3349.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: ygGfce37kjLXI4kGtV9nOki09QL6ExQOk+HwjwBWgtm7wZnWM6H/x1eNh9OqllQFQ6IW6aCIZNX4sUyq1+iW2AiLe3fz2k9jvZM2I87qtTlJY68CtsFXyUjMX+broM4xnnn/+pyKIaFkW+QlIr3eaV9LeUn9HRAG1GTfu2lJMYJOiigP3kCsLagtMOBgRUVxkLUGIWQcirRDuobG+nogp+QFp5K93oESeAigmwIVzdXzB+tCA20EtRDKfnatJC+lvt8lfV5b9mRuDqS8S4P3LPVfMB7jtRJMUyzHRiteDR9+JIliRgKp/jQGWAZIluuj6xbrGoA1ZzSShSHj3p7Z27V2nqHpCTiIiuFnjSklFeSf001U+XXiCxZ0cY74xVaLEL+eXCghhF5uEUd1AcM36w==
+X-Microsoft-Antispam-Message-Info: 7f+QnmrtcJ3mqoQFztBDjN2TB203fEohIbxyaQQm6JP+Cp/CTaujiIxXMVMnyq8/pkP9xuNF+USz26bjy53fzNfX42+dwKjNUUrpY1+KrLdoTSsoKMc7NHt4jHWuFo2dtHGsRja6shdOMc1Xz3815MAPnSTJzG2dJ34Mvo76TdN0HMqCTHKK3gzZ1unPWfU5IovHZaHVn+cvSn/xiRByUQqtWeMyB+GQGCXMu8vVmv/OlI3XbfuKBqzzgpu/D2ba9Vwxjd2vhQaX4KLG+0C/t/Qt9BVU3SS03s6GgkX9M4OsfNPqN9dk9KZ5rrXre5JQQ/FlTRkQEGQh8LwIH+NoJ5aRHtqHxRjwuCWm8SMPmbBn1nmdyyh+nCXOfryYfbgBiRIVMDuFgPJFVLAingYQqA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2744.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(39860400002)(396003)(366004)(136003)(346002)(376002)(7696005)(52116002)(2906002)(6486002)(5660300002)(7416002)(36756003)(66476007)(66556008)(478600001)(6916009)(956004)(2616005)(4326008)(66946007)(26005)(186003)(16526019)(8676002)(86362001)(8936002)(107886003)(316002)(6666004)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?L1YUEJ7Op4JJtFiDIe0g+vq4sQe/B/TX4NDTdGJYwJFU1FapUR5ZklF3sSEH?=
- =?us-ascii?Q?XIoJkigiLmdWric/xTkSouqBYFCsOXi1xK2u54zB33H5oTXaDuKi+BdxqG6b?=
- =?us-ascii?Q?jRdZ/2XEokuMoh/8whFOODG3RZWZKf5SxhigCIuJRqrhYOr+qu60+3ZoxWq4?=
- =?us-ascii?Q?xuCzTAr1fW0/1cviIwzuzOynqP0A4FxjDzo/JWvJxNwj1n8K9mn4Jh9qrG/U?=
- =?us-ascii?Q?PSh9p8LX2fviY+ijPMocsS+mfJ/Yt4Ch95iobP/gXuGzOBcQ3Z85gIuJHcT/?=
- =?us-ascii?Q?GcrXUasisn7AhMPTo9byk83F0CfOjpHL1Cnoc9zxiiuYE4tbbExSsQPxDHdZ?=
- =?us-ascii?Q?Yc+9fJSZSTqScHIKgsHTTin5tygE5C3YBvE6gUQXQlb8dGMPKir9Z92wb1CM?=
- =?us-ascii?Q?yfjS8icxfIdSP6skknpoAWvv/asRZurQVKtUd1iOmrcu5vw0IpWyokHa4F/p?=
- =?us-ascii?Q?uSSElATmM/FJ2g/hTiAraVyBIMmcbS/S/mS8kfL/umpO77LheUCmzlQxgSz7?=
- =?us-ascii?Q?9Z/zeCncsgCUV99AypSrUnl8P1HE36KA93Dzs61QrCqnfi4gF+uZ0UiYIMcT?=
- =?us-ascii?Q?Yo5ggnyANJ0ZkJfrOhMTd02+UhmXRvK/pq1KDnGsuBBmzY3Vl4qAYBprBkXl?=
- =?us-ascii?Q?izrQ53d3gapF+7b+NIF96vyewksunqHvgqYVnQ3LZofhLZvd/A+FuXmVNMe4?=
- =?us-ascii?Q?yyfMY8bFmHNFiA/JqauOjaMo6bKq6r6t1YBkcIHXp6ymSPw/In8Tl0ZAPVUM?=
- =?us-ascii?Q?n2KbtTjrc0WIzxlBXrWGQd5C2/eaNDl5PEkFSJT9sXWamU624pyNhtha4uHh?=
- =?us-ascii?Q?ZrAsZuVTvHYsJyYjD2uL9b2YRKB0Bs2vhoA5/JFdc/35gbJg0pevKSjOycIH?=
- =?us-ascii?Q?8VEapWwrJM8GWX7Wd/lvr5bN8l3gPxD1TOEpDkCAbCepQePOa/nS6DVFXryy?=
- =?us-ascii?Q?TDkeldThODshOGE8nORdSgxKKlQN7hBmefPBeEtSAEY=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?uw89i+pLz58Pcj2nzbOoNfs2BJSW8sNW+2RRVuC+v8YjkxWoqt0b0W4GsPXu?=
+ =?us-ascii?Q?YI2gz2A9sua0fpUHxUmaIptaK37eOB05kbc8ULqXgvl/Dw6heuogu4bgik11?=
+ =?us-ascii?Q?TukgZ5naaihG5qxvelsmsyMaYzqI4Myd2e1WpGVPZyX7D6cVX1iRMfVZFJ09?=
+ =?us-ascii?Q?FE/IRu4RLHbsEf8gDJFN5VB6n0nOuGhdYLu6I5nb84nx+alDfEcj983/KqnR?=
+ =?us-ascii?Q?qXhyC5DsM3YLg5OJ/OjEuSl17jUpHPJr13t3CkBgrtkFsNbP3eQK++RoMDKN?=
+ =?us-ascii?Q?/2x50Zy863LFKP6+6sL4T5h5tpnkevsqsG71wjSnRvVkPgfS6lyfrc+Qrptj?=
+ =?us-ascii?Q?e19/BzB52lH0FQIw3nawLrOBZMjxFxjoT2mCu+cd87el9IOWWy+Y94qkbhji?=
+ =?us-ascii?Q?ta4Mb6FHb2td6Y3McUNd00JdrQiW39IaGthhjV7Afp00GBo5qGVpDIdQbmYB?=
+ =?us-ascii?Q?bkcUhvfjZ0hi6mdo6TN2O4RgRRHOwe85ij4jICwtuNlC8L8LynWRdm9n7IV/?=
+ =?us-ascii?Q?tJ4EV6Px0z0XuJ4gc5/1VL3SW+hTThAr7+z1ifgzwhHuoLS+nXXpVgNEbbn9?=
+ =?us-ascii?Q?tMnyvLvrrfArautGGLPsiPN6VTiv33scZFMyScmjY1nVon91YF99/XQXokqN?=
+ =?us-ascii?Q?gMwKKt6rPRQMioHmD3IFioe+rMhH8Qe8irHqXDT5KgoEfFx9AGH9pWhQNEUd?=
+ =?us-ascii?Q?VLN97PVHgWQbb/FcAXanFn8wTH/pYj6q3pTvmLCcefOp75dxo0PFp2erDIEl?=
+ =?us-ascii?Q?6fgMtLlsBC7SGkKfATVubEmndVFjY/TjJrlEvq3rM4H9UToysedMlo4XDsuU?=
+ =?us-ascii?Q?Cv0PqUi/rB21pm66ODdpyJ+zjWzs6+BqxD3PkSx6P3xVYXS6dyM1Cyh1hM1B?=
+ =?us-ascii?Q?E3vjDmvxgXSFgTfGXvy5m8HxAeP/OzxMbORM7y9yrSlb9C49V9GZRruLKEsN?=
+ =?us-ascii?Q?J9qpN+7NTvv0w5w9gW9KxJlfjM5uaeSF6yRI/l3pKkE=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8b645323-ad7b-4e10-6069-08d8bcb8d5e7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ae761f1-766d-4f8a-7031-08d8bcb8d7a5
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2744.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:28:52.3508 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:28:55.3081 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hOYeRK58dmt8ygsk+Hon7aXH+jYZtJs/CqI66xUTrhhg5W7S6vL0irc0WZhizCmPAGVMgqRINMFPijXb/SXQGA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: o7FjalWf5kBmTCo7oLmQqa4w/w9hes4h/C8tA3rqvzLWOmAmTmyxKEFVF15pb2Bj1KRkyrSpjin0jVCSEQ88Uw==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3349
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
@@ -175,224 +176,125 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow RAM MemoryRegion to be created from an offset in a file, instead
-of allocating at offset of 0 by default. This is needed to synchronize
-RAM between QEMU & remote process.
+Add configuration options to enable or disable multiprocess QEMU code
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/exec/memory.h     |  2 ++
- include/exec/ram_addr.h   |  2 +-
- include/qemu/mmap-alloc.h |  4 +++-
- backends/hostmem-memfd.c  |  2 +-
- hw/misc/ivshmem.c         |  3 ++-
- softmmu/memory.c          |  3 ++-
- softmmu/physmem.c         | 11 +++++++----
- util/mmap-alloc.c         |  7 ++++---
- util/oslib-posix.c        |  2 +-
- 9 files changed, 23 insertions(+), 13 deletions(-)
+ configure         | 10 ++++++++++
+ meson.build       |  4 +++-
+ Kconfig.host      |  4 ++++
+ hw/Kconfig        |  1 +
+ hw/remote/Kconfig |  3 +++
+ 5 files changed, 21 insertions(+), 1 deletion(-)
+ create mode 100644 hw/remote/Kconfig
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 521d990..a9d2b66 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -990,6 +990,7 @@ void memory_region_init_ram_from_file(MemoryRegion *mr,
-  * @size: size of the region.
-  * @share: %true if memory must be mmaped with the MAP_SHARED flag
-  * @fd: the fd to mmap.
-+ * @offset: offset within the file referenced by fd
-  * @errp: pointer to Error*, to store an error if it happens.
-  *
-  * Note that this function does not do anything to cause the data in the
-@@ -1001,6 +1002,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-                                     uint64_t size,
-                                     bool share,
-                                     int fd,
-+                                    ram_addr_t offset,
-                                     Error **errp);
- #endif
+diff --git a/configure b/configure
+index 9f016b0..1c1ab0f 100755
+--- a/configure
++++ b/configure
+@@ -461,6 +461,7 @@ skip_meson=no
+ gettext="auto"
+ fuse="auto"
+ fuse_lseek="auto"
++multiprocess="no"
  
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index c6d2ef1..d465a48 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -121,7 +121,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-                                    Error **errp);
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp);
-+                                 off_t offset, Error **errp);
+ malloc_trim="auto"
  
- RAMBlock *qemu_ram_alloc_from_ptr(ram_addr_t size, void *host,
-                                   MemoryRegion *mr, Error **errp);
-diff --git a/include/qemu/mmap-alloc.h b/include/qemu/mmap-alloc.h
-index e786266..b096ffb 100644
---- a/include/qemu/mmap-alloc.h
-+++ b/include/qemu/mmap-alloc.h
-@@ -16,6 +16,7 @@ size_t qemu_mempath_getpagesize(const char *mem_path);
-  *          otherwise, the alignment in use will be determined by QEMU.
-  *  @shared: map has RAM_SHARED flag.
-  *  @is_pmem: map has RAM_PMEM flag.
-+ *  @map_offset: map starts at offset of map_offset from the start of fd
-  *
-  * Return:
-  *  On success, return a pointer to the mapped area.
-@@ -25,7 +26,8 @@ void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-                     bool shared,
--                    bool is_pmem);
-+                    bool is_pmem,
-+                    off_t map_offset);
+@@ -806,6 +807,7 @@ Linux)
+   linux="yes"
+   linux_user="yes"
+   vhost_user=${default_feature:-yes}
++  multiprocess=${default_feature:-yes}
+ ;;
+ esac
  
- void qemu_ram_munmap(int fd, void *ptr, size_t size);
+@@ -1558,6 +1560,10 @@ for opt do
+   ;;
+   --disable-fuse-lseek) fuse_lseek="disabled"
+   ;;
++  --enable-multiprocess) multiprocess="yes"
++  ;;
++  --disable-multiprocess) multiprocess="no"
++  ;;
+   *)
+       echo "ERROR: unknown option $opt"
+       echo "Try '$0 --help' for more information"
+@@ -1897,6 +1903,7 @@ disabled with --disable-FEATURE, default is enabled if available
+   libdaxctl       libdaxctl support
+   fuse            FUSE block device export
+   fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
++  multiprocess    Multiprocess QEMU support
  
-diff --git a/backends/hostmem-memfd.c b/backends/hostmem-memfd.c
-index e5626d4..69b0ae3 100644
---- a/backends/hostmem-memfd.c
-+++ b/backends/hostmem-memfd.c
-@@ -55,7 +55,7 @@ memfd_backend_memory_alloc(HostMemoryBackend *backend, Error **errp)
-     name = host_memory_backend_get_name(backend);
-     memory_region_init_ram_from_fd(&backend->mr, OBJECT(backend),
-                                    name, backend->size,
--                                   backend->share, fd, errp);
-+                                   backend->share, fd, 0, errp);
-     g_free(name);
- }
+ NOTE: The object files are built at the place where configure is launched
+ EOF
+@@ -6135,6 +6142,9 @@ fi
+ if test "$have_mlockall" = "yes" ; then
+   echo "HAVE_MLOCKALL=y" >> $config_host_mak
+ fi
++if test "$multiprocess" = "yes" ; then
++  echo "CONFIG_MULTIPROCESS_ALLOWED=y" >> $config_host_mak
++fi
+ if test "$fuzzing" = "yes" ; then
+   # If LIB_FUZZING_ENGINE is set, assume we are running on OSS-Fuzz, and the
+   # needed CFLAGS have already been provided
+diff --git a/meson.build b/meson.build
+index 3d88985..01e25bc 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1194,7 +1194,8 @@ host_kconfig = \
+   ('CONFIG_VHOST_KERNEL' in config_host ? ['CONFIG_VHOST_KERNEL=y'] : []) + \
+   (have_virtfs ? ['CONFIG_VIRTFS=y'] : []) + \
+   ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+-  ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : [])
++  ('CONFIG_PVRDMA' in config_host ? ['CONFIG_PVRDMA=y'] : []) + \
++  ('CONFIG_MULTIPROCESS_ALLOWED' in config_host ? ['CONFIG_MULTIPROCESS_ALLOWED=y'] : [])
  
-diff --git a/hw/misc/ivshmem.c b/hw/misc/ivshmem.c
-index 0505b52..603e992 100644
---- a/hw/misc/ivshmem.c
-+++ b/hw/misc/ivshmem.c
-@@ -495,7 +495,8 @@ static void process_msg_shmem(IVShmemState *s, int fd, Error **errp)
+ ignored = [ 'TARGET_XML_FILES', 'TARGET_ABI_DIR', 'TARGET_ARCH' ]
  
-     /* mmap the region and map into the BAR2 */
-     memory_region_init_ram_from_fd(&s->server_bar2, OBJECT(s),
--                                   "ivshmem.bar2", size, true, fd, &local_err);
-+                                   "ivshmem.bar2", size, true, fd, 0,
-+                                   &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-         return;
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 333e1ed..fa65f45 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1609,6 +1609,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-                                     uint64_t size,
-                                     bool share,
-                                     int fd,
-+                                    ram_addr_t offset,
-                                     Error **errp)
- {
-     Error *err = NULL;
-@@ -1618,7 +1619,7 @@ void memory_region_init_ram_from_fd(MemoryRegion *mr,
-     mr->destructor = memory_region_destructor_ram;
-     mr->ram_block = qemu_ram_alloc_from_fd(size, mr,
-                                            share ? RAM_SHARED : 0,
--                                           fd, &err);
-+                                           fd, offset, &err);
-     if (err) {
-         mr->size = int128_zero();
-         object_unparent(OBJECT(mr));
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 6301f4f..31afdf6 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1461,6 +1461,7 @@ static void *file_ram_alloc(RAMBlock *block,
-                             ram_addr_t memory,
-                             int fd,
-                             bool truncate,
-+                            off_t offset,
-                             Error **errp)
- {
-     void *area;
-@@ -1511,7 +1512,8 @@ static void *file_ram_alloc(RAMBlock *block,
-     }
+@@ -2508,6 +2509,7 @@ summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
+ summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
+ summary_info += {'FUSE exports':      fuse.found()}
+ summary_info += {'FUSE lseek':        fuse_lseek.found()}
++summary_info += {'Multiprocess QEMU': config_host.has_key('CONFIG_MULTIPROCESS_ALLOWED')}
+ summary(summary_info, bool_yn: true)
  
-     area = qemu_ram_mmap(fd, memory, block->mr->align,
--                         block->flags & RAM_SHARED, block->flags & RAM_PMEM);
-+                         block->flags & RAM_SHARED, block->flags & RAM_PMEM,
-+                         offset);
-     if (area == MAP_FAILED) {
-         error_setg_errno(errp, errno,
-                          "unable to map backing store for guest RAM");
-@@ -1943,7 +1945,7 @@ static void ram_block_add(RAMBlock *new_block, Error **errp, bool shared)
- #ifdef CONFIG_POSIX
- RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-                                  uint32_t ram_flags, int fd,
--                                 Error **errp)
-+                                 off_t offset, Error **errp)
- {
-     RAMBlock *new_block;
-     Error *local_err = NULL;
-@@ -1996,7 +1998,8 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
-     new_block->used_length = size;
-     new_block->max_length = size;
-     new_block->flags = ram_flags;
--    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, errp);
-+    new_block->host = file_ram_alloc(new_block, size, fd, !file_size, offset,
-+                                     errp);
-     if (!new_block->host) {
-         g_free(new_block);
-         return NULL;
-@@ -2026,7 +2029,7 @@ RAMBlock *qemu_ram_alloc_from_file(ram_addr_t size, MemoryRegion *mr,
-         return NULL;
-     }
+ if not supported_cpus.contains(cpu)
+diff --git a/Kconfig.host b/Kconfig.host
+index a9a55a9..24255ef 100644
+--- a/Kconfig.host
++++ b/Kconfig.host
+@@ -37,3 +37,7 @@ config VIRTFS
  
--    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, errp);
-+    block = qemu_ram_alloc_from_fd(size, mr, ram_flags, fd, 0, errp);
-     if (!block) {
-         if (created) {
-             unlink(mem_path);
-diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
-index 27dcccd..ddffa0d 100644
---- a/util/mmap-alloc.c
-+++ b/util/mmap-alloc.c
-@@ -86,7 +86,8 @@ void *qemu_ram_mmap(int fd,
-                     size_t size,
-                     size_t align,
-                     bool shared,
--                    bool is_pmem)
-+                    bool is_pmem,
-+                    off_t map_offset)
- {
-     int flags;
-     int map_sync_flags = 0;
-@@ -147,7 +148,7 @@ void *qemu_ram_mmap(int fd,
-     offset = QEMU_ALIGN_UP((uintptr_t)guardptr, align) - (uintptr_t)guardptr;
- 
-     ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--               flags | map_sync_flags, fd, 0);
-+               flags | map_sync_flags, fd, map_offset);
- 
-     if (ptr == MAP_FAILED && map_sync_flags) {
-         if (errno == ENOTSUP) {
-@@ -172,7 +173,7 @@ void *qemu_ram_mmap(int fd,
-          * we will remove these flags to handle compatibility.
-          */
-         ptr = mmap(guardptr + offset, size, PROT_READ | PROT_WRITE,
--                   flags, fd, 0);
-+                   flags, fd, map_offset);
-     }
- 
-     if (ptr == MAP_FAILED) {
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index 359c52d..3041e9f 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -230,7 +230,7 @@ void *qemu_memalign(size_t alignment, size_t size)
- void *qemu_anon_ram_alloc(size_t size, uint64_t *alignment, bool shared)
- {
-     size_t align = QEMU_VMALLOC_ALIGN;
--    void *ptr = qemu_ram_mmap(-1, size, align, shared, false);
-+    void *ptr = qemu_ram_mmap(-1, size, align, shared, false, 0);
- 
-     if (ptr == MAP_FAILED) {
-         return NULL;
+ config PVRDMA
+     bool
++
++config MULTIPROCESS_ALLOWED
++    bool
++    imply MULTIPROCESS
+diff --git a/hw/Kconfig b/hw/Kconfig
+index 5ad3c6b..525fb52 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -27,6 +27,7 @@ source pci-host/Kconfig
+ source pcmcia/Kconfig
+ source pci/Kconfig
+ source rdma/Kconfig
++source remote/Kconfig
+ source rtc/Kconfig
+ source scsi/Kconfig
+ source sd/Kconfig
+diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
+new file mode 100644
+index 0000000..5484446
+--- /dev/null
++++ b/hw/remote/Kconfig
+@@ -0,0 +1,3 @@
++config MULTIPROCESS
++    bool
++    depends on PCI && KVM
 -- 
 1.8.3.1
 
