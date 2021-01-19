@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD26B2FC128
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:37:58 +0100 (CET)
-Received: from localhost ([::1]:59114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64B82FC145
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:41:12 +0100 (CET)
+Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1xlF-0001Qz-Rg
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:37:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53566)
+	id 1l1xoN-0005DQ-Kr
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:41:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xd5-0001cE-W9
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:32 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:58070)
+ id 1l1xf8-0003Zy-Vd
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:39 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:60726)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xd3-0000IR-FM
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:31 -0500
+ id 1l1xf2-0000eG-0B
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:37 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKNZBZ002868;
- Tue, 19 Jan 2021 20:29:22 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKOU4Y003527;
+ Tue, 19 Jan 2021 20:31:25 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=QY5nIxO44go0zceRhgbLvvjkODdNL2qmvBtMCjdho/M=;
- b=UIoRLPcM5k0wfmK+lb10txFugf9RrNMv1F4ZG9+LPnY9tfuNY7N6y420BLHuRkAgEqJx
- es9WjCh14ZJ7mmVKq7Sa1HDvKvPEabK7jytKDoK8L8k7mlilRFWqzC9LYvKPGCvqsm78
- XGfjHanH/dX63Cd7iuXHb+d7IuzV9xOyJYEo86WRb1qW6M6HupsQoYF89QqjWaBTD+KP
- zFXBrKRnAV8mLPTiGYHE91ii1w+f4q+IRnKe61g8TmIY7HeQLprFOaqT8ejzekZAzlYT
- 5orlvMf4u9ZwPD111pQUp9hD47IZDE1gee6IXBuLAolJ1+EEKdPfqEigtwfh9Yj4Som6 gg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
- by userp2130.oracle.com with ESMTP id 363xyhtate-1
+ bh=aq4qgM/9ZUvfZcUCOWu4yZOFwO9YwtwroNXUeqyYPFM=;
+ b=QadsxWVI8H1JUN5QwhMbEwEK4cyTUsImNmXe+UC2ZBiX51Cv/rOAZatGnrWDdJliz+xW
+ FuTU6XaaMPK0RAgIi7VpQ0+5b0BN/HBDC0e3fHKwUxSximKzieUYC6IG6cKMx+DCf5lm
+ 4Luc/vJkqXUvgDAy1z0cGXI21L5A6B/OeA/S/86zPKcnz//KsCL0sCYYqYUGQWMqUe19
+ Y4Z3ZOyr2xiZDMk/4PV3EgI5uYEBJxs7a3rSzGkZXT9LqUvOrFUU2YLObI9mN/7D6lM/
+ i1Dhshjnpbw8Wzy/CA8us/o83byZgDBwbeTph5YVFHscr0FJuG0xeZ/OhG0Eo0oClbXw Bg== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 363xyhtb3j-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:21 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
- by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKQbYD106679;
- Tue, 19 Jan 2021 20:29:21 GMT
+ Tue, 19 Jan 2021 20:31:25 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKQcIu117505;
+ Tue, 19 Jan 2021 20:29:24 GMT
 Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1nam02lp2051.outbound.protection.outlook.com [104.47.36.51])
- by userp3020.oracle.com with ESMTP id 3661kht8c9-1
+ (mail-sn1nam02lp2056.outbound.protection.outlook.com [104.47.36.56])
+ by aserp3030.oracle.com with ESMTP id 3649qpu97n-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:21 +0000
+ Tue, 19 Jan 2021 20:29:24 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=egii90h5CGjvjGK6xmIaHWciGQbXK2WdSjnOy3LTzkn5O7UjS01WV80cp9xdDvzz8WIWodYydsYuFOSi3BXhdVe62kvOZhmfkeTTWhAKEzyDGFURsI9/fz+lH7U89O/r6tnUxsHZSdY64oxsFtAdWyPzTmOfJOaaMVEvwDD7Iur6zikoDmaM1ciLmuYlsX5aU6yjF6EVbHOu7LfVDvmhk2eEPIxqVN56jBW7zqBl++xeLOjYL4HErwYrZ3vG6toOrieh1xF8Wu6vWoa6Bik+z8O8urMpRokme9yxFjacjpKHQnvCMDZVA81Eik8ZjxpF5z5/MFVTDfaWP+Kvlsh4GQ==
+ b=glb/gM4Lq4ODyOJroAnZrG/kqCtxGU+gV6ora60FPGR2HV9aiAn4cUlGTBporL6WKikqGxpsVkQcbLdWJi3QCCRJt4T0MJlbuF2FlvRlekSr0ljK7m0BNuuOQcTL8ySjB03kBUTVSFmiEg6o3wUHYlYSiVSvuu9dp2z9ySTeTXMghxJtg3WxGupHcMmgXoqYU0vqyt9yc6pryG9OI3EpqGhuNj0dS9ApWiLedNXTxIPPyACJ6p7ATo5qMaaxvq/dRh0t+btQFkXCH+DkKNpzUuMXtfhCj0EJK/zaK4X8ghzoNXDQrO/0XDpzw6hRdnKot6rQfI34Di5413a+A40z0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QY5nIxO44go0zceRhgbLvvjkODdNL2qmvBtMCjdho/M=;
- b=fwq5KYCOW8muKtB0QcSq3MGK6e8/odfSq3IQIXg1zkTt5XNKeUhjVlX0CZ/CqWR/v3brVUzGtlxnqT3ShDRTzcZA5ghXy0hZ+uFPhRg/uTwNwCTGAc9waYCXjZhZ4VMmByFxrhC+2sbjsc1t97T/QdnqCsRG5AazlNN8o4lKrGMQuTn4bGPjUWawz16/baqjliPtjUFWCI9n4vDxdtdKrk0GsT9tbJt/MuHZFrquUHwvG4D814kGyWaJvLzKTelffWzTLCrREq01Js9tv8Sw/oHQBffJTwgXjFn1NKbxEnM7cB3hHsAJHMVYY9f0engPxXLS7nYcoJUbc+Etsw5smw==
+ bh=aq4qgM/9ZUvfZcUCOWu4yZOFwO9YwtwroNXUeqyYPFM=;
+ b=SpNjVl/iNsjZrMwC1wIzkMFzw3lk4lSw2f7FsLoT1gU1s4budf4EeKXBQj6DXhPgAnpzFBQF+dhWyPdivTVtCMWsEkAUcP2EKjdAXVd83a4O07Mpm6Ig32lmLzTGS9KAySMP4Qc2lUQF+hxe4D2GwhdNMoPnpIevLvQ/FK1EdtmZm+HD2WFGwE3ZYqOylH89Afq18D8Kg4/xFhOkLGmvr2sjZhUXr6urPyiXH/S27j7UmoHA0egr/B9vHtYXJJQl8xJA5KtyMdk63pT0qaaoG4WrLLaw6FM42FEVUVJ//o5Ar+PXIRBZL0lbnJcugUZvVDXaPc32Yb6q/Tt575l6KA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QY5nIxO44go0zceRhgbLvvjkODdNL2qmvBtMCjdho/M=;
- b=zyU3T8EjJ2/yU7ujWfyjT2YiBk0UKGmtqs5XgPCBNhNCObKEgVnjmVKcUkWpi7x9CCwX7IWZJQ1BI0/OC1HFzypHc9KBaXYc78S4Dvh3f3ymet3xRfAeF50mqAIwm7JoDBsFSvqP1REWBltKu44lyjdSbAlahiXMCimpnjxVvxk=
+ bh=aq4qgM/9ZUvfZcUCOWu4yZOFwO9YwtwroNXUeqyYPFM=;
+ b=Dp+NOBs3EhJkbrEqjYDONeuSZ7SupU79sDQlfc2CUsjfbZ6dlApX/f0s00Bngi/0p+JLOcrI3RY7yvRUcD9tVtykGXG41A8wWTgxyVq2fA6y8ART781h4vgG9KvSTNQMaI5Vyl3pUT5VEr3yw1Dkag2T7zC1q5Ic4ZimIfLAuAE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
  by BYAPR10MB3351.namprd10.prod.outlook.com (2603:10b6:a03:14d::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 19 Jan
- 2021 20:29:19 +0000
+ 2021 20:29:22 +0000
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b]) by BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b%7]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
- 20:29:19 +0000
+ 20:29:22 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v20 12/20] multi-process: setup memory manager for remote
- device
-Date: Tue, 19 Jan 2021 15:28:29 -0500
-Message-Id: <ac84c6794e8ebfca1eff27a078c7d050566c8e19.1611081587.git.jag.raman@oracle.com>
+Subject: [PATCH v20 13/20] multi-process: introduce proxy object
+Date: Tue, 19 Jan 2021 15:28:30 -0500
+Message-Id: <c37c1197969c14624c4c7068e7e3677bc70ade48.1611081587.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1611081587.git.jag.raman@oracle.com>
 References: <cover.1611081587.git.jag.raman@oracle.com>
@@ -89,60 +88,60 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.38) by
  DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:16 +0000
+ 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:19 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3a1328a9-c7cd-4bab-0224-08d8bcb8e5ed
+X-MS-Office365-Filtering-Correlation-Id: 8a6b421c-811f-41fd-cc1e-08d8bcb8e7af
 X-MS-TrafficTypeDiagnostic: BYAPR10MB3351:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB33517ECDD4E64D427704C5A290A30@BYAPR10MB3351.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB33515861734B2D2599CC035290A30@BYAPR10MB3351.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:525;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: M883akLRhpeV/53VXDSvI5oZmdytEKHrf2L12ol1HN8YN+MKVp7VlXPQFce9fqdqSCJIj5tr6MnwtqB/PtB7DPF9UWZoBgdW+IKF9xe7+hTR/lbcGxC9HL5eM6edQz8agnV6s/QGaiNu0NqfZ3do/jffQRUrg8mFiv34anQQYEo0cPJiCIxL7xEl4hY/zDUZQqOP6vfQ7ewih23a/XzXj2HGxP9qz33fZirNM1JsXPeaIsm+sARSb4vnh3+hef1LX/Yb2ZTlN5xyhk8TtaGriiEWvhaC0+/6eK2b9dLcTKV7sgnIwOgqCcM6VubVpU/wAqV6tdvC9gz3jMHX+W1iiqpHoOMMoI8U54CjtcosHV84k9dcynQ+DxQcLJJ5FA7ieIEl1LkhOs2zyIGQ6J3P3kSTlHU07Ki9phoki7XR5LdGrYfI0aJh+3bYYiyoYlNRgDm+A1TNA+iPPeIQU03xGb7vgBIXLhnYiqrwbuXCQx0EHNgfzJMkwckIF4bsX6FjkwCQNpNURPQJHJt+nrzJxg==
+X-Microsoft-Antispam-Message-Info: nGp1aZknmH9hliLna8Uc4d9zQNArETudgghyzVE15yKJVUjqu9NcU2HmWjHLNGdlXjRXsb8uGr4iXgpfLKQOnkQbk3yEGLlG+N8upD6rTUMNVruuncuRhyS/o8V46i4FijUVecK9uhlEiY0Z6VI4pinQ+eQ9c92PrTczb/z2DaDbC1u2Bhw2CM5ZPclMOnQW+kJPMTRS8JGY+4v/ccNrellJUnTMe8Dnz//L7AWg+ut8C6l0yfk4vTOOvL0LldrL5D8tY9aWFwoQOZQxb2RLsxYhlfANtbCI7Gpi0pCZTUtXLPcm+Wl/O+qeSYUdRr6aF/MnQ2h6G9SyCr5wWE0XztNZLggEhCr8SL6ORd8STlx1Yb/Ez2/AazKbavwRuFex+2RqvF8WEThru1lEwYlrBGxjEXFbnC3ATY1uQu9DBZCkoMU1QK7I1y0xWx4IqmrhROhRqr64yFkRA+jiv3rp51UjutI3XyuJUP9o0vi9kNUJNrnjb6POD43F9nDSREDTNNcjVOXNiXliyvLcp84bcw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2744.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(396003)(39860400002)(366004)(136003)(376002)(346002)(86362001)(2906002)(6666004)(6916009)(36756003)(4326008)(8676002)(52116002)(66476007)(66556008)(316002)(8936002)(66946007)(6486002)(107886003)(956004)(5660300002)(478600001)(7696005)(16526019)(26005)(186003)(7416002)(2616005)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WlhXUURNL2NxbzczUWc4VExrRDBucTB4QU1EbkY0QmRZVUc5OW5UcHhjbisr?=
- =?utf-8?B?UlB0OVYxZlZYSENZR292RXYvc3hCSllCaHkvUUlIdjgvZlJ0UmNIWXk4WVdD?=
- =?utf-8?B?dVhoZmFiUGJ6SWtrM0crQTFVUnVqSUVPaHFMUllGVWdrcXh2dlBqWC9zTjFM?=
- =?utf-8?B?NzBueGRnSEMxVzNGUU5FSlYvUWplTTlpWWJacGloRnhEbGdRU2pXRFJmUDhi?=
- =?utf-8?B?VmlvcGJQMk5pWWVDQkNRb0xsSVZBd3ZqZ3NyMHViREY3SHpDUGk1R0J4bGVM?=
- =?utf-8?B?WlowTEM4UzFyTlJuT2FUTkMxK0xUc3lrV0I2d2NHNlNiTGc1dkxWQ214VXRv?=
- =?utf-8?B?RUd6NU9kc2Zvd0FPSGJqWU9yb1RFcmU0SW15OWRsVDBjVHMzc2lxbjB2ZnN6?=
- =?utf-8?B?L09VcGdmb0ZRTXpLK1JTKzBud0M1SHF5cnQyQ0NaUVVueG9Nb1J6UW9GZDlz?=
- =?utf-8?B?ZEdlZFhEZlB3dXFGeGUvbFNEVmJvUmJ6NHp4d01EUFY2SENNUWZCemlrOU9x?=
- =?utf-8?B?VGZTeVZaUjQ1bzB5VUMzaUdyMERGV1pBSUx1aU4wTHdmcFhvY2NlcC9VNjJD?=
- =?utf-8?B?aDRzTSs5OGl0VEVEcDAvb2I1dGt2TG1ZRWpmNFhiSGh0NXlaYUc3Tkg3K2c3?=
- =?utf-8?B?RWFMYlM0aTdydVVtajUxYjdSYU1IWVN6QS9MVy94SFZ4Wm5VTVdESlA2Uzlr?=
- =?utf-8?B?TCtYcEYwb2NQTU9PQU5sZll1RWl5VWtQU091S3lGQ0NhbFZRaDFUb3kzdjRI?=
- =?utf-8?B?TkFoN3N6VzhSN1EzYnZuTEVCOTBlbW5WOXplR3ZWNWNLdWt5Rm1oV3c2c2ph?=
- =?utf-8?B?ZDBGQko1bXFjSTdTaFlwVE9LRFNpY0lOb2RkRUJXQUpyRU8yR1ZoT1ZsR3VR?=
- =?utf-8?B?MTFnNDRQeE52QVUvcG9BR25OeFVvTUtJQWFSbkZRWXdOMVlUWEVuWjZmelcw?=
- =?utf-8?B?bXo4V2EwUUlNRnJwd2dha0VMNHVjSlhCaGYrOUVJVGhybE95NVFXbGhGN1Vq?=
- =?utf-8?B?TjlpLy9ySVIzdVlPcWg3b2VvWWFxWWlxVWhJUDc3S3Vjc1JBZGxLbCt2eEJ1?=
- =?utf-8?B?dTBIMVB5WEZpY2tjNVBzVDQxTUZGOTJtRGllNWUvbWQxU2Z4enJUaVNXSVNK?=
- =?utf-8?B?czg0RjR4Z0x1TFNiU1k0TWVxRWM2OUlNTi9tMGpMR1lPcVRSN2FLS002NERx?=
- =?utf-8?B?V0xoa1l2Vk1qWXdhcWQ2RVBYMXhlU3pOQkJhbXhydVB4UUVhaldCVi90R09i?=
- =?utf-8?B?eGRNSHdPRnlzZjJDdmp5UDNMK1paeDN0MGlJWjA5UHY4dEEyaHhFMnQrdlhy?=
- =?utf-8?Q?VVHkXlKafi+6k=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZlQyd1JBS2dkSE96MGg4Q1VQRlRVUG5JbGtRY29zME4yNFYwVUtiVXdKeHli?=
+ =?utf-8?B?aHdDU0oxcnFSaDRQQTIycmFvS1RUV0RHTlhHblozVDM3NWY3M0pXOUs3d1ph?=
+ =?utf-8?B?eVcwR3JTblhicFA5WkZHdXlzdkR5NHBCVnV0Sk1TNjZLUkpjOVE3ekZIcERB?=
+ =?utf-8?B?S1FvUVdmblNPNDhXU2Qvc2xpcVp4TXVkY3J4RjZVb014SldZVVhUdzlwYVE1?=
+ =?utf-8?B?QVl4Y0M1TWF4TmtvZzdhMk5aSUQrUU9lOVREZG53eGhPOUZBY0hFbGhWb08w?=
+ =?utf-8?B?ZnNPQ3lnaGRZRE52Z2xWMGl4V1pia2hMdEhkYTZCcFFCU0gxdzY1OTZVYTNw?=
+ =?utf-8?B?aHQ5VmcreVJXYXkyQUFlVTIwVmJUY0lGOXp1R3Q2aUZsNisyVUh2cWg3eTJq?=
+ =?utf-8?B?NmU4Qmdwa1gxWGRSTDNEZEVJczIyWStGbzYvaHYxUzcvMnFvcW1lbSs0cml1?=
+ =?utf-8?B?aE00ekpSalJMTnpUVWtHSXNZR0NidkhkTkNoUlJIeGhaeWdYQ3RXQ3hYSG9K?=
+ =?utf-8?B?a0Y0bFRHc2g5V0c5VTFUUks4SWNBYjhibGdSM0lDNXdZWUVsNDhRSlpZSFpH?=
+ =?utf-8?B?dlBWMmlFS3d2QUpiN1RDZ1RzTEtrNktuclZ0d29wRWlDbVY3b1hyOVRRbU5p?=
+ =?utf-8?B?RXczdkRnanBkYTFYbE1lcUxHNmRmM2R6TW5PVVhBVVRTRkFZaDVPUEhMRytZ?=
+ =?utf-8?B?T3dWbUNlak1zY0JSRy9lWVZUZGRFU2c2MVVXdCt5cGZNcXYwWHcyQjFTWjli?=
+ =?utf-8?B?V3ZyUFMyNFd4QXE3cW5HQUphZ084OGlpbTBBcmIxdmVNbzVGT0tIVkpuSVgv?=
+ =?utf-8?B?RHlSMjBDQzdoTk9ZWWdGSWpBZG9RcmZEM05VTVRxcHRyTE0rdXovK29BWDRX?=
+ =?utf-8?B?VmZ3b2V0akpHNHN6Tkp3TDhXaHlYM0kvN0l1cXE2UVZjWDVVcTlvVzJ0ZUtU?=
+ =?utf-8?B?bVBoZS91Mk5WcEZqamtWZ3R4MGtJbWFBcWhVQUI0RGRUYVA4L242QXcxUFVE?=
+ =?utf-8?B?SlJ0Y0NYVWpxK2RkbkhOUWkyM1FWb2NtbjZOaUtqZ1d5ZFVFdVRiQ2JVMTJB?=
+ =?utf-8?B?djVUUVpxK2hrK011bktLZVlkUlgrUSt5a3h0VW1qOUVka1B5TS96TUUrOGVM?=
+ =?utf-8?B?MHp0Vm9XenhKOVFCcGxDeGl0VUJWRDVxWHVwUXdUOGNualR2M1ltczJRdDBh?=
+ =?utf-8?B?Y1lKSzN4TElsQzlGYmcwZEdlMGdsREFING1abWpBVDRPS2R6ODdaV0JVNzZX?=
+ =?utf-8?B?Zm9MQWJnUlJGdDVML1RSNEdTUXkreGh3YWxlRTFvdHZLLzJ3QjNmV2xZOG95?=
+ =?utf-8?Q?jSAJUfJ3txoyc=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3a1328a9-c7cd-4bab-0224-08d8bcb8e5ed
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8a6b421c-811f-41fd-cc1e-08d8bcb8e7af
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2744.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:19.2363 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:22.1976 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z0yhGfHcf4FJHswzL2uDd5aIOWM95EjfiHNatp/r10fhqCwxlC8OQ1mb1MCW7e93JvaAv4a8vipm4c/9JcCkPQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: k3JfOy0i96sDNL6j/MVSW2lHZ7bWcnXehrqGJJy2N3jSqMgSAuEfw6xFEVd4wJjNkEpbGx8uOTTXif5gjbEaGg==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3351
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- malwarescore=0
- phishscore=0 mlxscore=0 adultscore=0 spamscore=0 bulkscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101190113
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ mlxlogscore=999 adultscore=0
+ malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101190113
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
@@ -183,36 +182,30 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SyncSysMemMsg message format is defined. It is used to send
-file descriptors of the RAM regions to remote device.
-RAM on the remote device is configured with a set of file descriptors.
-Old RAM regions are deleted and new regions, each with an fd, is
-added to the RAM.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
+Defines a PCI Device proxy object as a child of TYPE_PCI_DEVICE.
+
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/remote/memory.h      | 19 ++++++++++++
- include/hw/remote/mpqemu-link.h | 10 +++++++
- hw/remote/memory.c              | 65 +++++++++++++++++++++++++++++++++++++++++
- hw/remote/mpqemu-link.c         | 11 +++++++
- MAINTAINERS                     |  2 ++
- hw/remote/meson.build           |  2 ++
- 6 files changed, 109 insertions(+)
- create mode 100644 include/hw/remote/memory.h
- create mode 100644 hw/remote/memory.c
+ include/hw/remote/proxy.h | 33 ++++++++++++++++
+ hw/remote/proxy.c         | 99 +++++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS               |  2 +
+ hw/remote/meson.build     |  1 +
+ 4 files changed, 135 insertions(+)
+ create mode 100644 include/hw/remote/proxy.h
+ create mode 100644 hw/remote/proxy.c
 
-diff --git a/include/hw/remote/memory.h b/include/hw/remote/memory.h
+diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
 new file mode 100644
-index 0000000..bc2e309
+index 0000000..faa9c4d
 --- /dev/null
-+++ b/include/hw/remote/memory.h
-@@ -0,0 +1,19 @@
++++ b/include/hw/remote/proxy.h
+@@ -0,0 +1,33 @@
 +/*
-+ * Memory manager for remote device
-+ *
 + * Copyright © 2018, 2021 Oracle and/or its affiliates.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
@@ -220,68 +213,38 @@ index 0000000..bc2e309
 + *
 + */
 +
-+#ifndef REMOTE_MEMORY_H
-+#define REMOTE_MEMORY_H
++#ifndef PROXY_H
++#define PROXY_H
 +
-+#include "exec/hwaddr.h"
-+#include "hw/remote/mpqemu-link.h"
++#include "hw/pci/pci.h"
++#include "io/channel.h"
 +
-+void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp);
++#define TYPE_PCI_PROXY_DEV "x-pci-proxy-dev"
++OBJECT_DECLARE_SIMPLE_TYPE(PCIProxyDev, PCI_PROXY_DEV)
 +
-+#endif
-diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
-index cac699c..6ee5bc5 100644
---- a/include/hw/remote/mpqemu-link.h
-+++ b/include/hw/remote/mpqemu-link.h
-@@ -14,6 +14,7 @@
- #include "qom/object.h"
- #include "qemu/thread.h"
- #include "io/channel.h"
-+#include "exec/hwaddr.h"
- 
- #define REMOTE_MAX_FDS 8
- 
-@@ -30,9 +31,16 @@
-  *
-  */
- typedef enum {
-+    MPQEMU_CMD_SYNC_SYSMEM,
-     MPQEMU_CMD_MAX,
- } MPQemuCmd;
- 
-+typedef struct {
-+    hwaddr gpas[REMOTE_MAX_FDS];
-+    uint64_t sizes[REMOTE_MAX_FDS];
-+    off_t offsets[REMOTE_MAX_FDS];
-+} SyncSysmemMsg;
++struct PCIProxyDev {
++    PCIDevice parent_dev;
++    char *fd;
 +
- /**
-  * MPQemuMsg:
-  * @cmd: The remote command
-@@ -43,12 +51,14 @@ typedef enum {
-  * MPQemuMsg Format of the message sent to the remote device from QEMU.
-  *
-  */
++    /*
++     * Mutex used to protect the QIOChannel fd from
++     * the concurrent access by the VCPUs since proxy
++     * blocks while awaiting for the replies from the
++     * process remote.
++     */
++    QemuMutex io_mutex;
++    QIOChannel *ioc;
++    Error *migration_blocker;
++};
 +
- typedef struct {
-     int cmd;
-     size_t size;
- 
-     union {
-         uint64_t u64;
-+        SyncSysmemMsg sync_sysmem;
-     } data;
- 
-     int fds[REMOTE_MAX_FDS];
-diff --git a/hw/remote/memory.c b/hw/remote/memory.c
++#endif /* PROXY_H */
+diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
 new file mode 100644
-index 0000000..32085b1
+index 0000000..cd5b071
 --- /dev/null
-+++ b/hw/remote/memory.c
-@@ -0,0 +1,65 @@
++++ b/hw/remote/proxy.c
+@@ -0,0 +1,99 @@
 +/*
-+ * Memory manager for remote device
-+ *
 + * Copyright © 2018, 2021 Oracle and/or its affiliates.
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
@@ -292,103 +255,119 @@ index 0000000..32085b1
 +#include "qemu/osdep.h"
 +#include "qemu-common.h"
 +
-+#include "hw/remote/memory.h"
-+#include "exec/address-spaces.h"
-+#include "exec/ram_addr.h"
++#include "hw/remote/proxy.h"
++#include "hw/pci/pci.h"
 +#include "qapi/error.h"
++#include "io/channel-util.h"
++#include "hw/qdev-properties.h"
++#include "monitor/monitor.h"
++#include "migration/blocker.h"
++#include "qemu/sockets.h"
 +
-+static void remote_sysmem_reset(void)
-+{
-+    MemoryRegion *sysmem, *subregion, *next;
-+
-+    sysmem = get_system_memory();
-+
-+    QTAILQ_FOREACH_SAFE(subregion, &sysmem->subregions, subregions_link, next) {
-+        if (subregion->ram) {
-+            memory_region_del_subregion(sysmem, subregion);
-+            object_unparent(OBJECT(subregion));
-+        }
-+    }
-+}
-+
-+void remote_sysmem_reconfig(MPQemuMsg *msg, Error **errp)
++static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
 +{
 +    ERRP_GUARD();
-+    SyncSysmemMsg *sysmem_info = &msg->data.sync_sysmem;
-+    MemoryRegion *sysmem, *subregion;
-+    static unsigned int suffix;
-+    int region;
++    PCIProxyDev *dev = PCI_PROXY_DEV(device);
++    int fd;
 +
-+    sysmem = get_system_memory();
-+
-+    remote_sysmem_reset();
-+
-+    for (region = 0; region < msg->num_fds; region++) {
-+        g_autofree char *name;
-+        subregion = g_new(MemoryRegion, 1);
-+        name = g_strdup_printf("remote-mem-%u", suffix++);
-+        memory_region_init_ram_from_fd(subregion, NULL,
-+                                       name, sysmem_info->sizes[region],
-+                                       true, msg->fds[region],
-+                                       sysmem_info->offsets[region],
-+                                       errp);
-+
-+        if (*errp) {
-+            g_free(subregion);
-+            remote_sysmem_reset();
-+            return;
-+        }
-+
-+        memory_region_add_subregion(sysmem, sysmem_info->gpas[region],
-+                                    subregion);
-+
++    if (!dev->fd) {
++        error_setg(errp, "fd parameter not specified for %s",
++                   DEVICE(device)->id);
++        return;
 +    }
++
++    fd = monitor_fd_param(monitor_cur(), dev->fd, errp);
++    if (fd == -1) {
++        error_prepend(errp, "proxy: unable to parse fd %s: ", dev->fd);
++        return;
++    }
++
++    if (!fd_is_socket(fd)) {
++        error_setg(errp, "proxy: fd %d is not a socket", fd);
++        close(fd);
++        return;
++    }
++
++    dev->ioc = qio_channel_new_fd(fd, errp);
++
++    error_setg(&dev->migration_blocker, "%s does not support migration",
++               TYPE_PCI_PROXY_DEV);
++    migrate_add_blocker(dev->migration_blocker, errp);
++
++    qemu_mutex_init(&dev->io_mutex);
++    qio_channel_set_blocking(dev->ioc, true, NULL);
 +}
-diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
-index b3d380e..4b25649 100644
---- a/hw/remote/mpqemu-link.c
-+++ b/hw/remote/mpqemu-link.c
-@@ -201,5 +201,16 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
-         }
-     }
- 
-+     /* Verify message specific fields. */
-+    switch (msg->cmd) {
-+    case MPQEMU_CMD_SYNC_SYSMEM:
-+        if (msg->num_fds == 0 || msg->size != sizeof(SyncSysmemMsg)) {
-+            return false;
-+        }
-+        break;
-+    default:
-+        break;
++
++static void pci_proxy_dev_exit(PCIDevice *pdev)
++{
++    PCIProxyDev *dev = PCI_PROXY_DEV(pdev);
++
++    if (dev->ioc) {
++        qio_channel_close(dev->ioc, NULL);
 +    }
 +
-     return true;
- }
++    migrate_del_blocker(dev->migration_blocker);
++
++    error_free(dev->migration_blocker);
++}
++
++static Property proxy_properties[] = {
++    DEFINE_PROP_STRING("fd", PCIProxyDev, fd),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
++static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
++
++    k->realize = pci_proxy_dev_realize;
++    k->exit = pci_proxy_dev_exit;
++    device_class_set_props(dc, proxy_properties);
++}
++
++static const TypeInfo pci_proxy_dev_type_info = {
++    .name          = TYPE_PCI_PROXY_DEV,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(PCIProxyDev),
++    .class_init    = pci_proxy_dev_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { },
++    },
++};
++
++static void pci_proxy_dev_register_types(void)
++{
++    type_register_static(&pci_proxy_dev_type_info);
++}
++
++type_init(pci_proxy_dev_register_types)
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 6e60215..27216b3 100644
+index 27216b3..ee04d82 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3197,6 +3197,8 @@ F: hw/remote/mpqemu-link.c
- F: include/hw/remote/mpqemu-link.h
- F: hw/remote/message.c
+@@ -3199,6 +3199,8 @@ F: hw/remote/message.c
  F: hw/remote/remote-obj.c
-+F: include/hw/remote/memory.h
-+F: hw/remote/memory.c
+ F: include/hw/remote/memory.h
+ F: hw/remote/memory.c
++F: hw/remote/proxy.c
++F: include/hw/remote/proxy.h
  
  Build and test automation
  -------------------------
 diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index 71d0a56..64da16c 100644
+index 64da16c..569cd20 100644
 --- a/hw/remote/meson.build
 +++ b/hw/remote/meson.build
-@@ -5,4 +5,6 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
+@@ -4,6 +4,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
  remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
++remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
  
-+specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
-+
- softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
+ specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
+ 
 -- 
 1.8.3.1
 
