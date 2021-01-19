@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8126A2FB37E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 08:52:39 +0100 (CET)
-Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE0F2FB3A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:03:17 +0100 (CET)
+Received: from localhost ([::1]:34380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1loc-00030R-5H
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 02:52:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
+	id 1l1lyu-0005il-GM
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:03:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56056)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1lnl-0002WI-CG; Tue, 19 Jan 2021 02:51:45 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35888)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1lnj-0006lI-Dm; Tue, 19 Jan 2021 02:51:45 -0500
-Received: by mail-pl1-x630.google.com with SMTP id e9so5864120plh.3;
- Mon, 18 Jan 2021 23:51:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=v3GL1EFG5mi9v+ngTRYYO3jsL5PGrda9sMBvl7gwSxs=;
- b=GHNXZFIZ2pjTHYg11onrJ++6pBw5K2hKS3UihtzKoFAXlrs1SVmvE7kHwjTbGEP1ZN
- qjykQwI1IJJJ31zU0FsMb3yaVaFTOr2e1al74TqYgeUEcCl33Dua/VYk3qD+IZk/1FY9
- 8lAOt+dhDss6FIXgl4idxvz8mI9wee5Qxi99H3pZ+LPJxS4FSNt1cj35ZOepX2BwiEw/
- 60FlXfWl/M0OtSGKPvk+H5giTLUBp8VffLTUIlGgpYQzU0U99ss6YRfoQgXUA3T8DvRO
- EKTRo4quAWXYIq3UMAuuFMwLEKZEd4/yvRKP2Nq6JpGr9loQ39ep3y0oX3Zz5k+zbRXi
- kCCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=v3GL1EFG5mi9v+ngTRYYO3jsL5PGrda9sMBvl7gwSxs=;
- b=iujVutAvhBqZ/ZA0ZP9wYLNaPtqHCVAonkNO9OzyzMSjyi3n30/2JORNS2inHXwupM
- E+mpiCTnPfScMBEQt19lFbwesYXS4EUYS+PPV/se85w85RYFcf9TXBmzFhiGL9w/NfgA
- ceGsu/zl8aDzpvBLFu3QyqEx5F5/oP1tmRqPoYVlXIYHVMcnGDwZ9rB8wSC0M7NzP2VI
- Tu0g+LpLStOnhzjvjwmjexaNFZr+SfS57m+frgoDOYCevfW45sltF5TIA890pvNBQFNQ
- DYeM/1wCtihpL35OI+yTglkEpJTzj3A2h8rvZeQSvBRiqiO+mZxa3meaFlwaZCioFEZh
- Onrw==
-X-Gm-Message-State: AOAM533O3nkCNpJl7Iz4dPu6rz9PzfqfCs2m1plfBcC+XRVgW+xz4fI4
- 7CpRrcnd18ZdWzf8W31vUqk=
-X-Google-Smtp-Source: ABdhPJye4apcqJzsdgIONc4usJHPjzUFn4gOQT1EqSUuG+Mqj4p9TYcGnfElxpUJjje3styhUzvBNA==
-X-Received: by 2002:a17:90a:8508:: with SMTP id
- l8mr3754797pjn.131.1611042701467; 
- Mon, 18 Jan 2021 23:51:41 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id h11sm1891156pjg.46.2021.01.18.23.51.40
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Mon, 18 Jan 2021 23:51:40 -0800 (PST)
-Date: Tue, 19 Jan 2021 16:51:38 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH V2 00/11] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <20210119075138.GG5939@localhost.localdomain>
-References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
- <YAX6RcpFiX9xthQI@apples.localdomain>
- <20210119032126.GD5939@localhost.localdomain>
- <YAZ2VOn3Dn26YE6R@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1lxU-00059w-A3
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:01:48 -0500
+Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:50996)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1lxR-00036Z-BD
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:01:48 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.25])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 7DCBD25B3CB;
+ Tue, 19 Jan 2021 09:01:40 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 19 Jan
+ 2021 09:01:39 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R0031ad2b040-dd18-4657-8e34-3460c003b26b,
+ 9B6877A1159CEF26E29E5BE572491BB707B5295E) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 82.253.208.248
+Date: Tue, 19 Jan 2021 09:01:38 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Bharata B Rao <bharata@linux.ibm.com>
+Subject: Re: [RFC PATCH v0 1/1] target/ppc: Support for H_RPT_INVALIDATE hcall
+Message-ID: <20210119090138.05ebf18a@bahia.lan>
+In-Reply-To: <20210119044455.GA2587010@in.ibm.com>
+References: <20210106085910.2200795-1-bharata@linux.ibm.com>
+ <20210113172256.0d32dc5d@bahia.lan>
+ <20210115083128.GA2457611@in.ibm.com>
+ <20210115183005.2337dae4@bahia.lan>
+ <20210119044455.GA2587010@in.ibm.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YAZ2VOn3Dn26YE6R@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: b4c1304c-c3e8-483f-88f1-f44a94c413e6
+X-Ovh-Tracer-Id: 10512527433878968739
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrtdelgdduudegucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeekgeffheegjeegvdejueevleeiffekheeghfeijeetvedukeehudetlefhteefgfenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegurghvihgusehgihgsshhonhdrughrohhpsggvrghrrdhiugdrrghu
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=groug@kaod.org;
+ helo=8.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,159 +71,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-19 07:04:04, Klaus Jensen wrote:
-> On Jan 19 12:21, Minwoo Im wrote:
-> > On 21-01-18 22:14:45, Klaus Jensen wrote:
-> > > On Jan 17 23:53, Minwoo Im wrote:
-> > > > Hello,
-> > > > 
-> > > > This patch series introduces NVMe subsystem device to support multi-path
-> > > > I/O in NVMe device model.  Two use-cases are supported along with this
-> > > > patch: Multi-controller, Namespace Sharing.
-> > > > 
-> > > > V1 RFC has been discussed with Klaus and Keith, I really appreciate them
-> > > > for this patch series to have proper direction [1].
-> > > > 
-> > > > This patch series contains few start-up refactoring pathces from the
-> > > > first to fifth patches to make nvme-ns device not to rely on the nvme
-> > > > controller always.  Because nvme-ns shall be able to be mapped to the
-> > > > subsystem level, not a single controller level so that it should provide
-> > > > generic initialization code: nvme_ns_setup() with NvmeCtrl.  To do that,
-> > > > the first five patches are to remove the NvmeCtrl * instance argument
-> > > > from the nvme_ns_setup().  I'd be happy if they are picked!
-> > > > 
-> > > > For controller and namespace devices, 'subsys' property has been
-> > > > introduced to map them to a subsystem.  If multi-controller needed, we
-> > > > can specify 'subsys' to controllers the same.
-> > > > 
-> > > > For namespace deivice, if 'subsys' is not given just like it was, it
-> > > > will have to be provided with 'bus' parameter to specify a nvme
-> > > > controller device to attach, it means, they are mutual-exlusive.  To
-> > > > share a namespace between or among controllers, then nvme-ns should have
-> > > > 'subsys' property to a single nvme subsystem instance.  To make a
-> > > > namespace private one, then we need to specify 'bus' property rather
-> > > > than the 'subsys'.
-> > > > 
-> > > > Of course, this series does not require any updates for the run command
-> > > > for the previos users.
-> > > > 
-> > > > Plase refer the following example with nvme-cli output:
-> > > > 
-> > > > QEMU Run:
-> > > >   -device nvme-subsys,id=subsys0 \
-> > > >   -device nvme,serial=foo,id=nvme0,subsys=subsys0 \
-> > > >   -device nvme,serial=bar,id=nvme1,subsys=subsys0 \
-> > > >   -device nvme,serial=baz,id=nvme2,subsys=subsys0 \
-> > > >   -device nvme-ns,id=ns1,drive=drv10,nsid=1,subsys=subsys0 \
-> > > >   -device nvme-ns,id=ns2,drive=drv11,nsid=2,bus=nvme2 \
-> > > >   \
-> > > >   -device nvme,serial=qux,id=nvme3 \
-> > > >   -device nvme-ns,id=ns3,drive=drv12,nsid=3,bus=nvme3
-> > > > 
-> > > > nvme-cli:
-> > > >   root@vm:~/work# nvme list -v
-> > > >   NVM Express Subsystems
-> > > > 
-> > > >   Subsystem        Subsystem-NQN                                                                                    Controllers
-> > > >   ---------------- ------------------------------------------------------------------------------------------------ ----------------
-> > > >   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme0, nvme1, nvme2
-> > > >   nvme-subsys3     nqn.2019-08.org.qemu:qux                                                                         nvme3
-> > > > 
-> > > >   NVM Express Controllers
-> > > > 
-> > > >   Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces
-> > > >   -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
-> > > >   nvme0    foo                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys1 nvme1n1
-> > > >   nvme1    bar                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:07.0   nvme-subsys1 nvme1n1
-> > > >   nvme2    baz                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:08.0   nvme-subsys1 nvme1n1, nvme1n2
-> > > >   nvme3    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:09.0   nvme-subsys3
-> > > > 
-> > > >   NVM Express Namespaces
-> > > > 
-> > > >   Device       NSID     Usage                      Format           Controllers
-> > > >   ------------ -------- -------------------------- ---------------- ----------------
-> > > >   nvme1n1      1        134.22  MB / 134.22  MB    512   B +  0 B   nvme0, nvme1, nvme2
-> > > >   nvme1n2      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme2
-> > > >   nvme3n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
-> > > > 
-> > > > Summary:
-> > > >   - Refactored nvme-ns device not to rely on controller during the
-> > > >     setup.  [1/11 - 5/11]
-> > > >   - Introduced a nvme-subsys device model. [6/11]
-> > > >   - Create subsystem NQN based on subsystem. [7/11]
-> > > >   - Introduced multi-controller model. [8/11 - 9/11]
-> > > >   - Updated namespace sharing scheme to be based on nvme-subsys
-> > > >     hierarchy. [10/11 - 11/11]
-> > > > 
-> > > > Since RFC V1:
-> > > >   - Updated namespace sharing scheme to be based on nvme-subsys
-> > > >     hierarchy.
-> > > > 
-> > > 
-> > > Great stuff Minwoo. Thanks!
-> > > 
-> > > I'll pick up [01-05/11] directly since they are pretty trivial.
-> > 
-> > Thanks! will prepare the next series based on there.
-> > 
-> > > The subsystem model looks pretty much like it should, I don't have a lot
-> > > of comments.
-> > > 
-> > > One thing that I considered, is if we should reverse the "registration"
-> > > and think about it as namespace attachment. The spec is about
-> > > controllers attaching to namespaces, not the other way around.
-> > > Basically, let the namespaces be configured first and register on the
-> > > subsystem (accumulating in a "namespaces" array), then have the
-> > > controllers register with the subsystem and attach to all "non-detached"
-> > > namespaces. This allows detached namespaces to "linger" in the subsystem
-> > > to be attached later on. If there are any private namespaces (like ns2
-> > > in your example above), it will be defined after the controller with the
-> > > bus=ctrlX parameter like normal.
-> > 
-> > Revisited spec. again.  5.19 says "The Namespace Attachment command is
-> > used to attach and detach controllers from a namespace.".  and 5.20 says
-> > "Host software uses the Namespace Attachment command to attach or detach
-> > a namespace to or from a controller. The create operation does not attach
-> > the namespace to a controller."
-> > 
-> 
-> Yeah ok, that is pretty inconsistent.
-> 
-> > 	-device nvme-subsys,id=subsys0
-> > 	-device nvme-ns,id=ns1,drive=<drv>,nsid=1,subsys=subsys0
-> > 	-device nvme,id=nvme0,serial=foo,subsys=subsys0
-> > 
-> > In this case, the 'nvme0' controller will have no namespace at the
-> > initial time of the boot-up.  'nvme0' can be attached to the namespace
-> > 'ns1' with namespace attach command.  'nvme-ns' device is same as the
-> > 'create-ns' operation in a NVMe subsystem.  This makes sense as spec
-> > 5.19 says "from a namespace".
-> > 
-> > 	-device nvme,id=nvme1,serial=bar,subsys=subsys0b
-> > 	-device nvme-ns,id=ns2,drive=<drv>,nsid=1,bus=nvme1
-> > 
-> > This case if for private namespace directly attached to controller.
-> > This makes sense as spec 5.20 says "to or from a controller".
-> > 
-> > All looks fine to me, but one thing I an wondering is that how can we
-> > attach a controller to shared namespace(s) at the initial time?
-> > 
-> 
-> Ok, nevermind. I think we can get 'detached' functionality in either
-> case, so no need to increase complexity by requiring a change of define
-> order.
-> 
-> Supporting CNS 0x12 and 0x13 (Identify, Controller List), we need the
-> controllers registered and stored in the subsystem anyway.
-> 
-> So, can we add a 'namespaces' array on the subsystem to keep a list of
-> namespaces and add a 'detached' parameter on the nvme-ns device? If that
-> parameter is given, the device is not registered with the controllers.
+On Tue, 19 Jan 2021 10:14:55 +0530
+Bharata B Rao <bharata@linux.ibm.com> wrote:
 
-Sure, will do that.  Plese let me have V3 series.  Thanks!
+> On Fri, Jan 15, 2021 at 06:30:05PM +0100, Greg Kurz wrote:
+> > On Fri, 15 Jan 2021 14:01:28 +0530
+> > Bharata B Rao <bharata@linux.ibm.com> wrote:
+> > 
+> > > On Wed, Jan 13, 2021 at 05:22:56PM +0100, Greg Kurz wrote:
+> > > > Hi Bharata,
+> > > > 
+> > > > On Wed,  6 Jan 2021 14:29:10 +0530
+> > > > Bharata B Rao <bharata@linux.ibm.com> wrote:
+> > > > 
+> > > > > If KVM_CAP_RPT_INVALIDATE KVM capability is enabled, then
+> > > > > 
+> > > > > - indicate the availability of H_RPT_INVALIDATE hcall to the guest via
+> > > > >   ibm,hypertas-functions property.
+> > > > > - Enable the hcall
+> > > > > 
+> > > > > Both the above are done only if the new sPAPR machine capability
+> > > > > cap-rpt-invalidate is set.
+> > > > > 
+> > > > > Note: The KVM implementation of the hcall has been posted for upstream
+> > > > > review here:
+> > > > > https://lore.kernel.org/linuxppc-dev/20210105090557.2150104-1-bharata@linux.ibm.com/T/#t
+> > > > > 
+> > > > > Update to linux-headers/linux/kvm.h here is temporary, will be
+> > > > > done via header updates once the kernel change is accepted upstream.
+> > > > > 
+> > > > > Signed-off-by: Bharata B Rao <bharata@linux.ibm.com>
+> > > > > ---
+> > > > 
+> > > > Patch looks mostly fine. A few remarks below.
+> > > > 
+> > > > >  hw/ppc/spapr.c            |  7 ++++++
+> > > > >  hw/ppc/spapr_caps.c       | 49 +++++++++++++++++++++++++++++++++++++++
+> > > > >  include/hw/ppc/spapr.h    |  8 +++++--
+> > > > >  linux-headers/linux/kvm.h |  1 +
+> > > > >  target/ppc/kvm.c          | 12 ++++++++++
+> > > > >  target/ppc/kvm_ppc.h      | 11 +++++++++
+> > > > >  6 files changed, 86 insertions(+), 2 deletions(-)
+> > > > > 
+> > > > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > > > > index 489cefcb81..0228083800 100644
+> > > > > --- a/hw/ppc/spapr.c
+> > > > > +++ b/hw/ppc/spapr.c
+> > > > > @@ -890,6 +890,11 @@ static void spapr_dt_rtas(SpaprMachineState *spapr, void *fdt)
+> > > > >      add_str(hypertas, "hcall-copy");
+> > > > >      add_str(hypertas, "hcall-debug");
+> > > > >      add_str(hypertas, "hcall-vphn");
+> > > > > +    if (kvm_enabled() &&
+> > > > 
+> > > > You shouldn't check KVM here. The capability is enough to decide if we
+> > > > should expose "hcall-rpt-invalidate" or not. FWIW we won't even reach
+> > > > this code when running with anything but KVM.
+> > > 
+> > > Correct, the capability itself can be only for KVM case.
+> > > 
+> > > > 
+> > > > > +        (spapr_get_cap(spapr, SPAPR_CAP_RPT_INVALIDATE) == SPAPR_CAP_ON)) {
+> > > > > +        add_str(hypertas, "hcall-rpt-invalidate");
+> > > > > +    }
+> > > > > +
+> > > > >      add_str(qemu_hypertas, "hcall-memop1");
+> > > > >  
+> > > > >      if (!kvm_enabled() || kvmppc_spapr_use_multitce()) {
+> > > > > @@ -2021,6 +2026,7 @@ static const VMStateDescription vmstate_spapr = {
+> > > > >          &vmstate_spapr_cap_ccf_assist,
+> > > > >          &vmstate_spapr_cap_fwnmi,
+> > > > >          &vmstate_spapr_fwnmi,
+> > > > > +        &vmstate_spapr_cap_rpt_invalidate,
+> > > > >          NULL
+> > > > >      }
+> > > > >  };
+> > > > > @@ -4478,6 +4484,7 @@ static void spapr_machine_class_init(ObjectClass *oc, void *data)
+> > > > >      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] = SPAPR_CAP_ON;
+> > > > >      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] = SPAPR_CAP_ON;
+> > > > >      smc->default_caps.caps[SPAPR_CAP_FWNMI] = SPAPR_CAP_ON;
+> > > > > +    smc->default_caps.caps[SPAPR_CAP_RPT_INVALIDATE] = SPAPR_CAP_OFF;
+> > > > 
+> > > > Any reason for not enabling this for the default machine type and
+> > > > disabling it for existing machine types only ?
+> > > 
+> > > If this capability is enabled, then
+> > > 
+> > > 1. First level guest (L1) can off-load the TLB invalidations to the
+> > > new hcall if the platform has disabled LPCR[GTSE].
+> > > 
+> > > 2. Nested guest (L2) will switch to this new hcall rather than using
+> > > the old H_TLB_INVALIDATE hcall.
+> > > 
+> > > Case 2 is optional and case 1 makes sense only if LPCR[GTSE]=off.
+> > 
+> > I don't think this is relevant, as the importance of each case can change,
+> > e.g. nested is gaining momentum.
+> > 
+> > > Hence I thought keeping it off by default and expecting the
+> > > user to turn it on only if required would be correct.
+> > > 
+> > 
+> > If the feature is an improvement, even for what is considered a corner
+> > case now, and it doesn't do harm to setups that won't use it, then it
+> > should be enabled IMHO.
+> > 
+> > > Please note that turning this capability ON will result in the
+> > > new hcall being exposed to the guest. I hope this is the right
+> > > usage of spapr-caps?
+> > > 
+> > 
+> > That's perfectly fine and this is why we should set it to ON
+> > for the default machine type only.
+> 
+> The property can be turned ON only when the hypervisor supports
+> the hcall. So if it set to ON for default machine type, then
+> it may fail if the host doesn't have this hcall. Hence I thought
+> it should be OFF by default and turning ON should be left to the
+> user.
+> 
+
+Ok. This can be changed later when H_RPT_INVALIDATE support is
+more widely available. BTW, if users are expected to manually
+set this, I think you should add some documentation so that
+they know how/when to use it.
+
+> Regards,
+> Bharata.
+
 
