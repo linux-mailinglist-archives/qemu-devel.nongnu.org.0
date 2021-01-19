@@ -2,84 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A863B2FB6C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:14:30 +0100 (CET)
-Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72F0F2FB693
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:06:21 +0100 (CET)
+Received: from localhost ([::1]:37848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rm9-0007Y2-Ik
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:14:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59682)
+	id 1l1reG-0003UL-8X
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:06:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60352)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1rTZ-0002gC-2r; Tue, 19 Jan 2021 08:55:18 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:53357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1rTP-0005rr-MI; Tue, 19 Jan 2021 08:55:16 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id E5FE05C0248;
- Tue, 19 Jan 2021 08:55:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 19 Jan 2021 08:55:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=RVx2IZTVsCD2+
- w7Ha7I9nGi/JJdqmChp6GbNEOlZTOc=; b=3CnvDHsSE7HM0GD3Ag8/QI1AG+DAj
- omipaJeWIpbQOKH5zZqy3u7+cULZikP+ahMQb0z+/jYQ77ZdKw03KJCmNAaW/hjV
- OzT4GFjdcGNOxVA3uChueW++Y823jlKWMOA00+V98HWtcQE+Jfb/Y7GjfQNwQLRN
- JkOlpvoJFg0gkomwNqIEXxBnTD7M//sVi6n9+g1+rkGzgvew6kvcm+r88Bpn9ipW
- CFtYkobp/Akq+LQAQLMjHHNN4jY6UjcM/8XiQXUMJzk3KjOO4akVG0zmvgIWdA5v
- 6z940yGquAh9o78/TMKGkhvG7PMKDIaUQHruGpcaG5VDSQDlOuns6UOgw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=RVx2IZTVsCD2+w7Ha7I9nGi/JJdqmChp6GbNEOlZTOc=; b=PpqmmMS2
- zL6+B4rGhsqpHPXE/S7hKNTuQuhgrRnNgAAOkDGAlmVZMuyMs4tS2cpRRsJ8QGub
- AiWq6FtOJMylPQKkNufavSRChj7ZYZGaFB6SelPcmabR9rKe0zxCXYTzVOrMjwiD
- AtOFKTPHYZGOX+4ySIFjHrOhfdkQfv3XhsKd0dL3widt2k9vxtKIoL9VYlgM25l+
- LR7sIfrQT9oTLQZpOT+3MXU1cGuxXp2QvmIoG6KzFUwyF5kcJiXdyWdiFixmo3Ju
- uxSRIs5kRFE3dlsVUBpeT4tuWHxUqylioJu4frFwA5fRhJzQbU2t9w9uQP9re8oY
- sZSlpYyMauc1vQ==
-X-ME-Sender: <xms:uuQGYIPnfE1gXQnk-ByfwSKuoX9jy9h4AyLcc0seZLCG_FTjnqs5NQ>
- <xme:uuQGYKaSiIuV0rgC1u3QHFOmSJxnx7QmEtIfunw6jYX1Y3J3fMvu0m6QrmYG7I9xj
- sAoPYnhE5f015M-Ct4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgdehkecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:uuQGYCyo2slgj6Kq69y7eRmE8Vjcr018Q8_-YACN4tk_SE3hQ-O80g>
- <xmx:uuQGYFIJ7rCFA0eeGgk1eqOXOsNWinl6znyhEhnl9fCrx6EKurYT5A>
- <xmx:uuQGYMo2ZIg9CmULaBbsWvu_7PCezB2h-uV5ubcccpKfpzrNh1GmFw>
- <xmx:uuQGYM5kVrNDjRFVXzQ_MeZgbGWPBY6TTvTGMOLUZMBa6B83U3Hr8g>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CB01C240057;
- Tue, 19 Jan 2021 08:55:05 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] hw/block/nvme: refactor the logic for zone write checks
-Date: Tue, 19 Jan 2021 14:55:00 +0100
-Message-Id: <20210119135500.265403-3-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210119135500.265403-1-its@irrelevant.dk>
-References: <20210119135500.265403-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1rVc-0005Q3-4U
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:57:24 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:34510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1rVa-0006JB-In
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:57:23 -0500
+Received: by mail-ed1-x533.google.com with SMTP id d22so10604440edy.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:57:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ZbbtS1Y/3BvfIT2cNgTPtmCIDC2L9bBxQocYg5yGi7Y=;
+ b=F4WAJCJEndFV/5zcnK7O/K4+NTciSjo+clPgUsTbIyu8AFri909lP1vJ1N4P74dn/5
+ Z2GWPGuxaBhLOiOdwbsayce95RYzApq/x6Wf5JK8WIP1IWWshas/otR3yZ/QguWWINal
+ Nf5Cmj52nR//1RsSBszc7lO6a/ITwfFzDyZkj8SNzlKtolEP+fo3OArthFObAomhrlVg
+ IdQQxpslcUq4myRZYxSS/oIuxS2LJ309ZFbhZI353aukfuO30VzUAJ3CXQBugzMQkqKw
+ YnoEThURuXxADJldrLM2rWTWZanNswTLu1TBPLtvXaMDHGsIZD9bMrk6D/yiQdjjWy0p
+ xx4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ZbbtS1Y/3BvfIT2cNgTPtmCIDC2L9bBxQocYg5yGi7Y=;
+ b=TcWly03LlejzqsrDSwhSfNnWdWqGIowxu9a9DHDVRWcGWGDic4li147f8SiUkso5m7
+ GAZAgmasE10OhJwl6Cl+Bng30LwEAgwhgm+BWDi3VyFjqXB756rzKf7AjQQ+K1RG56gs
+ psjaEOiOnqzAPXup34IlQ+oyzI/+bqKncHvhTmdUSV+8yynep0ANgL1PLpEIb6F3lLH6
+ 4Gn0vwjBlCfgZel/H+TXgWkQFNwAj+eK1fM0QHTsAR+KsAUZWFzlOai+DNoka8gKoo1k
+ Fhl2omIMHOzGE0dJfOS6/caKRGvL9uQnwWS3IyrCAuc/+T5vQRjt7L6byBhB0jEHVPWE
+ soTA==
+X-Gm-Message-State: AOAM531pnnfbohOnHuUpYHGMzcwenIpGY62fViwuB+ufY7SaYIdCF1kj
+ Taq+IUNiNCEg+Wmbl0C1JmkajI8MX3Twoy/bBWQepw/yamM=
+X-Google-Smtp-Source: ABdhPJxv/gwxmA+zxKZ90dzYZsQGuQ/ErQMsdsLgPbW9nE2DRg3CUB8rn7pmYw+5Y6pQZVhU3afWNfkMVVf8c/TK/R8=
+X-Received: by 2002:a05:6402:1701:: with SMTP id
+ y1mr3421534edu.251.1611064640994; 
+ Tue, 19 Jan 2021 05:57:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20210115154449.4801-1-peter.maydell@linaro.org>
+In-Reply-To: <20210115154449.4801-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 13:57:09 +0000
+Message-ID: <CAFEAcA8pSXcxEX=_j+rNos5Od+sqZKBNetPoh7NPAWpbvSDMUg@mail.gmail.com>
+Subject: Re: [PATCH v3] docs: Build and install all the docs in a single manual
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,131 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Keith Busch <kbusch@kernel.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+On Fri, 15 Jan 2021 at 15:44, Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Refactor the zone write check logic such that the most "meaningful"
-error is returned first. That is, first, if the zone is not writable,
-return an appropriate status code for that. Then, make sure we are
-actually writing at the write pointer and finally check that we do not
-cross the zone write boundary. This aligns with the "priority" of status
-codes for zone read checks.
+> Changes v2->v3:
+>  * just the addition of the .gitlab-ci.yml change to fix the Pages CI job
+> Since this is a 2-line change I've taken the liberty of keeping Paolo's
+> R-by tag on the basis that it's not a material change to the bulk of the patch.
 
-Also add a couple of additional descriptive trace events and remove an
-always true assert.
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -622,8 +622,8 @@ pages:
+>          -t "Welcome to the QEMU sourcecode"
+>      - mv HTML public/src
+>      # Project documentation
+> -    - mv build/docs/index.html public/
+> -    - for i in devel interop specs system tools user ; do mv build/docs/$i public/ ; done
+> +    - make -C build install DESTDIR=$(pwd)/temp-install
+> +    - mv temp-install/usr/local/share/doc/qemu/* public/
+>    artifacts:
+>      paths:
+>        - public
+> --
+> 2.20.1
 
-Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.c       | 47 +++++++++++++++++++------------------------
- hw/block/trace-events |  5 +++++
- 2 files changed, 26 insertions(+), 26 deletions(-)
+I'm going to have another go at getting this into master via
+target-arm.next...
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index f05dea657b01..193a27259dda 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1106,56 +1106,51 @@ static inline NvmeZone *nvme_get_zone_by_slba(NvmeNamespace *ns, uint64_t slba)
- 
- static uint16_t nvme_check_zone_state_for_write(NvmeZone *zone)
- {
--    uint16_t status;
-+    uint64_t zslba = zone->d.zslba;
- 
-     switch (nvme_get_zone_state(zone)) {
-     case NVME_ZONE_STATE_EMPTY:
-     case NVME_ZONE_STATE_IMPLICITLY_OPEN:
-     case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-     case NVME_ZONE_STATE_CLOSED:
--        status = NVME_SUCCESS;
--        break;
-+        return NVME_SUCCESS;
-     case NVME_ZONE_STATE_FULL:
--        status = NVME_ZONE_FULL;
--        break;
-+        trace_pci_nvme_err_zone_is_full(zslba);
-+        return NVME_ZONE_FULL;
-     case NVME_ZONE_STATE_OFFLINE:
--        status = NVME_ZONE_OFFLINE;
--        break;
-+        trace_pci_nvme_err_zone_is_offline(zslba);
-+        return NVME_ZONE_OFFLINE;
-     case NVME_ZONE_STATE_READ_ONLY:
--        status = NVME_ZONE_READ_ONLY;
--        break;
-+        trace_pci_nvme_err_zone_is_read_only(zslba);
-+        return NVME_ZONE_READ_ONLY;
-     default:
-         assert(false);
-     }
--
--    return status;
- }
- 
- static uint16_t nvme_check_zone_write(NvmeCtrl *n, NvmeNamespace *ns,
-                                       NvmeZone *zone, uint64_t slba,
-                                       uint32_t nlb)
- {
-+    uint64_t zcap = nvme_zone_wr_boundary(zone);
-     uint16_t status;
- 
--    if (unlikely((slba + nlb) > nvme_zone_wr_boundary(zone))) {
--        status = NVME_ZONE_BOUNDARY_ERROR;
--    } else {
--        status = nvme_check_zone_state_for_write(zone);
-+    status = nvme_check_zone_state_for_write(zone);
-+    if (status) {
-+        return status;
-     }
- 
--    if (status != NVME_SUCCESS) {
--        trace_pci_nvme_err_zone_write_not_ok(slba, nlb, status);
--    } else {
--        assert(nvme_wp_is_valid(zone));
--
--        if (unlikely(slba != zone->w_ptr)) {
--            trace_pci_nvme_err_write_not_at_wp(slba, zone->d.zslba,
--                                               zone->w_ptr);
--            status = NVME_ZONE_INVALID_WRITE;
--        }
-+    if (unlikely(slba != zone->w_ptr)) {
-+        trace_pci_nvme_err_write_not_at_wp(slba, zone->d.zslba, zone->w_ptr);
-+        return NVME_ZONE_INVALID_WRITE;
-     }
- 
--    return status;
-+    if (unlikely((slba + nlb) > zcap)) {
-+        trace_pci_nvme_err_zone_boundary(slba, nlb, zcap);
-+        return NVME_ZONE_BOUNDARY_ERROR;
-+    }
-+
-+    return NVME_SUCCESS;
- }
- 
- static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 78d76b0a71c1..c80b02b85ac9 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -127,6 +127,11 @@ pci_nvme_err_unaligned_zone_cmd(uint8_t action, uint64_t slba, uint64_t zslba) "
- pci_nvme_err_invalid_zone_state_transition(uint8_t action, uint64_t slba, uint8_t attrs) "action=0x%"PRIx8", slba=%"PRIu64", attrs=0x%"PRIx32""
- pci_nvme_err_write_not_at_wp(uint64_t slba, uint64_t zone, uint64_t wp) "writing at slba=%"PRIu64", zone=%"PRIu64", but wp=%"PRIu64""
- pci_nvme_err_append_not_at_start(uint64_t slba, uint64_t zone) "appending at slba=%"PRIu64", but zone=%"PRIu64""
-+pci_nvme_err_zone_is_full(uint64_t zslba) "zslba 0x%"PRIx64""
-+pci_nvme_err_zone_is_read_only(uint64_t zslba) "zslba 0x%"PRIx64""
-+pci_nvme_err_zone_is_offline(uint64_t zslba) "zslba 0x%"PRIx64""
-+pci_nvme_err_zone_boundary(uint64_t slba, uint32_t nlb, uint64_t zcap) "lba 0x%"PRIx64" nlb %"PRIu32" zcap 0x%"PRIx64""
-+pci_nvme_err_zone_invalid_write(uint64_t slba, uint64_t wp) "lba 0x%"PRIx64" wp 0x%"PRIx64""
- pci_nvme_err_zone_write_not_ok(uint64_t slba, uint32_t nlb, uint32_t status) "slba=%"PRIu64", nlb=%"PRIu32", status=0x%"PRIx16""
- pci_nvme_err_zone_read_not_ok(uint64_t slba, uint32_t nlb, uint32_t status) "slba=%"PRIu64", nlb=%"PRIu32", status=0x%"PRIx16""
- pci_nvme_err_append_too_large(uint64_t slba, uint32_t nlb, uint8_t zasl) "slba=%"PRIu64", nlb=%"PRIu32", zasl=%"PRIu8""
--- 
-2.30.0
-
+-- PMM
 
