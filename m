@@ -2,73 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F00022FC337
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 23:22:23 +0100 (CET)
-Received: from localhost ([::1]:36078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 669732FC35F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 23:27:02 +0100 (CET)
+Received: from localhost ([::1]:38470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1zOJ-0001pY-26
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 17:22:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51344)
+	id 1l1zSn-0003AO-GD
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 17:27:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l1zMq-000142-VE
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:20:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:56791)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l1zMo-0006GH-Qd
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:20:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611094849;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gFV6e+THBKcnwn0D4UHEghxOGVe0w5Jmn4CoZrGWmms=;
- b=hB+BSAVmsrNHfPbZsRyAEdHlWI8RIqZib0Cvm0RI7sl/tkzu//RYyK0/wcWySewRMiONwX
- 1IRQ9lpTK+FoPgcHaOqEBNgQLkLkpr95MUU/BpNM04IvoulRsY1nb0PQckJIZfRQpaYjrK
- YgsBdU6S43OarelENTDyjAzzu9TFkZ8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-10-n5lL2z9FMYGYpVtAgJDJVA-1; Tue, 19 Jan 2021 17:20:46 -0500
-X-MC-Unique: n5lL2z9FMYGYpVtAgJDJVA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DAAAF107ACE3;
- Tue, 19 Jan 2021 22:20:44 +0000 (UTC)
-Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 757935C8A7;
- Tue, 19 Jan 2021 22:20:40 +0000 (UTC)
-Subject: Re: [PATCH RFC 1/2] qdev: add debug interface to kick/call eventfd
-To: Dongli Zhang <dongli.zhang@oracle.com>, qemu-devel@nongnu.org
-References: <20210115002730.1279-1-dongli.zhang@oracle.com>
- <20210115002730.1279-2-dongli.zhang@oracle.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <40324953-8c06-f4c9-60d0-224c1c9adff3@redhat.com>
-Date: Tue, 19 Jan 2021 16:20:39 -0600
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1zRH-0002bn-Ji
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:25:29 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:35552)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1zRG-0006c6-5p
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:25:27 -0500
+Received: by mail-ed1-x531.google.com with SMTP id u19so23477807edx.2
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 14:25:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=W1z5N4vLrsfzMUqkxSLfFaEcPSt5MDo4GMUxJLVNqOs=;
+ b=i/n1hjfN3hgmoKJv49/C47xViz4BuJHGgDprfoZdt0hn3BT9MxqL205qPZimxHjOzn
+ xEUWJrhuDdcqTJboPAPMmbhmTJC5Mm8GPwyIr0q1WFjKFqT9oyIZk0vl+BSwGUUqA8pt
+ 3qoJFGv6k1pS7SgEGZiIGUNF69kYOdvzBM8S3hU9jJ6dN5WoX6RB1gRSmdHmcKnFghBh
+ mgiPr2Ors0WF24McwqAm3FFAUPCp4D37eKMZ0CTEecplNbDSq8Ih9w2c6erHSk6qWnyP
+ EM76MjXAcqoQkqWoY/818wHEF9f4DRGIPqR33DZmIvjoUg0nmgwtSGwBntpwqWIA7HZp
+ QxVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=W1z5N4vLrsfzMUqkxSLfFaEcPSt5MDo4GMUxJLVNqOs=;
+ b=TKBkMYB0Fqo4L77JfQpiSR/aUtu09O+fJeLNe917ZcFwFEweyM5XCsiz9ywIqlc89k
+ 17FbWqO/V6+5LiwQKNiGX8HtwtYx0eYiqGur3IDggnYRFpcV4DVhZEXZENp5BMxvRklp
+ ARkMMj2mmf7YjiM5d2Xn2SG4+saXad926+kkRmtDmlCJ5TUo8suPZ7msW0GtVQYozigu
+ k2DQQJ+35UtMQ+GKwhVe23qwzBVI/KlZPlllPGjjnhZ56zqwvq/VgisZQGB2w62HlgYr
+ 8nCsNXn9UwSNFm2KQViPFUMlIOBgbbAMXUskdLdV9lMdeZ3j9gAOotrr8LtiRDa30qhq
+ KDtw==
+X-Gm-Message-State: AOAM5311Ohx0sZZp1rTtCDFLqxew/JD69GR7/MZHPzRMqRUny/uDSrCu
+ FF1FrOfT8A6nvN8OplfXcmXpB2xdiEk=
+X-Google-Smtp-Source: ABdhPJwoK6iXSX14+zfT2gc4l2ev5AGfTftHHSkpPoWZEE+aHtOulU8Iii6JRUiVZAtAqDl9zKIW3w==
+X-Received: by 2002:a05:6402:46:: with SMTP id
+ f6mr5069216edu.163.1611095124553; 
+ Tue, 19 Jan 2021 14:25:24 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id bc6sm92361edb.52.2021.01.19.14.25.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 14:25:23 -0800 (PST)
+Subject: Re: [PATCH v2 08/22] tcg/mips: Split out target constraints to
+ tcg-target-con-str.h
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-9-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <53f4ba73-cab9-08e5-4137-0bd231d80ece@amsat.org>
+Date: Tue, 19 Jan 2021 23:25:22 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210115002730.1279-2-dongli.zhang@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210115210456.1053477-9-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
-X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,91 +91,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
- joe.jin@oracle.com, dgilbert@redhat.com, armbru@redhat.com,
- pbonzini@redhat.com, joao.m.martins@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/14/21 6:27 PM, Dongli Zhang wrote:
-> The virtio device/driver (e.g., vhost-scsi) may hang due to the lost of IRQ
-
-s/lost/loss/
-
-> or the lost of doorbell register kick, e.g.,
-
-and again
-
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2018-12/msg01711.html
-> 
-> This patch adds a new debug interface 'DeviceEvent' to DeviceClass to help
-> narrow down if the issue is due to lost of irq/kick. So far the new
-
-and again
-
-> interface handles only two events: 'call' and 'kick'. Any device (e.g.,
-> e1000e or vhost-scsi) may implement (e.g., via eventfd, MSI-X or legacy
-> IRQ).
-> 
-> The 'call' is to inject irq on purpose by admin for a specific device (e.g.,
-> vhost-scsi) from QEMU/host to VM, while the 'kick' is to kick the doorbell
-> on purpose by admin at QEMU/host side for a specific device.
-> 
-> Signed-off-by: Dongli Zhang <dongli.zhang@oracle.com>
+On 1/15/21 10:04 PM, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-
-> +++ b/qapi/qdev.json
-> @@ -124,3 +124,33 @@
->  ##
->  { 'event': 'DEVICE_DELETED',
->    'data': { '*device': 'str', 'path': 'str' } }
+>  tcg/mips/tcg-target-con-str.h | 24 ++++++++++++
+>  tcg/mips/tcg-target.h         |  1 +
+>  tcg/mips/tcg-target.c.inc     | 72 ++++++++---------------------------
+>  3 files changed, 41 insertions(+), 56 deletions(-)
+>  create mode 100644 tcg/mips/tcg-target-con-str.h
+> 
+> diff --git a/tcg/mips/tcg-target-con-str.h b/tcg/mips/tcg-target-con-str.h
+> new file mode 100644
+> index 0000000000..e4b2965c72
+> --- /dev/null
+> +++ b/tcg/mips/tcg-target-con-str.h
+> @@ -0,0 +1,24 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Define MIPS target-specific operand constraints.
+> + * Copyright (c) 2021 Linaro
+> + */
 > +
-> +##
-> +# @x-debug-device-event:
-> +#
-> +# Generate device event for a specific device queue
-> +#
-> +# @dev: device path
-> +#
-> +# @event: event (e.g., kick or call) to trigger
-> +#
-> +# @queue: queue id
-> +#
-> +# Returns: Nothing on success
-> +#
-> +# Since: 5.3
+> +/*
+> + * Define constraint letters for register sets:
+> + * REGS(letter, register_mask)
+> + */
+> +REGS('r', ALL_GENERAL_REGS)
+> +REGS('L', ALL_QLOAD_REGS)
+> +REGS('S', ALL_QSTORE_REGS)
+> +
+> +/*
+> + * Define constraint letters for constants:
+> + * CONST(letter, TCG_CT_CONST_* bit set)
+> + */
+> +CONST('I', TCG_CT_CONST_U16)
+> +CONST('J', TCG_CT_CONST_S16)
+> +CONST('K', TCG_CT_CONST_P2M1)
+> +CONST('N', TCG_CT_CONST_N16)
+> +CONST('W', TCG_CT_CONST_WSZ)
+> +CONST('Z', TCG_CT_CONST_ZERO)
 
-The next release is named 6.0, not 5.3.
-
-> +#
-> +# Notes: This is used to debug VM driver hang issue. The 'kick' event is to
-> +#        send notification to QEMU/vhost while the 'call' event is to
-> +#        interrupt VM on purpose.
-> +#
-> +# Example:
-> +#
-> +# -> { "execute": "x-debug-device_event",
-> +#      "arguments": { "dev": "/machine/peripheral/vscsi0", "event": "kick",
-> +#                     "queue": "1" } }
-
-Your example has queue typed as a string...
-
-> +# <- { "return": {} }
-> +#
-> +##
-> +{ 'command': 'x-debug-device-event',
-> +  'data': {'dev': 'str', 'event': 'str', 'queue': 'int'} }
-
-...which does not match its actual type as an integer.
-
-event should be an enum type (the finite choice of 'kick' or 'call', and
-introspectible if we add new choices in the future) rather than an
-open-coded str.
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+With the cheating comment Peter requested:
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
