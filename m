@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989E32FC043
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:44:43 +0100 (CET)
-Received: from localhost ([::1]:58660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6251F2FC032
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:44:31 +0100 (CET)
+Received: from localhost ([::1]:58054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1wvh-00025o-PU
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:44:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
+	id 1l1wvW-0001pw-Dn
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:44:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52606)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1vw2-00063r-Qh
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:41:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1vvv-0001zC-3A
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:40:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611081643;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qoTkE7/3dYTfEj2IlyNJ7Q8v3TQVd57APO99FY3bSPY=;
- b=VoUdc4PnesyNtSMtSDUrrm7Jws7jBB4AgHBm4xVb3coGjL34lO7NFwJJsX9OJFe8+elkTH
- fQIE5HwDqhMr59uOqG83sPEPXRIfN1fbPfKQ8uQDdu0egZGuqivhs3BjSPiICG6kK1e6gK
- PLV7UYM1piZgfiDXVJwV2XvQhimMz/8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-469-ppwoHUcqOdqfwx699plMFA-1; Tue, 19 Jan 2021 13:40:40 -0500
-X-MC-Unique: ppwoHUcqOdqfwx699plMFA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF893100C606;
- Tue, 19 Jan 2021 18:40:38 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-115-54.ams2.redhat.com
- [10.36.115.54])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 735E9100239A;
- Tue, 19 Jan 2021 18:40:36 +0000 (UTC)
-Subject: Re: [PATCH v4 00/23] backup performance: block_status + async
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <3a5ea1b1-1137-4ac5-5aac-5bdec0b7b0d5@redhat.com>
-Date: Tue, 19 Jan 2021 19:40:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1vyv-0007kf-G4; Tue, 19 Jan 2021 13:43:57 -0500
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:38719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1vyn-0002OW-7F; Tue, 19 Jan 2021 13:43:57 -0500
+Received: by mail-io1-xd35.google.com with SMTP id e22so41665257iom.5;
+ Tue, 19 Jan 2021 10:43:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=au/UKhL6f+zdjCa3ichz8ynlkQAcoZUIwtkSsIQ9zNQ=;
+ b=MLk6lJk2HjPl7TrFvgBmaGxqXtj04iVsNlDw2N0ZKwGX20A7cKsVGDe9SGcsLpyUvD
+ k+TN8IzcCoDW7tcN1sa5YDc3Qo75fP5waY1mlcTVCGEnURTwv74dter2cbxLXY0veHJC
+ kgNhj+7zFeqPYRWFFItCE2X1fihu0BUb8RzQ/fuEVMKK7f0diCG56aVrp6azV/NHVGKd
+ FUssPJG0GeTnLmRGcduwh4i4pHMBJPs8UjDSsJXeo9VVnMPfpji/z++NEcRDrLYHHCF6
+ kVQCikvSFIkW6PVYZjRLQZl1gcChb2hDvD+s5BA+mQKCBH7sFxt8prspk9eL4k3NFdjA
+ TLEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=au/UKhL6f+zdjCa3ichz8ynlkQAcoZUIwtkSsIQ9zNQ=;
+ b=Z6evnLo5EXnAIv0aRYr1r+9Hio7accGQWy+x8U+80MxYc/BfYvLtWE0bBNXisoyUs3
+ JWhCD8oRZ2hNIH21kyoT9Uutq0xsRVVdUGYcS6DftMkQ3wrVmESy4pp0cCkEsx4nykM2
+ Hcuj6BiYZnLlHVBR+h4XXNcisw0MQYEhTfaWpTZ/lBtjZ7tf2PRH6UwowpOR5EhMMSqX
+ FJhzKQixNV6HOFzsBsg5VB4XjtuVp2Ux+686sdFO0reHrKzssDg7ViAbj40QtMrdiqS9
+ blCK0rBruziYvoJ+su3wA5xPe/4AAWi2JYeb0/nldpPQIrPEMnNzZKj6Vb7OIWTaBWCY
+ qTkQ==
+X-Gm-Message-State: AOAM5314STvsjc9QzNrPo/6D7wzWVnggoojLMhCuTBfjhQ55wPrNu0kN
+ Q0Ud8WfciIQESprENoYxnXDzxXxsHPSXc5DCU7g=
+X-Google-Smtp-Source: ABdhPJwshxXmV9ocbq6a+D27L53VZpCK0NGqW1RH1cybEIkYZ+2o08sU+ldCcY7H7tgjQvRCmz6XajPO4lI2wSw3UbQ=
+X-Received: by 2002:a02:cbad:: with SMTP id v13mr4688569jap.26.1611081827809; 
+ Tue, 19 Jan 2021 10:43:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210116214705.822267-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210112093950.17530-1-frank.chang@sifive.com>
+ <20210112093950.17530-13-frank.chang@sifive.com>
+In-Reply-To: <20210112093950.17530-13-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Jan 2021 10:43:21 -0800
+Message-ID: <CAKmqyKMvZoNUH=yAhkYansDRjmtSK6Cq7Z7=A_x_xbGTcCJwDw@mail.gmail.com>
+Subject: Re: [PATCH v6 12/72] target/riscv: rvv-1.0: add fractional LMUL
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,66 +76,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 16.01.21 22:46, Vladimir Sementsov-Ogievskiy wrote:
-> Hi Max!
-> I applied my series onto yours 129-fixing and found, that 129 fails for backup.
-> And setting small max-chunk and even max-workers to 1 doesn't help! (setting
-> speed like in v3 still helps).
-> 
-> And I found, that the problem is that really, the whole backup job goes during
-> drain, because in new architecture we do just job_yield() during the whole
-> background block-copy.
-> 
-> This leads to modifying the existing patch in the series, which does job_enter()
-> from job_user_pause: we just need call job_enter() from job_pause() to cover
-> not only user pauses but also drained_begin.
-> 
-> So, now I don't need any additional fixing of 129.
-> 
-> Changes in v4:
-> - add a lot of Max's r-b's, thanks!
-> 
-> 03: fix over-80 line (in comment), add r-b
-> 09: was "[PATCH v3 10/25] job: call job_enter from job_user_pause",
->      now changed to finally fix 129 iotest, drop r-b
-> 
-> 10: squash-in additional wording on max-chunk, fix error message, keep r-b
-> 17: drop extra include, assert job_is_cancelled() instead of check, add r-b
-> 18: adjust commit message, add r-b
-> 23: add comments and assertion, about the fact that test doesn't support
->      paths with colon inside
->      fix s/disable-copy-range/use-copy-range/
+On Tue, Jan 12, 2021 at 1:46 AM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Introduce the concepts of fractional LMUL for RVV 1.0.
+> In RVV 1.0, LMUL bits are contiguous in vtype register.
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Hmmm, for me, 129 sometimes fails still, because it completes too 
-quickly...  (The error then is that 'return[0]' does not exist in 
-query-block-jobs’s result, because the job is already gone.)
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-When I insert a print(result) after the query-block-jobs, I can see that 
-the job has always progressed really far, even if its still running. 
-(Like, generally the offset is just one MB shy of 1G.)
+Alistair
 
-I suspect the problem is that block-copy just copies too much from the 
-start (by default); i.e., it starts 64 workers with, hm, well, 1 MB of 
-chunk size?  Shouldn’t fill the 128 MB immediately...
-
-Anyway, limiting the number of workers (to 1) and the chunk size (to 
-64k) with x-perf does ensure that the backup job’s progress is limited 
-to 1 MB or so, which looks fine to me.
-
-I suppose we should do that, then (in 129), before patch 17?
-
-(PS: I can also see a MacOS failure in iotest 256.  I suspect it’s 
-related to this series, because 256 is a backup test (with iothreads), 
-but I’m not sure yet.  The log is here:
-
-https://cirrus-ci.com/task/5276331753603072
-)
-
-Max
-
+> ---
+>  target/riscv/cpu.h           | 17 +++++++++--------
+>  target/riscv/translate.c     | 16 ++++++++++++++--
+>  target/riscv/vector_helper.c | 16 ++++++++++++++--
+>  3 files changed, 37 insertions(+), 12 deletions(-)
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index cd5c77114a4..3b985f6218d 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -105,10 +105,10 @@ typedef struct CPURISCVState CPURISCVState;
+>
+>  #define RV_VLEN_MAX 256
+>
+> -FIELD(VTYPE, VLMUL, 0, 2)
+> -FIELD(VTYPE, VSEW, 2, 3)
+> -FIELD(VTYPE, VEDIV, 5, 2)
+> -FIELD(VTYPE, RESERVED, 7, sizeof(target_ulong) * 8 - 9)
+> +FIELD(VTYPE, VLMUL, 0, 3)
+> +FIELD(VTYPE, VSEW, 3, 3)
+> +FIELD(VTYPE, VEDIV, 8, 2)
+> +FIELD(VTYPE, RESERVED, 10, sizeof(target_ulong) * 8 - 11)
+>  FIELD(VTYPE, VILL, sizeof(target_ulong) * 8 - 1, 1)
+>
+>  struct CPURISCVState {
+> @@ -380,11 +380,12 @@ typedef RISCVCPU ArchCPU;
+>  #include "exec/cpu-all.h"
+>
+>  FIELD(TB_FLAGS, VL_EQ_VLMAX, 2, 1)
+> -FIELD(TB_FLAGS, LMUL, 3, 2)
+> -FIELD(TB_FLAGS, SEW, 5, 3)
+> -FIELD(TB_FLAGS, VILL, 8, 1)
+> +FIELD(TB_FLAGS, LMUL, 3, 3)
+> +FIELD(TB_FLAGS, SEW, 6, 3)
+> +/* Skip MSTATUS_VS (0x600) fields */
+> +FIELD(TB_FLAGS, VILL, 11, 1)
+>  /* Is a Hypervisor instruction load/store allowed? */
+> -FIELD(TB_FLAGS, HLSX, 9, 1)
+> +FIELD(TB_FLAGS, HLSX, 12, 1)
+>
+>  bool riscv_cpu_is_32bit(CPURISCVState *env);
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 18e198bf8a6..d9b3b37f698 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -60,7 +60,19 @@ typedef struct DisasContext {
+>      bool hlsx;
+>      /* vector extension */
+>      bool vill;
+> -    uint8_t lmul;
+> +    /*
+> +     * Encode LMUL to lmul as follows:
+> +     *     LMUL    vlmul    lmul
+> +     *      1       000       0
+> +     *      2       001       1
+> +     *      4       010       2
+> +     *      8       011       3
+> +     *      -       100       -
+> +     *     1/8      101      -3
+> +     *     1/4      110      -2
+> +     *     1/2      111      -1
+> +     */
+> +    int8_t lmul;
+>      uint8_t sew;
+>      uint16_t vlen;
+>      bool vl_eq_vlmax;
+> @@ -843,7 +855,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>      ctx->hlsx = FIELD_EX32(tb_flags, TB_FLAGS, HLSX);
+>      ctx->vill = FIELD_EX32(tb_flags, TB_FLAGS, VILL);
+>      ctx->sew = FIELD_EX32(tb_flags, TB_FLAGS, SEW);
+> -    ctx->lmul = FIELD_EX32(tb_flags, TB_FLAGS, LMUL);
+> +    ctx->lmul = sextract32(FIELD_EX32(tb_flags, TB_FLAGS, LMUL), 0, 3);
+>      ctx->vl_eq_vlmax = FIELD_EX32(tb_flags, TB_FLAGS, VL_EQ_VLMAX);
+>  }
+>
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 12301e943e6..aa8348ea25a 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -86,9 +86,21 @@ static inline uint32_t vext_vm(uint32_t desc)
+>      return FIELD_EX32(simd_data(desc), VDATA, VM);
+>  }
+>
+> -static inline uint32_t vext_lmul(uint32_t desc)
+> +/*
+> + * Encode LMUL to lmul as following:
+> + *     LMUL    vlmul    lmul
+> + *      1       000       0
+> + *      2       001       1
+> + *      4       010       2
+> + *      8       011       3
+> + *      -       100       -
+> + *     1/8      101      -3
+> + *     1/4      110      -2
+> + *     1/2      111      -1
+> + */
+> +static inline int32_t vext_lmul(uint32_t desc)
+>  {
+> -    return FIELD_EX32(simd_data(desc), VDATA, LMUL);
+> +    return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
+>  }
+>
+>  static uint32_t vext_wd(uint32_t desc)
+> --
+> 2.17.1
+>
+>
 
