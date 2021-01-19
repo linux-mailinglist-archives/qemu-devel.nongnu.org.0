@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F41D2FBAF6
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:22:15 +0100 (CET)
-Received: from localhost ([::1]:51396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32CF82FBB0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:24:30 +0100 (CET)
+Received: from localhost ([::1]:59774 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1spi-0003Zp-Be
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:22:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53708)
+	id 1l1srt-00070x-87
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:24:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1sfL-0007rx-Kz
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:31 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:36008)
+ id 1l1sfQ-00082O-VE
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:37 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1sfH-0001JA-KC
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:31 -0500
-Received: by mail-wr1-x434.google.com with SMTP id 6so12801877wri.3
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:27 -0800 (PST)
+ id 1l1sfN-0001KQ-6K
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:36 -0500
+Received: by mail-wr1-x429.google.com with SMTP id 7so12823870wrz.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=sg57w1bNfmqm++/I9BpHEaponzLd4xw5oOY0y5ivsJI=;
- b=dsFSK3b8KzQ6wdZgTFNuh/8eDoVnnCQ3d/jIZXtTBixmLPFRBeLnB8fM42Ja82pY0o
- 8xdzgoJjd8vsKUB/R6s3rMX1LyQElkhTqIPEWATv41m/L3nv6AQXopovjiuiB9az6M8Y
- R+6Xy2Nb/o0//MIaBA+1k9fuJYh5al+URvrTffHXto4qpPajPRHMDaFYdpRNmjEJVXbB
- TrubgQUvFtp3oHDHluyx82MmIBaFy2db4nKUXPZU9T1YlzPyV4kxkuZMDJgAsG1GAFVP
- RvMB2lt9dKNcGDPJgRJRkmG22M6fgOqJtMCwU5uvV+DdHCXfh8tXE36s84G03Zjy55Wk
- JOvw==
+ bh=ltWysjbhw6W7BnNrLw1y0sIaOF1OJ6S2BxOzq8NiVlk=;
+ b=ZPALFKddNglxNcPAqyFel4fbluJzjmqv9D5zroP9ntMgzdDmKzPLWCI7CVftwTFrCz
+ e5+JFS2hm/LsE32CCDHhM6ElDp6G8tB70kxfnUgGbqzwp6Rl8UgVj5VivLk3fgy8oFWe
+ NgyFDZgqAgCmdUYOBQOlxhVsBN1+brzcs3JC16ZzjXHLRTlJlg6XbGPWRCJ+m4a45r0n
+ dvxlFSyjjMCeO+CobPdjTFtwCqFf5rsV1+584vjsyUOx5brXE9REE8zDTqJnYExLV8i5
+ rlr8UM/ET26Fop3zZWa+jQ4s48weJtGA2mH3orfEtfbDPVLwhbV7gS65M0qa30j2Wohd
+ wJKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=sg57w1bNfmqm++/I9BpHEaponzLd4xw5oOY0y5ivsJI=;
- b=ApWHSi+1T/uy5rWKzAV3nirMzresP4uCvGEFdUPMo8AzO3DGYNrPWfk78UMnFtI2Xa
- Jvz1HbN/Tf69Zu6S9a319PRQyCBo/JVaPOov1QfMeRwHItAcD0A8IlmuToOYq5KEDNQx
- zudIBkz8bwA4CM3QbX2GMfQpDgQXhSRKPUQv9aFTM3cKkw65YFPzS6A2XBm6bQOVfq+a
- nJW7ZmDEovJGTJDAoD7I7ytDTl9mdZbM2a2sNfcs06wC719amqm+I04oj1nCCu/1TFVO
- V8j27LHqDSGdb/npsYnLrBxQB62n6dYVr60qyMR6FlYS9rXPSKGiz15gGSwwy+w9tAvS
- 1Krg==
-X-Gm-Message-State: AOAM531a9t40NU+xkIen1pcxsgB7KkcESE9t3ATwbO6x26y6GTo/r4x5
- 8+aTsf5xJJmvapkBCB018DcIOA4dLnGusA==
-X-Google-Smtp-Source: ABdhPJy6aUU84gTSnJ4rQ2r9/DW2L1nIRhuzLQsy7LdF3vV/KA6HbELLIS92BEaik3Luyq8KTiH1wA==
-X-Received: by 2002:a5d:4bc2:: with SMTP id l2mr4971954wrt.204.1611069086414; 
- Tue, 19 Jan 2021 07:11:26 -0800 (PST)
+ bh=ltWysjbhw6W7BnNrLw1y0sIaOF1OJ6S2BxOzq8NiVlk=;
+ b=TCOLKTVkUMCvIurS+geZ+pc1ouW7bPZ6BBAaDcznTs/+bAilF39d3gaTBGk71bK5UK
+ d7L1/02dvyydVdjsVKIquLXJj3t37V+tfurfDyMpKA0J8wck4F677jfiCkC3UuBJntU4
+ SGM863ZhTGrGFS4C6kzK9ZF6u5sNskK+2YPwHP2TnyT6otjlIyRtBorbe2S7XifxVS9B
+ RrVcpi8C4SOC2l/d235LAS1UrZFHEpdCEp8J5mB2ocR02OluTnLIUzW2lVv3g7s9chB8
+ T1O6beBLaTWuEwSPvoMo1CQtVS3/Q3bIQhUGizXC6wFfkcu6nquhq73uZlauGFMDkJSQ
+ Uc/A==
+X-Gm-Message-State: AOAM531UoKv19sL1v7nxpQzN3xPSooKfVq3JNfs/BwqKpkZ7e804tCeX
+ uDiQv2ResxG35R4yzgWhVXcNXHUMjtkc0g==
+X-Google-Smtp-Source: ABdhPJxkB11hGeqctdxqqlR8OMmgOHFsmqpYdTgJ2rugm/c8obmBGcBVRcS4qYX+bY13OU4HBcF36A==
+X-Received: by 2002:a05:6000:124e:: with SMTP id
+ j14mr4973267wrx.310.1611069091793; 
+ Tue, 19 Jan 2021 07:11:31 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a184sm4843699wme.35.2021.01.19.07.11.25
+ by smtp.gmail.com with ESMTPSA id a184sm4843699wme.35.2021.01.19.07.11.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 07:11:25 -0800 (PST)
+ Tue, 19 Jan 2021 07:11:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/33] target/arm: Update PFIRST, PNEXT for pred_desc
-Date: Tue, 19 Jan 2021 15:10:55 +0000
-Message-Id: <20210119151104.16264-25-peter.maydell@linaro.org>
+Subject: [PULL 30/33] tests/qtest: add a test case for pvpanic-pci
+Date: Tue, 19 Jan 2021 15:11:01 +0000
+Message-Id: <20210119151104.16264-31-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210119151104.16264-1-peter.maydell@linaro.org>
 References: <20210119151104.16264-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x434.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,66 +87,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Mihai Carabas <mihai.carabas@oracle.com>
 
-These two were odd, in that do_pfirst_pnext passed the
-count of 64-bit words rather than bytes.  Change to pass
-the standard pred_full_reg_size to avoid confusion.
+Add a test case for pvpanic-pci device. The scenario is the same as pvpapnic
+ISA device, but is using the PCI bus.
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20210113062650.593824-3-richard.henderson@linaro.org
+Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/sve_helper.c    | 7 ++++---
- target/arm/translate-sve.c | 6 +++---
- 2 files changed, 7 insertions(+), 6 deletions(-)
+ tests/qtest/pvpanic-pci-test.c | 62 ++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build        |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 tests/qtest/pvpanic-pci-test.c
 
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index 5f037c3a8f8..ff01851bf28 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -889,8 +889,9 @@ static intptr_t last_active_element(uint64_t *g, intptr_t words, intptr_t esz)
-     return (intptr_t)-1 << esz;
- }
+diff --git a/tests/qtest/pvpanic-pci-test.c b/tests/qtest/pvpanic-pci-test.c
+new file mode 100644
+index 00000000000..79b8065619d
+--- /dev/null
++++ b/tests/qtest/pvpanic-pci-test.c
+@@ -0,0 +1,62 @@
++/*
++ * QTest testcase for PV Panic PCI device
++ *
++ * Copyright (C) 2020 Oracle
++ *
++ * Authors:
++ *     Mihai Carabas <mihai.carabas@oracle.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
++
++#include "qemu/osdep.h"
++#include "libqos/libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "libqos/pci.h"
++#include "libqos/pci-pc.h"
++#include "hw/pci/pci_regs.h"
++
++static void test_panic(void)
++{
++    uint8_t val;
++    QDict *response, *data;
++    QTestState *qts;
++    QPCIBus *pcibus;
++    QPCIDevice *dev;
++    QPCIBar bar;
++
++    qts = qtest_init("-device pvpanic-pci");
++    pcibus = qpci_new_pc(qts, NULL);
++    dev = qpci_device_find(pcibus, QPCI_DEVFN(0x4, 0x0));
++    qpci_device_enable(dev);
++    bar = qpci_iomap(dev, 0, NULL);
++
++    qpci_memread(dev, bar, 0, &val, sizeof(val));
++    g_assert_cmpuint(val, ==, 3);
++
++    val = 1;
++    qpci_memwrite(dev, bar, 0, &val, sizeof(val));
++
++    response = qtest_qmp_eventwait_ref(qts, "GUEST_PANICKED");
++    g_assert(qdict_haskey(response, "data"));
++    data = qdict_get_qdict(response, "data");
++    g_assert(qdict_haskey(data, "action"));
++    g_assert_cmpstr(qdict_get_str(data, "action"), ==, "pause");
++    qobject_unref(response);
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++
++    g_test_init(&argc, &argv, NULL);
++    qtest_add_func("/pvpanic-pci/panic", test_panic);
++
++    ret = g_test_run();
++
++    return ret;
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 0e85343b96b..12e456ce946 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -20,6 +20,7 @@ endif
  
--uint32_t HELPER(sve_pfirst)(void *vd, void *vg, uint32_t words)
-+uint32_t HELPER(sve_pfirst)(void *vd, void *vg, uint32_t pred_desc)
- {
-+    intptr_t words = DIV_ROUND_UP(FIELD_EX32(pred_desc, PREDDESC, OPRSZ), 8);
-     uint32_t flags = PREDTEST_INIT;
-     uint64_t *d = vd, *g = vg;
-     intptr_t i = 0;
-@@ -914,8 +915,8 @@ uint32_t HELPER(sve_pfirst)(void *vd, void *vg, uint32_t words)
+ qtests_pci = \
+   (config_all_devices.has_key('CONFIG_VGA') ? ['display-vga-test'] : []) +                  \
++  (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +          \
+   (config_all_devices.has_key('CONFIG_IVSHMEM_DEVICE') ? ['ivshmem-test'] : [])
  
- uint32_t HELPER(sve_pnext)(void *vd, void *vg, uint32_t pred_desc)
- {
--    intptr_t words = extract32(pred_desc, 0, SIMD_OPRSZ_BITS);
--    intptr_t esz = extract32(pred_desc, SIMD_DATA_SHIFT, 2);
-+    intptr_t words = DIV_ROUND_UP(FIELD_EX32(pred_desc, PREDDESC, OPRSZ), 8);
-+    intptr_t esz = FIELD_EX32(pred_desc, PREDDESC, ESZ);
-     uint32_t flags = PREDTEST_INIT;
-     uint64_t *d = vd, *g = vg, esz_mask;
-     intptr_t i, next;
-diff --git a/target/arm/translate-sve.c b/target/arm/translate-sve.c
-index 0c3a6d21210..efcb646f729 100644
---- a/target/arm/translate-sve.c
-+++ b/target/arm/translate-sve.c
-@@ -1494,10 +1494,10 @@ static bool do_pfirst_pnext(DisasContext *s, arg_rr_esz *a,
-     TCGv_ptr t_pd = tcg_temp_new_ptr();
-     TCGv_ptr t_pg = tcg_temp_new_ptr();
-     TCGv_i32 t;
--    unsigned desc;
-+    unsigned desc = 0;
- 
--    desc = DIV_ROUND_UP(pred_full_reg_size(s), 8);
--    desc = deposit32(desc, SIMD_DATA_SHIFT, 2, a->esz);
-+    desc = FIELD_DP32(desc, PREDDESC, OPRSZ, pred_full_reg_size(s));
-+    desc = FIELD_DP32(desc, PREDDESC, ESZ, a->esz);
- 
-     tcg_gen_addi_ptr(t_pd, cpu_env, pred_full_reg_offset(s, a->rd));
-     tcg_gen_addi_ptr(t_pg, cpu_env, pred_full_reg_offset(s, a->rn));
+ qtests_i386 = \
 -- 
 2.20.1
 
