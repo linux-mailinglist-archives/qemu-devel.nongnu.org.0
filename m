@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 105692FB688
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:56:46 +0100 (CET)
-Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 096732FB68F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:59:25 +0100 (CET)
+Received: from localhost ([::1]:53960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rUz-00036u-3m
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:56:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55808)
+	id 1l1rXY-0006gI-2X
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:59:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1rGp-0004VZ-Kz
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:42:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29394)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l1rJ4-0006xX-16
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:44:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44971)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1rGm-0003r2-U0
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:42:07 -0500
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l1rJ1-00046T-Vw
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:44:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611063722;
+ s=mimecast20190719; t=1611063862;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MVFHB8eb6HiH2Ux0DyyuochO0r+NbqyILgiZBkee9hI=;
- b=Hw7aKVYw3yZeGQfWGdtg59nlSTOFZ7M1jTYZ46cRp0z0xqCgilAYuZrc97hdaYq6E/uKXs
- hkDvIAwTH5wY49FxDEXN39qY0kbl41DYs10656vPZgdVYy6rauYaBBHBOHuVHgAY8Gsjyq
- uFG3d0Nr654NxbRBgtARulRL3ZRDDMI=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=uKZSfYPDamc5qkghmJlQyIL2Vd8/5EXDq0NcqeIeZP8=;
+ b=BMArtHkfulIImTmd4U+RVg58pFA771+yXlZNvROJFzUxIgMvwCxc076GNPe1tHuANdoFHC
+ b/tqIphyA0ZxJF1zZKWykfFKCFPqforre63be0I2nW5RV1lZDjP6ofuUbwE29S/ejTSpza
+ H5tvoCr/HSjehNkzXpHmNniLUNm3g90=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-542-GzidLzgZOSC_8u4VftwvIQ-1; Tue, 19 Jan 2021 08:41:58 -0500
-X-MC-Unique: GzidLzgZOSC_8u4VftwvIQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-562-wANvM2nnNJq7U0CteR-NYQ-1; Tue, 19 Jan 2021 08:44:20 -0500
+X-MC-Unique: wANvM2nnNJq7U0CteR-NYQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB091CE646;
- Tue, 19 Jan 2021 13:41:56 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-157.ams2.redhat.com [10.36.112.157])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7412B5E1B5;
- Tue, 19 Jan 2021 13:41:48 +0000 (UTC)
-Subject: Re: [PATCH v2 8/9] tests/docker: Add dockerfile for Alpine Linux
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
- <20210118063808.12471-9-jiaxun.yang@flygoat.com>
- <20210118103345.GE1789637@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <929c3ec1-9419-908a-6b5e-ce3ae78f6011@redhat.com>
-Date: Tue, 19 Jan 2021 14:41:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2832A1075649;
+ Tue, 19 Jan 2021 13:44:19 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-126.sin2.redhat.com
+ [10.67.117.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 20CAD60BF1;
+ Tue, 19 Jan 2021 13:44:15 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] ide: set an upper limit to nb_sectors
+Date: Tue, 19 Jan 2021 19:12:11 +0530
+Message-Id: <20210119134211.494133-1-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210118103345.GE1789637@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,130 +76,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Viktor Prutyanov <viktor.prutyanov@phystech.edu>, qemu-block@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
- Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org, kvm@vger.kernel.org,
- Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Prasad J Pandit <pjp@fedoraproject.org>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 18/01/2021 11.33, Daniel P. Berrangé wrote:
-> On Mon, Jan 18, 2021 at 02:38:07PM +0800, Jiaxun Yang wrote:
->> Alpine Linux[1] is a security-oriented, lightweight Linux distribution
->> based on musl libc and busybox.
->>
->> It it popular among Docker guests and embedded applications.
->>
->> Adding it to test against different libc.
->>
->> [1]: https://alpinelinux.org/
->>
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>   tests/docker/dockerfiles/alpine.docker | 57 ++++++++++++++++++++++++++
->>   1 file changed, 57 insertions(+)
->>   create mode 100644 tests/docker/dockerfiles/alpine.docker
->>
->> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
->> new file mode 100644
->> index 0000000000..5be5198d00
->> --- /dev/null
->> +++ b/tests/docker/dockerfiles/alpine.docker
->> @@ -0,0 +1,57 @@
->> +
->> +FROM alpine:edge
->> +
->> +RUN apk update
->> +RUN apk upgrade
->> +
->> +# Please keep this list sorted alphabetically
->> +ENV PACKAGES \
->> +	alsa-lib-dev \
->> +	bash \
->> +	bison \
-> 
-> This shouldn't be required.
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-bison and flex were required to avoid some warnings in the past while 
-compiling the dtc submodule ... but I thought we got rid of the problem at 
-one point in time, so this can be removed now, indeed.
+Set an upper limit to number of sectors on an IDE disk media.
+This is to ensure that logical block addresses (LBA) and
+nb_sector arguments remain within INT_MAX range.
 
->> +	build-base \
-> 
-> This seems to be a meta packae that pulls in other
-> misc toolchain packages. Please list the pieces we
-> need explicitly instead.
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/ide/core.c | 23 ++++++++++++-----------
+ 1 file changed, 12 insertions(+), 11 deletions(-)
 
-Looking at the "Depends" list on 
-https://pkgs.alpinelinux.org/package/v3.3/main/x86/build-base there are only 
-6 dependencies and we need most of those for QEMU anyway, so I think it is 
-ok to keep build-base here.
+Update: limit s->nb_sectors count
+  -> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04270.html
+  -> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04173.html
 
->> +	coreutils \
->> +	curl-dev \
->> +	flex \
-> 
-> This shouldn't be needed.
-> 
->> +	git \
->> +	glib-dev \
->> +	glib-static \
->> +	gnutls-dev \
->> +	gtk+3.0-dev \
->> +	libaio-dev \
->> +	libcap-dev \
-> 
-> Should not be required, as we use cap-ng.
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index b49e4cfbc6..064998804a 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -1161,15 +1161,21 @@ static void ide_cfata_metadata_write(IDEState *s)
+                                     s->nsector << 9), 0x200 - 2));
+ }
 
-Right.
++static void ide_set_nb_sectors(IDEState *s)
++{
++    uint64_t nb_sectors;
++
++    blk_get_geometry(s->blk, &nb_sectors);
++    s->nb_sectors = MIN(nb_sectors, (uint64_t)INT_MAX << 2);
++}
++
+ /* called when the inserted state of the media has changed */
+ static void ide_cd_change_cb(void *opaque, bool load, Error **errp)
+ {
+     IDEState *s = opaque;
+-    uint64_t nb_sectors;
 
->> +	libcap-ng-dev \
->> +	libjpeg-turbo-dev \
->> +	libnfs-dev \
->> +	libpng-dev \
->> +	libseccomp-dev \
->> +	libssh-dev \
->> +	libusb-dev \
->> +	libxml2-dev \
->> +	linux-headers \
-> 
-> Is this really needed ? We don't install kernel-headers on other
-> distros AFAICT.
+     s->tray_open = !load;
+-    blk_get_geometry(s->blk, &nb_sectors);
+-    s->nb_sectors = nb_sectors;
++    ide_set_nb_sectors(s);
 
-I tried a build without this package, and it works fine indeed.
+     /*
+      * First indicate to the guest that a CD has been removed.  That's
+@@ -2475,14 +2481,12 @@ static bool ide_cd_is_medium_locked(void *opaque)
+ static void ide_resize_cb(void *opaque)
+ {
+     IDEState *s = opaque;
+-    uint64_t nb_sectors;
 
->> +	lzo-dev \
->> +	mesa-dev \
->> +	mesa-egl \
->> +	mesa-gbm \
->> +	meson \
->> +	ncurses-dev \
->> +	ninja \
->> +	paxmark \
-> 
-> What is this needed for ?
+     if (!s->identify_set) {
+         return;
+     }
 
-Seems like it also can be dropped.
+-    blk_get_geometry(s->blk, &nb_sectors);
+-    s->nb_sectors = nb_sectors;
++    ide_set_nb_sectors(s);
 
->> +	perl \
->> +	pulseaudio-dev \
->> +	python3 \
->> +	py3-sphinx \
->> +	shadow \
-> 
-> Is this really needed ?
-
-See:
-https://www.spinics.net/lists/kvm/msg231556.html
-
-I can remove the superfluous packages when picking up the patch, no need to 
-respin just because of this.
-
-  Thomas
+     /* Update the identify data buffer. */
+     if (s->drive_kind == IDE_CFATA) {
+@@ -2511,17 +2515,14 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+                    uint32_t cylinders, uint32_t heads, uint32_t secs,
+                    int chs_trans, Error **errp)
+ {
+-    uint64_t nb_sectors;
+-
+     s->blk = blk;
+     s->drive_kind = kind;
+-
+-    blk_get_geometry(blk, &nb_sectors);
+     s->cylinders = cylinders;
+     s->heads = heads;
+     s->sectors = secs;
+     s->chs_trans = chs_trans;
+-    s->nb_sectors = nb_sectors;
++    ide_set_nb_sectors(s);
++
+     s->wwn = wwn;
+     /* The SMART values should be preserved across power cycles
+        but they aren't.  */
+--
+2.29.2
 
 
