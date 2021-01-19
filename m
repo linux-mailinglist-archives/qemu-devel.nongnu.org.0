@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA62C2FB19B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:40:29 +0100 (CET)
-Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A090F2FB1EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:50:12 +0100 (CET)
+Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1kgk-0001a6-Et
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:40:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39006)
+	id 1l1kqB-0002pT-O4
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:50:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39152)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQi-0001QJ-TR; Tue, 19 Jan 2021 01:23:56 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35155 helo=ozlabs.org)
+ id 1l1kQy-0001Wh-J3; Tue, 19 Jan 2021 01:24:08 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:40235 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQe-0000T4-Sy; Tue, 19 Jan 2021 01:23:52 -0500
+ id 1l1kQs-0000ar-VF; Tue, 19 Jan 2021 01:24:05 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DKdrX5SX7z9sX4; Tue, 19 Jan 2021 17:23:24 +1100 (AEDT)
+ id 4DKdrb4ZB7z9sxS; Tue, 19 Jan 2021 17:23:27 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611037404;
- bh=7eoo1JGQEz0AGnMffHoG0i70grShp7cTjR5JUeO8D28=;
+ d=gibson.dropbear.id.au; s=201602; t=1611037407;
+ bh=wG3k4vvD+OJELcn2svuHMUF0VgofMWSORdUpb3pvDjo=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ZwbZLa3dxHUIVBHvSKkpLCqvvdFKJGowyg7U17Uhr2ldlttT8pwrkN5cR+r3HdNl2
- BvOlyycjbRDZLLwav0Z6tQpDxxvkQvevTKlTHFWqSo8PW2FnPfVhCjlXcYxCyJFuBa
- q3grBt3570VQrxeGQdFqL2HDTelzbSuMxclf+AdM=
+ b=ECkS7zKWT2IwnyG8MDazdC6nhhfQCWuWCrhHL81sJkgQDKcndbNluLIseToyRXQYP
+ 2mJedJpZcp0u7QAURwX51YOroN0DCIz5fYgsAcmhQgOaonM6Z4JSz22MOcn0/rcqA2
+ xq9XS81biJ0zO4LmqCLD/C+myZrihLTT7xC2hldg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 11/13] spapr_hcall.c: make do_client_architecture_support static
-Date: Tue, 19 Jan 2021 17:23:16 +1100
-Message-Id: <20210119062318.13857-12-david@gibson.dropbear.id.au>
+Subject: [PULL 12/13] spapr_rtas.c: fix identation of rtas_ibm_suspend_me()
+ args
+Date: Tue, 19 Jan 2021 17:23:17 +1100
+Message-Id: <20210119062318.13857-13-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 References: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,44 +65,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
-The function is called only inside spapr_hcall.c.
-
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210114180628.1675603-3-danielhb413@gmail.com>
+Message-Id: <20210114180628.1675603-5-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_hcall.c   | 1 +
- include/hw/ppc/spapr.h | 5 -----
- 2 files changed, 1 insertion(+), 5 deletions(-)
+ hw/ppc/spapr_rtas.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index e5dfc1ba7a..7b5cd3553c 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1632,6 +1632,7 @@ static uint32_t cas_check_pvr(PowerPCCPU *cpu, uint32_t max_compat,
-     return best_compat;
+diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+index 513c7a8435..8a79f9c628 100644
+--- a/hw/ppc/spapr_rtas.c
++++ b/hw/ppc/spapr_rtas.c
+@@ -219,9 +219,9 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMachineState *spapr,
  }
  
-+static
- target_ulong do_client_architecture_support(PowerPCCPU *cpu,
-                                             SpaprMachineState *spapr,
-                                             target_ulong vec,
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 7f785409e4..c27c7ce515 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -582,11 +582,6 @@ void spapr_register_hypercall(target_ulong opcode, spapr_hcall_fn fn);
- target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
-                              target_ulong *args);
+ static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spapr,
+-                           uint32_t token, uint32_t nargs,
+-                           target_ulong args,
+-                           uint32_t nret, target_ulong rets)
++                                uint32_t token, uint32_t nargs,
++                                target_ulong args,
++                                uint32_t nret, target_ulong rets)
+ {
+     CPUState *cs;
  
--target_ulong do_client_architecture_support(PowerPCCPU *cpu,
--                                            SpaprMachineState *spapr,
--                                            target_ulong addr,
--                                            target_ulong fdt_bufsize);
--
- /* Virtual Processor Area structure constants */
- #define VPA_MIN_SIZE           640
- #define VPA_SIZE_OFFSET        0x4
 -- 
 2.29.2
 
