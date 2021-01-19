@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F0662FBD03
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:56:45 +0100 (CET)
-Received: from localhost ([::1]:52922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F1062FBD02
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:56:09 +0100 (CET)
+Received: from localhost ([::1]:52196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1uJA-0001Tx-Cs
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:56:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50456)
+	id 1l1uIa-00019h-K3
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:56:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l1uB7-0002Lo-09; Tue, 19 Jan 2021 11:48:26 -0500
-Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:41852)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l1uB2-0001Yu-NU; Tue, 19 Jan 2021 11:48:24 -0500
-Received: by mail-io1-xd30.google.com with SMTP id q1so40861815ion.8;
- Tue, 19 Jan 2021 08:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=fm3OfEGwwxiE3Qf6wYnVyiu/kbBV73OWraagFPT+4NU=;
- b=uIfWHICN0E2sZaL1pUkaoACYF21Vt/SaAA9pwkuZuadooaJlQFehrq5GLG+FjkFv94
- hWPQKSIJUQxl/GOwARq0yBtZ8n5fodSBAdsyp8cez95QyW1OYZz551rn/az2V1ibAG0N
- 1zDheeuZEAf/nvsMVohI+999wGvubX609IJna3UpvBvMvrswu+r/rKuxZfB4EEHAFnRE
- 3wKNgpLQg8JcLzJ+/tFvedio0WxCayPXWqWwiTOIm48ulMIR7xfHOQeHtOQ8kZhU4or5
- ERviZCz3D6dR9CTvcTikJIKaG90NIoC3Q4vJs+WN24MSZhk9l/xI2cZPTgfOuQCBzr56
- XVMQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1uCb-0003YI-50
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:49:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51782)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1uCZ-0001fr-3c
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:49:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611074994;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sA4ZZkN2xSKb85MJIOSiQ3ffKW2CbzVziKVAKDlIse8=;
+ b=IGpW9XdVRCeX59EsSztN6FDoN/LfZ/hTty/nqQruio4meDMf+7V5q2UupDBM0UMmuy+NVd
+ snNgiXyW5HXbH0yxGSCLqLrAz/RApeIZOH2aJ8Uzv1VzYdbYaENk5Uhz5CR+zvussbtHzX
+ 6617ngDzFjkmAE2S7JB90l97riW4T2A=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-kDP0E5MjOuSnv_PCkajO4A-1; Tue, 19 Jan 2021 11:49:51 -0500
+X-MC-Unique: kDP0E5MjOuSnv_PCkajO4A-1
+Received: by mail-ed1-f72.google.com with SMTP id f4so3839178eds.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 08:49:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=fm3OfEGwwxiE3Qf6wYnVyiu/kbBV73OWraagFPT+4NU=;
- b=bjLxSi3LG5FRj5wr1sDz7n4h07yNNhh3YhydUEhGtoQeVj7yA0qBdIO6PKyINGD71/
- CKJC0s4IheU40c0v0v3fcLt1yYWzoKYT3L0pvShqe5XxWUXMTXg42PYm4z1cUdUPe6HM
- yBs1iECfNDaul0FQJdIm0Mri72vxjSXaLM+tYVjbZ3fj05AvEXiqietyl8OKw/bARkMD
- jokhHzP8QcIqB6LDPPgKb6zXXhhi5gJdi3bSMT5Q1bFnLxH1HjOLC0+8GQOO/yOc9ogr
- eK8MPdg37VW+3wJq8+JhxlP9w/iW8zES4n9Dh5Srmya7nRiVnu9DUF1RCdOZDPiuiYkk
- kdkQ==
-X-Gm-Message-State: AOAM532ZbP8p3jqNES0q6dZxlk5PlNVnJ03w9zx4oZtbZ/katpslKbS5
- /eXKUzfcaU7FelecsxlYGNyygNYbCKLpXwIWCik=
-X-Google-Smtp-Source: ABdhPJziVoKM7bvBcq/vSj9l+4S6l2T4tZZV3IcglvDzLUHRE10YSBSV1vfNto8zOPCHPNdWaiIDBdhjh1yZaIFooOE=
-X-Received: by 2002:a92:cda1:: with SMTP id g1mr4159870ild.267.1611074896043; 
- Tue, 19 Jan 2021 08:48:16 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=sA4ZZkN2xSKb85MJIOSiQ3ffKW2CbzVziKVAKDlIse8=;
+ b=iws3pj6ytMyS7u8l1NcosNwMlX4onOBm0qiyGqH4hUjXlRTyvUV/JmnPRPgTzAJRN7
+ C6mZmjRA2hhi54vHwTOMQJTabhYzMSzF11wTAOP35ekK/NWCpRUI5mWuaSP7U2wkLEim
+ ZDKZdDRRSufKktXQCUe28lD38gm7giz756B54ugTkLMsHEbn31UXYb6WczmYZzuiwbxF
+ BHwD0iagmM+fhsk0LwnfSsj9yu+SdYyCw8yU2mefOtyVzbvKCiyAH/JeaFa4ubpEe0cm
+ jcria6h9sfLYURtrW4GHIrP9kR/rwffSxE6yr6eGQjV+w6evxThbcYVoi/7J7gNr8gND
+ ENKg==
+X-Gm-Message-State: AOAM531Ei4tJOVQuBTgcamjCRBzqPp7TAz426snYhXdgMaZ5Zj8QbZXW
+ 05MJf14ng+B9sVZdyC8A/epTNqHBJxyxHzoqX8LEUBlCb7/6lUU7eUYLRy8dKf9HhcCP4Uf+8e+
+ t3heeBIjEnNFul5c=
+X-Received: by 2002:a05:6402:1422:: with SMTP id
+ c2mr4076501edx.280.1611074990818; 
+ Tue, 19 Jan 2021 08:49:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyP2JEVftyssrO8XSYTcl+rlHelYQK8Jh0vUhLZldBHm+UOdgoJQL0eR1/iNul5nTyTTOQSCw==
+X-Received: by 2002:a05:6402:1422:: with SMTP id
+ c2mr4076487edx.280.1611074990654; 
+ Tue, 19 Jan 2021 08:49:50 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id l17sm10995226ejn.122.2021.01.19.08.49.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 08:49:49 -0800 (PST)
+Subject: Re: [RFC PATCH 0/2] hw/usb/dev-uas: Fix Clang 11
+ -Wgnu-variable-sized-type-not-at-end error
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20210118170308.282442-1-philmd@redhat.com>
+ <20210119164121.7kbyqjfgmutjtnj3@sirius.home.kraxel.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9da88053-565c-5282-2daa-75ef64133468@redhat.com>
+Date: Tue, 19 Jan 2021 17:49:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210112093950.17530-1-frank.chang@sifive.com>
- <20210112093950.17530-8-frank.chang@sifive.com>
-In-Reply-To: <20210112093950.17530-8-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 Jan 2021 08:47:49 -0800
-Message-ID: <CAKmqyKMNiqY_NxtiTsa2ai1axb67JNY=_Rh5evHXh+Oy-nmbqw@mail.gmail.com>
-Subject: Re: [PATCH v6 07/72] target/riscv: rvv-1.0: remove rvv related codes
- from fcsr registers
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210119164121.7kbyqjfgmutjtnj3@sirius.home.kraxel.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,76 +101,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 1:50 AM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> * Remove VXRM and VXSAT fields from FCSR register as they are only
->   presented in VCSR register.
-> * Remove RVV loose check in fs() predicate function.
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 1/19/21 5:41 PM, Gerd Hoffmann wrote:
+> On Mon, Jan 18, 2021 at 06:03:06PM +0100, Philippe Mathieu-DaudÃ© wrote:
+>> Another attempt to fix the following Clang 11 warning:
+>>
+>>   usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas_i=
+>> u' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-vari=
+>> able-sized-type-not-at-end]
+>>       uas_iu                    status;
+>>                                 ^
+>> If a guest send a packet with additional data, respond
+>> with "Illegal Request - parameter not supported".
+> 
+> Why rfc?  looks good to me as-is ;)
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Sorry I forgot to explain. RFC because I don't know enough SCSI
+to be sure than the device returning sense_code_INVALID_PARAM_VALUE
+on the bus is appropriate. This is the best fit I could find.
 
-Alistair
+> 
+> thanks,
+>   Gerd
+> 
 
-> ---
->  target/riscv/csr.c | 13 -------------
->  1 file changed, 13 deletions(-)
->
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index c8b1e4954ec..6eda5bacb7c 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -46,10 +46,6 @@ void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops)
->  static int fs(CPURISCVState *env, int csrno)
->  {
->  #if !defined(CONFIG_USER_ONLY)
-> -    /* loose check condition for fcsr in vector extension */
-> -    if ((csrno == CSR_FCSR) && (env->misa & RVV)) {
-> -        return 0;
-> -    }
->      if (!env->debugger && !riscv_cpu_fp_enabled(env)) {
->          return -RISCV_EXCP_ILLEGAL_INST;
->      }
-> @@ -254,10 +250,6 @@ static int read_fcsr(CPURISCVState *env, int csrno, target_ulong *val)
->  #endif
->      *val = (riscv_cpu_get_fflags(env) << FSR_AEXC_SHIFT)
->          | (env->frm << FSR_RD_SHIFT);
-> -    if (vs(env, csrno) >= 0) {
-> -        *val |= (env->vxrm << FSR_VXRM_SHIFT)
-> -                | (env->vxsat << FSR_VXSAT_SHIFT);
-> -    }
->      return 0;
->  }
->
-> @@ -268,13 +260,8 @@ static int write_fcsr(CPURISCVState *env, int csrno, target_ulong val)
->          return -RISCV_EXCP_ILLEGAL_INST;
->      }
->      env->mstatus |= MSTATUS_FS;
-> -    env->mstatus |= MSTATUS_VS;
->  #endif
->      env->frm = (val & FSR_RD) >> FSR_RD_SHIFT;
-> -    if (vs(env, csrno) >= 0) {
-> -        env->vxrm = (val & FSR_VXRM) >> FSR_VXRM_SHIFT;
-> -        env->vxsat = (val & FSR_VXSAT) >> FSR_VXSAT_SHIFT;
-> -    }
->      riscv_cpu_set_fflags(env, (val & FSR_AEXC) >> FSR_AEXC_SHIFT);
->      return 0;
->  }
-> --
-> 2.17.1
->
->
 
