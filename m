@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6443D2FB5BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 12:39:49 +0100 (CET)
-Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB1DD2FB5BB
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 12:40:57 +0100 (CET)
+Received: from localhost ([::1]:39586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1pMN-0008Gh-2O
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 06:39:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48772)
+	id 1l1pNZ-0000So-0e
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 06:40:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1pJ1-00077r-6H
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:36:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59669)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1pIw-0000HM-54
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:36:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611056167;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=cbTQCddKRqZMeCaJfuJIl7tYjRKsLLMj4us5Z3SryV4=;
- b=gEhBeAKKEDCKQJPNA/fFoSmHxbvyStc6+sj1QvjjKXNu7mhg3KS8WRqRFAj0pUy9X/K9xI
- jzp4EkS8cB/IhN01CLoHNrhd6tZ/UiHKvLt6TU4totEMzUlOwz8kVqiIM5CUVXgPZLCT+t
- Xoh4V/wmcCzQ3ozy0NF/5dL5oHBB/Pc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-1-8PdUeptlNBC93GEHMOOyyw-1; Tue, 19 Jan 2021 06:36:06 -0500
-X-MC-Unique: 8PdUeptlNBC93GEHMOOyyw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11B18800D62;
- Tue, 19 Jan 2021 11:36:05 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B8D4C19C93;
- Tue, 19 Jan 2021 11:36:01 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4AC94113865F; Tue, 19 Jan 2021 12:36:00 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: Realize methods realizing "sideways" in the composition tree
-References: <87im7yi519.fsf@dusky.pond.sub.org>
- <CAFEAcA_MT6z4ey79o+WhX=og57HWR32rnzajFYLGvLnQtS1BRQ@mail.gmail.com>
-Date: Tue, 19 Jan 2021 12:36:00 +0100
-In-Reply-To: <CAFEAcA_MT6z4ey79o+WhX=og57HWR32rnzajFYLGvLnQtS1BRQ@mail.gmail.com>
- (Peter Maydell's message of "Fri, 15 Jan 2021 15:50:40 +0000")
-Message-ID: <87czy1upjz.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1pJq-0007Yr-3U
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:37:06 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:38357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1pJo-0000MP-6Z
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:37:05 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id 6so28023668ejz.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 03:37:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=R89qZj5UKCLtQgoFay4PetKhi2tpRwPy4aJiyPuN8UI=;
+ b=rODQBQfyU92g4nEXx3/FeQe5C6h3SivE6wpovOZW3pfYjDdXVXNYCVXZUnLC1MgXho
+ sNyMWC+RGmw34xp4RvYLQx2VYXdK8M6GTPzah2FbJlQbrllduP0VGxoFGkwXcLpKR2/s
+ GVqnMQZ1wZV8aMlF5KCKMleNS7e4rl13hpb9xDTzlKjPLlPgkJ7cODIfDh7O/hBzkuQM
+ R8RTxcBmYQiXEDvkBIi5o2gpFWZfo3TeW8dw/4WUqkeNreg5aUOBqjDV1gWLu2cddmee
+ nsrcYtqWAJAjLIz9FZOUtg7WrLYLwe5Ac6xRzqybJ5WO6r/jjmGzx60oPvvkTmCY5Irf
+ VO2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=R89qZj5UKCLtQgoFay4PetKhi2tpRwPy4aJiyPuN8UI=;
+ b=P+ZtLHM0y/zuXfvNPBXl1EkF5unXi5Sa807X8qAvw/34Lve9S53/6PqPHlKqNmKVQR
+ w0tnLkbOzC9mmSqXlWmQd8oajR2srDcYDoEXVSAKfUbK2lSQ5aDWNT4ainHwPmTE017S
+ PpcQWsQ/wEFhfIGderZdEb9Ce9gaPpWzm71Th7pentrguudVdSAd65vYnSx782sdf+jf
+ 7gnrAOgM3/71TrdAxDJaK/VyQLzocLLSJUHU97ldqCjQqh2rsrTnCbxc8mOMs6uIhNcX
+ /vwlKGal97NGRa44kWZ+joZ/L2rY4cRyUylKE6LOXM8/ID92sipPd9z9Q3GwCHeiOWBx
+ Ai3A==
+X-Gm-Message-State: AOAM531+XSK21NRJwM8Gn96Zm10W+JzA8I85HuP3rEY7M/o+q2NKBcXq
+ Wtx2sVfI56lJJ2EwVejcHG6pKC8Fle1d8FG+RChS6w==
+X-Google-Smtp-Source: ABdhPJxXzkwNOKDCq1D8fzByB97q6/yqPjVxN7SdOqnc6ep6iGE8N28jNPD8HOZZWem4nnj8AfwosdX61vRlYnFswJM=
+X-Received: by 2002:a17:906:3603:: with SMTP id
+ q3mr2611168ejb.382.1611056222378; 
+ Tue, 19 Jan 2021 03:37:02 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210115101126.4259-1-maxim.uvarov@linaro.org>
+ <20210115101126.4259-2-maxim.uvarov@linaro.org>
+In-Reply-To: <20210115101126.4259-2-maxim.uvarov@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 11:36:51 +0000
+Message-ID: <CAFEAcA_OuwCT6w8LrxfiY1856UAOG4smL0jr2CrhrVETLhHz9Q@mail.gmail.com>
+Subject: Re: [PATCHv7 1/3] hw: gpio: implement gpio-pwr driver for qemu
+ reset/poweroff
+To: Maxim Uvarov <maxim.uvarov@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,38 +79,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
- Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Gerd Hoffmann <kraxel@redhat.com>
+Cc: Andrew Jones <drjones@redhat.com>, Jose Marinho <Jose.Marinho@arm.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Fri, 15 Jan 2021 at 15:45, Markus Armbruster <armbru@redhat.com> wrote:
->>
->> The .realize() method realizes the child at (1).  It should use
->> qdev_realize() like we do everywhere else, since commit ce189ab230
->> "qdev: Convert bus-less devices to qdev_realize() with Coccinelle".
->>
->> It sets a link property from the child back to the parent at (2).  Why
->> do we need a link?  Each QOM Object contains a pointer to its parent,
->> doesn't it?
+On Fri, 15 Jan 2021 at 10:11, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
 >
-> It does, but what should parent object pointers be used for?
-> My assumption is that you'd only use those where you really
-> wanted to traverse the QOM tree. Generally I would use a link
-> property when I wanted one object to have a pointer to the
-> other regardless of what the QOM-tree relationship happens to
-> be. Today all the users of XHCIState happen to create it in a
-> way that means they're parents of it, but that doesn't seem
-> like it should be an inherent requirement that we bake into
-> its API.
+> Implement gpio-pwr driver to allow reboot and poweroff machine.
+> This is simple driver with just 2 gpios lines. Current use case
+> is to reboot and poweroff virt machine in secure mode. Secure
+> pl066 gpio chip is needed for that.
+>
+> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> ---
+>  hw/gpio/Kconfig     |  3 ++
+>  hw/gpio/gpio_pwr.c  | 70 +++++++++++++++++++++++++++++++++++++++++++++
+>  hw/gpio/meson.build |  1 +
+>  3 files changed, 74 insertions(+)
+>  create mode 100644 hw/gpio/gpio_pwr.c
 
-Makes sense.
+> +/*
+> + * QEMU interface:
+> + * two named input GPIO lines:
+> + *   'reset' : when asserted, trigger system reset
+> + *   'shutdown' : when asserted, trigger system shutdown
+> + */
 
-I'll post a patch to use qdev_realize().
+The comment says we perform the actions when the lines are
+asserted...
 
-Thanks!
+> +static void gpio_pwr_reset(void *opaque, int n, int level)
+> +{
+> +    if (!level) {
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
+> +    }
+> +}
+> +
+> +static void gpio_pwr_shutdown(void *opaque, int n, int level)
+> +{
+> +    if (!level) {
+> +        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+> +    }
+> +}
 
+...but the code performs the actions when the lines
+are de-asserted, ie when they go to 0. I think the code
+should be "if (level)".
+
+thanks
+-- PMM
 
