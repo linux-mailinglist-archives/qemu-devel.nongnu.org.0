@@ -2,72 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D08192FBC31
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:15:32 +0100 (CET)
-Received: from localhost ([::1]:56148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C402FBC50
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:24:33 +0100 (CET)
+Received: from localhost ([::1]:46044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1tfH-00075F-PO
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:15:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36528)
+	id 1l1to0-0006qr-9j
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:24:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1tMl-00016Y-JK
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:56:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56455)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1tMg-0008NU-64
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:56:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611071775;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wY9OHAEQH+hl2RB1HwBX0sENmn5e5ynqNuloLu2o/iY=;
- b=L1kccx9jtK/guVeyPu3yu8pmuvYhhyRxcIZQqoJepz9rm8iKw/iBSmlPIy/dzzZe9dGqpw
- BPbo216/o/AA00dnNX61n37soLH9W80OxoAKSOhqSi0waAvrpm7JVRczpFR3CV5Au/ILw/
- ADPZxJSrUTbZTf9RuFYThElN9WdNOSc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-251-kxkzr8E5OVqA4SaRv1QD-g-1; Tue, 19 Jan 2021 10:56:13 -0500
-X-MC-Unique: kxkzr8E5OVqA4SaRv1QD-g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A459A1005513
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 15:56:12 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4FBC119CA8;
- Tue, 19 Jan 2021 15:56:12 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D796B113865F; Tue, 19 Jan 2021 16:56:10 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 03/25] qemu-option: warn for short-form boolean options
-References: <20210118163113.780171-1-pbonzini@redhat.com>
- <20210118163113.780171-4-pbonzini@redhat.com>
-Date: Tue, 19 Jan 2021 16:56:10 +0100
-In-Reply-To: <20210118163113.780171-4-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Mon, 18 Jan 2021 11:30:51 -0500")
-Message-ID: <87o8hkx6n9.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1tls-0005vG-Nd
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:22:20 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:43249)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l1tlq-0005CY-UK
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:22:20 -0500
+Received: by mail-wr1-x432.google.com with SMTP id y17so20322025wrr.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 08:22:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=2qFugp9RXsy65SAkwpqhbGfnMPJqmEcKUyQAaRmQLTA=;
+ b=txqubDSOujig0oqp/+oBcOe+Z2XkY3AJ+toXwhK99qpV2SbLtXWF95/X8FmouVOfsM
+ IZI1DEHnSf/JdAZV1ehKzpkvd15lRt0DU/iw8o6UbXvAYNHY0ZFIyEpR+piLj5FCohCP
+ Xq5k91F2Z9tinIYi6ugKE9m54gO/cYiYMOtvVkLABb3OOGvRJdJ1PZLeiE1tc7IfsOTI
+ uR/vffIwNu1gwFNx+hmBFGU2zJkRGE2HCyQokNsoMJKLGCuHbOeap2xqIDVZTYX5ojfo
+ VATdZuCSlwn3j/v1s7R+LWLyOGZzlsiecoSdbwfvTuFynYsWDdHamU5TaEiRaZn/mQKC
+ Cm1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=2qFugp9RXsy65SAkwpqhbGfnMPJqmEcKUyQAaRmQLTA=;
+ b=OYiXU1jjVU/UhMTuZW3vSuJmRCjQPTpzPBiTsn/v1PUCjt/UfHEIZNSKVOaT2gZUVq
+ 0tAN/mIPO42gZFhMKed3kOW/b7h05N2CivZO2PIDLWweKA6LTee3ymAwzTg7ygZW67tJ
+ Rgv+QOsipxgMqP15xLDIdw8Inl3Ue9P4hUYHQqNKg5geAsO5ryqw764ODK4uku743v4j
+ dtJhcMwZRRjSmw2PSFOCk5SoZvniSYLg/EwN2U3AzI6RJ9xW96ZuaBEimTVRYCX9MM9U
+ TbAhbOkBikndVLsaJrhUOmYrQgWiA2T8sRsrM9dBkXyb8ZsmCHMjqfBABhcODYd3wcUm
+ 3Umg==
+X-Gm-Message-State: AOAM530rrBtuk7fvAsHFH1Q3gNniGXI7nv8X6NHDHltJAcJQxMN+pfU2
+ 7Dc+ftkrq5U3SRAiuv/E0rtDYw==
+X-Google-Smtp-Source: ABdhPJzakLuHcZhTjyCtwizEljCK3ne51CBVVDCiZKGXn7z3fLEw8rJSw59IVsSVLX6Gllt7ShuZJg==
+X-Received: by 2002:a05:6000:114e:: with SMTP id
+ d14mr5078547wrx.176.1611073337431; 
+ Tue, 19 Jan 2021 08:22:17 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id s19sm35060885wrf.72.2021.01.19.08.22.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jan 2021 08:22:16 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 937B11FF7E;
+ Tue, 19 Jan 2021 16:22:15 +0000 (GMT)
+References: <20210119054502.531451-1-f4bug@amsat.org>
+ <878s8puprg.fsf@linaro.org>
+ <f34c7ff5-cd02-83b4-d3d8-c2ec7ac4334f@amsat.org>
+ <20210119142030.GD2335568@redhat.com>
+ <bdd4613c-219d-e06d-09e3-bc46aeb58c59@amsat.org>
+ <20210119144632.GH2335568@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Subject: Re: [RFC PATCH] tests/docker: Allow passing --network option when
+ building images
+Date: Tue, 19 Jan 2021 15:58:32 +0000
+In-reply-to: <20210119144632.GH2335568@redhat.com>
+Message-ID: <87y2goucaw.fsf@linaro.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,198 +93,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org,
- armbru@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, =?utf-8?Q?M?= =?utf-8?Q?arc-Andr=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> Options such as "server" or "nowait", that are commonly found in -chardev,
-> are sugar for "server=on" and "wait=off".  This is quite surprising and
-> also does not have any notion of typing attached.  It is even possible to
-> do "-device e1000,noid" and get a device with "id=off".
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> On Tue, Jan 19, 2021 at 03:40:50PM +0100, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+>> On 1/19/21 3:20 PM, Daniel P. Berrang=C3=A9 wrote:
+>> > On Tue, Jan 19, 2021 at 02:40:13PM +0100, Philippe Mathieu-Daud=C3=A9 =
+wrote:
+>> >> On 1/19/21 12:27 PM, Alex Benn=C3=A9e wrote:
+>> >>> Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+>> >>>
+>> >>>> When using the Docker engine, build fails because the container is
+>> >>>> unable to resolve hostnames:
+>> >>>>
+>> >>>>   $ make docker-image-debian-s390x-cross NETWORK=3Dhost ENGINE=3Ddo=
+cker
+>> >>>>     BUILD   debian10
+>> >>>>   #6 9.679 Err:1 http://deb.debian.org/debian buster InRelease
+>> >>>>   #6 9.679   Temporary failure resolving 'deb.debian.org'
+>> >>>>   #6 16.69 Err:2 http://security.debian.org/debian-security buster/=
+updates InRelease
+>> >>>>   #6 16.69   Temporary failure resolving 'security.debian.org'
+>> >>>>   #6 22.69 Err:3 http://deb.debian.org/debian buster-updates InRele=
+ase
+>> >>>>   #6 22.69   Temporary failure resolving 'deb.debian.org'
+>> >>>>   #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/bu=
+ster/InRelease  Temporary failure resolving 'deb.debian.org'
+>> >>>>   #6 22.74 W: Failed to fetch http://security.debian.org/debian-sec=
+urity/dists/buster/updates/InRelease  Temporary failure resolving 'security=
+.debian.org'
+>> >>>>   #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/bu=
+ster-updates/InRelease  Temporary failure resolving 'deb.debian.org'
+>> >>>>   #6 22.74 W: Some index files failed to download. They have been
+>> >>>>   ignored, or old ones used instead.
+>> >>>
+>> >>> I'm confused by this one as it currently works for me. That said I
+>> >>> thought the actual behaviour was meant to be networking is enabled by
+>> >>> default and explicitly disabled by the run step (which shouldn't be
+>> >>> pulling extra stuff down).
+>> >>>
+>> >>> This was last tweaked by Daniel in 8a2390a4f47
+>> >>>
+>> >>> Have the defaults for docker engine changed?
+>> >>
+>> >> No idea as I'm not following their development, but TBH it
+>> >> becomes harder and harder to use without tricks (I had to
+>> >> add systemd.unified_cgroup_hierarchy=3D0 to kernel cmdline
+>> >> to keep using it).
+>> >>
+>> >> Maybe I should switch to podman which is the recommended
+>> >> engine on Fedora.
+>> >>
+>> >> Cc'ing Marc-Andr=C3=A9 who added podman support (Daniel is in Cc).
+>> >=20
+>> > I'm using podman exclusively since Docker doesn't work well with
+>> > modern distros that use Cgroups v2.
+>>=20
+>> OK this probably explains it.
+>>=20
+>> Ideally we could add a check for this ("modern distro" -> docker
+>> engine not recommended) but I guess I'm the only one using this
+>> feature on Fedora (as nobody complained) so not a problem. I'll
+>> see how to use podman.
 >
-> Deprecate it and print a warning when it is encountered.  In general,
-> this short form for boolean options only seems to be in wide use for
-> -chardev and -spice.
+> I'm not sure we need to block it. If someone has docker installed
+> then its reasonable to assume they have ti working. We prefer
+> podman if both are installed.
+
+From my point of view podman is the odd man out (I run upstream
+docker.com packages on Debian Buster). I had to jump through some hoops
+to get podman installed on my Gentoo box but I think it's currently
+broken because it's Gentoo.
+
+IOW I assume the people that really care about podman will shout if it
+breaks. It would be nice if we could catch cases in the CI though.
+
 >
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  docs/system/deprecated.rst |  6 ++++++
->  tests/test-qemu-opts.c     |  2 +-
->  util/qemu-option.c         | 29 ++++++++++++++++++-----------
->  3 files changed, 25 insertions(+), 12 deletions(-)
 >
-> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
-> index e20bfcb17a..e71faefbe5 100644
-> --- a/docs/system/deprecated.rst
-> +++ b/docs/system/deprecated.rst
-> @@ -127,6 +127,12 @@ Drives with interface types other than ``if=none`` are for onboard
->  devices.  It is possible to use drives the board doesn't pick up with
->  -device.  This usage is now deprecated.  Use ``if=none`` instead.
->  
-> +Short-form boolean options (since 5.2)
+> Regards,
+> Daniel
 
-6.0
 
-> +''''''''''''''''''''''''''''''''''''''
-> +
-> +Boolean options such as ``share=on``/``share=off`` can be written
-> +in short form as ``share`` and ``noshare``.  This is deprecated
-> +and will cause a warning.
->  
->  QEMU Machine Protocol (QMP) commands
->  ------------------------------------
-> diff --git a/tests/test-qemu-opts.c b/tests/test-qemu-opts.c
-> index 2aab831d10..8bbb17b1c7 100644
-> --- a/tests/test-qemu-opts.c
-> +++ b/tests/test-qemu-opts.c
-> @@ -515,7 +515,7 @@ static void test_opts_parse(void)
->      error_free_or_abort(&err);
->      g_assert(!opts);
->  
-> -    /* Implied value */
-> +    /* Implied value (qemu_opts_parse warns but accepts it) */
->      opts = qemu_opts_parse(&opts_list_03, "an,noaus,noaus=",
->                             false, &error_abort);
->      g_assert_cmpuint(opts_count(opts), ==, 3);
-> diff --git a/util/qemu-option.c b/util/qemu-option.c
-> index 5f27d4369d..40564a12eb 100644
-> --- a/util/qemu-option.c
-> +++ b/util/qemu-option.c
-> @@ -756,10 +756,12 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
->  
->  static const char *get_opt_name_value(const char *params,
->                                        const char *firstname,
-> +                                      bool warn_on_flag,
->                                        bool *help_wanted,
->                                        char **name, char **value)
->  {
->      const char *p;
-> +    const char *prefix = "";
->      size_t len;
->      bool is_help = false;
->  
-> @@ -776,10 +778,15 @@ static const char *get_opt_name_value(const char *params,
->              if (strncmp(*name, "no", 2) == 0) {
->                  memmove(*name, *name + 2, strlen(*name + 2) + 1);
->                  *value = g_strdup("off");
-> +                prefix = "no";
->              } else {
->                  *value = g_strdup("on");
->                  is_help = is_help_option(*name);
->              }
-> +            if (!is_help && warn_on_flag) {
-> +                warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
-> +                error_printf("Please use %s=%s instead\n", *name, *value);
-> +            }
-
-If @warn_on_flag, we warn except for "help" and "?".  The exception
-applies regardless of @help_wanted.  Shouldn't we except *only*
-recognized help requests?
-
->          }
->      } else {
->          /* found "foo=bar,more" */
-> @@ -801,14 +808,14 @@ static const char *get_opt_name_value(const char *params,
->  
->  static bool opts_do_parse(QemuOpts *opts, const char *params,
->                            const char *firstname, bool prepend,
-> -                          bool *help_wanted, Error **errp)
-> +                          bool warn_on_flag, bool *help_wanted, Error **errp)
->  {
->      char *option, *value;
->      const char *p;
->      QemuOpt *opt;
->  
->      for (p = params; *p;) {
-> -        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
-> +        p = get_opt_name_value(p, firstname, warn_on_flag, help_wanted, &option, &value);
-
-Long line.  Break it before the three output arguments.
-
->          if (help_wanted && *help_wanted) {
->              g_free(option);
->              g_free(value);
-> @@ -839,7 +846,7 @@ static char *opts_parse_id(const char *params)
->      char *name, *value;
->  
->      for (p = params; *p;) {
-> -        p = get_opt_name_value(p, NULL, NULL, &name, &value);
-> +        p = get_opt_name_value(p, NULL, false, NULL, &name, &value);
->          if (!strcmp(name, "id")) {
->              g_free(name);
->              return value;
-> @@ -858,7 +865,7 @@ bool has_help_option(const char *params)
->      bool ret = false;
->  
->      for (p = params; *p;) {
-> -        p = get_opt_name_value(p, NULL, &ret, &name, &value);
-> +        p = get_opt_name_value(p, NULL, false, &ret, &name, &value);
->          g_free(name);
->          g_free(value);
->          if (ret) {
-> @@ -878,12 +885,12 @@ bool has_help_option(const char *params)
->  bool qemu_opts_do_parse(QemuOpts *opts, const char *params,
->                         const char *firstname, Error **errp)
->  {
-> -    return opts_do_parse(opts, params, firstname, false, NULL, errp);
-> +    return opts_do_parse(opts, params, firstname, false, false, NULL, errp);
->  }
->  
->  static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
->                              bool permit_abbrev, bool defaults,
-> -                            bool *help_wanted, Error **errp)
-> +                            bool warn_on_flag, bool *help_wanted, Error **errp)
->  {
->      const char *firstname;
->      char *id = opts_parse_id(params);
-> @@ -906,8 +913,8 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
->          return NULL;
->      }
->  
-> -    if (!opts_do_parse(opts, params, firstname, defaults, help_wanted,
-> -                       errp)) {
-> +    if (!opts_do_parse(opts, params, firstname, defaults,
-> +                       warn_on_flag, help_wanted, errp)) {
->          qemu_opts_del(opts);
->          return NULL;
->      }
-> @@ -925,7 +932,7 @@ static QemuOpts *opts_parse(QemuOptsList *list, const char *params,
->  QemuOpts *qemu_opts_parse(QemuOptsList *list, const char *params,
->                            bool permit_abbrev, Error **errp)
->  {
-> -    return opts_parse(list, params, permit_abbrev, false, NULL, errp);
-> +    return opts_parse(list, params, permit_abbrev, false, false, NULL, errp);
->  }
->  
->  /**
-> @@ -943,7 +950,7 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
->      QemuOpts *opts;
->      bool help_wanted = false;
->  
-> -    opts = opts_parse(list, params, permit_abbrev, false,
-> +    opts = opts_parse(list, params, permit_abbrev, false, true,
->                        opts_accepts_any(list) ? NULL : &help_wanted,
->                        &err);
->      if (!opts) {
-
-This function now warns, except for "help" and "?".  The exception
-applies even when we treat "help" and "?" as sugar for "help=on" and
-"?=on" because opts_accepts_any().
-
-It is the only spot that enables the warning.
-
-Does all user input flow through qemu_opts_parse_noisily()?
-
-> @@ -962,7 +969,7 @@ void qemu_opts_set_defaults(QemuOptsList *list, const char *params,
->  {
->      QemuOpts *opts;
->  
-> -    opts = opts_parse(list, params, permit_abbrev, true, NULL, NULL);
-> +    opts = opts_parse(list, params, permit_abbrev, true, false, NULL, NULL);
->      assert(opts);
->  }
-
+--=20
+Alex Benn=C3=A9e
 
