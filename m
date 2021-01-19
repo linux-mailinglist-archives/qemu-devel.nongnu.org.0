@@ -2,68 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DF52FBCBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:43:04 +0100 (CET)
-Received: from localhost ([::1]:48968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D73C12FBCCD
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:46:40 +0100 (CET)
+Received: from localhost ([::1]:57910 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1u5q-0003xp-D1
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:42:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47332)
+	id 1l1u9P-0007kX-Ty
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:46:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l1u0B-00009f-8Z; Tue, 19 Jan 2021 11:37:08 -0500
-Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:34407)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1u0C-00009i-PZ; Tue, 19 Jan 2021 11:37:08 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:38584)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l1u08-0007ei-Ro; Tue, 19 Jan 2021 11:37:06 -0500
-Received: by mail-io1-xd32.google.com with SMTP id u17so40862221iow.1;
- Tue, 19 Jan 2021 08:37:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1u0B-0007ew-7t; Tue, 19 Jan 2021 11:37:08 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id 6so29404231ejz.5;
+ Tue, 19 Jan 2021 08:37:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=gsjRYwfGdghN2DKYlUIHWegNlgsR76pHPsztQrvMAoQ=;
- b=QRDUNXj1GkWjteMavwV6ae43LQCGQ7xTjriihO+mDEGj9z5OXCzqUEUFkAZy6DBGsZ
- gasgaT1rYXwuyrw3whs6z0NCe+Qa4jk0uY9Ez0CPkwzV4hdJssQnx7mhv0y6pv84Ed8w
- ho3KwBrTe+o9n8wr1SbsOxgqusgvMmnAolWnnK+iobjllhYjfvHHv2d5aiVN/8+CxXin
- c9TjSXXp0CCPXNaR0J2LPHSacKxbCaoo62hXJjlpyCPSIk/MtSAd5G91g+P/11aYbQfK
- c1jo3zv/bEVjgIr8yaRleRfDE2p05FZNBz1TYNVIZR1WinyPcXWJBCGwVpbvAeTs5mZN
- lMTQ==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UhtHNcErMUku7/zcHa+fQfHdVJYtN0YPU+jqZaPfhXY=;
+ b=WWDjWpwNfPa5JBDhgEaW8pZE4ey5KTQttt9eD42IggYXT2Bq8ACVslqlnFY0giWORf
+ COFbbpWELuSyGaK7grTwNv17jCsxizzoRa3Bz1ZcOF5U0bnHACX7DLaDj3YGF8htQYEP
+ SwMOETyrq7EZsa8+jtkFbil9BmMQj6HkqtD0e3uqi1wop97aRNXwFW5wOJKTayFcV9++
+ v88U162mn4LYUp565jDzL/M0zaJjLu9rfLwWWoKgC9k3xgrEtbO3iKG0iTnXiZ2V2kpx
+ Djrk9B3+U2uexzqSTg+cLCGwpLI3ycUaVmaSToJ9MgfsK9prg/8ING9kXRNv12UwrAsB
+ wZAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=gsjRYwfGdghN2DKYlUIHWegNlgsR76pHPsztQrvMAoQ=;
- b=AZiXwz3jlRAZDUhnLytdj0K2K6jswPRQ6LYxQl0bUyi8C+TOAZW/sKjTqa38NYja2O
- sL5nk404fPo4oHniqJHkiT1/y8aR7X+VRjCjq1t2vCsAimfozEOx9YYloQelaoDrn8VY
- kk7r+AaOwLEHKwdwBAeM872rjPKpM7rXFrsxyhZjYgFiG0WtAzRL1AfhtCuBzIRN6U+d
- m2faEqFS5Owb5kzqCLia4ldJYJnAOvGKYE7p+v5J714BzAS/QJakiSNTHYpqTb+Zyb1u
- AHRCxJBNIf3RoGuMmOtoK9Epjxo5j+EG6rz8M1YTCfevYlPdzPg3y3+UDxNtG/I4ENxM
- saAQ==
-X-Gm-Message-State: AOAM532lJUdcAxJ3OPuJ3DlZR9g5dyQ5lhp/lsbLtc2lqBnuk6j4GOvy
- ZGSyVqjXLbHG9EeFfqFA9Ed/B7s+3RopmNYiW1w=
-X-Google-Smtp-Source: ABdhPJypgMRhdZOU2st8Dw3NDeZ+v4YvDyaZHKb1x9sabbz/qqFy/w60cReEBQILhwA8Bj2iodBQcitF7Fiy93O646E=
-X-Received: by 2002:a02:2544:: with SMTP id g65mr4111769jag.91.1611074223478; 
- Tue, 19 Jan 2021 08:37:03 -0800 (PST)
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UhtHNcErMUku7/zcHa+fQfHdVJYtN0YPU+jqZaPfhXY=;
+ b=c9zfi43ODkea9NsGSuqfQxPLcoWUTe/qvtzW907K3LmBP6maIJqTPPsz3b/EkFxVS5
+ 7fO32kuZwrJOr9r/t4nuMMTvh2zUQYC/nl5amgwPlBE40wRb7D4gaAO9gZ9CkZ4aGVSJ
+ Fh0mT5K28I3vRKR6Ye2ph7zHlB5V1yQBB48Qm8YWOmwROVgimhH2TBVS3+66556izN5O
+ tlDyO7KLFBwAs78n1uKkZCibg5Z/IeCib+iFQlsG6FLKII3mr7jb9rQY9ZA5Lg7m7Z0c
+ CZ4MvSzTdOPFUTFRqmtdmbLulbb9lL6pdnT9NzG9kap41FcEMvTqVhl7vc9Dhui2QO2m
+ MB/w==
+X-Gm-Message-State: AOAM5332M/dXKXnVw5Zjn8g9efhiOB8YxktyvxglWP36wTXgUiCrLadI
+ czFaUpVWQiT7t1s7txCOr9M=
+X-Google-Smtp-Source: ABdhPJx200oKM1ZyDGZtErLA9KB+OdVoQ/mO+WolkCid49lEXSkbyjfxd0pQwtNL9D06Jam9qoGpLA==
+X-Received: by 2002:a17:906:36d4:: with SMTP id
+ b20mr3492718ejc.144.1611074225095; 
+ Tue, 19 Jan 2021 08:37:05 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id y59sm13043562ede.59.2021.01.19.08.37.03
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 08:37:04 -0800 (PST)
+Subject: Re: [RFC PATCH v2 01/20] migration/vmstate: Restrict vmstate_dummy to
+ user-mode
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210117192446.23753-1-f4bug@amsat.org>
+ <20210117192446.23753-2-f4bug@amsat.org>
+ <CAFEAcA_358tUe-O9Yb94p=xDXXLTNM8EoQRvwMKEY_bmSTfzJQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <004525a7-e8bb-9316-6ad5-ba5765471639@amsat.org>
+Date: Tue, 19 Jan 2021 17:37:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210112093950.17530-1-frank.chang@sifive.com>
- <20210112093950.17530-5-frank.chang@sifive.com>
-In-Reply-To: <20210112093950.17530-5-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 19 Jan 2021 08:36:37 -0800
-Message-ID: <CAKmqyKOsn+vSRxWQYkHkST53F7G_sNR=3YAdT-QdF4M4DGY+mQ@mail.gmail.com>
-Subject: Re: [PATCH v6 04/72] target/riscv: rvv-1.0: add sstatus VS field
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+In-Reply-To: <CAFEAcA_358tUe-O9Yb94p=xDXXLTNM8EoQRvwMKEY_bmSTfzJQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,59 +92,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Andrew Jeffery <andrew@aj.id.au>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
+ Subbaraya Sundeep <sundeep.lkml@gmail.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 1:51 AM <frank.chang@sifive.com> wrote:
->
-> From: LIU Zhiwei <zhiwei_liu@c-sky.com>
->
-> Signed-off-by: LIU Zhiwei <zhiwei_liu@c-sky.com>
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 1/19/21 2:50 PM, Peter Maydell wrote:
+> On Sun, 17 Jan 2021 at 19:24, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>
+>> 'vmstate_dummy' is special and only used for user-mode. Rename
+>> it to something more specific.
+>> It was introduced restricted to user-mode in commit c71c3e99b8
+>> ("Add a vmstate_dummy struct for CONFIG_USER_ONLY") but this
+>> restriction was later removed in commit 6afc14e92ac ("migration:
+>> Fix warning caused by missing declaration of vmstate_dummy").
+>> Avoid the missing declaration warning by adding a stub for the
+>> symbol, and restore the #ifdef'ry.
+> 
+> So what is the actual use of vmstate_dummy ? I had a grep
+> through and as far as I can see the points where vmstate_cpu_common
+> is used are all in softmmu-only code.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+No clue, maybe simply remnant from unfinished work?
 
-Alistair
+> I tried this patch
+> and QEMU seems to compile OK:
+> 
+> diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
+> index 140fa32a5e3..a827417a4d8 100644
+> --- a/include/hw/core/cpu.h
+> +++ b/include/hw/core/cpu.h
+> @@ -1131,8 +1131,6 @@ bool target_words_bigendian(void);
+> 
+>  #ifdef CONFIG_SOFTMMU
+>  extern const VMStateDescription vmstate_cpu_common;
+> -#else
+> -#define vmstate_cpu_common vmstate_dummy
+>  #endif
+> 
+>  #define VMSTATE_CPU() {                                                     \
 
-> ---
->  target/riscv/cpu_bits.h | 1 +
->  target/riscv/csr.c      | 2 +-
->  2 files changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/target/riscv/cpu_bits.h b/target/riscv/cpu_bits.h
-> index 82c48b7b9be..8edf81692e6 100644
-> --- a/target/riscv/cpu_bits.h
-> +++ b/target/riscv/cpu_bits.h
-> @@ -414,6 +414,7 @@
->  #define SSTATUS_UPIE        0x00000010
->  #define SSTATUS_SPIE        0x00000020
->  #define SSTATUS_SPP         0x00000100
-> +#define SSTATUS_VS          0x00000600
->  #define SSTATUS_FS          0x00006000
->  #define SSTATUS_XS          0x00018000
->  #define SSTATUS_PUM         0x00040000 /* until: priv-1.9.1 */
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 50862df9e82..a70a78386da 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -448,7 +448,7 @@ static const target_ulong delegable_excps =
->      (1ULL << (RISCV_EXCP_STORE_GUEST_AMO_ACCESS_FAULT));
->  static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
->      SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
-> -    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-> +    SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD | SSTATUS_VS;
->  static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
->  static const target_ulong hip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
->  static const target_ulong vsip_writable_mask = MIP_VSSIP;
-> --
-> 2.17.1
->
->
+Great! Maybe even restricting VMSTATE_CPU() to softmmu-only:
+
+-- >8 --
+@@ -1131,9 +1131,6 @@ bool target_words_bigendian(void);
+
+ #ifdef CONFIG_SOFTMMU
+ extern const VMStateDescription vmstate_cpu_common;
+-#else
+-#define vmstate_cpu_common vmstate_dummy
+-#endif
+
+ #define VMSTATE_CPU() {
+     \
+     .name = "parent_obj",
+     \
+@@ -1142,6 +1139,7 @@ extern const VMStateDescription vmstate_cpu_common;
+     .flags = VMS_STRUCT,
+     \
+     .offset = 0,
+     \
+ }
++#endif
+
+ #endif /* NEED_CPU_H */
+---
+
+I'll wait if David/Juan have any comment, else respin based
+on your patch.
+
+Thanks,
+
+Phil.
 
