@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4C02FB545
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AF42FB546
 	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:22:31 +0100 (CET)
-Received: from localhost ([::1]:42158 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:42160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1o9Z-0004Ey-Vb
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:22:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1l1o9e-0004F1-4h
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:22:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2c-0001z1-VM; Tue, 19 Jan 2021 05:15:15 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:38953)
+ id 1l1o2d-0001z9-35; Tue, 19 Jan 2021 05:15:15 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:49045)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2a-0004Eu-6I; Tue, 19 Jan 2021 05:15:14 -0500
+ id 1l1o2a-0004Ew-6n; Tue, 19 Jan 2021 05:15:14 -0500
 Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 43464F5A;
+ by mailout.west.internal (Postfix) with ESMTP id 5C90BF62;
  Tue, 19 Jan 2021 05:15:09 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 19 Jan 2021 05:15:09 -0500
+ by compute2.internal (MEProxy); Tue, 19 Jan 2021 05:15:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm2; bh=xAKEMjBa0cykAdhm3sVNJe+Bi+
- 7Dpby8azHSQ3WZRtc=; b=WMfiziTdpzSonT6yMY1iue52S6xnmiNcnymhFFMjxM
- CVZTbYhZ9rFY6HL1a6tq5+t+SSGlR8w1a9y2nAGo1shlJYc14hk5dEF1jMS5OKKP
- mTFxxRmoCs3Pbc3tKVlE8eqsw5MoItdcuWkF6Qf/aB9nLlIu2gtLbOQgW+Rvx/i+
- j9Nhxpf1xxzA8qjGxLMf7l8r93BKPGMwr7GOpQO1CRH174EZl4b+6D2VgDXd3IG7
- jIE0dsR0n0vcQ1Xdy273QfRgtr/+LpRcigLKWVasNT0RG2uF5leLba7ZVMWHBLBN
- hM+Ny9g7Dh0MrkX1mPw6DhHoVZFiE7aCIrpzOoIIpFcg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=+tAmzpCvx42xi
+ yZfm5yP1gMSWDtVv8bpPH0xcCQrIGY=; b=hAD+ELdTVv1j3smqJnEo8Piqj4pQv
+ AuvPt1/TTJ5EnyoSDAYDYZWc4pabehPmYr+HedtlYiKVuLmUYffn0Eyaw/YbpaUu
+ lA6wPJTwytgGje1eZQDWp4YbLUd+PDZ690Cn6DMWzSuE76dJVYvHoS2TAfA56LBr
+ rhSj9lwKVgBsB6ErxguYneJmq8rdNTdjzuzKGC6iDhnEuctRoibhoxhIlL6hqr8H
+ AJfuEJRpY5qGdgoN4a+0dBy5prU62kFZcJZ6CawtpfvwTCYs4s3IvPTeN4WZby2a
+ NslIwZJTJFrm0RzzJR6L1AUaIuG46lNQBGfZWRF3dtv/ZG5WoJAz8Pl0A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=xAKEMj
- Ba0cykAdhm3sVNJe+Bi+7Dpby8azHSQ3WZRtc=; b=b28GZcWJUKna1z36MOAuzw
- BialEk+jehJVDP82B+P5vsAteyRgcaJxBfZosAF8y24YOc8Py4eLHKZDUBSq1jok
- D8EgJPOBPhDYhILGndtAgCVQ1Lnrq6+s4rIoUBW6yqUBDNaK6kox3lXhxnadF901
- 7HQodg8Ehf5NXa9mZucpSurl98DqNRe1EUWJiQkm0+jnyXkA/LBwPIvo9YgaX01h
- NLQNTckUhLF+cvdos5wKGKyf4y745JNC5f39vOH57Xp2E+7lbAX4YBPVMIPvgM0u
- Bi8W2UUP30GhtrLUrXFOT0NbuxD+MfqjPCTiRK/d0/5VEeY3iaBgC/MM/a1iOKUg
- ==
-X-ME-Sender: <xms:K7EGYOzSdjqg84m9FDU6NLT5HyMft4jALmOXObFsKf1YTxarxTdlIQ>
- <xme:K7EGYBSX1iIFK8LV9xKclHyc8sxgJICOp9nLT2kOj3mr2jh_859vP6DqhVJYffi8i
- tRrj-UrwmUbodHYdkM>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=+tAmzpCvx42xiyZfm5yP1gMSWDtVv8bpPH0xcCQrIGY=; b=lnD14BZw
+ Htfh70ZSj0ab5qQB7rNZTxfIncxGUWCa+DmCOfliXFW97bIiGm2IlI6TtUFY3kea
+ 806pDb13LkVTdC/mm5ji81TcTjS1Ay9QeRJoJhZp9JgirmC9dmtEREBV9lTOJPOs
+ mXuPIGSZl13QFSi29pzGRnO1lwmvsVePIxMp2lP/T0YcGHU3Idhh0lHY91CeSyGe
+ tUHtVpKYO+3wH3VV9k8qVNGG2cl0jQvvluBzCiAT6FyKKDehtxtJwAonuaAIGi3y
+ t32KFoh/44W+nUuEpbX4sCs3nuVBFlQsFoAvL8cEzDymodNEw0fKDG5JHxoZ2SJg
+ lNI7rh4ua1j+YQ==
+X-ME-Sender: <xms:LLEGYPHblEWNrvdwHvbphSNRhwc_sTGTEcFuggsoHywoPNbFoGpdKw>
+ <xme:LLEGYIKWWdtrUFGcvFYi_aztJ1gfZakQAx6iNPrfKTz89-L9yctLK7udBIpAzcGh1
+ 6sNoX5rv3ityyXyWh0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgddufecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgtggfgsehtqhertdertdejnecuhfhrohhmpefmlhgruhhsucfl
- vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
- hnpeevteelfeegkefhleekvdffudelfedvfeegjeejheefvedtueelhfdutefggfdtgfen
- ucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeektddrudeijedrleekrddule
- dtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepihht
- shesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:K7EGYFVZdK1UiH287kRPDghoz9t3qhhfj_FACnTRMjyyhUqweLXqCw>
- <xmx:K7EGYDZ1SEwSGZKXCHN7AMz3W9CkxUC2xMpfjKJ99Iev7eXjaO9bLQ>
- <xmx:K7EGYL2hMSNg_A-21CKjPJd_4lYrZZX8bSxMLkIkAZSXus7kPXIb0g>
- <xmx:LLEGYBMFdHBztN-z6EiSUlEMF5otAjD5ZBS6vKXzoK--BzoJvVOo4A>
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:LLEGYMgahyZXz1BK6cboEQRNugIUZFQ6rR3v8PhwuwP_dnauK_2-Dg>
+ <xmx:LLEGYGlUpBzgbz15wwBet3fSyfM-U3bPJxpfvqUg5TFd6Xo4ZKq-ow>
+ <xmx:LLEGYDXdJPtNu8ZbUiDwXfqNlL-xh42lzP-788WjYyvWdpYRHr5D8w>
+ <xmx:LbEGYPqFFJsApko2_ddS896C_DGTeVsZAswjxpu6qBYBIfBYZreVjA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 4FAA3240064;
- Tue, 19 Jan 2021 05:15:06 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id ACAF2240062;
+ Tue, 19 Jan 2021 05:15:07 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/12] hw/block/nvme: misc cmb/pmr patches and bump to v1.4
-Date: Tue, 19 Jan 2021 11:14:52 +0100
-Message-Id: <20210119101504.231259-1-its@irrelevant.dk>
+Subject: [PATCH v3 01/12] hw/block/nvme: add size to mmio read/write trace
+ events
+Date: Tue, 19 Jan 2021 11:14:53 +0100
+Message-Id: <20210119101504.231259-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210119101504.231259-1-its@irrelevant.dk>
+References: <20210119101504.231259-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
  helo=wout2-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -95,82 +96,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
+ Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-This is a resend of "hw/block/nvme: allow cmb and pmr to coexist" with=0D
-some more PMR work added (PMR RDS/WDS support).=0D
-=0D
-This includes a resurrection of Andrzej's series[1] from back July.=0D
-=0D
-Andrzej's main patch basically moved the CMB from BAR 2 into an offset=0D
-in BAR 4 (located after the MSI-X table and PBA). Having an offset on=0D
-the CMB causes a bunch of calculations related to address mapping to=0D
-change.=0D
-=0D
-So, since I couldn't get the patch to apply cleanly I took a stab at=0D
-implementing the suggestion I originally came up with: simply move the=0D
-MSI-X table and PBA from BAR 4 into BAR 0 (up-aligned to a 4 KiB=0D
-boundary after the main NVMe controller registers). This way we can keep=0D
-the CMB at offset zero in its own BAR and free up BAR 4 for use by PMR.=0D
-This makes the patch simpler and does not impact any of the existing=0D
-address mapping code.=0D
-=0D
-  [1]: https://lore.kernel.org/qemu-devel/20200729220107.37758-1-andrzej.ja=
-kowski@linux.intel.com/=0D
-=0D
-Changes for v3=0D
-~~~~~~~~~~~~~~=0D
-=0D
-  - Fix a masking bug in "hw/block/nvme: fix 64 bit register hi/lo split=0D
-    writes" (Minwoo)=0D
-  - Restore a deleted comment in "hw/block/nvme: remove redundant=0D
-    zeroing of PMR registers" (Minwoo)=0D
-  - Restore the 'legacy-cmb' parameter from v1 to allow the device to=0D
-    exhibit the v1.3 CMB behavior.=0D
-=0D
-Changes for v2=0D
-~~~~~~~~~~~~~~=0D
-=0D
-  - Rebased on nvme-next=0D
-  - Added a fix for 64 bit register hi/lo split writes=0D
-  - Added the patches from "hw/block/nvme: cmb enhancements and bump to=0D
-    v1.4" to the back of this.=0D
-  - As suggested by Keith, I removed "legacy CMB" support - the patch=0D
-    now exclusively bumps the support to the "v1.4 variant", so the=0D
-    linux kernel nvme gang have to get their game on ;)=0D
-=0D
-Andrzej Jakowski (1):=0D
-  hw/block/nvme: indicate CMB support through controller capabilities=0D
-    register=0D
-=0D
-Klaus Jensen (9):=0D
-  hw/block/nvme: add size to mmio read/write trace events=0D
-  hw/block/nvme: fix 64 bit register hi/lo split writes=0D
-  hw/block/nvme: move msix table and pba to BAR 0=0D
-  hw/block/nvme: allow cmb and pmr to coexist=0D
-  hw/block/nvme: rename PMR/CMB shift/mask fields=0D
-  hw/block/nvme: remove redundant zeroing of PMR registers=0D
-  hw/block/nvme: disable PMR at boot up=0D
-  hw/block/nvme: bump to v1.4=0D
-  hw/block/nvme: lift cmb restrictions=0D
-=0D
-Naveen Nagar (1):=0D
-  hw/block/nvme: add PMR RDS/WDS support=0D
-=0D
-Padmakar Kalghatgi (1):=0D
-  hw/block/nvme: move cmb logic to v1.4=0D
-=0D
- hw/block/nvme.h       |  17 +-=0D
- include/block/nvme.h  | 125 +++++++++++++--=0D
- hw/block/nvme.c       | 350 +++++++++++++++++++++++++++---------------=0D
- hw/block/trace-events |   6 +-=0D
- 4 files changed, 351 insertions(+), 147 deletions(-)=0D
-=0D
--- =0D
-2.30.0=0D
-=0D
+Add the size of the mmio read/write to the trace event.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+---
+ hw/block/nvme.c       | 4 ++--
+ hw/block/trace-events | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 309c26db8ff7..c1211b298603 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -3849,7 +3849,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
+     uint8_t *ptr = (uint8_t *)&n->bar;
+     uint64_t val = 0;
+ 
+-    trace_pci_nvme_mmio_read(addr);
++    trace_pci_nvme_mmio_read(addr, size);
+ 
+     if (unlikely(addr & (sizeof(uint32_t) - 1))) {
+         NVME_GUEST_ERR(pci_nvme_ub_mmiord_misaligned32,
+@@ -4013,7 +4013,7 @@ static void nvme_mmio_write(void *opaque, hwaddr addr, uint64_t data,
+ {
+     NvmeCtrl *n = (NvmeCtrl *)opaque;
+ 
+-    trace_pci_nvme_mmio_write(addr, data);
++    trace_pci_nvme_mmio_write(addr, data, size);
+ 
+     if (addr < sizeof(n->bar)) {
+         nvme_write_bar(n, addr, data, size);
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 78d76b0a71c1..a104d7f4da80 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -80,8 +80,8 @@ pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
+ pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
+ pci_nvme_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
+ pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint16_t status) "cid %"PRIu16" cqid %"PRIu16" status 0x%"PRIx16""
+-pci_nvme_mmio_read(uint64_t addr) "addr 0x%"PRIx64""
+-pci_nvme_mmio_write(uint64_t addr, uint64_t data) "addr 0x%"PRIx64" data 0x%"PRIx64""
++pci_nvme_mmio_read(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
++pci_nvme_mmio_write(uint64_t addr, uint64_t data, unsigned size) "addr 0x%"PRIx64" data 0x%"PRIx64" size %d"
+ pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
+ pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "sqid %"PRIu16" new_tail %"PRIu16""
+ pci_nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+-- 
+2.30.0
+
 
