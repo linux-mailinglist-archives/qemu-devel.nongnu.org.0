@@ -2,83 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D54AB2FC45A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 00:02:06 +0100 (CET)
-Received: from localhost ([::1]:35644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC22A2FC469
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 00:07:15 +0100 (CET)
+Received: from localhost ([::1]:38274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l200j-0008EM-EK
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 18:02:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59372)
+	id 1l205i-0001UY-LB
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 18:07:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1zyW-0007hh-8K
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:59:48 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034]:40015)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1zyU-0002IS-IJ
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:59:47 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id m5so889298pjv.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 14:59:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=CtiojHrE2phHh4XsGvooVHbBMWraJixreLJRnfVdpOM=;
- b=kdud1/sz6V7q4OHMEKV4+N9iwlIUtD90ohGWwo5M/SHkHqdS/qNY8y6mJPOizS3d+o
- WtoNHfk0cDdwGL2ie0mXvrjol0w4ZiHm/oVjFw77WhbjU88xPBnAdr+/8YDXCUPmZ9iU
- 8dC5YQ6YW2kjnlb2CLkuCeyOEI7RD+nbiRHxrYgDnIj2QzFCsu5FoGiQYM1BYQwPgyQX
- TMZun37j8vr3ZHQxJToy9WYeT0dCwep+13aY3EvTtMysi5gQiLwC2wgAvCqq90syi+Ml
- Ed9YUJiXCo4S0JAp/GhkS1SeqKOsqBWzWTmqVlcfpt2hYJ8XlUi+IyOcNiLWXiF9mR3e
- kZWQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CtiojHrE2phHh4XsGvooVHbBMWraJixreLJRnfVdpOM=;
- b=cQ3McHWqS4v+PfPb5qm7pL/wtJ1wtHa+Bx9kLzGr/Baost0dozEcRr+lHNVcrm1QHD
- w0LLxPMbFRh23CzT0HjL0rNTQcZ0pZOz7T0G7pjozDXzIdleieEPgtjT/TkyOXMXJd0+
- pYdbHzDoNuBsyl7U2HJCBpP9c3G6/2dcCSjySWGp18id8FPDL1v6L6KqLWv/IO/E1ZJe
- E+MLRzeOZ6k8cN6WswEmhi+pZJOMUMoW1n5FdK5jv13+wWyI9xqpC4zX+TVk7hngYKAc
- Oayjdf+8oYfV9I/QyB8sFxn2J+StM9aSttqIVTq/P+/D5b8ZyNRYrZ8EyYMF76r/K+wx
- wFhg==
-X-Gm-Message-State: AOAM531Eb5YFGv0C5njZB31AKvt4h2kTWg4htGpPUypEj8Y/Nrj46F7F
- 2QGq8uD9ntmsI3ucsCYf8gukiPQ3WywyEg==
-X-Google-Smtp-Source: ABdhPJxPAWSoCw3IR0Gi6Q4jBW4xNMHiM3QYzgXViwvtx2LtCYJ3ZB4Tp23GDloz9SzJTS0vUKKkKw==
-X-Received: by 2002:a17:903:22cc:b029:de:191c:1bdb with SMTP id
- y12-20020a17090322ccb02900de191c1bdbmr7187570plg.14.1611097184914; 
- Tue, 19 Jan 2021 14:59:44 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id t2sm50265pju.19.2021.01.19.14.59.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 14:59:44 -0800 (PST)
-Subject: Re: [PATCH v2 09/22] tcg/riscv: Split out target constraints to
- tcg-target-con-str.h
-To: Alistair Francis <alistair23@gmail.com>
-References: <20210115210456.1053477-1-richard.henderson@linaro.org>
- <20210115210456.1053477-10-richard.henderson@linaro.org>
- <CAKmqyKN5CXyHTE22rB+TA57UxZbT1pD7f9QJLyWXyZ11crg1fA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <f1a3db1a-d0e0-f304-55fc-e95f3ec66096@linaro.org>
-Date: Tue, 19 Jan 2021 12:59:40 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l204t-0000sw-8s
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:06:23 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:61832)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l204q-00034S-G5
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:06:22 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 58A4A7456E3;
+ Wed, 20 Jan 2021 00:06:16 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 289267456B7; Wed, 20 Jan 2021 00:06:16 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 271127456B4;
+ Wed, 20 Jan 2021 00:06:16 +0100 (CET)
+Date: Wed, 20 Jan 2021 00:06:16 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 0/5] tcg: Dynamically allocate temporaries
+In-Reply-To: <20210119183428.556706-1-richard.henderson@linaro.org>
+Message-ID: <7595e6e-bc3d-d626-656b-e7ba3bfd8b90@eik.bme.hu>
+References: <20210119183428.556706-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAKmqyKN5CXyHTE22rB+TA57UxZbT1pD7f9QJLyWXyZ11crg1fA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,34 +56,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: lvivier@redhat.com, alistair23@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/15/21 12:13 PM, Alistair Francis wrote:
->> +#define ALL_GENERAL_REGS  0xffffffffu
->> +#ifdef CONFIG_SOFTMMU
->> +#define ALL_QLDST_REGS \
->> +    (ALL_GENERAL_REGS & ~((1 << TCG_REG_A0) | (1 << TCG_REG_A1) | \
->> +                          (1 << TCG_REG_A2) | (1 << TCG_REG_A3) | \
->> +                          (1 << TCG_REG_A5)))
-> 
-> Why is this not TCG_REG_A4?
+On Tue, 19 Jan 2021, Richard Henderson wrote:
+> My recent change for caching tcg constants has, in a number of cases,
+> overflowed the statically allocated array of temporaries.  Change to
+> dynamic allocation.
 
-I've changed this to
+This seems to work for me so
 
-#define ALL_GENERAL_REGS      MAKE_64BIT_MASK(0, 32)
-/*
- * For softmmu, we need to avoid conflicts with the first 5
- * argument registers to call the helper.  Some of these are
- * also used for the tlb lookup.
- */
-#ifdef CONFIG_SOFTMMU
-#define SOFTMMU_RESERVE_REGS  MAKE_64BIT_MASK(TCG_REG_A0, 5)
-#else
-#define SOFTMMU_RESERVE_REGS  0
-#endif
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 
+but have you done any performance tests to check that this actually 
+improves emulation speed? To mee it seems slower. Booting AmigaOS on 
+sam460ex with c0dd6654f207 (just before your TCG series) takes:
 
-r~
+real	0m33.829s
+user	0m34.432s
+sys	0m0.296s
+
+but on HEAD with this series:
+
+real	0m44.381s
+user	0m46.058s
+sys	0m0.532s
+
+This is noticable decrease in speed also without measuring it. With just 
+increasing the TCG_MAX_TEMPS to 2048 on 7c79721606be without this series I 
+get:
+
+real	0m42.681s
+user	0m44.208s
+sys	0m0.435s
+
+So the performance regression is somewhere in the original series not in 
+this fix up series.
+
+> I'll note that nothing in check-acceptance triggers this overflow.
+> Anyone care to add some more test cases there?
+
+The proposed test for the upcoming pegasos2 machine may also catch this 
+(when that will be merged, its dependencies are still under review) or the 
+sam460ex test that currently only checks the firmware could be enhanced to 
+try to boot AROS if somebody wants to do that. The drawback is that it 
+needs an external iso whereas the current test doesn't need any additional 
+images but it did not catch problems with IRQ and neither this problem 
+with TCG temps. This problem was also found with riscv and mips I think 
+but don't know if those would be easier to test.
+
+Regards,
+BALATON Zoltan
 
