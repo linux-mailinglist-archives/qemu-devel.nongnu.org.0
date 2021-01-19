@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A68B2FBBBF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:55:35 +0100 (CET)
-Received: from localhost ([::1]:51054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4FB2FBBAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:53:13 +0100 (CET)
+Received: from localhost ([::1]:43234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1tLx-00082E-Ue
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:55:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53804)
+	id 1l1tJg-0003qc-IC
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:53:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53782)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1sfP-0007z9-90
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:35 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35674)
+ id 1l1sfO-0007xP-7f
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:34 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:35664)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1sfL-0001K0-CE
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:34 -0500
-Received: by mail-wm1-x334.google.com with SMTP id e15so84122wme.0
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:30 -0800 (PST)
+ id 1l1sfM-0001KB-63
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:33 -0500
+Received: by mail-wm1-x329.google.com with SMTP id e15so84169wme.0
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=xSGQvzEBJSsCujmI5+qmR/wvKGmdXayZA42/6ARc6L8=;
- b=dFCfNXZCgy4LqR8rWuV1dWkJfmuuX4fgWbu0HDRsrW8CZZ+E8OMbcrMXLzH97qv7tQ
- Z2/bBb/AEUIHycewycdy3oWMzwceNNoqysCEGeP2clJk/s+guPw1Zd4uoIU82yC0WjOH
- UgvF97y+R2ZblticG4Jdc76B5rS+PhWRG++WGd9XDAMwJ37GXu1+aPAkd4HTwuLKbQpp
- zrk08ycQl+EW/3tbUlJ1CIFTpxqyiN3Ngluk/u5t0hz+z6FuH3XF93sr7mfcbAuB3TO1
- GXztJeoaFjeJs5Qx8kwMkTLsqJth/1vQLC2FSC10AnpeynR5GFVUuWHRsB1bRMmjI8Ya
- 3iZg==
+ bh=XSvo/FTYDK5CvFW7dWb3StsBvky4ysX/D2yqiuNPvKE=;
+ b=rGy7i/Vi+6E+IpU60pgcFjA0H91XtsBy4vVs8RJcWlHg05n9LVXbf/MLW1gcabUObX
+ i/uxc4CbsDAzUcWq8z/4cPu0lEbyeCCRnXn5+9l1NdrpG/SwQu3OCz6Qks81WVNwMKJl
+ oqfi3AqBytaprYAz7U9S0tMdhmNzWr11s+/93cfhkcflCpDRI6MYg2Vfz4B+6ogQdBNu
+ mkJ3TNS4flWtZSltUUFbyhTscY+EIpB785+o/mLvX5OiqHG0J+7DBrrZ8s2wfOJ5QKOT
+ CPWXrdqesrvGsuCtfMwjO3DB5Vo3/8ecdviSJAyE4ajHAKqbdlI5iYxFbRDKecx0R3RW
+ HyrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=xSGQvzEBJSsCujmI5+qmR/wvKGmdXayZA42/6ARc6L8=;
- b=qq9WIwiyFAS7lfoSwJIr4xO8jg3jY3rOURdMD3DvDNDtDPm7elJFv9y2bM04mdc67k
- GWHTIpRdvHg54fKVAcC+0aarpneFVSTu57oLBApePvio2aon/sj0Tsu4XPbuLQigVeLU
- /GN77LGuC2uUGNmMWFBBEkFVkaNdxtpaTwPfvoXN9zJq66c3v+MYteK6cROks7aIDb3J
- bFZUs2hEe/2guSL1FZk9VZevWoPgDMbGHvcFa/HV4SqlS2kMNiFN2F/YwhO+zgGOWPkN
- ubg1KViTZ+oIonqwG+K48F8EP6Pm7auQongsQ+A1t+vVmkETxV4ULU6K0BV6lI1pE09r
- lAjw==
-X-Gm-Message-State: AOAM5336jzNzW4xiGleWMpM06c+oOJ3arNmIYk/TKy4ihg20SJ9RaYL5
- 2uoYwUL95A/gtGoTqEjxd/0sTQhqK03fkA==
-X-Google-Smtp-Source: ABdhPJwak3vKVPFGXPNZ0tzuDfhLvv0BaG8aQ88EwEij7iOMVvsk8OwuUuTmabat7iek7ZQSwx3xOA==
-X-Received: by 2002:a1c:2289:: with SMTP id i131mr74870wmi.119.1611069089977; 
- Tue, 19 Jan 2021 07:11:29 -0800 (PST)
+ bh=XSvo/FTYDK5CvFW7dWb3StsBvky4ysX/D2yqiuNPvKE=;
+ b=TyI5Xm7203RyY8LztDsWdvAq/LoIHVB+H/9ZAwFI2S4kfMBTMvt9bwwIxGBCL8p7Xe
+ IZST8GgnOK6yHDHuMkkykM2swL/PClU4lT7DY/Rsna/w827lVeA1Lctw3UmXHtfbzZ+6
+ wq+0bUlJjYqWnNZzgsdpbiIGW1OlIcIprJVtT1FlDb53b7G+QgRRtzbFRW4mQjpLY+HT
+ 5j56VE4/5YUt20x8Agmcqwkkqy76ECdK/yMdOsc5qEfpDukoOlQ5VOPywmko5sZ2tnEA
+ pcL1BIEXBN4JBW8AJ89mUhrTaeppJJkZNqRZXu5VYP4/b8AgnaFOV2wS4yYc/wkv+15S
+ h99g==
+X-Gm-Message-State: AOAM533PI83aH4Yhz0RQzD+SalB80ViZJcrQ1tzNFIWO8H+BWi9ftulA
+ 5f0ByA89ZjpaWu506sEzycW3xDS/W+TCeQ==
+X-Google-Smtp-Source: ABdhPJz2kXf8tbe5X/dcQ/M+lXRGClOAKxikanppMqjaRIpHOPxeaBWeVRuKZwY/gpVu3MoDc61T8g==
+X-Received: by 2002:a7b:cc83:: with SMTP id p3mr124972wma.10.1611069090799;
+ Tue, 19 Jan 2021 07:11:30 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id a184sm4843699wme.35.2021.01.19.07.11.29
+ by smtp.gmail.com with ESMTPSA id a184sm4843699wme.35.2021.01.19.07.11.30
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 07:11:29 -0800 (PST)
+ Tue, 19 Jan 2021 07:11:30 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 28/33] hw/misc/pvpanic: add PCI interface support
-Date: Tue, 19 Jan 2021 15:10:59 +0000
-Message-Id: <20210119151104.16264-29-peter.maydell@linaro.org>
+Subject: [PULL 29/33] pvpanic : update pvpanic spec document
+Date: Tue, 19 Jan 2021 15:11:00 +0000
+Message-Id: <20210119151104.16264-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210119151104.16264-1-peter.maydell@linaro.org>
 References: <20210119151104.16264-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,191 +88,54 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mihai Carabas <mihai.carabas@oracle.com>
 
-Add PCI interface support for PVPANIC device. Create a new file pvpanic-pci.c
-where the PCI specific routines reside and update the build system with the new
-files and config structure.
+Add pvpanic PCI device support details in docs/specs/pvpanic.txt.
 
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
+[fixed s/device/bus/ error]
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-[PMM: wrapped one long line]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/specs/pci-ids.txt    |  1 +
- include/hw/misc/pvpanic.h |  1 +
- include/hw/pci/pci.h      |  1 +
- hw/misc/pvpanic-pci.c     | 95 +++++++++++++++++++++++++++++++++++++++
- hw/misc/Kconfig           |  6 +++
- hw/misc/meson.build       |  1 +
- 6 files changed, 105 insertions(+)
- create mode 100644 hw/misc/pvpanic-pci.c
+ docs/specs/pvpanic.txt | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-index abbdbca6be3..5e407a6f320 100644
---- a/docs/specs/pci-ids.txt
-+++ b/docs/specs/pci-ids.txt
-@@ -64,6 +64,7 @@ PCI devices (other than virtio):
- 1b36:000d  PCI xhci usb host adapter
- 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
- 1b36:0010  PCIe NVMe device (-device nvme)
-+1b36:0011  PCI PVPanic device (-device pvpanic-pci)
+diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
+index a90fbca72b7..8afcde11cc8 100644
+--- a/docs/specs/pvpanic.txt
++++ b/docs/specs/pvpanic.txt
+@@ -1,7 +1,7 @@
+ PVPANIC DEVICE
+ ==============
  
- All these devices are documented in docs/specs.
+-pvpanic device is a simulated ISA device, through which a guest panic
++pvpanic device is a simulated device, through which a guest panic
+ event is sent to qemu, and a QMP event is generated. This allows
+ management apps (e.g. libvirt) to be notified and respond to the event.
  
-diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-index abc9dde34b3..ca3c5bb5330 100644
---- a/include/hw/misc/pvpanic.h
-+++ b/include/hw/misc/pvpanic.h
-@@ -18,6 +18,7 @@
- #include "qom/object.h"
+@@ -9,6 +9,9 @@ The management app has the option of waiting for GUEST_PANICKED events,
+ and/or polling for guest-panicked RunState, to learn when the pvpanic
+ device has fired a panic event.
  
- #define TYPE_PVPANIC_ISA_DEVICE "pvpanic"
-+#define TYPE_PVPANIC_PCI_DEVICE "pvpanic-pci"
++The pvpanic device can be implemented as an ISA device (using IOPORT) or as a
++PCI device.
++
+ ISA Interface
+ -------------
  
- #define PVPANIC_IOPORT_PROP "ioport"
+@@ -24,6 +27,14 @@ bit 1: a guest panic has happened and will be handled by the guest;
+        the host should record it or report it, but should not affect
+        the execution of the guest.
  
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 259f9c992d5..66db08462fd 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -107,6 +107,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
- #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
- #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
-+#define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
- #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
++PCI Interface
++-------------
++
++The PCI interface is similar to the ISA interface except that it uses an MMIO
++address space provided by its BAR0, 1 byte long. Any machine with a PCI bus
++can enable a pvpanic device by adding '-device pvpanic-pci' to the command
++line.
++
+ ACPI Interface
+ --------------
  
- #define FMT_PCIBUS                      PRIx64
-diff --git a/hw/misc/pvpanic-pci.c b/hw/misc/pvpanic-pci.c
-new file mode 100644
-index 00000000000..633e1d79597
---- /dev/null
-+++ b/hw/misc/pvpanic-pci.c
-@@ -0,0 +1,95 @@
-+/*
-+ * QEMU simulated PCI pvpanic device.
-+ *
-+ * Copyright (C) 2020 Oracle
-+ *
-+ * Authors:
-+ *     Mihai Carabas <mihai.carabas@oracle.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "sysemu/runstate.h"
-+
-+#include "hw/nvram/fw_cfg.h"
-+#include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
-+#include "hw/misc/pvpanic.h"
-+#include "qom/object.h"
-+#include "hw/pci/pci.h"
-+
-+OBJECT_DECLARE_SIMPLE_TYPE(PVPanicPCIState, PVPANIC_PCI_DEVICE)
-+
-+/*
-+ * PVPanicPCIState for PCI device
-+ */
-+typedef struct PVPanicPCIState {
-+    PCIDevice dev;
-+    PVPanicState pvpanic;
-+} PVPanicPCIState;
-+
-+static const VMStateDescription vmstate_pvpanic_pci = {
-+    .name = "pvpanic-pci",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(dev, PVPanicPCIState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void pvpanic_pci_realizefn(PCIDevice *dev, Error **errp)
-+{
-+    PVPanicPCIState *s = PVPANIC_PCI_DEVICE(dev);
-+    PVPanicState *ps = &s->pvpanic;
-+
-+    pvpanic_setup_io(&s->pvpanic, DEVICE(s), 2);
-+
-+    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &ps->mr);
-+}
-+
-+static Property pvpanic_pci_properties[] = {
-+    DEFINE_PROP_UINT8("events", PVPanicPCIState, pvpanic.events,
-+                      PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pvpanic_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pc = PCI_DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, pvpanic_pci_properties);
-+
-+    pc->realize = pvpanic_pci_realizefn;
-+    pc->vendor_id = PCI_VENDOR_ID_REDHAT;
-+    pc->device_id = PCI_DEVICE_ID_REDHAT_PVPANIC;
-+    pc->revision = 1;
-+    pc->class_id = PCI_CLASS_SYSTEM_OTHER;
-+    dc->vmsd = &vmstate_pvpanic_pci;
-+
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static TypeInfo pvpanic_pci_info = {
-+    .name          = TYPE_PVPANIC_PCI_DEVICE,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PVPanicPCIState),
-+    .class_init    = pvpanic_pci_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { }
-+    }
-+};
-+
-+static void pvpanic_register_types(void)
-+{
-+    type_register_static(&pvpanic_pci_info);
-+}
-+
-+type_init(pvpanic_register_types);
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index 23bc9786cf4..19c216f3efb 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -124,6 +124,12 @@ config IOTKIT_SYSINFO
- config PVPANIC_COMMON
-     bool
- 
-+config PVPANIC_PCI
-+    bool
-+    default y if PCI_DEVICES
-+    depends on PCI
-+    select PVPANIC_COMMON
-+
- config PVPANIC_ISA
-     bool
-     depends on ISA_BUS
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index edaaec2a3ee..629283957fc 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -100,6 +100,7 @@ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
- softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
- 
- softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'))
-+softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c'))
- softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
- softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', 'aspeed_sdmc.c', 'aspeed_xdma.c'))
- softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
 -- 
 2.20.1
 
