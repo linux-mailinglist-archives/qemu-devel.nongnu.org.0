@@ -2,64 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 460982FC004
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:32:33 +0100 (CET)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5689D2FC016
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:36:05 +0100 (CET)
+Received: from localhost ([::1]:38056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1wjw-000682-8K
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:32:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54456)
+	id 1l1wnM-0001MG-9i
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:36:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l1w4Y-00037u-Pt
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:49:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37925)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1w52-0003HS-9k
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:50:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l1w4U-0003OR-QJ
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:49:46 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1w4z-0003QE-Ho
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:50:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611082181;
+ s=mimecast20190719; t=1611082212;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=H7VJ5MiBCmmnFOA63SOxUr95vzWqr3sK2jd1G5Au9ZU=;
- b=K9JcSlcgG60cokT/AK99ot5bZQKFNST9HQwJcdKpVC2a3OtZ/OUDiKHuSKftzz+NTElIB1
- l+t3lnBiHUdVmSmnLO7foJrdzRauRaWZaGwjd0DEDF9+VkVvUAwRGSll9Db8eAip025ExU
- DJOXOGFV7G2uaZILb52jqaWbuyjQLqQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-560-3OXzJBwYMDiPH38D33CPtA-1; Tue, 19 Jan 2021 13:49:39 -0500
-X-MC-Unique: 3OXzJBwYMDiPH38D33CPtA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DCB780A5C0;
- Tue, 19 Jan 2021 18:49:38 +0000 (UTC)
-Received: from work-vm (ovpn-115-97.ams2.redhat.com [10.36.115.97])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E656F669EC;
- Tue, 19 Jan 2021 18:49:33 +0000 (UTC)
-Date: Tue, 19 Jan 2021 18:49:31 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v11 4/5] migration: implementation of background snapshot
- thread
-Message-ID: <20210119184931.GJ3008@work-vm>
-References: <20210106152120.31279-1-andrey.gruzdev@virtuozzo.com>
- <20210106152120.31279-5-andrey.gruzdev@virtuozzo.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=jj6BvVykKCuRRl2P86+MINAP0nZy3ZPw2SUezVDLmlo=;
+ b=HAmN8vfH6aOEYsVZMfPw5Z5gHzBNRzosZRWL8SH3UQGqdVS3hSuLJw4LajJNF6bowQUGU2
+ eGWTjeyKyzJuX1Gh8YoSAjWsXLUYbmaxKckiCj6ZFQbG2s5LdvjqCBB3DERoYrK5COHS2j
+ zUbppzYhbr1tWzo9HdKMFY69+ijkVjY=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-220-b1GgTgGwOrqtaRE6DcCylg-1; Tue, 19 Jan 2021 13:50:10 -0500
+X-MC-Unique: b1GgTgGwOrqtaRE6DcCylg-1
+Received: by mail-ed1-f69.google.com with SMTP id dg17so9612314edb.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 10:50:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hw6iBcufrKWidGAWBKYpvtXGq4w3+zKQvX84+gWeij4=;
+ b=jnL7p3QoPTBeAv8+UCQOwBgZKjAB/Dj5vye8Kz/OrzwKK5+fL0VjtjXqVlfu3+FQq0
+ 3jKZM9Td88MpXnaxgjakaiDFOuEqIe4iltLfp6nY/3Dfl1vK4fYhyrXKz8vKN9keZinY
+ Ca9jy7tzujy3BKlfxNC0Bhi8VM4m/+LwgSh44Q4YTuAL1PLXm+0QICuqkoJ7lkJjT8Rt
+ ppLIFEN53w0jGnHeR8Sq3+db7ed+VG1bFTV/5Iie+t19tY9ijvIIUMoVoadp02Ydwz55
+ a2RGQQclWVdGSNng6VXuicHD8qjs8ngGKqdT+zyFF5G5F4QzSV022JZ7G+raxizzVaRH
+ Qipg==
+X-Gm-Message-State: AOAM533nN4UDfAU6K5nGrqGSNQfP2UT96hhQp6ap269JX6qMxFNag1wC
+ 8h0XFGdU3WCBRUqvUk1Hz5mj/YFTLw3ion7xQSqraCTkYszoM6AQZpi8jRtSZhD/MhZqtuS3PSL
+ BmZLHd2kJD1zTIRNs/HMZ+a1LDX/qfiHUwTZ8oQ1oPLBF+txAQBUxo9GvU0uYepLH
+X-Received: by 2002:a17:907:c2a:: with SMTP id
+ ga42mr3722575ejc.511.1611082208052; 
+ Tue, 19 Jan 2021 10:50:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxwil6xpu/lc/Yy4fsPG1EB7GeAk7SM6FxoRKjfDvpA42EejadrmcUnrnj1o2Rnbb4ACjcKpw==
+X-Received: by 2002:a17:907:c2a:: with SMTP id
+ ga42mr3722560ejc.511.1611082207801; 
+ Tue, 19 Jan 2021 10:50:07 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id k22sm13445498edv.33.2021.01.19.10.50.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jan 2021 10:50:07 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/9] meson: Clarify summary
+Date: Tue, 19 Jan 2021 19:49:56 +0100
+Message-Id: <20210119185005.880322-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210106152120.31279-5-andrey.gruzdev@virtuozzo.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,135 +92,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
-> Introducing implementation of 'background' snapshot thread
-> which in overall follows the logic of precopy migration
-> while internally utilizes completely different mechanism
-> to 'freeze' vmstate at the start of snapshot creation.
-> 
-> This mechanism is based on userfault_fd with wr-protection
-> support and is Linux-specific.
-
-I noticed there weren't any bdrv_ calls in here; I guess with a snapshot
-you still have the source running so still have it accessing the disk;
-do you do anything to try and wire the ram snapshotting up to disk
-snapshotting?
-
-> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-> Acked-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/migration.c | 255 +++++++++++++++++++++++++++++++++++++++++-
->  migration/migration.h |   3 +
->  migration/ram.c       |   2 +
->  migration/savevm.c    |   1 -
->  migration/savevm.h    |   2 +
->  5 files changed, 260 insertions(+), 3 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 2c2cb9ef01..0901a15ac5 100644
-
-<snip>
-
-> -    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
-> -                       QEMU_THREAD_JOINABLE);
-> +
-> +    if (migrate_background_snapshot()) {
-> +        qemu_thread_create(&s->thread, "background_snapshot",
-
-Unfortunately that wont work - there's a 14 character limit on
-the thread name length; I guess we just shorten that to bg_snapshot
-
-Other than that,
-
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> +                bg_migration_thread, s, QEMU_THREAD_JOINABLE);
-> +    } else {
-> +        qemu_thread_create(&s->thread, "live_migration",
-> +                migration_thread, s, QEMU_THREAD_JOINABLE);
-> +    }
->      s->migration_thread_running = true;
->  }
->  
-> diff --git a/migration/migration.h b/migration/migration.h
-> index f40338cfbf..0723955cd7 100644
-> --- a/migration/migration.h
-> +++ b/migration/migration.h
-> @@ -20,6 +20,7 @@
->  #include "qemu/thread.h"
->  #include "qemu/coroutine_int.h"
->  #include "io/channel.h"
-> +#include "io/channel-buffer.h"
->  #include "net/announce.h"
->  #include "qom/object.h"
->  
-> @@ -147,8 +148,10 @@ struct MigrationState {
->  
->      /*< public >*/
->      QemuThread thread;
-> +    QEMUBH *vm_start_bh;
->      QEMUBH *cleanup_bh;
->      QEMUFile *to_dst_file;
-> +    QIOChannelBuffer *bioc;
->      /*
->       * Protects to_dst_file pointer.  We need to make sure we won't
->       * yield or hang during the critical section, since this lock will
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 5707382db1..05fe0c8592 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -1471,6 +1471,7 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
->      page_address = (void *) uffd_msg.arg.pagefault.address;
->      bs = qemu_ram_block_from_host(page_address, false, offset);
->      assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
-> +
->      return bs;
->  }
->  #endif /* CONFIG_LINUX */
-> @@ -1836,6 +1837,7 @@ static void ram_save_host_page_post(RAMState *rs, PageSearchStatus *pss,
->          /* Un-protect memory range. */
->          res = uffd_change_protection(rs->uffdio_fd, page_address, run_length,
->                  false, false);
-> +
->          /* We don't want to override existing error from ram_save_host_page(). */
->          if (res < 0 && *res_override >= 0) {
->              *res_override = res;
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 27e842812e..dd4ad0aaaf 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1354,7 +1354,6 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
->      return 0;
->  }
->  
-> -static
->  int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
->                                                      bool in_postcopy,
->                                                      bool inactivate_disks)
-> diff --git a/migration/savevm.h b/migration/savevm.h
-> index ba64a7e271..aaee2528ed 100644
-> --- a/migration/savevm.h
-> +++ b/migration/savevm.h
-> @@ -64,5 +64,7 @@ int qemu_loadvm_state(QEMUFile *f);
->  void qemu_loadvm_state_cleanup(void);
->  int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
->  int qemu_load_device_state(QEMUFile *f);
-> +int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-> +        bool in_postcopy, bool inactivate_disks);
->  
->  #endif
-> -- 
-> 2.25.1
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reorder stuffs in summary to quicker understand bug reports.=0D
+=0D
+Remove information from deselected features when not necessary.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (9):=0D
+  meson: Summarize generic information first=0D
+  meson: Summarize compilation information altogether=0D
+  meson: Summarize host binaries altogether=0D
+  meson: Summarize accelerators altogether=0D
+  meson: Display if system emulation is selected in summary=0D
+  meson: Restrict system-mode specific accelerators=0D
+  meson: Do not configure audio if system-mode is not selected=0D
+  meson: Display if user-mode emulation is selected in summary=0D
+  meson: Summarize block layer information altogether=0D
+=0D
+ configure   |   6 +++=0D
+ meson.build | 132 +++++++++++++++++++++++++++++-----------------------=0D
+ 2 files changed, 81 insertions(+), 57 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
