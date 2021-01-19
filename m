@@ -2,68 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BAF12FB5F4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 13:04:17 +0100 (CET)
-Received: from localhost ([::1]:33012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DAC2FB5F7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 13:06:27 +0100 (CET)
+Received: from localhost ([::1]:36220 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1pk8-0002it-Lu
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 07:04:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54356)
+	id 1l1pmE-00046r-IX
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 07:06:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54622)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1pi4-0001q7-9d
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:02:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39852)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1pjp-00035Y-SX
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:03:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48349)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1phx-0003ps-OW
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:02:08 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l1pji-0004BP-N8
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:03:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611057720;
+ s=mimecast20190719; t=1611057829;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=boq/B4I1/FUwLdcCs5lZFCiPzWJHV12KFw+upQrMjNw=;
- b=bMt0XpOC+hBkYqKlXh0tbrHkwQsfSvDK3vRmuB8yr5XjldWzLLGzUiv8L4FcK9zq4nzTbC
- uXlom/cnmgL6VdiqQ+gMnmKZ5jQNrfxTJl6TFz/ehRxJXm8Cw5ljQsaOycqGNLYN7yp1d7
- iHnaXfZfigROWtZ6Jw45Lf3FMXNg/cc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-577-AOPanmaCNpWKidIvRbwlZA-1; Tue, 19 Jan 2021 07:01:58 -0500
-X-MC-Unique: AOPanmaCNpWKidIvRbwlZA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 85385107ACE3;
- Tue, 19 Jan 2021 12:01:57 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E7BE27C48;
- Tue, 19 Jan 2021 12:01:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id E5446113865F; Tue, 19 Jan 2021 13:01:51 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/usb: Convert to qdev_realize()
-Date: Tue, 19 Jan 2021 13:01:51 +0100
-Message-Id: <20210119120151.53757-1-armbru@redhat.com>
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Tc1IoCYo3KqjScsmcxDG3cYlruTwEqGpQmTaQJAYXpw=;
+ b=O8oU8pcjXxjcX/NDwACkSmJknJfRy41965pYpisY+8+fjncKjYNZ4vRo2kez0ZzHxTqkZa
+ Bl0wBsKmcFPhwvBEqzWau/VX7gTrMNsJH3cLOxoJlA88/X5/pRp/UrJddlKffWISyrHKnH
+ Hl6ikeeP9zFfbt7+VlXwpZjsAKdWvHo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-144RJ3CPMyGVsyDt15eu4Q-1; Tue, 19 Jan 2021 07:03:48 -0500
+X-MC-Unique: 144RJ3CPMyGVsyDt15eu4Q-1
+Received: by mail-wr1-f72.google.com with SMTP id v7so9727881wra.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:03:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Tc1IoCYo3KqjScsmcxDG3cYlruTwEqGpQmTaQJAYXpw=;
+ b=PFk0M3fWRovU5R8Oka1UkNeCwmcdr1LlkqkBPeJulsl130PecIy4KIpJpvRuxt0kt7
+ +TeNVptebk/DNkXw36qwGOq630CKZOLNDDHjjJubVD58zCQSHvJXSnQC6yrlkCh+YqZi
+ HNJBRsXZoqKIOWHhVmqvnfqbv0ToGxRENr3VadDLnAKh2X47WCsE5bt3HIPRPEInAMtT
+ Tko3QTSdIAzZDwq2hwOZ29yiLFy/Uju39yJYulOkje1uWwBICsbsgSg1oc3HkJsUPCsL
+ IqCiXfNINbwM8byRDgVGexaenXJTQ+X3cMSGhU4FmMgXeQWIemGKaNIau9x5ZxdyDTjB
+ 7SlA==
+X-Gm-Message-State: AOAM532MNGAhq0XHrHaH8Tec0kMQ6t7DyLgvSSik8KJzzHO2tJZFx8iA
+ KAwyDZDawf1cBm5xthB2gdL8pNpxU+v/Af9UEk8EX/fXqT2q47gfeYqCAytLuFhXNhhBWae3D4/
+ C/VU2MYeYRr7+i7H27GvuAEsUhPUgt71LclpTgwKQctkMzEak5TIfe25kJHUKD4hbOLg=
+X-Received: by 2002:a1c:b682:: with SMTP id g124mr3824138wmf.10.1611057826700; 
+ Tue, 19 Jan 2021 04:03:46 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzMicF8IGGS6y3yDaX33+DTBcNWWU3yy24gv9ZuHouu3Vsi7N5NUdGJzcAN7idS+t1fyJQXIQ==
+X-Received: by 2002:a1c:b682:: with SMTP id g124mr3824111wmf.10.1611057826473; 
+ Tue, 19 Jan 2021 04:03:46 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id z63sm4443199wme.8.2021.01.19.04.03.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 04:03:45 -0800 (PST)
+Subject: Re: [qemu-web PATCH v2 00/16] Re-design the QEMU home page to better
+ present information
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20201027132015.621733-1-berrange@redhat.com>
+ <CABgObfZ+grQAax+dAJ626kTSHrC8mzwu9CPjNHcNaRxbbn7C7w@mail.gmail.com>
+ <20210113145712.GE1568240@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <2812eec6-d7e9-8780-1a10-d66f312def3d@redhat.com>
+Date: Tue, 19 Jan 2021 13:03:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210113145712.GE1568240@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,57 +102,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sai.pavan.boddu@xilinx.com, peter.maydell@linaro.org, kraxel@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Device code shouldn't mess with QOM property "realized" since we have
-proper interfaces (merge commit 6675a653).  Commit 8ddab8dd3d
-"usb/hcd-xhci: Split pci wrapper for xhci base model" and commit
-f00ff136ee "usb: hcd-xhci-sysbus: Attach xhci to sysbus device"
-reintroduced two instances.  Clean them up.  Note that s->xhci is
-a (bus-less) TYPE_XHCI device.
+On 13/01/21 15:57, Daniel P. Berrangé wrote:
+> On Wed, Jan 13, 2021 at 03:54:51PM +0100, Paolo Bonzini wrote:
+>> I am going to apply patches 1-3, so that I can play with doing the
+>> final deployment via gitlab pipelines.
+> 
+> Probably worth taking the 16th patch too, since the CONTRIBUTING
+> file described how to use the CI results.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- hw/usb/hcd-xhci-pci.c    | 4 +---
- hw/usb/hcd-xhci-sysbus.c | 5 +----
- 2 files changed, 2 insertions(+), 7 deletions(-)
+Done, thanks!
 
-diff --git a/hw/usb/hcd-xhci-pci.c b/hw/usb/hcd-xhci-pci.c
-index bba628d3d2..9421734d0f 100644
---- a/hw/usb/hcd-xhci-pci.c
-+++ b/hw/usb/hcd-xhci-pci.c
-@@ -115,9 +115,7 @@ static void usb_xhci_pci_realize(struct PCIDevice *dev, Error **errp)
-     object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
-     s->xhci.intr_update = xhci_pci_intr_update;
-     s->xhci.intr_raise = xhci_pci_intr_raise;
--    object_property_set_bool(OBJECT(&s->xhci), "realized", true, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!qdev_realize(DEVICE(&s->xhci), NULL, errp)) {
-         return;
-     }
-     if (strcmp(object_get_typename(OBJECT(dev)), TYPE_NEC_XHCI) == 0) {
-diff --git a/hw/usb/hcd-xhci-sysbus.c b/hw/usb/hcd-xhci-sysbus.c
-index 29185d2261..42e2574c82 100644
---- a/hw/usb/hcd-xhci-sysbus.c
-+++ b/hw/usb/hcd-xhci-sysbus.c
-@@ -33,12 +33,9 @@ void xhci_sysbus_reset(DeviceState *dev)
- static void xhci_sysbus_realize(DeviceState *dev, Error **errp)
- {
-     XHCISysbusState *s = XHCI_SYSBUS(dev);
--    Error *err = NULL;
- 
-     object_property_set_link(OBJECT(&s->xhci), "host", OBJECT(s), NULL);
--    object_property_set_bool(OBJECT(&s->xhci), "realized", true, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!qdev_realize(DEVICE(&s->xhci), NULL, errp)) {
-         return;
-     }
-     s->irq = g_new0(qemu_irq, s->xhci.numintrs);
--- 
-2.26.2
+Paolo
 
 
