@@ -2,47 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC22A2FC469
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 00:07:15 +0100 (CET)
-Received: from localhost ([::1]:38274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E51B2FC478
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 00:09:47 +0100 (CET)
+Received: from localhost ([::1]:41146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l205i-0001UY-LB
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 18:07:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60440)
+	id 1l208A-0002sp-Lf
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 18:09:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l204t-0000sw-8s
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:06:23 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:61832)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l204q-00034S-G5
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:06:22 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 58A4A7456E3;
- Wed, 20 Jan 2021 00:06:16 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 289267456B7; Wed, 20 Jan 2021 00:06:16 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 271127456B4;
- Wed, 20 Jan 2021 00:06:16 +0100 (CET)
-Date: Wed, 20 Jan 2021 00:06:16 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 0/5] tcg: Dynamically allocate temporaries
-In-Reply-To: <20210119183428.556706-1-richard.henderson@linaro.org>
-Message-ID: <7595e6e-bc3d-d626-656b-e7ba3bfd8b90@eik.bme.hu>
-References: <20210119183428.556706-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l206N-0002FU-Rg
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:07:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42725)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l206J-0003Gn-50
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:07:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611097669;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=XCZoejSh5YOZ5CKCyW47XmI6/hcuZilCs4H8IDyQ9x8=;
+ b=M2Q5m0u5RL9PH9/oeKsHsI8tR2TpzNjIgYSXY3c/2nNTQrhAI4HSMcztjl6zWZf89JIrCz
+ rEAT8t4qWyXl4UCDqtXbOcwok36Rx3KDI9GKZJk0/G8ydY3WX8J/o//Ezm5abh1xuSJLuP
+ XlsAOgrQiqnSZU5nXavJwpbBguYvc84=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-333-DKHM_ZQ5Nty0Js4d8thipg-1; Tue, 19 Jan 2021 18:07:47 -0500
+X-MC-Unique: DKHM_ZQ5Nty0Js4d8thipg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE0F0107ACE3
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 23:07:46 +0000 (UTC)
+Received: from blue.redhat.com (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AEB465D6AD;
+ Tue, 19 Jan 2021 23:07:43 +0000 (UTC)
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] usb: Fix clang build
+Date: Tue, 19 Jan 2021 17:07:41 -0600
+Message-Id: <20210119230741.810007-1-eblake@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,56 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, alistair23@gmail.com, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jan 2021, Richard Henderson wrote:
-> My recent change for caching tcg constants has, in a number of cases,
-> overflowed the statically allocated array of temporaries.  Change to
-> dynamic allocation.
+../hw/usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas_iu' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
+    uas_iu                    status;
+                              ^
 
-This seems to work for me so
+Fix this by specifying a size for the add_cdb member; and at present,
+the code does not actually use that field other than for the size
+chosen for the packed uas_iu_command struct, and the choice of one
+byte does not change the size of the uas_iu union.
 
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+Signed-off-by: Eric Blake <eblake@redhat.com>
+---
 
-but have you done any performance tests to check that this actually 
-improves emulation speed? To mee it seems slower. Booting AmigaOS on 
-sam460ex with c0dd6654f207 (just before your TCG series) takes:
+I'm not sure why none of our CI tools pick up this particular clang
+build failure; I hit it on Fedora 33 when configuring to build the
+entire tree with clang.
 
-real	0m33.829s
-user	0m34.432s
-sys	0m0.296s
+ hw/usb/dev-uas.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-but on HEAD with this series:
+diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+index cec071d96c49..904d6ffa2938 100644
+--- a/hw/usb/dev-uas.c
++++ b/hw/usb/dev-uas.c
+@@ -70,7 +70,7 @@ typedef struct {
+     uint8_t    reserved_2;
+     uint64_t   lun;
+     uint8_t    cdb[16];
+-    uint8_t    add_cdb[];
++    uint8_t    add_cdb[1];
+ } QEMU_PACKED  uas_iu_command;
 
-real	0m44.381s
-user	0m46.058s
-sys	0m0.532s
+ typedef struct {
+-- 
+2.30.0
 
-This is noticable decrease in speed also without measuring it. With just 
-increasing the TCG_MAX_TEMPS to 2048 on 7c79721606be without this series I 
-get:
-
-real	0m42.681s
-user	0m44.208s
-sys	0m0.435s
-
-So the performance regression is somewhere in the original series not in 
-this fix up series.
-
-> I'll note that nothing in check-acceptance triggers this overflow.
-> Anyone care to add some more test cases there?
-
-The proposed test for the upcoming pegasos2 machine may also catch this 
-(when that will be merged, its dependencies are still under review) or the 
-sam460ex test that currently only checks the firmware could be enhanced to 
-try to boot AROS if somebody wants to do that. The drawback is that it 
-needs an external iso whereas the current test doesn't need any additional 
-images but it did not catch problems with IRQ and neither this problem 
-with TCG temps. This problem was also found with riscv and mips I think 
-but don't know if those would be easier to test.
-
-Regards,
-BALATON Zoltan
 
