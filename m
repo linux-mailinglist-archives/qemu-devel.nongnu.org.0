@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E782FB178
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:34:01 +0100 (CET)
-Received: from localhost ([::1]:55950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A10662FB177
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:33:13 +0100 (CET)
+Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1kaW-0003uN-HA
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39110)
+	id 1l1kZk-0002zD-LS
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:33:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQs-0001U9-GP; Tue, 19 Jan 2021 01:24:02 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:47877 helo=ozlabs.org)
+ id 1l1kQn-0001QZ-9H; Tue, 19 Jan 2021 01:23:57 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47399 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQq-0000aN-Pi; Tue, 19 Jan 2021 01:24:02 -0500
+ id 1l1kQe-0000Sy-Rx; Tue, 19 Jan 2021 01:23:53 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DKdrZ4XPzz9srY; Tue, 19 Jan 2021 17:23:26 +1100 (AEDT)
+ id 4DKdrW6nWgz9sWj; Tue, 19 Jan 2021 17:23:23 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611037406;
+ d=gibson.dropbear.id.au; s=201602; t=1611037403;
  bh=QsJzCm5/tGou+LocHcbDDZVTxVgpms8hkwzIpO8gcpM=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=brHtw/p3ogsdbU9c7BK6ngAAXKIjum0RUTTYbQYPH3nvNj4X5MZ0qGgUZthXYjxZo
- pkO5Yk0B03YaMvmBmGjIvFksVRBXSEWWh0k/3pCrfeBMjBlMLd2a8PH4ics5qFClOL
- l3JezzPgiDvvSBNXF//qNJ+11LRmkSlUK5D4p1nY=
+ b=FGwhUQVgKMq5Lji0qqqEzcFSupIzhtKudJNtldgZZjNmt27nEDj2M6JMB789EuLie
+ UaBbaOXUbFGZu/PkxSZtxcP4C99BkPuW58zetYUtEJKXb1nOeaZ3caKUvaJ8djqjsz
+ cfshGWHM+iTR9g5B6s+bgSW9mmfRXSUWyEmo0WwY=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
@@ -38,7 +38,7 @@ In-Reply-To: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 References: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
