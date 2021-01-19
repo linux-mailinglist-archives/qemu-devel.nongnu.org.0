@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ABBE2FB5AD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 12:32:54 +0100 (CET)
-Received: from localhost ([::1]:59428 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6443D2FB5BA
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 12:39:49 +0100 (CET)
+Received: from localhost ([::1]:38254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1pFl-00056H-KS
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 06:32:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47798)
+	id 1l1pMN-0008Gh-2O
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 06:39:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l1pEW-0004dd-Ts
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:31:36 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:38420)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l1pEV-000803-2c
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:31:36 -0500
-Received: by mail-wm1-x330.google.com with SMTP id y187so16404512wmd.3
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 03:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=rOKhos3585Khk13xjQm/dC8VmwzRIYx5xxh48A0GZJo=;
- b=vFM/CHvHzVfZrV6nuoM4wUoQZ5yd1S+JdpdSV7qBpYq5Wxi62AxKOT0TuE1BwvfdBr
- cWaS1wzgmFLZXI+LrOfEXxPF4rxmxO/k/wwGf+8uRo80x7Ojd6KGDQ+P1ewr66G6NuSu
- h475QeLtuAozzpSXx2uCbhV3KRv0Fv5I+I2gJbODD7P80dMrPHuF74GvthkPaTdIle1U
- dju7P3FMRQOL/Z6WpjWKwHTg0eQ/CpTn8JLQvFILJ6G+0j0R+2d3Jlqi9NeL9HLjWeZB
- O8vG4V/h0ObIJWXyJ8KejhXfbZWQBYIIBK8OjAqpqZxDBYsmLQLhL7SaEvV7LkJDrWTW
- +9tA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=rOKhos3585Khk13xjQm/dC8VmwzRIYx5xxh48A0GZJo=;
- b=VuSO6yX2375S/W/+YDyICnMlnf3sayX4IU4S+7A0GAXtnfWgU4dmLEiHHIM5iB/vBW
- a2cpjVThJ+hcyCIu0hZPUKLTxZTKpoR6BB8kO78fxhTlI8pOSdIPxPTMWgcAAPZKaFBK
- m7MUjlxBDMmaN3b4OpAvQxG8rr8gySL3Sob/10tQ3xu7I50O61t9cHTcaMLJ3XlxlgDZ
- hUowfKUMvlqMETRW9HCTIQqn1dqZZDMRPVkinZPRhGThu5sEILc4nkjRzYd8/nzRe3lX
- unn5DfvQZ4ix5LyFvhFsS1yEuwmNuAAg2toT1dKz9vd0D2jyXdOGFfPboCIVhBd3GWO7
- g1UA==
-X-Gm-Message-State: AOAM532LC6A54loFIEZvarOkV+nRfFt6y+f44IpSjF0CxVrXPyb6LlsL
- 6RQ6vYSvfTk9sgUv1qhGOU1ThQ==
-X-Google-Smtp-Source: ABdhPJzSUN1X1zR7U3MRFVTWumF2yyRvyQZctT6HMJlsQnxuhJ/ZbSnOfyaZnxvQaqUWWR29Wsy7fA==
-X-Received: by 2002:a05:600c:4e87:: with SMTP id
- f7mr3632226wmq.163.1611055893632; 
- Tue, 19 Jan 2021 03:31:33 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q15sm34813857wrw.75.2021.01.19.03.31.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 03:31:32 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 46B271FF7E;
- Tue, 19 Jan 2021 11:31:31 +0000 (GMT)
-References: <20210119054502.531451-1-f4bug@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH] tests/docker: Allow passing --network option when
- building images
-Date: Tue, 19 Jan 2021 11:27:02 +0000
-In-reply-to: <20210119054502.531451-1-f4bug@amsat.org>
-Message-ID: <878s8puprg.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1pJ1-00077r-6H
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:36:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59669)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1pIw-0000HM-54
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:36:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611056167;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=cbTQCddKRqZMeCaJfuJIl7tYjRKsLLMj4us5Z3SryV4=;
+ b=gEhBeAKKEDCKQJPNA/fFoSmHxbvyStc6+sj1QvjjKXNu7mhg3KS8WRqRFAj0pUy9X/K9xI
+ jzp4EkS8cB/IhN01CLoHNrhd6tZ/UiHKvLt6TU4totEMzUlOwz8kVqiIM5CUVXgPZLCT+t
+ Xoh4V/wmcCzQ3ozy0NF/5dL5oHBB/Pc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-8PdUeptlNBC93GEHMOOyyw-1; Tue, 19 Jan 2021 06:36:06 -0500
+X-MC-Unique: 8PdUeptlNBC93GEHMOOyyw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 11B18800D62;
+ Tue, 19 Jan 2021 11:36:05 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B8D4C19C93;
+ Tue, 19 Jan 2021 11:36:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4AC94113865F; Tue, 19 Jan 2021 12:36:00 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: Realize methods realizing "sideways" in the composition tree
+References: <87im7yi519.fsf@dusky.pond.sub.org>
+ <CAFEAcA_MT6z4ey79o+WhX=og57HWR32rnzajFYLGvLnQtS1BRQ@mail.gmail.com>
+Date: Tue, 19 Jan 2021 12:36:00 +0100
+In-Reply-To: <CAFEAcA_MT6z4ey79o+WhX=og57HWR32rnzajFYLGvLnQtS1BRQ@mail.gmail.com>
+ (Peter Maydell's message of "Fri, 15 Jan 2021 15:50:40 +0000")
+Message-ID: <87czy1upjz.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,87 +80,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P . Berrange" <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
-
-> When using the Docker engine, build fails because the container is
-> unable to resolve hostnames:
+> On Fri, 15 Jan 2021 at 15:45, Markus Armbruster <armbru@redhat.com> wrote:
+>>
+>> The .realize() method realizes the child at (1).  It should use
+>> qdev_realize() like we do everywhere else, since commit ce189ab230
+>> "qdev: Convert bus-less devices to qdev_realize() with Coccinelle".
+>>
+>> It sets a link property from the child back to the parent at (2).  Why
+>> do we need a link?  Each QOM Object contains a pointer to its parent,
+>> doesn't it?
 >
->   $ make docker-image-debian-s390x-cross NETWORK=3Dhost ENGINE=3Ddocker
->     BUILD   debian10
->   #6 9.679 Err:1 http://deb.debian.org/debian buster InRelease
->   #6 9.679   Temporary failure resolving 'deb.debian.org'
->   #6 16.69 Err:2 http://security.debian.org/debian-security buster/update=
-s InRelease
->   #6 16.69   Temporary failure resolving 'security.debian.org'
->   #6 22.69 Err:3 http://deb.debian.org/debian buster-updates InRelease
->   #6 22.69   Temporary failure resolving 'deb.debian.org'
->   #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/buster/I=
-nRelease  Temporary failure resolving 'deb.debian.org'
->   #6 22.74 W: Failed to fetch http://security.debian.org/debian-security/=
-dists/buster/updates/InRelease  Temporary failure resolving 'security.debia=
-n.org'
->   #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/buster-u=
-pdates/InRelease  Temporary failure resolving 'deb.debian.org'
->   #6 22.74 W: Some index files failed to download. They have been
->   ignored, or old ones used instead.
+> It does, but what should parent object pointers be used for?
+> My assumption is that you'd only use those where you really
+> wanted to traverse the QOM tree. Generally I would use a link
+> property when I wanted one object to have a pointer to the
+> other regardless of what the QOM-tree relationship happens to
+> be. Today all the users of XHCIState happen to create it in a
+> way that means they're parents of it, but that doesn't seem
+> like it should be an inherent requirement that we bake into
+> its API.
 
-I'm confused by this one as it currently works for me. That said I
-thought the actual behaviour was meant to be networking is enabled by
-default and explicitly disabled by the run step (which shouldn't be
-pulling extra stuff down).
+Makes sense.
 
-This was last tweaked by Daniel in 8a2390a4f47
+I'll post a patch to use qdev_realize().
 
-Have the defaults for docker engine changed?
+Thanks!
 
->   Traceback (most recent call last):
->     File "./tests/docker/docker.py", line 709, in <module>
->       sys.exit(main())
->     File "./tests/docker/docker.py", line 705, in main
->       return args.cmdobj.run(args, argv)
->     File "./tests/docker/docker.py", line 498, in run
->       dkr.build_image(tag, docker_dir, dockerfile,
->     File "./tests/docker/docker.py", line 353, in build_image
->       self._do_check(build_args,
->     File "./tests/docker/docker.py", line 244, in _do_check
->       return subprocess.check_call(self._command + cmd, **kwargs)
->     File "/usr/lib64/python3.8/subprocess.py", line 364, in check_call
->       raise CalledProcessError(retcode, cmd)
->   make: *** [tests/docker/Makefile.include:61: docker-image-debian10] Err=
-or 1
->
-> Fix by passing the NETWORK variable with --network=3D argument.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  tests/docker/Makefile.include | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-> index bdc53ddfcf9..b65fd684011 100644
-> --- a/tests/docker/Makefile.include
-> +++ b/tests/docker/Makefile.include
-> @@ -63,6 +63,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
->  		$(if $V,,--quiet) \
->  		$(if $(NOCACHE),--no-cache, \
->  			$(if $(DOCKER_REGISTRY),--registry $(DOCKER_REGISTRY))) \
-> +		$(if $(NETWORK),$(if $(subst
-> $(NETWORK),,1),--network=3D$(NETWORK))) \
-
-which if it has we'll need to tweak both build and run steps?
-
->  		$(if $(NOUSER),,--add-current-user) \
->  		$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))\
->  		$(if $(EXECUTABLE),--include-executable=3D$(EXECUTABLE)),\
-
-
---=20
-Alex Benn=C3=A9e
 
