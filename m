@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6706D2FB000
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 06:22:54 +0100 (CET)
-Received: from localhost ([::1]:35164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 070162FB104
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 06:46:34 +0100 (CET)
+Received: from localhost ([::1]:44898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1jTg-0003oq-VI
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 00:22:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56054)
+	id 1l1jqa-0001Cd-GS
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 00:46:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1jSI-0003AT-FL; Tue, 19 Jan 2021 00:21:26 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:34869)
+ id 1l1jpF-0000iI-Hh
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 00:45:09 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:42496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1jSG-0004Au-UX; Tue, 19 Jan 2021 00:21:26 -0500
-Received: by mail-ed1-x535.google.com with SMTP id u19so20045785edx.2;
- Mon, 18 Jan 2021 21:21:24 -0800 (PST)
+ id 1l1jpD-0007hf-7P
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 00:45:09 -0500
+Received: by mail-ed1-x534.google.com with SMTP id g24so20020700edw.9
+ for <qemu-devel@nongnu.org>; Mon, 18 Jan 2021 21:45:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=ZvJJR/TLmSPSU+it15dUTOtYooEyYIl80JB+Vf2GE68=;
- b=XyWdqSX300KAEJ8XfNwFzsr6PMVAOc8EACHtDJRw2hWWG4r5M+dsddc9cdm91U07Hw
- E/CWefN7Bjf5d8HpmZt7XQvF2GHaiS0Ja2fh+1eeKRN0uXaPAHzZUueFcTSqfSuovZZo
- 0WoQ3H6RpsogHUTstvT9sSOlhESb6LnrSKKnfGm4xrcjadHEjr/28FALx5ZRyTKgky7a
- zVK+e+RWu4wqbtQZ/Kt9N6TzJK9UWxJV6nep+3xBeOClPsOcv6k8pdCsUXItWMAOX0fd
- ZIKUpPPgUWTfF+AH7l6YyuRGRSICJA4/EGbdicNnDjnr+UQaMhSWhzt+H4euqfYriHzF
- Dj4Q==
+ bh=yUfq9iUTTeJbfUFfp93xinjLhYmr1UXMYsejJJiGQ/k=;
+ b=CtWXlz5JAWz9TCsh/9j6u347OmFSVl7J0fRMg1lbhAp2QeWv4qTQl0bCc83WvpPMW2
+ vIBWkcKaLUaxN6VkB+UhCEzVTZjXanAm5oOcdRQBPgcgtJaaOtTUzd7hwQtpKETrWyuq
+ TcxjVTGh2XFuFWfYn62k6ochivlLdD+Vwbw9RmPl06/jFTJj8jXe6si4MQtnAkphruIW
+ zjmcFWLUyY4JUx342LOEQn1AKZ24v2636SPkXBP2pOfTG1cr479+jxYJhWRmL25d9kuK
+ ud2IKlbz2rQLEVZaRBm1tGpoqLpBzyX8lUDnCZExVImgJC68n10eQp03ZrRfSM47Y7v+
+ 4axg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=ZvJJR/TLmSPSU+it15dUTOtYooEyYIl80JB+Vf2GE68=;
- b=OLmVVDOdCc7ZlpOFqE5XFi0bONwzzz0yAS+kYo7tVYcElqf71AnkOU9/foXevLer8l
- lcU0dW8d24lLoBD+NWYOCRlQw1bEQegPgA65Sx5La3UToN8s3bJ7/djx+Vx+svs1MDGO
- /BPOhJkk43trb1oAlriOAu+ZURRkGZRz3/+EUXrPMY2xqYEW59j0ayOwPjtjkvvHCTKD
- 1bAkuJ/iiw/n6TOPtkhuECWZeSxVRpNN+fciYG04tthccaRwZxhDpdhnXZ3IwAPikK/z
- 0HGQG/5Cx/18YGMuPrEUIP0dvFYO/8mo7th4+Qw5uUTS14+AQ/m6yK+jlSmooqKXc6XM
- fF6g==
-X-Gm-Message-State: AOAM533wHbHqIZttMXFQW7I3Kru93bV09crPdGpc4S0gqwXHYBlPpPlW
- y73XySeakb+IvnlUDZ1uvewnvbIUhVo=
-X-Google-Smtp-Source: ABdhPJzEC5vnyM4OTkcARc91aShaj+eKCcjMQnsUZgbrMVUpem/Wby0TvpPptsFoZVu6a51C2d9fRw==
-X-Received: by 2002:a05:6402:5193:: with SMTP id
- q19mr2071732edd.264.1611033682695; 
- Mon, 18 Jan 2021 21:21:22 -0800 (PST)
+ bh=yUfq9iUTTeJbfUFfp93xinjLhYmr1UXMYsejJJiGQ/k=;
+ b=NYqQUSWYC7OgYudm9eLvmuhDTs1t5ugTEp4cDM+8MNtiWHrcQ7tk/A7zOr7zHupltc
+ 2CNTAnU9h4bf7ND/S8MjfuwOLKKt9IL9lFaUX87jB7diB5T7Qcf9zi05jFofV8etoeyh
+ HL91VhHI+WSPYqSUF41PMAW0DU9UK8B8mK2j6xRfJZlqkvJiJviuGXbu50/CZGCWM1Ek
+ INCOLofXNK1MfrPpZgpaBOOAwquvy522O51kcxyhozfwRbotvgzvndttlHZ8DWi40JNO
+ RKgRbjn/ZMelKPogshZlr2/ynE8oL81BRzcdTM1hnd0oUOtlUuL7PwtEJOQuRkF2rRfW
+ yqqw==
+X-Gm-Message-State: AOAM5327VlXTaqA1U3mu324lD+TjfSy+pY8Q0KSJGPkqfho8NG72nPWl
+ wyuqxOdErUr4XxgK3Ujiy/auDT1NHAY=
+X-Google-Smtp-Source: ABdhPJwzvJ6/uz5gLiJX9KOhaXnuZNqxOagDalyU9dITZAvRA7tQGIp1qdBrymYKuYuO7kpv+NEGHg==
+X-Received: by 2002:a05:6402:2683:: with SMTP id
+ w3mr2063229edd.378.1611035105007; 
+ Mon, 18 Jan 2021 21:45:05 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id f9sm697407edm.6.2021.01.18.21.21.21
+ by smtp.gmail.com with ESMTPSA id g90sm2960014edd.30.2021.01.18.21.45.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 18 Jan 2021 21:21:22 -0800 (PST)
+ Mon, 18 Jan 2021 21:45:04 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] tests/docker: Fix typo in help message
-Date: Tue, 19 Jan 2021 06:21:20 +0100
-Message-Id: <20210119052120.522069-1-f4bug@amsat.org>
+Subject: [RFC PATCH] tests/docker: Allow passing --network option when
+ building images
+Date: Tue, 19 Jan 2021 06:45:02 +0100
+Message-Id: <20210119054502.531451-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -82,34 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-trivial@nongnu.org,
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To have the variable properly passed, we need to set it,
-ie. NOUSER=1. Fix the message displayed by 'make docker'.
+When using the Docker engine, build fails because the container is
+unable to resolve hostnames:
+
+  $ make docker-image-debian-s390x-cross NETWORK=host ENGINE=docker
+    BUILD   debian10
+  #6 9.679 Err:1 http://deb.debian.org/debian buster InRelease
+  #6 9.679   Temporary failure resolving 'deb.debian.org'
+  #6 16.69 Err:2 http://security.debian.org/debian-security buster/updates InRelease
+  #6 16.69   Temporary failure resolving 'security.debian.org'
+  #6 22.69 Err:3 http://deb.debian.org/debian buster-updates InRelease
+  #6 22.69   Temporary failure resolving 'deb.debian.org'
+  #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/buster/InRelease  Temporary failure resolving 'deb.debian.org'
+  #6 22.74 W: Failed to fetch http://security.debian.org/debian-security/dists/buster/updates/InRelease  Temporary failure resolving 'security.debian.org'
+  #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/buster-updates/InRelease  Temporary failure resolving 'deb.debian.org'
+  #6 22.74 W: Some index files failed to download. They have been ignored, or old ones used instead.
+  Traceback (most recent call last):
+    File "./tests/docker/docker.py", line 709, in <module>
+      sys.exit(main())
+    File "./tests/docker/docker.py", line 705, in main
+      return args.cmdobj.run(args, argv)
+    File "./tests/docker/docker.py", line 498, in run
+      dkr.build_image(tag, docker_dir, dockerfile,
+    File "./tests/docker/docker.py", line 353, in build_image
+      self._do_check(build_args,
+    File "./tests/docker/docker.py", line 244, in _do_check
+      return subprocess.check_call(self._command + cmd, **kwargs)
+    File "/usr/lib64/python3.8/subprocess.py", line 364, in check_call
+      raise CalledProcessError(retcode, cmd)
+  make: *** [tests/docker/Makefile.include:61: docker-image-debian10] Error 1
+
+Fix by passing the NETWORK variable with --network= argument.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- tests/docker/Makefile.include | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/docker/Makefile.include | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 0779dab5b96..bdc53ddfcf9 100644
+index bdc53ddfcf9..b65fd684011 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -209,7 +209,7 @@ endif
- 	@echo '                         before running the command.'
- 	@echo '    NETWORK=1            Enable virtual network interface with default backend.'
- 	@echo '    NETWORK=$$BACKEND     Enable virtual network interface with $$BACKEND.'
--	@echo '    NOUSER               Define to disable adding current user to containers passwd.'
-+	@echo '    NOUSER=1             Define to disable adding current user to containers passwd.'
- 	@echo '    NOCACHE=1            Ignore cache when build images.'
- 	@echo '    EXECUTABLE=<path>    Include executable in image.'
- 	@echo '    EXTRA_FILES="<path> [... <path>]"'
+@@ -63,6 +63,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
+ 		$(if $V,,--quiet) \
+ 		$(if $(NOCACHE),--no-cache, \
+ 			$(if $(DOCKER_REGISTRY),--registry $(DOCKER_REGISTRY))) \
++		$(if $(NETWORK),$(if $(subst $(NETWORK),,1),--network=$(NETWORK))) \
+ 		$(if $(NOUSER),,--add-current-user) \
+ 		$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))\
+ 		$(if $(EXECUTABLE),--include-executable=$(EXECUTABLE)),\
 -- 
 2.26.2
 
