@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 262872FB3B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:05:58 +0100 (CET)
-Received: from localhost ([::1]:37114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 765612FB3DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 09:17:31 +0100 (CET)
+Received: from localhost ([::1]:41278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1m1V-0006vm-8c
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:05:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56366)
+	id 1l1mCf-0001ek-Vw
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 03:17:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1lzr-0006F5-L3; Tue, 19 Jan 2021 03:04:16 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:36494)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1lzi-0004H5-5p; Tue, 19 Jan 2021 03:04:14 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id l23so11660391pjg.1;
- Tue, 19 Jan 2021 00:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=xd8Azo/jEdZ5Rb51vp9Z05whaK09GrcrJYWMCHSLwCw=;
- b=H4ehC6TsMIq0muorbi1CA3+IIxi84VQW29rsZyyZFkO4oD4flRihcM1ArT2DcEBjVm
- 5Uzc+3UudECXUxhHeOr8XCSyFrgF9e4FX8kuXcbdt8sik+CiEq23ip3VRY58plTveiL+
- Gu0FYQ5vMNjFp0jSmYsIJV2+0gMCuG/5SSCIhk/AZk203kD9yKB+psX3P+4j7eyGSbMu
- /vbPQM8qtXM9sN7IGOufPa0r6KB3sOB66eD88lmD1pUnR4gIIcI9nk9wO1L3otewVL21
- cM2xPIy62JFL5B1RNqjg2yi2Fwn0Ol2SFCCl3EEit7zBTFYxIA8QmXksAisY4LZbHalv
- hknQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=xd8Azo/jEdZ5Rb51vp9Z05whaK09GrcrJYWMCHSLwCw=;
- b=iuGhfYZJmIZXTYMvj+ZQQ75awhWXSse85noRsIXPz86KbUiVgkWpOXcBA2NatfHcBS
- oCMHltHjfl5s6Z94MLYU4PiA7wUxInxd52Ma+A4Qt9l2iJQZ7OzgabwMiEV94AzEoLaI
- mlaOtMHJeQIt7qC0LRuFl0DH7F68QZAcHrILMpIcxxzDFumu7DfBh44E742PErLnQxwV
- tCyvHJZ19Q+dawZGkEl3kYv8XOYr7taYV+SkgcKoN2fc5bwR1eHvY1Qg2hT9gYe1xvwV
- gymsqrdHcbCOOzA5oYQNSbFB8YwRuCs2D95ju5wiBnF9/CZeCcl36WxP4GGC8MAvtIm9
- K/sw==
-X-Gm-Message-State: AOAM531As0oifsVWFERniFwhkfH5+B8tBGZHGA5j58IzCk5nzirHXjDS
- zPqMO2VxB6XBv4oWMid5vN4=
-X-Google-Smtp-Source: ABdhPJwYwuBQaDxgwwXTjdwM9UtylnKkY+Iiw8+ikRhJPbsPdnNxV+qcqU8UzP9TegqXDIbxxqMNtQ==
-X-Received: by 2002:a17:90a:6407:: with SMTP id
- g7mr4127143pjj.56.1611043443721; 
- Tue, 19 Jan 2021 00:04:03 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id bt8sm2664258pjb.0.2021.01.19.00.04.02
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 19 Jan 2021 00:04:03 -0800 (PST)
-Date: Tue, 19 Jan 2021 17:04:01 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH V2 02/11] hw/block/nvme: open code for volatile write
- cache
-Message-ID: <20210119080401.GH5939@localhost.localdomain>
-References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
- <20210117145341.23310-3-minwoo.im.dev@gmail.com>
- <YAaLBWVT+g5q/paE@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l1mBi-0001Dd-QU
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:16:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41483)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l1mBh-0001hK-65
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 03:16:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611044187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M6CpEdRf4B3o+kwhJ32w+4smIUz2I29084pCD5mmSA0=;
+ b=QgTuFZGs7dchc+OgOccZowlZic0nYZAp6iq9uWG3kIYTOU4NGJrqBpMjB3GG5Hn4fVdwGL
+ hcHijqQ0XeaajBH0BqKj91vtfCOe1Zys/TJZO4onMqVnFa56MgRbBCC7rNnXqQwv2Jd1TR
+ byh+d3xXP/s1Yy3lSkSeLxenYrQvYFs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-408-E-QR9IApNyiHivYJ-u5Tug-1; Tue, 19 Jan 2021 03:16:24 -0500
+X-MC-Unique: E-QR9IApNyiHivYJ-u5Tug-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D0B3F59;
+ Tue, 19 Jan 2021 08:16:21 +0000 (UTC)
+Received: from gondolin (ovpn-113-246.ams2.redhat.com [10.36.113.246])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A517A620D7;
+ Tue, 19 Jan 2021 08:16:10 +0000 (UTC)
+Date: Tue, 19 Jan 2021 09:16:08 +0100
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v7 07/13] confidential guest support: Introduce cgs
+ "ready" flag
+Message-ID: <20210119091608.34fff5dc.cohuck@redhat.com>
+In-Reply-To: <20210118194730.GH9899@work-vm>
+References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
+ <20210113235811.1909610-8-david@gibson.dropbear.id.au>
+ <20210118194730.GH9899@work-vm>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YAaLBWVT+g5q/paE@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,76 +76,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: pair@us.ibm.com, brijesh.singh@amd.com, kvm@vger.kernel.org,
+ David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org,
+ frankja@linux.ibm.com, pragyansri.pathi@intel.com, mst@redhat.com,
+ mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com, borntraeger@de.ibm.com,
+ andi.kleen@intel.com, thuth@redhat.com, Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, jun.nakajima@intel.com,
+ David Gibson <david@gibson.dropbear.id.au>, berrange@redhat.com,
+ Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-19 08:32:21, Klaus Jensen wrote:
-> On Jan 17 23:53, Minwoo Im wrote:
-> > Volatile Write Cache(VWC) feature is set in nvme_ns_setup() in the
-> > initial time.  This feature is related to block device backed,  but this
-> > feature is controlled in controller level via Set/Get Features command.
-> > 
-> > This patch removed dependency between nvme and nvme-ns to manage the VWC
-> > flag value.  Also, it open coded the Get Features for VWC to check all
-> > namespaces attached to the controller, and if false detected, return
-> > directly false.
-> > 
-> > Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> > ---
-> >  hw/block/nvme-ns.c |  4 ----
-> >  hw/block/nvme.c    | 15 ++++++++++++---
-> >  hw/block/nvme.h    |  1 -
-> >  3 files changed, 12 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-> > index 32662230130b..c403cd36b6bd 100644
-> > --- a/hw/block/nvme-ns.c
-> > +++ b/hw/block/nvme-ns.c
-> > @@ -89,10 +89,6 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
-> >          return -1;
-> >      }
-> >  
-> > -    if (blk_enable_write_cache(ns->blkconf.blk)) {
-> > -        n->features.vwc = 0x1;
-> > -    }
-> > -
-> >      return 0;
-> >  }
-> >  
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index cf0fe28fe6eb..b2a9c48a9d81 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -3033,6 +3033,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-> >      NvmeGetFeatureSelect sel = NVME_GETFEAT_SELECT(dw10);
-> >      uint16_t iv;
-> >      NvmeNamespace *ns;
-> > +    int i;
-> >  
-> >      static const uint32_t nvme_feature_default[NVME_FID_MAX] = {
-> >          [NVME_ARBITRATION] = NVME_ARB_AB_NOLIMIT,
-> > @@ -3108,7 +3109,17 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeRequest *req)
-> >          result = ns->features.err_rec;
-> >          goto out;
-> >      case NVME_VOLATILE_WRITE_CACHE:
-> > -        result = n->features.vwc;
-> > +        for (i = 1; i <= n->num_namespaces; i++) {
-> > +            ns = nvme_ns(n, i);
-> > +            if (!ns) {
-> > +                continue;
-> > +            }
-> > +
-> > +            result = blk_enable_write_cache(ns->blkconf.blk);
-> > +            if (!result) {
-> > +                break;
-> > +            }
-> > +        }
-> 
-> I did a small tweak here and changed `if (!result)` to `if (result)`. We
-> want to report that a volatile write cache is present if ANY of the
-> namespace backing devices have a write cache.
+On Mon, 18 Jan 2021 19:47:30 +0000
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-Oh.... Thanks for the fix!
+> * David Gibson (david@gibson.dropbear.id.au) wrote:
+> > The platform specific details of mechanisms for implementing
+> > confidential guest support may require setup at various points during
+> > initialization.  Thus, it's not really feasible to have a single cgs
+> > initialization hook, but instead each mechanism needs its own
+> > initialization calls in arch or machine specific code.
+> > 
+> > However, to make it harder to have a bug where a mechanism isn't
+> > properly initialized under some circumstances, we want to have a
+> > common place, relatively late in boot, where we verify that cgs has
+> > been initialized if it was requested.
+> > 
+> > This patch introduces a ready flag to the ConfidentialGuestSupport
+> > base type to accomplish this, which we verify just before the machine
+> > specific initialization function.  
+> 
+> You may find you need to define 'ready' and the answer might be a bit
+> variable; for example, on SEV there's a setup bit and then you may end
+> up doing an attestation and receiving some data before you actaully let
+> the guest execute code.   Is it ready before it's received the
+> attestation response or only when it can run code?
+> Is a Power or 390 machine 'ready' before it's executed the magic
+> instruction to enter the confidential mode?
+
+I would consider those machines where the guest makes the transition
+itself "ready" as soon as everything is set up so that the guest can
+actually initiate the transition. Otherwise, those machines would never
+be "ready" if the guest does not transition.
+
+Maybe we can define "ready" as "the guest can start to execute in
+secure mode", where "guest" includes the bootloader and everything that
+runs in a guest context, and "start to execute" implies that some setup
+may be done only after the guest has kicked it off?
+
 
