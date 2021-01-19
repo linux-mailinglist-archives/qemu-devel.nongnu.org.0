@@ -2,61 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D422FB50E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 10:53:23 +0100 (CET)
-Received: from localhost ([::1]:48364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0FD2FB512
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 10:56:16 +0100 (CET)
+Received: from localhost ([::1]:51428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1nhR-0001ko-Kd
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 04:53:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52526)
+	id 1l1nkF-00036U-PT
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 04:56:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1l1nf9-0000Kk-AI; Tue, 19 Jan 2021 04:50:59 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:44377)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1l1nf6-0000VP-Db; Tue, 19 Jan 2021 04:50:59 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.250])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 09C388380458;
- Tue, 19 Jan 2021 10:50:52 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 19 Jan
- 2021 10:50:51 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R006c73a047c-f59e-4ca2-af75-fa009ff5e471,
- 9B6877A1159CEF26E29E5BE572491BB707B5295E) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Tue, 19 Jan 2021 10:50:49 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH v2 1/1] spapr.c: always pulse guest IRQ in
- spapr_core_unplug_request()
-Message-ID: <20210119105049.66a6a580@bahia.lan>
-In-Reply-To: <20210118193035.2089474-2-danielhb413@gmail.com>
-References: <20210118193035.2089474-1-danielhb413@gmail.com>
- <20210118193035.2089474-2-danielhb413@gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1nhp-00028t-AS
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:53:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44461)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1nhl-0000x7-3s
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 04:53:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611050018;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=CvcV3rOdumqojYfCKlaABTI4MWFMb889tPJjkGIS8SA=;
+ b=KKQi0/baz3pHk2JHy7gzmMfTnXxc/8+2JBC36gkd+7eMZzeiD9JkBz2PJbB/z7kXZp0sKs
+ kt82Nhmo8Q9KacSVYxKzySuHGw6HieenestG8IQ5kjKDTF7tFl4PSEpENBJQC511t7KM1Q
+ Cpf6Z4MkgB4SDY3ehKPmjyrmQ+q/PB8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-518-Ubgs5eyxOjibvjvsX9oVhg-1; Tue, 19 Jan 2021 04:53:34 -0500
+X-MC-Unique: Ubgs5eyxOjibvjvsX9oVhg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 429DD80A5C6
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 09:53:33 +0000 (UTC)
+Received: from redhat.com (ovpn-112-84.ams2.redhat.com [10.36.112.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B93E10023BC;
+ Tue, 19 Jan 2021 09:53:31 +0000 (UTC)
+Date: Tue, 19 Jan 2021 09:53:29 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [qemu-web PATCH] deploy to qemu-project.org from GitLab CI
+Message-ID: <20210119095329.GA1830870@redhat.com>
+References: <20210119093746.293342-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG8EX1.mxp5.local (172.16.2.71) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 7d552b86-fa1b-4145-b171-944c16729c80
-X-Ovh-Tracer-Id: 12356470005877741987
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddtgddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdefgfdtgeeluddujeejleffgffhhedtieeggffguddvgfekvefgfeettdejheevnecuffhomhgrihhnpehrvgguhhgrthdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepgihumhgrsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210119093746.293342-1-pbonzini@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,113 +78,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Xujun Ma <xuma@redhat.com>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: thuth@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jan 2021 16:30:35 -0300
-Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
+On Tue, Jan 19, 2021 at 10:37:46AM +0100, Paolo Bonzini wrote:
+> Currently, the website is rebuilt on qemu-project.org using
+> an update hook.  We can reuse instead the Jekyll output of
+> GitLab's CI.
 
-> Commit 47c8c915b162 fixed a problem where multiple spapr_drc_detach()
-> requests were breaking QEMU. The solution was to just spapr_drc_detach()
-> once, and use spapr_drc_unplug_requested() to filter whether we
-> already detached it or not. The commit also tied the hotplug request
-> to the guest in the same condition.
-> 
-> Turns out that there is a reliable way for a CPU hotunplug to fail. If
-> a guest with one CPU hotplugs a CPU1, then offline CPU0s via
-> 'echo 0 > /sys/devices/system/cpu/cpu0/online', then attempts to
-> hotunplug CPU1, the kernel will refuse it because it's the last online
-> CPU of the system. Given that we're pulsing the IRQ only in the first try,
-> in a failed attempt, all other CPU1 hotunplug attempts will fail, regardless
-> of the online state of CPU1 in the kernel, because we're simply not letting
-> the guest know that we want to hotunplug the device.
-> 
-> Let's move spapr_hotplug_req_remove_by_index() back out of the
-> "if (!spapr_drc_unplug_requested(drc))" conditional, allowing for multiple
-> 'device_del' requests to the same CPU core to reach the guest, in case
-> the CPU core didn't fully hotunplugged previously. Granted, this is not
-> optimal because this can allow for multiple hotplug events queueing in the
-> guest, like it was already possible before 47c8c915b162.
-> 
-> Other possible alternatives would be:
-> 
-> - check if the given CPU is the last online CPU in the guest before attempting
-> to hotunplug. This can be done by checking 'cs->halted' and msr states of
-> the core. Problem is, this approach will fail if the guest offlines/onlines
-> a CPU while we're in the middle of the unplug request, given that we can't
-> control whether the CPU core states will change in the kernel. This option
-> sure makes it harder to allow a hotunplug failure to happen, but will never
-> be enough to fully avoid it;
-> 
-> - let the user handled it. In this case, we would advise the user to reboot the
-> guest and the CPU will be removed during machine reset.
-> 
+Are there any files present on the qemu-project.org webroot
+other than the published output of Jekyll ?  QEMU had the
+good sense to use sub-domains git.qemu-project.org and
+download.qemu-project.org for other content. So maybe you
+just turn the root qemu-project.org and www.qemu-project.org
+domains into CNAME records pointing to the gitlab pages site ?
 
-This is actually the only viable option since there's no way for the guest to
-report an unplug request failure to QEMU. And this isn't specific to CPUs, eg.
-Linux can also block unplug requests for DIMM devices if some LMB doesn't belong
-to ZONE_MOVABLE. The solution for this is to tell linux to always put hot-plugged
-memory in ZONE_MOVABLE.
-
-Could something similar be done for CPUs ? For example, forbidding the off-lining
-of CPU0 at the linux level : this would ensure all cores, except the one that has
-CPU0, are always hot-unpluggable.
-
-> None of the alternatives are clear winnners, so this patch goes for the approach
-> makes the IRQ queue of the guest prone to multiple hotunplug requests for the
-> same CPU, but at least the user can successfully hotunplug the CPU after a failed
-> attempt, without the need of guest reboot.
-> 
-> Reported-by: Xujun Ma <xuma@redhat.com>
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1911414
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index e9e3816cd3..e2f12ce413 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -3737,8 +3737,17 @@ void spapr_core_unplug_request(HotplugHandler *hotplug_dev, DeviceState *dev,
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 5fa3041..08b6d20 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -1,6 +1,11 @@
 >  
->      if (!spapr_drc_unplug_requested(drc)) {
->          spapr_drc_detach(drc);
-> -        spapr_hotplug_req_remove_by_index(drc);
->      }
+> +stages:
+> +  - build
+> +  - update
 > +
-> +    /*
-> +     * spapr_hotplug_req_remove_by_index is left unguarded, out of the
-> +     * "!spapr_drc_unplug_requested" check, to allow for multiple IRQ
-> +     * pulses removing the same CPU core. Otherwise, in an failed hotunplug
-> +     * attempt (e.g. the kernel will refuse to remove the last online CPU
-> +     * core), we will never attempt it again because unplug_requested will
-> +     * still be 'true' in that case.
-> +     */
-> +    spapr_hotplug_req_remove_by_index(drc);
+>  pages:
+>    image: centos:8
+> +  stage: build
+>    cache:
+>      paths:
+>        - vendor
+> @@ -14,3 +19,26 @@ pages:
+>    artifacts:
+>      paths:
+>       - public
+> +
+> +deploy:
+> +  image: centos:8
+> +  stage: update
+> +  needs:
+> +    - job: pages
+> +      artifacts: true
+> +  before_script:
+> +    - dnf install -y openssh-clients rsync
+> +    - eval $(ssh-agent -s)
+> +    - cat "$SSH_PRIVATE_KEY_FILE" | tr -d '\r' | ssh-add -
+> +    - mkdir -m700 -p ~/.ssh
+> +    - - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" >> ~/.ssh/config'
+> +  script:
+> +    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && mkdir new && rsync -avz root/ new"
 
-This not only fire the IRQ again, it also enqueues a new event... have
-you tried hammering QEMU with CPU hot-plug/unplug requests. I seem to
-remember that the troubles fixed by 47c8c915b162 had more to do with
-the DRC state machine than the hot-plug event itself, but posting the
-same event several times during a regular hot-unplug sequence could
-maybe cause subtle bugs as well.
+Why copy the old root into the new root ? This means that any time we delete
+a file in git, it will never be removed from the live webroot.
 
-Honestly, this is still a band-aid : it doesn't fix anything, it just
-gives an alternative solution to reboot when someone has done something
-silly. I'd rather not loosen our sanity checks for such a corner case.
+> +    - rsync -avz public/ $SSH_DEPLOY_DESTINATION:/var/www/qemu-project.org/new
+> +    - ssh $SSH_DEPLOY_DESTINATION "cd /var/www/qemu-project.org && rm -rf old && mv root old && mv new root"
 
-On the other side, the at-least-one-cpu thing is a linux limitation.
-It seems fair that linux should provide a way to mitigate the effects.
-Like suggested above, this could be the ability to elect an individual
-vCPU to be always on-line. Since QEMU refuses the hotplug of the boot
-core, QEMU could maybe tell the guest to elect CPU0 through some
-flag in the DT, like we've done recently for LMBs.
 
->  }
->  
->  int spapr_core_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
