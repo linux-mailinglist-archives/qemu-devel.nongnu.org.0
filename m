@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52AF42FB546
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:22:31 +0100 (CET)
-Received: from localhost ([::1]:42160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6235A2FB555
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:27:55 +0100 (CET)
+Received: from localhost ([::1]:50816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1o9e-0004F1-4h
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:22:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57658)
+	id 1l1oEs-000834-CH
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:27:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57660)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2d-0001z9-35; Tue, 19 Jan 2021 05:15:15 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:49045)
+ id 1l1o2d-0001zD-6P; Tue, 19 Jan 2021 05:15:15 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:41981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2a-0004Ew-6n; Tue, 19 Jan 2021 05:15:14 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.west.internal (Postfix) with ESMTP id 5C90BF62;
- Tue, 19 Jan 2021 05:15:09 -0500 (EST)
+ id 1l1o2b-0004GL-2X; Tue, 19 Jan 2021 05:15:14 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id 2470AF4E;
+ Tue, 19 Jan 2021 05:15:11 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Tue, 19 Jan 2021 05:15:10 -0500
+ by compute3.internal (MEProxy); Tue, 19 Jan 2021 05:15:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=+tAmzpCvx42xi
- yZfm5yP1gMSWDtVv8bpPH0xcCQrIGY=; b=hAD+ELdTVv1j3smqJnEo8Piqj4pQv
- AuvPt1/TTJ5EnyoSDAYDYZWc4pabehPmYr+HedtlYiKVuLmUYffn0Eyaw/YbpaUu
- lA6wPJTwytgGje1eZQDWp4YbLUd+PDZ690Cn6DMWzSuE76dJVYvHoS2TAfA56LBr
- rhSj9lwKVgBsB6ErxguYneJmq8rdNTdjzuzKGC6iDhnEuctRoibhoxhIlL6hqr8H
- AJfuEJRpY5qGdgoN4a+0dBy5prU62kFZcJZ6CawtpfvwTCYs4s3IvPTeN4WZby2a
- NslIwZJTJFrm0RzzJR6L1AUaIuG46lNQBGfZWRF3dtv/ZG5WoJAz8Pl0A==
+ :mime-version:content-transfer-encoding; s=fm2; bh=ahOpw4FmX/eXV
+ G9+HP1hL9grmczPrRhOOSOKNtCCRMo=; b=YpYOZDlkTVGdagReMOsYwxQPn+uca
+ ADrX1OKEgNbt5NRekMpHTKKgAfIZIHMAggosFG1CEV5liSA5r7lZwbWjzkfnUB5C
+ JMDG1bleuoDOGYxkdjuG1kH2jcMyi2ndRvzv6pYdIxEaerDYJnXS3h9lShkGP7lH
+ KCxMtxXSaHYVdjf9FKDwP6LW8dbH6BcVhRZ2gR0PNHdRrrSE1/IXPEPblQI6xjTp
+ jiRImpYikG6jQoR3WeQhqhkvPJelJze7NGj8t58asDUg7SqkLKO48EoivXJBDm17
+ n5HZhBnqjBR5Ozpw3SCnWcdD0v4q+V30ZxfpZV+8gUoOV5po1MbVmp3xA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=+tAmzpCvx42xiyZfm5yP1gMSWDtVv8bpPH0xcCQrIGY=; b=lnD14BZw
- Htfh70ZSj0ab5qQB7rNZTxfIncxGUWCa+DmCOfliXFW97bIiGm2IlI6TtUFY3kea
- 806pDb13LkVTdC/mm5ji81TcTjS1Ay9QeRJoJhZp9JgirmC9dmtEREBV9lTOJPOs
- mXuPIGSZl13QFSi29pzGRnO1lwmvsVePIxMp2lP/T0YcGHU3Idhh0lHY91CeSyGe
- tUHtVpKYO+3wH3VV9k8qVNGG2cl0jQvvluBzCiAT6FyKKDehtxtJwAonuaAIGi3y
- t32KFoh/44W+nUuEpbX4sCs3nuVBFlQsFoAvL8cEzDymodNEw0fKDG5JHxoZ2SJg
- lNI7rh4ua1j+YQ==
-X-ME-Sender: <xms:LLEGYPHblEWNrvdwHvbphSNRhwc_sTGTEcFuggsoHywoPNbFoGpdKw>
- <xme:LLEGYIKWWdtrUFGcvFYi_aztJ1gfZakQAx6iNPrfKTz89-L9yctLK7udBIpAzcGh1
- 6sNoX5rv3ityyXyWh0>
+ fm1; bh=ahOpw4FmX/eXVG9+HP1hL9grmczPrRhOOSOKNtCCRMo=; b=X6Jjl7AT
+ YzzN0pAY0SVD/QBtE1f5D3aI4rI4k9J2zJCeGe52G+0OpWVzeCqBiRp9nHCkS0k0
+ AHyIVbr3jkL3Za295Sbzp1qa+aSOD1u80Eukj80MTpQ2eCKZuE/3lQf8YbejRmHA
+ /kuznlHus8K1zDEGUgFdP8vdEZ/X3b2qtv9oV9OvNOTGHK7HGV6xNvKGlVsxxF4k
+ ZI6mr5UBCfiblUUxdNsxEQaWSlWOJyrEoBqbTw8MF1PPjkhjNU/rPXRtGhLJWxFW
+ Dzmq8uwutIduIBSFkjZMcJ2mhjjL/J+jqykaNxbfwR5DTYaX3Bgw5DjCqgBEFciT
+ yEeg0n3jXn6Pbw==
+X-ME-Sender: <xms:LrEGYP2ZTxpAFXXjCKXsD1Ii7bK_hvSOT7Ayj6EFBeFGwnbD7gc4XQ>
+ <xme:LrEGYJ-xXgpQVneCOkCqZF4kdaPd845Lk7i-d5_K4c3xqT_1gbp2vxJVINaU53sf_
+ J5ZEd3H633ULOWRaZo>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgddufecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgddufecutefuodetggdote
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
  necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:LLEGYMgahyZXz1BK6cboEQRNugIUZFQ6rR3v8PhwuwP_dnauK_2-Dg>
- <xmx:LLEGYGlUpBzgbz15wwBet3fSyfM-U3bPJxpfvqUg5TFd6Xo4ZKq-ow>
- <xmx:LLEGYDXdJPtNu8ZbUiDwXfqNlL-xh42lzP-788WjYyvWdpYRHr5D8w>
- <xmx:LbEGYPqFFJsApko2_ddS896C_DGTeVsZAswjxpu6qBYBIfBYZreVjA>
+X-ME-Proxy: <xmx:LrEGYM6VRe4QAAB8yRuyrxDBo_6N3NBQ20fklOzqRNPLtJZcJcgJKA>
+ <xmx:LrEGYJtHUXNnKrtjpVx_BgEtKtCRKZFNgDho7HXoTxoNlHVNUf_jYw>
+ <xmx:LrEGYG34JVU5H4zPH_0lKqaTnf8mVN0w6Tb4gALE8ce7iCttGlZZJA>
+ <xmx:LrEGYJOWaQBvGaGE7NiwIxSkqrlACvyQrz5MEHHR45enBB9dNyxg6Q>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id ACAF2240062;
- Tue, 19 Jan 2021 05:15:07 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 2733B24005A;
+ Tue, 19 Jan 2021 05:15:09 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 01/12] hw/block/nvme: add size to mmio read/write trace
- events
-Date: Tue, 19 Jan 2021 11:14:53 +0100
-Message-Id: <20210119101504.231259-2-its@irrelevant.dk>
+Subject: [PATCH v3 02/12] hw/block/nvme: fix 64 bit register hi/lo split writes
+Date: Tue, 19 Jan 2021 11:14:54 +0100
+Message-Id: <20210119101504.231259-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210119101504.231259-1-its@irrelevant.dk>
 References: <20210119101504.231259-1-its@irrelevant.dk>
@@ -96,59 +95,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Klaus Jensen <its@irrelevant.dk>
+ Stefan Hajnoczi <stefanha@redhat.com>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-Add the size of the mmio read/write to the trace event.
+64 bit registers like ASQ and ACQ should be writable by both a hi/lo 32
+bit write combination as well as a plain 64 bit write. The spec does not
+define ordering on the hi/lo split, but the code currently assumes that
+the low order bits are written first. Additionally, the code does not
+consider that another address might already have been written into the
+register, causing the OR'ing to result in a bad address.
+
+Fix this by explicitly overwriting only the low or high order bits for
+32 bit writes.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- hw/block/nvme.c       | 4 ++--
- hw/block/trace-events | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ hw/block/nvme.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 309c26db8ff7..c1211b298603 100644
+index c1211b298603..9a508df8d200 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -3849,7 +3849,7 @@ static uint64_t nvme_mmio_read(void *opaque, hwaddr addr, unsigned size)
-     uint8_t *ptr = (uint8_t *)&n->bar;
-     uint64_t val = 0;
- 
--    trace_pci_nvme_mmio_read(addr);
-+    trace_pci_nvme_mmio_read(addr, size);
- 
-     if (unlikely(addr & (sizeof(uint32_t) - 1))) {
-         NVME_GUEST_ERR(pci_nvme_ub_mmiord_misaligned32,
-@@ -4013,7 +4013,7 @@ static void nvme_mmio_write(void *opaque, hwaddr addr, uint64_t data,
- {
-     NvmeCtrl *n = (NvmeCtrl *)opaque;
- 
--    trace_pci_nvme_mmio_write(addr, data);
-+    trace_pci_nvme_mmio_write(addr, data, size);
- 
-     if (addr < sizeof(n->bar)) {
-         nvme_write_bar(n, addr, data, size);
-diff --git a/hw/block/trace-events b/hw/block/trace-events
-index 78d76b0a71c1..a104d7f4da80 100644
---- a/hw/block/trace-events
-+++ b/hw/block/trace-events
-@@ -80,8 +80,8 @@ pci_nvme_enqueue_event_noqueue(int queued) "queued %d"
- pci_nvme_enqueue_event_masked(uint8_t typ) "type 0x%"PRIx8""
- pci_nvme_no_outstanding_aers(void) "ignoring event; no outstanding AERs"
- pci_nvme_enqueue_req_completion(uint16_t cid, uint16_t cqid, uint16_t status) "cid %"PRIu16" cqid %"PRIu16" status 0x%"PRIx16""
--pci_nvme_mmio_read(uint64_t addr) "addr 0x%"PRIx64""
--pci_nvme_mmio_write(uint64_t addr, uint64_t data) "addr 0x%"PRIx64" data 0x%"PRIx64""
-+pci_nvme_mmio_read(uint64_t addr, unsigned size) "addr 0x%"PRIx64" size %d"
-+pci_nvme_mmio_write(uint64_t addr, uint64_t data, unsigned size) "addr 0x%"PRIx64" data 0x%"PRIx64" size %d"
- pci_nvme_mmio_doorbell_cq(uint16_t cqid, uint16_t new_head) "cqid %"PRIu16" new_head %"PRIu16""
- pci_nvme_mmio_doorbell_sq(uint16_t sqid, uint16_t new_tail) "sqid %"PRIu16" new_tail %"PRIu16""
- pci_nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+@@ -3790,19 +3790,21 @@ static void nvme_write_bar(NvmeCtrl *n, hwaddr offset, uint64_t data,
+         trace_pci_nvme_mmio_aqattr(data & 0xffffffff);
+         break;
+     case 0x28:  /* ASQ */
+-        n->bar.asq = data;
++        n->bar.asq = size == 8 ? data :
++            (n->bar.asq & ~0xffffffffULL) | (data & 0xffffffff);
+         trace_pci_nvme_mmio_asqaddr(data);
+         break;
+     case 0x2c:  /* ASQ hi */
+-        n->bar.asq |= data << 32;
++        n->bar.asq = (n->bar.asq & 0xffffffff) | (data << 32);
+         trace_pci_nvme_mmio_asqaddr_hi(data, n->bar.asq);
+         break;
+     case 0x30:  /* ACQ */
+         trace_pci_nvme_mmio_acqaddr(data);
+-        n->bar.acq = data;
++        n->bar.acq = size == 8 ? data :
++            (n->bar.acq & ~0xffffffffULL) | (data & 0xffffffff);
+         break;
+     case 0x34:  /* ACQ hi */
+-        n->bar.acq |= data << 32;
++        n->bar.acq = (n->bar.acq & 0xffffffff) | (data << 32);
+         trace_pci_nvme_mmio_acqaddr_hi(data, n->bar.acq);
+         break;
+     case 0x38:  /* CMBLOC */
 -- 
 2.30.0
 
