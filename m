@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B322FC26A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 22:36:07 +0100 (CET)
-Received: from localhost ([::1]:59496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7424E2FC2BF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 22:52:15 +0100 (CET)
+Received: from localhost ([::1]:37784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1yfW-00015u-3q
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 16:36:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42028)
+	id 1l1yv8-0005Qz-3j
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 16:52:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1ydu-0000Bc-EL
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 16:34:26 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45618)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1ydr-0000uQ-DV
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 16:34:26 -0500
-Received: by mail-ed1-x533.google.com with SMTP id f1so9198236edr.12
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 13:34:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=xJRhZ5s8foOYpS5NZsJPtPD14OatqyMPy388lZf04Lw=;
- b=yEluQcnEBvsaqj+6UJkKU4CvIvwNoy/PeskntYP6teA/k6MtbrnrCc2M8D89+/tccQ
- AOHGbDdWMVAkAekY066SF9httg3fTGMgtjTOJEyRa2pno7hRz0l2njH6h9Sl1kCHVUxk
- GAdWL1cumqnqCo81UewFSoS1LRaU9l/nTyOs6mC+/FU5lKhWBaZQcn81N4xMWsdDu1Yt
- 4eH6HY9S2XrI3yDNBbS4zKdqXsQ4/ZF9sLvBj8nUV8RZyzS2IF0OnlTFPtxtK5KJCG60
- E0l3PiabFzG28ZLkwAxrpox8c753r4ZOh4vmhZEvHTJp0Hmeiuyc5Ry+SLltKB++ZIfb
- /nYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=xJRhZ5s8foOYpS5NZsJPtPD14OatqyMPy388lZf04Lw=;
- b=uGg/ro4moQ/4AYXW1219a7FxTy9o93Ron+Gpcnws7LDhpafInEr2fb4gFngBIgMumA
- wva3CaI8HizeMknLn2GY36JcLR6Wek+fMLWora9AdnHuqlHJJDALkGYfvasrvFD/P26n
- sa2gxJMPyGctNGwSY8f6IZLfxAQz1C0k/IPrYkgoV72uFzgHtqSksVzHVeIdpZ62gjfR
- bqPKYAkpqZqb7yEYDLM71WEJhYn1LRFNLwD4JEk21KhgROa2ecD9d4GBu1saaI1ATNnd
- 0imDkjjp7tpYwe3P65m866+Zpp7PN3ZPJvD0RrQxeq5hcO3+Gr6l1BQQstjtg0MJ2rfW
- DbTA==
-X-Gm-Message-State: AOAM533/dpq9fhuJB+jk2g5WIchdIX+TCQDMBDCUy7GyB4GQy0H4fOwF
- 1OjBYiuUZudPzEP2pRU14MmSpi1wx72j0OEaQ2+Q7Q==
-X-Google-Smtp-Source: ABdhPJwN4PN07/nmJveYtL1c9gR0Gjbkitv4/2b7Qq1TjmkeyEDmc3Ylos0tjGxi0y+RCh8tpZ2MVVV0cupzPSxoct8=
-X-Received: by 2002:a05:6402:1701:: with SMTP id
- y1mr4846086edu.251.1611092061093; 
- Tue, 19 Jan 2021 13:34:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l1ytS-0004gX-TL
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 16:50:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53272)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l1ytO-0002V6-Vc
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 16:50:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611093024;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=2wu/LakUlQP6voavSnC/tnbw5fHcM0WTHBa4ctfEVKc=;
+ b=AjUnbnOASbVIvHh1wKPeL+e/+Qp0m5xwz0CEfb9sm4RsXGe/HcvI3yXrDC7obJxssgVsEa
+ 75+yqYJz3v3exqf8o7qYqFAYkRhQtGtsZZ8RdCYhcKOz1jO9+jasgPOlvQNbAjjJ6Ux8vO
+ QSfM6CA0prQYIDNF2+ZoRYQgpvwziOo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-547-fjGiuKhJMr2yjDEpE8X3jw-1; Tue, 19 Jan 2021 16:50:20 -0500
+X-MC-Unique: fjGiuKhJMr2yjDEpE8X3jw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C02CA10054FF;
+ Tue, 19 Jan 2021 21:50:18 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0A39D27C50;
+ Tue, 19 Jan 2021 21:50:17 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Alistair Francis <alistair23@gmail.com>
+References: <f3e04424723e0e222769991896cc82308fd23f76.1610751609.git.alistair.francis@wdc.com>
+ <a566580a-ef30-0d2f-116e-1e3666f1187d@amsat.org>
+ <CAKmqyKNvtuY2eaQHiM4YMKyy_bWAiHFrMan_R+7M_fw7=ioW=A@mail.gmail.com>
+ <31a5b411-66d8-87ef-865a-6b3d33d0a874@amsat.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v1 1/1] riscv: Pass RISCVHartArrayState by pointer
+Message-ID: <f57d1ae2-eb00-3fa0-b1ca-c0fdc6f339e1@redhat.com>
+Date: Tue, 19 Jan 2021 15:50:17 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20201215175445.1272776-1-pbonzini@redhat.com>
- <20201215175445.1272776-17-pbonzini@redhat.com>
-In-Reply-To: <20201215175445.1272776-17-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 21:34:10 +0000
-Message-ID: <CAFEAcA93tYRjdjQJm8GKNS2=4iV5QU4X_JJevWEBc7wggX6Cwg@mail.gmail.com>
-Subject: Re: [PULL 16/45] vl: Add option to avoid stopping VM upon guest panic
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <31a5b411-66d8-87ef-865a-6b3d33d0a874@amsat.org>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,64 +85,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mihai Carabas <mihai.carabas@oracle.com>,
- Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 15 Dec 2020 at 18:11, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
->
-> The current default action of pausing a guest after a panic event
-> is received leaves the responsibility to resume guest execution to the
-> management layer. The reasons for this behavior are discussed here:
-> https://lore.kernel.org/qemu-devel/52148F88.5000509@redhat.com/
->
-> However, in instances like the case of older guests (Linux and
-> Windows) using a pvpanic device but missing support for the
-> PVPANIC_CRASHLOADED event, and Windows guests using the hv-crash
-> enlightenment, it is desirable to allow the guests to continue
-> running after sending a PVPANIC_PANICKED event. This allows such
-> guests to proceed to capture a crash dump and automatically reboot
-> without intervention of a management layer.
->
-> Add an option to avoid stopping a VM after a panic event is received,
-> by passing:
->
-> -action panic=none
->
-> in the command line arguments, or during runtime by using an upcoming
-> QMP command.
+On 1/17/21 10:52 AM, Philippe Mathieu-Daudé wrote:
+> On 1/16/21 11:38 PM, Alistair Francis wrote:
+>> On Sat, Jan 16, 2021 at 2:32 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+>>>
+>>> On 1/16/21 12:00 AM, Alistair Francis wrote:
+>>>> We were accidently passing RISCVHartArrayState by value instead of
 
-Hi. This commit message doesn't say it's changing the default
-action, but the change does:
+accidentally
 
-> @@ -3899,6 +3899,8 @@ DEF("action", HAS_ARG, QEMU_OPTION_action,
->      "                   action when guest reboots [default=none]\n"
->      "-action shutdown=poweroff|pause\n"
->      "                   action when guest shuts down [default=poweroff]\n"
-> +    "-action panic=poweroff|pause|none\n"
-> +    "                   action when guest panics [default=poweroff]\n"
->      "-action watchdog=reset|shutdown|poweroff|inject-nmi|pause|debug|none\n"
->      "                   action when watchdog fires [default=reset]\n",
->      QEMU_ARCH_ALL)
+>>>> pointer. The type is 824 bytes long so let's correct that and pass it by
+>>>> pointer instead.
 
->  RebootAction reboot_action = REBOOT_ACTION_NONE;
->  ShutdownAction shutdown_action = SHUTDOWN_ACTION_POWEROFF;
-> +PanicAction panic_action = PANIC_ACTION_POWEROFF;
+>>>> -bool riscv_is_32bit(RISCVHartArrayState harts)
+>>>> +bool riscv_is_32bit(RISCVHartArrayState *harts)
 
-We used to default to 'pause' and now we default to 'poweroff'.
+Definitely better,
 
-We noticed this because it broke an in-flight test case for
-the pvpanic-pci device from Mihai (which was expecting to see
-the device in 'pause' state and found it was now in 'poweroff').
-Test cases aren't very exciting, but was it really intentional
-to change the default behaviour? It's part of the user-facing
-surface of QEMU, so if we did intend a default change that ought
-really to be more clearly stated (and noted in the Changelog) I think.
+>>>>  {
+>>>> -    RISCVCPU hart = harts.harts[0];
+>>>> +    RISCVCPU hart = harts->harts[0];
 
-thanks
--- PMM
+but yeah, this still results in a copy (unless the compiler optimizes it).
+
+>>>
+>>> This doesn't look improved. Maybe you want:
+>>>
+>>>        return riscv_cpu_is_32bit(&harts->harts[0].env);
+
+Whereas this is obviously a pointer into the original without relying on
+the compiler to elide a copy.
+
+>>
+>> I suspect this ends up generating the same code.
+> 
+> If the compiler is smart enough, but I'm not sure it can figure out
+> only 1 element from the structure is accessed...
+> My understanding is "first copy the content pointed at '*harts' in
+> 'hart' on the stack", then only use "env".
+> 
+> Cc'ing Eric/Richard to double check.
+
+I agree that relying on the compiler optimization is not as
+straightforward as writing the code to directly access the correct
+pointer from the get-go.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
