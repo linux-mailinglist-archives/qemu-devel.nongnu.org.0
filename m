@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051E92FBB58
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:39:09 +0100 (CET)
-Received: from localhost ([::1]:40206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E2A92FBB6C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:41:41 +0100 (CET)
+Received: from localhost ([::1]:48688 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1t64-0006S0-2f
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:39:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57942)
+	id 1l1t8W-0001Zc-2B
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:41:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1t0V-0001f0-0X
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:33:23 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:41970)
+ id 1l1t3D-0004gI-8y
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:36:11 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:41990)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1t0S-0004PS-Eo
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:33:22 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id g12so29094318ejf.8
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:33:19 -0800 (PST)
+ id 1l1t3B-00053C-KK
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:36:11 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id g24so21972742edw.9
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:36:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=pL3IG3oX1M+g8Mp4tWza+AytKqVTrVVLMe8NVpUmpx4=;
- b=urL4OClMXLzO080FOzB7y+nElCQwc3UXQno4dKmECUqLI5gJHulq6rPCV1QuLhldeb
- dmWm79Wo6PxKidJHefhLMDUZmy8CCvbq1ynUip2z3vS44azTUOvVuH1l5gNQwEQapD0X
- SRqeenGCqljIUlCiB/N77aEPVdeW1G3kFVwyBl+deGiRm2wACvNkfy+fMBjPSHqXUR4b
- UwoHhaT1nRGX4Vntyvv7/OtMgJ0llNI7nEtLN8MHxQjnnB25n2FmWRM8wx4IBVzDywbh
- AJSRaAlGJuRrdwrmdB5z+KFqeLYRJcDlrz5fw/sQ2WSWHNvdCqiSgoSbbxycDwt6RZ8+
- GQkQ==
+ :cc; bh=MMTwjyRE77g6ml3FS++ktCrVNEwFdquuv/A1ZwGqJgQ=;
+ b=WlORkPU2RZ6AI7qjPLRkuO4KhKKY0gkvyJmKojqsqpL2aViyDjYZDQYCSD4PrEot27
+ IhlW+DRi/9B2kSpzwvqa1nfhf4WrHpJmLKtTwJ80zXoe6UmsPpwVdn4a0fjm1vB12g5B
+ CzJY5fqP44qv2J87xBEisoq1tCqQVThMvqJU+9JwS99wyYY2svzzQyNU8pC3nFPjJ1aX
+ 6BoQuwjV+J9mvw6epdjDCKQKTEc5l7+1gb585c19tINqxELRcRrzzFZf4QZCZAfmGh8K
+ 6YeAM402xz9SEgJsRx7pYV25TykehTQXKJDo9vOVUZJKiwREwQeoUM9ATXjAr4VTzeVD
+ 6uhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=pL3IG3oX1M+g8Mp4tWza+AytKqVTrVVLMe8NVpUmpx4=;
- b=TBQVt+Ef4yRSLdUuaIxghS9smWVSjNdOQjWSf1nGiKYzMgnJf9CD+EQuSN3AEp1ghF
- vZw9QYyy41LrPtHGkOAQ2x6Lw1Y4XIYvKUsyqZABPPcP2EUWOQZNBb5oi192/KLnxVp4
- unCnmbD6+H0n/dYpx/eNhD/acrMNT/OFyfPpgzetnwTOTkUODCZg+ZUhWVK/DB3LJnYb
- 2pRX6kvUFpekF51KZ6lzKWmmRFB+e5uewb9lKh1L0VlWwg/81Kg3M1Hty6oXzEFEbtu2
- /5R8ODZBtyQ1ciUtVQpfNumMIXCzINMgSKMFiso9dHgzU5TWdUN+vPOKmr9BwCf/luS/
- 2zEg==
-X-Gm-Message-State: AOAM53034djzziQcyJYSFRFx6ANPCq7MHgl+g9OtjnQUUsV+mzF4JVUZ
- ZkeP3Int4IqKYPfnqSG4tOEtrnk+g4v4oM1PBGBkew==
-X-Google-Smtp-Source: ABdhPJw2SDzqlFvcQ4zJrdTEaP62JU4v3iNCq9EyvIjvEUIFJmDyhLawo6ahjZrk7ZKgeetIcQH6FIk0nt8E1pXCLYg=
-X-Received: by 2002:a17:906:494c:: with SMTP id
- f12mr3495902ejt.56.1611070398463; 
- Tue, 19 Jan 2021 07:33:18 -0800 (PST)
+ bh=MMTwjyRE77g6ml3FS++ktCrVNEwFdquuv/A1ZwGqJgQ=;
+ b=slQac4hXKRj+StiydSz//gPXZMfa8f2v/ckI4AGw7rTclJ9KTRRiVLjrPZWJ7FW8D/
+ w/4yzzEvOT1w4kTWBJhXQ0u/qaMn0QuP8uPfxiFdNQFMsjW/eEN2aGV2tsqbI5nQ3B+7
+ cFirgRchCroeOpRg8fs2/ULhnGLGcDeTneYEsZIO5LetUEMaFfWayFx7w5vsb1sA8a9Q
+ hqg2uet8Pj3xfZp+6xD5/+4uxbaVZcV0wyKRMZPzSla+Z0xss1gD8fQJ4JyLidbRTFEO
+ JEBGaLm5NNSbtiQkrqFs3ufThT6jtRELOV69gBUErSBg3PkDQC+6fhTjcqvqnGcD8QcM
+ I3UQ==
+X-Gm-Message-State: AOAM531aSoPeSH19s5ASil0z8fUgbx5Rm/LqAAiGBZdlX44+jDqC7yx/
+ QYJGkRp7wAc98TeE9/TFXuiCXg+q9UgoCCsc39bD7vPfQDw=
+X-Google-Smtp-Source: ABdhPJwhQgm7tFEYaJdgOcEwbNPnFImcZLA5wsqzCHoJbdIqp/bXCxD9FVWTpUy9duQAVhl+rx0ReyhWmSK1h0lI8uY=
+X-Received: by 2002:aa7:c88a:: with SMTP id p10mr3845236eds.204.1611070568128; 
+ Tue, 19 Jan 2021 07:36:08 -0800 (PST)
 MIME-Version: 1.0
 References: <20210115210456.1053477-1-richard.henderson@linaro.org>
- <20210115210456.1053477-16-richard.henderson@linaro.org>
-In-Reply-To: <20210115210456.1053477-16-richard.henderson@linaro.org>
+ <20210115210456.1053477-17-richard.henderson@linaro.org>
+In-Reply-To: <20210115210456.1053477-17-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 15:33:07 +0000
-Message-ID: <CAFEAcA-Xq7Li8jsHOv-9KWtWtSNo_Z_1m72yX=VtTj8H8JEVpA@mail.gmail.com>
-Subject: Re: [PATCH v2 15/22] tcg/arm: Split out constraint sets to
+Date: Tue, 19 Jan 2021 15:35:56 +0000
+Message-ID: <CAFEAcA9K=pq+kAZoEN5HfandM8Xn9u1YBOBobUGCE8iTM9ZicA@mail.gmail.com>
+Subject: Re: [PATCH v2 16/22] tcg/mips: Split out constraint sets to
  tcg-target-con-set.h
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,16 +82,16 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 21:17, Richard Henderson
+On Fri, 15 Jan 2021 at 21:20, Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tcg/arm/tcg-target-con-set.h | 35 ++++++++++++++
->  tcg/arm/tcg-target.h         |  1 +
->  tcg/arm/tcg-target.c.inc     | 94 ++++++++++++------------------------
->  3 files changed, 68 insertions(+), 62 deletions(-)
->  create mode 100644 tcg/arm/tcg-target-con-set.h
+>  tcg/mips/tcg-target-con-set.h | 36 +++++++++++++
+>  tcg/mips/tcg-target.h         |  1 +
+>  tcg/mips/tcg-target.c.inc     | 96 +++++++++++------------------------
+>  3 files changed, 66 insertions(+), 67 deletions(-)
+>  create mode 100644 tcg/mips/tcg-target-con-set.h
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
