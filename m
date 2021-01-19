@@ -2,91 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 408862FB6BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:08:43 +0100 (CET)
-Received: from localhost ([::1]:41272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E21CB2FB6C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:12:16 +0100 (CET)
+Received: from localhost ([::1]:46178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rgY-0004uy-CK
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:08:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33258)
+	id 1l1rjz-0007AC-VY
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:12:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36460)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1rYy-0000P2-2i
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:00:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1rYu-0006jD-8G
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:00:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611064843;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sNBIOZC1DIqGhpxss8m/ZF3DvS8VXut56uN/gfy/rhQ=;
- b=UGwco/gDM9UJMnd7iKBAHMX2uoLkmF2M7HquHdkqNABjcdB7bLBkcCBCxpmmnyoTYy9WRU
- pbP+MFFbiJnqitx3UOH6w7ppMiEJcTcftd9OrWP4AjsCvT4coqgs+sIUrXvKZQkV5l9nIR
- YzzGgiqjOXNiiyKSr9wKKGVCzlmXFbQ=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-129-suZB1AqQOh2AcYu5EVSBjg-1; Tue, 19 Jan 2021 09:00:40 -0500
-X-MC-Unique: suZB1AqQOh2AcYu5EVSBjg-1
-Received: by mail-ej1-f72.google.com with SMTP id f26so6318783ejy.9
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:00:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1l1riJ-0006UY-FQ
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:10:31 -0500
+Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:40207)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1l1riI-0008UN-1w
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:10:31 -0500
+Received: by mail-qt1-x834.google.com with SMTP id v5so13698589qtv.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:10:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=gqp35W32vPXjH5UD5m/z7/hXe4eHZ0Lax8MiE8SZPr0=;
+ b=i15aL57WdGxRQuOthG6YUcNgR4prduw/QVWjmIpX98Ab4vI98c4sVCirouAvkr35OU
+ 9LL5WmI4+txq9XvEaRUZ0j2gQ4khRkOGIRkcaNnzFYZOip8iBBb/oo8TZrGrWoQYuajR
+ 3rmOkiSzLr0KYuJIiKyrCkxaU+K+QxGN6z+O53l1Elnf0iqq1GA5TOBqSsjMdZZV+ADe
+ heco90EwzTCtGOP1zUDX2hZNksYhTO9xaPzEaLXOW39TUDHpYAgFqU/ocmU8WAIzGNZU
+ +Y/UuPbsNcOZPxbV+LBt8AGKD59R5eb/EaKbp5lt6yLeo/FAl8Fv0PLhecZgC3GKYian
+ x2uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=sNBIOZC1DIqGhpxss8m/ZF3DvS8VXut56uN/gfy/rhQ=;
- b=knyLsdJcDSg8l8/JnzeM+uK0kKuUXQnVazbtyVQrp4jXvctmfF+YFsvtMoP+mQYTLS
- /+gxZgG96iUHNnzz/0CWN+m3ITlA7ej/NfHZ4hO9/bSlOeehIBtxNw5DndmMmSakfZfl
- VOx5ddjqLHUjH+6r1CfebDIpGKrCxzZYy0fZgztIEeJGNl+JIIAzZkQzsI+cjpc4o6sm
- rMSFdEuOJtuNdRi6cqCPra9AoITnAVLZmko2OV7QHYwaOxRMRX8QV7He6zX7PWqYyt2G
- ZXN6B2mszq309U6xD8sraFiZJH0BsFKyydFO6apaC79XwQKIdO2Y3KFWCO5rMBfXmcV8
- ly6Q==
-X-Gm-Message-State: AOAM533H8I5hHFrVupdZZ4l1oWlELgDpwY4ie43lSPMu+2yGzdKdYnrQ
- g/OxFrH2FAFz74B6c1xCfrs0pUnL5khwixQ0LofdsdGYKoCOW6GHX4LawKAeEOv72E/PhTOXZqo
- fZZoQ3y1+DqpPLDc=
-X-Received: by 2002:a17:906:6b91:: with SMTP id
- l17mr2892494ejr.171.1611064838864; 
- Tue, 19 Jan 2021 06:00:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxr5zmF4wrZOJQrJwA9sOYWtrToJMpNlssUjmMEAocroIKQbJJMZlLzUpfd6KLtE2WJC7YWQw==
-X-Received: by 2002:a17:906:6b91:: with SMTP id
- l17mr2892487ejr.171.1611064838732; 
- Tue, 19 Jan 2021 06:00:38 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id g2sm1707884ejk.108.2021.01.19.06.00.36
+ bh=gqp35W32vPXjH5UD5m/z7/hXe4eHZ0Lax8MiE8SZPr0=;
+ b=Q9TL2YvUjcCHOWrkXLrlwS/1Cf5DRpyUCGUOB6IXvQE1tg/9kmi1F7RkBWEdv37WzV
+ Q9McATNvKGGI25jI5Ez7lIUVW0FTbfvidH8XDZfBjfRgfHqlsBy84vHl+gTbiePLv/a5
+ rYsNazwE6lVPcM5Wz1/mxpsfPEP+wKLgTFNa7knkTrOnosE54iqHqi+nTxIchBvpDAwh
+ TYlLonl9m4D9s3Bg/bU26A98VjpsXBjILB6J8p9eobQQe9sAuSTEivZc4kzsLYRQv2GF
+ ilDugM9Jm7MM9GhhjTA7y+AfxEEsXW1nj2iGRe1vwFHrfrmcHuxeCam5uVm+R7nndg8z
+ Hakw==
+X-Gm-Message-State: AOAM5322iWrfxT1ZnuRQhhhNrHKsiLuwynvpWaiFj75fcLNKSp/qTeJI
+ WMPsI9lOVhCcxacSgJxVWueADu/yXkE=
+X-Google-Smtp-Source: ABdhPJxOhNESvch9CAHGhA+y/kBaXSRyKPxDExyxys6U4a+MMosmgsqPsz2oHgLBKUiw4DffwNi+4g==
+X-Received: by 2002:ac8:36e2:: with SMTP id b31mr4366516qtc.19.1611065428886; 
+ Tue, 19 Jan 2021 06:10:28 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c7:a75a:cb34:ba60:6de6:be1d?
+ ([2804:431:c7c7:a75a:cb34:ba60:6de6:be1d])
+ by smtp.gmail.com with ESMTPSA id a77sm12948617qkg.77.2021.01.19.06.10.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 06:00:37 -0800 (PST)
-Subject: Re: [PATCH] hw/usb: Convert to qdev_realize()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210119120151.53757-1-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <2335ea3d-3409-fa80-a1fe-9cb796bee095@redhat.com>
-Date: Tue, 19 Jan 2021 15:00:36 +0100
+ Tue, 19 Jan 2021 06:10:28 -0800 (PST)
+Subject: Re: [PATCH v2 1/1] vl.c: do not execute trace_init_backends() before
+ daemonizing
+To: Paolo Bonzini <pbonzini@redhat.com>, Stefan Hajnoczi <stefanha@gmail.com>
+References: <20210105181437.538366-1-danielhb413@gmail.com>
+ <20210105181437.538366-2-danielhb413@gmail.com>
+ <20210106165914.GA133192@stefanha-x1.localdomain>
+ <CABgObfa3wrhou3Pug4wZ5i2kQ9WD3KZy3+F3Y=zQbobXUnru5g@mail.gmail.com>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <04556d15-afee-333c-155f-bb0d2ab50436@gmail.com>
+Date: Tue, 19 Jan 2021 11:10:24 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210119120151.53757-1-armbru@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <CABgObfa3wrhou3Pug4wZ5i2kQ9WD3KZy3+F3Y=zQbobXUnru5g@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x834.google.com
+X-Spam_score_int: -7
+X-Spam_score: -0.8
+X-Spam_bar: /
+X-Spam_report: (-0.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, FREEMAIL_REPLY=1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,24 +92,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sai.pavan.boddu@xilinx.com, peter.maydell@linaro.org, kraxel@redhat.com
+Cc: qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/21 1:01 PM, Markus Armbruster wrote:
-> Device code shouldn't mess with QOM property "realized" since we have
-> proper interfaces (merge commit 6675a653).  Commit 8ddab8dd3d
-> "usb/hcd-xhci: Split pci wrapper for xhci base model" and commit
-> f00ff136ee "usb: hcd-xhci-sysbus: Attach xhci to sysbus device"
-> reintroduced two instances.  Clean them up.  Note that s->xhci is
-> a (bus-less) TYPE_XHCI device.
+Hi,
+
+Is this queued to be pushed? We can't test Libvirt with upstream QEMU
+without this fix to be able to daemonize properly.
+
+
+Thanks,
+
+
+DHB
+
+On 1/6/21 4:59 PM, Paolo Bonzini wrote:
 > 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  hw/usb/hcd-xhci-pci.c    | 4 +---
->  hw/usb/hcd-xhci-sysbus.c | 5 +----
->  2 files changed, 2 insertions(+), 7 deletions(-)
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+> 
+> Il mer 6 gen 2021, 17:59 Stefan Hajnoczi <stefanha@gmail.com <mailto:stefanha@gmail.com>> ha scritto:
+> 
+>     Acked-by: Stefan Hajnoczi <stefanha@redhat.com <mailto:stefanha@redhat.com>
+> 
+> 
+> I don't have anything queued shortly so feel free to include it yourself.
+> 
+> Paolo
+> 
+> 
 
