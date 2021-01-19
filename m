@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0A4A2FAF70
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:33:37 +0100 (CET)
-Received: from localhost ([::1]:34298 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F19D2FAF73
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:36:40 +0100 (CET)
+Received: from localhost ([::1]:42714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ii0-00026M-PT
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:33:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44254)
+	id 1l1ikv-0005T0-T8
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:36:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1ifk-0000Kk-Pt
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:16 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57164)
+ id 1l1ifl-0000LM-9O
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:17 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57268)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1ifh-0004uv-2h
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:16 -0500
+ id 1l1ifj-0004ve-3I
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:17 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l1iff-0003xS-Gm
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:11 +0000
+ id 1l1ifh-00041f-Ci
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:13 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7DD002E8138
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:11 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 57DCC2E8139
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:13 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 Jan 2021 04:17:23 -0000
-From: Launchpad Bug Tracker <1563612@bugs.launchpad.net>
+Date: Tue, 19 Jan 2021 04:17:24 -0000
+From: Launchpad Bug Tracker <1563152@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+ status=Expired; importance=Low; assignee=None; 
+X-Launchpad-Bug-Tags: needs-upstream-report
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor lau-7 th-huth
-X-Launchpad-Bug-Reporter: Bla Blub (lau-7)
+X-Launchpad-Bug-Commenters: janitor rhansen th-huth
+X-Launchpad-Bug-Reporter: Richard Hansen (rhansen)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20160330003759.31129.50215.malonedeb@gac.canonical.com>
-Message-Id: <161102984334.12094.14235851604651044643.malone@loganberry.canonical.com>
-Subject: [Bug 1563612] Re: pulseaudio applications crash under
- linux-user-x86_64
+References: <20160329015831.30307.69405.malonedeb@gac.canonical.com>
+Message-Id: <161102984471.12094.10852333119093195936.malone@loganberry.canonical.com>
+Subject: [Bug 1563152] Re: general protection fault running VirtualBox in KVM
+ guest
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
-X-Launchpad-Hash: 4ebeb99197796f46010ec2966f0155c6330fd1a6
+X-Launchpad-Hash: d9e3bcc628edc1be4b97456f902b20cf0b5145b7
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,81 +74,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1563612 <1563612@bugs.launchpad.net>
+Reply-To: Bug 1563152 <1563152@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+[Expired for qemu (Ubuntu) because there has been no activity for 60
+days.]
 
-** Changed in: qemu
+** Changed in: qemu (Ubuntu)
        Status: Incomplete =3D> Expired
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1563612
+https://bugs.launchpad.net/bugs/1563152
 
 Title:
-  pulseaudio applications crash under linux-user-x86_64
+  general protection fault running VirtualBox in KVM guest
 
 Status in QEMU:
   Expired
+Status in qemu package in Ubuntu:
+  Expired
 
 Bug description:
-  Running a simple application that uses pulseaudio under qemu-i386 or
-  qemu-x86_64 makes it crash (tested on Debian 8.0):
+  I'm trying to run nested VMs using qemu-kvm on the physical host and Virt=
+ualBox on the guest host:
+  =C2=A0=C2=A0* physical host: Ubuntu 14.04 running Linux 4.2.0, qemu-kvm 2=
+.0.0
+  =C2=A0=C2=A0* guest host: Ubuntu 16.04 beta 2 running Linux 4.4.0, Virtua=
+lBox 5.0.16
 
-  # apt-get install build-essential qemu-user libpulse-dev pulseaudio
-  $ cat > test.c << __EOF
-  #include <pulse/simple.h>
+  When I try to start up a VirtualBox VM in the guest host, I get a
+  general protection fault (see below for dmesg output).  According to
+  https://www.virtualbox.org/ticket/14965 this is caused by a bug in
+  QEMU/KVM:
 
-  int main(void) {
-  	pa_simple *s;
-  	pa_sample_spec ss;
-  	ss.format =3D PA_SAMPLE_S16NE;
-  	ss.channels =3D 2;
-  	ss.rate =3D 44100;
-  	s =3D pa_simple_new(NULL,               // Use the default server.
-  			  "Fooapp",           // Our application's name.
-  			  PA_STREAM_PLAYBACK,
-  			  NULL,               // Use the default device.
-  			  "Music",            // Description of our stream.
-  			  &ss,                // Our sample format.
-  			  NULL,               // Use default channel map
-  			  NULL,               // Use default buffering
-  					      // attributes.
-  			  NULL                // Ignore error code.
-  			);
+  =C2=A0=C2=A0=C2=A0=C2=A0The problem in more detail:  As written above, Vi=
+rtualBox tries to
+  =C2=A0=C2=A0=C2=A0=C2=A0read the MSR 0x9B (IA32_SMM_MONITOR_CTL).  This i=
+s an
+  =C2=A0=C2=A0=C2=A0=C2=A0architectural MSR which is present if CPUID.01 / =
+ECX bit 5 or bit
+  =C2=A0=C2=A0=C2=A0=C2=A06 are set (VMX or SMX).  As KVM has nested virtua=
+lization enabled
+  =C2=A0=C2=A0=C2=A0=C2=A0and therefore pretends to support VT-x, this MSR =
+must be
+  =C2=A0=C2=A0=C2=A0=C2=A0accessible and reading from this MSR must not rai=
+se a
+  =C2=A0=C2=A0=C2=A0=C2=A0#GP.  KVM/QEmu does not behave like real hardware=
+ in this case.
 
-  	int16_t buf[2 * 1000];
-          int i;
-          memset(buf, 0, sizeof buf);
-  	for (i =3D 0; i < 44; i++) {
-  		pa_simple_write(s, buf, sizeof buf, NULL);
-  	}
+  dmesg output:
 
-          pa_simple_free(s);
-
-  	return 0;
-  }
-  __EOF
-  $ gcc test.c -o test -lpulse -lpulse-simple
-  $ ./test
-  <no output, no error>
-  $ qemu-x86_64 ./test
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-  Segmentation fault
-  $
-
-  =
-
-  I think this is related to the futex system call. In an attempt to debug =
-the problem, I compiled pulseaudio in debug mode and it hit an assertion fa=
-ilure in pa_mutex_unlock.
-
-  Thank you for developing QEMU.  :-)
+  SUPR0GipMap: fGetGipCpu=3D0x3
+  general protection fault: 0000 [#1] SMP
+  Modules linked in: pci_stub vboxpci(OE) vboxnetadp(OE) vboxnetflt(OE) vbo=
+xdrv(OE) xt_CHECKSUM iptable_mangle ipt_MASQUERADE nf_nat_masquerade_ipv4 i=
+ptable_nat nf_conntrack_ipv4 nf_defrag_ipv4 nf_nat_ipv4 nf_nat nf_conntrack=
+ xt_tcpudp bridge stp llc iptable_filter ip_tables x_tables ppdev kvm_intel=
+ kvm irqbypass snd_hda_codec_generic snd_hda_intel snd_hda_codec snd_hda_co=
+re snd_hwdep snd_pcm snd_timer i2c_piix4 snd input_leds soundcore joydev 82=
+50_fintek mac_hid serio_raw pvpanic parport_pc parport ib_iser rdma_cm iw_c=
+m ib_cm ib_sa ib_mad ib_core ib_addr iscsi_tcp libiscsi_tcp libiscsi scsi_t=
+ransport_iscsi autofs4 btrfs raid10 raid456 async_raid6_recov async_memcpy =
+async_pq async_xor async_tx xor raid6_pq libcrc32c raid1 raid0 multipath li=
+near crct10dif_pclmul crc32_pclmul qxl ttm drm_kms_helper syscopyarea sysfi=
+llrect aesni_intel sysimgblt fb_sys_fops aes_x86_64 lrw gf128mul glue_helpe=
+r ablk_helper cryptd psmouse floppy drm pata_acpi
+  CPU: 0 PID: 31507 Comm: EMT Tainted: G           OE   4.4.0-15-generic #3=
+1-Ubuntu
+  Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIOS Bochs 01/01/2=
+011
+  task: ffff880034c0a580 ti: ffff880002e00000 task.ti: ffff880002e00000
+  RIP: 0010:[<ffffffffc067e506>]  [<ffffffffc067e506>] 0xffffffffc067e506
+  RSP: 0018:ffff880002e03d70  EFLAGS: 00010206
+  RAX: 00000000000006f0 RBX: 00000000ffffffdb RCX: 000000000000009b
+  RDX: 0000000000000000 RSI: ffff880002e03d00 RDI: ffff880002e03cc8
+  RBP: ffff880002e03d90 R08: 0000000000000004 R09: 00000000000006f0
+  R10: 0000000049656e69 R11: 000000000f8bfbff R12: 0000000000000020
+  R13: 0000000000000000 R14: ffffc9000057407c R15: ffffffffc0645260
+  FS:  00007f89b8f6b700(0000) GS:ffff88007fc00000(0000) knlGS:0000000000000=
+000
+  CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+  CR2: 00007f89b8d10000 CR3: 0000000035ae1000 CR4: 00000000000006f0
+  Stack:
+  =C2=A00000000000000000 ffffffff00000000 0000000000000000 0000000000000000
+  =C2=A0ffff880002e03db0 ffffffffc0693e93 ffffc90000574010 ffff880035aae550
+  =C2=A0ffff880002e03e30 ffffffffc060a3e7 ffff880002e03e10 0000000000000282
+  Call Trace:
+  =C2=A0[<ffffffffc060a3e7>] ? supdrvIOCtl+0x2de7/0x3250 [vboxdrv]
+  =C2=A0[<ffffffffc06035b0>] ? VBoxDrvLinuxIOCtl_5_0_16+0x150/0x250 [vboxdr=
+v]
+  =C2=A0[<ffffffff8121e7df>] ? do_vfs_ioctl+0x29f/0x490
+  =C2=A0[<ffffffff8106a554>] ? __do_page_fault+0x1b4/0x400
+  =C2=A0[<ffffffff8121ea49>] ? SyS_ioctl+0x79/0x90
+  =C2=A0[<ffffffff81821ff2>] ? entry_SYSCALL_64_fastpath+0x16/0x71
+  Code: 88 e4 fc ff ff b9 3a 00 00 00 0f 32 48 c1 e2 20 89 c0 48 09 d0 48 8=
+9 05 f9 db 0e 00 0f 20 e0 b9 9b 00 00 00 48 89 05 d2 db 0e 00 <0f> 32 48 c1=
+ e2 20 89 c0 b9 80 00 00 c0 48 09 d0 48 89 05 cb db
+  RIP  [<ffffffffc067e506>] 0xffffffffc067e506
+  =C2=A0RSP <ffff880002e03d70>
+  ---[ end trace b3284b6520f49e0d ]---
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1563612/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1563152/+subscriptions
 
