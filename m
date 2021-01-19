@@ -2,73 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9DD12FB661
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:34:06 +0100 (CET)
-Received: from localhost ([::1]:54762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198BF2FB66B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:41:31 +0100 (CET)
+Received: from localhost ([::1]:33210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1r93-00076P-Tk
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:34:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51884)
+	id 1l1rGB-0002db-7k
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:41:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54404)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1r74-000641-K6
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:32:08 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:41923)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1r71-00024a-F0
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:32:02 -0500
-Received: by mail-ed1-x534.google.com with SMTP id bx12so7502882edb.8
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:31:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=McwflRvpuADbnXsQ9z7Mrv30L7ZFQBot8rTULjaKimo=;
- b=USf/mlx3CGcedBgyRKICTXQ6tvEOV6QXlrBqpyLngQRk1GNQfUjzJsQ8KFjN80d2AT
- kAQ1WrpDEMa0NvhKOzMsWD3QqzFoOQbS4XVHUfj8U0rntsExDrPo8dtjTI1nv9idUhFr
- oJg/aLp6AYr1SD/At9s4CjS/BH/o5OZ21S7pLG9GYdofP6CP8znKUr0uFbLhSpLI7RJ6
- HTCCgo+LSL86tAcT4AH9NLVi35YO18mcf4A1h+006QSLi12mqv2leNz9xbhwwFJqsgOh
- phs0pZ5Ny8LObVgll02NGSshx5mD6oNvcap9CH9k80Xi/hrjW0CPhj2yWScJL12UXjUb
- BBGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=McwflRvpuADbnXsQ9z7Mrv30L7ZFQBot8rTULjaKimo=;
- b=sFdSNC6qUU00S8/31nKm+dLdKXzFum9BMvWTwt1tBY01QVy4DUDdI15wZz+Jy0szZ5
- BTVcDsBvVqDvoSA+UNn44tr3tX0JspAIlXBu53A1RGkOgFPwGzozsONa267EOfTYtYhM
- AbLA2OBgoqp23gGPnn8stj68KjwB9/OCUBoPdZm/Re0hUi0nGz0p8GBqFYHyh+frMnXs
- DBFcmZJU0PjNHjYieGfTFQiBwbpoicGQfWMSPJ83Ql9/f2wLRLRyKR0hRgN3UjU5tgI+
- dWWnpd2MoaNAEq/r6vOwCkZHRP/FwPNg5Hx8ESShkwI8YyXYTV0ECkKnK2GdTQ5hO2hi
- VMZQ==
-X-Gm-Message-State: AOAM530uHB+edcbGtJwR4b0TybmG16Tw0EmqolnK6VSOFfkAcPM/o7Wp
- D1q4xLl6CB7O5T4Fj6erM1A9nm4cEXYY2cdwyGbTXw==
-X-Google-Smtp-Source: ABdhPJwriV63C4zMDCHY2VB2pxNB0i0ALoC1tPbJt9xhp3SS7pugo7GNhaTnqivXArYlKCfJoa5nkGAyNkpN2JcO3tQ=
-X-Received: by 2002:a05:6402:1a55:: with SMTP id
- bf21mr3530164edb.146.1611063116121; 
- Tue, 19 Jan 2021 05:31:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1l1rDm-0001tu-7B; Tue, 19 Jan 2021 08:38:59 -0500
+Received: from mx2.suse.de ([195.135.220.15]:35792)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
+ id 1l1rDa-0003Eq-TD; Tue, 19 Jan 2021 08:38:50 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 24F35AB7F;
+ Tue, 19 Jan 2021 13:38:43 +0000 (UTC)
+Subject: Re: [PULL 21/30] target/arm: use official org.gnu.gdb.aarch64.sve
+ layout for registers
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ peter.maydell@linaro.org
+References: <20210115130828.23968-1-alex.bennee@linaro.org>
+ <20210115130828.23968-22-alex.bennee@linaro.org>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <540354a8-bcba-aa82-814d-7f11dc75f5bf@suse.de>
+Date: Tue, 19 Jan 2021 14:38:42 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20210117192446.23753-1-f4bug@amsat.org>
- <20210117192446.23753-3-f4bug@amsat.org>
-In-Reply-To: <20210117192446.23753-3-f4bug@amsat.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 13:31:44 +0000
-Message-ID: <CAFEAcA8neyKTfdhJWhq8YYnQ3VjiJx=q0_mi7+d1G3vfR-cwuQ@mail.gmail.com>
-Subject: Re: [RFC PATCH v2 02/20] hw/core/qdev: Add
- vmstate_qdev_no_state_to_migrate
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210115130828.23968-22-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,54 +57,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Joel Stanley <joel@jms.id.au>,
- qemu-arm <qemu-arm@nongnu.org>,
- =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>,
+ Luis Machado <luis.machado@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 17 Jan 2021 at 19:25, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
->
-> Add vmstate_qdev_no_state_to_migrate, which is simply a
-> pointer to vmstate_no_state_to_migrate. This way all
-> qdev devices (including "hw/qdev-core.h") don't have to
-> include "migration/vmstate.h".
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
-> Unresolved issues:
->
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg721695.html
-> Peter:
-> > Does this definitely not put any data into the migration stream?
-> > We don't want to change what's on the wire for machines that
-> > use devices that start using this. (If it does by default, it
-> > would be easy to make the migration code special case the
-> > magic symbol to act like "no vmsd specified").
->
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg727634.html
-> Dave:
-> > I'd need to test it to be sure, but I think if we added a .needed
-> > to vmstate_no_state_to_migrate with a function that always returned
-> > false, then I think the stream would stay unchanged.
-> ---
+Hi Alex,
 
-It should be easy to test -- just do a 'savevm' of a running
-system with a machine model that uses one of the devices that
-has been marked as "no state to migrate", then apply the patchseries,
-and see if 'loadvm' works or not.
+after updating to latest master today, I am getting the following error with
 
-thanks
--- PMM
+make check-tcg
+
+qemu-system-aarch64: -gdb unix:path=/tmp/tmp9ru5tgk8qemu-gdbstub/gdbstub.socket,server: info: QEMU waiting for connection on: disconnected:unix:/tmp/tmp9ru5tgk8qemu-gdbstub/gdbstub.socket,server
+warning: while parsing target description (at line 47): Vector "svevhf" references undefined type "ieee_half"
+warning: Could not load XML target description; ignoring
+qemu-system-aarch64: QEMU: Terminated via GDBstub
+
+Seems to indicate it is "ieee_half" -related?
+
+Thanks,
+
+Claudio
+
+On 1/15/21 2:08 PM, Alex Bennée wrote:
+> While GDB can work with any XML description given to it there is
+> special handling for SVE registers on the GDB side which makes the
+> users life a little better. The changes aren't that major and all the
+> registers save the $vg reported the same. All that changes is:
+> 
+>   - report org.gnu.gdb.aarch64.sve
+>   - use gdb nomenclature for names and types
+>   - minor re-ordering of the types to match reference
+>   - re-enable ieee_half (as we know gdb supports it now)
+>   - $vg is now a 64 bit int
+>   - check $vN and $zN aliasing in test
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Reviewed-by: Luis Machado <luis.machado@linaro.org>
+> Message-Id: <20210108224256.2321-11-alex.bennee@linaro.org>
+> 
+> diff --git a/target/arm/gdbstub.c b/target/arm/gdbstub.c
+> index 866595b4f1..a8fff2a3d0 100644
+> --- a/target/arm/gdbstub.c
+> +++ b/target/arm/gdbstub.c
+> @@ -195,22 +195,17 @@ static const struct TypeSize vec_lanes[] = {
+>      { "uint128", 128, 'q', 'u' },
+>      { "int128", 128, 'q', 's' },
+>      /* 64 bit */
+> +    { "ieee_double", 64, 'd', 'f' },
+>      { "uint64", 64, 'd', 'u' },
+>      { "int64", 64, 'd', 's' },
+> -    { "ieee_double", 64, 'd', 'f' },
+>      /* 32 bit */
+> +    { "ieee_single", 32, 's', 'f' },
+>      { "uint32", 32, 's', 'u' },
+>      { "int32", 32, 's', 's' },
+> -    { "ieee_single", 32, 's', 'f' },
+>      /* 16 bit */
+> +    { "ieee_half", 16, 'h', 'f' },
+>      { "uint16", 16, 'h', 'u' },
+>      { "int16", 16, 'h', 's' },
+> -    /*
+> -     * TODO: currently there is no reliable way of telling
+> -     * if the remote gdb actually understands ieee_half so
+> -     * we don't expose it in the target description for now.
+> -     * { "ieee_half", 16, 'h', 'f' },
+> -     */
+>      /* bytes */
+>      { "uint8", 8, 'b', 'u' },
+>      { "int8", 8, 'b', 's' },
+> @@ -223,17 +218,16 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>      GString *s = g_string_new(NULL);
+>      DynamicGDBXMLInfo *info = &cpu->dyn_svereg_xml;
+>      g_autoptr(GString) ts = g_string_new("");
+> -    int i, bits, reg_width = (cpu->sve_max_vq * 128);
+> +    int i, j, bits, reg_width = (cpu->sve_max_vq * 128);
+>      info->num = 0;
+>      g_string_printf(s, "<?xml version=\"1.0\"?>");
+>      g_string_append_printf(s, "<!DOCTYPE target SYSTEM \"gdb-target.dtd\">");
+> -    g_string_append_printf(s, "<feature name=\"org.qemu.gdb.aarch64.sve\">");
+> +    g_string_append_printf(s, "<feature name=\"org.gnu.gdb.aarch64.sve\">");
+>  
+>      /* First define types and totals in a whole VL */
+>      for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+>          int count = reg_width / vec_lanes[i].size;
+> -        g_string_printf(ts, "vq%d%c%c", count,
+> -                        vec_lanes[i].sz, vec_lanes[i].suffix);
+> +        g_string_printf(ts, "svev%c%c", vec_lanes[i].sz, vec_lanes[i].suffix);
+>          g_string_append_printf(s,
+>                                 "<vector id=\"%s\" type=\"%s\" count=\"%d\"/>",
+>                                 ts->str, vec_lanes[i].gdb_type, count);
+> @@ -243,39 +237,37 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>       * signed and potentially float versions of each size from 128 to
+>       * 8 bits.
+>       */
+> -    for (bits = 128; bits >= 8; bits /= 2) {
+> -        int count = reg_width / bits;
+> -        g_string_append_printf(s, "<union id=\"vq%dn\">", count);
+> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+> -            if (vec_lanes[i].size == bits) {
+> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%d%c%c\"/>",
+> -                                       vec_lanes[i].suffix,
+> -                                       count,
+> -                                       vec_lanes[i].sz, vec_lanes[i].suffix);
+> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
+> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
+> +        g_string_append_printf(s, "<union id=\"svevn%c\">", suf[i]);
+> +        for (j = 0; j < ARRAY_SIZE(vec_lanes); j++) {
+> +            if (vec_lanes[j].size == bits) {
+> +                g_string_append_printf(s, "<field name=\"%c\" type=\"svev%c%c\"/>",
+> +                                       vec_lanes[j].suffix,
+> +                                       vec_lanes[j].sz, vec_lanes[j].suffix);
+>              }
+>          }
+>          g_string_append(s, "</union>");
+>      }
+>      /* And now the final union of unions */
+> -    g_string_append(s, "<union id=\"vq\">");
+> -    for (bits = 128; bits >= 8; bits /= 2) {
+> -        int count = reg_width / bits;
+> -        for (i = 0; i < ARRAY_SIZE(vec_lanes); i++) {
+> -            if (vec_lanes[i].size == bits) {
+> -                g_string_append_printf(s, "<field name=\"%c\" type=\"vq%dn\"/>",
+> -                                       vec_lanes[i].sz, count);
+> -                break;
+> -            }
+> -        }
+> +    g_string_append(s, "<union id=\"svev\">");
+> +    for (bits = 128, i = 0; bits >= 8; bits /= 2, i++) {
+> +        const char suf[] = { 'q', 'd', 's', 'h', 'b' };
+> +        g_string_append_printf(s, "<field name=\"%c\" type=\"svevn%c\"/>",
+> +                               suf[i], suf[i]);
+>      }
+>      g_string_append(s, "</union>");
+>  
+> +    /* Finally the sve prefix type */
+> +    g_string_append_printf(s,
+> +                           "<vector id=\"svep\" type=\"uint8\" count=\"%d\"/>",
+> +                           reg_width / 8);
+> +
+>      /* Then define each register in parts for each vq */
+>      for (i = 0; i < 32; i++) {
+>          g_string_append_printf(s,
+>                                 "<reg name=\"z%d\" bitsize=\"%d\""
+> -                               " regnum=\"%d\" group=\"vector\""
+> -                               " type=\"vq\"/>",
+> +                               " regnum=\"%d\" type=\"svev\"/>",
+>                                 i, reg_width, base_reg++);
+>          info->num++;
+>      }
+> @@ -287,31 +279,22 @@ int arm_gen_dynamic_svereg_xml(CPUState *cs, int base_reg)
+>                             " regnum=\"%d\" group=\"float\""
+>                             " type=\"int\"/>", base_reg++);
+>      info->num += 2;
+> -    /*
+> -     * Predicate registers aren't so big they are worth splitting up
+> -     * but we do need to define a type to hold the array of quad
+> -     * references.
+> -     */
+> -    g_string_append_printf(s,
+> -                           "<vector id=\"vqp\" type=\"uint16\" count=\"%d\"/>",
+> -                           cpu->sve_max_vq);
+> +
+>      for (i = 0; i < 16; i++) {
+>          g_string_append_printf(s,
+>                                 "<reg name=\"p%d\" bitsize=\"%d\""
+> -                               " regnum=\"%d\" group=\"vector\""
+> -                               " type=\"vqp\"/>",
+> +                               " regnum=\"%d\" type=\"svep\"/>",
+>                                 i, cpu->sve_max_vq * 16, base_reg++);
+>          info->num++;
+>      }
+>      g_string_append_printf(s,
+>                             "<reg name=\"ffr\" bitsize=\"%d\""
+>                             " regnum=\"%d\" group=\"vector\""
+> -                           " type=\"vqp\"/>",
+> +                           " type=\"svep\"/>",
+>                             cpu->sve_max_vq * 16, base_reg++);
+>      g_string_append_printf(s,
+>                             "<reg name=\"vg\" bitsize=\"64\""
+> -                           " regnum=\"%d\" group=\"vector\""
+> -                           " type=\"uint32\"/>",
+> +                           " regnum=\"%d\" type=\"int\"/>",
+>                             base_reg++);
+>      info->num += 2;
+>      g_string_append_printf(s, "</feature>");
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 5ab3f5ace3..8a492465d6 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -276,7 +276,7 @@ static int arm_gdb_get_svereg(CPUARMState *env, GByteArray *buf, int reg)
+>           * while the ZCR works in Vector Quads (VQ) which is 128bit chunks.
+>           */
+>          int vq = sve_zcr_len_for_el(env, arm_current_el(env)) + 1;
+> -        return gdb_get_reg32(buf, vq * 2);
+> +        return gdb_get_reg64(buf, vq * 2);
+>      }
+>      default:
+>          /* gdbstub asked for something out our range */
+> diff --git a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+> index 972cf73c31..b9ef169c1a 100644
+> --- a/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+> +++ b/tests/tcg/aarch64/gdbstub/test-sve-ioctl.py
+> @@ -40,6 +40,17 @@ class TestBreakpoint(gdb.Breakpoint):
+>          except gdb.error:
+>              report(False, "checking zregs (out of range)")
+>  
+> +        # Check the aliased V registers are set and GDB has correctly
+> +        # created them for us having recognised and handled SVE.
+> +        try:
+> +            for i in range(0, 16):
+> +                val_z = gdb.parse_and_eval("$z0.b.u[%d]" % i)
+> +                val_v = gdb.parse_and_eval("$v0.b.u[%d]" % i)
+> +                report(int(val_z) == int(val_v),
+> +                       "v0.b.u[%d] == z0.b.u[%d]" % (i, i))
+> +        except gdb.error:
+> +            report(False, "checking vregs (out of range)")
+> +
+>  
+>  def run_test():
+>      "Run through the tests one by one"
+> 
+
 
