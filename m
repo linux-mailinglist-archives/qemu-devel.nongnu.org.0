@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C79BA2FC112
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:33:36 +0100 (CET)
-Received: from localhost ([::1]:47194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C61EF2FC157
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:42:25 +0100 (CET)
+Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1xh1-0004sc-Pq
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:33:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53312)
+	id 1l1xpY-0007D1-QC
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:42:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xcp-00011s-Tl
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:15 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:57174)
+ id 1l1xct-0001Az-Oi
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:19 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:37678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xci-0000E8-Tc
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:15 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKNUow002794;
- Tue, 19 Jan 2021 20:29:01 GMT
+ id 1l1xcq-0000Ff-B5
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:19 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKOdug145832;
+ Tue, 19 Jan 2021 20:29:10 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=as6s5hO3AJDOzJBWkCCgDpzZPYcwFCq5Zq3lZo67axk=;
- b=G3/+ny1y0VqZack8S9rM+S6YbQLevCwnfmRkJcEzHW6J1SRf2CRcvmVKMKWlUXXcaPHj
- F0QyeVlw1EU+IF5cruodqlR+9bkp0brnRCGmCQtHFCpad8Ndd0BPu6DckfPmtNXD+6vR
- dDgG2+tTLekk0bY8PbOXO+Y6r/0m6GQatgoXGEpLY//BGnPRgDsz8N7j8Wsa79Tbpabg
- DieaOX09uN4fso5K8P+OGWxV+l9eYM34o2XpRyIShMvDb4/eCzDJ6gBP3A9vb76k+amY
- ys/GkCk9C49NPPwisrUS4vcQ5zBdYVLOy4jjuwSwHxmhaL/Syb9K4V2gmjC5DAux+VpR 6w== 
+ mime-version; s=corp-2020-01-29;
+ bh=ePz+Sq/1iKB95Td8WDMunIy7n00tgRQZ8WBpCySIWts=;
+ b=O5CuA9OEQGl2ZGVdr3fHq01D0KG/b/mwrer4FJNRgQdDrDA0ql6rtp34KgRsiJgXgNQE
+ 245dxU8pVOxRkc0xMPcreBDUt17qGQUPQpFQLu4+YYjBt2SosP+UoU60Axdrq+28SNsV
+ buK1yiNemX9k2D95SWbYsTGR8pJy7SUzMIonK57a9KoP5zAQPGbFSR1UcXYK5i8Ax8pC
+ HH3rDivB5kt1kcTCe77P9zMQHJ6Zh/CBdQhw7KZh+afsmuXvUu3mmJ9nybas5UIblFc8
+ vTPBA7ssD2SlbjVcTMCM6RSloth7wehGmdOJWM2KL5zSbdSmb/KPj7Kr1qxeUHCHDxC6 sQ== 
 Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 363xyhtasa-1
+ by aserp2130.oracle.com with ESMTP id 363nnak4vc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:01 +0000
+ Tue, 19 Jan 2021 20:29:10 +0000
 Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPfCn128678;
- Tue, 19 Jan 2021 20:29:00 GMT
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPdEV128381;
+ Tue, 19 Jan 2021 20:29:09 GMT
 Received: from nam02-cy1-obe.outbound.protection.outlook.com
- (mail-cys01nam02lp2059.outbound.protection.outlook.com [104.47.37.59])
- by userp3030.oracle.com with ESMTP id 3661njtab6-1
+ (mail-cys01nam02lp2055.outbound.protection.outlook.com [104.47.37.55])
+ by userp3030.oracle.com with ESMTP id 3661njtag6-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:00 +0000
+ Tue, 19 Jan 2021 20:29:09 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TOchjXeWNFl9VNx9Bx7rWThTkID3/ZLRa501nnMU9BaJR6Ke2TGP0n+b2eeVv/D6meK0KliYXq1Si8AkmLq/3M+2v/dv1NnxS9vZ5D+Bg9rMJl4HgXZYZUd47zZYimbiVIAviiGWpyeaqejC+QMKEVoZrUb+g5iW0vCI1xLd/cFUKMjkaiaG5cZpX9FHjziFM5hiKRu3boUx4VKPbkd8UCL6qhPhQiS2ynQ4vfKs0c+qQYgVo3BJCcOMVIQxo61uXMwwrk4vHMQ7pRb3zePylyRtVZcr3ctzPCgMcCfqmGEb+84X3gbX25NvnXGRQPtZwI89tQ5Al4Oba9TkT6Y56Q==
+ b=oKEVPSKRgl/Z6IHScyMj0yp6k1fDpdc9WrrB+t78xovLvm1CaYw7BYHHY3JpA211qB8wnIxFUHYoIkw2E3CFasNpTOR0DKu8j2h8AmEl7btUuSIEcoJc17iJ7gw+mmU4gewclp0DGqBY7ZSPUubfCMEFAqJK0QuxwN1WabWZIMB35HcfRh3mGT+RdDwBib2wZ0+oCZeA3YZ4xD4pChE9WF0NAAVV7tqWVgs8ol3TT4yQsv8sebZK0G7e5xNN3CVPWj3tLKoyx0vPVjKXPVpy8L9Qd6Amd/LfCbJfRx1KSIDrvBSCC2QF97X1SDiqzqLD0JhOqx4k/l8V7Xb51/tLOw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=as6s5hO3AJDOzJBWkCCgDpzZPYcwFCq5Zq3lZo67axk=;
- b=c73yc5XXy2WXuIZGJygdcVvrlGGj++fRjWpD76Woka66syMcf+EEyotkpFS4LpuwrX6LxLO00dwJgpS9qgZ43BB/i3yoJzs1OxMOQuKKeQDCUaJvnRC79PQaJPLMkgFo0rdZGOZ9aZy/kOzHfRJpzTbW4hXUQ3CBP7Q5A4KXCTQvvg4vXqDHj33Ss3Yl3X7LDqDyWy5PM104bDU8MqcKOuFwBr/NRKh+q20i4otzLawoymV0o3psgQDkWyN4D3hxrjWHfktbklbRupmuL9nRD5HdzE5fg1PCV07V5UO2Yhxj3Ha7aDSEk/vbJos1uW8VJ7lDTUfykqZVi4wAPQCk4w==
+ bh=ePz+Sq/1iKB95Td8WDMunIy7n00tgRQZ8WBpCySIWts=;
+ b=UdayMUBvXezG01vmFEETAPyEwh0At/c74wkR4C5uEstT35EkHQTywJCgtBpXCkB0chkD0SirOW/6zP7BvxFDhkCK9G2BuTLEKxTvM3OpcH0MsffMDA06sklwYyLDfZCU2tm+5TyxOQQXU1ogI78TwXjFbG7zMRJ1V/GVfD0Abx0/d1tyb3oXXJqCpVmiaimf5KjZloPiUJDFcSB/JlrtnEuJ55L6aUncmg4RZN0VbgJLuWUeGt2xPeNtUNu2pdeD508sUvGhdk1+AYpVJQzdvPhAYhnsb+jmKZStDM1k2SnIoxZLAMmVvTd1lC94mPzLLO6v+hHsiTJz+qWREXjLSA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=as6s5hO3AJDOzJBWkCCgDpzZPYcwFCq5Zq3lZo67axk=;
- b=EYHr953XtZMhwdlx6lU7EpsOtTLASw3M/ejUxjdM9M20IDWpPmCKzQCDFJHWZOzeTYxNKoSazEgxSUUAFQuehccb6a16XuJHMURJeYI7UmA11aO0ImcgWGQI/+zKIVOQDWlK7mzaTKBS532MB+ReNVIPs/CGDcy/1HAHaJs+D5Y=
+ bh=ePz+Sq/1iKB95Td8WDMunIy7n00tgRQZ8WBpCySIWts=;
+ b=jAka+Tk4UBF6Zcue3WG/zPqG4yZbnLbh4T0ucdOpVzY04iQHSrk3TcEiLYkFqDgyFeR41p14294b0ZrAV/liWgMwKtEpE/2ccL1C1kpMVHSq9Gx7AV+sp7r4sWEFNvJU25LkukwB2j7dGSu9wQZmQ/3FSfOLd2vcVefmKifvvx4=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
  by BYAPR10MB3349.namprd10.prod.outlook.com (2603:10b6:a03:155::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 19 Jan
- 2021 20:28:58 +0000
+ 2021 20:29:07 +0000
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b]) by BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b%7]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
- 20:28:58 +0000
+ 20:29:07 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v20 05/20] multi-process: setup PCI host bridge for remote
- device
-Date: Tue, 19 Jan 2021 15:28:22 -0500
-Message-Id: <0da166349ebd79f7ecf0d1c6b42caaa7a90d6113.1611081587.git.jag.raman@oracle.com>
+Subject: [PATCH v20 08/20] io: add qio_channel_readv_full_all_eof &
+ qio_channel_readv_full_all helpers
+Date: Tue, 19 Jan 2021 15:28:25 -0500
+Message-Id: <ac1c0900ed34c8bf4e93dd77507fc34169bb8ee4.1611081587.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1611081587.git.jag.raman@oracle.com>
 References: <cover.1611081587.git.jag.raman@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [209.17.40.38]
 X-ClientProxiedBy: DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12)
  To BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
@@ -89,52 +88,46 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.38) by
  DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:28:55 +0000
+ 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:04 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9ae73e6a-b68a-4f12-950e-08d8bcb8d96b
+X-MS-Office365-Filtering-Correlation-Id: 6e0597f7-f19e-440a-782d-08d8bcb8dec7
 X-MS-TrafficTypeDiagnostic: BYAPR10MB3349:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3349D1E01FE8FEA014EBBCC490A30@BYAPR10MB3349.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:510;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB3349EBC1AB425C25AE8045FA90A30@BYAPR10MB3349.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 3sViHgNwnSEGbqjNXKGxHxl9/3hWPo0T8B7i+ztwvVCBLvdWVq1CqgkZkaRBboHOMhT79rODVYm54rtMM9G75q7g5FOcFWPUN9cRBFYDNGj7/k6erCXalkloTR5Zms7ZOOHJgNtOMP/Q1o0nTFUydUNbkcyB3SUsax+sswcqVNIJhWfiWs0qlwXRU3YRUTV1TvDOLbGI0gdMkXs0G7BnN4GrKt0CKgYDA3hkHbtql1somnoluCNltSFYk/OpGLRgIihBPqnqDujBWGFyR4XciWROrFDdeVAYieTLmulB9jd6aDyjRRJhS3KPGTFhnoeFZKsewq1MTwlMNjBvCTRMlZA74J06DKB4MEfnHqqwe3c5lzvLZ+GxjamuPaQE9K/O
+X-Microsoft-Antispam-Message-Info: fAWQONvNC04lLAb0EwVor56ZK4YbITQsEvF/cJy3gQV3KR6jm4lN/h+ujaLV+MWDrlCieYKq19QLllWqqMk3ZCUNsBBOMsVdW9na10QqgCGA25gTegXpL8es3EzpA9e2V4Q41OWzDY/JI8ebOYAjwz79Ytq1EWCqWDzVxNMuXP9U44lsor+zSkBI3PWuVWG9LqQ8Cj3CbeIF0OCo0GiE/wRDf8ZdV7gWXetg92VsWOR0/BtDF8mpmglnI84slOorNdf+/N1UvBvWAXBN+uh7SuxGVfxh/Y3hUOmM5Ne9moQFlTlNUAl2BSNmb/RBzJ2YDZUuDgZHt0m7QjLR7MxgFj/1Kxnv+pYV2ZBq7E1cvq6yoGTFZVkqm+Y14XDSJS8e
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2744.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(39860400002)(396003)(366004)(136003)(346002)(376002)(7696005)(52116002)(2906002)(6486002)(5660300002)(7416002)(36756003)(66476007)(66556008)(478600001)(6916009)(956004)(2616005)(4326008)(66946007)(26005)(186003)(16526019)(8676002)(86362001)(8936002)(107886003)(316002)(6666004)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MUhPbkRsbHFWd1ZsaGlaazhmdVZkajd3Njd4RjdLU2hiUjZWQ1MzNkFPRkpx?=
- =?utf-8?B?ZEJxZW9kWkszaVhnZlFGbWxRWFBHZlFucEM5Tkp6MGNnNXhaL2Z2aHRvcjZO?=
- =?utf-8?B?Q0FNN2Q3YW9NQndNOUkzWjhNQ2M2bGNia01DR09jcjJWQ3lqdzE3UWhyOTFt?=
- =?utf-8?B?UFljQVh3WlpTNXhwTDM3SjNJYjdJOE1zYU1vWkp2dyttbUhKamtEUjMyTjg0?=
- =?utf-8?B?ZjVkQVBhMWdQRWJUOG5mRm9ZNTBLOHpLQUU3dVljMC9hamFPOVhhYmY0a0lx?=
- =?utf-8?B?aUd2cytHRk5Rc3VKTytyOWtyZUJTMzZ6Mkwvc0YrY3RHQ2xHSG1tUTVSV2Jt?=
- =?utf-8?B?YTJ0QUZsaUVLQU90Slk5K2pLSUJCRG5WNFRFTitwZlFUNnRvS2p4bFdOWll1?=
- =?utf-8?B?VjM2clloc1dETTJjaytqUTVhc0ZUSmhTdW1ybEtPWVlrVUZTZkdoKzU1eHNy?=
- =?utf-8?B?cUtLbnhkUWVKRkZvRVNvSmJjeVEwaGpqT0wyS3hobFFwZ0hlYTcxcUZ4dkhi?=
- =?utf-8?B?MjA1dm5YM2xUQzVIVmFPMUZBSlhRMEZLMkwrZmFVUGlLT3pldTIzbUFabmRv?=
- =?utf-8?B?K3lIT21JTkROQ3p3ekl3b1Vhbjl4Z3hzblNLSHgvRVNVSy9WVjdRb1dxOEhz?=
- =?utf-8?B?RkdyUkRQeVA2b0RiMHpEQWxiYmk5SngrVTJoenQ5cXlNVDlpWC9GMVA5MUVY?=
- =?utf-8?B?MG00eVk3MVlyL005aGxDUDdyZTJsaDNiOG96MmJyR2c3ajJZdUE3TnRtdTJB?=
- =?utf-8?B?bzdZam9HdFVvcjdERFEwL25yVjhxL0FUcjZXc2RHczFQVkt5dUdYRjk4bUtk?=
- =?utf-8?B?TzlpSTB0UFdjczdMYnJnR09lQVppczUrdFF2anNpT1NFT2NLdmZGWjd2WmlD?=
- =?utf-8?B?UlpQVnkyVWJYSWdzMFJiYndad0hlMng0end0MzdZVlV3Qko0cWVGQ0JEcnZq?=
- =?utf-8?B?RnNyamRibC9iZTRTQUM3MzdlZW93SjRwdXdEQkhQaHVlb3hRb3A0Yy9TTzRh?=
- =?utf-8?B?YWorY0d6aGJyQnZsTHpPa0NLUnVOUlhjV2VmbEpob0xLL0VORTJjWjJSbk1Z?=
- =?utf-8?B?NmVvOUJ5STkyQWFmNEhqVnlvUU5BSEJtbmt0Nms4K0RRcUJuL0s3UlROSCtk?=
- =?utf-8?B?MHVhUk1TZGdwZWZBUzRzRzExZnRvZ3VTZlBYVWtJemtVZGJRNmJYMDJBSzk1?=
- =?utf-8?B?NTlJWWRBc1Q1SS9LYmVxcVZaUzhGRW51MEtPRnM1NUU1am5GSzkxUlUyYU1a?=
- =?utf-8?B?VldGM0hvcVdFQTgzaFZKS3FhUEQxRlIyeG1QeGdrTldOVkZFM2ttMG1xYlBG?=
- =?utf-8?Q?Sr123fm/32xP0=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5CWnVd9C06nGGpvwWr1nrOlAkFZ0piaS7ag35+WGWaZCcNsKiqPut4YlbA35?=
+ =?us-ascii?Q?ox3PPe2Cwg9q2kzFJYKuyPxK8NAsS5N24ANY3KfxxGxzFitjvnho+4YTYYHX?=
+ =?us-ascii?Q?RRCCARLC+JNut5ViRjyeMK7n6XlDIErZUtQXikMJzXTXQDz3TNIWaGbHkv91?=
+ =?us-ascii?Q?/1bQyTLMGvLA4Lzu95yJ4skU/co9ksXh9PbrlSQ6FjzX0+jwAIqIri4biG9c?=
+ =?us-ascii?Q?mzt4dtOt0g+/dMZf9UtM9UefLYu+pKqMALsLTsATA3K2dYhEYQB27tt24rdw?=
+ =?us-ascii?Q?KzkM4XnJXeRBaH5yXxe7dGzX28pQ/ZEEACWqsv7BRp3UsFn5IaHce4jjLuGe?=
+ =?us-ascii?Q?Jxms2qfty+iXgUkqQdU6QGZ4rMZ1VJl3EwBt3EidCKcRcZsA0TW77FcSyN9z?=
+ =?us-ascii?Q?PdOOSKblH/AL4W8Qgmbnht3/Y/yuQtMu3Um7hotCEppJpDPIbADqI3fdPJGt?=
+ =?us-ascii?Q?s3cdyYnE2OR7w/QWF+7xRkrMyYAg+pYYtWoYzxo5g6sgoljzBU5fvNcyBwT1?=
+ =?us-ascii?Q?gQ9D/c63gsMcekUHVK10FJ1FWRZwDTF370zeYBtacE7Y8vADJ6CoRXCr/WiZ?=
+ =?us-ascii?Q?+KK9gltmxr2TFQos+dqiRyY235rrrMy7j4s0JWqiNHDlOmuW63gquQZGIjFb?=
+ =?us-ascii?Q?pczk0ZB2gEZcMtOr8na8Qi0HbKYdHQiogk1SqKTl39NOt2jlLhQQ8kkVT08/?=
+ =?us-ascii?Q?4a5gTIPNQRM9NvWdctoqgFKwE9dWOQHtvxLNliwtluZTQu3hFsIbvxTr7Hxi?=
+ =?us-ascii?Q?F4szeuqvuEf+VNaeQzMnBCpGjOVT3wlngiE9vTv/z2eLdnHN+CjeTPRhxv6A?=
+ =?us-ascii?Q?nrIWmgXyICbDQ85vUkVPR7eaByD2KEdMdmOuPLrRhySL6yQnK/ij+BVsgN/7?=
+ =?us-ascii?Q?f5urc1uzRgAAnFtrNwXmkDBMqN65Nr5Iffn4kTDI5+jwgP4VByUNS8Gkq6sB?=
+ =?us-ascii?Q?CvZePp+XZXzozC52R4GBr0nJGbeUFg6YTKcv6Ca1VeM=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9ae73e6a-b68a-4f12-950e-08d8bcb8d96b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e0597f7-f19e-440a-782d-08d8bcb8dec7
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2744.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:28:58.2744 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:07.2352 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /oitP9AbRBkIPgN0tm5w9YV7KJkDgKTAJp9YZbcmTbgncAisDYTIpSy9pd7xflmf28Ijao1/trVpVDTAyo3Cfw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: z9Ri+mvP9cnDCzmu/I/R+wJMLtZWXXoSWIYs8CoP3seut7+AjfBInCW+soFkYnUWcX4peTlCBZ2KPTFBHSP97A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3349
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
@@ -145,14 +138,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
  engine=8.12.0-2009150000 definitions=main-2101190113
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0
- malwarescore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501 spamscore=0
- mlxscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ spamscore=0
+ mlxlogscore=999 clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101190113
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
+Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
+ helo=aserp2130.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -183,188 +176,234 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PCI host bridge is setup for the remote device process. It is
-implemented using remote-pcihost object. It is an extension of the PCI
-host bridge setup by QEMU.
-Remote-pcihost configures a PCI bus which could be used by the remote
-PCI device to latch on to.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Adds qio_channel_readv_full_all_eof() and qio_channel_readv_full_all()
+to read both data and FDs. Refactors existing code to use these helpers.
+
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- include/hw/pci-host/remote.h | 29 +++++++++++++++++
- hw/pci-host/remote.c         | 75 ++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS                  |  2 ++
- hw/pci-host/Kconfig          |  3 ++
- hw/pci-host/meson.build      |  1 +
- hw/remote/Kconfig            |  1 +
- 6 files changed, 111 insertions(+)
- create mode 100644 include/hw/pci-host/remote.h
- create mode 100644 hw/pci-host/remote.c
+ include/io/channel.h |  53 ++++++++++++++++++++++++++
+ io/channel.c         | 106 +++++++++++++++++++++++++++++++++++++++++----------
+ 2 files changed, 138 insertions(+), 21 deletions(-)
 
-diff --git a/include/hw/pci-host/remote.h b/include/hw/pci-host/remote.h
-new file mode 100644
-index 0000000..06b8a83
---- /dev/null
-+++ b/include/hw/pci-host/remote.h
-@@ -0,0 +1,29 @@
-+/*
-+ * PCI Host for remote device
+diff --git a/include/io/channel.h b/include/io/channel.h
+index 19e76fc..8898897 100644
+--- a/include/io/channel.h
++++ b/include/io/channel.h
+@@ -778,6 +778,59 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
+                                     void *opaque);
+ 
+ /**
++ * qio_channel_readv_full_all_eof:
++ * @ioc: the channel object
++ * @iov: the array of memory regions to read data to
++ * @niov: the length of the @iov array
++ * @fds: an array of file handles to read
++ * @nfds: number of file handles in @fds
++ * @errp: pointer to a NULL-initialized error object
 + *
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
 + *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
++ * Performs same function as qio_channel_readv_all_eof.
++ * Additionally, attempts to read file descriptors shared
++ * over the channel. The function will wait for all
++ * requested data to be read, yielding from the current
++ * coroutine if required. data refers to both file
++ * descriptors and the iovs.
 + *
++ * Returns: 1 if all bytes were read, 0 if end-of-file
++ *          occurs without data, or -1 on error
 + */
 +
-+#ifndef REMOTE_PCIHOST_H
-+#define REMOTE_PCIHOST_H
++int qio_channel_readv_full_all_eof(QIOChannel *ioc,
++                                   const struct iovec *iov,
++                                   size_t niov,
++                                   int **fds, size_t *nfds,
++                                   Error **errp);
 +
-+#include "exec/memory.h"
-+#include "hw/pci/pcie_host.h"
-+
-+#define TYPE_REMOTE_PCIHOST "remote-pcihost"
-+OBJECT_DECLARE_SIMPLE_TYPE(RemotePCIHost, REMOTE_PCIHOST)
-+
-+struct RemotePCIHost {
-+    /*< private >*/
-+    PCIExpressHost parent_obj;
-+    /*< public >*/
-+
-+    MemoryRegion *mr_pci_mem;
-+    MemoryRegion *mr_sys_io;
-+};
-+
-+#endif
-diff --git a/hw/pci-host/remote.c b/hw/pci-host/remote.c
-new file mode 100644
-index 0000000..eee4544
---- /dev/null
-+++ b/hw/pci-host/remote.c
-@@ -0,0 +1,75 @@
-+/*
-+ * Remote PCI host device
++/**
++ * qio_channel_readv_full_all:
++ * @ioc: the channel object
++ * @iov: the array of memory regions to read data to
++ * @niov: the length of the @iov array
++ * @fds: an array of file handles to read
++ * @nfds: number of file handles in @fds
++ * @errp: pointer to a NULL-initialized error object
 + *
-+ * Unlike PCI host devices that model physical hardware, the purpose
-+ * of this PCI host is to host multi-process QEMU devices.
 + *
-+ * Multi-process QEMU extends the PCI host of a QEMU machine into a
-+ * remote process. Any PCI device attached to the remote process is
-+ * visible in the QEMU guest. This allows existing QEMU device models
-+ * to be reused in the remote process.
++ * Performs same function as qio_channel_readv_all_eof.
++ * Additionally, attempts to read file descriptors shared
++ * over the channel. The function will wait for all
++ * requested data to be read, yielding from the current
++ * coroutine if required. data refers to both file
++ * descriptors and the iovs.
 + *
-+ * This PCI host is purely a container for PCI devices. It's fake in the
-+ * sense that the guest never sees this PCI host and has no way of
-+ * accessing it. Its job is just to provide the environment that QEMU
-+ * PCI device models need when running in a remote process.
-+ *
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
++ * Returns: 0 if all bytes were read, or -1 on error
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
++int qio_channel_readv_full_all(QIOChannel *ioc,
++                               const struct iovec *iov,
++                               size_t niov,
++                               int **fds, size_t *nfds,
++                               Error **errp);
 +
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pci_host.h"
-+#include "hw/pci/pcie_host.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/pci-host/remote.h"
-+#include "exec/memory.h"
-+
-+static const char *remote_pcihost_root_bus_path(PCIHostState *host_bridge,
-+                                                PCIBus *rootbus)
-+{
-+    return "0000:00";
++/**
+  * qio_channel_writev_full_all:
+  * @ioc: the channel object
+  * @iov: the array of memory regions to write data from
+diff --git a/io/channel.c b/io/channel.c
+index 0d4b8b5..b12db9d 100644
+--- a/io/channel.c
++++ b/io/channel.c
+@@ -92,19 +92,47 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+                               size_t niov,
+                               Error **errp)
+ {
++    return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
 +}
 +
-+static void remote_pcihost_realize(DeviceState *dev, Error **errp)
++int qio_channel_readv_all(QIOChannel *ioc,
++                          const struct iovec *iov,
++                          size_t niov,
++                          Error **errp)
 +{
-+    PCIHostState *pci = PCI_HOST_BRIDGE(dev);
-+    RemotePCIHost *s = REMOTE_PCIHOST(dev);
-+
-+    pci->bus = pci_root_bus_new(DEVICE(s), "remote-pci",
-+                                s->mr_pci_mem, s->mr_sys_io,
-+                                0, TYPE_PCIE_BUS);
++    return qio_channel_readv_full_all(ioc, iov, niov, NULL, NULL, errp);
 +}
 +
-+static void remote_pcihost_class_init(ObjectClass *klass, void *data)
++int qio_channel_readv_full_all_eof(QIOChannel *ioc,
++                                   const struct iovec *iov,
++                                   size_t niov,
++                                   int **fds, size_t *nfds,
++                                   Error **errp)
 +{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(klass);
-+
-+    hc->root_bus_path = remote_pcihost_root_bus_path;
-+    dc->realize = remote_pcihost_realize;
-+
-+    dc->user_creatable = false;
-+    set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
-+    dc->fw_name = "pci";
-+}
-+
-+static const TypeInfo remote_pcihost_info = {
-+    .name = TYPE_REMOTE_PCIHOST,
-+    .parent = TYPE_PCIE_HOST_BRIDGE,
-+    .instance_size = sizeof(RemotePCIHost),
-+    .class_init = remote_pcihost_class_init,
-+};
-+
-+static void remote_pcihost_register(void)
-+{
-+    type_register_static(&remote_pcihost_info);
-+}
-+
-+type_init(remote_pcihost_register)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 654358b..db50cbf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3189,6 +3189,8 @@ M: John G Johnson <john.g.johnson@oracle.com>
- S: Maintained
- F: docs/devel/multi-process.rst
- F: docs/multi-process.rst
-+F: hw/pci-host/remote.c
-+F: include/hw/pci-host/remote.h
+     int ret = -1;
+     struct iovec *local_iov = g_new(struct iovec, niov);
+     struct iovec *local_iov_head = local_iov;
+     unsigned int nlocal_iov = niov;
++    int **local_fds = fds;
++    size_t *local_nfds = nfds;
+     bool partial = false;
  
- Build and test automation
- -------------------------
-diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
-index eb03f04..8b8c763 100644
---- a/hw/pci-host/Kconfig
-+++ b/hw/pci-host/Kconfig
-@@ -65,3 +65,6 @@ config PCI_POWERNV
-     select PCI_EXPRESS
-     select MSI_NONBROKEN
-     select PCIE_PORT
++    if (nfds) {
++        *nfds = 0;
++    }
 +
-+config REMOTE_PCIHOST
-+    bool
-diff --git a/hw/pci-host/meson.build b/hw/pci-host/meson.build
-index da9d1a9..1847c69 100644
---- a/hw/pci-host/meson.build
-+++ b/hw/pci-host/meson.build
-@@ -9,6 +9,7 @@ pci_ss.add(when: 'CONFIG_PCI_EXPRESS_XILINX', if_true: files('xilinx-pcie.c'))
- pci_ss.add(when: 'CONFIG_PCI_I440FX', if_true: files('i440fx.c'))
- pci_ss.add(when: 'CONFIG_PCI_SABRE', if_true: files('sabre.c'))
- pci_ss.add(when: 'CONFIG_XEN_IGD_PASSTHROUGH', if_true: files('xen_igd_pt.c'))
-+pci_ss.add(when: 'CONFIG_REMOTE_PCIHOST', if_true: files('remote.c'))
++    if (fds) {
++        *fds = NULL;
++    }
++
+     nlocal_iov = iov_copy(local_iov, nlocal_iov,
+                           iov, niov,
+                           0, iov_size(iov, niov));
  
- # PPC devices
- pci_ss.add(when: 'CONFIG_PREP_PCI', if_true: files('prep.c'))
-diff --git a/hw/remote/Kconfig b/hw/remote/Kconfig
-index 5484446..504fd6a 100644
---- a/hw/remote/Kconfig
-+++ b/hw/remote/Kconfig
-@@ -1,3 +1,4 @@
- config MULTIPROCESS
-     bool
-     depends on PCI && KVM
-+    select REMOTE_PCIHOST
+-    while (nlocal_iov > 0) {
++    while ((nlocal_iov > 0) || local_fds) {
+         ssize_t len;
+-        len = qio_channel_readv(ioc, local_iov, nlocal_iov, errp);
++        len = qio_channel_readv_full(ioc, local_iov, nlocal_iov, local_fds,
++                                     local_nfds, errp);
+         if (len == QIO_CHANNEL_ERR_BLOCK) {
+             if (qemu_in_coroutine()) {
+                 qio_channel_yield(ioc, G_IO_IN);
+@@ -112,20 +140,53 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+                 qio_channel_wait(ioc, G_IO_IN);
+             }
+             continue;
+-        } else if (len < 0) {
+-            goto cleanup;
+-        } else if (len == 0) {
+-            if (partial) {
+-                error_setg(errp,
+-                           "Unexpected end-of-file before all bytes were read");
+-            } else {
+-                ret = 0;
++        }
++
++        if (len <= 0) {
++            size_t fd_idx;
++
++            if (!len && !niov && (nfds && *nfds)) {
++                break;
++            }
++
++            if (!partial && (!nfds || !(*nfds))) {
++                ret = len;
++                goto cleanup;
+             }
++
++            error_prepend(errp,
++                          "Unexpected end-of-file before all data were read.");
++
++            if (!nfds || !(*nfds)) {
++                goto cleanup;
++            }
++
++            /*
++             * If (len < 0) and fds are returned, it's not clear if the
++             * returned fds are valid to be closed. Just free'ing the
++             * allocated memory for fds in this case
++             */
++            fd_idx = *nfds;
++            while (fd_idx && !len) {
++                close((*fds)[fd_idx - 1]);
++                fd_idx--;
++            }
++
++            g_free(*fds);
++            *fds = NULL;
++            *nfds = 0;
++
+             goto cleanup;
+         }
+ 
+         partial = true;
+-        iov_discard_front(&local_iov, &nlocal_iov, len);
++
++        if (nlocal_iov) {
++            iov_discard_front(&local_iov, &nlocal_iov, len);
++        }
++
++        local_fds = NULL;
++        local_nfds = NULL;
+     }
+ 
+     ret = 1;
+@@ -135,20 +196,23 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
+     return ret;
+ }
+ 
+-int qio_channel_readv_all(QIOChannel *ioc,
+-                          const struct iovec *iov,
+-                          size_t niov,
+-                          Error **errp)
++int qio_channel_readv_full_all(QIOChannel *ioc,
++                               const struct iovec *iov,
++                               size_t niov,
++                               int **fds, size_t *nfds,
++                               Error **errp)
+ {
+-    int ret = qio_channel_readv_all_eof(ioc, iov, niov, errp);
++    int ret = qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds, errp);
+ 
+     if (ret == 0) {
+-        ret = -1;
+-        error_setg(errp,
+-                   "Unexpected end-of-file before all bytes were read");
+-    } else if (ret == 1) {
+-        ret = 0;
++        error_prepend(errp,
++                      "Unexpected end-of-file before all data were read.");
++        return -1;
+     }
++    if (ret == 1) {
++        return 0;
++    }
++
+     return ret;
+ }
+ 
 -- 
 1.8.3.1
 
