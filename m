@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22F9C2FB568
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:42:43 +0100 (CET)
-Received: from localhost ([::1]:43734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD9B72FB567
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:40:55 +0100 (CET)
+Received: from localhost ([::1]:40986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1oTC-0000RB-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:42:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57958)
+	id 1l1oRS-0007f0-QS
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:40:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2q-0002FY-G2; Tue, 19 Jan 2021 05:15:28 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:45187)
+ id 1l1o3B-0002V4-SV; Tue, 19 Jan 2021 05:15:50 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:53981)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2o-0004OB-Nz; Tue, 19 Jan 2021 05:15:28 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id A93C4F6F;
- Tue, 19 Jan 2021 05:15:24 -0500 (EST)
+ id 1l1o39-0004Ok-4e; Tue, 19 Jan 2021 05:15:49 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 2C74AF68;
+ Tue, 19 Jan 2021 05:15:25 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Tue, 19 Jan 2021 05:15:25 -0500
+ by compute4.internal (MEProxy); Tue, 19 Jan 2021 05:15:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=FyE9MqxPuUBKm
- LHmf9A+z3DWz4LJFUSijxwTVzTh76Q=; b=E7VMdqw6GNtOlJYwPylkjFhOtA9SO
- wb9X4gIfHqWQxI9MAZFioP0oT4KDpQBwCiSrGVns4TN5X/s6NSgqs2/Gyv826V0a
- 9F1zcrZ1zAGocCNuehoIRMKcYrfThdVn9v+e/Ng6ESThRR3W74FnNab5gHMnFn9v
- +qVlqA2ZqtLVTlZfmsAeOXnQLGG7QvEi5dQ2m6OWzo215xxCODZI6gQGsfjKvyve
- dke//x/uN3poXsCVeVY+V9DN8bUMLb7BqVcrGVgl7XLhwcuU1w1AWhIotjfRwSPy
- 6CPeOowkPmo/TGVSi8aCRkpx6Txhh0TuFGUkMWSzlVwv4xihl29pFtndA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=HDXjmpTWRbIWk
+ XhO+Qo+QpguR8QWL9XXqi8ezvY73lI=; b=cmKBIBXEUScWkhxhhaSNRQprzDMYa
+ Nu2+GBsnVlzjVaIbrnaNsHu1MecHsFAKsiTu53KijV/bq/JCXwZYV1dSy6e8vqR3
+ J3h5lMkDlGBtzfLOCXqX6IZGiLuwWAIepIs0d6LRz4pLFpWnTWCXn24L4gvjtZE3
+ A2rDYM0XQIYo4P1quse2f+nCVCmIHZk5YTKNRERaR3hwx+VFt5ET+UPB7LCnistX
+ mqnVjTbBu5c/RvDJmG+zqlEmj4sW4HlKg9zid90C+Rygm8F8M31p0xEqit9TZ57n
+ zxl/+cq3WOmj5lbNkbwDqMb0rvgKOnjFESV+5A85rhg00+BuP2P3RGrzg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=FyE9MqxPuUBKmLHmf9A+z3DWz4LJFUSijxwTVzTh76Q=; b=e55h8kjQ
- Ic6HXPT6koqc8WYxbIEeAfT/4iKsDwLFknfKh2M2YKClechrc23TqmLWnc1QKtZ5
- /JLld6Sz/tczwQxm/TdgO+O0rFy6xIJh78J44Bdb2FDOg0Er1+i+Qzefoi9Bmpiz
- YyPiUllsQ3KYVnLk/TwgjqPoabcim7d+hnscNEVrzfHlhozz2WWJEV8OzyXv8Pfi
- bZN0Te2RPn/1faCPTx85vfHuwX/Kc5e3BM/4lUZ5eASKPWZ38+JWGMwhWXuhskK3
- YNZsukj94Undq5P20MzT1Qg5Zb6wHvLvoxGuEvLJ1iBx8jlOkhKBrRsSBvioeUnD
- +BFZWInRSJRUuw==
-X-ME-Sender: <xms:O7EGYPQP_oIqgoPCUVyDeBpTfTCwamCEgi57Xfc796ALQMG5sufaVg>
- <xme:O7EGYLUQXMPI02n7kfOsb_Qzeal7YP2CD7X5Dqm2jdttsBUmglWlH6-YTM1LI22O7
- B2s6sJyfh25qsADuto>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgddufecutefuodetggdotefrodftvf
+ fm1; bh=HDXjmpTWRbIWkXhO+Qo+QpguR8QWL9XXqi8ezvY73lI=; b=izTlkd+8
+ D3WTGeNki5GcplQVnGZg1DDmP4moo0EI8jwg+vAqi0QhRwWHSQJyCSyPPU2XhIDt
+ 2U1kG5wMjFVZEhY/nYA4ERLlM4g/dkmL0EEklC2guKcq4UcMdLuqMsplDdWc5JHy
+ vQsbFVkiJ0AH8SKn/G/i20TSa+P8UWYuBUp/+cWdgo/OOQv6L2cHKXjIR5+0wlvd
+ 6ikiWs4j9rC6Z62fBNge0fqr0thY+q1coDWWfqKky2WGKFvSRqfsZ5gjNJH2UKK0
+ 0GahjPtBraKo5luNvk+7rNDMRRT22oFuZS3+QM8F1c7EuV8saWlYifVb/87X1PES
+ ybzhcl2eOX2uvg==
+X-ME-Sender: <xms:PLEGYIdg1QOdXKfGLwqr6LWbQBiPY_Mk5gAn5qBxfIrqJn4VhwWXVw>
+ <xme:PLEGYKN__awqwwuN_ry6CLrkNhKOzmmsk6wNBtp6J3dWfwAVTv9Ev3al7pT9j41Jv
+ _uNG2B2C0FxTqqHbXc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgdduvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
  lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepgeenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:O7EGYBbJMRvi4jbpwtJ5OolXunu4j4WQcALnzGXa6ePYDF7cnmw5IQ>
- <xmx:O7EGYB2YZXAckghJbyVXqhPS2sYG3M2ko50xWTF_QOABYj8ShLu7Gw>
- <xmx:O7EGYDggPtFDERjmVzjCpUl-mHNC8QAO4B4PQ6KutXuGibw3R0OjNw>
- <xmx:PLEGYM7KIFMPjDUBGNx85AHAq4j1qaxGTdqVxQwQHzMpkrbyANfZcA>
+X-ME-Proxy: <xmx:PLEGYJgiQGRrIv9qp1RFobslwcHpWTZTHh5Tu5vmgULuowdpKxYeJg>
+ <xmx:PLEGYN-2ZkfTZhM3HHhdEHCMQ-oOY2dxgIVXqjehJ9Gp9KSZAoGyfQ>
+ <xmx:PLEGYEv73-JtkRjXR-ccrcRqLnab6zkcFLAhF1pehk80hH3lPosIJg>
+ <xmx:PLEGYIj1h6zWjkLf4uBGYB4z7Q5qT1xP5XKUJqJUGJ-vsqIUJ53Oew>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 2824724005D;
- Tue, 19 Jan 2021 05:15:22 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7D99B240062;
+ Tue, 19 Jan 2021 05:15:23 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/12] hw/block/nvme: bump to v1.4
-Date: Tue, 19 Jan 2021 11:15:03 +0100
-Message-Id: <20210119101504.231259-12-its@irrelevant.dk>
+Subject: [PATCH v3 12/12] hw/block/nvme: lift cmb restrictions
+Date: Tue, 19 Jan 2021 11:15:04 +0100
+Message-Id: <20210119101504.231259-13-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210119101504.231259-1-its@irrelevant.dk>
 References: <20210119101504.231259-1-its@irrelevant.dk>
@@ -101,62 +101,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-With the new CMB logic in place, bump the implemented specification
-version to v1.4 by default.
-
-This requires adding the setting the CNTRLTYPE field and modifying the
-VWC field since 0x00 is no longer a valid value for bits 2:1.
+The controller now implements v1.4 and we can lift the restrictions on
+CMB Data Pointer and Command Independent Locations Support (CDPCILS) and
+CMB Data Pointer Mixed Locations Support (CDPMLS) since the device
+really does not care about mixed host/cmb pointers in those cases.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- include/block/nvme.h | 3 ++-
- hw/block/nvme.c      | 5 +++--
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ hw/block/nvme.c | 33 ++-------------------------------
+ 1 file changed, 2 insertions(+), 31 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 7dcd8f9b4e78..c34343c13a3c 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -949,7 +949,8 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
-     uint32_t    rtd3e;
-     uint32_t    oaes;
-     uint32_t    ctratt;
--    uint8_t     rsvd100[12];
-+    uint8_t     rsvd100[11];
-+    uint8_t     cntrltype;
-     uint8_t     fguid[16];
-     uint8_t     rsvd128[128];
-     uint16_t    oacs;
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 4bcc3cd71c9f..2c158cf419b0 100644
+index 2c158cf419b0..0e7d38bd35ae 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -108,7 +108,7 @@
+@@ -509,7 +509,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+     trans_len = MIN(len, trans_len);
+     int num_prps = (len >> n->page_bits) + 1;
+     uint16_t status;
+-    bool prp_list_in_cmb = false;
+     int ret;
  
- #define NVME_MAX_IOQPAIRS 0xffff
- #define NVME_DB_SIZE  4
--#define NVME_SPEC_VER 0x00010300
-+#define NVME_SPEC_VER 0x00010400
- #define NVME_CMB_BIR 2
- #define NVME_PMR_BIR 4
- #define NVME_TEMPERATURE 0x143
-@@ -4421,6 +4421,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     id->mdts = n->params.mdts;
-     id->ver = cpu_to_le32(NVME_SPEC_VER);
-     id->oacs = cpu_to_le16(0);
-+    id->cntrltype = 0x1;
+     QEMUSGList *qsg = &req->qsg;
+@@ -535,10 +534,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+             uint32_t nents, prp_trans;
+             int i = 0;
  
-     /*
-      * Because the controller always completes the Abort command immediately,
-@@ -4449,7 +4450,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-                            NVME_ONCS_FEATURES | NVME_ONCS_DSM |
-                            NVME_ONCS_COMPARE);
+-            if (nvme_addr_is_cmb(n, prp2)) {
+-                prp_list_in_cmb = true;
+-            }
+-
+             nents = (len + n->page_size - 1) >> n->page_bits;
+             prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
+             ret = nvme_addr_read(n, prp2, (void *)prp_list, prp_trans);
+@@ -555,10 +550,6 @@ static uint16_t nvme_map_prp(NvmeCtrl *n, uint64_t prp1, uint64_t prp2,
+                         return NVME_INVALID_PRP_OFFSET | NVME_DNR;
+                     }
  
--    id->vwc = 0x1;
-+    id->vwc = (0x2 << 1) | 0x1;
-     id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
-                            NVME_CTRL_SGLS_BITBUCKET);
+-                    if (prp_list_in_cmb != nvme_addr_is_cmb(n, prp_ent)) {
+-                        return NVME_INVALID_USE_OF_CMB | NVME_DNR;
+-                    }
+-
+                     i = 0;
+                     nents = (len + n->page_size - 1) >> n->page_bits;
+                     prp_trans = MIN(n->max_prp_ents, nents) * sizeof(uint64_t);
+@@ -692,7 +683,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
+     uint64_t nsgld;
+     uint32_t seg_len;
+     uint16_t status;
+-    bool sgl_in_cmb = false;
+     hwaddr addr;
+     int ret;
  
+@@ -714,18 +704,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
+         goto out;
+     }
+ 
+-    /*
+-     * If the segment is located in the CMB, the submission queue of the
+-     * request must also reside there.
+-     */
+-    if (nvme_addr_is_cmb(n, addr)) {
+-        if (!nvme_addr_is_cmb(n, req->sq->dma_addr)) {
+-            return NVME_INVALID_USE_OF_CMB | NVME_DNR;
+-        }
+-
+-        sgl_in_cmb = true;
+-    }
+-
+     for (;;) {
+         switch (NVME_SGL_TYPE(sgld->type)) {
+         case NVME_SGL_DESCR_TYPE_SEGMENT:
+@@ -814,15 +792,6 @@ static uint16_t nvme_map_sgl(NvmeCtrl *n, QEMUSGList *qsg, QEMUIOVector *iov,
+         if (status) {
+             goto unmap;
+         }
+-
+-        /*
+-         * If the next segment is in the CMB, make sure that the sgl was
+-         * already located there.
+-         */
+-        if (sgl_in_cmb != nvme_addr_is_cmb(n, addr)) {
+-            status = NVME_INVALID_USE_OF_CMB | NVME_DNR;
+-            goto unmap;
+-        }
+     }
+ 
+ out:
+@@ -3748,6 +3717,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+ 
+ static void nvme_cmb_enable_regs(NvmeCtrl *n)
+ {
++    NVME_CMBLOC_SET_CDPCILS(n->bar.cmbloc, 1);
++    NVME_CMBLOC_SET_CDPMLS(n->bar.cmbloc, 1);
+     NVME_CMBLOC_SET_BIR(n->bar.cmbloc, NVME_CMB_BIR);
+ 
+     NVME_CMBSZ_SET_SQS(n->bar.cmbsz, 1);
 -- 
 2.30.0
 
