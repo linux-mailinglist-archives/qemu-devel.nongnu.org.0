@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ECF42FBCDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:51:12 +0100 (CET)
-Received: from localhost ([::1]:39514 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 959652FBCF5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:53:43 +0100 (CET)
+Received: from localhost ([::1]:45886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1uDn-0003uR-8V
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:51:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49044)
+	id 1l1uGE-0006fP-MI
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:53:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49850)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1u4r-0004RM-Qw
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:41:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36155)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l1u8h-00005I-RL
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:45:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23925)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l1u4q-0000LG-04
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:41:57 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l1u8d-0000zY-Kj
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:45:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611074514;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1611074750;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=jRvpZrOg3xwjF94S9k9j2oBqFip7U3XhhBg7vslvVx0=;
- b=MbQlw/RX26kV2G+VFVgyAwUgYe9qM1t2bpsulQPhDALxRXwMdcIt3gn29zR7UmpOwyZnRQ
- lk3m12YbDasXjRTgEBOJYlpmBuNAKtmnfnsmVWTkTl0TknCJWYdM8v2okhwmR3Bl8/ekP4
- Wt7ghHFaA9JqtIBs/BzIl1/gQCRaJMM=
+ bh=0J++Mr9m0Mfy8jyUQHfcyaXEz43NfNlMC2385CCzrfI=;
+ b=WjFlhtjLkfejoVE03ybosnrltmvY8f1UCX8mRIfFiYORFVN6kxP7YYBa31UyTRarm8jwxP
+ iMqJ1JReclsyOGAYtQGnANd7cVkgxB8mRC02vvVxjq8Ovc0L93YfEad2ABHiZ8TeJqkhuJ
+ i1fvJAlUpDIBj8gu9Ye7G2u8pUlNqtA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-489-WF2ARd52NvW8pKaCjIH8zg-1; Tue, 19 Jan 2021 11:41:52 -0500
-X-MC-Unique: WF2ARd52NvW8pKaCjIH8zg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-547-ihAcHFwCNRCAq0kJWO6gMw-1; Tue, 19 Jan 2021 11:45:48 -0500
+X-MC-Unique: ihAcHFwCNRCAq0kJWO6gMw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B40A107ACE3;
- Tue, 19 Jan 2021 16:41:51 +0000 (UTC)
-Received: from redhat.com (ovpn-112-84.ams2.redhat.com [10.36.112.84])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A4B045D9F8;
- Tue, 19 Jan 2021 16:41:45 +0000 (UTC)
-Date: Tue, 19 Jan 2021 16:41:42 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [RFC PATCH 0/2] x86 CPU feature +/- fiddling and +kvm-no-defaults
-Message-ID: <20210119164142.GO2335568@redhat.com>
-References: <20210119142207.3443123-1-david.edmondson@oracle.com>
- <20210119162826.GL2335568@redhat.com>
- <20210119163518.GH1227584@habkost.net>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9512E835DF2;
+ Tue, 19 Jan 2021 16:45:47 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 04FC06EF43;
+ Tue, 19 Jan 2021 16:45:46 +0000 (UTC)
+Subject: Re: [PATCH] target/i386/sev: add the support to query the attestation
+ report
+To: Brijesh Singh <brijesh.singh@amd.com>, qemu-devel@nongnu.org
+References: <20201204213101.14552-1-brijesh.singh@amd.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <15a7472f-5ec2-adc1-cda6-61d9ca58a5e0@redhat.com>
+Date: Tue, 19 Jan 2021 10:45:46 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210119163518.GH1227584@habkost.net>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20201204213101.14552-1-brijesh.singh@amd.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,61 +78,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>,
- David Edmondson <david.edmondson@oracle.com>,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Tom Lendacky <Thomas.Lendacky@amd.com>,
+ James Bottomley <jejb@linux.ibm.com>, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 19, 2021 at 11:35:18AM -0500, Eduardo Habkost wrote:
-> On Tue, Jan 19, 2021 at 04:28:26PM +0000, Daniel P. Berrangé wrote:
-> > On Tue, Jan 19, 2021 at 02:22:05PM +0000, David Edmondson wrote:
-> > > Currently "-cpu -feature,+feature" will disable -feature, which seems
-> > > contrary to the intention of the user. Fix this such that the later
-> > > flag wins. There are no changes to the interaction of +/- and =on/=off.
-> > 
-> > The -feature/+feature syntax is the legacy  way of configuring
-> > features, with feature=on|off being the preferred, since that matches
-> > the general QEMU standard for boolean properties.
-> > 
-> > Your proposed change in ordering of + vs - makes conceptual sense, but
-> > it is none the less a semantic change in behaviour that may well cause
-> > breakage for existing deployed VMs. This impacts guest ABI so could
-> > particularly cause live migration problems.
-> > 
-> > IOW, we should have implemented it the way you propose in the first
-> > place, but I don't think it is safe to change it now, unless you can
-> > tie that new semantic to a machine type version.
-> > 
-> > Before we consider that though, Paolo has just deprecated many of the
-> > legacy approaches for boolean properties in this:
-> > 
-> >   https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg04341.html
-> > 
-> > I'm inclined to say that we just follow on from that and finally
-> > deprecate the +feature/-feature CPU syntax which we're already considering
-> > legacy. This would remove the need to care about changing its behaviour
+On 12/4/20 3:31 PM, Brijesh Singh wrote:
+> The SEV FW >= 0.23 added a new command that can be used to query the
+> attestation report containing the SHA-256 digest of the guest memory
+> and VMSA encrypted with the LAUNCH_UPDATE and sign it with the PEK.
 > 
-> I believe we had multiple proposal in the past do deprecate
-> +feature/-feature, but there were objections.  I couldn't find
-> the original threads, though.
+> Note, we already have a command (LAUNCH_MEASURE) that can be used to
+> query the SHA-256 digest of the guest memory encrypted through the
+> LAUNCH_UPDATE. The main difference between previous and this command
+> is that the report is signed with the PEK and unlike the LAUNCH_MEASURE
+> command the ATTESATION_REPORT command can be called while the guest
+> is running.
+> 
+> Add a QMP interface "query-sev-attestation-report" that can be used
+> to get the report encoded in base64.
+> 
 
-Historically libvirt was using +/- syntax, but we finally removed the last
-usage of it in June 2019 / libvirt v5.4.0. So for modern QEMU libvirt will
-always use =on|off.
+> +++ b/qapi/misc-target.json
+> @@ -267,3 +267,41 @@
+>  ##
+>  { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
+>    'if': 'defined(TARGET_ARM)' }
+> +
+> +
+> +##
+> +# @SevAttestationReport:
+> +#
+> +# The struct describes attestation report for a Secure Encrypted Virtualization
+> +# feature.
+> +#
+> +# @data:  guest attestation report (base64 encoded)
+> +#
+> +#
+> +# Since: 5.2
 
-> In either case, I thought we had already deprecated the weird
-> ordering rules of "-feature,+feature".
+You've missed the 5.2 release; this should be since 6.0.
 
-Regards,
-Daniel
+> +##
+> +{ 'struct': 'SevAttestationReport',
+> +  'data': { 'data': 'str'},
+> +  'if': 'defined(TARGET_I386)' }
+> +
+> +##
+> +# @query-sev-attestation-report:
+> +#
+> +# This command is used to get the SEV attestation report, and is supported on AMD
+> +# X86 platforms only.
+> +#
+> +# @mnonce: a random 16 bytes of data (it will be included in report)
+
+This says 16 bytes,...
+
+> +#
+> +# Returns: SevAttestationReport objects.
+> +#
+> +# Since: 5.2
+
+Likewise.
+
+> +#
+> +# Example:
+> +#
+> +# -> { "execute" : "query-sev-attestation-report", "arguments": { "mnonce": "aaaaaaa" } }
+
+...but this example does not use 16 bytes.  That's confusing.
+
+> +# <- { "return" : { "data": "aaaaaaaabbbddddd"} }
+> +#
+> +##
+> +{ 'command': 'query-sev-attestation-report', 'data': { 'mnonce': 'str' },
+> +  'returns': 'SevAttestationReport',
+> +  'if': 'defined(TARGET_I386)' }
+> diff --git a/target/i386/monitor.c b/target/i386/monitor.c
+
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
