@@ -2,129 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DBE52FBFEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:29:32 +0100 (CET)
-Received: from localhost ([::1]:49884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 909A12FBFBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:11:19 +0100 (CET)
+Received: from localhost ([::1]:51506 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1wh1-0002Zo-Fj
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:29:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49102)
+	id 1l1wPO-0007LZ-Kt
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:11:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l1vla-0007wU-1H; Tue, 19 Jan 2021 13:30:10 -0500
-Received: from mail-eopbgr80109.outbound.protection.outlook.com
- ([40.107.8.109]:58607 helo=EUR04-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l1vlW-0000Xu-Ig; Tue, 19 Jan 2021 13:30:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=CCf4ucw10Ss2aXwnJLi/wAmqQQlvJoA3ywk/5uCBRds/t/DmdoqX6kRYS/G1cKIjDAArx9JHVIEPkWGzaQQVC0P9UtaK9x6MKI7xVUaklHkmqZ1JuBrLJ1VM6h8KjlZeX25w8KF2ygfM9EKURGkfJFsNNTLGCGMDnfF1E1xgjPA7susb0LrJaju+28yvUeoBWG8HltAtdKwcrT3DoUEggTv8oK6oSLAzTdq3h41WhAi/1WrH9EsfibIwbHG0y9cao6JMqw1gQii4BgDUhFn74XFsDnj8emeu/YI7FL8p788MbiJlfPU3pM8nZlYSnIBhOubVyNTDRHid9Nf8Ne47Cw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lTzDRt+6itu2buzM8DSoT2ZbLcUto4WdCiSeI9H9crw=;
- b=L7W3m6wSw3LxYkDlUyN94uYWPrDiBLSji3mND9nzQ34Wht36rPNGTjbVJ7FPt8C1mEk/rwyq0H3mjvegpqYJLs7BRzMZJQyhKSjd2lTyadf6g+MWnPpOZZC87+o5zXZw9DbW+2I3omXFHediQEXm6ekHI7bqWDQWwbaaX1c/ujp8d/7Tp1Ia9moKlbjJ6zOryaSZW3YLwikVELXzQGKXG7gsJdj+No8aB62F+lAVcGMZQO/SnGDi84X2RVXSC0xE4SMnt2fo2LHEcPYV7gWcGRGyuW+AGmM4HUFDjjr5vfFFLpnzqGohGYcTgr/T1+u33mn7tgx2IJkxRwOm3D4kyQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lTzDRt+6itu2buzM8DSoT2ZbLcUto4WdCiSeI9H9crw=;
- b=iymlqtz2ZVnvZxjZsNhC1A4uazXNhg4qw59aPIGrir0FIk8gikcDxr/n+ZwR6Jm8PrBtKuA9BAb9zSIElfBEd03GENt+PGydprrSBSwy0o+De3g3wwtYrY0s17XiWIT3/ArBj8IsA0E2ZIrctDPN6PSgOKxIliCsCXb4vaZymKY=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5383.eurprd08.prod.outlook.com (2603:10a6:20b:102::7)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Tue, 19 Jan
- 2021 18:30:02 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
- 18:30:02 +0000
-Subject: Re: [PATCH v2 12/36] block: refactor bdrv_child* permission functions
-To: Kevin Wolf <kwolf@redhat.com>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-13-vsementsov@virtuozzo.com>
- <20210119180909.GK5012@merkur.fritz.box>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <0b634f73-b997-d72d-e7ab-3a1dcdfeb509@virtuozzo.com>
-Date: Tue, 19 Jan 2021 21:30:01 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <20210119180909.GK5012@merkur.fritz.box>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.84]
-X-ClientProxiedBy: AM0PR05CA0076.eurprd05.prod.outlook.com
- (2603:10a6:208:136::16) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l1vpv-0002cq-1P
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:34:39 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:37710)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l1vps-0001Fr-Ry
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:34:38 -0500
+Received: by mail-pf1-x432.google.com with SMTP id 11so12779691pfu.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 10:34:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=0qp18WNANcXFrE2K7B3cvwfkNuDH1MH1NJQQgujUOMM=;
+ b=EdEzdWi2DH3x63dyGo8z/aNiG2WgzCRPSLlTS8d6/5CBBzUY4bftTLkuviXxOue8PJ
+ IuYP/bV7SwIKdwQB8JxcKPlHv+9ZiEa/Tz4jYkkvZwNjUTIROV9Uwo2DhGhZzrJWNLZA
+ r/beu91lBo53BQBJCQk63dwyxskdfQ8mn2+pkbYYfF4VupazjzXfVxl/eZFnazBaE38o
+ O6l40t78DKI2TVrOvJRo9UggwyJ5JMLmLH9ipyoVz+foOy9qqUPPzvjrQNueuk9ps7Qa
+ xk7IPrUHKuAQMYKzxbYPYHa1r8GxWb8gsW2T3SnfJoWsnphKLEEMtnqGRlvHBgQHc5Mp
+ EvgQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=0qp18WNANcXFrE2K7B3cvwfkNuDH1MH1NJQQgujUOMM=;
+ b=jUrDihDbqiAbgi3kzVSDNNgZ+AhDE0f40mtuIsUSbie7sjLrNrIQc+xbZ4tXExDOxO
+ pGhX3o4y9p4572wyidwSj0Uix3FJ76tpNWweKFCBMpsp8CID1tdQXuAfifDptvMXeCvZ
+ gCKpwKSQf7YuDnmQsyOnrwEM0jbMA7p74yl7HngoYJhHCQRYKEKLYx1Bs3HVeWNxJ6vJ
+ LcWZNhipOmEW2YM9YaE5XeaBFpxqWCMQf3Ns4+W8WA3RiGRWjp+kexq+Eww9OAZqd69k
+ H0qPzWp9c+hVXhOqNTOc/zPgCCsNurcuVJgUCe9bhRpRKZiSYQiyZzvWo852PRXngSaB
+ IwyA==
+X-Gm-Message-State: AOAM532Io8zD2p3M9Dxn7pOAwDXvD4y2nBJQ4OYFBka+PVTh+BjqEjd6
+ zfdKslGSNkg3ESbCMlZOZmEtuAKTcEKgBA==
+X-Google-Smtp-Source: ABdhPJwSHV/y67zAtiiIoe8yhadT/nVU9ub5Bu1+BRkgCAF6jzUKYDoNyhZyUypnRiwO1sUxAPz6/w==
+X-Received: by 2002:a62:1d46:0:b029:1b7:fe6e:4bb4 with SMTP id
+ d67-20020a621d460000b02901b7fe6e4bb4mr5560537pfd.4.1611081275247; 
+ Tue, 19 Jan 2021 10:34:35 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id a136sm20651359pfd.149.2021.01.19.10.34.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jan 2021 10:34:34 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 2/5] tcg: Introduce and use tcg_temp
+Date: Tue, 19 Jan 2021 08:34:25 -1000
+Message-Id: <20210119183428.556706-3-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210119183428.556706-1-richard.henderson@linaro.org>
+References: <20210119183428.556706-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.84) by
- AM0PR05CA0076.eurprd05.prod.outlook.com (2603:10a6:208:136::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9 via Frontend
- Transport; Tue, 19 Jan 2021 18:30:02 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 23258b07-c2d7-4894-ad7a-08d8bca83c5b
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5383:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5383CFE0AE897B03A23F957EC1A30@AM7PR08MB5383.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: jJpJXPj/5mGdkcfC8dD043n63Z01prgvKk9St1KfL7Ay/FxL0/oJowuz+oe7sVeFjbgfB47eAb+7OtTf2dQV/KIeWe9EwhrTan4v68U1F64ughWpDNgAbZMK2ViWtsUJLq11tr5jl3uILk0kCh6cn2uCxgS9ezoybcoilVTjjzZDNVdZsRyTfNSm3fnRiXzAuBHdyhKDDtnwHviWBqTSJOa7gim41+L4jVO8kv6JjDlMYRDjKbtZUQFk6NSaPJjlgtfvx7wkPBwVvON1F+UnEJ2qRAe0/ThKAt7jTq7lPHNHJufORB2EF30ZGera8rTSniQH3JIqf+XJVzfjEiFBv+XmjL1eZ8JYxOLHUS8Kr9uVIM8VinzmT4vgFZRoQ8n6ePZr3pGUcLqCVNVyMblVeVXAlYF12iHraIcL8WL6yweekLuq7NL2pOuOI8sdez38iIs5Kqz6QsIzR75We0AwATIgqMOrcG/L1wxRhnOtOpE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(346002)(366004)(376002)(396003)(136003)(5660300002)(31686004)(6916009)(478600001)(66476007)(8936002)(66556008)(66946007)(186003)(16576012)(83380400001)(4326008)(26005)(2616005)(31696002)(6486002)(86362001)(16526019)(8676002)(107886003)(52116002)(316002)(956004)(2906002)(36756003)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?L25iTzdySHNrS1VyYW9PTXBEenErNnRoVE55QXBIdlRSTC9rNncyQzNnd0hw?=
- =?utf-8?B?MEZ5NURHQUFsS3FpZGRXa1laME5ESmw2enhlNG8xNWZvWFZ4ank2UmZkcmt3?=
- =?utf-8?B?SHZSUEVlaXBxaTVoaVNjUWxQMk1vTUxWMUgzY2k0Uk5mOExvSHdZdWtpYUVl?=
- =?utf-8?B?Z1hvUTBJVnVQdURXNDZWdUw5bzFrMDdRWk92aU80azZOS1pUalJqTmNqRVNy?=
- =?utf-8?B?MXVKQWtVRHoxenBxSmJsK0ZaUGtNdXB1NmxsWFdDMDFVbGlVUTNjczZPS0Zi?=
- =?utf-8?B?bU9GVEI1TnBjVFF1enFNbnNKNHRTckdkMFRVWFJaR3NPeWRsVHdVRS93TVlL?=
- =?utf-8?B?U3FGUGhiL0p1ZzhKRk1LcHpHMWh3Y0NVNHB1NXpSUHIzUXlaWklUU2xValVz?=
- =?utf-8?B?aXNRL0dyOEo4T3poS0VhRDZtemhTSnVvSzdMN0FESE5oVy8wcmVrVThydzRO?=
- =?utf-8?B?WVNERGk2eHJ2cm5lalhvVmxjRmJJZ3JmYWJydnh1UlA3YmpvTEhuamVKWnVB?=
- =?utf-8?B?Y1Y1NXdsWWZiUlNRZDlqRUVCY09WK3lqRGJoTkRMZzZ2MHMwY0kycEdZQVFq?=
- =?utf-8?B?UkVCdXN5aVQ0Z0N3SnZtNGtNUWxpQW1FQlM4ZDZTaXdZZlM3SlRlc1d1dEZH?=
- =?utf-8?B?aVN5THA1dzBLZVBmSG5NQjZIWktRS1ZwMzBnb0szVi9VZmFXSXA2V05remhi?=
- =?utf-8?B?eEMvU3VlbmM0R2VxZEg1NEtnM2E5bHU4L29zS2MxQUUvMVpWZEozREJKYXph?=
- =?utf-8?B?U3hWL1hiZ1RnMjA2cFpSMlprd0ZLNEY1NkVjZWVHRzFJTEU2Tyt1ZlY0U243?=
- =?utf-8?B?QlBKemZJbmNFUzJpVVMrR1pqV0s1YVVoV3BLRmFHVFF3YkVMSmsxd0k4dlVR?=
- =?utf-8?B?WFA2ZytOQndqRWo5T1F2VUcrNGZ1V0hMeWttTkNuQ2I3UlJFZEhqOFFnSW9i?=
- =?utf-8?B?WGQzVUcvbm1OMU1aNi9WNnZqWS9lc3J5MTlnOWpCWDJrVFhsakR5MG41MDBM?=
- =?utf-8?B?SUhRZlFQNkdJYVB0ZnVTNHZMbm5ZNlgzSW84bzYvWTgyaEJDQk83Z04rQVR3?=
- =?utf-8?B?VU5EV1lRSlhkaHVscGZ5d0J1bEljbEN6S1N3QllZWkpJSkp4UXJwMTBod0Vw?=
- =?utf-8?B?RVNTR1Y2NnVvN1o1bTRjKytrOHdiMjJMVndsS1RDRmQyTm5UdU1DWjZ1VTM1?=
- =?utf-8?B?SVZjekZ4TEUwZEJua2RKR2dZYTQ3NUFlbFpGUExuYWhzd0RwTVlYcDcvNG41?=
- =?utf-8?B?MWUwclNEaC9YakVJRzVaTVpjcVBpY25XQnU5QnVEK1Nsa3lJWEliUjNrTEFZ?=
- =?utf-8?Q?3d3AizwPaK95S8B3XuKBqQcvz8JtU+aAZr?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 23258b07-c2d7-4894-ad7a-08d8bca83c5b
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 18:30:02.7009 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /0yHpYGC+Bt6pqS+OTrl8hzeN2a1c9wcAL3xR4KKd6sdejvciRFU/M34cJWrQSLCBuPLmYpysF7IPiqtXovM1DX+qJ0wkMg3qwa2E3qDvds=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5383
-Received-SPF: pass client-ip=40.107.8.109;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -138,99 +84,297 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: lvivier@redhat.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-19.01.2021 21:09, Kevin Wolf wrote:
-> Am 27.11.2020 um 15:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> Split out non-recursive parts, and refactor as block graph transaction
->> action.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   block.c | 79 ++++++++++++++++++++++++++++++++++++++++++---------------
->>   1 file changed, 59 insertions(+), 20 deletions(-)
->>
->> diff --git a/block.c b/block.c
->> index a756f3e8ad..7267b4a3e9 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -48,6 +48,7 @@
->>   #include "qemu/timer.h"
->>   #include "qemu/cutils.h"
->>   #include "qemu/id.h"
->> +#include "qemu/transactions.h"
->>   #include "block/coroutines.h"
->>   
->>   #ifdef CONFIG_BSD
->> @@ -2033,6 +2034,61 @@ static void bdrv_child_perm(BlockDriverState *bs, BlockDriverState *child_bs,
->>       }
->>   }
->>   
->> +static void bdrv_child_set_perm_commit(void *opaque)
->> +{
->> +    BdrvChild *c = opaque;
->> +
->> +    c->has_backup_perm = false;
->> +}
->> +
->> +static void bdrv_child_set_perm_abort(void *opaque)
->> +{
->> +    BdrvChild *c = opaque;
->> +    /*
->> +     * We may have child->has_backup_perm unset at this point, as in case of
->> +     * _check_ stage of permission update failure we may _check_ not the whole
->> +     * subtree.  Still, _abort_ is called on the whole subtree anyway.
->> +     */
->> +    if (c->has_backup_perm) {
->> +        c->perm = c->backup_perm;
->> +        c->shared_perm = c->backup_shared_perm;
->> +        c->has_backup_perm = false;
->> +    }
->> +}
->> +
->> +static TransactionActionDrv bdrv_child_set_pem_drv = {
->> +    .abort = bdrv_child_set_perm_abort,
->> +    .commit = bdrv_child_set_perm_commit,
->> +};
->> +
->> +/*
->> + * With tran=NULL needs to be followed by direct call to either
->> + * bdrv_child_set_perm_commit() or bdrv_child_set_perm_abort().
->> + *
->> + * With non-NUll tran needs to be followed by tran_abort() or tran_commit()
-> 
-> s/NUll/NULL/
-> 
->> + * instead.
->> + */
->> +static void bdrv_child_set_perm_safe(BdrvChild *c, uint64_t perm,
->> +                                     uint64_t shared, GSList **tran)
->> +{
->> +    if (!c->has_backup_perm) {
->> +        c->has_backup_perm = true;
->> +        c->backup_perm = c->perm;
->> +        c->backup_shared_perm = c->shared_perm;
->> +    }
-> 
-> This is the obvious refactoring at this point, and it's fine as such.
-> 
-> However, when you start to actually use tran (and in new places), it
-> means that I have to check that we can never end up here recursively
-> with a different tran.
+We're about to change the representation of the array of TCGTemps.
+Wrap the indexing into an inline to minimize changes later.
 
-I don't follow.. Which different tran do you mean?
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/tcg/tcg.h |  6 ++++
+ tcg/optimize.c    |  5 ++--
+ tcg/tcg.c         | 71 ++++++++++++++++++++++++++---------------------
+ 3 files changed, 48 insertions(+), 34 deletions(-)
 
-> 
-> It would probably be much cleaner if the next patch moved the backup
-> state into the opaque struct for BdrvAction.
-
-But old code which calls the function with tran=NULL can't use it.. Hmm, we can probably support both ways: c->backup_perm for callers with tran=NULL and opaque struct for new style callers.
-
-
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 5ef644ceae..0d90701dcd 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -720,6 +720,12 @@ static inline void *tcg_splitwx_to_rw(const void *rx)
+ }
+ #endif
+ 
++static inline TCGTemp *tcg_temp(TCGContext *s, size_t idx)
++{
++    tcg_debug_assert(idx < s->nb_temps);
++    return &s->temps[idx];
++}
++
+ static inline size_t temp_idx(TCGTemp *ts)
+ {
+     return ts->index;
+diff --git a/tcg/optimize.c b/tcg/optimize.c
+index 37c902283e..2aa491605e 100644
+--- a/tcg/optimize.c
++++ b/tcg/optimize.c
+@@ -614,7 +614,8 @@ void tcg_optimize(TCGContext *s)
+ 
+     memset(&temps_used, 0, sizeof(temps_used));
+     for (i = 0; i < nb_temps; ++i) {
+-        s->temps[i].state_ptr = NULL;
++        TCGTemp *ts = tcg_temp(s, i);
++        ts->state_ptr = NULL;
+     }
+ 
+     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
+@@ -1485,7 +1486,7 @@ void tcg_optimize(TCGContext *s)
+                   & (TCG_CALL_NO_READ_GLOBALS | TCG_CALL_NO_WRITE_GLOBALS))) {
+                 for (i = 0; i < nb_globals; i++) {
+                     if (test_bit(i, temps_used.l)) {
+-                        reset_ts(&s->temps[i]);
++                        reset_ts(tcg_temp(s, i));
+                     }
+                 }
+             }
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 4a8dfb8f67..7284209cff 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -824,10 +824,10 @@ void tcg_register_thread(void)
+ 
+     /* Relink mem_base.  */
+     for (i = 0, n = tcg_init_ctx.nb_globals; i < n; ++i) {
+-        if (tcg_init_ctx.temps[i].mem_base) {
+-            ptrdiff_t b = tcg_init_ctx.temps[i].mem_base - tcg_init_ctx.temps;
+-            tcg_debug_assert(b >= 0 && b < n);
+-            s->temps[i].mem_base = &s->temps[b];
++        TCGTemp *its = tcg_temp(&tcg_init_ctx, i);
++        if (its->mem_base) {
++            TCGTemp *ots = tcg_temp(s, i);
++            ots->mem_base = tcg_temp(s, temp_idx(its->mem_base));
+         }
+     }
+ 
+@@ -1332,7 +1332,7 @@ TCGTemp *tcg_temp_new_internal(TCGType type, bool temp_local)
+         /* There is already an available temp with the right type.  */
+         clear_bit(idx, s->free_temps[k].l);
+ 
+-        ts = &s->temps[idx];
++        ts = tcg_temp(s, idx);
+         ts->temp_allocated = 1;
+         tcg_debug_assert(ts->base_type == type);
+         tcg_debug_assert(ts->kind == kind);
+@@ -2016,7 +2016,7 @@ static void tcg_reg_alloc_start(TCGContext *s)
+     int i, n;
+ 
+     for (i = 0, n = s->nb_temps; i < n; i++) {
+-        TCGTemp *ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
+         TCGTempVal val = TEMP_VAL_MEM;
+ 
+         switch (ts->kind) {
+@@ -2654,12 +2654,14 @@ static void la_func_end(TCGContext *s, int ng, int nt)
+     int i;
+ 
+     for (i = 0; i < ng; ++i) {
+-        s->temps[i].state = TS_DEAD | TS_MEM;
+-        la_reset_pref(&s->temps[i]);
++        TCGTemp *ts = tcg_temp(s, i);
++        ts->state = TS_DEAD | TS_MEM;
++        la_reset_pref(ts);
+     }
+     for (i = ng; i < nt; ++i) {
+-        s->temps[i].state = TS_DEAD;
+-        la_reset_pref(&s->temps[i]);
++        TCGTemp *ts = tcg_temp(s, i);
++        ts->state = TS_DEAD;
++        la_reset_pref(ts);
+     }
+ }
+ 
+@@ -2670,7 +2672,7 @@ static void la_bb_end(TCGContext *s, int ng, int nt)
+     int i;
+ 
+     for (i = 0; i < nt; ++i) {
+-        TCGTemp *ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
+         int state;
+ 
+         switch (ts->kind) {
+@@ -2697,11 +2699,13 @@ static void la_global_sync(TCGContext *s, int ng)
+     int i;
+ 
+     for (i = 0; i < ng; ++i) {
+-        int state = s->temps[i].state;
+-        s->temps[i].state = state | TS_MEM;
++        TCGTemp *ts = tcg_temp(s, i);
++        int state = ts->state;
++
++        ts->state = state | TS_MEM;
+         if (state == TS_DEAD) {
+             /* If the global was previously dead, reset prefs.  */
+-            la_reset_pref(&s->temps[i]);
++            la_reset_pref(ts);
+         }
+     }
+ }
+@@ -2715,7 +2719,7 @@ static void la_bb_sync(TCGContext *s, int ng, int nt)
+     la_global_sync(s, ng);
+ 
+     for (int i = ng; i < nt; ++i) {
+-        TCGTemp *ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
+         int state;
+ 
+         switch (ts->kind) {
+@@ -2727,14 +2731,14 @@ static void la_bb_sync(TCGContext *s, int ng, int nt)
+             }
+             break;
+         case TEMP_NORMAL:
+-            s->temps[i].state = TS_DEAD;
++            ts->state = TS_DEAD;
+             break;
+         case TEMP_CONST:
+             continue;
+         default:
+             g_assert_not_reached();
+         }
+-        la_reset_pref(&s->temps[i]);
++        la_reset_pref(ts);
+     }
+ }
+ 
+@@ -2744,8 +2748,9 @@ static void la_global_kill(TCGContext *s, int ng)
+     int i;
+ 
+     for (i = 0; i < ng; i++) {
+-        s->temps[i].state = TS_DEAD | TS_MEM;
+-        la_reset_pref(&s->temps[i]);
++        TCGTemp *ts = tcg_temp(s, i);
++        ts->state = TS_DEAD | TS_MEM;
++        la_reset_pref(ts);
+     }
+ }
+ 
+@@ -2756,7 +2761,8 @@ static void la_cross_call(TCGContext *s, int nt)
+     int i;
+ 
+     for (i = 0; i < nt; i++) {
+-        TCGTemp *ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
++
+         if (!(ts->state & TS_DEAD)) {
+             TCGRegSet *pset = la_temp_pref(ts);
+             TCGRegSet set = *pset;
+@@ -2784,7 +2790,8 @@ static void liveness_pass_1(TCGContext *s)
+ 
+     prefs = tcg_malloc(sizeof(TCGRegSet) * nb_temps);
+     for (i = 0; i < nb_temps; ++i) {
+-        s->temps[i].state_ptr = prefs + i;
++        TCGTemp *ts = tcg_temp(s, i);
++        ts->state_ptr = prefs + i;
+     }
+ 
+     /* ??? Should be redundant with the exit_tb that ends the TB.  */
+@@ -3094,7 +3101,7 @@ static bool liveness_pass_2(TCGContext *s)
+ 
+     /* Create a temporary for each indirect global.  */
+     for (i = 0; i < nb_globals; ++i) {
+-        TCGTemp *its = &s->temps[i];
++        TCGTemp *its = tcg_temp(s, i);
+         if (its->indirect_reg) {
+             TCGTemp *dts = tcg_temp_alloc(s);
+             dts->type = its->type;
+@@ -3107,7 +3114,7 @@ static bool liveness_pass_2(TCGContext *s)
+         its->state = TS_DEAD;
+     }
+     for (nb_temps = s->nb_temps; i < nb_temps; ++i) {
+-        TCGTemp *its = &s->temps[i];
++        TCGTemp *its = tcg_temp(s, i);
+         its->state_ptr = NULL;
+         its->state = TS_DEAD;
+     }
+@@ -3190,7 +3197,7 @@ static bool liveness_pass_2(TCGContext *s)
+             for (i = 0; i < nb_globals; ++i) {
+                 /* Liveness should see that globals are synced back,
+                    that is, either TS_DEAD or TS_MEM.  */
+-                arg_ts = &s->temps[i];
++                arg_ts = tcg_temp(s, i);
+                 tcg_debug_assert(arg_ts->state_ptr == 0
+                                  || arg_ts->state != 0);
+             }
+@@ -3198,7 +3205,7 @@ static bool liveness_pass_2(TCGContext *s)
+             for (i = 0; i < nb_globals; ++i) {
+                 /* Liveness should see that globals are saved back,
+                    that is, TS_DEAD, waiting to be reloaded.  */
+-                arg_ts = &s->temps[i];
++                arg_ts = tcg_temp(s, i);
+                 tcg_debug_assert(arg_ts->state_ptr == 0
+                                  || arg_ts->state == TS_DEAD);
+             }
+@@ -3277,12 +3284,11 @@ static bool liveness_pass_2(TCGContext *s)
+ #ifdef CONFIG_DEBUG_TCG
+ static void dump_regs(TCGContext *s)
+ {
+-    TCGTemp *ts;
+     int i;
+     char buf[64];
+ 
+     for(i = 0; i < s->nb_temps; i++) {
+-        ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
+         printf("  %10s: ", tcg_get_arg_str_ptr(s, buf, sizeof(buf), ts));
+         switch(ts->val_type) {
+         case TEMP_VAL_REG:
+@@ -3332,7 +3338,7 @@ static void check_regs(TCGContext *s)
+         }
+     }
+     for (k = 0; k < s->nb_temps; k++) {
+-        ts = &s->temps[k];
++        ts = tcg_temp(s, k);
+         if (ts->val_type == TEMP_VAL_REG
+             && ts->kind != TEMP_FIXED
+             && s->reg_to_temp[ts->reg] != ts) {
+@@ -3594,7 +3600,7 @@ static void save_globals(TCGContext *s, TCGRegSet allocated_regs)
+     int i, n;
+ 
+     for (i = 0, n = s->nb_globals; i < n; i++) {
+-        temp_save(s, &s->temps[i], allocated_regs);
++        temp_save(s, tcg_temp(s, i), allocated_regs);
+     }
+ }
+ 
+@@ -3606,7 +3612,7 @@ static void sync_globals(TCGContext *s, TCGRegSet allocated_regs)
+     int i, n;
+ 
+     for (i = 0, n = s->nb_globals; i < n; i++) {
+-        TCGTemp *ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
+         tcg_debug_assert(ts->val_type != TEMP_VAL_REG
+                          || ts->kind == TEMP_FIXED
+                          || ts->mem_coherent);
+@@ -3620,7 +3626,7 @@ static void tcg_reg_alloc_bb_end(TCGContext *s, TCGRegSet allocated_regs)
+     int i;
+ 
+     for (i = s->nb_globals; i < s->nb_temps; i++) {
+-        TCGTemp *ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
+ 
+         switch (ts->kind) {
+         case TEMP_LOCAL:
+@@ -3652,7 +3658,8 @@ static void tcg_reg_alloc_cbranch(TCGContext *s, TCGRegSet allocated_regs)
+     sync_globals(s, allocated_regs);
+ 
+     for (int i = s->nb_globals; i < s->nb_temps; i++) {
+-        TCGTemp *ts = &s->temps[i];
++        TCGTemp *ts = tcg_temp(s, i);
++
+         /*
+          * The liveness analysis already ensures that temps are dead.
+          * Keep tcg_debug_asserts for safety.
 -- 
-Best regards,
-Vladimir
+2.25.1
+
 
