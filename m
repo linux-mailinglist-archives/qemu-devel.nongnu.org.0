@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EB702FBAC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:13:00 +0100 (CET)
-Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710EC2FBAD3
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:15:26 +0100 (CET)
+Received: from localhost ([::1]:59232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1sgk-0008HG-M3
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:12:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52820)
+	id 1l1sj5-0003Pn-U8
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:15:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1seG-0006V7-MX
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:10:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l1seD-0000vu-9B
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:10:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611069018;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=OP4y+Hov+rqklC6MCtRNidT24dXAxw0UihFmRAbZ+Eg=;
- b=MMCe1CnPc17OJaMVedcNVkTZe90d+8aLQQqjOFwkMxLd6SqAsIyRIuGudGBSLC4s0bICXk
- CHBG+GoPtYVLV732NNUl2bYXd8Pd7kesSwDWyMox7BMLyeapXZBijHC4uIu/wb3LfW7W6x
- UIQQA2Jjco8chtD8XcfkyEzi6rXYD1E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-591-HZYCaT5FN3C0BXGFJlrQJg-1; Tue, 19 Jan 2021 10:10:16 -0500
-X-MC-Unique: HZYCaT5FN3C0BXGFJlrQJg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 264AA1005513
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 15:10:15 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C3647177F8;
- Tue, 19 Jan 2021 15:10:13 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 404A7113865F; Tue, 19 Jan 2021 16:10:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 02/25] qemu-option: move help handling to
- get_opt_name_value
-References: <20210118163113.780171-1-pbonzini@redhat.com>
- <20210118163113.780171-3-pbonzini@redhat.com>
-Date: Tue, 19 Jan 2021 16:10:12 +0100
-In-Reply-To: <20210118163113.780171-3-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Mon, 18 Jan 2021 11:30:50 -0500")
-Message-ID: <87y2gpvu7f.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1sf1-0007KF-0T
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:12 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38478)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1sey-000183-DG
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:11:10 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id a9so16621495wrt.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:11:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Eul6bbu4Izl6G6mF6Kh7XfNVnLHrdyeUf2tXfwmffoY=;
+ b=QCPvonxK6BMEZxGLDyHOtQOwW3NPD91mWgXLTPxURFu3s8LOQgeUKqwR1+VgkdIjQE
+ 5Nnwrs4JjNMcZoej2BMKt0dzogUp0OnK6kSU9SCUuVMWzf2DKUSmK/7Fce0gI41kMsu0
+ dWjaIubJDe0TJKuXi/xRa5GboQtwW6IhBBKrys256PqTWoAMKCimL2GwyQhE09V/TfxX
+ ohFTDwZ29ACrAiisEF/RZGegCQ1At3SV3YJ0v794UgYEoDin8TTCAT3CIvtjvS9VXN7i
+ APEn+GPgoU+2NtcylzsAZn0emm4uVUsYTsm2M/aOEWUHOR8xaAphH9BmamXOWDY7EwPR
+ 1XFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Eul6bbu4Izl6G6mF6Kh7XfNVnLHrdyeUf2tXfwmffoY=;
+ b=kl6H34jOIoeV/sE+tYdWndD3TY6ZCJBvXHPiVMrUSfrEXYP8IsXG/soXT2njv9W3Xv
+ uS7mmne/OvDgZf1LjE87YWC/+frrvSXQt/BiUOfDI39Wkzz7VnO1ddSCuJJE+S/eHjA8
+ wI6PDOhIVozZ34oB1cvHaWa3q8Wl/V5TD8Fad3f/pv5tju1FKa+NfyKpFqirWVb1tVzd
+ NG4Mu2Ss/Lme7bj9jnVsQWxw6RHsJ8WmuCC49f/jaC/O6XhQZjP3B/5jIYuwaWOxvBhi
+ LXZC+3tsWvbtNk92TjJOEaqUGW1b9yvwPP68vHMnuqZ/OlKJka8oFeRCjTYzfmzestsD
+ BK3Q==
+X-Gm-Message-State: AOAM5336CXOHjZtCgQlfTUnQY4lXl7mjI/jjNAmE71ziT80lUzstA465
+ BpgwuP8bVE6Ox5cbWvKOJF0aMP2HNhUeVA==
+X-Google-Smtp-Source: ABdhPJwpxKPb48p1ZtUKptl8FoSGfzhSQpmhPSZEry+fhZGxICUfLV0YzUN62UBwTEHXeA6uULXPzg==
+X-Received: by 2002:adf:ef51:: with SMTP id c17mr4899844wrp.101.1611069066516; 
+ Tue, 19 Jan 2021 07:11:06 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id a184sm4843699wme.35.2021.01.19.07.11.05
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 19 Jan 2021 07:11:06 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/33] target-arm queue
+Date: Tue, 19 Jan 2021 15:10:31 +0000
+Message-Id: <20210119151104.16264-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,214 +82,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
+Arm pullreq: Rémi's ARMv8.4-SEL2 support is the big thing here.
 
-> Right now, help options are parsed normally and then checked
-> specially in opt_validate, but only if coming from
-> qemu_opts_parse_noisily.  has_help_option does the check on its own.
->
-> opt_validate() has two callers: qemu_opt_set(), which passes null and is
-> therefore unaffected, and opts_do_parse(), which is affected.
->
-> opts_do_parse() is called by qemu_opts_do_parse(), which passes null and
-> is therefore unaffected, and opts_parse().
->
-> opts_parse() is called by qemu_opts_parse() and qemu_opts_set_defaults(),
-> which pass null and are therefore unaffected, and
-> qemu_opts_parse_noisily().
->
-> Move the check from opt_validate to the parsing workhorse of QemuOpts,
-> get_opt_name_value.  This will come in handy in the next patch, which
-> will raise a warning for "-object memory-backend-ram,share" ("flag" option
-> with no =on/=off part) but not for "-object memory-backend-ram,help".
->
-> As a result:
->
-> - opts_parse and opts_do_parse do not return an error anymore
->   when help is requested; qemu_opts_parse_noisily does not have
->   to work around that anymore.
->
-> - various crazy ways to request help are not recognized anymore:
->   - "help=..."
->   - "nohelp" (sugar for "help=off")
->   - "?=..."
->   - "no?" (sugar for "?=off")
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  util/qemu-option.c | 38 +++++++++++++++++++++++---------------
->  1 file changed, 23 insertions(+), 15 deletions(-)
->
-> diff --git a/util/qemu-option.c b/util/qemu-option.c
-> index 91f4120ce1..5f27d4369d 100644
-> --- a/util/qemu-option.c
-> +++ b/util/qemu-option.c
-> @@ -496,8 +496,7 @@ static QemuOpt *opt_create(QemuOpts *opts, const char *name, char *value,
->      return opt;
->  }
->  
-> -static bool opt_validate(QemuOpt *opt, bool *help_wanted,
-> -                         Error **errp)
-> +static bool opt_validate(QemuOpt *opt, Error **errp)
->  {
->      const QemuOptDesc *desc;
->      const QemuOptsList *list = opt->opts->list;
-> @@ -505,9 +504,6 @@ static bool opt_validate(QemuOpt *opt, bool *help_wanted,
->      desc = find_desc_by_name(list->desc, opt->name);
->      if (!desc && !opts_accepts_any(list)) {
->          error_setg(errp, QERR_INVALID_PARAMETER, opt->name);
-> -        if (help_wanted && is_help_option(opt->name)) {
-> -            *help_wanted = true;
-> -        }
->          return false;
->      }
->  
-> @@ -524,7 +520,7 @@ bool qemu_opt_set(QemuOpts *opts, const char *name, const char *value,
->  {
->      QemuOpt *opt = opt_create(opts, name, g_strdup(value), false);
->  
-> -    if (!opt_validate(opt, NULL, errp)) {
-> +    if (!opt_validate(opt, errp)) {
->          qemu_opt_del(opt);
->          return false;
->      }
-> @@ -760,10 +756,12 @@ void qemu_opts_print(QemuOpts *opts, const char *separator)
->  
->  static const char *get_opt_name_value(const char *params,
->                                        const char *firstname,
-> +                                      bool *help_wanted,
->                                        char **name, char **value)
->  {
->      const char *p;
->      size_t len;
-> +    bool is_help = false;
->  
->      len = strcspn(params, "=,");
->      if (params[len] != '=') {
-> @@ -780,6 +778,7 @@ static const char *get_opt_name_value(const char *params,
->                  *value = g_strdup("off");
->              } else {
->                  *value = g_strdup("on");
-> +                is_help = is_help_option(*name);
->              }
->          }
->      } else {
-> @@ -791,6 +790,9 @@ static const char *get_opt_name_value(const char *params,
->      }
->  
->      assert(!*p || *p == ',');
-> +    if (help_wanted && is_help) {
-> +        *help_wanted = true;
+thanks
+-- PMM
 
-Note [1] for later: we only ever set *help_wanted to true.
+The following changes since commit f1fcb6851aba6dd9838886dc179717a11e344a1c:
 
-> +    }
->      if (*p == ',') {
->          p++;
->      }
-> @@ -806,7 +808,12 @@ static bool opts_do_parse(QemuOpts *opts, const char *params,
->      QemuOpt *opt;
->  
->      for (p = params; *p;) {
-> -        p = get_opt_name_value(p, firstname, &option, &value);
-> +        p = get_opt_name_value(p, firstname, help_wanted, &option, &value);
-> +        if (help_wanted && *help_wanted) {
-> +            g_free(option);
-> +            g_free(value);
-> +            return false;
-> +        }
->          firstname = NULL;
->  
->          if (!strcmp(option, "id")) {
-> @@ -817,7 +824,7 @@ static bool opts_do_parse(QemuOpts *opts, const char *params,
->  
->          opt = opt_create(opts, option, value, prepend);
->          g_free(option);
-> -        if (!opt_validate(opt, help_wanted, errp)) {
-> +        if (!opt_validate(opt, errp)) {
->              qemu_opt_del(opt);
->              return false;
->          }
-> @@ -832,7 +839,7 @@ static char *opts_parse_id(const char *params)
->      char *name, *value;
->  
->      for (p = params; *p;) {
-> -        p = get_opt_name_value(p, NULL, &name, &value);
-> +        p = get_opt_name_value(p, NULL, NULL, &name, &value);
->          if (!strcmp(name, "id")) {
->              g_free(name);
->              return value;
-> @@ -848,11 +855,10 @@ bool has_help_option(const char *params)
->  {
->      const char *p;
->      char *name, *value;
-> -    bool ret;
-> +    bool ret = false;
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2021-01-19' into staging (2021-01-19 11:57:07 +0000)
 
-This initializer is required due to [1].
->  
->      for (p = params; *p;) {
-> -        p = get_opt_name_value(p, NULL, &name, &value);
-> -        ret = is_help_option(name);
-> +        p = get_opt_name_value(p, NULL, &ret, &name, &value);
->          g_free(name);
->          g_free(value);
->          if (ret) {
+are available in the Git repository at:
 
-Works, but I'd prefer get_opt_name_value() to always set *help_wanted
-when help_wanted isn't null.  Up to you.
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210119
 
-> @@ -937,11 +943,13 @@ QemuOpts *qemu_opts_parse_noisily(QemuOptsList *list, const char *params,
->      QemuOpts *opts;
->      bool help_wanted = false;
->  
-> -    opts = opts_parse(list, params, permit_abbrev, false, &help_wanted, &err);
-> -    if (err) {
-> +    opts = opts_parse(list, params, permit_abbrev, false,
-> +                      opts_accepts_any(list) ? NULL : &help_wanted,
-> +                      &err);
-> +    if (!opts) {
-> +        assert(!!err + !!help_wanted == 1);
+for you to fetch changes up to 6d39956891b3d1857af84f72f0230a6d99eb3b6a:
 
-Either err or help_wanted.  This is logical inequality.  I'd write it as
+  docs: Build and install all the docs in a single manual (2021-01-19 14:38:53 +0000)
 
-           assert(!err != !help_wanted);
+----------------------------------------------------------------
+target-arm queue:
+ * Implement IMPDEF pauth algorithm
+ * Support ARMv8.4-SEL2
+ * Fix bug where we were truncating predicate vector lengths in SVE insns
+ * Implement new pvpanic-pci device
+ * npcm7xx_adc-test: Fix memleak in adc_qom_set
+ * target/arm/m_helper: Silence GCC 10 maybe-uninitialized error
+ * docs: Build and install all the docs in a single manual
 
-or maybe as
+----------------------------------------------------------------
+Gan Qixin (1):
+      npcm7xx_adc-test: Fix memleak in adc_qom_set
 
-           assert(!err ^ !help_wanted);
+Mihai Carabas (4):
+      hw/misc/pvpanic: split-out generic and bus dependent code
+      hw/misc/pvpanic: add PCI interface support
+      pvpanic : update pvpanic spec document
+      tests/qtest: add a test case for pvpanic-pci
 
-But your artistic license applies.
+Peter Maydell (1):
+      docs: Build and install all the docs in a single manual
 
->          if (help_wanted) {
->              qemu_opts_print_help(list, true);
-> -            error_free(err);
->          } else {
->              error_report_err(err);
->          }
+Philippe Mathieu-Daudé (1):
+      target/arm/m_helper: Silence GCC 10 maybe-uninitialized error
 
-Before the patch, we recognize help requests only if they aren't
-captured by a (foolishly named) parameter name.
+Richard Henderson (7):
+      target/arm: Implement an IMPDEF pauth algorithm
+      target/arm: Add cpu properties to control pauth
+      target/arm: Use object_property_add_bool for "sve" property
+      target/arm: Introduce PREDDESC field definitions
+      target/arm: Update PFIRST, PNEXT for pred_desc
+      target/arm: Update ZIP, UZP, TRN for pred_desc
+      target/arm: Update REV, PUNPK for pred_desc
 
-Afterwards, we recognize only sane help requests regardless of
-parameters.  In other words:
+Rémi Denis-Courmont (19):
+      target/arm: remove redundant tests
+      target/arm: add arm_is_el2_enabled() helper
+      target/arm: use arm_is_el2_enabled() where applicable
+      target/arm: use arm_hcr_el2_eff() where applicable
+      target/arm: factor MDCR_EL2 common handling
+      target/arm: Define isar_feature function to test for presence of SEL2
+      target/arm: add 64-bit S-EL2 to EL exception table
+      target/arm: add MMU stage 1 for Secure EL2
+      target/arm: add ARMv8.4-SEL2 system registers
+      target/arm: handle VMID change in secure state
+      target/arm: do S1_ptw_translate() before address space lookup
+      target/arm: translate NS bit in page-walks
+      target/arm: generalize 2-stage page-walk condition
+      target/arm: secure stage 2 translation regime
+      target/arm: set HPFAR_EL2.NS on secure stage 2 faults
+      target/arm: revector to run-time pick target EL
+      target/arm: Implement SCR_EL2.EEL2
+      target/arm: enable Secure EL2 in max CPU
+      target/arm: refactor vae1_tlbmask()
 
-  - various crazy ways to request help are not recognized anymore:
-    - "help=..."
-    - "nohelp" (sugar for "help=off")
-    - "?=..."
-    - "no?" (sugar for "?=off")
-
-  - "help" is recognized as help request even if there is a (foolishly
-    named) parameter "help".  No such parameters exist.
-
-Let's add the last item to the commit message, too.
-
-Preferably with the commit message amended:
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-
+ docs/conf.py                     |  46 ++++-
+ docs/devel/conf.py               |  15 --
+ docs/index.html.in               |  17 --
+ docs/interop/conf.py             |  28 ---
+ docs/meson.build                 |  64 +++---
+ docs/specs/conf.py               |  16 --
+ docs/specs/pci-ids.txt           |   1 +
+ docs/specs/pvpanic.txt           |  13 +-
+ docs/system/arm/cpu-features.rst |  21 ++
+ docs/system/conf.py              |  28 ---
+ docs/tools/conf.py               |  37 ----
+ docs/user/conf.py                |  15 --
+ include/hw/misc/pvpanic.h        |  24 ++-
+ include/hw/pci/pci.h             |   1 +
+ include/qemu/xxhash.h            |  98 +++++++++
+ target/arm/cpu-param.h           |   2 +-
+ target/arm/cpu.h                 | 107 ++++++++--
+ target/arm/internals.h           |  45 +++++
+ hw/misc/pvpanic-isa.c            |  94 +++++++++
+ hw/misc/pvpanic-pci.c            |  95 +++++++++
+ hw/misc/pvpanic.c                |  85 +-------
+ target/arm/cpu.c                 |  23 ++-
+ target/arm/cpu64.c               |  65 ++++--
+ target/arm/helper-a64.c          |   8 +-
+ target/arm/helper.c              | 414 ++++++++++++++++++++++++++-------------
+ target/arm/m_helper.c            |   2 +-
+ target/arm/monitor.c             |   1 +
+ target/arm/op_helper.c           |   4 +-
+ target/arm/pauth_helper.c        |  27 ++-
+ target/arm/sve_helper.c          |  33 ++--
+ target/arm/tlb_helper.c          |   3 +
+ target/arm/translate-a64.c       |   4 +
+ target/arm/translate-sve.c       |  31 ++-
+ target/arm/translate.c           |  36 +++-
+ tests/qtest/arm-cpu-features.c   |  13 ++
+ tests/qtest/npcm7xx_adc-test.c   |   1 +
+ tests/qtest/pvpanic-pci-test.c   |  62 ++++++
+ .gitlab-ci.yml                   |   4 +-
+ hw/i386/Kconfig                  |   2 +-
+ hw/misc/Kconfig                  |  12 +-
+ hw/misc/meson.build              |   4 +-
+ tests/qtest/meson.build          |   3 +-
+ 42 files changed, 1080 insertions(+), 524 deletions(-)
+ delete mode 100644 docs/devel/conf.py
+ delete mode 100644 docs/index.html.in
+ delete mode 100644 docs/interop/conf.py
+ delete mode 100644 docs/specs/conf.py
+ delete mode 100644 docs/system/conf.py
+ delete mode 100644 docs/tools/conf.py
+ delete mode 100644 docs/user/conf.py
+ create mode 100644 hw/misc/pvpanic-isa.c
+ create mode 100644 hw/misc/pvpanic-pci.c
+ create mode 100644 tests/qtest/pvpanic-pci-test.c
 
