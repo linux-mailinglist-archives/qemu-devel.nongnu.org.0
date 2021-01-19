@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AFE62FB611
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 13:25:23 +0100 (CET)
-Received: from localhost ([::1]:43684 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B262FB612
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 13:26:46 +0100 (CET)
+Received: from localhost ([::1]:46190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1q4Y-00007X-3B
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 07:25:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58826)
+	id 1l1q5t-0001LA-BB
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 07:26:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59072)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l1q2u-0007eb-3d
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:23:40 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:58254 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l1q2s-0007TK-1Q
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:23:39 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 7163F4137A;
- Tue, 19 Jan 2021 12:23:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1611059012;
- x=1612873413; bh=pDYJS0gO90u8YkM1qU2yz31QNFOA+xsmFGPcHTnq7sY=; b=
- oTBFURRwoKg0lwlo6zOBe87kosGMRhzEzRw/hZ6q0rQn1Xf5D/9xHO1f3EYNtRG3
- GQ3J7Ov4atGQCVJXDJa/kIJUVt+KWSCX3exkKDfMW7HUrAW0UBtO4UnnL2djhdeq
- 6hs7APRcVXYfZUmvqNceW/nbErqnqxbJ3pM9bmQrqto=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id H0tB3nBoFj-S; Tue, 19 Jan 2021 15:23:32 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id BC38441370;
- Tue, 19 Jan 2021 15:23:32 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 19
- Jan 2021 15:23:32 +0300
-Date: Tue, 19 Jan 2021 15:23:31 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Hill Ma <maahiuzeon@gmail.com>
-Subject: Re: [PATCH v3] hvf: guard xgetbv call.
-Message-ID: <YAbPQ/Uv/RXax9tt@SPB-NB-133.local>
-References: <X/6OJ7qk0W6bHkHQ@Hills-Mac-Pro.local>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l1q4U-0000RQ-F7
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:25:18 -0500
+Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43072)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l1q4Q-0007hZ-E0
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 07:25:18 -0500
+Received: by mail-ed1-x52b.google.com with SMTP id n6so6182236edt.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:25:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ROQS75CwoeGHnrR7zarYxU5G5UH2xxKfLscH/Gg5QdE=;
+ b=kkrvcrvbBlX+crUQ+r+A55sqSj62075u/mnOj3C0ePK8mG1WTqsoTrJqAQ25VX8MXG
+ yMrnRNPje6JsqwbAPaWVfHQb3/22jVt/mqfzxAQTJhruLRIlKQCKGoeU0sBTJwQP1HCa
+ rOcw8yUkyukDety/cTlEtMLxUfHMwS5M40QWvMuxxFk4YnJhoPM5vov7Nh4jDF4d+u4a
+ 3QnA59YyKisOBspB29KSJdp28V1r+UP0ROw9xBMOlljHnX9HCS6bJ1nFK2aDbTrIZc1n
+ caimeCUkk5GTKt/sSPPzfFZ2hYVgvhXFqkpkFcUijG/iwftb6y0+CNxjz5GP+z05ICjR
+ NNmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ROQS75CwoeGHnrR7zarYxU5G5UH2xxKfLscH/Gg5QdE=;
+ b=aKx0PrzOhdsoEolZjq99cvbzgzlUgzI1zGIfEF2Q5bncN0wN947IU35ioDTr2PQLf4
+ Klkicw1tZiAd2xfYs1GWApkSH7kvQrlAreYmoqgbouHlw7+2OojjNpZuwdPQuiqRl9Ox
+ gvqdXCJUXTMJ+m5QoMDRf8D5gpa8sJE7dtSnifCH1vA+0aNo5UWMl82mxK7GKEzMFwHE
+ OVSAQ+cSZjUVhYbSboFFw5ryYqMDMFwzgY4K6dp1gXrOGmXSHMMmvGNlQJyfKLwPSuwz
+ sAGG/d6A1GQGSuHwdOoAtx2pkYd+4OPomZh1pWHoP8RVgJ46pQBE9zjUaIgIurrC0B+V
+ RNyg==
+X-Gm-Message-State: AOAM530BRFwpMCBSWbNYz8neaSr7GFfE0r+KG9Ct187ZPEE1PtnUf+J3
+ wF/Qlm12tovtL0lt8rOjQZ001ssn0raPlFz9v+k=
+X-Google-Smtp-Source: ABdhPJzHDs60D/FPksD2fKMnYzpdvKuaFeZNJGwjoMWOzYFeZuoCfgCy8Mrq3MwTzT2SwaadICS3o/OfR7sZRXg2e3U=
+X-Received: by 2002:aa7:d4d7:: with SMTP id t23mr3054318edr.321.1611059112466; 
+ Tue, 19 Jan 2021 04:25:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <X/6OJ7qk0W6bHkHQ@Hills-Mac-Pro.local>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+References: <93d438bc-4e41-5d97-9759-bfbf455fcf83@redhat.com>
+In-Reply-To: <93d438bc-4e41-5d97-9759-bfbf455fcf83@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 19 Jan 2021 20:25:01 +0800
+Message-ID: <CAEUhbmWrp_GfZbH9fUZw_in2FuxD-Azmaoy7ytP87XvU+zpA-g@mail.gmail.com>
+Subject: Re: git://git.qemu.org/qemu.git now pulls from gitlab
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,85 +76,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: richard.henderson@linaro.org, qemu-devel@nongnu.org, dirty@apple.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 10:07:35PM -0800, Hill Ma wrote:
-> This prevents illegal instruction on cpus do not support xgetbv.
-> 
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1758819
-> Signed-off-by: Hill Ma <maahiuzeon@gmail.com>
-> ---
-> v3: addressed feedback.
-> v2: xgetbv() modified based on feedback.
-> 
->  target/i386/hvf/x86_cpuid.c | 34 ++++++++++++++++++++++------------
->  1 file changed, 22 insertions(+), 12 deletions(-)
-> 
+On Tue, Jan 19, 2021 at 8:01 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The qemu.git repository on git.qemu.org is now a mirror of gitlab. The
+> git mirror is updated every 15 minutes.
+>
+> New changes to qemu.git therefore must go through
+> git@gitlab.com:qemu-project/qemu.git.
+>
+> As a result, the "qemu" and "qemu-stable" groups on the qemu.org server
+> do not exist anymore.  The following repositories are now read only (no
+> one can push to them):
+>
+> - qemu-jeos.git (last commit Wed Jan 18 10:22:32 2012 -0600)
+> - qemu-stable-0.10.git (last commit Mon Aug 31 04:58:19 2009 -0400)
+> - qemu-stable-0.14.git (last commit Wed May 4 13:50:56 2011 -0500)
+> - qemu-stable-0.15.git (last commit Thu Nov 22 17:19:35 2012 +0100)
+> - qemu-stable-1.0.git (last commit Sun Feb 19 16:31:27 2012 -0600)
+> - qemu-stable-1.1.git (last commit Wed Sep 5 10:38:39 2012 -0500)
+> - qemu-stable-1.2.git (last commit Tue Dec 11 15:09:44 2012 -0600)
+> - qemu-stable-1.3.git (last commit Mon Jan 28 10:38:28 2013 -0600)
+> - qemu-stable-1.4.git (last commit Thu May 23 17:12:44 2013 -0500)
 
-Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+I see the following error in a previously cloned repo:
 
-Thanks,
-Roman
+$ git fetch origin
+fatal: remote error: access denied or repository not exported: /qemu.git
 
-> diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
-> index a6842912f5..32b0d131df 100644
-> --- a/target/i386/hvf/x86_cpuid.c
-> +++ b/target/i386/hvf/x86_cpuid.c
-> @@ -27,15 +27,22 @@
->  #include "vmx.h"
->  #include "sysemu/hvf.h"
->  
-> -static uint64_t xgetbv(uint32_t xcr)
-> +static bool xgetbv(uint32_t cpuid_ecx, uint32_t idx, uint64_t *xcr)
->  {
-> -    uint32_t eax, edx;
-> +    uint32_t xcrl, xcrh;
->  
-> -    __asm__ volatile ("xgetbv"
-> -                      : "=a" (eax), "=d" (edx)
-> -                      : "c" (xcr));
-> +    if (cpuid_ecx & CPUID_EXT_OSXSAVE) {
-> +        /*
-> +         * The xgetbv instruction is not available to older versions of
-> +         * the assembler, so we encode the instruction manually.
-> +         */
-> +        asm(".byte 0x0f, 0x01, 0xd0" : "=a" (xcrl), "=d" (xcrh) : "c" (idx));
->  
-> -    return (((uint64_t)edx) << 32) | eax;
-> +        *xcr = (((uint64_t)xcrh) << 32) | xcrl;
-> +        return true;
-> +    }
-> +
-> +    return false;
->  }
->  
->  uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-> @@ -100,12 +107,15 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
->          break;
->      case 0xD:
->          if (idx == 0) {
-> -            uint64_t host_xcr0 = xgetbv(0);
-> -            uint64_t supp_xcr0 = host_xcr0 & (XSTATE_FP_MASK | XSTATE_SSE_MASK |
-> -                                  XSTATE_YMM_MASK | XSTATE_BNDREGS_MASK |
-> -                                  XSTATE_BNDCSR_MASK | XSTATE_OPMASK_MASK |
-> -                                  XSTATE_ZMM_Hi256_MASK | XSTATE_Hi16_ZMM_MASK);
-> -            eax &= supp_xcr0;
-> +            uint64_t host_xcr0;
-> +            if (xgetbv(ecx, 0, &host_xcr0)) {
-> +                uint64_t supp_xcr0 = host_xcr0 & (XSTATE_FP_MASK |
-> +                                  XSTATE_SSE_MASK | XSTATE_YMM_MASK |
-> +                                  XSTATE_BNDREGS_MASK | XSTATE_BNDCSR_MASK |
-> +                                  XSTATE_OPMASK_MASK | XSTATE_ZMM_Hi256_MASK |
-> +                                  XSTATE_Hi16_ZMM_MASK);
-> +                eax &= supp_xcr0;
-> +            }
->          } else if (idx == 1) {
->              hv_vmx_read_capability(HV_VMX_CAP_PROCBASED2, &cap);
->              eax &= CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XGETBV1;
-> -- 
-> 2.20.1 (Apple Git-117)
-> 
+$ git remote -v
+origin  git://git.qemu.org/qemu.git (fetch)
+origin  git://git.qemu.org/qemu.git (push)
+
+Is this expected?
+
+Looks I need to set-url to the new gitlab URL?
+
+Regards,
+Bin
 
