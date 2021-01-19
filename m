@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1122FBF54
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:48:44 +0100 (CET)
-Received: from localhost ([::1]:47478 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C3C2FBF57
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:50:12 +0100 (CET)
+Received: from localhost ([::1]:49738 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1w3X-0000h5-RA
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:48:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42550)
+	id 1l1w4x-0001mp-Fm
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:50:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLT-0007hA-AA
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52563)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLV-0007ji-DJ
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLQ-0005QM-HJ
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:11 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLT-0005RF-Ek
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611079387;
+ s=mimecast20190719; t=1611079390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1Ai/VlO/RNcCgVu+JEISrd3kFfJr9+Mv+vSzaYWMrxw=;
- b=UetQMcLAtbjOnQ3RtviIi4H/qF9wYFvUJTPd52WEXe4i9ayK11nveO9ZH2zM922s8j3vSj
- ZKOA7+UW1ZG+5EFg7vTonXKTR4e06foEIUiSG/zhvT6NMDCCYx87dkoxO4x+68uVJfy6CW
- WTBdeSjXv/A04Mlnkw7NAjUgRXm6fLs=
+ bh=4BZcb8KNqwK0gahDQWfoq7j5v/5e8ewZXJZ319ijxO0=;
+ b=hj+/v75ZgmD7F+7PiHXKdw/C41u9i3KCJmYOcFHvHQwRMH/WvNMd7rLtNAoryPIJp8/DYy
+ ZwxqYiemwc068YQnU3cmf4XUx7PK1Nn9nDl9tqF5vJiMspw8yU3liIYaNu+FPosbGP/qkD
+ 1XFrK9PCQT6tfHqpvyDz1CGMnem5boA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-296-fOzfxlioPFy8DAygVepY_g-1; Tue, 19 Jan 2021 13:03:01 -0500
-X-MC-Unique: fOzfxlioPFy8DAygVepY_g-1
+ us-mta-310-2ejfURv6NTGd2tTcZIYjDg-1; Tue, 19 Jan 2021 13:03:09 -0500
+X-MC-Unique: 2ejfURv6NTGd2tTcZIYjDg-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D2595180A0AE
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 18:02:56 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2552E107AD47
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 18:02:58 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BB8C75D9DD;
- Tue, 19 Jan 2021 18:02:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 22CF95D9DD;
+ Tue, 19 Jan 2021 18:02:56 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 06/17] qapi: centralize is_[user|system|builtin]_module
- methods
-Date: Tue, 19 Jan 2021 13:02:31 -0500
-Message-Id: <20210119180242.1570753-7-jsnow@redhat.com>
+Subject: [PATCH v3 07/17] qapi/gen: Replace ._begin_system_module()
+Date: Tue, 19 Jan 2021 13:02:32 -0500
+Message-Id: <20210119180242.1570753-8-jsnow@redhat.com>
 In-Reply-To: <20210119180242.1570753-1-jsnow@redhat.com>
 References: <20210119180242.1570753-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,132 +82,68 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Define what a module is and define what kind of a module it is once and
-for all, in one place.
+From: Markus Armbruster <armbru@redhat.com>
 
+QAPISchemaModularCVisitor._begin_system_module() is actually just for
+the builtin module.  Rename it to ._begin_builtin_module() and drop
+its useless @name parameter.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- docs/sphinx/qapidoc.py |  2 +-
- scripts/qapi/gen.py    | 21 +++++++--------------
- scripts/qapi/schema.py | 28 ++++++++++++++++++++++++++--
- 3 files changed, 34 insertions(+), 17 deletions(-)
+ scripts/qapi/gen.py   | 4 ++--
+ scripts/qapi/types.py | 2 +-
+ scripts/qapi/visit.py | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-index f754f675d66..08b9439de2b 100644
---- a/docs/sphinx/qapidoc.py
-+++ b/docs/sphinx/qapidoc.py
-@@ -464,7 +464,7 @@ def __init__(self, env, qapidir):
-         self._qapidir = qapidir
- 
-     def visit_module(self, module):
--        if module.name:
-+        if module.user_module:
-             qapifile = self._qapidir + '/' + module.name
-             self._env.note_dependency(os.path.abspath(qapifile))
-         super().visit_module(module)
 diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index e73d3d61aac..3b7eddc1c21 100644
+index 3b7eddc1c21..9f850d23646 100644
 --- a/scripts/qapi/gen.py
 +++ b/scripts/qapi/gen.py
-@@ -250,21 +250,14 @@ def __init__(self,
-         self._main_module: Optional[str] = None
- 
-     @staticmethod
--    def _is_user_module(name: Optional[str]) -> bool:
--        return bool(name and not name.startswith('./'))
--
--    @staticmethod
--    def _is_builtin_module(name: Optional[str]) -> bool:
--        return not name
--
--    def _module_dirname(self, name: Optional[str]) -> str:
--        if self._is_user_module(name):
-+    def _module_dirname(name: Optional[str]) -> str:
-+        if QAPISchemaModule.is_user_module(name):
-             return os.path.dirname(name)
-         return ''
- 
-     def _module_basename(self, what: str, name: Optional[str]) -> str:
--        ret = '' if self._is_builtin_module(name) else self._prefix
--        if self._is_user_module(name):
-+        ret = '' if QAPISchemaModule.is_builtin_module(name) else self._prefix
-+        if QAPISchemaModule.is_user_module(name):
-             basename = os.path.basename(name)
-             ret += what
-             if name != self._main_module:
-@@ -286,7 +279,7 @@ def _add_module(self, name: Optional[str], blurb: str) -> None:
-         self._genc, self._genh = self._module[name]
- 
-     def _add_user_module(self, name: str, blurb: str) -> None:
--        assert self._is_user_module(name)
-+        assert QAPISchemaModule.is_user_module(name)
-         if self._main_module is None:
-             self._main_module = name
-         self._add_module(name, blurb)
-@@ -296,7 +289,7 @@ def _add_system_module(self, name: Optional[str], blurb: str) -> None:
- 
-     def write(self, output_dir: str, opt_builtins: bool = False) -> None:
-         for name in self._module:
--            if self._is_builtin_module(name) and not opt_builtins:
-+            if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
-                 continue
-             (genc, genh) = self._module[name]
+@@ -295,7 +295,7 @@ def write(self, output_dir: str, opt_builtins: bool = False) -> None:
              genc.write(output_dir)
-@@ -309,7 +302,7 @@ def _begin_user_module(self, name: str) -> None:
+             genh.write(output_dir)
+ 
+-    def _begin_system_module(self, name: None) -> None:
++    def _begin_builtin_module(self) -> None:
          pass
  
-     def visit_module(self, module: QAPISchemaModule) -> None:
--        if module.name is None:
-+        if module.system_module:
+     def _begin_user_module(self, name: str) -> None:
+@@ -305,7 +305,7 @@ def visit_module(self, module: QAPISchemaModule) -> None:
+         if module.system_module:
              if self._builtin_blurb:
                  self._add_system_module(None, self._builtin_blurb)
-                 self._begin_system_module(module.name)
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index 69ba722c084..44a9232c881 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -141,6 +141,30 @@ def __init__(self, name):
-         self.name = name
-         self._entity_list = []
+-                self._begin_system_module(module.name)
++                self._begin_builtin_module()
+             else:
+                 # The built-in module has not been created.  No code may
+                 # be generated.
+diff --git a/scripts/qapi/types.py b/scripts/qapi/types.py
+index 2b4916cdaa1..dbf58c0b91d 100644
+--- a/scripts/qapi/types.py
++++ b/scripts/qapi/types.py
+@@ -271,7 +271,7 @@ def __init__(self, prefix: str):
+             prefix, 'qapi-types', ' * Schema-defined QAPI types',
+             ' * Built-in QAPI types', __doc__)
  
-+    @classmethod
-+    def is_system_module(cls, name: Optional[str]) -> bool:
-+        return name is None or name.startswith('./')
-+
-+    @classmethod
-+    def is_user_module(cls, name: Optional[str]) -> bool:
-+        return not cls.is_system_module(name)
-+
-+    @classmethod
-+    def is_builtin_module(cls, name: str) -> bool:
-+        return name == './builtin'
-+
-+    @property
-+    def system_module(self) -> bool:
-+        return self.is_system_module(self.name)
-+
-+    @property
-+    def user_module(self) -> bool:
-+        return self.is_user_module(self.name)
-+
-+    @property
-+    def builtin_module(self) -> bool:
-+        return self.is_builtin_module(self.name)
-+
-     def add_entity(self, ent):
-         self._entity_list.append(ent)
+-    def _begin_system_module(self, name: None) -> None:
++    def _begin_builtin_module(self) -> None:
+         self._genc.preamble_add(mcgen('''
+ #include "qemu/osdep.h"
+ #include "qapi/dealloc-visitor.h"
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 339f1521524..568ba35592c 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -305,7 +305,7 @@ def __init__(self, prefix: str):
+             prefix, 'qapi-visit', ' * Schema-defined QAPI visitors',
+             ' * Built-in QAPI visitors', __doc__)
  
-@@ -871,8 +895,8 @@ def resolve_type(self, name, info, what):
-         return typ
- 
-     def _module_name(self, fname):
--        if fname is None:
--            return None
-+        if QAPISchemaModule.is_system_module(fname):
-+            return fname
-         return os.path.relpath(fname, self._schema_dir)
- 
-     def _make_module(self, fname):
+-    def _begin_system_module(self, name: None) -> None:
++    def _begin_builtin_module(self) -> None:
+         self._genc.preamble_add(mcgen('''
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
 -- 
 2.26.2
 
