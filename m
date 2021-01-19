@@ -2,95 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09DDA2FB75A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:24:11 +0100 (CET)
-Received: from localhost ([::1]:42194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2902FB7A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:27:09 +0100 (CET)
+Received: from localhost ([::1]:53248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rvW-0001BQ-3W
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:24:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39472)
+	id 1l1ryO-0005jZ-4o
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:27:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40080)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1rsG-0006SM-HK
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:20:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46567)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1rtz-0000Li-PT
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:22:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41340)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1rsE-0001op-NG
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:20:48 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l1rtw-00023b-V9
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:22:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611066045;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1611066152;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2l5EvuQiToRh0uMOYHPiqPiuhdtJUfMUnq2tWs1Wtrs=;
- b=TBQdbHO9CPJfVSZx01GEDSyAHod52zkF9lpE5gnTXK3uXAxxfvdVJwPIQEF+aQN+/+okSC
- VXFuq/WUmipvY6AwP3I96CZisI7jHsEu14KOP+DnF6+PWaAlUNTjMFEif3eu4twgRqH63X
- fmpvoMyxKpWH2dXurwiMcj6z/ekMVfA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-167-DH7maXKIMp2EPHx11MjA9w-1; Tue, 19 Jan 2021 09:20:44 -0500
-X-MC-Unique: DH7maXKIMp2EPHx11MjA9w-1
-Received: by mail-ej1-f70.google.com with SMTP id m4so6328870ejc.14
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:20:44 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=2l5EvuQiToRh0uMOYHPiqPiuhdtJUfMUnq2tWs1Wtrs=;
- b=h0O5unLtcSqTeJevLtReB7R2584x1geG6+RiVzLeZx/w9N1OjuT2avXLRu25Qpg2jL
- zpx4p+5ikC42cT1E1S1wrQOurNQ46WVdVvCgtB4oV0daeXjGk8aFyPQ4zEIhajx/JgUB
- O5C8U5BnonCphxKKBoKPoK6gFC41gLuo5J+PiQ0bJun415rRKptflcGEQ19Vj4fB+J+I
- ai5jMnXJQkKxSi8tlnxJNXZbIeqiBYZfhY6GQpQCyipEuUuelzKouczYZgDcyqV8Upkx
- po3IydmkzksGWL6B3YT7FpGOBnrSgHX4kNlPk+E+eXvZDq2rerJuYFcLUYEHJp0emaQk
- fImg==
-X-Gm-Message-State: AOAM531EqPCS2hLzsOktEKXjYV3YrDC/PadEcI3qwnkBXeKfOlSkpO8M
- 4UBPkV1BlTRkHFOSMpDaRTP/HeDYqO6++HAa6Vg3TLVZ4n8DjIC+FdK0Vl+WNzie6wZaSp04fo5
- yLTo0tUn3S0dGx3U=
-X-Received: by 2002:a17:906:af15:: with SMTP id
- lx21mr3063971ejb.6.1611066043131; 
- Tue, 19 Jan 2021 06:20:43 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw+LsAu4n681BY0KdRoW5vhYIIj40EWlMZ1EMkRXX9K5zpWqECkxNI9jgldqwK8M63ZBZZUCg==
-X-Received: by 2002:a17:906:af15:: with SMTP id
- lx21mr3063959ejb.6.1611066042854; 
- Tue, 19 Jan 2021 06:20:42 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id r7sm10813850ejo.20.2021.01.19.06.20.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 06:20:42 -0800 (PST)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210118163113.780171-1-pbonzini@redhat.com>
- <20210118163113.780171-2-pbonzini@redhat.com>
- <87y2gpxc2q.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 01/25] qemu-option: clean up id vs. list->merge_lists
-Message-ID: <0802f4d3-f9b1-540f-b83a-977c01ce8f62@redhat.com>
-Date: Tue, 19 Jan 2021 15:20:41 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=IRwjWxMFk5xcqeKwRUmXNgpu3xRd7gWXiJ8lkyrMePM=;
+ b=fLOsQVra9W298x40FXwonmkVOudb5VHY9JqOsuql5JSrkSBx/EbdwGZ5wRHp+K0NHcHAo3
+ dKiHWO1d/AIJWmjvmzmTa72Bs38GaskBXLRhl0wFbgxbUNhIkzW6Fib5L/gthlrCLu/SQp
+ GlO1B/20mIKSRBxv8G/O4NKi/1Y1MbY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-238-3M1dYn69MgmM8txPATycRA-1; Tue, 19 Jan 2021 09:22:29 -0500
+X-MC-Unique: 3M1dYn69MgmM8txPATycRA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF0F1180E482;
+ Tue, 19 Jan 2021 14:22:28 +0000 (UTC)
+Received: from redhat.com (ovpn-112-84.ams2.redhat.com [10.36.112.84])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A60860C69;
+ Tue, 19 Jan 2021 14:22:24 +0000 (UTC)
+Date: Tue, 19 Jan 2021 14:22:21 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] tests/check-block.sh: Refuse to run the iotests with
+ BusyBox' sed
+Message-ID: <20210119142221.GE2335568@redhat.com>
+References: <20210119134749.401311-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87y2gpxc2q.fsf@dusky.pond.sub.org>
+In-Reply-To: <20210119134749.401311-1-thuth@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,78 +82,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/01/21 14:58, Markus Armbruster wrote:
->> qemu_machine_opts ("-M")
->> 	qemu_find_opts_singleton("machine")
+On Tue, Jan 19, 2021 at 02:47:49PM +0100, Thomas Huth wrote:
+> BusyBox' sed reports itself as "This is not GNU sed version 4.0"
+> when being run with the --version parameter. However, the iotests
+> really need GNU sed, they do not work with the BusyBox version.
+> So let's make sure that we really have GNU sed and refuse to run
+> the tests with BusyBox' sed.
 > 
-> Gone since your commit 4988a4ea4d "vl: switch -M parsing to keyval".
-
-Which is part of this series and not yet included in QEMU. Hence the 
-commit message talks about it in the present tense.
-
-> If the user passes multiple -boot with different ID, we merge the ones
-> with same ID, and then vl.c gets the (merged) one without ID, but the
-> other two get the (merged) one that contains the first -boot.  All three
-> silently ignore the ones they don't get.  Awesomely weird.  I'd call it
-> a bug.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/check-block.sh | 7 +++++++
+>  1 file changed, 7 insertions(+)
 > 
-> Test case:
-> 
->      $ upstream-qemu -S -display none -boot strict=on,id=id -boot strict=off
-> 
-> vl.c uses strict=off, but fw_cfg.c uses strinct=on,id=id.
-> 
-> Outlawing "id" with .merge_lists like this patch does turns the cases
-> where the two methods yield different results into errors.  A bug fix of
-> sorts.  Should the commit message should cover it?
+> diff --git a/tests/check-block.sh b/tests/check-block.sh
+> index fb4c1baae9..e4f37905be 100755
+> --- a/tests/check-block.sh
+> +++ b/tests/check-block.sh
+> @@ -60,6 +60,13 @@ if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
+>          echo "GNU sed not available ==> Not running the qemu-iotests."
+>          exit 0
+>      fi
+> +else
+> +    # Double-check that we're not using BusyBox' sed which says
+> +    # that "This is not GNU sed version 4.0" ...
+> +    if sed --version | grep -q 'not GNU sed' ; then
+> +        echo "BusyBox sed not supported ==> Not running the qemu-iotests."
+> +        exit 0
+> +    fi
+>  fi
 
-Yeah, I can add that.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-> [qemu_action_opts]
-> should not use QemuOpts at all.  Use of qmp_marshal_FOO() is an
-> anti-pattern.  Needs cleanup.  Not in this patch, and probably not even
-> in this series.
 
---verbose needed.  Why is it an anti-pattern?  I found it a clever way 
-to avoid code duplication. :)  Doesn't matter for this series, anyway.
-
->> command line is considered.  With this patch we just forbid id
->> on merge-lists QemuOptsLists; if the command line still works,
->> it has the same semantics as before.
-> 
-> It can break working (if weird) command lines, such as ones relying on
-> "merge ignoring ID" behavior of -name, -icount, -action.  Okay.
-
-Right, I wrote that down as a feature.  The important thing is keeping 
-things the same if they still work.
-
-> [If !lists->merge_lists], if id= is specified, it must be unique,
-> i.e. no prior opts with the same id.
-> 
-> Else, we don't check for prior opts without id.
-> 
-> There's at most one opts with a certain id, but there could be any
-> number without id.  Is this what we want?
-
-Yes, positively.  Example: "qemu-system-x86_64 -device foo -device bar".
-
->> Discounting the case that aborts as it's not user-controlled (it's
->> "just" a matter of inspecting qemu_opts_create callers), the paths
->> through qemu_opts_create can be summarized as:
->>
->> - merge_lists = true: singleton opts with NULL id; non-NULL id fails
->>
->> - merge_lists = false: always return new opts; non-NULL id fails if dup
-> 
-> This renders the qemu_opts_foreach() silly.  Cleanup is in order, not
-> necessarily in this patch.
-
-Agreed.  This one is already tricky enough (though I like the outcome).
-
-Paolo
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
