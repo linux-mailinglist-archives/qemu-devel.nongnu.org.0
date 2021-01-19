@@ -2,84 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 191FD2FC206
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 22:14:35 +0100 (CET)
-Received: from localhost ([::1]:59412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F47F2FC1BC
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 22:01:13 +0100 (CET)
+Received: from localhost ([::1]:33188 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1yKg-0005FC-6f
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 16:14:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53716)
+	id 1l1y7k-0001ir-Az
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 16:01:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xdO-0001uc-Jo
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:51 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:58390)
+ id 1l1xfQ-0003lz-Dm
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:58 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:39744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xdH-0000MC-QP
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:50 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKNU3F002768;
- Tue, 19 Jan 2021 20:29:37 GMT
+ id 1l1xfM-0000hA-JM
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:56 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+ by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKOoaI146183;
+ Tue, 19 Jan 2021 20:31:46 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=CtNthRMi/yWg7bExLKMplw2bOO/xThH7uzCl9jlatto=;
- b=VUuYmkxpKtjFkfoa1V3SpcrBiK63s/QvP5fjWopq2L7Cq3PHAmN11ymMcc67oTwfyYm1
- u0H8FWptjh5/pyIn7YuR2WG6eK1XncwxCU4l9PTedSIYD7aCL6JhVQ0U2yNxWQWZ6GhP
- 7JvTZza3cPql6G0OW7/q/asBDeiAxYy1zAhROkm/E64qiFbU48ZBfzlJ8mEBH0eNjONa
- kVE85/mWdED3nb1EdI5plG7YVxxFF0CgFA5fZqwuOJgb9StI8EQjzZ/MxtN5LrExbNAi
- 7wgQT4O1vXm63aoluaEdQOTX8Tp1Q6Rhv1gfOgo4JsJmKH8XeqqHokfP6q/2kWUcDIN6 3Q== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by userp2130.oracle.com with ESMTP id 363xyhtaut-1
+ mime-version; s=corp-2020-01-29;
+ bh=avhCUAWKFINROFhFn9XLD6ifdtWA62J3LcL6MBR+IHI=;
+ b=n4doiIOXVQNuijAnrdH6mL6Q7ei5Od6MfpzyAyPV+aJUtIwVZ8OOD7Q+b4a8Sq0QT4bu
+ gDTDxL9VQ2gxkEqbXJGcbgC7fDD+6Bn8FyMKSv1VCdHLSB3bKhrk9AZ1yq6ykrQH5m3R
+ cf9w7cCDAvGyE3cdmy6uVhZUrQV9NlJKBL0LCMf/l1emfYElaYy7xnmTtanS8IzLcWTx
+ N1TGWEwNiinNCM6gRF+XNCupnIQrnVfvKyha2s/dZnxpG28V9fihhccLbi4EdToezPr+
+ fx0brcyjrAXock1osQaid1JOKECfyLrMBSt2ae9qYE82A9QDT6ooTb5JGOONNFso+25U 0w== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2130.oracle.com with ESMTP id 363nnak56r-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:37 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPd65128344;
- Tue, 19 Jan 2021 20:29:37 GMT
-Received: from nam02-cy1-obe.outbound.protection.outlook.com
- (mail-cys01nam02lp2051.outbound.protection.outlook.com [104.47.37.51])
- by userp3030.oracle.com with ESMTP id 3661njtax2-1
+ Tue, 19 Jan 2021 20:31:46 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPjRi175932;
+ Tue, 19 Jan 2021 20:29:46 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02lp2055.outbound.protection.outlook.com [104.47.36.55])
+ by aserp3020.oracle.com with ESMTP id 3661er95bb-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:36 +0000
+ Tue, 19 Jan 2021 20:29:45 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=dAlu0wIM3SasIX+gkE7TPxDk2CZMWph7J9eIBi6eTuaw8mgY7NVMJPI53DHzDF/i0a3Y4m0kTqcxSA+g3wV3OG7WdAy6TvQxCeabo42+BsFmJBcJEAnsm4V3821jXITidq42URBpWesM0yFW8pVL1Otko3yaI4Ya5koWIlA1J/gUN/6Dlhkt8fcpRhSWWiObwzWS1jHFNS+5j56S3f10L0kbAN9JJb1I3Ahyug8G8t0Bgdq9cJIOuyLr7UCdSMyRr2DXQEV0oXFuAYaCtbWXjO2sIEJdlCp2UMH0Tdxh60c4fE3V1AAvsh1BPkLikml3wqVG1nH++9OGzpxPLfY/8g==
+ b=Gt1EfhbQo94zIIQN2DFdKjcmr5ZKTc9e2TAp5UMzM675rGXUvDpugZSbMCccuh0JUmxJ/RKMkDS5fYG2U0lqld6Hu6ncyNob27nNFh9Yx41k8zKk+q0rBpAf6Xqppa71JwiOPmxOVrdFifOsMJleAQfBwgslf7Q0fWMnUYTgtEG+2IQSghpnLCzs4RR/nbNeuYT6aD07kUf7nVEAiU2/CY9IBaZ1jZ13mS7727+IOJG+kM7UjD3ctjMh7qSUjiDo1lxD1ms82cP60nZ7GbK38R+WZ/Ns6XsaHE4WO23yZDqH7r2laycJVQ5CdC9BvQDzRtg8xeoFWl8pYTGVInsJBw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CtNthRMi/yWg7bExLKMplw2bOO/xThH7uzCl9jlatto=;
- b=kptZA0RZFakOOjZ1LevtSGzRiM00Qx6aOr4l5H3BQIzN/Gjc+K1baAYekQ0kCDNlW2ScT1a01RKWtN4WeLM64fbmjKoEmXwZJQNA8tviXHZMLB31qJ+coD8ZG7EtQ1Ph9f9UdILU++GHYgTa0hBs2MbAJetd8a8z11bYauTjtMPq7ERKIHp7YXUBFhdx+gqb24UsSoy10v3oJVteLclN2Mg2s7ytAQrg3Vj9We9X8mjVCQbFM2S2QkBfsjNLc6wuFYbLJYw+S4Tx6Iv2odrahH/4BN5cFgXDL2WXxHPtXDNBh0eC55vON/XyGxhnmX70VzmT/8yCxr7TugVaDfxDuQ==
+ bh=avhCUAWKFINROFhFn9XLD6ifdtWA62J3LcL6MBR+IHI=;
+ b=Tj8s9Pb9sYQrbAlBV5cwInm84Z/kLjXIK4O3tiXaVNSbEXqsKYBDzmkdr9rC8wARJNI9P0oG3K1wRre24yGKwYNOHmqLhrnb8HH8rpyTpVkKiqATdEN8Cb88LJfz7biV3fWewuJAXiQDtfFThZBT6KG0QeOKlexdBOt6v+lmhKU/236QmwFCj8+4/mDfBSk/5IOVwAbpOLjnGK1T0C+rJg7WVoT7PcL89M/R+rW3J2XKENOOL4o+TQ7vpvJQn+VvZInpvNV7YHp032Kx5aduPcJkBXYvEx89PGoaPn5UES284ZUYidaL8MLBIk9rbJqP90VeVuL2+O4OKJpEIRhCtg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CtNthRMi/yWg7bExLKMplw2bOO/xThH7uzCl9jlatto=;
- b=FfwmmneexVf/Vhhelvp4HlcTVNqP+kImKy0s0pA7zSm+3589z3hJqfDKbhfdQ0EactTMDaRnTbd3e11fJfPkMER2KJzwCJDVWyPWvJRzFuQ2N71w8whKIRLrXfNZZLRCf+PWoxi/BFUpNoK7HdIfRhJSgw8o9N+CjhH+oEcnXiE=
+ bh=avhCUAWKFINROFhFn9XLD6ifdtWA62J3LcL6MBR+IHI=;
+ b=eNrBLTBsLRmJpCD2+zXUxESB4ThQurwH/ma0euVYRPOzjGEueTHwDu1CPPnMNZ3eMZq8dHf48Xmum4y4jmZHfxcIrGBYj5wLs8kNw9B5r4mSWI0VOYtAe4Luz/EmPUsQqzsq49nnaCixurB3i/9FlmM9Cmw46o7L5QAANhK4ICc=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
- by BYAPR10MB3349.namprd10.prod.outlook.com (2603:10b6:a03:155::19)
+ by BYAPR10MB3351.namprd10.prod.outlook.com (2603:10b6:a03:14d::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 19 Jan
- 2021 20:29:34 +0000
+ 2021 20:29:43 +0000
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b]) by BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b%7]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
- 20:29:34 +0000
+ 20:29:43 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v20 17/20] multi-process: Synchronize remote memory
-Date: Tue, 19 Jan 2021 15:28:34 -0500
-Message-Id: <405327dc36bf3aa6e7234a9996be1598801bc0a5.1611081587.git.jag.raman@oracle.com>
+Subject: [PATCH v20 20/20] multi-process: perform device reset in the remote
+ process
+Date: Tue, 19 Jan 2021 15:28:37 -0500
+Message-Id: <2163ccd87119eaaef550a06748908f23420ea67b.1611081587.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1611081587.git.jag.raman@oracle.com>
 References: <cover.1611081587.git.jag.raman@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [209.17.40.38]
 X-ClientProxiedBy: DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12)
  To BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
@@ -88,70 +88,64 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.38) by
  DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:31 +0000
+ 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 7625addf-4fbf-49fc-4c6c-08d8bcb8ef1f
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3349:
+X-MS-Office365-Filtering-Correlation-Id: 5a998a45-8fcb-4923-8bc3-08d8bcb8f46c
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3351:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3349462A7673FBD97550555F90A30@BYAPR10MB3349.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6108;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB335120F046B01045F80FB83C90A30@BYAPR10MB3351.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:279;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6QyUNllI6cgzyv7UQFhLi1oPvbPRHQkbyiBa1z6u80mS+KQHlJ8x8ftZDU/DN5lv7FSr3bqYuV+sZAyoOp4nwOvbBgogIAKf4EFmzBe9vhSe0E23ex1T4bQwSTizmdeIEXgpf8otWYkBDlyIWEs70noiL3gFpsfgVB8JZHeISH8HGS16qoTkX8IuRD5bT3X/VLnGqg8oFoLXXtq/5grYNSE6vCabEwFB2lru00rSjXk7yJHfqKlhhMFpBTDHi7VpPr3omKExhCWJL3ZwjEOt91mdoHrOmGTGBpsHeKZgm2yFgy3gmhFWxsG3ZVzqMzJraB/YnQWemLEnqg+R8cGR60MpDA6zqk1dOpn14st8/wrK6Oc47rywheGQgiCj4u19
+X-Microsoft-Antispam-Message-Info: ctbPPMcPnRibN8xGJJRqg6NAlZfDBw9G1TUMd4O77CEU53t7CwMhBj05n+7JobtKp1T7cmX2rxzZfxMDAcSjWTSLdu+KQS+lYHAFGqVlzKTTR8Qf3Ei3OklNyt1cIV8fBx1keJxTowkY61AQrs4qM88NG7h8Mu7ts/lbSsSrY9HFBT4GpjoSEMMJmVcEXdtjAwrhm2Zq9d0a2Ex8b9xBwpAYTxOtQqgBDZc0qPvFDShK9Qgv5nHHt1Z1Aina9brh0INN0segNrw5U+WkvOijQRu87O38FAIMdqvq0qDOyUbY6yk8pkWEBAjrettTVT3GhAglAEyC6tLGHYn7eiQ/Ay1kCs94siQl7rkAcsWANtuMelGVVnwZJFsw3nkWdkm8bk8QuJIursGB5zo4tTAcSbqNPyrMTU/Yj9W4XVkrbtqNdIB07t81qBFlll3Ip5LyqFevex/OiDj2gua/YUP3dtfA7GQw2iIEurNkQzNLSqR9WwlPWsoc8RFOHxdps1oJiS2uZBXnmPPUXneZzPUtrA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2744.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(366004)(136003)(346002)(376002)(7696005)(52116002)(2906002)(6486002)(5660300002)(7416002)(36756003)(66476007)(66556008)(478600001)(6916009)(956004)(2616005)(4326008)(66946007)(30864003)(26005)(186003)(16526019)(8676002)(86362001)(8936002)(107886003)(316002)(83380400001);
+ SFS:(396003)(39860400002)(366004)(136003)(376002)(346002)(86362001)(2906002)(6666004)(6916009)(36756003)(4326008)(8676002)(52116002)(66476007)(66556008)(316002)(8936002)(66946007)(6486002)(107886003)(956004)(5660300002)(478600001)(7696005)(16526019)(26005)(186003)(7416002)(2616005)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OXo5Sko0TGQ1b094U0Z1eXhXMjNFeVRVTER1ejVTZGJ2ZHBIb1ZDbGcwdzBk?=
- =?utf-8?B?WENEdVJvaU0xVU1lVTJVNnhiNjNGVzkxcTBLc3B6WVFWZk9UblVtMS9HM3Uw?=
- =?utf-8?B?bEQzaHd3SlNOSk52RUtSZzFTRGt5S1NwdVdWd1A5Z3ppNVlCT0dadkNNVkNJ?=
- =?utf-8?B?Q1FFaHY5WTV6L240VUN2dmxnZkVsRzZ1RjllMFRzOHg4MEZLdWQxR1VCdHNi?=
- =?utf-8?B?RkhZbElnbDUyb3hBQlRqZkwyVXlWamdhcUQxVHpVbm5zR1BhZm1QWHU5Znl1?=
- =?utf-8?B?ZUgxQWlrTDFBSmViWTBvR1Z0VmlpNUQzSi9ZeXZQUFI2TkI4eU5BM1d2aEty?=
- =?utf-8?B?V0tYN0U2aVFUN3F6QkgxRTBScjFkSGJZTFZRanNiaExoYkRiT3ZJKzhjeXpF?=
- =?utf-8?B?NHdBVXUrbEVoNE5VU3dhdFNIand1WXFWQVNIQUdxVGdSVEZJR1gvWWJGOVNJ?=
- =?utf-8?B?b0Z3YXRZRzJab2RCSWIzbFVKYk4yVkJveHZTVWllbE8rYXNXUHVMNHhhU1JY?=
- =?utf-8?B?aUZJVTBtL2N4QnEzcnV6YzJEUVovK0Y5N0JxSkhjRFgrMmduNUhUek9PTjdt?=
- =?utf-8?B?b0d3bzdqL0FuK0xta00rVEhmNU1VNkpDSmFYTDJmMUtmbkEzRG1JdHNaNHFE?=
- =?utf-8?B?N3l1NzUxc01HSVo3K0VaekQ5Ym9aNjlody9FR1kxT2sxcVhseG5aTllyT1Fx?=
- =?utf-8?B?SlBQT2JRaGZVZ3F2RC95bUJnbzNFaktzbXM3MHUzVTN3dGNYTUdZeFNIa2VC?=
- =?utf-8?B?WXQvUE9UUDFaOWwvOEhseUwzQUtxdE1HaXI1K1h5OFRDb1FzYWNlMzVmMWdK?=
- =?utf-8?B?N3lOc01CaEwvQXhMK3NVak9FYjM2WlZiZVpERzg5SE1hQVRmd1RQVFZDQzZr?=
- =?utf-8?B?QTdraE5Fb0tLU3ppa1Q1eUxmK3pNYUNNRytrUGRXeWRZUlRWbUZKT1lHSW1T?=
- =?utf-8?B?OUFSTGZxTnBYZmE1UnZGdHBIRTMzdVpOcy81OXZPMDVOZGVMdDYzTGJuZzlY?=
- =?utf-8?B?elJJaWc1NW44dklmaWhDR1YyRlVPOGt6bnNJQkR5SmNzYWw2N0FzNWlpbUM2?=
- =?utf-8?B?b1U3aFliYXFiQzV0RjNSTjdXM2Z2SlBtNnZ6YnEyS0NUZ0t2ekxQSmRsdjhS?=
- =?utf-8?B?cXJsN1FLdVhmMU93L1RrYjRrc1hTM3BpaGNhcDdUTjlxVERQaDdDOUZ0OWV1?=
- =?utf-8?B?c2R5RmNvRU56M3ZpTmF2UjhvblA4MUhoM2lIOEhpakxQcmJ1cTUvUlJoWTcw?=
- =?utf-8?B?SEZnZERKeGthSUdWaGtzZXMwSHk0OEdMZ3FJRkRIMXFxMVNub1FORTZhclhv?=
- =?utf-8?Q?Ue8PJ1iky+5HE=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?IaaXTdUfcePfTaUkDRai4Qy8p8PRR4+ESv9WNxPYik+J8JN1K9FeyeJpbcMz?=
+ =?us-ascii?Q?dYEpNcSGTQc/9dIoUCXC9IR4MsABqw0apvIqaM/diu+m7PKKEnUfbBx2gKFm?=
+ =?us-ascii?Q?j03nq+ovIgW568xm9tVWi8nKvFlPue8kOLYhLOitWWGuHSjiDVf3xNT2Zkpq?=
+ =?us-ascii?Q?DCKgORRdle1Tidk346/qHL0jTbh4//rIFUIlRd+nv0G6QJw1a80muGgNS/SC?=
+ =?us-ascii?Q?0gwsvydoPeIE1Z187QTJDnZXppYGPOMA2K/+Tr0XxKrrd121GR2p7NGmLdGK?=
+ =?us-ascii?Q?+eGJ0Ijr3CxNNIMXo1BCZpLpqSVTfqwbCw4r7NJnJ2RkG9OJt/oJVPnxQNLo?=
+ =?us-ascii?Q?yL0o2Cm8W8braIyRRGDaRxGhZ7X+fkHmHvKZ4WLMA9b3xnXQTceoWrVfYt66?=
+ =?us-ascii?Q?p7CLr3/nn04A5aDTMbrTYvZ+LZhY6eNIlVmgq/Xb9miNweeqkXT78w9fg7IP?=
+ =?us-ascii?Q?GtmJ1toXhXTdNew2IePWF2umdvxCP622MgtH5wacIsT/ZOyy1TgMO9gysfjp?=
+ =?us-ascii?Q?UpInAGBB3jt4MCSP8NTwmHKj1mWqHc/+G1+sTAJAuT7m3QUEmNwJEWU4xYg+?=
+ =?us-ascii?Q?mppVFSgf9zmxs2FKruurkUcVTQFfjsytkGoIT1NcLSy9zMczGLMrlljkszNk?=
+ =?us-ascii?Q?OnqcKT/axPVnytooOZDlytZQnN1mcUjYMKt52q3nTuLAv4rykQbv0ssyiKGf?=
+ =?us-ascii?Q?HxkkLOtiSJpljfTehDx3i5nxvxS0d4ghx8DHVDdSAvcu3kh4quoT4ESdAy+0?=
+ =?us-ascii?Q?IwaGVrUnITxJSxiOEya8V9WeqS40BSq/rxniLEzPp2JP/SLuJfChwLvzYAyo?=
+ =?us-ascii?Q?X7DRIOur+NpQrWVqsO6y8xKkRJZrI02bQT0gurmCN0PaVgUALpKd21ynhmcg?=
+ =?us-ascii?Q?5AqQiI/WM7oTzezekG9chC3AEhdy4MofMtiKdCsF+CzTVlnTMIj4ZsRVP6b6?=
+ =?us-ascii?Q?dFyi/BxqUqGAW3f3kDvUCWBrespRhD9mlLoqvUjmM2E=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7625addf-4fbf-49fc-4c6c-08d8bcb8ef1f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5a998a45-8fcb-4923-8bc3-08d8bcb8f46c
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2744.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:34.6404 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:43.6242 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +AcpTR/2Hn0Pvc+xTEiEr5qc+fpHrtTUDJjmbg62YTjE7ZMAFoX2JuGHRG+FkpEPprchTVDrHyw/A16y3lHVhQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3349
+X-MS-Exchange-CrossTenant-UserPrincipalName: bilKR7pTrFGjUPOrOc8aSAb2oQcLjgAZZ9SpRMFzKRVzHneVhVldbpty2a3RUtOBdk8SPOCF0JUzGBnV71Rzug==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3351
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0
- phishscore=0 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101190113
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
- phishscore=0
- malwarescore=0 mlxlogscore=999 bulkscore=0 priorityscore=1501 spamscore=0
- mlxscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0 clxscore=1015
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 mlxscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101190113
-Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
- helo=userp2130.oracle.com
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
+ spamscore=0
+ mlxlogscore=999 clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0
+ suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101190113
+Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
+ helo=aserp2130.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -182,393 +176,126 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add ProxyMemoryListener object which is used to keep the view of the RAM
-in sync between QEMU and remote process.
-A MemoryListener is registered for system-memory AddressSpace. The
-listener sends SYNC_SYSMEM message to the remote process when memory
-listener commits the changes to memory, the remote process receives
-the message and processes it in the handler for SYNC_SYSMEM message.
+From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
-Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Perform device reset in the remote process when QEMU performs
+device reset. This is required to reset the internal state
+(like registers, etc...) of emulated devices
+
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/remote/proxy-memory-listener.h |  28 ++++
- include/hw/remote/proxy.h                 |   2 +
- hw/remote/message.c                       |   4 +
- hw/remote/proxy-memory-listener.c         | 227 ++++++++++++++++++++++++++++++
- hw/remote/proxy.c                         |   6 +
- MAINTAINERS                               |   2 +
- hw/remote/meson.build                     |   1 +
- 7 files changed, 270 insertions(+)
- create mode 100644 include/hw/remote/proxy-memory-listener.h
- create mode 100644 hw/remote/proxy-memory-listener.c
+ include/hw/remote/mpqemu-link.h |  1 +
+ hw/remote/message.c             | 22 ++++++++++++++++++++++
+ hw/remote/proxy.c               | 19 +++++++++++++++++++
+ 3 files changed, 42 insertions(+)
 
-diff --git a/include/hw/remote/proxy-memory-listener.h b/include/hw/remote/proxy-memory-listener.h
-new file mode 100644
-index 0000000..c4f3efb
---- /dev/null
-+++ b/include/hw/remote/proxy-memory-listener.h
-@@ -0,0 +1,28 @@
-+/*
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef PROXY_MEMORY_LISTENER_H
-+#define PROXY_MEMORY_LISTENER_H
-+
-+#include "exec/memory.h"
-+#include "io/channel.h"
-+
-+typedef struct ProxyMemoryListener {
-+    MemoryListener listener;
-+
-+    int n_mr_sections;
-+    MemoryRegionSection *mr_sections;
-+
-+    QIOChannel *ioc;
-+} ProxyMemoryListener;
-+
-+void proxy_memory_listener_configure(ProxyMemoryListener *proxy_listener,
-+                                     QIOChannel *ioc);
-+void proxy_memory_listener_deconfigure(ProxyMemoryListener *proxy_listener);
-+
-+#endif
-diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
-index ea7fa4f..12888b4 100644
---- a/include/hw/remote/proxy.h
-+++ b/include/hw/remote/proxy.h
-@@ -11,6 +11,7 @@
- 
- #include "hw/pci/pci.h"
- #include "io/channel.h"
-+#include "hw/remote/proxy-memory-listener.h"
- 
- #define TYPE_PCI_PROXY_DEV "x-pci-proxy-dev"
- OBJECT_DECLARE_SIMPLE_TYPE(PCIProxyDev, PCI_PROXY_DEV)
-@@ -36,6 +37,7 @@ struct PCIProxyDev {
-     QemuMutex io_mutex;
-     QIOChannel *ioc;
-     Error *migration_blocker;
-+    ProxyMemoryListener proxy_listener;
-     ProxyMemoryRegion region[PCI_NUM_REGIONS];
- };
+diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
+index 71d206f..4ec0915 100644
+--- a/include/hw/remote/mpqemu-link.h
++++ b/include/hw/remote/mpqemu-link.h
+@@ -40,6 +40,7 @@ typedef enum {
+     MPQEMU_CMD_BAR_WRITE,
+     MPQEMU_CMD_BAR_READ,
+     MPQEMU_CMD_SET_IRQFD,
++    MPQEMU_CMD_DEVICE_RESET,
+     MPQEMU_CMD_MAX,
+ } MPQemuCmd;
  
 diff --git a/hw/remote/message.c b/hw/remote/message.c
-index f2e8445..25341d8 100644
+index adab040..11d7298 100644
 --- a/hw/remote/message.c
 +++ b/hw/remote/message.c
-@@ -17,6 +17,7 @@
- #include "sysemu/runstate.h"
- #include "hw/pci/pci.h"
+@@ -19,6 +19,7 @@
  #include "exec/memattrs.h"
-+#include "hw/remote/memory.h"
+ #include "hw/remote/memory.h"
+ #include "hw/remote/iohub.h"
++#include "sysemu/reset.h"
  
  static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
                                   MPQemuMsg *msg, Error **errp);
-@@ -61,6 +62,9 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-         case MPQEMU_CMD_BAR_READ:
-             process_bar_read(com->ioc, &msg, &local_err);
+@@ -26,6 +27,8 @@ static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
+                                 MPQemuMsg *msg, Error **errp);
+ static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
+ static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
++static void process_device_reset_msg(QIOChannel *ioc, PCIDevice *dev,
++                                     Error **errp);
+ 
+ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+ {
+@@ -69,6 +72,9 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+         case MPQEMU_CMD_SET_IRQFD:
+             process_set_irqfd_msg(pci_dev, &msg);
              break;
-+        case MPQEMU_CMD_SYNC_SYSMEM:
-+            remote_sysmem_reconfig(&msg, &local_err);
++        case MPQEMU_CMD_DEVICE_RESET:
++            process_device_reset_msg(com->ioc, pci_dev, &local_err);
 +            break;
          default:
              error_setg(&local_err,
                         "Unknown command (%d) received for device %s"
-diff --git a/hw/remote/proxy-memory-listener.c b/hw/remote/proxy-memory-listener.c
-new file mode 100644
-index 0000000..af1fa6f
---- /dev/null
-+++ b/hw/remote/proxy-memory-listener.c
-@@ -0,0 +1,227 @@
-+/*
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
+@@ -206,3 +212,19 @@ fail:
+                       getpid());
+     }
+ }
 +
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
-+#include "qemu/compiler.h"
-+#include "qemu/int128.h"
-+#include "qemu/range.h"
-+#include "exec/memory.h"
-+#include "exec/cpu-common.h"
-+#include "cpu.h"
-+#include "exec/ram_addr.h"
-+#include "exec/address-spaces.h"
-+#include "qapi/error.h"
-+#include "hw/remote/mpqemu-link.h"
-+#include "hw/remote/proxy-memory-listener.h"
-+
-+/*
-+ * TODO: get_fd_from_hostaddr(), proxy_mrs_can_merge() and
-+ * proxy_memory_listener_commit() defined below perform tasks similar to the
-+ * functions defined in vhost-user.c. These functions are good candidates
-+ * for refactoring.
-+ *
-+ */
-+
-+static void proxy_memory_listener_reset(MemoryListener *listener)
++static void process_device_reset_msg(QIOChannel *ioc, PCIDevice *dev,
++                                     Error **errp)
 +{
-+    ProxyMemoryListener *proxy_listener = container_of(listener,
-+                                                       ProxyMemoryListener,
-+                                                       listener);
-+    int mrs;
++    DeviceClass *dc = DEVICE_GET_CLASS(dev);
++    DeviceState *s = DEVICE(dev);
++    MPQemuMsg ret = { 0 };
 +
-+    for (mrs = 0; mrs < proxy_listener->n_mr_sections; mrs++) {
-+        memory_region_unref(proxy_listener->mr_sections[mrs].mr);
++    if (dc->reset) {
++        dc->reset(s);
 +    }
 +
-+    g_free(proxy_listener->mr_sections);
-+    proxy_listener->mr_sections = NULL;
-+    proxy_listener->n_mr_sections = 0;
-+}
++    ret.cmd = MPQEMU_CMD_RET;
 +
-+static int get_fd_from_hostaddr(uint64_t host, ram_addr_t *offset)
-+{
-+    MemoryRegion *mr;
-+    ram_addr_t off;
-+
-+    /**
-+     * Assumes that the host address is a valid address as it's
-+     * coming from the MemoryListener system. In the case host
-+     * address is not valid, the following call would return
-+     * the default subregion of "system_memory" region, and
-+     * not NULL. So it's not possible to check for NULL here.
-+     */
-+    mr = memory_region_from_host((void *)(uintptr_t)host, &off);
-+
-+    if (offset) {
-+        *offset = off;
-+    }
-+
-+    return memory_region_get_fd(mr);
-+}
-+
-+static bool proxy_mrs_can_merge(uint64_t host, uint64_t prev_host, size_t size)
-+{
-+    if (((prev_host + size) != host)) {
-+        return false;
-+    }
-+
-+    if (get_fd_from_hostaddr(host, NULL) !=
-+            get_fd_from_hostaddr(prev_host, NULL)) {
-+        return false;
-+    }
-+
-+    return true;
-+}
-+
-+static bool try_merge(ProxyMemoryListener *proxy_listener,
-+                      MemoryRegionSection *section)
-+{
-+    uint64_t mrs_size, mrs_gpa, mrs_page;
-+    MemoryRegionSection *prev_sec;
-+    bool merged = false;
-+    uintptr_t mrs_host;
-+    RAMBlock *mrs_rb;
-+
-+    if (!proxy_listener->n_mr_sections) {
-+        return false;
-+    }
-+
-+    mrs_rb = section->mr->ram_block;
-+    mrs_page = (uint64_t)qemu_ram_pagesize(mrs_rb);
-+    mrs_size = int128_get64(section->size);
-+    mrs_gpa = section->offset_within_address_space;
-+    mrs_host = (uintptr_t)memory_region_get_ram_ptr(section->mr) +
-+               section->offset_within_region;
-+
-+    if (get_fd_from_hostaddr(mrs_host, NULL) < 0) {
-+        return true;
-+    }
-+
-+    mrs_host = mrs_host & ~(mrs_page - 1);
-+    mrs_gpa = mrs_gpa & ~(mrs_page - 1);
-+    mrs_size = ROUND_UP(mrs_size, mrs_page);
-+
-+    prev_sec = proxy_listener->mr_sections +
-+               (proxy_listener->n_mr_sections - 1);
-+    uint64_t prev_gpa_start = prev_sec->offset_within_address_space;
-+    uint64_t prev_size = int128_get64(prev_sec->size);
-+    uint64_t prev_gpa_end   = range_get_last(prev_gpa_start, prev_size);
-+    uint64_t prev_host_start =
-+        (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr) +
-+        prev_sec->offset_within_region;
-+    uint64_t prev_host_end = range_get_last(prev_host_start, prev_size);
-+
-+    if (mrs_gpa <= (prev_gpa_end + 1)) {
-+        g_assert(mrs_gpa > prev_gpa_start);
-+
-+        if ((section->mr == prev_sec->mr) &&
-+            proxy_mrs_can_merge(mrs_host, prev_host_start,
-+                                (mrs_gpa - prev_gpa_start))) {
-+            uint64_t max_end = MAX(prev_host_end, mrs_host + mrs_size);
-+            merged = true;
-+            prev_sec->offset_within_address_space =
-+                MIN(prev_gpa_start, mrs_gpa);
-+            prev_sec->offset_within_region =
-+                MIN(prev_host_start, mrs_host) -
-+                (uintptr_t)memory_region_get_ram_ptr(prev_sec->mr);
-+            prev_sec->size = int128_make64(max_end - MIN(prev_host_start,
-+                                                         mrs_host));
-+        }
-+    }
-+
-+    return merged;
-+}
-+
-+static void proxy_memory_listener_region_addnop(MemoryListener *listener,
-+                                                MemoryRegionSection *section)
-+{
-+    ProxyMemoryListener *proxy_listener = container_of(listener,
-+                                                       ProxyMemoryListener,
-+                                                       listener);
-+
-+    if (!memory_region_is_ram(section->mr) ||
-+            memory_region_is_rom(section->mr)) {
-+        return;
-+    }
-+
-+    if (try_merge(proxy_listener, section)) {
-+        return;
-+    }
-+
-+    ++proxy_listener->n_mr_sections;
-+    proxy_listener->mr_sections = g_renew(MemoryRegionSection,
-+                                          proxy_listener->mr_sections,
-+                                          proxy_listener->n_mr_sections);
-+    proxy_listener->mr_sections[proxy_listener->n_mr_sections - 1] = *section;
-+    proxy_listener->mr_sections[proxy_listener->n_mr_sections - 1].fv = NULL;
-+    memory_region_ref(section->mr);
-+}
-+
-+static void proxy_memory_listener_commit(MemoryListener *listener)
-+{
-+    ProxyMemoryListener *proxy_listener = container_of(listener,
-+                                                       ProxyMemoryListener,
-+                                                       listener);
-+    MPQemuMsg msg;
-+    MemoryRegionSection *section;
-+    ram_addr_t offset;
-+    uintptr_t host_addr;
-+    int region;
-+    Error *local_err = NULL;
-+
-+    memset(&msg, 0, sizeof(MPQemuMsg));
-+
-+    msg.cmd = MPQEMU_CMD_SYNC_SYSMEM;
-+    msg.num_fds = proxy_listener->n_mr_sections;
-+    msg.size = sizeof(SyncSysmemMsg);
-+    if (msg.num_fds > REMOTE_MAX_FDS) {
-+        error_report("Number of fds is more than %d", REMOTE_MAX_FDS);
-+        return;
-+    }
-+
-+    for (region = 0; region < proxy_listener->n_mr_sections; region++) {
-+        section = &proxy_listener->mr_sections[region];
-+        msg.data.sync_sysmem.gpas[region] =
-+            section->offset_within_address_space;
-+        msg.data.sync_sysmem.sizes[region] = int128_get64(section->size);
-+        host_addr = (uintptr_t)memory_region_get_ram_ptr(section->mr) +
-+                    section->offset_within_region;
-+        msg.fds[region] = get_fd_from_hostaddr(host_addr, &offset);
-+        msg.data.sync_sysmem.offsets[region] = offset;
-+    }
-+    if (!mpqemu_msg_send(&msg, proxy_listener->ioc, &local_err)) {
-+        error_report_err(local_err);
-+    }
-+}
-+
-+void proxy_memory_listener_deconfigure(ProxyMemoryListener *proxy_listener)
-+{
-+    memory_listener_unregister(&proxy_listener->listener);
-+
-+    proxy_memory_listener_reset(&proxy_listener->listener);
-+}
-+
-+void proxy_memory_listener_configure(ProxyMemoryListener *proxy_listener,
-+                                     QIOChannel *ioc)
-+{
-+    proxy_listener->n_mr_sections = 0;
-+    proxy_listener->mr_sections = NULL;
-+
-+    proxy_listener->ioc = ioc;
-+
-+    proxy_listener->listener.begin = proxy_memory_listener_reset;
-+    proxy_listener->listener.commit = proxy_memory_listener_commit;
-+    proxy_listener->listener.region_add = proxy_memory_listener_region_addnop;
-+    proxy_listener->listener.region_nop = proxy_memory_listener_region_addnop;
-+    proxy_listener->listener.priority = 10;
-+
-+    memory_listener_register(&proxy_listener->listener,
-+                             &address_space_memory);
++    mpqemu_msg_send(&ret, ioc, errp);
 +}
 diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index 22eb422..472b2df 100644
+index a082709..4fa4be0 100644
 --- a/hw/remote/proxy.c
 +++ b/hw/remote/proxy.c
-@@ -19,6 +19,8 @@
- #include "qemu/sockets.h"
- #include "hw/remote/mpqemu-link.h"
- #include "qemu/error-report.h"
-+#include "hw/remote/proxy-memory-listener.h"
-+#include "qom/object.h"
+@@ -26,6 +26,7 @@
+ #include "util/event_notifier-posix.c"
  
- static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+ static void probe_pci_info(PCIDevice *dev, Error **errp);
++static void proxy_device_reset(DeviceState *dev);
+ 
+ static void proxy_intx_update(PCIDevice *pci_dev)
  {
-@@ -52,6 +54,8 @@ static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+@@ -202,6 +203,8 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
+     k->config_read = pci_proxy_read_config;
+     k->config_write = pci_proxy_write_config;
  
-     qemu_mutex_init(&dev->io_mutex);
-     qio_channel_set_blocking(dev->ioc, true, NULL);
++    dc->reset = proxy_device_reset;
 +
-+    proxy_memory_listener_configure(&dev->proxy_listener, dev->ioc);
+     device_class_set_props(dc, proxy_properties);
  }
  
- static void pci_proxy_dev_exit(PCIDevice *pdev)
-@@ -65,6 +69,8 @@ static void pci_proxy_dev_exit(PCIDevice *pdev)
-     migrate_del_blocker(dev->migration_blocker);
- 
-     error_free(dev->migration_blocker);
-+
-+    proxy_memory_listener_deconfigure(&dev->proxy_listener);
+@@ -358,3 +361,19 @@ static void probe_pci_info(PCIDevice *dev, Error **errp)
+         }
+     }
  }
- 
- static void config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ee04d82..5e48a26 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3201,6 +3201,8 @@ F: include/hw/remote/memory.h
- F: hw/remote/memory.c
- F: hw/remote/proxy.c
- F: include/hw/remote/proxy.h
-+F: hw/remote/proxy-memory-listener.c
-+F: include/hw/remote/proxy-memory-listener.h
- 
- Build and test automation
- -------------------------
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index 569cd20..7f11be4 100644
---- a/hw/remote/meson.build
-+++ b/hw/remote/meson.build
-@@ -7,5 +7,6 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
- 
- specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
-+specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy-memory-listener.c'))
- 
- softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
++
++static void proxy_device_reset(DeviceState *dev)
++{
++    PCIProxyDev *pdev = PCI_PROXY_DEV(dev);
++    MPQemuMsg msg = { 0 };
++    Error *local_err = NULL;
++
++    msg.cmd = MPQEMU_CMD_DEVICE_RESET;
++    msg.size = 0;
++
++    mpqemu_msg_send_and_await_reply(&msg, pdev, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++    }
++
++}
 -- 
 1.8.3.1
 
