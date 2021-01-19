@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A090F2FB1EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:50:12 +0100 (CET)
-Received: from localhost ([::1]:35946 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40C392FB19D
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:41:05 +0100 (CET)
+Received: from localhost ([::1]:42632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1kqB-0002pT-O4
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:50:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39152)
+	id 1l1khL-0001wE-LJ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:41:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQy-0001Wh-J3; Tue, 19 Jan 2021 01:24:08 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40235 helo=ozlabs.org)
+ id 1l1kQo-0001R4-BA; Tue, 19 Jan 2021 01:23:59 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:33937 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQs-0000ar-VF; Tue, 19 Jan 2021 01:24:05 -0500
+ id 1l1kQi-0000X4-SM; Tue, 19 Jan 2021 01:23:58 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DKdrb4ZB7z9sxS; Tue, 19 Jan 2021 17:23:27 +1100 (AEDT)
+ id 4DKdrY0Bt0z9sXH; Tue, 19 Jan 2021 17:23:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611037407;
- bh=wG3k4vvD+OJELcn2svuHMUF0VgofMWSORdUpb3pvDjo=;
+ d=gibson.dropbear.id.au; s=201602; t=1611037405;
+ bh=79shwS2+CEPG3Z5H/OohnnLYmOtj+JqZfXPV/12nFDk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=ECkS7zKWT2IwnyG8MDazdC6nhhfQCWuWCrhHL81sJkgQDKcndbNluLIseToyRXQYP
- 2mJedJpZcp0u7QAURwX51YOroN0DCIz5fYgsAcmhQgOaonM6Z4JSz22MOcn0/rcqA2
- xq9XS81biJ0zO4LmqCLD/C+myZrihLTT7xC2hldg=
+ b=nXY6sgIw+zDxBNldGA1jNWl5HHtFMhCheYDrESlRNjK/ESlWxCnWDX2Xnt+CwtNtX
+ ejYPLMe5DUn8Q+a+qTaLGKv5f1EUyuHETWd9TgszqumnUdlIi4BJUfxgMNsG1FALBR
+ ZZnnIlvRHLCepVtPfvEG/vyRx+xyt5XImRXrJBw4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 12/13] spapr_rtas.c: fix identation of rtas_ibm_suspend_me()
- args
-Date: Tue, 19 Jan 2021 17:23:17 +1100
-Message-Id: <20210119062318.13857-13-david@gibson.dropbear.id.au>
+Subject: [PULL 13/13] spapr_cpu_core.c: use g_auto* in spapr_create_vcpu()
+Date: Tue, 19 Jan 2021 17:23:18 +1100
+Message-Id: <20210119062318.13857-14-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 References: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,30 +64,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 
+Use g_autoptr() with Object and g_autofree with the string to
+avoid the need of a cleanup path.
+
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210114180628.1675603-5-danielhb413@gmail.com>
+Message-Id: <20210114180628.1675603-6-danielhb413@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/spapr_rtas.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/ppc/spapr_cpu_core.c | 12 +++---------
+ 1 file changed, 3 insertions(+), 9 deletions(-)
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 513c7a8435..8a79f9c628 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -219,9 +219,9 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMachineState *spapr,
+diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+index 2f7dc3c23d..4f316a6f9d 100644
+--- a/hw/ppc/spapr_cpu_core.c
++++ b/hw/ppc/spapr_cpu_core.c
+@@ -277,8 +277,8 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
+ {
+     SpaprCpuCoreClass *scc = SPAPR_CPU_CORE_GET_CLASS(sc);
+     CPUCore *cc = CPU_CORE(sc);
+-    Object *obj;
+-    char *id;
++    g_autoptr(Object) obj = NULL;
++    g_autofree char *id = NULL;
+     CPUState *cs;
+     PowerPCCPU *cpu;
+ 
+@@ -293,23 +293,17 @@ static PowerPCCPU *spapr_create_vcpu(SpaprCpuCore *sc, int i, Error **errp)
+     cs->start_powered_off = true;
+     cs->cpu_index = cc->core_id + i;
+     if (!spapr_set_vcpu_id(cpu, cs->cpu_index, errp)) {
+-        goto err;
++        return NULL;
+     }
+ 
+     cpu->node_id = sc->node_id;
+ 
+     id = g_strdup_printf("thread[%d]", i);
+     object_property_add_child(OBJECT(sc), id, obj);
+-    g_free(id);
+ 
+     cpu->machine_data = g_new0(SpaprCpuState, 1);
+ 
+-    object_unref(obj);
+     return cpu;
+-
+-err:
+-    object_unref(obj);
+-    return NULL;
  }
  
- static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spapr,
--                           uint32_t token, uint32_t nargs,
--                           target_ulong args,
--                           uint32_t nret, target_ulong rets)
-+                                uint32_t token, uint32_t nargs,
-+                                target_ulong args,
-+                                uint32_t nret, target_ulong rets)
- {
-     CPUState *cs;
- 
+ static void spapr_cpu_core_realize(DeviceState *dev, Error **errp)
 -- 
 2.29.2
 
