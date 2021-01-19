@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBABE2FBECC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:21:25 +0100 (CET)
-Received: from localhost ([::1]:33114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFB32FBE70
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:02:16 +0100 (CET)
+Received: from localhost ([::1]:52676 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1vd6-0006HA-ON
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:21:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34870)
+	id 1l1vKY-00059d-NA
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:02:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35202)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1v0t-00018U-7T
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:41:55 -0500
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:38492)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1v0r-0001Vv-9t
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:41:54 -0500
-Received: by mail-pg1-x536.google.com with SMTP id q7so13393611pgm.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 09:41:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=teoFIjHTxxemjEhw6yQFudejaRj5aytDCRbSfMh6bro=;
- b=YBNPM2mDKEPhp6+dBaXjGiIyS3nhsBSpE0cZlwoRu/WzmrOqcShFoNbN9iVKK7j9rY
- pWyyB9EoIWKOEQA2K2TOjgnnBB7r/zJ76q/RAdliL+zj5cSRnoZf8V1lH5EtmPNFmdJz
- yan2oprXGKPjNje7MEVo7OKYPn3PJjYj/Tqer2JWUDSPEn8+n0Bp0k4U/Jsskyue/+5S
- kMCTIMZAEBJzJRyrVGXxYylQEnqT/i16JkxMdwb3YTLxnVjpjxGY3tkpclGSbyis6WBk
- TtTxvm7U13MKalnkSClOl5UGOdl++jqJjc3d8dEAzVob4OfzPLoSQVXZpFABy569+T3M
- krvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=teoFIjHTxxemjEhw6yQFudejaRj5aytDCRbSfMh6bro=;
- b=t9i12QjusT0aNm1xN+rYmuE4tzcEtefnKpysWnsYNJk+oP9FFoQ0JoRxPONpHgH49d
- Jf7VDFYQtxYT080M8x3SrxJr9uaWYVChkNfsPYrys/hK79pWxDeZaOQqDMOYfo4YBMbA
- NEV7ZvzzEQwFn+v4CA0Mza721l+tKLRlXt9sSKfHMXI/t1lmZWTATN13sg3ySK3wByJP
- 1sbxCMfKRTlyjvIqZ5AeqhIQzuA4QcX29VP1iVqtAHH/wujEXBsA8t2T0SG5KgFbLyxZ
- 2lkcJBeJh8q4py/7RZbiQaapst23XixNjrr+OXLds8rEIfJObngZtyS28vdgD8kAN7/q
- 22Cw==
-X-Gm-Message-State: AOAM530zxrMc66OxaiXURos41V/DBQSKcy0/Yg+6S47VPzwVspzOqyOl
- mLq6QfEMYAZD+XLvfX1LdFuYeA==
-X-Google-Smtp-Source: ABdhPJwPo7EnAX5RxZCBDh19WQY734oWk4H5pUYqxhJucFNoOzx4JmrmWqAZ4gdbRuIfc65eyZRy6g==
-X-Received: by 2002:a62:4e43:0:b029:1a4:684c:87ea with SMTP id
- c64-20020a624e430000b02901a4684c87eamr5374554pfb.75.1611078111306; 
- Tue, 19 Jan 2021 09:41:51 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id l3sm4036008pjz.27.2021.01.19.09.41.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 09:41:50 -0800 (PST)
-Subject: Re: [PATCH v3 10/21] linux-user: Fix guest_addr_valid vs reserved_va
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210115224645.1196742-1-richard.henderson@linaro.org>
- <20210115224645.1196742-11-richard.henderson@linaro.org>
- <CAFEAcA_O6FMNCLZ=rzEkehbrnwmyF3X_qgFYSNobi=EqKL5-WQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <390dffbb-84e6-ff01-2117-758d50871ecd@linaro.org>
-Date: Tue, 19 Jan 2021 07:41:47 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1v1j-0001qp-6z
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:42:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58542)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l1v1g-0001eS-9e
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:42:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611078163;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wlWhGXlEin5LW7LHSvGCy6NihMf+M2882KOUnfGj5NI=;
+ b=NqM/UCSNQiERmWxYGPdrbURb7QyVwgLcdB2s4VdXiGX+hN42qArAy/Q4ibet6HGpdmR/1P
+ BPpITdZpc9QK14ZboqvXFPqOop4gOo2DFfCIBWI/l91Dl0sgFAGxzlvXWoQwqvjw+LwfyY
+ dE5VGgB25L5SB5/d0diUyA2XSSqn7JU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-259-HD9_ucdSNC-aD1KkvRhGgw-1; Tue, 19 Jan 2021 12:42:39 -0500
+X-MC-Unique: HD9_ucdSNC-aD1KkvRhGgw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C5EBDBBEE1;
+ Tue, 19 Jan 2021 17:42:37 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-149.ams2.redhat.com [10.36.115.149])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 44DF260C5A;
+ Tue, 19 Jan 2021 17:42:36 +0000 (UTC)
+Date: Tue, 19 Jan 2021 18:42:34 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v2 11/36] block: bdrv_refresh_perms: check parents
+ compliance
+Message-ID: <20210119174234.GJ5012@merkur.fritz.box>
+References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
+ <20201127144522.29991-12-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_O6FMNCLZ=rzEkehbrnwmyF3X_qgFYSNobi=EqKL5-WQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20201127144522.29991-12-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,56 +77,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/21 7:03 AM, Peter Maydell wrote:
-> On Fri, 15 Jan 2021 at 22:47, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> We must always use GUEST_ADDR_MAX, because even 32-bit hosts can
->> use -R <reserved_va> to restrict the memory address of the guest.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  include/exec/cpu_ldst.h | 9 ++++-----
->>  1 file changed, 4 insertions(+), 5 deletions(-)
->>
->> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
->> index 4e6ef3d542..e62f4fba00 100644
->> --- a/include/exec/cpu_ldst.h
->> +++ b/include/exec/cpu_ldst.h
->> @@ -72,11 +72,10 @@ typedef uint64_t abi_ptr;
->>  /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
->>  #define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
->>
->> -#if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
->> -#define guest_addr_valid(x) (1)
->> -#else
->> -#define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
->> -#endif
->> +static inline bool guest_addr_valid(abi_ulong x)
->> +{
->> +    return x <= GUEST_ADDR_MAX;
->> +}
+Am 27.11.2020 um 15:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Add additional check that node parents do not interfere with each
+> other. This should not hurt existing callers and allows in further
+> patch use bdrv_refresh_perms() to update a subtree of changed
+> BdrvChild (check that change is correct).
 > 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> New check will substitute bdrv_check_update_perm() in following
+> permissions refactoring, so keep error messages the same to avoid
+> unit test result changes.
 > 
-> Looking back at patch 9 -- if we always check against
-> GUEST_ADDR_MAX here, should we also do that for h2g_valid(),
-> or are the two uses different ?
-> (The v2->v3 changes list for patch 9 suggests we may have
-> had this discussion previously, but I forget the details...)
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-I had thought we should always check GUEST_ADDR_MAX.
+The change itself looks ok, but I'm not happy with the naming. It feels
+a bit unspecific. How about inverting the result and calling it
+bdrv_parent_perms_conflict() and bdrv_child_perms_conflict()?
 
-If something is outside G_A_M, then it doesn't fit
-into the reserved_va that either (1) the user requested
-via the command-line or (2) for which the guest has
-constraints (e.g. TARGET_VIRT_ADDR_SPACE_BITS for sh4
-or mips, requiring 31-bit addresses).
+At least, I'd call it "permission consistency" rather then "compliance".
 
+> diff --git a/block.c b/block.c
+> index 29082c6d47..a756f3e8ad 100644
+> --- a/block.c
+> +++ b/block.c
+> @@ -1966,6 +1966,57 @@ bool bdrv_is_writable(BlockDriverState *bs)
+>      return bdrv_is_writable_after_reopen(bs, NULL);
+>  }
+>  
+> +static char *bdrv_child_user_desc(BdrvChild *c)
+> +{
+> +    if (c->klass->get_parent_desc) {
+> +        return c->klass->get_parent_desc(c);
+> +    }
+> +
+> +    return g_strdup("another user");
+> +}
+> +
+> +static bool bdrv_a_allow_b(BdrvChild *a, BdrvChild *b, Error **errp)
+> +{
+> +    g_autofree char *user = NULL;
+> +    g_autofree char *perm_names = NULL;
+> +
+> +    if ((b->perm & a->shared_perm) == b->perm) {
+> +        return true;
+> +    }
+> +
+> +    perm_names = bdrv_perm_names(b->perm & ~a->shared_perm);
+> +    user = bdrv_child_user_desc(a);
+> +    error_setg(errp, "Conflicts with use by %s as '%s', which does not "
+> +               "allow '%s' on %s",
+> +               user, a->name, perm_names, bdrv_get_node_name(b->bs));
+> +
+> +    return false;
+> +}
+> +
+> +static bool bdrv_check_parents_compliance(BlockDriverState *bs, Error **errp)
+> +{
+> +    BdrvChild *a, *b;
+> +
+> +    /*
+> +     * During the loop we'll look at each pair twice. That's correct is
 
-r~
+s/is/because/ or what did you mean here?
+
+> +     * bdrv_a_allow_b() is asymmetric and we should check each pair in both
+> +     * directions.
+> +     */
+> +    QLIST_FOREACH(a, &bs->parents, next_parent) {
+> +        QLIST_FOREACH(b, &bs->parents, next_parent) {
+> +            if (a == b) {
+> +                continue;
+> +            }
+> +
+> +            if (!bdrv_a_allow_b(a, b, errp)) {
+> +                return false;
+> +            }
+> +        }
+> +    }
+> +
+> +    return true;
+> +}
+
+Kevin
+
 
