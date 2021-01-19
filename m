@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61EF2FC157
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:42:25 +0100 (CET)
-Received: from localhost ([::1]:44996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 005332FC18F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:52:18 +0100 (CET)
+Received: from localhost ([::1]:38136 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1xpY-0007D1-QC
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:42:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53380)
+	id 1l1xz6-0008Kf-Ok
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:52:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xct-0001Az-Oi
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:19 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:37678)
+ id 1l1xet-0003Va-Gl
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:23 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:57810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xcq-0000Ff-B5
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:29:19 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
- by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKOdug145832;
- Tue, 19 Jan 2021 20:29:10 GMT
+ id 1l1xer-0000dF-3d
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:23 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKODTi131286;
+ Tue, 19 Jan 2021 20:31:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
- mime-version; s=corp-2020-01-29;
- bh=ePz+Sq/1iKB95Td8WDMunIy7n00tgRQZ8WBpCySIWts=;
- b=O5CuA9OEQGl2ZGVdr3fHq01D0KG/b/mwrer4FJNRgQdDrDA0ql6rtp34KgRsiJgXgNQE
- 245dxU8pVOxRkc0xMPcreBDUt17qGQUPQpFQLu4+YYjBt2SosP+UoU60Axdrq+28SNsV
- buK1yiNemX9k2D95SWbYsTGR8pJy7SUzMIonK57a9KoP5zAQPGbFSR1UcXYK5i8Ax8pC
- HH3rDivB5kt1kcTCe77P9zMQHJ6Zh/CBdQhw7KZh+afsmuXvUu3mmJ9nybas5UIblFc8
- vTPBA7ssD2SlbjVcTMCM6RSloth7wehGmdOJWM2KL5zSbdSmb/KPj7Kr1qxeUHCHDxC6 sQ== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
- by aserp2130.oracle.com with ESMTP id 363nnak4vc-1
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=KRxZkeXCGOGB5WtxKQKW3/m4SU9GrTHotzpmkhTwWDM=;
+ b=SVzgdcWeylJdSTkwQzNKwa6+/iA/1bYRqR34rwSHQTZC/UXKxUGm8EMrNA2y7NScGIs0
+ X22B3CRJ2m8bAj20TlZgEyFC7U9PYbfsW15s2zvJbrXUYvOEewdRdfz4FIZ8voyzwSU+
+ hyZHK7ApHYLVubS6KOA1oC+tOip5HZtH25LmpAwlGYI58FA3cXVUdSk5of+I0xAaSbZd
+ Ggef317nDKl25Vgktw315j1mFMucw6iQjJkkhNHU68y88Icz3OuYk9mJAnyk9MCLJ+XP
+ sGwSitufEotgvOJ9josZFcMcQacXBaZ/aK78oen2Ie8csX3lI3Zvo24wf4lOlhYQe0KD 9A== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by aserp2120.oracle.com with ESMTP id 363r3ktxwr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:10 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
- by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPdEV128381;
- Tue, 19 Jan 2021 20:29:09 GMT
-Received: from nam02-cy1-obe.outbound.protection.outlook.com
- (mail-cys01nam02lp2055.outbound.protection.outlook.com [104.47.37.55])
- by userp3030.oracle.com with ESMTP id 3661njtag6-1
+ Tue, 19 Jan 2021 20:31:15 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPkEY176110;
+ Tue, 19 Jan 2021 20:29:15 GMT
+Received: from nam02-sn1-obe.outbound.protection.outlook.com
+ (mail-sn1nam02lp2054.outbound.protection.outlook.com [104.47.36.54])
+ by aserp3020.oracle.com with ESMTP id 3661er94nc-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:09 +0000
+ Tue, 19 Jan 2021 20:29:15 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oKEVPSKRgl/Z6IHScyMj0yp6k1fDpdc9WrrB+t78xovLvm1CaYw7BYHHY3JpA211qB8wnIxFUHYoIkw2E3CFasNpTOR0DKu8j2h8AmEl7btUuSIEcoJc17iJ7gw+mmU4gewclp0DGqBY7ZSPUubfCMEFAqJK0QuxwN1WabWZIMB35HcfRh3mGT+RdDwBib2wZ0+oCZeA3YZ4xD4pChE9WF0NAAVV7tqWVgs8ol3TT4yQsv8sebZK0G7e5xNN3CVPWj3tLKoyx0vPVjKXPVpy8L9Qd6Amd/LfCbJfRx1KSIDrvBSCC2QF97X1SDiqzqLD0JhOqx4k/l8V7Xb51/tLOw==
+ b=iS1gT1/qRXWWWaV6OopRTVkh6p7hyHjuQQyStlg8o/9ED9V89p/0gmiBHMv+NWD2yMVlLcRf9jxtfCupFhSdSl0O+4XzV9sN0vey/JKUAXkFUg+gJG6+1o9mpYIUKgg6ylSYGrlXNxtwQ3sutvCHEpQLHFLJ8skV+zv0AJ/bV5vdIxvYJOcUM1Afire+oWhNKvduYT6xKdeLJuozK4XRNjsom73n5mfriyX+eNxhdbUS3v/1AMv4hiaZDDjF4nlevGyYuD0t1tfjpoGHIHbxihkQHDH+9boil6/rDRufrHywOsMg3RUt+AFDh189hYF5qgXYaUxmlUOIKN70jiBAwQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ePz+Sq/1iKB95Td8WDMunIy7n00tgRQZ8WBpCySIWts=;
- b=UdayMUBvXezG01vmFEETAPyEwh0At/c74wkR4C5uEstT35EkHQTywJCgtBpXCkB0chkD0SirOW/6zP7BvxFDhkCK9G2BuTLEKxTvM3OpcH0MsffMDA06sklwYyLDfZCU2tm+5TyxOQQXU1ogI78TwXjFbG7zMRJ1V/GVfD0Abx0/d1tyb3oXXJqCpVmiaimf5KjZloPiUJDFcSB/JlrtnEuJ55L6aUncmg4RZN0VbgJLuWUeGt2xPeNtUNu2pdeD508sUvGhdk1+AYpVJQzdvPhAYhnsb+jmKZStDM1k2SnIoxZLAMmVvTd1lC94mPzLLO6v+hHsiTJz+qWREXjLSA==
+ bh=KRxZkeXCGOGB5WtxKQKW3/m4SU9GrTHotzpmkhTwWDM=;
+ b=BKqGyL9/syz928DnQaHI2SGJmlRaYZeUnOzB6hExEfAQ3tiU038ZGXbzV8NNtYHR61Jf1O1a6OyewKzKgPAk3lMgpvANdBIImtb9CSF3yo0DqINDlgWUlo++4AdNm1aU1+fpV4R3nj8AK+YaOYAMPQrGofaYMV8vsgNZKbRGluHg5Qu0VCFWST5RQrXOvn0DsvLaSBuq+1iLtZz4IGWCY+kJplY7hFiHAwpt2Xw8PwcLNj8muPmVXzvB9j5cz8d14X3kre9i2sGE4zrmwfd4kBzBrXhQqN6RXvUFfECpz8ZeQrFWGyP6H70rvEgRaIRfWfqD/jlMa/EcmlYPKtAcpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ePz+Sq/1iKB95Td8WDMunIy7n00tgRQZ8WBpCySIWts=;
- b=jAka+Tk4UBF6Zcue3WG/zPqG4yZbnLbh4T0ucdOpVzY04iQHSrk3TcEiLYkFqDgyFeR41p14294b0ZrAV/liWgMwKtEpE/2ccL1C1kpMVHSq9Gx7AV+sp7r4sWEFNvJU25LkukwB2j7dGSu9wQZmQ/3FSfOLd2vcVefmKifvvx4=
+ bh=KRxZkeXCGOGB5WtxKQKW3/m4SU9GrTHotzpmkhTwWDM=;
+ b=qbnz6f3NOQwO5xP3HHZlZhtBIro+nOd1bUyOd1AqeYC83op00Qh4MROptsWQfnsn0yRbuXde2+B6eMgUykL/3zGIUHqgEj+CgZI0BLJplCNGEAx6LpeQ5hDdpwOKmkgwEke5MKnhH0JVMEhwHu6cfyuguvkbM8y2loAvmXuDV4o=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
- by BYAPR10MB3349.namprd10.prod.outlook.com (2603:10b6:a03:155::19)
+ by BYAPR10MB3351.namprd10.prod.outlook.com (2603:10b6:a03:14d::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 19 Jan
- 2021 20:29:07 +0000
+ 2021 20:29:13 +0000
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b]) by BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b%7]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
- 20:29:07 +0000
+ 20:29:13 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v20 08/20] io: add qio_channel_readv_full_all_eof &
- qio_channel_readv_full_all helpers
-Date: Tue, 19 Jan 2021 15:28:25 -0500
-Message-Id: <ac1c0900ed34c8bf4e93dd77507fc34169bb8ee4.1611081587.git.jag.raman@oracle.com>
+Subject: [PATCH v20 10/20] multi-process: Initialize message handler in remote
+ device
+Date: Tue, 19 Jan 2021 15:28:27 -0500
+Message-Id: <b0f21d708c3746c110dd787fe61364284c10598b.1611081587.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1611081587.git.jag.raman@oracle.com>
 References: <cover.1611081587.git.jag.raman@oracle.com>
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Originating-IP: [209.17.40.38]
 X-ClientProxiedBy: DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12)
  To BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
@@ -88,64 +89,70 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.38) by
  DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:04 +0000
+ 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:10 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6e0597f7-f19e-440a-782d-08d8bcb8dec7
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3349:
+X-MS-Office365-Filtering-Correlation-Id: 95899e30-52e2-4e3e-6718-08d8bcb8e250
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3351:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB3349EBC1AB425C25AE8045FA90A30@BYAPR10MB3349.namprd10.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <BYAPR10MB33514CC66054DBF733AC193A90A30@BYAPR10MB3351.namprd10.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: fAWQONvNC04lLAb0EwVor56ZK4YbITQsEvF/cJy3gQV3KR6jm4lN/h+ujaLV+MWDrlCieYKq19QLllWqqMk3ZCUNsBBOMsVdW9na10QqgCGA25gTegXpL8es3EzpA9e2V4Q41OWzDY/JI8ebOYAjwz79Ytq1EWCqWDzVxNMuXP9U44lsor+zSkBI3PWuVWG9LqQ8Cj3CbeIF0OCo0GiE/wRDf8ZdV7gWXetg92VsWOR0/BtDF8mpmglnI84slOorNdf+/N1UvBvWAXBN+uh7SuxGVfxh/Y3hUOmM5Ne9moQFlTlNUAl2BSNmb/RBzJ2YDZUuDgZHt0m7QjLR7MxgFj/1Kxnv+pYV2ZBq7E1cvq6yoGTFZVkqm+Y14XDSJS8e
+X-Microsoft-Antispam-Message-Info: ILlko1oB8K6LNsSQhjaei5hiWRr6m7dbDMtMh89ZnAWkoCrZ7prDFm8Z0Y0s0xzG3Chw2YXbW7sVjtdtYOdqPiFOXv84xbXdFtFoLZ8Y92uut7j0fzYEEJ1/uV2fLQiFnXlt7jV87NBiIzCtwqa/bs2JfvEWCX8h18mf5DrIj6DrNra07GvjdDIQ17w+fQFbcEIPLmjbhyIe+Y7lnNAuyQjf7g7sfukxWOZu0WiLRAcxWtJVni2QfNopGo2Et8p7A+StxLGCVO83nGRPpSJ8Ecrz7K/KWW5gesn/5mK94vokEFXgwOPn07LzINY5YA9x3MQlJmTzhTBX4BovKhLdAytx+Zh6oPHL++cNB6/qCIRQctpLzUUcws8COL4kz49AWYJ0avmSDWRI0byb2u8e3LWE4PnMuyrreSbgHAGKVpbze4Lk/KEOOD2DLJEZw3Yuph2cQuRvbC9VJZHdzQu9JoAFm4miESFXJ7LP6c3G9Bm2DrtTC+AxpZIY4SZNfv0lZNmy9CA3njx2xryjwsyVzA==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2744.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(39860400002)(396003)(366004)(136003)(346002)(376002)(7696005)(52116002)(2906002)(6486002)(5660300002)(7416002)(36756003)(66476007)(66556008)(478600001)(6916009)(956004)(2616005)(4326008)(66946007)(26005)(186003)(16526019)(8676002)(86362001)(8936002)(107886003)(316002)(6666004)(83380400001);
+ SFS:(396003)(39860400002)(366004)(136003)(376002)(346002)(86362001)(2906002)(6666004)(15650500001)(6916009)(36756003)(4326008)(8676002)(52116002)(66476007)(66556008)(316002)(8936002)(66946007)(6486002)(107886003)(956004)(5660300002)(478600001)(7696005)(16526019)(26005)(186003)(7416002)(2616005)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?5CWnVd9C06nGGpvwWr1nrOlAkFZ0piaS7ag35+WGWaZCcNsKiqPut4YlbA35?=
- =?us-ascii?Q?ox3PPe2Cwg9q2kzFJYKuyPxK8NAsS5N24ANY3KfxxGxzFitjvnho+4YTYYHX?=
- =?us-ascii?Q?RRCCARLC+JNut5ViRjyeMK7n6XlDIErZUtQXikMJzXTXQDz3TNIWaGbHkv91?=
- =?us-ascii?Q?/1bQyTLMGvLA4Lzu95yJ4skU/co9ksXh9PbrlSQ6FjzX0+jwAIqIri4biG9c?=
- =?us-ascii?Q?mzt4dtOt0g+/dMZf9UtM9UefLYu+pKqMALsLTsATA3K2dYhEYQB27tt24rdw?=
- =?us-ascii?Q?KzkM4XnJXeRBaH5yXxe7dGzX28pQ/ZEEACWqsv7BRp3UsFn5IaHce4jjLuGe?=
- =?us-ascii?Q?Jxms2qfty+iXgUkqQdU6QGZ4rMZ1VJl3EwBt3EidCKcRcZsA0TW77FcSyN9z?=
- =?us-ascii?Q?PdOOSKblH/AL4W8Qgmbnht3/Y/yuQtMu3Um7hotCEppJpDPIbADqI3fdPJGt?=
- =?us-ascii?Q?s3cdyYnE2OR7w/QWF+7xRkrMyYAg+pYYtWoYzxo5g6sgoljzBU5fvNcyBwT1?=
- =?us-ascii?Q?gQ9D/c63gsMcekUHVK10FJ1FWRZwDTF370zeYBtacE7Y8vADJ6CoRXCr/WiZ?=
- =?us-ascii?Q?+KK9gltmxr2TFQos+dqiRyY235rrrMy7j4s0JWqiNHDlOmuW63gquQZGIjFb?=
- =?us-ascii?Q?pczk0ZB2gEZcMtOr8na8Qi0HbKYdHQiogk1SqKTl39NOt2jlLhQQ8kkVT08/?=
- =?us-ascii?Q?4a5gTIPNQRM9NvWdctoqgFKwE9dWOQHtvxLNliwtluZTQu3hFsIbvxTr7Hxi?=
- =?us-ascii?Q?F4szeuqvuEf+VNaeQzMnBCpGjOVT3wlngiE9vTv/z2eLdnHN+CjeTPRhxv6A?=
- =?us-ascii?Q?nrIWmgXyICbDQ85vUkVPR7eaByD2KEdMdmOuPLrRhySL6yQnK/ij+BVsgN/7?=
- =?us-ascii?Q?f5urc1uzRgAAnFtrNwXmkDBMqN65Nr5Iffn4kTDI5+jwgP4VByUNS8Gkq6sB?=
- =?us-ascii?Q?CvZePp+XZXzozC52R4GBr0nJGbeUFg6YTKcv6Ca1VeM=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RlNqc2tuZDNKdG1zcmNXMWVsLzdCcXBWTE44bjJsdHZ0WjZmYUM1SCt6ZTZC?=
+ =?utf-8?B?R1VhOGY4QW16M1lNUisrMGZVN2dCby9HTjNseHR2UG9HaDJQeGplcjJCbHd1?=
+ =?utf-8?B?ZnVZaVAvQm96YnY4Z0V1M21MaXNBKzYwSW4wSkg1c1c0ck4vSFQ4MERydHlz?=
+ =?utf-8?B?Qy9pOHZwN1dKaU9IRDM0bTJicGt5aTg0OFJJV004ajhRWDUrZzNFd2R3NUJG?=
+ =?utf-8?B?OWVRVk56ZHd5M2V4UWpVckZXUnVxdytsaGpwYUtYdXlsMW1iSGF0QllYU2Vs?=
+ =?utf-8?B?Vk9QUVV0WUh0TGlNZGRUcTJoVkVGcXZpMXIrbkpjQXFHRExwc1R3dWVabHZL?=
+ =?utf-8?B?U3IrOFBZVkE0c3NXRi82YWZqTXNSdVorRUQvR2dyZ3pOaWpvV0FDcGJGUkxJ?=
+ =?utf-8?B?RFdaU2hoUUZhOXErRUN6dlFxWGxMaVI4N1MvMy9waWtDWU1oYnhRMmc3Vkhi?=
+ =?utf-8?B?ZHp6UlRld3BnNVoxMjhvaS9UREpKRDRwTTNSR0Y3eDdkcWQ2Z3NyZWtINk9i?=
+ =?utf-8?B?ZTFQQkhFd0Z1YVRQeEpBZHhqYThKNjF0M0U5ZDFJWlRLS0EwU25jNG5jd01q?=
+ =?utf-8?B?RHNUVEwxWTRDcVg5MHVnbytCamU4ZUlyellzS1B4ZkZ1cWp4UmtHQUtIY0ZT?=
+ =?utf-8?B?OXR1ZVQydGsxQmNRL21IUDhQMTV2L1ZEY29EWEFWYjdrSGxtazRZU21vV3Bs?=
+ =?utf-8?B?SGo4NHovRy92aE5jeE9wRlBnaHV6Y3ovRjVSZUU3bC8rc0wwUkFmL0ppZUw1?=
+ =?utf-8?B?U0RoakttQkNia3pQSUNnUndIZlA1YmtZQTQ2OGppRkRqN0szNXNNUnFvcnNN?=
+ =?utf-8?B?dERENnp2OHl2WUpHSTRRb3JhdVN6UlZDV1pCRVlCdEZnSjM3YndJYjU4bDBr?=
+ =?utf-8?B?QjUvZDlnajd3R01qVGE0QUQ0V1ZyVkJ4TEdRYXprZGFiMGZ0Q0xGUzl2RG8x?=
+ =?utf-8?B?aS9pbUFKOGZOUUVtNXRCRHViWHk2dkhCcWtTOXcyM2lqbUNTKzEzLzYwNkpF?=
+ =?utf-8?B?RXJQWUlVOUZpdU5ZcXpWN1VzWU13OUR5RmY4QUt4R2RKUDdqaS9YZTlMclcx?=
+ =?utf-8?B?ck51TDFDOGwwSlNjaU9uczVsYUk4eU41T3U1WTM1WXhvOGhZSG1MTmNlSjMx?=
+ =?utf-8?B?WVVkMkJ0R25ZYWF6YlhhVEY2VG9RZmlhcGFja3h4UUZNQUhpVWJtNzRPMElZ?=
+ =?utf-8?B?ZFZBUCs2VDA3ZWliZmw3c3puMC81TXBaWUtWVFVaNWVCQ0Vnc2I3UXZtMnBT?=
+ =?utf-8?B?cFVjTzdWV1BESEFFMXpkT1dNcG9NWnNTTjVZaVdOQUgxRHliQm1wVGZNTmJu?=
+ =?utf-8?Q?2UDdOe/4PSFac=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e0597f7-f19e-440a-782d-08d8bcb8dec7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95899e30-52e2-4e3e-6718-08d8bcb8e250
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2744.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:07.2352 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:13.3637 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z9Ri+mvP9cnDCzmu/I/R+wJMLtZWXXoSWIYs8CoP3seut7+AjfBInCW+soFkYnUWcX4peTlCBZ2KPTFBHSP97A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3349
+X-MS-Exchange-CrossTenant-UserPrincipalName: wOeEqWnSeVD4V5b+YUDDynKe/7PCZ8Z3+2B5x1fqsoD4fIL8s8kbuS/8xM6xEJ0YyumKtp+T03BOTvcbW/TESQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3351
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
- adultscore=0
- phishscore=0 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101190113
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
- signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 impostorscore=0
- spamscore=0
- mlxlogscore=999 clxscore=1015 bulkscore=0 adultscore=0 lowpriorityscore=0
- suspectscore=0 phishscore=0 mlxscore=0 malwarescore=0 priorityscore=1501
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ phishscore=0 mlxscore=0
+ mlxlogscore=999 adultscore=0 suspectscore=0 malwarescore=0 bulkscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101190113
-Received-SPF: pass client-ip=141.146.126.79; envelope-from=jag.raman@oracle.com;
- helo=aserp2130.oracle.com
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ bulkscore=0 spamscore=0
+ clxscore=1015 lowpriorityscore=0 priorityscore=1501 mlxscore=0
+ malwarescore=0 phishscore=0 suspectscore=0 impostorscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101190113
+Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
+ helo=aserp2120.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -176,234 +183,136 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-
-Adds qio_channel_readv_full_all_eof() and qio_channel_readv_full_all()
-to read both data and FDs. Refactors existing code to use these helpers.
+Initializes the message handler function in the remote process. It is
+called whenever there's an event pending on QIOChannel that registers
+this function.
 
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/io/channel.h |  53 ++++++++++++++++++++++++++
- io/channel.c         | 106 +++++++++++++++++++++++++++++++++++++++++----------
- 2 files changed, 138 insertions(+), 21 deletions(-)
+ include/hw/remote/machine.h |  9 +++++++
+ hw/remote/message.c         | 57 +++++++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                 |  1 +
+ hw/remote/meson.build       |  1 +
+ 4 files changed, 68 insertions(+)
+ create mode 100644 hw/remote/message.c
 
-diff --git a/include/io/channel.h b/include/io/channel.h
-index 19e76fc..8898897 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -778,6 +778,59 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
-                                     void *opaque);
+diff --git a/include/hw/remote/machine.h b/include/hw/remote/machine.h
+index bdfbca4..b92b2ce 100644
+--- a/include/hw/remote/machine.h
++++ b/include/hw/remote/machine.h
+@@ -14,6 +14,7 @@
+ #include "qom/object.h"
+ #include "hw/boards.h"
+ #include "hw/pci-host/remote.h"
++#include "io/channel.h"
  
- /**
-+ * qio_channel_readv_full_all_eof:
-+ * @ioc: the channel object
-+ * @iov: the array of memory regions to read data to
-+ * @niov: the length of the @iov array
-+ * @fds: an array of file handles to read
-+ * @nfds: number of file handles in @fds
-+ * @errp: pointer to a NULL-initialized error object
+ struct RemoteMachineState {
+     MachineState parent_obj;
+@@ -21,7 +22,15 @@ struct RemoteMachineState {
+     RemotePCIHost *host;
+ };
+ 
++/* Used to pass to co-routine device and ioc. */
++typedef struct RemoteCommDev {
++    PCIDevice *dev;
++    QIOChannel *ioc;
++} RemoteCommDev;
++
+ #define TYPE_REMOTE_MACHINE "x-remote-machine"
+ OBJECT_DECLARE_SIMPLE_TYPE(RemoteMachineState, REMOTE_MACHINE)
+ 
++void coroutine_fn mpqemu_remote_msg_loop_co(void *data);
++
+ #endif
+diff --git a/hw/remote/message.c b/hw/remote/message.c
+new file mode 100644
+index 0000000..36e2d4f
+--- /dev/null
++++ b/hw/remote/message.c
+@@ -0,0 +1,57 @@
++/*
++ * Copyright © 2020, 2021 Oracle and/or its affiliates.
 + *
++ * This work is licensed under the terms of the GNU GPL-v2, version 2 or later.
 + *
-+ * Performs same function as qio_channel_readv_all_eof.
-+ * Additionally, attempts to read file descriptors shared
-+ * over the channel. The function will wait for all
-+ * requested data to be read, yielding from the current
-+ * coroutine if required. data refers to both file
-+ * descriptors and the iovs.
++ * See the COPYING file in the top-level directory.
 + *
-+ * Returns: 1 if all bytes were read, 0 if end-of-file
-+ *          occurs without data, or -1 on error
 + */
 +
-+int qio_channel_readv_full_all_eof(QIOChannel *ioc,
-+                                   const struct iovec *iov,
-+                                   size_t niov,
-+                                   int **fds, size_t *nfds,
-+                                   Error **errp);
++#include "qemu/osdep.h"
++#include "qemu-common.h"
 +
-+/**
-+ * qio_channel_readv_full_all:
-+ * @ioc: the channel object
-+ * @iov: the array of memory regions to read data to
-+ * @niov: the length of the @iov array
-+ * @fds: an array of file handles to read
-+ * @nfds: number of file handles in @fds
-+ * @errp: pointer to a NULL-initialized error object
-+ *
-+ *
-+ * Performs same function as qio_channel_readv_all_eof.
-+ * Additionally, attempts to read file descriptors shared
-+ * over the channel. The function will wait for all
-+ * requested data to be read, yielding from the current
-+ * coroutine if required. data refers to both file
-+ * descriptors and the iovs.
-+ *
-+ * Returns: 0 if all bytes were read, or -1 on error
-+ */
++#include "hw/remote/machine.h"
++#include "io/channel.h"
++#include "hw/remote/mpqemu-link.h"
++#include "qapi/error.h"
++#include "sysemu/runstate.h"
 +
-+int qio_channel_readv_full_all(QIOChannel *ioc,
-+                               const struct iovec *iov,
-+                               size_t niov,
-+                               int **fds, size_t *nfds,
-+                               Error **errp);
-+
-+/**
-  * qio_channel_writev_full_all:
-  * @ioc: the channel object
-  * @iov: the array of memory regions to write data from
-diff --git a/io/channel.c b/io/channel.c
-index 0d4b8b5..b12db9d 100644
---- a/io/channel.c
-+++ b/io/channel.c
-@@ -92,19 +92,47 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
-                               size_t niov,
-                               Error **errp)
- {
-+    return qio_channel_readv_full_all_eof(ioc, iov, niov, NULL, NULL, errp);
-+}
-+
-+int qio_channel_readv_all(QIOChannel *ioc,
-+                          const struct iovec *iov,
-+                          size_t niov,
-+                          Error **errp)
++void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
 +{
-+    return qio_channel_readv_full_all(ioc, iov, niov, NULL, NULL, errp);
-+}
++    g_autofree RemoteCommDev *com = (RemoteCommDev *)data;
++    PCIDevice *pci_dev = NULL;
++    Error *local_err = NULL;
 +
-+int qio_channel_readv_full_all_eof(QIOChannel *ioc,
-+                                   const struct iovec *iov,
-+                                   size_t niov,
-+                                   int **fds, size_t *nfds,
-+                                   Error **errp)
-+{
-     int ret = -1;
-     struct iovec *local_iov = g_new(struct iovec, niov);
-     struct iovec *local_iov_head = local_iov;
-     unsigned int nlocal_iov = niov;
-+    int **local_fds = fds;
-+    size_t *local_nfds = nfds;
-     bool partial = false;
- 
-+    if (nfds) {
-+        *nfds = 0;
-+    }
++    assert(com->ioc);
 +
-+    if (fds) {
-+        *fds = NULL;
-+    }
++    pci_dev = com->dev;
++    for (; !local_err;) {
++        MPQemuMsg msg = {0};
 +
-     nlocal_iov = iov_copy(local_iov, nlocal_iov,
-                           iov, niov,
-                           0, iov_size(iov, niov));
- 
--    while (nlocal_iov > 0) {
-+    while ((nlocal_iov > 0) || local_fds) {
-         ssize_t len;
--        len = qio_channel_readv(ioc, local_iov, nlocal_iov, errp);
-+        len = qio_channel_readv_full(ioc, local_iov, nlocal_iov, local_fds,
-+                                     local_nfds, errp);
-         if (len == QIO_CHANNEL_ERR_BLOCK) {
-             if (qemu_in_coroutine()) {
-                 qio_channel_yield(ioc, G_IO_IN);
-@@ -112,20 +140,53 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
-                 qio_channel_wait(ioc, G_IO_IN);
-             }
-             continue;
--        } else if (len < 0) {
--            goto cleanup;
--        } else if (len == 0) {
--            if (partial) {
--                error_setg(errp,
--                           "Unexpected end-of-file before all bytes were read");
--            } else {
--                ret = 0;
++        if (!mpqemu_msg_recv(&msg, com->ioc, &local_err)) {
++            break;
 +        }
 +
-+        if (len <= 0) {
-+            size_t fd_idx;
-+
-+            if (!len && !niov && (nfds && *nfds)) {
-+                break;
-+            }
-+
-+            if (!partial && (!nfds || !(*nfds))) {
-+                ret = len;
-+                goto cleanup;
-             }
-+
-+            error_prepend(errp,
-+                          "Unexpected end-of-file before all data were read.");
-+
-+            if (!nfds || !(*nfds)) {
-+                goto cleanup;
-+            }
-+
-+            /*
-+             * If (len < 0) and fds are returned, it's not clear if the
-+             * returned fds are valid to be closed. Just free'ing the
-+             * allocated memory for fds in this case
-+             */
-+            fd_idx = *nfds;
-+            while (fd_idx && !len) {
-+                close((*fds)[fd_idx - 1]);
-+                fd_idx--;
-+            }
-+
-+            g_free(*fds);
-+            *fds = NULL;
-+            *nfds = 0;
-+
-             goto cleanup;
-         }
- 
-         partial = true;
--        iov_discard_front(&local_iov, &nlocal_iov, len);
-+
-+        if (nlocal_iov) {
-+            iov_discard_front(&local_iov, &nlocal_iov, len);
++        if (!mpqemu_msg_valid(&msg)) {
++            error_setg(&local_err, "Received invalid message from proxy"
++                                   "in remote process pid="FMT_pid"",
++                                   getpid());
++            break;
 +        }
 +
-+        local_fds = NULL;
-+        local_nfds = NULL;
-     }
- 
-     ret = 1;
-@@ -135,20 +196,23 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
-     return ret;
- }
- 
--int qio_channel_readv_all(QIOChannel *ioc,
--                          const struct iovec *iov,
--                          size_t niov,
--                          Error **errp)
-+int qio_channel_readv_full_all(QIOChannel *ioc,
-+                               const struct iovec *iov,
-+                               size_t niov,
-+                               int **fds, size_t *nfds,
-+                               Error **errp)
- {
--    int ret = qio_channel_readv_all_eof(ioc, iov, niov, errp);
-+    int ret = qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds, errp);
- 
-     if (ret == 0) {
--        ret = -1;
--        error_setg(errp,
--                   "Unexpected end-of-file before all bytes were read");
--    } else if (ret == 1) {
--        ret = 0;
-+        error_prepend(errp,
-+                      "Unexpected end-of-file before all data were read.");
-+        return -1;
-     }
-+    if (ret == 1) {
-+        return 0;
++        switch (msg.cmd) {
++        default:
++            error_setg(&local_err,
++                       "Unknown command (%d) received for device %s"
++                       " (pid="FMT_pid")",
++                       msg.cmd, DEVICE(pci_dev)->id, getpid());
++        }
 +    }
 +
-     return ret;
- }
++    if (local_err) {
++        error_report_err(local_err);
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_ERROR);
++    } else {
++        qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
++    }
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ae3172a..205b188 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3195,6 +3195,7 @@ F: hw/remote/machine.c
+ F: include/hw/remote/machine.h
+ F: hw/remote/mpqemu-link.c
+ F: include/hw/remote/mpqemu-link.h
++F: hw/remote/message.c
  
+ Build and test automation
+ -------------------------
+diff --git a/hw/remote/meson.build b/hw/remote/meson.build
+index a2b2fc0..9f5c57f 100644
+--- a/hw/remote/meson.build
++++ b/hw/remote/meson.build
+@@ -2,5 +2,6 @@ remote_ss = ss.source_set()
+ 
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
+ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
++remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
+ 
+ softmmu_ss.add_all(when: 'CONFIG_MULTIPROCESS', if_true: remote_ss)
 -- 
 1.8.3.1
 
