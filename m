@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52C652FBD8A
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:27:26 +0100 (CET)
-Received: from localhost ([::1]:59504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4EC2FBD54
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:18:27 +0100 (CET)
+Received: from localhost ([::1]:40686 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1umr-0005wl-BQ
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:27:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53664)
+	id 1l1ue9-0005nd-TG
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:18:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54208)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1uOZ-00007N-SV; Tue, 19 Jan 2021 12:02:20 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:34972)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1uQY-0001yB-9O
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:04:22 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44293)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1uOX-0003J6-VR; Tue, 19 Jan 2021 12:02:19 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id b5so276240pjl.0;
- Tue, 19 Jan 2021 09:02:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=1ZqTEcO0+My4S8yR9ghwKwwVY5i+OyKUS3wk+3jeLfM=;
- b=twsaXYlafCduFD0SZCo3ogB7gSzNF1iLA13ZD8qpqAJMBlKeVQ6PmW3lqSj7Gn9Y8I
- 9JkkUkFPvp9Xfgj/x05dWEEAKDVgV5bZWRte54ImqbUhl5MQZ5lGrSwb1CwRMCRAhWu0
- NK7E7A0FGyXY/07Rehz/MD/EmiKHwxT58UCht9sI0blQ7mrnxIBiyLJMgEa6wQUCAndo
- FaJMylJ/33xi4OBWXqxNziEm0Z1hjKNgqy84fWOq/9wZRPOH/hFniy7w8LAb/P9aKGAF
- jYt9OquGIawO7mSQutT0fZfCtfbE2AmJwtRYCkj9bvD7ONFD4mAnFYDNIo/v5qjMXzAw
- XfpQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1uQK-0003WV-TZ
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:04:21 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id w1so29490311ejf.11
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 09:04:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=nYcrjI7Zodna8WKQcC7mBl2yfQhUtgvneKR3bEJRrCY=;
+ b=tL158EHd5uPPZVDUf//PyoQwapEB3TME6Ea+mtUE6slXW735PNjSpuYd7AFeMtWpqx
+ SB1BlSx8Tl1o6mSR5ZBN5J0O+RqvGUf2gHSDjgxznuH/20KhZHkZ5EOOvS8HtrEhgkd1
+ YRG71bw5E5aUejf8q0S846a8g4iqyEIZu22u92/phWX3i8ByAgwqocqD3WzXEntxPx4q
+ 41beMzR+r4/uo0z/IaXrSNvhOm/8Mhex7i8qXRNz+cschU676CU3u0yCtaDAOXYeNJG1
+ TTDSivK2EBMqPBFXLAE55k90VWt9Lpa1+VulguzqRzda12wl42q1Nz5OFbIYttDsqPWh
+ EYNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=1ZqTEcO0+My4S8yR9ghwKwwVY5i+OyKUS3wk+3jeLfM=;
- b=R8dD45I2ZF99Eyg/4Cya4+WCOS9p70loAwesDYgP+fDm6cgFKxP74XBr568K2FI5q9
- iyy5EMscQmxXDmQIeaFhvBGORnNV5W2sxXSTAFcpHOsCOA4pRR7lbslzyQdRjzRR4AfI
- 8kRIDJ4hiJ5ElNagJ6VAHUV7leI/CR+m68Z+R0GKYIwZGb58wAf/mD/1hwqJwWYi5U1x
- HqiqUSWofVI3yoxpcW5EswO2TccESdIrEGXOcBmCqsWZG+/qKzJGRu3vrx1cz2yuzHN8
- dtWe54uunBgXjIb0DT5jvPXfET905ByMLmYwt4lSIdsOhnO2dv2Aced4IX8vrG/lctlL
- p+9A==
-X-Gm-Message-State: AOAM531FXcdzlp44mrs0NOMWvvuPATdPFS9Cpe15KUiaJDmEuvOc4rT8
- xSzwEIMu+n4AQnHlwjkxCrmsG7mXMcngnA==
-X-Google-Smtp-Source: ABdhPJz81YzMphrreX9vaiWuale1KkD3uBGwx4HRjh/4Xkg6/EuaUlk15l4zYcS76l7U0mmvFXkYlg==
-X-Received: by 2002:a17:90a:e28c:: with SMTP id
- d12mr648707pjz.236.1611075736148; 
- Tue, 19 Jan 2021 09:02:16 -0800 (PST)
-Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id m4sm19396001pgv.16.2021.01.19.09.02.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 09:02:15 -0800 (PST)
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Subject: [RFC PATCH V3 8/8] hw/block/nvme: Add Identify Active Namespace ID
- List
-Date: Wed, 20 Jan 2021 02:01:47 +0900
-Message-Id: <20210119170147.19657-9-minwoo.im.dev@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
-References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1031.google.com
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=nYcrjI7Zodna8WKQcC7mBl2yfQhUtgvneKR3bEJRrCY=;
+ b=owCJUTnfEwc56pKwiNvsAnGv7YTl9LpZ8iele02OOgUIgrwmyPjeQpUUsbmhYc1+mY
+ tdL4EKmgH3DOhPaJkPlo9AJMm8VsFVbMByv6Apcp1g7glJIwwlFysuQFknzWu3QYpI9E
+ 9PN5uYW+soiyG5zFGxO3mB11Mh7ilhleMxBucFZvvUgbLe4638mw3PPOicpqzYRyBDbk
+ XKTqPWBlTGVs8velMCE/+MyzrLEq6Hfo4khvN9RfUkG6MzN4Tg/QQQlhA59AO4wP7Inp
+ R6drYOwdzUObEJf2BcMHMyIL4xsmOWrXTbze52qCkUC6wMPqoX979v1AUu9FS7rerQuN
+ 3Hmw==
+X-Gm-Message-State: AOAM532lWRVvPk650AR1sJuGjkQN8EodYsTqX3+99oAGuI+8Xm8v5YFp
+ zgW2t8Rym3tXBOr4mmx1inTTItIjElfGLJQSDaLv7g==
+X-Google-Smtp-Source: ABdhPJw7FDKs57GkcqV8Vq/S7hNre57Of9edLDCowAFXW+4p/7VVGuux9bi1ngDfMZbL2ndhwgKAQgOMJoN83kOJi+w=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr3702048ejd.250.1611075844753; 
+ Tue, 19 Jan 2021 09:04:04 -0800 (PST)
+MIME-Version: 1.0
+References: <20210115224645.1196742-1-richard.henderson@linaro.org>
+ <20210115224645.1196742-11-richard.henderson@linaro.org>
+In-Reply-To: <20210115224645.1196742-11-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 17:03:53 +0000
+Message-ID: <CAFEAcA_O6FMNCLZ=rzEkehbrnwmyF3X_qgFYSNobi=EqKL5-WQ@mail.gmail.com>
+Subject: Re: [PATCH v3 10/21] linux-user: Fix guest_addr_valid vs reserved_va
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,90 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Kevin Wolf <kwolf@redhat.com>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Spec v1.4b 6.1.4 "Active and Inactive NSID Types" says:
+On Fri, 15 Jan 2021 at 22:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We must always use GUEST_ADDR_MAX, because even 32-bit hosts can
+> use -R <reserved_va> to restrict the memory address of the guest.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/exec/cpu_ldst.h | 9 ++++-----
+>  1 file changed, 4 insertions(+), 5 deletions(-)
+>
+> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+> index 4e6ef3d542..e62f4fba00 100644
+> --- a/include/exec/cpu_ldst.h
+> +++ b/include/exec/cpu_ldst.h
+> @@ -72,11 +72,10 @@ typedef uint64_t abi_ptr;
+>  /* All direct uses of g2h and h2g need to go away for usermode softmmu.  */
+>  #define g2h(x) ((void *)((uintptr_t)(abi_ptr)(x) + guest_base))
+>
+> -#if HOST_LONG_BITS <= TARGET_VIRT_ADDR_SPACE_BITS
+> -#define guest_addr_valid(x) (1)
+> -#else
+> -#define guest_addr_valid(x) ((x) <= GUEST_ADDR_MAX)
+> -#endif
+> +static inline bool guest_addr_valid(abi_ulong x)
+> +{
+> +    return x <= GUEST_ADDR_MAX;
+> +}
 
-"Active NSIDs for a controller refer to namespaces that are attached to
-that controller. Allocated NSIDs that are inactive for a controller refer
-to namespaces that are not attached to that controller."
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-This patch introduced for Identify Active Namespace ID List (CNS 02h).
+Looking back at patch 9 -- if we always check against
+GUEST_ADDR_MAX here, should we also do that for h2g_valid(),
+or are the two uses different ?
+(The v2->v3 changes list for patch 9 suggests we may have
+had this discussion previously, but I forget the details...)
 
-Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
----
- hw/block/nvme.c | 39 ++++++++++++++++++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 5 deletions(-)
-
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 2b2c07b36c2b..7247167b0ee6 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -2883,6 +2883,39 @@ static uint16_t nvme_identify_ns_csi(NvmeCtrl *n, NvmeRequest *req)
-     return NVME_INVALID_FIELD | NVME_DNR;
- }
- 
-+static uint16_t nvme_identify_nslist_active(NvmeCtrl *n, NvmeRequest *req)
-+{
-+    NvmeNamespace *ns;
-+    NvmeIdentify *c = (NvmeIdentify *)&req->cmd;
-+    uint32_t min_nsid = le32_to_cpu(c->nsid);
-+    uint8_t list[NVME_IDENTIFY_DATA_SIZE] = {};
-+    static const int data_len = sizeof(list);
-+    uint32_t *list_ptr = (uint32_t *)list;
-+    int i, j = 0;
-+
-+    if (min_nsid >= NVME_NSID_BROADCAST - 1) {
-+        return NVME_INVALID_NSID | NVME_DNR;
-+    }
-+
-+    for (i = 1; i <= n->num_namespaces; i++) {
-+        ns = nvme_ns(n, i);
-+        if (!ns || ns->params.nsid <= min_nsid) {
-+            continue;
-+        }
-+
-+        if (!nvme_ns_is_attached(n, ns)) {
-+            continue;
-+        }
-+
-+        list_ptr[j++] = cpu_to_le32(ns->params.nsid);
-+        if (j == data_len / sizeof(uint32_t)) {
-+            break;
-+        }
-+    }
-+
-+    return nvme_dma(n, list, data_len, DMA_DIRECTION_FROM_DEVICE, req);
-+}
-+
- static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
- {
-     NvmeNamespace *ns;
-@@ -2914,10 +2947,6 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeRequest *req)
-             continue;
-         }
- 
--        if (!nvme_ns_is_attached(n, ns)) {
--            continue;
--        }
--
-         list_ptr[j++] = cpu_to_le32(ns->params.nsid);
-         if (j == data_len / sizeof(uint32_t)) {
-             break;
-@@ -3045,7 +3074,7 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeRequest *req)
-     case NVME_ID_CNS_CS_CTRL:
-         return nvme_identify_ctrl_csi(n, req);
-     case NVME_ID_CNS_NS_ACTIVE_LIST:
--         /* fall through */
-+         return nvme_identify_nslist_active(n, req);
-     case NVME_ID_CNS_NS_PRESENT_LIST:
-         return nvme_identify_nslist(n, req);
-     case NVME_ID_CNS_CS_NS_ACTIVE_LIST:
--- 
-2.17.1
-
+thanks
+-- PMM
 
