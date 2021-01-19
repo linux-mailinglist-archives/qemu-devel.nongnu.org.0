@@ -2,60 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4142F2FC3F2
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 23:42:58 +0100 (CET)
-Received: from localhost ([::1]:47962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5222E2FC39C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 23:39:02 +0100 (CET)
+Received: from localhost ([::1]:45754 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ziC-00085I-RV
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 17:42:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54028)
+	id 1l1zeO-000739-Sm
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 17:39:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rdunlap@infradead.org>)
- id 1l1zah-0005hS-9T
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:35:11 -0500
-Received: from merlin.infradead.org ([2001:8b0:10b:1231::1]:57534)
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>)
+ id 1l1zd4-0006Nj-1b; Tue, 19 Jan 2021 17:37:38 -0500
+Received: from ma1-aaemail-dr-lapp03.apple.com ([17.171.2.72]:56764)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rdunlap@infradead.org>)
- id 1l1zac-0007qu-Ui; Tue, 19 Jan 2021 17:35:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=merlin.20170209; h=Content-Transfer-Encoding:Content-Type:
- In-Reply-To:MIME-Version:Date:Message-ID:From:References:Cc:To:Subject:Sender
- :Reply-To:Content-ID:Content-Description;
- bh=OtL4sdAGsJ08z7fCxeCmMVsJDaQwBot6LG44qZyyGSk=; b=DXq12zrUsz5JbfiOkM3/P+/8RC
- RVJssaknA/7T+p+K1KP2P7Sc4lQOv1swnQ+FwXP4oSwuCDe5IOLaHX2Ajp6t/wJbb6hzSJC01rsuX
- MsegCFIS23WG4OTrofNGyE1GuKF6m4qq9rU/ObWUy1s5/taEm7+hlJHxrltuO/LgxeYAAcSU4wZnF
- A7VGnrMdtgpDsxEbHE2gHVm+oogiA0eiKzPk3I+pxtKTmlN3wUySac8uDXl3G4h3VibiZHmo6sdcQ
- ktwmyM50mI9O6KIwfVx7I02IwEs/kmZA6Wt0IaTHTExSlyJzLDwJIT8DR/+pLQCCByDxwzqDhTFqf
- oTk/e/sA==;
-Received: from [2601:1c0:6280:3f0::9abc]
- by merlin.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
- id 1l1za7-0002Cl-CZ; Tue, 19 Jan 2021 22:34:36 +0000
-Subject: Re: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
- driver
-To: Adrian Catangiu <acatan@amazon.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- linux-s390@vger.kernel.org
-References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
- <1610453760-13812-2-git-send-email-acatan@amazon.com>
-From: Randy Dunlap <rdunlap@infradead.org>
-Message-ID: <2764a194-934c-5426-728a-cd755a6e395f@infradead.org>
-Date: Tue, 19 Jan 2021 14:34:17 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <1610453760-13812-2-git-send-email-acatan@amazon.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2001:8b0:10b:1231::1;
- envelope-from=rdunlap@infradead.org; helo=merlin.infradead.org
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>)
+ id 1l1zd2-0008Cd-6f; Tue, 19 Jan 2021 17:37:37 -0500
+Received: from pps.filterd (ma1-aaemail-dr-lapp03.apple.com [127.0.0.1])
+ by ma1-aaemail-dr-lapp03.apple.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10JMYBQB013423; Tue, 19 Jan 2021 14:37:32 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=content-type :
+ mime-version : subject : from : in-reply-to : date : cc :
+ content-transfer-encoding : message-id : references : to; s=20180706;
+ bh=2FgkfLvoDDb70XHz5HCw878PFhZtYBJkkql75UFnRHA=;
+ b=crWskos5CZq/Zv/ovSV8joozbIktobJXmy1hDUGLPZUX4Aq1LTeyDzVm+gKBZagK6oZe
+ dEhjnEPI+86CzpRuPBd98uNqUkQn80qRyjZDEfy+CZK4qXyY76V3/4Lo/NPRd+C7qc6k
+ 3jWMDZHALyTgh22ShCJtGGk+WGbnGuZ1sFBH39Lrf/2oaSRZacQVWp2ELkl8me+/XxGT
+ lRVbtQPcmxg4TwiYMejjyBPhdkNSHt/nof8Q5T2Az7J3k77dynIUmQ7YSlNjmIOFsvC5
+ iqZCR0rjErakSrrl0NjEy9miF52E8aVkuMZuHw4jWvaomB6aE4G1oiI2fuXfuFIfq7Cg JA== 
+Received: from rn-mailsvcp-mta-lapp02.rno.apple.com
+ (rn-mailsvcp-mta-lapp02.rno.apple.com [10.225.203.150])
+ by ma1-aaemail-dr-lapp03.apple.com with ESMTP id 36400yre6s-3
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Tue, 19 Jan 2021 14:37:32 -0800
+Received: from rn-mailsvcp-mmp-lapp02.rno.apple.com
+ (rn-mailsvcp-mmp-lapp02.rno.apple.com [17.179.253.15])
+ by rn-mailsvcp-mta-lapp02.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.7.20201203 64bit (built Dec  3
+ 2020)) with ESMTPS id <0QN700MTPDIIAP80@rn-mailsvcp-mta-lapp02.rno.apple.com>; 
+ Tue, 19 Jan 2021 14:37:30 -0800 (PST)
+Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp02.rno.apple.com by
+ rn-mailsvcp-mmp-lapp02.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.7.20201203 64bit (built Dec  3
+ 2020)) id <0QN700O00D533P00@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Tue,
+ 19 Jan 2021 14:37:30 -0800 (PST)
+X-Va-A: 
+X-Va-T-CD: 5b0672c2549ae520efd66c97de4cf04f
+X-Va-E-CD: f760d96413f0b4536494aff6c0bb6555
+X-Va-R-CD: c1f7a5576fab44d40d7b6f9c6fc03739
+X-Va-CD: 0
+X-Va-ID: 8000a056-2d47-4bc4-9161-3f87ae3a5afb
+X-V-A: 
+X-V-T-CD: 5b0672c2549ae520efd66c97de4cf04f
+X-V-E-CD: f760d96413f0b4536494aff6c0bb6555
+X-V-R-CD: c1f7a5576fab44d40d7b6f9c6fc03739
+X-V-CD: 0
+X-V-ID: fb087c1b-d5d0-45c3-9b6b-6e5b56d5c2d7
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-19_12:2021-01-18,
+ 2021-01-19 signatures=0
+Received: from smtpclient.apple (unknown [17.232.231.32])
+ by rn-mailsvcp-mmp-lapp02.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.7.20201203 64bit (built Dec  3
+ 2020))
+ with ESMTPSA id <0QN700CLFDIFKX00@rn-mailsvcp-mmp-lapp02.rno.apple.com>; Tue,
+ 19 Jan 2021 14:37:29 -0800 (PST)
+Content-type: text/plain; charset=us-ascii
+MIME-version: 1.0 (Mac OS X Mail 14.0 \(3654.80.0.2.6\))
+Subject: Re: [PATCH v2] target/i386/hvf: add vmware-cpuid-freq cpu feature
+In-reply-to: <20210114194703.134333-1-yaroshchuk2000@gmail.com>
+Date: Tue, 19 Jan 2021 14:37:27 -0800
+Content-transfer-encoding: quoted-printable
+Message-id: <B529CEBA-F2F4-4EF4-8E59-F166158BBE0A@apple.com>
+References: <20210113205221.32308-1-yaroshchuk2000@gmail.com>
+ <20210114194703.134333-1-yaroshchuk2000@gmail.com>
+To: yaroshchuk2000@gmail.com
+X-Mailer: Apple Mail (2.3654.80.0.2.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-19_12:2021-01-18,
+ 2021-01-19 signatures=0
+Received-SPF: pass client-ip=17.171.2.72; envelope-from=dirty@apple.com;
+ helo=ma1-aaemail-dr-lapp03.apple.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,332 +102,192 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason@zx2c4.com, dgunigun@redhat.com, mst@redhat.com, ghammer@redhat.com,
- vijaysun@ca.ibm.com, 0x7f454c46@gmail.com, mhocko@kernel.org,
- oridgar@gmail.com, avagin@gmail.com, pavel@ucw.cz, ptikhomirov@virtuozzo.com,
- corbet@lwn.net, mpe@ellerman.id.au, rafael@kernel.org, ebiggers@kernel.org,
- borntraeger@de.ibm.com, sblbir@amazon.com, bonzini@gnu.org, arnd@arndb.de,
- jannh@google.com, raduweis@amazon.com, asmehra@redhat.com, graf@amazon.com,
- rppt@kernel.org, luto@kernel.org, gil@azul.com, colmmacc@amazon.com,
- tytso@mit.edu, gregkh@linuxfoundation.org, areber@redhat.com,
- ebiederm@xmission.com, ovzxemul@gmail.com, w@1wt.eu, dwmw@amazon.co.uk
+Cc: qemu-trivial@nongnu.org, r.bolshakov@yadro.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Cameron Esfahani <dirty@apple.com>
+From: dirty--- via <qemu-devel@nongnu.org>
 
-Hi--
 
-On 1/12/21 4:15 AM, Adrian Catangiu wrote:
-> - Background and problem
-> 
 
+> On Jan 14, 2021, at 11:47 AM, yaroshchuk2000@gmail.com wrote:
+>=20
+> From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+>=20
+> For `-accel hvf` cpu_x86_cpuid() is wrapped with hvf_cpu_x86_cpuid() =
+to
+> add paravirtualization cpuid leaf 0x40000010
+> https://lkml.org/lkml/2008/10/1/246
+>=20
+> Leaf 0x40000010, Timing Information:
+> EAX: (Virtual) TSC frequency in kHz.
+> EBX: (Virtual) Bus (local apic timer) frequency in kHz.
+> ECX, EDX: RESERVED (Per above, reserved fields are set to zero).
+>=20
+> On macOS TSC and APIC Bus frequencies can be readed by sysctl call =
+with
+> names `machdep.tsc.frequency` and `hw.busfrequency`
+>=20
+> This options is required for Darwin-XNU guest to be synchronized with
+> host
+>=20
+> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
 > ---
->  Documentation/misc-devices/sysgenid.rst | 240 +++++++++++++++++++++++++
->  drivers/misc/Kconfig                    |  16 ++
->  drivers/misc/Makefile                   |   1 +
->  drivers/misc/sysgenid.c                 | 298 ++++++++++++++++++++++++++++++++
->  include/uapi/linux/sysgenid.h           |  18 ++
->  5 files changed, 573 insertions(+)
->  create mode 100644 Documentation/misc-devices/sysgenid.rst
->  create mode 100644 drivers/misc/sysgenid.c
->  create mode 100644 include/uapi/linux/sysgenid.h
-> 
-> diff --git a/Documentation/misc-devices/sysgenid.rst b/Documentation/misc-devices/sysgenid.rst
-> new file mode 100644
-> index 0000000..0b31ccf
-> --- /dev/null
-> +++ b/Documentation/misc-devices/sysgenid.rst
-> @@ -0,0 +1,240 @@
-> +.. SPDX-License-Identifier: GPL-2.0
+> target/i386/hvf/hvf.c | 90 ++++++++++++++++++++++++++++++++++++++++++-
+> 1 file changed, 89 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+> index ed9356565c..a5daafe202 100644
+> --- a/target/i386/hvf/hvf.c
+> +++ b/target/i386/hvf/hvf.c
+> @@ -65,6 +65,7 @@
+>=20
+> #include <Hypervisor/hv.h>
+> #include <Hypervisor/hv_vmx.h>
+> +#include <sys/sysctl.h>
+>=20
+> #include "exec/address-spaces.h"
+> #include "hw/i386/apic_internal.h"
+> @@ -456,6 +457,48 @@ static void dummy_signal(int sig)
+> {
+> }
+>=20
+> +static void init_tsc_freq(CPUX86State *env)
+> +{
+> +    size_t length;
+> +    uint64_t tsc_freq;
 > +
-> +========
-> +SYSGENID
-> +========
+> +    if (env->tsc_khz !=3D 0) {
+> +        return;
+> +    }
 > +
-> +The System Generation ID feature is required in virtualized or
-> +containerized environments by applications that work with local copies
-> +or caches of world-unique data such as random values, UUIDs,
-> +monotonically increasing counters, etc.
-> +Such applications can be negatively affected by VM or container
-> +snapshotting when the VM or container is either cloned or returned to
-> +an earlier point in time.
+> +    length =3D sizeof(uint64_t);
+> +    if (sysctlbyname("machdep.tsc.frequency", &tsc_freq, &length, =
+NULL, 0)) {
+> +        return;
+> +    }
+> +    env->tsc_khz =3D tsc_freq / 1000;  /* Hz to KHz */
+> +}
 > +
-> +The System Generation ID is a simple concept meant to alleviate the
-> +issue by providing a monotonically increasing counter that changes
-> +each time the VM or container is restored from a snapshot.
-> +The driver for it lives at ``drivers/misc/sysgenid.c``.
+> +static void init_apic_bus_freq(CPUX86State *env)
+> +{
+> +    size_t length;
+> +    uint64_t bus_freq;
 > +
-> +The ``sysgenid`` driver exposes a monotonic incremental System
-> +Generation u32 counter via a char-dev FS interface accessible through
-> +``/dev/sysgenid`` that provides sync and async SysGen counter updates
+> +    if (env->apic_bus_freq !=3D 0) {
+> +        return;
+> +    }
+> +
+> +    length =3D sizeof(uint64_t);
+> +    if (sysctlbyname("hw.busfrequency", &bus_freq, &length, NULL, 0)) =
+{
+> +        return;
+> +    }
+> +    env->apic_bus_freq =3D bus_freq;
+> +}
+> +
+> +static inline bool tsc_is_known(CPUX86State *env)
+> +{
+> +    return env->tsc_khz !=3D 0;
+> +}
+> +
+> +static inline bool apic_bus_freq_is_known(CPUX86State *env)
+> +{
+> +    return env->apic_bus_freq !=3D 0;
+> +}
+> +
+> int hvf_init_vcpu(CPUState *cpu)
+> {
+>=20
+> @@ -480,6 +523,15 @@ int hvf_init_vcpu(CPUState *cpu)
+>     hvf_state->hvf_caps =3D g_new0(struct hvf_vcpu_caps, 1);
+>     env->hvf_mmio_buf =3D g_new(char, 4096);
+>=20
+> +    if (x86cpu->vmware_cpuid_freq) {
+> +        init_tsc_freq(env);
+> +        init_apic_bus_freq(env);
+> +
+> +        if (!tsc_is_known(env) || !apic_bus_freq_is_known(env)) {
+> +            error_report("vmware-cpuid-freq: feature couldn't be =
+enabled");
+> +        }
+> +    }
+> +
+>     r =3D hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, =
+HV_VCPU_DEFAULT);
+>     cpu->vcpu_dirty =3D 1;
+>     assert_hvf_ok(r);
+> @@ -597,6 +649,42 @@ static void hvf_store_events(CPUState *cpu, =
+uint32_t ins_len, uint64_t idtvec_in
+>     }
+> }
+>=20
 
-                                                                 update
+We already have hvf/x86_cpuid.c.  Can we put hvf_cpu_x86_cpuid() in =
+there?
 
-> +notifications. It also provides SysGen counter retrieval and
-> +confirmation mechanisms.
+> +static void hvf_cpu_x86_cpuid(CPUX86State *env, uint32_t index, =
+uint32_t count,
+> +                              uint32_t *eax, uint32_t *ebx,
+> +                              uint32_t *ecx, uint32_t *edx)
+> +{
+> +    /*
+> +     * A wrapper extends cpu_x86_cpuid with 0x40000000 and 0x40000010 =
+leafs
+> +     * Provides vmware-cpuid-freq support to hvf
+> +     */
 > +
-> +The counter starts from zero when the driver is initialized and
-> +monotonically increments every time the system generation changes.
+> +    uint32_t signature[3];
 > +
-> +The ``sysgenid`` driver exports the ``void sysgenid_bump_generation()``
-> +symbol which can be used by backend drivers to drive system generation
-> +changes based on hardware events.
-> +System generation changes can also be driven by userspace software
-> +through a dedicated driver ioctl.
+> +    if (!tsc_is_known(env) || !apic_bus_freq_is_known(env)) {
+> +        cpu_x86_cpuid(env, index, count, eax, ebx, ecx, edx);
+> +        return;
+> +    }
 > +
-> +Userspace applications or libraries can (a)synchronously consume the
-> +system generation counter through the provided FS interface, to make
-> +any necessary internal adjustments following a system generation update.
-> +
-> +Driver FS interface:
-> +
-> +``open()``:
-> +  When the device is opened, a copy of the current Sys-Gen-Id (counter)
-> +  is associated with the open file descriptor. The driver now tracks
-> +  this file as an independent *watcher*. The driver tracks how many
-> +  watchers are aware of the latest Sys-Gen-Id counter and how many of
-> +  them are *outdated*; outdated being those that have lived through
-> +  a Sys-Gen-Id change but not yet confirmed the new generation counter.
-> +
-> +``read()``:
-> +  Read is meant to provide the *new* system generation counter when a
-> +  generation change takes place. The read operation blocks until the
-> +  associated counter is no longer up to date, at which point the new
-> +  counter is provided/returned.
-> +  Nonblocking ``read()`` uses ``EAGAIN`` to signal that there is no
-> +  *new* counter value available. The generation counter is considered
-> +  *new* for each open file descriptor that hasn't confirmed the new
-> +  value following a generation change. Therefore, once a generation
-> +  change takes place, all ``read()`` calls will immediately return the
-> +  new generation counter and will continue to do so until the
-> +  new value is confirmed back to the driver through ``write()``.
-> +  Partial reads are not allowed - read buffer needs to be at least
-> +  ``sizeof(unsigned)`` in size.
+> +    switch (index) {
+> +    case 0x40000000:
+> +        memcpy(signature, "TCGTCGTCGTCG", 12); /* QEMU Signature */
 
-Please use (unsigned int), not just (unsigned).
-(Linux style)
+I agree with Roman, using "HVFHVFHVFHVF" is better.
 
+> +        *eax =3D 0x40000010;                     /* Max available =
+cpuid leaf */
+> +        *ebx =3D signature[0];
+> +        *ecx =3D signature[1];
+> +        *edx =3D signature[2];
+> +        break;
+> +    case 0x40000010:
+> +        *eax =3D env->tsc_khz;
+> +        *ebx =3D env->apic_bus_freq / 1000; /* Hz to KHz */
+> +        *ecx =3D 0;
+> +        *edx =3D 0;
+> +        break;
+> +    default:
+> +        cpu_x86_cpuid(env, index, count, eax, ebx, ecx, edx);
+> +        break;
+> +    }
+> +}
 > +
-> +``write()``:
-> +  Write is used to confirm the up-to-date Sys Gen counter back to the
-> +  driver.
-> +  Following a VM generation change, all existing watchers are marked
-> +  as *outdated*. Each file descriptor will maintain the *outdated*
-> +  status until a ``write()`` confirms the up-to-date counter back to
-> +  the driver.
-> +  Partial writes are not allowed - write buffer should be exactly
-> +  ``sizeof(unsigned)`` in size.
+> int hvf_vcpu_exec(CPUState *cpu)
+> {
+>     X86CPU *x86_cpu =3D X86_CPU(cpu);
+> @@ -734,7 +822,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+>             uint32_t rcx =3D (uint32_t)rreg(cpu->hvf_fd, HV_X86_RCX);
+>             uint32_t rdx =3D (uint32_t)rreg(cpu->hvf_fd, HV_X86_RDX);
+>=20
+> -            cpu_x86_cpuid(env, rax, rcx, &rax, &rbx, &rcx, &rdx);
+> +            hvf_cpu_x86_cpuid(env, rax, rcx, &rax, &rbx, &rcx, &rdx);
+>=20
+>             wreg(cpu->hvf_fd, HV_X86_RAX, rax);
+>             wreg(cpu->hvf_fd, HV_X86_RBX, rbx);
+> --=20
+> 2.28.0
+>=20
+>=20
 
-ditto.
+Looks good.
 
-> +
-> +``poll()``:
-> +  Poll is implemented to allow polling for generation counter updates.
-> +  Such updates result in ``EPOLLIN`` polling status until the new
-> +  up-to-date counter is confirmed back to the driver through a
-> +  ``write()``.
-> +
-> +``ioctl()``:
-> +  The driver also adds support for tracking count of open file
-> +  descriptors that haven't acknowledged a generation counter update,
-> +  as well as a mechanism for userspace to *force* a generation update:
-> +
-> +  - SYSGENID_GET_OUTDATED_WATCHERS: immediately returns the number of
-> +    *outdated* watchers - number of file descriptors that were open
-> +    during a system generation change, and which have not yet confirmed
-> +    the new generation counter.
-> +  - SYSGENID_WAIT_WATCHERS: blocks until there are no more *outdated*
-> +    watchers, or if a ``timeout`` argument is provided, until the
-> +    timeout expires.
-> +    If the current caller is *outdated* or a generation change happens
-> +    while waiting (thus making current caller *outdated*), the ioctl
-> +    returns ``-EINTR`` to signal the user to handle event and retry.
-> +  - SYSGENID_FORCE_GEN_UPDATE: forces a generation counter increment.
-> +    It takes a ``minimum-generation`` argument which represents the
-> +    minimum value the generation counter will be incremented to. For
-> +    example if current generation is ``5`` and ``SYSGENID_FORCE_GEN_UPDATE(8)``
-> +    is called, the generation counter will increment to ``8``.
-> +    This IOCTL can only be used by processes with CAP_CHECKPOINT_RESTORE
-> +    or CAP_SYS_ADMIN capabilities.
-> +
-> +``mmap()``:
-> +  The driver supports ``PROT_READ, MAP_SHARED`` mmaps of a single page
-> +  in size. The first 4 bytes of the mapped page will contain an
-> +  up-to-date u32 copy of the system generation counter.
-> +  The mapped memory can be used as a low-latency generation counter
-> +  probe mechanism in critical sections - see examples.
-> +
-> +``close()``:
-> +  Removes the file descriptor as a system generation counter *watcher*.
-> +
-> +Example application workflows
-> +-----------------------------
-> +
-> +1) Watchdog thread simplified example::
-> +
-> +	void watchdog_thread_handler(int *thread_active)
-> +	{
-> +		unsigned genid;
+Cameron Esfahani
+dirty@apple.com
 
-		unsigned int genid;
-
-> +		int fd = open("/dev/sysgenid", O_RDWR | O_CLOEXEC, S_IRUSR | S_IWUSR);
-> +
-> +		do {
-> +			// read new gen ID - blocks until VM generation changes
-> +			read(fd, &genid, sizeof(genid));
-> +
-> +			// because of VM generation change, we need to rebuild world
-> +			reseed_app_env();
-> +
-> +			// confirm we're done handling gen ID update
-> +			write(fd, &genid, sizeof(genid));
-> +		} while (atomic_read(thread_active));
-> +
-> +		close(fd);
-> +	}
-> +
-> +2) ASYNC simplified example::
-> +
-> +	void handle_io_on_sysgenfd(int sysgenfd)
-> +	{
-> +		unsigned genid;
-
-		unsigned int genid;
-
-> +
-> +		// read new gen ID - we need it to confirm we've handled update
-> +		read(fd, &genid, sizeof(genid));
-> +
-> +		// because of VM generation change, we need to rebuild world
-> +		reseed_app_env();
-> +
-> +		// confirm we're done handling the gen ID update
-> +		write(fd, &genid, sizeof(genid));
-> +	}
-> +
-> +	int main() {
-> +		int epfd, sysgenfd;
-> +		struct epoll_event ev;
-> +
-> +		epfd = epoll_create(EPOLL_QUEUE_LEN);
-> +
-> +		sysgenfd = open("/dev/sysgenid",
-> +		               O_RDWR | O_CLOEXEC | O_NONBLOCK,
-> +		               S_IRUSR | S_IWUSR);
-> +
-> +		// register sysgenid for polling
-> +		ev.events = EPOLLIN;
-> +		ev.data.fd = sysgenfd;
-> +		epoll_ctl(epfd, EPOLL_CTL_ADD, sysgenfd, &ev);
-> +
-> +		// register other parts of your app for polling
-> +		// ...
-> +
-> +		while (1) {
-> +			// wait for something to do...
-> +			int nfds = epoll_wait(epfd, events,
-> +				MAX_EPOLL_EVENTS_PER_RUN,
-> +				EPOLL_RUN_TIMEOUT);
-> +			if (nfds < 0) die("Error in epoll_wait!");
-> +
-> +			// for each ready fd
-> +			for(int i = 0; i < nfds; i++) {
-> +				int fd = events[i].data.fd;
-> +
-> +				if (fd == sysgenfd)
-> +					handle_io_on_sysgenfd(sysgenfd);
-> +				else
-> +					handle_some_other_part_of_the_app(fd);
-> +			}
-> +		}
-> +
-> +		return 0;
-> +	}
-> +
-> +3) Mapped memory polling simplified example::
-> +
-> +	/*
-> +	 * app/library function that provides cached secrets
-> +	 */
-> +	char * safe_cached_secret(app_data_t *app)
-> +	{
-> +		char *secret;
-> +		volatile unsigned *const genid_ptr = get_sysgenid_mapping(app);
-
-		         unsigned int
-
-> +	again:
-> +		secret = __cached_secret(app);
-> +
-> +		if (unlikely(*genid_ptr != app->cached_genid)) {
-> +			app->cached_genid = *genid_ptr;
-> +			barrier();
-> +
-> +			// rebuild world then confirm the genid update (thru write)
-> +			rebuild_caches(app);
-> +
-> +			ack_sysgenid_update(app);
-> +
-> +			goto again;
-> +		}
-> +
-> +		return secret;
-> +	}
-> +
-> +4) Orchestrator simplified example::
-> +
-> +	/*
-> +	 * orchestrator - manages multiple applications and libraries used by
-> +	 * a service and tries to make sure all sensitive components gracefully
-> +	 * handle VM generation changes.
-> +	 * Following function is called on detection of a VM generation change.
-> +	 */
-> +	int handle_sysgen_update(int sysgen_fd, unsigned new_gen_id)
-
-	                                        unsigned int
-
-> +	{
-> +		// pause until all components have handled event
-> +		pause_service();
-> +
-> +		// confirm *this* watcher as up-to-date
-> +		write(sysgen_fd, &new_gen_id, sizeof(unsigned));
-
-		                                     unsigned int
-
-> +
-> +		// wait for all *others* for at most 5 seconds.
-> +		ioctl(sysgen_fd, VMGENID_WAIT_WATCHERS, 5000);
-> +
-> +		// all applications on the system have rebuilt worlds
-> +		resume_service();
-> +	}
-
-
-> diff --git a/include/uapi/linux/sysgenid.h b/include/uapi/linux/sysgenid.h
-> new file mode 100644
-> index 0000000..ea38fd3
-> --- /dev/null
-> +++ b/include/uapi/linux/sysgenid.h
-> @@ -0,0 +1,18 @@
-> +/* SPDX-License-Identifier: GPL-2.0+ WITH Linux-syscall-note */
-> +
-> +#ifndef _UAPI_LINUX_SYSGENID_H
-> +#define _UAPI_LINUX_SYSGENID_H
-> +
-> +#include <linux/ioctl.h>
-> +
-> +#define SYSGENID_IOCTL 0x2d
-
-Please document new IOCTL major/magic values in
-Documentation/userspace-api/ioctl/ioctl-number.rst.
-
-
-
-thanks.
--- 
-~Randy
-"He closes his eyes and drops the goggles.  You can't get hurt
-by looking at a bitmap.  Or can you?"
-(Neal Stephenson: Snow Crash)
 
