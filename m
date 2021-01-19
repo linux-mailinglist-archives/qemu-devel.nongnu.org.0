@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B886F2FC08D
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:07:47 +0100 (CET)
-Received: from localhost ([::1]:47528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E96562FC0A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:10:47 +0100 (CET)
+Received: from localhost ([::1]:55948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1xI2-0005X9-QF
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:07:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56852)
+	id 1l1xKw-0000Yj-OP
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:10:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1wAW-0006gf-5E
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:55:56 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:35485)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1wBP-00085y-Vz
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:56:52 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:38714)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1wAS-0004NY-2i
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:55:55 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id w14so3793590pfi.2
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 10:55:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=lqEnJRa1E6OFrEI2f+j7kCvc33QrBkArJeX6B7dH8fg=;
- b=AfqS+ht39xzoTY4Htc8Q6YztphJ8kUethFu4wSxq60bk7xOcK5GvY642U4vBVYpu8+
- TNo6XstAc63tsur2ebRXvoo/Dxt9WSMfzOnOl4ZdAENFi0c/FpK2e1yOUX0uv931ix/v
- MaivttA/ydrcgmT56/fPchbFBBqVN+FpVG7kdbZ7/vTt68BqhVxvYL3Bd/pHvx1zhAgN
- TUdZkQ5n5zItE9/muUFDwnxhh5dNpguED2Y7GuJXDvQvpUAYFAdByWiMFlnPQJ5cOpBN
- d4GCNoMlDBZbN25sSaCJdnKE5xQGp2IFQfrIstkMsSzPfyw4//Iwe2fEh8NSCYp7HuOB
- l0jw==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1wBO-0004WW-A1
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:56:51 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id s11so15536399edd.5
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 10:56:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=/e1umK+YKruqaGVk7mO6X/oPkBFq5t+de6wTLKv04qg=;
+ b=dvxXtcvh5u/fMx4beRFDys71exTsfgQVY9EFqCxVgW8l8ntsUk6H6AaX5JEjk9vxDD
+ 2XvFbxalldcubhpIMeoTBNg0X5OoU/BlFKkOeFdnA+8rP/D8+f+IMJMSl/n1g0POJ8R6
+ 6J3ltvjjDTPc+G5db0ym4F9zVu2HkxxSAhJY6OFH/PeBTSUGMss7vVk50F9UOyE4Lg+M
+ YN63rxxEyO0zWEhdlkClxmwAA49B/QWY2yuoW2DB2pJnq9g8K7uqVyZMlnXuSf51EWy+
+ zn5biqRi9dcTWhChb9dK3JU9nMWRfUEumIeVPB1Z7KSehfIp3TObDwy0muBgKiicOXPM
+ IQ3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=lqEnJRa1E6OFrEI2f+j7kCvc33QrBkArJeX6B7dH8fg=;
- b=VOe04n5I/P8bMsuWZn8Gcn6p4bBEiFhkw2f2mZGDV+HiNPEy0sCJc/n48y+3bBvgnB
- Bui8Iq+kCGx185q7LUlOzOQk000QmuARSVICIqnqJJ8VAZdhI2JBiwuQjRxiFYZWkgLu
- VGngPrgx44QxEks91CU86Emk14ADgD2nOteRoImCVGfeJ0H5P/KXHgQdqGaPpVRlCTDD
- NKBjX7rSZkCD3O8APwhqTPre8/eqsuuZV7spmchfKtesWrI+957pHg0nRIrzAPxGc1k7
- T89R0joyHaKwhlsUGcMf2XtTcyYC+yLvxbvZo1vCs1aKDTPGK1mx6Iv1AZaN47e8jMGf
- Rx0A==
-X-Gm-Message-State: AOAM533DcNG9WJmEfO8KSKxN20+nCIK6Ss3DHcQiLWkh71MOwt9xCWt2
- b6UP3HP9S8NWcgm115/6m3YWtsqhiCyN3A==
-X-Google-Smtp-Source: ABdhPJwaqXSO39MwwskrITHnTV5HHUdw17BvFSdFEdtqXuAtAhFnqIUI6RD044AwF+ID1x0VD52BlQ==
-X-Received: by 2002:a65:6119:: with SMTP id z25mr5670487pgu.17.1611082548456; 
- Tue, 19 Jan 2021 10:55:48 -0800 (PST)
-Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id b203sm3209624pfb.11.2021.01.19.10.55.47
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 10:55:47 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 2/2] tcg: Optimize inline dup_const for MO_64
-Date: Tue, 19 Jan 2021 08:55:42 -1000
-Message-Id: <20210119185542.628456-3-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210119185542.628456-1-richard.henderson@linaro.org>
-References: <20210119185542.628456-1-richard.henderson@linaro.org>
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/e1umK+YKruqaGVk7mO6X/oPkBFq5t+de6wTLKv04qg=;
+ b=jEtVHb8pHC0PJXZNjDDI64O868dAItTlRvjwLGcsA3GD8rGXyLQ8MtVaPaZxT4vJHX
+ pzDF4qnSn3kpvlXIoU5do0ZTUAeJdt9ofCdPnw8s2tadUY8NhmXM2aXsly49qeKX4Cy7
+ i21QQKMaj8kaASFQ/LhAdQ5HL5FA1ihRKzUjMmM8D8O0eLEIqqDzp39Keprn/mfzMaqx
+ RVJaXiTg+5Baa8ZrB7YELnyu5JWp0acg3Oc8O6QhhuoIOSLj9rxS1rB+hyMt3Vm9Sqe+
+ BfTfhjG4iSziiHc/BPincprduzvYBKtWm8v3qpt4cfn75VDhLy02h/hhrEZU4iWka/2f
+ 0XPg==
+X-Gm-Message-State: AOAM5315MSiW7z9tLgFVyELQ8tq2mCVBmrDzJtNef+DtP+cd90OoBoO3
+ oBwHSSdqnY4hIx+0MwL/Hqg=
+X-Google-Smtp-Source: ABdhPJyN3/tB91KY8HofkYDamEm27amNUvviapxWLd+vMtwfsviIj5N8oeNYwfFAKi/Evx30XQqZSQ==
+X-Received: by 2002:aa7:d0d4:: with SMTP id u20mr4310132edo.203.1611082608386; 
+ Tue, 19 Jan 2021 10:56:48 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id m9sm12881271edd.18.2021.01.19.10.56.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 10:56:47 -0800 (PST)
+Subject: Re: [PATCH v1 3/6] tests/docker: make _copy_with_mkdir accept missing
+ files
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210119175208.763-1-alex.bennee@linaro.org>
+ <20210119175208.763-4-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <dc7e96ba-68ed-4e91-f6f0-0b0987e0f804@amsat.org>
+Date: Tue, 19 Jan 2021 19:56:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210119175208.763-4-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,33 +91,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: david@redhat.com
+Cc: Fam Zheng <fam@euphon.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Avoid the out-of-line function call for immediate MO_64.
-In addition, diagnose all invalid constants at compile-time.
+On 1/19/21 6:52 PM, Alex Bennée wrote:
+> Depending on the linker/ldd setup we might get a file with no path.
+> Typically this is the psuedo library linux-vdso.so which doesn't
+> actually exist on the disk. Rather than try and catch these distro
+> specific edge cases just shout about it and try and continue.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/docker/docker.py | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg.h | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 504c5e9bb0..c5a9d65d5f 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -1325,7 +1325,8 @@ uint64_t dup_const(unsigned vece, uint64_t c);
-      ? (  (VECE) == MO_8  ? 0x0101010101010101ull * (uint8_t)(C)   \
-         : (VECE) == MO_16 ? 0x0001000100010001ull * (uint16_t)(C)  \
-         : (VECE) == MO_32 ? 0x0000000100000001ull * (uint32_t)(C)  \
--        : dup_const(VECE, C))                                      \
-+        : (VECE) == MO_64 ? (uint64_t)(C)                          \
-+        : (qemu_build_not_reached_always(), 0))                    \
-      : dup_const(VECE, C))
- 
- 
--- 
-2.25.1
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
