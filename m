@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11D92FBF01
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:32:39 +0100 (CET)
-Received: from localhost ([::1]:55664 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D41A2FBF13
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:34:57 +0100 (CET)
+Received: from localhost ([::1]:59522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1vny-0008QT-Qv
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:32:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39268)
+	id 1l1vqC-0001i1-E8
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:34:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39280)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vDD-00028N-Ew
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:39 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:37675)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vDE-00029i-48
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:40 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:55179)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vD9-00041L-Eu
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vD9-00041d-Ro
  for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:39 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N3bjH-1m0w5s3btL-010Zdp; Tue, 19 Jan 2021 18:54:32 +0100
+ id 1M5fdC-1l7wod1WRO-007HB2; Tue, 19 Jan 2021 18:54:33 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/5] linux-user: add missing IPv6 get/setsockopt option
-Date: Tue, 19 Jan 2021 18:54:25 +0100
-Message-Id: <20210119175427.2050737-4-laurent@vivier.eu>
+Subject: [PULL 5/5] linux-user: Remove obsolete F_SHLCK and F_EXLCK translation
+Date: Tue, 19 Jan 2021 18:54:27 +0100
+Message-Id: <20210119175427.2050737-6-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119175427.2050737-1-laurent@vivier.eu>
 References: <20210119175427.2050737-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:cE+nRZZ8neKadDPXHjqjUGXRTwcOaCoeTWrq4tXu8Xd4+9bVTfs
- QXE1WdqAE6fW3KZgM0Z8Nazasi9YLjdCkTPw0kjPqKBDNH3C8EVyrK8h7hNFYkbL8uo//yG
- 667PF7UROIY8jMtqN2mMbQLbZYVcvl4CgbWwpb4R/dJZ76jD/BM+CTtCaC5wVqVXjOCUGwO
- IFmDoW1f4/FegoP82jVdg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:vhXVF3FY7Bc=:DZqfNNUes80axSBDAWfyZQ
- QhMOjFHqUu6wECGbdZUymsJZohNoZgAB7KQuZgl3T75/7N0Gl4671HUUzWDxfDIsruTjiXves
- 6gA4uWI8r2S4TM5hEgYswKhf/UEOccKDSbJ+0HTXxp8sxg6Y9K1dw+4hh70aDWHpcGecU9o23
- 7KFXFMWqiumjv/ULW7seHrezaYs+dquxYJzwxL5BxjtfCnAmnr7/WgHAewnKNcWPF4yRIpzJc
- 0vOrajpp3yeHI6p8VPjpSf0/Ej3CGxopSdEIcue2hKntN5N/ZM+AH97laWEnxVcretVN3X6PU
- hv/tutgr9RNPs3bRr3FRjLZ9lbOyzYrJdFI48oKJPS4SsusvNk/UOVkB6NKk5EUh6RrEhWWy7
- DzMUL6kvmejZLfDTOa0YNU29oOwVrQ3MjL/t1o5dN+km94WVRF2d7VNT3O8sQZJ8kFKOwKpqR
- ONvS1S1wLg==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:fumJ+ZWoY5AtkIg385dIrUQEzDcuIlFq9fy6UAfNCw29lpcL5O7
+ p9w0lwg0EFiHa7UY0HkSfcPhnY6Q5bwB2q9MGQ26ggTTJTNyIsEs/nDQlEjxGPNkC5oo59R
+ C/AMRdodhNgUy6qcu7QFjAX3Qn8TrrF6QdYVOo15yAxohY2oFI2Epi+ohm8bDXDvMwKM2RG
+ koJP8X3yPMc3qeWcV/qOQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xQ5K6p3YTgU=:0htVeI1VEVhgy4zgVIq/cz
+ pdbLw0lc5LtwTKSE4EDgODWavvZ3e+6Uf6sZ+MhgoKRjg6+cgVnZ5qJ78etcGsxWVhuRX6lg1
+ ZslQp4xzNriuiQmTbH5wTosrvpkHl+EPD5npwyGDr1ghssOjWv7c2xyCmwlnjP5LaERd1Diqq
+ qVqqMV3gSTsXgT4lA8FRoUE7ccS80FpQZSlmSMqRCfxbJQyCV7ne5b9qbQ80Bk59dzydPq2mE
+ O4FzAbPd+OKfQ3sfLD/n6x7geq1FR2Ypxoeguauyj3KAmHCny/JOam5RZpnC3GuGwYFZAZejb
+ uZnFfKNBbXh0PymnkBJBp6nNiHPxTwafca7RMz1+mtARwQhdoAD3ROOr0i2XIudeSsVHlgVIb
+ pNdhYpSgtJ956TFVGV1nO4uZMn6HT7HNrJ7JbIIsLyFsIYTripBMly1i/heShEuF4K2QlXGlc
+ 9soR3wc7Lg==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,50 +62,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, Michael Forney <mforney@mforney.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Shu-Chun Weng <scw@google.com>
+From: Michael Forney <mforney@mforney.org>
 
-IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not supported.
+These lock types are unsupported by Linux since v2.2[0][1] and
+always return EINVAL (except on SPARC up until v2.6, which just
+warned).
 
-Signed-off-by: Shu-Chun Weng <scw@google.com>
+musl libc does not define these constants, so just remove them from
+the translation cases.
+
+[0] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L322-L324
+[1] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L429-L445
+
+Signed-off-by: Michael Forney <mforney@mforney.org>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20201218193213.3566856-4-scw@google.com>
+Message-Id: <20210114223602.9004-1-mforney@mforney.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 3 +++
- 1 file changed, 3 insertions(+)
+ linux-user/alpha/target_fcntl.h | 2 --
+ linux-user/generic/fcntl.h      | 5 -----
+ linux-user/syscall.c            | 2 --
+ 3 files changed, 9 deletions(-)
 
+diff --git a/linux-user/alpha/target_fcntl.h b/linux-user/alpha/target_fcntl.h
+index 2617e73472b7..e16ed1d4157f 100644
+--- a/linux-user/alpha/target_fcntl.h
++++ b/linux-user/alpha/target_fcntl.h
+@@ -33,8 +33,6 @@
+ #define TARGET_F_RDLCK         1
+ #define TARGET_F_WRLCK         2
+ #define TARGET_F_UNLCK         8
+-#define TARGET_F_EXLCK         16
+-#define TARGET_F_SHLCK         32
+ 
+ #include "../generic/fcntl.h"
+ #endif
+diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
+index c85c5b9fed65..4568d1f42bdd 100644
+--- a/linux-user/generic/fcntl.h
++++ b/linux-user/generic/fcntl.h
+@@ -119,11 +119,6 @@ struct target_f_owner_ex {
+ #define TARGET_F_UNLCK         2
+ #endif
+ 
+-#ifndef TARGET_F_EXLCK
+-#define TARGET_F_EXLCK         4
+-#define TARGET_F_SHLCK         8
+-#endif
+-
+ #ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK
+ #ifndef TARGET_ARCH_FLOCK_PAD
+ #define TARGET_ARCH_FLOCK_PAD
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 969db2008104..70c61d15ebf8 100644
+index 70c61d15ebf8..1f91aa0ed5e3 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -51,6 +51,7 @@
- #include <sys/sysinfo.h>
- #include <sys/signalfd.h>
- //#include <sys/user.h>
-+#include <netinet/in.h>
- #include <netinet/ip.h>
- #include <netinet/tcp.h>
- #include <netinet/udp.h>
-@@ -2272,6 +2273,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
-         case IPV6_RECVDSTOPTS:
-         case IPV6_2292DSTOPTS:
-         case IPV6_TCLASS:
-+        case IPV6_ADDR_PREFERENCES:
- #ifdef IPV6_RECVPATHMTU
-         case IPV6_RECVPATHMTU:
- #endif
-@@ -2926,6 +2928,7 @@ get_timeout:
-         case IPV6_RECVDSTOPTS:
-         case IPV6_2292DSTOPTS:
-         case IPV6_TCLASS:
-+        case IPV6_ADDR_PREFERENCES:
- #ifdef IPV6_RECVPATHMTU
-         case IPV6_RECVPATHMTU:
- #endif
+@@ -6678,8 +6678,6 @@ static int target_to_host_fcntl_cmd(int cmd)
+     TRANSTBL_CONVERT(F_RDLCK); \
+     TRANSTBL_CONVERT(F_WRLCK); \
+     TRANSTBL_CONVERT(F_UNLCK); \
+-    TRANSTBL_CONVERT(F_EXLCK); \
+-    TRANSTBL_CONVERT(F_SHLCK); \
+     }
+ 
+ static int target_to_host_flock(int type)
 -- 
 2.29.2
 
