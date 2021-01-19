@@ -2,60 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D21EF2FBE7E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:03:54 +0100 (CET)
-Received: from localhost ([::1]:56442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0840B2FBE96
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:09:59 +0100 (CET)
+Received: from localhost ([::1]:39090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1vM9-0006wG-Rz
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:03:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58728)
+	id 1l1vS2-0003iH-1R
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:09:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1ujH-0004Ew-Su
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:23:46 -0500
-Received: from 3.mo51.mail-out.ovh.net ([188.165.32.156]:53853)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l1ujD-0007O1-BD
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:23:41 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.6])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 20434252B88;
- Tue, 19 Jan 2021 18:23:36 +0100 (CET)
-Received: from kaod.org (37.59.142.106) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Tue, 19 Jan
- 2021 18:23:35 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-106R00641765a5d-0846-4a81-8ed4-55313cd88d4f,
- 9B6877A1159CEF26E29E5BE572491BB707B5295E) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 82.253.208.248
-Date: Tue, 19 Jan 2021 18:23:34 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH 2/3] 9pfs: Convert V9fsFidState::fid_list to QSIMPLEQ
-Message-ID: <20210119182334.2d3381b5@bahia.lan>
-In-Reply-To: <2181983.BdRbxLO5hT@silver>
-References: <20210118142300.801516-1-groug@kaod.org>
- <1901754.QplClEOiAT@silver> <20210119153407.208c4df7@bahia.lan>
- <2181983.BdRbxLO5hT@silver>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1uuH-0004Nb-Pt; Tue, 19 Jan 2021 12:35:05 -0500
+Received: from mail-io1-xd30.google.com ([2607:f8b0:4864:20::d30]:43507)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l1uuF-0000Dw-Jo; Tue, 19 Jan 2021 12:35:05 -0500
+Received: by mail-io1-xd30.google.com with SMTP id x21so23018646iog.10;
+ Tue, 19 Jan 2021 09:35:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=uckWWWjAq++tc1xguD4EkjJfOnMfhV6QH7N6POaP7o4=;
+ b=h/T4PrPtbbQOMxQI4qAtTA//GD8hS2IpG2sqY0ze6HTv+ilPv4wVpYqwyyDLhYMGZm
+ GWFA1DUIsWER1bZ3jOQzpHOiBvt8N8T0mCb7/NTxc+ZeWAkvMbeTCNnczsCNlrAjK8lc
+ QMcH9cabsQ5a6tJf0vaaqV0qCycNWFSHw7leteB80tm/ir0gz9lsgMQn1zL44AZYNh8m
+ Aq/e6SxPhA49hj6vI3NaQqA/iSa1MrIkTPgRKmGTj3WBlNZLpBWX6L30Y6O+NCC7RPS1
+ 2aZSOB2olxZazn6mNBPDCKvx9voFJvHq4qOgef19B16QmKk1DUqgFyjOfQAioXRzM5Sd
+ 5JtA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=uckWWWjAq++tc1xguD4EkjJfOnMfhV6QH7N6POaP7o4=;
+ b=C1epse0alJdysVl7pAcXhBWlMEwD9l+4tNOzzQYibfCaZCv9xPIDFKdx0MmLs3SKKV
+ Hm33Hi6ClASTJ5IaeYcmRWs+Gn0prXXX+LB0UgMG1IzkLA5muaJIzKbNyB4aMDwE36Sg
+ 3q4zcGWioZ8daf4rgn2OIHbcwefVnGJ0AtTh2pQaE6uMQNWM+DHBOAeMTJAijXOgwTzO
+ moS38pmQNQHDHD4xSw2XZpBRVV/b8Vk3tvNV+rUfR5rkPajWd/TTv3prqQ3MpGbIuQ0W
+ fnvkuaoHejU5/dJn4O9oxivwmz0UD6nw6I6DewkN/Gox0L5UFM8zKkldZ4CtZ6WKjOlM
+ RsvQ==
+X-Gm-Message-State: AOAM533QJrc2My2gq0EQ6IA2EACuJhkCO3uibNi6fEkGpAdzQUWxfatQ
+ GRfj+NuIRu6+UW6+GblHxK4aFb+9fjpYc4kiG9g=
+X-Google-Smtp-Source: ABdhPJxMGyDk2WhETcOC0qWCyzHyuUJdlBvu12JDKFR12hIB+UUdNAHz6yHv4dcud2o5NEkAo08tS1lyDRzwy1eRq3Y=
+X-Received: by 2002:a92:cda1:: with SMTP id g1mr4343246ild.267.1611077702116; 
+ Tue, 19 Jan 2021 09:35:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.106]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 6c6a106f-f431-4dbb-99d6-ea790299e4ec
-X-Ovh-Tracer-Id: 1555712199547984282
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddtgddutdduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhg
-Received-SPF: pass client-ip=188.165.32.156; envelope-from=groug@kaod.org;
- helo=3.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <1a4df1b5638d73b64200add175be9d69013418d8.1608401453.git.alistair.francis@wdc.com>
+ <eac70d13-7e70-756e-503c-329fdb14a312@vivier.eu>
+In-Reply-To: <eac70d13-7e70-756e-503c-329fdb14a312@vivier.eu>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 19 Jan 2021 09:34:36 -0800
+Message-ID: <CAKmqyKMM-vfWzDWSxBe2XhLmKQ2g7pWOg+GmeDtbDLR=o4xOCg@mail.gmail.com>
+Subject: Re: [PATCH v1 1/1] linux-user/signal: Decode waitid si_code
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d30;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd30.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,120 +78,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Bin Meng <bmeng.cn@gmail.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jan 2021 16:28:01 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On Mon, Jan 18, 2021 at 6:36 AM Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> Le 19/12/2020 =C3=A0 19:11, Alistair Francis a =C3=A9crit :
+> > When mapping the host waitid status to the target status we previously
+> > just used decoding information in the status value. This doesn't follow
+> > what the waitid documentation describes, which instead suggests using
+> > the si_code value for the decoding. This results in the incorrect value=
+s
+> > seen when calling waitid. This is especially apparent on RV32 where all
+> > wait calls use waitid (see the bug case).
+> >
+> > This patch uses the si_code value to map the waitid status.
+> >
+> > Buglink: https://bugs.launchpad.net/qemu/+bug/1906193
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  linux-user/signal.c | 26 ++++++++++++++++++++++++--
+> >  1 file changed, 24 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/linux-user/signal.c b/linux-user/signal.c
+> > index 73de934c65..b6c9326521 100644
+> > --- a/linux-user/signal.c
+> > +++ b/linux-user/signal.c
+> > @@ -305,6 +305,7 @@ static inline void host_to_target_siginfo_noswap(ta=
+rget_siginfo_t *tinfo,
+> >      int sig =3D host_to_target_signal(info->si_signo);
+> >      int si_code =3D info->si_code;
+> >      int si_type;
+> > +    int status =3D info->si_status;
+> >      tinfo->si_signo =3D sig;
+> >      tinfo->si_errno =3D 0;
+> >      tinfo->si_code =3D info->si_code;
+> > @@ -349,8 +350,29 @@ static inline void host_to_target_siginfo_noswap(t=
+arget_siginfo_t *tinfo,
+> >          case TARGET_SIGCHLD:
+> >              tinfo->_sifields._sigchld._pid =3D info->si_pid;
+> >              tinfo->_sifields._sigchld._uid =3D info->si_uid;
+> > -            tinfo->_sifields._sigchld._status
+> > -                =3D host_to_target_waitstatus(info->si_status);
+> > +
+> > +            /*
+> > +             * Map host to target signal numbers for the waitid family=
+ of
+> > +             * syscalls. This is similar to the functionality in
+> > +             * host_to_target_waitstatus() except we use the si_code t=
+o
+> > +             * determine the operation.
+> > +             */
+> > +            switch (info->si_code) {
+> > +            case CLD_KILLED:
+> > +            case CLD_DUMPED:
+> > +                tinfo->_sifields._sigchld._status =3D
+> > +                    host_to_target_signal(WTERMSIG(status)) |
+> > +                                          (status & ~0x7f);
+> > +                break;
+> > +            case CLD_STOPPED:
+> > +                tinfo->_sifields._sigchld._status =3D
+> > +                (host_to_target_signal(WSTOPSIG(status)) << 8) |
+> > +                    (status & 0xff);
+> > +                break;
+> > +            default:
+>
+> I guess the the operation is not encoded in the status coming from the ho=
+st as we need to use the
+> si_code to decode the status, so why do we need to encode it in the statu=
+s we send to the guest?
+>
+> Can it be only "tinfo->_sifields._sigchld._status =3D status" for all the=
+ cases?
 
-> On Dienstag, 19. Januar 2021 15:34:07 CET Greg Kurz wrote:
-> > On Tue, 19 Jan 2021 14:31:26 +0100
-> > 
-> > Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
-> > > On Montag, 18. Januar 2021 15:22:59 CET Greg Kurz wrote:
-> > > > The fid_list is currently open-coded. This doesn't seem to serve any
-> > > > purpose that cannot be met with QEMU's generic lists. Let's go for a
-> > > > QSIMPLEQ : this will allow to add new fids at the end of the list and
-> > > > to improve the logic in v9fs_mark_fids_unreclaim().
-> > > > 
-> > > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > 
-> > > In general LGTM hence:
-> > > 
-> > > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> > > 
-> > > Some comments below ...
-> > > 
-> > > > ---
-> > > > 
-> > > >  hw/9pfs/9p.c | 41 ++++++++++++++++++-----------------------
-> > > >  hw/9pfs/9p.h |  4 ++--
-> > > >  2 files changed, 20 insertions(+), 25 deletions(-)
-> > > > 
-> > > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > > > index 37c3379b7462..b65f320e6518 100644
-> > > > --- a/hw/9pfs/9p.c
-> > > > +++ b/hw/9pfs/9p.c
-> > > > @@ -260,7 +260,7 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU
-> > > > *pdu,
-> > > > int32_t fid) V9fsFidState *f;
-> > > > 
-> > > >      V9fsState *s = pdu->s;
-> > > > 
-> > > > -    for (f = s->fid_list; f; f = f->next) {
-> > > > +    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> > > > 
-> > > >          BUG_ON(f->clunked);
-> > > >          if (f->fid == fid) {
-> > > >          
-> > > >              /*
-> > > > 
-> > > > @@ -295,7 +295,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> > > > fid) {
-> > > > 
-> > > >      V9fsFidState *f;
-> > > > 
-> > > > -    for (f = s->fid_list; f; f = f->next) {
-> > > > +    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-> > > > 
-> > > >          /* If fid is already there return NULL */
-> > > >          BUG_ON(f->clunked);
-> > > >          if (f->fid == fid) {
-> > > > 
-> > > > @@ -311,8 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> > > > fid) * reclaim won't close the file descriptor
-> > > > 
-> > > >       */
-> > > >      
-> > > >      f->flags |= FID_REFERENCED;
-> > > > 
-> > > > -    f->next = s->fid_list;
-> > > > -    s->fid_list = f;
-> > > > +    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
-> > > 
-> > > Not related to this series, but I wonder why queue.h wraps everything
-> > > into:
-> > > 
-> > > do {
-> > > 
-> > > 	...
-> > > 
-> > > } while (0);
-> > 
-> > Note, this is do { ... } while (0) *without* the trailing semi-colon, which
-> > is the corner stone of this trick.
-> 
-> Yes, I got that. What I meant was, unless I am missing something, a simple 
-> compound statement (without trailing semi-colon) a.k.a. a 'block' is the more 
-> common way to handle this, like:
-> 
-> #define QSIMPLEQ_INIT(head) {                                        \
->     (head)->sqh_first = NULL;                                        \
->     (head)->sqh_last = &(head)->sqh_first;                           \
-> }
-> 
+That also works, I'll send a v2.
 
-No this isn't the more common way because it doesn't work with
-if...else statements, i.e.
+Alistair
 
-    if (some_condition)
-        QSIMPLEQ_INIT(&head);
-    else
-	do_some_other_stuff()
-
-has illagal syntax because of the semi-colon.
-
-Of course, since the QEMU coding styles mandates { } in if...else
-statements, your suggestion should just work, but do { } while(0)
-doesn't do harm (compilers optimize that flawlessly) and it is
-so commonly used elsewhere that I don't think its worth changing.
-
-> Third patch tomorrow ... thanks Greg!
-> 
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
-
+>
+> Thanks,
+> Laurent
 
