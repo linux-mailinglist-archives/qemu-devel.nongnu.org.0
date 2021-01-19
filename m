@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F19D2FAF73
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:36:40 +0100 (CET)
-Received: from localhost ([::1]:42714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F3982FAF86
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:39:03 +0100 (CET)
+Received: from localhost ([::1]:51280 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ikv-0005T0-T8
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:36:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44266)
+	id 1l1inG-0000hQ-3p
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:39:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44322)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1ifl-0000LM-9O
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:17 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57268)
+ id 1l1ifo-0000SI-Ij
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:20 -0500
+Received: from indium.canonical.com ([91.189.90.7]:57502)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1ifj-0004ve-3I
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:17 -0500
+ id 1l1ifm-0004xL-CS
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:20 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l1ifh-00041f-Ci
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:13 +0000
+ id 1l1ifj-00047I-Uk
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:15 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 57DCC2E8139
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:13 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 434862E8005
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:15 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 Jan 2021 04:17:24 -0000
+Date: Tue, 19 Jan 2021 04:17:26 -0000
 From: Launchpad Bug Tracker <1563152@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,7 +45,7 @@ X-Launchpad-Bug-Commenters: janitor rhansen th-huth
 X-Launchpad-Bug-Reporter: Richard Hansen (rhansen)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
 References: <20160329015831.30307.69405.malonedeb@gac.canonical.com>
-Message-Id: <161102984471.12094.10852333119093195936.malone@loganberry.canonical.com>
+Message-Id: <161102984631.12094.16041466507045744168.malone@loganberry.canonical.com>
 Subject: [Bug 1563152] Re: general protection fault running VirtualBox in KVM
  guest
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -53,7 +53,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
-X-Launchpad-Hash: d9e3bcc628edc1be4b97456f902b20cf0b5145b7
+X-Launchpad-Hash: 3d1f42a0b49c29bd610eb03fc87452fa4530da6e
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -78,10 +78,9 @@ Reply-To: Bug 1563152 <1563152@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for qemu (Ubuntu) because there has been no activity for 60
-days.]
+[Expired for QEMU because there has been no activity for 60 days.]
 
-** Changed in: qemu (Ubuntu)
+** Changed in: qemu
        Status: Incomplete =3D> Expired
 
 -- =
