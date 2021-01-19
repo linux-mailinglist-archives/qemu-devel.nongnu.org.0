@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4BB12FBC20
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:12:10 +0100 (CET)
-Received: from localhost ([::1]:51268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 960EA2FBC3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:19:22 +0100 (CET)
+Received: from localhost ([::1]:33718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1tc2-0004xV-05
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:12:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40656)
+	id 1l1tiz-0001KR-LZ
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:19:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41862)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1taW-00047P-TV
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:10:36 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:37484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1taU-00036m-PG
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:10:36 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id g1so21515810edu.4
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 08:10:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=Yhs4TcfGGLSfU+ID3JE3mh9ONyoKwslhEk+R+colieg=;
- b=lNh1ios9YQG3hBA6W7O0Zh591GFsmrt6dZgbJnMFZ3qAfSzS1LfoxWn4LFxSVAtwYr
- AYjHm58ijEeICgscPYUr92M1jFYVrC8aSfS5u6u4J9IfgcoccslEC8r9PCVWfaU76nRx
- aywRzRi+C4dvFq8+g7ck7HApLEdpj0Qhuy038UNvwFOG0yuec1N50WmlvLlD4XKxFTQZ
- 1XHa4LyiaGwClV3rWVdmS4Zpb7Gp49mWVPn1uvGmGSFaHqSjfjsvSEFlmJFQkvahmIMx
- ujIKUP8Cqoa2DdewbizjmgMJ4PMMnhu1blyifkN9L/51iaxP2YosWLnO2WYSmLkEwkR9
- ACKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=Yhs4TcfGGLSfU+ID3JE3mh9ONyoKwslhEk+R+colieg=;
- b=FbRPokLuhdfO5VZIK1EmMGN0mvIdM/Mplr0mJjoaAZMEczoalnIf+c8n4X7mkRUGC/
- STIdgm5ckaJcanFu9C8DFjNHV/FH0GYR4SjlV+S+3kHb3WPxRGrDBz0Jkv7AZ86Y7lk/
- pqWKRiQxSL9YTik0haiK2EmJVXcb9bfFilrGLuLWcKXCzXpaI+9tkVqatBBgX0cbW3op
- JQVslw/2jxK67ViuUMWJQ9gycS/MKix/PimO4lJvwEeITPPBLrirv3Wm5VQOMgyVTN2C
- Hb8Bvhlh7z+L1eOv56NmOTcEfpZ3a2hQDGhxYWB4ZSBSodRBPZ5mvYCGwQAD0cYraXrK
- HPiA==
-X-Gm-Message-State: AOAM531C/uHvuDEUYKraKUjm8WqGHR9mZkV1GfJyux28MPceNbcv4mBM
- 1DxODCZmhbVvArZRhKQJyf4VNY2IQeUHLemCuV6rGDdyNS4=
-X-Google-Smtp-Source: ABdhPJyJt4xaStE/IFheUn12jO22roepho+xxl2zTiIIstHjgYZYBIx0TJ5HiDF7qbe10PYNjeLp6RAsUld7yBelahQ=
-X-Received: by 2002:a05:6402:1383:: with SMTP id
- b3mr3876065edv.100.1611072633044; 
- Tue, 19 Jan 2021 08:10:33 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1teA-0007Cm-Ll
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:14:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26192)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1te8-0003fI-V6
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 11:14:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611072860;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=rT6hJGRVRuaPF+Pedb0BlX17+eUY2ZopARS0g5TxbEo=;
+ b=NMQeAljpemkt4I3GNlhoZ5JHUpnnzPiKLjqcNxCsd1/5f0CBhQsgB6BU0+GSfYmn/Gtk/v
+ DPyUwNAEhYidaUGo+gqvdUMSi4TdJ3xFV1k48DlNpC0OMj5dsVgWM0QpbX4V7ed42lrlR3
+ wty+WKRbqptJiWPkAuHTWA5N4SXf5X8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-375-0sieguATNKKdqDf0ICvZ5w-1; Tue, 19 Jan 2021 11:14:17 -0500
+X-MC-Unique: 0sieguATNKKdqDf0ICvZ5w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C3098801817;
+ Tue, 19 Jan 2021 16:14:16 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-157.ams2.redhat.com [10.36.112.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 67667E159;
+ Tue, 19 Jan 2021 16:14:12 +0000 (UTC)
+Subject: Re: [PATCH v2] deploy docs to qemu-project.org from GitLab CI
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210119144032.305380-1-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <f0023578-2a7a-c034-f583-d8d4ff096426@redhat.com>
+Date: Tue, 19 Jan 2021 17:14:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210115210456.1053477-1-richard.henderson@linaro.org>
- <20210115210456.1053477-23-richard.henderson@linaro.org>
-In-Reply-To: <20210115210456.1053477-23-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 16:10:21 +0000
-Message-ID: <CAFEAcA-cw=XeY3=0F52UU=z482RngEjNR0Zbo889DfWcsy6bgQ@mail.gmail.com>
-Subject: Re: [PATCH v2 22/22] tcg: Remove TCG_TARGET_CON_SET_H
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210119144032.305380-1-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,22 +80,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: alex.bennee@linaro.org, berrange@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 21:24, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> All backends have now been converted to tcg-target-con-set.h,
-> so we can remove the fallback code.
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 19/01/2021 15.40, Paolo Bonzini wrote:
+> Currently, the website is rebuilt on qemu-project.org using
+> a separate container (https://github.com/stefanha/qemu-docs/)
+> cron job hook.  We can instead reuse the GitLab's CI artifacts.
+> 
+> To do so, we use the same mechanism that is already in place for
+> qemu-web.git.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>          v1->v2: use same image and before_script as qemu-web.git
+> 
+>   .gitlab-ci.yml | 24 ++++++++++++++++++++++++
+>   1 file changed, 24 insertions(+)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index fd0162ad29..d9afc79b30 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -6,6 +6,7 @@ stages:
+>     - containers-layer2
+>     - build
+>     - test
+> +  - update
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Could you please also update the comment at the very top of the yml file? It 
+currently says that there are only two stages after the container stage, but 
+now you're adding a third one.
 
-thanks
--- PMM
+  Thanks,
+   Thomas
+
 
