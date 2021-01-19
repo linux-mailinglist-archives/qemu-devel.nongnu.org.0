@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC2642FAF89
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:41:55 +0100 (CET)
-Received: from localhost ([::1]:59408 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 346C02FAF93
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:46:39 +0100 (CET)
+Received: from localhost ([::1]:45192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1iq2-00045X-LU
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:41:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44532)
+	id 1l1iuc-0001ez-6S
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:46:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44572)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1ig4-00013P-QD
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:57968)
+ id 1l1ig6-00014E-JJ
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:40 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58142)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l1ig2-00050C-GS
- for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:36 -0500
+ id 1l1ig4-00051K-Se
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:38 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l1ifp-00048G-Q3
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:21 +0000
+ id 1l1ift-000486-82
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:25 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C46CA2E8144
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:21 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 08BC82E8145
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:25 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 19 Jan 2021 04:17:37 -0000
-From: Launchpad Bug Tracker <1529764@bugs.launchpad.net>
+Date: Tue, 19 Jan 2021 04:17:49 -0000
+From: Launchpad Bug Tracker <1377163@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,19 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor t-artem th-huth
-X-Launchpad-Bug-Reporter: T-artem (t-artem)
+X-Launchpad-Bug-Commenters: janitor lekensteyn manday th-huth
+X-Launchpad-Bug-Reporter: ManDay (manday)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <20151229052207.25762.54140.malonedeb@gac.canonical.com>
-Message-Id: <161102985726.12094.3531779305898047297.malone@loganberry.canonical.com>
-Subject: [Bug 1529764] Re: No video output with the official Windows XP VMWare
- VGA driver
+References: <20141003134119.17973.5491.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161102986959.12094.15595896683008836297.malone@loganberry.canonical.com>
+Subject: [Bug 1377163] Re: Does not add usb-host devices as they are hotplugged
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
-X-Launchpad-Hash: 147d9cd84ad21f6244dc112ef65ca594d7ffcb8c
+X-Launchpad-Hash: 611fc3524d2bea1db82831353ab9db86c452d558
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1529764 <1529764@bugs.launchpad.net>
+Reply-To: Bug 1377163 <1377163@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -84,24 +83,26 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1529764
+https://bugs.launchpad.net/bugs/1377163
 
 Title:
-  No video output with the official Windows XP VMWare VGA driver
+  Does not add usb-host devices as they are hotplugged
 
 Status in QEMU:
   Expired
 
 Bug description:
-  Steps to reproduce:
+  A commandline such as
 
-  1) Set -vga to vmware
-  2) Install Windows XP SP3
-  3) Install VGA drivers from http://packages.vmware.com/tools/releases/lat=
-est/windows/x86/VMware-tools-windows-10.0.5-3227872.iso
+  qemu-kvm -device usb-ehci,id=3DUSBCtrl -device host-
+  usb,bus=3DUSBCtrl.0,hostbus=3D3
 
-  Result: completely black screen (even after F8 -> use VGA mode).
+  should automatically add all devices on the given bus (here: 3) not
+  only initially, but also when new devices appear on that bus while
+  Qemu runs. Currently, all devices on the bus are added initially, but
+  new devices which are added to the (host) usb while Qemu runs have to
+  be added manually.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1529764/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1377163/+subscriptions
 
