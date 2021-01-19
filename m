@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BFC2FC015
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:35:55 +0100 (CET)
-Received: from localhost ([::1]:37898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 989E32FC043
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 20:44:43 +0100 (CET)
+Received: from localhost ([::1]:58660 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1wnC-0001Hz-V5
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:35:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50046)
+	id 1l1wvh-00025o-PU
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 14:44:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1vq0-0002oD-5f
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:34:44 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032]:33024)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l1vpx-0001Gh-TP
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:34:43 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id lw17so1807767pjb.0
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 10:34:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zOwDuzEJMzDZCUyUS+fhCAa4pwhGVLCD5TGZAxSX0pU=;
- b=rzOUb5ZF/eVr/EnXqI9R72RKraBsGeZqOyoR/rU9u2X8ly60Q9BAnoyHgml96LeAIt
- lBDiwsL9OOD1U/UuUAseHZRwSq4Aqd9wo9vgjngsDoffnIRtsoVZEOEVCUR0dmeELEYp
- AtN0+8p+5GACoNhThUBy+a2ygZ8vnQSCTAFxWijvsbTI8I1Um4Z9Ndl+mlhzt7As/ZNS
- pkmGXT7b6oZR1lcy5whsiVWFQ07q5GK0kow0DMbjZI6wdec+vpBe/9uQU3Qlkmx0pcvh
- w44aHeBAtWytcKPjeF9xWsl5RduY1eneQ1Md4ZtH4avSIGFJ+Bkppt9MgGrv3MG6+IXU
- 5JcQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zOwDuzEJMzDZCUyUS+fhCAa4pwhGVLCD5TGZAxSX0pU=;
- b=iTLZeJmGb2280U7YB9dFzZpzDt9mlvFOEIu2GjFqQpUY2GnuE6+AIMPhDwA4eFu/Wa
- pxJC8IjewbJ05/iKIa6KYhkRNna7JxOYmLQ9SMjamSFSGB+XzXGlMYqvZ6Q0Zyc8jlbf
- uqlh7BLEJY3A7j9qXEc8U/VKWW2gZ2YD9Vwgt5bRlSkU4MUtRaZCqUXiQT1qsWdifm7h
- sc3Wdr81bU1DzXnRnUYI5ILCiTOj4W/sly2EX/dYjulo9R9dNBoy2YEWWbgPCWyBSzGY
- Q+E47CIVwzInVcJUTe8gA5fnDc5OOiKLjngq/P9HxUSvuHuplHQYae7bmErHIpnJgwIQ
- w9Eg==
-X-Gm-Message-State: AOAM532YhYVh4xw5FdNhxw9UgmTlLdAWtkxwHXS/jnCYJ+fcA+qgD+Ab
- bQ92xOpey385HOpSWvP27OcxQW06CYV6aA==
-X-Google-Smtp-Source: ABdhPJw9yoU5YlYF41miGrl9hFEQV05YtavaRu2k31e7V5sNcp8q9LjMU2UM5pbP9GnHp4UfDnDYRA==
-X-Received: by 2002:a17:90a:2e88:: with SMTP id
- r8mr1151552pjd.84.1611081280372; 
- Tue, 19 Jan 2021 10:34:40 -0800 (PST)
-Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id a136sm20651359pfd.149.2021.01.19.10.34.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 10:34:39 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 5/5] tcg: Dynamically allocate temporaries
-Date: Tue, 19 Jan 2021 08:34:28 -1000
-Message-Id: <20210119183428.556706-6-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210119183428.556706-1-richard.henderson@linaro.org>
-References: <20210119183428.556706-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1vw2-00063r-Qh
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:41:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44877)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l1vvv-0001zC-3A
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:40:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611081643;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qoTkE7/3dYTfEj2IlyNJ7Q8v3TQVd57APO99FY3bSPY=;
+ b=VoUdc4PnesyNtSMtSDUrrm7Jws7jBB4AgHBm4xVb3coGjL34lO7NFwJJsX9OJFe8+elkTH
+ fQIE5HwDqhMr59uOqG83sPEPXRIfN1fbPfKQ8uQDdu0egZGuqivhs3BjSPiICG6kK1e6gK
+ PLV7UYM1piZgfiDXVJwV2XvQhimMz/8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-469-ppwoHUcqOdqfwx699plMFA-1; Tue, 19 Jan 2021 13:40:40 -0500
+X-MC-Unique: ppwoHUcqOdqfwx699plMFA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF893100C606;
+ Tue, 19 Jan 2021 18:40:38 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-115-54.ams2.redhat.com
+ [10.36.115.54])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 735E9100239A;
+ Tue, 19 Jan 2021 18:40:36 +0000 (UTC)
+Subject: Re: [PATCH v4 00/23] backup performance: block_status + async
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <3a5ea1b1-1137-4ac5-5aac-5bdec0b7b0d5@redhat.com>
+Date: Tue, 19 Jan 2021 19:40:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <20210116214705.822267-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,218 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, alistair23@gmail.com
+Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
+ qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The caching of constant temps has resulted in a larger overall usage,
-overflowing the statically allocated array.  Instead, allocate temps
-as needed, placing pointers to the allocated temps into a GPtrArray
-for later indexing.
+On 16.01.21 22:46, Vladimir Sementsov-Ogievskiy wrote:
+> Hi Max!
+> I applied my series onto yours 129-fixing and found, that 129 fails for backup.
+> And setting small max-chunk and even max-workers to 1 doesn't help! (setting
+> speed like in v3 still helps).
+> 
+> And I found, that the problem is that really, the whole backup job goes during
+> drain, because in new architecture we do just job_yield() during the whole
+> background block-copy.
+> 
+> This leads to modifying the existing patch in the series, which does job_enter()
+> from job_user_pause: we just need call job_enter() from job_pause() to cover
+> not only user pauses but also drained_begin.
+> 
+> So, now I don't need any additional fixing of 129.
+> 
+> Changes in v4:
+> - add a lot of Max's r-b's, thanks!
+> 
+> 03: fix over-80 line (in comment), add r-b
+> 09: was "[PATCH v3 10/25] job: call job_enter from job_user_pause",
+>      now changed to finally fix 129 iotest, drop r-b
+> 
+> 10: squash-in additional wording on max-chunk, fix error message, keep r-b
+> 17: drop extra include, assert job_is_cancelled() instead of check, add r-b
+> 18: adjust commit message, add r-b
+> 23: add comments and assertion, about the fact that test doesn't support
+>      paths with colon inside
+>      fix s/disable-copy-range/use-copy-range/
 
-Buglink: https://bugs.launchpad.net/bugs/1912065
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/tcg/tcg.h |  6 ++--
- tcg/tcg.c         | 74 +++++++++++++++++++++++++++++------------------
- 2 files changed, 49 insertions(+), 31 deletions(-)
+Hmmm, for me, 129 sometimes fails still, because it completes too 
+quickly...  (The error then is that 'return[0]' does not exist in 
+query-block-jobs’s result, because the job is already gone.)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 996addd90c..1da3bce0c8 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -275,7 +275,7 @@ typedef struct TCGPool {
- 
- #define TCG_POOL_CHUNK_SIZE 32768
- 
--#define TCG_MAX_TEMPS 512
-+#define TCG_INIT_TEMPS 512
- #define TCG_MAX_INSNS 512
- 
- /* when the size of the arguments of a called function is smaller than
-@@ -696,7 +696,7 @@ struct TCGContext {
- 
-     GHashTable *const_table[TCG_TYPE_COUNT];
-     TCGTempSet free_temps[TCG_TYPE_COUNT * 2];
--    TCGTemp temps[TCG_MAX_TEMPS]; /* globals first, temps after */
-+    GPtrArray *temps; /* globals first, temps after */
- 
-     QTAILQ_HEAD(, TCGOp) ops, free_ops;
-     QSIMPLEQ_HEAD(, TCGLabel) labels;
-@@ -749,7 +749,7 @@ static inline void *tcg_splitwx_to_rw(const void *rx)
- static inline TCGTemp *tcg_temp(TCGContext *s, size_t idx)
- {
-     tcg_debug_assert(idx < s->nb_temps);
--    return &s->temps[idx];
-+    return g_ptr_array_index(s->temps, idx);
- }
- 
- static inline size_t temp_idx(TCGTemp *ts)
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index a505457cee..5ca6860107 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -816,19 +816,24 @@ void tcg_register_thread(void)
- void tcg_register_thread(void)
- {
-     MachineState *ms = MACHINE(qdev_get_machine());
--    TCGContext *s = g_malloc(sizeof(*s));
--    unsigned int i, n;
-+    TCGContext *s = g_memdup(&tcg_init_ctx, sizeof(*s));
-+    unsigned int i, n = tcg_init_ctx.nb_globals;
-+    TCGTemp *glob;
-     bool err;
- 
--    *s = tcg_init_ctx;
--
--    /* Relink mem_base.  */
--    for (i = 0, n = tcg_init_ctx.nb_globals; i < n; ++i) {
-+    /* Copy the globals. */
-+    s->temps = g_ptr_array_sized_new(TCG_INIT_TEMPS);
-+    glob = g_new(TCGTemp, n);
-+    for (i = 0; i < n; ++i) {
-         TCGTemp *its = tcg_temp(&tcg_init_ctx, i);
-+        TCGTemp *ots = glob + i;
-+
-+        *ots = *its;
-         if (its->mem_base) {
--            TCGTemp *ots = tcg_temp(s, i);
--            ots->mem_base = tcg_temp(s, temp_idx(its->mem_base));
-+            /* Relink mem_base. */
-+            ots->mem_base = glob + temp_idx(its->mem_base);
-         }
-+        g_ptr_array_add(s->temps, ots);
-     }
- 
-     /* Claim an entry in tcg_ctxs */
-@@ -986,11 +991,11 @@ void tcg_context_init(TCGContext *s)
- 
-     memset(s, 0, sizeof(*s));
-     s->nb_globals = 0;
-+    s->temps = g_ptr_array_sized_new(TCG_INIT_TEMPS);
- 
--    /* Count total number of arguments and allocate the corresponding
--       space */
-+    /* Count total number of arguments and allocate the corresponding space */
-     total_args = 0;
--    for(op = 0; op < NB_OPS; op++) {
-+    for (op = 0; op < NB_OPS; op++) {
-         def = &tcg_op_defs[op];
-         n = def->nb_iargs + def->nb_oargs;
-         total_args += n;
-@@ -998,7 +1003,7 @@ void tcg_context_init(TCGContext *s)
- 
-     args_ct = g_new0(TCGArgConstraint, total_args);
- 
--    for(op = 0; op < NB_OPS; op++) {
-+    for (op = 0; op < NB_OPS; op++) {
-         def = &tcg_op_defs[op];
-         def->args_ct = args_ct;
-         n = def->nb_iargs + def->nb_oargs;
-@@ -1179,11 +1184,13 @@ void tcg_prologue_init(TCGContext *s)
- void tcg_func_start(TCGContext *s)
- {
-     tcg_pool_reset(s);
-+
-     s->nb_temps = s->nb_globals;
-+    g_ptr_array_set_size(s->temps, s->nb_globals);
- 
-     /* No temps have been previously allocated for size or locality.  */
-     for (int i = 0; i < ARRAY_SIZE(s->free_temps); ++i) {
--        tempset_init(&s->free_temps[i], TCG_MAX_TEMPS);
-+        tempset_init(&s->free_temps[i], TCG_INIT_TEMPS);
-     }
- 
-     /* No constant temps have been previously allocated. */
-@@ -1208,27 +1215,40 @@ void tcg_func_start(TCGContext *s)
- 
- static TCGTemp *tcg_temp_alloc(TCGContext *s)
- {
--    int n = s->nb_temps++;
-     TCGTemp *ret;
-+    int n = s->nb_temps;
- 
--    tcg_debug_assert(n < TCG_MAX_TEMPS);
--    ret = &s->temps[n];
-+    /* Note that TCGTemp.index is 16 bits. */
-+    tcg_debug_assert(n <= UINT16_MAX);
-+    s->nb_temps = n + 1;
-+
-+    /* Non-global temps are allocated from the pool. */
-+    ret = tcg_malloc(sizeof(TCGTemp));
-     memset(ret, 0, sizeof(TCGTemp));
-     ret->index = n;
- 
-+    g_ptr_array_add(s->temps, ret);
-     return ret;
- }
- 
--static inline TCGTemp *tcg_global_alloc(TCGContext *s)
-+static TCGTemp *tcg_global_alloc(TCGContext *s)
- {
--    TCGTemp *ts;
-+    TCGTemp *ret;
-+    int n = s->nb_globals;
- 
-+    /* Note that TCGTemp.index is 16 bits. */
-+    tcg_debug_assert(n <= UINT16_MAX);
-     tcg_debug_assert(s->nb_globals == s->nb_temps);
--    s->nb_globals++;
--    ts = tcg_temp_alloc(s);
--    ts->kind = TEMP_GLOBAL;
-+    s->nb_globals = n + 1;
-+    s->nb_temps = n + 1;
- 
--    return ts;
-+    /* Global temps are allocated from the main heap and live forever. */
-+    ret = g_new0(TCGTemp, 1);
-+    ret->index = n;
-+    ret->kind = TEMP_GLOBAL;
-+
-+    g_ptr_array_add(s->temps, ret);
-+    return ret;
- }
- 
- static TCGTemp *tcg_global_reg_new_internal(TCGContext *s, TCGType type,
-@@ -1236,9 +1256,7 @@ static TCGTemp *tcg_global_reg_new_internal(TCGContext *s, TCGType type,
- {
-     TCGTemp *ts;
- 
--    if (TCG_TARGET_REG_BITS == 32 && type != TCG_TYPE_I32) {
--        tcg_abort();
--    }
-+    tcg_debug_assert(TCG_TARGET_REG_BITS != 32 || type == TCG_TYPE_I32);
- 
-     ts = tcg_global_alloc(s);
-     ts->base_type = type;
-@@ -1299,7 +1317,7 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
-         pstrcat(buf, sizeof(buf), "_0");
-         ts->name = strdup(buf);
- 
--        tcg_debug_assert(ts2 == ts + 1);
-+        tcg_debug_assert(temp_idx(ts2) == temp_idx(ts) + 1);
-         ts2->base_type = TCG_TYPE_I64;
-         ts2->type = TCG_TYPE_I32;
-         ts2->indirect_reg = indirect_reg;
-@@ -1347,7 +1365,7 @@ TCGTemp *tcg_temp_new_internal(TCGType type, bool temp_local)
-             ts->temp_allocated = 1;
-             ts->kind = kind;
- 
--            tcg_debug_assert(ts2 == ts + 1);
-+            tcg_debug_assert(temp_idx(ts2) == temp_idx(ts) + 1);
-             ts2->base_type = TCG_TYPE_I64;
-             ts2->type = TCG_TYPE_I32;
-             ts2->temp_allocated = 1;
-@@ -1456,7 +1474,7 @@ TCGTemp *tcg_constant_internal(TCGType type, int64_t val)
-              */
-             ts->val = val;
- 
--            tcg_debug_assert(ts2 == ts + 1);
-+            tcg_debug_assert(temp_idx(ts2) == temp_idx(ts) + 1);
-             ts2->base_type = TCG_TYPE_I64;
-             ts2->type = TCG_TYPE_I32;
-             ts2->kind = TEMP_CONST;
--- 
-2.25.1
+When I insert a print(result) after the query-block-jobs, I can see that 
+the job has always progressed really far, even if its still running. 
+(Like, generally the offset is just one MB shy of 1G.)
+
+I suspect the problem is that block-copy just copies too much from the 
+start (by default); i.e., it starts 64 workers with, hm, well, 1 MB of 
+chunk size?  Shouldn’t fill the 128 MB immediately...
+
+Anyway, limiting the number of workers (to 1) and the chunk size (to 
+64k) with x-perf does ensure that the backup job’s progress is limited 
+to 1 MB or so, which looks fine to me.
+
+I suppose we should do that, then (in 129), before patch 17?
+
+(PS: I can also see a MacOS failure in iotest 256.  I suspect it’s 
+related to this series, because 256 is a backup test (with iothreads), 
+but I’m not sure yet.  The log is here:
+
+https://cirrus-ci.com/task/5276331753603072
+)
+
+Max
 
 
