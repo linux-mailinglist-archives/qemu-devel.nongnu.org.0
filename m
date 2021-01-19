@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E19C82FBD32
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:08:52 +0100 (CET)
-Received: from localhost ([::1]:47720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60AB22FBD6F
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:23:00 +0100 (CET)
+Received: from localhost ([::1]:50790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1uUt-0004Jh-Oz
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:08:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53612)
+	id 1l1uiZ-0002JF-D4
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:22:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1uOU-0008Lh-4I; Tue, 19 Jan 2021 12:02:14 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:43989)
+ id 1l1uOY-0008WM-Pr; Tue, 19 Jan 2021 12:02:18 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:38639)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l1uOQ-0003H3-1q; Tue, 19 Jan 2021 12:02:13 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id x12so10840327plr.10;
- Tue, 19 Jan 2021 09:02:09 -0800 (PST)
+ id 1l1uOS-0003IS-W0; Tue, 19 Jan 2021 12:02:18 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id x20so265902pjh.3;
+ Tue, 19 Jan 2021 09:02:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=ZS4AAceOWkt11M3JMlg76caf7C9tWZ1B4JbRoZNTgFE=;
- b=DHoMiCFVm7+qsnVehZ+0/PLr+r4KO4xnOLrzDfbL1iWaUde81vD4f++ecaA6g2cXKj
- oqGpmWPvbniMNwiRD0VTIg26w8UaAAYEHFXAZbVMNh96UaIY5gbGvKLxQnCTFr/d0WHL
- 2R0qOs1IiEGM7WHkp1Pw1zs/XsVbyxQ2vzZ9mFzwyudARoZNAia4ebJVym0qzUsxYe6F
- SyfsLZ8yM2h2mBUu2gv/msRrip08U0gZXrCLEHSizurnOo+zYYmOWhWc/sf/D71bL+uL
- 9BrzbLz0fPmduzFz3O2/vfmRi7E0osm8XhYcJDBveGOw4ACt3uZTwOf0pFYuZNGWvGDa
- k5Ig==
+ bh=5ZLkaxx2eM6gKTyB76CYUB5nJVyzgxnUT0CriftpEdA=;
+ b=KaVqHqpf5ZwAEsGLtaBJHNwd25WqqncSdk/1SaJ5JdxN6RBJ9EH/SAgDkC3kAhF/ZI
+ 2K29n9/dTu4oD1ycnnY0wDV5qerW/lWKrBaXeWDOgXSYsOJKrAP7JSkcjNdwuCZ9mjE+
+ 1LuW8sNnCbcc3Na43f7g3PFpxbGAFLQ+GRpnHbexp21GBa2dYN0RO77WbCbVB81PBZzG
+ tdYDda37l8uIBxBAUUF8Xp6zTrUkcI7drkHdbNGLgYBPZNuIeMyPqyG88darbn5hbB9c
+ 7VpRe4yODg8Zl/AU/PlZi1UYnlIFgM4+Yf5MGjAkeeR8W2Jo1TMDEp/xsEQv6tzAtiPQ
+ UIDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=ZS4AAceOWkt11M3JMlg76caf7C9tWZ1B4JbRoZNTgFE=;
- b=boPc7u0RQzGlia1Z4XTti3AmyhqdxH9vTZ1y3bqGAjRJC+Mxc50G0j9ZUF6Um0KT7D
- BnS1kzZlYLLTQ7qoREW5q09bX+IYbFOSMKvBY01K0/wRpCDGNpkEesGTkCDOPRIJLRlX
- 6ywytKsYqihxqP+n6O8GRKM+OKyJboHYH1srtIxsFyiCycOx2qiq2/XG32/mXTN47YSX
- i1OFZlI5OcnAbMT/1OhJJpTfuD+PSRvIUPvafU3gHilRcptjmYzCLZR0WbwFyWKa43SJ
- lhlV5ikTCi8P2JVdfT35ED1HwM2g6k1qFyzubcJM6lq/d2jJ0RmFL2E713T/HPhFPoWF
- IUpg==
-X-Gm-Message-State: AOAM531nItLQsCfeFMQQs3A2Ft8u8ZZEj8lJuhiZIJKrXAKdnbsu0U7o
- BgRIeA796JeBYLJxvwuUKYNCI8iwnRzhgg==
-X-Google-Smtp-Source: ABdhPJzxkPl+E+KXGVq++vfLnmQilRzQ5sPwFZns5gaikJPGTFKEf/RIptRgbYlnGCpDQc2oYA1unQ==
-X-Received: by 2002:a17:90b:8d7:: with SMTP id
- ds23mr680569pjb.116.1611075728168; 
- Tue, 19 Jan 2021 09:02:08 -0800 (PST)
+ bh=5ZLkaxx2eM6gKTyB76CYUB5nJVyzgxnUT0CriftpEdA=;
+ b=rDn3wAHwu+K82WFeHbRp+tEM8J8x1WKEXDOPLUTuI8z5CX0QYlAEZ5ZQlrWMUos1jw
+ dIJXhU7qhgeFp2KjSw8Nvhx2JSPBLTSdoMkwIP8BDvKFg8uZmc0z6bcf6mOwFnXqjY5L
+ l2oP+/TH/MNhh79NNM8YD6Lz4E9G8yAQwyHL3lsBCVIKpxydpP8nD3D0UGoQQECBmrEB
+ BMPUr9cB+OQak0ISD9XS2vB0GsaR9mE0KvGqgpGJ/R4SOoQlkLU6QLxbKo28MhozQilN
+ /F97nsN6tLd7R4BSiz8beMu/iaE17r9nsEd2R3aGgC1f/A+o7+WELOSFm5WyhSjlw7S6
+ hNnw==
+X-Gm-Message-State: AOAM533g8Xnxo2dnL2Z2q169aq7yL0MZnJulrOMOS35wOkq/9tLukwcj
+ fcwmuuukwSiK7KEw9/6nLleEPlfdzCXFHA==
+X-Google-Smtp-Source: ABdhPJybphbRSE+OWihoSFQwZ51ltAaCfWhmo1GLXful/fmYP2LnLYsQf0KM/gxTi0VErUgaZrpmjg==
+X-Received: by 2002:a17:902:e881:b029:de:593d:82ca with SMTP id
+ w1-20020a170902e881b02900de593d82camr5733568plg.82.1611075730603; 
+ Tue, 19 Jan 2021 09:02:10 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id m4sm19396001pgv.16.2021.01.19.09.02.06
+ by smtp.gmail.com with ESMTPSA id m4sm19396001pgv.16.2021.01.19.09.02.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 19 Jan 2021 09:02:07 -0800 (PST)
+ Tue, 19 Jan 2021 09:02:10 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [RFC PATCH V3 5/8] hw/block/nvme: add NMIC enum value for Identify
- Namespace
-Date: Wed, 20 Jan 2021 02:01:44 +0900
-Message-Id: <20210119170147.19657-6-minwoo.im.dev@gmail.com>
+Subject: [RFC PATCH V3 6/8] hw/block/nvme: support for shared namespace in
+ subsystem
+Date: Wed, 20 Jan 2021 02:01:45 +0900
+Message-Id: <20210119170147.19657-7-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
 References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1036.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,31 +86,201 @@ Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Added Namespace Multi-path I/O and Namespace Sharing Capabilities (NMIC)
-field to support shared namespace from controller(s).
+nvme-ns device is registered to a nvme controller device during the
+initialization in nvme_register_namespace() in case that 'bus' property
+is given which means it's mapped to a single controller.
 
-This field is in Identify Namespace data structure in [30].
+This patch introduced a new property 'subsys' just like the controller
+device instance did to map a namespace to a NVMe subsystem.
+
+If 'subsys' property is given to the nvme-ns device, it will belong to
+the specified subsystem and will be attached to all controllers in that
+subsystem by enabling shared namespace capability in NMIC(Namespace
+Multi-path I/O and Namespace Capabilities) in Identify Namespace.
+
+Usage:
+
+  -device nvme-subsys,id=subsys0
+  -device nvme,serial=foo,id=nvme0,subsys=subsys0
+  -device nvme,serial=bar,id=nvme1,subsys=subsys0
+  -device nvme,serial=baz,id=nvme2,subsys=subsys0
+  -device nvme-ns,id=ns1,drive=<drv>,nsid=1,subsys=subsys0  # Shared
+  -device nvme-ns,id=ns2,drive=<drv>,nsid=2,bus=nvme2       # Non-shared
+
+  In the above example, 'ns1' will be shared to 'nvme0' and 'nvme1' in
+  the same subsystem.  On the other hand, 'ns2' will be attached to the
+  'nvme2' only as a private namespace in that subsystem.
+
+All the namespace with 'subsys' parameter will attach all controllers in
+the subsystem to the namespace by default.
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- include/block/nvme.h | 4 ++++
- 1 file changed, 4 insertions(+)
+ hw/block/nvme-ns.c     | 23 ++++++++++++++++++-----
+ hw/block/nvme-ns.h     |  7 +++++++
+ hw/block/nvme-subsys.c | 25 +++++++++++++++++++++++++
+ hw/block/nvme-subsys.h |  3 +++
+ hw/block/nvme.c        | 10 +++++++++-
+ 5 files changed, 62 insertions(+), 6 deletions(-)
 
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index 733fb35fedde..28404a62b9d2 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -1110,6 +1110,10 @@ enum NvmeNsIdentifierType {
-     NVME_NIDT_CSI               = 0x04,
- };
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index c8b75fa02138..073f65e49cac 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -63,6 +63,10 @@ static int nvme_ns_init(NvmeNamespace *ns, Error **errp)
  
-+enum NvmeIdNsNmic {
-+    NVME_NMIC_NS_SHARED         = 1 << 0,
-+};
+     id_ns->npda = id_ns->npdg = npdg - 1;
+ 
++    if (nvme_ns_shared(ns)) {
++        id_ns->nmic |= NVME_NMIC_NS_SHARED;
++    }
 +
- enum NvmeCsi {
-     NVME_CSI_NVM                = 0x00,
-     NVME_CSI_ZONED              = 0x02,
+     return 0;
+ }
+ 
+@@ -358,16 +362,25 @@ static void nvme_ns_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    if (nvme_register_namespace(n, ns, errp)) {
+-        error_propagate_prepend(errp, local_err,
+-                                "could not register namespace: ");
+-        return;
++    if (ns->subsys) {
++        if (nvme_subsys_register_ns(ns, errp)) {
++            error_propagate_prepend(errp, local_err,
++                                    "could not setup namespace to subsys: ");
++            return;
++        }
++    } else {
++        if (nvme_register_namespace(n, ns, errp)) {
++            error_propagate_prepend(errp, local_err,
++                                    "could not register namespace: ");
++            return;
++        }
+     }
+-
+ }
+ 
+ static Property nvme_ns_props[] = {
+     DEFINE_BLOCK_PROPERTIES(NvmeNamespace, blkconf),
++    DEFINE_PROP_LINK("subsys", NvmeNamespace, subsys, TYPE_NVME_SUBSYS,
++                     NvmeSubsystem *),
+     DEFINE_PROP_UINT32("nsid", NvmeNamespace, params.nsid, 0),
+     DEFINE_PROP_UUID("uuid", NvmeNamespace, params.uuid),
+     DEFINE_PROP_BOOL("zoned", NvmeNamespace, params.zoned, false),
+diff --git a/hw/block/nvme-ns.h b/hw/block/nvme-ns.h
+index 293ac990e3f6..929e78861903 100644
+--- a/hw/block/nvme-ns.h
++++ b/hw/block/nvme-ns.h
+@@ -47,6 +47,8 @@ typedef struct NvmeNamespace {
+     const uint32_t *iocs;
+     uint8_t      csi;
+ 
++    NvmeSubsystem   *subsys;
++
+     NvmeIdNsZoned   *id_ns_zoned;
+     NvmeZone        *zone_array;
+     QTAILQ_HEAD(, NvmeZone) exp_open_zones;
+@@ -77,6 +79,11 @@ static inline uint32_t nvme_nsid(NvmeNamespace *ns)
+     return -1;
+ }
+ 
++static inline bool nvme_ns_shared(NvmeNamespace *ns)
++{
++    return !!ns->subsys;
++}
++
+ static inline NvmeLBAF *nvme_ns_lbaf(NvmeNamespace *ns)
+ {
+     NvmeIdNs *id_ns = &ns->id_ns;
+diff --git a/hw/block/nvme-subsys.c b/hw/block/nvme-subsys.c
+index a01003136b12..e7efdcae7d0d 100644
+--- a/hw/block/nvme-subsys.c
++++ b/hw/block/nvme-subsys.c
+@@ -43,6 +43,31 @@ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp)
+     return cntlid;
+ }
+ 
++int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp)
++{
++    NvmeSubsystem *subsys = ns->subsys;
++    NvmeCtrl *n;
++    int i;
++
++    if (subsys->namespaces[nvme_nsid(ns)]) {
++        error_setg(errp, "namespace %d already registerd to subsy %s",
++                   nvme_nsid(ns), subsys->parent_obj.id);
++        return -1;
++    }
++
++    subsys->namespaces[nvme_nsid(ns)] = ns;
++
++    for (i = 0; i < ARRAY_SIZE(subsys->ctrls); i++) {
++        n = subsys->ctrls[i];
++
++        if (n && nvme_register_namespace(n, ns, errp)) {
++            return -1;
++        }
++    }
++
++    return 0;
++}
++
+ static void nvme_subsys_setup(NvmeSubsystem *subsys)
+ {
+     char *subnqn;
+diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
+index 4eba50d96a1d..ccf6a71398d3 100644
+--- a/hw/block/nvme-subsys.h
++++ b/hw/block/nvme-subsys.h
+@@ -14,6 +14,7 @@
+     OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
+ 
+ #define NVME_SUBSYS_MAX_CTRLS   32
++#define NVME_SUBSYS_MAX_NAMESPACES  32
+ 
+ typedef struct NvmeCtrl NvmeCtrl;
+ typedef struct NvmeNamespace NvmeNamespace;
+@@ -22,8 +23,10 @@ typedef struct NvmeSubsystem {
+     uint8_t     subnqn[256];
+ 
+     NvmeCtrl    *ctrls[NVME_SUBSYS_MAX_CTRLS];
++    NvmeNamespace *namespaces[NVME_SUBSYS_MAX_NAMESPACES];
+ } NvmeSubsystem;
+ 
+ int nvme_subsys_register_ctrl(NvmeCtrl *n, Error **errp);
++int nvme_subsys_register_ns(NvmeNamespace *ns, Error **errp);
+ 
+ #endif /* NVME_SUBSYS_H */
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 9f8a739fcd8f..06bccf1b9e9e 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -25,7 +25,8 @@
+  *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
+  *              ,subsys=<subsys_id> \
+  *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
+- *              zoned=<true|false[optional]>
++ *              zoned=<true|false[optional]>, \
++ *              subsys=<subsys_id>
+  *      -device nvme-subsys,id=<subsys_id>
+  *
+  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
+@@ -69,6 +70,13 @@
+  *   data size being in effect. By setting this property to 0, users can make
+  *   ZASL to be equal to MDTS. This property only affects zoned namespaces.
+  *
++ * nvme namespace device parameters
++ * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++ * - `subsys`
++ *   NVM Subsystem device.  If given, this namespace will be attached to all
++ *   controllers in the subsystem. Otherwise, `bus` must be given to attach
++ *   this namespace to a specified single controller as a non-shared namespace.
++ *
+  * Setting `zoned` to true selects Zoned Command Set at the namespace.
+  * In this case, the following namespace properties are available to configure
+  * zoned operation:
 -- 
 2.17.1
 
