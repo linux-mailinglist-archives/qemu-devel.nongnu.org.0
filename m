@@ -2,84 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64B82FC145
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:41:12 +0100 (CET)
-Received: from localhost ([::1]:40078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 908C22FC1AF
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 21:58:47 +0100 (CET)
+Received: from localhost ([::1]:55430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1xoN-0005DQ-Kr
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:41:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54504)
+	id 1l1y5O-0007fa-KX
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 15:58:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54506)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xf8-0003Zy-Vd
+ id 1l1xf9-0003a9-2b
  for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:39 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:60726)
+Received: from userp2130.oracle.com ([156.151.31.86]:60784)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l1xf2-0000eG-0B
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:37 -0500
+ id 1l1xf5-0000fg-2h
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 15:31:38 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKOU4Y003527;
- Tue, 19 Jan 2021 20:31:25 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKNUs9002789;
+ Tue, 19 Jan 2021 20:31:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=corp-2020-01-29;
- bh=aq4qgM/9ZUvfZcUCOWu4yZOFwO9YwtwroNXUeqyYPFM=;
- b=QadsxWVI8H1JUN5QwhMbEwEK4cyTUsImNmXe+UC2ZBiX51Cv/rOAZatGnrWDdJliz+xW
- FuTU6XaaMPK0RAgIi7VpQ0+5b0BN/HBDC0e3fHKwUxSximKzieUYC6IG6cKMx+DCf5lm
- 4Luc/vJkqXUvgDAy1z0cGXI21L5A6B/OeA/S/86zPKcnz//KsCL0sCYYqYUGQWMqUe19
- Y4Z3ZOyr2xiZDMk/4PV3EgI5uYEBJxs7a3rSzGkZXT9LqUvOrFUU2YLObI9mN/7D6lM/
- i1Dhshjnpbw8Wzy/CA8us/o83byZgDBwbeTph5YVFHscr0FJuG0xeZ/OhG0Eo0oClbXw Bg== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by userp2130.oracle.com with ESMTP id 363xyhtb3j-1
+ mime-version; s=corp-2020-01-29;
+ bh=fcOYsIut7P+7V3lCOwx9r74mhX1CARiekYFi7+KIyC8=;
+ b=sTfDBjLkgWDZp8V+lif4M6JwD0wpGdEJ3se50XPuH31zeKuHy3SI36TGhPGLyTKjwRfw
+ OpMQkOhg+QKPeam1+r0hBfg4lGgnZ+9EfeboUqk7KsFpGY1mVPFn9ED783T6pvv66F5C
+ 3mLVmjyhVIGeVuLXWWwZnR3Q584lVglf0Byh23ITK8xSDwrnG4wygLOH9Xy6HMQPDUjk
+ BNTJJ/SUSPdcRCLhBIih0uKPmxigLkKSTBRUWv38ocg7vkruejqKsdTuaZZbG1ov3Pqg
+ nFiXUz3rDEjeQGtd53NrNotWtuaYh7csH7M/bROIE5cQ8DIAHqi1UYjyfsVGzT1IyB0r 1w== 
+Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
+ by userp2130.oracle.com with ESMTP id 363xyhtb3t-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:31:25 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKQcIu117505;
- Tue, 19 Jan 2021 20:29:24 GMT
-Received: from nam02-sn1-obe.outbound.protection.outlook.com
- (mail-sn1nam02lp2056.outbound.protection.outlook.com [104.47.36.56])
- by aserp3030.oracle.com with ESMTP id 3649qpu97n-1
+ Tue, 19 Jan 2021 20:31:28 +0000
+Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
+ by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10JKPc7P128314;
+ Tue, 19 Jan 2021 20:29:28 GMT
+Received: from nam02-cy1-obe.outbound.protection.outlook.com
+ (mail-cys01nam02lp2054.outbound.protection.outlook.com [104.47.37.54])
+ by userp3030.oracle.com with ESMTP id 3661njtast-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 19 Jan 2021 20:29:24 +0000
+ Tue, 19 Jan 2021 20:29:28 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=glb/gM4Lq4ODyOJroAnZrG/kqCtxGU+gV6ora60FPGR2HV9aiAn4cUlGTBporL6WKikqGxpsVkQcbLdWJi3QCCRJt4T0MJlbuF2FlvRlekSr0ljK7m0BNuuOQcTL8ySjB03kBUTVSFmiEg6o3wUHYlYSiVSvuu9dp2z9ySTeTXMghxJtg3WxGupHcMmgXoqYU0vqyt9yc6pryG9OI3EpqGhuNj0dS9ApWiLedNXTxIPPyACJ6p7ATo5qMaaxvq/dRh0t+btQFkXCH+DkKNpzUuMXtfhCj0EJK/zaK4X8ghzoNXDQrO/0XDpzw6hRdnKot6rQfI34Di5413a+A40z0A==
+ b=H42Y8RRUNogi3SPZs9hSvNXcUg0JLVb3YylZAUAsbVoidCCVWUhXpA9DGjG2ZHjIbcf/kyM4pKUpAh00aevMsLEZ6pW6v86MHpa2nkiKpzHkSIj6+j1cuQ3Lt6mahxYYu23/hpTbvO679G/su2jlcFUCGNo6EGMWvnThraLszeRImbtjzvuzu9qWEEIZa5K9ivCywQoiazWRFMnLi+FS1Tvf8SsijWa/Ay8OkzCV+JHEjo1LdZJbzat4XogNnsmDJKf0LxMuE28/dUNv1ij3sf/Bk9p2kiYWJLF9EftxuBvl4caDCJA483QbUqxUSigwpz0pOqYX8KXPIikcA4KJ8Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aq4qgM/9ZUvfZcUCOWu4yZOFwO9YwtwroNXUeqyYPFM=;
- b=SpNjVl/iNsjZrMwC1wIzkMFzw3lk4lSw2f7FsLoT1gU1s4budf4EeKXBQj6DXhPgAnpzFBQF+dhWyPdivTVtCMWsEkAUcP2EKjdAXVd83a4O07Mpm6Ig32lmLzTGS9KAySMP4Qc2lUQF+hxe4D2GwhdNMoPnpIevLvQ/FK1EdtmZm+HD2WFGwE3ZYqOylH89Afq18D8Kg4/xFhOkLGmvr2sjZhUXr6urPyiXH/S27j7UmoHA0egr/B9vHtYXJJQl8xJA5KtyMdk63pT0qaaoG4WrLLaw6FM42FEVUVJ//o5Ar+PXIRBZL0lbnJcugUZvVDXaPc32Yb6q/Tt575l6KA==
+ bh=fcOYsIut7P+7V3lCOwx9r74mhX1CARiekYFi7+KIyC8=;
+ b=lIEBG8b8wTkaql6LdOxY/MLRIj+3tLxmUD0Sw2X8QgVCnUx1BsqI4aGzbXRDIMPnHRmUIKepcFABELa5UcFyG3xTVbdVNNDQ72o9a7Iu2CqjFe0CwqC92e9dUfDtFlSJz2xk4Z0Lh60XprI75VNjd7cnEuhsFkfV/OxBilpTzc+yLxFuccQWVn6/dpaJfj3k4JNG7JPcOaRA8pSbslLjD+oq33Up2yJeFPfWfAgES76yHe26/KVikt3+A4y9Pf+GQC8PYSqMETzbQzzniovgYex1yVFE3C1S9PLLz3nhnIprP6J6RxB+ohSic1nnEsXfoyZaeD/r8NeCDkjZidUxKA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aq4qgM/9ZUvfZcUCOWu4yZOFwO9YwtwroNXUeqyYPFM=;
- b=Dp+NOBs3EhJkbrEqjYDONeuSZ7SupU79sDQlfc2CUsjfbZ6dlApX/f0s00Bngi/0p+JLOcrI3RY7yvRUcD9tVtykGXG41A8wWTgxyVq2fA6y8ART781h4vgG9KvSTNQMaI5Vyl3pUT5VEr3yw1Dkag2T7zC1q5Ic4ZimIfLAuAE=
+ bh=fcOYsIut7P+7V3lCOwx9r74mhX1CARiekYFi7+KIyC8=;
+ b=xj0me+IjqNKW3NJu2ozs/a7CpVP5zwNmgrzhzpjs2GaboO+PMsNQkhZ3YkmICRCP8Eiuhq00VOoCuhw8IBnlFEqmzRPg7gRjOwaY+OSn0fLefte18mhGs/Bu5XSugKtqKUwAOlrNDDtxyGdhaWiok09VMK7j9vAS4vHuHBnMcvE=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
- by BYAPR10MB3351.namprd10.prod.outlook.com (2603:10b6:a03:14d::16)
+ by BYAPR10MB3349.namprd10.prod.outlook.com (2603:10b6:a03:155::19)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Tue, 19 Jan
- 2021 20:29:22 +0000
+ 2021 20:29:25 +0000
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b]) by BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::5cf0:3e26:c005:341b%7]) with mapi id 15.20.3763.014; Tue, 19 Jan 2021
- 20:29:22 +0000
+ 20:29:25 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v20 13/20] multi-process: introduce proxy object
-Date: Tue, 19 Jan 2021 15:28:30 -0500
-Message-Id: <c37c1197969c14624c4c7068e7e3677bc70ade48.1611081587.git.jag.raman@oracle.com>
+Subject: [PATCH v20 14/20] multi-process: add proxy communication functions
+Date: Tue, 19 Jan 2021 15:28:31 -0500
+Message-Id: <9ee013428a49194a17f16952ad579f7e057b531c.1611081587.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1611081587.git.jag.raman@oracle.com>
 References: <cover.1611081587.git.jag.raman@oracle.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [209.17.40.38]
 X-ClientProxiedBy: DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12)
  To BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
@@ -88,60 +87,54 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.38) by
  DM6PR01CA0007.prod.exchangelabs.com (2603:10b6:5:296::12) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:19 +0000
+ 15.20.3784.11 via Frontend Transport; Tue, 19 Jan 2021 20:29:22 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 8a6b421c-811f-41fd-cc1e-08d8bcb8e7af
-X-MS-TrafficTypeDiagnostic: BYAPR10MB3351:
+X-MS-Office365-Filtering-Correlation-Id: 0d1f22f5-eab7-43c4-c584-08d8bcb8e977
+X-MS-TrafficTypeDiagnostic: BYAPR10MB3349:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BYAPR10MB33515861734B2D2599CC035290A30@BYAPR10MB3351.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:525;
+X-Microsoft-Antispam-PRVS: <BYAPR10MB33490D477E0F9BC4A7DC33B190A30@BYAPR10MB3349.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nGp1aZknmH9hliLna8Uc4d9zQNArETudgghyzVE15yKJVUjqu9NcU2HmWjHLNGdlXjRXsb8uGr4iXgpfLKQOnkQbk3yEGLlG+N8upD6rTUMNVruuncuRhyS/o8V46i4FijUVecK9uhlEiY0Z6VI4pinQ+eQ9c92PrTczb/z2DaDbC1u2Bhw2CM5ZPclMOnQW+kJPMTRS8JGY+4v/ccNrellJUnTMe8Dnz//L7AWg+ut8C6l0yfk4vTOOvL0LldrL5D8tY9aWFwoQOZQxb2RLsxYhlfANtbCI7Gpi0pCZTUtXLPcm+Wl/O+qeSYUdRr6aF/MnQ2h6G9SyCr5wWE0XztNZLggEhCr8SL6ORd8STlx1Yb/Ez2/AazKbavwRuFex+2RqvF8WEThru1lEwYlrBGxjEXFbnC3ATY1uQu9DBZCkoMU1QK7I1y0xWx4IqmrhROhRqr64yFkRA+jiv3rp51UjutI3XyuJUP9o0vi9kNUJNrnjb6POD43F9nDSREDTNNcjVOXNiXliyvLcp84bcw==
+X-Microsoft-Antispam-Message-Info: Ay5/3Tr5CmZ5ZGjUu0EgtNsybckk1pClp6qQm0/2XE/j1LGWmJjjOdTK06XZxZL0qrC/Gd6uFohn2EQfaLbrvdPa17URqlbPbbWqUY81KML4ooptRXnr6SN5JlU4oZKTIinTbCqDh58OihNFlVFmkB109UcJQxv7tfI9U86YFKaPDgr+V6+lmwd2QWp4awRlp3WaHTCzyIThNkf7rvdODpmn5wzFDkGAJrC6M93c6oJ5ippV6alcxgM4Wnmr1eBSdUpIezMzA4OazsVBBRgf44Qjl1HKfhRBVgo395wjcDsXYc4c3OxwaLd4wxNxnG1dG022P+SFxHLVfdHRm75J1KhDkTpRFBsfoLEfMb+Eh7Hcw+CQ/IyF20U/4CGlsqw/hqTPMO7Lev6bLczOGeXBjQ==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2744.namprd10.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(396003)(39860400002)(366004)(136003)(376002)(346002)(86362001)(2906002)(6666004)(6916009)(36756003)(4326008)(8676002)(52116002)(66476007)(66556008)(316002)(8936002)(66946007)(6486002)(107886003)(956004)(5660300002)(478600001)(7696005)(16526019)(26005)(186003)(7416002)(2616005)(83380400001);
+ SFS:(39860400002)(396003)(366004)(136003)(346002)(376002)(7696005)(52116002)(2906002)(6486002)(5660300002)(7416002)(36756003)(66476007)(66556008)(478600001)(6916009)(956004)(2616005)(4326008)(66946007)(26005)(186003)(16526019)(8676002)(86362001)(8936002)(107886003)(316002)(6666004)(83380400001);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?ZlQyd1JBS2dkSE96MGg4Q1VQRlRVUG5JbGtRY29zME4yNFYwVUtiVXdKeHli?=
- =?utf-8?B?aHdDU0oxcnFSaDRQQTIycmFvS1RUV0RHTlhHblozVDM3NWY3M0pXOUs3d1ph?=
- =?utf-8?B?eVcwR3JTblhicFA5WkZHdXlzdkR5NHBCVnV0Sk1TNjZLUkpjOVE3ekZIcERB?=
- =?utf-8?B?S1FvUVdmblNPNDhXU2Qvc2xpcVp4TXVkY3J4RjZVb014SldZVVhUdzlwYVE1?=
- =?utf-8?B?QVl4Y0M1TWF4TmtvZzdhMk5aSUQrUU9lOVREZG53eGhPOUZBY0hFbGhWb08w?=
- =?utf-8?B?ZnNPQ3lnaGRZRE52Z2xWMGl4V1pia2hMdEhkYTZCcFFCU0gxdzY1OTZVYTNw?=
- =?utf-8?B?aHQ5VmcreVJXYXkyQUFlVTIwVmJUY0lGOXp1R3Q2aUZsNisyVUh2cWg3eTJq?=
- =?utf-8?B?NmU4Qmdwa1gxWGRSTDNEZEVJczIyWStGbzYvaHYxUzcvMnFvcW1lbSs0cml1?=
- =?utf-8?B?aE00ekpSalJMTnpUVWtHSXNZR0NidkhkTkNoUlJIeGhaeWdYQ3RXQ3hYSG9K?=
- =?utf-8?B?a0Y0bFRHc2g5V0c5VTFUUks4SWNBYjhibGdSM0lDNXdZWUVsNDhRSlpZSFpH?=
- =?utf-8?B?dlBWMmlFS3d2QUpiN1RDZ1RzTEtrNktuclZ0d29wRWlDbVY3b1hyOVRRbU5p?=
- =?utf-8?B?RXczdkRnanBkYTFYbE1lcUxHNmRmM2R6TW5PVVhBVVRTRkFZaDVPUEhMRytZ?=
- =?utf-8?B?T3dWbUNlak1zY0JSRy9lWVZUZGRFU2c2MVVXdCt5cGZNcXYwWHcyQjFTWjli?=
- =?utf-8?B?V3ZyUFMyNFd4QXE3cW5HQUphZ084OGlpbTBBcmIxdmVNbzVGT0tIVkpuSVgv?=
- =?utf-8?B?RHlSMjBDQzdoTk9ZWWdGSWpBZG9RcmZEM05VTVRxcHRyTE0rdXovK29BWDRX?=
- =?utf-8?B?VmZ3b2V0akpHNHN6Tkp3TDhXaHlYM0kvN0l1cXE2UVZjWDVVcTlvVzJ0ZUtU?=
- =?utf-8?B?bVBoZS91Mk5WcEZqamtWZ3R4MGtJbWFBcWhVQUI0RGRUYVA4L242QXcxUFVE?=
- =?utf-8?B?SlJ0Y0NYVWpxK2RkbkhOUWkyM1FWb2NtbjZOaUtqZ1d5ZFVFdVRiQ2JVMTJB?=
- =?utf-8?B?djVUUVpxK2hrK011bktLZVlkUlgrUSt5a3h0VW1qOUVka1B5TS96TUUrOGVM?=
- =?utf-8?B?MHp0Vm9XenhKOVFCcGxDeGl0VUJWRDVxWHVwUXdUOGNualR2M1ltczJRdDBh?=
- =?utf-8?B?Y1lKSzN4TElsQzlGYmcwZEdlMGdsREFING1abWpBVDRPS2R6ODdaV0JVNzZX?=
- =?utf-8?B?Zm9MQWJnUlJGdDVML1RSNEdTUXkreGh3YWxlRTFvdHZLLzJ3QjNmV2xZOG95?=
- =?utf-8?Q?jSAJUfJ3txoyc=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?UhnH3DBA3LMgVs28iHJiwLPwNQQZ4GogmXAVUwQN5xumsRaOHjOnqum1PSgJ?=
+ =?us-ascii?Q?Mnc18nh8SKLZq2bpOpmY+lTmonvF51i5CQfzDY1na/Rq3lcN3+SKmQ2GV7OH?=
+ =?us-ascii?Q?ppRmhQYsmIkSAQdsBJwYCEU9hozLBjn6MkN095cacD6+ByDhvtG4ep9iMclI?=
+ =?us-ascii?Q?blV18iw13h5GEClTB2/EJxfP5TrAv7cWwbJn+TF256wU0KaZIy+dez1Jyp3r?=
+ =?us-ascii?Q?Ne6tYRsSav80wxSjtFpS4XyJrmIPLZIt30A9jHcQ+CHN06TD9hKBglQW5C9n?=
+ =?us-ascii?Q?HpDZ/2hjQApAz1TftMy6AZaSxR5V5q2Lll9ylP4FdjWhcSnByHhpeHsD0f7w?=
+ =?us-ascii?Q?hOPO32urSvO+87iYDAzRze05mLNU5IRrkIWtB+R+eGzHl1g1udbwtub8UK3Y?=
+ =?us-ascii?Q?WxVt/TV77Niwcs6DmKE61KHd6G0dZKNP4wvRReCa+4MTPNBx9V2Fb6l5GhhU?=
+ =?us-ascii?Q?KILtFu9HrjVkVv7uxGF3UmhJHTht3bmu+4+NDNR8uwbe6nUaWyxg2fVEmW8P?=
+ =?us-ascii?Q?XuBqtNzSHGaqfbxvAZdSma6qI1A2go8/sWdGdbA1XiCrWx3/Qf2TiYn5G40h?=
+ =?us-ascii?Q?TYmIsuzJjdgGTHsSQXMNe1Y8xFFaosXGBgHkKFKhBRUKMEoB+lZ6gT62nvMb?=
+ =?us-ascii?Q?fsTnpKXIdytVrbV7uYo3Ceeg5L5by9E6aTbGU0Fv2D2zsa7Q7ooEFFuYAlA5?=
+ =?us-ascii?Q?/wxoS8HjdSTWVz0iYLe6m3mLcE31YyeTUNxS3lsqEGqc9L2XQXZh1rpEpalV?=
+ =?us-ascii?Q?k/GtOSfaLKKaTdplooOVbrEDFEP4SyOw330LyL0omaNTprHUrlFI/aXG7fKI?=
+ =?us-ascii?Q?0Jya3Y98pPCXeWd109rN8cKD/Cp9lhjaK6s77DRTxLVCWMu0mzCaBMh0ZfY3?=
+ =?us-ascii?Q?vh1weaJgcxSNxoFkePIHqQ/c+ATCHAhIzTfqP+6rf/GjgXzfqoPTqE2KFxIN?=
+ =?us-ascii?Q?Nizr8/I4C3H8Ct5H1Y2KccGkXtvneoP5d7bJ2pkTsxo=3D?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a6b421c-811f-41fd-cc1e-08d8bcb8e7af
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0d1f22f5-eab7-43c4-c584-08d8bcb8e977
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2744.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:22.1976 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2021 20:29:25.2248 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k3JfOy0i96sDNL6j/MVSW2lHZ7bWcnXehrqGJJy2N3jSqMgSAuEfw6xFEVd4wJjNkEpbGx8uOTTXif5gjbEaGg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3351
+X-MS-Exchange-CrossTenant-UserPrincipalName: /v0jf8dQ308Uo/ymnb0LISJNNTVOUAYQiT0h4Bs362cjof4K+UDTwCPa1kovoDUrl0ompj4Pp8oCohvpXUbyuA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR10MB3349
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- mlxlogscore=999 adultscore=0
- malwarescore=0 bulkscore=0 spamscore=0 phishscore=0 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101190113
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ adultscore=0
+ phishscore=0 malwarescore=0 bulkscore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101190113
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
@@ -184,190 +177,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 
-Defines a PCI Device proxy object as a child of TYPE_PCI_DEVICE.
-
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/remote/proxy.h | 33 ++++++++++++++++
- hw/remote/proxy.c         | 99 +++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS               |  2 +
- hw/remote/meson.build     |  1 +
- 4 files changed, 135 insertions(+)
- create mode 100644 include/hw/remote/proxy.h
- create mode 100644 hw/remote/proxy.c
+ include/hw/remote/mpqemu-link.h |  4 ++++
+ hw/remote/mpqemu-link.c         | 34 ++++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
-new file mode 100644
-index 0000000..faa9c4d
---- /dev/null
-+++ b/include/hw/remote/proxy.h
-@@ -0,0 +1,33 @@
-+/*
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef PROXY_H
-+#define PROXY_H
-+
-+#include "hw/pci/pci.h"
-+#include "io/channel.h"
-+
-+#define TYPE_PCI_PROXY_DEV "x-pci-proxy-dev"
-+OBJECT_DECLARE_SIMPLE_TYPE(PCIProxyDev, PCI_PROXY_DEV)
-+
-+struct PCIProxyDev {
-+    PCIDevice parent_dev;
-+    char *fd;
-+
-+    /*
-+     * Mutex used to protect the QIOChannel fd from
-+     * the concurrent access by the VCPUs since proxy
-+     * blocks while awaiting for the replies from the
-+     * process remote.
-+     */
-+    QemuMutex io_mutex;
-+    QIOChannel *ioc;
-+    Error *migration_blocker;
-+};
-+
-+#endif /* PROXY_H */
-diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-new file mode 100644
-index 0000000..cd5b071
---- /dev/null
-+++ b/hw/remote/proxy.c
-@@ -0,0 +1,99 @@
-+/*
-+ * Copyright © 2018, 2021 Oracle and/or its affiliates.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+
+diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
+index 6ee5bc5..1b35d40 100644
+--- a/include/hw/remote/mpqemu-link.h
++++ b/include/hw/remote/mpqemu-link.h
+@@ -15,6 +15,8 @@
+ #include "qemu/thread.h"
+ #include "io/channel.h"
+ #include "exec/hwaddr.h"
++#include "io/channel-socket.h"
 +#include "hw/remote/proxy.h"
-+#include "hw/pci/pci.h"
-+#include "qapi/error.h"
-+#include "io/channel-util.h"
-+#include "hw/qdev-properties.h"
-+#include "monitor/monitor.h"
-+#include "migration/blocker.h"
-+#include "qemu/sockets.h"
-+
-+static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
+ 
+ #define REMOTE_MAX_FDS 8
+ 
+@@ -68,6 +70,8 @@ typedef struct {
+ bool mpqemu_msg_send(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
+ bool mpqemu_msg_recv(MPQemuMsg *msg, QIOChannel *ioc, Error **errp);
+ 
++uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
++                                         Error **errp);
+ bool mpqemu_msg_valid(MPQemuMsg *msg);
+ 
+ #endif
+diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
+index 4b25649..88d1f9b 100644
+--- a/hw/remote/mpqemu-link.c
++++ b/hw/remote/mpqemu-link.c
+@@ -182,6 +182,40 @@ fail:
+     return ret;
+ }
+ 
++/*
++ * Send msg and wait for a reply with command code RET_MSG.
++ * Returns the message received of size u64 or UINT64_MAX
++ * on error.
++ * Called from VCPU thread in non-coroutine context.
++ * Used by the Proxy object to communicate to remote processes.
++ */
++uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
++                                         Error **errp)
 +{
 +    ERRP_GUARD();
-+    PCIProxyDev *dev = PCI_PROXY_DEV(device);
-+    int fd;
++    MPQemuMsg msg_reply = {0};
++    uint64_t ret = UINT64_MAX;
 +
-+    if (!dev->fd) {
-+        error_setg(errp, "fd parameter not specified for %s",
-+                   DEVICE(device)->id);
-+        return;
++    assert(!qemu_in_coroutine());
++
++    QEMU_LOCK_GUARD(&pdev->io_mutex);
++    if (!mpqemu_msg_send(msg, pdev->ioc, errp)) {
++        return ret;
 +    }
 +
-+    fd = monitor_fd_param(monitor_cur(), dev->fd, errp);
-+    if (fd == -1) {
-+        error_prepend(errp, "proxy: unable to parse fd %s: ", dev->fd);
-+        return;
++    if (!mpqemu_msg_recv(&msg_reply, pdev->ioc, errp)) {
++        return ret;
 +    }
 +
-+    if (!fd_is_socket(fd)) {
-+        error_setg(errp, "proxy: fd %d is not a socket", fd);
-+        close(fd);
-+        return;
++    if (!mpqemu_msg_valid(&msg_reply)) {
++        error_setg(errp, "ERROR: Invalid reply received for command %d",
++                         msg->cmd);
++        return ret;
 +    }
 +
-+    dev->ioc = qio_channel_new_fd(fd, errp);
-+
-+    error_setg(&dev->migration_blocker, "%s does not support migration",
-+               TYPE_PCI_PROXY_DEV);
-+    migrate_add_blocker(dev->migration_blocker, errp);
-+
-+    qemu_mutex_init(&dev->io_mutex);
-+    qio_channel_set_blocking(dev->ioc, true, NULL);
++    return msg_reply.data.u64;
 +}
 +
-+static void pci_proxy_dev_exit(PCIDevice *pdev)
-+{
-+    PCIProxyDev *dev = PCI_PROXY_DEV(pdev);
-+
-+    if (dev->ioc) {
-+        qio_channel_close(dev->ioc, NULL);
-+    }
-+
-+    migrate_del_blocker(dev->migration_blocker);
-+
-+    error_free(dev->migration_blocker);
-+}
-+
-+static Property proxy_properties[] = {
-+    DEFINE_PROP_STRING("fd", PCIProxyDev, fd),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
-+
-+    k->realize = pci_proxy_dev_realize;
-+    k->exit = pci_proxy_dev_exit;
-+    device_class_set_props(dc, proxy_properties);
-+}
-+
-+static const TypeInfo pci_proxy_dev_type_info = {
-+    .name          = TYPE_PCI_PROXY_DEV,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PCIProxyDev),
-+    .class_init    = pci_proxy_dev_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { },
-+    },
-+};
-+
-+static void pci_proxy_dev_register_types(void)
-+{
-+    type_register_static(&pci_proxy_dev_type_info);
-+}
-+
-+type_init(pci_proxy_dev_register_types)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 27216b3..ee04d82 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -3199,6 +3199,8 @@ F: hw/remote/message.c
- F: hw/remote/remote-obj.c
- F: include/hw/remote/memory.h
- F: hw/remote/memory.c
-+F: hw/remote/proxy.c
-+F: include/hw/remote/proxy.h
- 
- Build and test automation
- -------------------------
-diff --git a/hw/remote/meson.build b/hw/remote/meson.build
-index 64da16c..569cd20 100644
---- a/hw/remote/meson.build
-+++ b/hw/remote/meson.build
-@@ -4,6 +4,7 @@ remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('machine.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('mpqemu-link.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('message.c'))
- remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('remote-obj.c'))
-+remote_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('proxy.c'))
- 
- specific_ss.add(when: 'CONFIG_MULTIPROCESS', if_true: files('memory.c'))
- 
+ bool mpqemu_msg_valid(MPQemuMsg *msg)
+ {
+     if (msg->cmd >= MPQEMU_CMD_MAX && msg->cmd < 0) {
 -- 
 1.8.3.1
 
