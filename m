@@ -2,92 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F732FB7A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:27:14 +0100 (CET)
-Received: from localhost ([::1]:53610 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E2AE2FB810
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 15:29:27 +0100 (CET)
+Received: from localhost ([::1]:58914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ryU-0005sX-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:27:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40688)
+	id 1l1s0c-000837-L7
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 09:29:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41508)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1rwS-000490-Eo
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:25:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56061)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l1rwP-0002Le-Dt
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:25:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611066303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vgwqSoLBC9vJsij61sb5zPtCkAIYdMlfded/uV0+Ka4=;
- b=aNsXkOQgnpL65CG3a1WH51MiIqPD402lqdBKBG7J21ymQfccAB8ZKai17Qg5h80RpWPANX
- 7Q0jGjSHsXZDGL8tkX6rZiVVPaa661eioxy18XXCwP/kj8T5hU66adWHJirO3Rjw3/yMSM
- K9E5G/shvZbgxm8c+DdRunll7fkNNH4=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-92-mDMDVw5QOhyWgHoG3ogP1g-1; Tue, 19 Jan 2021 09:25:00 -0500
-X-MC-Unique: mDMDVw5QOhyWgHoG3ogP1g-1
-Received: by mail-ej1-f70.google.com with SMTP id p1so6349214ejo.4
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:25:00 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1rz8-0006zg-Pg
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:27:56 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:39267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1rz4-0002rN-Dh
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 09:27:54 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id b21so12911204edy.6
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:27:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=kpA7f4MqKuh5FapD2PFmnr9qNfRsnw1/7uBkIAgNY0w=;
+ b=cpAesGjyABtAY3EDvOmOIgZBHdYDBskfRppwmHK7JlUBUjBaPzBBgtr1A33+ljy1LG
+ nodPiQU9DIXeAyUjkG1Nrp6C6m1lUjJiYG6S8T5I5ORPF8vSDIshDp8cPIKBgGPiQV3S
+ /ZVBQXLoM0rSO20zXzcteyCUPg/DyhqK7zMA+G5xUnF4y8v7FchoH1dyrdBzE0BSKN3X
+ JFfIIzB1+Yt+lPnyiaAn/24QFg0nq67IWlBneXd/8/Ppn57PzkYZF8Ff+68GFqwaMKzR
+ uOyKd4lahrt5tM3YzfFqHsY6JcBKCw+aMcVRM6tksqshxhgP0zLP3QfNVheDd0jTPBhP
+ +r9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vgwqSoLBC9vJsij61sb5zPtCkAIYdMlfded/uV0+Ka4=;
- b=lZgKHOrtYaeSWnLZEnAiORNePOGEAGuiev5XBD/pU5A1PklVAy3NLJVf8qWv4maXAY
- qGKFGoWBer2zbVNwyYL5EN9v6D9LgTc1BecNPAflXawamlfaXD9b6jaCiXvi8Qwu34Jn
- 0nfWLMyFLwpaE016ASJIaYxdZBcL6pdnosvkVNGAbC1ePaQogChJkAtJBjtgE7GQ6Qdw
- IAJ78myLsbkLOXrtXkM1pwJ2D9+8VZe+L+b2aio5/ldyL7sZk980rvbCdb8khMpr+tQb
- FM4MxCLFPCSsaLY5G0HlSmGxXFm2kKhcp/gTyQg2lrUjIjxyR/XGWhs49HgLILBNRIwp
- Q/pg==
-X-Gm-Message-State: AOAM533a88D/7vPPvfVCKk8XyRwY51//JmBBBNSxJO74B9huL0D8E0oc
- HijoMSwRQly4bjIRwA20LW7CklbZCsrgoM94VfYlIwJW6MsRqou5wEPM+Qjs/rvhS0bh3B0Ifkv
- HeU4JmyCvsQ09pSc=
-X-Received: by 2002:a50:a69c:: with SMTP id e28mr3722762edc.139.1611066299100; 
- Tue, 19 Jan 2021 06:24:59 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxVWPHJWrJ78sc7iBTOSE4n72huj4ThgAQXxR8o6NQOxMc4q3yOt1LNUZ4sPXHau6dskW4EKw==
-X-Received: by 2002:a50:a69c:: with SMTP id e28mr3722749edc.139.1611066298886; 
- Tue, 19 Jan 2021 06:24:58 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id ce7sm2387729ejb.100.2021.01.19.06.24.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 06:24:58 -0800 (PST)
-Subject: Re: [PULL 05/30] Makefile: wrap ctags in quiet-command calls
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>
-References: <20210115130828.23968-1-alex.bennee@linaro.org>
- <20210115130828.23968-6-alex.bennee@linaro.org>
- <CAP+75-XSyx2yCpz5uvx2ZofCGY=9pQ88ffSDRSXVjJk48qXNFw@mail.gmail.com>
- <87h7ndutwx.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <147a0893-c584-0a0a-7dde-c24888c3b7ce@redhat.com>
-Date: Tue, 19 Jan 2021 15:24:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=kpA7f4MqKuh5FapD2PFmnr9qNfRsnw1/7uBkIAgNY0w=;
+ b=JHIHA3F2CAjpJ/MWS/etZiWY2/ChLMtlfTURuA08UTSIKr/ebvcAWwF8azNlXQrlRe
+ MOqL44S0qjRBiHcVFM1GYynHKpto+UN26kC8iwsQdTsOG/sF27XNeDi1UGGtJVP6Niav
+ 37bzBsLFd4kNbeJswU0fTAvDX6/obAj7+XsaVlYO4eCtK8FtVbm00WYXsgl4+m6jtMwA
+ ULhMML5J8SplxI0elZigiUP3+2r1K1aPaWG9CLOQSteiiNnbAQf4GxRhmUbfA+R+TF2t
+ ByyxuIS0mUunpLMsyCcMZAEFFDkLo3oj0VpffkXGmI14t4FWFPchkBzBRU7Ip2DQ0Xxw
+ KXig==
+X-Gm-Message-State: AOAM532xWa4VGCGZdWGaMVB3cEkIlMeBv/tdL3n4WfVmM5vYhn4tRI5o
+ QZjf6aSPEpkPVSoZ6ZQdPZlaXJxqSFnqQwd3nMjwCA==
+X-Google-Smtp-Source: ABdhPJwHc9kKtDqrJx/gYdeR3vuRATn4JeS7n2wALzQMzTz08gnjuja879pxDVR6wX7nCQZc5soTKz4P9WLvxxw56Z4=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr1565866edd.52.1611066467368; 
+ Tue, 19 Jan 2021 06:27:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87h7ndutwx.fsf@linaro.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-3-richard.henderson@linaro.org>
+In-Reply-To: <20210115210456.1053477-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 14:27:36 +0000
+Message-ID: <CAFEAcA9Ng8hysJRf+odugoSUcrjzBNUvmhpTzOLmSYKELWF0TQ@mail.gmail.com>
+Subject: Re: [PATCH v2 02/22] tcg/i386: Move constraint type check to
+ tcg_target_const_match
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,76 +79,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+Daniel
+On Fri, 15 Jan 2021 at 21:14, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Rather than check the type when filling in the constraint,
+> check it when matching the constant.  This removes the only
+> use of the type argument to target_parse_constraint.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/i386/tcg-target.c.inc | 28 +++++++++++++++++-----------
+>  1 file changed, 17 insertions(+), 11 deletions(-)
+>
+> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+> index 050f3cb0b1..74637f654a 100644
+> --- a/tcg/i386/tcg-target.c.inc
+> +++ b/tcg/i386/tcg-target.c.inc
+> @@ -263,13 +263,13 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+>          break;
+>
+>      case 'e':
+> -        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_S32);
+> +        ct->ct |= TCG_CT_CONST_S32;
+>          break;
+>      case 'Z':
+> -        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_U32);
+> +        ct->ct |= TCG_CT_CONST_U32;
+>          break;
+>      case 'I':
+> -        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_I32);
+> +        ct->ct |= TCG_CT_CONST_I32;
+>          break;
+>
+>      default:
+> @@ -286,14 +286,20 @@ static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
+>      if (ct & TCG_CT_CONST) {
+>          return 1;
+>      }
+> -    if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
+> -        return 1;
+> -    }
+> -    if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
+> -        return 1;
+> -    }
+> -    if ((ct & TCG_CT_CONST_I32) && ~val == (int32_t)~val) {
+> -        return 1;
+> +    if (TCG_TARGET_REG_BITS == 32 || type == TCG_TYPE_I32) {
 
-On 1/19/21 11:00 AM, Alex Bennée wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
->> On Fri, Jan 15, 2021 at 2:08 PM Alex Bennée <alex.bennee@linaro.org> wrote:
->>>
->>> For prettier output.
->>>
->>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->>> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
->>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> Message-Id: <20210114165730.31607-6-alex.bennee@linaro.org>
->>>
->>> diff --git a/Makefile b/Makefile
->>> index 0c509a7704..bbab640b31 100644
->>> --- a/Makefile
->>> +++ b/Makefile
->>> @@ -250,8 +250,13 @@ find-src-path = find "$(SRC_PATH)/" -path "$(SRC_PATH)/meson" -prune -o \( -name
->>>
->>>  .PHONY: ctags
->>>  ctags:
->>> -       rm -f "$(SRC_PATH)/"tags
->>> -       $(find-src-path) -exec ctags -f "$(SRC_PATH)/"tags --append {} +
->>> +       $(call quiet-command,                   \
->>> +               rm -f "$(SRC_PATH)/"tags,       \
->>> +               "CTAGS", "Remove old tags")
->>> +       $(call quiet-command, \
->>> +               $(find-src-path) -exec ctags            \
->>> +               -f "$(SRC_PATH)/"tags --append {} +,    \
->>> +               "CTAGS", "Re-index $(SRC_PATH)")
->>>
->>>  .PHONY: gtags
->>>  gtags:
->>> --
->>> 2.20.1
->>>
->>
->> Build now fails if ctags is not installed:
->>
->> $ if test -n "$MAKE_CHECK_ARGS"; then make -j"$JOBS" $MAKE_CHECK_ARGS ; fi
->> CTAGS Remove old tags
->> CTAGS Re-index /builds/philmd/qemu
->> find: 'ctags': No such file or directory
->> find: 'ctags': No such file or directory
->> find: 'ctags': No such file or directory
->> make: *** [Makefile:254: ctags] Error 1
->> make: *** Waiting for unfinished jobs....
-> 
-> Wait what, how? Have you got ctags in your MAKE_CHECK_ARGS? How did it
-> not fail before?
-> 
-> I suppose we could add checks for all the tooling in meson but it seems
-> a little overkill for a developer convenience.  
+Where does the TCG_TARGET_REG_BITS check come from? We weren't
+testing that in the old code in target_parse_constraint() that
+I can see.
 
-I figured out I was still using the Docker images generated after
-testing Daniel's 'start using libvirt-ci's "lcitool" for dockerfiles'
-series:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg772839.html
+> +        if (ct & (TCG_CT_CONST_S32 | TCG_CT_CONST_U32 | TCG_CT_CONST_I32)) {
+> +            return 1;
+> +        }
+> +    } else {
+> +        if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
+> +            return 1;
+> +        }
+> +        if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
+> +            return 1;
+> +        }
+> +        if ((ct & TCG_CT_CONST_I32) && ~val == (int32_t)~val) {
+> +            return 1;
+> +        }
+>      }
+>      if ((ct & TCG_CT_CONST_WSZ) && val == (type == TCG_TYPE_I32 ? 32 : 64)) {
+>          return 1;
 
-Daniel, lcitool's ansible/vars/projects/qemu.yml apparently has
-a strong dependency on ctags.
-
-Regards,
-
-Phil.
-
+thanks
+-- PMM
 
