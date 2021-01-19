@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCE5A2FAF6B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:26:36 +0100 (CET)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F872FAF96
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 05:49:09 +0100 (CET)
+Received: from localhost ([::1]:49294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ibD-000806-Dm
-	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:26:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42826)
+	id 1l1ix2-0003YM-M1
+	for lists+qemu-devel@lfdr.de; Mon, 18 Jan 2021 23:49:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1iZr-0007Ky-Bk; Mon, 18 Jan 2021 23:25:11 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:38493)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1ig9-00014W-OL
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:58284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1iZp-0001te-O7; Mon, 18 Jan 2021 23:25:11 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id 6so26613313ejz.5;
- Mon, 18 Jan 2021 20:25:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6RTWHpp3weCfpgjyGh0WYfmP3pNdF4pR3VX/AjwiBjc=;
- b=dPh0YDyQe+IH31nihm6YHkw/7W27xAlBsku/5R6ZbNmDRQ9U+buRW8uq5+YopDvpYA
- IoW17XxRpuYzd8mxMu2F+im+SV5plIggZNP6Zl52L91Rv7rFHiWY7D+IOWWV+vf/Cevg
- 1BZ83wcFzAUUtMYD8EzpHj1ByyxOV+iT9CRG6K+N3M6BMcLrcOu5EP6ypu2Mf8wdf1+Y
- fCcREJnnt+qQRHbISe39PTDJRIhMvcuRE8+FnW/5O1ELgaBowKJPhmsn2AsnSsX5RQXt
- vYpb0RIbeVK46d+5sfKa3bcjPJGoPzdSOGU4+l5rvGiz2dJOyAM2ksp2RVRZtGdcSgfz
- /glw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6RTWHpp3weCfpgjyGh0WYfmP3pNdF4pR3VX/AjwiBjc=;
- b=Df3sL4XP33Coi2AlvooQtpG2rI4Fw6YY7CpEtE7n4F9BkwHLwrMP7S+1ipTHgho9w3
- OIDRBSMXayhW12yJqmga4qwsOmj3XKM9PPDtIAf47UWvIPR10Z6AVU4KSLEVDB/ltNTZ
- c94WpFiBZaBnGba/FZtxj0BfHLF5QsCDriXRAH2eh6xFPSaO/I3r2EYFA1GIFtyuxPAx
- MDxIBODYq7ZfjRhuZyAlq8j+sKC73uGJTqu0SIRIUIPDw6HDmMmJY/VAzYUTlnblwLUp
- QNcRf921dW+CnZjg22EDpjvgyQGt3Divw1XqsLmxNO0/GZ+B5ml9SSbvWi+xZrVrmxAL
- a5LA==
-X-Gm-Message-State: AOAM533GA0Pf95I3lrYHE+dwQNQQmWMk6b3OzvFNGSMnGvyGzZijlruh
- iSIHxRqiXw1LlrIIiBrIC923ptR9BXA=
-X-Google-Smtp-Source: ABdhPJwFZUiMThLCeicMxZOtgdx1nty4s7VFv5EZL/GxWppVGThDcUGRMYNxzcEZs7SQjrPWsFu3XQ==
-X-Received: by 2002:a17:906:f98f:: with SMTP id
- li15mr1748301ejb.123.1611030307463; 
- Mon, 18 Jan 2021 20:25:07 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s21sm9937384ejz.87.2021.01.18.20.25.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 18 Jan 2021 20:25:06 -0800 (PST)
-Subject: Re: [PATCH] hw/misc: sifive_u_otp: Use error_report() when block
- operation fails
-To: Bin Meng <bmeng.cn@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
- Green Wan <green.wan@sifive.com>, Alistair Francis <alistair.francis@wdc.com>
-References: <1611026585-29971-1-git-send-email-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <653fba5b-7ac2-983b-880a-6e7fd0059509@amsat.org>
-Date: Tue, 19 Jan 2021 05:25:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1ig6-00052F-G1
+ for qemu-devel@nongnu.org; Mon, 18 Jan 2021 23:31:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l1ifv-000482-4J
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1FD632E8141
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 04:31:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1611026585-29971-1-git-send-email-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.194,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 19 Jan 2021 04:17:16 -0000
+From: Launchpad Bug Tracker <393569@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Wishlist;
+ assignee=None; 
+X-Launchpad-Bug-Tags: initramfs initrd
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: agraf anthony-codemonkey janitor naesten th-huth
+X-Launchpad-Bug-Reporter: Samuel Bronson (naesten)
+X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
+References: <20090629184316.11916.86030.malonedeb@potassium.ubuntu.com>
+Message-Id: <161102983713.12094.15443568141789780873.malone@loganberry.canonical.com>
+Subject: [Bug 393569] Re: qemu cannot load multiple initramfs archives
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
+X-Launchpad-Hash: c5148cb29c6004072dafa9a47453f7ffe6f95986
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,23 +71,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Bug 393569 <393569@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/21 4:23 AM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> At present when blk_pread() / blk_pwrite() fails, a guest error
-> is logged, but this is not really a guest error. Change to use
-> error_report() instead.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> ---
-> 
->  hw/misc/sifive_u_otp.c | 13 +++++--------
->  1 file changed, 5 insertions(+), 8 deletions(-)
+[Expired for QEMU because there has been no activity for 60 days.]
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+** Changed in: qemu
+       Status: Incomplete =3D> Expired
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/393569
+
+Title:
+  qemu cannot load multiple initramfs archives
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  According to Documentation/early-userspace/buffer-format.txt, an
+  initramfs can be populated from multiple cpio archives, which seems
+  like it could be a really useful feature when using QEMU to boot Linux
+  kernels directly, without installing them on the disk image.
+
+  Unfortunately, QEMU does not support actually loading multiple files
+  into the initrd space (which is also where initramfs archives go). It
+  would be really nice if it did.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/393569/+subscriptions
 
