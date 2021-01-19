@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D41A2FBF13
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:34:57 +0100 (CET)
-Received: from localhost ([::1]:59522 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA1F42FBF50
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:45:48 +0100 (CET)
+Received: from localhost ([::1]:43550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1vqC-0001i1-E8
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:34:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39280)
+	id 1l1w0h-0007Mz-My
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:45:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41938)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vDE-00029i-48
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:40 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:55179)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l1vJz-0006V4-Nm
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:01:42 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:54526 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vD9-00041d-Ro
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:39 -0500
-Received: from localhost.localdomain ([82.252.149.54]) by
- mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M5fdC-1l7wod1WRO-007HB2; Tue, 19 Jan 2021 18:54:33 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] linux-user: Remove obsolete F_SHLCK and F_EXLCK translation
-Date: Tue, 19 Jan 2021 18:54:27 +0100
-Message-Id: <20210119175427.2050737-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210119175427.2050737-1-laurent@vivier.eu>
-References: <20210119175427.2050737-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l1vJv-0005Ak-N8
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:01:39 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 7672E41277;
+ Tue, 19 Jan 2021 18:01:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1611079290;
+ x=1612893691; bh=6A7EvHAjShhUv9hv6UXrBE1kPrqXVctjKa1gAMRNZ8w=; b=
+ tSrz6SbGIoNq8CgT/UqCwMjfCLy+UmS5U6cj6Kb7bFp6SWllud/h0+xRMTVoByxz
+ i59kKSEqxm11to5Fhm6iOGfGNtTeX0TZ9ym5g3KX+Ejzrkh5qdnTWo83ZkNHXhmx
+ ldftCDLuPDCSF3h8hNaYyK/yqgHmF1G2FWGxsoYBkQs=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id FxD_scjxxeej; Tue, 19 Jan 2021 21:01:30 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 2DD3840418;
+ Tue, 19 Jan 2021 21:01:29 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Tue, 19
+ Jan 2021 21:01:29 +0300
+Date: Tue, 19 Jan 2021 21:01:28 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: <yaroshchuk2000@gmail.com>
+Subject: Re: [PATCH v2] target/i386/hvf: add vmware-cpuid-freq cpu feature
+Message-ID: <YAceePtQwCy8Gmwx@SPB-NB-133.local>
+References: <20210113205221.32308-1-yaroshchuk2000@gmail.com>
+ <20210114194703.134333-1-yaroshchuk2000@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:fumJ+ZWoY5AtkIg385dIrUQEzDcuIlFq9fy6UAfNCw29lpcL5O7
- p9w0lwg0EFiHa7UY0HkSfcPhnY6Q5bwB2q9MGQ26ggTTJTNyIsEs/nDQlEjxGPNkC5oo59R
- C/AMRdodhNgUy6qcu7QFjAX3Qn8TrrF6QdYVOo15yAxohY2oFI2Epi+ohm8bDXDvMwKM2RG
- koJP8X3yPMc3qeWcV/qOQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xQ5K6p3YTgU=:0htVeI1VEVhgy4zgVIq/cz
- pdbLw0lc5LtwTKSE4EDgODWavvZ3e+6Uf6sZ+MhgoKRjg6+cgVnZ5qJ78etcGsxWVhuRX6lg1
- ZslQp4xzNriuiQmTbH5wTosrvpkHl+EPD5npwyGDr1ghssOjWv7c2xyCmwlnjP5LaERd1Diqq
- qVqqMV3gSTsXgT4lA8FRoUE7ccS80FpQZSlmSMqRCfxbJQyCV7ne5b9qbQ80Bk59dzydPq2mE
- O4FzAbPd+OKfQ3sfLD/n6x7geq1FR2Ypxoeguauyj3KAmHCny/JOam5RZpnC3GuGwYFZAZejb
- uZnFfKNBbXh0PymnkBJBp6nNiHPxTwafca7RMz1+mtARwQhdoAD3ROOr0i2XIudeSsVHlgVIb
- pNdhYpSgtJ956TFVGV1nO4uZMn6HT7HNrJ7JbIIsLyFsIYTripBMly1i/heShEuF4K2QlXGlc
- 9soR3wc7Lg==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20210114194703.134333-1-yaroshchuk2000@gmail.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,75 +78,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Michael Forney <mforney@mforney.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Cameron Esfahani <dirty@apple.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Forney <mforney@mforney.org>
+On Thu, Jan 14, 2021 at 10:47:03PM +0300, yaroshchuk2000@gmail.com wrote:
+> From: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> 
+> For `-accel hvf` cpu_x86_cpuid() is wrapped with hvf_cpu_x86_cpuid() to
+> add paravirtualization cpuid leaf 0x40000010
+> https://lkml.org/lkml/2008/10/1/246
+> 
+> Leaf 0x40000010, Timing Information:
+> EAX: (Virtual) TSC frequency in kHz.
+> EBX: (Virtual) Bus (local apic timer) frequency in kHz.
+> ECX, EDX: RESERVED (Per above, reserved fields are set to zero).
+> 
+> On macOS TSC and APIC Bus frequencies can be readed by sysctl call with
+> names `machdep.tsc.frequency` and `hw.busfrequency`
+> 
+> This options is required for Darwin-XNU guest to be synchronized with
+> host
+> 
+> Signed-off-by: Vladislav Yaroshchuk <yaroshchuk2000@gmail.com>
+> ---
+>  target/i386/hvf/hvf.c | 90 ++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 89 insertions(+), 1 deletion(-)
+> 
+> diff --git a/target/i386/hvf/hvf.c b/target/i386/hvf/hvf.c
+> index ed9356565c..a5daafe202 100644
+> --- a/target/i386/hvf/hvf.c
+> +++ b/target/i386/hvf/hvf.c
+> @@ -65,6 +65,7 @@
+>  
+>  #include <Hypervisor/hv.h>
+>  #include <Hypervisor/hv_vmx.h>
+> +#include <sys/sysctl.h>
+>  
+>  #include "exec/address-spaces.h"
+>  #include "hw/i386/apic_internal.h"
+> @@ -456,6 +457,48 @@ static void dummy_signal(int sig)
+>  {
+>  }
+>  
+> +static void init_tsc_freq(CPUX86State *env)
+> +{
+> +    size_t length;
+> +    uint64_t tsc_freq;
+> +
+> +    if (env->tsc_khz != 0) {
+> +        return;
+> +    }
+> +
+> +    length = sizeof(uint64_t);
+> +    if (sysctlbyname("machdep.tsc.frequency", &tsc_freq, &length, NULL, 0)) {
+> +        return;
+> +    }
+> +    env->tsc_khz = tsc_freq / 1000;  /* Hz to KHz */
+> +}
+> +
+> +static void init_apic_bus_freq(CPUX86State *env)
+> +{
+> +    size_t length;
+> +    uint64_t bus_freq;
+> +
+> +    if (env->apic_bus_freq != 0) {
+> +        return;
+> +    }
+> +
+> +    length = sizeof(uint64_t);
+> +    if (sysctlbyname("hw.busfrequency", &bus_freq, &length, NULL, 0)) {
+> +        return;
+> +    }
+> +    env->apic_bus_freq = bus_freq;
+> +}
+> +
+> +static inline bool tsc_is_known(CPUX86State *env)
+> +{
+> +    return env->tsc_khz != 0;
+> +}
+> +
+> +static inline bool apic_bus_freq_is_known(CPUX86State *env)
+> +{
+> +    return env->apic_bus_freq != 0;
+> +}
+> +
+>  int hvf_init_vcpu(CPUState *cpu)
+>  {
+>  
+> @@ -480,6 +523,15 @@ int hvf_init_vcpu(CPUState *cpu)
+>      hvf_state->hvf_caps = g_new0(struct hvf_vcpu_caps, 1);
+>      env->hvf_mmio_buf = g_new(char, 4096);
+>  
+> +    if (x86cpu->vmware_cpuid_freq) {
+> +        init_tsc_freq(env);
+> +        init_apic_bus_freq(env);
+> +
+> +        if (!tsc_is_known(env) || !apic_bus_freq_is_known(env)) {
+> +            error_report("vmware-cpuid-freq: feature couldn't be enabled");
+> +        }
+> +    }
+> +
+>      r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf_fd, HV_VCPU_DEFAULT);
+>      cpu->vcpu_dirty = 1;
+>      assert_hvf_ok(r);
+> @@ -597,6 +649,42 @@ static void hvf_store_events(CPUState *cpu, uint32_t ins_len, uint64_t idtvec_in
+>      }
+>  }
+>  
+> +static void hvf_cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+> +                              uint32_t *eax, uint32_t *ebx,
+> +                              uint32_t *ecx, uint32_t *edx)
+> +{
+> +    /*
+> +     * A wrapper extends cpu_x86_cpuid with 0x40000000 and 0x40000010 leafs
+> +     * Provides vmware-cpuid-freq support to hvf
+> +     */
+> +
+> +    uint32_t signature[3];
+> +
+> +    if (!tsc_is_known(env) || !apic_bus_freq_is_known(env)) {
+> +        cpu_x86_cpuid(env, index, count, eax, ebx, ecx, edx);
+> +        return;
+> +    }
+> +
+> +    switch (index) {
+> +    case 0x40000000:
+> +        memcpy(signature, "TCGTCGTCGTCG", 12); /* QEMU Signature */
 
-These lock types are unsupported by Linux since v2.2[0][1] and
-always return EINVAL (except on SPARC up until v2.6, which just
-warned).
+Hi Vladislav,
 
-musl libc does not define these constants, so just remove them from
-the translation cases.
+TCG belongs to TCG accel identification, for HVF it should be
+HVFHVFHVFHVF.
 
-[0] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L322-L324
-[1] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L429-L445
+> +        *eax = 0x40000010;                     /* Max available cpuid leaf */
+> +        *ebx = signature[0];
+> +        *ecx = signature[1];
+> +        *edx = signature[2];
 
-Signed-off-by: Michael Forney <mforney@mforney.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210114223602.9004-1-mforney@mforney.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/alpha/target_fcntl.h | 2 --
- linux-user/generic/fcntl.h      | 5 -----
- linux-user/syscall.c            | 2 --
- 3 files changed, 9 deletions(-)
+TCG and KVM don't report their identity unless kvm or tcg-cpuid
+properties are set. I wonder if we need to guard it likewise?
 
-diff --git a/linux-user/alpha/target_fcntl.h b/linux-user/alpha/target_fcntl.h
-index 2617e73472b7..e16ed1d4157f 100644
---- a/linux-user/alpha/target_fcntl.h
-+++ b/linux-user/alpha/target_fcntl.h
-@@ -33,8 +33,6 @@
- #define TARGET_F_RDLCK         1
- #define TARGET_F_WRLCK         2
- #define TARGET_F_UNLCK         8
--#define TARGET_F_EXLCK         16
--#define TARGET_F_SHLCK         32
- 
- #include "../generic/fcntl.h"
- #endif
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index c85c5b9fed65..4568d1f42bdd 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -119,11 +119,6 @@ struct target_f_owner_ex {
- #define TARGET_F_UNLCK         2
- #endif
- 
--#ifndef TARGET_F_EXLCK
--#define TARGET_F_EXLCK         4
--#define TARGET_F_SHLCK         8
--#endif
--
- #ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK
- #ifndef TARGET_ARCH_FLOCK_PAD
- #define TARGET_ARCH_FLOCK_PAD
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 70c61d15ebf8..1f91aa0ed5e3 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6678,8 +6678,6 @@ static int target_to_host_fcntl_cmd(int cmd)
-     TRANSTBL_CONVERT(F_RDLCK); \
-     TRANSTBL_CONVERT(F_WRLCK); \
-     TRANSTBL_CONVERT(F_UNLCK); \
--    TRANSTBL_CONVERT(F_EXLCK); \
--    TRANSTBL_CONVERT(F_SHLCK); \
-     }
- 
- static int target_to_host_flock(int type)
--- 
-2.29.2
+But as of now QEMU is not consistent in that regard. Two parameters are
+needed for KVM - kvm=on,vmware-cpuid-freq=on. vmware-cpuid-freq is
+sufficient for WHPX but WHPX doesn't expose itself (ebx=ecx=edx=0). TCG
+doesn't seem to support vmware-cpuid-freq but reports it's name only if
+tcg-cpuid property is set.
 
+> +        break;
+
+CPUID for not implemented hypervisor-specific leafs from 0x40000001 up
+to 0x4000000f should be all zeroes but cpu_x86_cpuid() only returns zero
+values for 0x40000001. Likely, you need to reset return values for the
+leafs here or in cpu_x86_cpuid(). In the latter case you'll also fix a
+similar bug in WHPX accel.
+
+Otherwise, looks good.
+
+Thanks,
+Roman
+
+> +    case 0x40000010:
+> +        *eax = env->tsc_khz;
+> +        *ebx = env->apic_bus_freq / 1000; /* Hz to KHz */
+> +        *ecx = 0;
+> +        *edx = 0;
+> +        break;
+> +    default:
+> +        cpu_x86_cpuid(env, index, count, eax, ebx, ecx, edx);
+> +        break;
+> +    }
+> +}
+> +
+>  int hvf_vcpu_exec(CPUState *cpu)
+>  {
+>      X86CPU *x86_cpu = X86_CPU(cpu);
+> @@ -734,7 +822,7 @@ int hvf_vcpu_exec(CPUState *cpu)
+>              uint32_t rcx = (uint32_t)rreg(cpu->hvf_fd, HV_X86_RCX);
+>              uint32_t rdx = (uint32_t)rreg(cpu->hvf_fd, HV_X86_RDX);
+>  
+> -            cpu_x86_cpuid(env, rax, rcx, &rax, &rbx, &rcx, &rdx);
+> +            hvf_cpu_x86_cpuid(env, rax, rcx, &rax, &rbx, &rcx, &rdx);
+>  
+>              wreg(cpu->hvf_fd, HV_X86_RAX, rax);
+>              wreg(cpu->hvf_fd, HV_X86_RBX, rbx);
+> -- 
+> 2.28.0
+> 
 
