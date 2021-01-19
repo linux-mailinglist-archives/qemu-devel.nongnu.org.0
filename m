@@ -2,86 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32E4B2FB316
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 08:36:53 +0100 (CET)
-Received: from localhost ([::1]:51802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8126A2FB37E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 08:52:39 +0100 (CET)
+Received: from localhost ([::1]:57934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1lZL-0007c7-89
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 02:36:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50100)
+	id 1l1loc-00030R-5H
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 02:52:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54256)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1lV9-0006jL-Ao; Tue, 19 Jan 2021 02:32:31 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:47525)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1lV6-0005pv-Hl; Tue, 19 Jan 2021 02:32:30 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 35B7810B6;
- Tue, 19 Jan 2021 02:32:25 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 19 Jan 2021 02:32:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l1lnl-0002WI-CG; Tue, 19 Jan 2021 02:51:45 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35888)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l1lnj-0006lI-Dm; Tue, 19 Jan 2021 02:51:45 -0500
+Received: by mail-pl1-x630.google.com with SMTP id e9so5864120plh.3;
+ Mon, 18 Jan 2021 23:51:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=AUY7jCrLeXfEKnoxWpYO+ytL9Gd
- Gs3gE+SLzhSAJnj0=; b=gEFy83JKxz9TuQXwHfK3q6jlXOgveF6uek9h4Bs9PU5
- /xdX1xGzE+L4EEeBIC8ix3TyEM3/+e5TR2Rh2KDGkGanHgRIKmBiDr7oxR3PzvHS
- 2VOPohX/sptM3imWF2fEgGnybSp9CbLyqUwLCfoiHFOv1j7kfGnKayOPV/ikUEUZ
- bfkhLjqMwg7dRh1/47NTK1hKcFrhp+GxPqxNe9GMpfJf+dTPPdwJm9wUEpab53+T
- +1wXsbK7cLwC7uNJVfZC7C/rgcdIlWlb9Ixf/2vvRqoFFPGiP59lfP+pt83SEwGy
- vBqC+JGq17WsUNF5HGLXxGJfS2jlD4IK0iIEtfFoyuw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=AUY7jC
- rLeXfEKnoxWpYO+ytL9GdGs3gE+SLzhSAJnj0=; b=kYcauBLyHxn5zj72i5gg8K
- Ed+l8o8XM1bAjSz+uzf0U2oPkkYFoJPvCOBgmo4n1+hhqyzYEhWd9diz9t/oD/FN
- h4kty2UDhBVAdj+nH9gRClDBmyo4yITvJPBYD8wNZPVSPpDqdRCbUPSJy9q8mMp/
- WfByzs5UJOKeDigJLsInFU5xMDCErIRJ2lvSWu87BB0L5AB4zwfJZul7VooW1TMu
- X/cjj8CQ679DkFQ2AZfGXgVMD4mTxIjcB3KvKbsOVcIECnKwty2J5/XHzqXPgSuu
- KB+/zD0V/NH6vHGi7NLnEhtSExjev/7R0NLuCkXRF3K8n+KHWueSNzPRJS+hSjCg
- ==
-X-ME-Sender: <xms:CIsGYBtdCV07EQ5x2HYHFhu9pBl5GUaqXKBL0QNxVWy4GjEd6MQfgg>
- <xme:CIsGYKcCfY1fP6zCwDj3Lc6MqWNaI9THyFy2C2VnpbJhAUYl5d4_5MaW3YO8nOjy9
- Vis6PCjLHs-jTYx9pA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrtdelgddutdekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:CIsGYEyD8Mm9b0I-UMoVc1rqUCZWk7GAPvaw_m2FU999uncr9og7uQ>
- <xmx:CIsGYIObUUg1IXgHIKyihmM-TZwdMic2kjJICHS4SceoLzhan4KkgA>
- <xmx:CIsGYB-tfk-zxFjMYPrcvF3u8HfxvBxYP4SET8u1hStQypUQsV5gEA>
- <xmx:CIsGYNZQWUIW1NCHN7f93RhQ9OCfIDSDykuYQgAcXL4U4XHIJtnnug>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 58AE024005B;
- Tue, 19 Jan 2021 02:32:23 -0500 (EST)
-Date: Tue, 19 Jan 2021 08:32:21 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [RFC PATCH V2 02/11] hw/block/nvme: open code for volatile write
- cache
-Message-ID: <YAaLBWVT+g5q/paE@apples.localdomain>
+ :content-disposition:in-reply-to:user-agent;
+ bh=v3GL1EFG5mi9v+ngTRYYO3jsL5PGrda9sMBvl7gwSxs=;
+ b=GHNXZFIZ2pjTHYg11onrJ++6pBw5K2hKS3UihtzKoFAXlrs1SVmvE7kHwjTbGEP1ZN
+ qjykQwI1IJJJ31zU0FsMb3yaVaFTOr2e1al74TqYgeUEcCl33Dua/VYk3qD+IZk/1FY9
+ 8lAOt+dhDss6FIXgl4idxvz8mI9wee5Qxi99H3pZ+LPJxS4FSNt1cj35ZOepX2BwiEw/
+ 60FlXfWl/M0OtSGKPvk+H5giTLUBp8VffLTUIlGgpYQzU0U99ss6YRfoQgXUA3T8DvRO
+ EKTRo4quAWXYIq3UMAuuFMwLEKZEd4/yvRKP2Nq6JpGr9loQ39ep3y0oX3Zz5k+zbRXi
+ kCCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=v3GL1EFG5mi9v+ngTRYYO3jsL5PGrda9sMBvl7gwSxs=;
+ b=iujVutAvhBqZ/ZA0ZP9wYLNaPtqHCVAonkNO9OzyzMSjyi3n30/2JORNS2inHXwupM
+ E+mpiCTnPfScMBEQt19lFbwesYXS4EUYS+PPV/se85w85RYFcf9TXBmzFhiGL9w/NfgA
+ ceGsu/zl8aDzpvBLFu3QyqEx5F5/oP1tmRqPoYVlXIYHVMcnGDwZ9rB8wSC0M7NzP2VI
+ Tu0g+LpLStOnhzjvjwmjexaNFZr+SfS57m+frgoDOYCevfW45sltF5TIA890pvNBQFNQ
+ DYeM/1wCtihpL35OI+yTglkEpJTzj3A2h8rvZeQSvBRiqiO+mZxa3meaFlwaZCioFEZh
+ Onrw==
+X-Gm-Message-State: AOAM533O3nkCNpJl7Iz4dPu6rz9PzfqfCs2m1plfBcC+XRVgW+xz4fI4
+ 7CpRrcnd18ZdWzf8W31vUqk=
+X-Google-Smtp-Source: ABdhPJye4apcqJzsdgIONc4usJHPjzUFn4gOQT1EqSUuG+Mqj4p9TYcGnfElxpUJjje3styhUzvBNA==
+X-Received: by 2002:a17:90a:8508:: with SMTP id
+ l8mr3754797pjn.131.1611042701467; 
+ Mon, 18 Jan 2021 23:51:41 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id h11sm1891156pjg.46.2021.01.18.23.51.40
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 18 Jan 2021 23:51:40 -0800 (PST)
+Date: Tue, 19 Jan 2021 16:51:38 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [RFC PATCH V2 00/11] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <20210119075138.GG5939@localhost.localdomain>
 References: <20210117145341.23310-1-minwoo.im.dev@gmail.com>
- <20210117145341.23310-3-minwoo.im.dev@gmail.com>
+ <YAX6RcpFiX9xthQI@apples.localdomain>
+ <20210119032126.GD5939@localhost.localdomain>
+ <YAZ2VOn3Dn26YE6R@apples.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kZUY9LoWDGW6x/NP"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210117145341.23310-3-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <YAZ2VOn3Dn26YE6R@apples.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,94 +90,154 @@ Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 21-01-19 07:04:04, Klaus Jensen wrote:
+> On Jan 19 12:21, Minwoo Im wrote:
+> > On 21-01-18 22:14:45, Klaus Jensen wrote:
+> > > On Jan 17 23:53, Minwoo Im wrote:
+> > > > Hello,
+> > > > 
+> > > > This patch series introduces NVMe subsystem device to support multi-path
+> > > > I/O in NVMe device model.  Two use-cases are supported along with this
+> > > > patch: Multi-controller, Namespace Sharing.
+> > > > 
+> > > > V1 RFC has been discussed with Klaus and Keith, I really appreciate them
+> > > > for this patch series to have proper direction [1].
+> > > > 
+> > > > This patch series contains few start-up refactoring pathces from the
+> > > > first to fifth patches to make nvme-ns device not to rely on the nvme
+> > > > controller always.  Because nvme-ns shall be able to be mapped to the
+> > > > subsystem level, not a single controller level so that it should provide
+> > > > generic initialization code: nvme_ns_setup() with NvmeCtrl.  To do that,
+> > > > the first five patches are to remove the NvmeCtrl * instance argument
+> > > > from the nvme_ns_setup().  I'd be happy if they are picked!
+> > > > 
+> > > > For controller and namespace devices, 'subsys' property has been
+> > > > introduced to map them to a subsystem.  If multi-controller needed, we
+> > > > can specify 'subsys' to controllers the same.
+> > > > 
+> > > > For namespace deivice, if 'subsys' is not given just like it was, it
+> > > > will have to be provided with 'bus' parameter to specify a nvme
+> > > > controller device to attach, it means, they are mutual-exlusive.  To
+> > > > share a namespace between or among controllers, then nvme-ns should have
+> > > > 'subsys' property to a single nvme subsystem instance.  To make a
+> > > > namespace private one, then we need to specify 'bus' property rather
+> > > > than the 'subsys'.
+> > > > 
+> > > > Of course, this series does not require any updates for the run command
+> > > > for the previos users.
+> > > > 
+> > > > Plase refer the following example with nvme-cli output:
+> > > > 
+> > > > QEMU Run:
+> > > >   -device nvme-subsys,id=subsys0 \
+> > > >   -device nvme,serial=foo,id=nvme0,subsys=subsys0 \
+> > > >   -device nvme,serial=bar,id=nvme1,subsys=subsys0 \
+> > > >   -device nvme,serial=baz,id=nvme2,subsys=subsys0 \
+> > > >   -device nvme-ns,id=ns1,drive=drv10,nsid=1,subsys=subsys0 \
+> > > >   -device nvme-ns,id=ns2,drive=drv11,nsid=2,bus=nvme2 \
+> > > >   \
+> > > >   -device nvme,serial=qux,id=nvme3 \
+> > > >   -device nvme-ns,id=ns3,drive=drv12,nsid=3,bus=nvme3
+> > > > 
+> > > > nvme-cli:
+> > > >   root@vm:~/work# nvme list -v
+> > > >   NVM Express Subsystems
+> > > > 
+> > > >   Subsystem        Subsystem-NQN                                                                                    Controllers
+> > > >   ---------------- ------------------------------------------------------------------------------------------------ ----------------
+> > > >   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme0, nvme1, nvme2
+> > > >   nvme-subsys3     nqn.2019-08.org.qemu:qux                                                                         nvme3
+> > > > 
+> > > >   NVM Express Controllers
+> > > > 
+> > > >   Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces
+> > > >   -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
+> > > >   nvme0    foo                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys1 nvme1n1
+> > > >   nvme1    bar                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:07.0   nvme-subsys1 nvme1n1
+> > > >   nvme2    baz                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:08.0   nvme-subsys1 nvme1n1, nvme1n2
+> > > >   nvme3    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:09.0   nvme-subsys3
+> > > > 
+> > > >   NVM Express Namespaces
+> > > > 
+> > > >   Device       NSID     Usage                      Format           Controllers
+> > > >   ------------ -------- -------------------------- ---------------- ----------------
+> > > >   nvme1n1      1        134.22  MB / 134.22  MB    512   B +  0 B   nvme0, nvme1, nvme2
+> > > >   nvme1n2      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme2
+> > > >   nvme3n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
+> > > > 
+> > > > Summary:
+> > > >   - Refactored nvme-ns device not to rely on controller during the
+> > > >     setup.  [1/11 - 5/11]
+> > > >   - Introduced a nvme-subsys device model. [6/11]
+> > > >   - Create subsystem NQN based on subsystem. [7/11]
+> > > >   - Introduced multi-controller model. [8/11 - 9/11]
+> > > >   - Updated namespace sharing scheme to be based on nvme-subsys
+> > > >     hierarchy. [10/11 - 11/11]
+> > > > 
+> > > > Since RFC V1:
+> > > >   - Updated namespace sharing scheme to be based on nvme-subsys
+> > > >     hierarchy.
+> > > > 
+> > > 
+> > > Great stuff Minwoo. Thanks!
+> > > 
+> > > I'll pick up [01-05/11] directly since they are pretty trivial.
+> > 
+> > Thanks! will prepare the next series based on there.
+> > 
+> > > The subsystem model looks pretty much like it should, I don't have a lot
+> > > of comments.
+> > > 
+> > > One thing that I considered, is if we should reverse the "registration"
+> > > and think about it as namespace attachment. The spec is about
+> > > controllers attaching to namespaces, not the other way around.
+> > > Basically, let the namespaces be configured first and register on the
+> > > subsystem (accumulating in a "namespaces" array), then have the
+> > > controllers register with the subsystem and attach to all "non-detached"
+> > > namespaces. This allows detached namespaces to "linger" in the subsystem
+> > > to be attached later on. If there are any private namespaces (like ns2
+> > > in your example above), it will be defined after the controller with the
+> > > bus=ctrlX parameter like normal.
+> > 
+> > Revisited spec. again.  5.19 says "The Namespace Attachment command is
+> > used to attach and detach controllers from a namespace.".  and 5.20 says
+> > "Host software uses the Namespace Attachment command to attach or detach
+> > a namespace to or from a controller. The create operation does not attach
+> > the namespace to a controller."
+> > 
+> 
+> Yeah ok, that is pretty inconsistent.
+> 
+> > 	-device nvme-subsys,id=subsys0
+> > 	-device nvme-ns,id=ns1,drive=<drv>,nsid=1,subsys=subsys0
+> > 	-device nvme,id=nvme0,serial=foo,subsys=subsys0
+> > 
+> > In this case, the 'nvme0' controller will have no namespace at the
+> > initial time of the boot-up.  'nvme0' can be attached to the namespace
+> > 'ns1' with namespace attach command.  'nvme-ns' device is same as the
+> > 'create-ns' operation in a NVMe subsystem.  This makes sense as spec
+> > 5.19 says "from a namespace".
+> > 
+> > 	-device nvme,id=nvme1,serial=bar,subsys=subsys0b
+> > 	-device nvme-ns,id=ns2,drive=<drv>,nsid=1,bus=nvme1
+> > 
+> > This case if for private namespace directly attached to controller.
+> > This makes sense as spec 5.20 says "to or from a controller".
+> > 
+> > All looks fine to me, but one thing I an wondering is that how can we
+> > attach a controller to shared namespace(s) at the initial time?
+> > 
+> 
+> Ok, nevermind. I think we can get 'detached' functionality in either
+> case, so no need to increase complexity by requiring a change of define
+> order.
+> 
+> Supporting CNS 0x12 and 0x13 (Identify, Controller List), we need the
+> controllers registered and stored in the subsystem anyway.
+> 
+> So, can we add a 'namespaces' array on the subsystem to keep a list of
+> namespaces and add a 'detached' parameter on the nvme-ns device? If that
+> parameter is given, the device is not registered with the controllers.
 
---kZUY9LoWDGW6x/NP
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Jan 17 23:53, Minwoo Im wrote:
-> Volatile Write Cache(VWC) feature is set in nvme_ns_setup() in the
-> initial time.  This feature is related to block device backed,  but this
-> feature is controlled in controller level via Set/Get Features command.
->=20
-> This patch removed dependency between nvme and nvme-ns to manage the VWC
-> flag value.  Also, it open coded the Get Features for VWC to check all
-> namespaces attached to the controller, and if false detected, return
-> directly false.
->=20
-> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> ---
->  hw/block/nvme-ns.c |  4 ----
->  hw/block/nvme.c    | 15 ++++++++++++---
->  hw/block/nvme.h    |  1 -
->  3 files changed, 12 insertions(+), 8 deletions(-)
->=20
-> diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
-> index 32662230130b..c403cd36b6bd 100644
-> --- a/hw/block/nvme-ns.c
-> +++ b/hw/block/nvme-ns.c
-> @@ -89,10 +89,6 @@ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace=
- *ns, Error **errp)
->          return -1;
->      }
-> =20
-> -    if (blk_enable_write_cache(ns->blkconf.blk)) {
-> -        n->features.vwc =3D 0x1;
-> -    }
-> -
->      return 0;
->  }
-> =20
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index cf0fe28fe6eb..b2a9c48a9d81 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -3033,6 +3033,7 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeR=
-equest *req)
->      NvmeGetFeatureSelect sel =3D NVME_GETFEAT_SELECT(dw10);
->      uint16_t iv;
->      NvmeNamespace *ns;
-> +    int i;
-> =20
->      static const uint32_t nvme_feature_default[NVME_FID_MAX] =3D {
->          [NVME_ARBITRATION] =3D NVME_ARB_AB_NOLIMIT,
-> @@ -3108,7 +3109,17 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, Nvme=
-Request *req)
->          result =3D ns->features.err_rec;
->          goto out;
->      case NVME_VOLATILE_WRITE_CACHE:
-> -        result =3D n->features.vwc;
-> +        for (i =3D 1; i <=3D n->num_namespaces; i++) {
-> +            ns =3D nvme_ns(n, i);
-> +            if (!ns) {
-> +                continue;
-> +            }
-> +
-> +            result =3D blk_enable_write_cache(ns->blkconf.blk);
-> +            if (!result) {
-> +                break;
-> +            }
-> +        }
-
-I did a small tweak here and changed `if (!result)` to `if (result)`. We
-want to report that a volatile write cache is present if ANY of the
-namespace backing devices have a write cache.
-
---kZUY9LoWDGW6x/NP
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAGiwMACgkQTeGvMW1P
-DelRuQf/fCaZEGlXcy/XRT37FBK5t79FjWIvI0Zpf7WWFWplrhDun/fOO+l0FwYT
-O28URlUzYBGFy1T09SmOpmAujljsVNnYo2y8U5ONvuOeDjS0mtMo5WSvmIBcSwzL
-NLuuxp8fjDMbdxefSAfFNoFSvOQMZEHPJvWghl2autzyCYaLvYgDLZIzcZVCvXp7
-8oQnMT68Hhis0T1rDbGhWMUzVbnyHvlvfyc48VUAuWyK8FSPeXSPrHKf5kI0pjGQ
-SZaeoGabp4pHf+7b8bgVWouZAKmuM5FDXePbAafywUVoa4/xXElEkujxLb9j1w4I
-qr6wXDsBzX9CtQ506FjInLz9kOGBjA==
-=xg2R
------END PGP SIGNATURE-----
-
---kZUY9LoWDGW6x/NP--
+Sure, will do that.  Plese let me have V3 series.  Thanks!
 
