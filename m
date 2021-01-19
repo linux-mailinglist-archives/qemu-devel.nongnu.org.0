@@ -2,68 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4C452FBEE8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:27:16 +0100 (CET)
-Received: from localhost ([::1]:43848 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C11D92FBF01
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 19:32:39 +0100 (CET)
+Received: from localhost ([::1]:55664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1vik-0003TD-Ug
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:27:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42654)
+	id 1l1vny-0008QT-Qv
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 13:32:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLW-0007kw-RG
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28109)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l1vLT-0005RM-KQ
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 13:03:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611079390;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+4djVAJuJxG9JDMBfsIoZrWqekj/Y5ucXQee7MNLfE8=;
- b=gXgIUsrbq8jLbb1K06xGFv0fQ0o+wUlC97/zjL+dqqRdMrrzBnV702sPRiE0COsnSFTUiJ
- 0wpunrR0Bywcign6rQsuYR7WBlTSSmBniBXfe+TTU4nAbODj3XAQ/xWQ1SqAwwmZRTkhya
- +bBBhudj6ZEFlhG+ges8T0b7QUVutSY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-VNGToKc7Mu68pcAZDYOqFw-1; Tue, 19 Jan 2021 13:03:08 -0500
-X-MC-Unique: VNGToKc7Mu68pcAZDYOqFw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFE71BBEE1
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 18:03:07 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C94B5D9DD;
- Tue, 19 Jan 2021 18:03:07 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vDD-00028N-Ew
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:39 -0500
+Received: from mout.kundenserver.de ([212.227.126.130]:37675)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l1vD9-00041L-Eu
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:54:39 -0500
+Received: from localhost.localdomain ([82.252.149.54]) by
+ mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA (Nemesis)
+ id 1N3bjH-1m0w5s3btL-010Zdp; Tue, 19 Jan 2021 18:54:32 +0100
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 11/17] qapi: centralize the built-in module name definition
-Date: Tue, 19 Jan 2021 13:02:36 -0500
-Message-Id: <20210119180242.1570753-12-jsnow@redhat.com>
-In-Reply-To: <20210119180242.1570753-1-jsnow@redhat.com>
-References: <20210119180242.1570753-1-jsnow@redhat.com>
+Subject: [PULL 3/5] linux-user: add missing IPv6 get/setsockopt option
+Date: Tue, 19 Jan 2021 18:54:25 +0100
+Message-Id: <20210119175427.2050737-4-laurent@vivier.eu>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210119175427.2050737-1-laurent@vivier.eu>
+References: <20210119175427.2050737-1-laurent@vivier.eu>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:cE+nRZZ8neKadDPXHjqjUGXRTwcOaCoeTWrq4tXu8Xd4+9bVTfs
+ QXE1WdqAE6fW3KZgM0Z8Nazasi9YLjdCkTPw0kjPqKBDNH3C8EVyrK8h7hNFYkbL8uo//yG
+ 667PF7UROIY8jMtqN2mMbQLbZYVcvl4CgbWwpb4R/dJZ76jD/BM+CTtCaC5wVqVXjOCUGwO
+ IFmDoW1f4/FegoP82jVdg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:vhXVF3FY7Bc=:DZqfNNUes80axSBDAWfyZQ
+ QhMOjFHqUu6wECGbdZUymsJZohNoZgAB7KQuZgl3T75/7N0Gl4671HUUzWDxfDIsruTjiXves
+ 6gA4uWI8r2S4TM5hEgYswKhf/UEOccKDSbJ+0HTXxp8sxg6Y9K1dw+4hh70aDWHpcGecU9o23
+ 7KFXFMWqiumjv/ULW7seHrezaYs+dquxYJzwxL5BxjtfCnAmnr7/WgHAewnKNcWPF4yRIpzJc
+ 0vOrajpp3yeHI6p8VPjpSf0/Ej3CGxopSdEIcue2hKntN5N/ZM+AH97laWEnxVcretVN3X6PU
+ hv/tutgr9RNPs3bRr3FRjLZ9lbOyzYrJdFI48oKJPS4SsusvNk/UOVkB6NKk5EUh6RrEhWWy7
+ DzMUL6kvmejZLfDTOa0YNU29oOwVrQ3MjL/t1o5dN+km94WVRF2d7VNT3O8sQZJ8kFKOwKpqR
+ ONvS1S1wLg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,61 +62,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a constant to make it obvious we're referring to a very specific thing.
+From: Shu-Chun Weng <scw@google.com>
 
-Signed-off-by: John Snow <jsnow@redhat.com>
+IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not supported.
+
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20201218193213.3566856-4-scw@google.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- scripts/qapi/schema.py | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ linux-user/syscall.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
-index c519c18a5ec..887a1c82c6f 100644
---- a/scripts/qapi/schema.py
-+++ b/scripts/qapi/schema.py
-@@ -68,7 +68,7 @@ def check_doc(self):
- 
-     def _set_module(self, schema, info):
-         assert self._checked
--        fname = info.fname if info else './builtin'
-+        fname = info.fname if info else QAPISchemaModule.BUILTIN_MODULE_NAME
-         self._module = schema.module_by_fname(fname)
-         self._module.add_entity(self)
- 
-@@ -138,6 +138,9 @@ def visit_event(self, name, info, ifcond, features, arg_type, boxed):
- 
- 
- class QAPISchemaModule:
-+
-+    BUILTIN_MODULE_NAME = './builtin'
-+
-     def __init__(self, name):
-         self.name = name
-         self._entity_list = []
-@@ -152,7 +155,7 @@ def is_user_module(cls, name: str) -> bool:
- 
-     @classmethod
-     def is_builtin_module(cls, name: str) -> bool:
--        return name == './builtin'
-+        return name == cls.BUILTIN_MODULE_NAME
- 
-     @property
-     def system_module(self) -> bool:
-@@ -850,7 +853,7 @@ def __init__(self, fname):
-         self._entity_dict = {}
-         self._module_dict = OrderedDict()
-         self._schema_dir = os.path.dirname(fname)
--        self._make_module('./builtin')  # built-ins
-+        self._make_module(QAPISchemaModule.BUILTIN_MODULE_NAME)  # built-ins
-         self._make_module(fname)
-         self._predefining = True
-         self._def_predefineds()
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 969db2008104..70c61d15ebf8 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -51,6 +51,7 @@
+ #include <sys/sysinfo.h>
+ #include <sys/signalfd.h>
+ //#include <sys/user.h>
++#include <netinet/in.h>
+ #include <netinet/ip.h>
+ #include <netinet/tcp.h>
+ #include <netinet/udp.h>
+@@ -2272,6 +2273,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+         case IPV6_RECVDSTOPTS:
+         case IPV6_2292DSTOPTS:
+         case IPV6_TCLASS:
++        case IPV6_ADDR_PREFERENCES:
+ #ifdef IPV6_RECVPATHMTU
+         case IPV6_RECVPATHMTU:
+ #endif
+@@ -2926,6 +2928,7 @@ get_timeout:
+         case IPV6_RECVDSTOPTS:
+         case IPV6_2292DSTOPTS:
+         case IPV6_TCLASS:
++        case IPV6_ADDR_PREFERENCES:
+ #ifdef IPV6_RECVPATHMTU
+         case IPV6_RECVPATHMTU:
+ #endif
 -- 
-2.26.2
+2.29.2
 
 
