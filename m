@@ -2,54 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5358C2FB15E
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:27:02 +0100 (CET)
-Received: from localhost ([::1]:34960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C99A42FB21C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:54:56 +0100 (CET)
+Received: from localhost ([::1]:47680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1kTl-0003Zg-Bu
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:27:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38920)
+	id 1l1kul-0007pM-SP
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:54:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQg-0001KR-63; Tue, 19 Jan 2021 01:23:50 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:35915 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQe-0000T8-IS; Tue, 19 Jan 2021 01:23:49 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DKdrX6CLKz9sX5; Tue, 19 Jan 2021 17:23:24 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611037404;
- bh=wG3k4vvD+OJELcn2svuHMUF0VgofMWSORdUpb3pvDjo=;
- h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=mGUuFQWVeVzff4M1eum4MNPhf3rrDrDq9N9QV85Z2zIC1CW3ExA0ezuRZcU7JWIrJ
- EA6334PBEZyQEOcklPsggdWplQ7WWKVPPctIot4LxWVM1A4MsC1G/EzzE6zAQAMPSx
- 4JCaL7StEp1oKk+W125mj4xEwJNObChL1/96/PDM=
-From: David Gibson <david@gibson.dropbear.id.au>
-To: peter.maydell@linaro.org,
-	groug@kaod.org
-Subject: [PULL 12/13] spapr_rtas.c: fix identation of rtas_ibm_suspend_me()
- args
-Date: Tue, 19 Jan 2021 17:23:17 +1100
-Message-Id: <20210119062318.13857-13-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210119062318.13857-1-david@gibson.dropbear.id.au>
-References: <20210119062318.13857-1-david@gibson.dropbear.id.au>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1kRi-0002dw-EW
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 01:24:54 -0500
+Received: from indium.canonical.com ([91.189.90.7]:37940)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l1kRg-0000wf-7S
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 01:24:54 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l1kRd-0002zh-Sz
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:24:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id CCACE2E8138
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 06:24:49 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 19 Jan 2021 06:11:15 -0000
+From: Christ Schlacta <1269628@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Wishlist; assignee=None; 
+X-Launchpad-Bug-Tags: feature request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aarcane-s janitor th-huth
+X-Launchpad-Bug-Reporter: Christ Schlacta (aarcane-s)
+X-Launchpad-Bug-Modifier: Christ Schlacta (aarcane-s)
+References: <20140115225230.25222.33088.malonedeb@wampee.canonical.com>
+Message-Id: <161103667631.11395.18187554150167751303.launchpad@gac.canonical.com>
+Subject: [Bug 1269628] Re: Feature Request: Please add TCG OPAL 2 emulation
+ support to the virtio disk emulation
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
+X-Launchpad-Hash: cd7ab96ce0b5e7e06f28c1372e0eac7b0c974239
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,38 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Bug 1269628 <1269628@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
+** Changed in: qemu
+       Status: Expired =3D> New
 
-Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20210114180628.1675603-5-danielhb413@gmail.com>
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/ppc/spapr_rtas.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+-- =
 
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index 513c7a8435..8a79f9c628 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -219,9 +219,9 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMachineState *spapr,
- }
- 
- static void rtas_ibm_suspend_me(PowerPCCPU *cpu, SpaprMachineState *spapr,
--                           uint32_t token, uint32_t nargs,
--                           target_ulong args,
--                           uint32_t nret, target_ulong rets)
-+                                uint32_t token, uint32_t nargs,
-+                                target_ulong args,
-+                                uint32_t nret, target_ulong rets)
- {
-     CPUState *cs;
- 
--- 
-2.29.2
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1269628
 
+Title:
+  Feature Request:  Please add TCG OPAL 2 emulation support to the
+  virtio disk emulation
+
+Status in QEMU:
+  New
+
+Bug description:
+  In order to allow windows guests (and soon, linux guests) which are
+  TCG OPAL 2 aware to perform disk encryption in a native fashion with
+  hardware acceleration, please add TCG OPAL 2 emulation to the VIRTIO
+  driver.
+
+  Encryption should occur at the host level using any cryptographic
+  facilities available to the host, for example AES-NI, Cryptography
+  Hardware, underlying block device cryptography support where available
+  or any other cryptography facility that may be developed and
+  implemented in the future.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1269628/+subscriptions
 
