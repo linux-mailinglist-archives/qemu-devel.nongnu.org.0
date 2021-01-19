@@ -2,94 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FC1C2FB57C
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:57:17 +0100 (CET)
-Received: from localhost ([::1]:38036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8786D2FB596
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 12:14:37 +0100 (CET)
+Received: from localhost ([::1]:44294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ohI-0002OT-Kv
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:57:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40244)
+	id 1l1oy4-0005s1-4i
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 06:14:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1ogE-0001t8-9E
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 05:56:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1ogC-0002r9-H6
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 05:56:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611053767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xcgIODqf7LhLWBkI7V7VNeEiUmqJat/1xC5iRraSlV0=;
- b=S2LO8Bo6UYVLTQUQnySaSED56GNZoTatABL825PmnlYDCTMaBJubCU/nOly/g/qVHjLfNL
- lD0Nd05N/uwqaNeKp64VAIJxI6Hr/IKMWx76W0yeGG1ErFsN+eFufLOwJ/Fb2o9Pih93pS
- URLKmdRUYMxO+SZw9SAQt/xqW5rN6Sg=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-371-ud-kpKufMcmJL13-EfFG4w-1; Tue, 19 Jan 2021 05:56:03 -0500
-X-MC-Unique: ud-kpKufMcmJL13-EfFG4w-1
-Received: by mail-wr1-f70.google.com with SMTP id e12so9736631wrp.10
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 02:56:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1owy-0005Jj-VA
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:13:28 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:43364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1oww-0005LI-4J
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 06:13:28 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id a10so11297822ejg.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 03:13:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Va2ToqzuZXjLYTsrbZlOjg9ZDsVIJQMzTwvNuZq3HZY=;
+ b=x40L2mUUILLpCyFJxOTslHgDR5TQOztFfbS9hrrx1LLz3sDUCFQQKGHxSLmgs26Q/1
+ h37m5PxmJ90zHXZa8cWEykSmn2bOGPhUmM9TQs8mE0vPVxN4dvg1c+geIlD3J65fxWKq
+ lcutKiv8akQkiu67TZ2c2LTgRoF2aYwM8zVucN/3/QIPwEqEQ8F41hSPSP3M2n5pCQV+
+ bLLcr8M+3jenP8+70Z1yS1UUCFWiflu7M2mJM4nL9PMwayR1qkChpQFQ7IFd+dxPEOSr
+ fdQnHESyzmQEnbnlQp7BVsi3dg15h2hB+h1/DWBiINHw2heXsm/iFLC9ZUaN9WbpJ0fy
+ y18w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=xcgIODqf7LhLWBkI7V7VNeEiUmqJat/1xC5iRraSlV0=;
- b=GCmYg4lkLch3vIGx0hudXsNNvRFqQTNqAsDP7Qr7LYX6B8Q0p1zhbr4ZfkIoeT7kxn
- DY8zu1BTTyrWI3w9nGZzAfJwf08HQF4vDo9yscI/Xe2JHUAYnM6aJ0XOVvEgegGuu1Iu
- 7YUsDqZFr11kQiGjiBkOX2TEzbDAgXirm5UTrq9g7GRJ86dP8o+QYiRLqANtVObVEYbP
- Yg0/YMBct+NFsyN6m+36a7niqNaOON8Vxl6bEN4e6uB6+5PfxZLPKrRb5Dg21ljUB4Nh
- sKAkAS0IIlDpQ/5r6nMUSjSoSMXVjCZ5tvq3/guoYP2i/tgQpwMnPOInJWZ90qG1Ig9L
- YNHg==
-X-Gm-Message-State: AOAM532D114wKMTSX6mwmNlCO3jgt3iWvDG9MTKg3soqMXm4F2TdpeS6
- ksgacUWlBjFJLt2cJtg7p59tHtmJABB8sUo9ZIBExZ3JjzZ259XYv2vmPNhPAI5zK/PQjtPd5Fj
- XiyKXLba+kdrlEK8=
-X-Received: by 2002:adf:b343:: with SMTP id k3mr3713372wrd.202.1611053762776; 
- Tue, 19 Jan 2021 02:56:02 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwY39hX26okl03ZE3D6tRtQVR9jESZQRpHb78ur/wQ+68yZwER0RWoL1JMJn5Av+cWgjer8Pw==
-X-Received: by 2002:adf:b343:: with SMTP id k3mr3713363wrd.202.1611053762635; 
- Tue, 19 Jan 2021 02:56:02 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id w1sm36254155wrr.84.2021.01.19.02.56.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 02:56:02 -0800 (PST)
-Subject: Re: git://git.qemu.org/qemu-web.git now pulls from gitlab
-To: Thomas Huth <thuth@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Michael Roth <mdroth@linux.vnet.ibm.com>
-References: <c146373d-5a9e-8093-4f5b-48fd37152702@redhat.com>
- <dcdee54e-ccd9-2004-6b95-58ee1f26833e@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4c9df6d2-78be-bde3-acd1-4b0a95a1664b@redhat.com>
-Date: Tue, 19 Jan 2021 11:56:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Va2ToqzuZXjLYTsrbZlOjg9ZDsVIJQMzTwvNuZq3HZY=;
+ b=WMeEzVih3ePfA2ZzSt7K4Y4Lv1kGwPhpCcB4UJnJd12rBKkwUSB79/x4kbTek6tGwU
+ K8T581Jc2ZfDDRRsdO+Ui+l2loLgv+Ve6iHH1F08X4w1LzvJHGyjO1vyPqvJ1ljZL6vO
+ oFCePU0CHdl/5KZ41vJOiz83imtPI5bX+M3VC5rxcTlS7xrwQPn1uBPRt+aGNfd5EqlK
+ qHcyj/1zCWty7a76VCWOb28VDmRXiI+8+Hv8wy0sKkjkdLbQCZ5KTwzS5v3utLf3qM1b
+ NNBjgi/7WTLnMnGdYHdxGVJfeGTYbpsrjc8BFUkS1i0Frmva2qYgcbDMq3VQFzl9PjVA
+ 12Vw==
+X-Gm-Message-State: AOAM532ylTxiY3ugrwHeS2ZsKVRtAGfTSVG8wEqqrsDYynzh1ikmogpq
+ NkHmhDuCc/9I9ommZP83E7JN9bi1mRufntUyhxo8bw==
+X-Google-Smtp-Source: ABdhPJwyX2kKTa7Q9KQ0cgG99w7SHSB70vUN6mUhZB/w39G4U5fwq0ddottFpWIZByx8DNUrtSrckdzuLbUMRBvGK48=
+X-Received: by 2002:a17:906:b215:: with SMTP id
+ p21mr2578993ejz.407.1611054804458; 
+ Tue, 19 Jan 2021 03:13:24 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <dcdee54e-ccd9-2004-6b95-58ee1f26833e@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.175,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.194, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <12681824.uLZWGnKmhe@basile.remlab.net>
+In-Reply-To: <12681824.uLZWGnKmhe@basile.remlab.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 11:13:13 +0000
+Message-ID: <CAFEAcA-S2-rvrKnH7Ew5OC7XHUmAX=VU5HKfFibaL_yCkj1Ejw@mail.gmail.com>
+Subject: Re: [PATCHv5 00/19] ARMv8.4-A Secure EL2
+To: =?UTF-8?Q?R=C3=A9mi_Denis=2DCourmont?= <remi.denis.courmont@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,24 +79,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/01/21 11:49, Thomas Huth wrote:
-> On 19/01/2021 11.43, Paolo Bonzini wrote:
->> The qemu-web.git repository on git.qemu.org is now a mirror of gitlab. 
->> The git mirror is updated every 15 minutes.
->>
->> Pushing new changes to qemu.org therefore must now be done via 
->> git@gitlab.org:qemu-project/qemu-web.git.
-> I think that should be gitlab.com instead of gitlab.org ? At least I had 
-> to replace it when updating my config.
+On Tue, 12 Jan 2021 at 10:59, R=C3=A9mi Denis-Courmont
+<remi.denis.courmont@huawei.com> wrote:
+>
+>         Hi,
+>
+> This adds Secure  EL2.
+>
+> Changes since version 4:
+> - Fix NS unitialised in secure state stage 2 translation.
+> - Remove EEL2 translation block flag in 32-bit mode.
+> - Clarify comments on arm_is_el2_enabled().
 
-Of course, sorry about that.
+Looking through this patchset, it's practically ready and only
+needs a couple of very tiny tweaks, so rather than asking you to
+roll a v6, I'm just going to apply it to target-arm.next and
+make the tweaks in the process:
 
-I have now updated https://wiki.qemu.org/AdminContacts as well since 
-there is no qemu-web group anymore on the qemu.org server.
+ * patch 6 needed adjustment on rebase as commit 00a92832f4532
+   has already added definitions of the ID_AA64PFR0 fields;
+   I dropped the now-duplicate part of the patch and adjusted
+   the commit message to match
 
-Paolo
+ * patch 17: added the change requested by RTH:
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -2837,7 +2837,8 @@ static bool
+msr_banked_access_decode(DisasContext *s, int r, int sysm, int rn,
+              */
+             TCGv_i32 tcg_el;
 
+-            if (dc_isar_feature(aa64_sel2, s)) {
++            if (arm_dc_feature(s, ARM_FEATURE_AARCH64) &&
++                dc_isar_feature(aa64_sel2, s)) {
+                 /* Target EL is EL<3 minus SCR_EL3.EEL2> */
+                 tcg_el =3D load_cpu_field(cp15.scr_el3);
+                 tcg_gen_sextract_i32(tcg_el, tcg_el, ctz32(SCR_EEL2), 1);
+
+    and corrected the patch subject line to
+    "target/arm: Implement SCR_EL2.EEL2"
+
+thanks
+-- PMM
 
