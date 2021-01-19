@@ -2,95 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76A82FBDB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:34:28 +0100 (CET)
-Received: from localhost ([::1]:39968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4D332FBDB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 18:32:32 +0100 (CET)
+Received: from localhost ([::1]:38466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1ute-0001pn-Qh
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:34:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54318)
+	id 1l1urn-00014t-Hg
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 12:32:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56190)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1uQv-0002T2-Dz
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:04:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48184)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l1uQs-0003cw-7O
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:04:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611075881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pn7pq0zam3++eKM1IfoJESfVfVgGZxiJ4Qu+8NQz6FU=;
- b=TZYcRs933/DjM72FrMuMY0VGVVMBZ26KYTIztod6PwoIn7g0+A+nHP+R8m5Pj1omYSCXi6
- bAfDiyPHjtrh1bXJE4dXTCH8bKjbtaZLPJyYzzwTzhQkOsZtPB2X7/0rq+mpI/q99mj5+7
- eQzrcna4PjPOioVkXahpitV85TUlblk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-498-89EFV2itNQuVCy5iGk-InQ-1; Tue, 19 Jan 2021 12:04:39 -0500
-X-MC-Unique: 89EFV2itNQuVCy5iGk-InQ-1
-Received: by mail-ej1-f69.google.com with SMTP id m4so6532333ejc.14
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 09:04:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1uYQ-0001UZ-EJ
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:12:31 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:35973)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1uYN-0005TT-W4
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 12:12:30 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id b2so22425130edm.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 09:12:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EZ2ctHuCZRSSA0vDJeUus78PBx9ryMPOvf5VO8XqsQk=;
+ b=cJVdhaJwbZcOAJtFjGXuTM2TQwrOhUmoha0l31CnXaoZVB3kK5BgZy2JtAZycnTRjr
+ D7o/d+feVaO7ai1DgBCGq6QFl5JYXUqMs5Nxb2wXaCT42hV1GsChaJyMhVhdtBWulT1/
+ 4zvgyOdUIInYIWOCsROEvajKK5QEoKYBys71LAfHKUzOnajhFavgowr9nsWLB22gqEY2
+ 4bAjaJ1bsJHj7wZOBzR2euTjxHd5qGedUnJzbmx3TvL86oEJGiKjUvFLUaAB0V7MqQn+
+ /uG/gEpSDY1c/IPYIgSWJPZ/iC+CvU2/QCk270Kc0o4ACcg+Cf5hQJACc/j/EOJSZNgt
+ /jNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Pn7pq0zam3++eKM1IfoJESfVfVgGZxiJ4Qu+8NQz6FU=;
- b=pAd4Php07zX2IJi7mTGioz21zGPd3gc1OXvZYSX1nlWIFYFgmWtJxAz/dHkIBEgq5c
- Iqd7sZq8kYwC6RgF8G8M+nd0yCffiJhA/yVqR+YiUhAQrorBgr606xxYOXtV6Y2yIwLk
- Uq6s4PCJL97miLfWmQc3Wsk0tvGT75HIe4IKGCR/lR9yvg5XfgnZgVvOAh9oAAJRkUwG
- pLrp+gqqZpKE8BzXhjIWH0xXBzul4X9wvSYxd8rwBPlIKZwdK1NfnbYmHs6gME3dF0pD
- w6gbMJieQaUiTtKBqxYG7XAzl3Xn/9BEzXRZqMVLbrZKwreQej1Y0b/2vzGaGrD4eshU
- ozWQ==
-X-Gm-Message-State: AOAM5328etVAxoV6RlAviOIid/LrCO4ggf83ZAOHQrYWGUrF83O9utFT
- wnN0tEO8zdyR5uh5ddMrQ3ZExFCGCR5oMbTEqKTzmJJSclBfIlzwTe9MlcaJNtONSAyJwGBhvs1
- DWFZjBfgvCT3gIQo=
-X-Received: by 2002:a17:906:34c3:: with SMTP id
- h3mr3563077ejb.132.1611075878325; 
- Tue, 19 Jan 2021 09:04:38 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyXuAO6LWdlA7KelG4nny2Xck6oEdotBOpSU5IJXb5T1YW/heH2r2dTrjFmpupGms/LKarsBg==
-X-Received: by 2002:a17:906:34c3:: with SMTP id
- h3mr3563064ejb.132.1611075878120; 
- Tue, 19 Jan 2021 09:04:38 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id n2sm11027160ejj.24.2021.01.19.09.04.36
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 09:04:36 -0800 (PST)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210118163113.780171-1-pbonzini@redhat.com>
- <20210118163113.780171-4-pbonzini@redhat.com>
- <87o8hkx6n9.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 03/25] qemu-option: warn for short-form boolean options
-Message-ID: <99a014a0-5d9c-07d6-250a-c56e6337cf69@redhat.com>
-Date: Tue, 19 Jan 2021 18:04:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EZ2ctHuCZRSSA0vDJeUus78PBx9ryMPOvf5VO8XqsQk=;
+ b=AZ1gquh6yn8mTsX4KeGkPGfb32iz6NPaFwZNT5MX5LDs4L9RTakYvm8v2zMRAOk8SZ
+ YckUd8DW/uWa1Uvn83rU9/FhwTwDsonbILclTx4brgo4dXXRkDdX2+gsF++PtLlEUw4W
+ wTRTOIxEQ/J+HbjAQBLtnQ/qmsu17UW17LHabf8r28a3gefo1SuWFcm9EYHTmxF39siG
+ GlFZVKpnszTP5XOM+Hvhx0nn5nsPZ4JKslPolBRXhstcQKhxG5n566huOYeN+3e086ev
+ djG/O+yCWa6lxSrA7bYKWznJ1XKIrT5+zDzkkOhrIbFbPzYMueva35X5LSCHLjTy8fQa
+ 5xLw==
+X-Gm-Message-State: AOAM530Us33iTkxRzNK0PNmTMtYjg8Lg8hO+b4TNJgWdKxad2SM97elD
+ FSJHcibKl4dPDZkEvzmjecJE9jk4RZPYf7AkKiVVgw==
+X-Google-Smtp-Source: ABdhPJxu1AZTTq4NA2ZLr3dCAMEZjuH3wWSofLl7AkFi+ERUHZJS2N4Zq1OYDhKSJtddL1JxnPUZEq5mzW10uC9/l6E=
+X-Received: by 2002:aa7:dd12:: with SMTP id i18mr3365933edv.36.1611076346256; 
+ Tue, 19 Jan 2021 09:12:26 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <87o8hkx6n9.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210115224645.1196742-1-richard.henderson@linaro.org>
+ <20210115224645.1196742-17-richard.henderson@linaro.org>
+In-Reply-To: <20210115224645.1196742-17-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 17:12:15 +0000
+Message-ID: <CAFEAcA_qGZTgQ0HMSctMEv+veDwgzdgmHt0uZZSKj7=O6UdqtA@mail.gmail.com>
+Subject: Re: [PATCH v3 16/21] linux-user/aarch64: Pass syndrome to EXC_*_ABORT
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -103,57 +77,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/01/21 16:56, Markus Armbruster wrote:
->> +            if (!is_help && warn_on_flag) {
->> +                warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
->> +                error_printf("Please use %s=%s instead\n", *name, *value);
->> +            }
-> 
-> If @warn_on_flag, we warn except for "help" and "?".  The exception
-> applies regardless of @help_wanted.  Shouldn't we except*only*
-> recognized help requests?
+On Fri, 15 Jan 2021 at 22:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> A proper syndrome is required to fill in the proper si_code.
+> Use page_get_flags to determine permission vs translation for user-only.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v3: Use syndrome.h, arm_deliver_fault.
 
-Suggesting "help=yes" would be worse.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
->>
->> -    opts = opts_parse(list, params, permit_abbrev, false,
->> +    opts = opts_parse(list, params, permit_abbrev, false, true,
->>                        opts_accepts_any(list) ? NULL : &help_wanted,
->>                        &err);
->>      if (!opts) {
-> 
-> This function now warns, except for "help" and "?".  The exception
-> applies even when we treat "help" and "?" as sugar for "help=on" and
-> "?=on" because opts_accepts_any().
-> 
-> It is the only spot that enables the warning.
-> 
-> Does all user input flow through qemu_opts_parse_noisily()?
-> 
-
-I was going to say yes, but -vnc (and worse, the QMP version of "change 
-vnc") is parsed by qemu_opts_parse() via ui/vnc.c (besides being used by 
-lots of tests).  -vnc has several boolean options, and though Libvirt 
-only uses "sasl" it does so in the short form.
-
-My solution would be to deprecate the QMP "change vnc" command, and 
-postpone switching -vnc to qemu_opts_parse_noisily to 6.2.
-
-The main reason to warn for short-form boolean options, is to block them 
-for command line options that are switched to keyval[1].  Adding a 
-warning does not necessarily imply removing in two releases.
-
-Paolo
-
-[1] This series already does that for -M, -accel and -object.  This 
-means that applying this series would change the command line 
-incompatibly without a two-release deprecation.  It's up for discussion 
-whether to do so, or delay the application of those patches to 6.2.  It 
-would be a pity to hold the dependent changes for effectively a year, 
-but it's not a big deal.
-
+thanks
+-- PMM
 
