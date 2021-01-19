@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6012FB686
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:56:08 +0100 (CET)
-Received: from localhost ([::1]:41584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 586A92FB68B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:58:06 +0100 (CET)
+Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rUN-0001an-Em
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:56:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58998)
+	id 1l1rWH-00052b-E8
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:58:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1rQv-00075Q-Gk
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:52:34 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:46101)
+ id 1l1rS0-0000YW-EC
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:53:40 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1rQn-0005XK-2Z
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:52:31 -0500
-Received: by mail-ej1-x633.google.com with SMTP id rv9so9800628ejb.13
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:52:24 -0800 (PST)
+ id 1l1rRx-0005hI-Sj
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:53:40 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id gx5so9348821ejb.7
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=bXzEeMT7iNFLu4EtDehM+wUr6sAzCFsvZL96vG5UzPk=;
- b=dDV2BZTOz8r9JeEd0OCx/6AmkjQcCtMWL+7yDiQnBwDv/s045j1jVxOhdYkLwdQy3i
- M115vo5WEzoG+9hnlZSDySHRJAsuZjOgEavb9+H3nDnGuYkSIyct6xhyYBW0JzuPp14X
- J4A+YODfnge5jNKBGZqOTiEoiV1lao+uFHngGPJWq5UbbkugSdRTUhNiXjP8Hvp9b8Ag
- QLxv3R9ZfDnP3CUxdv5k0+16W/IbIMl6DjFPYCV0hUJeA4ziSXKa8CgC16DU0XLGRL6L
- V2M/Imw2Su116I5sx2vDbZEBkzLZxvs5mmMSyJywx5QtGEqJR5FvyZJfYc0OpOhPL9sR
- Izew==
+ :cc:content-transfer-encoding;
+ bh=euRII8kzx/arn4UryvhCiEH4Dl1uD9pmXe8i99mqOO8=;
+ b=NTinbHo/BMuviduIVxtNwf/xqo07l8m0xr5cHaMNmC0CL6xbFgB7NRDDo83J9LBYmd
+ jIKji9tPmGS5dd0HDgzEgqAqhpMKVwO1+00AlUz0im2F1EajwsBzrrupvM1O5/rpUA7U
+ p4yu/ESPXhdJ1veA6w4rjDRMteIoZqWKkqHCL8ADqNhNUR8K+PEfmmq4+6opNX/bbyx+
+ YDvvLXfU1IuQ/Mr23/XPXHq0vu0B68xbCE+OEfAiV9b+Z9IxjzMxjg53DT+E2Er3no9X
+ eoeBJT6qLQgQgFF3/t8m3dSjKJ3/p0/XdHFWabJutDlhU503U23SGk0WpfWs5z5VONXu
+ RKpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=bXzEeMT7iNFLu4EtDehM+wUr6sAzCFsvZL96vG5UzPk=;
- b=eGVTQy2fUmZePysBXDLudFbJlSTxdq48YPg6D/3wzt3Sn05joYgoTeupaO5PZuoYfM
- /ZS+NDU4EcZDyt1fD0SvtKk7RlZTpuW9AX374FvvKZKdzAuhz+QCxY8NDrg/TxANOld7
- KmJHWQg/NfsT14pRFoGqqvNsU7XbUSVMkhz8lIup2y6h9F00b74Po+QfmIjWbhkhw4ID
- DxstdRAN5A1PBw5jrfFa8Y05564W2mN69WHHeuPJyZJWYhjkVgDHKNBHCrBewn9efuZP
- z0kq3xK+4YMLdY2k6VIOu37MZnor3JH6bDgqqA/QEfJeH0rxfp3Kr4brvScdbHPmNmpq
- Ebuw==
-X-Gm-Message-State: AOAM530QAYlwtm0FLrYe85AzjW1q+CPMKrGG/5HhXU8X/m3RFYxus3vM
- 2KS0teMhSi5JBJqjK2f1Sxrsho2+rsEQdBaHwarYSQ==
-X-Google-Smtp-Source: ABdhPJzgzF9Xd0J6e9yeWnY+hoyP+xHFzoV/A/8ijMZHTlG+YhJJPZ8R4fWnGfkT6gmhD/CguPipgC1uT1Tjak0ogXU=
-X-Received: by 2002:a17:907:1b10:: with SMTP id
- mp16mr142852ejc.482.1611064343248; 
- Tue, 19 Jan 2021 05:52:23 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=euRII8kzx/arn4UryvhCiEH4Dl1uD9pmXe8i99mqOO8=;
+ b=J0ALo0NZiH3iFWoPqrHLGLIBZjzfGOFUazbb2xCI/L/X7rTDHfEwetgQwK+bkgxspt
+ VonC9Bfc7Haz4hKUnRT1FM9YvwcuxED6j2basewKR5Mc/pidSymCWhofn5ocVqZOtJRy
+ tYGJ6sz8c9eFPLwAXF2M7Y+aK9LL2mt6kIGGs4JQG13WB5Vh/YVDoZQQmCUThciccCrk
+ KuccinYVmqd/qouUDSTSZfgaQB/Kr3XFG+UsDRSEoezjoCYvRjZ/dJli4xrYIjLYJRYr
+ zCjsDDUU64bh5pOTH2SDQ1ARNHhU9aSqM5kf0orrgpqxnk74UCGeyk6K94fR9vaqpfYS
+ 1BFw==
+X-Gm-Message-State: AOAM531rlr9JLhzKMpNJwiF6+gC2UZeireSEu/sxtRAyCzLDd0wx+RTs
+ fqrirdbrzhKaxQ2woFhhRN1m/F7U+wUpJkOgIJeBPA==
+X-Google-Smtp-Source: ABdhPJxqtMtmKoGhzyXZ4x6nTI2Ckhgkm8YnSm+J9haQBkNSATHR1rNi95wJO648/NvHAaaQqZEsX00BWMAAFHqL7R4=
+X-Received: by 2002:a17:906:3d4a:: with SMTP id
+ q10mr3086185ejf.85.1611064416410; 
+ Tue, 19 Jan 2021 05:53:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20210118065627.79903-1-ganqixin@huawei.com>
-In-Reply-To: <20210118065627.79903-1-ganqixin@huawei.com>
+References: <20210119062739.589049-1-f4bug@amsat.org>
+In-Reply-To: <20210119062739.589049-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 13:52:12 +0000
-Message-ID: <CAFEAcA_0f2oxw3643KpSF2jY1UP7QNjY70vrjg1JNBWgV5mjow@mail.gmail.com>
-Subject: Re: [PATCH] npcm7xx_adc-test: Fix memleak in adc_qom_set
-To: Gan Qixin <ganqixin@huawei.com>
+Date: Tue, 19 Jan 2021 13:53:25 +0000
+Message-ID: <CAFEAcA_76OiMLW0vhi5HZM_Jr+VQbofRNFTDkaOxetK-XmcKnA@mail.gmail.com>
+Subject: Re: [PATCH] target/arm/m_helper: Silence GCC 10 maybe-uninitialized
+ error
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,45 +80,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- zhanghailiang <zhang.zhanghailiang@huawei.com>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Hao Wu <wuhaotsh@google.com>,
- Tyrone Ting <kfting@nuvoton.com>, Euler Robot <euler.robot@huawei.com>,
- "Chenqun \(kuhn\)" <kuhn.chenqun@huawei.com>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 18 Jan 2021 at 07:01, Gan Qixin <ganqixin@huawei.com> wrote:
+On Tue, 19 Jan 2021 at 06:27, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> The adc_qom_set function didn't free "response", which caused an indirect
-> memory leak. So use qobject_unref() to fix it.
+> When building with GCC 10.2 configured with --extra-cflags=3D-Os, we get:
 >
-> ASAN shows memory leak stack:
+>   target/arm/m_helper.c: In function =E2=80=98arm_v7m_cpu_do_interrupt=E2=
+=80=99:
+>   target/arm/m_helper.c:1811:16: error: =E2=80=98restore_s16_s31=E2=80=99=
+ may be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
+>    1811 |             if (restore_s16_s31) {
+>         |                ^
+>   target/arm/m_helper.c:1350:10: note: =E2=80=98restore_s16_s31=E2=80=99 =
+was declared here
+>    1350 |     bool restore_s16_s31;
+>         |          ^~~~~~~~~~~~~~~
+>   cc1: all warnings being treated as errors
 >
-> Indirect leak of 593280 byte(s) in 144 object(s) allocated from:
->     #0 0x7f9a5e7e8d4e in __interceptor_calloc (/lib64/libasan.so.5+0x112d4e)
->     #1 0x7f9a5e607a50 in g_malloc0 (/lib64/libglib-2.0.so.0+0x55a50)
->     #2 0x55b1bebf636b in qdict_new ../qobject/qdict.c:30
->     #3 0x55b1bec09699 in parse_object ../qobject/json-parser.c:318
->     #4 0x55b1bec0b2df in parse_value ../qobject/json-parser.c:546
->     #5 0x55b1bec0b6a9 in json_parser_parse ../qobject/json-parser.c:580
->     #6 0x55b1bec060d1 in json_message_process_token ../qobject/json-streamer.c:92
->     #7 0x55b1bec16a12 in json_lexer_feed_char ../qobject/json-lexer.c:313
->     #8 0x55b1bec16fbd in json_lexer_feed ../qobject/json-lexer.c:350
->     #9 0x55b1bec06453 in json_message_parser_feed ../qobject/json-streamer.c:121
->     #10 0x55b1bebc2d51 in qmp_fd_receive ../tests/qtest/libqtest.c:614
->     #11 0x55b1bebc2f5e in qtest_qmp_receive_dict ../tests/qtest/libqtest.c:636
->     #12 0x55b1bebc2e6c in qtest_qmp_receive ../tests/qtest/libqtest.c:624
->     #13 0x55b1bebc3340 in qtest_vqmp ../tests/qtest/libqtest.c:715
->     #14 0x55b1bebc3942 in qtest_qmp ../tests/qtest/libqtest.c:756
->     #15 0x55b1bebbd64a in adc_qom_set ../tests/qtest/npcm7xx_adc-test.c:127
->     #16 0x55b1bebbd793 in adc_write_input ../tests/qtest/npcm7xx_adc-test.c:140
->     #17 0x55b1bebbdf92 in test_convert_external ../tests/qtest/npcm7xx_adc-test.c:246
+> Initialize the 'restore_s16_s31' variable to silence the warning.
 >
-> Reported-by: Euler Robot <euler.robot@huawei.com>
-> Signed-off-by: Gan Qixin <ganqixin@huawei.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  target/arm/m_helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 
 
