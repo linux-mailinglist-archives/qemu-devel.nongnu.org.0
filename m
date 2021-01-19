@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A10662FB177
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:33:13 +0100 (CET)
-Received: from localhost ([::1]:53628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF18E2FB176
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:33:02 +0100 (CET)
+Received: from localhost ([::1]:52590 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1kZk-0002zD-LS
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:33:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39026)
+	id 1l1kZZ-0002Yl-Om
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:33:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQn-0001QZ-9H; Tue, 19 Jan 2021 01:23:57 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:47399 helo=ozlabs.org)
+ id 1l1kQg-0001KU-7U; Tue, 19 Jan 2021 01:23:50 -0500
+Received: from ozlabs.org ([203.11.71.1]:53819)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kQe-0000Sy-Rx; Tue, 19 Jan 2021 01:23:53 -0500
+ id 1l1kQe-0000Sw-Cr; Tue, 19 Jan 2021 01:23:49 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DKdrW6nWgz9sWj; Tue, 19 Jan 2021 17:23:23 +1100 (AEDT)
+ id 4DKdrX0LFGz9sWm; Tue, 19 Jan 2021 17:23:23 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611037403;
- bh=QsJzCm5/tGou+LocHcbDDZVTxVgpms8hkwzIpO8gcpM=;
+ d=gibson.dropbear.id.au; s=201602; t=1611037404;
+ bh=LJ2eQ5x5zz38Rr6VcKg9tAdMi3vH1X07i1g+fXmUXNk=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=FGwhUQVgKMq5Lji0qqqEzcFSupIzhtKudJNtldgZZjNmt27nEDj2M6JMB789EuLie
- UaBbaOXUbFGZu/PkxSZtxcP4C99BkPuW58zetYUtEJKXb1nOeaZ3caKUvaJ8djqjsz
- cfshGWHM+iTR9g5B6s+bgSW9mmfRXSUWyEmo0WwY=
+ b=ph2qi5ly1zy+6rXaimIiOo+WzPOAsdbmzUhz+VKmnzKoPKbnjgbml7tm4kWLtskl3
+ 4geMugn1ufwd3OazpMoK8h31+8637G6PwOiljyN35j9I8OeDiuCpTgOz1CCboM14tI
+ X5YK4MeQArwy5SXQ9wn3hB9jyv9EF9AMjx4+Vai4=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
-Subject: [PULL 07/13] Revert "ppc4xx: Move common dependency on serial to
- common option"
-Date: Tue, 19 Jan 2021 17:23:12 +1100
-Message-Id: <20210119062318.13857-8-david@gibson.dropbear.id.au>
+Subject: [PULL 08/13] sam460ex: Use type cast macro instead of simple cast
+Date: Tue, 19 Jan 2021 17:23:13 +1100
+Message-Id: <20210119062318.13857-9-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 References: <20210119062318.13857-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -65,63 +64,39 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: BALATON Zoltan <balaton@eik.bme.hu>
 
-This reverts commit e6d5106786 which was added mistakenly. While this
-change works it was suggested during review that keeping dependencies
-explicit for each board may be better than listing them in a common
-option so keep the previous version and revert this change.
+Use the PCI_BUS type cast macro to convert result of qdev_get_child_bus().
+Also remove the check for NULL afterwards which should not be needed
+because sysbus_create_simple() uses error_abort and we create the PCI
+host object here that's expected to have a PCI bus so this shouldn't
+fail. Even if it would fail that would be due to a programmer error so
+an error message is not necessary.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Message-Id: <8c65807fc7dc1c4c4f6320f2fd6409a3091c88ff.1610143658.git.balaton@eik.bme.hu>
+Message-Id: <a4dc55b56eed3ce899b7bf9835b980a114c52598.1610143658.git.balaton@eik.bme.hu>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/ppc/Kconfig | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ hw/ppc/sam460ex.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/hw/ppc/Kconfig b/hw/ppc/Kconfig
-index d2329edbab..d11dc30509 100644
---- a/hw/ppc/Kconfig
-+++ b/hw/ppc/Kconfig
-@@ -36,6 +36,7 @@ config PPC405
-     select M48T59
-     select PFLASH_CFI02
-     select PPC4XX
-+    select SERIAL
- 
- config PPC440
-     bool
-@@ -44,6 +45,7 @@ config PPC440
-     imply E1000_PCI
-     select PCI_EXPRESS
-     select PPC4XX
-+    select SERIAL
-     select FDT_PPC
- 
- config PPC4XX
-@@ -51,7 +53,6 @@ config PPC4XX
-     select BITBANG_I2C
-     select PCI
-     select PPC_UIC
--    select SERIAL
- 
- config SAM460EX
-     bool
-@@ -60,6 +61,7 @@ config SAM460EX
-     select IDE_SII3112
-     select M41T80
-     select PPC440
-+    select SERIAL
-     select SM501
-     select SMBUS_EEPROM
-     select USB_EHCI_SYSBUS
-@@ -121,6 +123,7 @@ config VIRTEX
-     bool
-     select PPC4XX
-     select PFLASH_CFI01
-+    select SERIAL
-     select XILINX
-     select XILINX_ETHLITE
-     select FDT_PPC
+diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
+index 45721ad6c7..e459b43065 100644
+--- a/hw/ppc/sam460ex.c
++++ b/hw/ppc/sam460ex.c
+@@ -419,11 +419,8 @@ static void sam460ex_init(MachineState *machine)
+     /* All PCI irqs are connected to the same UIC pin (cf. UBoot source) */
+     dev = sysbus_create_simple("ppc440-pcix-host", 0xc0ec00000,
+                                qdev_get_gpio_in(uic[1], 0));
+-    pci_bus = (PCIBus *)qdev_get_child_bus(dev, "pci.0");
+-    if (!pci_bus) {
+-        error_report("couldn't create PCI controller!");
+-        exit(1);
+-    }
++    pci_bus = PCI_BUS(qdev_get_child_bus(dev, "pci.0"));
++
+     memory_region_init_alias(isa, NULL, "isa_mmio", get_system_io(),
+                              0, 0x10000);
+     memory_region_add_subregion(get_system_memory(), 0xc08000000, isa);
 -- 
 2.29.2
 
