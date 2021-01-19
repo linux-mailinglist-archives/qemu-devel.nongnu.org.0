@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D03562FBBC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:58:59 +0100 (CET)
-Received: from localhost ([::1]:57678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D22A72FBB7E
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 16:44:41 +0100 (CET)
+Received: from localhost ([::1]:55216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1tPG-0002n9-9F
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:58:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54384)
+	id 1l1tBL-0004IZ-My
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 10:44:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57066)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1shO-00022F-O1
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:13:38 -0500
-Received: from relay64.bu.edu ([128.197.228.104]:44699)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l1svq-0005Dt-7e
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:28:34 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:37617)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l1shM-0001lH-Lh
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:13:38 -0500
-X-Envelope-From: alxndr@bu.edu
-X-BU-AUTH: mozz.bu.edu [128.197.127.33]
-Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
- bits=0)
- by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 10JFCTjb020932
- (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
- Tue, 19 Jan 2021 10:12:32 -0500
-Date: Tue, 19 Jan 2021 10:12:29 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Darren Kenny <darren.kenny@oracle.com>
-Subject: Re: [PATCH v2 3/3] fuzz: add virtio-9p configurations for fuzzing
-Message-ID: <20210119151229.2xnmks65g6xxe6ey@mozz.bu.edu>
-References: <20210117230924.449676-1-alxndr@bu.edu>
- <20210117230924.449676-4-alxndr@bu.edu>
- <23015364.U02QJlgKXI@silver>
- <20210118153033.w27g3cxl5dlaf2dn@mozz.bu.edu>
- <m235yyfe3z.fsf@oracle.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l1svn-0003kb-Na
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:28:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=fU7D8/GKM3GrkKWDvbbu7bHZcl3ubPsO22Mln1ssEBo=; b=Un/q1Ys2Mv6nLGbYK16Uvg8vsN
+ KntZweUf5/UpyXbWwhyogmB+6HjHKiGgDi7QQHH7vPe26DbjX1VElJ/lPlwgjbs1mZfPx96FdOrhr
+ InkONLg/Kt3LrqTKnIQwhru4/9Oi7qAg3JX+n3ybf520+v5heJ1S4SbdST0xBkJQ952CnfnjLfDku
+ N4DAnTMA85MSFDS0Wg+SG0XGowv6vEQG9/wFbfcTzXGQHWqvGOEzMXOBJJVy4Ji9z97AqR2dgM+IF
+ Mo9o3Wmqv0Bq5wxwx0DjnOKMxRM9uhP1Pv/6JazbmN59+gX6ISMPKN7cfqcV8z2SGADeZNQsXbxsd
+ 3faOWbtJY2vY2D4h9+71RSgHp5WuenizX4F5cGiP7Zf3wVjgz/iaRY3ejLn/PVEf9RTi3PpDy5v/o
+ qW61WXkVNVcCsHhyxoeu//FH4uw5rRUS51ec809ywImOzQg24NYiEp92xUIm27cfK2qsMhACFX+5q
+ t+R17HyoFV0rvRoBzsjgLcYU7mTlntE71df0Y9mhaLSL7EM9ohJ4NuJZ5hFYILSe9iTr/mr4aFd94
+ bReCnTdskNVCXzxrRB73qSeiimaOZdubGNdwKHTuJEyGY99iERbbUCynXDAXOQj7+Flrfb0WUhlhd
+ m/C8hslA5IoEwViaKOwxKp/bP7TxhWNmZRLaXzvXU=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 2/3] 9pfs: Convert V9fsFidState::fid_list to QSIMPLEQ
+Date: Tue, 19 Jan 2021 16:28:01 +0100
+Message-ID: <2181983.BdRbxLO5hT@silver>
+In-Reply-To: <20210119153407.208c4df7@bahia.lan>
+References: <20210118142300.801516-1-groug@kaod.org>
+ <1901754.QplClEOiAT@silver> <20210119153407.208c4df7@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <m235yyfe3z.fsf@oracle.com>
-Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
- helo=relay64.bu.edu
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
- HK_RANDOM_FROM=0.998, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,150 +64,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org,
- Greg Kurz <groug@kaod.org>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 210118 1540, Darren Kenny wrote:
-> On Monday, 2021-01-18 at 10:30:33 -05, Alexander Bulekov wrote:
-> > On 210118 1334, Christian Schoenebeck wrote:
-> >> On Montag, 18. Januar 2021 00:09:24 CET Alexander Bulekov wrote:
-> >> > virtio-9p devices are often used to expose a virtual-filesystem to the
-> >> > guest. There have been some bugs reported in this device, such as
-> >> > CVE-2018-19364, and CVE-2021-20181. We should fuzz this device
-> >> > 
-> >> > This patch adds two virtio-9p configurations:
-> >> >  * One with the widely used -fsdev local driver. This driver leaks some
-> >> >    state in the form of files/directories created in the shared dir.
-> >> >  * One with the synth driver. While it is not used in the real world, this
-> >> >    driver won't leak leak state between fuzz inputs.
-> >> > 
-> >> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> >> > ---
-> >> > CC: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> >> > CC: Greg Kurz <groug@kaod.org>
-> >> > 
-> >> > I considered adding an atexit handler to remove the temp directory,
-> >> > however I am worried that there might be some error that results in a
-> >> > call to exit(), rather than abort(), which will cause problems for
-> >> > future fork()-ed fuzzers. I don't think there are such calls in the 9p
-> >> > code, however there might be something in the APIs used by 9p. As this
-> >> > code is primarily for ephemeral OSS-Fuzz conainers, this shouldn't be
-> >> > too much of an issue.
-> >> 
-> >> Yes, dealing with signal handlers for that is probably a bit intransparent and 
-> >> would leave a questionable feeling about its reliability.
-> >> 
-> >> What about __attribute__((destructor)) to auto delete the fuzzer directory, 
-> >> like virtio-9p-test.c does for the same task?
-> >> 
-> >
-> > My worry is that we will end up deleting it while it is still in use.
-> > The scenario I am worried about:
-> > [parent process ] set up temp directory for virtio-9p
-> > [parent process ] initialize QEMU 
-> > [parent process ] fork() and wait()
-> > [child process 1] Run the fuzzing input.
-> > [child process 1] Once the input has been executed, call _Exit(). This
-> > should skip the atexit()/__attribute((destructor)) handlers. For reasons
-> > related to libfuzzer, we need to do this so that libfuzzer doesn't treat
-> > each child exit()-ing as a crash.
-> > [parent process ] wait() returns.
-> > [parent process ] generate a new input.. fork() and wait()
-> > [child process 2] Run the fuzzing input.
-> > [child process 2] Somewhere we hit an abort(). libfuzzer hooks the abort
-> > and dumps the crashing input and stack trace. Since abort() doesn't call
-> > exit handlers, it will skip over atexit()/__attribute((destructor)) handlers
-> > [parent process ] wait() returns.
-> > [parent process ] generate a new input.. fork() and wait()
-> > [child process 3] Run the fuzzing input.
-> > [child process 3] Somewhere we hit an exit(). This will dump the
-> > input/stacktrace and it will run the exit handlers (removing the shared
-> > 9p directory)
-> > [parent process ] wait() returns. generate a new input.. fork() and wait()
-> > [child process 4] ...
+On Dienstag, 19. Januar 2021 15:34:07 CET Greg Kurz wrote:
+> On Tue, 19 Jan 2021 14:31:26 +0100
 > 
-> OK, that answer's my question :)
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > On Montag, 18. Januar 2021 15:22:59 CET Greg Kurz wrote:
+> > > The fid_list is currently open-coded. This doesn't seem to serve any
+> > > purpose that cannot be met with QEMU's generic lists. Let's go for a
+> > > QSIMPLEQ : this will allow to add new fids at the end of the list and
+> > > to improve the logic in v9fs_mark_fids_unreclaim().
+> > > 
+> > > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > 
+> > In general LGTM hence:
+> > 
+> > Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > 
+> > Some comments below ...
+> > 
+> > > ---
+> > > 
+> > >  hw/9pfs/9p.c | 41 ++++++++++++++++++-----------------------
+> > >  hw/9pfs/9p.h |  4 ++--
+> > >  2 files changed, 20 insertions(+), 25 deletions(-)
+> > > 
+> > > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > > index 37c3379b7462..b65f320e6518 100644
+> > > --- a/hw/9pfs/9p.c
+> > > +++ b/hw/9pfs/9p.c
+> > > @@ -260,7 +260,7 @@ static V9fsFidState *coroutine_fn get_fid(V9fsPDU
+> > > *pdu,
+> > > int32_t fid) V9fsFidState *f;
+> > > 
+> > >      V9fsState *s = pdu->s;
+> > > 
+> > > -    for (f = s->fid_list; f; f = f->next) {
+> > > +    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> > > 
+> > >          BUG_ON(f->clunked);
+> > >          if (f->fid == fid) {
+> > >          
+> > >              /*
+> > > 
+> > > @@ -295,7 +295,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
+> > > fid) {
+> > > 
+> > >      V9fsFidState *f;
+> > > 
+> > > -    for (f = s->fid_list; f; f = f->next) {
+> > > +    QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
+> > > 
+> > >          /* If fid is already there return NULL */
+> > >          BUG_ON(f->clunked);
+> > >          if (f->fid == fid) {
+> > > 
+> > > @@ -311,8 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
+> > > fid) * reclaim won't close the file descriptor
+> > > 
+> > >       */
+> > >      
+> > >      f->flags |= FID_REFERENCED;
+> > > 
+> > > -    f->next = s->fid_list;
+> > > -    s->fid_list = f;
+> > > +    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
+> > 
+> > Not related to this series, but I wonder why queue.h wraps everything
+> > into:
+> > 
+> > do {
+> > 
+> > 	...
+> > 
+> > } while (0);
 > 
-> > Now all the subsequent forked children will refer to a shared directory
-> > that we already removed. Ideally, we would run the cleanup handler only
-> > after the parent process exit()s. I think there are some ways to do
-> > this, by placing the atexit() call in a place only reachable by the
-> > parent. However, on OSS-Fuzz this shouldn't be a problem as everything
-> > is cleaned up automatically anyway..
-> 
-> Yep, agreed.
-> 
-> > I am more worried about the fact that files/directories/links that are
-> > created by 9p in the child processes, persist across inputs. I think
-> > Thomas suggested a way to work-around this for PATCH 1/3. We could have
-> > a function that runs in the parent after each wait() returns, that would
-> > remove all the files in the temp directory and scrub the extended
-> > attributes applied by 9p to the shared dir.
-> 
-> Hmm, that sounds like something to consider, but it may also end up
-> slowing down the execution during the turn-around - guess it depends on
-> how much noise is being generated.
-> 
+> Note, this is do { ... } while (0) *without* the trailing semi-colon, which
+> is the corner stone of this trick.
 
-I've ben running the fuzzer for a couple days, and I haven't noticed any
-issues with unreproducible inputs (yet). Is this something we can add
-later, if it becomes a problem?
--Alex
+Yes, I got that. What I meant was, unless I am missing something, a simple 
+compound statement (without trailing semi-colon) a.k.a. a 'block' is the more 
+common way to handle this, like:
 
-> Thanks,
-> 
-> Darren.
-> 
-> > -Alex
-> >
-> >
-> >> >  tests/qtest/fuzz/generic_fuzz_configs.h | 20 ++++++++++++++++++++
-> >> >  1 file changed, 20 insertions(+)
-> >> > 
-> >> > diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h
-> >> > b/tests/qtest/fuzz/generic_fuzz_configs.h index 1a133655ee..f99657cdbc
-> >> > 100644
-> >> > --- a/tests/qtest/fuzz/generic_fuzz_configs.h
-> >> > +++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-> >> > @@ -19,6 +19,16 @@ typedef struct generic_fuzz_config {
-> >> >      gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
-> >> >  } generic_fuzz_config;
-> >> > 
-> >> > +static inline gchar *generic_fuzzer_virtio_9p_args(void){
-> >> > +    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
-> >> > +    g_assert_nonnull(mkdtemp(tmpdir));
-> >> > +
-> >> > +    return g_strdup_printf("-machine q35 -nodefaults "
-> >> > +    "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> >> > +    "-fsdev local,id=hshare,path=%s,security_model=mapped-xattr,"
-> >> > +    "writeout=immediate,fmode=0600,dmode=0700", tmpdir);
-> >> > +}
-> >> > +
-> >> >  const generic_fuzz_config predefined_configs[] = {
-> >> >      {
-> >> >          .name = "virtio-net-pci-slirp",
-> >> > @@ -60,6 +70,16 @@ const generic_fuzz_config predefined_configs[] = {
-> >> >          .name = "virtio-mouse",
-> >> >          .args = "-machine q35 -nodefaults -device virtio-mouse",
-> >> >          .objects = "virtio*",
-> >> > +    },{
-> >> > +        .name = "virtio-9p",
-> >> > +        .argfunc = generic_fuzzer_virtio_9p_args,
-> >> > +        .objects = "virtio*",
-> >> > +    },{
-> >> > +        .name = "virtio-9p-synth",
-> >> > +        .args = "-machine q35 -nodefaults "
-> >> > +        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-> >> > +        "-fsdev synth,id=hshare",
-> >> > +        .objects = "virtio*",
-> >> >      },{
-> >> >          .name = "e1000",
-> >> >          .args = "-M q35 -nodefaults "
-> >> 
-> >> 
-> >> 
+#define QSIMPLEQ_INIT(head) {                                        \
+    (head)->sqh_first = NULL;                                        \
+    (head)->sqh_last = &(head)->sqh_first;                           \
+}
+
+Third patch tomorrow ... thanks Greg!
+
+Best regards,
+Christian Schoenebeck
+
+
 
