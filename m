@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0948F2FB557
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:27:58 +0100 (CET)
-Received: from localhost ([::1]:50850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B7C12FB54A
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 11:22:34 +0100 (CET)
+Received: from localhost ([::1]:42354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1oEu-00083g-TD
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:27:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57804)
+	id 1l1o9h-0004Jv-Av
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 05:22:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2i-000244-57; Tue, 19 Jan 2021 05:15:20 -0500
-Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:45019)
+ id 1l1o2i-00025Q-LP; Tue, 19 Jan 2021 05:15:20 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:39143)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l1o2f-0004Hd-DC; Tue, 19 Jan 2021 05:15:19 -0500
+ id 1l1o2g-0004Hz-UM; Tue, 19 Jan 2021 05:15:20 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.west.internal (Postfix) with ESMTP id 6CE35F52;
- Tue, 19 Jan 2021 05:15:15 -0500 (EST)
+ by mailout.west.internal (Postfix) with ESMTP id D66AAF5B;
+ Tue, 19 Jan 2021 05:15:16 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Tue, 19 Jan 2021 05:15:16 -0500
+ by compute4.internal (MEProxy); Tue, 19 Jan 2021 05:15:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=fOfhpOWK82RFU
- pD3zrzcNzDbzvNFbRcsvEiSRn5LJ/A=; b=h7sjUQS95mLWuHKFDmMgFuiwJQOUg
- mNZy8Bsk7ZgSaSyMamTELQMppcNT+gzsgqVcfABSDUJJe1+GbklvOw/lVK13BSHA
- A1EECbCYR2abiNuZVcdamHT3gcn0YRniIbJxTMkmLFOcCl4MAhRbhrImqlWckxNM
- GrWABrEIEWzT7HB7O3PUltD1z8z/JZLdI+9ofaYrW6A5vJsLAuqSzfQHUPtSuLfj
- R8AeRe1yVmeW5lDXjSz/9dtZuXP6736e0lMeksgF12N52yJHG1rLNklApgyHWWZu
- 5YcMGbWtLw57yYzkwXO5Lrq1mb4JxrmKQN9/fR6PYuUmVRnUCOY8SCnyg==
+ :mime-version:content-transfer-encoding; s=fm2; bh=mJVLB/WGdVWqN
+ aTjqp4aIkVY7ievaaG46upf1c0VMZQ=; b=CdyI9wzRuSd9kMIQFfiW5N83BUq6m
+ MrVbtscrAyNtP3bz5p43rbbAxgI+vm4yz0tUUxmfOwqNGnHxp+ah9p0IFu/BLYZZ
+ +kBwYjAC7IwTAuji1wQvMLcEkXiSRoxKAIpbjAn5ZqhJRSALDnqQqetC6Fu50STS
+ mXH5LGoDN5cxRWkhQhsIJaRYHQAts+7DNNUKg9M/ECWN9rKfhgvn0BVamPIF2HGS
+ tBNzAKZaHVVUJ+87k7n7pouFocTCzMvsMbc1DVygQgcHYbxrA2R/6K7t4YXfIDmT
+ NnQuWsfNZXJ/yVFQhbXmW4uV5498v5peGPj/5NUQybMnJzXzrthnhc8vg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=fOfhpOWK82RFUpD3zrzcNzDbzvNFbRcsvEiSRn5LJ/A=; b=EmposOyR
- EeoIJdXxR6SrtRBw274RrdGGnChjx9KQcCbTLd9mJHl+npTY9pc/tZict6hGv71Q
- UmcLFXdAQurZOHXALhW7oVRpvOnKnqR0FwGhd9Gqf3UaoAAkx8WtO7jAaVKIJVS1
- wiG5sTefa8LKWt1B9Hv9lfx1vug1LyTpLnw5AYqdMFusOEy6E0aObM/KW9Yb2uFX
- hkMmKocI0adqDAVmh3r4UDId1CqaF65WrJ7UidZ2lx4sUjCt3RwMOVMCOhidxbZ2
- QqNXzXRWksPIHKM+4A9g6eRQV69Yt7fTejxJW8yC6lFSj0N3gZH7G+Vbo/h9eW8S
- WD5MX3TZJ1t0HQ==
-X-ME-Sender: <xms:MrEGYPjOnisBTsS7yfCu5Wc05viOMX2MLdu-ptdqT0ty9TQFmWjVhw>
- <xme:MrEGYMALJ2XpUF91rpkQqrsdu1dkSJnZspOqHE9Sl2uSoSPlTleRkHNCluuz7L8ud
- 47ieNXJrsc6LakX3oU>
+ fm1; bh=mJVLB/WGdVWqNaTjqp4aIkVY7ievaaG46upf1c0VMZQ=; b=IOTaXkUU
+ 9nuzgW84fDkL3ku7bcLxQflaX9UssFQXZ/NeJZyWlVgWs12STXjnfvcX265yh7a4
+ 4TlvajoelXLJzAQ3OUOrQoHpzgDBzT3Q0GOfUWfCc1mDphsJFGTDbfbsIhl2PYEz
+ sGMecbg2nujG6/Wns2gi2QjfBrZibEGFXmxRhFejhrRtWU/XqPcDbJQk9fO+8v3V
+ yFYNiiGBrJyblcvoMeRYUDJRurzf4YjMCjrr1K3MFXce9irU6V96hODMdT8EWrBy
+ xMr07OyQQ6ZkCoTuSLs2Xb8llYUf64rh07jL14A+Sb78WupHxKAmrzVfE4Crr5VJ
+ 3KvKuL620X8ZBg==
+X-ME-Sender: <xms:NLEGYBazOC7xCeElCw0AKl0XNV-i_ecD7KFJaRClklKkxBEuYmSXdg>
+ <xme:NLEGYIYgSBMc59nure4UcrTTJ7emmKlQttraduZ5QeXGUlCNFQvYjg56nP7oJevkP
+ pcjmXOBdsO326yeEnY>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddtgdduvdcutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
  lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
  hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgepudenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:MrEGYPHYjnIfXrW857qi8s3KCBp4D9Hma63fwYV64xlvkL7kDAp9Qg>
- <xmx:MrEGYMRQyl761NNrbIjwrOo1gUvzQyL6faxwdcCnuwMJl_kFkfeSHg>
- <xmx:MrEGYMw_qMmJ9YdSpoLlRaKmQnsuSGC1TakhT9Gap7oViLsHuViKsQ>
- <xmx:M7EGYPwFa0Igg9r-9hq2Lk80YzFHhackHIbMdCZoQ3cRvecvotUrlg>
+X-ME-Proxy: <xmx:NLEGYD-V1ilfyWoX0HpzejytEaGlIoydVlR5FT8GTY9I_phwSG7UGw>
+ <xmx:NLEGYPqRaxflDtkDB9eZFrAL1PhL4156hSplIoSQKRF_N0CsH5KdmQ>
+ <xmx:NLEGYMqHrziNlohBcvAcC7QUpGgl2u8loBUqEhgUespq3lNv9_FhnQ>
+ <xmx:NLEGYELYsmQ81QmOzVJtqlkgavHY3L_EAVGoE3-OuQl4gw7TS_ZK2Q>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9AAFB240066;
- Tue, 19 Jan 2021 05:15:13 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 17CD724005A;
+ Tue, 19 Jan 2021 05:15:14 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 05/12] hw/block/nvme: allow cmb and pmr to coexist
-Date: Tue, 19 Jan 2021 11:14:57 +0100
-Message-Id: <20210119101504.231259-6-its@irrelevant.dk>
+Subject: [PATCH v3 06/12] hw/block/nvme: rename PMR/CMB shift/mask fields
+Date: Tue, 19 Jan 2021 11:14:58 +0100
+Message-Id: <20210119101504.231259-7-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210119101504.231259-1-its@irrelevant.dk>
 References: <20210119101504.231259-1-its@irrelevant.dk>
@@ -102,83 +102,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-With BAR 4 now free to use, allow PMR and CMB to be enabled
-simultaneously.
+Use the correct field names.
 
 Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 17 ++++++++---------
- 1 file changed, 8 insertions(+), 9 deletions(-)
+ include/block/nvme.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 65813f6461cf..e4fb89c88e23 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -29,14 +29,13 @@
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now.
-  *
-- * cmb_size_mb= and pmrdev= options are mutually exclusive due to limitation
-- * in available BAR's. cmb_size_mb= will take precedence over pmrdev= when
-- * both provided.
-  * Enabling pmr emulation can be achieved by pointing to memory-backend-file.
-  * For example:
-  * -object memory-backend-file,id=<mem_id>,share=on,mem-path=<file_path>, \
-  *  size=<size> .... -device nvme,...,pmrdev=<mem_id>
-  *
-+ * The PMR will use BAR 4/5 exclusively.
-+ *
-  *
-  * nvme device parameters
-  * ~~~~~~~~~~~~~~~~~~~~~~
-@@ -109,7 +108,7 @@
- #define NVME_DB_SIZE  4
- #define NVME_SPEC_VER 0x00010300
- #define NVME_CMB_BIR 2
--#define NVME_PMR_BIR 2
-+#define NVME_PMR_BIR 4
- #define NVME_TEMPERATURE 0x143
- #define NVME_TEMPERATURE_WARNING 0x157
- #define NVME_TEMPERATURE_CRITICAL 0x175
-@@ -4092,7 +4091,7 @@ static void nvme_check_constraints(NvmeCtrl *n, Error **errp)
-         return;
-     }
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 86d7fc2f905c..f3cbe17d0971 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -35,8 +35,8 @@ enum NvmeCapShift {
+     CAP_CSS_SHIFT      = 37,
+     CAP_MPSMIN_SHIFT   = 48,
+     CAP_MPSMAX_SHIFT   = 52,
+-    CAP_PMR_SHIFT      = 56,
+-    CAP_CMB_SHIFT      = 57,
++    CAP_PMRS_SHIFT     = 56,
++    CAP_CMBS_SHIFT     = 57,
+ };
  
--    if (!n->params.cmb_size_mb && n->pmrdev) {
-+    if (n->pmrdev) {
-         if (host_memory_backend_is_mapped(n->pmrdev)) {
-             error_setg(errp, "can't use already busy memdev: %s",
-                        object_get_canonical_path_component(OBJECT(n->pmrdev)));
-@@ -4189,9 +4188,6 @@ static void nvme_init_cmb(NvmeCtrl *n, PCIDevice *pci_dev)
+ enum NvmeCapMask {
+@@ -49,8 +49,8 @@ enum NvmeCapMask {
+     CAP_CSS_MASK       = 0xff,
+     CAP_MPSMIN_MASK    = 0xf,
+     CAP_MPSMAX_MASK    = 0xf,
+-    CAP_PMR_MASK       = 0x1,
+-    CAP_CMB_MASK       = 0x1,
++    CAP_PMRS_MASK      = 0x1,
++    CAP_CMBS_MASK      = 0x1,
+ };
  
- static void nvme_init_pmr(NvmeCtrl *n, PCIDevice *pci_dev)
- {
--    /* Controller Capabilities register */
--    NVME_CAP_SET_PMRS(n->bar.cap, 1);
--
-     /* PMR Capabities register */
-     n->bar.pmrcap = 0;
-     NVME_PMRCAP_SET_RDS(n->bar.pmrcap, 0);
-@@ -4292,7 +4288,9 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+ #define NVME_CAP_MQES(cap)  (((cap) >> CAP_MQES_SHIFT)   & CAP_MQES_MASK)
+@@ -81,10 +81,10 @@ enum NvmeCapMask {
+                                                            << CAP_MPSMIN_SHIFT)
+ #define NVME_CAP_SET_MPSMAX(cap, val) (cap |= (uint64_t)(val & CAP_MPSMAX_MASK)\
+                                                            << CAP_MPSMAX_SHIFT)
+-#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMR_MASK)   \
+-                                                           << CAP_PMR_SHIFT)
+-#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMB_MASK)   \
+-                                                           << CAP_CMB_SHIFT)
++#define NVME_CAP_SET_PMRS(cap, val)   (cap |= (uint64_t)(val & CAP_PMRS_MASK)  \
++                                                           << CAP_PMRS_SHIFT)
++#define NVME_CAP_SET_CMBS(cap, val)   (cap |= (uint64_t)(val & CAP_CMBS_MASK)  \
++                                                           << CAP_CMBS_SHIFT)
  
-     if (n->params.cmb_size_mb) {
-         nvme_init_cmb(n, pci_dev);
--    } else if (n->pmrdev) {
-+    }
-+
-+    if (n->pmrdev) {
-         nvme_init_pmr(n, pci_dev);
-     }
- 
-@@ -4365,6 +4363,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-     NVME_CAP_SET_CSS(n->bar.cap, NVME_CAP_CSS_ADMIN_ONLY);
-     NVME_CAP_SET_MPSMAX(n->bar.cap, 4);
-     NVME_CAP_SET_CMBS(n->bar.cap, n->params.cmb_size_mb ? 1 : 0);
-+    NVME_CAP_SET_PMRS(n->bar.cap, n->pmrdev ? 1 : 0);
- 
-     n->bar.vs = NVME_SPEC_VER;
-     n->bar.intmc = n->bar.intms = 0;
+ enum NvmeCapCss {
+     NVME_CAP_CSS_NVM        = 1 << 0,
 -- 
 2.30.0
 
