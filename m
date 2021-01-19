@@ -2,66 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7958B2FC335
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 23:20:30 +0100 (CET)
-Received: from localhost ([::1]:60268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2891D2FC336
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 23:21:07 +0100 (CET)
+Received: from localhost ([::1]:33658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1zMT-0008M5-HV
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 17:20:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51108)
+	id 1l1zN4-0000cQ-6r
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 17:21:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51232)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l1zLB-0007r1-Gd
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:19:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l1zL9-000607-1m
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:19:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611094744;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type;
- bh=6SFzbx7gLawgiINUV5uEmeEtIkhqKPanrGUELXJ4qR8=;
- b=bJMN+Df6JmLBtHbuJ01KLMX//3skBfy+t5wysNOdAqxvvwwDT4UMkML8e212yQUgOASXI6
- 2VZ/nVwEPm4yHe9bYK3GGI2nhyrMmu05KiqpKIVr4LruFKrOMZz6Rq0zcMxbRHm6PdIzP8
- Bqv/F1aUOzRmpBzim9KYpL6X14TJSns=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-9-TCTYVaOOSCuu8-Edtoig-1; Tue, 19 Jan 2021 17:19:02 -0500
-X-MC-Unique: 9-TCTYVaOOSCuu8-Edtoig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8470CE642;
- Tue, 19 Jan 2021 22:19:01 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-117-170.rdu2.redhat.com [10.10.117.170])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0DBC27C58;
- Tue, 19 Jan 2021 22:18:49 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 2C27922054F; Tue, 19 Jan 2021 17:18:49 -0500 (EST)
-Date: Tue, 19 Jan 2021 17:18:49 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: virtio-fs-list <virtio-fs@redhat.com>, qemu-devel@nongnu.org
-Subject: What are libvhost-user locking requirements
-Message-ID: <20210119221849.GC77840@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1zLk-0008BQ-Ip
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:19:44 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:35990)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l1zLj-00063b-3t
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 17:19:44 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id l9so25054043ejx.3
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 14:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jY734/+NrpsuZxFOKyP/VoCwZW0SsYEDZ9mEJHgvHgk=;
+ b=NHIyrMT1L2Tm/5jTWqGePh+wIA++vyI8IOg6pBeFkuFHJSnYN+LL/jTd/Z9FrLoZ3r
+ wpCmfi86qfMCwEuVEUxJIBkGxL9BjMkQkZwHTEoKV0yyYXaqIII3grf3++Lr6n5ZHPpp
+ ZSO248DWS4XDKtSC69qgERY8+wz+Sffx0E3XSpfcHW+v/apn7ldRqdEBCKHxjMTHFyH+
+ oNy8Rz8ewhSDuyjaaYBOKsuHnAB5W6FuU342XK9BNVPkDVO163WIKCQj8uDMBq911N7C
+ erToj5alKYZSAGBFFbWHrR+JaL6BbXSoc51xhP8cCEuly8y84COvSq2jG5l7ySJBz8KN
+ 9lJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jY734/+NrpsuZxFOKyP/VoCwZW0SsYEDZ9mEJHgvHgk=;
+ b=fCAtoqg9eRX9YWP2M4dbTSY82yczenPLAISrt/kkGTreNQx642Xfy+w7aaZOCmZBgd
+ YTVu2pRv5DCXC09IursajywgW3YHef332etVCbSglL+24HEsXu9q+aJIDi2THquAxIac
+ U6nKfn+5iUDadGA1/L4bOdrHgYjJPFyPMJGaB6NqnSTfwiobp+6/i/rB13E4l+St3Tze
+ MkaDnAq6X5Rx7nLYOFuThmo5QvCheTSLxdFH1dUqe784e40tcg/DJ+xeNMftZHX6wSHm
+ M0sSp36YG84Ppq8jquqOl++EVgjw9hACT7ibf6u8okzWdNjEVSyHPmZqvHQQbn+YqjQb
+ x0ig==
+X-Gm-Message-State: AOAM530HQS4Y2HTBaYxYOnEHE9ffb6ydALVAGUJCBHyEDf3QUJgefhsJ
+ ea0GgSsgQn9EmwHqj81OUSASxL6YYxM=
+X-Google-Smtp-Source: ABdhPJy+AtvP0iiedOYUeJrQ3yFR8jt0NL43GEyMaDCK+9TVdAtuhJxq0s7h5eclZ8Wuci2VYg29tQ==
+X-Received: by 2002:a17:906:178d:: with SMTP id
+ t13mr4210347eje.455.1611094780660; 
+ Tue, 19 Jan 2021 14:19:40 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id u17sm100965edr.0.2021.01.19.14.19.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 19 Jan 2021 14:19:39 -0800 (PST)
+Subject: Re: [PATCH v2 07/22] tcg/tci: Split out target constraints to
+ tcg-target-con-str.h
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-8-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <81da352b-3e72-7aef-81fd-343d10e850fe@amsat.org>
+Date: Tue, 19 Jan 2021 23:19:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210115210456.1053477-8-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,53 +91,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: gkurz@redhat.com, johannes.berg@intel.com, slp@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On 1/15/21 10:04 PM, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/tci/tcg-target-con-str.h | 11 +++++++++++
+>  tcg/tci/tcg-target.h         |  2 ++
+>  tcg/tci/tcg-target.c.inc     | 14 --------------
+>  3 files changed, 13 insertions(+), 14 deletions(-)
+>  create mode 100644 tcg/tci/tcg-target-con-str.h
+> 
+> diff --git a/tcg/tci/tcg-target-con-str.h b/tcg/tci/tcg-target-con-str.h
+> new file mode 100644
+> index 0000000000..87c0f19e9c
+> --- /dev/null
+> +++ b/tcg/tci/tcg-target-con-str.h
+> @@ -0,0 +1,11 @@
+> +/* SPDX-License-Identifier: MIT */
+> +/*
+> + * Define TCI target-specific operand constraints.
+> + * Copyright (c) 2021 Linaro
+> + */
+> +
+> +/*
+> + * Define constraint letters for register sets:
+> + * REGS(letter, register_mask)
+> + */
+> +REGS('r', MAKE_64BIT_MASK(0, TCG_TARGET_NB_REGS))
+> diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
+> index bb784e018e..ab832aecc3 100644
+> --- a/tcg/tci/tcg-target.h
+> +++ b/tcg/tci/tcg-target.h
+> @@ -207,4 +207,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+>      /* no need to flush icache explicitly */
+>  }
+>  
+> +#define TCG_TARGET_CON_STR_H
+> +
+>  #endif /* TCG_TARGET_H */
+> diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+> index 9c45f5f88f..c913d85c37 100644
+> --- a/tcg/tci/tcg-target.c.inc
+> +++ b/tcg/tci/tcg-target.c.inc
+> @@ -384,20 +384,6 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+>      return true;
+>  }
+>  
+> -/* Parse target specific constraints. */
+> -static const char *target_parse_constraint(TCGArgConstraint *ct,
+> -                                           const char *ct_str, TCGType type)
+> -{
+> -    switch (*ct_str++) {
+> -    case 'r':
+> -        ct->regs = BIT(TCG_TARGET_NB_REGS) - 1;
+> -        break;
 
-Current virtiofsd code uses libvhost-user and I am assuming virtiofsd-rs
-uses it too. I am wondering what are the locking requirements for
-this library.
+Easy one :)
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Looking at it it does not look like thread safe. Well parts of of kind
-of look thread safe. For example, David Gilbert introduced a slave_mutex
-to control reading/writeing on slave_fd. But dev->slave_fd can be modified
-vu_set_slave_req_fd() without any locks. Similiarly _vu_queue_notify()
-uses dev->slave_fd but  does not take any lock. May be these are just
-bugs and we can take slave_mutex in those paths so not a big deal.
-
-But this library does not talk about locking at all. Of course there
-are many shared data structures like "struct VuDev" and helpers which
-access this structure. Is client supposed to provide locking and
-make sure not more than one thread is calling into the library
-at one point of time.
-
-But in virtiofsd I see that we seem to be in mixed mode. In some cases
-we are holding ->vu_dispatch_rwlock in read-only mode. So that will
-allow multipler threads to call into library for one queue.
-
-In other places like lo_setupmapping() and lo_removemapping(), we are
-not holding ->vu_dispatch_rwlock() at all and simply call into
-library vu_fs_cache_request(VHOST_USER_SLAVE_FS_MAP/...). So multiple
-threads can call in. I think precisely for this use case dev->slave_mutex
-has been introduced in library.
-
-So few queries.
-
-- what's the locking model needed to use libvhost-user. Is there one? 
-
-- Is it ok to selectively add locking for some data structures in
-  libvhost-user. As slave_mutex has been added. So user will have to
-  go through the code to figure out which paths can be called without
-  locks and which paths can't be.
-
-/me is confused and trying to wrap my head around the locking requirements
-while using libvhost-user.
-
-Vivek
-
+> -    default:
+> -        return NULL;
+> -    }
+> -    return ct_str;
+> -}
 
