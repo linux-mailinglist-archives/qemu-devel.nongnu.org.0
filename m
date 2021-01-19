@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F5A22FB1BC
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:45:54 +0100 (CET)
-Received: from localhost ([::1]:52970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA62C2FB19B
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 07:40:29 +0100 (CET)
+Received: from localhost ([::1]:41816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1km0-0006Rh-TO
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:45:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39286)
+	id 1l1kgk-0001a6-Et
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 01:40:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kRE-00025z-V7; Tue, 19 Jan 2021 01:24:25 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:54619)
+ id 1l1kQi-0001QJ-TR; Tue, 19 Jan 2021 01:23:56 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35155 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l1kRC-0000ap-CO; Tue, 19 Jan 2021 01:24:24 -0500
+ id 1l1kQe-0000T4-Sy; Tue, 19 Jan 2021 01:23:52 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DKdrb2scKz9svs; Tue, 19 Jan 2021 17:23:27 +1100 (AEDT)
+ id 4DKdrX5SX7z9sX4; Tue, 19 Jan 2021 17:23:24 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611037407;
+ d=gibson.dropbear.id.au; s=201602; t=1611037404;
  bh=7eoo1JGQEz0AGnMffHoG0i70grShp7cTjR5JUeO8D28=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=d0ET/9bzT1UbArGfrDH7ISj6IH3PprXsM6JahAeYmqjKAUoNUChNAZhcfKFykNkhU
- QQ1WqhxdD8HXnOxPbU54qnQn5y1Ldf2tTld2DUy1YFttZCt6lUnyXKcmniUi75wsJG
- ZZ6TWWItZUlgMREo+shecbnBboOuYMHdyRWSrnDA=
+ b=ZwbZLa3dxHUIVBHvSKkpLCqvvdFKJGowyg7U17Uhr2ldlttT8pwrkN5cR+r3HdNl2
+ BvOlyycjbRDZLLwav0Z6tQpDxxvkQvevTKlTHFWqSo8PW2FnPfVhCjlXcYxCyJFuBa
+ q3grBt3570VQrxeGQdFqL2HDTelzbSuMxclf+AdM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org,
 	groug@kaod.org
