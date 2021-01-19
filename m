@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 586A92FB68B
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:58:06 +0100 (CET)
-Received: from localhost ([::1]:49924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BD932FB68C
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:58:34 +0100 (CET)
+Received: from localhost ([::1]:50370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rWH-00052b-E8
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:58:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59300)
+	id 1l1rWh-0005Db-Ld
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:58:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1rS0-0000YW-EC
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:53:40 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40248)
+ id 1l1rSM-0001Ey-VI
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:54:03 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:33943)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l1rRx-0005hI-Sj
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:53:40 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id gx5so9348821ejb.7
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:53:37 -0800 (PST)
+ id 1l1rSL-0005ki-32
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:54:02 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id hs11so26269795ejc.1
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=euRII8kzx/arn4UryvhCiEH4Dl1uD9pmXe8i99mqOO8=;
- b=NTinbHo/BMuviduIVxtNwf/xqo07l8m0xr5cHaMNmC0CL6xbFgB7NRDDo83J9LBYmd
- jIKji9tPmGS5dd0HDgzEgqAqhpMKVwO1+00AlUz0im2F1EajwsBzrrupvM1O5/rpUA7U
- p4yu/ESPXhdJ1veA6w4rjDRMteIoZqWKkqHCL8ADqNhNUR8K+PEfmmq4+6opNX/bbyx+
- YDvvLXfU1IuQ/Mr23/XPXHq0vu0B68xbCE+OEfAiV9b+Z9IxjzMxjg53DT+E2Er3no9X
- eoeBJT6qLQgQgFF3/t8m3dSjKJ3/p0/XdHFWabJutDlhU503U23SGk0WpfWs5z5VONXu
- RKpw==
+ :cc; bh=dwcOo5I8i9D7jyhtNQQGFi72Mf09BQ6iVKlC93ntk4U=;
+ b=n2wTgtnD2ifVLtGvzr6G10jos1noqN6DmcXGTCKDAnP/7n8xtWEwGkIYycMLYKaHF3
+ cMbvI5PlP9c9yuVt616JslmL60oxIeK1htD1AsMyyn92Jugw9TPMLDz62PlidBgQYM+B
+ +qD5kv/Nr1D+OymUfrXJY0kJ4pS2PJBgeBmHinbdXc2F+7hXUhZRZuVO0pVvWWa1xy24
+ RwBYxifbIzpv3sFmhmgsO+RuNY3atJS4lsKC6hCyyOT7AGPl3UoR3NpXqCgSQRrdcYfG
+ GWBt/nEiW3SW08grvUAqyGU/w1xLsC8D/Mb1m2j62IzvZAQtBv4Srwtw1iLj8kHRZfAN
+ 8EjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=euRII8kzx/arn4UryvhCiEH4Dl1uD9pmXe8i99mqOO8=;
- b=J0ALo0NZiH3iFWoPqrHLGLIBZjzfGOFUazbb2xCI/L/X7rTDHfEwetgQwK+bkgxspt
- VonC9Bfc7Haz4hKUnRT1FM9YvwcuxED6j2basewKR5Mc/pidSymCWhofn5ocVqZOtJRy
- tYGJ6sz8c9eFPLwAXF2M7Y+aK9LL2mt6kIGGs4JQG13WB5Vh/YVDoZQQmCUThciccCrk
- KuccinYVmqd/qouUDSTSZfgaQB/Kr3XFG+UsDRSEoezjoCYvRjZ/dJli4xrYIjLYJRYr
- zCjsDDUU64bh5pOTH2SDQ1ARNHhU9aSqM5kf0orrgpqxnk74UCGeyk6K94fR9vaqpfYS
- 1BFw==
-X-Gm-Message-State: AOAM531rlr9JLhzKMpNJwiF6+gC2UZeireSEu/sxtRAyCzLDd0wx+RTs
- fqrirdbrzhKaxQ2woFhhRN1m/F7U+wUpJkOgIJeBPA==
-X-Google-Smtp-Source: ABdhPJxqtMtmKoGhzyXZ4x6nTI2Ckhgkm8YnSm+J9haQBkNSATHR1rNi95wJO648/NvHAaaQqZEsX00BWMAAFHqL7R4=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr3086185ejf.85.1611064416410; 
- Tue, 19 Jan 2021 05:53:36 -0800 (PST)
+ :message-id:subject:to:cc;
+ bh=dwcOo5I8i9D7jyhtNQQGFi72Mf09BQ6iVKlC93ntk4U=;
+ b=Ki3hRhfht6nT7zRL0892jEK4TGLefEdOwvaMXg7Dcs3WvGE0bvMvT8pGjmarMwibg9
+ d5A6lpzXGJvPuMPi1EvfuRVXUBMyxpDVRxgZjI6Hvsrb1ooLCqWophJ4oJ5IuDBzMy2n
+ Q9OUSZxGlkh+cIOIUY1iCXIC4Iiu74K28iwR/OVMihKjtXgn03+S2qAZ+E4FSxY6eUzJ
+ c1fkaqtyW45hKy+1D6SZWmK27lnf9bwHL+/mLVtmSn4mgllXHeKrBzcMnG7QlLO6+aYr
+ 4UqCbg7eynOfGvF+pCDbxrcW4DYD5AazFbH0o6YS3g6mgPvXnhpg4YQLDPN09Gx4Heop
+ u7NA==
+X-Gm-Message-State: AOAM532tfP1SLle2yMiKRcvrUhUQ5HAaIVxYQ1clfMNbQ/0FWD8hYi4o
+ SjzyUaXdc7rK7YLZL4yO6Ta6LIFI/QAhBswvWmvyqlNsEEs=
+X-Google-Smtp-Source: ABdhPJxxfKUR8/lHoHC6Ot7CROdBuqi+zaLmhS8rQDREJm3dicR6TPYggincONlKDxv/AaEGQXYfULAjWogbfrJt23M=
+X-Received: by 2002:a17:906:4bc2:: with SMTP id x2mr2993866ejv.4.1611064439776; 
+ Tue, 19 Jan 2021 05:53:59 -0800 (PST)
 MIME-Version: 1.0
-References: <20210119062739.589049-1-f4bug@amsat.org>
-In-Reply-To: <20210119062739.589049-1-f4bug@amsat.org>
+References: <20210119083617.6337-1-huth@tuxfamily.org>
+In-Reply-To: <20210119083617.6337-1-huth@tuxfamily.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 19 Jan 2021 13:53:25 +0000
-Message-ID: <CAFEAcA_76OiMLW0vhi5HZM_Jr+VQbofRNFTDkaOxetK-XmcKnA@mail.gmail.com>
-Subject: Re: [PATCH] target/arm/m_helper: Silence GCC 10 maybe-uninitialized
- error
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Date: Tue, 19 Jan 2021 13:53:48 +0000
+Message-ID: <CAFEAcA-k=g2KetBTSO=4zFdZYEyxRiVX6fdivZfQ8gVJp4Jnmg@mail.gmail.com>
+Subject: Re: [PULL 00/11] m68k next-cube patches
+To: Thomas Huth <huth@tuxfamily.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,38 +76,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jan 2021 at 06:27, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
- wrote:
+On Tue, 19 Jan 2021 at 08:36, Thomas Huth <huth@tuxfamily.org> wrote:
 >
-> When building with GCC 10.2 configured with --extra-cflags=3D-Os, we get:
+>  Hi Peter,
 >
->   target/arm/m_helper.c: In function =E2=80=98arm_v7m_cpu_do_interrupt=E2=
-=80=99:
->   target/arm/m_helper.c:1811:16: error: =E2=80=98restore_s16_s31=E2=80=99=
- may be used uninitialized in this function [-Werror=3Dmaybe-uninitialized]
->    1811 |             if (restore_s16_s31) {
->         |                ^
->   target/arm/m_helper.c:1350:10: note: =E2=80=98restore_s16_s31=E2=80=99 =
-was declared here
->    1350 |     bool restore_s16_s31;
->         |          ^~~~~~~~~~~~~~~
->   cc1: all warnings being treated as errors
+> the following changes since commit e43d564fa3a0d1e133935c8180ad4f4ccf699f33:
 >
-> Initialize the 'restore_s16_s31' variable to silence the warning.
+>   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.0-pull-request' into staging (2021-01-18 15:19:06 +0000)
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> ---
->  target/arm/m_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-19
+>
+> for you to fetch changes up to 41da32471183d7ca4756ad3ed8bb11c1d0c37a32:
+>
+>   hw/m68k/next-cube: Add missing header comment to next-cube.h (2021-01-19 09:11:52 +0100)
+>
+> ----------------------------------------------------------------
+> * Refactor next-cube interrupt and register handling into a proper QOM device
+> ----------------------------------------------------------------
+>
+> Peter Maydell (11):
+>       hw/m68k/next-cube: Make next_irq() function static
+>       hw/m68k/next-cube: Move register/interrupt functionality into a device
+>       hw/m68k/next-cube: Move mmio_ops into NeXTPC device
+>       hw/m68k/next-cube: Move scr_ops into NeXTPC device
+>       hw/m68k/next-cube: Make next_irq take NeXTPC* as its opaque
+>       hw/m68k/next-cube: Move int_status and int_mask to NeXTPC struct
+>       hw/m68k/next-cube: Make next_irq GPIO inputs to NEXT_PC device
+>       hw/m68k/next-cube: Move rtc into NeXTPC struct
+>       hw/m68k/next-cube: Remove unused fields from NeXTState
+>       hw/m68k/next-cube: Add vmstate for NeXTPC device
+>       hw/m68k/next-cube: Add missing header comment to next-cube.h
 
 
+Applied, thanks.
 
-Applied to target-arm.next, thanks.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
 -- PMM
 
