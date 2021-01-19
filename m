@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F5A2FBBD3
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:02:20 +0100 (CET)
-Received: from localhost ([::1]:33674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A90C02FBBE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 17:04:56 +0100 (CET)
+Received: from localhost ([::1]:39260 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1tSV-0004ag-CT
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:02:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55648)
+	id 1l1tV1-0007OL-Jc
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 11:04:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l1sog-0002v4-5M
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:21:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24742)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l1soc-0002wQ-Vw
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:21:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611069665;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CZOUtDJ4E5AAV3YMyNbLdC+YsRw9H93EdsRSv1UAAtM=;
- b=HjdUC1OlC22cdazdDqR7GdHIapd3sr2V+WwSkoHz2tSSQVOL6JIYMCvXx4Ib6+Hzt0/F9p
- d7isjOSw5FajSBqwZbbKQnrdK6Wbr3wtrRRxcXNfCC8RXMm1YAFLG1qEG1bL6mnWkGchUv
- lM64h/FljpGRVysNemn5ZhVdnoiYTfs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-130-CsSqHWTCOL2pIg4F0eIpeA-1; Tue, 19 Jan 2021 10:21:03 -0500
-X-MC-Unique: CsSqHWTCOL2pIg4F0eIpeA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77C178014D9;
- Tue, 19 Jan 2021 15:21:02 +0000 (UTC)
-Received: from localhost (ovpn-118-239.rdu2.redhat.com [10.10.118.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 187536B551;
- Tue, 19 Jan 2021 15:20:56 +0000 (UTC)
-Date: Tue, 19 Jan 2021 10:20:56 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: David Edmondson <david.edmondson@oracle.com>
-Subject: Re: [RFC PATCH 1/2] hw/i386: -cpu model,-feature,+feature should
- enable feature
-Message-ID: <20210119152056.GE1227584@habkost.net>
-References: <20210119142207.3443123-1-david.edmondson@oracle.com>
- <20210119142207.3443123-2-david.edmondson@oracle.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1svB-0004Pk-La
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:27:54 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:36970)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l1sv9-0003gD-OO
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 10:27:53 -0500
+Received: by mail-ed1-x530.google.com with SMTP id g1so21333871edu.4
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 07:27:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=9DYCgNI8ytcHRHDVp9sNbhZPYpHwNLHWaNT0FwtwF3E=;
+ b=BHg3r7kmfJ8Fx1b8t+oEr0VD1jSR7iSSxwJqksmmOsvyH8HfUGg5aJjzvQF2Chwqlo
+ xW5pVYvm5RNhmfL+Zsaky8OttllgPTpINgFPm8e2CKirCZpTQf26vT2Bz7BtBI+bl/Vk
+ 6o67VLI0XrJ5YtjM50U7DFOx/TQWJcfnDAk4As6rL2XCSN/G54BZxEKmtbIJdNu/FHhd
+ WxX+fI6l4KvQBE/feQmSzFQ56YZ3VtaKgnxO7y84ksuNXqJXUrL24+3TssOsdFZIAGk0
+ IaIgl6v2Kj7tITs0nnVQJ7mHAQJedeTE8kf1nXO6VyJlZF4apbAQ1QykkJ8oygeuV0sa
+ 5u2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=9DYCgNI8ytcHRHDVp9sNbhZPYpHwNLHWaNT0FwtwF3E=;
+ b=PONxkyQf178tS+T06z3YZoNnkPrA3/953QRGPF0rk5cZIZPHaw+ecgyK9Nfpo4Yw3M
+ y+rr5drQomvQBWJTAsEnNhvXZBCUVASO8UNWsz2+A2ZnsO/PS4YzCEkY1dWy5LZKw64K
+ j/+Ys3GvsLIuBIJidXDhHrgmzoO9rc0YfiTnxLaAQnfUEag7Mvtw+vJjlTS+Uphmm2p3
+ j4yUE+6vDjhuWuOdfQiNU6o5UsN4ePqQbbqPjk6Arxy27iq9rq4Vdl+1/tfg+HFIXiEH
+ aLTEyPzlw+YliRW/FbscRbl3UmDp1bpg5mtzBJwt8FnqAHiuMsqxESkawNyOgvoHToPF
+ VoZQ==
+X-Gm-Message-State: AOAM530Wyx3rD5WJvlwMmc9R1s3UTbgHEwFgs/DbecH/NSgtV0ll1UeZ
+ t+3EAI5oTXz4ulSm1UyYMQUIuWyJo7VwiudEOGcsxg==
+X-Google-Smtp-Source: ABdhPJz4iPqiytHOFsfsdJRboZOdZry0T4ykCIS2b9uUZEa1709yn59uog0uRlN1E56nsHoS8Uh1Lbvav8yrDKfuyGE=
+X-Received: by 2002:a05:6402:1701:: with SMTP id
+ y1mr3769277edu.251.1611070068341; 
+ Tue, 19 Jan 2021 07:27:48 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210119142207.3443123-2-david.edmondson@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210115210456.1053477-1-richard.henderson@linaro.org>
+ <20210115210456.1053477-14-richard.henderson@linaro.org>
+In-Reply-To: <20210115210456.1053477-14-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 19 Jan 2021 15:27:37 +0000
+Message-ID: <CAFEAcA8MsWyA7Aam3VzfV=r_scaD0J3zEBR0bNE-Re7OdL+ezg@mail.gmail.com>
+Subject: Re: [PATCH v2 13/22] tcg/i386: Split out constraint sets to
+ tcg-target-con-set.h
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,120 +79,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
-Thanks for the patch.  Getting rid of special -feature/+feature
-behavior was in our TODO list for a long time.
-
-On Tue, Jan 19, 2021 at 02:22:06PM +0000, David Edmondson wrote:
-> "Minus" features are applied after "plus" features, so ensure that a
-> later "plus" feature causes an earlier "minus" feature to be removed.
-> 
-> This has no effect on the existing "-feature,feature=on" backward
-> compatibility code (which warns and turns the feature off).
-
-If we are changing behavior, why not change behavior of
-"-feature,feature=on" at the same time?  This would allow us to
-get rid of plus_features/minus_features completely and just make
-+feature/-feature synonyms to feature=on/feature=off.
-
-> 
-> Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+On Fri, 15 Jan 2021 at 21:20, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This exports the constraint sets from tcg_target_op_def to
+> a place we will be able to manipulate more in future.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/i386/cpu.c                   | 33 +++++++++++++++++++++++------
->  tests/qtest/test-x86-cpuid-compat.c |  8 +++----
->  2 files changed, 30 insertions(+), 11 deletions(-)
-> 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 35459a38bb..13f58ef183 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4750,13 +4750,32 @@ static void x86_cpu_parse_featurestr(const char *typename, char *features,
->          GlobalProperty *prop;
->  
->          /* Compatibility syntax: */
-> -        if (featurestr[0] == '+') {
-> -            plus_features = g_list_append(plus_features,
-> -                                          g_strdup(featurestr + 1));
-> -            continue;
-> -        } else if (featurestr[0] == '-') {
-> -            minus_features = g_list_append(minus_features,
-> -                                           g_strdup(featurestr + 1));
-> +        if (featurestr[0] == '+' || featurestr[0] == '-') {
-> +            const char *feat = featurestr + 1;
-> +            GList **remove, **add;
-> +            GList *val;
-> +
-> +            if (featurestr[0] == '+') {
-> +                remove = &minus_features;
-> +                add = &plus_features;
-> +            } else {
-> +                remove = &plus_features;
-> +                add = &minus_features;
-> +            }
-> +
-> +            val = g_list_find_custom(*remove, feat, compare_string);
-> +            if (val) {
-> +                char *data = val->data;
-> +
-> +                *remove = g_list_remove(*remove, data);
-> +                g_free(data);
-> +            }
-> +
-> +            val = g_list_find_custom(*add, feat, compare_string);
-> +            if (!val) {
-> +                *add = g_list_append(*add, g_strdup(feat));
-> +            }
+>  tcg/i386/tcg-target-con-set.h |  54 ++++++++++
+>  tcg/i386/tcg-target.h         |   1 +
+>  tcg/tcg.c                     | 122 +++++++++++++++++++++
+>  tcg/i386/tcg-target.c.inc     | 194 ++++++++++++----------------------
+>  4 files changed, 244 insertions(+), 127 deletions(-)
+>  create mode 100644 tcg/i386/tcg-target-con-set.h
 
-I believe we'll be able to get rid of plus_features/minus_features
-completely if we remove compatibility of "-feature,feature=on".
-But if we don't, wouldn't it be simpler to replace
-plus_features/minus_features with a single list, appending items
-in the order they appear?
+> +#define C_O2_I1(O1, O2, I1)             C_PFX3(c_o2_i1_, O1, O2, I1),
+> +#define C_O2_I2(O1, O2, I1, I2)         C_PFX4(c_o2_i2_, O1, O2, I1, I2),
+> +#define C_O2_I3(O1, O2, I1, I2, I3)     C_PFX5(c_o2_i3_, O1, O2, I1, I2, I3),
+> +#define C_O2_I4(O1, O2, I1, I2, I3, I4) \
+> +    C_PFX6(c_o2_i4_, O1, O2, I1, I2, I3, I4),
 
-> +
+Personally this is the kind of code where I would follow
+CODING_STYLE.rst's suggestion of "If wrapping the line at 80
+columns is obviously less readable and more awkward, prefer not
+to wrap it; better to have an 85 character line than one which
+is awkwardly wrapped.". The parallelism between the lines
+is much easier to see without the linebreak.
+
+> @@ -2418,9 +2536,13 @@ static void process_op_defs(TCGContext *s)
 >              continue;
 >          }
->  
-> diff --git a/tests/qtest/test-x86-cpuid-compat.c b/tests/qtest/test-x86-cpuid-compat.c
-> index 7ca1883a29..6824d2b13e 100644
-> --- a/tests/qtest/test-x86-cpuid-compat.c
-> +++ b/tests/qtest/test-x86-cpuid-compat.c
-> @@ -171,18 +171,18 @@ static void test_plus_minus_subprocess(void)
->      char *path;
->  
->      /* Rules:
-> -     * 1)"-foo" overrides "+foo"
-> +     * 1) The later of "+foo" or "-foo" wins
->       * 2) "[+-]foo" overrides "foo=..."
->       * 3) Old feature names with underscores (e.g. "sse4_2")
->       *    should keep working
->       *
-> -     * Note: rules 1 and 2 are planned to be removed soon, and
-> -     * should generate a warning.
-> +     * Note: rule 2 is planned to be removed soon, and should generate
-> +     * a warning.
->       */
->      qtest_start("-cpu pentium,-fpu,+fpu,-mce,mce=on,+cx8,cx8=off,+sse4_1,sse4_2=on");
->      path = get_cpu0_qom_path();
->  
-> -    g_assert_false(qom_get_bool(path, "fpu"));
-> +    g_assert_true(qom_get_bool(path, "fpu"));
->      g_assert_false(qom_get_bool(path, "mce"));
->      g_assert_true(qom_get_bool(path, "cx8"));
->  
-> -- 
-> 2.29.2
-> 
+>
+> +#ifdef TCG_TARGET_CON_SET_H
+> +        tdefs = &constraint_sets[tcg_target_op_def(op)];
 
--- 
-Eduardo
+I know the macro magic should make it impossible, but maybe
+we should have an assert that we definitely have a valid
+array index here ?
 
+
+>      case INDEX_op_andc_i32:
+>      case INDEX_op_andc_i64:
+> -        {
+> -            static const TCGTargetOpDef andc
+> -                = { .args_ct_str = { "r", "r", "rI" } };
+> -            return &andc;
+> -        }
+> -        break;
+> +        return C_O1_I2(r, 0, rI);
+
+Old constraint was r r rI; new one is r 0 rI  ?
+
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
