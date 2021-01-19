@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FC7C2FB679
-	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:47:30 +0100 (CET)
-Received: from localhost ([::1]:46956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 105692FB688
+	for <lists+qemu-devel@lfdr.de>; Tue, 19 Jan 2021 14:56:46 +0100 (CET)
+Received: from localhost ([::1]:45146 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l1rM1-0000ET-8x
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:47:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55042)
+	id 1l1rUz-00036u-3m
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 08:56:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1rF4-0002ft-NJ
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:40:18 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:35053)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l1rF2-0003Ss-U4
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:40:18 -0500
-Received: by mail-ed1-x534.google.com with SMTP id u19so21565751edx.2
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 05:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=k9mBDNmPRPn2SD2NytXC2JYwsbhhqMI1dZAryujjBmc=;
- b=OsKvXgibwyreG/yKz3oeCmaFPMB56zI+F2md1WH7XjLbl0Vzf9zFAc8vSdIKwU8KSv
- La8G9SICgc+hvWk/vu2uQ9CNAyPeiztuTV3KTj74UzwXJrJwfxeuT073pMjDEgEKAl6D
- sPYUK7W8vYcQ/T0IMI7sbxOE99P3bE4nn+w3K3we7+DWw2Girxmtfra9YoSpQYHJHiQ4
- EXh3VUT+Et7Qc5iyVwlE8zi26dsc2pr11n0zwXk1LEXnPFdulPo9zSysj/1iNhJWZV20
- hPHeyfgVo0a8DDXSR6dWI3SYXykEgXlWMnfNOOzuh+JyHkJQZtLao1JpsMy7JSoEC3iO
- Trfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=k9mBDNmPRPn2SD2NytXC2JYwsbhhqMI1dZAryujjBmc=;
- b=PZq/1vJLu3AB+bzLg9b4Ldei7KGWhUQdayjNtqeZacKM4xb9yviJMpvSWdgj2Q5N9Q
- N2a4Qr2jag4i8Vdl2E5OUSVMVRtdOqJzEqJ1auqGuD6/YhXlU5sgwT+7ip+YQK8U9xsq
- SeubVLxCJ6GV/Q6G03MvljhGQ9K0jiBbe+/PPZyli7b5V2soCETcGkacrgm2C1mPOkEi
- ZiYnDjazoMc6RUaEQ7qGfcLA3JkQ+XO8SFjqEMmaskNPuBtvBZkBylIvIuWberAiTpQZ
- tfRmuWfOUA+jQZ640yd43VWSOh3uOTw2fsIPEuYoKW/gXFvzA5Fev0er514cJ0in+o55
- oruQ==
-X-Gm-Message-State: AOAM5313Dy01IpNVHBsgQHCrjfkDTwLGQG0/czPu76pTpTNhYZ1wJN4X
- KCyXSKWJzMrw/7MO34ruCxo=
-X-Google-Smtp-Source: ABdhPJxhy61aurzuBp5Oca8Pv2YFCX52VRM/7N6vrW/79e9z6f4boFKjXI06CbShlgqzRvy+fSLOgA==
-X-Received: by 2002:a05:6402:2048:: with SMTP id
- bc8mr555237edb.292.1611063615638; 
- Tue, 19 Jan 2021 05:40:15 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id n3sm6223236ejd.85.2021.01.19.05.40.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 05:40:14 -0800 (PST)
-Subject: Re: [RFC PATCH] tests/docker: Allow passing --network option when
- building images
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-References: <20210119054502.531451-1-f4bug@amsat.org>
- <878s8puprg.fsf@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f34c7ff5-cd02-83b4-d3d8-c2ec7ac4334f@amsat.org>
-Date: Tue, 19 Jan 2021 14:40:13 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1rGp-0004VZ-Kz
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:42:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29394)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l1rGm-0003r2-U0
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 08:42:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611063722;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=MVFHB8eb6HiH2Ux0DyyuochO0r+NbqyILgiZBkee9hI=;
+ b=Hw7aKVYw3yZeGQfWGdtg59nlSTOFZ7M1jTYZ46cRp0z0xqCgilAYuZrc97hdaYq6E/uKXs
+ hkDvIAwTH5wY49FxDEXN39qY0kbl41DYs10656vPZgdVYy6rauYaBBHBOHuVHgAY8Gsjyq
+ uFG3d0Nr654NxbRBgtARulRL3ZRDDMI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-542-GzidLzgZOSC_8u4VftwvIQ-1; Tue, 19 Jan 2021 08:41:58 -0500
+X-MC-Unique: GzidLzgZOSC_8u4VftwvIQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CB091CE646;
+ Tue, 19 Jan 2021 13:41:56 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-157.ams2.redhat.com [10.36.112.157])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7412B5E1B5;
+ Tue, 19 Jan 2021 13:41:48 +0000 (UTC)
+Subject: Re: [PATCH v2 8/9] tests/docker: Add dockerfile for Alpine Linux
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+References: <20210118063808.12471-1-jiaxun.yang@flygoat.com>
+ <20210118063808.12471-9-jiaxun.yang@flygoat.com>
+ <20210118103345.GE1789637@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <929c3ec1-9419-908a-6b5e-ce3ae78f6011@redhat.com>
+Date: Tue, 19 Jan 2021 14:41:47 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <878s8puprg.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210118103345.GE1789637@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,97 +79,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "Daniel P . Berrange" <berrange@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Viktor Prutyanov <viktor.prutyanov@phystech.edu>, qemu-block@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, Greg Kurz <groug@kaod.org>,
+ Max Reitz <mreitz@redhat.com>, qemu-ppc@nongnu.org, kvm@vger.kernel.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/21 12:27 PM, Alex Bennée wrote:
-> Philippe Mathieu-Daudé <f4bug@amsat.org> writes:
-> 
->> When using the Docker engine, build fails because the container is
->> unable to resolve hostnames:
+On 18/01/2021 11.33, Daniel P. Berrangé wrote:
+> On Mon, Jan 18, 2021 at 02:38:07PM +0800, Jiaxun Yang wrote:
+>> Alpine Linux[1] is a security-oriented, lightweight Linux distribution
+>> based on musl libc and busybox.
 >>
->>   $ make docker-image-debian-s390x-cross NETWORK=host ENGINE=docker
->>     BUILD   debian10
->>   #6 9.679 Err:1 http://deb.debian.org/debian buster InRelease
->>   #6 9.679   Temporary failure resolving 'deb.debian.org'
->>   #6 16.69 Err:2 http://security.debian.org/debian-security buster/updates InRelease
->>   #6 16.69   Temporary failure resolving 'security.debian.org'
->>   #6 22.69 Err:3 http://deb.debian.org/debian buster-updates InRelease
->>   #6 22.69   Temporary failure resolving 'deb.debian.org'
->>   #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/buster/InRelease  Temporary failure resolving 'deb.debian.org'
->>   #6 22.74 W: Failed to fetch http://security.debian.org/debian-security/dists/buster/updates/InRelease  Temporary failure resolving 'security.debian.org'
->>   #6 22.74 W: Failed to fetch http://deb.debian.org/debian/dists/buster-updates/InRelease  Temporary failure resolving 'deb.debian.org'
->>   #6 22.74 W: Some index files failed to download. They have been
->>   ignored, or old ones used instead.
-> 
-> I'm confused by this one as it currently works for me. That said I
-> thought the actual behaviour was meant to be networking is enabled by
-> default and explicitly disabled by the run step (which shouldn't be
-> pulling extra stuff down).
-> 
-> This was last tweaked by Daniel in 8a2390a4f47
-> 
-> Have the defaults for docker engine changed?
-
-No idea as I'm not following their development, but TBH it
-becomes harder and harder to use without tricks (I had to
-add systemd.unified_cgroup_hierarchy=0 to kernel cmdline
-to keep using it).
-
-Maybe I should switch to podman which is the recommended
-engine on Fedora.
-
-Cc'ing Marc-André who added podman support (Daniel is in Cc).
-
-> 
->>   Traceback (most recent call last):
->>     File "./tests/docker/docker.py", line 709, in <module>
->>       sys.exit(main())
->>     File "./tests/docker/docker.py", line 705, in main
->>       return args.cmdobj.run(args, argv)
->>     File "./tests/docker/docker.py", line 498, in run
->>       dkr.build_image(tag, docker_dir, dockerfile,
->>     File "./tests/docker/docker.py", line 353, in build_image
->>       self._do_check(build_args,
->>     File "./tests/docker/docker.py", line 244, in _do_check
->>       return subprocess.check_call(self._command + cmd, **kwargs)
->>     File "/usr/lib64/python3.8/subprocess.py", line 364, in check_call
->>       raise CalledProcessError(retcode, cmd)
->>   make: *** [tests/docker/Makefile.include:61: docker-image-debian10] Error 1
+>> It it popular among Docker guests and embedded applications.
 >>
->> Fix by passing the NETWORK variable with --network= argument.
+>> Adding it to test against different libc.
 >>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> [1]: https://alpinelinux.org/
+>>
+>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 >> ---
->>  tests/docker/Makefile.include | 1 +
->>  1 file changed, 1 insertion(+)
+>>   tests/docker/dockerfiles/alpine.docker | 57 ++++++++++++++++++++++++++
+>>   1 file changed, 57 insertions(+)
+>>   create mode 100644 tests/docker/dockerfiles/alpine.docker
 >>
->> diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
->> index bdc53ddfcf9..b65fd684011 100644
->> --- a/tests/docker/Makefile.include
->> +++ b/tests/docker/Makefile.include
->> @@ -63,6 +63,7 @@ docker-image-%: $(DOCKER_FILES_DIR)/%.docker
->>  		$(if $V,,--quiet) \
->>  		$(if $(NOCACHE),--no-cache, \
->>  			$(if $(DOCKER_REGISTRY),--registry $(DOCKER_REGISTRY))) \
->> +		$(if $(NETWORK),$(if $(subst
->> $(NETWORK),,1),--network=$(NETWORK))) \
+>> diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
+>> new file mode 100644
+>> index 0000000000..5be5198d00
+>> --- /dev/null
+>> +++ b/tests/docker/dockerfiles/alpine.docker
+>> @@ -0,0 +1,57 @@
+>> +
+>> +FROM alpine:edge
+>> +
+>> +RUN apk update
+>> +RUN apk upgrade
+>> +
+>> +# Please keep this list sorted alphabetically
+>> +ENV PACKAGES \
+>> +	alsa-lib-dev \
+>> +	bash \
+>> +	bison \
 > 
-> which if it has we'll need to tweak both build and run steps?
+> This shouldn't be required.
 
-I suppose you need need networking for git (submodule) clone?
+bison and flex were required to avoid some warnings in the past while 
+compiling the dtc submodule ... but I thought we got rid of the problem at 
+one point in time, so this can be removed now, indeed.
 
-Personally I don't require networking when running because I
-share my QEMU source directory as a volume, so it never bothered
-me.
+>> +	build-base \
+> 
+> This seems to be a meta packae that pulls in other
+> misc toolchain packages. Please list the pieces we
+> need explicitly instead.
 
+Looking at the "Depends" list on 
+https://pkgs.alpinelinux.org/package/v3.3/main/x86/build-base there are only 
+6 dependencies and we need most of those for QEMU anyway, so I think it is 
+ok to keep build-base here.
+
+>> +	coreutils \
+>> +	curl-dev \
+>> +	flex \
 > 
->>  		$(if $(NOUSER),,--add-current-user) \
->>  		$(if $(EXTRA_FILES),--extra-files $(EXTRA_FILES))\
->>  		$(if $(EXECUTABLE),--include-executable=$(EXECUTABLE)),\
+> This shouldn't be needed.
 > 
+>> +	git \
+>> +	glib-dev \
+>> +	glib-static \
+>> +	gnutls-dev \
+>> +	gtk+3.0-dev \
+>> +	libaio-dev \
+>> +	libcap-dev \
 > 
+> Should not be required, as we use cap-ng.
+
+Right.
+
+>> +	libcap-ng-dev \
+>> +	libjpeg-turbo-dev \
+>> +	libnfs-dev \
+>> +	libpng-dev \
+>> +	libseccomp-dev \
+>> +	libssh-dev \
+>> +	libusb-dev \
+>> +	libxml2-dev \
+>> +	linux-headers \
+> 
+> Is this really needed ? We don't install kernel-headers on other
+> distros AFAICT.
+
+I tried a build without this package, and it works fine indeed.
+
+>> +	lzo-dev \
+>> +	mesa-dev \
+>> +	mesa-egl \
+>> +	mesa-gbm \
+>> +	meson \
+>> +	ncurses-dev \
+>> +	ninja \
+>> +	paxmark \
+> 
+> What is this needed for ?
+
+Seems like it also can be dropped.
+
+>> +	perl \
+>> +	pulseaudio-dev \
+>> +	python3 \
+>> +	py3-sphinx \
+>> +	shadow \
+> 
+> Is this really needed ?
+
+See:
+https://www.spinics.net/lists/kvm/msg231556.html
+
+I can remove the superfluous packages when picking up the patch, no need to 
+respin just because of this.
+
+  Thomas
+
 
