@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 683902FD162
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:46:35 +0100 (CET)
-Received: from localhost ([::1]:55300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4290B2FD167
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:49:42 +0100 (CET)
+Received: from localhost ([::1]:60898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Dog-0003R1-Ev
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:46:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48602)
+	id 1l2Drh-0005wC-Bg
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:49:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2Dmt-0002Yj-QN
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:44:43 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:43210)
+ id 1l2DpT-0004OS-5F
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:47:24 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:46487)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2Dms-0000vU-4B
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:44:43 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id n6so10722134edt.10
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 05:44:41 -0800 (PST)
+ id 1l2DpR-0001pZ-Ah
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:47:22 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id dj23so23246367edb.13
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 05:47:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jiZceZfrxcX3XBf5xW4hPXkGF7vUpDHKO4dxpnUhtQg=;
- b=oE2AYM3G+H06r10jQ9y25TWAPxqkJGtoYX54uRdDBkZZpreochJhNd2dmByI710N03
- f6ReZz0VgWWdbX47ryvgI0wgawUUTIJn9v0xrwRcMskPVPhbaMiEOLadFblspcdJRhtO
- 3mBxOxMw6tZ+qJLUngi+wyJ+TWlYU94fL8LJUsCO8e+vo8lMGDmgzj3njwr+F2qCDd0c
- ks8bU6QVwHB99PyI6s+8VuzACEsXWpWER4148aEcCAEFoMk5lUKio5h+YY/Y/cbN5RZh
- 0n7xVIhOj6CnYLMAsFsEjaRJkQNbjcU4TNO/ropmoUEaJ3GUeScOd4uAvw++P+mfsa8v
- vC9g==
+ :cc; bh=CxFxw2FPligxJeDGz0GCGaIYhSRUnvi0Wev0gfmHbJI=;
+ b=f67WdzJP0f2OxysYPMVAAi9oPB1B8JeKkQLUNFucgNigHk9QXn5Zze37ASzQcGtOEH
+ XHReOTsqzXqeD4wF4cwWfLASpgmjvZ+TtdHezHoixuWXzPWp4O9FGbVZcx7NDYcyWzDf
+ Ih8Ua5sxnfm5roJdCEma4we6LhkuQi/rimRmz9pgCt2U02+PV0M77rGeDSEi8HEpGeGx
+ dExQZ2Jn/RTe87r+k2lPnpEm2dGacTw4UycNmy75p6495WNcn2LXFdejo0ljK4a9mPAj
+ tYkrvzKyQV1T/7UkMHXlgHxJZknk3l7wAAJhftGhVZW/FZ3vKPqO/1hEGuDGYY+ZtamE
+ c0XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=jiZceZfrxcX3XBf5xW4hPXkGF7vUpDHKO4dxpnUhtQg=;
- b=TwvwRRd0QXJarfSI/24sl7RxyFZmD7WmGcTCU9CEU3AFAwsfVb48PuJYLSsOznGXge
- oDmFmddRl+J98ErZCedqb+jfMmjbJq+piVbbCwTux2GKbPQAK3FQeXrtM4YSlxynjNin
- PvMpeJRc9rvYn07SWKyTh87y5lN0KV3GkfrTurkho+JqvDrGF78xrLjoDgyrwPRb0oh0
- r6SmDlGQuYGOzM2rNu+eVdjSpV5r9p4ljszBqBOY0YM33AOlSdRS8cTXuT48/ibjrpdl
- FWaBLzQoeyAqSs+SI2RKyLRceN0TGbZjNqhwHcJFHgWFWoxmJIzG3S5dXsWjD8NRV3cK
- Einw==
-X-Gm-Message-State: AOAM531IEz/E+tbQ/1xDEtX1AjRdEBuL1GZx2FBgIF8ruSGMD1u5uzE7
- s9JBnOZ3YzAMh4JDUpvAIRfSXXMeHBEsfHUTBsY2qg==
-X-Google-Smtp-Source: ABdhPJzXgG2uI0TWno8BtIaXwyQa5WvMq/ZQ/89/kKO142JaJlVo4YcdTBZajmP/3C0Cj2JeFpLJp514XuQ3R5Tk0Us=
-X-Received: by 2002:a05:6402:1701:: with SMTP id
- y1mr7235882edu.251.1611150279870; 
- Wed, 20 Jan 2021 05:44:39 -0800 (PST)
+ bh=CxFxw2FPligxJeDGz0GCGaIYhSRUnvi0Wev0gfmHbJI=;
+ b=mZD1mc9lvO+axirCBcqsR4fQ20xpIEIn9UNLuWcbmm8J8msXUBUI49FbVoE+2YX+Uc
+ NSrlM8ulueDBZYnJZrbVHt/hvJjsxVrg996lGkJCeYDx1IvRi5Wva+O3ZaKWn9qJ39QN
+ SkRhIxWNX1cetHZc8az02UccWvy4i7B4ZYmGgyYzBPGEjB93+DcHIuzcGF3eJ0x3+W6t
+ 1coBpMrvvxx5h7CoooA4NcE01SmPqUDyNAiIrByMsbiJ1kL6EP2EYZdQ0l2P33/pp54I
+ 4QwR7/RTM1uM0tB8zDXYbsaLrSom120B/51wVqGeOVNNqC8dJPBy15LCe8tnzGoXxIUW
+ w+aw==
+X-Gm-Message-State: AOAM5324x/bgqNRmXYqJDZ6+4lOLPLVAPmpHxCzpjOI8arRFGpaloYWt
+ +9TjlkpcXUT9Du6xiTVjcRtVRhBIx0csHswTZN0SFw==
+X-Google-Smtp-Source: ABdhPJxwwqdMUNG2Ik0cYHg8uJTiCOMKlFj4tvEOEcs9KEKCh5HR9zkido3Y/6IBVOgr88jKPX9J90BbSG/EyDmFxsQ=
+X-Received: by 2002:aa7:c88a:: with SMTP id p10mr7320694eds.204.1611150437480; 
+ Wed, 20 Jan 2021 05:47:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20210115210456.1053477-1-richard.henderson@linaro.org>
- <20210115210456.1053477-14-richard.henderson@linaro.org>
- <CAFEAcA8MsWyA7Aam3VzfV=r_scaD0J3zEBR0bNE-Re7OdL+ezg@mail.gmail.com>
- <6b0cea60-a675-1c62-0f2c-4d616a6c1b58@linaro.org>
-In-Reply-To: <6b0cea60-a675-1c62-0f2c-4d616a6c1b58@linaro.org>
+References: <20201215175445.1272776-1-pbonzini@redhat.com>
+ <20201215175445.1272776-17-pbonzini@redhat.com>
+ <CAFEAcA93tYRjdjQJm8GKNS2=4iV5QU4X_JJevWEBc7wggX6Cwg@mail.gmail.com>
+ <3f399e69-f941-d928-acee-f3d16182df5d@oracle.com>
+In-Reply-To: <3f399e69-f941-d928-acee-f3d16182df5d@oracle.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 20 Jan 2021 13:44:28 +0000
-Message-ID: <CAFEAcA88HHHe4HLcP=nbJrdfC0Omg0MugEBVgaO7-8HQPu2jJw@mail.gmail.com>
-Subject: Re: [PATCH v2 13/22] tcg/i386: Split out constraint sets to
- tcg-target-con-set.h
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Wed, 20 Jan 2021 13:47:06 +0000
+Message-ID: <CAFEAcA9vpqS+cwMv_gFnRMKCUo167=aLohTyxQ_u_0h9_ODwzQ@mail.gmail.com>
+Subject: Re: [PULL 16/45] vl: Add option to avoid stopping VM upon guest panic
+To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,46 +79,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Mihai Carabas <mihai.carabas@oracle.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jan 2021 at 23:48, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 1/19/21 5:27 AM, Peter Maydell wrote:
-> > On Fri, 15 Jan 2021 at 21:20, Richard Henderson
-> > <richard.henderson@linaro.org> wrote:
-> >>
-> >> This exports the constraint sets from tcg_target_op_def to
-> >> a place we will be able to manipulate more in future.
-> >>
-> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> >> ---
-> >>  tcg/i386/tcg-target-con-set.h |  54 ++++++++++
-> >>  tcg/i386/tcg-target.h         |   1 +
-> >>  tcg/tcg.c                     | 122 +++++++++++++++++++++
-> >>  tcg/i386/tcg-target.c.inc     | 194 ++++++++++++----------------------
-> >>  4 files changed, 244 insertions(+), 127 deletions(-)
-> >>  create mode 100644 tcg/i386/tcg-target-con-set.h
-> >
-> >> +#define C_O2_I1(O1, O2, I1)             C_PFX3(c_o2_i1_, O1, O2, I1),
-> >> +#define C_O2_I2(O1, O2, I1, I2)         C_PFX4(c_o2_i2_, O1, O2, I1, I2),
-> >> +#define C_O2_I3(O1, O2, I1, I2, I3)     C_PFX5(c_o2_i3_, O1, O2, I1, I2, I3),
-> >> +#define C_O2_I4(O1, O2, I1, I2, I3, I4) \
-> >> +    C_PFX6(c_o2_i4_, O1, O2, I1, I2, I3, I4),
-> >
-> > Personally this is the kind of code where I would follow
-> > CODING_STYLE.rst's suggestion of "If wrapping the line at 80
-> > columns is obviously less readable and more awkward, prefer not
-> > to wrap it; better to have an 85 character line than one which
-> > is awkwardly wrapped.". The parallelism between the lines
-> > is much easier to see without the linebreak.
->
-> The maximum within this section is column 92.
-> Still ok with that?
+On Wed, 20 Jan 2021 at 05:28, Alejandro Jimenez
+<alejandro.j.jimenez@oracle.com> wrote:
+> On 1/19/2021 4:34 PM, Peter Maydell wrote:
+> > Test cases aren't very exciting, but was it really intentional
+> > to change the default behaviour?
+> My intention was to preserve the default behavior. Perhaps Paolo wanted
+> to reduce the number of GUEST_PANICKED events by removing the one with
+> 'pause' action? You could consider it superfluous since it is
+> immediately followed by another indicating the 'poweroff' action...
+> Unless I hear otherwise from either of you, I'll work on a fix to keep
+> the same number and type of events sent.
 
-Yes.
+I'm happy to defer to you/Paolo on the behaviour -- I mostly
+wanted to check if the change was intentional.
 
 -- PMM
 
