@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6F9B2FCD7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:32:55 +0100 (CET)
-Received: from localhost ([::1]:46950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC3C02FCD89
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:44:41 +0100 (CET)
+Received: from localhost ([::1]:51268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l29rD-0004nc-1x
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:32:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
+	id 1l2A2a-0007Jo-Ib
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:44:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l29mT-0000ul-Rh
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:28:01 -0500
-Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:36272)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l29mP-000569-PB
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:28:01 -0500
-Received: by mail-lf1-x130.google.com with SMTP id o13so33232492lfr.3
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 01:27:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=nyATO8LViNbtJAlpgYG4nBlTtGVbfXPoadAOe5B+tpw=;
- b=FeHkgiFL+Fqz/wKvODdXMXYqEbs8/4CqVnO+3nx31pdBGfH2tCQTLcS1kXkmvZT5sa
- rypEJZ3HxEDcvwC8X3SfbXXPUT1GZfSq/mEScbw73g0f9DGHwToS1O9E6dp2QkJ3nJH0
- p4XqvLsP9azFOrJnmur9JjmELvj//HmY1TW7SRo3v14fgEnRiH6D6o/9y+TRBboxaaRz
- aittoJmJnRcMsNyJesNrAKYBY+RA7EI88mmFKJaQFpvhpNIYYIGwIqhT7Cr95gcdy/e/
- paX5zk8pp8/YXz5LHbdPE7UIrkilfOHiW4jCa3fWoOB+XOpzYB6qcHX1CQ1aRpwW/tzq
- RT9w==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l2A1b-0006pD-4C
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:43:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41715)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l2A1Y-0001il-AV
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:43:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611135814;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=h0dvvqZcaBy/Cd9fTX8s4Pjc4hZ4LR7QSR5QI56D5Tg=;
+ b=RWklxfKz5uxRZ8AXpx+n//VQJx0WDyjdCzC2PcAAODMPZrHo/2Yk3qJbSUnueTp3vMv++w
+ UqNIYn55eCBU2kbrxi5G3n2TYXLsJyAlVwNwETBhjPUXp5cs6JWzrgOf4M9CdT7YKeiwPC
+ bniu3ksgWLdcSfTdMK/fef9PTEEvjBw=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-BUywhctXOYy26gx0CxXnSA-1; Wed, 20 Jan 2021 04:43:32 -0500
+X-MC-Unique: BUywhctXOYy26gx0CxXnSA-1
+Received: by mail-wr1-f72.google.com with SMTP id e12so2344732wrx.14
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 01:43:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references;
- bh=nyATO8LViNbtJAlpgYG4nBlTtGVbfXPoadAOe5B+tpw=;
- b=GRGoPxA6waakglqokaQu0og3SadKoIGevedBdannYAU4xMfY9mpwHgLPaJzxZv2Ygl
- XqczHn6+tdKYU9IgriCV23yM25DVazmugNyWajc3CEicZSaEBbvQldFAssVOb6B6ZJeE
- 3bIzhvKiRZkLl+CaFRD4tl4ynsFvzud+DROpMsQPJaTcbuTSoDOxCvavYEAdR7Z3TzRc
- ZvetVeLRq1PT53FEhANuSgfjdXf8+btyCF8eN/mABHejFrVigPGhIFOwt5piQkf8bpzG
- wwIfFnJWeyCK5dGWbtwuRvbFHHO0cM86JI0nonf+Ijnw2z5WQYTG1YXpP5d1DMyKcMw1
- LI7A==
-X-Gm-Message-State: AOAM533AU3ToYFs7ED+v7UokVFhlzq9s3ZlXa8BcX8tvWeuaxZn915VF
- fdyWbq6rD31/mrTRavh+xlKD9A==
-X-Google-Smtp-Source: ABdhPJyjQ1UmZzu7C6VCpG7dm4oHh449cI+yMWMTk+16zMNgPygzTCicKcLbgA+xZGLKu8IQWmdy+w==
-X-Received: by 2002:a19:7ed2:: with SMTP id z201mr1918924lfc.310.1611134876232; 
- Wed, 20 Jan 2021 01:27:56 -0800 (PST)
-Received: from localhost.localdomain ([2.92.195.184])
- by smtp.gmail.com with ESMTPSA id r81sm147479lff.215.2021.01.20.01.27.55
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=h0dvvqZcaBy/Cd9fTX8s4Pjc4hZ4LR7QSR5QI56D5Tg=;
+ b=bFgSsklULjIKTGWUNKvR5SGInqRx5y9ElAEL63Jzc0jDQNLTTTbn6pOx8WYbO8KCqu
+ zhCaiMc5dVo7w8gh8JohP43deKyaee30j0I/mx14pTiSmQVh8cMfKaABMy21v4+tRPUJ
+ cH9Cqb0CCvor3pc2pUZ5kCzpnqbwmkBr5D2aiQXwEbwaw3K+oXhK1dyRQzDjPoiN4HZz
+ 8d78nOAyH2PeX+aYYRD9ObZ0pF4jPuwsUlpYtUlnlTlqZQC/8IgVcssqtc41JAcH2Nbi
+ fDHu0Ve1pYcRZwN9CRLOrv7ATLSQQfDL+tSSSKXyj+O6cYmB3kXpfwQY56FEip1QEEaN
+ QmIA==
+X-Gm-Message-State: AOAM531tBu+A0WcdFHTKFG3CCcFGl4UUvuiHYID8+d86jaGAGSHfZkxb
+ S4RagSffKsOaaKG6+8cpuMlp9lfYQyCO75GhMMiU5NOasUD0D3By4oqZEwg2XpzWVg0KWBSSR8O
+ VufmOGL3RxeOtr0o=
+X-Received: by 2002:adf:dd09:: with SMTP id a9mr8319669wrm.90.1611135811664;
+ Wed, 20 Jan 2021 01:43:31 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzP1soxq5xQWbXc9hjEDSTUdE6Es86idz0zZyTYSwqGn+mwL+P/8LoqmTZqs9kdaGA6E1Kzfg==
+X-Received: by 2002:adf:dd09:: with SMTP id a9mr8319640wrm.90.1611135811349;
+ Wed, 20 Jan 2021 01:43:31 -0800 (PST)
+Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
+ by smtp.gmail.com with ESMTPSA id a12sm3200181wrh.71.2021.01.20.01.43.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 01:27:55 -0800 (PST)
-From: Maxim Uvarov <maxim.uvarov@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCHv8 3/3] arm-virt: add secure pl061 for reset/power down
-Date: Wed, 20 Jan 2021 12:27:48 +0300
-Message-Id: <20210120092748.14789-4-maxim.uvarov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20210120092748.14789-1-maxim.uvarov@linaro.org>
-References: <20210120092748.14789-1-maxim.uvarov@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::130;
- envelope-from=maxim.uvarov@linaro.org; helo=mail-lf1-x130.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ Wed, 20 Jan 2021 01:43:30 -0800 (PST)
+Date: Wed, 20 Jan 2021 04:43:27 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v2 01/12] vhost-user-blk: fix blkcfg->num_queues endianness
+Message-ID: <20210120044254-mutt-send-email-mst@kernel.org>
+References: <20201207172030.251905-1-stefanha@redhat.com>
+ <20201207172030.251905-2-stefanha@redhat.com>
+MIME-Version: 1.0
+In-Reply-To: <20201207172030.251905-2-stefanha@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,144 +91,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, drjones@redhat.com,
- Maxim Uvarov <maxim.uvarov@linaro.org>, Jose.Marinho@arm.com, f4bug@amsat.org,
- tf-a@lists.trustedfirmware.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org, Coiby Xu <coiby.xu@gmail.com>,
+ Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add secure pl061 for reset/power down machine from
-the secure world (Arm Trusted Firmware). Connect it
-with gpio-pwr driver.
+On Mon, Dec 07, 2020 at 05:20:19PM +0000, Stefan Hajnoczi wrote:
+> Treat the num_queues field as virtio-endian. On big-endian hosts the
+> vhost-user-blk num_queues field was in the wrong endianness.
+> 
+> Move the blkcfg.num_queues store operation from realize to
+> vhost_user_blk_update_config() so feature negotiation has finished and
+> we know the endianness of the device. VIRTIO 1.0 devices are
+> little-endian, but in case someone wants to use legacy VIRTIO we support
+> all endianness cases.
+> 
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
----
- hw/arm/Kconfig        |  1 +
- hw/arm/virt.c         | 47 +++++++++++++++++++++++++++++++++++++++++++
- include/hw/arm/virt.h |  2 ++
- 3 files changed, 50 insertions(+)
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 0a242e4c5d..13cc42dcc8 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -17,6 +17,7 @@ config ARM_VIRT
-     select PL011 # UART
-     select PL031 # RTC
-     select PL061 # GPIO
-+    select GPIO_PWR
-     select PLATFORM_BUS
-     select SMBIOS
-     select VIRTIO_MMIO
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index c427ce5f81..060a5f492e 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -153,6 +153,7 @@ static const MemMapEntry base_memmap[] = {
-     [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
-     [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
-     [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
-+    [VIRT_SECURE_GPIO] =        { 0x090b0000, 0x00001000 },
-     [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
-     /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
-     [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
-@@ -841,6 +842,43 @@ static void create_gpio_keys(const VirtMachineState *vms,
-                            "gpios", phandle, 3, 0);
- }
- 
-+#define SECURE_GPIO_POWEROFF 0
-+#define SECURE_GPIO_REBOOT   1
-+
-+static void create_gpio_pwr(const VirtMachineState *vms,
-+                            DeviceState *pl061_dev,
-+                            uint32_t phandle)
-+{
-+    DeviceState *gpio_pwr_dev;
-+
-+    /* gpio-pwr */
-+    gpio_pwr_dev = sysbus_create_simple("gpio-pwr", -1, NULL);
-+
-+    /* connect secure pl061 to gpio-pwr */
-+    qdev_connect_gpio_out(pl061_dev, SECURE_GPIO_REBOOT,
-+                          qdev_get_gpio_in_named(gpio_pwr_dev, "reset", 0));
-+    qdev_connect_gpio_out(pl061_dev, SECURE_GPIO_POWEROFF,
-+                          qdev_get_gpio_in_named(gpio_pwr_dev, "shutdown", 0));
-+
-+    qemu_fdt_add_subnode(vms->fdt, "/gpio-poweroff");
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "compatible",
-+                            "gpio-poweroff");
-+    qemu_fdt_setprop_cells(vms->fdt, "/gpio-poweroff",
-+                           "gpios", phandle, SECURE_GPIO_POWEROFF, 0);
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "status", "disabled");
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "secure-status",
-+                            "okay");
-+
-+    qemu_fdt_add_subnode(vms->fdt, "/gpio-restart");
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "compatible",
-+                            "gpio-restart");
-+    qemu_fdt_setprop_cells(vms->fdt, "/gpio-restart",
-+                           "gpios", phandle, SECURE_GPIO_REBOOT, 0);
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "status", "disabled");
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "secure-status",
-+                            "okay");
-+}
-+
- static void create_gpio_devices(const VirtMachineState *vms, int gpio,
-                                 MemoryRegion *mem)
- {
-@@ -883,6 +921,8 @@ static void create_gpio_devices(const VirtMachineState *vms, int gpio,
-     /* Child gpio devices */
-     if (gpio == VIRT_GPIO) {
-         create_gpio_keys(vms, pl061_dev, phandle);
-+    } else {
-+        create_gpio_pwr(vms, pl061_dev, phandle);
-     }
- }
- 
-@@ -2015,6 +2055,10 @@ static void machvirt_init(MachineState *machine)
-         create_gpio_devices(vms, VIRT_GPIO, sysmem);
-     }
- 
-+    if (vms->secure && !vmc->no_secure_gpio) {
-+        create_gpio_devices(vms, VIRT_SECURE_GPIO, secure_sysmem);
-+    }
-+
-      /* connect powerdown request */
-      vms->powerdown_notifier.notify = virt_powerdown_req;
-      qemu_register_powerdown_notifier(&vms->powerdown_notifier);
-@@ -2630,8 +2674,11 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 0)
- 
- static void virt_machine_5_2_options(MachineClass *mc)
- {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
-+
-     virt_machine_6_0_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-+    vmc->no_secure_gpio = true;
- }
- DEFINE_VIRT_MACHINE(5, 2)
- 
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index abf54fab49..6f6c85ffcf 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -81,6 +81,7 @@ enum {
-     VIRT_GPIO,
-     VIRT_SECURE_UART,
-     VIRT_SECURE_MEM,
-+    VIRT_SECURE_GPIO,
-     VIRT_PCDIMM_ACPI,
-     VIRT_ACPI_GED,
-     VIRT_NVDIMM_ACPI,
-@@ -127,6 +128,7 @@ struct VirtMachineClass {
-     bool kvm_no_adjvtime;
-     bool no_kvm_steal_time;
-     bool acpi_expose_flash;
-+    bool no_secure_gpio;
- };
- 
- struct VirtMachineState {
--- 
-2.17.1
+Pls merge with rest of the series.
+And maybe CC stable?
+
+
+
+> ---
+>  hw/block/vhost-user-blk.c | 7 +++----
+>  1 file changed, 3 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index 2dd3d93ca0..d9d9dc8a89 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -53,6 +53,9 @@ static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
+>  {
+>      VHostUserBlk *s = VHOST_USER_BLK(vdev);
+>  
+> +    /* Our num_queues overrides the device backend */
+> +    virtio_stw_p(vdev, &s->blkcfg.num_queues, s->num_queues);
+> +
+>      memcpy(config, &s->blkcfg, sizeof(struct virtio_blk_config));
+>  }
+>  
+> @@ -490,10 +493,6 @@ reconnect:
+>          goto reconnect;
+>      }
+>  
+> -    if (s->blkcfg.num_queues != s->num_queues) {
+> -        s->blkcfg.num_queues = s->num_queues;
+> -    }
+> -
+>      return;
+>  
+>  virtio_err:
+> -- 
+> 2.28.0
+> 
 
 
