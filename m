@@ -2,75 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0ED572FD59B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:29:58 +0100 (CET)
-Received: from localhost ([::1]:55726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D442FD5B0
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:32:52 +0100 (CET)
+Received: from localhost ([::1]:60292 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2GMn-00022a-3k
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:29:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34148)
+	id 1l2GPb-0004IH-Dx
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:32:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34470)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l2GJ4-0008O6-2i
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:26:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47211)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2GJz-0000Nh-DU
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:27:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32680)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l2GIx-0006jZ-I5
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:26:05 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2GJw-00072e-4J
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:27:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611159958;
+ s=mimecast20190719; t=1611160018;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/hlIX/zf3vSfAUBTlG6vlVBogpAUCrBQ2lHCz47GaGc=;
- b=iE7W8bmDLzCznLyk0pcUPiiyAKeEXei/y+l2PlljHNVfUboQoouTnTLOZiT7uLKKSvXXq0
- SmMrwRthXyZUceLSj3uxZdhudUl9Zt6dksbSWaP72IauHQ7MIhZWl0z4YX168H5fdFIGhr
- 7dvr9dH/l/PKBsxu6r17QlTgkJSKfNQ=
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=BqUDPelgQeYsqpvpePqvp77v5hVRzYMkIliTCONxcKk=;
+ b=iqbpyycHUyUfoHXNleX579Hc81+rTyHRlBtTd4TXoijme9pLB2m2l0CSclvk7IoiuLjeE/
+ WLtnXIgvBLsqpLTIunv+Dc7ROO5IdJYyVoqN8tkDSQFNUiE4WMVVN11dGBtN+Fxvjl9e9w
+ /zktkkftYRkDn0HajCEP5atvrYDL9ic=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-408-DGVMiK1DMtSC_IWO_9sLow-1; Wed, 20 Jan 2021 11:25:56 -0500
-X-MC-Unique: DGVMiK1DMtSC_IWO_9sLow-1
+ us-mta-539-7CYp6r9ZORi5YzqYbYNtoQ-1; Wed, 20 Jan 2021 11:26:52 -0500
+X-MC-Unique: 7CYp6r9ZORi5YzqYbYNtoQ-1
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
  [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3E47D180A09F;
- Wed, 20 Jan 2021 16:25:54 +0000 (UTC)
-Received: from work-vm (ovpn-115-106.ams2.redhat.com [10.36.115.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id DFA3B6B8DA;
- Wed, 20 Jan 2021 16:25:46 +0000 (UTC)
-Date: Wed, 20 Jan 2021 16:25:44 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v2 3/3] console: make QMP/HMP screendump run in coroutine
-Message-ID: <20210120162544.GG2930@work-vm>
-References: <20201027133602.3038018-1-marcandre.lureau@redhat.com>
- <20201027133602.3038018-4-marcandre.lureau@redhat.com>
- <20210120141800.73j3xdew7ahvdewg@sirius.home.kraxel.org>
- <CAJ+F1CKVU2_c9n0NbOxZVnxw0e99aamsEpQPXQKJZ-t4+9S0Fg@mail.gmail.com>
- <20210120160947.6nta7ghzn444ya6f@sirius.home.kraxel.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EEEB5806662
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 16:26:51 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-178.ams2.redhat.com
+ [10.36.114.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0F18160D06;
+ Wed, 20 Jan 2021 16:26:47 +0000 (UTC)
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+From: Max Reitz <mreitz@redhat.com>
+Subject: Thread safety of coroutine-sigaltstack
+Message-ID: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
+Date: Wed, 20 Jan 2021 17:26:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210120160947.6nta7ghzn444ya6f@sirius.home.kraxel.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+Content-Type: multipart/mixed; boundary="------------65D8FF1061BDB08AE4E62593"
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,100 +75,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@gmail.com>,
- QEMU <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Gerd Hoffmann (kraxel@redhat.com) wrote:
-> On Wed, Jan 20, 2021 at 06:29:41PM +0400, Marc-André Lureau wrote:
-> > Hi Gerd
-> > 
-> > On Wed, Jan 20, 2021 at 6:18 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> > >
-> > > On Tue, Oct 27, 2020 at 05:36:02PM +0400, marcandre.lureau@redhat.com wrote:
-> > > > From: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > > >
-> > > > Thanks to the monitors' coroutine support (merge commit b7092cda1b3),
-> > > > the screendump handler can trigger a graphic_hw_update(), yield and let
-> > > > the main loop run until update is done. Then the handler is resumed, and
-> > > > ppm_save() will write the screen image to disk in the coroutine context.
-> > > >
-> > > > The IO is still blocking though, as the file is set blocking so far,
-> > > > this could be addressed by some future change (with other caveats).
-> > > >
-> > > > Related to:
-> > > > https://bugzilla.redhat.com/show_bug.cgi?id=1230527
-> > > >
-> > > > Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> > > > Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
-> > >
-> > > Hmm, just noticed that with this patch applied screendump hangs for vms
-> > > with "-device qxl" ("-device qxl-vga" works fine).
-> > >
-> > > Can you have a look?
-> > 
-> > Weird, I cannot reproduce. I tried this way:
-> > 
-> > $ qemu-system-x86_64 -m 4096 -enable-kvm -device qxl -qmp
-> > unix:/tmp/qmp.sock,server -snapshot rhel8
-> 
-> -vga none or -nodefaults is needed, otherwise you'll get both VGA and
-> qxl devices.
-> 
-> Using gtk ui, just saying "screendump /tmp/x" in the monitor tab.
-> 
-> > Can you also provide a backtrace?
-> 
+This is a multi-part message in MIME format.
+--------------65D8FF1061BDB08AE4E62593
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-> Thread 1 (Thread 0x7fab988e4440 (LWP 2822797) "qemu-system-x86"):
-> #0  0x00007fab9c8a990e in ppoll () at /lib64/libc.so.6
-> #1  0x000055f3f9c33dd5 in fdmon_poll_wait ()
-> #2  0x000055f3f9c26c6a in aio_poll ()
+Hi,
 
-> #3  0x000055f3f99552a5 in handle_hmp_command ()
+I’ve run into trouble with Vladimir’s async backup series on MacOS, 
+namely that iotest 256 fails with qemu exiting because of a SIGUSR2.
 
-That's the :
+Turns out this is because MacOS (-xcode) uses coroutine-sigaltstack, 
+when I use this on Linux, I get the same error.
 
-1117	        AIO_WAIT_WHILE(qemu_get_aio_context(), !data.done);
+(You can find the series applied on my block branch e.g. here:
 
-Dave
+https://github.com/XanClic/qemu.git block
+)
 
-> #4  0x000055f3f99553cd in monitor_command_cb ()
-> #5  0x000055f3f9c29a37 in readline_handle_byte ()
-> #6  0x000055f3f995541b in monitor_read ()
-> #7  0x000055f3f992373c in gd_vc_in ()
-> #8  0x00007fab9d84e22d in _vte_marshal_VOID__STRING_UINTv () at /lib64/libvte-2.91.so.0
-> #9  0x00007fab9d8e9080 in g_signal_emit_valist () at /lib64/libgobject-2.0.so.0
-> #10 0x00007fab9d8e91a3 in g_signal_emit () at /lib64/libgobject-2.0.so.0
-> #11 0x00007fab9d858a7e in vte::terminal::Terminal::emit_commit(std::basic_string_view<char, std::char_traits<char> > const&) () at /lib64/libvte-2.91.so.0
-> #12 0x00007fab9d85cf1d in vte::terminal::Terminal::send_child(std::basic_string_view<char, std::char_traits<char> > const&) () at /lib64/libvte-2.91.so.0
-> #13 0x00007fab9d8715bc in vte_terminal_key_press(_GtkWidget*, _GdkEventKey*) () at /lib64/libvte-2.91.so.0
-> #14 0x00007fab9d47eccc in _gtk_marshal_BOOLEAN__BOXEDv () at /lib64/libgtk-3.so.0
-> #15 0x00007fab9d8e869a in g_signal_emit_valist () at /lib64/libgobject-2.0.so.0
-> #16 0x00007fab9d8e91a3 in g_signal_emit () at /lib64/libgobject-2.0.so.0
-> #17 0x00007fab9d441bb4 in gtk_widget_event_internal.part.0.lto_priv () at /lib64/libgtk-3.so.0
-> #18 0x00007fab9d45029b in gtk_window_propagate_key_event () at /lib64/libgtk-3.so.0
-> #19 0x00007fab9d453283 in gtk_window_key_press_event.lto_priv () at /lib64/libgtk-3.so.0
-> #20 0x00007fab9d47eccc in _gtk_marshal_BOOLEAN__BOXEDv () at /lib64/libgtk-3.so.0
-> #21 0x00007fab9d8e9080 in g_signal_emit_valist () at /lib64/libgobject-2.0.so.0
-> #22 0x00007fab9d8e91a3 in g_signal_emit () at /lib64/libgobject-2.0.so.0
-> #23 0x00007fab9d441bb4 in gtk_widget_event_internal.part.0.lto_priv () at /lib64/libgtk-3.so.0
-> #24 0x00007fab9d2e000f in propagate_event.lto_priv () at /lib64/libgtk-3.so.0
-> #25 0x00007fab9d2e1223 in gtk_main_do_event () at /lib64/libgtk-3.so.0
-> #26 0x00007fab9cfbb633 in _gdk_event_emit () at /lib64/libgdk-3.so.0
-> #27 0x00007fab9d022ba6 in gdk_event_source_dispatch.lto_priv () at /lib64/libgdk-3.so.0
-> #28 0x00007fab9db3296f in g_main_context_dispatch () at /lib64/libglib-2.0.so.0
-> #29 0x000055f3f9c24f58 in main_loop_wait ()
-> #30 0x000055f3f9a564b1 in qemu_main_loop ()
-> #31 0x000055f3f97609ee in main ()
-> 
-> take care,
->   Gerd
-> 
+Some debugging later I found that the problem seems to be two threads 
+simultaneously creating a coroutine.  It makes sense that this case 
+would appear with Vladimir’s series and iotest 256, because 256 runs two 
+backup jobs in two different threads in a transaction, i.e. they’re 
+launched simultaneously.  The async backup series makes backup use many 
+concurrent coroutines and so by default launches 64+x coroutines when 
+the backup is started.  Thus, the case of two coroutines created 
+concurrently in two threads is very likely to occur.
+
+I think the problem is in coroutine-sigaltstack’s qemu_coroutine_new(). 
+It sets up a SIGUSR2 handler, then changes the signal handling stack, 
+then raises SIGUSR2, then reverts the signal handling stack and the 
+SIGUSR2 handler.  As far as I’m aware, setting up signal handlers and 
+changing the signal handling stack are both process-global operations, 
+and so if two threads do so concurrently, they will interfere with each 
+other.  What usually happens is that one thread sets up everything, 
+while the other is already in the process of reverting its changes: So 
+the second thread reverts the SIGUSR2 handler to the default, and then 
+the first thread raises SIGUSR2, thus making qemu exit.
+
+(Could be worse though.  Both threads could set up the sigaltstack, then 
+both raise SIGUSR2, and then we get one coroutine_trampoline() 
+invocation in each thread, but both would use the same stack.  But I 
+don’t think I’ve ever seen that happen, presumably because the race time 
+window is much shorter.)
+
+Now, this all seems obvious to me, but I’m wondering...  If 
+coroutine-sigaltstack really couldn’t create coroutines concurrently, 
+why wouldn’t we have noticed before?  I mean, this new backup case is 
+kind of a stress test, yes, but surely we would have seen the problem 
+already, right?  That’s why I’m not sure whether my analysis is correct.
+
+Anyway, I’ve attached a patch that wraps the whole SIGUSR2 handling 
+section in a mutex, and that makes 256 pass reliably with Vladimir’s 
+async backup series.  Besides being unsure whether the problem is really 
+in coroutine-sigaltstack, I also don’t know whether getting out the big 
+guns and wrapping everything in the mutex is the best solution.  So, 
+it’s an RFC, I guess.
+
+Max
+
+--------------65D8FF1061BDB08AE4E62593
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-coroutine-sigaltstack-Add-SIGUSR2-mutex.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="0001-coroutine-sigaltstack-Add-SIGUSR2-mutex.patch"
+
+From 08d4bb6a98fa731025683f20afe1381291d26031 Mon Sep 17 00:00:00 2001
+From: Max Reitz <mreitz@redhat.com>
+Date: Wed, 20 Jan 2021 16:59:40 +0100
+Subject: [RFC] coroutine-sigaltstack: Add SIGUSR2 mutex
+
+Modifying signal handlers or the signal handling stack is a
+process-global operation.  When two threads run coroutine-sigaltstack's
+qemu_coroutine_new() concurrently, thay may interfere with each other,
+e.g.:
+
+- One of the threads may revert the SIGUSR2 handler back to the default
+  between the other thread setting up coroutine_trampoline() as the
+  handler and raising SIGUSR2.  That SIGUSR2 will then lead to the
+  process exiting.
+
+- Both threads may set up their coroutine stack with sigaltstack()
+  simultaneously, so that only one of them sticks.  Both then raise
+  SIGUSR2, which goes to each of the threads separately, but both signal
+  handler invocations will then use the same stack, which cannot work.
+
+We have to ensure that only one thread at a time can modify the
+process-global SIGUSR2 handler and the signal handling stack.  To do so,
+wrap the whole section where that is done in a mutex.
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ util/coroutine-sigaltstack.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+index aade82afb8..1e48ec4461 100644
+--- a/util/coroutine-sigaltstack.c
++++ b/util/coroutine-sigaltstack.c
+@@ -157,6 +157,7 @@ Coroutine *qemu_coroutine_new(void)
+     sigset_t sigs;
+     sigset_t osigs;
+     sigjmp_buf old_env;
++    static pthread_mutex_t sigusr2_mutex = PTHREAD_MUTEX_INITIALIZER;
+ 
+     /* The way to manipulate stack is with the sigaltstack function. We
+      * prepare a stack, with it delivering a signal to ourselves and then
+@@ -186,6 +187,13 @@ Coroutine *qemu_coroutine_new(void)
+     sa.sa_handler = coroutine_trampoline;
+     sigfillset(&sa.sa_mask);
+     sa.sa_flags = SA_ONSTACK;
++
++    /*
++     * Modifying signal handlers and the signal handling stack are
++     * process-global operations.  We must not run this code in
++     * multiple threads at once.
++     */
++    pthread_mutex_lock(&sigusr2_mutex);
+     if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+         abort();
+     }
+@@ -234,6 +242,8 @@ Coroutine *qemu_coroutine_new(void)
+      * Restore the old SIGUSR2 signal handler and mask
+      */
+     sigaction(SIGUSR2, &osa, NULL);
++    pthread_mutex_unlock(&sigusr2_mutex);
++
+     pthread_sigmask(SIG_SETMASK, &osigs, NULL);
+ 
+     /*
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+2.29.2
+
+
+--------------65D8FF1061BDB08AE4E62593--
 
 
