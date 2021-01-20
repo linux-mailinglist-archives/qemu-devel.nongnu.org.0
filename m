@@ -2,104 +2,126 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 897E02FD4C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:03:44 +0100 (CET)
-Received: from localhost ([::1]:33340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 367992FD549
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:18:48 +0100 (CET)
+Received: from localhost ([::1]:59656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FxP-00045M-J9
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:03:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54132)
+	id 1l2GBz-0007qH-99
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:18:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2Ftt-0002EZ-BL; Wed, 20 Jan 2021 11:00:05 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:48470)
+ (Exim 4.90_1) (envelope-from <edgari@xilinx.com>) id 1l2G8x-00061M-4Q
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:15:39 -0500
+Received: from mail-dm6nam08on2041.outbound.protection.outlook.com
+ ([40.107.102.41]:54464 helo=NAM04-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2Ftq-0004MK-Fe; Wed, 20 Jan 2021 11:00:04 -0500
-Received: from pps.filterd (m0098393.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10KFfXgV105888; Wed, 20 Jan 2021 10:59:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=FiXaUIVigm3Lw9SASNj6uJyE2Ejvbl/O/9E8hKFHvlI=;
- b=eXL1fHX8F6AYLW2qLybNCE4pYldP7p60foqZHfaN+DXDUp82MsAlnjpOlyG1UkaYKSt2
- oILeIJEu+kQRzgKPa5NMZN6L6zHWIfXhsxUnknQwNNFrUR76Ml4SwkVrbaHiHoLdu1Fy
- +TPO0bQgu1xQZsKn8RhAr5lVXL77fHLk72a9VxPBxWVLvaQRWrk4A9lhoyGT0Zpr+4/q
- BV0D2J4aj4ZDRUwmzP4zsOTFaz4YGGO6aLaFyq9jy7WbbNjrQvvzBQOetrpPGb4/Y1iC
- t5+KV4zoSzazoYwnoIpxSLXo1FMRJTXepLV0Lx8QEwIp86kVrDg37UFvbTdnHhhKuZ1X Aw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 366pt09jdr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 10:59:58 -0500
-Received: from m0098393.ppops.net (m0098393.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10KFgx5d110001;
- Wed, 20 Jan 2021 10:59:58 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 366pt09jdg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 10:59:58 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10KFgpUG025077;
- Wed, 20 Jan 2021 15:59:57 GMT
-Received: from b03cxnp07028.gho.boulder.ibm.com
- (b03cxnp07028.gho.boulder.ibm.com [9.17.130.15])
- by ppma04dal.us.ibm.com with ESMTP id 3668p2prxb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 15:59:57 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10KFxttt28967354
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Jan 2021 15:59:55 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B123BBE04F;
- Wed, 20 Jan 2021 15:59:55 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 81600BE051;
- Wed, 20 Jan 2021 15:59:54 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.56.144])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 20 Jan 2021 15:59:54 +0000 (GMT)
-Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
-To: Pierre Morel <pmorel@linux.ibm.com>, cohuck@redhat.com, thuth@redhat.com
-References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
- <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
- <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
- <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
-Date: Wed, 20 Jan 2021 10:59:53 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+ (Exim 4.90_1) (envelope-from <edgari@xilinx.com>) id 1l2G8p-00024p-2b
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:15:38 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VHuIt7NofTLoKT5h3bpNORVSF+T1aNz+BefQyshX5DVuaHzQYtoKMdo1LV3DFRSLs39ZNLl6X7uWGZb50ciHJk1qw5Cf6YQHHDXOngsqB0DmWb17k8eCjk5u63q82vLB+Ok+tyKPFWfHDGJ/+R53YVkLs6LitbQJU7KQaRMY7hjiRqZf7rCarkZqpF9/1036UhNaMT8gk5tNJwHB50oKSjKKDXB1D0neHLoMmtBfGiFXgnZhtCYsEg+Yuv2LXqzBwvZqG0tTV2c+8ysc1l1GEORCw0kD9cEXtWUn5QVaxycli0P7R6vpRQuSGSdgioBdJ4me1we5m44LihqV3Mj8eg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YJLvCyILCkO0cnZT5vMNdah8basfjYEuN8Y+TqkPWoM=;
+ b=lxgxdYVOnuD/Ak1ac0andHMgnMRQZihghTMC2Yr7wDuy4Gy0KofHouqpwOH7O0lh+9n14iBDe4ttld8ZnXLH9x2T9pbn6U/+sp08ASGGdtLu/wWUjxhtpWQA1Ojmr4kFtkIbP9tv4LS7qjam4TFNtW/oT7/TYu9lFcm4RoDcQUBZCxITqn0QLvHhlUfPTSdgpJLIfIgDuWjgrEMC0vBe3si25KJa9qa/T3AyQ/72mrMPsdpOgKSLqxP2nZfGbXaIhEd0yAtxnwPJGfo1qh/9nHzmRM+m7Pwx6zIoChJ9EsEkjAngQ3V7dSUAwwVniiHVlRbeyi9b0OPJ1ceO075WVQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=xilinx.com; dmarc=pass action=none header.from=xilinx.com;
+ dkim=pass header.d=xilinx.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YJLvCyILCkO0cnZT5vMNdah8basfjYEuN8Y+TqkPWoM=;
+ b=NKK3KU06UXOt0SFay1rv7pWhThdR+laVagQ0Cx7v4WpvSY+35Xr59LoR0PwL7p6womQIIdt/BDzcnptq2TXMnQhcE0fmer2o8A31hA/5wneFNd/JRELH1T2ivAm3ro8SjaPxJ/r1KNAl2x6aLj7uve7DX5WikXQnN8DOr1p48K0=
+Received: from BY5PR02MB6628.namprd02.prod.outlook.com (2603:10b6:a03:205::22)
+ by BY5PR02MB6209.namprd02.prod.outlook.com (2603:10b6:a03:1fe::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Wed, 20 Jan
+ 2021 16:00:24 +0000
+Received: from BY5PR02MB6628.namprd02.prod.outlook.com
+ ([fe80::b5fd:579d:bbaa:d5ad]) by BY5PR02MB6628.namprd02.prod.outlook.com
+ ([fe80::b5fd:579d:bbaa:d5ad%3]) with mapi id 15.20.3763.014; Wed, 20 Jan 2021
+ 16:00:24 +0000
+From: Edgar Iglesias <edgari@xilinx.com>
+To: =?utf-8?B?Q8OpZHJpYyBMZSBHb2F0ZXI=?= <clg@kaod.org>, Sai Pavan Boddu
+ <saipava@xilinx.com>, Joel Stanley <joel@jms.id.au>
+Subject: Re: eMMC support
+Thread-Topic: eMMC support
+Thread-Index: AQHW7wn/w9vp8IgaKECKO1jtDr9EtqowrKXk
+Date: Wed, 20 Jan 2021 16:00:24 +0000
+Message-ID: <d0ef7bbd-2b2b-422f-9420-29ca620db130@xilinx.com>
+References: <BY5PR02MB6772761F83EDC56737969C18CA210@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <CACPK8XexXLYrwMenkyou0Xkc8Tx+p1SNi7jbFBj6aObAKHcBwQ@mail.gmail.com>
+ <6a30107a-abf1-635b-c96f-af3d63f93bc8@kaod.org>,
+ <6c1e1335-887e-0459-f1c7-f37daa008c4d@kaod.org>
+In-Reply-To: <6c1e1335-887e-0459-f1c7-f37daa008c4d@kaod.org>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-20_06:2021-01-20,
- 2021-01-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 malwarescore=0 suspectscore=0
- mlxscore=0 clxscore=1015 adultscore=0 spamscore=0 bulkscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101200092
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Has-Attach: 
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-TNEF-Correlator: 
+authentication-results: kaod.org; dkim=none (message not signed)
+ header.d=none;kaod.org; dmarc=none action=none header.from=xilinx.com;
+x-originating-ip: [149.199.62.254]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 30976e2c-3732-460c-eaf0-08d8bd5c7f87
+x-ms-traffictypediagnostic: BY5PR02MB6209:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <BY5PR02MB62099EBBFF293DFB9DD24866ABA20@BY5PR02MB6209.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:9508;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: g6X0aLFONFpEU6n7JKxWsdXQI+h34kCNatjUUt9I3ZqsNwcYN8MEO5OWwwbAOT+LIp+/BLMaCErdlYyPXJPBM9TJSDqpxeIWt913vTmtFfwXntdg3kMhqLRqmgclzpO/JuXcGTyWHIbnyTNyH7hxqL/T9Dopl/xX9C8iSXePl9MZMlNV00pRZM4VCGEPTOMsjhCTaTb6CP/WqTfJKrWpKJTnHNEujlCawXQWKSaVTFCIjvX8vI89TXUNhAuSCYW0/98pprCATXHHTQJtz6slQbJcioT+qxePtvfq00ugxx2splpvsLQRM/qy9/foDEEBKVnL3ANKAuV90KDWlogkmlBsn+BYzZM+yDe5OwUCpwzFdw3tMdud5hyGQj/8pZ4aGjcoPVbXY791gW4z01drDDdlZ9TxaVoaC7EpFQsIOdOlqoIrjr4iXdiGtSKNOO4RN9arrqKt1YkJvcEjr9S23Hub8vsEJdCucpFLEyChK8U3ZbB7c9JH9Ji7fw+M5CCfplg+26VrBcRU7ycSlasFpw==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BY5PR02MB6628.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(136003)(366004)(396003)(376002)(346002)(39860400002)(8936002)(6486002)(31686004)(7116003)(6506007)(2616005)(5660300002)(478600001)(36756003)(66446008)(71200400001)(8676002)(966005)(64756008)(110136005)(66946007)(53546011)(2906002)(83380400001)(66556008)(76116006)(6512007)(31696002)(86362001)(26005)(54906003)(66476007)(186003)(316002)(4326008)(3480700007)(45980500001);
+ DIR:OUT; SFP:1101; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?SHRQancxZFdXSU91aFptMTh5R2xRSVhBL0xtUHRIVkQvNFVWd29nTXlTbi9k?=
+ =?utf-8?B?amEzMExCQ2RqNDE3Vng0OGdnSHlFdCtWSVhQdXhBS2J3ZGlSUmQrSGo4Qk1j?=
+ =?utf-8?B?Q2RGdWFGRU9IMEw2RkJDN0hYTVBZS2RNN1JoTXBnWE9zcGRnTEhFMHkwUFF0?=
+ =?utf-8?B?T1hJVVk2U29MM2QxQVVMd21mVHlubzN0K2syN1ZXa2xMV05VRE1BT3BvUXJV?=
+ =?utf-8?B?bmFMNStscFd4bWtrNTdYUmRKaWNTSFNDT3Zkd1FCUW1kMy9GS2dEV2NTK3RR?=
+ =?utf-8?B?YkNCQ256dktxRU1sZW56NE91UU1GMWV2V3pWZU1qNDNTR3JmaldjbDFIM0pi?=
+ =?utf-8?B?SjMzanpTUU5pSXJ1SHdiaUZPaXFUdUc2UFlVTnI1NzlwQXVXZEc4MG9xckJO?=
+ =?utf-8?B?eFBHL2VLU2YySWtBbnIyWU0wT1BUcEZjMUlhUC9TYnloT1VicU5ySUx0YWZ2?=
+ =?utf-8?B?ZW12M2JWL2pRMlJESTRtc0FKeWdPM1RTQ2d3UG5iZTZIYUljcm9ETWdsdk8v?=
+ =?utf-8?B?cVJqT2NobnNzSzVveFBQNStsTTNKTTJhSW12dGFFQ3krenlBcE1iRm8rbWxv?=
+ =?utf-8?B?Y3d1MGJnbFd2WUd6RFdlVzJoczdwQWZETE1RNjZKN3JrNmNKOThYTS96NjU2?=
+ =?utf-8?B?MEpEVlpoMDhlRGlFbEtxaU5tRExxL05uaVdhMC90OE14Q0pYUlFMajR3OE9j?=
+ =?utf-8?B?YTNQRG96Y2NQSzJsQlJocmhKczhIZjhhWXlwVEhGbWNsK1NNeG5pS3pWbnlH?=
+ =?utf-8?B?TFlxVUJHNzh2eTFnN0J6Yi9jdjJodDBrVG4veWwvd0dwY2lCUXJkeFJBZEpq?=
+ =?utf-8?B?d3dSNlhWVWZyZmpNQmtKOWJlMkIrU3BTRXRabkY4UFo1TkFvR05YR3hSZ0hB?=
+ =?utf-8?B?SW1hZlJCU1BpQnZXMUoxbkhKMVJtWFgvVThqMGhWRlNEb1pBdGQ2Q0ErMDh4?=
+ =?utf-8?B?NExkY2hNaDNjQ1MrRXRCT0FSY3RuUUJxcEI1eHFoYzRYdDN3QnlLdUpacjNy?=
+ =?utf-8?B?aGszZ044YmVIczQzZmdWbzFIeG1MVTYwOC8vUlVQQlJjUiszT3ZuN3pIUnZv?=
+ =?utf-8?B?ZFRXbTJna2ZqcXM0NjBYQXBIcXFUSHgyZUUxODRlUFdqNFJlVGFzZEJOSzVW?=
+ =?utf-8?B?eTZSQmxySnB5V2tnS0tRY0lPci9mMGJaYUd3eVc5Snl1MTdLMGtvcE5FYm5I?=
+ =?utf-8?B?SU8rOE9ienBSMjR4OWN2NE5SVWNYV0dvTjdUQ2wyNGRaaE1iU2lIbEFOWmZF?=
+ =?utf-8?B?SHV3a2VxS283OHFzYTk3OWxzTkVRSG5PNDFqWEt5Q1l6QXE2bEJwM1h1UlU4?=
+ =?utf-8?Q?GckkKZYNbYVeU3/Bo9Sv1NG04kfqostB1G?=
+Content-Type: multipart/alternative;
+ boundary="_000_d0ef7bbd2b2b422f942029ca620db130xilinxcom_"
+MIME-Version: 1.0
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BY5PR02MB6628.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30976e2c-3732-460c-eaf0-08d8bd5c7f87
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2021 16:00:24.6443 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5uU9KLMYOoEUOzSwd+9MmIiIhlWwJKoS1VsZWjSZmuOBz9gQfHrbwDq5npxFtzxhzUM8hSNutITvAb/48OLDqg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6209
+Received-SPF: pass client-ip=40.107.102.41; envelope-from=edgari@xilinx.com;
+ helo=NAM04-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -112,146 +134,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
- pbonzini@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/21 9:45 AM, Pierre Morel wrote:
-> 
-> 
-> On 1/20/21 3:03 PM, Matthew Rosato wrote:
->> On 1/20/21 4:12 AM, Pierre Morel wrote:
->>>
->>>
->>> On 1/19/21 9:44 PM, Matthew Rosato wrote:
->>>> Today, ISM devices are completely disallowed for vfio-pci 
->>>> passthrough as
->>>> QEMU rejects the device due to an (inappropriate) MSI-X check.  
->>>> Removing
->>>> this fence, however, reveals additional deficiencies in the s390x PCI
->>>> interception layer that prevent ISM devices from working correctly.
->>>> Namely, ISM block write operations have particular requirements in 
->>>> regards
->>>> to the alignment, size and order of writes performed that cannot be
->>>> guaranteed when breaking up write operations through the typical
->>>> vfio_pci_bar_rw paths. Furthermore, ISM requires that legacy/non-MIO
->>>> s390 PCI instructions are used, which is also not guaranteed when 
->>>> the I/O
->>>> is passed through the typical userspace channels.
->>>>
->>>> This patchset provides a set of fixes related to enabling ISM device
->>>> passthrough and includes patches to enable use of a new vfio region 
->>>> that
->>>> will allow s390x PCI pass-through devices to perform s390 PCI 
->>>> instructions
->>>> in such a way that the same instruction issued on the guest is 
->>>> re-issued
->>>> on the host.
->>>>
->>>> Associated kernel patchset:
->>>> https://lkml.org/lkml/2021/1/19/874
->>>>
->>>> Changes from RFC -> v1:
->>>> - Refresh the header sync (built using Eric's 'update-linux-headers:
->>>> Include const.h' + manually removed pvrdma_ring.h again)
->>>> - Remove s390x/pci: fix pcistb length (already merged)
->>>> - Remove s390x/pci: Fix memory_region_access_valid call (already 
->>>> merged)
->>>> - Fix bug: s390_pci_vfio_pcistb should use the pre-allocated PCISTB
->>>> buffer pcistb_buf rather than allocating/freeing its own.
->>>> - New patch: track the PFT (PCI Function Type) separately from guest 
->>>> CLP
->>>> response data -- we tell the guest '0' for now due to limitations in
->>>> measurement block support, but we can still use the real value 
->>>> provided via
->>>> the vfio CLP capabilities to make decisions.
->>>> - Use the PFT (pci function type) to determine when to use the region
->>>> for PCISTB/PCILG (only for ISM), rather than using the relaxed 
->>>> alignment
->>>> bit.
->>>> - As a result, the pcistb_default is now updated to also handle the
->>>> possibility of relaxed alignment via 2 new functions, 
->>>> pcistb_validate_write
->>>> and pcistb_write, which serve as wrappers to the memory_region calls.
->>>> - New patch, which partially restores the MSI-X fence for passthrough
->>>> devices...  Could potentially be squashed with 's390x/pci: MSI-X isn't
->>>> strictly required for passthrough' but left separately for now as I 
->>>> felt it
->>>> needed a clear commit description of why we should still fence this 
->>>> case.
->>>>
->>> Hi,
->>>
->>> The choice of using the new VFIO region is made on the ISM PCI 
->>> function type (PFT), which makes the patch ISM specific, why don't we 
->>> use here the MIO bit common to any zPCI function and present in 
->>> kernel to make the choice?
->>>
->>
->> As discussed during the RFC (and see my reply also to the kernel set), 
->> the use of this region only works for devices that do not rely on 
->> MSI-X interrupts.  If we did as you suggest, other device types like 
->> mlx would not receive MSI-X interrupts in the guest (And I did indeed 
->> try variations where I used the special VFIO region for all 
->> PCISTG/PCILG/PCISTB for various device types)
->>
->> So the idea for now was to solve the specific problem at hand (getting 
->> ISM devices working).
->>
->>
-> 
-> Sorry, if I missed or forgot some discussions, but I understood that we 
-> are using this region to handle PCISTB instructions when the device do 
-> not support MIO.
-> Don't we?
+--_000_d0ef7bbd2b2b422f942029ca620db130xilinxcom_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Sure thing - It's probably good to refresh the issue/rationale anyway as 
-we've had the holidays in between.
+DQpPbiAyMCBKYW4gMjAyMSAwOTo1NSwgQ8OpZHJpYyBMZSBHb2F0ZXIgPGNsZ0BrYW9kLm9yZz4g
+d3JvdGU6DQo+DQo+IE9uIDkvMTcvMjAgODoyNSBBTSwgQ8OpZHJpYyBMZSBHb2F0ZXIgd3JvdGU6
+DQo+ID4gT24gOS8xNy8yMCAyOjU1IEFNLCBKb2VsIFN0YW5sZXkgd3JvdGU6DQo+ID4+IE9uIFdl
+ZCwgMTYgU2VwIDIwMjAgYXQgMTg6MzUsIFNhaSBQYXZhbiBCb2RkdSA8c2FpcGF2YUB4aWxpbngu
+Y29tPiB3cm90ZToNCj4gPj4+DQo+ID4+PiBIaSBQaGlsaXBwZSwNCj4gPj4+DQo+ID4+Pg0KPiA+
+Pj4NCj4gPj4+IFdlIGFyZSBsb29raW5nIHRvIGFkZCBlTU1DIHN1cHBvcnQsIEkgc2VhcmNoZWQg
+dGhlIG1haWxpbmcgbGlzdCBhbmQgZm91bmQgYSBzZXJpZXMgcG9zdGVkIG9uIGVNTUMgYnkg4oCc
+VmluY2VudCBQYWxhdGlu4oCdDQo+ID4+Pg0KPiA+Pj4gaHR0cHM6Ly9saXN0cy5nbnUub3JnL2Fy
+Y2hpdmUvaHRtbC9xZW11LWRldmVsLzIwMTEtMDcvbXNnMDI4MzMuaHRtbA0KPiA+Pg0KPiA+PiBJ
+IHdvdWxkIGJlIGludGVyZXN0ZWQgaW4gZW1tYyBzdXBwb3J0IGZvciB0aGUgYXNwZWVkIG1hY2hp
+bmVzLiBQbGVhc2UNCj4gPj4gY2MgbWUgd2hlbiB5b3UgcG9zdCBwYXRjaGVzLg0KPiA+Pg0KPiA+
+Pj4gSSB3b3VsZCBsaWtlIHRvIGNvbnNpZGVyIHRoZSBhYm92ZSB3b3JrIGFuZCBtaXgtdXAgd2l0
+aCBtb3JlIGNoYW5nZXMgdG8gc3RhcnQgYWRkaW5nIHN1cHBvcnQgZm9yIGVNTUMuIERvIHlvdSBo
+YXZlIGFueSBzdWdnZXN0aW9ucyBvbiB0aGUgYXBwcm9hY2ggZm9sbG93ZWQgaW4gYWJvdmUgcGF0
+Y2hlcyA/DQo+ID4+DQo+ID4+IFRoZSBwYXRjaGVzIGhhZCBtaW5vciByZXZpZXcgY29tbWVudHMs
+IGJ1dCBJIGFzc3VtZSB0aGUgcmVhc29uIHRoZXkNCj4gPj4gZGlkbid0IGdvIGFueXdoZXJlIGlz
+IHRoZSBhdXRob3IgbmV2ZXIgZm9sbG93ZWQgdXAgd2l0aCBmdXJ0aGVyDQo+ID4+IHJldmlzaW9u
+cy4gSSB3b3VsZCBzdWdnZXN0IGFwcGx5aW5nIHRoZW0gdG8gdGhlIGN1cnJlbnQgdHJlZSwgY2xl
+YW5pbmcNCj4gPj4gdXAgYW55IHN0eWxlIGNoYW5nZXMgdGhhdCBoYXZlIGhhcHBlbmVkIHNpbmNl
+IHRoZXkgd2VyZSBwb3N0ZWQsIGFuZA0KPiA+PiByZS1wb3N0aW5nIHRoZW0gZm9yIHJldmlldy4N
+Cj4gPg0KPiA+IEl0IHNlZW1zIHdlIG9ubHkgY2FyZSBhYm91dCB0aGVzZSB0aHJlZSBwYXRjaGVz
+IDoNCj4gPg0KPiA+ICAgaHR0cHM6Ly9wYXRjaHdvcmsub3psYWJzLm9yZy9wYXRjaC8xMDY3NjIN
+Cj4gPiAgIGh0dHBzOi8vcGF0Y2h3b3JrLm96bGFicy5vcmcvcGF0Y2gvMTA2NzYxDQo+ID4gICBo
+dHRwczovL3BhdGNod29yay5vemxhYnMub3JnL3BhdGNoLzEwNjc2Mw0KPiA+DQo+ID4gSXQgc2hv
+dWxkIG5vdCBiZSB0b28gY29tcGxleCB0byBnZXQgc29tZXRoaW5nIGdvaW5nLg0KPiA+Pj4gTm90
+ZTogSGVyZSBpcyB0aGUgZXhpc3Rpbmcgc3VwcG9ydCBhdmFpbGFibGUgaW4gWGlsaW54IGZvcmss
+IHdoaWNoIG1pZ2h0IHJlcXVpcmUgc29tZSB3b3JrDQo+ID4+PiBodHRwczovL2dpdGh1Yi5jb20v
+WGlsaW54L3FlbXUvYmxvYi9tYXN0ZXIvaHcvc2Qvc2QuYw0KPiA+DQo+ID4gV2hhdCBhcmUgdGhl
+IHJlbGV2YW50IHBhdGNoZXMgPw0KPg0KPiBGWUksIGFzcGVlZCBtYWNoaW5lcyBzdWNjZXNzZnVs
+bHkgYm9vdCBvbiB0b3Agb2YgMTZHIGVtbWMgZGlzayBpbWFnZXMuDQo+IEkgbWVyZ2VkIHNvbWUg
+b2YgeGlsaW54IHBhdGNoZXMgb24gdG9wIG9mIHRoZSBhc3BlZWQtNi4wIGJyYW5jaCB0bw0KPiBp
+bXByb3ZlIHRoZSBtb2RlbCBjb21wbGV0ZW5lc3MgYnV0IG9ubHkgdGhlIG9uZSBmaXhpbmcgcG93
+ZXJ1cCB3YXMNCj4gcmVhbGx5IG5lY2Vzc2FyeS4NCj4NCj4gVGhlIGluaXRpYWwgZGlmZnN0YXQg
+aXMgcmF0aGVyIHNtYWxsLg0KPg0KPiAgaHcvc2Qvc2QuYyAgICAgICAgICAgICB8ICAxNjggKysr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLQ0KPg0KPiBXZSBj
+YW4gc3VyZWx5IGZpbmQgYSB3YXkgdG8gbWVyZ2Ugc3VwcG9ydCBpbiBtYWlubGluZSB3aXRob3V0
+DQo+IGNvdmVyaW5nIHRoZSB3aG9sZSBzcGVjcy4gVGhlIEV4dGVuZGVkIENTRCByZWdpc3RlciB3
+b3VsZCBiZSB0aGUNCj4gYmlnIHBhcnQuDQoNClRoYW5rcyBDZWRyaWMsIHRoYXQgd291bGQgYmUg
+Z3JlYXQhDQpGZWVsIGZyZWUgdG8gc3VibWl0IGFueSBvZiBvdXIgcGF0Y2hlcyBmb3IgbWVyZ2Ug
+aW4gdXBzdHJlYW0uIE9yIHBlcmhhcHMgU2FpIGNhbiBzdWJtaXQgYW5kIHlvdSBndXlzIGNhbiBo
+ZWxwIHdpdGggcmV2aWV3aW5nLg0KDQpXZSd2ZSBoYWQgdXBzdHJlYW1pbmcgb2YgZU1NQyBvbiBv
+dXIgdG9kbyBsaXN0IGZvciBhIHdoaWxlIGJ1dCBuZXZlciBzZWVtIHRvIGZpbmQgdGhlIHRpbWUu
+DQoNCkJlc3QgcmVnYXJkcywNCkVkZ2FyDQoNCg0KPg0KPiBTZWUgOg0KPg0KPiAgICBodHRwczov
+L2dpdGh1Yi5jb20vbGVnb2F0ZXIvcWVtdS9jb21taXRzL2FzcGVlZC02LjANCj4NCj4gQ2hlZXJz
+LA0KPg0KPiBDLg0KDQo=
 
-You are correct, a primary reason we need to resort to a separate VFIO 
-region for PCISTB (and PCILG) instructions for ISM devices is that they 
-do not support the MIO instruction set, yet the host kernel will 
-translate everything coming through the PCI I/O layer to MIO 
-instructions whenever that facility is available to the host (and not 
-purposely disabled).  This issue is unique to vfio-pci/passthrough - in 
-the host, the ISM driver directly invokes functions in s390 pci code to 
-ensure that MIO instructions are not used.
+--_000_d0ef7bbd2b2b422f942029ca620db130xilinxcom_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-But this is not the only reason.  There are additional reasons for using 
-this VFIO region:
-1) ISM devices also don't support PCISTG instructions to certain address 
-spaces and PCISTB must be used regardless of operation length.  However 
-the standard s390 PCI I/O path always uses PCISTG for anything <=8B. 
-Trying to determine whether a given I/O is intended for an ISM device at 
-that point in kernel code so as to use PCISTB instead of PCISTG is the 
-same problem as attempting to decide whether to use MIO vs non-MIO 
-instructions at that point.
-2) It allows for much larger PCISTB operations (4K) than allowed via the 
-memory regions (loop of 8B operations).
-3) The above also has the added benefit of eliminating certain write 
-pattern requirements that are unique to ISM that would be introduced if 
-we split up the I/O into 8B chunks (if we can't write the whole PCISTB 
-in one go, ISM requires data written in a certain order for some address 
-spaces, or with certain bits on/off on the PCISTB instruction to signify 
-the state of the larger operation)
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjwvaGVhZD4NCjxib2R5Pg0KPGJyPg0KPGRpdiBk
+aXI9Imx0ciI+T24gMjAgSmFuIDIwMjEgMDk6NTUsIEPDqWRyaWMgTGUgR29hdGVyICZsdDtjbGdA
+a2FvZC5vcmcmZ3Q7IHdyb3RlOiA8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZndDs8L2Rpdj4NCjxk
+aXYgZGlyPSJsdHIiPiZndDsgT24gOS8xNy8yMCA4OjI1IEFNLCBDw6lkcmljIExlIEdvYXRlciB3
+cm90ZTogPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZndDsgT24gOS8xNy8yMCAyOjU1IEFN
+LCBKb2VsIFN0YW5sZXkgd3JvdGU6IDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0
+OyBPbiBXZWQsIDE2IFNlcCAyMDIwIGF0IDE4OjM1LCBTYWkgUGF2YW4gQm9kZHUgJmx0O3NhaXBh
+dmFAeGlsaW54LmNvbSZndDsgd3JvdGU6DQo8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZndDsgJmd0
+OyZndDsmZ3Q7IDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0OyZndDsgSGkgUGhp
+bGlwcGUsIDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0OyZndDsgPC9kaXY+DQo8
+ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZndDsmZ3Q7Jmd0OyA8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZn
+dDsgJmd0OyZndDsmZ3Q7IDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0OyZndDsg
+V2UgYXJlIGxvb2tpbmcgdG8gYWRkIGVNTUMgc3VwcG9ydCwgSSBzZWFyY2hlZCB0aGUgbWFpbGlu
+ZyBsaXN0IGFuZCBmb3VuZCBhIHNlcmllcyBwb3N0ZWQgb24gZU1NQyBieSDigJxWaW5jZW50IFBh
+bGF0aW7igJ0NCjwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0OyZndDsgPC9kaXY+
+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZndDsmZ3Q7Jmd0OyBodHRwczovL2xpc3RzLmdudS5vcmcv
+YXJjaGl2ZS9odG1sL3FlbXUtZGV2ZWwvMjAxMS0wNy9tc2cwMjgzMy5odG1sDQo8L2Rpdj4NCjxk
+aXYgZGlyPSJsdHIiPiZndDsgJmd0OyZndDsgPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZn
+dDsmZ3Q7IEkgd291bGQgYmUgaW50ZXJlc3RlZCBpbiBlbW1jIHN1cHBvcnQgZm9yIHRoZSBhc3Bl
+ZWQgbWFjaGluZXMuIFBsZWFzZQ0KPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZndDsmZ3Q7
+IGNjIG1lIHdoZW4geW91IHBvc3QgcGF0Y2hlcy4gPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7
+ICZndDsmZ3Q7IDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0OyZndDsgSSB3b3Vs
+ZCBsaWtlIHRvIGNvbnNpZGVyIHRoZSBhYm92ZSB3b3JrIGFuZCBtaXgtdXAgd2l0aCBtb3JlIGNo
+YW5nZXMgdG8gc3RhcnQgYWRkaW5nIHN1cHBvcnQgZm9yIGVNTUMuIERvIHlvdSBoYXZlIGFueSBz
+dWdnZXN0aW9ucyBvbiB0aGUgYXBwcm9hY2ggZm9sbG93ZWQgaW4gYWJvdmUgcGF0Y2hlcyA/DQo8
+L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZndDsgJmd0OyZndDsgPC9kaXY+DQo8ZGl2IGRpcj0ibHRy
+Ij4mZ3Q7ICZndDsmZ3Q7IFRoZSBwYXRjaGVzIGhhZCBtaW5vciByZXZpZXcgY29tbWVudHMsIGJ1
+dCBJIGFzc3VtZSB0aGUgcmVhc29uIHRoZXkNCjwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAm
+Z3Q7Jmd0OyBkaWRuJ3QgZ28gYW55d2hlcmUgaXMgdGhlIGF1dGhvciBuZXZlciBmb2xsb3dlZCB1
+cCB3aXRoIGZ1cnRoZXINCjwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0OyByZXZp
+c2lvbnMuIEkgd291bGQgc3VnZ2VzdCBhcHBseWluZyB0aGVtIHRvIHRoZSBjdXJyZW50IHRyZWUs
+IGNsZWFuaW5nDQo8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZndDsgJmd0OyZndDsgdXAgYW55IHN0
+eWxlIGNoYW5nZXMgdGhhdCBoYXZlIGhhcHBlbmVkIHNpbmNlIHRoZXkgd2VyZSBwb3N0ZWQsIGFu
+ZA0KPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZndDsmZ3Q7IHJlLXBvc3RpbmcgdGhlbSBm
+b3IgcmV2aWV3LiA8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZndDsgJmd0OyA8L2Rpdj4NCjxkaXYg
+ZGlyPSJsdHIiPiZndDsgJmd0OyBJdCBzZWVtcyB3ZSBvbmx5IGNhcmUgYWJvdXQgdGhlc2UgdGhy
+ZWUgcGF0Y2hlcyA6IDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7IDwvZGl2Pg0KPGRp
+diBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jm5ic3A7Jm5ic3A7IGh0dHBzOi8vcGF0Y2h3b3JrLm96bGFi
+cy5vcmcvcGF0Y2gvMTA2NzYyIDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jm5ic3A7
+Jm5ic3A7IGh0dHBzOi8vcGF0Y2h3b3JrLm96bGFicy5vcmcvcGF0Y2gvMTA2NzYxIDwvZGl2Pg0K
+PGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jm5ic3A7Jm5ic3A7IGh0dHBzOi8vcGF0Y2h3b3JrLm96
+bGFicy5vcmcvcGF0Y2gvMTA2NzYzIDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7IDwv
+ZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyAmZ3Q7IEl0IHNob3VsZCBub3QgYmUgdG9vIGNvbXBs
+ZXggdG8gZ2V0IHNvbWV0aGluZyBnb2luZy4gPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZn
+dDsmZ3Q7Jmd0OyBOb3RlOiBIZXJlIGlzIHRoZSBleGlzdGluZyBzdXBwb3J0IGF2YWlsYWJsZSBp
+biBYaWxpbnggZm9yaywgd2hpY2ggbWlnaHQgcmVxdWlyZSBzb21lIHdvcmsNCjwvZGl2Pg0KPGRp
+diBkaXI9Imx0ciI+Jmd0OyAmZ3Q7Jmd0OyZndDsgaHR0cHM6Ly9naXRodWIuY29tL1hpbGlueC9x
+ZW11L2Jsb2IvbWFzdGVyL2h3L3NkL3NkLmMgPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZn
+dDsgPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZndDsgV2hhdCBhcmUgdGhlIHJlbGV2YW50
+IHBhdGNoZXMgPyA8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZndDs8L2Rpdj4NCjxkaXYgZGlyPSJs
+dHIiPiZndDsgRllJLCBhc3BlZWQgbWFjaGluZXMgc3VjY2Vzc2Z1bGx5IGJvb3Qgb24gdG9wIG9m
+IDE2RyBlbW1jIGRpc2sgaW1hZ2VzLg0KPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7IEkgbWVy
+Z2VkIHNvbWUgb2YgeGlsaW54IHBhdGNoZXMgb24gdG9wIG9mIHRoZSBhc3BlZWQtNi4wIGJyYW5j
+aCB0bw0KPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7IGltcHJvdmUgdGhlIG1vZGVsIGNvbXBs
+ZXRlbmVzcyBidXQgb25seSB0aGUgb25lIGZpeGluZyBwb3dlcnVwIHdhcw0KPC9kaXY+DQo8ZGl2
+IGRpcj0ibHRyIj4mZ3Q7IHJlYWxseSBuZWNlc3NhcnkuIDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+
+Jmd0OzwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyBUaGUgaW5pdGlhbCBkaWZmc3RhdCBpcyBy
+YXRoZXIgc21hbGwuIDwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OzwvZGl2Pg0KPGRpdiBkaXI9
+Imx0ciI+Jmd0OyAmbmJzcDtody9zZC9zZC5jJm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7IHwmbmJzcDsgMTY4ICsr
+KysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tLS0tLS0NCjwvZGl2Pg0K
+PGRpdiBkaXI9Imx0ciI+Jmd0OzwvZGl2Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyBXZSBjYW4gc3Vy
+ZWx5IGZpbmQgYSB3YXkgdG8gbWVyZ2Ugc3VwcG9ydCBpbiBtYWlubGluZSB3aXRob3V0IDwvZGl2
+Pg0KPGRpdiBkaXI9Imx0ciI+Jmd0OyBjb3ZlcmluZyB0aGUgd2hvbGUgc3BlY3MuIFRoZSBFeHRl
+bmRlZCBDU0QgcmVnaXN0ZXIgd291bGQgYmUgdGhlDQo8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZn
+dDsgYmlnIHBhcnQuIDwvZGl2Pg0KPGJyPg0KPGRpdiBkaXI9Imx0ciI+VGhhbmtzIENlZHJpYywg
+dGhhdCB3b3VsZCBiZSBncmVhdCE8L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPkZlZWwgZnJlZSB0byBz
+dWJtaXQgYW55IG9mIG91ciBwYXRjaGVzIGZvciBtZXJnZSBpbiB1cHN0cmVhbS4gT3IgcGVyaGFw
+cyBTYWkgY2FuIHN1Ym1pdCBhbmQgeW91IGd1eXMgY2FuIGhlbHAgd2l0aCByZXZpZXdpbmcuPC9k
+aXY+DQo8YnI+DQo8ZGl2IGRpcj0ibHRyIj5XZSd2ZSBoYWQgdXBzdHJlYW1pbmcgb2YgZU1NQyBv
+biBvdXIgdG9kbyBsaXN0IGZvciBhIHdoaWxlIGJ1dCBuZXZlciBzZWVtIHRvIGZpbmQgdGhlIHRp
+bWUuPC9kaXY+DQo8YnI+DQo8ZGl2IGRpcj0ibHRyIj5CZXN0IHJlZ2FyZHMsIDwvZGl2Pg0KPGRp
+diBkaXI9Imx0ciI+RWRnYXI8L2Rpdj4NCjxicj4NCjxicj4NCjxkaXYgZGlyPSJsdHIiPiZndDs8
+L2Rpdj4NCjxkaXYgZGlyPSJsdHIiPiZndDsgU2VlIDogPC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4m
+Z3Q7PC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7ICZuYnNwOyZuYnNwOyBodHRwczovL2dpdGh1
+Yi5jb20vbGVnb2F0ZXIvcWVtdS9jb21taXRzL2FzcGVlZC02LjAgPC9kaXY+DQo8ZGl2IGRpcj0i
+bHRyIj4mZ3Q7PC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7IENoZWVycywgPC9kaXY+DQo8ZGl2
+IGRpcj0ibHRyIj4mZ3Q7PC9kaXY+DQo8ZGl2IGRpcj0ibHRyIj4mZ3Q7IEMuIDwvZGl2Pg0KPGJy
+Pg0KPC9ib2R5Pg0KPC9odG1sPg0K
 
-> 
-> I do not understand the relation between MSI-X and MIO.
-> Can you please explain?
-> 
-
-There is not a relation between MSI-X and MIO really.  Rather, this is a 
-case of the solution that is being offered here ONLY works for devices 
-that use MSI -- and ISM is a device that only supports MSI.  If you try 
-to use this new VFIO region to pass I/O for an MSI-X enabled device, the 
-notifiers set up via vfio_msix_setup won't be triggered because we are 
-writing to the new VFIO region, not the virtual bar regions that may 
-have had notifiers setup as part of vfio_msix_setup.  This results in 
-missing interrupts on MSI-X-enabled vfio-pci devices.
-
-These notifiers aren't a factor when the device is using MSI.
-
+--_000_d0ef7bbd2b2b422f942029ca620db130xilinxcom_--
 
