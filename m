@@ -2,109 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A032FCAE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 07:04:37 +0100 (CET)
-Received: from localhost ([::1]:58284 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEEE12FCAEB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 07:09:07 +0100 (CET)
+Received: from localhost ([::1]:60840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l26bb-0005DQ-RI
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 01:04:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40758)
+	id 1l26fz-0006at-2b
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 01:09:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l26aI-0004lb-Me
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 01:03:15 -0500
-Received: from mail-bn7nam10on2090.outbound.protection.outlook.com
- ([40.107.92.90]:42913 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l26f1-00061C-1Q
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 01:08:07 -0500
+Received: from mail-bn7nam10on2098.outbound.protection.outlook.com
+ ([40.107.92.98]:63456 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l26aF-0000Pk-QM
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 01:03:14 -0500
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l26ez-0002Eh-MN
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 01:08:06 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hkg/gL1YhlklJiNWQb8N5Uer9W1bP0fvXH/cOKW1LpFbSbh5/s07gyJA4tY+J7gZQkRwrFLvSZbNg5mE3vTc16U5JoxEEMQO7sj69rm8jRzx4s4fxS+vvrYHMrc+4BE02pbgUD6wn0Ytvq4rFK+gvskiZAg+0KPEWGfprX2lAvWpuVXQYx32mK0R4i1Xov2VrYGGsfsADaImUfD9Me27xgDqEFvWpAmivJHfkO4zT8zdFgzi+z+VUxDdG7QbJFeDTaAs1rmp8SPl2TgOOes73TuuG63Kdms/WJz75GSTpluh873jsP4g8UFRP+MSpvBzhgV0+r5a0/M+mUGhWYM4qA==
+ b=nmBQHYJtlePqnypdDpph5owE1BivETD8C8JxBmOHBR+oy03qXHqNxpV2MSLQ+EmMzNL0eTrmx/Hm2UK7f308GAJq+WWD948GZkKZ9BlbzIFRaF/d3DBACnLWqjuyOxCzsQzLR7UuwvY3B+ft58YoTbB4cYgfknK8qsR29EIMEsStRtKHnqjL7DnzJyHzHAQG8fPb+E54PdOgbVA4khXpM8irLoOpBJ6ORExPz0nMSpJL5b8KTIeyZoIqf9KnqMIsChYkgyNS8sUtzncbGjpzd0cGSFk6daKBxgmqc00Q4/sB2hlvooV5nSEfVikIB2t23eFXxzfg9TlR3wdc3+iE6A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9q2Mm3yC+fCchx5Db25wvy1+0mLPnAfR1ONbeeT3KHY=;
- b=bhKOHaUE8jRPjTMDXPk5akN4gEvXkXOa5emiXJ1XmFMuRAvOva48iSkXleD+2uUoSZXRCR6xrDzwROplIIM08pOmgBeGn6a8xhfW6RViAKFPrTN3n0sI1NQx7gSVwSiYbz2Z0DUXW8dSpeqIItmfCRXSxvYnYt+dNIbJrgVt4Z0gVmC865RnNtsli3wiXsyGeG1uSSiqh5EE/RcUkbHDpLg9ebJIijR9roa0iCzL06toUoNOniCub49IKYynWcSIyht9I4+rH35f9VLxrruh8d7tyveeymRYtgUq7BLbl04/MmMELg9SytpvByzqNtxfKlNJLbt7pNB3J+lmh41O8Q==
+ bh=pnkYIa0Gkw3AsUb/zt1ZYEQApxFnEUuMvcuE/JfATkw=;
+ b=E8YN54DhsdvgdF52wLsUDcDKCCJcTMyKKQlpL4ABDLH6sE4zKYwxImAHFHt46blkH3UirSfS72agcrOFcVtF23DOL0bQiacRGFN6+2TaWNgmDZuyHXIgz7yK2be7YkfCdX+vww9ZUgKSIymul8j3U1W2Y/Y+l4ypBGjZQ19zWhQo9Q89kC7uFvTmWD0mBTqzqgFIQH1e5SxKtYaQdSYNq0HN7FXVPydfckNjYhzi13esIouBMWw3TFb9rhhKlWtpPnhXCnTVl2lVnCM9CHPKlsJvt7qlpPmCls/YMfWlEAzQo3ApyfQY/qDch4RMBhZTv5cXJUjHV0grQH3S5D2fIg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9q2Mm3yC+fCchx5Db25wvy1+0mLPnAfR1ONbeeT3KHY=;
- b=SMdPdxBTat3S0dOhrYmnv5KpKkycEGAcWtSZBXV5FX/m/Jyl/viRD5Qdd0iVqtLYnn8FBQZQPAlW3l6nUKG6JBLgcbdS+Hz1oTEHEqE2F4Ng1XGCRtyQJMH7HIMEI7jp4/P2JcH65JAaO1xw2mBjOiUBGCs/6fk2ynsOtTq0C7M=
+ bh=pnkYIa0Gkw3AsUb/zt1ZYEQApxFnEUuMvcuE/JfATkw=;
+ b=l0iy3bRLiLZMMWwDc0RNXRTrti1eLq8eBYZY8b9mlGHYf6yLh6aMv+5gUHXlk4ohTYtD8YSQoXTBEYFggT3/HM3hlOr2mLN0klZbXDNiPlAT7Vk2SXiGcbavLryK0A/nApqIzI2oZIKnvG3WcHhi6o8nuufaqcPt9foRoRPoiBQ=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
  by SA2PR03MB5884.namprd03.prod.outlook.com (2603:10b6:806:f8::12)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Wed, 20 Jan
- 2021 06:03:08 +0000
+ 2021 06:08:03 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::e828:cd84:e00c:6310]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::e828:cd84:e00c:6310%6]) with mapi id 15.20.3784.012; Wed, 20 Jan 2021
- 06:03:08 +0000
+ 06:08:03 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] fuzz: ignore address_space_map is_write flag
-Date: Wed, 20 Jan 2021 01:02:55 -0500
-Message-Id: <20210120060255.558535-1-alxndr@bu.edu>
+Subject: [PATCH] fuzz: refine the ide/ahci fuzzer configs
+Date: Wed, 20 Jan 2021 01:07:45 -0500
+Message-Id: <20210120060745.558970-1-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [72.74.210.193]
-X-ClientProxiedBy: MN2PR18CA0005.namprd18.prod.outlook.com
- (2603:10b6:208:23c::10) To SN6PR03MB3871.namprd03.prod.outlook.com
+X-ClientProxiedBy: MN2PR13CA0014.namprd13.prod.outlook.com
+ (2603:10b6:208:160::27) To SN6PR03MB3871.namprd03.prod.outlook.com
  (2603:10b6:805:6d::32)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from stormtrooper.vrmnet (72.74.210.193) by
- MN2PR18CA0005.namprd18.prod.outlook.com (2603:10b6:208:23c::10) with
+ MN2PR13CA0014.namprd13.prod.outlook.com (2603:10b6:208:160::27) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9 via Frontend
- Transport; Wed, 20 Jan 2021 06:03:06 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.6 via Frontend
+ Transport; Wed, 20 Jan 2021 06:08:03 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6a1e0bfb-fd8d-4495-dd87-08d8bd090eca
+X-MS-Office365-Filtering-Correlation-Id: d0fa5e86-8346-418d-0009-08d8bd09bf4a
 X-MS-TrafficTypeDiagnostic: SA2PR03MB5884:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA2PR03MB58841EF33615303B404A9F96BAA20@SA2PR03MB5884.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <SA2PR03MB5884525EB88FC4FE863D418ABAA20@SA2PR03MB5884.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:5516;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: g8Q7iFTnpc8c3icia5IEDwfHrfDmodQxSij5LbHvWV4VZFmjMaIhdsFOn8cJVVrQYfWc2WJzDjoQuW1mqAH6RY1I7CpEHpGL5kNGbQjVcUsgTBDkbrWoxrAPIjpgyfsgI8j1zU7xi5YMp4rlRDRAVuJURFnB6lLYvRTrxKI6lwVFUXDGOi7yjKmkQj/AjdnNw6goe/+hoErf9yGSHDyZ82L5sP/mSLfxc7exCbfS68A2vjhmpVqkBIc00fKwT+zLWYErV3MALW/p6y/hR2drND2/LiX9AtJv3VCJqu2uWI8iejnr7++H5HEwH22fqbC12J7CqKPKUz8hVNv2+mF657sAbZ+mCiqSO7jOBPphNe+vgtCt6BNGisnBmWQYx6WdvNH0Nu2hUNZA4vbPONJx9SlYK5BidZtMnFOjtG7YsOH1Q2dhuuGiLOlIYrIps0IMSG0l2EBLYLfkOTfciTPUsQ==
+X-Microsoft-Antispam-Message-Info: bOOL8Ve0pMUUsbhh97AsNKGRpz1Dsw+mjoggLdGLuvZv9rGpITCRKT2Y55HdSIdnbzwkd2i/C9ty22g1svHollJFQiSn7yx06GaOVmLhkRYsoZHsDS0UbqfHOr5e2dwVGwiQMhRGBXgX981RxK5bfwms+zFcSIVFxJpa74pJzTBPnaNrpYXSrMdosMsgGVVFdQbVB/l6J9hjeHkn0N3+4kuqpAL3Iv+NvBcFfRjPgbD+cRP+NBxcM8ZRBJbbliOvT8NZcERCdYfGgsB3+9tAZn2bAWsb2lEH+8ZisDu2ssHlxIQUjVZzuL+ppcs7ocnjXqlKPxyOI1HFjzWacQxYf+oVafoVdKADGg9ldZu0qV6WOgjN7JEDjHy8jYIaHqjxxr8poNrA6uTJ1kCLAQL3ig==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39860400002)(346002)(376002)(366004)(136003)(396003)(83380400001)(6512007)(66556008)(5660300002)(8936002)(6506007)(956004)(6486002)(2616005)(966005)(75432002)(54906003)(4326008)(186003)(36756003)(52116002)(16526019)(66476007)(86362001)(316002)(6916009)(8676002)(26005)(2906002)(1076003)(6666004)(478600001)(786003)(66946007);
+ SFS:(4636009)(39860400002)(346002)(376002)(366004)(136003)(396003)(83380400001)(6512007)(66556008)(5660300002)(8936002)(6506007)(956004)(6486002)(2616005)(75432002)(54906003)(4326008)(186003)(36756003)(52116002)(16526019)(66476007)(86362001)(316002)(6916009)(8676002)(26005)(2906002)(1076003)(6666004)(478600001)(786003)(66946007);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?a9i1U4gYQlSbQAZKzQWMhs12s2AW7xRHLlP/KJFKvM+/EV5kGWqqAJFtk+J6?=
- =?us-ascii?Q?tnnSLiSXp9NjkTpF0BqsAhqA+HtyJt+BGWqvTKC0/Gc80R/s0/h95DoNiS9+?=
- =?us-ascii?Q?KrwLv1dtgPv5xUHDB0jsIW6o/f7D/GZB1kJ4884Rw8ztCF9bUfXxjuCzF9bw?=
- =?us-ascii?Q?DN46UsqZXWMG60Z1Ol++cHaSoZKPmsj7c6UhR9kYUpl7l+jJVV6xlhYSmatd?=
- =?us-ascii?Q?2/aLSO98nR80Rhd0w6gLDdUX6s2Q4uDo9zrV84aicvqe4pWH79Obv/2ujNl7?=
- =?us-ascii?Q?Bu+ZoULig6KNgrjeDcVo4Iq/fpQf/aQ9WnfkYfgAa+0zh/Bg0DoRNL1tLETc?=
- =?us-ascii?Q?Db7KuaJY1nzxRT1OiqnvxSKM6KA5IcTpuCt0ulGLxEUKYynX5kHjjSjkP8M8?=
- =?us-ascii?Q?2LMWz/xlskEVd3AKhowe2YvWbJqNUCh4FZafdqj0EaBysjpKhlnQxKg0goHY?=
- =?us-ascii?Q?5uhm24EuAQmKtU3Yl4yQK/Sjat5rHiKo37aaSLZmJnH7lpoJng9OZtmoFsqZ?=
- =?us-ascii?Q?LyMN0VI6IJo0Y/XMNgPesfjsicJqtuByTKXYi5bby+AFd2sxc1UKYXFDpu7n?=
- =?us-ascii?Q?m9YfxAJEIaSxV6tY9yt8zDZeEMoTnq0dzaMPakBtGZGEB++IkC21AMuwKfKx?=
- =?us-ascii?Q?r5QE3mft/+es/EbTr4FK4mtPEzHjHvpoGb2w4pi8JTJbEoTUM+UHN8I7OIPQ?=
- =?us-ascii?Q?FcHcE6LjqGG4kd4FnHit9rffT+SwWe3pd24A3dG61dDEdBtW0uAY3C8twcOw?=
- =?us-ascii?Q?kBiFwg/bikmvsw+3Pis2ruSiJ92zWCyNeFafi8JAS/xFAWwmhOw/nP9UWCEp?=
- =?us-ascii?Q?76f6utIwKhlx4qq3WNo0+WsfXAgsrQKoc15BqvVUFyvVofuyNFZtfET7nZyD?=
- =?us-ascii?Q?ibRTuc6XkYZBwbH84WJH6oTb5I7Lvov6DJa8GSDDqBrnYZ8Crs2goiPCU7aN?=
- =?us-ascii?Q?B5If/SRcNSQ86Ez/6Egeb0gdj9UqWKSVGGBymaSf/CHH/o1XK7LjmfiM9CwX?=
- =?us-ascii?Q?oygq?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?j9Fj8f2ZLbdMGhrsUY/6B9Std+YE5wQzsEU5YIPUFqutml5ceUKG1bJJOud4?=
+ =?us-ascii?Q?Afm8o/kbdoHRKdoJVoabNOrl77XQ7F0Qx+NEhLJWlPe9/jqovR9q0sQP9ybI?=
+ =?us-ascii?Q?eN6Dtdmfstc6lfY41kJRsvfa0b3yYNjlKQ5Xddr59a42IxK8Op34AkTPYOb9?=
+ =?us-ascii?Q?cYUOAwrmW3X8ezTCswha489wu+wFK8YIneonDJGA/PJKFSr7Pc3ggi089xUL?=
+ =?us-ascii?Q?ScIOgCrcg3vM3AS5qkktyKGssENwTD95bhl3dLpOj7h7Kcl1riNxPeOKYHlg?=
+ =?us-ascii?Q?IFGXZfCTEmNs398Fjb4gYqjwODTtVH1DvJel1wzT01tfvmwtetSShp5awkhv?=
+ =?us-ascii?Q?zNLXpqSZWCKtWhMantv+Tq7tNYZudxsTsJpeL/aBqY2xc3+7DjVGoU1/pNo7?=
+ =?us-ascii?Q?8OvikhDTQez+m86IeaIFkecy0zNaJQma0jv4JaAS3BjT5BsGBQCVEVkyU5o3?=
+ =?us-ascii?Q?R4A+jkgX/TdmO65QMl3p9iQxfljITG3jhRU2y0U/3N2nxFRrjA3G5DXtb46r?=
+ =?us-ascii?Q?vzMVGJux5UFn79co1IucUgOXRoT4VL0cTLuQOjLdd76eBOK2cviCxDtYVxOy?=
+ =?us-ascii?Q?dHLip79+RDm0mkugtp/DO0vODA7iTWgEIyTRSdMbV11jrM1xW+qLCdXgXHGN?=
+ =?us-ascii?Q?H2b2WEiHYqhTwY6YD4oDHJUku8AOXjfYg1ykDiwZUoBLtEqOwCu9XUXN2hkc?=
+ =?us-ascii?Q?h6m7JQ1IHpUg2/4hXG40kkqSOD0hz19xtaH/kEpXzZAC311jofEljkZwppUI?=
+ =?us-ascii?Q?6kcHcwEGOo/SBka5zCkAbEpmN4JE4EIFSMfoWDFJuLJUzoUOqSSbn7op3u+7?=
+ =?us-ascii?Q?NtOJ2b9VCMoRnngfX2tuC5iIqk6Vgt4gSo7UhPCpG4IB9QDB8ZwovCu9pixz?=
+ =?us-ascii?Q?CV07kJDRGBL+BQzm8tsCWrp61NJMX2bN9wiD6RkJCPfYrRCGm+jAtUbFP1DE?=
+ =?us-ascii?Q?GiCzMWlEB4bqpYQLpAoW+Zx9PAKFw09uMeTwqZ/ye057ouPU270aomIiUptV?=
+ =?us-ascii?Q?sbIX?=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a1e0bfb-fd8d-4495-dd87-08d8bd090eca
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0fa5e86-8346-418d-0009-08d8bd09bf4a
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 06:03:08.0142 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 06:08:03.6997 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bZjlA2Z10N5cZ8A1V8OFzXkbnZCkBv3illlIj9Bfp88HU0bFKiX3ZmMfCnaohHoU
+X-MS-Exchange-CrossTenant-UserPrincipalName: f+2RcXybA+0YkjNwB+MLc8u0T8yeHYBjpjpISvvs9dC8XO9Ql66jj+4QRL/gPoiT
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA2PR03MB5884
-Received-SPF: pass client-ip=40.107.92.90; envelope-from=alxndr@bu.edu;
+Received-SPF: pass client-ip=40.107.92.98; envelope-from=alxndr@bu.edu;
  helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -8
 X-Spam_score: -0.9
@@ -132,219 +132,51 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We passed an is_write flag to the fuzz_dma_read_cb function to
-differentiate between the mapped DMA regions that need to be populated
-with fuzzed data, and those that don't. We simply passed through the
-address_space_map is_write parameter. The goal was to cut down on
-unnecessarily populating mapped DMA regions, when they are not read
-from.
-
-Unfortunately, nothing precludes code from reading from regions mapped
-with is_write=true. For example, see:
-https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04729.html
-
-This patch removes the is_write parameter to fuzz_dma_read_cb. As a
-result, we will fill all mapped DMA regions with fuzzed data, ignoring
-the specified transfer direction.
+Disks work differently depending on the x86 machine type (SATA vs PATA).
+Additionally, we should fuzz the atapi code paths, which might contain
+vulnerabilities such as CVE-2020-29443. This patch adds hard-disk and
+cdrom generic-fuzzer configs for both the pc (PATA) and q35 (SATA)
+machine types.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- include/exec/memory.h                 | 8 +++-----
- include/exec/memory_ldst_cached.h.inc | 6 +++---
- memory_ldst.c.inc                     | 8 ++++----
- softmmu/memory.c                      | 5 ++---
- softmmu/physmem.c                     | 4 ++--
- tests/qtest/fuzz/generic_fuzz.c       | 9 +++------
- 6 files changed, 17 insertions(+), 23 deletions(-)
+ tests/qtest/fuzz/generic_fuzz_configs.h | 20 +++++++++++++++++++-
+ 1 file changed, 19 insertions(+), 1 deletion(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 521d9901d7..0f89787de2 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -45,13 +45,11 @@ DECLARE_OBJ_CHECKERS(IOMMUMemoryRegion, IOMMUMemoryRegionClass,
- #ifdef CONFIG_FUZZ
- void fuzz_dma_read_cb(size_t addr,
-                       size_t len,
--                      MemoryRegion *mr,
--                      bool is_write);
-+                      MemoryRegion *mr);
- #else
- static inline void fuzz_dma_read_cb(size_t addr,
-                                     size_t len,
--                                    MemoryRegion *mr,
--                                    bool is_write)
-+                                    MemoryRegion *mr)
- {
-     /* Do Nothing */
- }
-@@ -2504,7 +2502,7 @@ address_space_read_cached(MemoryRegionCache *cache, hwaddr addr,
-                           void *buf, hwaddr len)
- {
-     assert(addr < cache->len && len <= cache->len - addr);
--    fuzz_dma_read_cb(cache->xlat + addr, len, cache->mrs.mr, false);
-+    fuzz_dma_read_cb(cache->xlat + addr, len, cache->mrs.mr);
-     if (likely(cache->ptr)) {
-         memcpy(buf, cache->ptr + addr, len);
-         return MEMTX_OK;
-diff --git a/include/exec/memory_ldst_cached.h.inc b/include/exec/memory_ldst_cached.h.inc
-index 01efad62de..7bc8790d34 100644
---- a/include/exec/memory_ldst_cached.h.inc
-+++ b/include/exec/memory_ldst_cached.h.inc
-@@ -28,7 +28,7 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(l)(MemoryRegionCache *cache,
-     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
- {
-     assert(addr < cache->len && 4 <= cache->len - addr);
--    fuzz_dma_read_cb(cache->xlat + addr, 4, cache->mrs.mr, false);
-+    fuzz_dma_read_cb(cache->xlat + addr, 4, cache->mrs.mr);
-     if (likely(cache->ptr)) {
-         return LD_P(l)(cache->ptr + addr);
-     } else {
-@@ -40,7 +40,7 @@ static inline uint64_t ADDRESS_SPACE_LD_CACHED(q)(MemoryRegionCache *cache,
-     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
- {
-     assert(addr < cache->len && 8 <= cache->len - addr);
--    fuzz_dma_read_cb(cache->xlat + addr, 8, cache->mrs.mr, false);
-+    fuzz_dma_read_cb(cache->xlat + addr, 8, cache->mrs.mr);
-     if (likely(cache->ptr)) {
-         return LD_P(q)(cache->ptr + addr);
-     } else {
-@@ -52,7 +52,7 @@ static inline uint32_t ADDRESS_SPACE_LD_CACHED(uw)(MemoryRegionCache *cache,
-     hwaddr addr, MemTxAttrs attrs, MemTxResult *result)
- {
-     assert(addr < cache->len && 2 <= cache->len - addr);
--    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr, false);
-+    fuzz_dma_read_cb(cache->xlat + addr, 2, cache->mrs.mr);
-     if (likely(cache->ptr)) {
-         return LD_P(uw)(cache->ptr + addr);
-     } else {
-diff --git a/memory_ldst.c.inc b/memory_ldst.c.inc
-index 2fed2de18e..b56e961967 100644
---- a/memory_ldst.c.inc
-+++ b/memory_ldst.c.inc
-@@ -42,7 +42,7 @@ static inline uint32_t glue(address_space_ldl_internal, SUFFIX)(ARG1_DECL,
-                                         MO_32 | devend_memop(endian), attrs);
-     } else {
-         /* RAM case */
--        fuzz_dma_read_cb(addr, 4, mr, false);
-+        fuzz_dma_read_cb(addr, 4, mr);
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-         switch (endian) {
-         case DEVICE_LITTLE_ENDIAN:
-@@ -111,7 +111,7 @@ static inline uint64_t glue(address_space_ldq_internal, SUFFIX)(ARG1_DECL,
-                                         MO_64 | devend_memop(endian), attrs);
-     } else {
-         /* RAM case */
--        fuzz_dma_read_cb(addr, 8, mr, false);
-+        fuzz_dma_read_cb(addr, 8, mr);
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-         switch (endian) {
-         case DEVICE_LITTLE_ENDIAN:
-@@ -177,7 +177,7 @@ uint32_t glue(address_space_ldub, SUFFIX)(ARG1_DECL,
-         r = memory_region_dispatch_read(mr, addr1, &val, MO_8, attrs);
-     } else {
-         /* RAM case */
--        fuzz_dma_read_cb(addr, 1, mr, false);
-+        fuzz_dma_read_cb(addr, 1, mr);
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-         val = ldub_p(ptr);
-         r = MEMTX_OK;
-@@ -215,7 +215,7 @@ static inline uint32_t glue(address_space_lduw_internal, SUFFIX)(ARG1_DECL,
-                                         MO_16 | devend_memop(endian), attrs);
-     } else {
-         /* RAM case */
--        fuzz_dma_read_cb(addr, 2, mr, false);
-+        fuzz_dma_read_cb(addr, 2, mr);
-         ptr = qemu_map_ram_ptr(mr->ram_block, addr1);
-         switch (endian) {
-         case DEVICE_LITTLE_ENDIAN:
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 333e1ed7b0..4fc0071dcd 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1440,7 +1440,7 @@ MemTxResult memory_region_dispatch_read(MemoryRegion *mr,
-     unsigned size = memop_size(op);
-     MemTxResult r;
- 
--    fuzz_dma_read_cb(addr, size, mr, false);
-+    fuzz_dma_read_cb(addr, size, mr);
-     if (!memory_region_access_valid(mr, addr, size, false, attrs)) {
-         *pval = unassigned_mem_read(mr, addr, size);
-         return MEMTX_DECODE_ERROR;
-@@ -3282,8 +3282,7 @@ void memory_region_init_rom_device(MemoryRegion *mr,
- #ifdef CONFIG_FUZZ
- void __attribute__((weak)) fuzz_dma_read_cb(size_t addr,
-                       size_t len,
--                      MemoryRegion *mr,
--                      bool is_write)
-+                      MemoryRegion *mr)
- {
- }
- #endif
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index 6301f4f0a5..5aaec2f2c1 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2824,7 +2824,7 @@ MemTxResult flatview_read_continue(FlatView *fv, hwaddr addr,
-             stn_he_p(buf, l, val);
-         } else {
-             /* RAM case */
--            fuzz_dma_read_cb(addr, len, mr, false);
-+            fuzz_dma_read_cb(addr, len, mr);
-             ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
-             memcpy(buf, ram_ptr, l);
-         }
-@@ -3185,7 +3185,7 @@ void *address_space_map(AddressSpace *as,
-     memory_region_ref(mr);
-     *plen = flatview_extend_translation(fv, addr, len, mr, xlat,
-                                         l, is_write, attrs);
--    fuzz_dma_read_cb(addr, *plen, mr, is_write);
-+    fuzz_dma_read_cb(addr, *plen, mr);
-     ptr = qemu_ram_ptr_length(mr->ram_block, xlat, plen, true);
- 
-     return ptr;
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index be76d47d2d..deb74f15be 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -175,7 +175,7 @@ static int memory_access_size(MemoryRegion *mr, unsigned l, hwaddr addr)
-  * generic_fuzz(), avoiding potential race-conditions, which we don't have
-  * a good way for reproducing right now.
-  */
--void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
-+void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr)
- {
-     /* Are we in the generic-fuzzer or are we using another fuzz-target? */
-     if (!qts_global) {
-@@ -187,14 +187,11 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
-      * - We have no DMA patterns defined
-      * - The length of the DMA read request is zero
-      * - The DMA read is hitting an MR other than the machine's main RAM
--     * - The DMA request is not a read (what happens for a address_space_map
--     *   with is_write=True? Can the device use the same pointer to do reads?)
-      * - The DMA request hits past the bounds of our RAM
-      */
-     if (dma_patterns->len == 0
-         || len == 0
-         || mr != current_machine->ram
--        || is_write
-         || addr > current_machine->ram_size) {
-         return;
-     }
-@@ -213,12 +210,12 @@ void fuzz_dma_read_cb(size_t addr, size_t len, MemoryRegion *mr, bool is_write)
-             double_fetch = true;
-             if (addr < region.addr
-                 && avoid_double_fetches) {
--                fuzz_dma_read_cb(addr, region.addr - addr, mr, is_write);
-+                fuzz_dma_read_cb(addr, region.addr - addr, mr);
-             }
-             if (addr + len > region.addr + region.size
-                 && avoid_double_fetches) {
-                 fuzz_dma_read_cb(region.addr + region.size,
--                        addr + len - (region.addr + region.size), mr, is_write);
-+                        addr + len - (region.addr + region.size), mr);
-             }
-             return;
-         }
+diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+index 7fed035345..2ec52fbb63 100644
+--- a/tests/qtest/fuzz/generic_fuzz_configs.h
++++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+@@ -85,10 +85,28 @@ const generic_fuzz_config predefined_configs[] = {
+         .objects = "intel-hda",
+     },{
+         .name = "ide-hd",
++        .args = "-machine pc -nodefaults "
++        "-drive file=null-co://,if=none,format=raw,id=disk0 "
++        "-device ide-hd,drive=disk0",
++        .objects = "*ide*",
++    },{
++        .name = "ide-atapi",
++        .args = "-machine pc -nodefaults "
++        "-drive file=null-co://,if=none,format=raw,id=disk0 "
++        "-device ide-cd,drive=disk0",
++        .objects = "*ide*",
++    },{
++        .name = "ahci-hd",
++        .args = "-machine q35 -nodefaults "
++        "-drive file=null-co://,if=none,format=raw,id=disk0 "
++        "-device ide-hd,drive=disk0",
++        .objects = "*ahci*",
++    },{
++        .name = "ahci-atapi",
+         .args = "-machine q35 -nodefaults "
+         "-drive file=null-co://,if=none,format=raw,id=disk0 "
+         "-device ide-hd,drive=disk0",
+-        .objects = "ahci*",
++        .objects = "*ahci*",
+     },{
+         .name = "floppy",
+         .args = "-machine pc -nodefaults -device floppy,id=floppy0 "
 -- 
 2.28.0
 
