@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6216F2FDCDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 00:25:00 +0100 (CET)
-Received: from localhost ([::1]:57922 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67AFD2FDCDD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 00:25:02 +0100 (CET)
+Received: from localhost ([::1]:58100 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2MqQ-0001oC-U2
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 18:24:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35898)
+	id 1l2MqT-0001sq-CP
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 18:25:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l2Mop-0000OU-VT; Wed, 20 Jan 2021 18:23:20 -0500
-Received: from mail-qt1-x82e.google.com ([2607:f8b0:4864:20::82e]:36726)
+ id 1l2Mor-0000Ou-3i; Wed, 20 Jan 2021 18:23:21 -0500
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:45205)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l2Moo-0005kB-9S; Wed, 20 Jan 2021 18:23:19 -0500
-Received: by mail-qt1-x82e.google.com with SMTP id e17so332822qto.3;
- Wed, 20 Jan 2021 15:23:17 -0800 (PST)
+ id 1l2Mop-0005kQ-FZ; Wed, 20 Jan 2021 18:23:20 -0500
+Received: by mail-qk1-x733.google.com with SMTP id b64so27110840qkc.12;
+ Wed, 20 Jan 2021 15:23:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N09u5ewyyGWY/V5bYit+1nA2cLjLCCKSRfEr435sEy0=;
- b=Bkj43hMOcvq4KQkHsTGVlQcOL56hmcSHk+LMUKd78EcoyFvn9aFBdLYTf8PJ5MWrsr
- 43iZADdur46RlG9HsL5+klaPk9Ax10TgkLB2TNUnv6hfOQfyL+eGj7e8yrezA9oVpXud
- VEGElV6ao3KnIDFmd5TIiIUpooOjd8HteALun9QHX8vEYTZMddv0CMEr3uo4AmxLvzRd
- j83um0UxKvu3Wv8K9ptRVd1ZJDBRVuCrqEHC8VpYsYRbuCWWv/6RsCJi3iB2rJ64kptw
- p7EwFH1YED9UD0baKqwPJJxvEtbuY62WQFBQ30HPjvjT8A08iPtpShyD37QyhMXPbk53
- 4Sug==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Hg71OBcLzDNQS/O/QSEJZoTF7ksGsyQQlX4bvjHlEns=;
+ b=ivp02S9ZrawMM455lDGw28X3iX4rbwcVR2X+XlyRlSU1O7SuVjDUfGM3FtoYxZQ7zL
+ z9BZscyZzPX2/6yN/mSzjvINXPwCRCNz224swszhbXx2In+PaNF80ogDRaVFl8FbjCXL
+ 1peZ8jnYnCePnARl5LY/QpUkQa53Lg6gIZ2DhTN6OijZIJtG91vOk4ybTY9rxUS/9vD4
+ ETg2wqkjtAEVdP7RMZDXjHWADjPKmGr3KHZxWHD+Yui/6Khc0HDCl9LIOiE4Tc3OPpvA
+ 3klXkkBTRRkc/Mr5Oen7/fWIihjD0CoaAtRJNSvO5tlaQ/WWlS0vORpCD3WXp4l5eYSf
+ IF0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=N09u5ewyyGWY/V5bYit+1nA2cLjLCCKSRfEr435sEy0=;
- b=gBk27+VHq1td6luSjzckm3bEL8Dk7F7zGV2wCx/uzVXzJ9YUe8Vlw3KxPU7t+Wo34j
- azsFdYyCcmgAJ55kA53a4PEqLNTDbxGzKzs92VXepsdhf0bxaDzQEmdycZNUX2XKzX5D
- IsaG71MD+C3+NDKSNz/rPGc5spIACWTgxix5LnRN0sahfGr5Fc4TFu3oRFi6Vvcsm42C
- s32xJpXDMWIBZ4llqjvCNR81O5sOy0FAB+yHZIG1rw3U/tDkockI90yNljivOoEjPiB6
- zynUthHDICsSxK+FBvt77johV6Nl5FVOiQxEcmysusJItiz0bMJ0gP5rDp1OIDioRgRD
- YckQ==
-X-Gm-Message-State: AOAM533WwrMe3dZjmctTli4BVfpb1Hzwmp4WChs0D3hSIvVLNphDMn5T
- nS012mu5GTauyRJnWVobdaqhnVm5vhc=
-X-Google-Smtp-Source: ABdhPJzPJ7dq19lcNPKOID7bS4EMDOhNsNlsbM3CgDQLLqkhyeEI9RGL1ho7hnZzpGPaMecM3N03pg==
-X-Received: by 2002:ac8:110e:: with SMTP id c14mr10842591qtj.293.1611184996331; 
- Wed, 20 Jan 2021 15:23:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Hg71OBcLzDNQS/O/QSEJZoTF7ksGsyQQlX4bvjHlEns=;
+ b=TWNRKgW6TPlhxLk5qoK3l08WJ4MmiV5mUY+3brqW8FZhATZKvo9oFuU94hQPPBc2RQ
+ c7KI3w7TS98dCvW0gBxDQjH9U7bY95WoRnKdP0Yaz/bec8eSxpaa4npnlSbcFt7K0Vs1
+ m9HYk/NHg1AU+9Fz61MdM2LiHuV7LhRp/0ryW53wdbR5o4evtoGkTKRVhqO6TXisA+Qd
+ EywFt/GikDrI5+yH/Ze19i1zSxByg4QgHS4KnoPXukxZYK4WbAzujR6Dsf6QAan95iRi
+ COrbsa0LoHug4ZLnIGPRL0JB1ikf1jhD2+JGKcMpKxhLowMbHQ6CorDRmTfAWJD8u4vf
+ 9eXA==
+X-Gm-Message-State: AOAM532YNdEo5nqmIUaf90sEq2z74LV4pu+pSuoRA0rk/0Gh1Top3eBF
+ Y6Sl+dhve71nBn6OvnvMgne+XJtddjs=
+X-Google-Smtp-Source: ABdhPJyiTuSsTOlj2eC/EIKlBTwjTctJTVDEFXaiwjwhaJjhhXH6LInlz4Q/z/WB2zgLNkuRZekI1Q==
+X-Received: by 2002:ae9:c107:: with SMTP id z7mr12199954qki.160.1611184998124; 
+ Wed, 20 Jan 2021 15:23:18 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:a75a:cb34:ba60:6de6:be1d])
- by smtp.gmail.com with ESMTPSA id b6sm2452548qkc.128.2021.01.20.15.23.14
+ by smtp.gmail.com with ESMTPSA id b6sm2452548qkc.128.2021.01.20.15.23.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 15:23:15 -0800 (PST)
+ Wed, 20 Jan 2021 15:23:17 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 0/2] spapr.c: add 'name' property for hotplugged CPUs nodes
-Date: Wed, 20 Jan 2021 20:23:03 -0300
-Message-Id: <20210120232305.241521-1-danielhb413@gmail.com>
+Subject: [PATCH v1 1/2] spapr.c: use g_auto* with 'nodename' in CPU DT
+ functions
+Date: Wed, 20 Jan 2021 20:23:04 -0300
+Message-Id: <20210120232305.241521-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210120232305.241521-1-danielhb413@gmail.com>
+References: <20210120232305.241521-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82e;
- envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::733;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -84,20 +87,60 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Next patch will use the 'nodename' string in spapr_core_dt_populate()
+after the point it's being freed today.
 
-We're not adding the 'name' property in the hotplugged CPU nodes, and
-this is being reflected in the kernel in a CPU hotunplug bug. See
-patch 02 for more info. 
+Instead of moving 'g_free(nodename)' around, let's do a QoL change in
+both CPU DT functions where 'nodename' is being freed, and use
+g_autofree to avoid the 'g_free()' call altogether.
 
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
-Daniel Henrique Barboza (2):
-  spapr.c: use g_auto* with 'nodename' in CPU DT functions
-  spapr.c: add 'name' property for hotplugged CPUs nodes
-
- hw/ppc/spapr.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
-
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 6c47466fc2..cc1b709615 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -790,7 +790,6 @@ static void spapr_dt_cpus(void *fdt, SpaprMachineState *spapr)
+     CPUState *cs;
+     int n_cpus;
+     int cpus_offset;
+-    char *nodename;
+     int i;
+ 
+     cpus_offset = fdt_add_subnode(fdt, 0, "cpus");
+@@ -818,6 +817,7 @@ static void spapr_dt_cpus(void *fdt, SpaprMachineState *spapr)
+         PowerPCCPU *cpu = POWERPC_CPU(cs);
+         int index = spapr_get_vcpu_id(cpu);
+         DeviceClass *dc = DEVICE_GET_CLASS(cs);
++        g_autofree char *nodename = NULL;
+         int offset;
+ 
+         if (!spapr_is_thread0_in_vcore(spapr, cpu)) {
+@@ -826,7 +826,6 @@ static void spapr_dt_cpus(void *fdt, SpaprMachineState *spapr)
+ 
+         nodename = g_strdup_printf("%s@%x", dc->fw_name, index);
+         offset = fdt_add_subnode(fdt, cpus_offset, nodename);
+-        g_free(nodename);
+         _FDT(offset);
+         spapr_dt_cpu(cs, fdt, offset, spapr);
+     }
+@@ -3743,12 +3742,11 @@ int spapr_core_dt_populate(SpaprDrc *drc, SpaprMachineState *spapr,
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     DeviceClass *dc = DEVICE_GET_CLASS(cs);
+     int id = spapr_get_vcpu_id(cpu);
+-    char *nodename;
++    g_autofree char *nodename = NULL;
+     int offset;
+ 
+     nodename = g_strdup_printf("%s@%x", dc->fw_name, id);
+     offset = fdt_add_subnode(fdt, 0, nodename);
+-    g_free(nodename);
+ 
+     spapr_dt_cpu(cs, fdt, offset, spapr);
+ 
 -- 
 2.26.2
 
