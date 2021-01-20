@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2313E2FCE86
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 11:57:10 +0100 (CET)
-Received: from localhost ([::1]:54738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1B0A2FCE89
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 12:00:00 +0100 (CET)
+Received: from localhost ([::1]:35966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2BAi-0005vL-TX
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:57:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41344)
+	id 1l2BDT-0001YG-LF
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:59:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41380)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l2B7z-0004Y4-Mv; Wed, 20 Jan 2021 05:54:19 -0500
-Received: from mail-qk1-x729.google.com ([2607:f8b0:4864:20::729]:40503)
+ id 1l2B82-0004dY-G4; Wed, 20 Jan 2021 05:54:22 -0500
+Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b]:39627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l2B7y-0001RI-6A; Wed, 20 Jan 2021 05:54:19 -0500
-Received: by mail-qk1-x729.google.com with SMTP id z11so24850880qkj.7;
- Wed, 20 Jan 2021 02:54:17 -0800 (PST)
+ id 1l2B80-0001SO-2X; Wed, 20 Jan 2021 05:54:22 -0500
+Received: by mail-qt1-x82b.google.com with SMTP id z9so5982686qtv.6;
+ Wed, 20 Jan 2021 02:54:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=95zT68R9kHzjFQ18LRWA6dT/6xiWY8MHzMz6YnQrnyU=;
- b=BhNbgMOOOehgVLa5NngQ3ggBU0Z8wTlrXOXTckkW7Ury03hTVMo6uAjFoE3bb1R5Y+
- SPSbKijR5oVYNbOKJTZTVo/CyY9Lx00uAx3/rIW/AlsJJ7rzuStkv3HPBvQ82ou9lR1h
- 5oK59T53Etn8BQkqJN9/E6BKZpZH4b5OR2qizvkCZRqdpAi0B/uswzcpU5zDA2WajWmF
- rulYmZSOu0YNqK5Uv9oVwsivTLv/wpSaTfKwoSP+KtQmFEIpWdO0mqwT/Tp9IrZvqgqf
- +eh2kMtJEcZ3oIxF76pJhB24scvOGjefRmboqje2oh0Pl6kE+mQk+71pWNyLgSajbCVu
- MQOw==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Vb6aeCHMcWb83D+eaNofIUROeE3/e/R1W34kvXPLJgs=;
+ b=o+Uh4mXD7YFm4m5vSv36+2O3BhqodsP0+68w7hS5nGDx7aEoU5zdYAbTeSOXa307e/
+ LuQnGpfkNKtXavpaW21wErKOrPYCrBfDX1C6hjxIccgimG3tmQZeHWYvzPyKrCJjftdI
+ eX+IhBntZNegZ8PXZZyXmsLYOisgGfXpB4D3AgVwPR3QPD5c81Ptg+ttW68QTk5jaFn4
+ Pi+eI419wwwrw+JUlJouUfZaPSqh4CzMVFFVICrS0r1/ynoc3BVq0jJnhUgF3TP6Wymq
+ ErgTSF7lUVNQVJDCnokEF6WTQOfrPRKEeTpcD4mUbD/HppX2j7O2U6PNOrCrl+ituC4V
+ dYXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=95zT68R9kHzjFQ18LRWA6dT/6xiWY8MHzMz6YnQrnyU=;
- b=iFMyclzRH1ea7Gsyuot7sFmDCHWRxLGLuLdPlOI1sV2MICRWl42IC+4npNoW6/0XO3
- f43F+JJWfWg9925oxgFbbZW/gSoCUmdEvrH3g9Pvsrj5mF9XLOXwb6BCE8ng9fUbvqyk
- E/tTe6kqL3Wrr3BdICKdNnldrzSZMsw1dGk8cKU6ERhTts2zdKwo4iWZd4Tk8Ecq0Xsg
- nwPxAobzwrZkEfeJTHdlPcBA6qLW7DwHbV/Xz4WnKFE9hhIvWleDodw8P5ib7o8/bUvI
- 4CMqHaT/RBjX3X2bBbbbyHiIAGKCMWW6Pqfr65Ny5NfTVSLSWjIWIXzq/Z+MBw8gA4iv
- qykw==
-X-Gm-Message-State: AOAM530RSs8P6jsR3TLDbNXwsBHkzIE34pOd1TqaDNHLGfB1YoSyVo9S
- XPbLRH79yOFdbdH1f+DuSa7blesai0A=
-X-Google-Smtp-Source: ABdhPJzf8A8ZyIUTGb92SUwgl76ddCWPPj/CsLfMgkuOomlsLegEPlZks0BetOAYD6mWcLWQcXpnwg==
-X-Received: by 2002:a05:620a:204f:: with SMTP id
- d15mr5837564qka.14.1611140056688; 
- Wed, 20 Jan 2021 02:54:16 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=Vb6aeCHMcWb83D+eaNofIUROeE3/e/R1W34kvXPLJgs=;
+ b=EVuab+BGniJ2GELkwnWb08BVn0TJDh6rAc20lJ0UKuKEjhacAro0V1mpSn5sg6NTrx
+ rAYd5Ta9TmuQ5uHbnvd78jyhBQyhvswf2UI7LPiWXHe2g4S2MwVC6ptu3FpzZfer0ncC
+ iwHQjU/2d0FwjXGRm6VSzCnsrPrR7hRyrUYka4fdmBIjz4h/1YR6ZCHgbMBiA5e9Zfz0
+ IQcuM8ZJm+s/EZFjuJ3sT4PswsTjlLKA3D3tuW2w3jfIrT1Sd8Sc6ENMgCwlrwRyce9B
+ xjMQBJ/Yv6LmVIr1sM71dL7TPkFYOpT9CD5AE9MB/WxydRW7rIgvSrShO1WH40ox8bM6
+ +TEg==
+X-Gm-Message-State: AOAM530jgDo0eWy7qio0HkGNMscXIj/k8jMgAeQhgh5QJCPjwDP966bZ
+ ZhKXdphUwe174A7Aty44Bgkwc9zFbyk=
+X-Google-Smtp-Source: ABdhPJzpo3betT82PVIxnBKBdMCDYZIdiv1AxTy8m+A9SsAd6YYqGY3taRmQa+eGbfYgZpFNnW67ag==
+X-Received: by 2002:ac8:6b93:: with SMTP id z19mr2168421qts.345.1611140058623; 
+ Wed, 20 Jan 2021 02:54:18 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c7:a75a:cb34:ba60:6de6:be1d])
- by smtp.gmail.com with ESMTPSA id e12sm1045079qka.82.2021.01.20.02.54.14
+ by smtp.gmail.com with ESMTPSA id e12sm1045079qka.82.2021.01.20.02.54.16
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 02:54:16 -0800 (PST)
+ Wed, 20 Jan 2021 02:54:18 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/1] spapr_caps.c: check user input before warning about
+Subject: [PATCH v2 1/1] spapr_caps.c: check user input before warning about
  TCG only caps
-Date: Wed, 20 Jan 2021 07:54:05 -0300
-Message-Id: <20210120105406.163074-1-danielhb413@gmail.com>
+Date: Wed, 20 Jan 2021 07:54:06 -0300
+Message-Id: <20210120105406.163074-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210120105406.163074-1-danielhb413@gmail.com>
+References: <20210120105406.163074-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::729;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x729.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -86,18 +87,109 @@ Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-changes from v1:
-- check command line input to decide if the warning will be shown
-  instead of setting capabilities based on running with TCG or not.
-- v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04890.html
+Commit 006e9d361869 added warning messages for cap-cfpc, cap-ibs and
+cap-sbbc when enabled under TCG. Commit 8ff43ee404d3 did the same thing
+when introducing cap-ccf-assist.
 
+These warning messages, although benign to the machine launch, can make
+users a bit confused. E.g:
 
-Daniel Henrique Barboza (1):
-  spapr_caps.c: check user input before warning about TCG only caps
+$ sudo ./ppc64-softmmu/qemu-system-ppc64
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-cfpc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-sbbc=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ibs=workaround
+qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ccf-assist=on
 
+We're complaining about "TCG doesn't support requested feature" when the
+user didn't request any of those caps in the command line.
+
+Check if these caps were set in the command line before sending an user
+warning.
+
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
  hw/ppc/spapr_caps.c | 47 ++++++++++++++++++++++++++++++++++-----------
  1 file changed, 36 insertions(+), 11 deletions(-)
 
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 9341e9782a..629c24a96d 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -244,9 +244,15 @@ static void cap_safe_cache_apply(SpaprMachineState *spapr, uint8_t val,
+     uint8_t kvm_val =  kvmppc_get_cap_safe_cache();
+ 
+     if (tcg_enabled() && val) {
+-        /* TCG only supports broken, allow other values and print a warning */
+-        warn_report("TCG doesn't support requested feature, cap-cfpc=%s",
+-                    cap_cfpc_possible.vals[val]);
++        /*
++         * TCG only supports broken, allow other values and print a warning
++         * in case the user attempted to set a different value in the command
++         * line.
++         */
++        if (spapr->cmd_line_caps[SPAPR_CAP_CFPC] != SPAPR_CAP_BROKEN) {
++            warn_report("TCG doesn't support requested feature, cap-cfpc=%s",
++                        cap_cfpc_possible.vals[val]);
++        }
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+                    "Requested safe cache capability level not supported by KVM");
+@@ -269,9 +275,15 @@ static void cap_safe_bounds_check_apply(SpaprMachineState *spapr, uint8_t val,
+     uint8_t kvm_val =  kvmppc_get_cap_safe_bounds_check();
+ 
+     if (tcg_enabled() && val) {
+-        /* TCG only supports broken, allow other values and print a warning */
+-        warn_report("TCG doesn't support requested feature, cap-sbbc=%s",
+-                    cap_sbbc_possible.vals[val]);
++        /*
++         * TCG only supports broken, allow other values and print a warning
++         * in case the user attempted to set a different value in the command
++         * line.
++         */
++        if (spapr->cmd_line_caps[SPAPR_CAP_SBBC] != SPAPR_CAP_BROKEN) {
++            warn_report("TCG doesn't support requested feature, cap-sbbc=%s",
++                        cap_sbbc_possible.vals[val]);
++        }
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+ "Requested safe bounds check capability level not supported by KVM");
+@@ -297,9 +309,15 @@ static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
+     uint8_t kvm_val = kvmppc_get_cap_safe_indirect_branch();
+ 
+     if (tcg_enabled() && val) {
+-        /* TCG only supports broken, allow other values and print a warning */
+-        warn_report("TCG doesn't support requested feature, cap-ibs=%s",
+-                    cap_ibs_possible.vals[val]);
++        /*
++         * TCG only supports broken, allow other values and print a warning
++         * in case the user attempted to set a different value in the command
++         * line.
++         */
++        if (spapr->cmd_line_caps[SPAPR_CAP_IBS] != SPAPR_CAP_BROKEN) {
++            warn_report("TCG doesn't support requested feature, cap-ibs=%s",
++                        cap_ibs_possible.vals[val]);
++        }
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         error_setg(errp,
+ "Requested safe indirect branch capability level not supported by KVM");
+@@ -483,8 +501,15 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+     uint8_t kvm_val = kvmppc_get_cap_count_cache_flush_assist();
+ 
+     if (tcg_enabled() && val) {
+-        /* TCG doesn't implement anything here, but allow with a warning */
+-        warn_report("TCG doesn't support requested feature, cap-ccf-assist=on");
++        /*
++         * TCG doesn't implement anything here, but allow with a warning
++         * in case the user attempted to set a different value in the command
++         * line.
++         */
++        if (spapr->cmd_line_caps[SPAPR_CAP_CCF_ASSIST] != SPAPR_CAP_OFF) {
++            warn_report("TCG doesn't support requested feature, "
++                        "cap-ccf-assist=on");
++        }
+     } else if (kvm_enabled() && (val > kvm_val)) {
+         uint8_t kvm_ibs = kvmppc_get_cap_safe_indirect_branch();
+ 
 -- 
 2.26.2
 
