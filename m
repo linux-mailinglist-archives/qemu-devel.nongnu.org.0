@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB51B2FDB38
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 21:54:22 +0100 (CET)
-Received: from localhost ([::1]:33322 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B2D2FDB3A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 21:57:06 +0100 (CET)
+Received: from localhost ([::1]:37314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2KUf-0004g1-VK
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 15:54:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35302)
+	id 1l2KXJ-0006Qi-3F
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 15:57:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35696)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2KTT-00043i-AH
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 15:53:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2KTR-0005dJ-Sg
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 15:53:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611175984;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7VSwJu92VUvQgAom2XVZM8SwW3UhBDHeZWZlnnqzOM8=;
- b=i737nCMEFTULGWjo+W7SPd1uZmGoQMddV92c6TpfBs8bQE/814tkOjpKZbGlScmF8qZZ6N
- ag4lYMir63cWu6eQEr6Mprseqf9z8igck/WuZKhZt6dCFJawY7lBVRPhe+oPcFDzFgZ/ju
- bNwmOMBWUq1Hdpj+aSMQ+GUnuvwSd4w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-301-7DUHitlwO7-j9tDWpBwabA-1; Wed, 20 Jan 2021 15:52:59 -0500
-X-MC-Unique: 7DUHitlwO7-j9tDWpBwabA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80F35107ACE4;
- Wed, 20 Jan 2021 20:52:58 +0000 (UTC)
-Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C898C10023B6;
- Wed, 20 Jan 2021 20:52:57 +0000 (UTC)
-Subject: Re: [PATCH v7 00/11] Rework iotests/check
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210116134424.82867-1-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <c4bdbd03-7a03-3bf2-3f6e-c8c85dd9897c@redhat.com>
-Date: Wed, 20 Jan 2021 14:52:57 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <lb.workbox@gmail.com>)
+ id 1l2KVY-0005CM-LG
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 15:55:16 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:40188)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <lb.workbox@gmail.com>)
+ id 1l2KVW-0006JU-Tb
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 15:55:16 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c12so5858114wrc.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 12:55:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MVJhaCrhCBlRAQv3mfKaM0VbRKJRTgYkm4ok44vTQFc=;
+ b=emKlgp7PQK5rf34SwWNanbHr9csqjQs2BTrrCv+8GQnHwZuRuu+Jdv0ynxe9OKgQpK
+ 8vkd1azTyfLrvtzqMtsaddFJStYmAvbU1e8oBI4WUh25RHsdagwTwaYsMEl44Gc5IEN6
+ eMIPdEvnIqQqjtIich1LRFiwplGZHzIkFkABExLzZFsy6iQ0t4juQFRnZ/kvpX6W1VrG
+ x9T8xU7VxaF4/xrCR61goG6LrMMzw1e+xW752mE2IbmbB5DMfrpoAvbGkLYxma0cTxry
+ i2vykh7ABnNLzuUO7xULVhXqszsQkOEqIvu3HOwrISB4UjGubjv7HU97XUVgCxzSzFFw
+ 7bMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=MVJhaCrhCBlRAQv3mfKaM0VbRKJRTgYkm4ok44vTQFc=;
+ b=mHPgb7qDDfgpKjVKy9rUJbmK/jsupBSOF5+tK4fbshj20/YswReioMXw5V0Lr8uvqa
+ oUvur9f2EJ+7rq4C0AfnK2ZpQa/P4A8d/6svLhJaKo83msD20pVrugAR0LIy5xYZMgfv
+ J91d8xIqx8WbwkiEm7VIwou090DO2AbTO0GN/NHnPzzzkUGb5Gi/ZXC0n/E/LrmIIHWR
+ mgjHForqQlZEOjhmYP3nuVwACL24HtD5u22v1Mgzfp7CY7txHeJ3K0yhW7v47PPSTJ/P
+ xcbC+7LBB3UDGgzx7np8qCTqa8bml99Ob4p7xMZl6AcXTA4A2FMfy/0iLPOZ121X/MnS
+ xecA==
+X-Gm-Message-State: AOAM531k9ScWYYnIXbEvYdHn3qcVf3o6UTedkMCGfahlmwHS5bvp/+eg
+ mosfgJRdpVPcf/tXnB851RU=
+X-Google-Smtp-Source: ABdhPJyhsUmKMJB5YYAe1S2hgudKRvZW+Uq0H/7aUJCBgwHURu0N4zEkL0ZOgfcl0Dik4B4PYr9gjw==
+X-Received: by 2002:a5d:5401:: with SMTP id g1mr10939681wrv.93.1611176112399; 
+ Wed, 20 Jan 2021 12:55:12 -0800 (PST)
+Received: from lb-xps.. ([176.230.215.91])
+ by smtp.gmail.com with ESMTPSA id k10sm5614823wrq.38.2021.01.20.12.55.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 12:55:11 -0800 (PST)
+From: Leonid Bloch <lb.workbox@gmail.com>
+To: "Michael S . Tsirkin" <mst@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PATCH 0/4] Introduce a battery, AC adapter, and lid button
+Date: Wed, 20 Jan 2021 22:54:57 +0200
+Message-Id: <20210120205501.33918-1-lb.workbox@gmail.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <20210116134424.82867-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=lb.workbox@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,57 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Leonid Bloch <lb.workbox@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/16/21 7:44 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Hi all!
-> 
-> These series has 3 goals:
-> 
->  - get rid of group file (to forget about rebase and in-list conflicts)
->  - introduce human-readable names for tests
->  - rewrite check into python
-> 
-> v7:
->   - fix wording and grammar
->   - satisfy python linters
->   - move argv interfaces all into one in new check script
->   - support '-n' == '--dry-run' option
->   - update check-block to run check with correct PYTHON
+This series introduces the following ACPI devices:
 
-I'd really like a second reviewer on 7-11, but I'm queueing 1-6 on my
-NBD tree now.
+* Battery
+* AC adapter
+* Laptop lid button
 
-> 
->  findtests: - stop parsing test file after first '# group: ' line
->             - use parse_test_name in add_group_file()
->             - make new list instead of modifying parameter exclude_groups
-> 
->  testenv: - fix machine_map
->           - fix self.python
-> 
->  testrunner: use env.python to run python tests
-> 
-> Vladimir Sementsov-Ogievskiy (11):
->   iotests/277: use dot slash for nbd-fault-injector.py running
->   iotests/303: use dot slash for qcow2.py running
->   iotests: fix some whitespaces in test output files
->   iotests: make tests executable
->   iotests/294: add shebang line
->   iotests: define group in each iotest
->   iotests: add findtests.py
->   iotests: add testenv.py
->   iotests: add testrunner.py
->   iotests: rewrite check into python
->   iotests: rename and move 169 and 199 tests
-> 
+When running QEMU on a laptop, these paravirtualized devices reflect the
+state of these physical devices onto the guest. This functionality is
+relevant not only for laptops, but also for any other device which has e.g.
+a battery. This even allows to insert a ``fake'' battery to the
+guest, in a form of a file which emulates the behavior of the actual
+battery in sysfs. A possible use case for such a ``fake'' battery can be
+limiting the budget of VM usage to a subscriber, in a naturally-visible way.
+But of course, the main purpose here is addressing the desktop users.
+
+This series was tested with Windows and (desktop) Linux guests, on which
+indeed the battery icon appears in the corresponding state (full,
+charging, discharging, time remaining to empty, etc.) and the AC adapter
+plugging/unplugging behaves as expected. So is the laptop lid button.
+
+For the ease of review, these commits are also available here:
+https://github.com/blochl/qemu/pull/1/commits
+
+
+Thanks,
+Leonid.
+
+Leonid Bloch (4):
+  hw/acpi: Increase the number of possible ACPI interrupts
+  hw/acpi: Introduce the QEMU Battery
+  hw/acpi: Introduce the QEMU AC adapter
+  hw/acpi: Introduce the QEMU lid button
+
+ MAINTAINERS                          |  15 +
+ docs/specs/acad.txt                  |  24 ++
+ docs/specs/battery.txt               |  23 ++
+ docs/specs/button.txt                |  35 ++
+ hw/acpi/Kconfig                      |  12 +
+ hw/acpi/acad.c                       | 318 +++++++++++++++++
+ hw/acpi/battery.c                    | 512 +++++++++++++++++++++++++++
+ hw/acpi/button.c                     | 327 +++++++++++++++++
+ hw/acpi/core.c                       |  17 +-
+ hw/acpi/meson.build                  |   3 +
+ hw/acpi/trace-events                 |  15 +
+ hw/i386/Kconfig                      |   3 +
+ hw/i386/acpi-build.c                 | 178 ++++++++++
+ include/hw/acpi/acad.h               |  37 ++
+ include/hw/acpi/acpi_dev_interface.h |   3 +
+ include/hw/acpi/battery.h            |  43 +++
+ include/hw/acpi/button.h             |  35 ++
+ 17 files changed, 1598 insertions(+), 2 deletions(-)
+ create mode 100644 docs/specs/acad.txt
+ create mode 100644 docs/specs/battery.txt
+ create mode 100644 docs/specs/button.txt
+ create mode 100644 hw/acpi/acad.c
+ create mode 100644 hw/acpi/battery.c
+ create mode 100644 hw/acpi/button.c
+ create mode 100644 include/hw/acpi/acad.h
+ create mode 100644 include/hw/acpi/battery.h
+ create mode 100644 include/hw/acpi/button.h
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+2.30.0
 
 
