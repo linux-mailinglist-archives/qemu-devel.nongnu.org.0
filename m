@@ -2,106 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05C882FDAD9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 21:32:05 +0100 (CET)
-Received: from localhost ([::1]:51154 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95C9B2FDB13
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 21:46:07 +0100 (CET)
+Received: from localhost ([::1]:53824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2K94-0007Qx-QD
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 15:32:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59024)
+	id 1l2KMg-00018P-72
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 15:46:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2K7F-0006mx-6b; Wed, 20 Jan 2021 15:30:10 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59432)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2K7A-0006GT-PP; Wed, 20 Jan 2021 15:30:08 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10KK2AEV036323; Wed, 20 Jan 2021 15:30:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=7GGfxFwKeXxzJbFWpzMDqSkFiEtjFdUqAoGSY58CdMk=;
- b=QwMlIyeTuGHiP++n1p9Ir1xtNixCdGEo7nCHcq42DopAV+s0dYiaytJNVFfb0fzArL7g
- 2LQ5CHw1y4a6XjbtRB90jPQWM6sxEyVcTql8bdiO3za2RhVLbGSg9366Su+EqqyDbbma
- J3D8XtenKKMTuCazkVuxUqhFD1Ro5E+vUCU/P0iajcOtw7DgqvDM8Ci/3UXHDf6PfsNX
- TJbez8COO4V3oO+Vhr9o8tenDB1tEJ2JTU8MAhIE7pTGTW5nThirbtvtDUbGgkb2rmMi
- UoU7B1uT4DJL4I+iTA236sGhLdnW6vh0XQlXbGBHkAYLtLFvlTq+zl5ZwzfyGCmk/YRI Tg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 366t4c2b4n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 15:30:01 -0500
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10KK2Kqj039092;
- Wed, 20 Jan 2021 15:30:00 -0500
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0a-001b2d01.pphosted.com with ESMTP id 366t4c2b3t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 15:30:00 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10KKTwmN025022;
- Wed, 20 Jan 2021 20:29:59 GMT
-Received: from b03cxnp08026.gho.boulder.ibm.com
- (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
- by ppma01wdc.us.ibm.com with ESMTP id 3668s76w0m-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 20:29:59 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10KKTvKp28443078
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Jan 2021 20:29:57 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 9F957BE056;
- Wed, 20 Jan 2021 20:29:57 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 40B6EBE04F;
- Wed, 20 Jan 2021 20:29:56 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.56.144])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 20 Jan 2021 20:29:56 +0000 (GMT)
-Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
-To: Pierre Morel <pmorel@linux.ibm.com>, cohuck@redhat.com, thuth@redhat.com
-References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
- <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
- <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
- <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
- <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
- <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
-Date: Wed, 20 Jan 2021 15:29:55 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l2KKl-0000Yl-1s
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 15:44:07 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:34922)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l2KKj-0002gL-7s
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 15:44:06 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id b5so2985178pjl.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 12:44:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=67xzIqyo2tBpv4YQ+6Pg2E90WdIC5doQl/LnYiN3APs=;
+ b=jTd1ASasOnKExLWRKQ9Bf8Y2hChy2ZiM3l4T60jCBUGcZk9AyuffMEdXyZNChRYfdt
+ UA5igoVX2OF86ywqKkxY/fX6gy/Xn6Ni4zUv1OAo/9i/dyr1W1dCf6UB1AR7W1bZuUk8
+ IHL9GAmd6143DaSU5lFxStWIsQhC4vdgNqeXpoo42dpxSqPKGerL5J94mVqa850voN3y
+ d8m9lvrveFwL8VRh69llsvgsgPZjtguycpTDhFj2i/RzCybdPwflSXV8Q5/Unnm5KQ1i
+ 2ceNK0F8FXXtJZKO5MFNW2apCcZGxRPSbuY29LZ4pYUAAEDsZqayMfCk18liBu7rpUiv
+ mgng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=67xzIqyo2tBpv4YQ+6Pg2E90WdIC5doQl/LnYiN3APs=;
+ b=NEjzE7JOoarm+LlnxCvt7jh4rYnBtu3Mpw2qLl3QFRTDlEKzXIiBhWq58jP1esu8Dv
+ G5lhW0Y/dWWxPUlF1sZEItr90WanL+f4XGDr/1/yGy57vNXY3EwNWsqZ9gcqJOeaWfed
+ yWwUcxU9zhgc9mjUGqhJWtcfG48WeUy39y6a7VBeEADScOlQWkrFUWvc4sfTBzMrPLuJ
+ ZWOfUALSMy4pBKNffAbGF6O/UZZZNxU2anaXvArKtqZJJIhHgiWXXbF5ewPizyyah1AY
+ h4Se5gUxULCJW7eCKi+4kILhYwYJfeGiReswgTc5k8bxAaWMxdB9aLbn2fJpr735wSAQ
+ gD+g==
+X-Gm-Message-State: AOAM531m7q8kGBXdmxsktJTVTwXOD6/Urip7VoMJvqINP2/yhXNCO+UI
+ jcqzUYYT+c4/v9sWy1oSAxXimdz/cNwGAg==
+X-Google-Smtp-Source: ABdhPJxnzgBLqBm2Ciattdb8roG66VGvWtp8OcVKzg7CHIjZyXMEPdpZdway2wAMy/l3AgUpM0lCXw==
+X-Received: by 2002:a17:90a:245:: with SMTP id t5mr7792172pje.89.1611175443657; 
+ Wed, 20 Jan 2021 12:44:03 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id f22sm3275183pfk.179.2021.01.20.12.44.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 12:44:02 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3] target/arm: Implement ID_PFR2
+Date: Wed, 20 Jan 2021 10:44:00 -1000
+Message-Id: <20210120204400.1056582-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-20_10:2021-01-20,
- 2021-01-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 adultscore=0
- phishscore=0 suspectscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
- malwarescore=0 mlxscore=0 impostorscore=0 lowpriorityscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101200113
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -114,271 +81,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
- pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/21 2:18 PM, Pierre Morel wrote:
-> 
-> 
-> On 1/20/21 4:59 PM, Matthew Rosato wrote:
->> On 1/20/21 9:45 AM, Pierre Morel wrote:
->>>
->>>
->>> On 1/20/21 3:03 PM, Matthew Rosato wrote:
->>>> On 1/20/21 4:12 AM, Pierre Morel wrote:
->>>>>
->>>>>
->>>>> On 1/19/21 9:44 PM, Matthew Rosato wrote:
->>>>>> Today, ISM devices are completely disallowed for vfio-pci 
->>>>>> passthrough as
->>>>>> QEMU rejects the device due to an (inappropriate) MSI-X check. 
->>>>>> Removing
->>>>>> this fence, however, reveals additional deficiencies in the s390x PCI
->>>>>> interception layer that prevent ISM devices from working correctly.
->>>>>> Namely, ISM block write operations have particular requirements in 
->>>>>> regards
->>>>>> to the alignment, size and order of writes performed that cannot be
->>>>>> guaranteed when breaking up write operations through the typical
->>>>>> vfio_pci_bar_rw paths. Furthermore, ISM requires that legacy/non-MIO
->>>>>> s390 PCI instructions are used, which is also not guaranteed when 
->>>>>> the I/O
->>>>>> is passed through the typical userspace channels.
->>>>>>
->>>>>> This patchset provides a set of fixes related to enabling ISM device
->>>>>> passthrough and includes patches to enable use of a new vfio 
->>>>>> region that
->>>>>> will allow s390x PCI pass-through devices to perform s390 PCI 
->>>>>> instructions
->>>>>> in such a way that the same instruction issued on the guest is 
->>>>>> re-issued
->>>>>> on the host.
->>>>>>
->>>>>> Associated kernel patchset:
->>>>>> https://lkml.org/lkml/2021/1/19/874
->>>>>>
->>>>>> Changes from RFC -> v1:
->>>>>> - Refresh the header sync (built using Eric's 'update-linux-headers:
->>>>>> Include const.h' + manually removed pvrdma_ring.h again)
->>>>>> - Remove s390x/pci: fix pcistb length (already merged)
->>>>>> - Remove s390x/pci: Fix memory_region_access_valid call (already 
->>>>>> merged)
->>>>>> - Fix bug: s390_pci_vfio_pcistb should use the pre-allocated PCISTB
->>>>>> buffer pcistb_buf rather than allocating/freeing its own.
->>>>>> - New patch: track the PFT (PCI Function Type) separately from 
->>>>>> guest CLP
->>>>>> response data -- we tell the guest '0' for now due to limitations in
->>>>>> measurement block support, but we can still use the real value 
->>>>>> provided via
->>>>>> the vfio CLP capabilities to make decisions.
->>>>>> - Use the PFT (pci function type) to determine when to use the region
->>>>>> for PCISTB/PCILG (only for ISM), rather than using the relaxed 
->>>>>> alignment
->>>>>> bit.
->>>>>> - As a result, the pcistb_default is now updated to also handle the
->>>>>> possibility of relaxed alignment via 2 new functions, 
->>>>>> pcistb_validate_write
->>>>>> and pcistb_write, which serve as wrappers to the memory_region calls.
->>>>>> - New patch, which partially restores the MSI-X fence for passthrough
->>>>>> devices...  Could potentially be squashed with 's390x/pci: MSI-X 
->>>>>> isn't
->>>>>> strictly required for passthrough' but left separately for now as 
->>>>>> I felt it
->>>>>> needed a clear commit description of why we should still fence 
->>>>>> this case.
->>>>>>
->>>>> Hi,
->>>>>
->>>>> The choice of using the new VFIO region is made on the ISM PCI 
->>>>> function type (PFT), which makes the patch ISM specific, why don't 
->>>>> we use here the MIO bit common to any zPCI function and present in 
->>>>> kernel to make the choice?
->>>>>
->>>>
->>>> As discussed during the RFC (and see my reply also to the kernel 
->>>> set), the use of this region only works for devices that do not rely 
->>>> on MSI-X interrupts.  If we did as you suggest, other device types 
->>>> like mlx would not receive MSI-X interrupts in the guest (And I did 
->>>> indeed try variations where I used the special VFIO region for all 
->>>> PCISTG/PCILG/PCISTB for various device types)
->>>>
->>>> So the idea for now was to solve the specific problem at hand 
->>>> (getting ISM devices working).
->>>>
->>>>
->>>
->>> Sorry, if I missed or forgot some discussions, but I understood that 
->>> we are using this region to handle PCISTB instructions when the 
->>> device do not support MIO.
->>> Don't we?
->>
->> Sure thing - It's probably good to refresh the issue/rationale anyway 
->> as we've had the holidays in between.
->>
->> You are correct, a primary reason we need to resort to a separate VFIO 
->> region for PCISTB (and PCILG) instructions for ISM devices is that 
->> they do not support the MIO instruction set, yet the host kernel will 
->> translate everything coming through the PCI I/O layer to MIO 
->> instructions whenever that facility is available to the host (and not 
->> purposely disabled).  This issue is unique to vfio-pci/passthrough - 
->> in the host, the ISM driver directly invokes functions in s390 pci 
->> code to ensure that MIO instructions are not used.
-> 
-> 
-> QEMU intercepts and differentiates PCISTG and PCISTB.
-> The new hardware support both MIO and legacy PCISTB/PCISTG.
-> 
-> QEMU does not support MIO
-> 
-> My first interrogation is why should we translate legacy to MIO?
+This was defined at some point before ARMv8.4, and will
+shortly be used by new processor descriptions.
 
-This is existing behavior of the s390 kernel PCI layer, not something 
-I'm introducing here.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+v2: Update for isar changes
+v3: Add kvm lookup
+---
+ target/arm/cpu.h    | 1 +
+ target/arm/helper.c | 4 ++--
+ target/arm/kvm64.c  | 2 ++
+ 3 files changed, 5 insertions(+), 2 deletions(-)
 
-So, as you say, QEMU does not support MIO, nor does it attempt to 
-translate anything to MIO.  The thing is, to the host kernel, PCI I/O 
-coming from QEMU through the standard vfio-pci codepath just looks like 
-any other userspace PCI I/O coming in to the kernel.  So the 
-memory_region operations against the vfio virtual address space bars in 
-QEMU then turn into iowrite/ioread operations in vfio-pci in the kernel, 
-which then subsequently end up in the s390 PCI kernel layer, and it's 
-there that everything is turned into an MIO operation if MIO is 
-available.  That's not limited to vfio-pci, that's all PCI I/O in the 
-host (except for the ISM driver, which bypasses this behavior by 
-invoking s390 PCI kernel interfaces directly).
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index df0d677833..d080239863 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -922,6 +922,7 @@ struct ARMCPU {
+         uint32_t id_mmfr4;
+         uint32_t id_pfr0;
+         uint32_t id_pfr1;
++        uint32_t id_pfr2;
+         uint32_t mvfr0;
+         uint32_t mvfr1;
+         uint32_t mvfr2;
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 10102aab3c..677a4aa79e 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7671,11 +7671,11 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+               .resetvalue = 0 },
+-            { .name = "MVFR4_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
++            { .name = "ID_PFR2", .state = ARM_CP_STATE_BOTH,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 4,
+               .access = PL1_R, .type = ARM_CP_CONST,
+               .accessfn = access_aa64_tid3,
+-              .resetvalue = 0 },
++              .resetvalue = cpu->isar.id_pfr2 },
+             { .name = "MVFR5_EL1_RESERVED", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 5,
+               .access = PL1_R, .type = ARM_CP_CONST,
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index f74bac2457..3c37fc4fb6 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -578,6 +578,8 @@ bool kvm_arm_get_host_cpu_features(ARMHostCPUFeatures *ahcf)
+                               ARM64_SYS_REG(3, 0, 0, 1, 0));
+         err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_pfr1,
+                               ARM64_SYS_REG(3, 0, 0, 1, 1));
++        err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_pfr2,
++                              ARM64_SYS_REG(3, 0, 0, 3, 4));
+         err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_dfr0,
+                               ARM64_SYS_REG(3, 0, 0, 1, 2));
+         err |= read_sys_reg32(fdarray[2], &ahcf->isar.id_mmfr0,
+-- 
+2.25.1
 
-In an early (internal) version of the kernel component to this I floated 
-the idea of trying to determine whether or not MIO instructions could be 
-used for a given I/O operation, but the ideas I floated had various 
-flaws -- I'd invite Niklas to chime in with why this got squashed.
-
-But anyway...  If we were to solve that somehow, this would still leave 
-us with write operations capped at 8B and odd write pattern requirements 
-for ISM passthrough.  Using a VFIO region to pass the operation directly 
-to the host kernel via a pinned page to overcome those limitations was 
-your idea actually :)
-
-> 
-> But OK, say we do need this for some obscure reason.
-> 
->>
->> But this is not the only reason.  There are additional reasons for 
->> using this VFIO region:
->> 1) ISM devices also don't support PCISTG instructions to certain 
->> address spaces and PCISTB must be used regardless of operation 
->> length.  However the standard s390 PCI I/O path always uses PCISTG for 
->> anything <=8B. Trying to determine whether a given I/O is intended for 
->> an ISM device at that point in kernel code so as to use PCISTB instead 
->> of PCISTG is the 
-> 
-> OK, this is clear.
-> 
->> same problem as attempting to decide whether to use MIO vs non-MIO 
->> instructions at that point.
-> 
-> humm, this is not exactly the same problem for me, but OK to choose to 
-> handle it the same way.
-
-The problem isn't the same BUT the information needed to solve the 
-problem is the same (for a given memory operation, knowing what 
-device/type it is intended for, which can therefore be used to determine 
-also whether it supports MIO or not).
-
-> 
-> 
-> 
->> 2) It allows for much larger PCISTB operations (4K) than allowed via 
->> the memory regions (loop of 8B operations).
-> 
-> OK
-> 
->> 3) The above also has the added benefit of eliminating certain write 
->> pattern requirements that are unique to ISM that would be introduced 
->> if we split up the I/O into 8B chunks (if we can't write the whole 
->> PCISTB in one go, ISM requires data written in a certain order for 
->> some address spaces, or with certain bits on/off on the PCISTB 
->> instruction to signify the state of the larger operation)
-> 
-> Yes, I suppose that the driver in the guest does it right and we need to 
-> do the same.
-> 
-> 
->>
->>>
->>> I do not understand the relation between MSI-X and MIO.
->>> Can you please explain?
->>>
->>
->> There is not a relation between MSI-X and MIO really.  Rather, this is 
->> a case of the solution that is being offered here ONLY works for 
->> devices that use MSI -- and ISM is a device that only supports MSI.  
->> If you try to use this new VFIO region to pass I/O for an MSI-X 
->> enabled device, the notifiers set up via vfio_msix_setup won't be 
->> triggered because we are writing to the new VFIO region, not the 
->> virtual bar regions that may have had notifiers setup as part of 
->> vfio_msix_setup.  This results in missing interrupts on MSI-X-enabled 
->> vfio-pci devices.
->>
->> These notifiers aren't a factor when the device is using MSI.
-> 
-> I find this strange but we do not need to discuss it.
-> 
->>
-> 
-> So we have:
-> devices supporting MIO and MSIX
-> devices not supporting MIO nor MSIX
-> devices not supporting the use of PCISTG to emulate PCISTB
-> 
-> The first two are two different things indicated by two different 
-> entries in the clp query PCI function response.
-> 
-> The last one, we do not have an indicator as if the relaxed alignment 
-> and length is set, PCISTB can not be emulated with PCISTG
-> 
-> What I mean with this is that considering the proposed implementation 
-> and considering:
-> MIO MSIX RELAX
-> 
-> 0 0 1  -> must use the new region (ISM)
-> 1 1 0  -> must use the standard VFIO region (MLX)
-> 
-> we can discuss other 6 possibilities
-> 
-> 0 0 0 -> must use the new region
-> 0 1 0 -> NOOP
-> 0 1 1 -> NOOP
-> 1 0 0 -> can use any region
-> 1 0 1 -> can use any region
-> 1 1 1 -> NOOP
-> 
-> In my opinion the test for using one region or another should be done on 
-> these indicator instead of using the PFT. > This may offer us more compatibility with other hardware we may not be
-> aware of as today.
-
-This gets a little shaky, and goes both ways -- Using your list, a 
-device that supports MIO, does not have MSI-X capability and doesn't 
-support relaxed alignment (1 0 0 from above) can use any region -- but 
-that may not always be true.  What if "other hardware we may not be 
-aware of as today" includes future hardware that ONLY supports the MIO 
-instruction set?  Then that device really can't use this region either.
-
-But forgetting that possibility...  I think we can really simplify the 
-above matrix down to a statement of "if device doesn't support MSI-X but 
-DOES support non-MIO instructions, it can use the region."  I believe 
-the latter half of that statement is implicit in the architecture today, 
-so it's really then "if device doesn't support MSI-X, it can use the 
-region".  There's just the caveat of, if the device is ISM, it changes 
-from 'can use the region' to 'must use the region'.
-
-So, I mean I can change the code to be more permissive in that way 
-(allow any device that doesn't have MSI-X capability to at least attempt 
-to use the region).  But the reality is that ISM specifically needs the 
-region for successful pass through, so I don't see a reason to create a 
-different bit for that vs just checking for the PFT in QEMU and using 
-that value to decide whether or not region availability is a requirement 
-for allowing the device to pass through.
 
