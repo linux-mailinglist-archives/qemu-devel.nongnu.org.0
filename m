@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABDE62FD9AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:30:47 +0100 (CET)
-Received: from localhost ([::1]:32990 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B6792FD9BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:36:36 +0100 (CET)
+Received: from localhost ([::1]:38336 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2JBm-00018M-IW
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:30:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46982)
+	id 1l2JHP-0003oI-36
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:36:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l2J9p-0000Ky-Fr
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:28:45 -0500
-Received: from mout.web.de ([212.227.15.4]:51151)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l2J9n-0003KQ-Pt
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:28:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1611170904;
- bh=8OESxAGtj792oFeVAjM0ZiTCjurfhijkTwbnUNDlw+E=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=p+SDwcaLivTCcr3OjPC0Kxrc+g4tDSIVVIASbgU/gpNUGYJlcVm4O7XmSHraGFOvT
- 2Xb3qU8aDbtTT9gkhLxqMkx3cxGdk83Dx/8xccTUGMojJTCNtp9R+nTcsox1Ib2H32
- WrBg0pbUGrnrQNQGf75F0N6U3kG3A4wkRyCQMeu4=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.127]) by smtp.web.de (mrweb004
- [213.165.67.108]) with ESMTPSA (Nemesis) id 0LrHMi-1m0m4S1VEK-0137eZ; Wed, 20
- Jan 2021 20:28:24 +0100
-Date: Wed, 20 Jan 2021 20:28:21 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: leirao <lei.rao@intel.com>
-Subject: Re: [PATCH 04/10] Remove migrate_set_block_enabled in checkpoint
-Message-ID: <20210120202821.2875155f@gecko.fritz.box>
-In-Reply-To: <1610505995-144129-5-git-send-email-lei.rao@intel.com>
-References: <1610505995-144129-1-git-send-email-lei.rao@intel.com>
- <1610505995-144129-5-git-send-email-lei.rao@intel.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l2JCb-0001sL-7T
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:31:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28380)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l2JCZ-0004GB-3n
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:31:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611171092;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DxaeJrJ4DtdixS+BGTBFjaanfeUNN7SJp/R7cGyiy7U=;
+ b=TN6bDdtLmGOJSS4p7BDW0OYEPMr5r7TNW0auQdWcYON8kD2rW7eNtp8GLHYdq0GDMHKyPx
+ Bcgt+2P9UbrMRwWyg4egjsQvApBYFdTfYLaDU4ZqYUeqzECqMDxn7+eCfNxR4f1ynl1axz
+ 7n9u+jJ1qUU7mjpNKxS/Wzmhm5LH1pA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-83-ei3pC7AROoWXiZkZ-Q4NUw-1; Wed, 20 Jan 2021 14:31:30 -0500
+X-MC-Unique: ei3pC7AROoWXiZkZ-Q4NUw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 765C380A5C0
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 19:31:29 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A2D219811;
+ Wed, 20 Jan 2021 19:31:23 +0000 (UTC)
+Date: Wed, 20 Jan 2021 20:31:22 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH] Deprecate pmem=on with non-DAX capable backend file
+Message-ID: <20210120203122.6c037b5b@redhat.com>
+In-Reply-To: <20210111203332.740815-1-imammedo@redhat.com>
+References: <20210111203332.740815-1-imammedo@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/ejo/wHFl1dpTCitQidvy1j5";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:M1eqgtUXw6Gv2RdssnX+E0iNHPY6TXkU5NKA+tbD8Ei5zN5evQZ
- vIvUrYfYOEiioGDv2HL9n52cR2nSpkul3RFRBbR5mVg/oQd3P4Shk6ytEJO+gLwXwyJfkOD
- 1kPoFtCjiEIdP7cqkLtF6lNAYCwXnfvquld4Cj8k2Ov2OFOm7IP86dv00Xmq+s6RAEUjWwe
- oON/+d8uq6CJ2gE5YE+ww==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:heh6mn6HBCs=:Xjw4tTC5aF9drzIPZobpyW
- E6+hjqa+irvj9OTunaynbeF8IVbHVj/a9wW2Gy5ZW3/fWBSwmDKfQfCFFzebq9tYZ3f8YaDEl
- TdHKU4A8eNWRHIvcs9csEVfY5xr7HViXFQ7TFlUIX0cZz4Q9SFor8LwJO3FALef7+tz7EYB2m
- hX+QSyDdWiu3aYEEtLM4/PrNULDpF7Mz9NAB0XZWyNxI0KS/J/KVcVgse/DlRwEzQNxTCGeaB
- 5LYFY2llw/U9e1M7YWr09aEPTrS8a65HlwHZNDkkDCQ++CS2HF3Qpg7axM+TTO7ZwhcnrTocA
- n/9ULgk7XljhSmNlP412lw/TxuCGeCgavS5stLbmQCiJ97u0xpeC9Nxsad8CPkI1RjUzZhN9f
- EUwbeMTUS1Vq3ICOXhYGHSTwB5T1KAMRUEbdqj+vBxX2LMya4R94JR0cL3iT+luJEFClE3FWI
- uKKXD9aDNzWJ0U9Ol2vHztmpDarzv0vW886cUnaamdF5aJ1O+rLeIKyE3sHH39qgkDZdwoVnI
- 5S7QZ7XrEWbEUTkVw3fpW061vhgCre8BpGNk0inUDobkTJhgRVavpT0ZNHXZk9U/ge2hyIwA2
- V2WZWUGRHOc3nsvRxjGhaikTe4WBUSnJDi9MiqEJbrgcXncN2GwGEWfLgqBGzk+nWaEj3+EwJ
- Xka4qy9pse6tzwccG2ePFijjVsFoP42LgVotcI0OoN7nkUwEVkS7wwBzp8/FD5Y5tRJvsaxm6
- onZSyK1CK0YZUAWSJE9nve3qE6OzzaxqHyleBPer5lESo9CK2pyK4DTMBnTzT5QzVMSS9IY+f
- iPDdQGGUZKbyyKCIJTQH0gH3alkkGx2GVy5mxvx3R4RBhLUyVj3oBEHbF2E0qgnJXstWePLm/
- vbikr04G092W2qWBkxJw==
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,99 +78,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, lizhijian@cn.fujitsu.com,
- quintela@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org, chen.zhang@intel.com
+Cc: libvir-list@redhat.com, pbonzini@redhat.com, thuth@redhat.com,
+ philmd@redhat.com, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/ejo/wHFl1dpTCitQidvy1j5
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Mon, 11 Jan 2021 15:33:32 -0500
+Igor Mammedov <imammedo@redhat.com> wrote:
 
-On Wed, 13 Jan 2021 10:46:29 +0800
-leirao <lei.rao@intel.com> wrote:
-
-> From: "Rao, Lei" <lei.rao@intel.com>
+> It is not safe to pretend that emulated NVDIMM supports
+> persistence while backend actually failed to enable it
+> and used non-persistent mapping as fall back.
+> Instead of falling-back, QEMU should be more strict and
+> error out with clear message that it's not supported.
+> So if user asks for persistence (pmem=3Don), they should
+> store backing file on NVDIMM.
 >=20
-> We can detect disk migration in migrate_prepare, if disk migration
-> is enabled in COLO mode, we can directly report an error.and there
-> is no need to disable block migration at every checkpoint.
->=20
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
-> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> v2:
+>   rephrase deprecation comment andwarning message
+>   (Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>)
 
-Looks good to me,
+I've posted as v1 though it's v2 and it looks like it fell through cracks,
 
-Reviewed-by: Lukas Straub <lukasstraub2@web.de>
-
+can someone pick it up if it looks fine, please?
 
 > ---
->  migration/colo.c      | 6 ------
->  migration/migration.c | 4 ++++
->  2 files changed, 4 insertions(+), 6 deletions(-)
+>  docs/system/deprecated.rst | 17 +++++++++++++++++
+>  util/mmap-alloc.c          |  3 +++
+>  2 files changed, 20 insertions(+)
 >=20
-> diff --git a/migration/colo.c b/migration/colo.c
-> index de27662..1aaf316 100644
-> --- a/migration/colo.c
-> +++ b/migration/colo.c
-> @@ -435,12 +435,6 @@ static int colo_do_checkpoint_transaction(MigrationS=
-tate *s,
->      if (failover_get_state() !=3D FAILOVER_STATUS_NONE) {
->          goto out;
->      }
-> -
-> -    /* Disable block migration */
-> -    migrate_set_block_enabled(false, &local_err);
-> -    if (local_err) {
-> -        goto out;
-> -    }
->      qemu_mutex_lock_iothread();
+> diff --git a/docs/system/deprecated.rst b/docs/system/deprecated.rst
+> index bacd76d7a5..e79fb02b3a 100644
+> --- a/docs/system/deprecated.rst
+> +++ b/docs/system/deprecated.rst
+> @@ -327,6 +327,23 @@ The Raspberry Pi machines come in various models (A,=
+ A+, B, B+). To be able
+>  to distinguish which model QEMU is implementing, the ``raspi2`` and ``ra=
+spi3``
+>  machines have been renamed ``raspi2b`` and ``raspi3b``.
 > =20
->  #ifdef CONFIG_REPLICATION
-> diff --git a/migration/migration.c b/migration/migration.c
-> index a5da718..31417ce 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -2107,6 +2107,10 @@ static bool migrate_prepare(MigrationState *s, boo=
-l blk, bool blk_inc,
->      }
+> +Backend options
+> +---------------
+> +
+> +Using non-persistent backing file with pmem=3Don (since 6.0)
+> +''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+> +
+> +This option is used when ``memory-backend-file`` is consumed by emulated=
+ NVDIMM
+> +device. However enabling ``memory-backend-file.pmem`` option, when backi=
+ng file
+> +is (a) not DAX capable or (b) not on a filesystem that support direct ma=
+pping
+> +of persistent memory, is not safe and may lead to data loss or corruptio=
+n in case
+> +of host crash.
+> +Options are:
+> +    - modify VM configuration to set ``pmem=3Doff`` to continue using fa=
+ke NVDIMM
+> +      (without persistence guaranties) with backing file on non DAX stor=
+age
+> +    - move backing file to NVDIMM storage and keep ``pmem=3Don``
+> +      (to have NVDIMM with persistence guaranties).
+> +
+>  Device options
+>  --------------
 > =20
->      if (blk || blk_inc) {
-> +        if (migrate_colo_enabled()) {
-> +            error_setg(errp, "No disk migration is required in COLO mode=
-");
-> +            return false;
-> +        }
->          if (migrate_use_block() || migrate_use_block_incremental()) {
->              error_setg(errp, "Command options are incompatible with "
->                         "current migration capabilities");
+> diff --git a/util/mmap-alloc.c b/util/mmap-alloc.c
+> index 27dcccd8ec..0388cc3be2 100644
+> --- a/util/mmap-alloc.c
+> +++ b/util/mmap-alloc.c
+> @@ -20,6 +20,7 @@
+>  #include "qemu/osdep.h"
+>  #include "qemu/mmap-alloc.h"
+>  #include "qemu/host-utils.h"
+> +#include "qemu/error-report.h"
+> =20
+>  #define HUGETLBFS_MAGIC       0x958458f6
+> =20
+> @@ -166,6 +167,8 @@ void *qemu_ram_mmap(int fd,
+>                      "crash.\n", file_name);
+>              g_free(proc_link);
+>              g_free(file_name);
+> +            warn_report("Using non DAX backing file with 'pmem=3Don' opt=
+ion"
+> +                        " is deprecated");
+>          }
+>          /*
+>           * if map failed with MAP_SHARED_VALIDATE | MAP_SYNC,
 
-
-
---=20
-
-
---Sig_/ejo/wHFl1dpTCitQidvy1j5
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmAIhFUACgkQNasLKJxd
-slhMjg//RATmvSXY47/XcgoNWILIkgW/FmVmreG6kIdf5DLtJVa2rqvZU+m6UIsz
-OsdLvXE3VF87r3PZoflkELgz930V49Os8dsvYoH1HLxodmHL+kfrENwvc6NbOhfl
-FLIYzsEjQPeLUdSulvxL9CDIfBE56e1Npy2c6ScK8Nm+l7bf47yfQS1BTKWiTtwQ
-Hu/6WH289lus2ZG4z1FZ1bMTOSklby8INSb8NscW/Mngug9gt+EvT5AfFLnjY7sg
-vi5TeH/hc8mKzd2ZuzK60aCTUPSmRxoZ1CHU70vXAw8w0MVT821D7eKdj1gqkpOv
-9J2Rwzsjh85nA6iIc3eWz2DxyUQwvaNcDHCg5+E5IDw8CT/m3FbBR/3j0/8n3N9E
-CtedGoMbYUxNUwD6lwWj5bVveCE+Dv91AjfVgmP6ZOAL2/rwXz1mS+XXeppL8lVu
-9E3sHS/3tSf1crRVv6YkxJlu2uwGNpaTXNknq3rFcdije+/dp4yXa0XLzjmBYaZI
-umVKsAHrkWz1h1WdezVRsyQqcbAgEVu3SbIjJ2dQKc3ExiR2pZ4bVxJma+kUyzYC
-+76VxWW9OPShv9x3zHuOD4HTjcULeDUeWH6RpYDUWQ2a+t7FSiizfnMJnWEvMmmQ
-WOuoluGNQbp0tyhKYN1F+dfU0PKFmon/iIBW2y31AB8owrlQuDo=
-=9IUM
------END PGP SIGNATURE-----
-
---Sig_/ejo/wHFl1dpTCitQidvy1j5--
 
