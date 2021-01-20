@@ -2,70 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9172FD00E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:31:24 +0100 (CET)
-Received: from localhost ([::1]:36542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0BFB2FD040
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:39:51 +0100 (CET)
+Received: from localhost ([::1]:39664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Cdv-0004Ye-6R
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:31:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60754)
+	id 1l2Cm6-0006Ml-Hl
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:39:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34338)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l2Cc3-00046a-LN
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:29:27 -0500
-Received: from mail-yb1-xb2f.google.com ([2607:f8b0:4864:20::b2f]:45568)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l2Cc1-0000VB-DX
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:29:27 -0500
-Received: by mail-yb1-xb2f.google.com with SMTP id e67so10710766ybc.12
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 04:29:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=JlT9fEH1Zbp387Z4wAi4/exmTy9w6SaGqnKT346wAvY=;
- b=AoWylNtyqcuLLjtzczt80oBI0aS956MNPclnmBwazFaYMCyN4v9Ouy64Ng2HFuSy9F
- SnK5BI/+HkDHD2ayPtx+gXScZ0Uyik5agTG7/iztooYosNNTsJd0fIYvNMdeacAJvzkB
- 5/0moWlK2F7B19BT0j2PbuFP0srDdxlY4YnZyUdFBoKNpovlOKnsC9mQ2Z7XSni4pY6y
- AI+fAyn83hVtd1PtyJkbOnfonjlfVAUPA0/1TAbh5c5BArlxXlUSENyVmpxRrEVfnaqn
- FyhrmywWo0orwc8629s2Zqn6Lrj7R42Guti9fMGh2XXMgSENiNoaUP9oPG2LjbVLZJMO
- OVjw==
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l2Ck0-0005wC-PH
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:37:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l2Cjy-0003PW-2c
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:37:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611146255;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=N2JWxDsOc8rPD0AlxKRsi8aN+qBVrhRDzFUyO/6snqU=;
+ b=YZTMHJxM00uDf+dWkn0RItDT5U3y7pt3NoBQNKwl5F0hdOUXJCuJeUua188TMpubrjiRx3
+ /T3YgXxaE5Io4kKnlQCEnlLoNZJZzjrEKpcM1m6sLpCYqh8+YBgDHQ1vuFKTeLEuZcQiY1
+ LkceYwxzfdY9Hrjsfga+Go0oYgDKbQo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-534-S8BFp4LcPoi-VY3ijGlXTA-1; Wed, 20 Jan 2021 07:37:33 -0500
+X-MC-Unique: S8BFp4LcPoi-VY3ijGlXTA-1
+Received: by mail-ed1-f72.google.com with SMTP id dg17so10769297edb.11
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 04:37:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=JlT9fEH1Zbp387Z4wAi4/exmTy9w6SaGqnKT346wAvY=;
- b=BlrS14MVC3lHVEeY50Y/DteXEMTAS9V1wQwqAuOOeuRBE8wKA532SlsFfvyvimhgov
- 8VIdWIopDPq7TW/J0hmho52mcL2NItLtJIPayPF0nUJD3lrVlxbjV/PQtjeSBWyh5wXF
- CKwlKPXpYrECLAS5ciBDQBCHzIFuA3r1jJxNoZ/yobateMISRLVeE8Qj6xRnEVkIgQdB
- CZ3D437Mu/SYVo4RFE7Shm6KSU2N6kp4KESu+JxHX3BtuTt0a1NSMaXrWvJeCNvOK76s
- ht5OMAh9Gkt6pCMOum7UA66O+W439HkxvBNKkm99qXGwMKHOB4yE2l6+/nLAHbpp163I
- jmoA==
-X-Gm-Message-State: AOAM531neDn1w6Az68awvCYDzTGIoNCSy6ILd2fhGDPjjbJTNOsFEpdU
- K0dbG964snyl77QoceiFI74oZ/1KXfsyVOhTOGg=
-X-Google-Smtp-Source: ABdhPJyLG4rl56rahPf0IjMMAjxhv0kYpr1yt7Rav5dBqIpyvtEmkqHqSgP21EvxmdcQ2TKky6bI7f8f4kSUSpBnsuo=
-X-Received: by 2002:a25:3bc5:: with SMTP id
- i188mr12750474yba.332.1611145764360; 
- Wed, 20 Jan 2021 04:29:24 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=N2JWxDsOc8rPD0AlxKRsi8aN+qBVrhRDzFUyO/6snqU=;
+ b=sfi8Z8Nc9WY6DRNxzWK7UWcMhXhOmpH4lVNGciTY6DJxzzYXkuwBiEjYC6EsKYBN9x
+ RgkXd9vhg7hY0HLCS4FUehVgiKq6WQzBJRwg0WMGhiTAgS5bqhj970KBCl18xCzj/9X4
+ chToApOhjUc4m7cWWCoiPODmYNFw9/28/vXGEbzdvWx3pWwkmgq3/iWpVcHm9x4k6lT1
+ Sqtw01wUfj/36TlEjRGQLbakX6fmKK6eggKXVxHPIofbDayXPtjl7JpBuDLjPoPpzyAn
+ w5ARNPIEZbI6mZSJF+CI+aZx3EFJZRzGKcTcdZEgnmKW5Sfkx7ro6bXmHEdsqBL6K/YI
+ hP4g==
+X-Gm-Message-State: AOAM533nS1txQ26tzn8Z9RptkitlbuUgD4P7yNAVuzYwEi8S8qMGDWqC
+ iCKDxUd3YZNP1dcV9fhtqgzGvQAb3gD54jy1Yk8Yp7ufrIBCClZBQBvDYKXge5Ou514iXC0Y6D4
+ 4p5258InPWdbGeisb91faC21JsJjf2485CnShaBuMHnt6p8y5piGSbMMv7btu/67H2qY=
+X-Received: by 2002:a17:906:99c5:: with SMTP id
+ s5mr6061726ejn.236.1611146252237; 
+ Wed, 20 Jan 2021 04:37:32 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxiVVq/0c4SzjId2kDbQnEt7Bp1wB4DJ1Lj6K/uJC552J7kyy52sYOUsU4ArvR7yDoGVSDYqQ==
+X-Received: by 2002:a17:906:99c5:: with SMTP id
+ s5mr6061707ejn.236.1611146252005; 
+ Wed, 20 Jan 2021 04:37:32 -0800 (PST)
+Received: from [192.168.1.124] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id g2sm834274ejk.108.2021.01.20.04.37.30
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 04:37:31 -0800 (PST)
+Subject: Re: [PATCH 01/25] qemu-option: clean up id vs. list->merge_lists
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210118163113.780171-1-pbonzini@redhat.com>
+ <20210118163113.780171-2-pbonzini@redhat.com>
+ <87y2gpxc2q.fsf@dusky.pond.sub.org>
+ <0802f4d3-f9b1-540f-b83a-977c01ce8f62@redhat.com>
+ <87eeigqbkk.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <890ad395-ba63-b5d4-c404-a3a7430bb894@redhat.com>
+Date: Wed, 20 Jan 2021 13:37:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210120102556.125012-1-marcandre.lureau@redhat.com>
-In-Reply-To: <20210120102556.125012-1-marcandre.lureau@redhat.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Wed, 20 Jan 2021 20:29:13 +0800
-Message-ID: <CAEUhbmXjO434ik9RWLhxsdkXLYJv2h_f3miFYUA3jGfZ1fcaow@mail.gmail.com>
-Subject: Re: [PATCH v3] sphinx: adopt kernel readthedoc theme
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b2f;
- envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb2f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87eeigqbkk.fsf@dusky.pond.sub.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,155 +104,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- John Snow <jsnow@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 20, 2021 at 6:26 PM <marcandre.lureau@redhat.com> wrote:
->
-> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
-> The default "alabaster" sphinx theme has a couple shortcomings:
-> - the navbar moves along the page
-> - the search bar is not always at the same place
-> - it lacks some contrast and colours
->
-> The "rtd" theme from readthedocs.org is a popular third party theme used
-> notably by the kernel, with a custom style sheet. I like it better,
-> perhaps others do too. It also simplify "Edit on Gitlab" links.
->
-> Tweak a bit the custom theme to match qemu.org style, use the
-> QEMU logo, and favicon etc.
->
-> Screenshot:
-> https://i.ibb.co/XWwG1bZ/Screenshot-2021-01-20-Welcome-to-QEMU-s-document=
-ation-QEMU-documentation.png
->
-> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> ---
->  docs/_templates/editpage.html              |   5 -
->  docs/conf.py                               |  47 +++---
->  docs/devel/_templates/editpage.html        |   5 -
->  docs/interop/_templates/editpage.html      |   5 -
->  docs/specs/_templates/editpage.html        |   5 -
->  docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++++++
->  docs/system/_templates/editpage.html       |   5 -
->  docs/tools/_templates/editpage.html        |   5 -
->  docs/user/_templates/editpage.html         |   5 -
->  tests/docker/dockerfiles/debian10.docker   |   1 +
->  tests/docker/dockerfiles/fedora.docker     |   1 +
->  tests/docker/dockerfiles/ubuntu.docker     |   1 +
->  tests/docker/dockerfiles/ubuntu1804.docker |   1 +
->  tests/docker/dockerfiles/ubuntu2004.docker |   1 +
->  14 files changed, 193 insertions(+), 55 deletions(-)
->  delete mode 100644 docs/_templates/editpage.html
->  delete mode 100644 docs/devel/_templates/editpage.html
->  delete mode 100644 docs/interop/_templates/editpage.html
->  delete mode 100644 docs/specs/_templates/editpage.html
->  create mode 100644 docs/sphinx-static/theme_overrides.css
->  delete mode 100644 docs/system/_templates/editpage.html
->  delete mode 100644 docs/tools/_templates/editpage.html
->  delete mode 100644 docs/user/_templates/editpage.html
->
-> diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage.htm=
-l
-> deleted file mode 100644
-> index 4319b0f5ac..0000000000
-> --- a/docs/_templates/editpage.html
-> +++ /dev/null
-> @@ -1,5 +0,0 @@
-> -<div id=3D"editpage">
-> -  <ul>
-> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
-cs/{{pagename}}.rst">Page source</a></li>
-> -  </ul>
-> -</div>
-> diff --git a/docs/conf.py b/docs/conf.py
-> index 2ee6111872..5ee577750b 100644
-> --- a/docs/conf.py
-> +++ b/docs/conf.py
-> @@ -151,37 +151,44 @@ with open(os.path.join(qemu_docdir, 'defs.rst.inc')=
-) as f:
->  # a list of builtin themes.
->  #
->  html_theme =3D 'alabaster'
-> +try:
-> +    import sphinx_rtd_theme
-> +    html_theme =3D 'sphinx_rtd_theme'
-> +except ImportError:
-> +    sys.stderr.write('Warning: The Sphinx \'sphinx_rtd_theme\' HTML them=
-e was not found. Make sure you have the theme installed to produce pretty H=
-TML output. Falling back to the default theme.\n')
->
->  # Theme options are theme-specific and customize the look and feel of a =
-theme
->  # further.  For a list of options available for each theme, see the
->  # documentation.
-> -# We initialize this to empty here, so the per-manual conf.py can just
-> -# add individual key/value entries.
-> -html_theme_options =3D {
-> -}
-> +if html_theme =3D=3D 'sphinx_rtd_theme':
-> +    html_theme_options =3D {
-> +        "style_nav_header_background": "#802400",
-> +    }
-> +
-> +html_logo =3D os.path.join(qemu_docdir, "../ui/icons/qemu_128x128.png")
-> +
-> +html_favicon =3D os.path.join(qemu_docdir, "../ui/icons/qemu_32x32.png")
->
->  # Add any paths that contain custom static files (such as style sheets) =
-here,
->  # relative to this directory. They are copied after the builtin static f=
-iles,
->  # so a file named "default.css" will overwrite the builtin "default.css"=
-.
-> -# QEMU doesn't yet have any static files, so comment this out so we don'=
-t
-> -# get a warning about a missing directory.
-> -# If we do ever add this then it would probably be better to call the
-> -# subdirectory sphinx_static, as the Linux kernel does.
-> -# html_static_path =3D ['_static']
-> +html_static_path =3D [os.path.join(qemu_docdir, "sphinx-static")]
-> +
-> +html_css_files =3D [
-> +    'theme_overrides.css',
-> +]
-> +
-> +html_context =3D {
-> +    "display_gitlab": True,
-> +    "gitlab_user": "qemu-project",
+On 20/01/21 09:03, Markus Armbruster wrote:
+> The detour should be avoided, because QemuOpts should be avoided.  Using
+> the appropriate visitor, we get:
+> 
+>          char *optarg
+>               |
+>               |  v = qobject_input_visitor_new_str(string, NULL, errp)
+>               |  visit_type_q_obj_set_action_arg(v, NULL, &arg, errp);
+>               v
+>    q_obj_set_action_arg arg
+> 
+> except visit_type_q_obj_set_action_arg() doesn't exist, because the QAPI
+> type is anonymous.  So give it a name:
+> 
+>      { 'struct: 'Action',
+>        'data': { '*reboot': 'RebootAction',
+>                  '*shutdown': 'ShutdownAction',
+>                  '*panic': 'PanicAction',
+>                  '*watchdog': 'WatchdogAction' } }
+> 
+>      { 'command': 'set-action',
+>        'data': 'Action',
+>        'allow-preconfig': true }
+> 
+>          char *optarg
+>               |
+>               |  v = qobject_input_visitor_new_str(string, NULL, errp)
+>               |  visit_type_Action(v, NULL, &arg, errp);
+>               v
+>           Action act
+> 
+> To avoid having to pass the members of Action to qmp_set_action(), throw
+> in 'boxed': true, so you can simply call qmp_set_action(&act, errp).
 
-Still, there is a trailing space here
+Ok, so the idea of a 1:1 CLI<->QMP mapping is good, the implementation 
+is bad.  The reason it was done with QemuOpts was mostly to have 
+"-action help" for free.  Something to remember when working on 
+autogenerated boilerplate.
 
-> +    "gitlab_repo": "qemu",
-> +    "gitlab_version": "master",
-> +    "conf_py_path": "/docs/", # Path in the checkout to the docs root
-> +}
->
->  # Custom sidebar templates, must be a dictionary that maps document name=
-s
->  # to template names.
-> -#
-> -# This is required for the alabaster theme
-> -# refs: http://alabaster.readthedocs.io/en/latest/installation.html#side=
-bars
-> -html_sidebars =3D {
-> -    '**': [
-> -        'about.html',
-> -        'editpage.html',
-> -        'navigation.html',
-> -        'searchbox.html',
-> -    ]
-> -}
-> +#html_sidebars =3D {}
->
->  # Don't copy the rST source files to the HTML output directory,
->  # and don't put links to the sources into the output HTML.
+Paolo
 
-Tested-by: Bin Meng <bmeng.cn@gmail.com>
 
