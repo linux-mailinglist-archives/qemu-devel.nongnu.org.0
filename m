@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CF22FDC89
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 23:26:33 +0100 (CET)
-Received: from localhost ([::1]:53148 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21C0C2FDC90
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 23:29:15 +0100 (CET)
+Received: from localhost ([::1]:57706 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Lvs-00070I-Al
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 17:26:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
+	id 1l2LyU-0000cO-6u
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 17:29:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53620)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Lu5-0005XO-Kz
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 17:24:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33271)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Lwr-00088Q-Ds
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 17:27:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Lu3-0002y6-3I
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 17:24:41 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Lwp-00042b-3P
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 17:27:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611181478;
+ s=mimecast20190719; t=1611181649;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4EhEEVpeJ0k0j4TiWNnFVnusr0hlfuBzBFzC39D51eo=;
- b=ZQF4XOvxNUCIuUQvlaBvTDUpDddo59DYrZQyZp8gD3iUySyavM8InrH9lj6+QGjtVLXSiw
- EhhBWGt/89XC5KFZogLsBP4Q69cMXmog+4idS4ONT67+mJ7W3dy7a/HLDdEV9e133UW4pe
- CkMfgEpGtTiaouhQU+GDEHRFQZ/QRK8=
+ bh=MUsgNCar3wjbMyE2yxuR5PFUG41zPQy28/TIqkk/JlQ=;
+ b=Xg7PslbjboYbN3sE6OAowKiN+zSRhX3Ju9y8hGMg4zp6nxxoIVbyI5jHS2o+XWEcNk4uH6
+ 20G31ZemY/573y5OIEEuq6tAfkLZo15j9ZXC+tyU/vPprL17InjDssCiJPgrYqQEcedH5+
+ cde3afVCxesBvR1NkpCpo0PCcr+3/Yo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-284-xDOzmqpON9-iOtFivxqb4A-1; Wed, 20 Jan 2021 17:24:35 -0500
-X-MC-Unique: xDOzmqpON9-iOtFivxqb4A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-264--ChfdzMoNQyx_0AQOxAMQQ-1; Wed, 20 Jan 2021 17:27:26 -0500
+X-MC-Unique: -ChfdzMoNQyx_0AQOxAMQQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3708A8144E8;
- Wed, 20 Jan 2021 22:24:34 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DFBB21005513;
+ Wed, 20 Jan 2021 22:27:24 +0000 (UTC)
 Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 004E95D9EF;
- Wed, 20 Jan 2021 22:24:32 +0000 (UTC)
-Subject: Re: [PATCH v2 1/8] block/nbd: move initial connect to coroutine
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D55860C74;
+ Wed, 20 Jan 2021 22:27:21 +0000 (UTC)
+Subject: Re: [PATCH 01/11] block: add new BlockDriver handler:
+ bdrv_cancel_in_flight
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
-References: <20201130134024.19212-1-vsementsov@virtuozzo.com>
- <20201130134024.19212-2-vsementsov@virtuozzo.com>
+References: <20201118180433.11931-1-vsementsov@virtuozzo.com>
+ <20201118180433.11931-2-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <4a2d33f6-18ee-b8ff-a945-4ac6ce0406f4@redhat.com>
-Date: Wed, 20 Jan 2021 16:24:32 -0600
+Message-ID: <f23ca1d2-b90e-d9f5-5c3a-493ef259e994@redhat.com>
+Date: Wed, 20 Jan 2021 16:27:20 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201130134024.19212-2-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201118180433.11931-2-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,63 +84,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
+ stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/30/20 7:40 AM, Vladimir Sementsov-Ogievskiy wrote:
-> We are going to implement reconnect-on-open. Let's reuse existing
-> reconnect loop. For this, do initial connect in connection coroutine.
+On 11/18/20 12:04 PM, Vladimir Sementsov-Ogievskiy wrote:
+> It will be used to stop retrying NBD requests on mirror cancel.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  block/nbd.c | 94 ++++++++++++++++++++++++++++++-----------------------
->  1 file changed, 53 insertions(+), 41 deletions(-)
+>  include/block/block.h     |  3 +++
+>  include/block/block_int.h |  9 +++++++++
+>  block/io.c                | 11 +++++++++++
+>  3 files changed, 23 insertions(+)
 > 
 
-> @@ -2279,6 +2268,29 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
->      bdrv_inc_in_flight(bs);
->      aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
+How does this relate to the recent addition of the QMP yank command?
+
+
+> +++ b/include/block/block_int.h
+> @@ -344,6 +344,15 @@ struct BlockDriver {
+>          bool want_zero, int64_t offset, int64_t bytes, int64_t *pnum,
+>          int64_t *map, BlockDriverState **file);
 >  
-> +    if (qemu_in_coroutine()) {
-> +        s->open_co = qemu_coroutine_self();
-> +        qemu_coroutine_yield();
-> +    } else {
-> +        BDRV_POLL_WHILE(bs, s->state == NBD_CLIENT_OPENING);
-> +    }
-> +
-> +    if (s->state != NBD_CLIENT_CONNECTED && s->connect_status < 0) {
-> +        /*
-> +         * It's possible that state != NBD_CLIENT_CONNECTED, but connect_status
-> +         * is 0. This means that initial connecting succeed, but failed later
-> +         * (during BDRV_POLL_WHILE). It's a rare case, but it happen in iotest
+> +    /*
+> +     * This informs the driver that we are not more interested in in-flight
 
-This means that starting the initial connection succeeded, but we failed
-later (during BDRV_POLL_WHILE).
+that we are no longer interested in the result of in-flight requests, so
 
-happens
+> +     * requests results, so don't waste the time if possible.
+> +     *
+> +     * The example usage is to not wait for nbd target nodedreconnect timeout on
+> +     * job-cancel.
 
-> +         * 83. Let's don't care and just report success in this case: it not
-> +         * much differs from the case when connection failed immediately after
-> +         * succeeded open.
-
-We don't care, and just report success in this case, as it does not
-change our behavior from the case when the connection fails right after
-open succeeds.
-
-
-> +         */
-> +        assert(s->connect_err);
-> +        error_propagate(errp, s->connect_err);
-> +        s->connect_err = NULL;
-> +        nbd_clear_bdrvstate(s);
-> +        return s->connect_status;
-> +    }
-> +
->      return 0;
->  }
->  
-> 
+One example usage is to avoid waiting for an nbd target node reconnect
+timeout during job-cancel.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
