@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE1942FD15F
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:44:42 +0100 (CET)
-Received: from localhost ([::1]:52354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9655C2FD164
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:47:26 +0100 (CET)
+Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Dmr-0002BJ-EB
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:44:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48506)
+	id 1l2DpV-0003cN-MN
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:47:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l2Dlm-0001k4-JT
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:43:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44322)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2Dly-0001rx-On
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:43:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20975)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l2Dlg-0000ba-DS
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:43:33 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2Dlx-0000g6-BY
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:43:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611150207;
+ s=mimecast20190719; t=1611150224;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qpRG+PsQmmZz5tR0KRoZ6Mz1RoQUemMyBkHZW61wJAk=;
- b=GMAYfEGImX0Z6Y2RmQy515aCuwsQ9/hsM2IbDnyGnek2SG4ukGfmLrN5Ghd7MQ3I9QfuTX
- vrbUiy4smFS9uFqJhr50YwzpQsRUlvXLXvWJijhriXJotLfXMaY4YEg7RA6U9Vv8j5Oh1n
- txhRNQJz9kmKx9yiqJR4Tr6/w6zeuqE=
+ bh=YgXZ5MAnxDSLnEk3RRDb8LxCEn0dB4JXxfrp6fa1GYU=;
+ b=fqdfFMzBB2afFNnwYdIJcO3X3PrODE7are3AvTcww+C4eACUZYqMV9UBY+4gT//KC9iea9
+ LZpf/ck9H2AtSi73c8Yr2DbBeLvlJrPOU9aTzaYlWqL6UD9XpB1mIdvNyuDHhFmNoyrf9X
+ L7XNl0pBcXa55Cn7zFcTXRK3nFhEScc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-EAcCfOsPOMCJW7Sgp64pYg-1; Wed, 20 Jan 2021 08:43:25 -0500
-X-MC-Unique: EAcCfOsPOMCJW7Sgp64pYg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-448--0aTaGLjMhWaVtMP8IQECQ-1; Wed, 20 Jan 2021 08:43:43 -0500
+X-MC-Unique: -0aTaGLjMhWaVtMP8IQECQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AAB06195D56B
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 13:43:24 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2EF1D10021B3;
- Wed, 20 Jan 2021 13:43:23 +0000 (UTC)
-Date: Wed, 20 Jan 2021 14:43:21 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] machine: add missing doc for memory-backend option
-Message-ID: <20210120144321.6094d03e@redhat.com>
-In-Reply-To: <bd1d537d-034a-149d-d3a6-99b150afddad@redhat.com>
-References: <20210111222729.757402-1-imammedo@redhat.com>
- <bd1d537d-034a-149d-d3a6-99b150afddad@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 08B5ACE648;
+ Wed, 20 Jan 2021 13:43:42 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
+ [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id AEA145D74A;
+ Wed, 20 Jan 2021 13:43:41 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id D9978180062C; Wed, 20 Jan 2021 14:43:39 +0100 (CET)
+Date: Wed, 20 Jan 2021 14:43:39 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Yan Vugenfirer <yvugenfi@redhat.com>
+Subject: Re: [PATCH 2/4] hw/misc/pvpanic: add PCI interface support
+Message-ID: <20210120134339.h42o3j7utjveeiey@sirius.home.kraxel.org>
+References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
+ <1610735646-13313-3-git-send-email-mihai.carabas@oracle.com>
+ <FC7156A5-361B-4009-983A-91118F29995A@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <FC7156A5-361B-4009-983A-91118F29995A@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -79,106 +80,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, qemu-devel@nongnu.org, ehabkost@redhat.com
+Cc: Mihai Carabas <mihai.carabas@oracle.com>, peter.maydell@linaro.org,
+ QEMU Devel Mailing List <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 14 Jan 2021 20:38:01 +0100
-Paolo Bonzini <pbonzini@redhat.com> wrote:
+  Hi,
 
-> On 11/01/21 23:27, Igor Mammedov wrote:
-> > Add documentation for '-machine memory-backend' CLI option and
-> > how to use it.
-> > 
-> > PS:
-> > While at it add a comment to x-use-canonical-path-for-ramblock-id,
-> > to make sure it won't go away by accident.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >   backends/hostmem.c |  8 ++++++++
-> >   qemu-options.hx    | 25 ++++++++++++++++++++++++-
-> >   2 files changed, 32 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/backends/hostmem.c b/backends/hostmem.c
-> > index 4bde00e8e7..f6f4e818c7 100644
-> > --- a/backends/hostmem.c
-> > +++ b/backends/hostmem.c
-> > @@ -497,6 +497,14 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
-> >           host_memory_backend_get_share, host_memory_backend_set_share);
-> >       object_class_property_set_description(oc, "share",
-> >           "Mark the memory as private to QEMU or shared");
-> > +    /*
-> > +     * Do not delete/rename option till 4.0 and older machine types exist,
-> > +     * Option will be used by upper layers to override (disable) canonical path
-> > +     * for ramblock-id set by compat properties on old machine types ( <= 4.0),
-> > +     * to keep migration working when backend is used for main RAM with
-> > +     * -machine memory-backend= option (main RAM historically used prefix-less
-> > +     * ramblock-id).
-> > +     */
-> >       object_class_property_add_bool(oc, "x-use-canonical-path-for-ramblock-id",
-> >           host_memory_backend_get_use_canonical_path,
-> >           host_memory_backend_set_use_canonical_path);
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 459c916d3d..c02628bd26 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -35,7 +35,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
-> >       "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
-> >       "                nvdimm=on|off controls NVDIMM support (default=off)\n"
-> >       "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
-> > -    "                hmat=on|off controls ACPI HMAT support (default=off)\n",
-> > +    "                hmat=on|off controls ACPI HMAT support (default=off)\n"
-> > +    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n",
-> >       QEMU_ARCH_ALL)
-> >   SRST
-> >   ``-machine [type=]name[,prop=value[,...]]``
-> > @@ -96,6 +97,28 @@ SRST
-> >       ``hmat=on|off``
-> >           Enables or disables ACPI Heterogeneous Memory Attribute Table
-> >           (HMAT) support. The default is off.
-> > +
-> > +     ``memory-backend='id'``
-> > +        An alternative to legacy ``-mem-path`` and ``mem-prealloc`` options.
-> > +        Allows to use a memory backend as main RAM.
-> > +
-> > +        For example:
-> > +        ::
-> > +        -object memory-backend-file,id=pc.ram,size=512M,mem-path=/hugetlbfs,prealloc=on,share=on
-> > +        -machine memory-backend=pc.ram
-> > +        -m 512M
-> > +
-> > +        Migration compatibility note:
-> > +        a) as backend id one shall use value of 'default-ram-id', advertised by
-> > +        machine type (available via ``query-machines`` QMP command)
-> > +        b) for machine types 4.0 and older, user shall
-> > +        use ``x-use-canonical-path-for-ramblock-id=on`` backend option,
-1) should be
-s/on=off/
-
-> > +        if migration to/from old QEMU (<5.0) is expected.
-> > +        For example:
-> > +        ::
-> > +        -object memory-backend-ram,id=pc.ram,size=512M,x-use-canonical-path-for-ramblock-id=on
-> > +        -machine memory-backend=pc.ram
-> > +        -m 512M
-> >   ERST
-> >   
-> >   HXCOMM Deprecated by -machine
-> >   
+> > +    pc->realize = pvpanic_pci_realizefn;
+> > +    pc->vendor_id = PCI_VENDOR_ID_REDHAT;
+> > +    pc->device_id = PCI_DEVICE_ID_REDHAT_PVPANIC;
 > 
-> Queued, thanks.
+> Please fill out subsystem and subsystem vendor IDs as well:
+> pc->subsystem_vendor_id
+> pc->subsystem_id 
 
-Paolo,
+Not needed, when left blank they are set to the default
+qemu subsystem id (1af4:1100) by the pci core.
 
-can you drop this patch fro your queue, pls?
-it has a mistake (1)
-
-v3 is in process of cooking, once there is some agreement I'll post it.
-
-> 
-> Paolo
-> 
-> 
+take care,
+  Gerd
 
 
