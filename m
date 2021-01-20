@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7FA32FD2C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:36:13 +0100 (CET)
-Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CFF52FD2CD
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:37:59 +0100 (CET)
+Received: from localhost ([::1]:42024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Eai-0000T2-Q3
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:36:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33510)
+	id 1l2EcQ-0001Pb-K4
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:37:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2EZQ-0008Jq-H6
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:34:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56515)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2EZM-0001UV-Pa
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:34:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611153288;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=G03T8XYUTmn0EWMgXKMY8zOnAGeaj5xmo9qaTSjg9WQ=;
- b=CukceA43+7n4lPkWzX5VgvrbsqzKVJ/O6THxXbMtgql/ZydGB4vzJ8RjD4Yw8rf02idwC4
- afiQVgXMOfhPBAgUAaU92ipU3QhSDMAbL8Wo2uOdR3195tKXBEjRWwHkIwGU9b655NhjVM
- IzcpYmxXI9iz40iqAFxDMMoNAiYyAm0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-403-iiPaQy4nPimsENNzoztwIQ-1; Wed, 20 Jan 2021 09:34:44 -0500
-X-MC-Unique: iiPaQy4nPimsENNzoztwIQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C905785C708;
- Wed, 20 Jan 2021 14:34:42 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-178.ams2.redhat.com
- [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A85395D9C2;
- Wed, 20 Jan 2021 14:34:39 +0000 (UTC)
-Subject: Re: [PATCH v4 00/23] backup performance: block_status + async
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
- <3a5ea1b1-1137-4ac5-5aac-5bdec0b7b0d5@redhat.com>
- <eb6ad5ca-0254-c9a7-63e3-3a4619e397cd@virtuozzo.com>
- <29cccc86-a450-3326-2d70-f3022e32b5db@redhat.com>
- <ccb47c7c-051d-6df4-9a73-ace9b23b67a2@redhat.com>
-Message-ID: <cfe3b7dd-8a1f-7e49-e576-ebca82ee4d98@redhat.com>
-Date: Wed, 20 Jan 2021 15:34:37 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l2Ebg-0000zB-N4
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:37:12 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:44963)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l2Ebe-0002PF-WF
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:37:12 -0500
+Received: by mail-ed1-x530.google.com with SMTP id p22so25991831edu.11
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 06:37:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=9SLTOgqEC/ea1YmXMKuLW8lFu+zw7LsfQZSniI12A9Q=;
+ b=NSnpPs4lVrqcY3iR7XbSFLMHQuq5A610jK/Bo1/aqvZWdQUwbVDaj1Kvd7c6ZTUigH
+ jwIXBmQcKXTOkZH295ZE7MuG3MB61Fb5+MuzfSSn2JwuIYr8m2qi7jWOCx9A6vsA7m0v
+ rTfsQRAv0RTn2TGi5yOaEIV9LnwgJUakNiCcUzm2x/tPYAb/3HX92HWWgQteMACPcx7o
+ dfqXOgCdSVTORxAjx4Yb1ALpacDc11d8GsRYFP+XFkXNpOCENFXWvsQiViMnfvbBTBUh
+ HNyviMKwcNek/m9Qdpa3skx/FFLJNw9pMh49cGtDaB6rfdeIIuIaiKmtdkBKzsZvcD4E
+ tY2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=9SLTOgqEC/ea1YmXMKuLW8lFu+zw7LsfQZSniI12A9Q=;
+ b=oCoPSyQlfFUzgL9WFIO7pkCp0cC/gR3zspq0SgkwHpGG5Wi2nDQ6lfqbDHIEsN11E9
+ 20imdqT85K6smkgmRy/EFoBF6GSTmiOlFY1jFcyfsKBdixcWBjmRmY5dZMR8qZrElb2d
+ 2dFqDERMm403a/EOAUwCli6q4lwdrT+Zj58fg64+qRhR22ZYBFKcvRDeh3g/0xdjqdat
+ H+0crtgRJSjz328tuLoxYiaJV4ySJQwIdJ5jhqlP1Ay3VpB3TY2HiY7MNfKR2b6O1u3R
+ fI1s3PDlZ7Oe81yzIQGjANWNPA9534fynywMfYadtBO0da/owHDUkqch0ag/uxIMGhju
+ tZJQ==
+X-Gm-Message-State: AOAM530kSXQe5AuvSkNlWt25kX4V2ISaB63q1UnP4NgV5XBZTCFElDK4
+ crgznoUEcLuLqR9q58ucHTjd5/uQMZSpeA==
+X-Google-Smtp-Source: ABdhPJzpSSCv0v0lQ5YibsXEw17TwjrjMjlz2SFwdssaD8BODutTdp0wTTTkyhTFtq3BlLwDuCYSjQ==
+X-Received: by 2002:aa7:d610:: with SMTP id c16mr7757365edr.354.1611153428898; 
+ Wed, 20 Jan 2021 06:37:08 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id gj9sm288774ejb.107.2021.01.20.06.37.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 06:37:08 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] runstate: cleanup reboot and panic actions
+Date: Wed, 20 Jan 2021 15:37:06 +0100
+Message-Id: <20210120143706.345821-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <ccb47c7c-051d-6df4-9a73-ace9b23b67a2@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,216 +81,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.01.21 14:50, Max Reitz wrote:
-> On 20.01.21 11:39, Max Reitz wrote:
->> On 19.01.21 20:22, Vladimir Sementsov-Ogievskiy wrote:
->>> 19.01.2021 21:40, Max Reitz wrote:
->>>> On 16.01.21 22:46, Vladimir Sementsov-Ogievskiy wrote:
->>>>> Hi Max!
->>>>> I applied my series onto yours 129-fixing and found, that 129 fails 
->>>>> for backup.
->>>>> And setting small max-chunk and even max-workers to 1 doesn't help! 
->>>>> (setting
->>>>> speed like in v3 still helps).
->>>>>
->>>>> And I found, that the problem is that really, the whole backup job 
->>>>> goes during
->>>>> drain, because in new architecture we do just job_yield() during 
->>>>> the whole
->>>>> background block-copy.
->>>>>
->>>>> This leads to modifying the existing patch in the series, which 
->>>>> does job_enter()
->>>>> from job_user_pause: we just need call job_enter() from job_pause() 
->>>>> to cover
->>>>> not only user pauses but also drained_begin.
->>>>>
->>>>> So, now I don't need any additional fixing of 129.
->>>>>
->>>>> Changes in v4:
->>>>> - add a lot of Max's r-b's, thanks!
->>>>>
->>>>> 03: fix over-80 line (in comment), add r-b
->>>>> 09: was "[PATCH v3 10/25] job: call job_enter from job_user_pause",
->>>>>      now changed to finally fix 129 iotest, drop r-b
->>>>>
->>>>> 10: squash-in additional wording on max-chunk, fix error message, 
->>>>> keep r-b
->>>>> 17: drop extra include, assert job_is_cancelled() instead of check, 
->>>>> add r-b
->>>>> 18: adjust commit message, add r-b
->>>>> 23: add comments and assertion, about the fact that test doesn't 
->>>>> support
->>>>>      paths with colon inside
->>>>>      fix s/disable-copy-range/use-copy-range/
->>>>
->>>> Hmmm, for me, 129 sometimes fails still, because it completes too 
->>>> quickly...  (The error then is that 'return[0]' does not exist in 
->>>> query-block-jobs’s result, because the job is already gone.)
->>>>
->>>> When I insert a print(result) after the query-block-jobs, I can see 
->>>> that the job has always progressed really far, even if its still 
->>>> running. (Like, generally the offset is just one MB shy of 1G.)
->>>>
->>>> I suspect the problem is that block-copy just copies too much from 
->>>> the start (by default); i.e., it starts 64 workers with, hm, well, 1 
->>>> MB of chunk size?  Shouldn’t fill the 128 MB immediately...
->>>>
->>>> Anyway, limiting the number of workers (to 1) and the chunk size (to 
->>>> 64k) with x-perf does ensure that the backup job’s progress is 
->>>> limited to 1 MB or so, which looks fine to me.
->>>>
->>>> I suppose we should do that, then (in 129), before patch 17?
->>>
->>> Yes, that sounds reasonable
->>>
->>>>
->>>> (PS: I can also see a MacOS failure in iotest 256.  I suspect it’s 
->>>> related to this series, because 256 is a backup test (with 
->>>> iothreads), but I’m not sure yet.  The log is here:
->>>>
->>>> https://cirrus-ci.com/task/5276331753603072
->>>> )
->>>>
->>>
->>> qemu received signal 31 ?
->>>
->>> googling for MacOS...
->>>
->>>   31    SIGUSR2      terminate process    User defined signal 2
->>
->> coroutine-sigaltstack uses SIGUSR2 to set up new coroutines.  Perhaps 
->> it’s unrelated to backup?  Guess I’ll just run the test one more time. 
->> O:)
-> 
-> I ran it again, got the same error.  There is no error on master, or 
-> before backup uses block_copy.
-> 
-> I’m trying to run a test directly on the “move to block-copy” commit, 
-> but so far Cirrus doesn’t seem to want me to do another test run right now.
-> 
-> (Though I’m pretty sure if there is no error before the block-copy 
-> commit, then using block-copy must be the problem.  The remaining 
-> patches in my block branch are just disabling copy_range, some clean-up, 
-> the simplebench patches, the locking code error reporting change, and a 
-> new iotest.)
+The possible choices for panic, reset and watchdog actions are inconsistent.
 
-I was able to reproduce the signal on Linux, by passing
---with-coroutine=sigaltstack to configure (sometimes takes like 10 runs 
-to fail, though).  “move to block-copy” is indeed the first failing commiit.
+"-action panic=poweroff" should be renamed to "-action panic=shutdown"
+on the command line.  This is because "-action panic=poweroff" and
+"-action watchdog=poweroff" have slightly different semantics, the first
+does an unorderly exit while the second goes through qemu_cleanup().  With
+this change, -no-shutdown would not have to change "-action panic=pause"
+"pause", just like it does not have to change the reset action.
 
-Letting qemu_coroutine_new() set up an aborting signal handler for 
-SIGUSR2 instead of restoring the default action (i.e. exiting without 
-core dump) yields this back trace:
+"-action reboot=none" should be renamed to "-action reboot=reset".
+This should be self explanatory, since for example "-action panic=none"
+lets the guest proceed without taking any action.
 
-Thread 1:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ qapi/run-state.json       | 10 ++++++----
+ qemu-options.hx           |  8 ++++----
+ softmmu/runstate-action.c |  4 ++--
+ softmmu/runstate.c        |  7 ++++---
+ softmmu/vl.c              |  2 +-
+ 5 files changed, 17 insertions(+), 14 deletions(-)
 
-#0  0x00007f61870ba9d5 in raise () at /lib64/libc.so.6
-#1  0x00007f61870a38a4 in abort () at /lib64/libc.so.6
-#2  0x0000562cd2be7350 in sigusr2_handler (s=<optimized out>) at 
-../util/coroutine-sigaltstack.c:151
-#3  0x00007f6187cee1e0 in <signal handler called> () at 
-/lib64/libpthread.so.0
-#4  0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-#5  0x0000562cd30d9e48 in qemu_coroutine_new () at 
-../util/coroutine-sigaltstack.c:220
-#6  0x0000562cd3106206 in qemu_coroutine_create
-     (entry=entry@entry=0x562cd303c950 <block_copy_async_co_entry>, 
-opaque=opaque@entry=0x7f6170002c00)
-     at ../util/qemu-coroutine.c:75
-#7  0x0000562cd303cd0e in block_copy_async
-     (s=0x562cd4f94400, offset=offset@entry=0, bytes=67108864, 
-max_workers=64, max_chunk=0, cb=cb@entry=0x562cd301dfe0 
-<backup_block_copy_callback>, cb_opaque=0x562cd6256940) at 
-../block/block-copy.c:752
-#8  0x0000562cd301dd4e in backup_loop (job=<optimized out>) at 
-../block/backup.c:156
-#9  backup_run (job=0x562cd6256940, errp=<optimized out>) at 
-../block/backup.c:299
-#10 0x0000562cd2fc84d2 in job_co_entry (opaque=0x562cd6256940) at 
-../job.c:911
-#11 0x0000562cd30da04b in coroutine_bootstrap 
-(self=self@entry=0x562cd6262ef0, co=co@entry=0x562cd6262ef0)
-     at ../util/coroutine-sigaltstack.c:105
-#12 0x0000562cd30da0e1 in coroutine_trampoline (signal=<optimized out>) 
-at ../util/coroutine-sigaltstack.c:146
-#13 0x00007f6187cee1e0 in <signal handler called> () at 
-/lib64/libpthread.so.0
-#14 0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-
-Thread 2:
-
-(gdb) bt
-#0  0x00007f6187cee2b6 in __libc_sigaction () at /lib64/libpthread.so.0
-#1  0x0000562cd30d9dc7 in qemu_coroutine_new () at 
-../util/coroutine-sigaltstack.c:194
-#2  0x0000562cd3106206 in qemu_coroutine_create
-     (entry=entry@entry=0x562cd3016c20 <aio_task_co>, 
-opaque=opaque@entry=0x7f616c0063d0)
-     at ../util/qemu-coroutine.c:75
-#3  0x0000562cd3016dd4 in aio_task_pool_start_task (pool=0x7f616c0067d0, 
-task=0x7f616c0063d0)
-     at ../block/aio_task.c:94
-#4  0x0000562cd303c193 in block_copy_task_run (task=<optimized out>, 
-pool=<optimized out>)
-     at ../block/block-copy.c:330
-#5  block_copy_dirty_clusters (call_state=0x7f616c002c00) at 
-../block/block-copy.c:646
-#6  block_copy_common (call_state=0x7f616c002c00) at 
-../block/block-copy.c:696
-#7  0x0000562cd30da04b in coroutine_bootstrap 
-(self=self@entry=0x7f616c003660, co=co@entry=0x7f616c003660)
-     at ../util/coroutine-sigaltstack.c:105
-#8  0x0000562cd30da0e1 in coroutine_trampoline (signal=<optimized out>) 
-at ../util/coroutine-sigaltstack.c:146
-#9  0x00007f6187cee1e0 in <signal handler called> () at 
-/lib64/libpthread.so.0
-#10 0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-#11 0x0000562cd30d9f61 in qemu_coroutine_new () at 
-../util/coroutine-sigaltstack.c:254
-#12 0x0000562cd61b40d0 in  ()
-#13 0x00007f6163fff930 in  ()
-#14 0x00007f6187cecc5f in annobin_pt_longjmp.c_end () at 
-/lib64/libpthread.so.0
-#15 0x0000562cd30da00d in qemu_coroutine_switch
-     (from_=0x562cd5cc3400, to_=0x7f616c003108, 
-action=action@entry=COROUTINE_YIELD)
-     at ../util/coroutine-sigaltstack.c:284
-#16 0x0000562cd31065f0 in qemu_coroutine_yield () at 
-../util/qemu-coroutine.c:193
-#17 0x0000562cd2fc751d in job_do_yield (job=0x562cd5cc3400, 
-ns=18446744073709551615) at ../job.c:478
-#18 0x0000562cd2fc855f in job_yield (job=0x562cd5cc3400) at ../job.c:525
-#19 0x0000562cd301dd74 in backup_loop (job=<optimized out>) at 
-../block/backup.c:164
-#20 backup_run (job=0x562cd5cc3400, errp=<optimized out>) at 
-../block/backup.c:299
-#21 0x0000562cd2fc84d2 in job_co_entry (opaque=0x562cd5cc3400) at 
-../job.c:911
-#22 0x0000562cd30da04b in coroutine_bootstrap 
-(self=self@entry=0x562cd61b40d0, co=co@entry=0x562cd61b40d0)
-     at ../util/coroutine-sigaltstack.c:105
-#23 0x0000562cd30da0e1 in coroutine_trampoline (signal=<optimized out>) 
-at ../util/coroutine-sigaltstack.c:146
-#24 0x00007f6187cee1e0 in <signal handler called> () at 
-/lib64/libpthread.so.0
-#25 0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-#26 0x0000000000000001 in  ()
-#27 0x0000000000000000 in  ()
-
- From a glance, it looks to me like two coroutines are created 
-simultaneously in two threads, and so one thread sets up a special 
-SIGUSR2 action, then another reverts SIGUSR2 to the default, and then 
-the first one kills itself with SIGUSR2.
-
-Not sure what this has to do with backup, though it is interesting that 
-backup_loop() runs in two threads.  So perhaps some AioContext problem.
-
-Max
+diff --git a/qapi/run-state.json b/qapi/run-state.json
+index 1f3b329f05..43d66d700f 100644
+--- a/qapi/run-state.json
++++ b/qapi/run-state.json
+@@ -330,14 +330,14 @@
+ #
+ # Possible QEMU actions upon guest reboot
+ #
+-# @none: Reset the VM
++# @reset: Reset the VM
+ #
+-# @shutdown: Shutdown the VM and exit
++# @shutdown: Shutdown the VM and exit, according to the shutdown action
+ #
+ # Since: 6.0
+ ##
+ { 'enum': 'RebootAction',
+-  'data': [ 'none', 'shutdown' ] }
++  'data': [ 'reset', 'shutdown' ] }
+ 
+ ##
+ # @ShutdownAction:
+@@ -360,10 +360,12 @@
+ #
+ # @pause: Pause the VM
+ #
++# @shutdown: Shutdown the VM and exit, according to the shutdown action
++#
+ # Since: 6.0
+ ##
+ { 'enum': 'PanicAction',
+-  'data': [ 'poweroff', 'pause', 'none' ] }
++  'data': [ 'pause', 'shutdown', 'none' ] }
+ 
+ ##
+ # @watchdog-set-action:
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 62791f56d8..9172d51659 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3900,12 +3900,12 @@ SRST
+ ERST
+ 
+ DEF("action", HAS_ARG, QEMU_OPTION_action,
+-    "-action reboot=none|shutdown\n"
+-    "                   action when guest reboots [default=none]\n"
++    "-action reboot=reset|shutdown\n"
++    "                   action when guest reboots [default=reset]\n"
+     "-action shutdown=poweroff|pause\n"
+     "                   action when guest shuts down [default=poweroff]\n"
+-    "-action panic=poweroff|pause|none\n"
+-    "                   action when guest panics [default=poweroff]\n"
++    "-action panic=pause|shutdown|none\n"
++    "                   action when guest panics [default=shutdown]\n"
+     "-action watchdog=reset|shutdown|poweroff|inject-nmi|pause|debug|none\n"
+     "                   action when watchdog fires [default=reset]\n",
+     QEMU_ARCH_ALL)
+diff --git a/softmmu/runstate-action.c b/softmmu/runstate-action.c
+index 99ce880886..ae0761a9c3 100644
+--- a/softmmu/runstate-action.c
++++ b/softmmu/runstate-action.c
+@@ -13,9 +13,9 @@
+ #include "qapi/error.h"
+ #include "qemu/option_int.h"
+ 
+-RebootAction reboot_action = REBOOT_ACTION_NONE;
++RebootAction reboot_action = REBOOT_ACTION_RESET;
+ ShutdownAction shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+-PanicAction panic_action = PANIC_ACTION_POWEROFF;
++PanicAction panic_action = PANIC_ACTION_SHUTDOWN;
+ 
+ /*
+  * Receives actions to be applied for specific guest events
+diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+index 6177693a30..beee050815 100644
+--- a/softmmu/runstate.c
++++ b/softmmu/runstate.c
+@@ -471,14 +471,15 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
+     }
+     /*
+      * TODO:  Currently the available panic actions are: none, pause, and
+-     * poweroff, but in principle debug and reset could be supported as well.
++     * shutdown, but in principle debug and reset could be supported as well.
+      * Investigate any potential use cases for the unimplemented actions.
+      */
+-    if (panic_action == PANIC_ACTION_PAUSE) {
++    if (panic_action == PANIC_ACTION_PAUSE
++        || (panic_action == PANIC_ACTION_SHUTDOWN && shutdown_action == SHUTDOWN_ACTION_PAUSE)) {
+         qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
+                                         !!info, info);
+         vm_stop(RUN_STATE_GUEST_PANICKED);
+-    } else if (panic_action == PANIC_ACTION_POWEROFF) {
++    } else if (panic_action == PANIC_ACTION_SHUTDOWN) {
+         qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
+                                        !!info, info);
+         vm_stop(RUN_STATE_GUEST_PANICKED);
+diff --git a/softmmu/vl.c b/softmmu/vl.c
+index 7ddf405d76..59304261cf 100644
+--- a/softmmu/vl.c
++++ b/softmmu/vl.c
+@@ -3202,7 +3202,7 @@ void qemu_init(int argc, char **argv, char **envp)
+                 break;
+             case QEMU_OPTION_no_shutdown:
+                 olist = qemu_find_opts("action");
+-                qemu_opts_parse_noisily(olist, "panic=pause,shutdown=pause", false);
++                qemu_opts_parse_noisily(olist, "shutdown=pause", false);
+                 break;
+             case QEMU_OPTION_uuid:
+                 if (qemu_uuid_parse(optarg, &qemu_uuid) < 0) {
+-- 
+2.29.2
 
 
