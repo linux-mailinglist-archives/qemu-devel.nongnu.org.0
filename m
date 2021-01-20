@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A87B92FD2EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:45:14 +0100 (CET)
-Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAC912FD2F0
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:45:18 +0100 (CET)
+Received: from localhost ([::1]:51074 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2EjR-0005DB-Gz
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:45:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35020)
+	id 1l2EjV-0005MQ-VI
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:45:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35044)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l2Egy-0003zo-AM
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:42:40 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:41049)
+ id 1l2Egz-00040c-Cy
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:42:41 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:41046)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l2Egw-00047v-PT
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:42:39 -0500
-Received: by mail-ej1-x631.google.com with SMTP id g12so33860903ejf.8
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 06:42:38 -0800 (PST)
+ id 1l2Egx-00047z-D5
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:42:41 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id g12so33861008ejf.8
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 06:42:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=HcyXBpkFCXz1O4SquOWagp/D4c/Mvra/tT832SH7OdM=;
- b=hYqdgm9nVQPco0XjnoNCt7ACqC+Ig8a8xzuNlfQjXUrE2cZkI/a48n1FuWKG9vtyNG
- HhX2GydVTykkL2gjwa3i8xpkXjWEM6OJcXExOZZJv3Xc+iwF+gUwRRGP+ymzMvo5VWGP
- T6OKtHt7bBvcs71byC7FyDIg5slLIzcLMokUmfC/SL9CZsEeaF3pEkMJM5+4gznfMCss
- KrwImo3QCk1WZdkZ79AnLygbhCkZP2mZ45HEAsDxFh26nRnnnwStnLa8TQvHER7M6h0q
- QEFDlVFT/hndE7gcTO3uVeno0dlkKgCds4iV0JK3Do8ybGux3nGpm0URvipLIZJEByMf
- Hzsg==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=Wootb/1eDmlPqGDLnEKTq4XqjiZhmmbPcYn7WSwlNhY=;
+ b=GbOqRZU/cWZlej2cVbfYgEkB5DlZLDbpRlvcs8mmSxJ/1LQn+Dzp+sTyGrMX7KRXIx
+ RAreaiVrCjTXRR/GYSGC8h0lxE7dVrlrU9V9d7Mp9Cqiua/176GDswXeEbAQd5k7qY66
+ jVxt7JkYuB5McxjfHB7zYOq5NJcOE1dkGBzzW8oQS7bYc35I29wkdyDIcs3pImeQElHx
+ Hb4eEgqt+D5tq1qCffNNyGW5UVGoulWg9crc9TU+FpFRdZGLn4NvvCv7WIMVEMflEiib
+ UsHnvLCYozupCLsvJ73/UBypWp8JvvMcHQFhxiYSkZ3ZVjU30PKAD4rbP5/GQUOs3LIm
+ HBog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=HcyXBpkFCXz1O4SquOWagp/D4c/Mvra/tT832SH7OdM=;
- b=tOfrrA77Fkt/+p3L7W2lZHRF/VkzhzlTTYmuzjLHhbUiJjGJJBpXpQtBFCay+mf7AJ
- 7GOiqp1bYFqf0grEXWwcpMwDg2Op93+iSLoGP6xOZ22jNsQJkWT590Nn9hr8jeKdbJQL
- rWvUDGAoAPNl1G/1W0ILYfe09eSMAt+RIQ5V9+pFfw3rAkxOdC3nuHoi6Ey3FeFDjlXW
- vivUFYQ6qD0CoQMpn/xncsXlgJR+DIhFkzVRlvajUJ7CMMZqW2k8VKNOdzIO+7hq7IhT
- gcw58H4EDKrjtW2GNp0iXSC6M4Vyu3kYRfWG2joA8DNJSjSNwcLb0P2XUj5nnx26aDLt
- ymqg==
-X-Gm-Message-State: AOAM530qIpTPGRZ8eHalC4ijMa2Z1rygqg+l5JaQwXChGXrSzD4egTOE
- x4XCSUua18luROWjxETdU9rmjoldPZlgiA==
-X-Google-Smtp-Source: ABdhPJxrOpStTbkzeiXnI2J/xFMDyJH7t2+UcSvKf+7Wm6/Sav1Rk4dd711PUqQfAuWg+FbKRJoPmw==
-X-Received: by 2002:a17:906:2743:: with SMTP id
- a3mr6545937ejd.378.1611153757197; 
- Wed, 20 Jan 2021 06:42:37 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=Wootb/1eDmlPqGDLnEKTq4XqjiZhmmbPcYn7WSwlNhY=;
+ b=WMEchTU2lyRIhytVu7yjACrJN16P0fVBNg7qXJUkmbM+Y3z/8iTVsXQjZvP1qQNzA2
+ pOo5da67HkPE+bZSUgh96M+uMqckIx73KSzgxBjEuNnR7Jp/kpLFah0Zi7IoxHfj5uSi
+ OJloPhBmqxAy4DXNqgMzWjsDYq3Ossk+WVwnCOsMBpRc+9e00o5yyKCjyw8AdJv0dMqf
+ P5kqylBq4rVJDprOk6p0ClXs/7d45AVjy7I93nnL8OuatmJ0KDeIHZ/3zSJoKC6b7SLw
+ oBxekshVR5uwRm7EKWt2VQikj3E9QyeGCH1Iky40mfPvGENWAL4u/wyQruQ4yDPchUu/
+ 1vDg==
+X-Gm-Message-State: AOAM530s9+7FO/TBMcocgNDIc1ET6TIX0gOD9at/DUu+SAGxwnxEhFYV
+ HuMLZdrpZ4YZzcTyNtHpn5PXxAQgG6djQg==
+X-Google-Smtp-Source: ABdhPJxlH7yG1Uyj1udv2I2juAreN/UZ2kjIO5R3CQeOfifU4Wubkgv5YZPntFxNGrihmvn/zpXxcg==
+X-Received: by 2002:a17:906:3685:: with SMTP id
+ a5mr6143085ejc.544.1611153758101; 
+ Wed, 20 Jan 2021 06:42:38 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id v9sm965078ejd.92.2021.01.20.06.42.36
+ by smtp.gmail.com with ESMTPSA id v9sm965078ejd.92.2021.01.20.06.42.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 06:42:36 -0800 (PST)
+ Wed, 20 Jan 2021 06:42:37 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] vnc: remove "change vnc TARGET" and QMP change command,
- support "-vnc help"
-Date: Wed, 20 Jan 2021 15:42:32 +0100
-Message-Id: <20210120144235.345983-1-pbonzini@redhat.com>
+Subject: [PATCH 1/3] hmp: remove "change vnc TARGET" command
+Date: Wed, 20 Jan 2021 15:42:33 +0100
+Message-Id: <20210120144235.345983-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210120144235.345983-1-pbonzini@redhat.com>
+References: <20210120144235.345983-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,39 +88,90 @@ Cc: armbru@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The real driver for these patches is to send all QemuOpts user input
-to qemu_opts_parse_noisily, for consistency in the command line
-parsing code and to effectively outlaw "help" and "?" QemuOpts
-suboptions.  vnc_parse is the only function that is still using
-qemu_opts_parse.
+The HMP command \"change vnc TARGET\" is messy:
 
-In order to remove the non-command-line callers of vnc_parse,
-I am removing the deprecated QMP change command but also its HMP
-veneer "change vnc TARGET", whose usecase is somewhat unclear to
-me.  "change vnc password" is still supported.
+- it takes an ugly shortcut to determine if the option has an "id",
+with incorrect results if "id=" is not preceded by an unescaped
+comma.
 
-Finally, by switching to qemu_opts_parse_noisily, it is easy to
-print a help message on "-vnc help".
+- it deletes the existing QemuOpts and does not try to rollback
+if the parsing fails (which is not causing problems, but only due to
+how VNC options are parsed)
 
+- because it uses the same parsing function as "-vnc", it forces
+the latter to not support "-vnc help".
 
-Paolo Bonzini (3):
-  hmp: remove "change vnc TARGET" command
-  qmp: remove deprecated "change" command
-  vnc: support "-vnc help"
+On top of this, it uses a deprecated QMP command, thus getting in
+the way of removing the QMP command.  Since the usecase for the
+command is not clear, just remove it and send "change vnc password"
+directly to the QMP "change-vnc-password" command.
 
- docs/system/deprecated.rst       |  5 ----
- docs/system/removed-features.rst | 11 +++++++
- hmp-commands.hx                  |  6 ----
- include/ui/console.h             |  2 +-
- monitor/hmp-cmds.c               |  7 +++--
- monitor/qmp-cmds.c               | 51 --------------------------------
- qapi/misc.json                   | 49 ------------------------------
- softmmu/vl.c                     |  6 ++--
- ui/vnc-stubs.c                   |  7 ++---
- ui/vnc.c                         |  8 ++---
- 10 files changed, 27 insertions(+), 125 deletions(-)
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ docs/system/removed-features.rst | 6 ++++++
+ hmp-commands.hx                  | 6 ------
+ monitor/hmp-cmds.c               | 7 +++++--
+ 3 files changed, 11 insertions(+), 8 deletions(-)
 
+diff --git a/docs/system/removed-features.rst b/docs/system/removed-features.rst
+index 430fc33ca1..5b0ff6ab1f 100644
+--- a/docs/system/removed-features.rst
++++ b/docs/system/removed-features.rst
+@@ -68,6 +68,12 @@ The ``[hub_id name]`` parameter tuple of the 'hostfwd_add' and
+ Use ``device_add`` for hotplugging vCPUs instead of ``cpu-add``.  See
+ documentation of ``query-hotpluggable-cpus`` for additional details.
+ 
++``change vnc TARGET`` (removed in 6.0)
++''''''''''''''''''''''''''''''''''''''
++
++No replacement.  The ``change vnc password`` and ``change DEVICE MEDIUM``
++commands are not affected.
++
+ Guest Emulator ISAs
+ -------------------
+ 
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 73e0832ea1..d4001f9c5d 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -231,12 +231,6 @@ SRST
+     read-write
+       Makes the device writable.
+ 
+-  ``change vnc`` *display*,\ *options*
+-    Change the configuration of the VNC server. The valid syntax for *display*
+-    and *options* are described at :ref:`sec_005finvocation`. eg::
+-
+-      (qemu) change vnc localhost:1
+-
+   ``change vnc password`` [*password*]
+ 
+     Change the password associated with the VNC server. If the new password
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index fd4d77e246..499647a578 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1521,13 +1521,16 @@ void hmp_change(Monitor *mon, const QDict *qdict)
+         }
+         if (strcmp(target, "passwd") == 0 ||
+             strcmp(target, "password") == 0) {
+-            if (!arg) {
++            if (arg) {
+                 MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
+                 monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
+                 return;
++            } else {
++                qmp_change_vnc_password(arg, &err);
+             }
++        } else {
++            monitor_printf(mon, "Expected 'password' after 'vnc'\n");
+         }
+-        qmp_change("vnc", target, !!arg, arg, &err);
+     } else
+ #endif
+     {
 -- 
 2.29.2
+
 
 
