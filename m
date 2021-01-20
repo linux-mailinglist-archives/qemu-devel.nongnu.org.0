@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87DA52FD8D3
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 19:51:35 +0100 (CET)
-Received: from localhost ([::1]:59022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C087F2FD8DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 19:52:41 +0100 (CET)
+Received: from localhost ([::1]:33172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2IZq-0002i8-I1
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 13:51:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39104)
+	id 1l2Iau-0003tC-Em
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 13:52:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2IXQ-0001ei-Gt
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:49:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23291)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2IXO-00049N-P8
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:49:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611168542;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GFxfFuZKL80e4v+WLwv2Mntqv+yvYa+Yoh643rwAIRo=;
- b=SnRc+7IchYwfpPsl27DxdQEyImrtGK4axyKjlimx/4lec2ZCteltNnAL/9oTr34xhn5jK0
- D3ekglzehb0aHMQVvEwEU+LgTft04tIAayiQgfrQUWrL/Tc7cH4gYnPt2yOpLpT6dZNRI6
- fXD9I4SVwYyvBjLCfqNwcl/8NpIMmwI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-530--xOx9KIyMVCQbYWWkyGlMg-1; Wed, 20 Jan 2021 13:48:58 -0500
-X-MC-Unique: -xOx9KIyMVCQbYWWkyGlMg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27F61879519;
- Wed, 20 Jan 2021 18:48:57 +0000 (UTC)
-Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 43DB460C6D;
- Wed, 20 Jan 2021 18:48:56 +0000 (UTC)
-Subject: Re: [PATCH v9 02/11] migration: Make save_snapshot() return bool, not
- 0/-1
-From: Eric Blake <eblake@redhat.com>
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210120104411.3084801-1-berrange@redhat.com>
- <20210120104411.3084801-3-berrange@redhat.com>
- <6db4a267-5ae1-6241-2b76-9fc6007208ad@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <401f5190-d991-ba3b-b8d6-02dc380f7deb@redhat.com>
-Date: Wed, 20 Jan 2021 12:48:55 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
+ id 1l2IZ5-0002y8-4s
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:50:47 -0500
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:40068)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <raphael.s.norwitz@gmail.com>)
+ id 1l2IZ3-0004OG-A6
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:50:46 -0500
+Received: by mail-ot1-x32c.google.com with SMTP id i20so16556605otl.7
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 10:50:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=UYQrXUav3wMwj+KMh6H1q8zVQ8wo3Trb8TeS1gH5Klo=;
+ b=kpvTIBbehVklomtQRfpv7ymoncCXYlkrHxjj3DLyebmywqmeIg98h87clBtSYPyF0y
+ i0XC39bc0dPaa6Z+n/ii/BaAA5CmCfqYUR5/GHC+AkSnuvbnZFWznRJdvXr1ibsYR2Qj
+ fYY9W3d+p1nkiov0rOBZ+jHEQ7L3FI8hn03YEJPcP6bRagRg3jh5ze1M0hKbx8w/JCZS
+ qHRcUQ9ct936wE5UFmB42JXHEhoehQ3nUcQsMlU/kph4vqF6Wnd5mhODfZXG6kj+bCip
+ XCfC29160X1IWqp0hWnJVEVvHYHzNFBoWUrjcFFTCB0nAcRpGFlLX2zk7yMUD1IrH3rg
+ zQVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=UYQrXUav3wMwj+KMh6H1q8zVQ8wo3Trb8TeS1gH5Klo=;
+ b=Et1uWGdBrM0XKVQk9DYPIJu9vl7Kt+GGFQB0AxBKfOj5sMm3wQXDtQQ5cIGm6H68RA
+ 9cWYl59TUOs30xQxAljd2GMZ/5tk4vufG3tyma8+MQ8lxpFaUaFKsTsmkes4ayPAAG1G
+ cN7/T7HmCqEs9zm9CWPHRTYpQ7qdOYhbsbRXvzbiDxjzjA8oNxpGHHUdMJR5oG9ChnBU
+ ZM04Uon9LeaWtFAct7e1i4vGkAAEURr6+qZt3fi+zecAKFczibN6OcrdKu5/xEyyiJ/s
+ STsJt9gbGm9IOczb61LqoI/86T+ijKlCf3pEtrCKMaat4wAsXCuHubJfhfPwaPa91jDA
+ v0WA==
+X-Gm-Message-State: AOAM532EL8svmPEC8VxBkzyLnMq9IC73E8FmZ65zeeMQCepnRO3YnQwu
+ u3nemu8dipsVDBaJ/W2VnVzLS5UHu+VCN/XCPHs=
+X-Google-Smtp-Source: ABdhPJwcl3w5X5oJ4mu255oA3qBsrTrYyB2xsj1HtFy6GrRFIpfFpXYyfS3Zk4VmTVyow92hFXV7E7rttPjt2LbOgXI=
+X-Received: by 2002:a9d:774b:: with SMTP id t11mr7887077otl.337.1611168643707; 
+ Wed, 20 Jan 2021 10:50:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <6db4a267-5ae1-6241-2b76-9fc6007208ad@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210120035027.51037-1-dubo163@126.com>
+In-Reply-To: <20210120035027.51037-1-dubo163@126.com>
+From: Raphael Norwitz <raphael.s.norwitz@gmail.com>
+Date: Wed, 20 Jan 2021 12:50:32 -0600
+Message-ID: <CAFubqFtX-vWJ8ajnxVeh9r677Pr1mxvRayj7aOfCAeduWTf-hA@mail.gmail.com>
+Subject: Re: [PATCH] vhost-user-blk.c:fix the qemu-kvm crash in the
+ vhost-user-blk env.
+To: Bobo Du <dubo163@126.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32c;
+ envelope-from=raphael.s.norwitz@gmail.com; helo=mail-ot1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,54 +77,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
- qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
- John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/21 12:46 PM, Eric Blake wrote:
-> On 1/20/21 4:44 AM, Daniel P. Berrangé wrote:
->> From: Philippe Mathieu-Daudé <philmd@redhat.com>
->>
->> Just for consistency, following the example documented since
->> commit e3fe3988d7 ("error: Document Error API usage rules"),
->> return a boolean value indicating an error is set or not.
->>
->> Acked-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  include/migration/snapshot.h |  9 ++++++++-
->>  migration/savevm.c           | 16 ++++++++--------
->>  replay/replay-debugging.c    |  2 +-
->>  replay/replay-snapshot.c     |  2 +-
->>  4 files changed, 18 insertions(+), 11 deletions(-)
-> 
-> 
->> +++ b/migration/savevm.c
->> @@ -2729,7 +2729,7 @@ int qemu_load_device_state(QEMUFile *f)
->>      return 0;
->>  }
->>  
->> -int save_snapshot(const char *name, Error **errp)
->> +bool save_snapshot(const char *name, Error **errp)
->>  {
-> 
-> Missing a 'return -1' that must be changed to 'return false' (see patch
-> 11; if not fixed here, you have a window where you are inadvertently
-> returning true on failure).
-> 
+Looks good - I just suggest some suggestions for the commit message.
 
-Correction, it was patch 6/11 that introduced the 'return -1' that then
-got fixed in 11/11; patch 2/11 by itself is okay.
+On Wed, Jan 20, 2021 at 8:46 AM Bobo Du <dubo163@126.com> wrote:
+>
+> In our spdk env, when we restart spdk vhost process, all the spdk
+> vhost dev will be reconnected,if the vhost_user_blk_device_realize
+> failed in the reconnect code goto label with the qemu_chr_fe_wait_connected,
+> the vhost_user_cleanup will set user->chr be NULL,but the fe handler
+> vhost_user_blk_event is still work on the env.
+>
+> If the vhost slave(eg:spdk) has not been done,we will see the qemu-kvm
+> crash after reopen the vhost-user-blk dev:
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+The English up to here is a little awkward. Maybe rather:
 
+When a vhost-user-blk backend, such as SPDK restarts, all of the
+backend's vhost devs will be reconnected. If
+vhost_user_blk_device_realize() fails at qemu_chr_fe_wait_connected(),
+goto virtio_err will be executed. This in turn calls
+vhost_user_cleanup which sets user->chr to NULL. This is problematic
+because the qemu_chr_fe_handler will still be active and will crash if
+the backend comes back up and reopens the chardev.
+
+> gdb debug info from qemu-kvm-2.10:
+> [Thread debugging using libthread_db enabled]
+> Using host libthread_db library "/lib64/libthread_db.so.1".
+> Core was generated by `/usr/libexec/qemu-kvm -name guest=db1ae942ac9c5486bf93c7baac5fcce6,debug-thread'.
+
+I don't think you need these three lines:
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib64/libthread_db.so.1".
+Core was generated by `/usr/libexec/qemu-kvm -name
+guest=db1ae942ac9c5486bf93c7baac5fcce6,debug-thread'.
+
+> Program terminated with signal 11, Segmentation fault.
+> #0  qemu_chr_fe_set_msgfds (be=0x0, fds=0x0, num=0) at chardev/char-fe.c:144
+> 144        Chardev *s = be->chr;
+>
+> So,we must reset the fe handler after the goto label virtio_err.
+>
+> Signed-off-by: Bobo Du <dubo163@126.com>
+
+Reviewed-by: Raphael Norwitz <raphael.norwitz@nutanix.com>
+
+> ---
+>  hw/block/vhost-user-blk.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+> index da4fbf9084..c90687ab82 100644
+> --- a/hw/block/vhost-user-blk.c
+> +++ b/hw/block/vhost-user-blk.c
+> @@ -507,6 +507,8 @@ virtio_err:
+>      }
+>      g_free(s->virtqs);
+>      virtio_cleanup(vdev);
+> +    qemu_chr_fe_set_handlers(&s->chardev, NULL, NULL, NULL,
+> +                             NULL, NULL, NULL, false);
+>      vhost_user_cleanup(&s->vhost_user);
+>  }
+>
+> --
+> 2.17.0
+>
+>
 
