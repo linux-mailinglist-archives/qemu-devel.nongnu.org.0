@@ -2,86 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18DA62FDC23
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 22:53:55 +0100 (CET)
-Received: from localhost ([::1]:50724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08A232FDC29
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 22:59:50 +0100 (CET)
+Received: from localhost ([::1]:54446 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2LQH-0001H0-PP
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 16:53:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47698)
+	id 1l2LVz-000385-7t
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 16:59:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48432)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2LPG-0000qz-4q
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 16:52:50 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:37758)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l2LUg-0002NF-54; Wed, 20 Jan 2021 16:58:26 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:38825)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2LPE-0000OU-Ja
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 16:52:49 -0500
-Received: by mail-ej1-x636.google.com with SMTP id b5so19218005ejv.4
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 13:52:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l2LUe-0002QH-Ik; Wed, 20 Jan 2021 16:58:25 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id x20so3099899pjh.3;
+ Wed, 20 Jan 2021 13:58:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=FPEsvx3H4jh8NIwHv56ejvgHAKwVGK0j4C9JlT6wtHw=;
- b=QcODc+G2c9arFuO4DvjMnqN6KotQRCBe16Ea8q7s3FJLXALZae2LSQt5lmOF3EUjHr
- clwxTyTZS0S0fQxfZO31D5rh5cZ6DrcVf6tu1XI1K8rmLCIWuaOhEeo3PWsGeaTzjtab
- zqXUjkzityGoRhxyXifJn8S+GuI/Gr6vlpSCLRlIR2LqLPUmVkjZKzMECBnPtKZsJCnh
- LRiwWz2p+O8fpPi0/sDzpNtQ9zIneM0Twz5mVMxbtv8vZOY5tYk3v7YsxMGbJLCzirfj
- dH6qcAxsvIebTB1xlf2cqBdXBO+y3lBAIcr7mqpUWITgAtofNaEmX7OmO2MhbjpkTq9C
- J3RA==
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ps8HiBAJbeC1GeIUgBGxKpFp1KaYGS1cXPX18CV7yzg=;
+ b=i9PBIije7ViAIgV4Vlw/iswXXQ//nrtC+0rhTX51j/fUHOWKBK+DV7pzfQkZrfBLBo
+ Hnr6sG08upRYwtyQXLY4IY74dqNdN7AhwPv1C5DZZUZ/rYW4dnnPZnIPn6Y3PycY7FZs
+ cx3QSYBBkVc1fsA5mnmDi8s142qlYGSGg0c2uqAjzS2gKbtBdwJq2IPJmADow9Wwx0DQ
+ viVd36eBo6Xyi0+eK4v+0Ox6U/HQ55ZFZPdDxL50iUAdhmfxrIkTsE6dYWFVRQxkwcWR
+ Opmr0mZzGB1X5ZXW4wr55f1RmXSarEnRdkOEUrtM6Kj048YW00ObGZi2Fxq9HA7KaY/Q
+ XVPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FPEsvx3H4jh8NIwHv56ejvgHAKwVGK0j4C9JlT6wtHw=;
- b=mZCH4hX2VlOJdaAMYWRWWW4wPPAD9f5s+SyTfAL2fxIckrjN3SMyl5RubrVT0jabnn
- UhQQEuDGNscq+/GIlv/qrzTLQRelAltXg7+FVVzhuj7E+RBh1eMILuqztuj9bgWl3xML
- SKlL0d2sK2kkEjgLOqN2AuaIhTZzmjEpiM3O8vf9+jd4mTyMABsK95E9DYLR/BEqmyJi
- No4T80flDuRKa00NSZ8k8DdxG46G0L/rRd6dcm1bRP6MpKrSXL/+IgLPjjS2iPSwL32J
- az/6PJTQphuw0ubtoAznFBWYiIUrsCn5p0LCJF7JZJZcSlVMFHXPpSJZaiDhVVZL2mKr
- KUtw==
-X-Gm-Message-State: AOAM531k45oYFaEi0VPpNzX8foayxmg4OqSf04mOqqD1fadP85v71Tko
- qykkTf3MF0DuxqwdDlrV2O+145Mklc0=
-X-Google-Smtp-Source: ABdhPJxwPX8WRXl2k7V7cf9ywfVFs8yJ68gMTIPqDx/oivx4MxQ/CW97xIa1cHiTuopkQ2C5Gi62tQ==
-X-Received: by 2002:a17:906:5618:: with SMTP id
- f24mr7293739ejq.517.1611179564610; 
- Wed, 20 Jan 2021 13:52:44 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id m10sm1721630edi.54.2021.01.20.13.52.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 13:52:43 -0800 (PST)
-Subject: Re: [PATCH 0/4] Introduce a battery, AC adapter, and lid button
-To: Leonid Bloch <lb.workbox@gmail.com>, "Michael S . Tsirkin"
- <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20210120205501.33918-1-lb.workbox@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <b866c8ad-9336-5305-131d-5ccd63be2166@amsat.org>
-Date: Wed, 20 Jan 2021 22:52:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ps8HiBAJbeC1GeIUgBGxKpFp1KaYGS1cXPX18CV7yzg=;
+ b=PnglwkIa5IObxIhWX3KckXWfuIwjfFKYtjOARoiFp96ff2muZystLHgzxDFLQG6GYY
+ ygA7AqBfMH6XSSb37E/52YkIVMzwBKA5ccfBsJB3VhyaCYR2vptdavQUuZfslk82ZJmg
+ IHtOvmBKlhMwuWOWGTV5xpREQXDbwwZQtIN+cBHUO0bC3DSlWFtXXCrdw1neQZwp/Y/h
+ 1/5mfORh+Cohx+ji6UJnTDO3rJZB45UB75vo/rN1QYV+XzyLHbgXYb71YQPTGx1JDBhH
+ 9cF9lTVLuxDMIq3Mn8SYv4s84GNZhTJuDtG/iatnYO4TyteBttWiuwzxQuCilT5kUprS
+ QH0g==
+X-Gm-Message-State: AOAM532dxen3YVDZgMHUvLvYREVHTVajyDJjzSHd0L1vksXnxex8idQn
+ 1PxnSUL2PkM3sgBjGmHl9mg=
+X-Google-Smtp-Source: ABdhPJyVZ+3qSPgugRzrKjJY0RN45+d6GgHihDuvhN9BmjJsOMUhEn29g0h7KJ+hYc9DkL4NOpf2Lw==
+X-Received: by 2002:a17:90b:4c8c:: with SMTP id
+ my12mr7755089pjb.29.1611179902353; 
+ Wed, 20 Jan 2021 13:58:22 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id o14sm3556232pgr.44.2021.01.20.13.58.21
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Wed, 20 Jan 2021 13:58:21 -0800 (PST)
+Date: Thu, 21 Jan 2021 06:58:19 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Niklas Cassel <Niklas.Cassel@wdc.com>
+Subject: Re: [RFC PATCH V3 8/8] hw/block/nvme: Add Identify Active Namespace
+ ID List
+Message-ID: <20210120215819.GA2645@localhost.localdomain>
+References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
+ <20210119170147.19657-9-minwoo.im.dev@gmail.com>
+ <20210120140718.GA130091@localhost.localdomain>
 MIME-Version: 1.0
-In-Reply-To: <20210120205501.33918-1-lb.workbox@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.094,
+Content-Disposition: inline
+In-Reply-To: <20210120140718.GA130091@localhost.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,62 +85,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>, Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Leonid, Marcel,
-
-On 1/20/21 9:54 PM, Leonid Bloch wrote:
-> This series introduces the following ACPI devices:
+> Hello Minwoo,
 > 
-> * Battery
-> * AC adapter
-> * Laptop lid button
+> By introducing a detached parameter,
+> you are also implicitly making the following
+> NVMe commands no longer be spec compliant:
 > 
-> When running QEMU on a laptop, these paravirtualized devices reflect the
-> state of these physical devices onto the guest. This functionality is
-> relevant not only for laptops, but also for any other device which has e.g.
-> a battery. This even allows to insert a ``fake'' battery to the
-> guest, in a form of a file which emulates the behavior of the actual
-> battery in sysfs. A possible use case for such a ``fake'' battery can be
-> limiting the budget of VM usage to a subscriber, in a naturally-visible way.
-
-Your series looks good. Now for this feature to be even more useful for
-the community, it would be better to
-
-1/ Have a generic (kind of abstract QDev) battery model.
-   Your model would be the ISA implementation. But we could add LPC,
-   SPI or I2C implementations for example.
-
-2/ Make it a model backend accepting various kind of frontends:
-   - host Linux sysfs mirroring is a particular frontend implementation
-   - mirroring on Windows would be another
-   - any connection (TCP) to battery simulator (Octave, ...)
-
-Meanwhile 2/ is not available, it would be useful to have QMP commands
-to set the battery charge and state (also max capacity).
-
-Ditto QMP command to set the LID/AC adapter state.
-
-> But of course, the main purpose here is addressing the desktop users.
+> NVME_ID_CNS_NS, NVME_ID_CNS_CS_NS,
+> NVME_ID_CNS_NS_ACTIVE_LIST, NVME_ID_CNS_CS_NS_ACTIVE_LIST
 > 
-> This series was tested with Windows and (desktop) Linux guests, on which
-> indeed the battery icon appears in the corresponding state (full,
-> charging, discharging, time remaining to empty, etc.) and the AC adapter
-> plugging/unplugging behaves as expected. So is the laptop lid button.
-[...]
+> When these commands are called on a detached namespace,
+> they should usually return a zero filled data struct.
 
-In patch #2 you comment 'if a "fake" host battery is to be provided,
-a 'sysfs_path' property allows to override the default one.'.
+Agreed.
 
-Eventually you'd provide a such fake file as example, ideally used
-by a QTest.
+> Dmitry and I had a patch on V8 on the ZNS series
+> that tried to fix some the existing NVMe commands
+> to be spec compliant, by handling detached namespaces
+> properly. In the end, in order to make it easier to
+> get the ZNS series accepted, we decided to drop the
+> detached related stuff from the series.
+> 
+> Feel free to look at that patch for inspiration:
+> https://github.com/dmitry-fomichev/qemu/commit/251c0ffee5149c739b1347811fa7e32a1c36bf7c
 
-Another question. If the battery is disconnected, is there an event
-propagated to the guest?
+I've seen this patch and as Klaus said, only thing patches need go with
+is to put some of nvme_ns_is_attached() helper among the Identify
+handlers.
 
-Thanks for contributing these patches :)
+> I'm not sure if you want to modify all the functions that
+> our patch modifies, but I think that you should at least
+> modify the following nvme functions:
+> 
+> nvme_identify_ns()
+> nvme_identify_ns_csi()
+> nvme_identify_nslist()
+> nvme_identify_nslist_csi()
 
-Phil.
+Yes, pretty makes sense to update them.  But now it seems like
+'attach/detach' scheme should have been separated out of this series
+which just introduced the multi-path for controllers and namespace
+sharing.  I will drop this 'detach' scheme out of this series and make
+another series to support all of the Identify you mentioned above
+cleanly.
+
+> So they handle detached namespaces correctly for both:
+> NVME_ID_CNS_NS, NVME_ID_CNS_CS_NS,
+> NVME_ID_CNS_NS_ACTIVE_LIST, NVME_ID_CNS_CS_NS_ACTIVE_LIST
+> as well as for:
+> NVME_ID_CNS_NS_PRESENT, NVME_ID_CNS_CS_NS_PRESENT,
+> NVME_ID_CNS_NS_PRESENT_LIST, NVME_ID_CNS_CS_NS_PRESENT_LIST
+> 
+> 
+> Kind regards,
+> Niklas
 
