@@ -2,83 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870362FD3B9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:19:28 +0100 (CET)
-Received: from localhost ([::1]:39286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 174A62FD3DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:24:54 +0100 (CET)
+Received: from localhost ([::1]:54986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FGY-0000dA-Rb
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:19:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43174)
+	id 1l2FLp-00078u-3s
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:24:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FDC-0007ln-0d
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:16:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25803)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FFB-0000EX-N6
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:18:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29561)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FD5-0006o7-Cu
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:15:56 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FF8-0007fS-Sg
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:18:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611155746;
+ s=mimecast20190719; t=1611155877;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding;
- bh=0Lg6uX84p1LPWITP9dNPvIU5LrfcXr+e7/igv0ptxWE=;
- b=bCj3QQfX8SvDY/cl5ZlP/OugrUY05qQo5+gsuI+IhPsE+D4JcNu23q8kDcoUOdsDIOQs2w
- oXrDq6iZUYEFJXXVLOXu4LnveCT+YzyDDYL2pCBsh64tlc9w8mWIJp9QWEhUxzwgdlIfpU
- M+wIhKoI3gbjYwkxOQWiJT69oHrVq4E=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-195-toD6RvjkP7SSB-BE9rmWtg-1; Wed, 20 Jan 2021 10:15:42 -0500
-X-MC-Unique: toD6RvjkP7SSB-BE9rmWtg-1
-Received: by mail-ed1-f70.google.com with SMTP id m16so11146377edd.21
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 07:15:42 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=0Lg6uX84p1LPWITP9dNPvIU5LrfcXr+e7/igv0ptxWE=;
- b=IjGsMIk2W5TuwDLESocyNRW4PpHV21nozjHAWm79P+dObsYIa7LvvaiUb1BKdAjFJI
- Zy7/g8Qj3jNCZg44yHruj4xCuevUS5wXah33kJF8SGKF0KdjvKg65wAcO4OmcIuNb7rO
- 3414xtor5OKiFjZWlphG5ycSRn4i7yRGWhnAbsBsIQPDhQf9C5m7ZBBGiyS2fbinsbDS
- daV40oyn5H62or7VSdyMW2HKlSh4eNJwjBhxLKryFiqWptDuHdQtxlPtt8101eR8fx9D
- rZCuQC82SjcSi6miKUzkg5nxDtBC16Wjz56zg5nRufKHMaLqeua7BHyGSjuHzCd4dC1B
- yu4Q==
-X-Gm-Message-State: AOAM532yWVPUqV3PsXXUN/1AXF0tC6JF6kyYVplRblodZBgodvwZG9M0
- /kr1S8SIJTlNzAr2bCHYIn0Xh2i2jz08Pdlm03AqukPUmMg/+OI3/R+uArZrGI4Xvact6b3IglI
- KVv+GzIZ0q2/wbffV6OXf7PLO86FfAAMuoVLMoD9xn/stPnFanD9TENVIUSNgzbmC
-X-Received: by 2002:a17:906:9342:: with SMTP id
- p2mr6676380ejw.300.1611155741257; 
- Wed, 20 Jan 2021 07:15:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzHDEmSmQjbyXiXiN4cQ4PRL1RP84s7hySxy7XqUsXtCj01tihxdTR6YcaFCHfvB7EexGjwTA==
-X-Received: by 2002:a17:906:9342:: with SMTP id
- p2mr6676356ejw.300.1611155740995; 
- Wed, 20 Jan 2021 07:15:40 -0800 (PST)
-Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id d18sm1265254edz.14.2021.01.20.07.15.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 07:15:40 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: Declare have_virtfs_proxy_helper in main meson.build
-Date: Wed, 20 Jan 2021 16:15:39 +0100
-Message-Id: <20210120151539.1166252-1-philmd@redhat.com>
-X-Mailer: git-send-email 2.26.2
+ bh=99tpW6AMUMgrMzZR6DTSH4VqbnDT6IlW+h/m5Jfpjeo=;
+ b=dVrC1fCmxbxGG0lsON64Rxi/ZJNDDlP0M8d66tpJfpsNcalwvcrc9MC+yQiS8wfcy2B/HB
+ +mICwH0/IknQ5whJO+npHCRvUZgSlUYfpxhSIC0C3Tf7Bi85c+f+i9zKdu2XOqQkYJYEcY
+ V9QASEzrU+5CkXat2CCXDy25zrPS3UQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-jl7jBn4ZPZ-dX1Gi4GOkqA-1; Wed, 20 Jan 2021 10:17:55 -0500
+X-MC-Unique: jl7jBn4ZPZ-dX1Gi4GOkqA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 64DA5190A7A1;
+ Wed, 20 Jan 2021 15:17:54 +0000 (UTC)
+Received: from thuth.com (ovpn-114-135.ams2.redhat.com [10.36.114.135])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9ABFC60C6A;
+ Wed, 20 Jan 2021 15:17:53 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/14] gitlab-CI, qtests and misc patches
+Date: Wed, 20 Jan 2021 16:17:37 +0100
+Message-Id: <20210120151751.520597-1-thuth@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,49 +74,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-have_virtfs_proxy_helper is used from docs/meson.build, and can be
-not declared when including it before fsdev/meson.build. This fixes:
+ Hi Peter,
 
-  ../docs/meson.build:54:2: ERROR: Unknown variable "have_virtfs_proxy_helper".
+the following changes since commit 48202c712412c803ddb56365c7bca322aa4e7506:
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
- meson.build       | 2 ++
- fsdev/meson.build | 1 -
- 2 files changed, 2 insertions(+), 1 deletion(-)
+  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210119-1' into staging (2021-01-19 15:47:23 +0000)
 
-diff --git a/meson.build b/meson.build
-index 3d889857a09..8f5a8b997d3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1032,6 +1032,8 @@
-     libattr.found() and
-     libcap_ng.found())
- 
-+have_virtfs_proxy_helper = have_virtfs and have_tools
-+
- if get_option('virtfs').enabled()
-   if not have_virtfs
-     if targetos != 'linux'
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-index 65455a179e5..adf57cc43ed 100644
---- a/fsdev/meson.build
-+++ b/fsdev/meson.build
-@@ -8,7 +8,6 @@
- ), if_false: files('qemu-fsdev-dummy.c'))
- softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
- 
--have_virtfs_proxy_helper = have_tools and libattr.found() and libcap_ng.found() and have_virtfs
- if have_virtfs_proxy_helper
-   executable('virtfs-proxy-helper',
-              files('virtfs-proxy-helper.c', '9p-marshal.c', '9p-iov-marshal.c'),
--- 
-2.26.2
+are available in the Git repository at:
+
+  https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-20
+
+for you to fetch changes up to 4251dfb082f6b81c382e69ccd2700fcfa7d7aa82:
+
+  MAINTAINERS: Make status spellings consistent (2021-01-20 10:46:54 +0100)
+
+----------------------------------------------------------------
+* Fixes for compiling QEMU on Alpine Linux
+* Add Alpine Linux to the gitlab-CI
+* Some small fixes for qtests
+* Updates to the MAINTAINERS file
+----------------------------------------------------------------
+
+Gan Qixin (1):
+      qtest/npcm7xx_pwm-test: Fix memleak in pwm_qom_get
+
+Jiaxun Yang (8):
+      configure: Add sys/timex.h to probe clock_adjtime
+      libvhost-user: Include poll.h instead of sys/poll.h
+      hw/block/nand: Rename PAGE_SIZE to NAND_PAGE_SIZE
+      elf2dmp: Rename PAGE_SIZE to ELF2DMP_PAGE_SIZE
+      tests: Rename PAGE_SIZE definitions
+      accel/kvm: avoid using predefined PAGE_SIZE
+      tests/docker: Add dockerfile for Alpine Linux
+      gitlab-ci: Add alpine to pipeline
+
+John Snow (2):
+      MAINTAINERS: Remove Ben Warren
+      MAINTAINERS: Make status spellings consistent
+
+Michael Forney (1):
+      osdep.h: Remove <sys/signal.h> include
+
+Stefan Berger (1):
+      tests: Fix memory leak in tpm-util.c
+
+Thomas Huth (1):
+      tests/check-block.sh: Refuse to run the iotests with BusyBox' sed
+
+ .gitlab-ci.d/containers.yml               |  5 +++
+ .gitlab-ci.yml                            | 33 +++++++++++++++
+ MAINTAINERS                               | 13 +++---
+ accel/kvm/kvm-all.c                       |  3 ++
+ configure                                 |  1 +
+ contrib/elf2dmp/addrspace.c               |  4 +-
+ contrib/elf2dmp/addrspace.h               |  6 +--
+ contrib/elf2dmp/main.c                    | 18 ++++----
+ hw/block/nand.c                           | 40 +++++++++---------
+ include/qemu/osdep.h                      |  4 --
+ meson.build                               |  1 -
+ subprojects/libvhost-user/libvhost-user.h |  2 +-
+ tests/check-block.sh                      |  7 ++++
+ tests/docker/dockerfiles/alpine.docker    | 55 ++++++++++++++++++++++++
+ tests/migration/stress.c                  | 10 ++---
+ tests/qtest/libqos/malloc-pc.c            |  4 +-
+ tests/qtest/libqos/malloc-spapr.c         |  4 +-
+ tests/qtest/m25p80-test.c                 | 54 ++++++++++++------------
+ tests/qtest/npcm7xx_pwm-test.c            |  5 ++-
+ tests/qtest/tpm-util.c                    |  2 +-
+ tests/tcg/multiarch/system/memory.c       |  6 +--
+ tests/test-xbzrle.c                       | 70 +++++++++++++++----------------
+ 22 files changed, 224 insertions(+), 123 deletions(-)
+ create mode 100644 tests/docker/dockerfiles/alpine.docker
 
 
