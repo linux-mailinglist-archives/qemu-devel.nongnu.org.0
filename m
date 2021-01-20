@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9A52FD2F7
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:47:32 +0100 (CET)
-Received: from localhost ([::1]:57806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A29172FD2F9
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:47:48 +0100 (CET)
+Received: from localhost ([::1]:59190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Elf-0008Of-3M
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:47:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54050)
+	id 1l2Elv-0000Wp-OH
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:47:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50488)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dubo163@126.com>) id 1l24ur-00085Q-33
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 23:16:21 -0500
-Received: from mail-m964.mail.126.com ([123.126.96.4]:43206)
+ (Exim 4.90_1) (envelope-from <dubo163@126.com>) id 1l24W9-0006Jj-3G
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 22:50:50 -0500
+Received: from mail-m963.mail.126.com ([123.126.96.3]:54814)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dubo163@126.com>) id 1l24uk-0004W3-PY
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 23:16:20 -0500
+ (Exim 4.90_1) (envelope-from <dubo163@126.com>) id 1l24W3-0004dj-1n
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 22:50:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=126.com;
  s=s110527; h=From:Subject:Date:Message-Id; bh=HgFQroAYTO0ekSyc7y
- 6cIY3yz9vhIpwmkfwFa3ZVz5A=; b=jEAICN5XVgp4mDNpVfa8VfFQNR6fy4YPWH
- 5mj++Am4Te/8xDpE9VdncLAzKIX/hq8H6clUIojvemqv7pHaGPYvOiqPuma+geA8
- t+HTeDhHHA9AyMomlZbL1KG1fKvMVYSPVspaPmXUSPDwIXKjhStgKpJBQqSxgD0G
- +CxVkqzS8=
+ 6cIY3yz9vhIpwmkfwFa3ZVz5A=; b=m1t22rcxELd4WTwC4BjXjnbo1vHxk0ob5s
+ pK8QhXVYfyauu3h+dgOvCHEWQ2A/5bm4bMBPGFFy1TQIkcP0LmASX8MwkUMAi99g
+ +WG08Qw0QAIgecp5KRRCdampwm+11dhvWovC/xRV6bRqOGsD54+kD0V/x+9w81+a
+ nhYCBz+MA=
 Received: from localhost.localdomain (unknown [111.205.198.3])
- by smtp9 (Coremail) with SMTP id NeRpCgB3cnUjpwdgcpukRA--.20068S3;
- Wed, 20 Jan 2021 11:44:37 +0800 (CST)
+ by smtp8 (Coremail) with SMTP id NORpCgAnTh6FqAdgEJ85Cg--.57862S3;
+ Wed, 20 Jan 2021 11:50:30 +0800 (CST)
 From: Bobo Du <dubo163@126.com>
 To: qemu-devel@nongnu.org
 Subject: [PATCH] vhost-user-blk.c:fix the qemu-kvm crash in the vhost-user-blk
  env.
-Date: Wed, 20 Jan 2021 11:44:33 +0800
-Message-Id: <20210120034433.50547-1-dubo163@126.com>
+Date: Wed, 20 Jan 2021 11:50:27 +0800
+Message-Id: <20210120035027.51037-1-dubo163@126.com>
 X-Mailer: git-send-email 2.17.0
-X-CM-TRANSID: NeRpCgB3cnUjpwdgcpukRA--.20068S3
+X-CM-TRANSID: NORpCgAnTh6FqAdgEJ85Cg--.57862S3
 X-Coremail-Antispam: 1Uf129KBjvJXoW7Kr43CF47ur43WF13JF15twb_yoW8XrWUpF
  1UZr1fKrykGF18C3yDA3WkKF1xAayrAF4UG397Ca4Yy3yUZw4Ivr1q9a90kr48ZFZayF48
- JFWUtrW8CF15GaDanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zRbAwsUUUUU=
+ JFWUtrW8CF15GaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zR0oGQUUUUU=
 X-Originating-IP: [111.205.198.3]
-X-CM-SenderInfo: 5gxe0iiwt6ij2wof0z/1tbijgUgMFpEBiKiLwAAss
-Received-SPF: pass client-ip=123.126.96.4; envelope-from=dubo163@126.com;
- helo=mail-m964.mail.126.com
+X-CM-SenderInfo: 5gxe0iiwt6ij2wof0z/1tbiegYgMFpEBT0W6wAAs3
+Received-SPF: pass client-ip=123.126.96.3; envelope-from=dubo163@126.com;
+ helo=mail-m963.mail.126.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -51,7 +51,7 @@ X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 20 Jan 2021 09:45:03 -0500
+X-Mailman-Approved-At: Wed, 20 Jan 2021 09:45:01 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
