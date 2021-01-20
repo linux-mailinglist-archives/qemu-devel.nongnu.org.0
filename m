@@ -2,73 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 616FD2FD20B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:56:39 +0100 (CET)
-Received: from localhost ([::1]:41916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33EA62FD210
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:57:49 +0100 (CET)
+Received: from localhost ([::1]:44206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2DyQ-0001cL-GU
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:56:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50078)
+	id 1l2DzW-0002dc-Hg
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:57:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2Dx7-00019t-Np
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:55:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31943)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2Dx5-0004CM-MP
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:55:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611150915;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=vqPlFyftD0zUuWU3fobHKNPhuL3zQBIe0l4a+jA9z5U=;
- b=E6Dgj4aL8aWhF+lvkwPtDO8oWnNxGfyUJ03X6dOBqqQJMWzKUlvdYntqm91sSpqQYBY5bP
- W6mzUPCY5pi6kjMq9k0cGQqW9CJIhdYVlNhz4oe6Sh+QL3jS7rjdoCiQt3DnP0uSm7Qai0
- GXhQHFABwq923KXaVsbIPfEHutYr720=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-140-prBtGZ6oP_KjVOgzgjDYzw-1; Wed, 20 Jan 2021 08:55:07 -0500
-X-MC-Unique: prBtGZ6oP_KjVOgzgjDYzw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2ED1107ACE3;
- Wed, 20 Jan 2021 13:55:05 +0000 (UTC)
-Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46CA2100AE32;
- Wed, 20 Jan 2021 13:55:02 +0000 (UTC)
-Date: Wed, 20 Jan 2021 13:54:59 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-Subject: Re: [PULL 16/45] vl: Add option to avoid stopping VM upon guest panic
-Message-ID: <20210120135459.GJ3015589@redhat.com>
-References: <20201215175445.1272776-1-pbonzini@redhat.com>
- <20201215175445.1272776-17-pbonzini@redhat.com>
- <CAFEAcA93tYRjdjQJm8GKNS2=4iV5QU4X_JJevWEBc7wggX6Cwg@mail.gmail.com>
- <3f399e69-f941-d928-acee-f3d16182df5d@oracle.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l2Dxp-0001YQ-0C; Wed, 20 Jan 2021 08:56:01 -0500
+Received: from mail-am6eur05on2102.outbound.protection.outlook.com
+ ([40.107.22.102]:7233 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l2Dxh-0004Xl-T3; Wed, 20 Jan 2021 08:55:59 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gFh7JauLplUAe/HK9cFN8kzmr5EH4zJjdt4a8kObH37a18FG5yZMHMZH59OPFH/UJsNR8i3zbY4+mhmimHOv/zGDrvZUFkKxYa4azvxm0WFIovO01kMRb99iDL50gMibuGirJw71g1iJ0p625Nqf/huqW+NqkTEkr/Esuwtwem0ZgxpsIoriA8bhs7tjJhO9xIWdB5tZxy7svqKbvG+NAOjSlOlM1x5iakiFJaTJUIVTEe57M5/i8daRQRJauPJnifWFUBUCra/iacWJDbxvGmL+5vJZn8dYaEvENEMqJgDb34wUcdfCb0if73cdiKM4XcI3EcD/e0tiERtmg3qpgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mX7uGhEaUnIPt/eykOLJuEFc3gWVy9uAEy3Au4G40Eg=;
+ b=i8Qr8DYDYPjdeXQxRoybqbbgHo1gZGc8rgGMqVjz4EtV4edrThgSeJMYAcsx8Rb9Q8Ywvz+E/Imu794AfNz+PEZcOLV4tGRYaNC7iBCqz4jlgW5r3fcv8zpuQ3bwg3ljgOV3x30ctLxc2Rq4FcGIyvBAKbQHNI+ZZhCePWsEkUmalY7k89xnGMiJBPuzoVPdNuGzgRbw+LAwJgwfKwsiqaMm2GN1AZBqSeFhMoQ6X9672T8fcvIELkehnJ57Wu4wgJJCa0/ztvBnjvyOfClfa5WM9XISDU0SdPVYz1xv4VSLQ/mVOnrOrOUrIow7Du1X2T1ELHjm8QJdzhQV36yshA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mX7uGhEaUnIPt/eykOLJuEFc3gWVy9uAEy3Au4G40Eg=;
+ b=dsow7TvC4HeggH1vCIOFbYT1ugwGg4VdSCr3BvK6gKFxy5IL8RBG85ei+dncp52hVV+5zf4VjsU0RMlLqVbUMatGyQWwydv1IHEtc9ctWltmN/1Lz3oD2qRQw3ecJn3tit8KL6WRlTw24zZNhG5S6JOEsjxOkEH9fmN/RMDzl6A=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6534.eurprd08.prod.outlook.com (2603:10a6:20b:31c::10)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Wed, 20 Jan
+ 2021 13:55:49 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.014; Wed, 20 Jan 2021
+ 13:55:49 +0000
+Subject: Re: [RFC PATCH 0/2] Allow changing bs->file on reopen
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1610715661.git.berto@igalia.com>
+ <dafbbcb3-9d87-ab04-5413-eac551cdfe44@virtuozzo.com>
+ <w518s8npvgg.fsf@maestria.local.igalia.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <46725429-f50c-ca09-a968-ad11eeb4d5cc@virtuozzo.com>
+Date: Wed, 20 Jan 2021 16:55:47 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <w518s8npvgg.fsf@maestria.local.igalia.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.70]
+X-ClientProxiedBy: FR2P281CA0016.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::26) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <3f399e69-f941-d928-acee-f3d16182df5d@oracle.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.70) by
+ FR2P281CA0016.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.6 via Frontend Transport; Wed, 20 Jan 2021 13:55:48 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 34b41fe2-07db-4770-a0ac-08d8bd4b17aa
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6534:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6534159AE3603A867BA895A8C1A20@AS8PR08MB6534.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2958;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: TZDQDEVpfrlmSVqh4cqDlyZ14FkMOQh3n3yylUP25vkYlxdG4nRJ1GFc9deixnb7LmrBFpByvRiqgPxPF8+JWTEcGEnxCO56HCPycoHhWKk4LuL+VC+weRSN6ZarmdwyMsbcZjT2BWpvXajqdhQuGx6pESxREM1hDZvtrteMlYBYSiZlRjis0DWSaeX5kN4tSTmgzxqGH0qF7teth9dgzItAd91irvDDUbLULPrCDbwJpi+79l6SBuC+HtADZ4qp65fURE7zFdxpxaxbA2pCOt9+/RVp9hvozZOYQ11LKXwVxq+l5sv/NWXNsgPTyun5hUyH8o+62iOvFOAVtQBdlRqvKffnY408dNxjYl9z5VlXl0LcohfqQGT9M/3Hel8+PQ6pHK/kpva4M8lIJUOzNmGK6YMylBrzPlUw7HAck5Dk5qgod16Dn4ZBZaiMXG/I5t00gfWOd2Aokj2nY3lbNeArTHPNixDb6g70CwQ+aAL5pIiqU+p8b/Rc9l0YCHM4aFvwhXdS6XhkZ7+MshPkftnelhXnpbt6hEI/ZGZYkUBtBZTnUiMmNlO4lYstexv4ROVEPbYvBO3UJHUQSMdfEzBPQVuIIx//CYpXqmQ4UDE=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(346002)(39850400004)(376002)(396003)(366004)(136003)(8676002)(8936002)(956004)(36756003)(2616005)(16526019)(31686004)(186003)(6486002)(5660300002)(4326008)(86362001)(54906003)(478600001)(31696002)(2906002)(16576012)(83380400001)(66476007)(66946007)(52116002)(316002)(4744005)(26005)(66556008)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?OUF4ekV4dzA0eGZKTEJRMGdBRHZYRDVqR05jYTRRcWh5UTVvYXFNNEJxb2Iy?=
+ =?utf-8?B?SnN0REs2ekJHMW5OMEkxUGlCY1RkN1VTc0JBTDJiY0VLZ3ZmcFR2cWVwRmg2?=
+ =?utf-8?B?amxhSkJkTzNNU2tTTU9YbWxIZHBGUUZpVjdiRXdLbXMrYXpLM1pMbERwbWI4?=
+ =?utf-8?B?aWpiSUhFdzZERXc2NWcvTnJYblFjdkcrdkQwVTJwQ0l0bnN4T0RyaUxwWFZW?=
+ =?utf-8?B?cFFiZStyTkRYNlEyNnBQcjZFNmhDdkttcGJpQ3hsMVU3UEdINk1ENElPbTBJ?=
+ =?utf-8?B?TWkvaGJkTkgrS05uU2dCMWlkRERTNFhPb3ZjdGVYeTR5aWFabDJVRldtNXgv?=
+ =?utf-8?B?SzExdjNSQjNtYVpHYnN5MmoxZlg5YXJCcVE3WitvZCtzb2diWUxBYjRBWFBI?=
+ =?utf-8?B?cncxOFQ5WjZQeVZRSDYvTGoxYmtYNnBYMW5iTS9kaGdaVXY4R09EOVlsSVJM?=
+ =?utf-8?B?RTNjNytlaDJ6R1N5bXFKMkF1Ty9KWDhrOTlsaUQ4SE02U2kzR3dsRlFOaTRs?=
+ =?utf-8?B?WGp1MC9BaDQrcE1hUG1CcnZ5eHpTYVJGejUwM0FVZzNIU2dnNnhxaHp6bS9w?=
+ =?utf-8?B?SXJXdFFIckVIY2JaL1RQNEVrRW5YcHRaOFlvZnVvZ3lHUjBmMkNKZzlKNkV5?=
+ =?utf-8?B?M1U3eU1oZXVyOXR5MFZpZWZ2VG96V2RmVlJrMXZZYnNHOG5LWGRoWjBRSmVB?=
+ =?utf-8?B?RnBQT0M2SFlyYkJtOTdHL3lvRFlQd2MyYytZQS84TjRiNWJkVjgrREFPVVNL?=
+ =?utf-8?B?cmk4enhRM2tLbVFKQnpNRmR1Z2taQWQ5VkcyM0dxUnFBcmE5Tkw2ZCtIYkhu?=
+ =?utf-8?B?N1dXazdTYzVmUkZxcFRCU2VVY2hUZUNjSHJMeGY2aGlxNUkySlpjVUlnLzNZ?=
+ =?utf-8?B?dk12cUJZZ2l3RTRnL1BHeGZIZzJhUStIUFY3WUh1QmVhaS9pdVMyUUZ1Wk56?=
+ =?utf-8?B?N2RhSk5JZE43Q3RmTUVuVUJMQURnQU0yMTVjc05UTHlnWUorOS9PUzJjK09E?=
+ =?utf-8?B?dVVOa1ZkbDVmRXZWQlhpL2w4c1dkRy9TWDZHSzBaTzc4TGR5dVBnaW1KVVpt?=
+ =?utf-8?B?TUZvREFsNjE0c0RzWEZaOG85VFlNbXA5NkhGeE5GNGE3NW95blY3MHI2MXEv?=
+ =?utf-8?B?cUxyZk1ZT3hEK0oyOUMwY2V5endnc0poZjlJSlZQUGdYdXZ6dVpFYy96eXFW?=
+ =?utf-8?B?cldMSE5UODZObFRKSW9zYWVkUWFxZVdnN25CTHovY1NHbTkwang3SHR2aXVR?=
+ =?utf-8?B?VHYwOUFDSGdRWlFiK0k3WElUQ2VDcVBQem5wWjlIMlBqbFFhNHAreUs4a2lR?=
+ =?utf-8?Q?KXEVNerAjIIML4u00j+g+TeoTACzvOJU2R?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 34b41fe2-07db-4770-a0ac-08d8bd4b17aa
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 13:55:49.1952 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ys4J6pgv3fbF/uaI8YIOt5bfDR10yMTqx8Ot3RdDejLvQgkYg1fonRSqA+CV61cPfNN9mrk/phjPINthX8yFKhvFkDy8FgBapiX5FPSQdx0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6534
+Received-SPF: pass client-ip=40.107.22.102;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,102 +136,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Mihai Carabas <mihai.carabas@oracle.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
+ qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 20, 2021 at 12:28:14AM -0500, Alejandro Jimenez wrote:
+20.01.2021 16:51, Alberto Garcia wrote:
+> On Mon 18 Jan 2021 11:22:49 AM CET, Vladimir Sementsov-Ogievskiy wrote:
+>>> This is still an RFC but you can see the idea.
+>>
+>> Good idea and I glad to see that my patches help:)
+>>
+>> Hmm, still, removing a filter which want to unshare WRITE even when
+>> doesn't have any parents will be a problem anyway, so we'll need a new
+>> command to drop filter with a logic like in bdrv_drop_filter in my
+>> series.
 > 
+> Do you have an example?
 > 
-> On 1/19/2021 4:34 PM, Peter Maydell wrote:
-> > On Tue, 15 Dec 2020 at 18:11, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> > > From: Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-> > > 
-> > > The current default action of pausing a guest after a panic event
-> > > is received leaves the responsibility to resume guest execution to the
-> > > management layer. The reasons for this behavior are discussed here:
-> > > https://lore.kernel.org/qemu-devel/52148F88.5000509@redhat.com/
-> > > 
-> > > However, in instances like the case of older guests (Linux and
-> > > Windows) using a pvpanic device but missing support for the
-> > > PVPANIC_CRASHLOADED event, and Windows guests using the hv-crash
-> > > enlightenment, it is desirable to allow the guests to continue
-> > > running after sending a PVPANIC_PANICKED event. This allows such
-> > > guests to proceed to capture a crash dump and automatically reboot
-> > > without intervention of a management layer.
-> > > 
-> > > Add an option to avoid stopping a VM after a panic event is received,
-> > > by passing:
-> > > 
-> > > -action panic=none
-> > > 
-> > > in the command line arguments, or during runtime by using an upcoming
-> > > QMP command.
-> > Hi. This commit message doesn't say it's changing the default
-> > action, but the change does:
-> > 
-> > > @@ -3899,6 +3899,8 @@ DEF("action", HAS_ARG, QEMU_OPTION_action,
-> > >       "                   action when guest reboots [default=none]\n"
-> > >       "-action shutdown=poweroff|pause\n"
-> > >       "                   action when guest shuts down [default=poweroff]\n"
-> > > +    "-action panic=poweroff|pause|none\n"
-> > > +    "                   action when guest panics [default=poweroff]\n"
-> > >       "-action watchdog=reset|shutdown|poweroff|inject-nmi|pause|debug|none\n"
-> > >       "                   action when watchdog fires [default=reset]\n",
-> > >       QEMU_ARCH_ALL)
-> > >   RebootAction reboot_action = REBOOT_ACTION_NONE;
-> > >   ShutdownAction shutdown_action = SHUTDOWN_ACTION_POWEROFF;
-> > > +PanicAction panic_action = PANIC_ACTION_POWEROFF;
-> > We used to default to 'pause' and now we default to 'poweroff'.
-> Hi Peter.
-> 
-> My rationale for setting the panic action to 'poweroff' was to keep the
-> default behavior of QEMU when '-no-shutdown' is not specified, and a panic
-> occurs. I believe that in order to accomplish that, the default panic action
-> should still be 'poweroff', but as you point out there is an instance where
-> the behavior changes. Specifically, when '-no-shutdown' is not used there is
-> now one fewer QMP event issued when a guest panic is detected, before
-> stopping the VM and powering off.
-> 
-> I tried to account for this scenario in the original patches, but I failed
-> to catch the problem after the rebase when the changes were merged. I'll
-> test and send a fix for this issue in the next few days.
-> 
-> > 
-> > We noticed this because it broke an in-flight test case for
-> > the pvpanic-pci device from Mihai (which was expecting to see
-> > the device in 'pause' state and found it was now in 'poweroff').
-> The test is just checking for the arrival of the QMP event, and not actually
-> expecting the VM to be paused, correct? I see that if a test/management app
-> is expecting to receive a GUEST_PANICKED event with the specific 'pause'
-> action, then it might be confused. But any such tests would only be able to
-> check for the arrival of the QMP event, and not actually expect to issue any
-> commands to a paused VM, since the next block of code in QEMU immediately
-> powers off and shutdowns when '-no-shutdown' is not requested. This was the
-> typical behavior before the patches.
-> 
-> > Test cases aren't very exciting, but was it really intentional
-> > to change the default behaviour?
-> My intention was to preserve the default behavior. Perhaps Paolo wanted to
-> reduce the number of GUEST_PANICKED events by removing the one with 'pause'
-> action? You could consider it superfluous since it is immediately followed
-> by another indicating the 'poweroff' action... Unless I hear otherwise from
-> either of you, I'll work on a fix to keep the same number and type of events
-> sent.
 
-Why would pause be immediately followed by poweroff ? These are independant
-actions, and the mgmt app should be deciding what todo next after the
-pause action. It may wish to capture a guest crash image before poweroff.
+backup_top filter
 
 
-Regards,
-Daniel
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Best regards,
+Vladimir
 
