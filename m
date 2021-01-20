@@ -2,66 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1A92FCCF7
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 09:52:40 +0100 (CET)
-Received: from localhost ([::1]:57202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD8E12FCCE2
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 09:43:25 +0100 (CET)
+Received: from localhost ([::1]:52358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l29EF-0000TC-Aw
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 03:52:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41346)
+	id 1l295I-0006T2-98
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 03:43:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l29DE-0008Ud-SC
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:51:36 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l29DC-0000B1-PE
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:51:36 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l29D7-0008D1-Nd
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 08:51:29 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 6B6E02E81C0
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 08:51:25 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l294I-0005vR-3x
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:42:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41495)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l294E-0004xK-Pr
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:42:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611132137;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=j8fEUDHmuoMs2X0jvkf0d7v+5md3E2YxAFbTR2/u6s4=;
+ b=IMM8SXtjT2yoSiYyBUl6IwYtDB9TYdj9vSKSv/6nltVXgknpogQHOPsW6143iA2x4z1FJk
+ FVe+P48/3Zmt6KV/YgbRc9FoUJB2IdTx3dWkErHqg/PgffDQfiwwalHLt6ms1QqwipmWqS
+ UJJUZZGTZLAHW/aHWhrqvSMrgGaPscI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-2-JHTwxRHEPj2VkaZqhC7hNQ-1; Wed, 20 Jan 2021 03:42:15 -0500
+X-MC-Unique: JHTwxRHEPj2VkaZqhC7hNQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72474107ACE4
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 08:42:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FB461D7;
+ Wed, 20 Jan 2021 08:42:14 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AA793113865F; Wed, 20 Jan 2021 09:42:12 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 03/25] qemu-option: warn for short-form boolean options
+References: <20210118163113.780171-1-pbonzini@redhat.com>
+ <20210118163113.780171-4-pbonzini@redhat.com>
+ <87o8hkx6n9.fsf@dusky.pond.sub.org>
+ <99a014a0-5d9c-07d6-250a-c56e6337cf69@redhat.com>
+Date: Wed, 20 Jan 2021 09:42:12 +0100
+In-Reply-To: <99a014a0-5d9c-07d6-250a-c56e6337cf69@redhat.com> (Paolo
+ Bonzini's message of "Tue, 19 Jan 2021 18:04:35 +0100")
+Message-ID: <878s8ovw2j.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 Jan 2021 08:39:03 -0000
-From: Sitsofe Wheeler <1872644@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: hvf
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: js1943 sitsofe
-X-Launchpad-Bug-Reporter: JS (js1943)
-X-Launchpad-Bug-Modifier: Sitsofe Wheeler (sitsofe)
-References: <158684876015.5950.10208526082243977591.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161113194404.29127.12498791401643694397.malone@soybean.canonical.com>
-Subject: [Bug 1872644] Re: MacOS host qemu-system-x86_64 -cpu host not working
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
-X-Launchpad-Hash: 39c2243c35e674152baa61ca5145ab012736f25b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,72 +82,96 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1872644 <1872644@bugs.launchpad.net>
+Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I found that things were unstable unless the following were also added
--cpu Nehalem,-rdtscp
-(the CPU can be higher than Nehalem but obviously your host CPU actually ha=
-s to be equal or greater too)
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
--rdtscp is a known issue that has since been workedaround (see bug
-#1894836 ).
+> On 19/01/21 16:56, Markus Armbruster wrote:
+>>> +            if (!is_help && warn_on_flag) {
+>>> +                warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
+>>> +                error_printf("Please use %s=%s instead\n", *name, *value);
+>>> +            }
+>> 
+>> If @warn_on_flag, we warn except for "help" and "?".  The exception
+>> applies regardless of @help_wanted.  Shouldn't we except*only*
+>> recognized help requests?
+>
+> Suggesting "help=yes" would be worse.
 
--- =
+Would it?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1872644
+get_opt_name_value() parses one parameter from params into *name and
+*value.  if help_wanted && is_help, it additionally sets *help_wanted to
+true.  is_help is true when the parameter is "help" or "?".
 
-Title:
-  MacOS host qemu-system-x86_64 -cpu host not working
+How could a parameter "help" be handled?
 
-Status in QEMU:
-  New
+get_opt_name_value() will set
 
-Bug description:
-  MacOS: 10.15.4
-  uname -a: Linux door 4.15.0-96-generic #97-Ubuntu SMP Wed Apr 1 03:25:46 =
-UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+    *name = g_strdup("help");
+    *value = g_strdup("on");
 
-  I am using qemu on mac host, with ubuntu client.
+If help_wanted, additionally:
 
-  I used to have "-cpu host" in my qemu command as follow:-
+    *help_wanted = true;
 
-  qemu-system-x86_64 \
-  -no-user-config \
-  -nodefaults \
-  -name u64d01 \
-  -show-cursor \
-  -M q35,accel=3Dhvf,usb=3Doff,vmport=3Doff \
-  -cpu host \
-  -m 8192M \
-  -smp 4 \
-  -rtc base=3Dutc,clock=3Dhost \
-  -device virtio-blk-pci,drive=3Dssd1 \
-  -drive id=3Dssd1,file=3D/Users/js/code/vm/qemu/u64d01.qcow2,if=3Dnone,for=
-mat=3Dqcow2 \
-  -device virtio-net-pci,netdev=3Dnic1,mac=3D52:54:98:76:54:33 \
-  -netdev user,id=3Dnic1,ipv4=3Don,ipv6=3Don,hostname=3Du64d01,hostfwd=3Dtc=
-p::2222-:22 \
-  -device virtio-tablet-pci \
-  -device virtio-vga \
-  -device ich9-intel-hda,id=3Dsnd,msi=3Don \
-  -device hda-output,id=3Dsnd-codec0,bus=3Dsnd.0,cad=3D0,audiodev=3Dsnd0 \
-  -audiodev coreaudio,id=3Dsnd0
+Callers that pass non-null help_wanted can do whatever they want with
+that.  The actual callers do honor the help request.  The deprecation
+warning obviously needs to be suppressed for them.
 
-  Base on log of one of the vm, it was definitely working on
-  2020-01-17(base on journal inside vm), with qemu 4.2.0, which I
-  installed with brew.
+Callers that pass null help_wanted will treat this just like any other
+parameter.  Use of the boolean sugar is just as deprecated for this
+parameter as it is for all the others.  Suppressing the deprecation
+warning feels wrong.
 
-  The only way to make it work is to remove "-cpu host".
+The alternative is to *outlaw* parameters "help" and "?" in QemuOpts.
+I'd be cool with that.
 
-  Already tried with 4.1.1, 4.2 and 5.0rc2. Same result.
+>>> -    opts = opts_parse(list, params, permit_abbrev, false,
+>>> +    opts = opts_parse(list, params, permit_abbrev, false, true,
+>>>                        opts_accepts_any(list) ? NULL : &help_wanted,
+>>>                        &err);
+>>>      if (!opts) {
+>> 
+>> This function now warns, except for "help" and "?".  The exception
+>> applies even when we treat "help" and "?" as sugar for "help=on" and
+>> "?=on" because opts_accepts_any().
+>> 
+>> It is the only spot that enables the warning.
+>> 
+>> Does all user input flow through qemu_opts_parse_noisily()?
+>> 
+>
+> I was going to say yes, but -vnc (and worse, the QMP version of "change 
+> vnc") is parsed by qemu_opts_parse() via ui/vnc.c (besides being used by 
+> lots of tests).  -vnc has several boolean options, and though Libvirt 
+> only uses "sasl" it does so in the short form.
+>
+> My solution would be to deprecate the QMP "change vnc" command, and 
+> postpone switching -vnc to qemu_opts_parse_noisily to 6.2.
 
-  To reproduce, try above with a Ubuntu 18.04 installation cd. Client
-  will crash during kernel loading.
+QMP command 'change' was deprecated long ago, in 2.5.0 (commit
+24fb41330, in 2015).  This predated appendix "Deprecated features"
+(which has since become docs/system/deprecated.rst), and remained
+missing there until I corrected it in commit 6d570ca10 (v4.2.0).
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1872644/+subscriptions
+> The main reason to warn for short-form boolean options, is to block them 
+> for command line options that are switched to keyval[1].  Adding a 
+> warning does not necessarily imply removing in two releases.
+
+Understand.
+
+> Paolo
+>
+> [1] This series already does that for -M, -accel and -object.  This 
+> means that applying this series would change the command line 
+> incompatibly without a two-release deprecation.  It's up for discussion 
+> whether to do so, or delay the application of those patches to 6.2.  It 
+> would be a pity to hold the dependent changes for effectively a year, 
+> but it's not a big deal.
+
+Concur.
+
 
