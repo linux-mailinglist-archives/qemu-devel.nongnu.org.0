@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D4A2FD49E
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:55:34 +0100 (CET)
-Received: from localhost ([::1]:48588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CA602FD44C
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:46:59 +0100 (CET)
+Received: from localhost ([::1]:58178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FpV-0006gr-Ui
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:55:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49784)
+	id 1l2FhC-0006qK-3x
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:46:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FcZ-0003KP-Mr
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:42:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48876)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Feb-0005bl-44
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:44:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35425)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FcW-0007FX-Gh
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:42:10 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2FeZ-0007wl-GP
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:44:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611157326;
+ s=mimecast20190719; t=1611157454;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6UC2rBad/7mTuOkkTjgTqPD/vK8uoQCv6UqyYQ29UiQ=;
- b=U3hg7WtulZl3xKmdheoYgbr+26JlE1E0Y8WP0BGtttIGMk4H/uovQmncbddTRjt+6nd6mi
- qy6zGXJ1tXl2jlXMl7MQGCqz6L14fgmzB6yUKyvHqq7nkuFdhg7LC4aR6qsS8m61/kR416
- KSF5m8Y0c5XSNtIbi57OxlrSyrS9HeA=
+ bh=lEeUMd5TAJSRoFShs1G3eUZByjHwZZcE8jQwJTJTYjY=;
+ b=QxpIuJ9L7Eyloezh3xaOBZl5yBUOKfjEKV0mXlDXbje7kw+wZCwdFs39kU7DEpLaMjk48G
+ TJvEb4ykptwJC6GH7lxafaozNHiNOxMONbp7SSTRilG4OzWyR3A1gnNdcS6g5Yho0o9AdD
+ kuUy0kY/ZxeenZs4qKqQs6TFhDGZoiM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-307-BxtfLTcsOFu0MVnqf1HKLg-1; Wed, 20 Jan 2021 10:42:03 -0500
-X-MC-Unique: BxtfLTcsOFu0MVnqf1HKLg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-486-gM2zbi-MP4Oj1T17HkhhbA-1; Wed, 20 Jan 2021 10:44:11 -0500
+X-MC-Unique: gM2zbi-MP4Oj1T17HkhhbA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F17C2100C631;
- Wed, 20 Jan 2021 15:42:00 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-114-135.ams2.redhat.com [10.36.114.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2895B5C728;
- Wed, 20 Jan 2021 15:41:59 +0000 (UTC)
-Subject: Re: qemu broke booting of old RedHat floppies
-To: Michael Tokarev <mjt@tls.msk.ru>,
- qemu-devel qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>
-References: <0bca1cd0-69c3-c07a-b4cf-015dcdbc6d61@msgid.tls.msk.ru>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <b7f858e1-5fdf-44c5-cc4e-033c43df9c4e@redhat.com>
-Date: Wed, 20 Jan 2021 16:41:59 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 905B8E743
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 15:44:10 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C5E360C74;
+ Wed, 20 Jan 2021 15:44:07 +0000 (UTC)
+Subject: Re: [PATCH 3/3] vnc: support "-vnc help"
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210120144235.345983-1-pbonzini@redhat.com>
+ <20210120144235.345983-4-pbonzini@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <78bcf36d-1f72-44e6-0efc-5b6b92076187@redhat.com>
+Date: Wed, 20 Jan 2021 09:44:06 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <0bca1cd0-69c3-c07a-b4cf-015dcdbc6d61@msgid.tls.msk.ru>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210120144235.345983-4-pbonzini@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -81,41 +82,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: armbru@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/01/2021 16.11, Michael Tokarev wrote:
-> As someone noticed on IRC, old (2.x) RedHat floppies does not boot
-> in current qemu.  When qemu is booted from floppy image at
->   https://archive.org/details/RedHatLinuxBootDisk521998
-> (download the "ISO image" link there, it really is an 1.44 floppy),
-> seabios says Boot failed and that's it.
+On 1/20/21 8:42 AM, Paolo Bonzini wrote:
+> Use qemu_opts_parse_noisily now that HMP does not call
+> vnc_parse anymore.
 > 
-> I run git bisect with it, knowing that qemu 2.1 works fine, and
-> it pointed out to this commit which is oldish qemu-2.5+:
-[...]
-> Now, I don't even know where to put that "type=144/288/auto" thing,
-> I tried this:
-> 
->   -drive 
-> file=RedHatLinuxBootDisk521998.disk1of1.img,if=floppy,format=raw,type=144
-> 
-> but it says that format=raw does not support "type=144" option.
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  include/ui/console.h | 2 +-
+>  softmmu/vl.c         | 6 +++---
+>  ui/vnc-stubs.c       | 7 +++----
+>  ui/vnc.c             | 8 ++++----
+>  4 files changed, 11 insertions(+), 12 deletions(-)
 
-Try:
+Unless something about my comments on 2/3 causes us to change,
 
-  qemu-system-x86_64 -drive 
-if=none,file=RedHatLinuxBootDisk521998.disk1of1.img,format=raw,id=dr1 
--device floppy,drive-type=144,drive=dr1
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-> And it's even more: I don't remember which size should be an 1.44Mb floppy :))
-> The file size of that image is 1492992 bytes which does not look like it is of
-> standard size, but I can't find which size it should be.
-
-As mentioned on IRC already, it's likely a disk with 81 tracks instead of 80 
-tracks, so it's bigger than the usual 1.44 MB floppy disk images and thus 
-QEMU likely misdetects it by default.
-
-  Thomas
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
