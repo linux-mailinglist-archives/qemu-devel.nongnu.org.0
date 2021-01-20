@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BDC42FDA3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:58:04 +0100 (CET)
-Received: from localhost ([::1]:34536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4B892FDA3B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:58:05 +0100 (CET)
+Received: from localhost ([::1]:34666 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2JcB-0006tY-Af
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52320)
+	id 1l2JcC-0006wo-Ot
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:58:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52374)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXl-0001zV-Ve
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:53:30 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:40865)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXw-000231-7B
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:53:41 -0500
+Received: from mout.kundenserver.de ([212.227.17.10]:57383)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXi-000303-4x
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:53:29 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXr-00032U-GN
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:53:40 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M9Ezx-1l8evc178J-006Kos; Wed, 20 Jan 2021 20:53:23 +0100
+ id 1MLhsE-1lJyx20j2G-00HhKf; Wed, 20 Jan 2021 20:53:24 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 2/5] linux-user: add missing UDP get/setsockopt option
-Date: Wed, 20 Jan 2021 20:53:14 +0100
-Message-Id: <20210120195317.84222-3-laurent@vivier.eu>
+Subject: [PULL 3/5] linux-user: add missing IPv6 get/setsockopt option
+Date: Wed, 20 Jan 2021 20:53:15 +0100
+Message-Id: <20210120195317.84222-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210120195317.84222-1-laurent@vivier.eu>
 References: <20210120195317.84222-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Ds0ty491rqaxPe7S1hdn37l/g9D89NRGntnS/utNubqsvs2JImt
- 084IRJo8NVBY3rnSqGfFpDPlUvLvgDQMTAnbjS5p36qo5lVn0jmc/zVqpZX31K+6UZubtCo
- ydtBQnMJNurz0PPuE8kM78NSSReIn7QkQPpp/sZU50Sz0I0ILKq0StJDgyLe6PaZnj2SRcg
- +Znn0M7t/rpSh6Up00IqQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:dGWcFPmxJ+w=:hpVXDvosoPBWYX5RUgxVbo
- Z3NIfQR6x7Ap6PbsrevrSWbPCDja92BwT9a/1Wt8cLtf5x4wuJ7upySUvWlNBcKUn80ZpRcX0
- qWEOxoe70kEeJNaNRJDRUE7FHdLKO1k/6BCZumGp2Dwgddi6s2kUokn+J++mYttSTBxrS30Kq
- JWg8UbLXOAQ+p15SDU1P3khQd27TE9ns0bKAFd3JR49GBRvuMbgalfTzsaDsDJf6d+HmGzngU
- y2R5Qv22aag+MXCpQUI0iFQYQgwYXEOJpzJ489an0BTI4IqZzeZEzZWTHXvplue3OtPpr7EA0
- IBkuKJe42uoM4luFaUrfg4psKqUurzWhTGaSQJ0pZdsIGXq43SAMJ0Qt2S/6bADggGD8JjjhA
- kK8hlT4FAOaFLQkLBvV+yLXL1yHx3MjIlCil3OejoiduJ8q2JNdOjkKMRFHleHxms4SORPieK
- VShbkSulgw==
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:0Kp7dotUjG9j39lJazbcAYX7CrI/sgFCna4Ku8BS/Hfp09NDD4H
+ JiD8WvAU9Kt6tHMMjTEm+kWE/+aIco/Sv2zRVsPoubpwbVoYswgDkpHTWioyAiE3+wGGlw9
+ yFpFD54Rqcs8sz6gqX08oBuJIufsZcij5iChjszQ93yWPBjnJRrxTfSg7Qkl4XnF8m0Coso
+ uXgKnkN6DJM8ochwojX+A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fvaAj96Ssxs=:ddZcLxOHF2t17h1Hidzmlu
+ sZVodVjWtwr1pCnpcF1gw7x0v3aOGEpjzdD+kUHIsNmQP9z0qdw8jMMZdGG1UtnqLEEVpa7Yz
+ KL0utkhScWDj0GRaiVAM8TqP2mB0q2gWfaD9i/hukvV/sjcFtYGpz4Y7llHTHU5LbHSirvmMT
+ i93nuD89go5xBsENf/6pj5jg3vEhwqOAS797Xv/kmIONNxxGuFFJY4tYuw90+aq904a4wTTMn
+ 0lsRaIALjTjEry4R19TNMKmxiaOJA6fQ8U5xnRf0tGJyNCJYkzNfJJ3M8tm4RwkH0ZFyf0TtW
+ tFFt/rX2rNxFKn/ZovvmMtGvrcFRqqlWHG4AMfP/afkqSHb0RsuFAmlGn2Mm3V2/YRk/XMy6v
+ aWNnpTy9B1ANd5VReu1Wbvh9i1jlt6vdJN+GW59xLWZD3iRQBn8bVRbOTunWOR1J/dtHBhnZE
+ ubZft3/TfQ==
+Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -62,80 +63,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Shu-Chun Weng <scw@google.com>
 
-SOL_UDP manipulate options at UDP level. All six options currently defined
-in linux source include/uapi/linux/udp.h take integer values.
+IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not supported.
 
 Signed-off-by: Shu-Chun Weng <scw@google.com>
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20201218193213.3566856-3-scw@google.com>
+Message-Id: <20201218193213.3566856-4-scw@google.com>
+[PMD: Add missing <linux/in6.h> include for IPV6_ADDR_PREFERENCES]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/strace.c  | 6 ++++++
- linux-user/syscall.c | 7 +++++--
- 2 files changed, 11 insertions(+), 2 deletions(-)
+ linux-user/syscall.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 227812c07e63..64172de99d98 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -7,6 +7,7 @@
- #include <sys/mount.h>
- #include <arpa/inet.h>
- #include <netinet/tcp.h>
-+#include <netinet/udp.h>
- #include <linux/if_packet.h>
- #include <linux/netlink.h>
- #include <sched.h>
-@@ -2644,6 +2645,11 @@ static void do_print_sockopt(const char *name, abi_long arg1)
-         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
-         print_pointer(optval, 0);
-         break;
-+    case SOL_UDP:
-+        qemu_log("SOL_UDP,");
-+        print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
-+        print_pointer(optval, 0);
-+        break;
-     case SOL_IP:
-         qemu_log("SOL_IP,");
-         print_raw_param(TARGET_ABI_FMT_ld, optname, 0);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 98aaca01872f..969db2008104 100644
+index 969db2008104..5d482dcbefd6 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -53,6 +53,7 @@
+@@ -51,6 +51,7 @@
+ #include <sys/sysinfo.h>
+ #include <sys/signalfd.h>
  //#include <sys/user.h>
++#include <netinet/in.h>
  #include <netinet/ip.h>
  #include <netinet/tcp.h>
-+#include <netinet/udp.h>
- #include <linux/wireless.h>
+ #include <netinet/udp.h>
+@@ -58,6 +59,7 @@
  #include <linux/icmp.h>
  #include <linux/icmpv6.h>
-@@ -2184,7 +2185,8 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
- 
-     switch(level) {
-     case SOL_TCP:
--        /* TCP options all take an 'int' value.  */
-+    case SOL_UDP:
-+        /* TCP and UDP options all take an 'int' value.  */
-         if (optlen < sizeof(uint32_t))
-             return -TARGET_EINVAL;
- 
-@@ -2832,7 +2834,8 @@ get_timeout:
-         }
-         break;
-     case SOL_TCP:
--        /* TCP options all take an 'int' value.  */
-+    case SOL_UDP:
-+        /* TCP and UDP options all take an 'int' value.  */
-     int_case:
-         if (get_user_u32(len, optlen))
-             return -TARGET_EFAULT;
+ #include <linux/if_tun.h>
++#include <linux/in6.h>
+ #include <linux/errqueue.h>
+ #include <linux/random.h>
+ #ifdef CONFIG_TIMERFD
+@@ -2272,6 +2274,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+         case IPV6_RECVDSTOPTS:
+         case IPV6_2292DSTOPTS:
+         case IPV6_TCLASS:
++        case IPV6_ADDR_PREFERENCES:
+ #ifdef IPV6_RECVPATHMTU
+         case IPV6_RECVPATHMTU:
+ #endif
+@@ -2926,6 +2929,7 @@ get_timeout:
+         case IPV6_RECVDSTOPTS:
+         case IPV6_2292DSTOPTS:
+         case IPV6_TCLASS:
++        case IPV6_ADDR_PREFERENCES:
+ #ifdef IPV6_RECVPATHMTU
+         case IPV6_RECVPATHMTU:
+ #endif
 -- 
 2.29.2
 
