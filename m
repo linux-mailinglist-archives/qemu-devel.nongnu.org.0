@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC3C02FCD89
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:44:41 +0100 (CET)
-Received: from localhost ([::1]:51268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C115C2FCD8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:47:07 +0100 (CET)
+Received: from localhost ([::1]:53468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2A2a-0007Jo-Ib
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:44:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53940)
+	id 1l2A4w-0008OS-T1
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:47:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l2A1b-0006pD-4C
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:43:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41715)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2A3k-0007wQ-AI
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:45:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21572)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l2A1Y-0001il-AV
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:43:38 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2A3h-0002as-0N
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:45:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611135814;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1611135948;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=h0dvvqZcaBy/Cd9fTX8s4Pjc4hZ4LR7QSR5QI56D5Tg=;
- b=RWklxfKz5uxRZ8AXpx+n//VQJx0WDyjdCzC2PcAAODMPZrHo/2Yk3qJbSUnueTp3vMv++w
- UqNIYn55eCBU2kbrxi5G3n2TYXLsJyAlVwNwETBhjPUXp5cs6JWzrgOf4M9CdT7YKeiwPC
- bniu3ksgWLdcSfTdMK/fef9PTEEvjBw=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-BUywhctXOYy26gx0CxXnSA-1; Wed, 20 Jan 2021 04:43:32 -0500
-X-MC-Unique: BUywhctXOYy26gx0CxXnSA-1
-Received: by mail-wr1-f72.google.com with SMTP id e12so2344732wrx.14
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 01:43:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=h0dvvqZcaBy/Cd9fTX8s4Pjc4hZ4LR7QSR5QI56D5Tg=;
- b=bFgSsklULjIKTGWUNKvR5SGInqRx5y9ElAEL63Jzc0jDQNLTTTbn6pOx8WYbO8KCqu
- zhCaiMc5dVo7w8gh8JohP43deKyaee30j0I/mx14pTiSmQVh8cMfKaABMy21v4+tRPUJ
- cH9Cqb0CCvor3pc2pUZ5kCzpnqbwmkBr5D2aiQXwEbwaw3K+oXhK1dyRQzDjPoiN4HZz
- 8d78nOAyH2PeX+aYYRD9ObZ0pF4jPuwsUlpYtUlnlTlqZQC/8IgVcssqtc41JAcH2Nbi
- fDHu0Ve1pYcRZwN9CRLOrv7ATLSQQfDL+tSSSKXyj+O6cYmB3kXpfwQY56FEip1QEEaN
- QmIA==
-X-Gm-Message-State: AOAM531tBu+A0WcdFHTKFG3CCcFGl4UUvuiHYID8+d86jaGAGSHfZkxb
- S4RagSffKsOaaKG6+8cpuMlp9lfYQyCO75GhMMiU5NOasUD0D3By4oqZEwg2XpzWVg0KWBSSR8O
- VufmOGL3RxeOtr0o=
-X-Received: by 2002:adf:dd09:: with SMTP id a9mr8319669wrm.90.1611135811664;
- Wed, 20 Jan 2021 01:43:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzP1soxq5xQWbXc9hjEDSTUdE6Es86idz0zZyTYSwqGn+mwL+P/8LoqmTZqs9kdaGA6E1Kzfg==
-X-Received: by 2002:adf:dd09:: with SMTP id a9mr8319640wrm.90.1611135811349;
- Wed, 20 Jan 2021 01:43:31 -0800 (PST)
-Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
- by smtp.gmail.com with ESMTPSA id a12sm3200181wrh.71.2021.01.20.01.43.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 01:43:30 -0800 (PST)
-Date: Wed, 20 Jan 2021 04:43:27 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PATCH v2 01/12] vhost-user-blk: fix blkcfg->num_queues endianness
-Message-ID: <20210120044254-mutt-send-email-mst@kernel.org>
-References: <20201207172030.251905-1-stefanha@redhat.com>
- <20201207172030.251905-2-stefanha@redhat.com>
+ bh=mYYtu+RTF1CcrtLtZ/kJ89yLwVMdzk0F0B02V77W3/A=;
+ b=BTJxO4sdvr3jNn/qqP4K/CZ87dD+RAB0GX9Y4+5s4I/NrwvaRZW9sTNfGUkrC8TzwSNb2J
+ dejAjL+9rXppSXdQIGtIpnWAcCCfLWJvbpnfPnAXRecvN300Tc4tN7vmMvlDPL0UNnpGtg
+ eV+qWB3gmWfSbOvTLB0am5hJjeFTTPk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-247-k-pLgZHVMRKGajejgEDM9A-1; Wed, 20 Jan 2021 04:45:45 -0500
+X-MC-Unique: k-pLgZHVMRKGajejgEDM9A-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AFCE71800D41;
+ Wed, 20 Jan 2021 09:45:44 +0000 (UTC)
+Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2563D6F99D;
+ Wed, 20 Jan 2021 09:45:42 +0000 (UTC)
+Date: Wed, 20 Jan 2021 09:45:39 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dov Murik <dovmurik@linux.vnet.ibm.com>
+Subject: Re: [PATCH] qmp-shell: Suppress banner and prompt when stdin is not
+ a TTY
+Message-ID: <20210120094539.GC3015589@redhat.com>
+References: <20210117072742.119377-1-dovmurik@linux.vnet.ibm.com>
+ <f6b88346-9dac-2679-385c-17d4a0e245c4@redhat.com>
+ <1d63a097-27d5-5b3a-2ce6-f6a2402e135e@linux.vnet.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20201207172030.251905-2-stefanha@redhat.com>
+In-Reply-To: <1d63a097-27d5-5b3a-2ce6-f6a2402e135e@linux.vnet.ibm.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -91,65 +84,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, qemu-devel@nongnu.org, Coiby Xu <coiby.xu@gmail.com>,
- Max Reitz <mreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Dec 07, 2020 at 05:20:19PM +0000, Stefan Hajnoczi wrote:
-> Treat the num_queues field as virtio-endian. On big-endian hosts the
-> vhost-user-blk num_queues field was in the wrong endianness.
+On Wed, Jan 20, 2021 at 10:25:25AM +0200, Dov Murik wrote:
+> Hi John,
 > 
-> Move the blkcfg.num_queues store operation from realize to
-> vhost_user_blk_update_config() so feature negotiation has finished and
-> we know the endianness of the device. VIRTIO 1.0 devices are
-> little-endian, but in case someone wants to use legacy VIRTIO we support
-> all endianness cases.
+> On 19/01/2021 22:02, John Snow wrote:
+> > On 1/17/21 2:27 AM, Dov Murik wrote:
+> > > Detect whether qmp-shell's standard input is not a TTY; in such case,
+> > > assume a non-interactive mode, which suppresses the welcome banner and
+> > > the "(QEMU)" prompt.  This allows for easier consumption of qmp-shell's
+> > > output in scripts.
+> > > 
+> > > Example usage before this change:
+> > > 
+> > >      $ printf "query-status\nquery-kvm\n" | sudo
+> > > scripts/qmp/qmp-shell qmp-unix-sock
+> > >      Welcome to the QMP low-level shell!
+> > >      Connected to QEMU 5.1.50
+> > > 
+> > >      (QEMU) {"return": {"status": "running", "singlestep": false,
+> > > "running": true}}
+> > >      (QEMU) {"return": {"enabled": true, "present": true}}
+> > >      (QEMU)
+> > > 
+> > > Example usage after this change:
+> > > 
+> > >      $ printf "query-status\nquery-kvm\n" | sudo
+> > > scripts/qmp/qmp-shell qmp-unix-sock
+> > >      {"return": {"status": "running", "singlestep": false,
+> > > "running": true}}
+> > >      {"return": {"enabled": true, "present": true}}
+> > > 
+> > > Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
+> > 
+> > Hiya! I've been taking lead on modernizing a lot of our python
+> > infrastructure, including our QMP library and qmp-shell.
+> > 
+> > (Sorry, not in MAINTAINERS yet; but I am in the process of moving these
+> > scripts and tools over to ./python/qemu/qmp.)
 > 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-Pls merge with rest of the series.
-And maybe CC stable?
-
-
-
-> ---
->  hw/block/vhost-user-blk.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+> Thanks for this effort.
 > 
-> diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-> index 2dd3d93ca0..d9d9dc8a89 100644
-> --- a/hw/block/vhost-user-blk.c
-> +++ b/hw/block/vhost-user-blk.c
-> @@ -53,6 +53,9 @@ static void vhost_user_blk_update_config(VirtIODevice *vdev, uint8_t *config)
->  {
->      VHostUserBlk *s = VHOST_USER_BLK(vdev);
->  
-> +    /* Our num_queues overrides the device backend */
-> +    virtio_stw_p(vdev, &s->blkcfg.num_queues, s->num_queues);
-> +
->      memcpy(config, &s->blkcfg, sizeof(struct virtio_blk_config));
->  }
->  
-> @@ -490,10 +493,6 @@ reconnect:
->          goto reconnect;
->      }
->  
-> -    if (s->blkcfg.num_queues != s->num_queues) {
-> -        s->blkcfg.num_queues = s->num_queues;
-> -    }
-> -
->      return;
->  
->  virtio_err:
-> -- 
-> 2.28.0
+> > 
+> > This change makes me nervous, because qmp-shell is not traditionally a
+> > component we've thought of as needing to preserve backwards-compatible
+> > behavior. Using it as a script meant to be consumed in a headless
+> > fashion runs a bit counter to that assumption.
+> > 
+> > I'd be less nervous if the syntax of qmp-shell was something that was
+> > well thought-out and rigorously tested, but it's a hodge-podge of
+> > whatever people needed at the moment. I am *very* reluctant to cement
+> > it.
 > 
+> Yes, I understand your choice.
+> 
+> 
+> > 
+> > Are you trying to leverage the qmp.py library from bash?
+> 
+> Yes, I want to send a few QMP commands and record their output.  If I use
+> socat to the unix-socket I need to serialize the JSON request myself, so
+> using qmp-shell saves me that; also not sure if there's any negotiation done
+> at the beginning by qmp-shell.
+
+There is a handshake, but it is just a single json message.
+
+See docs/interop/qmp-intro.txt and qmp-spec.txt for guidance.
+
+> Is there an easier way to script qmp commands, short of writing my own
+> python program which uses the qmp.py library?
+
+Yes, writing your own python program is probably best. Doing anything
+complex is shell is almost always a mistake, as it is a very crude
+and poor language compared to something like managing QEMU/QMP.
+
+Note that I don't believe that we've declared qmp.py to be a long
+term stable interface for users outside of QEMU either. An alternative
+is to just use the python sockets APIs directly to speak to QEMU/QMP
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
