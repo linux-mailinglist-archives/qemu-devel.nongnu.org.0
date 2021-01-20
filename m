@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C4682FCD72
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:30:06 +0100 (CET)
-Received: from localhost ([::1]:41094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6F9B2FCD7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:32:55 +0100 (CET)
+Received: from localhost ([::1]:46950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l29oT-0002FD-3d
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:30:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50628)
+	id 1l29rD-0004nc-1x
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:32:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l29mT-0000tk-7S
+ id 1l29mT-0000ul-Rh
  for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:28:01 -0500
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c]:41659)
+Received: from mail-lf1-x130.google.com ([2a00:1450:4864:20::130]:36272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <maxim.uvarov@linaro.org>)
- id 1l29mO-00055w-Re
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:28:00 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id s26so33160730lfc.8
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 01:27:55 -0800 (PST)
+ id 1l29mP-000569-PB
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:28:01 -0500
+Received: by mail-lf1-x130.google.com with SMTP id o13so33232492lfr.3
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 01:27:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=vEZQ1y1NFv0BYfclNl3dBsXayOat5WWlg5bfIXSoTYA=;
- b=An9qOYzcBaft+pwc8SwyMU1x8szv07tmYUaHXWtMx0rhfMbbtbd8lrVoS8KPaVCbYz
- 0zbfXBQmx80bffjo18xV6hHO+74gMNV/TFdPxJNzTLuPvJwXrAASpb1D/KE8/dGOR/oH
- E9kpTLJU9EfrVi0yu0lDPJJgaPRbIFcqGhbY/7tnFVwbaPXW/U3iL7SvhaNd8RatvVBz
- zWZJhGJi9uxly7M9JAMMJxDPJC3pT9FaJQJgnionDfOko6YcxKL1t6uirH9j6reWFjxZ
- JGZYj4Ueyv/zL2F/YMVJKHUZys/+smAVNnMaiNobiaHv3M0WU1oJeVTjusw9uHC8LpBu
- MiAw==
+ bh=nyATO8LViNbtJAlpgYG4nBlTtGVbfXPoadAOe5B+tpw=;
+ b=FeHkgiFL+Fqz/wKvODdXMXYqEbs8/4CqVnO+3nx31pdBGfH2tCQTLcS1kXkmvZT5sa
+ rypEJZ3HxEDcvwC8X3SfbXXPUT1GZfSq/mEScbw73g0f9DGHwToS1O9E6dp2QkJ3nJH0
+ p4XqvLsP9azFOrJnmur9JjmELvj//HmY1TW7SRo3v14fgEnRiH6D6o/9y+TRBboxaaRz
+ aittoJmJnRcMsNyJesNrAKYBY+RA7EI88mmFKJaQFpvhpNIYYIGwIqhT7Cr95gcdy/e/
+ paX5zk8pp8/YXz5LHbdPE7UIrkilfOHiW4jCa3fWoOB+XOpzYB6qcHX1CQ1aRpwW/tzq
+ RT9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=vEZQ1y1NFv0BYfclNl3dBsXayOat5WWlg5bfIXSoTYA=;
- b=jv8QHPNyYnHQmVzCKedqUy81Rr0FCp1+R1ANwDy8bjq4ovRAiPROoZkZTZPmyzKHPo
- +M2+LyiKXE4QYEUVweXpDcMDLQbOJvH6az28SUZJdxKdHtvjn81iePznIFRMLLS/k7aZ
- uXGo5Ox0mdtxQC/IVUBWxtAh+EdA17jCw0hUzeKDAODai/kqJFcHm2LHT/gxGvodxB7P
- C9aSCxNKjbgridTsJ0zN84VIyPjL/C/ML+JQUSdCMl5BC1buXbp6NkVDI7VeZzqQvSHz
- IqsvBtis52sZ2XCHI7qKsJ7BC4oIETkkjw9o7MbUafQPSOsVmuG4fG1Cf/ewwUmcXDVB
- NQFQ==
-X-Gm-Message-State: AOAM533bcbASSf8BV3x7L9yQQ/0PPKNK1mD9o1Bv9MzHzFH05n4jCcRX
- kr89c43+7gTANbXbi7NSnb1WXQ==
-X-Google-Smtp-Source: ABdhPJwlJwzkojLGqx4IDCv++ee5OYpA8HbNiO1F3j13daBvOiA/znYvOu5U5j3FFzfjGeq2Dg0l9Q==
-X-Received: by 2002:a19:991:: with SMTP id 139mr3774083lfj.637.1611134874895; 
- Wed, 20 Jan 2021 01:27:54 -0800 (PST)
+ bh=nyATO8LViNbtJAlpgYG4nBlTtGVbfXPoadAOe5B+tpw=;
+ b=GRGoPxA6waakglqokaQu0og3SadKoIGevedBdannYAU4xMfY9mpwHgLPaJzxZv2Ygl
+ XqczHn6+tdKYU9IgriCV23yM25DVazmugNyWajc3CEicZSaEBbvQldFAssVOb6B6ZJeE
+ 3bIzhvKiRZkLl+CaFRD4tl4ynsFvzud+DROpMsQPJaTcbuTSoDOxCvavYEAdR7Z3TzRc
+ ZvetVeLRq1PT53FEhANuSgfjdXf8+btyCF8eN/mABHejFrVigPGhIFOwt5piQkf8bpzG
+ wwIfFnJWeyCK5dGWbtwuRvbFHHO0cM86JI0nonf+Ijnw2z5WQYTG1YXpP5d1DMyKcMw1
+ LI7A==
+X-Gm-Message-State: AOAM533AU3ToYFs7ED+v7UokVFhlzq9s3ZlXa8BcX8tvWeuaxZn915VF
+ fdyWbq6rD31/mrTRavh+xlKD9A==
+X-Google-Smtp-Source: ABdhPJyjQ1UmZzu7C6VCpG7dm4oHh449cI+yMWMTk+16zMNgPygzTCicKcLbgA+xZGLKu8IQWmdy+w==
+X-Received: by 2002:a19:7ed2:: with SMTP id z201mr1918924lfc.310.1611134876232; 
+ Wed, 20 Jan 2021 01:27:56 -0800 (PST)
 Received: from localhost.localdomain ([2.92.195.184])
- by smtp.gmail.com with ESMTPSA id r81sm147479lff.215.2021.01.20.01.27.53
+ by smtp.gmail.com with ESMTPSA id r81sm147479lff.215.2021.01.20.01.27.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 01:27:54 -0800 (PST)
+ Wed, 20 Jan 2021 01:27:55 -0800 (PST)
 From: Maxim Uvarov <maxim.uvarov@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCHv8 2/3] arm-virt: refactor gpios creation
-Date: Wed, 20 Jan 2021 12:27:47 +0300
-Message-Id: <20210120092748.14789-3-maxim.uvarov@linaro.org>
+Subject: [PATCHv8 3/3] arm-virt: add secure pl061 for reset/power down
+Date: Wed, 20 Jan 2021 12:27:48 +0300
+Message-Id: <20210120092748.14789-4-maxim.uvarov@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210120092748.14789-1-maxim.uvarov@linaro.org>
 References: <20210120092748.14789-1-maxim.uvarov@linaro.org>
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=maxim.uvarov@linaro.org; helo=mail-lf1-x12c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::130;
+ envelope-from=maxim.uvarov@linaro.org; helo=mail-lf1-x130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,109 +86,137 @@ Cc: peter.maydell@linaro.org, drjones@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No functional change. Just refactor code to better
-support secure and normal world gpios.
+Add secure pl061 for reset/power down machine from
+the secure world (Arm Trusted Firmware). Connect it
+with gpio-pwr driver.
 
 Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
 ---
- hw/arm/virt.c | 64 ++++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 43 insertions(+), 21 deletions(-)
+ hw/arm/Kconfig        |  1 +
+ hw/arm/virt.c         | 47 +++++++++++++++++++++++++++++++++++++++++++
+ include/hw/arm/virt.h |  2 ++
+ 3 files changed, 50 insertions(+)
 
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 0a242e4c5d..13cc42dcc8 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -17,6 +17,7 @@ config ARM_VIRT
+     select PL011 # UART
+     select PL031 # RTC
+     select PL061 # GPIO
++    select GPIO_PWR
+     select PLATFORM_BUS
+     select SMBIOS
+     select VIRTIO_MMIO
 diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 96985917d3..c427ce5f81 100644
+index c427ce5f81..060a5f492e 100644
 --- a/hw/arm/virt.c
 +++ b/hw/arm/virt.c
-@@ -820,17 +820,43 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
-     }
+@@ -153,6 +153,7 @@ static const MemMapEntry base_memmap[] = {
+     [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
+     [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
+     [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
++    [VIRT_SECURE_GPIO] =        { 0x090b0000, 0x00001000 },
+     [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+     /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
+     [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
+@@ -841,6 +842,43 @@ static void create_gpio_keys(const VirtMachineState *vms,
+                            "gpios", phandle, 3, 0);
  }
  
--static void create_gpio(const VirtMachineState *vms)
-+static void create_gpio_keys(const VirtMachineState *vms,
-+                             DeviceState *pl061_dev,
-+                             uint32_t phandle)
++#define SECURE_GPIO_POWEROFF 0
++#define SECURE_GPIO_REBOOT   1
++
++static void create_gpio_pwr(const VirtMachineState *vms,
++                            DeviceState *pl061_dev,
++                            uint32_t phandle)
 +{
-+    gpio_key_dev = sysbus_create_simple("gpio-key", -1,
-+                                        qdev_get_gpio_in(pl061_dev, 3));
++    DeviceState *gpio_pwr_dev;
 +
-+    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys");
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys", "compatible", "gpio-keys");
-+    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#size-cells", 0);
-+    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#address-cells", 1);
++    /* gpio-pwr */
++    gpio_pwr_dev = sysbus_create_simple("gpio-pwr", -1, NULL);
 +
-+    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys/poweroff");
-+    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys/poweroff",
-+                            "label", "GPIO Key Poweroff");
-+    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys/poweroff", "linux,code",
-+                          KEY_POWER);
-+    qemu_fdt_setprop_cells(vms->fdt, "/gpio-keys/poweroff",
-+                           "gpios", phandle, 3, 0);
++    /* connect secure pl061 to gpio-pwr */
++    qdev_connect_gpio_out(pl061_dev, SECURE_GPIO_REBOOT,
++                          qdev_get_gpio_in_named(gpio_pwr_dev, "reset", 0));
++    qdev_connect_gpio_out(pl061_dev, SECURE_GPIO_POWEROFF,
++                          qdev_get_gpio_in_named(gpio_pwr_dev, "shutdown", 0));
++
++    qemu_fdt_add_subnode(vms->fdt, "/gpio-poweroff");
++    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "compatible",
++                            "gpio-poweroff");
++    qemu_fdt_setprop_cells(vms->fdt, "/gpio-poweroff",
++                           "gpios", phandle, SECURE_GPIO_POWEROFF, 0);
++    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "status", "disabled");
++    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "secure-status",
++                            "okay");
++
++    qemu_fdt_add_subnode(vms->fdt, "/gpio-restart");
++    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "compatible",
++                            "gpio-restart");
++    qemu_fdt_setprop_cells(vms->fdt, "/gpio-restart",
++                           "gpios", phandle, SECURE_GPIO_REBOOT, 0);
++    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "status", "disabled");
++    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "secure-status",
++                            "okay");
 +}
 +
-+static void create_gpio_devices(const VirtMachineState *vms, int gpio,
-+                                MemoryRegion *mem)
+ static void create_gpio_devices(const VirtMachineState *vms, int gpio,
+                                 MemoryRegion *mem)
  {
-     char *nodename;
-     DeviceState *pl061_dev;
--    hwaddr base = vms->memmap[VIRT_GPIO].base;
--    hwaddr size = vms->memmap[VIRT_GPIO].size;
--    int irq = vms->irqmap[VIRT_GPIO];
-+    hwaddr base = vms->memmap[gpio].base;
-+    hwaddr size = vms->memmap[gpio].size;
-+    int irq = vms->irqmap[gpio];
-     const char compat[] = "arm,pl061\0arm,primecell";
-+    SysBusDevice *s;
- 
--    pl061_dev = sysbus_create_simple("pl061", base,
--                                     qdev_get_gpio_in(vms->gic, irq));
-+    pl061_dev = qdev_new("pl061");
-+    s = SYS_BUS_DEVICE(pl061_dev);
-+    sysbus_realize_and_unref(s, &error_fatal);
-+    memory_region_add_subregion(mem, base, sysbus_mmio_get_region(s, 0));
-+    sysbus_connect_irq(s, 0, qdev_get_gpio_in(vms->gic, irq));
- 
-     uint32_t phandle = qemu_fdt_alloc_phandle(vms->fdt);
-     nodename = g_strdup_printf("/pl061@%" PRIx64, base);
-@@ -847,21 +873,17 @@ static void create_gpio(const VirtMachineState *vms)
-     qemu_fdt_setprop_string(vms->fdt, nodename, "clock-names", "apb_pclk");
-     qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle", phandle);
- 
--    gpio_key_dev = sysbus_create_simple("gpio-key", -1,
--                                        qdev_get_gpio_in(pl061_dev, 3));
--    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys");
--    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys", "compatible", "gpio-keys");
--    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#size-cells", 0);
--    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#address-cells", 1);
--
--    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys/poweroff");
--    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys/poweroff",
--                            "label", "GPIO Key Poweroff");
--    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys/poweroff", "linux,code",
--                          KEY_POWER);
--    qemu_fdt_setprop_cells(vms->fdt, "/gpio-keys/poweroff",
--                           "gpios", phandle, 3, 0);
-+    if (gpio != VIRT_GPIO) {
-+        /* Mark as not usable by the normal world */
-+        qemu_fdt_setprop_string(vms->fdt, nodename, "status", "disabled");
-+        qemu_fdt_setprop_string(vms->fdt, nodename, "secure-status", "okay");
-+    }
-     g_free(nodename);
-+
-+    /* Child gpio devices */
-+    if (gpio == VIRT_GPIO) {
-+        create_gpio_keys(vms, pl061_dev, phandle);
-+    }
+@@ -883,6 +921,8 @@ static void create_gpio_devices(const VirtMachineState *vms, int gpio,
+     /* Child gpio devices */
+     if (gpio == VIRT_GPIO) {
+         create_gpio_keys(vms, pl061_dev, phandle);
++    } else {
++        create_gpio_pwr(vms, pl061_dev, phandle);
+     }
  }
  
- static void create_virtio_devices(const VirtMachineState *vms)
-@@ -1990,7 +2012,7 @@ static void machvirt_init(MachineState *machine)
-     if (has_ged && aarch64 && firmware_loaded && virt_is_acpi_enabled(vms)) {
-         vms->acpi_dev = create_acpi_ged(vms);
-     } else {
--        create_gpio(vms);
-+        create_gpio_devices(vms, VIRT_GPIO, sysmem);
+@@ -2015,6 +2055,10 @@ static void machvirt_init(MachineState *machine)
+         create_gpio_devices(vms, VIRT_GPIO, sysmem);
      }
  
++    if (vms->secure && !vmc->no_secure_gpio) {
++        create_gpio_devices(vms, VIRT_SECURE_GPIO, secure_sysmem);
++    }
++
       /* connect powerdown request */
+      vms->powerdown_notifier.notify = virt_powerdown_req;
+      qemu_register_powerdown_notifier(&vms->powerdown_notifier);
+@@ -2630,8 +2674,11 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 0)
+ 
+ static void virt_machine_5_2_options(MachineClass *mc)
+ {
++    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
++
+     virt_machine_6_0_options(mc);
+     compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
++    vmc->no_secure_gpio = true;
+ }
+ DEFINE_VIRT_MACHINE(5, 2)
+ 
+diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+index abf54fab49..6f6c85ffcf 100644
+--- a/include/hw/arm/virt.h
++++ b/include/hw/arm/virt.h
+@@ -81,6 +81,7 @@ enum {
+     VIRT_GPIO,
+     VIRT_SECURE_UART,
+     VIRT_SECURE_MEM,
++    VIRT_SECURE_GPIO,
+     VIRT_PCDIMM_ACPI,
+     VIRT_ACPI_GED,
+     VIRT_NVDIMM_ACPI,
+@@ -127,6 +128,7 @@ struct VirtMachineClass {
+     bool kvm_no_adjvtime;
+     bool no_kvm_steal_time;
+     bool acpi_expose_flash;
++    bool no_secure_gpio;
+ };
+ 
+ struct VirtMachineState {
 -- 
 2.17.1
 
