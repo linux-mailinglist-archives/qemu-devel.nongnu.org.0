@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD8E12FCCE2
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 09:43:25 +0100 (CET)
-Received: from localhost ([::1]:52358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99C42FCCED
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 09:47:02 +0100 (CET)
+Received: from localhost ([::1]:54658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l295I-0006T2-98
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 03:43:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39082)
+	id 1l298n-0007aW-NZ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 03:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l294I-0005vR-3x
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:42:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:41495)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l294E-0004xK-Pr
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:42:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611132137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=j8fEUDHmuoMs2X0jvkf0d7v+5md3E2YxAFbTR2/u6s4=;
- b=IMM8SXtjT2yoSiYyBUl6IwYtDB9TYdj9vSKSv/6nltVXgknpogQHOPsW6143iA2x4z1FJk
- FVe+P48/3Zmt6KV/YgbRc9FoUJB2IdTx3dWkErHqg/PgffDQfiwwalHLt6ms1QqwipmWqS
- UJJUZZGTZLAHW/aHWhrqvSMrgGaPscI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-JHTwxRHEPj2VkaZqhC7hNQ-1; Wed, 20 Jan 2021 03:42:15 -0500
-X-MC-Unique: JHTwxRHEPj2VkaZqhC7hNQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 72474107ACE4
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 08:42:14 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FB461D7;
- Wed, 20 Jan 2021 08:42:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AA793113865F; Wed, 20 Jan 2021 09:42:12 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 03/25] qemu-option: warn for short-form boolean options
-References: <20210118163113.780171-1-pbonzini@redhat.com>
- <20210118163113.780171-4-pbonzini@redhat.com>
- <87o8hkx6n9.fsf@dusky.pond.sub.org>
- <99a014a0-5d9c-07d6-250a-c56e6337cf69@redhat.com>
-Date: Wed, 20 Jan 2021 09:42:12 +0100
-In-Reply-To: <99a014a0-5d9c-07d6-250a-c56e6337cf69@redhat.com> (Paolo
- Bonzini's message of "Tue, 19 Jan 2021 18:04:35 +0100")
-Message-ID: <878s8ovw2j.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l297I-00072d-Lt
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:45:28 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:32855)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l297G-00067W-1D
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 03:45:28 -0500
+Received: by mail-ed1-x536.google.com with SMTP id c6so17649600ede.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 00:45:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=5aEx6WCv+1U1+P4yNyMQu6Q83ddQrxC/rwAa9Q4k4MA=;
+ b=Dq64LmNjlEYSyRRm/VyoSUBrA88InkHMrMxXq94DbGVbjYMLOCRV11KuhIURKBWuYg
+ tjcbnDKmX1+CPNtVvaOMHhCBvgDm8pka50/lsEtSIAOSHgL2NCxcWws+8mz847iHQkRE
+ vjSBwVE3w8Y4iOdB+ktZvI4ldOhunakLzxWAmdFEgfvTcWlM7Sypw16NlDW5OXeORehc
+ qGB46qLj8zwDTwEKwI8iFl5PyIciSeBCEg/ZQZl6LmebSlmZIocxqQ5iDRp/0BQg39XZ
+ RBroUPoTh4L4q/7UdHjy6Ohi4FH9j7mExpEPYiOhhUH3Z4SlNrAQ0PDdewNrRmf0bBVb
+ SMpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=5aEx6WCv+1U1+P4yNyMQu6Q83ddQrxC/rwAa9Q4k4MA=;
+ b=UtNFb9rcDUGebLLKK8ZagYSPrxOt+hjxpsrJ8C5Mj5CmEj10efnJb9nkX1cRBBnS1f
+ c6dx8n2+RTY4MTLS6TTaNvkqLZbI58Y7kFi2nM2Kp3DdavQxDV80Cpc33wCf+6nVN/v0
+ RUMPA/Eg2C5WPoIhPKe7jEh2jenMUXBjJrYC7Ca3Q/bZSHp7QM6dOugTqaywULhdBOs0
+ SE9Zj1+FgSInX2IMvHTN2jJt+HmSpftYCcvlRJZ+mSmIRzqecBvoEcRUnFF1Rno4Kc64
+ JGYaSOfTVD4WT4yXT3eXQktyaHOAsdQikZHDv5fPgz2Ca7ek2yetsOzVWf8XDJDXcOH5
+ 7Mxg==
+X-Gm-Message-State: AOAM532Tb8UUeQQoGCDyYvZ8p+g//YCi1+jNbHZ1h6lCtAd5yz2kp5M+
+ fkGJ13++GwUzGD1bpgC4nVXtF+mqguiYI+0DgDs=
+X-Google-Smtp-Source: ABdhPJxAcvYxGkFWMUnA1CYkGSNY0jsc+wp9+tUHVZ+ypx0gIUD3uWYqfTNndQG60EbvYntajEQVE2vT9zt8BxzsPgU=
+X-Received: by 2002:a05:6402:78f:: with SMTP id
+ d15mr6363212edy.362.1611132324038; 
+ Wed, 20 Jan 2021 00:45:24 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+References: <20210120074102.51534-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20210120074102.51534-1-marcandre.lureau@redhat.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 20 Jan 2021 16:45:12 +0800
+Message-ID: <CAEUhbmWkOhzmA-1JNWsXaJgvne0y-2BjOPEsK8dQkc5Qx9FAHA@mail.gmail.com>
+Subject: Re: [PATCH v2] RFC: sphinx: adopt kernel readthedoc theme
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -82,96 +79,408 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Paolo Bonzini <pbonzini@redhat.com> writes:
-
-> On 19/01/21 16:56, Markus Armbruster wrote:
->>> +            if (!is_help && warn_on_flag) {
->>> +                warn_report("short-form boolean option '%s%s' deprecated", prefix, *name);
->>> +                error_printf("Please use %s=%s instead\n", *name, *value);
->>> +            }
->> 
->> If @warn_on_flag, we warn except for "help" and "?".  The exception
->> applies regardless of @help_wanted.  Shouldn't we except*only*
->> recognized help requests?
+On Wed, Jan 20, 2021 at 3:41 PM <marcandre.lureau@redhat.com> wrote:
 >
-> Suggesting "help=yes" would be worse.
-
-Would it?
-
-get_opt_name_value() parses one parameter from params into *name and
-*value.  if help_wanted && is_help, it additionally sets *help_wanted to
-true.  is_help is true when the parameter is "help" or "?".
-
-How could a parameter "help" be handled?
-
-get_opt_name_value() will set
-
-    *name = g_strdup("help");
-    *value = g_strdup("on");
-
-If help_wanted, additionally:
-
-    *help_wanted = true;
-
-Callers that pass non-null help_wanted can do whatever they want with
-that.  The actual callers do honor the help request.  The deprecation
-warning obviously needs to be suppressed for them.
-
-Callers that pass null help_wanted will treat this just like any other
-parameter.  Use of the boolean sugar is just as deprecated for this
-parameter as it is for all the others.  Suppressing the deprecation
-warning feels wrong.
-
-The alternative is to *outlaw* parameters "help" and "?" in QemuOpts.
-I'd be cool with that.
-
->>> -    opts = opts_parse(list, params, permit_abbrev, false,
->>> +    opts = opts_parse(list, params, permit_abbrev, false, true,
->>>                        opts_accepts_any(list) ? NULL : &help_wanted,
->>>                        &err);
->>>      if (!opts) {
->> 
->> This function now warns, except for "help" and "?".  The exception
->> applies even when we treat "help" and "?" as sugar for "help=on" and
->> "?=on" because opts_accepts_any().
->> 
->> It is the only spot that enables the warning.
->> 
->> Does all user input flow through qemu_opts_parse_noisily()?
->> 
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 >
-> I was going to say yes, but -vnc (and worse, the QMP version of "change 
-> vnc") is parsed by qemu_opts_parse() via ui/vnc.c (besides being used by 
-> lots of tests).  -vnc has several boolean options, and though Libvirt 
-> only uses "sasl" it does so in the short form.
+> The default "alabaster" sphinx theme has a couple shortcomings:
+> - the navbar moves along the page
+> - the search bar is not always at the same place
+> - it lacks some contrast and colours
 >
-> My solution would be to deprecate the QMP "change vnc" command, and 
-> postpone switching -vnc to qemu_opts_parse_noisily to 6.2.
-
-QMP command 'change' was deprecated long ago, in 2.5.0 (commit
-24fb41330, in 2015).  This predated appendix "Deprecated features"
-(which has since become docs/system/deprecated.rst), and remained
-missing there until I corrected it in commit 6d570ca10 (v4.2.0).
-
-> The main reason to warn for short-form boolean options, is to block them 
-> for command line options that are switched to keyval[1].  Adding a 
-> warning does not necessarily imply removing in two releases.
-
-Understand.
-
-> Paolo
+> The "rtd" theme from readthedocs.org is a popular third party theme used
+> notably by the kernel, with a custom style sheet. I like it better,
+> perhaps others do too. It also simplify "Edit on Gitlab" links.
 >
-> [1] This series already does that for -M, -accel and -object.  This 
-> means that applying this series would change the command line 
-> incompatibly without a two-release deprecation.  It's up for discussion 
-> whether to do so, or delay the application of those patches to 6.2.  It 
-> would be a pity to hold the dependent changes for effectively a year, 
-> but it's not a big deal.
+> Tweak a bit the custom theme to match qemu.org style, use the
+> QEMU logo, and favicon etc.
+>
+> Screenshot:
+> https://i.ibb.co/XWwG1bZ/Screenshot-2021-01-20-Welcome-to-QEMU-s-document=
+ation-QEMU-documentation.png
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  docs/_templates/editpage.html          |   5 -
+>  docs/conf.py                           |  43 ++++---
+>  docs/devel/_templates/editpage.html    |   5 -
+>  docs/interop/_templates/editpage.html  |   5 -
+>  docs/specs/_templates/editpage.html    |   5 -
+>  docs/sphinx-static/theme_overrides.css | 157 +++++++++++++++++++++++++
+>  docs/system/_templates/editpage.html   |   5 -
+>  docs/tools/_templates/editpage.html    |   5 -
+>  docs/user/_templates/editpage.html     |   5 -
+>  9 files changed, 181 insertions(+), 54 deletions(-)
+>  delete mode 100644 docs/_templates/editpage.html
+>  delete mode 100644 docs/devel/_templates/editpage.html
+>  delete mode 100644 docs/interop/_templates/editpage.html
+>  delete mode 100644 docs/specs/_templates/editpage.html
+>  create mode 100644 docs/sphinx-static/theme_overrides.css
+>  delete mode 100644 docs/system/_templates/editpage.html
+>  delete mode 100644 docs/tools/_templates/editpage.html
+>  delete mode 100644 docs/user/_templates/editpage.html
+>
+> diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage.htm=
+l
+> deleted file mode 100644
+> index 4319b0f5ac..0000000000
+> --- a/docs/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id=3D"editpage">
+> -  <ul>
+> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
+cs/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/conf.py b/docs/conf.py
+> index 2ee6111872..2d9e8148a9 100644
+> --- a/docs/conf.py
+> +++ b/docs/conf.py
+> @@ -150,38 +150,43 @@ with open(os.path.join(qemu_docdir, 'defs.rst.inc')=
+) as f:
+>  # The theme to use for HTML and HTML Help pages.  See the documentation =
+for
+>  # a list of builtin themes.
+>  #
+> -html_theme =3D 'alabaster'
+> +try:
+> +    import sphinx_rtd_theme
+> +    html_theme =3D 'sphinx_rtd_theme'
+> +except ImportError:
+> +    sys.stderr.write('Warning: The Sphinx \'sphinx_rtd_theme\' HTML them=
+e was not found. Make sure you have the theme installed to produce pretty H=
+TML output. Falling back to the default theme.\n')
+>
+>  # Theme options are theme-specific and customize the look and feel of a =
+theme
+>  # further.  For a list of options available for each theme, see the
+>  # documentation.
+> -# We initialize this to empty here, so the per-manual conf.py can just
+> -# add individual key/value entries.
+>  html_theme_options =3D {
+> +    "style_nav_header_background": "#802400",
+>  }
+>
+> +html_logo =3D os.path.join(qemu_docdir, "../ui/icons/qemu_128x128.png")
+> +
+> +html_favicon =3D os.path.join(qemu_docdir, "../ui/icons/qemu_32x32.png")
+> +
+>  # Add any paths that contain custom static files (such as style sheets) =
+here,
+>  # relative to this directory. They are copied after the builtin static f=
+iles,
+>  # so a file named "default.css" will overwrite the builtin "default.css"=
+.
+> -# QEMU doesn't yet have any static files, so comment this out so we don'=
+t
+> -# get a warning about a missing directory.
+> -# If we do ever add this then it would probably be better to call the
+> -# subdirectory sphinx_static, as the Linux kernel does.
+> -# html_static_path =3D ['_static']
+> +html_static_path =3D [os.path.join(qemu_docdir, "sphinx-static")]
+> +
+> +html_css_files =3D [
+> +    'theme_overrides.css',
+> +]
+> +
+> +html_context =3D {
+> +    "display_gitlab": True,
+> +    "gitlab_user": "qemu-project",
 
-Concur.
+nits: there is a trailing space here
 
+> +    "gitlab_repo": "qemu",
+> +    "gitlab_version": "master",
+> +    "conf_py_path": "/docs/", # Path in the checkout to the docs root
+> +}
+>
+>  # Custom sidebar templates, must be a dictionary that maps document name=
+s
+>  # to template names.
+> -#
+> -# This is required for the alabaster theme
+> -# refs: http://alabaster.readthedocs.io/en/latest/installation.html#side=
+bars
+> -html_sidebars =3D {
+> -    '**': [
+> -        'about.html',
+> -        'editpage.html',
+> -        'navigation.html',
+> -        'searchbox.html',
+> -    ]
+> -}
+> +#html_sidebars =3D {}
+>
+>  # Don't copy the rST source files to the HTML output directory,
+>  # and don't put links to the sources into the output HTML.
+> diff --git a/docs/devel/_templates/editpage.html b/docs/devel/_templates/=
+editpage.html
+> deleted file mode 100644
+> index a86d22bca8..0000000000
+> --- a/docs/devel/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id=3D"editpage">
+> -  <ul>
+> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
+cs/devel/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/interop/_templates/editpage.html b/docs/interop/_templa=
+tes/editpage.html
+> deleted file mode 100644
+> index 215e562681..0000000000
+> --- a/docs/interop/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id=3D"editpage">
+> -  <ul>
+> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
+cs/interop/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/specs/_templates/editpage.html b/docs/specs/_templates/=
+editpage.html
+> deleted file mode 100644
+> index aaa468aa98..0000000000
+> --- a/docs/specs/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id=3D"editpage">
+> -  <ul>
+> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
+cs/specs/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/sphinx-static/theme_overrides.css b/docs/sphinx-static/=
+theme_overrides.css
+> new file mode 100644
+> index 0000000000..6bacf9141e
+> --- /dev/null
+> +++ b/docs/sphinx-static/theme_overrides.css
+> @@ -0,0 +1,157 @@
+> +/* -*- coding: utf-8; mode: css -*-
+> + *
+> + * Sphinx HTML theme customization: read the doc
+> + * Based on Linux Documentation/sphinx-static/theme_overrides.css
+> + */
+> +
+> +/* Improve contrast and increase size for easier reading. */
+> +
+> +body {
+> +    font-family: serif;
+> +    color: black;
+> +    font-size: 100%;
+> +}
+> +
+> +h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend =
+{
+> +    font-family: sans-serif;
+> +}
+> +
+> +.rst-content dl:not(.docutils) dt {
+> +    border-top: none;
+> +    border-left: solid 3px #ccc;
+> +    background-color: #f0f0f0;
+> +    color: black;
+> +}
+> +
+> +.wy-side-nav-search input[type=3D"text"] {
+> +    border-color: #f60;
+> +}
+> +
+> +.wy-menu-vertical p.caption {
+> +    color: white;
+> +}
+> +
+> +.wy-menu-vertical li.current a {
+> +    color: #505050;
+> +}
+> +
+> +.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
+> +    color: #303030;
+> +}
+> +
+> +.fa-gitlab {
+> +      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0=
+.19);
+> +      border-radius: 5px;
+> +}
+> +
+> +div[class^=3D"highlight"] pre {
+> +    font-family: monospace;
+> +    color: black;
+> +    font-size: 100%;
+> +}
+> +
+> +.wy-menu-vertical {
+> +    font-family: sans-serif;
+> +}
+> +
+> +.c {
+> +    font-style: normal;
+> +}
+> +
+> +p {
+> +    font-size: 100%;
+> +}
+> +
+> +/* Interim: Code-blocks with line nos - lines and line numbers don't lin=
+e up.
+> + * see: https://github.com/rtfd/sphinx_rtd_theme/issues/419
+> + */
+> +
+> +div[class^=3D"highlight"] pre {
+> +    line-height: normal;
+> +}
+> +.rst-content .highlight > pre {
+> +    line-height: normal;
+> +}
+> +
+> +/* Keep fields from being strangely far apart due to inheirited table CS=
+S. */
+> +.rst-content table.field-list th.field-name {
+> +    padding-top: 1px;
+> +    padding-bottom: 1px;
+> +}
+> +.rst-content table.field-list td.field-body {
+> +    padding-top: 1px;
+> +    padding-bottom: 1px;
+> +}
+> +
+> +@media screen {
+> +
+> +    /* content column
+> +     *
+> +     * RTD theme's default is 800px as max width for the content, but we=
+ have
+> +     * tables with tons of columns, which need the full width of the vie=
+w-port.
+> +     */
+> +
+> +    .wy-nav-content{max-width: none; }
+> +
+> +    /* table:
+> +     *
+> +     *   - Sequences of whitespace should collapse into a single whitesp=
+ace.
+> +     *   - make the overflow auto (scrollbar if needed)
+> +     *   - align caption "left" ("center" is unsuitable on vast tables)
+> +     */
+> +
+> +    .wy-table-responsive table td { white-space: normal; }
+> +    .wy-table-responsive { overflow: auto; }
+> +    .rst-content table.docutils caption { text-align: left; font-size: 1=
+00%; }
+> +
+> +    /* captions:
+> +     *
+> +     *   - captions should have 100% (not 85%) font size
+> +     *   - hide the permalink symbol as long as link is not hovered
+> +     */
+> +
+> +    .toc-title {
+> +        font-size: 150%;
+> +        font-weight: bold;
+> +    }
+> +
+> +    caption, .wy-table caption, .rst-content table.field-list caption {
+> +        font-size: 100%;
+> +    }
+> +    caption a.headerlink { opacity: 0; }
+> +    caption a.headerlink:hover { opacity: 1; }
+> +
+> +    /* Menu selection and keystrokes */
+> +
+> +    span.menuselection {
+> +        color: blue;
+> +        font-family: "Courier New", Courier, monospace
+> +    }
+> +
+> +    code.kbd, code.kbd span {
+> +        color: white;
+> +        background-color: darkblue;
+> +        font-weight: bold;
+> +        font-family: "Courier New", Courier, monospace
+> +    }
+> +
+> +    /* fix bottom margin of lists items */
+> +
+> +    .rst-content .section ul li:last-child, .rst-content .section ul li =
+p:last-child {
+> +          margin-bottom: 12px;
+> +    }
+> +
+> +    /* inline literal: drop the borderbox, padding and red color */
+> +
+> +    code, .rst-content tt, .rst-content code {
+> +        color: inherit;
+> +        border: none;
+> +        padding: unset;
+> +        background: inherit;
+> +        font-size: 85%;
+> +    }
+> +
+> +    .rst-content tt.literal,.rst-content tt.literal,.rst-content code.li=
+teral {
+> +        color: inherit;
+> +    }
+> +}
+> diff --git a/docs/system/_templates/editpage.html b/docs/system/_template=
+s/editpage.html
+> deleted file mode 100644
+> index 6586b2e257..0000000000
+> --- a/docs/system/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id=3D"editpage">
+> -  <ul>
+> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
+cs/system/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/tools/_templates/editpage.html b/docs/tools/_templates/=
+editpage.html
+> deleted file mode 100644
+> index 2a9c8fc92b..0000000000
+> --- a/docs/tools/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id=3D"editpage">
+> -  <ul>
+> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
+cs/tools/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/user/_templates/editpage.html b/docs/user/_templates/ed=
+itpage.html
+> deleted file mode 100644
+> index 1f5ee01e60..0000000000
+> --- a/docs/user/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id=3D"editpage">
+> -  <ul>
+> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/master/do=
+cs/user/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> --
+
+When sphinx_rtd_theme is not installed, with this patch no html doc is
+generated at all. After installing sphinx_rtd_theme html doc can be
+generated again.
+Please take a look.
+
+Regards,
+Bin
 
