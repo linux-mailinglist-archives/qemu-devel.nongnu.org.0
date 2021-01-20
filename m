@@ -2,73 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FCCB2FCF47
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:10:44 +0100 (CET)
-Received: from localhost ([::1]:58372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E5842FCFDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:18:26 +0100 (CET)
+Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2CJv-0000f7-Ke
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:10:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55946)
+	id 1l2CRM-0002Pf-UT
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:18:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2CGx-0007h3-Gu
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:07:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2CGv-0001Dw-QY
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:07:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611144457;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=diqyY55ic4H1XgECqfPQDI7Y6KLCzVaE20+I9/nqzUk=;
- b=ZhW5ckG+JcDAvep3VEdhJmAwvoE+Xbf5kigzvcwHVOfY/eybl3ZklTVlG9dfWD/rQwqnCz
- MQhFWap7RwCu3K4nC6YGrOHGa/Utqk2o7ACp2SJ53iF3Aivln0hCsCyngQ5e4AOO9dnVRU
- tLLDqJOgxAvnLHQavJDaRhFTiKFAiNo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-158-xGofFR_2Mzq3eD-h2f80Lw-1; Wed, 20 Jan 2021 07:07:30 -0500
-X-MC-Unique: xGofFR_2Mzq3eD-h2f80Lw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ACA7806662
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 12:07:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DC5519811;
- Wed, 20 Jan 2021 12:07:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D3648113865F; Wed, 20 Jan 2021 13:07:22 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 05/17] qapi: pass QAPISchemaModule to visit_module
- instead of str
-References: <20210119180242.1570753-1-jsnow@redhat.com>
- <20210119180242.1570753-6-jsnow@redhat.com>
-Date: Wed, 20 Jan 2021 13:07:22 +0100
-In-Reply-To: <20210119180242.1570753-6-jsnow@redhat.com> (John Snow's message
- of "Tue, 19 Jan 2021 13:02:30 -0500")
-Message-ID: <87eeifu805.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2CPf-0001hu-V4
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:16:40 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43019)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2CPb-0004Jd-TD
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:16:37 -0500
+Received: by mail-ej1-x631.google.com with SMTP id a10so16603051ejg.10
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 04:16:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=l09apn2+KpsWzeEMb9OSsd43COP5b6EOgkQWLfHRXQ8=;
+ b=nHKUwIZcKsjH6BgEW4ix3CkG07YNGEUaXHJfvE5AIoxyaFJz7SXk3cdMFhwUTvb2yU
+ LUmOIaid/deWrJW1EPs9Z1NcZOzNnctWv+K+Dg4Z6fAoYnRr0r4KVebo815czfBTjlcz
+ 3H9FzxqUOzcF/EXoZB5AhXa6fRoeuco9EFfopqzZ1Wan9iMi5pJMCi+Irj6BXdI51CR6
+ MHEWmraWLW9WCjx45xGZ0W7dMKOOpY7En2TTAuOiJsbaem6n5DbUw+QyY27taomqFj2l
+ UmLiSrAMHGwulqJcN6BtZfOM05U8quGsthw1nj7fmOfxB6Vp3o6T0jxUT1zj4lZkxXIe
+ h+DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=l09apn2+KpsWzeEMb9OSsd43COP5b6EOgkQWLfHRXQ8=;
+ b=jJX/kQWD6ELp8mwHXhXPNrbWfW7TpT77N1BdLfY9/suWzhuc2pcmWBCKXI3eEFEtg5
+ kMoGRypGu2u5KTHwO/QSPgWTkQlTDOySDmXHaFp5s2tScAM690hCMl3Hm0611I3rQatQ
+ PCsfKoO3pCH2Hu+pge6d3eo7O0Mbdfh68gr5lpCEsyJS+fxemk3oz/9XThoOaP77IpQG
+ o0wsKiIi0JBbdX18T8YgZsQwrur8EE2tjPBKCHD5WZAwwBzwp+r4GLq6rTXFliLFE4IK
+ zBfLr9Uq+sH16pOz5QSIMf6bVHazZqRV2ypkc2wLB+vC1GELaDevkW958puLFGZShoWb
+ eGtg==
+X-Gm-Message-State: AOAM532RC8XWe0J0t+uzyvIEk4+C2vCPAysE2Em6dwbK6MoPIwEuOOlJ
+ TUFkXvItSvW/lRMsb4omkPU=
+X-Google-Smtp-Source: ABdhPJyNl40/MrcuuUCzszjVUvxBPxLQK8b08YPtGRe44aIaXFAVAmt8wTPYnkKS4hRa3P7xRJR9yA==
+X-Received: by 2002:a17:906:748:: with SMTP id
+ z8mr5868086ejb.233.1611144993832; 
+ Wed, 20 Jan 2021 04:16:33 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id p16sm814954ejz.103.2021.01.20.04.16.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 04:16:32 -0800 (PST)
+Subject: Re: [PULL 3/5] linux-user: add missing IPv6 get/setsockopt option
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210119175427.2050737-1-laurent@vivier.eu>
+ <20210119175427.2050737-4-laurent@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <58abf222-2bcb-4433-7608-ebcc999a2241@amsat.org>
+Date: Wed, 20 Jan 2021 13:16:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210119175427.2050737-4-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,87 +90,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
-
-> Modify visit_module to pass the module itself instead of just its
-> name. This allows for future patches to centralize some
-> module-interrogation behavior within the QAPISchemaModule class itself,
-> cutting down on duplication between gen.py and schema.py.
-
-We've been tempted to make similar changes before (don't worry, I'm not
-building a case for "no" here).
-
-When I wrote the initial version of QAPISchemaVisitor (commit 3f7dc21be,
-2015), I aimed for a loose coupling of backends and the internal
-representation.  Instead of
-
-    def visit_foo(self, foo):
-        pass
-
-where @foo is a QAPISchemaFooBar, I wrote
-
-    def visit_foo_bar(self, name, info, [curated attributes of @foo]):
-        pass
-
-In theory, this is nice: the information exposed to the backends is
-obvious, and the backends can't accidentally mutate @foo.
-
-In practice, it kind of failed right then and there:
-
-    def visit_object_type(self, name, info, base, members, variants):
-        pass
-
-We avoid passing the QAPISchemaObjectType (loose coupling, cool!), only
-to pass member information as List[QAPISchemaObjectTypeMember].
-
-Morever, passing "curated atttibutes" has led to visit_commands() taking
-a dozen arguments.  Meh.
-
-This had made Eric and me wonder whether we should write off the
-decoupling idea as misguided, and just pass the object instead of
-"curated attributes", always.  Thoughts?
-
->
-> Signed-off-by: John Snow <jsnow@redhat.com>
+On 1/19/21 6:54 PM, Laurent Vivier wrote:
+> From: Shu-Chun Weng <scw@google.com>
+> 
+> IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not supported.
+> 
+> Signed-off-by: Shu-Chun Weng <scw@google.com>
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Message-Id: <20201218193213.3566856-4-scw@google.com>
+> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->  docs/sphinx/qapidoc.py         |  8 ++++----
->  scripts/qapi/gen.py            | 16 ++++++++++------
->  scripts/qapi/schema.py         |  4 ++--
->  tests/qapi-schema/test-qapi.py |  4 ++--
->  4 files changed, 18 insertions(+), 14 deletions(-)
->
-> diff --git a/docs/sphinx/qapidoc.py b/docs/sphinx/qapidoc.py
-> index e03abcbb959..f754f675d66 100644
-> --- a/docs/sphinx/qapidoc.py
-> +++ b/docs/sphinx/qapidoc.py
-> @@ -463,11 +463,11 @@ def __init__(self, env, qapidir):
->          self._env = env
->          self._qapidir = qapidir
->  
-> -    def visit_module(self, name):
-> -        if name is not None:
-> -            qapifile = self._qapidir + '/' + name
-> +    def visit_module(self, module):
-> +        if module.name:
+>  linux-user/syscall.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 969db2008104..70c61d15ebf8 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -51,6 +51,7 @@
+>  #include <sys/sysinfo.h>
+>  #include <sys/signalfd.h>
+>  //#include <sys/user.h>
+> +#include <netinet/in.h>
+>  #include <netinet/ip.h>
+>  #include <netinet/tcp.h>
+>  #include <netinet/udp.h>
+> @@ -2272,6 +2273,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+>          case IPV6_RECVDSTOPTS:
+>          case IPV6_2292DSTOPTS:
+>          case IPV6_TCLASS:
+> +        case IPV6_ADDR_PREFERENCES:
+>  #ifdef IPV6_RECVPATHMTU
+>          case IPV6_RECVPATHMTU:
+>  #endif
+> @@ -2926,6 +2928,7 @@ get_timeout:
+>          case IPV6_RECVDSTOPTS:
+>          case IPV6_2292DSTOPTS:
+>          case IPV6_TCLASS:
+> +        case IPV6_ADDR_PREFERENCES:
+>  #ifdef IPV6_RECVPATHMTU
+>          case IPV6_RECVPATHMTU:
+>  #endif
+> 
 
-Replacing the "is not None" test by (implicit) "is thruthy" changes
-behavior for the empty string.  Intentional?
+Building on Centos7:
 
-I've had the "pleasure" of debugging empty strings getting interpreted
-like None where they should be interpreted like any other string.
-
-> +            qapifile = self._qapidir + '/' + module.name
->              self._env.note_dependency(os.path.abspath(qapifile))
-> -        super().visit_module(name)
-> +        super().visit_module(module)
->  
->  
-[...]
-
+../linux-user/syscall.c: In function 'do_setsockopt':
+../linux-user/syscall.c:2276:14: error: 'IPV6_ADDR_PREFERENCES'
+undeclared (first use in this function)
+         case IPV6_ADDR_PREFERENCES:
+              ^
+../linux-user/syscall.c:2276:14: note: each undeclared identifier is
+reported only once for each function it appears in
+../linux-user/syscall.c: In function 'do_getsockopt':
+../linux-user/syscall.c:2931:14: error: 'IPV6_ADDR_PREFERENCES'
+undeclared (first use in this function)
+         case IPV6_ADDR_PREFERENCES:
+              ^
 
