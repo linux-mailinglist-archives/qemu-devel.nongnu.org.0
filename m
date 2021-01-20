@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89C8D2FD767
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 18:46:50 +0100 (CET)
-Received: from localhost ([::1]:40384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4FF2FD769
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 18:48:00 +0100 (CET)
+Received: from localhost ([::1]:43624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2HZB-0000vr-Ja
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 12:46:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51560)
+	id 1l2HaJ-0002Sa-Fr
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 12:47:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51538)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l2HPi-0000Sf-Bh
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l2HPh-0000Sa-29
  for qemu-devel@nongnu.org; Wed, 20 Jan 2021 12:37:02 -0500
-Received: from mail-bn7nam10on2095.outbound.protection.outlook.com
- ([40.107.92.95]:32454 helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+Received: from mail-co1nam11on2129.outbound.protection.outlook.com
+ ([40.107.220.129]:63396 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l2HPe-0002pL-UK
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 12:37:02 -0500
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l2HPd-0002uY-Be
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 12:36:59 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EGknHZwAJ74HrYu/y5Ud75Cp/yEKKehc8CBBZ97ZYdqGJ6bJ9AxxouBl+pJYMHumFHuPvg7+pW+p+66YByYOMmCSrEiRdXnZPZGkR1SzNtH26nIO51utwtV6TKp6+NnyT7TUsJ2Bnmy2QRxmIz1QZRWN6eyjRxz4iOoGozcBDS72XFAqARBH0ro+uJJh4egXSNUwvzTVg1CfOY2U/nanHZi03eariir7BeIUGhzmPYi8ABS2MDO7QQPTvjsOaFlUmAAVrGR9b0ZtB0M64MA1stRzVHjmD05pcm2lh+ad3D18MBXDYsFurKzgcM5QDpz29xG5E3GjU6ShPoleC4KsAg==
+ b=OEBZHZcEA01JvqhJnBZK9mVTbS7X4869fHc79jqsWGw51lF/wSXlb4TqZ9AnHRUKF17iP65Dj/vpjbv6XYGxDAsf7nK6Iwa7D9zwLtIm+bN3BY3e7Jz8rLdhQWqoDUg2AcZHR1Kyak94TRkSF3NTthZeXQmb0m+Bo12sVnavBDuyn34IW+SkoVn/ZeKphA10Kp3oCpX9vIpzV+k271IjZHbtFvYFJR1XPqHBj0yWDXQP+t9SrNspyNuLX35jA9ymwIdESR5g1FQU+JSMiz/EbGYJMwVUuplc9dmg9G+GZ98v46JTnRnADQ5F8RU5trT6Nqh12KZE4f/YOM1TI/QxRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BVgYJkhSqwv4Miwh4NFlVzR1B03y1tpvL4eVBWO8GA0=;
- b=GKEZPey2bo5aG6y/HNVQY+wmBdSMsRSPXTqe6JE3AV4Ctn+qA0wZD80u86BOPNL7eYzzX7nSlA2IYNFk3nGiFFRKGxGPnwxVT1UeYCKHlVxnOuFytLQ1/FC7npmXABWf57Nd0Y0FraPx/zS4v8+4kJTeTeMm7572t3oXH0XWMUsGZ4qMwYfr0Zj995+PsrcLww4BnbrM8qMV6vgHMCsSLwODDFBd2ekfBRsK7Cufk2WZbF9g0Ib4Jk0I2hJIJSaWPcg4uh1kRj9f7onRRwvnHEY3hXz8GI/R/UCBlCE4C8eK/Ek9XV8UaxtiJd91Qxa01t7+P+LvpY2nV/rylY6wyQ==
+ bh=WqAwlkspqsgt5zHVblhrgNjK0N2JsJJYSNl6xVI8XjA=;
+ b=bfsG4EGN2p9vFvOPi61Ma5lf752mwgKBlelJnGiIkoY1ruyDIb8Nj/0tzgfk+WGDAqjmzh9vs4n9kZYMlZ0jG3l/v1r9nUVIXo2aWI44Bq1tBniBCb9Uh+oS7cmHb0BP6RZZEdBIlW7yV/Tj3agtLNdeR4f3qT58i1ISHWAudplAOLNbLX8UkjNpfPwtiw8UsCR4fQZo0P8X+AyfJRcHT3z9gnmI+76r76ZyO87WZHmwEtvswROOzvrcC7TcOdp9d2h3twkvPqGyAiUcHCEZd0JNnXU/dGHvC9PGxGKNl3PyduXEipYYk/8AhzEvQl5aBMmy3blShtbRCQT914LmEA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bu.edu; dmarc=pass action=none header.from=bu.edu; dkim=pass
  header.d=bu.edu; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bushare.onmicrosoft.com; s=selector2-bushare-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BVgYJkhSqwv4Miwh4NFlVzR1B03y1tpvL4eVBWO8GA0=;
- b=sYcHMCpwqC4kmLyTFSa6HGeE+nv1EN4I1xXlqY8WFUMSnqsXq5ZV1WIGbVYvNQMm8jXrBcYyLGm6SGYFObdw+h4jCKo1HXsJ1hQDhxiXyWShjrdy1Hwz6Qxqs01v6bFuAFgIaojjebSCL6vhjg48tMllcZrqukCHyhd4q6vg0+I=
+ bh=WqAwlkspqsgt5zHVblhrgNjK0N2JsJJYSNl6xVI8XjA=;
+ b=envpz2SfNPUFHb1DQUEQVzxKngHuBzGRbvJkAJrwuue0uHDg8J0chJloQbdNxjcDXKGLIcsI987oO4EYh6SyNWv40Tw5dflmtd444/Zj/qAPqg5WjiKdnvvXubVWRl62my94S456ckGtByD1jC0FghiqsSZd2xXIwg2N4UI/ZSU=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=bu.edu;
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com (2603:10b6:805:6d::32)
- by SA0PR03MB5482.namprd03.prod.outlook.com (2603:10b6:806:b3::20)
+ by SN6PR03MB4576.namprd03.prod.outlook.com (2603:10b6:805:102::29)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.11; Wed, 20 Jan
- 2021 17:36:51 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Wed, 20 Jan
+ 2021 17:36:54 +0000
 Received: from SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::e828:cd84:e00c:6310]) by SN6PR03MB3871.namprd03.prod.outlook.com
  ([fe80::e828:cd84:e00c:6310%6]) with mapi id 15.20.3784.012; Wed, 20 Jan 2021
- 17:36:51 +0000
+ 17:36:54 +0000
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 5/7] fuzz: enable dynamic args for generic-fuzz configs
-Date: Wed, 20 Jan 2021 12:35:32 -0500
-Message-Id: <20210120173536.265601-11-alxndr@bu.edu>
+Subject: [PULL 6/7] docs/fuzz: add some information about OSS-Fuzz
+Date: Wed, 20 Jan 2021 12:35:33 -0500
+Message-Id: <20210120173536.265601-12-alxndr@bu.edu>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210120173536.265601-1-alxndr@bu.edu>
 References: <20210120173536.265601-1-alxndr@bu.edu>
@@ -64,50 +64,50 @@ Received: from stormtrooper.vrmnet (72.74.210.193) by
  BL1PR13CA0142.namprd13.prod.outlook.com (2603:10b6:208:2bb::27) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.8 via Frontend
- Transport; Wed, 20 Jan 2021 17:36:50 +0000
+ Transport; Wed, 20 Jan 2021 17:36:52 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c546a8c3-1661-4f14-7527-08d8bd69f86a
-X-MS-TrafficTypeDiagnostic: SA0PR03MB5482:
+X-MS-Office365-Filtering-Correlation-Id: 001b95bd-e1cf-4510-5336-08d8bd69f999
+X-MS-TrafficTypeDiagnostic: SN6PR03MB4576:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SA0PR03MB5482914DA6515E2C7BEAB33EBAA20@SA0PR03MB5482.namprd03.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
+X-Microsoft-Antispam-PRVS: <SN6PR03MB457632E0F823CB5E59D38FEFBAA29@SN6PR03MB4576.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rcqsxHcVkoep9GGbp/lRlaUv3gftfy8aa7Lyc1jTD5aTt7Qsz24Hj5U+ph65UYmKYdf0I9V9ejV5iXpRwMPbX1wTTdgnRIOUMYXI/8zrVqRJzcjQKSWDqUC06ENmTNhc2sgKWGy3jbtmGqA1SSSWphaufLblYduw64xkYjP9wLKiKs55WELINBM9DrqZa6MDdyG5FFKrF7BEagS5U9FEUy8uaVaxPb5IbUMqRQ5BZcrwGjS5HDY61VbhjOIu0WS1qk4MW9U+2NNAcV9yvyshFLk+hy2FNfoerZzu8tx7gu4SNawlN3k8ZjYHlcHhiS5LcHEkMAdAiLbgHOj6ObpYMPFDX14k0dJ0agefEXWGGOHFmiBv6NKqDwOjpbnKIqx+k/qUIiispELI+0zWzmf9e891dU4fumUO3/D1iHChalMcy0YyuFdWsoaOmMzc8WO8
+X-Microsoft-Antispam-Message-Info: uP8FwXxiC6Vkt0ipC9HcMTVg/FgPLdV0TW8ylmLRtD4OWa+tgoqfpWHfl0qrRqVYWnRChEMLSCHptTH4zlBqfb5are4fdxBqXtD5xVOWckjduRz8RmqpkxYG+wjQBuGxMrOPWibknAvaR1oU4vvdD9pfNmW7Qh4X1z41NIzizHSMmfGVhV/nYkVU3LX9n4ZCJ+/6jeAITZqKYFhKNdz4DaJYJ/iHR66ORFuhoONny0/sWVoaytMUm/eOBPtdZ9VzF5Dyb6gez8v34mwPtcoT6RmAgcBr/odEYUr8YEvzP91rD0CDRGgESMdI81MxT3tyIQGK1baMEzvbEOLSyoIKwd6Kl2hl0yfAYTIC1aN9l2i3es9BjIfRzXm81Q8nMJL9+7FpQBmo6Rn/DaW/cxp7OGseo1OyIczfWE0Da2MLPKNQczPYHCj+fSceHz/kouz0qsPIdWr6jOXOlyNSnvtlBg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:SN6PR03MB3871.namprd03.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(346002)(396003)(39860400002)(136003)(376002)(6506007)(26005)(66556008)(186003)(6512007)(66946007)(5660300002)(86362001)(83380400001)(6916009)(66476007)(956004)(16526019)(2616005)(54906003)(6666004)(1076003)(4326008)(2906002)(8676002)(52116002)(316002)(36756003)(8936002)(786003)(75432002)(6486002)(478600001)(41533002);
+ SFS:(4636009)(366004)(396003)(39860400002)(136003)(376002)(346002)(6486002)(26005)(2616005)(8676002)(52116002)(4326008)(6506007)(6512007)(86362001)(54906003)(5660300002)(2906002)(66556008)(66946007)(66476007)(75432002)(956004)(36756003)(6916009)(316002)(786003)(186003)(8936002)(478600001)(1076003)(6666004)(16526019);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?glnC0i4YIvNXxz1Zzx+AHP8FYfzFt43yaIS9JY6nNgkzpgVlpHPNG00RnCbE?=
- =?us-ascii?Q?GuIjcNYEUTNecSBpxlJOYP4R7PM7JPn6NQ2rSb1SQHjL3CHgUFL6kVhUQohl?=
- =?us-ascii?Q?SA7p1A+AwfTHwIrziYVAs+/91+zebn/YttVhpS73cAnqVontbOFODUXvzUBx?=
- =?us-ascii?Q?3HRgmpRDXGt7Kbe9nxH6lILRYjiyJ54JoEwcrrVxIXu7Sg7z/uZFal4RAIsm?=
- =?us-ascii?Q?EwmDj4ufUpybs1r6tjZ9Z6x5YIlKQ8yNkCWSPMvsT9BPP0DAU/5uUy0gzhjP?=
- =?us-ascii?Q?0+PxpzzI5yTFRbIFTTwjboQ1DyxNdqlJcVLJWu150aIRwKpmiudyjSocwBAb?=
- =?us-ascii?Q?1XoHRL5YFE7pj+cm54yCfsstPAsEl3yTqi7gPKVD+Tq1rA7dGHsWHyqeQHIu?=
- =?us-ascii?Q?/ZQco21VH1h91Yg36+X/Hc2rZZqw1tBv+Jz4XwflZ5rdkJRQiPhINknskMNH?=
- =?us-ascii?Q?/ylT69mWfBrqdkV/Ll/whTdKzzM0gJf6QbHcvr78VSz8SlDGAWLyS0FRvy/n?=
- =?us-ascii?Q?IwsDcUkqFd0DXbAuOBXk6emzbaEBeV3s30zCZACuff1J7Yw2YGbgCrMKNmkI?=
- =?us-ascii?Q?KqGLCp7Cy8pIV/gmTVfmwhZRHHqy2oOt3aZ44b92hEbaXuFbWME8Mmee2PqH?=
- =?us-ascii?Q?+8+uqdgySUpOEXGK1IlT6QxzL929krTN+/53D8NjilSv6qyuA3r53eE+v8/S?=
- =?us-ascii?Q?+sJAWEAxmJ5ocgW01VI2lw4rtGNT5MBm0kxOhjQroh4HahzFRoANgZJbNNqF?=
- =?us-ascii?Q?NnMjQtsrbFlIdDPSBzm+mhb4STcZon0n2DdT/tjISP0Ou6LvAH3k8+zPmPAb?=
- =?us-ascii?Q?sEYxfpKlOUI13euVQyYZBrHv4vBG+NsHn1hAUUCO9tMExFa/bzx6X9nvRsYO?=
- =?us-ascii?Q?msztFIMQw5fhNcUTOb6E28XPEYpc/3jQfRSJDnZnHPgU+FHXdxpGhyHtgmWR?=
- =?us-ascii?Q?wffICrPpzfbNHOckGDKMbufm0INx+9f+Rr7QFkndxkoxG6tHjcwnWgLj0eVC?=
- =?us-ascii?Q?ZHxf?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?C7zFXjsQZHkm2+0Go1IOUyUOkNkwDpDfOyn1NPx3j7EhktczcILuJgHJQ0VA?=
+ =?us-ascii?Q?cWNBVW7P++m09LJqjaB4Ga//1pRAjiWMkiu8eir/T3OkPStUhMLsJX9v4FYM?=
+ =?us-ascii?Q?0zSo/ze/3vC+VvkcLltykTnvi+aHnFQLxX3Od1a7YUOZOvSCs1uKxJgsykZt?=
+ =?us-ascii?Q?y05+0Ujy6Vy2uMbWHlGYoh2CJl46LQW5F74eODmkS2NgurqHkTChgGpEKEg8?=
+ =?us-ascii?Q?q29/oTEd/rJBKLNvT5mnkJc+Dt0r3/0s2vsi7YFhNA7jalNGqMPeVTBdyRBL?=
+ =?us-ascii?Q?LPdhooScspYfyraeXXaPZsgBdMOrulTwklgXaKjYnFdPmvXyApFdO2dqvMMr?=
+ =?us-ascii?Q?iQ5hLildA7m/B/fLyOLbIEA5x+1oUkeUSXSvUrXcve+xZ0XV+qG3zV1c/96+?=
+ =?us-ascii?Q?CMcuqrFfA8DeXWWFssaWEL3iv2Z26wVwdJlU26ZgTN0nbxQK7rNeciCedAZQ?=
+ =?us-ascii?Q?Bhom4pjH+ymhetj2gyJfBAEtwYwLC75X/iVgD5cPX6FhOKEEtZIszVy0U1KS?=
+ =?us-ascii?Q?CZYBrR1p7p5JcEFnpZLTgDQx5uhNn96nrTwOxwXRenZ/oK6qQcZxAIUFjCT5?=
+ =?us-ascii?Q?AQ5JEAhrvzaAgpG7Sjr6YVH0gCJal7N873MVSPAK8vOIujNOwVF5u6gGkZFg?=
+ =?us-ascii?Q?Op/EWFmx8LoiYKn3N60vWtd8WjhpdSLznNxPZpN2kEh5gl6HZ+Ri25b0qEAS?=
+ =?us-ascii?Q?w+o0mEOu25+hxKjtLD4iAzPpjMXks5ap4taCcxk3hoj150DC5UzXGnhY/DfG?=
+ =?us-ascii?Q?c0VqUKPL0Ydj9/zhCRXZ9NgxrLRqehr6A7tIWZaf0+WpBLISZnogMlclMQP+?=
+ =?us-ascii?Q?D1AVqyVUdxJZS6DbrqX+5bCiJv91s4G44J5FhYJzBBa+DIARbvEk84nj2aXK?=
+ =?us-ascii?Q?Bz4ifS3Uy4pM80s8X3XEaaJxl0DZz1x2OefP1Xw1ZMXNyhqrHLMc7R+GTubR?=
+ =?us-ascii?Q?U7KN4mA1Lb9fUMLEEH/W4N31Tfynw8/T0mVlspiGIa6Kx5yF2vX/1OWOSSFz?=
+ =?us-ascii?Q?Ie0u?=
 X-OriginatorOrg: bu.edu
-X-MS-Exchange-CrossTenant-Network-Message-Id: c546a8c3-1661-4f14-7527-08d8bd69f86a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 001b95bd-e1cf-4510-5336-08d8bd69f999
 X-MS-Exchange-CrossTenant-AuthSource: SN6PR03MB3871.namprd03.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 17:36:51.5614 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 17:36:53.6002 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d57d32cc-c121-488f-b07b-dfe705680c71
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zEFRHK04/WRkmSE7SfLNUL0gY6vorXXyMdJVDvdwoxD9703dRTRWT2hc0azKr/RQ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR03MB5482
-Received-SPF: pass client-ip=40.107.92.95; envelope-from=alxndr@bu.edu;
- helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-MS-Exchange-CrossTenant-UserPrincipalName: VomFF+/qLGvTNJjnJZ+1YsL7uWtP/YaVbHoaREtNu7xZDK8LFc7yVV9lAG/OkTMl
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR03MB4576
+Received-SPF: pass client-ip=40.107.220.129; envelope-from=alxndr@bu.edu;
+ helo=NAM11-CO1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -8
 X-Spam_score: -0.9
 X-Spam_bar: /
@@ -128,68 +128,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>,
+ Bandan Das <bsd@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For some device configurations, it is useful to configure some
-resources, and adjust QEMU arguments at runtime, prior to fuzzing. This
-patch adds an "argfunc" to generic the generic_fuzz_config. When
-specified, it is responsible for configuring the resources and returning
-a string containing the corresponding QEMU arguments. This can be useful
-for targets that rely on e.g.:
- * a temporary qcow2 image
- * a temporary directory
- * an unused TCP port used to bind the VNC server
-
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
 ---
- tests/qtest/fuzz/generic_fuzz.c         | 10 +++++++++-
- tests/qtest/fuzz/generic_fuzz_configs.h |  1 +
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ docs/devel/fuzzing.rst | 26 ++++++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz.c b/tests/qtest/fuzz/generic_fuzz.c
-index deb74f15be..ee8c17a04c 100644
---- a/tests/qtest/fuzz/generic_fuzz.c
-+++ b/tests/qtest/fuzz/generic_fuzz.c
-@@ -933,12 +933,20 @@ static GString *generic_fuzz_cmdline(FuzzTarget *t)
+diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
+index 5f5200c843..b9bb07988b 100644
+--- a/docs/devel/fuzzing.rst
++++ b/docs/devel/fuzzing.rst
+@@ -180,6 +180,32 @@ To ensure that these env variables have been configured correctly, we can use::
  
- static GString *generic_fuzz_predefined_config_cmdline(FuzzTarget *t)
- {
-+    gchar *args;
-     const generic_fuzz_config *config;
-     g_assert(t->opaque);
+ The output should contain a complete list of matched MemoryRegions.
  
-     config = t->opaque;
-     setenv("QEMU_AVOID_DOUBLE_FETCH", "1", 1);
--    setenv("QEMU_FUZZ_ARGS", config->args, 1);
-+    if (config->argfunc) {
-+        args = config->argfunc();
-+        setenv("QEMU_FUZZ_ARGS", args, 1);
-+        g_free(args);
-+    } else {
-+        g_assert_nonnull(config->args);
-+        setenv("QEMU_FUZZ_ARGS", config->args, 1);
-+    }
-     setenv("QEMU_FUZZ_OBJECTS", config->objects, 1);
-     return generic_fuzz_cmdline(t);
- }
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index aa4c03f1ae..51e69c6e42 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -16,6 +16,7 @@
++OSS-Fuzz
++--------
++QEMU is continuously fuzzed on `OSS-Fuzz` __(https://github.com/google/oss-fuzz).
++By default, the OSS-Fuzz build will try to fuzz every fuzz-target. Since the
++generic-fuzz target requires additional information provided in environment
++variables, we pre-define some generic-fuzz configs in
++``tests/qtest/fuzz/generic_fuzz_configs.h``. Each config must specify:
++ * ``.name``: To identify the fuzzer config
++ * ``.args`` OR ``.argfunc``: A string or pointer to a function returning a
++   string.  These strings are used to specify the ``QEMU_FUZZ_ARGS``
++   environment variable.  ``argfunc`` is useful when the config relies on e.g.
++   a dynamically created temp directory, or a free tcp/udp port.
++ * ``.objects``: A string that specifies the ``QEMU_FUZZ_OBJECTS`` environment
++   variable.
++
++To fuzz additional devices/device configuration on OSS-Fuzz:
++ * Send patches for a new device-specific fuzzer
++ * Send patches for a new generic-fuzz config
++
++Build details:
++ * `The basic Dockerfile that sets up the environment for building QEMU's
++   fuzzers on OSS-Fuzz
++   <https://github.com/google/oss-fuzz/blob/master/projects/qemu/Dockerfile>`_
++ * The script responsible for building the fuzzers:
++   ``scripts/oss-fuzz/build.sh``
++
+ Implementation Details / Fuzzer Lifecycle
+ -----------------------------------------
  
- typedef struct generic_fuzz_config {
-     const char *name, *args, *objects;
-+    gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
- } generic_fuzz_config;
- 
- const generic_fuzz_config predefined_configs[] = {
 -- 
 2.28.0
 
