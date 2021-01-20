@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC3D2FDA36
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:56:28 +0100 (CET)
-Received: from localhost ([::1]:57302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8036C2FDA2F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:55:57 +0100 (CET)
+Received: from localhost ([::1]:55350 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Jad-0004Vn-7l
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:56:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52292)
+	id 1l2Ja7-0003h8-W4
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:55:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52298)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXk-0001z3-TR
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXl-0001z6-1r
  for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:53:29 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:54589)
+Received: from mout.kundenserver.de ([217.72.192.75]:33535)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXh-0002zi-JP
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2JXi-0002zr-QN
  for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:53:28 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue106 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1M1ZUb-1l0vhS2TJD-00331y; Wed, 20 Jan 2021 20:53:21 +0100
+ id 1N49Ul-1m29WV1Dub-0108ou; Wed, 20 Jan 2021 20:53:22 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] Linux user for 6.0 patches
-Date: Wed, 20 Jan 2021 20:53:12 +0100
-Message-Id: <20210120195317.84222-1-laurent@vivier.eu>
+Subject: [PULL 1/5] linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls
+Date: Wed, 20 Jan 2021 20:53:13 +0100
+Message-Id: <20210120195317.84222-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210120195317.84222-1-laurent@vivier.eu>
+References: <20210120195317.84222-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:33IXtZ9jipxu1As0Nw4+TbjbcHCS+0x73HdNkrigNZ93P3MuzQM
- vkSK/CPUF3LDZnGBPzmv4Tb0WGRAUbrXI4eP4fR2mRWyjAUvDgTPFMpHQYiVV81goZfM1Ap
- OSedtm+grBBsk8EhdIk60rM442X8Uy34HYDJnCyNG27zZ9Gud5aMG44/70ojvkaBSycz6Yt
- W/1H8BFI6JNCkW4ucF/1w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:HgMhgggewKg=:YhWEq3oHb6pfJq+ob74eYM
- 2YgbwZu1Ds/z+gTI7pWJ57k4g44b1cfO2vfZxMj+0SxnqUfe4w8n0ZS4H3nrk+SdiQKhKKBfX
- +Yw8RQx/v6a7YEAqboD2QhbhEmtEIofuk6btqoC/6CnDpA8TgOY1oVVRvPcULHc1JtDLxWumW
- xefxY2rYz2mnO57dwl63oj2syKDlZU/S2TzKhITiBYp/o9lML1Gh7bR+DX83+fQ6gKyeqWyPV
- GSuYEnTOEnagpqFUigmng4dsUyplmDT9KOOz9L8y/GcI1fapbBEwqSGMUIFgnXgyFiBjOc0As
- bXYta7g/1s5hR84STF0+vig98zJ97C3IODy18gMwT6HKDgWqEGVyGwYS2xOFEqTflKpC2Kg7y
- I4sKHsi7RImIpp7J12qpumnP+NrRn80bC+PFeYWLHj8EvDhVRfgxwi8dzEmqTSeypKUoJcbfk
- kg0pnW2nrQ==
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:N3RF0IJ+riHmTTL3ZPKNyyt8pj9sc+ZJQFba2Fgl/AsOKSNcnsD
+ mXI35ThLZChqnVZRev55hY4i5t17K2/b6V5y90OMGYSC3ctPhnB87/RL0RzU6P5vo9RUG3H
+ vZZyvozE7y0C/AoWfb+iFXFubWGhZfBGGkvLxy1Y50zWLD28HNqPnZXVSN+XfLGY41bH0JO
+ Oz9G1MEsZhiJos4fR/8WQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:x/WkA89aGbM=:GJxrvkIjVwwcIo/aLc+zzc
+ oES07V23nyrDFiP7rEhaQfob+kYg7OHU/b5AFqyvDOAQBBXaFQHXjidDTtMjiMZuWrHVS7o+4
+ wzhnQOMe2bAUV7HseREXTAy4tFd8pkcBPeHkjUmh2l9Ac1l67Vv+pSyJySZeJ3Z0END5SpPPd
+ k8l7q+AihN5LV0MNZzC++DV9yEJC+RENcF0AYpb+EHuM/LAaR1ulyrhom9szY1LzyK4nuvtpv
+ asAOeuGjkfhXSAQVa/3Agko49b3vYiORd3wXi0fyjkkcSoTSQ/jEXH4wFvVJsOpkS0iyLzDJ/
+ ruJidwSnuZvniRpWVvoWNTCsYpqeT8wJTUZOJpMV03Sivoril/CnuUXgIUyXSoNsRcYr5omr0
+ 9+0KkwjUT81l6UWhCENiKodBArCyhDLfZcBSWBtaC6jmZZXAJ52JxNU8AzjNG69EJ0lQY3Y2V
+ eJxllHfPLg==
+Received-SPF: none client-ip=217.72.192.75; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,53 +62,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>, Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 48202c712412c803ddb56365c7bca322aa4e7506=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210=
-11=3D=0D
-9-1' into staging (2021-01-19 15:47:23 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/linux-user-for-6.0-pull-request=0D
-=0D
-for you to fetch changes up to 8a7e49050b8d5477a567b0ec5d764a564481abdb:=0D
-=0D
-  linux-user: Remove obsolete F_SHLCK and F_EXLCK translation (2021-01-20 1=
-8:=3D=0D
-26:46 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-linux-user pull request 20210119-v2=0D
-=0D
-Remove obsolete F_SHLCK and F_EXLCK translation=0D
-Update sockopt=0D
-Add F_ADD_SEALS and F_GET_SEALS=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Michael Forney (1):=0D
-  linux-user: Remove obsolete F_SHLCK and F_EXLCK translation=0D
-=0D
-Shu-Chun Weng (4):=0D
-  linux-user: Support F_ADD_SEALS and F_GET_SEALS fcntls=0D
-  linux-user: add missing UDP get/setsockopt option=0D
-  linux-user: add missing IPv6 get/setsockopt option=0D
-  linux-user: Add IPv6 options to do_print_sockopt()=0D
-=0D
- linux-user/alpha/target_fcntl.h |   2 -=0D
- linux-user/generic/fcntl.h      |   5 --=0D
- linux-user/strace.c             | 153 ++++++++++++++++++++++++++++++--=0D
- linux-user/syscall.c            |  23 ++++-=0D
- linux-user/syscall_defs.h       |  14 +--=0D
- 5 files changed, 173 insertions(+), 24 deletions(-)=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+From: Shu-Chun Weng <scw@google.com>
+
+Also reorder blocks so that they are all in the same order everywhere.
+
+Signed-off-by: Shu-Chun Weng <scw@google.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20201218193213.3566856-2-scw@google.com>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ linux-user/strace.c       | 39 ++++++++++++++++++++++++++++++++-------
+ linux-user/syscall.c      | 10 ++++++++++
+ linux-user/syscall_defs.h | 14 ++++++++------
+ 3 files changed, 50 insertions(+), 13 deletions(-)
+
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index e00275fcb51b..227812c07e63 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -2066,11 +2066,34 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
+         break;
+     case TARGET_F_SETLEASE:
+         qemu_log("F_SETLEASE,");
+-        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
++        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
+         break;
+     case TARGET_F_GETLEASE:
+         qemu_log("F_GETLEASE");
+         break;
++#ifdef F_DUPFD_CLOEXEC
++    case TARGET_F_DUPFD_CLOEXEC:
++        qemu_log("F_DUPFD_CLOEXEC,");
++        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
++        break;
++#endif
++    case TARGET_F_NOTIFY:
++        qemu_log("F_NOTIFY,");
++        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
++        break;
++#ifdef F_GETOWN_EX
++    case TARGET_F_GETOWN_EX:
++        qemu_log("F_GETOWN_EX,");
++        print_pointer(arg2, 1);
++        break;
++#endif
++#ifdef F_SETOWN_EX
++    case TARGET_F_SETOWN_EX:
++        qemu_log("F_SETOWN_EX,");
++        print_pointer(arg2, 1);
++        break;
++#endif
++#ifdef F_SETPIPE_SZ
+     case TARGET_F_SETPIPE_SZ:
+         qemu_log("F_SETPIPE_SZ,");
+         print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
+@@ -2078,14 +2101,16 @@ print_fcntl(void *cpu_env, const struct syscallname *name,
+     case TARGET_F_GETPIPE_SZ:
+         qemu_log("F_GETPIPE_SZ");
+         break;
+-    case TARGET_F_DUPFD_CLOEXEC:
+-        qemu_log("F_DUPFD_CLOEXEC,");
+-        print_raw_param(TARGET_ABI_FMT_ld, arg2, 1);
++#endif
++#ifdef F_ADD_SEALS
++    case TARGET_F_ADD_SEALS:
++        qemu_log("F_ADD_SEALS,");
++        print_raw_param("0x"TARGET_ABI_FMT_lx, arg2, 1);
+         break;
+-    case TARGET_F_NOTIFY:
+-        qemu_log("F_NOTIFY,");
+-        print_raw_param(TARGET_ABI_FMT_ld, arg2, 0);
++    case TARGET_F_GET_SEALS:
++        qemu_log("F_GET_SEALS");
+         break;
++#endif
+     default:
+         print_raw_param(TARGET_ABI_FMT_ld, arg1, 0);
+         print_pointer(arg2, 1);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index d182890ff04a..98aaca01872f 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6639,6 +6639,14 @@ static int target_to_host_fcntl_cmd(int cmd)
+     case TARGET_F_GETPIPE_SZ:
+         ret = F_GETPIPE_SZ;
+         break;
++#endif
++#ifdef F_ADD_SEALS
++    case TARGET_F_ADD_SEALS:
++        ret = F_ADD_SEALS;
++        break;
++    case TARGET_F_GET_SEALS:
++        ret = F_GET_SEALS;
++        break;
+ #endif
+     default:
+         ret = -TARGET_EINVAL;
+@@ -6931,6 +6939,8 @@ static abi_long do_fcntl(int fd, int cmd, abi_ulong arg)
+     case TARGET_F_GETLEASE:
+     case TARGET_F_SETPIPE_SZ:
+     case TARGET_F_GETPIPE_SZ:
++    case TARGET_F_ADD_SEALS:
++    case TARGET_F_GET_SEALS:
+         ret = get_errno(safe_fcntl(fd, host_cmd, arg));
+         break;
+ 
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index a00bfc2647c7..f98c1c1c8de4 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -2408,12 +2408,14 @@ struct target_statfs64 {
+ #endif
+ 
+ #define TARGET_F_LINUX_SPECIFIC_BASE 1024
+-#define TARGET_F_SETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 0)
+-#define TARGET_F_GETLEASE (TARGET_F_LINUX_SPECIFIC_BASE + 1)
+-#define TARGET_F_DUPFD_CLOEXEC (TARGET_F_LINUX_SPECIFIC_BASE + 6)
+-#define TARGET_F_SETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 7)
+-#define TARGET_F_GETPIPE_SZ (TARGET_F_LINUX_SPECIFIC_BASE + 8)
+-#define TARGET_F_NOTIFY  (TARGET_F_LINUX_SPECIFIC_BASE+2)
++#define TARGET_F_SETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 0)
++#define TARGET_F_GETLEASE            (TARGET_F_LINUX_SPECIFIC_BASE + 1)
++#define TARGET_F_DUPFD_CLOEXEC       (TARGET_F_LINUX_SPECIFIC_BASE + 6)
++#define TARGET_F_NOTIFY              (TARGET_F_LINUX_SPECIFIC_BASE + 2)
++#define TARGET_F_SETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 7)
++#define TARGET_F_GETPIPE_SZ          (TARGET_F_LINUX_SPECIFIC_BASE + 8)
++#define TARGET_F_ADD_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 9)
++#define TARGET_F_GET_SEALS           (TARGET_F_LINUX_SPECIFIC_BASE + 10)
+ 
+ #include "target_fcntl.h"
+ 
+-- 
+2.29.2
+
 
