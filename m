@@ -2,69 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CFA32FD3F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:30:30 +0100 (CET)
-Received: from localhost ([::1]:46698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CD552FD3E4
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:28:23 +0100 (CET)
+Received: from localhost ([::1]:38596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FR9-0006na-VC
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:30:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44010)
+	id 1l2FPC-0003Yb-Cl
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:28:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45010)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FFf-0000Lr-Av
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:18:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25516)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FJ6-00044p-L8
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:22:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24226)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FFW-0007kK-2x
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:18:31 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FJ5-0000RV-2v
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:22:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611155899;
+ s=mimecast20190719; t=1611156122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hRg4sE/VgKudjQt+zXrgar9IY3gEmqlrOhBY1H1kpic=;
- b=MHhSs4HUV/hsr71La6rL9f3cpADAfdqDqW19mb9eBHqf1OWFS2vbrgLSYf76khUAGpAZSL
- HPLw8LfROw4EBH4w7qWq8yGyP4lRoFGjNvtJ1fCNdHlhLpnk8stbn+bdHCD+B0cNxk9jPv
- BYrZZyFJ+nZKrMH6v8LEE4kFza3yZ4M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-361-Rhfy4ekQNFmwAyT4s2RFvA-1; Wed, 20 Jan 2021 10:18:15 -0500
-X-MC-Unique: Rhfy4ekQNFmwAyT4s2RFvA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83A331005504;
- Wed, 20 Jan 2021 15:18:14 +0000 (UTC)
-Received: from thuth.com (ovpn-114-135.ams2.redhat.com [10.36.114.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 296E260C6A;
- Wed, 20 Jan 2021 15:18:12 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 12/14] tests: Fix memory leak in tpm-util.c
-Date: Wed, 20 Jan 2021 16:17:49 +0100
-Message-Id: <20210120151751.520597-13-thuth@redhat.com>
-In-Reply-To: <20210120151751.520597-1-thuth@redhat.com>
-References: <20210120151751.520597-1-thuth@redhat.com>
+ bh=fsbFhwgPR1GTfU7croCJ5gQ+d+803aYlik+uB8GH3bQ=;
+ b=VnzYewfJ9bBnINWnLakGMeQIko8PV8goksme3vh7+T75VQuxGPKjM6zulxuY5lQftCp7e7
+ 0Rv3BULBfESkQfrnv2kPc3lGuZAJ7crKmu6+uaEPjkr7qDI7/jTN8Aj5Yisalr8Zxcyrhw
+ pgJQmAb0yLwNPPws2jVtDMMVLX03WcY=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-441-4vZxk8d3NieSIlVNx26V3Q-1; Wed, 20 Jan 2021 10:22:00 -0500
+X-MC-Unique: 4vZxk8d3NieSIlVNx26V3Q-1
+Received: by mail-ej1-f72.google.com with SMTP id jg11so7017103ejc.23
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 07:22:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=fsbFhwgPR1GTfU7croCJ5gQ+d+803aYlik+uB8GH3bQ=;
+ b=Rup4oyzwZ2dLdwAlCfTWK7O/X7SVEUMyAJSbeMQ+ZZ5iUvZiyah4Rvv2+TMbWKoDCG
+ w98d3jZHRzvZu36CQthGCGGn2eZK91udjMGjDhLijfeaKPOk08Bqmg+r3tHRK1CONvd/
+ flki1PmhA4y/29ems20EK0HKkarCSkFH8wsdYja1vCq6m5u/P/XkFLswlgBsGG3XgAAT
+ 9Rv+NTDA4/2F/PhJ2h5A6Hrv1MCSrFii6FU+Eq7Fx/bb61vAy5TM5d36aXbl2wtd6fZg
+ ylFFtVubnAEzMoR9VukIBAUaHabAWCSUQyXRrGKzkVVYFx7We7QfJIsZAPLwfhL9p72f
+ C6TQ==
+X-Gm-Message-State: AOAM532V+ENLKotYBpKIrtb7/1+szSsTmygWc4JB9SYDR9MSEUZCo+dE
+ hK6gqD4J+lzsOiYEEKoATMbF0NDX+XwK26SbSVADNVtTEbQErAC4PYZ8c+rHPg3cGGdqruKHRjE
+ LYypxqbWNTcUB8pQ=
+X-Received: by 2002:a05:6402:2694:: with SMTP id
+ w20mr7769245edd.200.1611156119600; 
+ Wed, 20 Jan 2021 07:21:59 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwaTCuq4HcZg4XuSurSBvoq7vjqMzi/rmrMJ0h+Y/N1QRuh48xD2YxMLOy8m0teQr8Q74CY5g==
+X-Received: by 2002:a05:6402:2694:: with SMTP id
+ w20mr7769233edd.200.1611156119457; 
+ Wed, 20 Jan 2021 07:21:59 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id gj9sm337214ejb.107.2021.01.20.07.21.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 07:21:58 -0800 (PST)
+Subject: Re: [PATCH 2/3] qmp: remove deprecated "change" command
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210120144235.345983-1-pbonzini@redhat.com>
+ <20210120144235.345983-3-pbonzini@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <3141cc58-f010-081d-be76-214531bfbb6d@redhat.com>
+Date: Wed, 20 Jan 2021 16:21:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210120144235.345983-3-pbonzini@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,56 +100,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Stefan Berger <stefanb@linux.vnet.ibm.com>
+Cc: armbru@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
+On 1/20/21 3:42 PM, Paolo Bonzini wrote:
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  docs/system/deprecated.rst       |  5 ----
+>  docs/system/removed-features.rst |  5 ++++
+>  monitor/qmp-cmds.c               | 51 --------------------------------
+>  qapi/misc.json                   | 49 ------------------------------
+>  4 files changed, 5 insertions(+), 105 deletions(-)
 
-This patch fixes the following memory leak detected by asan:
-
-Indirect leak of 560320 byte(s) in 136 object(s) allocated from:
-    #0 0x556b3b3f9b57 in calloc (/home/stefanb/tmp/qemu-tip/build/tests/qtest/tpm-crb-swtpm-test+0x23fb57)
-    #1 0x152b0e96b9b0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x589b0)
-    #2 0x556b3b588f61 in parse_object /home/stefanb/tmp/qemu-tip/build/../qobject/json-parser.c:318:12
-    #3 0x556b3b588f61 in parse_value /home/stefanb/tmp/qemu-tip/build/../qobject/json-parser.c:546:16
-    #4 0x556b3b5886e8 in json_parser_parse /home/stefanb/tmp/qemu-tip/build/../qobject/json-parser.c:580:14
-    #5 0x556b3b52ff4a in json_message_process_token /home/stefanb/tmp/qemu-tip/build/../qobject/json-streamer.c:92:12
-    #6 0x556b3b59896f in json_lexer_feed_char /home/stefanb/tmp/qemu-tip/build/../qobject/json-lexer.c:313:13
-    #7 0x556b3b598443 in json_lexer_feed /home/stefanb/tmp/qemu-tip/build/../qobject/json-lexer.c:350:9
-    #8 0x556b3b436c70 in qmp_fd_receive /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:614:9
-    #9 0x556b3b435871 in qtest_qmp_receive_dict /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:636:12
-    #10 0x556b3b435871 in qtest_qmp_receive /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:624:27
-    #11 0x556b3b435c59 in qtest_vqmp /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:715:12
-    #12 0x556b3b435c59 in qtest_qmp /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:756:16
-    #13 0x556b3b4328c7 in tpm_util_wait_for_migration_complete /home/stefanb/tmp/qemu-tip/build/../tests/qtest/tpm-util.c:245:15
-    #14 0x556b3b4333be in tpm_test_swtpm_migration_test /home/stefanb/tmp/qemu-tip/build/../tests/qtest/tpm-tests.c:117:5
-    #15 0x152b0e98e29d  (/lib64/libglib-2.0.so.0+0x7b29d)
-
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210115204637.3332555-1-stefanb@linux.vnet.ibm.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/qtest/tpm-util.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/tests/qtest/tpm-util.c b/tests/qtest/tpm-util.c
-index 5a33a6ef0f..b70cc32d60 100644
---- a/tests/qtest/tpm-util.c
-+++ b/tests/qtest/tpm-util.c
-@@ -250,7 +250,7 @@ void tpm_util_wait_for_migration_complete(QTestState *who)
-         status = qdict_get_str(rsp_return, "status");
-         completed = strcmp(status, "completed") == 0;
-         g_assert_cmpstr(status, !=,  "failed");
--        qobject_unref(rsp_return);
-+        qobject_unref(rsp);
-         if (completed) {
-             return;
-         }
--- 
-2.27.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 
