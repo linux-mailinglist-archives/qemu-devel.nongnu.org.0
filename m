@@ -2,88 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FDE02FCC16
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 08:56:46 +0100 (CET)
-Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F9092FCC32
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 09:00:31 +0100 (CET)
+Received: from localhost ([::1]:58122 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l28M9-0007cD-Ca
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 02:56:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
+	id 1l28Pm-0000yP-Kw
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 03:00:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l28Hv-0006mJ-B5; Wed, 20 Jan 2021 02:52:23 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:58423)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l28Ht-0004ht-Dh; Wed, 20 Jan 2021 02:52:23 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 9DEAE5C0102;
- Wed, 20 Jan 2021 02:52:18 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Wed, 20 Jan 2021 02:52:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=4fG4BQ6+WKZtzxlRMFxUH22MbcP
- Kr3tn65ogdpVzRGw=; b=puZYQ2MqvpWlo0jcaONWwSPWqSpczWJ3H+K9J/lFgTj
- TLtSvYzRUvv9IQZENzCjcK2/VVOmJo4XQQYl4Xuwk2cwW4rENBMBmWjdOvIM/R7x
- uN5MEEbbENhITwmwG4MCdt1R7g2lUIBvmwT3h9eflpkLHRVZlWoi8eaSTVpdvMIt
- vK5bCi+Bj1wpuBTI6qUTgcJQMilvUoWeb39udHsFUA6hK4crL17JfsvGIA4ZPHfD
- EZyTJ7TKbbYCMevI2awkj3bOZ6u/xQeBSmo9q5bMbBeTJes+Bi24GcDCJVG8DNfA
- 0W4UAxjFfsQgO4mzKtw1isrZDAwWev8YsMJZbiVcrwQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4fG4BQ
- 6+WKZtzxlRMFxUH22MbcPKr3tn65ogdpVzRGw=; b=bjeCe1LKPbLulbVO6b0X95
- IcN202Eu+HuOtcO4zQ64o+7L0qs3Z0d2ax3ufLJA3dBqgO6SMEyY7hDOzFLX3GpL
- l5LwrMPTLfPTMrCUmkbjEy4Oz7zFk8a3wlcFmUXgjVzkh1O+sSGxXpVMet/9J8sr
- rO+iJdrLx39CDiiPZwgEPEE3HDhwVKo/Ne7+vUBUWWZtYGd15iifAgj9VsH+AOdV
- iWyLP248R/erykn4iE1yAFA+WOyf3vWICn1kgpz1IWXj8CV4GfS5svFc8Jp8mLZo
- j/2NWK5ozEVDlu9QzS4DjzjnPs9jtiOw8QvpnWBfVaYC67ITrVXdPQqDzaW9Pp0g
- ==
-X-ME-Sender: <xms:MeEHYFIMIwdhqBIHUUR-rgUZqlX13CbzxffIZmOM5lwzG0JGVS8xrA>
- <xme:MeEHYBIHjEbxWbGdhjw_uGI-sMu7dFO_Ej-lllQnu-mm8pEiSGM4rPmmysqp6Pf-Z
- 5Sccwpg50cOVW-fI_8>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddugdduudehucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeeileefhfffueeftdehhffgteejhfevkeeghedttdfhvefhleffueevtefhueev
- teenucffohhmrghinhepvddtudelqddtkedrohhrghenucfkphepkedtrdduieejrdelke
- drudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
- pehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:MeEHYNuG8e-vWsVvKC9wSui6JFE_JzJPK2tNoC0JxPJDePOBDfeUGw>
- <xmx:MeEHYGaZxqnPNdS6cKtw2XB6X6-onmR7IGrb5OAX-H-E7F7Aa9TKMw>
- <xmx:MeEHYMa4rNHTsZpAKpC1CHpSnOtozDGG7DF6orT8Cpp-1E8yk6VOBA>
- <xmx:MuEHYDUvt2rkq0wdx9x5UpiZz-Ad3tvB9HXNxPQh9YMQRXqG1zJR9A>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 9FF43240062;
- Wed, 20 Jan 2021 02:52:16 -0500 (EST)
-Date: Wed, 20 Jan 2021 08:52:14 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [RFC PATCH V3 0/8] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <YAfhLnBuNawnFvhE@apples.localdomain>
-References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
- <YAciaPBu9TuGjifu@apples.localdomain>
- <20210120004417.GA4205@localhost.localdomain>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l28Op-0000SY-Fj
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 02:59:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21646)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l28Om-0006yZ-0r
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 02:59:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611129566;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=SyyikSUE4pDvp5GFcL18ynN+j9zUQIkfJEyVrsVOFvw=;
+ b=B8Yvvwb5aej9/m7DqabuOC0pQFbfPJxiYqWsHPDV5ueVwiA5mWwFbAMc0SCiZbWbIFO6B2
+ BkS3hApGEpIwUBQKqaMPdjztREVt8g0GWdFaKJw6b4YZssQJ48RhLEYCoKeHzTHD7ysYLE
+ 0GbJNBQMY/6kv9WyXE2DhwJYORdVGM4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-401-zQfC-x-iPcmrNRbknpDQSQ-1; Wed, 20 Jan 2021 02:59:23 -0500
+X-MC-Unique: zQfC-x-iPcmrNRbknpDQSQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BF067107ACE6;
+ Wed, 20 Jan 2021 07:59:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89B126268F;
+ Wed, 20 Jan 2021 07:59:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 18588113865F; Wed, 20 Jan 2021 08:59:21 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: Ask for suggestions for CVE-2019-12928
+References: <74ca794a.6063.176f21e2fca.Coremail.18401698361@126.com>
+ <20210119201747.GE3888@work-vm>
+Date: Wed, 20 Jan 2021 08:59:21 +0100
+In-Reply-To: <20210119201747.GE3888@work-vm> (David Alan Gilbert's message of
+ "Tue, 19 Jan 2021 20:17:47 +0000")
+Message-ID: <87lfcoqbs6.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="ZaWNhjzcF9RlSYpK"
-Content-Disposition: inline
-In-Reply-To: <20210120004417.GA4205@localhost.localdomain>
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,142 +82,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: =?utf-8?B?5rGf6Iqz5p2w?= <18401698361@126.com>, berrange@redhat.com,
+ qemu-devel@nongnu.org, pjp@fedoraproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> writes:
 
---ZaWNhjzcF9RlSYpK
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> * =E6=B1=9F=E8=8A=B3=E6=9D=B0 (18401698361@126.com) wrote:
+>> Hi:
+>>     Sorry to bother you~
+>>     I have read the discussions about CVE--2019-12928 ( https://lists.gn=
+u.org/archive/html/qemu-devel/2019-07/msg01153.html).
+>> But, for the scenario of PC users, which is no requirement of network ac=
+cess to QMP, there are some mitigating proposes.
+>> 1. Modify the compilation options to disable QMP.
+>> 2. Modify command line parsing function to discard the QMP parameters wi=
+th network configurations.
+>> 3. PC manager or other manage software make sure only the trusted user c=
+an use QMP.
+>> 4. Other ideas?
+>
+> QMP is a useful part of QEMU - so we don't want to do 1 - we need it to
+> let things control QEMU; including configuring complex setups.
 
-On Jan 20 09:44, Minwoo Im wrote:
-> On 21-01-19 19:18:16, Klaus Jensen wrote:
-> > On Jan 20 02:01, Minwoo Im wrote:
-> > > Hello,
-> > >=20
-> > > This patch series is third one to support multi-controller and namesp=
-ace
-> > > sharing in multi-path.  This series introduced subsystem scheme to
-> > > manage controller(s) and namespace(s) in the subsystem.
-> > >=20
-> > > This series has new patches from the V2:  'detached' parameter has be=
-en
-> > > added to the nvme-ns device.  This will decide whether to attach the
-> > > namespace to controller(s) in the current subsystem or not.  If it's
-> > > given with true, then it will be just allocated in the subsystem, but
-> > > not attaching to any controllers in the subsystem.  Otherwise, it will
-> > > automatically attach to all the controllers in the subsystem.  The ot=
-her
-> > > t hing is that the last patch implemented Identify Active Namespace ID
-> > > List command handler apart from the Allocated Namespace ID List.
-> > >=20
-> > > Run with:
-> > >   -device nvme,serial=3Dqux,id=3Dnvme3
-> > >   -device nvme-ns,id=3Dns3,drive=3Ddrv12,nsid=3D3,bus=3Dnvme3
-> > >=20
-> > >   -device nvme-subsys,id=3Dsubsys0
-> > >   -device nvme,serial=3Dfoo,id=3Dnvme0,subsys=3Dsubsys0
-> > >   -device nvme,serial=3Dbar,id=3Dnvme1,subsys=3Dsubsys0
-> > >   -device nvme,serial=3Dbaz,id=3Dnvme2,subsys=3Dsubsys0
-> > >   -device nvme-ns,id=3Dns1,drive=3Ddrv10,nsid=3D1,subsys=3Dsubsys0,de=
-tached=3Dtrue
-> > >   -device nvme-ns,id=3Dns2,drive=3Ddrv11,nsid=3D2,bus=3Dnvme2
-> > >=20
-> > > nvme-cli:
-> > >   root@vm:~/work# nvme list -v                                       =
-                                                              =20
-> > >   NVM Express Subsystems                                             =
-                                                   =20
-> > >                                                                      =
-                                                               =20
-> > >   Subsystem        Subsystem-NQN                                     =
-                                               Controllers
-> > >   ---------------- --------------------------------------------------=
----------------------------------------------- ----------------
-> > >   nvme-subsys0     nqn.2019-08.org.qemu:qux                          =
-                                               nvme0
-> > >   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                      =
-                                               nvme1, nvme2, nvme3
-> > >                                                                      =
-                                                             =20
-> > >   NVM Express Controllers                                            =
-                                              =20
-> > >                                                                      =
-                                            =20
-> > >   Device   SN                   MN                                   =
-    FR       TxPort Address        Subsystem    Namespaces
-> > >   -------- -------------------- -------------------------------------=
---- -------- ------ -------------- ------------ ----------------
-> > >   nvme0    qux                  QEMU NVMe Ctrl                       =
-    1.0      pcie   0000:00:06.0   nvme-subsys0
-> >=20
-> > Shouldn't nvme0n1 be listed under Namespaces for nvme0?
->=20
-> Oh, I missed that one from the output.  As Keith mentioned, I ran the
-> list command again based on the latest nvme-cli.git:
->=20
-> Please refer the following result.  I think it's okay not to send the
-> cover letter again :)
->=20
-> # nvme --version
-> nvme version 1.13.48.g33c6
->=20
-> # nvme list -v
-> NVM Express Subsystems
->=20
-> Subsystem        Subsystem-NQN                                           =
-                                         Controllers
-> ---------------- --------------------------------------------------------=
----------------------------------------- ----------------
-> nvme-subsys0     nqn.2019-08.org.qemu:qux                                =
-                                         nvme0
-> nvme-subsys1     nqn.2019-08.org.qemu:subsys0                            =
-                                         nvme1, nvme2, nvme3
->=20
-> NVM Express Controllers
->=20
-> Device   SN                   MN                                       FR=
-       TxPort Address        Subsystem    Namespaces     =20
-> -------- -------------------- ---------------------------------------- --=
------- ------ -------------- ------------ ----------------
-> nvme0    qux                  QEMU NVMe Ctrl                           1.=
-0      pcie   0000:00:06.0   nvme-subsys0 nvme0n1
-> nvme1    foo                  QEMU NVMe Ctrl                           1.=
-0      pcie   0000:00:07.0   nvme-subsys1=20
-> nvme2    bar                  QEMU NVMe Ctrl                           1.=
-0      pcie   0000:00:08.0   nvme-subsys1=20
-> nvme3    baz                  QEMU NVMe Ctrl                           1.=
-0      pcie   0000:00:09.0   nvme-subsys1 nvme1c3n1
->=20
-> NVM Express Namespaces
->=20
-> Device       NSID     Usage                      Format           Control=
-lers    =20
-> ------------ -------- -------------------------- ---------------- -------=
----------
-> nvme0n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme0
-> nvme1n1      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
+Compiling out QMP gains you exactly nothing unless you also compile out
+HMP.  And then you're left without a way to monitor a running QEMU.
+Similarly useful (but not nearly as secure) as not running QEMU at all
+;)
 
-That looks better, but hmm. Shouldnt the namespace be named `nvme1c3n1`
-here has well? Is that also an issue with nvme-cli?
+> The important part is (3) - anything that runs a qemu must make sure it
+> wires the QMP up securely; e.g. using unix sockets with appropriate
+> permissions or something like that.
+>
+> As long as they do that, then we're fine.
 
---ZaWNhjzcF9RlSYpK
-Content-Type: application/pgp-signature; name="signature.asc"
+Yup.
 
------BEGIN PGP SIGNATURE-----
+Regarding 4.: making insecure misconfiguration harder might be worth
+exploring.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAH4SwACgkQTeGvMW1P
-DelYnQf/b9P8+1G53ROXSiOQfvfIkDV760PAPAN8MsrhbfAfguLa0gzs0xdNJq08
-NHe0sDBPUPCieutuPTy7UZuUx09M/wqy6+JhhRrCwgBr+hXWeko4YWZXXWJOOGOx
-KpNHSEwIDCl0XXsGcr1qE2rHHCPTbRGqE6bt9r3mhxbeh+uoCcQx3NNsrQXQnY0f
-uxhC1aGKHH2sBngQ+Ve0vkbe+rf9hg/dAAx1xu5YIJxK/47aFRc+UGd/VI2cqkhl
-5lkRJ5m80lODfQBql7jIhvBQwXrOmtH4hH8/ayrGCI96ZTXchUqdqGYFbe2Y3lI3
-V3cJTtulJbodMRZXHAOP1DtRpErWIQ==
-=XAC5
------END PGP SIGNATURE-----
-
---ZaWNhjzcF9RlSYpK--
 
