@@ -2,45 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C5742FD3C1
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:19:55 +0100 (CET)
-Received: from localhost ([::1]:36320 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 870362FD3B9
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:19:28 +0100 (CET)
+Received: from localhost ([::1]:39286 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FH0-0007XR-9J
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:19:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42122)
+	id 1l2FGY-0000dA-Rb
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:19:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1l2F9L-0006wt-JA
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:11:59 -0500
-Received: from isrv.corpit.ru ([86.62.121.231]:52637)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1l2F9F-0005U7-Iq
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:11:58 -0500
-Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
- by isrv.corpit.ru (Postfix) with ESMTP id 9551240655;
- Wed, 20 Jan 2021 18:11:41 +0300 (MSK)
-Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
- by tsrv.corpit.ru (Postfix) with ESMTP id 981EA5B;
- Wed, 20 Jan 2021 18:11:41 +0300 (MSK)
-To: qemu-devel qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>
-From: Michael Tokarev <mjt@tls.msk.ru>
-Subject: qemu broke booting of old RedHat floppies
-Message-ID: <0bca1cd0-69c3-c07a-b4cf-015dcdbc6d61@msgid.tls.msk.ru>
-Date: Wed, 20 Jan 2021 18:11:41 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FDC-0007ln-0d
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:16:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FD5-0006o7-Cu
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:15:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611155746;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0Lg6uX84p1LPWITP9dNPvIU5LrfcXr+e7/igv0ptxWE=;
+ b=bCj3QQfX8SvDY/cl5ZlP/OugrUY05qQo5+gsuI+IhPsE+D4JcNu23q8kDcoUOdsDIOQs2w
+ oXrDq6iZUYEFJXXVLOXu4LnveCT+YzyDDYL2pCBsh64tlc9w8mWIJp9QWEhUxzwgdlIfpU
+ M+wIhKoI3gbjYwkxOQWiJT69oHrVq4E=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-195-toD6RvjkP7SSB-BE9rmWtg-1; Wed, 20 Jan 2021 10:15:42 -0500
+X-MC-Unique: toD6RvjkP7SSB-BE9rmWtg-1
+Received: by mail-ed1-f70.google.com with SMTP id m16so11146377edd.21
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 07:15:42 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=0Lg6uX84p1LPWITP9dNPvIU5LrfcXr+e7/igv0ptxWE=;
+ b=IjGsMIk2W5TuwDLESocyNRW4PpHV21nozjHAWm79P+dObsYIa7LvvaiUb1BKdAjFJI
+ Zy7/g8Qj3jNCZg44yHruj4xCuevUS5wXah33kJF8SGKF0KdjvKg65wAcO4OmcIuNb7rO
+ 3414xtor5OKiFjZWlphG5ycSRn4i7yRGWhnAbsBsIQPDhQf9C5m7ZBBGiyS2fbinsbDS
+ daV40oyn5H62or7VSdyMW2HKlSh4eNJwjBhxLKryFiqWptDuHdQtxlPtt8101eR8fx9D
+ rZCuQC82SjcSi6miKUzkg5nxDtBC16Wjz56zg5nRufKHMaLqeua7BHyGSjuHzCd4dC1B
+ yu4Q==
+X-Gm-Message-State: AOAM532yWVPUqV3PsXXUN/1AXF0tC6JF6kyYVplRblodZBgodvwZG9M0
+ /kr1S8SIJTlNzAr2bCHYIn0Xh2i2jz08Pdlm03AqukPUmMg/+OI3/R+uArZrGI4Xvact6b3IglI
+ KVv+GzIZ0q2/wbffV6OXf7PLO86FfAAMuoVLMoD9xn/stPnFanD9TENVIUSNgzbmC
+X-Received: by 2002:a17:906:9342:: with SMTP id
+ p2mr6676380ejw.300.1611155741257; 
+ Wed, 20 Jan 2021 07:15:41 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzHDEmSmQjbyXiXiN4cQ4PRL1RP84s7hySxy7XqUsXtCj01tihxdTR6YcaFCHfvB7EexGjwTA==
+X-Received: by 2002:a17:906:9342:: with SMTP id
+ p2mr6676356ejw.300.1611155740995; 
+ Wed, 20 Jan 2021 07:15:40 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id d18sm1265254edz.14.2021.01.20.07.15.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 07:15:40 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] meson: Declare have_virtfs_proxy_helper in main meson.build
+Date: Wed, 20 Jan 2021 16:15:39 +0100
+Message-Id: <20210120151539.1166252-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
- helo=isrv.corpit.ru
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -53,60 +92,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As someone noticed on IRC, old (2.x) RedHat floppies does not boot
-in current qemu.  When qemu is booted from floppy image at
-  https://archive.org/details/RedHatLinuxBootDisk521998
-(download the "ISO image" link there, it really is an 1.44 floppy),
-seabios says Boot failed and that's it.
+have_virtfs_proxy_helper is used from docs/meson.build, and can be
+not declared when including it before fsdev/meson.build. This fixes:
 
-I run git bisect with it, knowing that qemu 2.1 works fine, and
-it pointed out to this commit which is oldish qemu-2.5+:
+  ../docs/meson.build:54:2: ERROR: Unknown variable "have_virtfs_proxy_helper".
 
-commit 4812fa27fa75bce89738a82a191755853dd88408
-Author: John Snow <jsnow@redhat.com>
-Date:   Fri Jan 22 15:51:05 2016 -0500
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ meson.build       | 2 ++
+ fsdev/meson.build | 1 -
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-     fdc: change auto fallback drive for ISA FDC to 288
+diff --git a/meson.build b/meson.build
+index 3d889857a09..8f5a8b997d3 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1032,6 +1032,8 @@
+     libattr.found() and
+     libcap_ng.found())
+ 
++have_virtfs_proxy_helper = have_virtfs and have_tools
++
+ if get_option('virtfs').enabled()
+   if not have_virtfs
+     if targetos != 'linux'
+diff --git a/fsdev/meson.build b/fsdev/meson.build
+index 65455a179e5..adf57cc43ed 100644
+--- a/fsdev/meson.build
++++ b/fsdev/meson.build
+@@ -8,7 +8,6 @@
+ ), if_false: files('qemu-fsdev-dummy.c'))
+ softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
+ 
+-have_virtfs_proxy_helper = have_tools and libattr.found() and libcap_ng.found() and have_virtfs
+ if have_virtfs_proxy_helper
+   executable('virtfs-proxy-helper',
+              files('virtfs-proxy-helper.c', '9p-marshal.c', '9p-iov-marshal.c'),
+-- 
+2.26.2
 
-     The 2.88 drive is more suitable as a default because
-     it can still read 1.44 images correctly, but the reverse
-     is not true.
-
-     Since there exist virtio-win drivers that are shipped on
-     2.88 floppy images, this patch will allow VMs booted without
-     a floppy disk inserted to later insert a 2.88MB floppy and
-     have that work.
-
-     This patch has been tested with msdos, freedos, fedora,
-     windows 8 and windows 10 without issue: if problems do
-     arise for certain guests being unable to cope with 2.88MB
-     drives as the default, they are in the minority and can use
-     type=144 as needed (or insert a proper boot medium and omit
-     type=144/288 or use type=auto) to obtain different drive types.
-
-     As icing, the default will remain auto/144 for any pre-2.6
-     machine types, hopefully minimizing the impact of this change
-     in legacy hw to basically zero.
-
-     Reviewed-by: Eric Blake <eblake@redhat.com>
-     Signed-off-by: John Snow <jsnow@redhat.com>
-     Message-id: 1453495865-9649-13-git-send-email-jsnow@redhat.com
-
-Now, I don't even know where to put that "type=144/288/auto" thing,
-I tried this:
-
-  -drive file=RedHatLinuxBootDisk521998.disk1of1.img,if=floppy,format=raw,type=144
-
-but it says that format=raw does not support "type=144" option.
-
-And it's even more: I don't remember which size should be an 1.44Mb floppy :))
-The file size of that image is 1492992 bytes which does not look like it is of
-standard size, but I can't find which size it should be.
-
-Thanks!
-
-/mjt
 
