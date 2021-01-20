@@ -2,83 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C10C2FC7F6
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 03:33:34 +0100 (CET)
-Received: from localhost ([::1]:47528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED432FC868
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 04:05:54 +0100 (CET)
+Received: from localhost ([::1]:58174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l23JM-00039i-JT
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 21:33:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
+	id 1l23of-0001AD-AR
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 22:05:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44528)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l23IM-0002j8-Nt
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 21:32:30 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:40605)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l23IL-0001Du-0U
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 21:32:30 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id m5so1183663pjv.5
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 18:32:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=64ZctxPzBkRj3OUaqsrzKtKWMuI+A531hHPLxVYvaMY=;
- b=fNhJWGEI6x92F2a9BhBzhIv/sPBuUZZR50UrDHoqPklYxcbR4qMiCbEaYlo0DDqB+5
- cB95QgC7I2KFCVpT693VIcnnu6kCpcNRDJk5gX1oU9fBRzL+uh+PsHbvanwYKHCLVpBO
- 1SJ84RkSsSW/QYdrjAz3ClZmjsJzEGPp2JkJq+dLqj2AVTdyjWGDn5aDnlU6g79Cw62r
- 8gy45aQ8NYBIc3mjgT4mJuWqgH8E9LGCIjqAR0RtoffrUTFui2xBLkqjFmOwvGMXE6Zl
- yMNxYKdsam35Z5M5DkO6vR8zdpp7sO73OuFdgj/B1KaaBY1aO2GyzInJoA9fK3aoxfGQ
- Wf9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=64ZctxPzBkRj3OUaqsrzKtKWMuI+A531hHPLxVYvaMY=;
- b=WzxnEsNcAYOtGsmL4wgNgb+3FsJtCaroEhL1wWl4Xg5LDpTdd5nQuwungMl4ZT4eX/
- Xv0OqCqKq83NfNHCmJmYwkvNXgIq1zzYXoMBFMAtvNh6AIjPfDahGhj7V+qslXHGwtgo
- JclNxg0aB0SPy/lf/4o9nfyBTabeN13EUjIflVdhrelisISMOhC1vmzTpe/kJd6b7tu5
- p0WbPWS6/XUWSbmijFVFZduL+PLQxuzoJPFqkFPgLY1IoxHFYJFx/Ac2tU/1A0pFGHtF
- ebJ17eD7LF7Jzp+ATPwOhGIhpKdoHcyE9qi0RceCI4hHwT5NF7s3XKZdnwq2wbVbBgy2
- 8Iaw==
-X-Gm-Message-State: AOAM5321XfgpB8jjUSLqKvziSTXbdGOa7cGFQdGz75Wzmd5Hq+X076n5
- /sHa70pp6i7W/EspPDxd5Ygqw0UCX5kXbg==
-X-Google-Smtp-Source: ABdhPJwdbfNqIEskdIl4K4ZChg53RtXFR2emB2ySW6Vnwt91X5p6L5AKhyTq5M/NGBiDNXW0OUCOKA==
-X-Received: by 2002:a17:902:9304:b029:da:fa20:b86a with SMTP id
- bc4-20020a1709029304b02900dafa20b86amr7663519plb.36.1611109946901; 
- Tue, 19 Jan 2021 18:32:26 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id e68sm391040pfe.23.2021.01.19.18.32.25
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 18:32:26 -0800 (PST)
-Subject: Re: [PATCH v2 21/22] tcg/tci: Split out constraint sets to
- tcg-target-con-set.h
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210115210456.1053477-1-richard.henderson@linaro.org>
- <20210115210456.1053477-22-richard.henderson@linaro.org>
- <CAFEAcA9hWjUERcefn=R-Gj29+qKJnTz7SkXPKsYcstWpGzAduA@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <861a6381-5e18-eeb0-897e-0b21b958172c@linaro.org>
-Date: Tue, 19 Jan 2021 16:32:22 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9hWjUERcefn=R-Gj29+qKJnTz7SkXPKsYcstWpGzAduA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1l23nF-0000jN-HN
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 22:04:25 -0500
+Received: from nwk-aaemail-lapp03.apple.com ([17.151.62.68]:50222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dirty@apple.com>) id 1l23nD-0004sT-Eo
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 22:04:25 -0500
+Received: from pps.filterd (nwk-aaemail-lapp03.apple.com [127.0.0.1])
+ by nwk-aaemail-lapp03.apple.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10K2tF3S034825; Tue, 19 Jan 2021 19:04:20 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=apple.com;
+ h=from : message-id :
+ content-type : mime-version : subject : date : in-reply-to : cc : to :
+ references; s=20180706; bh=ykjdXFNm5LydRanBa5feMztCr9M8z9dg/UcGGF0l//c=;
+ b=ZkPbVbAd/D766kCuyDAgk7VbLQAz6zbPYSdNYFCVKxOvI5FcyjKXVBz9nMe4zcSKFOBW
+ uqKxr7Sue1i3X7QjZ8Z1oAq4JBIv6f2A/whBAx3lzIAD+XgM+ZMGwuhS0AX3Z65g60dE
+ /lpWpjG6erprheHCl85W3wofGmo11Ce4HJk9U6E4Fn8vRJBs0tv8VMeJs83fDI8LAZ+a
+ LwmLYZMYEv+eF8yqKJAa4a6PCroBP9lDQ2hYZX4V0v5wzcsIwe5VCU5mOqqHsAQ2+UQa
+ DduH9NwYeeQNKzk6su40tYbUmnAqkLFptYUQ63Ck3YgiDz1L3hOgR/MDAfy0F9LlAPl1 WQ== 
+Received: from rn-mailsvcp-mta-lapp03.rno.apple.com
+ (rn-mailsvcp-mta-lapp03.rno.apple.com [10.225.203.151])
+ by nwk-aaemail-lapp03.apple.com with ESMTP id 3668r8k0aa-6
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NO);
+ Tue, 19 Jan 2021 19:04:20 -0800
+Received: from rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (rn-mailsvcp-mmp-lapp03.rno.apple.com [17.179.253.16])
+ by rn-mailsvcp-mta-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.7.20201203 64bit (built Dec  3
+ 2020)) with ESMTPS id <0QN700V5HPV4S470@rn-mailsvcp-mta-lapp03.rno.apple.com>; 
+ Tue, 19 Jan 2021 19:04:16 -0800 (PST)
+Received: from process_milters-daemon.rn-mailsvcp-mmp-lapp03.rno.apple.com by
+ rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.7.20201203 64bit (built Dec  3
+ 2020)) id <0QN700Y00PPFJN00@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Tue,
+ 19 Jan 2021 19:04:16 -0800 (PST)
+X-Va-A: 
+X-Va-T-CD: e1aed8c2df8699cbf816f93d3d4dacf8
+X-Va-E-CD: 73f39b88ac49a6242b533b9ce41dce88
+X-Va-R-CD: 4ce8a15b1214356ac3198b5769b838d6
+X-Va-CD: 0
+X-Va-ID: b6bf2bf4-96ec-46ad-a58c-cbd67983e7f9
+X-V-A: 
+X-V-T-CD: e1aed8c2df8699cbf816f93d3d4dacf8
+X-V-E-CD: 73f39b88ac49a6242b533b9ce41dce88
+X-V-R-CD: 4ce8a15b1214356ac3198b5769b838d6
+X-V-CD: 0
+X-V-ID: 0b507acb-f7e2-4087-b6a7-f4fd3f37bdbd
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-19_15:2021-01-18,
+ 2021-01-19 signatures=0
+Received: from smtpclient.apple (unknown [17.232.231.32])
+ by rn-mailsvcp-mmp-lapp03.rno.apple.com
+ (Oracle Communications Messaging Server 8.1.0.7.20201203 64bit (built Dec  3
+ 2020))
+ with ESMTPSA id <0QN700JFPPV2XJ00@rn-mailsvcp-mmp-lapp03.rno.apple.com>; Tue,
+ 19 Jan 2021 19:04:16 -0800 (PST)
+From: Cameron Esfahani <dirty@apple.com>
+Message-id: <F4AF1D4E-5DC8-4F83-BB4B-6059A19C59B1@apple.com>
+Content-type: multipart/alternative;
+ boundary="Apple-Mail=_C20F662E-A896-4BD7-BA50-E47110B10754"
+MIME-version: 1.0 (Mac OS X Mail 14.0 \(3654.80.0.2.6\))
+Subject: Re: [PATCH v3] hvf: guard xgetbv call.
+Date: Tue, 19 Jan 2021 19:04:14 -0800
+In-reply-to: <X/6OJ7qk0W6bHkHQ@Hills-Mac-Pro.local>
+To: Hill Ma <maahiuzeon@gmail.com>
+References: <X/6OJ7qk0W6bHkHQ@Hills-Mac-Pro.local>
+X-Mailer: Apple Mail (2.3654.80.0.2.6)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-19_15:2021-01-18,
+ 2021-01-19 signatures=0
+Received-SPF: pass client-ip=17.151.62.68; envelope-from=dirty@apple.com;
+ helo=nwk-aaemail-lapp03.apple.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,58 +101,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: r.bolshakov@yadro.com, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/21 6:09 AM, Peter Maydell wrote:
-> On Fri, 15 Jan 2021 at 21:23, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> This requires finishing the conversion to tcg_target_op_def.
->> Remove quite a lot of ifdefs, since we can reference opcodes
->> even if they are not implemented.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> This one's a lot more painful to review than the native targets :-(
-> 
->> ---
-> 
->> -/* TODO: documentation. */
->> -static const TCGTargetOpDef tcg_target_op_defs[] = {
->> -    { INDEX_op_exit_tb, { NULL } },
->> -    { INDEX_op_goto_tb, { NULL } },
->> -    { INDEX_op_br, { NULL } },
-> 
-> I don't see any cases in the new code for these ops,
-> or for INDEX_op_mb which has {}. Is the function in fact
-> never called for those ops ?
 
-Correct.  Just before tcg_target_op_def() is called:
+--Apple-Mail=_C20F662E-A896-4BD7-BA50-E47110B10754
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain;
+	charset=us-ascii
 
-        if (nb_args == 0) {
-            continue;
-        }
+Reviewed-by: Cameron Esfahani <dirty@apple.com <mailto:dirty@apple.com>>
 
->> -#if TCG_TARGET_HAS_div_i32
->> -    { INDEX_op_div_i32, { R, R, R } },
->> -    { INDEX_op_divu_i32, { R, R, R } },
->> -    { INDEX_op_rem_i32, { R, R, R } },
->> -    { INDEX_op_remu_i32, { R, R, R } },
->> -#elif TCG_TARGET_HAS_div2_i32
->> -    { INDEX_op_div2_i32, { R, R, "0", "1", R } },
->> -    { INDEX_op_divu2_i32, { R, R, "0", "1", R } },
->> -#endif
-> 
-> Why don't we need all the ifdeffery the old code has ? Is
-> it because we know the ifdefs are always true (or always false) ?
-> If so, can we do the "drop ifdefs" in a separate patch beforehand?
-> I think that might help make the patch a bit easier to review.
+Cameron Esfahani
+dirty@apple.com
 
-Ok, I've split this up a bit.
+> On Jan 12, 2021, at 10:07 PM, Hill Ma <maahiuzeon@gmail.com> wrote:
+>=20
+> This prevents illegal instruction on cpus do not support xgetbv.
+>=20
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1758819
+> Signed-off-by: Hill Ma <maahiuzeon@gmail.com>
+> ---
+> v3: addressed feedback.
+> v2: xgetbv() modified based on feedback.
+>=20
+> target/i386/hvf/x86_cpuid.c | 34 ++++++++++++++++++++++------------
+> 1 file changed, 22 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c
+> index a6842912f5..32b0d131df 100644
+> --- a/target/i386/hvf/x86_cpuid.c
+> +++ b/target/i386/hvf/x86_cpuid.c
+> @@ -27,15 +27,22 @@
+> #include "vmx.h"
+> #include "sysemu/hvf.h"
+>=20
+> -static uint64_t xgetbv(uint32_t xcr)
+> +static bool xgetbv(uint32_t cpuid_ecx, uint32_t idx, uint64_t *xcr)
+> {
+> -    uint32_t eax, edx;
+> +    uint32_t xcrl, xcrh;
+>=20
+> -    __asm__ volatile ("xgetbv"
+> -                      : "=3Da" (eax), "=3Dd" (edx)
+> -                      : "c" (xcr));
+> +    if (cpuid_ecx & CPUID_EXT_OSXSAVE) {
+> +        /*
+> +         * The xgetbv instruction is not available to older versions =
+of
+> +         * the assembler, so we encode the instruction manually.
+> +         */
+> +        asm(".byte 0x0f, 0x01, 0xd0" : "=3Da" (xcrl), "=3Dd" (xcrh) : =
+"c" (idx));
+>=20
+> -    return (((uint64_t)edx) << 32) | eax;
+> +        *xcr =3D (((uint64_t)xcrh) << 32) | xcrl;
+> +        return true;
+> +    }
+> +
+> +    return false;
+> }
+>=20
+> uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
+> @@ -100,12 +107,15 @@ uint32_t hvf_get_supported_cpuid(uint32_t func, =
+uint32_t idx,
+>         break;
+>     case 0xD:
+>         if (idx =3D=3D 0) {
+> -            uint64_t host_xcr0 =3D xgetbv(0);
+> -            uint64_t supp_xcr0 =3D host_xcr0 & (XSTATE_FP_MASK | =
+XSTATE_SSE_MASK |
+> -                                  XSTATE_YMM_MASK | =
+XSTATE_BNDREGS_MASK |
+> -                                  XSTATE_BNDCSR_MASK | =
+XSTATE_OPMASK_MASK |
+> -                                  XSTATE_ZMM_Hi256_MASK | =
+XSTATE_Hi16_ZMM_MASK);
+> -            eax &=3D supp_xcr0;
+> +            uint64_t host_xcr0;
+> +            if (xgetbv(ecx, 0, &host_xcr0)) {
+> +                uint64_t supp_xcr0 =3D host_xcr0 & (XSTATE_FP_MASK |
+> +                                  XSTATE_SSE_MASK | XSTATE_YMM_MASK |
+> +                                  XSTATE_BNDREGS_MASK | =
+XSTATE_BNDCSR_MASK |
+> +                                  XSTATE_OPMASK_MASK | =
+XSTATE_ZMM_Hi256_MASK |
+> +                                  XSTATE_Hi16_ZMM_MASK);
+> +                eax &=3D supp_xcr0;
+> +            }
+>         } else if (idx =3D=3D 1) {
+>             hv_vmx_read_capability(HV_VMX_CAP_PROCBASED2, &cap);
+>             eax &=3D CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XGETBV1;
+> --=20
+> 2.20.1 (Apple Git-117)
+>=20
 
 
-r~
+--Apple-Mail=_C20F662E-A896-4BD7-BA50-E47110B10754
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/html;
+	charset=us-ascii
 
+<html><head><meta http-equiv=3D"Content-Type" content=3D"text/html; =
+charset=3Dus-ascii"></head><body style=3D"word-wrap: break-word; =
+-webkit-nbsp-mode: space; line-break: after-white-space;" =
+class=3D"">Reviewed-by: Cameron Esfahani &lt;<a =
+href=3D"mailto:dirty@apple.com" class=3D"">dirty@apple.com</a>&gt;<div =
+class=3D""><br class=3D""></div><div class=3D"">Cameron =
+Esfahani</div><div class=3D""><a href=3D"mailto:dirty@apple.com" =
+class=3D"">dirty@apple.com</a><br class=3D""><div><br =
+class=3D""><blockquote type=3D"cite" class=3D""><div class=3D"">On Jan =
+12, 2021, at 10:07 PM, Hill Ma &lt;maahiuzeon@gmail.com&gt; =
+wrote:</div><br class=3D"Apple-interchange-newline"><div class=3D""><div =
+class=3D"">This prevents illegal instruction on cpus do not support =
+xgetbv.<br class=3D""><br class=3D"">Buglink: =
+https://bugs.launchpad.net/qemu/+bug/1758819<br class=3D"">Signed-off-by: =
+Hill Ma &lt;maahiuzeon@gmail.com&gt;<br class=3D"">---<br class=3D"">v3: =
+addressed feedback.<br class=3D"">v2: xgetbv() modified based on =
+feedback.<br class=3D""><br class=3D""> target/i386/hvf/x86_cpuid.c | 34 =
+++++++++++++++++++++++------------<br class=3D""> 1 file changed, 22 =
+insertions(+), 12 deletions(-)<br class=3D""><br class=3D"">diff --git =
+a/target/i386/hvf/x86_cpuid.c b/target/i386/hvf/x86_cpuid.c<br =
+class=3D"">index a6842912f5..32b0d131df 100644<br class=3D"">--- =
+a/target/i386/hvf/x86_cpuid.c<br class=3D"">+++ =
+b/target/i386/hvf/x86_cpuid.c<br class=3D"">@@ -27,15 +27,22 @@<br =
+class=3D""> #include "vmx.h"<br class=3D""> #include "sysemu/hvf.h"<br =
+class=3D""><br class=3D"">-static uint64_t xgetbv(uint32_t xcr)<br =
+class=3D"">+static bool xgetbv(uint32_t cpuid_ecx, uint32_t idx, =
+uint64_t *xcr)<br class=3D""> {<br class=3D"">- =
+&nbsp;&nbsp;&nbsp;uint32_t eax, edx;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;uint32_t xcrl, xcrh;<br class=3D""><br class=3D"">- =
+&nbsp;&nbsp;&nbsp;__asm__ volatile ("xgetbv"<br class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: "=3Da" (eax), "=3Dd"=
+ (edx)<br class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: "c" (xcr));<br =
+class=3D"">+ &nbsp;&nbsp;&nbsp;if (cpuid_ecx &amp; CPUID_EXT_OSXSAVE) =
+{<br class=3D"">+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/*<br =
+class=3D"">+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* The =
+xgetbv instruction is not available to older versions of<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;* the assembler, so we =
+encode the instruction manually.<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;asm(".byte 0x0f, 0x01, 0xd0" : =
+"=3Da" (xcrl), "=3Dd" (xcrh) : "c" (idx));<br class=3D""><br class=3D"">- =
+&nbsp;&nbsp;&nbsp;return (((uint64_t)edx) &lt;&lt; 32) | eax;<br =
+class=3D"">+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*xcr =3D =
+(((uint64_t)xcrh) &lt;&lt; 32) | xcrl;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return true;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;}<br class=3D"">+<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;return false;<br class=3D""> }<br class=3D""><br =
+class=3D""> uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t =
+idx,<br class=3D"">@@ -100,12 +107,15 @@ uint32_t =
+hvf_get_supported_cpuid(uint32_t func, uint32_t idx,<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;break;<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;case 0xD:<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if (idx =3D=3D 0) {<br =
+class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint64_t=
+ host_xcr0 =3D xgetbv(0);<br class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint64_t=
+ supp_xcr0 =3D host_xcr0 &amp; (XSTATE_FP_MASK | XSTATE_SSE_MASK |<br =
+class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSTATE_YMM_MASK | =
+XSTATE_BNDREGS_MASK |<br class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSTATE_BNDCSR_MASK | =
+XSTATE_OPMASK_MASK |<br class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSTATE_ZMM_Hi256_MASK =
+| XSTATE_Hi16_ZMM_MASK);<br class=3D"">- =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;eax =
+&amp;=3D supp_xcr0;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;uint64_t=
+ host_xcr0;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if =
+(xgetbv(ecx, 0, &amp;host_xcr0)) {<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;uint64_t supp_xcr0 =3D host_xcr0 &amp; (XSTATE_FP_MASK =
+|<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSTATE_SSE_MASK | =
+XSTATE_YMM_MASK |<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSTATE_BNDREGS_MASK | =
+XSTATE_BNDCSR_MASK |<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSTATE_OPMASK_MASK | =
+XSTATE_ZMM_Hi256_MASK |<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XSTATE_Hi16_ZMM_MASK);<b=
+r class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;eax &amp;=3D supp_xcr0;<br class=3D"">+ =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br =
+class=3D""> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;} else if =
+(idx =3D=3D 1) {<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;hv=
+_vmx_read_capability(HV_VMX_CAP_PROCBASED2, &amp;cap);<br class=3D""> =
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ea=
+x &amp;=3D CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XGETBV1;<br class=3D"">-- =
+<br class=3D"">2.20.1 (Apple Git-117)<br class=3D""><br =
+class=3D""></div></div></blockquote></div><br =
+class=3D""></div></body></html>=
+
+--Apple-Mail=_C20F662E-A896-4BD7-BA50-E47110B10754--
 
