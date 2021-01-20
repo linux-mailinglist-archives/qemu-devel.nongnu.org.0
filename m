@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2EFD2FCD5B
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:21:34 +0100 (CET)
-Received: from localhost ([::1]:56112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB7D2FCD6A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:27:20 +0100 (CET)
+Received: from localhost ([::1]:36160 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l29gC-0004oV-Cl
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:21:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47002)
+	id 1l29ll-0008SU-56
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:27:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l29a1-0002jk-MR; Wed, 20 Jan 2021 04:15:09 -0500
-Received: from out1-smtp.messagingengine.com ([66.111.4.25]:57261)
+ id 1l29gX-0007Du-Hz; Wed, 20 Jan 2021 04:21:53 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:35067)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l29Zz-0000Qu-48; Wed, 20 Jan 2021 04:15:09 -0500
+ id 1l29gV-000339-PS; Wed, 20 Jan 2021 04:21:53 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 3C3C45C01BB;
- Wed, 20 Jan 2021 04:15:05 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 821505C00E5;
+ Wed, 20 Jan 2021 04:21:50 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Wed, 20 Jan 2021 04:15:05 -0500
+ by compute4.internal (MEProxy); Wed, 20 Jan 2021 04:21:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=yvJpeiBgZL8eSHn1fStUOFyFZD3
- tEL/4hXdbelVNaJw=; b=A66WtKv4mliTtSrsPnH7HRepefF+/6GWXzp5M0j2ycQ
- yw5ihjtxPBshCz6Ky5qv7nRDGwynbELX3XaW3abeQ1D91bsUup5o6v6DTLPzL26O
- z//5yoClM4NHgL8WDo9WWVnw2i4WNdgkz5Tz2FW5j8dQCzMaXeyuKPzWc+hwAPTp
- T4Ojv4nZSoHWfSQKt4NAc0hXjUccnCVJZVbq4n8kn8tWznqh1NMZx2L95jg3k4k0
- aII02CJep4cuBAEkSKWNow3ebvMsy/3xuJ4tJl1wl1bIClr3dvUazP9kGLpTwDez
- JSR+imP7QVrXiBszYMuC6DiBTdfvgTpCWlzu+d5xnCQ==
+ :content-type:in-reply-to; s=fm2; bh=f5EeipKE+Pk+Yw80HIXUlQshlTM
+ dR6x2JraybhKqWS8=; b=Tm8KXMaVjvG+S9OWzKyzlA2wR2kDee1NgyDMxToOOhs
+ /Ksu2cNBuZuzgoFv+FDH1vsHUkMpaBPqKl3Ns6j0+gx9HHtFH0xqDVL4jcmjZG7J
+ KdR9aKR7iBw9lSyt097pApPCA1Ai5TB3cZihnDldW3SrQggzIEbnYma3keOmKa8P
+ 0yl47FV1EGWNMnMpYLb4W73JdRCmrVxslDGDZ+bRuOZjkl4Nq2NxJHgbt4jtBEgw
+ 8LEUcn93yxa4my0syhVNfyWYr/o3mT+z4yNQzQCR+PkIQ+57Zp060Bce4QtSLck5
+ RiRqsIJ+VzchJS+Cno64+KCSyaiMV2Ylwdm7g4Gr3Xg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yvJpei
- BgZL8eSHn1fStUOFyFZD3tEL/4hXdbelVNaJw=; b=RshSaHczg5ZxzmQqrvrKij
- kwqe64GYmYESwSSt81hjXxDMILoUrrFkMnfnyQH+d/dYr6/F/pVM6SRrlCHhH9vY
- pqlbsTfb4ZznKtL/GmrPivkSBCbpQHqHhdn0+V7yBpD9KkgA+0R0MuPQkxnae0B9
- Ifk15w2w5CZKFYVB2oGBMp30pghwLT3sUAvNlgUnSySlqLP7eeRIiwF+c9R5zkLR
- 2w8JCW9DdRoQwt3dFtR7M58sTt9PQ+W0ghLPJf4g7Md59hHr15pC3HCL1L0SBocv
- AN/or50wVueENbqlwxBCSWRxwO8zcwGFRbQpHoqOhusPns/bt3flSKeGgteb0E6w
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=f5Eeip
+ KE+Pk+Yw80HIXUlQshlTMdR6x2JraybhKqWS8=; b=RKv3N/QK+U619kM9vCY+5q
+ w0R5os7t5T/OvQ5ED5oCl6wW07JDXedq8dkhpTrPIwuUJbhX5Ze/pigsPsnnLaXj
+ USbVKAC6/yZkOtLBTgdEgIsVB2Tnm8Zb8xCH3eZx/oROCBbCxwGZVIX5L7EniR/P
+ FrN3L84RfNGlailSVZAoR43s7GZ8gWYDoZiBA2cP0kRZYy+oIIip6fbrYbMajRYE
+ tsTj6N9Qj9AGXOOU1JTvUERZ/Yy3tDix5uz3Fy3GL62lnaf00cxzK2WoSRgOmjrQ
+ hVQyJcW9ENs2ArnAGv4vf6UlU88MLtj9pZ3jV1IvVzU6Mrym2S6EpV4LVUuJ/M+g
  ==
-X-ME-Sender: <xms:mPQHYA6tAXsOC0aOWA2mx2XccYlVQ-bOpnEEr0uC9-BITph9ek86Hg>
- <xme:mPQHYB5fD9aVPZV2Ha0zSq84vHQUhWYZfAv07Uw2aPWYhT8DPLgpM0H_viC-_ucsh
- xnc0ISnEBg4RpG-G70>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvgddtvdcutefuodetggdotefrodftvf
+X-ME-Sender: <xms:LfYHYCIKzlP9Ffazv7Yobc_4k0ghWvzaGQpClO2QUgUrrD0v0ZYkcA>
+ <xme:LfYHYKL4Iud3M8hxkn_WLIW43IDoEGyga-DWDXgzyKnYLnkqUtDOm2YEGUBZeMt9D
+ EMhwUiL_3SozkQLykg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvgddtfecutefuodetggdotefrodftvf
  curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
  uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
  fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
@@ -53,25 +53,25 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddvgddtvdcutefuodetggdote
  hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
  necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
  frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:mPQHYPfLCJ_gL4bUwLu0FD_BoxD3FaHqtvC0tco8ea34pNG4YaN_fQ>
- <xmx:mPQHYFIulhyWe5rJpGc-OYBY2yK0n5M6a7CUypDYAKyBfnXTMJtlBg>
- <xmx:mPQHYEIpayVp2WcokzHySn31g97e_az8LnqmUERf4NKDIHqhH-vHjA>
- <xmx:mfQHYJEpchR3NNWDjmfeK_HWhjfYzDPjeIMNYH0-g9jFUZAMhVajHg>
+X-ME-Proxy: <xmx:LfYHYCvB_X3AzG9uBoFWt1uxS-EYC7YSG5TUxVfz-yU-Mx8y0_XTPA>
+ <xmx:LfYHYHZNH0PAgi70lE_MuzNNUSbinl2MDCidkj8p2HzKcBRaP7o5Cw>
+ <xmx:LfYHYJbD96wJwNixdGe1uZfvALyC3YnUm5-EUsz-yI_c1QqWOE3tSA>
+ <xmx:LvYHYMwkVQMBTzoMWZvNKAYBXdqNUKFDMgSI3h9JRk5SZ-XAs16n2A>
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B9C9A1080067;
- Wed, 20 Jan 2021 04:15:01 -0500 (EST)
-Date: Wed, 20 Jan 2021 10:14:59 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9A1CD1080063;
+ Wed, 20 Jan 2021 04:21:48 -0500 (EST)
+Date: Wed, 20 Jan 2021 10:21:46 +0100
 From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH] hw/block/nvme: fix zone write finalize
-Message-ID: <YAf0kzhXWxOdxQ2l@apples.localdomain>
-References: <20210112094235.188686-1-its@irrelevant.dk>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Subject: Re: [PATCH v4 0/3] support NVMe smart critial warning injection
+Message-ID: <YAf2KimutBAUUuT7@apples.localdomain>
+References: <20210115032702.466631-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="om+LflFrSHaE3gzE"
+ protocol="application/pgp-signature"; boundary="iPXtC8w1IPoLewX2"
 Content-Disposition: inline
-In-Reply-To: <20210112094235.188686-1-its@irrelevant.dk>
+In-Reply-To: <20210115032702.466631-1-pizhenwei@bytedance.com>
 Received-SPF: pass client-ip=66.111.4.25; envelope-from=its@irrelevant.dk;
  helo=out1-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -93,80 +93,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: kwolf@redhat.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ mreitz@redhat.com, kbusch@kernel.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---om+LflFrSHaE3gzE
+--iPXtC8w1IPoLewX2
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Jan 12 10:42, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
+On Jan 15 11:26, zhenwei pi wrote:
+> v3 -> v4:
+> - Drop "Fix overwritten bar.cap". (Already fixed)
 >=20
-> The zone write pointer is unconditionally advanced, even for write
-> faults. Make sure that the zone is always transitioned to Full if the
-> write pointer reaches zone capacity.
+> - Avoid to enqueue the duplicate event.
 >=20
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-> ---
->  hw/block/nvme.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> - Several minor changes for coding style & function/variable name.
 >=20
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 0854ee307227..280b31b4459d 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -1268,10 +1268,13 @@ static void nvme_finalize_zoned_write(NvmeNamespa=
-ce *ns, NvmeRequest *req,
->      nlb =3D le16_to_cpu(rw->nlb) + 1;
->      zone =3D nvme_get_zone_by_slba(ns, slba);
-> =20
-> +    zone->d.wp +=3D nlb;
-> +
->      if (failed) {
->          res->slba =3D 0;
-> -        zone->d.wp +=3D nlb;
-> -    } else if (zone->w_ptr =3D=3D nvme_zone_wr_boundary(zone)) {
-> +    }
-> +
-> +    if (zone->d.wp =3D=3D nvme_zone_wr_boundary(zone)) {
->          switch (nvme_get_zone_state(zone)) {
->          case NVME_ZONE_STATE_IMPLICITLY_OPEN:
->          case NVME_ZONE_STATE_EXPLICITLY_OPEN:
-> @@ -1288,9 +1291,6 @@ static void nvme_finalize_zoned_write(NvmeNamespace=
- *ns, NvmeRequest *req,
->          default:
->              assert(false);
->          }
-> -        zone->d.wp =3D zone->w_ptr;
-> -    } else {
-> -        zone->d.wp +=3D nlb;
->      }
->  }
-> =20
+> v2 -> v3:
+> - Introduce "Persistent Memory Region has become read-only or
+>   unreliable"
+>=20
+> - Fix overwritten bar.cap
+>=20
+> - Check smart critical warning value from QOM.
+>=20
+> - Trigger asynchronous event during smart warning injection.
+>=20
+> v1 -> v2:
+> - Suggested by Philippe & Klaus, set/get smart_critical_warning by QMP.
+>=20
+> v1:
+> - Add smart_critical_warning for nvme device which can be set by QEMU
+>   command line to emulate hardware error.
+>=20
+> Zhenwei Pi (3):
+>   block/nvme: introduce bit 5 for critical warning
+>   hw/block/nvme: add smart_critical_warning property
+>   hw/blocl/nvme: trigger async event during injecting smart warning
+>=20
+>  hw/block/nvme.c      | 91 +++++++++++++++++++++++++++++++++++++++-----
+>  hw/block/nvme.h      |  1 +
+>  include/block/nvme.h |  3 ++
+>  3 files changed, 86 insertions(+), 9 deletions(-)
+>=20
 
-Applied to nvme-next.
+Thanks! Applied to nvme-next.
 
---om+LflFrSHaE3gzE
+--iPXtC8w1IPoLewX2
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAH9JIACgkQTeGvMW1P
-DekOpwgAuZCN+Jj3w/Zd4INkvewsAkC/mBIvOz+JLbeEclNXLfb5A+Liht61bFY5
-bxOYwtzVBie43VEXVjP77RX1+ETtP8NLcoM6rS34udFe9U0YB9nLaOBeO8HGWz+D
-ixdNAfFcxs9XMnocG7pTt+0hDcZ/X6xlCLQSwU8aGVoDnWRQqTOf9jdmkgyAw9ik
-aDW1yNRB2euTwEU0MfCRVBqneonkF1H1m4Ui6YfH0l5mSgOvcuo2lENio0DfyoFX
-RCaDLVbQZxT4xNE2/954PzTVMk+qswJvL23oAvct68nSqbtSsYijxKqfzIIkKXqM
-hf+N7ElujOPyfQ6/WLuC/xqZzXjkXQ==
-=iU44
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAH9ikACgkQTeGvMW1P
+Dem/Xgf/QD7HSkKHrWC3qQlWFAInzEGMdalrz39LaNiqtyUwZNM0c8dN6OFNLGou
+GSKK268YvXOInH78nPcwMQzcY1N0dQSDzPZVnKF4WDqWAhdPh4H0SiLVnrkfR95v
+BL81D7/LakPC6UFdeyMsX7xbqWMKjEuv+zbwCAzIMpYVnieGNYDwzyqXrX2NQteI
+j5r9PoaJl0wdNG/KY3nKxe5jkWIzBEd7690XrUI1FXt2ibrlYBOO7pgo0W4uNk25
+oWk0Y2jnPlyVSKGOrIFSzy0hcl1Ccr03Kd0aT33ZZHn/91BH2Kw7Nvg8aqKe2jDl
+6cs3Q+m3nfvEeZOyjw+JofmhCcHmIw==
+=Y/a7
 -----END PGP SIGNATURE-----
 
---om+LflFrSHaE3gzE--
+--iPXtC8w1IPoLewX2--
 
