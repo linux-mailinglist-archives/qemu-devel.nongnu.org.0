@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46AD52FD102
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:04:33 +0100 (CET)
-Received: from localhost ([::1]:35346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B35492FD0F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:02:10 +0100 (CET)
+Received: from localhost ([::1]:58932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2DA0-0000uO-3t
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:04:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39184)
+	id 1l2D7h-0007Br-O4
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:02:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1l2D4p-00067F-CF
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:59:11 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:43310)
+ id 1l2D4o-000670-8Q
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:59:10 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:43332)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
- id 1l2D4k-0002Fg-Qf
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:59:11 -0500
+ id 1l2D4k-0002Fk-Qo
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:59:09 -0500
 Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
- by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KCdW3a145790;
- Wed, 20 Jan 2021 12:59:01 GMT
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KCdsMe145909;
+ Wed, 20 Jan 2021 12:59:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=UOmdQt/gps3pRvRVGUAzIwXKmBRuK2tNgpVkV/i4Hp8=;
- b=I3LValIhQYERfY01SoMmCIpoJBGKNY5RA4HQkjTw/FXEJxYSbarPik0Zbhnzo7bG3Nzu
- ihPargFleQlm+MEt2C6VbkRxgzecneUDtSX0vFbv3r91i1bSDL1Jl6Ba9Z/Qve+26pUY
- afu3A7zHvm6ywJo8lzhhnn9gX22U3Doe96x2V2aMxeoRLbkFloLdXrab0U9BRAq5qQNG
- pUrRj7cp/NK32oqfgcePokuh2jR7RMzbKCm/Harz/SQL+kf5ypgDvccgkM0pUDGCorCB
- EiZ4224ysMKSvjt5QHj9k0p94EQ/EFb+YtCWjVWiSTVPKPjnGC0Is/ePfkV21VFxKTMd Jg== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
- by userp2130.oracle.com with ESMTP id 3668qaab03-1
+ bh=3jkOSU73no9c1wvY97sdyMJOwxj1A1nBsaPRtYSJqiU=;
+ b=sPDwXan0hapXC16Vnsaf+L9nKeb9vVTt45htwWovklfew6uG6LIWMUP6mmtCeUEduTLI
+ vH2AOISDYPQkeIGe71r6fLGuCLn74Dx4gwU/T8YztEpbUKqo/Afv+QoHwDVJZyubw2O5
+ mO1zkfAd4crqqUgugu9s2wX3lOGnWwTm7k8dBmthx9uVqSjkcjz5piwWCRQFraUJBD37
+ bbM2QdW5ZuaSfrxqLR61uayhdG2D9Om+pFU99tG+MjTGXHAH/10k4L01p84v0esdKD00
+ Hcm86sbW1u9R9W/7jAjWRr+hl6EcVO+6MFBiP3QLkc486LSwajAE7au6TuI3Txp5mED9 mw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by userp2130.oracle.com with ESMTP id 3668qaab0b-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Jan 2021 12:59:01 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
- by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KCZoJm099532;
- Wed, 20 Jan 2021 12:59:00 GMT
+ Wed, 20 Jan 2021 12:59:02 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KCaf3H061415;
+ Wed, 20 Jan 2021 12:59:02 GMT
 Received: from nam10-bn7-obe.outbound.protection.outlook.com
- (mail-bn7nam10lp2107.outbound.protection.outlook.com [104.47.70.107])
- by aserp3020.oracle.com with ESMTP id 3668rdvprk-1
+ (mail-bn7nam10lp2108.outbound.protection.outlook.com [104.47.70.108])
+ by userp3020.oracle.com with ESMTP id 3668qw5s1p-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Jan 2021 12:59:00 +0000
+ Wed, 20 Jan 2021 12:59:02 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fSBwxzF/QhFRnVLkyXhwXWSQRLw5l4al3veyGn/3hXY7DI4MUcQfY3iJB6BKEfBTnvMovzo00W0eDiKpihmiZUkkYY83Q0Wq7Ja2AvLUA6AOwFn3qw0iLbINjpB0KTV5FY8KgGeqDXXi2CysZrUqAmmhmdJrvDASzf9xXK5FvjC9KlzFuhxvWdU67GxuB9ReJ9usbeWcYzkezl5kvEY3UgSEMaLRFGDa++eIuAAFDawnSgM1IYI3V8ZvCYx4cZC1DhX9c2lW7WUQDjrgk/NxHLiLQ9yOEKJOdnU/bG6+31rSMsfH+bS4t5jRLr82brghW6lhBgTQgfsm3ouNMq8MEg==
+ b=Xag1LqD8myV3AGzP6PJ5T8QpWI8VFCePNh6JOgfkASUFGLPQTHgeEcq8K92TGf1y8AGQR2nf/f5UDeYh6BBnlsPebAogyxsABMucT/G4zeP7aa6USxXQ970ETACgWHs9M8pWY6XgL2JGa7u3vLx980KwcoRvLaEZEWEeLqOH0TpEes4+rmWY7Bodb79HH8sYovxD5VZ7KUIFJuQP+2PBr2ogJgQ5EjkTmwkf5pYkxRLzH2/9+ZUuxObqxMW7KWNXiDxlZV1F/rc5luHG+8dGeL+fWhFgwvtzJFUM4sudoEUoKoIH298NLVqR2rNteipOSl0fYuS2LD26vJRNlWNziw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UOmdQt/gps3pRvRVGUAzIwXKmBRuK2tNgpVkV/i4Hp8=;
- b=hB7F+OLF3ceIzsDyAmq1Vjlbofrl/fop/fENd9qRnQDaZGUtw2RMfNZ9PCfjxhgZ6DfVT0S9HN2UJIitS3mEC7N/4bROOENkEcKeAzotOQ1rY6DmQt8wy41w+MEv+MV59ec3wxk/giwKv57BlCm2aWckO5up44GMTjSPKL1yPaUbiz7ddSrqvLLz3Uvv5ENdZFeMV8jJ/9yMIridI2b2FrnRMCB5rI6NXRa4mTfzX0jtBcSuFufOczY3Rpgpc28tp3ed06J4ngTsiBp96GhyJMk43Cd6LsZa50yGQbsJqk5gw/RrY7nOUlZSHSy3BsIXok7KsN/NP56zlLRiHKb6EQ==
+ bh=3jkOSU73no9c1wvY97sdyMJOwxj1A1nBsaPRtYSJqiU=;
+ b=KUClQW7JE9oqjhd4PNq+qU7lG5Vk8Y89e4KLzEupOfNv0CmqCF/o4DMVc0Zpy4wq1zFgNFDY4a289k/3jcsKnRLkqrs9jpjc214on2FgqkWcQfrcQi1jvUw6cGgu25I9vu1kBBtQ3XSZ2d+eyWq2bNAK8KykDrfcBbF24JzI+BG1mz0wEsJmoEJjBSnXc3tArYkAqh3sKA89LCgYhYqZ+xYSYNSt2Hi5ML45sPQNrQKL1J3wHThzYMo23h4RZIBjt5SOPWf2JNfDaZYPdFRut4JBuoR0kGsQK5ztkYVgpB+gPZ04uV1TirGT1NB7OrNJDFTm4GZ9j5zegi6hUV4tZQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UOmdQt/gps3pRvRVGUAzIwXKmBRuK2tNgpVkV/i4Hp8=;
- b=Odsacyq0qVe9OFAQHbAqZhkWZO6arU5T6VE+70FmBLU3/IZN5j0FVOFm4HXNSnvi/o1M1y51V+0V6/vh5j4nHRFzEpEDcFjT0Ye6VsQf+nFpijHansqHhdKEXQiZCe6DZbGcNNYqTvSZXQJrz3d8JEx+yGJvNAaif6nyKBYGVHc=
+ bh=3jkOSU73no9c1wvY97sdyMJOwxj1A1nBsaPRtYSJqiU=;
+ b=P3eO53vXjcLv+Wexw7fEsb6qrP4xKWFiKHmnL3XZB94BNyq4/Q87WPAdFceBWQTi2BQL7Ij4+UUMZBcmkyX7PYUiO4DrLc02R4a2ZwinCa2WZ2ogkS30y9bXfa2gEatpSUMc1tQjr88DoMCkN5oBDnjAloz6oleibE0olFRUxRA=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from MWHPR1001MB2285.namprd10.prod.outlook.com
  (2603:10b6:301:2e::32) by CO1PR10MB4739.namprd10.prod.outlook.com
  (2603:10b6:303:96::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12; Wed, 20 Jan
- 2021 12:58:58 +0000
+ 2021 12:59:00 +0000
 Received: from MWHPR1001MB2285.namprd10.prod.outlook.com
  ([fe80::f48a:d4cb:d74c:48ba]) by MWHPR1001MB2285.namprd10.prod.outlook.com
  ([fe80::f48a:d4cb:d74c:48ba%6]) with mapi id 15.20.3742.014; Wed, 20 Jan 2021
- 12:58:58 +0000
+ 12:59:00 +0000
 From: Mihai Carabas <mihai.carabas@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 2/4] hw/misc/pvpanic: add PCI interface support
-Date: Wed, 20 Jan 2021 14:11:51 +0200
-Message-Id: <1611144713-21433-3-git-send-email-mihai.carabas@oracle.com>
+Subject: [PATCH v5 3/4] pvpanic : update pvpanic spec document
+Date: Wed, 20 Jan 2021 14:11:52 +0200
+Message-Id: <1611144713-21433-4-git-send-email-mihai.carabas@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1611144713-21433-1-git-send-email-mihai.carabas@oracle.com>
 References: <1611144713-21433-1-git-send-email-mihai.carabas@oracle.com>
@@ -88,53 +88,53 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from mihai.localdomain (138.3.200.25) by
  SA9PR10CA0026.namprd10.prod.outlook.com (2603:10b6:806:a7::31) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.12 via Frontend Transport; Wed, 20 Jan 2021 12:58:56 +0000
+ 15.20.3784.12 via Frontend Transport; Wed, 20 Jan 2021 12:58:58 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 5b88f8da-ab04-417e-ce10-08d8bd432696
+X-MS-Office365-Filtering-Correlation-Id: b52872e4-8371-4ab2-0aa0-08d8bd43278a
 X-MS-TrafficTypeDiagnostic: CO1PR10MB4739:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <CO1PR10MB47397F25D7F3DDB5A1E4A3C388A29@CO1PR10MB4739.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:227;
+X-Microsoft-Antispam-PRVS: <CO1PR10MB47395560A3A5130C7033C7A188A29@CO1PR10MB4739.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rFt3ppYk+K2lK42n9OKqIdJcE4+Dzw53DWSiaI1TLs9LBxxkuVXQJOFCuSDivDzaDvpFNHe03nUfETmM7yICCoNWYLritcVv2OgWBAWuDoU7xvI+Mva2GNr3gUPiHHO4Vm0RZ6s2kaGYAHXSVoaouj+jdF2TYB9/JU2C4sOKiVZry2pONwBDfNpZ6r09NagQtDsMncbBi7S89WEp54BoOl9rUpyUloj83VqJEsgY8oaQhMZW7N209Oam6+pi4dpV702+3SfBO+Qd6wjHmA0Rax7XutjQn+/Wn7SaQIDazpwtMDMWgv1rCYrio1odtd2DIDE8ldgEIwrERmbzB/PezYvCVylnYI8CkYd7hD1R+8CWE6BgyCCnBjydN2IvXqcjUg3s6oFsdVSecHz9W1Dyqw==
+X-Microsoft-Antispam-Message-Info: UA9PGPzUNcmhVKLvCTUAmzb64a+srEaF+K/I4t3RUqCcBwQmo78IunBeszUSih8eEQEt8VKvQR+YfyztZ3QodjkKqZPtnH/3xlK88srJENeoAxrsNIq0zhfozj9uDUVIlKYKhQo48ZJnJgGJE1GWEmmOMyT+Gs9YvuMwc/J9hMdZTgAdnBpTMsUmvWcEM2pn/VIIx/kTwLE58X32PZCL5Qe4CGapVtPklPxs38TEzktj9f+Sg+RKiJzJsD6duQRCqoyMCxgApOqStho/OAnlrB6My2gxhuL91v+hqaz1eBzkWzaUiS+cmK/S5YDI8EwxUoRmU+H/pnldyxRTWS2dtrpUU06U+tuVQZvfTN0zqbs4FmnYhyINcIZQKjj/47LsOlj6k8ZQaEb9it6q3N1ZZw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:MWHPR1001MB2285.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(346002)(366004)(376002)(136003)(39860400002)(396003)(6916009)(6666004)(52116002)(4326008)(2906002)(66946007)(508600001)(66556008)(66476007)(5660300002)(36756003)(2616005)(86362001)(956004)(8936002)(316002)(6512007)(44832011)(107886003)(8676002)(6506007)(6486002)(83380400001)(186003)(26005)(16526019);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?nm/aE3apgXKxlV1hhO6hjlVPUI5ek6CtF3W4yThzljszTnEC2UMJ/lZX8lW8?=
- =?us-ascii?Q?oPoKVHaUOOHrBN6iC2oUHzemYfdbVGpCPaC6Kr0ee5SWOTnPErDrNmDGKEtE?=
- =?us-ascii?Q?DlWncvcAmH7La0KsJCAmjRVM/kWb3K4YaMiOsKumzBSGWV85XQkDK9BEjhWV?=
- =?us-ascii?Q?qmMW9nSTG0u7PyD0j/D/8mkDPOEQQMH1rxLFRKe/tuaOJJLHbKTX+9RkYR5N?=
- =?us-ascii?Q?+iWvD1rmXupZJH1BItf+Wy3wreAhIoJUwizhuI0dFaoTa7tC/MzhU95eFhDo?=
- =?us-ascii?Q?jXZ9QPFNgz+A736R4HDd96cob7cqTC5l70xGiXVFSCZ2TAvk2UN8B1/iZIch?=
- =?us-ascii?Q?61I5oQWka5wHqTH1tjtLoPDgiXrVy+68QvVYmy4mC84LXAjA0RNnICf7vl6t?=
- =?us-ascii?Q?17XtUzQAd2DQ8GQ3O3LCRf5Q+tPtAJ10AwTqHYgfoqC/3vSRLFk1Avos0ICJ?=
- =?us-ascii?Q?1/npoc0tarNMelPvcBJaURIoUT3xanIf539j6D19yauuxWyWJXRxfvo5o4tp?=
- =?us-ascii?Q?YZoQTKzKMqhrfk8m8tBvlekak84WZz8N6U0Sg8rw9M+GzelKQSQk5AEsf6dU?=
- =?us-ascii?Q?zBJuc/2Bx0exutwNDQyZOGn8cmEeTrSOvkLfiKo1jVv+C19F+sGUR81cxB+m?=
- =?us-ascii?Q?eU4xlLBeWwwHW/zSyGl//Hm0qSJtqG1mR4sDyylA6bTA1b0QVrXhnQ3HBSUK?=
- =?us-ascii?Q?YJZr/REtTKj9id66uLNUHg6bWNnBmM9spe8bf8zOOL9MyfZybkWhAhCmtYQD?=
- =?us-ascii?Q?nFVVstSUDb0jgzRbS598OY3ofTFrbWtnaPQ9JKEp4Pf0mhRw7SFmCIQoCJkb?=
- =?us-ascii?Q?JYOPww1Ez1ONBxrsWFEtJGv+9dxY5jIkrGWSPVGAU022rxO3sl6h0Nq7TvPE?=
- =?us-ascii?Q?Ns2nr089JECzO3rSnNw7cGLvD9SYL/jostg1y9kl2Omh9/g0AaQjYvYqUuRs?=
- =?us-ascii?Q?K9uE5c7CTQu6/9q1S/xGuwLp7HYQF6npQUmAwgU6T/VaXmW0AfEe7yEsc1AJ?=
- =?us-ascii?Q?qrOL?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?weYMDgvbl0P6nva0UJGVsiMduKQ1DMvrKAsTU2FPQhi0NfyWJF8jGN1tYVc7?=
+ =?us-ascii?Q?tJL1mqgC6WHDBSAXs10cq7aM5W/rpTWRPYvQBPJvZFeTV4oTU05QtqWAVD9D?=
+ =?us-ascii?Q?Vn+VXYnTGleIcVjxfhNrnej3kgRuEKKCdjuFkuvRCkNSzX0jogeO+ovFafUJ?=
+ =?us-ascii?Q?SgQ3EyXu0hqminZurXkJ/973UnqgkPmw9N87U2iWevaaKFo0XtfybIvIlWoi?=
+ =?us-ascii?Q?D8we6TLylBS95kz8tR9MIo82dz3dY5l7kjhkwg5UWMhgwBLgaYVAruZBUhwR?=
+ =?us-ascii?Q?QK4VyNCRrt1GyRDJq2+PSy8k/QWrWNNByxU7qyjdi222OwVSYWkmN/Kd68Jx?=
+ =?us-ascii?Q?C6zqWEeDjGQi6WPkUZi8ZX/mwe6owsqq57buTQjeOtNvhOVb73HdlOdPugrH?=
+ =?us-ascii?Q?ozvLPR0ExK70vi8gH9joFXWNIOD4s2mapdnJHXN2e9M0K3M41eneIgl9Uhzv?=
+ =?us-ascii?Q?OalLzxERrKLOco4taNQq8nGUvyWj7lkAmiiW/wnCywjYgwlJ1yGL4qAVuXjY?=
+ =?us-ascii?Q?SDDUk+g+XwapQYl2+yZbezgryKksHJWGPg/M62xFAtWoDm3M7jrzSx606MSO?=
+ =?us-ascii?Q?CwakB1+J5lGZNkgWaP7BuoYwbI9Qxb8aYe61PN+yHHFO5pyGN3B0uI3Gl/79?=
+ =?us-ascii?Q?737OoNNFnURNxxuWmKluahRHda9aaXySIBiQAFiQge49bSmBC/+/YDs/RZzQ?=
+ =?us-ascii?Q?FZm6Bik5OAbPoVKnDuOSi1qIylFExwIewCRw0gduDE2duB+xJmkfs2kwG6NX?=
+ =?us-ascii?Q?N3Jw/4GIbPaWGzaej/MRAFgvT5B4bGQWnflX+vFRhQc+bDnYcmklZSTR9R5C?=
+ =?us-ascii?Q?dxg3jMyVkezM7ZDfhiLfDFEiMZz8pxTbM5HGIqkxGcfFIvF+JC/KiZTeBcWk?=
+ =?us-ascii?Q?iD9gci+lBlB/sB654dQV4WIsgEpJNj4dG7iKwhMpb3y7xT2AQBYahGODguSg?=
+ =?us-ascii?Q?pZWYnjFMR3vFbXXauN53QMVm33n2S/NoU1pUg6bdfDXNLtMX1lFgZX6BNCEv?=
+ =?us-ascii?Q?fXL5?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5b88f8da-ab04-417e-ce10-08d8bd432696
+X-MS-Exchange-CrossTenant-Network-Message-Id: b52872e4-8371-4ab2-0aa0-08d8bd43278a
 X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2285.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 12:58:58.2280 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 12:58:59.9420 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: s11Q2MPoecFS5+bgMbroOVS7Og2XczdxMWKTmTwBHwA0SnSvzJEQ07WSC6ifgVwgB9Bg+CGxztbiLdlSfcuXiq2ivce2ET9qcjjnOnCooCE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: xgZkOgzzeiYvVH8wIY2fXgf8BUxLSa1q1J2Gb5ovsER/9NjWEHaGuDv8Nj4t7JJdvhN/9frSBpEUnSIq7+HY2WaUzKWnaVwFEiI1J106Q9s=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4739
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
- spamscore=0 suspectscore=0
- adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0 adultscore=0
+ malwarescore=0 mlxscore=0 mlxlogscore=999 spamscore=0 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2101200074
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
@@ -171,190 +171,52 @@ Cc: Mihai Carabas <mihai.carabas@oracle.com>, peter.maydell@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add PCI interface support for PVPANIC device. Create a new file pvpanic-pci.c
-where the PCI specific routines reside and update the build system with the new
-files and config structure.
+Add pvpanic PCI device support details in docs/specs/pvpanic.txt.
 
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
-Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/specs/pci-ids.txt    |  1 +
- hw/misc/Kconfig           |  6 +++
- hw/misc/meson.build       |  1 +
- hw/misc/pvpanic-pci.c     | 96 +++++++++++++++++++++++++++++++++++++++++++++++
- include/hw/misc/pvpanic.h |  1 +
- include/hw/pci/pci.h      |  1 +
- 6 files changed, 106 insertions(+)
- create mode 100644 hw/misc/pvpanic-pci.c
+ docs/specs/pvpanic.txt | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-index abbdbca..5e407a6 100644
---- a/docs/specs/pci-ids.txt
-+++ b/docs/specs/pci-ids.txt
-@@ -64,6 +64,7 @@ PCI devices (other than virtio):
- 1b36:000d  PCI xhci usb host adapter
- 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
- 1b36:0010  PCIe NVMe device (-device nvme)
-+1b36:0011  PCI PVPanic device (-device pvpanic-pci)
+diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
+index a90fbca..8afcde1 100644
+--- a/docs/specs/pvpanic.txt
++++ b/docs/specs/pvpanic.txt
+@@ -1,7 +1,7 @@
+ PVPANIC DEVICE
+ ==============
  
- All these devices are documented in docs/specs.
+-pvpanic device is a simulated ISA device, through which a guest panic
++pvpanic device is a simulated device, through which a guest panic
+ event is sent to qemu, and a QMP event is generated. This allows
+ management apps (e.g. libvirt) to be notified and respond to the event.
  
-diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index 23bc978..19c216f 100644
---- a/hw/misc/Kconfig
-+++ b/hw/misc/Kconfig
-@@ -124,6 +124,12 @@ config IOTKIT_SYSINFO
- config PVPANIC_COMMON
-     bool
+@@ -9,6 +9,9 @@ The management app has the option of waiting for GUEST_PANICKED events,
+ and/or polling for guest-panicked RunState, to learn when the pvpanic
+ device has fired a panic event.
  
-+config PVPANIC_PCI
-+    bool
-+    default y if PCI_DEVICES
-+    depends on PCI
-+    select PVPANIC_COMMON
++The pvpanic device can be implemented as an ISA device (using IOPORT) or as a
++PCI device.
 +
- config PVPANIC_ISA
-     bool
-     depends on ISA_BUS
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index edaaec2..6292839 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -100,6 +100,7 @@ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
- softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
+ ISA Interface
+ -------------
  
- softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'))
-+softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c'))
- softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
- softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', 'aspeed_sdmc.c', 'aspeed_xdma.c'))
- softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
-diff --git a/hw/misc/pvpanic-pci.c b/hw/misc/pvpanic-pci.c
-new file mode 100644
-index 0000000..ba288c1
---- /dev/null
-+++ b/hw/misc/pvpanic-pci.c
-@@ -0,0 +1,96 @@
-+/*
-+ * QEMU simulated PCI pvpanic device.
-+ *
-+ * Copyright (C) 2020 Oracle
-+ *
-+ * Authors:
-+ *     Mihai Carabas <mihai.carabas@oracle.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ *
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "sysemu/runstate.h"
-+
-+#include "hw/nvram/fw_cfg.h"
-+#include "hw/qdev-properties.h"
-+#include "migration/vmstate.h"
-+#include "hw/misc/pvpanic.h"
-+#include "qom/object.h"
-+#include "hw/pci/pci.h"
-+
-+OBJECT_DECLARE_SIMPLE_TYPE(PVPanicPCIState, PVPANIC_PCI_DEVICE)
-+
-+/*
-+ * PVPanicPCIState for PCI device
-+ */
-+typedef struct PVPanicPCIState {
-+    PCIDevice dev;
-+    PVPanicState pvpanic;
-+} PVPanicPCIState;
-+
-+static const VMStateDescription vmstate_pvpanic_pci = {
-+    .name = "pvpanic-pci",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_PCI_DEVICE(dev, PVPanicPCIState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+static void pvpanic_pci_realizefn(PCIDevice *dev, Error **errp)
-+{
-+    PVPanicPCIState *s = PVPANIC_PCI_DEVICE(dev);
-+    PVPanicState *ps = &s->pvpanic;
-+
-+    pvpanic_setup_io(&s->pvpanic, DEVICE(s), 2);
-+
-+    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &ps->mr);
-+}
-+
-+static Property pvpanic_pci_properties[] = {
-+    DEFINE_PROP_UINT8("events", PVPanicPCIState, pvpanic.events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void pvpanic_pci_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pc = PCI_DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, pvpanic_pci_properties);
-+
-+    pc->realize = pvpanic_pci_realizefn;
-+    pc->vendor_id = PCI_VENDOR_ID_REDHAT;
-+    pc->device_id = PCI_DEVICE_ID_REDHAT_PVPANIC;
-+    pc->subsystem_vendor_id = PCI_VENDOR_ID_REDHAT;
-+    pc->subsystem_id = PCI_DEVICE_ID_REDHAT_PVPANIC;
-+    pc->revision = 1;
-+    pc->class_id = PCI_CLASS_SYSTEM_OTHER;
-+    dc->vmsd = &vmstate_pvpanic_pci;
-+
-+    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-+}
-+
-+static TypeInfo pvpanic_pci_info = {
-+    .name          = TYPE_PVPANIC_PCI_DEVICE,
-+    .parent        = TYPE_PCI_DEVICE,
-+    .instance_size = sizeof(PVPanicPCIState),
-+    .class_init    = pvpanic_pci_class_init,
-+    .interfaces = (InterfaceInfo[]) {
-+        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-+        { }
-+    }
-+};
-+
-+static void pvpanic_register_types(void)
-+{
-+    type_register_static(&pvpanic_pci_info);
-+}
-+
-+type_init(pvpanic_register_types);
-diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-index abc9dde..ca3c5bb 100644
---- a/include/hw/misc/pvpanic.h
-+++ b/include/hw/misc/pvpanic.h
-@@ -18,6 +18,7 @@
- #include "qom/object.h"
+@@ -24,6 +27,14 @@ bit 1: a guest panic has happened and will be handled by the guest;
+        the host should record it or report it, but should not affect
+        the execution of the guest.
  
- #define TYPE_PVPANIC_ISA_DEVICE "pvpanic"
-+#define TYPE_PVPANIC_PCI_DEVICE "pvpanic-pci"
++PCI Interface
++-------------
++
++The PCI interface is similar to the ISA interface except that it uses an MMIO
++address space provided by its BAR0, 1 byte long. Any machine with a PCI bus
++can enable a pvpanic device by adding '-device pvpanic-pci' to the command
++line.
++
+ ACPI Interface
+ --------------
  
- #define PVPANIC_IOPORT_PROP "ioport"
- 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 259f9c9..66db084 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -107,6 +107,7 @@ extern bool pci_available;
- #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
- #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
- #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
-+#define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
- #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
- 
- #define FMT_PCIBUS                      PRIx64
 -- 
 1.8.3.1
 
