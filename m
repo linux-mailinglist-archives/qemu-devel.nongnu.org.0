@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9D842FDC75
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 23:25:32 +0100 (CET)
-Received: from localhost ([::1]:50488 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42CF22FDC89
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 23:26:33 +0100 (CET)
+Received: from localhost ([::1]:53148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Lut-0005uW-SU
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 17:25:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52828)
+	id 1l2Lvs-00070I-Al
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 17:26:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53058)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2Lt7-0004Xn-56; Wed, 20 Jan 2021 17:23:44 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46511)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2Lt4-0002gn-UP; Wed, 20 Jan 2021 17:23:40 -0500
-Received: by mail-pl1-x631.google.com with SMTP id u11so9026331plg.13;
- Wed, 20 Jan 2021 14:23:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=30xrQPDNBxjwiemDm/aTJEGcDXg/RlHhnAZczYlixpg=;
- b=UtZyGBEPAHqma8xF/SZ+FvEPmqgvALxGD1qEJMrwB9MMJYQmOYBFtPigSLIvfhciqg
- uAfn8iyE+9LMVeF/inbBmEJvY8LE9RgpzvVldFzSb88G9ssUWLPEDE0wlwWgKIAjW5EJ
- rk/jdP/Y3tsi5bBWfRbwQ6KKJ6kH6DsTCQgV4UtB6oHFPFydQNKcafujOTPmvsLeKZCV
- FdJuPg70xY9pOTOiWaGZF3hd39KwIOfrfi2IhV1vdeOP3VIenINp5FEXU5wWGZESuNMP
- CarRZnzNDIwyvTCi6UWT00qJAFStqy1H7faUlhkQCRyqdSSQPlv1GwUtVMTDK4db/g3P
- B6kg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=30xrQPDNBxjwiemDm/aTJEGcDXg/RlHhnAZczYlixpg=;
- b=P8wJeb4DuRfZ3HWqV3b6UVQHAYUiZz1yCN9wrB3PoUElNLCq3NXTX5l+gRFqnPuluK
- vZcLl+I8MEloKPGp6Sis7Qce1uZEDjxlIZ0lXERzuleF9PAJk6bDf8LbiaIP3DV3vSu9
- ya/qBWiKyuccvw9WtfLBq3PoCqiVo/DyPrvjjBLH9vhO5OHRtLsy0oEWT6BVhUiOSMus
- Vmd0nZEjFqMkdfuMq9Dh7C5lETnLyjYchq33ODiEjRTNsNvcoXI/9ib9EMctRtPrdSum
- EMWAPbbsYAETtM8y1kh3fjvvTxX/uyz0PmqDtKcS0UCshmTeI6URpiV1/nJ/3zekQYBC
- 9zwA==
-X-Gm-Message-State: AOAM5309fw4Hs0XzehGKB5GwM9r8+cSL349iJKWBtdfa8lvOQTE1D75c
- igPbdL5nhWL5qxn9h84kQLg=
-X-Google-Smtp-Source: ABdhPJyz74J6WLgvE8I+UMctlwV5kGP1isE56LBHUw8u67uBRO+E8ge2hixZqX5HPA+VQ+fHaLsE7w==
-X-Received: by 2002:a17:90a:c595:: with SMTP id
- l21mr7873275pjt.137.1611181416154; 
- Wed, 20 Jan 2021 14:23:36 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id u4sm3335241pjv.22.2021.01.20.14.23.35
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 20 Jan 2021 14:23:35 -0800 (PST)
-Date: Thu, 21 Jan 2021 07:23:33 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH v3 12/12] hw/block/nvme: lift cmb restrictions
-Message-ID: <20210120222333.GD2645@localhost.localdomain>
-References: <20210119101504.231259-1-its@irrelevant.dk>
- <20210119101504.231259-13-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Lu5-0005XO-Kz
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 17:24:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:33271)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Lu3-0002y6-3I
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 17:24:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611181478;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4EhEEVpeJ0k0j4TiWNnFVnusr0hlfuBzBFzC39D51eo=;
+ b=ZQF4XOvxNUCIuUQvlaBvTDUpDddo59DYrZQyZp8gD3iUySyavM8InrH9lj6+QGjtVLXSiw
+ EhhBWGt/89XC5KFZogLsBP4Q69cMXmog+4idS4ONT67+mJ7W3dy7a/HLDdEV9e133UW4pe
+ CkMfgEpGtTiaouhQU+GDEHRFQZ/QRK8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-284-xDOzmqpON9-iOtFivxqb4A-1; Wed, 20 Jan 2021 17:24:35 -0500
+X-MC-Unique: xDOzmqpON9-iOtFivxqb4A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3708A8144E8;
+ Wed, 20 Jan 2021 22:24:34 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 004E95D9EF;
+ Wed, 20 Jan 2021 22:24:32 +0000 (UTC)
+Subject: Re: [PATCH v2 1/8] block/nbd: move initial connect to coroutine
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201130134024.19212-1-vsementsov@virtuozzo.com>
+ <20201130134024.19212-2-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4a2d33f6-18ee-b8ff-a945-4ac6ce0406f4@redhat.com>
+Date: Wed, 20 Jan 2021 16:24:32 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20201130134024.19212-2-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20210119101504.231259-13-its@irrelevant.dk>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,14 +83,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: kwolf@redhat.com, den@openvz.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Nice for codes much more clean.
+On 11/30/20 7:40 AM, Vladimir Sementsov-Ogievskiy wrote:
+> We are going to implement reconnect-on-open. Let's reuse existing
+> reconnect loop. For this, do initial connect in connection coroutine.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/nbd.c | 94 ++++++++++++++++++++++++++++++-----------------------
+>  1 file changed, 53 insertions(+), 41 deletions(-)
+> 
 
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> @@ -2279,6 +2268,29 @@ static int nbd_open(BlockDriverState *bs, QDict *options, int flags,
+>      bdrv_inc_in_flight(bs);
+>      aio_co_schedule(bdrv_get_aio_context(bs), s->connection_co);
+>  
+> +    if (qemu_in_coroutine()) {
+> +        s->open_co = qemu_coroutine_self();
+> +        qemu_coroutine_yield();
+> +    } else {
+> +        BDRV_POLL_WHILE(bs, s->state == NBD_CLIENT_OPENING);
+> +    }
+> +
+> +    if (s->state != NBD_CLIENT_CONNECTED && s->connect_status < 0) {
+> +        /*
+> +         * It's possible that state != NBD_CLIENT_CONNECTED, but connect_status
+> +         * is 0. This means that initial connecting succeed, but failed later
+> +         * (during BDRV_POLL_WHILE). It's a rare case, but it happen in iotest
+
+This means that starting the initial connection succeeded, but we failed
+later (during BDRV_POLL_WHILE).
+
+happens
+
+> +         * 83. Let's don't care and just report success in this case: it not
+> +         * much differs from the case when connection failed immediately after
+> +         * succeeded open.
+
+We don't care, and just report success in this case, as it does not
+change our behavior from the case when the connection fails right after
+open succeeds.
+
+
+> +         */
+> +        assert(s->connect_err);
+> +        error_propagate(errp, s->connect_err);
+> +        s->connect_err = NULL;
+> +        nbd_clear_bdrvstate(s);
+> +        return s->connect_status;
+> +    }
+> +
+>      return 0;
+>  }
+>  
+> 
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
