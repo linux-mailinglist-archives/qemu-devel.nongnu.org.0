@@ -2,41 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475412FDCCA
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 00:03:19 +0100 (CET)
-Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C2F22FDCCE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 00:06:25 +0100 (CET)
+Received: from localhost ([::1]:40410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2MVS-00012A-CE
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 18:03:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59800)
+	id 1l2MYS-00021s-Bw
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 18:06:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60596)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1l2MTj-0000W5-Kv; Wed, 20 Jan 2021 18:01:31 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:43079)
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l2MWY-0001bD-Iq; Wed, 20 Jan 2021 18:04:26 -0500
+Resent-Date: Wed, 20 Jan 2021 18:04:26 -0500
+Resent-Message-Id: <E1l2MWY-0001bD-Iq@lists.gnu.org>
+Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>)
- id 1l2MTg-0006ub-VA; Wed, 20 Jan 2021 18:01:30 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from [192.168.178.98] ([79.200.90.163])
- (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
- Thu, 21 Jan 2021 00:01:11 +0100
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Peter Lieven <pl@kamp.de>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
-Message-Id: <0A9D3682-CE03-4984-AC06-83DA0ABF7BDF@kamp.de>
-Date: Thu, 21 Jan 2021 00:01:13 +0100
-To: dillaman@redhat.com
-X-Mailer: iPhone Mail (18C66)
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
+ (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
+ id 1l2MWV-0007qp-O9; Wed, 20 Jan 2021 18:04:26 -0500
+ARC-Seal: i=1; a=rsa-sha256; t=1611183833; cv=none; 
+ d=zohomail.com; s=zohoarc; 
+ b=k712fe3+K6PmNyNVwPTbYb//rHkXaQ9IDOrseVuc0mNVvxocLibrbGLTpWIRMgQo6wAxE7t4ZD0hWNMJ7pGFhoPa4ZPrBTUnhZnXElQpb4N8xhRv3PyFL79+oCpFSDwlD6OVDMhF23pIPgy258GNUSz8YywK2chNnzvLZqYUmrA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
+ s=zohoarc; t=1611183833;
+ h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
+ bh=PYvZ9CeKlSQ9+5AgBGb3KPdH7tAGAZZZPK1zjboabiY=; 
+ b=kBmZjnvkMNNNnl+qQwj8B+iJk3QtCZTb1GUK2osD+H5j3/CWRT5aPG0vXMaXzxoFkPOeUlV8t6AOFi4CR2TRFl77U1JwKWR6ZpUH5MCQVjMbFpKSeSldsScBy+OOk+ozzyvrLfCYbycrkqBtbfT/QTs4haTVEnG03FoSy3e89QU=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+ spf=pass  smtp.mailfrom=no-reply@patchew.org;
+ dmarc=pass header.from=<no-reply@patchew.org>
+ header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+ mx.zohomail.com with SMTPS id 1611183830679628.7727980005652;
+ Wed, 20 Jan 2021 15:03:50 -0800 (PST)
+In-Reply-To: <20210120224444.71840-1-agraf@csgraf.de>
+Subject: Re: [PATCH v6 00/11] hvf: Implement Apple Silicon Support
+Message-ID: <161118382885.14124.11919473314001566769@73fb1a5943b8>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: agraf@csgraf.de
+Date: Wed, 20 Jan 2021 15:03:50 -0800 (PST)
+X-ZohoMailClient: External
+Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
+ helo=sender4-of-o53.zoho.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -50,87 +65,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, ehabkost@redhat.com, richard.henderson@linaro.org,
+ qemu-devel@nongnu.org, dirty@apple.com, r.bolshakov@yadro.com,
+ qemu-arm@nongnu.org, lfy@google.com, pbonzini@redhat.com, pcc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-=EF=BB=BF
-> Am 19.01.2021 um 15:20 schrieb Jason Dillaman <jdillama@redhat.com>:
->=20
-> =EF=BB=BFOn Tue, Jan 19, 2021 at 4:36 AM Peter Lieven <pl@kamp.de> wrote:
->>> Am 18.01.21 um 23:33 schrieb Jason Dillaman:
->>> On Fri, Jan 15, 2021 at 10:39 AM Peter Lieven <pl@kamp.de> wrote:
->>>> Am 15.01.21 um 16:27 schrieb Jason Dillaman:
->>>>> On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
->>>>>> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
->>>>>>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
->>>>>>>> since we implement byte interfaces and librbd supports aio on byte g=
-ranularity we can lift
->>>>>>>> the 512 byte alignment.
->>>>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
->>>>>>>> ---
->>>>>>>> block/rbd.c | 2 --
->>>>>>>> 1 file changed, 2 deletions(-)
->>>>>>>> diff --git a/block/rbd.c b/block/rbd.c
->>>>>>>> index 27b4404adf..8673e8f553 100644
->>>>>>>> --- a/block/rbd.c
->>>>>>>> +++ b/block/rbd.c
->>>>>>>> @@ -223,8 +223,6 @@ done:
->>>>>>>> static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **e=
-rrp)
->>>>>>>> {
->>>>>>>>    BDRVRBDState *s =3D bs->opaque;
->>>>>>>> -    /* XXX Does RBD support AIO on less than 512-byte alignment? *=
-/
->>>>>>>> -    bs->bl.request_alignment =3D 512;
->>>>>>> Just a suggestion, but perhaps improve discard alignment, max discar=
-d,
->>>>>>> optimal alignment (if that's something QEMU handles internally) if n=
-ot
->>>>>>> overridden by the user.
->>>>>> Qemu supports max_discard and discard_alignment. Is there a call to g=
-et these limits
->>>>>> from librbd?
->>>>>> What do you mean by optimal_alignment? The object size?
->>>>> krbd does a good job of initializing defaults [1] where optimal and
->>>>> discard alignment is 64KiB (can actually be 4KiB now), max IO size for=
-
->>>>> writes, discards, and write-zeroes is the object size * the stripe
->>>>> count.
->>>> Okay, I will have a look at it. If qemu issues a write, discard, write_=
-zero greater than
->>>> obj_size  * stripe count will librbd split it internally or will the re=
-quest fail?
->>> librbd will handle it as needed. My goal is really just to get the
->>> hints down the guest OS.
->>>> Regarding the alignment it seems that rbd_dev->opts->alloc_size is some=
-thing that comes from the device
->>>> configuration and not from rbd? I don't have that information inside th=
-e Qemu RBD driver.
->>> librbd doesn't really have the information either. The 64KiB guess
->>> that krbd uses was a compromise since that was the default OSD
->>> allocation size for HDDs since Luminous. Starting with Pacific that
->>> default is going down to 4KiB.
->> I will try to adjust these values as far as it is possible and makes sens=
-e.
->> Is there a way to check the minimum supported OSD release in the backend f=
-rom librbd / librados?
->=20
-> It's not a minimum -- RADOS will gladly access 1 byte writes as well.
-> It's really just the optimal (performance and space-wise). Sadly,
-> there is no realistic way to query this data from the backend.
-
-So you would suggest to advertise an optimal transfer length of 64k and max t=
-ransfer length of obj size * stripe count to the guest unless we have an API=
- in the future to query these limits from the backend?
-
-I would leave request alignment at 1 byte as otherwise Qemu will issue RMWs f=
-or all write requests that do not align. Everything that comes from a guest O=
-S is very likely 4k aligned anyway.
-
-Peter
-
-
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEyMDIyNDQ0NC43MTg0
+MC0xLWFncmFmQGNzZ3JhZi5kZS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMTIwMjI0NDQ0LjcxODQwLTEt
+YWdyYWZAY3NncmFmLmRlClN1YmplY3Q6IFtQQVRDSCB2NiAwMC8xMV0gaHZmOiBJbXBsZW1lbnQg
+QXBwbGUgU2lsaWNvbiBTdXBwb3J0Cgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9i
+YXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAt
+LWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVz
+IFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3Njcmlw
+dHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09
+PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFnIHVwZGF0ZV0g
+ICAgICBwYXRjaGV3LzIwMjAxMTE4MTgwNDMzLjExOTMxLTEtdnNlbWVudHNvdkB2aXJ0dW96em8u
+Y29tIC0+IHBhdGNoZXcvMjAyMDExMTgxODA0MzMuMTE5MzEtMS12c2VtZW50c292QHZpcnR1b3p6
+by5jb20KICogW25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDEyMDIyNDQ0NC43MTg0MC0x
+LWFncmFmQGNzZ3JhZi5kZSAtPiBwYXRjaGV3LzIwMjEwMTIwMjI0NDQ0LjcxODQwLTEtYWdyYWZA
+Y3NncmFmLmRlClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZDIxMjY3MSBodmY6IGFy
+bTogSW1wbGVtZW50IC1jcHUgaG9zdAo1NDIxZTVmIGh2ZjogYXJtOiBBZGQgc3VwcG9ydCBmb3Ig
+R0lDdjMKNjExZWQ5NSBhcm0vaHZmOiBBZGQgYSBXRkkgaGFuZGxlcgpmMTg2OTIxIGFybTogQWRk
+IEh5cGVydmlzb3IuZnJhbWV3b3JrIGJ1aWxkIHRhcmdldApmMjY1ZDg5IGh2ZjogQWRkIEFwcGxl
+IFNpbGljb24gc3VwcG9ydAo4MjYwODUwIGh2ZjogU2ltcGxpZnkgcG9zdCByZXNldC9pbml0L2xv
+YWR2bSBob29rcwo0NzYxZjNlIGFybTogU2V0IFBTQ0kgdG8gMC4yIGZvciBIVkYKNjYyNmQ3YiBo
+dmY6IEludHJvZHVjZSBodmYgdmNwdSBzdHJ1Y3QKMzkyMDVhYSBodmY6IE1vdmUgY29tbW9uIGNv
+ZGUgb3V0Cjk1MGU2MTggaHZmOiB4ODY6IFJlbW92ZSB1bnVzZWQgZGVmaW5pdGlvbnMKM2ZhMjI5
+NiBodmY6IEFkZCBoeXBlcnZpc29yIGVudGl0bGVtZW50IHRvIG91dHB1dCBiaW5hcmllcwoKPT09
+IE9VVFBVVCBCRUdJTiA9PT0KMS8xMSBDaGVja2luZyBjb21taXQgM2ZhMjI5NjI0MDQzIChodmY6
+IEFkZCBoeXBlcnZpc29yIGVudGl0bGVtZW50IHRvIG91dHB1dCBiaW5hcmllcykKV0FSTklORzog
+YWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVw
+ZGF0aW5nPwojMjM6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAgZXJyb3JzLCAxIHdh
+cm5pbmdzLCA2MiBsaW5lcyBjaGVja2VkCgpQYXRjaCAxLzExIGhhcyBzdHlsZSBwcm9ibGVtcywg
+cGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZl
+cyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRB
+SU5FUlMuCjIvMTEgQ2hlY2tpbmcgY29tbWl0IDk1MGU2MThjZmIxNSAoaHZmOiB4ODY6IFJlbW92
+ZSB1bnVzZWQgZGVmaW5pdGlvbnMpCjMvMTEgQ2hlY2tpbmcgY29tbWl0IDM5MjA1YWFlYzFkZCAo
+aHZmOiBNb3ZlIGNvbW1vbiBjb2RlIG91dCkKNC8xMSBDaGVja2luZyBjb21taXQgNjYyNmQ3Yjg0
+NGNhIChodmY6IEludHJvZHVjZSBodmYgdmNwdSBzdHJ1Y3QpCldBUk5JTkc6IGxpbmUgb3ZlciA4
+MCBjaGFyYWN0ZXJzCiMxNTU6IEZJTEU6IHRhcmdldC9pMzg2L2h2Zi9odmYuYzoyMTM6CisgICAg
+d3ZtY3MoY3B1LT5odmYtPmZkLCBWTUNTX0VOVFJZX0NUTFMsIGNhcDJjdHJsKGh2Zl9zdGF0ZS0+
+aHZmX2NhcHMtPnZteF9jYXBfZW50cnksCgpFUlJPUjogIihmb28qKSIgc2hvdWxkIGJlICIoZm9v
+ICopIgojNzYzOiBGSUxFOiB0YXJnZXQvaTM4Ni9odmYveDg2aHZmLmM6ODU6CisgICAgaWYgKGh2
+X3ZjcHVfd3JpdGVfZnBzdGF0ZShjcHVfc3RhdGUtPmh2Zi0+ZmQsICh2b2lkKil4c2F2ZSwgNDA5
+NikpIHsKCkVSUk9SOiAiKGZvbyopIiBzaG91bGQgYmUgIihmb28gKikiCiM4NDQ6IEZJTEU6IHRh
+cmdldC9pMzg2L2h2Zi94ODZodmYuYzoxNjc6CisgICAgaWYgKGh2X3ZjcHVfcmVhZF9mcHN0YXRl
+KGNwdV9zdGF0ZS0+aHZmLT5mZCwgKHZvaWQqKXhzYXZlLCA0MDk2KSkgewoKdG90YWw6IDIgZXJy
+b3JzLCAxIHdhcm5pbmdzLCA5OTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC8xMSBoYXMgc3R5bGUg
+cHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxz
+ZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENI
+IGluIE1BSU5UQUlORVJTLgoKNS8xMSBDaGVja2luZyBjb21taXQgNDc2MWYzZTE1ZDI5IChhcm06
+IFNldCBQU0NJIHRvIDAuMiBmb3IgSFZGKQo2LzExIENoZWNraW5nIGNvbW1pdCA4MjYwODUwNmRl
+ZGEgKGh2ZjogU2ltcGxpZnkgcG9zdCByZXNldC9pbml0L2xvYWR2bSBob29rcykKNy8xMSBDaGVj
+a2luZyBjb21taXQgZjI2NWQ4OTcxNzdmIChodmY6IEFkZCBBcHBsZSBTaWxpY29uIHN1cHBvcnQp
+CldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVk
+CiM1NDogRklMRTogYWNjZWwvaHZmL2h2Zi1jcHVzLmM6NjE6CisjaWZkZWYgX19hYXJjaDY0X18K
+CldBUk5JTkc6IGFyY2hpdGVjdHVyZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVk
+CiM2NTogRklMRTogYWNjZWwvaHZmL2h2Zi1jcHVzLmM6MzM1OgorI2lmZGVmIF9fYWFyY2g2NF9f
+CgpXQVJOSU5HOiBhcmNoaXRlY3R1cmUgc3BlY2lmaWMgZGVmaW5lcyBzaG91bGQgYmUgYXZvaWRl
+ZAojOTc6IEZJTEU6IGluY2x1ZGUvc3lzZW11L2h2Zl9pbnQuaDoxNToKKyNpZmRlZiBfX2FhcmNo
+NjRfXwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzU4NTogRklMRTogdGFyZ2V0
+L2FybS9odmYvaHZmLmM6NDU4OgorICAgICAgICBodl92Y3B1X3NldF9wZW5kaW5nX2ludGVycnVw
+dChjcHUtPmh2Zi0+ZmQsIEhWX0lOVEVSUlVQVF9UWVBFX0ZJUSwgdHJ1ZSk7CgpXQVJOSU5HOiBs
+aW5lIG92ZXIgODAgY2hhcmFjdGVycwojNTkwOiBGSUxFOiB0YXJnZXQvYXJtL2h2Zi9odmYuYzo0
+NjM6CisgICAgICAgIGh2X3ZjcHVfc2V0X3BlbmRpbmdfaW50ZXJydXB0KGNwdS0+aHZmLT5mZCwg
+SFZfSU5URVJSVVBUX1RZUEVfSVJRLCB0cnVlKTsKCnRvdGFsOiAwIGVycm9ycywgNSB3YXJuaW5n
+cywgNjkxIGxpbmVzIGNoZWNrZWQKClBhdGNoIDcvMTEgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVh
+c2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJl
+cG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVS
+Uy4KOC8xMSBDaGVja2luZyBjb21taXQgZjE4NjkyMWNmMGRiIChhcm06IEFkZCBIeXBlcnZpc29y
+LmZyYW1ld29yayBidWlsZCB0YXJnZXQpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVk
+IGZpbGUocyksIGRvZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzU0OiAKbmV3IGZpbGUg
+bW9kZSAxMDA2NDQKCnRvdGFsOiAwIGVycm9ycywgMSB3YXJuaW5ncywgMzYgbGluZXMgY2hlY2tl
+ZAoKUGF0Y2ggOC8xMSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkg
+b2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1h
+aW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo5LzExIENoZWNraW5nIGNv
+bW1pdCA2MTFlZDk1N2IzZTIgKGFybS9odmY6IEFkZCBhIFdGSSBoYW5kbGVyKQoxMC8xMSBDaGVj
+a2luZyBjb21taXQgNTQyMWU1ZmI3OTNhIChodmY6IGFybTogQWRkIHN1cHBvcnQgZm9yIEdJQ3Yz
+KQoxMS8xMSBDaGVja2luZyBjb21taXQgZDIxMjY3MTQ2MzY5IChodmY6IGFybTogSW1wbGVtZW50
+IC1jcHUgaG9zdCkKPT09IE9VVFBVVCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGgg
+Y29kZTogMQoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3Jn
+L2xvZ3MvMjAyMTAxMjAyMjQ0NDQuNzE4NDAtMS1hZ3JhZkBjc2dyYWYuZGUvdGVzdGluZy5jaGVj
+a3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBi
+eSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJh
+Y2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
