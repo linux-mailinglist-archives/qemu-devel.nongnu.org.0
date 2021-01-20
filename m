@@ -2,65 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 311C72FCD47
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:14:02 +0100 (CET)
-Received: from localhost ([::1]:47026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B33412FCD4F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 10:16:26 +0100 (CET)
+Received: from localhost ([::1]:52324 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l29Yv-0000t4-6S
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:14:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46278)
+	id 1l29bF-0003Bj-Qk
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 04:16:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46442)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l29XN-0008NW-Ko
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:12:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43305)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l29XE-0007uv-4w
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 04:12:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611133934;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=IT0N/adDtZethcpXugOwi+ignahrpU/pPnxEwGs/cLU=;
- b=bT2UX5b06eFEhTVoGAxfIJ35z8U6RzqU0vLMM7ZBRlsTn7gzYf/TQTqRw6y8Skfnoa/66T
- 4+jlbcf+nP+UxjT4cPSvSXiM50MZ80iII4GrKn+duE6Mu/qKz8r1MGaSZzYZn2v3edRtJ0
- 0aif83qS28OXMsEF/FAJRarq1WGKLuY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-KkMEuRQpPSCUCJ2aG9rLSQ-1; Wed, 20 Jan 2021 04:12:11 -0500
-X-MC-Unique: KkMEuRQpPSCUCJ2aG9rLSQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D502F10052FE;
- Wed, 20 Jan 2021 09:12:10 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.74.9.143])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 45CFF5C8AB;
- Wed, 20 Jan 2021 09:12:07 +0000 (UTC)
-From: P J P <ppandit@redhat.com>
-To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: [PATCH v2] ide: set an upper limit to nb_sectors
-Date: Wed, 20 Jan 2021 14:40:02 +0530
-Message-Id: <20210120091002.521931-1-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l29Xz-0000ct-2A; Wed, 20 Jan 2021 04:13:03 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:58768)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l29Xw-00089R-NA; Wed, 20 Jan 2021 04:13:02 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10K92ZBK173345; Wed, 20 Jan 2021 04:12:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=75u/NKuOm5qdorG5RgEjU/RoY2Sa1rf5hQQDIWUb/e4=;
+ b=WXkwuZ+SBMzRVjQr7wPxEr7eB7zQc9cvImOgnGROFlQo2oxnogjjCGsdrdPbpDRTGAMk
+ curIhbafcLdQThHmhpUOoKqZOEgGXqikaRa9vAb0wEAvpNG3/tbeboOHoI8AKzqhX1cq
+ 05s8VAgCfleeLjGqhrEsRCbepMGtZNx2x8kRiDvfZdQPNa7DSI8jVOXks+A7q82BCy9n
+ yZ13hVJbBussT8+ULXscDBYqdCjkacmq5avtL5g+/Bm1IsM0fJ1InwlSPxCMNoTVBCfc
+ Fa1xDbGRxMKE71QHZJx6HomkTQJDFsc2Dza8WVXORN23UfctWgxk59c5EP/ibuVzN3VB 6A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 366hgf8dtn-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 04:12:56 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10K92tCu177792;
+ Wed, 20 Jan 2021 04:12:56 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 366hgf8ds9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 04:12:56 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10K96sSR025442;
+ Wed, 20 Jan 2021 09:12:53 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03fra.de.ibm.com with ESMTP id 3668ny06uv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 09:12:53 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 10K9CiNJ28967330
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Jan 2021 09:12:44 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 433DA4C058;
+ Wed, 20 Jan 2021 09:12:50 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id A1FF24C04A;
+ Wed, 20 Jan 2021 09:12:49 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.39.155])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 20 Jan 2021 09:12:49 +0000 (GMT)
+Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
+To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
+ thuth@redhat.com
+References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+Date: Wed, 20 Jan 2021 10:12:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-20_02:2021-01-18,
+ 2021-01-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1011 malwarescore=0
+ phishscore=0 adultscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
+ suspectscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0 impostorscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101200049
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -75,114 +110,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Prasad J Pandit <pjp@fedoraproject.org>, John Snow <jsnow@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Markus Armbruster <armbru@redhat.com>
+Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Prasad J Pandit <pjp@fedoraproject.org>
 
-Set an upper limit to number of sectors on an IDE disk media.
-This is to ensure that logical block addresses (LBA) and
-nb_sector arguments remain within INT_MAX range.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
----
- hw/ide/core.c             | 27 ++++++++++++++++-----------
- include/hw/ide/internal.h |  1 +
- 2 files changed, 17 insertions(+), 11 deletions(-)
+On 1/19/21 9:44 PM, Matthew Rosato wrote:
+> Today, ISM devices are completely disallowed for vfio-pci passthrough as
+> QEMU rejects the device due to an (inappropriate) MSI-X check.  Removing
+> this fence, however, reveals additional deficiencies in the s390x PCI
+> interception layer that prevent ISM devices from working correctly.
+> Namely, ISM block write operations have particular requirements in regards
+> to the alignment, size and order of writes performed that cannot be
+> guaranteed when breaking up write operations through the typical
+> vfio_pci_bar_rw paths. Furthermore, ISM requires that legacy/non-MIO
+> s390 PCI instructions are used, which is also not guaranteed when the I/O
+> is passed through the typical userspace channels.
+> 
+> This patchset provides a set of fixes related to enabling ISM device
+> passthrough and includes patches to enable use of a new vfio region that
+> will allow s390x PCI pass-through devices to perform s390 PCI instructions
+> in such a way that the same instruction issued on the guest is re-issued
+> on the host.
+> 
+> Associated kernel patchset:
+> https://lkml.org/lkml/2021/1/19/874
+> 
+> Changes from RFC -> v1:
+> - Refresh the header sync (built using Eric's 'update-linux-headers:
+> Include const.h' + manually removed pvrdma_ring.h again)
+> - Remove s390x/pci: fix pcistb length (already merged)
+> - Remove s390x/pci: Fix memory_region_access_valid call (already merged)
+> - Fix bug: s390_pci_vfio_pcistb should use the pre-allocated PCISTB
+> buffer pcistb_buf rather than allocating/freeing its own.
+> - New patch: track the PFT (PCI Function Type) separately from guest CLP
+> response data -- we tell the guest '0' for now due to limitations in
+> measurement block support, but we can still use the real value provided via
+> the vfio CLP capabilities to make decisions.
+> - Use the PFT (pci function type) to determine when to use the region
+> for PCISTB/PCILG (only for ISM), rather than using the relaxed alignment
+> bit.
+> - As a result, the pcistb_default is now updated to also handle the
+> possibility of relaxed alignment via 2 new functions, pcistb_validate_write
+> and pcistb_write, which serve as wrappers to the memory_region calls.
+> - New patch, which partially restores the MSI-X fence for passthrough
+> devices...  Could potentially be squashed with 's390x/pci: MSI-X isn't
+> strictly required for passthrough' but left separately for now as I felt it
+> needed a clear commit description of why we should still fence this case.
+> 
+Hi,
 
-Update v2: add explanatory comment, define macro
-  -> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04610.html
+The choice of using the new VFIO region is made on the ISM PCI function 
+type (PFT), which makes the patch ISM specific, why don't we use here 
+the MIO bit common to any zPCI function and present in kernel to make 
+the choice?
 
-Update v1: limit s->nb_sectors count
-  -> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04270.html
-  -> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg04173.html
+Regards,
+Pierre
 
-diff --git a/hw/ide/core.c b/hw/ide/core.c
-index b49e4cfbc6..902f51423d 100644
---- a/hw/ide/core.c
-+++ b/hw/ide/core.c
-@@ -1161,15 +1161,25 @@ static void ide_cfata_metadata_write(IDEState *s)
-                                     s->nsector << 9), 0x200 - 2));
- }
-
-+static void ide_set_nb_sectors(IDEState *s)
-+{
-+    uint64_t nb_sectors;
-+    blk_get_geometry(s->blk, &nb_sectors);
-+
-+    /*
-+     * Restrict total number of addressable sectors to (INT_MAX << 2),
-+     * so that logical addresses (LBA) stay within INT_MAX limit.
-+     */
-+    s->nb_sectors = MIN(nb_sectors, IDE_MAX_NB_SECTORS);
-+}
-+
- /* called when the inserted state of the media has changed */
- static void ide_cd_change_cb(void *opaque, bool load, Error **errp)
- {
-     IDEState *s = opaque;
--    uint64_t nb_sectors;
-
-     s->tray_open = !load;
--    blk_get_geometry(s->blk, &nb_sectors);
--    s->nb_sectors = nb_sectors;
-+    ide_set_nb_sectors(s);
-
-     /*
-      * First indicate to the guest that a CD has been removed.  That's
-@@ -2475,14 +2485,12 @@ static bool ide_cd_is_medium_locked(void *opaque)
- static void ide_resize_cb(void *opaque)
- {
-     IDEState *s = opaque;
--    uint64_t nb_sectors;
-
-     if (!s->identify_set) {
-         return;
-     }
-
--    blk_get_geometry(s->blk, &nb_sectors);
--    s->nb_sectors = nb_sectors;
-+    ide_set_nb_sectors(s);
-
-     /* Update the identify data buffer. */
-     if (s->drive_kind == IDE_CFATA) {
-@@ -2511,17 +2519,14 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
-                    uint32_t cylinders, uint32_t heads, uint32_t secs,
-                    int chs_trans, Error **errp)
- {
--    uint64_t nb_sectors;
--
-     s->blk = blk;
-     s->drive_kind = kind;
--
--    blk_get_geometry(blk, &nb_sectors);
-     s->cylinders = cylinders;
-     s->heads = heads;
-     s->sectors = secs;
-     s->chs_trans = chs_trans;
--    s->nb_sectors = nb_sectors;
-+    ide_set_nb_sectors(s);
-+
-     s->wwn = wwn;
-     /* The SMART values should be preserved across power cycles
-        but they aren't.  */
-diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
-index 2d09162eeb..7c436def5b 100644
---- a/include/hw/ide/internal.h
-+++ b/include/hw/ide/internal.h
-@@ -219,6 +219,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(IDEBus, IDE_BUS)
- /* set to 1 set disable mult support */
- #define MAX_MULT_SECTORS 16
-
-+#define IDE_MAX_NB_SECTORS  ((uint64_t)INT_MAX << 2)
- #define IDE_DMA_BUF_SECTORS 256
-
- /* feature values for Data Set Management */
---
-2.29.2
-
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
