@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F532FCDDC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 11:40:17 +0100 (CET)
-Received: from localhost ([::1]:52004 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB6672FCDE1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 11:47:49 +0100 (CET)
+Received: from localhost ([::1]:58424 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2AuO-0000vi-OC
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:40:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38090)
+	id 1l2B1g-00043S-N8
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:47:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39088)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2Atc-0000PF-MY
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:39:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51426)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2AyQ-0002Dz-8Y
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:44:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39486)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2Ata-0004rQ-4u
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:39:28 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2AyN-0006U6-Vz
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:44:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611139165;
+ s=mimecast20190719; t=1611139460;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Foa8U2ELhcshvqJO1UmFwN4l7RbotHXpgi5AlM0z8/c=;
- b=egaGp14futrup8kynGb/timDedJY9AZF8QrfXZtDGF2iLm8SkOa4TXyXYtTNrogHf5x3dt
- A51sDyQvAhffEy3eh+4Td9NS1rOO2MZ79thAp7y9l4nShAhDpiPwQPBKuw72w4GivRzEi6
- Gtmxqnr9m+TeAw0E8fxSgY91RhQj8rc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=nJiCNmH/lt5QI8+zZYSCHFBQwuXxAAmR003AQh9h1xo=;
+ b=JVGN6GzrcAaZKAIdlWR4Ex51EKO61+QfGE/RH6Hd/M9yKxN7J2MbO9MWqYE7xsElHsNIhX
+ uFaAiexdHdiBuU8lILRChzpmbqP9moocq/ub+EtMbpVdqUsThT0DbpETEn+YZKDtfxCgHx
+ Fo1kdJqJyvHOA1NXq92Ey704SATISAI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-uU1X2KXEPnKdQuxaXJ-5kg-1; Wed, 20 Jan 2021 05:39:21 -0500
-X-MC-Unique: uU1X2KXEPnKdQuxaXJ-5kg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-563-qKZqTsxVMw61W27TSWJRVQ-1; Wed, 20 Jan 2021 05:44:17 -0500
+X-MC-Unique: qKZqTsxVMw61W27TSWJRVQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CDB98066F1;
- Wed, 20 Jan 2021 10:39:20 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-178.ams2.redhat.com
- [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F07EF1002382;
- Wed, 20 Jan 2021 10:39:17 +0000 (UTC)
-Subject: Re: [PATCH v4 00/23] backup performance: block_status + async
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
- <3a5ea1b1-1137-4ac5-5aac-5bdec0b7b0d5@redhat.com>
- <eb6ad5ca-0254-c9a7-63e3-3a4619e397cd@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <29cccc86-a450-3326-2d70-f3022e32b5db@redhat.com>
-Date: Wed, 20 Jan 2021 11:39:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8D33F59;
+ Wed, 20 Jan 2021 10:44:16 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-115-126.ams2.redhat.com
+ [10.36.115.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4EB755C8AB;
+ Wed, 20 Jan 2021 10:44:12 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v9 00/11] migration: bring improved savevm/loadvm/delvm to QMP
+Date: Wed, 20 Jan 2021 10:44:00 +0000
+Message-Id: <20210120104411.3084801-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <eb6ad5ca-0254-c9a7-63e3-3a4619e397cd@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,89 +76,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19.01.21 20:22, Vladimir Sementsov-Ogievskiy wrote:
-> 19.01.2021 21:40, Max Reitz wrote:
->> On 16.01.21 22:46, Vladimir Sementsov-Ogievskiy wrote:
->>> Hi Max!
->>> I applied my series onto yours 129-fixing and found, that 129 fails 
->>> for backup.
->>> And setting small max-chunk and even max-workers to 1 doesn't help! 
->>> (setting
->>> speed like in v3 still helps).
->>>
->>> And I found, that the problem is that really, the whole backup job 
->>> goes during
->>> drain, because in new architecture we do just job_yield() during the 
->>> whole
->>> background block-copy.
->>>
->>> This leads to modifying the existing patch in the series, which does 
->>> job_enter()
->>> from job_user_pause: we just need call job_enter() from job_pause() 
->>> to cover
->>> not only user pauses but also drained_begin.
->>>
->>> So, now I don't need any additional fixing of 129.
->>>
->>> Changes in v4:
->>> - add a lot of Max's r-b's, thanks!
->>>
->>> 03: fix over-80 line (in comment), add r-b
->>> 09: was "[PATCH v3 10/25] job: call job_enter from job_user_pause",
->>>      now changed to finally fix 129 iotest, drop r-b
->>>
->>> 10: squash-in additional wording on max-chunk, fix error message, 
->>> keep r-b
->>> 17: drop extra include, assert job_is_cancelled() instead of check, 
->>> add r-b
->>> 18: adjust commit message, add r-b
->>> 23: add comments and assertion, about the fact that test doesn't support
->>>      paths with colon inside
->>>      fix s/disable-copy-range/use-copy-range/
->>
->> Hmmm, for me, 129 sometimes fails still, because it completes too 
->> quickly...  (The error then is that 'return[0]' does not exist in 
->> query-block-jobs’s result, because the job is already gone.)
->>
->> When I insert a print(result) after the query-block-jobs, I can see 
->> that the job has always progressed really far, even if its still 
->> running. (Like, generally the offset is just one MB shy of 1G.)
->>
->> I suspect the problem is that block-copy just copies too much from the 
->> start (by default); i.e., it starts 64 workers with, hm, well, 1 MB of 
->> chunk size?  Shouldn’t fill the 128 MB immediately...
->>
->> Anyway, limiting the number of workers (to 1) and the chunk size (to 
->> 64k) with x-perf does ensure that the backup job’s progress is limited 
->> to 1 MB or so, which looks fine to me.
->>
->> I suppose we should do that, then (in 129), before patch 17?
-> 
-> Yes, that sounds reasonable
-> 
->>
->> (PS: I can also see a MacOS failure in iotest 256.  I suspect it’s 
->> related to this series, because 256 is a backup test (with iothreads), 
->> but I’m not sure yet.  The log is here:
->>
->> https://cirrus-ci.com/task/5276331753603072
->> )
->>
-> 
-> qemu received signal 31 ?
-> 
-> googling for MacOS...
-> 
->   31    SIGUSR2      terminate process    User defined signal 2
-
-coroutine-sigaltstack uses SIGUSR2 to set up new coroutines.  Perhaps 
-it’s unrelated to backup?  Guess I’ll just run the test one more time. O:)
-
-Max
+ v1: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg00866.html=0D
+ v2: https://lists.gnu.org/archive/html/qemu-devel/2020-07/msg07523.html=0D
+ v3: https://lists.gnu.org/archive/html/qemu-devel/2020-08/msg07076.html=0D
+ v4: https://lists.gnu.org/archive/html/qemu-devel/2020-09/msg05221.html=0D
+ v5: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg00587.html=0D
+ v6: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02158.html=0D
+ v7: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg06205.html=0D
+ v8: https://lists.gnu.org/archive/html/qemu-devel/2020-11/msg06464.html=0D
+=0D
+This series aims to provide a better designed replacement for the=0D
+savevm/loadvm/delvm HMP commands, which despite their flaws continue=0D
+to be actively used in the QMP world via the HMP command passthrough=0D
+facility.=0D
+=0D
+The main problems addressed are:=0D
+=0D
+ - The logic to pick which disk to store the vmstate in is not=0D
+   satsifactory.=0D
+=0D
+   The first block driver state cannot be assumed to be the root disk=0D
+   image, it might be OVMF varstore and we don't want to store vmstate=0D
+   in there.=0D
+=0D
+ - The logic to decide which disks must be snapshotted is hardwired=0D
+   to all disks which are writable=0D
+=0D
+   Again with OVMF there might be a writable varstore, but this can be=0D
+   raw rather than qcow2 format, and thus unable to be snapshotted.=0D
+   While users might wish to snapshot their varstore, in some/many/most=0D
+   cases it is entirely uneccessary. Users are blocked from snapshotting=0D
+   their VM though due to this varstore.=0D
+=0D
+ - The commands are synchronous blocking execution and returning=0D
+   errors immediately.=0D
+=0D
+   This is partially addressed by integrating with the job framework.=0D
+   This forces the client to use the async commands to determine=0D
+   the completion status or error message from the operations.=0D
+=0D
+In the block code I've only dealt with node names for block devices, as=0D
+IIUC, this is all that libvirt should need in the -blockdev world it now=0D
+lives in. IOW, I've made not attempt to cope with people wanting to use=0D
+these QMP commands in combination with -drive args, as libvirt will=0D
+never use -drive with a QEMU new enough to have these new commands.=0D
+=0D
+The main limitations of this current impl=0D
+=0D
+ - The snapshot process runs serialized in the main thread. ie QEMU=0D
+   guest execution is blocked for the duration. The job framework=0D
+   lets us fix this in future without changing the QMP semantics=0D
+   exposed to the apps.=0D
+=0D
+ - Most vmstate loading errors just go to stderr, as they are not=0D
+   using Error **errp reporting. Thus the job framework just=0D
+   reports a fairly generic message=0D
+=0D
+     "Error -22 while loading VM state"=0D
+=0D
+   Again this can be fixed later without changing the QMP semantics=0D
+   exposed to apps.=0D
+=0D
+I've done some minimal work in libvirt to start to make use of the new=0D
+commands to validate their functionality, but this isn't finished yet.=0D
+=0D
+My ultimate goal is to make the GNOME Boxes maintainer happy again by=0D
+having internal snapshots work with OVMF:=0D
+=0D
+  https://gitlab.gnome.org/GNOME/gnome-boxes/-/commit/c486da262f6566326fbcb=
+5e=3D=0D
+f45c5f64048f16a6e=0D
+=0D
+Changed in v9:=0D
+=0D
+ - Rebase to git master to resolve conflicts=0D
+ - Fixed accidental regression in error handling in previous v8=0D
+ - Fixed formatting of iotest expected output now that we switched=0D
+   to preserving whitespace in QMP input=0D
+=0D
+Changed in v8:=0D
+=0D
+ - Rebase to git master to resolve conflicts=0D
+ - Updated QAPI since versions to 6.0=0D
+=0D
+Changed in v7:=0D
+=0D
+ - Incorporate changes from:=0D
+=0D
+     https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg03165.html=0D
+=0D
+ - Tweaked error message=0D
+=0D
+Changed in v6:=0D
+=0D
+ - Resolve many conflicts with recent replay changes=0D
+ - Misc typos in QAPI=0D
+=0D
+Changed in v5:=0D
+=0D
+ - Fix prevention of tag overwriting=0D
+ - Refactor and expand test suite coverage to validate=0D
+   more negative scenarios=0D
+=0D
+Changed in v4:=0D
+=0D
+ - Make the device lists mandatory, dropping all support for=0D
+   QEMU's built-in heuristics to select devices.=0D
+=0D
+ - Improve some error reporting and I/O test coverage=0D
+=0D
+Changed in v3:=0D
+=0D
+ - Schedule a bottom half to escape from coroutine context in=0D
+   the jobs. This is needed because the locking in the snapshot=0D
+   code goes horribly wrong when run from a background coroutine=0D
+   instead of the main event thread.=0D
+=0D
+ - Re-factor way we iterate over devices, so that we correctly=0D
+   report non-existant devices passed by the user over QMP.=0D
+=0D
+ - Add QAPI docs notes about limitations wrt vmstate error=0D
+   reporting (it all goes to stderr not an Error **errp)=0D
+   so QMP only gets a fairly generic error message currently.=0D
+=0D
+ - Add I/O test to validate many usage scenarios / errors=0D
+=0D
+ - Add I/O test helpers to handle QMP events with a deterministic=0D
+   ordering=0D
+=0D
+ - Ensure 'delete-snapshot' reports an error if requesting=0D
+   delete from devices that don't support snapshot, instead of=0D
+   silently succeeding with no erro.=0D
+=0D
+Changed in v2:=0D
+=0D
+ - Use new command names "snapshot-{load,save,delete}" to make it=0D
+   clear that these are different from the "savevm|loadvm|delvm"=0D
+   as they use the Job framework=0D
+=0D
+ - Use an include list for block devs, not an exclude list=0D
+=0D
+Daniel P. Berrang=3DC3=3DA9 (10):=0D
+  block: push error reporting into bdrv_all_*_snapshot functions=0D
+  migration: stop returning errno from load_snapshot()=0D
+  block: add ability to specify list of blockdevs during snapshot=0D
+  block: allow specifying name of block device for vmstate storage=0D
+  block: rename and alter bdrv_all_find_snapshot semantics=0D
+  migration: control whether snapshots are ovewritten=0D
+  migration: wire up support for snapshot device selection=0D
+  migration: introduce a delete_snapshot wrapper=0D
+  iotests: add support for capturing and matching QMP events=0D
+  migration: introduce snapshot-{save,load,delete} QMP commands=0D
+=0D
+Philippe Mathieu-Daud=3DC3=3DA9 (1):=0D
+  migration: Make save_snapshot() return bool, not 0/-1=0D
+=0D
+ block/monitor/block-hmp-cmds.c |   7 +-=0D
+ block/snapshot.c               | 256 +++++++++++-----=0D
+ include/block/snapshot.h       |  23 +-=0D
+ include/migration/snapshot.h   |  47 ++-=0D
+ migration/savevm.c             | 296 ++++++++++++++++---=0D
+ monitor/hmp-cmds.c             |  12 +-=0D
+ qapi/job.json                  |   9 +-=0D
+ qapi/migration.json            | 121 ++++++++=0D
+ replay/replay-debugging.c      |  12 +-=0D
+ replay/replay-snapshot.c       |   5 +-=0D
+ slirp                          |   2 +-=0D
+ softmmu/vl.c                   |   2 +-=0D
+ tests/qemu-iotests/267.out     |  12 +-=0D
+ tests/qemu-iotests/310         | 385 ++++++++++++++++++++++++=0D
+ tests/qemu-iotests/310.out     | 520 +++++++++++++++++++++++++++++++++=0D
+ tests/qemu-iotests/common.qemu | 107 ++++++-=0D
+ tests/qemu-iotests/group       |   1 +=0D
+ 17 files changed, 1663 insertions(+), 154 deletions(-)=0D
+ create mode 100755 tests/qemu-iotests/310=0D
+ create mode 100644 tests/qemu-iotests/310.out=0D
+=0D
+--=3D20=0D
+2.29.2=0D
+=0D
 
 
