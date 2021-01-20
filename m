@@ -2,92 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ED822FD228
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:01:33 +0100 (CET)
-Received: from localhost ([::1]:51628 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9EE32FD22A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:06:44 +0100 (CET)
+Received: from localhost ([::1]:54460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2E3A-0005iT-Hv
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:01:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50640)
+	id 1l2E8B-00078h-Rg
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:06:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2E01-0003h2-7V
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:58:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Dzz-0005DT-4t
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:58:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611151094;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D/SP4qWt31pePve99D/KUe0lL6o6BgJRYYa9kYV2RC0=;
- b=C5fnlvuFf8aUCUiVg2+KbY+mAbZxsDLM5o93UIe4Ig2JSRowS4vfa/K2JghGAqimUP201F
- EaARDvBih52XCk90vCIelq1tB3KUXsh7jAw7bCrW9M4Tvrc1leBj+6cnDt38Nn2siG/jYp
- psbNWZLmNDf1X7MNZDgw+0hnmYj00XA=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-nxCNKGo3MRqj-g7AN313Cw-1; Wed, 20 Jan 2021 08:58:12 -0500
-X-MC-Unique: nxCNKGo3MRqj-g7AN313Cw-1
-Received: by mail-ed1-f72.google.com with SMTP id k5so11072863edk.15
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 05:58:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=D/SP4qWt31pePve99D/KUe0lL6o6BgJRYYa9kYV2RC0=;
- b=bNXmJQfAc5c40qH9Hrk7vBSpGXhIN81atnZc7TJA9lallb6LGnBvV+cUDynKl9BmHO
- QyXt95ukQE0+3C5sOZssV8yNzly38+EK/Nddi03vQJR0W8zDX/xjyLrKpuXnMZnz+ll1
- dtGMEem285QFePxegkV+zAKlB+wR+X54X715rD/gVXg0kDZ13z8S8nv1RPnZiIwaXaNk
- 8wVmnzfc0zYhgRbPM+j14yJJrON+b4aXtV5+cMTUbWX80mQYSESS5rj8TgpvR8xzx7e5
- qZcYRPYTVzrfjZJOx+NqXasipwNAD/fzgTEB+rNPOvJAICZgciE6YSvYhC2K8/SUuyYq
- SZUg==
-X-Gm-Message-State: AOAM533T7qliKsGVQTuM5cgESIIyukbDfoCm0zYsXYcCRf/5H9xwf3zf
- raQu1ZFU80DPE4ecXyoSm6sZJ54T6PMcbbC3f40cW8mXwSDuaUtvWpbTqLbahzofonGVylklC77
- pLk3lghKDQU5itUkcXt4VoHW2G0Vlfalqx3/vYqwOed4vltXKnMKCq8QFawO0czhe
-X-Received: by 2002:a17:906:4348:: with SMTP id
- z8mr6272625ejm.371.1611151090754; 
- Wed, 20 Jan 2021 05:58:10 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwwPO38VVs+LtnjxsiWRX3c99LHGOSH2PzA/AiVWiiD3DYVeu82HWIHZvNFgdrZmODkPFnDJg==
-X-Received: by 2002:a17:906:4348:: with SMTP id
- z8mr6272608ejm.371.1611151090477; 
- Wed, 20 Jan 2021 05:58:10 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id bl13sm939537ejb.64.2021.01.20.05.58.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 05:58:09 -0800 (PST)
-Subject: Re: How to run crypto benchmarks tests?
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <c72a38ac-d164-9357-4eda-2334c496c555@redhat.com>
- <20210120130624.GI3015589@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5a7feef9-fc27-c72f-ea59-5f45ddfc5c83@redhat.com>
-Date: Wed, 20 Jan 2021 14:58:08 +0100
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1l2E5Z-0006hf-0M; Wed, 20 Jan 2021 09:04:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3666
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
+ id 1l2E5W-00079x-L7; Wed, 20 Jan 2021 09:04:00 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10KE291G174828; Wed, 20 Jan 2021 09:03:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=5QxIpt2RlnhTfnw+1sckvwpfDiUi4W359qpBVIiIU8I=;
+ b=SUg4uWdkt8GLQiAad59fCYqcs4H7nz41UmBsfo8QLuIJiyHTKUXgjG0H1crktX2zwJ3L
+ qNkQlTQQbrdzykX0MMAPXWOWVvvbPIjpP69n4Wby7JaS/j7Uujivpl0wKaDIN5JLjJsO
+ UFOLCeqegTv0XuVqVHhN/ba/zmWt4ORSoK+KK3ypV5KgnIRr1Vv8pKGCRZ/tTSHLnVpe
+ Mh4M1xkW0RaQWOBVhhU5NP9/YonwTaWN8/NX4IG7ETilU2tHbs1Io9iCAjt7BxyNNwFz
+ ufSGez5NrKVgt0Ds5qyG1hpe9piBKYG+OqImNU0xCtO4pHaSHBBbtQSPNR3QWWrlHkU1 0A== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 366mtntawe-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 09:03:55 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10KE3tqO188900;
+ Wed, 20 Jan 2021 09:03:55 -0500
+Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
+ [169.47.144.26])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 366mtntavx-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 09:03:55 -0500
+Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
+ by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10KDwMRY008910;
+ Wed, 20 Jan 2021 14:03:54 GMT
+Received: from b03cxnp08025.gho.boulder.ibm.com
+ (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
+ by ppma04wdc.us.ibm.com with ESMTP id 3668pqcmv6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 14:03:54 +0000
+Received: from b03ledav005.gho.boulder.ibm.com
+ (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
+ by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10KE3rC218743766
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Jan 2021 14:03:53 GMT
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 73821BE059;
+ Wed, 20 Jan 2021 14:03:53 +0000 (GMT)
+Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 44B08BE05D;
+ Wed, 20 Jan 2021 14:03:52 +0000 (GMT)
+Received: from oc4221205838.ibm.com (unknown [9.211.56.144])
+ by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed, 20 Jan 2021 14:03:52 +0000 (GMT)
+Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
+To: Pierre Morel <pmorel@linux.ibm.com>, cohuck@redhat.com, thuth@redhat.com
+References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+ <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+From: Matthew Rosato <mjrosato@linux.ibm.com>
+Message-ID: <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
+Date: Wed, 20 Jan 2021 09:03:51 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210120130624.GI3015589@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-20_05:2021-01-20,
+ 2021-01-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0
+ lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0 adultscore=0
+ priorityscore=1501 malwarescore=0 suspectscore=0 mlxscore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101200079
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,79 +111,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/21 2:06 PM, Daniel P. Berrangé wrote:
-> On Wed, Jan 20, 2021 at 01:50:48PM +0100, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> Using the following "build tools and doc" config:
->>
->> ../configure --disable-system --disable-user
->>                                  ...
->>                      TLS priority: "NORMAL"
->>                    GNUTLS support: YES
->>                         libgcrypt: NO
->>                            nettle: YES
->>                               XTS: YES
->>                          libtasn1: YES
->>                               PAM: YES
->>                                  ...
->>
->> $ make check-help
->> ...
->>  make check-speed          Run qobject speed tests
->> ...
->> Test targets:
->>   check                          - Run all tests (check-help for details)
->>   bench                          - Run all benchmarks
->>   docker                         - Help about targets running tests
->> inside containers
->>
->> $ make check-speed
->> make: *** No rule to make target 'bench-speed', needed by 'check-speed'.
->>  Stop.
->> $ make bench-speed
->> make: *** No rule to make target 'bench-speed'.  Stop.
->> $ make check-bench
->> make: *** No rule to make target 'check-bench'.  Stop.
->> $ make bench
->> make: Nothing to be done for 'bench'.
->>
->> I want to run these tests:
->>
->> $ ls -1 tests/test-crypto-*c
->> tests/test-crypto-afsplit.c
->> tests/test-crypto-block.c
->> tests/test-crypto-cipher.c
->> tests/test-crypto-hash.c
->> tests/test-crypto-hmac.c
->> tests/test-crypto-ivgen.c
->> tests/test-crypto-pbkdf.c
->> tests/test-crypto-secret.c
->> tests/test-crypto-tlscredsx509.c
->> tests/test-crypto-tlssession.c
->> tests/test-crypto-xts.c
+On 1/20/21 4:12 AM, Pierre Morel wrote:
 > 
-> These aren't benchmarks - they're regular unit tests - eg make check-unit 
 > 
-> The benchmarks are tests/benchmark-crypto*.c
+> On 1/19/21 9:44 PM, Matthew Rosato wrote:
+>> Today, ISM devices are completely disallowed for vfio-pci passthrough as
+>> QEMU rejects the device due to an (inappropriate) MSI-X check.  Removing
+>> this fence, however, reveals additional deficiencies in the s390x PCI
+>> interception layer that prevent ISM devices from working correctly.
+>> Namely, ISM block write operations have particular requirements in 
+>> regards
+>> to the alignment, size and order of writes performed that cannot be
+>> guaranteed when breaking up write operations through the typical
+>> vfio_pci_bar_rw paths. Furthermore, ISM requires that legacy/non-MIO
+>> s390 PCI instructions are used, which is also not guaranteed when the I/O
+>> is passed through the typical userspace channels.
+>>
+>> This patchset provides a set of fixes related to enabling ISM device
+>> passthrough and includes patches to enable use of a new vfio region that
+>> will allow s390x PCI pass-through devices to perform s390 PCI 
+>> instructions
+>> in such a way that the same instruction issued on the guest is re-issued
+>> on the host.
+>>
+>> Associated kernel patchset:
+>> https://lkml.org/lkml/2021/1/19/874
+>>
+>> Changes from RFC -> v1:
+>> - Refresh the header sync (built using Eric's 'update-linux-headers:
+>> Include const.h' + manually removed pvrdma_ring.h again)
+>> - Remove s390x/pci: fix pcistb length (already merged)
+>> - Remove s390x/pci: Fix memory_region_access_valid call (already merged)
+>> - Fix bug: s390_pci_vfio_pcistb should use the pre-allocated PCISTB
+>> buffer pcistb_buf rather than allocating/freeing its own.
+>> - New patch: track the PFT (PCI Function Type) separately from guest CLP
+>> response data -- we tell the guest '0' for now due to limitations in
+>> measurement block support, but we can still use the real value 
+>> provided via
+>> the vfio CLP capabilities to make decisions.
+>> - Use the PFT (pci function type) to determine when to use the region
+>> for PCISTB/PCILG (only for ISM), rather than using the relaxed alignment
+>> bit.
+>> - As a result, the pcistb_default is now updated to also handle the
+>> possibility of relaxed alignment via 2 new functions, 
+>> pcistb_validate_write
+>> and pcistb_write, which serve as wrappers to the memory_region calls.
+>> - New patch, which partially restores the MSI-X fence for passthrough
+>> devices...  Could potentially be squashed with 's390x/pci: MSI-X isn't
+>> strictly required for passthrough' but left separately for now as I 
+>> felt it
+>> needed a clear commit description of why we should still fence this case.
+>>
+> Hi,
+> 
+> The choice of using the new VFIO region is made on the ISM PCI function 
+> type (PFT), which makes the patch ISM specific, why don't we use here 
+> the MIO bit common to any zPCI function and present in kernel to make 
+> the choice?
+> 
 
-Oops indeed. I want to run both to be sure.
+As discussed during the RFC (and see my reply also to the kernel set), 
+the use of this region only works for devices that do not rely on MSI-X 
+interrupts.  If we did as you suggest, other device types like mlx would 
+not receive MSI-X interrupts in the guest (And I did indeed try 
+variations where I used the special VFIO region for all 
+PCISTG/PCILG/PCISTB for various device types)
 
-> Either way, all of this is surrounded by 'if have_block' in tests/meson.build
-> which should apply if you have tools enabled or system emulators enabled.
+So the idea for now was to solve the specific problem at hand (getting 
+ISM devices working).
 
-That helped:
-
-                      block layer: NO
-
-I'll see why the tools are not automatically selected.
-
-Thanks,
-
-Phil.
 
 
