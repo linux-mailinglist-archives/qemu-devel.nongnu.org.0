@@ -2,110 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8F192FD7EA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 19:13:15 +0100 (CET)
-Received: from localhost ([::1]:34370 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943492FD876
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 19:41:45 +0100 (CET)
+Received: from localhost ([::1]:48612 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Hyk-0006kb-SF
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 13:13:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59758)
+	id 1l2IQI-0006OQ-EK
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 13:41:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1l2Hwc-0005Pz-MA
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:11:02 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:17748)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dovmurik@linux.vnet.ibm.com>)
- id 1l2Hwa-0007te-4h
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:11:02 -0500
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10KI6GPC140495
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 13:10:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=IXURaFwm626sLuPcCwETEZxKOptWQZXrZFH5d9lYqBk=;
- b=rgHfhh0aU97+RuCetRQRVfvhxJnMTUlAVW9Fnn4dgZ35AlmPKiYEFdOVsKNURCH2I/43
- cUw0o9I4Is74FrKZ7e+2KO9z58PjClXxCE4nhVQaPVEsZ5duFS1bp2JODY5GUAo/i69b
- 3dA8+AK7dD+K5lRJmhsCRKJfAnTiimv9M1FncmrTG1SHUq34IoZxEFBeZ7XHSRtz+1oQ
- 5hIpfD1us6HOQztUho0ATNWbL3T3xZFWsvoGTbgj+bSeewXdUXBE7Y5r2T4SsfFhMngg
- 3kM9N4PbZ14km96aiiWyI9ScAl1NdYvJ0YAnSXfSxTVeAPWx1MX5nfUPb3jyJ1CTrUwc 2A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 366rj91kg2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 13:10:57 -0500
-Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10KI6qBX143622
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 13:10:57 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 366rj91ke9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 13:10:57 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10KI76F6023335;
- Wed, 20 Jan 2021 18:10:54 GMT
-Received: from b06avi18878370.portsmouth.uk.ibm.com
- (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
- by ppma06ams.nl.ibm.com with ESMTP id 3668nwrwgy-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 18:10:54 +0000
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
- [9.149.105.60])
- by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
- id 10KIAk0L36176288
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Jan 2021 18:10:46 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 38E1642047;
- Wed, 20 Jan 2021 18:10:52 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CCE1442041;
- Wed, 20 Jan 2021 18:10:50 +0000 (GMT)
-Received: from [9.65.219.40] (unknown [9.65.219.40])
- by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Wed, 20 Jan 2021 18:10:50 +0000 (GMT)
-Subject: Re: [PATCH] qmp-shell: Suppress banner and prompt when stdin is not a
- TTY
-To: John Snow <jsnow@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210117072742.119377-1-dovmurik@linux.vnet.ibm.com>
- <f6b88346-9dac-2679-385c-17d4a0e245c4@redhat.com>
- <1d63a097-27d5-5b3a-2ce6-f6a2402e135e@linux.vnet.ibm.com>
- <20210120094539.GC3015589@redhat.com>
- <0d56a477-d4dd-ca59-9b16-90ea8c7a1c45@redhat.com>
-From: Dov Murik <dovmurik@linux.vnet.ibm.com>
-Message-ID: <12f642e1-0a56-41bc-bae1-f7b3a90e0de8@linux.vnet.ibm.com>
-Date: Wed, 20 Jan 2021 20:10:48 +0200
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2INg-0005fi-To
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:39:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:48570)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2INd-0002fk-Sj
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 13:39:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611167936;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=aLImz38lPeROSVTpVAkpZ0csEgF4U82wr3lP+hD6s6Q=;
+ b=PQDBOx5ldiL7EuIMKJIc9YXScB6GNMtIJ6rqTD+acy5fzQxYJfxm7euA5Ngd3+FQLouguI
+ /iEeGcLneq31Zk7CbmAbfoRUKM5OMrwlT/JdTmXHhOfDkoDzuwZmwVymWebvV0mc/gfBNo
+ XZJzioyT8kLEDx9XpYSLuJkr0qv8PJo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-507-LVYgKnppM1-efWCWKkBKCA-1; Wed, 20 Jan 2021 13:38:51 -0500
+X-MC-Unique: LVYgKnppM1-efWCWKkBKCA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7CACA80666F;
+ Wed, 20 Jan 2021 18:38:50 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6ADA66F7E5;
+ Wed, 20 Jan 2021 18:38:49 +0000 (UTC)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210120104411.3084801-1-berrange@redhat.com>
+ <20210120104411.3084801-11-berrange@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v9 10/11] iotests: add support for capturing and matching
+ QMP events
+Message-ID: <ac0d751e-c382-38b4-dd00-8189b1f34e0d@redhat.com>
+Date: Wed, 20 Jan 2021 12:38:48 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <0d56a477-d4dd-ca59-9b16-90ea8c7a1c45@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210120104411.3084801-11-berrange@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-20_10:2021-01-20,
- 2021-01-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501
- spamscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999 clxscore=1015
- lowpriorityscore=0 phishscore=0 malwarescore=0 bulkscore=0 adultscore=0
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101200102
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=dovmurik@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,131 +84,206 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 20/01/2021 17:46, John Snow wrote:
-> On 1/20/21 4:45 AM, Daniel P. Berrangé wrote:
->> On Wed, Jan 20, 2021 at 10:25:25AM +0200, Dov Murik wrote:
->>> Hi John,
->>>
->>> On 19/01/2021 22:02, John Snow wrote:
->>>> On 1/17/21 2:27 AM, Dov Murik wrote:
->>>>> Detect whether qmp-shell's standard input is not a TTY; in such case,
->>>>> assume a non-interactive mode, which suppresses the welcome banner and
->>>>> the "(QEMU)" prompt.  This allows for easier consumption of 
->>>>> qmp-shell's
->>>>> output in scripts.
->>>>>
->>>>> Example usage before this change:
->>>>>
->>>>>       $ printf "query-status\nquery-kvm\n" | sudo
->>>>> scripts/qmp/qmp-shell qmp-unix-sock
->>>>>       Welcome to the QMP low-level shell!
->>>>>       Connected to QEMU 5.1.50
->>>>>
->>>>>       (QEMU) {"return": {"status": "running", "singlestep": false,
->>>>> "running": true}}
->>>>>       (QEMU) {"return": {"enabled": true, "present": true}}
->>>>>       (QEMU)
->>>>>
->>>>> Example usage after this change:
->>>>>
->>>>>       $ printf "query-status\nquery-kvm\n" | sudo
->>>>> scripts/qmp/qmp-shell qmp-unix-sock
->>>>>       {"return": {"status": "running", "singlestep": false,
->>>>> "running": true}}
->>>>>       {"return": {"enabled": true, "present": true}}
->>>>>
->>>>> Signed-off-by: Dov Murik <dovmurik@linux.vnet.ibm.com>
->>>>
->>>> Hiya! I've been taking lead on modernizing a lot of our python
->>>> infrastructure, including our QMP library and qmp-shell.
->>>>
->>>> (Sorry, not in MAINTAINERS yet; but I am in the process of moving these
->>>> scripts and tools over to ./python/qemu/qmp.)
->>>
->>> Thanks for this effort.
->>>
->>>>
->>>> This change makes me nervous, because qmp-shell is not traditionally a
->>>> component we've thought of as needing to preserve backwards-compatible
->>>> behavior. Using it as a script meant to be consumed in a headless
->>>> fashion runs a bit counter to that assumption.
->>>>
->>>> I'd be less nervous if the syntax of qmp-shell was something that was
->>>> well thought-out and rigorously tested, but it's a hodge-podge of
->>>> whatever people needed at the moment. I am *very* reluctant to cement
->>>> it.
->>>
->>> Yes, I understand your choice.
->>>
->>>
->>>>
->>>> Are you trying to leverage the qmp.py library from bash?
->>>
->>> Yes, I want to send a few QMP commands and record their output.  If I 
->>> use
->>> socat to the unix-socket I need to serialize the JSON request myself, so
->>> using qmp-shell saves me that; also not sure if there's any 
->>> negotiation done
->>> at the beginning by qmp-shell.
->>
->> There is a handshake, but it is just a single json message.
->>
->> See docs/interop/qmp-intro.txt and qmp-spec.txt for guidance.
->>
->>> Is there an easier way to script qmp commands, short of writing my own
->>> python program which uses the qmp.py library?
->>
->> Yes, writing your own python program is probably best. Doing anything
->> complex is shell is almost always a mistake, as it is a very crude
->> and poor language compared to something like managing QEMU/QMP.
->>
->> Note that I don't believe that we've declared qmp.py to be a long
->> term stable interface for users outside of QEMU either. An alternative
->> is to just use the python sockets APIs directly to speak to QEMU/QMP
->>
+On 1/20/21 4:44 AM, Daniel P. Berrangé wrote:
+> When using the _launch_qemu and _send_qemu_cmd functions from
+> common.qemu, any QMP events get mixed in with the output from
+> the commands and responses.
 > 
-> Right. qmp.py is technically not stable either, but it at least doesn't 
-> use an invented syntax we don't have a spec for ... and it is used by 
-> quite a few other things in the tree, so I trust it /slightly/ more. I 
-> cannot promise compatibility for scripts that aren't in the tree at this 
-> time, though.
+> This makes it difficult to write a test case as the ordering
+> of events in the output is not stable.
 > 
-> (I am working on an asyncio variant of the QMP library that I do hope to 
-> promise stability for, but that's probably not something you can hope to 
-> see in the short term. It will likely have an API that is at least 
-> somewhat similar to the existing library, but will use asyncio 
-> coroutines instead of blocking calls.)
+> This introduces a variable 'capture_events' which can be set
+> to a list of event names. Any events listed in this variable
+> will not be printed, instead collected in the $QEMU_EVENTS
+> environment variable.
 > 
-> You can look at ./tests/qemu-iotests/ for some examples of using the QMP 
-> library that we have today; grep for '.qmp(' to find examples.
+> A new '_wait_event' function can be invoked to collect events
+> at a fixed point in time. The function will first pull events
+> cached in $QEMU_EVENTS variable, and if none are found, will
+> then read more from QMP.
 > 
-> The connection for these tests is established in python/qemu/machine.py, 
-> look at the 'self._qmp_connection' field. This connection is exposed via 
-> the qmp(...) method, which the tests use. The library handles the (very 
-> small) handshake.
-
-Thanks John and Daniel for these pointers.  If we ever add documentation 
-for qmp-shell itself (man page or similar), maybe we should add a 
-warning there (not to consume its output in scripts).
-
-
-
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+>  tests/qemu-iotests/common.qemu | 107 ++++++++++++++++++++++++++++++++-
+>  1 file changed, 106 insertions(+), 1 deletion(-)
 > 
-> There are also bash tests in ./tests/qemu-iotests/ that handle some QMP 
-> by themselves, and might be up your alley for very simple cases. Test 
-> 060 sets up its own QMP connection and just echoes JSON into the pipe.
+> diff --git a/tests/qemu-iotests/common.qemu b/tests/qemu-iotests/common.qemu
+> index ef105dfc39..21e4d059f7 100644
+> --- a/tests/qemu-iotests/common.qemu
+> +++ b/tests/qemu-iotests/common.qemu
+> @@ -53,6 +53,15 @@ _in_fd=4
+>  # If $mismatch_only is set, only non-matching responses will
+>  # be echoed.
+>  #
+> +# If $capture_events is non-empty, then any QMP event names it lists
+> +# will not be echoed out, but instead collected in the $QEMU_EVENTS
+> +# variable. The _wait_event function can later be used to received
 
-Constructing and echoing JSON in bash is ugly.  Look at the code for 
-_filter_qmp in common.filter -- that looks fragile.  That's why I tried 
-to script qmp-shell to begin with and started messing with its welcome 
-banner.  Instead I should switch to Python (or anything with a proper 
-JSON parse/unparse).
+receive
 
--Dov
+> +# the cached events.
+> +#
+> +# If $only_capture_events is set to anything but an empty string,
+> +# when an error will be raised if a QMP message is seen which is
+
+s/when/then/
+
+> +# not an event listed in $capture_events.
+> +#
+>  # If $success_or_failure is set, the meaning of the arguments is
+>  # changed as follows:
+>  # $2: A string to search for in the response; if found, this indicates
+> @@ -78,6 +87,32 @@ _timed_wait_for()
+>      QEMU_STATUS[$h]=0
+>      while IFS= read -t ${QEMU_COMM_TIMEOUT} resp <&${QEMU_OUT[$h]}
+>      do
+> +        if [ -n "$capture_events" ]; then
+> +            capture=0
+> +            local evname
+> +            for evname in $capture_events
+> +            do
+> +                grep -q "\"event\": \"${evname}\"" < <(echo "${resp}")
+
+What you have works (thanks to the <() bashism), but could be done in
+fewer processes with:
+
+case ${resp} in
+  *\"event\":\ \"${evname}\"* ) capture=1 ;;
+esac
+
+> +                if [ $? -eq 0 ]; then
+> +                    capture=1
+> +                fi
+> +            done
+> +            if [ $capture = 1 ];
+> +            then
+> +                ev=$(echo "${resp}" | tr -d '\r' | tr % .)
+> +                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
+> +                if [ -n "$only_capture_events" ]; then
+> +                    return
+> +                else
+> +                    continue
+> +                fi
+> +            fi
+> +        fi
+> +        if [ -n "$only_capture_events" ]; then
+> +            echo "Only expected $capture_events but got ${resp}"
+> +            exit 1
+> +        fi
+> +
+>          if [ -z "${silent}" ] && [ -z "${mismatch_only}" ]; then
+>              echo "${resp}" | _filter_testdir | _filter_qemu \
+>                             | _filter_qemu_io | _filter_qmp | _filter_hmp
+> @@ -172,12 +207,82 @@ _send_qemu_cmd()
+>          let count--;
+>      done
+>      if [ ${QEMU_STATUS[$h]} -ne 0 ] && [ -z "${qemu_error_no_exit}" ]; then
+> -        echo "Timeout waiting for ${1} on handle ${h}"
+> +        echo "Timeout waiting for command ${1} response on handle ${h}"
+>          exit 1 #Timeout means the test failed
+>      fi
+>  }
+>  
+>  
+> +# Check event cache for a named QMP event
+> +#
+> +# Input parameters:
+> +# $1:       Name of the QMP event to check for
+> +#
+> +# Checks if the named QMP event that was previously captured
+> +# into $QEMU_EVENTS. When matched, the QMP event will be echoed
+> +# and the $matched variable set to 1.
+> +#
+> +# _wait_event is more suitable for test usage in most cases
+> +_check_cached_events()
+> +{
+> +    local evname=${1}
+> +
+> +    local match="\"event\": \"$evname\""
+> +
+> +    matched=0
+> +    if [ -n "$QEMU_EVENTS" ]; then
+> +        CURRENT_QEMU_EVENTS=$QEMU_EVENTS
+> +        QEMU_EVENTS=
+> +        old_IFS=$IFS
+> +        IFS="%"
+> +        for ev in $CURRENT_QEMU_EVENTS
+> +        do
+> +                grep -q "$match" < <(echo "${ev}")
+> +            if [ $? -eq 0 -a $matched = 0 ]; then
+
+Odd indentation.  Use of [ ... -a ... ] is not wise (it happens to work
+in current bash, but POSIX says it is deprecated); use [ ... ] && [ ...
+] instead.
+
+> +                echo "${ev}" | _filter_testdir | _filter_qemu \
+> +                           | _filter_qemu_io | _filter_qmp | _filter_hmp
+> +                matched=1
+> +            else
+> +                QEMU_EVENTS="${QEMU_EVENTS:+${QEMU_EVENTS}%}${ev}"
+> +            fi
+> +        done
+> +        IFS=$old_IFS
+> +    fi
+> +}
+> +
+> +# Wait for a named QMP event
+> +#
+> +# Input parameters:
+> +# $1:       QEMU handle to use
+> +# $2:       Name of the QMP event to wait for
+> +#
+> +# Checks if the named QMP event that was previously captured
+
+s/that //
+
+> +# into $QEMU_EVENTS. If none are present, then waits for the
+> +# event to arrive on the QMP channel. When matched, the QMP
+> +# event will be echoed
+> +_wait_event()
+> +{
+> +    local h=${1}
+> +    local evname=${2}
+> +
+> +    while true
+> +    do
+> +        _check_cached_events $evname
+> +
+> +        if [ $matched = 1 ];
+> +        then
+> +            return
+> +        fi
+> +
+> +        only_capture_events=1 qemu_error_no_exit=1 _timed_wait_for ${h}
+> +
+> +        if [ ${QEMU_STATUS[$h]} -ne 0 ] ; then
+> +            echo "Timeout waiting for event ${evname} on handle ${h}"
+> +            exit 1 #Timeout means the test failed
+> +        fi
+> +    done
+> +}
+> +
+>  # Launch a QEMU process.
+>  #
+>  # Input parameters:
+> 
+
+Otherwise makes sense.  Using case instead of 'grep -q < <(echo)' is not
+mandatory, and the rest of my comments are trivial, so with them cleaned up,
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
