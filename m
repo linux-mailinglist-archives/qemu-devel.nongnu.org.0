@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C8332FCDBA
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 11:09:14 +0100 (CET)
-Received: from localhost ([::1]:46754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 359222FCDBB
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 11:10:13 +0100 (CET)
+Received: from localhost ([::1]:50020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2AQL-0001b5-Eu
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:09:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59240)
+	id 1l2ARI-00036o-9c
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:10:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l2AOj-0000lP-J2
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:07:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52070)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2APR-0001bL-Kd
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:08:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36952)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l2AOf-0001wB-4w
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:07:33 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2APP-0002AR-MG
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:08:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611137248;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8cggUzRn4lOs52HBsBswqDhV+XZ5Tlz4oRWhseOX2PA=;
- b=eMi2oai843Ii4wNCTZN56xCZFu3fASp1bifMGs8+IAFPUap4v83igZeY2gV+x2D2qa11T6
- PVdmUGfFfHFpRirXRFxwouXrHUhziHgSmPu2taLHhQKmXoIEaxzuQ7AdeASqsCDgPl2tmh
- 8EPVtk2ZMmsNM3DNldcg0FsEXscHrf0=
+ s=mimecast20190719; t=1611137294;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=UUklRXlh57QloI5mWJYqZISyyMEve4tOEc850zyqDH8=;
+ b=hKWkvKZnzMOB1WU6jrx76MRTxOl35VqXNUT0VDNQ+n2VXq5xNvqsa7UIp3TsbFSLMV+UjL
+ Wj2fGM3+O8xFFjq9go4ymSMuWWNjEq8B6pl4j5jUriXF5oTUfdG8WyN4L1b+m1Nghm1O+g
+ 5jQnWCxpmqhoQpmyfegCBXt6qHDEozE=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-337-I9_7i0dTNHyS3IQhlfnDBw-1; Wed, 20 Jan 2021 05:07:26 -0500
-X-MC-Unique: I9_7i0dTNHyS3IQhlfnDBw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-143-uhoiOW3sPdKUh_qQIqVrxw-1; Wed, 20 Jan 2021 05:08:12 -0500
+X-MC-Unique: uhoiOW3sPdKUh_qQIqVrxw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 240C510054FF
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 10:07:25 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 386ED5D74B;
- Wed, 20 Jan 2021 10:07:23 +0000 (UTC)
-Date: Wed, 20 Jan 2021 11:07:22 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH] hostmem: Don't report pmem attribute if unsupported
-Message-ID: <20210120110722.03e0d14f@redhat.com>
-In-Reply-To: <96eb4f94e6381082ec0188ad180f60f19f2583fc.1611059652.git.mprivozn@redhat.com>
-References: <96eb4f94e6381082ec0188ad180f60f19f2583fc.1611059652.git.mprivozn@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6404F1005504;
+ Wed, 20 Jan 2021 10:08:11 +0000 (UTC)
+Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6903719CA8;
+ Wed, 20 Jan 2021 10:08:06 +0000 (UTC)
+Date: Wed, 20 Jan 2021 10:08:03 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [External] : Re: [RFC PATCH 1/2] hw/i386: -cpu
+ model,-feature,+feature should enable feature
+Message-ID: <20210120100803.GF3015589@redhat.com>
+References: <20210119142207.3443123-1-david.edmondson@oracle.com>
+ <20210119142207.3443123-2-david.edmondson@oracle.com>
+ <20210119152056.GE1227584@habkost.net> <cuna6t499ir.fsf@dme.org>
+ <20210119163052.GG1227584@habkost.net>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+In-Reply-To: <20210119163052.GG1227584@habkost.net>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,71 +82,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Edmondson <dme@dme.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jan 2021 13:35:35 +0100
-Michal Privoznik <mprivozn@redhat.com> wrote:
-
-> When management applications (like Libvirt) want to check whether
-> memory-backend-file.pmem is supported they can list object
-> properties using 'qom-list-properties'. However, 'pmem' is
-> declared always (and thus reported always) and only at runtime
-> QEMU errors out if it was built without libpmem (and thus can not
-> guarantee write persistence). This is suboptimal since we have
-> ability to declare attributes at compile time.
+On Tue, Jan 19, 2021 at 11:30:52AM -0500, Eduardo Habkost wrote:
+> On Tue, Jan 19, 2021 at 04:27:56PM +0000, David Edmondson wrote:
+> > On Tuesday, 2021-01-19 at 10:20:56 -05, Eduardo Habkost wrote:
+> > 
+> > > Hi,
+> > >
+> > > Thanks for the patch.  Getting rid of special -feature/+feature
+> > > behavior was in our TODO list for a long time.
+> > >
+> > > On Tue, Jan 19, 2021 at 02:22:06PM +0000, David Edmondson wrote:
+> > >> "Minus" features are applied after "plus" features, so ensure that a
+> > >> later "plus" feature causes an earlier "minus" feature to be removed.
+> > >> 
+> > >> This has no effect on the existing "-feature,feature=on" backward
+> > >> compatibility code (which warns and turns the feature off).
+> > >
+> > > If we are changing behavior, why not change behavior of
+> > > "-feature,feature=on" at the same time?  This would allow us to
+> > > get rid of plus_features/minus_features completely and just make
+> > > +feature/-feature synonyms to feature=on/feature=off.
+> > 
+> > Okay, I'll do that.
+> > 
+> > Given that there have been warnings associated with
+> > "-feature,feature=on" for a while, changing that behaviour seems
+> > acceptable.
+> > 
+> > Would the same be true for changing "-feature,+feature"? (i.e. what this
+> > patch does) Really: can this just be changed, or does there have to be
+> > some period where the behaviour stays the same with a warning?
 > 
-> Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1915216
-> Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
+> I actually expected warnings to be triggered when using
+> "-feature,+feature" as well.  If we were not generating warnings
+> for that case, it will need more careful evaluation, just to be
+> sure it's safe.  Igor, do you remember the details here?
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Where are you expecting warnings ? I don't see any when launching QEMU
 
-> ---
->  backends/hostmem-file.c | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
-> 
-> diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-> index 40e1e5b3e3..7e30eb5985 100644
-> --- a/backends/hostmem-file.c
-> +++ b/backends/hostmem-file.c
-> @@ -123,6 +123,7 @@ static void file_memory_backend_set_align(Object *o, Visitor *v,
->      fb->align = val;
->  }
->  
-> +#ifdef CONFIG_LIBPMEM
->  static bool file_memory_backend_get_pmem(Object *o, Error **errp)
->  {
->      return MEMORY_BACKEND_FILE(o)->is_pmem;
-> @@ -139,17 +140,9 @@ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
->          return;
->      }
->  
-> -#ifndef CONFIG_LIBPMEM
-> -    if (value) {
-> -        error_setg(errp, "Lack of libpmem support while setting the 'pmem=on'"
-> -                   " of %s. We can't ensure data persistence.",
-> -                   object_get_typename(o));
-> -        return;
-> -    }
-> -#endif
-> -
->      fb->is_pmem = value;
->  }
-> +#endif /* CONFIG_LIBPMEM */
->  
->  static void file_backend_unparent(Object *obj)
->  {
-> @@ -180,8 +173,10 @@ file_backend_class_init(ObjectClass *oc, void *data)
->          file_memory_backend_get_align,
->          file_memory_backend_set_align,
->          NULL, NULL);
-> +#ifdef CONFIG_LIBPMEM
->      object_class_property_add_bool(oc, "pmem",
->          file_memory_backend_get_pmem, file_memory_backend_set_pmem);
-> +#endif
->  }
->  
->  static void file_backend_instance_finalize(Object *o)
+$ qemu-system-x86_64 -display none  -cpu Westmere,-vmx 
+
+$ qemu-system-x86_64 -display none  -cpu Westmere,-vmx,sse=on
+
+neither produces warnings, even with current git master.
+
+I don't think we can change the parsing behaviour here without impacting
+guest ABI, and that feels dangerous given that we've not been warning
+people the syntax is undesirable.
+
+IMHO just leave the parsing unchanged, deprecate it, and then delete
+the code.  We don't need to "improve" usability semantics of something
+that we want to delete anyway.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
