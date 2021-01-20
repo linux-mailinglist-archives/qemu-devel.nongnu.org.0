@@ -2,72 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EE262FD5E5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:43:15 +0100 (CET)
-Received: from localhost ([::1]:46100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6080E2FD603
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:51:11 +0100 (CET)
+Received: from localhost ([::1]:52972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2GZe-0002QW-Hz
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:43:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37818)
+	id 1l2GhJ-0005br-O3
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:51:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39016)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2GXc-0001Lp-OR
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:41:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50706)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l2Gd0-00049T-Ux
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:46:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36763)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2GXY-0003bk-Hc
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:41:07 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l2Gcz-0005n7-CE
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:46:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611160863;
+ s=mimecast20190719; t=1611161200;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kjtpR4kQibKToKQz4BexPZtFp2d8pbBJD26zJFF+2Fs=;
- b=gwfYwJgk9vU75ujzjIEigHNTKU2MVNaWyjFQm+j7fz29UnGa6paNP5bv7Meuv5EtDNq6vF
- Q4y0LBmhVKpZc7+yNAeFuOGB3w2v4J436gMml2r4ZGNrYB5ny9N2j0/oUPivY2WkbvJSve
- 0sp/GftOiu9x/vNy++8sqe5p4S5LWdo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-532-cwssvBbpM9uHBtiyFZcc-g-1; Wed, 20 Jan 2021 11:40:59 -0500
-X-MC-Unique: cwssvBbpM9uHBtiyFZcc-g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 20DE819251A3;
- Wed, 20 Jan 2021 16:40:58 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-178.ams2.redhat.com
- [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B3F8A100238C;
- Wed, 20 Jan 2021 16:40:54 +0000 (UTC)
-Subject: Re: [PATCH v4 00/23] backup performance: block_status + async
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
- <3a5ea1b1-1137-4ac5-5aac-5bdec0b7b0d5@redhat.com>
- <eb6ad5ca-0254-c9a7-63e3-3a4619e397cd@virtuozzo.com>
- <29cccc86-a450-3326-2d70-f3022e32b5db@redhat.com>
- <ccb47c7c-051d-6df4-9a73-ace9b23b67a2@redhat.com>
- <cfe3b7dd-8a1f-7e49-e576-ebca82ee4d98@redhat.com>
- <3db87f48-b628-8000-a46a-6d07cdf1ccc3@redhat.com>
- <8522c1f5-9476-3596-abf0-7f2d83f8844c@redhat.com>
- <20210120160442.GK3015589@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <420c2186-b37d-9a4f-5c23-c2f1021abd86@redhat.com>
-Date: Wed, 20 Jan 2021 17:40:53 +0100
+ bh=38BU2hj3lKmHOmv1OLKuPFwoqiOu0rbFIhV6iCZbHh0=;
+ b=H2QOsOlVGx8donc8ps11+OsKrD3fFkqDl7LPNXHu8jWMBm4Qkq2zmGQG1+/DEAAQSt8u+X
+ buFiPZpDsYWlV6KstCZwUeINufZ98GHiTP+l+W6oYm5jyKppuMynVp35LqYc3UdgJUSQq1
+ gl5VV6s85uEgVfzmVgjYR/KyLJtG1BY=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-392-n1VRtmjnMuCPEaL4xqlMWA-1; Wed, 20 Jan 2021 11:46:38 -0500
+X-MC-Unique: n1VRtmjnMuCPEaL4xqlMWA-1
+Received: by mail-ed1-f71.google.com with SMTP id f19so11314031edq.20
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 08:46:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=38BU2hj3lKmHOmv1OLKuPFwoqiOu0rbFIhV6iCZbHh0=;
+ b=PXx2zKjZyePSuK4lCTsEwB8/4y7pR7lxdZ6x8Kr6Mja8tt8YzQGyvlZnq8OoljnBhc
+ qONz4goXEDDEaLzDukRUyjvRX7R24z9AtVH0rGL09gJB3Mp9vJOxO1gwEk1RWmyabMM5
+ tmjVKX6iRP1ut4kgj1ZDG3Ub14iEKH2draNt0DYHhheJAh7zL6EhwVw1lM/yBNxdkxj8
+ IERhMjkv0N5l8NbKt5iClU2dpfKhnlYgv/gTU+ojqY/IwPenXXFLnai1PLhW/3lyUm6T
+ hup5zlHfItlsB7I95nBC1/EDT8dKmXhXXHvHAE+OJzfcRDFlYE216MhhS2N96E+7kqLp
+ pkxQ==
+X-Gm-Message-State: AOAM532qQlmpfUOT22XqdtKaWHkOquOm7WZVp+dWXTdY4FwCdeeH8Ns+
+ Yxu0MQOw+2EMeQww4lG94KTNl6cMoXiWle/T8lCjIY5N2p1KzCGceihV5GitdrEP+XmY57Pa3c6
+ xI/Jt3qZ/n6y6alU=
+X-Received: by 2002:aa7:dd16:: with SMTP id i22mr7844668edv.215.1611161196612; 
+ Wed, 20 Jan 2021 08:46:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzaZW8xYPFLjeD+7jq4y2yRPFB3LFGVlSSzsUs4FjyD29WNeXjvYP54RruOVkKVXtKLuoxqbQ==
+X-Received: by 2002:aa7:dd16:: with SMTP id i22mr7844657edv.215.1611161196454; 
+ Wed, 20 Jan 2021 08:46:36 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id h15sm1120099ejj.43.2021.01.20.08.46.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 08:46:35 -0800 (PST)
+Subject: Re: [PATCH 0/3] configure: Do not build TCG or link with capstone if
+ not necessary
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210120151916.1167448-1-philmd@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <260346c3-e1c1-5cb0-20d9-fb8a285e38f9@redhat.com>
+Date: Wed, 20 Jan 2021 17:46:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210120160442.GK3015589@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210120151916.1167448-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -89,148 +101,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.01.21 17:04, Daniel P. Berrangé wrote:
-> On Wed, Jan 20, 2021 at 04:53:26PM +0100, Max Reitz wrote:
->> On 20.01.21 15:44, Max Reitz wrote:
->>> On 20.01.21 15:34, Max Reitz wrote:
->>
->> [...]
->>
->>>>   From a glance, it looks to me like two coroutines are created
->>>> simultaneously in two threads, and so one thread sets up a special
->>>> SIGUSR2 action, then another reverts SIGUSR2 to the default, and
->>>> then the first one kills itself with SIGUSR2.
->>>>
->>>> Not sure what this has to do with backup, though it is interesting
->>>> that backup_loop() runs in two threads.  So perhaps some AioContext
->>>> problem.
->>>
->>> Oh, 256 runs two backups concurrently.  So it isn’t that interesting,
->>> but perhaps part of the problem still.  (I have no idea, still looking.)
->>
->> So this is what I found out:
->>
->> coroutine-sigaltstack, when creating a new coroutine, sets up a signal
->> handler for SIGUSR2, then kills itself with SIGUSR2, then uses the signal
->> handler context (with a sigaltstack) for the new coroutine, and then (the
->> signal handler returns after a sigsetjmp()) the old SIGUSR2 behavior is
->> restored.
->>
->> What I fail to understand is how this is thread-safe.  Setting up signal
->> handlers is a process-wide action.  When one thread changes what SIGUSR2
->> does, this will affect all threads immediately, so when two threads run
->> coroutine-sigaltstack’s qemu_coroutine_new() concurrently, and one thread
->> reverts to the default action before the other has SIGUSR2’ed itself, that
->> later SIGUSR2 will kill the whole process.
->>
->> (I suppose it gets even more interesting when one thread has set up the
->> sigaltstack, then the other sets up its own sigaltstack, and then both kill
->> themselves with SIGUSR2, so both coroutines get the same stack...)
->>
->> I have no idea why this has never been hit before, but it makes sense why
->> block-copy backup makes it apparent: It creates 64+x coroutines in a very
->> short time span, and 256 makes it do so in two threads concurrently (thanks
->> to launching two backups in two AioContexts in a transaction).
->>
->> So...  Looks to me like a bug in coroutine-sigaltstack.  Not sure what to do
->> now, though.  I don’t think we can use block-copy for backup before that
->> backend is fixed.  (And that is assuming that it’s indeed
->> coroutine-sigaltstack’s fault.)
->>
->> I’ll try to add some locking, see what it does, and send a mail concerning
->> coroutine-sigaltstack to qemu-devel.
+On 20/01/21 16:19, Philippe Mathieu-Daudé wrote:
+> We do not need TCG and capstone all the times. In some
+> configuration we can leave them out.
 > 
-> I'm wondering if we should simply remove the sigaltstack impl and use
-> ucontext on MacOS too.
+> Last patch emit a warning when a user explicitly select an
+> accelerator that the build with not use.
 > 
-> MacOS has ucontext marked as deprecated by default, seemingly because
-> this functionality was deprecated by POSIX. The functionality is still
-> available without deprecation warnings if you set _XOPEN_SOURCE.
+> Philippe Mathieu-Daudé (3):
+>    configure: Do not build TCG if not necessary
+>    configure: Do not build/check for capstone when emulation is disabled
+>    configure: Emit warning when accelerator requested but not needed
+> 
+>   configure | 37 ++++++++++++++++++++++++++++++++++++-
+>   1 file changed, 36 insertions(+), 1 deletion(-)
+> 
 
- From my outside point of view (on coroutine backends), everything you 
-wrote below sounds like a very reasonable thing to do.  So perhaps we 
-should (I’m not the right person to decide that, though).
+Nice, but I have some remarks on how the patches are done. :)
 
-However, for me, the immediate question is what I can do now.  I naively 
-believe that dropping the sigaltstack implementation would require a 
-deprecation cycle.  (If it doesn’t and we can get it out in, say, a 
-week, great.)
+For patch 1, which files are not compiled with the patch that were 
+compiled without?
 
-I need something that helps right now, because I have Vladimir’s series 
-in my block branch, the failure doesn’t seem to be its fault, but I 
-can’t send a pull request as long as concurrent backups in two iothreads 
-make qemu effectively crash when using a specific coroutine backend. 
-(And I don’t see configure giving me a warning that choosing sigaltstack 
-might be bad idea.)
+For patch 2, I think it's enough to add "build_by_default: false" to 
+libcapstone (and while you're at it, to libslirp and libfdt).
 
-I suppose I hope that the prospect of wanting to drop sigaltstack 
-altogether may lessen the resistance to just wrapping most of its 
-qemu_coroutine_new() implementation in a lock until then...  (i.e., what 
-the RFC does that I’ve attached to
-https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg05164.html)
+Finally, I would prefer patch 3 to be done in Meson, right before the 
+summary() call.  You can use config_all to check, like
 
-Max
+if get_option('kvm').enabled() and not config_all.has_key('CONFIG_KVM')
 
-> IOW, it is trivial to make the ucontext impl work on MacOS simply by
-> adding
-> 
->   #define _XOPEN_SOURCE 600
-> 
-> before including ucontext.h in coroutine-ucontext.c, and removing the
-> restrictions in configure
-> 
-> 
-> 
-> diff --git a/configure b/configure
-> index 881af4b6be..a58bdf70f3 100755
-> --- a/configure
-> +++ b/configure
-> @@ -4822,8 +4822,9 @@ fi
->   # specific one.
->   
->   ucontext_works=no
-> -if test "$darwin" != "yes"; then
-> +
->     cat > $TMPC << EOF
-> +#define _XOPEN_SOURCE 600
->   #include <ucontext.h>
->   #ifdef __stub_makecontext
->   #error Ignoring glibc stub makecontext which will always fail
-> @@ -4833,7 +4834,6 @@ EOF
->     if compile_prog "" "" ; then
->       ucontext_works=yes
->     fi
-> -fi
->   
->   if test "$coroutine" = ""; then
->     if test "$mingw32" = "yes"; then
-> diff --git a/util/coroutine-ucontext.c b/util/coroutine-ucontext.c
-> index 904b375192..9c0a2cf85c 100644
-> --- a/util/coroutine-ucontext.c
-> +++ b/util/coroutine-ucontext.c
-> @@ -22,6 +22,7 @@
->   #ifdef _FORTIFY_SOURCE
->   #undef _FORTIFY_SOURCE
->   #endif
-> +#define _XOPEN_SOURCE 600
->   #include "qemu/osdep.h"
->   #include <ucontext.h>
->   #include "qemu/coroutine_int.h"
-> 
-> 
-> 
-> Further more for iOS there was a proposal to add support for using
-> libucontext, which provides a clean impl of ucontext APIs for x86
-> and aarch64 hosts.
-> 
-> Regards,
-> Daniel
-> 
+etc.  This will also warn for e.g. --enable-kvm 
+--target-list=sh4-softmmu, which could be considered an improvement over 
+your patch.
+
+Paolo
 
 
