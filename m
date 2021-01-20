@@ -2,74 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C8A2FD54A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:20:14 +0100 (CET)
-Received: from localhost ([::1]:35588 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA2AD2FD506
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:13:55 +0100 (CET)
+Received: from localhost ([::1]:51710 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2GDN-00017K-OT
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:20:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57366)
+	id 1l2G7G-0004LU-RA
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:13:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l2G4f-0003AJ-Uj
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:11:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46885)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l2G4a-0000mI-Iy
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:11:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611159067;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RoVYYlPKMgjZXDIWHDGlqN8oAMmytgLPMDulWEuI+Zs=;
- b=P2mijaqD9KEiaK3EabQXaLXkFP7ZpWE+ObA9c0AfS+FfZVNKh9LUw0lhgq6ODtcQyrfCFa
- xNw+/9Pmm/1++Qa9FmPh2MCN39/gWS/9DBYUsJQriIZYrk8pzBzSNWQnBsP2hXhXtdA1d5
- jnSrAbC6PicywjRkTB4D5p3MeJ/rvok=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-316-NODZwsvQNMqH5042tQa0mw-1; Wed, 20 Jan 2021 11:10:57 -0500
-X-MC-Unique: NODZwsvQNMqH5042tQa0mw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DCE53107ACF9
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 16:10:56 +0000 (UTC)
-Received: from [10.10.120.151] (ovpn-120-151.rdu2.redhat.com [10.10.120.151])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1E71D2C159;
- Wed, 20 Jan 2021 16:10:53 +0000 (UTC)
-Subject: Re: [PATCH v3 10/17] qapi/gen: Combine ._add_[user|system]_module
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210119180242.1570753-1-jsnow@redhat.com>
- <20210119180242.1570753-11-jsnow@redhat.com>
- <87y2gnpu4m.fsf@dusky.pond.sub.org>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <941acfa1-940a-b264-7da3-6df4e08661c2@redhat.com>
-Date: Wed, 20 Jan 2021 11:10:52 -0500
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2G6G-0003WK-VC
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:12:52 -0500
+Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:39826)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2G6B-0001Jo-Ln
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:12:52 -0500
+Received: by mail-ed1-x530.google.com with SMTP id b21so17579457edy.6
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 08:12:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=UtyMchHTySs4/UkXhi9H3hAk0IV0VAEPFlA2TEEq8vE=;
+ b=hsWSEiuwhoTXXVqvq1Kzd5gao1OKNcCSn2VeLQgjyoM1ipKaE2Hc5rq0rqp2zsr3dS
+ QYmFWgMi+ARHtH5vfMGW5vM3TdwXnTxhoANmxRHoQDBQ5ekcvrbjvuI5GaH7vmiicDnV
+ RO2oklLpocTfnq1SaVAiC8/nFhK/cHbDA0xQG2w9qybszQN6zCuV+OZH1Xiy8fGbvnzq
+ yhA1X/+56Qihr9JrLHBdjAKEqp/YXH9TtcR4pBfKfZifY7DTgRHVSMhf8+TpyDqdkiSs
+ JGFLtxUgUNGw1C73c/bs7cVPduMKnSFQNoPer4R2Jd8hCaFKelPf4Egt0BloGh1T1mlI
+ t/gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=UtyMchHTySs4/UkXhi9H3hAk0IV0VAEPFlA2TEEq8vE=;
+ b=BR+LVCR237/1FYq71zDh6BjTKhq0Op6WWmdNshIyZ56dJU+MMMjx2Taof9QaHnFkxa
+ iNbc5q1echRgFBOlrR3z+kcWhEXUDrPN2F6y+tRaLB2H9kM9WxRBkYP+zEHUGW09gJ36
+ 5f1Bvg6j0/YtagSI9oh0qsNO6fxmsKdGkpgoquZf/Nm+GahZWHBjsnAuio/3PWJoIcT8
+ eaZMZhitFpZw9NN3Sgg1mRkvZRul+YnJZTI1oMwwTEvH8Pr34ewMj9Dyzb9r2bVqHLzp
+ 8u1CJrDQ3obIjoj5dTokEvcY3OWexNe8ZYKD0k984ll7fIsKS+fVSgrSgknEZz3/NnQB
+ bjXg==
+X-Gm-Message-State: AOAM532EM51bTXSGkC+0U61MUywE7CsqyhKAiy2N0jxytWkNpKVlMgo7
+ MA81KBOgwmFZ5ox4hqKzO08=
+X-Google-Smtp-Source: ABdhPJy5OH3QIB+zAzDaiMWg1Qn3dDgDWqUzmOg1Y05WnE5mn9NFcQhCbyo5dwPOeDC5o8xs+M7BCg==
+X-Received: by 2002:a05:6402:34d2:: with SMTP id
+ w18mr8314103edc.102.1611159166004; 
+ Wed, 20 Jan 2021 08:12:46 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id mb15sm1070252ejb.9.2021.01.20.08.12.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 08:12:45 -0800 (PST)
+Subject: Re: [PULL 3/5] linux-user: add missing IPv6 get/setsockopt option
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210119175427.2050737-1-laurent@vivier.eu>
+ <20210119175427.2050737-4-laurent@vivier.eu>
+ <58abf222-2bcb-4433-7608-ebcc999a2241@amsat.org>
+ <c2a2537c-b042-9065-dac6-749815f66ba4@vivier.eu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <02481ce6-7fc0-c40d-1b31-0260ee3a323e@amsat.org>
+Date: Wed, 20 Jan 2021 17:12:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <87y2gnpu4m.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <c2a2537c-b042-9065-dac6-749815f66ba4@vivier.eu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::530;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x530.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,184 +92,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Shu-Chun Weng <scw@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/21 9:20 AM, Markus Armbruster wrote:
-> John Snow <jsnow@redhat.com> writes:
-> 
->> From: Markus Armbruster <armbru@redhat.com>
+On 1/20/21 5:00 PM, Laurent Vivier wrote:
+> Le 20/01/2021 à 13:16, Philippe Mathieu-Daudé a écrit :
+>> On 1/19/21 6:54 PM, Laurent Vivier wrote:
+>>> From: Shu-Chun Weng <scw@google.com>
+>>>
+>>> IPV6_ADDR_PREFERENCES (RFC5014: Source address selection) was not supported.
+>>>
+>>> Signed-off-by: Shu-Chun Weng <scw@google.com>
+>>> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+>>> Message-Id: <20201218193213.3566856-4-scw@google.com>
+>>> Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+>>> ---
+>>>  linux-user/syscall.c | 3 +++
+>>>  1 file changed, 3 insertions(+)
+>>>
+>>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>>> index 969db2008104..70c61d15ebf8 100644
+>>> --- a/linux-user/syscall.c
+>>> +++ b/linux-user/syscall.c
+>>> @@ -51,6 +51,7 @@
+>>>  #include <sys/sysinfo.h>
+>>>  #include <sys/signalfd.h>
+>>>  //#include <sys/user.h>
+>>> +#include <netinet/in.h>
+>>>  #include <netinet/ip.h>
+>>>  #include <netinet/tcp.h>
+>>>  #include <netinet/udp.h>
+>>> @@ -2272,6 +2273,7 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
+>>>          case IPV6_RECVDSTOPTS:
+>>>          case IPV6_2292DSTOPTS:
+>>>          case IPV6_TCLASS:
+>>> +        case IPV6_ADDR_PREFERENCES:
+>>>  #ifdef IPV6_RECVPATHMTU
+>>>          case IPV6_RECVPATHMTU:
+>>>  #endif
+>>> @@ -2926,6 +2928,7 @@ get_timeout:
+>>>          case IPV6_RECVDSTOPTS:
+>>>          case IPV6_2292DSTOPTS:
+>>>          case IPV6_TCLASS:
+>>> +        case IPV6_ADDR_PREFERENCES:
+>>>  #ifdef IPV6_RECVPATHMTU
+>>>          case IPV6_RECVPATHMTU:
+>>>  #endif
+>>>
 >>
->> QAPISchemaModularCVisitor attempts to encapsulate the way it splits
->> the module name space between user modules (name can't start with
->> './') and system modules (name is None or starts with './') by
-> 
-> Is this still accurate?
-> 
-
-Ah, not exactly; sorry I mangled your patches here. I had written my own 
-version of what this patch used to be, but your patch went one step 
-further, but the ordering got weird.
-
->> providing separate ._add_user_module() and ._add_system_module(),
->> where the latter prepends './' to names other than None.
+>> Building on Centos7:
 >>
->> Not worthwhile.  Dumb down to a single ._add_module().
+>> ../linux-user/syscall.c: In function 'do_setsockopt':
+>> ../linux-user/syscall.c:2276:14: error: 'IPV6_ADDR_PREFERENCES'
+>> undeclared (first use in this function)
+>>          case IPV6_ADDR_PREFERENCES:
+>>               ^
+>> ../linux-user/syscall.c:2276:14: note: each undeclared identifier is
+>> reported only once for each function it appears in
+>> ../linux-user/syscall.c: In function 'do_getsockopt':
+>> ../linux-user/syscall.c:2931:14: error: 'IPV6_ADDR_PREFERENCES'
+>> undeclared (first use in this function)
+>>          case IPV6_ADDR_PREFERENCES:
+>>               ^
 >>
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> Signed-off-by: John Snow <jsnow@redhat.com>
->> ---
->>   scripts/qapi/commands.py |  2 +-
->>   scripts/qapi/events.py   |  2 +-
->>   scripts/qapi/gen.py      | 20 +++++++-------------
->>   3 files changed, 9 insertions(+), 15 deletions(-)
->>
->> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
->> index fc5fe27c472..49111663394 100644
->> --- a/scripts/qapi/commands.py
->> +++ b/scripts/qapi/commands.py
->> @@ -286,7 +286,7 @@ def _begin_user_module(self, name: str) -> None:
->>                                types=types))
->>   
->>       def visit_end(self) -> None:
->> -        self._add_system_module('./init', ' * QAPI Commands initialization')
->> +        self._add_module('./init', ' * QAPI Commands initialization')
->>           self._genh.add(mcgen('''
->>   #include "qapi/qmp/dispatch.h"
->>   
->> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
->> index 26faa829898..079c666ec69 100644
->> --- a/scripts/qapi/events.py
->> +++ b/scripts/qapi/events.py
->> @@ -191,7 +191,7 @@ def _begin_user_module(self, name: str) -> None:
->>                                types=types))
->>   
->>       def visit_end(self) -> None:
->> -        self._add_system_module('./emit', ' * QAPI Events emission')
->> +        self._add_module('./emit', ' * QAPI Events emission')
->>           self._genc.preamble_add(mcgen('''
->>   #include "qemu/osdep.h"
->>   #include "%(prefix)sqapi-emit-events.h"
->> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
->> index 55acd7e080d..b5505685e6e 100644
->> --- a/scripts/qapi/gen.py
->> +++ b/scripts/qapi/gen.py
->> @@ -272,22 +272,15 @@ def _module_filename(self, what: str, name: str) -> str:
->>                               self._module_basename(what, name))
->>   
->>       def _add_module(self, name: str, blurb: str) -> None:
->> +        if QAPISchemaModule.is_user_module(name):
->> +            if self._main_module is None:
->> +                self._main_module = name
->>           basename = self._module_filename(self._what, name)
->>           genc = QAPIGenC(basename + '.c', blurb, self._pydoc)
->>           genh = QAPIGenH(basename + '.h', blurb, self._pydoc)
->>           self._module[name] = (genc, genh)
->>           self._genc, self._genh = self._module[name]
->>   
->> -    def _add_user_module(self, name: str, blurb: str) -> None:
->> -        assert QAPISchemaModule.is_user_module(name)
->> -        if self._main_module is None:
->> -            self._main_module = name
->> -        self._add_module(name, blurb)
->> -
->> -    def _add_system_module(self, name: str, blurb: str) -> None:
->> -        assert QAPISchemaModule.is_system_module(name)
->> -        self._add_module(name, blurb)
->> -
->>       def write(self, output_dir: str, opt_builtins: bool = False) -> None:
->>           for name in self._module:
->>               if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
->> @@ -303,9 +296,9 @@ def _begin_user_module(self, name: str) -> None:
->>           pass
->>   
->>       def visit_module(self, module: QAPISchemaModule) -> None:
->> -        if module.system_module:
->> +        if module.builtin_module:
 > 
-> Looks like you're fixing a slip-up in PATCH 06.  If yes, squash.  If no,
-> I'm confused.
+> Strange... this is defined since kernel v2.6.26 in /usr/include/linux/in6.h
 > 
-
-Or patch 7, actually -- where we clarify that we are checking for the 
-built-in module and not any old system module.
-
->>               if self._builtin_blurb:
->> -                self._add_system_module(module.name, self._builtin_blurb)
->> +                self._add_module(module.name, self._builtin_blurb)
->>                   self._begin_builtin_module()
->>               else:
->>                   # The built-in module has not been created.  No code may
->> @@ -313,7 +306,8 @@ def visit_module(self, module: QAPISchemaModule) -> None:
->>                   self._genc = None
->>                   self._genh = None
->>           else:
->> -            self._add_user_module(module.name, self._user_blurb)
->> +            assert module.user_module, "Unexpected system module"
+> 7cbca67c0732 [IPV6]: Support Source Address Selection API (RFC5014).
 > 
-> The string provides no value.
-> 
+> Could try adding the include?
 
-That's just, like, your opinion, man. It has value to me.
+Yes, this fixed it, thanks:
 
-
-Compare:
-
-```
-#!/usr/bin/env python3
-
-def main():
-     assert False
-
-if __name__ == '__main__':
-     main()
-```
-
-```
-# ./foo.py
-
-Traceback (most recent call last):
-   File "./foo.py", line 7, in <module>
-     main()
-   File "./foo.py", line 4, in main
-     assert False
-AssertionError
-```
-
-With:
-
-
-```
-#!/usr/bin/env python3
-
-def main():
-     assert False, "Unexpected system module"
-
-if __name__ == '__main__':
-     main()
-```
-
-```
-# ./foo.py
-
-Traceback (most recent call last):
-   File "./foo.py", line 7, in <module>
-     main()
-   File "./foo.py", line 4, in main
-     assert False, "Unexpected system module"
-AssertionError: Unexpected system module
-```
-
-I like the extra string for giving some semantic context as to 
-specifically what broke (We don't expect to see system modules here) 
-instead of just a stack trace.
-
->> +            self._add_module(module.name, self._user_blurb)
->>               self._begin_user_module(module.name)
->>   
->>       def visit_include(self, name: str, info: QAPISourceInfo) -> None:
-
+-- >8 --
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 1f91aa0ed5e..34760779c8e 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -59,6 +59,7 @@
+ #include <linux/icmp.h>
+ #include <linux/icmpv6.h>
+ #include <linux/if_tun.h>
++#include <linux/in6.h>
+ #include <linux/errqueue.h>
+ #include <linux/random.h>
+ #ifdef CONFIG_TIMERFD
+---
 
