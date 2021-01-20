@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48E4B2FD419
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:37:08 +0100 (CET)
-Received: from localhost ([::1]:34632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D6A2FD448
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:44:12 +0100 (CET)
+Received: from localhost ([::1]:53822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FXf-0005EN-BA
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:37:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48122)
+	id 1l2FeV-0004wi-VU
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:44:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FW7-0003m0-B0
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:35:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57093)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FWE-00040a-CU
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:35:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FW4-0004tC-Vs
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:35:31 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2FWC-000502-JD
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:35:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611156928;
+ s=mimecast20190719; t=1611156935;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=aMW+ffBwf/Rg49CMdxWnPrSyNVGZ5KY5LeqrgDyM/U0=;
- b=Lperpwpzq314ugDzJsMBX2r5saGDh5D/YTExAGG2XT+vXZ0KBOQmA0dhDK2qxXdYpK+xGf
- cYKBOqd3ST5z2A/rPG+g8Ona1HhTQUWKnrUIVBMLC2uFN6mU4TyCy1/VshK3HlyGTo83+d
- riCk+QHba1hOghqGarEtPpIwczzO4PE=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-515-ZxGui2M3PPmdrpaTzhqDHg-1; Wed, 20 Jan 2021 10:35:26 -0500
-X-MC-Unique: ZxGui2M3PPmdrpaTzhqDHg-1
-Received: by mail-ed1-f69.google.com with SMTP id g14so11296994edt.12
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 07:35:26 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dRuJ+Yxjk+hGk6Df5FDgfFqIR+ImclUGnmgOl1AbDwU=;
+ b=TpVf6uDPYB1dNd75kMWP2B1vunEneCMwrCB7k7HP98KIuahXYiGmMZFsjEVh3U8Wua4nLi
+ uarDXs1OuuhsHlxMIcnjxiFjBEFf4hVSseAx8r9EDpfMLZefrkgWAUkS2BO2+PtHpvdMTP
+ EbhEdTO92I/cE3sd9hhYme2T9SkLO4A=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-390-jcDxkLovMSyzfxlTRObmtA-1; Wed, 20 Jan 2021 10:35:32 -0500
+X-MC-Unique: jcDxkLovMSyzfxlTRObmtA-1
+Received: by mail-ed1-f70.google.com with SMTP id g14so11297112edt.12
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 07:35:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=aMW+ffBwf/Rg49CMdxWnPrSyNVGZ5KY5LeqrgDyM/U0=;
- b=srKI212TVRSVjA7kFXQYIx11N2XkP1BOtJAbep/8s1jfdWhhwk3H3dq5tVarofIBeJ
- vGRKTYDu2woVD82gK8zu4Pd3TmkA9kJJNFtpZd+3lidctdSRdG0XrASrA+5vXTv3rEnS
- xsAs0flFQGKN9Qw8vPVEAOAC0KAuPHXXpOBDFfYjBi1AJCna0+DqL8UlJdTGUZv+vy2R
- yM15dCrDTFNNi3G9BFQXl8DrZD8zjJWV+2p9PfXn3k5k43Ny8mzA64HQ9r1jcCjKfC43
- PreBatIgtzbEpdFDHrs9/6ztlDPmvtSLWyS9uJiZIkGV+8wS/oWegRlepENYb4thXtG3
- Zl/w==
-X-Gm-Message-State: AOAM531xr8F2mFLJ2MygjgbZAqYAp0JDQ987Oqi9WRrFmOA+VwNw4mwS
- I0RRj79ptjs9/26Sfb77gqrrArz0mCcs3prRCF7fdwaPOLPxEWKagsPSU6l3Lb7A5Wq4HJOK8Gj
- 9Em6bpCMs1MU9s3+aZRgTyV3nHor6HFxf+J0InC4TOcCjGy0c9shUePsCccRUMQ3Y
-X-Received: by 2002:a17:906:1d1a:: with SMTP id
- n26mr6741157ejh.481.1611156925222; 
- Wed, 20 Jan 2021 07:35:25 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGTtqFvD0HEhRbQ3OKGIfaDBwPJAySoG7y++7qza6vCqhrbgRz82ncf7M7i1LUdTZ/oqj6iA==
-X-Received: by 2002:a17:906:1d1a:: with SMTP id
- n26mr6741136ejh.481.1611156924986; 
- Wed, 20 Jan 2021 07:35:24 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=dRuJ+Yxjk+hGk6Df5FDgfFqIR+ImclUGnmgOl1AbDwU=;
+ b=R0rv1pGOg1pkM7CLUVUL+B4b3cVu2Kt72dhUWHX6rZC3B5dROx2rA2GBTEJ+chWITa
+ hcMnHlZtCXlJTQEYLZSTFsd6X8Mp0i+s01yy8mOLNh6DJ9TFwJKZ+uL2f/juKczctQ65
+ yHWAw3LyPDR3h7kdxMt9QPVgECc7Efs6GnWiLQu1c68o4atl6if9GKq+w0InmJaExS65
+ 1aaGeBcDhzPOC2SW7fO/NlTuQsoP9bGgmI/MHM4dvj9lL/mu/TTYGuAaS8tvvVXpHN+g
+ BxRfscnC6hw+utJyBfAr4YCYalhv28vqUmONc/iBZ+LD+UzAVAIGKcGEdKesv7cO7Ffm
+ 3KPA==
+X-Gm-Message-State: AOAM532PvtymmyRkOc2XoGUd+NpIzwh4lbAWW8AQRoqDdRcJI+a4gfc2
+ QrLR1Np7TahK+wZwpNRz740DymQYODa+5UVLH3A9+jimwditMyhDLXAVfRyr83LdrtUIY8MgdqO
+ KJ8aEpgEZ3g2t2l1lkMNh3QvSZ1mqQUz/WzmJcfHmQmbQVJt7Y4H20vtjLJ1BzzxI
+X-Received: by 2002:a50:bf4a:: with SMTP id g10mr7515836edk.201.1611156930732; 
+ Wed, 20 Jan 2021 07:35:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzEgla3aopU7yGXjeZs79Hl+QjCx8YyP67pPdLnAeI0O64hSvaDc8FX/YGP1MVCh+XWfuX8eA==
+X-Received: by 2002:a50:bf4a:: with SMTP id g10mr7515810edk.201.1611156930494; 
+ Wed, 20 Jan 2021 07:35:30 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z13sm1325122edc.73.2021.01.20.07.35.23
+ by smtp.gmail.com with ESMTPSA id g25sm1254975edw.92.2021.01.20.07.35.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 07:35:24 -0800 (PST)
+ Wed, 20 Jan 2021 07:35:29 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] hw/usb/dev-uas: Fix Clang 11
- -Wgnu-variable-sized-type-not-at-end error
-Date: Wed, 20 Jan 2021 16:35:19 +0100
-Message-Id: <20210120153522.1173897-1-philmd@redhat.com>
+Subject: [PATCH v2 1/3] scsi/utils: Rename 'illegal request' -> 'invalid
+ request'
+Date: Wed, 20 Jan 2021 16:35:20 +0100
+Message-Id: <20210120153522.1173897-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210120153522.1173897-1-philmd@redhat.com>
+References: <20210120153522.1173897-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,38 +94,130 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Another attempt to fix the following Clang 11 warning:=0D
-=0D
-  usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas=
-_i=3D=0D
-u' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-va=
-ri=3D=0D
-able-sized-type-not-at-end]=0D
-      uas_iu                    status;=0D
-                                ^=0D
-If a guest send a packet with additional data, respond=0D
-with "Invalid Request - parameter not supported".=0D
-=0D
-v2: Include Eric feedbacks=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (3):=0D
-  scsi/utils: Rename 'illegal request' -> 'invalid request'=0D
-  scsi/utils: Add INVALID_PARAM_VALUE sense code definition=0D
-  hw/usb/dev-uas: Report command additional adb length as unsupported=0D
-=0D
- include/scsi/utils.h | 22 ++++++++++++----------=0D
- hw/usb/dev-uas.c     | 12 +++++++++++-=0D
- scsi/utils.c         | 25 +++++++++++++++----------=0D
- 3 files changed, 38 insertions(+), 21 deletions(-)=0D
-=0D
---=3D20=0D
-2.26.2=0D
-=0D
+While these requests are invalid, they are not breaking any laws :)
+Rename 'illegal request' as 'invalid request'.
+
+Suggested-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ include/scsi/utils.h | 20 ++++++++++----------
+ scsi/utils.c         | 20 ++++++++++----------
+ 2 files changed, 20 insertions(+), 20 deletions(-)
+
+diff --git a/include/scsi/utils.h b/include/scsi/utils.h
+index fbc55882799..725769be3cb 100644
+--- a/include/scsi/utils.h
++++ b/include/scsi/utils.h
+@@ -49,25 +49,25 @@ extern const struct SCSISense sense_code_NO_MEDIUM;
+ extern const struct SCSISense sense_code_NOT_READY_REMOVAL_PREVENTED;
+ /* Hardware error, internal target failure */
+ extern const struct SCSISense sense_code_TARGET_FAILURE;
+-/* Illegal request, invalid command operation code */
++/* Invalid request, invalid command operation code */
+ extern const struct SCSISense sense_code_INVALID_OPCODE;
+-/* Illegal request, LBA out of range */
++/* Invalid request, LBA out of range */
+ extern const struct SCSISense sense_code_LBA_OUT_OF_RANGE;
+-/* Illegal request, Invalid field in CDB */
++/* Invalid request, Invalid field in CDB */
+ extern const struct SCSISense sense_code_INVALID_FIELD;
+-/* Illegal request, Invalid field in parameter list */
++/* Invalid request, Invalid field in parameter list */
+ extern const struct SCSISense sense_code_INVALID_PARAM;
+-/* Illegal request, Parameter list length error */
++/* Invalid request, Parameter list length error */
+ extern const struct SCSISense sense_code_INVALID_PARAM_LEN;
+-/* Illegal request, LUN not supported */
++/* Invalid request, LUN not supported */
+ extern const struct SCSISense sense_code_LUN_NOT_SUPPORTED;
+-/* Illegal request, Saving parameters not supported */
++/* Invalid request, Saving parameters not supported */
+ extern const struct SCSISense sense_code_SAVING_PARAMS_NOT_SUPPORTED;
+-/* Illegal request, Incompatible format */
++/* Invalid request, Incompatible format */
+ extern const struct SCSISense sense_code_INCOMPATIBLE_FORMAT;
+-/* Illegal request, medium removal prevented */
++/* Invalid request, medium removal prevented */
+ extern const struct SCSISense sense_code_ILLEGAL_REQ_REMOVAL_PREVENTED;
+-/* Illegal request, Invalid Transfer Tag */
++/* Invalid request, Invalid Transfer Tag */
+ extern const struct SCSISense sense_code_INVALID_TAG;
+ /* Command aborted, I/O process terminated */
+ extern const struct SCSISense sense_code_IO_ERROR;
+diff --git a/scsi/utils.c b/scsi/utils.c
+index b37c2830148..41ad49459ca 100644
+--- a/scsi/utils.c
++++ b/scsi/utils.c
+@@ -177,52 +177,52 @@ const struct SCSISense sense_code_TARGET_FAILURE = {
+     .key = HARDWARE_ERROR, .asc = 0x44, .ascq = 0x00
+ };
+ 
+-/* Illegal request, invalid command operation code */
++/* Invalid request, invalid command operation code */
+ const struct SCSISense sense_code_INVALID_OPCODE = {
+     .key = ILLEGAL_REQUEST, .asc = 0x20, .ascq = 0x00
+ };
+ 
+-/* Illegal request, LBA out of range */
++/* Invalid request, LBA out of range */
+ const struct SCSISense sense_code_LBA_OUT_OF_RANGE = {
+     .key = ILLEGAL_REQUEST, .asc = 0x21, .ascq = 0x00
+ };
+ 
+-/* Illegal request, Invalid field in CDB */
++/* Invalid request, Invalid field in CDB */
+ const struct SCSISense sense_code_INVALID_FIELD = {
+     .key = ILLEGAL_REQUEST, .asc = 0x24, .ascq = 0x00
+ };
+ 
+-/* Illegal request, Invalid field in parameter list */
++/* Invalid request, Invalid field in parameter list */
+ const struct SCSISense sense_code_INVALID_PARAM = {
+     .key = ILLEGAL_REQUEST, .asc = 0x26, .ascq = 0x00
+ };
+ 
+-/* Illegal request, Parameter list length error */
++/* Invalid request, Parameter list length error */
+ const struct SCSISense sense_code_INVALID_PARAM_LEN = {
+     .key = ILLEGAL_REQUEST, .asc = 0x1a, .ascq = 0x00
+ };
+ 
+-/* Illegal request, LUN not supported */
++/* Invalid request, LUN not supported */
+ const struct SCSISense sense_code_LUN_NOT_SUPPORTED = {
+     .key = ILLEGAL_REQUEST, .asc = 0x25, .ascq = 0x00
+ };
+ 
+-/* Illegal request, Saving parameters not supported */
++/* Invalid request, Saving parameters not supported */
+ const struct SCSISense sense_code_SAVING_PARAMS_NOT_SUPPORTED = {
+     .key = ILLEGAL_REQUEST, .asc = 0x39, .ascq = 0x00
+ };
+ 
+-/* Illegal request, Incompatible medium installed */
++/* Invalid request, Incompatible medium installed */
+ const struct SCSISense sense_code_INCOMPATIBLE_FORMAT = {
+     .key = ILLEGAL_REQUEST, .asc = 0x30, .ascq = 0x00
+ };
+ 
+-/* Illegal request, medium removal prevented */
++/* Invalid request, medium removal prevented */
+ const struct SCSISense sense_code_ILLEGAL_REQ_REMOVAL_PREVENTED = {
+     .key = ILLEGAL_REQUEST, .asc = 0x53, .ascq = 0x02
+ };
+ 
+-/* Illegal request, Invalid Transfer Tag */
++/* Invalid request, Invalid Transfer Tag */
+ const struct SCSISense sense_code_INVALID_TAG = {
+     .key = ILLEGAL_REQUEST, .asc = 0x4b, .ascq = 0x01
+ };
+-- 
+2.26.2
 
 
