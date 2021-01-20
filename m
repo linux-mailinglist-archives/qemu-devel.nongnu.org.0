@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10D3F2FD2DB
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:41:44 +0100 (CET)
-Received: from localhost ([::1]:46546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87B92FD2EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:45:14 +0100 (CET)
+Received: from localhost ([::1]:50702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Eg3-0003KP-5V
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:41:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34506)
+	id 1l2EjR-0005DB-Gz
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:45:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2EeG-0002Xs-UE
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:39:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57084)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2EeC-0003CN-Et
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:39:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611153587;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gpOUc2YQ7OzwDdTbIXdu+aF5mwPNkWiU96kyIsUN7as=;
- b=ivM34SUKoXr29srXsfhxmDwVo+4nAoWyEty5oBQoPaoIO3l800kh2eodYy+Bxew3Ey2OZn
- OtKnpmnyDyD9wD/iuHVnPm3wzhA1SLZCEsRWR68E9Ni5a+tPMRCAyQ33WDYpi+nnDkBLmH
- yddl20iULQrQ0l4KQ7H6jOyw/Wpbk4Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-dxpYvbjTOU2NminHjRGFOg-1; Wed, 20 Jan 2021 09:39:44 -0500
-X-MC-Unique: dxpYvbjTOU2NminHjRGFOg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C69F610054FF;
- Wed, 20 Jan 2021 14:39:38 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E5D4E155;
- Wed, 20 Jan 2021 14:39:37 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 650EE113865F; Wed, 20 Jan 2021 15:39:36 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-Subject: Re: [PATCH v9 11/11] migration: introduce snapshot-{save, load,
- delete} QMP commands
-References: <20210120104411.3084801-1-berrange@redhat.com>
- <20210120104411.3084801-12-berrange@redhat.com>
-Date: Wed, 20 Jan 2021 15:39:36 +0100
-In-Reply-To: <20210120104411.3084801-12-berrange@redhat.com> ("Daniel
- P. =?utf-8?Q?Berrang=C3=A9=22's?= message of "Wed, 20 Jan 2021 10:44:11
- +0000")
-Message-ID: <878s8npt93.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l2Egy-0003zo-AM
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:42:40 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:41049)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l2Egw-00047v-PT
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:42:39 -0500
+Received: by mail-ej1-x631.google.com with SMTP id g12so33860903ejf.8
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 06:42:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=HcyXBpkFCXz1O4SquOWagp/D4c/Mvra/tT832SH7OdM=;
+ b=hYqdgm9nVQPco0XjnoNCt7ACqC+Ig8a8xzuNlfQjXUrE2cZkI/a48n1FuWKG9vtyNG
+ HhX2GydVTykkL2gjwa3i8xpkXjWEM6OJcXExOZZJv3Xc+iwF+gUwRRGP+ymzMvo5VWGP
+ T6OKtHt7bBvcs71byC7FyDIg5slLIzcLMokUmfC/SL9CZsEeaF3pEkMJM5+4gznfMCss
+ KrwImo3QCk1WZdkZ79AnLygbhCkZP2mZ45HEAsDxFh26nRnnnwStnLa8TQvHER7M6h0q
+ QEFDlVFT/hndE7gcTO3uVeno0dlkKgCds4iV0JK3Do8ybGux3nGpm0URvipLIZJEByMf
+ Hzsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=HcyXBpkFCXz1O4SquOWagp/D4c/Mvra/tT832SH7OdM=;
+ b=tOfrrA77Fkt/+p3L7W2lZHRF/VkzhzlTTYmuzjLHhbUiJjGJJBpXpQtBFCay+mf7AJ
+ 7GOiqp1bYFqf0grEXWwcpMwDg2Op93+iSLoGP6xOZ22jNsQJkWT590Nn9hr8jeKdbJQL
+ rWvUDGAoAPNl1G/1W0ILYfe09eSMAt+RIQ5V9+pFfw3rAkxOdC3nuHoi6Ey3FeFDjlXW
+ vivUFYQ6qD0CoQMpn/xncsXlgJR+DIhFkzVRlvajUJ7CMMZqW2k8VKNOdzIO+7hq7IhT
+ gcw58H4EDKrjtW2GNp0iXSC6M4Vyu3kYRfWG2joA8DNJSjSNwcLb0P2XUj5nnx26aDLt
+ ymqg==
+X-Gm-Message-State: AOAM530qIpTPGRZ8eHalC4ijMa2Z1rygqg+l5JaQwXChGXrSzD4egTOE
+ x4XCSUua18luROWjxETdU9rmjoldPZlgiA==
+X-Google-Smtp-Source: ABdhPJxrOpStTbkzeiXnI2J/xFMDyJH7t2+UcSvKf+7Wm6/Sav1Rk4dd711PUqQfAuWg+FbKRJoPmw==
+X-Received: by 2002:a17:906:2743:: with SMTP id
+ a3mr6545937ejd.378.1611153757197; 
+ Wed, 20 Jan 2021 06:42:37 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id v9sm965078ejd.92.2021.01.20.06.42.36
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 06:42:36 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/3] vnc: remove "change vnc TARGET" and QMP change command,
+ support "-vnc help"
+Date: Wed, 20 Jan 2021 15:42:32 +0100
+Message-Id: <20210120144235.345983-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,54 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>
+Cc: armbru@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+The real driver for these patches is to send all QemuOpts user input
+to qemu_opts_parse_noisily, for consistency in the command line
+parsing code and to effectively outlaw "help" and "?" QemuOpts
+suboptions.  vnc_parse is the only function that is still using
+qemu_opts_parse.
 
-> savevm, loadvm and delvm are some of the few HMP commands that have never
-> been converted to use QMP. The reasons for the lack of conversion are
-> that they blocked execution of the event thread, and the semantics
-> around choice of disks were ill-defined.
->
-> Despite this downside, however, libvirt and applications using libvirt
-> have used these commands for as long as QMP has existed, via the
-> "human-monitor-command" passthrough command. IOW, while it is clearly
-> desirable to be able to fix the problems, they are not a blocker to
-> all real world usage.
->
-> Meanwhile there is a need for other features which involve adding new
-> parameters to the commands. This is possible with HMP passthrough, but
-> it provides no reliable way for apps to introspect features, so using
-> QAPI modelling is highly desirable.
->
-> This patch thus introduces new snapshot-{load,save,delete} commands to
-> QMP that are intended to replace the old HMP counterparts. The new
-> commands are given different names, because they will be using the new
-> QEMU job framework and thus will have diverging behaviour from the HMP
-> originals. It would thus be misleading to keep the same name.
->
-> While this design uses the generic job framework, the current impl is
-> still blocking. The intention that the blocking problem is fixed later.
-> None the less applications using these new commands should assume that
-> they are asynchronous and thus wait for the job status change event to
-> indicate completion.
->
-> In addition to using the job framework, the new commands require the
-> caller to be explicit about all the block device nodes used in the
-> snapshot operations, with no built-in default heuristics in use.
->
-> Note that the existing "query-named-block-nodes" can be used to query
-> what snapshots currently exist for block nodes.
->
-> Acked-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+In order to remove the non-command-line callers of vnc_parse,
+I am removing the deprecated QMP change command but also its HMP
+veneer "change vnc TARGET", whose usecase is somewhat unclear to
+me.  "change vnc password" is still supported.
 
-Looks good to me, my Acked-by stands.
+Finally, by switching to qemu_opts_parse_noisily, it is easy to
+print a help message on "-vnc help".
+
+
+Paolo Bonzini (3):
+  hmp: remove "change vnc TARGET" command
+  qmp: remove deprecated "change" command
+  vnc: support "-vnc help"
+
+ docs/system/deprecated.rst       |  5 ----
+ docs/system/removed-features.rst | 11 +++++++
+ hmp-commands.hx                  |  6 ----
+ include/ui/console.h             |  2 +-
+ monitor/hmp-cmds.c               |  7 +++--
+ monitor/qmp-cmds.c               | 51 --------------------------------
+ qapi/misc.json                   | 49 ------------------------------
+ softmmu/vl.c                     |  6 ++--
+ ui/vnc-stubs.c                   |  7 ++---
+ ui/vnc.c                         |  8 ++---
+ 10 files changed, 27 insertions(+), 125 deletions(-)
+
+-- 
+2.29.2
 
 
