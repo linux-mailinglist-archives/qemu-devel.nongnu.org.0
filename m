@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 920022FD3C7
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:22:24 +0100 (CET)
-Received: from localhost ([::1]:46440 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C5742FD3C1
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:19:55 +0100 (CET)
+Received: from localhost ([::1]:36320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FJP-0003hP-Kv
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:22:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43240)
+	id 1l2FH0-0007XR-9J
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:19:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2FDK-0007mU-W2
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:16:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52518)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2FDI-0006tz-OK
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:16:06 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l2FDA-00010c-6X
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 15:15:56 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 298482E813F
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 15:15:56 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1l2F9L-0006wt-JA
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:11:59 -0500
+Received: from isrv.corpit.ru ([86.62.121.231]:52637)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1l2F9F-0005U7-Iq
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:11:58 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id 9551240655;
+ Wed, 20 Jan 2021 18:11:41 +0300 (MSK)
+Received: from [192.168.177.99] (mjt.vpn.tls.msk.ru [192.168.177.99])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 981EA5B;
+ Wed, 20 Jan 2021 18:11:41 +0300 (MSK)
+To: qemu-devel qemu-devel <qemu-devel@nongnu.org>, John Snow <jsnow@redhat.com>
+From: Michael Tokarev <mjt@tls.msk.ru>
+Subject: qemu broke booting of old RedHat floppies
+Message-ID: <0bca1cd0-69c3-c07a-b4cf-015dcdbc6d61@msgid.tls.msk.ru>
+Date: Wed, 20 Jan 2021 18:11:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 20 Jan 2021 15:02:50 -0000
-From: David Hildenbrand <1893040@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange davidhildenbrand gsalgaon
-X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
-X-Launchpad-Bug-Modifier: David Hildenbrand (davidhildenbrand)
-References: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
-Message-Id: <161115497076.3962.10949197546983075714.malone@gac.canonical.com>
-Subject: [Bug 1893040] Re: External modules retreval using Go1.15 on s390x
- appears to have checksum and ECDSA verification issues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="44709f752aec466e4fba4ac588c69193e99da5ce"; Instance="production"
-X-Launchpad-Hash: a23a8eb572e76c9b389551a2e5614819a142a76e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -64
-X-Spam_score: -6.5
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -68
+X-Spam_score: -6.9
 X-Spam_bar: ------
-X-Spam_report: (-6.5 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001, URIBL_SBL_A=0.1 autolearn=ham autolearn_force=no
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,82 +53,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I remember we had these "ECDSA verification failure" issues in older
-QEMU versions, but these were fixed.
+As someone noticed on IRC, old (2.x) RedHat floppies does not boot
+in current qemu.  When qemu is booted from floppy image at
+  https://archive.org/details/RedHatLinuxBootDisk521998
+(download the "ISO image" link there, it really is an 1.44 floppy),
+seabios says Boot failed and that's it.
 
-I just tired building the go file under Fedora 32 running under latest
-upstream qemu-system-s390x, and using latest go binaries from
-https://golang.org/dl/:
+I run git bisect with it, knowing that qemu 2.1 works fine, and
+it pointed out to this commit which is oldish qemu-2.5+:
 
-[root@atomic-00 hello]# uname -a
-Linux atomic-00 5.8.11-200.fc32.s390x #1 SMP Wed Sep 23 13:36:15 UTC 2020 s=
-390x s390x s390x GNU/Linux
+commit 4812fa27fa75bce89738a82a191755853dd88408
+Author: John Snow <jsnow@redhat.com>
+Date:   Fri Jan 22 15:51:05 2016 -0500
 
-[root@atomic-00 hello]# go version
-go version go1.15.7 linux/s390x
+     fdc: change auto fallback drive for ISA FDC to 288
 
-[root@atomic-00 hello]# go build
-go: downloading rsc.io/quote v1.5.2
-go: downloading rsc.io/sampler v1.3.0
-go: downloading golang.org/x/text v0.0.0-20170915032832-14c0d48ead0c
+     The 2.88 drive is more suitable as a default because
+     it can still read 1.44 images correctly, but the reverse
+     is not true.
 
-[root@atomic-00 hello]# ./hello =
+     Since there exist virtio-win drivers that are shipped on
+     2.88 floppy images, this patch will allow VMs booted without
+     a floppy disk inserted to later insert a 2.88MB floppy and
+     have that work.
 
-Hello, world.
+     This patch has been tested with msdos, freedos, fedora,
+     windows 8 and windows 10 without issue: if problems do
+     arise for certain guests being unable to cope with 2.88MB
+     drives as the default, they are in the minority and can use
+     type=144 as needed (or insert a proper boot medium and omit
+     type=144/288 or use type=auto) to obtain different drive types.
 
-Can you double check that you are really using latest upstream QEMU in
-your more-advanced cross-build?
+     As icing, the default will remain auto/144 for any pre-2.6
+     machine types, hopefully minimizing the impact of this change
+     in legacy hw to basically zero.
 
--- =
+     Reviewed-by: Eric Blake <eblake@redhat.com>
+     Signed-off-by: John Snow <jsnow@redhat.com>
+     Message-id: 1453495865-9649-13-git-send-email-jsnow@redhat.com
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893040
+Now, I don't even know where to put that "type=144/288/auto" thing,
+I tried this:
 
-Title:
-   External modules retreval using Go1.15 on s390x appears to have
-  checksum and ECDSA verification issues
+  -drive file=RedHatLinuxBootDisk521998.disk1of1.img,if=floppy,format=raw,type=144
 
-Status in QEMU:
-  New
+but it says that format=raw does not support "type=144" option.
 
-Bug description:
-  We are observing issue while building go-runner image and we suspect it i=
-s due to QEMU version being used. As referred in below issue:
-  https://github.com/golang/go/issues/40949
+And it's even more: I don't remember which size should be an 1.44Mb floppy :))
+The file size of that image is 1492992 bytes which does not look like it is of
+standard size, but I can't find which size it should be.
 
-  We tried to build go-runner image using go1.15 and register QEMU
-  (docker run --rm --privileged multiarch/qemu-user-
-  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
-b2af4
-  --reset -p yes) as mentioned in PR
-  https://github.com/kubernetes/release/pull/1499. We observed below
-  failure during build:
+Thanks!
 
-  -------------------------------------------------------------------------=
---------
-  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
-OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
-ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
-ully
-  ------
-  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
-   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
-nner .:
-  ------
-  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
-ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
- -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
-age}]: buildkit-runc did not terminate successfully
-  Makefile:52: recipe for target 'container' failed
-  make: *** [container] Error 1
-  -------------------------------------------------------------------------=
---------
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
+/mjt
 
