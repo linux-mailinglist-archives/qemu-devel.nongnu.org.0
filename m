@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0672FDCC5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 23:58:46 +0100 (CET)
-Received: from localhost ([::1]:60540 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475412FDCCA
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 00:03:19 +0100 (CET)
+Received: from localhost ([::1]:38206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2MR4-0006mP-1U
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 17:58:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56734)
+	id 1l2MVS-00012A-CE
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 18:03:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1l2ME4-00048B-GM; Wed, 20 Jan 2021 17:45:20 -0500
-Received: from mail.csgraf.de ([188.138.100.120]:45200
- helo=zulu616.server4you.de) by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <agraf@csgraf.de>)
- id 1l2ME1-0001V5-FC; Wed, 20 Jan 2021 17:45:20 -0500
-Received: from localhost.localdomain
- (dynamic-077-002-091-253.77.2.pool.telefonica.de [77.2.91.253])
- by csgraf.de (Postfix) with ESMTPSA id 3F74639000FA;
- Wed, 20 Jan 2021 23:44:53 +0100 (CET)
-From: Alexander Graf <agraf@csgraf.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v6 11/11] hvf: arm: Implement -cpu host
-Date: Wed, 20 Jan 2021 23:44:44 +0100
-Message-Id: <20210120224444.71840-12-agraf@csgraf.de>
-X-Mailer: git-send-email 2.24.3 (Apple Git-128)
-In-Reply-To: <20210120224444.71840-1-agraf@csgraf.de>
-References: <20210120224444.71840-1-agraf@csgraf.de>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=188.138.100.120; envelope-from=agraf@csgraf.de;
- helo=zulu616.server4you.de
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1l2MTj-0000W5-Kv; Wed, 20 Jan 2021 18:01:31 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:43079)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>)
+ id 1l2MTg-0006ub-VA; Wed, 20 Jan 2021 18:01:30 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from [192.168.178.98] ([79.200.90.163])
+ (authenticated user pl@kamp.de) by kerio.kamp.de with ESMTPSA
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256 bits));
+ Thu, 21 Jan 2021 00:01:11 +0100
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+From: Peter Lieven <pl@kamp.de>
+Mime-Version: 1.0 (1.0)
+Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
+Message-Id: <0A9D3682-CE03-4984-AC06-83DA0ABF7BDF@kamp.de>
+Date: Thu, 21 Jan 2021 00:01:13 +0100
+To: dillaman@redhat.com
+X-Mailer: iPhone Mail (18C66)
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -50,163 +50,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that we have working system register sync, we push more target CPU
-properties into the virtual machine. That might be useful in some
-situations, but is not the typical case that users want.
+=EF=BB=BF
+> Am 19.01.2021 um 15:20 schrieb Jason Dillaman <jdillama@redhat.com>:
+>=20
+> =EF=BB=BFOn Tue, Jan 19, 2021 at 4:36 AM Peter Lieven <pl@kamp.de> wrote:
+>>> Am 18.01.21 um 23:33 schrieb Jason Dillaman:
+>>> On Fri, Jan 15, 2021 at 10:39 AM Peter Lieven <pl@kamp.de> wrote:
+>>>> Am 15.01.21 um 16:27 schrieb Jason Dillaman:
+>>>>> On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
+>>>>>> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
+>>>>>>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrote:
+>>>>>>>> since we implement byte interfaces and librbd supports aio on byte g=
+ranularity we can lift
+>>>>>>>> the 512 byte alignment.
+>>>>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+>>>>>>>> ---
+>>>>>>>> block/rbd.c | 2 --
+>>>>>>>> 1 file changed, 2 deletions(-)
+>>>>>>>> diff --git a/block/rbd.c b/block/rbd.c
+>>>>>>>> index 27b4404adf..8673e8f553 100644
+>>>>>>>> --- a/block/rbd.c
+>>>>>>>> +++ b/block/rbd.c
+>>>>>>>> @@ -223,8 +223,6 @@ done:
+>>>>>>>> static void qemu_rbd_refresh_limits(BlockDriverState *bs, Error **e=
+rrp)
+>>>>>>>> {
+>>>>>>>>    BDRVRBDState *s =3D bs->opaque;
+>>>>>>>> -    /* XXX Does RBD support AIO on less than 512-byte alignment? *=
+/
+>>>>>>>> -    bs->bl.request_alignment =3D 512;
+>>>>>>> Just a suggestion, but perhaps improve discard alignment, max discar=
+d,
+>>>>>>> optimal alignment (if that's something QEMU handles internally) if n=
+ot
+>>>>>>> overridden by the user.
+>>>>>> Qemu supports max_discard and discard_alignment. Is there a call to g=
+et these limits
+>>>>>> from librbd?
+>>>>>> What do you mean by optimal_alignment? The object size?
+>>>>> krbd does a good job of initializing defaults [1] where optimal and
+>>>>> discard alignment is 64KiB (can actually be 4KiB now), max IO size for=
 
-So let's add a -cpu host option that allows them to explicitly pass all
-CPU capabilities of their host CPU into the guest.
+>>>>> writes, discards, and write-zeroes is the object size * the stripe
+>>>>> count.
+>>>> Okay, I will have a look at it. If qemu issues a write, discard, write_=
+zero greater than
+>>>> obj_size  * stripe count will librbd split it internally or will the re=
+quest fail?
+>>> librbd will handle it as needed. My goal is really just to get the
+>>> hints down the guest OS.
+>>>> Regarding the alignment it seems that rbd_dev->opts->alloc_size is some=
+thing that comes from the device
+>>>> configuration and not from rbd? I don't have that information inside th=
+e Qemu RBD driver.
+>>> librbd doesn't really have the information either. The 64KiB guess
+>>> that krbd uses was a compromise since that was the default OSD
+>>> allocation size for HDDs since Luminous. Starting with Pacific that
+>>> default is going down to 4KiB.
+>> I will try to adjust these values as far as it is possible and makes sens=
+e.
+>> Is there a way to check the minimum supported OSD release in the backend f=
+rom librbd / librados?
+>=20
+> It's not a minimum -- RADOS will gladly access 1 byte writes as well.
+> It's really just the optimal (performance and space-wise). Sadly,
+> there is no realistic way to query this data from the backend.
 
-Signed-off-by: Alexander Graf <agraf@csgraf.de>
-Acked-by: Roman Bolshakov <r.bolshakov@yadro.com>
----
- include/sysemu/hvf.h |  2 ++
- target/arm/cpu.c     |  9 ++++++---
- target/arm/cpu.h     |  2 ++
- target/arm/hvf/hvf.c | 41 +++++++++++++++++++++++++++++++++++++++++
- target/arm/kvm_arm.h |  2 --
- 5 files changed, 51 insertions(+), 5 deletions(-)
+So you would suggest to advertise an optimal transfer length of 64k and max t=
+ransfer length of obj size * stripe count to the guest unless we have an API=
+ in the future to query these limits from the backend?
 
-diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
-index f893768df9..7eb61cf094 100644
---- a/include/sysemu/hvf.h
-+++ b/include/sysemu/hvf.h
-@@ -19,6 +19,8 @@
- #ifdef CONFIG_HVF
- uint32_t hvf_get_supported_cpuid(uint32_t func, uint32_t idx,
-                                  int reg);
-+struct ARMCPU;
-+void hvf_arm_set_cpu_features_from_host(struct ARMCPU *cpu);
- extern bool hvf_allowed;
- #define hvf_enabled() (hvf_allowed)
- #else /* !CONFIG_HVF */
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index f1929b5eba..abd129d23f 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2288,12 +2288,16 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
- #endif
- }
- 
--#ifdef CONFIG_KVM
-+#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
- static void arm_host_initfn(Object *obj)
- {
-     ARMCPU *cpu = ARM_CPU(obj);
- 
-+#ifdef CONFIG_KVM
-     kvm_arm_set_cpu_features_from_host(cpu);
-+#else
-+    hvf_arm_set_cpu_features_from_host(cpu);
-+#endif
-     if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
-         aarch64_add_sve_properties(obj);
-     }
-@@ -2305,7 +2309,6 @@ static const TypeInfo host_arm_cpu_type_info = {
-     .parent = TYPE_AARCH64_CPU,
-     .instance_init = arm_host_initfn,
- };
--
- #endif
- 
- static void arm_cpu_instance_init(Object *obj)
-@@ -2364,7 +2367,7 @@ static void arm_cpu_register_types(void)
- 
-     type_register_static(&arm_cpu_type_info);
- 
--#ifdef CONFIG_KVM
-+#if defined(CONFIG_KVM) || defined(CONFIG_HVF)
-     type_register_static(&host_arm_cpu_type_info);
- #endif
- 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index df0d677833..5cc59df451 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2961,6 +2961,8 @@ bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync);
- #define ARM_CPU_TYPE_NAME(name) (name ARM_CPU_TYPE_SUFFIX)
- #define CPU_RESOLVING_TYPE TYPE_ARM_CPU
- 
-+#define TYPE_ARM_HOST_CPU "host-" TYPE_ARM_CPU
-+
- #define cpu_signal_handler cpu_arm_signal_handler
- #define cpu_list arm_cpu_list
- 
-diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-index 98bd6712c0..42dcc23ba0 100644
---- a/target/arm/hvf/hvf.c
-+++ b/target/arm/hvf/hvf.c
-@@ -372,6 +372,47 @@ static uint64_t hvf_get_reg(CPUState *cpu, int rt)
-     return val;
- }
- 
-+void hvf_arm_set_cpu_features_from_host(ARMCPU *cpu)
-+{
-+    ARMISARegisters host_isar;
-+    const struct isar_regs {
-+        int reg;
-+        uint64_t *val;
-+    } regs[] = {
-+        { HV_SYS_REG_ID_AA64PFR0_EL1, &host_isar.id_aa64pfr0 },
-+        { HV_SYS_REG_ID_AA64PFR1_EL1, &host_isar.id_aa64pfr1 },
-+        { HV_SYS_REG_ID_AA64DFR0_EL1, &host_isar.id_aa64dfr0 },
-+        { HV_SYS_REG_ID_AA64DFR1_EL1, &host_isar.id_aa64dfr1 },
-+        { HV_SYS_REG_ID_AA64ISAR0_EL1, &host_isar.id_aa64isar0 },
-+        { HV_SYS_REG_ID_AA64ISAR1_EL1, &host_isar.id_aa64isar1 },
-+        { HV_SYS_REG_ID_AA64MMFR0_EL1, &host_isar.id_aa64mmfr0 },
-+        { HV_SYS_REG_ID_AA64MMFR1_EL1, &host_isar.id_aa64mmfr1 },
-+        { HV_SYS_REG_ID_AA64MMFR2_EL1, &host_isar.id_aa64mmfr2 },
-+    };
-+    hv_vcpu_t fd;
-+    hv_vcpu_exit_t *exit;
-+    int i;
-+
-+    cpu->dtb_compatible = "arm,arm-v8";
-+    cpu->env.features = (1ULL << ARM_FEATURE_V8) |
-+                        (1ULL << ARM_FEATURE_NEON) |
-+                        (1ULL << ARM_FEATURE_AARCH64) |
-+                        (1ULL << ARM_FEATURE_PMU) |
-+                        (1ULL << ARM_FEATURE_GENERIC_TIMER);
-+
-+    /* We set up a small vcpu to extract host registers */
-+
-+    assert_hvf_ok(hv_vcpu_create(&fd, &exit, NULL));
-+    for (i = 0; i < ARRAY_SIZE(regs); i++) {
-+        assert_hvf_ok(hv_vcpu_get_sys_reg(fd, regs[i].reg, regs[i].val));
-+    }
-+    assert_hvf_ok(hv_vcpu_get_sys_reg(fd, HV_SYS_REG_MIDR_EL1, &cpu->midr));
-+    assert_hvf_ok(hv_vcpu_destroy(fd));
-+
-+    cpu->isar = host_isar;
-+    cpu->reset_sctlr = 0x00c50078;
-+}
-+
- void hvf_arch_vcpu_destroy(CPUState *cpu)
- {
- }
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index eb81b7059e..081727a37e 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -214,8 +214,6 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
-  */
- void kvm_arm_destroy_scratch_host_vcpu(int *fdarray);
- 
--#define TYPE_ARM_HOST_CPU "host-" TYPE_ARM_CPU
--
- /**
-  * ARMHostCPUFeatures: information about the host CPU (identified
-  * by asking the host kernel)
--- 
-2.24.3 (Apple Git-128)
+I would leave request alignment at 1 byte as otherwise Qemu will issue RMWs f=
+or all write requests that do not align. Everything that comes from a guest O=
+S is very likely 4k aligned anyway.
+
+Peter
+
 
 
