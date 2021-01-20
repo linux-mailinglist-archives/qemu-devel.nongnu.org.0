@@ -2,76 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E1F2FCEB5
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 12:04:54 +0100 (CET)
-Received: from localhost ([::1]:41714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 812462FCED3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 12:11:43 +0100 (CET)
+Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2BID-0004L5-Fd
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 06:04:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43480)
+	id 1l2BOo-0006sd-CD
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 06:11:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l2BGt-0003ks-TJ
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 06:03:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52139)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l2BGr-0004Wt-Gt
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 06:03:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611140607;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nPALbij9u3aOqz01KjjkE07CiDDnfwtI0VlgORvugns=;
- b=h929tsXVf10OYU9xFGob7pnk/4DPazTLGMf9tcuu88bSTYEkw2th3gEl8aQAbWjY2ijIar
- W4QM0xYrMrnGk4uQxE7z3xWYRSzJ4Pa/xPEvPde7DENGqM55Ro+yI4H48qhVSSZX99h/DC
- yDLnFthi0sK/gjmQpFCt7Fzbk3hr+7g=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-116-WTyb8GeNM3ix_9bh0-9MZw-1; Wed, 20 Jan 2021 06:03:25 -0500
-X-MC-Unique: WTyb8GeNM3ix_9bh0-9MZw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C81F806662;
- Wed, 20 Jan 2021 11:03:24 +0000 (UTC)
-Received: from work-vm (ovpn-115-106.ams2.redhat.com [10.36.115.106])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1276271CB0;
- Wed, 20 Jan 2021 11:03:16 +0000 (UTC)
-Date: Wed, 20 Jan 2021 11:03:14 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH v2 01/20] migration/vmstate: Restrict vmstate_dummy
- to user-mode
-Message-ID: <20210120110314.GD2930@work-vm>
-References: <20210117192446.23753-1-f4bug@amsat.org>
- <20210117192446.23753-2-f4bug@amsat.org>
- <CAFEAcA_358tUe-O9Yb94p=xDXXLTNM8EoQRvwMKEY_bmSTfzJQ@mail.gmail.com>
- <004525a7-e8bb-9316-6ad5-ba5765471639@amsat.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l2BNh-0006Em-Vd; Wed, 20 Jan 2021 06:10:33 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:33795)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l2BNe-0006zc-Qr; Wed, 20 Jan 2021 06:10:33 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.188])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id CC40383E2AB9;
+ Wed, 20 Jan 2021 12:10:26 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Wed, 20 Jan
+ 2021 12:10:24 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002a859b1f1-62b8-47dd-83cc-bb2dac4c4bde,
+ BC30773A3D735F3651E1A72FF92628D33EE1AD8E) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 20 Jan 2021 12:10:22 +0100
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: Re: [PATCH 1/1] spapr_caps.c: disable KVM specific caps when
+ running with TCG
+Message-ID: <20210120121022.682e96c8@bahia.lan>
+In-Reply-To: <20210120002445.GA5174@yekko.fritz.box>
+References: <20210119205824.2222801-1-danielhb413@gmail.com>
+ <20210120002445.GA5174@yekko.fritz.box>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <004525a7-e8bb-9316-6ad5-ba5765471639@amsat.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; boundary="Sig_//yLTba8v6RfJoI2SKcPTvqt";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 8f135c0a-0ab2-480a-a7e6-879502a46676
+X-Ovh-Tracer-Id: 1126462860783098336
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledruddvgddvjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtghisehgtderreertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeelgffgfeeugedugeekveeiveevjeffhfduvdegffetkeeiveeufefgledtgfeiteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqphhptgesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,97 +69,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>,
- Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Andrew Jeffery <andrew@aj.id.au>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Laurent Vivier <laurent@vivier.eu>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Joel Stanley <joel@jms.id.au>, Paolo Bonzini <pbonzini@redhat.com>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Philippe Mathieu-Daudé (f4bug@amsat.org) wrote:
-> On 1/19/21 2:50 PM, Peter Maydell wrote:
-> > On Sun, 17 Jan 2021 at 19:24, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
-> >>
-> >> 'vmstate_dummy' is special and only used for user-mode. Rename
-> >> it to something more specific.
-> >> It was introduced restricted to user-mode in commit c71c3e99b8
-> >> ("Add a vmstate_dummy struct for CONFIG_USER_ONLY") but this
-> >> restriction was later removed in commit 6afc14e92ac ("migration:
-> >> Fix warning caused by missing declaration of vmstate_dummy").
-> >> Avoid the missing declaration warning by adding a stub for the
-> >> symbol, and restore the #ifdef'ry.
-> > 
-> > So what is the actual use of vmstate_dummy ? I had a grep
-> > through and as far as I can see the points where vmstate_cpu_common
-> > is used are all in softmmu-only code.
-> 
-> No clue, maybe simply remnant from unfinished work?
+--Sig_//yLTba8v6RfJoI2SKcPTvqt
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Not sure either; but it looks like Paolo fixed some of it up in d9f24bf5724
-a few months ago; prior to that cpu_exec_unrealizefn used it even on a
-USER_ONLY build.
+On Wed, 20 Jan 2021 11:24:45 +1100
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-Dave
+> On Tue, Jan 19, 2021 at 05:58:24PM -0300, Daniel Henrique Barboza wrote:
+> > Commit 006e9d361869 added warning messages for cap-cfpc, cap-ibs and
+> > cap-sbbc when enabled under TCG. Commit 8ff43ee404d3 did the same thing
+> > when introducing cap-ccf-assist.
+> >=20
+> > These warning messages, although benign to the machine launch, can make
+> > users a bit confused. E.g:
+> >=20
+> > $ sudo ./ppc64-softmmu/qemu-system-ppc64
+> > qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-=
+cfpc=3Dworkaround
+> > qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-=
+sbbc=3Dworkaround
+> > qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-=
+ibs=3Dworkaround
+> > qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-=
+ccf-assist=3Don
+> >=20
+> > We're complaining about "TCG doesn't support requested feature" when the
+> > user didn't request any of those caps in the command line.
+> >=20
+> > Check if we're running with TCG and change the defaults in spapr_caps_i=
+nit().
+> > Note that this change doesn't impact backward compatibility or migration
+> > to older QEMU versions because we never activated these caps with TCG
+> > in the first place.
+>=20
+> Nack.  Changing those capabilities changes guest visible properties of
+> the guest environment.  Silently altering guest visible
+> characteristics based on whether or not we're running with KVM is not
+> acceptable (we did it in the past and it caused a lot of grief).
+>=20
 
-> > I tried this patch
-> > and QEMU seems to compile OK:
-> > 
-> > diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-> > index 140fa32a5e3..a827417a4d8 100644
-> > --- a/include/hw/core/cpu.h
-> > +++ b/include/hw/core/cpu.h
-> > @@ -1131,8 +1131,6 @@ bool target_words_bigendian(void);
-> > 
-> >  #ifdef CONFIG_SOFTMMU
-> >  extern const VMStateDescription vmstate_cpu_common;
-> > -#else
-> > -#define vmstate_cpu_common vmstate_dummy
-> >  #endif
-> > 
-> >  #define VMSTATE_CPU() {                                                     \
-> 
-> Great! Maybe even restricting VMSTATE_CPU() to softmmu-only:
-> 
-> -- >8 --
-> @@ -1131,9 +1131,6 @@ bool target_words_bigendian(void);
-> 
->  #ifdef CONFIG_SOFTMMU
->  extern const VMStateDescription vmstate_cpu_common;
-> -#else
-> -#define vmstate_cpu_common vmstate_dummy
-> -#endif
-> 
->  #define VMSTATE_CPU() {
->      \
->      .name = "parent_obj",
->      \
-> @@ -1142,6 +1139,7 @@ extern const VMStateDescription vmstate_cpu_common;
->      .flags = VMS_STRUCT,
->      \
->      .offset = 0,
->      \
->  }
-> +#endif
-> 
->  #endif /* NEED_CPU_H */
-> ---
-> 
-> I'll wait if David/Juan have any comment, else respin based
-> on your patch.
-> 
-> Thanks,
-> 
-> Phil.
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+I definitely agree with the nack, but I also agree with the
+intention behind this patch. Since we know if a capability
+was requested from the command line, the warning can be
+restricted to this case with something like:
 
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -243,7 +243,7 @@ static void cap_safe_cache_apply(SpaprMachineState *spa=
+pr, >
+     ERRP_GUARD();
+     uint8_t kvm_val =3D  kvmppc_get_cap_safe_cache();
+=20
+-    if (tcg_enabled() && val) {
++    if (tcg_enabled() && val && spapr->cmd_line_caps[SPAPR_CAP_CFPC]) {
+         /* TCG only supports broken, allow other values and print a warnin=
+g */
+         warn_report("TCG doesn't support requested feature, cap-cfpc=3D%s",
+                     cap_cfpc_possible.vals[val]);
+
+A further improvement would be to only issue these warnings at
+machine init instead of printing them again and again at each
+reboot. This should be possible in spapr_caps_init() because
+the accelerator has been set and the capabilities have been
+parsed already.
+
+> >=20
+> > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> > ---
+> >  hw/ppc/spapr_caps.c | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >=20
+> > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> > index 9341e9782a..53eea2b11e 100644
+> > --- a/hw/ppc/spapr_caps.c
+> > +++ b/hw/ppc/spapr_caps.c
+> > @@ -781,6 +781,21 @@ void spapr_caps_init(SpaprMachineState *spapr)
+> >      /* Compute the actual set of caps we should run with */
+> >      default_caps =3D default_caps_with_cpu(spapr, MACHINE(spapr)->cpu_=
+type);
+> > =20
+> > +   /*
+> > +    * These are KVM specific caps that TCG doesn't support, but will
+> > +    * throw an warning if enabled by default (see 006e9d361869 and
+> > +    * 8ff43ee404d3). This behavior can make the user wonder why a warn=
+ing
+> > +    * is being shown for caps that the user didn't enable in the
+> > +    * command line.
+> > +    *
+> > +    * Disable them for TCG. */
+> > +    if (tcg_enabled()) {
+> > +        default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
+> > +        default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
+> > +        default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
+> > +        default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_BROKEN;
+> > +    }
+> > +
+> >      for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
+> >          /* Store the defaults */
+> >          spapr->def.caps[i] =3D default_caps.caps[i];
+>=20
+
+
+--Sig_//yLTba8v6RfJoI2SKcPTvqt
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAmAID54ACgkQcdTV5YIv
+c9bFng/9GqQsrc6pe8cazPzvKDwFskSWh2bytkLUqH6DOP0mUOrba2bvNlTOIDC0
+sMr5KSUkAE0yyp/5Gu7Y2aVPsuVHkhd9I4ec0JglBKul1wFlrT/pmngHdRzuzypT
+hHCYKIaA4QOXdJOnSMroV+sy+uP/3Y4rLmiL3OiPQF0IKRUxCBKKYWpYpvk8ZxYG
+Wo1qBbxkPgbuCVuPW3rjbFRG8triji33UDEmyk2QQPsS4YixYUO7TJvwmltFfOnC
+L4okzi1DWDcbM7vSAix4z4jNaCHwLJ0icR0EhD2w26A5TJ2KTj4A+HGvPWvtRLTT
+krp+i3BDSZPbU6nAzoPSBl+LbHxoTT0xIp87O9qyNi+LUbPZgnGuNA5mGXoqa26/
+Qyd5xxv9A2GAnZr4kFs8tjsDyAMZ79AGKZ3D57X2qyY/JhvapxmjMeIiti7MTXLY
+UMsLi5YQYkszxVvV+VY/jYkWSD/+goyMTvqF4sLQWKZLb9n1Tr/tAz8+UbNEzuGU
+SEZIbTChzcFNZeNwv2D0Qn4asGm7IQxSGNB18Q43FuCpJyS2fKjpbGH1ymUcn4+S
+PQuaZXFjG7TE1WK6RmOS1W+pKOFg3USrIIuj/8WCi3gcozufjEso6avcF0ufCEh7
+CA1tn84x6T8DWLK9pLul+dRP6g6MMQJhROxUZr40VR9Xw8HbEX4=
+=1wTI
+-----END PGP SIGNATURE-----
+
+--Sig_//yLTba8v6RfJoI2SKcPTvqt--
 
