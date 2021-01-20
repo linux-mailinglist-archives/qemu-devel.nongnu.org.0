@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48A42FC609
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 01:46:10 +0100 (CET)
-Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991852FC60A
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 01:47:02 +0100 (CET)
+Received: from localhost ([::1]:51258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l21dR-0000tt-Gi
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 19:46:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50918)
+	id 1l21eH-0001rb-Lj
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 19:47:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l21bk-0000GH-5p; Tue, 19 Jan 2021 19:44:24 -0500
-Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:41274)
+ id 1l21cc-0000qa-1d; Tue, 19 Jan 2021 19:45:19 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:35850)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l21bi-0005nw-E4; Tue, 19 Jan 2021 19:44:23 -0500
-Received: by mail-pf1-x434.google.com with SMTP id q20so13418287pfu.8;
- Tue, 19 Jan 2021 16:44:21 -0800 (PST)
+ id 1l21ca-0005rz-8u; Tue, 19 Jan 2021 19:45:17 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id l23so1053231pjg.1;
+ Tue, 19 Jan 2021 16:45:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=AoGkuMPg14/lsBcTol3sSswYmKiQxWDRs38aqAY5Px8=;
- b=PLGlRorC4ftvFsoGxSFVzVIF0/xn2gKvVrH3jUv87+TGAjNhWueTcItpdXtXZKHXUX
- iYx3rlm0bcYWQl7IriK/28Bvv1eWpPNrPKHxTULD7Hn373sG+2JzB3ykTOwzILs/JDNy
- XvMdZTusiDaoCePS3ExMltXFF+JmPRiEpO9WPJUOlEeaNNIJIzu1lY9CEhezoyMiPAHz
- a/rY1QgGPEfIBW21WHuJy7cSjm2V2/9u6P0SZ8YWvaLfbH1IBpL6kwyktkTMJP55kKZv
- YyikmQG+wnsg91y+776PsJvkuLlWFSyptI60m1aJ44rTPDWhjLDfdNkNRL8oiRcpyVGt
- nISw==
+ bh=vJl38ZIQEirX/mOVhqBvvGsk7I/xMwb+oeKxCBF9AWE=;
+ b=B1HXZYoJeFGnjv418uhQB4coAucnCz+PBs8uK3Gv+8t/ZfnZwPNx5L++SQVm9gcUiC
+ zq/t7W6mt3Ui0DonI53zVqeDce3ti/ir0kpXJDiVQF+B6/1/YhhZN4Xe12NJREXnnwEI
+ R3UbBD52IOl1DZctvRWcXxvVvRG8IJ4gRGlAsFEz8grosvCpOtgkZTmmanmdYfUbP5jR
+ 2bhSW2eBk8hOgsIcEtqJSi5RzIbGk88Mm6aVYI6KSR8ZDJ+ExANO9pNtCvWsrN9c9A1I
+ alOOfBhnmvtUvRantQH3QTV1fvEiQq+0UfCi92pdX8+KJVm79kirg438fdkc5pkMNOgq
+ 3Q4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=AoGkuMPg14/lsBcTol3sSswYmKiQxWDRs38aqAY5Px8=;
- b=EDpt366ALCrUXwsk2FnIqhBqdtIdy907s5l7Z/bfTysbq60xsvKmNaQpVua4wRSWwU
- V5KXqjLm1Pt/gOf48o7cb4Vvsl4/Bjz+T5j2vIzuXGuTexTfIGaTh9VBQuZifndMolfK
- Gr7XNhc5WucHu/R+q1zCUkUUaBEbrS1dzwHAPa+bi/3BPm7tTDEf5HhKlD3kpt3o25yr
- 8iOhYYiEGG2TWXDhjf7JU6REO+GKRDmQD4ix5QtYHNfLfWwOzx5O2Y7VCFa7glfFZJt/
- ZyxcuzEpu1RngjgLd/MBrWbu5OYGkr4d1XxqB6VeAs4a7IJ6kZNg45W6RXiu+UKwDrKf
- CzWA==
-X-Gm-Message-State: AOAM533vl8HvgOPSSWRPFTl6pySeVoluvqo3gBhPS9Q33BlFick6ER//
- zlAJUDpWiMgVnn2kZHtVS+w=
-X-Google-Smtp-Source: ABdhPJy2R0M0CE4alS88OwlhPznm7U4Ly9PRwTZRfZYQnvyezfu0vFW5nPcZZ3LYELPJOT27LiGCGQ==
-X-Received: by 2002:a63:3049:: with SMTP id w70mr6794299pgw.224.1611103460495; 
- Tue, 19 Jan 2021 16:44:20 -0800 (PST)
+ bh=vJl38ZIQEirX/mOVhqBvvGsk7I/xMwb+oeKxCBF9AWE=;
+ b=RELrhROHq4J2uEkTJkh9PrxA210Egr9P+cCVsMpgD9VdYN0UAl/k+Nxx5gLBWCjFLI
+ gZFg3eUDRPhZ3rblT5mg9heGUhYoZkQHdTK5gPPjaImgHijO7A3LQySHkRBuveKkosmq
+ HIQ4yRlZ/gm6kwisovodHc8K+o2/V/c3fOYNtubkx4FZgePMKxHZHtPlxgkQBvCNkrUe
+ McPocLocAbtJH3r6vcjWDTtcI3hWEwKi7hR4A7UamjOQzdcYXRxdemnFM03bUiGKWOnS
+ bd08WHiOCscfGrBdpU02jVLnZBWAAUvHZ2Ab4lcQmpTSJRBW7vS8vzgw6M48Z+kCE+O6
+ dgmg==
+X-Gm-Message-State: AOAM532j5gKZZZLrEYbCozn4gkRpkjO2cnVFsfMrNVQM31QEOnjolQ7E
+ KVKFWKvLZbeEn9VjhUVzOYA=
+X-Google-Smtp-Source: ABdhPJx6JZyXn20Ugcckqu9a475pbBTCpNbgqq0Sbk2M+M1AmSo5DNM6NvsEfOjtUnSqj9ejqHqRgg==
+X-Received: by 2002:a17:90a:9483:: with SMTP id
+ s3mr2481919pjo.85.1611103514539; 
+ Tue, 19 Jan 2021 16:45:14 -0800 (PST)
 Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id o14sm151131pjf.12.2021.01.19.16.44.19
+ by smtp.gmail.com with ESMTPSA id q4sm240255pgr.39.2021.01.19.16.45.11
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Tue, 19 Jan 2021 16:44:19 -0800 (PST)
-Date: Wed, 20 Jan 2021 09:44:17 +0900
+ Tue, 19 Jan 2021 16:45:11 -0800 (PST)
+Date: Wed, 20 Jan 2021 09:45:08 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
 Subject: Re: [RFC PATCH V3 0/8] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <20210120004417.GA4205@localhost.localdomain>
+Message-ID: <20210120004508.GB4205@localhost.localdomain>
 References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
  <YAciaPBu9TuGjifu@apples.localdomain>
+ <20210119192653.GA1520753@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <YAciaPBu9TuGjifu@apples.localdomain>
+In-Reply-To: <20210119192653.GA1520753@dhcp-10-100-145-180.wdc.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x434.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,86 +84,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
  qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-19 19:18:16, Klaus Jensen wrote:
-> On Jan 20 02:01, Minwoo Im wrote:
-> > Hello,
-> > 
-> > This patch series is third one to support multi-controller and namespace
-> > sharing in multi-path.  This series introduced subsystem scheme to
-> > manage controller(s) and namespace(s) in the subsystem.
-> > 
-> > This series has new patches from the V2:  'detached' parameter has been
-> > added to the nvme-ns device.  This will decide whether to attach the
-> > namespace to controller(s) in the current subsystem or not.  If it's
-> > given with true, then it will be just allocated in the subsystem, but
-> > not attaching to any controllers in the subsystem.  Otherwise, it will
-> > automatically attach to all the controllers in the subsystem.  The other
-> > t hing is that the last patch implemented Identify Active Namespace ID
-> > List command handler apart from the Allocated Namespace ID List.
-> > 
-> > Run with:
-> >   -device nvme,serial=qux,id=nvme3
-> >   -device nvme-ns,id=ns3,drive=drv12,nsid=3,bus=nvme3
-> > 
-> >   -device nvme-subsys,id=subsys0
-> >   -device nvme,serial=foo,id=nvme0,subsys=subsys0
-> >   -device nvme,serial=bar,id=nvme1,subsys=subsys0
-> >   -device nvme,serial=baz,id=nvme2,subsys=subsys0
-> >   -device nvme-ns,id=ns1,drive=drv10,nsid=1,subsys=subsys0,detached=true
-> >   -device nvme-ns,id=ns2,drive=drv11,nsid=2,bus=nvme2
-> > 
-> > nvme-cli:
-> >   root@vm:~/work# nvme list -v                                                                                                      
-> >   NVM Express Subsystems                                                                                                 
-> >                                                                                                                                      
-> >   Subsystem        Subsystem-NQN                                                                                    Controllers
-> >   ---------------- ------------------------------------------------------------------------------------------------ ----------------
-> >   nvme-subsys0     nqn.2019-08.org.qemu:qux                                                                         nvme0
-> >   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme1, nvme2, nvme3
-> >                                                                                                                                    
-> >   NVM Express Controllers                                                                                           
-> >                                                                                                                   
-> >   Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces
-> >   -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
-> >   nvme0    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys0
-> 
-> Shouldn't nvme0n1 be listed under Namespaces for nvme0?
+> Minwoo, try pulling the most current nvme-cli. There was a sysfs
+> scanning bug for non-mpath drives that should be fixed now.
 
-Oh, I missed that one from the output.  As Keith mentioned, I ran the
-list command again based on the latest nvme-cli.git:
-
-Please refer the following result.  I think it's okay not to send the
-cover letter again :)
-
-# nvme --version
-nvme version 1.13.48.g33c6
-
-# nvme list -v
-NVM Express Subsystems
-
-Subsystem        Subsystem-NQN                                                                                    Controllers
----------------- ------------------------------------------------------------------------------------------------ ----------------
-nvme-subsys0     nqn.2019-08.org.qemu:qux                                                                         nvme0
-nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme1, nvme2, nvme3
-
-NVM Express Controllers
-
-Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces      
--------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
-nvme0    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys0 nvme0n1
-nvme1    foo                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:07.0   nvme-subsys1 
-nvme2    bar                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:08.0   nvme-subsys1 
-nvme3    baz                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:09.0   nvme-subsys1 nvme1c3n1
-
-NVM Express Namespaces
-
-Device       NSID     Usage                      Format           Controllers     
------------- -------- -------------------------- ---------------- ----------------
-nvme0n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme0
-nvme1n1      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
+Thank you, Keith!  I've posted list result based on the latest one :)
 
