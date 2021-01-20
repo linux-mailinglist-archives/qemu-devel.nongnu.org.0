@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B0A2FD6DC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 18:27:21 +0100 (CET)
-Received: from localhost ([::1]:34130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 540952FD6DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 18:28:07 +0100 (CET)
+Received: from localhost ([::1]:35524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2HGK-0002WO-Mw
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 12:27:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47826)
+	id 1l2HH4-000372-22
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 12:28:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47834)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l2HCY-0008DM-SQ
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 12:23:26 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:37694)
+ id 1l2HCZ-0008Ej-R2
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 12:23:27 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:33437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l2HCX-0000fb-6L
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 12:23:26 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id b5so18185599ejv.4
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 09:23:24 -0800 (PST)
+ id 1l2HCY-0000ff-7X
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 12:23:27 -0500
+Received: by mail-ej1-x635.google.com with SMTP id by1so28198291ejc.0
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 09:23:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=VxLYgcAadEwzl3bgQSTgf+BoqBrBu3swiI8Wm6I0gok=;
- b=dw3r8bKwo5vjB7w5izTVissneHfB+u2Ma8fBWGpziMEKdkq8tzrU+PyMBHUV2e6GSa
- 7MuTwCEw1YMOLLfbYRy1CR6LNRbrw4g+5JgydnC585oIh3xjEVC6/TZ0Vl9CCc5c532S
- cQiqnZL270+JdZl91JW+KrxdtF46DSWljEHh+DQJbo2u4UEQKkUz9RkHgaomFEcy7GwU
- i5eys6dWeX0V0tu4fVyBotnSzL0P/LKh9MnJMQWfchHf3bahUdJRy08EWOLpEAEi5ap5
- bDolrXuPcuDWid3hKYVPGdtrRIqa0TRg5VCxyrfeVK1/E0k70fggODk3hm2bCgA2iSZ3
- Fezw==
+ bh=Msz1sMB4bTwqcsO5WO2Wr43HiWqezo87K418fFIMcvU=;
+ b=UgHuNZRRROEZvBHu2IjvDG8ieBXQFoZfLP4imDJHWA2nTcwdKeBqfYjnwDJ6hm1U3K
+ oNHMCKzLOfNUqWuWwQvAaRNArDEHehAaIygevU59wAEcAK8CPtsDU1uKhltxMV0vQH//
+ 3fnJbjujFJ9EXcsuDNIyHVotNLNUWshD89U9kjk0J3Rrg/u1RlBjkfcwtLZLNt4hqd//
+ OXx9g7dl9sIpKcqbO1vpR2jXacPNzSSRKK+uJmXfbC9WhPgqyXdGBiI3bvrxqidi7jXB
+ JFGcfajZ0ineM3gdJZtUl1vwe/5+BLE0RsruvF7RFaQ5hmYXw2N9eGwVN69ActDwWmSj
+ wbwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=VxLYgcAadEwzl3bgQSTgf+BoqBrBu3swiI8Wm6I0gok=;
- b=lbXhWRv+0arSdgHNvNwYuPw0DoFYUetrWpEFD6BKQCpejeyP+ZFUiH1OS3Q1gaj7Ny
- 4d4A94u60EuAxOuBMmCgRL12oek7jO+XPDTGLvrm0BEIoJ9Rgq1/bPLrwJNijBz/FIl6
- yDAX/wc8jLFFdKlR44Xn/fT5TGl1tNIH4vH8o15CxCL9+fzDOoiE9VG2m1thA3QRj7+p
- ms1ebz5GKer3vgSOOPSQaaFM9hs3EI9Dkwu4jb5QnNUqFqr/5lpUtMHfRjjMCEO3kLGa
- c/gGzs4PX0WkK+Ab0wCXB0VheW0Q+0WUKQTkEbrDKcPe5OUTkGTDjrp3LG9BfjRWxMQ2
- nGVQ==
-X-Gm-Message-State: AOAM533kyK567L3/8zA9f362aUIjdvvi1kfWYh7BLb6n2D+qK1uVcxkO
- 9YuYLvXhh/5dyJTGq+cCz+YSdRsw2agZuQ==
-X-Google-Smtp-Source: ABdhPJy6/zRECryJ3XZATF9T6CAmqKGnUCgEkTJ+S/YhGiE+f0SbpXYJBLaE9XnG7mE0az8nlQAXlw==
-X-Received: by 2002:a17:906:4f0d:: with SMTP id
- t13mr7064429eju.10.1611163403429; 
- Wed, 20 Jan 2021 09:23:23 -0800 (PST)
+ bh=Msz1sMB4bTwqcsO5WO2Wr43HiWqezo87K418fFIMcvU=;
+ b=OWOBMYdND5GRiyhoOOuH+5W9z75rbudl/SjVuResl3+LojszMESnWrzyPSz9laVgiu
+ FGKvySFBJG6UqG7IcRe2ughuJAddrUIlOJVog/wL7aFQFlocpjXIUosGsOkWClV0WZKD
+ Jd+ZJmaafHKCa/4Of1HqUr3Z8X/XCRj3+c9y02zQN9pOdKrSx/3Ny+k3TOMNHOExxy6V
+ Wk+c8fbOk749Jm66Ahv2Ct3otfD+3deI2nfrEHe7jvVGttlMHmU9w49PJnY2G/RN2rKc
+ AKQ9DSuohuHpoX5BLVxW5Q8OHCZu85kmysxTXl/X8LoPFxlHxEjEFpMauibMmbYXZzSq
+ BHyg==
+X-Gm-Message-State: AOAM532B/vIRUoMye1Ppmv+vLY7SeO4qCkT/B61+/fLBKrCgwU1tZy8N
+ mfBzFLEP95YhPYZIY/sW5YQhVe5/yRlkCg==
+X-Google-Smtp-Source: ABdhPJx+nUEyyaLIGELajDA6BOA12qRuao9UmJn/kl6w9ICDWySnGWDbDSvIoKtjZcp1WVtYlMgAig==
+X-Received: by 2002:a17:906:1701:: with SMTP id
+ c1mr6688398eje.395.1611163404267; 
+ Wed, 20 Jan 2021 09:23:24 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zk10sm1184007ejb.10.2021.01.20.09.23.22
+ by smtp.gmail.com with ESMTPSA id zk10sm1184007ejb.10.2021.01.20.09.23.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 09:23:22 -0800 (PST)
+ Wed, 20 Jan 2021 09:23:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/2] meson: Summarize configurable features together
-Date: Wed, 20 Jan 2021 18:23:19 +0100
-Message-Id: <20210120172320.26742-2-pbonzini@redhat.com>
+Subject: [PATCH 2/2] meson: split the summary in multiple sections
+Date: Wed, 20 Jan 2021 18:23:20 +0100
+Message-Id: <20210120172320.26742-3-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210120172320.26742-1-pbonzini@redhat.com>
 References: <20210120172320.26742-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,132 +90,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- meson.build | 74 +++++++++++++++++++++++++++--------------------------
- 1 file changed, 38 insertions(+), 36 deletions(-)
+ meson.build | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 1d27f1b8bb..75ce835d48 100644
+index 75ce835d48..3d2ac1a399 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2338,11 +2338,6 @@ if slirp_opt != 'disabled'
+@@ -2238,9 +2238,8 @@ endif
+ # Configuration summary #
+ #########################
+ 
+-summary_info = {}
+-
+ # Generic information
++summary_info = {}
+ summary_info += {'Install prefix':    get_option('prefix')}
+ summary_info += {'BIOS directory':    qemu_datadir}
+ summary_info += {'firmware path':     get_option('qemu_firmwarepath')}
+@@ -2263,8 +2262,10 @@ summary_info += {'GIT binary':        config_host['GIT']}
+ summary_info += {'GIT submodules':    config_host['GIT_SUBMODULES']}
+ summary_info += {'Documentation':     build_docs}
+ summary_info += {'Install blobs':     get_option('install_blobs')}
++summary(summary_info, bool_yn: true)
+ 
+ # Compilation information
++summary_info = {}
+ summary_info += {'host CPU':          cpu}
+ summary_info += {'host endianness':   build_machine.endian()}
+ summary_info += {'C compiler':        meson.get_compiler('c').cmd_array()[0]}
+@@ -2322,8 +2323,10 @@ if targetos == 'windows'
+     summary_info += {'Windows SDK':       config_host['WIN_SDK']}
+   endif
+ endif
++summary(summary_info, bool_yn: true, section: 'Compilation')
+ 
+ # Host binaries
++summary_info = {}
+ summary_info += {'make':              config_host['MAKE']}
+ summary_info += {'python':            '@0@ (version: @1@)'.format(python.full_path(), python.language_version())}
+ summary_info += {'sphinx-build':      sphinx_build.found()}
+@@ -2337,8 +2340,10 @@ if slirp_opt != 'disabled'
+   summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
  endif
  summary_info += {'sparse enabled':    sparse.found()}
++summary(summary_info, bool_yn: true, section: 'Host binaries')
  
--summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
--if config_host.has_key('CONFIG_MODULES')
--  summary_info += {'alternative module path': config_host.has_key('CONFIG_MODULE_UPGRADES')}
--endif
--
  # Targets and accelerators
++summary_info = {}
  summary_info += {'target list':       ' '.join(target_dirs)}
  
-@@ -2380,6 +2375,44 @@ if have_block
+ if have_system
+@@ -2356,8 +2361,10 @@ if config_all.has_key('CONFIG_TCG')
+   summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
+   summary_info += {'TCG interpreter':   tcg_arch == 'tci'}
+ endif
++summary(summary_info, bool_yn: true, section: 'Targets')
+ 
+ # Block layer
++summary_info = {}
+ summary_info += {'block layer':       have_block}
+ if have_block
+   summary_info += {'Block whitelist (rw)': config_host['CONFIG_BDRV_RW_WHITELIST']}
+@@ -2374,6 +2381,7 @@ if have_block
+   summary_info += {'parallels support': config_host.has_key('CONFIG_PARALLELS')}
    summary_info += {'sheepdog support':  config_host.has_key('CONFIG_SHEEPDOG')}
  endif
++summary(summary_info, bool_yn: true, section: 'Block device support')
  
-+# Features
-+summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
-+if config_host.has_key('CONFIG_MODULES')
-+  summary_info += {'alternative module path': config_host.has_key('CONFIG_MODULE_UPGRADES')}
-+endif
-+summary_info += {'build guest agent': config_host.has_key('CONFIG_GUEST_AGENT')}
-+if targetos == 'windows'
-+  summary_info += {'QGA VSS support':   config_host.has_key('CONFIG_QGA_VSS')}
-+  summary_info += {'QGA w32 disk info': config_host.has_key('CONFIG_QGA_NTDDSCSI')}
-+  summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
-+endif
-+summary_info += {'default devices':   get_option('default_devices')}
-+summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
-+summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
-+if have_system
-+  summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
-+endif
-+summary_info += {'VirtFS support':    have_virtfs}
-+summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
-+summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1'}
-+summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
-+summary_info += {'build virtiofs daemon': have_virtiofsd}
-+summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
-+summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
-+summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
-+summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
-+summary_info += {'vhost-scsi support': config_host.has_key('CONFIG_VHOST_SCSI')}
-+summary_info += {'vhost-vsock support': config_host.has_key('CONFIG_VHOST_VSOCK')}
-+summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
-+summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
-+summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
-+summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
-+summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
-+if config_host['TRACE_BACKENDS'].split().contains('simple')
-+  summary_info += {'Trace output file': config_host['CONFIG_TRACE_FILE'] + '-<pid>'}
-+endif
-+
-+# Libraries
+ # Features
+ summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
+@@ -2411,8 +2419,10 @@ summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
+ if config_host['TRACE_BACKENDS'].split().contains('simple')
+   summary_info += {'Trace output file': config_host['CONFIG_TRACE_FILE'] + '-<pid>'}
+ endif
++summary(summary_info, bool_yn: true, section: 'Configurable features')
+ 
+ # Libraries
++summary_info = {}
  if targetos == 'darwin'
    summary_info += {'Cocoa support':   cocoa.found()}
  endif
-@@ -2411,11 +2444,6 @@ summary_info += {'curses support':    curses.found()}
- # TODO: add back version
- summary_info += {'virgl support':     config_host.has_key('CONFIG_VIRGL')}
- summary_info += {'curl support':      curl.found()}
--if have_system
--  summary_info += {'Audio drivers':     config_host['CONFIG_AUDIO_DRIVERS']}
--endif
--summary_info += {'VirtFS support':    have_virtfs}
--summary_info += {'build virtiofs daemon': have_virtiofsd}
- summary_info += {'Multipath support': mpathpersist.found()}
- summary_info += {'VNC support':       vnc.found()}
- if vnc.found()
-@@ -2433,19 +2461,6 @@ summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
- summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
- summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
- summary_info += {'libcap-ng support': libcap_ng.found()}
--summary_info += {'vhost-kernel support': config_host.has_key('CONFIG_VHOST_KERNEL')}
--summary_info += {'vhost-net support': config_host.has_key('CONFIG_VHOST_NET')}
--summary_info += {'vhost-crypto support': config_host.has_key('CONFIG_VHOST_CRYPTO')}
--summary_info += {'vhost-scsi support': config_host.has_key('CONFIG_VHOST_SCSI')}
--summary_info += {'vhost-vsock support': config_host.has_key('CONFIG_VHOST_VSOCK')}
--summary_info += {'vhost-user support': config_host.has_key('CONFIG_VHOST_USER')}
--summary_info += {'vhost-user-blk server support': have_vhost_user_blk_server}
--summary_info += {'vhost-user-fs support': config_host.has_key('CONFIG_VHOST_USER_FS')}
--summary_info += {'vhost-vdpa support': config_host.has_key('CONFIG_VHOST_VDPA')}
--summary_info += {'Trace backends':    config_host['TRACE_BACKENDS']}
--if config_host['TRACE_BACKENDS'].split().contains('simple')
--  summary_info += {'Trace output file': config_host['CONFIG_TRACE_FILE'] + '-<pid>'}
--endif
- # TODO: add back protocol and server version
- summary_info += {'spice support':     config_host.has_key('CONFIG_SPICE')}
- summary_info += {'rbd support':       rbd.found()}
-@@ -2458,16 +2473,7 @@ summary_info += {'OpenGL support':    config_host.has_key('CONFIG_OPENGL')}
- summary_info += {'OpenGL dmabufs':    config_host.has_key('CONFIG_OPENGL_DMABUF')}
- summary_info += {'libiscsi support':  libiscsi.found()}
- summary_info += {'libnfs support':    libnfs.found()}
--summary_info += {'build guest agent': config_host.has_key('CONFIG_GUEST_AGENT')}
--if targetos == 'windows'
--  summary_info += {'QGA VSS support':   config_host.has_key('CONFIG_QGA_VSS')}
--  summary_info += {'QGA w32 disk info': config_host.has_key('CONFIG_QGA_NTDDSCSI')}
--  summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
--endif
- summary_info += {'seccomp support':   seccomp.found()}
--summary_info += {'coroutine backend': config_host['CONFIG_COROUTINE_BACKEND']}
--summary_info += {'coroutine pool':    config_host['CONFIG_COROUTINE_POOL'] == '1'}
--summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
- summary_info += {'GlusterFS support': glusterfs.found()}
- summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
- summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
-@@ -2483,10 +2489,6 @@ summary_info += {'capstone':          capstone_opt == 'disabled' ? false : capst
- summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
- summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
- summary_info += {'libudev':           libudev.found()}
--summary_info += {'default devices':   get_option('default_devices')}
--summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
--summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
--summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
+@@ -2492,7 +2502,7 @@ summary_info += {'libudev':           libudev.found()}
  summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
  summary_info += {'FUSE exports':      fuse.found()}
  summary_info += {'FUSE lseek':        fuse_lseek.found()}
+-summary(summary_info, bool_yn: true)
++summary(summary_info, bool_yn: true, section: 'Dependencies')
+ 
+ if not supported_cpus.contains(cpu)
+   message()
 -- 
 2.29.2
-
 
 
