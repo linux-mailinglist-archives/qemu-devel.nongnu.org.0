@@ -2,73 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE34E2FD97C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:24:18 +0100 (CET)
-Received: from localhost ([::1]:53784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C0D852FD990
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 20:26:27 +0100 (CET)
+Received: from localhost ([::1]:56096 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2J5V-0006AA-SF
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:24:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45670)
+	id 1l2J7a-0007Ju-TF
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 14:26:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l2J36-0005R1-LA
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:21:48 -0500
-Received: from mout.web.de ([212.227.15.4]:34193)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lukasstraub2@web.de>)
- id 1l2J34-0000zt-7m
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:21:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
- s=dbaedf251592; t=1611170490;
- bh=RHe1AZSGtTBH3QhqqWzGrcgVwMmSnFcfYgOgpI4bXFM=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
- b=Xft1RdeVVyiiI2FH5l4CNqDFMwpQuX/S+c6sTVGcXCUCixQmeMARMjtUjI3W+LpCU
- hkWdnyJrLxGl754CWtx0Cah8fwaqJpvNUxVYI/jSnWdIoQArwmYwfS9NoicvURlP+M
- wh+OgurGficbaIg9CpJpbDelOxX9UnTmwYLFz898=
-X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
-Received: from gecko.fritz.box ([88.130.61.127]) by smtp.web.de (mrweb005
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1Mvbik-1lugaF48us-00sdZW; Wed, 20
- Jan 2021 20:21:30 +0100
-Date: Wed, 20 Jan 2021 20:21:27 +0100
-From: Lukas Straub <lukasstraub2@web.de>
-To: leirao <lei.rao@intel.com>
-Subject: Re: [PATCH 03/10] Optimize the function of filter_send
-Message-ID: <20210120202128.371778ff@gecko.fritz.box>
-In-Reply-To: <1610505995-144129-4-git-send-email-lei.rao@intel.com>
-References: <1610505995-144129-1-git-send-email-lei.rao@intel.com>
- <1610505995-144129-4-git-send-email-lei.rao@intel.com>
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l2J3K-0005Vb-C7
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:22:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l2J3G-00014I-Ey
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 14:22:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611170517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=BSCpKHfLAydbAnxQl7cCLwAXEcfsqT2AFdr9/w+ijC4=;
+ b=bUBwkq4AGCbuYsg1lfky1vVL6Dp1z5YY1/t2arhMYaw8qwJ9ZkriKYPJCkoRet+9q1XWQL
+ ldlxNj6ZiqGEaU2GD4hJcqw74U/pfTdUdmjszAduHh8Ws/lOBW4uCPzLNcpRCWykMKwHxA
+ 9vIc3jZrmnTcgvbrwXdHmXMC0AJm33c=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-64-27bHl-YyMP-fOdKcWJOt4Q-1; Wed, 20 Jan 2021 14:21:43 -0500
+X-MC-Unique: 27bHl-YyMP-fOdKcWJOt4Q-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 25502107ACE3;
+ Wed, 20 Jan 2021 19:21:42 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BB8BD71C85;
+ Wed, 20 Jan 2021 19:21:36 +0000 (UTC)
+Date: Wed, 20 Jan 2021 20:21:34 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Subject: Re: [RFC PATCH 1/2] hw/i386: -cpu model,-feature,+feature should
+ enable feature
+Message-ID: <20210120202134.4e0c4523@redhat.com>
+In-Reply-To: <20210120161801.GP1227584@habkost.net>
+References: <20210119142207.3443123-1-david.edmondson@oracle.com>
+ <20210119142207.3443123-2-david.edmondson@oracle.com>
+ <20210119152056.GE1227584@habkost.net> <cuna6t499ir.fsf@dme.org>
+ <20210119163052.GG1227584@habkost.net>
+ <20210120100803.GF3015589@redhat.com> <cuny2gn7vzz.fsf@dme.org>
+ <20210120161801.GP1227584@habkost.net>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/Y4RT8syFAWZ/r/tAcDQ29Bs";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-Provags-ID: V03:K1:Z18+19cwZCEjhvvAQ2CkkT1U0KPdP5rQ2Psmvn3NpCdoR3FWBEO
- PqI6DnAQIZoCtuEDKJaNVLSMhfPwLzVZIPErVvkZ2233Ba6IwBJ4y9kxON93G0vWiiabFmB
- yCLd3rBDHu2AJCwen3v0ga/5H/71AW5gCPTaDQOlaMNg3rBHcvQwjEzM8uIfqscatdhxiGf
- yL1b8lauvilYq8rWMzUgQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:YoG+XAVdmDA=:6hOoTaOMXp9j/MO55v7uw+
- 4AdEV9HV9y1C4HMA5Qjkw+tkiCWAJfFGUkFNKcJgQxwQZyEqK/OeyACVsuhcBtwq3YLlLxyn8
- 910R6L6iU6xXCw89hbH402htTQu8t9Bs91n+OPN9lYD+nIRA4scE64FBlg2Uhroi9/YwslHuu
- 51AYuwD2Xt2ggfSn7Z55Hjk7U0ckvjZXQEZQo02Lp4Kju1t+z+MNSYtCPtz+I/USK8LsHx/ZO
- DJpEVG+MzrmpRdZl3TfrODXgrlqFURlqxfjKi5SHqcR5vEFJmcrPKHW0NF+wr8Wm2gZ/iuhs/
- Xi73A+mhVfTMWgFCYTmzxY9PHlF/WpsjNrD4rj2cU8JNXsMjn2jHrXF51MGqMc6/E+YNq7MUc
- ivrWfPxfCyUc5G6sZFVS9lgzIkZ2e8AV1MbQWBzXMY5hUSSR9IBYxyHv+U5WwW9NdT6fqWQ4K
- MdIGK+rNCGEX15jMe7J8N1WEvACA5sgzEaA0e3b7g7HwYnwIuz35wD1g94ucgqATHsav5YJl3
- VQ/03qxdh26oAxDZuZAN4zV2BZet8A5u96IA8PWXZdmDQ9dLaoRENq+ehKboU8LDBr4A1IwjQ
- wb/OTNHM1cQfQA0bBmVx63jlyEJ2hv5taA0V3a47xAWnsYQ5tTD6z83Q4bVIrl1FVal+uBU4x
- GHwNs/LwWxN+iUT1qD0Ok0Sc3UxV6YJKghJE4Aoem0NHHe/nzZxZDhU/IpZbqP6VslKyoTbLT
- Vr5sA4WxnSQ11FIA0zA/pF8RejYq+HkZ4iIyhewnvq5bMnGApnbhH9WD71YsTWN5HnfwMSXwm
- LeH7Gq1viQ3q24MAps5EHMwQ/Bd8mjqfSViWx+fdw0viwBaEhIMgk8e5wRX3RengxswgzNytl
- xcHlNf4QASdC5CnLI4+g==
-Received-SPF: pass client-ip=212.227.15.4; envelope-from=lukasstraub2@web.de;
- helo=mout.web.de
-X-Spam_score_int: -24
-X-Spam_score: -2.5
-X-Spam_bar: --
-X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,99 +84,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: zhang.zhanghailiang@huawei.com, lizhijian@cn.fujitsu.com,
- quintela@redhat.com, jasowang@redhat.com, dgilbert@redhat.com,
- qemu-devel@nongnu.org, chen.zhang@intel.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, David Edmondson <dme@dme.org>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---Sig_/Y4RT8syFAWZ/r/tAcDQ29Bs
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Wed, 20 Jan 2021 11:18:01 -0500
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-On Wed, 13 Jan 2021 10:46:28 +0800
-leirao <lei.rao@intel.com> wrote:
-
-> From: "Rao, Lei" <lei.rao@intel.com>
+> On Wed, Jan 20, 2021 at 10:17:36AM +0000, David Edmondson wrote:
+> > On Wednesday, 2021-01-20 at 10:08:03 GMT, Daniel P. Berrang=C3=A9 wrote=
+:
+> >  =20
+> > > On Tue, Jan 19, 2021 at 11:30:52AM -0500, Eduardo Habkost wrote: =20
+> > >> On Tue, Jan 19, 2021 at 04:27:56PM +0000, David Edmondson wrote: =20
+> > >> > On Tuesday, 2021-01-19 at 10:20:56 -05, Eduardo Habkost wrote:
+> > >> >  =20
+> > >> > > Hi,
+> > >> > >
+> > >> > > Thanks for the patch.  Getting rid of special -feature/+feature
+> > >> > > behavior was in our TODO list for a long time.
+> > >> > >
+> > >> > > On Tue, Jan 19, 2021 at 02:22:06PM +0000, David Edmondson wrote:=
+ =20
+> > >> > >> "Minus" features are applied after "plus" features, so ensure t=
+hat a
+> > >> > >> later "plus" feature causes an earlier "minus" feature to be re=
+moved.
+> > >> > >>=20
+> > >> > >> This has no effect on the existing "-feature,feature=3Don" back=
+ward
+> > >> > >> compatibility code (which warns and turns the feature off). =20
+> > >> > >
+> > >> > > If we are changing behavior, why not change behavior of
+> > >> > > "-feature,feature=3Don" at the same time?  This would allow us t=
+o
+> > >> > > get rid of plus_features/minus_features completely and just make
+> > >> > > +feature/-feature synonyms to feature=3Don/feature=3Doff. =20
+> > >> >=20
+> > >> > Okay, I'll do that.
+> > >> >=20
+> > >> > Given that there have been warnings associated with
+> > >> > "-feature,feature=3Don" for a while, changing that behaviour seems
+> > >> > acceptable.
+> > >> >=20
+> > >> > Would the same be true for changing "-feature,+feature"? (i.e. wha=
+t this
+> > >> > patch does) Really: can this just be changed, or does there have t=
+o be
+> > >> > some period where the behaviour stays the same with a warning? =20
+> > >>=20
+> > >> I actually expected warnings to be triggered when using
+> > >> "-feature,+feature" as well.  If we were not generating warnings
+> > >> for that case, it will need more careful evaluation, just to be
+> > >> sure it's safe.  Igor, do you remember the details here? =20
+> > >
+> > > Where are you expecting warnings ? I don't see any when launching QEM=
+U =20
+> >=20
+> > qemu-system-x86_64 -display none -cpu Westmere,-vmx,+vmx
+> >=20
+> > Warnings because the result of this is "-vmx".
+> >  =20
+> > > IMHO just leave the parsing unchanged, deprecate it, and then delete
+> > > the code.  We don't need to "improve" usability semantics of somethin=
+g
+> > > that we want to delete anyway. =20
+> >=20
+> > /me nods. =20
 >=20
-> The iov_size has been calculated in filter_send(). we can directly
-> return the size.In this way, this is no need to repeat calculations
-> in filter_redirector_receive_iov();
->=20
-> Signed-off-by: Lei Rao <lei.rao@intel.com>
-> ---
->  net/filter-mirror.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/net/filter-mirror.c b/net/filter-mirror.c
-> index f8e6500..7fa2eb3 100644
-> --- a/net/filter-mirror.c
-> +++ b/net/filter-mirror.c
-> @@ -88,7 +88,7 @@ static int filter_send(MirrorState *s,
->          goto err;
->      }
-> =20
-> -    return 0;
-> +    return size;
-> =20
->  err:
->      return ret < 0 ? ret : -EIO;
-> @@ -159,7 +159,7 @@ static ssize_t filter_mirror_receive_iov(NetFilterSta=
-te *nf,
->      int ret;
-> =20
->      ret =3D filter_send(s, iov, iovcnt);
-> -    if (ret) {
-> +    if (ret <=3D 0) {
->          error_report("filter mirror send failed(%s)", strerror(-ret));
->      }
+> I agree, but I guess we need to convince Paolo:
+> https://lore.kernel.org/qemu-devel/1990888058.22417362.1465939000140.Java=
+Mail.zimbra@redhat.com/
+that's ancient :)
 
-0 is a valid return value if the data to send has size =3D 0.
+He recently started this revolution himself :)
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg757280.html
 
-> @@ -182,10 +182,10 @@ static ssize_t filter_redirector_receive_iov(NetFil=
-terState *nf,
-> =20
->      if (qemu_chr_fe_backend_connected(&s->chr_out)) {
->          ret =3D filter_send(s, iov, iovcnt);
-> -        if (ret) {
-> +        if (ret <=3D 0) {
->              error_report("filter redirector send failed(%s)", strerror(-=
-ret));
->          }
+That's why I have -cpu +/-foo deprecation on my not too far away TODO list.
 
-dito
-
-> -        return iov_size(iov, iovcnt);
-> +        return ret;
->      } else {
->          return 0;
->      }
-
-
-
---=20
-
-
---Sig_/Y4RT8syFAWZ/r/tAcDQ29Bs
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEg/qxWKDZuPtyYo+kNasLKJxdslgFAmAIgrgACgkQNasLKJxd
-sljHzw/8C909HhSQsib7DAkRWZ3Wwt1jLZMAnDIYfSTQr7IiE8xLKiZjqoDLmFLP
-QWBVscQFwhbcArWIoj58gTsoYErREzTWZ1w94cedGXpy+VqpAmWucwJXJ2ztrftR
-lN+f6ALAPcjbbSfFx/R+GPY3wyYxnaLCKFzQ1JMwqAhjWIkWXHgJnj5JzaqO+VzA
-4in7NHpJap5SiAeu28Pe0+WVcL/AF9O5YIEH2marrPdnwgFs2Ex1OsEdTzMoTgLK
-BAaDijYAZQ+lbVramJ36FIt6/7W3gXvFgRS9iM9M8eHT/CzoMLad7k83WmtpuNkl
-Nsgq2aUjZkdnNEx/lm6wfLuHmSLQzrgWvTH/eHn1iJvjOc6ZRgvDPv8O04G7CPBu
-s2i/S8esGuiXQGlB9cYWOAvP/djKzoAsc9SlTkX54LFd0ZzWLQY+jnOF1t3gcrtk
-ty9A3ezkaK6gPgjmGu7L5czkxX8Bfgyw1dsuTdBU3W3ZTbDTnYHHG/QHEyCu8HLN
-S5baRtu/SK+PqnaGNy/Pq6gcGgxq3tVcrjW/bymVfywOk4qwG7Nx/YHrLZWZa3Sh
-FDBOn/TPTo499Y2ChUijyuJHOpxwlVUfc6V69G1/qrdq0Xpl4AVoLgSphV+aMJcA
-UzxICgs1WDofiZtlwwRejmLLehuqF9z0l3yym+Fx2mu+MWi26S0=
-=sUGy
------END PGP SIGNATURE-----
-
---Sig_/Y4RT8syFAWZ/r/tAcDQ29Bs--
 
