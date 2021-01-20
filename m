@@ -2,87 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F3E62FD2FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:50:49 +0100 (CET)
-Received: from localhost ([::1]:38210 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CA6E2FD356
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:00:13 +0100 (CET)
+Received: from localhost ([::1]:53064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Eoq-0003Zg-6V
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:50:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36262)
+	id 1l2Exw-0001q7-ED
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:00:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l2EmG-0001sU-8U
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:48:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24139)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2EwU-0001Gb-8p
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:58:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55074)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l2EmD-0005pa-O4
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:48:07 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2EwR-0000o9-D5
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:58:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611154083;
+ s=mimecast20190719; t=1611154717;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=fLvT6s3nRAez/dLh+9gaREIeg8gvgofc/TzATYiTilY=;
- b=Qft1IykV5BsQmJUoiwU2wJXSG4ZVL/0YWFjfeIHZab3osWIhQBUz/Y2c4bBENbGF2W3TMr
- 5mufuRGoZB+HtMg0Nb4JSO1QbMzfVLEPfsKhak4lS9FY7y9IzaV/+1e0I3M8ZV/9L39RhS
- XfcmIoFAtVcAZlmFDQLABGrinZ+5Qe8=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-445-UkId8XwEOIm_OSSXUgpZjA-1; Wed, 20 Jan 2021 09:48:02 -0500
-X-MC-Unique: UkId8XwEOIm_OSSXUgpZjA-1
-Received: by mail-ed1-f71.google.com with SMTP id l33so11151361ede.1
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 06:48:02 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fLvT6s3nRAez/dLh+9gaREIeg8gvgofc/TzATYiTilY=;
- b=Dcw7y8IPpfRxBOY2AnPve+55xBlvdBfYf+d3M7BSyBexrDocr594uUkZhXjGPs2Cgh
- Tkvkk7iq3/beLo27D+JRDQ0AmFwTGMgqMyCHtE0yk6Ec+kC5tOsgOLSLVr9o+B0nc1jt
- 1Hw8xorTMFfgvxOjCKj2RfaFoeT7rxIE08LF0TEuCaGriqW29238W3nN1srvaCDKHsu3
- faCRItLcTBUTcfOP5p4CcWYvom/2Mb6/g+AxClYERSZTvLVjfoN2n+ItHwA1KbNFSITe
- HWtvtNWa4q2pBnEmwwknD30+62QZbTDsZZBQFkaBBj5b6A21oOGO6Jh4bUoXqK/tRWen
- c5yg==
-X-Gm-Message-State: AOAM532fvs/LRrUnW1Byowo+h14vVDOxK4qsN/yvQkSzuZMDo8Vt6HiF
- DS4erbKZuF73N8N8kTc1Zz4deLEfFW/8VMSMewfrWusdCqTWnHQhwEVh8xL4XbObUQr0minEnfX
- YMSwFejpMGEuJbgXnOIq2CZ8CLKfBaf3csaOBxIZSzlaBoA/9Z4sphLCpvfCFt4EHLIE=
-X-Received: by 2002:a50:b765:: with SMTP id g92mr7576971ede.317.1611154080802; 
- Wed, 20 Jan 2021 06:48:00 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwdWblMfdkvtC7I7Gzy+W9opgmBKggSuWljfhzLD2b4+APY0BmrRxWL5Zc+y82AQ+7syOmnrg==
-X-Received: by 2002:a50:b765:: with SMTP id g92mr7576957ede.317.1611154080623; 
- Wed, 20 Jan 2021 06:48:00 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id v9sm971023ejd.92.2021.01.20.06.47.59
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 06:47:59 -0800 (PST)
-Subject: Re: [PULL 16/45] vl: Add option to avoid stopping VM upon guest panic
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Alejandro Jimenez <alejandro.j.jimenez@oracle.com>
-References: <20201215175445.1272776-1-pbonzini@redhat.com>
- <20201215175445.1272776-17-pbonzini@redhat.com>
- <CAFEAcA93tYRjdjQJm8GKNS2=4iV5QU4X_JJevWEBc7wggX6Cwg@mail.gmail.com>
- <3f399e69-f941-d928-acee-f3d16182df5d@oracle.com>
- <20210120135459.GJ3015589@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e3608cbe-b13b-446c-68b9-1cf89a236b08@redhat.com>
-Date: Wed, 20 Jan 2021 15:47:58 +0100
+ bh=Qh+O3F1pRG/vLNskRWeYWMnW3IOoWFMXx2o9tG0imGw=;
+ b=UBb5MVHk7saTH0usKN/PJpOqxzq9V+UD2n1Mo6mBrQGUS7rMEYEuZesNqh0GUgyrIxPLh/
+ Q1/i+cdih9jJzutdnIRsNhSKCosqJ7rfMSPxfVHtaYNs622QRHddcVEBxs70F+YDNlspgz
+ c0zf0z3B60OyMAiXDxEIF9oab083c/A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-187-2OCWDjG6NwO-QW2BmwHmJA-1; Wed, 20 Jan 2021 09:58:34 -0500
+X-MC-Unique: 2OCWDjG6NwO-QW2BmwHmJA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB9C2806663;
+ Wed, 20 Jan 2021 14:58:32 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6DD4D60C74;
+ Wed, 20 Jan 2021 14:58:29 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210118170308.282442-1-philmd@redhat.com>
+ <20210118170308.282442-2-philmd@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [RFC PATCH 1/2] scsi/utils: Add INVALID_PARAM_VALUE sense code
+ definition
+Message-ID: <505a6e2f-a07b-5e1f-a6d0-3d32b6388bb3@redhat.com>
+Date: Wed, 20 Jan 2021 08:58:28 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210120135459.GJ3015589@redhat.com>
+In-Reply-To: <20210118170308.282442-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -104,23 +84,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mihai Carabas <mihai.carabas@oracle.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/01/21 14:54, Daniel P. Berrangé wrote:
-> Why would pause be immediately followed by poweroff ? These are independant
-> actions, and the mgmt app should be deciding what todo next after the
-> pause action. It may wish to capture a guest crash image before poweroff.
+On 1/18/21 11:03 AM, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  include/scsi/utils.h | 2 ++
+>  scsi/utils.c         | 5 +++++
+>  2 files changed, 7 insertions(+)
+> 
+> diff --git a/include/scsi/utils.h b/include/scsi/utils.h
+> index fbc55882799..096489c6cd1 100644
+> --- a/include/scsi/utils.h
+> +++ b/include/scsi/utils.h
+> @@ -57,6 +57,8 @@ extern const struct SCSISense sense_code_LBA_OUT_OF_RANGE;
+>  extern const struct SCSISense sense_code_INVALID_FIELD;
+>  /* Illegal request, Invalid field in parameter list */
+>  extern const struct SCSISense sense_code_INVALID_PARAM;
+> +/* Illegal request, Invalid value in parameter list */
+> +extern const struct SCSISense sense_code_INVALID_PARAM_VALUE;
+>  /* Illegal request, Parameter list length error */
+>  extern const struct SCSISense sense_code_INVALID_PARAM_LEN;
+>  /* Illegal request, LUN not supported */
 
-That's exactly why -action was introduced (and before that, why 
--no-shutdown affected the behavior of panicking too).
+Pre-existing: the term 'illegal' is suspect in computer science (the
+code isn't breaking any laws); I prefer 'invalid'.  But that's a pet
+peeve of mine, and not something you need to change here.
 
-Guest panic will exit QEMU by default, but you can use "-action 
-panic=pause" or "-no-shutdown" to change the default.
+> diff --git a/scsi/utils.c b/scsi/utils.c
+> index b37c2830148..793c3a6b9c9 100644
+> --- a/scsi/utils.c
+> +++ b/scsi/utils.c
+> @@ -197,6 +197,11 @@ const struct SCSISense sense_code_INVALID_PARAM = {
+>      .key = ILLEGAL_REQUEST, .asc = 0x26, .ascq = 0x00
+>  };
+>  
+> +/* Illegal request, Invalid value in parameter list */
+> +const struct SCSISense sense_code_INVALID_PARAM_VALUE = {
+> +    .key = ILLEGAL_REQUEST, .asc = 0x26, .ascq = 0x01
+> +};
+> +
+>  /* Illegal request, Parameter list length error */
+>  const struct SCSISense sense_code_INVALID_PARAM_LEN = {
+>      .key = ILLEGAL_REQUEST, .asc = 0x1a, .ascq = 0x00
+> 
 
-Paolo
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
