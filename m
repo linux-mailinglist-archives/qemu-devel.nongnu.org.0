@@ -2,92 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6080E2FD603
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:51:11 +0100 (CET)
-Received: from localhost ([::1]:52972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6CF02FD61D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 17:53:32 +0100 (CET)
+Received: from localhost ([::1]:57952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2GhJ-0005br-O3
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:51:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39016)
+	id 1l2Gjc-0007qb-05
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 11:53:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l2Gd0-00049T-Ux
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:46:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36763)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l2Gcz-0005n7-CE
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 11:46:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611161200;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=38BU2hj3lKmHOmv1OLKuPFwoqiOu0rbFIhV6iCZbHh0=;
- b=H2QOsOlVGx8donc8ps11+OsKrD3fFkqDl7LPNXHu8jWMBm4Qkq2zmGQG1+/DEAAQSt8u+X
- buFiPZpDsYWlV6KstCZwUeINufZ98GHiTP+l+W6oYm5jyKppuMynVp35LqYc3UdgJUSQq1
- gl5VV6s85uEgVfzmVgjYR/KyLJtG1BY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-392-n1VRtmjnMuCPEaL4xqlMWA-1; Wed, 20 Jan 2021 11:46:38 -0500
-X-MC-Unique: n1VRtmjnMuCPEaL4xqlMWA-1
-Received: by mail-ed1-f71.google.com with SMTP id f19so11314031edq.20
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 08:46:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l2Gh3-0006C5-CH; Wed, 20 Jan 2021 11:50:54 -0500
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:40876)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l2Ggq-0006zA-U2; Wed, 20 Jan 2021 11:50:53 -0500
+Received: by mail-io1-xd2a.google.com with SMTP id n2so30989084iom.7;
+ Wed, 20 Jan 2021 08:50:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=S9yKx8zfi7WoRXw5NiDvyCSzXomfvms+mBgGTw8hc50=;
+ b=MWpPvSvIR/W7e0DCT8ap3ZCaP/hec5KLWyK/aU9GaYoaCGtOSbN06pQ9G9wQow2Q0g
+ RN388BdK4XmQIpnW3q2kvfHIJOx0Vo7VXAlk+M6GPZ7G9tk73Jc3Yhq8TvyhuRgGSf77
+ h0Bs6SciXdD3uuWsAjSGf2rNxHcd6/2/UPwAgA/ovHnj3kATW8WGSHQ9gOu7TlFmJ3x+
+ bjeTv5XspdcacoreIIgSjwrGMcuD371zrKcP0s3JXIkCuVEaQMF1TN0ZHUpCp1ZrQOF9
+ AhVDgRkPSw11cSiiwfAvAJifM2OPXMzpDcBib4l3KUqsAMtbJflvTciakPMTTMhhbJ+m
+ A6pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=38BU2hj3lKmHOmv1OLKuPFwoqiOu0rbFIhV6iCZbHh0=;
- b=PXx2zKjZyePSuK4lCTsEwB8/4y7pR7lxdZ6x8Kr6Mja8tt8YzQGyvlZnq8OoljnBhc
- qONz4goXEDDEaLzDukRUyjvRX7R24z9AtVH0rGL09gJB3Mp9vJOxO1gwEk1RWmyabMM5
- tmjVKX6iRP1ut4kgj1ZDG3Ub14iEKH2draNt0DYHhheJAh7zL6EhwVw1lM/yBNxdkxj8
- IERhMjkv0N5l8NbKt5iClU2dpfKhnlYgv/gTU+ojqY/IwPenXXFLnai1PLhW/3lyUm6T
- hup5zlHfItlsB7I95nBC1/EDT8dKmXhXXHvHAE+OJzfcRDFlYE216MhhS2N96E+7kqLp
- pkxQ==
-X-Gm-Message-State: AOAM532qQlmpfUOT22XqdtKaWHkOquOm7WZVp+dWXTdY4FwCdeeH8Ns+
- Yxu0MQOw+2EMeQww4lG94KTNl6cMoXiWle/T8lCjIY5N2p1KzCGceihV5GitdrEP+XmY57Pa3c6
- xI/Jt3qZ/n6y6alU=
-X-Received: by 2002:aa7:dd16:: with SMTP id i22mr7844668edv.215.1611161196612; 
- Wed, 20 Jan 2021 08:46:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzaZW8xYPFLjeD+7jq4y2yRPFB3LFGVlSSzsUs4FjyD29WNeXjvYP54RruOVkKVXtKLuoxqbQ==
-X-Received: by 2002:aa7:dd16:: with SMTP id i22mr7844657edv.215.1611161196454; 
- Wed, 20 Jan 2021 08:46:36 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id h15sm1120099ejj.43.2021.01.20.08.46.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 08:46:35 -0800 (PST)
-Subject: Re: [PATCH 0/3] configure: Do not build TCG or link with capstone if
- not necessary
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210120151916.1167448-1-philmd@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <260346c3-e1c1-5cb0-20d9-fb8a285e38f9@redhat.com>
-Date: Wed, 20 Jan 2021 17:46:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=S9yKx8zfi7WoRXw5NiDvyCSzXomfvms+mBgGTw8hc50=;
+ b=rKETBgPvQkddk8BMF+WeJ9/Sbm3OaziW/HG3oLJ6E+0dcY0HhsSGOtow0DYc8pZSUG
+ o1Wh0eV/jZ+VCMZy+42+L6Mo7zu6QDI9jAD2aq58MF4VPoozEHgSjc+z38KCO6DcHW2y
+ 5SK38CwqqmR0RfzFDrRPcK1T4BCbQOKstzYliDJTwrJGpJEKx11x2/OqOrW9Pg1xO7XY
+ yzNYP5+l6YI7ZKynF6KqDgAbzEC2KCikpZGmO5P5Wfz44PaxaSBEbf/Tec1vnfU7EIMd
+ UB017rixmSbex+EdfM9+VNTzkf6L7ISfVsQZ+I/1EIqWp94xz6StSI5Xkmn3H/KLtwM7
+ 4vkw==
+X-Gm-Message-State: AOAM5328nv2c0nQFLwo5oBo/C2YgOn16pk4nmuNtcjc5q8F+G2dMJ6bK
+ hMzubCdzCFTv8oUUewT9tB6J7aLiIgk+LdFIifg=
+X-Google-Smtp-Source: ABdhPJzAR/M3LNWgKs/ioyqzIyRJtIMd6TGHALjFVc7AqsxlPiMaPNAXjVGOF2NWb4NryPgDWQQ3s/2cwdvmj8hAw9E=
+X-Received: by 2002:a92:8455:: with SMTP id l82mr8666605ild.40.1611161433745; 
+ Wed, 20 Jan 2021 08:50:33 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210120151916.1167448-1-philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210119234438.10132-1-bmeng.cn@gmail.com>
+In-Reply-To: <20210119234438.10132-1-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 20 Jan 2021 08:50:07 -0800
+Message-ID: <CAKmqyKNiAymEGF7pGERUQvJx7Gto7yuu-pLsnhaSCu5gMPF2XA@mail.gmail.com>
+Subject: Re: [PATCH] roms/opensbi: Upgrade from v0.8 to v0.9
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,43 +75,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/01/21 16:19, Philippe Mathieu-Daudé wrote:
-> We do not need TCG and capstone all the times. In some
-> configuration we can leave them out.
-> 
-> Last patch emit a warning when a user explicitly select an
-> accelerator that the build with not use.
-> 
-> Philippe Mathieu-Daudé (3):
->    configure: Do not build TCG if not necessary
->    configure: Do not build/check for capstone when emulation is disabled
->    configure: Emit warning when accelerator requested but not needed
-> 
->   configure | 37 ++++++++++++++++++++++++++++++++++++-
->   1 file changed, 36 insertions(+), 1 deletion(-)
-> 
+On Tue, Jan 19, 2021 at 3:46 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> Upgrade OpenSBI from v0.8 to v0.9 and the pre-built bios images.
+>
+> The v0.9 release includes the following commits:
+>
+> 35bc810 docs/platform: Update QEMU parameter for fw_payload
+> 78afe11 config.mk: Update QEMU run command for generic and sifive fu540 platforms
+> ec3e5b1 docs/platform: sifive_fu540: Update U-Boot instructions
+> 7d61a68 README.md: fix markdown link formatting
+> a5f9104 lib/utils: fdt: Update FDT expand size to 1024 for reserved memory node
+> ec1abf6 include: sbi_bitops: Remove dead shift assignment in ffs/fls
+> 8e47649 lib: Add sbi_strncmp implementation
+> 2845d2d lib: utils: Add a macro in libfdt_env.h for strncmp
+> 2cfd2fc lib: utils: Use strncmp in fdt_parse_hart_id()
+> 937caee lib: sbi_misaligned_ldst: Determine transformed instruction length correctly
+> 4b18a2a firmware: fw_base: Improve exception stack setup in trap handler
+> 9d56961 lib: sbi_trap: Fix hstatus.SPVP update in sbi_trap_redirect()
+> d7f87d9 platform: kendryte/k210: fixup FDT
+> e435ba0 lib: sbi_init: Avoid thundering hurd problem with coldboot_lock
+> 4f3bad6 lib: sbi: Handle the case where MTVAL has illegal instruction address
+> 7b0b289 lib: sbi: Remove redundant SBI_HART_HAS_PMP feature
+> 74d1db7 lib: sbi: Improve PMP CSR detection and progamming
+> 2c341f7 lib: sbi: Detect and print MHPM counters at boot-time
+> 162d453 include: sbi: Few cosmetic changes in riscv_encoding.h
+> ebc8ebc lib: sbi: Improve HPM CSR read/write emulation
+> dcb10c0 lib: sbi: Don't handle VS-mode ecall in sbi_trap_handler()
+> bef63d6 include: Rename ECALL defines to match latest RISC-V spec
+> c1c7c3e lib: sbi_trap: Allow M-mode to M-mode ECALLs
+> 6734304 lib: sbi: Allow specifying start mode to sbi_hsm_hart_start() API
+> 7ccf6bf lib: sbi: Allow specifying mode in sbi_hart_pmp_check_addr() API
+> 9f935a4 lib: utils: Improve fdt_cpu_fixup() implementation
+> 172fa16 lib: sbi: Ensure coldboot HART supports next privilege mode
+> aaeca7e platform: generic: Don't mark non-MMU HARTs as invalid
+> 7701ea1 lib: sbi: Fix PMP CSR detection
+> 79bf80b lib: sbi_scratch: typo scatch
+> a04c465 makefile: fix clean directive
+> af4b50f Makefile: Build ELF, BIN and LD script in platform build directory
+> 6ca0969 firmware: Add common FW_FDT_PATH compile-time option
+> 9c07c51 firmware: Remove FW_PAYLOAD_FDT_PATH compile-time option
+> e9a4bfb Makefile: Allow padding zeros when converting DTB to C source
+> a0f2d4a platform: kendryte/k210: Add some padding for FDT fixups
+> dbeeacb include: sbi: Remove redundant includes from sbi_platform.h
+> a12d46a include: sbi: Remove pmp_region callbacks from sbi_platform_operations
+> a126886 lib: sbi: Configure PMP late in coldboot and warmboot path
+> f81d6f6 lib: sbi: Remove redundant hartid parameter from sbi_hart_init()
+> 8b65005 include: sbi: Make hartmask pointer const in sbi_hartmask_test_hart()
+> b1678af lib: sbi: Add initial domain support
+> e73b92d lib: sbi: Extend sbi_hsm_hart_started_mask() for domains
+> 3a30d2c lib: sbi: Extend sbi_hsm_hart_start() for domains
+> 530e95b lib: sbi: Optimize sbi_hsm_hart_started_mask() implementation
+> 3e20037 lib: sbi: Extend sbi_system_reset() for domains
+> 5edbb7c lib: utils: Update fdt_reserved_memory_fixup() to use current domain
+> 5fd99db lib: utils: Update fdt_cpu_fixup() to use current domain
+> e856462 lib: sbi: Remove redundant sbi_hart_pmp_xyz() functions
+> c10c30b lib: sbi: Configure PMP based on domain memory regions
+> c347408 lib: sbi: Display domain details in boot prints
+> fdf5d5c docs: Add initial documentation for domain support
+> 74c0ea1 lib: utils: Implement "ranges" property parsing
+> bf21632 lib: sbi: Detect PMP granularity and number of address bits
+> a809f40 lib: sbi: Improve boot time print with additional PMP information
+> 914f81f Makefile: Add option to use toolchain default ABI and ISA string
+> 48616b3 lib: sbi: Improve boot prints in cold boot sequence
+> 781cafd docs: fix a typo error
+> 54a7734 include: sbi: Add SBI SRST extension related defines
+> c4acc60 include: sbi: Remove opensbi specific reset type defines
+> da07479 platform: Remove dummy system reset functions
+> 5c429ae lib: sbi: Improve system reset platform operations
+> 548d03e lib: sbi: Implement System Reset (SRST) SBI extension
+> 2677324 firmware: fw_base: Optimize trap handler for RV32 systems
+> 8d2edc4 lib: sbi: Fix sbi_hart_switch_mode() for u-mode
+> 3d921fa lib: sbi: Fix typo in sbi_domain_finalize()
+> 4e37022 lib: sbi: Fix domain_count check in sbi_domain_finalize()
+> c709d40 lib: sbi: Auto start domain only if boot HART within limits
+> c1f6d89 include: sbi: Use lower bits for domain memory region permissions
+> 62ea4f4 lib: sbi: Override domain boot HART when coldboot HART assigned to it
+> 555e737 lib: sbi: Add error prints in sbi_domain_finalize()
+> 9b65dca include: sbi: Add domains_init() platform operation
+> c0d2baa docs: Add domain device tree binding documentation
+> ba741ea lib: utils: Add helper routines to populate domains from FDT
+> 4fffb53 platform: generic: Populate domains from FDT
+> e7da0b4 lib: utils/libfdt: Upgrade to v1.6.0 release
+> 2179777 lib: utils: Allow FDT domain iteration functions to fail
+> 7baccfc lib: sbi: Add function to register new domain
+> 6fc1986 lib: utils: Remove fdt_domain_get() function
+> a029bd9 lib: sbi: Remove domain_get() platform callback function
+> 7dcb1e1 lib: sbi: Fix sign-extension in sbi_misaligned_load_handler()
+> 80bc506 lib: sbi: Replace args with trap registers in ecall handler
+> b7df5e4 lib: sbi: Introduce sbi_trap_exit() API
+> 12394a2 lib: sbi: Allow custom local TLB flush function
+> 0d49c3b lib: utils: Fix shakti uart implementation
+> db56341 lib: sbi: Allow platforms to provide root domain memory regions
+> e884416 include: sbi: No need to pack struct sbi_trap_regs
+> 386eba2 include: sbi: No need to pack struct sbi_scratch
+> 1bbf361 include: sbi: Don't pack struct sbi_platform and sbi_platform_operations
+> da5293f platform: template: Fix compile error
+> 234ed8e include: Bump-up version to 0.9
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Nice, but I have some remarks on how the patches are done. :)
+Thanks!
 
-For patch 1, which files are not compiled with the patch that were 
-compiled without?
+Applied to riscv-to-apply.next
 
-For patch 2, I think it's enough to add "build_by_default: false" to 
-libcapstone (and while you're at it, to libslirp and libfdt).
+Alistair
 
-Finally, I would prefer patch 3 to be done in Meson, right before the 
-summary() call.  You can use config_all to check, like
-
-if get_option('kvm').enabled() and not config_all.has_key('CONFIG_KVM')
-
-etc.  This will also warn for e.g. --enable-kvm 
---target-list=sh4-softmmu, which could be considered an improvement over 
-your patch.
-
-Paolo
-
+>
+> ---
+> - please pull the full contents from https://github.com/lbmeng/qemu/
+>   opensbi branch
+>
+>  .../opensbi-riscv32-generic-fw_dynamic.bin    | Bin 62144 -> 78680 bytes
+>  .../opensbi-riscv32-generic-fw_dynamic.elf    | Bin 558668 -> 727464 bytes
+>  .../opensbi-riscv64-generic-fw_dynamic.bin    | Bin 70792 -> 75096 bytes
+>  .../opensbi-riscv64-generic-fw_dynamic.elf    | Bin 620424 -> 781264 bytes
+>  roms/opensbi                                  |   2 +-
+>  5 files changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin
+> index 23b4dfb3b9..ae651e2993 100644
+> Binary files a/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin differ
+> diff --git a/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf b/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf
+> index eb9ebf5674..3250d89408 100644
+> Binary files a/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf and b/pc-bios/opensbi-riscv32-generic-fw_dynamic.elf differ
+> diff --git a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin
+> index 16c0cf4d0a..f039884483 100644
+> Binary files a/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin and b/pc-bios/opensbi-riscv64-generic-fw_dynamic.bin differ
+> diff --git a/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf b/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf
+> index 642a64e240..ef261c98d1 100644
+> Binary files a/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf and b/pc-bios/opensbi-riscv64-generic-fw_dynamic.elf differ
+> diff --git a/roms/opensbi b/roms/opensbi
+> index a98258d0b5..234ed8e427 160000
+> --- a/roms/opensbi
+> +++ b/roms/opensbi
+> @@ -1 +1 @@
+> -Subproject commit a98258d0b537a295f517bbc8d813007336731fa9
+> +Subproject commit 234ed8e427f4d92903123199f6590d144e0d9351
+> --
+> 2.25.1
+>
+>
 
