@@ -2,72 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AE762FD281
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:22:10 +0100 (CET)
-Received: from localhost ([::1]:52882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68A4A2FD28F
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:24:11 +0100 (CET)
+Received: from localhost ([::1]:57912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2EN7-0001xc-98
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:22:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57498)
+	id 1l2EP4-00046q-Gl
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:24:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2EM2-0000ce-Aj
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:21:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60744)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2EOE-0003UL-7s
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:23:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2ELy-0004pH-2S
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:21:02 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2EOC-0005fN-Kz
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:23:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611152456;
+ s=mimecast20190719; t=1611152595;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vHKbUDRpUO33/k4vhwdk/jnmx9shW3wZwr2iHRaonFY=;
- b=QnhlzBMg5+Coe7G6S5TFazIrdfmLCUUS8SWDRLkj5+DJ0hjlP0vF7/5r+GgTUB+4phB0ff
- shpcukX3JqrWvfXsubIUCcZVf6WMO2/A9w/3eOZsGby4qkAt4QUdjVJIMz4H6CXBQBhrT+
- nnMD2cgw8t7KaCmyK4UbbCqzlACsWJs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-117-_fpExbnfPlq6xmL7Xth4wg-1; Wed, 20 Jan 2021 09:20:47 -0500
-X-MC-Unique: _fpExbnfPlq6xmL7Xth4wg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4561B835DE2
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 14:20:46 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E33531A3D8;
- Wed, 20 Jan 2021 14:20:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 74C95113865F; Wed, 20 Jan 2021 15:20:41 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 10/17] qapi/gen: Combine ._add_[user|system]_module
-References: <20210119180242.1570753-1-jsnow@redhat.com>
- <20210119180242.1570753-11-jsnow@redhat.com>
-Date: Wed, 20 Jan 2021 15:20:41 +0100
-In-Reply-To: <20210119180242.1570753-11-jsnow@redhat.com> (John Snow's message
- of "Tue, 19 Jan 2021 13:02:35 -0500")
-Message-ID: <87y2gnpu4m.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=/aaL/ybZ6ilyCTWPk2HD6W48wHLPYjbQ+l+NBzkrMn0=;
+ b=U2sQq6PRSL7e8qAfw5IlGCsUmZD+4DsFIlcDkadFn4LkKfSEPYs2AwRxIiinmFu6NX6r+B
+ 2GuJYRdJcrBvuElageTU7WchLlGYpg9Mc6uMNctNqDLqxiq9lFU+y1ysgZSmpw9iA8cLxH
+ otaLt/fd8hy5dDgjVfXKuTAsyAbMzNw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-482-TONnXjInNGOaoijy8gqBtw-1; Wed, 20 Jan 2021 09:23:13 -0500
+X-MC-Unique: TONnXjInNGOaoijy8gqBtw-1
+Received: by mail-ed1-f70.google.com with SMTP id l33so11118407ede.1
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 06:23:13 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=/aaL/ybZ6ilyCTWPk2HD6W48wHLPYjbQ+l+NBzkrMn0=;
+ b=p00jVothzjEDBHrPpb0As3HWMapFJ6f2B069rvpusJHN2JAgumQGFQjlLfVOAgi++H
+ SuW+LS71WWn+ywGGXAT//S9i7GINL96CCi+26OsIY35XWHL3HbCC1jYrx+6ulrosW7T+
+ z9+eG7vC1lzFvn8RGRjJKYbodOYT+Tq6jYK5rp8SQYw27RwJEM3bSHobHOaTcSNhbyo4
+ 2IcVIoEeIjRyabu/+IEsW7oHtTzIcOhXzYUErzNNqF0KTVJbYpt8xAa2IkcXNHkFgx5D
+ hzMdybou6fmtK/N0UoOqnJU6YtDbYpVuedWVmWPEZQ1XBeJxWJCzrmW93c+uv6Le0wWW
+ UEtA==
+X-Gm-Message-State: AOAM532M25BKLyhXKxtNASBjO/8EDvy9yql2OVHFkowZZmmK1/j2DuWx
+ i3ySqTz8yQBbBVqTOswfK6PT0hYMc8/2OJIkPK0PggO+GR6u/9m5dHiRpFzDJD/ySMX3oCGRSiB
+ Zy8LfPCablm5vstVwAZOJsfS0FyUd5y6PKcJH/G3gH172i2APxI3nF+YWb0dxK6Nm
+X-Received: by 2002:aa7:c94a:: with SMTP id h10mr7483003edt.247.1611152592345; 
+ Wed, 20 Jan 2021 06:23:12 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz7VtF/hVHwO4jN3WAv1TSZ53j4AanlDi/SMKNG00w7RdOJyJx5sO2Jr0Vk9dxNv6wC4f29SQ==
+X-Received: by 2002:aa7:c94a:: with SMTP id h10mr7482992edt.247.1611152592152; 
+ Wed, 20 Jan 2021 06:23:12 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id o17sm1212379edr.17.2021.01.20.06.23.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 06:23:11 -0800 (PST)
+Subject: Re: How to run crypto benchmarks tests?
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <c72a38ac-d164-9357-4eda-2334c496c555@redhat.com>
+ <20210120130624.GI3015589@redhat.com>
+ <5a7feef9-fc27-c72f-ea59-5f45ddfc5c83@redhat.com>
+Message-ID: <b7fb8509-4c5d-4392-a357-f8757bb25ce3@redhat.com>
+Date: Wed, 20 Jan 2021 15:23:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <5a7feef9-fc27-c72f-ea59-5f45ddfc5c83@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,119 +99,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
- Eduardo Habkost <ehabkost@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+On 1/20/21 2:58 PM, Philippe Mathieu-Daudé wrote:
+> On 1/20/21 2:06 PM, Daniel P. Berrangé wrote:
+>> On Wed, Jan 20, 2021 at 01:50:48PM +0100, Philippe Mathieu-Daudé wrote:
+>>> Hi,
+>>>
+>>> Using the following "build tools and doc" config:
+>>>
+>>> ../configure --disable-system --disable-user
 
-> From: Markus Armbruster <armbru@redhat.com>
->
-> QAPISchemaModularCVisitor attempts to encapsulate the way it splits
-> the module name space between user modules (name can't start with
-> './') and system modules (name is None or starts with './') by
+So when using --disable-system, tools have to be explicitly selected
+with --enable-tools.
 
-Is this still accurate?
-
-> providing separate ._add_user_module() and ._add_system_module(),
-> where the latter prepends './' to names other than None.
->
-> Not worthwhile.  Dumb down to a single ._add_module().
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  scripts/qapi/commands.py |  2 +-
->  scripts/qapi/events.py   |  2 +-
->  scripts/qapi/gen.py      | 20 +++++++-------------
->  3 files changed, 9 insertions(+), 15 deletions(-)
->
-> diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-> index fc5fe27c472..49111663394 100644
-> --- a/scripts/qapi/commands.py
-> +++ b/scripts/qapi/commands.py
-> @@ -286,7 +286,7 @@ def _begin_user_module(self, name: str) -> None:
->                               types=types))
->  
->      def visit_end(self) -> None:
-> -        self._add_system_module('./init', ' * QAPI Commands initialization')
-> +        self._add_module('./init', ' * QAPI Commands initialization')
->          self._genh.add(mcgen('''
->  #include "qapi/qmp/dispatch.h"
->  
-> diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-> index 26faa829898..079c666ec69 100644
-> --- a/scripts/qapi/events.py
-> +++ b/scripts/qapi/events.py
-> @@ -191,7 +191,7 @@ def _begin_user_module(self, name: str) -> None:
->                               types=types))
->  
->      def visit_end(self) -> None:
-> -        self._add_system_module('./emit', ' * QAPI Events emission')
-> +        self._add_module('./emit', ' * QAPI Events emission')
->          self._genc.preamble_add(mcgen('''
->  #include "qemu/osdep.h"
->  #include "%(prefix)sqapi-emit-events.h"
-> diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-> index 55acd7e080d..b5505685e6e 100644
-> --- a/scripts/qapi/gen.py
-> +++ b/scripts/qapi/gen.py
-> @@ -272,22 +272,15 @@ def _module_filename(self, what: str, name: str) -> str:
->                              self._module_basename(what, name))
->  
->      def _add_module(self, name: str, blurb: str) -> None:
-> +        if QAPISchemaModule.is_user_module(name):
-> +            if self._main_module is None:
-> +                self._main_module = name
->          basename = self._module_filename(self._what, name)
->          genc = QAPIGenC(basename + '.c', blurb, self._pydoc)
->          genh = QAPIGenH(basename + '.h', blurb, self._pydoc)
->          self._module[name] = (genc, genh)
->          self._genc, self._genh = self._module[name]
->  
-> -    def _add_user_module(self, name: str, blurb: str) -> None:
-> -        assert QAPISchemaModule.is_user_module(name)
-> -        if self._main_module is None:
-> -            self._main_module = name
-> -        self._add_module(name, blurb)
-> -
-> -    def _add_system_module(self, name: str, blurb: str) -> None:
-> -        assert QAPISchemaModule.is_system_module(name)
-> -        self._add_module(name, blurb)
-> -
->      def write(self, output_dir: str, opt_builtins: bool = False) -> None:
->          for name in self._module:
->              if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
-> @@ -303,9 +296,9 @@ def _begin_user_module(self, name: str) -> None:
->          pass
->  
->      def visit_module(self, module: QAPISchemaModule) -> None:
-> -        if module.system_module:
-> +        if module.builtin_module:
-
-Looks like you're fixing a slip-up in PATCH 06.  If yes, squash.  If no,
-I'm confused.
-
->              if self._builtin_blurb:
-> -                self._add_system_module(module.name, self._builtin_blurb)
-> +                self._add_module(module.name, self._builtin_blurb)
->                  self._begin_builtin_module()
->              else:
->                  # The built-in module has not been created.  No code may
-> @@ -313,7 +306,8 @@ def visit_module(self, module: QAPISchemaModule) -> None:
->                  self._genc = None
->                  self._genh = None
->          else:
-> -            self._add_user_module(module.name, self._user_blurb)
-> +            assert module.user_module, "Unexpected system module"
-
-The string provides no value.
-
-> +            self._add_module(module.name, self._user_blurb)
->              self._begin_user_module(module.name)
->  
->      def visit_include(self, name: str, info: QAPISourceInfo) -> None:
+>> Either way, all of this is surrounded by 'if have_block' in tests/meson.build
+>> which should apply if you have tools enabled or system emulators enabled.
+> 
+> That helped:
+> 
+>                       block layer: NO
+> 
+> I'll see why the tools are not automatically selected.
+> 
+> Thanks,
+> 
+> Phil.
+> 
 
 
