@@ -2,103 +2,169 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9EE32FD22A
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:06:44 +0100 (CET)
-Received: from localhost ([::1]:54460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435C42FD22D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:09:24 +0100 (CET)
+Received: from localhost ([::1]:58602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2E8B-00078h-Rg
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:06:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51984)
+	id 1l2EAl-0000aM-2j
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:09:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52142)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2E5Z-0006hf-0M; Wed, 20 Jan 2021 09:04:01 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3666
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1l2E6y-0007Kk-GC
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:05:29 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:46504)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2E5W-00079x-L7; Wed, 20 Jan 2021 09:04:00 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10KE291G174828; Wed, 20 Jan 2021 09:03:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1l2E6t-0007bU-Ik
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:05:27 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KDxnDO106842;
+ Wed, 20 Jan 2021 14:05:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=5QxIpt2RlnhTfnw+1sckvwpfDiUi4W359qpBVIiIU8I=;
- b=SUg4uWdkt8GLQiAad59fCYqcs4H7nz41UmBsfo8QLuIJiyHTKUXgjG0H1crktX2zwJ3L
- qNkQlTQQbrdzykX0MMAPXWOWVvvbPIjpP69n4Wby7JaS/j7Uujivpl0wKaDIN5JLjJsO
- UFOLCeqegTv0XuVqVHhN/ba/zmWt4ORSoK+KK3ypV5KgnIRr1Vv8pKGCRZ/tTSHLnVpe
- Mh4M1xkW0RaQWOBVhhU5NP9/YonwTaWN8/NX4IG7ETilU2tHbs1Io9iCAjt7BxyNNwFz
- ufSGez5NrKVgt0Ds5qyG1hpe9piBKYG+OqImNU0xCtO4pHaSHBBbtQSPNR3QWWrlHkU1 0A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 366mtntawe-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 09:03:55 -0500
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10KE3tqO188900;
- Wed, 20 Jan 2021 09:03:55 -0500
-Received: from ppma04wdc.us.ibm.com (1a.90.2fa9.ip4.static.sl-reverse.com
- [169.47.144.26])
- by mx0b-001b2d01.pphosted.com with ESMTP id 366mtntavx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 09:03:55 -0500
-Received: from pps.filterd (ppma04wdc.us.ibm.com [127.0.0.1])
- by ppma04wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10KDwMRY008910;
- Wed, 20 Jan 2021 14:03:54 GMT
-Received: from b03cxnp08025.gho.boulder.ibm.com
- (b03cxnp08025.gho.boulder.ibm.com [9.17.130.17])
- by ppma04wdc.us.ibm.com with ESMTP id 3668pqcmv6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 20 Jan 2021 14:03:54 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10KE3rC218743766
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 20 Jan 2021 14:03:53 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 73821BE059;
- Wed, 20 Jan 2021 14:03:53 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 44B08BE05D;
- Wed, 20 Jan 2021 14:03:52 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.56.144])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Wed, 20 Jan 2021 14:03:52 +0000 (GMT)
-Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
-To: Pierre Morel <pmorel@linux.ibm.com>, cohuck@redhat.com, thuth@redhat.com
-References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
- <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
-Date: Wed, 20 Jan 2021 09:03:51 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
-MIME-Version: 1.0
-In-Reply-To: <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+ references : from : message-id : date : in-reply-to : content-type :
+ content-transfer-encoding : mime-version; s=corp-2020-01-29;
+ bh=lYHjsFS7qb7eQuLLonnzjhr6HukGpGhk29JDFa9hAjk=;
+ b=itj85UcchkWE07lP2ZlUOaQ0n7ng7CcTWfxozV0MbhYeCzmVgphWHOe1L2EUY0grS6p2
+ MkEW086mtMRrAOLUeVGXDaxxpKmoY/EUh70uGIqitU0xdOKjmE7rF5WpTH7mxPmCfshu
+ H3tCZ6gx3CMzfMsmVKQOrwCk/QJCx9D5dkr8p4wXrRoj5+i+zYsnegpruM7upq1OKJuT
+ pF+1tRhN5qHACMfJ0egAqyLYxHNQYf0hPputn+BcBLGzuka59dXoUlELTt37YZ0reH9Z
+ +926XFcdI3UGYQbiat5p2TcfnLBFeRITnkhaUbjVGy1V9yJE9vNl7i6djrPo4d0COn2k Ww== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+ by userp2130.oracle.com with ESMTP id 3668qaaka6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Jan 2021 14:05:18 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KDseHG126625;
+ Wed, 20 Jan 2021 14:05:17 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com
+ (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+ by aserp3030.oracle.com with ESMTP id 3668qv97j8-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Jan 2021 14:05:17 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=BQgoS3UkmqJagX+U3rj31tAfkaIXBgLCeLEIj/IPsiVegv0836iZMcw3LY9LHBIhriK73/V8wt+eX1QbzWwVbxa41OBUUUVVtNpSXzxHRZrLoejvv1g2k+4s1UIOMOB/yRDnCZzicGBuykYcOjm7VvPDlsFO8Y8smZVgaYTDUQhQzaQmwpdN+9iUny6KxjbQA0LdUdlb056ywgIo51UFLPqEgPlzstImhJvPyotetifKcM1W0hddrfQ+f4ZXzo0+nXj6jYz6LkuuSgBiA/QCN3JXArOiLhdPd7fS8JZq89MEUZ3R+mNDrxdAYmc7CItGH+p4xEdGfl29h4mho83XfA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lYHjsFS7qb7eQuLLonnzjhr6HukGpGhk29JDFa9hAjk=;
+ b=k42lAOoXr3HSQgBVDPnIaNHhjkB8fgZIPDs+nj0rGyoih4JQBPKqRUhJQePTZ+BOggb+2GoxWH7oQCrbUrpjuq7Y+BEcEtyFQuLYRADbait3q3O/uEg5kQ6kI7qzegX2zgxHNn95lLc9KPcpnfXBdjq9a76I/d00aVezfnk4UJpmUXOP7B7ZEv0h90zDLDxDJirPq/hnyS/HrrC7S/lj+wwkqPY4PhTVTrpXdAQm209K6lMdhzsQjGegsBbwczOwQ9APeoUENZwY0G0oCLz97+Ax5eVxY/tb9yf5AZDV6mzCLhgklvYrLdfH+mixD5DOiSDZA8EPGG7F+/WPKLfjkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lYHjsFS7qb7eQuLLonnzjhr6HukGpGhk29JDFa9hAjk=;
+ b=yELaI5IqU52T4Wd5SXCEwFzT8nI4SNNvfEJdOxvMuz7Y1d7BhX06XzFBhxW2t4LcM6Xv5PBpuyJFc7fSwOY9eQCaCiCufQfV7Q2PnnOU58dWeB86bdCOU/Zqfj4f969xuEfJ+mOB+55qYY5By+ddMh97Wk4HKiMaZZRL648E4Zo=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2285.namprd10.prod.outlook.com
+ (2603:10b6:301:2e::32) by MWHPR10MB1967.namprd10.prod.outlook.com
+ (2603:10b6:300:10b::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.13; Wed, 20 Jan
+ 2021 14:05:15 +0000
+Received: from MWHPR1001MB2285.namprd10.prod.outlook.com
+ ([fe80::f48a:d4cb:d74c:48ba]) by MWHPR1001MB2285.namprd10.prod.outlook.com
+ ([fe80::f48a:d4cb:d74c:48ba%6]) with mapi id 15.20.3742.014; Wed, 20 Jan 2021
+ 14:05:14 +0000
+Subject: Re: [PATCH 2/4] hw/misc/pvpanic: add PCI interface support
+To: Gerd Hoffmann <kraxel@redhat.com>, Yan Vugenfirer <yvugenfi@redhat.com>
+References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
+ <1610735646-13313-3-git-send-email-mihai.carabas@oracle.com>
+ <FC7156A5-361B-4009-983A-91118F29995A@redhat.com>
+ <20210120134339.h42o3j7utjveeiey@sirius.home.kraxel.org>
+From: Mihai Carabas <mihai.carabas@oracle.com>
+Message-ID: <a2b5326d-1dd4-7799-bdfb-e62f9beab3b7@oracle.com>
+Date: Wed, 20 Jan 2021 16:05:03 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210120134339.h42o3j7utjveeiey@sirius.home.kraxel.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-20_05:2021-01-20,
- 2021-01-20 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 clxscore=1015 bulkscore=0 phishscore=0 adultscore=0
- priorityscore=1501 malwarescore=0 suspectscore=0 mlxscore=0 spamscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101200079
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Content-Language: ro
+X-Originating-IP: [141.85.241.41]
+X-ClientProxiedBy: LO4P123CA0445.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a9::18) To MWHPR1001MB2285.namprd10.prod.outlook.com
+ (2603:10b6:301:2e::32)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [172.17.0.254] (141.85.241.41) by
+ LO4P123CA0445.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:1a9::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.12 via Frontend Transport; Wed, 20 Jan 2021 14:05:12 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: da277524-fa0a-43f0-305f-08d8bd4c6871
+X-MS-TrafficTypeDiagnostic: MWHPR10MB1967:
+X-Microsoft-Antispam-PRVS: <MWHPR10MB19671857B2CED5606A45A4C688A20@MWHPR10MB1967.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: E2mMcc9L/qM3wLEVlQ5h6hk+xj7m/cGvgcv/vMqfO+dsT0Sa7iQhkz8jOe0hqSuuGrP2sDzoJdnaG6zXBnkcF20+zI5v9YyQBlqhFwn50oa8rRrqrWwsWJn0srrpYN0Xzzx/ygFnEworvEXLTFXnTQf9p7RnrdgepmOKF7+pgoe4WzonB+JRKd+Np8iZeQc4YCGId+vv2b0224LE4SrDhwBZDfUumrA4u1SsHZ7GZR/IP/KH/UFo1CJsxBpzb93socMoWC/AZfwM06zXMm8uIlWn7Hxq6pVBQWogfDfm7LX/2eLs2AUd6DUKhMWXedDP6mvyZmIzqHQBLyNJP2Hsc7gG7oA0Mn8Q/+YEA2zrQqQnr2wlM1cXfZCBIB/b1G7DGy1nch3Kh41VRWJ1Iw/aQF6+UWbK54J06dksJ15Rp4kf3S3EMT31tLYCPp9VP8oAJnPTAK1HZFfdiuHdPLOcEygi5fE//M7PPtIsQ24+Y6A=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2285.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(396003)(376002)(346002)(136003)(366004)(39860400002)(2906002)(66556008)(5660300002)(508600001)(31686004)(6486002)(8676002)(66946007)(6666004)(2616005)(4326008)(86362001)(66476007)(26005)(8936002)(186003)(44832011)(4744005)(16526019)(36756003)(16576012)(956004)(316002)(31696002)(110136005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VGVXSk9nV0VuUnQ4UjJ3YlJ5VDc0ZU10Ukp4UjNqanNkMEM0V0N5anpxYkY1?=
+ =?utf-8?B?eS8rZ0d2OUV2OTVBby9aaUs0ZTdqRU4yV0NobXdOVzFUeHE5QllTb0hQck5j?=
+ =?utf-8?B?MkcwNXVaeFA5bXFNYzJHNTQ0c2RDbUI0azFXVU9QMnFTeVZPTmI2bXVBRk9Z?=
+ =?utf-8?B?Y2ZGeXkxc3FLcXNIc0QvRDV4NHROZ0ZidjIyS28waitOL3ZvSWx3VjF6bHI3?=
+ =?utf-8?B?T2JQMCtESVdrUmlFOEtzd3U3NmJKRU9ybk41b1pmWG94YlN4ampCRUd3UUlS?=
+ =?utf-8?B?d2Y3OWZEZmhmM1RIVVh1YS9RaGJTd2g2em5McVc3N0M4ZWcvOVJwOWUwMjA0?=
+ =?utf-8?B?dEZQUG9oSXU1M09TanRJVVF6NHJDMFNtYklFQjhCeDIrdldpRlptdEdrQ3Zx?=
+ =?utf-8?B?cXVod1NNTHVWNktSVTdUWnhKa0w1OXlYZ1V0citVcC95SktSZzBzTDVBSndv?=
+ =?utf-8?B?aWthOE5oeUl3aEFxRFh6NkxSUU5RYlpGRC9WSmxzSHZ0OWdENkdPS0RTZHVC?=
+ =?utf-8?B?RzQzTUFNa2tpTjQyZmFPNlh6N1NpT2FUOG1oUmkzMUFrUHZuVHpoOTlhU0ds?=
+ =?utf-8?B?SXd3ekNhWTVYaGJvbC9IaE9HSmNpU2FtWms3WmpneC9GMlA5UFE5WFlySzdE?=
+ =?utf-8?B?QkRORUhkb3dOUTBEcHo4anlUZ3dsYlpaWkt1SXlyaUxsVzZzVXdHQjluaC8x?=
+ =?utf-8?B?eVN0NDk1ZFlJcU5Cd2Mxb0x1QXZnV1U4emZtRjVhQzh1VGNhTG45aDdoUW9W?=
+ =?utf-8?B?MURNeUdRODl0Ukd6ejJXNGxPbkxCZmp0UDVJTzJmZDdCSTRnV1JzVkwrNVR5?=
+ =?utf-8?B?d1NHVllnQzBzb0Q2b0NVbWpXOU8yNXNMQnZpMmdxSlptUVBkRW14VGt0WWN1?=
+ =?utf-8?B?VVlnQTEyL0hsbGtwRTQrNDE2N2lXVVNNbGowUlZ4cVZuUEZUR29KWjdhQ29Y?=
+ =?utf-8?B?Q3R4OE4xbnV1ai8wN0U5eFplLy9MalQvWGN4c3hQZmVNaC9WQkpIRnRFeHBW?=
+ =?utf-8?B?OWNBZC8rSzlxZVlOcTEwTlpEc0tXRE1iU0toc0R5Y2xJMWNHUHhKSjdqenN1?=
+ =?utf-8?B?ZStJck9TY2ROVGZEbHJKNXpoSmJxUmlhNy84amZPRjdlMU1XYnlTZmQxMTNB?=
+ =?utf-8?B?ZkcvNU96eXNsdW54RmpMSEh1WXdOZTVMdEs5NEpKQ1FDWnZhSGNaaW1aaHcr?=
+ =?utf-8?B?d0RpYWQ2ZnhJeHdjQUZIekxyL0R6VUJ3b3hnQlRYdXlKWnl0ODZ3NlZOM2dF?=
+ =?utf-8?B?Y0wvdUhTeFpIay9uM3FTK3N6UHpTRFNYN0lFSnFML0RKTURNeEhLbjlJUGd1?=
+ =?utf-8?Q?xQTLWFgcgkGBpneawhLdpcP2YsoH4xEmoy?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: da277524-fa0a-43f0-305f-08d8bd4c6871
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2285.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 14:05:14.1706 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SLN802fdR/xclvUrbtRf4rQrKiT086RwnTS02gYQwLd6V8nDIMHOoDMWTJZXx1MK1PdswnKdPcehg7C6D7bpq66CvtDqhkzaBh6O0irQc8s=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR10MB1967
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
+ phishscore=0 bulkscore=0
+ mlxlogscore=999 spamscore=0 suspectscore=0 malwarescore=0 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101200082
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0
+ impostorscore=0 mlxscore=0 priorityscore=1501 phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101200082
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=mihai.carabas@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -44
+X-Spam_score: -4.5
+X-Spam_bar: ----
+X-Spam_report: (-4.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,81 +177,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
- pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, QEMU Devel Mailing List <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/21 4:12 AM, Pierre Morel wrote:
-> 
-> 
-> On 1/19/21 9:44 PM, Matthew Rosato wrote:
->> Today, ISM devices are completely disallowed for vfio-pci passthrough as
->> QEMU rejects the device due to an (inappropriate) MSI-X check.  Removing
->> this fence, however, reveals additional deficiencies in the s390x PCI
->> interception layer that prevent ISM devices from working correctly.
->> Namely, ISM block write operations have particular requirements in 
->> regards
->> to the alignment, size and order of writes performed that cannot be
->> guaranteed when breaking up write operations through the typical
->> vfio_pci_bar_rw paths. Furthermore, ISM requires that legacy/non-MIO
->> s390 PCI instructions are used, which is also not guaranteed when the I/O
->> is passed through the typical userspace channels.
->>
->> This patchset provides a set of fixes related to enabling ISM device
->> passthrough and includes patches to enable use of a new vfio region that
->> will allow s390x PCI pass-through devices to perform s390 PCI 
->> instructions
->> in such a way that the same instruction issued on the guest is re-issued
->> on the host.
->>
->> Associated kernel patchset:
->> https://lkml.org/lkml/2021/1/19/874
->>
->> Changes from RFC -> v1:
->> - Refresh the header sync (built using Eric's 'update-linux-headers:
->> Include const.h' + manually removed pvrdma_ring.h again)
->> - Remove s390x/pci: fix pcistb length (already merged)
->> - Remove s390x/pci: Fix memory_region_access_valid call (already merged)
->> - Fix bug: s390_pci_vfio_pcistb should use the pre-allocated PCISTB
->> buffer pcistb_buf rather than allocating/freeing its own.
->> - New patch: track the PFT (PCI Function Type) separately from guest CLP
->> response data -- we tell the guest '0' for now due to limitations in
->> measurement block support, but we can still use the real value 
->> provided via
->> the vfio CLP capabilities to make decisions.
->> - Use the PFT (pci function type) to determine when to use the region
->> for PCISTB/PCILG (only for ISM), rather than using the relaxed alignment
->> bit.
->> - As a result, the pcistb_default is now updated to also handle the
->> possibility of relaxed alignment via 2 new functions, 
->> pcistb_validate_write
->> and pcistb_write, which serve as wrappers to the memory_region calls.
->> - New patch, which partially restores the MSI-X fence for passthrough
->> devices...  Could potentially be squashed with 's390x/pci: MSI-X isn't
->> strictly required for passthrough' but left separately for now as I 
->> felt it
->> needed a clear commit description of why we should still fence this case.
->>
-> Hi,
-> 
-> The choice of using the new VFIO region is made on the ISM PCI function 
-> type (PFT), which makes the patch ISM specific, why don't we use here 
-> the MIO bit common to any zPCI function and present in kernel to make 
-> the choice?
-> 
+La 20.01.2021 15:43, Gerd Hoffmann a scris:
+>    Hi,
+>
+>>> +    pc->realize = pvpanic_pci_realizefn;
+>>> +    pc->vendor_id = PCI_VENDOR_ID_REDHAT;
+>>> +    pc->device_id = PCI_DEVICE_ID_REDHAT_PVPANIC;
+>> Please fill out subsystem and subsystem vendor IDs as well:
+>> pc->subsystem_vendor_id
+>> pc->subsystem_id
+> Not needed, when left blank they are set to the default
+> qemu subsystem id (1af4:1100) by the pci core.
 
-As discussed during the RFC (and see my reply also to the kernel set), 
-the use of this region only works for devices that do not rely on MSI-X 
-interrupts.  If we did as you suggest, other device types like mlx would 
-not receive MSI-X interrupts in the guest (And I did indeed try 
-variations where I used the special VFIO region for all 
-PCISTG/PCILG/PCISTB for various device types)
+Thank you!
 
-So the idea for now was to solve the specific problem at hand (getting 
-ISM devices working).
-
+@Peter: You can grab v4 if this is not needed.
 
 
