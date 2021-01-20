@@ -2,59 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971462FCBEE
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 08:47:08 +0100 (CET)
-Received: from localhost ([::1]:53272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FDE02FCC16
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 08:56:46 +0100 (CET)
+Received: from localhost ([::1]:55846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l28Cp-0005UB-Mo
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 02:47:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57036)
+	id 1l28M9-0007cD-Ca
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 02:56:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l28Bi-0004zh-NK
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 02:45:58 -0500
-Resent-Date: Wed, 20 Jan 2021 02:45:58 -0500
-Resent-Message-Id: <E1l28Bi-0004zh-NK@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21339)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l28Hv-0006mJ-B5; Wed, 20 Jan 2021 02:52:23 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:58423)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l28Bf-0002ED-F3
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 02:45:58 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1611128746; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=CNFalVMvM4eKETY1N+VvLPEg3jnXh1KXrVshuVpZeBpYcTNXngALAihKMGCynFYhpb9YGf0M6ON9jtlMUifIWQX4/jthLN/s9LyI6ux+JeDg1riwcvzFt3U6XpN6+mh1mXSZ9elVdS19JrZam0CT+9vhtZ8MhhisPmoTJf9qUv8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1611128746;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=yVLGW8DDEtgd6r+aQ+PIY/68V617JjRfv7NUE+RE7AQ=; 
- b=K2kOspmudZk1z40Wd1NcZ9ZNLdWTJUBT71wE3Cv2BcQRvz9/rwse0FDkvwrpRSByfkQsOZ0PbsocRRSbqWEBkgWzyPNVu5NUAFBlFQjR9F86LZShKjb0Un/wifQ7HKAjjsGo40NijePHAD/MUu+atHxV6rFrrVt87lLGIMup3k8=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1611128743993688.9439067942959;
- Tue, 19 Jan 2021 23:45:43 -0800 (PST)
-In-Reply-To: <20210120074102.51534-1-marcandre.lureau@redhat.com>
-Subject: Re: [PATCH v2] RFC: sphinx: adopt kernel readthedoc theme
-Message-ID: <161112874243.30182.14775788977564880771@73fb1a5943b8>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l28Ht-0004ht-Dh; Wed, 20 Jan 2021 02:52:23 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 9DEAE5C0102;
+ Wed, 20 Jan 2021 02:52:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Wed, 20 Jan 2021 02:52:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=4fG4BQ6+WKZtzxlRMFxUH22MbcP
+ Kr3tn65ogdpVzRGw=; b=puZYQ2MqvpWlo0jcaONWwSPWqSpczWJ3H+K9J/lFgTj
+ TLtSvYzRUvv9IQZENzCjcK2/VVOmJo4XQQYl4Xuwk2cwW4rENBMBmWjdOvIM/R7x
+ uN5MEEbbENhITwmwG4MCdt1R7g2lUIBvmwT3h9eflpkLHRVZlWoi8eaSTVpdvMIt
+ vK5bCi+Bj1wpuBTI6qUTgcJQMilvUoWeb39udHsFUA6hK4crL17JfsvGIA4ZPHfD
+ EZyTJ7TKbbYCMevI2awkj3bOZ6u/xQeBSmo9q5bMbBeTJes+Bi24GcDCJVG8DNfA
+ 0W4UAxjFfsQgO4mzKtw1isrZDAwWev8YsMJZbiVcrwQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=4fG4BQ
+ 6+WKZtzxlRMFxUH22MbcPKr3tn65ogdpVzRGw=; b=bjeCe1LKPbLulbVO6b0X95
+ IcN202Eu+HuOtcO4zQ64o+7L0qs3Z0d2ax3ufLJA3dBqgO6SMEyY7hDOzFLX3GpL
+ l5LwrMPTLfPTMrCUmkbjEy4Oz7zFk8a3wlcFmUXgjVzkh1O+sSGxXpVMet/9J8sr
+ rO+iJdrLx39CDiiPZwgEPEE3HDhwVKo/Ne7+vUBUWWZtYGd15iifAgj9VsH+AOdV
+ iWyLP248R/erykn4iE1yAFA+WOyf3vWICn1kgpz1IWXj8CV4GfS5svFc8Jp8mLZo
+ j/2NWK5ozEVDlu9QzS4DjzjnPs9jtiOw8QvpnWBfVaYC67ITrVXdPQqDzaW9Pp0g
+ ==
+X-ME-Sender: <xms:MeEHYFIMIwdhqBIHUUR-rgUZqlX13CbzxffIZmOM5lwzG0JGVS8xrA>
+ <xme:MeEHYBIHjEbxWbGdhjw_uGI-sMu7dFO_Ej-lllQnu-mm8pEiSGM4rPmmysqp6Pf-Z
+ 5Sccwpg50cOVW-fI_8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledruddugdduudehucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtdorredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeeileefhfffueeftdehhffgteejhfevkeeghedttdfhvefhleffueevtefhueev
+ teenucffohhmrghinhepvddtudelqddtkedrohhrghenucfkphepkedtrdduieejrdelke
+ drudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:MeEHYNuG8e-vWsVvKC9wSui6JFE_JzJPK2tNoC0JxPJDePOBDfeUGw>
+ <xmx:MeEHYGaZxqnPNdS6cKtw2XB6X6-onmR7IGrb5OAX-H-E7F7Aa9TKMw>
+ <xmx:MeEHYMa4rNHTsZpAKpC1CHpSnOtozDGG7DF6orT8Cpp-1E8yk6VOBA>
+ <xmx:MuEHYDUvt2rkq0wdx9x5UpiZz-Ad3tvB9HXNxPQh9YMQRXqG1zJR9A>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 9FF43240062;
+ Wed, 20 Jan 2021 02:52:16 -0500 (EST)
+Date: Wed, 20 Jan 2021 08:52:14 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [RFC PATCH V3 0/8] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <YAfhLnBuNawnFvhE@apples.localdomain>
+References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
+ <YAciaPBu9TuGjifu@apples.localdomain>
+ <20210120004417.GA4205@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: marcandre.lureau@redhat.com
-Date: Tue, 19 Jan 2021 23:45:43 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ZaWNhjzcF9RlSYpK"
+Content-Disposition: inline
+In-Reply-To: <20210120004417.GA4205@localhost.localdomain>
+Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
+ helo=out5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,46 +96,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, berrange@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com, marcandre.lureau@redhat.com, bmeng.cn@gmail.com,
- jsnow@redhat.com
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEyMDA3NDEwMi41MTUz
-NC0xLW1hcmNhbmRyZS5sdXJlYXVAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVt
-cyB0byBoYXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZv
-cgptb3JlIGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMTIwMDc0
-MTAyLjUxNTM0LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tClN1YmplY3Q6IFtQQVRDSCB2
-Ml0gUkZDOiBzcGhpbng6IGFkb3B0IGtlcm5lbCByZWFkdGhlZG9jIHRoZW1lCgo9PT0gVEVTVCBT
-Q1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVs
-bCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29u
-ZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxn
-b3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2Uu
-Lgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRk
-MWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2pl
-Y3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwMTIwMDc0MTAyLjUxNTM0
-LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAxMjAwNzQxMDIu
-NTE1MzQtMS1tYXJjYW5kcmUubHVyZWF1QHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJh
-bmNoICd0ZXN0JwoyOTEyOGM4IFJGQzogc3BoaW54OiBhZG9wdCBrZXJuZWwgcmVhZHRoZWRvYyB0
-aGVtZQoKPT09IE9VVFBVVCBCRUdJTiA9PT0KV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0
-ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwojMzc6IApkZWxldGVk
-IGZpbGUgbW9kZSAxMDA2NDQKCkVSUk9SOiBsaW5lIG92ZXIgOTAgY2hhcmFjdGVycwojNjA6IEZJ
-TEU6IGRvY3MvY29uZi5weToxNTc6CisgICAgc3lzLnN0ZGVyci53cml0ZSgnV2FybmluZzogVGhl
-IFNwaGlueCBcJ3NwaGlueF9ydGRfdGhlbWVcJyBIVE1MIHRoZW1lIHdhcyBub3QgZm91bmQuIE1h
-a2Ugc3VyZSB5b3UgaGF2ZSB0aGUgdGhlbWUgaW5zdGFsbGVkIHRvIHByb2R1Y2UgcHJldHR5IEhU
-TUwgb3V0cHV0LiBGYWxsaW5nIGJhY2sgdG8gdGhlIGRlZmF1bHQgdGhlbWUuXG4nKQoKRVJST1I6
-IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzkxOiBGSUxFOiBkb2NzL2NvbmYucHk6MTgxOgorICAgICJn
-aXRsYWJfdXNlciI6ICJxZW11LXByb2plY3QiLCAkCgp0b3RhbDogMiBlcnJvcnMsIDEgd2Fybmlu
-Z3MsIDIxOSBsaW5lcyBjaGVja2VkCgpDb21taXQgMjkxMjhjODVlYTU3IChSRkM6IHNwaGlueDog
-YWRvcHQga2VybmVsIHJlYWR0aGVkb2MgdGhlbWUpIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNl
-IHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBv
-cnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMu
-Cj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpU
-aGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEw
-MTIwMDc0MTAyLjUxNTM0LTEtbWFyY2FuZHJlLmx1cmVhdUByZWRoYXQuY29tL3Rlc3RpbmcuY2hl
-Y2twYXRjaC8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
-YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
-YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+
+--ZaWNhjzcF9RlSYpK
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Jan 20 09:44, Minwoo Im wrote:
+> On 21-01-19 19:18:16, Klaus Jensen wrote:
+> > On Jan 20 02:01, Minwoo Im wrote:
+> > > Hello,
+> > >=20
+> > > This patch series is third one to support multi-controller and namesp=
+ace
+> > > sharing in multi-path.  This series introduced subsystem scheme to
+> > > manage controller(s) and namespace(s) in the subsystem.
+> > >=20
+> > > This series has new patches from the V2:  'detached' parameter has be=
+en
+> > > added to the nvme-ns device.  This will decide whether to attach the
+> > > namespace to controller(s) in the current subsystem or not.  If it's
+> > > given with true, then it will be just allocated in the subsystem, but
+> > > not attaching to any controllers in the subsystem.  Otherwise, it will
+> > > automatically attach to all the controllers in the subsystem.  The ot=
+her
+> > > t hing is that the last patch implemented Identify Active Namespace ID
+> > > List command handler apart from the Allocated Namespace ID List.
+> > >=20
+> > > Run with:
+> > >   -device nvme,serial=3Dqux,id=3Dnvme3
+> > >   -device nvme-ns,id=3Dns3,drive=3Ddrv12,nsid=3D3,bus=3Dnvme3
+> > >=20
+> > >   -device nvme-subsys,id=3Dsubsys0
+> > >   -device nvme,serial=3Dfoo,id=3Dnvme0,subsys=3Dsubsys0
+> > >   -device nvme,serial=3Dbar,id=3Dnvme1,subsys=3Dsubsys0
+> > >   -device nvme,serial=3Dbaz,id=3Dnvme2,subsys=3Dsubsys0
+> > >   -device nvme-ns,id=3Dns1,drive=3Ddrv10,nsid=3D1,subsys=3Dsubsys0,de=
+tached=3Dtrue
+> > >   -device nvme-ns,id=3Dns2,drive=3Ddrv11,nsid=3D2,bus=3Dnvme2
+> > >=20
+> > > nvme-cli:
+> > >   root@vm:~/work# nvme list -v                                       =
+                                                              =20
+> > >   NVM Express Subsystems                                             =
+                                                   =20
+> > >                                                                      =
+                                                               =20
+> > >   Subsystem        Subsystem-NQN                                     =
+                                               Controllers
+> > >   ---------------- --------------------------------------------------=
+---------------------------------------------- ----------------
+> > >   nvme-subsys0     nqn.2019-08.org.qemu:qux                          =
+                                               nvme0
+> > >   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                      =
+                                               nvme1, nvme2, nvme3
+> > >                                                                      =
+                                                             =20
+> > >   NVM Express Controllers                                            =
+                                              =20
+> > >                                                                      =
+                                            =20
+> > >   Device   SN                   MN                                   =
+    FR       TxPort Address        Subsystem    Namespaces
+> > >   -------- -------------------- -------------------------------------=
+--- -------- ------ -------------- ------------ ----------------
+> > >   nvme0    qux                  QEMU NVMe Ctrl                       =
+    1.0      pcie   0000:00:06.0   nvme-subsys0
+> >=20
+> > Shouldn't nvme0n1 be listed under Namespaces for nvme0?
+>=20
+> Oh, I missed that one from the output.  As Keith mentioned, I ran the
+> list command again based on the latest nvme-cli.git:
+>=20
+> Please refer the following result.  I think it's okay not to send the
+> cover letter again :)
+>=20
+> # nvme --version
+> nvme version 1.13.48.g33c6
+>=20
+> # nvme list -v
+> NVM Express Subsystems
+>=20
+> Subsystem        Subsystem-NQN                                           =
+                                         Controllers
+> ---------------- --------------------------------------------------------=
+---------------------------------------- ----------------
+> nvme-subsys0     nqn.2019-08.org.qemu:qux                                =
+                                         nvme0
+> nvme-subsys1     nqn.2019-08.org.qemu:subsys0                            =
+                                         nvme1, nvme2, nvme3
+>=20
+> NVM Express Controllers
+>=20
+> Device   SN                   MN                                       FR=
+       TxPort Address        Subsystem    Namespaces     =20
+> -------- -------------------- ---------------------------------------- --=
+------ ------ -------------- ------------ ----------------
+> nvme0    qux                  QEMU NVMe Ctrl                           1.=
+0      pcie   0000:00:06.0   nvme-subsys0 nvme0n1
+> nvme1    foo                  QEMU NVMe Ctrl                           1.=
+0      pcie   0000:00:07.0   nvme-subsys1=20
+> nvme2    bar                  QEMU NVMe Ctrl                           1.=
+0      pcie   0000:00:08.0   nvme-subsys1=20
+> nvme3    baz                  QEMU NVMe Ctrl                           1.=
+0      pcie   0000:00:09.0   nvme-subsys1 nvme1c3n1
+>=20
+> NVM Express Namespaces
+>=20
+> Device       NSID     Usage                      Format           Control=
+lers    =20
+> ------------ -------- -------------------------- ---------------- -------=
+---------
+> nvme0n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme0
+> nvme1n1      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
+
+That looks better, but hmm. Shouldnt the namespace be named `nvme1c3n1`
+here has well? Is that also an issue with nvme-cli?
+
+--ZaWNhjzcF9RlSYpK
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAH4SwACgkQTeGvMW1P
+DelYnQf/b9P8+1G53ROXSiOQfvfIkDV760PAPAN8MsrhbfAfguLa0gzs0xdNJq08
+NHe0sDBPUPCieutuPTy7UZuUx09M/wqy6+JhhRrCwgBr+hXWeko4YWZXXWJOOGOx
+KpNHSEwIDCl0XXsGcr1qE2rHHCPTbRGqE6bt9r3mhxbeh+uoCcQx3NNsrQXQnY0f
+uxhC1aGKHH2sBngQ+Ve0vkbe+rf9hg/dAAx1xu5YIJxK/47aFRc+UGd/VI2cqkhl
+5lkRJ5m80lODfQBql7jIhvBQwXrOmtH4hH8/ayrGCI96ZTXchUqdqGYFbe2Y3lI3
+V3cJTtulJbodMRZXHAOP1DtRpErWIQ==
+=XAC5
+-----END PGP SIGNATURE-----
+
+--ZaWNhjzcF9RlSYpK--
 
