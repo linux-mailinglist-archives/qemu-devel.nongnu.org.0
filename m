@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F562FCF3D
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:02:01 +0100 (CET)
-Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64F122FCF41
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:08:59 +0100 (CET)
+Received: from localhost ([::1]:55732 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2CBU-0005zc-FW
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:02:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54314)
+	id 1l2CID-0007wW-OC
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:08:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
- id 1l2C9d-0005Yu-QG
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:00:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56754)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l2CGl-0007UU-Hi
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:07:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26985)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
- id 1l2C9a-000747-QR
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:00:05 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l2CGi-00018l-2u
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:07:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611144001;
+ s=mimecast20190719; t=1611144442;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0f2BcGqwVSINtGtOqG3DaSae0WQwa7zzE2bwha8M25E=;
- b=f3wUoMXbKUCLkmdWcmDJ6SSxkB+0c3yiFBEJNpHa0kjQ1h5VI3eQtA0cdY2K2tmQ/CSBIZ
- ffWD5Re7w6iLWU58XB+CsnShSmpTXDgiRay+SKGKvxsFdG6YsKrHGSuWpZSwsRoLmfluG5
- 4Qt4FXwxWWhG7duRQ3e5zIwei2dGtWk=
+ bh=MUvsak6AhrqcVQkoYUIUNpP828hM1W5trKjq91RIGMc=;
+ b=iWBLoB6c4SWlkokj7ItktnyORo1nNyQ1Xga+wfCofbRo1hipTC7BZuAm6/lkKUMlaZLYUT
+ cvdPf7V86z5MK5AqGz/NqmRlhV8rDXr1ecraiUg6A3hU5tfAS6phMRHAV+kCE0xIAW6Pzu
+ NTdjHI6Y4ikaH214kHJ0ETWoB2z2A68=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-502-RFcoXI6BN3OmelxbLKGTew-1; Wed, 20 Jan 2021 06:58:49 -0500
-X-MC-Unique: RFcoXI6BN3OmelxbLKGTew-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-285-Z_h5dplSPaSuqE4GO42bHQ-1; Wed, 20 Jan 2021 07:07:19 -0500
+X-MC-Unique: Z_h5dplSPaSuqE4GO42bHQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A200B100C664;
- Wed, 20 Jan 2021 11:58:01 +0000 (UTC)
-Received: from [10.35.206.46] (unknown [10.35.206.46])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2279D5D96F;
- Wed, 20 Jan 2021 11:57:59 +0000 (UTC)
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: [PATCH 2/4] hw/misc/pvpanic: add PCI interface support
-From: Yan Vugenfirer <yvugenfi@redhat.com>
-In-Reply-To: <1610735646-13313-3-git-send-email-mihai.carabas@oracle.com>
-Date: Wed, 20 Jan 2021 13:57:57 +0200
-Message-Id: <FC7156A5-361B-4009-983A-91118F29995A@redhat.com>
-References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
- <1610735646-13313-3-git-send-email-mihai.carabas@oracle.com>
-To: Mihai Carabas <mihai.carabas@oracle.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E148107ACF7
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 12:07:18 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B27E810023B2;
+ Wed, 20 Jan 2021 12:07:16 +0000 (UTC)
+Date: Wed, 20 Jan 2021 13:07:14 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [RFC 0/5] pc: support user provided NIC naming/indexing
+Message-ID: <20210120130714.4b8b7d06@redhat.com>
+In-Reply-To: <20210117053250-mutt-send-email-mst@kernel.org>
+References: <20201222233934.451578-1-imammedo@redhat.com>
+ <20210113064312-mutt-send-email-mst@kernel.org>
+ <20210115025902.13e84f7c@redhat.com>
+ <20210117053250-mutt-send-email-mst@kernel.org>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yvugenfi@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain;
-	charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=yvugenfi@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,223 +81,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, QEMU Devel Mailing List <qemu-devel@nongnu.org>,
- kraxel@redhat.com
+Cc: jusual@redhat.com, qemu-devel@nongnu.org, laine@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Sun, 17 Jan 2021 05:59:18 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
+
+> On Fri, Jan 15, 2021 at 02:59:02AM +0100, Igor Mammedov wrote:
+> > On Wed, 13 Jan 2021 07:09:56 -0500
+> > "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> >   
+> > > On Tue, Dec 22, 2020 at 06:39:29PM -0500, Igor Mammedov wrote:  
+> > > > 
+> > > > Series implements support for 'onboard' naming scheme for network
+> > > > interfaces (1), which is based on PCI firmware spec and lets user
+> > > > to explicitly specify index that will be used by guest to name
+> > > > network interface, ex:
+> > > >     -device e1000,acpi-index=33
+> > > > should make guest rename NIC name to 'eno33' where 'eno' is default
+> > > > prefix for this scheme.
+> > > > 
+> > > > Hope is that it will allow to simplify launching VMs from
+> > > > template disk images with different set VM configurations
+> > > > without need to reconfigure guest network intrfaces or
+> > > > risk of loosing network connectivity.    
+> > > 
+> > > Questions:
+> > > the spec says:
+> > > Assignment of specific device names to multi-function devices installed in expansion
+> > > slots, and/or PCI or PCI Express devices that are hot-added to expansion slots in operating system-
+> > > environment would be handled in operating system-specific manner, and is not specified via this
+> > > specification.
+> > > 
+> > > Accordingly, link below says:
+> > > " Names incorporating Firmware/BIOS provided index numbers for on-board devices (example: eno1)"
+> > > 
+> > > to what extend does guest assume the index is for on-board devices?
+> > > it seems things work for fedora but how confident are we that this
+> > > will keep working.  
+> > 
+> > code itself is not limiting it to onboard devices in any way.
+> > (I can only speculate here, reason for calling it onboard is that
+> > on real hardware ACPI is mostly static tables and firmware provides
+> > an option to set index for only built-in NICs).
+> > Technically there is no reason to call in onboad though.  
+> 
+> Well there's an smbios thing that I believe says onboard
+> in the spec. Come to think of it that one actually
+> applies to multifunction devices too.
+Can you point to the specific place in the spec, pls?
+
+> 
+> 
+> > 
+> > I'd believe it should work with any distribution that uses
+> > recent enough systemd/udev (released starting from 2003).
+> >   
+> > > Further, code seems to only look at the slot level.
+> > > According to this, and according to the spec, this does not work with
+> > > multifunction devices, does it?  
+> > 
+> > we probably should disable it for multifunction devices,
+> > any suggestions how to detect those in QEMU?  
+> 
+> QEMU_PCI_CAP_MULTIFUNCTION_BITNR ?
+> 
+> Enforcing this will help but can we make this self-documenting somehow?
+what do you mean saying "to make it self-documenting somehow"?
+
+> > > The link you supplied lists another option:
+> > > "Names incorporating Firmware/BIOS provided PCI Express hotplug slot index numbers (example: ens1)"
+> > > these are under management control already ...   
+> > 
+> > with it interface name continues to depend on PCI topology (and theoretically
+> > limited to PCI expess). That's becomes harder to consume as complexity grows
+> > (i.e. mgmt needs to keep NIC in the same place for which guest image was configured for).
+> > acpi-index doesn't impose such limitation.
+> >
+> > In case of 1 NIC, it could be moved anywhere within PCI hierarchy and guest
+> > doesn't have to be reconfigured to account for new interface name
+> > (i.e without loosing network connectivity - that's the actual issue coming from
+> > upper layers that made me look into acpi-index approach).  
+> 
+> Could you describe the issue in a bit more detail in the commit
+> log pls?
+sure
+
+> > In another words acpi index is easier to consume for users above libvirt
+> > and frees mgmt hands in a way it could distribute PCI devices.
+> > Even better would be if guest image could carry index as metadata
+> >   
+> > > Also if we ask users to supply the property on the slot then it seems
+> > > that the property can be baked into ACPI when it's created instead of
+> > > being loaded from host - we can avoid adding new registers, this seems
+> > > preferable.  Could someone from management side chime in on whether that
+> > > is sufficient?  
+> > 
+> > I did consider it (it would be simpler, but not much), however unless we disable
+> > PCI hotplug for affected slots it won't work. (unplug device from such slot and
+> > plug another in that place will still return boot time index.  
+> 
+> Well it's interesting that you mention it. Let's say you remove
+> a device then plug in a different index immediately ...
+> Guest gets a wrong name temporarily, right?
+> Should we worry about that?
+guest will get not a wrong name but rather name that user asked for.
+(i.e. NIC with old index could be moved to other slot and still keep its name)
 
 
-> On 15 Jan 2021, at 8:34 PM, Mihai Carabas <mihai.carabas@oracle.com> wrot=
-e:
->=20
-> Add PCI interface support for PVPANIC device. Create a new file pvpanic-p=
-ci.c
-> where the PCI specific routines reside and update the build system with t=
-he new
-> files and config structure.
->=20
-> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
-> ---
-> docs/specs/pci-ids.txt    |  1 +
-> hw/misc/Kconfig           |  6 +++
-> hw/misc/meson.build       |  1 +
-> hw/misc/pvpanic-pci.c     | 94 ++++++++++++++++++++++++++++++++++++++++++=
-+++++
-> include/hw/misc/pvpanic.h |  1 +
-> include/hw/pci/pci.h      |  1 +
-> 6 files changed, 104 insertions(+)
-> create mode 100644 hw/misc/pvpanic-pci.c
->=20
-> diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
-> index abbdbca..5e407a6 100644
-> --- a/docs/specs/pci-ids.txt
-> +++ b/docs/specs/pci-ids.txt
-> @@ -64,6 +64,7 @@ PCI devices (other than virtio):
-> 1b36:000d  PCI xhci usb host adapter
-> 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
-> 1b36:0010  PCIe NVMe device (-device nvme)
-> +1b36:0011  PCI PVPanic device (-device pvpanic-pci)
->=20
-> All these devices are documented in docs/specs.
->=20
-> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-> index 23bc978..19c216f 100644
-> --- a/hw/misc/Kconfig
-> +++ b/hw/misc/Kconfig
-> @@ -124,6 +124,12 @@ config IOTKIT_SYSINFO
-> config PVPANIC_COMMON
->    bool
->=20
-> +config PVPANIC_PCI
-> +    bool
-> +    default y if PCI_DEVICES
-> +    depends on PCI
-> +    select PVPANIC_COMMON
-> +
-> config PVPANIC_ISA
->    bool
->    depends on ISA_BUS
-> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-> index 8c828ad..f686019 100644
-> --- a/hw/misc/meson.build
-> +++ b/hw/misc/meson.build
-> @@ -99,6 +99,7 @@ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: fi=
-les('armsse-cpuid.c'))
-> softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
->=20
-> softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'=
-))
-> +softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c=
-'))
-> softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
-> softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', =
-'aspeed_sdmc.c', 'aspeed_xdma.c'))
-> softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
-> diff --git a/hw/misc/pvpanic-pci.c b/hw/misc/pvpanic-pci.c
-> new file mode 100644
-> index 0000000..d629639
-> --- /dev/null
-> +++ b/hw/misc/pvpanic-pci.c
-> @@ -0,0 +1,94 @@
-> +/*
-> + * QEMU simulated PCI pvpanic device.
-> + *
-> + * Copyright (C) 2020 Oracle
-> + *
-> + * Authors:
-> + *     Mihai Carabas <mihai.carabas@oracle.com>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
-ter.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/log.h"
-> +#include "qemu/module.h"
-> +#include "sysemu/runstate.h"
-> +
-> +#include "hw/nvram/fw_cfg.h"
-> +#include "hw/qdev-properties.h"
-> +#include "migration/vmstate.h"
-> +#include "hw/misc/pvpanic.h"
-> +#include "qom/object.h"
-> +#include "hw/pci/pci.h"
-> +
-> +OBJECT_DECLARE_SIMPLE_TYPE(PVPanicPCIState, PVPANIC_PCI_DEVICE)
-> +
-> +/*
-> + * PVPanicPCIState for PCI device
-> + */
-> +typedef struct PVPanicPCIState {
-> +    PCIDevice dev;
-> +    PVPanicState pvpanic;
-> +} PVPanicPCIState;
-> +
-> +static const VMStateDescription vmstate_pvpanic_pci =3D {
-> +    .name =3D "pvpanic-pci",
-> +    .version_id =3D 1,
-> +    .minimum_version_id =3D 1,
-> +    .fields =3D (VMStateField[]) {
-> +        VMSTATE_PCI_DEVICE(dev, PVPanicPCIState),
-> +        VMSTATE_END_OF_LIST()
-> +    }
-> +};
-> +
-> +static void pvpanic_pci_realizefn(PCIDevice *dev, Error **errp)
-> +{
-> +    PVPanicPCIState *s =3D PVPANIC_PCI_DEVICE(dev);
-> +    PVPanicState *ps =3D &s->pvpanic;
-> +
-> +    pvpanic_setup_io(&s->pvpanic, DEVICE(s), 2);
-> +
-> +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &ps->mr);
-> +}
-> +
-> +static Property pvpanic_pci_properties[] =3D {
-> +    DEFINE_PROP_UINT8("events", PVPanicPCIState, pvpanic.events, PVPANIC=
-_PANICKED | PVPANIC_CRASHLOADED),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void pvpanic_pci_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
-> +    PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);
-> +
-> +    device_class_set_props(dc, pvpanic_pci_properties);
-> +
-> +    pc->realize =3D pvpanic_pci_realizefn;
-> +    pc->vendor_id =3D PCI_VENDOR_ID_REDHAT;
-> +    pc->device_id =3D PCI_DEVICE_ID_REDHAT_PVPANIC;
+> > That's why I ended up with hotplug variant. 
+> > 
+> > I chose abusing existing PCI hotplug registers for it, 
+> > but we can use a new range if that's preferred.   
+> 
+> Would it work for multi-function devices though?
+> If yes that's a big advantage ...
+Does ACPI hotplug work with multi-function devices (I thought not)?
+If not, I'd prefer explicitly disable new feature
+for multi-function devices (the code is heavily based on
+ACPI hotplug infrastructure we already have).
+(
+in other words, I don't see immediate benefit in grabbing new registers
+)
 
-Please fill out subsystem and subsystem vendor IDs as well:
-pc->subsystem_vendor_id
-pc->subsystem_id=20
 
-It is needed in order to pass MS WHQL tests. Requirement name =E2=80=9CDevi=
-ce.Connectivity.PciConnected.SubsystemIdsRequired=E2=80=9D in "Windows Hard=
-ware Compatibility Specifications =E2=80=93 Components and Peripherals=E2=
-=80=9D document.
-https://docs.microsoft.com/en-us/windows-hardware/design/compatibility/whcp=
--specifications-policies
+> > > More questions:
+> > > 
+> > > does all this affect windows guests at all?  
+> > I don't know (spec shows examples that reminded
+> > me about NIC naming which Windows use(s|d)).
+> > But I won't bet on it.
+> > If I recall correctly, for e1000 NIC, it didn't made any
+> > difference in naming (pre-existing guest image).
+> >   
+> > > where does the "acpi index" terminology come from?
+> > > the pci firmware spec talks about "instance number", right?  
+> > it comes from linux kernel (that's how it's named in sysfs)
+> > and systemd/udev uses it. So I tried to avoid making up another
+> > one.  
+> 
+> OTOH that's guest specific ... and does not seem to imply
+> the limitations unless you look at the code ...
+"instance number" looks to me too generic (it's fine in context of
+specific chapter in spec). While linux kernel's variant looks to me as
+as better option that fits the bill.
 
-Thanks,
-Yan.
+If you don't object, I'd prefer 'acpi-index'.
 
-> +    pc->revision =3D 1;
-> +    pc->class_id =3D PCI_CLASS_SYSTEM_OTHER;
-> +    dc->vmsd =3D &vmstate_pvpanic_pci;
-> +
-> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
-> +}
-> +
-> +static TypeInfo pvpanic_pci_info =3D {
-> +    .name          =3D TYPE_PVPANIC_PCI_DEVICE,
-> +    .parent        =3D TYPE_PCI_DEVICE,
-> +    .instance_size =3D sizeof(PVPanicPCIState),
-> +    .class_init    =3D pvpanic_pci_class_init,
-> +    .interfaces =3D (InterfaceInfo[]) {
-> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
-> +        { }
-> +    }
-> +};
-> +
-> +static void pvpanic_register_types(void)
-> +{
-> +    type_register_static(&pvpanic_pci_info);
-> +}
-> +
-> +type_init(pvpanic_register_types);
-> diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-> index abc9dde..ca3c5bb 100644
-> --- a/include/hw/misc/pvpanic.h
-> +++ b/include/hw/misc/pvpanic.h
-> @@ -18,6 +18,7 @@
-> #include "qom/object.h"
->=20
-> #define TYPE_PVPANIC_ISA_DEVICE "pvpanic"
-> +#define TYPE_PVPANIC_PCI_DEVICE "pvpanic-pci"
->=20
-> #define PVPANIC_IOPORT_PROP "ioport"
->=20
-> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-> index 259f9c9..66db084 100644
-> --- a/include/hw/pci/pci.h
-> +++ b/include/hw/pci/pci.h
-> @@ -107,6 +107,7 @@ extern bool pci_available;
-> #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
-> #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
-> #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
-> +#define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
-> #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
->=20
-> #define FMT_PCIBUS                      PRIx64
-> --=20
-> 1.8.3.1
->=20
->=20
+> >   
+> > > > For more detailed description/examples see patches [3-4/5]
+> > > > 
+> > > > 1)
+> > > >  https://www.freedesktop.org/wiki/Software/systemd/PredictableNetworkInterfaceNames/ 
+> > > > 
+> > > > Git repo for testing:
+> > > >    https://github.com/imammedo/qemu/branches acpi-index-rfc
+> > > > 
+> > > > Igor Mammedov (5):
+> > > >   acpi: add aml_to_decimalstring() and aml_call6() helpers
+> > > >   tests: acpi: temporary whitelist DSDT changes
+> > > >   pci: introduce apci-index property for PCI device
+> > > >   pci: acpi: add _DSM method to PCI devices
+> > > >   tests: acpi: update expected data files
+> > > > 
+> > > >  include/hw/acpi/aml-build.h                 |   3 +
+> > > >  include/hw/acpi/pci.h                       |   1 +
+> > > >  include/hw/acpi/pcihp.h                     |   7 +-
+> > > >  include/hw/pci/pci.h                        |   1 +
+> > > >  tests/qtest/bios-tables-test-allowed-diff.h |  21 +++++
+> > > >  hw/acpi/aml-build.c                         |  28 +++++++
+> > > >  hw/acpi/pci.c                               |  84 ++++++++++++++++++++
+> > > >  hw/acpi/pcihp.c                             |  25 +++++-
+> > > >  hw/i386/acpi-build.c                        |  31 +++++++-
+> > > >  hw/pci/pci.c                                |   1 +
+> > > >  tests/data/acpi/pc/DSDT                     | Bin 5065 -> 6023 bytes
+> > > >  tests/data/acpi/pc/DSDT.acpihmat            | Bin 6390 -> 7348 bytes
+> > > >  tests/data/acpi/pc/DSDT.bridge              | Bin 6924 -> 8689 bytes
+> > > >  tests/data/acpi/pc/DSDT.cphp                | Bin 5529 -> 6487 bytes
+> > > >  tests/data/acpi/pc/DSDT.dimmpxm             | Bin 6719 -> 7677 bytes
+> > > >  tests/data/acpi/pc/DSDT.hpbridge            | Bin 5026 -> 5990 bytes
+> > > >  tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3084 -> 3177 bytes
+> > > >  tests/data/acpi/pc/DSDT.ipmikcs             | Bin 5137 -> 6095 bytes
+> > > >  tests/data/acpi/pc/DSDT.memhp               | Bin 6424 -> 7382 bytes
+> > > >  tests/data/acpi/pc/DSDT.numamem             | Bin 5071 -> 6029 bytes
+> > > >  tests/data/acpi/pc/DSDT.roothp              | Bin 5261 -> 6324 bytes
+> > > >  tests/data/acpi/q35/DSDT                    | Bin 7801 -> 7863 bytes
+> > > >  tests/data/acpi/q35/DSDT.acpihmat           | Bin 9126 -> 9188 bytes
+> > > >  tests/data/acpi/q35/DSDT.bridge             | Bin 7819 -> 7911 bytes
+> > > >  tests/data/acpi/q35/DSDT.cphp               | Bin 8265 -> 8327 bytes
+> > > >  tests/data/acpi/q35/DSDT.dimmpxm            | Bin 9455 -> 9517 bytes
+> > > >  tests/data/acpi/q35/DSDT.ipmibt             | Bin 7876 -> 7938 bytes
+> > > >  tests/data/acpi/q35/DSDT.memhp              | Bin 9160 -> 9222 bytes
+> > > >  tests/data/acpi/q35/DSDT.mmio64             | Bin 8932 -> 9024 bytes
+> > > >  tests/data/acpi/q35/DSDT.numamem            | Bin 7807 -> 7869 bytes
+> > > >  tests/data/acpi/q35/DSDT.tis                | Bin 8407 -> 8468 bytes
+> > > >  31 files changed, 197 insertions(+), 5 deletions(-)
+> > > > 
+> > > > -- 
+> > > > 2.27.0    
+> > > 
+> > >   
+> 
 
 
