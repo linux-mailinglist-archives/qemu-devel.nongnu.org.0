@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD292FCDCC
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 11:20:09 +0100 (CET)
-Received: from localhost ([::1]:34288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E8552FCDCE
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 11:23:15 +0100 (CET)
+Received: from localhost ([::1]:41092 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Aau-0000Ym-1F
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:20:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33696)
+	id 1l2Adu-0003ZI-MD
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 05:23:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1l2AYX-0007ar-Aj
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:17:42 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dme@dme.org>) id 1l2AYV-0005Xy-EN
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:17:40 -0500
-Received: by mail-wm1-x333.google.com with SMTP id v184so2326748wma.1
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 02:17:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=dme-org.20150623.gappssmtp.com; s=20150623;
- h=to:cc:subject:in-reply-to:references:from:date:message-id
- :mime-version:content-transfer-encoding;
- bh=/HkiBvoVdZIJrEzSBhimQMSj69Zur+6MeKP45Dw7C+4=;
- b=04udrIMQEUCn+LV7lpovSHz86Xa5bR8HWH9qa1Fw7WQBhVjh0exPCN1c9qsrmp/20M
- WkgehbzmDfGYLtuDit1cgvuXnNH2se5LBjwq0E5h1wyFH5p/TXCCApIswYU4aLomSACh
- EScLZOMizgOVGcwouZkcgIMt8I/PtJRnHw/6w9z8HDI2TTpX9pKHYj6Zf0vmz9jCB2OV
- ankWfuqR9YePjaLaJ/4y0MtHRcNh1pWlMbSeh3Efg9E354qr/V4Q3/BzCOMcNyKrFLNg
- vT2ORaD8U38sC5QaVU1iXd6JXPC5/Q9xqx92wMqstCJCwYrbfE8/e3CsTwTHSmehzhus
- BYqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:subject:in-reply-to:references:from:date
- :message-id:mime-version:content-transfer-encoding;
- bh=/HkiBvoVdZIJrEzSBhimQMSj69Zur+6MeKP45Dw7C+4=;
- b=EcF3EqNaU8PMcww+zKUA6IDIP87AvwrIqCEZ6DFHIcHx3WX2rD48UrZt6Zf9YXd0ny
- r6YDLWXqVwqvDD+w2d5xnTWORqpYSHrIbVkECfa9JYz0z+EhZRFd8pMSgCebvb6bWSio
- Br5lcOSSx8pvwx8Wm4fQaKk0sQSL5LY9OiXPuDQJXJiW+sinEnh0ir/Eo+7IQ1wdBU0N
- VYFY0ItLbMkqTlvjxnLvWLd0YMwdXZH+engYGawW11uO4fdgOlg3vlH2/8S9fSm0wm6R
- j6VSYwkTJEYw1Xl3uAHDlidSwmeLDOEry7RtlSmX4+fNPYeDgUUClL1QAoBOeoJXKlXC
- 23xw==
-X-Gm-Message-State: AOAM533vhhdofUMWWxv5xYjX+qZsX0nV3NXw8e8dmbImn8CNDMkedJHl
- RjEyNt2K8H+bb8To7NQg/1bB1Q==
-X-Google-Smtp-Source: ABdhPJw4f1hLG4zTb7nyJJE9o/odNPPLmrrCJwxZDF4XtHSY9haqsyGtrTTKvvMm6xqAxK35bI/59w==
-X-Received: by 2002:a1c:ac86:: with SMTP id v128mr3592648wme.76.1611137857996; 
- Wed, 20 Jan 2021 02:17:37 -0800 (PST)
-Received: from disaster-area.hh.sledj.net (disaster-area.hh.sledj.net.
- [2001:8b0:bb71:7140:64::1])
- by smtp.gmail.com with ESMTPSA id v6sm2717189wrx.32.2021.01.20.02.17.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 20 Jan 2021 02:17:37 -0800 (PST)
-Received: from localhost (disaster-area.hh.sledj.net [local])
- by disaster-area.hh.sledj.net (OpenSMTPD) with ESMTPA id d9b0d2fd;
- Wed, 20 Jan 2021 10:17:36 +0000 (UTC)
-To: =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Eduardo
- Habkost <ehabkost@redhat.com>
-Subject: Re: [RFC PATCH 1/2] hw/i386: -cpu model,-feature,+feature should
- enable feature
-In-Reply-To: <20210120100803.GF3015589@redhat.com>
-References: <20210119142207.3443123-1-david.edmondson@oracle.com>
- <20210119142207.3443123-2-david.edmondson@oracle.com>
- <20210119152056.GE1227584@habkost.net> <cuna6t499ir.fsf@dme.org>
- <20210119163052.GG1227584@habkost.net>
- <20210120100803.GF3015589@redhat.com>
-X-HGTTG: zarquon
-From: David Edmondson <dme@dme.org>
-X-Now-Playing: Four Tet - Sixteen Oceans: 1993 Band Practice
-Date: Wed, 20 Jan 2021 10:17:36 +0000
-Message-ID: <cuny2gn7vzz.fsf@dme.org>
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2AcM-0002Gw-6J
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:21:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37618)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2AcE-0007FH-QL
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 05:21:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611138088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TLj9OigOBgpczQGZgc9xtca9KI/QXMgFrVGm6F3ieFY=;
+ b=en59QyEIfpqHGHYpYlGqIKkHdsoNLrolggT1gCNEci/5VVvSdHbEkqVE1IA+1L0B2GDcJ1
+ 1dSlUDCnryKOWGBxVzzeZbQuj5c4+Jh0zUFErRDba6+/qXMh8ig1KPnCbFAytvYqUtPpXx
+ h/s+95yUOJ57UsfLzjHQCdZlwK9IguE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-QT1yphoQMDC_w6KFcgB9HQ-1; Wed, 20 Jan 2021 05:20:46 -0500
+X-MC-Unique: QT1yphoQMDC_w6KFcgB9HQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B565B802B40;
+ Wed, 20 Jan 2021 10:20:45 +0000 (UTC)
+Received: from localhost (ovpn-114-178.ams2.redhat.com [10.36.114.178])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1770727CAD;
+ Wed, 20 Jan 2021 10:20:44 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v4 11.5/23] iotests/129: Limit backup's max-chunk/max-workers
+Date: Wed, 20 Jan 2021 11:20:43 +0100
+Message-Id: <20210120102043.28346-1-mreitz@redhat.com>
+In-Reply-To: <20210116214705.822267-1-vsementsov@virtuozzo.com>
+References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: neutral client-ip=2a00:1450:4864:20::333;
- envelope-from=dme@dme.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779, UNPARSEABLE_RELAY=0.001 autolearn=no autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,66 +76,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wednesday, 2021-01-20 at 10:08:03 GMT, Daniel P. Berrang=C3=A9 wrote:
+Right now, this does not change anything, because backup ignores
+max-chunk and max-workers.  However, as soon as backup is switched over
+to block-copy for the background copying process, we will need it to
+keep 129 passing.
 
-> On Tue, Jan 19, 2021 at 11:30:52AM -0500, Eduardo Habkost wrote:
->> On Tue, Jan 19, 2021 at 04:27:56PM +0000, David Edmondson wrote:
->> > On Tuesday, 2021-01-19 at 10:20:56 -05, Eduardo Habkost wrote:
->> >=20
->> > > Hi,
->> > >
->> > > Thanks for the patch.  Getting rid of special -feature/+feature
->> > > behavior was in our TODO list for a long time.
->> > >
->> > > On Tue, Jan 19, 2021 at 02:22:06PM +0000, David Edmondson wrote:
->> > >> "Minus" features are applied after "plus" features, so ensure that a
->> > >> later "plus" feature causes an earlier "minus" feature to be remove=
-d.
->> > >>=20
->> > >> This has no effect on the existing "-feature,feature=3Don" backward
->> > >> compatibility code (which warns and turns the feature off).
->> > >
->> > > If we are changing behavior, why not change behavior of
->> > > "-feature,feature=3Don" at the same time?  This would allow us to
->> > > get rid of plus_features/minus_features completely and just make
->> > > +feature/-feature synonyms to feature=3Don/feature=3Doff.
->> >=20
->> > Okay, I'll do that.
->> >=20
->> > Given that there have been warnings associated with
->> > "-feature,feature=3Don" for a while, changing that behaviour seems
->> > acceptable.
->> >=20
->> > Would the same be true for changing "-feature,+feature"? (i.e. what th=
-is
->> > patch does) Really: can this just be changed, or does there have to be
->> > some period where the behaviour stays the same with a warning?
->>=20
->> I actually expected warnings to be triggered when using
->> "-feature,+feature" as well.  If we were not generating warnings
->> for that case, it will need more careful evaluation, just to be
->> sure it's safe.  Igor, do you remember the details here?
->
-> Where are you expecting warnings ? I don't see any when launching QEMU
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+Hi Vladimir, would you be OK with this?
+---
+ tests/qemu-iotests/129 | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-qemu-system-x86_64 -display none -cpu Westmere,-vmx,+vmx
+diff --git a/tests/qemu-iotests/129 b/tests/qemu-iotests/129
+index 9a56217bf8..2ac7e7a24d 100755
+--- a/tests/qemu-iotests/129
++++ b/tests/qemu-iotests/129
+@@ -70,9 +70,14 @@ class TestStopWithBlockJob(iotests.QMPTestCase):
+                           sync="full", buf_size=65536)
+ 
+     def test_drive_backup(self):
++        # Limit max-chunk and max-workers so that block-copy will not
++        # launch so many workers working on so much data each that
++        # stop's bdrv_drain_all() would finish the job
+         self.do_test_stop("drive-backup", device="drive0",
+                           target=self.target_img, format=iotests.imgfmt,
+-                          sync="full")
++                          sync="full",
++                          x_perf={ 'max-chunk': 65536,
++                                   'max-workers': 8 })
+ 
+     def test_block_commit(self):
+         # Add overlay above the source node so that we actually use a
+-- 
+2.29.2
 
-Warnings because the result of this is "-vmx".
-
-> IMHO just leave the parsing unchanged, deprecate it, and then delete
-> the code.  We don't need to "improve" usability semantics of something
-> that we want to delete anyway.
-
-/me nods.
-
-dme.
---=20
-I just bite it, it's for the look I don't light it.
 
