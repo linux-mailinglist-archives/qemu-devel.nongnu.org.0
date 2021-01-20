@@ -2,50 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2452FC5D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 01:33:13 +0100 (CET)
-Received: from localhost ([::1]:45644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C48A42FC609
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 01:46:10 +0100 (CET)
+Received: from localhost ([::1]:49078 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l21Qu-0006Rp-8x
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 19:33:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49132)
+	id 1l21dR-0000tt-Gi
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 19:46:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l21PJ-0005sG-Tk; Tue, 19 Jan 2021 19:31:34 -0500
-Received: from ozlabs.org ([203.11.71.1]:59007)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l21PG-0004MC-V2; Tue, 19 Jan 2021 19:31:33 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DL5zw5q9nz9sVS; Wed, 20 Jan 2021 11:31:24 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611102684;
- bh=KdsZ6C7Yf/WUHXzsStWPdHoUj9rd7KNDbbB5344xKLk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=if8AkSkqxccd0A98Bl2LA/6rW0+wTyV2eBzSVafJJnZJRLFua6e/+K6SHWsVsqHgR
- 4pR9FfeOEuSOUHVultNKu/Ht/TAgXlRrRNtnTvMLpHTMIbwL2e71/8wm/6zINfSL+0
- vuJuEY05rEJKIzJKfgDZlbUO3ddQs2HqifkZYRv4=
-Date: Wed, 20 Jan 2021 11:24:45 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 1/1] spapr_caps.c: disable KVM specific caps when running
- with TCG
-Message-ID: <20210120002445.GA5174@yekko.fritz.box>
-References: <20210119205824.2222801-1-danielhb413@gmail.com>
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l21bk-0000GH-5p; Tue, 19 Jan 2021 19:44:24 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434]:41274)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l21bi-0005nw-E4; Tue, 19 Jan 2021 19:44:23 -0500
+Received: by mail-pf1-x434.google.com with SMTP id q20so13418287pfu.8;
+ Tue, 19 Jan 2021 16:44:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=AoGkuMPg14/lsBcTol3sSswYmKiQxWDRs38aqAY5Px8=;
+ b=PLGlRorC4ftvFsoGxSFVzVIF0/xn2gKvVrH3jUv87+TGAjNhWueTcItpdXtXZKHXUX
+ iYx3rlm0bcYWQl7IriK/28Bvv1eWpPNrPKHxTULD7Hn373sG+2JzB3ykTOwzILs/JDNy
+ XvMdZTusiDaoCePS3ExMltXFF+JmPRiEpO9WPJUOlEeaNNIJIzu1lY9CEhezoyMiPAHz
+ a/rY1QgGPEfIBW21WHuJy7cSjm2V2/9u6P0SZ8YWvaLfbH1IBpL6kwyktkTMJP55kKZv
+ YyikmQG+wnsg91y+776PsJvkuLlWFSyptI60m1aJ44rTPDWhjLDfdNkNRL8oiRcpyVGt
+ nISw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=AoGkuMPg14/lsBcTol3sSswYmKiQxWDRs38aqAY5Px8=;
+ b=EDpt366ALCrUXwsk2FnIqhBqdtIdy907s5l7Z/bfTysbq60xsvKmNaQpVua4wRSWwU
+ V5KXqjLm1Pt/gOf48o7cb4Vvsl4/Bjz+T5j2vIzuXGuTexTfIGaTh9VBQuZifndMolfK
+ Gr7XNhc5WucHu/R+q1zCUkUUaBEbrS1dzwHAPa+bi/3BPm7tTDEf5HhKlD3kpt3o25yr
+ 8iOhYYiEGG2TWXDhjf7JU6REO+GKRDmQD4ix5QtYHNfLfWwOzx5O2Y7VCFa7glfFZJt/
+ ZyxcuzEpu1RngjgLd/MBrWbu5OYGkr4d1XxqB6VeAs4a7IJ6kZNg45W6RXiu+UKwDrKf
+ CzWA==
+X-Gm-Message-State: AOAM533vl8HvgOPSSWRPFTl6pySeVoluvqo3gBhPS9Q33BlFick6ER//
+ zlAJUDpWiMgVnn2kZHtVS+w=
+X-Google-Smtp-Source: ABdhPJy2R0M0CE4alS88OwlhPznm7U4Ly9PRwTZRfZYQnvyezfu0vFW5nPcZZ3LYELPJOT27LiGCGQ==
+X-Received: by 2002:a63:3049:: with SMTP id w70mr6794299pgw.224.1611103460495; 
+ Tue, 19 Jan 2021 16:44:20 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id o14sm151131pjf.12.2021.01.19.16.44.19
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Tue, 19 Jan 2021 16:44:19 -0800 (PST)
+Date: Wed, 20 Jan 2021 09:44:17 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Klaus Jensen <its@irrelevant.dk>
+Subject: Re: [RFC PATCH V3 0/8] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <20210120004417.GA4205@localhost.localdomain>
+References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
+ <YAciaPBu9TuGjifu@apples.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="pWyiEgJYm5f9v55/"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210119205824.2222801-1-danielhb413@gmail.com>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <YAciaPBu9TuGjifu@apples.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,107 +82,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 21-01-19 19:18:16, Klaus Jensen wrote:
+> On Jan 20 02:01, Minwoo Im wrote:
+> > Hello,
+> > 
+> > This patch series is third one to support multi-controller and namespace
+> > sharing in multi-path.  This series introduced subsystem scheme to
+> > manage controller(s) and namespace(s) in the subsystem.
+> > 
+> > This series has new patches from the V2:  'detached' parameter has been
+> > added to the nvme-ns device.  This will decide whether to attach the
+> > namespace to controller(s) in the current subsystem or not.  If it's
+> > given with true, then it will be just allocated in the subsystem, but
+> > not attaching to any controllers in the subsystem.  Otherwise, it will
+> > automatically attach to all the controllers in the subsystem.  The other
+> > t hing is that the last patch implemented Identify Active Namespace ID
+> > List command handler apart from the Allocated Namespace ID List.
+> > 
+> > Run with:
+> >   -device nvme,serial=qux,id=nvme3
+> >   -device nvme-ns,id=ns3,drive=drv12,nsid=3,bus=nvme3
+> > 
+> >   -device nvme-subsys,id=subsys0
+> >   -device nvme,serial=foo,id=nvme0,subsys=subsys0
+> >   -device nvme,serial=bar,id=nvme1,subsys=subsys0
+> >   -device nvme,serial=baz,id=nvme2,subsys=subsys0
+> >   -device nvme-ns,id=ns1,drive=drv10,nsid=1,subsys=subsys0,detached=true
+> >   -device nvme-ns,id=ns2,drive=drv11,nsid=2,bus=nvme2
+> > 
+> > nvme-cli:
+> >   root@vm:~/work# nvme list -v                                                                                                      
+> >   NVM Express Subsystems                                                                                                 
+> >                                                                                                                                      
+> >   Subsystem        Subsystem-NQN                                                                                    Controllers
+> >   ---------------- ------------------------------------------------------------------------------------------------ ----------------
+> >   nvme-subsys0     nqn.2019-08.org.qemu:qux                                                                         nvme0
+> >   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme1, nvme2, nvme3
+> >                                                                                                                                    
+> >   NVM Express Controllers                                                                                           
+> >                                                                                                                   
+> >   Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces
+> >   -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
+> >   nvme0    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys0
+> 
+> Shouldn't nvme0n1 be listed under Namespaces for nvme0?
 
---pWyiEgJYm5f9v55/
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Oh, I missed that one from the output.  As Keith mentioned, I ran the
+list command again based on the latest nvme-cli.git:
 
-On Tue, Jan 19, 2021 at 05:58:24PM -0300, Daniel Henrique Barboza wrote:
-> Commit 006e9d361869 added warning messages for cap-cfpc, cap-ibs and
-> cap-sbbc when enabled under TCG. Commit 8ff43ee404d3 did the same thing
-> when introducing cap-ccf-assist.
->=20
-> These warning messages, although benign to the machine launch, can make
-> users a bit confused. E.g:
->=20
-> $ sudo ./ppc64-softmmu/qemu-system-ppc64
-> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-cf=
-pc=3Dworkaround
-> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-sb=
-bc=3Dworkaround
-> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ib=
-s=3Dworkaround
-> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-cc=
-f-assist=3Don
->=20
-> We're complaining about "TCG doesn't support requested feature" when the
-> user didn't request any of those caps in the command line.
->=20
-> Check if we're running with TCG and change the defaults in spapr_caps_ini=
-t().
-> Note that this change doesn't impact backward compatibility or migration
-> to older QEMU versions because we never activated these caps with TCG
-> in the first place.
+Please refer the following result.  I think it's okay not to send the
+cover letter again :)
 
-Nack.  Changing those capabilities changes guest visible properties of
-the guest environment.  Silently altering guest visible
-characteristics based on whether or not we're running with KVM is not
-acceptable (we did it in the past and it caused a lot of grief).
+# nvme --version
+nvme version 1.13.48.g33c6
 
->=20
-> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> ---
->  hw/ppc/spapr_caps.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 9341e9782a..53eea2b11e 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -781,6 +781,21 @@ void spapr_caps_init(SpaprMachineState *spapr)
->      /* Compute the actual set of caps we should run with */
->      default_caps =3D default_caps_with_cpu(spapr, MACHINE(spapr)->cpu_ty=
-pe);
-> =20
-> +   /*
-> +    * These are KVM specific caps that TCG doesn't support, but will
-> +    * throw an warning if enabled by default (see 006e9d361869 and
-> +    * 8ff43ee404d3). This behavior can make the user wonder why a warning
-> +    * is being shown for caps that the user didn't enable in the
-> +    * command line.
-> +    *
-> +    * Disable them for TCG. */
-> +    if (tcg_enabled()) {
-> +        default_caps.caps[SPAPR_CAP_CFPC] =3D SPAPR_CAP_BROKEN;
-> +        default_caps.caps[SPAPR_CAP_SBBC] =3D SPAPR_CAP_BROKEN;
-> +        default_caps.caps[SPAPR_CAP_IBS] =3D SPAPR_CAP_BROKEN;
-> +        default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_BROKEN;
-> +    }
-> +
->      for (i =3D 0; i < SPAPR_CAP_NUM; i++) {
->          /* Store the defaults */
->          spapr->def.caps[i] =3D default_caps.caps[i];
+# nvme list -v
+NVM Express Subsystems
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Subsystem        Subsystem-NQN                                                                                    Controllers
+---------------- ------------------------------------------------------------------------------------------------ ----------------
+nvme-subsys0     nqn.2019-08.org.qemu:qux                                                                         nvme0
+nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme1, nvme2, nvme3
 
---pWyiEgJYm5f9v55/
-Content-Type: application/pgp-signature; name="signature.asc"
+NVM Express Controllers
 
------BEGIN PGP SIGNATURE-----
+Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces      
+-------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
+nvme0    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys0 nvme0n1
+nvme1    foo                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:07.0   nvme-subsys1 
+nvme2    bar                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:08.0   nvme-subsys1 
+nvme3    baz                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:09.0   nvme-subsys1 nvme1c3n1
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAHeEsACgkQbDjKyiDZ
-s5K/jxAAwXcoQYTvkiXz06lfzsZSfxULvwjzKkpVPDW4xUV/YLoAH3Gj9jl/ijrS
-d6cWrfjfOIH2SKxZBP+gTW5yE0VdyCb+63lLgT9W+L13mwrQZUfBHEGiStIMY3vy
-8ceI5uwFelg1+IuHCwYN8b+3uAolGbPXoZp/TZz9s+LvdGaN2KJLFzAJYZrhvR3W
-vZSSgGIPyGOWCrbxoAlLpj6NsrFGNGYSCa0DV8VcqLw6AO5oqWwZNUPEAkgDBw6A
-W+W5gcg7OasFwLDxP/0XiLIwEMAKscGTP9s5mPgPRoFSf6kM8GawAi4TOKpG3gTd
-zcEEyt9LGC43mJXLlg/clpuEb7BYFfJpgX2CsthxZh2FuLgLw6yRNThJ+7tOsAJL
-2vx6M5nrxj1aGWvUtzNpWA7oznzoytmtiEIr1GjloBnYTLHn0ePo11SaU3Q85sty
-eSuGhAe0TTuP/PNOjysyAwwz0L2VivWRZJ8nDuauuI3dlB46QR+JM4AayscY1n3N
-0phBtnF4TqDSM/LeP8q2QDP1/g/9jJbFdqM6t/L0UKewDInudASYAV5TKZLAvvGc
-AkWJbWPjfwz6VGRMS3tLeqFeXmUpKh9qw7TgpaVOQO8xuoTwn6tckd2G1kZQmUcw
-Qef66HCks5eK8EHGu2+HRUZXOCGDIyAALtxz4kWLp6l+Fr4iius=
-=++zy
------END PGP SIGNATURE-----
+NVM Express Namespaces
 
---pWyiEgJYm5f9v55/--
+Device       NSID     Usage                      Format           Controllers     
+------------ -------- -------------------------- ---------------- ----------------
+nvme0n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme0
+nvme1n1      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
 
