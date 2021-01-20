@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF53A2FCF30
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 12:48:16 +0100 (CET)
-Received: from localhost ([::1]:48924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F562FCF3D
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:02:01 +0100 (CET)
+Received: from localhost ([::1]:51890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ByB-00047V-LO
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 06:48:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51678)
+	id 1l2CBU-0005zc-FW
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:02:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2Bwb-0003dl-Pp; Wed, 20 Jan 2021 06:46:39 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031]:34875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2BwZ-0002WC-VB; Wed, 20 Jan 2021 06:46:37 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id b5so2048834pjl.0;
- Wed, 20 Jan 2021 03:46:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to:user-agent;
- bh=yYOzLuKqFxE8YnQ3yj48XNy/tN51X+k5Wug+DtbM80I=;
- b=s76OehMaZE4X2KYOANPyoyyXKl4dAtRqBP7kniQCKlwrCigUkoF4NSEN12sTJUcLjg
- BnSyhKTR9hQbPCkaam7o88hFk8CCJEGAvefNEFcQRh30rnYfjSor5su4jtdsTZ9YO7TH
- svOyMop9/9y/YK+dqpfN1cTaqghVseZO92UHc/XuHb28Q8GMd3/ud4evXQE+xLkQUGqa
- JKHDvTMo9XMMcqzFFlDm/dFkqGibJQcIGON7+2Ef3eJAm0IuaB04KRjEiZO92sY9SjRn
- sR0+I50aS3ajjmMvehTccV+3oUXGPJ9cJ6caFPkAkzbmDYs7ckcvjfDCCTWiZG7ne/Pb
- Lthg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to:user-agent;
- bh=yYOzLuKqFxE8YnQ3yj48XNy/tN51X+k5Wug+DtbM80I=;
- b=TGslkxExk9zJYt0z//l/SDVLp7txr8kVKUDrXtUKYj6Pslx9zMsdO5NuWg97Rtdgvr
- u9VZNCjMtvfnwETfsiKVQVKGhgzQ1jLmxCyFwK9ZHSy7msam0szF7L626SCVdi8qmee/
- IGMNh6GgYiRncDCBb3S8mzYRdQKddDCvf/DAE9GJ0OdqnY2WDDEZ/FZ6ILe/RB0FfAoH
- oJ4uFYnbKS66m8LEL0rbnCKhaI2jMa/FOQEZd7thitaEBN3hENAcAmBZEZ+T3H2yrhXU
- lFstaTJQWp4o6MceE/7g2PyZWceG9WUghMFgDdJITxyZUVw3oDiPKWbLJYEeMt29Jdbi
- idGQ==
-X-Gm-Message-State: AOAM531RxrUIayb8qHIiCC+TVvsa8wRQJpfu5Y1+S3IBwQQl3KYmqjjS
- aRZJNnl3S+qrxgCppn+VwyM=
-X-Google-Smtp-Source: ABdhPJxDAMeFYOuwty5Auvw1yshZbCUMXJh4rf8c93r4suM/Zx0L7T8O0s6uy8p779ciKn4VJ49Zgw==
-X-Received: by 2002:a17:90a:8d84:: with SMTP id
- d4mr5324613pjo.56.1611143190848; 
- Wed, 20 Jan 2021 03:46:30 -0800 (PST)
-Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id h6sm2321226pfr.47.2021.01.20.03.46.29
- (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Wed, 20 Jan 2021 03:46:30 -0800 (PST)
-Date: Wed, 20 Jan 2021 20:46:27 +0900
-From: Minwoo Im <minwoo.im.dev@gmail.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [RFC PATCH V3 0/8] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <20210120114627.GA17744@localhost.localdomain>
-References: <20210119170147.19657-1-minwoo.im.dev@gmail.com>
- <YAciaPBu9TuGjifu@apples.localdomain>
- <20210120004417.GA4205@localhost.localdomain>
- <YAfhLnBuNawnFvhE@apples.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <YAfhLnBuNawnFvhE@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1031.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1l2C9d-0005Yu-QG
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:00:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56754)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
+ id 1l2C9a-000747-QR
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:00:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611144001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0f2BcGqwVSINtGtOqG3DaSae0WQwa7zzE2bwha8M25E=;
+ b=f3wUoMXbKUCLkmdWcmDJ6SSxkB+0c3yiFBEJNpHa0kjQ1h5VI3eQtA0cdY2K2tmQ/CSBIZ
+ ffWD5Re7w6iLWU58XB+CsnShSmpTXDgiRay+SKGKvxsFdG6YsKrHGSuWpZSwsRoLmfluG5
+ 4Qt4FXwxWWhG7duRQ3e5zIwei2dGtWk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-502-RFcoXI6BN3OmelxbLKGTew-1; Wed, 20 Jan 2021 06:58:49 -0500
+X-MC-Unique: RFcoXI6BN3OmelxbLKGTew-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A200B100C664;
+ Wed, 20 Jan 2021 11:58:01 +0000 (UTC)
+Received: from [10.35.206.46] (unknown [10.35.206.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2279D5D96F;
+ Wed, 20 Jan 2021 11:57:59 +0000 (UTC)
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: [PATCH 2/4] hw/misc/pvpanic: add PCI interface support
+From: Yan Vugenfirer <yvugenfi@redhat.com>
+In-Reply-To: <1610735646-13313-3-git-send-email-mihai.carabas@oracle.com>
+Date: Wed, 20 Jan 2021 13:57:57 +0200
+Message-Id: <FC7156A5-361B-4009-983A-91118F29995A@redhat.com>
+References: <1610735646-13313-1-git-send-email-mihai.carabas@oracle.com>
+ <1610735646-13313-3-git-send-email-mihai.carabas@oracle.com>
+To: Mihai Carabas <mihai.carabas@oracle.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=yvugenfi@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain;
+	charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=yvugenfi@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.195,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,109 +80,223 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, QEMU Devel Mailing List <qemu-devel@nongnu.org>,
+ kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-20 08:52:14, Klaus Jensen wrote:
-> On Jan 20 09:44, Minwoo Im wrote:
-> > On 21-01-19 19:18:16, Klaus Jensen wrote:
-> > > On Jan 20 02:01, Minwoo Im wrote:
-> > > > Hello,
-> > > > 
-> > > > This patch series is third one to support multi-controller and namespace
-> > > > sharing in multi-path.  This series introduced subsystem scheme to
-> > > > manage controller(s) and namespace(s) in the subsystem.
-> > > > 
-> > > > This series has new patches from the V2:  'detached' parameter has been
-> > > > added to the nvme-ns device.  This will decide whether to attach the
-> > > > namespace to controller(s) in the current subsystem or not.  If it's
-> > > > given with true, then it will be just allocated in the subsystem, but
-> > > > not attaching to any controllers in the subsystem.  Otherwise, it will
-> > > > automatically attach to all the controllers in the subsystem.  The other
-> > > > t hing is that the last patch implemented Identify Active Namespace ID
-> > > > List command handler apart from the Allocated Namespace ID List.
-> > > > 
-> > > > Run with:
-> > > >   -device nvme,serial=qux,id=nvme3
-> > > >   -device nvme-ns,id=ns3,drive=drv12,nsid=3,bus=nvme3
-> > > > 
-> > > >   -device nvme-subsys,id=subsys0
-> > > >   -device nvme,serial=foo,id=nvme0,subsys=subsys0
-> > > >   -device nvme,serial=bar,id=nvme1,subsys=subsys0
-> > > >   -device nvme,serial=baz,id=nvme2,subsys=subsys0
-> > > >   -device nvme-ns,id=ns1,drive=drv10,nsid=1,subsys=subsys0,detached=true
-> > > >   -device nvme-ns,id=ns2,drive=drv11,nsid=2,bus=nvme2
-> > > > 
-> > > > nvme-cli:
-> > > >   root@vm:~/work# nvme list -v                                                                                                      
-> > > >   NVM Express Subsystems                                                                                                 
-> > > >                                                                                                                                      
-> > > >   Subsystem        Subsystem-NQN                                                                                    Controllers
-> > > >   ---------------- ------------------------------------------------------------------------------------------------ ----------------
-> > > >   nvme-subsys0     nqn.2019-08.org.qemu:qux                                                                         nvme0
-> > > >   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme1, nvme2, nvme3
-> > > >                                                                                                                                    
-> > > >   NVM Express Controllers                                                                                           
-> > > >                                                                                                                   
-> > > >   Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces
-> > > >   -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
-> > > >   nvme0    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys0
-> > > 
-> > > Shouldn't nvme0n1 be listed under Namespaces for nvme0?
-> > 
-> > Oh, I missed that one from the output.  As Keith mentioned, I ran the
-> > list command again based on the latest nvme-cli.git:
-> > 
-> > Please refer the following result.  I think it's okay not to send the
-> > cover letter again :)
-> > 
-> > # nvme --version
-> > nvme version 1.13.48.g33c6
-> > 
-> > # nvme list -v
-> > NVM Express Subsystems
-> > 
-> > Subsystem        Subsystem-NQN                                                                                    Controllers
-> > ---------------- ------------------------------------------------------------------------------------------------ ----------------
-> > nvme-subsys0     nqn.2019-08.org.qemu:qux                                                                         nvme0
-> > nvme-subsys1     nqn.2019-08.org.qemu:subsys0                                                                     nvme1, nvme2, nvme3
-> > 
-> > NVM Express Controllers
-> > 
-> > Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces      
-> > -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
-> > nvme0    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys0 nvme0n1
-> > nvme1    foo                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:07.0   nvme-subsys1 
-> > nvme2    bar                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:08.0   nvme-subsys1 
-> > nvme3    baz                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:09.0   nvme-subsys1 nvme1c3n1
-> > 
-> > NVM Express Namespaces
-> > 
-> > Device       NSID     Usage                      Format           Controllers     
-> > ------------ -------- -------------------------- ---------------- ----------------
-> > nvme0n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme0
-> > nvme1n1      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
-> 
-> That looks better, but hmm. Shouldnt the namespace be named `nvme1c3n1`
-> here has well? Is that also an issue with nvme-cli?
 
-No it isn't in this series.  The 'nvme3' controller has not been
-provided with 'subsys' parameter which means it does not support CMIC
-multi-controller as nvme_init_ctrl() does not set the flag for
-NVME_CMIC_MULTI_CTRL:
 
-  -device nvme,serial=qux,id=nvme3
+> On 15 Jan 2021, at 8:34 PM, Mihai Carabas <mihai.carabas@oracle.com> wrot=
+e:
+>=20
+> Add PCI interface support for PVPANIC device. Create a new file pvpanic-p=
+ci.c
+> where the PCI specific routines reside and update the build system with t=
+he new
+> files and config structure.
+>=20
+> Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+> ---
+> docs/specs/pci-ids.txt    |  1 +
+> hw/misc/Kconfig           |  6 +++
+> hw/misc/meson.build       |  1 +
+> hw/misc/pvpanic-pci.c     | 94 ++++++++++++++++++++++++++++++++++++++++++=
++++++
+> include/hw/misc/pvpanic.h |  1 +
+> include/hw/pci/pci.h      |  1 +
+> 6 files changed, 104 insertions(+)
+> create mode 100644 hw/misc/pvpanic-pci.c
+>=20
+> diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+> index abbdbca..5e407a6 100644
+> --- a/docs/specs/pci-ids.txt
+> +++ b/docs/specs/pci-ids.txt
+> @@ -64,6 +64,7 @@ PCI devices (other than virtio):
+> 1b36:000d  PCI xhci usb host adapter
+> 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
+> 1b36:0010  PCIe NVMe device (-device nvme)
+> +1b36:0011  PCI PVPanic device (-device pvpanic-pci)
+>=20
+> All these devices are documented in docs/specs.
+>=20
+> diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
+> index 23bc978..19c216f 100644
+> --- a/hw/misc/Kconfig
+> +++ b/hw/misc/Kconfig
+> @@ -124,6 +124,12 @@ config IOTKIT_SYSINFO
+> config PVPANIC_COMMON
+>    bool
+>=20
+> +config PVPANIC_PCI
+> +    bool
+> +    default y if PCI_DEVICES
+> +    depends on PCI
+> +    select PVPANIC_COMMON
+> +
+> config PVPANIC_ISA
+>    bool
+>    depends on ISA_BUS
+> diff --git a/hw/misc/meson.build b/hw/misc/meson.build
+> index 8c828ad..f686019 100644
+> --- a/hw/misc/meson.build
+> +++ b/hw/misc/meson.build
+> @@ -99,6 +99,7 @@ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: fi=
+les('armsse-cpuid.c'))
+> softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
+>=20
+> softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'=
+))
+> +softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c=
+'))
+> softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
+> softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', =
+'aspeed_sdmc.c', 'aspeed_xdma.c'))
+> softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
+> diff --git a/hw/misc/pvpanic-pci.c b/hw/misc/pvpanic-pci.c
+> new file mode 100644
+> index 0000000..d629639
+> --- /dev/null
+> +++ b/hw/misc/pvpanic-pci.c
+> @@ -0,0 +1,94 @@
+> +/*
+> + * QEMU simulated PCI pvpanic device.
+> + *
+> + * Copyright (C) 2020 Oracle
+> + *
+> + * Authors:
+> + *     Mihai Carabas <mihai.carabas@oracle.com>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "sysemu/runstate.h"
+> +
+> +#include "hw/nvram/fw_cfg.h"
+> +#include "hw/qdev-properties.h"
+> +#include "migration/vmstate.h"
+> +#include "hw/misc/pvpanic.h"
+> +#include "qom/object.h"
+> +#include "hw/pci/pci.h"
+> +
+> +OBJECT_DECLARE_SIMPLE_TYPE(PVPanicPCIState, PVPANIC_PCI_DEVICE)
+> +
+> +/*
+> + * PVPanicPCIState for PCI device
+> + */
+> +typedef struct PVPanicPCIState {
+> +    PCIDevice dev;
+> +    PVPanicState pvpanic;
+> +} PVPanicPCIState;
+> +
+> +static const VMStateDescription vmstate_pvpanic_pci =3D {
+> +    .name =3D "pvpanic-pci",
+> +    .version_id =3D 1,
+> +    .minimum_version_id =3D 1,
+> +    .fields =3D (VMStateField[]) {
+> +        VMSTATE_PCI_DEVICE(dev, PVPanicPCIState),
+> +        VMSTATE_END_OF_LIST()
+> +    }
+> +};
+> +
+> +static void pvpanic_pci_realizefn(PCIDevice *dev, Error **errp)
+> +{
+> +    PVPanicPCIState *s =3D PVPANIC_PCI_DEVICE(dev);
+> +    PVPanicState *ps =3D &s->pvpanic;
+> +
+> +    pvpanic_setup_io(&s->pvpanic, DEVICE(s), 2);
+> +
+> +    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &ps->mr);
+> +}
+> +
+> +static Property pvpanic_pci_properties[] =3D {
+> +    DEFINE_PROP_UINT8("events", PVPanicPCIState, pvpanic.events, PVPANIC=
+_PANICKED | PVPANIC_CRASHLOADED),
+> +    DEFINE_PROP_END_OF_LIST(),
+> +};
+> +
+> +static void pvpanic_pci_class_init(ObjectClass *klass, void *data)
+> +{
+> +    DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    PCIDeviceClass *pc =3D PCI_DEVICE_CLASS(klass);
+> +
+> +    device_class_set_props(dc, pvpanic_pci_properties);
+> +
+> +    pc->realize =3D pvpanic_pci_realizefn;
+> +    pc->vendor_id =3D PCI_VENDOR_ID_REDHAT;
+> +    pc->device_id =3D PCI_DEVICE_ID_REDHAT_PVPANIC;
 
-If this has been given with 'subsys' which means it supports for
-multi-controller, then it will be given like:
+Please fill out subsystem and subsystem vendor IDs as well:
+pc->subsystem_vendor_id
+pc->subsystem_id=20
 
-  Device   SN                   MN                                       FR       TxPort Address        Subsystem    Namespaces
-  -------- -------------------- ---------------------------------------- -------- ------ -------------- ------------ ----------------
-  nvme0    qux                  QEMU NVMe Ctrl                           1.0      pcie   0000:00:06.0   nvme-subsys0 nvme0c0n1
+It is needed in order to pass MS WHQL tests. Requirement name =E2=80=9CDevi=
+ce.Connectivity.PciConnected.SubsystemIdsRequired=E2=80=9D in "Windows Hard=
+ware Compatibility Specifications =E2=80=93 Components and Peripherals=E2=
+=80=9D document.
+https://docs.microsoft.com/en-us/windows-hardware/design/compatibility/whcp=
+-specifications-policies
 
-In short, if 'nvme' device controller is not given with 'subsys', then
-it will not support multi-controller and it will never have
-GENHD_FL_HIDDEN (nvmeXcYnZ convention).
+Thanks,
+Yan.
+
+> +    pc->revision =3D 1;
+> +    pc->class_id =3D PCI_CLASS_SYSTEM_OTHER;
+> +    dc->vmsd =3D &vmstate_pvpanic_pci;
+> +
+> +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
+> +}
+> +
+> +static TypeInfo pvpanic_pci_info =3D {
+> +    .name          =3D TYPE_PVPANIC_PCI_DEVICE,
+> +    .parent        =3D TYPE_PCI_DEVICE,
+> +    .instance_size =3D sizeof(PVPanicPCIState),
+> +    .class_init    =3D pvpanic_pci_class_init,
+> +    .interfaces =3D (InterfaceInfo[]) {
+> +        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> +        { }
+> +    }
+> +};
+> +
+> +static void pvpanic_register_types(void)
+> +{
+> +    type_register_static(&pvpanic_pci_info);
+> +}
+> +
+> +type_init(pvpanic_register_types);
+> diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
+> index abc9dde..ca3c5bb 100644
+> --- a/include/hw/misc/pvpanic.h
+> +++ b/include/hw/misc/pvpanic.h
+> @@ -18,6 +18,7 @@
+> #include "qom/object.h"
+>=20
+> #define TYPE_PVPANIC_ISA_DEVICE "pvpanic"
+> +#define TYPE_PVPANIC_PCI_DEVICE "pvpanic-pci"
+>=20
+> #define PVPANIC_IOPORT_PROP "ioport"
+>=20
+> diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+> index 259f9c9..66db084 100644
+> --- a/include/hw/pci/pci.h
+> +++ b/include/hw/pci/pci.h
+> @@ -107,6 +107,7 @@ extern bool pci_available;
+> #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
+> #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
+> #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
+> +#define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
+> #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
+>=20
+> #define FMT_PCIBUS                      PRIx64
+> --=20
+> 1.8.3.1
+>=20
+>=20
+
 
