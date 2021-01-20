@@ -2,79 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 571F02FD323
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:53:37 +0100 (CET)
-Received: from localhost ([::1]:46738 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 982132FD2FC
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 15:49:47 +0100 (CET)
+Received: from localhost ([::1]:36600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ErU-0007J3-1w
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:53:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35578)
+	id 1l2Enq-0002ud-KZ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 09:49:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2EjO-0006Pm-4P
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:45:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2EjI-0004ji-RS
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 09:45:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611153903;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=neKQbXZbuT6Q+t6mozsBCuSa97GrBNLIL1fO3QLrTKA=;
- b=cPq19GebuQiBOlMe9UkoUVVmw9GncYNU1fYCgCrMbXIPP886sJbet/yp5j+CPoQQpJdbVN
- rvlF+runkPEUy0qH+VfI6XjbXI8sXT1GFLQsc1cLrsTYXOzwSN7QSP9k9A/IHq8iqp46oI
- JN89uTYrSROcICWK3sBRKAx1UWPibb4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-YjMIbW1POoOHGX0PPu395g-1; Wed, 20 Jan 2021 09:44:59 -0500
-X-MC-Unique: YjMIbW1POoOHGX0PPu395g-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6A201801817;
- Wed, 20 Jan 2021 14:44:57 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-178.ams2.redhat.com
- [10.36.114.178])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 13A30608BA;
- Wed, 20 Jan 2021 14:44:53 +0000 (UTC)
-Subject: Re: [PATCH v4 00/23] backup performance: block_status + async
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210116214705.822267-1-vsementsov@virtuozzo.com>
- <3a5ea1b1-1137-4ac5-5aac-5bdec0b7b0d5@redhat.com>
- <eb6ad5ca-0254-c9a7-63e3-3a4619e397cd@virtuozzo.com>
- <29cccc86-a450-3326-2d70-f3022e32b5db@redhat.com>
- <ccb47c7c-051d-6df4-9a73-ace9b23b67a2@redhat.com>
- <cfe3b7dd-8a1f-7e49-e576-ebca82ee4d98@redhat.com>
-Message-ID: <3db87f48-b628-8000-a46a-6d07cdf1ccc3@redhat.com>
-Date: Wed, 20 Jan 2021 15:44:52 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2EkD-0007I2-4T; Wed, 20 Jan 2021 09:46:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:61868)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2Ek8-0004xw-RA; Wed, 20 Jan 2021 09:46:00 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10KEUnNt053668; Wed, 20 Jan 2021 09:45:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=WZjW+0gnh152lBTJYPJl493B4A9UP1fS18JXIuiLX8c=;
+ b=D7x7hZtm0SinIyGBrVH82DkX9gwQvx9lfTz7iu2OhkKNe0NGMk51IF+3+F/f2Vkm0N9z
+ oTrcpo7YNdtrkCPhZcJ8CfdMIv+ttLJHwZ15H7lr72gZoOZq/QDkTWaF/yBCUGm2KmWX
+ cAthyWiHzLKqNlujPIYmZVkMET3McarlL81XVShE2WBX7ECPnnSzwWAqeVIDQKfsYpoX
+ Gtx/6uIRWvy+CWhSjiXdkUzz59MvFJvuAoeA7mSFHxBveoo00JpqEv52VdBvqVjECS21
+ gup4rziFa1bzREfoVtZkHAml+gj7AissO+K1tuJ8aSCG0CYycPMPxDGUW0LhUv794EIh cw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 366mr8kpmv-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 09:45:53 -0500
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10KEVCUq054858;
+ Wed, 20 Jan 2021 09:45:53 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 366mr8kpma-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 09:45:53 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10KEbiPp003050;
+ Wed, 20 Jan 2021 14:45:51 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3668parr44-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 20 Jan 2021 14:45:51 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10KEjncq37486848
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Jan 2021 14:45:49 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id ED7084C046;
+ Wed, 20 Jan 2021 14:45:48 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6A22F4C040;
+ Wed, 20 Jan 2021 14:45:48 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.39.155])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Wed, 20 Jan 2021 14:45:48 +0000 (GMT)
+Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
+To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
+ thuth@redhat.com
+References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+ <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+ <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
+Date: Wed, 20 Jan 2021 15:45:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <cfe3b7dd-8a1f-7e49-e576-ebca82ee4d98@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-20_05:2021-01-20,
+ 2021-01-20 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0
+ lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 clxscore=1015
+ mlxscore=0 impostorscore=0 malwarescore=0 spamscore=0 bulkscore=0
+ phishscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2101200083
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,222 +112,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, wencongyang2@huawei.com, xiechanglong.d@gmail.com,
- qemu-devel@nongnu.org, armbru@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20.01.21 15:34, Max Reitz wrote:
-> On 20.01.21 14:50, Max Reitz wrote:
->> On 20.01.21 11:39, Max Reitz wrote:
->>> On 19.01.21 20:22, Vladimir Sementsov-Ogievskiy wrote:
->>>> 19.01.2021 21:40, Max Reitz wrote:
->>>>> On 16.01.21 22:46, Vladimir Sementsov-Ogievskiy wrote:
->>>>>> Hi Max!
->>>>>> I applied my series onto yours 129-fixing and found, that 129 
->>>>>> fails for backup.
->>>>>> And setting small max-chunk and even max-workers to 1 doesn't 
->>>>>> help! (setting
->>>>>> speed like in v3 still helps).
->>>>>>
->>>>>> And I found, that the problem is that really, the whole backup job 
->>>>>> goes during
->>>>>> drain, because in new architecture we do just job_yield() during 
->>>>>> the whole
->>>>>> background block-copy.
->>>>>>
->>>>>> This leads to modifying the existing patch in the series, which 
->>>>>> does job_enter()
->>>>>> from job_user_pause: we just need call job_enter() from 
->>>>>> job_pause() to cover
->>>>>> not only user pauses but also drained_begin.
->>>>>>
->>>>>> So, now I don't need any additional fixing of 129.
->>>>>>
->>>>>> Changes in v4:
->>>>>> - add a lot of Max's r-b's, thanks!
->>>>>>
->>>>>> 03: fix over-80 line (in comment), add r-b
->>>>>> 09: was "[PATCH v3 10/25] job: call job_enter from job_user_pause",
->>>>>>      now changed to finally fix 129 iotest, drop r-b
->>>>>>
->>>>>> 10: squash-in additional wording on max-chunk, fix error message, 
->>>>>> keep r-b
->>>>>> 17: drop extra include, assert job_is_cancelled() instead of 
->>>>>> check, add r-b
->>>>>> 18: adjust commit message, add r-b
->>>>>> 23: add comments and assertion, about the fact that test doesn't 
->>>>>> support
->>>>>>      paths with colon inside
->>>>>>      fix s/disable-copy-range/use-copy-range/
->>>>>
->>>>> Hmmm, for me, 129 sometimes fails still, because it completes too 
->>>>> quickly...  (The error then is that 'return[0]' does not exist in 
->>>>> query-block-jobs’s result, because the job is already gone.)
->>>>>
->>>>> When I insert a print(result) after the query-block-jobs, I can see 
->>>>> that the job has always progressed really far, even if its still 
->>>>> running. (Like, generally the offset is just one MB shy of 1G.)
->>>>>
->>>>> I suspect the problem is that block-copy just copies too much from 
->>>>> the start (by default); i.e., it starts 64 workers with, hm, well, 
->>>>> 1 MB of chunk size?  Shouldn’t fill the 128 MB immediately...
->>>>>
->>>>> Anyway, limiting the number of workers (to 1) and the chunk size 
->>>>> (to 64k) with x-perf does ensure that the backup job’s progress is 
->>>>> limited to 1 MB or so, which looks fine to me.
->>>>>
->>>>> I suppose we should do that, then (in 129), before patch 17?
->>>>
->>>> Yes, that sounds reasonable
->>>>
->>>>>
->>>>> (PS: I can also see a MacOS failure in iotest 256.  I suspect it’s 
->>>>> related to this series, because 256 is a backup test (with 
->>>>> iothreads), but I’m not sure yet.  The log is here:
->>>>>
->>>>> https://cirrus-ci.com/task/5276331753603072
->>>>> )
->>>>>
->>>>
->>>> qemu received signal 31 ?
->>>>
->>>> googling for MacOS...
->>>>
->>>>   31    SIGUSR2      terminate process    User defined signal 2
+
+
+On 1/20/21 3:03 PM, Matthew Rosato wrote:
+> On 1/20/21 4:12 AM, Pierre Morel wrote:
+>>
+>>
+>> On 1/19/21 9:44 PM, Matthew Rosato wrote:
+>>> Today, ISM devices are completely disallowed for vfio-pci passthrough as
+>>> QEMU rejects the device due to an (inappropriate) MSI-X check.  Removing
+>>> this fence, however, reveals additional deficiencies in the s390x PCI
+>>> interception layer that prevent ISM devices from working correctly.
+>>> Namely, ISM block write operations have particular requirements in 
+>>> regards
+>>> to the alignment, size and order of writes performed that cannot be
+>>> guaranteed when breaking up write operations through the typical
+>>> vfio_pci_bar_rw paths. Furthermore, ISM requires that legacy/non-MIO
+>>> s390 PCI instructions are used, which is also not guaranteed when the 
+>>> I/O
+>>> is passed through the typical userspace channels.
 >>>
->>> coroutine-sigaltstack uses SIGUSR2 to set up new coroutines.  Perhaps 
->>> it’s unrelated to backup?  Guess I’ll just run the test one more 
->>> time. O:)
+>>> This patchset provides a set of fixes related to enabling ISM device
+>>> passthrough and includes patches to enable use of a new vfio region that
+>>> will allow s390x PCI pass-through devices to perform s390 PCI 
+>>> instructions
+>>> in such a way that the same instruction issued on the guest is re-issued
+>>> on the host.
+>>>
+>>> Associated kernel patchset:
+>>> https://lkml.org/lkml/2021/1/19/874
+>>>
+>>> Changes from RFC -> v1:
+>>> - Refresh the header sync (built using Eric's 'update-linux-headers:
+>>> Include const.h' + manually removed pvrdma_ring.h again)
+>>> - Remove s390x/pci: fix pcistb length (already merged)
+>>> - Remove s390x/pci: Fix memory_region_access_valid call (already merged)
+>>> - Fix bug: s390_pci_vfio_pcistb should use the pre-allocated PCISTB
+>>> buffer pcistb_buf rather than allocating/freeing its own.
+>>> - New patch: track the PFT (PCI Function Type) separately from guest CLP
+>>> response data -- we tell the guest '0' for now due to limitations in
+>>> measurement block support, but we can still use the real value 
+>>> provided via
+>>> the vfio CLP capabilities to make decisions.
+>>> - Use the PFT (pci function type) to determine when to use the region
+>>> for PCISTB/PCILG (only for ISM), rather than using the relaxed alignment
+>>> bit.
+>>> - As a result, the pcistb_default is now updated to also handle the
+>>> possibility of relaxed alignment via 2 new functions, 
+>>> pcistb_validate_write
+>>> and pcistb_write, which serve as wrappers to the memory_region calls.
+>>> - New patch, which partially restores the MSI-X fence for passthrough
+>>> devices...  Could potentially be squashed with 's390x/pci: MSI-X isn't
+>>> strictly required for passthrough' but left separately for now as I 
+>>> felt it
+>>> needed a clear commit description of why we should still fence this 
+>>> case.
+>>>
+>> Hi,
 >>
->> I ran it again, got the same error.  There is no error on master, or 
->> before backup uses block_copy.
+>> The choice of using the new VFIO region is made on the ISM PCI 
+>> function type (PFT), which makes the patch ISM specific, why don't we 
+>> use here the MIO bit common to any zPCI function and present in kernel 
+>> to make the choice?
 >>
->> I’m trying to run a test directly on the “move to block-copy” commit, 
->> but so far Cirrus doesn’t seem to want me to do another test run right 
->> now.
->>
->> (Though I’m pretty sure if there is no error before the block-copy 
->> commit, then using block-copy must be the problem.  The remaining 
->> patches in my block branch are just disabling copy_range, some 
->> clean-up, the simplebench patches, the locking code error reporting 
->> change, and a new iotest.)
 > 
-> I was able to reproduce the signal on Linux, by passing
-> --with-coroutine=sigaltstack to configure (sometimes takes like 10 runs 
-> to fail, though).  “move to block-copy” is indeed the first failing 
-> commiit.
+> As discussed during the RFC (and see my reply also to the kernel set), 
+> the use of this region only works for devices that do not rely on MSI-X 
+> interrupts.  If we did as you suggest, other device types like mlx would 
+> not receive MSI-X interrupts in the guest (And I did indeed try 
+> variations where I used the special VFIO region for all 
+> PCISTG/PCILG/PCISTB for various device types)
 > 
-> Letting qemu_coroutine_new() set up an aborting signal handler for 
-> SIGUSR2 instead of restoring the default action (i.e. exiting without 
-> core dump) yields this back trace:
+> So the idea for now was to solve the specific problem at hand (getting 
+> ISM devices working).
 > 
-> Thread 1:
 > 
-> #0  0x00007f61870ba9d5 in raise () at /lib64/libc.so.6
-> #1  0x00007f61870a38a4 in abort () at /lib64/libc.so.6
-> #2  0x0000562cd2be7350 in sigusr2_handler (s=<optimized out>) at 
-> ../util/coroutine-sigaltstack.c:151
-> #3  0x00007f6187cee1e0 in <signal handler called> () at 
-> /lib64/libpthread.so.0
-> #4  0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-> #5  0x0000562cd30d9e48 in qemu_coroutine_new () at 
-> ../util/coroutine-sigaltstack.c:220
-> #6  0x0000562cd3106206 in qemu_coroutine_create
->      (entry=entry@entry=0x562cd303c950 <block_copy_async_co_entry>, 
-> opaque=opaque@entry=0x7f6170002c00)
->      at ../util/qemu-coroutine.c:75
-> #7  0x0000562cd303cd0e in block_copy_async
->      (s=0x562cd4f94400, offset=offset@entry=0, bytes=67108864, 
-> max_workers=64, max_chunk=0, cb=cb@entry=0x562cd301dfe0 
-> <backup_block_copy_callback>, cb_opaque=0x562cd6256940) at 
-> ../block/block-copy.c:752
-> #8  0x0000562cd301dd4e in backup_loop (job=<optimized out>) at 
-> ../block/backup.c:156
-> #9  backup_run (job=0x562cd6256940, errp=<optimized out>) at 
-> ../block/backup.c:299
-> #10 0x0000562cd2fc84d2 in job_co_entry (opaque=0x562cd6256940) at 
-> ../job.c:911
-> #11 0x0000562cd30da04b in coroutine_bootstrap 
-> (self=self@entry=0x562cd6262ef0, co=co@entry=0x562cd6262ef0)
->      at ../util/coroutine-sigaltstack.c:105
-> #12 0x0000562cd30da0e1 in coroutine_trampoline (signal=<optimized out>) 
-> at ../util/coroutine-sigaltstack.c:146
-> #13 0x00007f6187cee1e0 in <signal handler called> () at 
-> /lib64/libpthread.so.0
-> #14 0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-> 
-> Thread 2:
-> 
-> (gdb) bt
-> #0  0x00007f6187cee2b6 in __libc_sigaction () at /lib64/libpthread.so.0
-> #1  0x0000562cd30d9dc7 in qemu_coroutine_new () at 
-> ../util/coroutine-sigaltstack.c:194
-> #2  0x0000562cd3106206 in qemu_coroutine_create
->      (entry=entry@entry=0x562cd3016c20 <aio_task_co>, 
-> opaque=opaque@entry=0x7f616c0063d0)
->      at ../util/qemu-coroutine.c:75
-> #3  0x0000562cd3016dd4 in aio_task_pool_start_task (pool=0x7f616c0067d0, 
-> task=0x7f616c0063d0)
->      at ../block/aio_task.c:94
-> #4  0x0000562cd303c193 in block_copy_task_run (task=<optimized out>, 
-> pool=<optimized out>)
->      at ../block/block-copy.c:330
-> #5  block_copy_dirty_clusters (call_state=0x7f616c002c00) at 
-> ../block/block-copy.c:646
-> #6  block_copy_common (call_state=0x7f616c002c00) at 
-> ../block/block-copy.c:696
-> #7  0x0000562cd30da04b in coroutine_bootstrap 
-> (self=self@entry=0x7f616c003660, co=co@entry=0x7f616c003660)
->      at ../util/coroutine-sigaltstack.c:105
-> #8  0x0000562cd30da0e1 in coroutine_trampoline (signal=<optimized out>) 
-> at ../util/coroutine-sigaltstack.c:146
-> #9  0x00007f6187cee1e0 in <signal handler called> () at 
-> /lib64/libpthread.so.0
-> #10 0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-> #11 0x0000562cd30d9f61 in qemu_coroutine_new () at 
-> ../util/coroutine-sigaltstack.c:254
-> #12 0x0000562cd61b40d0 in  ()
-> #13 0x00007f6163fff930 in  ()
-> #14 0x00007f6187cecc5f in annobin_pt_longjmp.c_end () at 
-> /lib64/libpthread.so.0
-> #15 0x0000562cd30da00d in qemu_coroutine_switch
->      (from_=0x562cd5cc3400, to_=0x7f616c003108, 
-> action=action@entry=COROUTINE_YIELD)
->      at ../util/coroutine-sigaltstack.c:284
-> #16 0x0000562cd31065f0 in qemu_coroutine_yield () at 
-> ../util/qemu-coroutine.c:193
-> #17 0x0000562cd2fc751d in job_do_yield (job=0x562cd5cc3400, 
-> ns=18446744073709551615) at ../job.c:478
-> #18 0x0000562cd2fc855f in job_yield (job=0x562cd5cc3400) at ../job.c:525
-> #19 0x0000562cd301dd74 in backup_loop (job=<optimized out>) at 
-> ../block/backup.c:164
-> #20 backup_run (job=0x562cd5cc3400, errp=<optimized out>) at 
-> ../block/backup.c:299
-> #21 0x0000562cd2fc84d2 in job_co_entry (opaque=0x562cd5cc3400) at 
-> ../job.c:911
-> #22 0x0000562cd30da04b in coroutine_bootstrap 
-> (self=self@entry=0x562cd61b40d0, co=co@entry=0x562cd61b40d0)
->      at ../util/coroutine-sigaltstack.c:105
-> #23 0x0000562cd30da0e1 in coroutine_trampoline (signal=<optimized out>) 
-> at ../util/coroutine-sigaltstack.c:146
-> #24 0x00007f6187cee1e0 in <signal handler called> () at 
-> /lib64/libpthread.so.0
-> #25 0x00007f61870bad8a in sigsuspend () at /lib64/libc.so.6
-> #26 0x0000000000000001 in  ()
-> #27 0x0000000000000000 in  ()
-> 
->  From a glance, it looks to me like two coroutines are created 
-> simultaneously in two threads, and so one thread sets up a special 
-> SIGUSR2 action, then another reverts SIGUSR2 to the default, and then 
-> the first one kills itself with SIGUSR2.
-> 
-> Not sure what this has to do with backup, though it is interesting that 
-> backup_loop() runs in two threads.  So perhaps some AioContext problem.
 
-Oh, 256 runs two backups concurrently.  So it isn’t that interesting, 
-but perhaps part of the problem still.  (I have no idea, still looking.)
+Sorry, if I missed or forgot some discussions, but I understood that we 
+are using this region to handle PCISTB instructions when the device do 
+not support MIO.
+Don't we?
 
-Max
+I do not understand the relation between MSI-X and MIO.
+Can you please explain?
 
+Thanks,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
