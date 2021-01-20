@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE3142FD3C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:23:20 +0100 (CET)
-Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C502FD3C3
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 16:20:55 +0100 (CET)
+Received: from localhost ([::1]:42108 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2FKK-0004tW-11
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:23:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43834)
+	id 1l2FHy-0001ne-3U
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 10:20:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FFW-0000G2-0a
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FFM-0000Fi-MW
  for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:18:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57929)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FFF-0007gc-JY
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:18:14 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2FFF-0007hg-NF
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 10:18:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611155881;
+ s=mimecast20190719; t=1611155884;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=49LaDgg7JZQHmliaHvdQYMBS/3LzQKpy8qKOcXGVb9w=;
- b=GcBv7T885LSYMzv0kjrV8zZSfpPv3hBNrUf7Puy//Tb95Kl0PbosatzJUaJbvmZSuvbjTd
- iOxhyjN/KYpKUYnRUwWqzXk0pBtGE2GVLbkcBTcRHFnYmcbpWs7MLTrYMHocg4R61/RWQM
- iUKC8kEbjSwm5R6FDGZpNscBiclazSs=
+ bh=SxRGBacGN7JHOgjcGq6UnWtKW4SSuZsW+FJi/XGERTw=;
+ b=H0rVJuYR3sASxNSDoWCZhyMNWu6nlt0QYHZyUrfvE5VUIPQTJvbRhlkgv/EZfxXWEgzGrd
+ nE3rxm9SWNRZ+tbIfhrWagQVMDM80yse4ujd1Lr+SPPhzuJGsXeyAjcMXTeGw4+/1iZKhi
+ 9nTbShT3pzOyVruDC/Mu3AodCJX4JTk=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-436-zDEJ4gEXMWupoewgGHCAfw-1; Wed, 20 Jan 2021 10:17:58 -0500
-X-MC-Unique: zDEJ4gEXMWupoewgGHCAfw-1
+ us-mta-254-aJGDy2h_OpOWBszODmUc-Q-1; Wed, 20 Jan 2021 10:18:00 -0500
+X-MC-Unique: aJGDy2h_OpOWBszODmUc-Q-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 74DB18066E9;
- Wed, 20 Jan 2021 15:17:57 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 163C4190A7A4;
+ Wed, 20 Jan 2021 15:17:59 +0000 (UTC)
 Received: from thuth.com (ovpn-114-135.ams2.redhat.com [10.36.114.135])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D9DA60C6A;
- Wed, 20 Jan 2021 15:17:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CE04360C78;
+ Wed, 20 Jan 2021 15:17:57 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org,
 	Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 02/14] configure: Add sys/timex.h to probe clock_adjtime
-Date: Wed, 20 Jan 2021 16:17:39 +0100
-Message-Id: <20210120151751.520597-3-thuth@redhat.com>
+Subject: [PULL 03/14] libvhost-user: Include poll.h instead of sys/poll.h
+Date: Wed, 20 Jan 2021 16:17:40 +0100
+Message-Id: <20210120151751.520597-4-thuth@redhat.com>
 In-Reply-To: <20210120151751.520597-1-thuth@redhat.com>
 References: <20210120151751.520597-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -54,8 +54,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -64,7 +64,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,34 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 
-It is not a part of standard time.h. Glibc put it under
-time.h however musl treat it as a sys timex extension.
+Musl libc complains about it's wrong usage.
+
+In file included from ../subprojects/libvhost-user/libvhost-user.h:20,
+                 from ../subprojects/libvhost-user/libvhost-user-glib.h:19,
+                 from ../subprojects/libvhost-user/libvhost-user-glib.c:15:
+/usr/include/sys/poll.h:1:2: error: #warning redirecting incorrect #include <sys/poll.h> to <poll.h> [-Werror=cpp]
+    1 | #warning redirecting incorrect #include <sys/poll.h> to <poll.h>
+      |  ^~~~~~~
 
 Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210118063808.12471-2-jiaxun.yang@flygoat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210118063808.12471-3-jiaxun.yang@flygoat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- configure | 1 +
- 1 file changed, 1 insertion(+)
+ subprojects/libvhost-user/libvhost-user.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 9f016b06b5..6f6a319c2f 100755
---- a/configure
-+++ b/configure
-@@ -4039,6 +4039,7 @@ fi
- clock_adjtime=no
- cat > $TMPC <<EOF
- #include <time.h>
-+#include <sys/timex.h>
- 
- int main(void)
- {
+diff --git a/subprojects/libvhost-user/libvhost-user.h b/subprojects/libvhost-user/libvhost-user.h
+index 7d47f1364a..3d13dfadde 100644
+--- a/subprojects/libvhost-user/libvhost-user.h
++++ b/subprojects/libvhost-user/libvhost-user.h
+@@ -17,7 +17,7 @@
+ #include <stdint.h>
+ #include <stdbool.h>
+ #include <stddef.h>
+-#include <sys/poll.h>
++#include <poll.h>
+ #include <linux/vhost.h>
+ #include <pthread.h>
+ #include "standard-headers/linux/virtio_ring.h"
 -- 
 2.27.0
 
