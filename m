@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5DD2FC516
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 00:49:50 +0100 (CET)
-Received: from localhost ([::1]:60732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC562FC567
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 01:10:57 +0100 (CET)
+Received: from localhost ([::1]:36728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l20kv-0006Ec-Nd
-	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 18:49:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40488)
+	id 1l215L-0000zt-Mk
+	for lists+qemu-devel@lfdr.de; Tue, 19 Jan 2021 19:10:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45022)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l20jL-0005mt-KK
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:48:11 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030]:34333)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2147-0000Zn-UX
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 19:09:39 -0500
+Received: from mail-yb1-xb32.google.com ([2607:f8b0:4864:20::b32]:43263)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l20jG-0007vF-PV
- for qemu-devel@nongnu.org; Tue, 19 Jan 2021 18:48:11 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id my11so2180002pjb.1
- for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 15:48:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OyNim4OocA+iJ/c0Yu9zlHqVH9FfNukt53rkkoZ3JMk=;
- b=uy/V4db9+WiteRbv0bTMVeImjbdReuWAvRbLvnzCDokICCMbnWtoRU3SXQb7mcz1Xp
- BgpVJGqvcRZn4UMjDnUzVusl0EYdfBsHh+2X682nTWP2qDXk2SSNva2umKv7g2dylOe7
- evDpUU/j921L4Q/KNCRhYq/4xjJtj0MXeZD/+okfJ6pMXux+cpC3KUP6CfwRpx00VnpE
- UIqqU/VS4hwohRK76bqdZ2PYZyCNlvnHa4WkASIgBZgZlSJa84bSk5q2fSmKFrN0Xeeo
- 13sqoVNEkyB4kRZj6P10LIFEWz5k2ihQuhlYYyOD6QmqGsI5SCejRjafJGQxBqsD7Hel
- gtKA==
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2146-00026H-D7
+ for qemu-devel@nongnu.org; Tue, 19 Jan 2021 19:09:39 -0500
+Received: by mail-yb1-xb32.google.com with SMTP id y128so17743279ybf.10
+ for <qemu-devel@nongnu.org>; Tue, 19 Jan 2021 16:09:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=ct72LzrLUuXF+MqKWun1FJM0lh/zSzAKEGrj9XBi+f8=;
+ b=AnSMNxt3JnjXs7av1FexNTy3qHaPbAAC3r3KlJh70cT77qCRLI06TlOks0dIuUzlKk
+ Gz0YnYJUAbd3cXgOq55+7ZKvnMxRvf2N7a5gkKtLRiNnHHdVvi49cXrFFMkXUFeIsgii
+ XqwNWD3/wO0GOv/Q2YOZ0Xh3ZmXnE4BlIvzDIM5z/fOhYUHEDJX7oX5qk3rK4Ripch70
+ of8X8JjqBmt1zkDQoa5ntJf7UVaIKiZw/8HIkvQQ5j0eY63zBwQ4sncUL00AMVyowQkA
+ EcpVNwu6OaI6Ln7IozgXPEH4PukvVhwoiLaV7lV/XQ7uYkzaOw8vzkiVixvzKEfqmdpo
+ 0OIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OyNim4OocA+iJ/c0Yu9zlHqVH9FfNukt53rkkoZ3JMk=;
- b=tlQodyiQbG0pb9CvhZhsijqxlLTAf0nZyVkcz3sqlQYeOIBoWb5qVJhtBY3yMAwYJK
- /bYqwdLPOKA2q8jb+mXmQlH12pM9neIKBBNsqBdxpYqatVZqRuwGndyXO7YRAP5jAxo5
- WTozIr3eSRQzbjCT5vn58Zpv8buoU5ctkuI/7lW9cfuJC7lFOEL6cwRfxcjZFR0R6n8i
- OfgGDhCieaPqQhYYN9TB3QeWCxJlq0aGMLHx9SdRQ0P0pKQ3jCUBVk+OFPpvZd2cnGvt
- FEV00XIKvi0UAfmaK89c9zx2mtaK06+z09zEUFFy/L9rNDLyVk3HWhsRTQ0AjVYREZQQ
- cV1Q==
-X-Gm-Message-State: AOAM530fwJQtAzT/Y3mMABcAiodHGH6rTkUqcBe+w3sA/k5B8XzJ256P
- vj2a61sGUMSDESoma/KXRdMDX8ajdpmE+w==
-X-Google-Smtp-Source: ABdhPJyWwYD1FG6+J4ay+rWvEzkLHYIBn5LByu2iBKp5SWnZJ4mQ9ABxp6OMIuFKfzzVLKIyO+g6Yw==
-X-Received: by 2002:a17:90b:100f:: with SMTP id
- gm15mr2341487pjb.47.1611100085099; 
- Tue, 19 Jan 2021 15:48:05 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id b17sm93945pju.15.2021.01.19.15.48.03
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 19 Jan 2021 15:48:04 -0800 (PST)
-Subject: Re: [PATCH v2 13/22] tcg/i386: Split out constraint sets to
- tcg-target-con-set.h
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210115210456.1053477-1-richard.henderson@linaro.org>
- <20210115210456.1053477-14-richard.henderson@linaro.org>
- <CAFEAcA8MsWyA7Aam3VzfV=r_scaD0J3zEBR0bNE-Re7OdL+ezg@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <6b0cea60-a675-1c62-0f2c-4d616a6c1b58@linaro.org>
-Date: Tue, 19 Jan 2021 13:48:01 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=ct72LzrLUuXF+MqKWun1FJM0lh/zSzAKEGrj9XBi+f8=;
+ b=ecdLz0ElxiYgamtgIvtRTPOvabvLLw9DmAP8abYjEqrwYjuoCukN8fomLMAGgb8SRz
+ snmKPqvpnWsPPEEuDxy3j4BBX5bYxFeIVLGJCj5gxRqTBiDqtqEYb6b0PwFcDvBJAe3m
+ 0wdfpMdDgeyUsR+YdummXX65Qyiu+DxJKeRtXPPJn6tKdWfjVHc/GPIR0uVSPzzQ/Ued
+ idtJlNhp8uN2ja0O5tjplJqQk8bhn6UotNvgMxaP0+NF/InZHu9EYmNnPC3QWF8EmS4v
+ MZ+CsJ4DslHgLy1idyQo2HFsbKnyMUEhisA9zjOzxlCf+65OUtyVz2eZnM21DI8vmTY2
+ wfQQ==
+X-Gm-Message-State: AOAM5305vn366CgTF4OWPb4kOtiy/tdoRvPevaRCeckFjSyUiT9yx6Ak
+ NibYMvvQmNUu5KU67GgIetcxTuBMoZ1y6vgPCpo=
+X-Google-Smtp-Source: ABdhPJxMReHFJ2v9NIi7EW7sMgxBp9XnNM7sva+gZDQxlHRjtKEkHxw8UVNZr4gJyKUzYvR0pfQbGZxgMKdiNub0wXI=
+X-Received: by 2002:a25:3bc5:: with SMTP id i188mr9392679yba.332.1611101377393; 
+ Tue, 19 Jan 2021 16:09:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8MsWyA7Aam3VzfV=r_scaD0J3zEBR0bNE-Re7OdL+ezg@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+References: <20201105160335.1222062-1-marcandre.lureau@redhat.com>
+ <CAMxuvayPZ7FR4JCpuNk_9P8NTSo_G=F6c2cWK+gDvv676ibLxQ@mail.gmail.com>
+In-Reply-To: <CAMxuvayPZ7FR4JCpuNk_9P8NTSo_G=F6c2cWK+gDvv676ibLxQ@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Wed, 20 Jan 2021 08:09:26 +0800
+Message-ID: <CAEUhbmUvb1i94cpOrh1pAyeBzMCUdnDm6YJN_Yh05ycvFbGbmA@mail.gmail.com>
+Subject: Re: [PATCH] RFC: sphinx: adopt kernel readthedoc theme
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b32;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb32.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,62 +79,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, "P. Berrange,
+ Daniel" <berrange@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/19/21 5:27 AM, Peter Maydell wrote:
-> On Fri, 15 Jan 2021 at 21:20, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> This exports the constraint sets from tcg_target_op_def to
->> a place we will be able to manipulate more in future.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  tcg/i386/tcg-target-con-set.h |  54 ++++++++++
->>  tcg/i386/tcg-target.h         |   1 +
->>  tcg/tcg.c                     | 122 +++++++++++++++++++++
->>  tcg/i386/tcg-target.c.inc     | 194 ++++++++++++----------------------
->>  4 files changed, 244 insertions(+), 127 deletions(-)
->>  create mode 100644 tcg/i386/tcg-target-con-set.h
-> 
->> +#define C_O2_I1(O1, O2, I1)             C_PFX3(c_o2_i1_, O1, O2, I1),
->> +#define C_O2_I2(O1, O2, I1, I2)         C_PFX4(c_o2_i2_, O1, O2, I1, I2),
->> +#define C_O2_I3(O1, O2, I1, I2, I3)     C_PFX5(c_o2_i3_, O1, O2, I1, I2, I3),
->> +#define C_O2_I4(O1, O2, I1, I2, I3, I4) \
->> +    C_PFX6(c_o2_i4_, O1, O2, I1, I2, I3, I4),
-> 
-> Personally this is the kind of code where I would follow
-> CODING_STYLE.rst's suggestion of "If wrapping the line at 80
-> columns is obviously less readable and more awkward, prefer not
-> to wrap it; better to have an 85 character line than one which
-> is awkwardly wrapped.". The parallelism between the lines
-> is much easier to see without the linebreak.
+On Mon, Nov 16, 2020 at 6:57 PM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@redhat.com> wrote:
+>
+> Hi,
+>
+> On Thu, Nov 5, 2020 at 8:03 PM <marcandre.lureau@redhat.com> wrote:
+> >
+> > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >
+> > The default "alabaster" sphinx theme has a couple shortcomings:
+> > - the navbar moves along the page
+> > - the search bar is not always at the same place
+> > - it lacks some contrast and colours
+> >
+> > The "rtd" theme from readthedocs.org is a popular third party theme use=
+d
+> > notably by the kernel, with a custom style sheet. I like it better,
+> > perhaps others do too. It also has features that may come handy, such a=
+s
+> > "Edit on Gitlab".
+> >
+> > Tweak the nav header background to match qemu.org style, use the
+> > QEMU logo, and favicon.
+> >
+> > The html_theme_options['description'] workaround doesn't seem necessary=
+.
+> >
+> > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > ---
+> >  docs/conf.py                           |  36 +++----
+> >  docs/devel/conf.py                     |   4 -
+> >  docs/interop/conf.py                   |   4 -
+> >  docs/specs/conf.py                     |   5 -
+> >  docs/sphinx-static/theme_overrides.css | 137 +++++++++++++++++++++++++
+> >  docs/system/conf.py                    |   4 -
+> >  docs/tools/conf.py                     |   5 -
+> >  docs/user/conf.py                      |   4 -
+> >  8 files changed, 155 insertions(+), 44 deletions(-)
+> >  create mode 100644 docs/sphinx-static/theme_overrides.css
+> >
+>
+> Am I the only one finding the default sphinx theme inferior to rtd ?
 
-The maximum within this section is column 92.
-Still ok with that?
+Of course not!
 
-> I know the macro magic should make it impossible, but maybe
-> we should have an assert that we definitely have a valid
-> array index here ?
+This patch does not apply on top of current HEAD. Could you please rebase?
 
-Ok.
-
->>      case INDEX_op_andc_i32:
->>      case INDEX_op_andc_i64:
->> -        {
->> -            static const TCGTargetOpDef andc
->> -                = { .args_ct_str = { "r", "r", "rI" } };
->> -            return &andc;
->> -        }
->> -        break;
->> +        return C_O1_I2(r, 0, rI);
-> 
-> Old constraint was r r rI; new one is r 0 rI  ?
-
-Oops, good catch.  And of course the error would have worked in testing.
-
-
-r~
+Regards,
+Bin
 
