@@ -2,87 +2,155 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05E542FD04C
-	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 13:52:19 +0100 (CET)
-Received: from localhost ([::1]:49742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 036FB2FD103
+	for <lists+qemu-devel@lfdr.de>; Wed, 20 Jan 2021 14:04:36 +0100 (CET)
+Received: from localhost ([::1]:35514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2CyA-000301-10
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 07:52:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37488)
+	id 1l2DA3-0000zG-3Y
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 08:04:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Cwr-00022D-9E
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:50:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Cwp-0007n4-M4
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 07:50:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611147053;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wiZcY3ZJ/jM3eUpZnkmg8l4HaMC1TLSYqKnwEfAz0C8=;
- b=Vw6b+ZxLA7EbhhhmM3n+AQQRzqOpgD5cq/W5lXQ/xkSshNcHSTM7pr75t9bZMdZmd9JrV4
- 0zyZ/k6MAyxmuhDCZdIkEJwE9vqDbdxfpbmg41FD9Ccp2FhuPy8WXuH4c02YWUPcouGIhj
- 3zZH8rBXLqWmVMlpkVmg1by+rFfM5t0=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-287-A0pNtvSFP3-R6F4t4pIkzg-1; Wed, 20 Jan 2021 07:50:51 -0500
-X-MC-Unique: A0pNtvSFP3-R6F4t4pIkzg-1
-Received: by mail-ed1-f69.google.com with SMTP id e25so2510807edq.6
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 04:50:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:from:subject:message-id:date:user-agent
- :mime-version:content-language:content-transfer-encoding;
- bh=wiZcY3ZJ/jM3eUpZnkmg8l4HaMC1TLSYqKnwEfAz0C8=;
- b=iv8UQD5K32MAQ9k6fSYxuuTmRqPjlqVXn51uvMMnR3hQ1ofb8ggPKqXJHQGX3J+NfW
- SXnVDjOy6S17Um6uxAU6NsLIdaBcsz3KOFWTkCdbrWCC12qkzlPbL03RgtUCku1hXXxL
- 4077kaRjPn4fnNPXXSAgr2mijKKXykK8OPF5GlGwnaKtqJF77cPZFDdErQppMt5/rhTr
- ulc63f3iF7+XzjmXq0Vf9AdVAGfrOFgpgWPOZ4gKigaxNB+Ur4sa81qZ46zdykRBfwjy
- OUufDN+3KoxNgqZz1VeqlsdIaVb6qRcI7zO5Nzbu6yex723vl9NjFiGU1qmkPm9wZgMU
- /FyA==
-X-Gm-Message-State: AOAM533BBzZxw+yXRNH9ZrKJA1px5/wKx++x1+jQWtS66jhI1fq7ojwH
- obbjXAhAGBf2OI2+GoX1O0+oMhgj4oLHgA/NZnCJoQieAikTZvOkbRNOJwWMAxsD/eFf5myvJ3G
- OxpnyIRbbgXmPaNqBk03ObwFWAuDtOvIXhLCPL4Be5K6dSXtZCXVwscdvJWuNxe6f
-X-Received: by 2002:a05:6402:35ca:: with SMTP id
- z10mr7362174edc.186.1611147050456; 
- Wed, 20 Jan 2021 04:50:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzCJf9DzcMHI4fCMYawz29fu3kXr4lqOiUCCepc2khmuUnehf7j1vhkbvM+4QE1Vt3W9cl4Pg==
-X-Received: by 2002:a05:6402:35ca:: with SMTP id
- z10mr7362159edc.186.1611147050270; 
- Wed, 20 Jan 2021 04:50:50 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id o11sm1094491eds.19.2021.01.20.04.50.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 04:50:49 -0800 (PST)
-To: Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P . Berrange" <berrange@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Subject: How to run crypto benchmarks tests?
-Message-ID: <c72a38ac-d164-9357-4eda-2334c496c555@redhat.com>
-Date: Wed, 20 Jan 2021 13:50:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1l2D6l-0007R5-96
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:01:12 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:46206)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mihai.carabas@oracle.com>)
+ id 1l2D6d-0002z7-VD
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 08:01:10 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KCxxM3191728;
+ Wed, 20 Jan 2021 13:00:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version;
+ s=corp-2020-01-29; bh=dHe6bXHiSyKRCJTEaulZOAvVHeVyfmvUqPE22p/+mYM=;
+ b=iiUxNiT08SowVmuFfhDTDzFc0oh2hIJd8KpwRgiE87tRYZ4rPsyxqLocxMI6cAW9RBvj
+ GtRdMYNfvIGi2v+dTPkaFq8+h4bJJzB6y/ds135iePKk7W4XzR/EMCi34HYgLZWsCM1g
+ Jr4UvSylEGY2FnJn3FBE9cFGXeJOtLPeKJyfOQpEtzQnkI8dkdVh1nNq8uCoSYqjctIi
+ dRCpQu0+xcpuRJCN5tJIcviMAWHWprBKMzzjlQJgejVqCihuriI75XJ0ONovCnMtjDQ2
+ n9w7RjUlulpcyhCJURpDtliQwFsylofb4NhUxtF20oG+3llIRZ8v7iYCHDIHVv96Z9mb 8g== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+ by userp2130.oracle.com with ESMTP id 3668qaab9a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Jan 2021 13:00:58 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+ by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10KCZnKU099518;
+ Wed, 20 Jan 2021 12:58:57 GMT
+Received: from nam10-bn7-obe.outbound.protection.outlook.com
+ (mail-bn7nam10lp2105.outbound.protection.outlook.com [104.47.70.105])
+ by aserp3020.oracle.com with ESMTP id 3668rdvpq4-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 20 Jan 2021 12:58:57 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=WkY/8E5qIw3KnEplEkBy7G7znqaRv7t1hnQD+dEiprNKZP9dHWF4nJJDx6UZDhlyTCRyHohJbCsBTh5h4EsC1xr2Zru0mAVGeUidApsP59kkdSVfAyh8eRBF5kBPwyH5NbmW9eyxB1SekF6juDGFUViGiqsPvWLGaZpFd3hg798vnvLQ3J0DP52/AsKckid96VhngRc7MDgG91V0JP58nBDrBVRc3s7zfNvSnXn7fnVGgVoGntG90zLc/vBe3EsXs+XlKU3BLnM2+gvCtwLJQDZjtgSfQjHJl4ZAEbuuY4Pi5HL1+la5rFaXl5AtqaId8h1KrCf4eGBa+rr2GIpUrw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dHe6bXHiSyKRCJTEaulZOAvVHeVyfmvUqPE22p/+mYM=;
+ b=NZaSfxTS9TAOkHq0Vmlia374kGGV8Qk6Qd4pXbJD/iX72dkIY5mzWOd+KO0qHCt93tTu3FxJhVO5EVF9PeB/UviZ5Jt93EmgYrFUd+ySGrC4vEUhe85JNhJmN4Ll99VbxQ+DAiGEz5O0kG6WtGMleFsM0UW9kiWfdqE7WOX8R6zpyjuayY4jEA13CwlDYzMXUTKrlGj6dLwWjJGMRO5YbRfLxiRZnI6myu3Vpmbm3fYiO/Du8vOhfJYF3jBZ8RUU08QIBrA4izqUTJZIWCLzo1so5RqrZSvaYlFfXdXqCxOrlvTjLjW9gmJ+4LBBpPhvglv3/e1c1GEk7Hz91gbMvw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dHe6bXHiSyKRCJTEaulZOAvVHeVyfmvUqPE22p/+mYM=;
+ b=S5rZzkWshzBWCjo/9aacx98Mf1YC/gnxRtTg7ilweAULcrRvvkLjwj8bNO2RBMqcJMyDOMrpRKzeBwdl04t+F5Hc9b3R8pIiCeAfyBeq23DOYkY/uWAAsUyVZhS5UuEIFivGpS9WPbVxgEjzCr30sa7NV/Ufv8VMPmcIUWm8hgg=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
+Received: from MWHPR1001MB2285.namprd10.prod.outlook.com
+ (2603:10b6:301:2e::32) by CO1PR10MB4739.namprd10.prod.outlook.com
+ (2603:10b6:303:96::7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12; Wed, 20 Jan
+ 2021 12:58:55 +0000
+Received: from MWHPR1001MB2285.namprd10.prod.outlook.com
+ ([fe80::f48a:d4cb:d74c:48ba]) by MWHPR1001MB2285.namprd10.prod.outlook.com
+ ([fe80::f48a:d4cb:d74c:48ba%6]) with mapi id 15.20.3742.014; Wed, 20 Jan 2021
+ 12:58:55 +0000
+From: Mihai Carabas <mihai.carabas@oracle.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5] Add support for pvpanic pci device
+Date: Wed, 20 Jan 2021 14:11:49 +0200
+Message-Id: <1611144713-21433-1-git-send-email-mihai.carabas@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+Content-Type: text/plain
+X-Originating-IP: [138.3.200.25]
+X-ClientProxiedBy: SA9PR10CA0026.namprd10.prod.outlook.com
+ (2603:10b6:806:a7::31) To MWHPR1001MB2285.namprd10.prod.outlook.com
+ (2603:10b6:301:2e::32)
 MIME-Version: 1.0
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mihai.localdomain (138.3.200.25) by
+ SA9PR10CA0026.namprd10.prod.outlook.com (2603:10b6:806:a7::31) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.12 via Frontend Transport; Wed, 20 Jan 2021 12:58:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 73c6b971-8dc9-4e04-780d-08d8bd4324a9
+X-MS-TrafficTypeDiagnostic: CO1PR10MB4739:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <CO1PR10MB473929DFD50FCA563BDB22AA88A29@CO1PR10MB4739.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6430;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 0/pw6UlMBj49S7v8S6Kirww6jJjwtT4jMh2ry4b7APFQ+PvLgsk+1YWAMqPqMhPZyq5vT3OY/s5b1V1NexXYbvBtwTZb2iPeTHqcZmUS8mX7xL8U2fa9JNh1rKH6oK+3JOAtHq5yCB78eVOnRA0Uz+4K4BTecAlwCGfxWfHZhts/ijKMgNqbxhxHPgYYvKVuXihFKB+TQ5AxSy9oRrWGlancJUF5iIDFrsKtJIusTSK95DHhoNdQ8A/CilKzhr05z9lraYDgBKP2x8oXcQFkQBfhmVoB5ERLDxPRVY5ttbYQjx9yn7VhQrp8kKj5oGM0oa8AFGyp8lA0+uG01U/gom2RRUKjwLouG5FNVxFHhZE7ZzB77lOwsnHPnTMJX20mQWTd+Y30B2awVg28+oqBoQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MWHPR1001MB2285.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(346002)(366004)(376002)(136003)(39860400002)(396003)(6916009)(6666004)(52116002)(4326008)(2906002)(66946007)(508600001)(66556008)(66476007)(5660300002)(36756003)(2616005)(86362001)(956004)(8936002)(316002)(6512007)(44832011)(107886003)(8676002)(6506007)(6486002)(83380400001)(186003)(26005)(16526019);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?i16TAUylEbvNWXGfLchSXgPjOql6QNpDEbBEyYgdhneZJImDqKBwcdB0E4tj?=
+ =?us-ascii?Q?gxmVMSpgML4neLqMkm4AwPYE5p4/S6GgPP83uhzyc9LadF+y0/Ik9fFu1P9C?=
+ =?us-ascii?Q?sFAUxe6x6SJDkRzEDRFKipari3vw2OKY8MEH7Fl4UKdMGnyTgaudN1ftWudG?=
+ =?us-ascii?Q?Iv9a7HNW405KNaOk5lpZLNv1sH7PGO5Ykcchc2EYM5nrFWbKILaOWOGS1nY8?=
+ =?us-ascii?Q?N5hFX40QQrmPUKiO+e8ll8iKe+GQTgz3xaHgaBwy00utoUfjdm/Bwx8CwUF7?=
+ =?us-ascii?Q?yydrptaDEqn69277eb9NUeLO+qGhUg7BHbxWP1pL49VbRz6GmvT/1zjxE4pB?=
+ =?us-ascii?Q?DhLOlD1jiZZc2wgErWbKc06HyavusR9girw0zHlkqikHBWO4on6rEPAlYAQq?=
+ =?us-ascii?Q?bqeHQNpu8vLAA4j9l31FVcEfxayOwivSH2SD29QGwHXxEiijdiPBA2xf4CR4?=
+ =?us-ascii?Q?wFsJVhaeQ7fWRQR9o18u6K63ymi6e2NgV+9YZODe6fvtFoMdHpGEGh4PXT22?=
+ =?us-ascii?Q?7c278SPwt4+tK8MRDTLrfEiHBQq52KVvdBp0pETF4a0AQUB9GsPwFECjJnW6?=
+ =?us-ascii?Q?+nmJCqdkhffcMND/a6lmhEZg8ESWE/QgIBEwYdggNWdd5nr0C5Nv74xxvl39?=
+ =?us-ascii?Q?bRPUwqG4itkJ8QVoR5DmOTBCVnOy7N5F5hWgy1OcFOJBcUKvTSnqy65EGYYS?=
+ =?us-ascii?Q?5ClKygsB+FOvMXdD3czrZhNtB4DPZnP3y0zlHfPb17ROy6EE/CDR7pODvL6T?=
+ =?us-ascii?Q?xqpj9/LBGUWeDHAyafOMQ3eyqNw6Gl7QR6NUVN0fRF6Fp1jO5RCa+9qWd99h?=
+ =?us-ascii?Q?qLy6ifTL0kY4EIcBQ6UJm5yR/yRwB8jsAB/AAKt9Gp5eLSkhTiywFw38wqu2?=
+ =?us-ascii?Q?rjQVYkOrLynlGnMnppky4gpGI+PSRwkce7cY4g64dkR/EmYiN938efcRWGYx?=
+ =?us-ascii?Q?VL/T1+O1MBKeFKDrPTF+dT5/q/MpQD0ma7EcEJqmBSfK0C2L6tu3/Pg/q4i8?=
+ =?us-ascii?Q?jQue?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 73c6b971-8dc9-4e04-780d-08d8bd4324a9
+X-MS-Exchange-CrossTenant-AuthSource: MWHPR1001MB2285.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2021 12:58:55.0928 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +UyGP8ulr0pOC3Ld0MiECgV9YXym01RAxmMGg/Ia+KtenB94FJpHg8M7ov3UACzxdcsxvDTDtW/c6Za0t8lSBJRaN6oOF8B6MKLlZCa7jLk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4739
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0
+ spamscore=0 suspectscore=0
+ adultscore=0 mlxlogscore=999 bulkscore=0 malwarescore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101200074
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9869
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0
+ impostorscore=0 mlxscore=0 priorityscore=1501 phishscore=0 mlxlogscore=999
+ lowpriorityscore=0 malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101200075
+Received-SPF: pass client-ip=156.151.31.86;
+ envelope-from=mihai.carabas@oracle.com; helo=userp2130.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,66 +163,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: Mihai Carabas <mihai.carabas@oracle.com>, peter.maydell@linaro.org,
+ yvugenfi@redhat.com, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+This patchset adds support for pvpanic pci device.
 
-Using the following "build tools and doc" config:
+v3:
+- patch 1: made pvpanic isa device available only for PC, compile pvpanic-test
+  only when isa device is present
+- patch 2: fixed device id to 0x0011, used OBJECT_DECLARE_TYPE,
+  PVPANIC_PCI_DEVICE, added VMSTATE_PCI_DEVICE, removed INTERFACE_PCIE_DEVICE
+- patch 3: fixed documentation
+- patch 4: add a qtest for pvpanic-pci
 
-../configure --disable-system --disable-user
-                                 ...
-                     TLS priority: "NORMAL"
-                   GNUTLS support: YES
-                        libgcrypt: NO
-                           nettle: YES
-                              XTS: YES
-                         libtasn1: YES
-                              PAM: YES
-                                 ...
+v4:
+- added Rb/Ack on patches
+- modify test case to include -action parameter that was recently added and also
+  to be on par with the pvpanic ISA device testing
 
-$ make check-help
-...
- make check-speed          Run qobject speed tests
-...
-Test targets:
-  check                          - Run all tests (check-help for details)
-  bench                          - Run all benchmarks
-  docker                         - Help about targets running tests
-inside containers
+v5:
+- added subsystem_vendor_id and subsystem_id needed for MS WHQL tests
 
-$ make check-speed
-make: *** No rule to make target 'bench-speed', needed by 'check-speed'.
- Stop.
-$ make bench-speed
-make: *** No rule to make target 'bench-speed'.  Stop.
-$ make check-bench
-make: *** No rule to make target 'check-bench'.  Stop.
-$ make bench
-make: Nothing to be done for 'bench'.
+Mihai Carabas (4):
+  hw/misc/pvpanic: split-out generic and bus dependent code
+  hw/misc/pvpanic: add PCI interface support
+  pvpanic : update pvpanic spec document
+  tests/qtest: add a test case for pvpanic-pci
 
-I want to run these tests:
+ docs/specs/pci-ids.txt         |  1 +
+ docs/specs/pvpanic.txt         | 13 +++++-
+ hw/i386/Kconfig                |  2 +-
+ hw/misc/Kconfig                | 12 +++++-
+ hw/misc/meson.build            |  4 +-
+ hw/misc/pvpanic-isa.c          | 94 +++++++++++++++++++++++++++++++++++++++++
+ hw/misc/pvpanic-pci.c          | 96 ++++++++++++++++++++++++++++++++++++++++++
+ hw/misc/pvpanic.c              | 85 +++----------------------------------
+ include/hw/misc/pvpanic.h      | 24 ++++++++++-
+ include/hw/pci/pci.h           |  1 +
+ tests/qtest/meson.build        |  3 +-
+ tests/qtest/pvpanic-pci-test.c | 94 +++++++++++++++++++++++++++++++++++++++++
+ 12 files changed, 343 insertions(+), 86 deletions(-)
+ create mode 100644 hw/misc/pvpanic-isa.c
+ create mode 100644 hw/misc/pvpanic-pci.c
+ create mode 100644 tests/qtest/pvpanic-pci-test.c
 
-$ ls -1 tests/test-crypto-*c
-tests/test-crypto-afsplit.c
-tests/test-crypto-block.c
-tests/test-crypto-cipher.c
-tests/test-crypto-hash.c
-tests/test-crypto-hmac.c
-tests/test-crypto-ivgen.c
-tests/test-crypto-pbkdf.c
-tests/test-crypto-secret.c
-tests/test-crypto-tlscredsx509.c
-tests/test-crypto-tlssession.c
-tests/test-crypto-xts.c
-
-What am I doing wrong? IIRC "make check-speed" used to work,
-maybe something went wrong in commit 9ed7247a596
-("meson: convert the speed tests")?
-
-Thanks,
-
-Phil.
+-- 
+1.8.3.1
 
 
