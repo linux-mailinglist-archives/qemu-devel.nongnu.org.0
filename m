@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B81472FF7C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 23:13:51 +0100 (CET)
-Received: from localhost ([::1]:33090 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBD8D2FF7C3
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 23:12:36 +0100 (CET)
+Received: from localhost ([::1]:58290 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2iD8-00028U-Pq
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 17:13:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41572)
+	id 1l2iBv-0000rf-RB
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 17:12:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2i8p-0006LC-9n; Thu, 21 Jan 2021 17:09:23 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:44640)
+ id 1l2i8r-0006RI-HO; Thu, 21 Jan 2021 17:09:25 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:42408)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2i8n-0000Jp-2j; Thu, 21 Jan 2021 17:09:22 -0500
-Received: by mail-pl1-x631.google.com with SMTP id r4so2068030pls.11;
- Thu, 21 Jan 2021 14:09:20 -0800 (PST)
+ id 1l2i8p-0000Lj-Pf; Thu, 21 Jan 2021 17:09:25 -0500
+Received: by mail-pg1-x532.google.com with SMTP id g15so2270100pgu.9;
+ Thu, 21 Jan 2021 14:09:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references;
- bh=HaQZFZep6oCcGyOskVgZxy+gJ6D8yIOkK31HGVOPtvw=;
- b=MgDV1nLiX6tefgc2ql09whLtV/vZkT+yGylfItnJp6Hm5ThFROqYKGAF/Qv8/R/ihv
- idhozmcxGZVZEhdaCA/KtQXHk0NXbH+5GRYoa/38243/3ftpcOOK0cFk4IX1+HVojk28
- oDP9jbZw/M4Lh+dTmS6MkQ+OpnzBHGbdrU5LySB/LkAXt3ixgngL2CUkgS/3mYFRbCSm
- hsIEsRsyn5ZowBPMeLyYVDX30Zc5SWYHE5fIBRLRFtkYUHBX1JlHtHwcZhTNc547yAYz
- HangvsY4iu6pmf/BWN0bRAAvrzR2po8uQuZXxqYvKWFppZDfhVWS6kt98KkJ1Cb0rgGI
- UjWQ==
+ bh=4tTcTEd0XY2xyJQ9r1T83wCvH6NeJWAkeGCZOLKhte4=;
+ b=qAqReFQX0LCSbzIj1MtSNRfJ/9EU3lumH0+niLJL+z+mVIuXuCNz+37otHxPK7+a1h
+ TfEp58dU9sbjbvWrMYKRQy6NJIdWIonmG9C2jqFgnwZHsLt3ZmCyB9XRccGGMxLpfqH2
+ DJS203oFXARpglB4b5wIbZlDuRIRrueRsjI8jSUkk74wDc1wtu/mvdPPbjugg3O5IlVH
+ 58gkT+03XGI7onMYcDeOWwsQ4ZBZ+FlNHNJjoC3ejp8XYJiOjfLRtGVzoCgXQZDAwEJQ
+ wMJQitihcJVk5plBG5OZsoHZ1LuyLLjeGEvocJj5cuyHkUKcppZ7fZCq1rO3qNoQgjG3
+ 0P8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references;
- bh=HaQZFZep6oCcGyOskVgZxy+gJ6D8yIOkK31HGVOPtvw=;
- b=GAgvAnM+lyg+dkMSSXpTvmZTMH3dIjgffWq3gaUiMP2at9sZHHa9RcYkRuR5ZXee2/
- LCyVT81xKCSXDvvpLdZ17MoAK4+vPl/kd6Kmkesuiwk9yg9hlF78FgvItV4U6YNxNbd2
- 4kVogR8hJ2dpJHMLnONYODkfZQRGyz7bmaT/h+HZMnIlfMGI4RNnG4N5JF4EsmS4j8rK
- YQKHOMA3CuWiLsMY3HfgN4BgNnIXdLNoWrgmWGcxr3TRFZMORna3DEWFKSpLfwObLw+R
- GrFvZBmSQ1AgzPn0RNBufgNxGHpaJul4ot/iPPd39TT+gY5LTwsGpyxHsmBHmBEuxmbs
- sdfg==
-X-Gm-Message-State: AOAM533iLg8nVTSDIQdQM4uHvSJBrICK3aahi8Bk9SwnBoxkF/nKECsZ
- q9Gad849dxd1fKQpKehPKfTqE/qeOQtaxQ==
-X-Google-Smtp-Source: ABdhPJwEKHeo3/OUC38naKbYued3dPkme99uNvd03UPWKE5skvHOXoYAVfv85vzfsFo0arBL5EEDfw==
-X-Received: by 2002:a17:90a:2ec1:: with SMTP id
- h1mr1741574pjs.18.1611266959109; 
- Thu, 21 Jan 2021 14:09:19 -0800 (PST)
+ bh=4tTcTEd0XY2xyJQ9r1T83wCvH6NeJWAkeGCZOLKhte4=;
+ b=jGGxlNiJJubulNEansbkpNZSeuXcZanhQrS8mAGsAVXmhPAT7+LTiuAimbQAXVIRdG
+ jyUEHLevB6WrCYuNQx7szrpgOWvbwnhB28e85Soe04zo5Vp2PY2FaECiO3M54iFCqqNh
+ 61mFYE5QR3xeXmOVjcc3AwrbpVoWWxxebazJ6rBzfPOhqpGw+aQb6v82NSSVI5Md7L8a
+ +FXpOErt7zLf+0ARtR9oQ7mWmDIaW9QPJKRiMOGPkfULuUjXb5uKPfdghH1sZu6G3hWv
+ wBTJqDNis1p5YEEMo0lIIMmXk/yCWeSHRbW9PjKsIB2tVa04jU94i55vbTJZfwH5uINI
+ XWfA==
+X-Gm-Message-State: AOAM532PePlCBk4xFWYjbM2ZkwqjT+GUburkYABzWw3dRWO0zSsOL4Vs
+ CPMHqVVAsPYFyI/8uaDfMbo/j1zHEmbAtw==
+X-Google-Smtp-Source: ABdhPJz5ZfWCZpP14Nt8cwdTBXzI41bUi+7SswMZpiNLUcMbYfd+ORVkEyJ5I+K4M0lT4udutcNG6w==
+X-Received: by 2002:a05:6a00:2127:b029:1bb:b6de:c875 with SMTP id
+ n7-20020a056a002127b02901bbb6dec875mr1591162pfj.72.1611266961478; 
+ Thu, 21 Jan 2021 14:09:21 -0800 (PST)
 Received: from localhost.localdomain ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id c8sm5584308pfo.148.2021.01.21.14.09.16
+ by smtp.gmail.com with ESMTPSA id c8sm5584308pfo.148.2021.01.21.14.09.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 14:09:18 -0800 (PST)
+ Thu, 21 Jan 2021 14:09:21 -0800 (PST)
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Subject: [PATCH V4 1/6] hw/block/nvme: introduce nvme-subsys device
-Date: Fri, 22 Jan 2021 07:09:03 +0900
-Message-Id: <20210121220908.14247-2-minwoo.im.dev@gmail.com>
+Subject: [PATCH V4 2/6] hw/block/nvme: support to map controller to a subsystem
+Date: Fri, 22 Jan 2021 07:09:04 +0900
+Message-Id: <20210121220908.14247-3-minwoo.im.dev@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20210121220908.14247-1-minwoo.im.dev@gmail.com>
 References: <20210121220908.14247-1-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pl1-x631.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,160 +85,121 @@ Cc: Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To support multi-path in QEMU NVMe device model, We need to have NVMe
-subsystem hierarchy to map controllers and namespaces to a NVMe
-subsystem.
+nvme controller(nvme) can be mapped to a NVMe subsystem(nvme-subsys).
+This patch maps a controller to a subsystem by adding a parameter
+'subsys' to the nvme device.
 
-This patch introduced a simple nvme-subsys device model.  The subsystem
-will be prepared with subsystem NQN with <subsys_id> provided in
-nvme-subsys device:
+To map a controller to a subsystem, we need to put nvme-subsys first and
+then maps the subsystem to the controller:
 
-  ex) -device nvme-subsys,id=subsys0: nqn.2019-08.org.qemu:subsys0
+  -device nvme-subsys,id=subsys0
+  -device nvme,serial=foo,id=nvme0,subsys=subsys0
+
+If 'subsys' property is not given to the nvme controller, then subsystem
+NQN will be created with serial (e.g., 'foo' in above example),
+Otherwise, it will be based on subsys id (e.g., 'subsys0' in above
+example).
 
 Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
 ---
- hw/block/meson.build   |  2 +-
- hw/block/nvme-subsys.c | 63 ++++++++++++++++++++++++++++++++++++++++++
- hw/block/nvme-subsys.h | 25 +++++++++++++++++
- hw/block/nvme.c        |  3 ++
- 4 files changed, 92 insertions(+), 1 deletion(-)
- create mode 100644 hw/block/nvme-subsys.c
- create mode 100644 hw/block/nvme-subsys.h
+ hw/block/nvme.c | 30 ++++++++++++++++++++++++++----
+ hw/block/nvme.h |  3 +++
+ 2 files changed, 29 insertions(+), 4 deletions(-)
 
-diff --git a/hw/block/meson.build b/hw/block/meson.build
-index 602ca6c8541d..83ea2d37978d 100644
---- a/hw/block/meson.build
-+++ b/hw/block/meson.build
-@@ -13,7 +13,7 @@ softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80.c'))
- softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
- softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
- softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('tc58128.c'))
--softmmu_ss.add(when: 'CONFIG_NVME_PCI', if_true: files('nvme.c', 'nvme-ns.c'))
-+softmmu_ss.add(when: 'CONFIG_NVME_PCI', if_true: files('nvme.c', 'nvme-ns.c', 'nvme-subsys.c'))
- 
- specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
- specific_ss.add(when: 'CONFIG_VHOST_USER_BLK', if_true: files('vhost-user-blk.c'))
-diff --git a/hw/block/nvme-subsys.c b/hw/block/nvme-subsys.c
-new file mode 100644
-index 000000000000..f1dc71d588d9
---- /dev/null
-+++ b/hw/block/nvme-subsys.c
-@@ -0,0 +1,63 @@
-+/*
-+ * QEMU NVM Express Subsystem: nvme-subsys
-+ *
-+ * Copyright (c) 2021 Minwoo Im <minwoo.im.dev@gmail.com>
-+ *
-+ * This code is licensed under the GNU GPL v2.  Refer COPYING.
-+ */
-+
-+#include "qemu/units.h"
-+#include "qemu/osdep.h"
-+#include "qemu/uuid.h"
-+#include "qemu/iov.h"
-+#include "qemu/cutils.h"
-+#include "qapi/error.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-core.h"
-+#include "hw/block/block.h"
-+#include "block/aio.h"
-+#include "block/accounting.h"
-+#include "sysemu/sysemu.h"
-+#include "hw/pci/pci.h"
-+#include "nvme.h"
-+#include "nvme-subsys.h"
-+
-+static void nvme_subsys_setup(NvmeSubsystem *subsys)
-+{
-+    char *subnqn;
-+
-+    subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", subsys->parent_obj.id);
-+    strpadcpy((char *)subsys->subnqn, sizeof(subsys->subnqn), subnqn, '\0');
-+    g_free(subnqn);
-+}
-+
-+static void nvme_subsys_realize(DeviceState *dev, Error **errp)
-+{
-+    NvmeSubsystem *subsys = NVME_SUBSYS(dev);
-+
-+    nvme_subsys_setup(subsys);
-+}
-+
-+static void nvme_subsys_class_init(ObjectClass *oc, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(oc);
-+
-+    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-+
-+    dc->realize = nvme_subsys_realize;
-+    dc->desc = "Virtual NVMe subsystem";
-+}
-+
-+static const TypeInfo nvme_subsys_info = {
-+    .name = TYPE_NVME_SUBSYS,
-+    .parent = TYPE_DEVICE,
-+    .class_init = nvme_subsys_class_init,
-+    .instance_size = sizeof(NvmeSubsystem),
-+};
-+
-+static void nvme_subsys_register_types(void)
-+{
-+    type_register_static(&nvme_subsys_info);
-+}
-+
-+type_init(nvme_subsys_register_types)
-diff --git a/hw/block/nvme-subsys.h b/hw/block/nvme-subsys.h
-new file mode 100644
-index 000000000000..40f06a4c7db0
---- /dev/null
-+++ b/hw/block/nvme-subsys.h
-@@ -0,0 +1,25 @@
-+/*
-+ * QEMU NVM Express Subsystem: nvme-subsys
-+ *
-+ * Copyright (c) 2021 Minwoo Im <minwoo.im.dev@gmail.com>
-+ *
-+ * This code is licensed under the GNU GPL v2.  Refer COPYING.
-+ */
-+
-+#ifndef NVME_SUBSYS_H
-+#define NVME_SUBSYS_H
-+
-+#define TYPE_NVME_SUBSYS "nvme-subsys"
-+#define NVME_SUBSYS(obj) \
-+    OBJECT_CHECK(NvmeSubsystem, (obj), TYPE_NVME_SUBSYS)
-+
-+#define NVME_SUBSYS_MAX_CTRLS   32
-+
-+typedef struct NvmeCtrl NvmeCtrl;
-+typedef struct NvmeNamespace NvmeNamespace;
-+typedef struct NvmeSubsystem {
-+    DeviceState parent_obj;
-+    uint8_t     subnqn[256];
-+} NvmeSubsystem;
-+
-+#endif /* NVME_SUBSYS_H */
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 21aec90637fa..aabccdf36f4b 100644
+index aabccdf36f4b..ab0531492ddd 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -25,6 +25,7 @@
+@@ -23,6 +23,7 @@
+  *              max_ioqpairs=<N[optional]>, \
+  *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
   *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
++ *              ,subsys=<subsys_id> \
   *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
   *              zoned=<true|false[optional]>
-+ *      -device nvme-subsys,id=<subsys_id>
-  *
-  * Note cmb_size_mb denotes size of CMB in MB. CMB is assumed to be at
-  * offset 0 in BAR2 and supports only WDS, RDS and SQS for now. By default, the
-@@ -38,6 +39,8 @@
-  *
-  * The PMR will use BAR 4/5 exclusively.
-  *
-+ * To place controller(s) and namespace(s) to a subsystem, then provide
-+ * nvme-subsys device as above.
+  *      -device nvme-subsys,id=<subsys_id>
+@@ -44,6 +45,13 @@
   *
   * nvme device parameters
   * ~~~~~~~~~~~~~~~~~~~~~~
++ * - `subsys`
++ *   NVM Subsystem device. If given, a subsystem NQN will be initialized with
++ *   <subsys_id> given. Otherwise, <serial> will be taken for subsystem NQN.
++ *   Also, it will enable multi controller capability represented in Identify
++ *   Controller data structure in CMIC (Controller Multi-path I/O and Namesapce
++ *   Sharing Capabilities), if given.
++ *
+  * - `aerl`
+  *   The Asynchronous Event Request Limit (AERL). Indicates the maximum number
+  *   of concurrently outstanding Asynchronous Event Request commands support
+@@ -4404,11 +4412,25 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+     return 0;
+ }
+ 
++static void nvme_init_subnqn(NvmeCtrl *n)
++{
++    NvmeSubsystem *subsys = n->subsys;
++    NvmeIdCtrl *id = &n->id_ctrl;
++    char *subnqn;
++
++    if (!subsys) {
++        subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
++        strpadcpy((char *)id->subnqn, sizeof(id->subnqn), subnqn, '\0');
++        g_free(subnqn);
++    } else {
++        pstrcpy((char *)id->subnqn, sizeof(id->subnqn), (char*)subsys->subnqn);
++    }
++}
++
+ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+ {
+     NvmeIdCtrl *id = &n->id_ctrl;
+     uint8_t *pci_conf = pci_dev->config;
+-    char *subnqn;
+ 
+     id->vid = cpu_to_le16(pci_get_word(pci_conf + PCI_VENDOR_ID));
+     id->ssvid = cpu_to_le16(pci_get_word(pci_conf + PCI_SUBSYSTEM_VENDOR_ID));
+@@ -4455,9 +4477,7 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+     id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
+                            NVME_CTRL_SGLS_BITBUCKET);
+ 
+-    subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
+-    strpadcpy((char *)id->subnqn, sizeof(id->subnqn), subnqn, '\0');
+-    g_free(subnqn);
++    nvme_init_subnqn(n);
+ 
+     id->psd[0].mp = cpu_to_le16(0x9c4);
+     id->psd[0].enlat = cpu_to_le32(0x10);
+@@ -4545,6 +4565,8 @@ static Property nvme_props[] = {
+     DEFINE_BLOCK_PROPERTIES(NvmeCtrl, namespace.blkconf),
+     DEFINE_PROP_LINK("pmrdev", NvmeCtrl, pmr.dev, TYPE_MEMORY_BACKEND,
+                      HostMemoryBackend *),
++    DEFINE_PROP_LINK("subsys", NvmeCtrl, subsys, TYPE_NVME_SUBSYS,
++                     NvmeSubsystem *),
+     DEFINE_PROP_STRING("serial", NvmeCtrl, params.serial),
+     DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, params.cmb_size_mb, 0),
+     DEFINE_PROP_UINT32("num_queues", NvmeCtrl, params.num_queues, 0),
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index dee6092bd45f..04d4684601fd 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -2,6 +2,7 @@
+ #define HW_NVME_H
+ 
+ #include "block/nvme.h"
++#include "nvme-subsys.h"
+ #include "nvme-ns.h"
+ 
+ #define NVME_MAX_NAMESPACES 256
+@@ -170,6 +171,8 @@ typedef struct NvmeCtrl {
+ 
+     uint8_t     zasl;
+ 
++    NvmeSubsystem   *subsys;
++
+     NvmeNamespace   namespace;
+     NvmeNamespace   *namespaces[NVME_MAX_NAMESPACES];
+     NvmeSQueue      **sq;
 -- 
 2.17.1
 
