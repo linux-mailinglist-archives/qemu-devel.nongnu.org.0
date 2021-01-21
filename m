@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449162FF902
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 00:42:25 +0100 (CET)
-Received: from localhost ([::1]:43120 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEAD82FF903
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 00:43:18 +0100 (CET)
+Received: from localhost ([::1]:45812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2jaq-00043D-B2
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 18:42:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57956)
+	id 1l2jbh-0005By-S9
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 18:43:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2jZa-00033M-1x; Thu, 21 Jan 2021 18:41:06 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:36965)
+ id 1l2jaS-00047s-6I; Thu, 21 Jan 2021 18:42:00 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:36158)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
- id 1l2jZY-0006Zs-Hy; Thu, 21 Jan 2021 18:41:05 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id g15so2695824pjd.2;
- Thu, 21 Jan 2021 15:41:03 -0800 (PST)
+ id 1l2jaQ-0006v5-I3; Thu, 21 Jan 2021 18:41:59 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id e6so2700922pjj.1;
+ Thu, 21 Jan 2021 15:41:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=date:from:to:cc:subject:message-id:references:mime-version
  :content-disposition:in-reply-to:user-agent;
- bh=fJBswATF6Zjdit9uaBgq8yjkYx/L7CNiw+aa5C9WnQ8=;
- b=fmCzWs9IyvWjl9tywkRFfbZ/m18MxnQLOPMibNyuNIzMqUQRBbCuWpJa+ciQmwzM7m
- 4F+cXv+BCieuYG0ZioQis+adEeKnfP20Ymw61H2nfyI1xTPxsjsin5WlmMxyuGM6K/7t
- tIQTfrrpIE5B0c+R+jSfgLdLItZK2FwWauXS58IXeGyr58RWjxgtHodXYWL6ae+HZcPt
- qCt2/ctaD1UhjAVNqLpZzWM+85PdI+/jmmQtl7oHDs16lw62rMmhfuX1Enbk1d81NpAC
- Vaf2qIUpBUwjRWaQUTM6wScl15pfM6C6sTIH3B7ULAbUBM3UaQTuuppzZB7YWfaNH1P9
- DjcA==
+ bh=/IH8vCQ8oxIMBSVP4SRv+n7yf37grX4x4L6pXeKpxaw=;
+ b=UIMIb+W3AO5UoS+umhzFybfurq6MA56IrvBhlUNB+20Wuq5tlURyCdeFpAmR6Uz2IY
+ JLTjmoBGT9+GGS6ikdKW2azFAGEOWjP9AV5UvDJBSSEGB67+fKgzwtoF0DCyWg3srYlr
+ 91C/oBU+XBuEFScULFHCNXwRbcVXRguzSHtj4a9o884mNFwyqXWIQIQV9k2ZgfzDRYaJ
+ Q9hBomIEnuoUWouceZkuDQvg2Fyx2J252Ttjl2YWhg+Jycdqt0n6G0t1LS3pzbOMsiLQ
+ pq8XD58eV/vH5ZyWMOO1LzycC8RA2FjGmplUvSpOfe6V3jJNEzFjswgPCWi8wMpCWV8a
+ DLZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
  :mime-version:content-disposition:in-reply-to:user-agent;
- bh=fJBswATF6Zjdit9uaBgq8yjkYx/L7CNiw+aa5C9WnQ8=;
- b=nkzLXZgV3e4/qK1U86EDS/WadcaKZjZzRvxmF57T3HufjhSbMVhz6xpN0vVRcAaxeE
- yxOqs07r1UCYIAi2/qSAAbMgNSiTa19jxlSaBoTPxAV85wCUr9Mg+D2fdUP28sIbXS5D
- pZSd2FUdjWX2MnOt8veYWipweKmJi1GyD7tbBU+q8EdNPH3y3dK1p7YLYuSPEx5tUTte
- /VTEEdZLG8GXMXgftIpCySGL0RL5qqxzha1BEssjJvYhP72C9nOdQqVMeHvqYh1mFnwK
- niZSJSwn17LLdV8teYzC9KXvFESqvecoU/+8vhXm5V9L5Ig3g4fTkoARNWYnXjoAxSDk
- GFtQ==
-X-Gm-Message-State: AOAM531NzT37MHc+NVbIT5z5V2jnvYhTlcARueMrerZAFWmF5coENvf0
- v51hlyKdqaNbLxii0uV5EWE=
-X-Google-Smtp-Source: ABdhPJyPN05L0AOSnLTa0kLaE8//lgMnIfgRKoIfOeP3nx/LvPi6L+6qStHUd+bnAlL8z/f7YW8UhQ==
-X-Received: by 2002:a17:902:8bcc:b029:dc:45d9:f8b2 with SMTP id
- r12-20020a1709028bccb02900dc45d9f8b2mr1905884plo.62.1611272462696; 
- Thu, 21 Jan 2021 15:41:02 -0800 (PST)
+ bh=/IH8vCQ8oxIMBSVP4SRv+n7yf37grX4x4L6pXeKpxaw=;
+ b=Y3hw2eRMn7stDKazhWUH6SNJELvEwY8ioUd/FZMb4A66WTatKazTBIJG0fd/2PDm9t
+ t8xjsxVCx8PP6LgQNvglMRKY8zpiJaIJ5/29yXvNki/l3sJ1AKTu9ACeRhW3dnj31CLb
+ 2l3iNtNHoy/w0VyUp+KDEp1OV5RkkqZLqAFl0nI4Zo5FrhAvLjqmOO58UHLReNCVpxPk
+ WgrQHIgCW7mWlHZ7dzNI3Git4bgSnVBsdjXCB0UEfS/0fhPdTB1Yl9DOCfYsdVn0ZUa+
+ siCpa6Ja4I1+dxsRDxkS2TXUf7zoCc06i0vH0yRJe7o+dOXIXeB5kzXDgn0N3DbMUX7X
+ 43Sw==
+X-Gm-Message-State: AOAM533frnrGQHpK4Klu0eGm5Cdkv8/4+FSRbOBUTM4BpHR+EB5cyteQ
+ WSvGWZPipldD8DFkdXtxYkM=
+X-Google-Smtp-Source: ABdhPJzoXNbreqCOEgNBXGxA0qc2RA2+JpfkYq/oiPyxmD+GBoANrj4UNsE8+Ey33yW74zL0R0LLOw==
+X-Received: by 2002:a17:90a:4606:: with SMTP id
+ w6mr2039686pjg.172.1611272516524; 
+ Thu, 21 Jan 2021 15:41:56 -0800 (PST)
 Received: from localhost ([211.108.35.36])
- by smtp.gmail.com with ESMTPSA id x125sm6335082pgb.35.2021.01.21.15.41.01
+ by smtp.gmail.com with ESMTPSA id k4sm6460040pfk.44.2021.01.21.15.41.55
  (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
- Thu, 21 Jan 2021 15:41:02 -0800 (PST)
-Date: Fri, 22 Jan 2021 08:41:00 +0900
+ Thu, 21 Jan 2021 15:41:56 -0800 (PST)
+Date: Fri, 22 Jan 2021 08:41:53 +0900
 From: Minwoo Im <minwoo.im.dev@gmail.com>
 To: Keith Busch <kbusch@kernel.org>
-Subject: Re: [PATCH V4 2/6] hw/block/nvme: support to map controller to a
+Subject: Re: [PATCH V4 4/6] hw/block/nvme: support for multi-controller in
  subsystem
-Message-ID: <20210121234100.GB2746@localhost.localdomain>
+Message-ID: <20210121234153.GC2746@localhost.localdomain>
 References: <20210121220908.14247-1-minwoo.im.dev@gmail.com>
- <20210121220908.14247-3-minwoo.im.dev@gmail.com>
- <20210121230338.GC1727271@dhcp-10-100-145-180.wdc.com>
+ <20210121220908.14247-5-minwoo.im.dev@gmail.com>
+ <20210121231716.GD1727271@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210121230338.GC1727271@dhcp-10-100-145-180.wdc.com>
+In-Reply-To: <20210121231716.GD1727271@dhcp-10-100-145-180.wdc.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,17 +90,33 @@ Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-21 15:03:38, Keith Busch wrote:
-> On Fri, Jan 22, 2021 at 07:09:04AM +0900, Minwoo Im wrote:
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -23,6 +23,7 @@
-> >   *              max_ioqpairs=<N[optional]>, \
-> >   *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
-> >   *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
-> > + *              ,subsys=<subsys_id> \
+On 21-01-21 15:17:16, Keith Busch wrote:
+> On Fri, Jan 22, 2021 at 07:09:06AM +0900, Minwoo Im wrote:
+> > -static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+> > +static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t cntlid)
+> >  {
+> >      NvmeIdCtrl *id = &n->id_ctrl;
+> >      uint8_t *pci_conf = pci_dev->config;
+> >  
+> > +    n->cntlid = cntlid;
 > 
-> For consistency, the ',' goes in the preceeding line.
+> I don't think 'cntlid' is important enough to be a function parameter.
+> You can just set it within the 'NvmeCtrl' struct before calling this
+> function like all the other properties.
 
-I have no idea what happened here :(.  Will fix it. Thanks!
+Okay.  Rather than adding a parameter to this function,
+nvme_init_subsys() may take this job to assign cntlid to the controller
+instance first.  Let me fix one!
+
+> > @@ -4517,7 +4543,11 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+> >          return;
+> >      }
+> >  
+> > -    nvme_init_ctrl(n, pci_dev);
+> > +    cntlid = nvme_init_subsys(n, errp);
+> > +    if (cntlid < 0) {
+> 
+>     error_propogate();
+
+Thanks for catching this.
 
