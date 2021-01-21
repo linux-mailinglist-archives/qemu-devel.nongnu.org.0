@@ -2,77 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB2622FF1E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:29:12 +0100 (CET)
-Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BCC2FF1BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:24:58 +0100 (CET)
+Received: from localhost ([::1]:60950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2dlf-00067P-NS
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:29:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53044)
+	id 1l2dhZ-0002Et-DF
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:24:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l2dRL-0001wS-9A
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:08:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l2dRI-00027F-Es
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:08:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611248887;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=rTOsWxOSOxL//cQYLnhaUIuWCJRVv3mAzS0OuthbCdk=;
- b=SRgRgIh565ujtrpH81jhyGK0M0F6r35Cr7kEa3wPxRf/eIA+tyLqn/2OFMZrXLRH4Zo4un
- G/d33XxmIvKoEQsqGcHw0W9QI3OFCHpJhQNTwoNyPsvyxaQKMxQFlH7g6Laio61VU08WFF
- gp+ozpXwHeNOOZY2keBxKDNYWKrGT3E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-k3ac_gp1NaqvTJlOlwMzIw-1; Thu, 21 Jan 2021 12:08:05 -0500
-X-MC-Unique: k3ac_gp1NaqvTJlOlwMzIw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3419C107ACE4
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 17:08:04 +0000 (UTC)
-Received: from localhost (ovpn-118-239.rdu2.redhat.com [10.10.118.239])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DA89D1A919;
- Thu, 21 Jan 2021 17:08:03 +0000 (UTC)
-Date: Thu, 21 Jan 2021 12:08:02 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Subject: Re: [PATCH v3 18/19] i386: provide simple 'hv-default=on' option
-Message-ID: <20210121170802.GU1227584@habkost.net>
-References: <20210107150640.539239-1-vkuznets@redhat.com>
- <20210107151449.541062-1-vkuznets@redhat.com>
- <20210115031142.7c171a7f@redhat.com>
- <87h7ni7e08.fsf@vitty.brq.redhat.com>
- <20210120141312.0a1e6c33@redhat.com>
- <874kjb65cm.fsf@vitty.brq.redhat.com>
- <20210120200832.40141dc1@redhat.com>
- <20210120204909.GS1227584@habkost.net>
- <20210121142704.1a150cac@redhat.com>
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1l2dUk-0006Z7-Ib
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:11:44 -0500
+Received: from mail-io1-f45.google.com ([209.85.166.45]:43925)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1l2dUi-000425-Gq
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:11:42 -0500
+Received: by mail-io1-f45.google.com with SMTP id x21so5410495iog.10
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 09:11:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+ :message-id:subject:to:cc;
+ bh=TBpDLSJUW51U5az44fDjbdzwHStj9j7C/gRUrFfdYzM=;
+ b=aBw8crNc7QbBw7g/KaajuA/vgxqZK/Kbt7o9UVzatCb731WKSk9InxfiU9koNYq7Nr
+ pXOY4biJGRwUx9f2YJH8rO5UKvlKCeMWjovEStuKhTEgWLG+aWHKpL+t2iW9zf+0vpNR
+ RLGbZ92V4ay+vUeIqGzGeAc+/wuCgLl58K9ptFB6O7Nc1+nvaUVk1O8HIDsV7r831q4g
+ KbZwfvGeStPDHlOIuEDwKbMTOfeBTtzpYEBmgQb/DAW5NZ3FvVvb2FsbShTOx/D/Yqu2
+ 79kmcM0ZpUr8PaC8Mgr4W79AUuy6XIyDY8SRyrzfifGJnnAJx51JRGy5bMjk7PYer5jS
+ gBwg==
+X-Gm-Message-State: AOAM532t8HUpRwWdj0AI6MwqJE2othAydBXvMP3WmkJcxuJAGopGD33M
+ nUQfuaTd0gOobumQCrZhz2/Gd80/bg4=
+X-Google-Smtp-Source: ABdhPJz93bbrmgz2BDkjoR0oSdb9ssQ9kW0kTiRRpHswTAy802iWbj9hA4J6Y9IIGJETp/NSmGB2KA==
+X-Received: by 2002:a6b:7e05:: with SMTP id i5mr381665iom.60.1611249098862;
+ Thu, 21 Jan 2021 09:11:38 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
+ [209.85.166.41])
+ by smtp.gmail.com with ESMTPSA id r9sm3309953ill.72.2021.01.21.09.11.38
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jan 2021 09:11:38 -0800 (PST)
+Received: by mail-io1-f41.google.com with SMTP id u17so5512155iow.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 09:11:38 -0800 (PST)
+X-Received: by 2002:a92:d244:: with SMTP id v4mr589977ilg.191.1611249098288;
+ Thu, 21 Jan 2021 09:11:38 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210121142704.1a150cac@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received: by 2002:a02:6543:0:0:0:0:0 with HTTP; Thu, 21 Jan 2021 09:11:37
+ -0800 (PST)
+In-Reply-To: <20210121161703.GQ3125227@redhat.com>
+References: <20210105022055.12113-1-j@getutm.app>
+ <20210105022055.12113-5-j@getutm.app>
+ <20210121161703.GQ3125227@redhat.com>
+From: Joelle van Dyne <j@getutm.app>
+Date: Thu, 21 Jan 2021 09:11:37 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSCEdSPAxkNwQ3Yb7WMPLk0LGqa6uGQ6=gUV8GHE3o8nTg@mail.gmail.com>
+Message-ID: <CA+E+eSCEdSPAxkNwQ3Yb7WMPLk0LGqa6uGQ6=gUV8GHE3o8nTg@mail.gmail.com>
+Subject: Re: [PATCH v6 4/7] coroutine: add libucontext as external library
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000025fa0f05b96c2af7"
+Received-SPF: pass client-ip=209.85.166.45; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f45.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,324 +83,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 21, 2021 at 02:27:04PM +0100, Igor Mammedov wrote:
-> On Wed, 20 Jan 2021 15:49:09 -0500
-> Eduardo Habkost <ehabkost@redhat.com> wrote:
-> 
-> > On Wed, Jan 20, 2021 at 08:08:32PM +0100, Igor Mammedov wrote:
-> > > On Wed, 20 Jan 2021 15:38:33 +0100
-> > > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> > >   
-> > > > Igor Mammedov <imammedo@redhat.com> writes:
-> > > >   
-> > > > > On Fri, 15 Jan 2021 10:20:23 +0100
-> > > > > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> > > > >    
-> > > > >> Igor Mammedov <imammedo@redhat.com> writes:
-> > > > >>     
-> > > > >> > On Thu,  7 Jan 2021 16:14:49 +0100
-> > > > >> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> > > > >> >      
-> > > > >> >> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-> > > > >> >> requires listing all currently supported enlightenments ("hv-*" CPU
-> > > > >> >> features) explicitly. We do have 'hv-passthrough' mode enabling
-> > > > >> >> everything but it can't be used in production as it prevents migration.
-> > > > >> >> 
-> > > > >> >> Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
-> > > > >> >> Hyper-V enlightenments. Later, when new enlightenments get implemented,
-> > > > >> >> compat_props mechanism will be used to disable them for legacy machine types,
-> > > > >> >> this will keep 'hv-default=on' configurations migratable.
-> > > > >> >> 
-> > > > >> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> > > > >> >> ---
-> > > > >> >>  docs/hyperv.txt   | 16 +++++++++++++---
-> > > > >> >>  target/i386/cpu.c | 38 ++++++++++++++++++++++++++++++++++++++
-> > > > >> >>  target/i386/cpu.h |  5 +++++
-> > > > >> >>  3 files changed, 56 insertions(+), 3 deletions(-)
-> > > > >> >> 
-> > > > >> >> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> > > > >> >> index 5df00da54fc4..a54c066cab09 100644
-> > > > >> >> --- a/docs/hyperv.txt
-> > > > >> >> +++ b/docs/hyperv.txt
-> > > > >> >> @@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
-> > > > >> >>  
-> > > > >> >>  2. Setup
-> > > > >> >>  =========
-> > > > >> >> -No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
-> > > > >> >> -QEMU, individual enlightenments can be enabled through CPU flags, e.g:
-> > > > >> >> +All currently supported Hyper-V enlightenments can be enabled by specifying
-> > > > >> >> +'hv-default=on' CPU flag:
-> > > > >> >>  
-> > > > >> >> -  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
-> > > > >> >> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
-> > > > >> >> +
-> > > > >> >> +Alternatively, it is possible to do fine-grained enablement through CPU flags,
-> > > > >> >> +e.g:
-> > > > >> >> +
-> > > > >> >> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...      
-> > > > >> >
-> > > > >> > I'd put here not '...' but rather recommended list of flags, and update
-> > > > >> > it every time when new feature added if necessary.
-> > > > >> >      
-> > > > >
-> > > > > 1)
-> > > > >      
-> > > > >> This is an example of fine-grained enablement, there is no point to put
-> > > > >> all the existing flags there (hv-default is the only recommended way
-> > > > >> now, the rest is 'expert'/'debugging').    
-> > > > > so users are kept in dark what hv-default disables/enables (and it might depend
-> > > > > on machine version on top that). Doesn't look like a good documentation to me
-> > > > > (sure everyone can go and read source code for it and try to figure out how
-> > > > > it's supposed to work)    
-> > > > 
-> > > > 'hv-default' enables *all* currently supported enlightenments. When
-> > > > using with an old machine type, it will enable *all* Hyper-V
-> > > > enlightenmnets which were supported when the corresponding machine type
-> > > > was released. I don't think we document all other cases when a machine
-> > > > type is modified (i.e. where can I read how pc-q35-5.1 is different from
-> > > > pc-q35-5.0 if I refuse to read the source code?)
-> > > >   
-> > > > >    
-> > > > >>    
-> > > > >> > (not to mention that if we had it to begin with, then new 'hv-default' won't
-> > > > >> > be necessary, I still see it as functionality duplication but I will not oppose it)
-> > > > >> >      
-> > > > >> 
-> > > > >> Unfortunately, upper layer tools don't read this doc and update
-> > > > >> themselves to enable new features when they appear.    
-> > > > > rant: (just merge all libvirt into QEMU, and make VM configuration less low-level.
-> > > > > why stop there, just merge with yet another upper layer, it would save us a lot
-> > > > > on communication protocols and simplify VM creation even more,
-> > > > > and no one will have to read docs and write anything new on top.)
-> > > > > There should be limit somewhere, where QEMU job ends and others pile hw abstraction
-> > > > > layers on top of it.    
-> > > > 
-> > > > We have '-machine q35' and we don't require to list all the devices from
-> > > > it. We have '-cpu Skylake-Server' and we don't require to configure all
-> > > > the features manually. Why can't we have similar enablement for Hyper-V
-> > > > emulation where we can't even see a real need for anything but 'enable
-> > > > everything' option?
-> > > > 
-> > > > There is no 'one libvirt to rule them all' (fortunately or
-> > > > unfortunately). And sometimes QEMU is the uppermost layer and there's no
-> > > > 'libvirt' on top of it, this is also a perfectly valid use-case.
-> > > >   
-> > > > >    
-> > > > >> Similarly, if when these tools use '-machine q35' they get all the new features we add
-> > > > >> automatically, right?    
-> > > > > it depends, in case of CPUs, new features usually 'off' by default
-> > > > > for existing models. In case of bugs, features sometimes could be
-> > > > > flipped and versioned machines were used to keep broken CPU models
-> > > > > on old machine types.
-> > > > >    
-> > > > 
-> > > > That's why I was saying that Hyper-V enlightenments hardly resemble
-> > > > 'hardware' CPU features.  
-> > > Well, Microsoft chose to implement them as hardware concept (CPUID leaf),
-> > > and I prefer to treat them the same way as any other CPUID bits.
-> > >   
-> > > >   
-> > > > >        
-> > > > >> >> +It is also possible to disable individual enlightenments from the default list,
-> > > > >> >> +this can be used for debugging purposes:
-> > > > >> >> +
-> > > > >> >> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
-> > > > >> >>  
-> > > > >> >>  Sometimes there are dependencies between enlightenments, QEMU is supposed to
-> > > > >> >>  check that the supplied configuration is sane.
-> > > > >> >> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > > > >> >> index 48007a876e32..99338de00f78 100644
-> > > > >> >> --- a/target/i386/cpu.c
-> > > > >> >> +++ b/target/i386/cpu.c
-> > > > >> >> @@ -4552,6 +4552,24 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
-> > > > >> >>      cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
-> > > > >> >>  }
-> > > > >> >>  
-> > > > >> >> +static bool x86_hv_default_get(Object *obj, Error **errp)
-> > > > >> >> +{
-> > > > >> >> +    X86CPU *cpu = X86_CPU(obj);
-> > > > >> >> +
-> > > > >> >> +    return cpu->hyperv_default;
-> > > > >> >> +}
-> > > > >> >> +
-> > > > >> >> +static void x86_hv_default_set(Object *obj, bool value, Error **errp)
-> > > > >> >> +{
-> > > > >> >> +    X86CPU *cpu = X86_CPU(obj);
-> > > > >> >> +
-> > > > >> >> +    cpu->hyperv_default = value;
-> > > > >> >> +
-> > > > >> >> +    if (value) {
-> > > > >> >> +        cpu->hyperv_features |= cpu->hyperv_default_features;      
-> > > > >> >
-> > > > >> > s/|="/=/ please,
-> > > > >> > i.e. no option overrides whatever was specified before to keep semantics consistent.
-> > > > >> >      
-> > > > >> 
-> > > > >> Hm,
-> > > > >>     
-> > > > >    
-> > > > >> this doesn't matter for the most recent machine type as
-> > > > >> hyperv_default_features has all the features but imagine you're running
-> > > > >> an older machine type which doesn't have 'hv_feature'. Now your    
-> > > > > normally one shouldn't use new feature with old machine type as it makes
-> > > > > VM non-migratable to older QEMU that has this machine type but not this feature.
-> > > > >
-> > > > > nitpicking:
-> > > > >   according to (1) user should not use 'hv_feature' on old machine since
-> > > > >   hv_default should cover all their needs (well they don't know what
-> > > > > hv_default actually is).    
-> > > > 
-> > > > Normally yes but I can imagine sticking to some old machine type for
-> > > > other-than-hyperv-enlightenments purposes and still wanting to add a
-> > > > newly introduced enlightenment. Migration is not always a must.
-> > > >   
-> > > > >    
-> > > > >> suggestion is 
-> > > > >> 
-> > > > >> if I do:
-> > > > >> 
-> > > > >> 'hv_default,hv_feature=on' I will get "hyperv_default_features | hv_feature"
-> > > > >> 
-> > > > >> but if I do
-> > > > >> 
-> > > > >> 'hv_feature=on,hv_default' I will just get 'hyperv_default_features'
-> > > > >> (as hv_default enablement will overwrite everything)
-> > > > >> 
-> > > > >> How is this consistent?    
-> > > > > usual semantics for properties, is that the latest property overwrites,
-> > > > > the previous property value parsed from left to right.
-> > > > > (i.e. if one asked for hv_default, one gets it related CPUID bit set/unset,
-> > > > > if one needs more than that one should add more related features after that.
-> > > > >    
-> > > > 
-> > > > This semantics probably doesn't apply to 'hv-default' case IMO as my
-> > > > brain refuses to accept the fact that  
-> > > it's difficult probably because 'hv-default' is 'alias' property 
-> > > that covers all individual hv-foo features in one go and that individual
-> > > features are exposed to user, but otherwise it is just a property that
-> > > sets CPUID features or like any other property, and should be treated like such.
-> > >   
-> > > > 'hv_default,hv_feature' != 'hv_feature,hv_default'
-> > > >
-> > > > which should express the same desire 'the default set PLUS the feature I
-> > > > want'.  
-> > > if hv_default were touching different data, I'd agree.
-> > > But in the end hv_default boils down to the same CPUID bits as individual
-> > > features:
-> > > 
-> > >   hv_default,hv_f2 => (hv_f1=on,hv_f2=off),hv_f2=on
-> > >          !=
-> > >   hv_f2,hv_default => hv_f2=on,(hv_f1=on,hv_f2=off)  
-> > 
-> > I don't know why you chose to define "hv_default" as
-> > hv_f1=on,hv_f2=off.  If hv_f2 is not enabled by hv_default, it
-> > doesn't need to be touched by hv_default at all.
-> 
-> Essentially I was thinking about hv_default=on as setting default value
-> of hv CPUID leaf i.e. like doc claims, 'all' hv_* features (including
-> turned off and unused bits) which always sets leaf to its default state.
-> 
-> Now lets consider following possible situation
-> using combine' approach (leaf |= some_bits):
-> 
-> QEMU-6.0: initially we have all possible features enabled
->                 hv_default = (hv_f1=on,hv_f2=on)
-> 
-> hv_f2=on,hv_default=on == hv_f1=on,hv_f2=on
-> 
-> QEMU-6.1: disabled hv_f2=off that was causing problems
-> 
-> hv_default = (hv_f1=on,hv_f2=off)
+--00000000000025fa0f05b96c2af7
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Why would we choose to do that?
+Yes since the submission of this patch, we have been working with the
+original authors to merge all the changes upstream. The next patch should
+point to the original repo.
 
-If we decide f2 shouldn't be part of the default, we'll redefine
-hv_default as:
+-j
 
-  hv_default = (hv_f1=on)
+On Thursday, January 21, 2021, Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+>
+wrote:
 
-> 
-> however due to ORing hv_default doesn't fix issue for the same CLI
-> (i.e. it doesn't have expected effect)
-> 
-> hv_f2=on,hv_default=on => hv_f1=on,hv_f2=on
-> 
-> if one would use usual 'set' semantics (leaf = all_bits),
-> then new hv_default value will have desired effect despite of botched CLI,
-> just by virtue of property following typical 'last set' semantics:
-> 
->  => hv_f1=on,hv_f2=off
-> 
-> If we assume that we 'never ever' will need to disable feature bits
-> than it doesn't matter which approach to use, however a look at
-> pc_compat arrays shows that features are being enabled/disabled
-> all the time.
+> On Mon, Jan 04, 2021 at 06:20:52PM -0800, Joelle van Dyne wrote:
+> > iOS does not support ucontext natively for aarch64 and the sigaltstack =
+is
+> > also unsupported (even worse, it fails silently, see:
+> > https://openradar.appspot.com/13002712 )
+> >
+> > As a workaround we include a library implementation of ucontext and add
+> it
+> > as a build option.
+> >
+> > Signed-off-by: Joelle van Dyne <j@getutm.app>
+> > ---
+> >  configure                 | 23 ++++++++++++++++++++---
+> >  meson.build               | 11 ++++++++++-
+> >  util/coroutine-ucontext.c |  9 +++++++++
+> >  .gitmodules               |  3 +++
+> >  meson_options.txt         |  2 ++
+> >  subprojects/libucontext   |  1 +
+> >  6 files changed, 45 insertions(+), 4 deletions(-)
+> >  create mode 160000 subprojects/libucontext
+>
+> > diff --git a/.gitmodules b/.gitmodules
+> > index 2bdeeacef8..4f02eed79a 100644
+> > --- a/.gitmodules
+> > +++ b/.gitmodules
+> > @@ -64,3 +64,6 @@
+> >  [submodule "roms/vbootrom"]
+> >       path =3D roms/vbootrom
+> >       url =3D https://git.qemu.org/git/vbootrom.git
+> > +[submodule "libucontext"]
+> > +     path =3D subprojects/libucontext
+> > +     url =3D https://github.com/utmapp/libucontext.git
+>
+> Using libucontext looks like a good idea to me, but I noticed that
+> this is a pointing to a fork of the main libucontext project at
+>
+>    https://github.com/kaniini/libucontext
+>
+> The main project appears 100's of commits ahead of the utmapp fork
+>
+> What is in the utmapp fork that isn't present in the primary libucontext
+> repo ?  I think if we're going to use libucontext we will want to point
+> to the primary project, and this means anything custom in the fork will
+> need to get submitted upstream. Maybe you've already started doing that
+> making this a non-issue ?
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/
+> dberrange :|
+> |: https://libvirt.org         -o-
+> https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/
+> dberrange :|
+>
+>
 
-I'm pretty sure that "hv_default=on will also disable features
-that appear in the command line" will not be a requirement.
+--00000000000025fa0f05b96c2af7
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+Yes since the submission of this patch, we have been working with the origi=
+nal authors to merge all the changes upstream. The next patch should point =
+to the original repo.<div><br></div><div>-j<br><br>On Thursday, January 21,=
+ 2021, Daniel P. Berrang=C3=A9 &lt;<a href=3D"mailto:berrange@redhat.com">b=
+errange@redhat.com</a>&gt; wrote:<br><blockquote class=3D"gmail_quote" styl=
+e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex">On Mon,=
+ Jan 04, 2021 at 06:20:52PM -0800, Joelle van Dyne wrote:<br>
+&gt; iOS does not support ucontext natively for aarch64 and the sigaltstack=
+ is<br>
+&gt; also unsupported (even worse, it fails silently, see:<br>
+&gt; <a href=3D"https://openradar.appspot.com/13002712" target=3D"_blank">h=
+ttps://openradar.appspot.com/<wbr>13002712</a> )<br>
+&gt; <br>
+&gt; As a workaround we include a library implementation of ucontext and ad=
+d it<br>
+&gt; as a build option.<br>
+&gt; <br>
+&gt; Signed-off-by: Joelle van Dyne &lt;j@getutm.app&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 configure=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
+ =C2=A0| 23 ++++++++++++++++++++---<br>
+&gt;=C2=A0 meson.build=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0| 11 ++++++++++-<br>
+&gt;=C2=A0 util/coroutine-ucontext.c |=C2=A0 9 +++++++++<br>
+&gt;=C2=A0 .gitmodules=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 3 +++<br>
+&gt;=C2=A0 meson_options.txt=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0|=C2=A0 2 ++<=
+br>
+&gt;=C2=A0 subprojects/libucontext=C2=A0 =C2=A0|=C2=A0 1 +<br>
+&gt;=C2=A0 6 files changed, 45 insertions(+), 4 deletions(-)<br>
+&gt;=C2=A0 create mode 160000 subprojects/libucontext<br>
+<br>
+&gt; diff --git a/.gitmodules b/.gitmodules<br>
+&gt; index 2bdeeacef8..4f02eed79a 100644<br>
+&gt; --- a/.gitmodules<br>
+&gt; +++ b/.gitmodules<br>
+&gt; @@ -64,3 +64,6 @@<br>
+&gt;=C2=A0 [submodule &quot;roms/vbootrom&quot;]<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0path =3D roms/vbootrom<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0url =3D <a href=3D"https://git.qemu.org/git/=
+vbootrom.git" target=3D"_blank">https://git.qemu.org/git/<wbr>vbootrom.git<=
+/a><br>
+&gt; +[submodule &quot;libucontext&quot;]<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0path =3D subprojects/libucontext<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0url =3D <a href=3D"https://github.com/utmapp/libu=
+context.git" target=3D"_blank">https://github.com/utmapp/<wbr>libucontext.g=
+it</a><br>
+<br>
+Using libucontext looks like a good idea to me, but I noticed that<br>
+this is a pointing to a fork of the main libucontext project at<br>
+<br>
+=C2=A0 =C2=A0<a href=3D"https://github.com/kaniini/libucontext" target=3D"_=
+blank">https://github.com/kaniini/<wbr>libucontext</a><br>
+<br>
+The main project appears 100&#39;s of commits ahead of the utmapp fork<br>
+<br>
+What is in the utmapp fork that isn&#39;t present in the primary libucontex=
+t<br>
+repo ?=C2=A0 I think if we&#39;re going to use libucontext we will want to =
+point<br>
+to the primary project, and this means anything custom in the fork will<br>
+need to get submitted upstream. Maybe you&#39;ve already started doing that=
+<br>
+making this a non-issue ?<br>
+<br>
+Regards,<br>
+Daniel<br>
+-- <br>
+|: <a href=3D"https://berrange.com" target=3D"_blank">https://berrange.com<=
+/a>=C2=A0 =C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"https://www.flickr.com/=
+photos/dberrange" target=3D"_blank">https://www.flickr.com/photos/<wbr>dber=
+range</a> :|<br>
+|: <a href=3D"https://libvirt.org" target=3D"_blank">https://libvirt.org</a=
+>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-o-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 <a href=3D"https://fstop138.berrange.com" target=3D"_blank">https://=
+fstop138.berrange.com</a> :|<br>
+|: <a href=3D"https://entangle-photo.org" target=3D"_blank">https://entangl=
+e-photo.org</a>=C2=A0 =C2=A0 -o-=C2=A0 =C2=A0 <a href=3D"https://www.instag=
+ram.com/dberrange" target=3D"_blank">https://www.instagram.com/<wbr>dberran=
+ge</a> :|<br>
+<br>
+</blockquote></div>
 
-> 
-> PS:
-> I'd rename hv_default => hv_set_default,
-> since we would need hv_default[_value] property later on to set compat value
-> based on machine type version.
->     
-> > > > I think I prefer sanity over purity in this case.  
-> > > what is sanity to one could be insanity for another,
-> > > so I pointed out the way properties expected to work today.
-> > > 
-> > > But you are adding new semantic ('combine') to property/features parsing
-> > > (instead of current 'set' policy), and users will have to be aware of
-> > > this new behavior and add/maintain code for this special case.
-> > > (maybe I worry in vain, and no one will read docs and know about this
-> > > new property anyways)
-> > > 
-> > > That will also push x86 CPUs consolidation farther away from other targets,
-> > > where there aren't any special casing for features parsing, just simple
-> > > left to right parsing with the latest property having overwriting previously
-> > > set value.
-> > > We are trying hard to reduce special cases and unify interfaces for same
-> > > components to simplify qemu and make it predictable/easier for users.
-> > >   
-> > 
-> > What you are proposing diverges from other targets, actually.
-> > See target/s390x/cpu_models.c:set_feature_group() for example.
-> > Enabling a feature group in s390x only enables a set of feature
-> > bits, and doesn't touch the rest.
-> Looking at code, it has the same issue as I described above
-
-I don't see why that's an issue.  This is how feature groups were
-designed, and it works.
-
-
-> 
-> 
-> > In other words, if hv_default includes hv_f1+hv_f2 (and not hv_f3
-> > or hv_f4), this means:
-> > 
-> >    hv_default,hv_f3=on,hv_f4=off => (hv_f1=on,hv_f2=on),hv_f3=on,hv_f4=off
-> >           ==
-> >    hv_f3=on,hv_f4=off,hv_default => hv_f3=on,hv_f4=off,(hv_f2=on,hv_f2=on)
-> > 
-> > That would also mean:
-> > 
-> >    hv_default,hv_f1=on,hv_f2=off => (hv_f1=on,hv_f2=on),hv_f1=on,hv_f2=off
-> >           !=
-> >    hv_f1=on,hv_f2=off,hv_default => hv_f1=on,hv_f2=off,(hv_f2=on,hv_f2=on)
-> > 
-> > That's the behavior implemented by Vitaly.
-> > 
-> > > [...]  
-> > 
-> 
-
--- 
-Eduardo
-
+--00000000000025fa0f05b96c2af7--
 
