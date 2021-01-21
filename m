@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CDDB2FE6E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:58:50 +0100 (CET)
-Received: from localhost ([::1]:39238 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B2822FE6EF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:01:03 +0100 (CET)
+Received: from localhost ([::1]:44720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Wjp-0004fA-DM
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:58:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58764)
+	id 1l2Wly-0006vw-CB
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:01:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58812)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2WiC-00030D-FE
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:57:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23438)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2WiM-000351-4S
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:57:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27305)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Wi8-0007rn-PC
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:57:07 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2WiK-0007vC-08
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:57:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611223024;
+ s=mimecast20190719; t=1611223035;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2LW2Kx/9H06kf4OWFEdjuF2232jMpxnHueaxVF+4wcs=;
- b=PeOMYlAE24lLP0jRlcO/9buBqRub5FkDAxvtP2mO3DfAI8tPa9EKzpbJ5iwwmaYMBlDpS8
- 2uBj34brFz4rGtEQKRWCM6bqvcJNqr3x9fuyaSLUim11tKHPbvE6wkLQhUHxA8hGuew2gm
- 9ZGLPe1Aw1VgBEtt0unZWpi7baQTGGs=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-350-wmfIVmXXNjKSSwY7OCKKFQ-1; Thu, 21 Jan 2021 04:57:02 -0500
-X-MC-Unique: wmfIVmXXNjKSSwY7OCKKFQ-1
-Received: by mail-ej1-f72.google.com with SMTP id j14so536639eja.15
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 01:57:02 -0800 (PST)
+ bh=tGrTqOJFJX/9xwS1isGKD0PSe9tKB51Kc36jkDQ9rMw=;
+ b=PEm+bQfgWiqrA4++qLL9GYPsThYfEkoo6YXFUumzW9hPUvNOn4AIOl+rjwGD4X5jnM6ajg
+ QbLrtTXAUjOzwGVm0OOtGuXlMkljK6mywiVSBByVZlAp9hVDhU0exK6BwMxMWub8lGtmsa
+ 7ky7WdeCl5dpXR6XJhzIhZCRYJKAUFA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-75-qfnYmxAmOoiBkm9q87DaNw-1; Thu, 21 Jan 2021 04:57:13 -0500
+X-MC-Unique: qfnYmxAmOoiBkm9q87DaNw-1
+Received: by mail-ed1-f72.google.com with SMTP id k5so820612edk.15
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 01:57:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=2LW2Kx/9H06kf4OWFEdjuF2232jMpxnHueaxVF+4wcs=;
- b=mnJHUJAmfKNzNjzoqV11S9y/35Mh8k7BJk1NjXccQmaVcAHD1JdqOgFG7k3VEKHytW
- vFBli/b7Fz4SxNy03dfvkyWcl0l67o0f+rUe7DJoQz9Np3RyNmly5xLqCGHhDV597C+B
- O5Pqxz6c1HeAj06Jw0nXYuJU4h5fWH58r10G/FkKXv2bol9Wj1NZIA1Pwcoi+vpFli08
- r7oay5Ifu195zaTJsaaK5BUvntlFkclZgX84O4jNKZ6RPSY6LrzB33b80RiGhK8NJcDX
- D5haAy2AD4e2cVeqVjRCA0V5p89HxdRuyAKtMW0JYYd+vWyhu7xCX2zGXncyvxtKkzdC
- Qnsg==
-X-Gm-Message-State: AOAM533nqWj3HL1/Imr3fNYfo3AxU620QXsY5Ey7OKMCjd1BBoUj6NAa
- LYEuEbtNlBO0BkZe38TMELfXH/I9uJFMMxDRl2pcLMx5P88HE8/vLT+cXxQBnnrjdR65Di+l8PL
- 3VcRx9HLVXUXAInIZJ8G3sKxqqIwcOhBjoieRVzLzRNLHDZF2YAijpPSkd61cr41o
-X-Received: by 2002:a50:b5c5:: with SMTP id a63mr10478109ede.227.1611223021185; 
- Thu, 21 Jan 2021 01:57:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwBRzttT7kC1yZ5t6KrcQ8gGr1cEItrMgHHFCKbZ2l/JY0cUsyBmAU/jNJNR11twZlXirghyg==
-X-Received: by 2002:a50:b5c5:: with SMTP id a63mr10478087ede.227.1611223020972; 
- Thu, 21 Jan 2021 01:57:00 -0800 (PST)
+ bh=tGrTqOJFJX/9xwS1isGKD0PSe9tKB51Kc36jkDQ9rMw=;
+ b=Yrql1xal4zIg39YVcibY9STHuhWikpy7+C2N6yH8Hk1Ac1GdKYn5FfQxj6oy6WYGTw
+ 587eeZp2mVSYPZ7Jd3rByOqxFI3LG+lmyX1JEdHBSa/tBafB9pyhHcb1CRH8XfHS/VjT
+ B8rN4gUmDltom4/URaU+kQtGcNhjZf+e0At/njJ9EJq7FPuPgJoaLHnVfgc2ozMzaOxp
+ xodesk0PSp1YeGNBaAt6zCN1NOFvhHiaV+XDwB7AmbSq0/RfI58i9RytgiXckLtDXIt/
+ vwC7UuMemJ1hFomxLLB4aPbBpj+UgNxEWIX2vJwK4ZJi0jANAj1ak1p81KAQxPw8m+SW
+ I3sA==
+X-Gm-Message-State: AOAM5308g9o9BnUkRSJubJQnxqC8TK6hQCEhkiSPLD6/ZKfBj2/H0iGp
+ 0VJwXidItqtJSlUQDlV7yKRM4av8/2fSAXd8I9+FOAAVyT5Q8k8JhJTKZDmpiPMP+OIhHUyacls
+ 0kROiVwkPV5/DkEwmmVvo8rDn0JQhVjscUVG/uFM+9/l9f1t1dqlt3Wb+gE0VwP2U
+X-Received: by 2002:aa7:d304:: with SMTP id p4mr4368568edq.144.1611223031708; 
+ Thu, 21 Jan 2021 01:57:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx/Ng1v7j/qeRZqcwa2/Ngs2SB4mtguaWXAQrCf7MA/N/37O7WNJtSQq0n6LroiyP+zDFSo7g==
+X-Received: by 2002:aa7:d304:: with SMTP id p4mr4368554edq.144.1611223031461; 
+ Thu, 21 Jan 2021 01:57:11 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id lg21sm1604419ejb.91.2021.01.21.01.56.59
+ by smtp.gmail.com with ESMTPSA id da26sm2499829edb.36.2021.01.21.01.57.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 01:57:00 -0800 (PST)
+ Thu, 21 Jan 2021 01:57:10 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/8] meson: Display accelerators and selected targets
- altogether
-Date: Thu, 21 Jan 2021 10:56:13 +0100
-Message-Id: <20210121095616.1471869-6-philmd@redhat.com>
+Subject: [PATCH v2 7/8] meson: Display cryto-related information altogether
+Date: Thu, 21 Jan 2021 10:56:15 +0100
+Message-Id: <20210121095616.1471869-8-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210121095616.1471869-1-philmd@redhat.com>
 References: <20210121095616.1471869-1-philmd@redhat.com>
@@ -73,14 +72,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,110 +93,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>, Paul Durrant <paul@xen.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Sunil Muthuswamy <sunilmut@microsoft.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ "Daniel P . Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Display accelerators and selected targets altogether,
-avoid to display unuseful information when not relevant.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
-Cc: Richard Henderson <richard.henderson@linaro.org>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Cameron Esfahani <dirty@apple.com>
-Cc: Roman Bolshakov <r.bolshakov@yadro.com>
-Cc: Sunil Muthuswamy <sunilmut@microsoft.com>
-Cc: Stefano Stabellini <sstabellini@kernel.org>
-Cc: Anthony Perard <anthony.perard@citrix.com>
-Cc: Paul Durrant <paul@xen.org>
+Cc: Daniel P. Berrange <berrange@redhat.com>
 ---
- meson.build | 38 ++++++++++++++++++++++++--------------
- 1 file changed, 24 insertions(+), 14 deletions(-)
+ meson.build | 34 +++++++++++++++++++---------------
+ 1 file changed, 19 insertions(+), 15 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 194b8523f77..a0945749f94 100644
+index e372b69f163..9274775a81a 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2323,6 +2323,8 @@
- # Overall features
- summary_info = {}
- summary_info += {'Documentation':     build_docs}
-+summary_info += {'system-mode emulation': have_system}
-+summary_info += {'user-mode emulation': have_user}
- summary_info += {'Install blobs':     get_option('install_blobs')}
- # TODO: add back version
- summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
-@@ -2402,8 +2404,30 @@
- summary_info += {'mingw32 support':   targetos == 'windows'}
- summary(summary_info, bool_yn: true, section: 'Compilation')
+@@ -2453,19 +2453,8 @@
+ endif
+ summary(summary_info, bool_yn: true, section: 'Block layer support')
  
-+# Targets and accelerators
++# Crypto
  summary_info = {}
-+if have_system
-+  summary_info += {'KVM support':       config_all.has_key('CONFIG_KVM')}
-+  summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
-+  summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
-+  summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
-+  summary_info += {'Xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
-+  if config_host.has_key('CONFIG_XEN_BACKEND')
-+    summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
-+  endif
-+endif
-+summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
-+if config_all.has_key('CONFIG_TCG')
-+  summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
-+  summary_info += {'TCG interpreter':   config_host.has_key('CONFIG_TCG_INTERPRETER')}
-+endif
- summary_info += {'target list':       ' '.join(target_dirs)}
-+if have_system
-+  summary_info += {'default devices':   get_option('default_devices')}
-+endif
-+summary(summary_info, bool_yn: true, section: 'Targets and accelerators')
+-summary_info += {'sparse enabled':    sparse.found()}
+-if targetos == 'darwin'
+-  summary_info += {'Cocoa support':   cocoa.found()}
+-endif
+-# TODO: add back version
+-summary_info += {'SDL support':       sdl.found()}
+-summary_info += {'SDL image support': sdl_image.found()}
+-# TODO: add back version
+-summary_info += {'GTK support':       gtk.found()}
+-summary_info += {'pixman':            pixman.found()}
+-# TODO: add back version
+-summary_info += {'VTE support':       config_host.has_key('CONFIG_VTE')}
+ summary_info += {'TLS priority':      config_host['CONFIG_TLS_PRIORITY']}
+ summary_info += {'GNUTLS support':    config_host.has_key('CONFIG_GNUTLS')}
+ # TODO: add back version
+@@ -2479,6 +2468,24 @@
+ if config_host.has_key('CONFIG_NETTLE')
+    summary_info += {'  XTS':             not config_host.has_key('CONFIG_QEMU_PRIVATE_XTS')}
+ endif
++summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
++summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
++summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
++summary(summary_info, bool_yn: true, section: 'Crypto')
 +
 +summary_info = {}
- summary_info += {'sparse enabled':    sparse.found()}
- if targetos == 'darwin'
-   summary_info += {'Cocoa support':   cocoa.found()}
-@@ -2447,25 +2471,12 @@
-   summary_info += {'VNC JPEG support':  jpeg.found()}
-   summary_info += {'VNC PNG support':   png.found()}
++summary_info += {'sparse enabled':    sparse.found()}
++if targetos == 'darwin'
++  summary_info += {'Cocoa support':   cocoa.found()}
++endif
++# TODO: add back version
++summary_info += {'SDL support':       sdl.found()}
++summary_info += {'SDL image support': sdl_image.found()}
++# TODO: add back version
++summary_info += {'GTK support':       gtk.found()}
++summary_info += {'pixman':            pixman.found()}
++# TODO: add back version
++summary_info += {'VTE support':       config_host.has_key('CONFIG_VTE')}
+ summary_info += {'libtasn1':          config_host.has_key('CONFIG_TASN1')}
+ summary_info += {'PAM':               config_host.has_key('CONFIG_AUTH_PAM')}
+ summary_info += {'iconv support':     iconv.found()}
+@@ -2531,7 +2538,6 @@
+   summary_info += {'QGA MSI support':   config_host.has_key('CONFIG_QGA_MSI')}
  endif
--summary_info += {'xen support':       config_host.has_key('CONFIG_XEN_BACKEND')}
--if config_host.has_key('CONFIG_XEN_BACKEND')
--  summary_info += {'xen ctrl version':  config_host['CONFIG_XEN_CTRL_INTERFACE_VERSION']}
--endif
- summary_info += {'brlapi support':    brlapi.found()}
- summary_info += {'vde support':       config_host.has_key('CONFIG_VDE')}
- summary_info += {'netmap support':    config_host.has_key('CONFIG_NETMAP')}
- summary_info += {'Linux AIO support': config_host.has_key('CONFIG_LINUX_AIO')}
- summary_info += {'Linux io_uring support': config_host.has_key('CONFIG_LINUX_IO_URING')}
- summary_info += {'ATTR/XATTR support': libattr.found()}
--summary_info += {'KVM support':       config_all.has_key('CONFIG_KVM')}
--summary_info += {'HAX support':       config_all.has_key('CONFIG_HAX')}
--summary_info += {'HVF support':       config_all.has_key('CONFIG_HVF')}
--summary_info += {'WHPX support':      config_all.has_key('CONFIG_WHPX')}
--summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
--if config_all.has_key('CONFIG_TCG')
--  summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
--  summary_info += {'TCG interpreter':   config_host.has_key('CONFIG_TCG_INTERPRETER')}
--endif
- summary_info += {'RDMA support':      config_host.has_key('CONFIG_RDMA')}
- summary_info += {'PVRDMA support':    config_host.has_key('CONFIG_PVRDMA')}
- summary_info += {'fdt support':       fdt_opt == 'disabled' ? false : fdt_opt}
-@@ -2527,7 +2538,6 @@
+ summary_info += {'seccomp support':   seccomp.found()}
+-summary_info += {'crypto afalg':      config_host.has_key('CONFIG_AF_ALG')}
+ summary_info += {'GlusterFS support': glusterfs.found()}
+ summary_info += {'TPM support':       config_host.has_key('CONFIG_TPM')}
+ summary_info += {'libssh support':    config_host.has_key('CONFIG_LIBSSH')}
+@@ -2547,8 +2553,6 @@
  summary_info += {'libpmem support':   config_host.has_key('CONFIG_LIBPMEM')}
  summary_info += {'libdaxctl support': config_host.has_key('CONFIG_LIBDAXCTL')}
  summary_info += {'libudev':           libudev.found()}
--summary_info += {'default devices':   get_option('default_devices')}
- summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
- summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
- summary_info += {'FUSE exports':      fuse.found()}
+-summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
+-summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
+ summary(summary_info, bool_yn: true, section: 'Misc')
+ 
+ if not supported_cpus.contains(cpu)
 -- 
 2.26.2
 
