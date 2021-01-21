@@ -2,81 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDDB12FF646
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:48:37 +0100 (CET)
-Received: from localhost ([::1]:48164 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AB032FF693
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:57:35 +0100 (CET)
+Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2gse-00042H-Ip
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:48:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50026)
+	id 1l2h1J-0002T5-O8
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:57:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52454)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2gr8-0003VM-Oe
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:47:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27278)
+ (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
+ id 1l2gzN-0001lU-Si
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:55:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38590)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2gr6-0007wM-71
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:47:01 -0500
+ (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
+ id 1l2gzH-0003CT-G7
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:55:31 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611262019;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1611262526;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+srR5Gnlgdtd6aZDREpQ85ROXihTI280dU/PmZGxrrI=;
- b=D4a+s9/3Trigzj3YSXmOqjqX+vSbtN3j0f217xrLbrgLaBQg1PJT1ju+xvDwOds4GycT9b
- a/NpmOJonoGw2RdOpItKOP7dZxFmym1so5elbLgjhuTU1BrFi5KqelZieCh1wz47EOooAA
- s3nvNrWXCpciSTmqE1oQmK3QwjcwfME=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-389-Ff_W7tLbMVemTaP1cNkt0g-1; Thu, 21 Jan 2021 15:46:55 -0500
-X-MC-Unique: Ff_W7tLbMVemTaP1cNkt0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EB2D28030A2;
- Thu, 21 Jan 2021 20:46:53 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 516DB100AE3E;
- Thu, 21 Jan 2021 20:46:47 +0000 (UTC)
-Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210110162739.858087-1-f4bug@amsat.org>
- <20210110162739.858087-3-f4bug@amsat.org>
- <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
- <eb4976bc-133d-7d77-cae3-899028751a85@redhat.com>
- <20210121181303.GR3125227@redhat.com>
- <89b62df4-e077-fb82-75af-e180a89fba27@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <762a020e-43a6-9228-1a44-0d38d086a61f@redhat.com>
-Date: Thu, 21 Jan 2021 17:46:45 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ bh=ouuINGgZVUfNRHgze7BWNbcQFVs0Yf7zkGyglpslQSI=;
+ b=aCfo6HHVumfQpYvCFeOPLctGh9s4y3J4GTd3iVsrUBl3hiqkX2KREPrK3MuMdq+KdursHa
+ iJn0y/fzrxPSm0SHAyw+DMhS4ma0e4x0u2QxtlZXg/HTpQYoiQ4BgDDpCCiy2MGvwAziOF
+ SBM8ErkWJlRyiCjtFFrK2AvaJiAIuOA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-3L_P_ZHaMuSDB9enTlKLfw-1; Thu, 21 Jan 2021 15:55:23 -0500
+X-MC-Unique: 3L_P_ZHaMuSDB9enTlKLfw-1
+Received: by mail-wr1-f71.google.com with SMTP id x12so1833726wrw.21
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:55:23 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc:content-transfer-encoding;
+ bh=ouuINGgZVUfNRHgze7BWNbcQFVs0Yf7zkGyglpslQSI=;
+ b=WcPkh1N+GMU7DDJTQUISFxsWtRn+/IF2OFQ2FepZB4HgzrWc9RzsY4QfsnJ3+ToyWJ
+ MgCH6gOB2bAl7TIz+2uwq58ZM5n9Y5++4DYdoUCDUliSTkNSKbNmc9jH7k+ZKI0pQxgS
+ tk3m5RnFuwlhKEeMMNV+BC5js78J2a7rn51bfO97LZGg+XlSw4KlX0dO7/fGB0B34VmC
+ ZaVaRhggYuMNKuWKWHGEe2LNcQ6wQS9mbRTFBohUbHiFLWq8aI/WDoly29O9Yyyv1gP1
+ UUgMDoXEorKpDnXl4dwVU5wLOwRf0SFeVQ+t8h5gwlQrFDhNcL+jhzibPOJewbWvMgpI
+ uNYQ==
+X-Gm-Message-State: AOAM532zofBzzXV2JzdrdtW/U2bTF/+otgc3+1mxluSntQM5yLiGUUvk
+ i2aOjDV3vBRIstMa/rE6SN0BVRwxkL/cuABsOHdyvR0S8GtkdbZIY9CYC9OpQuritd0UAN84Oki
+ ZniNyCJyM+3bJWDTeluD70UpxbuEggXE=
+X-Received: by 2002:adf:e541:: with SMTP id z1mr1219088wrm.143.1611262522255; 
+ Thu, 21 Jan 2021 12:55:22 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzrU54K7gimpyH5U9KTkU3aFAghlRz5rCiIfMKNh+Xf1rph5IImkn/K24nMRr7+YYO1/+8eCtJu2L6Pudqx09g=
+X-Received: by 2002:adf:e541:: with SMTP id z1mr1219068wrm.143.1611262521927; 
+ Thu, 21 Jan 2021 12:55:21 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <89b62df4-e077-fb82-75af-e180a89fba27@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+References: <0A9D3682-CE03-4984-AC06-83DA0ABF7BDF@kamp.de>
+ <CA+aFP1BvV8YsLqmO7nefO4u3cdVGY4DJsD95WbGrgbYKmRnGoQ@mail.gmail.com>
+ <bae91481-ab1a-c255-5762-188e8eccc414@kamp.de>
+In-Reply-To: <bae91481-ab1a-c255-5762-188e8eccc414@kamp.de>
+From: Jason Dillaman <jdillama@redhat.com>
+Date: Thu, 21 Jan 2021 15:55:10 -0500
+Message-ID: <CA+aFP1DzdeHu2Q15Brn2g3gPVcNP+=Pz0iuc8cAoK8QrHA6eFQ@mail.gmail.com>
+Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
+To: Peter Lieven <pl@kamp.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jdillama@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jdillama@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,111 +92,141 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Reply-To: dillaman@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
+ qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, Jan 21, 2021 at 3:29 PM Peter Lieven <pl@kamp.de> wrote:
+>
+> Am 21.01.21 um 20:42 schrieb Jason Dillaman:
+> > On Wed, Jan 20, 2021 at 6:01 PM Peter Lieven <pl@kamp.de> wrote:
+> >>
+> >>> Am 19.01.2021 um 15:20 schrieb Jason Dillaman <jdillama@redhat.com>:
+> >>>
+> >>> =EF=BB=BFOn Tue, Jan 19, 2021 at 4:36 AM Peter Lieven <pl@kamp.de> wr=
+ote:
+> >>>>> Am 18.01.21 um 23:33 schrieb Jason Dillaman:
+> >>>>> On Fri, Jan 15, 2021 at 10:39 AM Peter Lieven <pl@kamp.de> wrote:
+> >>>>>> Am 15.01.21 um 16:27 schrieb Jason Dillaman:
+> >>>>>>> On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
+> >>>>>>>> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
+> >>>>>>>>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrot=
+e:
+> >>>>>>>>>> since we implement byte interfaces and librbd supports aio on =
+byte granularity we can lift
+> >>>>>>>>>> the 512 byte alignment.
+> >>>>>>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
+> >>>>>>>>>> ---
+> >>>>>>>>>> block/rbd.c | 2 --
+> >>>>>>>>>> 1 file changed, 2 deletions(-)
+> >>>>>>>>>> diff --git a/block/rbd.c b/block/rbd.c
+> >>>>>>>>>> index 27b4404adf..8673e8f553 100644
+> >>>>>>>>>> --- a/block/rbd.c
+> >>>>>>>>>> +++ b/block/rbd.c
+> >>>>>>>>>> @@ -223,8 +223,6 @@ done:
+> >>>>>>>>>> static void qemu_rbd_refresh_limits(BlockDriverState *bs, Erro=
+r **errp)
+> >>>>>>>>>> {
+> >>>>>>>>>>    BDRVRBDState *s =3D bs->opaque;
+> >>>>>>>>>> -    /* XXX Does RBD support AIO on less than 512-byte alignme=
+nt? */
+> >>>>>>>>>> -    bs->bl.request_alignment =3D 512;
+> >>>>>>>>> Just a suggestion, but perhaps improve discard alignment, max d=
+iscard,
+> >>>>>>>>> optimal alignment (if that's something QEMU handles internally)=
+ if not
+> >>>>>>>>> overridden by the user.
+> >>>>>>>> Qemu supports max_discard and discard_alignment. Is there a call=
+ to get these limits
+> >>>>>>>> from librbd?
+> >>>>>>>> What do you mean by optimal_alignment? The object size?
+> >>>>>>> krbd does a good job of initializing defaults [1] where optimal a=
+nd
+> >>>>>>> discard alignment is 64KiB (can actually be 4KiB now), max IO siz=
+e for
+> >>>>>>> writes, discards, and write-zeroes is the object size * the strip=
+e
+> >>>>>>> count.
+> >>>>>> Okay, I will have a look at it. If qemu issues a write, discard, w=
+rite_zero greater than
+> >>>>>> obj_size  * stripe count will librbd split it internally or will t=
+he request fail?
+> >>>>> librbd will handle it as needed. My goal is really just to get the
+> >>>>> hints down the guest OS.
+> >>>>>> Regarding the alignment it seems that rbd_dev->opts->alloc_size is=
+ something that comes from the device
+> >>>>>> configuration and not from rbd? I don't have that information insi=
+de the Qemu RBD driver.
+> >>>>> librbd doesn't really have the information either. The 64KiB guess
+> >>>>> that krbd uses was a compromise since that was the default OSD
+> >>>>> allocation size for HDDs since Luminous. Starting with Pacific that
+> >>>>> default is going down to 4KiB.
+> >>>> I will try to adjust these values as far as it is possible and makes=
+ sense.
+> >>>> Is there a way to check the minimum supported OSD release in the bac=
+kend from librbd / librados?
+> >>> It's not a minimum -- RADOS will gladly access 1 byte writes as well.
+> >>> It's really just the optimal (performance and space-wise). Sadly,
+> >>> there is no realistic way to query this data from the backend.
+> >> So you would suggest to advertise an optimal transfer length of 64k an=
+d max transfer length of obj size * stripe count to the guest unless we hav=
+e an API in the future to query these limits from the backend?
+> > I'll open a Ceph tracker ticket to expose these via the API in a future=
+ release.
+>
+>
+> That would be good to have!
+>
+>
+> >
+> >> I would leave request alignment at 1 byte as otherwise Qemu will issue=
+ RMWs for all write requests that do not align. Everything that comes from =
+a guest OS is very likely 4k aligned anyway.
+> > My goal is definitely not to have QEMU do any extra work for splitting
+> > or aligning IOs. I am really only trying to get hints passed down the
+> > guest via the virtio drivers. If there isn't the plumbing in QEMU for
+> > that yet, disregard.
+>
+>
+> From what I read from the code Qemu emulates the Block Limits VPD Page fo=
+r virtio-scsi, but the limits there are not taken from the backend driver. =
+They can be passed as config to the virtio-scsi device.
+>
+> However, Qemu uses all the Block Limit that can be found in include/block=
+/block_int.h in the BlockLimits struct to generate optimal requests if it c=
+omes to block operations like mirroring, or zeroing of a whole
+>
+> device etc. Some of the alignments (e.g. the request alignment) have dire=
+ct influence and make Qemu split requests from the guest or even make RMW c=
+ycles.
+>
+> If my understanding is incorrect please anyone correct me.
+>
+>
+> It would indeed be nice to have an option to propagate the settings from =
+the backend driver into the Guest. But from my understanding this is not th=
+ere yet.
+>
+>
+> So I would leave it as it. Drop the request_alignment =3D 512 (like in th=
+e patch) and just advertise the cluster_size at obj_size. This is already i=
+n the rbd driver today.
+>
+> The cluster_size e.g. is used in any qemu-img convert operation to align =
+read / write requests and size them apropiately.
 
-On 1/21/21 3:28 PM, Thomas Huth wrote:
-> On 21/01/2021 19.13, Daniel P. Berrangé wrote:
->> On Thu, Jan 21, 2021 at 03:05:43PM -0300, Wainer dos Santos Moschetta 
->> wrote:
->>> Hi,
->>>
->>> On 1/21/21 7:08 AM, Thomas Huth wrote:
->>>> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
->>>>> Split the current GCC build-tci job in 2, and use Clang
->>>>> compiler in the new job.
->>>>>
->>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>> ---
->>>>> RFC in case someone have better idea to optimize can respin this 
->>>>> patch.
->>>>>
->>>>>    .gitlab-ci.yml | 22 ++++++++++++++++++++--
->>>>>    1 file changed, 20 insertions(+), 2 deletions(-)
->>>>
->>>> I'm not quite sure whether we should go down this road ... if we 
->>>> wanted
->>>> to have full test coverage for clang, we'd need to duplicate *all* 
->>>> jobs
->>>> to run them once with gcc and once with clang. And that would be just
->>>> overkill.
->>>
->>> I agree with Thomas.
->>>
->>>>
->>>>
->>>> I think we already catch most clang-related problems with the clang 
->>>> jobs
->>>> that we already have in our CI, so problems like the ones that you've
->>>> tried to address here should be very, very rare. So I'd rather vote 
->>>> for
->>>> not splitting the job here.
->>>
->>> We got only one clang job on GitLab CI...
->>>
->>>    build-clang:
->>>      <<: *native_build_job_definition
->>>      variables:
->>>        IMAGE: fedora
->>>        CONFIGURE_ARGS: --cc=clang --cxx=clang++
->>>        TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
->>>          ppc-softmmu s390x-softmmu arm-linux-user
->>>        MAKE_CHECK_ARGS: check
->>>
->>> ... and others on Travis:
->>>
->>>    "Clang (user)"
->>>
->>>    "Clang (main-softmmu)"
->>>
->>>    "Clang (other-softmmu)"
->>
->> I guess these three overlap partially with the build-clang job.
->>
->>>    "[s390x] Clang (disable-tcg)"
->>
->> Don't forget the  Cirrus CI jobs for freebsd and macOS will
->> be using  CLang too.
->
-> Right... we should work towards getting cirrus-run into the QEMU-CI, 
-> too, to finally have these in the gitlab-ci dashboard, too.
->
->>>
->>> So I've some questions:
->>>
->>>   * Can we move those first three Travis jobs to Gitlab CI? (I can 
->>> work on
->>> that)
->>
->> Yeah, if we move those three travis jobs they can replace the existing
->> build-clang job. We don't neccesssarily need to keep them as three
->> separate jobs - that split was just due to the Travis time limits.
->> If a different split works better on GitLab we can do that.
->
-> Well, if we really want to increase the amount clang jobs, one of them 
-> should likely use TCI, as Phillippe suggested.
-Ok, got it. I won't touch on those jobs.
->
->
->>>   * Do you think they cover the most common problems with clang?
->>
->> Should do I think, especially in addition to the Cirrus CI jobs.
->
-> I concur.
++1 to leave as-is until we can pass those hints down.
 
-Great. Thanks for the inputs.
-
-- Wainer
-
+> Peter
 >
 >
->  Thomas
+
+Thanks!
+
+--=20
+Jason
 
 
