@@ -2,68 +2,114 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E3E2FED40
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 15:46:33 +0100 (CET)
-Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8CE52FED4F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 15:48:22 +0100 (CET)
+Received: from localhost ([::1]:49514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2bEG-0001a2-FB
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 09:46:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
+	id 1l2bG1-0002oO-Oj
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 09:48:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l2bCa-0000uE-F2
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:44:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49934)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l2bCX-00040P-5O
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:44:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611240283;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=9J/InfNPqwFuzr3M/NZ9MCR+nAkLgCHleGdJTnagcPo=;
- b=DbSjcVol1cE8rtWS9CghqHhJYSN3lN+kI4cETQoMjIQIWUkmJRVjYdAb9hWHHrNhLY99Ud
- Kf12uBvwRNc9Qn906xmwlyVkrDhIwQhPAKufHLcXEQ5Fm0GYEieUR55tp93cBzROvtW0tA
- XbF0akumX8y0itvphKiZQxsqCVrOBeE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-181-whaKCRs0O6yggLfwDCp-Sw-1; Thu, 21 Jan 2021 09:44:41 -0500
-X-MC-Unique: whaKCRs0O6yggLfwDCp-Sw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14B801800D41;
- Thu, 21 Jan 2021 14:44:40 +0000 (UTC)
-Received: from localhost (ovpn-115-60.ams2.redhat.com [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D99C539A60;
- Thu, 21 Jan 2021 14:44:30 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] virtiofsd: prevent opening of special files (CVE-2020-35517)
-Date: Thu, 21 Jan 2021 14:44:29 +0000
-Message-Id: <20210121144429.58885-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2bEj-00028X-TH; Thu, 21 Jan 2021 09:47:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:44616
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2bEh-000564-Sd; Thu, 21 Jan 2021 09:47:01 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10LEWq3J030213; Thu, 21 Jan 2021 09:46:58 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=+gYeHJExWLnnJq4ZhaoN6qCOpXg/JjtkP9HyYjzU2kI=;
+ b=sn+NLBTQHk7KCwDEkmJiFZkhBhTrbV+wJnER/cgVl98EsO0b4C8CpekhLlim5w4StKZC
+ ppBJS+lc7six0KvYfExk8nwYyU0j9H8kqPrkJmKwjxEHQEUirakcLdlGvD+z6hTB09U4
+ TnSyzuijj2zGQTiW1axVEAkx8eKkJdzdQ0sD8gSb1NF272qaIAXCc0haTV7Q6aes0pS5
+ bxmyoznr2pGje/dSj2l7h10aikvA8FOCjIjmuriS2pcyFvXvPP0szLWVKj/37fx6U3pz
+ 4rfjCSVRboiGnQfwoq2HHZbuc39XhnGUi18PB8F6l7roadErHWpRBLh+AU61ABLJx3BH iQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 367bac0r5a-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 09:46:58 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10LEX7Xm032098;
+ Thu, 21 Jan 2021 09:46:57 -0500
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 367bac0r4e-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 09:46:57 -0500
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10LEdE6D008750;
+ Thu, 21 Jan 2021 14:46:55 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma04fra.de.ibm.com with ESMTP id 3668pj8wrm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 14:46:55 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10LEkqRU50200996
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Jan 2021 14:46:52 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 742A7A4055;
+ Thu, 21 Jan 2021 14:46:52 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id DCAF6A4040;
+ Thu, 21 Jan 2021 14:46:51 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.36.14])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 21 Jan 2021 14:46:51 +0000 (GMT)
+Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
+To: Niklas Schnelle <schnelle@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
+ thuth@redhat.com
+References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+ <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+ <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
+ <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
+ <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
+ <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
+ <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
+ <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
+ <bd94ca8a-70b2-36b3-d357-3527e8d3dc62@linux.ibm.com>
+ <213c00ca-1b8f-ecee-dd22-d86cad8eb63b@linux.ibm.com>
+ <4a3e13fe-ec6a-27bc-7f30-9ad9691a4522@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <a458fa0e-2c4a-551f-2f54-3dcedc4bbade@linux.ibm.com>
+Date: Thu, 21 Jan 2021 15:46:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
-X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <4a3e13fe-ec6a-27bc-7f30-9ad9691a4522@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-21_06:2021-01-21,
+ 2021-01-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxlogscore=999
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 mlxscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 spamscore=0 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101210078
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,144 +122,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, slp@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, P J P <ppandit@redhat.com>,
- virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
- Stefan Hajnoczi <stefanha@redhat.com>, vgoyal@redhat.com
+Cc: mst@redhat.com, david@redhat.com, richard.henderson@linaro.org,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, alex.williamson@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QSB3ZWxsLWJlaGF2ZWQgRlVTRSBjbGllbnQgZG9lcyBub3QgYXR0ZW1wdCB0byBvcGVuIHNwZWNp
-YWwgZmlsZXMgd2l0aApGVVNFX09QRU4gYmVjYXVzZSB0aGV5IGFyZSBoYW5kbGVkIG9uIHRoZSBj
-bGllbnQgc2lkZSAoZS5nLiBkZXZpY2Ugbm9kZXMKYXJlIGhhbmRsZWQgYnkgY2xpZW50LXNpZGUg
-ZGV2aWNlIGRyaXZlcnMpLgoKVGhlIGNoZWNrIHRvIHByZXZlbnQgdmlydGlvZnNkIGZyb20gb3Bl
-bmluZyBzcGVjaWFsIGZpbGVzIGlzIG1pc3NpbmcgaW4KYSBmZXcgY2FzZXMsIG1vc3Qgbm90YWJs
-eSBGVVNFX09QRU4uIEEgbWFsaWNpb3VzIGNsaWVudCBjYW4gY2F1c2UKdmlydGlvZnNkIHRvIG9w
-ZW4gYSBkZXZpY2Ugbm9kZSwgcG90ZW50aWFsbHkgYWxsb3dpbmcgdGhlIGd1ZXN0IHRvCmVzY2Fw
-ZS4gVGhpcyBjYW4gYmUgZXhwbG9pdGVkIGJ5IGEgbW9kaWZpZWQgZ3Vlc3QgZGV2aWNlIGRyaXZl
-ci4gSXQgaXMKbm90IGV4cGxvaXRhYmxlIGZyb20gZ3Vlc3QgdXNlcnNwYWNlIHNpbmNlIHRoZSBn
-dWVzdCBrZXJuZWwgd2lsbCBoYW5kbGUKc3BlY2lhbCBmaWxlcyBpbnNpZGUgdGhlIGd1ZXN0IGlu
-c3RlYWQgb2Ygc2VuZGluZyBGVVNFIHJlcXVlc3RzLgoKVGhpcyBwYXRjaCBhZGRzIHRoZSBtaXNz
-aW5nIGNoZWNrcyB0byB2aXJ0aW9mc2QuIFRoaXMgaXMgYSBzaG9ydC10ZXJtCnNvbHV0aW9uIGJl
-Y2F1c2UgaXQgZG9lcyBub3QgcHJldmVudCBhIGNvbXByb21pc2VkIHZpcnRpb2ZzZCBwcm9jZXNz
-CmZyb20gb3BlbmluZyBkZXZpY2Ugbm9kZXMgb24gdGhlIGhvc3QuCgpSZXBvcnRlZC1ieTogQWxl
-eCBYdSA8YWxleEBhbHh1LmNhPgpGaXhlczogQ1ZFLTIwMjAtMzU1MTcKU2lnbmVkLW9mZi1ieTog
-U3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPgotLS0KVGhpcyBpc3N1ZSB3YXMg
-ZGlhZ25vc2VkIG9uIHB1YmxpYyBJUkMgYW5kIGlzIHRoZXJlZm9yZSBhbHJlYWR5IGtub3duCmFu
-ZCBub3QgZW1iYXJnb2VkLgoKQSBzdHJvbmdlciBmaXgsIGFuZCB0aGUgbG9uZy10ZXJtIHNvbHV0
-aW9uLCBpcyBmb3IgdXNlcnMgdG8gbW91bnQgdGhlCnNoYXJlZCBkaXJlY3RvcnkgYW5kIGFueSBz
-dWItbW91bnRzIHdpdGggbm9kZXYsIGFzIHdlbGwgYXMgbm9zdWlkIGFuZApub2V4ZWMuIFVuZm9y
-dHVuYXRlbHkgdmlydGlvZnNkIGNhbm5vdCBkbyB0aGlzIGF1dG9tYXRpY2FsbHkgYmVjYXVzZQpi
-aW5kIG1vdW50cyBhZGRlZCBieSB0aGUgdXNlciBhZnRlciB2aXJ0aW9mc2QgaGFzIGxhdW5jaGVk
-IHdvdWxkIG5vdCBiZQpkZXRlY3RlZC4gSSBzdWdnZXN0IHRoZSBmb2xsb3dpbmc6CgoxLiBNb2Rp
-ZnkgbGlidmlydCBhbmQgS2F0YSBDb250YWluZXJzIHRvIGV4cGxpY2l0bHkgc2V0IHRoZXNlIG1v
-dW50CiAgIG9wdGlvbnMuCjIuIFRoZW4gbW9kaWZ5IHZpcnRpb2ZzZCB0byBjaGVjayB0aGF0IHRo
-ZSBzaGFyZWQgZGlyZWN0b3J5IGhhcyB0aGUKICAgbmVjZXNzYXJ5IG9wdGlvbnMgYXQgc3RhcnR1
-cC4gUmVmdXNlIHRvIHN0YXJ0IGlmIHRoZSBvcHRpb25zIGFyZQogICBtaXNzaW5nIHNvIHRoYXQg
-dGhlIHVzZXIgaXMgYXdhcmUgb2YgdGhlIHNlY3VyaXR5IHJlcXVpcmVtZW50cy4KCkFzIGEgYm9u
-dXMgdGhpcyBhbHNvIGluY3JlYXNlcyB0aGUgbGlrZWxpaG9vZCB0aGF0IG90aGVyIGhvc3QgcHJv
-Y2Vzc2VzCmJlc2lkZXMgdmlydGlvZnNkIHdpbGwgYmUgcHJvdGVjdGVkIGJ5IG5vc3VpZC9ub2V4
-ZWMvbm9kZXYgc28gdGhhdCBhCm1hbGljaW91cyBndWVzdCBjYW5ub3QgZHJvcCB0aGVzZSBmaWxl
-cyBpbiBwbGFjZSBhbmQgdGhlbiBhcnJhbmdlIGZvciBhCmhvc3QgcHJvY2VzcyB0byBjb21lIGFj
-cm9zcyB0aGVtLgoKQWRkaXRpb25hbGx5LCB1c2VyIG5hbWVzcGFjZXMgaGF2ZSBiZWVuIGRpc2N1
-c3NlZC4gVGhleSBzZWVtIGxpa2UgYQp3b3J0aHdoaWxlIGFkZGl0aW9uIGFzIGFuIHVucHJpdmls
-ZWdlZCBvciBwcml2aWxlZ2Utc2VwYXJhdGVkIG1vZGUKYWx0aG91Z2ggdGhlcmUgYXJlIGxpbWl0
-YXRpb25zIHdpdGggcmVzcGVjdCB0byBzZWN1cml0eSB4YXR0cnMgYW5kIHRoZQphY3R1YWwgdWlk
-L2dpZCBzdG9yZWQgb24gdGhlIGhvc3QgZmlsZSBzeXN0ZW0gbm90IGNvcnJlc3BvbmRpbmcgdG8g
-dGhlCmd1ZXN0IHVpZC9naWQuCi0tLQogdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMg
-fCA4NCArKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDU2
-IGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3Rvb2xzL3ZpcnRp
-b2ZzZC9wYXNzdGhyb3VnaF9sbC5jIGIvdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMK
-aW5kZXggNWZiMzZkOTQwNy4uZTA4MzUyZDY0OSAxMDA2NDQKLS0tIGEvdG9vbHMvdmlydGlvZnNk
-L3Bhc3N0aHJvdWdoX2xsLmMKKysrIGIvdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMK
-QEAgLTU1NSw2ICs1NTUsMjkgQEAgc3RhdGljIGludCBsb19mZChmdXNlX3JlcV90IHJlcSwgZnVz
-ZV9pbm9fdCBpbm8pCiAgICAgcmV0dXJuIGZkOwogfQogCisvKgorICogT3BlbiBhIGZpbGUgZGVz
-Y3JpcHRvciBmb3IgYW4gaW5vZGUuIFJldHVybnMgLUVCQURGIGlmIHRoZSBpbm9kZSBpcyBub3Qg
-YQorICogcmVndWxhciBmaWxlIG9yIGEgZGlyZWN0b3J5LiBVc2UgdGhpcyBoZWxwZXIgZnVuY3Rp
-b24gaW5zdGVhZCBvZiByYXcKKyAqIG9wZW5hdCgyKSB0byBwcmV2ZW50IHNlY3VyaXR5IGlzc3Vl
-cyB3aGVuIGEgbWFsaWNpb3VzIGNsaWVudCBvcGVucyBzcGVjaWFsCisgKiBmaWxlcyBzdWNoIGFz
-IGJsb2NrIGRldmljZSBub2Rlcy4KKyAqLworc3RhdGljIGludCBsb19pbm9kZV9vcGVuKHN0cnVj
-dCBsb19kYXRhICpsbywgc3RydWN0IGxvX2lub2RlICppbm9kZSwKKyAgICAgICAgICAgICAgICAg
-ICAgICAgICBpbnQgb3Blbl9mbGFncykKK3sKKyAgICBnX2F1dG9mcmVlIGNoYXIgKmZkX3N0ciA9
-IGdfc3RyZHVwX3ByaW50ZigiJWQiLCBpbm9kZS0+ZmQpOworICAgIGludCBmZDsKKworICAgIGlm
-ICghU19JU1JFRyhpbm9kZS0+ZmlsZXR5cGUpICYmICFTX0lTRElSKGlub2RlLT5maWxldHlwZSkp
-IHsKKyAgICAgICAgcmV0dXJuIC1FQkFERjsKKyAgICB9CisKKyAgICBmZCA9IG9wZW5hdChsby0+
-cHJvY19zZWxmX2ZkLCBmZF9zdHIsIG9wZW5fZmxhZ3MpOworICAgIGlmIChmZCA8IDApIHsKKyAg
-ICAgICAgcmV0dXJuIC1lcnJubzsKKyAgICB9CisgICAgcmV0dXJuIGZkOworfQorCiBzdGF0aWMg
-dm9pZCBsb19pbml0KHZvaWQgKnVzZXJkYXRhLCBzdHJ1Y3QgZnVzZV9jb25uX2luZm8gKmNvbm4p
-CiB7CiAgICAgc3RydWN0IGxvX2RhdGEgKmxvID0gKHN0cnVjdCBsb19kYXRhICopdXNlcmRhdGE7
-CkBAIC02ODQsOCArNzA3LDcgQEAgc3RhdGljIHZvaWQgbG9fc2V0YXR0cihmdXNlX3JlcV90IHJl
-cSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBzdGF0ICphdHRyLAogICAgICAgICBpZiAoZmkpIHsK
-ICAgICAgICAgICAgIHRydW5jZmQgPSBmZDsKICAgICAgICAgfSBlbHNlIHsKLSAgICAgICAgICAg
-IHNwcmludGYocHJvY25hbWUsICIlaSIsIGlmZCk7Ci0gICAgICAgICAgICB0cnVuY2ZkID0gb3Bl
-bmF0KGxvLT5wcm9jX3NlbGZfZmQsIHByb2NuYW1lLCBPX1JEV1IpOworICAgICAgICAgICAgdHJ1
-bmNmZCA9IGxvX2lub2RlX29wZW4obG8sIGlub2RlLCBPX1JEV1IpOwogICAgICAgICAgICAgaWYg
-KHRydW5jZmQgPCAwKSB7CiAgICAgICAgICAgICAgICAgZ290byBvdXRfZXJyOwogICAgICAgICAg
-ICAgfQpAQCAtMTcyNSw3ICsxNzQ3LDYgQEAgc3RhdGljIHN0cnVjdCBsb19pbm9kZV9wbG9jayAq
-bG9va3VwX2NyZWF0ZV9wbG9ja19jdHgoc3RydWN0IGxvX2RhdGEgKmxvLAogICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGlkX3QgcGlkLCBpbnQg
-KmVycikKIHsKICAgICBzdHJ1Y3QgbG9faW5vZGVfcGxvY2sgKnBsb2NrOwotICAgIGNoYXIgcHJv
-Y25hbWVbNjRdOwogICAgIGludCBmZDsKIAogICAgIHBsb2NrID0KQEAgLTE3NDIsMTIgKzE3NjMs
-MTAgQEAgc3RhdGljIHN0cnVjdCBsb19pbm9kZV9wbG9jayAqbG9va3VwX2NyZWF0ZV9wbG9ja19j
-dHgoc3RydWN0IGxvX2RhdGEgKmxvLAogICAgIH0KIAogICAgIC8qIE9wZW4gYW5vdGhlciBpbnN0
-YW5jZSBvZiBmaWxlIHdoaWNoIGNhbiBiZSB1c2VkIGZvciBvZmQgbG9ja3MuICovCi0gICAgc3By
-aW50Zihwcm9jbmFtZSwgIiVpIiwgaW5vZGUtPmZkKTsKLQogICAgIC8qIFRPRE86IFdoYXQgaWYg
-ZmlsZSBpcyBub3Qgd3JpdGFibGU/ICovCi0gICAgZmQgPSBvcGVuYXQobG8tPnByb2Nfc2VsZl9m
-ZCwgcHJvY25hbWUsIE9fUkRXUik7Ci0gICAgaWYgKGZkID09IC0xKSB7Ci0gICAgICAgICplcnIg
-PSBlcnJubzsKKyAgICBmZCA9IGxvX2lub2RlX29wZW4obG8sIGlub2RlLCBPX1JEV1IpOworICAg
-IGlmIChmZCA8IDApIHsKKyAgICAgICAgKmVyciA9IC1mZDsKICAgICAgICAgZnJlZShwbG9jayk7
-CiAgICAgICAgIHJldHVybiBOVUxMOwogICAgIH0KQEAgLTE4OTQsMTggKzE5MTMsMjQgQEAgc3Rh
-dGljIHZvaWQgbG9fb3BlbihmdXNlX3JlcV90IHJlcSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBm
-dXNlX2ZpbGVfaW5mbyAqZmkpCiB7CiAgICAgaW50IGZkOwogICAgIHNzaXplX3QgZmg7Ci0gICAg
-Y2hhciBidWZbNjRdOwogICAgIHN0cnVjdCBsb19kYXRhICpsbyA9IGxvX2RhdGEocmVxKTsKKyAg
-ICBzdHJ1Y3QgbG9faW5vZGUgKmlub2RlID0gbG9faW5vZGUocmVxLCBpbm8pOwogCiAgICAgZnVz
-ZV9sb2coRlVTRV9MT0dfREVCVUcsICJsb19vcGVuKGlubz0lIiBQUkl1NjQgIiwgZmxhZ3M9JWQp
-XG4iLCBpbm8sCiAgICAgICAgICAgICAgZmktPmZsYWdzKTsKIAorICAgIGlmICghaW5vZGUpIHsK
-KyAgICAgICAgZnVzZV9yZXBseV9lcnIocmVxLCBFQkFERik7CisgICAgICAgIHJldHVybjsKKyAg
-ICB9CisKICAgICB1cGRhdGVfb3Blbl9mbGFncyhsby0+d3JpdGViYWNrLCBsby0+YWxsb3dfZGly
-ZWN0X2lvLCBmaSk7CiAKLSAgICBzcHJpbnRmKGJ1ZiwgIiVpIiwgbG9fZmQocmVxLCBpbm8pKTsK
-LSAgICBmZCA9IG9wZW5hdChsby0+cHJvY19zZWxmX2ZkLCBidWYsIGZpLT5mbGFncyAmIH5PX05P
-Rk9MTE9XKTsKLSAgICBpZiAoZmQgPT0gLTEpIHsKLSAgICAgICAgcmV0dXJuICh2b2lkKWZ1c2Vf
-cmVwbHlfZXJyKHJlcSwgZXJybm8pOworICAgIGZkID0gbG9faW5vZGVfb3BlbihsbywgaW5vZGUs
-IGZpLT5mbGFncyAmIH5PX05PRk9MTE9XKTsKKyAgICBpZiAoZmQgPCAwKSB7CisgICAgICAgIGxv
-X2lub2RlX3B1dChsbywgJmlub2RlKTsKKyAgICAgICAgZnVzZV9yZXBseV9lcnIocmVxLCAtZmQp
-OworICAgICAgICByZXR1cm47CiAgICAgfQogCiAgICAgcHRocmVhZF9tdXRleF9sb2NrKCZsby0+
-bXV0ZXgpOwpAQCAtMTkxMyw2ICsxOTM4LDcgQEAgc3RhdGljIHZvaWQgbG9fb3BlbihmdXNlX3Jl
-cV90IHJlcSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBmdXNlX2ZpbGVfaW5mbyAqZmkpCiAgICAg
-cHRocmVhZF9tdXRleF91bmxvY2soJmxvLT5tdXRleCk7CiAgICAgaWYgKGZoID09IC0xKSB7CiAg
-ICAgICAgIGNsb3NlKGZkKTsKKyAgICAgICAgbG9faW5vZGVfcHV0KGxvLCAmaW5vZGUpOwogICAg
-ICAgICBmdXNlX3JlcGx5X2VycihyZXEsIEVOT01FTSk7CiAgICAgICAgIHJldHVybjsKICAgICB9
-CkBAIC0xOTIzLDYgKzE5NDksNyBAQCBzdGF0aWMgdm9pZCBsb19vcGVuKGZ1c2VfcmVxX3QgcmVx
-LCBmdXNlX2lub190IGlubywgc3RydWN0IGZ1c2VfZmlsZV9pbmZvICpmaSkKICAgICB9IGVsc2Ug
-aWYgKGxvLT5jYWNoZSA9PSBDQUNIRV9BTFdBWVMpIHsKICAgICAgICAgZmktPmtlZXBfY2FjaGUg
-PSAxOwogICAgIH0KKyAgICBsb19pbm9kZV9wdXQobG8sICZpbm9kZSk7CiAgICAgZnVzZV9yZXBs
-eV9vcGVuKHJlcSwgZmkpOwogfQogCkBAIC0xOTgyLDM5ICsyMDA5LDQwIEBAIHN0YXRpYyB2b2lk
-IGxvX2ZsdXNoKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190IGlubywgc3RydWN0IGZ1c2VfZmls
-ZV9pbmZvICpmaSkKIHN0YXRpYyB2b2lkIGxvX2ZzeW5jKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lu
-b190IGlubywgaW50IGRhdGFzeW5jLAogICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGZ1c2Vf
-ZmlsZV9pbmZvICpmaSkKIHsKKyAgICBzdHJ1Y3QgbG9faW5vZGUgKmlub2RlID0gbG9faW5vZGUo
-cmVxLCBpbm8pOworICAgIHN0cnVjdCBsb19kYXRhICpsbyA9IGxvX2RhdGEocmVxKTsKICAgICBp
-bnQgcmVzOwogICAgIGludCBmZDsKLSAgICBjaGFyICpidWY7CiAKICAgICBmdXNlX2xvZyhGVVNF
-X0xPR19ERUJVRywgImxvX2ZzeW5jKGlubz0lIiBQUkl1NjQgIiwgZmk9MHglcClcbiIsIGlubywK
-ICAgICAgICAgICAgICAodm9pZCAqKWZpKTsKIAorICAgIGlmICghaW5vZGUpIHsKKyAgICAgICAg
-ZnVzZV9yZXBseV9lcnIocmVxLCBFQkFERik7CisgICAgICAgIHJldHVybjsKKyAgICB9CisKICAg
-ICBpZiAoIWZpKSB7Ci0gICAgICAgIHN0cnVjdCBsb19kYXRhICpsbyA9IGxvX2RhdGEocmVxKTsK
-LQotICAgICAgICByZXMgPSBhc3ByaW50ZigmYnVmLCAiJWkiLCBsb19mZChyZXEsIGlubykpOwot
-ICAgICAgICBpZiAocmVzID09IC0xKSB7Ci0gICAgICAgICAgICByZXR1cm4gKHZvaWQpZnVzZV9y
-ZXBseV9lcnIocmVxLCBlcnJubyk7Ci0gICAgICAgIH0KLQotICAgICAgICBmZCA9IG9wZW5hdChs
-by0+cHJvY19zZWxmX2ZkLCBidWYsIE9fUkRXUik7Ci0gICAgICAgIGZyZWUoYnVmKTsKLSAgICAg
-ICAgaWYgKGZkID09IC0xKSB7Ci0gICAgICAgICAgICByZXR1cm4gKHZvaWQpZnVzZV9yZXBseV9l
-cnIocmVxLCBlcnJubyk7CisgICAgICAgIGZkID0gbG9faW5vZGVfb3BlbihsbywgaW5vZGUsIE9f
-UkRXUik7CisgICAgICAgIGlmIChmZCA8IDApIHsKKyAgICAgICAgICAgIHJlcyA9IC1mZDsKKyAg
-ICAgICAgICAgIGdvdG8gb3V0OwogICAgICAgICB9CiAgICAgfSBlbHNlIHsKICAgICAgICAgZmQg
-PSBsb19maV9mZChyZXEsIGZpKTsKICAgICB9CiAKICAgICBpZiAoZGF0YXN5bmMpIHsKLSAgICAg
-ICAgcmVzID0gZmRhdGFzeW5jKGZkKTsKKyAgICAgICAgcmVzID0gZmRhdGFzeW5jKGZkKSA9PSAt
-MSA/IGVycm5vIDogMDsKICAgICB9IGVsc2UgewotICAgICAgICByZXMgPSBmc3luYyhmZCk7Cisg
-ICAgICAgIHJlcyA9IGZzeW5jKGZkKSA9PSAtMSA/IGVycm5vIDogMDsKICAgICB9CiAgICAgaWYg
-KCFmaSkgewogICAgICAgICBjbG9zZShmZCk7CiAgICAgfQotICAgIGZ1c2VfcmVwbHlfZXJyKHJl
-cSwgcmVzID09IC0xID8gZXJybm8gOiAwKTsKK291dDoKKyAgICBsb19pbm9kZV9wdXQobG8sICZp
-bm9kZSk7CisgICAgZnVzZV9yZXBseV9lcnIocmVxLCByZXMpOwogfQogCiBzdGF0aWMgdm9pZCBs
-b19yZWFkKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190IGlubywgc2l6ZV90IHNpemUsIG9mZl90
-IG9mZnNldCwKLS0gCjIuMjkuMgoK
 
+
+On 1/21/21 2:37 PM, Niklas Schnelle wrote:
+> 
+> 
+> On 1/21/21 1:30 PM, Pierre Morel wrote:
+
+>>>
+>>> Just wanted to say that we've had a very similar discussion with
+>>> Cornelia end of last year and came to the conclusion that explicitly
+>>> matching the PFT is likely the safest bet:
+>>> https://lkml.org/lkml/2020/12/22/479
+>>
+>> What I see there is a discussion on the relation between relaxed access and MIO without explaining to Connie that we have in the kernel the possibility to know if a device support MIO or not independently of it supports the relaxed access.
+>>
+>> The all point here is about taking decisions for the right reasons.
+>>
+>> We have the possibility to take the decision based on functionalities and not on a specific PCI function.
+> 
+> Yes but that goes both ways the functionality of the region has to match
+> that of the device and at least in it's current state the regions functionality
+> matches only ISM in a way that is so specific that it is very unlikely to match anything
+> else. For example it can't support a PCI device that requires non-MIO but
+> also MSI-X. In its current form it doesn't even support PCI Store only PCI Store
+> Block, we had that in an earlier version and it's trivial but then we get the MSI-X
+> problem.
+
+
+What does that change if we take one or the other solution considering 
+the checking of MIO/MSIX/relax versus PFT?
+
+
+> 
+>>
+>>
+>> If we keep the PFT check, and we can do this of course, but is it a good solution if it appears we have other PFT with the same functionalities?
+>>
+>> Please note that this is a minor code change, keeping track of the MIO support just as we keep track of the PFT and check on this instead of on the PFT.
+> 
+> That is certainly true and I'm not strongly against matching on functionality
+> it just seems to me that it's too specific for that to make sense and
+> in that case I feel it's better to be clear about that and make it ISM
+> specific in name and functionality.
+> 
+> If we manage to find a fix for the MSI-X problem which I'd be really happy about
+> we can simply extend the regions functionality and reuse the same code
+> for a backwards compatibile ISM region and a more generic zPCI non-MIO
+> region that could even be used if the client (QEMU) uses non-MIO and
+> the device can do both as is the case for all current physical devices.
+
+
+I think that the fix for this is in the kernel, in the MIO implementation.
+But we better discuss this offline.
+
+
+Since neither of us have the decision, why don't we let the maintainer 
+discuss now that they have all the information.
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
