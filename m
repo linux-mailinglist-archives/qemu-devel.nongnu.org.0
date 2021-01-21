@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E1E2FEFCC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 17:08:27 +0100 (CET)
-Received: from localhost ([::1]:57168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E28F72FEFD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 17:10:38 +0100 (CET)
+Received: from localhost ([::1]:59908 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2cVW-0005io-8E
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 11:08:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36120)
+	id 1l2cXd-000702-Tg
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 11:10:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36766)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2cSj-0003E9-IB
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:05:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31343)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2cUw-0005k6-1Y
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:07:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24193)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2cSh-00079c-Jy
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:05:33 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2cUs-0000Ha-K0
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:07:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611245130;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1611245265;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Q7sHcYJWAuwxKKB5ZBc2tCcPKZrODA/OFK772/5ZYrs=;
- b=NLBbduGOgV4BJO1tYQ9P65bD7KEG9NYz1UWge53H0++w+ueR3UDvAw7P0kjIBWOgySAYEH
- vDkO3l3q6LkEsRPOTJVM6sWbyJglwxEKtj4/vR6obn3qUgxy0fBgHv6VU1iztNXMLECXCb
- 8w7YP8hYMrSS60alu/OGwAl5d/ueYsA=
+ bh=PbjqjmNOB56VRU1HcMxspHela8roPJnM61v+5mh1Otw=;
+ b=aLLht1erUMDQJWqob8c+FJCSXIvk7/7VNSu3DZRBoO1+iCVSfxJye+8cK9I/6XTfkbZpV5
+ 7HmM6UN401yBZ23ROeH0lixheW921YW3Rtktik17sTnvafs2VV1k3e0AjxLkmdVLxv+t9Q
+ JqqvcSBdjI/VeDaTi0ALjSyVAfUiXq4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-372-QIIK9m2ENB-javMOnvLfkQ-1; Thu, 21 Jan 2021 11:05:27 -0500
-X-MC-Unique: QIIK9m2ENB-javMOnvLfkQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-540-FvqkQpjXPMyrigA5b15YOw-1; Thu, 21 Jan 2021 11:07:42 -0500
+X-MC-Unique: FvqkQpjXPMyrigA5b15YOw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4A46EA0CAB
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 16:05:26 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-169.ams2.redhat.com
- [10.36.115.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2DD296EF50;
- Thu, 21 Jan 2021 16:05:18 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2C24A192CC44
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 16:07:41 +0000 (UTC)
+Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 849D62DACE;
+ Thu, 21 Jan 2021 16:07:36 +0000 (UTC)
+Date: Thu, 21 Jan 2021 16:07:33 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
 Subject: Re: Thread safety of coroutine-sigaltstack
-To: Max Reitz <mreitz@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Message-ID: <20210121160733.GP3125227@redhat.com>
 References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
  <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
  <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
- <823a843f-af47-f091-1bd1-e33487524eb9@redhat.com>
- <eb4fb436-e7d7-2f5c-c1a4-9f5e57804e54@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <47c2c4de-7f8e-e64b-452e-e7b0f3e9d48d@redhat.com>
-Date: Thu, 21 Jan 2021 17:05:17 +0100
+ <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <eb4fb436-e7d7-2f5c-c1a4-9f5e57804e54@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -83,39 +84,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/21/21 16:42, Max Reitz wrote:
+On Thu, Jan 21, 2021 at 04:14:21PM +0100, Paolo Bonzini wrote:
+> On 21/01/21 10:27, Max Reitz wrote:
+> > 
+> > Sure, I can do that.
+> > 
+> > I agree that there probably are better solutions than to wrap everything
+> > in a lock.  OTOH, it looks to me like this lock is the most simple
+> > solution.  If Daniel is right[1] and we should drop
+> > coroutine-sigaltstack altogether (at some point...), perhaps it is best
+> > to go for the most simple solution now.
+> > 
+> > [1]
+> > https://lists.nongnu.org/archive/html/qemu-block/2021-01/msg00808.html
+> 
+> Yes, between coroutine-ucontext and the upcoming coroutine-asm[1] (which I
+> have shelved because it was mostly a requirement for x86 CET; but it will
+> come back some day), sooner or later there will be no reason to keep
+> coroutine-sigaltstack.  Porting coroutine-asm to a new architecture is easy,
+> I even managed to do it for s390. ;)
 
-> Perhaps we have the policy of “If another process can send signals, then
-> we consider it to have full control over qemu, like a debugger.”
+FWIW The libucontext impl is all ASM based and has coverage for all the
+arches we care about:
 
-That's what I had more or less in mind, yes; see e.g.
+   https://github.com/kaniini/libucontext
 
-https://man7.org/linux/man-pages/man2/ptrace.2.html
+so doesn't seem like there's a need for  coroutine-asm if we can rely
+on libucontext for portability where neede.
 
-       EPERM  The specified process cannot be traced.  This could be
-              because the tracer has insufficient privileges (the
-              required capability is CAP_SYS_PTRACE); unprivileged
-              processes cannot trace processes that they cannot send
-              signals to or those running set-user-ID/set-group-ID
-              programs, for obvious reasons.  Alternatively, the process
-              may already be being traced, or (on kernels before 2.6.26)
-              be init(1) (PID 1).
-
-Which seems to imply that, if you can send a signal, you can ptrace()
-the signalee as well.
-
-(I realize that what I'm saying does not follow from *pure logic*, as
-the manual is stating !sendsig -> !trace, hence trace -> sendsig.
-Whereas we're discussing the opposite direction: sendsig -> trace.
-*But*, IMO, that direction is *suggested* by the manual.)
-
-Anyway, this is kind of moot; I'm OK with the mutex too. :)
-
-Thanks
-Laszlo
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
