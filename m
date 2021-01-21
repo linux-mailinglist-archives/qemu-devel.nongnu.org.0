@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 142F82FF346
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:38:39 +0100 (CET)
-Received: from localhost ([::1]:53316 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B7EE2FF35C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:42:57 +0100 (CET)
+Received: from localhost ([::1]:58816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2eqs-0002mm-4H
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:38:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46864)
+	id 1l2ev2-0005Ti-F7
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:42:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47112)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2emQ-00009W-Ez
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:34:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26417)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2emO-0007ut-KX
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:34:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611254036;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=T24OhIgxgsPX4PXLosPK3jlBvuiXoG45VhzzGlWNuGY=;
- b=PSeH5OgS1rK7xZF7PVV85yTqrqIsoIgOaLPayjFN53LWBF9rKQVZpW08osH38xo+36cLxQ
- Md4k684TTesE303sZ+3xSU2dRjxP9AmU/97w248Ol3TZe6IQh5eVBuVpKK5GFKwFxveO/r
- LorasPuisl0b4Mn7+PW3/OZDhehN1pY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-410-u9-Q4zcqNhGZ2TfNpSPIoQ-1; Thu, 21 Jan 2021 13:33:54 -0500
-X-MC-Unique: u9-Q4zcqNhGZ2TfNpSPIoQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0E816190B2A2;
- Thu, 21 Jan 2021 18:33:53 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 532935D9C6;
- Thu, 21 Jan 2021 18:33:47 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] gitlab-ci: Test building linux-user targets on
- CentOS 7
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210121172829.1643620-1-f4bug@amsat.org>
- <20210121172829.1643620-3-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <2a99a9f1-ca8d-d596-7501-3c5a9546bda7@redhat.com>
-Date: Thu, 21 Jan 2021 15:33:45 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l2enN-0000rR-1l
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:35:02 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:46285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l2enC-0008J3-Ma
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:35:00 -0500
+Received: by mail-pf1-x436.google.com with SMTP id f63so2010317pfa.13
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 10:34:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=Ex8FaTw4uspRlsv7UajOm5UBHG1EF0BQNRyRPEN8dps=;
+ b=cL7JcLSWitZJK84Dp0vSswgr2yEnMCnN4JU452RU3IdkbMoCabjLzJuu2DdrVqTEgJ
+ KgPNn9UMI1XFLp/staOAyjA/mImaXMQvIzylRFeRNe5a58NgN5k8XX2uuzdh0w/uc2zZ
+ 6XOar0JVii05UIf6o2/BBO96CYImOu2h0A0dpJIucgQ4gANmizoSXm6tsJvVwhmRnGh/
+ 9uyJxHkzVYCnCITonPN1dLEQjanRzLdivNZkt17qtxpJtBnVhAFvkumqXH/jLjLTdsAE
+ yGN0jfRI1rfiswUNB7Xays67YTI0qMIoKimqfaHKda2ewy9t/dTXwZdbAQ9hol7QlhOW
+ 5nKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=Ex8FaTw4uspRlsv7UajOm5UBHG1EF0BQNRyRPEN8dps=;
+ b=nTU4EPaK2gWON2WOmV4H0lkz80zIXpIsmbM8FRx9RLislSj9x47G/sF6puit/GULx8
+ cdXBqcuZ3G6Ok6ioIouCGw+xsQ7voS1NXDuQ7jF6REG0UFNSkN+TndUywUYblEz9+HXU
+ vWp9xw//zFSVH8XUKrcKe86VOPYyrS9R87EEPSF67ltPnE0YM/XiV+9FVHgQPrCarRQp
+ p04cNgtHwb905N9RCmwE+zvnF+syWBjAbhU8N37BnPAXjhz9QqLxIvFPwqhhLVR6fLgG
+ mp9IveLT5fNTZIG/JG9cjAemH9OpMYW9Hu7trtVhR0FQQ7AY0Om2kbXFCzNSb5CLBDaw
+ Krqw==
+X-Gm-Message-State: AOAM533FEXMmfDato0Fx+OBBPGLZZhKEt4CLVkPOui2HBAgN9ceDFhRP
+ 0AF99IOwclxdr93J8ddeRkVwvw==
+X-Google-Smtp-Source: ABdhPJxBed+3spmkvuziw6ploeKvOgJEV30fRkxrtQip8pym8RF0XVPmHXsl0+WQYaGicS+IytG7uQ==
+X-Received: by 2002:a62:2c50:0:b029:1b9:1846:b490 with SMTP id
+ s77-20020a622c500000b02901b91846b490mr677859pfs.76.1611254088893; 
+ Thu, 21 Jan 2021 10:34:48 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id m10sm6534477pjn.53.2021.01.21.10.34.46
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jan 2021 10:34:48 -0800 (PST)
+Subject: Re: [PATCH v3] tcg: Fix execution on Apple Silicon
+To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+References: <20210113032806.18220-1-r.bolshakov@yadro.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e0b70beb-2905-9520-e825-219278fe4ed7@linaro.org>
+Date: Thu, 21 Jan 2021 08:34:44 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210121172829.1643620-3-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20210113032806.18220-1-r.bolshakov@yadro.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,62 +88,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Alexander Graf <agraf@csgraf.de>,
+ Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/12/21 5:28 PM, Roman Bolshakov wrote:
+> @@ -1083,6 +1083,12 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+>  {
+>      void *buf;
+>  
+> +#if defined(MAC_OS_VERSION_11_0) && \
+> +    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
+> +    if (__builtin_available(macOS 11.0, *)) {
+> +        flags |= MAP_JIT;
+> +    }
+> +#endif
 
-On 1/21/21 2:28 PM, Philippe Mathieu-Daudé wrote:
-> Add a configuration tested by Peter Maydell (see [1] and [2])
-> but not covered in our CI [3]:
->
->    [705/2910] Compiling C object libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->    FAILED: libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->    ../linux-user/strace.c: In function 'do_print_sockopt':
->    ../linux-user/strace.c:2831:14: error: 'IPV6_ADDR_PREFERENCES' undeclared (first use in this function)
->             case IPV6_ADDR_PREFERENCES:
->                  ^
->
-> This job currently takes 31 minutes 32 seconds ([4]).
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05086.html
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05379.html
-> [3] https://gitlab.com/philmd/qemu/-/jobs/977408284
-> [4] https://gitlab.com/philmd/qemu/-/jobs/978223286
->
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   .gitlab-ci.yml | 7 +++++++
->   1 file changed, 7 insertions(+)
+This hunk should be in alloc_code_gen_buffer, where we do the other flags
+manipulation.
 
+I'll drop this hunk and apply the rest, which is exclusively related to
+toggling the jit bit.
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
-
-
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index de3a3d25b58..af4d74757d8 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -411,6 +411,13 @@ build-user-plugins:
->       MAKE_CHECK_ARGS: check-tcg
->     timeout: 1h 30m
->   
-> +build-user-centos7:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: centos7
-> +    CONFIGURE_ARGS: --disable-system --disable-tools --disable-docs
-> +    MAKE_CHECK_ARGS: check-tcg
+> --- a/util/osdep.c
+> +++ b/util/osdep.c
+> @@ -606,3 +606,23 @@ writev(int fd, const struct iovec *iov, int iov_cnt)
+>      return readv_writev(fd, iov, iov_cnt, true);
+>  }
+>  #endif
 > +
->   build-some-softmmu-plugins:
->     <<: *native_build_job_definition
->     variables:
+> +#if defined(MAC_OS_VERSION_11_0) && \
+> +    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
+> +void qemu_thread_jit_execute(void)
+> +{
+> +    if (__builtin_available(macOS 11.0, *)) {
+> +        pthread_jit_write_protect_np(true);
+> +    }
+> +}
+> +
+> +void qemu_thread_jit_write(void)
+> +{
+> +    if (__builtin_available(macOS 11.0, *)) {
+> +        pthread_jit_write_protect_np(false);
+> +    }
+> +}
+> +#else
+> +void qemu_thread_jit_write(void) {}
+> +void qemu_thread_jit_execute(void) {}
+> +#endif
 
+I will move these inline in osdep.h, because it's either (1) a single function
+call or (2) a nop.
+
+
+r~
 
