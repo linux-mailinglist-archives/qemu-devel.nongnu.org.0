@@ -2,53 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54B822FF894
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 00:18:38 +0100 (CET)
-Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 658F02FF901
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 00:41:58 +0100 (CET)
+Received: from localhost ([::1]:41480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2jDo-0006hG-Um
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 18:18:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53824)
+	id 1l2jaP-0003IE-1x
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 18:41:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57870)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l2jCc-0006D6-3I; Thu, 21 Jan 2021 18:17:22 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53506)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l2jCa-0006rY-FD; Thu, 21 Jan 2021 18:17:21 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C18020769;
- Thu, 21 Jan 2021 23:17:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611271038;
- bh=31dIbH5q+bO56EiFZ+3w7Hy/6+4IjBjnSAnMErFzNkI=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=sfJA3G2MlX9ZxwJEmpJOuW2xjt2eMndW9oioGrMk115dwVArnlTnNgvn4T9MJFNC3
- eL9gi9C46sQ4Kz3xtGvt18uHSrq/aaajuE3tO0hKaS81TMQeJNsW17U2r2Er4p2n32
- sUqLecTWQsLVagJN1jq+pEqFCS2AVIid7t43ox1Mi6jS8MOGvw82WuvAfADziTmKnm
- inCaTeO5kaqzhIFN6zMez7OSTCvt5OTeXPBZ1Oz4GjGaWUnmrrBeXrSKLOOE7uKfOr
- AvYgV/KiWJvhWden1ogeh5nWmWtGwKv83kgmkUyRogGhsviUtl3ijw2G2VmaNckep/
- xrlC/Cmd6TgbQ==
-Date: Thu, 21 Jan 2021 15:17:16 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH V4 4/6] hw/block/nvme: support for multi-controller in
- subsystem
-Message-ID: <20210121231716.GD1727271@dhcp-10-100-145-180.wdc.com>
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l2jZ4-0002XG-UK; Thu, 21 Jan 2021 18:40:35 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530]:40584)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l2jZ0-0006M3-PZ; Thu, 21 Jan 2021 18:40:34 -0500
+Received: by mail-pg1-x530.google.com with SMTP id 15so2417504pgx.7;
+ Thu, 21 Jan 2021 15:40:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=G90IL6oNoWqsY+m0qtRdx+B4dDYOQwNEG0Sh4L65Qyk=;
+ b=on8cbQsMqBLLNhX7wTsSvhq02MESyfnuoftCbyX8MVWxYR87Iy6PDMKdBxaFyKgZ4B
+ fKvQ1yIFU74ahOKSlrzpNnDMdgJ9ZrUPCM1tV6ga1v8gcQIHc0yjugnm8uOgKwae/p7s
+ 3xetIczLEWLquZcxxtVTlgP05Pwxfhuaglfh17qIPdl6vkhukyuRuHOpNhQOpbTdJFSM
+ fIpRtuis/K1sXG+RQ5cqvqn7mibfq3o+QL/EIEVzvJPspHmoIfhTpW3Tk5LzpA9A1NNk
+ aVd9J/fSjWB2LAAtk9uyoY41UFaTommLVb4IFUJHEEl7GFupczVnfUtTmuLmiyWwoukp
+ QgxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=G90IL6oNoWqsY+m0qtRdx+B4dDYOQwNEG0Sh4L65Qyk=;
+ b=ijd3wMBIh4w1dx83eJaAWIcAXrdgwF/xK95d0CagqvUrgdpidQgXwrsgNrKl5A53g7
+ TckiPNd1jPQiYOMX/bZJLFllJZj1HdyhOkGvpmy1lO/B1jhHWYVNX6asIqkSyJfiDF9C
+ XCxwi38I/GD9wqMFW6BNxyioq1YlJ6zWn/FdeVqS1YBx/kWOTk96nu6e28s2RcWOiW64
+ 1A5djWO1x7JzzDxIWuFC6ONA6VUhS2BVb5GCaATBbLOF/cdHKe15uwPa0GV3Q9ZDdNlv
+ dkxNcvxSYZbAQrar6u8RIArZq8pZFFnhjl1QDbO+guWU5qkqPYpVbWZ0u1T/UVG3tI03
+ YgHQ==
+X-Gm-Message-State: AOAM531T6N/Zz9sSh9i0i4aCYxfFyN5ts/MKr/PAaiz8FbkxePAi6hLI
+ 4GfmUMJDWmMootv5GVOI9cI=
+X-Google-Smtp-Source: ABdhPJzSVv1kSdJoFuU3UjTti7ZHCcMmWhthSmFRM+zK79rnIHRAzxM+p9e7ZyqGndfQhXG9hx8DHA==
+X-Received: by 2002:a63:4301:: with SMTP id q1mr1769680pga.430.1611272429025; 
+ Thu, 21 Jan 2021 15:40:29 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id t2sm7271884pju.19.2021.01.21.15.40.28
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Thu, 21 Jan 2021 15:40:28 -0800 (PST)
+Date: Fri, 22 Jan 2021 08:40:26 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V4 1/6] hw/block/nvme: introduce nvme-subsys device
+Message-ID: <20210121234026.GA2746@localhost.localdomain>
 References: <20210121220908.14247-1-minwoo.im.dev@gmail.com>
- <20210121220908.14247-5-minwoo.im.dev@gmail.com>
+ <20210121220908.14247-2-minwoo.im.dev@gmail.com>
+ <20210121225202.GB1727271@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20210121220908.14247-5-minwoo.im.dev@gmail.com>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -72
-X-Spam_score: -7.3
-X-Spam_bar: -------
-X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210121225202.GB1727271@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,30 +88,21 @@ Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 07:09:06AM +0900, Minwoo Im wrote:
-> -static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-> +static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t cntlid)
->  {
->      NvmeIdCtrl *id = &n->id_ctrl;
->      uint8_t *pci_conf = pci_dev->config;
->  
-> +    n->cntlid = cntlid;
+On 21-01-21 14:52:02, Keith Busch wrote:
+> On Fri, Jan 22, 2021 at 07:09:03AM +0900, Minwoo Im wrote:
+> > +static void nvme_subsys_setup(NvmeSubsystem *subsys)
+> > +{
+> > +    char *subnqn;
+> > +
+> > +    subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", subsys->parent_obj.id);
+> > +    strpadcpy((char *)subsys->subnqn, sizeof(subsys->subnqn), subnqn, '\0');
+> > +    g_free(subnqn);
+> 
+> Instead of the duplication and copy, you could format the string
+> directly into the destination:
+> 
+>     snprintf(subsys->subnqn, sizeof(subsys->subnqn), "nqn.2019-08.org.qemu:%s",
+>              subsys->parent_obj.id);
 
-I don't think 'cntlid' is important enough to be a function parameter.
-You can just set it within the 'NvmeCtrl' struct before calling this
-function like all the other properties.
-
-> @@ -4517,7 +4543,11 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->          return;
->      }
->  
-> -    nvme_init_ctrl(n, pci_dev);
-> +    cntlid = nvme_init_subsys(n, errp);
-> +    if (cntlid < 0) {
-
-    error_propogate();
-
-> +        return;
-> +    }
-> +    nvme_init_ctrl(n, pci_dev, cntlid);
+Oh, Thanks. Will fix it!
 
