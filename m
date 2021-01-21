@@ -2,93 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 302652FE844
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 12:02:25 +0100 (CET)
-Received: from localhost ([::1]:54730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 043392FE85E
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 12:08:15 +0100 (CET)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2XjL-0004rX-W4
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 06:02:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45528)
+	id 1l2Xoy-00072e-Ug
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 06:08:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2XiI-0004Og-6V
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:01:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28049)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l2Xmz-00062t-OC
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:06:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2XiG-000477-6g
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:01:17 -0500
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1l2Xmv-0006Ns-Hz
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:06:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611226874;
+ s=mimecast20190719; t=1611227163;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CJ3oAsIeBT1jVqGJRBCXvElGqROl0ZCVE/363slN73g=;
- b=YHVw6A4T5812WYKYZhRMe88gL1rdsiCIk/SgoF9LLvLWk7s26LGHHILDrO7TmVYss/I/8D
- XxhElsrYQZJ8xHejMDpIx8tWQQ8HRYzF+xLwnCmUcdZQKKgSGU6MilyaUQ2li/4QKzBDu9
- TS8GI3CW2HwS45EKDwa0GIgdBYlGgkg=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-32-2RBDG9Q4MFaPwg1tj6ZHZg-1; Thu, 21 Jan 2021 06:01:10 -0500
-X-MC-Unique: 2RBDG9Q4MFaPwg1tj6ZHZg-1
-Received: by mail-ed1-f71.google.com with SMTP id j11so140082edy.20
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 03:01:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=CJ3oAsIeBT1jVqGJRBCXvElGqROl0ZCVE/363slN73g=;
- b=E7Glh5N/w5JyBLP+e3cAX0lPkty3JjKsMcECRzOPFmhZO3lzX05TVlixlz3EDAp5Fh
- ydkspY4B49p/J9GU4tvagnDBPfylPc8GIbMBvUIIvi/bjP+ZvrV1wOt0+SyPb23f9Rep
- etaQTCTSGtmUOLcXXxMl8CNVtYcsirWjRrRQ8Ip4K1M/Qm/jAH3vhqdKJoQa/RDA5LcT
- fSQpkEeLLkCIbcG3lBQavC/J1SORVWtX3d2x8n+I47DaUilsJ2ihXy820rd8VCmvXSBz
- UP3WSkiv+q7Gm/9e0K3k/ljrnAMQ4klz/W872t1F9yeUQYKbzN1hWpiB3dLQtQMyRLiX
- 5jaw==
-X-Gm-Message-State: AOAM530lTsPK2xAkrJbyuMC5JjGlfa7SVIm8Dwm2WhWbXP16Ritma6lL
- agAM46rRqgUg3kRtQG057j59agtoaERl14svI0wxKi8Uveoslriu2Wp05r2Y0n7HxsbvPURR6vM
- krM7ThG9qzEy9urw=
-X-Received: by 2002:a17:906:3945:: with SMTP id
- g5mr9266905eje.514.1611226868926; 
- Thu, 21 Jan 2021 03:01:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwbogFRHHrVpnwmNqqr/oP0Z47kYYv3LCU0LLH8J8j/ADsGu7+b1JXvKr0/S/u3TQ/OY/9lhQ==
-X-Received: by 2002:a17:906:3945:: with SMTP id
- g5mr9266891eje.514.1611226868767; 
- Thu, 21 Jan 2021 03:01:08 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id pg19sm2126331ejb.0.2021.01.21.03.01.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 03:01:07 -0800 (PST)
-Subject: Re: [PATCH v2 7/8] meson: Display cryto-related information altogether
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210121095616.1471869-1-philmd@redhat.com>
- <20210121095616.1471869-8-philmd@redhat.com>
- <20210121101127.GF3125227@redhat.com> <20210121101308.GA3126480@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <89a122ca-90a0-5f0d-cca6-a601c8e3b47c@redhat.com>
-Date: Thu, 21 Jan 2021 12:01:07 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=bVI5gOJdZPmnopvlYiZL8OgCI4yzyrOjBNQOMVL0HUk=;
+ b=Ssc7U7yc2C6PN6+Lr4DSPWyV129b4wP2WZADLLuR6p3i+c3FbhCrUyCWs8MEd31YA/lAtD
+ 3yokoZ9ejxY0rwBU41dcnXXf6bclFNiQ6zi9Fxqd/KR4TZFRFijdws1TO0SmNQQlpQQV6p
+ MIYWxWT9cRPGIjrf9Vs5Cx3ey9k9w/0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-343-tjEG0qdZNHC3wB8DHvz3ng-1; Thu, 21 Jan 2021 06:06:01 -0500
+X-MC-Unique: tjEG0qdZNHC3wB8DHvz3ng-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 90159107ACE4;
+ Thu, 21 Jan 2021 11:05:59 +0000 (UTC)
+Received: from t480s.redhat.com (ovpn-115-70.ams2.redhat.com [10.36.115.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id EB5DA10013BD;
+ Thu, 21 Jan 2021 11:05:41 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v5 00/11] virtio-mem: vfio support
+Date: Thu, 21 Jan 2021 12:05:29 +0100
+Message-Id: <20210121110540.33704-1-david@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210121101308.GA3126480@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=david@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=david@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,49 +73,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Pankaj Gupta <pankaj.gupta.linux@gmail.com>,
+ Wei Yang <richard.weiyang@linux.alibaba.com>,
+ David Hildenbrand <david@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Pankaj Gupta <pankaj.gupta@cloud.ionos.com>,
+ Auger Eric <eric.auger@redhat.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, teawater <teawaterz@linux.alibaba.com>,
+ Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+ Igor Mammedov <imammedo@redhat.com>, Marek Kedzierski <mkedzier@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/21 11:13 AM, Daniel P. Berrangé wrote:
-> On Thu, Jan 21, 2021 at 10:11:32AM +0000, Daniel P. Berrangé wrote:
->> On Thu, Jan 21, 2021 at 10:56:15AM +0100, Philippe Mathieu-Daudé wrote:
->>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->>> ---
->>> Cc: Daniel P. Berrange <berrange@redhat.com>
->>> ---
->>>  meson.build | 34 +++++++++++++++++++---------------
->>>  1 file changed, 19 insertions(+), 15 deletions(-)
->>>
->>> diff --git a/meson.build b/meson.build
->>> index e372b69f163..9274775a81a 100644
->>> --- a/meson.build
->>> +++ b/meson.build
->>> @@ -2453,19 +2453,8 @@
->>>  endif
->>>  summary(summary_info, bool_yn: true, section: 'Block layer support')
->>>  
->>> +# Crypto
->>
->> Rather than a comment why not introduce grouping in the output
->> so it is visible when reading the summary.
->>
->> This can be done in meson by calling summary() multiple times
->> giving "section: 'Crypto'"  arg.
-> 
-> Sigh, I'm not very good at reading this morning. I see this
-> is in fact done in this patch, I just couldn't see it in the
-> diff :-(
+A virtio-mem device manages a memory region in guest physical address
+space, represented as a single (currently large) memory region in QEMU,
+mapped into system memory address space. Before the guest is allowed to use
+memory blocks, it must coordinate with the hypervisor (plug blocks). After
+a reboot, all memory is usually unplugged - when the guest comes up, it
+detects the virtio-mem device and selects memory blocks to plug (based on
+resize requests from the hypervisor).
 
-No worry, I should have describe this better in the commit
-description.
+Memory hot(un)plug consists of (un)plugging memory blocks via a virtio-mem
+device (triggered by the guest). When unplugging blocks, we discard the
+memory - similar to memory balloon inflation. In contrast to memory
+ballooning, we always know which memory blocks a guest may actually use -
+especially during a reboot, after a crash, or after kexec (and during
+hibernation as well). Guests agreed to not access unplugged memory again,
+especially not via DMA.
 
-> ...
->>> +summary(summary_info, bool_yn: true, section: 'Crypto')
-> 
-> 
-> Regards,
-> Daniel
-> 
+The issue with vfio is, that it cannot deal with random discards - for this
+reason, virtio-mem and vfio can currently only run mutually exclusive.
+Especially, vfio would currently map the whole memory region (with possible
+only little/no plugged blocks), resulting in all pages getting pinned and
+therefore resulting in a higher memory consumption than expected (turning
+virtio-mem basically useless in these environments).
+
+To make vfio work nicely with virtio-mem, we have to map only the plugged
+blocks, and map/unmap properly when plugging/unplugging blocks (including
+discarding of RAM when unplugging). We achieve that by using a new notifier
+mechanism that communicates changes.
+
+It's important to map memory in the granularity in which we could see
+unmaps again (-> virtio-mem block size) - so when e.g., plugging
+consecutive 100 MB with a block size of 2 MB, we need 50 mappings. When
+unmapping, we can use a single vfio_unmap call for the applicable range.
+We expect that the block size of virtio-mem devices will be fairly large
+in the future (to not run out of mappings and to improve hot(un)plug
+performance), configured by the user, when used with vfio (e.g., 128MB,
+1G, ...), but it will depend on the setup.
+
+More info regarding virtio-mem can be found at:
+    https://virtio-mem.gitlab.io/
+
+v5 is located at:
+  git@github.com:davidhildenbrand/qemu.git virtio-mem-vfio-v5
+
+v4 -> v5:
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Added more assertions for granularity vs. iommu supported pagesize
+- "vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr"
+-- Fix accounting of mappings
+- "vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus"
+-- Fence off SPAPR and add some comments regarding future support.
+-- Tweak patch description
+- Rebase and retest
+
+v3 -> v4:
+- "vfio: Query and store the maximum number of DMA mappings
+-- Limit the patch to querying and storing only
+-- Renamed to "vfio: Query and store the maximum number of possible DMA
+   mappings"
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Remove sanity checks / warning the user
+- "vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr"
+-- Perform sanity checks by looking at the number of memslots and all
+   registered RamDiscardMgr sections
+- Rebase and retest
+- Reshuffled the patches slightly
+
+v2 -> v3:
+- Rebased + retested
+- Fixed some typos
+- Added RB's
+
+v1 -> v2:
+- "memory: Introduce RamDiscardMgr for RAM memory regions"
+-- Fix some errors in the documentation
+-- Make register_listener() notify about populated parts and
+   unregister_listener() notify about discarding populated parts, to
+   simplify future locking inside virtio-mem, when handling requests via a
+   separate thread.
+- "vfio: Query and store the maximum number of DMA mappings"
+-- Query number of mappings and track mappings (except for vIOMMU)
+- "vfio: Support for RamDiscardMgr in the !vIOMMU case"
+-- Adapt to RamDiscardMgr changes and warn via generic DMA reservation
+- "vfio: Support for RamDiscardMgr in the vIOMMU case"
+-- Use vmstate priority to handle migration dependencies
+
+RFC - v1:
+- VFIO migration code. Due to missing kernel support, I cannot really test
+  if that part works.
+- Understand/test/document vIOMMU implications, also regarding migration
+- Nicer ram_block_discard_disable/require handling.
+- s/SparseRAMHandler/RamDiscardMgr/, refactorings, cleanups, documentation,
+  testing, ...
+
+David Hildenbrand (11):
+  memory: Introduce RamDiscardMgr for RAM memory regions
+  virtio-mem: Factor out traversing unplugged ranges
+  virtio-mem: Implement RamDiscardMgr interface
+  vfio: Support for RamDiscardMgr in the !vIOMMU case
+  vfio: Query and store the maximum number of possible DMA mappings
+  vfio: Sanity check maximum number of DMA mappings with RamDiscardMgr
+  vfio: Support for RamDiscardMgr in the vIOMMU case
+  softmmu/physmem: Don't use atomic operations in
+    ram_block_discard_(disable|require)
+  softmmu/physmem: Extend ram_block_discard_(require|disable) by two
+    discard types
+  virtio-mem: Require only coordinated discards
+  vfio: Disable only uncoordinated discards for VFIO_TYPE1 iommus
+
+ hw/vfio/common.c               | 348 +++++++++++++++++++++++++++++++--
+ hw/virtio/virtio-mem.c         | 347 ++++++++++++++++++++++++++++----
+ include/exec/memory.h          | 249 ++++++++++++++++++++++-
+ include/hw/vfio/vfio-common.h  |  13 ++
+ include/hw/virtio/virtio-mem.h |   3 +
+ include/migration/vmstate.h    |   1 +
+ softmmu/memory.c               |  22 +++
+ softmmu/physmem.c              | 108 +++++++---
+ 8 files changed, 1007 insertions(+), 84 deletions(-)
+
+-- 
+2.29.2
 
 
