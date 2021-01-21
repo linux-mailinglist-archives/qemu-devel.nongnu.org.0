@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 484832FE0C0
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 05:32:41 +0100 (CET)
-Received: from localhost ([::1]:51390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31E62FE0CE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 05:36:19 +0100 (CET)
+Received: from localhost ([::1]:59800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ReC-0006Ji-AW
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 23:32:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56040)
+	id 1l2Rhh-0001Tu-R6
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 23:36:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2RcV-0004ZT-B3
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 23:30:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54766)
+ id 1l2RcV-0004aB-W7
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 23:30:56 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54716)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2RcT-00070p-K8
+ id 1l2RcT-0006z0-Bj
  for qemu-devel@nongnu.org; Wed, 20 Jan 2021 23:30:55 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l2RcS-0002iA-CE
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:52 +0000
+ id 1l2RcR-0002iF-Cn
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:51 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 59D562E805B
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:52 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 5FC5C2E8138
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:51 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 Date: Thu, 21 Jan 2021 04:17:17 -0000
-From: Launchpad Bug Tracker <1756538@bugs.launchpad.net>
+From: Launchpad Bug Tracker <1756728@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,19 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: gilius janitor th-huth
-X-Launchpad-Bug-Reporter: gilius (gilius)
+X-Launchpad-Bug-Commenters: aarno janitor th-huth
+X-Launchpad-Bug-Reporter: Alexandre ARNOUD (aarno)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <152129153470.15061.1404987375350201277.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161120263797.14063.8252205406701704642.malone@loganberry.canonical.com>
-Subject: [Bug 1756538] Re: Minimal Ubuntu vs. Debian differences
+References: <152140081522.14638.12473231561144635050.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161120263724.14063.6061926478507838828.malone@loganberry.canonical.com>
+Subject: [Bug 1756728] Re: virtio-scsi virtio-scsi-single and virtio-blk on
+ raw image, games are not starting
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: 90e3a51f39fdf3815f6c55faf8a91212a3a6e68b
+X-Launchpad-Hash: 9b9e8906ad427e81cb94055e2c2bbf84b7ab05d0
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +71,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1756538 <1756538@bugs.launchpad.net>
+Reply-To: Bug 1756728 <1756728@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,42 +84,37 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1756538
+https://bugs.launchpad.net/bugs/1756728
 
 Title:
-  Minimal Ubuntu vs. Debian differences
+  virtio-scsi virtio-scsi-single and virtio-blk on raw image, games are
+  not starting
 
 Status in QEMU:
   Expired
 
 Bug description:
-  I'm using Qemu on Ubuntu (minimal) and Debian (minimal) on Android
-  (Arch64) via Linux Deploy to run Windows guests. Here's a few issues I
-  encountered:
+  Using virtio-scsi / vitro-scsi-single or vitro-blk on a ZFS/raw image,
+  most Assassin's Creed (Origin especially) games are not starting
+  (uPlay), it seems related to some check or commands applications are
+  doing on the disk drive that fails to respond.
 
-  1) Qemu on (minimal) Debian 9 and Ubuntu cannot run Windows 7-10
-  guests (only Windows XP and below) because there's a black screen
-  after the boot menu. Qemu on Debian 10, however, can run Windows 7.
-  Incidentally, these distros run on the host in bios compatibility mode
-  instead of UEFI. Ubuntu Desktop (full distro) on other hosts does not
-  display the black screen when running Qemu.
+  Workaround has been found by creating a VHD volume, mounting it and
+  installing games on it.
 
-  2) Qemu on Debian 9-10 (minimal) does not display fullscreen - but
-  Ubuntu minimal does display full-screen.
+  On a side note, application like HDDScan, CrystalDiskInfo returns
+  nothing regarding disk drives.
 
-  3) Qemu on Limbo PC Emulator and on Debian 9-10 only run windows
-  guests at 1 GHz using the default Qemu CPU, but Ubuntu runs windows
-  guests at 2 GHz using the default Qemu CPU.
+  Guest:
+  Windows 10 (build 1709)
 
-  4) Enable KVM doesn't work, and virtualization isn't detected through
-  Limbo PC Emulator and minimal Linux distros running on Android -
-  perhaps is a problem with running Linux distros via Linux Deploy using
-  Chroot on Android (not so much a Qemu-KVM issue) and failing to detect
-  ARMv8-A CPUs that are indeed capable of virtualization.
-
-  Can anyone explain these differences? I believe they are all using the
-  latest versions of Qemu.
+  Host:
+  $ kvm --version
+  QEMU emulator version 2.9.1 pve-qemu-kvm_2.9.1-9
+  $ uname -a
+  Linux xxxx 4.13.13-5-pve #1 SMP PVE 4.13.13-36 (Mon, 15 Jan 2018 12:36:49=
+ +0100) x86_64 GNU/Linux
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1756538/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1756728/+subscriptions
 
