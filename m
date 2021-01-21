@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FFD22FF33F
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:35:09 +0100 (CET)
-Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 895A72FF362
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:46:01 +0100 (CET)
+Received: from localhost ([::1]:35392 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2enU-0008GK-K3
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:35:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46108)
+	id 1l2ey0-00089C-IY
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:46:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46120)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2ejb-0005e9-Ch
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:07 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44606)
+ id 1l2ejc-0005f6-Su
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:11 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2ejY-0006eV-Vd
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:07 -0500
+ id 1l2ejZ-0006ep-06
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:08 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l2ejU-0005jw-QM
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:31:01 +0000
+ id 1l2ejV-0005jG-Sn
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:31:02 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 476912E813B
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:30:59 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id B0BC72E8137
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:31:00 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 21 Jan 2021 18:15:32 -0000
-From: Thomas Huth <1813201@bugs.launchpad.net>
+Date: Thu, 21 Jan 2021 18:16:45 -0000
+From: Thomas Huth <1774412@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
  assignee=None; 
-X-Launchpad-Bug-Tags: tcg
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: aortega halfdog pmaydell th-huth
-X-Launchpad-Bug-Reporter: Alberto Ortega (aortega)
+X-Launchpad-Bug-Commenters: gson pmaydell th-huth
+X-Launchpad-Bug-Reporter: Andreas Gustafsson (gson)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <154835963658.2045.2300981728946163161.malonedeb@wampee.canonical.com>
-Message-Id: <161125293295.28839.1286915514376898371.malone@soybean.canonical.com>
-Subject: [Bug 1813201] Re: QEMU TCG i386 / x86_64 system emulation crash when
- executing int instruction
+References: <152777147120.26392.10770421701015705321.malonedeb@wampee.canonical.com>
+Message-Id: <161125300512.29678.14394940641532883750.malone@soybean.canonical.com>
+Subject: [Bug 1774412] Re: -icount sleep=on|off documentation is confusing
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: 0faa1d1a8182fd490c7c5e12957d0e98f0994fdd
+X-Launchpad-Hash: 66616827b8393a7e5d334939a20f47f9caeb3033
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -72,11 +70,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1813201 <1813201@bugs.launchpad.net>
+Reply-To: Bug 1774412 <1774412@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D3df1a3d070575419859
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3Dfa647905e6baae9510e7d
 
 ** Changed in: qemu
        Status: In Progress =3D> Fix Committed
@@ -85,89 +83,33 @@ https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D3df1a3d070575419859
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1813201
+https://bugs.launchpad.net/bugs/1774412
 
 Title:
-  QEMU TCG i386 / x86_64 system emulation crash when executing int
-  instruction
+  -icount sleep=3Don|off documentation is confusing
 
 Status in QEMU:
   Fix Committed
 
 Bug description:
-  QEMU version:
-  -------------
+  The documentation for the -icount option in the qemu man page says:
 
-  qemu from git, master branch commit
-  d058a37a6e8daa8d71a6f2b613eb415b69363755
+  "When the virtual cpu is sleeping, the virtual time will advance at
+  default speed unless sleep=3Don|off is specified. With sleep=3Don|off, the
+  virtual time will jump to the next timer deadline instantly whenever
+  the virtual cpu goes to sleep mode and will not advance if no timer is
+  enabled."
 
-  Release versions are also affected.
+  Taking this literally and specifying "sleep=3Don|off" on the command line=
+ does not work, so presumably the two instances of "sleep=3Don|off" should =
+be either "sleep=3Don" or "sleep=3Doff",
+  whichever is correct :)
 
-  Summary:
-  --------
-
-  QEMU i386 and x86_64 system emulation crash when executing the
-  following "int" instruction:
-
-  cd08  int 8
-
-  This generates a kernel NULL pointer dereference error in Linux, and a
-  BSOD error in Windows.
-
-  No special permissions are required to execute the instruction, any
-  unprivileged user can execute it.
-
-  This issue has been reproduced in QEMU running in TCG mode. KVM is not
-  affected.
-
-  Kernel panic log:
-
-  [  111.091138] BUG: unable to handle kernel NULL pointer dereference at 0=
-0000014
-  [  111.092145] IP: [<ce0513ad>] doublefault_fn+0xd/0x130
-  [  111.092145] *pdpt =3D 0000000000000000 *pde =3D f000ff53f000ff53 [  11=
-1.092145] =
-
-  [  111.092145] Oops: 0000 [#1] SMP
-  [  111.092145] Modules linked in: kvm_amd bochs_drm ppdev ttm drm_kms_hel=
-per drm kvm irqbypass evdev pcspkr serio_raw sg parport_pc parport button i=
-p_tables x_tables autofs4 ext4 crc16 jbd2 crc32c_generic fscrypto ecb xts l=
-rw gf128mul ablk_helper cryptd aes_i586 mbcache sr_mod sd_mod cdrom ata_gen=
-eric ata_piix libata psmouse e1000 scsi_mod i2c_piix4 floppy
-  [  111.092145] CPU: 0 PID: 409 Comm: int8.elf Not tainted 4.9.0-8-686-pae=
- #1 Debian 4.9.130-2
-  [  111.092145] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
-S rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
-  [  111.092145] task: f6c88a80 task.stack: f6e52000
-  [  111.092145] EIP: 0060:[<ce0513ad>] EFLAGS: 00004086 CPU: 0
-  [  111.092145] EIP is at doublefault_fn+0xd/0x130
-  [  111.092145] EAX: 00000000 EBX: 00000000 ECX: 00000000 EDX: 00000000
-  [  111.092145] ESI: 00000000 EDI: 00000000 EBP: ce8f13fc ESP: ce8f13d4
-  [  111.092145]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
-  [  111.092145] CR0: 8005003b CR2: 00000014 CR3: 0e8e1000 CR4: 000006f0
-  [  111.092145] Stack:
-  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
-00000 00000000
-  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
-00000 00000000
-  [  111.092145]  00000000 00000000 00000000 00000000 fed00000 ce474ad0 000=
-00000 00017d78
-  [  111.092145] Call Trace:
-  [  111.092145] Code: 86 fd ff eb a3 89 f6 8d bc 27 00 00 00 00 55 89 e5 3=
-e 8d 74 26 00 5d e9 e2 79 fd ff 66 90 55 89 e5 56 53 83 ec 20 3e 8d 74 26 0=
-0 <65> a1 14 00 00 00 89 45 f4 31 c0 31 c0 c7 45 f0 00 00 00 00 66
-  [  111.092145] EIP: [<ce0513ad>] [  111.092145] doublefault_fn+0xd/0x130
-  [  111.092145]  SS:ESP 0068:ce8f13d4
-  [  111.092145] CR2: 0000000000000014
-  [  111.092145] ---[ end trace 8afa7884b76cafc1 ]---
-
-  Testcase:
-  ---------
-
-  void main() {
-          asm("int $0x8");
-  }
+  Also, the synopsis line "-icount
+  [shift=3DN|auto][,rr=3Drecord|replay,rrfile=3Dfilename,rrsnapshot=3Dsnaps=
+hot"
+  fails to mention the sleep keyword at all.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1813201/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1774412/+subscriptions
 
