@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8EE862FF866
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 00:05:59 +0100 (CET)
-Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54B822FF894
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 00:18:38 +0100 (CET)
+Received: from localhost ([::1]:33246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2j1a-0001MT-4r
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 18:05:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
+	id 1l2jDo-0006hG-Um
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 18:18:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l2izR-0000YN-8g; Thu, 21 Jan 2021 18:03:45 -0500
-Received: from mail.kernel.org ([198.145.29.99]:50670)
+ id 1l2jCc-0006D6-3I; Thu, 21 Jan 2021 18:17:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53506)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l2izP-0002Kx-AN; Thu, 21 Jan 2021 18:03:44 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id C1A8E23A3A;
- Thu, 21 Jan 2021 23:03:40 +0000 (UTC)
+ id 1l2jCa-0006rY-FD; Thu, 21 Jan 2021 18:17:21 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 1C18020769;
+ Thu, 21 Jan 2021 23:17:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611270221;
- bh=x2Q11khQ3FjYsvFuqF1aVIg4KfBCp/YKJI5k3MjnysY=;
+ s=k20201202; t=1611271038;
+ bh=31dIbH5q+bO56EiFZ+3w7Hy/6+4IjBjnSAnMErFzNkI=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=pZwFpF5++GDiovSF4Ijndm9f/sb2m5clRipeExGS2uZEz6qruTcGJSmXIHx7M/Rkr
- GES7Y1DO8iwH68CRAHSjmejJCL/SXgb0yFiZON5p763NbBMarnyRDKdBNz7ZmpzT+1
- F2HmF1CdE9DVfqqRhxn48Vv1ATskQKL1vO4cEo8CBGmxVLznBrZVVhTgFDb0uUnwWq
- ebTEQcXdUBLFmC+Dqgi6vJGsIFY/EoRhi7fTw++UR4sLeU3NMU7Kkt8pBzuoGzYFwb
- H2+gUF/Tu/71LZ4ZygFuBhxFVQ+JsrePOeguebpzXpBHhL5u8afBQsL03yVUD/l9ox
- pIB5Um3+n0nsQ==
-Date: Thu, 21 Jan 2021 15:03:38 -0800
+ b=sfJA3G2MlX9ZxwJEmpJOuW2xjt2eMndW9oioGrMk115dwVArnlTnNgvn4T9MJFNC3
+ eL9gi9C46sQ4Kz3xtGvt18uHSrq/aaajuE3tO0hKaS81TMQeJNsW17U2r2Er4p2n32
+ sUqLecTWQsLVagJN1jq+pEqFCS2AVIid7t43ox1Mi6jS8MOGvw82WuvAfADziTmKnm
+ inCaTeO5kaqzhIFN6zMez7OSTCvt5OTeXPBZ1Oz4GjGaWUnmrrBeXrSKLOOE7uKfOr
+ AvYgV/KiWJvhWden1ogeh5nWmWtGwKv83kgmkUyRogGhsviUtl3ijw2G2VmaNckep/
+ xrlC/Cmd6TgbQ==
+Date: Thu, 21 Jan 2021 15:17:16 -0800
 From: Keith Busch <kbusch@kernel.org>
 To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH V4 2/6] hw/block/nvme: support to map controller to a
+Subject: Re: [PATCH V4 4/6] hw/block/nvme: support for multi-controller in
  subsystem
-Message-ID: <20210121230338.GC1727271@dhcp-10-100-145-180.wdc.com>
+Message-ID: <20210121231716.GD1727271@dhcp-10-100-145-180.wdc.com>
 References: <20210121220908.14247-1-minwoo.im.dev@gmail.com>
- <20210121220908.14247-3-minwoo.im.dev@gmail.com>
+ <20210121220908.14247-5-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210121220908.14247-3-minwoo.im.dev@gmail.com>
+In-Reply-To: <20210121220908.14247-5-minwoo.im.dev@gmail.com>
 Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
  helo=mail.kernel.org
 X-Spam_score_int: -72
@@ -67,40 +67,30 @@ Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 07:09:04AM +0900, Minwoo Im wrote:
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -23,6 +23,7 @@
->   *              max_ioqpairs=<N[optional]>, \
->   *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
->   *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
-> + *              ,subsys=<subsys_id> \
-
-For consistency, the ',' goes in the preceeding line.
-
->   *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
->   *              zoned=<true|false[optional]>
->   *      -device nvme-subsys,id=<subsys_id>
-
-> @@ -4404,11 +4412,25 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
->      return 0;
->  }
+On Fri, Jan 22, 2021 at 07:09:06AM +0900, Minwoo Im wrote:
+> -static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+> +static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev, uint16_t cntlid)
+>  {
+>      NvmeIdCtrl *id = &n->id_ctrl;
+>      uint8_t *pci_conf = pci_dev->config;
 >  
-> +static void nvme_init_subnqn(NvmeCtrl *n)
-> +{
-> +    NvmeSubsystem *subsys = n->subsys;
-> +    NvmeIdCtrl *id = &n->id_ctrl;
-> +    char *subnqn;
-> +
-> +    if (!subsys) {
-> +        subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
-> +        strpadcpy((char *)id->subnqn, sizeof(id->subnqn), subnqn, '\0');
-> +        g_free(subnqn);
+> +    n->cntlid = cntlid;
 
-    snprintf(id->subnqn, sizeof(id->subnqn), "nqn.2019-08.org.qemu:%s", n->params.serial);
+I don't think 'cntlid' is important enough to be a function parameter.
+You can just set it within the 'NvmeCtrl' struct before calling this
+function like all the other properties.
 
-> +    } else {
-> +        pstrcpy((char *)id->subnqn, sizeof(id->subnqn), (char*)subsys->subnqn);
+> @@ -4517,7 +4543,11 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+>          return;
+>      }
+>  
+> -    nvme_init_ctrl(n, pci_dev);
+> +    cntlid = nvme_init_subsys(n, errp);
+> +    if (cntlid < 0) {
+
+    error_propogate();
+
+> +        return;
 > +    }
-> +}
+> +    nvme_init_ctrl(n, pci_dev, cntlid);
 
