@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E0E42FEABF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:55:15 +0100 (CET)
-Received: from localhost ([::1]:51434 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 845212FEADD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:59:25 +0100 (CET)
+Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ZUY-0001L3-5B
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:55:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42520)
+	id 1l2ZYa-00068x-JV
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:59:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2ZQL-0005XE-5x
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2ZQL-0005Zt-R7
  for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:50:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52189)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49573)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2ZQH-0003T4-As
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:50:52 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2ZQF-0003Su-BP
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:50:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611233447;
+ s=mimecast20190719; t=1611233446;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cnxQm3v1Ab0206NsMpDRBh5rlQFn48y2RQATiKmFCkA=;
- b=duY33Vbi+oUC6JIAdxj9IGtcIlp00ySUfWTeXw3erdRT9Mjq/1kuoZJMCH7XeZzK2Twc/q
- q8HBR/d7lm9VxMMNcNK3Z3IdiYYqis8fcEam5c+pGNwKj0N5vsbf0+WpHrraOglCKQnLs6
- dfDA8TrHMMqGe8MjZ02cgp0TB4QGCog=
+ bh=ELMXX/7+Mu/+0lCYZDVZMDtTBBkG25eKsFIUDq+vL1o=;
+ b=T+pb6ZWkIIOQOxR/MzuJt7JSwBoot46n+Z5coVYARSIUiqqwLyYDFeaj3zPLdNRGn4jMWy
+ isfYTTaPSJ/2nXZDxrzahIRL0GhEPps9DLUPY/Ieq+CT4PWUVw9G+k5WyzVUGVp8EqhX++
+ z57jTkgo6Su4pvi6m2XSSdcVMmfovWM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-397-5ww4gFQYPfWnSKCsA79fGg-1; Thu, 21 Jan 2021 07:50:45 -0500
-X-MC-Unique: 5ww4gFQYPfWnSKCsA79fGg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-128-hduPV5XWPHWpNBCC6K0AaA-1; Thu, 21 Jan 2021 07:50:44 -0500
+X-MC-Unique: hduPV5XWPHWpNBCC6K0AaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 88CAE1572A
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:50:44 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE3AD15726
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:50:43 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
  [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 23CCA60C43;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2808319D9B;
  Thu, 21 Jan 2021 12:50:38 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 2DA5218003BA; Thu, 21 Jan 2021 13:50:29 +0100 (CET)
+ id 3B39F18003BE; Thu, 21 Jan 2021 13:50:29 +0100 (CET)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 7/8] trace/simple: pass iter to st_write_event_mapping
-Date: Thu, 21 Jan 2021 13:50:27 +0100
-Message-Id: <20210121125028.3247190-8-kraxel@redhat.com>
+Subject: [PATCH v3 8/8] trace/simple: add st_init_group
+Date: Thu, 21 Jan 2021 13:50:28 +0100
+Message-Id: <20210121125028.3247190-9-kraxel@redhat.com>
 In-Reply-To: <20210121125028.3247190-1-kraxel@redhat.com>
 References: <20210121125028.3247190-1-kraxel@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,54 +85,64 @@ Cc: Markus Armbruster <armbru@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pass an iter to st_write_event_mapping, so the function can interate
-different things depending on how we initialize the iter.
+Add helper function and call it for each trace event group added.
+Makes sure that events added at module load time are initialized
+properly.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- trace/simple.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ trace/simple.h  |  1 +
+ trace/control.c |  4 ++++
+ trace/simple.c  | 12 ++++++++++++
+ 3 files changed, 17 insertions(+)
 
-diff --git a/trace/simple.c b/trace/simple.c
-index 97b6f85168e7..ec2156d135cb 100644
---- a/trace/simple.c
-+++ b/trace/simple.c
-@@ -280,14 +280,12 @@ void trace_record_finish(TraceBufferRecord *rec)
-     }
+diff --git a/trace/simple.h b/trace/simple.h
+index 26ccbc8b8ae3..ee1983ce5617 100644
+--- a/trace/simple.h
++++ b/trace/simple.h
+@@ -15,6 +15,7 @@ void st_print_trace_file_status(void);
+ bool st_set_trace_file_enabled(bool enable);
+ void st_set_trace_file(const char *file);
+ bool st_init(void);
++void st_init_group(size_t group);
+ void st_flush_trace_buffer(void);
+ 
+ typedef struct {
+diff --git a/trace/control.c b/trace/control.c
+index f1cc880b7cd1..9649d0979e70 100644
+--- a/trace/control.c
++++ b/trace/control.c
+@@ -81,6 +81,10 @@ void trace_event_register_group(TraceEvent **events)
+     event_groups = g_renew(TraceEventGroup, event_groups, nevent_groups + 1);
+     event_groups[nevent_groups].events = events;
+     nevent_groups++;
++
++#ifdef CONFIG_TRACE_SIMPLE
++    st_init_group(nevent_groups - 1);
++#endif
  }
  
--static int st_write_event_mapping(void)
-+static int st_write_event_mapping(TraceEventIter *iter)
- {
-     uint64_t type = TRACE_RECORD_TYPE_MAPPING;
--    TraceEventIter iter;
-     TraceEvent *ev;
  
--    trace_event_iter_init_all(&iter);
--    while ((ev = trace_event_iter_next(&iter)) != NULL) {
-+    while ((ev = trace_event_iter_next(iter)) != NULL) {
-         uint64_t id = trace_event_get_id(ev);
-         const char *name = trace_event_get_name(ev);
-         uint32_t len = strlen(name);
-@@ -309,6 +307,7 @@ static int st_write_event_mapping(void)
-  */
- bool st_set_trace_file_enabled(bool enable)
- {
+diff --git a/trace/simple.c b/trace/simple.c
+index ec2156d135cb..ac499edee0d5 100644
+--- a/trace/simple.c
++++ b/trace/simple.c
+@@ -422,3 +422,15 @@ bool st_init(void)
+     atexit(st_flush_trace_buffer);
+     return true;
+ }
++
++void st_init_group(size_t group)
++{
 +    TraceEventIter iter;
-     bool was_enabled = trace_fp;
- 
-     if (enable == !!trace_fp) {
-@@ -333,8 +332,9 @@ bool st_set_trace_file_enabled(bool enable)
-             return was_enabled;
-         }
- 
-+        trace_event_iter_init_all(&iter);
-         if (fwrite(&header, sizeof header, 1, trace_fp) != 1 ||
--            st_write_event_mapping() < 0) {
-+            st_write_event_mapping(&iter) < 0) {
-             fclose(trace_fp);
-             trace_fp = NULL;
-             return was_enabled;
++
++    if (!trace_writeout_enabled) {
++        return;
++    }
++
++    trace_event_iter_init_group(&iter, group);
++    st_write_event_mapping(&iter);
++}
 -- 
 2.29.2
 
