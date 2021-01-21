@@ -2,128 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF352FF208
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:34:42 +0100 (CET)
-Received: from localhost ([::1]:51542 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C65B2FF1FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:32:59 +0100 (CET)
+Received: from localhost ([::1]:49354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2dqz-0001zu-4k
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:34:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55608)
+	id 1l2dpK-00015p-7O
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:32:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l2dat-0004Jr-F2; Thu, 21 Jan 2021 12:18:03 -0500
-Received: from mail-eopbgr40100.outbound.protection.outlook.com
- ([40.107.4.100]:63809 helo=EUR03-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l2dao-0007I4-70; Thu, 21 Jan 2021 12:18:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=VIGsq78eC1e3NVj0q6volW9ipOBnYawSdEriQqXYDUJ3TXCtvg+p2BZKoFdjInsh41pFFn0dJMofyRlEiRWSI+kpEzOhhLlsmwgrjKEOMrpPLT9gTFvvKpTiiajfXtVxwGTlI9rc9+boasA9Pvh9o9yccwoHENUZVMnGsj0WnDyufx3cWOr088cfPIT0JWoY8ZotP0NSGKtcjRcLNhDnb6puYO1FpcAOJoiyPXfiURM6uuUl/VsOxheTY7Rbw1ZYF6I7opH6hYaeCes17ZnGHlBgRznEu2iKUI+wNYRzUDCrXPVbR2BGfNiFrkCgG1v0adYyaAMgD34hh71x/7Wd0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6DTlx7BTvI3yFxlKip/Uxspv+CFnSRVrsDJOlBuWW2w=;
- b=JhqMVIwP9D2U6s8VCtxOSXp87hAI67htzKv89MJXpyaTbRyQpwLCfaB/qyraZmXUCjrybHYxMPZppP3/SF3FgRXUoNll6m3MTHlvrMjnS5f/iIceJGurZIoJGPv/w5NY3F4uVV5CHMjkiNtSkA3xhkujm0cilJMdL36c983fZz7yi59LWeYNhqczWZbhFdcszQVAhjuDm8wcDI4c0lclTcxdUXdUCuQQjhN9qxdLVgzs10N4W2CeBtg66bNsKsdFSHJ1ormdagR28S7s5LagJUIbv8oLElt2iaF9G00xJzksJyURibRkjz7/ki1fqP/xQThbteiXTBjULjiQq7eqow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6DTlx7BTvI3yFxlKip/Uxspv+CFnSRVrsDJOlBuWW2w=;
- b=EcMWP+Y38+kr4D+4PCRhsbKglZDmzosGHmnof9IWb2bCnI4WWgaavrjNZ2V1nR/PBV3uPYEVt4EMdZDhCZ3Hek//7BM7HZoGvBjtuQ3Jbk3/i3tWer3Q5BaBawfQTd3njfzwkiP87gRIGWdAa7/WBnuORGaY7xzgzRyddVs+k+o=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB4469.eurprd08.prod.outlook.com (2603:10a6:20b:70::20)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 21 Jan
- 2021 17:17:49 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.014; Thu, 21 Jan 2021
- 17:17:49 +0000
-Subject: Re: [PATCH v7 09/11] iotests: add testrunner.py
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2dfu-0001do-B0
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:23:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55579)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2dfq-0001RL-7o
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:23:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611249788;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VCcbgOW5Wz91xzlbj7g+RTjBSK9SIniN07w1BYnktEY=;
+ b=Y0gM/XSBPeno55F8MmWz4YO2hTbideSrZ6ZDuUk7XyLh1/M5FPGK2bfJDJa4sw6qTPdi0a
+ e9QHUplJzhl1pQw1cz8zIy00wX4M8nTs8IitnFRpRozV9+p5iQBfFU5WnT6s2blknTotcV
+ 7T2ZswmFJ1fr9s52ALy9LJxbU8cihKo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-399-W1fT8cTkMkiPa7Q5M58SBw-1; Thu, 21 Jan 2021 12:23:03 -0500
+X-MC-Unique: W1fT8cTkMkiPa7Q5M58SBw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3A80E180E460;
+ Thu, 21 Jan 2021 17:23:01 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A106D60BF3;
+ Thu, 21 Jan 2021 17:23:00 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
 References: <20210116134424.82867-1-vsementsov@virtuozzo.com>
- <20210116134424.82867-10-vsementsov@virtuozzo.com>
- <ee9c73e1-2c33-2df0-0af7-ad19a29c8139@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <abb3036d-b451-8b7b-d732-b6586c43ca3d@virtuozzo.com>
-Date: Thu, 21 Jan 2021 20:17:47 +0300
+ <20210116134424.82867-11-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH v7 10/11] iotests: rewrite check into python
+Message-ID: <4b50156b-e5ca-f3f4-32de-6ce540640aef@redhat.com>
+Date: Thu, 21 Jan 2021 11:22:59 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <ee9c73e1-2c33-2df0-0af7-ad19a29c8139@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.101]
-X-ClientProxiedBy: AM8P189CA0025.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:218::30) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.101) by
- AM8P189CA0025.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:218::30) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.12 via Frontend Transport; Thu, 21 Jan 2021 17:17:48 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: dfcdc22a-7f1b-4e64-4f28-08d8be307a44
-X-MS-TrafficTypeDiagnostic: AM6PR08MB4469:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4469B03442FA55A3773AD1F9C1A10@AM6PR08MB4469.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5236;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6uWuYqx7jr5s+Ku8XTr0yJPlMTGujEGdUh4HfKJ0ISLALndVXutesI3d1a/7t+q69RjK3/7aXkugFArziGFxdmBJNjLmG5b9wntyI+/3sBG5wxMRvIZUu3UTTlxIyTDAByblw/gNjSzbBL8o8YgjIfXnT/QYVsI2yjq7wfWYPb09+G7hauqaHOqR/mklzuMHI7LESzmGLBHufKK6wC/qIIrX/5zLtN13vbiWn/ptZfXs0HdTa/yv7fa9i/MzGfbGYySdULBMGNONSMmLx3aAy+RDa4lvwoJr3E2oueoz/vcZMjCAMyDC9suLx1yk4H541Dk6kQqn+3vpX9mNq+wEouOJEk4wCv1gGyzLTdFdFyvYovSpcmfdo4DY7+WcJGqTRiTajiRAxweIz/KcWSvUvt6nT+N868B/cCFCEDGsO17b4XOMQeXD67ythzPKAF4G1W/vjYuJzIgfmIpoDGyLLLKQRcVQdNQkxQMcmUAFwvQ=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(136003)(396003)(376002)(346002)(39840400004)(16576012)(66556008)(316002)(2616005)(4326008)(186003)(956004)(31696002)(31686004)(83380400001)(86362001)(36756003)(16526019)(26005)(8676002)(5660300002)(6486002)(478600001)(53546011)(52116002)(66946007)(2906002)(8936002)(66476007)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?RFdhUkpuNkcySWlEWUFkZHhacDZyVXJ0VUpNTmtjWkFzUlN0T2ZoZHR0TW1H?=
- =?utf-8?B?TUJ1L1RTQTFPMEk1N2lZVmM4U0JHRmZ5R2tSMHpoQ3B4eUcyTmpPb05nSWdn?=
- =?utf-8?B?SkdrZGxIRGpDM016SDR1bmF1RWdMM294TklGSFpKWTUzaVJ0aVprOXJXandR?=
- =?utf-8?B?TU1Ha05KM2IvMkE0K1FiSWFYUGZ0TGEvSDk0RTBMeFQ0TjNEVVphWVZnSXM5?=
- =?utf-8?B?cVp3OVFkUi8xOWZsREtnSnN6TXgyRVloZ2Rna3ZjQlZUZW8wOGR4amMwSnpx?=
- =?utf-8?B?QnFFcDBiWDV5aGRlNE9LMXFHMjY5b1UvV0EvUWI5a1ljckN5b0NtUkV6eVQw?=
- =?utf-8?B?Y0xCSFFhUGJTZS91ZGVkRk1oMndCV21vUmxBa1c5UjdPbmhMRWJDcXR3VE4v?=
- =?utf-8?B?a0VDdmVUR1hXa282KzMyQ2tsdTJnWU84bmgyN3dsZ1FzSWlZOHVqWlRKeld3?=
- =?utf-8?B?ZUJ1M2cySmxYcUVkTnlqYU1NbElaU05jcDlvSzJjSGR3QmRUaFpsVGtTYXVH?=
- =?utf-8?B?ODU1SjNjNjVtdkcrME9mdTd5SlJqUmpINnVsTVNFZjVEaDhleGcvWnRUS0tx?=
- =?utf-8?B?Q3NEMityMVJTZHdvdFltYnZwNlRyNHBuTzZ6MVJYZHFEaEc1aHYveUV2YUpV?=
- =?utf-8?B?OGRrZXI2RVJSVlU4UkttV1dMUHZiMk5zTlZjQVQvTUpTOU5xOWlNMjIyZUd1?=
- =?utf-8?B?aVNpVGtYMUJWcmFJMEw3cG0vZndxSEpVMVNROWN1b2dNR1UrZHp5bFhjRnZm?=
- =?utf-8?B?eC95cEhZSjM5Y1FubVI0dUpHcGZZaStKT1VySXBvbTNpSWFGMjkyd1lRamFn?=
- =?utf-8?B?QW5CdHZ1bG9Ub2ZBa053bTcwTG1BRlhISTNjNVNBWFpkcE5DcW00VGNTamI2?=
- =?utf-8?B?TjNBMkhWeVNWU1NNMUEvVTZRcnlOODBvd1luQmJkV0RjOFdhdXBJbThKRG9Q?=
- =?utf-8?B?MmNZaUdXVkxjeWxxTng2bk9OQkw2TjZDUm9hMTFsUjdEb2x5Mks5dkxhamVm?=
- =?utf-8?B?Vzdia05lREU4L0pVa05tcjJUL2I1aUpnY0FuVnhOcUZkYTIvd09qKzdmWnBB?=
- =?utf-8?B?Qm9aa0x0N0RUd3E5bUxYZFhPQUY1Qm5mS3RvMjkwbjg5Z1FxTmZxUlB2Umpl?=
- =?utf-8?B?RStZc2x2cTBHanoyL2ZIbXFPak5Kek9MWlpLaFgwYURJSkVMdjhrWHg3TnMy?=
- =?utf-8?B?UXJDREVLUnEwdVNYQWU5c3lMOGdmMDVoNVdzWnhzdDVWckNqTWFKMy9BbGxV?=
- =?utf-8?B?SHFkUVpraktWRUtQVStTd2pBRXFObFFaamJKUWFpNlpVUTB2L0lIUkFJV0Nt?=
- =?utf-8?Q?+LID7yCeD0xI0fvxvg9bulEdYIh7VS4EBP?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: dfcdc22a-7f1b-4e64-4f28-08d8be307a44
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2021 17:17:49.2766 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: RFkfmr1ZFoaHU62oqjNSn4OH/xmverDUhOwoV2dar34kvcKXOIPhq6si4jlNUyUKNJiupXw3lWl9QwMSJZqEzn5ZzaikghzBpUS2r1xnvJk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4469
-Received-SPF: pass client-ip=40.107.4.100;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR03-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+In-Reply-To: <20210116134424.82867-11-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -142,157 +88,180 @@ Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.01.2021 20:02, Eric Blake wrote:
-> On 1/16/21 7:44 AM, Vladimir Sementsov-Ogievskiy wrote:
->> Add TestRunner class, which will run tests in a new python iotests
->> running framework.
->>
->> There are some differences with current ./check behavior, most
->> significant are:
->> - Consider all tests self-executable, just run them, don't run python
->>    by hand.
->> - Elapsed time is cached in json file
->> - Elapsed time precision increased a bit
->> - use python difflib instead of "diff -w", to ignore spaces at line
->>    ends strip lines by hand. Do not ignore other spaces.
+On 1/16/21 7:44 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Just use classes introduced in previous three commits. Behavior
+> difference is described in these three commits.
 > 
-> Awkward wording.  Maybe:
+> Drop group file, as it becomes unused.
 > 
-> Instead of using "diff -w" which ignores all whitespace differences,
-> manually strip whitespace at line end then use python difflib, which no
-> longer ignores spacing mid-line
+> Drop common.env: now check is in python, and for tests we use same
+> python interpreter that runs the check itself. Use build environment
+> PYTHON in check-block instead, to keep "make check" use the same
+> python.
 > 
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   tests/qemu-iotests/testrunner.py | 344 +++++++++++++++++++++++++++++++
->>   1 file changed, 344 insertions(+)
->>   create mode 100644 tests/qemu-iotests/testrunner.py
->>
->> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
->> new file mode 100644
->> index 0000000000..92722cc68b
->> --- /dev/null
->> +++ b/tests/qemu-iotests/testrunner.py
->> @@ -0,0 +1,344 @@
->> +# Class for actual tests running.
-> 
-> for actually running tests
-> 
-> again, should this file be 755 with #! python?
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
 
-In my latest considerations - no it shouldn't.. We still make implement __main__ things later if needed.
+> +++ b/tests/qemu-iotests/check
+> @@ -1,7 +1,8 @@
+> -#!/usr/bin/env bash
+> +#!/usr/bin/env python3
+>  #
+> -# Copyright (C) 2009 Red Hat, Inc.
+> -# Copyright (c) 2000-2002,2006 Silicon Graphics, Inc.  All Rights Reserved.
+> +# Configure environment and run group of tests in it.
+> +#
+> +# Copyright (c) 2020-2021 Virtuozzo International GmbH
 
-> 
->> +
->> +def file_diff(file1: str, file2: str) -> List[str]:
->> +    with open(file1) as f1, open(file2) as f2:
->> +        # We want to ignore spaces at line ends. There are a lot of mess about
->> +        # it in iotests.
->> +        # TODO: fix all tests to not produce extra spaces, fix all .out files
->> +        # and use strict diff here!
->> +        seq1 = [line.rstrip() for line in f1]
->> +        seq2 = [line.rstrip() for line in f2]
->> +        return list(difflib.unified_diff(seq1, seq2, file1, file2))
-> 
-> Offhand, do you have the list of tests where (actual/expected) output
-> has trailing whitespace and would fail without the .rstrip()?
+Normally dropping old copyrights is suspicious, but as this is a
+complete rewrite, it makes sense here.
 
-No.. But it's simple to make it
+> -exit
+> +import os
+> +import sys
+> +import argparse
+> +from findtests import TestFinder
+> +from testenv import TestEnv
+> +from testrunner import TestRunner
+> +
+> +
+> +def make_argparser() -> argparse.ArgumentParser:
+> +    p = argparse.ArgumentParser(description="Test run options")
+> +
+> +    p.add_argument('-n', '--dry-run', action='store_true',
+> +                   help='show me, do not run tests')
+> +    p.add_argument('-makecheck', action='store_true',
+> +                   help='pretty print output for make check')
+> +
+> +    p.add_argument('-d', dest='debug', action='store_true', help='debug')
+> +    p.add_argument('-misalign', action='store_true',
+> +                   help='misalign memory allocations')
+> +
+> +    g_env = p.add_argument_group('test environment options')
+> +    mg = g_env.add_mutually_exclusive_group()
+> +    # We don't set default for cachemode, as we need to distinguish dafult
 
-> 
->> +
->> +
->> +# We want to save current tty settings during test run,
->> +# since an aborting qemu call may leave things screwed up.
->> +@contextmanager
->> +def savetty() -> Iterator[None]:
->> +    isterm = sys.stdin.isatty()
->> +    if isterm:
->> +        fd = sys.stdin.fileno()
->> +        attr = termios.tcgetattr(0)
-> 
-> Isn't fd always going to be 0?  It looks odd to hard-code zero in the
-> very next line; either we should s/0/fd/ here, or...
+default
 
-agree that's strange.
+> +    # from user input later.
+> +    mg.add_argument('-nocache', dest='cachemode', action='store_const',
+> +                    const='none', help='set cache mode "none" (O_DIRECT), '
+> +                    'sets CACHEMODE environment variable')
+> +    mg.add_argument('-c', dest='cachemode',
+> +                    help='sets CACHEMODE environment variable')
+> +
+> +    g_env.add_argument('-i', dest='aiomode', default='threads',
+> +                       help='sets AIOMODE environment variable')
+> +
+> +    p.set_defaults(imgfmt='raw', imgproto='file')
+> +
+> +    format_list = ['raw', 'bochs', 'cloop', 'parallels', 'qcow', 'qcow2',
+> +                   'qed', 'vdi', 'vpc', 'vhdx', 'vmdk', 'luks', 'dmg']
+> +    g_fmt = p.add_argument_group(
+> +        '  image format options',
+> +        'The following options set the IMGFMT environment variable. '
+> +        'At most one choice is allowed, default is "raw"')
+> +    mg = g_fmt.add_mutually_exclusive_group()
+> +    for fmt in format_list:
+> +        mg.add_argument('-' + fmt, dest='imgfmt', action='store_const',
+> +                        const=fmt, help=f'test {fmt}')
+> +
+> +    protocol_list = ['file', 'rbd', 'sheepdoc', 'nbd', 'ssh', 'nfs',
 
-> 
->> +
->> +    try:
->> +        yield
->> +    finally:
->> +        if isterm:
->> +            termios.tcsetattr(fd, termios.TCSADRAIN, attr)
-> 
-> ... s/fd/0/ here and drop fd altogether.
+sheepdog
 
-Either way is OK for me, I think, I'll do s/0/fd/
+> +                     'fuse']
+> +    g_prt = p.add_argument_group(
+> +        '  image protocol options',
+> +        'The following options set the IMGPROTO environment variable. '
+> +        'At most one choice is allowed, default is "file"')
+> +    mg = g_prt.add_mutually_exclusive_group()
+> +    for prt in protocol_list:
+> +        mg.add_argument('-' + prt, dest='imgproto', action='store_const',
+> +                        const=prt, help=f'test {prt}')
+> +
+> +    g_bash = p.add_argument_group('bash tests options',
+> +                                  'The following options are ignored by '
+> +                                  'python tests.')
+> +    # TODO: make support for the following options in iotests.py
+> +    g_bash.add_argument('-o', dest='imgopts',
+> +                        help='options to pass to qemu-img create/convert, '
+> +                        'sets IMGOPTS environment variable')
+> +    g_bash.add_argument('-valgrind', dest='VALGRIND_QEMU',
+> +                        action='store_const', const='y',
+> +                        help='use valgrind, sets VALGRIND_QEMU environment '
+> +                        'variable')
+> +
+> +    g_sel = p.add_argument_group('test selecting options',
+> +                                 'The following options specify test set '
+> +                                 'to run.')
+> +    g_sel.add_argument('-g', '--groups', metavar='group1,...',
+> +                       help='include tests from these groups')
+> +    g_sel.add_argument('-x', '--exclude-groups', metavar='group1,...',
+> +                       help='exclude tests from these groups')
+> +    g_sel.add_argument('--start-from', metavar='TEST',
+> +                       help='Start from specified test: make sorted sequence '
+> +                       'of tests as usual and then drop tests from the first '
+> +                       'one to TEST (not inclusive). This may be used to '
+> +                       'rerun failed ./check command, starting from the '
+> +                       'middle of the process.')
+> +    g_sel.add_argument('tests', metavar='TEST_FILES', nargs='*',
+> +                       help='tests to run')
+> +
+> +    return p
 
-> 
->> +
->> +
->> +class LastElapsedTime(AbstractContextManager['LastElapsedTime']):
->> +    """ Cache for elapsed time for tests, to show it during new test run
->> +
->> +    Use get() in any time. But, if use update you should then call save(),
->> +    or use update() inside with-block.
-> 
-> Grammar is hard, maybe:
-> 
-> It is safe to use get() at any time.  To use update(), you must either
-> use a with-block or first use save().
+The change to drop ranges and instead use --start-from makes sense (you
+can't do ranges of named files); it will take a minor adjustment to my
+keyboarding habits to get used to, but I don't see it as a show-stopper
+as iotests are for developers and not promised to be a stable interface.
 
-OK, thanks
+> +
+> +
+> +if __name__ == '__main__':
+> +    args = make_argparser().parse_args()
+> +
+> +    env = TestEnv(imgfmt=args.imgfmt, imgproto=args.imgproto,
+> +                  aiomode=args.aiomode, cachemode=args.cachemode,
+> +                  imgopts=args.imgopts, misalign=args.misalign,
+> +                  debug=args.debug)
+> +
+> +    testfinder = TestFinder(test_dir=env.source_iotests)
+> +
+> +    groups = args.groups.split(',') if args.groups else None
+> +    x_groups = args.exlude_groups.split(',') if args.exclude_groups else None
+> +
+> +    try:
+> +        tests = testfinder.find_tests(groups=groups, exclude_groups=x_groups,
+> +                                      tests=args.tests,
+> +                                      start_from=args.start_from)
+> +        if not tests:
+> +            raise ValueError('No tests selected')
+> +    except ValueError as e:
+> +        sys.exit(e)
+> +
+> +    if args.dry_run:
+> +        print('\n'.join(tests))
+> +    else:
+> +        with TestRunner(env, args.makecheck) as tr:
+> +            tr.run_tests([os.path.join(env.source_iotests, t) for t in tests])
 
-> 
-> 
->> +    def test_print_one_line(self, test: str, starttime: str,
-> 
->> +
->> +        if status == 'pass':
->> +            col = '\033[32m'
->> +        elif status == 'fail':
->> +            col = '\033[1m\033[31m'
->> +        elif status == 'not run':
->> +            col = '\033[33m'
-> 
-> This hard-codes the use of ANSI escape sequences without first checking
-> that we are writing to a terminal.  Is that wise?  Should we have this
-> be tunable by a tri-state command-line option, similar to ls --color?
-> (--color=auto is default, and bases decision on istty(), --color=off
-> turns color off even for a terminal, --color=on uses color even when
-> outputting to a pipe, which can be useful depending on the other end of
-> the pipeline...)
+Other than the typo, this looks like a fairly straightforward conversion
+of the old shell code, but at present, I'm only comfortable giving:
 
-Hmm, yes. It's preexisting in old bash check script I think. I can add a separate patch for it
+Tested-by: Eric Blake <eblake@redhat.com>
 
-> 
-> 
->> +        with f_test.open() as f:
->> +            try:
->> +                if f.readline() == '#!/usr/bin/env python3':
->> +                    args.insert(0, self.env.python)
->> +            except UnicodeDecodeError:  # binary test? for future.
->> +                pass
-> 
-> Is pass the right action here?  Or will it silently skip a test file
-> with encoding errors?
+(of course assuming you fix the typo that broke ./check -sheepdog)
 
-No, we'll not skip it. Here we just failed to recognize python test, so, it will be executed as self-executable. So, if there are real problems, we'll see them when try to execute the file.
-
-> 
-> Again, I'm not comfortable enough to give a full review of the python,
-> but it looks fairly similar to the existing shell code, and with the
-> series applied, things still work.  So I can offer
-> 
-> Tested-by: Eric Blake <eblake@redhat.com>
-> 
-
-
-Thanks a lot for testing and reviewing so many my patches!!
+The longer we sit on this series, the more merge conflicts it will
+introduce (new tests need to add their own #group header line); the
+changes to fix those conflicts should be obvious, but I hope we get
+another reviewer soon.  I'm wondering if I should take the second half
+of this series (since I already sent the pull request for the first half
+since it touched NBD tests), or let Max take it.
 
 -- 
-Best regards,
-Vladimir
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
