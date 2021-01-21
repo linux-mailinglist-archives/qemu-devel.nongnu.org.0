@@ -2,75 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6A112FF83A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 23:55:38 +0100 (CET)
-Received: from localhost ([::1]:47330 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE862FF866
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 00:05:59 +0100 (CET)
+Received: from localhost ([::1]:53850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2irZ-00063v-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 17:55:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49960)
+	id 1l2j1a-0001MT-4r
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 18:05:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51686)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2ipq-0005SW-Jo
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 17:53:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58758)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2ipo-0007LA-US
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 17:53:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611269628;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=AmpD0uWO9ONHNAObSTnSzY4dBiD8gfHluXQWXNMPVag=;
- b=SltlDddPi9XrbzFWVGC7GlFSe7H+6oNePnlrG8vVI1XuxqZq5ZYM0OxMSrCWUDqyp7/SaR
- jNEZ+waQDrCLK+ud9ksZuCA1UgIbdaWdJVYwqRHo+UZr5neOTOru+kBkTJBee0oJOkCbhX
- 1PUMHHY6jKEE56GbKQNKQYnwFE78pn4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-548-zFFZpdfwPj-wHUEiI6OYKg-1; Thu, 21 Jan 2021 17:53:46 -0500
-X-MC-Unique: zFFZpdfwPj-wHUEiI6OYKg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 041DC107ACE4;
- Thu, 21 Jan 2021 22:53:45 +0000 (UTC)
-Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7304539A63;
- Thu, 21 Jan 2021 22:53:40 +0000 (UTC)
-Subject: Re: [PATCH v4 05/16] block/io: bdrv_pad_request(): support
- qemu_iovec_init_extended failure
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
- <20201211183934.169161-6-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <689e5451-556e-44b3-b3e8-87db2c2194aa@redhat.com>
-Date: Thu, 21 Jan 2021 16:53:39 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l2izR-0000YN-8g; Thu, 21 Jan 2021 18:03:45 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l2izP-0002Kx-AN; Thu, 21 Jan 2021 18:03:44 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id C1A8E23A3A;
+ Thu, 21 Jan 2021 23:03:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611270221;
+ bh=x2Q11khQ3FjYsvFuqF1aVIg4KfBCp/YKJI5k3MjnysY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=pZwFpF5++GDiovSF4Ijndm9f/sb2m5clRipeExGS2uZEz6qruTcGJSmXIHx7M/Rkr
+ GES7Y1DO8iwH68CRAHSjmejJCL/SXgb0yFiZON5p763NbBMarnyRDKdBNz7ZmpzT+1
+ F2HmF1CdE9DVfqqRhxn48Vv1ATskQKL1vO4cEo8CBGmxVLznBrZVVhTgFDb0uUnwWq
+ ebTEQcXdUBLFmC+Dqgi6vJGsIFY/EoRhi7fTw++UR4sLeU3NMU7Kkt8pBzuoGzYFwb
+ H2+gUF/Tu/71LZ4ZygFuBhxFVQ+JsrePOeguebpzXpBHhL5u8afBQsL03yVUD/l9ox
+ pIB5Um3+n0nsQ==
+Date: Thu, 21 Jan 2021 15:03:38 -0800
+From: Keith Busch <kbusch@kernel.org>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH V4 2/6] hw/block/nvme: support to map controller to a
+ subsystem
+Message-ID: <20210121230338.GC1727271@dhcp-10-100-145-180.wdc.com>
+References: <20210121220908.14247-1-minwoo.im.dev@gmail.com>
+ <20210121220908.14247-3-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211183934.169161-6-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210121220908.14247-3-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -72
+X-Spam_score: -7.3
+X-Spam_bar: -------
+X-Spam_report: (-7.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,28 +62,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 12:39 PM, Vladimir Sementsov-Ogievskiy wrote:
-> Make bdrv_pad_request() honest: return error if
-> qemu_iovec_init_extended() failed.
-> 
-> Update also bdrv_padding_destroy() to clean the structure for safety.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/io.c | 45 +++++++++++++++++++++++++++++++--------------
->  1 file changed, 31 insertions(+), 14 deletions(-)
-> 
+On Fri, Jan 22, 2021 at 07:09:04AM +0900, Minwoo Im wrote:
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -23,6 +23,7 @@
+>   *              max_ioqpairs=<N[optional]>, \
+>   *              aerl=<N[optional]>, aer_max_queued=<N[optional]>, \
+>   *              mdts=<N[optional]>,zoned.append_size_limit=<N[optional]> \
+> + *              ,subsys=<subsys_id> \
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+For consistency, the ',' goes in the preceeding line.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+>   *      -device nvme-ns,drive=<drive_id>,bus=<bus_name>,nsid=<nsid>,\
+>   *              zoned=<true|false[optional]>
+>   *      -device nvme-subsys,id=<subsys_id>
 
+> @@ -4404,11 +4412,25 @@ static int nvme_init_pci(NvmeCtrl *n, PCIDevice *pci_dev, Error **errp)
+>      return 0;
+>  }
+>  
+> +static void nvme_init_subnqn(NvmeCtrl *n)
+> +{
+> +    NvmeSubsystem *subsys = n->subsys;
+> +    NvmeIdCtrl *id = &n->id_ctrl;
+> +    char *subnqn;
+> +
+> +    if (!subsys) {
+> +        subnqn = g_strdup_printf("nqn.2019-08.org.qemu:%s", n->params.serial);
+> +        strpadcpy((char *)id->subnqn, sizeof(id->subnqn), subnqn, '\0');
+> +        g_free(subnqn);
+
+    snprintf(id->subnqn, sizeof(id->subnqn), "nqn.2019-08.org.qemu:%s", n->params.serial);
+
+> +    } else {
+> +        pstrcpy((char *)id->subnqn, sizeof(id->subnqn), (char*)subsys->subnqn);
+> +    }
+> +}
 
