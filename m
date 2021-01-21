@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924722FF35B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:42:56 +0100 (CET)
-Received: from localhost ([::1]:58652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B9B2FF337
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:33:09 +0100 (CET)
+Received: from localhost ([::1]:43758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ev1-0005MT-CM
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:42:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
+	id 1l2elX-0006y1-Im
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:33:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2eie-000540-Kc
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:30:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22319)
+ id 1l2ejg-0005fx-Gn
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22289)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2eiZ-0006FO-PK
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:30:08 -0500
+ id 1l2eje-0006kg-Ji
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611253803;
+ s=mimecast20190719; t=1611253869;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=al1XAK42PqbcHlGfsm6MRwJnbdk1ouuBdZtUtAfjb9w=;
- b=GqPZHz9kteIpXFHnNFWz2xJ2NTAEun9zDBHXRXf9OHwHFSLKn4pM+yAsKyG+j8srqPWs/r
- zyI9kNlFQm8DSfntkOS3aGcidLWMVuzv7JKmrzEQb+6UuXM2G81EdBn2HTsJbt8ieuefDQ
- 8H0LbxSHZo+T9H+HoLcEOLbfVocHj9Q=
+ bh=14ulxO2mmCeyCk5rz8dPrztr7yOAKF1FQrrMeDvZrY8=;
+ b=JWjtz9bLp4SDf/QP86ct2JEK5jiXZTb6eXn7BwyuZ8zbAW20sJ7D5iNIMJ4L/XEv6Uis8q
+ R5ZaT/BOEU4zrM2aBz2YDd8tEyvhFp6SBm0dtArjJF0sIaJkYds1p69cpuZIQShxYgxq6W
+ 1js0jwfPs/pfX13ItTL9EL2hhK0NsbU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-gtTTvaeKP2mzuVtrj8p4Mw-1; Thu, 21 Jan 2021 13:30:01 -0500
-X-MC-Unique: gtTTvaeKP2mzuVtrj8p4Mw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-394-Yy5nTl2UPS2hTB8xIbteqA-1; Thu, 21 Jan 2021 13:31:07 -0500
+X-MC-Unique: Yy5nTl2UPS2hTB8xIbteqA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4C6EA107ACE6;
- Thu, 21 Jan 2021 18:30:00 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9296380DDFB;
+ Thu, 21 Jan 2021 18:31:06 +0000 (UTC)
 Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
  [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AB68860BF3;
- Thu, 21 Jan 2021 18:29:55 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] gitlab-ci: Test building linux-user targets on
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CACFB722D8;
+ Thu, 21 Jan 2021 18:30:51 +0000 (UTC)
+Subject: Re: [PATCH v2 1/2] tests/docker: Install static libc package in
  CentOS 7
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
 References: <20210121172829.1643620-1-f4bug@amsat.org>
- <20210121172829.1643620-3-f4bug@amsat.org>
- <88c1ddbd-d93d-01e4-abfa-78b395ac4d36@redhat.com>
- <CAAdtpL66OP4WdKT--wzvWswPeeDmJVESU4qxjWrMUpbQWjbeCQ@mail.gmail.com>
+ <20210121172829.1643620-2-f4bug@amsat.org>
 From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <ab7ad25a-ea26-0db0-da98-3e328c61464f@redhat.com>
-Date: Thu, 21 Jan 2021 15:29:52 -0300
+Message-ID: <29818f10-acb6-4e7e-6e55-8bd3b5c83076@redhat.com>
+Date: Thu, 21 Jan 2021 15:30:49 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAAdtpL66OP4WdKT--wzvWswPeeDmJVESU4qxjWrMUpbQWjbeCQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210121172829.1643620-2-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,48 +88,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-On 1/21/21 3:20 PM, Philippe Mathieu-Daudé wrote:
-> On Thu, Jan 21, 2021 at 6:45 PM Wainer dos Santos Moschetta
-> <wainersm@redhat.com> wrote:
->> On 1/21/21 2:28 PM, Philippe Mathieu-Daudé wrote:
->>> Add a configuration tested by Peter Maydell (see [1] and [2])
->>> but not covered in our CI [3]:
->>>
->>>     [705/2910] Compiling C object libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->>>     FAILED: libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->>>     ../linux-user/strace.c: In function 'do_print_sockopt':
->>>     ../linux-user/strace.c:2831:14: error: 'IPV6_ADDR_PREFERENCES' undeclared (first use in this function)
->>>              case IPV6_ADDR_PREFERENCES:
->> Why the following builder did not catch that issue?
->>
->> build-user:
->>     <<: *native_build_job_definition
->>     variables:
->>       IMAGE: debian-all-test-cross
->>       CONFIGURE_ARGS: --disable-tools --disable-system
->>       MAKE_CHECK_ARGS: check-tcg
-> It uses a different base image, debian-all-test-cross, which is based
-> on Debian 10.
+On 1/21/21 2:28 PM, Philippe Mathieu-Daudé wrote:
+> We need to install the static libc package to be able to run
+> the TCG tests:
 >
-> Packages are more recent than CentOS 7.
-> QEMU aims to support the 2 latest releases from major distribs.
-> CentOS 7 is likely the oldest.
+>    $ make check-tcg
+>    ...
+>      BUILD   TCG tests for x86_64-softmmu
+>      BUILD   x86_64-softmmu guest-tests with cc
+>    /usr/bin/ld: hello: warning: allocated section `.notes' not in segment
+>    /usr/bin/ld: memory: warning: allocated section `.notes' not in segment
+>      BUILD   TCG tests for x86_64-linux-user
+>      BUILD   x86_64-linux-user guest-tests with cc
+>    /usr/bin/ld: cannot find -lpthread
+>    /usr/bin/ld: cannot find -lc
+>    collect2: error: ld returned 1 exit status
+>    make[2]: *** [threadcount] Error 1
+>    make[1]: *** [cross-build-guest-tests] Error 2
+>    make: *** [build-tcg-tests-x86_64-linux-user] Error 2
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   tests/docker/dockerfiles/centos7.docker | 1 +
+>   1 file changed, 1 insertion(+)
 
 
-Oh sorry, my emails filters aren't working fine so I missed Daniel's 
-reply on talking about it. Thanks for explaining again. :)
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
-- Wainer
 
 >
+> diff --git a/tests/docker/dockerfiles/centos7.docker b/tests/docker/dockerfiles/centos7.docker
+> index 6f11af1989e..75fdb53c7c0 100644
+> --- a/tests/docker/dockerfiles/centos7.docker
+> +++ b/tests/docker/dockerfiles/centos7.docker
+> @@ -15,6 +15,7 @@ ENV PACKAGES \
+>       gettext \
+>       git \
+>       glib2-devel \
+> +    glibc-static \
+>       gnutls-devel \
+>       libaio-devel \
+>       libepoxy-devel \
 
 
