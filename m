@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC5802FE9AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:12:12 +0100 (CET)
-Received: from localhost ([::1]:44858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 236C42FE9C2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:17:56 +0100 (CET)
+Received: from localhost ([::1]:48306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2You-0006fv-02
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:12:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34386)
+	id 1l2YuR-0008IA-42
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:17:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34982)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l2Yna-00069h-Hv
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:10:51 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40742)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2Yro-0007NC-91
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:15:12 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:33835)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l2YnW-0002ib-6V
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:10:50 -0500
-Received: by mail-wr1-x430.google.com with SMTP id c12so1492595wrc.7
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:10:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=OjyntYtvx7WG+HQzTwC9vGv1aQGwNRasQo2WwVlCdf4=;
- b=MpzINbexMQYQVSRHJczZWCSl5yM8YOB/6ACC1+q+gYOeEjgPIKu7aD83N2PKRrPXlq
- oBQr1v55+aFdxrsqWEMQtDGxdrfIXgtN9uqOl++ed6uhvC+8AbGa2SuJPg+YE5Mn0WQi
- wiIZ99yX3kYOgfeKIgQ4bwmNTQUNh2zvFvo9ev5dKFSyjch099rHtUaNL6dvTDYrusDk
- AuTmVChmcW5dqtzfRKvdC28p0J/9O9LTx84PPrsQlcT4PwrZvGkbwJEf3cHe+pWLclsG
- yrKIJfqBtOt71ARMF34V+e0frvTMCncXco4y/9cg022tgMj1VHZRjhxbfPkPblzHindk
- eAlA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2Yrl-0004go-LV
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:15:11 -0500
+Received: by mail-ej1-x632.google.com with SMTP id hs11so2308377ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:15:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=jeptPGkig4ZfJi5qcPRSSeG3bfmczJuwdpPpMWxHH4k=;
+ b=miAfYE1i0yZqBbZI8iABd+c33sAQp26tsMRTrVTgVYq40f0/Y3hY0bmLBB3XISXCIY
+ QdQaMp2HNhyp8WJSkJn4N3DFYbdQK88XEGYo7r8YBDVrsCSQvc2FyrWlPj/lh8Wgi4K2
+ OHvkWSUYAmvZk9zTra/9/lT/M4u6w96lotzbIihPuCtdDyYb+bnPYjyYakV0FIHcgezU
+ BHnY1viSl6T45TXI2u3QYG19jbJ/BDWYVucUmV+JHvNQg4kbVdfWf8QrcKjb132KDbAj
+ TD3auQZp4mG1pvlcka35x9Kk1R0fS+qhiWYCfVCX2ttf+V9aIMPB8J/sTvaN52L7MyUH
+ o1Yw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=OjyntYtvx7WG+HQzTwC9vGv1aQGwNRasQo2WwVlCdf4=;
- b=p+VIVrFNbVaT4/KT2xy5lCz5ouQLQKn9H69b9sIxYNGW2/vI1gIKdRfeoY3kA5wZMO
- asCIS0JmY+n/1GURu/LWO0zGTMsgPD0gFh4hjRerwTrjkzaHC04oY9Wp9gV4fZ9yviWP
- KgEUM5r901Mxy3svxm+JFsSg4h/mgSaSJbzG9n2vvtPRk27+Gw56OlO/+zs5Ss5cz3cU
- 30UtFS/6RrOVwI2gzpNkV8mdPRlMzdak2NJWprOL9z2jO46ka9A+mP8BuYlla3iq1l3g
- 6RP/aZbeYdvZCkIUwVDKhwEuq/KlM5S3CJS1B9RUGTDpHt9fRUniGWkYS35CeAmn/0UL
- cMNw==
-X-Gm-Message-State: AOAM533+bT0qfeBvHjhysNPMNBYaeSTk4PA9y/BOkvCOXvfG222Zzf+t
- a+96U+hfK5fFEsR0zRIXzQqZGA==
-X-Google-Smtp-Source: ABdhPJw2ANhGd6x+R+U1f86NvjSyUxpZdYPxDFkNxy87kFfIW5RWUiPRGiG4XR59POe5QNdcCMVg9A==
-X-Received: by 2002:a5d:5544:: with SMTP id g4mr647575wrw.59.1611231041466;
- Thu, 21 Jan 2021 04:10:41 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q16sm31258688wme.1.2021.01.21.04.10.38
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=jeptPGkig4ZfJi5qcPRSSeG3bfmczJuwdpPpMWxHH4k=;
+ b=oGpsbWhgXnGcPpv4o7MIqGM+kHLTwoolCYRtPa85Z0g5Qcw5f+tZ1r2ONZFjQIZgsA
+ fhXC/83Y4NSj8rffg9a+G9HtE6hNaT8GFEkI2cvCC5/ITtoWQOZ4PVOsq9Ha6gGzT97N
+ 63SHLrrYNMA6zA0u6JPOXUlZDO0RphyEdmC6jZ2N0QoC0Qm8YoEEefHKQkhcA+43AuoY
+ z4IshS+VCIbEWjogajLUurvkO0JdASD9XNrDViSMAG1vHM85LBBbsq/ea5w3KIScjmw4
+ rS92TRNidAwNcgHJOoTE04MYg848M1nfyMstsJK6fmrxCsXU0nIyEDED4Kt87WzcCcLb
+ UMgA==
+X-Gm-Message-State: AOAM530DfLQpfgDD6T2fBFujgu/QA5Xy8MLznOm+IaB/uIshPRPcRbz2
+ y7q1j7FYd9AWzt1MdQzAunbua3YG7Ws=
+X-Google-Smtp-Source: ABdhPJzBt//gjfYK3//N4AK2/L/2gDWryTrCwtcil/TsMn4xJhcAD4bIz5XApHhEQprpYDm/7o2O2A==
+X-Received: by 2002:a17:906:ca08:: with SMTP id
+ jt8mr8595305ejb.368.1611231307592; 
+ Thu, 21 Jan 2021 04:15:07 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id ke7sm2180937ejc.7.2021.01.21.04.15.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 04:10:39 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 09C5C1FF7E;
- Thu, 21 Jan 2021 12:10:38 +0000 (GMT)
-References: <20210121025439.1120405-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] tcg: Increase the static number of temporaries
-Date: Thu, 21 Jan 2021 12:10:32 +0000
-In-reply-to: <20210121025439.1120405-1-richard.henderson@linaro.org>
-Message-ID: <87czxytrr5.fsf@linaro.org>
+ Thu, 21 Jan 2021 04:15:06 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] gitlab-ci: Test building linux-user targets on CentOS 7
+Date: Thu, 21 Jan 2021 13:15:05 +0100
+Message-Id: <20210121121505.1523156-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x632.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,27 +84,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, alistair23@gmail.com, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Laurent Vivier <laurent@vivier.eu>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a configuration tested by Peter Maydell (see [1] and [2])
+but not covered in our CI [3]:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+  [705/2910] Compiling C object libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
+  FAILED: libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
+  ../linux-user/strace.c: In function 'do_print_sockopt':
+  ../linux-user/strace.c:2831:14: error: 'IPV6_ADDR_PREFERENCES' undeclared (first use in this function)
+           case IPV6_ADDR_PREFERENCES:
+                ^
 
-> This isn't a total or permanent solution to the problem of running
-> out of temporaries, but it puts off the issue for a bit.
->
-> Make the assert in tcg_temp_alloc unconditional.  If we do run out
-> of temps, this can fail much later as a weird SIGSEGV, due to the
-> buffer overrun of the temp array.
->
-> Remove the inlines from tcg_temp_alloc and tcg_global_alloc.
->
-> Buglink: https://bugs.launchpad.net/bugs/1912065
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+[1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05086.html
+[2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05379.html
+[3] https://gitlab.com/philmd/qemu/-/jobs/977408284:
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ .gitlab-ci.yml | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
---=20
-Alex Benn=C3=A9e
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 203b1671c43..ce52d6cb2cb 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -378,6 +378,13 @@ build-user-plugins:
+     MAKE_CHECK_ARGS: check-tcg
+   timeout: 1h 30m
+ 
++build-user-centos7:
++  <<: *native_build_job_definition
++  variables:
++    IMAGE: centos7
++    CONFIGURE_ARGS: --disable-system --disable-tools --disable-docs
++    MAKE_CHECK_ARGS: check-tcg
++
+ build-some-softmmu-plugins:
+   <<: *native_build_job_definition
+   variables:
+-- 
+2.26.2
+
 
