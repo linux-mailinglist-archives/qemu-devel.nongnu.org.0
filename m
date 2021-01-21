@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7B632FE3FB
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 08:32:26 +0100 (CET)
-Received: from localhost ([::1]:55870 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E507B2FE403
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 08:33:59 +0100 (CET)
+Received: from localhost ([::1]:58076 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2US9-0001n4-Q9
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 02:32:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56214)
+	id 1l2UTe-0002nt-OO
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 02:33:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2UNG-0007zM-97
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:27:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46749)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2UN4-0005yw-Mw
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:27:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611214030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kuRBfY316bu+rPk/o/xoEShIeY5OdTFwwTSZR0dof64=;
- b=RFXuPrGiDHuYnz+yQcA95ECTcCDgDtdGpzENa+2bkoX9++KrD5wb7QrunQByVNvOXzV8Ny
- FsXJCSdkDHwAp29UnhFo/Wb/01E0fioSI/89X7fvfI43vIl7+cLf0SbPVay/cEr+mzjdWw
- 63tsd9flFbvaHu4HSMUA7BsXcoKIsMo=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-421-BAXcfQZuOh6rFglxwzYShw-1; Thu, 21 Jan 2021 02:27:08 -0500
-X-MC-Unique: BAXcfQZuOh6rFglxwzYShw-1
-Received: by mail-ed1-f71.google.com with SMTP id r4so655480eds.4
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 23:27:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2USC-0002Do-F6
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:32:28 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:43504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2USA-00087m-Pm
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:32:28 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id n6so1237541edt.10
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 23:32:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=KbhKMqvip2Tj/v9+f1+GLax4Pv7uiqw8BlqNLSA6CCg=;
+ b=DseNLM3s6pSMhB38M9sOimjIPvg2m9wu1zVLyfsxZqH7Mv70DsdZt04OXss3nxLUB/
+ olA9Ks7V5Nq//9FmopTRIYVhS/xAIiJFgOH0hlwimaxOeaWSnAkIbXlj+jhn2Iehmg08
+ itOsE3yDnL9c/qt0LyI9AewyN2E/lgXSDsj3W49Sd7ARcqr3/82mnIZEzMc35VluFXkk
+ 7GPGMTZFQfzRITvdQtVDGQjyRxFUfUdPWDUM0RKuv5RJkXbQzL1+K5WcBLa9K96NuMIc
+ COinO1CAYittMMF6HepJuW9pA0fx2bTxDHe57nMIF2srM74GBiKeFgxOSnoeBqFtgCEr
+ ie/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=kuRBfY316bu+rPk/o/xoEShIeY5OdTFwwTSZR0dof64=;
- b=ibQcY2C8ccpTPySYn3iLj4MI4MkenzImpPOXR3ZI3jJhKz1jywuQ+xIGr/anj/xSK1
- gsWKrY8wWfq2TG+o7YAT7GR35A5fWaWJ7R59gNUuNmJTlvY/te5OOfURFZFjd5nLQkPK
- mlsKEhii+UOV8LRSau/4O+kzxeGWEj/YelOkzBW+6rNiyB9Fat40qS1G3Bf+pvmArtQt
- JyyRyT2bxY3DJJ6Vrnev/xbpyWCmWgOYv2LapYrxNU2NKREQ424+vCaCXTdGdWYgNDJA
- hMRwBjDuSdHt6NCbKJFP8x2vj2CVxXVw1F6eG2WD2v7PFVWvfqjUJT169x3DJ2GAcKW4
- FMIA==
-X-Gm-Message-State: AOAM5332ubifVHlWcdcEry6IfnKJcSSgKVchPSloVL3evqxXr0QDcGaJ
- hGMviIrvRaEgco7T0eML8m9XGaEvMJOI9/HkfpnAN1m5PVsr0C64nL4UaVewwzGbNQZDs+7JFnB
- mrBHLcr9goZuSpS8=
-X-Received: by 2002:a05:6402:1e5:: with SMTP id
- i5mr10462602edy.86.1611214027016; 
- Wed, 20 Jan 2021 23:27:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw1EpSA58jtIoinJ6s2wyA3wADQHlgRhtzjub0bHdV1NlzRzZCiMrXyXyIk2Jh1wzEqvI6RLA==
-X-Received: by 2002:a05:6402:1e5:: with SMTP id
- i5mr10462586edy.86.1611214026874; 
- Wed, 20 Jan 2021 23:27:06 -0800 (PST)
+ bh=KbhKMqvip2Tj/v9+f1+GLax4Pv7uiqw8BlqNLSA6CCg=;
+ b=Tmvn7wwgfuu2UD2llQWh7Vpm9iSDv+1rgsToyLFbnQJY9Rlj/AFehrUAaJSnlOAgq3
+ MBTR9cMfDvEllJd6D9e7Dr3FsR1+A3JZ3UpvNZiN/yK/92e4eZ4TafKC2iuJbElGU1xf
+ NA85UnIxoEF8rPge35f/UdizZLg+xg37YUA1qio6A7zfg2WyJBKDEYNXYJkEAK/rRKVW
+ skwrJQo9SDHEEJpjbzhYK0woXeLXPhuktkQbx5puwgloEEiFCKO6K7KvLruYEBXXL4yl
+ AswdDno264PlM1NXw4zy/x/1dGI0RKMsVERkFbG9NG0UhWq9GDSkwESWR+vsTgytq2MN
+ hNgw==
+X-Gm-Message-State: AOAM530pqmiTNIA8T1VbXZr2e81oqeY+7I0WJ/NiF4xLbpMxHl1x+H+j
+ WtXGQ56QQGPlvn1wWNdm9Gw=
+X-Google-Smtp-Source: ABdhPJyWmlOcgmI6TLXKEu2qSo++kFwHs8w4dIu+JfY+kOqTVfv+M2M93FMTFGpeb0LVPWkr4dkMWw==
+X-Received: by 2002:a05:6402:3122:: with SMTP id
+ dd2mr9958142edb.262.1611214345050; 
+ Wed, 20 Jan 2021 23:32:25 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id u9sm1845230ejc.57.2021.01.20.23.27.05
+ by smtp.gmail.com with ESMTPSA id h12sm2223522edb.16.2021.01.20.23.32.23
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 23:27:06 -0800 (PST)
-Subject: Re: [PATCH v6 02/11] hvf: x86: Remove unused definitions
-To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
-References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-3-agraf@csgraf.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ce1bd2db-36a6-0f34-ec77-063a97320e4b@redhat.com>
-Date: Thu, 21 Jan 2021 08:27:04 +0100
+ Wed, 20 Jan 2021 23:32:24 -0800 (PST)
+Subject: Re: [PATCH] tcg: Increase the static number of temporaries
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20210121025439.1120405-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <77379350-56c0-c2c3-6d09-4827ca509c02@amsat.org>
+Date: Thu, 21 Jan 2021 08:32:23 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210120224444.71840-3-agraf@csgraf.de>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210121025439.1120405-1-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,27 +89,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- qemu-arm@nongnu.org, Frank Yang <lfy@google.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Collingbourne <pcc@google.com>
+Cc: lvivier@redhat.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/20/21 11:44 PM, Alexander Graf wrote:
-> The hvf i386 has a few struct and cpp definitions that are never
-> used. Remove them.
+On 1/21/21 3:54 AM, Richard Henderson wrote:
+> This isn't a total or permanent solution to the problem of running
+> out of temporaries, but it puts off the issue for a bit.
 > 
-> Suggested-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> Make the assert in tcg_temp_alloc unconditional.  If we do run out
+> of temps, this can fail much later as a weird SIGSEGV, due to the
+> buffer overrun of the temp array.
+> 
+> Remove the inlines from tcg_temp_alloc and tcg_global_alloc.
+> 
+> Buglink: https://bugs.launchpad.net/bugs/1912065
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/i386/hvf/hvf-i386.h | 16 ----------------
->  1 file changed, 16 deletions(-)
+> 
+> There are more bugs that need fixing in order to actually make
+> the dynamic allocation scheme work.  Rather than keep this bug
+> pending longer, hack around it and make the SEGV an ABRT.
+> 
+> r~
+> 
+> ---
+>  include/tcg/tcg.h | 2 +-
+>  tcg/tcg.c         | 6 +++---
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
