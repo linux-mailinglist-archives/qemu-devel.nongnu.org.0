@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF0502FEDB7
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 15:58:41 +0100 (CET)
-Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D23ED2FEE53
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:20:34 +0100 (CET)
+Received: from localhost ([::1]:36110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2bQ0-0007En-R2
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 09:58:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43826)
+	id 1l2blB-00064s-LH
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:20:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l2bOU-0006MJ-HX
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:57:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24447)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l2bOS-0000uV-7R
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:57:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611241022;
+ (Exim 4.90_1) (envelope-from <alex@alxu.ca>) id 1l2bI3-0004Ye-KY
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:50:27 -0500
+Received: from pink.alxu.ca ([2605:6400:10:4b0::1]:41722)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex@alxu.ca>) id 1l2bHy-0006US-Uk
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:50:27 -0500
+Received: from localhost (unknown [IPv6:2605:6400:8181:1::3])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
+ SHA256) (Client did not present a certificate)
+ by pink.alxu.ca (Postfix) with ESMTPS id BE51328931C;
+ Thu, 21 Jan 2021 14:50:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alxu.ca; s=default;
+ t=1611240617;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DAXEekOi4O2/6FHM7DzwKHrlGJD+gkZw+umDw92IL2w=;
- b=V6pkS+FIab+A3i/UyBXpA0+1abYcBN1ZWU/Ee6zajLZlLFV834rNyy9hqu4JbeORZZ4xyG
- p5N5VIzJM7KVe0lBMtj33ubJ83qrEbIug6VxMmBWT5x8aqy6oy51b4VqyUZvmzcCGuveQx
- syJYnxescy719M1Ip9TXUlN+ijQHwZs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-oMV32bJtP7qGJ65OlcJzQg-1; Thu, 21 Jan 2021 09:56:59 -0500
-X-MC-Unique: oMV32bJtP7qGJ65OlcJzQg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C70CE1934100;
- Thu, 21 Jan 2021 14:56:57 +0000 (UTC)
-Received: from localhost (ovpn-115-60.ams2.redhat.com [10.36.115.60])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7673650A80;
- Thu, 21 Jan 2021 14:56:52 +0000 (UTC)
-Date: Thu, 21 Jan 2021 14:56:51 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/6] Update git repo URLs to GitLab
-Message-ID: <20210121145651.GA59088@stefanha-x1.localdomain>
-References: <20210111115017.156802-1-stefanha@redhat.com>
+ bh=XXvN/2ywSjw/5QngZ1tZzibD8n/j9vdFtF06JkcFtWg=;
+ b=WaMwm5GST1tEjJMlVvF4ZFn/mYph472/n0YuHRGpGd7q6SvV5wswfuAHcJ0xuSA5NPoN6G
+ 43FxgszeydOekOqJRuq1LmukpobnDMDBVqncIhhlX6n+mGENJ+02eUV61Ipn22biLD93HC
+ 8hILk1fG/6WhZtx0xVv8T/B4f8PdCrGDsQz362NE9MSpgfpNX0uv8Bex9omAAXnzsW4Fj2
+ X983JP71Vds4h9UPHe6YoVrRZoyKp+JDbtBmnsAnFM9cJDrU5FrBIJlHGeL33805wSwby7
+ ZWH4x3pyO2sOCjG+57vwq3V1zBJx5nJn8rVyskk+yZCwQ2S1HrcfUnbOC+ktog==
+Date: Thu, 21 Jan 2021 09:50:15 -0500
+Subject: Re: [PATCH] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+To: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+References: <20210121144429.58885-1-stefanha@redhat.com>
+In-Reply-To: <20210121144429.58885-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210111115017.156802-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-Id: <1611240546.prykd5to6n.none@localhost>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2605:6400:10:4b0::1; envelope-from=alex@alxu.ca;
+ helo=pink.alxu.ca
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 21 Jan 2021 10:16:13 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -78,71 +66,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: mszeredi@redhat.com, slp@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, P J P <ppandit@redhat.com>,
+ virtio-fs@redhat.com, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Alex Xu <alex@alxu.ca>
+From: alex--- via <qemu-devel@nongnu.org>
 
---SLDf9lqlvOQaIe6s
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Jan 11, 2021 at 11:50:11AM +0000, Stefan Hajnoczi wrote:
-> Several places in qemu.git reference qemu.org git repo URLs. Let's switch=
- to
-> GitLab repo URLs in order to enable GitLab as a gating CI and in order to
-> reduce qemu.org bandwidth consumption.
+Excerpts from Stefan Hajnoczi's message of January 21, 2021 9:44 am:
+> A well-behaved FUSE client does not attempt to open special files with
+> FUSE_OPEN because they are handled on the client side (e.g. device nodes
+> are handled by client-side device drivers).
 >=20
-> Paolo has already set up GitLab mirror repos. sgabios was missing and I a=
-dded
-> that today. It is now possible to replace git.qemu.org/git with
-> gitlab.com/qemu-project in URLs.
+> The check to prevent virtiofsd from opening special files is missing in
+> a few cases, most notably FUSE_OPEN. A malicious client can cause
+> virtiofsd to open a device node, potentially allowing the guest to
+> escape. This can be exploited by a modified guest device driver. It is
+> not exploitable from guest userspace since the guest kernel will handle
+> special files inside the guest instead of sending FUSE requests.
 >=20
-> Stefan Hajnoczi (6):
->   .github: point Repo Lockdown bot to GitLab repo
->   gitmodules: use GitLab repos instead of qemu.org
->   gitlab-ci: remove redundant GitLab repo URL command
->   docs: update README to use GitLab repo URLs
->   pc-bios: update mirror URLs to GitLab
->   get_maintainer: update repo URL to GitLab
+> This patch adds the missing checks to virtiofsd. This is a short-term
+> solution because it does not prevent a compromised virtiofsd process
+> from opening device nodes on the host.
 >=20
->  README.rst                |  4 ++--
->  .github/lockdown.yml      |  8 +++----
->  .gitlab-ci.yml            |  1 -
->  .gitmodules               | 44 +++++++++++++++++++--------------------
->  pc-bios/README            |  4 ++--
->  scripts/get_maintainer.pl |  2 +-
->  6 files changed, 31 insertions(+), 32 deletions(-)
+> Reported-by: Alex Xu <alex@alxu.ca>
+> Fixes: CVE-2020-35517
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+> This issue was diagnosed on public IRC and is therefore already known
+> and not embargoed.
 >=20
-> --=20
-> 2.29.2
+> A stronger fix, and the long-term solution, is for users to mount the
+> shared directory and any sub-mounts with nodev, as well as nosuid and
+> noexec. Unfortunately virtiofsd cannot do this automatically because
+> bind mounts added by the user after virtiofsd has launched would not be
+> detected. I suggest the following:
 >=20
+> 1. Modify libvirt and Kata Containers to explicitly set these mount
+>    options.
+> 2. Then modify virtiofsd to check that the shared directory has the
+>    necessary options at startup. Refuse to start if the options are
+>    missing so that the user is aware of the security requirements.
+>=20
+> As a bonus this also increases the likelihood that other host processes
+> besides virtiofsd will be protected by nosuid/noexec/nodev so that a
+> malicious guest cannot drop these files in place and then arrange for a
+> host process to come across them.
+>=20
+> Additionally, user namespaces have been discussed. They seem like a
+> worthwhile addition as an unprivileged or privilege-separated mode
+> although there are limitations with respect to security xattrs and the
+> actual uid/gid stored on the host file system not corresponding to the
+> guest uid/gid.
 
-Thanks, applied to my block tree:
-https://gitlab.com/stefanha/qemu/commits/block
+I haven't looked too closely at the code, but the commit message seems=20
+reasonable to me.
 
-Stefan
-
---SLDf9lqlvOQaIe6s
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAJljMACgkQnKSrs4Gr
-c8i8AQf+MlMCYY6s40oA9RGxvcjQEwZ4qnbPaO95TYfjm4SjGmzYC1HFQLHLPEzx
-I8VqZHNu85L0Ed8mqNMstnUpwP9P+MWd9M9eJ7rJW8SzAMEDSJJQzm6mvMT9vscq
-m8eqofeYiop5BWLNKhvu3VWQiNBE7+apFba32gm9bXeYLV+jEioiA6hANq55XR+P
-TaILykgreg7Bty8R4Axf26aTO05umStydKvz/dIKdNMqbjwObnqKjNUHKjeKbutg
-Jv5TYWXXo82iKfY4JndfpiDrr7lH6gSRf9+2s+j8FI2f8/5WEEhO5H9IqtmjaywE
-Ugldx2QkTSo04BdSnngSsuwaUUIu1Q==
-=7OOQ
------END PGP SIGNATURE-----
-
---SLDf9lqlvOQaIe6s--
-
+Thanks,
+Alex.
 
