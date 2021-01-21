@@ -2,91 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224CD2FEF59
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:46:43 +0100 (CET)
-Received: from localhost ([::1]:35672 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E4172FEF5C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:47:16 +0100 (CET)
+Received: from localhost ([::1]:37234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2cAU-0002k1-69
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:46:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59756)
+	id 1l2cB1-0003U1-JN
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:47:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2c8j-00027f-Oc
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:44:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28172)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2c8h-0005xw-1w
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:44:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611243888;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=fCN3FHwdX+Qad5Bjmgqb6HrN52OSf9FfMxasJCjpAYw=;
- b=bC26/pwX97GU9JHZpcOzZbgMp9siiljfHflJx3t1mDVh88ZMWIVUr8fmWMg2i96UNM7axL
- SsZJBZcZFrlPe/dEQX0AeVIG1WvKIk+donkZ5txoa4njNSpMAQ1UNZA/pxhncmL9zkND7x
- SMOY41wa84gvmq60lhFcfFVq5mBfDyE=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-64-iQaZN8DzPEyO1F1_w_cFHA-1; Thu, 21 Jan 2021 10:44:46 -0500
-X-MC-Unique: iQaZN8DzPEyO1F1_w_cFHA-1
-Received: by mail-ej1-f70.google.com with SMTP id b18so922862ejz.6
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 07:44:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=fCN3FHwdX+Qad5Bjmgqb6HrN52OSf9FfMxasJCjpAYw=;
- b=LFsLpUWtP3TYa/+t9sm/XPsFyP5ZO1NZyciFyWToWCHaFeR4ADMNXmjmfdeQ8iNnw3
- TK6CS5Sz1YvOTFXpAiS+hiXoOSJu3H3LNRvPsnd7CBCtipO8MDdu7GflH4ZR01tD07rG
- rFvbFG95gCHjiq7jRDD598JrsXEiVv09kfsGkhQAx6IaJ0whssFop1ATt6LGzFv/1rXA
- 8j+ipW4BssELHcoxJBSfDr8nrEodhGTytTfrbhiHQCiZxBMKhF5dyYkocH307hRv2u3Y
- BNBv0QpxANpdhUYHLLBuo2Aznc3QoaZ7aRcSjaWk6g6m/EfGgNFRIa227PNNkbeiHhlY
- Vbbw==
-X-Gm-Message-State: AOAM531z+3dGW/uFA6pbdic4pHUHj2Jof0zBMtC4TeI7gczUjbbQYtfu
- +0TVnzXfhmhBjIr7h0lAHKZbiN60ZQJC8MW3Dx60DLU6cLwc/4egf+Y/r+RCzY2HRaQaN8eHKpw
- uXrAoCC2sxgo9WEQ=
-X-Received: by 2002:a17:907:c2a:: with SMTP id
- ga42mr27515ejc.511.1611243885427; 
- Thu, 21 Jan 2021 07:44:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwu5Tn+i8MMbLPsR8HspdLZNdLsHWXqPxA93icsCsO33TELALQlSkECWiiVSg6hHFiLD+8ClA==
-X-Received: by 2002:a17:907:c2a:: with SMTP id
- ga42mr27507ejc.511.1611243885267; 
- Thu, 21 Jan 2021 07:44:45 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id a10sm2375136ejk.75.2021.01.21.07.44.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 07:44:44 -0800 (PST)
-Subject: Re: [PATCH] tests: Fix memory leak in tpm-util.c
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20210115204637.3332555-1-stefanb@linux.vnet.ibm.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <9c97a694-e7c3-7fb2-10e6-9310055dac30@redhat.com>
-Date: Thu, 21 Jan 2021 16:44:43 +0100
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2c94-0002TL-Rn; Thu, 21 Jan 2021 10:45:14 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:1842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2c92-0006B2-Ud; Thu, 21 Jan 2021 10:45:14 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10LFhGZx073595; Thu, 21 Jan 2021 10:45:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=OzW5S2p71GKR4+EA6f8BGRr76O+O8SKyXojZ8mmixdo=;
+ b=P+Eltr3BDh2FS+nUUdnA6+yT7Wv64avx80YwcT2TfeHAa0OP54AluUD55T/KQS15F3Z/
+ 7jTyLxUWmxGRN/1KIE1eDt7SmntR5NCbDZN0Bo+I4GeLgEjkQUsPr/VUZgFgoqjAa3k0
+ jcgdickPJLJeNcNBd3rEbfjFAVb8FrzEDKb0b8hXzKYsNINhNG+HV2zyT6puPjCmAdnl
+ 5iGHC+GnLHiLflXf9Q7fMUz/AyVDildDbhEdPLdyFaJ+opaM8tzFjKfnu+yugabm5b+U
+ nSPGOw20ozZcDmisv95TMOzrOgtpw17Nn4R8erKI/3PsWm2EtyYR65p/gwcejD2c7wwF wQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 367cgc0265-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 10:45:10 -0500
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10LFhFbN073459;
+ Thu, 21 Jan 2021 10:45:10 -0500
+Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.98])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 367cgc024n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 10:45:10 -0500
+Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
+ by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10LFVgQl022278;
+ Thu, 21 Jan 2021 15:45:08 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma03ams.nl.ibm.com with ESMTP id 3668passvk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 15:45:08 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10LFj4JH36045120
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Jan 2021 15:45:04 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6751CA4051;
+ Thu, 21 Jan 2021 15:45:04 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D34CCA4053;
+ Thu, 21 Jan 2021 15:45:03 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.36.14])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 21 Jan 2021 15:45:03 +0000 (GMT)
+Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
+To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
+ thuth@redhat.com
+References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+ <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+ <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
+ <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
+ <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
+ <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
+ <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
+ <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
+ <1dc0dde6-b619-5fe6-1a89-50c15dc4512c@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <a781f908-1c70-3725-1484-bec10befbb35@linux.ibm.com>
+Date: Thu, 21 Jan 2021 16:45:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210115204637.3332555-1-stefanb@linux.vnet.ibm.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1dc0dde6-b619-5fe6-1a89-50c15dc4512c@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-21_08:2021-01-21,
+ 2021-01-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 lowpriorityscore=0
+ impostorscore=0 adultscore=0 mlxlogscore=999 priorityscore=1501
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101210085
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,42 +118,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Berger <stefanb@linux.ibm.com>
+Cc: schnelle@linux.ibm.com, alex.williamson@redhat.com, david@redhat.com,
+ mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/15/21 9:46 PM, Stefan Berger wrote:
-> This patch fixes the following memory leak detected by asan:
+
+
+On 1/21/21 3:42 PM, Matthew Rosato wrote:
+> On 1/21/21 3:27 AM, Pierre Morel wrote:
+>>
+>>
+>> On 1/20/21 9:29 PM, Matthew Rosato wrote:
+>>> On 1/20/21 2:18 PM, Pierre Morel wrote:
+>>>>
+>>>>
+>> ...snip...
+>>
+>>>> So we have:
+>>>> devices supporting MIO and MSIX
+>>>> devices not supporting MIO nor MSIX
+>>>> devices not supporting the use of PCISTG to emulate PCISTB
+>>>>
+>>>> The first two are two different things indicated by two different 
+>>>> entries in the clp query PCI function response.
+>>>>
+>>>> The last one, we do not have an indicator as if the relaxed 
+>>>> alignment and length is set, PCISTB can not be emulated with PCISTG
+>>
+>>
+>> hum sorry, it seems I rewrote my sentence until it was wrong wrong!
+>> I wanted to say we DO HAVE an indicator with the relaxed bit...
 > 
-> Indirect leak of 560320 byte(s) in 136 object(s) allocated from:
->     #0 0x556b3b3f9b57 in calloc (/home/stefanb/tmp/qemu-tip/build/tests/qtest/tpm-crb-swtpm-test+0x23fb57)
->     #1 0x152b0e96b9b0 in g_malloc0 (/lib64/libglib-2.0.so.0+0x589b0)
->     #2 0x556b3b588f61 in parse_object /home/stefanb/tmp/qemu-tip/build/../qobject/json-parser.c:318:12
->     #3 0x556b3b588f61 in parse_value /home/stefanb/tmp/qemu-tip/build/../qobject/json-parser.c:546:16
->     #4 0x556b3b5886e8 in json_parser_parse /home/stefanb/tmp/qemu-tip/build/../qobject/json-parser.c:580:14
->     #5 0x556b3b52ff4a in json_message_process_token /home/stefanb/tmp/qemu-tip/build/../qobject/json-streamer.c:92:12
->     #6 0x556b3b59896f in json_lexer_feed_char /home/stefanb/tmp/qemu-tip/build/../qobject/json-lexer.c:313:13
->     #7 0x556b3b598443 in json_lexer_feed /home/stefanb/tmp/qemu-tip/build/../qobject/json-lexer.c:350:9
->     #8 0x556b3b436c70 in qmp_fd_receive /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:614:9
->     #9 0x556b3b435871 in qtest_qmp_receive_dict /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:636:12
->     #10 0x556b3b435871 in qtest_qmp_receive /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:624:27
->     #11 0x556b3b435c59 in qtest_vqmp /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:715:12
->     #12 0x556b3b435c59 in qtest_qmp /home/stefanb/tmp/qemu-tip/build/../tests/qtest/libqtest.c:756:16
->     #13 0x556b3b4328c7 in tpm_util_wait_for_migration_complete /home/stefanb/tmp/qemu-tip/build/../tests/qtest/tpm-util.c:245:15
->     #14 0x556b3b4333be in tpm_test_swtpm_migration_test /home/stefanb/tmp/qemu-tip/build/../tests/qtest/tpm-tests.c:117:5
->     #15 0x152b0e98e29d  (/lib64/libglib-2.0.so.0+0x7b29d)
+> That's actually not quite true though...  The relaxed bit does not 
+> directly imply that PCISTB cannot be emulated with PCISTG.
+
+
+It does, PCISTG have stronger alignment enforcement as PCISTB with the 
+relaxed bit set, as you say here under, so we agree.
+
+
+>  Rather, it 
+> more generally implies that PCISTB could be used instead of PCISTG as 
+> the length and alignment requirements for PCISTB are waived.  As far as 
+> I can tell, disallowing a PCISTG altogether is a trait that is unique to 
+> ISM and I don't see anywhere that it's otherwise indicated in 
+> architecture...  And in fact, for a given ISM device, certain address 
+> spaces (command) WILL accept a series of PCISTG issued in a particular 
+> manner in place of a PCISTB; meanwhile other ISM address spaces (data) 
+> will not accept any PCISTG ever.  :(  The ISM driver just always uses 
+> PCISTB.
+
+Very interresting!
+
 > 
-> Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
-> Cc: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  tests/qtest/tpm-util.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> So that is why I suggested type==ISM must require use of the region 
+> whereas other types that implement MSI could request (but not require) 
+> use of the region.
+> 
+> But yes, any other theoretical piece of hardware that also does not 
+> support MIO would have a similar region requirement.  I'll have a look 
+> at the MIO bit you referenced below and will have to verify that it does 
+> exactly what we expect for an ISM device.  Assuming yes, I will consider 
+> the following sort of checking for the next version of QEMU...
+> 
+> if (!MIO) {
+>      if (MSIX) {
+>          // passthrough disallowed
+>      }
+>      else {
+>          // region required, disallow if unavailable
+>      }
+> }
+> else if(RELAX && !MSIX) {
+>      // use region if available
+> }
+> 
+> Sound good?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Yes sounds good to me.
+I mean the idea, I will not try to simplify, I trust you on this.
 
-Thanks!
 
-Phil.
+Thanks,
 
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
