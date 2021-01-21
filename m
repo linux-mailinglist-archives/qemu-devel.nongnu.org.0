@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F9972FF5B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:20:11 +0100 (CET)
-Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67B102FF5C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:23:21 +0100 (CET)
+Received: from localhost ([::1]:48642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2gR8-0005Vo-F1
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:20:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
+	id 1l2gUC-0007h9-DV
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:23:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l2gOj-0003pU-5V
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:17:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32965)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l2gOg-0002dk-QH
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:17:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611260256;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=7Oo7DaQcNHnK1Hx5PhqTQO1DP/l52WqrvVy0KyF19/Y=;
- b=MpvaWanGfHHeWrmjnH0CBN7eqdB4hBhR+pNXvfDZ9fYe30CsybGslOgPm7nKd8PFAMyb51
- 7qz1tWeAewkW0i/0xO+lPkzJsgcIM6Hp6s9hKR7/GOOX7NlJyIx9acjSS22oO246lQu+L0
- ofqVhfDuME7zg6jjxKBg1pdQ6YmJo54=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-apt1UaoPPs2QzuBOBd09Dw-1; Thu, 21 Jan 2021 15:17:34 -0500
-X-MC-Unique: apt1UaoPPs2QzuBOBd09Dw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1FD959
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 20:17:33 +0000 (UTC)
-Received: from work-vm (ovpn-115-101.ams2.redhat.com [10.36.115.101])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E5DAF1992D;
- Thu, 21 Jan 2021 20:17:21 +0000 (UTC)
-Date: Thu, 21 Jan 2021 20:17:18 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Alex Williamson <alex.williamson@redhat.com>
-Subject: Re: [PATCH] migration: Provide a test for migratability
-Message-ID: <20210121201718.GT3072@work-vm>
-References: <20210121185113.66277-1-dgilbert@redhat.com>
- <20210121130442.370b9569@omen.home.shazbot.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2gS8-0006ss-EG; Thu, 21 Jan 2021 15:21:13 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:41908)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2gS5-0004AK-Sn; Thu, 21 Jan 2021 15:21:11 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id bx12so4017342edb.8;
+ Thu, 21 Jan 2021 12:21:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=NSTvq2STd6U2RpvgIeu3fQA6GEXSLfXZ1us/azMianM=;
+ b=k8Mxl0U0Xw2T/lcSfR0KBb2sttFYTuXZ9oo4vgg+oNjdfz3gkRfj8xyd6aeA9vPdZZ
+ 3guWWEOb2HKiuxtOpz2gQctfUGqO6kaAQdgO3pvzOFvvM4DJWaCK3Z1iszH5vzQxsyb/
+ /ag6WbMMbosTDTvqVudxHm1xhqHezoTL9PP1zeUPeaZ6nybwFrjjW8CF+rV9qSL5RWI9
+ u0hbaUYf2SMezi1zNBgaIdpykxNRQkMsXsPNop75wcNaHAtRJgnOC8cXMHmFINTjK1dh
+ ubjMsskvLHSPxmDcKSETAatJjM0S9i2MVDlcjzb3qRi9Ylj81DKhaZYI0GPpiwjBo7wb
+ +gdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=NSTvq2STd6U2RpvgIeu3fQA6GEXSLfXZ1us/azMianM=;
+ b=W14r+GZJ91QjSSdE/kpsB9s7ExdyldYSgeT4An0rktJFavOV8WtnERXbYqoQ4fxw3m
+ RhXifCDm75838bUijA+Uz8jZxlVJSxyeIUSx8cDec7O+uPA5dJWGz4KGn6rzdLZYzuEL
+ ueBh9QSydMeAX2OTfxlBr47S0vDXwnO3ErPvNgIU93zNVdJhoDpPjZR4W97gO/aZHP/A
+ 4nyJ05ALV7/RISMpsjSD324GfbpuVgMLHQ/jnbo7yU00ek02OMxbu/W2lK9QazIQNnG+
+ g6clyoch0+iPwk9noZB37v38uhbwCHGIYWwZ5lrSA4YQXa11OEe/xS7qNn95QyNhHlNU
+ ChdQ==
+X-Gm-Message-State: AOAM530ExZXp9pjhDDXHO/tQpPxf9TGx61FdDqg1PsDW51Q+DXs9lYC1
+ CgZW80ToD8q3Ua7CF7AJMuU=
+X-Google-Smtp-Source: ABdhPJwGNKPjirRmOk9E6VhEXe8YF2PPENn1UCJtwkm6i7R6ytI6QupwMq+EiaO+uP4phcxk92/zsQ==
+X-Received: by 2002:aa7:c34f:: with SMTP id j15mr700520edr.120.1611260465751; 
+ Thu, 21 Jan 2021 12:21:05 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id f9sm3343214edm.6.2021.01.21.12.21.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jan 2021 12:21:05 -0800 (PST)
+Subject: Re: [PATCH 06/25] hw/timer/cmsdk-apb-timer: Rename CMSDKAPBTIMER
+ struct to CMSDKAPBTimer
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210121190622.22000-1-peter.maydell@linaro.org>
+ <20210121190622.22000-7-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <0541fd0b-28be-b0f1-aafb-5a30a1bd1f96@amsat.org>
+Date: Thu, 21 Jan 2021 21:21:03 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210121130442.370b9569@omen.home.shazbot.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210121190622.22000-7-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,164 +89,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peterx@redhat.com, qemu-devel@nongnu.org, laine@redhat.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Alex Williamson (alex.williamson@redhat.com) wrote:
-> On Thu, 21 Jan 2021 18:51:13 +0000
-> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
+On 1/21/21 8:06 PM, Peter Maydell wrote:
+> The state struct for the CMSDK APB timer device doesn't follow our
+> usual naming convention of camelcase -- "CMSDK" and "APB" are both
+> acronyms, but "TIMER" is not so should not be all-uppercase.
+> Globally rename the struct to "CMSDKAPBTimer" (bringing it into line
+> with CMSDKAPBWatchdog and CMSDKAPBDualTimer; CMSDKAPBUART remains
+> as-is because "UART" is an acronym).
 > 
-> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> > 
-> > Provide a simple way to see if there's currently a migration blocker in
-> > operation:
-> > 
-> > $ ./x86_64-softmmu/qemu-system-x86_64 -nographic -M pc,usb=on -chardev null,id=n -device usb-serial,chardev=n
-> > 
-> > (qemu) info migratable
-> > Error: State blocked by non-migratable device '0000:00:01.2/1/usb-serial'
+> Commit created with:
+>  perl -p -i -e 's/CMSDKAPBTIMER/CMSDKAPBTimer/g' hw/timer/cmsdk-apb-timer.c include/hw/arm/armsse.h include/hw/timer/cmsdk-apb-timer.h
 > 
-> FWIW, a vfio device gets:
-> 
-> (qemu) info migratable
-> Error: VFIO device doesn't support migration
-> 
-> I think your example is getting the device string because you're
-> testing something with unmigratable = 1 in the vmsd and the iterator
-> prints a generic string plus the device, we'd need to make our error
-> message include the device info.  But even without that it seems more
-> useful than we have currently.  Thanks
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  include/hw/arm/armsse.h            |  6 +++---
+>  include/hw/timer/cmsdk-apb-timer.h |  4 ++--
+>  hw/timer/cmsdk-apb-timer.c         | 28 ++++++++++++++--------------
+>  3 files changed, 19 insertions(+), 19 deletions(-)
 
-The 'migrate_add_blocker' function just takes the error you give it;
-it would be nice to add something like a device_add_migrate_blocker
-that filled in the name.
-
-> Tested-by: Alex Williamson <alex.williamson@redhat.com>
-
-Thanks.
-
-Dave
-
-> 
-> > $ ./x86_64-softmmu/qemu-system-x86_64 -nographic
-> > 
-> > (qemu) info migratable
-> > Migratable
-> > 
-> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > ---
-> >  hmp-commands-info.hx  | 14 ++++++++++++++
-> >  include/monitor/hmp.h |  1 +
-> >  migration/migration.c |  5 +++++
-> >  monitor/hmp-cmds.c    | 13 +++++++++++++
-> >  qapi/migration.json   | 14 ++++++++++++++
-> >  5 files changed, 47 insertions(+)
-> > 
-> > diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
-> > index 117ba25f91..c2d7ac2f11 100644
-> > --- a/hmp-commands-info.hx
-> > +++ b/hmp-commands-info.hx
-> > @@ -541,6 +541,20 @@ SRST
-> >      Show migration status.
-> >  ERST
-> >  
-> > +    {
-> > +        .name       = "migratable",
-> > +        .args_type  = "",
-> > +        .params     = "",
-> > +        .help       = "tests if VM is migratable",
-> > +        .cmd        = hmp_info_migratable,
-> > +    },
-> > +
-> > +SRST
-> > +  ''info migratable''
-> > +    Tests whether the VM is currently migratable.
-> > +ERST
-> > +
-> > +
-> >      {
-> >          .name       = "migrate_capabilities",
-> >          .args_type  = "",
-> > diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-> > index ed2913fd18..0dd7941daf 100644
-> > --- a/include/monitor/hmp.h
-> > +++ b/include/monitor/hmp.h
-> > @@ -25,6 +25,7 @@ void hmp_info_status(Monitor *mon, const QDict *qdict);
-> >  void hmp_info_uuid(Monitor *mon, const QDict *qdict);
-> >  void hmp_info_chardev(Monitor *mon, const QDict *qdict);
-> >  void hmp_info_mice(Monitor *mon, const QDict *qdict);
-> > +void hmp_info_migratable(Monitor *mon, const QDict *qdict);
-> >  void hmp_info_migrate(Monitor *mon, const QDict *qdict);
-> >  void hmp_info_migrate_capabilities(Monitor *mon, const QDict *qdict);
-> >  void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict);
-> > diff --git a/migration/migration.c b/migration/migration.c
-> > index 5e330cc6eb..8745a5b9f9 100644
-> > --- a/migration/migration.c
-> > +++ b/migration/migration.c
-> > @@ -2234,6 +2234,11 @@ int64_t qmp_query_migrate_cache_size(Error **errp)
-> >      return migrate_xbzrle_cache_size();
-> >  }
-> >  
-> > +void qmp_query_migratable(Error **errp)
-> > +{
-> > +    migration_is_blocked(errp);
-> > +}
-> > +
-> >  void qmp_migrate_set_speed(int64_t value, Error **errp)
-> >  {
-> >      MigrateSetParameters p = {
-> > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> > index ef569035f8..a7f48b3512 100644
-> > --- a/monitor/hmp-cmds.c
-> > +++ b/monitor/hmp-cmds.c
-> > @@ -216,6 +216,19 @@ static char *SocketAddress_to_str(SocketAddress *addr)
-> >      }
-> >  }
-> >  
-> > +void hmp_info_migratable(Monitor *mon, const QDict *qdict)
-> > +{
-> > +    Error *err = NULL;
-> > +    /* It's migratable if this succeeds */
-> > +    qmp_query_migratable(&err);
-> > +    if (err) {
-> > +        hmp_handle_error(mon, err);
-> > +        return;
-> > +    }
-> > +
-> > +    monitor_printf(mon, "Migratable\n");
-> > +}
-> > +
-> >  void hmp_info_migrate(Monitor *mon, const QDict *qdict)
-> >  {
-> >      MigrationInfo *info;
-> > diff --git a/qapi/migration.json b/qapi/migration.json
-> > index d1d9632c2a..07aee9907c 100644
-> > --- a/qapi/migration.json
-> > +++ b/qapi/migration.json
-> > @@ -366,6 +366,20 @@
-> >  ##
-> >  { 'command': 'query-migrate', 'returns': 'MigrationInfo' }
-> >  
-> > +##
-> > +# @query-migratable:
-> > +# Tests whether it will be possible to migrate the VM in the current state.
-> > +#
-> > +# Returns: nothing on success (i.e. if the VM is migratable)
-> > +#
-> > +# Since: 6.0
-> > +# Example:
-> > +#
-> > +# -> { "execute": "query-migratable" }
-> > +# <- { "return": {} }
-> > +##
-> > +{ 'command': 'query-migratable' }
-> > +
-> >  ##
-> >  # @MigrationCapability:
-> >  #
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
 
