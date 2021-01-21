@@ -2,87 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9402FE70C
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:04:53 +0100 (CET)
-Received: from localhost ([::1]:55200 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 162592FE736
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:11:49 +0100 (CET)
+Received: from localhost ([::1]:38232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Wpg-000310-3o
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:04:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59952)
+	id 1l2WwO-0007vt-23
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:11:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33616)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1l2WmX-0000Ye-2y; Thu, 21 Jan 2021 05:01:38 -0500
-Received: from mail-lj1-x236.google.com ([2a00:1450:4864:20::236]:34352)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frasse.iglesias@gmail.com>)
- id 1l2WmQ-0001I2-Nl; Thu, 21 Jan 2021 05:01:36 -0500
-Received: by mail-lj1-x236.google.com with SMTP id i17so1821585ljn.1;
- Thu, 21 Jan 2021 02:01:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to
- :user-agent; bh=SXwHnFyIoKrX28rtRsuF9EfUt1H9NkHp6Mh1clKX/5E=;
- b=oklYX0oKlEvjP6BT/GtTRtZgB1WEDDWSBN5gmP1j51h3q1Hwv3yzzvq4nDWXyv71Ut
- FWP5o0iBnXcgGxlSQs4WeA63MF/r29/f55K2/z9F8ktm1yzSV35OivZdNf+uKRkBqwry
- n2mfhgc3YWiJmXFYQsQ+l+ig+N/y7jZ8kpDty14aYiZhRk+oBDsX0XxydOgrrAreoddM
- dT1caQXB/4cQbujisCIO3tZHEUq1kgGM8c5ELocR7CRNNeNyaH9yQA6KAz1lBLh5aB/o
- g9fc4aw59EGFt3NJD/UQG7m/W20oodJlQdIVyypcigYVJKhMUHdQ7XHvwaEyCG4Pmvbi
- BCag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to:user-agent;
- bh=SXwHnFyIoKrX28rtRsuF9EfUt1H9NkHp6Mh1clKX/5E=;
- b=ueAfPJDsVWt/aR9wmQbY+HdwObYggPx6YUCyTUu3VEKUALUQ80AKFwYmbOD0dxgdKy
- YS5/MjyYeQQxS4EQb0fOZFcNYoh/UCJp58IaJgEGX60ZQyfq3Q/ej5Zu+9I2PwtKpF4l
- fWvhbkKp21VTZz71KsJfyWnTRcaRkqzTa2PdI8/2WWvjEbBr+cZambc9z4T2tYoCH0ya
- HaZr0B2Us/FGg87MYkf5bjD3KodlQXCvBjo6IGobPoJU4a9M3vlPvcApRi2nzmoo6UDZ
- C27wcMQrmjoxkOQ+BbnLxPC38nITNI86QDSsqOLdjO4zhh8QVjW2kB4lqzrwzhecPmi9
- P68A==
-X-Gm-Message-State: AOAM531E6/f7BG0c8Ihz2CMgwTIqGuxw/i44/rAw3aVEoBwcoLoWQu6G
- ynqle/p0gXyf2D4ZVr0kGOs=
-X-Google-Smtp-Source: ABdhPJyPJnJGn4uAJisfNdmJ4SI+Q4YJsHpihmCwG7nu+f1w0TJbfEwWfc/GiWzyqx6fBHsCcnkUqQ==
-X-Received: by 2002:a2e:988d:: with SMTP id b13mr4600258ljj.176.1611223288004; 
- Thu, 21 Jan 2021 02:01:28 -0800 (PST)
-Received: from fralle-msi (31-208-27-151.cust.bredband2.com. [31.208.27.151])
- by smtp.gmail.com with ESMTPSA id
- v63sm477552lfa.89.2021.01.21.02.01.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 02:01:27 -0800 (PST)
-Date: Thu, 21 Jan 2021 11:01:25 +0100
-From: Francisco Iglesias <frasse.iglesias@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Subject: Re: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed
- for fast read commands
-Message-ID: <20210121100124.GB10391@fralle-msi>
-References: <20210114181300.GA29923@fralle-msi>
- <CAEUhbmXiYNFVY0EkrKqNGKV3C0QV0+WvkvEkfPUa-pSg2zGvuA@mail.gmail.com>
- <20210115122627.GB29923@fralle-msi>
- <CAEUhbmVYgP063iqY0c10y9zKBmx00Z6vr3BO3RjoRo-CXQpYDw@mail.gmail.com>
- <20210118100557.GA11373@fralle-msi>
- <CAEUhbmWT50o8OV_QAimhs5itWq3pFd6CTKup6PFpvSs2KYpf2w@mail.gmail.com>
- <20210119130113.GA28306@fralle-msi>
- <CAEUhbmUBAgF4D__jsfbE7yGd++5ZH3YOutTiOBOot52sNCV-eg@mail.gmail.com>
- <20210121085006.GA10391@fralle-msi>
- <CAEUhbmUh54vqXmtkjnTzk7Y6U+oZEbw-O3ode+CdKbfZ0Qs+9Q@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2WtO-0005vo-9c
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:08:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:27027)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2WtM-0004KQ-6w
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:08:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611223718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=ipaiMlnV8B6su2mj50uMJTiSoeykvKBSkzQtJpKa2w8=;
+ b=QHf44kWpYWBEmk8JUnywEcEQkhydYQ0TAbYSpicCG3QoQ9s/raraJPNJ6TjL2yFAyWOp34
+ spyr66n51SnPGXcMrNUdGwrjpniZ2SZO+GyeO1bZfiaJWk1aEwsLqD23N6lfXm9G+9xiW9
+ 5X9MvXmqxxpkVl68jAlrscyo8Tf1Ml8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-12-eN4hh7R3OOy2vkHAHTXaJQ-1; Thu, 21 Jan 2021 05:08:37 -0500
+X-MC-Unique: eN4hh7R3OOy2vkHAHTXaJQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93DB8801817;
+ Thu, 21 Jan 2021 10:08:35 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-82.ams2.redhat.com [10.36.112.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6B2FC6268F;
+ Thu, 21 Jan 2021 10:08:30 +0000 (UTC)
+Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210110162739.858087-1-f4bug@amsat.org>
+ <20210110162739.858087-3-f4bug@amsat.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
+Date: Thu, 21 Jan 2021 11:08:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20210110162739.858087-3-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAEUhbmUh54vqXmtkjnTzk7Y6U+oZEbw-O3ode+CdKbfZ0Qs+9Q@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-Received-SPF: pass client-ip=2a00:1450:4864:20::236;
- envelope-from=frasse.iglesias@gmail.com; helo=mail-lj1-x236.google.com
-X-Spam_score_int: -1020
-X-Spam_score: -102.1
-X-Spam_bar: ---------------------------------------------------
-X-Spam_report: (-102.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_WELCOMELIST=-0.01,
- USER_IN_WHITELIST=-100 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -95,400 +81,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
- Bin Meng <bin.meng@windriver.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>,
- Joe Komlodi <komlodi@xilinx.com>, Max Reitz <mreitz@redhat.com>,
- Joel Stanley <joel@jms.id.au>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Wataru Ashihara <wataash@wataash.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dear Bin,
+On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
+> Split the current GCC build-tci job in 2, and use Clang
+> compiler in the new job.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> RFC in case someone have better idea to optimize can respin this patch.
+> 
+>   .gitlab-ci.yml | 22 ++++++++++++++++++++--
+>   1 file changed, 20 insertions(+), 2 deletions(-)
 
-On [2021 Jan 21] Thu 16:59:51, Bin Meng wrote:
-> Hi Francisco,
-> 
-> On Thu, Jan 21, 2021 at 4:50 PM Francisco Iglesias
-> <frasse.iglesias@gmail.com> wrote:
-> >
-> > Dear Bin,
-> >
-> > On [2021 Jan 20] Wed 22:20:25, Bin Meng wrote:
-> > > Hi Francisco,
-> > >
-> > > On Tue, Jan 19, 2021 at 9:01 PM Francisco Iglesias
-> > > <frasse.iglesias@gmail.com> wrote:
-> > > >
-> > > > Hi Bin,
-> > > >
-> > > > On [2021 Jan 18] Mon 20:32:19, Bin Meng wrote:
-> > > > > Hi Francisco,
-> > > > >
-> > > > > On Mon, Jan 18, 2021 at 6:06 PM Francisco Iglesias
-> > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > >
-> > > > > > Hi Bin,
-> > > > > >
-> > > > > > On [2021 Jan 15] Fri 22:38:18, Bin Meng wrote:
-> > > > > > > Hi Francisco,
-> > > > > > >
-> > > > > > > On Fri, Jan 15, 2021 at 8:26 PM Francisco Iglesias
-> > > > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > > > >
-> > > > > > > > Hi Bin,
-> > > > > > > >
-> > > > > > > > On [2021 Jan 15] Fri 10:07:52, Bin Meng wrote:
-> > > > > > > > > Hi Francisco,
-> > > > > > > > >
-> > > > > > > > > On Fri, Jan 15, 2021 at 2:13 AM Francisco Iglesias
-> > > > > > > > > <frasse.iglesias@gmail.com> wrote:
-> > > > > > > > > >
-> > > > > > > > > > Hi Bin,
-> > > > > > > > > >
-> > > > > > > > > > On [2021 Jan 14] Thu 23:08:53, Bin Meng wrote:
-> > > > > > > > > > > From: Bin Meng <bin.meng@windriver.com>
-> > > > > > > > > > >
-> > > > > > > > > > > The m25p80 model uses s->needed_bytes to indicate how many follow-up
-> > > > > > > > > > > bytes are expected to be received after it receives a command. For
-> > > > > > > > > > > example, depending on the address mode, either 3-byte address or
-> > > > > > > > > > > 4-byte address is needed.
-> > > > > > > > > > >
-> > > > > > > > > > > For fast read family commands, some dummy cycles are required after
-> > > > > > > > > > > sending the address bytes, and the dummy cycles need to be counted
-> > > > > > > > > > > in s->needed_bytes. This is where the mess began.
-> > > > > > > > > > >
-> > > > > > > > > > > As the variable name (needed_bytes) indicates, the unit is in byte.
-> > > > > > > > > > > It is not in bit, or cycle. However for some reason the model has
-> > > > > > > > > > > been using the number of dummy cycles for s->needed_bytes. The right
-> > > > > > > > > > > approach is to convert the number of dummy cycles to bytes based on
-> > > > > > > > > > > the SPI protocol, for example, 6 dummy cycles for the Fast Read Quad
-> > > > > > > > > > > I/O (EBh) should be converted to 3 bytes per the formula (6 * 4 / 8).
-> > > > > > > > > >
-> > > > > > > > > > While not being the original implementor I must assume that above solution was
-> > > > > > > > > > considered but not chosen by the developers due to it is inaccuracy (it
-> > > > > > > > > > wouldn't be possible to model exacly 6 dummy cycles, only a multiple of 8,
-> > > > > > > > > > meaning that if the controller is wrongly programmed to generate 7 the error
-> > > > > > > > > > wouldn't be caught and the controller will still be considered "correct"). Now
-> > > > > > > > > > that we have this detail in the implementation I'm in favor of keeping it, this
-> > > > > > > > > > also because the detail is already in use for catching exactly above error.
-> > > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > I found no clue from the commit message that my proposed solution here
-> > > > > > > > > was ever considered, otherwise all SPI controller models supporting
-> > > > > > > > > software generation should have been found out seriously broken long
-> > > > > > > > > time ago!
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > The controllers you are referring to might lack support for commands requiring
-> > > > > > > > dummy clock cycles but I really hope they work with the other commands? If so I
-> > > > > > >
-> > > > > > > I am not sure why you view dummy clock cycles as something special
-> > > > > > > that needs some special support from the SPI controller. For the case
-> > > > > > > 1 controller, it's nothing special from the controller perspective,
-> > > > > > > just like sending out a command, or address bytes, or data. The
-> > > > > > > controller just shifts data bit by bit from its tx fifo and that's it.
-> > > > > > > In the Xilinx GQSPI controller case, the dummy cycles can either be
-> > > > > > > sent via a regular data (the case 1 controller) in the tx fifo, or
-> > > > > > > automatically generated (case 2 controller) by the hardware.
-> > > > > >
-> > > > > > Ok, I'll try to explain my view point a little differently. For that we also
-> > > > > > need to keep in mind that QEMU models HW, and any binary that runs on a HW
-> > > > > > board supported in QEMU should ideally run on that board inside QEMU aswell
-> > > > > > (this can be a bare metal application equaly well as a modified u-boot/Linux
-> > > > > > using SPI commands with a non multiple of 8 number of dummy clock cycles).
-> > > > > >
-> > > > > > Once functionality has been introduced into QEMU it is not easy to know which
-> > > > > > intentional or untentional features provided by the functionality are being
-> > > > > > used by users. One of the (perhaps not well known) features I'm aware of that
-> > > > > > is in use and is provided by the accurate dummy clock cycle modeling inside
-> > > > > > m25p80 is the be ability to test drivers accurately regarding the dummy clock
-> > > > > > cycles (even when using commands with a non-multiple of 8 number of dummy clock
-> > > > > > cycles), but there might be others aswell. So by removing this functionality
-> > > > > > above use case will brake, this since those test will not be reliable.
-> > > > > > Furthermore, since users tend to be creative it is not possible to know if
-> > > > > > there are other use cases that will be affected. This means that in case [1]
-> > > > > > needs to be followed the safe path is to add functionality instead of removing.
-> > > > > > Luckily it also easier in this case, see below.
-> > > > >
-> > > > > I understand there might be users other than U-Boot/Linux that use an
-> > > > > odd number of dummy bits (not multiple of 8). If your concern was
-> > > > > about model behavior changes, sure I can update
-> > > > > qemu/docs/system/deprecated.rst to mention that some flashes in the
-> > > > > m25p80 model now implement dummy cycles as bytes.
-> > > >
-> > > > Yes, something like that. My concern is that since this functionality has been
-> > > > in tree for while, users have found known or unknown features that got
-> > > > introduced by it. By removing the functionality (and the known/uknown features)
-> > > > we are riscing to brake our user's use cases (currently I'm aware of one
-> > > > feature/use case but it is not unlikely that there are more). [1] states that
-> > > > "In general features are intended to be supported indefinitely once introduced
-> > > > into QEMU", to me that makes very much sense because the opposite would mean
-> > > > that we were not reliable. So in case [1] needs to be honored it looks to be
-> > > > safer to add functionality instead of removing (and riscing the removal of use
-> > > > cases/features). Luckily I still believe in this case that it will be easier to
-> > > > go forward (even if I also agree on what you are saying below about what I
-> > > > proposed).
-> > > >
-> > >
-> > > Even if the implementation is buggy and we need to keep the buggy
-> > > implementation forever? I think that's why
-> > > qemu/docs/system/deprecated.rst was created for deprecating such
-> > > feature.
-> >
-> > With the RFC I posted all commands in m25p80 are working for both the case 1
-> > controller (using a txfifo) and the case 2 controller (no txfifo, as GQSPI).
-> > Because of this, I, with all respect, will have to disagree that this is buggy.
-> 
-> Well, the existing m25p80 implementation that uses dummy cycle
-> accuracy for those flashes prevents all SPI controllers that use tx
-> fifo to work with those flashes. Hence it is buggy.
-> 
-> >
-> > >
-> > > > >
-> > > > > > >
-> > > > > > > > don't think it is fair to call them 'seriously broken' (and else we should
-> > > > > > > > probably let the maintainers know about it). Most likely the lack of support
-> > > > > > >
-> > > > > > > I called it "seriously broken" because current implementation only
-> > > > > > > considered one type of SPI controllers while completely ignoring the
-> > > > > > > other type.
-> > > > > >
-> > > > > > If we change view and see this from the perspective of m25p80, it models the
-> > > > > > commands a certain way and provides an API that the SPI controllers need to
-> > > > > > implement for interacting with it. It is true that there are SPI controllers
-> > > > > > referred to above that do not support the portion of that API that corresponds
-> > > > > > to commands with dummy clock cycles, but I don't think it is true that this is
-> > > > > > broken since there is also one SPI controller that has a working implementation
-> > > > > > of m25p80's full API also when transfering through a tx fifo (use case 1). But
-> > > > > > as mentioned above, by doing a minor extension and improvement to m25p80's API
-> > > > > > and allow for toggling the accuracy from dummy clock cycles to dummy bytes [1]
-> > > > > > will still be honored as in the same time making it possible to have full
-> > > > > > support for the API in the SPI controllers that currently do not (please reread
-> > > > > > the proposal in my previous reply that attempts to do this). I myself see this
-> > > > > > as win/win situation, also because no controller should need modifications.
-> > > > > >
-> > > > >
-> > > > > I am afraid your proposal does not work. Your proposed new device
-> > > > > property 'model_dummy_bytes' to select to convert the accurate dummy
-> > > > > clock cycle count to dummy bytes inside m25p80, is hard to justify as
-> > > > > a property to the flash itself, as the behavior is tightly coupled to
-> > > > > how the SPI controller works.
-> > > >
-> > > > I agree on above. I decided though that instead of posting sample code in here
-> > > > I'll post an RFC with hopefully an improved proposal. I'll cc you. About below,
-> > > > Xilinx ZynqMP GQSPI should not need any modication in a first step.
-> > > >
-> > >
-> > > Wait, (see below)
-> > >
-> > > > >
-> > > > > Please take a look at the Xilinx GQSPI controller, which supports both
-> > > > > use cases, that the dummy cycles can be transferred via tx fifo, or
-> > > > > generated by the controller automatically. Please read the example
-> > > > > given in:
-> > > > >
-> > > > >     table 24‐22, an example of Generic FIFO Contents for Quad I/O Read
-> > > > > Command (EBh)
-> > > > >
-> > > > > in https://www.xilinx.com/support/documentation/user_guides/ug1085-zynq-ultrascale-trm.pdf
-> > > > >
-> > > > > If you choose to set the m25p80 device property 'model_dummy_bytes' to
-> > > > > true when working with the Xilinx GQSPI controller, you are bound to
-> > > > > only allow guest software to use tx fifo to transfer the dummy cycles,
-> > > > > and this is wrong.
-> > > > >
-> > >
-> > > You missed this part. I looked at your RFC, and as I mentioned above
-> > > your proposal cannot support the complicated controller like Xilinx
-> > > GQSPI. Please read the example of table 24-22. With your RFC, you
-> > > mandate guest software's GQSPI driver to only use hardware dummy cycle
-> > > generation, which is wrong.
-> > >
-> >
-> > First, thank you very much for looking into the RFC series, very much
-> > appreciated. Secondly, about above, the GQSPI model in QEMU transfers from 2
-> > locations in the file, in 1 location the transfer referred to above is done, in
-> > another location the transfer through the txfifo is done. The location where
-> > transfer referred to above is done will not need any modifications (and will
-> > thus work equally well as it does currently).
-> 
-> Please explain this a little bit. How does your RFC series handle
-> cases as described in table 24-22, where the 6 dummy cycles are split
-> into 2 transfers, with one transfer using tx fifo, and the other one
-> using hardware dummy cycle generation?
+I'm not quite sure whether we should go down this road ... if we wanted to 
+have full test coverage for clang, we'd need to duplicate *all* jobs to run 
+them once with gcc and once with clang. And that would be just overkill.
 
+I think we already catch most clang-related problems with the clang jobs 
+that we already have in our CI, so problems like the ones that you've tried 
+to address here should be very, very rare. So I'd rather vote for not 
+splitting the job here.
 
-Above transfer is already handled in the model, and since it will not change it
-will still work afterwards.
+  Thomas
 
-About below, sure I'll provide some doc once I get some time over.
-
-Best regards,
-Francisco Iglesias
-
-
-> 
-> >
-> > Now that above has is cleared out, and since I know you are heavily loaded with
-> > other higher prio tasks, lets wait for the maintainers to also have a look into
-> > the RFC (understandibly this can take some time due to that they also are
-> > heavily loaded).
-> 
-> Yes, maintainers are pretty much silent on this topic.
-> 
-> However may I ask you to provide more details on my questions below on
-> booting U-Boot/Linux with the QEMU?
-> 
-> You can post patches to add documentation for zynqmp in
-> docs/system/arm, or once I get a working instructions, I could do that
-> too. Much appreciated.
-> 
-> >
-> > Best regards,
-> > Francisco Iglesias
-> >
-> >
-> > > > > >
-> > > > > > >
-> > > > > > > > for the commands is because no request has been made for them. Also there is
-> > > > > > > > one controller that has support.
-> > > > > > >
-> > > > > > > Definitely it's not "no request". Nearly all SPI flashes support the
-> > > > > > > Fast Read (0Bh) command today, and 0Bh requires a dummy cycle. This is
-> > > > > > > "seriously broken" for those case 1 type controllers because they
-> > > > > > > cannot read anything from the m25p80 model at all. Unless the guest
-> > > > > > > software being tested only uses Read (03h) command which is not
-> > > > > > > affected. But I can't find a software that uses Read instead of Fast
-> > > > > > > Read.
-> > > > > > >
-> > > > > > > > > The issue you pointed out that we require the total number of dummy
-> > > > > > > > > bits should be multiple of 8 is true, that's why I added the
-> > > > > > > > > unimplemented log message in this series (patch 2/3/4) to warn users
-> > > > > > > > > if this expectation is not met. However this will not cause any issue
-> > > > > > > > > when running U-Boot or Linux, because both spi-nor drivers expect the
-> > > > > > > > > same assumption as we do here.
-> > > > > > > > >
-> > > > > > > > > See U-Boot spi_nor_read_data() and Linux spi_nor_spimem_read_data(),
-> > > > > > > > > there is a logic to calculate the dummy bytes needed for fast read
-> > > > > > > > > command:
-> > > > > > > > >
-> > > > > > > > >     /* convert the dummy cycles to the number of bytes */
-> > > > > > > > >     op.dummy.nbytes = (nor->read_dummy * op.dummy.buswidth) / 8;
-> > > > > > > > >
-> > > > > > > > > Note the default dummy cycles configuration for all flashes I have
-> > > > > > > > > looked into as of today, meets the multiple of 8 assumption. On some
-> > > > > > > > > flashes the dummy cycle number is configurable, and if it's been
-> > > > > > > > > configured to be an odd value, it would not work on U-Boot/Linux in
-> > > > > > > > > the first place.
-> > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > Things get complicated when interacting with different SPI or QSPI
-> > > > > > > > > > > flash controllers. There are major two cases:
-> > > > > > > > > > >
-> > > > > > > > > > > - Dummy bytes prepared by drivers, and wrote to the controller fifo.
-> > > > > > > > > > >   For such case, driver will calculate the correct number of dummy
-> > > > > > > > > > >   bytes and write them into the tx fifo. Fixing the m25p80 model will
-> > > > > > > > > > >   fix flashes working with such controllers.
-> > > > > > > > > >
-> > > > > > > > > > Above can be fixed while still keeping the detailed dummy cycle implementation
-> > > > > > > > > > inside m25p80. Perhaps one of the following could be looked into: configurating
-> > > > > > > > > > the amount, letting the spi ctrl fetch the amount from m25p80 or by inheriting
-> > > > > > > > > > some functionality handling this in the SPI controller. Or a mixture of above.
-> > > > > > > > >
-> > > > > > > > > Please send patches to explain this in detail how this is going to
-> > > > > > > > > work. I am open to all possible solutions.
-> > > > > > > >
-> > > > > > > > In that case I suggest that you instead try with a device property
-> > > > > > > > 'model_dummy_bytes' used to select to convert the accurate dummy clock cycle
-> > > > > > > > count to dummy bytes inside m25p80. Below is an example on how to modify the
-> > > > > > >
-> > > > > > > No this is wrong in my view. This is not like a DMA vs. PIO handling.
-> > > > > > >
-> > > > > > > > decode_fast_read_cmd function (the other commands requiring dummy clock cycles
-> > > > > > > > can follow a similar pattern). This way the fifo mode will be able to work the
-> > > > > > > > way you desire while also keeping the current functionality intact. Suddenly
-> > > > > > > > removing functionality (features) will take users by surprise.
-> > > > > > >
-> > > > > > > I don't think we are removing any features. This is a fix to make the
-> > > > > > > model to be used by any SPI controllers.
-> > > > > > >
-> > > > > > > As I pointed out, both U-Boot and Linux have the multiple of 8
-> > > > > > > assumption for the dummy bit, which is the default configuration for
-> > > > > > > all flashes I have looked into so far. Can you please comment what use
-> > > > > > > case you want to support? I requested a U-Boot/Linux kernel testing in
-> > > > > > > the previous SST thread [1] against Xilinx GQSPI but there was no
-> > > > > > > response.
-> > > > > >
-> > > > > > In [2] instructions on how to boot u-boot/Linux is found. For building the
-> > > > > > various software components I followed the official doc in [3].
-> > > > >
-> > > > > I see the following QEMU commands are used to test booting U-Boot/Linux:
-> > > > >
-> > > > > $ qemu-system-aarch64 -M xlnx-zcu102,secure=on,virtualization=on -m 4G
-> > > > > -serial stdio -display none -device loader,file=u-boot.elf -kernel
-> > > > > bl31.elf -device loader,addr=0x40000000,file=Image -device
-> > > > > loader,addr=0x2000000,file=system.dtb
-> > > > >
-> > > > > I am not sure where the system.dtb gets built from?
-> > > >
-> > > > It is the instructions in [2] to look into. 'system.dtb' is the kernel dtb for
-> > > > zcu102 ([2] has been fixed). I created [2] purely for you, so respectfully I
-> > > > will ask you to try a little first before asking for further guidance.
-> > > >
-> > >
-> > > I tried, but no success. I removed the "-device loader" part for
-> > > loading kernel image and the device tree, and only focused on booting
-> > > U-Boot.
-> > >
-> > > The ATF bl31.elf was built from
-> > > https://github.com/ARM-software/arm-trusted-firmware, by following
-> > > build instructions at
-> > > https://trustedfirmware-a.readthedocs.io/en/latest/plat/xilinx-zynqmp.html.
-> > > U-Boot was built from the upstream U-Boot.
-> > >
-> > > $ ./qemu-system-aarch64 -M xlnx-zcu102,secure=on,virtualization=on -m
-> > > 4G -serial stdio -display none -device loader,file=u-boot.elf -kernel
-> > > bl31.elf
-> > > ERROR:   Incorrect XILINX IDCODE 0x0, maskid 0x4600093
-> > > NOTICE:  ATF running on XCZUUNKN/silicon v1/RTL0.0 at 0xfffea000
-> > > NOTICE:  BL31: v2.4(release):v2.4-228-g337e493
-> > > NOTICE:  BL31: Built : 21:18:14, Jan 20 2021
-> > > ERROR:   BL31: Platform Management API version error. Expected: v1.1 -
-> > > Found: v0.0
-> > > ERROR:   Error initializing runtime service sip_svc
-> > >
-> > > I also tried the Xilinx fork of ATF from
-> > > https://github.com/Xilinx/arm-trusted-firmware, by following build
-> > > instructions at
-> > > https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842305/Build+ARM+Trusted+Firmware+ATF
-> > >
-> > > $ ./qemu-system-aarch64 -M xlnx-zcu102,secure=on,virtualization=on -m
-> > > 4G -serial stdio -display none -device loader,file=u-boot.elf -kernel
-> > > bl31.elf
-> > > ERROR:   Incorrect XILINX IDCODE 0x0, maskid 0x4600093
-> > > NOTICE:  ATF running on XCZUUNKN/silicon v1/RTL0.0 at 0xfffea000
-> > > NOTICE:  BL31: v2.2(release):xilinx-v2020.2
-> > > NOTICE:  BL31: Built : 21:52:38, Jan 20 2021
-> > > ERROR:   BL31: Platform Management API version error. Expected: v1.1 -
-> > > Found: v0.0
-> > > ERROR:   Error initializing runtime service sip_svc
-> > >
-> > > Then I tried to build a U-Boot from the Xilinx fork at
-> > > https://github.com/Xilinx/u-boot-xlnx/, still no success.
-> > >
-> > > > Best regards,
-> > > > Francisco Iglesias
-> > > >
-> > > > [1] qemu/docs/system/deprecated.rst
-> > > > [2] https://github.com/franciscoIglesias/qemu-cmdline/blob/master/xlnx-zcu102-atf-u-boot-linux.md
-> > > >
-> 
-> Regards,
-> Bin
 
