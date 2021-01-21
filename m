@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3236B2FF341
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:36:57 +0100 (CET)
-Received: from localhost ([::1]:50134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A6F2FF33B
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:34:02 +0100 (CET)
+Received: from localhost ([::1]:45142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2epE-0001NG-7r
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:36:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46118)
+	id 1l2emP-0007XB-9r
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:34:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2ejc-0005f4-Ns
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:11 -0500
-Received: from indium.canonical.com ([91.189.90.7]:44642)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2ejZ-0006eh-1d
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:08 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l2ejV-0005hb-BK
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:31:01 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 12C3C2E80DF
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:31:00 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2ehf-00046S-6v
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:29:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59520)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2ehZ-0005n5-8R
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:29:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611253739;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sd8mGbbt087SLu4CCuRW27oFTksKiXBeUd3gsuKAEaY=;
+ b=BlcBQ9lgUQQitxZGAQUkSGKs5qp+djQgm2U8bp0SmxbWSyh3MAJx+N+CkPsVA+B+1pVu9f
+ 0kFQiYBN9C3uHYkm9anbcS0eBummuBdak/nVpVJzgRXip7bEBAmRfEYNEHkAlupgnjLxAl
+ m39++9NZI+ysA16AOXp1A3Bcws81pOw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-478-q_swCdOHOIufpTOsWd4T-Q-1; Thu, 21 Jan 2021 13:28:55 -0500
+X-MC-Unique: q_swCdOHOIufpTOsWd4T-Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1E103425CB;
+ Thu, 21 Jan 2021 18:28:54 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-82.ams2.redhat.com [10.36.112.82])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A32656267F;
+ Thu, 21 Jan 2021 18:28:48 +0000 (UTC)
+Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20210110162739.858087-1-f4bug@amsat.org>
+ <20210110162739.858087-3-f4bug@amsat.org>
+ <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
+ <eb4976bc-133d-7d77-cae3-899028751a85@redhat.com>
+ <20210121181303.GR3125227@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <89b62df4-e077-fb82-75af-e180a89fba27@redhat.com>
+Date: Thu, 21 Jan 2021 19:28:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 21 Jan 2021 18:18:31 -0000
-From: Thomas Huth <1788665@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: intel microcode spectre
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange dgilbert-h gamanakis h-sieger th-huth
-X-Launchpad-Bug-Reporter: Heiko Sieger (h-sieger)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <153504502595.30588.13203676939349086206.malonedeb@soybean.canonical.com>
-Message-Id: <161125311180.19539.9277950878243635786.launchpad@wampee.canonical.com>
-Subject: [Bug 1788665] Re: Low 2D graphics performance with Windows 10 (1803)
- VGA passthrough VM using "Spectre" protection
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: 76e2f2bf0091340acf70f2cb3e87f5a0faa558ac
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210121181303.GR3125227@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,87 +85,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1788665 <1788665@bugs.launchpad.net>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Bug watch removed: Linux Kernel Bug Tracker #200877
-   https://bugzilla.kernel.org/show_bug.cgi?id=3D200877
+On 21/01/2021 19.13, Daniel P. Berrangé wrote:
+> On Thu, Jan 21, 2021 at 03:05:43PM -0300, Wainer dos Santos Moschetta wrote:
+>> Hi,
+>>
+>> On 1/21/21 7:08 AM, Thomas Huth wrote:
+>>> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
+>>>> Split the current GCC build-tci job in 2, and use Clang
+>>>> compiler in the new job.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>> ---
+>>>> RFC in case someone have better idea to optimize can respin this patch.
+>>>>
+>>>>    .gitlab-ci.yml | 22 ++++++++++++++++++++--
+>>>>    1 file changed, 20 insertions(+), 2 deletions(-)
+>>>
+>>> I'm not quite sure whether we should go down this road ... if we wanted
+>>> to have full test coverage for clang, we'd need to duplicate *all* jobs
+>>> to run them once with gcc and once with clang. And that would be just
+>>> overkill.
+>>
+>> I agree with Thomas.
+>>
+>>>
+>>>
+>>> I think we already catch most clang-related problems with the clang jobs
+>>> that we already have in our CI, so problems like the ones that you've
+>>> tried to address here should be very, very rare. So I'd rather vote for
+>>> not splitting the job here.
+>>
+>> We got only one clang job on GitLab CI...
+>>
+>>    build-clang:
+>>      <<: *native_build_job_definition
+>>      variables:
+>>        IMAGE: fedora
+>>        CONFIGURE_ARGS: --cc=clang --cxx=clang++
+>>        TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
+>>          ppc-softmmu s390x-softmmu arm-linux-user
+>>        MAKE_CHECK_ARGS: check
+>>
+>> ... and others on Travis:
+>>
+>>    "Clang (user)"
+>>
+>>    "Clang (main-softmmu)"
+>>
+>>    "Clang (other-softmmu)"
+> 
+> I guess these three overlap partially with the build-clang job.
+> 
+>>    "[s390x] Clang (disable-tcg)"
+> 
+> Don't forget the  Cirrus CI jobs for freebsd and macOS will
+> be using  CLang too.
 
--- =
+Right... we should work towards getting cirrus-run into the QEMU-CI, too, to 
+finally have these in the gitlab-ci dashboard, too.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1788665
+>>
+>> So I've some questions:
+>>
+>>   * Can we move those first three Travis jobs to Gitlab CI? (I can work on
+>> that)
+> 
+> Yeah, if we move those three travis jobs they can replace the existing
+> build-clang job. We don't neccesssarily need to keep them as three
+> separate jobs - that split was just due to the Travis time limits.
+> If a different split works better on GitLab we can do that.
 
-Title:
-  Low 2D graphics performance with Windows 10 (1803) VGA passthrough VM
-  using "Spectre" protection
+Well, if we really want to increase the amount clang jobs, one of them 
+should likely use TCI, as Phillippe suggested.
 
-Status in QEMU:
-  Incomplete
+>>   * Do you think they cover the most common problems with clang?
+> 
+> Should do I think, especially in addition to the Cirrus CI jobs.
 
-Bug description:
-  Windows 10 (1803) VM using VGA passthrough via qemu script.
+I concur.
 
-  After upgrading Windows 10 Pro VM to version 1803, or possibly after
-  applying the March/April security updates from Microsoft, the VM would
-  show low 2D graphics performance (sluggishness in 2D applications and
-  low Passmark results).
+  Thomas
 
-  Turning off Spectre vulnerability protection in Windows remedies the
-  issue.
-
-  Expected behavior:
-  qemu/kvm hypervisor to expose firmware capabilities of host to guest OS -=
- see https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/CVE=
--2017-5715-and-hyper-v-vms
-
-  Background:
-
-  Starting in March or April Microsoft began to push driver updates in
-  their updates / security updates. See https://support.microsoft.com
-  /en-us/help/4073757/protect-your-windows-devices-against-spectre-
-  meltdown
-
-  One update concerns the Intel microcode - see
-  https://support.microsoft.com/en-us/help/4100347. It is activated by
-  default within Windows.
-
-  Once the updates are applied within the Windows guest, 2D graphics
-  performance drops significantly. Other performance benchmarks are not
-  affected.
-
-  A bare metal Windows installation does not display a performance loss
-  after the update. See https://heiko-sieger.info/low-2d-graphics-
-  benchmark-with-windows-10-1803-kvm-vm/
-
-  Similar reports can be found here:
-  https://www.reddit.com/r/VFIO/comments/97unx4/passmark_lousy_2d_graphics_=
-performance_on_windows/
-
-  Hardware:
-
-  6 core Intel Core i7-3930K (-MT-MCP-)
-
-  Host OS:
-  Linux Mint 19/Ubuntu 18.04
-  Kernel: 4.15.0-32-generic x86_64
-  Qemu: QEMU emulator version 2.11.1
-  Intel microcode (host): 0x714
-  dmesg | grep microcode
-  [    0.000000] microcode: microcode updated early to revision 0x714, date=
- =3D 2018-05-08
-  [    2.810683] microcode: sig=3D0x206d7, pf=3D0x4, revision=3D0x714
-  [    2.813340] microcode: Microcode Update Driver: v2.2.
-
-  Note: I manually updated the Intel microcode on the host from 0x713 to
-  0x714. However, both microcode versions produce the same result in the
-  Windows guest.
-
-  Guest OS:
-  Windows 10 Pro 64 bit, release 1803
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1788665/+subscriptions
 
