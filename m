@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A06B2FF254
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:47:49 +0100 (CET)
-Received: from localhost ([::1]:45222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C9B2FF263
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:50:10 +0100 (CET)
+Received: from localhost ([::1]:48248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2e3g-00046h-62
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:47:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34866)
+	id 1l2e5x-0005vV-0S
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:50:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2e1Y-0003D0-2X
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:45:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42173)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2e4Z-0005UZ-7U
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:48:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49752)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l2e1U-0002wP-V1
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:45:35 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2e4X-0004RS-0T
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:48:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611251126;
+ s=mimecast20190719; t=1611251320;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hFbqhdXc/dIB0IRqRVKXsPbrAjxKl3BSoh5bhrdjhLo=;
- b=bCP49W4VBwaUjnH3+jNAglhLunKALyPk208yAksq42Z4T63vQCsmgkxQwLQSgCdDy36wIF
- aAqRtKP15JXlrF+isEdXM7mUJixenCtxX4t3hVKBygdxG6mtGpEz6vwC7z/bH99fEOAtmT
- P5/0FuB9UDYHkUhZiqxN148Af7+ffT8=
+ bh=H4DJURx8HE9aIFxKTloB4bGd717bXIXOb09LquXLhFI=;
+ b=TQnSmxCXf0K5rAIX27B2HgvFqgufvG4BX5AniP/AIWlfWhY4IklL1DfU5EeX3nqb744Rfm
+ qedpazCRllA2+eIKlrbJxOK0xwSzwYtTJHN2Ru+NXvuQV0qx9eeQeVZW90jJwPDt6zkXUs
+ V5I2uePyUzVOQ/QkCPt5rYyGpoyCgH4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-252-N8MZEl5PMkSRromwou2KTA-1; Thu, 21 Jan 2021 12:45:22 -0500
-X-MC-Unique: N8MZEl5PMkSRromwou2KTA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-356-p5pQuFByNyOrKum8p3QSgA-1; Thu, 21 Jan 2021 12:48:38 -0500
+X-MC-Unique: p5pQuFByNyOrKum8p3QSgA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DBAE3107ACE4;
- Thu, 21 Jan 2021 17:45:20 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F2E4810021B3;
- Thu, 21 Jan 2021 17:45:13 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] gitlab-ci: Test building linux-user targets on
- CentOS 7
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210121172829.1643620-1-f4bug@amsat.org>
- <20210121172829.1643620-3-f4bug@amsat.org>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <88c1ddbd-d93d-01e4-abfa-78b395ac4d36@redhat.com>
-Date: Thu, 21 Jan 2021 14:45:11 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D858A80667A;
+ Thu, 21 Jan 2021 17:48:36 +0000 (UTC)
+Received: from work-vm (ovpn-115-101.ams2.redhat.com [10.36.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0166439A60;
+ Thu, 21 Jan 2021 17:48:31 +0000 (UTC)
+Date: Thu, 21 Jan 2021 17:48:29 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+Subject: Re: [PATCH v11 4/5] migration: implementation of background snapshot
+ thread
+Message-ID: <20210121174829.GM3072@work-vm>
+References: <20210106152120.31279-1-andrey.gruzdev@virtuozzo.com>
+ <20210106152120.31279-5-andrey.gruzdev@virtuozzo.com>
+ <20210119184931.GJ3008@work-vm>
+ <a552fca2-b06e-feb7-997f-24d8341267e5@virtuozzo.com>
+ <20210121095647.GC3072@work-vm>
+ <d8ff9353-22fb-08b4-ec12-e5e6a13266d5@virtuozzo.com>
+ <20210121161145.GI3072@work-vm>
+ <25fa36c8-117c-1f30-b678-b4cbebeee6c9@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210121172829.1643620-3-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <25fa36c8-117c-1f30-b678-b4cbebeee6c9@virtuozzo.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,68 +86,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
+ Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+* Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> On 21.01.2021 19:11, Dr. David Alan Gilbert wrote:
+> > * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> > > On 21.01.2021 12:56, Dr. David Alan Gilbert wrote:
+> > > > * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> > > > > On 19.01.2021 21:49, Dr. David Alan Gilbert wrote:
+> > > > > > * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
+> > > > > > > Introducing implementation of 'background' snapshot thread
+> > > > > > > which in overall follows the logic of precopy migration
+> > > > > > > while internally utilizes completely different mechanism
+> > > > > > > to 'freeze' vmstate at the start of snapshot creation.
+> > > > > > > 
+> > > > > > > This mechanism is based on userfault_fd with wr-protection
+> > > > > > > support and is Linux-specific.
+> > > > > > I noticed there weren't any bdrv_ calls in here; I guess with a snapshot
+> > > > > > you still have the source running so still have it accessing the disk;
+> > > > > > do you do anything to try and wire the ram snapshotting up to disk
+> > > > > > snapshotting?
+> > > > > Block-related manipulations should be done externally, I think.
+> > > > > So create backing images for RW nodes, then stop VM, switch block graph
+> > > > > and start background snapshot. Something like create 'virsh snapshot-create-as'
+> > > > > does, but in other sequence.
+> > > > If you get a chance it would be great if you could put together an
+> > > > example of doing the combination RAM+block; that way we find out if there's
+> > > > anything silly missing.
+> > > > 
+> > > > Dave
+> > > Yep, I'll take a look at the QMP command sequences, how it should look
+> > > like in our case and prepare an example, hope we are not missing something serious.
+> > > At least we know that block setup data won't go to snapshot.
+> > > I've also checked starting background snapshot from the stopped VM state -
+> > > looks OK, VM resumes operation, snapshot is saved, no apparent problems.
+> > > 
+> > > Maybe it will take some time, since now I'm on task to create tool to store
+> > > snapshots with RAM indexable by GPFNs, together with the rest of VMSTATE.
+> > If you want to make it indexable, why not just do a simple write(2) call
+> > for the whole of RAM rather than doing the thing like normal migration?
+> > 
+> > Dave
+> 
+> For me the main reason is apparent file size.. While we can get the same allocation
+> size when saving via write(2) on Linux, in many cases the apparent file size will
+> be much bigger then if use QCOW2.
 
-On 1/21/21 2:28 PM, Philippe Mathieu-Daudé wrote:
-> Add a configuration tested by Peter Maydell (see [1] and [2])
-> but not covered in our CI [3]:
->
->    [705/2910] Compiling C object libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->    FAILED: libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->    ../linux-user/strace.c: In function 'do_print_sockopt':
->    ../linux-user/strace.c:2831:14: error: 'IPV6_ADDR_PREFERENCES' undeclared (first use in this function)
->             case IPV6_ADDR_PREFERENCES:
+Do you mean because of zero pages or for some other reason?
 
-Why the following builder did not catch that issue?
+Dave
 
-build-user:
-   <<: *native_build_job_definition
-   variables:
-     IMAGE: debian-all-test-cross
-     CONFIGURE_ARGS: --disable-tools --disable-system
-     MAKE_CHECK_ARGS: check-tcg
-
->                  ^
->
-> This job currently takes 31 minutes 32 seconds ([4]).
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05086.html
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05379.html
-> [3] https://gitlab.com/philmd/qemu/-/jobs/977408284
-> [4] https://gitlab.com/philmd/qemu/-/jobs/978223286
->
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   .gitlab-ci.yml | 7 +++++++
->   1 file changed, 7 insertions(+)
->
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index de3a3d25b58..af4d74757d8 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -411,6 +411,13 @@ build-user-plugins:
->       MAKE_CHECK_ARGS: check-tcg
->     timeout: 1h 30m
->   
-> +build-user-centos7:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: centos7
-> +    CONFIGURE_ARGS: --disable-system --disable-tools --disable-docs
-> +    MAKE_CHECK_ARGS: check-tcg
-> +
->   build-some-softmmu-plugins:
->     <<: *native_build_job_definition
->     variables:
+> Andrey
+> 
+> > > Based on QCOW2 format. Also it should support snapshot revert in postcopy mode.
+> > > 
+> > > Andrey
+> > > 
+> > > > > //
+> > > > > 
+> > > > > > > Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> > > > > > > Acked-by: Peter Xu <peterx@redhat.com>
+> > > > > > > ---
+> > > > > > >     migration/migration.c | 255 +++++++++++++++++++++++++++++++++++++++++-
+> > > > > > >     migration/migration.h |   3 +
+> > > > > > >     migration/ram.c       |   2 +
+> > > > > > >     migration/savevm.c    |   1 -
+> > > > > > >     migration/savevm.h    |   2 +
+> > > > > > >     5 files changed, 260 insertions(+), 3 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/migration/migration.c b/migration/migration.c
+> > > > > > > index 2c2cb9ef01..0901a15ac5 100644
+> > > > > > <snip>
+> > > > > > 
+> > > > > > > -    qemu_thread_create(&s->thread, "live_migration", migration_thread, s,
+> > > > > > > -                       QEMU_THREAD_JOINABLE);
+> > > > > > > +
+> > > > > > > +    if (migrate_background_snapshot()) {
+> > > > > > > +        qemu_thread_create(&s->thread, "background_snapshot",
+> > > > > > Unfortunately that wont work - there's a 14 character limit on
+> > > > > > the thread name length; I guess we just shorten that to bg_snapshot
+> > > > > Yep, missed that pthread_set_name_np() has a length limit)
+> > > > > 
+> > > > > > Other than that,
+> > > > > > 
+> > > > > > 
+> > > > > > 
+> > > > > > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > > > > > 
+> > > > > > > +                bg_migration_thread, s, QEMU_THREAD_JOINABLE);
+> > > > > > > +    } else {
+> > > > > > > +        qemu_thread_create(&s->thread, "live_migration",
+> > > > > > > +                migration_thread, s, QEMU_THREAD_JOINABLE);
+> > > > > > > +    }
+> > > > > > >         s->migration_thread_running = true;
+> > > > > > >     }
+> > > > > > > diff --git a/migration/migration.h b/migration/migration.h
+> > > > > > > index f40338cfbf..0723955cd7 100644
+> > > > > > > --- a/migration/migration.h
+> > > > > > > +++ b/migration/migration.h
+> > > > > > > @@ -20,6 +20,7 @@
+> > > > > > >     #include "qemu/thread.h"
+> > > > > > >     #include "qemu/coroutine_int.h"
+> > > > > > >     #include "io/channel.h"
+> > > > > > > +#include "io/channel-buffer.h"
+> > > > > > >     #include "net/announce.h"
+> > > > > > >     #include "qom/object.h"
+> > > > > > > @@ -147,8 +148,10 @@ struct MigrationState {
+> > > > > > >         /*< public >*/
+> > > > > > >         QemuThread thread;
+> > > > > > > +    QEMUBH *vm_start_bh;
+> > > > > > >         QEMUBH *cleanup_bh;
+> > > > > > >         QEMUFile *to_dst_file;
+> > > > > > > +    QIOChannelBuffer *bioc;
+> > > > > > >         /*
+> > > > > > >          * Protects to_dst_file pointer.  We need to make sure we won't
+> > > > > > >          * yield or hang during the critical section, since this lock will
+> > > > > > > diff --git a/migration/ram.c b/migration/ram.c
+> > > > > > > index 5707382db1..05fe0c8592 100644
+> > > > > > > --- a/migration/ram.c
+> > > > > > > +++ b/migration/ram.c
+> > > > > > > @@ -1471,6 +1471,7 @@ static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
+> > > > > > >         page_address = (void *) uffd_msg.arg.pagefault.address;
+> > > > > > >         bs = qemu_ram_block_from_host(page_address, false, offset);
+> > > > > > >         assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
+> > > > > > > +
+> > > > > > >         return bs;
+> > > > > > >     }
+> > > > > > >     #endif /* CONFIG_LINUX */
+> > > > > > > @@ -1836,6 +1837,7 @@ static void ram_save_host_page_post(RAMState *rs, PageSearchStatus *pss,
+> > > > > > >             /* Un-protect memory range. */
+> > > > > > >             res = uffd_change_protection(rs->uffdio_fd, page_address, run_length,
+> > > > > > >                     false, false);
+> > > > > > > +
+> > > > > > >             /* We don't want to override existing error from ram_save_host_page(). */
+> > > > > > >             if (res < 0 && *res_override >= 0) {
+> > > > > > >                 *res_override = res;
+> > > > > > > diff --git a/migration/savevm.c b/migration/savevm.c
+> > > > > > > index 27e842812e..dd4ad0aaaf 100644
+> > > > > > > --- a/migration/savevm.c
+> > > > > > > +++ b/migration/savevm.c
+> > > > > > > @@ -1354,7 +1354,6 @@ int qemu_savevm_state_complete_precopy_iterable(QEMUFile *f, bool in_postcopy)
+> > > > > > >         return 0;
+> > > > > > >     }
+> > > > > > > -static
+> > > > > > >     int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+> > > > > > >                                                         bool in_postcopy,
+> > > > > > >                                                         bool inactivate_disks)
+> > > > > > > diff --git a/migration/savevm.h b/migration/savevm.h
+> > > > > > > index ba64a7e271..aaee2528ed 100644
+> > > > > > > --- a/migration/savevm.h
+> > > > > > > +++ b/migration/savevm.h
+> > > > > > > @@ -64,5 +64,7 @@ int qemu_loadvm_state(QEMUFile *f);
+> > > > > > >     void qemu_loadvm_state_cleanup(void);
+> > > > > > >     int qemu_loadvm_state_main(QEMUFile *f, MigrationIncomingState *mis);
+> > > > > > >     int qemu_load_device_state(QEMUFile *f);
+> > > > > > > +int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
+> > > > > > > +        bool in_postcopy, bool inactivate_disks);
+> > > > > > >     #endif
+> > > > > > > -- 
+> > > > > > > 2.25.1
+> > > > > > > 
+> > > > > -- 
+> > > > > Andrey Gruzdev, Principal Engineer
+> > > > > Virtuozzo GmbH  +7-903-247-6397
+> > > > >                   virtuzzo.com
+> > > > > 
+> > > -- 
+> > > Andrey Gruzdev, Principal Engineer
+> > > Virtuozzo GmbH  +7-903-247-6397
+> > >                  virtuzzo.com
+> > > 
+> 
+> -- 
+> Andrey Gruzdev, Principal Engineer
+> Virtuozzo GmbH  +7-903-247-6397
+>                 virtuzzo.com
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
