@@ -2,108 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F812FE4F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 09:29:00 +0100 (CET)
-Received: from localhost ([::1]:45214 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5742FE555
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 09:47:19 +0100 (CET)
+Received: from localhost ([::1]:49782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2VKt-0004Fl-ES
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 03:28:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41194)
+	id 1l2Vcc-0007Np-C6
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 03:47:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1l2VJM-0003nO-C3; Thu, 21 Jan 2021 03:27:24 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48976
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1l2VJK-0000a2-6x; Thu, 21 Jan 2021 03:27:24 -0500
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10L82go3084121; Thu, 21 Jan 2021 03:27:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=0HQbRsZWbJKSjxU1T5nRQPvugHYAatfeLaKPvos0yXA=;
- b=FzGDp3gCx9MpMq4bmql2qkUdnPjaId7JUYLPt76/ipEIL2cb7YAXo0xUfmt/Pcab31aM
- AlRSnFLjw/FLQjQDPxIgtw2zBL+PYeFSNdIxxXgNXbVC90A8IYwM1cq1nhzPWRe1dUJM
- BjHDzjoDZQecMeyNNvwxTZB1vViT5pCXMAs7D1L8vmGSuu6JGSG04sUyhEwmM1MDNvCX
- R5KKl+h8gWfQTxvlAYNtlrMzAFh7JolWm9lpJ/ddqTu++Y+azfXhHzv6iY3XjChFvi/o
- /Gc8AaP2K+BHILdBTmFJzX+OC8yK80nSX8QbgUcB1NopzUF35B+UlrtjooqsMfqkAaGI zw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3674v129m6-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 03:27:18 -0500
-Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10L82e3t083909;
- Thu, 21 Jan 2021 03:27:18 -0500
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com with ESMTP id 3674v129kp-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 03:27:18 -0500
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10L8RGCA009469;
- Thu, 21 Jan 2021 08:27:16 GMT
-Received: from b06cxnps3074.portsmouth.uk.ibm.com
- (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
- by ppma01fra.de.ibm.com with ESMTP id 3668p4gray-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 08:27:16 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10L8RDGM39125380
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jan 2021 08:27:13 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 89150A4051;
- Thu, 21 Jan 2021 08:27:13 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EC006A404D;
- Thu, 21 Jan 2021 08:27:12 +0000 (GMT)
-Received: from oc3016276355.ibm.com (unknown [9.145.36.14])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jan 2021 08:27:12 +0000 (GMT)
-Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
-To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
- thuth@redhat.com
-References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
- <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
- <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
- <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
- <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
- <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
- <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-Message-ID: <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
-Date: Thu, 21 Jan 2021 09:27:12 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1l2Vb6-0006x2-PU
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 03:45:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46296)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vkuznets@redhat.com>)
+ id 1l2Vb2-0000U5-Bn
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 03:45:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611218737;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=owC4z7SsU9qT98IDlkpVhfvGL5Fahgz4e6Q0CAFDYwc=;
+ b=gG6Qq/Mv1fcYm6JdR3NQi1arWBDphCJe7kxsndGc6y9s7laeFKBhpPa9bwspME6/aVfDge
+ llo3xZtUJXG9GSVNxQzx4wL/92eMPirBlvyLNbbaenVS2HTZQSfNAYwaDBMfea19QRv5Dj
+ 9CXwg+8De9j7Xvpu29kHHy8TjValEok=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-370-Tw7rpZqpNZG9DIKzEvoIow-1; Thu, 21 Jan 2021 03:45:36 -0500
+X-MC-Unique: Tw7rpZqpNZG9DIKzEvoIow-1
+Received: by mail-ed1-f72.google.com with SMTP id u17so738130edi.18
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 00:45:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:in-reply-to:references:date
+ :message-id:mime-version;
+ bh=owC4z7SsU9qT98IDlkpVhfvGL5Fahgz4e6Q0CAFDYwc=;
+ b=AL6UCnTlc1imSYTYMq26EZHzBzbpJFoQLxkDpMzDJqXIxGDXEs1sRmO93qGxZ5lDiD
+ RDcfzf4Xp5j3+nWefggPJ+bNJUSWpXS3lqeVBVBJHCxBOYMJwX0U8JO3qUG5UP+9fcRm
+ 8r2OdHrg/GZ6JR9oL+Wp+h8e8MRrtbApULQAUHaFdIPVwgLfCJSLVN/uFQI1t+DHIeGF
+ J3fmM91LiwifazO7+oGi99rRj3WIbNjORls3fHirm3Baz7PC3Dxz+Y8ebvLJuNO1Mdi1
+ V0HmqozbIKSJBNlMoWjI1T3riafkmI8mc87hQWNYv2o+sQKNBo7vRWvgKoMedF8NOSsq
+ myvA==
+X-Gm-Message-State: AOAM532503GpvjJajsvqKIzUcR8q47R6TI1RyWkREUuFVpUF5KzkkSjo
+ omY7NiY/5VdnSlT51R6TE2f+6lcH3IBmjmCEP1FLIs2IQtHuBH3jmfg31oxyThgyOFHAI6+C+1Z
+ TPn4/EYYSj3LOhYI=
+X-Received: by 2002:a17:906:2e04:: with SMTP id
+ n4mr8571969eji.289.1611218734759; 
+ Thu, 21 Jan 2021 00:45:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxcNokIWVnH6LwD+g3JkVmWaTlDSWkWVokxmqGMrDq7oEjESJTtyYKzhGLfo8IRqmgN6igFEg==
+X-Received: by 2002:a17:906:2e04:: with SMTP id
+ n4mr8571957eji.289.1611218734516; 
+ Thu, 21 Jan 2021 00:45:34 -0800 (PST)
+Received: from vitty.brq.redhat.com (g-server-2.ign.cz. [91.219.240.2])
+ by smtp.gmail.com with ESMTPSA id x16sm1958434ejc.22.2021.01.21.00.45.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jan 2021 00:45:33 -0800 (PST)
+From: Vitaly Kuznetsov <vkuznets@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3 18/19] i386: provide simple 'hv-default=on' option
+In-Reply-To: <20210120200832.40141dc1@redhat.com>
+References: <20210107150640.539239-1-vkuznets@redhat.com>
+ <20210107151449.541062-1-vkuznets@redhat.com>
+ <20210115031142.7c171a7f@redhat.com> <87h7ni7e08.fsf@vitty.brq.redhat.com>
+ <20210120141312.0a1e6c33@redhat.com> <874kjb65cm.fsf@vitty.brq.redhat.com>
+ <20210120200832.40141dc1@redhat.com>
+Date: Thu, 21 Jan 2021 09:45:33 +0100
+Message-ID: <87wnw64r0y.fsf@vitty.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-21_03:2021-01-20,
- 2021-01-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxlogscore=999
- suspectscore=0 phishscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
- bulkscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 adultscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101210039
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vkuznets@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vkuznets@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -117,104 +97,178 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
- richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
- pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Igor Mammedov <imammedo@redhat.com> writes:
 
-
-On 1/20/21 9:29 PM, Matthew Rosato wrote:
-> On 1/20/21 2:18 PM, Pierre Morel wrote:
+> On Wed, 20 Jan 2021 15:38:33 +0100
+> Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+>
+>> Igor Mammedov <imammedo@redhat.com> writes:
+>> 
+>> > On Fri, 15 Jan 2021 10:20:23 +0100
+>> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
+>> >  
+>> >> suggestion is 
+>> >> 
+>> >> if I do:
+>> >> 
+>> >> 'hv_default,hv_feature=on' I will get "hyperv_default_features | hv_feature"
+>> >> 
+>> >> but if I do
+>> >> 
+>> >> 'hv_feature=on,hv_default' I will just get 'hyperv_default_features'
+>> >> (as hv_default enablement will overwrite everything)
+>> >> 
+>> >> How is this consistent?  
+>> > usual semantics for properties, is that the latest property overwrites,
+>> > the previous property value parsed from left to right.
+>> > (i.e. if one asked for hv_default, one gets it related CPUID bit set/unset,
+>> > if one needs more than that one should add more related features after that.
+>> >  
+>> 
+>> This semantics probably doesn't apply to 'hv-default' case IMO as my
+>> brain refuses to accept the fact that
+> it's difficult probably because 'hv-default' is 'alias' property 
+> that covers all individual hv-foo features in one go and that individual
+> features are exposed to user, but otherwise it is just a property that
+> sets CPUID features or like any other property, and should be treated
+> like such.
+>
+>> 'hv_default,hv_feature' != 'hv_feature,hv_default'
 >>
->>
-...snip...
+>> which should express the same desire 'the default set PLUS the feature I
+>> want'.
+> if hv_default were touching different data, I'd agree.
+> But in the end hv_default boils down to the same CPUID bits as individual
+> features:
+>
+>   hv_default,hv_f2 => (hv_f1=on,hv_f2=off),hv_f2=on
+>          !=
+>   hv_f2,hv_default => hv_f2=on,(hv_f1=on,hv_f2=off)
+>
 
->> So we have:
->> devices supporting MIO and MSIX
->> devices not supporting MIO nor MSIX
->> devices not supporting the use of PCISTG to emulate PCISTB
->>
->> The first two are two different things indicated by two different 
->> entries in the clp query PCI function response.
->>
->> The last one, we do not have an indicator as if the relaxed alignment 
->> and length is set, PCISTB can not be emulated with PCISTG
+In your case I treat 'hv_default' as 'hv_f1=on' and it says nothing
+about 'hv_f2' - neither it is enabled, nor it is disabled because when
+the corresponding machine type was released it just wasn't there.
 
+>  
+>> I think I prefer sanity over purity in this case.
+> what is sanity to one could be insanity for another,
+> so I pointed out the way properties expected to work today.
+>
+> But you are adding new semantic ('combine') to property/features parsing
+> (instead of current 'set' policy), and users will have to be aware of
+> this new behavior and add/maintain code for this special case.
+> (maybe I worry in vain, and no one will read docs and know about this
+> new property anyways)
+>
+> That will also push x86 CPUs consolidation farther away from other targets,
+> where there aren't any special casing for features parsing, just simple
+> left to right parsing with the latest property having overwriting previously
+> set value.
 
-hum sorry, it seems I rewrote my sentence until it was wrong wrong!
-I wanted to say we DO HAVE an indicator with the relaxed bit...
+In case this is somewhat important I suggest we get back to adding
+'hyperv=on' machine type option and not do the 'aliasing' with
+'hv_default'. I think it would be possible to support
 
->>
->> What I mean with this is that considering the proposed implementation 
->> and considering:
->> MIO MSIX RELAX
->>
->> 0 0 1  -> must use the new region (ISM)
->> 1 1 0  -> must use the standard VFIO region (MLX)
->>
->> we can discuss other 6 possibilities
->>
->> 0 0 0 -> must use the new region
->> 0 1 0 -> NOOP
->> 0 1 1 -> NOOP
->> 1 0 0 -> can use any region
->> 1 0 1 -> can use any region
->> 1 1 1 -> NOOP
->>
->> In my opinion the test for using one region or another should be done 
->> on these indicator instead of using the PFT. > This may offer us more 
->> compatibility with other hardware we may not be
->> aware of as today.
-> 
-> This gets a little shaky, and goes both ways -- Using your list, a 
-> device that supports MIO, does not have MSI-X capability and doesn't 
-> support relaxed alignment (1 0 0 from above) can use any region -- but 
-> that may not always be true.  What if "other hardware we may not be 
-> aware of as today" includes future hardware that ONLY supports the MIO 
-> instruction set?  Then that device really can't use this region either.
+'-M q35,hyper=on -cpu host,hv-stimer-direct=off' 
 
+even if we need to add a custom handler for Hyper-V feature setting
+instead of just using bits in u64 as we need to remember both what was
+enabled and what was disabled to combine this with machine type property
+correctly.
 
-Right, but there is no bit in the CLP response for this case.
-Until there is one, the system is supposed to handle legacy instructions
+> We are trying hard to reduce special cases and unify interfaces for same
+> components to simplify qemu and make it predictable/easier for users.
+>
 
-> 
-> But forgetting that possibility...  I think we can really simplify the 
-> above matrix down to a statement of "if device doesn't support MSI-X but 
-> DOES support non-MIO instructions, it can use the region."  I believe 
-> the latter half of that statement is implicit in the architecture today, 
-> so it's really then "if device doesn't support MSI-X, it can use the 
-> region".  There's just the caveat of, if the device is ISM, it changes 
-> from 'can use the region' to 'must use the region'.
+That's exactly the reason why we need simpler Hyper-V feature
+enablement! :-)
 
+>
+>> >> >> +    }
+>> >> >> +}
+>> >> >> +
+>> >> >>  /* Generic getter for "feature-words" and "filtered-features" properties */
+>> >> >>  static void x86_cpu_get_feature_words(Object *obj, Visitor *v,
+>> >> >>                                        const char *name, void *opaque,
+>> >> >> @@ -6955,10 +6973,26 @@ static void x86_cpu_initfn(Object *obj)
+>> >> >>      object_property_add_alias(obj, "pause_filter", obj, "pause-filter");
+>> >> >>      object_property_add_alias(obj, "sse4_1", obj, "sse4.1");
+>> >> >>      object_property_add_alias(obj, "sse4_2", obj, "sse4.2");
+>> >> >> +    object_property_add_alias(obj, "hv_default", obj, "hv-default");
+>> >> >>  
+>> >> >>      if (xcc->model) {
+>> >> >>          x86_cpu_load_model(cpu, xcc->model);
+>> >> >>      }
+>> >> >> +
+>> >> >> +    /* Hyper-V features enabled with 'hv-default=on' */
+>> >> >> +    cpu->hyperv_default_features = BIT(HYPERV_FEAT_RELAXED) |
+>> >> >> +        BIT(HYPERV_FEAT_VAPIC) | BIT(HYPERV_FEAT_TIME) |
+>> >> >> +        BIT(HYPERV_FEAT_CRASH) | BIT(HYPERV_FEAT_RESET) |
+>> >> >> +        BIT(HYPERV_FEAT_VPINDEX) | BIT(HYPERV_FEAT_RUNTIME) |
+>> >> >> +        BIT(HYPERV_FEAT_SYNIC) | BIT(HYPERV_FEAT_STIMER) |
+>> >> >> +        BIT(HYPERV_FEAT_FREQUENCIES) | BIT(HYPERV_FEAT_REENLIGHTENMENT) |
+>> >> >> +        BIT(HYPERV_FEAT_TLBFLUSH) | BIT(HYPERV_FEAT_IPI) |
+>> >> >> +        BIT(HYPERV_FEAT_STIMER_DIRECT);
+>> >> >> +
+>> >> >> +    /* Enlightened VMCS is only available on Intel/VMX */
+>> >> >> +    if (kvm_hv_evmcs_available()) {
+>> >> >> +        cpu->hyperv_default_features |= BIT(HYPERV_FEAT_EVMCS);
+>> >> >> +    }    
+>> >> > what if VVM is migrated to another host without evmcs,
+>> >> > will it change CPUID?
+>> >> >    
+>> >> 
+>> >> Evmcs is tightly coupled with VMX, we can't migrate when it's not
+>> >> there.  
+>> >
+>> > Are you saying mgmt will check and refuse to migrate to such host?
+>> >  
+>> 
+>> Is it possible to migrate a VM from a VMX-enabled host to a VMX-disabled
+>> one if VMX feature was exposed to the VM? Probably not, you will fail to
+>> create a VM on the destination host. Evmcs doesn't change anything in
+>> this regard, there are no hosts where VMX is available but EVMCS is not.
+>
+> I'm not sure how evmcs should be handled,
+> can you point out what in this series makes sure that migration fails or
+> makes qemu not able to start in case kvm_hv_evmcs_available() returns false.
+>
+> So far I read snippet above as a problem:
+> 1:
+>   host supports evmcs:
+>   and exposes HYPERV_FEAT_EVMCS in CPUID
 
-There can surely be simplifications.
+Host with EVMCS is Intel
 
-> 
-> So, I mean I can change the code to be more permissive in that way 
-> (allow any device that doesn't have MSI-X capability to at least attempt 
-> to use the region).  But the reality is that ISM specifically needs the 
-> region for successful pass through, so I don't see a reason to create a 
-> different bit for that vs just checking for the PFT in QEMU and using 
-> that value to decide whether or not region availability is a requirement 
-> for allowing the device to pass through.
+> 2: we migrate to host without evmcs
 
+Host without EVMCS is AMD, there are no other options. It is a pure
+software feature available for KVM-intel. And if your KVM is so old that
+it doesn't know anything about EVMCS, a bunch of other options from
+'hv-default' will not start as well.
 
-There is no need for a new bit to know if a device support MIO or not, 
-as I said before, there is already one in the CLP query PCI function 
-response and it is already used in the kernel zPCI architecture.
+> 2.1 start target QEMU, it happily creates vCPUs without
+> HYPERV_FEAT_EVMCS in CPUID
 
+No, it doesn't as on host1 we had at least VMX CPU feature enabled (or a
+CPU model implying it) to make this all work.
 
-It is not a big think to do and does not change the general architecture 
-of the patch, only the detection of which device is impacted to make it 
-generic instead of device dedicated.
+> 2.2 if I'm not mistaken CPUID is not part of migration stream,
+>     nothing could check and fail migration
+> 2.3 guest runs fine till it tries to use non existing feature, ..
 
-Regards,
-Pierre
+I'm also very sceptical about possibilities for migration
+Windows/Hyper-V VMs from Intel to AMD. Hyper-V doesn't even boot if you
+don't have fresh-enough CPU so the common denominator for Intel/AMD
+would definitely not work. 
 
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+Vitaly
+
 
