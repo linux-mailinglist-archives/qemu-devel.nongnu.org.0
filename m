@@ -2,68 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5C82FDFAC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 03:46:39 +0100 (CET)
-Received: from localhost ([::1]:48960 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7BE82FDFB3
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 03:55:46 +0100 (CET)
+Received: from localhost ([::1]:33938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2PzY-0004JW-Ha
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 21:46:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40994)
+	id 1l2Q8P-0001fk-TZ
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 21:55:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Pqs-0001lI-OP
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 21:37:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:42078)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2Pqn-0003ou-PH
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 21:37:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611196652;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=MQKKL8RAuUsGLZe4iU9JKFNWZB674WqawLkAYXsTg58=;
- b=Ji/L1+4Mh6y+71+9rBVb7AOc/4l9xM6PyxModbsznphmicYUZiT2EdnUg2dhOh8xEYEweA
- 0MUV9ZKaJOhDwf03B8c7gHFrNyq0nRYlg9hl0nAbM2SeYXwpIdZVCEg6e+jvYJPlYsuLDb
- ai6g3EU1qIVazNXvmr/92TitFqXyf8w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-gmKGrdlkMv2qXQklQZiIbg-1; Wed, 20 Jan 2021 21:37:29 -0500
-X-MC-Unique: gmKGrdlkMv2qXQklQZiIbg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE0398030A0;
- Thu, 21 Jan 2021 02:37:28 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 716665D764;
- Thu, 21 Jan 2021 02:37:28 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l2Q7S-0001FC-Uq
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 21:54:46 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:54787)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l2Q7R-0000s7-3m
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 21:54:46 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id cq1so660954pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 18:54:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/PZZtDCwjS2Ce0HCMyjrEnjDzfGR/6vbA2heqxMwMXc=;
+ b=JMLuuCaIBJdfjhp6USA9w1foDx36Ph+g3chQSKsHrpbcfkS/LspSuotdqMS21mKm/H
+ Ek4ilx7s+15a0UIjbP2nRwn3I7fUOz5qiJ5pHLesyFRe2ZQF4mPD95L7EILENg1sinZc
+ bkorUxl8t0AT+0zPgTTmbpAMo+uSefdtugdaaGwmX6wDA30+np0K7i6AyiPPEVG+eEGS
+ h8XiP2mgMA5CqHL9ARyiox4Eq8CfC8MOknUQAO2FZakw9huF1XEt9qCvTOQZZz/MDUOQ
+ BdN7S0y7lCQmlk4YpRGilrod8FxNFwAQm3iwAzIfpTwRQVK8W1XZjIHYl6PBzn2E/hob
+ RVqg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=/PZZtDCwjS2Ce0HCMyjrEnjDzfGR/6vbA2heqxMwMXc=;
+ b=DUHDNjQ6njOO92JXAf+/9UjAVc2qHTBfr/k18qnqnvBEzkrWcNtOvNhAr+ZjMoSQqn
+ kPWQDwriDhHcC6vLW6FiFdcKVhRQ19ih0XuR/0LhInnnCtTEYHpoXh+aumvsGWJbcMXo
+ 16KnFkdADQ+amavPd15Q3lG6uB3NxxY9XG+Pkc8UceA09EZ09c9Y8GR6YCmwwoc2n4Vb
+ 5wsp86z2Jx0ATEj0br1kwajuZJgCVH0ufspjBpEYBFkdEjhYy03ktK43PmpNOHLTDCop
+ 8BVTu7LhA2ySD4V+fuo68nYJOdo6C7FJbERePuanSVW0fROZM0BkP/UHtPy+AehWaXBe
+ Cd5w==
+X-Gm-Message-State: AOAM533dzQO2LyEGT3osKsXwQ6rikCCFkJhEvINgw73Wl99iZISou0PF
+ zv1RpS3wWpcQFdU7rVzvmemC9/x2MPFr1Q==
+X-Google-Smtp-Source: ABdhPJzSlxqZCl6e7ethIrq7mdLdVHYAsyKIL4W25csLz5VgIqaDxYxygFU7Dbq2TpNzYMUIaCebrw==
+X-Received: by 2002:a17:90a:520e:: with SMTP id
+ v14mr9021981pjh.233.1611197683234; 
+ Wed, 20 Jan 2021 18:54:43 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id b7sm3563500pff.96.2021.01.20.18.54.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 20 Jan 2021 18:54:42 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 13/13] iotests.py: qemu_io(): reuse qemu_tool_pipe_and_status()
-Date: Wed, 20 Jan 2021 20:36:57 -0600
-Message-Id: <20210121023657.1186241-14-eblake@redhat.com>
-In-Reply-To: <20210121023657.1186241-1-eblake@redhat.com>
-References: <20210121023657.1186241-1-eblake@redhat.com>
+Subject: [PATCH] tcg: Increase the static number of temporaries
+Date: Wed, 20 Jan 2021 16:54:39 -1000
+Message-Id: <20210121025439.1120405-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,46 +82,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: lvivier@redhat.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+This isn't a total or permanent solution to the problem of running
+out of temporaries, but it puts off the issue for a bit.
 
-Just drop code duplication.
+Make the assert in tcg_temp_alloc unconditional.  If we do run out
+of temps, this can fail much later as a weird SIGSEGV, due to the
+buffer overrun of the temp array.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20201130134024.19212-5-vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Signed-off-by: Eric Blake <eblake@redhat.com>
+Remove the inlines from tcg_temp_alloc and tcg_global_alloc.
+
+Buglink: https://bugs.launchpad.net/bugs/1912065
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qemu-iotests/iotests.py | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index ea5c3c51624e..2e89c0ab1abc 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -188,14 +188,7 @@ def img_info_log(filename, filter_path=None, imgopts=False, extra_args=()):
- def qemu_io(*args):
-     '''Run qemu-io and return the stdout data'''
-     args = qemu_io_args + list(args)
--    subp = subprocess.Popen(args, stdout=subprocess.PIPE,
--                            stderr=subprocess.STDOUT,
--                            universal_newlines=True)
--    output = subp.communicate()[0]
--    if subp.returncode < 0:
--        sys.stderr.write('qemu-io received signal %i: %s\n'
--                         % (-subp.returncode, ' '.join(args)))
--    return output
-+    return qemu_tool_pipe_and_status('qemu-io', args)[0]
+There are more bugs that need fixing in order to actually make
+the dynamic allocation scheme work.  Rather than keep this bug
+pending longer, hack around it and make the SEGV an ABRT.
 
- def qemu_io_log(*args):
-     result = qemu_io(*args)
+r~
+
+---
+ include/tcg/tcg.h | 2 +-
+ tcg/tcg.c         | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index c5a9d65d5f..0187de1352 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -275,7 +275,7 @@ typedef struct TCGPool {
+ 
+ #define TCG_POOL_CHUNK_SIZE 32768
+ 
+-#define TCG_MAX_TEMPS 512
++#define TCG_MAX_TEMPS 1024
+ #define TCG_MAX_INSNS 512
+ 
+ /* when the size of the arguments of a called function is smaller than
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 8f8badb61c..5110f6f39c 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1204,14 +1204,14 @@ void tcg_func_start(TCGContext *s)
+     QSIMPLEQ_INIT(&s->labels);
+ }
+ 
+-static inline TCGTemp *tcg_temp_alloc(TCGContext *s)
++static TCGTemp *tcg_temp_alloc(TCGContext *s)
+ {
+     int n = s->nb_temps++;
+-    tcg_debug_assert(n < TCG_MAX_TEMPS);
++    g_assert(n < TCG_MAX_TEMPS);
+     return memset(&s->temps[n], 0, sizeof(TCGTemp));
+ }
+ 
+-static inline TCGTemp *tcg_global_alloc(TCGContext *s)
++static TCGTemp *tcg_global_alloc(TCGContext *s)
+ {
+     TCGTemp *ts;
+ 
 -- 
-2.30.0
+2.25.1
 
 
