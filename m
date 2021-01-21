@@ -2,56 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6092A2FEACD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:57:46 +0100 (CET)
-Received: from localhost ([::1]:57772 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3B52FEAF2
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 14:00:53 +0100 (CET)
+Received: from localhost ([::1]:36724 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ZWz-0004BK-Eb
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:57:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
+	id 1l2Za0-0007Eu-IW
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 08:00:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l2ZQq-0006b7-Sb
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:51:24 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:53771)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l2ZQn-0003cC-Mv
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:51:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=90+yEAGGjmCEQ5RxfVPk4yE0dcsoCz8m/18bjJ0Tmio=; b=gvT3vr9TxZgFdCLyYi67Zzkpgh
- tY+g84q4A1LGLbGYvEO8LqCbJaN5nNDcPLdtETok5DdVebmtlUzP0iMpbDiRgLOgnQR6uDXdy4Yct
- 2VftLHZc6gezTuRXd/+CxuGQPNyvEYHDh7o8uNi6jx2mfK2tcqfAgfIHe9QSZISZUwRtptlG+UsNV
- ArDa4nhLWEwXTi4pDcZdY4FevmIoXkyI6x02BktMMQEr19P4Redg6YlMNdp5Ov9NZc4nYYAR0MPRq
- XITeLUzOZdWXDGyIFUC9ncsxz+y8bGKeP3bIcEdjIqy2Pv29smSAaeWCK3Kj93ef/wW3R8tZqODE3
- 34JFRVXrEiRiHZEuV953qf8JxZ+9sryicnMA1GDFvFhLlI4yfF1kdnNOPqn5hM0ZFCKJ+19Evl2fz
- esl01nJHnNLOKXY8lx7H2kRI/l+AVeoBLOhcupq5Q1OjSR/Gtd6STqhDhkMnZlcVKKXysKcFWmu7Y
- jngIVY6BD+lqlzySUvwgzbCjXWWeoiZXabbQDb40ZTwX6MVmw59/ZGoqZ6PD7DJDo3tVuCObpUwVe
- Hepn9lLzQ8vGH7Y26GlD2EJUb23HjskmphpHsfhYf59GwK4eaBscA/J6TfAFEcgJgheJZvR7gU9KC
- DBtafM4tFpUoSVgoKthCInEkr6Xdfw3Pvf8IovLWc=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 3/3] 9pfs: Improve unreclaim loop
-Date: Thu, 21 Jan 2021 13:50:37 +0100
-Message-ID: <1978739.Uc7ZUDHExb@silver>
-In-Reply-To: <20210118142300.801516-4-groug@kaod.org>
-References: <20210118142300.801516-1-groug@kaod.org>
- <20210118142300.801516-4-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2ZYM-0006O0-5C
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:59:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46510)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2ZYH-00075o-Pv
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:59:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611233945;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RE0wHG5suEZtZzx73Nx34/o6MSZU4feeH/B/ikC3kdk=;
+ b=UeCCid6hbpE5u32yMRqTpH5qnoC1fMVixqSIuj93hfLGYRVEY8X5MSB5cBjZ+caWTiXoRk
+ 1XdGoVO+Cza3G35Mh1LVax8cTtdNB42ClijI8iHJllbE3Sp8pmpBX3MJMlDanaW3fnJhGC
+ 0Q59beiFFM8QvFD3OE0VpsT5/SkGORE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-183-YWFOaEKpP0uogmVliIdxUA-1; Thu, 21 Jan 2021 07:59:02 -0500
+X-MC-Unique: YWFOaEKpP0uogmVliIdxUA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CCEEB64155
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:58:40 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 018FB77CB7;
+ Thu, 21 Jan 2021 12:58:40 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 81493113865F; Thu, 21 Jan 2021 13:58:38 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 04/25] keyval: accept escaped commas in implied option
+References: <20210118163113.780171-1-pbonzini@redhat.com>
+ <20210118163113.780171-5-pbonzini@redhat.com>
+Date: Thu, 21 Jan 2021 13:58:38 +0100
+In-Reply-To: <20210118163113.780171-5-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 18 Jan 2021 11:30:52 -0500")
+Message-ID: <87turah2f5.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,137 +80,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>
+Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Montag, 18. Januar 2021 15:23:00 CET Greg Kurz wrote:
-> If a fid was actually re-open by v9fs_reopen_fid(), we re-traverse the
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-"re-opened"
+> This is used with the weirdly-named device "SUNFD,fdtwo":
 
-> fid list from the head in case some other request created a fid that
-> needs to be marked unreclaimable as well (ie. the client open a new
+"SUNW,fdtwo"
 
-"i.e." and either "opens" or "opened"
+Suggest "with weirdly-named devices such as "SUNW,fdtwo:", because we've
+got more weirdos.
 
-> handle on the path that is being unlinked). This is a suboptimal since
+>   $ qemu-system-sparc -device SUNW,,fdtwo,help
+>   SUNW,fdtwo options:
+>     drive=<str>            - Node name or ID of a block device to use as a backend
+>     fallback=<FdcDriveType> - FDC drive type, 144/288/120/none/auto (default: "144")
+>     ...
+>
+> Therefore, accepting it is a preparatory step towards keyval-ifying
+> -device and the device_add monitor command.
 
-No "a" here: "This is suboptimal since"
+It's a preparatory step, but is it a necessary one?  More on that below.
 
-> most if not all fids that require it have likely been taken care of
-> already.
-> 
-> This is mostly the result of new fids being added to the head of the
-> list. Since the list is now a QSIMPLEQ, add new fids at the end instead.
-> Take a reference on the fid to ensure it doesn't go away during
-> v9fs_reopen_fid() and that it can be safely passed to QSIMPLEQ_NEXT()
-> afterwards. Since the associated put_fid() can also yield, same is done
-> with the next fid. So the logic here is to get a reference on a fid and
-> only put it back during the next iteration after we could get a reference
-> on the next fid.
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  hw/9pfs/9p.c | 44 ++++++++++++++++++++++++++++++--------------
->  1 file changed, 30 insertions(+), 14 deletions(-)
-> 
-> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> index b65f320e6518..b0ab5cf61c1f 100644
-> --- a/hw/9pfs/9p.c
-> +++ b/hw/9pfs/9p.c
-> @@ -311,7 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> fid) * reclaim won't close the file descriptor
->       */
->      f->flags |= FID_REFERENCED;
-> -    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
-> +    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
+>                                              In general, however, this
+> unexpected wart of the keyval syntax leads to suboptimal errors compared
+> to QemuOpts:
+>
+>   $ ./qemu-system-x86_64 -object foo,,bar,id=obj
+>   qemu-system-x86_64: -object foo,,bar,id=obj: invalid object type: foo,bar
+>   $ storage-daemon/qemu-storage-daemon --object foo,,bar,id=obj
+>   qemu-storage-daemon: Invalid parameter ''
 
-I wondered whether that behaviour change could have negative side effects, but 
-I think the reason why they added it to the head of the list was simply 
-because they only had a head pointer (i.e. they would have needed a loop to 
-insert to tail).
+This is a second, independent argument supporting your patch.
 
-So yes, I think that change makes sense now with QSIMPLEQ.
+As I remarked in reply to a prior post as "[PATCH 1/2] keyval: accept
+escaped commas in implied option", the suboptimal errors could be
+improved in a less invasive way.  Your way has a distinct advantage,
+though: a working patch.
 
-> 
->      v9fs_readdir_init(s->proto_version, &f->fs.dir);
->      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-> @@ -497,32 +497,48 @@ static int coroutine_fn
-> v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) {
->      int err;
->      V9fsState *s = pdu->s;
-> -    V9fsFidState *fidp;
-> +    V9fsFidState *fidp, *fidp_next;
-> 
-> -again:
-> -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> -        if (fidp->path.size != path->size) {
-> -            continue;
-> -        }
-> -        if (!memcmp(fidp->path.data, path->data, path->size)) {
-> +    fidp = QSIMPLEQ_FIRST(&s->fid_list);
-> +    assert(fidp);
+A third argument you've put forward elsewhere, but modestly left out
+here: nicer code.  I'll get back to it after looking at the followup
+cleanup in the next patch.
 
-And fidp is under regular circumstances always non-null here? The assumption 
-is that there is at least the root fid in the list, which the user should not 
-have permission to unlink, right?
+Either one argument could justify the patch, I think.
 
-> +
-> +    /*
-> +     * v9fs_reopen_fid() can yield : a reference on the fid must be held
-> +     * to ensure its pointer remains valid and we can safely pass it to
-> +     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
-> +     * we must keep a reference on the next fid as well. So the logic here
-> +     * is to get a reference on a fid and only put it back during the next
-> +     * iteration after we could get a reference on the next fid. Start with
-> +     * the first one.
-> +     */
-> +    for (fidp->ref++; fidp; fidp = fidp_next) {
-> +        if (fidp->path.size == path->size &&
-> +            !memcmp(fidp->path.data, path->data, path->size)) {
->              /* Mark the fid non reclaimable. */
->              fidp->flags |= FID_NON_RECLAIMABLE;
-> 
->              /* reopen the file/dir if already closed */
->              err = v9fs_reopen_fid(pdu, fidp);
->              if (err < 0) {
-> +                put_fid(pdu, fidp);
->                  return err;
->              }
-> +        }
-> +
-> +        fidp_next = QSIMPLEQ_NEXT(fidp, next);
-> +
-> +        if (fidp_next) {
->              /*
-> -             * Go back to head of fid list because
-> -             * the list could have got updated when
-> -             * switched to the worker thread
-> +             * Ensure the next fid survives a potential clunk request
-> during +             * put_fid() below and v9fs_reopen_fid() in the next
-> iteration. */
-> -            if (err == 0) {
-> -                goto again;
-> -            }
-> +            fidp_next->ref++;
+I'm this explicit to avoid the impression that the critique of the first
+argument that comes next is me trying to find a reason to shoot down
+your patch.
 
-Mmm, that works as intended if fidp_next matches the requested path. However 
-if it is not (like it would in the majority of cases) then the loop breaks 
-next and the bumped reference count would never be reverted. Or am I missing 
-something here?
+I don't think -device *needs* to accept anti-social device names.
 
->          }
-> +
-> +        /* We're done with this fid */
-> +        put_fid(pdu, fidp);
->      }
-> +
->      return 0;
->  }
+We have a few devices with anti-social names, but none of them works
+with -device, except in a help request.
 
-Best regards,
-Christian Schoenebeck
+We don't have to keep requests for human-readable help backwards
+compible.
 
+Anti-social device names are a usability issue with or without this
+patch, with or without keyvalified -device.  The patch ensures the
+sugared form of the help request continues to work after keyvalification
+(the unsugared from is unaffected).  You could argue that loss of the
+sugared form is a usability regression.  Maybe.  But usability is *poor*
+in any case.  If we really cared for it, we'd get rid of the anti-social
+names.
+
+My point is: we're sitting in a hole, and the commit message starts with
+"we need to dig a bit deeper to keep us comfortable".
+
+My first preference: get rid of the anti-social names, drop the first
+argument from the commit message, and let the patch rest on the other
+two.
+
+Second preference: rephrase the commit message along the lines of "This
+is a step towards keyval-ifying -device without fixing the anti-social
+device names first, and without breaking backward compatibility for help
+requests".
+
+> To implement this, the flow of the parser is changed to first unescape
+> everything up to the next comma or equal sign.  This is done in a
+> new function keyval_fetch_string for both the key and value part.
+> Keys therefore are now parsed in unescaped form, but this makes no
+> difference in practice because a comma is an invalid character for a
+> QAPI name.  Thus keys with a comma in them are rejected anyway, as
+> demonstrated by the new testcase.
+>
+> As a side effect of the new code, parse errors are slightly improved as
+> well: "Invalid parameter ''" becomes "Expected parameter before '='"
+> when keyval is fed a string starting with an equal sign.
+>
+> The slightly baroque interface of keyval_fetch_string lets me keep the
+> key parsing loop mostly untouched.  It is simplified in the next patch,
+> however.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+
+I'll now look at the next patch, then get back to this one.
 
 
