@@ -2,93 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BE062FEE35
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:16:01 +0100 (CET)
-Received: from localhost ([::1]:55122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 798452FEE46
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:18:03 +0100 (CET)
+Received: from localhost ([::1]:58534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2bgm-00027z-J6
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:16:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51190)
+	id 1l2bik-0003g5-1k
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:18:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l2bfQ-0001Sf-0o
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:14:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l2bfI-0000Tg-MT
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:14:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611242068;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VYsXy5o/+HCzfnJVJDDmC2o0j1sLLPEaJHhsaOQMtKE=;
- b=Kc++2J4qz0OE1MVhyWUfNz+MJ7eWnTrRir75Xw2LrHq+erVrFBPoI4UvsyLOpGVso0/qho
- U4fCoJAAYr/yoc+meAxsGavWC2l9uH5cttpdi1mhlMrrbTBCmaImXCFQt+crttmO/H3duc
- 1ZOjlvDg0GTKAzHYzf7RR2iDXB+zk4s=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-262-2yWUkpiXP8udFGqH5l7EWA-1; Thu, 21 Jan 2021 10:14:25 -0500
-X-MC-Unique: 2yWUkpiXP8udFGqH5l7EWA-1
-Received: by mail-wr1-f72.google.com with SMTP id l10so1255629wry.16
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 07:14:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VYsXy5o/+HCzfnJVJDDmC2o0j1sLLPEaJHhsaOQMtKE=;
- b=jPNWNtMdOHit4qP/xFYZRpAukLqZZ6jXCovgvMFYymiQ3iuWuqdMDIyJnDOPach5WH
- cWdHZfy4pelCgj+MpMPFt6cQ8WwOHWvmOnF6lW/hXRwm4db7CknQEZtp1q5GONLxp+MH
- 5vkDHQg7dSpOiu4uNx2ClN2gX5JGJAUjuSJ9sZGNz2RGRJdy4kv2ZnaO94Gtv2Z2cROB
- bUD02KPraW5mdJm7NHvlX//CD2yyQkk+ZixwTmIXFCYMuU56431WRkLsoaKsuSjdOFos
- K3XoaPVOE5mPFdTNJjQ3aKT7YYTEoyfbbwixcKCgKyFI6BTHVhDoUWLJLeOPnhceLMxv
- ETtQ==
-X-Gm-Message-State: AOAM533vkUJxfO2Qws/11lrSPWREj4ZLNGYpBR58AqKdU5EnzhRmxcug
- +iAxbG/yXQkNqlZU1cWEcTZoA7Woa3m6PT/WgVFeWDSk6maa30sTczOjF77vhHWlp9j+AJ4za0Y
- TxkHzAaEpdLsOv3I=
-X-Received: by 2002:a5d:4c45:: with SMTP id n5mr15060138wrt.396.1611242063994; 
- Thu, 21 Jan 2021 07:14:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzBQ6BPjgfXeu+FGi3DifTMmAnIVVQaykNdY11Cy9YWpot5amWurqZ8myhvqDlbu864sZoURA==
-X-Received: by 2002:a5d:4c45:: with SMTP id n5mr15060115wrt.396.1611242063802; 
- Thu, 21 Jan 2021 07:14:23 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id h9sm8873717wre.24.2021.01.21.07.14.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 07:14:22 -0800 (PST)
-Subject: Re: Thread safety of coroutine-sigaltstack
-To: Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
- <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
- <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com>
-Date: Thu, 21 Jan 2021 16:14:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
+ id 1l2bgU-0002I0-2r; Thu, 21 Jan 2021 10:15:42 -0500
+Received: from smtp.gentoo.org ([140.211.166.183]:47364)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dilfridge@gentoo.org>)
+ id 1l2bgM-0000zq-0C; Thu, 21 Jan 2021 10:15:40 -0500
+From: Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Subject: Re: [PATCH v2 1/1] linux-user/signal: Decode waitid si_code
+Date: Thu, 21 Jan 2021 17:15:20 +0200
+Message-ID: <2013655.G923GbCHz0@farino>
+Organization: Gentoo Linux
+In-Reply-To: <24791910.1r3eYUQgxm@farino>
+References: <1fb2d56aa23a81f4473e638abe9e2d78c09a3d5b.1611080607.git.alistair.francis@wdc.com>
+ <24791910.1r3eYUQgxm@farino>
 MIME-Version: 1.0
-In-Reply-To: <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; boundary="nextPart268544978.ifERbkFSEj";
+ micalg="pgp-sha512"; protocol="application/pgp-signature"
+Received-SPF: pass client-ip=140.211.166.183;
+ envelope-from=dilfridge@gentoo.org; helo=smtp.gentoo.org
+X-Spam_score_int: -68
+X-Spam_score: -6.9
+X-Spam_bar: ------
+X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,31 +49,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>, bmeng.cn@gmail.com,
+ palmer@dabbelt.com,
+ Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>,
+ alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/01/21 10:27, Max Reitz wrote:
-> 
-> Sure, I can do that.
-> 
-> I agree that there probably are better solutions than to wrap everything 
-> in a lock.  OTOH, it looks to me like this lock is the most simple 
-> solution.  If Daniel is right[1] and we should drop 
-> coroutine-sigaltstack altogether (at some point...), perhaps it is best 
-> to go for the most simple solution now.
-> 
-> [1]
-> https://lists.nongnu.org/archive/html/qemu-block/2021-01/msg00808.html
+--nextPart268544978.ifERbkFSEj
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"; protected-headers="v1"
+From: Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>
+To: qemu-devel@nongnu.org, qemu-riscv@nongnu.org
+Cc: palmer@dabbelt.com, bmeng.cn@gmail.com, Alistair Francis <alistair.francis@wdc.com>, alistair23@gmail.com, Andreas =?ISO-8859-1?Q?K=2E_H=FCttel?= <dilfridge@gentoo.org>
+Subject: Re: [PATCH v2 1/1] linux-user/signal: Decode waitid si_code
+Date: Thu, 21 Jan 2021 17:15:20 +0200
+Message-ID: <2013655.G923GbCHz0@farino>
+Organization: Gentoo Linux
+In-Reply-To: <24791910.1r3eYUQgxm@farino>
+References: <1fb2d56aa23a81f4473e638abe9e2d78c09a3d5b.1611080607.git.alistair.francis@wdc.com> <24791910.1r3eYUQgxm@farino>
 
-Yes, between coroutine-ucontext and the upcoming coroutine-asm[1] (which 
-I have shelved because it was mostly a requirement for x86 CET; but it 
-will come back some day), sooner or later there will be no reason to 
-keep coroutine-sigaltstack.  Porting coroutine-asm to a new architecture 
-is easy, I even managed to do it for s390. ;)
+Am Mittwoch, 20. Januar 2021, 22:12:30 EET schrieb Andreas K. H=FCttel:
+> > This patch just passes the waitid status directly back to the guest.
+>=20
+> This works at least as well as the previous versions, so ++ from me.
+>=20
+> Will do more testing over the next days to see if it maybe also improves =
+the
+> additional oddities I observed.
+>=20
 
-Paolo
+So the patch is good since it clearly resolves the linked bug.=20
 
-[1] https://patchew.org/QEMU/20190504120528.6389-1-pbonzini@redhat.com/
+However, something else is still broken (maybe related; unchanged compared =
+to=20
+the previous patch version). I keep seeing hanging "qemu-riscv32 /bin/bash=
+=20
+=2E.." processes using 100% cpu. If I attach strace (on the host arch x86-6=
+4) to=20
+qemu, I see an infinite loop:
+
+waitid(P_ALL, -1, {}, WNOHANG|WEXITED, NULL) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+waitid(P_ALL, -1, {}, WNOHANG|WEXITED, NULL) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, ~[RTMIN RT_1], NULL, 8) =3D 0
+rt_sigprocmask(SIG_SETMASK, [CHLD], NULL, 8) =3D 0
+=2E..
+
+Unfortunately I do not have a simple reproducer. This is somewhere in the=20
+middle of our build system...
+
+Otherwise, I can re-build glibc, gcc, binutils, make  in the qemu chroot=20
+without obvious problems, with one striking strange detail - "make" refuses=
+ to=20
+run more than one concurrent process (even with MAKEOPTS=3D"-j9"). Somethin=
+g is=20
+off there.
+
+=2D-=20
+Andreas K. H=FCttel
+dilfridge@gentoo.org
+Gentoo Linux developer=20
+(council, qa, toolchain, base-system, perl, libreoffice)
+--nextPart268544978.ifERbkFSEj
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part.
+Content-Transfer-Encoding: 7Bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iQKTBAABCgB9FiEE2dlecvcVU8/ThuQ/jJJgxvbXoxAFAmAJmohfFIAAAAAALgAo
+aXNzdWVyLWZwckBub3RhdGlvbnMub3BlbnBncC5maWZ0aGhvcnNlbWFuLm5ldEQ5
+RDk1RTcyRjcxNTUzQ0ZEMzg2RTQzRjhDOTI2MEM2RjZEN0EzMTAACgkQjJJgxvbX
+oxCA8A//eIyf9r7Ua2Vd9/m2dBI9wkBLIu5IhCmEYGLCmfJAr88ixv+kom/tREo6
+1A5RB54TceTl+TzF5hdWFF0IHr6dABiYzH3+bPCYqPHIpTUQDieZJ9ftpbooZD1O
+4Cz85kvdeGK0dQw75XkkG/sZzeEH20IXtETqxUWglAkjHdhA7yaj49Gr5OycMOat
+ELX5k59lZj7X6nzzJ0vegxoeV9RxuaT1NUr5tZd63ZSfi44UeOhWMqNYr75h8g+A
+Fh374uRClPEDzIF9qQxOysaz3HUsvE1gwbKW3mvMhDC+lG8YdTIEd2yJUjeNJGix
+TW2koSs7hNpJ0lkZ7ACClfooS9eAOlcVNXQviClG6GUECcRimVbFsO3/xp0kNKj/
+HU6EXWk3yTHjy/ykBhuu2msvx+EpF6suHNNk2kaevrFXIetn/vu/9g2DgDtLMyFo
+z6NX/7xOSXU6XhFIr6OHpAmQGvlyQtXK5iRu53hKpKiA2USC1/UMl93wZ3+/zcCx
+n/rk4Y9WzCvxLng5FiI0bNn1R8inM22MesfouGsi3gL252zeyYOv7Kl4JKOdX+MW
+R5KI28Q/WsxVNwX/MSusTmVkYi8E4tQ5i3Zf44GWQBKWPRTGZ2hbH0WuhEPom9Jl
+fC/qndodsmbsoOLBfHto+wiarX4QyhFzcPOwVEkgAnHM4jSZB4Q=
+=CJsN
+-----END PGP SIGNATURE-----
+
+--nextPart268544978.ifERbkFSEj--
+
+
 
 
