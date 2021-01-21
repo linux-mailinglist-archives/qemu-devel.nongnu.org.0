@@ -2,71 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 358962FE690
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:43:08 +0100 (CET)
-Received: from localhost ([::1]:53278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1FA12FE6BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:51:56 +0100 (CET)
+Received: from localhost ([::1]:56966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2WUd-0006RP-89
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:43:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55704)
+	id 1l2Wd7-0008Tm-W4
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57172)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l2WTE-0005Oi-S6
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:41:40 -0500
-Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:34928)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l2WT9-0000sE-W1
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:41:40 -0500
-Received: by mail-ej1-x636.google.com with SMTP id ox12so1698094ejb.2
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 01:41:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=13bjMcyB39zQ6KQu9Qy4AE4gQI9naAL2EP71A6MRUW4=;
- b=O+xCizvwwv8zcK8HEVL1NwRX+Ru/WXg0JqGf57lyO5mR+ITZnge5K2a/KPZ61B6cDD
- 50uhI92zdxeqSd5XiftGH3iPYdLK8A3EDiVLaWsEKe4DMiWjliDvlhE97vqWdPL6srsY
- Io7NfHQsZSB2HkEkMgstMDsfBzKu9rUjLR8Zu6dMrDrOdHzaytW3UJiTW5HemLCR+A4j
- xAW+AzLkKNcCPJo8IDH8/uKDEKaIU/zqAaYQXrrL38aI+rY8ce52xas/zs458YFstY5r
- nEBX8BVnF+g/+Hz+p2F4c2FNHCwdeeDBUA0Im3bxprKTst+aMB+fKbdhP0U6QqcAhBdL
- jWCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=13bjMcyB39zQ6KQu9Qy4AE4gQI9naAL2EP71A6MRUW4=;
- b=a9WAJ1oEBcSrnx1IO4ghd1wCK7E+70qg1ogkXaVUMPfXEehC7PBkgmNkWaAqqa1cYk
- RgjSaOAilCY2BJmKtjdUpez7/5caUhvRGH5UpdEYIeLVmN2yZgzlvSZOkh6tOpOCeAAt
- USKd0f99fVc2QJhDh0pcReJO+TAREvmTIxssEceDBVeFWPApf6QGTmg25WFe3qWrrCaN
- IUsr5ZbuMreqzbOkF1pPV0syAPUUlmo4+iSLtKF38cZeUfWQXPtDCvQBE6s7IEYD3+Ed
- 8Q0MWGjCMquJss5ZM6HpZFrwCxCgYSTvl6ShOgKJdxmbNYsJcA2ITiTQbl0ZpzE7jla/
- oULw==
-X-Gm-Message-State: AOAM5313i4yExU4tpCSDFBLfN62EG5o8gQx9jzyXdI0sWnIAPtqerSOL
- wrvwwSlBX1nbficuW6qknzS29usN2y8X2PU+HxUa6GFBvEtBfg==
-X-Google-Smtp-Source: ABdhPJwVOpD65Dkkj3EiHzXcAUyroQkZfHpcmmvABXsyu+dS0Da4Qq8ePfhz5C2ebAI43ovj6G/jxFpc67KhQUju6z0=
-X-Received: by 2002:a17:906:5182:: with SMTP id
- y2mr8929982ejk.92.1611222094273; 
- Thu, 21 Jan 2021 01:41:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1l2WbY-0007gS-Ar
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:50:16 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52690
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1l2WbV-0004al-KH
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:50:15 -0500
+Received: from host86-132-109-72.range86-132.btcentralplus.com
+ ([86.132.109.72] helo=[192.168.1.65])
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1l2Wbc-00023U-5Z; Thu, 21 Jan 2021 09:50:25 +0000
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20210114083329.10494-1-mark.cave-ayland@ilande.co.uk>
+ <c1190557-8959-3c41-ae53-72504243f109@suse.de>
+ <ec32506f-ec83-d166-f444-efa33e2867e9@ilande.co.uk>
+ <10945f87-a43b-98c5-6f53-1042b3eb1311@suse.de>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Message-ID: <172b84ed-f426-9f99-5518-95dd1c60f94d@ilande.co.uk>
+Date: Thu, 21 Jan 2021 09:50:04 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210121082314.458600-1-dje@google.com>
-In-Reply-To: <20210121082314.458600-1-dje@google.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Thu, 21 Jan 2021 13:41:22 +0400
-Message-ID: <CAJ+F1CJ5SB2RHuR6KzoA8K0Tdpeam+=LdSRbax6W6WQ+18qqUA@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add ipv6 hostfwd support
-To: Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::636;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x636.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <10945f87-a43b-98c5-6f53-1042b3eb1311@suse.de>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 86.132.109.72
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH] utils/fifo8: change fatal errors from abort() to assert()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.094,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,54 +67,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Doug,
+On 14/01/2021 10:15, Claudio Fontana wrote:
 
-On Thu, Jan 21, 2021 at 12:24 PM dje--- via <qemu-devel@nongnu.org> wrote:
->
-> Hi. This patchset takes the original patch from Maxim,
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
-> and updates it.
->
-> The first patch is the slirp additions, the second patch adds the u/i.
+> On 1/14/21 10:58 AM, Mark Cave-Ayland wrote:
+>> On 14/01/2021 09:07, Claudio Fontana wrote:
+>>
+>>> On 1/14/21 9:33 AM, Mark Cave-Ayland wrote:
+>>>> Developer errors are better represented with assert() rather than abort().
+>>>
+>>> ... "also, make the tests more strict"
+>>>
+>>> I'd add this since the checks have been changed sometimes in the patch to be more strict.
+>>>
+>>> Reviewed-by: Claudio Fontana <cfontana@suse.de>
+>>
+>> Oh, that was not intentional on my part - I was aiming to keep the same logic but
+>> effectively invert the logic to keep the assert() happy. What did I miss?
+> 
+> Did I misunderstand? Comments below:
+> 
+>>
+>>
+>> ATB,
+>>
+>> Mark.
+>>
+>>>> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>>>> ---
+>>>> This was suggested by Peter during a discussion on IRC yesterday.
+>>>>
+>>>> ---
+>>>>    util/fifo8.c | 16 ++++------------
+>>>>    1 file changed, 4 insertions(+), 12 deletions(-)
+>>>>
+>>>> diff --git a/util/fifo8.c b/util/fifo8.c
+>>>> index a5dd789ce5..d4d1c135e0 100644
+>>>> --- a/util/fifo8.c
+>>>> +++ b/util/fifo8.c
+>>>> @@ -31,9 +31,7 @@ void fifo8_destroy(Fifo8 *fifo)
+>>>>    
+>>>>    void fifo8_push(Fifo8 *fifo, uint8_t data)
+>>>>    {
+>>>> -    if (fifo->num == fifo->capacity) {
+>>>> -        abort();
+>>>> -    }
+>>>> +    assert(fifo->num < fifo->capacity);
+> 
+> This changes the check effectively, the same logic would be in my view:
+> 
+> assert(fifo->num != fifo->capacity);
+> 
+> But I think your change actually makes sense.
 
-libslirp is maintained on gitlab. Can you open a merge request?
-https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests
+Got it - the difference between using a range check instead of an inequality check :)
 
-thanks
+>>>>        fifo->data[(fifo->head + fifo->num) % fifo->capacity] = data;
+>>>>        fifo->num++;
+>>>>    }
+>>>> @@ -42,9 +40,7 @@ void fifo8_push_all(Fifo8 *fifo, const uint8_t *data, uint32_t num)
+>>>>    {
+>>>>        uint32_t start, avail;
+>>>>    
+>>>> -    if (fifo->num + num > fifo->capacity) {
+>>>> -        abort();
+>>>> -    }
+>>>> +    assert(fifo->num + num <= fifo->capacity);
+>>>>    
+>>>>        start = (fifo->head + fifo->num) % fifo->capacity;
+>>>>    
+>>>> @@ -63,9 +59,7 @@ uint8_t fifo8_pop(Fifo8 *fifo)
+>>>>    {
+>>>>        uint8_t ret;
+>>>>    
+>>>> -    if (fifo->num == 0) {
+>>>> -        abort();
+>>>> -    }
+>>>> +    assert(fifo->num > 0);
+> 
+> 
+> applying the exact same logic would be:
+> 
+> assert(fifo->num != 0);
+> 
+> but again, I think that the actual change is more expressive, and most likely is correct, just more strict.
 
->
-> Doug Evans (2):
->   slirp: Add ipv6 hostfwd support
->   net: Add ipv6_hostfwd option
->
-> Slirp:
->  src/libslirp.h |   6 +++
->  src/slirp.c    |  51 +++++++++++++++++++++--
->  src/socket.c   | 109 +++++++++++++++++++++++++++++++++++--------------
->  src/socket.h   |   9 ++++
->  src/udp.c      |  73 ++++++++++++++++++++++++++-------
->  src/udp.h      |   2 +
->  6 files changed, 202 insertions(+), 48 deletions(-)
->
-> QEMU:
->  hmp-commands.hx     |  29 ++++-
->  include/net/slirp.h |   2 +
->  net/slirp.c         | 311 +++++++++++++++++++++++++++++++++++---------
->  qapi/net.json       |   1 +
->  slirp               |   2 +-
->  5 files changed, 279 insertions(+), 66 deletions(-)
->
-> --
-> 2.30.0.296.g2bfb1c46d8-goog
->
->
+Agreed. In theory both forms should be the same since these elements are integers, 
+but I do also prefer being explicit about it being a numeric range.
+
+>>>>        ret = fifo->data[fifo->head++];
+>>>>        fifo->head %= fifo->capacity;
+>>>>        fifo->num--;
+>>>> @@ -76,9 +70,7 @@ const uint8_t *fifo8_pop_buf(Fifo8 *fifo, uint32_t max, uint32_t *num)
+>>>>    {
+>>>>        uint8_t *ret;
+>>>>    
+>>>> -    if (max == 0 || max > fifo->num) {
+>>>> -        abort();
+>>>> -    }
+>>>> +    assert(max > 0 && max <= fifo->num);
+>>>>        *num = MIN(fifo->capacity - fifo->head, max);
+>>>>        ret = &fifo->data[fifo->head];
+>>>>        fifo->head += *num;
+
+I'll submit a v2 shortly adding your R-B.
 
 
---=20
-Marc-Andr=C3=A9 Lureau
+ATB,
+
+Mark.
 
