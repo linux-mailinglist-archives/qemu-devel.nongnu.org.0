@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 476252FF5AE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:19:35 +0100 (CET)
-Received: from localhost ([::1]:42600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9972FF5B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:20:11 +0100 (CET)
+Received: from localhost ([::1]:43950 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2gQX-0004w6-Rk
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:19:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43430)
+	id 1l2gR8-0005Vo-F1
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:20:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l2gOJ-00038X-Mq
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:17:16 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:33266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l2gOH-0002Rr-RU
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:17:15 -0500
-Received: by mail-pg1-x532.google.com with SMTP id n25so2121345pgb.0
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:17:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lUgAlrh8Dr3rGM529OFEPRP+rqyMsI9PQ8PocbGawjY=;
- b=PGhFYiP6R5soGRfKdwhZLIRth+LMxLrQ8rZ/5+kpUJjYFh5IPmCRJVNGk2Ry7jjUz1
- OspWfW7c+Hx6rXz/lDic8+CpJ42Rcosx5DLxAQ8GjgG+c275Ii/60HjATwoaMda0l5WO
- mZ+IwxPskYvjPmCKHuyIT7Vc3UM1p9tsADZIDkhCBrlgZTE3L+A3YhrnXKfdEB+o43NC
- ZsI7TwP1cyWhaQc2etdyQTqZSpOnwpAff3tU+fLwor72htS0dcOkLBG7Pgn2oJ+PZr/+
- /s3LOthus31Q5mOgavSlfqX3mz4BVAoFfV9DAKiQgDzrz2oPBp45jwCst7TDdLCzMrnw
- JIuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lUgAlrh8Dr3rGM529OFEPRP+rqyMsI9PQ8PocbGawjY=;
- b=VSWk4Het7WX88bStfkaEaOMAEc4H89dZLfL6BUZwAmLBlKSYraCR7mmABO/8bJDH+x
- eGtUvV/CneehtjYokMqclH3eYzvwjnAhEWwytKWDlDZMCbai6mH+bFQ+Ew/6DA0d2zLj
- R0xdpHYuWb/vXvTOhkhGVBpw6jwEaYrJxHYuf+uqKAxIZv4CgpnNM/NxtAtd2syQOYUN
- OezJ2DJUiEa0YQszz1KXFi8DsbafpiyraHc9DxgprjBh8ozmrWv45BtKF9b1EUPV32Fg
- cFUZDaMgzPlk0cgI3ae9iDdgf94oo9mVhzZSz05PsIEl3YwkGTNFm8IG6JxJkLw/w4Nw
- PjNg==
-X-Gm-Message-State: AOAM5318wFVeql3PcfqbC0ux8ARFkxXNRSw4dpISkX3+WG1Fy/s6n0rl
- aGQzRSlquwtKOESRVoc1+aVjNyMzcxY4yA==
-X-Google-Smtp-Source: ABdhPJxhOudxqWZWYaPW6wqpfaBEYfhmxzatIKPHVxja7ce3CoA/4MmlCdUwHrCUSGRo574zCYy7XQ==
-X-Received: by 2002:a63:db54:: with SMTP id x20mr1021337pgi.200.1611260232246; 
- Thu, 21 Jan 2021 12:17:12 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id a18sm6452439pfg.107.2021.01.21.12.17.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 12:17:11 -0800 (PST)
-Subject: Re: [PATCH 0/5] tcg: Dynamically allocate temporaries
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210119183428.556706-1-richard.henderson@linaro.org>
- <7595e6e-bc3d-d626-656b-e7ba3bfd8b90@eik.bme.hu>
- <4d24ab64-6b6-ae28-4e34-9d68c99a4a48@eik.bme.hu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <4281450c-4f38-e613-3b1f-9febbb2be8fc@linaro.org>
-Date: Thu, 21 Jan 2021 10:17:08 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2gOj-0003pU-5V
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:17:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32965)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2gOg-0002dk-QH
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:17:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611260256;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7Oo7DaQcNHnK1Hx5PhqTQO1DP/l52WqrvVy0KyF19/Y=;
+ b=MpvaWanGfHHeWrmjnH0CBN7eqdB4hBhR+pNXvfDZ9fYe30CsybGslOgPm7nKd8PFAMyb51
+ 7qz1tWeAewkW0i/0xO+lPkzJsgcIM6Hp6s9hKR7/GOOX7NlJyIx9acjSS22oO246lQu+L0
+ ofqVhfDuME7zg6jjxKBg1pdQ6YmJo54=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-475-apt1UaoPPs2QzuBOBd09Dw-1; Thu, 21 Jan 2021 15:17:34 -0500
+X-MC-Unique: apt1UaoPPs2QzuBOBd09Dw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1FD959
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 20:17:33 +0000 (UTC)
+Received: from work-vm (ovpn-115-101.ams2.redhat.com [10.36.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E5DAF1992D;
+ Thu, 21 Jan 2021 20:17:21 +0000 (UTC)
+Date: Thu, 21 Jan 2021 20:17:18 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Subject: Re: [PATCH] migration: Provide a test for migratability
+Message-ID: <20210121201718.GT3072@work-vm>
+References: <20210121185113.66277-1-dgilbert@redhat.com>
+ <20210121130442.370b9569@omen.home.shazbot.org>
 MIME-Version: 1.0
-In-Reply-To: <4d24ab64-6b6-ae28-4e34-9d68c99a4a48@eik.bme.hu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210121130442.370b9569@omen.home.shazbot.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,56 +79,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, alistair23@gmail.com, qemu-devel@nongnu.org
+Cc: peterx@redhat.com, qemu-devel@nongnu.org, laine@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/21 10:09 AM, BALATON Zoltan wrote:
-> On Wed, 20 Jan 2021, BALATON Zoltan wrote:
->> On Tue, 19 Jan 2021, Richard Henderson wrote:
->>> My recent change for caching tcg constants has, in a number of cases,
->>> overflowed the statically allocated array of temporaries.  Change to
->>> dynamic allocation.
->>
->> This seems to work for me so
->>
->> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
->>
->> but have you done any performance tests to check that this actually improves
->> emulation speed? To mee it seems slower. Booting AmigaOS on sam460ex with
->> c0dd6654f207 (just before your TCG series) takes:
->>
->> real    0m33.829s
->> user    0m34.432s
->> sys    0m0.296s
->>
->> but on HEAD with this series:
->>
->> real    0m44.381s
->> user    0m46.058s
->> sys    0m0.532s
->>
->> This is noticable decrease in speed also without measuring it. With just
->> increasing the TCG_MAX_TEMPS to 2048 on 7c79721606be without this series I get:
->>
->> real    0m42.681s
->> user    0m44.208s
->> sys    0m0.435s
->>
->> So the performance regression is somewhere in the original series not in this
->> fix up series.
+* Alex Williamson (alex.williamson@redhat.com) wrote:
+> On Thu, 21 Jan 2021 18:51:13 +0000
+> "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com> wrote:
 > 
-> I've tried to do more measurements to identify where it got slower but I could
-> not reproduce it today. I'm now getting around 42 seconds both before and after
-> the series so not sure what made it faster before but it's probably not because
-> of a code change then.
+> > From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > 
+> > Provide a simple way to see if there's currently a migration blocker in
+> > operation:
+> > 
+> > $ ./x86_64-softmmu/qemu-system-x86_64 -nographic -M pc,usb=on -chardev null,id=n -device usb-serial,chardev=n
+> > 
+> > (qemu) info migratable
+> > Error: State blocked by non-migratable device '0000:00:01.2/1/usb-serial'
+> 
+> FWIW, a vfio device gets:
+> 
+> (qemu) info migratable
+> Error: VFIO device doesn't support migration
+> 
+> I think your example is getting the device string because you're
+> testing something with unmigratable = 1 in the vmsd and the iterator
+> prints a generic string plus the device, we'd need to make our error
+> message include the device info.  But even without that it seems more
+> useful than we have currently.  Thanks
 
-That's reassuring.  I hadn't been able to measure a performance regression myself.
+The 'migrate_add_blocker' function just takes the error you give it;
+it would be nice to add something like a device_add_migrate_blocker
+that filled in the name.
 
-(The kind of TB that caused this SEGV thread and creates oodles of temps seems
-to be an outlier.  Otherwise there should be very little change to non-vector
-code.)
+> Tested-by: Alex Williamson <alex.williamson@redhat.com>
 
+Thanks.
 
-r~
+Dave
+
+> 
+> > $ ./x86_64-softmmu/qemu-system-x86_64 -nographic
+> > 
+> > (qemu) info migratable
+> > Migratable
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > ---
+> >  hmp-commands-info.hx  | 14 ++++++++++++++
+> >  include/monitor/hmp.h |  1 +
+> >  migration/migration.c |  5 +++++
+> >  monitor/hmp-cmds.c    | 13 +++++++++++++
+> >  qapi/migration.json   | 14 ++++++++++++++
+> >  5 files changed, 47 insertions(+)
+> > 
+> > diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+> > index 117ba25f91..c2d7ac2f11 100644
+> > --- a/hmp-commands-info.hx
+> > +++ b/hmp-commands-info.hx
+> > @@ -541,6 +541,20 @@ SRST
+> >      Show migration status.
+> >  ERST
+> >  
+> > +    {
+> > +        .name       = "migratable",
+> > +        .args_type  = "",
+> > +        .params     = "",
+> > +        .help       = "tests if VM is migratable",
+> > +        .cmd        = hmp_info_migratable,
+> > +    },
+> > +
+> > +SRST
+> > +  ''info migratable''
+> > +    Tests whether the VM is currently migratable.
+> > +ERST
+> > +
+> > +
+> >      {
+> >          .name       = "migrate_capabilities",
+> >          .args_type  = "",
+> > diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+> > index ed2913fd18..0dd7941daf 100644
+> > --- a/include/monitor/hmp.h
+> > +++ b/include/monitor/hmp.h
+> > @@ -25,6 +25,7 @@ void hmp_info_status(Monitor *mon, const QDict *qdict);
+> >  void hmp_info_uuid(Monitor *mon, const QDict *qdict);
+> >  void hmp_info_chardev(Monitor *mon, const QDict *qdict);
+> >  void hmp_info_mice(Monitor *mon, const QDict *qdict);
+> > +void hmp_info_migratable(Monitor *mon, const QDict *qdict);
+> >  void hmp_info_migrate(Monitor *mon, const QDict *qdict);
+> >  void hmp_info_migrate_capabilities(Monitor *mon, const QDict *qdict);
+> >  void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict);
+> > diff --git a/migration/migration.c b/migration/migration.c
+> > index 5e330cc6eb..8745a5b9f9 100644
+> > --- a/migration/migration.c
+> > +++ b/migration/migration.c
+> > @@ -2234,6 +2234,11 @@ int64_t qmp_query_migrate_cache_size(Error **errp)
+> >      return migrate_xbzrle_cache_size();
+> >  }
+> >  
+> > +void qmp_query_migratable(Error **errp)
+> > +{
+> > +    migration_is_blocked(errp);
+> > +}
+> > +
+> >  void qmp_migrate_set_speed(int64_t value, Error **errp)
+> >  {
+> >      MigrateSetParameters p = {
+> > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+> > index ef569035f8..a7f48b3512 100644
+> > --- a/monitor/hmp-cmds.c
+> > +++ b/monitor/hmp-cmds.c
+> > @@ -216,6 +216,19 @@ static char *SocketAddress_to_str(SocketAddress *addr)
+> >      }
+> >  }
+> >  
+> > +void hmp_info_migratable(Monitor *mon, const QDict *qdict)
+> > +{
+> > +    Error *err = NULL;
+> > +    /* It's migratable if this succeeds */
+> > +    qmp_query_migratable(&err);
+> > +    if (err) {
+> > +        hmp_handle_error(mon, err);
+> > +        return;
+> > +    }
+> > +
+> > +    monitor_printf(mon, "Migratable\n");
+> > +}
+> > +
+> >  void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+> >  {
+> >      MigrationInfo *info;
+> > diff --git a/qapi/migration.json b/qapi/migration.json
+> > index d1d9632c2a..07aee9907c 100644
+> > --- a/qapi/migration.json
+> > +++ b/qapi/migration.json
+> > @@ -366,6 +366,20 @@
+> >  ##
+> >  { 'command': 'query-migrate', 'returns': 'MigrationInfo' }
+> >  
+> > +##
+> > +# @query-migratable:
+> > +# Tests whether it will be possible to migrate the VM in the current state.
+> > +#
+> > +# Returns: nothing on success (i.e. if the VM is migratable)
+> > +#
+> > +# Since: 6.0
+> > +# Example:
+> > +#
+> > +# -> { "execute": "query-migratable" }
+> > +# <- { "return": {} }
+> > +##
+> > +{ 'command': 'query-migratable' }
+> > +
+> >  ##
+> >  # @MigrationCapability:
+> >  #
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
