@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14092FE219
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 06:56:06 +0100 (CET)
-Received: from localhost ([::1]:45436 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F18562FE220
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 06:57:25 +0100 (CET)
+Received: from localhost ([::1]:47652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Swv-0004wA-Bw
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 00:56:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40086)
+	id 1l2SyD-00063p-2M
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 00:57:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l2Svb-0004UP-Pp
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 00:54:43 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:34500)
+ id 1l2SwB-00050S-Dx
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 00:55:19 -0500
+Received: from mail-pf1-x42e.google.com ([2607:f8b0:4864:20::42e]:45056)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l2Sva-0005QQ-5m
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 00:54:43 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id m6so880163pfk.1
- for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 21:54:41 -0800 (PST)
+ id 1l2Sw9-0005iS-Rf
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 00:55:19 -0500
+Received: by mail-pf1-x42e.google.com with SMTP id j12so845048pfj.12
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 21:55:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WTGKUa9Ir3XUY2m2iaiWW1RFWFTQMiIIXYdGRTp0w70=;
- b=j3l3ap2gzEY6Zg5x9yK6M4Qsbn5TCbFPZvYC7WebrwnmJvXanA6Wei0u0MtfGl7glu
- YVYe8/UQT5rpRR2xLlp9ynqj/8ZuvcDC18Ser9qAIga22AAtD5/uEKnkpfHE+/rDu9bu
- xNg+EObBJedlGdr0ik8sfC6yUd+Ub/+HeGUlWrM9vVpTB0/5bVHo2WW1iW4BWNmTUbuY
- GRYV6ndBt+EDoQEuzfpZ947benbnHwrWN/Vx1NKPpLq7Rao8tPL/ODabjvsHRLkpPp8S
- oVHpCVQqBgUhIkqp+ly34UyKpECA+H1svR7tD6Kj6PNxs9vl+zpWZddGNkFwYp0OFX6q
- z2Cg==
+ bh=wA4gj7z6VSOz/xDWSM0YxUprikYGiqGFaEFK2iE8JxU=;
+ b=aUxDDoSQ5RjDesgOOHL/PiQVBzRgu7suSB1G+i5Cx4NHNfzmlhTBlgRPfJQObiPeZY
+ 6QY8tKkpH/AlT0ojaIPMkpy0WcIbD7mhrYJQ3yjpzw5rPQ9TPTFD3SYGEV0uGuP0SnJp
+ vlI3viqzwnWe+osx30lcfho6sEXbgrggXua5p9WpVW8PZZhMtMkKuQMKZne7hKmL7xV/
+ LQCKyjdSmL8mc3DFRuGQd+UuvA+n9a/7BgMKFS8YPmXzZ542Kji73M/APhnthT5ToilF
+ Pho+7iaRZI4WmPDsv61SHDusB+w4M7w4ODUMdZjVI5F+VD6FP36GC/qR7Z3WaLmEl2FI
+ bJ/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WTGKUa9Ir3XUY2m2iaiWW1RFWFTQMiIIXYdGRTp0w70=;
- b=WWSDanOKirTJ60n5nnk9f12kuDIcgRrkHb6qZtZ5+vJTzC6+4v1RKPKImkbRu5Vk2g
- a1TO4t/dI7orW+3jmmA2MWZuoXZHaOAA2uUO9VCASvTLfoQoN0m1HA6y49KdAwbCzUO+
- QdASvNBs5EAG0GjsNPPlcdEsWkUhKVu1iduRukiveDs81nvT270eHABd1LY3N2cz2t42
- xHTv56o90wsIXnPAkZBSm3bOXvlz+yGEqLzc3BNYQX+3oxrI3SeNEQijsFr2slOvk2Mb
- qOsxTSbVAX1ylfNxhYQGDTVV0ib/lGp75chGLxpe4PgrkJEIed/wTKKAn76fzNdsSuhf
- RhOA==
-X-Gm-Message-State: AOAM530EFkmHyu1l4dBZkm60Q4K2JjqBdjKT2GZaX2wmox2KKOebxhQJ
- 5kyj899gtxbZMN72MIZ7/GfV+Q==
-X-Google-Smtp-Source: ABdhPJz+81gCcg6Tsnwic+AWl3Xmsp9tMrRmOExIJZ6NhiA2CIav3Pc1y1hA3+lSnKc/FQL1LKMifA==
-X-Received: by 2002:a62:6202:0:b029:1bb:a811:da59 with SMTP id
- w2-20020a6262020000b02901bba811da59mr3562843pfb.27.1611208480573; 
- Wed, 20 Jan 2021 21:54:40 -0800 (PST)
+ bh=wA4gj7z6VSOz/xDWSM0YxUprikYGiqGFaEFK2iE8JxU=;
+ b=ZK2N3OFPm13UKMpGpngwjdTzZz8XwfNeRhdZGQmi+mI7t/bC2FGyyawcg6ss+PtxoC
+ tdTVxpJ2aCQEE/OybZ4QRdwax+yslPrsV4XT7/OiuNfQz8C47CKMI07sn0s67HAxYhtf
+ mMIC5jiaLBPyxEAMaYCK2oL8kdK8PZfXL2120o8qpb//UwJSZohEHIfxQ1sbJnpMlbQ0
+ cxi7gSkxwleL7ukkdDZX+l+2l86x3qhC4Td8QUMlbQiyNBBbxbQrDBf3hWzOBRMN0E8+
+ AEw3fP7EoMuTbgRV6WmUGH2QJDRX+VrGdtKUteBEFqfVja276S7phbeJ1GCxa6aheV06
+ ycGw==
+X-Gm-Message-State: AOAM530ksNtV3EBOwTmYYuA527mmXI2CjHdOQ5wxj4xb7xA1+K7Y2szO
+ JLWtzPkbUltH80OU4VWIOwZlBw==
+X-Google-Smtp-Source: ABdhPJyPZKwOiXzBHTbLo8u+XXGrcMTxLyckowlAbQAbLsvsVi6/QeKoKQtw13j+l9F3UB9MzsWBFg==
+X-Received: by 2002:a63:f19:: with SMTP id e25mr12833314pgl.220.1611208516174; 
+ Wed, 20 Jan 2021 21:55:16 -0800 (PST)
 Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id k31sm397581pgi.5.2021.01.20.21.54.37
+ by smtp.gmail.com with ESMTPSA id gg22sm4250906pjb.24.2021.01.20.21.55.13
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 20 Jan 2021 21:54:39 -0800 (PST)
-Subject: Re: [PATCH 1/6] accel/tcg: Make cpu_gen_init() static
+ Wed, 20 Jan 2021 21:55:15 -0800 (PST)
+Subject: Re: [PATCH 2/6] accel/tcg: Restrict tb_flush_jmp_cache() from other
+ accelerators
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210117164813.4101761-1-f4bug@amsat.org>
- <20210117164813.4101761-2-f4bug@amsat.org>
+ <20210117164813.4101761-3-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <9595174b-423e-2fcf-4cd6-06a8b2f74870@linaro.org>
-Date: Wed, 20 Jan 2021 19:54:35 -1000
+Message-ID: <2506bc48-6c1d-ab2f-eb6b-44ff9e1a5e34@linaro.org>
+Date: Wed, 20 Jan 2021 19:55:11 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210117164813.4101761-2-f4bug@amsat.org>
+In-Reply-To: <20210117164813.4101761-3-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42e.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -98,19 +98,17 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/17/21 6:48 AM, Philippe Mathieu-Daudé wrote:
-> cpu_gen_init() is TCG specific, only used in tcg/translate-all.c.
-> No need to export it to other accelerators, declare it statically.
+> tb_flush_jmp_cache() is only called within TCG accelerator,
+> declare it locally.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
-> We could also inline the 1-line call..
+> We could also inline it in cputlb.c, the single user.
 > ---
->  include/exec/exec-all.h   | 2 --
->  accel/tcg/translate-all.c | 2 +-
->  2 files changed, 1 insertion(+), 3 deletions(-)
 
-Applied to tcg-next.
+Yes, I think we should move it to cputlb.c.
+I have queued a patch to do so.
+
 
 r~
-
 
