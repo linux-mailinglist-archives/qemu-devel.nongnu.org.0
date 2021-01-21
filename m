@@ -2,113 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A93B2FED9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 15:56:10 +0100 (CET)
-Received: from localhost ([::1]:54934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF0502FEDB7
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 15:58:41 +0100 (CET)
+Received: from localhost ([::1]:58640 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2bNZ-0005YF-F4
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 09:56:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43264)
+	id 1l2bQ0-0007En-R2
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 09:58:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
- id 1l2bM6-000546-Up; Thu, 21 Jan 2021 09:54:38 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:46118)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
- id 1l2bM4-0008Er-Vl; Thu, 21 Jan 2021 09:54:38 -0500
-Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10LEg6sr062674; Thu, 21 Jan 2021 09:54:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=yC5LRhUocx9Vwo9OSLQCceyY/DQ+/wkNlu2hVUNQ1Ns=;
- b=mQzcmHKDz4vpc5gdTsLjD0WBHrFaEdipmeOcJpzLq0+OcY3mY5sqd28p/suZ8CYOgI7p
- +cJ9mqxcUU2U0vPPMPh9RHHRYnifRyHQn+ono80wjS1y5dKO0bpM8k3BwECwuxqWukvG
- 5MyTfWDVHFodtonRIMATbb/TpdZzM1onQg3lfNOmGkJkJpwkS/ivfmkxFxSfcIDxjQKv
- r0lg5uNc5X9kYUevFXfGSXgX2k/0JJzqVnIb/l4c2dAD95Gx5qW4H8kI0LOLThnfhEQK
- bPOGsYssipJskvKwL8pnwuf51DrSkY5lj4dD2zo04s3bH19cTtfeAg8JZaQ3Daj9Yq4v 5Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 367bkuraj5-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 09:54:33 -0500
-Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10LEgA0k062809;
- Thu, 21 Jan 2021 09:54:32 -0500
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com with ESMTP id 367bkurafq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 09:54:32 -0500
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10LEqu3g030558;
- Thu, 21 Jan 2021 14:54:26 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma06ams.nl.ibm.com with ESMTP id 3668nwsrm1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 14:54:26 +0000
-Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
- [9.149.105.59])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10LEsNhM28377348
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jan 2021 14:54:23 GMT
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 28155A4057;
- Thu, 21 Jan 2021 14:54:23 +0000 (GMT)
-Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8660CA4040;
- Thu, 21 Jan 2021 14:54:22 +0000 (GMT)
-Received: from [9.145.88.16] (unknown [9.145.88.16])
- by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jan 2021 14:54:22 +0000 (GMT)
-Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
-To: Pierre Morel <pmorel@linux.ibm.com>,
- Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
- thuth@redhat.com
-References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
- <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
- <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
- <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
- <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
- <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
- <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
- <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
- <bd94ca8a-70b2-36b3-d357-3527e8d3dc62@linux.ibm.com>
- <213c00ca-1b8f-ecee-dd22-d86cad8eb63b@linux.ibm.com>
- <4a3e13fe-ec6a-27bc-7f30-9ad9691a4522@linux.ibm.com>
- <a458fa0e-2c4a-551f-2f54-3dcedc4bbade@linux.ibm.com>
-From: Niklas Schnelle <schnelle@linux.ibm.com>
-Message-ID: <9522792d-6677-eed4-f480-4efaaf00dd51@linux.ibm.com>
-Date: Thu, 21 Jan 2021 15:54:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l2bOU-0006MJ-HX
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:57:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24447)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l2bOS-0000uV-7R
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:57:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611241022;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=DAXEekOi4O2/6FHM7DzwKHrlGJD+gkZw+umDw92IL2w=;
+ b=V6pkS+FIab+A3i/UyBXpA0+1abYcBN1ZWU/Ee6zajLZlLFV834rNyy9hqu4JbeORZZ4xyG
+ p5N5VIzJM7KVe0lBMtj33ubJ83qrEbIug6VxMmBWT5x8aqy6oy51b4VqyUZvmzcCGuveQx
+ syJYnxescy719M1Ip9TXUlN+ijQHwZs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-oMV32bJtP7qGJ65OlcJzQg-1; Thu, 21 Jan 2021 09:56:59 -0500
+X-MC-Unique: oMV32bJtP7qGJ65OlcJzQg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C70CE1934100;
+ Thu, 21 Jan 2021 14:56:57 +0000 (UTC)
+Received: from localhost (ovpn-115-60.ams2.redhat.com [10.36.115.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7673650A80;
+ Thu, 21 Jan 2021 14:56:52 +0000 (UTC)
+Date: Thu, 21 Jan 2021 14:56:51 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: Re: [PATCH 0/6] Update git repo URLs to GitLab
+Message-ID: <20210121145651.GA59088@stefanha-x1.localdomain>
+References: <20210111115017.156802-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <a458fa0e-2c4a-551f-2f54-3dcedc4bbade@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-21_06:2021-01-21,
- 2021-01-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015
- lowpriorityscore=0 suspectscore=0 mlxlogscore=999 impostorscore=0
- priorityscore=1501 phishscore=0 spamscore=0 mlxscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101210078
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=schnelle@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <20210111115017.156802-1-stefanha@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="SLDf9lqlvOQaIe6s"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -122,46 +78,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, david@redhat.com, richard.henderson@linaro.org,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, alex.williamson@redhat.com, pbonzini@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--SLDf9lqlvOQaIe6s
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Jan 11, 2021 at 11:50:11AM +0000, Stefan Hajnoczi wrote:
+> Several places in qemu.git reference qemu.org git repo URLs. Let's switch=
+ to
+> GitLab repo URLs in order to enable GitLab as a gating CI and in order to
+> reduce qemu.org bandwidth consumption.
+>=20
+> Paolo has already set up GitLab mirror repos. sgabios was missing and I a=
+dded
+> that today. It is now possible to replace git.qemu.org/git with
+> gitlab.com/qemu-project in URLs.
+>=20
+> Stefan Hajnoczi (6):
+>   .github: point Repo Lockdown bot to GitLab repo
+>   gitmodules: use GitLab repos instead of qemu.org
+>   gitlab-ci: remove redundant GitLab repo URL command
+>   docs: update README to use GitLab repo URLs
+>   pc-bios: update mirror URLs to GitLab
+>   get_maintainer: update repo URL to GitLab
+>=20
+>  README.rst                |  4 ++--
+>  .github/lockdown.yml      |  8 +++----
+>  .gitlab-ci.yml            |  1 -
+>  .gitmodules               | 44 +++++++++++++++++++--------------------
+>  pc-bios/README            |  4 ++--
+>  scripts/get_maintainer.pl |  2 +-
+>  6 files changed, 31 insertions(+), 32 deletions(-)
+>=20
+> --=20
+> 2.29.2
+>=20
 
-On 1/21/21 3:46 PM, Pierre Morel wrote:
-> 
-> 
-> On 1/21/21 2:37 PM, Niklas Schnelle wrote:
->>
->>
->> On 1/21/21 1:30 PM, Pierre Morel wrote:
-> 
->>>>
->>>> Just wanted to say that we've had a very similar discussion with
->>>> Cornelia end of last year and came to the conclusion that explicitly
->>>> matching the PFT is likely the safest bet:
->>>> https://lkml.org/lkml/2020/12/22/479
->>>
->>> What I see there is a discussion on the relation between relaxed access and MIO without explaining to Connie that we have in the kernel the possibility to know if a device support MIO or not independently of it supports the relaxed access.
->>>
->>> The all point here is about taking decisions for the right reasons.
->>>
->>> We have the possibility to take the decision based on functionalities and not on a specific PCI function.
->>
->> Yes but that goes both ways the functionality of the region has to match
->> that of the device and at least in it's current state the regions functionality
->> matches only ISM in a way that is so specific that it is very unlikely to match anything
->> else. For example it can't support a PCI device that requires non-MIO but
->> also MSI-X. In its current form it doesn't even support PCI Store only PCI Store
->> Block, we had that in an earlier version and it's trivial but then we get the MSI-X
->> problem.
-> 
-> 
-> What does that change if we take one or the other solution considering the checking of MIO/MSIX/relax versus PFT?
+Thanks, applied to my block tree:
+https://gitlab.com/stefanha/qemu/commits/block
 
+Stefan
 
-If it's !MIO && !MSIX && relax_align I'm fine with that check but
-then we should also add PCISTG to the region.
+--SLDf9lqlvOQaIe6s
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAJljMACgkQnKSrs4Gr
+c8i8AQf+MlMCYY6s40oA9RGxvcjQEwZ4qnbPaO95TYfjm4SjGmzYC1HFQLHLPEzx
+I8VqZHNu85L0Ed8mqNMstnUpwP9P+MWd9M9eJ7rJW8SzAMEDSJJQzm6mvMT9vscq
+m8eqofeYiop5BWLNKhvu3VWQiNBE7+apFba32gm9bXeYLV+jEioiA6hANq55XR+P
+TaILykgreg7Bty8R4Axf26aTO05umStydKvz/dIKdNMqbjwObnqKjNUHKjeKbutg
+Jv5TYWXXo82iKfY4JndfpiDrr7lH6gSRf9+2s+j8FI2f8/5WEEhO5H9IqtmjaywE
+Ugldx2QkTSo04BdSnngSsuwaUUIu1Q==
+=7OOQ
+-----END PGP SIGNATURE-----
+
+--SLDf9lqlvOQaIe6s--
+
 
