@@ -2,74 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A70E42FE8A2
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 12:22:45 +0100 (CET)
-Received: from localhost ([::1]:42348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5C4C2FE8AE
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 12:24:48 +0100 (CET)
+Received: from localhost ([::1]:47010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Y32-00077z-O0
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 06:22:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49194)
+	id 1l2Y51-0000m7-Oj
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 06:24:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50138)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2Xvm-0001iH-HI
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:15:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:38900)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2Xvk-00021R-Pk
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:15:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611227712;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=V3XgMPOwQicuj9uOnwxMelazoMSlgiyqb1UOXg7ZUWU=;
- b=dEuxznX5U79CiwQIiX7vvBzET79VcJa1o5B6+uim9cFaLlcQoE/9L4a8N6yW4S73INSZht
- rvLG2jWNTMMmnSwCS517OXBQJDrFaBziqJ6kXf2rmaqw9gN0fce+mutHvDdKSAeORiw1Kl
- SVfRYgl6AzQHw5qgkEf1vNS59f5kMC4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-TcEZmEyQOR2rh5gLIo61Iw-1; Thu, 21 Jan 2021 06:15:10 -0500
-X-MC-Unique: TcEZmEyQOR2rh5gLIo61Iw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 62BB6873016;
- Thu, 21 Jan 2021 11:14:31 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3EC63100AE33;
- Thu, 21 Jan 2021 11:14:28 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 994E618000A0; Thu, 21 Jan 2021 12:14:26 +0100 (CET)
-Date: Thu, 21 Jan 2021 12:14:26 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 3/3] hw/usb/dev-uas: Report command additional adb
- length as unsupported
-Message-ID: <20210121111426.tcy2fhxzltts2lja@sirius.home.kraxel.org>
-References: <20210120153522.1173897-1-philmd@redhat.com>
- <20210120153522.1173897-4-philmd@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2Xyq-00053I-W8
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:18:25 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43133)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2Xyo-0003ml-OY
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 06:18:24 -0500
+Received: by mail-ed1-x529.google.com with SMTP id n6so1963938edt.10
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 03:18:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=pXDFWRBdzfB07IYt4APStL4B4as4SkRURfhI3eRTcjM=;
+ b=WxfGzcVSdFbF8NYT2GzKZFdQl07hDKfskz5KK0C4EaHa6zwEJxQDHZXf4Kbderp9tR
+ +sJEpE/L7Zkz4U9iptMEga3p25XJPjha2vezaVZ30f6MxMHz8mKYHoa7wM8uaCKLt73+
+ 8FynOf/rcXg+TBmpc6+/kgoFk23/YtEbnlAzVeh+TqMYu8VtRRXYCa9A40znPHkc+iyp
+ PU45JrDc8giyz9e8Xpc95H9DnSLZQyohhiRkkxUz3K3uxg6UhfeZ8M11GHOI1xowUwxW
+ YKGYn+FOY9FcQrmiOWV21CyWPMoJxjpl2Em9P1O6TYT/3W5V8Ja4Z3ygFjR++IWyMI6/
+ 4kTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pXDFWRBdzfB07IYt4APStL4B4as4SkRURfhI3eRTcjM=;
+ b=bGlE/lLe8/1wwAJCPNvHEUMYbSatB84bnJGJKZu1B6YLWeG/YEZykFP1/4eHDC5O+q
+ 82q2IXi953vT/XiTwuPlgS7wIPNlFKLVqruSuBCf2lVAtU4URZGuZy2CG9ykcw0CcqlC
+ 28i0jBG5RyxQcRg9geE5nPkOVbQgGnPY9hkU6lXKeq0p2Qh2UaF5eUA2ZHCi2i7sIVMb
+ EBnQGGlMfsJ3FxE1ZGm4bXNHfx+JzHz+NwOumak/QGIt7HwOhcawL0B9McN6pyp07/Ee
+ rYcfsn1NYCxiZA2NliAbcOWQCz6Wl7oofCRCleGHd4Xx084ZcbYL3CTskVY/j39JbIee
+ YWtA==
+X-Gm-Message-State: AOAM532a77wuv7MOfAyd5KJgXF1a8Bg6aZ8M4qFKDruM0kP9iqgnh+A6
+ Q0Ar09DTDvmYcF2xhpeCdJ4=
+X-Google-Smtp-Source: ABdhPJyxZHEoK1cO/KKTjIM9eIsG/PVB67kneZ/TlJ5M1KXnFWsdrsKrbaFX4w2jJriX+X7fIU7rng==
+X-Received: by 2002:a05:6402:1005:: with SMTP id
+ c5mr11103748edu.379.1611227900546; 
+ Thu, 21 Jan 2021 03:18:20 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id g17sm2558322edb.39.2021.01.21.03.18.18
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jan 2021 03:18:19 -0800 (PST)
+Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20210110162739.858087-1-f4bug@amsat.org>
+ <20210110162739.858087-3-f4bug@amsat.org>
+ <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
+ <20210121103250.GH3125227@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <b1309c5e-69f2-0c4d-eefc-9023e906694d@amsat.org>
+Date: Thu, 21 Jan 2021 12:18:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210120153522.1173897-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20210121103250.GH3125227@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.248, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,42 +94,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
- qemu-block@nongnu.org, "Gustavo A . R . Silva" <gustavo@embeddedor.com>,
- qemu-devel@nongnu.org, Han Han <hhan@redhat.com>,
- =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Daniele Buono <dbuono@linux.vnet.ibm.com>
+Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org,
+ Wataru Ashihara <wataash@wataash.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 20, 2021 at 04:35:22PM +0100, Philippe Mathieu-Daudé wrote:
-> We are not ready to handle additional CDB data.
+On 1/21/21 11:32 AM, Daniel P. Berrangé wrote:
+> On Thu, Jan 21, 2021 at 11:08:29AM +0100, Thomas Huth wrote:
+>> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
+>>> Split the current GCC build-tci job in 2, and use Clang
+>>> compiler in the new job.
+>>>
+>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>> ---
+>>> RFC in case someone have better idea to optimize can respin this patch.
+>>>
+>>>   .gitlab-ci.yml | 22 ++++++++++++++++++++--
+>>>   1 file changed, 20 insertions(+), 2 deletions(-)
+>>
+>> I'm not quite sure whether we should go down this road ... if we wanted to
+>> have full test coverage for clang, we'd need to duplicate *all* jobs to run
+>> them once with gcc and once with clang. And that would be just overkill.
+>>
+>> I think we already catch most clang-related problems with the clang jobs
+>> that we already have in our CI, so problems like the ones that you've tried
+>> to address here should be very, very rare. So I'd rather vote for not
+>> splitting the job here.
 > 
-> If a guest sends a packet with such additional data,
-> report the command parameter as not supported.
+> We can't possibly cope with the fully expanded matrix of what are
+> theoretically possible combinations. Thus I think we should be guided
+> by what is expected real world usage by platforms we target.
 > 
-> Specify a size (of 1 byte) for the add_cdb member we
-> are not using, to fix the following warning:
+> Essentially for any given distro we're testing on, our primary focus
+> should be to use the toolchain that distro will build QEMU with.
 > 
->   usb/dev-uas.c:157:31: error: field 'status' with variable sized type 'uas_iu' not at the end of a struct or class is a GNU extension [-Werror,-Wgnu-variable-sized-type-not-at-end]
->       uas_iu                    status;
->                                 ^
-> 
-> Reported-by: Ed Maste <emaste@FreeBSD.org>
-> Reported-by: Daniele Buono <dbuono@linux.vnet.ibm.com>
-> Reported-by: Han Han <hhan@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
-> Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Gustavo A. R. Silva <gustavo@embeddedor.com>
-> 
-> v2: include Eric feedbacks
+> IOW, for Windows and Linux distros our primary focus should be GCC,
+> while for macOS, and *BSD, our focus should be CLang.
 
-Queued 2+3, fixup #2 conflicts due to dropping #1.
+Sounds good.
 
-thanks,
-  Gerd
+Do we need a TCI job on macOS then?
 
+Thanks,
+
+Phil.
 
