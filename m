@@ -2,75 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F3262FE4DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 09:25:42 +0100 (CET)
-Received: from localhost ([::1]:40980 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53F812FE4F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 09:29:00 +0100 (CET)
+Received: from localhost ([::1]:45214 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2VHh-0002Iu-N4
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 03:25:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40694)
+	id 1l2VKt-0004Fl-ES
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 03:28:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <3_zkJYAMKCp4BHCEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--dje.bounces.google.com>)
- id 1l2VFb-0000p1-4H
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 03:23:32 -0500
-Received: from mail-vs1-xe4a.google.com ([2607:f8b0:4864:20::e4a]:46854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from
- <3_zkJYAMKCp4BHCEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--dje.bounces.google.com>)
- id 1l2VFY-0007Hs-QH
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 03:23:30 -0500
-Received: by mail-vs1-xe4a.google.com with SMTP id 188so51753vsl.13
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 00:23:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
- h=sender:date:in-reply-to:message-id:mime-version:references:subject
- :from:to:cc; bh=UzzL4zlrfrisBP/NqczyQZ7bldV9V10X9QOYqAxsJME=;
- b=WvkgRcnxDT/8KT3zL86VgeEJPhIupxsxj64vCEDxdbZVNIEFLxvEXDMn89lUMXgJvK
- pyg+fGHXC6StCEUQRfYI8M+iPvman+BfeNGImOHeD70XZD2xUHrh/28u97d783uCAUsx
- jvEHa7gN9mrZDeCWqnsfP26zVyx1u4nxG5mNK8vV9gCPRx9cA6vtFwNmdB9elB52AEOi
- o6NZ6u/GdJZoPsW8/+TEWGUIBY5kOZN0WVbdqJLQLHc1DZN7omxv6xo2XUusZ4G6AoyT
- 1XD8iM1r6gQMK2O5wz2GII8rHOJm2T0IvG6txrLYFcqqF0AvUOYid0a3Z4kVt8ENp27E
- ph/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:in-reply-to:message-id:mime-version
- :references:subject:from:to:cc;
- bh=UzzL4zlrfrisBP/NqczyQZ7bldV9V10X9QOYqAxsJME=;
- b=O215h+wY6wyO9uynMNf3VRC/Ja3hUp6KwFQ18F1wH3gZWngeuZBh9AsO4GQlOLg24t
- AbyD99QAn8yNR0MZebb16pNYwBgxrGNKZmwOVJWr+J1fbKgbT3nTVBr/Zcwclz7gkk8B
- 7fE/5n0Tx1Ob0AFLIDQnKtCQnDu/lo1kQzMxkDaP77Vcpl3bFLpO7MosARXHehQn3nMS
- msU8qPMPulqOmEQIyHzWWN8ICGdUEOVu0u1H+9qaANR6KRwOeP9caMCvhmRUEfEnaKZe
- GgLLLLp/3fhcaLyXSPubABxXgPnZcDz3fWprbWIkHcqKa0bZ0rbSGtiTYKLDH5SP4mpV
- baJQ==
-X-Gm-Message-State: AOAM532rKhEDyhkC3/qoAV1LGp9AlOaWYpGRsxGr/uri02RFcO8sMUgK
- 3cxHjgb1dRHMu2lePQG6D9c92qEpoZTx7wY61M1IvLCGGMmXdb7J8BjSSohE5U9t5NbwgBu2YZs
- JZDVxeSwm/Ymy4WtAsMEFamTCgALGJNcfuMuozv7y6hs0dZkzLRCF
-X-Google-Smtp-Source: ABdhPJywg3tq0YgcFy+pPAUAzwr199lV/vk5LVom/U7t4IT7UbNG228ZaEorDir7L9fKJjHvXzyBPoA=
-X-Received: from ruffy.mtv.corp.google.com
- ([2620:0:1000:1412:4a0f:cfff:fe66:e570])
- (user=dje job=sendgmr) by 2002:a1f:dac7:: with SMTP id
- r190mr9887555vkg.22.1611217407275; 
- Thu, 21 Jan 2021 00:23:27 -0800 (PST)
-Date: Thu, 21 Jan 2021 00:23:14 -0800
-In-Reply-To: <20210121082314.458600-1-dje@google.com>
-Message-Id: <20210121082314.458600-3-dje@google.com>
-Mime-Version: 1.0
-References: <20210121082314.458600-1-dje@google.com>
-X-Mailer: git-send-email 2.30.0.296.g2bfb1c46d8-goog
-Subject: [PATCH 2/2] net: Add ipv6_hostfwd option
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e4a;
- envelope-from=3_zkJYAMKCp4BHCEMMEJC.AMKOCKS-BCTCJLMLELS.MPE@flex--dje.bounces.google.com;
- helo=mail-vs1-xe4a.google.com
-X-Spam_score_int: -95
-X-Spam_score: -9.6
-X-Spam_bar: ---------
-X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2VJM-0003nO-C3; Thu, 21 Jan 2021 03:27:24 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48976
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1l2VJK-0000a2-6x; Thu, 21 Jan 2021 03:27:24 -0500
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10L82go3084121; Thu, 21 Jan 2021 03:27:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=0HQbRsZWbJKSjxU1T5nRQPvugHYAatfeLaKPvos0yXA=;
+ b=FzGDp3gCx9MpMq4bmql2qkUdnPjaId7JUYLPt76/ipEIL2cb7YAXo0xUfmt/Pcab31aM
+ AlRSnFLjw/FLQjQDPxIgtw2zBL+PYeFSNdIxxXgNXbVC90A8IYwM1cq1nhzPWRe1dUJM
+ BjHDzjoDZQecMeyNNvwxTZB1vViT5pCXMAs7D1L8vmGSuu6JGSG04sUyhEwmM1MDNvCX
+ R5KKl+h8gWfQTxvlAYNtlrMzAFh7JolWm9lpJ/ddqTu++Y+azfXhHzv6iY3XjChFvi/o
+ /Gc8AaP2K+BHILdBTmFJzX+OC8yK80nSX8QbgUcB1NopzUF35B+UlrtjooqsMfqkAaGI zw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3674v129m6-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 03:27:18 -0500
+Received: from m0098419.ppops.net (m0098419.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10L82e3t083909;
+ Thu, 21 Jan 2021 03:27:18 -0500
+Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.70])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 3674v129kp-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 03:27:18 -0500
+Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
+ by ppma01fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10L8RGCA009469;
+ Thu, 21 Jan 2021 08:27:16 GMT
+Received: from b06cxnps3074.portsmouth.uk.ibm.com
+ (d06relay09.portsmouth.uk.ibm.com [9.149.109.194])
+ by ppma01fra.de.ibm.com with ESMTP id 3668p4gray-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 08:27:16 +0000
+Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
+ [9.149.105.59])
+ by b06cxnps3074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10L8RDGM39125380
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Jan 2021 08:27:13 GMT
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 89150A4051;
+ Thu, 21 Jan 2021 08:27:13 +0000 (GMT)
+Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id EC006A404D;
+ Thu, 21 Jan 2021 08:27:12 +0000 (GMT)
+Received: from oc3016276355.ibm.com (unknown [9.145.36.14])
+ by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 21 Jan 2021 08:27:12 +0000 (GMT)
+Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
+To: Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
+ thuth@redhat.com
+References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+ <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+ <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
+ <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
+ <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
+ <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
+ <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+Message-ID: <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
+Date: Thu, 21 Jan 2021 09:27:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-21_03:2021-01-20,
+ 2021-01-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ suspectscore=0 phishscore=0 mlxscore=0 priorityscore=1501 impostorscore=0
+ bulkscore=0 lowpriorityscore=0 clxscore=1015 malwarescore=0 adultscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101210039
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,520 +117,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, Doug Evans <dje@google.com>
+Cc: schnelle@linux.ibm.com, david@redhat.com, mst@redhat.com,
+ richard.henderson@linaro.org, qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+ pasic@linux.ibm.com, borntraeger@de.ibm.com, alex.williamson@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Doug Evans <dje@google.com>
-From: dje--- via <qemu-devel@nongnu.org>
 
-Signed-off-by: Doug Evans <dje@google.com>
----
- hmp-commands.hx     |  29 ++++-
- include/net/slirp.h |   2 +
- net/slirp.c         | 311 +++++++++++++++++++++++++++++++++++---------
- qapi/net.json       |   1 +
- slirp               |   2 +-
- 5 files changed, 279 insertions(+), 66 deletions(-)
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 73e0832ea1..fa404123b7 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -1398,6 +1398,34 @@ SRST
-   Remove host-to-guest TCP or UDP redirection.
- ERST
- 
-+#ifdef CONFIG_SLIRP
-+    {
-+        .name       = "ipv6_hostfwd_add",
-+        .args_type  = "arg1:s,arg2:s?",
-+        .params     = "[netdev_id] [tcp|udp]:[hostaddr6]:hostport-[guestaddr6]:guestport",
-+        .help       = "redirect TCP6 or UDP6 connections from host to guest (requires -net user)",
-+        .cmd        = hmp_ipv6_hostfwd_add,
-+    },
-+#endif
-+SRST
-+``ipv6_hostfwd_add``
-+  Redirect TCP6 or UDP6 connections from host to guest (requires -net user).
-+ERST
-+
-+#ifdef CONFIG_SLIRP
-+    {
-+        .name       = "ipv6_hostfwd_remove",
-+        .args_type  = "arg1:s,arg2:s?",
-+        .params     = "[netdev_id] [tcp|udp]:[hostaddr6]:hostport",
-+        .help       = "remove host-to-guest TCP6 or UDP6 redirection",
-+        .cmd        = hmp_ipv6_hostfwd_remove,
-+    },
-+#endif
-+SRST
-+``ipv6_hostfwd_remove``
-+  Remove host-to-guest TCP6 or UDP6 redirection.
-+ERST
-+
-     {
-         .name       = "balloon",
-         .args_type  = "value:M",
-@@ -1866,4 +1894,3 @@ ERST
-         .sub_table  = hmp_info_cmds,
-         .flags      = "p",
-     },
--
-diff --git a/include/net/slirp.h b/include/net/slirp.h
-index bad3e1e241..4796a5cd39 100644
---- a/include/net/slirp.h
-+++ b/include/net/slirp.h
-@@ -29,6 +29,8 @@
- 
- void hmp_hostfwd_add(Monitor *mon, const QDict *qdict);
- void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict);
-+void hmp_ipv6_hostfwd_add(Monitor *mon, const QDict *qdict);
-+void hmp_ipv6_hostfwd_remove(Monitor *mon, const QDict *qdict);
- 
- void hmp_info_usernet(Monitor *mon, const QDict *qdict);
- 
-diff --git a/net/slirp.c b/net/slirp.c
-index 8350c6d45f..5870a3284a 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -70,6 +70,7 @@ static int get_str_sep(char *buf, int buf_size, const char **pp, int sep)
- /* slirp network adapter */
- 
- #define SLIRP_CFG_HOSTFWD 1
-+#define SLIRP_CFG_IPV6_HOSTFWD 2
- 
- struct slirp_config_str {
-     struct slirp_config_str *next;
-@@ -101,6 +102,8 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
-     QTAILQ_HEAD_INITIALIZER(slirp_stacks);
- 
- static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
-+static int slirp_ipv6_hostfwd(SlirpState *s, const char *redir_str,
-+                              Error **errp);
- static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
- 
- #ifndef _WIN32
-@@ -586,6 +589,10 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-             if (slirp_hostfwd(s, config->str, errp) < 0) {
-                 goto error;
-             }
-+        } else if (config->flags & SLIRP_CFG_IPV6_HOSTFWD) {
-+            if (slirp_ipv6_hostfwd(s, config->str, errp) < 0) {
-+                goto error;
-+            }
-         } else {
-             if (slirp_guestfwd(s, config->str, errp) < 0) {
-                 goto error;
-@@ -631,15 +638,136 @@ static SlirpState *slirp_lookup(Monitor *mon, const char *id)
-     }
- }
- 
--void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-+/*
-+ * Parse a protocol name of the form "name<sep>".
-+ * Valid protocols are "tcp" and "udp". An empty string means "tcp".
-+ * Returns a pointer to the end of the parsed string on success, and stores
-+ * the result in *is_udp.
-+ * Otherwise returns NULL and stores the error message in *errmsg, which must
-+ * be freed by the caller.
-+ */
-+static const char *parse_protocol(const char *str, int sep, int *is_udp,
-+                                  char **errmsg)
-+{
-+    char buf[10];
-+    const char *p = str;
-+
-+    if (get_str_sep(buf, sizeof(buf), &p, sep) < 0) {
-+        *errmsg = g_strdup("Missing protcol name separator");
-+        return NULL;
-+    }
-+
-+    if (!strcmp(buf, "tcp") || buf[0] == '\0') {
-+        *is_udp = 0;
-+    } else if (!strcmp(buf, "udp")) {
-+        *is_udp = 1;
-+    } else {
-+        *errmsg = g_strdup("Bad protcol name");
-+        return NULL;
-+    }
-+
-+    return p;
-+}
-+
-+/*
-+ * Parse an ipv4 address/port of the form "addr<addr_sep>port<port_sep>".
-+ * "kind" is either "host" or "guest" and is included in error messages.
-+ * An empty address means INADDR_ANY.
-+ * Returns a pointer to the end of the parsed string on success, and stores
-+ * the results in *addr, *port.
-+ * Otherwise returns NULL and stores the error message in *errmsg, which must
-+ * be freed by the caller.
-+ */
-+static const char *parse_in4_addr_port(const char *str, const char *kind,
-+                                       int addr_sep, int port_sep,
-+                                       struct in_addr *addr, int *port,
-+                                       char **errmsg)
- {
--    struct in_addr host_addr = { .s_addr = INADDR_ANY };
--    int host_port;
-     char buf[256];
--    const char *src_str, *p;
-+    const char *p = str;
-+
-+    if (get_str_sep(buf, sizeof(buf), &p, addr_sep) < 0) {
-+        *errmsg = g_strdup_printf("Missing %s address separator", kind);
-+        return NULL;
-+    }
-+    if (buf[0] == '\0') {
-+        addr->s_addr = INADDR_ANY;
-+    } else if (!inet_aton(buf, addr)) {
-+        *errmsg = g_strdup_printf("Bad %s address", kind);
-+        return NULL;
-+    }
-+
-+    if (get_str_sep(buf, sizeof(buf), &p, port_sep) < 0) {
-+        *errmsg = g_strdup_printf("Missing %s port separator", kind);
-+        return NULL;
-+    }
-+    if (qemu_strtoi(buf, NULL, 10, port) < 0 ||
-+        *port < 0 || *port > 65535) {
-+        *errmsg = g_strdup_printf("Bad %s port", kind);
-+        return NULL;
-+    }
-+
-+    return p;
-+}
-+
-+/*
-+ * Parse an ipv6 address/port of the form "addr<addr_sep>port<port_sep>".
-+ * "kind" is either "host" or "guest" and is included in error messages.
-+ * An empty address means in6addr_any.
-+ * Returns a pointer to the end of the parsed string on success, and stores
-+ * the results in *addr, *port.
-+ * Otherwise returns NULL and stores the error message in *errmsg, which must
-+ * be freed by the caller.
-+ */
-+static const char *parse_in6_addr_port(const char *str, const char *kind,
-+                                       int addr_sep, int port_sep,
-+                                       struct in6_addr *addr, int *port,
-+                                       char **errmsg)
-+{
-+    char buf[256];
-+    const char *p = str;
-+
-+    if (*(p++) != '[') {
-+        *errmsg = g_strdup_printf("IPv6 %s address must be enclosed"
-+                                  " in square brackets", kind);
-+        return NULL;
-+    }
-+    if (get_str_sep(buf, sizeof(buf), &p, ']') < 0) {
-+        *errmsg = g_strdup_printf("IPv6 %s address must be enclosed"
-+                                  " in square brackets", kind);
-+        return NULL;
-+    }
-+    if (buf[0] == '\0') {
-+        *addr = in6addr_any;
-+    } else if (!inet_pton(AF_INET6, buf, addr)) {
-+        *errmsg = g_strdup_printf("Bad %s address", kind);
-+        return NULL;
-+    }
-+
-+    /* Ignore the part between the ']' and addr_sep. */
-+    if (get_str_sep(buf, sizeof(buf), &p, addr_sep) < 0) {
-+        *errmsg = g_strdup_printf("Missing %s address separator", kind);
-+        return NULL;
-+    }
-+
-+    if (get_str_sep(buf, sizeof(buf), &p, port_sep) < 0) {
-+        *errmsg = g_strdup_printf("Missing %s port separator", kind);
-+        return NULL;
-+    }
-+    if (qemu_strtoi(buf, NULL, 10, port) < 0 ||
-+        *port < 0 || *port > 65535) {
-+        *errmsg = g_strdup_printf("Bad %s port", kind);
-+        return NULL;
-+    }
-+
-+    return p;
-+}
-+
-+static void hmp_hostfwd_remove_worker(Monitor *mon, const QDict *qdict,
-+                                      int family)
-+{
-+    const char *src_str;
-     SlirpState *s;
--    int is_udp = 0;
--    int err;
-     const char *arg1 = qdict_get_str(qdict, "arg1");
-     const char *arg2 = qdict_get_try_str(qdict, "arg2");
- 
-@@ -654,38 +782,52 @@ void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-         return;
-     }
- 
--    p = src_str;
--    if (!p || get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
--        goto fail_syntax;
--    }
-+    int host_port;
-+    int is_udp;
-+    char *errmsg = NULL;
-+    int err;
- 
--    if (!strcmp(buf, "tcp") || buf[0] == '\0') {
--        is_udp = 0;
--    } else if (!strcmp(buf, "udp")) {
--        is_udp = 1;
--    } else {
--        goto fail_syntax;
--    }
-+    g_assert(src_str != NULL);
-+    const char *p = src_str;
- 
--    if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
--        goto fail_syntax;
--    }
--    if (buf[0] != '\0' && !inet_aton(buf, &host_addr)) {
-+    p = parse_protocol(p, ':', &is_udp, &errmsg);
-+    if (p == NULL) {
-         goto fail_syntax;
-     }
- 
--    if (qemu_strtoi(p, NULL, 10, &host_port)) {
--        goto fail_syntax;
-+    if (family == AF_INET) {
-+        struct in_addr host_addr;
-+        if (parse_in4_addr_port(p, "host", ':', '\0', &host_addr, &host_port,
-+                                &errmsg) == NULL) {
-+            goto fail_syntax;
-+        }
-+        err = slirp_remove_hostfwd(s->slirp, is_udp, host_addr, host_port);
-+    } else {
-+        struct in6_addr host_addr;
-+        if (parse_in6_addr_port(p, "host", ':', '\0', &host_addr, &host_port,
-+                                &errmsg) == NULL) {
-+            goto fail_syntax;
-+        }
-+        err = slirp_remove_ipv6_hostfwd(s->slirp, is_udp, host_addr, host_port);
-     }
- 
--    err = slirp_remove_hostfwd(s->slirp, is_udp, host_addr, host_port);
--
-     monitor_printf(mon, "host forwarding rule for %s %s\n", src_str,
-                    err ? "not found" : "removed");
-     return;
- 
-  fail_syntax:
--    monitor_printf(mon, "invalid format\n");
-+    monitor_printf(mon, "Invalid format: %s\n", errmsg);
-+    g_free(errmsg);
-+}
-+
-+void hmp_hostfwd_remove(Monitor *mon, const QDict *qdict)
-+{
-+    hmp_hostfwd_remove_worker(mon, qdict, AF_INET);
-+}
-+
-+void hmp_ipv6_hostfwd_remove(Monitor *mon, const QDict *qdict)
-+{
-+    hmp_hostfwd_remove_worker(mon, qdict, AF_INET6);
- }
- 
- static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
-@@ -694,61 +836,83 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
-     struct in_addr guest_addr = { .s_addr = 0 };
-     int host_port, guest_port;
-     const char *p;
--    char buf[256];
-     int is_udp;
--    char *end;
--    const char *fail_reason = "Unknown reason";
-+    char *errmsg = NULL;
- 
-+    g_assert(redir_str != NULL);
-     p = redir_str;
--    if (!p || get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
--        fail_reason = "No : separators";
-+
-+    p = parse_protocol(p, ':', &is_udp, &errmsg);
-+    if (p == NULL) {
-         goto fail_syntax;
-     }
--    if (!strcmp(buf, "tcp") || buf[0] == '\0') {
--        is_udp = 0;
--    } else if (!strcmp(buf, "udp")) {
--        is_udp = 1;
--    } else {
--        fail_reason = "Bad protocol name";
-+
-+    p = parse_in4_addr_port(p, "host", ':', '-', &host_addr, &host_port,
-+                            &errmsg);
-+    if (p == NULL) {
-         goto fail_syntax;
-     }
- 
--    if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
--        fail_reason = "Missing : separator";
-+    if (parse_in4_addr_port(p, "guest", ':', '\0', &guest_addr, &guest_port,
-+                            &errmsg) == NULL) {
-         goto fail_syntax;
-     }
--    if (buf[0] != '\0' && !inet_aton(buf, &host_addr)) {
--        fail_reason = "Bad host address";
-+    if (guest_port == 0) {
-+        errmsg = g_strdup("Bad guest port");
-         goto fail_syntax;
-     }
- 
--    if (get_str_sep(buf, sizeof(buf), &p, '-') < 0) {
--        fail_reason = "Bad host port separator";
--        goto fail_syntax;
-+    if (slirp_add_hostfwd(s->slirp, is_udp, host_addr, host_port, guest_addr,
-+                          guest_port) < 0) {
-+        error_setg(errp, "Could not set up host forwarding rule '%s'",
-+                   redir_str);
-+        return -1;
-     }
--    host_port = strtol(buf, &end, 0);
--    if (*end != '\0' || host_port < 0 || host_port > 65535) {
--        fail_reason = "Bad host port";
-+    return 0;
-+
-+ fail_syntax:
-+    error_setg(errp, "Invalid host forwarding rule '%s' (%s)", redir_str,
-+               errmsg);
-+    g_free(errmsg);
-+    return -1;
-+}
-+
-+static int slirp_ipv6_hostfwd(SlirpState *s, const char *redir_str,
-+                              Error **errp)
-+{
-+    struct in6_addr host_addr = in6addr_any;
-+    struct in6_addr guest_addr;
-+    int host_port, guest_port;
-+    const char *p;
-+    int is_udp;
-+    char *errmsg = NULL;
-+
-+    memset(&guest_addr, 0, sizeof(guest_addr));
-+    g_assert(redir_str != NULL);
-+    p = redir_str;
-+
-+    p = parse_protocol(p, ':', &is_udp, &errmsg);
-+    if (p == NULL) {
-         goto fail_syntax;
-     }
- 
--    if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
--        fail_reason = "Missing guest address";
-+    p = parse_in6_addr_port(p, "host", ':', '-', &host_addr, &host_port,
-+                            &errmsg);
-+    if (p == NULL) {
-         goto fail_syntax;
-     }
--    if (buf[0] != '\0' && !inet_aton(buf, &guest_addr)) {
--        fail_reason = "Bad guest address";
-+
-+    if (parse_in6_addr_port(p, "guest", ':', '\0', &guest_addr, &guest_port,
-+                            &errmsg) == NULL) {
-         goto fail_syntax;
-     }
--
--    guest_port = strtol(p, &end, 0);
--    if (*end != '\0' || guest_port < 1 || guest_port > 65535) {
--        fail_reason = "Bad guest port";
-+    if (guest_port == 0) {
-+        errmsg = g_strdup("Bad guest port");
-         goto fail_syntax;
-     }
- 
--    if (slirp_add_hostfwd(s->slirp, is_udp, host_addr, host_port, guest_addr,
--                          guest_port) < 0) {
-+    if (slirp_add_ipv6_hostfwd(s->slirp, is_udp, host_addr, host_port,
-+                               guest_addr, guest_port) < 0) {
-         error_setg(errp, "Could not set up host forwarding rule '%s'",
-                    redir_str);
-         return -1;
-@@ -757,11 +921,12 @@ static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp)
- 
-  fail_syntax:
-     error_setg(errp, "Invalid host forwarding rule '%s' (%s)", redir_str,
--               fail_reason);
-+               errmsg);
-+    g_free(errmsg);
-     return -1;
- }
- 
--void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
-+static void hmp_hostfwd_add_worker(Monitor *mon, const QDict *qdict, int family)
- {
-     const char *redir_str;
-     SlirpState *s;
-@@ -775,13 +940,30 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
-         s = slirp_lookup(mon, NULL);
-         redir_str = arg1;
-     }
--    if (s) {
--        Error *err = NULL;
--        if (slirp_hostfwd(s, redir_str, &err) < 0) {
--            error_report_err(err);
--        }
-+    if (!s) {
-+        return;
-+    }
-+
-+    Error *err = NULL;
-+    int rc;
-+    if (family == AF_INET) {
-+        rc = slirp_hostfwd(s, redir_str, &err);
-+    } else {
-+        rc = slirp_ipv6_hostfwd(s, redir_str, &err);
-+    }
-+    if (rc < 0) {
-+        error_report_err(err);
-     }
-+}
-+
-+void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
-+{
-+    hmp_hostfwd_add_worker(mon, qdict, AF_INET);
-+}
- 
-+void hmp_ipv6_hostfwd_add(Monitor *mon, const QDict *qdict)
-+{
-+    hmp_hostfwd_add_worker(mon, qdict, AF_INET6);
- }
- 
- #ifndef _WIN32
-@@ -1090,6 +1272,7 @@ int net_init_slirp(const Netdev *netdev, const char *name,
-     /* all optional fields are initialized to "all bits zero" */
- 
-     net_init_slirp_configs(user->hostfwd, SLIRP_CFG_HOSTFWD);
-+    net_init_slirp_configs(user->ipv6_hostfwd, SLIRP_CFG_IPV6_HOSTFWD);
-     net_init_slirp_configs(user->guestfwd, 0);
- 
-     ret = net_slirp_init(peer, "user", name, user->q_restrict,
-diff --git a/qapi/net.json b/qapi/net.json
-index c31748c87f..34ea92277c 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -189,6 +189,7 @@
-     '*smb':       'str',
-     '*smbserver': 'str',
-     '*hostfwd':   ['String'],
-+    '*ipv6-hostfwd': ['String'],
-     '*guestfwd':  ['String'],
-     '*tftp-server-name': 'str' } }
- 
-diff --git a/slirp b/slirp
-index 8f43a99191..6c0db866ef 160000
---- a/slirp
-+++ b/slirp
-@@ -1 +1 @@
--Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-+Subproject commit 6c0db866ef5e11a3b87640e57769fbf9b0a1e3b8
+
+On 1/20/21 9:29 PM, Matthew Rosato wrote:
+> On 1/20/21 2:18 PM, Pierre Morel wrote:
+>>
+>>
+...snip...
+
+>> So we have:
+>> devices supporting MIO and MSIX
+>> devices not supporting MIO nor MSIX
+>> devices not supporting the use of PCISTG to emulate PCISTB
+>>
+>> The first two are two different things indicated by two different 
+>> entries in the clp query PCI function response.
+>>
+>> The last one, we do not have an indicator as if the relaxed alignment 
+>> and length is set, PCISTB can not be emulated with PCISTG
+
+
+hum sorry, it seems I rewrote my sentence until it was wrong wrong!
+I wanted to say we DO HAVE an indicator with the relaxed bit...
+
+>>
+>> What I mean with this is that considering the proposed implementation 
+>> and considering:
+>> MIO MSIX RELAX
+>>
+>> 0 0 1  -> must use the new region (ISM)
+>> 1 1 0  -> must use the standard VFIO region (MLX)
+>>
+>> we can discuss other 6 possibilities
+>>
+>> 0 0 0 -> must use the new region
+>> 0 1 0 -> NOOP
+>> 0 1 1 -> NOOP
+>> 1 0 0 -> can use any region
+>> 1 0 1 -> can use any region
+>> 1 1 1 -> NOOP
+>>
+>> In my opinion the test for using one region or another should be done 
+>> on these indicator instead of using the PFT. > This may offer us more 
+>> compatibility with other hardware we may not be
+>> aware of as today.
+> 
+> This gets a little shaky, and goes both ways -- Using your list, a 
+> device that supports MIO, does not have MSI-X capability and doesn't 
+> support relaxed alignment (1 0 0 from above) can use any region -- but 
+> that may not always be true.  What if "other hardware we may not be 
+> aware of as today" includes future hardware that ONLY supports the MIO 
+> instruction set?  Then that device really can't use this region either.
+
+
+Right, but there is no bit in the CLP response for this case.
+Until there is one, the system is supposed to handle legacy instructions
+
+> 
+> But forgetting that possibility...  I think we can really simplify the 
+> above matrix down to a statement of "if device doesn't support MSI-X but 
+> DOES support non-MIO instructions, it can use the region."  I believe 
+> the latter half of that statement is implicit in the architecture today, 
+> so it's really then "if device doesn't support MSI-X, it can use the 
+> region".  There's just the caveat of, if the device is ISM, it changes 
+> from 'can use the region' to 'must use the region'.
+
+
+There can surely be simplifications.
+
+> 
+> So, I mean I can change the code to be more permissive in that way 
+> (allow any device that doesn't have MSI-X capability to at least attempt 
+> to use the region).  But the reality is that ISM specifically needs the 
+> region for successful pass through, so I don't see a reason to create a 
+> different bit for that vs just checking for the PFT in QEMU and using 
+> that value to decide whether or not region availability is a requirement 
+> for allowing the device to pass through.
+
+
+There is no need for a new bit to know if a device support MIO or not, 
+as I said before, there is already one in the CLP query PCI function 
+response and it is already used in the kernel zPCI architecture.
+
+
+It is not a big think to do and does not change the general architecture 
+of the patch, only the detection of which device is impacted to make it 
+generic instead of device dedicated.
+
+Regards,
+Pierre
+
 -- 
-2.30.0.296.g2bfb1c46d8-goog
-
+Pierre Morel
+IBM Lab Boeblingen
 
