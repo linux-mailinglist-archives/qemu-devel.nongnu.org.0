@@ -2,130 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF7F32FF391
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:52:10 +0100 (CET)
-Received: from localhost ([::1]:44026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56BDC2FF39A
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:52:52 +0100 (CET)
+Received: from localhost ([::1]:45306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2f3x-0003nk-Ml
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:52:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51234)
+	id 1l2f4d-0004L3-E8
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:52:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l2f2i-00039z-J8; Thu, 21 Jan 2021 13:50:52 -0500
-Received: from mail-vi1eur05on2104.outbound.protection.outlook.com
- ([40.107.21.104]:56864 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l2f2e-0006yi-W8; Thu, 21 Jan 2021 13:50:51 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=knXrmftOdOu9hnJO+oIyYKRre6I1WU5GSDbSLpuyvOME7vTqvSqDX8Q60FXUgaPqH2c3EpCdaXs6RLep8zFFugqaWHtLbxir6qhvl64dday/bZKbBA7Cbv8NXeEjAtJTTJ6hTr5qrksvqY1sy3vaRsaD/ZDkiqSzxc9+0m1DmO0qOJuHUqnrBosShMsPS+5reOiA0xzZnKvzRUTt5PnWr8nyIS+xhE1iijDNNHGPRRikuP++wYN1pcmQe4wDlPfr/t8TAOEtB1AimPVpMxD99DoyNzyuW6cEF0gthu59MaZYit32Y4aSscWA6TJAqnNqZy0UeioyGXAN5oq5XOaakg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OuU0zIc+bNghFq2cuRulzaYBrvVQcsklQiN4NCMXEZI=;
- b=BefOvk3FyVwdD2XgRC2H5hpPVHYChWI/2pQcX99VoOl/fglE7PZfG8NwBY0iWVuJUuAbA6woulggKJ8jPR/Pz8uXwore0kL1XL9ut+XxHDstp+lfV9IhzsANwZxPpb+1GOAUV+KHtgycP63JTH4TOZsBWYbwYUz3zOACGJyEJQsD1KmNJdDQJd0jMXyJhm5mlD1pYR9hycoCoSecmshCGx8xR7Ea2yFh5U04J7BgYBcOqsLLfe4aqsstK949AXb0fS12vYal4/IMAr1+/L8XSo5dY7UTaxGi6Q7qMrnh7TlL4SBQ/AclQw4086zb+uAmtdRD8KNb+yea7+YtYltLSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OuU0zIc+bNghFq2cuRulzaYBrvVQcsklQiN4NCMXEZI=;
- b=D7mAEsremg530LvlDOlGAHtrBpA657O+8C7VzsP2p86vvnjWGcLChynTyP07CAxvic/taqIjDH2QCG76+1OEfBEtgV797byCD5RheB3xiDaXGw6IZt6iHNsfCb7X0caJ7WNiW1G0OIPg+GTAOrLfGYVh85FAF1OdJcEGMpfsf04=
-Authentication-Results: openvz.org; dkim=none (message not signed)
- header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM5PR0801MB1972.eurprd08.prod.outlook.com (2603:10a6:203:4b::11)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Thu, 21 Jan
- 2021 18:50:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.014; Thu, 21 Jan 2021
- 18:50:44 +0000
-Subject: Re: [PATCH 01/11] block: add new BlockDriver handler:
- bdrv_cancel_in_flight
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20201118180433.11931-1-vsementsov@virtuozzo.com>
- <20201118180433.11931-2-vsementsov@virtuozzo.com>
- <f23ca1d2-b90e-d9f5-5c3a-493ef259e994@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <189ed1e3-e2a1-6739-c477-ec6de87964a5@virtuozzo.com>
-Date: Thu, 21 Jan 2021 21:50:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <f23ca1d2-b90e-d9f5-5c3a-493ef259e994@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.101]
-X-ClientProxiedBy: AM0PR07CA0016.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::29) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2f3M-0003WP-SY
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:51:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34386)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2f3J-0007P9-Tx
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:51:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611255088;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=KcWoXJdXqQ/Bo6LRdLrkm9N0bKRYZm+fbYJZpR/dDVM=;
+ b=OdR7QkzwtKno/pmO7veQfiP5fK9CDkXllBvqxywBpQmiIuMGDCjd1czdOdohY2lJLYGgSv
+ sAGod/f4t7sLyV0fBcY5Txv6kvveeHEJJLwJMF9d29VkYOXaA+OiynqdUkyoGR3v1L33S3
+ aYM9VdKiZG8LM7kpyepf83tlhmBpW68=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-4RTUcRJPMD2q1cM7bmIW0g-1; Thu, 21 Jan 2021 13:51:26 -0500
+X-MC-Unique: 4RTUcRJPMD2q1cM7bmIW0g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5CAE3107ACE3
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:51:25 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-115-101.ams2.redhat.com
+ [10.36.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F7B85F9C8;
+ Thu, 21 Jan 2021 18:51:15 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+To: qemu-devel@nongnu.org, eblake@redhat.com, alex.williamson@redhat.com,
+ laine@redhat.com, peterx@redhat.com
+Subject: [PATCH] migration: Provide a test for migratability
+Date: Thu, 21 Jan 2021 18:51:13 +0000
+Message-Id: <20210121185113.66277-1-dgilbert@redhat.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.101) by
- AM0PR07CA0016.eurprd07.prod.outlook.com (2603:10a6:208:ac::29) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.5 via Frontend Transport; Thu, 21 Jan 2021 18:50:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: c0c6d8ef-ec79-41af-85b8-08d8be3d7582
-X-MS-TrafficTypeDiagnostic: AM5PR0801MB1972:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0801MB19728B31C08E897B550EF3C7C1A10@AM5PR0801MB1972.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: FTgTkUjBuF9YXQUmAIJsc/NvBz+18aHKPwBUeFt7/oM55fb+vuqMah9P4qbxPaoR0NqC9MYpY+g18rHUpEkfzzYVFGmELo1POmPgIdwp5ZFPigeGrAy1jLLBAqHpmH+UO79uEb2xWIGfV46GgXFXmKUMyGYsmn1jFHgPrfbrY2CQh6KTC0mAZ15QOCi3Xa6wSQT2XTESaVuO0M4PJYF4AQT0lfYzK7vI6aJUGtfjPBU5eXzj/dW61Ij3ES/ckLffdFX2nL3uRslh6u3Ls4F1sv77tMrrGrQniYcptSEAIawpb4ZrUpFZJQBN3O3DH4FMNiogGyyn+F8C508sSUaQsf4ec6sc1ENNua1sPSMH2NlKZAV3U5WL2sY+VZax02ZRDW+6h+cAXc9gL/frYQfY1OUyQT/yejRM66nI5b8gv5tcQCxA9RzIKpEF6zZ9GI/3RckS939ZY1UV+HcT5A6bTTE01BcmZc9OTwgl87yI5GA=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(396003)(136003)(39830400003)(376002)(83380400001)(5660300002)(31696002)(316002)(956004)(2906002)(107886003)(66476007)(36756003)(52116002)(478600001)(86362001)(6486002)(16576012)(8676002)(16526019)(31686004)(66556008)(2616005)(66946007)(53546011)(186003)(4326008)(8936002)(26005)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UmJoKzA1RTdTUnMvcm4rMEtIM2tDRHRsSEp2cWdMRU9OVkQwbjBDNW0wcXBi?=
- =?utf-8?B?OWtJNnNFTWNsSUtXWTA0VDBEcTZ4NG1ZNlJMbUdKbFBoNVJTcXQ3RnZESmxT?=
- =?utf-8?B?QytaYUFYRHd5SWNta3NjMWMzRkJoZG81UGZoeS84dTY1dExiaXlVSlZ4VUZY?=
- =?utf-8?B?eWpzYkxFWGhHRW9Zb0R5YVpjMi9WV0RxZVJJNkIxRlNDWTFmb0Y4K2x2d1Zn?=
- =?utf-8?B?QzJsU1VsaE84VUJsc0V0NzJUWm9zV3Y4UVFaZXJtdU4vWlJ1RHgvYWRxcFEw?=
- =?utf-8?B?OGp1bGllZnFPWUMzajkzNThBeUkrNzVOd0dSdDhEYTU1dm9NUGZRL3EzUzY0?=
- =?utf-8?B?MU9RVmJhNnJNclExZ0R5c0xIeDQzRXFwVTFKdkdHeVNQMEEvZFdBd0tTTFZR?=
- =?utf-8?B?UmxTTVRkUlNpWXBObXRmTW5xU3NhdDMwdGtUTy9wTUFrYW1ld3Q0eG0xNFBI?=
- =?utf-8?B?OWJYbjh6Z0RxOUdQVS9XbUluREFmQlU0Z1R2MXlPc0FSZHRTY3RtcnJ0Y2xU?=
- =?utf-8?B?SUFsTWliUHJOZ1dWNm9YV1FMQXlnS2V2bzA2U1dCWEF0Z1NhZW1sbzNsWGU0?=
- =?utf-8?B?UkRoUVl1dWxJNUJLdDhXWkdOVWZVYTNZUVMzZGZ3V3l6ZVBWOHdxNlhEb2hB?=
- =?utf-8?B?amUyd0d0bStQVFFyZ1g4VzhiZXk1VzZuNDRnaTFiZUJiZFNYVEZJRDRKM0tE?=
- =?utf-8?B?Q21RTUM3dDNnaDQxRlBsK1dNMXhiZ2VWZDZ1MjZ3U2xTeEEwY2NlcXhtTmdY?=
- =?utf-8?B?ai9DYmtmOXZYNjlvcnExYXBpT0xhSnNXMjBSK3ptSUZFWmtYUlJkLzFjK2Nz?=
- =?utf-8?B?aEJjZ3ZjUmxWR29Ma3VBVFZaM1QwT1FZcHFyc0N2dnR2aUdXRDhoUytoNzR4?=
- =?utf-8?B?TEp1VVl0dGRFdjlFZm52bUZWL3V6R1dhTUZ0aUFnalp2SWRIQWp3WDRyd08x?=
- =?utf-8?B?ZHU2cTVyd2FoaXpPNlB3MG4xZnhmckpVRmlmbGJLWm83M2JYZ0JCcGZYNU02?=
- =?utf-8?B?dFZzWGZZSlZGOUJwSWgwQUZwZXZFYVp2T01qS3kySFZaS1FuMEgrSWtoUUtP?=
- =?utf-8?B?Q3FJOVlvQ2JUZnZvWmtXWXduRVhSRDhGZUMwZEN2RS96RlUweVVMdXkyY21l?=
- =?utf-8?B?dEI2UUdMaW9sOWVhMEhVeDFXQU96WUt1MUM0S0hKd0luWlB4VGpDd1hjVHBW?=
- =?utf-8?B?Y2lBU096aHRFbG5Gc2FOT0pxbGdmeUI1ZHpBSzdPNHRjbmFWdlZMdDlvWXB5?=
- =?utf-8?B?VlJpbDU3KzUrdDhnVnpMOFdYN0t0QUUyUmtBbVRtMzZaTytYYjNaTEcvY2Zn?=
- =?utf-8?Q?TqMKyLoPF0s/7BjEb8c3Qo9aLI2E6wpdO6?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c0c6d8ef-ec79-41af-85b8-08d8be3d7582
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2021 18:50:44.8612 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KFYQhRYJ2FzFsvlkSci2fpbkWJbXWvVmA8d4nAaEY2feEbFrR2wXtQ4YTOzDdBtqZH8OxlPvswDnvCHheIYt9rpeHdm6MyJgk3iqoxTHcXk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0801MB1972
-Received-SPF: pass client-ip=40.107.21.104;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-VI1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -138,59 +77,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com,
- stefanha@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.01.2021 01:27, Eric Blake wrote:
-> On 11/18/20 12:04 PM, Vladimir Sementsov-Ogievskiy wrote:
->> It will be used to stop retrying NBD requests on mirror cancel.
->>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> ---
->>   include/block/block.h     |  3 +++
->>   include/block/block_int.h |  9 +++++++++
->>   block/io.c                | 11 +++++++++++
->>   3 files changed, 23 insertions(+)
->>
-> 
-> How does this relate to the recent addition of the QMP yank command?
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Hmm. Don't know.. Looking in spec:
+Provide a simple way to see if there's currently a migration blocker in
+operation:
 
-# Currently implemented yank instances:
-#  - nbd block device:
-#    Yanking it will shut down the connection to the nbd server without
-#    attempting to reconnect.
+$ ./x86_64-softmmu/qemu-system-x86_64 -nographic -M pc,usb=on -chardev null,id=n -device usb-serial,chardev=n
 
-Looks like a close thing. But actually, I don't want to stop reconnecting process, but only cancel some requests which we don't want to wait for. After that, the nbd node may successfully reconnect and continue to work.
+(qemu) info migratable
+Error: State blocked by non-migratable device '0000:00:01.2/1/usb-serial'
 
-> 
-> 
->> +++ b/include/block/block_int.h
->> @@ -344,6 +344,15 @@ struct BlockDriver {
->>           bool want_zero, int64_t offset, int64_t bytes, int64_t *pnum,
->>           int64_t *map, BlockDriverState **file);
->>   
->> +    /*
->> +     * This informs the driver that we are not more interested in in-flight
-> 
-> that we are no longer interested in the result of in-flight requests, so
-> 
->> +     * requests results, so don't waste the time if possible.
->> +     *
->> +     * The example usage is to not wait for nbd target nodedreconnect timeout on
->> +     * job-cancel.
-> 
-> One example usage is to avoid waiting for an nbd target node reconnect
-> timeout during job-cancel.
-> 
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> 
+$ ./x86_64-softmmu/qemu-system-x86_64 -nographic
 
+(qemu) info migratable
+Migratable
 
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+---
+ hmp-commands-info.hx  | 14 ++++++++++++++
+ include/monitor/hmp.h |  1 +
+ migration/migration.c |  5 +++++
+ monitor/hmp-cmds.c    | 13 +++++++++++++
+ qapi/migration.json   | 14 ++++++++++++++
+ 5 files changed, 47 insertions(+)
+
+diff --git a/hmp-commands-info.hx b/hmp-commands-info.hx
+index 117ba25f91..c2d7ac2f11 100644
+--- a/hmp-commands-info.hx
++++ b/hmp-commands-info.hx
+@@ -541,6 +541,20 @@ SRST
+     Show migration status.
+ ERST
+ 
++    {
++        .name       = "migratable",
++        .args_type  = "",
++        .params     = "",
++        .help       = "tests if VM is migratable",
++        .cmd        = hmp_info_migratable,
++    },
++
++SRST
++  ''info migratable''
++    Tests whether the VM is currently migratable.
++ERST
++
++
+     {
+         .name       = "migrate_capabilities",
+         .args_type  = "",
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index ed2913fd18..0dd7941daf 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -25,6 +25,7 @@ void hmp_info_status(Monitor *mon, const QDict *qdict);
+ void hmp_info_uuid(Monitor *mon, const QDict *qdict);
+ void hmp_info_chardev(Monitor *mon, const QDict *qdict);
+ void hmp_info_mice(Monitor *mon, const QDict *qdict);
++void hmp_info_migratable(Monitor *mon, const QDict *qdict);
+ void hmp_info_migrate(Monitor *mon, const QDict *qdict);
+ void hmp_info_migrate_capabilities(Monitor *mon, const QDict *qdict);
+ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict);
+diff --git a/migration/migration.c b/migration/migration.c
+index 5e330cc6eb..8745a5b9f9 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -2234,6 +2234,11 @@ int64_t qmp_query_migrate_cache_size(Error **errp)
+     return migrate_xbzrle_cache_size();
+ }
+ 
++void qmp_query_migratable(Error **errp)
++{
++    migration_is_blocked(errp);
++}
++
+ void qmp_migrate_set_speed(int64_t value, Error **errp)
+ {
+     MigrateSetParameters p = {
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index ef569035f8..a7f48b3512 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -216,6 +216,19 @@ static char *SocketAddress_to_str(SocketAddress *addr)
+     }
+ }
+ 
++void hmp_info_migratable(Monitor *mon, const QDict *qdict)
++{
++    Error *err = NULL;
++    /* It's migratable if this succeeds */
++    qmp_query_migratable(&err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    monitor_printf(mon, "Migratable\n");
++}
++
+ void hmp_info_migrate(Monitor *mon, const QDict *qdict)
+ {
+     MigrationInfo *info;
+diff --git a/qapi/migration.json b/qapi/migration.json
+index d1d9632c2a..07aee9907c 100644
+--- a/qapi/migration.json
++++ b/qapi/migration.json
+@@ -366,6 +366,20 @@
+ ##
+ { 'command': 'query-migrate', 'returns': 'MigrationInfo' }
+ 
++##
++# @query-migratable:
++# Tests whether it will be possible to migrate the VM in the current state.
++#
++# Returns: nothing on success (i.e. if the VM is migratable)
++#
++# Since: 6.0
++# Example:
++#
++# -> { "execute": "query-migratable" }
++# <- { "return": {} }
++##
++{ 'command': 'query-migratable' }
++
+ ##
+ # @MigrationCapability:
+ #
 -- 
-Best regards,
-Vladimir
+2.29.2
+
 
