@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BD522FF3D7
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 20:09:58 +0100 (CET)
-Received: from localhost ([::1]:35086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D02ED2FF3F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 20:14:35 +0100 (CET)
+Received: from localhost ([::1]:43786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2fLB-0004uX-CG
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 14:09:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55444)
+	id 1l2fPe-0000wB-RY
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 14:14:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55532)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2fI1-0002AP-F3
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:06:41 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:32893)
+ id 1l2fI4-0002D7-7V
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:06:44 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45314)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2fHr-0005kk-G6
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:06:41 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id 7so2830908wrz.0
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 11:06:28 -0800 (PST)
+ id 1l2fHr-0005lb-Tt
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:06:44 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id m1so2128226wrq.12
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 11:06:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=upN7NId7waDqdq/y54Hzrsu+F+aVKMHy5OMUTW9rDEw=;
- b=sn0dGRtex5P42T3hk2ht1eoYTF/07UWBYlpSpd3RZbe8zb9QSZ4BIdtMinLn+Uxt0o
- 2bNlUqkjAroSzWDqS/6rvaOr93syDheLNOfwXaqpDFjyqAUzZMAx5n2I6Z77uZLuscUk
- 79N2daVjLwtxNHbJDblLS2TpjR3w5P9KnUV5VPFKJrJQ7oAQiln3Sdny6I03xtjWfSO4
- t11S/3QGsYWV2BnugGlB8mLqViHSzPkgi6EKxlItt1LYZraJIecs90zfilH4+aWkuKq0
- I38sTjrCwRakEVEfu/kfI4s5wa9437NhcOlDxG/8ZT3UcBb3cHFFCxvMmYFYNVHbi3hw
- VNlQ==
+ bh=lAXftL8tozQWWTPvWf+4JDafcrxm0XnUCLn5NpEaPkY=;
+ b=pCE1bNozYjUvvwp5pd2YvLY+xKm67VBFoeN3W0PYb1xbEwS/n7ofQalSvv3g/RpH9j
+ nUSk2+2FQLNxZhgc4ZKLSDABf0La9RaNZ8iKF3b05jEfzA4cEr4Cbl577AoNocaQ9wav
+ MqNYDAOoIo3K7gni2kjWiaYbUFUdqT0XX98vhGHNvkrLvJTLBeF85QQyPuBY8jCFuZZg
+ R7OovvRgxe3haCiRmFBCJg+n+x4yYgO8Qae67mXGKcYzqMjVDweWDTmyFt5LeuWIp1N0
+ V5vJZVUmGH/l98hfMa+l4IMcJsAOgshNzImGF7NG+ygo6vL9asgv75/XkfMElWoF04h5
+ H1Sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=upN7NId7waDqdq/y54Hzrsu+F+aVKMHy5OMUTW9rDEw=;
- b=UfiEIhXYJWr4Sip5PRkV0/WRpbLj5c7dERpHdEAS8zjMbXRO8dE3SbM4aUQbUba67r
- xhF+DL2zPOwvm6mn81ut3RCkjqVojR81t8vIKagJrVBPeVTMhu5Vcwf4kGXPIDk0kPm5
- UUouPnUUEic0ita9AYwqW0IvMhsbnBrmZXV27NjNGAGLg/IEpBOtDIjI/5nglWUB5Gx5
- Hubq6hMiL1y7CVivsvhQdeGovItEsKhIUw5Jxns0jmhaHiplqTPsAFFYkHRLZCtjce0Y
- rHAoEKfZXNScmIV2VQTKlPXF28x4L+PEQK+EUJul17Hhf36kuSGU1J4QziT4J6FF8DMi
- fgjg==
-X-Gm-Message-State: AOAM532nr3iw5a46/oo3sX6go6mXrbNHvjx6tzpl8RjpU3g+XCxxDJv7
- AX+P3EXHXb6GlV7ZFErjdqgTDQ==
-X-Google-Smtp-Source: ABdhPJyYWPeD96pTaj0aV0nL8Ev8OprHynYHbCPzOpziSnqAewyJM8u5fh0paz6SPgIOA/xFqA9W+g==
-X-Received: by 2002:adf:cc81:: with SMTP id p1mr858184wrj.339.1611255987447;
- Thu, 21 Jan 2021 11:06:27 -0800 (PST)
+ bh=lAXftL8tozQWWTPvWf+4JDafcrxm0XnUCLn5NpEaPkY=;
+ b=ERvsmOTwa9mbXm3I7bJNmC21mT4K8rT2kGuw8oygFBTt1xPLlq3UrsDMhSvcFJZtFJ
+ o+e7q/l2RONlxFE7EGepKWofeYDq9eYCo1qnE2JbD8t8USTwe6uta9FIf3mAwhdud3/j
+ +4P7IRS+ros7fC7QqmXAcqofBSzacJddnP63SVV2G+u2T56ytQH3AVfgBwe3ZvXO3/Wn
+ swlOhdntSn1mX3PEWkZJ5EmiJ2aBxRu2GKD6WV4pHyKoL0SXEhTiryBA/05PXQWOHWLa
+ +bwJirDTMwyNlkljlA5PnWamofSXc0rm+r6bbTqiSeHqUio2qEacti2FI9Db7SVGwPbx
+ geWw==
+X-Gm-Message-State: AOAM531TQV+4DnH5V/SVkPD8s0G3Qm/ecLMgqEfaGEgDNv5Yra7+Up38
+ ZFwLRGMi+5Bj8NQEIDE3aroqtw==
+X-Google-Smtp-Source: ABdhPJzZ5zqTvUptyD6EH+pY8cUauJ/gPXDqjfNByWsvt3W7i4FQ7nPSVk3si45gXwJRVC5Qtbv29g==
+X-Received: by 2002:adf:ec8c:: with SMTP id z12mr912237wrn.208.1611255988353; 
+ Thu, 21 Jan 2021 11:06:28 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m18sm9820686wrw.43.2021.01.21.11.06.26
+ by smtp.gmail.com with ESMTPSA id m18sm9820686wrw.43.2021.01.21.11.06.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 11:06:26 -0800 (PST)
+ Thu, 21 Jan 2021 11:06:27 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 02/25] clock: Add new clock_has_source() function
-Date: Thu, 21 Jan 2021 19:05:59 +0000
-Message-Id: <20210121190622.22000-3-peter.maydell@linaro.org>
+Subject: [PATCH 03/25] tests: Add a simple test of the CMSDK APB timer
+Date: Thu, 21 Jan 2021 19:06:00 +0000
+Message-Id: <20210121190622.22000-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210121190622.22000-1-peter.maydell@linaro.org>
 References: <20210121190622.22000-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,70 +88,123 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a function for checking whether a clock has a source.  This is
-useful for devices which have input clocks that must be wired up by
-the board as it allows them to fail in realize rather than ploughing
-on with a zero-period clock.
+Add a simple test of the CMSDK APB timer, since we're about to do
+some refactoring of how it is clocked.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/devel/clocks.rst | 16 ++++++++++++++++
- include/hw/clock.h    | 15 +++++++++++++++
- 2 files changed, 31 insertions(+)
+ tests/qtest/cmsdk-apb-timer-test.c | 76 ++++++++++++++++++++++++++++++
+ MAINTAINERS                        |  1 +
+ tests/qtest/meson.build            |  1 +
+ 3 files changed, 78 insertions(+)
+ create mode 100644 tests/qtest/cmsdk-apb-timer-test.c
 
-diff --git a/docs/devel/clocks.rst b/docs/devel/clocks.rst
-index 2548d842322..c54bbb82409 100644
---- a/docs/devel/clocks.rst
-+++ b/docs/devel/clocks.rst
-@@ -235,6 +235,22 @@ object during device instance init. For example:
-     /* set initial value to 10ns / 100MHz */
-     clock_set_ns(clk, 10);
- 
-+To enforce that the clock is wired up by the board code, you can
-+call ``clock_has_source()`` in your device's realize method:
-+
-+.. code-block:: c
-+
-+   if (!clock_has_source(s->clk)) {
-+       error_setg(errp, "MyDevice: clk input must be connected");
-+       return;
-+   }
-+
-+Note that this only checks that the clock has been wired up; it is
-+still possible that the output clock connected to it is disabled
-+or has not yet been configured, in which case the period will be
-+zero. You should use the clock callback to find out when the clock
-+period changes.
-+
- Fetching clock frequency/period
- -------------------------------
- 
-diff --git a/include/hw/clock.h b/include/hw/clock.h
-index 6382f346569..e5f45e2626d 100644
---- a/include/hw/clock.h
-+++ b/include/hw/clock.h
-@@ -139,6 +139,21 @@ void clock_clear_callback(Clock *clk);
-  */
- void clock_set_source(Clock *clk, Clock *src);
- 
-+/**
-+ * clock_has_source:
-+ * @clk: the clock
+diff --git a/tests/qtest/cmsdk-apb-timer-test.c b/tests/qtest/cmsdk-apb-timer-test.c
+new file mode 100644
+index 00000000000..085005cce99
+--- /dev/null
++++ b/tests/qtest/cmsdk-apb-timer-test.c
+@@ -0,0 +1,76 @@
++/*
++ * QTest testcase for the CMSDK APB timer device
 + *
-+ * Returns true if the clock has a source clock connected to it.
-+ * This is useful for devices which have input clocks which must
-+ * be connected by the board/SoC code which creates them. The
-+ * device code can use this to check in its realize method that
-+ * the clock has been connected.
++ * Copyright (c) 2021 Linaro Limited
++ *
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful, but WITHOUT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ * for more details.
 + */
-+static inline bool clock_has_source(const Clock *clk)
++
++#include "qemu/osdep.h"
++#include "libqtest-single.h"
++
++/* IoTKit/ARMSSE-200 timer0; driven at 25MHz in mps2-an385, so 40ns per tick */
++#define TIMER_BASE 0x40000000
++
++#define CTRL 0
++#define VALUE 4
++#define RELOAD 8
++#define INTSTATUS 0xc
++
++static void test_timer(void)
 +{
-+    return clk->source != NULL;
++    g_assert_true(readl(TIMER_BASE + INTSTATUS) == 0);
++
++    /* Start timer: will fire after 40000 ns */
++    writel(TIMER_BASE + RELOAD, 1000);
++    writel(TIMER_BASE + CTRL, 9);
++
++    /* Step to just past the 500th tick and check VALUE */
++    clock_step(20001);
++    g_assert_cmpuint(readl(TIMER_BASE + INTSTATUS), ==, 0);
++    g_assert_cmpuint(readl(TIMER_BASE + VALUE), ==, 500);
++
++    /* Just past the 1000th tick: timer should have fired */
++    clock_step(20000);
++    g_assert_cmpuint(readl(TIMER_BASE + INTSTATUS), ==, 1);
++    g_assert_cmpuint(readl(TIMER_BASE + VALUE), ==, 0);
++
++    /* VALUE reloads at the following tick */
++    clock_step(40);
++    g_assert_cmpuint(readl(TIMER_BASE + VALUE), ==, 1000);
++
++    /* Check write-1-to-clear behaviour of INTSTATUS */
++    writel(TIMER_BASE + INTSTATUS, 0);
++    g_assert_cmpuint(readl(TIMER_BASE + INTSTATUS), ==, 1);
++    writel(TIMER_BASE + INTSTATUS, 1);
++    g_assert_cmpuint(readl(TIMER_BASE + INTSTATUS), ==, 0);
++
++    /* Turn off the timer */
++    writel(TIMER_BASE + CTRL, 0);
 +}
 +
- /**
-  * clock_set:
-  * @clk: the clock to initialize.
++int main(int argc, char **argv)
++{
++    QTestState *s;
++    int r;
++
++    g_test_init(&argc, &argv, NULL);
++
++    s = qtest_start("-machine mps2-an385");
++
++    qtest_add_func("/cmsdk-apb-timer/timer", test_timer);
++
++    r = g_test_run();
++
++    qtest_end();
++
++    return r;
++}
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 3216387521d..010405b0884 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -581,6 +581,7 @@ F: include/hw/rtc/pl031.h
+ F: include/hw/arm/primecell.h
+ F: hw/timer/cmsdk-apb-timer.c
+ F: include/hw/timer/cmsdk-apb-timer.h
++F: tests/qtest/cmsdk-apb-timer-test.c
+ F: hw/timer/cmsdk-apb-dualtimer.c
+ F: include/hw/timer/cmsdk-apb-dualtimer.h
+ F: hw/char/cmsdk-apb-uart.c
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 16d04625b8b..74addd74868 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -141,6 +141,7 @@ qtests_npcm7xx = \
+    'npcm7xx_timer-test',
+    'npcm7xx_watchdog_timer-test']
+ qtests_arm = \
++  (config_all_devices.has_key('CONFIG_CMSDK_APB_TIMER') ? ['cmsdk-apb-timer-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
+   (config_all_devices.has_key('CONFIG_NPCM7XX') ? qtests_npcm7xx : []) + \
+   ['arm-cpu-features',
 -- 
 2.20.1
 
