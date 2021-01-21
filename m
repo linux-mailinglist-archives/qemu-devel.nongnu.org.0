@@ -2,75 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50BAF2FE745
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:15:51 +0100 (CET)
-Received: from localhost ([::1]:46814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE5712FE780
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:26:37 +0100 (CET)
+Received: from localhost ([::1]:54670 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2X0I-0003CD-Dz
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:15:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34632)
+	id 1l2XAi-0007Pp-Be
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:26:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37434)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2Wy2-0002UU-MM
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:13:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41082)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2Wxy-0006ZY-No
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:13:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611224006;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=OPMJBER+Oix5h1rihL17gd6pjYs4c4oi2t8rCx0j/zM=;
- b=dWJ9Gb2ntd1zeuIRrWASiJqoBPclsYM+OX89NTapZc2TvsCTzue/DawHuouRb77rWU0PLM
- ljG6uRTybMIcGPkGTacLklptWMgqz2rL8ISg4SyK1mJtr3Dx4h1Bid+2ecq1Mv9pFJ3kdh
- mKZfc5clHOOw/tyzl/+XfNs35j7nSyE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-601-Ocwyg2NiOfObb-jfdCuGSw-1; Thu, 21 Jan 2021 05:13:24 -0500
-X-MC-Unique: Ocwyg2NiOfObb-jfdCuGSw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38CA8814618
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 10:13:14 +0000 (UTC)
-Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9B1737770C;
- Thu, 21 Jan 2021 10:13:12 +0000 (UTC)
-Date: Thu, 21 Jan 2021 10:13:08 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v2 7/8] meson: Display cryto-related information altogether
-Message-ID: <20210121101308.GA3126480@redhat.com>
-References: <20210121095616.1471869-1-philmd@redhat.com>
- <20210121095616.1471869-8-philmd@redhat.com>
- <20210121101127.GF3125227@redhat.com>
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1l2X9e-0006yS-OW
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:25:30 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:52770
+ helo=mail.default.ilande.uk0.bigv.io)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1l2X9c-0003x9-Iv
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:25:30 -0500
+Received: from host86-132-109-72.range86-132.btcentralplus.com
+ ([86.132.109.72] helo=kentang.home)
+ by mail.default.ilande.uk0.bigv.io with esmtpsa
+ (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.92)
+ (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1l2X9k-0002Dn-9s; Thu, 21 Jan 2021 10:25:41 +0000
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+To: qemu-devel@nongnu.org, peter.maydell@linaro.org, cfontana@suse.de,
+ philmd@redhat.com
+Date: Thu, 21 Jan 2021 10:25:18 +0000
+Message-Id: <20210121102518.20112-1-mark.cave-ayland@ilande.co.uk>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210121101127.GF3125227@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SA-Exim-Connect-IP: 86.132.109.72
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: [PATCH v2] utils/fifo8: change fatal errors from abort() to assert()
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk;
+ helo=mail.default.ilande.uk0.bigv.io
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,50 +60,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 21, 2021 at 10:11:32AM +0000, Daniel P. Berrangé wrote:
-> On Thu, Jan 21, 2021 at 10:56:15AM +0100, Philippe Mathieu-Daudé wrote:
-> > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> > ---
-> > Cc: Daniel P. Berrange <berrange@redhat.com>
-> > ---
-> >  meson.build | 34 +++++++++++++++++++---------------
-> >  1 file changed, 19 insertions(+), 15 deletions(-)
-> > 
-> > diff --git a/meson.build b/meson.build
-> > index e372b69f163..9274775a81a 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -2453,19 +2453,8 @@
-> >  endif
-> >  summary(summary_info, bool_yn: true, section: 'Block layer support')
-> >  
-> > +# Crypto
-> 
-> Rather than a comment why not introduce grouping in the output
-> so it is visible when reading the summary.
-> 
-> This can be done in meson by calling summary() multiple times
-> giving "section: 'Crypto'"  arg.
+Developer errors are better represented with assert() rather than abort(). Also
+improve the strictness of the checks by using range checks within the assert()
+rather than converting the existing equality checks to inequality checks.
 
-Sigh, I'm not very good at reading this morning. I see this
-is in fact done in this patch, I just couldn't see it in the
-diff :-(
+Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ util/fifo8.c | 16 ++++------------
+ 1 file changed, 4 insertions(+), 12 deletions(-)
 
-
-...
-> > +summary(summary_info, bool_yn: true, section: 'Crypto')
-
-
-Regards,
-Daniel
+diff --git a/util/fifo8.c b/util/fifo8.c
+index a5dd789ce5..d4d1c135e0 100644
+--- a/util/fifo8.c
++++ b/util/fifo8.c
+@@ -31,9 +31,7 @@ void fifo8_destroy(Fifo8 *fifo)
+ 
+ void fifo8_push(Fifo8 *fifo, uint8_t data)
+ {
+-    if (fifo->num == fifo->capacity) {
+-        abort();
+-    }
++    assert(fifo->num < fifo->capacity);
+     fifo->data[(fifo->head + fifo->num) % fifo->capacity] = data;
+     fifo->num++;
+ }
+@@ -42,9 +40,7 @@ void fifo8_push_all(Fifo8 *fifo, const uint8_t *data, uint32_t num)
+ {
+     uint32_t start, avail;
+ 
+-    if (fifo->num + num > fifo->capacity) {
+-        abort();
+-    }
++    assert(fifo->num + num <= fifo->capacity);
+ 
+     start = (fifo->head + fifo->num) % fifo->capacity;
+ 
+@@ -63,9 +59,7 @@ uint8_t fifo8_pop(Fifo8 *fifo)
+ {
+     uint8_t ret;
+ 
+-    if (fifo->num == 0) {
+-        abort();
+-    }
++    assert(fifo->num > 0);
+     ret = fifo->data[fifo->head++];
+     fifo->head %= fifo->capacity;
+     fifo->num--;
+@@ -76,9 +70,7 @@ const uint8_t *fifo8_pop_buf(Fifo8 *fifo, uint32_t max, uint32_t *num)
+ {
+     uint8_t *ret;
+ 
+-    if (max == 0 || max > fifo->num) {
+-        abort();
+-    }
++    assert(max > 0 && max <= fifo->num);
+     *num = MIN(fifo->capacity - fifo->head, max);
+     ret = &fifo->data[fifo->head];
+     fifo->head += *num;
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.20.1
 
 
