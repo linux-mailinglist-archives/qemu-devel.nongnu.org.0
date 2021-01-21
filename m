@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 743042FF61E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:42:06 +0100 (CET)
-Received: from localhost ([::1]:41282 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73EFB2FF620
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:42:49 +0100 (CET)
+Received: from localhost ([::1]:44152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2gmL-0000PE-17
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:42:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48504)
+	id 1l2gn2-0001wi-JI
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:42:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l2gkk-0008JJ-R4
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:40:28 -0500
-Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:32878)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l2gke-0004yT-An
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:40:26 -0500
-Received: by mail-ed1-x536.google.com with SMTP id c6so4131619ede.0
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:40:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=gfUtRFYTM5/q60jOqaVgL3bl5JqrWtB42261p0EFHvI=;
- b=cZ2EXjMFFkcnyPWeIQbceoMmtSJ2rJcjG/AaaPq+a8jIbIsQGMJyE+ZQ7d02vt04Fw
- 90a4P0GWkH0IgMqmiODy3gaXBuVeIrl4GxQcr+t88K49CM425tf1lXR2I4EeONJom46P
- GvyWWlqcOZrRw9924pKlG4xPGvAsEUCXjaEZIKcuY/kcTV4pfP9MwDnFQ6s8RdIy8z1B
- dU3Jy4DOylBVEhAOVOg+CfW+LJYlAhG94OjGT1pfhXoQfN69Tzek83rYCOxVIHAAetro
- Owa8Sk5ZFlUAXDIM3QaPdiTBj6fQrimqIEE6ZobGkTpkbYxj1gHFCq1GwpkjR0gg5Dlt
- vUUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=gfUtRFYTM5/q60jOqaVgL3bl5JqrWtB42261p0EFHvI=;
- b=n9SWPNCjcOI4pZZMdjfYUHZ9uCd5IgiGkIqvDZLFFwBZAyQvu3Xk2LBtzqIt/GPD1y
- K4TBUcOt7FmZHdpRPEiMgDsb9TmZ0zi9S0dBibWPhy7JyszRcEyMGctUGitt5ebWgFpw
- uPpqu7NLhqVqGquZ5clKrnbqbjaOimOCbHgq0eX5/X8IiUNDfuWGkal7mdrBwgCJ2RIH
- kuQfG+WPRcPMeq+uarG9yna5+mObrQDWBmKmvA1RaczEY4+b+F6wwdWbuTUs2W3R4d4R
- aZjJfDSueLcUIMoVB3hrPaIQTB6HbyNbp9OrpAd/OYnjZCHAjKjJ6kjNW/rPDOGdL1FX
- p1Cg==
-X-Gm-Message-State: AOAM531BXGovI2QEU2fIt4Gt4d7YfEpd0NCuxS5RcLda1xwFbXDCfnds
- 74Q/cUMYeTjkXtsW61prM2ew28bKhn+6IjbEQn4=
-X-Google-Smtp-Source: ABdhPJxe2YDoAPbdvu4i1eye33NJcSGBVbZTjI2ypVXfk77TCvzrpFWKjVAR5jkGRR4DkGjsa5pZM4Vdd14IML1aaaE=
-X-Received: by 2002:a05:6402:6c4:: with SMTP id
- n4mr745976edy.257.1611261618161; 
- Thu, 21 Jan 2021 12:40:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l2glc-0000PW-RX
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:41:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53539)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l2gla-0005P3-Ei
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:41:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611261675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=GcMneY5ZksTuHaON16lG1yiZ1BIY1so3HNtCBvDS8no=;
+ b=D6F8fFpcQU7HHf/FY2tlQCtUlXU66o3UfG9IgatNnG15vkFc+Ykftm7/FlSD2KWqx4WVQC
+ OEKeNeW2YMO6Ej/ZzNC0qBJJwEWN6djDGTKuSp7y35a5m0GM94uNg3k+US/DZ/45XUToFB
+ vpzMXjDeVTMKw9Jvb1fYJ0gTaY9xp+A=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-526-TYOZS-y5PVe9GHMoaQXQ5w-1; Thu, 21 Jan 2021 15:41:12 -0500
+X-MC-Unique: TYOZS-y5PVe9GHMoaQXQ5w-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A29DE107ACE3;
+ Thu, 21 Jan 2021 20:41:10 +0000 (UTC)
+Received: from localhost (ovpn-118-239.rdu2.redhat.com [10.10.118.239])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4AFCC19C59;
+ Thu, 21 Jan 2021 20:41:04 +0000 (UTC)
+Date: Thu, 21 Jan 2021 15:41:03 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH v3 0/3] nvdimm: read-only file support
+Message-ID: <20210121204103.GY1227584@habkost.net>
+References: <20210104171320.575838-1-stefanha@redhat.com>
+ <20210104210226.GI18467@habkost.net>
+ <20210114140506.GE292902@stefanha-x1.localdomain>
 MIME-Version: 1.0
-References: <20210121082314.458600-1-dje@google.com>
- <CAJ+F1CJ5SB2RHuR6KzoA8K0Tdpeam+=LdSRbax6W6WQ+18qqUA@mail.gmail.com>
- <CADPb22R9c+e1i-3CYWOc=U9Yr+F=86=T3sZ2p3jBNrn9m2kwGg@mail.gmail.com>
-In-Reply-To: <CADPb22R9c+e1i-3CYWOc=U9Yr+F=86=T3sZ2p3jBNrn9m2kwGg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 22 Jan 2021 00:40:06 +0400
-Message-ID: <CAJ+F1CKrzGunuhDRfNfei4PaaVuHDUYyTS2QNJ8+-wFvOSEU4w@mail.gmail.com>
-Subject: Re: [PATCH 0/2] Add ipv6 hostfwd support
-To: Doug Evans <dje@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::536;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x536.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210114140506.GE292902@stefanha-x1.localdomain>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,54 +79,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- QEMU <qemu-devel@nongnu.org>
+Cc: Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Julio Montes <julio.montes@intel.com>,
+ qemu-devel@nongnu.org, eric.g.ernst@gmail.com,
+ Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Doug
+On Thu, Jan 14, 2021 at 02:05:06PM +0000, Stefan Hajnoczi wrote:
+> On Mon, Jan 04, 2021 at 04:02:26PM -0500, Eduardo Habkost wrote:
+> > Is anybody already going to merge this?  If not, I can merge it.
+> 
+> Great, thank you for merging it, Eduardo!
 
-On Fri, Jan 22, 2021 at 12:29 AM Doug Evans <dje@google.com> wrote:
->
-> On Thu, Jan 21, 2021 at 1:41 AM Marc-Andr=C3=A9 Lureau <marcandre.lureau@=
-gmail.com> wrote:
->>
->> Hi Doug,
->>
->> On Thu, Jan 21, 2021 at 12:24 PM dje--- via <qemu-devel@nongnu.org> wrot=
-e:
->> >
->> > Hi. This patchset takes the original patch from Maxim,
->> > https://www.mail-archive.com/qemu-devel@nongnu.org/msg569573.html
->> > and updates it.
->> >
->> > The first patch is the slirp additions, the second patch adds the u/i.
->>
->> libslirp is maintained on gitlab. Can you open a merge request?
->> https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests
->>
->> thanks
->
->
->
-> Hi. Sure, no problem.
-> I wasn't sure what the procedure is but figured it would come out during =
-the review.
-> How does review of libslirp patches work?
+I had just queued the patches, but I will be able to send a pull
+request only next Monday.  Sorry for the delay!
 
-We do the reviews on the gitlab MR (of the individual patches).
+-- 
+Eduardo
 
-> I gather Samuel is a libslirp maintainer so I'm guessing it just needs to=
- be approved here (after appropriate review) and then afterwards I should f=
-ile the merge request?
-
-Any of the libslirp maintainer can merge after reviews (including me).
-
-Then anybody can propose a patch to update libslirp in qemu, get
-reviews/comments, and Samuel can send the pull request. Sometimes
-someone else sends it.
-
-Note that libslirp is packaged in a number of distributions these days
-(https://repology.org/project/libslirp/versions), and that qemu may
-link to it depending on how it is built.
 
