@@ -2,126 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7068E2FE637
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:21:22 +0100 (CET)
-Received: from localhost ([::1]:40756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 754AB2FE657
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:29:07 +0100 (CET)
+Received: from localhost ([::1]:43234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2W9Z-00007U-1Z
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:21:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52038)
+	id 1l2WH4-0001e2-H8
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:29:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l2W7t-0007zh-DG; Thu, 21 Jan 2021 04:19:37 -0500
-Received: from mail-eopbgr60135.outbound.protection.outlook.com
- ([40.107.6.135]:64918 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l2W7q-000839-Ip; Thu, 21 Jan 2021 04:19:36 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N0uooNJT1r7C3U8QPW6yrv0QZHGXYGs5Skyd6vEyQBf5ygF9yw5Mzpzks8yeU+OgO2ezW4PBQD0lZ2wTPVvfnPaOI82p+rtAC+6GL47N0yS7DJXXHlZBFN4GSO1jl+pdzJomHa8F3gjNFS2auj3cShROBldDpWPpbGUd5rtvVXAX90DTX4ovXdBeTKyVjCJ1fvrJ+1TC0ZcBu9fkHxrr66HxiGZh8d5fo1SemWdmnMuub1Alp84XMess2R2wLFRqZiNV6BlSyrMwiz4hgPTkWUV/M09mrZzBT+LbI31H01KQxOMuGI4r6UCq6YibUrWxhj5rzE9itSMMiA8Lg12BCw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a7pnFIi+bZB68wGnZjMIoP0dIZCNzwBWzCUQXrfGps0=;
- b=U7f5C1SUwBLEC9V5SScE5w+GQfOGKKJNbwsWXb0WO/BEZIq1z02zvKDBHI3M4Eg7Va4esr6Xw2UcybS7YNcEL13FKy6HhbmYGddLG3WxbqWi/UR4AuEnEZki8mzIYuwaubH6o1cA017yymLuLIBMWl8ZJvaVjLkr8CDRxXt0rGpXWT65xzqpGoWEVHLZJ1TgOOXOu+gj1ZYXh/dhR8pOxQB8lpuj+336rQnfNyuydyO4zdpQmtjQoxaH31mjdUCMv2Hee875jQZwz5PoI0yWVuk83JNUDKAw6LAIR+Xn43j3Y9wk35ldIhn47AaB4dynOXxEMUVz+DbY1tcPsV68sA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a7pnFIi+bZB68wGnZjMIoP0dIZCNzwBWzCUQXrfGps0=;
- b=WqcXMmdWn52kyeJ8dr9lj02v//mxqQwdpCD8E0aawEEQy2HsWm9gT8dkND2J2pyFj0rhXQyLx5fCRo4boZLF1lvo1ad3Mm8hzyPnpr2oJdl7S3qW+a7DSes6hmGvBe8Eo4OH3aLeOjlX/7xnu7lMBfdtbQQfCXBiBk8RBZNjTvM=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6069.eurprd08.prod.outlook.com (2603:10a6:20b:29c::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Thu, 21 Jan
- 2021 09:19:29 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::214a:3545:368c:7ae8%9]) with mapi id 15.20.3763.014; Thu, 21 Jan 2021
- 09:19:29 +0000
-Subject: Re: [PULL 10/13] iotests: define group in each iotest
-To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
-References: <20210121023657.1186241-1-eblake@redhat.com>
- <20210121023657.1186241-11-eblake@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <20edc700-b74d-2a00-0735-42a48963942a@virtuozzo.com>
-Date: Thu, 21 Jan 2021 12:19:26 +0300
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2WFs-0001DT-MY
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:27:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56006)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2WFn-0003Nj-4A
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:27:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611221265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=QcjLA/feYtaNaOGfcW+mMyZSGqavwp0IOYM0SKK7MHY=;
+ b=VHcSVv/dgFnPP1X2zo7Dh2YqhJFqmMhDqj3PKXaoGe/LpAYmNcw+T/AbAuDrTuz5Sp/Hwm
+ pV87352Z+xMCActetrGbym7oHy7TG0A7N5B8o62aRPkYdNPlv/5uh3Pj0k+rvRJijaReWZ
+ ysVVzhnJ6i5ide9XhvSYX1f1JBFIXoM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-460-nNdj_0l1Ncehcw9QPYVjOA-1; Thu, 21 Jan 2021 04:27:41 -0500
+X-MC-Unique: nNdj_0l1Ncehcw9QPYVjOA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F1A021005504
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 09:27:40 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-225.ams2.redhat.com
+ [10.36.114.225])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C59161002C10;
+ Thu, 21 Jan 2021 09:27:36 +0000 (UTC)
+Subject: Re: Thread safety of coroutine-sigaltstack
+To: Laszlo Ersek <lersek@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
+ <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
+Date: Thu, 21 Jan 2021 10:27:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <20210121023657.1186241-11-eblake@redhat.com>
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.101]
-X-ClientProxiedBy: AM0PR06CA0084.eurprd06.prod.outlook.com
- (2603:10a6:208:fa::25) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.101) by
- AM0PR06CA0084.eurprd06.prod.outlook.com (2603:10a6:208:fa::25) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Thu, 21 Jan 2021 09:19:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 1649c9ea-970f-465b-90f4-08d8bdeda7ad
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6069:
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6069B3C994B988593A231309C1A10@AS8PR08MB6069.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Sd4URG+04PGBCBjzr3RuQtK+WNj05Gbx4Ql+V5PtpyWIRTiWhd2LwYRzVoUbsHj0ql1fRzQIwU+JNe5Q0gYuHFFb1ZphBytlypJm2sJRh3II79MU3KiMz97i/aknCrPiZvh/AzI9bZ8B4gxIJgCrfdx6XTiQ5kRAAUqJe8+kVWrD4NGlQ/3Ut7SSp6ov/e0vqzf8vn5fxFdPUZhdd7vg5svwpUTP0WzQH+l3jQ+65uFFo2G2bHZYs7gJz+IhvI5LgFi4ayWTO4WV+G7GysZOwjy/aKOpXC4yAFzqVogHxilj7wMErj0jA2kpvHtyU+GksOu7V5vQKK+eH3ddjQdnxzOayHaBnGGneaF3SwKs78QHkXGeEyXn7KXyFKC1DQi3ULrnWvtpbWCHHcK30KCm7n4oa5y8X8nsq252/c+0JpAa2kA9mBt3YAQz1l/0pQpFVxj3otXAjAhg7JgLxpF+51UzOv2GIiCKw+JV56E6nDk=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(136003)(39830400003)(376002)(366004)(346002)(396003)(6486002)(86362001)(316002)(2906002)(26005)(4326008)(66946007)(5660300002)(8936002)(31686004)(66556008)(54906003)(66476007)(478600001)(8676002)(16526019)(52116002)(36756003)(83380400001)(16576012)(956004)(2616005)(186003)(31696002)(45980500001)(43740500002);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dE8wcUk1NnBqcTM2VUJjVjE0M1BLOG8rK2k1c0NpdUpvSEd6OGdBdWJYNWVC?=
- =?utf-8?B?VWk3ZEtzOUhBcXQ4TmZzSlBsbHUrckx3UjNCMnZ3dTB1TTdLckhMSkxTL2lT?=
- =?utf-8?B?c2YrVE5Ob2VMWVZFcUpqUnhCWEZZcUI2ME5oWWJEeFp5T3ZWN1ZOWXZsbndt?=
- =?utf-8?B?YXRWbVlxalZ1YWMrODEybjFKWCtMWTVIcW1ZQWRURkJjM2dvTzljc0tsQUZE?=
- =?utf-8?B?RXRlL3ZHWHl3ZVlSeHlHYkFlejdTemNVdkVhN1Nya1JLbVN0Y0tzYk0xZzZS?=
- =?utf-8?B?WmJKa1BPVEVXdUJadjByUkVDRFRqSmFncFczUmlUSWQ4VU1tSGFqMnJIMnJP?=
- =?utf-8?B?STgxYzlLOWJ5Y0NaMGxzYVZJTTR1SUE1dkF1NlhmSDFQR1pGc3I0T285Smdn?=
- =?utf-8?B?cUxTcjg5bW9aR2RhYmpMc1ErN1dRUFVaazlyQVB5dzMxTWhFZnVPWE91SGRu?=
- =?utf-8?B?RjlsUitSa09FTU9ER3gxK2dob0xTSk5tTmk5WVN3Ny8zbmU3TW1PZEVBRkpr?=
- =?utf-8?B?aVRwaTc0cjhZWFlIZjI1ZDBTSUNtWlliZXUxczhkYkU3UlNEbjVYTFF3N3RM?=
- =?utf-8?B?K29xaHhZYXJSbE5qK0F1OTV1ZU1SQ2NQTjF6WU5wZ1E4M2pIYW90citmY2Uv?=
- =?utf-8?B?REpGeTF5VVhVL0IyT1FOL1IxcFI4SHB1Z09TSHh2Y2c5OU11UmJmMm5kUnZh?=
- =?utf-8?B?M1ZMTEdrMmpGVkZiMWgwYWdPdTd5SjRQUDhzU0UxR0k4NDhyR28vSkNiQVI2?=
- =?utf-8?B?dXZyQnBoOGdmdHA0dHVXMjBUdno3UnZucW43M1lwQnJmR0FZaGRGSi9kcFY4?=
- =?utf-8?B?alVjNkpHR201SGhZMEFhQ0ErNEhBanJVTElPN3d3RlVjY3cxR3Y2Q29PdFpk?=
- =?utf-8?B?K3I4RHhmMTNGNDFhUXgvMWpqVXVtd3dhUW0rYWtZOVBJekZIR2JIMldRR1pV?=
- =?utf-8?B?K21ZZlpzOEZVdVZKUFlvRjM5TnBVMHdsRzJKQnBhTm9CVnA3MDFPOVRnUlJX?=
- =?utf-8?B?NE82MHkyNFhlNVB0QnlEdjRkQWRJY0dXcW03R3VzWCtTTmdmREVwNmVCczJ0?=
- =?utf-8?B?cUgzY1BuNHZlYmJDeVd4VFRmaWJacjV5cVFrSUJmTU1TN2R3MkEwRk8rZzU0?=
- =?utf-8?B?NTIwOTZ4NjZUZC9Na1JZa1NLSUR0bDFJdDhPZTQ2VDcyR1hyNjNhOEpIeGk4?=
- =?utf-8?B?Nk9BbFlPSnI5THA3ZURjVUZTSWxQQ3lWWkFGRUF0MW0yN1BBZjRuNUNYUnZI?=
- =?utf-8?B?aFBTWUZYR0x1ZmNZcnFkZnZwQUlCMW4yR2ZLVjRwbGROVnBhOHRNbDdadFI2?=
- =?utf-8?Q?9QqFgk9M4xEps0pH5sf65SXjNpl8B1cOVY?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1649c9ea-970f-465b-90f4-08d8bdeda7ad
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2021 09:19:29.3010 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iLw1oU5yahW3GFbiK+alprtwOR1Y1XtZgjwMQ2iDNcDTKGeEMYDt+heggCbgRwXQCqHzsbXZq62zxsVskzFaHROWAIfo2CPBpf4bQeZUjLU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6069
-Received-SPF: pass client-ip=40.107.6.135;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-DB3-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -135,38 +83,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-21.01.2021 05:36, Eric Blake wrote:
-> From: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
+On 20.01.21 18:25, Laszlo Ersek wrote:
+> On 01/20/21 17:26, Max Reitz wrote:
+>> Hi,
+>>
+>> I’ve run into trouble with Vladimir’s async backup series on MacOS,
+>> namely that iotest 256 fails with qemu exiting because of a SIGUSR2.
+>>
+>> Turns out this is because MacOS (-xcode) uses coroutine-sigaltstack,
+>> when I use this on Linux, I get the same error.
+>>
+>> (You can find the series applied on my block branch e.g. here:
+>>
+>> https://github.com/XanClic/qemu.git block
+>> )
+>>
+>> Some debugging later I found that the problem seems to be two threads
+>> simultaneously creating a coroutine.  It makes sense that this case
+>> would appear with Vladimir’s series and iotest 256, because 256 runs two
+>> backup jobs in two different threads in a transaction, i.e. they’re
+>> launched simultaneously.  The async backup series makes backup use many
+>> concurrent coroutines and so by default launches 64+x coroutines when
+>> the backup is started.  Thus, the case of two coroutines created
+>> concurrently in two threads is very likely to occur.
+>>
+>> I think the problem is in coroutine-sigaltstack’s qemu_coroutine_new().
+>> It sets up a SIGUSR2 handler, then changes the signal handling stack,
+>> then raises SIGUSR2, then reverts the signal handling stack and the
+>> SIGUSR2 handler.  As far as I’m aware, setting up signal handlers and
+>> changing the signal handling stack are both process-global operations,
+>> and so if two threads do so concurrently, they will interfere with each
+>> other.
 > 
-> We are going to drop group file. Define group in tests as a preparatory
-> step.
+> Signal action (disposition) is process-wide.
 > 
-> The patch is generated by
-> 
->      cd tests/qemu-iotests
-> 
->      grep '^[0-9]\{3\} ' group | while read line; do
->          file=$(awk '{print $1}' <<< "$line");
->          groups=$(sed -e 's/^... //' <<< "$line");
->          awk "NR==2{print \"# group: $groups\"}1" $file > tmp;
->          cat tmp > $file;
->      done
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
-> Reviewed-by: Eric Blake<eblake@redhat.com>
-> Message-Id:<20210116134424.82867-7-vsementsov@virtuozzo.com>
-> Signed-off-by: Eric Blake<eblake@redhat.com>
+> Signal mask and signal stack are thread-specific.
 
-Hmm. I think this patch should go together with the main series about refactoring iotests/check, not with preparation fixes. Otherwise we'll diverge if more tests will come in a mean time (or any change in group file). And just for good history, better keep this patch close to dropping of group file.
+Ah, OK.  Thanks for the insight!
 
+> A signal may be pending for the whole process, or for a specific thread.
+> In the former case, the signal is delivered to one of the threads that
+> are not blocking the signal.
+> 
+>> What usually happens is that one thread sets up everything,
+>> while the other is already in the process of reverting its changes: So
+>> the second thread reverts the SIGUSR2 handler to the default, and then
+>> the first thread raises SIGUSR2, thus making qemu exit.
+> 
+> I agree. The way SIGUSR2 is blocked (for the thread), made pending (for
+> the thread), and then allowed to be delivered (consequently, to the
+> thread), looks OK. But by the time it is delivered, the action has been
+> changed.
+> 
+>>
+>> (Could be worse though.  Both threads could set up the sigaltstack, then
+>> both raise SIGUSR2, and then we get one coroutine_trampoline()
+>> invocation in each thread, but both would use the same stack.  But I
+>> don’t think I’ve ever seen that happen, presumably because the race time
+>> window is much shorter.)
+> 
+> No, the "alternate stack for signal handlers" that sigaltstack()
+> configures is thread-specific. (I mean one could theoretically mess it
+> up if the stack were located in the same place between different
+> threads, but we call qemu_alloc_stack(), so that doesn't happen.)
+> 
+> https://pubs.opengroup.org/onlinepubs/9699919799/functions/sigaltstack.html
 
--- 
-Best regards,
-Vladimir
+Explains why I haven’t seen it. :)
+
+>> Now, this all seems obvious to me, but I’m wondering...  If
+>> coroutine-sigaltstack really couldn’t create coroutines concurrently,
+>> why wouldn’t we have noticed before?  I mean, this new backup case is
+>> kind of a stress test, yes, but surely we would have seen the problem
+>> already, right?  That’s why I’m not sure whether my analysis is correct.
+>>
+>> Anyway, I’ve attached a patch that wraps the whole SIGUSR2 handling
+>> section in a mutex, and that makes 256 pass reliably with Vladimir’s
+>> async backup series.  Besides being unsure whether the problem is really
+>> in coroutine-sigaltstack, I also don’t know whether getting out the big
+>> guns and wrapping everything in the mutex is the best solution.  So,
+>> it’s an RFC, I guess.
+> 
+> A simple grep for SIGUSR2 seems to indicate that SIGUSR2 is not used by
+> system emulation for anything else, in practice. Is it possible to
+> dedicate SIGUSR2 explicitly to coroutine-sigaltstack, and set up the
+> action beforehand, from some init function that executes on a "central"
+> thread, before qemu_coroutine_new() is ever called?
+
+Doesn’t sound unreasonable, but wouldn’t the signal handler then have to 
+check whether the SIGUSR2 comes from coroutine-sigaltstack or from the 
+outside?  Or should we then keep SIGUSR2 blocked all the time?
+
+> ... I've tried to see if POSIX says anything on signals being delivered
+> with mutexen held. I can't find anything specific (the spec seems to
+> talk about delivery of a signal while the thread waits in
+> pthread_mutex_lock(), but that's not what we care about, here). I'm just
+> somewhat uncomfortable with bracketing this whole hackery into a mutex
+> even... Keeping sigaction() out of the picture could be a small
+> performance benefit, too.
+
+Speaking of signal being delivered in the mutexed section...  What would 
+happen if we get an external signal after SIGUSR2 was delivered and 
+coroutine_trampoline() set up the sigsetjmp(), but before the stack is 
+switched back?  Wouldn’t this new signal then trash the stack?  Should 
+we block all signals while using the alternate stack?
+
+(Looking at the x64 objdump, the stack actually seems to be used to 
+store @self across sigsetjmp().)
+
+> The logic in the patch doesn't look broken, but the comments should be
+> updated minimally -- the signal stack is thread-specific (similarly to
+> how a thread has its own stack anyway, regardless of signals).
+
+Sure, I can do that.
+
+I agree that there probably are better solutions than to wrap everything 
+in a lock.  OTOH, it looks to me like this lock is the most simple 
+solution.  If Daniel is right[1] and we should drop 
+coroutine-sigaltstack altogether (at some point...), perhaps it is best 
+to go for the most simple solution now.
+
+[1]
+https://lists.nongnu.org/archive/html/qemu-block/2021-01/msg00808.html
+
+Max
+
 
