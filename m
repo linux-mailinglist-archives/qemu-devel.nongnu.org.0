@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FF842FE6E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:58:04 +0100 (CET)
-Received: from localhost ([::1]:36520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B19F2FE6F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:01:04 +0100 (CET)
+Received: from localhost ([::1]:44778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Wj5-0003Y4-6Y
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:58:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58490)
+	id 1l2Wlz-0006xN-Fs
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:01:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Whc-00029b-I6
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:56:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40595)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Whf-00029v-H1
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:56:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29301)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Wha-0007bF-EU
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:56:32 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2Whd-0007cZ-Cp
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:56:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611222989;
+ s=mimecast20190719; t=1611222992;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4vbZITXCojVqoLVlcTV8UhB9kZaRdFXoQTJGiK5zZPg=;
- b=UK9NBuPB0KLdTJKiykPbgy13+7S21CgCCpBfPIHB7Xjq6ayCoLFaX0fyzcPwjzLEJtF+K3
- qB11XN7ay6Ge538f2+2HuXzK3Rr9K4nV4s/6YiYyTpwxPqpFGr5CiMnEl5esV+rLPEqSVO
- C5U8PE7j/EH5FQW/J0jRF0bQU6K0vyA=
+ bh=SjsHBumFOzDTtSGmwqxy73OZ0MrE7P1Szrnp+qipcy8=;
+ b=AOfqvq7TBCGQcr/m2E6OQxNOzpqZr9rhFczknJrN37Rhu6k3cxqiJjiIxk+5RITiLSrP9R
+ 2nwhs7c4IA/QjuP1xQ2VQZyf5FsXbNBQv5SLShLksddN4ZILP06yAMJyIgM1E5LqG1nOsm
+ eRoJT5cR0D+kke6mAlZnpXjpcbtAFwA=
 Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
  [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-6odY0m7WPG2PfqO4jEcRzQ-1; Thu, 21 Jan 2021 04:56:25 -0500
-X-MC-Unique: 6odY0m7WPG2PfqO4jEcRzQ-1
-Received: by mail-ej1-f71.google.com with SMTP id ox17so546654ejb.2
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 01:56:25 -0800 (PST)
+ us-mta-262-_SoWm6vcPEiSYPgWC7xfwQ-1; Thu, 21 Jan 2021 04:56:30 -0500
+X-MC-Unique: _SoWm6vcPEiSYPgWC7xfwQ-1
+Received: by mail-ej1-f71.google.com with SMTP id rl8so546242ejb.8
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 01:56:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4vbZITXCojVqoLVlcTV8UhB9kZaRdFXoQTJGiK5zZPg=;
- b=CmLqFmhbmOlrmZEfzvvobrC8cy7JQlY4NA/MQqwzU6ScDWhPdtlcwFeVMF18NuJHsY
- mE38f/qiAex/+m6xAPyemxBBSxAdzo76P5r39e3BErWVocDG/k+kFfNvUyI8fywwvVAg
- JZsBQ3cuuz+F2+cj4vdmt1gF2c+KdIsMQqe0kFyccYJUN7yTTqA1dkd5LoGkhXjC0hHZ
- SPlLUUa4t0B4L36rkF9X2NCml2rV38EvtShygkSwxkH41gYwm0UqyOLF0gszPhUZc6hX
- w762OqNp41QoNCrXvItiasdUuCxC5CkZ/99b0hBvGlJ1FuA2hRYNwpDyBBRBjUvE5COq
- xDZA==
-X-Gm-Message-State: AOAM532CjSRweA0iJYetb6NUArB9cg9KD+OP5TdQyxSTD2FRdW3MfrDR
- Gd0i5N0czeOmmO4J8dwOVKTYoKbrtcnjGqLZtWFWTb69F6kCVuMtUo4WUIF5RIY6nKuhtC3WKY0
- d5nlNL78ey4qrFFHlxyTWNmaqM5Sl9HljpOVuBRg11pyg65N1pF+FkESRu88Aq857
-X-Received: by 2002:a05:6402:1b91:: with SMTP id
- cc17mr10931449edb.259.1611222984136; 
- Thu, 21 Jan 2021 01:56:24 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwKGfGnsKczyzqbRrNSlrP6xKp5Hm2dVB1mI/vnlgmHdD7OwZQJ4HZAM2L9DYQZd4GQAxNUIg==
-X-Received: by 2002:a05:6402:1b91:: with SMTP id
- cc17mr10931436edb.259.1611222983939; 
- Thu, 21 Jan 2021 01:56:23 -0800 (PST)
+ bh=SjsHBumFOzDTtSGmwqxy73OZ0MrE7P1Szrnp+qipcy8=;
+ b=Ney4xmmqJm0WhSW/FYeof9UZrSJOsB76kiOueCywHOSlwmkb/V9IZ3keGwIuDmSNed
+ qw6po/zhzAaS2KPOohYQbjv2hrT2nyy6NVty7A3SbudLG1gftX15185m1kWK4pLniM80
+ 9p/FwFZEmcdcSHHV+fJomcTl8XKjmE8rq2la1gLD7JmE2/DK9EnLteoGJG0mfMjU2G7W
+ o9u6a1yeBsW+V0agQu2KOqQCN1w58bnS5uygShB2j5vh2r+mGpmokE0I6poNJZpyCm6i
+ 3kse/WqiovKFehv3AbhoI/OdeZRzG0UFoLK9AQ+HIL1bj/hBf9RfYbdHg/wz5U3eXHLA
+ Dajg==
+X-Gm-Message-State: AOAM530oXuMcMVCfoE9z1ilYOiu0L0XE/8s9snTp5BLUqX8RPe3zF1WS
+ W0Hd59bNJjg4zEIHt3O5r5UBXZVuOMIP2xunAKY7pg820bRgBRv72nqhPNXhWGAC6szhmPY+CJW
+ wO7fSmeNoPoW8yxlOiadmCNty/KQZer3CgYi3EZ/jZ2NCDDHsF7eC9hW46kh2FshC
+X-Received: by 2002:a50:85c4:: with SMTP id q4mr1695349edh.7.1611222989355;
+ Thu, 21 Jan 2021 01:56:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxJqTJeqLX6eSaxv8dSNnAwYDjbLc/HkFtM/mgTHMq+ox3KcYuusP8hJxPGuca44FJvB+0dnQ==
+X-Received: by 2002:a50:85c4:: with SMTP id q4mr1695336edh.7.1611222989157;
+ Thu, 21 Jan 2021 01:56:29 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id e11sm2002594ejz.94.2021.01.21.01.56.22
+ by smtp.gmail.com with ESMTPSA id j18sm2006332ejv.18.2021.01.21.01.56.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 01:56:23 -0800 (PST)
+ Thu, 21 Jan 2021 01:56:28 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] meson: Summarize information related to directories
- first
-Date: Thu, 21 Jan 2021 10:56:09 +0100
-Message-Id: <20210121095616.1471869-2-philmd@redhat.com>
+Subject: [PATCH v2 2/8] meson: Display host binaries information altogether
+Date: Thu, 21 Jan 2021 10:56:10 +0100
+Message-Id: <20210121095616.1471869-3-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210121095616.1471869-1-philmd@redhat.com>
 References: <20210121095616.1471869-1-philmd@redhat.com>
@@ -103,43 +100,63 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meson.build | 26 +++++++++++++++-----------
+ 1 file changed, 15 insertions(+), 11 deletions(-)
 
 diff --git a/meson.build b/meson.build
-index 8f5a8b997d3..a47c5f8ab9d 100644
+index a47c5f8ab9d..614eef82c37 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -2282,6 +2282,7 @@
- # Configuration summary #
- #########################
- 
-+# Directories
- summary_info = {}
- summary_info += {'Install prefix':    get_option('prefix')}
- summary_info += {'BIOS directory':    qemu_datadir}
-@@ -2301,8 +2302,11 @@
- summary_info += {'Doc directory':     get_option('docdir')}
- summary_info += {'Build directory':   meson.current_build_dir()}
- summary_info += {'Source path':       meson.current_source_dir()}
--summary_info += {'GIT binary':        config_host['GIT']}
+@@ -2305,8 +2305,22 @@
  summary_info += {'GIT submodules':    config_host['GIT_SUBMODULES']}
-+summary(summary_info, bool_yn: true, section: 'Directories')
-+
+ summary(summary_info, bool_yn: true, section: 'Directories')
+ 
++# Host binaries
 +summary_info = {}
-+summary_info += {'GIT binary':        config_host['GIT']}
++summary_info += {'git':               config_host['GIT']}
++summary_info += {'make':              config_host['MAKE']}
++summary_info += {'python':            '@0@ (version: @1@)'.format(python.full_path(), python.language_version())}
++summary_info += {'sphinx-build':      sphinx_build.found()}
++if config_host.has_key('HAVE_GDB_BIN')
++  summary_info += {'gdb':             config_host['HAVE_GDB_BIN']}
++endif
++summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
++if slirp_opt != 'disabled'
++  summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
++endif
++summary(summary_info, bool_yn: true, section: 'Host binaries')
++
+ summary_info = {}
+-summary_info += {'GIT binary':        config_host['GIT']}
  summary_info += {'C compiler':        meson.get_compiler('c').cmd_array()[0]}
  summary_info += {'Host C compiler':   meson.get_compiler('c', native: true).cmd_array()[0]}
  if link_language == 'cpp'
-@@ -2510,7 +2514,7 @@
+@@ -2332,15 +2346,8 @@
+ endif
+ summary_info += {'QEMU_CFLAGS':       config_host['QEMU_CFLAGS']}
+ summary_info += {'QEMU_LDFLAGS':      config_host['QEMU_LDFLAGS']}
+-summary_info += {'make':              config_host['MAKE']}
+-summary_info += {'python':            '@0@ (version: @1@)'.format(python.full_path(), python.language_version())}
+-summary_info += {'sphinx-build':      sphinx_build.found()}
+-summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
+ # TODO: add back version
+ summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
+-if slirp_opt != 'disabled'
+-  summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
+-endif
+ summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
+ if config_host.has_key('CONFIG_MODULES')
+   summary_info += {'alternative module path': config_host.has_key('CONFIG_MODULE_UPGRADES')}
+@@ -2506,9 +2513,6 @@
+ summary_info += {'default devices':   get_option('default_devices')}
+ summary_info += {'plugin support':    config_host.has_key('CONFIG_PLUGIN')}
+ summary_info += {'fuzzing support':   config_host.has_key('CONFIG_FUZZ')}
+-if config_host.has_key('HAVE_GDB_BIN')
+-  summary_info += {'gdb':             config_host['HAVE_GDB_BIN']}
+-endif
+ summary_info += {'thread sanitizer':  config_host.has_key('CONFIG_TSAN')}
+ summary_info += {'rng-none':          config_host.has_key('CONFIG_RNG_NONE')}
  summary_info += {'Linux keyring':     config_host.has_key('CONFIG_SECRET_KEYRING')}
- summary_info += {'FUSE exports':      fuse.found()}
- summary_info += {'FUSE lseek':        fuse_lseek.found()}
--summary(summary_info, bool_yn: true)
-+summary(summary_info, bool_yn: true, section: 'Misc')
- 
- if not supported_cpus.contains(cpu)
-   message()
 -- 
 2.26.2
 
