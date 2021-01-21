@@ -2,76 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9584B2FE3DA
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 08:26:13 +0100 (CET)
-Received: from localhost ([::1]:47606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8380F2FE3F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 08:29:22 +0100 (CET)
+Received: from localhost ([::1]:52216 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2UM8-0006Px-Me
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 02:26:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55152)
+	id 1l2UPB-00005Q-Kv
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 02:29:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2UJM-0005V6-SO
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:23:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41487)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2UMk-0007WF-1z
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:26:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51201)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2UJI-0004KJ-DA
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:23:20 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2UMf-0005lg-SQ
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 02:26:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611213795;
+ s=mimecast20190719; t=1611214004;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=v2pyfJmRilk6r9rm5lfCkAcrT5fNNZRRSyBTYqAnehU=;
- b=eUpQMLQn5mIhoATInvXBnMBrIOdVcSDz33jszJU4nOq7XJws3TgYLO5Y8W8/GMTt364jKZ
- ATmVmNOC0r2gPuXWKByUY2rg8p+hbVGTtwIEccX2CSEms0fapHDZULe4ijUkU1dED8W4xS
- QeuJ/9/Oa7wfgLPZ8nH4YnMvqt/d8J4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-q0KKZqOIPyajXO2uphiV0g-1; Thu, 21 Jan 2021 02:23:10 -0500
-X-MC-Unique: q0KKZqOIPyajXO2uphiV0g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8CFB61800D41
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 07:23:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8382D5C8A7;
- Thu, 21 Jan 2021 07:23:06 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 18966113865F; Thu, 21 Jan 2021 08:23:05 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH v3 05/17] qapi: pass QAPISchemaModule to visit_module
- instead of str
-References: <20210119180242.1570753-1-jsnow@redhat.com>
- <20210119180242.1570753-6-jsnow@redhat.com>
- <87eeifu805.fsf@dusky.pond.sub.org>
- <3e43fe6d-b718-af82-598e-e277f9104cbc@redhat.com>
- <000bd3b7-1342-d26a-5cc9-3191efe0b0ec@redhat.com>
-Date: Thu, 21 Jan 2021 08:23:05 +0100
-In-Reply-To: <000bd3b7-1342-d26a-5cc9-3191efe0b0ec@redhat.com> (John Snow's
- message of "Wed, 20 Jan 2021 11:16:19 -0500")
-Message-ID: <87ft2ulpnq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=JnQzzTKo0kmTbWYCcIrvXcPLE01L2HX1dsv9tBCP4uk=;
+ b=AaVdGf3Im1lxyCvePz6m9cyIHnWEWN1+VzGNWohEsQE+j8+Z8CQ2yXGBxDtGpVCiStPrGV
+ uoJEodHEu+616OdOztbSqlaMJMtFfcW0E8I/O6czFSl2DXTeRIoTXY/evqTnv9e2rzZu75
+ ldWDw3//X7B4JnCiqMh2ryKtWX9FwEs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-510-huITzzgkPA-4-R_0gBewnQ-1; Thu, 21 Jan 2021 02:26:41 -0500
+X-MC-Unique: huITzzgkPA-4-R_0gBewnQ-1
+Received: by mail-ed1-f72.google.com with SMTP id u17so645523edi.18
+ for <qemu-devel@nongnu.org>; Wed, 20 Jan 2021 23:26:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=JnQzzTKo0kmTbWYCcIrvXcPLE01L2HX1dsv9tBCP4uk=;
+ b=McQz+vvgBVbv2Iq78V04pRWvL/bQmhLMklQMFxAZPzoLPUXoNymRWNtnMIS9E4dgCm
+ oWpHe2byB0ZEKWoLHyFxJ+4VBuva/fTGHATU83JvjYD9bYbjzVYp34NXKp1Ca6SiFcij
+ jxBhstvS4clxj9333QYS5GaBl23jvBsEeUquG334QVojEQlQrIMy3+KFn8OD6UVp4Y9O
+ sGd7ki0lGyhWQMhg/rDD7Hl3Bf8lqc/kEIuKC7+eOmV/uTlOiQpJ4a5uA/kyrk2vkMsJ
+ 1zM5ctONR7KzE6cwzOtvqILNz5gqPvQiai6FE7BSJHKLpjikfYvgjhPMeK+fVR/XPl7n
+ Flmg==
+X-Gm-Message-State: AOAM5307qOtwGwr3O6YKegHDIZIJA+CYyqRVTYiuPFO35HXrzftc/RFe
+ fEYFPl93r9szSvxhGhOBo2ZX/8uUh5XXRGaNsuAxbfid50FOw55VZmlW9FxaobNHsVgeYb+ApfQ
+ y8ufCQs+0gPBihEI=
+X-Received: by 2002:a50:cf02:: with SMTP id c2mr9929120edk.333.1611213998177; 
+ Wed, 20 Jan 2021 23:26:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwPRl1SXPsnUtJkRVipnX4TULbHYT2RENZQ8mRpbBG+q0uotWxRYKAMbR8py5+Efs/6Ap1bSA==
+X-Received: by 2002:a50:cf02:: with SMTP id c2mr9929100edk.333.1611213997991; 
+ Wed, 20 Jan 2021 23:26:37 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id m26sm1840826ejr.54.2021.01.20.23.26.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 20 Jan 2021 23:26:37 -0800 (PST)
+Subject: Re: [PATCH v6 03/11] hvf: Move common code out
+To: Alexander Graf <agraf@csgraf.de>, qemu-devel@nongnu.org
+References: <20210120224444.71840-1-agraf@csgraf.de>
+ <20210120224444.71840-4-agraf@csgraf.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e1054d19-f047-bbaf-0d4d-20b8df97db44@redhat.com>
+Date: Thu, 21 Jan 2021 08:26:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210120224444.71840-4-agraf@csgraf.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -30
+X-Spam_score: -3.1
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,82 +98,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Cameron Esfahani <dirty@apple.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-John Snow <jsnow@redhat.com> writes:
+Hi Alexander,
 
-> On 1/20/21 11:02 AM, Eric Blake wrote:
->> On 1/20/21 6:07 AM, Markus Armbruster wrote:
->>> John Snow <jsnow@redhat.com> writes:
->>>
->>>> Modify visit_module to pass the module itself instead of just its
->>>> name. This allows for future patches to centralize some
->>>> module-interrogation behavior within the QAPISchemaModule class itself,
->>>> cutting down on duplication between gen.py and schema.py.
->>>
->>> We've been tempted to make similar changes before (don't worry, I'm not
->>> building a case for "no" here).
->>>
->>> When I wrote the initial version of QAPISchemaVisitor (commit 3f7dc21be,
->>> 2015), I aimed for a loose coupling of backends and the internal
->>> representation.  Instead of
->>>
->>>      def visit_foo(self, foo):
->>>          pass
->>>
->>> where @foo is a QAPISchemaFooBar, I wrote
->>>
->>>      def visit_foo_bar(self, name, info, [curated attributes of @foo]):
->>>          pass
->>>
->>> In theory, this is nice: the information exposed to the backends is
->>> obvious, and the backends can't accidentally mutate @foo.
->>>
->>> In practice, it kind of failed right then and there:
->>>
->>>      def visit_object_type(self, name, info, base, members, variants):
->>>          pass
->>>
->>> We avoid passing the QAPISchemaObjectType (loose coupling, cool!), only
->>> to pass member information as List[QAPISchemaObjectTypeMember].
->>>
->>> Morever, passing "curated atttibutes" has led to visit_commands() taking
->>> a dozen arguments.  Meh.
->>>
->>> This had made Eric and me wonder whether we should write off the
->>> decoupling idea as misguided, and just pass the object instead of
->>> "curated attributes", always.  Thoughts?
->> I'm open to the idea of passing just the larger object instead of
->> the
->> curated list of relevant attributes.  It's a bit more coupling, but I
->> don't see any of our qapi code being reused outside its current scope
->> where the extra coupling will bite us.  But I'm not volunteering for the
->> refactoring work, because I'm not an expert on python typing hints.  If
->> consolidating parameters into the larger object makes for fewer
->> parameters and easier typing hints, I'm assuming the work can be done as
->> part of static typing; but if leaving things as they currently are is
->> manageable, that's also fine by me.
->> 
->
-> Yeah, it can definitely be left as-is for now. I've already gone
-> through all the effort of typing out all of the interfaces, so it's
-> not really a huge ordeal to just leave it as-is.
->
-> Passing the objects might be nicer for the future, though, as routing
-> new information or features will involve less churn. (And the
-> signatures will be a lot smaller.)
->
-> I suppose it does open us up to callers mutating the schema in the
-> visitors, but they could already do that for the reasons that Markus 
-> points out. It's possible that the visitor dispatch could be modified
-> to make deep copies of schema objects, but that adds overhead.
->
-> I can just revert this change for now and leave the topic for another day.
+On 1/20/21 11:44 PM, Alexander Graf wrote:
+> Until now, Hypervisor.framework has only been available on x86_64 systems.
+> With Apple Silicon shipping now, it extends its reach to aarch64. To
+> prepare for support for multiple architectures, let's move common code out
+> into its own accel directory.
+> 
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> 
+> ---
+> 
+> v3 -> v4:
+> 
+>   - Use hv.h instead of Hypervisor.h for 10.15 compat
+>   - Remove manual inclusion of Hypervisor.h in common .c files
+> ---
+>  MAINTAINERS                 |   8 +
+>  accel/hvf/hvf-all.c         |  54 +++++
+>  accel/hvf/hvf-cpus.c        | 462 ++++++++++++++++++++++++++++++++++++
+>  accel/hvf/meson.build       |   7 +
+>  accel/meson.build           |   1 +
+>  include/sysemu/hvf_int.h    |  54 +++++
+>  target/i386/hvf/hvf-cpus.c  | 131 ----------
+>  target/i386/hvf/hvf-cpus.h  |  25 --
+>  target/i386/hvf/hvf-i386.h  |  33 +--
+>  target/i386/hvf/hvf.c       | 360 +---------------------------
+>  target/i386/hvf/meson.build |   1 -
+>  target/i386/hvf/x86hvf.c    |  11 +-
+>  target/i386/hvf/x86hvf.h    |   2 -
+>  13 files changed, 596 insertions(+), 553 deletions(-)
+>  create mode 100644 accel/hvf/hvf-all.c
+>  create mode 100644 accel/hvf/hvf-cpus.c
+>  create mode 100644 accel/hvf/meson.build
+>  create mode 100644 include/sysemu/hvf_int.h
+>  delete mode 100644 target/i386/hvf/hvf-cpus.c
+>  delete mode 100644 target/i386/hvf/hvf-cpus.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 3216387521..e589ec02e0 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -448,7 +448,15 @@ M: Roman Bolshakov <r.bolshakov@yadro.com>
+>  W: https://wiki.qemu.org/Features/HVF
+>  S: Maintained
+>  F: target/i386/hvf/
+> +
+> +HVF
+> +M: Cameron Esfahani <dirty@apple.com>
+> +M: Roman Bolshakov <r.bolshakov@yadro.com>
+> +W: https://wiki.qemu.org/Features/HVF
+> +S: Maintained
+> +F: accel/hvf/
+>  F: include/sysemu/hvf.h
+> +F: include/sysemu/hvf_int.h
+>  
+>  WHPX CPUs
+>  M: Sunil Muthuswamy <sunilmut@microsoft.com>
+> diff --git a/accel/hvf/hvf-all.c b/accel/hvf/hvf-all.c
+> new file mode 100644
+> index 0000000000..5b415eb0ed
+> --- /dev/null
+> +++ b/accel/hvf/hvf-all.c
+> @@ -0,0 +1,54 @@
+> +/*
+> + * QEMU Hypervisor.framework support
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2.  See
+> + * the COPYING file in the top-level directory.
+> + *
+> + * Contributions after 2012-01-13 are licensed under the terms of the
+> + * GNU GPL, version 2 or (at your option) any later version.
 
-Works for me.  Thanks!
+Maybe start with GPLv2+ directly?
+
+> diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
+> new file mode 100644
+> index 0000000000..69de46db7d
+> --- /dev/null
+> +++ b/include/sysemu/hvf_int.h
+> @@ -0,0 +1,54 @@
+> +/*
+> + * QEMU Hypervisor.framework (HVF) support
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +/* header to be included in HVF-specific code */
+
+Can we have this header local to accel/hvf/ ?
+
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> +
+> +#ifndef HVF_INT_H
+> +#define HVF_INT_H
+> +
+> +#include <Hypervisor/hv.h>
+> +
+> +/* hvf_slot flags */
+> +#define HVF_SLOT_LOG (1 << 0)
+> +
+> +typedef struct hvf_slot {
+> +    uint64_t start;
+> +    uint64_t size;
+> +    uint8_t *mem;
+> +    int slot_id;
+> +    uint32_t flags;
+> +    MemoryRegion *region;
+> +} hvf_slot;
+> +
+> +typedef struct hvf_vcpu_caps {
+> +    uint64_t vmx_cap_pinbased;
+> +    uint64_t vmx_cap_procbased;
+> +    uint64_t vmx_cap_procbased2;
+> +    uint64_t vmx_cap_entry;
+> +    uint64_t vmx_cap_exit;
+> +    uint64_t vmx_cap_preemption_timer;
+> +} hvf_vcpu_caps;
+> +
+> +struct HVFState {
+> +    AccelState parent;
+> +    hvf_slot slots[32];
+> +    int num_slots;
+> +
+> +    hvf_vcpu_caps *hvf_caps;
+> +};
+> +extern HVFState *hvf_state;
+> +
+> +void assert_hvf_ok(hv_return_t ret);
+> +int hvf_get_registers(CPUState *cpu);
+> +int hvf_put_registers(CPUState *cpu);
+> +int hvf_arch_init_vcpu(CPUState *cpu);
+> +void hvf_arch_vcpu_destroy(CPUState *cpu);
+> +int hvf_vcpu_exec(CPUState *cpu);
+> +hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
+> +
+> +#endif
 
 
