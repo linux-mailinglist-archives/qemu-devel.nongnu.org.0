@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7582FF528
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 20:56:02 +0100 (CET)
-Received: from localhost ([::1]:54354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F4962FF538
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 20:57:46 +0100 (CET)
+Received: from localhost ([::1]:59618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2g3k-0008OM-08
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 14:56:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37700)
+	id 1l2g5R-0002HU-JJ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 14:57:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37976)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l2g23-0007cr-3K
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:54:15 -0500
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:44393)
+ id 1l2g3t-000124-Fg
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:56:09 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:32860)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l2g21-0000cp-F7
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:54:14 -0500
-Received: by mail-pf1-x433.google.com with SMTP id t29so2142612pfg.11
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 11:54:12 -0800 (PST)
+ id 1l2g3r-0001PH-Sg
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:56:09 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id lw17so5298527pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 11:56:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=My/98D9JBVJIh7rQnWrZYnPXxIDIy9X2JM+TLvL4klE=;
- b=iPajnVzjTJxaetZMa9K4MyG5jGgNHg2J4uFRmXzdbYRJeD2RZBXPuqi+AnZJHsglF1
- A8BMayWgWz34ZjaZ2FuoFhdhM32pCg8BShfQITdS/YtUe00hi+zbiMsrmkqXj0r0OKBP
- bOJORkEv6zwzcDwW3FHqqriubvpAbW/iYhbj94lSGSHWGWK+6vNalk81lnOpCg4h82Uj
- Gj8B5NsTb4uGdxRpr0zLbk4v8W3x0h7URZuC0nUVOkNojMByFYCKoYqG2SFfkNxkJaIL
- EuhllPU0ILNGkSvuUmLos07T3RqNHq9Z/cNcen+ONuvmhRDTyQvH9IhzuE/eLZtHGo+M
- GnLA==
+ bh=Q9dAf5Suv6GtYs6hJpO/VPS6ykV1whvtSBZk5N2yUY0=;
+ b=UJS/6jTakQM2jjdKoqzhFZqBSY5X+jQEFRlgdd774Z1NmH78BBijlHLrH8CdSoU2jn
+ /R5739hakQf1GHKI2CMlVFoaspfl21cNT/EkpeZzvVHDJWNXTdL/SJ6wEGHcnph4BnRw
+ V2zS9ug2qvo17OEaQbtJNnGFd0NO5ZMCpDhhN4Azm8R5DDOlbiKEjIsVwHbf6ikXx+fS
+ EGkYdSP/GXN+F600ExcPtrhqCO9Ps+280R7Bsh7nKJsq2b7FhF1zil/daP8xElYs98k5
+ fZVykF3sYKXXcL7tK04CO/bcG9E8CSWhfo3KWqC8sZ7edYPzHkJWLUM+uUZX3aqtpnXE
+ xhIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=My/98D9JBVJIh7rQnWrZYnPXxIDIy9X2JM+TLvL4klE=;
- b=l6t+zldUYGElAbZ9C0e5Z3+ghMtXv/eOkNpJ5OrrCcRhBrtuA783Yho0Pct4kU6unR
- ApgE5xJAuu/TyXwVr+yeaAKsq3ZmQvhloFQBj4XbmjQmrb4rmyWqy0uR0Yny5dMCpp4P
- EcWa2N35gcjpkeruE6oR2xkiziMsLTzGZVZgnlfTLymlhcDC51uNayWVwZcdEPDCUzhX
- v2Yw/5tR+XD3hfSRc905hfYd4owL7chPiLoO+NOSVZvfaEgVbNOdmg7guI9ybspX9Wjr
- FGRWTS4dU79c11p8BOe44kkoU7632ey9gqNAH/gebQzi+mp4IhF9HNcvpvC4inChselJ
- EsMA==
-X-Gm-Message-State: AOAM531bbZekeHy60+1AtV6oKD3oadEDHKIiOnxAWLqiIrNSQ2ttWQsB
- rlvS+DnNuvkTxCLo+HU1vTtGJw==
-X-Google-Smtp-Source: ABdhPJxdHiOMcfBTIMYo0A21yDEZUZbWTCdMqGmtVOrg/3pJRzAfS/NIlo4r/Wwi/lBuoXwhDEi/fg==
-X-Received: by 2002:a62:a11c:0:b029:1ba:bab6:6b02 with SMTP id
- b28-20020a62a11c0000b02901babab66b02mr1069556pff.51.1611258852003; 
- Thu, 21 Jan 2021 11:54:12 -0800 (PST)
+ bh=Q9dAf5Suv6GtYs6hJpO/VPS6ykV1whvtSBZk5N2yUY0=;
+ b=raA0RGxzzdHKvribKsCXfMLo/fCsspvvIbjfn6OrnEix60kYptCrvpE+TPh7uPeTTP
+ qEnIE7iRU9C7pt/9R256ldX+dAQi688zqXFQ5i+OdkK5Q7cvjKLjW7JPHOju1j0rTok5
+ ytrObfX/LXS8RRZAk0ZEWqDQxUMGQ2RccGB9OBU7D0tzKWeZcMmQkvK63Tn18KRPaDb7
+ CrJvdzZFGQg7GwpWa288+/ZQ1bs5hSioNOuOfPkE50IM4G7UBInZ2Vr4Xifd6F2U6Bcr
+ vP27V45L6ffn8FmxWWn9oWuIGHAGvBmAWL5Kj9mzqQyrZ1NVcRW8SBfJCAhm5YFPR0uU
+ Xbjg==
+X-Gm-Message-State: AOAM532uG3y5Ol2Zmlmme6FSJgl1ZS6xxLC1YRmum7cMzTjnpgmJQZm6
+ bP6c6aNWi0VaguoC/1r01psM0A==
+X-Google-Smtp-Source: ABdhPJwt5mJLfk22+vsHbYLDNFzoWTOYtmOQhB9xh+M5ukl8P+votO+ncQQzgFs0eltPe9aXnRSU9g==
+X-Received: by 2002:a17:90a:a608:: with SMTP id
+ c8mr1115405pjq.61.1611258966334; 
+ Thu, 21 Jan 2021 11:56:06 -0800 (PST)
 Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id a25sm6189850pgv.40.2021.01.21.11.54.10
+ by smtp.gmail.com with ESMTPSA id k4sm6214106pfk.44.2021.01.21.11.56.04
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 11:54:11 -0800 (PST)
-Subject: Re: [PATCH 2/6] target/mips: Convert Loongson DDIV.G opcodes to
+ Thu, 21 Jan 2021 11:56:05 -0800 (PST)
+Subject: Re: [PATCH 3/6] target/mips: Convert Loongson DIV.G opcodes to
  decodetree
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210112215504.2093955-1-f4bug@amsat.org>
- <20210112215504.2093955-3-f4bug@amsat.org>
+ <20210112215504.2093955-4-f4bug@amsat.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <63cf6d35-f648-cb52-3824-818620798eff@linaro.org>
-Date: Thu, 21 Jan 2021 09:54:08 -1000
+Message-ID: <5722a920-f627-d9d1-2350-28f7b86319c1@linaro.org>
+Date: Thu, 21 Jan 2021 09:56:02 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210112215504.2093955-3-f4bug@amsat.org>
+In-Reply-To: <20210112215504.2093955-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,23 +97,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/12/21 11:55 AM, Philippe Mathieu-Daudé wrote:
-> Introduce decode_loongson() to decode all Loongson vendor
-> specific opcodes. Start converting a single opcode: DDIV.G
-> (divide 64-bit signed integers).
+> DIV.G and DDIV.G are very similar. Provide gen_lext_DIV_G() a
+> 'is_double' argument so it can generate DIV.G (divide 32-bit
+> signed integers).
+> 
+> With this commit we explicit the template used to generate
+> opcode for 32/64-bit word variants. Next commits will be less
+> verbose by providing both variants at once.
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  target/mips/translate.h       |  1 +
->  target/mips/godson2.decode    | 16 +++++++
->  target/mips/loong-ext.decode  | 17 +++++++
->  target/mips/loong_translate.c | 89 +++++++++++++++++++++++++++++++++++
->  target/mips/translate.c       | 28 ++---------
->  target/mips/meson.build       |  3 ++
->  6 files changed, 131 insertions(+), 23 deletions(-)
->  create mode 100644 target/mips/godson2.decode
->  create mode 100644 target/mips/loong-ext.decode
->  create mode 100644 target/mips/loong_translate.c
+>  target/mips/godson2.decode    |  1 +
+>  target/mips/loong-ext.decode  |  1 +
+>  target/mips/loong_translate.c | 28 ++++++++++++++++++++++------
+>  target/mips/translate.c       | 26 --------------------------
+>  4 files changed, 24 insertions(+), 32 deletions(-)
 
+With the double-extend pasto fixed,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
