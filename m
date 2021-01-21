@@ -2,57 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936142FEF82
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:55:05 +0100 (CET)
-Received: from localhost ([::1]:44356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBE02FEF90
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:57:07 +0100 (CET)
+Received: from localhost ([::1]:47600 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2cIa-0006kA-5Z
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:55:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33292)
+	id 1l2cKY-0008Bw-Tr
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:57:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex@alxu.ca>) id 1l2cFx-0005Qs-QB
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:52:21 -0500
-Received: from pink.alxu.ca ([2605:6400:10:4b0::1]:44674)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex@alxu.ca>) id 1l2cFu-0000vI-3z
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:52:20 -0500
-Received: from localhost (unknown [IPv6:2605:6400:8181:1::3])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest
- SHA256) (Client did not present a certificate)
- by pink.alxu.ca (Postfix) with ESMTPS id E8B66289309;
- Thu, 21 Jan 2021 15:52:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alxu.ca; s=default;
- t=1611244334;
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2cJF-0007fu-9V
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:55:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2cJA-0002Mz-Do
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:55:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611244538;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=hwusA5u2Bv03DQWiw/c6bTo7Qi3VBtEU4lc3gAbI9eY=;
- b=oekxjd5dpyKb11J/oyvxyzhVOVLncAKUT52ZZnyiUnl82AxZWrr/L3pDQkAF2Z+9cZMNku
- jYdMCEwqAmvL2/EqzT02kA8PxSik9QYV58fB9pDI0169e0H5JPSgUJgE/LVsVP3y6RMKFY
- G+MXerc/RHRUke+y8pdacfnVgNKZ4ihdk60RoPZsEKoIccTnEhhOZQesdcYwlWFg8ZsvJU
- F+L3dkQSrzqr307ahO/YzZE/njwCaNPGaBMiH4VFthi17RL6Ya4w5SeZUu5Bgnho3/4SGI
- InZ+lreIfLpEPMLraYLYxLcn48x4pnZIWnpM/9i6nRMLhMP/SUk7xLDEgoYihg==
-Date: Thu, 21 Jan 2021 10:52:10 -0500
-Subject: Re: [PATCH] virtiofsd: prevent opening of special files
- (CVE-2020-35517)
-To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
-References: <20210121144429.58885-1-stefanha@redhat.com>
- <f5fc73e5-334e-c1ef-3982-227715efc26b@redhat.com>
-In-Reply-To: <f5fc73e5-334e-c1ef-3982-227715efc26b@redhat.com>
+ bh=mFxJfukx0zPQQ2ilzrXBzb5gAMhRVYziKFg4h/Y6ECU=;
+ b=dCE4TqiDtOxL0Cos7zuzcrXj9Rknlh2Z2nl2JGvN+qEtdH2/T+LnER11YhdRcB1ONxY9Np
+ xScgb+VuHoJo/GjyCNl0LEW+IyWPoNSqcg60KMacm8SNiJz2b4lz46ZUxMNcLUx9F4wVAy
+ 90cREM8LdEf0uD5D52OpCGJ21zaqsd0=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-435-gRwCn2jzNs6rLqTcLo328A-1; Thu, 21 Jan 2021 10:55:36 -0500
+X-MC-Unique: gRwCn2jzNs6rLqTcLo328A-1
+Received: by mail-ed1-f69.google.com with SMTP id w4so1378620edu.0
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 07:55:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=mFxJfukx0zPQQ2ilzrXBzb5gAMhRVYziKFg4h/Y6ECU=;
+ b=UfLQYsBep2jdjPdusTNAnHpJO9+OPsuSw4FI6qxR5iF/bH1/rIVfeldCsBRlvTGcjP
+ pnIv5YcLhieEm1zxQgbXt+Mt4PvUVlQl92fWH8Cpa7SkMvF6Oaa+IDFErU+Gn4Wcp34h
+ nxHp97LH2NuLlnNY+ue5WfpIfyn/zZCEVKzQ8yWSBxsbJw2tDLFsefqbngo+VKXnZAXx
+ fJEsR0UzE79q+kkMDgNgUlGZ2Ry2SXOS4aAms3MFZN+20YkwKxeb1NVPTn9GIqk0dECk
+ IFsnJlCtfMo/ThQzwc2wKGaa03Kw8zQxv6Itkp80gb/SXSIy+CI4oXy5hua4wnNp0fi2
+ bo5Q==
+X-Gm-Message-State: AOAM533MZZQ83gUczRoGtL1tl73WEzMN1NV1QmRNIVEepHI5FLH7LvSp
+ Q/lIrk5k3q2/j15lzqIv/ppuWTIKX4wXWNvLU5NisWvScxu7I9FjyB7bYx6yuAN9xrs09rlzhFm
+ VRms8x/kjtcChMlZ1alC/BgdmAyQBh2D16mLgqoo3PXs49SVtrNfRjFh1FR5pwEO3
+X-Received: by 2002:a17:906:2695:: with SMTP id
+ t21mr72115ejc.287.1611244534879; 
+ Thu, 21 Jan 2021 07:55:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxzJcRRv1HJ14gKvFSCVlON08w1y/h+kR82xCAm7QMfEXPA7b5sL4RUmYjx1t9j80WmR2URnA==
+X-Received: by 2002:a17:906:2695:: with SMTP id
+ t21mr72101ejc.287.1611244534624; 
+ Thu, 21 Jan 2021 07:55:34 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id k21sm2978728edq.60.2021.01.21.07.55.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 21 Jan 2021 07:55:33 -0800 (PST)
+Subject: Re: changing tests/qtest/meson.build causes unnecessary rebuilding
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
+References: <CAFEAcA8mBK9932CLZ9uFtEa0rSycK6Sp9UDjSJnbJpg2hx8idg@mail.gmail.com>
+ <17698af4-537b-3e8e-67c8-4ed45a922def@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b17b0df5-4bfd-6fef-3d01-c7783fdb3364@redhat.com>
+Date: Thu, 21 Jan 2021 16:55:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Message-Id: <1611243688.4854bsewsj.none@localhost>
+In-Reply-To: <17698af4-537b-3e8e-67c8-4ed45a922def@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2605:6400:10:4b0::1; envelope-from=alex@alxu.ca;
- helo=pink.alxu.ca
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,65 +102,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, slp@redhat.com,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, P J P <ppandit@redhat.com>,
- virtio-fs@redhat.com, Stefan Hajnoczi <stefanha@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Alex Xu <alex@alxu.ca>
-From: alex--- via <qemu-devel@nongnu.org>
 
-Excerpts from Laszlo Ersek's message of January 21, 2021 10:32 am:
-> Assuming a benign / trusted guest, is there going to be an override for
-> this?
->=20
-> Asked differently -- if we don't want to set up a separate block device
-> on the host, to contain the filesystem that is mounted as the shared
-> directory, can unionfs (?) / overlayfs be used to re-mount an existent
-> host-side directory as the shared directory, but with
-> "noexec,nosuid,nodev" *bolted-on*?
->=20
-> If people have to create separate block devices (on the host side) for
-> innocent use cases such as running tests in a trusted guest, that's not
-> going to qualify as "usability progress" relative to having a qcow2 (or
-> raw) image file.
->=20
-> "nodev,nosuid" is kind of a no-brainer for any host-side *data* volume
-> anyway (such as the one underlying "/home", even), so I don't see those
-> options as a challenge. But "noexec" is different.
->=20
-> Thanks,
-> Laszlo
+Hi Peter,
 
-On Linux, there are two types of mount options: per-superblock, and=20
-per-point. Most filesystem-specific options are per-superblock, and=20
-apply to all mounts of that device. noexec, nosuid, and nodev are=20
-per-mount options, and apply individually to each mount, bind or=20
-otherwise, of a given device. Bind mounts copy the parent per-mount=20
-options, but can be individually altered. Note also that it is not=20
-required to create a new location for a bind mount.
+On 1/21/21 2:12 PM, Paolo Bonzini wrote:
+> On 21/01/21 12:56, Peter Maydell wrote:
+>> $ make -C build/arm-clang/ -j8
+>> make: Entering directory
+>> '/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang'
+>> [1/23] Generating qemu-version.h with a meson_exe.py custom command
+>> make: Leaving directory
+>> '/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang'
+>> $ touch tests/qtest/meson.build
+>> $ make -C build/arm-clang/ -j8
+>> make: Entering directory
+>> '/home/petmay01/linaro/qemu-from-laptop/qemu/build/arm-clang'
+>> /usr/bin/ninja  build.ninja && touch build.ninja.stamp
+>> [0/1] Regenerating build files.
+>> The Meson build system
+>> [...]
+>>
+>> It then goes on to rebuild hundreds or thousands of files, most of
+>> which are not even in tests/. (Oddly, the exact set of files recompiled
+>> seems to vary from run to run.)
+>>
+>> Forcing a full rebuild of all of QEMU seems rather excessive when
+>> the change was likely "add a new test case"...
+> 
+> This is "avoid build.ninja changes due to order of hash table iteration"
+> (https://github.com/mesonbuild/meson/pull/7900/).  I think Meson 0.57
+> (with the fix) should be out soon, hopefully before 6.0.
+> 
+> Alternatively you can try to bug your distro to include the patches,
+> they are pretty safe.
 
-For example, invoking:
+Possible kludge rebuilding meson locally:
 
-mount --bind -o noexec,nosuid,nodev /var/lib/vms/source1 /var/lib/vms/sourc=
-e1
+Paolo's #7900 got merged in commit 1c582a9de:
+("Merge pull request #7900 from bonzini/stabilize-hash"),
+so a possible kludge is to build and install meson in your
+$HOME/.local/bin/ directory with pip as:
 
-would effectively secure a source directory. This can also be inserted=20
-in /etc/fstab, such as:
+  $ python3 -m pip install --user \
+      git+https://github.com/mesonbuild/meson.git@1c582a9de
 
-/var/lib/vms/source1 /var/lib/vms/source1 none bind,noexec,nosuid,nodev 0 0
+Then either update your $PATH or use:
 
-Note that, as explained in Stefan's initial email, this hides any=20
-submounts below source. Each of those must be individually protected,=20
-either by initially mounting with the security options or by creating a=20
-new bind mount as above. Although these cases should be infrequent, they=20
-are common enough that Stefan and I think that they should be supported,=20
-or at the very least not silently behave in unexpected or insecure ways.
-
-Additionally, while it's possible to use overlayfs for this purpose,=20
-it's overkill, and as far as I understand, doesn't solve the problem of=20
-hiding sub-mounts.
+  $ ./configure --meson=$HOME/.local/bin/meson ...
 
 Regards,
-Alex.
+
+Phil.
+
 
