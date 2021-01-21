@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 103092FF72B
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 22:27:35 +0100 (CET)
-Received: from localhost ([::1]:56532 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29C5F2FF755
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 22:33:41 +0100 (CET)
+Received: from localhost ([::1]:36466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2hUL-00062I-MH
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 16:27:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59682)
+	id 1l2haG-0001GC-7n
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 16:33:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2hRP-0003sN-VI; Thu, 21 Jan 2021 16:24:32 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:45228)
+ id 1l2hXK-0007sQ-GV; Thu, 21 Jan 2021 16:30:38 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:34165)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2hRJ-0008Lw-1e; Thu, 21 Jan 2021 16:24:27 -0500
-Received: by mail-ed1-x529.google.com with SMTP id f1so4181787edr.12;
- Thu, 21 Jan 2021 13:24:22 -0800 (PST)
+ id 1l2hXJ-0002iJ-2U; Thu, 21 Jan 2021 16:30:38 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id hs11so4746196ejc.1;
+ Thu, 21 Jan 2021 13:30:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ktvptkmbOc3LIbss4D7YnGlDoURR3Z5R/uvzj8wLRmo=;
- b=RaXIuUyGFX5Gw1vsS1n+9F0BLKVyZd2K67doAEPdhZTrD+J7PuA+iBXpCRkPhcMP8b
- h21r8F3/+wz2vdqBGwtXP5ss2XVNURIFOiem8FBPTQ1Mz8dDHb8hi4qY3cRU9gqT1ujQ
- 1ij1Sid8MtU+GcU3axeTMbxiUi+IN+I2GjQK0IQEg7qCgiyaNSskYRFaPrdZvmwb2SWs
- bhvwiIhhItDdLJQlJwIpoJyeH7GH49uSB0S1jtpf34NPbTHvFuhKQUxXeCzLe/ZhMxVj
- L6GvaNzOctrlsetOFgMd2fCFKMqjuvzXqByb+6LE3IyC7wALCDQmQblUlHUpX7/mtXS8
- EQXQ==
+ bh=sXZlqrgkOFwHCKdSvPskOVNqifgwnVfhLMXVsd1Xjlo=;
+ b=rOuJsSGUcsHdMzADX0+UsSdjO2T7uDb81yV5kL1YK6t9K+el0uT6swta1LOSa5zBbz
+ lRmp68Xl/0H+9kVFtCeU9BEy3Or3guUnqF1eOQslL50RQr6nlOivdF8QUiUrg2Zsbhgw
+ +9TOHXTUa0IsFz0UcPA3XcuKSc7ROg7g5D/y7m3stvBUZmI+W20b9MuWJqg7KY+u/YZG
+ BZgsIQAzK0yBaU3i7Z9LeH+ovGRGeVadr10PnpN6JjqCDq/E3h263Wa6JqN8PML1LkEf
+ LvYUm/vLABqNLuRRhhvoxNZjsyuQlwkXe+gWJ3n2jYox9rLUnkOedW08HmrrKwCTl0Ys
+ AjJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ktvptkmbOc3LIbss4D7YnGlDoURR3Z5R/uvzj8wLRmo=;
- b=qzCvmB9IrQN+hJfEwYv35rrYeVRiOUZlMrflf2Mu49m1lJhtVX4wy6KmlyLZ/qosov
- 3oGW6B23Fwit9ZpbBEyimrz45FymfLLW9urLv/2S+POyzMt73ldYfXXbIpFa8FJP76hW
- GOfXXsoTXYMRUS9c7xre6MSSmy10hDgxR8Oi0fPEvZkHKSTYIHAzPyqd67CO9grOHiub
- er3jGra4g7yKzFTEivYRCk+rcCgEeftRnLvZmTtwCy81stB/iRL6yTu+jk5V8BMixqSQ
- 231ShPdC4LqUw+Wn/TbKJ1lTsvGOY5cWzlawS/BM8sigahmz0cT7aGG1jM81b29tk1EN
- Qllg==
-X-Gm-Message-State: AOAM5315obWrDBdB6QnrdyUEcIHEMRlfpXlM5B6yV1a6JGrH/hjv8wOL
- 2l7UFZJDI9nLkl+jY6IlxGM=
-X-Google-Smtp-Source: ABdhPJwOJweMjI7v8tg5UlASyVHqf/ik0blB6ehVwLDQ9dFRDpxSXOOcXPl3Im6YToVyPNvZkRq6qg==
-X-Received: by 2002:aa7:d148:: with SMTP id r8mr857092edo.127.1611264261523;
- Thu, 21 Jan 2021 13:24:21 -0800 (PST)
+ bh=sXZlqrgkOFwHCKdSvPskOVNqifgwnVfhLMXVsd1Xjlo=;
+ b=uZxaOM9toYu8h07gOIeB6hOItkeLoy3F9PeSl47YYT7ea6clzIFoZkVX/gWMu1c+2u
+ akUP0uVH/1ejc9qPsJb+0MwPicqnW2xmYUBOeiWcMqHuN0FXiU58DBC/csB6rudU125q
+ 3iOxPU12V7XNZtKLaBcyJlEADhlgYp4/Pz9sFUAiYNJ+niUM+JdNodUqaxYWY5XhyZEi
+ BSmA0+FxDqXEHRHXmwd6WtGmOxihgDL5XIO0c0HlfAajqGBVItVMJDFzlfHVCNijUzM3
+ POivgQqQ7zsrXCwiyoOF7Pd8cpQi51tAQ4SBfCzaQS7KO9qcxIMOXm4lj3+VGGZB/g1F
+ avpA==
+X-Gm-Message-State: AOAM5324rkdS/pXdV60jAvqP7QTFdiEGOKBFvk903O7WJaWhu7IMjCQ3
+ 4EgjrU3P25mlUk41ZDIwhKQ=
+X-Google-Smtp-Source: ABdhPJyBlK4W7fY3QOjjC8Do6SB9mKzYl3USWQFn9b/Y0LFuL8SVQeMXs0LgpIjYpOsF8NArMoo0mw==
+X-Received: by 2002:a17:907:d27:: with SMTP id
+ gn39mr911811ejc.152.1611264635467; 
+ Thu, 21 Jan 2021 13:30:35 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id w4sm3460329eds.40.2021.01.21.13.24.20
+ by smtp.gmail.com with ESMTPSA id i26sm3482324eds.55.2021.01.21.13.30.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 13:24:20 -0800 (PST)
-Subject: Re: [PATCH 13/25] hw/arm/mps2: Create and connect SYSCLK Clock
+ Thu, 21 Jan 2021 13:30:34 -0800 (PST)
+Subject: Re: [PATCH 14/25] hw/arm/mps2-tz: Create and connect ARMSSE Clocks
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-14-peter.maydell@linaro.org>
+ <20210121190622.22000-15-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <ded564bc-71f4-c12e-ed66-481a2f2bdda3@amsat.org>
-Date: Thu, 21 Jan 2021 22:24:19 +0100
+Message-ID: <14467f6f-97c5-37e5-2371-118af184ca41@amsat.org>
+Date: Thu, 21 Jan 2021 22:30:33 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210121190622.22000-14-peter.maydell@linaro.org>
+In-Reply-To: <20210121190622.22000-15-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,13 +94,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/21/21 8:06 PM, Peter Maydell wrote:
-> Create a fixed-frequency Clock object to be the SYSCLK, and wire it
-> up to the devices that require it.
+> Create and connect the two clocks needed by the ARMSSE.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  hw/arm/mps2.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
+>  hw/arm/mps2-tz.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
 
