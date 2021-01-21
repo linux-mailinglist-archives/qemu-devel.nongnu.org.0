@@ -2,71 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845212FEADD
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:59:25 +0100 (CET)
-Received: from localhost ([::1]:34226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6092A2FEACD
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:57:46 +0100 (CET)
+Received: from localhost ([::1]:57772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ZYa-00068x-JV
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:59:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42522)
+	id 1l2ZWz-0004BK-Eb
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:57:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42734)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2ZQL-0005Zt-R7
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:50:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49573)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2ZQF-0003Su-BP
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:50:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611233446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ELMXX/7+Mu/+0lCYZDVZMDtTBBkG25eKsFIUDq+vL1o=;
- b=T+pb6ZWkIIOQOxR/MzuJt7JSwBoot46n+Z5coVYARSIUiqqwLyYDFeaj3zPLdNRGn4jMWy
- isfYTTaPSJ/2nXZDxrzahIRL0GhEPps9DLUPY/Ieq+CT4PWUVw9G+k5WyzVUGVp8EqhX++
- z57jTkgo6Su4pvi6m2XSSdcVMmfovWM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-128-hduPV5XWPHWpNBCC6K0AaA-1; Thu, 21 Jan 2021 07:50:44 -0500
-X-MC-Unique: hduPV5XWPHWpNBCC6K0AaA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE3AD15726
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:50:43 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2808319D9B;
- Thu, 21 Jan 2021 12:50:38 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3B39F18003BE; Thu, 21 Jan 2021 13:50:29 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l2ZQq-0006b7-Sb
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:51:24 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:53771)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l2ZQn-0003cC-Mv
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:51:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=90+yEAGGjmCEQ5RxfVPk4yE0dcsoCz8m/18bjJ0Tmio=; b=gvT3vr9TxZgFdCLyYi67Zzkpgh
+ tY+g84q4A1LGLbGYvEO8LqCbJaN5nNDcPLdtETok5DdVebmtlUzP0iMpbDiRgLOgnQR6uDXdy4Yct
+ 2VftLHZc6gezTuRXd/+CxuGQPNyvEYHDh7o8uNi6jx2mfK2tcqfAgfIHe9QSZISZUwRtptlG+UsNV
+ ArDa4nhLWEwXTi4pDcZdY4FevmIoXkyI6x02BktMMQEr19P4Redg6YlMNdp5Ov9NZc4nYYAR0MPRq
+ XITeLUzOZdWXDGyIFUC9ncsxz+y8bGKeP3bIcEdjIqy2Pv29smSAaeWCK3Kj93ef/wW3R8tZqODE3
+ 34JFRVXrEiRiHZEuV953qf8JxZ+9sryicnMA1GDFvFhLlI4yfF1kdnNOPqn5hM0ZFCKJ+19Evl2fz
+ esl01nJHnNLOKXY8lx7H2kRI/l+AVeoBLOhcupq5Q1OjSR/Gtd6STqhDhkMnZlcVKKXysKcFWmu7Y
+ jngIVY6BD+lqlzySUvwgzbCjXWWeoiZXabbQDb40ZTwX6MVmw59/ZGoqZ6PD7DJDo3tVuCObpUwVe
+ Hepn9lLzQ8vGH7Y26GlD2EJUb23HjskmphpHsfhYf59GwK4eaBscA/J6TfAFEcgJgheJZvR7gU9KC
+ DBtafM4tFpUoSVgoKthCInEkr6Xdfw3Pvf8IovLWc=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 8/8] trace/simple: add st_init_group
-Date: Thu, 21 Jan 2021 13:50:28 +0100
-Message-Id: <20210121125028.3247190-9-kraxel@redhat.com>
-In-Reply-To: <20210121125028.3247190-1-kraxel@redhat.com>
-References: <20210121125028.3247190-1-kraxel@redhat.com>
+Subject: Re: [PATCH 3/3] 9pfs: Improve unreclaim loop
+Date: Thu, 21 Jan 2021 13:50:37 +0100
+Message-ID: <1978739.Uc7ZUDHExb@silver>
+In-Reply-To: <20210118142300.801516-4-groug@kaod.org>
+References: <20210118142300.801516-1-groug@kaod.org>
+ <20210118142300.801516-4-groug@kaod.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,71 +64,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add helper function and call it for each trace event group added.
-Makes sure that events added at module load time are initialized
-properly.
+On Montag, 18. Januar 2021 15:23:00 CET Greg Kurz wrote:
+> If a fid was actually re-open by v9fs_reopen_fid(), we re-traverse the
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- trace/simple.h  |  1 +
- trace/control.c |  4 ++++
- trace/simple.c  | 12 ++++++++++++
- 3 files changed, 17 insertions(+)
+"re-opened"
 
-diff --git a/trace/simple.h b/trace/simple.h
-index 26ccbc8b8ae3..ee1983ce5617 100644
---- a/trace/simple.h
-+++ b/trace/simple.h
-@@ -15,6 +15,7 @@ void st_print_trace_file_status(void);
- bool st_set_trace_file_enabled(bool enable);
- void st_set_trace_file(const char *file);
- bool st_init(void);
-+void st_init_group(size_t group);
- void st_flush_trace_buffer(void);
- 
- typedef struct {
-diff --git a/trace/control.c b/trace/control.c
-index f1cc880b7cd1..9649d0979e70 100644
---- a/trace/control.c
-+++ b/trace/control.c
-@@ -81,6 +81,10 @@ void trace_event_register_group(TraceEvent **events)
-     event_groups = g_renew(TraceEventGroup, event_groups, nevent_groups + 1);
-     event_groups[nevent_groups].events = events;
-     nevent_groups++;
-+
-+#ifdef CONFIG_TRACE_SIMPLE
-+    st_init_group(nevent_groups - 1);
-+#endif
- }
- 
- 
-diff --git a/trace/simple.c b/trace/simple.c
-index ec2156d135cb..ac499edee0d5 100644
---- a/trace/simple.c
-+++ b/trace/simple.c
-@@ -422,3 +422,15 @@ bool st_init(void)
-     atexit(st_flush_trace_buffer);
-     return true;
- }
-+
-+void st_init_group(size_t group)
-+{
-+    TraceEventIter iter;
-+
-+    if (!trace_writeout_enabled) {
-+        return;
-+    }
-+
-+    trace_event_iter_init_group(&iter, group);
-+    st_write_event_mapping(&iter);
-+}
--- 
-2.29.2
+> fid list from the head in case some other request created a fid that
+> needs to be marked unreclaimable as well (ie. the client open a new
+
+"i.e." and either "opens" or "opened"
+
+> handle on the path that is being unlinked). This is a suboptimal since
+
+No "a" here: "This is suboptimal since"
+
+> most if not all fids that require it have likely been taken care of
+> already.
+> 
+> This is mostly the result of new fids being added to the head of the
+> list. Since the list is now a QSIMPLEQ, add new fids at the end instead.
+> Take a reference on the fid to ensure it doesn't go away during
+> v9fs_reopen_fid() and that it can be safely passed to QSIMPLEQ_NEXT()
+> afterwards. Since the associated put_fid() can also yield, same is done
+> with the next fid. So the logic here is to get a reference on a fid and
+> only put it back during the next iteration after we could get a reference
+> on the next fid.
+> 
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+>  hw/9pfs/9p.c | 44 ++++++++++++++++++++++++++++++--------------
+>  1 file changed, 30 insertions(+), 14 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index b65f320e6518..b0ab5cf61c1f 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -311,7 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
+> fid) * reclaim won't close the file descriptor
+>       */
+>      f->flags |= FID_REFERENCED;
+> -    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
+> +    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
+
+I wondered whether that behaviour change could have negative side effects, but 
+I think the reason why they added it to the head of the list was simply 
+because they only had a head pointer (i.e. they would have needed a loop to 
+insert to tail).
+
+So yes, I think that change makes sense now with QSIMPLEQ.
+
+> 
+>      v9fs_readdir_init(s->proto_version, &f->fs.dir);
+>      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
+> @@ -497,32 +497,48 @@ static int coroutine_fn
+> v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) {
+>      int err;
+>      V9fsState *s = pdu->s;
+> -    V9fsFidState *fidp;
+> +    V9fsFidState *fidp, *fidp_next;
+> 
+> -again:
+> -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+> -        if (fidp->path.size != path->size) {
+> -            continue;
+> -        }
+> -        if (!memcmp(fidp->path.data, path->data, path->size)) {
+> +    fidp = QSIMPLEQ_FIRST(&s->fid_list);
+> +    assert(fidp);
+
+And fidp is under regular circumstances always non-null here? The assumption 
+is that there is at least the root fid in the list, which the user should not 
+have permission to unlink, right?
+
+> +
+> +    /*
+> +     * v9fs_reopen_fid() can yield : a reference on the fid must be held
+> +     * to ensure its pointer remains valid and we can safely pass it to
+> +     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
+> +     * we must keep a reference on the next fid as well. So the logic here
+> +     * is to get a reference on a fid and only put it back during the next
+> +     * iteration after we could get a reference on the next fid. Start with
+> +     * the first one.
+> +     */
+> +    for (fidp->ref++; fidp; fidp = fidp_next) {
+> +        if (fidp->path.size == path->size &&
+> +            !memcmp(fidp->path.data, path->data, path->size)) {
+>              /* Mark the fid non reclaimable. */
+>              fidp->flags |= FID_NON_RECLAIMABLE;
+> 
+>              /* reopen the file/dir if already closed */
+>              err = v9fs_reopen_fid(pdu, fidp);
+>              if (err < 0) {
+> +                put_fid(pdu, fidp);
+>                  return err;
+>              }
+> +        }
+> +
+> +        fidp_next = QSIMPLEQ_NEXT(fidp, next);
+> +
+> +        if (fidp_next) {
+>              /*
+> -             * Go back to head of fid list because
+> -             * the list could have got updated when
+> -             * switched to the worker thread
+> +             * Ensure the next fid survives a potential clunk request
+> during +             * put_fid() below and v9fs_reopen_fid() in the next
+> iteration. */
+> -            if (err == 0) {
+> -                goto again;
+> -            }
+> +            fidp_next->ref++;
+
+Mmm, that works as intended if fidp_next matches the requested path. However 
+if it is not (like it would in the majority of cases) then the loop breaks 
+next and the bumped reference count would never be reverted. Or am I missing 
+something here?
+
+>          }
+> +
+> +        /* We're done with this fid */
+> +        put_fid(pdu, fidp);
+>      }
+> +
+>      return 0;
+>  }
+
+Best regards,
+Christian Schoenebeck
+
 
 
