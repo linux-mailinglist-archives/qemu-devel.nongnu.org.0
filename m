@@ -2,79 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF56D2FF324
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:28:36 +0100 (CET)
-Received: from localhost ([::1]:35182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FFD22FF33F
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 19:35:09 +0100 (CET)
+Received: from localhost ([::1]:46878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2eh9-00033b-RA
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:28:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45078)
+	id 1l2enU-0008GK-K3
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 13:35:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46108)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2eeX-00021w-BK
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:25:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55463)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2eeV-0004a8-K0
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:25:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611253550;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GAUC6q2n5TlbRx77N/7tjCJ30lqltE0ShlWuu7E+MJI=;
- b=gkB8fPDjyqNd93rr3eYdzJcTIzgwM/joav7haTdBslmOQ6FTg7l2dgGPKtfakuj5NDdAiT
- nqA35zbh4jSNjDia9K+k3w/K8vfzRd53e4Tibuig85Fmpm3kgX/nbMbhM8Auba3DCKtWxY
- 7qIyyAqT/qVXOC7t/SJxSSefarRYB0Q=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-464-XuSn2iq7Ol2hjOLTsV1ljw-1; Thu, 21 Jan 2021 13:25:43 -0500
-X-MC-Unique: XuSn2iq7Ol2hjOLTsV1ljw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 38A34107ACF6;
- Thu, 21 Jan 2021 18:25:42 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-82.ams2.redhat.com [10.36.112.82])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EDCB939A60;
- Thu, 21 Jan 2021 18:25:36 +0000 (UTC)
-Subject: Re: [PATCH v2 2/2] gitlab-ci: Test building linux-user targets on
- CentOS 7
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210121172829.1643620-1-f4bug@amsat.org>
- <20210121172829.1643620-3-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <e20c7820-5aff-90fa-1c7d-e909ca2e5817@redhat.com>
-Date: Thu, 21 Jan 2021 19:25:35 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2ejb-0005e9-Ch
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:44606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2ejY-0006eV-Vd
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 13:31:07 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l2ejU-0005jw-QM
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:31:01 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 476912E813B
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 18:30:59 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210121172829.1643620-3-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 21 Jan 2021 18:15:32 -0000
+From: Thomas Huth <1813201@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: aortega halfdog pmaydell th-huth
+X-Launchpad-Bug-Reporter: Alberto Ortega (aortega)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <154835963658.2045.2300981728946163161.malonedeb@wampee.canonical.com>
+Message-Id: <161125293295.28839.1286915514376898371.malone@soybean.canonical.com>
+Subject: [Bug 1813201] Re: QEMU TCG i386 / x86_64 system emulation crash when
+ executing int instruction
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: 0faa1d1a8182fd490c7c5e12957d0e98f0994fdd
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,59 +72,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Laurent Vivier <laurent@vivier.eu>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Reply-To: Bug 1813201 <1813201@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/01/2021 18.28, Philippe Mathieu-Daudé wrote:
-> Add a configuration tested by Peter Maydell (see [1] and [2])
-> but not covered in our CI [3]:
-> 
->    [705/2910] Compiling C object libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->    FAILED: libqemu-arm-linux-user.fa.p/linux-user_strace.c.o
->    ../linux-user/strace.c: In function 'do_print_sockopt':
->    ../linux-user/strace.c:2831:14: error: 'IPV6_ADDR_PREFERENCES' undeclared (first use in this function)
->             case IPV6_ADDR_PREFERENCES:
->                  ^
-> 
-> This job currently takes 31 minutes 32 seconds ([4]).
-> 
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05086.html
-> [2] https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05379.html
-> [3] https://gitlab.com/philmd/qemu/-/jobs/977408284
-> [4] https://gitlab.com/philmd/qemu/-/jobs/978223286
-> 
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   .gitlab-ci.yml | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index de3a3d25b58..af4d74757d8 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -411,6 +411,13 @@ build-user-plugins:
->       MAKE_CHECK_ARGS: check-tcg
->     timeout: 1h 30m
->   
-> +build-user-centos7:
-> +  <<: *native_build_job_definition
-> +  variables:
-> +    IMAGE: centos7
-> +    CONFIGURE_ARGS: --disable-system --disable-tools --disable-docs
-> +    MAKE_CHECK_ARGS: check-tcg
-> +
->   build-some-softmmu-plugins:
->     <<: *native_build_job_definition
->     variables:
-> 
+https://git.qemu.org/?p=3Dqemu.git;a=3Dcommitdiff;h=3D3df1a3d070575419859
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1813201
+
+Title:
+  QEMU TCG i386 / x86_64 system emulation crash when executing int
+  instruction
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  QEMU version:
+  -------------
+
+  qemu from git, master branch commit
+  d058a37a6e8daa8d71a6f2b613eb415b69363755
+
+  Release versions are also affected.
+
+  Summary:
+  --------
+
+  QEMU i386 and x86_64 system emulation crash when executing the
+  following "int" instruction:
+
+  cd08  int 8
+
+  This generates a kernel NULL pointer dereference error in Linux, and a
+  BSOD error in Windows.
+
+  No special permissions are required to execute the instruction, any
+  unprivileged user can execute it.
+
+  This issue has been reproduced in QEMU running in TCG mode. KVM is not
+  affected.
+
+  Kernel panic log:
+
+  [  111.091138] BUG: unable to handle kernel NULL pointer dereference at 0=
+0000014
+  [  111.092145] IP: [<ce0513ad>] doublefault_fn+0xd/0x130
+  [  111.092145] *pdpt =3D 0000000000000000 *pde =3D f000ff53f000ff53 [  11=
+1.092145] =
+
+  [  111.092145] Oops: 0000 [#1] SMP
+  [  111.092145] Modules linked in: kvm_amd bochs_drm ppdev ttm drm_kms_hel=
+per drm kvm irqbypass evdev pcspkr serio_raw sg parport_pc parport button i=
+p_tables x_tables autofs4 ext4 crc16 jbd2 crc32c_generic fscrypto ecb xts l=
+rw gf128mul ablk_helper cryptd aes_i586 mbcache sr_mod sd_mod cdrom ata_gen=
+eric ata_piix libata psmouse e1000 scsi_mod i2c_piix4 floppy
+  [  111.092145] CPU: 0 PID: 409 Comm: int8.elf Not tainted 4.9.0-8-686-pae=
+ #1 Debian 4.9.130-2
+  [  111.092145] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), BIO=
+S rel-1.12.0-0-ga698c8995f-prebuilt.qemu.org 04/01/2014
+  [  111.092145] task: f6c88a80 task.stack: f6e52000
+  [  111.092145] EIP: 0060:[<ce0513ad>] EFLAGS: 00004086 CPU: 0
+  [  111.092145] EIP is at doublefault_fn+0xd/0x130
+  [  111.092145] EAX: 00000000 EBX: 00000000 ECX: 00000000 EDX: 00000000
+  [  111.092145] ESI: 00000000 EDI: 00000000 EBP: ce8f13fc ESP: ce8f13d4
+  [  111.092145]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+  [  111.092145] CR0: 8005003b CR2: 00000014 CR3: 0e8e1000 CR4: 000006f0
+  [  111.092145] Stack:
+  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
+00000 00000000
+  [  111.092145]  00000000 00000000 00000000 00000000 00000000 00000000 000=
+00000 00000000
+  [  111.092145]  00000000 00000000 00000000 00000000 fed00000 ce474ad0 000=
+00000 00017d78
+  [  111.092145] Call Trace:
+  [  111.092145] Code: 86 fd ff eb a3 89 f6 8d bc 27 00 00 00 00 55 89 e5 3=
+e 8d 74 26 00 5d e9 e2 79 fd ff 66 90 55 89 e5 56 53 83 ec 20 3e 8d 74 26 0=
+0 <65> a1 14 00 00 00 89 45 f4 31 c0 31 c0 c7 45 f0 00 00 00 00 66
+  [  111.092145] EIP: [<ce0513ad>] [  111.092145] doublefault_fn+0xd/0x130
+  [  111.092145]  SS:ESP 0068:ce8f13d4
+  [  111.092145] CR2: 0000000000000014
+  [  111.092145] ---[ end trace 8afa7884b76cafc1 ]---
+
+  Testcase:
+  ---------
+
+  void main() {
+          asm("int $0x8");
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1813201/+subscriptions
 
