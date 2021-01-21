@@ -2,58 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50EC32FEA91
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:48:57 +0100 (CET)
-Received: from localhost ([::1]:36250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A00EC2FEAA3
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 13:50:41 +0100 (CET)
+Received: from localhost ([::1]:39520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ZOS-0003Gp-Bb
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:48:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40214)
+	id 1l2ZQ8-0004d2-MZ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 07:50:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42030)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2ZEt-0006hV-A9
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:39:03 -0500
-Received: from mout.kundenserver.de ([212.227.126.130]:59289)
+ (Exim 4.90_1) (envelope-from <prvs=648267919=acatan@amazon.com>)
+ id 1l2ZOG-0003kV-Ov
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:48:44 -0500
+Received: from smtp-fw-9103.amazon.com ([207.171.188.200]:50052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l2ZEr-0007PN-0x
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:39:03 -0500
-Received: from localhost.localdomain ([82.252.149.54]) by
- mrelayeu.kundenserver.de (mreue009 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1N3bb1-1m2TNh26eh-010cAZ; Thu, 21 Jan 2021 13:38:58 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] linux-user: Remove obsolete F_SHLCK and F_EXLCK translation
-Date: Thu, 21 Jan 2021 13:38:52 +0100
-Message-Id: <20210121123852.91187-6-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210121123852.91187-1-laurent@vivier.eu>
-References: <20210121123852.91187-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <prvs=648267919=acatan@amazon.com>)
+ id 1l2ZO9-0002Yx-3I
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 07:48:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
+ t=1611233317; x=1642769317;
+ h=from:to:cc:date:message-id:references:in-reply-to:
+ content-id:mime-version:content-transfer-encoding:subject;
+ bh=YGqUQ1UUFyxHwrMSqEqyzgCapYq/vp03G99HlwzxUsM=;
+ b=KpeHPGY6gdpKJ6SyXx5xDLWet+HDbJMRnq+R+QjCR/NzUg05I9bBUtZz
+ aPZFdDAwVKw/y/Ck1eFeiElvITDClNaBHNsXWeVWO7ER/Q54jdQQfow+w
+ 00ZZzq8FOznKZyQPaPpyG1XQhDfoCaCnP1goOIGV5FO7Va/dpdJ/nxqaK c=;
+X-IronPort-AV: E=Sophos;i="5.79,363,1602547200"; d="scan'208";a="912380983"
+Subject: Re: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+Thread-Topic: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
+ driver
+Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
+ email-inbound-relay-2c-cc689b93.us-west-2.amazon.com) ([10.47.23.38])
+ by smtp-border-fw-out-9103.sea19.amazon.com with ESMTP;
+ 21 Jan 2021 12:48:27 +0000
+Received: from EX13MTAUWA001.ant.amazon.com
+ (pdx1-ws-svc-p6-lb9-vlan3.pdx.amazon.com [10.236.137.198])
+ by email-inbound-relay-2c-cc689b93.us-west-2.amazon.com (Postfix) with ESMTPS
+ id BB3C5120DDC; Thu, 21 Jan 2021 12:48:25 +0000 (UTC)
+Received: from EX13D01UWA004.ant.amazon.com (10.43.160.99) by
+ EX13MTAUWA001.ant.amazon.com (10.43.160.118) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 21 Jan 2021 12:48:25 +0000
+Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
+ EX13d01UWA004.ant.amazon.com (10.43.160.99) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2; Thu, 21 Jan 2021 12:48:24 +0000
+Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
+ EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.010;
+ Thu, 21 Jan 2021 12:48:23 +0000
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Thread-Index: AQHW6NzJ6Ner/CpAZ0GLGgCheKaWxKoj9m4AgA5AxgA=
+Date: Thu, 21 Jan 2021 12:48:23 +0000
+Message-ID: <3159F7DB-C72B-4727-9C83-7E7619FC7D98@amazon.com>
+References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
+ <1610453760-13812-2-git-send-email-acatan@amazon.com>
+ <20210112080427-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20210112080427-mutt-send-email-mst@kernel.org>
+Accept-Language: en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.43.165.192]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <4E59309106369F468D00E8FFBB8BA324@amazon.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Sxs8zB1JX5txQwppMD9tf4Hes7Baw+GnarHYQ3YGYftHg9r7The
- F896el1np8VXlfMzJyAez6BVfnd6/1W2tJUTa8etGIoL7PZFgHxGYjaQp9kCRQRL4HLdPQA
- EPoOhJ/oaPA6BqZdfDP3A+6Ij0fzQbYb64xUEr/FyBhl3KJ4sJUVsLYOO4sFKA/S/FQMqr8
- SV/J9rnA7NbjXptx6+iig==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hUTFT1TGc/w=:sijSqjUXzjksFp59dRjVLv
- fnVsH96u7z6ymdXwSwf8Ep/dgl4w6d4/w5t3ixJ8wyv40eFeK3QSeiO27A0PvBsu126rtVnyC
- 3hNj0u3CP1p76wsd2ImgCrI9A1IZOTqYrWJaH+TI91J9VUQO6jFSWiNu07KHTyx10SEuxpvIE
- jg6+R/6tSSP8Rqq2eqlIKGoje/HD4SMgaXskmiwTnE6O2VQlWPNCD9aeL9L3AUM5cTvX/+cyR
- rEw3696ScpF8A2YYajJPeo1Fmvp26HUaWPUrLQ9GGZ0VysilqKhYGQkgKXgmNwzZPbvX45gEa
- Gxrf3QFFbutL9DV24RwbPsRltDm/aR/ELNy9g1Ty9El6eJhKs9xzwdRGMVIJfFfbKM4ssQiV9
- Vnrbnqask7DMLQuim4cfydMtn4HWO0JiIaHCeQUXIZxIKiMS7on8Bznr14lyDX5gqEVOBhECh
- /Bm0gZmutQ==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Precedence: Bulk
+Content-Transfer-Encoding: base64
+Received-SPF: pass client-ip=207.171.188.200;
+ envelope-from=prvs=648267919=acatan@amazon.com; helo=smtp-fw-9103.amazon.com
+X-Spam_score_int: -120
+X-Spam_score: -12.1
+X-Spam_bar: ------------
+X-Spam_report: (-12.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,75 +91,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, Michael Forney <mforney@mforney.org>
+Cc: "Jason@zx2c4.com" <Jason@zx2c4.com>,
+ "dgunigun@redhat.com" <dgunigun@redhat.com>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "ghammer@redhat.com" <ghammer@redhat.com>,
+ "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
+ "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mhocko@kernel.org" <mhocko@kernel.org>,
+ "oridgar@gmail.com" <oridgar@gmail.com>, "avagin@gmail.com" <avagin@gmail.com>,
+ "pavel@ucw.cz" <pavel@ucw.cz>,
+ "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
+ "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
+ "corbet@lwn.net" <corbet@lwn.net>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
+ "rafael@kernel.org" <rafael@kernel.org>,
+ "ebiggers@kernel.org" <ebiggers@kernel.org>,
+ "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>, "Singh,
+ Balbir" <sblbir@amazon.com>, "bonzini@gnu.org" <bonzini@gnu.org>,
+ "Graf \(AWS\), Alexander" <graf@amazon.de>, "arnd@arndb.de" <arnd@arndb.de>,
+ "jannh@google.com" <jannh@google.com>, "Weiss, Radu" <raduweis@amazon.com>,
+ "asmehra@redhat.com" <asmehra@redhat.com>, "rppt@kernel.org" <rppt@kernel.org>,
+ "luto@kernel.org" <luto@kernel.org>, "gil@azul.com" <gil@azul.com>,
+ "MacCarthaigh, 
+ Colm" <colmmacc@amazon.com>, "tytso@mit.edu" <tytso@mit.edu>,
+ "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+ "areber@redhat.com" <areber@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "ebiederm@xmission.com" <ebiederm@xmission.com>,
+ "ovzxemul@gmail.com" <ovzxemul@gmail.com>, "w@1wt.eu" <w@1wt.eu>, "Woodhouse,
+ David" <dwmw@amazon.co.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  "Catangiu, Adrian Costin" <acatan@amazon.com>
+From: acatan--- via <qemu-devel@nongnu.org>
 
-From: Michael Forney <mforney@mforney.org>
-
-These lock types are unsupported by Linux since v2.2[0][1] and
-always return EINVAL (except on SPARC up until v2.6, which just
-warned).
-
-musl libc does not define these constants, so just remove them from
-the translation cases.
-
-[0] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L322-L324
-[1] https://github.com/mpe/linux-fullhistory/blob/v2.2.0/fs/locks.c#L429-L445
-
-Signed-off-by: Michael Forney <mforney@mforney.org>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Message-Id: <20210114223602.9004-1-mforney@mforney.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/alpha/target_fcntl.h | 2 --
- linux-user/generic/fcntl.h      | 5 -----
- linux-user/syscall.c            | 2 --
- 3 files changed, 9 deletions(-)
-
-diff --git a/linux-user/alpha/target_fcntl.h b/linux-user/alpha/target_fcntl.h
-index 2617e73472b7..e16ed1d4157f 100644
---- a/linux-user/alpha/target_fcntl.h
-+++ b/linux-user/alpha/target_fcntl.h
-@@ -33,8 +33,6 @@
- #define TARGET_F_RDLCK         1
- #define TARGET_F_WRLCK         2
- #define TARGET_F_UNLCK         8
--#define TARGET_F_EXLCK         16
--#define TARGET_F_SHLCK         32
- 
- #include "../generic/fcntl.h"
- #endif
-diff --git a/linux-user/generic/fcntl.h b/linux-user/generic/fcntl.h
-index c85c5b9fed65..4568d1f42bdd 100644
---- a/linux-user/generic/fcntl.h
-+++ b/linux-user/generic/fcntl.h
-@@ -119,11 +119,6 @@ struct target_f_owner_ex {
- #define TARGET_F_UNLCK         2
- #endif
- 
--#ifndef TARGET_F_EXLCK
--#define TARGET_F_EXLCK         4
--#define TARGET_F_SHLCK         8
--#endif
--
- #ifndef TARGET_HAVE_ARCH_STRUCT_FLOCK
- #ifndef TARGET_ARCH_FLOCK_PAD
- #define TARGET_ARCH_FLOCK_PAD
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 5d482dcbefd6..34760779c8ec 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6679,8 +6679,6 @@ static int target_to_host_fcntl_cmd(int cmd)
-     TRANSTBL_CONVERT(F_RDLCK); \
-     TRANSTBL_CONVERT(F_WRLCK); \
-     TRANSTBL_CONVERT(F_UNLCK); \
--    TRANSTBL_CONVERT(F_EXLCK); \
--    TRANSTBL_CONVERT(F_SHLCK); \
-     }
- 
- static int target_to_host_flock(int type)
--- 
-2.29.2
+T24gMTIvMDEvMjAyMSwgMTU6MDksICJNaWNoYWVsIFMuIFRzaXJraW4iIDxtc3RAcmVkaGF0LmNv
+bT4gd3JvdGU6DQoNCiAgICBPbiBUdWUsIEphbiAxMiwgMjAyMSBhdCAwMjoxNTo1OVBNICswMjAw
+LCBBZHJpYW4gQ2F0YW5naXUgd3JvdGU6DQogICAgDQogICAgPiArMykgTWFwcGVkIG1lbW9yeSBw
+b2xsaW5nIHNpbXBsaWZpZWQgZXhhbXBsZTo6DQogICAgPiArDQogICAgPiArICAgICAvKg0KICAg
+ID4gKyAgICAgICogYXBwL2xpYnJhcnkgZnVuY3Rpb24gdGhhdCBwcm92aWRlcyBjYWNoZWQgc2Vj
+cmV0cw0KICAgID4gKyAgICAgICovDQogICAgPiArICAgICBjaGFyICogc2FmZV9jYWNoZWRfc2Vj
+cmV0KGFwcF9kYXRhX3QgKmFwcCkNCiAgICA+ICsgICAgIHsNCiAgICA+ICsgICAgICAgICAgICAg
+Y2hhciAqc2VjcmV0Ow0KICAgID4gKyAgICAgICAgICAgICB2b2xhdGlsZSB1bnNpZ25lZCAqY29u
+c3QgZ2VuaWRfcHRyID0gZ2V0X3N5c2dlbmlkX21hcHBpbmcoYXBwKTsNCiAgICA+ICsgICAgIGFn
+YWluOg0KICAgID4gKyAgICAgICAgICAgICBzZWNyZXQgPSBfX2NhY2hlZF9zZWNyZXQoYXBwKTsN
+CiAgICA+ICsNCiAgICA+ICsgICAgICAgICAgICAgaWYgKHVubGlrZWx5KCpnZW5pZF9wdHIgIT0g
+YXBwLT5jYWNoZWRfZ2VuaWQpKSB7DQogICAgPiArICAgICAgICAgICAgICAgICAgICAgYXBwLT5j
+YWNoZWRfZ2VuaWQgPSAqZ2VuaWRfcHRyOw0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgIGJh
+cnJpZXIoKTsNCiAgICA+ICsNCiAgICA+ICsgICAgICAgICAgICAgICAgICAgICAvLyByZWJ1aWxk
+IHdvcmxkIHRoZW4gY29uZmlybSB0aGUgZ2VuaWQgdXBkYXRlICh0aHJ1IHdyaXRlKQ0KICAgID4g
+KyAgICAgICAgICAgICAgICAgICAgIHJlYnVpbGRfY2FjaGVzKGFwcCk7DQogICAgPiArDQogICAg
+PiArICAgICAgICAgICAgICAgICAgICAgYWNrX3N5c2dlbmlkX3VwZGF0ZShhcHApOw0KICAgID4g
+Kw0KICAgID4gKyAgICAgICAgICAgICAgICAgICAgIGdvdG8gYWdhaW47DQogICAgPiArICAgICAg
+ICAgICAgIH0NCiAgICA+ICsNCiAgICA+ICsgICAgICAgICAgICAgcmV0dXJuIHNlY3JldDsNCg0K
+DQoNCiAgICBIbW0uIFRoaXMgc2VlbXMgdG8gcmVseSBvbiB0aGUgYXNzdW1wdGlvbiB0aGF0IGlm
+IHlvdSBoYXZlDQogICAgcmVhZCB0aGUgSUQgYW5kIGl0IGRpZCBub3QgY2hhbmdlLCB0aGVuIGFs
+bCBpcyB3ZWxsLg0KDQogICAgUHJvYmxlbSBpcywgaW4gdGhlIGludGVycnVwdCBkcml2ZW4gaW1w
+bGVtZW50YXRpb24NCiAgICB0aGlzIGlzIG5vdCBhIHNhZmUgYXNzdW1wdGlvbiB0byBtYWtlOiBJ
+RA0KICAgIGZyb20gaHlwZXJ2aXNvciBtaWdodCBoYXZlIGNoYW5nZWQgYnV0IGludGVycnVwdA0K
+ICAgIGNvdWxkIGJlIGRlbGF5ZWQuDQoNCg0KICAgIElmIHdlIG1hcCB0aGUgaHlwZXJ2aXNvciBJ
+RCB0byB1c2Vyc3BhY2UgdGhlbiB3ZSB3b24ndA0KICAgIGhhdmUgdGhpcyByYWNlIC4uLiB3b3J0
+aCB3b3JyeSBhYm91dD8gd2h5IG5vdD8NCg0KVGhpcyBpcyBhIHZlcnkgZ29vZCBwb2ludCEgVW5m
+b3J0dW5hdGVseSwgdGhlcmUgaXMgbm8gaW1tZWRpYXRlIHNvbHV0aW9uIGhlcmUuDQpUaGUgY3Vy
+cmVudCBwYXRjaC1zZXQgbWFrZXMgdGhpcyB0cmFkZS1vZmYgaW4gb3JkZXIgdG8gZ2FpbiB0aGUg
+Z2VuZXJpY2l0eSBvZg0KYSBzeXN0ZW0tbGV2ZWwgZ2VuZXJhdGlvbiBJRCB3aGljaCBpcyBub3Qg
+bGltaXRlZCB0byBWTXMgdXNlY2FzZXMsIGJ1dCBjYW4gYWxzbw0KYmUgdXNlZCB3aXRoIHRoaW5n
+cyBsaWtlIENSSVUuDQoNCkRpcmVjdGx5IG1hcHBpbmcgdGhlIHZtZ2VuaWQgVVVJRCB0byB1c2Vy
+c3BhY2Ugd2FzIHRoZSBpbml0aWFsIGRlc2lnbiBvZiB0aGlzDQpwYXRjaC1zZXQgKHNlZSB2MSks
+IGJ1dCBpdCB3YXMgYXJndWVkIGFnYWluc3QgYW5kIGV2b2x2ZWQgaW50byBjdXJyZW50IHN0YXRl
+Lg0KDQpJIHdvdWxkIHBlcnNvbmFsbHkgcmF0aGVyIGVuaGFuY2UgdGhlIEhXIHN1cHBvcnQgKHZt
+Z2VuaWQgZGV2aWNlIGZvciBleGFtcGxlKQ0KdG8gYWxzbyBleHBvc2UgYSBjb25maWd1cmFibGUg
+dTMyIFZtIEdlbiBDb3VudGVyIGFsb25nc2lkZSB0aGUgMTI4LWJpdCBVVUlEOw0KYW5kIGFkZCBz
+dXBwb3J0IGluIFN5c0dlbklEIHRvIG9mZmxvYWQgdGhlIGNvdW50ZXIgdG8gSFcgd2hlbiBhcHBs
+aWNhYmxlLg0KDQoNClRoZSBicm9hZGVyIHZpZXcgaXMgd2UgbmVlZCB0byBzdHJpa2UgdGhlIHJp
+Z2h0IGJhbGFuY2UgYmV0d2VlbiBhIGZ1bmN0aW9uYWwsDQpzYWZlIG1lY2hhbmlzbSB3aXRoIHRv
+ZGF5J3MgdGVjaG5vbG9neSwgYnV0IGFsc28gZGVzaWduIGEgZnV0dXJlLXByb29mIGdlbmVyaWMN
+Cm1lY2hhbmlzbS4NCg0KRml4aW5nIHRoZSByYWNlIHlvdSBtZW50aW9uZWQgaW4gU3lzR2VuSUQg
+b25seSBtb3ZlcyB0aGUgcmFjZSBhIGJpdCBmdXJ0aGVyIHVwDQp0aGUgc3RhY2sgLSB5b3UgZ2Vu
+ZXJhdGUgdGhlIHNlY3JldCByYWNlLWZyZWUgYnV0IHRoZSBzZWNyZXQgY2FuIHN0aWxsIGJlIGR1
+cGxpY2F0ZWQNCmluIHRoZSBuZXh0IGxheWVyLiBUbyBtYWtlIGFueSBtZWNoYW5pc20gY29tcGxl
+dGVseSBzYWZlIHdlIG5lZWQgdG8gY29uY2VwdHVhbGx5DQpkaXNjb25uZWN0IG91cnNlbHZlcyBm
+cm9tIGJlbGlldmluZyB0aGF0IGEgcmVzdG9yZWQgc25hcHNob3QgaXMgaW1tZWRpYXRlbHkgYXZh
+aWxhYmxlLg0KVGhlcmUgbmVlZHMgdG8gYmUgc29tZSBlbnRpdHkgdGhhdCBtb3ZlcyB0aGUgcmVz
+dG9yZWQgVk0vY29udGFpbmVyL3N5c3RlbQ0KZnJvbSBhIHRyYW5zaWVudCBzdGF0ZSB0byAiYXZh
+aWxhYmxlIi4gVGhhdCBlbnRpdHkgY2FuIGJlIGEgcHJvY2VzcyBpbnNpZGUgdGhlIFZNLA0KYnV0
+IGl0IGNhbiBhbHNvIGJlIHNvbWV0aGluZyBvdXRzaWRlIHRoZSBWTSwgaW4gdGhlIGh5cGVydmlz
+b3Igb3IgaW4gdGhlIHN0YWNrDQpzdXJyb3VuZGluZyBpdC4gVGhhdCBlbnRpdHkgaXMgcmVzcG9u
+c2libGUgZm9yIG1hbmFnaW5nIHRoZSB0cmFuc2l0aW9uIG9mIHRoZSBWTQ0Kb3IgY29udGFpbmVy
+IGZyb20gdHJhbnNpZW50IC0+IGF2YWlsYWJsZS4gSXQgaXMgcmVzcG9uc2libGUgZm9yIG5vdCBh
+bGxvd2luZyB0aGUgVk0vDQpjb250YWluZXIgdG8gYmUgdXNlZCBvciB1c2FibGUgdW50aWwgdGhh
+dCB0cmFuc2l0aW9uIGlzIGNvbXBsZXRlLg0KDQpJbiB0aGUgZmlyc3QgZ2VuZXJhdGlvbnMgb2Yg
+Vk0gY2xvbmVzIGFuZCBDUklVIHByb2R1Y3Rpb24gZGVwbG95bWVudHMsIEkgZXhwZWN0DQp0aGlz
+IGVudGl0eSB0byBiZSBhIHN0YWNrLXNwZWNpZmljIGNvbXBvbmVudCB3aXRoIGludGltYXRlIGtu
+b3dsZWRnZSBvZiB0aGUgc3lzdGVtDQpjb21wb25lbnRzLCB0cmFuc2llbnQgc3RhdGVzLCBsaWZl
+Y3ljbGUsIGV0Yy4gV2hpY2ggdGhpcyBwYXRjaC1zZXQgZW5hYmxlcy4NCg0KDQpUaGFua3MsDQpB
+ZHJpYW4uDQoNCg0KCgoKQW1hem9uIERldmVsb3BtZW50IENlbnRlciAoUm9tYW5pYSkgUy5SLkwu
+IHJlZ2lzdGVyZWQgb2ZmaWNlOiAyN0EgU2YuIExhemFyIFN0cmVldCwgVUJDNSwgZmxvb3IgMiwg
+SWFzaSwgSWFzaSBDb3VudHksIDcwMDA0NSwgUm9tYW5pYS4gUmVnaXN0ZXJlZCBpbiBSb21hbmlh
+LiBSZWdpc3RyYXRpb24gbnVtYmVyIEoyMi8yNjIxLzIwMDUuCg==
 
 
