@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4735D2FE0C8
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 05:35:18 +0100 (CET)
-Received: from localhost ([::1]:57660 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484832FE0C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 05:32:41 +0100 (CET)
+Received: from localhost ([::1]:51390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Rgj-0000Xs-Dc
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 23:35:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56038)
+	id 1l2ReC-0006Ji-AW
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 23:32:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2RcV-0004ZL-0Z
+ id 1l2RcV-0004ZT-B3
  for qemu-devel@nongnu.org; Wed, 20 Jan 2021 23:30:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54660)
+Received: from indium.canonical.com ([91.189.90.7]:54766)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2RcR-0006yu-PW
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 23:30:54 -0500
+ id 1l2RcT-00070p-K8
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 23:30:55 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l2RcQ-0002iA-Ie
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:50 +0000
+ id 1l2RcS-0002iA-CE
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:52 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 8BD082E8139
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:50 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 59D562E805B
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 04:30:52 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 21 Jan 2021 04:17:16 -0000
-From: Launchpad Bug Tracker <1757323@bugs.launchpad.net>
+Date: Thu, 21 Jan 2021 04:17:17 -0000
+From: Launchpad Bug Tracker <1756538@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
@@ -38,18 +38,18 @@ X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor piersh th-huth
-X-Launchpad-Bug-Reporter: piersh (piersh)
+X-Launchpad-Bug-Commenters: gilius janitor th-huth
+X-Launchpad-Bug-Reporter: gilius (gilius)
 X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <152160343164.22698.3488159788073699285.malonedeb@soybean.canonical.com>
-Message-Id: <161120263651.14063.8708377196596476857.malone@loganberry.canonical.com>
-Subject: [Bug 1757323] Re: blue screen running windows 10 install DVD on qemu
+References: <152129153470.15061.1404987375350201277.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161120263797.14063.8252205406701704642.malone@loganberry.canonical.com>
+Subject: [Bug 1756538] Re: Minimal Ubuntu vs. Debian differences
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: 0d3bb2a66061c5143420a5b086f2f09dc4717fef
+X-Launchpad-Hash: 90e3a51f39fdf3815f6c55faf8a91212a3a6e68b
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -70,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1757323 <1757323@bugs.launchpad.net>
+Reply-To: Bug 1756538 <1756538@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -83,120 +83,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1757323
+https://bugs.launchpad.net/bugs/1756538
 
 Title:
-  blue screen running windows 10 install DVD on qemu
+  Minimal Ubuntu vs. Debian differences
 
 Status in QEMU:
   Expired
 
 Bug description:
-  i get a blue screen at the first screen of the windows 10 DVD setup
-  (Win10_1709_English_x64.iso, available from MS).
+  I'm using Qemu on Ubuntu (minimal) and Debian (minimal) on Android
+  (Arch64) via Linux Deploy to run Windows guests. Here's a few issues I
+  encountered:
 
-  The DVD boots fine, and gets to the first dialog: http://codewithoutborde=
-rs.com/posted/qemu1.png
-  and then if i just wait a minute of so it blue screen's.
-  either DRIVER IRQL NOT LESS OR EQUAL: http://codewithoutborders.com/poste=
-d/qemu2.png
-  or KMODE EXCEPTION NOT HANDLED: http://codewithoutborders.com/posted/qemu=
-3.png
+  1) Qemu on (minimal) Debian 9 and Ubuntu cannot run Windows 7-10
+  guests (only Windows XP and below) because there's a black screen
+  after the boot menu. Qemu on Debian 10, however, can run Windows 7.
+  Incidentally, these distros run on the host in bios compatibility mode
+  instead of UEFI. Ubuntu Desktop (full distro) on other hosts does not
+  display the black screen when running Qemu.
 
+  2) Qemu on Debian 9-10 (minimal) does not display fullscreen - but
+  Ubuntu minimal does display full-screen.
 
-  =
+  3) Qemu on Limbo PC Emulator and on Debian 9-10 only run windows
+  guests at 1 GHz using the default Qemu CPU, but Ubuntu runs windows
+  guests at 2 GHz using the default Qemu CPU.
 
-  the qemu command-line is:
+  4) Enable KVM doesn't work, and virtualization isn't detected through
+  Limbo PC Emulator and minimal Linux distros running on Android -
+  perhaps is a problem with running Linux distros via Linux Deploy using
+  Chroot on Android (not so much a Qemu-KVM issue) and failing to detect
+  ARMv8-A CPUs that are indeed capable of virtualization.
 
-  /usr/bin/qemu-system-x87_64 \
-   -boot strict=3Don \
-   -chardev socket,id=3Dcharmonitor,path=3D/var/lib/libvirt/qemu/domain-gen=
-eric/monitor.sock,server,nowait \
-   -chardev spicevmc,id=3Dcharchannel0,name=3Dvdagent \
-   -cpu core2duo,+lahf_lm,+pdcm,+xtpr,+cx16,+tm2,+est,+vmx,+ds_cpl,+dtes64,=
-+pbe,+tm,+ht,+ss,+acpi,+ds,kvm=3Doff \
-   -device ich9-usb-ehci1,id=3Dusb,bus=3Dpci.0,addr=3D0x6.0x7 \
-   -device ich9-usb-uhci1,masterbus=3Dusb.0,firstport=3D0,bus=3Dpci.0,multi=
-function=3Don,addr=3D0x6 \
-   -device ich9-usb-uhci2,masterbus=3Dusb.0,firstport=3D2,bus=3Dpci.0,addr=
-=3D0x6.0x1 \
-   -device ich9-usb-uhci3,masterbus=3Dusb.0,firstport=3D4,bus=3Dpci.0,addr=
-=3D0x6.0x2 \
-   -device ide-cd,bus=3Dide.0,unit=3D1,drive=3Ddrive-ide0-0-1,id=3Dide0-0-1=
-,bootindex=3D1 \
-   -device qxl-vga,id=3Dvideo0,ram_size=3D67108864,vram_size=3D67108864,vga=
-mem_mb=3D16,bus=3Dpci.0,addr=3D0x2 \
-   -device virtio-balloon-pci,id=3Dballoon0,bus=3Dpci.0,addr=3D0x7 \
-   -device virtio-serial-pci,id=3Dvirtio-serial0,bus=3Dpci.0,addr=3D0x5 \
-   -device virtserialport,bus=3Dvirtio-serial0.0,nr=3D1,chardev=3Dcharchann=
-el0,id=3Dchannel0,name=3Dcom.redhat.spice.0 \
-   -drive file=3D/mnt/ISOs/Win10_1709_English_x64.iso,format=3Draw,if=3Dnon=
-e,id=3Ddrive-ide0-0-1,readonly=3Don \
-   -global kvm-pit.lost_tick_policy=3Ddiscard \
-   -global PIIX4_PM.disable_s3=3D1 \
-   -global PIIX4_PM.disable_s4=3D1 \
-   -m 4096 \
-   -machine pc-i440fx-xenial,accel=3Dtcg,usb=3Doff \
-   -mon chardev=3Dcharmonitor,id=3Dmonitor,mode=3Dcontrol \
-   -msg timestamp=3Don \
-   -name generic \
-   -nodefaults \
-   -no-hpet \
-   -no-shutdown \
-   -no-user-config \
-   -realtime mlock=3Doff \
-   -rtc base=3Dutc,driftfix=3Dslew \
-   -S \
-   -smp 2,sockets=3D2,cores=3D1,threads=3D1 \
-   -spice port=3D5900,addr=3D127.0.0.1,disable-ticketing,image-compression=
-=3Doff,seamless-migration=3Don \
-   -uuid 3902a801-42dd-4bf2-8f3a-cbc68f4f8564
-
-  =
-
-  $ /usr/bin/qemu-system-x87_64 --version
-  QEMU emulator version 2.5.0 (Debian 1:2.5+dfsg-5ubuntu10.24), Copyright (=
-c) 2003-2008 Fabrice Bellard
-
-  $ uname -a
-  Linux host 4.13.0-37-generic #42~16.04.1-Ubuntu SMP Wed Mar 7 16:03:28 UT=
-C 2018 x86_64 x86_64 x86_64 GNU/Linux
-
-  $ cat /proc/cpuinfo =
-
-  processor	: 0
-  vendor_id	: GenuineIntel
-  cpu family	: 6
-  model		: 15
-  model name	: Intel(R) Core(TM)2 Quad CPU           @ 2.66GHz
-  stepping	: 7
-  microcode	: 0x66
-  cpu MHz		: 2671.406
-  cache size	: 4096 KB
-  physical id	: 0
-  siblings	: 4
-  core id		: 0
-  cpu cores	: 4
-  apicid		: 0
-  initial apicid	: 0
-  fpu		: yes
-  fpu_exception	: yes
-  cpuid level	: 10
-  wp		: yes
-  flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pa=
-t pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm const=
-ant_tsc arch_perfmon pebs bts rep_good nopl cpuid aperfmperf pni dtes64 mon=
-itor ds_cpl vmx est tm2 ssse3 cx16 xtpr pdcm lahf_lm pti retpoline tpr_shad=
-ow dtherm
-  bugs		: cpu_meltdown spectre_v1 spectre_v2
-  bogomips	: 5342.81
-  clflush size	: 64
-  cache_alignment	: 64
-  address sizes	: 36 bits physical, 48 bits virtual
-  power management:
-
-  ... 3 more times
+  Can anyone explain these differences? I believe they are all using the
+  latest versions of Qemu.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1757323/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1756538/+subscriptions
 
