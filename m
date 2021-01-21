@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 815872FF5C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:24:01 +0100 (CET)
-Received: from localhost ([::1]:51084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EDB62FF5CF
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:28:38 +0100 (CET)
+Received: from localhost ([::1]:54996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2gUq-0000If-KH
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:24:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44580)
+	id 1l2gZJ-00028C-NS
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:28:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2gTH-0007rQ-A0; Thu, 21 Jan 2021 15:22:23 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:38913)
+ id 1l2gYO-0001hg-Fh; Thu, 21 Jan 2021 15:27:40 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:32769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2gTF-0004lB-KO; Thu, 21 Jan 2021 15:22:23 -0500
-Received: by mail-ed1-x535.google.com with SMTP id b21so4027351edy.6;
- Thu, 21 Jan 2021 12:22:20 -0800 (PST)
+ id 1l2gYM-0007AE-Ve; Thu, 21 Jan 2021 15:27:40 -0500
+Received: by mail-ed1-x536.google.com with SMTP id c6so4093344ede.0;
+ Thu, 21 Jan 2021 12:27:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=BUyioOXyxpJhXE0jFgEZtyk4nWwaFvEEbfgUCv81KuI=;
- b=O5NZF3QfRB3617JnvXplSyMWVTbQ/mCT1XL3cX8JmJOK+hUbCUUpNvkewty9eShycf
- Tq2CKFMuWksEnfcjC80kopq87CL19GJutG8FKtTxXk4JVJwBXFNK7GN/Yeh//rs0BssJ
- /6HEkxFJCYaYZI0NHNNkvjRowYR1V1LSSJ5iBBrxd+ksHnza9KEjxOpWZ1wwG4ycLI37
- sSskUn8VmVCjSMBWpU3Es2N0zjore/gE8LE5C7s9ffLONi5M8WbxLwPl5FoRHlS21yQM
- 7oaelFcpjGCOPOcqz72Dl/nWfy88IvNPful8I+o1wnjmJPuELkeJPBZVvcydL5Q5p27K
- 3K4g==
+ bh=oMvVL1Lu7AD1uYUS2/jecpUu9ul0KAUMMVu3woq/YQY=;
+ b=J+vohOxsMv0S6yy8cPw5t91i8xsFo7AsOTwAwDV/0dGdmOVCCai480jPJiDTQtrvef
+ 5fHCLzPfhJHcjU4SjwRxfxiFLpI3l5kQHtqDg3EExSBkf8JlDnPJtHXwM5hUZt3yhjYv
+ Mow4wpnpGWYDtD3BUA5UJQf3Wng3EA8mbZ6yDe/s9JRtq1q7mulz7+BcMZ4+SxRDLvby
+ T9+C+X7g5RDvVn8Fr2l8tab2mOjvz5teM0oInS9ABLzLiua9Lgb+XQLJzorwFMW8gTce
+ xLO0mB0LTVeKF3zY5hF84z6cBGaHyn41FnOe6lmFezfxSgTi61VoFD5vi1Df2b77ja3b
+ Pe6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=BUyioOXyxpJhXE0jFgEZtyk4nWwaFvEEbfgUCv81KuI=;
- b=Qei1pEwBUctAoG7NlLieNZo8qGe6uq3eTvM4IDsRq96djzWHMgowxLEvQ9v0VZnwcf
- D/IpqXYCHDSyiyTEIhe/iQirQ+42JUB/gIAGZnlNGbbZgyvRHV1lQkDuizh4/CeUrTQt
- ZVgbfVnkWnV6jdPFHg6dqAGoO8wOMXJzdXtSlY7VieQCbdn1t+/+8Nly5IeHRfRdQ+Jf
- BmhEXhhwa/rLXvFeQpmfMnfjqocpKetI2bOWKh5FgHie5TTraXbfjq0WKl0aL+u5eGmw
- au1n/MFiGFn5c0/ITy1tA5ZCHuMA12TYv5rOiuVWZzfV74lYOTbc2Rf759TsBP8l19Yl
- eimg==
-X-Gm-Message-State: AOAM530qeVwfuu28ERVT/wj+yonIzFoCRqb6RdgrlouhLd26iuM5gqy5
- UzZhej5LLuWHuoxRK07srGE=
-X-Google-Smtp-Source: ABdhPJzijagVKMsogEnOALFE5wDW0CahpFbUT/UHzc/M5Lr2nQmhQls0Gd/QYuFi90eYg+BATZyeyw==
-X-Received: by 2002:aa7:d94b:: with SMTP id l11mr696768eds.1.1611260539945;
- Thu, 21 Jan 2021 12:22:19 -0800 (PST)
+ bh=oMvVL1Lu7AD1uYUS2/jecpUu9ul0KAUMMVu3woq/YQY=;
+ b=emRGcWCrKbaINrDp8ELilIqMT80BH4ed6NALbm6JQ/dR+UAySDvdz0bUPspCjTnzVV
+ nCt3OFcB0QfX/yNrjiWzwF4ckdZOJrvbMqiArJJTshSHXdu7JFmRU09GfWjqV8Iem8ky
+ ymmYYvaSNdy7N5XhWj8P9JML04uBaV/afv4ZWcbhGK/5NTC+rq2R5FcZvDMcBdny8Fml
+ yyfVR8+eKBjPAN71BXXFsOqT+4kSbrbaoGhjTfVAadaDg2pyIL2BVVmpog1pMS50NnsZ
+ xKRMxztV4Rrb6DBv9CmcoMULiNpPOEOqPcAJFEpKomHMxnwq9PXAfdiLPdWgXhST1Mh3
+ crrA==
+X-Gm-Message-State: AOAM530hw/k1V0ROZh9ZdER5qIl/yVB272iHthP7Itt4JOv2iLLgA/7y
+ yx+MkIz32JOjI55pkosiPm4=
+X-Google-Smtp-Source: ABdhPJyd6ihm22RlHwcwL602KhDdwT5CYMEEZUcxaiVdN4njLnZ+nQkPJpHam43zBCi4CiB5v7zmUg==
+X-Received: by 2002:a05:6402:3487:: with SMTP id
+ v7mr751496edc.68.1611260857186; 
+ Thu, 21 Jan 2021 12:27:37 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s1sm2710726ejx.25.2021.01.21.12.22.18
+ by smtp.gmail.com with ESMTPSA id bd5sm2868776edb.86.2021.01.21.12.27.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 12:22:19 -0800 (PST)
-Subject: Re: [PATCH 07/25] hw/timer/cmsdk-apb-timer: Add Clock input
+ Thu, 21 Jan 2021 12:27:36 -0800 (PST)
+Subject: Re: [PATCH 09/25] hw/watchdog/cmsdk-apb-watchdog: Add Clock input
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-8-peter.maydell@linaro.org>
+ <20210121190622.22000-10-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <197be2f1-7f89-4669-bf65-2d175753ac5e@amsat.org>
-Date: Thu, 21 Jan 2021 21:22:18 +0100
+Message-ID: <1bec0b11-e749-6e04-17c8-373872f4bd60@amsat.org>
+Date: Thu, 21 Jan 2021 21:27:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210121190622.22000-8-peter.maydell@linaro.org>
+In-Reply-To: <20210121190622.22000-10-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x536.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,21 +96,19 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 1/21/21 8:06 PM, Peter Maydell wrote:
 > As the first step in converting the CMSDK_APB_TIMER device to the
 > Clock framework, add a Clock input.  For the moment we do nothing
-> with this clock; we will change the behaviour from using the pclk-frq
-> property to using the Clock once all the users of this device have
-> been converted to wire up the Clock.
+> with this clock; we will change the behaviour from using the
+> wdogclk-frq property to using the Clock once all the users of this
+> device have been converted to wire up the Clock.
 > 
-> Since the device doesn't already have a doc comment for its "QEMU
-> interface", we add one including the new Clock.
-> 
-> This is a migration compatibility break for machines mps2-an505,
-> mps2-an521, musca-a, musca-b1.
+> This is a migration compatibility break for machines mps2-an385,
+> mps2-an386, mps2-an500, mps2-an511, mps2-an505, mps2-an521, musca-a,
+> musca-b1, lm3s811evb, lm3s6965evb.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  include/hw/timer/cmsdk-apb-timer.h | 9 +++++++++
->  hw/timer/cmsdk-apb-timer.c         | 7 +++++--
->  2 files changed, 14 insertions(+), 2 deletions(-)
+>  include/hw/watchdog/cmsdk-apb-watchdog.h | 3 +++
+>  hw/watchdog/cmsdk-apb-watchdog.c         | 7 +++++--
+>  2 files changed, 8 insertions(+), 2 deletions(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
