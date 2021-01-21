@@ -2,84 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB032FF693
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 21:57:35 +0100 (CET)
-Received: from localhost ([::1]:33262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5C132FF69D
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 22:00:22 +0100 (CET)
+Received: from localhost ([::1]:36780 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2h1J-0002T5-O8
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 15:57:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52454)
+	id 1l2h41-00043u-Sq
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 16:00:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
- id 1l2gzN-0001lU-Si
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:55:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38590)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l2h20-0003U2-Lg
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:58:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60673)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jdillama@redhat.com>)
- id 1l2gzH-0003CT-G7
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:55:31 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l2h1x-0004Kc-Tk
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 15:58:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611262526;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1611262693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ouuINGgZVUfNRHgze7BWNbcQFVs0Yf7zkGyglpslQSI=;
- b=aCfo6HHVumfQpYvCFeOPLctGh9s4y3J4GTd3iVsrUBl3hiqkX2KREPrK3MuMdq+KdursHa
- iJn0y/fzrxPSm0SHAyw+DMhS4ma0e4x0u2QxtlZXg/HTpQYoiQ4BgDDpCCiy2MGvwAziOF
- SBM8ErkWJlRyiCjtFFrK2AvaJiAIuOA=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-3L_P_ZHaMuSDB9enTlKLfw-1; Thu, 21 Jan 2021 15:55:23 -0500
-X-MC-Unique: 3L_P_ZHaMuSDB9enTlKLfw-1
-Received: by mail-wr1-f71.google.com with SMTP id x12so1833726wrw.21
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 12:55:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc:content-transfer-encoding;
- bh=ouuINGgZVUfNRHgze7BWNbcQFVs0Yf7zkGyglpslQSI=;
- b=WcPkh1N+GMU7DDJTQUISFxsWtRn+/IF2OFQ2FepZB4HgzrWc9RzsY4QfsnJ3+ToyWJ
- MgCH6gOB2bAl7TIz+2uwq58ZM5n9Y5++4DYdoUCDUliSTkNSKbNmc9jH7k+ZKI0pQxgS
- tk3m5RnFuwlhKEeMMNV+BC5js78J2a7rn51bfO97LZGg+XlSw4KlX0dO7/fGB0B34VmC
- ZaVaRhggYuMNKuWKWHGEe2LNcQ6wQS9mbRTFBohUbHiFLWq8aI/WDoly29O9Yyyv1gP1
- UUgMDoXEorKpDnXl4dwVU5wLOwRf0SFeVQ+t8h5gwlQrFDhNcL+jhzibPOJewbWvMgpI
- uNYQ==
-X-Gm-Message-State: AOAM532zofBzzXV2JzdrdtW/U2bTF/+otgc3+1mxluSntQM5yLiGUUvk
- i2aOjDV3vBRIstMa/rE6SN0BVRwxkL/cuABsOHdyvR0S8GtkdbZIY9CYC9OpQuritd0UAN84Oki
- ZniNyCJyM+3bJWDTeluD70UpxbuEggXE=
-X-Received: by 2002:adf:e541:: with SMTP id z1mr1219088wrm.143.1611262522255; 
- Thu, 21 Jan 2021 12:55:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzrU54K7gimpyH5U9KTkU3aFAghlRz5rCiIfMKNh+Xf1rph5IImkn/K24nMRr7+YYO1/+8eCtJu2L6Pudqx09g=
-X-Received: by 2002:adf:e541:: with SMTP id z1mr1219068wrm.143.1611262521927; 
- Thu, 21 Jan 2021 12:55:21 -0800 (PST)
+ bh=N1zU7ZgDA8NIw1cH8jwyZlgm1XwHN0JXQbcnhaIcxcs=;
+ b=UgnNpaY8+wJDqQrA4HbvI0bpA4PKDwEaSfaduh1T64a+3C78Ic6Tyx7rQtdLSNXckn0VxM
+ MUl9VQUZr+OW0KlC4GPzE13G9SxH83vamI4pbySI+jsB9kh+7NqSwga6W7ZdFMORydmUi5
+ Dfs2bF8gbgMWSQPPxLHTtEBjlB25D8w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-528-zF8y-C0FMG-LGKr6XU7c5w-1; Thu, 21 Jan 2021 15:58:09 -0500
+X-MC-Unique: zF8y-C0FMG-LGKr6XU7c5w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1796D10054FF;
+ Thu, 21 Jan 2021 20:58:08 +0000 (UTC)
+Received: from [10.10.113.41] (ovpn-113-41.rdu2.redhat.com [10.10.113.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B13AE39A63;
+ Thu, 21 Jan 2021 20:58:01 +0000 (UTC)
+Subject: Re: [PATCH v3] sphinx: adopt kernel readthedoc theme
+To: marcandre.lureau@redhat.com, qemu-devel@nongnu.org
+References: <20210120102556.125012-1-marcandre.lureau@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <26032f17-cfbc-1e86-1ca1-10661d4f5cbb@redhat.com>
+Date: Thu, 21 Jan 2021 15:58:01 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <0A9D3682-CE03-4984-AC06-83DA0ABF7BDF@kamp.de>
- <CA+aFP1BvV8YsLqmO7nefO4u3cdVGY4DJsD95WbGrgbYKmRnGoQ@mail.gmail.com>
- <bae91481-ab1a-c255-5762-188e8eccc414@kamp.de>
-In-Reply-To: <bae91481-ab1a-c255-5762-188e8eccc414@kamp.de>
-From: Jason Dillaman <jdillama@redhat.com>
-Date: Thu, 21 Jan 2021 15:55:10 -0500
-Message-ID: <CA+aFP1DzdeHu2Q15Brn2g3gPVcNP+=Pz0iuc8cAoK8QrHA6eFQ@mail.gmail.com>
-Subject: Re: [PATCH 7/7] block/rbd: change request alignment to 1 byte
-To: Peter Lieven <pl@kamp.de>
+In-Reply-To: <20210120102556.125012-1-marcandre.lureau@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jdillama@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jdillama@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,141 +80,469 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: dillaman@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Christian Theune <ct@flyingcircus.io>,
- qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, bmeng.cn@gmail.com, berrange@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 21, 2021 at 3:29 PM Peter Lieven <pl@kamp.de> wrote:
->
-> Am 21.01.21 um 20:42 schrieb Jason Dillaman:
-> > On Wed, Jan 20, 2021 at 6:01 PM Peter Lieven <pl@kamp.de> wrote:
-> >>
-> >>> Am 19.01.2021 um 15:20 schrieb Jason Dillaman <jdillama@redhat.com>:
-> >>>
-> >>> =EF=BB=BFOn Tue, Jan 19, 2021 at 4:36 AM Peter Lieven <pl@kamp.de> wr=
-ote:
-> >>>>> Am 18.01.21 um 23:33 schrieb Jason Dillaman:
-> >>>>> On Fri, Jan 15, 2021 at 10:39 AM Peter Lieven <pl@kamp.de> wrote:
-> >>>>>> Am 15.01.21 um 16:27 schrieb Jason Dillaman:
-> >>>>>>> On Thu, Jan 14, 2021 at 2:59 PM Peter Lieven <pl@kamp.de> wrote:
-> >>>>>>>> Am 14.01.21 um 20:19 schrieb Jason Dillaman:
-> >>>>>>>>> On Sun, Dec 27, 2020 at 11:42 AM Peter Lieven <pl@kamp.de> wrot=
-e:
-> >>>>>>>>>> since we implement byte interfaces and librbd supports aio on =
-byte granularity we can lift
-> >>>>>>>>>> the 512 byte alignment.
-> >>>>>>>>>> Signed-off-by: Peter Lieven <pl@kamp.de>
-> >>>>>>>>>> ---
-> >>>>>>>>>> block/rbd.c | 2 --
-> >>>>>>>>>> 1 file changed, 2 deletions(-)
-> >>>>>>>>>> diff --git a/block/rbd.c b/block/rbd.c
-> >>>>>>>>>> index 27b4404adf..8673e8f553 100644
-> >>>>>>>>>> --- a/block/rbd.c
-> >>>>>>>>>> +++ b/block/rbd.c
-> >>>>>>>>>> @@ -223,8 +223,6 @@ done:
-> >>>>>>>>>> static void qemu_rbd_refresh_limits(BlockDriverState *bs, Erro=
-r **errp)
-> >>>>>>>>>> {
-> >>>>>>>>>>    BDRVRBDState *s =3D bs->opaque;
-> >>>>>>>>>> -    /* XXX Does RBD support AIO on less than 512-byte alignme=
-nt? */
-> >>>>>>>>>> -    bs->bl.request_alignment =3D 512;
-> >>>>>>>>> Just a suggestion, but perhaps improve discard alignment, max d=
-iscard,
-> >>>>>>>>> optimal alignment (if that's something QEMU handles internally)=
- if not
-> >>>>>>>>> overridden by the user.
-> >>>>>>>> Qemu supports max_discard and discard_alignment. Is there a call=
- to get these limits
-> >>>>>>>> from librbd?
-> >>>>>>>> What do you mean by optimal_alignment? The object size?
-> >>>>>>> krbd does a good job of initializing defaults [1] where optimal a=
-nd
-> >>>>>>> discard alignment is 64KiB (can actually be 4KiB now), max IO siz=
-e for
-> >>>>>>> writes, discards, and write-zeroes is the object size * the strip=
-e
-> >>>>>>> count.
-> >>>>>> Okay, I will have a look at it. If qemu issues a write, discard, w=
-rite_zero greater than
-> >>>>>> obj_size  * stripe count will librbd split it internally or will t=
-he request fail?
-> >>>>> librbd will handle it as needed. My goal is really just to get the
-> >>>>> hints down the guest OS.
-> >>>>>> Regarding the alignment it seems that rbd_dev->opts->alloc_size is=
- something that comes from the device
-> >>>>>> configuration and not from rbd? I don't have that information insi=
-de the Qemu RBD driver.
-> >>>>> librbd doesn't really have the information either. The 64KiB guess
-> >>>>> that krbd uses was a compromise since that was the default OSD
-> >>>>> allocation size for HDDs since Luminous. Starting with Pacific that
-> >>>>> default is going down to 4KiB.
-> >>>> I will try to adjust these values as far as it is possible and makes=
- sense.
-> >>>> Is there a way to check the minimum supported OSD release in the bac=
-kend from librbd / librados?
-> >>> It's not a minimum -- RADOS will gladly access 1 byte writes as well.
-> >>> It's really just the optimal (performance and space-wise). Sadly,
-> >>> there is no realistic way to query this data from the backend.
-> >> So you would suggest to advertise an optimal transfer length of 64k an=
-d max transfer length of obj size * stripe count to the guest unless we hav=
-e an API in the future to query these limits from the backend?
-> > I'll open a Ceph tracker ticket to expose these via the API in a future=
- release.
->
->
-> That would be good to have!
->
->
-> >
-> >> I would leave request alignment at 1 byte as otherwise Qemu will issue=
- RMWs for all write requests that do not align. Everything that comes from =
-a guest OS is very likely 4k aligned anyway.
-> > My goal is definitely not to have QEMU do any extra work for splitting
-> > or aligning IOs. I am really only trying to get hints passed down the
-> > guest via the virtio drivers. If there isn't the plumbing in QEMU for
-> > that yet, disregard.
->
->
-> From what I read from the code Qemu emulates the Block Limits VPD Page fo=
-r virtio-scsi, but the limits there are not taken from the backend driver. =
-They can be passed as config to the virtio-scsi device.
->
-> However, Qemu uses all the Block Limit that can be found in include/block=
-/block_int.h in the BlockLimits struct to generate optimal requests if it c=
-omes to block operations like mirroring, or zeroing of a whole
->
-> device etc. Some of the alignments (e.g. the request alignment) have dire=
-ct influence and make Qemu split requests from the guest or even make RMW c=
-ycles.
->
-> If my understanding is incorrect please anyone correct me.
->
->
-> It would indeed be nice to have an option to propagate the settings from =
-the backend driver into the Guest. But from my understanding this is not th=
-ere yet.
->
->
-> So I would leave it as it. Drop the request_alignment =3D 512 (like in th=
-e patch) and just advertise the cluster_size at obj_size. This is already i=
-n the rbd driver today.
->
-> The cluster_size e.g. is used in any qemu-img convert operation to align =
-read / write requests and size them apropiately.
+On 1/20/21 5:25 AM, marcandre.lureau@redhat.com wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> 
+> The default "alabaster" sphinx theme has a couple shortcomings:
+> - the navbar moves along the page
+> - the search bar is not always at the same place
+> - it lacks some contrast and colours
+> 
+> The "rtd" theme from readthedocs.org is a popular third party theme used
+> notably by the kernel, with a custom style sheet. I like it better,
+> perhaps others do too. It also simplify "Edit on Gitlab" links.
+> 
+> Tweak a bit the custom theme to match qemu.org style, use the
+> QEMU logo, and favicon etc.
+> 
+> Screenshot:
+> https://i.ibb.co/XWwG1bZ/Screenshot-2021-01-20-Welcome-to-QEMU-s-documentation-QEMU-documentation.png
+> 
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> ---
+>   docs/_templates/editpage.html              |   5 -
+>   docs/conf.py                               |  47 +++---
+>   docs/devel/_templates/editpage.html        |   5 -
+>   docs/interop/_templates/editpage.html      |   5 -
+>   docs/specs/_templates/editpage.html        |   5 -
+>   docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++++++
+>   docs/system/_templates/editpage.html       |   5 -
+>   docs/tools/_templates/editpage.html        |   5 -
+>   docs/user/_templates/editpage.html         |   5 -
+>   tests/docker/dockerfiles/debian10.docker   |   1 +
+>   tests/docker/dockerfiles/fedora.docker     |   1 +
+>   tests/docker/dockerfiles/ubuntu.docker     |   1 +
+>   tests/docker/dockerfiles/ubuntu1804.docker |   1 +
+>   tests/docker/dockerfiles/ubuntu2004.docker |   1 +
+>   14 files changed, 193 insertions(+), 55 deletions(-)
+>   delete mode 100644 docs/_templates/editpage.html
+>   delete mode 100644 docs/devel/_templates/editpage.html
+>   delete mode 100644 docs/interop/_templates/editpage.html
+>   delete mode 100644 docs/specs/_templates/editpage.html
+>   create mode 100644 docs/sphinx-static/theme_overrides.css
+>   delete mode 100644 docs/system/_templates/editpage.html
+>   delete mode 100644 docs/tools/_templates/editpage.html
+>   delete mode 100644 docs/user/_templates/editpage.html
+> 
+> diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage.html
+> deleted file mode 100644
+> index 4319b0f5ac..0000000000
+> --- a/docs/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id="editpage">
+> -  <ul>
+> -    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/conf.py b/docs/conf.py
+> index 2ee6111872..5ee577750b 100644
+> --- a/docs/conf.py
+> +++ b/docs/conf.py
+> @@ -151,37 +151,44 @@ with open(os.path.join(qemu_docdir, 'defs.rst.inc')) as f:
+>   # a list of builtin themes.
+>   #
+>   html_theme = 'alabaster'
+> +try:
+> +    import sphinx_rtd_theme
+> +    html_theme = 'sphinx_rtd_theme'
+> +except ImportError:
+> +    sys.stderr.write('Warning: The Sphinx \'sphinx_rtd_theme\' HTML theme was not found. Make sure you have the theme installed to produce pretty HTML output. Falling back to the default theme.\n')
+>   
+>   # Theme options are theme-specific and customize the look and feel of a theme
+>   # further.  For a list of options available for each theme, see the
+>   # documentation.
+> -# We initialize this to empty here, so the per-manual conf.py can just
+> -# add individual key/value entries.
+> -html_theme_options = {
+> -}
+> +if html_theme == 'sphinx_rtd_theme':
+> +    html_theme_options = {
+> +        "style_nav_header_background": "#802400",
+> +    }
+> +
 
-+1 to leave as-is until we can pass those hints down.
+This needs a default for html_theme_options so that if sphinx_rtd_theme 
+isn't present, the build doesn't break when using the fallback to 
+alabaster; I'm seeing:
 
-> Peter
->
->
+Traceback (most recent call last):
+   File "/usr/lib/python3.8/site-packages/sphinx/config.py", line 361, 
+in eval_config_file
+     execfile_(filename, namespace)
+   File "/usr/lib/python3.8/site-packages/sphinx/util/pycompat.py", line 
+81, in execfile_
+     exec(code, _globals)
+   File "/home/jsnow/src/qemu/docs/user/conf.py", line 15, in <module>
+     html_theme_options['description'] = u'User Mode Emulation User''s 
+Guide'
+NameError: name 'html_theme_options' is not defined
 
-Thanks!
+etc.
 
---=20
-Jason
+> +html_logo = os.path.join(qemu_docdir, "../ui/icons/qemu_128x128.png")
+> +
+> +html_favicon = os.path.join(qemu_docdir, "../ui/icons/qemu_32x32.png")
+>   
+>   # Add any paths that contain custom static files (such as style sheets) here,
+>   # relative to this directory. They are copied after the builtin static files,
+>   # so a file named "default.css" will overwrite the builtin "default.css".
+> -# QEMU doesn't yet have any static files, so comment this out so we don't
+> -# get a warning about a missing directory.
+> -# If we do ever add this then it would probably be better to call the
+> -# subdirectory sphinx_static, as the Linux kernel does.
+> -# html_static_path = ['_static']
+> +html_static_path = [os.path.join(qemu_docdir, "sphinx-static")]
+> +
+> +html_css_files = [
+> +    'theme_overrides.css',
+> +]
+> +
+
+We probably don't want this to apply to the alabaster fallback, do we?
+
+(OTOH: It is a fallback, so maybe who cares? Maybe it's not worth the 
+complexity to try and support both themes.)
+
+> +html_context = {
+> +    "display_gitlab": True,
+> +    "gitlab_user": "qemu-project",
+> +    "gitlab_repo": "qemu",
+> +    "gitlab_version": "master",
+> +    "conf_py_path": "/docs/", # Path in the checkout to the docs root
+> +}
+>   
+
+Could be a separate patch, MAYBE, explaining that this is to enable the 
+"Edit on gitlab!" links, which I do think are very cool and useful.
+
+>   # Custom sidebar templates, must be a dictionary that maps document names
+>   # to template names.
+> -#
+> -# This is required for the alabaster theme
+> -# refs: http://alabaster.readthedocs.io/en/latest/installation.html#sidebars
+> -html_sidebars = {
+> -    '**': [
+> -        'about.html',
+> -        'editpage.html',
+> -        'navigation.html',
+> -        'searchbox.html',
+> -    ]
+> -}
+> +#html_sidebars = {}
+>   
+
+More stuff that damages the alabaster fallback. Putting it back, 
+however, causes another problem:
+
+>   # Don't copy the rST source files to the HTML output directory,
+>   # and don't put links to the sources into the output HTML.
+> diff --git a/docs/devel/_templates/editpage.html b/docs/devel/_templates/editpage.html
+> deleted file mode 100644
+
+If you keep html_sidebars, this fails to build because it's gone now. If 
+enough distros have the right theme package, I'm leaning towards just 
+chopping out the fallback entirely instead of bothering with the messy 
+pain of doing both.
+
+--js
+
+> index a86d22bca8..0000000000
+> --- a/docs/devel/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id="editpage">
+> -  <ul>
+> -    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/devel/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/interop/_templates/editpage.html b/docs/interop/_templates/editpage.html
+> deleted file mode 100644
+> index 215e562681..0000000000
+> --- a/docs/interop/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id="editpage">
+> -  <ul>
+> -    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/interop/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/specs/_templates/editpage.html b/docs/specs/_templates/editpage.html
+> deleted file mode 100644
+> index aaa468aa98..0000000000
+> --- a/docs/specs/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id="editpage">
+> -  <ul>
+> -    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/specs/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/sphinx-static/theme_overrides.css b/docs/sphinx-static/theme_overrides.css
+> new file mode 100644
+> index 0000000000..c70ef95128
+> --- /dev/null
+> +++ b/docs/sphinx-static/theme_overrides.css
+> @@ -0,0 +1,161 @@
+> +/* -*- coding: utf-8; mode: css -*-
+> + *
+> + * Sphinx HTML theme customization: read the doc
+> + * Based on Linux Documentation/sphinx-static/theme_overrides.css
+> + */
+> +
+> +/* Improve contrast and increase size for easier reading. */
+> +
+> +body {
+> +    font-family: serif;
+> +    color: black;
+> +    font-size: 100%;
+> +}
+> +
+> +h1, h2, .rst-content .toctree-wrapper p.caption, h3, h4, h5, h6, legend {
+> +    font-family: sans-serif;
+> +}
+> +
+> +.rst-content dl:not(.docutils) dt {
+> +    border-top: none;
+> +    border-left: solid 3px #ccc;
+> +    background-color: #f0f0f0;
+> +    color: black;
+> +}
+> +
+> +.wy-nav-top {
+> +    background: #802400;
+> +}
+> +
+> +.wy-side-nav-search input[type="text"] {
+> +    border-color: #f60;
+> +}
+> +
+> +.wy-menu-vertical p.caption {
+> +    color: white;
+> +}
+> +
+> +.wy-menu-vertical li.current a {
+> +    color: #505050;
+> +}
+> +
+> +.wy-menu-vertical li.on a, .wy-menu-vertical li.current > a {
+> +    color: #303030;
+> +}
+> +
+> +.fa-gitlab {
+> +      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2), 0 3px 10px 0 rgba(0,0,0,0.19);
+> +      border-radius: 5px;
+> +}
+> +
+> +div[class^="highlight"] pre {
+> +    font-family: monospace;
+> +    color: black;
+> +    font-size: 100%;
+> +}
+> +
+> +.wy-menu-vertical {
+> +    font-family: sans-serif;
+> +}
+> +
+> +.c {
+> +    font-style: normal;
+> +}
+> +
+> +p {
+> +    font-size: 100%;
+> +}
+> +
+> +/* Interim: Code-blocks with line nos - lines and line numbers don't line up.
+> + * see: https://github.com/rtfd/sphinx_rtd_theme/issues/419
+> + */
+> +
+> +div[class^="highlight"] pre {
+> +    line-height: normal;
+> +}
+> +.rst-content .highlight > pre {
+> +    line-height: normal;
+> +}
+> +
+> +/* Keep fields from being strangely far apart due to inheirited table CSS. */
+> +.rst-content table.field-list th.field-name {
+> +    padding-top: 1px;
+> +    padding-bottom: 1px;
+> +}
+> +.rst-content table.field-list td.field-body {
+> +    padding-top: 1px;
+> +    padding-bottom: 1px;
+> +}
+> +
+> +@media screen {
+> +
+> +    /* content column
+> +     *
+> +     * RTD theme's default is 800px as max width for the content, but we have
+> +     * tables with tons of columns, which need the full width of the view-port.
+> +     */
+> +
+> +    .wy-nav-content{max-width: none; }
+> +
+> +    /* table:
+> +     *
+> +     *   - Sequences of whitespace should collapse into a single whitespace.
+> +     *   - make the overflow auto (scrollbar if needed)
+> +     *   - align caption "left" ("center" is unsuitable on vast tables)
+> +     */
+> +
+> +    .wy-table-responsive table td { white-space: normal; }
+> +    .wy-table-responsive { overflow: auto; }
+> +    .rst-content table.docutils caption { text-align: left; font-size: 100%; }
+> +
+> +    /* captions:
+> +     *
+> +     *   - captions should have 100% (not 85%) font size
+> +     *   - hide the permalink symbol as long as link is not hovered
+> +     */
+> +
+> +    .toc-title {
+> +        font-size: 150%;
+> +        font-weight: bold;
+> +    }
+> +
+> +    caption, .wy-table caption, .rst-content table.field-list caption {
+> +        font-size: 100%;
+> +    }
+> +    caption a.headerlink { opacity: 0; }
+> +    caption a.headerlink:hover { opacity: 1; }
+> +
+> +    /* Menu selection and keystrokes */
+> +
+> +    span.menuselection {
+> +        color: blue;
+> +        font-family: "Courier New", Courier, monospace
+> +    }
+> +
+> +    code.kbd, code.kbd span {
+> +        color: white;
+> +        background-color: darkblue;
+> +        font-weight: bold;
+> +        font-family: "Courier New", Courier, monospace
+> +    }
+> +
+> +    /* fix bottom margin of lists items */
+> +
+> +    .rst-content .section ul li:last-child, .rst-content .section ul li p:last-child {
+> +          margin-bottom: 12px;
+> +    }
+> +
+> +    /* inline literal: drop the borderbox, padding and red color */
+> +
+> +    code, .rst-content tt, .rst-content code {
+> +        color: inherit;
+> +        border: none;
+> +        padding: unset;
+> +        background: inherit;
+> +        font-size: 85%;
+> +    }
+> +
+> +    .rst-content tt.literal,.rst-content tt.literal,.rst-content code.literal {
+> +        color: inherit;
+> +    }
+> +}
+> diff --git a/docs/system/_templates/editpage.html b/docs/system/_templates/editpage.html
+> deleted file mode 100644
+> index 6586b2e257..0000000000
+> --- a/docs/system/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id="editpage">
+> -  <ul>
+> -    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/system/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/tools/_templates/editpage.html b/docs/tools/_templates/editpage.html
+> deleted file mode 100644
+> index 2a9c8fc92b..0000000000
+> --- a/docs/tools/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id="editpage">
+> -  <ul>
+> -    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/tools/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/docs/user/_templates/editpage.html b/docs/user/_templates/editpage.html
+> deleted file mode 100644
+> index 1f5ee01e60..0000000000
+> --- a/docs/user/_templates/editpage.html
+> +++ /dev/null
+> @@ -1,5 +0,0 @@
+> -<div id="editpage">
+> -  <ul>
+> -    <li><a href="https://gitlab.com/qemu-project/qemu/-/blob/master/docs/user/{{pagename}}.rst">Page source</a></li>
+> -  </ul>
+> -</div>
+> diff --git a/tests/docker/dockerfiles/debian10.docker b/tests/docker/dockerfiles/debian10.docker
+> index 9d42b5a4b8..957ecdcd50 100644
+> --- a/tests/docker/dockerfiles/debian10.docker
+> +++ b/tests/docker/dockerfiles/debian10.docker
+> @@ -32,6 +32,7 @@ RUN apt update && \
+>           psmisc \
+>           python3 \
+>           python3-sphinx \
+> +        python3-sphinx-rtd-theme \
+>           $(apt-get -s build-dep qemu | egrep ^Inst | fgrep '[all]' | cut -d\  -f2)
+>   
+>   ENV FEATURES docs
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+> index 0b5053f2d0..db249d1506 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -89,6 +89,7 @@ ENV PACKAGES \
+>       python3-pillow \
+>       python3-pip \
+>       python3-sphinx \
+> +    python3-sphinx_rtd_theme \
+>       python3-virtualenv \
+>       rdma-core-devel \
+>       SDL2-devel \
+> diff --git a/tests/docker/dockerfiles/ubuntu.docker b/tests/docker/dockerfiles/ubuntu.docker
+> index b5ef7a8198..98a527361c 100644
+> --- a/tests/docker/dockerfiles/ubuntu.docker
+> +++ b/tests/docker/dockerfiles/ubuntu.docker
+> @@ -63,6 +63,7 @@ ENV PACKAGES \
+>       ninja-build \
+>       python3-yaml \
+>       python3-sphinx \
+> +    python3-sphinx-rtd-theme \
+>       sparse \
+>       xfslibs-dev
+>   RUN apt-get update && \
+> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+> index 9b0a19ba5e..c0d3642507 100644
+> --- a/tests/docker/dockerfiles/ubuntu1804.docker
+> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
+> @@ -48,6 +48,7 @@ ENV PACKAGES \
+>       make \
+>       python3-yaml \
+>       python3-sphinx \
+> +    python3-sphinx-rtd-theme \
+>       ninja-build \
+>       sparse \
+>       xfslibs-dev
+> diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
+> index ae889d8482..33c19e1762 100644
+> --- a/tests/docker/dockerfiles/ubuntu2004.docker
+> +++ b/tests/docker/dockerfiles/ubuntu2004.docker
+> @@ -55,6 +55,7 @@ ENV PACKAGES flex bison \
+>       python3-pil \
+>       python3-pip \
+>       python3-sphinx \
+> +    python3-sphinx-rtd-theme \
+>       python3-venv \
+>       python3-yaml \
+>       rpm2cpio \
+> 
 
 
