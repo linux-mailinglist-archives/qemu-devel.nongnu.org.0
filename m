@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41322FE792
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:29:24 +0100 (CET)
-Received: from localhost ([::1]:60302 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 679C42FE7AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:34:14 +0100 (CET)
+Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2XDQ-0001OW-0h
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:29:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38148)
+	id 1l2XI5-0002mF-Gn
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:34:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=648267919=acatan@amazon.com>)
- id 1l2XCa-0000y0-Uq
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:28:32 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:23006)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=648267919=acatan@amazon.com>)
- id 1l2XCZ-0005Mq-07
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:28:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1611224911; x=1642760911;
- h=from:to:cc:date:message-id:references:in-reply-to:
- content-id:mime-version:content-transfer-encoding:subject;
- bh=hqeYFR4tFeQmudUNvthDELGWhM89CIKBNi0DsWXyEWk=;
- b=Ldmj5bqrulWxmG2ub8pkEOlz3n9iPVlTJCGLNrzBwlu33ukvuF4uknp/
- RVH7wtmSM+iJeDLwGWMRF0hIP3+EsPOhv/jxTN/MnrnVq0aPAGsjNwNt2
- J5LSYrlhYaBjBID4dnkPlnL/QnYM+dPf39wFoTZJQsmwI4Cd4nA3emJ8G o=;
-X-IronPort-AV: E=Sophos;i="5.79,363,1602547200"; d="scan'208";a="112527416"
-Subject: Re: [PATCH v4 0/2] System Generation ID driver and VMGENID backend
-Thread-Topic: [PATCH v4 0/2] System Generation ID driver and VMGENID backend
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
- email-inbound-relay-2c-87a10be6.us-west-2.amazon.com) ([10.47.23.38])
- by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP;
- 21 Jan 2021 10:28:20 +0000
-Received: from EX13MTAUWB001.ant.amazon.com
- (pdx1-ws-svc-p6-lb9-vlan2.pdx.amazon.com [10.236.137.194])
- by email-inbound-relay-2c-87a10be6.us-west-2.amazon.com (Postfix) with ESMTPS
- id A95A7A1766; Thu, 21 Jan 2021 10:28:18 +0000 (UTC)
-Received: from EX13D01UWB003.ant.amazon.com (10.43.161.94) by
- EX13MTAUWB001.ant.amazon.com (10.43.161.207) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 21 Jan 2021 10:28:18 +0000
-Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
- EX13d01UWB003.ant.amazon.com (10.43.161.94) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 21 Jan 2021 10:28:16 +0000
-Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
- EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.010;
- Thu, 21 Jan 2021 10:28:16 +0000
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Thread-Index: AQHW6NzBCUlWHHU+FkK+vi5glcJcE6oj8LeAgA4fV4A=
-Date: Thu, 21 Jan 2021 10:28:16 +0000
-Message-ID: <9952EF0C-CD1D-4EDB-BAB8-21F72C0BF90D@amazon.com>
-References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
- <20210112074658-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20210112074658-mutt-send-email-mst@kernel.org>
-Accept-Language: en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.164.195]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <B3101E87ED31714D98C7F1E02527BB78@amazon.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2XH2-0002LM-Tx
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:33:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46523)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2XH0-0007fv-To
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:33:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611225185;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=jLG3J7iSiwvAYzeyfFmUHGkhScSc0UhzX4urzdeO/Sk=;
+ b=dRtXkF981+kYmgg/gfLMNN+Vi+SDWEg3tMdxxC6abk9pAWvhaO0dnMdLGptd16uhziVBiF
+ A+LT6xAWolWENZhj/SnLOSOgGlCxeSgs4NxQOLjLlSSBtkLyK+MoIc4xHAkiQao4TwKMr0
+ lchIblhnG7qZB03mMJe+vboa8IkTfzI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-533-myGzlD53Nvaa7OchnYE8RQ-1; Thu, 21 Jan 2021 05:33:04 -0500
+X-MC-Unique: myGzlD53Nvaa7OchnYE8RQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D198107ACE6;
+ Thu, 21 Jan 2021 10:33:02 +0000 (UTC)
+Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 06A725D9C6;
+ Thu, 21 Jan 2021 10:32:53 +0000 (UTC)
+Date: Thu, 21 Jan 2021 10:32:50 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
+Message-ID: <20210121103250.GH3125227@redhat.com>
+References: <20210110162739.858087-1-f4bug@amsat.org>
+ <20210110162739.858087-3-f4bug@amsat.org>
+ <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
 MIME-Version: 1.0
-Precedence: Bulk
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.190.10;
- envelope-from=prvs=648267919=acatan@amazon.com; helo=smtp-fw-33001.amazon.com
-X-Spam_score_int: -120
-X-Spam_score: -12.1
-X-Spam_bar: ------------
-X-Spam_report: (-12.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+In-Reply-To: <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,76 +83,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason@zx2c4.com" <Jason@zx2c4.com>,
- "dgunigun@redhat.com" <dgunigun@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "ghammer@redhat.com" <ghammer@redhat.com>,
- "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
- "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mhocko@kernel.org" <mhocko@kernel.org>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "avagin@gmail.com" <avagin@gmail.com>,
- "pavel@ucw.cz" <pavel@ucw.cz>,
- "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "rafael@kernel.org" <rafael@kernel.org>,
- "ebiggers@kernel.org" <ebiggers@kernel.org>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>, "Singh,
- Balbir" <sblbir@amazon.com>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Graf \(AWS\), Alexander" <graf@amazon.de>, "arnd@arndb.de" <arnd@arndb.de>,
- "jannh@google.com" <jannh@google.com>, "Weiss, Radu" <raduweis@amazon.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>, "rppt@kernel.org" <rppt@kernel.org>,
- "luto@kernel.org" <luto@kernel.org>, "gil@azul.com" <gil@azul.com>,
- "MacCarthaigh, 
- Colm" <colmmacc@amazon.com>, "tytso@mit.edu" <tytso@mit.edu>,
- "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
- "areber@redhat.com" <areber@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ebiederm@xmission.com" <ebiederm@xmission.com>,
- "ovzxemul@gmail.com" <ovzxemul@gmail.com>, "w@1wt.eu" <w@1wt.eu>, "Woodhouse,
- David" <dwmw@amazon.co.uk>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Catangiu, Adrian Costin" <acatan@amazon.com>
-From: acatan--- via <qemu-devel@nongnu.org>
 
-T24gMTIvMDEvMjAyMSwgMTQ6NDksICJNaWNoYWVsIFMuIFRzaXJraW4iIDxtc3RAcmVkaGF0LmNv
-bT4gd3JvdGU6DQoNCiAgICBPbiBUdWUsIEphbiAxMiwgMjAyMSBhdCAwMjoxNTo1OFBNICswMjAw
-LCBBZHJpYW4gQ2F0YW5naXUgd3JvdGU6DQogICAgPiBUaGUgZmlyc3QgcGF0Y2ggaW4gdGhlIHNl
-dCBpbXBsZW1lbnRzIGEgZGV2aWNlIGRyaXZlciB3aGljaCBleHBvc2VzIGENCiAgICA+IHJlYWQt
-b25seSBkZXZpY2UgL2Rldi9zeXNnZW5pZCB0byB1c2Vyc3BhY2UsIHdoaWNoIGNvbnRhaW5zIGEN
-CiAgICA+IG1vbm90b25pY2FsbHkgaW5jcmVhc2luZyB1MzIgZ2VuZXJhdGlvbiBjb3VudGVyLiBM
-aWJyYXJpZXMgYW5kDQogICAgPiBhcHBsaWNhdGlvbnMgYXJlIGV4cGVjdGVkIHRvIG9wZW4oKSB0
-aGUgZGV2aWNlLCBhbmQgdGhlbiBjYWxsIHJlYWQoKQ0KICAgID4gd2hpY2ggYmxvY2tzIHVudGls
-IHRoZSBTeXNHZW5JZCBjaGFuZ2VzLiBGb2xsb3dpbmcgYW4gdXBkYXRlLCByZWFkKCkNCiAgICA+
-IGNhbGxzIG5vIGxvbmdlciBibG9jayB1bnRpbCB0aGUgYXBwbGljYXRpb24gYWNrbm93bGVkZ2Vz
-IHRoZSBuZXcNCiAgICA+IFN5c0dlbklkIGJ5IHdyaXRlKClpbmcgaXQgYmFjayB0byB0aGUgZGV2
-aWNlLiBOb24tYmxvY2tpbmcgcmVhZCgpIGNhbGxzDQogICAgPiByZXR1cm4gRUFHQUlOIHdoZW4g
-dGhlcmUgaXMgbm8gbmV3IFN5c0dlbklkIGF2YWlsYWJsZS4gQWx0ZXJuYXRpdmVseSwNCiAgICA+
-IGxpYnJhcmllcyBjYW4gbW1hcCgpIHRoZSBkZXZpY2UgdG8gZ2V0IGEgc2luZ2xlIHNoYXJlZCBw
-YWdlIHdoaWNoDQogICAgPiBjb250YWlucyB0aGUgbGF0ZXN0IFN5c0dlbklkIGF0IG9mZnNldCAw
-Lg0KDQogICAgTG9va2luZyBhdCBzb21lIHNwZWNpZmljYXRpb25zLCB0aGUgZ2VuIElEIG1pZ2h0
-IGFjdHVhbGx5IGJlIGxvY2F0ZWQNCiAgICBhdCBhbiBhcmJpdHJhcnkgYWRkcmVzcy4gSG93IGFi
-b3V0IGluc3RlYWQgb2YgaGFyZC1jb2RpbmcgdGhlIG9mZnNldCwNCiAgICB3ZSBleHBvc2UgaXQg
-ZS5nLiBpbiBzeXNmcz8NCg0KVGhlIGZ1bmN0aW9uYWxpdHkgaXMgc3BsaXQgYmV0d2VlbiBTeXNH
-ZW5JRCB3aGljaCBleHBvc2VzIGFuIGludGVybmFsIHUzMg0KY291bnRlciB0byB1c2Vyc3BhY2Us
-IGFuZCBhbiAob3B0aW9uYWwpIFZtR2VuSUQgYmFja2VuZCB3aGljaCBkcml2ZXMNClN5c0dlbklE
-IGdlbmVyYXRpb24gY2hhbmdlcyBiYXNlZCBvbiBodyB2bWdlbmlkIHVwZGF0ZXMuDQoNClRoZSBo
-dyBVVUlEIHlvdSdyZSByZWZlcnJpbmcgdG8gKHZtZ2VuaWQpIGlzIG5vdCBtbWFwLWVkIHRvIHVz
-ZXJzcGFjZSBvcg0Kb3RoZXJ3aXNlIGV4cG9zZWQgdG8gdXNlcnNwYWNlLiBJdCBpcyBvbmx5IHVz
-ZWQgaW50ZXJuYWxseSBieSB0aGUgdm1nZW5pZA0KZHJpdmVyIHRvIGZpbmQgb3V0IGFib3V0IFZN
-IGdlbmVyYXRpb24gY2hhbmdlcyBhbmQgZHJpdmUgdGhlIG1vcmUgZ2VuZXJpYw0KU3lzR2VuSUQu
-DQoNClRoZSBTeXNHZW5JRCB1MzIgbW9ub3RvbmljIGluY3JlYXNpbmcgY291bnRlciBpcyB0aGUg
-b25lIHRoYXQgaXMgbW1hcGVkIHRvDQp1c2Vyc3BhY2UsIGJ1dCBpdCBpcyBhIHNvZnR3YXJlIGNv
-dW50ZXIuIEkgZG9uJ3Qgc2VlIGFueSB2YWx1ZSBpbiB1c2luZyBhIGR5bmFtaWMNCm9mZnNldCBp
-biB0aGUgbW1hcGVkIHBhZ2UuIE9mZnNldCAwIGlzIGZhc3QgYW5kIGVhc3kgYW5kIG1vc3QgaW1w
-b3J0YW50bHkgaXQgaXMNCnN0YXRpYyBzbyBubyBuZWVkIHRvIGR5bmFtaWNhbGx5IGNhbGN1bGF0
-ZSBvciBmaW5kIGl0IGF0IHJ1bnRpbWUuDQoNClRoYW5rcywNCkFkcmlhbi4NCg0KCgoKQW1hem9u
-IERldmVsb3BtZW50IENlbnRlciAoUm9tYW5pYSkgUy5SLkwuIHJlZ2lzdGVyZWQgb2ZmaWNlOiAy
-N0EgU2YuIExhemFyIFN0cmVldCwgVUJDNSwgZmxvb3IgMiwgSWFzaSwgSWFzaSBDb3VudHksIDcw
-MDA0NSwgUm9tYW5pYS4gUmVnaXN0ZXJlZCBpbiBSb21hbmlhLiBSZWdpc3RyYXRpb24gbnVtYmVy
-IEoyMi8yNjIxLzIwMDUuCg==
+On Thu, Jan 21, 2021 at 11:08:29AM +0100, Thomas Huth wrote:
+> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
+> > Split the current GCC build-tci job in 2, and use Clang
+> > compiler in the new job.
+> > 
+> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> > ---
+> > RFC in case someone have better idea to optimize can respin this patch.
+> > 
+> >   .gitlab-ci.yml | 22 ++++++++++++++++++++--
+> >   1 file changed, 20 insertions(+), 2 deletions(-)
+> 
+> I'm not quite sure whether we should go down this road ... if we wanted to
+> have full test coverage for clang, we'd need to duplicate *all* jobs to run
+> them once with gcc and once with clang. And that would be just overkill.
+> 
+> I think we already catch most clang-related problems with the clang jobs
+> that we already have in our CI, so problems like the ones that you've tried
+> to address here should be very, very rare. So I'd rather vote for not
+> splitting the job here.
+
+We can't possibly cope with the fully expanded matrix of what are
+theoretically possible combinations. Thus I think we should be guided
+by what is expected real world usage by platforms we target.
+
+Essentially for any given distro we're testing on, our primary focus
+should be to use the toolchain that distro will build QEMU with.
+
+IOW, for Windows and Linux distros our primary focus should be GCC,
+while for macOS, and *BSD, our focus should be CLang.
+
+If there are other combinations that are known to hit bugs not covered
+by the standard distro patterns above, we might add a few more jobs.
+The latter should be the exception though, otherwise our number of
+jobs will grow without bound.
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
