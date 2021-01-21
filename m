@@ -2,58 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 680062FEE47
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:18:44 +0100 (CET)
-Received: from localhost ([::1]:60402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4664A2FEE93
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 16:27:38 +0100 (CET)
+Received: from localhost ([::1]:41130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2bjP-0004Rd-GH
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:18:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51570)
+	id 1l2bs1-0000Rs-9Z
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 10:27:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l2bgw-0003AF-9J
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:16:10 -0500
-Resent-Date: Thu, 21 Jan 2021 10:16:10 -0500
-Resent-Message-Id: <E1l2bgw-0003AF-9J@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21332)
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1l2bps-0007Yu-2G
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:25:24 -0500
+Received: from relay.sw.ru ([185.231.240.75]:53678)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l2bgs-0001DD-DA
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:16:09 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1611242148; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=I4t13bI22e3itwv0xZI0uVOy7OuLT33Q3A0Xz6VO/2EaBqOreF9+B8cvkGXmDXqJPv5hmvSNYCmqNkRYQu7cFvAPOi8P5iA+ca32aw12bsGxbOegVDE1FBXn48rQxWQWiswHgba9Sptq1Ya9pARAdz1I5SZb7+Itha7gLXMP6AU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1611242148;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=PSrVY5b9Tl7DogmRz3AF0mbqobDhCqOzGeG1O3lsimA=; 
- b=RQKVTbwu8RCggqR5rJQQJ25xQ9ArB+4vstV2IfkOaGWDxEUeeYuvbOR5DbaXf4pEXWVYVEM0guc4DnZpYzsEQr8CMF0yiz5QNc7GGhkbwtDwU4QoJLle3KWLVMXJ1ySzUet7dPj+zTYPISd0/Fi5jy+8E5v+B6oUZrx851elxjE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1611242147513675.9079601981769;
- Thu, 21 Jan 2021 07:15:47 -0800 (PST)
-In-Reply-To: <20210121150234.192543-1-andrey.gruzdev@virtuozzo.com>
-Subject: Re: [PATCH v12 0/5] UFFD write-tracking migration/snapshots
-Message-ID: <161124214579.30413.17811661820842245546@73fb1a5943b8>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
+ (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1l2bpj-0005PC-JT
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 10:25:21 -0500
+Received: from [192.168.15.91] (helo=andrey-MS-7B54.sw.ru)
+ by relay.sw.ru with esmtp (Exim 4.94)
+ (envelope-from <andrey.gruzdev@virtuozzo.com>)
+ id 1l2bpR-0004gp-VK; Thu, 21 Jan 2021 18:24:58 +0300
 To: qemu-devel@nongnu.org
-Date: Thu, 21 Jan 2021 07:15:47 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
+Subject: [PATCH v13 0/5] UFFD write-tracking migration/snapshots
+Date: Thu, 21 Jan 2021 18:24:53 +0300
+Message-Id: <20210121152458.193248-1-andrey.gruzdev@virtuozzo.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=185.231.240.75;
+ envelope-from=andrey.gruzdev@virtuozzo.com; helo=relay.sw.ru
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,126 +49,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: quintela@redhat.com, armbru@redhat.com, peterx@redhat.com,
- qemu-devel@nongnu.org, den@openvz.org, pbonzini@redhat.com,
- andrey.gruzdev@virtuozzo.com, dgilbert@redhat.com
+Cc: Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Den Lunev <den@openvz.org>, Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+From: andrey.gruzdev--- via <qemu-devel@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEyMTE1MDIzNC4xOTI1
-NDMtMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAxMjEx
-NTAyMzQuMTkyNTQzLTEtYW5kcmV5LmdydXpkZXZAdmlydHVvenpvLmNvbQpTdWJqZWN0OiBbUEFU
-Q0ggdjEyIDAvNV0gVUZGRCB3cml0ZS10cmFja2luZyBtaWdyYXRpb24vc25hcHNob3RzCgo9PT0g
-VEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9k
-ZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApn
-aXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRp
-ZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNr
-IGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3
-ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3
-LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEwMTIxMTQ0NDI5
-LjU4ODg1LTEtc3RlZmFuaGFAcmVkaGF0LmNvbSAtPiBwYXRjaGV3LzIwMjEwMTIxMTQ0NDI5LjU4
-ODg1LTEtc3RlZmFuaGFAcmVkaGF0LmNvbQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIw
-MjEwMTIxMTUwMjM0LjE5MjU0My0xLWFuZHJleS5ncnV6ZGV2QHZpcnR1b3p6by5jb20gLT4gcGF0
-Y2hldy8yMDIxMDEyMTE1MDIzNC4xOTI1NDMtMS1hbmRyZXkuZ3J1emRldkB2aXJ0dW96em8uY29t
-CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAxMjExNTA4MzIuMzU2NDA5Ny0xLWty
-YXhlbEByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAxMjExNTA4MzIuMzU2NDA5Ny0xLWtyYXhl
-bEByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKYjM3M2FjZCBtaWdy
-YXRpb246IGludHJvZHVjZSAndXNlcmZhdWx0ZmQtd3JsYXQucHknIHNjcmlwdAo2NWQxOWM3IG1p
-Z3JhdGlvbjogaW1wbGVtZW50YXRpb24gb2YgYmFja2dyb3VuZCBzbmFwc2hvdCB0aHJlYWQKMGRl
-YzM5ZCBtaWdyYXRpb246IHN1cHBvcnQgVUZGRCB3cml0ZSBmYXVsdCBwcm9jZXNzaW5nIGluIHJh
-bV9zYXZlX2l0ZXJhdGUoKQpjZTJiNmI4IG1pZ3JhdGlvbjogaW50cm9kdWNlIFVGRkQtV1AgbG93
-LWxldmVsIGludGVyZmFjZSBoZWxwZXJzCmQ2MGE0MGQgbWlncmF0aW9uOiBpbnRyb2R1Y2UgJ2Jh
-Y2tncm91bmQtc25hcHNob3QnIG1pZ3JhdGlvbiBjYXBhYmlsaXR5Cgo9PT0gT1VUUFVUIEJFR0lO
-ID09PQoxLzUgQ2hlY2tpbmcgY29tbWl0IGQ2MGE0MGQ3NTYxZSAobWlncmF0aW9uOiBpbnRyb2R1
-Y2UgJ2JhY2tncm91bmQtc25hcHNob3QnIG1pZ3JhdGlvbiBjYXBhYmlsaXR5KQpXQVJOSU5HOiBs
-aW5lIG92ZXIgODAgY2hhcmFjdGVycwojMTIzOiBGSUxFOiBtaWdyYXRpb24vbWlncmF0aW9uLmM6
-MTIzMToKKyAgICAgICAgICAgIGVycm9yX3NldGcoZXJycCwgIkJhY2tncm91bmQtc25hcHNob3Qg
-aXMgbm90IHN1cHBvcnRlZCBieSBob3N0IGtlcm5lbCIpOwoKV0FSTklORzogQmxvY2sgY29tbWVu
-dHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIwMDogRklMRTogbWlncmF0
-aW9uL3JhbS5jOjM3OTE6CisvKiByYW1fd3JpdGVfdHJhY2tpbmdfYXZhaWxhYmxlOiBjaGVjayBp
-ZiBrZXJuZWwgc3VwcG9ydHMgcmVxdWlyZWQgVUZGRCBmZWF0dXJlcwoKV0FSTklORzogQmxvY2sg
-Y29tbWVudHMgdXNlIGEgbGVhZGluZyAvKiBvbiBhIHNlcGFyYXRlIGxpbmUKIzIxMDogRklMRTog
-bWlncmF0aW9uL3JhbS5jOjM4MDE6CisvKiByYW1fd3JpdGVfdHJhY2tpbmdfY29tcGF0aWJsZTog
-Y2hlY2sgaWYgZ3Vlc3QgY29uZmlndXJhdGlvbiBpcwoKdG90YWw6IDAgZXJyb3JzLCAzIHdhcm5p
-bmdzLCAyMDcgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMS81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxl
-YXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyBy
-ZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5F
-UlMuCjIvNSBDaGVja2luZyBjb21taXQgY2UyYjZiODkyMmEzIChtaWdyYXRpb246IGludHJvZHVj
-ZSBVRkZELVdQIGxvdy1sZXZlbCBpbnRlcmZhY2UgaGVscGVycykKV0FSTklORzogYWRkZWQsIG1v
-dmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBuZWVkIHVwZGF0aW5nPwoj
-MzU6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3Rl
-cnMKIzI3MjogRklMRTogdXRpbC91c2VyZmF1bHRmZC5jOjE2MzoKKyAqIHVmZmRfY2hhbmdlX3By
-b3RlY3Rpb246IHByb3RlY3QvdW4tcHJvdGVjdCBtZW1vcnkgcmFuZ2UgZm9yIHdyaXRlcyB2aWEg
-VUZGRC1JTwoKV0FSTklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzMzMTogRklMRTogdXRp
-bC91c2VyZmF1bHRmZC5jOjIyMjoKKyAgICAgICAgZXJyb3JfcmVwb3J0KCJ1ZmZkX2NvcHlfcGFn
-ZSgpIGZhaWxlZDogZHN0X2FkZHI9JXAgc3JjX2FkZHI9JXAgbGVuZ3RoPSUiIFBSSXU2NAoKV0FS
-TklORzogbGluZSBvdmVyIDgwIGNoYXJhY3RlcnMKIzM3MTogRklMRTogdXRpbC91c2VyZmF1bHRm
-ZC5jOjI2MjoKKyAqIHVmZmRfd2FrZXVwOiB3YWtlIHVwIHRocmVhZHMgd2FpdGluZyBvbiBwYWdl
-IFVGRkQtbWFuYWdlZCBwYWdlIGZhdWx0IHJlc29sdXRpb24KCldBUk5JTkc6IGxpbmUgb3ZlciA4
-MCBjaGFyYWN0ZXJzCiMzOTI6IEZJTEU6IHV0aWwvdXNlcmZhdWx0ZmQuYzoyODM6CisgICAgICAg
-IGVycm9yX3JlcG9ydCgidWZmZF93YWtldXAoKSBmYWlsZWQ6IGFkZHI9JXAgbGVuZ3RoPSUiIFBS
-SXU2NCAiIGVycm5vPSVpIiwKCnRvdGFsOiAwIGVycm9ycywgNSB3YXJuaW5ncywgNDA2IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDIvNSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgozLzUgQ2hlY2tp
-bmcgY29tbWl0IDBkZWMzOWRkY2FkNCAobWlncmF0aW9uOiBzdXBwb3J0IFVGRkQgd3JpdGUgZmF1
-bHQgcHJvY2Vzc2luZyBpbiByYW1fc2F2ZV9pdGVyYXRlKCkpCldBUk5JTkc6IGFyY2hpdGVjdHVy
-ZSBzcGVjaWZpYyBkZWZpbmVzIHNob3VsZCBiZSBhdm9pZGVkCiM2MTogRklMRTogbWlncmF0aW9u
-L3JhbS5jOjYxOgorI2lmIGRlZmluZWQoX19saW51eF9fKQoKV0FSTklORzogYXJjaGl0ZWN0dXJl
-IHNwZWNpZmljIGRlZmluZXMgc2hvdWxkIGJlIGF2b2lkZWQKIzgwOiBGSUxFOiBtaWdyYXRpb24v
-cmFtLmM6MTQ0NDoKKyNpZiBkZWZpbmVkKF9fbGludXhfXykKCldBUk5JTkc6IEJsb2NrIGNvbW1l
-bnRzIHNob3VsZCBhbGlnbiB0aGUgKiBvbiBlYWNoIGxpbmUKIzEyMjogRklMRTogbWlncmF0aW9u
-L3JhbS5jOjE0ODY6CisgKiBSZXR1cm5zIDAgb24gc3VjY2VzcywgbmVnYXRpdmUgdmFsdWUgaW4g
-Y2FzZSBvZiBhbiBlcnJvcgorKi8KCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMx
-MzA6IEZJTEU6IG1pZ3JhdGlvbi9yYW0uYzoxNDk0OgorICAgICAgICB2b2lkICpwYWdlX2FkZHJl
-c3MgPSBwc3MtPmJsb2NrLT5ob3N0ICsgKHN0YXJ0X3BhZ2UgPDwgVEFSR0VUX1BBR0VfQklUUyk7
-CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUg
-bGluZQojMTQzOiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTUwNzoKKy8qIHJhbV93cml0ZV90cmFj
-a2luZ19hdmFpbGFibGU6IGNoZWNrIGlmIGtlcm5lbCBzdXBwb3J0cyByZXF1aXJlZCBVRkZEIGZl
-YXR1cmVzCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2Vw
-YXJhdGUgbGluZQojMTU3OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTUyMToKKy8qIHJhbV93cml0
-ZV90cmFja2luZ19jb21wYXRpYmxlOiBjaGVjayBpZiBndWVzdCBjb25maWd1cmF0aW9uIGlzCgpX
-QVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjQ2OiBGSUxFOiBtaWdyYXRpb24vcmFt
-LmM6MTYxMDoKKyAgICBlcnJvcl9yZXBvcnQoInJhbV93cml0ZV90cmFja2luZ19zdGFydCgpIGZh
-aWxlZDogcmVzdG9yaW5nIGluaXRpYWwgbWVtb3J5IHN0YXRlIik7CgpXQVJOSU5HOiBsaW5lIG92
-ZXIgODAgY2hhcmFjdGVycwojMjU2OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTYyMDoKKyAgICAg
-ICAgdWZmZF9jaGFuZ2VfcHJvdGVjdGlvbihycy0+dWZmZGlvX2ZkLCBicy0+aG9zdCwgYnMtPm1h
-eF9sZW5ndGgsIGZhbHNlLCBmYWxzZSk7CgpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVy
-cwojMjgzOiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MTY0NzoKKyAgICAgICAgdWZmZF9jaGFuZ2Vf
-cHJvdGVjdGlvbihycy0+dWZmZGlvX2ZkLCBicy0+aG9zdCwgYnMtPm1heF9sZW5ndGgsIGZhbHNl
-LCBmYWxzZSk7CgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEg
-c2VwYXJhdGUgbGluZQojMzk0OiBGSUxFOiBtaWdyYXRpb24vcmFtLmM6MjE2NjoKKyAgICAgICAg
-LyogY2FsbGVyIGhhdmUgaG9sZCBpb3RocmVhZCBsb2NrIG9yIGlzIGluIGEgYmgsIHNvIHRoZXJl
-IGlzCgp0b3RhbDogMCBlcnJvcnMsIDEwIHdhcm5pbmdzLCA0MDggbGluZXMgY2hlY2tlZAoKUGF0
-Y2ggMy81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVz
-ZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5l
-ciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjQvNSBDaGVja2luZyBjb21taXQgNjVk
-MTljNzc3NzYzIChtaWdyYXRpb246IGltcGxlbWVudGF0aW9uIG9mIGJhY2tncm91bmQgc25hcHNo
-b3QgdGhyZWFkKQpXQVJOSU5HOiBsaW5lIG92ZXIgODAgY2hhcmFjdGVycwojMjAwOiBGSUxFOiBt
-aWdyYXRpb24vbWlncmF0aW9uLmM6MzgyNDoKKyAqIG1lY2hhbmlzbSwgd2hpY2ggZWZmZWN0aXZl
-bHkgcmVzdWx0cyBpbiB0aGF0IHNhdmVkIHNuYXBzaG90IGlzIHRoZSBzdGF0ZSBvZiBWTQoKdG90
-YWw6IDAgZXJyb3JzLCAxIHdhcm5pbmdzLCAzNDggbGluZXMgY2hlY2tlZAoKUGF0Y2ggNC81IGhh
-cyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMK
-YXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNI
-RUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCjUvNSBDaGVja2luZyBjb21taXQgYjM3M2FjZDYyYjgx
-IChtaWdyYXRpb246IGludHJvZHVjZSAndXNlcmZhdWx0ZmQtd3JsYXQucHknIHNjcmlwdCkKV0FS
-TklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJTkVSUyBu
-ZWVkIHVwZGF0aW5nPwojMTc6IApuZXcgZmlsZSBtb2RlIDEwMDc1NQoKRVJST1I6IHRyYWlsaW5n
-IHdoaXRlc3BhY2UKIzY1OiBGSUxFOiBzY3JpcHRzL3VzZXJmYXVsdGZkLXdybGF0LnB5OjQ0Ogor
-ICAgICQKCldBUk5JTkc6IGxpbmUgb3ZlciA4MCBjaGFyYWN0ZXJzCiMxMjI6IEZJTEU6IHNjcmlw
-dHMvdXNlcmZhdWx0ZmQtd3JsYXQucHk6MTAxOgorYi5hdHRhY2hfa3JldHByb2JlKGV2ZW50PSJo
-YW5kbGVfdXNlcmZhdWx0IiwgZm5fbmFtZT0icmV0cHJvYmVfaGFuZGxlX3VzZXJmYXVsdCIpCgp0
-b3RhbDogMSBlcnJvcnMsIDIgd2FybmluZ3MsIDEyMiBsaW5lcyBjaGVja2VkCgpQYXRjaCA1LzUg
-aGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVycm9y
-cwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBzZWUK
-Q0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21t
-YW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0
-dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMjEwMTIxMTUwMjM0LjE5MjU0My0xLWFuZHJleS5ncnV6
-ZGV2QHZpcnR1b3p6by5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpF
-bWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcu
-b3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQu
-Y29t
+This patch series is a kind of 'rethinking' of Denis Plotnikov's ideas he's
+implemented in his series '[PATCH v0 0/4] migration: add background snapshot'.
+
+Currently the only way to make (external) live VM snapshot is using existing
+dirty page logging migration mechanism. The main problem is that it tends to
+produce a lot of page duplicates while running VM goes on updating already
+saved pages. That leads to the fact that vmstate image size is commonly several
+times bigger then non-zero part of virtual machine's RSS. Time required to
+converge RAM migration and the size of snapshot image severely depend on the
+guest memory write rate, sometimes resulting in unacceptably long snapshot
+creation time and huge image size.
+
+This series propose a way to solve the aforementioned problems. This is done
+by using different RAM migration mechanism based on UFFD write protection
+management introduced in v5.7 kernel. The migration strategy is to 'freeze'
+guest RAM content using write-protection and iteratively release protection
+for memory ranges that have already been saved to the migration stream.
+At the same time we read in pending UFFD write fault events and save those
+pages out-of-order with higher priority.
+
+How to use:
+1. Enable write-tracking migration capability
+   virsh qemu-monitor-command <domain> --hmp migrate_set_capability
+   background-snapshot on
+
+2. Start the external migration to a file
+   virsh qemu-monitor-command <domain> --hmp migrate exec:'cat > ./vm_state'
+
+3. Wait for the migration finish and check that the migration has completed.
+state.
+
+
+Changes v12->v13:
+
+* 1. Fixed codestyle problem for checkpatch.
+
+Changes v11->v12:
+
+* 1. Consolidated UFFD-related code under single #if defined(__linux__).
+* 2. Abandoned use of pre/post hooks in ram_find_and_save_block() in favour
+*    of more compact code fragment in ram_save_host_page().
+* 3. Refactored/simplified eBPF code in userfaultfd-wrlat.py script.
+
+Changes v10->v11:
+
+* 1. Updated commit messages.
+
+Changes v9->v10:
+
+* 1. Fixed commit message for [PATCH v9 1/5].
+
+Changes v8->v9:
+
+* 1. Fixed wrong cover letter subject.
+
+Changes v7->v8:
+
+* 1. Fixed coding style problems to pass checkpatch.
+
+Changes v6->v7:
+
+* 1. Fixed background snapshot on suspended guest: call qemu_system_wakeup_request()
+*    before stopping VM to make runstate transition valid.
+* 2. Disabled dirty page logging and log syn when 'background-snapshot' is enabled.
+* 3. Introduced 'userfaultfd-wrlat.py' script to analyze UFFD write fault latencies.
+
+Changes v5->v6:
+
+* 1. Consider possible hot pluggin/unpluggin of memory device - don't use static
+*    for write-tracking support level in migrate_query_write_tracking(), check
+*    each time when one tries to enable 'background-snapshot' capability.
+
+Changes v4->v5:
+
+* 1. Refactored util/userfaultfd.c code to support features required by postcopy.
+* 2. Introduced checks for host kernel and guest memory backend compatibility
+*    to 'background-snapshot' branch in migrate_caps_check().
+* 3. Switched to using trace_xxx instead of info_report()/error_report() for
+*    cases when error message must be hidden (probing UFFD-IO) or info may be
+*    really littering output if goes to stderr.
+* 4  Added RCU_READ_LOCK_GUARDs to the code dealing with RAM block list.
+* 5. Added memory_region_ref() for each RAM block being wr-protected.
+* 6. Reused qemu_ram_block_from_host() instead of custom RAM block lookup routine.
+* 7. Refused from using specific hwaddr/ram_addr_t in favour of void */uint64_t.
+* 8. Currently dropped 'linear-scan-rate-limiting' patch. The reason is that
+*    that choosen criteria for high-latency fault detection (i.e. timestamp of
+*    UFFD event fetch) is not representative enough for this task.
+*    At the moment it looks somehow like premature optimization effort.
+* 8. Dropped some unnecessary/unused code.
+
+Andrey Gruzdev (5):
+  migration: introduce 'background-snapshot' migration capability
+  migration: introduce UFFD-WP low-level interface helpers
+  migration: support UFFD write fault processing in ram_save_iterate()
+  migration: implementation of background snapshot thread
+  migration: introduce 'userfaultfd-wrlat.py' script
+
+ include/exec/memory.h        |   8 +
+ include/qemu/userfaultfd.h   |  35 ++++
+ migration/migration.c        | 357 ++++++++++++++++++++++++++++++++++-
+ migration/migration.h        |   4 +
+ migration/ram.c              | 303 ++++++++++++++++++++++++++++-
+ migration/ram.h              |   6 +
+ migration/savevm.c           |   1 -
+ migration/savevm.h           |   2 +
+ migration/trace-events       |   2 +
+ qapi/migration.json          |   7 +-
+ scripts/userfaultfd-wrlat.py | 122 ++++++++++++
+ util/meson.build             |   1 +
+ util/trace-events            |   9 +
+ util/userfaultfd.c           | 345 +++++++++++++++++++++++++++++++++
+ 14 files changed, 1190 insertions(+), 12 deletions(-)
+ create mode 100644 include/qemu/userfaultfd.h
+ create mode 100755 scripts/userfaultfd-wrlat.py
+ create mode 100644 util/userfaultfd.c
+
+-- 
+2.25.1
+
 
