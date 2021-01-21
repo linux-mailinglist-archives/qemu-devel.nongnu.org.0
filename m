@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5496B2FDF14
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 02:59:37 +0100 (CET)
-Received: from localhost ([::1]:39062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B0B2FDF19
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 03:15:05 +0100 (CET)
+Received: from localhost ([::1]:41784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2PG4-0003Hn-DP
-	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 20:59:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35324)
+	id 1l2PV2-0005BN-7G
+	for lists+qemu-devel@lfdr.de; Wed, 20 Jan 2021 21:15:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37996)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2PEo-0002mk-Ep
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 20:58:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49665)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2PU1-0004gT-BV
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 21:14:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42961)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2PEm-0007KY-LN
- for qemu-devel@nongnu.org; Wed, 20 Jan 2021 20:58:18 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2PTy-0003zn-Is
+ for qemu-devel@nongnu.org; Wed, 20 Jan 2021 21:14:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611194295;
+ s=mimecast20190719; t=1611195237;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4/xpJW3HrsVIoAC+pcx2cgtQaGXXB76B3lC3hBITDsg=;
- b=eHY+Y6UBN81+rG8v5ce4ScHshFAJLIB56lSuzmo0i/d3kPhqkfnczw3iqwx6OV4saK7ukJ
- 8oFMRwZZIcNTejRpUNI0CgiRb1MzfwyKBVT3hrMJM0/QZRU6tsPhJB+08AlYWUwfB25cyO
- FpJOfolWVC9uz7kE0gozawCZT06+ujA=
+ bh=/TefsnjStvttCdWScnBYb7ExI9d8bpVIaW4oKvnhuYQ=;
+ b=jL4XItdt7YyBi7q2gLkYCfuSqM/bTM8vyUwzejk8k44eO6AZsOkV2l3K4sgsTjbCtRnz7u
+ C0VCBDJ3/BWjUbbZMmslPbEEyx6GOatamjId/xrMT/W6JqfAjmPxASB2gNsuhL1RXjYoOF
+ PCy5Hcgt5iY2gMR5cXes29uHRhz7Q6I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-190-gH71S3FnM0SkTJSFMv4hVw-1; Wed, 20 Jan 2021 20:58:11 -0500
-X-MC-Unique: gH71S3FnM0SkTJSFMv4hVw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-460-WJHpbbVzPbe7YPboiPf-6w-1; Wed, 20 Jan 2021 21:13:55 -0500
+X-MC-Unique: WJHpbbVzPbe7YPboiPf-6w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3D95801FAE;
- Thu, 21 Jan 2021 01:58:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B76C425C8;
+ Thu, 21 Jan 2021 02:13:54 +0000 (UTC)
 Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 459785D9C2;
- Thu, 21 Jan 2021 01:58:09 +0000 (UTC)
-Subject: Re: [PATCH v2 3/8] iotests.py: fix qemu_tool_pipe_and_status()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7986870951;
+ Thu, 21 Jan 2021 02:13:53 +0000 (UTC)
+Subject: Re: [PATCH v2 4/8] iotests.py: qemu_io(): reuse
+ qemu_tool_pipe_and_status()
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20201130134024.19212-1-vsementsov@virtuozzo.com>
- <20201130134024.19212-4-vsementsov@virtuozzo.com>
+ <20201130134024.19212-5-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <b26261e9-ea25-5eba-0ba3-8f5dc023712a@redhat.com>
-Date: Wed, 20 Jan 2021 19:58:08 -0600
+Message-ID: <3be51794-d90d-eb4c-b06e-9ced04129aa2@redhat.com>
+Date: Wed, 20 Jan 2021 20:13:52 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201130134024.19212-4-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201130134024.19212-5-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -88,32 +89,36 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 11/30/20 7:40 AM, Vladimir Sementsov-Ogievskiy wrote:
-> qemu_img_args variable is unrelated here. We should print just args.
+> Just drop code duplication.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  tests/qemu-iotests/iotests.py | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  tests/qemu-iotests/iotests.py | 9 +--------
+>  1 file changed, 1 insertion(+), 8 deletions(-)
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
 > 
 > diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-> index bcd4fe5b6f..5ebe25e063 100644
+> index 5ebe25e063..6c9bcf9042 100644
 > --- a/tests/qemu-iotests/iotests.py
 > +++ b/tests/qemu-iotests/iotests.py
-> @@ -101,9 +101,8 @@ def qemu_tool_pipe_and_status(tool: str, args: Sequence[str],
->                              universal_newlines=True)
->      output = subp.communicate()[0]
->      if subp.returncode < 0:
-> -        sys.stderr.write('%s received signal %i: %s\n'
-> -                         % (tool, -subp.returncode,
-> -                            ' '.join(qemu_img_args + list(args))))
-> +        cmd = ' '.join(args)
-> +        sys.stderr.write(f'{tool} received signal {-subp.returncode}: {cmd}\n')
->      return (output, subp.returncode)
+> @@ -188,14 +188,7 @@ def img_info_log(filename, filter_path=None, imgopts=False, extra_args=()):
+>  def qemu_io(*args):
+>      '''Run qemu-io and return the stdout data'''
+>      args = qemu_io_args + list(args)
+> -    subp = subprocess.Popen(args, stdout=subprocess.PIPE,
+> -                            stderr=subprocess.STDOUT,
+> -                            universal_newlines=True)
+> -    output = subp.communicate()[0]
+> -    if subp.returncode < 0:
+> -        sys.stderr.write('qemu-io received signal %i: %s\n'
+> -                         % (-subp.returncode, ' '.join(args)))
+> -    return output
+> +    return qemu_tool_pipe_and_status('qemu-io', args)[0]
 >  
->  def qemu_img_pipe_and_status(*args: str) -> Tuple[str, int]:
+>  def qemu_io_log(*args):
+>      result = qemu_io(*args)
 > 
 
 -- 
