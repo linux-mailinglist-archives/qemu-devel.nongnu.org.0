@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF742FF454
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 20:26:31 +0100 (CET)
-Received: from localhost ([::1]:39748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79A062FF471
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 20:29:59 +0100 (CET)
+Received: from localhost ([::1]:48306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2fbC-00030s-DC
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 14:26:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55882)
+	id 1l2feY-0006XP-Fm
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 14:29:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2fIQ-0002TB-WB
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:07:07 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:52022)
+ id 1l2fIS-0002VC-O2
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:07:09 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:55686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2fI3-0005t3-EL
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:07:06 -0500
-Received: by mail-wm1-x335.google.com with SMTP id m2so2405029wmm.1
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 11:06:42 -0800 (PST)
+ id 1l2fI3-0005uV-Se
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 14:07:08 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id c124so2397279wma.5
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 11:06:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=MnpjFP3ps33JvLWa6qS6ae0tBST2dCJ7w+wCFqGW/AY=;
- b=Wag0SSdrcMiEPLYPyl0mMDvSadxhITLWfdxIl9cR+2zvXqIpILOD8BOY98hXMZ1Dw3
- uUb94vRzzld8HaF+DlY/PmHlLlKaP0Mem7gL+uqYDQqK3U+Qdux8c5ik3LGuFoMTpNgQ
- We+UGJz+57cvimuqwrZ7jG6zTokQpD/LgQya6c4F/VoaQSqrDvS5FQaJgnFjXGXwz/rz
- 0ch4G6dMERxGVy/27PsCfiPQoyQVCGDzsjp36O4Xz+OI8Qsc2K9iAhSkm0sf+xcHu2iq
- TctxS2tTssFoIDubJT/C6MG3ZiuBwJ020AgRoBjiqQi9vdmM/kpyPtumiqVLr7AVYtn3
- 9ZAA==
+ bh=rsYESJD/HWuRtywCiQ4FwoIx9DBv3ZNqK0aUaHfGa/I=;
+ b=ffRZg1u6TLr3hUxuwv9QXO7tKTN9RmBUpy2Zsu+fbrbXUD5RZQ0ITOn9wEM1HhbPOn
+ TEzIwrdVtsnAFnxDR3cJabvYoY+88bUNst306fglgNxT9E1pDycU1TCcE8MXaXNRex2C
+ UAlMN6iNdi/nrAsoAEvRO8zsrlfNHvhKt7WF1p+zzG79tA2aGTFnaxFcTQhCmhSKw0Rd
+ 4UiEFXhlgcIQJJIkNseCLZlRa6qICIPVwDLl0BEzcqpqA0GkRE/oZO4BLTUDfGIW5Yvg
+ c8eQQuLBZq5Z10S6BZdMzOeh4gE7HlncCRur1bBJCp3Cxcsxn3G8GopTMM4uSXxt3Nym
+ pJiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=MnpjFP3ps33JvLWa6qS6ae0tBST2dCJ7w+wCFqGW/AY=;
- b=iAmJJGlq0PUor6zRYiQlElRFgmIOUWQa064FBgtlFAqSL7Z+2TjwoBnp35yP7FbFlv
- 31uuphzitUh/ON/ygP4eTohb/wc8nozVCI1g3Rtj6D2x1XTVPPWrk2imm0eM89IPXl6l
- er5a8664trWirPJJDnm1M3SxAFOwputdbDyA6j0ijuSfVF32g+XKxO6fraqnj6ndN2pG
- sJd+cYBn+g5LymiJhcZI5QykhIC+RjzH7LviSjWoQRZmhPsCN2LiTvOzisFnlwkryaOg
- PyshJmim9bJTF2wstUcaNYk8PbXwrL7GMDjUckap1vvSkUlhCqIRh3RmjMg5xG/A+t9M
- 0CFQ==
-X-Gm-Message-State: AOAM532n7S4CHuPbtHv0dv0wG/5WpfcP1ZooFuq5SaBrNdb16rgp7HW8
- zPejy5owmQS1AJMqFXwMGEInuw==
-X-Google-Smtp-Source: ABdhPJybOZfUpn6fV8h5i8R9s5zL/Trxcw1Dq09oFOM2MQRQRFhsGbqOxNIPb3KkHviy/dmOUmVCVQ==
-X-Received: by 2002:a1c:cb:: with SMTP id 194mr779126wma.30.1611256001728;
- Thu, 21 Jan 2021 11:06:41 -0800 (PST)
+ bh=rsYESJD/HWuRtywCiQ4FwoIx9DBv3ZNqK0aUaHfGa/I=;
+ b=Cmte8y4596tZwLS1Y4g0VFTyOxsZFEwbr3IiiOOg8UPfyfOkc6CpqEJ+AF77EdE2cm
+ Nj2WzNoZzJsD4OPcXi20GTJwJxDJ1oueNsQzvhmkWCnBNxt6B6gDoK0IddhbvRCv3HOS
+ TwP5YyAmvcnNjogvHK94X+/WQqvdCxGSAXCK8YtHIH1cx905P/L2LvU3PNxDBomYbG/N
+ 7ns5/OBsyddWUetOIGaRWkd+nxDTc3o9Gd5qqmN8dS05EI6p/br1an1sXYWYRUT1VlU3
+ 3InyD06YaIWbQcLfF6ruKD9P0J3I4voTki9GNvFh9HCe/F+Up97eBUoGVJA8M9IFIxQ3
+ zBIA==
+X-Gm-Message-State: AOAM531ucawAQwVSVDKTaULpI8aMAM37+jcsG7Tj5AyvpvM1//TQAPKX
+ KSxilAx7HG0TXWYLrpWhhk0YWw==
+X-Google-Smtp-Source: ABdhPJz/84F4RwgUdsapx9bBBkgZrBhrO8/c4pi/Gb1XxCvxVGDqU7KCgTEWEMRWQUbXnHqMJdicDw==
+X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr713127wml.115.1611256002611; 
+ Thu, 21 Jan 2021 11:06:42 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id m18sm9820686wrw.43.2021.01.21.11.06.40
+ by smtp.gmail.com with ESMTPSA id m18sm9820686wrw.43.2021.01.21.11.06.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 11:06:41 -0800 (PST)
+ Thu, 21 Jan 2021 11:06:42 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 17/25] hw/arm/stellaris: Create Clock input for watchdog
-Date: Thu, 21 Jan 2021 19:06:14 +0000
-Message-Id: <20210121190622.22000-18-peter.maydell@linaro.org>
+Subject: [PATCH 18/25] hw/timer/cmsdk-apb-timer: Convert to use Clock input
+Date: Thu, 21 Jan 2021 19:06:15 +0000
+Message-Id: <20210121190622.22000-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210121190622.22000-1-peter.maydell@linaro.org>
 References: <20210121190622.22000-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,169 +88,63 @@ Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Create and connect the Clock input for the watchdog device on the
-Stellaris boards.  Because the Stellaris boards model the ability to
-change the clock rate by programming PLL registers, we have to create
-an output Clock on the ssys_state device and wire it up to the
-watchdog.
-
-Note that the old comment on ssys_calculate_system_clock() got the
-units wrong -- system_clock_scale is in nanoseconds, not
-milliseconds.  Improve the commentary to clarify how we are
-calculating the period.
+Switch the CMSDK APB timer device over to using its Clock input; the
+pclk-frq property is now ignored.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/stellaris.c | 43 +++++++++++++++++++++++++++++++------------
- 1 file changed, 31 insertions(+), 12 deletions(-)
+ hw/timer/cmsdk-apb-timer.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 0194ede2fe0..9b67c739ef2 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -26,6 +26,7 @@
- #include "hw/watchdog/cmsdk-apb-watchdog.h"
- #include "migration/vmstate.h"
- #include "hw/misc/unimp.h"
-+#include "hw/qdev-clock.h"
- #include "cpu.h"
- #include "qom/object.h"
- 
-@@ -377,6 +378,7 @@ struct ssys_state {
-     uint32_t clkvclr;
-     uint32_t ldoarst;
-     qemu_irq irq;
-+    Clock *sysclk;
-     /* Properties (all read-only registers) */
-     uint32_t user0;
-     uint32_t user1;
-@@ -555,15 +557,26 @@ static bool ssys_use_rcc2(ssys_state *s)
+diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
+index c63145ff553..f053146d88f 100644
+--- a/hw/timer/cmsdk-apb-timer.c
++++ b/hw/timer/cmsdk-apb-timer.c
+@@ -204,6 +204,15 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
+     ptimer_transaction_commit(s->timer);
  }
  
- /*
-- * Caculate the sys. clock period in ms.
-+ * Calculate the system clock period. We only want to propagate
-+ * this change to the rest of the system if we're not being called
-+ * from migration post-load.
-  */
--static void ssys_calculate_system_clock(ssys_state *s)
-+static void ssys_calculate_system_clock(ssys_state *s, bool propagate_clock)
++static void cmsdk_apb_timer_clk_update(void *opaque)
++{
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
++
++    ptimer_transaction_begin(s->timer);
++    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
++    ptimer_transaction_commit(s->timer);
++}
++
+ static void cmsdk_apb_timer_init(Object *obj)
  {
-+    /*
-+     * SYSDIV field specifies divisor: 0 == /1, 1 == /2, etc.  Input
-+     * clock is 200MHz, which is a period of 5 ns. Dividing the clock
-+     * frequency by X is the same as multiplying the period by X.
-+     */
-     if (ssys_use_rcc2(s)) {
-         system_clock_scale = 5 * (((s->rcc2 >> 23) & 0x3f) + 1);
-     } else {
-         system_clock_scale = 5 * (((s->rcc >> 23) & 0xf) + 1);
-     }
-+    clock_set_ns(s->sysclk, system_clock_scale);
-+    if (propagate_clock) {
-+        clock_propagate(s->sysclk);
-+    }
- }
- 
- static void ssys_write(void *opaque, hwaddr offset,
-@@ -598,7 +611,7 @@ static void ssys_write(void *opaque, hwaddr offset,
-             s->int_status |= (1 << 6);
-         }
-         s->rcc = value;
--        ssys_calculate_system_clock(s);
-+        ssys_calculate_system_clock(s, true);
-         break;
-     case 0x070: /* RCC2 */
-         if (ssys_board_class(s) == DID0_CLASS_SANDSTORM) {
-@@ -610,7 +623,7 @@ static void ssys_write(void *opaque, hwaddr offset,
-             s->int_status |= (1 << 6);
-         }
-         s->rcc2 = value;
--        ssys_calculate_system_clock(s);
-+        ssys_calculate_system_clock(s, true);
-         break;
-     case 0x100: /* RCGC0 */
-         s->rcgc[0] = value;
-@@ -679,7 +692,8 @@ static void stellaris_sys_reset_hold(Object *obj)
- {
-     ssys_state *s = STELLARIS_SYS(obj);
- 
--    ssys_calculate_system_clock(s);
-+    /* OK to propagate clocks from the hold phase */
-+    ssys_calculate_system_clock(s, true);
- }
- 
- static void stellaris_sys_reset_exit(Object *obj)
-@@ -690,7 +704,7 @@ static int stellaris_sys_post_load(void *opaque, int version_id)
- {
-     ssys_state *s = opaque;
- 
--    ssys_calculate_system_clock(s);
-+    ssys_calculate_system_clock(s, false);
- 
-     return 0;
- }
-@@ -713,6 +727,7 @@ static const VMStateDescription vmstate_stellaris_sys = {
-         VMSTATE_UINT32_ARRAY(dcgc, ssys_state, 3),
-         VMSTATE_UINT32(clkvclr, ssys_state),
-         VMSTATE_UINT32(ldoarst, ssys_state),
-+        /* No field for sysclk -- handled in post-load instead */
-         VMSTATE_END_OF_LIST()
-     }
- };
-@@ -738,11 +753,12 @@ static void stellaris_sys_instance_init(Object *obj)
-     memory_region_init_io(&s->iomem, obj, &ssys_ops, s, "ssys", 0x00001000);
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+@@ -213,15 +222,16 @@ static void cmsdk_apb_timer_init(Object *obj)
+                           s, "cmsdk-apb-timer", 0x1000);
      sysbus_init_mmio(sbd, &s->iomem);
-     sysbus_init_irq(sbd, &s->irq);
-+    s->sysclk = qdev_init_clock_out(DEVICE(s), "SYSCLK");
+     sysbus_init_irq(sbd, &s->timerint);
+-    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk", NULL, NULL);
++    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk",
++                                 cmsdk_apb_timer_clk_update, s);
  }
  
--static int stellaris_sys_init(uint32_t base, qemu_irq irq,
--                              stellaris_board_info * board,
--                              uint8_t *macaddr)
-+static DeviceState *stellaris_sys_init(uint32_t base, qemu_irq irq,
-+                                       stellaris_board_info *board,
-+                                       uint8_t *macaddr)
+ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
  {
-     DeviceState *dev = qdev_new(TYPE_STELLARIS_SYS);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-@@ -774,7 +790,7 @@ static int stellaris_sys_init(uint32_t base, qemu_irq irq,
-      */
-     device_cold_reset(dev);
+     CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
  
--    return 0;
-+    return dev;
- }
- 
- /* I2C controller.  */
-@@ -1341,6 +1357,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-     int flash_size;
-     I2CBus *i2c;
-     DeviceState *dev;
-+    DeviceState *ssys_dev;
-     int i;
-     int j;
- 
-@@ -1391,8 +1408,8 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-         }
+-    if (s->pclk_frq == 0) {
+-        error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
++    if (!clock_has_source(s->pclk)) {
++        error_setg(errp, "CMSDK APB timer: pclk clock must be connected");
+         return;
      }
  
--    stellaris_sys_init(0x400fe000, qdev_get_gpio_in(nvic, 28),
--                       board, nd_table[0].macaddr.a);
-+    ssys_dev = stellaris_sys_init(0x400fe000, qdev_get_gpio_in(nvic, 28),
-+                                  board, nd_table[0].macaddr.a);
+@@ -232,7 +242,7 @@ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+                            PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
  
+     ptimer_transaction_begin(s->timer);
+-    ptimer_set_freq(s->timer, s->pclk_frq);
++    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
+     ptimer_transaction_commit(s->timer);
+ }
  
-     if (board->dc1 & (1 << 3)) { /* watchdog present */
-@@ -1401,6 +1418,8 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
-         /* system_clock_scale is valid now */
-         uint32_t mainclk = NANOSECONDS_PER_SECOND / system_clock_scale;
-         qdev_prop_set_uint32(dev, "wdogclk-frq", mainclk);
-+        qdev_connect_clock_in(dev, "WDOGCLK",
-+                              qdev_get_clock_out(ssys_dev, "SYSCLK"));
- 
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
-         sysbus_mmio_map(SYS_BUS_DEVICE(dev),
 -- 
 2.20.1
 
