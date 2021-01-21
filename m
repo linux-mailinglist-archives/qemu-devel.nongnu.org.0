@@ -2,108 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F522FED30
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 15:44:18 +0100 (CET)
-Received: from localhost ([::1]:44176 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59E3E2FED40
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 15:46:33 +0100 (CET)
+Received: from localhost ([::1]:46862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2bC5-00009D-FH
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 09:44:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40544)
+	id 1l2bEG-0001a2-FB
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 09:46:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2bAX-00085a-2b; Thu, 21 Jan 2021 09:42:41 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:20266)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mjrosato@linux.ibm.com>)
- id 1l2bAU-00037A-VD; Thu, 21 Jan 2021 09:42:40 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10LEUwVl191683; Thu, 21 Jan 2021 09:42:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=qYJW2Kg414Sh4e1iytP9qJakL5qe3gg5hES3QwgdnC4=;
- b=cecHepoY+HObyxyywwaiD5SVl9bxuqiKHYvx7klxutOvQ+LR3F6jX5fYMq29O+Q6JcYI
- T9Nes+1a43j+pPQzsU/aouHxdcSDMLEG45qt1KRAIJOyQtLF1FK0B1HYnmk8cJCMd4Ix
- GZqdjV6zT2+qgLbq6NTNx31FxbdoETzBqk17MTH1OVi2Hv/KuLa0FZsK23oCKdvwst2J
- Vuype/1Jl0/GYU8DoCQErIQ+tVObDrcsVsOq6rJSwFHSHtlZNFQGqE2tjPLlkO6u0yEg
- znsMzMbexsTrDVA2qGATNsJghp5QyUf8g9Jyr5PjdS3+2Dz954R9LB57tJWjmj7g5vU8 Fw== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 367b708xfk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 09:42:33 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10LEUxiF191701;
- Thu, 21 Jan 2021 09:42:32 -0500
-Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
- [169.53.41.122])
- by mx0a-001b2d01.pphosted.com with ESMTP id 367b708xdw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 09:42:32 -0500
-Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
- by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10LEawGu009988;
- Thu, 21 Jan 2021 14:42:30 GMT
-Received: from b03cxnp08027.gho.boulder.ibm.com
- (b03cxnp08027.gho.boulder.ibm.com [9.17.130.19])
- by ppma04dal.us.ibm.com with ESMTP id 3668p2yuhq-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 21 Jan 2021 14:42:30 +0000
-Received: from b03ledav005.gho.boulder.ibm.com
- (b03ledav005.gho.boulder.ibm.com [9.17.130.236])
- by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10LEgTJ611928010
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 21 Jan 2021 14:42:29 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 01862BE054;
- Thu, 21 Jan 2021 14:42:29 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B6832BE056;
- Thu, 21 Jan 2021 14:42:27 +0000 (GMT)
-Received: from oc4221205838.ibm.com (unknown [9.211.56.144])
- by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
- Thu, 21 Jan 2021 14:42:27 +0000 (GMT)
-Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
-To: Pierre Morel <pmorel@linux.ibm.com>, cohuck@redhat.com, thuth@redhat.com
-References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
- <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
- <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
- <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
- <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
- <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
- <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
- <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
-From: Matthew Rosato <mjrosato@linux.ibm.com>
-Message-ID: <1dc0dde6-b619-5fe6-1a89-50c15dc4512c@linux.ibm.com>
-Date: Thu, 21 Jan 2021 09:42:26 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l2bCa-0000uE-F2
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:44:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:49934)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l2bCX-00040P-5O
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 09:44:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611240283;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9J/InfNPqwFuzr3M/NZ9MCR+nAkLgCHleGdJTnagcPo=;
+ b=DbSjcVol1cE8rtWS9CghqHhJYSN3lN+kI4cETQoMjIQIWUkmJRVjYdAb9hWHHrNhLY99Ud
+ Kf12uBvwRNc9Qn906xmwlyVkrDhIwQhPAKufHLcXEQ5Fm0GYEieUR55tp93cBzROvtW0tA
+ XbF0akumX8y0itvphKiZQxsqCVrOBeE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-whaKCRs0O6yggLfwDCp-Sw-1; Thu, 21 Jan 2021 09:44:41 -0500
+X-MC-Unique: whaKCRs0O6yggLfwDCp-Sw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14B801800D41;
+ Thu, 21 Jan 2021 14:44:40 +0000 (UTC)
+Received: from localhost (ovpn-115-60.ams2.redhat.com [10.36.115.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D99C539A60;
+ Thu, 21 Jan 2021 14:44:30 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] virtiofsd: prevent opening of special files (CVE-2020-35517)
+Date: Thu, 21 Jan 2021 14:44:29 +0000
+Message-Id: <20210121144429.58885-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-21_06:2021-01-21,
- 2021-01-21 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 phishscore=0
- lowpriorityscore=0 malwarescore=0 spamscore=0 mlxlogscore=999
- priorityscore=1501 impostorscore=0 mlxscore=0 clxscore=1015 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101210078
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=mjrosato@linux.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -11
+X-Spam_score: -1.2
+X-Spam_bar: -
+X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -116,148 +76,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: schnelle@linux.ibm.com, alex.williamson@redhat.com, david@redhat.com,
- mst@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org,
- pasic@linux.ibm.com, borntraeger@de.ibm.com, qemu-s390x@nongnu.org,
- pbonzini@redhat.com
+Cc: mszeredi@redhat.com, slp@redhat.com,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, P J P <ppandit@redhat.com>,
+ virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
+ Stefan Hajnoczi <stefanha@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/21 3:27 AM, Pierre Morel wrote:
-> 
-> 
-> On 1/20/21 9:29 PM, Matthew Rosato wrote:
->> On 1/20/21 2:18 PM, Pierre Morel wrote:
->>>
->>>
-> ...snip...
-> 
->>> So we have:
->>> devices supporting MIO and MSIX
->>> devices not supporting MIO nor MSIX
->>> devices not supporting the use of PCISTG to emulate PCISTB
->>>
->>> The first two are two different things indicated by two different 
->>> entries in the clp query PCI function response.
->>>
->>> The last one, we do not have an indicator as if the relaxed alignment 
->>> and length is set, PCISTB can not be emulated with PCISTG
-> 
-> 
-> hum sorry, it seems I rewrote my sentence until it was wrong wrong!
-> I wanted to say we DO HAVE an indicator with the relaxed bit...
-
-That's actually not quite true though...  The relaxed bit does not 
-directly imply that PCISTB cannot be emulated with PCISTG.  Rather, it 
-more generally implies that PCISTB could be used instead of PCISTG as 
-the length and alignment requirements for PCISTB are waived.  As far as 
-I can tell, disallowing a PCISTG altogether is a trait that is unique to 
-ISM and I don't see anywhere that it's otherwise indicated in 
-architecture...  And in fact, for a given ISM device, certain address 
-spaces (command) WILL accept a series of PCISTG issued in a particular 
-manner in place of a PCISTB; meanwhile other ISM address spaces (data) 
-will not accept any PCISTG ever.  :(  The ISM driver just always uses 
-PCISTB.
-
-So that is why I suggested type==ISM must require use of the region 
-whereas other types that implement MSI could request (but not require) 
-use of the region.
-
-But yes, any other theoretical piece of hardware that also does not 
-support MIO would have a similar region requirement.  I'll have a look 
-at the MIO bit you referenced below and will have to verify that it does 
-exactly what we expect for an ISM device.  Assuming yes, I will consider 
-the following sort of checking for the next version of QEMU...
-
-if (!MIO) {
-	if (MSIX) {
-		// passthrough disallowed
-	}
-	else {
-		// region required, disallow if unavailable
-	}
-}
-else if(RELAX && !MSIX) {
-	// use region if available
-}
-
-Sound good?
-
-All said, this would result in another bit passed from the kernel as CLP 
-info and some small changes to patch 6 of this set to determine when to 
-call s390_pci_get_zpci_io_region(pbdev) -- But just about everything 
-else is unaffected, so @all please feel free to provide other review 
-comments for the series in the meanwhile.
-
-
-> 
->>>
->>> What I mean with this is that considering the proposed implementation 
->>> and considering:
->>> MIO MSIX RELAX
->>>
->>> 0 0 1  -> must use the new region (ISM)
->>> 1 1 0  -> must use the standard VFIO region (MLX)
->>>
->>> we can discuss other 6 possibilities
->>>
->>> 0 0 0 -> must use the new region
->>> 0 1 0 -> NOOP
->>> 0 1 1 -> NOOP
->>> 1 0 0 -> can use any region
->>> 1 0 1 -> can use any region
->>> 1 1 1 -> NOOP
->>>
->>> In my opinion the test for using one region or another should be done 
->>> on these indicator instead of using the PFT. > This may offer us more 
->>> compatibility with other hardware we may not be
->>> aware of as today.
->>
->> This gets a little shaky, and goes both ways -- Using your list, a 
->> device that supports MIO, does not have MSI-X capability and doesn't 
->> support relaxed alignment (1 0 0 from above) can use any region -- but 
->> that may not always be true.  What if "other hardware we may not be 
->> aware of as today" includes future hardware that ONLY supports the MIO 
->> instruction set?  Then that device really can't use this region either.
-> 
-> 
-> Right, but there is no bit in the CLP response for this case.
-> Until there is one, the system is supposed to handle legacy instructions
-> 
->>
->> But forgetting that possibility...  I think we can really simplify the 
->> above matrix down to a statement of "if device doesn't support MSI-X 
->> but DOES support non-MIO instructions, it can use the region."  I 
->> believe the latter half of that statement is implicit in the 
->> architecture today, so it's really then "if device doesn't support 
->> MSI-X, it can use the region".  There's just the caveat of, if the 
->> device is ISM, it changes from 'can use the region' to 'must use the 
->> region'.
-> 
-> 
-> There can surely be simplifications.
-> 
->>
->> So, I mean I can change the code to be more permissive in that way 
->> (allow any device that doesn't have MSI-X capability to at least 
->> attempt to use the region).  But the reality is that ISM specifically 
->> needs the region for successful pass through, so I don't see a reason 
->> to create a different bit for that vs just checking for the PFT in 
->> QEMU and using that value to decide whether or not region availability 
->> is a requirement for allowing the device to pass through.
-> 
-> 
-> There is no need for a new bit to know if a device support MIO or not, 
-> as I said before, there is already one in the CLP query PCI function 
-> response and it is already used in the kernel zPCI architecture.
-> 
-> 
-> It is not a big think to do and does not change the general architecture 
-> of the patch, only the detection of which device is impacted to make it 
-> generic instead of device dedicated.
-> 
-> Regards,
-> Pierre
-> 
+QSB3ZWxsLWJlaGF2ZWQgRlVTRSBjbGllbnQgZG9lcyBub3QgYXR0ZW1wdCB0byBvcGVuIHNwZWNp
+YWwgZmlsZXMgd2l0aApGVVNFX09QRU4gYmVjYXVzZSB0aGV5IGFyZSBoYW5kbGVkIG9uIHRoZSBj
+bGllbnQgc2lkZSAoZS5nLiBkZXZpY2Ugbm9kZXMKYXJlIGhhbmRsZWQgYnkgY2xpZW50LXNpZGUg
+ZGV2aWNlIGRyaXZlcnMpLgoKVGhlIGNoZWNrIHRvIHByZXZlbnQgdmlydGlvZnNkIGZyb20gb3Bl
+bmluZyBzcGVjaWFsIGZpbGVzIGlzIG1pc3NpbmcgaW4KYSBmZXcgY2FzZXMsIG1vc3Qgbm90YWJs
+eSBGVVNFX09QRU4uIEEgbWFsaWNpb3VzIGNsaWVudCBjYW4gY2F1c2UKdmlydGlvZnNkIHRvIG9w
+ZW4gYSBkZXZpY2Ugbm9kZSwgcG90ZW50aWFsbHkgYWxsb3dpbmcgdGhlIGd1ZXN0IHRvCmVzY2Fw
+ZS4gVGhpcyBjYW4gYmUgZXhwbG9pdGVkIGJ5IGEgbW9kaWZpZWQgZ3Vlc3QgZGV2aWNlIGRyaXZl
+ci4gSXQgaXMKbm90IGV4cGxvaXRhYmxlIGZyb20gZ3Vlc3QgdXNlcnNwYWNlIHNpbmNlIHRoZSBn
+dWVzdCBrZXJuZWwgd2lsbCBoYW5kbGUKc3BlY2lhbCBmaWxlcyBpbnNpZGUgdGhlIGd1ZXN0IGlu
+c3RlYWQgb2Ygc2VuZGluZyBGVVNFIHJlcXVlc3RzLgoKVGhpcyBwYXRjaCBhZGRzIHRoZSBtaXNz
+aW5nIGNoZWNrcyB0byB2aXJ0aW9mc2QuIFRoaXMgaXMgYSBzaG9ydC10ZXJtCnNvbHV0aW9uIGJl
+Y2F1c2UgaXQgZG9lcyBub3QgcHJldmVudCBhIGNvbXByb21pc2VkIHZpcnRpb2ZzZCBwcm9jZXNz
+CmZyb20gb3BlbmluZyBkZXZpY2Ugbm9kZXMgb24gdGhlIGhvc3QuCgpSZXBvcnRlZC1ieTogQWxl
+eCBYdSA8YWxleEBhbHh1LmNhPgpGaXhlczogQ1ZFLTIwMjAtMzU1MTcKU2lnbmVkLW9mZi1ieTog
+U3RlZmFuIEhham5vY3ppIDxzdGVmYW5oYUByZWRoYXQuY29tPgotLS0KVGhpcyBpc3N1ZSB3YXMg
+ZGlhZ25vc2VkIG9uIHB1YmxpYyBJUkMgYW5kIGlzIHRoZXJlZm9yZSBhbHJlYWR5IGtub3duCmFu
+ZCBub3QgZW1iYXJnb2VkLgoKQSBzdHJvbmdlciBmaXgsIGFuZCB0aGUgbG9uZy10ZXJtIHNvbHV0
+aW9uLCBpcyBmb3IgdXNlcnMgdG8gbW91bnQgdGhlCnNoYXJlZCBkaXJlY3RvcnkgYW5kIGFueSBz
+dWItbW91bnRzIHdpdGggbm9kZXYsIGFzIHdlbGwgYXMgbm9zdWlkIGFuZApub2V4ZWMuIFVuZm9y
+dHVuYXRlbHkgdmlydGlvZnNkIGNhbm5vdCBkbyB0aGlzIGF1dG9tYXRpY2FsbHkgYmVjYXVzZQpi
+aW5kIG1vdW50cyBhZGRlZCBieSB0aGUgdXNlciBhZnRlciB2aXJ0aW9mc2QgaGFzIGxhdW5jaGVk
+IHdvdWxkIG5vdCBiZQpkZXRlY3RlZC4gSSBzdWdnZXN0IHRoZSBmb2xsb3dpbmc6CgoxLiBNb2Rp
+ZnkgbGlidmlydCBhbmQgS2F0YSBDb250YWluZXJzIHRvIGV4cGxpY2l0bHkgc2V0IHRoZXNlIG1v
+dW50CiAgIG9wdGlvbnMuCjIuIFRoZW4gbW9kaWZ5IHZpcnRpb2ZzZCB0byBjaGVjayB0aGF0IHRo
+ZSBzaGFyZWQgZGlyZWN0b3J5IGhhcyB0aGUKICAgbmVjZXNzYXJ5IG9wdGlvbnMgYXQgc3RhcnR1
+cC4gUmVmdXNlIHRvIHN0YXJ0IGlmIHRoZSBvcHRpb25zIGFyZQogICBtaXNzaW5nIHNvIHRoYXQg
+dGhlIHVzZXIgaXMgYXdhcmUgb2YgdGhlIHNlY3VyaXR5IHJlcXVpcmVtZW50cy4KCkFzIGEgYm9u
+dXMgdGhpcyBhbHNvIGluY3JlYXNlcyB0aGUgbGlrZWxpaG9vZCB0aGF0IG90aGVyIGhvc3QgcHJv
+Y2Vzc2VzCmJlc2lkZXMgdmlydGlvZnNkIHdpbGwgYmUgcHJvdGVjdGVkIGJ5IG5vc3VpZC9ub2V4
+ZWMvbm9kZXYgc28gdGhhdCBhCm1hbGljaW91cyBndWVzdCBjYW5ub3QgZHJvcCB0aGVzZSBmaWxl
+cyBpbiBwbGFjZSBhbmQgdGhlbiBhcnJhbmdlIGZvciBhCmhvc3QgcHJvY2VzcyB0byBjb21lIGFj
+cm9zcyB0aGVtLgoKQWRkaXRpb25hbGx5LCB1c2VyIG5hbWVzcGFjZXMgaGF2ZSBiZWVuIGRpc2N1
+c3NlZC4gVGhleSBzZWVtIGxpa2UgYQp3b3J0aHdoaWxlIGFkZGl0aW9uIGFzIGFuIHVucHJpdmls
+ZWdlZCBvciBwcml2aWxlZ2Utc2VwYXJhdGVkIG1vZGUKYWx0aG91Z2ggdGhlcmUgYXJlIGxpbWl0
+YXRpb25zIHdpdGggcmVzcGVjdCB0byBzZWN1cml0eSB4YXR0cnMgYW5kIHRoZQphY3R1YWwgdWlk
+L2dpZCBzdG9yZWQgb24gdGhlIGhvc3QgZmlsZSBzeXN0ZW0gbm90IGNvcnJlc3BvbmRpbmcgdG8g
+dGhlCmd1ZXN0IHVpZC9naWQuCi0tLQogdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMg
+fCA4NCArKysrKysrKysrKysrKysrKysrKystLS0tLS0tLS0tLQogMSBmaWxlIGNoYW5nZWQsIDU2
+IGluc2VydGlvbnMoKyksIDI4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL3Rvb2xzL3ZpcnRp
+b2ZzZC9wYXNzdGhyb3VnaF9sbC5jIGIvdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMK
+aW5kZXggNWZiMzZkOTQwNy4uZTA4MzUyZDY0OSAxMDA2NDQKLS0tIGEvdG9vbHMvdmlydGlvZnNk
+L3Bhc3N0aHJvdWdoX2xsLmMKKysrIGIvdG9vbHMvdmlydGlvZnNkL3Bhc3N0aHJvdWdoX2xsLmMK
+QEAgLTU1NSw2ICs1NTUsMjkgQEAgc3RhdGljIGludCBsb19mZChmdXNlX3JlcV90IHJlcSwgZnVz
+ZV9pbm9fdCBpbm8pCiAgICAgcmV0dXJuIGZkOwogfQogCisvKgorICogT3BlbiBhIGZpbGUgZGVz
+Y3JpcHRvciBmb3IgYW4gaW5vZGUuIFJldHVybnMgLUVCQURGIGlmIHRoZSBpbm9kZSBpcyBub3Qg
+YQorICogcmVndWxhciBmaWxlIG9yIGEgZGlyZWN0b3J5LiBVc2UgdGhpcyBoZWxwZXIgZnVuY3Rp
+b24gaW5zdGVhZCBvZiByYXcKKyAqIG9wZW5hdCgyKSB0byBwcmV2ZW50IHNlY3VyaXR5IGlzc3Vl
+cyB3aGVuIGEgbWFsaWNpb3VzIGNsaWVudCBvcGVucyBzcGVjaWFsCisgKiBmaWxlcyBzdWNoIGFz
+IGJsb2NrIGRldmljZSBub2Rlcy4KKyAqLworc3RhdGljIGludCBsb19pbm9kZV9vcGVuKHN0cnVj
+dCBsb19kYXRhICpsbywgc3RydWN0IGxvX2lub2RlICppbm9kZSwKKyAgICAgICAgICAgICAgICAg
+ICAgICAgICBpbnQgb3Blbl9mbGFncykKK3sKKyAgICBnX2F1dG9mcmVlIGNoYXIgKmZkX3N0ciA9
+IGdfc3RyZHVwX3ByaW50ZigiJWQiLCBpbm9kZS0+ZmQpOworICAgIGludCBmZDsKKworICAgIGlm
+ICghU19JU1JFRyhpbm9kZS0+ZmlsZXR5cGUpICYmICFTX0lTRElSKGlub2RlLT5maWxldHlwZSkp
+IHsKKyAgICAgICAgcmV0dXJuIC1FQkFERjsKKyAgICB9CisKKyAgICBmZCA9IG9wZW5hdChsby0+
+cHJvY19zZWxmX2ZkLCBmZF9zdHIsIG9wZW5fZmxhZ3MpOworICAgIGlmIChmZCA8IDApIHsKKyAg
+ICAgICAgcmV0dXJuIC1lcnJubzsKKyAgICB9CisgICAgcmV0dXJuIGZkOworfQorCiBzdGF0aWMg
+dm9pZCBsb19pbml0KHZvaWQgKnVzZXJkYXRhLCBzdHJ1Y3QgZnVzZV9jb25uX2luZm8gKmNvbm4p
+CiB7CiAgICAgc3RydWN0IGxvX2RhdGEgKmxvID0gKHN0cnVjdCBsb19kYXRhICopdXNlcmRhdGE7
+CkBAIC02ODQsOCArNzA3LDcgQEAgc3RhdGljIHZvaWQgbG9fc2V0YXR0cihmdXNlX3JlcV90IHJl
+cSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBzdGF0ICphdHRyLAogICAgICAgICBpZiAoZmkpIHsK
+ICAgICAgICAgICAgIHRydW5jZmQgPSBmZDsKICAgICAgICAgfSBlbHNlIHsKLSAgICAgICAgICAg
+IHNwcmludGYocHJvY25hbWUsICIlaSIsIGlmZCk7Ci0gICAgICAgICAgICB0cnVuY2ZkID0gb3Bl
+bmF0KGxvLT5wcm9jX3NlbGZfZmQsIHByb2NuYW1lLCBPX1JEV1IpOworICAgICAgICAgICAgdHJ1
+bmNmZCA9IGxvX2lub2RlX29wZW4obG8sIGlub2RlLCBPX1JEV1IpOwogICAgICAgICAgICAgaWYg
+KHRydW5jZmQgPCAwKSB7CiAgICAgICAgICAgICAgICAgZ290byBvdXRfZXJyOwogICAgICAgICAg
+ICAgfQpAQCAtMTcyNSw3ICsxNzQ3LDYgQEAgc3RhdGljIHN0cnVjdCBsb19pbm9kZV9wbG9jayAq
+bG9va3VwX2NyZWF0ZV9wbG9ja19jdHgoc3RydWN0IGxvX2RhdGEgKmxvLAogICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcGlkX3QgcGlkLCBpbnQg
+KmVycikKIHsKICAgICBzdHJ1Y3QgbG9faW5vZGVfcGxvY2sgKnBsb2NrOwotICAgIGNoYXIgcHJv
+Y25hbWVbNjRdOwogICAgIGludCBmZDsKIAogICAgIHBsb2NrID0KQEAgLTE3NDIsMTIgKzE3NjMs
+MTAgQEAgc3RhdGljIHN0cnVjdCBsb19pbm9kZV9wbG9jayAqbG9va3VwX2NyZWF0ZV9wbG9ja19j
+dHgoc3RydWN0IGxvX2RhdGEgKmxvLAogICAgIH0KIAogICAgIC8qIE9wZW4gYW5vdGhlciBpbnN0
+YW5jZSBvZiBmaWxlIHdoaWNoIGNhbiBiZSB1c2VkIGZvciBvZmQgbG9ja3MuICovCi0gICAgc3By
+aW50Zihwcm9jbmFtZSwgIiVpIiwgaW5vZGUtPmZkKTsKLQogICAgIC8qIFRPRE86IFdoYXQgaWYg
+ZmlsZSBpcyBub3Qgd3JpdGFibGU/ICovCi0gICAgZmQgPSBvcGVuYXQobG8tPnByb2Nfc2VsZl9m
+ZCwgcHJvY25hbWUsIE9fUkRXUik7Ci0gICAgaWYgKGZkID09IC0xKSB7Ci0gICAgICAgICplcnIg
+PSBlcnJubzsKKyAgICBmZCA9IGxvX2lub2RlX29wZW4obG8sIGlub2RlLCBPX1JEV1IpOworICAg
+IGlmIChmZCA8IDApIHsKKyAgICAgICAgKmVyciA9IC1mZDsKICAgICAgICAgZnJlZShwbG9jayk7
+CiAgICAgICAgIHJldHVybiBOVUxMOwogICAgIH0KQEAgLTE4OTQsMTggKzE5MTMsMjQgQEAgc3Rh
+dGljIHZvaWQgbG9fb3BlbihmdXNlX3JlcV90IHJlcSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBm
+dXNlX2ZpbGVfaW5mbyAqZmkpCiB7CiAgICAgaW50IGZkOwogICAgIHNzaXplX3QgZmg7Ci0gICAg
+Y2hhciBidWZbNjRdOwogICAgIHN0cnVjdCBsb19kYXRhICpsbyA9IGxvX2RhdGEocmVxKTsKKyAg
+ICBzdHJ1Y3QgbG9faW5vZGUgKmlub2RlID0gbG9faW5vZGUocmVxLCBpbm8pOwogCiAgICAgZnVz
+ZV9sb2coRlVTRV9MT0dfREVCVUcsICJsb19vcGVuKGlubz0lIiBQUkl1NjQgIiwgZmxhZ3M9JWQp
+XG4iLCBpbm8sCiAgICAgICAgICAgICAgZmktPmZsYWdzKTsKIAorICAgIGlmICghaW5vZGUpIHsK
+KyAgICAgICAgZnVzZV9yZXBseV9lcnIocmVxLCBFQkFERik7CisgICAgICAgIHJldHVybjsKKyAg
+ICB9CisKICAgICB1cGRhdGVfb3Blbl9mbGFncyhsby0+d3JpdGViYWNrLCBsby0+YWxsb3dfZGly
+ZWN0X2lvLCBmaSk7CiAKLSAgICBzcHJpbnRmKGJ1ZiwgIiVpIiwgbG9fZmQocmVxLCBpbm8pKTsK
+LSAgICBmZCA9IG9wZW5hdChsby0+cHJvY19zZWxmX2ZkLCBidWYsIGZpLT5mbGFncyAmIH5PX05P
+Rk9MTE9XKTsKLSAgICBpZiAoZmQgPT0gLTEpIHsKLSAgICAgICAgcmV0dXJuICh2b2lkKWZ1c2Vf
+cmVwbHlfZXJyKHJlcSwgZXJybm8pOworICAgIGZkID0gbG9faW5vZGVfb3BlbihsbywgaW5vZGUs
+IGZpLT5mbGFncyAmIH5PX05PRk9MTE9XKTsKKyAgICBpZiAoZmQgPCAwKSB7CisgICAgICAgIGxv
+X2lub2RlX3B1dChsbywgJmlub2RlKTsKKyAgICAgICAgZnVzZV9yZXBseV9lcnIocmVxLCAtZmQp
+OworICAgICAgICByZXR1cm47CiAgICAgfQogCiAgICAgcHRocmVhZF9tdXRleF9sb2NrKCZsby0+
+bXV0ZXgpOwpAQCAtMTkxMyw2ICsxOTM4LDcgQEAgc3RhdGljIHZvaWQgbG9fb3BlbihmdXNlX3Jl
+cV90IHJlcSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBmdXNlX2ZpbGVfaW5mbyAqZmkpCiAgICAg
+cHRocmVhZF9tdXRleF91bmxvY2soJmxvLT5tdXRleCk7CiAgICAgaWYgKGZoID09IC0xKSB7CiAg
+ICAgICAgIGNsb3NlKGZkKTsKKyAgICAgICAgbG9faW5vZGVfcHV0KGxvLCAmaW5vZGUpOwogICAg
+ICAgICBmdXNlX3JlcGx5X2VycihyZXEsIEVOT01FTSk7CiAgICAgICAgIHJldHVybjsKICAgICB9
+CkBAIC0xOTIzLDYgKzE5NDksNyBAQCBzdGF0aWMgdm9pZCBsb19vcGVuKGZ1c2VfcmVxX3QgcmVx
+LCBmdXNlX2lub190IGlubywgc3RydWN0IGZ1c2VfZmlsZV9pbmZvICpmaSkKICAgICB9IGVsc2Ug
+aWYgKGxvLT5jYWNoZSA9PSBDQUNIRV9BTFdBWVMpIHsKICAgICAgICAgZmktPmtlZXBfY2FjaGUg
+PSAxOwogICAgIH0KKyAgICBsb19pbm9kZV9wdXQobG8sICZpbm9kZSk7CiAgICAgZnVzZV9yZXBs
+eV9vcGVuKHJlcSwgZmkpOwogfQogCkBAIC0xOTgyLDM5ICsyMDA5LDQwIEBAIHN0YXRpYyB2b2lk
+IGxvX2ZsdXNoKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190IGlubywgc3RydWN0IGZ1c2VfZmls
+ZV9pbmZvICpmaSkKIHN0YXRpYyB2b2lkIGxvX2ZzeW5jKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lu
+b190IGlubywgaW50IGRhdGFzeW5jLAogICAgICAgICAgICAgICAgICAgICAgc3RydWN0IGZ1c2Vf
+ZmlsZV9pbmZvICpmaSkKIHsKKyAgICBzdHJ1Y3QgbG9faW5vZGUgKmlub2RlID0gbG9faW5vZGUo
+cmVxLCBpbm8pOworICAgIHN0cnVjdCBsb19kYXRhICpsbyA9IGxvX2RhdGEocmVxKTsKICAgICBp
+bnQgcmVzOwogICAgIGludCBmZDsKLSAgICBjaGFyICpidWY7CiAKICAgICBmdXNlX2xvZyhGVVNF
+X0xPR19ERUJVRywgImxvX2ZzeW5jKGlubz0lIiBQUkl1NjQgIiwgZmk9MHglcClcbiIsIGlubywK
+ICAgICAgICAgICAgICAodm9pZCAqKWZpKTsKIAorICAgIGlmICghaW5vZGUpIHsKKyAgICAgICAg
+ZnVzZV9yZXBseV9lcnIocmVxLCBFQkFERik7CisgICAgICAgIHJldHVybjsKKyAgICB9CisKICAg
+ICBpZiAoIWZpKSB7Ci0gICAgICAgIHN0cnVjdCBsb19kYXRhICpsbyA9IGxvX2RhdGEocmVxKTsK
+LQotICAgICAgICByZXMgPSBhc3ByaW50ZigmYnVmLCAiJWkiLCBsb19mZChyZXEsIGlubykpOwot
+ICAgICAgICBpZiAocmVzID09IC0xKSB7Ci0gICAgICAgICAgICByZXR1cm4gKHZvaWQpZnVzZV9y
+ZXBseV9lcnIocmVxLCBlcnJubyk7Ci0gICAgICAgIH0KLQotICAgICAgICBmZCA9IG9wZW5hdChs
+by0+cHJvY19zZWxmX2ZkLCBidWYsIE9fUkRXUik7Ci0gICAgICAgIGZyZWUoYnVmKTsKLSAgICAg
+ICAgaWYgKGZkID09IC0xKSB7Ci0gICAgICAgICAgICByZXR1cm4gKHZvaWQpZnVzZV9yZXBseV9l
+cnIocmVxLCBlcnJubyk7CisgICAgICAgIGZkID0gbG9faW5vZGVfb3BlbihsbywgaW5vZGUsIE9f
+UkRXUik7CisgICAgICAgIGlmIChmZCA8IDApIHsKKyAgICAgICAgICAgIHJlcyA9IC1mZDsKKyAg
+ICAgICAgICAgIGdvdG8gb3V0OwogICAgICAgICB9CiAgICAgfSBlbHNlIHsKICAgICAgICAgZmQg
+PSBsb19maV9mZChyZXEsIGZpKTsKICAgICB9CiAKICAgICBpZiAoZGF0YXN5bmMpIHsKLSAgICAg
+ICAgcmVzID0gZmRhdGFzeW5jKGZkKTsKKyAgICAgICAgcmVzID0gZmRhdGFzeW5jKGZkKSA9PSAt
+MSA/IGVycm5vIDogMDsKICAgICB9IGVsc2UgewotICAgICAgICByZXMgPSBmc3luYyhmZCk7Cisg
+ICAgICAgIHJlcyA9IGZzeW5jKGZkKSA9PSAtMSA/IGVycm5vIDogMDsKICAgICB9CiAgICAgaWYg
+KCFmaSkgewogICAgICAgICBjbG9zZShmZCk7CiAgICAgfQotICAgIGZ1c2VfcmVwbHlfZXJyKHJl
+cSwgcmVzID09IC0xID8gZXJybm8gOiAwKTsKK291dDoKKyAgICBsb19pbm9kZV9wdXQobG8sICZp
+bm9kZSk7CisgICAgZnVzZV9yZXBseV9lcnIocmVxLCByZXMpOwogfQogCiBzdGF0aWMgdm9pZCBs
+b19yZWFkKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190IGlubywgc2l6ZV90IHNpemUsIG9mZl90
+IG9mZnNldCwKLS0gCjIuMjkuMgoK
 
 
