@@ -2,78 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98972FF02E
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 17:27:01 +0100 (CET)
-Received: from localhost ([::1]:51898 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B04C2FF079
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 17:36:43 +0100 (CET)
+Received: from localhost ([::1]:60634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2cnU-0000ZF-R1
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 11:27:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41302)
+	id 1l2cwr-00056R-MB
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 11:36:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l2ckd-00082R-Rt
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:24:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52893)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l2ckb-0007Su-F2
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:24:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611246240;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=SnnH4/0w3mBJoXY+u6+16cRpCpAYoOwmqc9fe+wgnj4=;
- b=Lfzq3XPYImGZqZeFBENS9tckQFMADZgDoe6DpfmfAb6gL+0dQbhBWu0j3n9jhjMhFFWJGv
- 3+cW7EpFUF3LAxO8S6bbnr4tSjeDtnsxYwYznDJNdFqkI+1DdZZgjpHR8vLp4fAGq3TY9R
- gSe/2Cd2zGwIs236oge3uyCA95CARCk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-565-8bSi8xZRNrub4iWwhNJPNA-1; Thu, 21 Jan 2021 11:23:58 -0500
-X-MC-Unique: 8bSi8xZRNrub4iWwhNJPNA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6F80859
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 16:23:57 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.9])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4E116E515;
- Thu, 21 Jan 2021 16:23:55 +0000 (UTC)
-Date: Thu, 21 Jan 2021 17:23:53 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH v3 18/19] i386: provide simple 'hv-default=on' option
-Message-ID: <20210121172353.4649bb18@redhat.com>
-In-Reply-To: <20210121142704.1a150cac@redhat.com>
-References: <20210107150640.539239-1-vkuznets@redhat.com>
- <20210107151449.541062-1-vkuznets@redhat.com>
- <20210115031142.7c171a7f@redhat.com>
- <87h7ni7e08.fsf@vitty.brq.redhat.com>
- <20210120141312.0a1e6c33@redhat.com>
- <874kjb65cm.fsf@vitty.brq.redhat.com>
- <20210120200832.40141dc1@redhat.com>
- <20210120204909.GS1227584@habkost.net>
- <20210121142704.1a150cac@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2cvW-0004GT-5g
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:35:19 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:41333)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2cvS-0003sw-JJ
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 11:35:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.56])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 75C3A8456DCD;
+ Thu, 21 Jan 2021 17:35:00 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Thu, 21 Jan
+ 2021 17:34:58 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R00548179e97-455a-48e7-9b5b-c1a9b48f4bbd,
+ A41C5EF03AA0D3A03B7528971392D1AB75695B26) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 21 Jan 2021 17:34:55 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH 3/3] 9pfs: Improve unreclaim loop
+Message-ID: <20210121173455.45cbe7a7@bahia.lan>
+In-Reply-To: <1978739.Uc7ZUDHExb@silver>
+References: <20210118142300.801516-1-groug@kaod.org>
+ <20210118142300.801516-4-groug@kaod.org>
+ <1978739.Uc7ZUDHExb@silver>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG3EX2.mxp5.local (172.16.2.22) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 39ed26cd-1bc8-4ffb-940b-d4576170a2d1
+X-Ovh-Tracer-Id: 12480600469011929498
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeggdelfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeefuddtieejjeevheekieeltefgleetkeetheettdeifeffvefhffelffdtfeeljeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,260 +69,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 21 Jan 2021 14:27:04 +0100
-Igor Mammedov <imammedo@redhat.com> wrote:
+On Thu, 21 Jan 2021 13:50:37 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
-> On Wed, 20 Jan 2021 15:49:09 -0500
-> Eduardo Habkost <ehabkost@redhat.com> wrote:
+> On Montag, 18. Januar 2021 15:23:00 CET Greg Kurz wrote:
+> > If a fid was actually re-open by v9fs_reopen_fid(), we re-traverse the
 > 
-> > On Wed, Jan 20, 2021 at 08:08:32PM +0100, Igor Mammedov wrote:  
-> > > On Wed, 20 Jan 2021 15:38:33 +0100
-> > > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> > >     
-> > > > Igor Mammedov <imammedo@redhat.com> writes:
-> > > >     
-> > > > > On Fri, 15 Jan 2021 10:20:23 +0100
-> > > > > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> > > > >      
-> > > > >> Igor Mammedov <imammedo@redhat.com> writes:
-> > > > >>       
-> > > > >> > On Thu,  7 Jan 2021 16:14:49 +0100
-> > > > >> > Vitaly Kuznetsov <vkuznets@redhat.com> wrote:
-> > > > >> >        
-> > > > >> >> Enabling Hyper-V emulation for a Windows VM is a tiring experience as it
-> > > > >> >> requires listing all currently supported enlightenments ("hv-*" CPU
-> > > > >> >> features) explicitly. We do have 'hv-passthrough' mode enabling
-> > > > >> >> everything but it can't be used in production as it prevents migration.
-> > > > >> >> 
-> > > > >> >> Introduce a simple 'hv-default=on' CPU flag enabling all currently supported
-> > > > >> >> Hyper-V enlightenments. Later, when new enlightenments get implemented,
-> > > > >> >> compat_props mechanism will be used to disable them for legacy machine types,
-> > > > >> >> this will keep 'hv-default=on' configurations migratable.
-> > > > >> >> 
-> > > > >> >> Signed-off-by: Vitaly Kuznetsov <vkuznets@redhat.com>
-> > > > >> >> ---
-> > > > >> >>  docs/hyperv.txt   | 16 +++++++++++++---
-> > > > >> >>  target/i386/cpu.c | 38 ++++++++++++++++++++++++++++++++++++++
-> > > > >> >>  target/i386/cpu.h |  5 +++++
-> > > > >> >>  3 files changed, 56 insertions(+), 3 deletions(-)
-> > > > >> >> 
-> > > > >> >> diff --git a/docs/hyperv.txt b/docs/hyperv.txt
-> > > > >> >> index 5df00da54fc4..a54c066cab09 100644
-> > > > >> >> --- a/docs/hyperv.txt
-> > > > >> >> +++ b/docs/hyperv.txt
-> > > > >> >> @@ -17,10 +17,20 @@ compatible hypervisor and use Hyper-V specific features.
-> > > > >> >>  
-> > > > >> >>  2. Setup
-> > > > >> >>  =========
-> > > > >> >> -No Hyper-V enlightenments are enabled by default by either KVM or QEMU. In
-> > > > >> >> -QEMU, individual enlightenments can be enabled through CPU flags, e.g:
-> > > > >> >> +All currently supported Hyper-V enlightenments can be enabled by specifying
-> > > > >> >> +'hv-default=on' CPU flag:
-> > > > >> >>  
-> > > > >> >> -  qemu-system-x86_64 --enable-kvm --cpu host,hv_relaxed,hv_vpindex,hv_time, ...
-> > > > >> >> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default ...
-> > > > >> >> +
-> > > > >> >> +Alternatively, it is possible to do fine-grained enablement through CPU flags,
-> > > > >> >> +e.g:
-> > > > >> >> +
-> > > > >> >> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-relaxed,hv-vpindex,hv-time ...        
-> > > > >> >
-> > > > >> > I'd put here not '...' but rather recommended list of flags, and update
-> > > > >> > it every time when new feature added if necessary.
-> > > > >> >        
-> > > > >
-> > > > > 1)
-> > > > >        
-> > > > >> This is an example of fine-grained enablement, there is no point to put
-> > > > >> all the existing flags there (hv-default is the only recommended way
-> > > > >> now, the rest is 'expert'/'debugging').      
-> > > > > so users are kept in dark what hv-default disables/enables (and it might depend
-> > > > > on machine version on top that). Doesn't look like a good documentation to me
-> > > > > (sure everyone can go and read source code for it and try to figure out how
-> > > > > it's supposed to work)      
-> > > > 
-> > > > 'hv-default' enables *all* currently supported enlightenments. When
-> > > > using with an old machine type, it will enable *all* Hyper-V
-> > > > enlightenmnets which were supported when the corresponding machine type
-> > > > was released. I don't think we document all other cases when a machine
-> > > > type is modified (i.e. where can I read how pc-q35-5.1 is different from
-> > > > pc-q35-5.0 if I refuse to read the source code?)
-> > > >     
-> > > > >      
-> > > > >>      
-> > > > >> > (not to mention that if we had it to begin with, then new 'hv-default' won't
-> > > > >> > be necessary, I still see it as functionality duplication but I will not oppose it)
-> > > > >> >        
-> > > > >> 
-> > > > >> Unfortunately, upper layer tools don't read this doc and update
-> > > > >> themselves to enable new features when they appear.      
-> > > > > rant: (just merge all libvirt into QEMU, and make VM configuration less low-level.
-> > > > > why stop there, just merge with yet another upper layer, it would save us a lot
-> > > > > on communication protocols and simplify VM creation even more,
-> > > > > and no one will have to read docs and write anything new on top.)
-> > > > > There should be limit somewhere, where QEMU job ends and others pile hw abstraction
-> > > > > layers on top of it.      
-> > > > 
-> > > > We have '-machine q35' and we don't require to list all the devices from
-> > > > it. We have '-cpu Skylake-Server' and we don't require to configure all
-> > > > the features manually. Why can't we have similar enablement for Hyper-V
-> > > > emulation where we can't even see a real need for anything but 'enable
-> > > > everything' option?
-> > > > 
-> > > > There is no 'one libvirt to rule them all' (fortunately or
-> > > > unfortunately). And sometimes QEMU is the uppermost layer and there's no
-> > > > 'libvirt' on top of it, this is also a perfectly valid use-case.
-> > > >     
-> > > > >      
-> > > > >> Similarly, if when these tools use '-machine q35' they get all the new features we add
-> > > > >> automatically, right?      
-> > > > > it depends, in case of CPUs, new features usually 'off' by default
-> > > > > for existing models. In case of bugs, features sometimes could be
-> > > > > flipped and versioned machines were used to keep broken CPU models
-> > > > > on old machine types.
-> > > > >      
-> > > > 
-> > > > That's why I was saying that Hyper-V enlightenments hardly resemble
-> > > > 'hardware' CPU features.    
-> > > Well, Microsoft chose to implement them as hardware concept (CPUID leaf),
-> > > and I prefer to treat them the same way as any other CPUID bits.
-> > >     
-> > > >     
-> > > > >          
-> > > > >> >> +It is also possible to disable individual enlightenments from the default list,
-> > > > >> >> +this can be used for debugging purposes:
-> > > > >> >> +
-> > > > >> >> +  qemu-system-x86_64 --enable-kvm --cpu host,hv-default=on,hv-evmcs=off ...
-> > > > >> >>  
-> > > > >> >>  Sometimes there are dependencies between enlightenments, QEMU is supposed to
-> > > > >> >>  check that the supplied configuration is sane.
-> > > > >> >> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> > > > >> >> index 48007a876e32..99338de00f78 100644
-> > > > >> >> --- a/target/i386/cpu.c
-> > > > >> >> +++ b/target/i386/cpu.c
-> > > > >> >> @@ -4552,6 +4552,24 @@ static void x86_cpuid_set_tsc_freq(Object *obj, Visitor *v, const char *name,
-> > > > >> >>      cpu->env.tsc_khz = cpu->env.user_tsc_khz = value / 1000;
-> > > > >> >>  }
-> > > > >> >>  
-> > > > >> >> +static bool x86_hv_default_get(Object *obj, Error **errp)
-> > > > >> >> +{
-> > > > >> >> +    X86CPU *cpu = X86_CPU(obj);
-> > > > >> >> +
-> > > > >> >> +    return cpu->hyperv_default;
-> > > > >> >> +}
-> > > > >> >> +
-> > > > >> >> +static void x86_hv_default_set(Object *obj, bool value, Error **errp)
-> > > > >> >> +{
-> > > > >> >> +    X86CPU *cpu = X86_CPU(obj);
-> > > > >> >> +
-> > > > >> >> +    cpu->hyperv_default = value;
-> > > > >> >> +
-> > > > >> >> +    if (value) {
-> > > > >> >> +        cpu->hyperv_features |= cpu->hyperv_default_features;        
-> > > > >> >
-> > > > >> > s/|="/=/ please,
-> > > > >> > i.e. no option overrides whatever was specified before to keep semantics consistent.
-> > > > >> >        
-> > > > >> 
-> > > > >> Hm,
-> > > > >>       
-> > > > >      
-> > > > >> this doesn't matter for the most recent machine type as
-> > > > >> hyperv_default_features has all the features but imagine you're running
-> > > > >> an older machine type which doesn't have 'hv_feature'. Now your      
-> > > > > normally one shouldn't use new feature with old machine type as it makes
-> > > > > VM non-migratable to older QEMU that has this machine type but not this feature.
-> > > > >
-> > > > > nitpicking:
-> > > > >   according to (1) user should not use 'hv_feature' on old machine since
-> > > > >   hv_default should cover all their needs (well they don't know what
-> > > > > hv_default actually is).      
-> > > > 
-> > > > Normally yes but I can imagine sticking to some old machine type for
-> > > > other-than-hyperv-enlightenments purposes and still wanting to add a
-> > > > newly introduced enlightenment. Migration is not always a must.
-> > > >     
-> > > > >      
-> > > > >> suggestion is 
-> > > > >> 
-> > > > >> if I do:
-> > > > >> 
-> > > > >> 'hv_default,hv_feature=on' I will get "hyperv_default_features | hv_feature"
-> > > > >> 
-> > > > >> but if I do
-> > > > >> 
-> > > > >> 'hv_feature=on,hv_default' I will just get 'hyperv_default_features'
-> > > > >> (as hv_default enablement will overwrite everything)
-> > > > >> 
-> > > > >> How is this consistent?      
-> > > > > usual semantics for properties, is that the latest property overwrites,
-> > > > > the previous property value parsed from left to right.
-> > > > > (i.e. if one asked for hv_default, one gets it related CPUID bit set/unset,
-> > > > > if one needs more than that one should add more related features after that.
-> > > > >      
-> > > > 
-> > > > This semantics probably doesn't apply to 'hv-default' case IMO as my
-> > > > brain refuses to accept the fact that    
-> > > it's difficult probably because 'hv-default' is 'alias' property 
-> > > that covers all individual hv-foo features in one go and that individual
-> > > features are exposed to user, but otherwise it is just a property that
-> > > sets CPUID features or like any other property, and should be treated like such.
-> > >     
-> > > > 'hv_default,hv_feature' != 'hv_feature,hv_default'
-> > > >
-> > > > which should express the same desire 'the default set PLUS the feature I
-> > > > want'.    
-> > > if hv_default were touching different data, I'd agree.
-> > > But in the end hv_default boils down to the same CPUID bits as individual
-> > > features:
-> > > 
-> > >   hv_default,hv_f2 => (hv_f1=on,hv_f2=off),hv_f2=on
-> > >          !=
-> > >   hv_f2,hv_default => hv_f2=on,(hv_f1=on,hv_f2=off)    
+> "re-opened"
+> 
+> > fid list from the head in case some other request created a fid that
+> > needs to be marked unreclaimable as well (ie. the client open a new
+> 
+> "i.e." and either "opens" or "opened"
+> 
+> > handle on the path that is being unlinked). This is a suboptimal since
+> 
+> No "a" here: "This is suboptimal since"
+> 
+
+Thanks for the careful reading. I'll fix those :)
+
+> > most if not all fids that require it have likely been taken care of
+> > already.
 > > 
-> > I don't know why you chose to define "hv_default" as
-> > hv_f1=on,hv_f2=off.  If hv_f2 is not enabled by hv_default, it
-> > doesn't need to be touched by hv_default at all.  
+> > This is mostly the result of new fids being added to the head of the
+> > list. Since the list is now a QSIMPLEQ, add new fids at the end instead.
+> > Take a reference on the fid to ensure it doesn't go away during
+> > v9fs_reopen_fid() and that it can be safely passed to QSIMPLEQ_NEXT()
+> > afterwards. Since the associated put_fid() can also yield, same is done
+> > with the next fid. So the logic here is to get a reference on a fid and
+> > only put it back during the next iteration after we could get a reference
+> > on the next fid.
+> > 
+> > Signed-off-by: Greg Kurz <groug@kaod.org>
+> > ---
+> >  hw/9pfs/9p.c | 44 ++++++++++++++++++++++++++++++--------------
+> >  1 file changed, 30 insertions(+), 14 deletions(-)
+> > 
+> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> > index b65f320e6518..b0ab5cf61c1f 100644
+> > --- a/hw/9pfs/9p.c
+> > +++ b/hw/9pfs/9p.c
+> > @@ -311,7 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
+> > fid) * reclaim won't close the file descriptor
+> >       */
+> >      f->flags |= FID_REFERENCED;
+> > -    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
+> > +    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
 > 
-> Essentially I was thinking about hv_default=on as setting default value
-> of hv CPUID leaf i.e. like doc claims, 'all' hv_* features (including
-> turned off and unused bits) which always sets leaf to its default state.
+> I wondered whether that behaviour change could have negative side effects, but 
+> I think the reason why they added it to the head of the list was simply 
+> because they only had a head pointer (i.e. they would have needed a loop to 
+> insert to tail).
 > 
-> Now lets consider following possible situation
-> using combine' approach (leaf |= some_bits):
-> 
-> QEMU-6.0: initially we have all possible features enabled
->                 hv_default = (hv_f1=on,hv_f2=on)
-> 
-> hv_f2=on,hv_default=on == hv_f1=on,hv_f2=on
-> 
-> QEMU-6.1: disabled hv_f2=off that was causing problems
-> 
-> hv_default = (hv_f1=on,hv_f2=off)
-> 
-> however due to ORing hv_default doesn't fix issue for the same CLI
-> (i.e. it doesn't have expected effect)
-> 
-> hv_f2=on,hv_default=on => hv_f1=on,hv_f2=on
-> 
-> if one would use usual 'set' semantics (leaf = all_bits),
-> then new hv_default value will have desired effect despite of botched CLI,
-> just by virtue of property following typical 'last set' semantics:
-> 
->  => hv_f1=on,hv_f2=off  
-> 
-> If we assume that we 'never ever' will need to disable feature bits
-> than it doesn't matter which approach to use, however a look at
-> pc_compat arrays shows that features are being enabled/disabled
-> all the time.
 
-Also there should be a good reason for adding new semantics and
-deviating from typical property behavior.
+That's my thinking as well. And the open-code fid list was there from the
+start, while reclaim was only added ~1 year later. Before reclaim, adding
+to the head was an obvious choice.
 
+> So yes, I think that change makes sense now with QSIMPLEQ.
+> 
+> > 
+> >      v9fs_readdir_init(s->proto_version, &f->fs.dir);
+> >      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
+> > @@ -497,32 +497,48 @@ static int coroutine_fn
+> > v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) {
+> >      int err;
+> >      V9fsState *s = pdu->s;
+> > -    V9fsFidState *fidp;
+> > +    V9fsFidState *fidp, *fidp_next;
+> > 
+> > -again:
+> > -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
+> > -        if (fidp->path.size != path->size) {
+> > -            continue;
+> > -        }
+> > -        if (!memcmp(fidp->path.data, path->data, path->size)) {
+> > +    fidp = QSIMPLEQ_FIRST(&s->fid_list);
+> > +    assert(fidp);
+> 
+> And fidp is under regular circumstances always non-null here? The assumption 
+> is that there is at least the root fid in the list, which the user should not 
+> have permission to unlink, right?
+> 
+
+Oops this is a left-over... The assumption was that the client
+didn't clunk all fids at the time v9fs_mark_fids_unreclaim() is
+called. This is true with v9fs_remove() which gets a fid from
+the list and directly calls v9fs_mark_fids_unreclaim(). This isn't
+true though for v9fs_unlinkat() which calls v9fs_co_name_to_path()
+in between, and thus could potentially yield and let the client
+clunk all fids.
+
+Good catch !
+
+> > +
+> > +    /*
+> > +     * v9fs_reopen_fid() can yield : a reference on the fid must be held
+> > +     * to ensure its pointer remains valid and we can safely pass it to
+> > +     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
+> > +     * we must keep a reference on the next fid as well. So the logic here
+> > +     * is to get a reference on a fid and only put it back during the next
+> > +     * iteration after we could get a reference on the next fid. Start with
+> > +     * the first one.
+> > +     */
+> > +    for (fidp->ref++; fidp; fidp = fidp_next) {
+> > +        if (fidp->path.size == path->size &&
+> > +            !memcmp(fidp->path.data, path->data, path->size)) {
+> >              /* Mark the fid non reclaimable. */
+> >              fidp->flags |= FID_NON_RECLAIMABLE;
+> > 
+> >              /* reopen the file/dir if already closed */
+> >              err = v9fs_reopen_fid(pdu, fidp);
+> >              if (err < 0) {
+> > +                put_fid(pdu, fidp);
+> >                  return err;
+> >              }
+> > +        }
+> > +
+> > +        fidp_next = QSIMPLEQ_NEXT(fidp, next);
+> > +
+> > +        if (fidp_next) {
+> >              /*
+> > -             * Go back to head of fid list because
+> > -             * the list could have got updated when
+> > -             * switched to the worker thread
+> > +             * Ensure the next fid survives a potential clunk request
+> > during +             * put_fid() below and v9fs_reopen_fid() in the next
+> > iteration. */
+> > -            if (err == 0) {
+> > -                goto again;
+> > -            }
+> > +            fidp_next->ref++;
+> 
+> Mmm, that works as intended if fidp_next matches the requested path. However 
+> if it is not (like it would in the majority of cases) then the loop breaks 
+> next and the bumped reference count would never be reverted. Or am I missing 
+> something here?
+> 
+
+Each iteration of the loop starts with an already referenced fidp.
+
+The loop can only break if:
+
+- v9fs_reopen_fid() fails, in which case put_fid(pdu, fidp) is called
+  on the error path above
+- end of list is reached, in which case the reference on fidp is
+  dropped just like in all previous iterations...
+
+> >          }
+> > +
+> > +        /* We're done with this fid */
+> > +        put_fid(pdu, fidp);
+
+... here.
+
+> >      }
+> > +
+> >      return 0;
+> >  }
+> 
+> Best regards,
+> Christian Schoenebeck
+> 
+> 
 
 
