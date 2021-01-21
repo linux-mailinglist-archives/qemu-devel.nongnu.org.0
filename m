@@ -2,131 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACCD32FE5BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:05:03 +0100 (CET)
-Received: from localhost ([::1]:35202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74342FE5B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:03:13 +0100 (CET)
+Received: from localhost ([::1]:60480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2Vtm-0005P1-Qj
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:05:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48544)
+	id 1l2Vs0-00049n-TA
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:03:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1l2VsC-0004oQ-DU
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:03:27 -0500
-Received: from mail-db8eur05on2098.outbound.protection.outlook.com
- ([40.107.20.98]:15105 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <andrey.gruzdev@virtuozzo.com>)
- id 1l2Vs5-0000HL-QX
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:03:24 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=fCxZZOjWydn25maodCbLr2PzWgIbGUE9CpGpdEn31roHgJDZyNtr9hNY6HUxiYVdp+vvPVsN63CAMPzhm2c9r9OgJmHEptiDPIwuQav1dnHXDvW2aMz4k+9UYDIJHcmDFWSNsj9B1aip3SEwRSY9nTUTrYoLHbH9Mty/n8qmnzlU7Bno048roWjtfeDHX9LL9916Q5lwHTGeQg30r83WJuXGKAbs7fbgcZf538QwI00D5QIdKUzJHCLUQpi04cgFomEDRe+/DmpRF5XcO0gkQqlAGjN0Ji4fUN0tY3ZTcCQpVXd3pP70oWcQCOCqSuUXQGOLW6DuCaxIUN88EC5SUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VhJxJoP7Q5ReEP1xorWMl8J3N9Wo61BxLaNxysuhKwo=;
- b=krN3Js+PIcYVzcYCrMXRZyd97C7F4CSnt8kvyoyXuQzuLMjApf0+3wcB0VzDqvFzmZqrgd3LGfvBeVPRz+qksEnW2+/nBq0UJ9SCv/zA+AvAvWcam8+78Lz48QcE2ypOfxsZ0hyyBeYbvHAB7CYc2/8H6qbd9DNbpOz8QC4+cfSwSVvuuTCTVZgJkadxOdAwpIESLMR5n8wjDYhIjb1baAUON/AG8PUy6wlIQk9JVrdz5W+07+zZwm5ceW+NSnuK/LuaH+DpFfW27vjh9nt3nJ5GePcoQlICkO0QN5F7+ojAqO19Bqm5BOVGurJXIvIBMhUo+vJ0sMn/lytcIoxcig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=VhJxJoP7Q5ReEP1xorWMl8J3N9Wo61BxLaNxysuhKwo=;
- b=SracYsh3Ih4s6JLRk7z3LZZAn6Q97/rWEFYzutFl5V/F19WqgMhaHmhCquhSLJLvTPz41fmxMMWqhUgRiexLRkzq3Om2CPJECWrJOvIzZ5ZLAJUG/yTjrD3nLl6tRcHTU2W3w5YK/x73ZcOSEOVw9QZlM/Czf6O8OxYGglem2SU=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com (2603:10a6:208:e4::15)
- by AM0PR08MB4354.eurprd08.prod.outlook.com (2603:10a6:208:13e::22)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.10; Thu, 21 Jan
- 2021 08:48:10 +0000
-Received: from AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b]) by AM0PR08MB3364.eurprd08.prod.outlook.com
- ([fe80::7440:fead:287e:949b%6]) with mapi id 15.20.3784.013; Thu, 21 Jan 2021
- 08:48:10 +0000
-Subject: Re: [PATCH v11 3/5] migration: support UFFD write fault processing in
- ram_save_iterate()
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-References: <20210106152120.31279-1-andrey.gruzdev@virtuozzo.com>
- <20210106152120.31279-4-andrey.gruzdev@virtuozzo.com>
- <20210119174935.GI3008@work-vm>
-From: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
-Message-ID: <46b04ee1-e474-fcd8-640c-34398f74db21@virtuozzo.com>
-Date: Thu, 21 Jan 2021 11:48:07 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20210119174935.GI3008@work-vm>
-Content-Type: multipart/alternative;
- boundary="------------EE91B1735D871D2F7506D030"
-Content-Language: en-US
-X-Originating-IP: [95.165.26.68]
-X-ClientProxiedBy: AM3PR03CA0076.eurprd03.prod.outlook.com
- (2603:10a6:207:5::34) To AM0PR08MB3364.eurprd08.prod.outlook.com
- (2603:10a6:208:e4::15)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2VpA-00032x-8g; Thu, 21 Jan 2021 04:00:16 -0500
+Received: from mail-yb1-xb29.google.com ([2607:f8b0:4864:20::b29]:45398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2Vp6-0007RC-29; Thu, 21 Jan 2021 04:00:15 -0500
+Received: by mail-yb1-xb29.google.com with SMTP id e67so1315059ybc.12;
+ Thu, 21 Jan 2021 01:00:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=9pUmNYDArRVI1pFXJvbr6KXfnM/Wqx5Y0CqXnj19YBs=;
+ b=AYACVBTEWFsuVohMKquyUSMhE3KcR9pIDy66wrD/FarwUlFEEY3Ob9M7C7PbNNMys4
+ +W3ubHT21ULGjMUkRJT9918hmmo/6syuw52Rvr+1314fKlWkCOl0rhTaUwd2i/db2rTO
+ Oa+JA07ioLmfTIZ6KQFvHp0fe/2JC6mBNxQvl1PKmhhA/PSeazGbtiTbjbvLhVfG0rvO
+ 9HAQIVHUO0By0+RMBYM+6rFBksd6xLB7j6CpKNQ7DYk6Vyx2RDnY91OvPDgqdiznWOdH
+ U8nRE6aEwIwxpeoKYwkZ99pA6V+FnzJzAc3g2foNG/mcIdf8Btxn9G5eWCJ4+/e7QpCf
+ JShg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=9pUmNYDArRVI1pFXJvbr6KXfnM/Wqx5Y0CqXnj19YBs=;
+ b=LK8DEyjDrWgp3Mp7qX15Fxm4TAhbn5xb5Qs9YYOWBO0Zov3NzLTq1s6nGT1/v8Zoqf
+ FqtB72WffgWrmYQfhrA6S0s1PYBDbvlgTQiZmGPQB2HD6CjffziPhl4TZQGg7ovvFWvj
+ aaSzYH02zoIh7e7J9Z/U2VMMWz6xpLt3BEjUDcc/rFZ5F2mPUy40DgWryF1oi+AumtML
+ xy3LTBxp0mU/fVP58eZbxvu9bJuAgjRby+sg1/wbaTpNjIOkvw0zYUyvLfUL5si5LGw1
+ OgzgfV+70RgH0olTtID1tiPrx2bLMlFY/A34sKwc6UwudY3K32+QXpl4v2qlFdGSz6hT
+ nAXg==
+X-Gm-Message-State: AOAM533lHbad8GW80qB2dMUpQ/x08acdEVEX9vsoYSU11zEEHd8NV3ld
+ wM5CVJmuLllzKowwzA8+Fkwv1vmVSibi43UYYrg=
+X-Google-Smtp-Source: ABdhPJzWJCCkkDKAhEsAunrZ+7pAb9hSoMLG95aiVmjHrFi+f0RmgQHfRSXWsxbY5s3Nk7dkXuMArcIpGV4GBeMssT4=
+X-Received: by 2002:a25:cacc:: with SMTP id
+ a195mr14385099ybg.306.1611219609889; 
+ Thu, 21 Jan 2021 01:00:09 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.1.64] (95.165.26.68) by
- AM3PR03CA0076.eurprd03.prod.outlook.com (2603:10a6:207:5::34) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.12 via Frontend Transport; Thu, 21 Jan 2021 08:48:09 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 3351edcf-392c-41d6-e2b2-08d8bde947e4
-X-MS-TrafficTypeDiagnostic: AM0PR08MB4354:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM0PR08MB4354288F65F113A9739FE8D19FA10@AM0PR08MB4354.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:2803;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: rIjR4gTqZgxSXmb64rqfmexJMOcPA1yth/SGlOl8GemCSxdKUFhL4B7QZP9o18Ijc6E/YbJTKAgWEkTd+an2dIy1gvb1zaLPRI7uJvozik10zsipcULIx0k3Mt8dK3JZaOQ2PBN4ohBwDmy6mZDRI5pWeOmIMzqat8eNtJaJLybOQA0gp77uVleLA66LiO6zsnxBoavXkqD+QDweCa7SGSKXJBQeDo9tkvRqwiVwGFQ/76BcHN6b5W4uiWw8ApK6EouCMlu33TZUn1W16KgQAnkUwBtBaUNQXeZ9wKtLoAgdjSJTX/7/FVqUSVtgN9DU4QVFRIoDXez35QTqifQ+o5MjrX0ZyZtUQvTpPk6RDUwmhC1w+mt73r6/Y0OtudX+Y7stXEerWi8/+RuaNVSNM4cSdgQFXtT3F8YLBogWTsByVEC/F7oSLz7oDmdZYuXi0dFL6biyODiZU4JLV5VY/XhSv7wGQPAs6PZdIK6oX/U=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM0PR08MB3364.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(396003)(366004)(136003)(346002)(39840400004)(33964004)(86362001)(6486002)(5660300002)(53546011)(66946007)(6916009)(30864003)(8676002)(36756003)(2906002)(52116002)(478600001)(83380400001)(956004)(8936002)(16526019)(66476007)(54906003)(66556008)(4326008)(44832011)(186003)(31696002)(16576012)(31686004)(26005)(2616005)(316002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?cFA3b2E2UU5WbFRrSExkZVVrRUI1U3FWRGJ5VTJPVnJnaCtYeVRuUnJTL3Zy?=
- =?utf-8?B?WDZKNzUxREg0dFR5UHMvMWsxQ2x3cW1ZOFV1RVJXM3R1OFlnaSt3K3BmZzBX?=
- =?utf-8?B?M0dVRk1iQ3JWTSsvQVVVNkJqbXhQVU1HWXhyQXpPaHpjY3RVUHNpR003VEU1?=
- =?utf-8?B?MXVuU0RsOW80ZVEwbnhXcjJtc0NaT3NDTGlCWTRIZ2EwbnlPVE9QUkMyYXM0?=
- =?utf-8?B?TVo3WHpWNkFWK3NPTms1Nk4vaUhBcVZhTWxqWUNHTUE1N3FTRVd0Q0o1MGdN?=
- =?utf-8?B?SkpUNXYyRWlJRjVLNW8zQVZMem5DUkwwZ3Back04b3h2YmJLT0tuaHp0VldD?=
- =?utf-8?B?eGJVZHhqZkZFcjQ2RmVrd1RlNjdFME1JZTQ2OXBKRE9yV3Q0NVk5aG5LWGNN?=
- =?utf-8?B?dkFnL3NvdUFRd1A0UUhHOTVETldtaDJSMWErSUlqNDBjMjRtYTdCcitBRGNy?=
- =?utf-8?B?amtZWWtQb3M3OEIzbk5MMGNMMElqSnQ1amEwNGZ2b3VEK2xJL1BYUnV2eXU3?=
- =?utf-8?B?bS9kdXl0cDFjK3V4NDNCUnRJcDg5ZHZINWNaZUp4cGZ4YzEzRTdsQXhOQThF?=
- =?utf-8?B?Z0NidzhiQ1BuK1d0ME9lLzRkcDdYcmJrWFFwdGQ4OTYvYml4aWZIRGVCK0d3?=
- =?utf-8?B?L1dRQ29WZDhZT0ozYiszdTUxblF4djdTMFRTRWZidHZUcnk2OE8yaVNJcmly?=
- =?utf-8?B?VERGYVd0UWJiejY1dUl1aExOaUFMVDJSbVdvbXY0R05YY1BnMXJqQWw1VTNK?=
- =?utf-8?B?S0NNZGdDd0FrUGJ1cSswRG50NFc0YU9tRW8wVXQ5Mk9nMU5LSWx5bEZISCt5?=
- =?utf-8?B?K3ZmVVJSbnpPS0R5eUR4TE1UUVpQTnBSOEQwQzN5TjNZaCtoQjJZK3psSjM1?=
- =?utf-8?B?SWY3UFBnc05HRTBtWlh1MVIvNW5uMDFlRnJwaVNIUURiMHppNmNyZzh0MXRB?=
- =?utf-8?B?SWRDTVNsWnlLVE5FYjc4U1VpUFMxSlRmTWQ4MDF0UnRNUUxEL2J6dTBIUGl4?=
- =?utf-8?B?b0t2VytyU2o2SWV5ZjFrNUhCdm00MTZEcXY4WjB1QUdxTG00Sk94Y01EZ3o3?=
- =?utf-8?B?REM2SGJmSXJsdE5rUS9kck5qU2FnNEFRSW1BNnlGRTE2ZU5zdllUczlRVTNG?=
- =?utf-8?B?NWk5STlORjlBajgzd2VrbU9JSW85ZERKRno3SytOeGNXRVU0VDNTQkhMd1la?=
- =?utf-8?B?WDQrMmhJb3ZUdGsvZkNjSlJDT2pPRExkNGlKVnpXcEQzaWxDTHhkV1RSUXcw?=
- =?utf-8?B?UWxWend0ZXVtN2lWaFVDTlQrNnRMdmFyeUJ6dTZYRG5LN1dOeXNJR0lRbVJF?=
- =?utf-8?Q?uYRXd23Rka+D4=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3351edcf-392c-41d6-e2b2-08d8bde947e4
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR08MB3364.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Jan 2021 08:48:10.6785 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XImkZO8ufKJte36z9plQFzz0pJcnG19t688x16eZ8gP2OFmafTJCn5gcwSpFHJ9YU4t/O2VZ8UsEeEM9tT/SxUfQVp+F8SMJIDlj8DOIwlE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR08MB4354
-Received-SPF: pass client-ip=40.107.20.98;
- envelope-from=andrey.gruzdev@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20210114150902.11515-1-bmeng.cn@gmail.com>
+ <20210114181300.GA29923@fralle-msi>
+ <CAEUhbmXiYNFVY0EkrKqNGKV3C0QV0+WvkvEkfPUa-pSg2zGvuA@mail.gmail.com>
+ <20210115122627.GB29923@fralle-msi>
+ <CAEUhbmVYgP063iqY0c10y9zKBmx00Z6vr3BO3RjoRo-CXQpYDw@mail.gmail.com>
+ <20210118100557.GA11373@fralle-msi>
+ <CAEUhbmWT50o8OV_QAimhs5itWq3pFd6CTKup6PFpvSs2KYpf2w@mail.gmail.com>
+ <20210119130113.GA28306@fralle-msi>
+ <CAEUhbmUBAgF4D__jsfbE7yGd++5ZH3YOutTiOBOot52sNCV-eg@mail.gmail.com>
+ <20210121085006.GA10391@fralle-msi>
+In-Reply-To: <20210121085006.GA10391@fralle-msi>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Thu, 21 Jan 2021 16:59:51 +0800
+Message-ID: <CAEUhbmUh54vqXmtkjnTzk7Y6U+oZEbw-O3ode+CdKbfZ0Qs+9Q@mail.gmail.com>
+Subject: Re: [PATCH 0/9] hw/block: m25p80: Fix the mess of dummy bytes needed
+ for fast read commands
+To: Francisco Iglesias <frasse.iglesias@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b29;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb29.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -140,930 +87,532 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org,
- Peter Xu <peterx@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Den Lunev <den@openvz.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
+ Bin Meng <bin.meng@windriver.com>,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ Joe Komlodi <komlodi@xilinx.com>, Max Reitz <mreitz@redhat.com>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---------------EE91B1735D871D2F7506D030
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Hi Francisco,
 
-On 19.01.2021 20:49, Dr. David Alan Gilbert wrote:
-> * Andrey Gruzdev (andrey.gruzdev@virtuozzo.com) wrote:
->> In this particular implementation the same single migration
->> thread is responsible for both normal linear dirty page
->> migration and procesing UFFD page fault events.
->>
->> Processing write faults includes reading UFFD file descriptor,
->> finding respective RAM block and saving faulting page to
->> the migration stream. After page has been saved, write protection
->> can be removed. Since asynchronous version of qemu_put_buffer()
->> is expected to be used to save pages, we also have to flush
->> migraion stream prior to un-protecting saved memory range.
->>
->> Write protection is being removed for any previously protected
->> memory chunk that has hit the migration stream. That's valid
->> for pages from linear page scan along with write fault pages.
->>
->> Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
->> Acked-by: Peter Xu <peterx@redhat.com>
-> I think this is OK, so:
+On Thu, Jan 21, 2021 at 4:50 PM Francisco Iglesias
+<frasse.iglesias@gmail.com> wrote:
 >
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Dear Bin,
 >
-> I think I'd have preferred to have kept the #ifdef LINUX's out of there,
-> and I suspect using the opaque's for hte pre/post hook is overly
-> complex; but other wise OK.
+> On [2021 Jan 20] Wed 22:20:25, Bin Meng wrote:
+> > Hi Francisco,
+> >
+> > On Tue, Jan 19, 2021 at 9:01 PM Francisco Iglesias
+> > <frasse.iglesias@gmail.com> wrote:
+> > >
+> > > Hi Bin,
+> > >
+> > > On [2021 Jan 18] Mon 20:32:19, Bin Meng wrote:
+> > > > Hi Francisco,
+> > > >
+> > > > On Mon, Jan 18, 2021 at 6:06 PM Francisco Iglesias
+> > > > <frasse.iglesias@gmail.com> wrote:
+> > > > >
+> > > > > Hi Bin,
+> > > > >
+> > > > > On [2021 Jan 15] Fri 22:38:18, Bin Meng wrote:
+> > > > > > Hi Francisco,
+> > > > > >
+> > > > > > On Fri, Jan 15, 2021 at 8:26 PM Francisco Iglesias
+> > > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > > >
+> > > > > > > Hi Bin,
+> > > > > > >
+> > > > > > > On [2021 Jan 15] Fri 10:07:52, Bin Meng wrote:
+> > > > > > > > Hi Francisco,
+> > > > > > > >
+> > > > > > > > On Fri, Jan 15, 2021 at 2:13 AM Francisco Iglesias
+> > > > > > > > <frasse.iglesias@gmail.com> wrote:
+> > > > > > > > >
+> > > > > > > > > Hi Bin,
+> > > > > > > > >
+> > > > > > > > > On [2021 Jan 14] Thu 23:08:53, Bin Meng wrote:
+> > > > > > > > > > From: Bin Meng <bin.meng@windriver.com>
+> > > > > > > > > >
+> > > > > > > > > > The m25p80 model uses s->needed_bytes to indicate how m=
+any follow-up
+> > > > > > > > > > bytes are expected to be received after it receives a c=
+ommand. For
+> > > > > > > > > > example, depending on the address mode, either 3-byte a=
+ddress or
+> > > > > > > > > > 4-byte address is needed.
+> > > > > > > > > >
+> > > > > > > > > > For fast read family commands, some dummy cycles are re=
+quired after
+> > > > > > > > > > sending the address bytes, and the dummy cycles need to=
+ be counted
+> > > > > > > > > > in s->needed_bytes. This is where the mess began.
+> > > > > > > > > >
+> > > > > > > > > > As the variable name (needed_bytes) indicates, the unit=
+ is in byte.
+> > > > > > > > > > It is not in bit, or cycle. However for some reason the=
+ model has
+> > > > > > > > > > been using the number of dummy cycles for s->needed_byt=
+es. The right
+> > > > > > > > > > approach is to convert the number of dummy cycles to by=
+tes based on
+> > > > > > > > > > the SPI protocol, for example, 6 dummy cycles for the F=
+ast Read Quad
+> > > > > > > > > > I/O (EBh) should be converted to 3 bytes per the formul=
+a (6 * 4 / 8).
+> > > > > > > > >
+> > > > > > > > > While not being the original implementor I must assume th=
+at above solution was
+> > > > > > > > > considered but not chosen by the developers due to it is =
+inaccuracy (it
+> > > > > > > > > wouldn't be possible to model exacly 6 dummy cycles, only=
+ a multiple of 8,
+> > > > > > > > > meaning that if the controller is wrongly programmed to g=
+enerate 7 the error
+> > > > > > > > > wouldn't be caught and the controller will still be consi=
+dered "correct"). Now
+> > > > > > > > > that we have this detail in the implementation I'm in fav=
+or of keeping it, this
+> > > > > > > > > also because the detail is already in use for catching ex=
+actly above error.
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > I found no clue from the commit message that my proposed so=
+lution here
+> > > > > > > > was ever considered, otherwise all SPI controller models su=
+pporting
+> > > > > > > > software generation should have been found out seriously br=
+oken long
+> > > > > > > > time ago!
+> > > > > > >
+> > > > > > >
+> > > > > > > The controllers you are referring to might lack support for c=
+ommands requiring
+> > > > > > > dummy clock cycles but I really hope they work with the other=
+ commands? If so I
+> > > > > >
+> > > > > > I am not sure why you view dummy clock cycles as something spec=
+ial
+> > > > > > that needs some special support from the SPI controller. For th=
+e case
+> > > > > > 1 controller, it's nothing special from the controller perspect=
+ive,
+> > > > > > just like sending out a command, or address bytes, or data. The
+> > > > > > controller just shifts data bit by bit from its tx fifo and tha=
+t's it.
+> > > > > > In the Xilinx GQSPI controller case, the dummy cycles can eithe=
+r be
+> > > > > > sent via a regular data (the case 1 controller) in the tx fifo,=
+ or
+> > > > > > automatically generated (case 2 controller) by the hardware.
+> > > > >
+> > > > > Ok, I'll try to explain my view point a little differently. For t=
+hat we also
+> > > > > need to keep in mind that QEMU models HW, and any binary that run=
+s on a HW
+> > > > > board supported in QEMU should ideally run on that board inside Q=
+EMU aswell
+> > > > > (this can be a bare metal application equaly well as a modified u=
+-boot/Linux
+> > > > > using SPI commands with a non multiple of 8 number of dummy clock=
+ cycles).
+> > > > >
+> > > > > Once functionality has been introduced into QEMU it is not easy t=
+o know which
+> > > > > intentional or untentional features provided by the functionality=
+ are being
+> > > > > used by users. One of the (perhaps not well known) features I'm a=
+ware of that
+> > > > > is in use and is provided by the accurate dummy clock cycle model=
+ing inside
+> > > > > m25p80 is the be ability to test drivers accurately regarding the=
+ dummy clock
+> > > > > cycles (even when using commands with a non-multiple of 8 number =
+of dummy clock
+> > > > > cycles), but there might be others aswell. So by removing this fu=
+nctionality
+> > > > > above use case will brake, this since those test will not be reli=
+able.
+> > > > > Furthermore, since users tend to be creative it is not possible t=
+o know if
+> > > > > there are other use cases that will be affected. This means that =
+in case [1]
+> > > > > needs to be followed the safe path is to add functionality instea=
+d of removing.
+> > > > > Luckily it also easier in this case, see below.
+> > > >
+> > > > I understand there might be users other than U-Boot/Linux that use =
+an
+> > > > odd number of dummy bits (not multiple of 8). If your concern was
+> > > > about model behavior changes, sure I can update
+> > > > qemu/docs/system/deprecated.rst to mention that some flashes in the
+> > > > m25p80 model now implement dummy cycles as bytes.
+> > >
+> > > Yes, something like that. My concern is that since this functionality=
+ has been
+> > > in tree for while, users have found known or unknown features that go=
+t
+> > > introduced by it. By removing the functionality (and the known/uknown=
+ features)
+> > > we are riscing to brake our user's use cases (currently I'm aware of =
+one
+> > > feature/use case but it is not unlikely that there are more). [1] sta=
+tes that
+> > > "In general features are intended to be supported indefinitely once i=
+ntroduced
+> > > into QEMU", to me that makes very much sense because the opposite wou=
+ld mean
+> > > that we were not reliable. So in case [1] needs to be honored it look=
+s to be
+> > > safer to add functionality instead of removing (and riscing the remov=
+al of use
+> > > cases/features). Luckily I still believe in this case that it will be=
+ easier to
+> > > go forward (even if I also agree on what you are saying below about w=
+hat I
+> > > proposed).
+> > >
+> >
+> > Even if the implementation is buggy and we need to keep the buggy
+> > implementation forever? I think that's why
+> > qemu/docs/system/deprecated.rst was created for deprecating such
+> > feature.
 >
-> Dave
+> With the RFC I posted all commands in m25p80 are working for both the cas=
+e 1
+> controller (using a txfifo) and the case 2 controller (no txfifo, as GQSP=
+I).
+> Because of this, I, with all respect, will have to disagree that this is =
+buggy.
 
-Mm, I think it's impossible to completely move #ifdef LINUX out of there,
-but I suspect all #ifdef LINUX code can be moved to a single place with
-stubs for the #else case.. Suppose it would be better then now.
-For pre/post hooks - not too complex, but for single #ifdef section it really
-looks better to move this stuff to ram_save_host_page().
+Well, the existing m25p80 implementation that uses dummy cycle
+accuracy for those flashes prevents all SPI controllers that use tx
+fifo to work with those flashes. Hence it is buggy.
 
-Andrey
+>
+> >
+> > > >
+> > > > > >
+> > > > > > > don't think it is fair to call them 'seriously broken' (and e=
+lse we should
+> > > > > > > probably let the maintainers know about it). Most likely the =
+lack of support
+> > > > > >
+> > > > > > I called it "seriously broken" because current implementation o=
+nly
+> > > > > > considered one type of SPI controllers while completely ignorin=
+g the
+> > > > > > other type.
+> > > > >
+> > > > > If we change view and see this from the perspective of m25p80, it=
+ models the
+> > > > > commands a certain way and provides an API that the SPI controlle=
+rs need to
+> > > > > implement for interacting with it. It is true that there are SPI =
+controllers
+> > > > > referred to above that do not support the portion of that API tha=
+t corresponds
+> > > > > to commands with dummy clock cycles, but I don't think it is true=
+ that this is
+> > > > > broken since there is also one SPI controller that has a working =
+implementation
+> > > > > of m25p80's full API also when transfering through a tx fifo (use=
+ case 1). But
+> > > > > as mentioned above, by doing a minor extension and improvement to=
+ m25p80's API
+> > > > > and allow for toggling the accuracy from dummy clock cycles to du=
+mmy bytes [1]
+> > > > > will still be honored as in the same time making it possible to h=
+ave full
+> > > > > support for the API in the SPI controllers that currently do not =
+(please reread
+> > > > > the proposal in my previous reply that attempts to do this). I my=
+self see this
+> > > > > as win/win situation, also because no controller should need modi=
+fications.
+> > > > >
+> > > >
+> > > > I am afraid your proposal does not work. Your proposed new device
+> > > > property 'model_dummy_bytes' to select to convert the accurate dumm=
+y
+> > > > clock cycle count to dummy bytes inside m25p80, is hard to justify =
+as
+> > > > a property to the flash itself, as the behavior is tightly coupled =
+to
+> > > > how the SPI controller works.
+> > >
+> > > I agree on above. I decided though that instead of posting sample cod=
+e in here
+> > > I'll post an RFC with hopefully an improved proposal. I'll cc you. Ab=
+out below,
+> > > Xilinx ZynqMP GQSPI should not need any modication in a first step.
+> > >
+> >
+> > Wait, (see below)
+> >
+> > > >
+> > > > Please take a look at the Xilinx GQSPI controller, which supports b=
+oth
+> > > > use cases, that the dummy cycles can be transferred via tx fifo, or
+> > > > generated by the controller automatically. Please read the example
+> > > > given in:
+> > > >
+> > > >     table 24=E2=80=9022, an example of Generic FIFO Contents for Qu=
+ad I/O Read
+> > > > Command (EBh)
+> > > >
+> > > > in https://www.xilinx.com/support/documentation/user_guides/ug1085-=
+zynq-ultrascale-trm.pdf
+> > > >
+> > > > If you choose to set the m25p80 device property 'model_dummy_bytes'=
+ to
+> > > > true when working with the Xilinx GQSPI controller, you are bound t=
+o
+> > > > only allow guest software to use tx fifo to transfer the dummy cycl=
+es,
+> > > > and this is wrong.
+> > > >
+> >
+> > You missed this part. I looked at your RFC, and as I mentioned above
+> > your proposal cannot support the complicated controller like Xilinx
+> > GQSPI. Please read the example of table 24-22. With your RFC, you
+> > mandate guest software's GQSPI driver to only use hardware dummy cycle
+> > generation, which is wrong.
+> >
+>
+> First, thank you very much for looking into the RFC series, very much
+> appreciated. Secondly, about above, the GQSPI model in QEMU transfers fro=
+m 2
+> locations in the file, in 1 location the transfer referred to above is do=
+ne, in
+> another location the transfer through the txfifo is done. The location wh=
+ere
+> transfer referred to above is done will not need any modifications (and w=
+ill
+> thus work equally well as it does currently).
 
->> ---
->>   include/exec/memory.h  |   7 ++
->>   migration/ram.c        | 269 +++++++++++++++++++++++++++++++++++++++--
->>   migration/ram.h        |   2 +
->>   migration/trace-events |   2 +
->>   4 files changed, 272 insertions(+), 8 deletions(-)
->>
->> diff --git a/include/exec/memory.h b/include/exec/memory.h
->> index b76b1256bf..1aa1c6a3f4 100644
->> --- a/include/exec/memory.h
->> +++ b/include/exec/memory.h
->> @@ -150,6 +150,13 @@ typedef struct IOMMUTLBEvent {
->>   #define RAM_PMEM (1 << 5)
->>   
->>   
->> +/*
->> + * UFFDIO_WRITEPROTECT is used on this RAMBlock to
->> + * support 'write-tracking' migration type.
->> + * Implies ram_state->ram_wt_enabled.
->> + */
->> +#define RAM_UF_WRITEPROTECT (1 << 6)
->> +
->>   static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
->>                                          IOMMUNotifierFlag flags,
->>                                          hwaddr start, hwaddr end,
->> diff --git a/migration/ram.c b/migration/ram.c
->> index ae8de17153..5707382db1 100644
->> --- a/migration/ram.c
->> +++ b/migration/ram.c
->> @@ -56,6 +56,11 @@
->>   #include "savevm.h"
->>   #include "qemu/iov.h"
->>   #include "multifd.h"
->> +#include "sysemu/runstate.h"
->> +
->> +#ifdef CONFIG_LINUX
->> +#include "qemu/userfaultfd.h"
->> +#endif
->>   
->>   /***********************************************************/
->>   /* ram save/restore */
->> @@ -298,6 +303,8 @@ struct RAMSrcPageRequest {
->>   struct RAMState {
->>       /* QEMUFile used for this migration */
->>       QEMUFile *f;
->> +    /* UFFD file descriptor, used in 'write-tracking' migration */
->> +    int uffdio_fd;
->>       /* Last block that we have visited searching for dirty pages */
->>       RAMBlock *last_seen_block;
->>       /* Last block from where we have sent data */
->> @@ -1434,6 +1441,40 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
->>       return block;
->>   }
->>   
->> +#ifdef CONFIG_LINUX
->> +/**
->> + * poll_fault_page: try to get next UFFD write fault page and, if pending fault
->> + *   is found, return RAM block pointer and page offset
->> + *
->> + * Returns pointer to the RAMBlock containing faulting page,
->> + *   NULL if no write faults are pending
->> + *
->> + * @rs: current RAM state
->> + * @offset: page offset from the beginning of the block
->> + */
->> +static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
->> +{
->> +    struct uffd_msg uffd_msg;
->> +    void *page_address;
->> +    RAMBlock *bs;
->> +    int res;
->> +
->> +    if (!migrate_background_snapshot()) {
->> +        return NULL;
->> +    }
->> +
->> +    res = uffd_read_events(rs->uffdio_fd, &uffd_msg, 1);
->> +    if (res <= 0) {
->> +        return NULL;
->> +    }
->> +
->> +    page_address = (void *) uffd_msg.arg.pagefault.address;
->> +    bs = qemu_ram_block_from_host(page_address, false, offset);
->> +    assert(bs && (bs->flags & RAM_UF_WRITEPROTECT) != 0);
->> +    return bs;
->> +}
->> +#endif /* CONFIG_LINUX */
->> +
->>   /**
->>    * get_queued_page: unqueue a page from the postcopy requests
->>    *
->> @@ -1473,6 +1514,16 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
->>   
->>       } while (block && !dirty);
->>   
->> +#ifdef CONFIG_LINUX
->> +    if (!block) {
->> +        /*
->> +         * Poll write faults too if background snapshot is enabled; that's
->> +         * when we have vcpus got blocked by the write protected pages.
->> +         */
->> +        block = poll_fault_page(rs, &offset);
->> +    }
->> +#endif /* CONFIG_LINUX */
->> +
->>       if (block) {
->>           /*
->>            * As soon as we start servicing pages out of order, then we have
->> @@ -1746,6 +1797,53 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
->>       return pages;
->>   }
->>   
->> +/**
->> + * ram_save_host_page_pre: ram_save_host_page() pre-notifier
->> + *
->> + * @rs: current RAM state
->> + * @pss: page-search-status structure
->> + * @opaque: pointer to receive opaque context value
->> + */
->> +static inline
->> +void ram_save_host_page_pre(RAMState *rs, PageSearchStatus *pss, void **opaque)
->> +{
->> +    *(unsigned long *) opaque = pss->page;
->> +}
->> +
->> +/**
->> + * ram_save_host_page_post: ram_save_host_page() post-notifier
->> + *
->> + * @rs: current RAM state
->> + * @pss: page-search-status structure
->> + * @opaque: opaque context value
->> + * @res_override: pointer to the return value of ram_save_host_page(),
->> + *   overwritten in case of an error
->> + */
->> +static void ram_save_host_page_post(RAMState *rs, PageSearchStatus *pss,
->> +        void *opaque, int *res_override)
->> +{
->> +#ifdef CONFIG_LINUX
->> +    /* Check if page is from UFFD-managed region. */
->> +    if (pss->block->flags & RAM_UF_WRITEPROTECT) {
->> +        unsigned long page_from = (unsigned long) opaque;
->> +
->> +        void *page_address = pss->block->host + (page_from << TARGET_PAGE_BITS);
->> +        uint64_t run_length = (pss->page - page_from + 1) << TARGET_PAGE_BITS;
->> +        int res;
->> +
->> +        /* Flush async buffers before un-protect. */
->> +        qemu_fflush(rs->f);
->> +        /* Un-protect memory range. */
->> +        res = uffd_change_protection(rs->uffdio_fd, page_address, run_length,
->> +                false, false);
->> +        /* We don't want to override existing error from ram_save_host_page(). */
->> +        if (res < 0 && *res_override >= 0) {
->> +            *res_override = res;
->> +        }
->> +    }
->> +#endif /* CONFIG_LINUX */
->> +}
->> +
->>   /**
->>    * ram_find_and_save_block: finds a dirty page and sends it to f
->>    *
->> @@ -1790,7 +1888,11 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
->>           }
->>   
->>           if (found) {
->> +            void *opaque;
->> +
->> +            ram_save_host_page_pre(rs, &pss, &opaque);
->>               pages = ram_save_host_page(rs, &pss, last_stage);
->> +            ram_save_host_page_post(rs, &pss, opaque, &pages);
->>           }
->>       } while (!pages && again);
->>   
->> @@ -1880,10 +1982,13 @@ static void ram_save_cleanup(void *opaque)
->>       RAMState **rsp = opaque;
->>       RAMBlock *block;
->>   
->> -    /* caller have hold iothread lock or is in a bh, so there is
->> -     * no writing race against the migration bitmap
->> -     */
->> -    memory_global_dirty_log_stop();
->> +    /* We don't use dirty log with background snapshots */
->> +    if (!migrate_background_snapshot()) {
->> +        /* caller have hold iothread lock or is in a bh, so there is
->> +         * no writing race against the migration bitmap
->> +         */
->> +        memory_global_dirty_log_stop();
->> +    }
->>   
->>       RAMBLOCK_FOREACH_NOT_IGNORED(block) {
->>           g_free(block->clear_bmap);
->> @@ -2343,8 +2448,11 @@ static void ram_init_bitmaps(RAMState *rs)
->>   
->>       WITH_RCU_READ_LOCK_GUARD() {
->>           ram_list_init_bitmaps();
->> -        memory_global_dirty_log_start();
->> -        migration_bitmap_sync_precopy(rs);
->> +        /* We don't use dirty log with background snapshots */
->> +        if (!migrate_background_snapshot()) {
->> +            memory_global_dirty_log_start();
->> +            migration_bitmap_sync_precopy(rs);
->> +        }
->>       }
->>       qemu_mutex_unlock_ramlist();
->>       qemu_mutex_unlock_iothread();
->> @@ -3794,7 +3902,14 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
->>    */
->>   bool ram_write_tracking_available(void)
->>   {
->> -    /* TODO: implement */
->> +#ifdef CONFIG_LINUX
->> +    uint64_t uffd_features;
->> +    int res;
->> +
->> +    res = uffd_query_features(&uffd_features);
->> +    return (res == 0 &&
->> +            (uffd_features & UFFD_FEATURE_PAGEFAULT_FLAG_WP) != 0);
->> +#endif
->>       return false;
->>   }
->>   
->> @@ -3805,10 +3920,148 @@ bool ram_write_tracking_available(void)
->>    */
->>   bool ram_write_tracking_compatible(void)
->>   {
->> -    /* TODO: implement */
->> +#ifdef CONFIG_LINUX
->> +    const uint64_t uffd_ioctls_mask = BIT(_UFFDIO_WRITEPROTECT);
->> +    int uffd_fd;
->> +    RAMBlock *bs;
->> +    bool ret = false;
->> +
->> +    /* Open UFFD file descriptor */
->> +    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, false);
->> +    if (uffd_fd < 0) {
->> +        return false;
->> +    }
->> +
->> +    RCU_READ_LOCK_GUARD();
->> +
->> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
->> +        uint64_t uffd_ioctls;
->> +
->> +        /* Nothing to do with read-only and MMIO-writable regions */
->> +        if (bs->mr->readonly || bs->mr->rom_device) {
->> +            continue;
->> +        }
->> +        /* Try to register block memory via UFFD-IO to track writes */
->> +        if (uffd_register_memory(uffd_fd, bs->host, bs->max_length,
->> +                UFFDIO_REGISTER_MODE_WP, &uffd_ioctls)) {
->> +            goto out;
->> +        }
->> +        if ((uffd_ioctls & uffd_ioctls_mask) != uffd_ioctls_mask) {
->> +            goto out;
->> +        }
->> +    }
->> +    ret = true;
->> +
->> +out:
->> +    uffd_close_fd(uffd_fd);
->> +    return ret;
->> +#endif
->>       return false;
->>   }
->>   
->> +/*
->> + * ram_write_tracking_start: start UFFD-WP memory tracking
->> + *
->> + * Returns 0 for success or negative value in case of error
->> + */
->> +int ram_write_tracking_start(void)
->> +{
->> +#ifdef CONFIG_LINUX
->> +    int uffd_fd;
->> +    RAMState *rs = ram_state;
->> +    RAMBlock *bs;
->> +
->> +    /* Open UFFD file descriptor */
->> +    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, true);
->> +    if (uffd_fd < 0) {
->> +        return uffd_fd;
->> +    }
->> +    rs->uffdio_fd = uffd_fd;
->> +
->> +    RCU_READ_LOCK_GUARD();
->> +
->> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
->> +        /* Nothing to do with read-only and MMIO-writable regions */
->> +        if (bs->mr->readonly || bs->mr->rom_device) {
->> +            continue;
->> +        }
->> +
->> +        /* Register block memory with UFFD to track writes */
->> +        if (uffd_register_memory(rs->uffdio_fd, bs->host,
->> +                bs->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
->> +            goto fail;
->> +        }
->> +        /* Apply UFFD write protection to the block memory range */
->> +        if (uffd_change_protection(rs->uffdio_fd, bs->host,
->> +                bs->max_length, true, false)) {
->> +            goto fail;
->> +        }
->> +        bs->flags |= RAM_UF_WRITEPROTECT;
->> +        memory_region_ref(bs->mr);
->> +
->> +        trace_ram_write_tracking_ramblock_start(bs->idstr, bs->page_size,
->> +                bs->host, bs->max_length);
->> +    }
->> +
->> +    return 0;
->> +
->> +fail:
->> +    error_report("ram_write_tracking_start() failed: restoring initial memory state");
->> +
->> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
->> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
->> +            continue;
->> +        }
->> +        /*
->> +         * In case some memory block failed to be write-protected
->> +         * remove protection and unregister all succeeded RAM blocks
->> +         */
->> +        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
->> +        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
->> +        /* Cleanup flags and remove reference */
->> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
->> +        memory_region_unref(bs->mr);
->> +    }
->> +
->> +    uffd_close_fd(uffd_fd);
->> +#endif /* CONFIG_LINUX */
->> +    rs->uffdio_fd = -1;
->> +    return -1;
->> +}
->> +
->> +/**
->> + * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
->> + */
->> +void ram_write_tracking_stop(void)
->> +{
->> +#ifdef CONFIG_LINUX
->> +    RAMState *rs = ram_state;
->> +    RAMBlock *bs;
->> +
->> +    RCU_READ_LOCK_GUARD();
->> +
->> +    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
->> +        if ((bs->flags & RAM_UF_WRITEPROTECT) == 0) {
->> +            continue;
->> +        }
->> +        /* Remove protection and unregister all affected RAM blocks */
->> +        uffd_change_protection(rs->uffdio_fd, bs->host, bs->max_length, false, false);
->> +        uffd_unregister_memory(rs->uffdio_fd, bs->host, bs->max_length);
->> +
->> +        trace_ram_write_tracking_ramblock_stop(bs->idstr, bs->page_size,
->> +                bs->host, bs->max_length);
->> +
->> +        /* Cleanup flags and remove reference */
->> +        bs->flags &= ~RAM_UF_WRITEPROTECT;
->> +        memory_region_unref(bs->mr);
->> +    }
->> +
->> +    /* Finally close UFFD file descriptor */
->> +    uffd_close_fd(rs->uffdio_fd);
->> +    rs->uffdio_fd = -1;
->> +#endif /* CONFIG_LINUX */
->> +}
->> +
->>   static SaveVMHandlers savevm_ram_handlers = {
->>       .save_setup = ram_save_setup,
->>       .save_live_iterate = ram_save_iterate,
->> diff --git a/migration/ram.h b/migration/ram.h
->> index 1a9ff90304..c25540cb93 100644
->> --- a/migration/ram.h
->> +++ b/migration/ram.h
->> @@ -82,5 +82,7 @@ void colo_incoming_start_dirty_log(void);
->>   /* Background snapshot */
->>   bool ram_write_tracking_available(void);
->>   bool ram_write_tracking_compatible(void);
->> +int ram_write_tracking_start(void);
->> +void ram_write_tracking_stop(void);
->>   
->>   #endif
->> diff --git a/migration/trace-events b/migration/trace-events
->> index 75de5004ac..668c562fed 100644
->> --- a/migration/trace-events
->> +++ b/migration/trace-events
->> @@ -111,6 +111,8 @@ save_xbzrle_page_skipping(void) ""
->>   save_xbzrle_page_overflow(void) ""
->>   ram_save_iterate_big_wait(uint64_t milliconds, int iterations) "big wait: %" PRIu64 " milliseconds, %d iterations"
->>   ram_load_complete(int ret, uint64_t seq_iter) "exit_code %d seq iteration %" PRIu64
->> +ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
->> +ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) "%s: page_size: %zu addr: %p length: %zu"
->>   
->>   # multifd.c
->>   multifd_new_send_channel_async(uint8_t id) "channel %d"
->> -- 
->> 2.25.1
->>
+Please explain this a little bit. How does your RFC series handle
+cases as described in table 24-22, where the 6 dummy cycles are split
+into 2 transfers, with one transfer using tx fifo, and the other one
+using hardware dummy cycle generation?
 
--- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                 virtuzzo.com
+>
+> Now that above has is cleared out, and since I know you are heavily loade=
+d with
+> other higher prio tasks, lets wait for the maintainers to also have a loo=
+k into
+> the RFC (understandibly this can take some time due to that they also are
+> heavily loaded).
 
+Yes, maintainers are pretty much silent on this topic.
 
---------------EE91B1735D871D2F7506D030
-Content-Type: text/html; charset=utf-8
-Content-Transfer-Encoding: 7bit
+However may I ask you to provide more details on my questions below on
+booting U-Boot/Linux with the QEMU?
 
-<html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <div class="moz-cite-prefix">On 19.01.2021 20:49, Dr. David Alan
-      Gilbert wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:20210119174935.GI3008@work-vm">
-      <pre class="moz-quote-pre" wrap="">* Andrey Gruzdev (<a class="moz-txt-link-abbreviated" href="mailto:andrey.gruzdev@virtuozzo.com">andrey.gruzdev@virtuozzo.com</a>) wrote:
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">In this particular implementation the same single migration
-thread is responsible for both normal linear dirty page
-migration and procesing UFFD page fault events.
+You can post patches to add documentation for zynqmp in
+docs/system/arm, or once I get a working instructions, I could do that
+too. Much appreciated.
 
-Processing write faults includes reading UFFD file descriptor,
-finding respective RAM block and saving faulting page to
-the migration stream. After page has been saved, write protection
-can be removed. Since asynchronous version of qemu_put_buffer()
-is expected to be used to save pages, we also have to flush
-migraion stream prior to un-protecting saved memory range.
+>
+> Best regards,
+> Francisco Iglesias
+>
+>
+> > > > >
+> > > > > >
+> > > > > > > for the commands is because no request has been made for them=
+. Also there is
+> > > > > > > one controller that has support.
+> > > > > >
+> > > > > > Definitely it's not "no request". Nearly all SPI flashes suppor=
+t the
+> > > > > > Fast Read (0Bh) command today, and 0Bh requires a dummy cycle. =
+This is
+> > > > > > "seriously broken" for those case 1 type controllers because th=
+ey
+> > > > > > cannot read anything from the m25p80 model at all. Unless the g=
+uest
+> > > > > > software being tested only uses Read (03h) command which is not
+> > > > > > affected. But I can't find a software that uses Read instead of=
+ Fast
+> > > > > > Read.
+> > > > > >
+> > > > > > > > The issue you pointed out that we require the total number =
+of dummy
+> > > > > > > > bits should be multiple of 8 is true, that's why I added th=
+e
+> > > > > > > > unimplemented log message in this series (patch 2/3/4) to w=
+arn users
+> > > > > > > > if this expectation is not met. However this will not cause=
+ any issue
+> > > > > > > > when running U-Boot or Linux, because both spi-nor drivers =
+expect the
+> > > > > > > > same assumption as we do here.
+> > > > > > > >
+> > > > > > > > See U-Boot spi_nor_read_data() and Linux spi_nor_spimem_rea=
+d_data(),
+> > > > > > > > there is a logic to calculate the dummy bytes needed for fa=
+st read
+> > > > > > > > command:
+> > > > > > > >
+> > > > > > > >     /* convert the dummy cycles to the number of bytes */
+> > > > > > > >     op.dummy.nbytes =3D (nor->read_dummy * op.dummy.buswidt=
+h) / 8;
+> > > > > > > >
+> > > > > > > > Note the default dummy cycles configuration for all flashes=
+ I have
+> > > > > > > > looked into as of today, meets the multiple of 8 assumption=
+. On some
+> > > > > > > > flashes the dummy cycle number is configurable, and if it's=
+ been
+> > > > > > > > configured to be an odd value, it would not work on U-Boot/=
+Linux in
+> > > > > > > > the first place.
+> > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > Things get complicated when interacting with different =
+SPI or QSPI
+> > > > > > > > > > flash controllers. There are major two cases:
+> > > > > > > > > >
+> > > > > > > > > > - Dummy bytes prepared by drivers, and wrote to the con=
+troller fifo.
+> > > > > > > > > >   For such case, driver will calculate the correct numb=
+er of dummy
+> > > > > > > > > >   bytes and write them into the tx fifo. Fixing the m25=
+p80 model will
+> > > > > > > > > >   fix flashes working with such controllers.
+> > > > > > > > >
+> > > > > > > > > Above can be fixed while still keeping the detailed dummy=
+ cycle implementation
+> > > > > > > > > inside m25p80. Perhaps one of the following could be look=
+ed into: configurating
+> > > > > > > > > the amount, letting the spi ctrl fetch the amount from m2=
+5p80 or by inheriting
+> > > > > > > > > some functionality handling this in the SPI controller. O=
+r a mixture of above.
+> > > > > > > >
+> > > > > > > > Please send patches to explain this in detail how this is g=
+oing to
+> > > > > > > > work. I am open to all possible solutions.
+> > > > > > >
+> > > > > > > In that case I suggest that you instead try with a device pro=
+perty
+> > > > > > > 'model_dummy_bytes' used to select to convert the accurate du=
+mmy clock cycle
+> > > > > > > count to dummy bytes inside m25p80. Below is an example on ho=
+w to modify the
+> > > > > >
+> > > > > > No this is wrong in my view. This is not like a DMA vs. PIO han=
+dling.
+> > > > > >
+> > > > > > > decode_fast_read_cmd function (the other commands requiring d=
+ummy clock cycles
+> > > > > > > can follow a similar pattern). This way the fifo mode will be=
+ able to work the
+> > > > > > > way you desire while also keeping the current functionality i=
+ntact. Suddenly
+> > > > > > > removing functionality (features) will take users by surprise=
+.
+> > > > > >
+> > > > > > I don't think we are removing any features. This is a fix to ma=
+ke the
+> > > > > > model to be used by any SPI controllers.
+> > > > > >
+> > > > > > As I pointed out, both U-Boot and Linux have the multiple of 8
+> > > > > > assumption for the dummy bit, which is the default configuratio=
+n for
+> > > > > > all flashes I have looked into so far. Can you please comment w=
+hat use
+> > > > > > case you want to support? I requested a U-Boot/Linux kernel tes=
+ting in
+> > > > > > the previous SST thread [1] against Xilinx GQSPI but there was =
+no
+> > > > > > response.
+> > > > >
+> > > > > In [2] instructions on how to boot u-boot/Linux is found. For bui=
+lding the
+> > > > > various software components I followed the official doc in [3].
+> > > >
+> > > > I see the following QEMU commands are used to test booting U-Boot/L=
+inux:
+> > > >
+> > > > $ qemu-system-aarch64 -M xlnx-zcu102,secure=3Don,virtualization=3Do=
+n -m 4G
+> > > > -serial stdio -display none -device loader,file=3Du-boot.elf -kerne=
+l
+> > > > bl31.elf -device loader,addr=3D0x40000000,file=3DImage -device
+> > > > loader,addr=3D0x2000000,file=3Dsystem.dtb
+> > > >
+> > > > I am not sure where the system.dtb gets built from?
+> > >
+> > > It is the instructions in [2] to look into. 'system.dtb' is the kerne=
+l dtb for
+> > > zcu102 ([2] has been fixed). I created [2] purely for you, so respect=
+fully I
+> > > will ask you to try a little first before asking for further guidance=
+.
+> > >
+> >
+> > I tried, but no success. I removed the "-device loader" part for
+> > loading kernel image and the device tree, and only focused on booting
+> > U-Boot.
+> >
+> > The ATF bl31.elf was built from
+> > https://github.com/ARM-software/arm-trusted-firmware, by following
+> > build instructions at
+> > https://trustedfirmware-a.readthedocs.io/en/latest/plat/xilinx-zynqmp.h=
+tml.
+> > U-Boot was built from the upstream U-Boot.
+> >
+> > $ ./qemu-system-aarch64 -M xlnx-zcu102,secure=3Don,virtualization=3Don =
+-m
+> > 4G -serial stdio -display none -device loader,file=3Du-boot.elf -kernel
+> > bl31.elf
+> > ERROR:   Incorrect XILINX IDCODE 0x0, maskid 0x4600093
+> > NOTICE:  ATF running on XCZUUNKN/silicon v1/RTL0.0 at 0xfffea000
+> > NOTICE:  BL31: v2.4(release):v2.4-228-g337e493
+> > NOTICE:  BL31: Built : 21:18:14, Jan 20 2021
+> > ERROR:   BL31: Platform Management API version error. Expected: v1.1 -
+> > Found: v0.0
+> > ERROR:   Error initializing runtime service sip_svc
+> >
+> > I also tried the Xilinx fork of ATF from
+> > https://github.com/Xilinx/arm-trusted-firmware, by following build
+> > instructions at
+> > https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/18842305/Build+AR=
+M+Trusted+Firmware+ATF
+> >
+> > $ ./qemu-system-aarch64 -M xlnx-zcu102,secure=3Don,virtualization=3Don =
+-m
+> > 4G -serial stdio -display none -device loader,file=3Du-boot.elf -kernel
+> > bl31.elf
+> > ERROR:   Incorrect XILINX IDCODE 0x0, maskid 0x4600093
+> > NOTICE:  ATF running on XCZUUNKN/silicon v1/RTL0.0 at 0xfffea000
+> > NOTICE:  BL31: v2.2(release):xilinx-v2020.2
+> > NOTICE:  BL31: Built : 21:52:38, Jan 20 2021
+> > ERROR:   BL31: Platform Management API version error. Expected: v1.1 -
+> > Found: v0.0
+> > ERROR:   Error initializing runtime service sip_svc
+> >
+> > Then I tried to build a U-Boot from the Xilinx fork at
+> > https://github.com/Xilinx/u-boot-xlnx/, still no success.
+> >
+> > > Best regards,
+> > > Francisco Iglesias
+> > >
+> > > [1] qemu/docs/system/deprecated.rst
+> > > [2] https://github.com/franciscoIglesias/qemu-cmdline/blob/master/xln=
+x-zcu102-atf-u-boot-linux.md
+> > >
 
-Write protection is being removed for any previously protected
-memory chunk that has hit the migration stream. That's valid
-for pages from linear page scan along with write fault pages.
-
-Signed-off-by: Andrey Gruzdev <a class="moz-txt-link-rfc2396E" href="mailto:andrey.gruzdev@virtuozzo.com">&lt;andrey.gruzdev@virtuozzo.com&gt;</a>
-Acked-by: Peter Xu <a class="moz-txt-link-rfc2396E" href="mailto:peterx@redhat.com">&lt;peterx@redhat.com&gt;</a>
-</pre>
-      </blockquote>
-      <pre class="moz-quote-pre" wrap="">
-I think this is OK, so:
-
-Reviewed-by: Dr. David Alan Gilbert <a class="moz-txt-link-rfc2396E" href="mailto:dgilbert@redhat.com">&lt;dgilbert@redhat.com&gt;</a>
-
-I think I'd have preferred to have kept the #ifdef LINUX's out of there,
-and I suspect using the opaque's for hte pre/post hook is overly
-complex; but other wise OK.
-
-Dave
-</pre>
-    </blockquote>
-    <br>
-    <pre class="moz-quote-pre" wrap="">Mm, I think it's impossible to completely move #ifdef LINUX out of there,
-but I suspect all #ifdef LINUX code can be moved to a single place with
-stubs for the #else case.. Suppose it would be better then now.
-For pre/post hooks - not too complex, but for single #ifdef section it really
-looks better to move this stuff to ram_save_host_page()<span style="color:#00627a;">.
-</span></pre>
-    <pre>Andrey
-</pre>
-    <blockquote type="cite" cite="mid:20210119174935.GI3008@work-vm">
-      <pre class="moz-quote-pre" wrap="">
-</pre>
-      <blockquote type="cite">
-        <pre class="moz-quote-pre" wrap="">---
- include/exec/memory.h  |   7 ++
- migration/ram.c        | 269 +++++++++++++++++++++++++++++++++++++++--
- migration/ram.h        |   2 +
- migration/trace-events |   2 +
- 4 files changed, 272 insertions(+), 8 deletions(-)
-
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index b76b1256bf..1aa1c6a3f4 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -150,6 +150,13 @@ typedef struct IOMMUTLBEvent {
- #define RAM_PMEM (1 &lt;&lt; 5)
- 
- 
-+/*
-+ * UFFDIO_WRITEPROTECT is used on this RAMBlock to
-+ * support 'write-tracking' migration type.
-+ * Implies ram_state-&gt;ram_wt_enabled.
-+ */
-+#define RAM_UF_WRITEPROTECT (1 &lt;&lt; 6)
-+
- static inline void iommu_notifier_init(IOMMUNotifier *n, IOMMUNotify fn,
-                                        IOMMUNotifierFlag flags,
-                                        hwaddr start, hwaddr end,
-diff --git a/migration/ram.c b/migration/ram.c
-index ae8de17153..5707382db1 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -56,6 +56,11 @@
- #include &quot;savevm.h&quot;
- #include &quot;qemu/iov.h&quot;
- #include &quot;multifd.h&quot;
-+#include &quot;sysemu/runstate.h&quot;
-+
-+#ifdef CONFIG_LINUX
-+#include &quot;qemu/userfaultfd.h&quot;
-+#endif
- 
- /***********************************************************/
- /* ram save/restore */
-@@ -298,6 +303,8 @@ struct RAMSrcPageRequest {
- struct RAMState {
-     /* QEMUFile used for this migration */
-     QEMUFile *f;
-+    /* UFFD file descriptor, used in 'write-tracking' migration */
-+    int uffdio_fd;
-     /* Last block that we have visited searching for dirty pages */
-     RAMBlock *last_seen_block;
-     /* Last block from where we have sent data */
-@@ -1434,6 +1441,40 @@ static RAMBlock *unqueue_page(RAMState *rs, ram_addr_t *offset)
-     return block;
- }
- 
-+#ifdef CONFIG_LINUX
-+/**
-+ * poll_fault_page: try to get next UFFD write fault page and, if pending fault
-+ *   is found, return RAM block pointer and page offset
-+ *
-+ * Returns pointer to the RAMBlock containing faulting page,
-+ *   NULL if no write faults are pending
-+ *
-+ * @rs: current RAM state
-+ * @offset: page offset from the beginning of the block
-+ */
-+static RAMBlock *poll_fault_page(RAMState *rs, ram_addr_t *offset)
-+{
-+    struct uffd_msg uffd_msg;
-+    void *page_address;
-+    RAMBlock *bs;
-+    int res;
-+
-+    if (!migrate_background_snapshot()) {
-+        return NULL;
-+    }
-+
-+    res = uffd_read_events(rs-&gt;uffdio_fd, &amp;uffd_msg, 1);
-+    if (res &lt;= 0) {
-+        return NULL;
-+    }
-+
-+    page_address = (void *) uffd_msg.arg.pagefault.address;
-+    bs = qemu_ram_block_from_host(page_address, false, offset);
-+    assert(bs &amp;&amp; (bs-&gt;flags &amp; RAM_UF_WRITEPROTECT) != 0);
-+    return bs;
-+}
-+#endif /* CONFIG_LINUX */
-+
- /**
-  * get_queued_page: unqueue a page from the postcopy requests
-  *
-@@ -1473,6 +1514,16 @@ static bool get_queued_page(RAMState *rs, PageSearchStatus *pss)
- 
-     } while (block &amp;&amp; !dirty);
- 
-+#ifdef CONFIG_LINUX
-+    if (!block) {
-+        /*
-+         * Poll write faults too if background snapshot is enabled; that's
-+         * when we have vcpus got blocked by the write protected pages.
-+         */
-+        block = poll_fault_page(rs, &amp;offset);
-+    }
-+#endif /* CONFIG_LINUX */
-+
-     if (block) {
-         /*
-          * As soon as we start servicing pages out of order, then we have
-@@ -1746,6 +1797,53 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss,
-     return pages;
- }
- 
-+/**
-+ * ram_save_host_page_pre: ram_save_host_page() pre-notifier
-+ *
-+ * @rs: current RAM state
-+ * @pss: page-search-status structure
-+ * @opaque: pointer to receive opaque context value
-+ */
-+static inline
-+void ram_save_host_page_pre(RAMState *rs, PageSearchStatus *pss, void **opaque)
-+{
-+    *(unsigned long *) opaque = pss-&gt;page;
-+}
-+
-+/**
-+ * ram_save_host_page_post: ram_save_host_page() post-notifier
-+ *
-+ * @rs: current RAM state
-+ * @pss: page-search-status structure
-+ * @opaque: opaque context value
-+ * @res_override: pointer to the return value of ram_save_host_page(),
-+ *   overwritten in case of an error
-+ */
-+static void ram_save_host_page_post(RAMState *rs, PageSearchStatus *pss,
-+        void *opaque, int *res_override)
-+{
-+#ifdef CONFIG_LINUX
-+    /* Check if page is from UFFD-managed region. */
-+    if (pss-&gt;block-&gt;flags &amp; RAM_UF_WRITEPROTECT) {
-+        unsigned long page_from = (unsigned long) opaque;
-+
-+        void *page_address = pss-&gt;block-&gt;host + (page_from &lt;&lt; TARGET_PAGE_BITS);
-+        uint64_t run_length = (pss-&gt;page - page_from + 1) &lt;&lt; TARGET_PAGE_BITS;
-+        int res;
-+
-+        /* Flush async buffers before un-protect. */
-+        qemu_fflush(rs-&gt;f);
-+        /* Un-protect memory range. */
-+        res = uffd_change_protection(rs-&gt;uffdio_fd, page_address, run_length,
-+                false, false);
-+        /* We don't want to override existing error from ram_save_host_page(). */
-+        if (res &lt; 0 &amp;&amp; *res_override &gt;= 0) {
-+            *res_override = res;
-+        }
-+    }
-+#endif /* CONFIG_LINUX */
-+}
-+
- /**
-  * ram_find_and_save_block: finds a dirty page and sends it to f
-  *
-@@ -1790,7 +1888,11 @@ static int ram_find_and_save_block(RAMState *rs, bool last_stage)
-         }
- 
-         if (found) {
-+            void *opaque;
-+
-+            ram_save_host_page_pre(rs, &amp;pss, &amp;opaque);
-             pages = ram_save_host_page(rs, &amp;pss, last_stage);
-+            ram_save_host_page_post(rs, &amp;pss, opaque, &amp;pages);
-         }
-     } while (!pages &amp;&amp; again);
- 
-@@ -1880,10 +1982,13 @@ static void ram_save_cleanup(void *opaque)
-     RAMState **rsp = opaque;
-     RAMBlock *block;
- 
--    /* caller have hold iothread lock or is in a bh, so there is
--     * no writing race against the migration bitmap
--     */
--    memory_global_dirty_log_stop();
-+    /* We don't use dirty log with background snapshots */
-+    if (!migrate_background_snapshot()) {
-+        /* caller have hold iothread lock or is in a bh, so there is
-+         * no writing race against the migration bitmap
-+         */
-+        memory_global_dirty_log_stop();
-+    }
- 
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-         g_free(block-&gt;clear_bmap);
-@@ -2343,8 +2448,11 @@ static void ram_init_bitmaps(RAMState *rs)
- 
-     WITH_RCU_READ_LOCK_GUARD() {
-         ram_list_init_bitmaps();
--        memory_global_dirty_log_start();
--        migration_bitmap_sync_precopy(rs);
-+        /* We don't use dirty log with background snapshots */
-+        if (!migrate_background_snapshot()) {
-+            memory_global_dirty_log_start();
-+            migration_bitmap_sync_precopy(rs);
-+        }
-     }
-     qemu_mutex_unlock_ramlist();
-     qemu_mutex_unlock_iothread();
-@@ -3794,7 +3902,14 @@ static int ram_resume_prepare(MigrationState *s, void *opaque)
-  */
- bool ram_write_tracking_available(void)
- {
--    /* TODO: implement */
-+#ifdef CONFIG_LINUX
-+    uint64_t uffd_features;
-+    int res;
-+
-+    res = uffd_query_features(&amp;uffd_features);
-+    return (res == 0 &amp;&amp;
-+            (uffd_features &amp; UFFD_FEATURE_PAGEFAULT_FLAG_WP) != 0);
-+#endif
-     return false;
- }
- 
-@@ -3805,10 +3920,148 @@ bool ram_write_tracking_available(void)
-  */
- bool ram_write_tracking_compatible(void)
- {
--    /* TODO: implement */
-+#ifdef CONFIG_LINUX
-+    const uint64_t uffd_ioctls_mask = BIT(_UFFDIO_WRITEPROTECT);
-+    int uffd_fd;
-+    RAMBlock *bs;
-+    bool ret = false;
-+
-+    /* Open UFFD file descriptor */
-+    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, false);
-+    if (uffd_fd &lt; 0) {
-+        return false;
-+    }
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        uint64_t uffd_ioctls;
-+
-+        /* Nothing to do with read-only and MMIO-writable regions */
-+        if (bs-&gt;mr-&gt;readonly || bs-&gt;mr-&gt;rom_device) {
-+            continue;
-+        }
-+        /* Try to register block memory via UFFD-IO to track writes */
-+        if (uffd_register_memory(uffd_fd, bs-&gt;host, bs-&gt;max_length,
-+                UFFDIO_REGISTER_MODE_WP, &amp;uffd_ioctls)) {
-+            goto out;
-+        }
-+        if ((uffd_ioctls &amp; uffd_ioctls_mask) != uffd_ioctls_mask) {
-+            goto out;
-+        }
-+    }
-+    ret = true;
-+
-+out:
-+    uffd_close_fd(uffd_fd);
-+    return ret;
-+#endif
-     return false;
- }
- 
-+/*
-+ * ram_write_tracking_start: start UFFD-WP memory tracking
-+ *
-+ * Returns 0 for success or negative value in case of error
-+ */
-+int ram_write_tracking_start(void)
-+{
-+#ifdef CONFIG_LINUX
-+    int uffd_fd;
-+    RAMState *rs = ram_state;
-+    RAMBlock *bs;
-+
-+    /* Open UFFD file descriptor */
-+    uffd_fd = uffd_create_fd(UFFD_FEATURE_PAGEFAULT_FLAG_WP, true);
-+    if (uffd_fd &lt; 0) {
-+        return uffd_fd;
-+    }
-+    rs-&gt;uffdio_fd = uffd_fd;
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        /* Nothing to do with read-only and MMIO-writable regions */
-+        if (bs-&gt;mr-&gt;readonly || bs-&gt;mr-&gt;rom_device) {
-+            continue;
-+        }
-+
-+        /* Register block memory with UFFD to track writes */
-+        if (uffd_register_memory(rs-&gt;uffdio_fd, bs-&gt;host,
-+                bs-&gt;max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
-+            goto fail;
-+        }
-+        /* Apply UFFD write protection to the block memory range */
-+        if (uffd_change_protection(rs-&gt;uffdio_fd, bs-&gt;host,
-+                bs-&gt;max_length, true, false)) {
-+            goto fail;
-+        }
-+        bs-&gt;flags |= RAM_UF_WRITEPROTECT;
-+        memory_region_ref(bs-&gt;mr);
-+
-+        trace_ram_write_tracking_ramblock_start(bs-&gt;idstr, bs-&gt;page_size,
-+                bs-&gt;host, bs-&gt;max_length);
-+    }
-+
-+    return 0;
-+
-+fail:
-+    error_report(&quot;ram_write_tracking_start() failed: restoring initial memory state&quot;);
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        if ((bs-&gt;flags &amp; RAM_UF_WRITEPROTECT) == 0) {
-+            continue;
-+        }
-+        /*
-+         * In case some memory block failed to be write-protected
-+         * remove protection and unregister all succeeded RAM blocks
-+         */
-+        uffd_change_protection(rs-&gt;uffdio_fd, bs-&gt;host, bs-&gt;max_length, false, false);
-+        uffd_unregister_memory(rs-&gt;uffdio_fd, bs-&gt;host, bs-&gt;max_length);
-+        /* Cleanup flags and remove reference */
-+        bs-&gt;flags &amp;= ~RAM_UF_WRITEPROTECT;
-+        memory_region_unref(bs-&gt;mr);
-+    }
-+
-+    uffd_close_fd(uffd_fd);
-+#endif /* CONFIG_LINUX */
-+    rs-&gt;uffdio_fd = -1;
-+    return -1;
-+}
-+
-+/**
-+ * ram_write_tracking_stop: stop UFFD-WP memory tracking and remove protection
-+ */
-+void ram_write_tracking_stop(void)
-+{
-+#ifdef CONFIG_LINUX
-+    RAMState *rs = ram_state;
-+    RAMBlock *bs;
-+
-+    RCU_READ_LOCK_GUARD();
-+
-+    RAMBLOCK_FOREACH_NOT_IGNORED(bs) {
-+        if ((bs-&gt;flags &amp; RAM_UF_WRITEPROTECT) == 0) {
-+            continue;
-+        }
-+        /* Remove protection and unregister all affected RAM blocks */
-+        uffd_change_protection(rs-&gt;uffdio_fd, bs-&gt;host, bs-&gt;max_length, false, false);
-+        uffd_unregister_memory(rs-&gt;uffdio_fd, bs-&gt;host, bs-&gt;max_length);
-+
-+        trace_ram_write_tracking_ramblock_stop(bs-&gt;idstr, bs-&gt;page_size,
-+                bs-&gt;host, bs-&gt;max_length);
-+
-+        /* Cleanup flags and remove reference */
-+        bs-&gt;flags &amp;= ~RAM_UF_WRITEPROTECT;
-+        memory_region_unref(bs-&gt;mr);
-+    }
-+
-+    /* Finally close UFFD file descriptor */
-+    uffd_close_fd(rs-&gt;uffdio_fd);
-+    rs-&gt;uffdio_fd = -1;
-+#endif /* CONFIG_LINUX */
-+}
-+
- static SaveVMHandlers savevm_ram_handlers = {
-     .save_setup = ram_save_setup,
-     .save_live_iterate = ram_save_iterate,
-diff --git a/migration/ram.h b/migration/ram.h
-index 1a9ff90304..c25540cb93 100644
---- a/migration/ram.h
-+++ b/migration/ram.h
-@@ -82,5 +82,7 @@ void colo_incoming_start_dirty_log(void);
- /* Background snapshot */
- bool ram_write_tracking_available(void);
- bool ram_write_tracking_compatible(void);
-+int ram_write_tracking_start(void);
-+void ram_write_tracking_stop(void);
- 
- #endif
-diff --git a/migration/trace-events b/migration/trace-events
-index 75de5004ac..668c562fed 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -111,6 +111,8 @@ save_xbzrle_page_skipping(void) &quot;&quot;
- save_xbzrle_page_overflow(void) &quot;&quot;
- ram_save_iterate_big_wait(uint64_t milliconds, int iterations) &quot;big wait: %&quot; PRIu64 &quot; milliseconds, %d iterations&quot;
- ram_load_complete(int ret, uint64_t seq_iter) &quot;exit_code %d seq iteration %&quot; PRIu64
-+ram_write_tracking_ramblock_start(const char *block_id, size_t page_size, void *addr, size_t length) &quot;%s: page_size: %zu addr: %p length: %zu&quot;
-+ram_write_tracking_ramblock_stop(const char *block_id, size_t page_size, void *addr, size_t length) &quot;%s: page_size: %zu addr: %p length: %zu&quot;
- 
- # multifd.c
- multifd_new_send_channel_async(uint8_t id) &quot;channel %d&quot;
--- 
-2.25.1
-
-</pre>
-      </blockquote>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class="moz-signature" cols="72">-- 
-Andrey Gruzdev, Principal Engineer
-Virtuozzo GmbH  +7-903-247-6397
-                virtuzzo.com</pre>
-  </body>
-</html>
-
---------------EE91B1735D871D2F7506D030--
+Regards,
+Bin
 
