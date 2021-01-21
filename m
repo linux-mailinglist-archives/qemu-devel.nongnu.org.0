@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 679C42FE7AC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:34:14 +0100 (CET)
-Received: from localhost ([::1]:34694 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88E632FE818
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 11:53:01 +0100 (CET)
+Received: from localhost ([::1]:43268 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2XI5-0002mF-Gn
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:34:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39340)
+	id 1l2XaF-00080p-KY
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 05:52:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2XH2-0002LM-Tx
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:33:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46523)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2XH0-0007fv-To
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:33:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611225185;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=jLG3J7iSiwvAYzeyfFmUHGkhScSc0UhzX4urzdeO/Sk=;
- b=dRtXkF981+kYmgg/gfLMNN+Vi+SDWEg3tMdxxC6abk9pAWvhaO0dnMdLGptd16uhziVBiF
- A+LT6xAWolWENZhj/SnLOSOgGlCxeSgs4NxQOLjLlSSBtkLyK+MoIc4xHAkiQao4TwKMr0
- lchIblhnG7qZB03mMJe+vboa8IkTfzI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-533-myGzlD53Nvaa7OchnYE8RQ-1; Thu, 21 Jan 2021 05:33:04 -0500
-X-MC-Unique: myGzlD53Nvaa7OchnYE8RQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6D198107ACE6;
- Thu, 21 Jan 2021 10:33:02 +0000 (UTC)
-Received: from redhat.com (ovpn-115-126.ams2.redhat.com [10.36.115.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 06A725D9C6;
- Thu, 21 Jan 2021 10:32:53 +0000 (UTC)
-Date: Thu, 21 Jan 2021 10:32:50 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
-Message-ID: <20210121103250.GH3125227@redhat.com>
-References: <20210110162739.858087-1-f4bug@amsat.org>
- <20210110162739.858087-3-f4bug@amsat.org>
- <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2XYs-0007To-Ui
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:51:34 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2XYp-00082O-1S
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 05:51:33 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l2XYl-0006LP-Jx
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 10:51:27 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 94C9B2E8144
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 10:51:27 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 21 Jan 2021 10:37:36 -0000
+From: Michael Akushsky <1750899@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor namelles.one th-huth
+X-Launchpad-Bug-Reporter: Michael Akushsky (namelles.one)
+X-Launchpad-Bug-Modifier: Michael Akushsky (namelles.one)
+References: <151924508195.2772.10456724922935523718.malonedeb@soybean.canonical.com>
+Message-Id: <161122545816.19640.8333070723607504262.launchpad@wampee.canonical.com>
+Subject: [Bug 1750899] Re: Mouse cursor sometimes can't pass the invisible
+ border on the right side of the screen
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: 3d6921f6cbc9ffb269705cc1234fa7c9a287824f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.248, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,58 +70,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1750899 <1750899@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 21, 2021 at 11:08:29AM +0100, Thomas Huth wrote:
-> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
-> > Split the current GCC build-tci job in 2, and use Clang
-> > compiler in the new job.
-> > 
-> > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> > ---
-> > RFC in case someone have better idea to optimize can respin this patch.
-> > 
-> >   .gitlab-ci.yml | 22 ++++++++++++++++++++--
-> >   1 file changed, 20 insertions(+), 2 deletions(-)
-> 
-> I'm not quite sure whether we should go down this road ... if we wanted to
-> have full test coverage for clang, we'd need to duplicate *all* jobs to run
-> them once with gcc and once with clang. And that would be just overkill.
-> 
-> I think we already catch most clang-related problems with the clang jobs
-> that we already have in our CI, so problems like the ones that you've tried
-> to address here should be very, very rare. So I'd rather vote for not
-> splitting the job here.
+** Changed in: qemu
+       Status: Expired =3D> New
 
-We can't possibly cope with the fully expanded matrix of what are
-theoretically possible combinations. Thus I think we should be guided
-by what is expected real world usage by platforms we target.
+-- =
 
-Essentially for any given distro we're testing on, our primary focus
-should be to use the toolchain that distro will build QEMU with.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1750899
 
-IOW, for Windows and Linux distros our primary focus should be GCC,
-while for macOS, and *BSD, our focus should be CLang.
+Title:
+  Mouse cursor sometimes can't pass the invisible border on the right
+  side of the screen
 
-If there are other combinations that are known to hit bugs not covered
-by the standard distro patterns above, we might add a few more jobs.
-The latter should be the exception though, otherwise our number of
-jobs will grow without bound.
+Status in QEMU:
+  New
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Bug description:
+  I'm using qemu 2.11 on Gentoo Linux, with configured GPU passthrough (Rad=
+eon RX580) to the guest Windows 10.
+  This configuration is alive for last 4 years, this time I changed a lot q=
+emu, linux kernel and windows versions, changed GPU and always all was work=
+ing as expected. I always used standard PS/2 mouse emulation and that was e=
+nough for me.
 
+  Now, I bought two new monitors, instead of old one, and setup them as
+  one logical monitor, using technology called Eyefinity - it's a part
+  of standard Radeon software. Now Windows thinks, that I have one
+  monitor with resolution 2160x1920 (I bought Dell monitors with a thin
+  borders and use them in portrait mode).
+
+  Windows uses it without any problems, but mouse become crazy - sometimes =
+(~3 times from each 5) I can't move cursor to the right border of the scree=
+n, it looks like the invisible vertical border. I spent really huge amount =
+of time to understand, which component is the root of problem and found, th=
+at it's really a mouse. I tried all possible variants (standard, tablet, vi=
+rtio-mouse-pci, virtio-tablet-pci), and found, that in both mouse variants =
+bug is reproducing, and in both tablet variants - cursor stuck near all rea=
+l borders and corners, so it's not a variant too.
+  The only working variant becomes passing real USB port to my VM and inser=
+t second mouse to this port. So, now it's working, but I have two mice on m=
+y working place, which doesn't seems very useful.
+
+  Here is my command line:
+
+  QEMU_AUDIO_DRV=3Dpa QEMU_PA_SAMPLES=3D4096 qemu-system-x86_64 -enable-kvm=
+ -M q35 -m 12168 -cpu host,kvm=3Doff -smp 4,sockets=3D1,cores=3D4 \
+  -bios /usr/share/qemu/bios.bin -rtc base=3Dlocaltime -vga none -device se=
+condary-vga \
+  -drive id=3Dvirtiocd,if=3Dnone,format=3Draw,file=3D/home/akushsky/virtio-=
+win-0.1.141.iso \
+  -device driver=3Dide-cd,bus=3Dide.1,drive=3Dvirtiocd \
+  -device ioh3420,bus=3Dpcie.0,addr=3D1c.0,multifunction=3Don,port=3D1,chas=
+sis=3D1,id=3Droot.1 \
+  -device vfio-pci,host=3D05:00.0,bus=3Droot.1,addr=3D00.0,multifunction=3D=
+on,romfile=3D/opt/kvm/images/Sapphire.RX580.8192.170320_1.bin,x-vga=3Don \
+  -device virtio-scsi-pci,id=3Dscsi \
+  -drive file=3D/dev/sdb,id=3Ddisk,format=3Draw,if=3Dnone,discard=3Don,cach=
+e=3Dnone,aio=3Dnative,detect-zeroes=3Dunmap -device scsi-hd,drive=3Ddisk,id=
+=3Dscsi0 \
+  -device ich9-intel-hda,bus=3Dpcie.0,addr=3D1b.0,id=3Dsound0 -device hda-d=
+uplex,id=3Dsound0-codec0,bus=3Dsound0.0,cad=3D0 \
+  -usb -usbdevice host:046d:c52b
+
+  All in all, I checked on Windows 7 and Windows 10, and on qemu 2.10
+  and 2.11 - bug is always reproducible.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1750899/+subscriptions
 
