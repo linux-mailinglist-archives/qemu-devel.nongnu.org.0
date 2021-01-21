@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850CA2FF7BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 23:10:44 +0100 (CET)
-Received: from localhost ([::1]:52130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7732FF7B9
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 23:08:46 +0100 (CET)
+Received: from localhost ([::1]:49952 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2iA7-0005xN-HO
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 17:10:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
+	id 1l2i8D-00053k-Eo
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 17:08:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40706)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2i4S-0002QJ-9l; Thu, 21 Jan 2021 17:04:53 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:42477)
+ id 1l2i5X-0002v5-G7; Thu, 21 Jan 2021 17:05:59 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:46736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2i4Q-0006wL-LQ; Thu, 21 Jan 2021 17:04:51 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id g24so4303785edw.9;
- Thu, 21 Jan 2021 14:04:49 -0800 (PST)
+ id 1l2i5U-0007I2-Fd; Thu, 21 Jan 2021 17:05:57 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id rv9so4806193ejb.13;
+ Thu, 21 Jan 2021 14:05:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=vuwzp+KofayMUt7tPD5F1m553xJPWL58EvfiWDj4T4A=;
- b=WMCJM4u4SiuKzCnholzsfKQlKdfXlekg0WZrNt2aT1qSU6tg/162fx7HOw2wB9sNSx
- 7bqw0nkH38itiJhKqvctXAf9A74Dk3l7n944Ud1fenvfObHjmPMkJE2vNa8MjVaCvT5Q
- 5SR/LAqVW9qNOG94FEoNwT9ReqSY3lMkbzLqyNqcJNMBzBWlsWkxOd7L6gyl1oTV9eIk
- V8IRZATg8yEOYYlDsp9C3mqaHUVI/QMqBTcF0fHmAHtOQRQCtG5LfOv6/MmJncUHiOzJ
- Lcxxa7Q59f/IFH9ad+9iDOo0roE9BV01SfCLRjDm182vs0zARhixAu4T6Bf4nCdrGEWz
- gebw==
+ bh=ePNJAgxjaVPgOhZLR3Q/I8O50UumMpXbnpxBGQ2QcF4=;
+ b=ca7ry6l6abY3ogQXSglhpriwAlgojeaO8qDN/TKtGTVMptaCy5bmQYDouN/syCkt5B
+ s8Fo3QiIIj+VUyotyyfWBDaT4uORx/gxXCntGdeuDByRK9vbdxipLUGgSTwsW/wn7dfn
+ mZnPs08xgnnsVwFhmptrEaMXnkjQ4uIdZnnuni02Gp3UOh/5SJL9OaVJE9eHQSM66G16
+ vqULV0QEOMuF2DevbR1VLS70OARJtu1fmm7pB2SX3xCw/GJ+kiOIfjeR/A4dVmLJ0X4Z
+ RPSKsN8DT5uD8aL8rp5WtabKcaTnDWfTdwy2SYk25SIDJfYWwSGtvcP06ac3K68hFQYC
+ cfpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=vuwzp+KofayMUt7tPD5F1m553xJPWL58EvfiWDj4T4A=;
- b=ab3ubxrM2IlXeLavvPYJ8LhbWIWyhgJTOlIFiqGtXSityV1kwRUZR1gsLC3zwNPS8L
- NjxHRkOKTxnSJ5WJFbnKW58/xZmr3wBuprY1UrsQzgyLeOpq2zjON6ZZhTLVbpoFAJia
- Iuj2NhGfXKVcA1Jolt+c6kyF1Bbt63luOlhZfRlTVG5JU/I+ouGfva6xccdRmd26xIzJ
- h2pnP0c4Y+Ede8RXsoTaTMN/O5s4vKf1mqBrSccVHtus5/w5eL4ol13nH/8JBXMRcDwb
- RAUJbtJ0j2j7BIxvhzXIrxRPCHzsCtqmvFhMZ0x4952w//+VpPk4CH2AHBdSVIi4GL3F
- WiYQ==
-X-Gm-Message-State: AOAM532OzwDTfyck1oOwkoeamXdzQ+QDrArETFNGXtfQjnwSqJP8lJW8
- VFGhy/QVf6+PiWAOEWiYT0k=
-X-Google-Smtp-Source: ABdhPJy2xe7iRON3CvtHBFB48QglpaGgMjfAUH6aq7uc7jqZXWiwh/pTlfcDiMSLBwGTD+wjvwEZQQ==
-X-Received: by 2002:aa7:d352:: with SMTP id m18mr972891edr.190.1611266688845; 
- Thu, 21 Jan 2021 14:04:48 -0800 (PST)
+ bh=ePNJAgxjaVPgOhZLR3Q/I8O50UumMpXbnpxBGQ2QcF4=;
+ b=Nqq8aGVsY7Qdc0Rxe3tgc2ZE8cKKgCcbaYyfpxqCdXHIfFAvysu/N3pmVNex0FNmpG
+ y5EPYzbuAyGGa4ZvItbS5hJ5f3EhpLLGPDNQQzltcksXhj10gH59+GhoAA3jw2oIX73g
+ lQUVqctiUM5hGvEHWBpsAwe68B73C4Z/MDaVrEHLoPi4CoVtKhOtm7ZiiiZ7f6w44U0n
+ PmXhx4CJKGE0zWVEPHiDC4h2ywICbHftEAPQNcY5fPB8PvmCCQnwDeFJGolc/0RsyLIl
+ gJdeIKTxaz9MX9asPZX0A3MGK6Ve+WCDTHdqbxO10CwanllK6OfpZP3O4EMA272e0tt9
+ jjHA==
+X-Gm-Message-State: AOAM533sIRj2/3i6WTSXmyVfVjJI45SvLv4Aik4lBhWdzgY5ZqPPL4HY
+ L6rNDcrO2kh9GQVI0batvDE=
+X-Google-Smtp-Source: ABdhPJyuaDRwl4qjEKabIjK4Tnv0TvuHVVBBGj8oh39B/6srrZuY6vTTh5TdzH142U2KC6qN7ZBGpg==
+X-Received: by 2002:a17:906:a1c5:: with SMTP id
+ bx5mr1059378ejb.284.1611266754789; 
+ Thu, 21 Jan 2021 14:05:54 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z1sm3593401edm.89.2021.01.21.14.04.47
+ by smtp.gmail.com with ESMTPSA id ke7sm2863264ejc.7.2021.01.21.14.05.53
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 14:04:48 -0800 (PST)
-Subject: Re: [PATCH 21/25] tests/qtest/cmsdk-apb-watchdog-test: Test clock
- changes
+ Thu, 21 Jan 2021 14:05:54 -0800 (PST)
+Subject: Re: [PATCH 22/25] hw/arm/armsse: Use Clock to set system_clock_scale
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-22-peter.maydell@linaro.org>
+ <20210121190622.22000-23-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <25e41627-e6a0-1754-6f75-0819219dc2e5@amsat.org>
-Date: Thu, 21 Jan 2021 23:04:47 +0100
+Message-ID: <b358a1c5-add4-5646-4053-8db5ae0e0c99@amsat.org>
+Date: Thu, 21 Jan 2021 23:05:53 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210121190622.22000-22-peter.maydell@linaro.org>
+In-Reply-To: <20210121190622.22000-23-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,39 +94,19 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/21/21 8:06 PM, Peter Maydell wrote:
-> Now that the CMSDK APB watchdog uses its Clock input, it will
-> correctly respond when the system clock frequency is changed using
-> the RCC register on in the Stellaris board system registers.  Test
-> that when the RCC register is written it causes the watchdog timer to
-> change speed.
+> Use the MAINCLK Clock input to set the system_clock_scale variable
+> rather than using the mainclk_frq property.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
->  tests/qtest/cmsdk-apb-watchdog-test.c | 52 +++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
-...
+> At some point we should make the SysTick take a Clock itself so
+> that we can get rid of the system_clock_scale global entirely.
+> (In fact we want two Clocks: one that is the CPU clock and one
+> for the 'external reference clock' whose period is currently
+> hardcoded at 1000ns in systick_scale()...)
+> ---
+>  hw/arm/armsse.c | 21 +++++++++++++++++----
+>  1 file changed, 17 insertions(+), 4 deletions(-)
 
-> +static void test_clock_change(void)
-> +{
-> +    uint32_t rcc;
-> +
-> +    /*
-> +     * Test that writing to the stellaris board's RCC register to
-> +     * change the system clock frequency causes the watchdog
-> +     * to change the speed it counts at.
-> +     */
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
-> +
-> +    writel(WDOG_BASE + WDOGCONTROL, 1);
-> +    writel(WDOG_BASE + WDOGLOAD, 1000);
-> +
-> +    /* Step to just past the 500th tick */
-> +    clock_step(80 * 500 + 1);
-
-I was wondering about asking you to change that 40000 in patch #3.
-Since you use that clearer form here, it would be nice to have it
-in #3 too.
-
-Otherwise,
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
