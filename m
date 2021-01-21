@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9292FF210
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:36:39 +0100 (CET)
-Received: from localhost ([::1]:55550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E9E2FF21C
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 18:38:55 +0100 (CET)
+Received: from localhost ([::1]:32830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2dss-0003zn-3Z
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:36:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58846)
+	id 1l2dv4-0006RC-Tv
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 12:38:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60238)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2doA-0000ad-MH
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:31:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32844)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2dsO-0004jY-QC
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:36:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60911)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2do9-0004rp-0q
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:31:46 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l2dsK-0006lU-Gn
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 12:36:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611250304;
+ s=mimecast20190719; t=1611250562;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=yAKhqlhY0VRE9IX5IlbeSuwNRhVCv2B+8cvxQyKu964=;
- b=ffEWFoI0I2swqF2winLMUlM1KsygLzNsQfvb0hH2lYFnFYexIRuovJ+qcvWTuqyqkHPdma
- REmadIN6momgDp3vet9vcFP1gW6sBe2w30sJFIujHJr3H4qyoY6mXS5/aypkPN4+ucC+NX
- uHGbszBlikZKV/g8GF5h6A//Piz2ndU=
+ bh=2HXB8FXwhUqBTGDXT07D3W67DubH2hPrCn1w/WeHZCs=;
+ b=Vbuoc15pp5OVZZus0dkXx7HEdC4hJcxYegUblYGVZASKBWaDPqY1kWf01j5CTd9SsRsPBe
+ vZGXFB546v+Whd9c/EdJLXz3Tu/ZulRx0k1rwH7HqvLB9vD62e3GqmlI4WuSf3Lt8gFVwQ
+ SSCP6C5oRYibgatUeudi+nZIupFRD1o=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-17-5XTbP8WFMDOcaq1QhXWw2A-1; Thu, 21 Jan 2021 12:31:40 -0500
-X-MC-Unique: 5XTbP8WFMDOcaq1QhXWw2A-1
+ us-mta-460-VmMP8OJKObavkTJPhEmHXQ-1; Thu, 21 Jan 2021 12:36:01 -0500
+X-MC-Unique: VmMP8OJKObavkTJPhEmHXQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id F2B0610054FF;
- Thu, 21 Jan 2021 17:31:38 +0000 (UTC)
-Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69C3260BF3;
- Thu, 21 Jan 2021 17:31:35 +0000 (UTC)
-Subject: Re: [PATCH v3 1/2] block: Avoid processing BDS twice in
- bdrv_set_aio_context_ignore()
-To: Sergio Lopez <slp@redhat.com>, qemu-devel@nongnu.org
-References: <20210121170700.59734-1-slp@redhat.com>
- <20210121170700.59734-2-slp@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <f18017fc-c843-f1a3-d04f-9bb0912745b6@redhat.com>
-Date: Thu, 21 Jan 2021 11:31:34 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A6CA107ACF8;
+ Thu, 21 Jan 2021 17:36:00 +0000 (UTC)
+Received: from work-vm (ovpn-115-101.ams2.redhat.com [10.36.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4417160C43;
+ Thu, 21 Jan 2021 17:35:56 +0000 (UTC)
+Date: Thu, 21 Jan 2021 17:35:53 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] virtiofsd: Add _llseek to the seccomp whitelist
+Message-ID: <20210121173553.GL3072@work-vm>
+References: <20210121171540.1449777-1-groug@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210121170700.59734-2-slp@redhat.com>
+In-Reply-To: <20210121171540.1449777-1-groug@kaod.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,40 +78,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/21 11:06 AM, Sergio Lopez wrote:
-> Some graphs may contain an indirect reference to the first BDS in the
-> chain that can be reached while walking it bottom->up from one its
-
-one of its
-
-> children.
+* Greg Kurz (groug@kaod.org) wrote:
+> This is how glibc implements lseek(2) on POWER.
 > 
-> Doubling-processing of a BDS is especially problematic for the
+> BugLink: https://bugzilla.redhat.com/show_bug.cgi?id=1917692
+> Signed-off-by: Greg Kurz <groug@kaod.org>
 
-Double-processing
+OK, I'm going to assume that _llseek is present on pretty much
+everything?
 
-> aio_notifiers, as they might attempt to work on both the old and the
-> new AIO contexts.
-> 
-> To avoid this problem, add every child and parent to the ignore list
-> before actually processing them.
-> 
-> Suggested-by: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  block.c | 34 +++++++++++++++++++++++++++-------
->  1 file changed, 27 insertions(+), 7 deletions(-)
+>  tools/virtiofsd/passthrough_seccomp.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
+> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> index a60d7da4b4e2..1ecf5bf318b3 100644
+> --- a/tools/virtiofsd/passthrough_seccomp.c
+> +++ b/tools/virtiofsd/passthrough_seccomp.c
+> @@ -65,6 +65,7 @@ static const int syscall_whitelist[] = {
+>      SCMP_SYS(linkat),
+>      SCMP_SYS(listxattr),
+>      SCMP_SYS(lseek),
+> +    SCMP_SYS(_llseek), /* For POWER */
+>      SCMP_SYS(madvise),
+>      SCMP_SYS(mkdirat),
+>      SCMP_SYS(mknodat),
+> -- 
+> 2.26.2
+> 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
