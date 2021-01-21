@@ -2,72 +2,111 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73BF32FEC1A
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 14:36:51 +0100 (CET)
-Received: from localhost ([::1]:58354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 929702FEC21
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 14:38:58 +0100 (CET)
+Received: from localhost ([::1]:33208 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2a8o-0002O3-IK
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 08:36:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52200)
+	id 1l2aAr-0003lK-MJ
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 08:38:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2a7K-0001mT-DP
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 08:35:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57781)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2a7H-0006an-Kt
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 08:35:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611236114;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dL4REiQYP7nqIQwEKzIxGtZIylfg/e6dg8eJ+tWtIuo=;
- b=Tsa15MBAwXptzA9MMzUfoIJ0ATHie7D7XADtCgMvY7CNKz3ETEWhoKpwm3pxSAjasMdZ1j
- fDQFopg9Jq4X2/KqxN6zGEnj9lzFIlaiZeckiMOaWP/50yhW7VqMf+KCVUVJtfh+cbn2M4
- t88v0GFtpRKaxoFJ3kVRzJlWABPwLfo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-288-y5KtMTwnPLqHHYSBaMa7qg-1; Thu, 21 Jan 2021 08:35:10 -0500
-X-MC-Unique: y5KtMTwnPLqHHYSBaMa7qg-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0ABDB10051CE
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 13:35:01 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-115-169.ams2.redhat.com
- [10.36.115.169])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8D36219D9B;
- Thu, 21 Jan 2021 13:34:49 +0000 (UTC)
-Subject: Re: Thread safety of coroutine-sigaltstack
-To: Max Reitz <mreitz@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
- <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
- <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <823a843f-af47-f091-1bd1-e33487524eb9@redhat.com>
-Date: Thu, 21 Jan 2021 14:34:49 +0100
+ (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
+ id 1l2a9r-0003JN-Pm; Thu, 21 Jan 2021 08:37:55 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:26606)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <schnelle@linux.ibm.com>)
+ id 1l2a9p-0007tM-27; Thu, 21 Jan 2021 08:37:55 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10LDVoag013753; Thu, 21 Jan 2021 08:37:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=UtMG7SZLtWeZLGwjnFK86MDSyZaRmS9TJFVrRVKHOnU=;
+ b=S0Dg+qGevMHdV1eZC4oIiz9G8J9q+4Dc78EQMM7LqIAyALBKAMEL6dGIbVLFBptqjNu5
+ waq3n/1TpoF52b5PbB62MdrHVGfCZWIAbwMEoTw1dcvXRXM9E/GHo7egyIHEHw6FHGtp
+ ZkC0sSGabzbjTC81DBK6/fLUG75WcdM1phLxJpdqaLAvYYLzSt/ZKTrDSB2kcmOR+S5h
+ /sG5hg22JnNyyevSIDkArBMqdESZlblBmyRC+9cTL5N2eXxVsUoVEFHsebf4GmAPIHry
+ +dO/cBc6uuvO/XcPrYkExjcGUtG81QwD4te2xvRcp2+JvSnEr8Wqrs+HdzrbUHa/plzL NA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3679y197tt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 08:37:46 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10LDWNnD015728;
+ Thu, 21 Jan 2021 08:37:43 -0500
+Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
+ [159.122.73.71])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 3679y197nt-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 08:37:43 -0500
+Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
+ by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10LDVSt5002897;
+ Thu, 21 Jan 2021 13:37:32 GMT
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma02fra.de.ibm.com with ESMTP id 3668p78vvk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 21 Jan 2021 13:37:32 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
+ [9.149.105.62])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 10LDbMp428442934
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 21 Jan 2021 13:37:22 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 346E1AE059;
+ Thu, 21 Jan 2021 13:37:29 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 825EDAE04D;
+ Thu, 21 Jan 2021 13:37:28 +0000 (GMT)
+Received: from [9.145.88.16] (unknown [9.145.88.16])
+ by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+ Thu, 21 Jan 2021 13:37:28 +0000 (GMT)
+Subject: Re: [PATCH 0/8] s390x/pci: Fixing s390 vfio-pci ISM support
+To: Pierre Morel <pmorel@linux.ibm.com>,
+ Matthew Rosato <mjrosato@linux.ibm.com>, cohuck@redhat.com,
+ thuth@redhat.com
+References: <1611089059-6468-1-git-send-email-mjrosato@linux.ibm.com>
+ <511aebd3-fc4f-d7d3-32c2-27720fb38fe8@linux.ibm.com>
+ <15dbd981-7dda-2526-8f13-52ead6298ef1@linux.ibm.com>
+ <a1d1df76-07df-9879-ae77-ff677efdd291@linux.ibm.com>
+ <f3e074d2-4f47-d229-9002-010e91df95d1@linux.ibm.com>
+ <914d4af3-32ee-e300-9738-92aececa81d6@linux.ibm.com>
+ <789388f4-983b-2810-7f46-ce7f07022a66@linux.ibm.com>
+ <ff5674ed-8ce2-73d7-1991-de424d62288c@linux.ibm.com>
+ <bd94ca8a-70b2-36b3-d357-3527e8d3dc62@linux.ibm.com>
+ <213c00ca-1b8f-ecee-dd22-d86cad8eb63b@linux.ibm.com>
+From: Niklas Schnelle <schnelle@linux.ibm.com>
+Message-ID: <4a3e13fe-ec6a-27bc-7f30-9ad9691a4522@linux.ibm.com>
+Date: Thu, 21 Jan 2021 14:37:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <213c00ca-1b8f-ecee-dd22-d86cad8eb63b@linux.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-21_06:2021-01-21,
+ 2021-01-21 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ priorityscore=1501 suspectscore=0 phishscore=0 malwarescore=0
+ impostorscore=0 bulkscore=0 spamscore=0 adultscore=0 clxscore=1015
+ lowpriorityscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2009150000 definitions=main-2101210070
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=schnelle@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,205 +120,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: mst@redhat.com, david@redhat.com, richard.henderson@linaro.org,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+ borntraeger@de.ibm.com, alex.williamson@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/21/21 10:27, Max Reitz wrote:
-> On 20.01.21 18:25, Laszlo Ersek wrote:
->> On 01/20/21 17:26, Max Reitz wrote:
->>> Hi,
+
+
+On 1/21/21 1:30 PM, Pierre Morel wrote:
+> 
+> 
+> On 1/21/21 10:58 AM, Niklas Schnelle wrote:
+>>
+>>
+>> On 1/21/21 9:27 AM, Pierre Morel wrote:
 >>>
->>> I’ve run into trouble with Vladimir’s async backup series on MacOS,
->>> namely that iotest 256 fails with qemu exiting because of a SIGUSR2.
 >>>
->>> Turns out this is because MacOS (-xcode) uses coroutine-sigaltstack,
->>> when I use this on Linux, I get the same error.
+>>> On 1/20/21 9:29 PM, Matthew Rosato wrote:
+>>>> On 1/20/21 2:18 PM, Pierre Morel wrote:
+>>>>>
+>>>>>
+>>> ...snip...
 >>>
->>> (You can find the series applied on my block branch e.g. here:
+>>>>
+>>>> So, I mean I can change the code to be more permissive in that way (allow any device that doesn't have MSI-X capability to at least attempt to use the region).  But the reality is that ISM specifically needs the region for successful pass through, so I don't see a reason to create a different bit for that vs just checking for the PFT in QEMU and using that value to decide whether or not region availability is a requirement for allowing the device to pass through.
 >>>
->>> https://github.com/XanClic/qemu.git block
->>> )
 >>>
->>> Some debugging later I found that the problem seems to be two threads
->>> simultaneously creating a coroutine.  It makes sense that this case
->>> would appear with Vladimir’s series and iotest 256, because 256 runs two
->>> backup jobs in two different threads in a transaction, i.e. they’re
->>> launched simultaneously.  The async backup series makes backup use many
->>> concurrent coroutines and so by default launches 64+x coroutines when
->>> the backup is started.  Thus, the case of two coroutines created
->>> concurrently in two threads is very likely to occur.
+>>> There is no need for a new bit to know if a device support MIO or not, as I said before, there is already one in the CLP query PCI function response and it is already used in the kernel zPCI architecture.
 >>>
->>> I think the problem is in coroutine-sigaltstack’s qemu_coroutine_new().
->>> It sets up a SIGUSR2 handler, then changes the signal handling stack,
->>> then raises SIGUSR2, then reverts the signal handling stack and the
->>> SIGUSR2 handler.  As far as I’m aware, setting up signal handlers and
->>> changing the signal handling stack are both process-global operations,
->>> and so if two threads do so concurrently, they will interfere with each
->>> other.
->>
->> Signal action (disposition) is process-wide.
->>
->> Signal mask and signal stack are thread-specific.
-> 
-> Ah, OK.  Thanks for the insight!
-> 
->> A signal may be pending for the whole process, or for a specific thread.
->> In the former case, the signal is delivered to one of the threads that
->> are not blocking the signal.
->>
->>> What usually happens is that one thread sets up everything,
->>> while the other is already in the process of reverting its changes: So
->>> the second thread reverts the SIGUSR2 handler to the default, and then
->>> the first thread raises SIGUSR2, thus making qemu exit.
->>
->> I agree. The way SIGUSR2 is blocked (for the thread), made pending (for
->> the thread), and then allowed to be delivered (consequently, to the
->> thread), looks OK. But by the time it is delivered, the action has been
->> changed.
->>
 >>>
->>> (Could be worse though.  Both threads could set up the sigaltstack, then
->>> both raise SIGUSR2, and then we get one coroutine_trampoline()
->>> invocation in each thread, but both would use the same stack.  But I
->>> don’t think I’ve ever seen that happen, presumably because the race time
->>> window is much shorter.)
->>
->> No, the "alternate stack for signal handlers" that sigaltstack()
->> configures is thread-specific. (I mean one could theoretically mess it
->> up if the stack were located in the same place between different
->> threads, but we call qemu_alloc_stack(), so that doesn't happen.)
->>
->> https://pubs.opengroup.org/onlinepubs/9699919799/functions/sigaltstack.html
->>
-> 
-> Explains why I haven’t seen it. :)
-> 
->>> Now, this all seems obvious to me, but I’m wondering...  If
->>> coroutine-sigaltstack really couldn’t create coroutines concurrently,
->>> why wouldn’t we have noticed before?  I mean, this new backup case is
->>> kind of a stress test, yes, but surely we would have seen the problem
->>> already, right?  That’s why I’m not sure whether my analysis is correct.
+>>> It is not a big think to do and does not change the general architecture of the patch, only the detection of which device is impacted to make it generic instead of device dedicated.
 >>>
->>> Anyway, I’ve attached a patch that wraps the whole SIGUSR2 handling
->>> section in a mutex, and that makes 256 pass reliably with Vladimir’s
->>> async backup series.  Besides being unsure whether the problem is really
->>> in coroutine-sigaltstack, I also don’t know whether getting out the big
->>> guns and wrapping everything in the mutex is the best solution.  So,
->>> it’s an RFC, I guess.
+>>> Regards,
+>>> Pierre
 >>
->> A simple grep for SIGUSR2 seems to indicate that SIGUSR2 is not used by
->> system emulation for anything else, in practice. Is it possible to
->> dedicate SIGUSR2 explicitly to coroutine-sigaltstack, and set up the
->> action beforehand, from some init function that executes on a "central"
->> thread, before qemu_coroutine_new() is ever called?
+>> Just wanted to say that we've had a very similar discussion with
+>> Cornelia end of last year and came to the conclusion that explicitly
+>> matching the PFT is likely the safest bet:
+>> https://lkml.org/lkml/2020/12/22/479
 > 
-> Doesn’t sound unreasonable, but wouldn’t the signal handler then have to
-> check whether the SIGUSR2 comes from coroutine-sigaltstack or from the
-> outside?  Or should we then keep SIGUSR2 blocked all the time?
-
-Blocking SIGUSR2 in all threads at all times, except when temporarily
-unblocking it with sigsuspend(), is one approach, but I don't think it
-would necessarily be 100% safe against other processes sending SIGUSR2
-asynchronously. And IMO that's not even a goal -- sending a signal
-requires permission:
-
-https://pubs.opengroup.org/onlinepubs/9699919799/functions/kill.html
-
-    For a process to have permission to send a signal to a process
-    designated by pid, unless the sending process has appropriate
-    privileges, the real or effective user ID of the sending process
-    shall match the real or saved set-user-ID of the receiving process.
-
-(I assume (hope) that SELinux / sVirt further restricts this, so one
-qemu process couldn't simply signal another, due to their different labels.)
-
-Thus, when the host kernel permits a different process to generate
-SIGUSR2 for QEMU, it's OK to let things just crash and burn. Every other
-process with such a permission should *know better* than to send an
-unsolicited SIGUSR2 to QEMU.
-
-I mean, what happens if you send an external SIGUSR2 to QEMU right now?
-The default action for SIGUSR2 is to terminate the process:
-
-https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/signal.h.html
-
-(It's possible that I missed some already existent treatment of SIGUSR2
-in QEMU that's different from coroutine-sigaltstack, for example via
-sigfillset(). But that seems unlikely, due to the comment on
-qemu_init_main_loop() in "include/qemu/main-loop.h" which indicates
-SIGUSR2 is currently available to threads for custom use.)
-
-
->> ... I've tried to see if POSIX says anything on signals being delivered
->> with mutexen held. I can't find anything specific (the spec seems to
->> talk about delivery of a signal while the thread waits in
->> pthread_mutex_lock(), but that's not what we care about, here). I'm just
->> somewhat uncomfortable with bracketing this whole hackery into a mutex
->> even... Keeping sigaction() out of the picture could be a small
->> performance benefit, too.
+> What I see there is a discussion on the relation between relaxed access and MIO without explaining to Connie that we have in the kernel the possibility to know if a device support MIO or not independently of it supports the relaxed access.
 > 
-> Speaking of signal being delivered in the mutexed section...  What would
-> happen if we get an external signal after SIGUSR2 was delivered and
-> coroutine_trampoline() set up the sigsetjmp(), but before the stack is
-> switched back?  Wouldn’t this new signal then trash the stack?  Should
-> we block all signals while using the alternate stack?
+> The all point here is about taking decisions for the right reasons.
 > 
-> (Looking at the x64 objdump, the stack actually seems to be used to
-> store @self across sigsetjmp().)
+> We have the possibility to take the decision based on functionalities and not on a specific PCI function.
 
-I wouldn't worry about it. Signals are a crude interface for programs.
-If a program documents that a particular signal can be sent to it for a
-particular purpose (which implies the asynchronous generation of that
-signal of course), then processes that have proper permission to send
-that signal are *welcome* to send that signal at *any* time. If the
-program mishandles the signal, that's a bug in the signalee.
+Yes but that goes both ways the functionality of the region has to match
+that of the device and at least in it's current state the regions functionality
+matches only ISM in a way that is so specific that it is very unlikely to match anything
+else. For example it can't support a PCI device that requires non-MIO but
+also MSI-X. In its current form it doesn't even support PCI Store only PCI Store
+Block, we had that in an earlier version and it's trivial but then we get the MSI-X
+problem.
 
-Conversely, if a signal is not documented like that by the program, but
-another process (having the needed permission) still sends the signal,
-breakage is expected, and the signaler process is at fault. In my book,
-it's no different from sending a signal that is simply neither caught
-nor ignored nor blocked by the signalee process, and whose default
-disposition is to terminate the process (marked "T" or "A" in the table
-linked above). E.g., if you send a SIGILL to a process out of the blue,
-the process is totally expected to blow up, or at least to misbehave.
-
-
->> The logic in the patch doesn't look broken, but the comments should be
->> updated minimally -- the signal stack is thread-specific (similarly to
->> how a thread has its own stack anyway, regardless of signals).
 > 
-> Sure, I can do that.
 > 
-> I agree that there probably are better solutions than to wrap everything
-> in a lock.  OTOH, it looks to me like this lock is the most simple
-> solution.  If Daniel is right[1] and we should drop
-> coroutine-sigaltstack altogether (at some point...), perhaps it is best
-> to go for the most simple solution now.
+> If we keep the PFT check, and we can do this of course, but is it a good solution if it appears we have other PFT with the same functionalities?
 > 
-> [1]
-> https://lists.nongnu.org/archive/html/qemu-block/2021-01/msg00808.html
+> Please note that this is a minor code change, keeping track of the MIO support just as we keep track of the PFT and check on this instead of on the PFT.
 
-SUSv3 marked ucontext functions obsolescent:
+That is certainly true and I'm not strongly against matching on functionality
+it just seems to me that it's too specific for that to make sense and
+in that case I feel it's better to be clear about that and make it ISM
+specific in name and functionality.
 
-https://pubs.opengroup.org/onlinepubs/000095399/functions/makecontext.html#tag_03_356_08
+If we manage to find a fix for the MSI-X problem which I'd be really happy about
+we can simply extend the regions functionality and reuse the same code
+for a backwards compatibile ISM region and a more generic zPCI non-MIO
+region that could even be used if the client (QEMU) uses non-MIO and
+the device can do both as is the case for all current physical devices.
 
-and they are entirely missing from SUSv4 (aka the latest POSIX):
-
-https://pubs.opengroup.org/onlinepubs/9699919799/xrat/V4_xsh_chap03.html#tag_22_03_01_07
-
-So you can use ucontext if you #define _XOPEN_SOURCE as 500 or 600, but
-(in theory) not if you #define it as 700. How this works out in practice
-on OSX -- i.e. how long they intend to support _XOPEN_SOURCE 600 --, I
-can't tell.
-
-I don't disagree with Daniel though; you can always bring back
-coroutine-sigaltstack from the git history, if Apple decides to drop
-ucontext.
-
-If you went for the mutex for the time being, I wouldn't try to nack it. :)
-
-Thanks
-Laszlo
-
+> 
+> It does not modify the general architecture of the patch series neither in kernel nor in QEMU at all.
+> 
+> 
+> Pierre
+> 
 
