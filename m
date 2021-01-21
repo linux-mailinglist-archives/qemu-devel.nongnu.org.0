@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCDB42FE6DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:57:27 +0100 (CET)
-Received: from localhost ([::1]:33368 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 646A62FE6E0
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 10:58:03 +0100 (CET)
+Received: from localhost ([::1]:36464 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2WiU-0002CZ-RK
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:57:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58190)
+	id 1l2Wj4-0003Wa-ET
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 04:58:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58466)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=648267919=acatan@amazon.com>)
- id 1l2Wgc-0001ey-Sd
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:55:31 -0500
-Received: from smtp-fw-33001.amazon.com ([207.171.190.10]:52593)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <prvs=648267919=acatan@amazon.com>)
- id 1l2WgZ-00076F-Jt
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:55:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
- t=1611222928; x=1642758928;
- h=from:to:cc:date:message-id:references:in-reply-to:
- content-id:mime-version:content-transfer-encoding:subject;
- bh=tikY/ymWGHG7OvzSMWQNvUsnxukhLkfx1pylHsOnXHM=;
- b=gVzEFxN1lY6QobIDcYAghzPXgWNr4fNGCyMIsEXDx3yKrj4N1Ck/gKEe
- l4L7GPA+vGv0tglQT4Z97nMztaXh0trBDi+IXA9yzRYxHp02qAOSFH0KR
- 1D1ol7/Bz8pqUOCLIZiC9UotdmKbxy1V0BfEsX6fqZJwuchs2gHCQxt8G w=;
-X-IronPort-AV: E=Sophos;i="5.79,363,1602547200"; d="scan'208";a="112521061"
-Subject: Re: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
- driver
-Thread-Topic: [PATCH v4 1/2] drivers/misc: sysgenid: add system generation id
- driver
-Received: from sea32-co-svc-lb4-vlan3.sea.corp.amazon.com (HELO
- email-inbound-relay-1a-715bee71.us-east-1.amazon.com) ([10.47.23.38])
- by smtp-border-fw-out-33001.sea14.amazon.com with ESMTP;
- 21 Jan 2021 09:55:14 +0000
-Received: from EX13MTAUEE001.ant.amazon.com
- (iad12-ws-svc-p26-lb9-vlan2.iad.amazon.com [10.40.163.34])
- by email-inbound-relay-1a-715bee71.us-east-1.amazon.com (Postfix) with ESMTPS
- id CA814A25BB; Thu, 21 Jan 2021 09:55:03 +0000 (UTC)
-Received: from EX13D08UEE004.ant.amazon.com (10.43.62.182) by
- EX13MTAUEE001.ant.amazon.com (10.43.62.226) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 21 Jan 2021 09:54:28 +0000
-Received: from EX13D08EUB004.ant.amazon.com (10.43.166.158) by
- EX13D08UEE004.ant.amazon.com (10.43.62.182) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2; Thu, 21 Jan 2021 09:54:27 +0000
-Received: from EX13D08EUB004.ant.amazon.com ([10.43.166.158]) by
- EX13D08EUB004.ant.amazon.com ([10.43.166.158]) with mapi id 15.00.1497.010;
- Thu, 21 Jan 2021 09:54:27 +0000
-To: Greg KH <gregkh@linuxfoundation.org>
-Thread-Index: AQHW6NzJ6Ner/CpAZ0GLGgCheKaWxKoj9j+AgA4QXAA=
-Date: Thu, 21 Jan 2021 09:54:27 +0000
-Message-ID: <0EFE3365-1698-4BFB-B2F2-BEF1A2634E45@amazon.com>
-References: <1610453760-13812-1-git-send-email-acatan@amazon.com>
- <1610453760-13812-2-git-send-email-acatan@amazon.com>
- <X/2fP9LNWXvp7up9@kroah.com>
-In-Reply-To: <X/2fP9LNWXvp7up9@kroah.com>
-Accept-Language: en-US
-Content-Language: en-GB
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.43.164.195]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <AC44F688DB044F439484826026445BBE@amazon.com>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2WhZ-000296-6y
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:56:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54285)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2WhW-0007Zp-3f
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 04:56:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611222984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=W5Ty40QWAHzUbJleObSE3w7YcSWp87+oyoR4/ojctVw=;
+ b=WZw8o1sBPjhMevvoYSWMxCNdFXHIs4kbqEscV1wE8Ci3OyYq9+ZQmC2pkA4ZM9UXFtnboD
+ /8EevpjtcqIj8y5lh2V3fFOagtImkcXx9fcUW5QDqUKzbYra2Un+KMeNwGrupGORtfEkOQ
+ Y4I/gfywxMy+AfF2sLkoIegcyT1FNb8=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-uVDLCMG8OIq-sKm137oMNg-1; Thu, 21 Jan 2021 04:56:20 -0500
+X-MC-Unique: uVDLCMG8OIq-sKm137oMNg-1
+Received: by mail-ej1-f71.google.com with SMTP id rl8so546044ejb.8
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 01:56:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=ftS1PwDRTyx/FO3pQ0ndMWJudnzwg5kLTGGeH9RyLrU=;
+ b=hUXh2D75JK+ZBml3Gq+zYETK5WpQkVYA0tsLvcNWgrjnzEfPV4nA2ehBlf6zI7Z9Mx
+ fkhEu7+vyPzjTf32OWA1bWI9JZyw10ShLIGkiiBZ0xCgAi6JmNVP3iewl/ekNbp6m87g
+ uBgwSv0Fu/fbwoAlM1BN9UhUj7u20toikbOlNWgjLBlkPw4sEgP7X4L92cM7tSzDlcEp
+ zQTJ/sfpIJKj3+9MwgHZy/SXxkPtc8l0JeajmAVP0paSKvpLrrBC9q3fPebPvoubbLmI
+ jEjjdCaH4CnGIo+QZ1oOGlGqdAe6S+annwATVXZ/lWxVy8gAxgGALDs+VWiJOdTxVgiG
+ IR5Q==
+X-Gm-Message-State: AOAM531CHcENxEv3IXkS9z4PrMGh874h1rJLU+zq/7iR58+TlYFND77M
+ pFuG4+3m4nyCZtxK3eyKqzzi3/IRzS4Bod1A6icOkVgEg9QrHHwrZp7dH+pt9ZI5Q+mi42IZSyu
+ UqAuaJHXHRsPBo3+9t/lbunT2VJUZQcXTQXAxw50NLnu5AHhFfTU8m6qbm5zfKoyY
+X-Received: by 2002:a17:907:7356:: with SMTP id
+ dq22mr8789842ejc.318.1611222978664; 
+ Thu, 21 Jan 2021 01:56:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzgafDmSqUdgqKEEfvf0mtEtat52vZmiV9eGwTRUFVXcx6rSSZiR7tuRu2/LO6kqTcQVXFsdg==
+X-Received: by 2002:a17:907:7356:: with SMTP id
+ dq22mr8789834ejc.318.1611222978460; 
+ Thu, 21 Jan 2021 01:56:18 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id a11sm2465776edt.26.2021.01.21.01.56.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jan 2021 01:56:17 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/8] meson: Clarify summary
+Date: Thu, 21 Jan 2021 10:56:08 +0100
+Message-Id: <20210121095616.1471869-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Precedence: Bulk
-Content-Transfer-Encoding: base64
-Received-SPF: pass client-ip=207.171.190.10;
- envelope-from=prvs=648267919=acatan@amazon.com; helo=smtp-fw-33001.amazon.com
-X-Spam_score_int: -120
-X-Spam_score: -12.1
-X-Spam_bar: ------------
-X-Spam_report: (-12.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.167,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,66 +92,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason@zx2c4.com" <Jason@zx2c4.com>,
- "dgunigun@redhat.com" <dgunigun@redhat.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "ghammer@redhat.com" <ghammer@redhat.com>,
- "vijaysun@ca.ibm.com" <vijaysun@ca.ibm.com>,
- "0x7f454c46@gmail.com" <0x7f454c46@gmail.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mhocko@kernel.org" <mhocko@kernel.org>,
- "oridgar@gmail.com" <oridgar@gmail.com>, "avagin@gmail.com" <avagin@gmail.com>,
- "pavel@ucw.cz" <pavel@ucw.cz>,
- "ptikhomirov@virtuozzo.com" <ptikhomirov@virtuozzo.com>,
- "linux-s390@vger.kernel.org" <linux-s390@vger.kernel.org>,
- "corbet@lwn.net" <corbet@lwn.net>, "mpe@ellerman.id.au" <mpe@ellerman.id.au>,
- "mst@redhat.com" <mst@redhat.com>, "ebiggers@kernel.org" <ebiggers@kernel.org>,
- "borntraeger@de.ibm.com" <borntraeger@de.ibm.com>, "Singh,
- Balbir" <sblbir@amazon.com>, "bonzini@gnu.org" <bonzini@gnu.org>,
- "Graf \(AWS\), Alexander" <graf@amazon.de>, "arnd@arndb.de" <arnd@arndb.de>,
- "jannh@google.com" <jannh@google.com>, "Weiss, Radu" <raduweis@amazon.com>,
- "asmehra@redhat.com" <asmehra@redhat.com>, "rppt@kernel.org" <rppt@kernel.org>,
- "luto@kernel.org" <luto@kernel.org>, "gil@azul.com" <gil@azul.com>,
- "MacCarthaigh, 
- Colm" <colmmacc@amazon.com>, "tytso@mit.edu" <tytso@mit.edu>,
- "ovzxemul@gmail.com" <ovzxemul@gmail.com>,
- "areber@redhat.com" <areber@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "ebiederm@xmission.com" <ebiederm@xmission.com>,
- "rafael@kernel.org" <rafael@kernel.org>, "w@1wt.eu" <w@1wt.eu>, "Woodhouse,
- David" <dwmw@amazon.co.uk>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  "Catangiu, Adrian Costin" <acatan@amazon.com>
-From: acatan--- via <qemu-devel@nongnu.org>
 
-T24gMTIvMDEvMjAyMSwgMTU6MDcsICJHcmVnIEtIIiA8Z3JlZ2toQGxpbnV4Zm91bmRhdGlvbi5v
-cmc+IHdyb3RlOg0KDQogICAgT24gVHVlLCBKYW4gMTIsIDIwMjEgYXQgMDI6MTU6NTlQTSArMDIw
-MCwgQWRyaWFuIENhdGFuZ2l1IHdyb3RlOg0KICAgID4gKyAgUGFydGlhbCByZWFkcyBhcmUgbm90
-IGFsbG93ZWQgLSByZWFkIGJ1ZmZlciBuZWVkcyB0byBiZSBhdCBsZWFzdA0KICAgID4gKyAgYGBz
-aXplb2YodW5zaWduZWQpYGAgaW4gc2l6ZS4NCg0KICAgICJzaXplb2YodW5zaWduZWQpIj8gIEhv
-dyBhYm91dCBiZWluZyBzcGVjaWZpYyBhbmQgbWFraW5nIHRoaXMgYSByZWFsICJYDQogICAgYml0
-cyBiaWciIHZhbHVlIHBsZWFzZS4NCg0KICAgICJ1bnNpZ25lZCIgZG9lcyBub3Qgd29yayB3ZWxs
-IGFjcm9zcyB1c2VyL2tlcm5lbCBib3VuZHJpZXMuICBPaywgdGhhdCdzDQogICAgb24gdW5kZXJz
-dGF0ZW1lbnQsIHRoZSBjb3JyZWN0IHRoaW5nIGlzICJkb2VzIG5vdCB3b3JrIGF0IGFsbCIuDQoN
-CiAgICBQbGVhc2UgYmUgc3BlY2lmaWMgaW4geW91ciBhcGlzLg0KDQogICAgVGhpcyBpcyBsaXN0
-ZWQgZWxzZXdoZXJlIGFsc28uDQoNClJpZ2h0LCB3aWxsIGRvIQ0KDQogICAgPiArICAtIFNZU0dF
-TklEX0dFVF9PVVREQVRFRF9XQVRDSEVSUzogaW1tZWRpYXRlbHkgcmV0dXJucyB0aGUgbnVtYmVy
-IG9mDQogICAgPiArICAgICpvdXRkYXRlZCogd2F0Y2hlcnMgLSBudW1iZXIgb2YgZmlsZSBkZXNj
-cmlwdG9ycyB0aGF0IHdlcmUgb3Blbg0KICAgID4gKyAgICBkdXJpbmcgYSBzeXN0ZW0gZ2VuZXJh
-dGlvbiBjaGFuZ2UsIGFuZCB3aGljaCBoYXZlIG5vdCB5ZXQgY29uZmlybWVkDQogICAgPiArICAg
-IHRoZSBuZXcgZ2VuZXJhdGlvbiBjb3VudGVyLg0KDQogICAgQnV0IHRoaXMgbnVtYmVyIGNhbiBp
-bnN0YW50bHkgY2hhbmdlIGFmdGVyIGl0IGlzIHJlYWQsIHdoYXQgZ29vZCBpcyBpdD8NCiAgICBJ
-dCBzaG91bGQgbmV2ZXIgYmUgcmVsaWVkIG9uLCBzbyB3aHkgaXMgdGhpcyBuZWVkZWQgYXQgYWxs
-Pw0KDQogICAgV2hhdCBjYW4gdXNlcnNwYWNlIGRvIHdpdGggdGhpcyBpbmZvcm1hdGlvbj8NCg0K
-VGhhdCBpcyB0cnVlLCBhIHVzZXJzcGFjZSBwcm9jZXNzIGVpdGhlciBoYXMgdG8gd2FpdCBmb3Ig
-YWxsIHRvIGFkanVzdCB0byB0aGUgbmV3IGdlbmVyYXRpb24NCm9yIG5vdCBjYXJlIGFib3V0IG90
-aGVyIHByb2Nlc3Nlcy4gSW50ZXJtZWRpYXRlIHByb2JpbmcgZG9lc24ndCBicmluZyByZWFsIHZh
-bHVlLiBXaWxsIHJlbW92ZS4NCg0KICAgIHRoYW5rcywNCg0KICAgIGdyZWcgay1oDQoNClRoYW5r
-cyBmb3IgdGhlIGZlZWRiYWNrIQ0KQWRyaWFuLg0KDQoKCgpBbWF6b24gRGV2ZWxvcG1lbnQgQ2Vu
-dGVyIChSb21hbmlhKSBTLlIuTC4gcmVnaXN0ZXJlZCBvZmZpY2U6IDI3QSBTZi4gTGF6YXIgU3Ry
-ZWV0LCBVQkM1LCBmbG9vciAyLCBJYXNpLCBJYXNpIENvdW50eSwgNzAwMDQ1LCBSb21hbmlhLiBS
-ZWdpc3RlcmVkIGluIFJvbWFuaWEuIFJlZ2lzdHJhdGlvbiBudW1iZXIgSjIyLzI2MjEvMjAwNS4K
+Reorder stuffs in summary to quicker understand bug reports.=0D
+=0D
+Remove information from deselected features when not necessary.=0D
+=0D
+Since v2:=0D
+- integrate Paolo's summary sections=0D
+- simpler sort=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (8):=0D
+  meson: Summarize information related to directories first=0D
+  meson: Display host binaries information altogether=0D
+  meson: Summarize overall features altogether=0D
+  meson: Summarize compilation-related information altogether=0D
+  meson: Display accelerators and selected targets altogether=0D
+  meson: Display block layer information altogether=0D
+  meson: Display cryto-related information altogether=0D
+  meson: Display library dependencies altogether=0D
+=0D
+ meson.build | 295 ++++++++++++++++++++++++++++++----------------------=0D
+ 1 file changed, 171 insertions(+), 124 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
