@@ -2,81 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71A22FF797
-	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 22:50:52 +0100 (CET)
-Received: from localhost ([::1]:49774 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F1762FF7AC
+	for <lists+qemu-devel@lfdr.de>; Thu, 21 Jan 2021 23:03:12 +0100 (CET)
+Received: from localhost ([::1]:38958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2hqt-0008Io-AD
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 16:50:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37290)
+	id 1l2i2p-0000Ga-4E
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 17:03:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39132)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2hpp-0007k9-Eb; Thu, 21 Jan 2021 16:49:45 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43882)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2hpn-0001n6-Te; Thu, 21 Jan 2021 16:49:45 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id a10so4762267ejg.10;
- Thu, 21 Jan 2021 13:49:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=NZRv8c56LxDFfvf4ediy/CV9SnfkpLYQikuf+TGdR8w=;
- b=fmIXTZXwnAzzIhvMdTjwJFBKWV4jIQXhIGfOsWt0r626EW6yajkl7jGB/ey45+HHgA
- q4mWc8ZjcsUc0wJP0fP5tBkf+GP2cvI5ReghIr+AmF5AEsOahw256Ph4RIIArW7ncN7l
- VpmmbySO3G4JhTgI1Tf3jB73A90HXvU9hK570O4mqoCAWLga9ZFvAOrt7RGF5cv0ebDN
- UNd/0/VyR7P1hgnzaVdo6ZvTnN6m9ywp8y7ZADG10NXhpAtimye8Y4A6y2ZacCshp2pW
- qu7/Mi+126cRtSbxxM+3/SUcyAtgcTwHy06gTDlUfuZ/O+/QltFBeKqnoDxjRviOlpFC
- XkhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=NZRv8c56LxDFfvf4ediy/CV9SnfkpLYQikuf+TGdR8w=;
- b=uKmI2dZI6vA+E4+XPGGXURxSMFFNo0+q07YMbCJ/cntvEXm2RGpk5sP64k76D23GyE
- Xb6ftWX3KoY6jnkr52DZtP938El1G4pEV3uGRBIj5ysPvsJQaUOO1Rn9fm870TFGqXe5
- BaJ4EmjgRdpQ3hqAVCpTYZ/6oyDLTCDDJ5v2YdWL88FVC5KLvyegTnrZqTExGf0YUaRk
- zF1tPGP7cbG/YYksthH1RfOXpOcbqbTI5FULY7YacUXxXZ3CXDTpri8+1YdKkrlf3Ocu
- K6LZqF8WT4lt+4HB/16phJiCOzSZXQFV6I87cNUQ+LzIfvD+cwnOaGYjkNBWbMqyAxIq
- XuhA==
-X-Gm-Message-State: AOAM533lMJ+6BqbV5woDKrZ7xQD00jrNuRzr9D0oIzSWUYI04klLQqOS
- qarkdfoVcNTJjEdjcsLJNcs=
-X-Google-Smtp-Source: ABdhPJx9/Evzjj6GxD8jpApr1LvN0L87tPEAYCUPAwpvsQPNMEky/1VxfrCx3r1xCPJGSB5RDP2UbA==
-X-Received: by 2002:a17:906:11d6:: with SMTP id
- o22mr1039569eja.106.1611265782143; 
- Thu, 21 Jan 2021 13:49:42 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id h12sm2869385ejx.81.2021.01.21.13.49.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 21 Jan 2021 13:49:41 -0800 (PST)
-Subject: Re: [PATCH 08/25] hw/timer/cmsdk-apb-dualtimer: Add Clock input
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-9-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <34e1d477-ccb5-2dab-ede8-54349e1b1cbf@amsat.org>
-Date: Thu, 21 Jan 2021 22:49:40 +0100
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2hy9-0005TT-Hs
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 16:58:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2hy6-000521-T3
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 16:58:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611266297;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+NPKBTdzaB78nWDaOvJfiaYMHhfkkD7fZgnAEqALHIY=;
+ b=Y4rXa5lCXLxg/joRT12mDed6+e3oLWAciVQDSjBjJdCZ01DMJr92f/cMHSCRfgHwbhA6A2
+ hSM/of72cfkhCORO74jD7qdFAerDxBwsLlxHln53Un2skwtk3LKfvWanTb2W8yorSFTH7f
+ NfXPwWU09p2smH1LPjviTUelsNOzyUI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-_2RQ4NIYOqasb_EcP_RXsQ-1; Thu, 21 Jan 2021 16:58:13 -0500
+X-MC-Unique: _2RQ4NIYOqasb_EcP_RXsQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E26521081B2D;
+ Thu, 21 Jan 2021 21:58:11 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3CA545D9DD;
+ Thu, 21 Jan 2021 21:58:08 +0000 (UTC)
+Subject: Re: [PATCH v4 02/16] util/iov: make qemu_iovec_init_extended() honest
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
+ <20201211183934.169161-3-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <4750df02-7597-33af-f2b1-40cd8ca44135@redhat.com>
+Date: Thu, 21 Jan 2021 15:58:07 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210121190622.22000-9-peter.maydell@linaro.org>
+In-Reply-To: <20201211183934.169161-3-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,32 +83,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>
+Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/21/21 8:06 PM, Peter Maydell wrote:
-> As the first step in converting the CMSDK_APB_DUALTIMER device to the
-> Clock framework, add a Clock input.  For the moment we do nothing
-> with this clock; we will change the behaviour from using the pclk-frq
-> property to using the Clock once all the users of this device have
-> been converted to wire up the Clock.
+On 12/11/20 12:39 PM, Vladimir Sementsov-Ogievskiy wrote:
+> Actually, we can't extend the io vector in all cases. Handle possible
+> MAX_IOV and size_t overflows.
 > 
-> We take the opportunity to correct the name of the clock input to
-> match the hardware -- the dual timer names the clock which drives the
-> timers TIMCLK.  (It does also have a 'pclk' input, which is used only
-> for the register and APB bus logic; on the SSE-200 these clocks are
-> both connected together.)
+> For now add assertion to callers (actually they rely on success anyway)
+> and fix them in the following patch.
 > 
-> This is a migration compatibility break for machines mps2-an385,
-> mps2-an386, mps2-an500, mps2-an511, mps2-an505, mps2-an521, musca-a,
-> musca-b1.
+> Add also some additional good assertions to qemu_iovec_init_slice()
+> while being here.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  include/hw/timer/cmsdk-apb-dualtimer.h | 3 +++
->  hw/timer/cmsdk-apb-dualtimer.c         | 7 +++++--
->  2 files changed, 8 insertions(+), 2 deletions(-)
+>  include/qemu/iov.h |  2 +-
+>  block/io.c         | 10 +++++++---
+>  util/iov.c         | 25 +++++++++++++++++++++++--
+>  3 files changed, 31 insertions(+), 6 deletions(-)
+> 
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> @@ -492,7 +506,14 @@ bool qemu_iovec_is_zero(QEMUIOVector *qiov, size_t offset, size_t bytes)
+>  void qemu_iovec_init_slice(QEMUIOVector *qiov, QEMUIOVector *source,
+>                             size_t offset, size_t len)
+>  {
+> -    qemu_iovec_init_extended(qiov, NULL, 0, source, offset, len, NULL, 0);
+> +    int ret;
+> +
+> +    assert(source->size >= len);
+> +    assert(source->size - len >= offset);
+> +
+> +    /* We shrink the request, so we can't overflow neither size_t nor MAX_IOV */
+
+We shrink the request, so neither size_t nor MAX_IOV will overflow
+
+> +    ret = qemu_iovec_init_extended(qiov, NULL, 0, source, offset, len, NULL, 0);
+> +    assert(ret == 0);
+>  }
+>  
+>  void qemu_iovec_destroy(QEMUIOVector *qiov)
+> 
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
