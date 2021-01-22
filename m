@@ -2,83 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5287E300AA2
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:11:05 +0100 (CET)
-Received: from localhost ([::1]:54612 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5EF300AC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:12:36 +0100 (CET)
+Received: from localhost ([::1]:58580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l30tk-0003ns-5B
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:11:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55404)
+	id 1l30vD-0005aW-2i
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:12:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l30rz-00038w-PV
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:09:15 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:40041)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l30ry-0003TC-4o
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:09:15 -0500
-Received: by mail-ej1-x633.google.com with SMTP id gx5so8937947ejb.7
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:09:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=OkyIsnDn/pawPrczEzdzL2PNyHlc7d4sbv6S8gbr0Hk=;
- b=p4oTIlrJCKXHdbbNtA8Zpn5QavPPN4YK0ZDsx4DZ7+hQ0OBPe3nxt0KPVMD9NGGSr1
- EJL6RZsGPjWxoPwZ0suVfykQfFZSfRhHq1W+f1gzJc0VesN7LpzAYdaIO6FDd9NXgam9
- wLATvLKpGYjMZszPwgsmhy99XG10mQE0J7FBhGarS4jLQ0dvBF6JDfIifK8SeHAyQxnq
- Ul+CEGDN8xqibYJRyBa3YO8IZynqrDWhX/ups4EQt1UWD2X6ZHmhSZNVtefLqaBtR8d6
- T1PcQX+zPxSggtevaKHMBIihkqK1hJtmqHOlPTK0zwOXIIfcYo2DJ/HwwIFaMWwg5ISc
- QyyQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OkyIsnDn/pawPrczEzdzL2PNyHlc7d4sbv6S8gbr0Hk=;
- b=EoC+8S5LeQ/fmVXQicdsAGdeB3BGwr51zmz1V619Tw19beVsnfrLEE/z2BS85gWGrQ
- fQ9Lwjl+JAejsrwMKNnQIZjj23nRRNWAvyHKvvAr1vbqDncgjyVPoTjbQ98VFdGMX4E2
- uei+M1e+Y3u/bkjjpaFwW2B/19jAjJBSNl/7ce3yJDBZcq1z4HRldje69291+QFYuPjJ
- nAfOwBhqDckr/F7m2q3QTdnQZ8fzdaKe/esmPkW9or/xGgCga6kxAhepd1SkICLn7Gg1
- xxunjRWbY1DbU+kR4p7A6Gm3AztxWYSF+WEY/Un2PXXY3LU7EyPxIDyLgOI4Y8xUtEgR
- 5+Ag==
-X-Gm-Message-State: AOAM530ESJgnoVMePKEF1wYLW5AytcM7/js6j806YAXlsH5ZhqI8f1el
- gJGdu9AB9+/ZD1FCo249qVE=
-X-Google-Smtp-Source: ABdhPJxUpQjfoaKkcGOepDfSaiS9SXEFJnzW0N3jYKBMmxEbuDtapbOlwOfwGMk0ZIXcWUm50wQYfA==
-X-Received: by 2002:a17:906:2681:: with SMTP id
- t1mr3796627ejc.29.1611338952492; 
- Fri, 22 Jan 2021 10:09:12 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id h12sm5641325edb.16.2021.01.22.10.09.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jan 2021 10:09:11 -0800 (PST)
-Subject: Re: [PATCH v7 15/35] Hexagon (target/hexagon/arch.[ch]) utility
- functions
-To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l30tZ-0004TM-3R
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:10:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27337)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l30tU-00043f-Vb
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:10:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611339046;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bdBTMjRfbsJeYSVLLk6LJ0bD1y9t7njnYwx5nX5P8kA=;
+ b=TZbQtQpCWsFuOc1diCrwe3go7C0nDeOgHE3t/8mYRpypwgp5BlQoxbg/g2ykSmpl9qElIC
+ myD8CtTVOwb14wfPgqt4MChKKiH6xff9kcQZ0O0wDS5JsQL2w5LKNYPCCU3WyFhCxWxp1X
+ mDK2Oe23UZL+Bk9UjW+NcFyacth5VMQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-tNhqzPXWOkKvsHafd_KYig-1; Fri, 22 Jan 2021 13:10:42 -0500
+X-MC-Unique: tNhqzPXWOkKvsHafd_KYig-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E84178030A1;
+ Fri, 22 Jan 2021 18:10:40 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DA2285D960;
+ Fri, 22 Jan 2021 18:10:39 +0000 (UTC)
+Subject: Re: [PATCH v7 14/35] Hexagon (target/hexagon) instruction printing
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
 References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
- <1611113349-24906-16-git-send-email-tsimpson@quicinc.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8e41b920-e7de-a7da-bba1-f8a649006955@amsat.org>
-Date: Fri, 22 Jan 2021 19:09:10 +0100
+ <1611113349-24906-15-git-send-email-tsimpson@quicinc.com>
+ <4d5081d9-3b7b-4a9c-5007-04f0b5da3f73@amsat.org>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <63d4f82c-1e1a-7986-9a5b-c0609e430d53@redhat.com>
+Date: Fri, 22 Jan 2021 12:10:39 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <1611113349-24906-16-git-send-email-tsimpson@quicinc.com>
+In-Reply-To: <4d5081d9-3b7b-4a9c-5007-04f0b5da3f73@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.221,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,87 +89,27 @@ Cc: ale@rev.ng, alex.bennee@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Taylor,
+On 1/22/21 11:58 AM, Philippe Mathieu-Daudé wrote:
 
-On 1/20/21 4:28 AM, Taylor Simpson wrote:
-> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
-> ---
->  target/hexagon/arch.h |  35 ++++++
->  target/hexagon/arch.c | 294 ++++++++++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 329 insertions(+)
->  create mode 100644 target/hexagon/arch.h
->  create mode 100644 target/hexagon/arch.c
+>> +#include "qemu/osdep.h"
+>> +#include "insn.h"
+>> +
+>> +extern void snprint_a_pkt_disas(GString *buf, Packet *pkt, uint32_t *words,
+>> +                                target_ulong pc);
+>> +extern void snprint_a_pkt_debug(GString *buf, Packet *pkt);
 > 
-> diff --git a/target/hexagon/arch.h b/target/hexagon/arch.h
-> new file mode 100644
-> index 0000000..a8374a3
-> --- /dev/null
-> +++ b/target/hexagon/arch.h
+> No need to declare prototypes in header with 'extern'...
+> (also noticed in other patches).
 
-Maybe rename "arch_utils.[ch]"?
+Using the extern on function declarations is not wrong (in fact, some
+projects prefer to use extern for everything in a header, regardless of
+whether it is function or data, rather than just limiting it to data).
+But you do have a point that it's not common practice in qemu, and local
+consistency is better than any habits you've picked up in other projects.
 
-> @@ -0,0 +1,35 @@
-> +/*
-> + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
-> + *
-> + *  This program is free software; you can redistribute it and/or modify
-> + *  it under the terms of the GNU General Public License as published by
-> + *  the Free Software Foundation; either version 2 of the License, or
-> + *  (at your option) any later version.
-> + *
-> + *  This program is distributed in the hope that it will be useful,
-> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> + *  GNU General Public License for more details.
-> + *
-> + *  You should have received a copy of the GNU General Public License
-> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef HEXAGON_ARCH_H
-> +#define HEXAGON_ARCH_H
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/int128.h"
-> +
-> +extern uint64_t interleave(uint32_t odd, uint32_t even);
-> +extern uint64_t deinterleave(uint64_t src);
-> +extern uint32_t carry_from_add64(uint64_t a, uint64_t b, uint32_t c);
-> +extern int32_t conv_round(int32_t a, int n);
-> +extern void arch_fpop_start(CPUHexagonState *env);
-> +extern void arch_fpop_end(CPUHexagonState *env);
-> +extern int arch_sf_recip_common(float32 *Rs, float32 *Rt, float32 *Rd,
-> +                                int *adjust, float_status *fp_status);
-> +extern int arch_sf_invsqrt_common(float32 *Rs, float32 *Rd, int *adjust,
-> +                                  float_status *fp_status);
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-(Again, no need for 'extern').
-
-> +
-> +#endif
-> diff --git a/target/hexagon/arch.c b/target/hexagon/arch.c
-> new file mode 100644
-> index 0000000..c59cad5
-> --- /dev/null
-> +++ b/target/hexagon/arch.c
-...
-
-> +#define RAISE_FP_EXCEPTION \
-> +    do {} while (0)            /* Not modelled in qemu user mode */
-
-I don't understand why... Can you explain please?
-
-> +
-> +#define SOFTFLOAT_TEST_FLAG(FLAG, MYF, MYE) \
-> +    do { \
-> +        if (flags & FLAG) { \
-> +            if (GET_USR_FIELD(USR_##MYF) == 0) { \
-> +                SET_USR_FIELD(USR_##MYF, 1); \
-> +                if (GET_USR_FIELD(USR_##MYE)) { \
-> +                    RAISE_FP_EXCEPTION; \
-> +                } \
-> +            } \
-> +        } \
-> +    } while (0)
-...
 
