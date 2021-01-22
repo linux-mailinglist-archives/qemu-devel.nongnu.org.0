@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0A4300D96
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:20:46 +0100 (CET)
-Received: from localhost ([::1]:41730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EAEE300D83
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:16:16 +0100 (CET)
+Received: from localhost ([::1]:57094 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l32vF-0007mJ-Nf
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:20:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50562)
+	id 1l32qt-00028n-5b
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:16:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50568)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32mH-000529-2z
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:29 -0500
-Received: from mail-pj1-f51.google.com ([209.85.216.51]:38682)
+ id 1l32mI-00053s-1s
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:30 -0500
+Received: from mail-pf1-f177.google.com ([209.85.210.177]:45876)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32mF-0004dN-HB
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:28 -0500
-Received: by mail-pj1-f51.google.com with SMTP id x20so4597303pjh.3
+ id 1l32mG-0004eM-B7
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:29 -0500
+Received: by mail-pf1-f177.google.com with SMTP id j12so4537555pfj.12
  for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:11:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cjf3zkEzdC7Sji+ngGUJT+yhUPJZ6w/w5ucvRluKxqY=;
- b=P8TkNNVmRno25WfJBJFbT6Ux9PDTKBuxIj3wLGssyhb/8MJAu/1QtFPNg6BZifTglz
- gRsYr+aVRmHZM4yHkFQ6Jieqk8kFTV5sJh4uJA3RyQXM87V+DyYERh9XPe8C+VhGMZ0i
- ew8se/KgV/FJFnxmCcWJN4i8BOC6QGaPUl/aGZCq8qW+b7BNBRCzS7TSsjkzrYtTv9CB
- rzOE4ZCxPceTCxAkB7KmQgLxKadwVbdkBTfJocYNOdcJopWFRVCsUFsZUk+2y6oe/OUj
- J4S7GT+TEaAVEOAwUfO5NnwMFV2e17cUyYbhfO/FHwB/ibMdqpEc4ABhfw3l1XXkvSNA
- Rsrw==
-X-Gm-Message-State: AOAM533nJDFF/YnhPsm8raGWvhg+JzNHknRpuY35D/KZ8PWFSwOEf3YB
- g8eBIhYZl5JrAPC5eTC4/T8sq1llXrc=
-X-Google-Smtp-Source: ABdhPJzFcl8V6+Owu0LGAT2J5bXXiioKXD8FkUDb0qukZ3F1y1jNtIQAnqSY6bK6AvOkKF+RlqMNQA==
-X-Received: by 2002:a17:90a:1182:: with SMTP id
- e2mr7157800pja.152.1611346285901; 
- Fri, 22 Jan 2021 12:11:25 -0800 (PST)
+ bh=bH12qTm3+UAqqzcs6td+zXs9uTHKta6X9jVQRa8WiS8=;
+ b=Db84YV5NdlHGTao1Gi1WzhDBGRcbroezfYJe/iF7r7PugpfKF35D3u3/HwceVaBY0/
+ SaF1A71P7smxX1XPAGmSuhghSBQ8jZBlE5p7YbwrGwlX3EdTcmRacpSmguiAgy9C2crT
+ i97KWMd9p0jjLXFYHQlriZZkVxyve8HJDn4dCUFxIxDzQWrqbI5tVIO+8i+5iUz8i7Mk
+ eQB2U33rGdTMKtUkFvkyUTspuT9QijgHlmJNrMjs3JqG2wggrU37YL+ZmJ2MSY0rZcwy
+ MsSNaB02BKQ6QvyxWGYFgYFSxCaPUTsvlczKv87WABk1SLmc2/sPcG16cOMMambnJZ69
+ sJVw==
+X-Gm-Message-State: AOAM531FXuCSPQGJrUc+YOjcpf5i3xUOAp3BTX/JinY1qIHphBPUzZgI
+ fLekwZVFK9cMwrIePKfH7iiByZRgArE=
+X-Google-Smtp-Source: ABdhPJzlJ8++8mqDEgPOYVefa8aKiKgiZ3y4NXp9ujXvGcMr3Wpb/4qx2RN2HRRheadfc3b531Sr8Q==
+X-Received: by 2002:a65:47c7:: with SMTP id f7mr6188459pgs.305.1611346286803; 
+ Fri, 22 Jan 2021 12:11:26 -0800 (PST)
 Received: from localhost.localdomain ([73.93.152.129])
- by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.25
+ by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.26
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 22 Jan 2021 12:11:25 -0800 (PST)
+ Fri, 22 Jan 2021 12:11:26 -0800 (PST)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 10/11] darwin: detect CoreAudio for build
-Date: Fri, 22 Jan 2021 12:11:12 -0800
-Message-Id: <20210122201113.63788-11-j@getutm.app>
+Subject: [PATCH v7 11/11] darwin: remove 64-bit build detection on 32-bit OS
+Date: Fri, 22 Jan 2021 12:11:13 -0800
+Message-Id: <20210122201113.63788-12-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210122201113.63788-1-j@getutm.app>
 References: <20210122201113.63788-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.51; envelope-from=osy86github@gmail.com;
- helo=mail-pj1-f51.google.com
+Received-SPF: pass client-ip=209.85.210.177;
+ envelope-from=osy86github@gmail.com; helo=mail-pf1-f177.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -78,82 +77,46 @@ Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On iOS there is no CoreAudio, so we should not assume Darwin always
-has it.
+A workaround added in early days of 64-bit OSX forced x86_64 if the
+host machine had 64-bit support. This creates issues when cross-
+compiling for ARM64. Additionally, the user can always use --cpu=* to
+manually set the host CPU and therefore this workaround should be
+removed.
 
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- configure | 35 +++++++++++++++++++++++++++++++++--
- 1 file changed, 33 insertions(+), 2 deletions(-)
+ configure | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/configure b/configure
-index f487be3cfe..fb671258e6 100755
+index fb671258e6..c7fbda22b9 100755
 --- a/configure
 +++ b/configure
-@@ -319,6 +319,7 @@ fdt="auto"
- netmap="no"
- sdl="auto"
- sdl_image="auto"
-+coreaudio="auto"
- virtiofsd="auto"
- virtfs="auto"
- libudev="auto"
-@@ -779,7 +780,7 @@ Darwin)
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
-   fi
--  audio_drv_list="coreaudio try-sdl"
-+  audio_drv_list="try-coreaudio try-sdl"
+@@ -626,13 +626,6 @@ fi
+ # the correct CPU with the --cpu option.
+ case $targetos in
+ Darwin)
+-  # on Leopard most of the system is 32-bit, so we have to ask the kernel if we can
+-  # run 64-bit userspace code.
+-  # If the user didn't specify a CPU explicitly and the kernel says this is
+-  # 64 bit hw, then assume x86_64. Otherwise fall through to the usual detection code.
+-  if test -z "$cpu" && test "$(sysctl -n hw.optional.x86_64)" = "1"; then
+-    cpu="x86_64"
+-  fi
+   HOST_DSOSUF=".dylib"
+   ;;
+ SunOS)
+@@ -776,10 +769,6 @@ OpenBSD)
+ Darwin)
+   bsd="yes"
+   darwin="yes"
+-  if [ "$cpu" = "x86_64" ] ; then
+-    QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
+-    QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
+-  fi
+   audio_drv_list="try-coreaudio try-sdl"
    audio_possible_drivers="coreaudio sdl"
    # Disable attempts to use ObjectiveC features in os/object.h since they
-   # won't work when we're compiling with gcc as a C compiler.
-@@ -3162,6 +3163,24 @@ EOF
-   fi
- fi
- 
-+##########################################
-+# detect CoreAudio
-+if test "$coreaudio" != "no" ; then
-+  coreaudio_libs="-framework CoreAudio"
-+  cat > $TMPC << EOF
-+#include <CoreAudio/CoreAudio.h>
-+int main(void)
-+{
-+  return (int)AudioGetCurrentHostTime();
-+}
-+EOF
-+  if compile_prog "" "$coreaudio_libs" ; then
-+    coreaudio=yes
-+  else
-+    coreaudio=no
-+  fi
-+fi
-+
- ##########################################
- # Sound support libraries probe
- 
-@@ -3218,8 +3237,20 @@ for drv in $audio_drv_list; do
-     fi
-     ;;
- 
--    coreaudio)
-+    coreaudio | try-coreaudio)
-+    if test "$coreaudio" = "no"; then
-+      if test "$drv" = "try-coreaudio"; then
-+        audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-coreaudio//')
-+      else
-+        error_exit "$drv check failed" \
-+                "Make sure to have the $drv is available."
-+      fi
-+    else
-       coreaudio_libs="-framework CoreAudio"
-+      if test "$drv" = "try-coreaudio"; then
-+        audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-coreaudio/coreaudio/')
-+      fi
-+    fi
-     ;;
- 
-     dsound)
 -- 
 2.28.0
 
