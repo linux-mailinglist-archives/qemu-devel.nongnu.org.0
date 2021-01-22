@@ -2,68 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 151783006AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 16:08:17 +0100 (CET)
-Received: from localhost ([::1]:47756 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C02E43006CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 16:13:16 +0100 (CET)
+Received: from localhost ([::1]:58596 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2y2q-0003w5-4C
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 10:08:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33030)
+	id 1l2y7f-00007L-Be
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 10:13:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34156)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2y1L-000332-Ae
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:06:43 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:38623)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2y1J-0006g8-Fg
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:06:43 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id s11so6921194edd.5
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 07:06:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=HJKkrqaCvgh/3PONcV14evJME2wAxTbpPG75qi12edQ=;
- b=jQ3dfuCNdFIwaPaeMxL5pKuyMED7LAFqCq/fo8JxgJ+FqpCgi1fWeu1bQojT7HBPDF
- VLUjx02y2UCD+JuZIVnPqYLhy82Ravt7RX3UdFwTCNNGqKOTHdAyT2WX2XItwD+Mb1MS
- V7b7g+jDj0LQAiYLG3rYjzOWHK3hVk4kC42ITtjPbSck5q1IVWW0JkAJx1XeBfewsA4A
- y7Q3zHDlT/ow7VTGOl95BZrd2Rj2USzzD3nENhORv3b3m14guWPuF+VNPkS5vEymF7nw
- xCLKnfnU3NzUKFDlbywnZr72rt2eYirQpbeVphM2MQICq5UaDq2c8LkE3GQHbVQuYbuV
- 1a2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=HJKkrqaCvgh/3PONcV14evJME2wAxTbpPG75qi12edQ=;
- b=k7JzIu4IBHFXsV2ST+8JkpyNfAzhFuBTFWi+ZE9LlVjxjLODO+EPzc30qRyLDYZBJ1
- l8OrKs674QkVUBOtJZanS8QXV4duA2GJoQA9wgzmla9pmVzGGvOE8nQU92wMTDz6g2s8
- Gsr9K3ZWopcwd370klLYwlwVnPWkAA9KJ08imYD8atgz7NrlT1K0TubI7yz7SceOCSaB
- vXPmgDfwEZ64EhZk6dDthXi7JJ8PVykJm0HEpZNHxlnIhXQvDlfugR1iW7IxSQr5CV36
- Zq4DhRIidRs7kOtaaTRfHI2W8REA1lnNfbI9jOc2LFIhmehho44ijKR70g8bzlAyE4c8
- gtVg==
-X-Gm-Message-State: AOAM533BSjQdCf3pT4O568fkFIGCTkAnb2mqr5hav6n+TPlcTSvNaWlH
- 2UpWpp4Yxm4pPWG2lzYcC6oCyVu+aNgPvmpKlXFWcQ==
-X-Google-Smtp-Source: ABdhPJxqXQEGsS0sBQeiYIS7SHB2RJZPH1ZjO4bdFwxTffZlvBdH0ULsSiwEAM4vIM2XPXtrOS6o/NB1Af5gzGjAB1g=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr3526023edd.52.1611327999943; 
- Fri, 22 Jan 2021 07:06:39 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l2y5P-0006zN-Qm; Fri, 22 Jan 2021 10:10:55 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:37104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l2y5M-00008k-8l; Fri, 22 Jan 2021 10:10:55 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 380C3C602E6;
+ Fri, 22 Jan 2021 16:10:49 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1611328249;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=U5Mp5i+Beskuw5QIaO3QIgdUSiNWtRWABsRDVUwBegg=;
+ b=DRjSJqH/ApRlyI6cWO6wReNxNDkYlu2KrkznEo8b4dQ6VcvdfUN/PsHx8g/6G/N6InUgXW
+ jNRNJ87SmC0g6EeAWzhUhtNFMEEofGjb93sMKT5Yzm/NEuwamoBZ1UZW2dECnTKHJKFgSj
+ C1JXmXhufrpY67ubZxipPCjMLqgDxMbfuHzvqMkFAG/BUOF9Fwh4NN8sarb4m3wVSPmbnV
+ +ohLAI3JwKBwYY+dviGzyvRmNJUmYBSmlYa9kl/JGbTZ6YKO3+j0a+dGrod2t82UgelSQO
+ /5A9SZL/by1QR/zRnHrq2l1p3U8LUDmdpNGM/nlwN6f02/2cJp+IJh6RwDO4qg==
+Date: Fri, 22 Jan 2021 16:11:10 +0100
+From: Luc Michel <luc@lmichel.fr>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 07/25] hw/timer/cmsdk-apb-timer: Add Clock input
+Message-ID: <20210122151110.oznikz7qcc2tyrsz@sekoia-pc.home.lmichel.fr>
+References: <20210121190622.22000-1-peter.maydell@linaro.org>
+ <20210121190622.22000-8-peter.maydell@linaro.org>
 MIME-Version: 1.0
-References: <20210120174456.275312-1-alxndr@bu.edu>
-In-Reply-To: <20210120174456.275312-1-alxndr@bu.edu>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 15:06:28 +0000
-Message-ID: <CAFEAcA8QNMiFe5p=-agvvnfFY_teMR3s-8AfT3OEa6GCK-Y=kg@mail.gmail.com>
-Subject: Re: [PULL 0/7] 2021-01-20 fuzzing patches
-To: Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210121190622.22000-8-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,39 +62,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jan 2021 at 17:45, Alexander Bulekov <alxndr@bu.edu> wrote:
->
-> Hi Peter,
->
-> The following changes since commit 48202c712412c803ddb56365c7bca322aa4e7506:
->
->   Merge remote-tracking branch 'remotes/pmaydell/tags/pull-target-arm-20210119-1' into staging (2021-01-19 15:47:23 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/a1xndr/qemu.git tags/pull-request-2021-01-20
->
-> for you to fetch changes up to fae446ae7b6f746377186b3e19fd3f732a8b4325:
->
->   fuzz: add virtio-9p configurations for fuzzing (2021-01-20 12:30:26 -0500)
+On 19:06 Thu 21 Jan     , Peter Maydell wrote:
+> As the first step in converting the CMSDK_APB_TIMER device to the
+> Clock framework, add a Clock input.  For the moment we do nothing
+> with this clock; we will change the behaviour from using the pclk-frq
+> property to using the Clock once all the users of this device have
+> been converted to wire up the Clock.
+> 
+> Since the device doesn't already have a doc comment for its "QEMU
+> interface", we add one including the new Clock.
+> 
+> This is a migration compatibility break for machines mps2-an505,
+> mps2-an521, musca-a, musca-b1.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-Hi; some of these commits seem to be missing Reviewed-by: tags;
-for instance "ignore address_space_map is_write flag" got a
-Reviewed-by from Darren Kenny, and that tag is visible in the
-(second) copy of the email for the pullreq that you sent to the
-list, but it isn't in the commit that's at the tag you name above,
-and it's the commits in the git repo that end up in master, not
-the patch emails sent to the list.
+Reviewed-by: Luc Michel <luc@lmichel.fr>
 
-Also, are you in a position to get your GPG key signed by
-anybody else? I appreciate that that's pretty tricky right
-now given Covid, but if you have the opportunity at some point
-that would be useful.
+> ---
+>  include/hw/timer/cmsdk-apb-timer.h | 9 +++++++++
+>  hw/timer/cmsdk-apb-timer.c         | 7 +++++--
+>  2 files changed, 14 insertions(+), 2 deletions(-)
+> 
+> diff --git a/include/hw/timer/cmsdk-apb-timer.h b/include/hw/timer/cmsdk-apb-timer.h
+> index baa009bb2da..fc2aa97acac 100644
+> --- a/include/hw/timer/cmsdk-apb-timer.h
+> +++ b/include/hw/timer/cmsdk-apb-timer.h
+> @@ -15,11 +15,19 @@
+>  #include "hw/qdev-properties.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/ptimer.h"
+> +#include "hw/clock.h"
+>  #include "qom/object.h"
+>  
+>  #define TYPE_CMSDK_APB_TIMER "cmsdk-apb-timer"
+>  OBJECT_DECLARE_SIMPLE_TYPE(CMSDKAPBTimer, CMSDK_APB_TIMER)
+>  
+> +/*
+> + * QEMU interface:
+> + *  + QOM property "pclk-frq": frequency at which the timer is clocked
+> + *  + Clock input "pclk": clock for the timer
+> + *  + sysbus MMIO region 0: the register bank
+> + *  + sysbus IRQ 0: timer interrupt TIMERINT
+> + */
+>  struct CMSDKAPBTimer {
+>      /*< private >*/
+>      SysBusDevice parent_obj;
+> @@ -29,6 +37,7 @@ struct CMSDKAPBTimer {
+>      qemu_irq timerint;
+>      uint32_t pclk_frq;
+>      struct ptimer_state *timer;
+> +    Clock *pclk;
+>  
+>      uint32_t ctrl;
+>      uint32_t value;
+> diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
+> index ae9c5422540..c63145ff553 100644
+> --- a/hw/timer/cmsdk-apb-timer.c
+> +++ b/hw/timer/cmsdk-apb-timer.c
+> @@ -35,6 +35,7 @@
+>  #include "hw/sysbus.h"
+>  #include "hw/irq.h"
+>  #include "hw/registerfields.h"
+> +#include "hw/qdev-clock.h"
+>  #include "hw/timer/cmsdk-apb-timer.h"
+>  #include "migration/vmstate.h"
+>  
+> @@ -212,6 +213,7 @@ static void cmsdk_apb_timer_init(Object *obj)
+>                            s, "cmsdk-apb-timer", 0x1000);
+>      sysbus_init_mmio(sbd, &s->iomem);
+>      sysbus_init_irq(sbd, &s->timerint);
+> +    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk", NULL, NULL);
+>  }
+>  
+>  static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+> @@ -236,10 +238,11 @@ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+>  
+>  static const VMStateDescription cmsdk_apb_timer_vmstate = {
+>      .name = "cmsdk-apb-timer",
+> -    .version_id = 1,
+> -    .minimum_version_id = 1,
+> +    .version_id = 2,
+> +    .minimum_version_id = 2,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_PTIMER(timer, CMSDKAPBTimer),
+> +        VMSTATE_CLOCK(pclk, CMSDKAPBTimer),
+>          VMSTATE_UINT32(ctrl, CMSDKAPBTimer),
+>          VMSTATE_UINT32(value, CMSDKAPBTimer),
+>          VMSTATE_UINT32(reload, CMSDKAPBTimer),
+> -- 
+> 2.20.1
+> 
 
-thanks
--- PMM
+-- 
 
