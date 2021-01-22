@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820012FFF52
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 10:39:55 +0100 (CET)
-Received: from localhost ([::1]:48866 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C52412FFF5D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 10:42:33 +0100 (CET)
+Received: from localhost ([::1]:52674 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2sv4-0006wL-Ku
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 04:39:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40972)
+	id 1l2sxc-0000EF-Sk
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 04:42:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
- id 1l2st6-00064U-Co
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:37:52 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37223)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
- id 1l2st4-00011e-PI
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:37:52 -0500
-Received: by mail-wm1-x332.google.com with SMTP id c128so3740128wme.2
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 01:37:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=linuxfoundation.org; s=google;
- h=message-id:subject:from:to:date:in-reply-to:references:user-agent
- :mime-version:content-transfer-encoding;
- bh=X/MhdIxKQVQioCvCjc1eSDFDP5NeTgmCS88UEuTJXFo=;
- b=M7r0lDQ4zUWkZhoi0d5LnM3HJvPp693VEC/cfSUOc+QLUCK4PBy/athm3CMySMHY7x
- qBSC29KsVL4MFyr9gn21CGH48HgvBVwehLOojS38Rhe6QXATHEk60N1zfbrhwX2KeEHL
- FPKzY6/o+6BWiIfTCcg4eGXiv14p7zdLrxQ3w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
- :references:user-agent:mime-version:content-transfer-encoding;
- bh=X/MhdIxKQVQioCvCjc1eSDFDP5NeTgmCS88UEuTJXFo=;
- b=gnIZL0LWX2JFfduFGss5Y19EaejJSjus5ftnpF15+oQ5pZNVyy5Jq+kHcWL17Z9om5
- Wdr6LvWWdzMSfXsEV8r1ge5Ar7M7R9/hDt5420/vNdiK/E33LlpwI5zfM7MticNaf/rh
- 4em2PzQQlg0NU1034jxpFyR1ziDY/74HrC/pL9LRtY7YRc6Tw+yZkjF6psGutP+LJSUf
- S0+l8vMVe72VHQyJacON4V3qbsa3TapSgjisvw/tnHwrFCTBxshxqeP6lIarjVlKAAUT
- 3SDnHNpz51u6vluYvmTEsfP2dG3HGREgacdNNxgRqPbkiyl3Qb2AFyn0ISORiQaL3uTn
- XSoQ==
-X-Gm-Message-State: AOAM530KtjKGiB0tpkQVorYIpscHHGOdiJdyGIp3SHMuLATDxIGQliMC
- rVOx5KFuJ6MUjWnwtxDPKN0LiTxRzBDjIA==
-X-Google-Smtp-Source: ABdhPJzSz22+zQU1edbSTQt1mchnT6HYrzuXG35JlhzxgMNjxaNEgGuTqK9n8CZP99Lwvz2yDtqUPg==
-X-Received: by 2002:a1c:9a90:: with SMTP id c138mr3092153wme.147.1611308268621; 
- Fri, 22 Jan 2021 01:37:48 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:6d8b:661b:50ff:3a78?
- ([2001:8b0:aba:5f3c:6d8b:661b:50ff:3a78])
- by smtp.gmail.com with ESMTPSA id n9sm11538573wrq.41.2021.01.22.01.37.48
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 01:37:48 -0800 (PST)
-Message-ID: <d4ea76d141067563c24aacc99dab9aa753cd55a2.camel@linuxfoundation.org>
-Subject: Re: [RFC PATCH] linux-user/mmap: Return EFAULT for invalid addresses
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Date: Fri, 22 Jan 2021 09:37:47 +0000
-In-Reply-To: <b71cbfb68c227ae999e8caa5e247d5bb93ddad43.camel@linuxfoundation.org>
-References: <b71cbfb68c227ae999e8caa5e247d5bb93ddad43.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.1-1 
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2swT-0008Fd-TM
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:41:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39057)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2swQ-0002Uc-2I
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:41:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611308474;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=P6z0HG0tg3vNPsFaDXBuGr9t1xSmO3ZYWCObfWMSDH0=;
+ b=Qb3D5qfjQKEU4kwlcBykYMR1uBOvdq0SMiWjEq6323IFdeVs1t1UQ8nUyDpNq063UcC/EJ
+ zXZGbWq2ndx4ldx/blgaMaMMDzPBJf11zwP/WIFJ44hvYEGM91OvEeLEC4cVeS8n564MyG
+ GkcxIDCy4sKv2ti9NrHYrq38V4aex3U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-264-ekT2sgsjOy6zz0rGtDUo_g-1; Fri, 22 Jan 2021 04:41:11 -0500
+X-MC-Unique: ekT2sgsjOy6zz0rGtDUo_g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1FDEC107ACF7;
+ Fri, 22 Jan 2021 09:41:10 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-109.ams2.redhat.com [10.36.112.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 76ECD5C23D;
+ Fri, 22 Jan 2021 09:41:08 +0000 (UTC)
+Subject: Re: [PATCH 1/2] meson: Explicit TCG backend used
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210122092205.1855659-1-philmd@redhat.com>
+ <20210122092205.1855659-2-philmd@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <1029e65b-38b8-9e89-1f21-b075e29ffe76@redhat.com>
+Date: Fri, 22 Jan 2021 10:41:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210122092205.1855659-2-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=richard.purdie@linuxfoundation.org;
- helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,45 +82,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-01-08 at 17:46 +0000, Richard Purdie wrote:
-> When using qemu-i386 to run gobject introspection parts of a webkitgtk 
-> build using musl as libc on a 64 bit host, it sits in an infinite loop 
-> of mremap calls of ever decreasing/increasing addresses.
+On 22/01/2021 10.22, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>   meson.build | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> I suspect something in the musl memory allocation code loops indefinitely
-> if it only sees ENOMEM and only exits when it hits EFAULT.
-> 
-> According to the docs, trying to mremap outside the address space
-> can/should return EFAULT and changing this allows the build to succeed.
-> 
-> There was previous discussion of this as it used to work before qemu 2.11
-> and we've carried hacks to work around it since, this appears to be a
-> better fix of the real issue?
-> 
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
-> 
-> Index: qemu-5.2.0/linux-user/mmap.c
-> ===================================================================
-> --- qemu-5.2.0.orig/linux-user/mmap.c
-> +++ qemu-5.2.0/linux-user/mmap.c
-> @@ -727,7 +727,7 @@ abi_long target_mremap(abi_ulong old_add
->           !guest_range_valid(new_addr, new_size)) ||
->          ((flags & MREMAP_MAYMOVE) == 0 &&
->           !guest_range_valid(old_addr, new_size))) {
-> -        errno = ENOMEM;
-> +        errno = EFAULT;
->          return -1;
->      }
+> diff --git a/meson.build b/meson.build
+> index 8535a83fb70..0a645e54662 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -2419,8 +2419,12 @@
+>   endif
+>   summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
+>   if config_all.has_key('CONFIG_TCG')
+> +  if config_host.has_key('CONFIG_TCG_INTERPRETER')
+> +    summary_info += {'TCG backend':   'TCG interpreter (experimental)'}
 
-Any comments on this? I believe its a valid issue that needs fixing and
-multiple distros appear to be carrying fixes in this area related to
-this.
+maybe say "experimental and slow" in the parentheses?
 
-Cheers,
+> +  else
+> +    summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
+> +  endif
+>     summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
+> -  summary_info += {'TCG interpreter':   config_host.has_key('CONFIG_TCG_INTERPRETER')}
+>   endif
+>   summary_info += {'target list':       ' '.join(target_dirs)}
+>   if have_system
+> 
 
-Richard
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
