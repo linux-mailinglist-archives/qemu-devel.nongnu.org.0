@@ -2,75 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C90A300516
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:16:29 +0100 (CET)
-Received: from localhost ([::1]:55676 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 615C4300557
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:27:03 +0100 (CET)
+Received: from localhost ([::1]:47014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2xEi-0002dj-1z
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:16:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45090)
+	id 1l2xOr-0002uI-Ef
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:26:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2xAf-0006mv-L9
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:12:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2xAb-0006hZ-0s
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:12:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611324730;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Z/dZ98GRzsCjBGleFz8D8jGZ2GPr7o5JHxZIT40FeuQ=;
- b=KzN7Gw1KJq+dPrRmf5AjSM4QeHwEox3H/DDpvzVpRPfxHuMdA/kW0WOy0BthkfG3BAtgs7
- e+4Hs9Fy1HLEOf98lkMJZzbCXfr+c6XfwjJsM2F+LK3TpKQ+BN06QED8AhJ2nUsdJFIy4Z
- 263OxhmilcX6w+SwvVsWLwthHN5Ob+M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-199-GAtBQt-ANYysGxibil3Ryw-1; Fri, 22 Jan 2021 09:12:03 -0500
-X-MC-Unique: GAtBQt-ANYysGxibil3Ryw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9A9B1005C83
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 14:11:55 +0000 (UTC)
-Received: from redhat.com (ovpn-115-108.ams2.redhat.com [10.36.115.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 963755DA2D;
- Fri, 22 Jan 2021 14:11:54 +0000 (UTC)
-Date: Fri, 22 Jan 2021 14:11:51 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH] vnc: drop vnc_colordepth() call.
-Message-ID: <20210122141151.GF3150238@redhat.com>
-References: <20210122085525.3827724-1-kraxel@redhat.com>
- <450c366a-d6a8-8a23-aad7-54eadd444b5e@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2xNh-0002SM-K8
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:25:47 -0500
+Received: from indium.canonical.com ([91.189.90.7]:49960)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2xNd-0004KQ-Ii
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:25:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l2xNa-0001zX-Nc
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 14:25:38 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id A6B962E8137
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 14:25:38 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <450c366a-d6a8-8a23-aad7-54eadd444b5e@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 22 Jan 2021 14:13:22 -0000
+From: Santiago Piccinini <1912790@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: spiccinini
+X-Launchpad-Bug-Reporter: Santiago Piccinini (spiccinini)
+X-Launchpad-Bug-Modifier: Santiago Piccinini (spiccinini)
+Message-Id: <161132480248.13427.4671717856160986897.malonedeb@chaenomeles.canonical.com>
+Subject: [Bug 1912790] [NEW] qemu-aarch64-static segfaults python3
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: a699b1539b3c0a7ae3d01891327e78f21337d697
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,100 +68,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Reply-To: Bug 1912790 <1912790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 02:54:24PM +0100, Laszlo Ersek wrote:
-> Hi Gerd,
-> 
-> On 01/22/21 09:55, Gerd Hoffmann wrote:
-> > With gtk-vnc (which supports VNC_FEATURE_WMVI) this results in
-> > sending a VNC_ENCODING_WMVi message to the client.  Which in turn
-> > seems to make gtk-vnc respond with another non-incremental update
-> > request.  Hello endless loop ...
-> >
-> > Drop the call.
-> >
-> > Fixes: 9e1632ad07ca ("vnc: move initialization to framebuffer_update_request")
-> > Reported-by: Laszlo Ersek <lersek@redhat.com>
-> > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> > ---
-> >  ui/vnc.c | 1 -
-> >  1 file changed, 1 deletion(-)
-> >
-> > diff --git a/ui/vnc.c b/ui/vnc.c
-> > index d429bfee5a65..0a3e2f4aa98c 100644
-> > --- a/ui/vnc.c
-> > +++ b/ui/vnc.c
-> > @@ -2041,7 +2041,6 @@ static void framebuffer_update_request(VncState *vs, int incremental,
-> >      } else {
-> >          vs->update = VNC_STATE_UPDATE_FORCE;
-> >          vnc_set_area_dirty(vs->dirty, vs->vd, x, y, w, h);
-> > -        vnc_colordepth(vs);
-> >          vnc_desktop_resize(vs);
-> >          vnc_led_state_change(vs);
-> >          vnc_cursor_define(vs);
-> >
-> 
-> while this patch has some effect, it does not fix the issue.
-> 
-> * With the gvncviewer binary I mentioned before, there is no change in
-> behavior -- initial screen shown, no updates then, and finally
-> connection dropped:
-> 
-> > Connected to server
-> > Remote desktop size changed to 800x480
-> > Connection initialized
-> > Error: Failed to flush data
-> > Disconnected from server
-> 
-> * With virt-manager, there is a before-after difference: the screen is
-> now *flashing*, between actual content and a black void. Meanwhile the
-> VNC client is still spinning.
-> 
-> * If I pass "--gtk-vnc-debug" to "gvncviewer", the following log snippet
-> keeps repeating:
-> 
-> > src/vncconnection.c Emit main context 8
-> > src/vncconnection.c Re-requesting framebuffer update at 0,0 size 640x480, incremental 0
-> > src/vncconnection.c Num rects 1
-> > src/vncconnection.c FramebufferUpdate type=-223 area (640x480) at location 0,0
-> > src/vncconnection.c Desktop resize w=640 h=480
-> > src/vncconnection.c Emit main context 5
-> > src/vncdisplay.c Framebuffer size / format unchanged, skipping recreate
-> > src/vncconnection.c Requesting framebuffer update at 0,0 size 640x480, incremental 0
-> > src/vncconnection.c Num rects 1
-> > src/vncconnection.c FramebufferUpdate type=-261 area (1x1) at location 0,0
-> > src/vncconnection.c LED state: 0
+Public bug reported:
 
-If gtk-vnc sees an update with a psuedo encoding it will re-request the
-last framebuffer update message.
+qemu-aarch64-static is segfaulting in a debian build process using
+debootstrap.
 
-In this case it had a fb update request with incremental==0 pending, so
-when seeing the pesudo encoding it re-request incremental==0 again. This
-triggers a loop in QEMU, because QEMU is unconditionally sending these
-psuedo-encodings when every non-incremental update.
+```
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from /usr/bin/qemu-aarch64-static...
+Reading symbols from /usr/lib/debug/.build-id/30/efd3930fb9519b21470b113679=
+376f2ffbb41a.debug...
+[New LWP 21817]
+[New LWP 21819]
 
-Once gtk-vnc receives a non-psuedo encoding update, it wil switch to
-using incremental==1.
+warning: Corrupted shared library list: 0xd5f140 !=3D 0x0
+Warning: couldn't activate thread debugging using libthread_db: Cannot find=
+ new threads: debugger service failed
+Core was generated by `/usr/bin/qemu-aarch64-static /usr/bin/python3.9 -c i=
+mport imp; print(imp.get_ta'.
+Program terminated with signal SIGSEGV, Segmentation fault.
+#0  have_mmap_lock () at ../../linux-user/mmap.c:43
+43          return mmap_lock_count > 0 ? true : false;
+[Current thread is 1 (LWP 21817)]
+(gdb) bt
+#0  have_mmap_lock () at ../../linux-user/mmap.c:43
+#1  0x000000000058eb2c in page_set_flags (start=3Dstart@entry=3D4194304, en=
+d=3Dend@entry=3D26451968, flags=3Dflags@entry=3D8) at ../../accel/tcg/trans=
+late-all.c:2568
+#2  0x00000000005638cd in target_mmap (start=3Dstart@entry=3D4194304, len=
+=3D<optimized out>, len@entry=3D22257160, target_prot=3Dtarget_prot@entry=
+=3D0, flags=3D16434, =
 
+    fd=3Dfd@entry=3D-1, offset=3Doffset@entry=3D0) at ../../linux-user/mmap=
+.c:602
+#3  0x000000000057042d in load_elf_image (image_name=3D0x7ffff7b7e8d8 "/usr=
+/bin/python3.9", image_fd=3D3, info=3Dinfo@entry=3D0x7ffff7b7ce70, =
 
-The problem is this QEMU code above is sending the psuedo encodings
-synchronously upon getting the framebuffer update request, and so
-putting gtk-vnc into a loop, as QEMU nevers gets around to sending
-the actual framebuffer data which we're expecting.
+    pinterp_name=3Dpinterp_name@entry=3D0x7ffff7b7cbd0, bprm_buf=3Dbprm_buf=
+@entry=3D0x7ffff7b7d080 "\177ELF\002\001\001") at ../../linux-user/elfload.=
+c:2700
+#4  0x0000000000570b9c in load_elf_binary (bprm=3Dbprm@entry=3D0x7ffff7b7d0=
+80, info=3Dinfo@entry=3D0x7ffff7b7ce70) at ../../linux-user/elfload.c:3104
+#5  0x00000000005c2fdb in loader_exec (fdexec=3Dfdexec@entry=3D3, filename=
+=3D<optimized out>, argv=3Dargv@entry=3D0x2622910, envp=3Denvp@entry=3D0x26=
+86340, =
 
-QEMU needs to only send these psuedo encodings if they reflect something
-which has changed on the server, rather than sending them unconditionally
-on every non-incremental update. 
+    regs=3Dregs@entry=3D0x7ffff7b7cf70, infop=3Dinfop@entry=3D0x7ffff7b7ce7=
+0, bprm=3D<optimized out>) at ../../linux-user/linuxload.c:147
+#6  0x00000000004027f7 in main (argc=3D<optimized out>, argv=3D0x7ffff7b7d6=
+38, envp=3D<optimized out>) at ../../linux-user/main.c:810
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+(gdb) i r
+rax            0x0                 0
+rbx            0x400000            4194304
+rcx            0x7a95d2            8033746
+rdx            0x8                 8
+rsi            0x193a000           26451968
+rdi            0x400000            4194304
+rbp            0x400000            0x400000
+rsp            0x7ffff7b7c978      0x7ffff7b7c978
+r8             0xffffffff          4294967295
+r9             0x0                 0
+r10            0x4032              16434
+r11            0x206               518
+r12            0x193a000           26451968
+r13            0x8                 8
+r14            0x8                 8
+r15            0x193a000           26451968
+rip            0x562f20            0x562f20 <have_mmap_lock>
+eflags         0x10206             [ PF IF RF ]
+cs             0x33                51
+ss             0x2b                43
+ds             0x0                 0
+es             0x0                 0
+fs             0x0                 0
+gs             0x0                 0
 
+```
+
+Python3.9 is run as part of the installation of python3-minimal and the
+segfaults happens reliably here. Debian versionn bullseye (testing)
+
+Version: qemu-aarch64 version 5.2.0 (Debian 1:5.2+dfsg-3)
+
+Host is a qemu-system-x86_64: Linux runner 4.19.0-13-amd64 #1 SMP Debian
+4.19.160-2 (2020-11-28) x86_64 GNU/Linux.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "Core dump"
+   https://bugs.launchpad.net/bugs/1912790/+attachment/5455654/+files/qemu-=
+aarch64-dump.xz
+
+** Summary changed:
+
+- qemu-aarch64-static segfaults ldconfig
++ qemu-aarch64-static segfaults python3
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912790
+
+Title:
+  qemu-aarch64-static segfaults python3
+
+Status in QEMU:
+  New
+
+Bug description:
+  qemu-aarch64-static is segfaulting in a debian build process using
+  debootstrap.
+
+  ```
+  Type "apropos word" to search for commands related to "word"...
+  Reading symbols from /usr/bin/qemu-aarch64-static...
+  Reading symbols from /usr/lib/debug/.build-id/30/efd3930fb9519b21470b1136=
+79376f2ffbb41a.debug...
+  [New LWP 21817]
+  [New LWP 21819]
+
+  warning: Corrupted shared library list: 0xd5f140 !=3D 0x0
+  Warning: couldn't activate thread debugging using libthread_db: Cannot fi=
+nd new threads: debugger service failed
+  Core was generated by `/usr/bin/qemu-aarch64-static /usr/bin/python3.9 -c=
+ import imp; print(imp.get_ta'.
+  Program terminated with signal SIGSEGV, Segmentation fault.
+  #0  have_mmap_lock () at ../../linux-user/mmap.c:43
+  43          return mmap_lock_count > 0 ? true : false;
+  [Current thread is 1 (LWP 21817)]
+  (gdb) bt
+  #0  have_mmap_lock () at ../../linux-user/mmap.c:43
+  #1  0x000000000058eb2c in page_set_flags (start=3Dstart@entry=3D4194304, =
+end=3Dend@entry=3D26451968, flags=3Dflags@entry=3D8) at ../../accel/tcg/tra=
+nslate-all.c:2568
+  #2  0x00000000005638cd in target_mmap (start=3Dstart@entry=3D4194304, len=
+=3D<optimized out>, len@entry=3D22257160, target_prot=3Dtarget_prot@entry=
+=3D0, flags=3D16434, =
+
+      fd=3Dfd@entry=3D-1, offset=3Doffset@entry=3D0) at ../../linux-user/mm=
+ap.c:602
+  #3  0x000000000057042d in load_elf_image (image_name=3D0x7ffff7b7e8d8 "/u=
+sr/bin/python3.9", image_fd=3D3, info=3Dinfo@entry=3D0x7ffff7b7ce70, =
+
+      pinterp_name=3Dpinterp_name@entry=3D0x7ffff7b7cbd0, bprm_buf=3Dbprm_b=
+uf@entry=3D0x7ffff7b7d080 "\177ELF\002\001\001") at ../../linux-user/elfloa=
+d.c:2700
+  #4  0x0000000000570b9c in load_elf_binary (bprm=3Dbprm@entry=3D0x7ffff7b7=
+d080, info=3Dinfo@entry=3D0x7ffff7b7ce70) at ../../linux-user/elfload.c:3104
+  #5  0x00000000005c2fdb in loader_exec (fdexec=3Dfdexec@entry=3D3, filenam=
+e=3D<optimized out>, argv=3Dargv@entry=3D0x2622910, envp=3Denvp@entry=3D0x2=
+686340, =
+
+      regs=3Dregs@entry=3D0x7ffff7b7cf70, infop=3Dinfop@entry=3D0x7ffff7b7c=
+e70, bprm=3D<optimized out>) at ../../linux-user/linuxload.c:147
+  #6  0x00000000004027f7 in main (argc=3D<optimized out>, argv=3D0x7ffff7b7=
+d638, envp=3D<optimized out>) at ../../linux-user/main.c:810
+
+  (gdb) i r
+  rax            0x0                 0
+  rbx            0x400000            4194304
+  rcx            0x7a95d2            8033746
+  rdx            0x8                 8
+  rsi            0x193a000           26451968
+  rdi            0x400000            4194304
+  rbp            0x400000            0x400000
+  rsp            0x7ffff7b7c978      0x7ffff7b7c978
+  r8             0xffffffff          4294967295
+  r9             0x0                 0
+  r10            0x4032              16434
+  r11            0x206               518
+  r12            0x193a000           26451968
+  r13            0x8                 8
+  r14            0x8                 8
+  r15            0x193a000           26451968
+  rip            0x562f20            0x562f20 <have_mmap_lock>
+  eflags         0x10206             [ PF IF RF ]
+  cs             0x33                51
+  ss             0x2b                43
+  ds             0x0                 0
+  es             0x0                 0
+  fs             0x0                 0
+  gs             0x0                 0
+
+  ```
+
+  Python3.9 is run as part of the installation of python3-minimal and
+  the segfaults happens reliably here. Debian versionn bullseye
+  (testing)
+
+  Version: qemu-aarch64 version 5.2.0 (Debian 1:5.2+dfsg-3)
+
+  Host is a qemu-system-x86_64: Linux runner 4.19.0-13-amd64 #1 SMP
+  Debian 4.19.160-2 (2020-11-28) x86_64 GNU/Linux.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912790/+subscriptions
 
