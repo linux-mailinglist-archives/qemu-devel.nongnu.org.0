@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40051300ED6
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:25:09 +0100 (CET)
-Received: from localhost ([::1]:40954 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EB1300EE2
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:28:02 +0100 (CET)
+Received: from localhost ([::1]:44234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l33vY-0004fy-CN
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:25:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35694)
+	id 1l33yL-0006Cx-Fd
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:28:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36346)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l33tu-0003iP-8w; Fri, 22 Jan 2021 16:23:26 -0500
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:45892)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l33ts-0002az-M6; Fri, 22 Jan 2021 16:23:26 -0500
-Received: by mail-io1-xd35.google.com with SMTP id p72so14055447iod.12;
- Fri, 22 Jan 2021 13:23:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=qgNwJwfcg3OEAnF8uUu7GFzzYY6fkaKwmAll0Ov8Evg=;
- b=fH69M5IBXaFgHFrGh2ixRPO1oTxOL4IWnyh7RZ321CzJdZykEDunHdG2X8IxH+W+qy
- 2BBZSAm4x6pWuPVriGyOqHU45Q+c8psH1SzB6ct97tAtgYiK7G1u45yn0LHH/4SXzgrC
- clClL9rGZ5nZvn1BG7P7OjRVbzEPKYhWuPIEv9lPcrXAyJykaeXIxONynEjsoRLPEIHW
- NMYYe7+oDlUYOOJfcFqs6vr37YKQjvQhpC7/jFl9juK2jGS9gx+SL/d9LJUF+K9Xhk+W
- /r9gkZEeAcEmk0v+bpSmbAZn+RIrNoy5CH83dSEDnp2/dGPV4jYCVRA1eLZEBRk4JfDk
- JD9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qgNwJwfcg3OEAnF8uUu7GFzzYY6fkaKwmAll0Ov8Evg=;
- b=JvmiSEMCDgYpYck6VoG56NMY+DyiJ7cz59c5ZI/i3XarAuUhvfjzqwOKoyixVBYwa8
- wee9mua4RYeI/hir6o/59SyTKb17R5em3Hh3GFMBSk/PwUDKMr59OBL6LGeZhg70X6qC
- A4sdQfSN9IQQCI0oY91kmVxOFP2OQ+8w9toplEXmM7Nhl+3uRaUg3tRdBv8S0ajpGgnt
- fi1qiaJyAJdhHE83Z2EIsb9Fnndm+F6obURU7ZoWTx6J4ZE0CrnDGhokT/tDXQPL+h2a
- bAXhEypfcuvAvcSGs9KAHDtjB8aNeaGmeAr2N8Kju+D5FegOVcy2b1Mx4DJIAK3a1P5R
- 1Jiw==
-X-Gm-Message-State: AOAM531PrBpc/3GJR7zDjM1W/lYBIzGm3n0Cu6yXm+Ww6gZAdrtVJC+F
- mRbICvwBQyauSy0oPVu8IDnw6rKVnP4yoOVFE8I=
-X-Google-Smtp-Source: ABdhPJzckLpYnrDpBM0s00IUA/eqpKX+QYOcWUOPwNffhAX4iO/w6kM437vzZ1eU+82scC2NHjfjfdB9bqiZksP5bys=
-X-Received: by 2002:a6b:7d42:: with SMTP id d2mr4852532ioq.176.1611350603482; 
- Fri, 22 Jan 2021 13:23:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l33xK-0005kc-Bo
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:26:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32038)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l33xE-00049U-DV
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:26:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611350810;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Ue4EQeqM5Rk0roeeS2rwwv8e+htXIHyOTeu6XmI57pc=;
+ b=Cisd+Q/Dklh5aPQbe5v2+ZDnQ6ed84KLoc6c+Cys1nSlSct8n86Ia+UR9JDD7b32WRqMfC
+ wFapj5jwjxDIhEhVq2evPOvbnNpKeuLY2eVTrBBZ9m/hWcrCvTktDKpjLPOQwuTgNU7Vts
+ rzKQu42wd8AA+8zwsOiTE9vJvl88fiU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-555-VBYmO4Z-MLuJVy-TqUaiEg-1; Fri, 22 Jan 2021 16:26:48 -0500
+X-MC-Unique: VBYmO4Z-MLuJVy-TqUaiEg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84B46802B47
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 21:26:46 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-81.ams2.redhat.com
+ [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2007C5D6CF;
+ Fri, 22 Jan 2021 21:26:41 +0000 (UTC)
+Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+From: Laszlo Ersek <lersek@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20210122102041.27031-1-mreitz@redhat.com>
+ <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
+ <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
+ <1121a803-98e7-6d41-119c-3d82717976ec@redhat.com>
+Message-ID: <cba8919b-0480-3520-6ad6-920bf9d4186e@redhat.com>
+Date: Fri, 22 Jan 2021 22:26:40 +0100
 MIME-Version: 1.0
-References: <20210122122958.12311-1-bmeng.cn@gmail.com>
- <20210122122958.12311-3-bmeng.cn@gmail.com>
-In-Reply-To: <20210122122958.12311-3-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 22 Jan 2021 13:22:56 -0800
-Message-ID: <CAKmqyKM=FfKdQs7zQrW=a_3iA=euB0Z5JiH0h00dvZ7AQDKnPg@mail.gmail.com>
-Subject: Re: [PATCH 2/4] hw/riscv: virt: Drop the 'link_up' parameter of
- gpex_pcie_init()
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1121a803-98e7-6d41-119c-3d82717976ec@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,63 +81,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 4:32 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> `link_up` is never used in gpex_pcie_init(). Drop it.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 01/22/21 19:29, Laszlo Ersek wrote:
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> OK, I'll try my hand at it; I hope I won't be eating my words.
 
-Alistair
+The more I look at it, the less comfortable I am with the existent code.
 
-> ---
->
->  hw/riscv/virt.c | 14 +++++++-------
->  1 file changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index cfd52bc59b..1d05bb3ef9 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -449,7 +449,7 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
->                                            hwaddr ecam_base, hwaddr ecam_size,
->                                            hwaddr mmio_base, hwaddr mmio_size,
->                                            hwaddr pio_base,
-> -                                          DeviceState *plic, bool link_up)
-> +                                          DeviceState *plic)
->  {
->      DeviceState *dev;
->      MemoryRegion *ecam_alias, *ecam_reg;
-> @@ -669,12 +669,12 @@ static void virt_machine_init(MachineState *machine)
->      }
->
->      gpex_pcie_init(system_memory,
-> -                         memmap[VIRT_PCIE_ECAM].base,
-> -                         memmap[VIRT_PCIE_ECAM].size,
-> -                         memmap[VIRT_PCIE_MMIO].base,
-> -                         memmap[VIRT_PCIE_MMIO].size,
-> -                         memmap[VIRT_PCIE_PIO].base,
-> -                         DEVICE(pcie_plic), true);
-> +                   memmap[VIRT_PCIE_ECAM].base,
-> +                   memmap[VIRT_PCIE_ECAM].size,
-> +                   memmap[VIRT_PCIE_MMIO].base,
-> +                   memmap[VIRT_PCIE_MMIO].size,
-> +                   memmap[VIRT_PCIE_PIO].base,
-> +                   DEVICE(pcie_plic));
->
->      serial_mm_init(system_memory, memmap[VIRT_UART0].base,
->          0, qdev_get_gpio_in(DEVICE(mmio_plic), UART0_IRQ), 399193,
-> --
-> 2.25.1
->
->
+For example, I don't understand why the original commit -- 3194c8ceeba0,
+"coroutine: adding sigaltstack method (.c source)", 2012-03-12 --
+wrapped the sigsuspend() in a loop, dependent on the "tr_called" flag.
+That looks like a platform bug workaround -- it suggests that
+sigsuspend() could wake spuriously, i.e., not in response to the pending
+SIGUSR2.
+
+That seems bogus, per POSIX, given that all signals except SIGUSR2 are
+included in the mask passed to sigsuspend().
+
+https://pubs.opengroup.org/onlinepubs/9699919799/functions/sigsuspend.html
+
+Also, the comment says, "the signal can be delivered the first time
+sigsuspend() is called", which is misleading -- the signal *IS*
+delivered the first time sigsuspend() is called, given that we call
+pthread_kill(pthread_self()) just before, with SIGUSR2 masked. So by the
+time we reach sigsuspend(), the signal is pending.
+
+(The synchronous nature of pthread_kill(pthread_self()) is confirmed by:
+
+https://pubs.opengroup.org/onlinepubs/9699919799/functions/raise.html
+
+which explains (a) the equivalence of raise() with
+pthread_kill(pthread_self()), and (b) the fact that raise() does not
+return until after the signal handler does, if a signal handler is
+called. Given that delivery is dependent on generation, and delivery is
+synchronous per description, generation *cannot* be asynchronous.)
+
+All of this makes me super uncomfortable with the code. Either the
+platform(s) where it was written & tested did not conform to POSIX, or
+the original author missed something, or *I* am missing something. In
+each case, I should not be modifying this code; I'm flying blind.
+
+I'm drifting towards an overhaul of coroutine-sigaltstack, based on my
+personal understanding of POSIX, but given that I can absolutely not
+*test* coroutine-sigaltstack on the platforms where it actually matters,
+an "overhaul" by me would be reckless.
+
+I didn't expect these skeletons when I first read Max's "Thread safety
+of coroutine-sigaltstack" email :/
+
+Max, after having worked on top of your patch for a few hours, I
+officially endorse your mutex approach. I can't encourage you or myself
+to touch this code, in good conscience. It's not that it's "bad"; it's
+inexplicable and (to me) untestable.
+
+Laszlo
+
 
