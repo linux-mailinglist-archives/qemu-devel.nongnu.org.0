@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84B0C300D42
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:03:17 +0100 (CET)
-Received: from localhost ([::1]:36016 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22298300D6A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:11:20 +0100 (CET)
+Received: from localhost ([::1]:42194 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l32eK-0001CB-2M
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:03:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48422)
+	id 1l32m6-00049R-Ji
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:11:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49946)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l32bu-0000S4-T7; Fri, 22 Jan 2021 15:00:47 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:50026)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l32br-0008Uw-Lp; Fri, 22 Jan 2021 15:00:46 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 41BC2C602E6;
- Fri, 22 Jan 2021 21:00:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611345640;
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l32k6-0003ZH-K8
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:09:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27340)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l32k0-0003iD-JL
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:09:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611346146;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=+/F7BJg3mZoz1KfDT2WZeYlQBEptz0kAFjeoVnX11wY=;
- b=d6ZT2chsWAOM+R4moGuNKoO0KRtrt54sEcOS4/tMCaXdwmoaipqaA5se3i54cldeXVqb+j
- RHctyopjrKk5iUqskKLOO2IC+ZpEVjnr6IJLkIhGBWGf/1ql3sXQDCHmZ/XE2LenkJngQ+
- w/LdmiQmMynvuOjzA20sF2iHFRGIV5IfE+XL0HziG+9dijO2s7x7r3/U9A/UuBvCH6D7UE
- BzA7t/JmMqhY895YLn4YDsnFm0RsUhoPp/XIIbufheBW2e5trEeCYCcsJYlLgXZ2NJKE0m
- Ec+zEjqNC7D+Efr7M4AzYJ0aifsr3DBp+2jaWeEN0ElWROqm73VarR5/voeZYQ==
-Date: Fri, 22 Jan 2021 21:01:01 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 15/25] hw/arm/musca: Create and connect ARMSSE Clocks
-Message-ID: <20210122200101.6ebkvkwntmatnwm3@sekoia-pc.home.lmichel.fr>
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-16-peter.maydell@linaro.org>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=ByhSEzZdJIl7WMzxwngIXqOEWbdTrKVhXRS21CzFeWI=;
+ b=eDu51DkRAqyOWhMld4TKHF9iYN2YI5XK2NLMsMFmOeOpcm36UH9NoSXuZmM/0eLU34612c
+ eJZfjAP/b7N+O5wSzPHIG65kFmykt5VCsKhiz2lmJbd6PIBIKRDMRJoclUgLIM05moHmwU
+ +rE1NoVKXNeDwa19GXuwYJKf5ax9dn4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-M4G-RvnVNDKT0tkK5ftlqw-1; Fri, 22 Jan 2021 15:09:03 -0500
+X-MC-Unique: M4G-RvnVNDKT0tkK5ftlqw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5FD0F180E472
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 20:09:02 +0000 (UTC)
+Received: from eperezma.remote.csb (ovpn-113-26.ams2.redhat.com [10.36.113.26])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 20FD550DE3;
+ Fri, 22 Jan 2021 20:08:53 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] virtio: Add corresponding memory_listener_unregister to
+ unrealize
+Date: Fri, 22 Jan 2021 21:08:51 +0100
+Message-Id: <20210122200851.345259-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-16-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, T_SPF_TEMPERROR=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,77 +76,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Create and connect the two clocks needed by the ARMSSE.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Cannot destroy address spaces of IOMMU-aware virtio devices without it,
+since they can contain memory listeners.
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+Fixes: c611c76417f ("virtio: add MemoryListener to cache ring translations")
+Buglink: https://bugs.launchpad.net/qemu/+bug/1912846
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/virtio.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-> ---
->  hw/arm/musca.c | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
-> 
-> diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-> index d82bef11cf2..a9292482a06 100644
-> --- a/hw/arm/musca.c
-> +++ b/hw/arm/musca.c
-> @@ -33,6 +33,7 @@
->  #include "hw/misc/tz-ppc.h"
->  #include "hw/misc/unimp.h"
->  #include "hw/rtc/pl031.h"
-> +#include "hw/qdev-clock.h"
->  #include "qom/object.h"
->  
->  #define MUSCA_NUMIRQ_MAX 96
-> @@ -82,6 +83,8 @@ struct MuscaMachineState {
->      UnimplementedDeviceState sdio;
->      UnimplementedDeviceState gpio;
->      UnimplementedDeviceState cryptoisland;
-> +    Clock *sysclk;
-> +    Clock *s32kclk;
->  };
->  
->  #define TYPE_MUSCA_MACHINE "musca"
-> @@ -96,6 +99,8 @@ OBJECT_DECLARE_TYPE(MuscaMachineState, MuscaMachineClass, MUSCA_MACHINE)
->   * don't model that in our SSE-200 model yet.
->   */
->  #define SYSCLK_FRQ 40000000
-> +/* Slow 32Khz S32KCLK frequency in Hz */
-> +#define S32KCLK_FRQ (32 * 1000)
->  
->  static qemu_irq get_sse_irq_in(MuscaMachineState *mms, int irqno)
->  {
-> @@ -367,6 +372,11 @@ static void musca_init(MachineState *machine)
->          exit(1);
->      }
->  
-> +    mms->sysclk = clock_new(OBJECT(machine), "SYSCLK");
-> +    clock_set_hz(mms->sysclk, SYSCLK_FRQ);
-> +    mms->s32kclk = clock_new(OBJECT(machine), "S32KCLK");
-> +    clock_set_hz(mms->s32kclk, S32KCLK_FRQ);
-> +
->      object_initialize_child(OBJECT(machine), "sse-200", &mms->sse,
->                              TYPE_SSE200);
->      ssedev = DEVICE(&mms->sse);
-> @@ -376,6 +386,8 @@ static void musca_init(MachineState *machine)
->      qdev_prop_set_uint32(ssedev, "init-svtor", mmc->init_svtor);
->      qdev_prop_set_uint32(ssedev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width);
->      qdev_prop_set_uint32(ssedev, "MAINCLK_FRQ", SYSCLK_FRQ);
-> +    qdev_connect_clock_in(ssedev, "MAINCLK", mms->sysclk);
-> +    qdev_connect_clock_in(ssedev, "S32KCLK", mms->s32kclk);
->      /*
->       * Musca-A takes the default SSE-200 FPU/DSP settings (ie no for
->       * CPU0 and yes for CPU1); Musca-B1 explicitly enables them for CPU0.
-> -- 
-> 2.20.1
-> 
-
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index b308026596..67efd2c301 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3680,6 +3680,7 @@ static void virtio_device_unrealize(DeviceState *dev)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(dev);
+ 
++    memory_listener_unregister(&vdev->listener);
+     virtio_bus_device_unplugged(vdev);
+ 
+     if (vdc->unrealize != NULL) {
 -- 
+2.27.0
+
 
