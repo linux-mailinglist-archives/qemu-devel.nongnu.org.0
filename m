@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEF730045B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 14:39:18 +0100 (CET)
-Received: from localhost ([::1]:52878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A80C30046E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 14:43:34 +0100 (CET)
+Received: from localhost ([::1]:57522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2wej-00014F-9v
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 08:39:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35038)
+	id 1l2wir-0003Tl-Et
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 08:43:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2wdJ-00007z-1x
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:37:49 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44900)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2whm-0002Vz-07
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:42:26 -0500
+Received: from mail-yb1-xb31.google.com ([2607:f8b0:4864:20::b31]:38096)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l2wdE-0008Jm-9g
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:37:45 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id w1so7647627ejf.11
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 05:37:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2whk-000227-Gm
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:42:25 -0500
+Received: by mail-yb1-xb31.google.com with SMTP id r32so5483002ybd.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 05:42:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=hNYYnoHoshlqNXRQlIYMrSDPGmEhNFlwQL1xSHnJIQI=;
- b=tTQqd+6zX35MxNIC7jepxxTg0iAzCSbVKvKd4pNXlMYmrROkge5mday7W5haaW8LXm
- B/dBSi/eNi0EWhouVzhz/SspVU3o7O6jphln5tUROuPA3TC3i56EiVWvZzC4rLLVyKhl
- hE/Pqc71pCQzZ+dFdnJjKoQZzlfJOeGh+aM7m9hhInIeOrk1BnxOMd2oFihPCfiVHAn5
- SSvbdvyP/a0x5E46kKISdkcxVqR+t2Ij0TdkiApl+GAZd5VD1E182tpKP/dGpjdd1+j6
- Hji/An9jewf/I3yStDEmVjSH2RjqtnEjdULe7VSh4xJhc8Y76XpXqrBRJmvyBtNUauyc
- ewLw==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=qCY6elwRVLEVFJUF3rbsGusV0Zza7A5yGGve7SpZ6yg=;
+ b=vYtP7YK3/fZmczlyGrt6Qe4JMjUsjB31lxm6966btqDBRChQuZ+pvwpczEZNqXhzhM
+ 83tTLT0QQKvKUARo+uLpuczq0/uCYU/PkISIK1eza6pyJZlw53xj8OBAwv0JVA/klc10
+ 9t2x6dmm2AMCUnaeDmm1682af7VhE1Jy4HIywQwr6c7Zp/UE/+vs+nmSeJHYzXgyHN72
+ LmgRRj/IZrY1nKHqxgqSMuQEyu/ZyX76pwacpjPu3y/ilkO+HvfZkDwVkmSEk69jKbGf
+ GIj7V+KIXLPs5fEznluCsFh7tDaxG76RzWW0Nuuy3vag1cH4Ue8dBWJN+BmOLh6B/1TC
+ wcSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=hNYYnoHoshlqNXRQlIYMrSDPGmEhNFlwQL1xSHnJIQI=;
- b=f11zhA5TYF3FKxbX0uOFt7OnF4ss9R9B5qEEp6vHTGTCwaSZ8RYTEckso8JBXyRQjk
- S611kgTycF19uoD/Xy2a+x+LeSmpizuid7nO2Xd+AVH6cORUKkWAWhyUAwFfDT7of4pa
- WnRHxXzG+Sfqa1BVn0MxeTuYE6kIZwJ/FB0EIh+jf1z+SLIn6s0zRHpKPHZwsy5rSpNv
- 0SYfGQXo8R31RpBYQiHVkW7ssMAJMd6w2wwaa4ff62qXBzA09NMPGkHMzsFPimBuQnKB
- zreJVPQ2asd08gKvciKoHQDvXQMtWBtjLTtaRkkTlMCeb/GAcgVnfaMuGF9ZG8p7MCU1
- xiJw==
-X-Gm-Message-State: AOAM531eWkST++L0wdWrvPBlaizjXEuqFzTRDFhQgyAIR5sPAkiUQoHx
- Xsg/v6R3I/5UCT61jrmlkck=
-X-Google-Smtp-Source: ABdhPJy3EGpV7WTZfYBsHtj6ML4h1r54/+gVYm/ThA8vUnWPx5p6IOkD9Y6CW7RU7YapuW3/F7a7KQ==
-X-Received: by 2002:a17:906:1c42:: with SMTP id
- l2mr3044807ejg.390.1611322661432; 
- Fri, 22 Jan 2021 05:37:41 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id m24sm4452749ejo.52.2021.01.22.05.37.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jan 2021 05:37:40 -0800 (PST)
-Subject: Re: [PATCH] hw/mips: loongson3: Drop 'struct MemmapEntry'
-To: Bin Meng <bmeng.cn@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
-References: <20210122122404.11970-1-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <3ebc284a-71d0-2a0a-84e2-462c4b7b9b7f@amsat.org>
-Date: Fri, 22 Jan 2021 14:37:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=qCY6elwRVLEVFJUF3rbsGusV0Zza7A5yGGve7SpZ6yg=;
+ b=dyPSpm+0ZMl2vs2dnV0k2l6X0Rvcq0jWi+e9xLU029NFEHh9NGhisC8gDu3+tEMsCg
+ +KhxhEjBhCpU0lBEQy/RPFhS309r6m6H8uaNsldhcWNkt6sf4Qj6na4cCCZ/jdaEh25K
+ mE2HvabVa8Bba3f0BJiWtKcb+AVvgszvlUvuhrWi0LSowzxc25cA40fASNNCHfW/sWo0
+ doYodfX2ymsb3YPKLwTiVjYKi4nAO2PdtXxKbFUU+e+ZlJrq/4BCOm55I/yYC3cbe4zW
+ 20lRvIwivh4UlWQfGSEdb1ilG6oof4qGXO6dy4Hi2PolRZ/hvoMZva0SNOB3zI3DShoe
+ uCZw==
+X-Gm-Message-State: AOAM530R70R198HwJs8+ZRr7B6pyPrGqwEmHhFuKWJvHOyfr/TAfOXFT
+ TLN32Ef7Rc7sK38fUsNGhaAYEuqCI+6a4fHLI/U=
+X-Google-Smtp-Source: ABdhPJwME44tgZ8PfhIRyAoLR3Vzkvzj0SdD/w7Yay+xxtAP08lc7xktEC5HKGZJGRRHswh+1cRvfVC4IWi01+kCY+o=
+X-Received: by 2002:a25:3bc5:: with SMTP id i188mr6544791yba.332.1611322943513; 
+ Fri, 22 Jan 2021 05:42:23 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210122122404.11970-1-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.221,
+References: <20210122122404.11970-1-bmeng.cn@gmail.com>
+ <3ebc284a-71d0-2a0a-84e2-462c4b7b9b7f@amsat.org>
+In-Reply-To: <3ebc284a-71d0-2a0a-84e2-462c4b7b9b7f@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Fri, 22 Jan 2021 21:42:12 +0800
+Message-ID: <CAEUhbmUvu=zkvYNozgdyJuYAQoz9TwKb5i0iFVcd-7NROhobAg@mail.gmail.com>
+Subject: Re: [PATCH] hw/mips: loongson3: Drop 'struct MemmapEntry'
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b31;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb31.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,24 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>, Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/21 1:24 PM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> There is already a MemMapEntry type defined in hwaddr.h. Let's drop
-> the loongson3 defined `struct MemmapEntry` and use the existing one.
+On Fri, Jan 22, 2021 at 9:37 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> On 1/22/21 1:24 PM, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
+> >
+> > There is already a MemMapEntry type defined in hwaddr.h. Let's drop
+> > the loongson3 defined `struct MemmapEntry` and use the existing one.
+>
+> Not really... based on 0e324626306:
+>
+> $ git grep MemmapEntry origin/master -- include
+> $
+>
+> What tree are you using?
 
-Not really... based on 0e324626306:
+The latest origin/master
 
-$ git grep MemmapEntry origin/master -- include
-$
+Use $ git grep MemmapEntry origin/master --
 
-What tree are you using?
+It's not defined in include.
 
-Thanks,
-
-Phil.
+Regards,
+Bin
 
