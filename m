@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB74300F11
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:43:00 +0100 (CET)
-Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B04AA300F12
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:43:38 +0100 (CET)
+Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l34Cp-0004rO-0E
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:42:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39160)
+	id 1l34DR-0005hm-QB
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:43:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l34BS-00040c-KL
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:41:34 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534]:36309)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l34BQ-0002XU-P5
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:41:34 -0500
-Received: by mail-ed1-x534.google.com with SMTP id d2so4634728edz.3
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 13:41:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k3+Jjj4R0BZKvlqNRp/LxEgdbmXofi2HFjYd51zTn08=;
- b=ZQykBdKmfo/lHdEUgnxJ24MpZhJiLCblZXkgyo7HyZCa0Jw8wOpcA2HX13WjJJLODV
- RzHzojs3Mw4YNDkMrsBkPX6jRgyXNAyrNJ30Zm4/Rl78AT2GuKf+Y1TuRWasQDcgyp/b
- f4CkPUVD51yiMnqWxZj6ixFGqxRzaozzHAYsHxv6pfnkMkzVxPa7ZVaSvX4IUlXkQQWf
- zdn+WJnc5gnHcZHV4kVzjbDPhi/kevEV8iUAp0UERO7v2PyKxoehuo1C4KqYXf0q4MEM
- VjudsxMTCWR6sDugSZttpoj7i1+bhjnqw0nyQSELo3UICq5+1Je1Z64KBeUoAeW3iavA
- YlHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k3+Jjj4R0BZKvlqNRp/LxEgdbmXofi2HFjYd51zTn08=;
- b=ZVGNTi7JCK0uRMM/ACu7RwByV7peZwYe++A880AEg8We9UR/avDfORvY7ZpdBMN/Bz
- rnac/vGK6GFWUAtSMRPq58gTc1VRU0BOBFrIIqfd4k2dRO8fT/nx2Toi6ZA6oKh1zSIm
- n5x/rNDPkGGhKcG6jWFXV9RAWvLIdu8KkKCgCfqX1oKeA56pnyKohMqVNgzeoMoHN8bx
- u3S6ojPj6pc+dF7YRML/NP7y68pUr95Qsa3bHW9JOqRn+rpYa3NANIDgDuAgSfRbF6pq
- QpvSD3n70Pe+73mDgz8wIEbDDJeXDYxZwWfr8t3jHswxsRrzDgCMQTZmCQdyd4KEIUIP
- fsLw==
-X-Gm-Message-State: AOAM530dHPJJGK9RSQEJnOamN6//KPkFAsQqz4MxQg3YwjE7DZJuwvvQ
- Hc+OR6fb4q5OmakJ4Tyocc2yaXmiEqh8MAdhn0hT4Q==
-X-Google-Smtp-Source: ABdhPJz3ajbQgFmxkUIJLX9/f/CrNEAmbLumcCAZB0BZcFcGlLmr01Rduv1YYJSK/gMDiZe3UIArZMu1Vk772YAdRAA=
-X-Received: by 2002:aa7:dd12:: with SMTP id i18mr4711369edv.36.1611351689953; 
- Fri, 22 Jan 2021 13:41:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l34BZ-00047O-Ju
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:41:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49668)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l34BW-0002ZU-2f
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:41:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611351696;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1G4m+39n7vsq62HScRTUW3P9VLxXK7+KeJZQmsUcZyM=;
+ b=aWloScTl6QBKoPMzDOG1wn1g8Vh8Wl79zj4g0ShtQlsmLwSPN6sfzWZ4TyQSiQl2Hh1AuI
+ TOVtYYrFFfmaxQOKA0dbRFEgqO2b4O+4gsEnLfQlO6C14BqdKNdyxFKaklzamcv+F8E3jl
+ pwZm8WwCcouAI4PPylDetRPcBR/QUjk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-202-sT07sxD5MciTlXwYnmyhKw-1; Fri, 22 Jan 2021 16:41:33 -0500
+X-MC-Unique: sT07sxD5MciTlXwYnmyhKw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB0AC1005513;
+ Fri, 22 Jan 2021 21:41:32 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-81.ams2.redhat.com
+ [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id E86ED19CBD;
+ Fri, 22 Jan 2021 21:41:27 +0000 (UTC)
+Subject: Re: Thread safety of coroutine-sigaltstack
+From: Laszlo Ersek <lersek@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
+ <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
+ <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
+ <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com>
+ <20210121160733.GP3125227@redhat.com>
+ <CAFEAcA-zVvu+16xxjCvXqeZxZMqppUUb7aQkL-5nBTNY+JeyGg@mail.gmail.com>
+ <a944d86c-2871-3301-6f42-f5368a122593@redhat.com>
+ <7353bcda-6363-6f56-75ad-5e2e9e0dbb16@redhat.com>
+ <9f9dbda6-0011-36af-1f5b-22d15c7eb09f@redhat.com>
+Message-ID: <794e5195-29f7-d9f5-e45f-88380df0baf0@redhat.com>
+Date: Fri, 22 Jan 2021 22:41:26 +0100
 MIME-Version: 1.0
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-20-peter.maydell@linaro.org>
- <20210122204910.xadaf4zutpbu4qp5@sekoia-pc.home.lmichel.fr>
-In-Reply-To: <20210122204910.xadaf4zutpbu4qp5@sekoia-pc.home.lmichel.fr>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 21:41:18 +0000
-Message-ID: <CAFEAcA8adGg+i65an_2Pser8acSmgz4D1wvmidaKNpeOt6jJKw@mail.gmail.com>
-Subject: Re: [PATCH 19/25] hw/timer/cmsdk-apb-dualtimer: Convert to use Clock
- input
-To: Luc Michel <luc@lmichel.fr>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x534.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <9f9dbda6-0011-36af-1f5b-22d15c7eb09f@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,80 +88,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Jan 2021 at 20:48, Luc Michel <luc@lmichel.fr> wrote:
->
-> On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> > Switch the CMSDK APB dualtimer device over to using its Clock input;
-> > the pclk-frq property is now ignored.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> >  hw/timer/cmsdk-apb-dualtimer.c | 42 ++++++++++++++++++++++++++++++----
-> >  1 file changed, 37 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/hw/timer/cmsdk-apb-dualtimer.c b/hw/timer/cmsdk-apb-dualtimer.c
-> > index 781b496037b..828127b366f 100644
-> > --- a/hw/timer/cmsdk-apb-dualtimer.c
-> > +++ b/hw/timer/cmsdk-apb-dualtimer.c
-> > @@ -106,6 +106,22 @@ static void cmsdk_apb_dualtimer_update(CMSDKAPBDualTimer *s)
-> >      qemu_set_irq(s->timerintc, timintc);
-> >  }
-> >
-> > +static int cmsdk_dualtimermod_divisor(CMSDKAPBDualTimerModule *m)
-> > +{
-> > +    /* Return the divisor set by the current CONTROL.PRESCALE value */
-> > +    switch (FIELD_EX32(m->control, CONTROL, PRESCALE)) {
-> > +    case 0:
-> > +        return 1;
-> > +    case 1:
-> > +        return 16;
-> > +    case 2:
-> > +    case 3: /* UNDEFINED, we treat like 2 (and complained when it was set) */
-> > +        return 256;
-> > +    default:
-> > +        g_assert_not_reached();
-> > +    }
-> > +}
-> > +
-> >  static void cmsdk_dualtimermod_write_control(CMSDKAPBDualTimerModule *m,
-> >                                               uint32_t newctrl)
-> >  {
-> > @@ -146,7 +162,7 @@ static void cmsdk_dualtimermod_write_control(CMSDKAPBDualTimerModule *m,
-> >          default:
-> >              g_assert_not_reached();
-> >          }
-> > -        ptimer_set_freq(m->timer, m->parent->pclk_frq / divisor);
-> > +        ptimer_set_period_from_clock(m->timer, m->parent->timclk, divisor);
->
-> Just a small cosmetic note, maybe you can use your new
-> cmsdk_dualtimermod_divisor function to factor out the switch above?
-> Something like:
->
-> if (changed & R_CONTROL_PRESCALE_MASK) {
->     if (FIELD_EX32(newctrl, CONTROL, PRESCALE) == 3) {
->         qemu_log_mask(LOG_GUEST_ERROR,
->                       "CMSDK APB dual-timer: CONTROL.PRESCALE==0b11"
->                       " is undefined behaviour\n");
->     }
->
->     ptimer_set_period_from_clock(m->timer, m->parent->timclk,
->                                  cmsdk_dualtimermod_divisor(m));
-> }
+On 01/22/21 22:34, Laszlo Ersek wrote:
+> On 01/22/21 21:38, Laszlo Ersek wrote:
 
-Nope, because cmsdk_dualtimermod_divisor() uses the current
-m->control value, and at this point in the code we need the
-divisor from the new control value which isn't in m->control yet.
-I liked the slight duplication better than either having to
-pass m->control in in all the other callsites or trying to
-refactor the control write handling so that m->control is
-updated before this point in the code.
+>> The behavior of "savemask=0" is a platform trait that platforms are not
+>> required to document (the behavior is unspecified, not
+>> implementation-defined), so it really boils down to where this code
+>> actually runs...
+>>
+>> NB Linux is more specific:
+>>
+>> https://man7.org/linux/man-pages/man3/setjmp.3.html
+>>
+>>    sigsetjmp() and siglongjmp()
+>>        sigsetjmp() and siglongjmp() also perform nonlocal gotos, but
+>>        provide predictable handling of the process signal mask.
+>>
+>>        If, and only if, the savesigs argument provided to sigsetjmp() is
+>>        nonzero, the process's current signal mask is saved in env and
+>>        will be restored if a siglongjmp() is later performed with this
+>>        env.
+>>
+>> Cue "and only if".
+> 
+> ... I notice commit 6ab7e5465a4d ("Replace all setjmp()/longjmp() with
+> sigsetjmp()/siglongjmp()", 2013-02-23) chose the Linux definition, not
+> the POSIX one.
 
-thanks
--- PMM
+My bad: the commit message is correct. While the effect of savemask=0 is
+indeed unspecified for sigsetjmp(), it is completely defined for
+siglongjmp().
+
+https://pubs.opengroup.org/onlinepubs/9699919799/functions/siglongjmp.html
+
+Commit 6ab7e5465a4d even carries my R-b :/
+
+Sorry about the noise,
+Laszlo
+
 
