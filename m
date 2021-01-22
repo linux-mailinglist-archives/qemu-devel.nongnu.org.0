@@ -2,74 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87CDF30001B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:23:23 +0100 (CET)
-Received: from localhost ([::1]:59254 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A6EE300014
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:22:46 +0100 (CET)
+Received: from localhost ([::1]:57644 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2tb8-0000vY-KM
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:23:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50088)
+	id 1l2taX-00006i-8b
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:22:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50110)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2tYf-0007d7-4b
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:20:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32115)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2tYj-0007eY-SP
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:20:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l2tYZ-0003AT-Ps
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:20:46 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2tYf-0003Ck-G3
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:20:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611310841;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NRQboFBUCklR0OJEmbhSytdVNHNtY1SuxWPvIw0pQNA=;
- b=BO7TI1OHhD2IxAxaXW9Mu3Fr3fX02bOTkbbbFaWBRLFaUS+2fy6+z4V8ucnoFtRAgi6YPw
- JOw11JIJjzzElk3WIGwWhSLFU30EcOPpLZa1rn2thrMvHceILR7T1gCinAhOQ/MVV8n7kj
- ksOixLCU68C5v0N79bJJyALreZg9bW4=
+ s=mimecast20190719; t=1611310848;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=c6JXnqq5+yY6B54adVDVWQ0ksapgrAB5ByF+8SLu3pk=;
+ b=ha7SQFHHUJVsPePxrg52fi4eAoDdmyVlHCYUkbDktOwedYqFEW3+AcNP8ExoNWkzdUanjU
+ ExhKMkRZuLGTiNlHL+Ftmk/SW/4xfULSJAeHnTqM4am3nVy7fRuQmWRQ5m87pM5bNoiZq7
+ h2oedVxthjtYO5TkhSek/86w66Nkr9k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-264-CwcS2NeDOHaXCBH-FNBOOQ-1; Fri, 22 Jan 2021 05:20:35 -0500
-X-MC-Unique: CwcS2NeDOHaXCBH-FNBOOQ-1
+ us-mta-303-rA5vGG32Obyl7ziGGr_E3Q-1; Fri, 22 Jan 2021 05:20:47 -0500
+X-MC-Unique: rA5vGG32Obyl7ziGGr_E3Q-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 95A5F801817;
- Fri, 22 Jan 2021 10:20:34 +0000 (UTC)
-Received: from redhat.com (ovpn-115-108.ams2.redhat.com [10.36.115.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 574C45D9CA;
- Fri, 22 Jan 2021 10:20:26 +0000 (UTC)
-Date: Fri, 22 Jan 2021 10:20:22 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] gitlab-ci.yml: Use the whole tree as artifacts to speed
- up the CI
-Message-ID: <20210122102022.GD3150238@redhat.com>
-References: <20210122100722.705375-1-thuth@redhat.com>
- <20210122101833.GC3150238@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 414F68144E1
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:20:46 +0000 (UTC)
+Received: from localhost (ovpn-114-109.ams2.redhat.com [10.36.114.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C69B05D9CA;
+ Fri, 22 Jan 2021 10:20:42 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+Date: Fri, 22 Jan 2021 11:20:41 +0100
+Message-Id: <20210122102041.27031-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210122101833.GC3150238@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,35 +73,159 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?L=C3=A1szl=C3=B3=20=C3=89rsek?= <lersek@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 10:18:33AM +0000, Daniel P. Berrangé wrote:
-> On Fri, Jan 22, 2021 at 11:07:22AM +0100, Thomas Huth wrote:
-> > Currently, our check-system-* jobs are recompiling the whole sources
-> > again. This happens due to the fact that the jobs are checking out
-> > the whole source tree and required submodules again, and only try
-> > to use the "build" directory with the binaries and object files
-> > as an artifact from the previous stage - which simply does not work
-> > anymore (with the current version of meson). Due to some changed
-> > time stamps, meson is always trying to rebuild the whole tree.
-> 
-> This used to work in the past didn't it ? Did something change in
-> meson to break this, or have we just not noticed before.
+Modifying signal handlers is a process-global operation.  When two
+threads run coroutine-sigaltstack's qemu_coroutine_new() concurrently,
+they may interfere with each other: One of them may revert the SIGUSR2
+handler back to the default between the other thread setting up
+coroutine_trampoline() as the handler and raising SIGUSR2.  That SIGUSR2
+will then lead to the process exiting.
 
-For to ask, could we address it by using  'meson test --no-rebuild'
-perhaps ?
+Outside of coroutine-sigaltstack, qemu does not use SIGUSR2.  We can
+thus keep the signal handler installed all the time.
+CoroutineThreadState.tr_handler tells coroutine_trampoline() whether its
+stack is set up so a new coroutine is to be launched (i.e., it should
+invoke sigsetjmp()), or not (i.e., the signal came from an external
+source and we should just perform the default action, which is to exit
+the process).
 
-Regards,
-Daniel
+Note that in user-mode emulation, the guest can register signal handlers
+for any signal but SIGSEGV and SIGBUS, so if it registers a SIGUSR2
+handler, sigaltstack coroutines will break from then on.  However, we do
+not use coroutines for user-mode emulation, so that is fine.
+
+Suggested-by: Laszlo Ersek <lersek@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ util/coroutine-sigaltstack.c | 56 +++++++++++++++++++-----------------
+ 1 file changed, 29 insertions(+), 27 deletions(-)
+
+diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+index aade82afb8..2d32afc322 100644
+--- a/util/coroutine-sigaltstack.c
++++ b/util/coroutine-sigaltstack.c
+@@ -59,6 +59,8 @@ typedef struct {
+ 
+ static pthread_key_t thread_state_key;
+ 
++static void coroutine_trampoline(int signal);
++
+ static CoroutineThreadState *coroutine_get_thread_state(void)
+ {
+     CoroutineThreadState *s = pthread_getspecific(thread_state_key);
+@@ -80,6 +82,7 @@ static void qemu_coroutine_thread_cleanup(void *opaque)
+ 
+ static void __attribute__((constructor)) coroutine_init(void)
+ {
++    struct sigaction sa;
+     int ret;
+ 
+     ret = pthread_key_create(&thread_state_key, qemu_coroutine_thread_cleanup);
+@@ -87,6 +90,20 @@ static void __attribute__((constructor)) coroutine_init(void)
+         fprintf(stderr, "unable to create leader key: %s\n", strerror(errno));
+         abort();
+     }
++
++    /*
++     * Establish the SIGUSR2 signal handler.  This is a process-wide
++     * operation, and so will apply to all threads from here on.
++     */
++    sa = (struct sigaction) {
++        .sa_handler = coroutine_trampoline,
++        .sa_flags   = SA_ONSTACK,
++    };
++
++    if (sigaction(SIGUSR2, &sa, NULL) != 0) {
++        perror("Unable to install SIGUSR2 handler");
++        abort();
++    }
+ }
+ 
+ /* "boot" function
+@@ -121,7 +138,17 @@ static void coroutine_trampoline(int signal)
+     /* Get the thread specific information */
+     coTS = coroutine_get_thread_state();
+     self = coTS->tr_handler;
++
++    if (!self) {
++        /*
++         * This SIGUSR2 came from an external source, not from
++         * qemu_coroutine_new(), so perform the default action.
++         */
++        exit(0);
++    }
++
+     coTS->tr_called = 1;
++    coTS->tr_handler = NULL;
+     co = &self->base;
+ 
+     /*
+@@ -150,12 +177,9 @@ Coroutine *qemu_coroutine_new(void)
+ {
+     CoroutineSigAltStack *co;
+     CoroutineThreadState *coTS;
+-    struct sigaction sa;
+-    struct sigaction osa;
+     stack_t ss;
+     stack_t oss;
+     sigset_t sigs;
+-    sigset_t osigs;
+     sigjmp_buf old_env;
+ 
+     /* The way to manipulate stack is with the sigaltstack function. We
+@@ -172,24 +196,6 @@ Coroutine *qemu_coroutine_new(void)
+     co->stack = qemu_alloc_stack(&co->stack_size);
+     co->base.entry_arg = &old_env; /* stash away our jmp_buf */
+ 
+-    coTS = coroutine_get_thread_state();
+-    coTS->tr_handler = co;
+-
+-    /*
+-     * Preserve the SIGUSR2 signal state, block SIGUSR2,
+-     * and establish our signal handler. The signal will
+-     * later transfer control onto the signal stack.
+-     */
+-    sigemptyset(&sigs);
+-    sigaddset(&sigs, SIGUSR2);
+-    pthread_sigmask(SIG_BLOCK, &sigs, &osigs);
+-    sa.sa_handler = coroutine_trampoline;
+-    sigfillset(&sa.sa_mask);
+-    sa.sa_flags = SA_ONSTACK;
+-    if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+-        abort();
+-    }
+-
+     /*
+      * Set the new stack.
+      */
+@@ -207,6 +213,8 @@ Coroutine *qemu_coroutine_new(void)
+      * signal can be delivered the first time sigsuspend() is
+      * called.
+      */
++    coTS = coroutine_get_thread_state();
++    coTS->tr_handler = co;
+     coTS->tr_called = 0;
+     pthread_kill(pthread_self(), SIGUSR2);
+     sigfillset(&sigs);
+@@ -230,12 +238,6 @@ Coroutine *qemu_coroutine_new(void)
+         sigaltstack(&oss, NULL);
+     }
+ 
+-    /*
+-     * Restore the old SIGUSR2 signal handler and mask
+-     */
+-    sigaction(SIGUSR2, &osa, NULL);
+-    pthread_sigmask(SIG_SETMASK, &osigs, NULL);
+-
+     /*
+      * Now enter the trampoline again, but this time not as a signal
+      * handler. Instead we jump into it directly. The functionally
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.29.2
 
 
