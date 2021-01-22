@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74E91300331
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 13:36:43 +0100 (CET)
-Received: from localhost ([::1]:58192 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B4130036D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 13:47:23 +0100 (CET)
+Received: from localhost ([::1]:37822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2vgA-0001NI-Hc
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 07:36:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47740)
+	id 1l2vqT-0005ng-Qv
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 07:47:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51290)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l2vaF-0005G1-EA; Fri, 22 Jan 2021 07:30:37 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:50877)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l2va4-0003Xf-Ik; Fri, 22 Jan 2021 07:30:35 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id md11so3638073pjb.0;
- Fri, 22 Jan 2021 04:30:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=zeMcL6viZY0Q1V/44xjgl0g19gB3FC4XI78gwryCkmc=;
- b=YuEN/lqMLFVf0qJUTN1K8QbnF1SqH/+DModJoUl9PlZcn1qGMIdWtojUXERKVeO6b4
- JWWX6M7xPwDSgcgQIJ9tEK9xr4yLz8HRbSAugCDjaWuT2vHbxC1L7QiL3ipkZHWRkDMm
- Nz85Vu/UZrtkgXHTcO5W+u2z++hT0F0ke3Qt6+5WfYRVvItffCBvMaKYTsq5ifFJiXbv
- 080hCmF6yQWGrQYY6eiFsLONliM+9vFTh8/Lz68RI1/oreQYuXTtoCBDtEBYeoL6bRmW
- y1Q/6Yec76F+JGsWBK8TxN4XT5+PMWME/tMl4g06shVNVBNuJhWntlVREG6CTJJavC2N
- p6Yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=zeMcL6viZY0Q1V/44xjgl0g19gB3FC4XI78gwryCkmc=;
- b=NqMsLQd6NnauX08174tM+uy6ivz098E1TSLr1wEkQCNTfcda2xaPNkJf+Yc6d+7F4D
- 24P+ev8x4uE+fKiuGlbpNSuQ55cxkuMZbJUa33xVTWWHhCl96PKjUTLwKuk5Q4R+HrFN
- LuUL7QJuoFUAcRI1PJ2lwr/9HAJiEJhNyDFAIgs7UPxbSzanqo/m1vI6cA9r5AfYSAmz
- pz1C2CQExVwFlEZzE2WJ+t4Fqrgb2a5kgJzqxXAhG/RYKJkEfDT+LJU6BGeAkZ/vkl71
- c+fP8td+/0YPb8/VkRn5EvOXhvf01X/75fvvCEdio7Hss+6U/CzdSemAi/j6CeDnlGIL
- +/Mw==
-X-Gm-Message-State: AOAM533+Did1LD0DFlzhMNgqp8qla+Iu6YcdAJYzAQYexoaV/+eNG0lt
- L6V3ZnRUe6Tg1i4mUr6z6bU=
-X-Google-Smtp-Source: ABdhPJyHW2ZSTnpCVuH2P7bEfRGUHydq/krTFsDewtP3J2opZ0ZA1k3cFUr3XvqXa0EEwBtVfB2fag==
-X-Received: by 2002:a17:90a:ce97:: with SMTP id
- g23mr5167568pju.224.1611318620113; 
- Fri, 22 Jan 2021 04:30:20 -0800 (PST)
-Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
- [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id 6sm7894996pfd.212.2021.01.22.04.30.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 04:30:19 -0800 (PST)
-From: Bin Meng <bmeng.cn@gmail.com>
-To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH 4/4] hw/riscv: virt: Map high mmio for PCIe
-Date: Fri, 22 Jan 2021 20:29:58 +0800
-Message-Id: <20210122122958.12311-5-bmeng.cn@gmail.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210122122958.12311-1-bmeng.cn@gmail.com>
-References: <20210122122958.12311-1-bmeng.cn@gmail.com>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l2vp5-0005DH-PO
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:45:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:44022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l2vp0-0001sf-LA
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:45:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611319549;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vxki1qLdIXQMf6eDmoggZE2PQlpfPrI723EJx+YpMoA=;
+ b=daNRobMcwORo59KbhBm/pn8bUsy5+rM5lGQnnqysgIUnqKkZ0/u88MhfgTpXQtGVjYOL4c
+ aKJqeWrfXbrglOFu7ctkYX7epWazVfGJHRn6S8XSqJoP01pNCgFZ4Gvz6yyRv999JDHOSv
+ VZRsxGFwk41AF7ICZSmqZN124LdgY4U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-458-_L22FuYpPaGFKuDBeeMDSw-1; Fri, 22 Jan 2021 07:45:45 -0500
+X-MC-Unique: _L22FuYpPaGFKuDBeeMDSw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B1B18107ACE3;
+ Fri, 22 Jan 2021 12:45:44 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-18.ams2.redhat.com [10.36.115.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 2AEDA6EF40;
+ Fri, 22 Jan 2021 12:45:43 +0000 (UTC)
+Date: Fri, 22 Jan 2021 13:45:41 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v7 07/11] iotests: add findtests.py
+Message-ID: <20210122124541.GE15866@merkur.fritz.box>
+References: <20210116134424.82867-1-vsementsov@virtuozzo.com>
+ <20210116134424.82867-8-vsementsov@virtuozzo.com>
+ <20210122114815.GC15866@merkur.fritz.box>
+ <bc7e60f2-11b2-255d-2d69-cbd1563a0e19@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <bc7e60f2-11b2-255d-2d69-cbd1563a0e19@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,114 +78,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Am 22.01.2021 um 12:57 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 22.01.2021 14:48, Kevin Wolf wrote:
+> > Am 16.01.2021 um 14:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > +    def add_group_file(self, fname: str) -> None:
+> > > +        with open(fname) as f:
+> > > +            for line in f:
+> > > +                line = line.strip()
+> > > +
+> > > +                if (not line) or line[0] == '#':
+> > > +                    continue
+> > > +
+> > > +                words = line.split()
+> > > +                test_file = self.parse_test_name(words[0])
+> > > +                groups = words[1:]
+> > 
+> > The previous version still had this:
+> > 
+> > +                if test_file not in self.all_tests:
+> > +                    print(f'Warning: {fname}: "{test_file}" test is not found.'
+> > +                          ' Skip.')
+> > +                    continue
+> > 
+> > Why did you remove it? I found this useful when I had a wrong test name
+> > in my group.local. Now it's silently ignored.
+> 
+> 
+> Because now we use parse_test_name which will raise ValueError, so we
+> will not go to this if anyway.
+> 
+> So, wrong name will not be silently ignored, check will fail, and
+> you'll have to fix group file.. It is suitable?
 
-Some peripherals require 64-bit PCI address, so let's map the high
-mmio space for PCIe.
+It doesn't, though.
 
-For RV32, the address is hardcoded to below 4 GiB from the highest
-accessible physical address. For RV64, the base address depends on
-top of RAM and is aligned to its size which is using 16 GiB for now.
+Oh, wait... Is it possible that you lost support for group.local
+altogether? grep for "group.local" comes up empty, and add_group_file()
+is only defined, but never called.
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
+So the reason for the behaviour seems to be that it doesn't even try to
+parse the group file.
 
----
-
- hw/riscv/virt.c | 36 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 34 insertions(+), 2 deletions(-)
-
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 4f44509360..4ab3b35cc7 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -59,6 +59,15 @@ static const MemMapEntry virt_memmap[] = {
-     [VIRT_DRAM] =        { 0x80000000,           0x0 },
- };
- 
-+/* PCIe high mmio is fixed for RV32 */
-+#define VIRT32_HIGH_PCIE_MMIO_BASE  0x300000000ULL
-+#define VIRT32_HIGH_PCIE_MMIO_SIZE  (4 * GiB)
-+
-+/* PCIe high mmio for RV64, size is fixed but base depends on top of RAM */
-+#define VIRT64_HIGH_PCIE_MMIO_SIZE  (16 * GiB)
-+
-+static MemMapEntry virt_high_pcie_memmap;
-+
- #define VIRT_FLASH_SECTOR_SIZE (256 * KiB)
- 
- static PFlashCFI01 *virt_flash_create1(RISCVVirtState *s,
-@@ -371,7 +380,11 @@ static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
-         2, memmap[VIRT_PCIE_PIO].base, 2, memmap[VIRT_PCIE_PIO].size,
-         1, FDT_PCI_RANGE_MMIO,
-         2, memmap[VIRT_PCIE_MMIO].base,
--        2, memmap[VIRT_PCIE_MMIO].base, 2, memmap[VIRT_PCIE_MMIO].size);
-+        2, memmap[VIRT_PCIE_MMIO].base, 2, memmap[VIRT_PCIE_MMIO].size,
-+        1, FDT_PCI_RANGE_MMIO_64BIT,
-+        2, virt_high_pcie_memmap.base,
-+        2, virt_high_pcie_memmap.base, 2, virt_high_pcie_memmap.size);
-+
-     create_pcie_irq_map(fdt, name, plic_pcie_phandle);
-     g_free(name);
- 
-@@ -448,12 +461,14 @@ update_bootargs:
- static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-                                           hwaddr ecam_base, hwaddr ecam_size,
-                                           hwaddr mmio_base, hwaddr mmio_size,
-+                                          hwaddr high_mmio_base,
-+                                          hwaddr high_mmio_size,
-                                           hwaddr pio_base,
-                                           DeviceState *plic)
- {
-     DeviceState *dev;
-     MemoryRegion *ecam_alias, *ecam_reg;
--    MemoryRegion *mmio_alias, *mmio_reg;
-+    MemoryRegion *mmio_alias, *high_mmio_alias, *mmio_reg;
-     qemu_irq irq;
-     int i;
- 
-@@ -473,6 +488,13 @@ static inline DeviceState *gpex_pcie_init(MemoryRegion *sys_mem,
-                              mmio_reg, mmio_base, mmio_size);
-     memory_region_add_subregion(get_system_memory(), mmio_base, mmio_alias);
- 
-+    /* Map high MMIO space */
-+    high_mmio_alias = g_new0(MemoryRegion, 1);
-+    memory_region_init_alias(high_mmio_alias, OBJECT(dev), "pcie-mmio-high",
-+                             mmio_reg, high_mmio_base, high_mmio_size);
-+    memory_region_add_subregion(get_system_memory(), high_mmio_base,
-+                                high_mmio_alias);
-+
-     sysbus_mmio_map(SYS_BUS_DEVICE(dev), 2, pio_base);
- 
-     for (i = 0; i < GPEX_NUM_IRQS; i++) {
-@@ -601,6 +623,14 @@ static void virt_machine_init(MachineState *machine)
-             machine->ram_size = 10 * GiB;
-             error_report("Limitting RAM size to 10 GiB");
-         }
-+
-+        virt_high_pcie_memmap.base = VIRT32_HIGH_PCIE_MMIO_BASE;
-+        virt_high_pcie_memmap.size = VIRT32_HIGH_PCIE_MMIO_SIZE;
-+    } else {
-+        virt_high_pcie_memmap.size = VIRT64_HIGH_PCIE_MMIO_SIZE;
-+        virt_high_pcie_memmap.base = memmap[VIRT_DRAM].base + machine->ram_size;
-+        virt_high_pcie_memmap.base =
-+            ROUND_UP(virt_high_pcie_memmap.base, virt_high_pcie_memmap.size);
-     }
- 
-     /* register system main memory (actual RAM) */
-@@ -686,6 +716,8 @@ static void virt_machine_init(MachineState *machine)
-                    memmap[VIRT_PCIE_ECAM].size,
-                    memmap[VIRT_PCIE_MMIO].base,
-                    memmap[VIRT_PCIE_MMIO].size,
-+                   virt_high_pcie_memmap.base,
-+                   virt_high_pcie_memmap.size,
-                    memmap[VIRT_PCIE_PIO].base,
-                    DEVICE(pcie_plic));
- 
--- 
-2.25.1
+Kevin
 
 
