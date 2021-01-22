@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97B9C3006FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 16:21:09 +0100 (CET)
-Received: from localhost ([::1]:45626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B1730070F
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 16:23:36 +0100 (CET)
+Received: from localhost ([::1]:51044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2yFI-0006uV-Nm
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 10:21:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36318)
+	id 1l2yHf-0001GN-8M
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 10:23:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37182)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1l2yDY-0005RP-FS
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:19:20 -0500
-Received: from mail-lf1-x132.google.com ([2a00:1450:4864:20::132]:40146)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <edgar.iglesias@gmail.com>)
- id 1l2yDV-00048X-Ui
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:19:20 -0500
-Received: by mail-lf1-x132.google.com with SMTP id v24so8016683lfr.7
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 07:19:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:in-reply-to;
- bh=cCvXHWQ8zbX1LYxb8zXt7kZesdOhI+NBdMoPdG0rEEo=;
- b=nA0Ab50IDyfJl+Bm/9+FaPQ8Zrby9YULVLTxtgT3gqvuvnEKA4u14IShiI4MMfA8aN
- rHnx2u9oqaWYFRAnxIhBfilE3fO8v5/F3DJg5Kir7sirczgSw4GBeJSnX5dkbBsE9Tgu
- NdVCb99rAfXa2nRmzMk2JQ7Y9yFTB5/sJCR1KuscP0k3KXg9P/3JhsULfL6jyGWhvUst
- xbVqj0ttdz4nuom+2yHOC9zfQwKEaMfo8lRYt+3K8Mp4oQLvI4OmXLm/gZLxBIssVCru
- gEoJgAmt6DvuprQWlZAMX6/srB1fJekDSXPwjdXrmGPs5pF9N4VyrqYFSWexMbyBol3W
- /66Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=cCvXHWQ8zbX1LYxb8zXt7kZesdOhI+NBdMoPdG0rEEo=;
- b=jN5NLdmh7U/wJs0mRN8U+8A7Tb296Ig+yiuusB/0rGWR1cSakIcAOo/wsY5nv4P0C6
- IxuZwROT/h9/YI4Vi+x2JYWfgnXlbdNReuH4bcHvu7sf2CuN9oLpylA5M16o5f35N8mn
- zDfyywhCHFHoFFJ6TO9uAR1uR+zw/L6bXjAk8MJySLoLaHscNVGevl9w9ghGtc5Fkk86
- Tb/kcTUtzuqBjfsJm+letzCxfaSdWGAvJsOxhwZ9Seaf9tAvlVQOnKMSC/R9k6n3qnlU
- Pdah1p/mwVfURTqzo6D7nrkE40XT3HL5t5LKa7duv01KJgAHVgNi0sg7uGuzXtwN9An0
- aNSw==
-X-Gm-Message-State: AOAM530rDd38yt8kM4EXU8uFZ2IswvbaQqyWPOeNMRzWmaQy3srZruGy
- zhlmodQX3WFMqgEDnVESsq4=
-X-Google-Smtp-Source: ABdhPJwyAvSjfkuk6hKhBIpblKYK9O9oWOR3ysIhFkNYHfB6utHZ14xVq326a4Bp9cyYiyZUZVO+KA==
-X-Received: by 2002:a19:84:: with SMTP id 126mr236728lfa.120.1611328755421;
- Fri, 22 Jan 2021 07:19:15 -0800 (PST)
-Received: from gmail.com (81-231-232-130-no39.tbcn.telia.com. [81.231.232.130])
- by smtp.gmail.com with ESMTPSA id r9sm995747ljj.127.2021.01.22.07.19.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 07:19:14 -0800 (PST)
-Date: Fri, 22 Jan 2021 16:19:14 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l2yGf-0000NV-NK; Fri, 22 Jan 2021 10:22:33 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:37712)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l2yGc-0005my-8l; Fri, 22 Jan 2021 10:22:33 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 95D2FC602E6;
+ Fri, 22 Jan 2021 16:22:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1611328946;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=15fOifz/s2qaB9c3W+VK6YNYLcyJJVryTUTa8SIj7dw=;
+ b=iUHmCl5dPn3QfSUvxZ+T28QitJ0CYlioBNp0x7DTWkfcmxZrzsAo7tHv/kMlnDtkTHEWPk
+ gjRedd09/zvWQIIk4ClBWmxlOG3kYvjGwWWhWOSa5wMu7gNWtpwi4wQ+2CnEsgYZ+qPmdk
+ twZmq6w//qVBcJ9Uxc4KPCjWu6KQYPzgfa9DgZkL9EH2Piawj4kG7H2ergptcEMIUvoW9D
+ vfcFsEEClMHcTy14q8Jme8J/3SKNwVnwpP1l4hcMRR/MnpEc+lrLIlzUu3kPYDDugL+taI
+ phIChPLS3HxJ/IUYhoZYxK7y85LklUVG5IVQ7T7+7PFQRWLBo9jvzcBeGtgUqQ==
+Date: Fri, 22 Jan 2021 16:22:47 +0100
+From: Luc Michel <luc@lmichel.fr>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] arm: rename xlnx-zcu102.canbusN properties
-Message-ID: <20210122151914.GE477672@toto>
-References: <20210118162537.779542-1-pbonzini@redhat.com>
- <CAFEAcA_En1xo10n3121r3ZRANkhiH0dRRwT5QwMZ1wRTeLyFWA@mail.gmail.com>
+Subject: Re: [PATCH 10/25] hw/arm/armsse: Rename "MAINCLK" property to
+ "MAINCLK_FRQ"
+Message-ID: <20210122152247.pjqnmrccj2i3wc2n@sekoia-pc.home.lmichel.fr>
+References: <20210121190622.22000-1-peter.maydell@linaro.org>
+ <20210121190622.22000-11-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA_En1xo10n3121r3ZRANkhiH0dRRwT5QwMZ1wRTeLyFWA@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::132;
- envelope-from=edgar.iglesias@gmail.com; helo=mail-lf1-x132.google.com
+In-Reply-To: <20210121190622.22000-11-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,131 +63,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 01:21:53PM +0000, Peter Maydell wrote:
-> Just noticed this wasn't cc'd to the Xilinx folks. Would one
-> of you like to review it?
-
-Looks good to me but we need to also update the test cases in
-tests/qtest/xlnx-can-test.c.
-
-Cheers,
-Edgar
-
-
-
-
+On 19:06 Thu 21 Jan     , Peter Maydell wrote:
+> While we transition the ARMSSE code from integer properties
+> specifying clock frequencies to Clock objects, we want to have the
+> device provide both at once.  We want the final name of the main
+> input Clock to be "MAINCLK", following the hardware name.
+> Unfortunately creating an input Clock with a name X creates an
+> under-the-hood QOM property X; for "MAINCLK" this clashes with the
+> existing UINT32 property of that name.
 > 
-> thanks
-> -- PMM
+> Rename the UINT32 property to MAINCLK_FRQ so it can coexist with the
+> MAINCLK Clock; once the transition is complete MAINCLK_FRQ will be
+> deleted.
 > 
-> On Mon, 18 Jan 2021 at 16:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > The properties to attach a CANBUS object to the xlnx-zcu102 machine have
-> > a period in them.  We want to use periods in properties for compound QAPI types,
-> > and besides the "xlnx-zcu102." prefix is both unnecessary and different
-> > from any other machine property name.  Remove it.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  hw/arm/xlnx-zcu102.c        |  4 ++--
-> >  tests/qtest/xlnx-can-test.c | 30 +++++++++++++++---------------
-> >  2 files changed, 17 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-> > index 4ef0c516bf..c9713638c5 100644
-> > --- a/hw/arm/xlnx-zcu102.c
-> > +++ b/hw/arm/xlnx-zcu102.c
-> > @@ -219,12 +219,12 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
-> >      s->secure = false;
-> >      /* Default to virt (EL2) being disabled */
-> >      s->virt = false;
-> > -    object_property_add_link(obj, "xlnx-zcu102.canbus0", TYPE_CAN_BUS,
-> > +    object_property_add_link(obj, "canbus0", TYPE_CAN_BUS,
-> >                               (Object **)&s->canbus[0],
-> >                               object_property_allow_set_link,
-> >                               0);
-> >
-> > -    object_property_add_link(obj, "xlnx-zcu102.canbus1", TYPE_CAN_BUS,
-> > +    object_property_add_link(obj, "canbus1", TYPE_CAN_BUS,
-> >                               (Object **)&s->canbus[1],
-> >                               object_property_allow_set_link,
-> >                               0);
-> > diff --git a/tests/qtest/xlnx-can-test.c b/tests/qtest/xlnx-can-test.c
-> > index 3d1120005b..54de71a686 100644
-> > --- a/tests/qtest/xlnx-can-test.c
-> > +++ b/tests/qtest/xlnx-can-test.c
-> > @@ -138,9 +138,9 @@ static void test_can_bus(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0 and CAN1. */
-> > @@ -175,9 +175,9 @@ static void test_can_loopback(void)
-> >      uint32_t status = 0;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0 in loopback mode. */
-> > @@ -223,9 +223,9 @@ static void test_can_filter(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0 and CAN1. */
-> > @@ -271,9 +271,9 @@ static void test_can_sleepmode(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0. */
-> > @@ -317,9 +317,9 @@ static void test_can_snoopmode(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0. */
-> > --
-> > 2.26.2
+> Commit created with:
+>  perl -p -i -e 's/MAINCLK/MAINCLK_FRQ/g' hw/arm/{armsse,mps2-tz,musca}.c include/hw/arm/armsse.h
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+
+> ---
+>  include/hw/arm/armsse.h | 2 +-
+>  hw/arm/armsse.c         | 6 +++---
+>  hw/arm/mps2-tz.c        | 2 +-
+>  hw/arm/musca.c          | 2 +-
+>  4 files changed, 6 insertions(+), 6 deletions(-)
+> 
+> diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+> index 83f5e28c16e..4860a793f4b 100644
+> --- a/include/hw/arm/armsse.h
+> +++ b/include/hw/arm/armsse.h
+> @@ -39,7 +39,7 @@
+>   * QEMU interface:
+>   *  + QOM property "memory" is a MemoryRegion containing the devices provided
+>   *    by the board model.
+> - *  + QOM property "MAINCLK" is the frequency of the main system clock
+> + *  + QOM property "MAINCLK_FRQ" is the frequency of the main system clock
+>   *  + QOM property "EXP_NUMIRQ" sets the number of expansion interrupts.
+>   *    (In hardware, the SSE-200 permits the number of expansion interrupts
+>   *    for the two CPUs to be configured separately, but we restrict it to
+> diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+> index baac027659d..d2ba0459c44 100644
+> --- a/hw/arm/armsse.c
+> +++ b/hw/arm/armsse.c
+> @@ -47,7 +47,7 @@ static Property iotkit_properties[] = {
+>      DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+>                       MemoryRegion *),
+>      DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+> -    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
+> +    DEFINE_PROP_UINT32("MAINCLK_FRQ", ARMSSE, mainclk_frq, 0),
+>      DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+>      DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+>      DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], true),
+> @@ -59,7 +59,7 @@ static Property armsse_properties[] = {
+>      DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+>                       MemoryRegion *),
+>      DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+> -    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
+> +    DEFINE_PROP_UINT32("MAINCLK_FRQ", ARMSSE, mainclk_frq, 0),
+>      DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+>      DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+>      DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], false),
+> @@ -448,7 +448,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+>      }
+>  
+>      if (!s->mainclk_frq) {
+> -        error_setg(errp, "MAINCLK property was not set");
+> +        error_setg(errp, "MAINCLK_FRQ property was not set");
+>          return;
+>      }
+>  
+> diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+> index 3707876d6d4..6a9eed9022a 100644
+> --- a/hw/arm/mps2-tz.c
+> +++ b/hw/arm/mps2-tz.c
+> @@ -402,7 +402,7 @@ static void mps2tz_common_init(MachineState *machine)
+>      object_property_set_link(OBJECT(&mms->iotkit), "memory",
+>                               OBJECT(system_memory), &error_abort);
+>      qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", MPS2TZ_NUMIRQ);
+> -    qdev_prop_set_uint32(iotkitdev, "MAINCLK", SYSCLK_FRQ);
+> +    qdev_prop_set_uint32(iotkitdev, "MAINCLK_FRQ", SYSCLK_FRQ);
+>      sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
+>  
+>      /*
+> diff --git a/hw/arm/musca.c b/hw/arm/musca.c
+> index b50157f63a6..d82bef11cf2 100644
+> --- a/hw/arm/musca.c
+> +++ b/hw/arm/musca.c
+> @@ -375,7 +375,7 @@ static void musca_init(MachineState *machine)
+>      qdev_prop_set_uint32(ssedev, "EXP_NUMIRQ", mmc->num_irqs);
+>      qdev_prop_set_uint32(ssedev, "init-svtor", mmc->init_svtor);
+>      qdev_prop_set_uint32(ssedev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width);
+> -    qdev_prop_set_uint32(ssedev, "MAINCLK", SYSCLK_FRQ);
+> +    qdev_prop_set_uint32(ssedev, "MAINCLK_FRQ", SYSCLK_FRQ);
+>      /*
+>       * Musca-A takes the default SSE-200 FPU/DSP settings (ie no for
+>       * CPU0 and yes for CPU1); Musca-B1 explicitly enables them for CPU0.
+> -- 
+> 2.20.1
+> 
+
+-- 
 
