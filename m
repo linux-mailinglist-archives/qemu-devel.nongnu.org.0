@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00419300D95
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:20:34 +0100 (CET)
-Received: from localhost ([::1]:41130 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882D2300D8D
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:18:38 +0100 (CET)
+Received: from localhost ([::1]:36884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l32v4-0007Wp-1U
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:20:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50510)
+	id 1l32tB-0005gi-JF
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:18:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32mD-0004ud-1l
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:25 -0500
-Received: from mail-pj1-f47.google.com ([209.85.216.47]:34694)
+ id 1l32mE-0004wH-2V
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:26 -0500
+Received: from mail-pj1-f46.google.com ([209.85.216.46]:36109)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32mB-0004bB-HW
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:24 -0500
-Received: by mail-pj1-f47.google.com with SMTP id my11so6857081pjb.1
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:11:23 -0800 (PST)
+ id 1l32mC-0004cT-Hj
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:25 -0500
+Received: by mail-pj1-f46.google.com with SMTP id e6so4609260pjj.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:11:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ZTqB4ZeZsgg10vvjHd/dHMK/cst2I6BNOY0xcUjrQ/0=;
- b=tHyQ7TkYHSPynZ31t+9yJr7FOe5W16FuItLqpBqL/+T6CHcSEYY8hEBN6b9g/nbBP6
- 3Jd+e+k+txd/RAsJ2ASboSeebQIMiEa2V2fC+fAjTUYoJgN7jzVQKy9JLgJ4YO/kyArH
- 64ySiSr6ag8+ENX52pbvv3V/1+7P4v+t51KawaaOkEPDI8ViVJOTAnC0PQJ0QaJKgaeJ
- W06s1sUD1kLA7PdkoFESvQWXe+ritCB9v+5VsOpoLRX1XGEXQXqUifFFZX7asU/zmaTo
- 2yXYN7PGDxtAZ8VBmQc30N1aFSDdDXI1lbrM8K5OtAKuL+M13D0ZBw8UiMTdZ5aGkpT6
- MQEA==
-X-Gm-Message-State: AOAM530bbbhf+Ysw0DSE4tfAWw+OhdIfOiPLv3RByq54eeGN9usExYcT
- kkyh4slE3b9L/tLf90aYZIayMpO1ds4=
-X-Google-Smtp-Source: ABdhPJzIkz6LJLGXd4szxF7PRQbC5oquLFv7yLgR8H1l7kHspeLWU9Al7V5SRO4XWHJf8aHhmw30+w==
-X-Received: by 2002:a17:90a:b296:: with SMTP id
- c22mr7621321pjr.142.1611346282050; 
+ bh=kWegMfg0i0hDDWGoVKdg+A4xiQ6lvBugKe41iD56/ps=;
+ b=PI50yaKP199bbgUxUXnkvNxEvBNOKbf3pnTG9Dk5D9J0khCs6SiDT8zklIv2WSmVnW
+ Unsv1FnkmPdh0Ru+PtfHNMkZg/qowgLgB9EAA1aZO1Oir4u5Vx05SjAT+Yc7EUbQYgwS
+ 6CnbcWKa4H0RFKAaUZ0bPQ3PCxW1bah+Mczr8Zcxlcw3cZSejLckqsITmuQtpe6s9rfp
+ DtZ2FJs3QQhzoko4UkVILWx3f3dL1/jIhG+myMhPJmCrEcvPkyae9QCHpnJoaiIfKK5a
+ iya8V4yfhCP6GyAmXz2Otm6aeiggekaNqMGEZxqL0VrenQIFJN6Qy7LNMOjpFJZoWrAV
+ Y8Fw==
+X-Gm-Message-State: AOAM531tDJgWzBuRChUMGn0SYYSa4b6OpmWa4Y7B7zANXOOUDUMxPZIj
+ bnMlm5Y0YqNUUPrs90JpqDA0JNwE+xg=
+X-Google-Smtp-Source: ABdhPJxj2YQPmDPrJtNRcu9zsj4pAkNI8jloVc0VFwYNuz9rz1rh0/NIwcYWHLVImpEu6cUx63gpLA==
+X-Received: by 2002:a17:90a:b28f:: with SMTP id
+ c15mr7110896pjr.79.1611346282949; 
  Fri, 22 Jan 2021 12:11:22 -0800 (PST)
 Received: from localhost.localdomain ([73.93.152.129])
- by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.21
+ by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.22
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 22 Jan 2021 12:11:21 -0800 (PST)
+ Fri, 22 Jan 2021 12:11:22 -0800 (PST)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 06/11] darwin: remove redundant dependency declaration
-Date: Fri, 22 Jan 2021 12:11:08 -0800
-Message-Id: <20210122201113.63788-7-j@getutm.app>
+Subject: [PATCH v7 07/11] darwin: fix cross-compiling for Darwin
+Date: Fri, 22 Jan 2021 12:11:09 -0800
+Message-Id: <20210122201113.63788-8-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210122201113.63788-1-j@getutm.app>
 References: <20210122201113.63788-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.47; envelope-from=osy86github@gmail.com;
- helo=mail-pj1-f47.google.com
+Received-SPF: pass client-ip=209.85.216.46; envelope-from=osy86github@gmail.com;
+ helo=mail-pj1-f46.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -78,25 +78,35 @@ Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Meson will find CoreFoundation, IOKit, and Cocoa as needed.
+Add objc to the Meson cross file as well as detection of Darwin.
 
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- configure | 1 -
- 1 file changed, 1 deletion(-)
+ configure | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/configure b/configure
-index 82ce28c660..4c485dd962 100755
+index 4c485dd962..7e5ec7a5a1 100755
 --- a/configure
 +++ b/configure
-@@ -781,7 +781,6 @@ Darwin)
-   fi
-   audio_drv_list="coreaudio try-sdl"
-   audio_possible_drivers="coreaudio sdl"
--  QEMU_LDFLAGS="-framework CoreFoundation -framework IOKit $QEMU_LDFLAGS"
-   # Disable attempts to use ObjectiveC features in os/object.h since they
-   # won't work when we're compiling with gcc as a C compiler.
-   QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
+@@ -6443,6 +6443,7 @@ echo "cpp_link_args = [${LDFLAGS:+$(meson_quote $LDFLAGS)}]" >> $cross
+ echo "[binaries]" >> $cross
+ echo "c = [$(meson_quote $cc)]" >> $cross
+ test -n "$cxx" && echo "cpp = [$(meson_quote $cxx)]" >> $cross
++test -n "$objcc" && echo "objc = [$(meson_quote $objcc)]" >> $cross
+ echo "ar = [$(meson_quote $ar)]" >> $cross
+ echo "nm = [$(meson_quote $nm)]" >> $cross
+ echo "pkgconfig = [$(meson_quote $pkg_config_exe)]" >> $cross
+@@ -6461,6 +6462,9 @@ if test "$cross_compile" = "yes"; then
+     if test "$linux" = "yes" ; then
+         echo "system = 'linux'" >> $cross
+     fi
++    if test "$darwin" = "yes" ; then
++        echo "system = 'darwin'" >> $cross
++    fi
+     case "$ARCH" in
+         i386|x86_64)
+             echo "cpu_family = 'x86'" >> $cross
 -- 
 2.28.0
 
