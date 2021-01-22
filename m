@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC02D300897
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 17:26:42 +0100 (CET)
-Received: from localhost ([::1]:57114 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8E53008A5
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 17:28:17 +0100 (CET)
+Received: from localhost ([::1]:59460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2zGj-0006oc-To
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 11:26:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51918)
+	id 1l2zIG-0007vU-5b
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 11:28:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2zFe-0006Nw-6y
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:25:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45511)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2zGo-0007Gj-Ga
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:26:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43041)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2zFc-0007O7-1Y
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:25:34 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2zGj-0007pi-R5
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:26:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611332731;
+ s=mimecast20190719; t=1611332800;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=LQ/fNW72cv7sl2JgibY+razpP3N/bbCgA/YHTsWp20Y=;
- b=hORMBHC3GsBDYXrP9q/BeRrVbI2fENq4oKnrxmSfPhkdTI4PW7B1sOq4u/oJLXabcsOEG5
- uCZ9zoV1GKw2qc/Wg9Ei3TDUAO2A2KKzbsws6k1LgV6RD1JzoOe4ReaQRD4AVMzeTlZlk+
- UWddknHFs24+dENjbbPmHlzD8o/ENJE=
+ bh=0V2cZQCgdXu71CWIOWCfA7cl2ajqPE+4ZZKhCMxrtG0=;
+ b=BSusJRCBVdAL1MuxN2YeChs+9Z2pitYMoGSHY2+FNrdWNnQp6ARl6T8cjDLEbk8Kx8HMww
+ LaYgrw232NEQY03FBFc41BN/5uP4/lLKajDqPY0oZtdX0nlDtK0acwmNoxMN2SDSR2Duk7
+ HnAG28/iv67IxMZODokuuEEWchfBnPw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-fO6FwZjtNjGWYLRMEuDGbA-1; Fri, 22 Jan 2021 11:25:28 -0500
-X-MC-Unique: fO6FwZjtNjGWYLRMEuDGbA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-19-Q75uKTCbPsSCrd3epcGNSQ-1; Fri, 22 Jan 2021 11:26:38 -0500
+X-MC-Unique: Q75uKTCbPsSCrd3epcGNSQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5B3F61800D41;
- Fri, 22 Jan 2021 16:25:27 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-109.ams2.redhat.com [10.36.112.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 03D605DA34;
- Fri, 22 Jan 2021 16:25:19 +0000 (UTC)
-Subject: Re: [PATCH] gitlab-ci.yml: Use the whole tree as artifacts to speed
- up the CI
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210122100722.705375-1-thuth@redhat.com>
- <20210122101833.GC3150238@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <3d6e194a-4c18-a6f3-6783-c93daf1c2114@redhat.com>
-Date: Fri, 22 Jan 2021 17:25:19 +0100
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EFCE180DE22;
+ Fri, 22 Jan 2021 16:26:37 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AFC5E2E9;
+ Fri, 22 Jan 2021 16:26:32 +0000 (UTC)
+Subject: Re: [PATCH v4 11/16] block/io: support int64_t bytes in
+ bdrv_aligned_pwritev()
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-block@nongnu.org
+References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
+ <20201211183934.169161-12-vsementsov@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Message-ID: <0ff23baf-57b1-5889-7d43-47921b2a6700@redhat.com>
+Date: Fri, 22 Jan 2021 10:26:31 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210122101833.GC3150238@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20201211183934.169161-12-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,59 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Willian Rampazzo <willianr@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/01/2021 11.18, Daniel P. Berrangé wrote:
-> On Fri, Jan 22, 2021 at 11:07:22AM +0100, Thomas Huth wrote:
->> Currently, our check-system-* jobs are recompiling the whole sources
->> again. This happens due to the fact that the jobs are checking out
->> the whole source tree and required submodules again, and only try
->> to use the "build" directory with the binaries and object files
->> as an artifact from the previous stage - which simply does not work
->> anymore (with the current version of meson). Due to some changed
->> time stamps, meson is always trying to rebuild the whole tree.
+On 12/11/20 12:39 PM, Vladimir Sementsov-Ogievskiy wrote:
+> We are generally moving to int64_t for both offset and bytes parameters
+> on all io paths.
 > 
-> This used to work in the past didn't it ? Did something change in
-> meson to break this, or have we just not noticed before.
-
-As mentioned by Philippe already, there seems to be a problem in current 
-meson which triggers a rebuild of the whole tree in some cases. See this 
-thread here:
-
-https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg05409.html
-
->> So instead of trying to marry a freshly checked out source tree
->> with the pre-built binaries in these jobs, let's simply pass the
->> whole source including the submodules and the build tree as artifact
->> to the test jobs. That way timestamps get preserved and there is
->> no rebuild of the sources anymore. This saves ca. 15 - 20 minutes
->> of precious CI cycles in each run.
+> Main motivation is realization of 64-bit write_zeroes operation for
+> fast zeroing large disk chunks, up to the whole disk.
 > 
-> I'm a little worried we might end up hitting the artifact size
-> limit which is supposedly 1GB on gitlab.com.  Im guessing this
-> must be measuring the compressed size though, as a src checkout
-> with build dir  and .git dir is already way over 1GB.
+> We chose signed type, to be consistent with off_t (which is signed) and
+> with possibility for signed return type (where negative value means
+> error).
+> 
+> So, prepare bdrv_aligned_pwritev() now and convert the dependencies:
+> bdrv_co_write_req_prepare() and bdrv_co_write_req_finish() to signed
+> type bytes.
+> 
+> Conversion of bdrv_co_write_req_prepare() and
+> bdrv_co_write_req_finish() is definitely safe, as all requests in
+> block/io must not overflow BDRV_MAX_LENGTH. Still add assertions.
+> 
+> For bdrv_aligned_pwritev() 'bytes' type is widened, so callers are
+> safe. Let's check usage of the parameter inside the function.
+> 
+> Passing to bdrv_co_write_req_prepare() and bdrv_co_write_req_finish()
+> is OK.
+> 
+> Passing to qemu_iovec_* is OK after new assertion. All other callees
+> are already updated to int64_t.
+> 
+> Checking alignment is not changed, offset + bytes and qiov_offset +
+> bytes calculations are safe (thanks to new assertions).
+> 
+> max_transfer is kept to be int for now. It has a default of INT_MAX
+> here, and some drivers may rely on it. It's to be refactored later.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  block/io.c | 21 +++++++++++++--------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+> 
 
-I've added a "du -sh" in one of the jobs and the size of the directory was 
-indeed 2 GB already. But I did not see any problems due to that size. So 
-either the limit must be bigger, or it's about the compressed size. Either 
-way, it's working at least right now.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-We could maybe also simply exclude the .git directory of the source 
-checkout, I think that's the biggest chunk there and likely not needed for 
-the tests.
-
- > For to ask, could we address it by using  'meson test
- > --no-rebuild' perhaps ?
-
-Interesting idea! I'll give it a try, and if it works, I'll send a patch for 
-that instead.
-
-  Thomas
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
