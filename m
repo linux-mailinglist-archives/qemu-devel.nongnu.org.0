@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63DF1300B34
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:28:28 +0100 (CET)
-Received: from localhost ([::1]:34630 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B12C300B2C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:26:05 +0100 (CET)
+Received: from localhost ([::1]:54414 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l31AZ-0004P9-FX
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:28:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57650)
+	id 1l318G-0000LP-EI
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:26:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57924)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l311b-0007ay-TU
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:12 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:36739)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l311W-0006sV-Lh
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:11 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id 6so5973109wri.3
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:19:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dhXKFBqrjyWVwdgcjtJOpFUapsJmdBL8gQLJBNQUd1s=;
- b=aAvto5t5U16jgRTJfZnjrjLXu1/YMAbmGEWoJXj5635Ujan8CoGOFHSZ9iu+iIY1OJ
- R98BJsjD5cyRjuWRoOT8GVNBuZ7ONh7LRqSDi79ep04Hcds/duTBK9ON31toovq6ya6b
- 5AhLu8aMCB3vCl7oTvnQqA71x3VcJJgsVg24tgirLIvCVULqP0Ev2ErBNywMz94jCvIZ
- om83F9jdiSPMv/f/xwOXSgR3TL/okeE2wc7SeDFY4gftXQyrYqg5Wqj5ut5BGHqldvft
- /hmgRAHh4LNqlHCgd2tTcYa8R6z+p6Cs/Mm6bHAHvREapzM4mX2xYpGWZ9nfeZBNnYwn
- vRug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=dhXKFBqrjyWVwdgcjtJOpFUapsJmdBL8gQLJBNQUd1s=;
- b=gwVbesfTVwgHvU6pUURyeTNQcm0ohihiG4M+TFNWB+SdK+4pvKtBwobNJPHh8kBJ5V
- RbVlrwUlS7wKr3/K6tIorrKgYy4efxmlZJvud4pkUlqxm0zksETWrwvVlUTIvWnpqtn8
- e1Gl6zzYzExvFP/DlyUTuA/nvq+e0aa+O57hQ1MSsbBEpNRWU2D9/1saKJtLzCMw1j3R
- UXn6DBZGdT8UUI9u/f5vykKX0SUkB/YLMd4qdCtjNBGpDbSvMXLXJ+pmQ3AXP+rmPWw0
- L63e9QT8Y1cW88ABRgwvh6Ox5UCp7jB9iBC0oS9AI1lnyZ4N1g+CFcD3nclmarlDZBuC
- 5UrA==
-X-Gm-Message-State: AOAM531RL2TT/mixVFmvbRsNzgYo/aNu5BBRPJzsVU0YBOwwNd8BK6Zz
- S34znEf1Xdexj4rwpQLwSmw1oA==
-X-Google-Smtp-Source: ABdhPJysBxdKrhvOYPbUKgxdbckr6v9DX0ZoWHaY4wrULpjfRXZ2Xbm9ZjdwWmhKDcOvxg9uE0W4Ow==
-X-Received: by 2002:adf:dccb:: with SMTP id x11mr2174415wrm.234.1611339545293; 
- Fri, 22 Jan 2021 10:19:05 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id p17sm12237800wmg.46.2021.01.22.10.18.58
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 10:18:59 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5C7A61FF96;
- Fri, 22 Jan 2021 18:18:55 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 8/8] configure: bump the minimum gdb version for check-tcg
- to 9.1
-Date: Fri, 22 Jan 2021 18:18:54 +0000
-Message-Id: <20210122181854.23105-9-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210122181854.23105-1-alex.bennee@linaro.org>
-References: <20210122181854.23105-1-alex.bennee@linaro.org>
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l313D-00011d-Dh
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:20:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43428)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l313A-0007XY-W6
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:20:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611339648;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cccbrQUYKsX4M33r570q31j287A4JahzmcAjvmDhSaw=;
+ b=EhIMW0dqfvNENLLL1rks4KzHljIaQqrkUj3xtLvP6e2j5Mzggdqv3MLww9am3QBWbFR04Q
+ 1gcT8/Rp/qaUhJG/HCf0abmDOMyO+ihtx5GuvaWo3QPVYWfQ6GdBwqd8Hv4ASsxcIak30G
+ VHSKXhNxYlsZWQi+1sBvTYingA2nwmI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-210-gsEK7lpiNWStq7pootChBg-1; Fri, 22 Jan 2021 13:20:42 -0500
+X-MC-Unique: gsEK7lpiNWStq7pootChBg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B5644DB8F0
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 18:19:49 +0000 (UTC)
+Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C89A2BFE9;
+ Fri, 22 Jan 2021 18:19:45 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210122102041.27031-1-mreitz@redhat.com>
+ <10be5fcc-5e7a-3e44-3229-8526ad3b4547@redhat.com>
+ <3e6b417c-eebb-dc6a-da7d-af2295118c6a@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+Message-ID: <30d27bfa-770f-4edb-6f4b-9a1cd2eb2833@redhat.com>
+Date: Fri, 22 Jan 2021 12:19:45 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <3e6b417c-eebb-dc6a-da7d-af2295118c6a@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,39 +84,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luis Machado <luis.machado@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Claudio Fontana <cfontana@suse.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For SVE, currently the bulk of the GDB TCG tests, we need at least GDB
-9.1 to support the "ieee_half" data type we report. This only affects
-when GDB tests are run; users can still use lower versions of gdb as
-long as they aren't talking to an SVE enabled model. The work around
-is to either get a newer gdb or disable SVE for their CPU model.
+On 1/22/21 11:58 AM, Max Reitz wrote:
 
-Reported-by: Claudio Fontana <cfontana@suse.de>
-Cc: Luis Machado <luis.machado@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>>> +    if (!self) {
+>>> +        /*
+>>> +         * This SIGUSR2 came from an external source, not from
+>>> +         * qemu_coroutine_new(), so perform the default action.
+>>> +         */
+>>> +        exit(0);
+>>> +    }
+>>
+>> (2) exit() is generally unsafe to call in signal handlers.
+>>
+>> We could reason whether or not it is safe in this particular case (POSIX
+>> describes the exact conditions --
+>> <https://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04_03_03>),
+>>
+>> but it's much simpler to just call _exit().
+>>
+>>
+>> (3) "Performing the default action" would be slightly different from
+>> calling _exit(). When a process is terminated with a signal, the parent
+>> can distinguish that, when reaping the child. See waitpid() /
+>> WIFSIGNALED() / WTERMSIG(), versus WIFEXITED() / WEXITSTATUS().
+>>
+>> So for the "default action", we'd have to:
+>> - restore the SIGUSR2 handler to SIG_DFL, and
+>> - re-raise the signal for the thread, and
+>> - because the signal being handled is automatically blocked unless
+>>    SA_NODEFER was set: unblock the signal for the thread.
+>>
+>> The pthread_sigmask() call, made for the last step, would be the one
+>> that would not return.
+>>
+>> *However*, all of this complexity is not really useful here. We don't
+>> really want to simulate being "forcefully terminated" by the unexpected
+>> (asynchronous) SIGUSR2. We just want to exit.
+>>
+>> Therefore, _exit() is fine. But, we should use an exit code different
+>> from 0, as this is definitely not a pristine exit from QEMU. I'm not
+>> sure if a convention exists for nonzero exit codes in QEMU; if not, then
+>> just pass EXIT_FAILURE to _exit().
+> 
+> I’m fine with calling _exit().  I hope, Eric is, too (as long as the
+> comment no longer claims this were the default behavior).
 
-diff --git a/configure b/configure
-index dd99939b34..0cf9718d4f 100755
---- a/configure
-+++ b/configure
-@@ -6169,7 +6169,7 @@ fi
- 
- if test -n "$gdb_bin"; then
-     gdb_version=$($gdb_bin --version | head -n 1)
--    if version_ge ${gdb_version##* } 8.3.1; then
-+    if version_ge ${gdb_version##* } 9.1; then
-         echo "HAVE_GDB_BIN=$gdb_bin" >> $config_host_mak
-     fi
- fi
+Using _exit(nonzero) is fine by me as long as the comment is accurate.
+There are signals like SIGINT where you really DO want to terminate by
+signal rather than using _exit(SIGINT+128), because shells can tell the
+difference [1]; but SIGUSR2 is not one of the signals where shells
+special-case their behavior.
+
+[1] https://www.cons.org/cracauer/sigint.html
+
+> 
+> Given that SIGUSR2 is not something that qemu is prepared to receive
+> from the outside, EXIT_FAILURE seems right to me.  (Even abort() could
+> be justified, but I don’t think generating a core dump does any good here.)
+> 
+> (As for qemu-specific exit code conventions, the only ones I know of are
+> for certain qemu-img subcommands.  I’m sure you grepped, too, but I
+> can’t find anything for the system emulator.)
+> 
+>> (4) Furthermore, please update the comment, because "perform the default
+>> action" is not precise.
+> 
+> Sure, that’s definitely easier than to re-raise SIGUSR2.
+
+Works for me as well.
+
 -- 
-2.20.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
