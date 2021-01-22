@@ -2,69 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AD8300418
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 14:26:14 +0100 (CET)
-Received: from localhost ([::1]:58816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7659D30043A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 14:32:57 +0100 (CET)
+Received: from localhost ([::1]:37742 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2wS4-0008Ca-Tu
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 08:26:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60026)
+	id 1l2wYa-00038l-IY
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 08:32:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33340)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2wO8-0007Pp-JE
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:22:08 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41963)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2wO6-0001Jl-AS
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:22:08 -0500
-Received: by mail-ed1-x532.google.com with SMTP id bx12so6503220edb.8
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 05:22:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=aE3V7jeuUdZOH8oF3ccmuz3mOcpTb5Dz+Hy4dLCviiQ=;
- b=cMY4abpAg834T1jK5+WBxj3wEE+1PkJhOIMsIRMpjpdCDZfigRLm7iM+G3Lvd4yukL
- xLbtBJ6VhyAjQc6jgw+vcwtvtGGGZs7fQTpH6SFcxBUdlQGbh9TR18mxxrVyQbtiWnv7
- I4CuRkPv6thi4xmeGJPemSg50NIlMxteKVs0z+vispukwC0eR4kesrErvUu6k6LPa95W
- OeVA6smjh2Zll3cNMMPRoOvymhSKAO/uiqMsE3B3ZVpKb/oa4xbSM1aHtqPdVtufwnDr
- k/N88Hh3TNtlZ44JE7KIjhj8r8JCi8odzJeuDl39JBOcBYC6cGwvg/wXQgBqAKcisvCA
- 7Iig==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2wW2-00021I-EY
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:30:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24128)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2wVy-0004fR-UG
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:30:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611322211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=8OIM286miPHP5nOXWXdJa07Pj6/hw2aFVkD/HVdU5o8=;
+ b=a2bzqEkwrA9dDhJ/6gSFEFQGv4nLuXURGJjyCmHSH8ADHYNcg7AE5D2totkvL4jpXfVBvo
+ pN4lcbAgdzIDgzlPOsk5p81AOUzdUv5FRW+s5+K8uOZTSeKkKm8CguKXdyziOw9mMAzH59
+ UnIMXgmUVmbweXP7DFLtkb9s0KfDt1M=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-289-3-NbMpjgPny7kJPqyVxiFg-1; Fri, 22 Jan 2021 08:30:08 -0500
+X-MC-Unique: 3-NbMpjgPny7kJPqyVxiFg-1
+Received: by mail-ej1-f71.google.com with SMTP id n18so2180503ejc.11
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 05:30:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=aE3V7jeuUdZOH8oF3ccmuz3mOcpTb5Dz+Hy4dLCviiQ=;
- b=aUXjd/7mnCB8feN9cNTmNqvvex7n73zYmdjnBtbv+8Rinoj1aV4wko2fSpmhEKdVC7
- RCwDLE2VULe1NlOYM5vVYpXVxykqmk2r6UKgfbZJPJzX1TcY9L3/+hxy10NI4BQM4Ywr
- SDmNGulkEwx4Cw44D1jgehi1UIecVVZdKF/7pO45zOWpIHklEKwIVqMAojyTmIiN7XwS
- eDFDKuMFG9fabFdfvXjtzqUXEVA9c22n7CG6MF5AU1JbwkVEMid0aEfdragaA6Msw+zl
- ym0TWSSod9pwCtvcZtfqcd1SeerZZRZZxRgsl7Dsv96L+JdlnbWnkKgB5XSnit5b2tqz
- UDig==
-X-Gm-Message-State: AOAM531+vh/u3hM0P+Dq9SYPgHAiRsSYzXiWVEqE8gX1Lpiqb37UPLlr
- em+zTNLGifqO9NmZUcMtQXMJE7MGseXyi/G+XDfSYg==
-X-Google-Smtp-Source: ABdhPJzWwDxNB8hNeUuaEP3MTAiy1KOh4l5CRv1ZQtpb0pxOClrANcEJuIfP/WJM1rcUcyi4FleFJMcy4wl9gsjtxlU=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr3166595edd.52.1611321724789; 
- Fri, 22 Jan 2021 05:22:04 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=igwzXdJu0UE4QyChI5266UzhbyDduaBfrK7oDELT1tw=;
+ b=bwFYQ4trdnU2UdckpOSHMON5BSiKoPDe3loiN7a8NqkCuWcShlzEvAbii/1NuHU7Vf
+ wxSub/qadvRFxZIZ0HaevjL7+kHDuTqdFJ6ivrQfu5CHTgYgXDOl3cT83n83OLFSfLas
+ JDYZeT0UbnHRMabcBW+KJhz2fcmassyKbvXLAqu/odbt5lwtd8CGkEHsLkKX97rKsc5p
+ K08DfxmNkG/6A/ThuXi6hjV8G0Dcymjr9wMpI3TudGK+fZBgrRBvqNBHnVUbkWolOlZP
+ Jb6xGNNm3EJs+d2TrpF+REodFTUMF92LF/ZZf1hH/2X4oQNbo7HJ3i82vtqfnfJI/iCk
+ yj5A==
+X-Gm-Message-State: AOAM530uOT9Pz8EgMnq5lpZWW4gBG+XiWMd3Zn3UpdNGVznuVMIF3nc8
+ uIyzwB7P+iFafBbVuaIX/Y7w4x3NHs6TMC8WCFu4zKW7fsklk8j59qVoMVp7q5hd9222MKEcj77
+ NaahqjZSA362zXRnCcHPSAdthPH5l22DsYUfQiC/OFLrl6fQAKtXcSjHlog9uv2Eu
+X-Received: by 2002:a05:6402:4d9:: with SMTP id
+ n25mr3155209edw.111.1611322207171; 
+ Fri, 22 Jan 2021 05:30:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwXHhX9IT1CMMfZE9jpNtTQiGlDkhcvtksYEsQDGO/OfVK4cNujhQo0IaRyCSP5gFhElj/4xg==
+X-Received: by 2002:a05:6402:4d9:: with SMTP id
+ n25mr3155189edw.111.1611322206970; 
+ Fri, 22 Jan 2021 05:30:06 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id f20sm5238726edd.47.2021.01.22.05.30.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jan 2021 05:30:06 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] meson: Try to clarify TCG / TCI options for new users
+Date: Fri, 22 Jan 2021 14:30:00 +0100
+Message-Id: <20210122133004.1913923-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210118162537.779542-1-pbonzini@redhat.com>
-In-Reply-To: <20210118162537.779542-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 13:21:53 +0000
-Message-ID: <CAFEAcA_En1xo10n3121r3ZRANkhiH0dRRwT5QwMZ1wRTeLyFWA@mail.gmail.com>
-Subject: Re: [PATCH] arm: rename xlnx-zcu102.canbusN properties
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,120 +92,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Vikram Garhwal <fnu.vikram@xilinx.com>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just noticed this wasn't cc'd to the Xilinx folks. Would one
-of you like to review it?
+Since v2:=0D
+- Included Thomas suggestions=0D
+=0D
+Some new users get confused between 'TCG' and 'TCI' and enable=0D
+TCI when TCG is better for they needs. Try to clarify it is=0D
+better to not use TCI when native backend is available.=0D
+=0D
+Note, before Meson, warnings were summarized at the end of=0D
+./configure. Now they are displayed earlier, and likely=0D
+missed IMHO. No clue how to improve that :/=0D
+=0D
+Based-on: <20210121095616.1471869-1-philmd@redhat.com>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  meson: Explicit TCG backend used=0D
+  meson: Warn when TCI is selected but TCG backend is available=0D
+  configure: Improve TCI feature description=0D
+  configure: Reword --enable-tcg-interpreter as --disable-native-tcg=0D
+=0D
+ configure   |  5 +++--=0D
+ meson.build | 11 +++++++++--=0D
+ 2 files changed, 12 insertions(+), 4 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
-thanks
--- PMM
-
-On Mon, 18 Jan 2021 at 16:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The properties to attach a CANBUS object to the xlnx-zcu102 machine have
-> a period in them.  We want to use periods in properties for compound QAPI types,
-> and besides the "xlnx-zcu102." prefix is both unnecessary and different
-> from any other machine property name.  Remove it.
->
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  hw/arm/xlnx-zcu102.c        |  4 ++--
->  tests/qtest/xlnx-can-test.c | 30 +++++++++++++++---------------
->  2 files changed, 17 insertions(+), 17 deletions(-)
->
-> diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-> index 4ef0c516bf..c9713638c5 100644
-> --- a/hw/arm/xlnx-zcu102.c
-> +++ b/hw/arm/xlnx-zcu102.c
-> @@ -219,12 +219,12 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
->      s->secure = false;
->      /* Default to virt (EL2) being disabled */
->      s->virt = false;
-> -    object_property_add_link(obj, "xlnx-zcu102.canbus0", TYPE_CAN_BUS,
-> +    object_property_add_link(obj, "canbus0", TYPE_CAN_BUS,
->                               (Object **)&s->canbus[0],
->                               object_property_allow_set_link,
->                               0);
->
-> -    object_property_add_link(obj, "xlnx-zcu102.canbus1", TYPE_CAN_BUS,
-> +    object_property_add_link(obj, "canbus1", TYPE_CAN_BUS,
->                               (Object **)&s->canbus[1],
->                               object_property_allow_set_link,
->                               0);
-> diff --git a/tests/qtest/xlnx-can-test.c b/tests/qtest/xlnx-can-test.c
-> index 3d1120005b..54de71a686 100644
-> --- a/tests/qtest/xlnx-can-test.c
-> +++ b/tests/qtest/xlnx-can-test.c
-> @@ -138,9 +138,9 @@ static void test_can_bus(void)
->      uint8_t can_timestamp = 1;
->
->      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> -                " -object can-bus,id=canbus0"
-> -                " -machine xlnx-zcu102.canbus0=canbus0"
-> -                " -machine xlnx-zcu102.canbus1=canbus0"
-> +                " -object can-bus,id=canbus"
-> +                " -machine canbus0=canbus"
-> +                " -machine canbus1=canbus"
->                  );
->
->      /* Configure the CAN0 and CAN1. */
-> @@ -175,9 +175,9 @@ static void test_can_loopback(void)
->      uint32_t status = 0;
->
->      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> -                " -object can-bus,id=canbus0"
-> -                " -machine xlnx-zcu102.canbus0=canbus0"
-> -                " -machine xlnx-zcu102.canbus1=canbus0"
-> +                " -object can-bus,id=canbus"
-> +                " -machine canbus0=canbus"
-> +                " -machine canbus1=canbus"
->                  );
->
->      /* Configure the CAN0 in loopback mode. */
-> @@ -223,9 +223,9 @@ static void test_can_filter(void)
->      uint8_t can_timestamp = 1;
->
->      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> -                " -object can-bus,id=canbus0"
-> -                " -machine xlnx-zcu102.canbus0=canbus0"
-> -                " -machine xlnx-zcu102.canbus1=canbus0"
-> +                " -object can-bus,id=canbus"
-> +                " -machine canbus0=canbus"
-> +                " -machine canbus1=canbus"
->                  );
->
->      /* Configure the CAN0 and CAN1. */
-> @@ -271,9 +271,9 @@ static void test_can_sleepmode(void)
->      uint8_t can_timestamp = 1;
->
->      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> -                " -object can-bus,id=canbus0"
-> -                " -machine xlnx-zcu102.canbus0=canbus0"
-> -                " -machine xlnx-zcu102.canbus1=canbus0"
-> +                " -object can-bus,id=canbus"
-> +                " -machine canbus0=canbus"
-> +                " -machine canbus1=canbus"
->                  );
->
->      /* Configure the CAN0. */
-> @@ -317,9 +317,9 @@ static void test_can_snoopmode(void)
->      uint8_t can_timestamp = 1;
->
->      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> -                " -object can-bus,id=canbus0"
-> -                " -machine xlnx-zcu102.canbus0=canbus0"
-> -                " -machine xlnx-zcu102.canbus1=canbus0"
-> +                " -object can-bus,id=canbus"
-> +                " -machine canbus0=canbus"
-> +                " -machine canbus1=canbus"
->                  );
->
->      /* Configure the CAN0. */
-> --
-> 2.26.2
 
