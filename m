@@ -2,65 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3390F3010DD
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 00:21:46 +0100 (CET)
-Received: from localhost ([::1]:55124 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D9413010B8
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 00:14:01 +0100 (CET)
+Received: from localhost ([::1]:44112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l35kP-0001HA-9s
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 18:21:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57540)
+	id 1l35ct-0004lT-DE
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 18:13:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l35jM-0000jk-64
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:20:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50670)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l35bk-0004Js-FT
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:12:48 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:44329)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l35jJ-0003Jo-US
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:20:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l35jH-0006Hw-Sa
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 23:20:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id CBD632E8137
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 23:20:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l35be-0000nj-9E
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:12:46 -0500
+Received: by mail-ej1-x634.google.com with SMTP id w1so9936176ejf.11
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 15:12:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=B+jFJUXtjH3O/NOHHdDexUFbAw1gBMm1V9R8g4bRx+M=;
+ b=Hx4LHXEgSxIfKH1G4pHBDBqaDUjc2Ipr48iHlTDT3xKN+uhGwbZoLPYOkNTdxPmqnY
+ F9XvrxZpRPc5GNcHPq/lp6Z3WxpoWIVt9lwJTj7Z7up2OUMCJnag8atcNdm4G+HwT5aH
+ zxB+v8opdtIlof/jkmyTYtfQenixhi5F5tTeH3XI7/JgRmw8kRcU/xlTk8tKSDYiaffP
+ nBUHMptBkAvOnXcqUP7+aGH9k/bW4P25JijhstOg4D1/9ca6Voj2fCv686UKpxdRjssA
+ A7Qm7ikIJcyyZyM+36vCNeYC5X/ggMq+5/EplzJCyf7Pr9L4PzC0NmjEr/NNXOrl2+p3
+ N56A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=B+jFJUXtjH3O/NOHHdDexUFbAw1gBMm1V9R8g4bRx+M=;
+ b=B+YjjW3/N8btnGDltUELZPhH1d60cOHgsa0BuEcFRICBxIDCPGuZTXcx3EZBawUlx3
+ 6UvIuTb9r9rq6+7wQ7E24h+JX/9LsUEiehxUi10sNP2ZnJ2ageamIfPNNbPRxlfUpJap
+ TXE/7Xb1GVLHSko5moFlzFT5t4bsCv2fG2D2AZVu+XvR5b/gUx582GqT8Vg3+9guonIh
+ PxfyEKdarIGhHKCmflfVkvmETrOTMGrkY+iXMUyoekUrN43dsy9f5l0xOr72xO68Zdjx
+ mywTOt4n0etBLF1dpu5pDk0dFLUlDiZ8GuazwczfH8D/qrj9+yZTQcql9NBhXWHLnVpL
+ YdRw==
+X-Gm-Message-State: AOAM533n8RYsw+B1PNOtG8GsleeCDWdFOfic0hLWfIpnhFHUJ9cicWlS
+ 9rY2wuTYW4AqoJNAoGOCpAZbspen035tVQdXFIDzrA==
+X-Google-Smtp-Source: ABdhPJwiD4tXnxZoa+/8yoxyQ8fxCuAsPRGXihNxJQfBPMw+aKkmy+GF7ve+8HP4wB910jBOq5apX+7/SZi81r6f9Ws=
+X-Received: by 2002:a17:906:b215:: with SMTP id
+ p21mr431074ejz.407.1611357160308; 
+ Fri, 22 Jan 2021 15:12:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 22 Jan 2021 23:09:47 -0000
-From: Ven Karri <1912857@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: imperialguy
-X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
-X-Launchpad-Bug-Modifier: Ven Karri (imperialguy)
-References: <161135175608.19792.5002633896122919993.malonedeb@wampee.canonical.com>
-Message-Id: <161135698798.20013.1879270459630073174.launchpad@wampee.canonical.com>
-Subject: [Bug 1912857] Re: virtio-serial blocks hostfwd ssh on windows 10 host
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: 4927d6f6ec48f5a560c5c05db63c690570dd9537
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210122201113.63788-1-j@getutm.app>
+ <20210122201113.63788-6-j@getutm.app>
+In-Reply-To: <20210122201113.63788-6-j@getutm.app>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Jan 2021 23:12:29 +0000
+Message-ID: <CAFEAcA8V1nv1VV6t8UN25JoA7bw96xSBamaw6VnfBavOQjj44A@mail.gmail.com>
+Subject: Re: [PATCH v7 05/11] osdep: build with non-working system() function
+To: Joelle van Dyne <j@getutm.app>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,144 +78,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912857 <1912857@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+On Fri, 22 Jan 2021 at 20:13, Joelle van Dyne <j@getutm.app> wrote:
+>
+> Build without error on hosts without a working system(). An assertion
+> will trigger if system() is called.
+>
+> Signed-off-by: Joelle van Dyne <j@getutm.app>
 
-  qemu-system-x86_64 -display none -hda archlinux.qcow2 -m 4G -netdev
-  user,id=3Dn1,hostfwd=3Dtcp::2222-:22 -device virtio-net-pci,netdev=3Dn1 -=
-->
-  WORKS - meaning I can ssh into the vm via port 2222
-  =
+ configure            | 19 +++++++++++++++++++
 
-  qemu-system-x86_64 -display none -hda archlinux.qcow2 -m 4G -netdev
-  user,id=3Dn1,hostfwd=3Dtcp::2222-:22 -device virtio-net-pci,netdev=3Dn1
-  -device virtio-serial -device virtserialport,chardev=3Dcid0 -chardev
-- socket,id=3Dcid0,{socket_addr_serial},server,nowait --> DOES NOT WORK -
-- meaning I cannot ssh into the vm
-+ socket,id=3Dcid0,host:localhost,port:55298,server,nowait --> DOES NOT WORK
-+ - meaning I cannot ssh into the vm
-  =
+Can we do the "does system() exist?" check in meson.build ?
+Untested, but looking at the existing check for "does gettid() exist?"
+it should be two lines:
 
-  Not only does the port 2222 not work, but I am not able to perform any
-  serial transfer on port 55298 as well.
-  =
+has_system = cc.has_function('system')
 
-+ The following doesn't work either:
-+ =
+and then later:
 
-+ qemu-system-x86_64 -display none -hda archlinux.qcow2 -m 4G -netdev
-+ user,id=3Dn1,hostfwd=3Dtcp::2222-:22 -device virtio-net-pci,netdev=3Dn1
-+ -device virtio-serial -device virtserialport,chardev=3Dcid0 -chardev
-+ file,id=3Dcid0,path=3Dtemp,server,nowait
-+ =
+config_host_data.set('HAVE_SYSTEM_FUNCTION', has_system)
 
-+ No matter which character device I use for my virtio-serial-port
-+ communication (socket or udp or file or pipe), the hostfwd doesn't work.
-+ =
+> +/**
+> + * Platforms which do not support system() gets an assertion failure.
+> + */
+> +#ifndef HAVE_SYSTEM_FUNCTION
+> +#define system platform_does_not_support_system
+> +static inline int platform_does_not_support_system(const char *command)
+> +{
+> +    assert(0);
+> +}
+> +#endif /* !HAVE_SYSTEM_FUNCTION */
 
-  Host: Windows 10
-  Guest: archlinux
-  QEMU version 5.2
+I think we should make this return an error code rather than assert:
 
-** Description changed:
+    errno = ENOSYS;
+    return -1;
 
-  qemu-system-x86_64 -display none -hda archlinux.qcow2 -m 4G -netdev
-  user,id=3Dn1,hostfwd=3Dtcp::2222-:22 -device virtio-net-pci,netdev=3Dn1 -=
-->
-  WORKS - meaning I can ssh into the vm via port 2222
-  =
+In particular, the arm, m68k and nios2 semihosting ABIs presented
+to the guest include 'SYSTEM' semihosting calls which we implement
+as "call system() with the string the guest hands us". On a
+platform without a system() function we want to return an
+error to the guest there, not assert.
 
-  qemu-system-x86_64 -display none -hda archlinux.qcow2 -m 4G -netdev
-  user,id=3Dn1,hostfwd=3Dtcp::2222-:22 -device virtio-net-pci,netdev=3Dn1
-  -device virtio-serial -device virtserialport,chardev=3Dcid0 -chardev
-  socket,id=3Dcid0,host:localhost,port:55298,server,nowait --> DOES NOT WORK
-  - meaning I cannot ssh into the vm
-  =
+The other possible approach would be to find all the places
+which want to call system() and add suitable ifdeffery to handle
+platforms without system:
+ * a win32-specific part of the guest-agent (no action needed)
+ * net/slirp.c (already handled by the smbd patch in this series)
+ * code in tests/ (5 instances)
+ * the 3 semihosting uses
 
-  Not only does the port 2222 not work, but I am not able to perform any
-  serial transfer on port 55298 as well.
-  =
+But I think providing an always-fails system() is fine.
 
-  The following doesn't work either:
-  =
-
-  qemu-system-x86_64 -display none -hda archlinux.qcow2 -m 4G -netdev
-  user,id=3Dn1,hostfwd=3Dtcp::2222-:22 -device virtio-net-pci,netdev=3Dn1
-  -device virtio-serial -device virtserialport,chardev=3Dcid0 -chardev
-  file,id=3Dcid0,path=3Dtemp,server,nowait
-  =
-
-- No matter which character device I use for my virtio-serial-port
-+ No matter which character device I use for my virtserialport
-  communication (socket or udp or file or pipe), the hostfwd doesn't work.
-  =
-
-  Host: Windows 10
-  Guest: archlinux
-  QEMU version 5.2
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912857
-
-Title:
-  virtio-serial blocks hostfwd ssh on windows 10 host
-
-Status in QEMU:
-  New
-
-Bug description:
-  qemu-system-x86_64
-  =C2=A0=C2=A0-display none
-  =C2=A0=C2=A0-hda archlinux.qcow2
-  =C2=A0=C2=A0-m 4G
-  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
-  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
-
-  --> THIS WORKS - meaning I can ssh into the vm via port 2222
-
-  qemu-system-x86_64
-  =C2=A0=C2=A0-display none
-  =C2=A0=C2=A0-hda archlinux.qcow2
-  =C2=A0=C2=A0-m 4G
-  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
-  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
-  =C2=A0=C2=A0-device virtio-serial
-  =C2=A0=C2=A0-device virtserialport,chardev=3Dcid0
-  =C2=A0=C2=A0-chardev socket,id=3Dcid0,host=3Dlocalhost,port=3D55298,serve=
-r,nowait
-
-  --> DOES NOT WORK - meaning I cannot ssh into the vm
-
-  Not only does the port 2222 not work, but I am not able to perform any
-  serial transfer on port 55298 as well.
-
-  The following doesn't work either:
-
-  qemu-system-x86_64
-  =C2=A0=C2=A0-display none
-  =C2=A0=C2=A0-hda archlinux.qcow2
-  =C2=A0=C2=A0-m 4G
-  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
-  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
-  =C2=A0=C2=A0-device virtio-serial =
-
-    -device virtserialport,chardev=3Dcid0
-  =C2=A0=C2=A0-chardev file,id=3Dcid0,path=3Dtemp,server,nowait
-
-  No matter which character device I use for my virtserialport
-  communication (socket or udp or file or pipe), the hostfwd doesn't
-  work.
-
-  Host: Windows 10
-  Guest: archlinux
-  QEMU version 5.2
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912857/+subscriptions
+thanks
+-- PMM
 
