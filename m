@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C4A43001EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:50:00 +0100 (CET)
-Received: from localhost ([::1]:51978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 447533001EF
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:50:34 +0100 (CET)
+Received: from localhost ([::1]:53428 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2uwx-0005yf-46
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:49:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38690)
+	id 1l2uxV-0006Zc-8E
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:50:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38788)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l2uvX-00056i-56
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:48:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51092)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l2uvT-0001SP-St
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:48:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611316106;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XsGoaIcAJ1Vg5L2EY5oVt8MZJqWuJsONxymhagpwydA=;
- b=bJSD4upwCdqlalwFzSEWtVPMeb0/Cgm3wRqBjlwixkIfvrLR4xiqEvXDLAyhLJ05b7YqUi
- t2cdgRJFImAoEO8s2v0wT2xpzgWvnJEX8mpRnGRkkFtKZYJ+MkwLG8nmv5fAcvW94Y+srg
- Bzm3RB/QGyrsrUxfp8mWUB4dcVQE4Vc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-246-HMTH8w5sN8Wgm0VRR4Sb-Q-1; Fri, 22 Jan 2021 06:48:21 -0500
-X-MC-Unique: HMTH8w5sN8Wgm0VRR4Sb-Q-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2B70802B48;
- Fri, 22 Jan 2021 11:48:20 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-18.ams2.redhat.com [10.36.115.18])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 83ECD100239A;
- Fri, 22 Jan 2021 11:48:16 +0000 (UTC)
-Date: Fri, 22 Jan 2021 12:48:15 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v7 07/11] iotests: add findtests.py
-Message-ID: <20210122114815.GC15866@merkur.fritz.box>
-References: <20210116134424.82867-1-vsementsov@virtuozzo.com>
- <20210116134424.82867-8-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l2uw2-0005Va-8W
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:49:02 -0500
+Received: from mail-ej1-x636.google.com ([2a00:1450:4864:20::636]:41728)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l2uvy-0001eZ-28
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:49:01 -0500
+Received: by mail-ej1-x636.google.com with SMTP id g12so7245247ejf.8
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 03:48:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=da1D08BSFwrFl+/DOs3EwV7BlyBgYJnhBZVQpyydfnM=;
+ b=NzayhP2Eg4UbcmFqdM0X91zrHWKluhHq60VOZZ9SGFal3BvpQfOQl0Z2K14J0J18mb
+ IbL7mXnAKz1VNaKcyAeeX59fJEK/fVxYEAr7hYL2nw774LK3IBpy3AzAtTDVisZMTpC4
+ ApcsOVtfNAqVdj+3ko+NZn9yf+6JMELzJ6nYrwk6Ws7+WHC8zqYp2hsoja9au+/33fnE
+ TUHgXkuQZ4uB0aQk6UjQzc4Up8oKsBc6kEiVp2hm5H6aff/xugDSSPhOwlPcy7XAKOzY
+ YPJm0d5QH/ffsg3xKntFfr1eERK+Dtm+shLIRul/KQ3hXa9igXXu99aBm/J+pxoRpw18
+ abYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=da1D08BSFwrFl+/DOs3EwV7BlyBgYJnhBZVQpyydfnM=;
+ b=PMiBdT5pulbschIKQNasWFvfI+eZp58xs84d6Nqm0zWg7qtoZb+rTtnzFpPvACjWLV
+ dH/7frMCu83hiIkBODlTNmuVXvPiGvjszHmzC6ZLvT6WnEt7Ygp4Y4hpm9/VBk7hf1aV
+ Rvquxsk86JpTODRISD13N/uqd1kvdBa1trqePGlMO1e3RiArcg4HuqlCLZEfvab7t4V4
+ B5RqpPpL9GTnHffy+qH7AhW00dBjf2j0FhFMjKD+NkJYeS+L3M3dtidonjcCgHL24lf9
+ TerLtkcX12VJR9E66jYq3LtF51zvViG3Cd0HpEMCxnWgkXOz8lDRMJim7c3dA8wZjKjC
+ QfZQ==
+X-Gm-Message-State: AOAM532YCSU2WyUDWFY14lQuXLIQds4hiSSDGfio3bGSFf/VNd6TUd4M
+ NvGVAr3/w1Yqcl9pMKL5DIYTmRujLzPV8JvxqNAT4Q==
+X-Google-Smtp-Source: ABdhPJxiULPvML47o1sRLVoP/LFgvf+tWNywtJtJRj52EnolZwu19rvATvF37FywTCxugsHZSDqY1ygpGh7IYliDzh0=
+X-Received: by 2002:a17:907:1b10:: with SMTP id
+ mp16mr2754020ejc.482.1611316136532; 
+ Fri, 22 Jan 2021 03:48:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210116134424.82867-8-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210115224645.1196742-1-richard.henderson@linaro.org>
+ <20210115224645.1196742-14-richard.henderson@linaro.org>
+In-Reply-To: <20210115224645.1196742-14-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Jan 2021 11:48:45 +0000
+Message-ID: <CAFEAcA9Hh6hx2s1iYWatUYD2500PQcLxzOYMOiDL=7hF=va_aQ@mail.gmail.com>
+Subject: Re: [PATCH v3 13/21] linux-user/aarch64: Implement PR_MTE_TCF and
+ PR_MTE_TAG
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::636;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x636.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,93 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- den@openvz.org, jsnow@redhat.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 16.01.2021 um 14:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Add python script with new logic of searching for tests:
-> 
-> Current ./check behavior:
->  - tests are named [0-9][0-9][0-9]
->  - tests must be registered in group file (even if test doesn't belong
->    to any group, like 142)
-> 
-> Behavior of findtests.py:
->  - group file is dropped
->  - tests are all files in tests/ subdirectory (except for .out files),
->    so it's not needed more to "register the test", just create it with
->    appropriate name in tests/ subdirectory. Old names like
->    [0-9][0-9][0-9] (in root iotests directory) are supported too, but
->    not recommended for new tests
->  - groups are parsed from '# group: ' line inside test files
->  - optional file group.local may be used to define some additional
->    groups for downstreams
->  - 'disabled' group is used to temporary disable tests. So instead of
->    commenting tests in old 'group' file you now can add them to
->    disabled group with help of 'group.local' file
->  - selecting test ranges like 5-15 are not supported more
->    (to support restarting failed ./check command from the middle of the
->     process, new argument is added: --start-from)
-> 
-> Benefits:
->  - no rebase conflicts in group file on patch porting from branch to
->    branch
->  - no conflicts in upstream, when different series want to occupy same
->    test number
->  - meaningful names for test files
->    For example, with digital number, when some person wants to add some
->    test about block-stream, he most probably will just create a new
->    test. But if there would be test-block-stream test already, he will
->    at first look at it and may be just add a test-case into it.
->    And anyway meaningful names are better.
-> 
-> This commit don't update check behavior (which will be done in further
-> commit), still, the documentation changed like new behavior is already
-> here.  Let's live with this small inconsistency for the following few
-> commits, until final change.
-> 
-> The file findtests.py is self-executable and may be used for debugging
-> purposes.
-
-As Eric mentioned, this isn't accurate any more.
-
-You mentioned using it as a way to debug things. I assume this is now
-covered by the dry run option?
-
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+On Fri, 15 Jan 2021 at 22:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> These prctl fields are required for the function of MTE.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  docs/devel/testing.rst          |  50 +++++++++-
->  tests/qemu-iotests/findtests.py | 159 ++++++++++++++++++++++++++++++++
->  2 files changed, 208 insertions(+), 1 deletion(-)
->  create mode 100644 tests/qemu-iotests/findtests.py
+>  linux-user/aarch64/target_syscall.h |  9 ++++++
+>  linux-user/syscall.c                | 44 +++++++++++++++++++++++++++++
+>  2 files changed, 53 insertions(+)
+>
+> diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+> index 820601dfcc..76f6c3391d 100644
+> --- a/linux-user/aarch64/target_syscall.h
+> +++ b/linux-user/aarch64/target_syscall.h
+> @@ -33,5 +33,14 @@ struct target_pt_regs {
+>  #define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
+>  #define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
+>  # define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
+> +/* MTE tag check fault modes */
+> +# define TARGET_PR_MTE_TCF_SHIFT       1
+> +# define TARGET_PR_MTE_TCF_NONE        (0UL << TARGET_PR_MTE_TCF_SHIFT)
+> +# define TARGET_PR_MTE_TCF_SYNC        (1UL << TARGET_PR_MTE_TCF_SHIFT)
+> +# define TARGET_PR_MTE_TCF_ASYNC       (2UL << TARGET_PR_MTE_TCF_SHIFT)
+> +# define TARGET_PR_MTE_TCF_MASK        (3UL << TARGET_PR_MTE_TCF_SHIFT)
+> +/* MTE tag inclusion mask */
+> +# define TARGET_PR_MTE_TAG_SHIFT       3
+> +# define TARGET_PR_MTE_TAG_MASK        (0xffffUL << TARGET_PR_MTE_TAG_SHIFT)
 
-> +    def add_group_file(self, fname: str) -> None:
-> +        with open(fname) as f:
-> +            for line in f:
-> +                line = line.strip()
-> +
-> +                if (not line) or line[0] == '#':
-> +                    continue
-> +
-> +                words = line.split()
-> +                test_file = self.parse_test_name(words[0])
-> +                groups = words[1:]
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-The previous version still had this:
-
-+                if test_file not in self.all_tests:
-+                    print(f'Warning: {fname}: "{test_file}" test is not found.'
-+                          ' Skip.')
-+                    continue
-
-Why did you remove it? I found this useful when I had a wrong test name
-in my group.local. Now it's silently ignored.
-
-> +                for g in groups:
-> +                    self.groups[g].add(test_file)
-
-Kevin
-
+thanks
+-- PMM
 
