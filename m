@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C168A300008
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:19:34 +0100 (CET)
-Received: from localhost ([::1]:52742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23C4930000C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:21:03 +0100 (CET)
+Received: from localhost ([::1]:55126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2tXR-0006Id-Qx
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:19:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49502)
+	id 1l2tYs-0007MS-6b
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:21:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1l2tVg-0004wQ-Je
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:17:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41327)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2tWl-0006Jx-Pt
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:18:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57667)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
- id 1l2tVe-0001zB-2U
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:17:44 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l2tWj-0002Or-H3
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:18:51 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611310661;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=uOGq1pf/oSqwehpeVVjmz839Z/VDxUSKqGp7ob3DT14=;
- b=UwvyV/53oAhfL6wrHD4bqqZmVa140i16sOUN9jaA5JtURig/pexsw/vKbFiHpc58SLMnRK
- 4GwpHA6COYPLI5UExN4CgsFfZr9dGDGLhj6Y9rRjpOELq/Ed3IxWwHTev+giGzk9wFvnSz
- sBl7OgJhv7nXXJ3FUb5LUtAWaiIdKbY=
+ s=mimecast20190719; t=1611310728;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=gnk6/gYozV7p+8QDJ7TNJh7iaTpIMdhK6rNpERuxlZY=;
+ b=bklRa+nOY5opkP/uBegYFjDtuNTLbDArXwU7Mt2+cAD6E+wp9AzOqYqu6kWJbSXAfee64b
+ FcjcjcqTbOUfSdht5bLOWHKHh1KDTUYqgxs6ElUJv55lDn7SzAtG8qZy7oG14vZydWxSnJ
+ YyKGLvmnQgMt2uuNrkz0J9FiGRIjBb8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-8qABLODOOv-w0fch2GHv6Q-1; Fri, 22 Jan 2021 05:17:39 -0500
-X-MC-Unique: 8qABLODOOv-w0fch2GHv6Q-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-409-gv_R2qopO1q080nMQmoAcw-1; Fri, 22 Jan 2021 05:18:47 -0500
+X-MC-Unique: gv_R2qopO1q080nMQmoAcw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9D448107ACE3;
- Fri, 22 Jan 2021 10:17:32 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (unknown [10.40.192.139])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 70CAF19C59;
- Fri, 22 Jan 2021 10:17:30 +0000 (UTC)
-Date: Fri, 22 Jan 2021 11:17:27 +0100
-From: Andrew Jones <drjones@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCHv8 3/3] arm-virt: add secure pl061 for reset/power down
-Message-ID: <20210122101727.6sf6x6wrpjwo2h34@kamzik.brq.redhat.com>
-References: <20210120092748.14789-1-maxim.uvarov@linaro.org>
- <20210120092748.14789-4-maxim.uvarov@linaro.org>
- <20210122082926.nakttrh53zzt6d2x@kamzik.brq.redhat.com>
- <CAFEAcA9Oa7BXPhzK4BytsQiByP-MWEnm6OsdBhc6w9+5y4BnFQ@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ECB0559;
+ Fri, 22 Jan 2021 10:18:45 +0000 (UTC)
+Received: from redhat.com (ovpn-115-108.ams2.redhat.com [10.36.115.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A4796F442;
+ Fri, 22 Jan 2021 10:18:35 +0000 (UTC)
+Date: Fri, 22 Jan 2021 10:18:33 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] gitlab-ci.yml: Use the whole tree as artifacts to speed
+ up the CI
+Message-ID: <20210122101833.GC3150238@redhat.com>
+References: <20210122100722.705375-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9Oa7BXPhzK4BytsQiByP-MWEnm6OsdBhc6w9+5y4BnFQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210122100722.705375-1-thuth@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -80,89 +79,301 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxim Uvarov <maxim.uvarov@linaro.org>, Jose Marinho <Jose.Marinho@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 10:09:35AM +0000, Peter Maydell wrote:
-> On Fri, 22 Jan 2021 at 08:29, Andrew Jones <drjones@redhat.com> wrote:
-> >
-> > On Wed, Jan 20, 2021 at 12:27:48PM +0300, Maxim Uvarov wrote:
-> > > Add secure pl061 for reset/power down machine from
-> > > the secure world (Arm Trusted Firmware). Connect it
-> > > with gpio-pwr driver.
-> > >
-> > > Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
-> > > ---
-> > >  hw/arm/Kconfig        |  1 +
-> > >  hw/arm/virt.c         | 47 +++++++++++++++++++++++++++++++++++++++++++
-> > >  include/hw/arm/virt.h |  2 ++
-> > >  3 files changed, 50 insertions(+)
-> > >
-> > > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> > > index 0a242e4c5d..13cc42dcc8 100644
-> > > --- a/hw/arm/Kconfig
-> > > +++ b/hw/arm/Kconfig
-> > > @@ -17,6 +17,7 @@ config ARM_VIRT
-> > >      select PL011 # UART
-> > >      select PL031 # RTC
-> > >      select PL061 # GPIO
-> > > +    select GPIO_PWR
-> > >      select PLATFORM_BUS
-> > >      select SMBIOS
-> > >      select VIRTIO_MMIO
-> > > diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> > > index c427ce5f81..060a5f492e 100644
-> > > --- a/hw/arm/virt.c
-> > > +++ b/hw/arm/virt.c
-> > > @@ -153,6 +153,7 @@ static const MemMapEntry base_memmap[] = {
-> > >      [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
-> > >      [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
-> > >      [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
-> > > +    [VIRT_SECURE_GPIO] =        { 0x090b0000, 0x00001000 },
-> > >      [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
-> > >      /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
-> > >      [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
-> > > @@ -841,6 +842,43 @@ static void create_gpio_keys(const VirtMachineState *vms,
-> > >                             "gpios", phandle, 3, 0);
-> > >  }
-> > >
-> > > +#define SECURE_GPIO_POWEROFF 0
-> > > +#define SECURE_GPIO_REBOOT   1
-> > > +
-> > > +static void create_gpio_pwr(const VirtMachineState *vms,
-> >
-> > This function is specific to the secure view. I think it should have
-> > "secure" in its name.
-> >
-> > > +                            DeviceState *pl061_dev,
-> > > +                            uint32_t phandle)
-> > > +{
-> > > +    DeviceState *gpio_pwr_dev;
-> > > +
-> > > +    /* gpio-pwr */
-> > > +    gpio_pwr_dev = sysbus_create_simple("gpio-pwr", -1, NULL);
-> >
-> > Should this device be in secure memory?
+On Fri, Jan 22, 2021 at 11:07:22AM +0100, Thomas Huth wrote:
+> Currently, our check-system-* jobs are recompiling the whole sources
+> again. This happens due to the fact that the jobs are checking out
+> the whole source tree and required submodules again, and only try
+> to use the "build" directory with the binaries and object files
+> as an artifact from the previous stage - which simply does not work
+> anymore (with the current version of meson). Due to some changed
+> time stamps, meson is always trying to rebuild the whole tree.
+
+This used to work in the past didn't it ? Did something change in
+meson to break this, or have we just not noticed before.
+
+> So instead of trying to marry a freshly checked out source tree
+> with the pre-built binaries in these jobs, let's simply pass the
+> whole source including the submodules and the build tree as artifact
+> to the test jobs. That way timestamps get preserved and there is
+> no rebuild of the sources anymore. This saves ca. 15 - 20 minutes
+> of precious CI cycles in each run.
+
+I'm a little worried we might end up hitting the artifact size
+limit which is supposedly 1GB on gitlab.com.  Im guessing this
+must be measuring the compressed size though, as a src checkout
+with build dir  and .git dir is already way over 1GB.
+
 > 
-> It's not in any memory at all -- -1 as the address argument
-> to sysbus_create_simple() means "no MMIO regions to map". The
-> only way it's connected to the rest of the system is via  the
-> secure-only PL061, so the NS world can't get at it.
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  This is how a job looked like before my patch, running for 42 minutes:
+>  https://gitlab.com/huth/qemu/-/jobs/978432757
 > 
-> (sysbus_create_simple("device", -1, NULL) is equivalent to:
->  dev = qdev_new("device");
->  sysbus_realize_and_unref(SYSBUS_DEVICE(dev), &error_fatal);
-> )
->
+>  And this is how it looks like afterwards - it just took 18 minutes:
+>  https://gitlab.com/huth/qemu/-/jobs/979500316
+> 
+>  .gitlab-ci.d/containers.yml |  1 +
+>  .gitlab-ci.yml              | 40 +++++++++++++++++++++++++------------
+>  2 files changed, 28 insertions(+), 13 deletions(-)
+> 
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index e2f9c99e27..d55280661f 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -39,7 +39,6 @@ include:
+>    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+>    script:
+>      - cd build
+> -    - find . -type f -exec touch {} +
+>      - make $MAKE_CHECK_ARGS
+>  
+>  .acceptance_template: &acceptance_definition
+> @@ -83,8 +82,7 @@ build-system-alpine:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - .git-submodule-status
+> -      - build
+> +      - "*"
+>  
+>  check-system-alpine:
+>    <<: *native_test_job_definition
+> @@ -92,6 +90,7 @@ check-system-alpine:
+>      - job: build-system-alpine
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: alpine
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -101,6 +100,7 @@ acceptance-system-alpine:
+>      - job: build-system-alpine
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: alpine
+>      MAKE_CHECK_ARGS: check-acceptance
+>    <<: *acceptance_definition
+> @@ -116,7 +116,7 @@ build-system-ubuntu:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-system-ubuntu:
+>    <<: *native_test_job_definition
+> @@ -124,6 +124,7 @@ check-system-ubuntu:
+>      - job: build-system-ubuntu
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: ubuntu2004
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -133,6 +134,7 @@ acceptance-system-ubuntu:
+>      - job: build-system-ubuntu
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: ubuntu2004
+>      MAKE_CHECK_ARGS: check-acceptance
+>    <<: *acceptance_definition
+> @@ -148,7 +150,7 @@ build-system-debian:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-system-debian:
+>    <<: *native_test_job_definition
+> @@ -156,6 +158,7 @@ check-system-debian:
+>      - job: build-system-debian
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: debian-amd64
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -170,7 +173,7 @@ build-tools-and-docs-debian:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  acceptance-system-debian:
+>    <<: *native_test_job_definition
+> @@ -178,6 +181,7 @@ acceptance-system-debian:
+>      - job: build-system-debian
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: debian-amd64
+>      MAKE_CHECK_ARGS: check-acceptance
+>    <<: *acceptance_definition
+> @@ -194,7 +198,7 @@ build-system-fedora:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-system-fedora:
+>    <<: *native_test_job_definition
+> @@ -202,6 +206,7 @@ check-system-fedora:
+>      - job: build-system-fedora
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: fedora
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -211,6 +216,7 @@ acceptance-system-fedora:
+>      - job: build-system-fedora
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: fedora
+>      MAKE_CHECK_ARGS: check-acceptance
+>    <<: *acceptance_definition
+> @@ -226,7 +232,7 @@ build-system-centos:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-system-centos:
+>    <<: *native_test_job_definition
+> @@ -234,6 +240,7 @@ check-system-centos:
+>      - job: build-system-centos
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: centos8
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -243,6 +250,7 @@ acceptance-system-centos:
+>      - job: build-system-centos
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: centos8
+>      MAKE_CHECK_ARGS: check-acceptance
+>    <<: *acceptance_definition
+> @@ -257,7 +265,7 @@ build-system-opensuse:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-system-opensuse:
+>    <<: *native_test_job_definition
+> @@ -265,6 +273,7 @@ check-system-opensuse:
+>      - job: build-system-opensuse
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: opensuse-leap
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -274,6 +283,7 @@ acceptance-system-opensuse:
+>       - job: build-system-opensuse
+>         artifacts: true
+>     variables:
+> +     GIT_CHECKOUT: "false"
+>       IMAGE: opensuse-leap
+>       MAKE_CHECK_ARGS: check-acceptance
+>     <<: *acceptance_definition
+> @@ -444,7 +454,7 @@ build-deprecated:
+>    artifacts:
+>      expire_in: 2 days
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  # We split the check-tcg step as test failures are expected but we still
+>  # want to catch the build breaking.
+> @@ -454,6 +464,7 @@ check-deprecated:
+>      - job: build-deprecated
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: debian-all-test-cross
+>      MAKE_CHECK_ARGS: check-tcg
+>    allow_failure: true
+> @@ -526,7 +537,7 @@ build-crypto-old-nettle:
+>      MAKE_CHECK_ARGS: check-build
+>    artifacts:
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-crypto-old-nettle:
+>    <<: *native_test_job_definition
+> @@ -534,6 +545,7 @@ check-crypto-old-nettle:
+>      - job: build-crypto-old-nettle
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: centos7
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -547,7 +559,7 @@ build-crypto-old-gcrypt:
+>      MAKE_CHECK_ARGS: check-build
+>    artifacts:
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-crypto-old-gcrypt:
+>    <<: *native_test_job_definition
+> @@ -555,6 +567,7 @@ check-crypto-old-gcrypt:
+>      - job: build-crypto-old-gcrypt
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: centos7
+>      MAKE_CHECK_ARGS: check
+>  
+> @@ -568,7 +581,7 @@ build-crypto-only-gnutls:
+>      MAKE_CHECK_ARGS: check-build
+>    artifacts:
+>      paths:
+> -      - build
+> +      - "*"
+>  
+>  check-crypto-only-gnutls:
+>    <<: *native_test_job_definition
+> @@ -576,6 +589,7 @@ check-crypto-only-gnutls:
+>      - job: build-crypto-only-gnutls
+>        artifacts: true
+>    variables:
+> +    GIT_CHECKOUT: "false"
+>      IMAGE: centos7
+>      MAKE_CHECK_ARGS: check
+>  
+> -- 
+> 2.27.0
+> 
+> 
 
-Thanks, I should have looked more closely at that.
-
-With the function name change to include "secure".
-
-Reviewed-by: Andrew Jones <drjones@redhat.com>
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
