@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2B8E3002D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 13:27:21 +0100 (CET)
-Received: from localhost ([::1]:42758 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 455273002FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 13:32:35 +0100 (CET)
+Received: from localhost ([::1]:49474 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2vX7-00036Y-1n
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 07:27:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
+	id 1l2vc9-00066i-R4
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 07:32:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47586)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l2vUG-0001n8-Ft
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:24:24 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:40376)
+ id 1l2vZt-00051i-9Q; Fri, 22 Jan 2021 07:30:13 -0500
+Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433]:32817)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l2vUE-0000ph-R4
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:24:24 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id m5so3651328pjv.5
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 04:24:21 -0800 (PST)
+ id 1l2vZr-0003T0-No; Fri, 22 Jan 2021 07:30:13 -0500
+Received: by mail-pf1-x433.google.com with SMTP id o20so3604729pfu.0;
+ Fri, 22 Jan 2021 04:30:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=94C77uzbMvsJS8KdB0RwGddKHiPZdeZzumFBF2m1OCI=;
- b=bCNuwhS5WsINge/enJPpk7AbFcDdhHUFV3B3FkouEMdXAAmuw4D6a1lH3jrFMuLEfK
- gD9hn2hDCjBRCuJiCqYX4HOAh81cWaJGZ93zVOLGDToY7w/kOx8yrj53dRTiSUnN3bMf
- xXzrgHKDkFZ1I+1+94+fs7nT7MvklwGvxPwhG5/1L0Hll5P0KBNPnIfFxsFrm0Hj7T6H
- BypdO8JSzInfmWI1L1T/Y6gdrje+5PigedpLb7Itx637MJRtrBTXnvH5NawR0W2TPkIw
- Bx/cV1HX9nEYE3VMc8//mDZKTse40XTssZeMD77pHgB8miLjf0splgb/kcBzen/GWVtQ
- gqzA==
+ bh=YnFyFLY93v03dxNQNml/TQABvBylW/eFs3rss7umCZk=;
+ b=fsYzY97R6moUWz+qws+HFyFWQp8RWxHct2fpqcME80qJCL7BxhcQcWVOeNx0XaIXll
+ B20kqMN6ONl5IJAVawWUTDW2zI//yNWVpGOrJGYLS59EBwBvaOxBQUHVoLXIewwHu+kO
+ wrMC4Abso5nsoL8dmGrKLnTazCNgTw2vToVTzxLSJmGIWtXnd/MyrlEXMTVks0+ZEYdp
+ k/0vQJuJeAEPflNYjLxMwl5Z98DQQxTHVnrhPdAj8ifBVqZvaZXaI/CY0Lh83uSRG0uc
+ QBYby+q2iobhtMzJr503VRHrPgVGM3uophe/bSx3mGZJSE3jlLUwr4WjnaflQtnnprUW
+ Lqpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=94C77uzbMvsJS8KdB0RwGddKHiPZdeZzumFBF2m1OCI=;
- b=Ug+RCpHmCZdwy5iClaVc7jHroaYRI8Rq7s0hN0cxEDKzBWAz1dIRXRhaxY2oT3HCxg
- OvA89G4BNS3a300AjDKKRNhZymerpbj5zXsRWJu++CQquf2A3aOqYE0/oNp32MAQXP/L
- J8k+fkMxmIZg+W8XKI7nrepAuyYr8GzIbYTa9DfG2iYuGDdfZV0yezpygTgisU4pz+rj
- Nkey6lHRxSb/v2+iaXm4FxjMAP37egabQM1DoiZnheTYaE6+ZdAoyvwKmjJRr9359GRg
- NgUuBAgr3yE06pfFSCvjEqb8tMNuH3mIwoFuOnjx1S/vKjxgR5rekbmJotuqIVl7Yy4O
- jdeg==
-X-Gm-Message-State: AOAM5303XoOEuftfxP4xArWuZNZEVkZas/bxwZbxIPVH21mdBX7vXTiN
- Wt6M8C7tswvxaT9YlAk5/ag=
-X-Google-Smtp-Source: ABdhPJxkqXRZ/SmWOg8zbTxzmacfZdjDzURTKV2xeKnyUpDFxsXw6SA2LVNT5Le4+NoFs4L+mR0DBg==
-X-Received: by 2002:a17:90b:a53:: with SMTP id
- gw19mr5159677pjb.192.1611318260114; 
- Fri, 22 Jan 2021 04:24:20 -0800 (PST)
+ bh=YnFyFLY93v03dxNQNml/TQABvBylW/eFs3rss7umCZk=;
+ b=aUGpf57D0eOTUMR/Q0Pst2pS1gMkvVwl71LujOWi5FVWREYSMfbjZfrJO/PtMRhxAy
+ 4sgM8JWxTM9p/A+1Pb1thxHGFvkFlhyNYlK3XwPw4JYmnEifoJJPgds+OKB/HTDZ+q6o
+ dpIxPif14HU6llhn0Z0ShtAEsQ+XHurN/84saYU6uU0rNq8brCb/oZo0M77iZz5ZAvKb
+ HrYgygsXlONXhZkM+9ytGVDLcn3IIQgN8bDkDk3rzVTWN6Vckq7x1DAWAtlWjkWw7aQO
+ BHxhQ3ZMeoe4LswCoieG9E0WAHVCVqx7Tajd3leac27geYh6dkYAtsB8E8AjEKi6iHnc
+ +wbw==
+X-Gm-Message-State: AOAM532779QGd1zuyvE6u0FI4MZiPD5qwj2ZQ/pkyA5O5gEbv3WSS2Us
+ 2nko/hhIMJ2YFFMQo2pFPUc=
+X-Google-Smtp-Source: ABdhPJy5wJau1qoZ5pBWfFlPjBzeMeWeCwoDmdbGzCAS1HBN5SqIBl8bPbjFCbTDJnL5jC/YlB8Cew==
+X-Received: by 2002:a63:4084:: with SMTP id n126mr4490312pga.80.1611318609776; 
+ Fri, 22 Jan 2021 04:30:09 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id y16sm8240093pgg.20.2021.01.22.04.24.15
+ by smtp.gmail.com with ESMTPSA id 6sm7894996pfd.212.2021.01.22.04.30.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 04:24:19 -0800 (PST)
+ Fri, 22 Jan 2021 04:30:09 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
-To: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-Subject: [PATCH] hw/mips: loongson3: Drop 'struct MemmapEntry'
-Date: Fri, 22 Jan 2021 20:24:04 +0800
-Message-Id: <20210122122404.11970-1-bmeng.cn@gmail.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: [PATCH 0/4] hw/riscv: Clean-ups and map high mmio for PCIe of 'virt'
+ machine
+Date: Fri, 22 Jan 2021 20:29:54 +0800
+Message-Id: <20210122122958.12311-1-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,63 +87,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-There is already a MemMapEntry type defined in hwaddr.h. Let's drop
-the loongson3 defined `struct MemmapEntry` and use the existing one.
+This series does the following clean-ups:
+- Drop 'struct MemmapEntry'
+- virt: Drop the 'link_up' parameter of gpex_pcie_init()
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
----
+It also adds the following small enhancement to 'virt' machine:
+- Limit RAM size in a 32-bit system
+- Map high mmio for PCIe
 
- hw/mips/loongson3_bootp.h | 7 +------
- hw/mips/loongson3_virt.c  | 6 +++---
- 2 files changed, 4 insertions(+), 9 deletions(-)
 
-diff --git a/hw/mips/loongson3_bootp.h b/hw/mips/loongson3_bootp.h
-index 09f8480abf..d525ab745a 100644
---- a/hw/mips/loongson3_bootp.h
-+++ b/hw/mips/loongson3_bootp.h
-@@ -228,12 +228,7 @@ enum {
-     LOADER_PARAM,
- };
- 
--struct MemmapEntry {
--    hwaddr base;
--    hwaddr size;
--};
--
--extern const struct MemmapEntry virt_memmap[];
-+extern const MemMapEntry virt_memmap[];
- void init_loongson_params(struct loongson_params *lp, void *p,
-                           uint64_t cpu_freq, uint64_t ram_size);
- void init_reset_system(struct efi_reset_system_t *reset);
-diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
-index d4a82fa536..b15071defc 100644
---- a/hw/mips/loongson3_virt.c
-+++ b/hw/mips/loongson3_virt.c
-@@ -72,7 +72,7 @@
- #define RTC_IRQ             1
- #define PCIE_IRQ_BASE       2
- 
--const struct MemmapEntry virt_memmap[] = {
-+const MemMapEntry virt_memmap[] = {
-     [VIRT_LOWMEM] =      { 0x00000000,    0x10000000 },
-     [VIRT_PM] =          { 0x10080000,         0x100 },
-     [VIRT_FW_CFG] =      { 0x10080100,         0x100 },
-@@ -86,13 +86,13 @@ const struct MemmapEntry virt_memmap[] = {
-     [VIRT_HIGHMEM] =     { 0x80000000,           0x0 }, /* Variable */
- };
- 
--static const struct MemmapEntry loader_memmap[] = {
-+static const MemMapEntry loader_memmap[] = {
-     [LOADER_KERNEL] =    { 0x00000000,     0x4000000 },
-     [LOADER_INITRD] =    { 0x04000000,           0x0 }, /* Variable */
-     [LOADER_CMDLINE] =   { 0x0ff00000,      0x100000 },
- };
- 
--static const struct MemmapEntry loader_rommap[] = {
-+static const MemMapEntry loader_rommap[] = {
-     [LOADER_BOOTROM] =   { 0x1fc00000,        0x1000 },
-     [LOADER_PARAM] =     { 0x1fc01000,       0x10000 },
- };
+Bin Meng (4):
+  hw/riscv: Drop 'struct MemmapEntry'
+  hw/riscv: virt: Drop the 'link_up' parameter of gpex_pcie_init()
+  hw/riscv: virt: Limit RAM size in a 32-bit system
+  hw/riscv: virt: Map high mmio for PCIe
+
+ hw/riscv/microchip_pfsoc.c |  9 ++---
+ hw/riscv/opentitan.c       |  9 ++---
+ hw/riscv/sifive_e.c        |  9 ++---
+ hw/riscv/sifive_u.c        | 11 +++---
+ hw/riscv/spike.c           |  9 ++---
+ hw/riscv/virt.c            | 72 ++++++++++++++++++++++++++++++--------
+ 6 files changed, 73 insertions(+), 46 deletions(-)
+
 -- 
 2.25.1
 
