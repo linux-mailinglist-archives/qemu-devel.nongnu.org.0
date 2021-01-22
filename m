@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7349C300611
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:52:51 +0100 (CET)
-Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF73300616
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:53:22 +0100 (CET)
+Received: from localhost ([::1]:53586 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2xnu-0000lS-G7
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:52:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56470)
+	id 1l2xoP-0002DJ-V4
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:53:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2xlR-0007up-0x
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:50:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37495)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l2xmk-0000mB-QY
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:51:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:47370)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2xlP-0007Mn-GZ
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:50:16 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l2xmh-00087r-Ep
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:51:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611327014;
+ s=mimecast20190719; t=1611327092;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4vyX4wBtKTSjd7JTxgUZV1CVoqLIj+bPVorsHeYG9Uo=;
- b=gLjgkn3AI4tnUn7iBCs73wsWARENAql+cnd54X9u7YlxhTmcvxYvUETUP85J2WuNW6embK
- ZP4XppBZqiQDYqTJ5S26lS6eOV9dlFenV6u2yjGCoP1Z60SKXSb7rWgY3FKWLKTwTX9TN9
- TIM36ojOhF3OXEbd/BFLZobai6AigFo=
+ bh=NN+iQauePqUL9OvS3IbNgWc9rISTPyzk08CZNINYcTs=;
+ b=PhS08N3/MiDF2rUlT+G6wG+poVO6Mn8Y4eY21H9ejYllmyb+14aSTDvpZ8GrvKS1FFb6Hd
+ kMYd9tNF0shDXW+pUdiOEOUE5f8+VVZ4G+zgv3Cy7mX6JxC394glV3Wrzqy0jE7iG+u5lu
+ dQ9GlmhJFenvuOf0OLfU8y9KwrLfDH8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-310-EuWOKo8-NYeHnUhL1eYEcA-1; Fri, 22 Jan 2021 09:50:12 -0500
-X-MC-Unique: EuWOKo8-NYeHnUhL1eYEcA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-22-1f-EQE8XOy6tWQffvbL0oA-1; Fri, 22 Jan 2021 09:51:30 -0500
+X-MC-Unique: 1f-EQE8XOy6tWQffvbL0oA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2B0E751DD;
- Fri, 22 Jan 2021 14:50:11 +0000 (UTC)
-Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97FBE71CB0;
- Fri, 22 Jan 2021 14:50:02 +0000 (UTC)
-Subject: Re: [PATCH v4 08/16] block: use int64_t as bytes type in tracked
- requests
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
- <20201211183934.169161-9-vsementsov@virtuozzo.com>
-From: Eric Blake <eblake@redhat.com>
-Organization: Red Hat, Inc.
-Message-ID: <40640e90-0ae0-8657-d4b0-0d33eb75b830@redhat.com>
-Date: Fri, 22 Jan 2021 08:50:02 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8ABD10054FF;
+ Fri, 22 Jan 2021 14:51:29 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-18.ams2.redhat.com [10.36.115.18])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 34D195DA30;
+ Fri, 22 Jan 2021 14:51:28 +0000 (UTC)
+Date: Fri, 22 Jan 2021 15:51:26 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v7 09/11] iotests: add testrunner.py
+Message-ID: <20210122145126.GI15866@merkur.fritz.box>
+References: <20210116134424.82867-1-vsementsov@virtuozzo.com>
+ <20210116134424.82867-10-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20201211183934.169161-9-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210116134424.82867-10-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+X-Spam_score_int: -22
+X-Spam_score: -2.3
+X-Spam_bar: --
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,38 +76,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
+ den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 12/11/20 12:39 PM, Vladimir Sementsov-Ogievskiy wrote:
-> We are generally moving to int64_t for both offset and bytes parameters
-> on all io paths.
+Am 16.01.2021 um 14:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> Add TestRunner class, which will run tests in a new python iotests
+> running framework.
 > 
-> Main motivation is realization of 64-bit write_zeroes operation for
-> fast zeroing large disk chunks, up to the whole disk.
-> 
-> We chose signed type, to be consistent with off_t (which is signed) and
-> with possibility for signed return type (where negative value means
-> error).
-> 
-> All requests in block/io must not overflow BDRV_MAX_LENGTH, all
-> external users of BdrvTrackedRequest already have corresponding
-> assertions, so we are safe. Add some assertions still.
+> There are some differences with current ./check behavior, most
+> significant are:
+> - Consider all tests self-executable, just run them, don't run python
+>   by hand.
+> - Elapsed time is cached in json file
+> - Elapsed time precision increased a bit
+> - use python difflib instead of "diff -w", to ignore spaces at line
+>   ends strip lines by hand. Do not ignore other spaces.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/block_int.h |  4 ++--
->  block/io.c                | 14 +++++++++-----
->  2 files changed, 11 insertions(+), 7 deletions(-)
-> 
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Sorry for sending so many individual mails, but I'm running into things
+as I actually run the code during the review of the final 'check'
+rewrite.
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+I get this output for a failing test case:
+
+    001   fail       [15:44:41] [15:44:42]   0.5s   (last: 13.2s) output mismatch (see {f_bad})
+    --- /home/kwolf/source/qemu/tests/qemu-iotests/001.out
+
+    +++ 001.out.bad
+
+    @@ -1,4 +1,4 @@
+
+    -QA output created by 001
+    +Broken QA output created by 001
+     Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=134217728
+
+     == reading whole image ==
+    Failures: 001
+
+Somehow we get additional empty lines in the diff header that shouldn't
+be there. Not sure where it comes from. Especially the empty line after
+@@ even corrupts the patch if you try to apply it.
+
+The other problem is obvious enough:
+
+> +        diff = file_diff(str(f_reference), str(f_bad))
+> +        if diff:
+> +            return TestResult(status='fail', elapsed=elapsed,
+> +                              description='output mismatch (see {f_bad})',
+
+This needs to be an f-string.
+
+Kevin
 
 
