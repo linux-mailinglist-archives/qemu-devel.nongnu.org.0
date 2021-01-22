@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC97300E24
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:52:06 +0100 (CET)
-Received: from localhost ([::1]:55932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD94B300E0A
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:49:01 +0100 (CET)
+Received: from localhost ([::1]:48144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l33PZ-0002G0-9I
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:52:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57300)
+	id 1l33Ma-0007Hv-RW
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:49:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57330)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l33JR-0005TQ-8j
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:45:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42103)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l33JV-0005W8-Nc
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:45:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20955)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l33JL-0002tC-GT
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:45:43 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l33JP-0002up-EG
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:45:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611348338;
+ s=mimecast20190719; t=1611348342;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cxJdntCxJ3BjqvkWrgOloscdbx5pYTRX48FDf3Cb8HY=;
- b=N1xJppUZdvMalv7/8hhrDra/PbyYJ3+qM0NCvxHQ8zPrLeWCP1vSgkEylTaJzKKzb2pmRu
- QizGbQf5PkGdcRJAQb+pWqr1qJ9QKoUA4/Yp/p7gbmIrSTIivxD+U4pEemMu5aaaFpCJhB
- qmM0MKm/33DLz4NZE/OYIfActE/SMfw=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-186--MMTNVxoM3uTna0SueucZw-1; Fri, 22 Jan 2021 15:45:37 -0500
-X-MC-Unique: -MMTNVxoM3uTna0SueucZw-1
-Received: by mail-ed1-f71.google.com with SMTP id a24so3495067eda.14
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:45:36 -0800 (PST)
+ bh=FH8ITvmhiqWIcEFqVfmtpDiHqCMBIm0BPSKhlXQCGao=;
+ b=Yd31iRRgmmjNhbINVVspem7ms/V/edB1Wk9DVTaH7M7PvythefxppiGUzSaSTj3PUhUXag
+ ug8RPkuUZ1eb9CQ+IpRgXDpVjI6yhsiRhIgV41L+PhtgXMTktZDxmiWxBvvgHDXr3lxHW1
+ kTh1bMFxEDNdySSxami8s6Ehf5qnxzU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-212-_aEqUKXLMRqQVk_ye2UKiQ-1; Fri, 22 Jan 2021 15:45:40 -0500
+X-MC-Unique: _aEqUKXLMRqQVk_ye2UKiQ-1
+Received: by mail-ed1-f72.google.com with SMTP id a24so3495122eda.14
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:45:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=cxJdntCxJ3BjqvkWrgOloscdbx5pYTRX48FDf3Cb8HY=;
- b=iuE7t9gxWSEGGHshmFyUI8DE3DeUcvVx/pPxTq7qUNBQAVshigPQMV2MAg+N4PAxui
- MqKZ12z89MyKPq+2ksSBqH1iXF/c2+2OT7/cgnX2VddqOiHP0G8FpMjcf3S87F5jl6J3
- v/I20IDtB5Z0G95dwOca7TjTcANEy4MXWT/VPDWjMzHe1zrSsiUjIPr3eQINJ7dXpHW7
- bjc9Hd+5GgYT8lWKTcvWzw3i6flGryaG8wLYSl6uB4uJ+BVVnfsvFRjHBaiOJJFG91o6
- N25d/La4lyJhrzrAv987aPWsS01rqYgN9XaPOtvWpINQDH0zhLNT1KFbn4aXumRuHt6f
- Eqbw==
-X-Gm-Message-State: AOAM532U5kZUQzGM5lKE3kVYdIG3/Ay0wXl84gaXpieDI5lhKXKtIN54
- smmyV4g2DOiWfzSxUMvi8aMponZ+TYMzedzmMHNYoUYMG9IiofehYK3HkOOLrQN/z1CAdZcJL4A
- aJXxYlFn9+tnXwPUiDmn035NkOwO/3uXxZgMG21V4FPAfVZiZZ96oZRk7I5LqG7rY
-X-Received: by 2002:a05:6402:3553:: with SMTP id
- f19mr4648167edd.271.1611348333321; 
- Fri, 22 Jan 2021 12:45:33 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylG3PQPMZ+pmhjaJnFVCvdbv4ETZsUHLRN7de/wqP9aSq+Sp3Aq6Nu3qOMsUHoUuX5l2j/Eg==
-X-Received: by 2002:a05:6402:3553:: with SMTP id
- f19mr4648148edd.271.1611348333137; 
- Fri, 22 Jan 2021 12:45:33 -0800 (PST)
+ bh=FH8ITvmhiqWIcEFqVfmtpDiHqCMBIm0BPSKhlXQCGao=;
+ b=RNG9JRGz4+UVCdrifClMr3poGw0Zre/+wmebWsHAUw0D/X+2/H6kR4KmuBTDTf/Zp4
+ q+Rfd59/dRbfG/3dcXrkym0Eq9WP5Hh3v/1BHG0SvhCbN39u8+SsEreniUi9kKMCU0Ue
+ 0fy6LP10P+ulZ6BriMV61MD7W2iEkSApeNJpBv4HfW3hSpwYmuLoN9gYN3vd8LVJ5tYF
+ ZXNa6SboOgMGRpbu9qiUvzTVqrwK9SHgFreUNLlhr2lHwCQgITYapUTLS+I0VPHuiily
+ EJNvMtOovIKmDNiFhXLiwVpHqa2Z4QLe5bcHkVQVc8t6ITCMwuYFwrR7aT1ATZwEB9/c
+ qsgQ==
+X-Gm-Message-State: AOAM533HBNrAqG8KkKotfkEznvqAmxQVdbBBzrgo15JtTcigZbUOwwSD
+ T+OkSaNVzDPGASytivtiZNqfTmQs+OqZUlr63qeXLAE5S5thnJE90YirYfzBrshZ4QOa8qGWuCq
+ FYS5QhfQNPaTfRXRJCSKyLetgY6DmjRFQ9lCahMLwqYD/kxpCA05QzfzRRR/u7Qvb
+X-Received: by 2002:aa7:cb8f:: with SMTP id r15mr4702815edt.130.1611348338807; 
+ Fri, 22 Jan 2021 12:45:38 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyHVka1HJCXZBVomJ7SAEb4/fnnBOWk8Ba1xYuQP5rtHIFUKVsOU4/Sr6E+MXqOOKwipHMofQ==
+X-Received: by 2002:aa7:cb8f:: with SMTP id r15mr4702790edt.130.1611348338648; 
+ Fri, 22 Jan 2021 12:45:38 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id f9sm6171331edm.6.2021.01.22.12.45.31
+ by smtp.gmail.com with ESMTPSA id bk2sm5306366ejb.98.2021.01.22.12.45.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 12:45:32 -0800 (PST)
+ Fri, 22 Jan 2021 12:45:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PATCH v2 09/12] qapi/meson: Restrict qdev code to system-mode
- emulation
-Date: Fri, 22 Jan 2021 21:44:38 +0100
-Message-Id: <20210122204441.2145197-10-philmd@redhat.com>
+Subject: [PATCH v2 10/12] qapi/meson: Remove QMP from user-mode emulation
+Date: Fri, 22 Jan 2021 21:44:39 +0100
+Message-Id: <20210122204441.2145197-11-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210122204441.2145197-1-philmd@redhat.com>
 References: <20210122204441.2145197-1-philmd@redhat.com>
@@ -106,99 +103,65 @@ Cc: Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Beside a CPU device, user-mode emulation doesn't access
-anything else from qdev subsystem.
-
-Tools don't need anything from qdev.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
 Cc: Laurent Vivier <laurent@vivier.eu>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
 ---
- stubs/qdev.c      | 23 +++++++++++++++++++++++
- MAINTAINERS       |  1 +
- qapi/meson.build  |  6 +++++-
- stubs/meson.build |  2 ++
- 4 files changed, 31 insertions(+), 1 deletion(-)
- create mode 100644 stubs/qdev.c
+ qapi/meson.build  | 10 +++++++---
+ tests/meson.build |  7 ++++++-
+ 2 files changed, 13 insertions(+), 4 deletions(-)
 
-diff --git a/stubs/qdev.c b/stubs/qdev.c
-new file mode 100644
-index 00000000000..92e61431344
---- /dev/null
-+++ b/stubs/qdev.c
-@@ -0,0 +1,23 @@
-+/*
-+ * QOM stubs
-+ *
-+ * Copyright (c) 2021 Red Hat, Inc.
-+ *
-+ * Author:
-+ *   Philippe Mathieu-Daudé <philmd@redhat.com>
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-or-later
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-events-qdev.h"
-+
-+void qapi_event_send_device_deleted(bool has_device,
-+                                    const char *device,
-+                                    const char *path)
-+{
-+    /* Nothing to do. */
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 34359a99b8e..d2dd7c24228 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2523,6 +2523,7 @@ F: qapi/qom.json
- F: qapi/qdev.json
- F: scripts/coccinelle/qom-parent-type.cocci
- F: softmmu/qdev-monitor.c
-+F: stubs/qdev.c
- F: qom/
- F: tests/check-qom-interface.c
- F: tests/check-qom-proplist.c
 diff --git a/qapi/meson.build b/qapi/meson.build
-index ab68e7900e4..2839871b478 100644
+index 2839871b478..b301a46f04a 100644
 --- a/qapi/meson.build
 +++ b/qapi/meson.build
-@@ -35,7 +35,6 @@
-   'misc-target',
-   'net',
-   'pragma',
--  'qdev',
-   'pci',
-   'qom',
-   'rdma',
-@@ -49,6 +48,11 @@
-   'ui',
-   'yank',
- ]
-+if have_system
-+  qapi_all_modules += [
-+    'qdev',
-+  ]
+@@ -4,14 +4,18 @@
+   'qapi-dealloc-visitor.c',
+   'qapi-util.c',
+   'qapi-visit-core.c',
+-  'qmp-dispatch.c',
+-  'qmp-event.c',
+-  'qmp-registry.c',
+   'qobject-input-visitor.c',
+   'qobject-output-visitor.c',
+   'string-input-visitor.c',
+   'string-output-visitor.c',
+ ))
++if have_system or have_tools
++  util_ss.add(files(
++    'qmp-dispatch.c',
++    'qmp-event.c',
++    'qmp-registry.c',
++  ))
 +endif
  
- qapi_storage_daemon_modules = [
-   'block-core',
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 1a656cd0704..a054d5877fb 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -53,4 +53,6 @@
- if have_system
-   stub_ss.add(files('semihost.c'))
-   stub_ss.add(files('xen-hw-stub.c'))
-+else
-+  stub_ss.add(files('qdev.c'))
- endif
+ qapi_all_modules = [
+   'acpi',
+diff --git a/tests/meson.build b/tests/meson.build
+index 6f1ff926d26..7d7da6a6364 100644
+--- a/tests/meson.build
++++ b/tests/meson.build
+@@ -86,7 +86,6 @@
+   'test-qobject-input-visitor': [testqapi],
+   'test-string-input-visitor': [testqapi],
+   'test-string-output-visitor': [testqapi],
+-  'test-qmp-event': [testqapi],
+   'test-opts-visitor': [testqapi],
+   'test-visitor-serialization': [testqapi],
+   'test-bitmap': [],
+@@ -117,6 +116,12 @@
+   'test-qapi-util': [],
+ }
+ 
++if have_system or have_tools
++  tests += {
++    'test-qmp-event': [testqapi],
++  }
++endif
++
+ test_deps = {
+   'test-qht-par': qht_bench,
+ }
 -- 
 2.26.2
 
