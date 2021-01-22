@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB8E2FFE0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 09:22:20 +0100 (CET)
-Received: from localhost ([::1]:38854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09332FFE2C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 09:31:30 +0100 (CET)
+Received: from localhost ([::1]:41512 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2rhz-0002mW-Ax
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 03:22:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51466)
+	id 1l2rqr-0004l5-PN
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 03:31:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53580)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2rfz-0001wW-Na
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:20:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40393)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1l2rp5-00043U-SQ
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:29:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37855)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2rfv-0006XC-Gl
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:20:14 -0500
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1l2rp3-0002Vw-Vl
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:29:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611303610;
+ s=mimecast20190719; t=1611304176;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=U8JGdYVLd7m37fBDuxQfbFB6EC+w0F580YDF/qQOl50=;
- b=hHbLcGAG2kd8KhE1K+F5822TN8IfCXFPkYPSR0bPNwGCAn6Zw/KF2ckFC4iZx8ctK/7Iy/
- 0Cfp0Hh7R+R3vswgcxhPh3KP1ruEZU9szdu8ihEo3Ou+o65AcCEeuNstNLf8Pw5TLB6Y8r
- hpOSRXWsPjYzqB2c0bew+mp6yHW8mPA=
+ bh=jDQKeNGS6LZMjDfg6HvGRkM8LLfrV9k35OMY2FEyENM=;
+ b=iW7BX/cXdJXVaOAmTY3L5HIYyXmnm7F9npeQ3oXJY3Nezs/RQy4L8YPsVcz+6Hp13mdjQe
+ N4KKamhMSlU3GLseBmnNt9X86T7PmIA/ENdLv8CuLxaSRpK1k3ReD6Js1ryv+dBl5UCSjz
+ 48LgT3Q9FJsGy6y7CpPq0kgSdAZHYxA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-367-fSm038xmND-HU1Iy6JYjig-1; Fri, 22 Jan 2021 03:20:06 -0500
-X-MC-Unique: fSm038xmND-HU1Iy6JYjig-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-276-hKc6mSqzPQKW8fmtGzvBdA-1; Fri, 22 Jan 2021 03:29:32 -0500
+X-MC-Unique: hKc6mSqzPQKW8fmtGzvBdA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7DD9187953F;
- Fri, 22 Jan 2021 08:20:02 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-109.ams2.redhat.com [10.36.112.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 584191F05D;
- Fri, 22 Jan 2021 08:19:50 +0000 (UTC)
-Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
-To: Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20210110162739.858087-1-f4bug@amsat.org>
- <20210110162739.858087-3-f4bug@amsat.org>
- <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
- <eb4976bc-133d-7d77-cae3-899028751a85@redhat.com>
- <20210121181303.GR3125227@redhat.com>
- <89b62df4-e077-fb82-75af-e180a89fba27@redhat.com>
- <762a020e-43a6-9228-1a44-0d38d086a61f@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <87297994-4495-681a-5359-7807e537fa89@redhat.com>
-Date: Fri, 22 Jan 2021 09:19:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7B0CF1005504;
+ Fri, 22 Jan 2021 08:29:31 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7386D5D9E8;
+ Fri, 22 Jan 2021 08:29:29 +0000 (UTC)
+Date: Fri, 22 Jan 2021 09:29:26 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Maxim Uvarov <maxim.uvarov@linaro.org>
+Subject: Re: [PATCHv8 3/3] arm-virt: add secure pl061 for reset/power down
+Message-ID: <20210122082926.nakttrh53zzt6d2x@kamzik.brq.redhat.com>
+References: <20210120092748.14789-1-maxim.uvarov@linaro.org>
+ <20210120092748.14789-4-maxim.uvarov@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <762a020e-43a6-9228-1a44-0d38d086a61f@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20210120092748.14789-4-maxim.uvarov@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=drjones@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,121 +78,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, Jose.Marinho@arm.com, qemu-devel@nongnu.org,
+ f4bug@amsat.org, tf-a@lists.trustedfirmware.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/01/2021 21.46, Wainer dos Santos Moschetta wrote:
+On Wed, Jan 20, 2021 at 12:27:48PM +0300, Maxim Uvarov wrote:
+> Add secure pl061 for reset/power down machine from
+> the secure world (Arm Trusted Firmware). Connect it
+> with gpio-pwr driver.
 > 
-> On 1/21/21 3:28 PM, Thomas Huth wrote:
->> On 21/01/2021 19.13, Daniel P. Berrangé wrote:
->>> On Thu, Jan 21, 2021 at 03:05:43PM -0300, Wainer dos Santos Moschetta wrote:
->>>> Hi,
->>>>
->>>> On 1/21/21 7:08 AM, Thomas Huth wrote:
->>>>> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
->>>>>> Split the current GCC build-tci job in 2, and use Clang
->>>>>> compiler in the new job.
->>>>>>
->>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>> ---
->>>>>> RFC in case someone have better idea to optimize can respin this patch.
->>>>>>
->>>>>>    .gitlab-ci.yml | 22 ++++++++++++++++++++--
->>>>>>    1 file changed, 20 insertions(+), 2 deletions(-)
->>>>>
->>>>> I'm not quite sure whether we should go down this road ... if we wanted
->>>>> to have full test coverage for clang, we'd need to duplicate *all* jobs
->>>>> to run them once with gcc and once with clang. And that would be just
->>>>> overkill.
->>>>
->>>> I agree with Thomas.
->>>>
->>>>>
->>>>>
->>>>> I think we already catch most clang-related problems with the clang jobs
->>>>> that we already have in our CI, so problems like the ones that you've
->>>>> tried to address here should be very, very rare. So I'd rather vote for
->>>>> not splitting the job here.
->>>>
->>>> We got only one clang job on GitLab CI...
->>>>
->>>>    build-clang:
->>>>      <<: *native_build_job_definition
->>>>      variables:
->>>>        IMAGE: fedora
->>>>        CONFIGURE_ARGS: --cc=clang --cxx=clang++
->>>>        TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
->>>>          ppc-softmmu s390x-softmmu arm-linux-user
->>>>        MAKE_CHECK_ARGS: check
->>>>
->>>> ... and others on Travis:
->>>>
->>>>    "Clang (user)"
->>>>
->>>>    "Clang (main-softmmu)"
->>>>
->>>>    "Clang (other-softmmu)"
->>>
->>> I guess these three overlap partially with the build-clang job.
->>>
->>>>    "[s390x] Clang (disable-tcg)"
->>>
->>> Don't forget the  Cirrus CI jobs for freebsd and macOS will
->>> be using  CLang too.
->>
->> Right... we should work towards getting cirrus-run into the QEMU-CI, too, 
->> to finally have these in the gitlab-ci dashboard, too.
->>
->>>>
->>>> So I've some questions:
->>>>
->>>>   * Can we move those first three Travis jobs to Gitlab CI? (I can work on
->>>> that)
->>>
->>> Yeah, if we move those three travis jobs they can replace the existing
->>> build-clang job. We don't neccesssarily need to keep them as three
->>> separate jobs - that split was just due to the Travis time limits.
->>> If a different split works better on GitLab we can do that.
->>
->> Well, if we really want to increase the amount clang jobs, one of them 
->> should likely use TCI, as Phillippe suggested.
-> Ok, got it. I won't touch on those jobs.
+> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+> ---
+>  hw/arm/Kconfig        |  1 +
+>  hw/arm/virt.c         | 47 +++++++++++++++++++++++++++++++++++++++++++
+>  include/hw/arm/virt.h |  2 ++
+>  3 files changed, 50 insertions(+)
+> 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 0a242e4c5d..13cc42dcc8 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -17,6 +17,7 @@ config ARM_VIRT
+>      select PL011 # UART
+>      select PL031 # RTC
+>      select PL061 # GPIO
+> +    select GPIO_PWR
+>      select PLATFORM_BUS
+>      select SMBIOS
+>      select VIRTIO_MMIO
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index c427ce5f81..060a5f492e 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -153,6 +153,7 @@ static const MemMapEntry base_memmap[] = {
+>      [VIRT_ACPI_GED] =           { 0x09080000, ACPI_GED_EVT_SEL_LEN },
+>      [VIRT_NVDIMM_ACPI] =        { 0x09090000, NVDIMM_ACPI_IO_LEN},
+>      [VIRT_PVTIME] =             { 0x090a0000, 0x00010000 },
+> +    [VIRT_SECURE_GPIO] =        { 0x090b0000, 0x00001000 },
+>      [VIRT_MMIO] =               { 0x0a000000, 0x00000200 },
+>      /* ...repeating for a total of NUM_VIRTIO_TRANSPORTS, each of that size */
+>      [VIRT_PLATFORM_BUS] =       { 0x0c000000, 0x02000000 },
+> @@ -841,6 +842,43 @@ static void create_gpio_keys(const VirtMachineState *vms,
+>                             "gpios", phandle, 3, 0);
+>  }
+>  
+> +#define SECURE_GPIO_POWEROFF 0
+> +#define SECURE_GPIO_REBOOT   1
+> +
+> +static void create_gpio_pwr(const VirtMachineState *vms,
 
-I didn't meant my comment as a "no", but rather as a "needs further 
-discussion first" ...
+This function is specific to the secure view. I think it should have
+"secure" in its name.
 
-So here's my suggestion:
+> +                            DeviceState *pl061_dev,
+> +                            uint32_t phandle)
+> +{
+> +    DeviceState *gpio_pwr_dev;
+> +
+> +    /* gpio-pwr */
+> +    gpio_pwr_dev = sysbus_create_simple("gpio-pwr", -1, NULL);
 
-- Keep the current build-tci job as it is
+Should this device be in secure memory?
 
-- Add a build-clang-user job that compiles with clang and
-   --disable-system
+> +
+> +    /* connect secure pl061 to gpio-pwr */
+> +    qdev_connect_gpio_out(pl061_dev, SECURE_GPIO_REBOOT,
+> +                          qdev_get_gpio_in_named(gpio_pwr_dev, "reset", 0));
+> +    qdev_connect_gpio_out(pl061_dev, SECURE_GPIO_POWEROFF,
+> +                          qdev_get_gpio_in_named(gpio_pwr_dev, "shutdown", 0));
+> +
+> +    qemu_fdt_add_subnode(vms->fdt, "/gpio-poweroff");
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "compatible",
+> +                            "gpio-poweroff");
+> +    qemu_fdt_setprop_cells(vms->fdt, "/gpio-poweroff",
+> +                           "gpios", phandle, SECURE_GPIO_POWEROFF, 0);
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "status", "disabled");
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-poweroff", "secure-status",
+> +                            "okay");
+> +
+> +    qemu_fdt_add_subnode(vms->fdt, "/gpio-restart");
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "compatible",
+> +                            "gpio-restart");
+> +    qemu_fdt_setprop_cells(vms->fdt, "/gpio-restart",
+> +                           "gpios", phandle, SECURE_GPIO_REBOOT, 0);
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "status", "disabled");
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-restart", "secure-status",
+> +                            "okay");
+> +}
+> +
+>  static void create_gpio_devices(const VirtMachineState *vms, int gpio,
+>                                  MemoryRegion *mem)
+>  {
+> @@ -883,6 +921,8 @@ static void create_gpio_devices(const VirtMachineState *vms, int gpio,
+>      /* Child gpio devices */
+>      if (gpio == VIRT_GPIO) {
+>          create_gpio_keys(vms, pl061_dev, phandle);
+> +    } else {
+> +        create_gpio_pwr(vms, pl061_dev, phandle);
+>      }
+>  }
+>  
+> @@ -2015,6 +2055,10 @@ static void machvirt_init(MachineState *machine)
+>          create_gpio_devices(vms, VIRT_GPIO, sysmem);
+>      }
+>  
+> +    if (vms->secure && !vmc->no_secure_gpio) {
+> +        create_gpio_devices(vms, VIRT_SECURE_GPIO, secure_sysmem);
+> +    }
+> +
+>       /* connect powerdown request */
+>       vms->powerdown_notifier.notify = virt_powerdown_req;
+>       qemu_register_powerdown_notifier(&vms->powerdown_notifier);
+> @@ -2630,8 +2674,11 @@ DEFINE_VIRT_MACHINE_AS_LATEST(6, 0)
+>  
+>  static void virt_machine_5_2_options(MachineClass *mc)
+>  {
+> +    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
+> +
+>      virt_machine_6_0_options(mc);
+>      compat_props_add(mc->compat_props, hw_compat_5_2, hw_compat_5_2_len);
+> +    vmc->no_secure_gpio = true;
+>  }
+>  DEFINE_VIRT_MACHINE(5, 2)
+>  
+> diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
+> index abf54fab49..6f6c85ffcf 100644
+> --- a/include/hw/arm/virt.h
+> +++ b/include/hw/arm/virt.h
+> @@ -81,6 +81,7 @@ enum {
+>      VIRT_GPIO,
+>      VIRT_SECURE_UART,
+>      VIRT_SECURE_MEM,
+> +    VIRT_SECURE_GPIO,
+>      VIRT_PCDIMM_ACPI,
+>      VIRT_ACPI_GED,
+>      VIRT_NVDIMM_ACPI,
+> @@ -127,6 +128,7 @@ struct VirtMachineClass {
+>      bool kvm_no_adjvtime;
+>      bool no_kvm_steal_time;
+>      bool acpi_expose_flash;
+> +    bool no_secure_gpio;
+>  };
+>  
+>  struct VirtMachineState {
+> -- 
+> 2.17.1
+> 
+>
 
-- Add a "build-clang-system 2" job that compiles with clang
-   and --enable-tcg-interpreter and uses more or less the same
-   targets as the "build-tci" job. Maybe add the avr-softmmu
-   target here now, too, since it now also has a qtest with
-   TCG (boot-serial-test)
-
-- Rename the current "build-clang" job to "build-clang-system 1"
-   and remove the arm-linux-user target and all the targets that
-   are already part of the "build-clang-system 2" / "build-tci"
-   from that job. Then add some other softmmu targets to that job
-   (but take care that it does not exceed the 1h run time limit,
-   so likely not all remaining targets can be added here)
-
-- If we feel confident that we got enough test coverage there
-   (together with the clang-based jobs on Cirrus-CI), finally
-   remove the three x86 clang jobs from travis.yml.
-
-What do you think? Could you work on such a patch (or patch series), Wainer?
-
-  Thomas
+Thanks,
+drew 
 
 
