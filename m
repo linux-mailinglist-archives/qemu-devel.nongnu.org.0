@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBC0E3001AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:36:02 +0100 (CET)
-Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590003001B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:38:26 +0100 (CET)
+Received: from localhost ([::1]:45860 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2ujR-0007UX-QQ
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:36:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36642)
+	id 1l2ull-0002gW-Dy
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:38:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37176)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2uhK-0006eM-Th
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:33:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58599)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2uhJ-00035E-AE
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:33:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611315228;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=O8SvrADUm23bDFqNU5UCAFcyRWqhbRUcsXH4ouQxuE4=;
- b=JMaKM/TbE+PGzDBQZ0pQSCY+gnpjvcmG3V0EB60jzz/Dcq/rI7tdKntV+O5FaMJ5gAQyhe
- VgckEt2HGh21lbU9DJWro/9V14zf0b0OuQ0WNaemQPvqzZ4jh/PRliwRorwLJo/yL8bpOZ
- xdhj1obra1dx6B4wzU71FFrrE+UhIOU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-378-cHBLJqx3ODq9kMAzpYgjrA-1; Fri, 22 Jan 2021 06:33:46 -0500
-X-MC-Unique: cHBLJqx3ODq9kMAzpYgjrA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA0FF10054FF;
- Fri, 22 Jan 2021 11:33:45 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-109.ams2.redhat.com [10.36.112.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CB7017047D;
- Fri, 22 Jan 2021 11:33:37 +0000 (UTC)
-Subject: Re: [RFC PATCH v2 4/4] configure: Reword --enable-tcg-interpreter as
- --disable-native-tcg
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210122105836.1878506-1-philmd@redhat.com>
- <20210122105836.1878506-5-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <d8dbe17b-92f4-89b7-de75-36c3c9e1cde6@redhat.com>
-Date: Fri, 22 Jan 2021 12:33:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l2ukX-0001hc-2v
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:37:09 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:42305)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l2ukU-0004cA-Gf
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:37:08 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id r12so7173040ejb.9
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 03:37:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yRxDPann/7bwjlu5VchBcHrH73lxDT9XO/l8WhnUvYw=;
+ b=ZEC+LFyIQ1iO/c7vKx9FTIDNAs4CN/joYZLsdhGwH1xo6py6brkEr6NLc/h0lwhNAs
+ vE56lDyloVQLII4d8cqnzkG/aGkt9AXSyKVCE5hnEK30LHD6Dn9MTOD97GG0pRyavPYa
+ 6+r2t87dcfCLnIiHVQxsO+bJ3DEuwHeEK0SSxJ0e0gVP8L7mmPFtqyVy2yHzkwhjQnBH
+ goUrUHTMtqwVbhYvHyXDztdxqUbTALJR+Ke9dICGpezB5fOJagWWrBjrsv9zuB7JgpEy
+ biq1USvQhiduRD6DpD7az3ZGy2aEELKAYC3RIfkeUx9PqgC9+ALU2YCsMFAoBdp2fvVF
+ 2gcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yRxDPann/7bwjlu5VchBcHrH73lxDT9XO/l8WhnUvYw=;
+ b=nQvVPZKo/QodQYyq8NHI3FUM94/l92Fb3vkfDX33T//oNLtCVjPr1oqw0EhZuVERYf
+ qz96B35CzT2F3cGVFW41ql1wEmMMXbcbHCjUpirx/U8H4Qud10bQKhYC8j9HUJZaZF9v
+ 9ID+VQACBIgkhWMPwOPzUWzROMlvRijwIq2z7T4he/jJEg5YEYj7kQxOf8QQ0EZ11OOV
+ A0xzzVSAwyjcMd0wZiUCvItNgbS0wPMa2mjHtrVwOgsjwnEGp0+uDEJnfzmjdNOlO6Wn
+ q2p7Z76UdHy4qFgHfBltrPfliUEd7jQiXL9hkzTVohOWz7iKmBcuuR+sM4q4M/TTu0CD
+ e5Yw==
+X-Gm-Message-State: AOAM532Is+I6l4OZL2UKUO4cFsnWotEjZEi2e80J8D7S51vDMBR4oVK7
+ dr9HtS/3RcGHoawhjrY8l9NK4njUJowpUxFiRXIwuA==
+X-Google-Smtp-Source: ABdhPJzM6UtkSjJEQq5NFGyFeOyEtDowtAVAVkT72+Elklzzo7n97iukWMZ1dIj2nZ3T8VZ3d0YnDFDLvMf5Q1Q7xn0=
+X-Received: by 2002:a17:906:494c:: with SMTP id
+ f12mr2787100ejt.56.1611315424620; 
+ Fri, 22 Jan 2021 03:37:04 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210122105836.1878506-5-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210115224645.1196742-1-richard.henderson@linaro.org>
+ <20210115224645.1196742-13-richard.henderson@linaro.org>
+In-Reply-To: <20210115224645.1196742-13-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Jan 2021 11:36:53 +0000
+Message-ID: <CAFEAcA-2rcoOK4wLZ_m+fX69o7o652Fb4FwBj7FbQgdG4RU3Ug@mail.gmail.com>
+Subject: Re: [PATCH v3 12/21] linux-user/aarch64: Implement
+ PR_TAGGED_ADDR_ENABLE
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,50 +79,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>, Stefan Weil <sw@weilnetz.de>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/01/2021 11.58, Philippe Mathieu-Daudé wrote:
-> Users might want to enable all features, without realizing some
-> features have negative effect. Rename '--enable-tcg-interpreter'
-> as '--disable-native-tcg' to avoid user selecting this feature
-> without understanding it. '--enable-tcg-interpreter' is kept in
-> for backward compability with scripts.
-> 
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Fri, 15 Jan 2021 at 22:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This is the prctl bit that controls whether syscalls accept tagged
+> addresses.  See Documentation/arm64/tagged-address-abi.rst in the
+> linux kernel.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
-> RFC so it can be discarded from the series
-> 
->   configure | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/configure b/configure
-> index 71bdc523aa0..5e56fa76499 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1121,7 +1121,8 @@ for opt do
->     ;;
->     --disable-tcg-interpreter) tcg_interpreter="no"
->     ;;
-> -  --enable-tcg-interpreter) tcg_interpreter="yes"
-> +  --enable-tcg-interpreter) # backward compatibility
-> +  --disable-native-tcg) tcg_interpreter="yes"
->     ;;
->     --disable-cap-ng)  cap_ng="disabled"
->     ;;
-> @@ -1753,7 +1754,7 @@ Advanced options (experts only):
->     --with-trace-file=NAME   Full PATH,NAME of file to store traces
->                              Default:trace-<pid>
->     --disable-slirp          disable SLIRP userspace network connectivity
-> -  --enable-tcg-interpreter enable TCG with bytecode interpreter (experimental and slow)
-> +  --disable-native-tcg     enable TCG with bytecode interpreter (experimental and slow)
+>  linux-user/aarch64/target_syscall.h |  4 ++++
+>  target/arm/cpu-param.h              |  3 +++
+>  target/arm/cpu.h                    | 23 +++++++++++++++++++++++
+>  linux-user/syscall.c                | 25 +++++++++++++++++++++++++
+>  target/arm/cpu.c                    |  3 +++
+>  5 files changed, 58 insertions(+)
+>
+> diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
+> index 3194e6b009..820601dfcc 100644
+> --- a/linux-user/aarch64/target_syscall.h
+> +++ b/linux-user/aarch64/target_syscall.h
+> @@ -30,4 +30,8 @@ struct target_pt_regs {
+>  # define TARGET_PR_PAC_APDBKEY   (1 << 3)
+>  # define TARGET_PR_PAC_APGAKEY   (1 << 4)
+>
+> +#define TARGET_PR_SET_TAGGED_ADDR_CTRL 55
+> +#define TARGET_PR_GET_TAGGED_ADDR_CTRL 56
+> +# define TARGET_PR_TAGGED_ADDR_ENABLE  (1UL << 0)
 
-The more I think about it, the more I like the idea.
+Stray extra space.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
+thanks
+-- PMM
 
