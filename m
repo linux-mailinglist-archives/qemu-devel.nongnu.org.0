@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95CD2300A8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:03:48 +0100 (CET)
-Received: from localhost ([::1]:47988 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C9A300A9E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:07:19 +0100 (CET)
+Received: from localhost ([::1]:50582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l30mh-0000mV-MY
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:03:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53630)
+	id 1l30q6-000246-Vr
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:07:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l30jl-0007hh-Fd
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:00:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24751)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l30oN-0001Ve-Am
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:05:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59627)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1l30ji-0000NX-Km
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:00:45 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l30oH-000220-Bf
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:05:28 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611338441;
+ s=mimecast20190719; t=1611338724;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=DLH6ucqWSZCiAargmej2cYysnbfg+QL+rHL4Q3INYDo=;
- b=Fv6ee5tAAz8M1CubFbJRrTh6sttUmwRLz9pczOlcERJmqIqOd3u7aWdX7d2zIH+z7wKvpb
- JNK2p1y83a3lRoEEXAdgZHMoBSNQJl+XwrxOhI7eBmnzdcOT0Ef8LhVO/qI2Dm9kylVhDJ
- tDZSnD2Zh2KBfJYVv4CZ8Fzdj7aHuHQ=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8g3f3Df4yRzEufNs0s9faRXMXyArV6p+C2EqOJt9uXo=;
+ b=fe4RukJZLeS3qqSfnTXvMQqwtv+kU/p6rPGGSFEBgs15rpezbzvJgF21lNqUbMXey2pili
+ +gGpfm/KOf95o45Dq4MXhmd5cFeL7WbnmeYk12+5A5fyG/2cE5yB0pJMTJGVjGQxheNkqP
+ hXNmrZpQ1tPntEn6CruHHGhEOqmkv9U=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-322-5jDXSXgGNTCrFfEw6zdiCQ-1; Fri, 22 Jan 2021 13:00:38 -0500
-X-MC-Unique: 5jDXSXgGNTCrFfEw6zdiCQ-1
+ us-mta-534-LR1apCFyNSyUrDE2Fl57WA-1; Fri, 22 Jan 2021 13:05:22 -0500
+X-MC-Unique: LR1apCFyNSyUrDE2Fl57WA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D951D8144E2;
- Fri, 22 Jan 2021 18:00:37 +0000 (UTC)
-Received: from gondolin.redhat.com (ovpn-113-73.ams2.redhat.com [10.36.113.73])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0019F544E8;
- Fri, 22 Jan 2021 18:00:31 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Yuval Shaia <yuval.shaia.ml@gmail.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH RFC] pvrdma: wean code off pvrdma_ring.h kernel header
-Date: Fri, 22 Jan 2021 19:00:29 +0100
-Message-Id: <20210122180029.575284-1-cohuck@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 83E1F100C60C
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 18:05:21 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-109.ams2.redhat.com
+ [10.36.114.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 97AA75D6CF;
+ Fri, 22 Jan 2021 18:05:14 +0000 (UTC)
+Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+References: <20210122102041.27031-1-mreitz@redhat.com>
+ <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
+Date: Fri, 22 Jan 2021 19:05:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
+In-Reply-To: <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cohuck@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=cohuck@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,370 +82,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The pvrdma code relies on the pvrdma_ring.h kernel header for some
-basic ring buffer handling. The content of that header isn't very
-exciting, but contains some (q)atomic_*() invocations that (a)
-cause manual massaging when doing a headers update, and (b) are
-an indication that we probably should not be importing that header
-at all.
+On 22.01.21 18:09, Laszlo Ersek wrote:
+> On 01/22/21 11:20, Max Reitz wrote:
+>> Modifying signal handlers is a process-global operation.  When two
+>> threads run coroutine-sigaltstack's qemu_coroutine_new() concurrently,
+>> they may interfere with each other: One of them may revert the SIGUSR2
+>> handler back to the default between the other thread setting up
+>> coroutine_trampoline() as the handler and raising SIGUSR2.  That SIGUSR2
+>> will then lead to the process exiting.
+>>
+>> Outside of coroutine-sigaltstack, qemu does not use SIGUSR2.  We can
+>> thus keep the signal handler installed all the time.
+>> CoroutineThreadState.tr_handler tells coroutine_trampoline() whether its
+>> stack is set up so a new coroutine is to be launched (i.e., it should
+>> invoke sigsetjmp()), or not (i.e., the signal came from an external
+>> source and we should just perform the default action, which is to exit
+>> the process).
+>>
+>> Note that in user-mode emulation, the guest can register signal handlers
+>> for any signal but SIGSEGV and SIGBUS, so if it registers a SIGUSR2
+>> handler, sigaltstack coroutines will break from then on.  However, we do
+>> not use coroutines for user-mode emulation, so that is fine.
+>>
+>> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   util/coroutine-sigaltstack.c | 56 +++++++++++++++++++-----------------
+>>   1 file changed, 29 insertions(+), 27 deletions(-)
+>>
+>> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+>> index aade82afb8..2d32afc322 100644
+>> --- a/util/coroutine-sigaltstack.c
+>> +++ b/util/coroutine-sigaltstack.c
+>> @@ -59,6 +59,8 @@ typedef struct {
+>>   
+>>   static pthread_key_t thread_state_key;
+>>   
+>> +static void coroutine_trampoline(int signal);
+>> +
+>>   static CoroutineThreadState *coroutine_get_thread_state(void)
+>>   {
+>>       CoroutineThreadState *s = pthread_getspecific(thread_state_key);
+>> @@ -80,6 +82,7 @@ static void qemu_coroutine_thread_cleanup(void *opaque)
+>>   
+>>   static void __attribute__((constructor)) coroutine_init(void)
+>>   {
+>> +    struct sigaction sa;
+>>       int ret;
+>>   
+>>       ret = pthread_key_create(&thread_state_key, qemu_coroutine_thread_cleanup);
+>> @@ -87,6 +90,20 @@ static void __attribute__((constructor)) coroutine_init(void)
+>>           fprintf(stderr, "unable to create leader key: %s\n", strerror(errno));
+>>           abort();
+>>       }
+>> +
+>> +    /*
+>> +     * Establish the SIGUSR2 signal handler.  This is a process-wide
+>> +     * operation, and so will apply to all threads from here on.
+>> +     */
+>> +    sa = (struct sigaction) {
+>> +        .sa_handler = coroutine_trampoline,
+>> +        .sa_flags   = SA_ONSTACK,
+>> +    };
+>> +
+>> +    if (sigaction(SIGUSR2, &sa, NULL) != 0) {
+>> +        perror("Unable to install SIGUSR2 handler");
+>> +        abort();
+>> +    }
+>>   }
+>>   
+>>   /* "boot" function
+>> @@ -121,7 +138,17 @@ static void coroutine_trampoline(int signal)
+>>       /* Get the thread specific information */
+>>       coTS = coroutine_get_thread_state();
+>>       self = coTS->tr_handler;
+>> +
+>> +    if (!self) {
+>> +        /*
+>> +         * This SIGUSR2 came from an external source, not from
+>> +         * qemu_coroutine_new(), so perform the default action.
+>> +         */
+>> +        exit(0);
+>> +    }
+>> +
+>>       coTS->tr_called = 1;
+>> +    coTS->tr_handler = NULL;
+>>       co = &self->base;
+>>   
+>>       /*
+> 
+> (8) There's a further complication here, assuming we really want to
+> recognize the case when the handler is executing unexpectedly:
+> 
+> - pthread_getspecific() is not necessarily async-signal-safe, according
+> to POSIX, so calling coroutine_get_thread_state() in the "unexpected"
+> case (e.g. in response to an asynchronously generated SIGUSR2) is
+> problematic in its own right,
 
-Let's reimplement the ring buffer handling directly in the pvrdma
-code instead. This arguably also improves readability of the code.
+That’s a shame.
 
-Importing the header can now be dropped.
+> - if the SIGUSR2 is delivered to a thread that has never called
+> coroutine_get_thread_state() before, then we'll reach g_malloc0() inside
+> coroutine_get_thread_state(), in signal handler context, which is very bad.
 
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
+Could be solved with a coroutine_try_get_thread_state() that will never 
+malloc, but return NULL then.
 
-Compile-tested only, needs both testing and more eyeballs :)
+> You'd have to block SIGUSR2 for the entire process (all threads) at all
+> times, and only temporarily unblock it for a particular coroutine
+> thread, with the sigsuspend(). The above check would suffice, that way.
 
----
- hw/rdma/vmw/pvrdma.h                          |   5 +-
- hw/rdma/vmw/pvrdma_cmd.c                      |   6 +-
- hw/rdma/vmw/pvrdma_dev_ring.c                 |  41 ++++---
- hw/rdma/vmw/pvrdma_dev_ring.h                 |   9 +-
- hw/rdma/vmw/pvrdma_main.c                     |   4 +-
- .../infiniband/hw/vmw_pvrdma/pvrdma_ring.h    | 114 ------------------
- scripts/update-linux-headers.sh               |   3 +-
- 7 files changed, 38 insertions(+), 144 deletions(-)
- delete mode 100644 include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
+Yes, that’s what I was originally afraid of.  I feel like that may be 
+the complexity drop that pushes this change too far out of my comfort 
+zone.  (And as evidenced by your review, it already was pretty much 
+outside as it was.)
 
-diff --git a/hw/rdma/vmw/pvrdma.h b/hw/rdma/vmw/pvrdma.h
-index 1d36a76f1e3b..d08965d3e2d5 100644
---- a/hw/rdma/vmw/pvrdma.h
-+++ b/hw/rdma/vmw/pvrdma.h
-@@ -26,7 +26,6 @@
- #include "../rdma_backend_defs.h"
- #include "../rdma_rm_defs.h"
- 
--#include "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h"
- #include "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h"
- #include "pvrdma_dev_ring.h"
- #include "qom/object.h"
-@@ -64,10 +63,10 @@ typedef struct DSRInfo {
-     union pvrdma_cmd_req *req;
-     union pvrdma_cmd_resp *rsp;
- 
--    struct pvrdma_ring *async_ring_state;
-+    PvrdmaRingState *async_ring_state;
-     PvrdmaRing async;
- 
--    struct pvrdma_ring *cq_ring_state;
-+    PvrdmaRingState *cq_ring_state;
-     PvrdmaRing cq;
- } DSRInfo;
- 
-diff --git a/hw/rdma/vmw/pvrdma_cmd.c b/hw/rdma/vmw/pvrdma_cmd.c
-index 692125ac2681..f59879e2574e 100644
---- a/hw/rdma/vmw/pvrdma_cmd.c
-+++ b/hw/rdma/vmw/pvrdma_cmd.c
-@@ -262,7 +262,7 @@ static int create_cq_ring(PCIDevice *pci_dev , PvrdmaRing **ring,
-     r = g_malloc(sizeof(*r));
-     *ring = r;
- 
--    r->ring_state = (struct pvrdma_ring *)
-+    r->ring_state = (PvrdmaRingState *)
-         rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
- 
-     if (!r->ring_state) {
-@@ -398,7 +398,7 @@ static int create_qp_rings(PCIDevice *pci_dev, uint64_t pdir_dma,
-     *rings = sr;
- 
-     /* Create send ring */
--    sr->ring_state = (struct pvrdma_ring *)
-+    sr->ring_state = (PvrdmaRingState *)
-         rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
-     if (!sr->ring_state) {
-         rdma_error_report("Failed to map to QP ring state");
-@@ -639,7 +639,7 @@ static int create_srq_ring(PCIDevice *pci_dev, PvrdmaRing **ring,
-     r = g_malloc(sizeof(*r));
-     *ring = r;
- 
--    r->ring_state = (struct pvrdma_ring *)
-+    r->ring_state = (PvrdmaRingState *)
-             rdma_pci_dma_map(pci_dev, tbl[0], TARGET_PAGE_SIZE);
-     if (!r->ring_state) {
-         rdma_error_report("Failed to map tp SRQ ring state");
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
-index f0bcde74b06a..074ac59b84db 100644
---- a/hw/rdma/vmw/pvrdma_dev_ring.c
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-@@ -22,11 +22,10 @@
- #include "trace.h"
- 
- #include "../rdma_utils.h"
--#include "standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h"
- #include "pvrdma_dev_ring.h"
- 
- int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
--                     struct pvrdma_ring *ring_state, uint32_t max_elems,
-+                     PvrdmaRingState *ring_state, uint32_t max_elems,
-                      size_t elem_sz, dma_addr_t *tbl, uint32_t npages)
- {
-     int i;
-@@ -73,48 +72,54 @@ out:
- 
- void *pvrdma_ring_next_elem_read(PvrdmaRing *ring)
- {
--    int e;
--    unsigned int idx = 0, offset;
-+    unsigned int idx, offset;
-+    const uint32_t tail = qatomic_read(&ring->ring_state->prod_tail);
-+    const uint32_t head = qatomic_read(&ring->ring_state->cons_head);
- 
--    e = pvrdma_idx_ring_has_data(ring->ring_state, ring->max_elems, &idx);
--    if (e <= 0) {
-+    if (tail & ~((ring->max_elems << 1) - 1) ||
-+        head & ~((ring->max_elems << 1) - 1) ||
-+        tail == head) {
-         trace_pvrdma_ring_next_elem_read_no_data(ring->name);
-         return NULL;
-     }
- 
-+    idx = head & (ring->max_elems - 1);
-     offset = idx * ring->elem_sz;
-     return ring->pages[offset / TARGET_PAGE_SIZE] + (offset % TARGET_PAGE_SIZE);
- }
- 
- void pvrdma_ring_read_inc(PvrdmaRing *ring)
- {
--    pvrdma_idx_ring_inc(&ring->ring_state->cons_head, ring->max_elems);
-+    uint32_t idx = qatomic_read(&ring->ring_state->cons_head);
-+
-+    idx = (idx + 1) & ((ring->max_elems << 1) - 1);
-+    qatomic_set(&ring->ring_state->cons_head, idx);
- }
- 
- void *pvrdma_ring_next_elem_write(PvrdmaRing *ring)
- {
--    int idx;
--    unsigned int offset, tail;
-+    unsigned int idx, offset;
-+    const uint32_t tail = qatomic_read(&ring->ring_state->prod_tail);
-+    const uint32_t head = qatomic_read(&ring->ring_state->cons_head);
- 
--    idx = pvrdma_idx_ring_has_space(ring->ring_state, ring->max_elems, &tail);
--    if (idx <= 0) {
-+    if (tail & ~((ring->max_elems << 1) - 1) ||
-+        head & ~((ring->max_elems << 1) - 1) ||
-+        tail == (head ^ ring->max_elems)) {
-         rdma_error_report("CQ is full");
-         return NULL;
-     }
- 
--    idx = pvrdma_idx(&ring->ring_state->prod_tail, ring->max_elems);
--    if (idx < 0 || tail != idx) {
--        rdma_error_report("Invalid idx %d", idx);
--        return NULL;
--    }
--
-+    idx = tail & (ring->max_elems - 1);
-     offset = idx * ring->elem_sz;
-     return ring->pages[offset / TARGET_PAGE_SIZE] + (offset % TARGET_PAGE_SIZE);
- }
- 
- void pvrdma_ring_write_inc(PvrdmaRing *ring)
- {
--    pvrdma_idx_ring_inc(&ring->ring_state->prod_tail, ring->max_elems);
-+    uint32_t idx = qatomic_read(&ring->ring_state->prod_tail);
-+
-+    idx = (idx + 1) & ((ring->max_elems << 1) - 1);
-+    qatomic_set(&ring->ring_state->prod_tail, idx);
- }
- 
- void pvrdma_ring_free(PvrdmaRing *ring)
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.h b/hw/rdma/vmw/pvrdma_dev_ring.h
-index 5f2a0cf9b9fa..d231588ce004 100644
---- a/hw/rdma/vmw/pvrdma_dev_ring.h
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.h
-@@ -19,18 +19,23 @@
- 
- #define MAX_RING_NAME_SZ 32
- 
-+typedef struct PvrdmaRingState {
-+    int prod_tail; /* producer tail */
-+    int cons_head; /* consumer head */
-+} PvrdmaRingState;
-+
- typedef struct PvrdmaRing {
-     char name[MAX_RING_NAME_SZ];
-     PCIDevice *dev;
-     uint32_t max_elems;
-     size_t elem_sz;
--    struct pvrdma_ring *ring_state; /* used only for unmap */
-+    PvrdmaRingState *ring_state; /* used only for unmap */
-     int npages;
-     void **pages;
- } PvrdmaRing;
- 
- int pvrdma_ring_init(PvrdmaRing *ring, const char *name, PCIDevice *dev,
--                     struct pvrdma_ring *ring_state, uint32_t max_elems,
-+                     PvrdmaRingState *ring_state, uint32_t max_elems,
-                      size_t elem_sz, dma_addr_t *tbl, uint32_t npages);
- void *pvrdma_ring_next_elem_read(PvrdmaRing *ring);
- void pvrdma_ring_read_inc(PvrdmaRing *ring);
-diff --git a/hw/rdma/vmw/pvrdma_main.c b/hw/rdma/vmw/pvrdma_main.c
-index 85935703322f..84ae8024fcfd 100644
---- a/hw/rdma/vmw/pvrdma_main.c
-+++ b/hw/rdma/vmw/pvrdma_main.c
-@@ -85,7 +85,7 @@ static void free_dev_ring(PCIDevice *pci_dev, PvrdmaRing *ring,
-     rdma_pci_dma_unmap(pci_dev, ring_state, TARGET_PAGE_SIZE);
- }
- 
--static int init_dev_ring(PvrdmaRing *ring, struct pvrdma_ring **ring_state,
-+static int init_dev_ring(PvrdmaRing *ring, PvrdmaRingState **ring_state,
-                          const char *name, PCIDevice *pci_dev,
-                          dma_addr_t dir_addr, uint32_t num_pages)
- {
-@@ -114,7 +114,7 @@ static int init_dev_ring(PvrdmaRing *ring, struct pvrdma_ring **ring_state,
-     /* RX ring is the second */
-     (*ring_state)++;
-     rc = pvrdma_ring_init(ring, name, pci_dev,
--                          (struct pvrdma_ring *)*ring_state,
-+                          (PvrdmaRingState *)*ring_state,
-                           (num_pages - 1) * TARGET_PAGE_SIZE /
-                           sizeof(struct pvrdma_cqne),
-                           sizeof(struct pvrdma_cqne),
-diff --git a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h b/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-deleted file mode 100644
-index 7b4062a1a107..000000000000
---- a/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h
-+++ /dev/null
-@@ -1,114 +0,0 @@
--/*
-- * Copyright (c) 2012-2016 VMware, Inc.  All rights reserved.
-- *
-- * This program is free software; you can redistribute it and/or
-- * modify it under the terms of EITHER the GNU General Public License
-- * version 2 as published by the Free Software Foundation or the BSD
-- * 2-Clause License. This program is distributed in the hope that it
-- * will be useful, but WITHOUT ANY WARRANTY; WITHOUT EVEN THE IMPLIED
-- * WARRANTY OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
-- * See the GNU General Public License version 2 for more details at
-- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html.
-- *
-- * You should have received a copy of the GNU General Public License
-- * along with this program available in the file COPYING in the main
-- * directory of this source tree.
-- *
-- * The BSD 2-Clause License
-- *
-- *     Redistribution and use in source and binary forms, with or
-- *     without modification, are permitted provided that the following
-- *     conditions are met:
-- *
-- *      - Redistributions of source code must retain the above
-- *        copyright notice, this list of conditions and the following
-- *        disclaimer.
-- *
-- *      - Redistributions in binary form must reproduce the above
-- *        copyright notice, this list of conditions and the following
-- *        disclaimer in the documentation and/or other materials
-- *        provided with the distribution.
-- *
-- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
-- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
-- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
-- * COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
-- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-- * OF THE POSSIBILITY OF SUCH DAMAGE.
-- */
--
--#ifndef __PVRDMA_RING_H__
--#define __PVRDMA_RING_H__
--
--#include "standard-headers/linux/types.h"
--
--#define PVRDMA_INVALID_IDX	-1	/* Invalid index. */
--
--struct pvrdma_ring {
--	int prod_tail;	/* Producer tail. */
--	int cons_head;	/* Consumer head. */
--};
--
--struct pvrdma_ring_state {
--	struct pvrdma_ring tx;	/* Tx ring. */
--	struct pvrdma_ring rx;	/* Rx ring. */
--};
--
--static inline int pvrdma_idx_valid(uint32_t idx, uint32_t max_elems)
--{
--	/* Generates fewer instructions than a less-than. */
--	return (idx & ~((max_elems << 1) - 1)) == 0;
--}
--
--static inline int32_t pvrdma_idx(int *var, uint32_t max_elems)
--{
--	const unsigned int idx = qatomic_read(var);
--
--	if (pvrdma_idx_valid(idx, max_elems))
--		return idx & (max_elems - 1);
--	return PVRDMA_INVALID_IDX;
--}
--
--static inline void pvrdma_idx_ring_inc(int *var, uint32_t max_elems)
--{
--	uint32_t idx = qatomic_read(var) + 1;	/* Increment. */
--
--	idx &= (max_elems << 1) - 1;		/* Modulo size, flip gen. */
--	qatomic_set(var, idx);
--}
--
--static inline int32_t pvrdma_idx_ring_has_space(const struct pvrdma_ring *r,
--					      uint32_t max_elems, uint32_t *out_tail)
--{
--	const uint32_t tail = qatomic_read(&r->prod_tail);
--	const uint32_t head = qatomic_read(&r->cons_head);
--
--	if (pvrdma_idx_valid(tail, max_elems) &&
--	    pvrdma_idx_valid(head, max_elems)) {
--		*out_tail = tail & (max_elems - 1);
--		return tail != (head ^ max_elems);
--	}
--	return PVRDMA_INVALID_IDX;
--}
--
--static inline int32_t pvrdma_idx_ring_has_data(const struct pvrdma_ring *r,
--					     uint32_t max_elems, uint32_t *out_head)
--{
--	const uint32_t tail = qatomic_read(&r->prod_tail);
--	const uint32_t head = qatomic_read(&r->cons_head);
--
--	if (pvrdma_idx_valid(tail, max_elems) &&
--	    pvrdma_idx_valid(head, max_elems)) {
--		*out_head = head & (max_elems - 1);
--		return tail != head;
--	}
--	return PVRDMA_INVALID_IDX;
--}
--
--#endif /* __PVRDMA_RING_H__ */
-diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
-index fa6f2b6272b7..1050e361694f 100755
---- a/scripts/update-linux-headers.sh
-+++ b/scripts/update-linux-headers.sh
-@@ -215,8 +215,7 @@ sed  -e '1h;2,$H;$!d;g'  -e 's/[^};]*pvrdma[^(| ]*([^)]*);//g' \
-     "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_verbs.h" > \
-     "$tmp_pvrdma_verbs";
- 
--for i in "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_ring.h" \
--         "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h" \
-+for i in "$linux/drivers/infiniband/hw/vmw_pvrdma/pvrdma_dev_api.h" \
-          "$tmp_pvrdma_verbs"; do \
-     cp_portable "$i" \
-          "$output/include/standard-headers/drivers/infiniband/hw/vmw_pvrdma/"
--- 
-2.26.2
+> Such blocking is possible by calling pthread_sigmask() from the main
+> thread, before any other thread is created (the signal mask is inherited
+> across pthread_create()). I guess it could be done in coroutine_init() too.
+> 
+> And *then* the pthread_sigmask() calls should indeed be removed from
+> qemu_coroutine_new().
+
+OTOH, that does sound rather simple...
+
+> (Apologies if my feedback is difficult to understand, it's my fault. I
+> could propose a patch, if (and only if) you want that.)
+
+I can’t say I wouldn’t be happy with a patch for this code that doesn’t 
+bear my S-o-b. ;)
+
+I feel conflicted.  I can send a v2 that addresses this (probably 
+consisting of multiple patches then, e.g. I’d split the SIGUSR2 blocking 
+off the main patch), but to me, this bug is really more of a nuisance 
+that just blocks me from sending a pull request for my block branch... 
+So I’d rather not drag it out forever.  OTOH, sending a quick and bad 
+fix just because I can’t wait is just bad.
+
+I suppose I’ll have to decide over the weekend.  Though if you’re 
+itching to write a patch yourself, I’d definitely be grateful.
+
+Max
 
 
