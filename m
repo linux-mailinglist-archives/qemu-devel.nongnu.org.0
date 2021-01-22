@@ -2,73 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDF243002D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 13:25:32 +0100 (CET)
-Received: from localhost ([::1]:40584 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B8E3002D8
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 13:27:21 +0100 (CET)
+Received: from localhost ([::1]:42758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2vVL-000267-JL
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 07:25:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45834)
+	id 1l2vX7-00036Y-1n
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 07:27:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45876)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2vU8-0001gd-CQ
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:24:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2vU6-0000mH-9k
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:24:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611318253;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=N4npzRfFVaaxBX+NxWl0YqaVVDsgaPu55q3hbte0BD0=;
- b=VPXWT6Bla9bLkr7Xabmx12SxDUjMJJSFJ5rq9hE7tslC2spHdheqdbbzg8SoGUSeqOK1sL
- RAKx9cGVeFnpXhyjFFueEOSDW0TgI/8g08/GpCKi8IaFPwuRzn5OcSHGW+O1K70dcQWPmP
- hdN85r7SnoTTNw4tW6nPKmt/9ecquaE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-iukBZCyJMbyZsNALcB95jA-1; Fri, 22 Jan 2021 07:24:09 -0500
-X-MC-Unique: iukBZCyJMbyZsNALcB95jA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D8CA8107ACE3;
- Fri, 22 Jan 2021 12:24:08 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-163.ams2.redhat.com
- [10.36.113.163])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 914CE646DC;
- Fri, 22 Jan 2021 12:24:03 +0000 (UTC)
-Subject: Re: Thread safety of coroutine-sigaltstack
-To: Peter Maydell <peter.maydell@linaro.org>, Max Reitz <mreitz@redhat.com>
-References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
- <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
- <fc35da77-a5c2-08dd-05f2-0ebe781b338c@redhat.com>
- <CAFEAcA8GWMh=Cbrnw4+mzbG7gkHLkeQKXCTGxev6iYu8Q8TkxQ@mail.gmail.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <9a4688ec-b43a-abc6-3f78-8e0cdc449990@redhat.com>
-Date: Fri, 22 Jan 2021 13:24:03 +0100
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2vUG-0001n8-Ft
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:24:24 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:40376)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l2vUE-0000ph-R4
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 07:24:24 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id m5so3651328pjv.5
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 04:24:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=94C77uzbMvsJS8KdB0RwGddKHiPZdeZzumFBF2m1OCI=;
+ b=bCNuwhS5WsINge/enJPpk7AbFcDdhHUFV3B3FkouEMdXAAmuw4D6a1lH3jrFMuLEfK
+ gD9hn2hDCjBRCuJiCqYX4HOAh81cWaJGZ93zVOLGDToY7w/kOx8yrj53dRTiSUnN3bMf
+ xXzrgHKDkFZ1I+1+94+fs7nT7MvklwGvxPwhG5/1L0Hll5P0KBNPnIfFxsFrm0Hj7T6H
+ BypdO8JSzInfmWI1L1T/Y6gdrje+5PigedpLb7Itx637MJRtrBTXnvH5NawR0W2TPkIw
+ Bx/cV1HX9nEYE3VMc8//mDZKTse40XTssZeMD77pHgB8miLjf0splgb/kcBzen/GWVtQ
+ gqzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=94C77uzbMvsJS8KdB0RwGddKHiPZdeZzumFBF2m1OCI=;
+ b=Ug+RCpHmCZdwy5iClaVc7jHroaYRI8Rq7s0hN0cxEDKzBWAz1dIRXRhaxY2oT3HCxg
+ OvA89G4BNS3a300AjDKKRNhZymerpbj5zXsRWJu++CQquf2A3aOqYE0/oNp32MAQXP/L
+ J8k+fkMxmIZg+W8XKI7nrepAuyYr8GzIbYTa9DfG2iYuGDdfZV0yezpygTgisU4pz+rj
+ Nkey6lHRxSb/v2+iaXm4FxjMAP37egabQM1DoiZnheTYaE6+ZdAoyvwKmjJRr9359GRg
+ NgUuBAgr3yE06pfFSCvjEqb8tMNuH3mIwoFuOnjx1S/vKjxgR5rekbmJotuqIVl7Yy4O
+ jdeg==
+X-Gm-Message-State: AOAM5303XoOEuftfxP4xArWuZNZEVkZas/bxwZbxIPVH21mdBX7vXTiN
+ Wt6M8C7tswvxaT9YlAk5/ag=
+X-Google-Smtp-Source: ABdhPJxkqXRZ/SmWOg8zbTxzmacfZdjDzURTKV2xeKnyUpDFxsXw6SA2LVNT5Le4+NoFs4L+mR0DBg==
+X-Received: by 2002:a17:90b:a53:: with SMTP id
+ gw19mr5159677pjb.192.1611318260114; 
+ Fri, 22 Jan 2021 04:24:20 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id y16sm8240093pgg.20.2021.01.22.04.24.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jan 2021 04:24:19 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+Subject: [PATCH] hw/mips: loongson3: Drop 'struct MemmapEntry'
+Date: Fri, 22 Jan 2021 20:24:04 +0800
+Message-Id: <20210122122404.11970-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8GWMh=Cbrnw4+mzbG7gkHLkeQKXCTGxev6iYu8Q8TkxQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,65 +86,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/22/21 11:14, Peter Maydell wrote:
-> On Fri, 22 Jan 2021 at 08:50, Max Reitz <mreitz@redhat.com> wrote:
->>
->> On 20.01.21 18:25, Laszlo Ersek wrote:
->>
->> [...]
->>
->>> A simple grep for SIGUSR2 seems to indicate that SIGUSR2 is not used
->>> by system emulation for anything else, in practice. Is it possible
->>> to dedicate SIGUSR2 explicitly to coroutine-sigaltstack, and set up
->>> the action beforehand, from some init function that executes on a
->>> "central" thread, before qemu_coroutine_new() is ever called?
->>
->> I wrote a patch to that effect, but just before sending I wondered
->> whether SIGUSR2 cannot be registered by the "guest" in user-mode
->> emulation, and whether that would then break coroutines from there
->> on.
->>
->> (I have no experience dealing with user-mode emulation, but it does
->> look like the guest can just register handlers for any signal but
->> SIGSEGV and SIGBUS.)
->
-> Yes, SIGUSR2 is for the guest in user-emulation mode.
+From: Bin Meng <bin.meng@windriver.com>
 
-Yes, my grep found those occurrences of SIGUSR2 of course.
+There is already a MemMapEntry type defined in hwaddr.h. Let's drop
+the loongson3 defined `struct MemmapEntry` and use the existing one.
 
-> OTOH do we even use the coroutine code in user-emulation mode?
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
-I assumed not. I assumed coroutines were only used by the block system,
-and user mode emulation is about running userspace Linux programs --
-virtual disks are not emulated for those.
+ hw/mips/loongson3_bootp.h | 7 +------
+ hw/mips/loongson3_virt.c  | 6 +++---
+ 2 files changed, 4 insertions(+), 9 deletions(-)
 
-> Looking at the meson.build files, we only add the coroutine_*.c to
-> util_ss if 'have_block', and we set have_block = have_system or
-> have_tools. I think (but have not checked) that that means we will
-> build and link the object file into the user-mode binaries if you
-> happen to build them in the same run as system-mode binaries, but
-> won't build them in if you built the user-mode binaries as a separate
-> build.
-
-Huh.
-
-> Which is odd and probably worth fixing, but does mean we
-> know that we aren't actually using coroutines in user-mode.
-
-Thanks for checking!
-Laszlo
-
-> (Also user-mode really means Linux or BSD and I think both of
-> those have working ucontext.)
->
-> thanks
-> -- PMM
->
+diff --git a/hw/mips/loongson3_bootp.h b/hw/mips/loongson3_bootp.h
+index 09f8480abf..d525ab745a 100644
+--- a/hw/mips/loongson3_bootp.h
++++ b/hw/mips/loongson3_bootp.h
+@@ -228,12 +228,7 @@ enum {
+     LOADER_PARAM,
+ };
+ 
+-struct MemmapEntry {
+-    hwaddr base;
+-    hwaddr size;
+-};
+-
+-extern const struct MemmapEntry virt_memmap[];
++extern const MemMapEntry virt_memmap[];
+ void init_loongson_params(struct loongson_params *lp, void *p,
+                           uint64_t cpu_freq, uint64_t ram_size);
+ void init_reset_system(struct efi_reset_system_t *reset);
+diff --git a/hw/mips/loongson3_virt.c b/hw/mips/loongson3_virt.c
+index d4a82fa536..b15071defc 100644
+--- a/hw/mips/loongson3_virt.c
++++ b/hw/mips/loongson3_virt.c
+@@ -72,7 +72,7 @@
+ #define RTC_IRQ             1
+ #define PCIE_IRQ_BASE       2
+ 
+-const struct MemmapEntry virt_memmap[] = {
++const MemMapEntry virt_memmap[] = {
+     [VIRT_LOWMEM] =      { 0x00000000,    0x10000000 },
+     [VIRT_PM] =          { 0x10080000,         0x100 },
+     [VIRT_FW_CFG] =      { 0x10080100,         0x100 },
+@@ -86,13 +86,13 @@ const struct MemmapEntry virt_memmap[] = {
+     [VIRT_HIGHMEM] =     { 0x80000000,           0x0 }, /* Variable */
+ };
+ 
+-static const struct MemmapEntry loader_memmap[] = {
++static const MemMapEntry loader_memmap[] = {
+     [LOADER_KERNEL] =    { 0x00000000,     0x4000000 },
+     [LOADER_INITRD] =    { 0x04000000,           0x0 }, /* Variable */
+     [LOADER_CMDLINE] =   { 0x0ff00000,      0x100000 },
+ };
+ 
+-static const struct MemmapEntry loader_rommap[] = {
++static const MemMapEntry loader_rommap[] = {
+     [LOADER_BOOTROM] =   { 0x1fc00000,        0x1000 },
+     [LOADER_PARAM] =     { 0x1fc01000,       0x10000 },
+ };
+-- 
+2.25.1
 
 
