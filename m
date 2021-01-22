@@ -2,54 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D589A300505
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:14:49 +0100 (CET)
-Received: from localhost ([::1]:50492 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B61C300500
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:12:50 +0100 (CET)
+Received: from localhost ([::1]:44164 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2xD6-0000PO-VB
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:14:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43760)
+	id 1l2xBB-0006C6-Gm
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:12:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44164)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l2x79-0002tt-49; Fri, 22 Jan 2021 09:08:39 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:34040)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l2x76-0004ue-Cy; Fri, 22 Jan 2021 09:08:38 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 9B6ACC602E6;
- Fri, 22 Jan 2021 15:08:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611324508;
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2x8d-0004o4-Er
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:10:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28537)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2x8a-0005dg-HA
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:10:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611324607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=c9D47Z2ircPJwyM8GEdhkkR3j3y0zUdEBXNz0rVILSA=;
- b=fWyRJ/tU2+yavzqJAr45HbqU10apqO0LzjD7YLy1TnMVhf1pyQpzqrZ3yL2kKdtYijF8+m
- 9H5hqdzsN73PxEXm9MjpYEjMBTfEBfV56tD4fwfrc/9wkPMP9KTh02fP2BDMLyzpT9k6Xu
- aGlqo8+05Ix5le7mvUgnOGSv9hqamxlsJHDs5K7ESrbW8qsdGaKGtWK3U11IFsSzBSvXKK
- SA/jlnPzK3yfbfUtBJDO5aTxBwQRtDtwB5LTOmGD+60TOeZjcUHFhVaTfjCeuwWy8JmlMD
- JzcLXtU7GJo4Iiq0NFslO+oGhWtn+bTfOBNuu302yPNsNnkEQ3DbGxnUvzBErw==
-Date: Fri, 22 Jan 2021 15:08:49 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 01/25] ptimer: Add new ptimer_set_period_from_clock()
- function
-Message-ID: <20210122140849.26kssn6kfh5av6a6@sekoia-pc.home.lmichel.fr>
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-2-peter.maydell@linaro.org>
+ bh=F/G5AOqSCsfh5m/2A8c35GHXNLtZSWsuzFZqZrINSKw=;
+ b=ANsdjPGvKcX9rHCFBbN4+3ISYrbNxiPBgPi/UcbP83d/6xItVzxUwIO6wFlZ/t7eFJqKMq
+ 0kfCnbnNb3vJefvZkS7L7eLdHDM7Vm8p7fDgmFuNacLMBfvBYb82J3i0O3rqdGlFSktw5d
+ o3a8HKuxfnL1VDqQzDST0ce7nvRnfFQ=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-465-B1E_1h2oPEq3xXklykkSrQ-1; Fri, 22 Jan 2021 09:10:03 -0500
+X-MC-Unique: B1E_1h2oPEq3xXklykkSrQ-1
+Received: by mail-ej1-f70.google.com with SMTP id rl8so2236360ejb.8
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 06:10:03 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=F/G5AOqSCsfh5m/2A8c35GHXNLtZSWsuzFZqZrINSKw=;
+ b=H+AqFzSvxUKyUA44uqmmU4VQa8lhitU1QRu8ps8fY3vwOb6ZCOiiFsgxWf+4NuCJiq
+ 9+axsAveWAb6OWnk8Z2YyiHPkrKKtrlvHby9ep2iIn8tA6UYDsXYNSa6VGUv/Lif7++G
+ qGJ+kwQeIv85qZjgWjcN18nrBLlkyU+IgJRjxiA2rV1idPYCIdttUO4yL09RO82R1eJP
+ 33DeXyE4OTCYmLeUpRaLkRgMrEJaGOLHfs7B4YrN03g455WqJUiDgaOQFUVvmwvAvMTn
+ gNCrqAUfBtGCaroGJSlTcwWR9srko78XcflA15d6GgYDxNtsBZ3KdcV/ijbRt1JUDBXt
+ oEBw==
+X-Gm-Message-State: AOAM532ExL8Rlmvtb2G493ziRr7rk2W8zvDC9/yJE4GfJo+/I64hGkN9
+ /Pw7zvTeDGwMMi1RYYgBbF3TmsU41sQ8FFCUtCL2ILKBfJJfPiiQ/1oarJUGhW2770zLvYvEja2
+ Obg8SN4H8LelkcLE=
+X-Received: by 2002:a17:907:7356:: with SMTP id
+ dq22mr3133201ejc.318.1611324602440; 
+ Fri, 22 Jan 2021 06:10:02 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxikMjWM+AMwz2lzwIMaMvF+P0Izj8FLOYFfQJCOhYpH695PjJbuXny920Oe/AM4QziNKwIeg==
+X-Received: by 2002:a17:907:7356:: with SMTP id
+ dq22mr3133190ejc.318.1611324602266; 
+ Fri, 22 Jan 2021 06:10:02 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id k21sm5452144edq.60.2021.01.22.06.10.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jan 2021 06:10:01 -0800 (PST)
+Subject: Re: [PATCH v2] hw/core/resettable: make in-reset state false during
+ exit phase call
+To: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+References: <20210122103629.5412-1-damien.hedde@greensocs.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <9a988b13-207c-ba8d-8965-ee38ecfa357e@redhat.com>
+Date: Fri, 22 Jan 2021 15:10:00 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-2-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210122103629.5412-1-damien.hedde@greensocs.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,150 +100,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: peter.maydell@linaro.org, Michael Peter <michael.peter@hensoldt-cyber.com>,
+ alistair@alistair23.me, edgar.iglesias@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19:05 Thu 21 Jan     , Peter Maydell wrote:
-> The ptimer API currently provides two methods for setting the period:
-> ptimer_set_period(), which takes a period in nanoseconds, and
-> ptimer_set_freq(), which takes a frequency in Hz.  Neither of these
-> lines up nicely with the Clock API, because although both the Clock
-> and the ptimer track the frequency using a representation of whole
-> and fractional nanoseconds, conversion via either period-in-ns or
-> frequency-in-Hz will introduce a rounding error.
-> 
-> Add a new function ptimer_set_period_from_clock() which takes the
-> Clock object directly to avoid the rounding issues.  This includes a
-> facility for the user to specify that there is a frequency divider
-> between the Clock proper and the timer, as some timer devices like
-> the CMSDK APB dualtimer need this.
-> 
-> To avoid having to drag in clock.h from ptimer.h we add the Clock
-> type to typedefs.h.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Damien,
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+On 1/22/21 11:36 AM, Damien Hedde wrote:
+> Move the reset count decrement from "just after" to "just before"
+> calling the exit phase handler. The goal is to make
+> resettable_is_in_reset() returning false during the handler execution.
+> 
+> This simplifies reset handling in resettable devices.
+> 
+> Typically, a function that updates the device state will just need
+> to read the current reset state and not anymore treat the "in
+> a reset-exit transition" special case.
+> 
+> As a side note, this patch also fixes the fact that the reset count was
+> not decremented in case of recursive reset.
+> 
+> Signed-off-by: Damien Hedde <damien.hedde@greensocs.com>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1905297
+> Reported-by: Michael Peter <michael.peter@hensoldt-cyber.com>
+> --
+> 
+> Hi,
+> 
+> Following our discussion:
+> https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg01013.html
+> here's my proposal to fix Michael's bug on a global scope.
+> 
+> I flaged it v2 because I've taken Philippe's remarks there:
+> https://lists.nongnu.org/archive/html/qemu-devel/2020-12/msg00635.html
+> I've also changed the patch title, I think it is better this way.
+> 
+> Thanks,
+> Damien
+> 
+> Cc: f4bug@amsat.org
+> Cc: peter.maydell@linaro.org
+> Cc: alistair@alistair23.me
+> Cc: edgar.iglesias@gmail.com
+> ---
+>  docs/devel/reset.rst | 6 +++---
+>  hw/core/resettable.c | 3 +--
+>  2 files changed, 4 insertions(+), 5 deletions(-)
+> 
+> diff --git a/docs/devel/reset.rst b/docs/devel/reset.rst
+> index abea1102dc..021a7277a2 100644
+> --- a/docs/devel/reset.rst
+> +++ b/docs/devel/reset.rst
+> @@ -210,9 +210,9 @@ Polling the reset state
+>  Resettable interface provides the ``resettable_is_in_reset()`` function.
+>  This function returns true if the object parameter is currently under reset.
+>  
+> -An object is under reset from the beginning of the *init* phase to the end of
+> -the *exit* phase. During all three phases, the function will return that the
+> -object is in reset.
+> +An object is under reset from the beginning of the *init* phase to the *exit*
+> +phase. During *init* and *hold* phase only, the function will return that the
+> +object is in reset. The state is changed just before calling the *exit* method.
 
-> ---
-> Side note, I forget why we didn't go for 64.32 fixedpoint for the
-> Clock too.  I kinda feel we might run into the "clocks can't handle
-> periods greater than 4 seconds" limit some day.  Hopefully we can
-> backwards-compatibly expand it if that day ever comes...
-> 
-> The 'divisor' functionality seemed like the simplest way to get
-> to what I needed for the dualtimer; perhaps we should think about
-> whether we can have generic lightweight support for clock
-> frequency divider/multipliers...
-> ---
->  include/hw/ptimer.h     | 22 ++++++++++++++++++++++
->  include/qemu/typedefs.h |  1 +
->  hw/core/ptimer.c        | 34 ++++++++++++++++++++++++++++++++++
->  3 files changed, 57 insertions(+)
-> 
-> diff --git a/include/hw/ptimer.h b/include/hw/ptimer.h
-> index 412763fffb2..c443218475b 100644
-> --- a/include/hw/ptimer.h
-> +++ b/include/hw/ptimer.h
-> @@ -165,6 +165,28 @@ void ptimer_transaction_commit(ptimer_state *s);
->   */
->  void ptimer_set_period(ptimer_state *s, int64_t period);
+"An object is under reset from the beginning of the *init* phase to
+the beginning of the *exit* phase" ?
+
+An ASCII art would clarify all doubts :)
+
+Otherwise:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
 >  
-> +/**
-> + * ptimer_set_period_from_clock - Set counter increment from a Clock
-> + * @s: ptimer to configure
-> + * @clk: pointer to Clock object to take period from
-> + * @divisor: value to scale the clock frequency down by
-> + *
-> + * If the ptimer is being driven from a Clock, this is the preferred
-> + * way to tell the ptimer about the period, because it avoids any
-> + * possible rounding errors that might happen if the internal
-> + * representation of the Clock period was converted to either a period
-> + * in ns or a frequency in Hz.
-> + *
-> + * If the ptimer should run at the same frequency as the clock,
-> + * pass 1 as the @divisor; if the ptimer should run at half the
-> + * frequency, pass 2, and so on.
-> + *
-> + * This function will assert if it is called outside a
-> + * ptimer_transaction_begin/commit block.
-> + */
-> +void ptimer_set_period_from_clock(ptimer_state *s, const Clock *clock,
-> +                                  unsigned int divisor);
-> +
->  /**
->   * ptimer_set_freq - Set counter frequency in Hz
->   * @s: ptimer to configure
-> diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-> index 976b529dfb5..68deb74ef6f 100644
-> --- a/include/qemu/typedefs.h
-> +++ b/include/qemu/typedefs.h
-> @@ -34,6 +34,7 @@ typedef struct BlockDriverState BlockDriverState;
->  typedef struct BusClass BusClass;
->  typedef struct BusState BusState;
->  typedef struct Chardev Chardev;
-> +typedef struct Clock Clock;
->  typedef struct CompatProperty CompatProperty;
->  typedef struct CoMutex CoMutex;
->  typedef struct CPUAddressSpace CPUAddressSpace;
-> diff --git a/hw/core/ptimer.c b/hw/core/ptimer.c
-> index 2aa97cb665c..6ba19fd9658 100644
-> --- a/hw/core/ptimer.c
-> +++ b/hw/core/ptimer.c
-> @@ -15,6 +15,7 @@
->  #include "sysemu/qtest.h"
->  #include "block/aio.h"
->  #include "sysemu/cpus.h"
-> +#include "hw/clock.h"
+>  This function may be used if the object behavior has to be adapted
+>  while in reset state. For example if a device has an irq input,
+> diff --git a/hw/core/resettable.c b/hw/core/resettable.c
+> index 96a99ce39e..c3df75c6ba 100644
+> --- a/hw/core/resettable.c
+> +++ b/hw/core/resettable.c
+> @@ -201,12 +201,11 @@ static void resettable_phase_exit(Object *obj, void *opaque, ResetType type)
+>      resettable_child_foreach(rc, obj, resettable_phase_exit, NULL, type);
 >  
->  #define DELTA_ADJUST     1
->  #define DELTA_NO_ADJUST -1
-> @@ -348,6 +349,39 @@ void ptimer_set_period(ptimer_state *s, int64_t period)
+>      assert(s->count > 0);
+> -    if (s->count == 1) {
+> +    if (--s->count == 0) {
+>          trace_resettable_phase_exit_exec(obj, obj_typename, !!rc->phases.exit);
+>          if (rc->phases.exit && !resettable_get_tr_func(rc, obj)) {
+>              rc->phases.exit(obj);
+>          }
+> -        s->count = 0;
 >      }
->  }
->  
-> +/* Set counter increment interval from a Clock */
-> +void ptimer_set_period_from_clock(ptimer_state *s, const Clock *clk,
-> +                                  unsigned int divisor)
-> +{
-> +    /*
-> +     * The raw clock period is a 64-bit value in units of 2^-32 ns;
-> +     * put another way it's a 32.32 fixed-point ns value. Our internal
-> +     * representation of the period is 64.32 fixed point ns, so
-> +     * the conversion is simple.
-> +     */
-> +    uint64_t raw_period = clock_get(clk);
-> +    uint64_t period_frac;
-> +
-> +    assert(s->in_transaction);
-> +    s->delta = ptimer_get_count(s);
-> +    s->period = extract64(raw_period, 32, 32);
-> +    period_frac = extract64(raw_period, 0, 32);
-> +    /*
-> +     * divisor specifies a possible frequency divisor between the
-> +     * clock and the timer, so it is a multiplier on the period.
-> +     * We do the multiply after splitting the raw period out into
-> +     * period and frac to avoid having to do a 32*64->96 multiply.
-> +     */
-> +    s->period *= divisor;
-> +    period_frac *= divisor;
-> +    s->period += extract64(period_frac, 32, 32);
-> +    s->period_frac = (uint32_t)period_frac;
-> +
-> +    if (s->enabled) {
-> +        s->need_reload = true;
-> +    }
-> +}
-> +
->  /* Set counter frequency in Hz.  */
->  void ptimer_set_freq(ptimer_state *s, uint32_t freq)
->  {
-> -- 
-> 2.20.1
+>      s->exit_phase_in_progress = false;
+>      trace_resettable_phase_exit_end(obj, obj_typename, s->count);
 > 
 
--- 
 
