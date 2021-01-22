@@ -2,70 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6182F2FFBEE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 05:47:27 +0100 (CET)
-Received: from localhost ([::1]:42966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AFAC2FFBEF
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 05:47:31 +0100 (CET)
+Received: from localhost ([::1]:43354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2oM1-0006tZ-UY
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 23:47:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
+	id 1l2oM6-00072y-AD
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 23:47:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l2oKV-0005OK-NE
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:51 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44055)
+ id 1l2oKX-0005RH-TO
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:53 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:52258)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l2oKT-0000g8-GY
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:51 -0500
-Received: by mail-pg1-x532.google.com with SMTP id p18so2851701pgm.11
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 20:45:48 -0800 (PST)
+ id 1l2oKV-0000hW-VG
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:53 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id kx7so3014036pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 20:45:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uy0gCEX36d5XZlBS+Nl9z1E2SVL7L6nrGFrEE21Rnrg=;
- b=MHOi505tM8NW2XbmA6U3ApMHOpWabt2dOpXBBmV/TgUIX0y5qbNrI25UHwfK0AdEgj
- cYx89xtJXwjRymZXy7KPV/PJ1kn1tmqY76Rxu7xBUWKMQES/Azvpy2oBOfXGchQimEZF
- 0y0e7OL/xkbBHQJDagAxqqG+VPnYHS37OaHt2fokG0SUs+eu6mnbefM2f0LuMLxa+9VV
- ackdhxYF7ULfw3AQT5wLTDqzU2Jwb6IORRH/8bLlSQUP0+nh/eP9oABZ0l43O8MkTxWl
- Fp2j2KG0Op6BI1B5zp+Iepzx/eEda3tw6OvwoCifvJD7G+wIz+ru07aMU9VXgOOvcX7p
- Gq5Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=UqZ8UhKAARsMaNumLlP53he0mq/0Zh4f5MBCpErsUgA=;
+ b=YKbIN/uEc1iLe37low8Kf8kHb9z/62zixr+ClK5bneSY3s6YqlmvI4YTA4PAsGGGOa
+ tilK2sjUU0yLWUfX5wlynrcqKa2AD7BCV4MPdZPC4EAJCGivRBtoKBS43frJlcvPGm5h
+ yggqDYKsnrG0evE6JmkafFfN1XsCZkjb1Ey/CD0P0J74+4XsRWuoGAuqELGTvtytMTDJ
+ e6ROZZzv6AZqXx+dizJmkTQo5MOXmEMtf5xaO459gdSb92YosUr39RwXBQR9VeWm2obz
+ 9ZzJWftvp3HqIz3Saww/NK6c6slM2CH1oNon8pDGpNGqmB/VQJQSkVccmMYMUmE5Bc3F
+ uOPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=uy0gCEX36d5XZlBS+Nl9z1E2SVL7L6nrGFrEE21Rnrg=;
- b=LU4RCV/oM5od1oqa/RO3xZTm7rpPuBmvth6Yb3BbKUrrV7Qt8n7fWNOrq23NzEh2/1
- PFv8VPATwFHWzPqCIru6Hb+csqPOk+4J9E0YdPRKJI1412QTRnUYdZMwTkYr95ESfERq
- ok0HLixtWbOzkQOWskLg/jjQ8sXqUc1T/S9FFl8KvKhdY0NEKVc30uuIaWwWYOJG2Iba
- k0ZkOvmP1pq2pQSJB7s8r+XQBpk3XtjPlJdppzd5axMgDpIsc1sOv3oX5URI27Bmtzms
- 8Bxp/Z1k5bwTHvDWaAo+cZedrKKrJhz6Zo0R1GAHD7ufn/oM8VhA7Q0rF+S1Qp/DLaBW
- eVAA==
-X-Gm-Message-State: AOAM533vv1668fiOEKoxYFXTiHyf6YsjcFzi+yStgksROLg9ZoCRA2rK
- Hlvlovt3Onc9OCA+2j6Ig961OLqhFpZ1rZKmzTRLMCJIb7vWpJjanPCeAnEaiB8sdZ1SgdM67Y1
- vj8X2HF4w72m6owiUM0wde8ssCRfjxHtke6Dz/bJlqFIMwWGHl6r8g5qvWKDbf4tS8tQ+Rk9kfQ
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=UqZ8UhKAARsMaNumLlP53he0mq/0Zh4f5MBCpErsUgA=;
+ b=b8rCqMAH8hS+bref0UzLvzKPWfOH7SwsY2CvFWcO2pu0I7tuqZfIVcGlhZ5gQMN98G
+ YDxkysx6hMlQf0azlp4T5B25TnVyrwCBt80cY/4ZkW66O1MsgWrzNUC5H8WpSf3z8ZiF
+ Qc0jzuXIWd/DAyq55lnfn2QrjAs27XqKIXLZaGNCgBaw86gmBgkbP5lRIa93kKnl4rpq
+ qctSh7PCObLYMPhVb0dM8mGagt5hHoADmLsDGkNVBMnx5W03c0UNGoyqy4UzChsdk01S
+ g9yCzz5qM11XOPAp7WQKEreMM95zi60JkD1f+iem8ecw/9eB4MyvT2YUfwxTJoMCfxfM
+ CngA==
+X-Gm-Message-State: AOAM5314/4S5VXOsy/KmLIQZlXz6QcOsFmchxJJRQIa8HNrpJ958PJPI
+ AjrbFm/p4L96vkz2qv5oP2Val6J9ugyvZaVXelTyK9aVEniJqOHSLs7oLOG4WLfjbjBWx9NXn59
+ S8JlG01Xsx4YYJvU/8PIAdtA0YirmWWHUATBxeL3jGKb1q7NlV0r7eYtztdbBEQ40TLwMzC0idQ
  ==
-X-Google-Smtp-Source: ABdhPJxs7zpXutpOwIyiIx309Hx0RWGK5WsUhFtFSbXCQgYx34riV+4Sto2SpNVZTfXq8GVdvFjBVQ==
-X-Received: by 2002:a63:e849:: with SMTP id a9mr2838017pgk.231.1611290747225; 
- Thu, 21 Jan 2021 20:45:47 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzPO9qIxPJ99owOwj3bLW7ObR1Iz7gmnTwiECnZriZMjA4gJcpvmI/SO27GY5tIzVD7t7dvtw==
+X-Received: by 2002:a17:90a:520e:: with SMTP id
+ v14mr3177394pjh.233.1611290750253; 
+ Thu, 21 Jan 2021 20:45:50 -0800 (PST)
 Received: from cube.int.bluestop.org (c-174-52-16-57.hsd1.ut.comcast.net.
  [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id b10sm7050494pgh.15.2021.01.21.20.45.45
+ by smtp.gmail.com with ESMTPSA id b10sm7050494pgh.15.2021.01.21.20.45.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 20:45:46 -0800 (PST)
+ Thu, 21 Jan 2021 20:45:49 -0800 (PST)
 From: Rebecca Cran <rebecca@nuviainc.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] target/arm: Add support for FEAT_DIT,
- Data Independent Timing
-Date: Thu, 21 Jan 2021 21:45:34 -0700
-Message-Id: <20210122044537.1823-1-rebecca@nuviainc.com>
+Subject: [PATCH v2 1/3] target/arm: Remove PSTATE_SS from cpsr and move it
+ into env->pstate.
+Date: Thu, 21 Jan 2021 21:45:35 -0700
+Message-Id: <20210122044537.1823-2-rebecca@nuviainc.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210122044537.1823-1-rebecca@nuviainc.com>
+References: <20210122044537.1823-1-rebecca@nuviainc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=rebecca@nuviainc.com; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=rebecca@nuviainc.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,28 +93,66 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As suggested in https://www.mail-archive.com/qemu-devel@nongnu.org/msg767057.html
-this second patch contains code to move PSTATE_SS from uncached_cpsr to 
-env->pstate.
+cpsr has been treated as being the same as spsr, but it isn't.
+Since PSTATE_SS isn't in cpsr, remove it and move it into env->pstate.
 
-Being fairly new to both aarch64 and qemu development I hope I'm on the
-right track, but I suspect my implementation is incomplete.
+Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
+---
+ target/arm/helper-a64.c | 4 +---
+ target/arm/helper.c     | 4 ++--
+ target/arm/op_helper.c  | 9 +--------
+ 3 files changed, 4 insertions(+), 13 deletions(-)
 
-Rebecca Cran (3):
-  target/arm: Remove PSTATE_SS from cpsr and move it into env->pstate.
-  target/arm: Add support for FEAT_DIT, Data Independent Timing
-  target/arm: Set ID_AA64PFR0.DIT and ID_PFR0.DIT to 1 for "max" AA64
-    CPU
-
- target/arm/cpu.h           | 12 +++++++++
- target/arm/cpu64.c         |  5 ++++
- target/arm/helper-a64.c    |  4 +--
- target/arm/helper.c        | 26 ++++++++++++++++++--
- target/arm/internals.h     |  6 +++++
- target/arm/op_helper.c     |  9 +------
- target/arm/translate-a64.c | 12 +++++++++
- 7 files changed, 61 insertions(+), 13 deletions(-)
-
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index c426c23d2c4e..0d2ac7bb7ee3 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -1000,9 +1000,7 @@ void HELPER(exception_return)(CPUARMState *env, uint64_t new_pc)
+          */
+         mask = aarch32_cpsr_valid_mask(env->features, &env_archcpu(env)->isar);
+         cpsr_write(env, spsr, mask, CPSRWriteRaw);
+-        if (!arm_singlestep_active(env)) {
+-            env->uncached_cpsr &= ~PSTATE_SS;
+-        }
++        env->pstate &= ~PSTATE_SS;
+         aarch64_sync_64_to_32(env);
+ 
+         if (spsr & CPSR_T) {
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d2ead3fcbdbd..01b50316046b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9402,8 +9402,8 @@ static void take_aarch32_exception(CPUARMState *env, int new_mode,
+      * For exceptions taken to AArch32 we must clear the SS bit in both
+      * PSTATE and in the old-state value we save to SPSR_<mode>, so zero it now.
+      */
+-    env->uncached_cpsr &= ~PSTATE_SS;
+-    env->spsr = cpsr_read(env);
++    env->pstate &= ~PSTATE_SS;
++    env->spsr &= ~PSTATE_SS;
+     /* Clear IT bits.  */
+     env->condexec_bits = 0;
+     /* Switch to the new mode, and to the correct instruction set.  */
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index 5e0f123043b5..65cb37d088f8 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -389,14 +389,7 @@ void HELPER(exception_bkpt_insn)(CPUARMState *env, uint32_t syndrome)
+ 
+ uint32_t HELPER(cpsr_read)(CPUARMState *env)
+ {
+-    /*
+-     * We store the ARMv8 PSTATE.SS bit in env->uncached_cpsr.
+-     * This is convenient for populating SPSR_ELx, but must be
+-     * hidden from aarch32 mode, where it is not visible.
+-     *
+-     * TODO: ARMv8.4-DIT -- need to move SS somewhere else.
+-     */
+-    return cpsr_read(env) & ~(CPSR_EXEC | PSTATE_SS);
++    return cpsr_read(env) & ~CPSR_EXEC;
+ }
+ 
+ void HELPER(cpsr_write)(CPUARMState *env, uint32_t val, uint32_t mask)
 -- 
 2.26.2
 
