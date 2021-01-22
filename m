@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8F1300B08
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:23:59 +0100 (CET)
-Received: from localhost ([::1]:46802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3405A300B06
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:22:22 +0100 (CET)
+Received: from localhost ([::1]:40728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l316E-00053T-Rp
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:23:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57656)
+	id 1l314e-0002JC-Lf
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:22:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l311f-0007cd-6K
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:15 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:39204)
+ id 1l311X-0007ZE-7R
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:07 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:52144)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l311Z-0006tk-Nw
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:14 -0500
-Received: by mail-wr1-x431.google.com with SMTP id a1so5966953wrq.6
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:19:09 -0800 (PST)
+ id 1l311V-0006sI-8P
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:07 -0500
+Received: by mail-wm1-x330.google.com with SMTP id m2so5108401wmm.1
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:19:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Nr3F1s/uxAkZsOjDBgzUMQ0nBu9JtUUnCgKnB3ia0u0=;
- b=Dfx5VBsxycuh2BYKdT4cTeeBCWfyqBl09LqOcxSVPHEeTXFEw6PDLQRk5DYtliTuiv
- 8Q5xfFIkELfcM1vtuR2fD+G10PkhISY/7EoZMGrZNRs7JGaPl0cKaCgAy93siLYVBZYa
- s6TrQr1GoIdXnVydjR/cUGQyLEIzyOnIpl6kpooxWoCP4D+5PUPvNV508u7elxIvSmKN
- co2/jXjThy6zSojo1tFZnXqrr8jhc3UR8PBROXICHC+WLKyiv3tpDwtdAfo1IauInD5F
- DMN90P7d3f3mY3kXblt4Skk5zAKnEtN5EFlZUEzL14zx18wxLjoPU3xxDgu0FBbvqqkU
- JWFw==
+ bh=r/l3rZk8GOIQaj/zcskGUMbwB8AQ01WgfPICmp322OI=;
+ b=Q0ekPi8ddPsLqWk/bzAAyuQOjZVex9EEdlUKCZGUQJLW+Cfs0cDpxDELPJlzsfuSQs
+ YnxDQEmRSdjU8dtnMDfJptl86GwsXKt5MRLfiFG3g79iAhqkaqxsREB4qkBcJ26IM9KK
+ 11f54O7pFgrQgAGtb4dWWBoroYQNS1jStLBxh/58ZclnyYwIrjwBe0M4UKVBXOxqzbPz
+ SelAsbec5NS0ts+0lJkhykzge18kqObgVwRZARD/z3BR8tmfKiRZPkTydw9CWO1cLYVP
+ m6E2wB8u6wjQqip6BS6LgDW5FsK5xjJIoc7s5JFNnabw5CLhjWtpsD6MwyKET3QBYx1A
+ ACUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Nr3F1s/uxAkZsOjDBgzUMQ0nBu9JtUUnCgKnB3ia0u0=;
- b=J+KiPZKsdXfuMPTUh0jqU7aoCb31IDMZX9bPIlMw/vwCSs7c3x14ZwaEApljepr4+a
- TfpndCxPQf/hN/iFkWx8/JXc/khH/86D1og5uKtdyGpxjAYtAiwYNM7/ft8La3CgStr4
- xeknDDPVcKRfoopFxSuLYQQmxEJRhz6kIAVa3Ct4Pr3x6CSuf1J+MwalkzudEtHDQ5kd
- jEe3eLfxDEorvYjfOtxIWp3lY7lplmvWva1aIP3/KNgwyrdqJ5Rv2qe292Lgd3UgbNoV
- pxl2J9h14SfVdhqRjr5GTOC+xQOpy+Brlkvw0lQx3f+eM92AOiqzDKXeazzyR763K9FW
- 57bQ==
-X-Gm-Message-State: AOAM532WbqedFk56Z3R4WaCwHclzQVvfUeLJO37zNlRXQEalVbEszHnp
- zoSsjufkWODYItCUL2LoyQOqng==
-X-Google-Smtp-Source: ABdhPJzgq6A6h+wYrprDY2DQvRZjC+K0monjHMszHn83VYCzklKRgybUUM2tvOhFM/eYDmyHxcS5zw==
-X-Received: by 2002:adf:cc81:: with SMTP id p1mr5662034wrj.339.1611339548305; 
- Fri, 22 Jan 2021 10:19:08 -0800 (PST)
+ bh=r/l3rZk8GOIQaj/zcskGUMbwB8AQ01WgfPICmp322OI=;
+ b=ZjFB9nuuJz+SkyHln0y1/6Jf7IUlCo0YBE/rTGtjaAp3UDElVO2UH7lNxR0xWwPd5n
+ KTGcVjbmxMUJkVDvQPRG9x6zgTgMH/jwD5OwUXlv6clWGaEwPfFvzTb2hlKxvPfJbq3h
+ JjmNJRWl3TDTRQ6QuDUaGjj7jdf/vFQX20oTp1aIELBrVzQweQjfL51OlQP3+bG3zvwv
+ ObVt6s04HmUNGvrznMmNKFsPeyDmckop7KSmvna+HsmZ4JhrmZhitU9blZfz88Q9AfGX
+ swI/mNAVocaUZrxvA6bt5tPQu12FLbL8KFaPeAbROm+0l/7u0p1k49MgHefwhZA6PojS
+ EZgg==
+X-Gm-Message-State: AOAM53017QyJx8GXTXJjTx/lEglqDl6y9x9RudyBnevgeSP+mQRWU7c5
+ /RCCs3KJrBbbGWeV8pv4SINcWA==
+X-Google-Smtp-Source: ABdhPJysmkq+mZECXbqSFl1VqRXOChUh23n/m8gNEHrr9Z0XkYpauXNFJie27QHevBfgtgZi/bqQig==
+X-Received: by 2002:a7b:cf3a:: with SMTP id m26mr5220564wmg.66.1611339543951; 
+ Fri, 22 Jan 2021 10:19:03 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id d199sm12232884wmd.1.2021.01.22.10.18.56
+ by smtp.gmail.com with ESMTPSA id 192sm13636662wme.27.2021.01.22.10.18.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Jan 2021 10:18:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 1C9DB1FF91;
+ by zen.linaroharston (Postfix) with ESMTP id 351AC1FF92;
  Fri, 22 Jan 2021 18:18:55 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 5/8] tests/docker: alias docker-help target for consistency
-Date: Fri, 22 Jan 2021 18:18:51 +0000
-Message-Id: <20210122181854.23105-6-alex.bennee@linaro.org>
+Subject: [PATCH  v2 6/8] tests/docker: add a docker-exec-copy-test
+Date: Fri, 22 Jan 2021 18:18:52 +0000
+Message-Id: <20210122181854.23105-7-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210122181854.23105-1-alex.bennee@linaro.org>
 References: <20210122181854.23105-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,35 +92,98 @@ Cc: Fam Zheng <fam@euphon.net>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We have a bunch of -help targets so this will save some cognitive
-dissonance. Keep the original for those with muscle memory.
+This provides test machinery for checking the QEMU copying logic works
+properly. It takes considerably less time to run than starting a
+debootstrap only for it to fail later. I considered adding a remove
+command to docker.py but figured that might be gold plating given the
+relative size of the containers compared to the ones with actual stuff
+in them.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/Makefile.include | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ tests/docker/Makefile.include         | 20 +++++++++++++++++++-
+ tests/docker/docker.py                |  7 ++++++-
+ tests/docker/dockerfiles/empty.docker |  8 ++++++++
+ 3 files changed, 33 insertions(+), 2 deletions(-)
+ create mode 100644 tests/docker/dockerfiles/empty.docker
 
 diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index bdc53ddfcf..a5c1e4a615 100644
+index a5c1e4a615..93b29ad823 100644
 --- a/tests/docker/Makefile.include
 +++ b/tests/docker/Makefile.include
-@@ -1,6 +1,6 @@
- # Makefile for Docker tests
+@@ -11,7 +11,7 @@ HOST_ARCH = $(if $(ARCH),$(ARCH),$(shell uname -m))
+ DOCKER_SUFFIX := .docker
+ DOCKER_FILES_DIR := $(SRC_PATH)/tests/docker/dockerfiles
+ # we don't run tests on intermediate images (used as base by another image)
+-DOCKER_PARTIAL_IMAGES := debian10 debian11 debian-bootstrap
++DOCKER_PARTIAL_IMAGES := debian10 debian11 debian-bootstrap empty
+ DOCKER_IMAGES := $(sort $(notdir $(basename $(wildcard $(DOCKER_FILES_DIR)/*.docker))))
+ DOCKER_TARGETS := $(patsubst %,docker-image-%,$(DOCKER_IMAGES))
+ # Use a global constant ccache directory to speed up repetitive builds
+@@ -92,6 +92,24 @@ docker-binfmt-image-debian-%: $(DOCKER_FILES_DIR)/debian-bootstrap.docker
+ 			{ echo "You will need to build $(EXECUTABLE)"; exit 1;},\
+ 			"CHECK", "debian-$* exists"))
  
--.PHONY: docker docker-test docker-clean docker-image docker-qemu-src
-+.PHONY: docker docker-help docker-test docker-clean docker-image docker-qemu-src
- 
- NULL :=
- SPACE := $(NULL) #
-@@ -218,6 +218,8 @@ endif
- 	@echo '                         Specify which container engine to run.'
- 	@echo '    REGISTRY=url         Cache builds from registry (default:$(DOCKER_REGISTRY))'
- 
-+docker-help: docker
++# These are test targets
++USER_TCG_TARGETS=$(patsubst %-linux-user,qemu-%,$(filter %-linux-user,$(TARGET_DIRS)))
++EXEC_COPY_TESTS=$(patsubst %,docker-exec-copy-test-%, $(USER_TCG_TARGETS))
 +
- # This rule if for directly running against an arbitrary docker target.
- # It is called by the expanded docker targets (e.g. make
- # docker-test-foo@bar) which will do additional verification.
++$(EXEC_COPY_TESTS): docker-exec-copy-test-%: $(DOCKER_FILES_DIR)/empty.docker
++	$(call quiet-command,							\
++		$(DOCKER_SCRIPT) build -t qemu/exec-copy-test-$* -f $< 		\
++			$(if $V,,--quiet) --no-cache 				\
++			--include-executable=$*					\
++			--skip-binfmt,						\
++			"TEST","copy $* to container")
++	$(call quiet-command,							\
++		$(DOCKER_SCRIPT) run qemu/exec-copy-test-$* 			\
++			/$* -version > tests/docker-exec-copy-test-$*.out,	\
++			"TEST","check $* works in container")
++
++docker-exec-copy-test: $(EXEC_COPY_TESTS)
++
+ endif
+ 
+ # Enforce dependencies for composite images
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 39da3fefcf..d28df4c140 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -438,6 +438,9 @@ class BuildCommand(SubCommand):
+                             help="""Specify a binary that will be copied to the
+                             container together with all its dependent
+                             libraries""")
++        parser.add_argument("--skip-binfmt",
++                            action="store_true",
++                            help="""Skip binfmt entry check (used for testing)""")
+         parser.add_argument("--extra-files", nargs='*',
+                             help="""Specify files that will be copied in the
+                             Docker image, fulfilling the ADD directive from the
+@@ -466,7 +469,9 @@ class BuildCommand(SubCommand):
+             docker_dir = tempfile.mkdtemp(prefix="docker_build")
+ 
+             # Validate binfmt_misc will work
+-            if args.include_executable:
++            if args.skip_binfmt:
++                qpath = args.include_executable
++            elif args.include_executable:
+                 qpath, enabled = _check_binfmt_misc(args.include_executable)
+                 if not enabled:
+                     return 1
+diff --git a/tests/docker/dockerfiles/empty.docker b/tests/docker/dockerfiles/empty.docker
+new file mode 100644
+index 0000000000..9ba980f1a8
+--- /dev/null
++++ b/tests/docker/dockerfiles/empty.docker
+@@ -0,0 +1,8 @@
++#
++# Empty Dockerfile
++#
++
++FROM scratch
++
++# Add everything from the context into the container
++ADD . /
 -- 
 2.20.1
 
