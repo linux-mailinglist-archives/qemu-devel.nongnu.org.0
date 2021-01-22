@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD95E300D7B
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:14:57 +0100 (CET)
-Received: from localhost ([::1]:54150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAFE9300D8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:18:21 +0100 (CET)
+Received: from localhost ([::1]:35252 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l32pc-0000x9-NV
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:14:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50456)
+	id 1l32su-0004yf-Py
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:18:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32m9-0004nm-6z; Fri, 22 Jan 2021 15:11:21 -0500
-Received: from mail-pj1-f54.google.com ([209.85.216.54]:38677)
+ id 1l32m9-0004o4-Dc
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:21 -0500
+Received: from mail-pg1-f178.google.com ([209.85.215.178]:35470)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32m7-0004ZI-AG; Fri, 22 Jan 2021 15:11:20 -0500
-Received: by mail-pj1-f54.google.com with SMTP id x20so4597113pjh.3;
- Fri, 22 Jan 2021 12:11:18 -0800 (PST)
+ id 1l32m7-0004ZO-QO
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:21 -0500
+Received: by mail-pg1-f178.google.com with SMTP id n7so4569778pgg.2
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:11:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=qVqRMnh8npYh0Rc9gcDpg3IYcVv+P2nL9eIHhLcj2Fs=;
- b=QQRUtw+RPKtbsHH4FF3GQHtYtXRyDCDN/KKI64VjOJhQQvwWhjHmHV+0hUWK0V9+P2
- uXRt1ZTfCYyOYAjY5vhl2of7RV3gj4QAOQkjE98/aCaJ9k58+gPLjuB+L3tWnLFpeNzO
- OMEQTU1L8qjBOX4a4IrqDq5mVxV4yGgPi1ACJWAxhvf7zs0LHann1xmLrRukge5aPufM
- mjNH9wgLn0SoQBFa7nALNdMcDA3C7HnVj58z+WYy5KJPH+8CaCNhhGGPIsZn3HP9Fl3W
- L56eqv1OSMWzYgSQ4fm3nXXN/8YwTfC2I1Ns4tcX5H4fOPfNmWr1iFJmesk+opoL/bEm
- t1OA==
-X-Gm-Message-State: AOAM533PcU3tFt/wWALbTlzQhYHBKOsByZUprpykMtdFzCUL23M/7anX
- 1+RVl7M/xUX4F9vIgtQglHqtiyKnUik=
-X-Google-Smtp-Source: ABdhPJzyz4jwOLz51/IlbaZvOQJ5oWXVpzcT7/gao6MZN9we0rYDoDYBNIXkUTL1twdv/zX92VCWTQ==
-X-Received: by 2002:a17:90a:c787:: with SMTP id
- gn7mr351239pjb.222.1611346277183; 
- Fri, 22 Jan 2021 12:11:17 -0800 (PST)
+ bh=01jOHlrAizpaDPxT12d+5+vOSGTC56CIKtFWQ2QTb8E=;
+ b=sCGh2+RbouDK2koYmDYmWdwl8RLOcFkNQ6v8xdrXy1Ecak70/L/3zP7Culs1k2cBtu
+ qt2r4V1ML58E31rJXHLK47ES5q+oBItrWGkaei9VYN3nzEmibR/wuvsq2G4J3E30jaW2
+ 71oG0VkEZjlKSojGB6VAoMUPTD54gVO0KHToUgwK1L8k60JeVx0Lc8wsnJIT9o1H6EJv
+ sytH0o1BHgCstH44l8FN5P7Zz4DpGF9SPJeE0eBjnujFweLZGMYhS5MuhaVxFoU2MNeL
+ Bj27E3hCSTSWwjK5tKuBgxU15/DOzGK/JkF4Wct4sCqV9bM5J6FjB2i3FgMkmgJ4xoOA
+ JHuQ==
+X-Gm-Message-State: AOAM531uNXokt+nKDgLcOvLqSbBncDNxA25Ho0X2xRQOGKNyajgYH4l2
+ HY40dgI2s4o0dow5vsH6gV4Cw8LcKmc=
+X-Google-Smtp-Source: ABdhPJz28lWzUzpz9iA0RY6T1LHup14VYA3XVUVEckKn2+3xtasGUJcKbIamcPIaUnk0FTxGokLChQ==
+X-Received: by 2002:a62:7c86:0:b029:1b7:cf7b:7d79 with SMTP id
+ x128-20020a627c860000b02901b7cf7b7d79mr6668419pfc.48.1611346278161; 
+ Fri, 22 Jan 2021 12:11:18 -0800 (PST)
 Received: from localhost.localdomain ([73.93.152.129])
- by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.16
+ by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.17
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 22 Jan 2021 12:11:16 -0800 (PST)
+ Fri, 22 Jan 2021 12:11:17 -0800 (PST)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 01/11] block: feature detection for host block support
-Date: Fri, 22 Jan 2021 12:11:03 -0800
-Message-Id: <20210122201113.63788-2-j@getutm.app>
+Subject: [PATCH v7 02/11] configure: cross-compiling with empty cross_prefix
+Date: Fri, 22 Jan 2021 12:11:04 -0800
+Message-Id: <20210122201113.63788-3-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210122201113.63788-1-j@getutm.app>
 References: <20210122201113.63788-1-j@getutm.app>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.216.54; envelope-from=osy86github@gmail.com;
- helo=mail-pj1-f54.google.com
+Received-SPF: pass client-ip=209.85.215.178;
+ envelope-from=osy86github@gmail.com; helo=mail-pg1-f178.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -72,209 +75,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, "open list:raw" <qemu-block@nongnu.org>,
- Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Darwin (iOS), there are no system level APIs for directly accessing
-host block devices. We detect this at configure time.
+The iOS toolchain does not use the host prefix naming convention. So we
+need to enable cross-compile options while allowing the PREFIX to be
+blank.
 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- configure            | 13 +++++++++++++
- meson.build          |  2 +-
- qapi/block-core.json | 10 +++++++---
- block/file-posix.c   | 33 ++++++++++++++++++++++-----------
- 4 files changed, 43 insertions(+), 15 deletions(-)
+ configure | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 6f6a319c2f..acf7f7414a 100755
+index acf7f7414a..32be5d225d 100755
 --- a/configure
 +++ b/configure
-@@ -5283,6 +5283,16 @@ but not implemented on your system"
-     fi
+@@ -238,6 +238,7 @@ cpu=""
+ iasl="iasl"
+ interp_prefix="/usr/gnemul/qemu-%M"
+ static="no"
++cross_compile="no"
+ cross_prefix=""
+ audio_drv_list=""
+ block_drv_rw_whitelist=""
+@@ -469,6 +470,7 @@ for opt do
+   optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
+   case "$opt" in
+   --cross-prefix=*) cross_prefix="$optarg"
++                    cross_compile="yes"
+   ;;
+   --cc=*) CC="$optarg"
+   ;;
+@@ -1696,7 +1698,7 @@ $(echo Deprecated targets: $deprecated_targets_list | \
+   --target-list-exclude=LIST exclude a set of targets from the default target-list
+ 
+ Advanced options (experts only):
+-  --cross-prefix=PREFIX    use PREFIX for compile tools [$cross_prefix]
++  --cross-prefix=PREFIX    use PREFIX for compile tools, PREFIX can be blank [$cross_prefix]
+   --cc=CC                  use C compiler CC [$cc]
+   --iasl=IASL              use ACPI compiler IASL [$iasl]
+   --host-cc=CC             use C compiler CC [$host_cc] for code run at
+@@ -6403,7 +6405,7 @@ if has $sdl2_config; then
  fi
- 
-+##########################################
-+# check for host block device
-+# assume always true for non-Darwin hosts
-+
-+if ! test "$darwin" == "yes" || check_include "IOKit/storage/IOMedia.h" ; then
-+  have_host_block_device=yes
-+else
-+  have_host_block_device=no
-+fi
-+
- ##########################################
- # End of CC checks
- # After here, no more $cc or $ld runs
-@@ -5513,6 +5523,9 @@ echo "GIT_UPDATE=$git_update" >> $config_host_mak
- 
- echo "ARCH=$ARCH" >> $config_host_mak
- 
-+if test "$have_host_block_device" = "yes" ; then
-+  echo "HAVE_HOST_BLOCK_DEVICE=y" >> $config_host_mak
-+fi
- if test "$debug_tcg" = "yes" ; then
-   echo "CONFIG_DEBUG_TCG=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index af2bc89741..6c3ee7f8ca 100644
---- a/meson.build
-+++ b/meson.build
-@@ -180,7 +180,7 @@ if targetos == 'windows'
-                                       include_directories: include_directories('.'))
- elif targetos == 'darwin'
-   coref = dependency('appleframeworks', modules: 'CoreFoundation')
--  iokit = dependency('appleframeworks', modules: 'IOKit')
-+  iokit = dependency('appleframeworks', modules: 'IOKit', required: 'HAVE_HOST_BLOCK_DEVICE' in config_host)
- elif targetos == 'sunos'
-   socket = [cc.find_library('socket'),
-             cc.find_library('nsl'),
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 3484986d1c..1a9576de8d 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -959,7 +959,8 @@
-   'discriminator': 'driver',
-   'data': {
-       'file': 'BlockStatsSpecificFile',
--      'host_device': 'BlockStatsSpecificFile',
-+      'host_device': { 'type': 'BlockStatsSpecificFile',
-+                       'if': 'defined(HAVE_HOST_BLOCK_DEVICE)' },
-       'nvme': 'BlockStatsSpecificNvme' } }
- 
- ##
-@@ -2827,7 +2828,9 @@
- { 'enum': 'BlockdevDriver',
-   'data': [ 'blkdebug', 'blklogwrites', 'blkreplay', 'blkverify', 'bochs',
-             'cloop', 'compress', 'copy-on-read', 'dmg', 'file', 'ftp', 'ftps',
--            'gluster', 'host_cdrom', 'host_device', 'http', 'https', 'iscsi',
-+            'gluster', 'host_cdrom',
-+            {'name': 'host_device', 'if': 'defined(HAVE_HOST_BLOCK_DEVICE)' },
-+            'http', 'https', 'iscsi',
-             'luks', 'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels',
-             'preallocate', 'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
-             { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION)' },
-@@ -4012,7 +4015,8 @@
-       'ftps':       'BlockdevOptionsCurlFtps',
-       'gluster':    'BlockdevOptionsGluster',
-       'host_cdrom': 'BlockdevOptionsFile',
--      'host_device':'BlockdevOptionsFile',
-+      'host_device': { 'type': 'BlockdevOptionsFile',
-+                       'if': 'defined(HAVE_HOST_BLOCK_DEVICE)' },
-       'http':       'BlockdevOptionsCurlHttp',
-       'https':      'BlockdevOptionsCurlHttps',
-       'iscsi':      'BlockdevOptionsIscsi',
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 00cdaaa2d4..11d2021346 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -42,6 +42,8 @@
- #include "scsi/constants.h"
- 
- #if defined(__APPLE__) && (__MACH__)
-+#include <sys/ioctl.h>
-+#if defined(HAVE_HOST_BLOCK_DEVICE)
- #include <paths.h>
- #include <sys/param.h>
- #include <IOKit/IOKitLib.h>
-@@ -52,6 +54,7 @@
- //#include <IOKit/storage/IOCDTypes.h>
- #include <IOKit/storage/IODVDMedia.h>
- #include <CoreFoundation/CoreFoundation.h>
-+#endif /* defined(HAVE_HOST_BLOCK_DEVICE) */
- #endif
- 
- #ifdef __sun__
-@@ -181,7 +184,17 @@ typedef struct BDRVRawReopenState {
-     bool check_cache_dropped;
- } BDRVRawReopenState;
- 
--static int fd_open(BlockDriverState *bs);
-+static int fd_open(BlockDriverState *bs)
-+{
-+    BDRVRawState *s = bs->opaque;
-+
-+    /* this is just to ensure s->fd is sane (its called by io ops) */
-+    if (s->fd >= 0) {
-+        return 0;
-+    }
-+    return -EIO;
-+}
-+
- static int64_t raw_getlength(BlockDriverState *bs);
- 
- typedef struct RawPosixAIOData {
-@@ -3014,6 +3027,7 @@ static BlockStatsSpecific *raw_get_specific_stats(BlockDriverState *bs)
-     return stats;
- }
- 
-+#if defined(HAVE_HOST_BLOCK_DEVICE)
- static BlockStatsSpecific *hdev_get_specific_stats(BlockDriverState *bs)
- {
-     BlockStatsSpecific *stats = g_new(BlockStatsSpecific, 1);
-@@ -3023,6 +3037,7 @@ static BlockStatsSpecific *hdev_get_specific_stats(BlockDriverState *bs)
- 
-     return stats;
- }
-+#endif /* HAVE_HOST_BLOCK_DEVICE */
- 
- static QemuOptsList raw_create_opts = {
-     .name = "raw-create-opts",
-@@ -3247,6 +3262,8 @@ BlockDriver bdrv_file = {
- /***********************************************/
- /* host device */
- 
-+#if defined(HAVE_HOST_BLOCK_DEVICE)
-+
- #if defined(__APPLE__) && defined(__MACH__)
- static kern_return_t GetBSDPath(io_iterator_t mediaIterator, char *bsdPath,
-                                 CFIndex maxPathSize, int flags);
-@@ -3539,16 +3556,6 @@ hdev_co_ioctl(BlockDriverState *bs, unsigned long int req, void *buf)
- }
- #endif /* linux */
- 
--static int fd_open(BlockDriverState *bs)
--{
--    BDRVRawState *s = bs->opaque;
--
--    /* this is just to ensure s->fd is sane (its called by io ops) */
--    if (s->fd >= 0)
--        return 0;
--    return -EIO;
--}
--
- static coroutine_fn int
- hdev_co_pdiscard(BlockDriverState *bs, int64_t offset, int bytes)
- {
-@@ -3872,6 +3879,8 @@ static BlockDriver bdrv_host_cdrom = {
- };
- #endif /* __FreeBSD__ */
- 
-+#endif /* HAVE_HOST_BLOCK_DEVICE */
-+
- static void bdrv_file_init(void)
- {
-     /*
-@@ -3879,6 +3888,7 @@ static void bdrv_file_init(void)
-      * registered last will get probed first.
-      */
-     bdrv_register(&bdrv_file);
-+#if defined(HAVE_HOST_BLOCK_DEVICE)
-     bdrv_register(&bdrv_host_device);
- #ifdef __linux__
-     bdrv_register(&bdrv_host_cdrom);
-@@ -3886,6 +3896,7 @@ static void bdrv_file_init(void)
- #if defined(__FreeBSD__) || defined(__FreeBSD_kernel__)
-     bdrv_register(&bdrv_host_cdrom);
- #endif
-+#endif /* HAVE_HOST_BLOCK_DEVICE */
- }
- 
- block_init(bdrv_file_init);
+ echo "strip = [$(meson_quote $strip)]" >> $cross
+ echo "windres = [$(meson_quote $windres)]" >> $cross
+-if test -n "$cross_prefix"; then
++if test "$cross_compile" = "yes"; then
+     cross_arg="--cross-file config-meson.cross"
+     echo "[host_machine]" >> $cross
+     if test "$mingw32" = "yes" ; then
 -- 
 2.28.0
 
