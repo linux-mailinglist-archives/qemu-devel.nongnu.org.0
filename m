@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09C772FFF51
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 10:39:46 +0100 (CET)
-Received: from localhost ([::1]:48418 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 820012FFF52
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 10:39:55 +0100 (CET)
+Received: from localhost ([::1]:48866 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2suu-0006lA-Gu
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 04:39:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40944)
+	id 1l2sv4-0006wL-Ku
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 04:39:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
- id 1l2ssx-00060L-Ec
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:37:44 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:52139)
+ id 1l2st6-00064U-Co
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:37:52 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:37223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.purdie@linuxfoundation.org>)
- id 1l2ssv-0000wy-9p
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:37:43 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id m2so3681378wmm.1
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 01:37:39 -0800 (PST)
+ id 1l2st4-00011e-PI
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 04:37:52 -0500
+Received: by mail-wm1-x332.google.com with SMTP id c128so3740128wme.2
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 01:37:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=linuxfoundation.org; s=google;
  h=message-id:subject:from:to:date:in-reply-to:references:user-agent
  :mime-version:content-transfer-encoding;
- bh=CyYF0H0kB75jUYJztneC1YXjx/AZ7BvdtZqdAJGMAAY=;
- b=fT4J8CVAil9Atjqpzv/156Ij53I3EHlBFOBIr4mPEaoxeg20AgP2vAkIYO/MR8F3V+
- SnL1RvIFQHrSLXOSizC4s0JDqQJgCfFhWzqJ/i4Gc6/6pUlWUfVTecG7Ihe/uLbswcTe
- IW31Y0vW4zUc3nVob6JuRUd5nq5BgXNAyQBMI=
+ bh=X/MhdIxKQVQioCvCjc1eSDFDP5NeTgmCS88UEuTJXFo=;
+ b=M7r0lDQ4zUWkZhoi0d5LnM3HJvPp693VEC/cfSUOc+QLUCK4PBy/athm3CMySMHY7x
+ qBSC29KsVL4MFyr9gn21CGH48HgvBVwehLOojS38Rhe6QXATHEk60N1zfbrhwX2KeEHL
+ FPKzY6/o+6BWiIfTCcg4eGXiv14p7zdLrxQ3w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:message-id:subject:from:to:date:in-reply-to
  :references:user-agent:mime-version:content-transfer-encoding;
- bh=CyYF0H0kB75jUYJztneC1YXjx/AZ7BvdtZqdAJGMAAY=;
- b=BO9iLtLo7eXy1CqJUsQoTnA3gsYRFOxm0yJshCRxhMRhBt5eGTUc3G9EbA17doFBLk
- bOxUZUjeh/I8atd65yxoYoQQahiNeCy36mwfLUhegVp9jTMvy41MLyr/0cmdky6RBPbf
- D155YEc/W8X9HyUDEt8T2z4t0by6k2pf37hYZgeiv9oiGEauPTwEiuzLobYukEhWkBRu
- VsOHJSgdFDw56dj06kVAWDofb0vu98nEtOAGE1YMXak7yUNIsQVHd7aTgjZCmTs/T9U8
- BgJFjMa1zBq1ONkxk35SnXN3SLfDcc8Uq37ZOS2N/7geF8Qk34wpcgyO4eOCP4MNFk7R
- AK2w==
-X-Gm-Message-State: AOAM532vzQ6xTl87RusvdB5rTT2oAc7jwr74iIBqFfxq4k79If1gmnnw
- rZaO5+dNMEt47mYIQCt/36WvgXDdfI/YwA==
-X-Google-Smtp-Source: ABdhPJzPg2N5NcrD1kRFduUQclkB0lVcjR/9HfE/X39+BFS6wO9VXJA00Sg1uCi6vzs2GxAPK5InGQ==
-X-Received: by 2002:a1c:2403:: with SMTP id k3mr3079779wmk.130.1611308258055; 
- Fri, 22 Jan 2021 01:37:38 -0800 (PST)
+ bh=X/MhdIxKQVQioCvCjc1eSDFDP5NeTgmCS88UEuTJXFo=;
+ b=gnIZL0LWX2JFfduFGss5Y19EaejJSjus5ftnpF15+oQ5pZNVyy5Jq+kHcWL17Z9om5
+ Wdr6LvWWdzMSfXsEV8r1ge5Ar7M7R9/hDt5420/vNdiK/E33LlpwI5zfM7MticNaf/rh
+ 4em2PzQQlg0NU1034jxpFyR1ziDY/74HrC/pL9LRtY7YRc6Tw+yZkjF6psGutP+LJSUf
+ S0+l8vMVe72VHQyJacON4V3qbsa3TapSgjisvw/tnHwrFCTBxshxqeP6lIarjVlKAAUT
+ 3SDnHNpz51u6vluYvmTEsfP2dG3HGREgacdNNxgRqPbkiyl3Qb2AFyn0ISORiQaL3uTn
+ XSoQ==
+X-Gm-Message-State: AOAM530KtjKGiB0tpkQVorYIpscHHGOdiJdyGIp3SHMuLATDxIGQliMC
+ rVOx5KFuJ6MUjWnwtxDPKN0LiTxRzBDjIA==
+X-Google-Smtp-Source: ABdhPJzSz22+zQU1edbSTQt1mchnT6HYrzuXG35JlhzxgMNjxaNEgGuTqK9n8CZP99Lwvz2yDtqUPg==
+X-Received: by 2002:a1c:9a90:: with SMTP id c138mr3092153wme.147.1611308268621; 
+ Fri, 22 Jan 2021 01:37:48 -0800 (PST)
 Received: from ?IPv6:2001:8b0:aba:5f3c:6d8b:661b:50ff:3a78?
  ([2001:8b0:aba:5f3c:6d8b:661b:50ff:3a78])
- by smtp.gmail.com with ESMTPSA id l20sm12363295wrh.82.2021.01.22.01.37.37
+ by smtp.gmail.com with ESMTPSA id n9sm11538573wrq.41.2021.01.22.01.37.48
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 01:37:37 -0800 (PST)
-Message-ID: <0025f40ee1c0c4261fc3ce82c3095f5d1166b386.camel@linuxfoundation.org>
-Subject: Re: [PATCH] linux-user/mmap: Avoid asserts for out of range mremap
- calls
+ Fri, 22 Jan 2021 01:37:48 -0800 (PST)
+Message-ID: <d4ea76d141067563c24aacc99dab9aa753cd55a2.camel@linuxfoundation.org>
+Subject: Re: [RFC PATCH] linux-user/mmap: Return EFAULT for invalid addresses
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Date: Fri, 22 Jan 2021 09:37:34 +0000
-In-Reply-To: <70c46e7b999bafbb01d54bfafd44b420d0b782e9.camel@linuxfoundation.org>
-References: <70c46e7b999bafbb01d54bfafd44b420d0b782e9.camel@linuxfoundation.org>
+Date: Fri, 22 Jan 2021 09:37:47 +0000
+In-Reply-To: <b71cbfb68c227ae999e8caa5e247d5bb93ddad43.camel@linuxfoundation.org>
+References: <b71cbfb68c227ae999e8caa5e247d5bb93ddad43.camel@linuxfoundation.org>
 Content-Type: text/plain; charset="UTF-8"
 User-Agent: Evolution 3.38.1-1 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
  envelope-from=richard.purdie@linuxfoundation.org;
- helo=mail-wm1-x32b.google.com
+ helo=mail-wm1-x332.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,17 +87,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2021-01-08 at 17:42 +0000, Richard Purdie wrote:
-> If mremap() is called without the MREMAP_MAYMOVE flag with a start address
-> just before the end of memory (reserved_va) where new_size would exceed 
-> it (and GUEST_ADDR_MAX), the assert(end - 1 <= GUEST_ADDR_MAX) in 
-> page_set_flags() would trigger.
+On Fri, 2021-01-08 at 17:46 +0000, Richard Purdie wrote:
+> When using qemu-i386 to run gobject introspection parts of a webkitgtk 
+> build using musl as libc on a 64 bit host, it sits in an infinite loop 
+> of mremap calls of ever decreasing/increasing addresses.
 > 
-> Add an extra guard to the guest_range_valid() checks to prevent this and
-> avoid asserting binaries when reserved_va is set.
+> I suspect something in the musl memory allocation code loops indefinitely
+> if it only sees ENOMEM and only exits when it hits EFAULT.
 > 
-> This meant a bug I was seeing locally now gives the same behaviour 
-> regardless of whether reserved_va is set or not.
+> According to the docs, trying to mremap outside the address space
+> can/should return EFAULT and changing this allows the build to succeed.
+> 
+> There was previous discussion of this as it used to work before qemu 2.11
+> and we've carried hacks to work around it since, this appears to be a
+> better fix of the real issue?
 > 
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org
 > 
@@ -106,20 +108,14 @@ On Fri, 2021-01-08 at 17:42 +0000, Richard Purdie wrote:
 > ===================================================================
 > --- qemu-5.2.0.orig/linux-user/mmap.c
 > +++ qemu-5.2.0/linux-user/mmap.c
-> @@ -727,7 +727,9 @@ abi_long target_mremap(abi_ulong old_add
->  
-> 
->      if (!guest_range_valid(old_addr, old_size) ||
->          ((flags & MREMAP_FIXED) &&
-> -         !guest_range_valid(new_addr, new_size))) {
-> +         !guest_range_valid(new_addr, new_size)) ||
-> +        ((flags & MREMAP_MAYMOVE) == 0 &&
-> +         !guest_range_valid(old_addr, new_size))) {
->          errno = ENOMEM;
+> @@ -727,7 +727,7 @@ abi_long target_mremap(abi_ulong old_add
+>           !guest_range_valid(new_addr, new_size)) ||
+>          ((flags & MREMAP_MAYMOVE) == 0 &&
+>           !guest_range_valid(old_addr, new_size))) {
+> -        errno = ENOMEM;
+> +        errno = EFAULT;
 >          return -1;
 >      }
-> 
-> 
 
 Any comments on this? I believe its a valid issue that needs fixing and
 multiple distros appear to be carrying fixes in this area related to
