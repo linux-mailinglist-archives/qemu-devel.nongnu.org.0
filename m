@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9683007BE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 16:49:52 +0100 (CET)
-Received: from localhost ([::1]:47716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56B363007CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 16:51:33 +0100 (CET)
+Received: from localhost ([::1]:49966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2yh5-0004T4-QE
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 10:49:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42692)
+	id 1l2yii-000613-Bj
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 10:51:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2yfa-0003ao-2r
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:48:18 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:45863)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2yfX-0000So-Vc
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:48:17 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id ke15so8259485ejc.12
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 07:48:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=z+lz8JO+Ur8AgDwxtMFIGokAEwyuOa+bOuNenLzyYco=;
- b=Aep3mZRsiMe9ttRwraKqqP72qmMxfNNGabRyJFuBlUzRxtFcOl3Jbxe59YzDV6oRgp
- +MeJmMPX4ju/tgkbV4/NT5NRNIr7kOXk/QiKHwnDIKZVl9p13zHwIDXEcjEfIHpyl7el
- 9DhsFoaFL2bYxTulOZQhrOAQx5p0fQEBBw0sjD3Fti8gMG8klvLMfeK6xW8dJxoOwx/2
- 2oUBrqy7Jfg5s3Jz2XKgg11shvSn/Wkm17WlzygORVorw0aJB1VrwijCRQxn/gWkpCq4
- uuigEwwZHfqH1rI/2hy1JjFdvzNZuiVpmSuMzpGBwvQwzTBH7KaC0XtOdUh7wszkb85J
- cKSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=z+lz8JO+Ur8AgDwxtMFIGokAEwyuOa+bOuNenLzyYco=;
- b=H9PogfsgjPG2wVxA0Soz41UDSDlE/wBbqI+ayhSHRLJZKH1WoN86Gbv7ExN9pNEPUM
- 458dfyweQ7et/Cn4eQmK8iGrWx3c/lSVAWrtQ4TviblzYeoHa1ceKhM7ggATl9uP6ihs
- rEAeHs+3lfymaRw/0YdX+O6ALZ15z97JeNaIJ2NbK0x+CnH/nzf09/Xv+9KzhSHk92WZ
- 43buOzL+wptzJ+l1aNvJgCnoW7pGdoUbNXaXMfUhafcdFsQ7Iq2c/i2/2b5K/CPWxtJA
- 3b039UHuFdNPyK9WHIpYNyGz8/JCND/aQd89qU+lU1AwPwsLtrk/x4N6I5ssEb37uwVp
- 9Arg==
-X-Gm-Message-State: AOAM533M3FvP2wmfuBzyFaBgo+kjgBZMUSZfWdjxwhfo7vCe3KCPHAwJ
- WIjqOTfE7FgL1zXsTUAkLn+vBySaGpZOi98bR02rNQ==
-X-Google-Smtp-Source: ABdhPJyNUD+5fUu7DEyETI62VUqIgflgAMvr1xzPfl9mHoimnNbH37rGTi+W3nlrZmqpjRSzQWOXyKu9JpBwcUi+OiI=
-X-Received: by 2002:a17:906:2747:: with SMTP id
- a7mr3516829ejd.250.1611330494472; 
- Fri, 22 Jan 2021 07:48:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l2ygl-0004ey-2B
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:49:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21274)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l2ygi-0000z2-4i
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:49:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611330567;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UibT0pglJ14qJDM64dD1eS6SsR00QvhsVzeFlVGUKsM=;
+ b=HAG5cAqhQZDdKiH3+a4uA8NeURawZbK0Q4Bzmnj7THXhLaLljMvnUtwbwOWATFxGZILJcH
+ DeJTfzTmc1dAcYtsN7VO8ncV6kMZ34fNjR1KYS/9O91HHL+mFB+tZqyHD1EOC11MQOgwKG
+ YxCe7cwzKUstrDpLdVP6Wloyr/G0iJQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-578-E9dk36JwP2iAna8pnx3yvA-1; Fri, 22 Jan 2021 10:49:20 -0500
+X-MC-Unique: E9dk36JwP2iAna8pnx3yvA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD1F107ACE4;
+ Fri, 22 Jan 2021 15:49:19 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-116-195.rdu2.redhat.com [10.10.116.195])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A4F2D5DA62;
+ Fri, 22 Jan 2021 15:49:09 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 1DBEC22054F; Fri, 22 Jan 2021 10:49:09 -0500 (EST)
+Date: Fri, 22 Jan 2021 10:49:09 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Message-ID: <20210122154909.GB120574@redhat.com>
+References: <20210121144429.58885-1-stefanha@redhat.com>
+ <20210121144803.GN3125227@redhat.com>
 MIME-Version: 1.0
-References: <20210120092748.14789-1-maxim.uvarov@linaro.org>
- <20210120092748.14789-2-maxim.uvarov@linaro.org>
-In-Reply-To: <20210120092748.14789-2-maxim.uvarov@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 15:48:03 +0000
-Message-ID: <CAFEAcA9K3tfSw22bHgBR+sLgs+Hv=8WN7SnUPs2u0X0b2t2eRA@mail.gmail.com>
-Subject: Re: [PATCHv8 1/3] hw: gpio: implement gpio-pwr driver for qemu
- reset/poweroff
-To: Maxim Uvarov <maxim.uvarov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210121144803.GN3125227@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,31 +81,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Jose Marinho <Jose.Marinho@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
+Cc: mszeredi@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
+ P J P <ppandit@redhat.com>, virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jan 2021 at 09:27, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
->
-> Implement gpio-pwr driver to allow reboot and poweroff machine.
-> This is simple driver with just 2 gpios lines. Current use case
-> is to reboot and poweroff virt machine in secure mode. Secure
-> pl066 gpio chip is needed for that.
->
-> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
-> Reviewed-by: Hao Wu <wuhaotsh@google.com>
-> ---
->  hw/gpio/Kconfig     |  3 ++
->  hw/gpio/gpio_pwr.c  | 70 +++++++++++++++++++++++++++++++++++++++++++++
->  hw/gpio/meson.build |  1 +
->  3 files changed, 74 insertions(+)
->  create mode 100644 hw/gpio/gpio_pwr.c
+On Thu, Jan 21, 2021 at 02:48:03PM +0000, Daniel P. Berrangé wrote:
+> On Thu, Jan 21, 2021 at 02:44:29PM +0000, Stefan Hajnoczi wrote:
+> > A well-behaved FUSE client does not attempt to open special files with
+> > FUSE_OPEN because they are handled on the client side (e.g. device nodes
+> > are handled by client-side device drivers).
+> > 
+> > The check to prevent virtiofsd from opening special files is missing in
+> > a few cases, most notably FUSE_OPEN. A malicious client can cause
+> > virtiofsd to open a device node, potentially allowing the guest to
+> > escape. This can be exploited by a modified guest device driver. It is
+> > not exploitable from guest userspace since the guest kernel will handle
+> > special files inside the guest instead of sending FUSE requests.
+> > 
+> > This patch adds the missing checks to virtiofsd. This is a short-term
+> > solution because it does not prevent a compromised virtiofsd process
+> > from opening device nodes on the host.
+> > 
+> > Reported-by: Alex Xu <alex@alxu.ca>
+> > Fixes: CVE-2020-35517
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> > This issue was diagnosed on public IRC and is therefore already known
+> > and not embargoed.
+> > 
+> > A stronger fix, and the long-term solution, is for users to mount the
+> > shared directory and any sub-mounts with nodev, as well as nosuid and
+> > noexec. Unfortunately virtiofsd cannot do this automatically because
+> > bind mounts added by the user after virtiofsd has launched would not be
+> > detected. I suggest the following:
+> > 
+> > 1. Modify libvirt and Kata Containers to explicitly set these mount
+> >    options.
+> > 2. Then modify virtiofsd to check that the shared directory has the
+> >    necessary options at startup. Refuse to start if the options are
+> >    missing so that the user is aware of the security requirements.
+> > 
+> > As a bonus this also increases the likelihood that other host processes
+> > besides virtiofsd will be protected by nosuid/noexec/nodev so that a
+> > malicious guest cannot drop these files in place and then arrange for a
+> > host process to come across them.
+> > 
+> > Additionally, user namespaces have been discussed. They seem like a
+> > worthwhile addition as an unprivileged or privilege-separated mode
+> > although there are limitations with respect to security xattrs and the
+> > actual uid/gid stored on the host file system not corresponding to the
+> > guest uid/gid.
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 84 +++++++++++++++++++++-----------
+> >  1 file changed, 56 insertions(+), 28 deletions(-)
+> > 
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> > index 5fb36d9407..e08352d649 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -555,6 +555,29 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino)
+> >      return fd;
+> >  }
+> >  
+> > +/*
+> > + * Open a file descriptor for an inode. Returns -EBADF if the inode is not a
+> > + * regular file or a directory. Use this helper function instead of raw
+> > + * openat(2) to prevent security issues when a malicious client opens special
+> > + * files such as block device nodes.
+> > + */
+> > +static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+> > +                         int open_flags)
+> > +{
+> > +    g_autofree char *fd_str = g_strdup_printf("%d", inode->fd);
+> > +    int fd;
+> > +
+> > +    if (!S_ISREG(inode->filetype) && !S_ISDIR(inode->filetype)) {
+> > +        return -EBADF;
+> > +    }
+> > +
+> > +    fd = openat(lo->proc_self_fd, fd_str, open_flags);
+> 
+> Whats the intended behaviour with symlinks ?  Do we need to
+> allow S_ISLNK, or are we assuming the symlink has already
+> been expanded to the target file by this point ? If the latter
+> adding a comment about this would be useful.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Given the current places lo_inode_open() is being used, I think it is
+fine and we probably don't have to worry about symlink in these paths
+as it has been resolved already by now.
 
-thanks
--- PMM
+In truncation path, we will expect that we are working with target
+file (and not symlink fd). Same should be true for remote posix locks,
+lo_open() and lo_fsync().
+
+Other paths where we might be working with symlinks like listxattr,
+getxattr, setxattr, already have mechanism to deal with symlink.
+
+Thanks
+Vivek
+
+
+
+> 
+> > +    if (fd < 0) {
+> > +        return -errno;
+> > +    }
+> > +    return fd;
+> > +}
+> > +
+> 
+> Regards,
+> Daniel
+> -- 
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
