@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E574300E86
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:08:14 +0100 (CET)
-Received: from localhost ([::1]:33296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4483300E87
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:09:15 +0100 (CET)
+Received: from localhost ([::1]:35406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l33fB-0008UI-JT
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:08:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32844)
+	id 1l33gA-00012m-TE
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:09:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33084)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l33df-0007uQ-8l
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:06:39 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:40689)
+ id 1l33eU-00008j-5Z
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:07:30 -0500
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:40186)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l33dd-0002qh-I5
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:06:39 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id 15so4636530pgx.7
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 13:06:36 -0800 (PST)
+ id 1l33eQ-0003Gw-Rp
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:07:29 -0500
+Received: by mail-pf1-x436.google.com with SMTP id i63so4634527pfg.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 13:07:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=/xmkKJSPsTa3TefUDSVWPklk/jO5wFLO2KHK4TGWN9g=;
- b=Tc0tC+3Fr/JfO4v9iWqIVdMwrIx8lceZ0mTscV2O80PZXdcZRgJ5Ol+2MmhbOlWtQI
- S0JZcBwujzuDWwL0yh5m59KBDJQJTjBta7hJNoaarwgRFKzcU93z/Y6HfVTEXjzkeks6
- lqMMARVNpUZ9IbKR5Jbo2RhgVqBntqAeZF7g1PXx2X7xCBYNaYL0Bv6IHXJVzfva2aQp
- 6wFRcGIaWjIdE3OjJxSXYyPfm9TmDoPssPj455mv2UBqA3mja0i0W1+1Zz/gU9B+5Jk8
- 2KKe4Ho2VMOJi3fIP+sKA/3EOTYHhUqsU8MYAtvCci65eXZcRg8qOV//q378dd/biKlg
- 1ojg==
+ bh=16QhzGU0SPN8zTSiM6wnUsJF03wOOJmMeu/qDic83kU=;
+ b=ae2TEba54lVkZ9eUi5GcDvgjVtKTIDAUfQx9g3Fw9NoGOwozBAYn06IO69XUqyQ46c
+ YXwPjcqmOtMsKlTHNAoDBewwI4johKMqabvBHKoNS34sP9WCeuoNL0wUwCBNr75dJsaI
+ 2LjVuF0ir9L86lYJTzOMxNf7O0i+G80GTo/nb0LkNdCg91EG0iAngn3tD7FdTOcpauq+
+ CWeVTkEtXm099i8yFk+Ch+JJDkLfiQjV0BIHkAJgw1MO8bZOkFuQKaOLZwW3fP5P1UqH
+ hQckGCwSA762CTxkh+cdemrUfnSVDkoQNfeYb1432kvaVoOY19DX8y2hTwk/ycmr+WMG
+ m8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/xmkKJSPsTa3TefUDSVWPklk/jO5wFLO2KHK4TGWN9g=;
- b=tJpRaslhm/gTl158SthHPnVJAm0DgqblcmYji4wqD3Gffnj6QKOm4EiafGbDsc3mEq
- elWRWtWlv8NDm7/dufSkjT3AHEY8e/bXoS2iwCaOAhPh93WCGa6gLlf3kfYoNd1t3or0
- 9E8tp/wmYgR6b0mm7lDdI/6NFaf2NHsWHPhzfB7isRRnz1eNBJ4yHWrFwhPM9QalgJrB
- 1Q1T5WuclxG5Q5c56lKz+J/zFcYaDEYotmYsNlom2CKi/n8lcntgNEH+FE+EiniBL81U
- RRap7KMzMayX0vjMEFHOcqxU1QITzuvvmUoWQ4LeYhhECr8rvflFRcqT1Bl4lf52/+oZ
- XBGQ==
-X-Gm-Message-State: AOAM530XEWyzdD2LXi4ICTDHI1gy6+gcIJMoYqkvbUO+43RtzgcG/Ts9
- EBNeNvOSqpsUijpJsEVojTducg==
-X-Google-Smtp-Source: ABdhPJzQJbVZ5OOWbBz4gsnOYF1xG2Y5wax9I8XdXfbPD8mj4vN+k61mOtoc3hDHYXtt+RgitAKPEg==
-X-Received: by 2002:a63:4a49:: with SMTP id j9mr6530334pgl.197.1611349596019; 
- Fri, 22 Jan 2021 13:06:36 -0800 (PST)
+ bh=16QhzGU0SPN8zTSiM6wnUsJF03wOOJmMeu/qDic83kU=;
+ b=MpITUJw2HC4uAag/Lp1+NYGP1ExrfyY6+oCpwKU4ShoISc5Gl6+sfGoi506k2557ul
+ R50nLmp4SHuKmEUeUbC5qRJZlqFgEAKp4lFzuf7Q1OS3d6Xcfx/0DwrFYk4/HoJAi5H8
+ v1HVAE4HBM9GxyeqZBHUMMDIAFQrc+ygom7jJN1DwDaAoA4e/Rmfh+Fc5JA7a3s3MHYy
+ N8NJBL9qKAnIBsqBlrmN7SSyvO5emEUunExfT4vqiou5tZ0x9EWhRTAfAX7MsQ3rPQ3o
+ Jddw1qUJvVBwWjp1+JBP5M2YR1KwPfwms+8j7bVTVA8aIC09eBnPqg0uLEMo7KQRRzpB
+ K3PA==
+X-Gm-Message-State: AOAM530DAkjPbM769Iso1lcVss7+Of1lmM1tT2dxiSotATF5CXumDeZP
+ FYyfZeGEokjWsu0k8l+rmGnuOA==
+X-Google-Smtp-Source: ABdhPJw/+UYZvGevJu8+l0leqJsHFghkJknpxed2/eig4e/E9Ntdg5oHKQ9ziNmnx8p7zGbARATrzA==
+X-Received: by 2002:a63:fd01:: with SMTP id d1mr291012pgh.319.1611349645496;
+ Fri, 22 Jan 2021 13:07:25 -0800 (PST)
 Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id a37sm8579730pgm.79.2021.01.22.13.06.34
+ by smtp.gmail.com with ESMTPSA id s2sm9746110pfd.203.2021.01.22.13.07.24
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 22 Jan 2021 13:06:35 -0800 (PST)
-Subject: Re: [PATCH v2 3/3] target/arm: Set ID_AA64PFR0.DIT and ID_PFR0.DIT to
- 1 for "max" AA64 CPU
+ Fri, 22 Jan 2021 13:07:24 -0800 (PST)
+Subject: Re: [PATCH v2 2/3] target/arm: Add support for FEAT_DIT, Data
+ Independent Timing
 To: Rebecca Cran <rebecca@nuviainc.com>, qemu-devel@nongnu.org
 References: <20210122044537.1823-1-rebecca@nuviainc.com>
- <20210122044537.1823-4-rebecca@nuviainc.com>
+ <20210122044537.1823-3-rebecca@nuviainc.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bdb8ccbf-c95c-f6f3-b0af-1e0baf3fabec@linaro.org>
-Date: Fri, 22 Jan 2021 11:06:32 -1000
+Message-ID: <d8ec61d6-d256-fa7c-e0d7-fabfc6d90d3d@linaro.org>
+Date: Fri, 22 Jan 2021 11:07:22 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210122044537.1823-4-rebecca@nuviainc.com>
+In-Reply-To: <20210122044537.1823-3-rebecca@nuviainc.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::436;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x436.google.com
 X-Spam_score_int: -22
 X-Spam_score: -2.3
 X-Spam_bar: --
@@ -94,16 +94,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/21/21 6:45 PM, Rebecca Cran wrote:
-> Enable FEAT_DIT for the "max" AARCH64 CPU.
+> Add support for FEAT_DIT. DIT (Data Independent Timing) is a required
+> feature for ARMv8.4. Since virtual machine execution is largely
+> nondeterministic and TCG is outside of the security domain, it's
+> implemented as a NOP.
 > 
 > Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/cpu64.c | 5 +++++
->  1 file changed, 5 insertions(+)
+>  target/arm/cpu.h           | 12 +++++++++++
+>  target/arm/helper.c        | 22 ++++++++++++++++++++
+>  target/arm/internals.h     |  6 ++++++
+>  target/arm/translate-a64.c | 12 +++++++++++
+>  4 files changed, 52 insertions(+)
 
-There is also a 32-bit "max" cpu in cpu.c.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
 
