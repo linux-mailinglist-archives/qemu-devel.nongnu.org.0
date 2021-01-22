@@ -2,75 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80BCB30046D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 14:43:29 +0100 (CET)
-Received: from localhost ([::1]:57304 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC648300478
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 14:47:20 +0100 (CET)
+Received: from localhost ([::1]:60842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2wim-0003OG-Iw
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 08:43:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36202)
+	id 1l2wmW-0005Dq-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 08:47:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37162)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2whi-0002Tm-E0
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:42:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32849)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l2whg-00020H-Py
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:42:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611322939;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ej2GXwu2YE9bjINRerY1kMeBb/35xSs9zpqWN8gz8B8=;
- b=HFn+eGBWUo+RjKmAy0NgAcY6aZWdZbc18aI4A/4CxEoKKBI7j9By2xfjYTl259pC26203p
- Vs53vIndjAnylP3KjXhO6nxIdIDYrPAWX/pop1ZZ1eVByq5zH61sNuQmIFd1gcoLlXmGFm
- K4oHFHtVCrvzGDyOwJ2sdmVBRhbjwuQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-11-zLgBlhNsOdGWo0LU2aOW3w-1; Fri, 22 Jan 2021 08:42:17 -0500
-X-MC-Unique: zLgBlhNsOdGWo0LU2aOW3w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B686E801F9A
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 13:42:16 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-112-182.ams2.redhat.com
- [10.36.112.182])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 69A83E2C9;
- Fri, 22 Jan 2021 13:42:16 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 7023818000AB; Fri, 22 Jan 2021 14:42:13 +0100 (CET)
-Date: Fri, 22 Jan 2021 14:42:13 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PULL 10/11] vnc: move initialization to
- framebuffer_update_request
-Message-ID: <20210122134213.atygadb2ospaqhcg@sirius.home.kraxel.org>
-References: <20210115102424.1360437-1-kraxel@redhat.com>
- <20210115102424.1360437-11-kraxel@redhat.com>
- <26961441-e25b-25a1-b2e7-a6bb6a439022@redhat.com>
- <20210122084621.rdfxbamfzyc7aaft@sirius.home.kraxel.org>
- <b139af38-cca4-452f-2cfa-62bbf88eae8f@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2wku-0004fh-6A
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:45:40 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:46032)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l2wks-0003QR-EZ
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 08:45:39 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id f1so6565295edr.12
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 05:45:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=424fcOvjzBQ/hXvku47KMrQ0ZZjMmZ3Vr2C3rYmxkgA=;
+ b=HV65DEVMEKn2DdybAojpHNyR9ToVFZfSQXH/839T9ip5bibtuJx65HUJdKngcIQhDe
+ yp9FpwCmCn57CMJ0IvssONZWMvkIFn5a/PrLr1nbTB5brtgtlklycxsncj/8dW20pJRN
+ FoN1295kV55/rZuqpU55Jp8RwwlIwMutAeEubVto2MIceUTUvuyY5sSyHujaeBSiM6p5
+ P5WmaPW7vzqvxb95ov8ocJbsBDd5uKtdx8jEuktre7Fq8da+VDkuqAVIkCiyhWbmCSe4
+ wgkdbPy83oMNZ/XwS8U33RAbpmDO2cYyTm55rSIaRvIrrQSDSVfxbRy4V7ML9WbPoGYN
+ HZBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=424fcOvjzBQ/hXvku47KMrQ0ZZjMmZ3Vr2C3rYmxkgA=;
+ b=J3QAGhS+TXmfFaFcgSSZklaxLxzM6mOHjJgAT4/WXllej4F0JM+cMaXnXNgfnXCRcZ
+ NIMbzknBgVBU/i6537ep0wNPyVG7tM2zrlDb2B/0Lq7XwOtu1shRq74Td9IuG9EIn+7A
+ I50DqP0BD/G/P9lvWil8Kdy/JrgwP9B6HVWMw/peoWujJX6N+sNOELi94+mtPkp/U0hz
+ O4dptzsKG1KaXPJM4Kpdr04hoJDfdaIZq0tvpXdZFKt00bWgAQnNNjhRZpmqS6CYmLwL
+ /TW4JEtKiqBPy/nVK/oWL08fmJf0BKeDL2TJkYF296e99/DFT+tsMBHa7ACrwiVDTF8G
+ sP1Q==
+X-Gm-Message-State: AOAM533hIMGqFYSJSj2o/uAuXAqvBTxnoN18FcL9gHXr6An1SWFnJYTq
+ 9Gup2Anda6+UpBqEJozQ2Q0=
+X-Google-Smtp-Source: ABdhPJxCvnEwo3n9oK4gddMUiDP9DYFZ/pQImpB1cOXBVbG83ToDYErSsjAxm2xw11rLGHo9z93Cdw==
+X-Received: by 2002:aa7:cdc7:: with SMTP id h7mr3328267edw.353.1611323136778; 
+ Fri, 22 Jan 2021 05:45:36 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id h12sm5106785edb.16.2021.01.22.05.45.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jan 2021 05:45:35 -0800 (PST)
+Subject: Re: [PATCH] hw/mips: loongson3: Drop 'struct MemmapEntry'
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+To: Bin Meng <bmeng.cn@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, Huacai Chen <chenhuacai@kernel.org>,
+ Jiaxun Yang <jiaxun.yang@flygoat.com>, qemu-devel@nongnu.org
+References: <20210122122404.11970-1-bmeng.cn@gmail.com>
+ <3ebc284a-71d0-2a0a-84e2-462c4b7b9b7f@amsat.org>
+Message-ID: <3b12e549-748e-9cfd-b7b8-e4a85564dffd@amsat.org>
+Date: Fri, 22 Jan 2021 14:45:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <b139af38-cca4-452f-2cfa-62bbf88eae8f@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <3ebc284a-71d0-2a0a-84e2-462c4b7b9b7f@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.221,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,41 +92,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 01:49:38PM +0100, Laszlo Ersek wrote:
-> On 01/22/21 09:46, Gerd Hoffmann wrote:
-> >> This patch breaks QEMU for me.
-> > 
-> >> The symptom is the following: in virt-manager, the display remains dead
-> >> (black), when I start an OVMF guest. At the same time, unusually high
-> >> CPU load can be seen on the host; it makes me think that virt-manager is
-> >> trying, in a busy loop, to complete the VNC handshake, or some such.
-> >> Ultimately, although the guest boots up fine, virt-manager gives up, and
-> >> the display window says "Viewer was disconnected".
-> > 
-> > It is the vnc_colordepth() call. Seems gtk-vnc sends a update request
-> > with incremental=0 as response to the VNC_ENCODING_WMVi message.  So
-> > sending that as response to an incremental=0 update request creates an
-> > endless loop ...
+On 1/22/21 2:37 PM, Philippe Mathieu-Daudé wrote:
+> On 1/22/21 1:24 PM, Bin Meng wrote:
+>> From: Bin Meng <bin.meng@windriver.com>
+>>
+>> There is already a MemMapEntry type defined in hwaddr.h. Let's drop
+>> the loongson3 defined `struct MemmapEntry` and use the existing one.
 > 
-> Interesting; I saw that commit 9e1632ad07ca *added* (as opposed to
-> *moving*) the vnc_colordepth() call; I thought it was a relatively
-> insignificant bit...
+> Not really... based on 0e324626306:
+> 
+> $ git grep MemmapEntry origin/master -- include
+> $
 
-/me too.
+OK I understood, you replaced MemmapEntry by MemMapEntry which
+is written slightly differently.
 
-Some discussions in the resize changes indicated that the idea of a
-non-incremetal update request is that the server sends the *full*
-server-side state, so the client can render the screen properly without
-remembering old state.
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-So I thought ok, lets send the colordepth info too, no big deal ...
-
-take care,
-  Gerd
-
+Thanks!
 
