@@ -2,65 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A71D1300DCC
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:34:40 +0100 (CET)
-Received: from localhost ([::1]:34026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3949300DCB
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:34:33 +0100 (CET)
+Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l338h-0000ZJ-NM
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:34:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54752)
+	id 1l338a-0000NI-Md
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:34:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l337J-00080v-EF
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:33:13 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40731)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l337G-0005cM-BZ
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:33:13 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id h16so8017390edt.7
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:33:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:from:date:message-id:subject:to:cc;
- bh=rngSlj4+5NWs6BY75FxxOiHl/c/GsKFbB0AyyMrRSRE=;
- b=yjIjbn+LsQiHbapDNnUUd/0SZPek9duTgUzMJM8Oik1YzEy85jOK2q1oXM4coOCV8W
- ENd4lwNkMsDG6n2mk7kWJ/cfnu3LIZV2zdS6V3ymvcVfIT3r46roceoC86OrmS13xAAC
- QPX/nd56ZEzdFuxjRbSibLGPLJiH4aeLvZobNOHUFG/kQ9dRMmtDtKp4/pFBadb8UlP7
- CJK59TPY+v9566TIzKmvMYs0+vUrjvnuiVTzV2E8b6O1N+G8Qp/E15qI71pPUXGZg7er
- Wo1vGfTP/Mi7RC/iwkzNlhcMZMVEnmYp8va6VX6f8Vg7RKb6Cjufnko5BPb3n94Z/dfo
- LKnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
- bh=rngSlj4+5NWs6BY75FxxOiHl/c/GsKFbB0AyyMrRSRE=;
- b=jffhHaUj7LkguTu2W0Dn9X15peK7CBuVZ+YMU04PIcTPDdEcnouRY7NK4n2Vxbfwty
- sLMhG460Rn/LB+TwUij+q89hGKLKVemtwYew7ZgJZgJWCCULJWE/hJqMdUoadVlY6+oo
- GlZ7DykIFUYsPZwtvR/a7mvfT5hqgvU3GiA5nDy+IcsXIi1WAiDp6a64+trg6YsoPT6l
- ZFKnBJivCLB6T0c6ynvIvHVfW6NlwhGX/RAhXquam4feIbdEWMZrONWRP8NrkyZD4Fed
- IMZT2EMFGzAA1vwbk1pJaUZZ8tBv9gejfagYLslvGye1zDCPz/cn4QbW+Y3XkGTYojo1
- FyKw==
-X-Gm-Message-State: AOAM532ACoqsaekxOPpAWbJupuwCGL6kN5aNo8hwM2VzJ9jYcsvYE9hJ
- fmc3IflOSE4hJvku1JGZZ/U9IcOE/hALcetYSf4/CW421e/vIg==
-X-Google-Smtp-Source: ABdhPJyNqouNcSqjWu8fbZX/3cSmfOoMw5BHCrgCByPvUISr1OgMwiBALX9in4phE7l+9y1BpEw3ocIscRx/Q6qb4p0=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr808174edd.52.1611347588357; 
- Fri, 22 Jan 2021 12:33:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l337A-0007lu-Am; Fri, 22 Jan 2021 15:33:04 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:55856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l3378-0005Yi-5j; Fri, 22 Jan 2021 15:33:03 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id AFDA3C602E6;
+ Fri, 22 Jan 2021 21:32:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1611347579;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=faOVIinSqea55p9lVc+8t9GiMOiIjuL60TaUy5QwqYQ=;
+ b=NthCbdQ7dkhnqagpBskgROsqy0FiM6tFIDmXtf2rQMomEc+zlFr+ObmF5Q2H3evtW4Yrf7
+ Z340F6d+v/FNafmRkFYT8qxiWwYNAXBBHTNwqLwspBBgWJDlEuHo5XQKmFp7qaQblXk9df
+ hZbTmURETBJ/n+KqtygrzAbmHjSRvp8dQo0UKrAX/JvH0yqcySMa6XfKcoRgkdnu8PQNU2
+ PRQ/xUhHLKr+Xc4AfEQls+O/SzHtNxex0ThH9WBqrj2tSt4sS44KkkyXbTRxBJ199UMHkx
+ iRDTBKOtruwcfMNWQP7e8L5/sMqTBRid4AkNPs+L48BEpT5/5TFvn7YNiwPaWQ==
+Date: Fri, 22 Jan 2021 21:33:21 +0100
+From: Luc Michel <luc@lmichel.fr>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 18/25] hw/timer/cmsdk-apb-timer: Convert to use Clock input
+Message-ID: <20210122203321.ondgckxsqdcnksld@sekoia-pc.home.lmichel.fr>
+References: <20210121190622.22000-1-peter.maydell@linaro.org>
+ <20210121190622.22000-19-peter.maydell@linaro.org>
 MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 20:32:57 +0000
-Message-ID: <CAFEAcA8=vG-2Vzrdark8VC5NANe5Fb3qGTpSFk8X94KvXszTbA@mail.gmail.com>
-Subject: getting the console output for s390 cdrom-test?
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210121190622.22000-19-peter.maydell@linaro.org>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,43 +62,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Eric Farman <farman@linux.ibm.com>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi; I've been looking at why the s390 cdrom test has an intermittent
-failure on my aarch64 box. Looking at some TCG debug log output
-I think what is happening is that sometimes execution diverges from
-a successful run inside virtio_scsi_setup() and we end up failing
-a vs_assert(), which triggers a "Guest crashed on cpu 0: disabled-wait"
-which then makes the qtest hang until its timeout.
+On 19:06 Thu 21 Jan     , Peter Maydell wrote:
+> Switch the CMSDK APB timer device over to using its Clock input; the
+> pclk-frq property is now ignored.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
-I think that vs_assert() ought to be printing some information
-to the console about which assert fails when it happens, but
-how do I need to tweak the qtest to get it to capture this
-console log somewhere?
+Reviewed-by: Luc Michel <luc@lmichel.fr>
 
-Specifically, the test in question is this one:
-QTEST_QEMU_BINARY=qemu-system-s390x
-./build/s390/tests/qtest/cdrom-test -p
-/s390x/cdrom/boot/without-bootindex
+> ---
+>  hw/timer/cmsdk-apb-timer.c | 18 ++++++++++++++----
+>  1 file changed, 14 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
+> index c63145ff553..f053146d88f 100644
+> --- a/hw/timer/cmsdk-apb-timer.c
+> +++ b/hw/timer/cmsdk-apb-timer.c
+> @@ -204,6 +204,15 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
+>      ptimer_transaction_commit(s->timer);
+>  }
+>  
+> +static void cmsdk_apb_timer_clk_update(void *opaque)
+> +{
+> +    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
+> +
+> +    ptimer_transaction_begin(s->timer);
+> +    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
+> +    ptimer_transaction_commit(s->timer);
+> +}
+> +
+>  static void cmsdk_apb_timer_init(Object *obj)
+>  {
+>      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+> @@ -213,15 +222,16 @@ static void cmsdk_apb_timer_init(Object *obj)
+>                            s, "cmsdk-apb-timer", 0x1000);
+>      sysbus_init_mmio(sbd, &s->iomem);
+>      sysbus_init_irq(sbd, &s->timerint);
+> -    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk", NULL, NULL);
+> +    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk",
+> +                                 cmsdk_apb_timer_clk_update, s);
+>  }
+>  
+>  static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+>  {
+>      CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
+>  
+> -    if (s->pclk_frq == 0) {
+> -        error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
+> +    if (!clock_has_source(s->pclk)) {
+> +        error_setg(errp, "CMSDK APB timer: pclk clock must be connected");
+>          return;
+>      }
+>  
+> @@ -232,7 +242,7 @@ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+>                             PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
+>  
+>      ptimer_transaction_begin(s->timer);
+> -    ptimer_set_freq(s->timer, s->pclk_frq);
+> +    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
+>      ptimer_transaction_commit(s->timer);
+>  }
+>  
+> -- 
+> 2.20.1
+> 
 
-PS: it would be nice if "guest BIOS asserts and puts the
-system into a detected-guest-crash state" resulted in the
-test failing rather than hanging :-)
-
-(Annoyingly, most of my attempts to get more information about
-where things go wrong seem to cause the bug to stop manifesting
-itself: eg building the s390-ccw.img without -O2; enabling
-TCG 'exec' logging; enabling 'trace:virtio*' tracepoints.
-The failure itself started with commit 7a3d37a3f233 updating
-the s390 bios blobs, but the changes that went into the new
-blobs don't really look like they would be responsible.
-I am starting to have gloomy thoughts about potential missing
-memory barrier insns between the CPU thread and the iothread
-doing the virtio device end of things...)
-
-thanks
--- PMM
+-- 
 
