@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 995643004D1
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:06:21 +0100 (CET)
-Received: from localhost ([::1]:55536 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BFD53004DD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:07:29 +0100 (CET)
+Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2x4u-0007Nv-9X
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:06:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41978)
+	id 1l2x60-0000dG-8O
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:07:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42564)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2x1D-0006HV-Tl
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:02:31 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:41409)
+ id 1l2x3A-0007B6-OD
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:04:35 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43048)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2x1A-0002NQ-Q6
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:02:31 -0500
-Received: by mail-ed1-x532.google.com with SMTP id bx12so6646444edb.8
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 06:02:28 -0800 (PST)
+ id 1l2x38-00036O-Ie
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:04:32 -0500
+Received: by mail-ej1-x631.google.com with SMTP id a10so7796406ejg.10
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 06:04:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ovmnVInjHZhWRkbSKOjIOLVvM+0ket6BTwAo/sK0J64=;
- b=bXrXGvaoN3Pi3F17SavZVCiGj753gq1nvEmqcmOZzIJ1JutIkDlj34nfk57mGNVxQI
- g6HW0ahIhd40i1O/SQQqoJBTE7TherXs1qN1xUDo+JcI+zpjzYcdbJcFyeFq0B6DRjQ8
- FUIrMVt/nIIhPk2hG+WcM0tULzrLhfNSTXIlvCgkG2urzvuUeZ/h+cCgM1gyDumR6ZrR
- VkKl9R/IihPcxMyLDjr4/wgkTvi1vmhIdm/Nqzq7bV4yuGAbNOgMni3OuFB80j8qVSte
- g8OHTR9bwTCqjcAXh8ASGXASyHpl+bng/EhJYpyrn+Gr+wahDbLhJt4AyJiIMLEO2VfP
- z3jw==
+ :cc; bh=zPqkB2inCyRDsgVqNysnSw/veEsPoyzxCNm4XEt/C4M=;
+ b=F3BeFxqWKwwjwBJO2selV3VSh0tMWeIkyiFFHZ4TU/QA1JmsDZxtD+yqfnby9EKXZV
+ 2m4kFvi/8U7xZ69S3Gr2y81h13H8AL0nEsE/WiOswX23UkzQ6r15YHkt0CNAP7LP433j
+ kF307Q92UIW1/lkjmEIdFz1+Ldn9KY10ZGsAZOzm5Rp7XB7DMtWph45lJb+PJ5Nitpgd
+ f6bDYh9GCLShdrYswrKqzH5w8G6z9+b4+YgtXSh0ELAi17tISU9+yhrgRgqquCYIIs2N
+ J+qqNKIaHHV1J3DQVrb+WAkJ9o/kyTFUlYmvvyYABxALDJA+S9a8XMapZLvg6u6Z4UIP
+ dIQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=ovmnVInjHZhWRkbSKOjIOLVvM+0ket6BTwAo/sK0J64=;
- b=pACaXzznGBuhDZQGDUPPlS0zMcLZrzC2dbXKEa7Vka0Nw0t+Im8Aa91n/YO1Myakcm
- cVOsQcvjLKmMWo1TLkmNN2gcDgmd2Avr7X7Kx44feTuLyn8kjELsWXBVavlToOhgyA8h
- SDfo4X5FRNPzxx8uxxAefbNVxIOABxUWs2pJ2adDWSW2dqPvfqEzCqJR5isSE6vlkkd+
- +b/0wpn0acqngtf/giyEOH9YKiycBBt+7aiSXh64RanO8IYsS9x/0GSCoVCr/qPfsz3y
- J8ZKwibf89v4+/ZsQm8KiA6+cQz+U4h/ZlYnH4KKemQUnNku4NWJcEmVPS22r5GmP28r
- iZBg==
-X-Gm-Message-State: AOAM532Dka+MNkOgic5kmPulC7lUszvsgdRWgusUqszILFPifnGZ1Q/z
- CgMQzyu4H7ztn9cm1vImouOd/IKiZ6DRGjc3r+OFNw==
-X-Google-Smtp-Source: ABdhPJyM6Ta22f/+xGBKUBsniswfOLV3aK2UkYt5Q9KgajDc8bSR0bLcZxbHKQ87WKU0l3tu+RsPZwDy4w56JY1HB9w=
-X-Received: by 2002:a05:6402:31ac:: with SMTP id
- dj12mr3264185edb.44.1611324147310; 
- Fri, 22 Jan 2021 06:02:27 -0800 (PST)
+ bh=zPqkB2inCyRDsgVqNysnSw/veEsPoyzxCNm4XEt/C4M=;
+ b=NESghzcIIIFUhlrc8cOP07MiKY7rMR0nN0LInlXBgBQN4SU1B4yyDubpZbonEMr62l
+ Irm/s1XzggEVKa0eoCkf1IBIwRH/QjP8PT1NZY1vLSqBPpbHiZXdwN3JRpZFoHCHw+5s
+ 9DaKUz0gKgPgagcfFwIvt7aJSEeLBEfsOk6rGxu3vVO0kGLwy9txcip9IVzJy5u8rMGY
+ wGIDOtKL6CvkeKs+96MBlBlld50mlGL1q6yEOaTt0f6JsVrcOvQ8pqI+kJubONPwLa8o
+ 5WvSHP2tdvISfIyU3L64L8wgtZ36UEpZyGYCwIqJsfIObltz8W+5Zey6AuFWOx0zJtXg
+ yvUQ==
+X-Gm-Message-State: AOAM532oEbxfK0QfJNkPzXMiCz1Udgj6jsq3PiOTf6yYlJM+21eJ4pDo
+ THfj7Utln9529T3WtXPppK7WuVycfVK9s+fL2rkH4UpKMW0=
+X-Google-Smtp-Source: ABdhPJxQ5sCrGyAJf6PvFwa00e/xu19CcNEf/RPtND/Z9oydDbLr9W22yv97cb8I4PtE7OQE1ouQvyG+IqUaSz1MSUk=
+X-Received: by 2002:a17:906:4bc2:: with SMTP id x2mr3004933ejv.4.1611324268754; 
+ Fri, 22 Jan 2021 06:04:28 -0800 (PST)
 MIME-Version: 1.0
 References: <20210115224645.1196742-1-richard.henderson@linaro.org>
- <20210115224645.1196742-21-richard.henderson@linaro.org>
-In-Reply-To: <20210115224645.1196742-21-richard.henderson@linaro.org>
+ <20210115224645.1196742-22-richard.henderson@linaro.org>
+In-Reply-To: <20210115224645.1196742-22-richard.henderson@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 14:02:16 +0000
-Message-ID: <CAFEAcA-iTzra0m+xNQNuKA7uQ9Yv1=wqSUykYhSG44B4YkxDmw@mail.gmail.com>
-Subject: Re: [PATCH v3 20/21] target/arm: Enable MTE for user-only
+Date: Fri, 22 Jan 2021 14:04:17 +0000
+Message-ID: <CAFEAcA_6x8K6ALT52UAgndgaWh+TpD0V=T0AkFpAyJ8WXXE+-w@mail.gmail.com>
+Subject: Re: [PATCH v3 21/21] tests/tcg/aarch64: Add mte smoke tests
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,39 +86,33 @@ On Fri, 15 Jan 2021 at 22:47, Richard Henderson
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/cpu.c | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+>  tests/tcg/aarch64/mte.h           | 53 +++++++++++++++++++++++++++++++
+>  tests/tcg/aarch64/mte-1.c         | 25 +++++++++++++++
+>  tests/tcg/aarch64/mte-2.c         | 42 ++++++++++++++++++++++++
+>  tests/tcg/aarch64/mte-3.c         | 47 +++++++++++++++++++++++++++
+>  tests/tcg/aarch64/mte-4.c         | 42 ++++++++++++++++++++++++
+>  tests/tcg/aarch64/Makefile.target |  6 ++++
+>  tests/tcg/configure.sh            |  4 +++
+>  7 files changed, 219 insertions(+)
+>  create mode 100644 tests/tcg/aarch64/mte.h
+>  create mode 100644 tests/tcg/aarch64/mte-1.c
+>  create mode 100644 tests/tcg/aarch64/mte-2.c
+>  create mode 100644 tests/tcg/aarch64/mte-3.c
+>  create mode 100644 tests/tcg/aarch64/mte-4.c
 >
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index abc0affd00..5e613a747a 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -208,6 +208,22 @@ static void arm_cpu_reset(DeviceState *dev)
->           * Do not modify this without other changes.
->           */
->          env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
-> +
-> +        /* Enable MTE */
-> +        if (cpu_isar_feature(aa64_mte, cpu)) {
-> +            /* Enable tag access, but leave TCF0 as No Effect (0). */
-> +            env->cp15.sctlr_el[1] |= SCTLR_ATA0;
-> +            /*
-> +             * Exclude all tags, so that tag 0 is always used.
-> +             * This corresponds to Linux current->thread.gcr_incl = 0.
-> +             *
-> +             * Set RRND, so that helper_irg() will generate a seed later.
-> +             * Here in cpu_reset(), the crypto subsystem has not yet been
-> +             * initialized.
-> +             */
-> +            env->cp15.gcr_el1 = 0x1ffff;
-> +        }
-> +
->  # ifdef TARGET_TAGGED_ADDRESSES
->          env->untagged_addr_mask = -1;
->  # endif
-> --
+> diff --git a/tests/tcg/aarch64/mte.h b/tests/tcg/aarch64/mte.h
+> new file mode 100644
+> index 0000000000..038d33ab6c
+> --- /dev/null
+> +++ b/tests/tcg/aarch64/mte.h
+> @@ -0,0 +1,53 @@
+> +#include <assert.h>
+> +#include <string.h>
+> +#include <stdlib.h>
+> +#include <stdio.h>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+All new files need the usual copyright-and-license header comment,
+please.
 
 thanks
 -- PMM
