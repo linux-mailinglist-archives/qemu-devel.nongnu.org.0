@@ -2,54 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EC5C300E6F
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:03:10 +0100 (CET)
-Received: from localhost ([::1]:53948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7335F300E77
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:05:42 +0100 (CET)
+Received: from localhost ([::1]:56832 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l33aH-00057Y-Js
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:03:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58298)
+	id 1l33cj-0006NJ-Fr
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:05:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l33OW-0002Qu-0e; Fri, 22 Jan 2021 15:51:00 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:59586)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l33OS-0004yF-TC; Fri, 22 Jan 2021 15:50:59 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id BAC03C602E6;
- Fri, 22 Jan 2021 21:50:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611348653;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=nwhTb5hRhE9sP4Jq8+AVrFKAdewtctj+NqJl54WNC5Q=;
- b=O3GKEaHH+EESnikQTNOqpJQSEM06Gebuo/cLdJg0ffRW1m1zV1EAjx6mdQlZ+KgCX1EM+P
- ypeCvBN/rrpnNO3sCz272YF11sL4BRzO6EXiLnaNT8L3NqV9VPvYVYIYSR1lUcEJiw6eEu
- UbqaIv/oGecxhHlOq5sLhILUmC5BY4kgOgiJ6Qb1sZlLDmdiNYEr+MSzh1/Ky20ob3ZLXq
- 9t+Q68NvcZCibV27kYZulTwAt0gvTAbixqXgzUnnf9ldAKyX38NHxB4ejDtruFQjNlzYCM
- F4Q6SjA/jxd9tgkus8Dspk2dEjRwiJehHR++RcN2Fd0X7jpDqf4qr0ZrjabDLw==
-Date: Fri, 22 Jan 2021 21:51:15 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 20/25] hw/watchdog/cmsdk-apb-watchdog: Convert to use
- Clock input
-Message-ID: <20210122205115.e7b3dhu5jm7gblta@sekoia-pc.home.lmichel.fr>
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-21-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l33Rv-0006lQ-LG
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:54:31 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:45803)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l33Rq-0006Hx-EE
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:54:30 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id b8so3958329plh.12
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:54:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=jslLqjwSeG9yXmnEKw3kCvPXWrGgsb5zZoMIW4qpHb8=;
+ b=J+0o/VZKlEGmI4XoshBT1Si9dLTOt47aqbCiwrLC48zagUgDGXEM1PICf5DIF6zfJ1
+ mZLy/2howe7S18jYn7B6CaJM8VIrNpYh8EGdmtS3cAkHQ0zQ4vMpTGSCw6bLjm2eg2WQ
+ FS+K5citBOOMtWd0NFMoJpLwr+jGBDM9XYViR9sSB5a/uvdtKgQQwqQskvHdqguwmQMH
+ GBpWBkwI1vLQpFUsO3kX4mF+7z42LixvyP/34naJJAhEvPJXXpJn4+rEgOAeFRGTBiqg
+ zn7PZY7oe+ZNoZIIC3WWWxdCUqK3XVJvm0bh/+GtzmpErkwFfWAJce+Nys+OQgBHW8vn
+ mx4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=jslLqjwSeG9yXmnEKw3kCvPXWrGgsb5zZoMIW4qpHb8=;
+ b=B2Jr8CrvMj+3FeYgUW0S6QiKdFNojLP6+1eHyYMuX8IN3FsOZimi5TE0jvnYh2WnSD
+ 3AeQ04yCsPhKoIJyn2BPKTQmksxY/lBh69u3pfznfUFpsPcJzlcHJs4goB1QKzAOEo/m
+ CsY1MD8jqNcZBdnTPXTtLhGE+6DaXW1n9F8EV+MSqRHjfoB4xPY22KpOqsJTlr7miy2n
+ tudRh5OVRabA3uq3+kxtu4npTGXNmXUckLh8Rnkb9i36apqLZiBI1E4Dn6ev40N3qVlr
+ U9AlBTc/3yhMGprjG2vtRapiKncnVQHShoRlI6Jq7RGaNNjyMcP8kUIG5VzzrjW6gM2v
+ HHeQ==
+X-Gm-Message-State: AOAM533Db1bvCFtzosSbAIrSeYYav5wdeQgrLXGEft8vFAuXlFjYPL4v
+ z1vNFZZrqd3eB+6+aw+lplF+6g==
+X-Google-Smtp-Source: ABdhPJyMcSbvknE8Q7wkJwOpY30HCqPcYcO4vHKJNYIuJ2vJzMUoqYuS49tFE/fA0EHP6qiAqokRWw==
+X-Received: by 2002:a17:90a:cb90:: with SMTP id
+ a16mr1950370pju.89.1611348862193; 
+ Fri, 22 Jan 2021 12:54:22 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id y16sm8998187pgg.20.2021.01.22.12.54.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jan 2021 12:54:21 -0800 (PST)
+Subject: Re: [PATCH v1 2/3] target/microblaze: use MMUAccessType instead of
+ int in mmu_translate
+To: Joe Komlodi <joe.komlodi@xilinx.com>, qemu-devel@nongnu.org
+References: <1611274735-303873-1-git-send-email-komlodi@xilinx.com>
+ <1611274735-303873-3-git-send-email-komlodi@xilinx.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <4dd78c7a-2ac9-94bf-eea1-3f945966584d@linaro.org>
+Date: Fri, 22 Jan 2021 10:54:18 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-21-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <1611274735-303873-3-git-send-email-komlodi@xilinx.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -22
+X-Spam_score: -2.3
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.221,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,78 +90,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: edgari@xilinx.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Switch the CMSDK APB watchdog device over to using its Clock input;
-> the wdogclk_frq property is now ignored.
+On 1/21/21 2:18 PM, Joe Komlodi wrote:
+> Using MMUAccessType makes it more clear what the variable's use is.
+> No functional change.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-
+> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
 > ---
->  hw/watchdog/cmsdk-apb-watchdog.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
-> index b03bcb73628..9cad0c67da4 100644
-> --- a/hw/watchdog/cmsdk-apb-watchdog.c
-> +++ b/hw/watchdog/cmsdk-apb-watchdog.c
-> @@ -310,6 +310,15 @@ static void cmsdk_apb_watchdog_reset(DeviceState *dev)
->      ptimer_transaction_commit(s->timer);
->  }
->  
-> +static void cmsdk_apb_watchdog_clk_update(void *opaque)
-> +{
-> +    CMSDKAPBWatchdog *s = CMSDK_APB_WATCHDOG(opaque);
-> +
-> +    ptimer_transaction_begin(s->timer);
-> +    ptimer_set_period_from_clock(s->timer, s->wdogclk, 1);
-> +    ptimer_transaction_commit(s->timer);
-> +}
-> +
->  static void cmsdk_apb_watchdog_init(Object *obj)
->  {
->      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-> @@ -319,7 +328,8 @@ static void cmsdk_apb_watchdog_init(Object *obj)
->                            s, "cmsdk-apb-watchdog", 0x1000);
->      sysbus_init_mmio(sbd, &s->iomem);
->      sysbus_init_irq(sbd, &s->wdogint);
-> -    s->wdogclk = qdev_init_clock_in(DEVICE(s), "WDOGCLK", NULL, NULL);
-> +    s->wdogclk = qdev_init_clock_in(DEVICE(s), "WDOGCLK",
-> +                                    cmsdk_apb_watchdog_clk_update, s);
->  
->      s->is_luminary = false;
->      s->id = cmsdk_apb_watchdog_id;
-> @@ -329,9 +339,9 @@ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
->  {
->      CMSDKAPBWatchdog *s = CMSDK_APB_WATCHDOG(dev);
->  
-> -    if (s->wdogclk_frq == 0) {
-> +    if (!clock_has_source(s->wdogclk)) {
->          error_setg(errp,
-> -                   "CMSDK APB watchdog: wdogclk-frq property must be set");
-> +                   "CMSDK APB watchdog: WDOGCLK clock must be connected");
->          return;
->      }
->  
-> @@ -342,7 +352,7 @@ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
->                             PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
->  
->      ptimer_transaction_begin(s->timer);
-> -    ptimer_set_freq(s->timer, s->wdogclk_frq);
-> +    ptimer_set_period_from_clock(s->timer, s->wdogclk, 1);
->      ptimer_transaction_commit(s->timer);
->  }
->  
-> -- 
-> 2.20.1
-> 
+>  target/microblaze/mmu.c | 2 +-
+>  target/microblaze/mmu.h | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
--- 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
