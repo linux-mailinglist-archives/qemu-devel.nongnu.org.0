@@ -2,68 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BFD53004DD
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:07:29 +0100 (CET)
-Received: from localhost ([::1]:59242 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C4423004EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:10:26 +0100 (CET)
+Received: from localhost ([::1]:39812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2x60-0000dG-8O
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:07:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42564)
+	id 1l2x8r-0004G1-Bs
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:10:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2x3A-0007B6-OD
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:04:35 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:43048)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2x38-00036O-Ie
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:04:32 -0500
-Received: by mail-ej1-x631.google.com with SMTP id a10so7796406ejg.10
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 06:04:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zPqkB2inCyRDsgVqNysnSw/veEsPoyzxCNm4XEt/C4M=;
- b=F3BeFxqWKwwjwBJO2selV3VSh0tMWeIkyiFFHZ4TU/QA1JmsDZxtD+yqfnby9EKXZV
- 2m4kFvi/8U7xZ69S3Gr2y81h13H8AL0nEsE/WiOswX23UkzQ6r15YHkt0CNAP7LP433j
- kF307Q92UIW1/lkjmEIdFz1+Ldn9KY10ZGsAZOzm5Rp7XB7DMtWph45lJb+PJ5Nitpgd
- f6bDYh9GCLShdrYswrKqzH5w8G6z9+b4+YgtXSh0ELAi17tISU9+yhrgRgqquCYIIs2N
- J+qqNKIaHHV1J3DQVrb+WAkJ9o/kyTFUlYmvvyYABxALDJA+S9a8XMapZLvg6u6Z4UIP
- dIQQ==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2x4D-0007kD-2i
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:05:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2x49-0003Ur-0Z
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:05:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611324331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lXvivTBs6urIs51UZ/p8WPzWgz4ilXPEe5RXv+enYxs=;
+ b=dz3sCZPOSWpnWi/EZlVrBSLDAY/n2tIriXdHylJPbzaMZAaZ6IK7vvR4t5SimRVeem9I0e
+ ZDkM/UxKTi9MnaWZsYWnW2BY3yuwy3mGmghUobfZBGn5+O0pcsnAKYS/MD/A+4ZAgT9P4D
+ +BVpRnmDelGEdPxmKVkq0VYWnxsut6g=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-123-q64RdE9SM7mfopc6x3wEBw-1; Fri, 22 Jan 2021 09:05:27 -0500
+X-MC-Unique: q64RdE9SM7mfopc6x3wEBw-1
+Received: by mail-ed1-f72.google.com with SMTP id w4so2963103edu.0
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 06:05:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=zPqkB2inCyRDsgVqNysnSw/veEsPoyzxCNm4XEt/C4M=;
- b=NESghzcIIIFUhlrc8cOP07MiKY7rMR0nN0LInlXBgBQN4SU1B4yyDubpZbonEMr62l
- Irm/s1XzggEVKa0eoCkf1IBIwRH/QjP8PT1NZY1vLSqBPpbHiZXdwN3JRpZFoHCHw+5s
- 9DaKUz0gKgPgagcfFwIvt7aJSEeLBEfsOk6rGxu3vVO0kGLwy9txcip9IVzJy5u8rMGY
- wGIDOtKL6CvkeKs+96MBlBlld50mlGL1q6yEOaTt0f6JsVrcOvQ8pqI+kJubONPwLa8o
- 5WvSHP2tdvISfIyU3L64L8wgtZ36UEpZyGYCwIqJsfIObltz8W+5Zey6AuFWOx0zJtXg
- yvUQ==
-X-Gm-Message-State: AOAM532oEbxfK0QfJNkPzXMiCz1Udgj6jsq3PiOTf6yYlJM+21eJ4pDo
- THfj7Utln9529T3WtXPppK7WuVycfVK9s+fL2rkH4UpKMW0=
-X-Google-Smtp-Source: ABdhPJxQ5sCrGyAJf6PvFwa00e/xu19CcNEf/RPtND/Z9oydDbLr9W22yv97cb8I4PtE7OQE1ouQvyG+IqUaSz1MSUk=
-X-Received: by 2002:a17:906:4bc2:: with SMTP id x2mr3004933ejv.4.1611324268754; 
- Fri, 22 Jan 2021 06:04:28 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=lXvivTBs6urIs51UZ/p8WPzWgz4ilXPEe5RXv+enYxs=;
+ b=Qv5L9uTHmgiTUzbTbcZ0/ImdNO+SZWY8Z6J8LhGHr2N18WDCz472LtKPDuTBE/yG/7
+ 87qgfBaAiHNAS8IQ5vLU7JbL6KS2SDIsnUQ9d5cTbv8Mf5yZxaCE3jciu8iondkHUzRS
+ FbRWRwhH86KeCJBP/EhsX0/t+OPqokUiwgEdRZ9ehqEVxwCsKEjdg1IzeBJm7QR76UsQ
+ rK8jIWm0A68EPHhvG54kJ0HsQ4sjJjDB9xGSoIs4+FZyz3VKDY8tlZ+hShXSKITF+abK
+ Luk2F1jVDcDy6vvPPsw5o4xbtUSxo0uPRcZZqofdwdwu+tG4InYSmvEdGfGGDdEoqAA1
+ F50w==
+X-Gm-Message-State: AOAM533h78ClDoPhQz4iQTPH62/YRCJp3l4RC0XYosD27DOP4Xv4olSt
+ AlXZz3xTkKprQd7+F+eeVzLbt2STemGLizhr4htQqERqC5f7YRoaRJa6F968etjLXmD7m9A9Rls
+ 9nVugiY/RWyPJgqA=
+X-Received: by 2002:aa7:d045:: with SMTP id n5mr3340650edo.306.1611324326531; 
+ Fri, 22 Jan 2021 06:05:26 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzit2PwRP7ICT1VobfUfVVZIr3x0TUOw2gjgG2vYtxGuZKOrdNY3fFGx4OJNBETNIm0kzZCGA==
+X-Received: by 2002:aa7:d045:: with SMTP id n5mr3340637edo.306.1611324326380; 
+ Fri, 22 Jan 2021 06:05:26 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id p26sm5482329edq.94.2021.01.22.06.05.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jan 2021 06:05:25 -0800 (PST)
+Subject: Re: [PATCH] util/log: flush TB cache when log level changes
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+References: <161130982491.1038646.15688151175539344664.stgit@pasha-ThinkPad-X280>
+ <87y2glry84.fsf@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <2447642f-6e8f-61b2-13ba-929ff640e80f@redhat.com>
+Date: Fri, 22 Jan 2021 15:05:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210115224645.1196742-1-richard.henderson@linaro.org>
- <20210115224645.1196742-22-richard.henderson@linaro.org>
-In-Reply-To: <20210115224645.1196742-22-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 14:04:17 +0000
-Message-ID: <CAFEAcA_6x8K6ALT52UAgndgaWh+TpD0V=T0AkFpAyJ8WXXE+-w@mail.gmail.com>
-Subject: Re: [PATCH v3 21/21] tests/tcg/aarch64: Add mte smoke tests
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <87y2glry84.fsf@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,43 +99,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 15 Jan 2021 at 22:47, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  tests/tcg/aarch64/mte.h           | 53 +++++++++++++++++++++++++++++++
->  tests/tcg/aarch64/mte-1.c         | 25 +++++++++++++++
->  tests/tcg/aarch64/mte-2.c         | 42 ++++++++++++++++++++++++
->  tests/tcg/aarch64/mte-3.c         | 47 +++++++++++++++++++++++++++
->  tests/tcg/aarch64/mte-4.c         | 42 ++++++++++++++++++++++++
->  tests/tcg/aarch64/Makefile.target |  6 ++++
->  tests/tcg/configure.sh            |  4 +++
->  7 files changed, 219 insertions(+)
->  create mode 100644 tests/tcg/aarch64/mte.h
->  create mode 100644 tests/tcg/aarch64/mte-1.c
->  create mode 100644 tests/tcg/aarch64/mte-2.c
->  create mode 100644 tests/tcg/aarch64/mte-3.c
->  create mode 100644 tests/tcg/aarch64/mte-4.c
->
-> diff --git a/tests/tcg/aarch64/mte.h b/tests/tcg/aarch64/mte.h
-> new file mode 100644
-> index 0000000000..038d33ab6c
-> --- /dev/null
-> +++ b/tests/tcg/aarch64/mte.h
-> @@ -0,0 +1,53 @@
-> +#include <assert.h>
-> +#include <string.h>
-> +#include <stdlib.h>
-> +#include <stdio.h>
+On 1/22/21 12:42 PM, Alex Bennée wrote:
+> 
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
+> 
+>> Sometimes we need to collect the translation logs starting
+>> from some point of the execution. Some TB listings may
+>> be missed in this case, when blocks were translated before.
+>> This patch clears TB cache to allow re-translation of such
+>> code blocks.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> ---
+>>  accel/tcg/translate-all.c |    8 ++++++++
+>>  include/sysemu/tcg.h      |    1 +
+>>  stubs/meson.build         |    1 +
+>>  stubs/tcg.c               |   12 ++++++++++++
+>>  util/log.c                |    3 +++
+>>  5 files changed, 25 insertions(+)
+>>  create mode 100644 stubs/tcg.c
+...
 
-All new files need the usual copyright-and-license header comment,
-please.
+> I would call tb_flush(current_cpu) or first_cpu here. But two things:
+> 
+>  - I'm not sure you have a CPU at all times qemu_set_log is called
 
-thanks
--- PMM
+Indeed, with QTest accelerator it is NULL. I also remember
+some odd cases when running commands from the monitor.
+
+Regards,
+
+Phil.
+
 
