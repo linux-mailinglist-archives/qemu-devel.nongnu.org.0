@@ -2,53 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52653300DC2
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:32:32 +0100 (CET)
-Received: from localhost ([::1]:56528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A71D1300DCC
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:34:40 +0100 (CET)
+Received: from localhost ([::1]:34026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l336d-0006cj-39
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:32:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54048)
+	id 1l338h-0000ZJ-NM
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:34:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54752)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l334P-0005ZD-4M; Fri, 22 Jan 2021 15:30:13 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:55240)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l334N-0004Jn-5B; Fri, 22 Jan 2021 15:30:12 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 2CED5C602E6;
- Fri, 22 Jan 2021 21:30:08 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611347408;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=IBJCMswZP72Qvpkt33ZfcEZ1JJdqFZlP9yhSaRGcdf4=;
- b=IyfkNHo5QGq3OOuh54bKt3NBCOcUJ4h83FG/TKZbpckzYmuK9rWEXhNxuhqD1H1bwDYLDu
- ig4h3OQw8zTnq3LWUWSoUC5XyvxehlT7H1LngwX1zncXDlgQBwmVlOrmZ3riPNBbXZj6k0
- hkbzdHujq3uj+xjfluChjUAoDk/gOUJdIhEC5ars2Acr41n7JSFd9FexLpTWCg0J3ajwzj
- FENwJpEyv2BH+usDwpQSMxJAuFviE//0Ji7V/SkPOOy38UUN4wsE/daF+x1x1J6IvEsqQm
- Ww9KESHnGxuU2qUXUm0UXeRVXRmpYWBlt+XmzKvhN/YSScnNlHp93LHRtjqJJg==
-Date: Fri, 22 Jan 2021 21:30:29 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 17/25] hw/arm/stellaris: Create Clock input for watchdog
-Message-ID: <20210122203029.kw74t4lfsbcpufyi@sekoia-pc.home.lmichel.fr>
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-18-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l337J-00080v-EF
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:33:13 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40731)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l337G-0005cM-BZ
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:33:13 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id h16so8017390edt.7
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:33:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=rngSlj4+5NWs6BY75FxxOiHl/c/GsKFbB0AyyMrRSRE=;
+ b=yjIjbn+LsQiHbapDNnUUd/0SZPek9duTgUzMJM8Oik1YzEy85jOK2q1oXM4coOCV8W
+ ENd4lwNkMsDG6n2mk7kWJ/cfnu3LIZV2zdS6V3ymvcVfIT3r46roceoC86OrmS13xAAC
+ QPX/nd56ZEzdFuxjRbSibLGPLJiH4aeLvZobNOHUFG/kQ9dRMmtDtKp4/pFBadb8UlP7
+ CJK59TPY+v9566TIzKmvMYs0+vUrjvnuiVTzV2E8b6O1N+G8Qp/E15qI71pPUXGZg7er
+ Wo1vGfTP/Mi7RC/iwkzNlhcMZMVEnmYp8va6VX6f8Vg7RKb6Cjufnko5BPb3n94Z/dfo
+ LKnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=rngSlj4+5NWs6BY75FxxOiHl/c/GsKFbB0AyyMrRSRE=;
+ b=jffhHaUj7LkguTu2W0Dn9X15peK7CBuVZ+YMU04PIcTPDdEcnouRY7NK4n2Vxbfwty
+ sLMhG460Rn/LB+TwUij+q89hGKLKVemtwYew7ZgJZgJWCCULJWE/hJqMdUoadVlY6+oo
+ GlZ7DykIFUYsPZwtvR/a7mvfT5hqgvU3GiA5nDy+IcsXIi1WAiDp6a64+trg6YsoPT6l
+ ZFKnBJivCLB6T0c6ynvIvHVfW6NlwhGX/RAhXquam4feIbdEWMZrONWRP8NrkyZD4Fed
+ IMZT2EMFGzAA1vwbk1pJaUZZ8tBv9gejfagYLslvGye1zDCPz/cn4QbW+Y3XkGTYojo1
+ FyKw==
+X-Gm-Message-State: AOAM532ACoqsaekxOPpAWbJupuwCGL6kN5aNo8hwM2VzJ9jYcsvYE9hJ
+ fmc3IflOSE4hJvku1JGZZ/U9IcOE/hALcetYSf4/CW421e/vIg==
+X-Google-Smtp-Source: ABdhPJyNqouNcSqjWu8fbZX/3cSmfOoMw5BHCrgCByPvUISr1OgMwiBALX9in4phE7l+9y1BpEw3ocIscRx/Q6qb4p0=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr808174edd.52.1611347588357; 
+ Fri, 22 Jan 2021 12:33:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-18-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 22 Jan 2021 20:32:57 +0000
+Message-ID: <CAFEAcA8=vG-2Vzrdark8VC5NANe5Fb3qGTpSFk8X94KvXszTbA@mail.gmail.com>
+Subject: getting the console output for s390 cdrom-test?
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,182 +74,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Eric Farman <farman@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Create and connect the Clock input for the watchdog device on the
-> Stellaris boards.  Because the Stellaris boards model the ability to
-> change the clock rate by programming PLL registers, we have to create
-> an output Clock on the ssys_state device and wire it up to the
-> watchdog.
-> 
-> Note that the old comment on ssys_calculate_system_clock() got the
-> units wrong -- system_clock_scale is in nanoseconds, not
-> milliseconds.  Improve the commentary to clarify how we are
-> calculating the period.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Hi; I've been looking at why the s390 cdrom test has an intermittent
+failure on my aarch64 box. Looking at some TCG debug log output
+I think what is happening is that sometimes execution diverges from
+a successful run inside virtio_scsi_setup() and we end up failing
+a vs_assert(), which triggers a "Guest crashed on cpu 0: disabled-wait"
+which then makes the qtest hang until its timeout.
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+I think that vs_assert() ought to be printing some information
+to the console about which assert fails when it happens, but
+how do I need to tweak the qtest to get it to capture this
+console log somewhere?
 
-> ---
->  hw/arm/stellaris.c | 43 +++++++++++++++++++++++++++++++------------
->  1 file changed, 31 insertions(+), 12 deletions(-)
-> 
-> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-> index 0194ede2fe0..9b67c739ef2 100644
-> --- a/hw/arm/stellaris.c
-> +++ b/hw/arm/stellaris.c
-> @@ -26,6 +26,7 @@
->  #include "hw/watchdog/cmsdk-apb-watchdog.h"
->  #include "migration/vmstate.h"
->  #include "hw/misc/unimp.h"
-> +#include "hw/qdev-clock.h"
->  #include "cpu.h"
->  #include "qom/object.h"
->  
-> @@ -377,6 +378,7 @@ struct ssys_state {
->      uint32_t clkvclr;
->      uint32_t ldoarst;
->      qemu_irq irq;
-> +    Clock *sysclk;
->      /* Properties (all read-only registers) */
->      uint32_t user0;
->      uint32_t user1;
-> @@ -555,15 +557,26 @@ static bool ssys_use_rcc2(ssys_state *s)
->  }
->  
->  /*
-> - * Caculate the sys. clock period in ms.
-> + * Calculate the system clock period. We only want to propagate
-> + * this change to the rest of the system if we're not being called
-> + * from migration post-load.
->   */
-> -static void ssys_calculate_system_clock(ssys_state *s)
-> +static void ssys_calculate_system_clock(ssys_state *s, bool propagate_clock)
->  {
-> +    /*
-> +     * SYSDIV field specifies divisor: 0 == /1, 1 == /2, etc.  Input
-> +     * clock is 200MHz, which is a period of 5 ns. Dividing the clock
-> +     * frequency by X is the same as multiplying the period by X.
-> +     */
->      if (ssys_use_rcc2(s)) {
->          system_clock_scale = 5 * (((s->rcc2 >> 23) & 0x3f) + 1);
->      } else {
->          system_clock_scale = 5 * (((s->rcc >> 23) & 0xf) + 1);
->      }
-> +    clock_set_ns(s->sysclk, system_clock_scale);
-> +    if (propagate_clock) {
-> +        clock_propagate(s->sysclk);
-> +    }
->  }
->  
->  static void ssys_write(void *opaque, hwaddr offset,
-> @@ -598,7 +611,7 @@ static void ssys_write(void *opaque, hwaddr offset,
->              s->int_status |= (1 << 6);
->          }
->          s->rcc = value;
-> -        ssys_calculate_system_clock(s);
-> +        ssys_calculate_system_clock(s, true);
->          break;
->      case 0x070: /* RCC2 */
->          if (ssys_board_class(s) == DID0_CLASS_SANDSTORM) {
-> @@ -610,7 +623,7 @@ static void ssys_write(void *opaque, hwaddr offset,
->              s->int_status |= (1 << 6);
->          }
->          s->rcc2 = value;
-> -        ssys_calculate_system_clock(s);
-> +        ssys_calculate_system_clock(s, true);
->          break;
->      case 0x100: /* RCGC0 */
->          s->rcgc[0] = value;
-> @@ -679,7 +692,8 @@ static void stellaris_sys_reset_hold(Object *obj)
->  {
->      ssys_state *s = STELLARIS_SYS(obj);
->  
-> -    ssys_calculate_system_clock(s);
-> +    /* OK to propagate clocks from the hold phase */
-> +    ssys_calculate_system_clock(s, true);
->  }
->  
->  static void stellaris_sys_reset_exit(Object *obj)
-> @@ -690,7 +704,7 @@ static int stellaris_sys_post_load(void *opaque, int version_id)
->  {
->      ssys_state *s = opaque;
->  
-> -    ssys_calculate_system_clock(s);
-> +    ssys_calculate_system_clock(s, false);
->  
->      return 0;
->  }
-> @@ -713,6 +727,7 @@ static const VMStateDescription vmstate_stellaris_sys = {
->          VMSTATE_UINT32_ARRAY(dcgc, ssys_state, 3),
->          VMSTATE_UINT32(clkvclr, ssys_state),
->          VMSTATE_UINT32(ldoarst, ssys_state),
-> +        /* No field for sysclk -- handled in post-load instead */
->          VMSTATE_END_OF_LIST()
->      }
->  };
-> @@ -738,11 +753,12 @@ static void stellaris_sys_instance_init(Object *obj)
->      memory_region_init_io(&s->iomem, obj, &ssys_ops, s, "ssys", 0x00001000);
->      sysbus_init_mmio(sbd, &s->iomem);
->      sysbus_init_irq(sbd, &s->irq);
-> +    s->sysclk = qdev_init_clock_out(DEVICE(s), "SYSCLK");
->  }
->  
-> -static int stellaris_sys_init(uint32_t base, qemu_irq irq,
-> -                              stellaris_board_info * board,
-> -                              uint8_t *macaddr)
-> +static DeviceState *stellaris_sys_init(uint32_t base, qemu_irq irq,
-> +                                       stellaris_board_info *board,
-> +                                       uint8_t *macaddr)
->  {
->      DeviceState *dev = qdev_new(TYPE_STELLARIS_SYS);
->      SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> @@ -774,7 +790,7 @@ static int stellaris_sys_init(uint32_t base, qemu_irq irq,
->       */
->      device_cold_reset(dev);
->  
-> -    return 0;
-> +    return dev;
->  }
->  
->  /* I2C controller.  */
-> @@ -1341,6 +1357,7 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
->      int flash_size;
->      I2CBus *i2c;
->      DeviceState *dev;
-> +    DeviceState *ssys_dev;
->      int i;
->      int j;
->  
-> @@ -1391,8 +1408,8 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
->          }
->      }
->  
-> -    stellaris_sys_init(0x400fe000, qdev_get_gpio_in(nvic, 28),
-> -                       board, nd_table[0].macaddr.a);
-> +    ssys_dev = stellaris_sys_init(0x400fe000, qdev_get_gpio_in(nvic, 28),
-> +                                  board, nd_table[0].macaddr.a);
->  
->  
->      if (board->dc1 & (1 << 3)) { /* watchdog present */
-> @@ -1401,6 +1418,8 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
->          /* system_clock_scale is valid now */
->          uint32_t mainclk = NANOSECONDS_PER_SECOND / system_clock_scale;
->          qdev_prop_set_uint32(dev, "wdogclk-frq", mainclk);
-> +        qdev_connect_clock_in(dev, "WDOGCLK",
-> +                              qdev_get_clock_out(ssys_dev, "SYSCLK"));
->  
->          sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
->          sysbus_mmio_map(SYS_BUS_DEVICE(dev),
-> -- 
-> 2.20.1
-> 
+Specifically, the test in question is this one:
+QTEST_QEMU_BINARY=qemu-system-s390x
+./build/s390/tests/qtest/cdrom-test -p
+/s390x/cdrom/boot/without-bootindex
 
--- 
+PS: it would be nice if "guest BIOS asserts and puts the
+system into a detected-guest-crash state" resulted in the
+test failing rather than hanging :-)
+
+(Annoyingly, most of my attempts to get more information about
+where things go wrong seem to cause the bug to stop manifesting
+itself: eg building the s390-ccw.img without -O2; enabling
+TCG 'exec' logging; enabling 'trace:virtio*' tracepoints.
+The failure itself started with commit 7a3d37a3f233 updating
+the s390 bios blobs, but the changes that went into the new
+blobs don't really look like they would be responsible.
+I am starting to have gloomy thoughts about potential missing
+memory barrier insns between the CPU thread and the iothread
+doing the virtio device end of things...)
+
+thanks
+-- PMM
 
