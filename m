@@ -2,77 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B363007CA
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 16:51:33 +0100 (CET)
-Received: from localhost ([::1]:49966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D44EF300856
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 17:12:21 +0100 (CET)
+Received: from localhost ([::1]:44758 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2yii-000613-Bj
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 10:51:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42928)
+	id 1l2z2q-0000e6-Ue
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 11:12:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l2ygl-0004ey-2B
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:49:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l2ygi-0000z2-4i
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 10:49:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611330567;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UibT0pglJ14qJDM64dD1eS6SsR00QvhsVzeFlVGUKsM=;
- b=HAG5cAqhQZDdKiH3+a4uA8NeURawZbK0Q4Bzmnj7THXhLaLljMvnUtwbwOWATFxGZILJcH
- DeJTfzTmc1dAcYtsN7VO8ncV6kMZ34fNjR1KYS/9O91HHL+mFB+tZqyHD1EOC11MQOgwKG
- YxCe7cwzKUstrDpLdVP6Wloyr/G0iJQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-578-E9dk36JwP2iAna8pnx3yvA-1; Fri, 22 Jan 2021 10:49:20 -0500
-X-MC-Unique: E9dk36JwP2iAna8pnx3yvA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CD1F107ACE4;
- Fri, 22 Jan 2021 15:49:19 +0000 (UTC)
-Received: from horse.redhat.com (ovpn-116-195.rdu2.redhat.com [10.10.116.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4F2D5DA62;
- Fri, 22 Jan 2021 15:49:09 +0000 (UTC)
-Received: by horse.redhat.com (Postfix, from userid 10451)
- id 1DBEC22054F; Fri, 22 Jan 2021 10:49:09 -0500 (EST)
-Date: Fri, 22 Jan 2021 10:49:09 -0500
-From: Vivek Goyal <vgoyal@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: [PATCH] virtiofsd: prevent opening of special files
- (CVE-2020-35517)
-Message-ID: <20210122154909.GB120574@redhat.com>
-References: <20210121144429.58885-1-stefanha@redhat.com>
- <20210121144803.GN3125227@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2z1W-0008Or-8C
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:10:58 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38530)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l2z1U-0003Bo-2x
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:10:58 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l2z1S-0004y0-2N
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 16:10:54 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 08AC82E8138
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 16:10:54 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210121144803.GN3125227@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 22 Jan 2021 15:58:14 -0000
+From: Thomas Huth <1912777@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
+ status=New; importance=Undecided; assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: animeshk th-huth
+X-Launchpad-Bug-Reporter: ANIMESH KUMAR SINHA (animeshk)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <161131847021.10154.14606822070729811950.malonedeb@gac.canonical.com>
+Message-Id: <161133109488.29264.8902324205952319924.malone@soybean.canonical.com>
+Subject: [Bug 1912777] Re: KVM_EXIT_MMIO has increased in Qemu4.0.0 when
+ compared to Qemu 2.11.0
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: 5777d82cfd903e7e916383291dcbc9ee61ba4411
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,123 +73,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
- P J P <ppandit@redhat.com>, virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Reply-To: Bug 1912777 <1912777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 21, 2021 at 02:48:03PM +0000, Daniel P. Berrangé wrote:
-> On Thu, Jan 21, 2021 at 02:44:29PM +0000, Stefan Hajnoczi wrote:
-> > A well-behaved FUSE client does not attempt to open special files with
-> > FUSE_OPEN because they are handled on the client side (e.g. device nodes
-> > are handled by client-side device drivers).
-> > 
-> > The check to prevent virtiofsd from opening special files is missing in
-> > a few cases, most notably FUSE_OPEN. A malicious client can cause
-> > virtiofsd to open a device node, potentially allowing the guest to
-> > escape. This can be exploited by a modified guest device driver. It is
-> > not exploitable from guest userspace since the guest kernel will handle
-> > special files inside the guest instead of sending FUSE requests.
-> > 
-> > This patch adds the missing checks to virtiofsd. This is a short-term
-> > solution because it does not prevent a compromised virtiofsd process
-> > from opening device nodes on the host.
-> > 
-> > Reported-by: Alex Xu <alex@alxu.ca>
-> > Fixes: CVE-2020-35517
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> > This issue was diagnosed on public IRC and is therefore already known
-> > and not embargoed.
-> > 
-> > A stronger fix, and the long-term solution, is for users to mount the
-> > shared directory and any sub-mounts with nodev, as well as nosuid and
-> > noexec. Unfortunately virtiofsd cannot do this automatically because
-> > bind mounts added by the user after virtiofsd has launched would not be
-> > detected. I suggest the following:
-> > 
-> > 1. Modify libvirt and Kata Containers to explicitly set these mount
-> >    options.
-> > 2. Then modify virtiofsd to check that the shared directory has the
-> >    necessary options at startup. Refuse to start if the options are
-> >    missing so that the user is aware of the security requirements.
-> > 
-> > As a bonus this also increases the likelihood that other host processes
-> > besides virtiofsd will be protected by nosuid/noexec/nodev so that a
-> > malicious guest cannot drop these files in place and then arrange for a
-> > host process to come across them.
-> > 
-> > Additionally, user namespaces have been discussed. They seem like a
-> > worthwhile addition as an unprivileged or privilege-separated mode
-> > although there are limitations with respect to security xattrs and the
-> > actual uid/gid stored on the host file system not corresponding to the
-> > guest uid/gid.
-> > ---
-> >  tools/virtiofsd/passthrough_ll.c | 84 +++++++++++++++++++++-----------
-> >  1 file changed, 56 insertions(+), 28 deletions(-)
-> > 
-> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
-> > index 5fb36d9407..e08352d649 100644
-> > --- a/tools/virtiofsd/passthrough_ll.c
-> > +++ b/tools/virtiofsd/passthrough_ll.c
-> > @@ -555,6 +555,29 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino)
-> >      return fd;
-> >  }
-> >  
-> > +/*
-> > + * Open a file descriptor for an inode. Returns -EBADF if the inode is not a
-> > + * regular file or a directory. Use this helper function instead of raw
-> > + * openat(2) to prevent security issues when a malicious client opens special
-> > + * files such as block device nodes.
-> > + */
-> > +static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
-> > +                         int open_flags)
-> > +{
-> > +    g_autofree char *fd_str = g_strdup_printf("%d", inode->fd);
-> > +    int fd;
-> > +
-> > +    if (!S_ISREG(inode->filetype) && !S_ISDIR(inode->filetype)) {
-> > +        return -EBADF;
-> > +    }
-> > +
-> > +    fd = openat(lo->proc_self_fd, fd_str, open_flags);
-> 
-> Whats the intended behaviour with symlinks ?  Do we need to
-> allow S_ISLNK, or are we assuming the symlink has already
-> been expanded to the target file by this point ? If the latter
-> adding a comment about this would be useful.
+Can you provide a link to the test case that you used? Otherwise, can
+you try to bisect the problem? Can you please also try with the latest
+version of QEMU? v4.0 is rather old already.
 
-Given the current places lo_inode_open() is being used, I think it is
-fine and we probably don't have to worry about symlink in these paths
-as it has been resolved already by now.
+** Information type changed from Public Security to Public
 
-In truncation path, we will expect that we are working with target
-file (and not symlink fd). Same should be true for remote posix locks,
-lo_open() and lo_fsync().
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-Other paths where we might be working with symlinks like listxattr,
-getxattr, setxattr, already have mechanism to deal with symlink.
+-- =
 
-Thanks
-Vivek
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912777
+
+Title:
+  KVM_EXIT_MMIO has increased in Qemu4.0.0 when compared to Qemu 2.11.0
+
+Status in QEMU:
+  Incomplete
+Status in Ubuntu:
+  New
+
+Bug description:
+  I was able to generate trace dump in Qemu for kvm_run_exit event in both =
+QEMU 2.11.0 and QEMU 4.0.0
+  From the trace i noticed that the number of KVM_KXIT_MMIO calls has incre=
+ased alot and is causing delay in testcase execution.
+
+  I executed same testcase from Qemu 2.11 and Qemu4.
+  Inside Virtual machine when using qemu 2.11 testcase got completed in 11 =
+seconds
+  but the same testcase when executed on Qemu 4.0.0 got executed in 26 seco=
+nds.
+
+  =
+
+  I did a bit of digging and extracted the kvm_run_exit to figure out whats=
+ going on.
+
+  Please find =
+
+  Stats from Qemu2.11:
+
+  KVM_EXIT_UNKNOWN          : 0
+  KVM_EXIT_EXCEPTION        : 0
+  KVM_EXIT_IO               : 182513
+  KVM_EXIT_HYPERCALL        : 0
+  KVM_EXIT_DEBUG            : 0
+  KVM_EXIT_HLT              : 0
+  KVM_EXIT_MMIO             : 216701
+  KVM_EXIT_IRQ_WINDOW_OPEN  : 0
+  KVM_EXIT_SHUTDOWN         : 0
+  KVM_EXIT_FAIL_ENTRY       : 0
+  KVM_EXIT_INTR             : 0
+  KVM_EXIT_SET_TPR          : 0
+  KVM_EXIT_TPR_ACCESS       : 0
+  KVM_EXIT_S390_SIEIC       : 0
+  KVM_EXIT_S390_RESET       : 0
+  KVM_EXIT_DCR              : 0
+  KVM_EXIT_NMI              : 0
+  KVM_EXIT_INTERNAL_ERROR   : 0
+  KVM_EXIT_OSI              : 0
+  KVM_EXIT_PAPR_HCALL       : 0
+  KVM_EXIT_S390_UCONTROL    : 0
+  KVM_EXIT_WATCHDOG         : 0
+  KVM_EXIT_S390_TSCH        : 0
+  KVM_EXIT_EPR              : 0
+  KVM_EXIT_SYSTEM_EVENT     : 0
+  KVM_EXIT_S390_STSI        : 0
+  KVM_EXIT_IOAPIC_EOI       : 0
+  KVM_EXIT_HYPERV           : 0
+
+  KVM_RUN_EXIT              : 399214  (Total in Qemu 2.11 for a
+  testcase)
+
+  =
+
+  Stats For Qemu 4.0.0:
+
+  VM_EXIT_UNKNOWN           : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_EXCEPTION        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_IO               : 163729                                       =
+                                                                           =
+         =
+
+  KVM_EXIT_HYPERCALL        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_DEBUG            : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_HLT              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_MMIO             : 1094231                                      =
+                                                                           =
+         =
+
+  KVM_EXIT_IRQ_WINDOW_OPEN  : 46                                           =
+                                                                           =
+         =
+
+  KVM_EXIT_SHUTDOWN         : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_FAIL_ENTRY       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_INTR             : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_SET_TPR          : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_TPR_ACCESS       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_SIEIC       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_RESET       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_DCR              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_NMI              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_INTERNAL_ERROR   : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_OSI              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_PAPR_HCALL       : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_UCONTROL    : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_WATCHDOG         : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_TSCH        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_EPR              : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_SYSTEM_EVENT     : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_S390_STSI        : 0                                            =
+                                                                           =
+         =
+
+  KVM_EXIT_IOAPIC_EOI       : 464                                          =
+                                                                           =
+         =
+
+  KVM_EXIT_HYPERV           : 0 =
 
 
+  KVM_RUN_EXIT              : 1258470 (Total in qemu 4.0.0 for same
+  testcase)
 
-> 
-> > +    if (fd < 0) {
-> > +        return -errno;
-> > +    }
-> > +    return fd;
-> > +}
-> > +
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
+  From above analysis i found that the number of KVM_EXIT_MMIO has
+  increased by 4.x.
+
+  Could someone from qemu community help me understand as to why the
+  MMIO exits have increased in qemu4 ?
+
+  The results i obtained are after running same testcase.
+  On Qemu2.11 testcase gets completed in : 11seconds
+  on Qemu4.11 testcase gets completed in : 26 seconds
+
+  VM Qcow2 used in Ubuntu 16.04
+  VM kernel OS is : 4.4 generic
+
+  =
+
+  Let me know incase more information is required .
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912777/+subscriptions
 
