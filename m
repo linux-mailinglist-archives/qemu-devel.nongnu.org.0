@@ -2,125 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7EC30090C
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 17:52:53 +0100 (CET)
-Received: from localhost ([::1]:46764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 889753008CB
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 17:40:10 +0100 (CET)
+Received: from localhost ([::1]:38604 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2zg4-00009Q-Ow
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 11:52:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33436)
+	id 1l2zTl-0003nQ-Hf
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 11:40:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1l2zep-000849-AG
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:51:35 -0500
-Received: from mail-dm6nam10on2055.outbound.protection.outlook.com
- ([40.107.93.55]:56769 helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Babu.Moger@amd.com>)
- id 1l2zem-00006q-Rn
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:51:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=XSUc7q4z1/Eqz2VWlYXQR8j/C0g6jDrduag9PC3A1hRAohvK5oI0f5Yqgzn+IT3FxBVAiSJ759QMelS1OEedbyu1SSR2qADP8fDyX23JZoBqHExjf7CsZVb9IqXUEB4KvJhtIT8ansZlbJacMIUy1X7KcQJBS8tHR1sObVRORRVG+OwEUKDwrjA0kqXsHDj+dZ8DVDLBHMoFpvxC1B971qU3bAkSOVGtYzAywkYqOBtnyvYv3nK4LgQ6QzLVPdUUA4iYUJAsMhd+vi4DoilSGlvJOMSyVKSOnFKyKoyj2t6XKV2qQ2QWZlnKeDl138myn3eZqtCRk5GZ2VkEpqJfUw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bdC/GcyxAmm9y26RBf6AiNrHPISFZB+7bYeOblkLgP4=;
- b=JLCOdf7ao3pfQ43m6QL1PFSaw0JGZNPDSOOHUwXDjYc44BQYDAPVvA0KuPKg95UlIwEgF+lNrzxIhcD/iE/hkI4xqJpRhgSFDtSVrisrULOPxJXmmxuAsLLqMvRfAV/BYNl5AZRLeuEJk4ilaNxKaHJdlWPocb9C5HvGsBnT5pmHD+sHMgxPPhZ/6sMPTUK0HC9/G39gaFJBgS0FPnbrv4wrbN8vLXEtkkHNj7YN3mPoAjvwH7GS65GM1/biJJkGDxT/4ZENggfCYSUmCWrBeHocRm9TJthFSp2j6T5X61zqKO9+1Ca+w67If3xsQ0d/D5brCFT1WL9F22mYeN+3fQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bdC/GcyxAmm9y26RBf6AiNrHPISFZB+7bYeOblkLgP4=;
- b=FghHxnM023N0N5cHS3p0UDMbw3BVEytjz80sZNSVUIGxwEufCf6RuN+BVxIdkZzEZ/tXXpczYxwOPeFzjbm5Cqbs3CBg7kMFcCGEfEEi5kiqPaNwqhZjUZZmYvzw7jHfGhJ5fazl56NfTCEC8xJQxp7Xqvtb8Zezrm+5GAoDspc=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com (2603:10b6:802:26::19)
- by SN1PR12MB2589.namprd12.prod.outlook.com (2603:10b6:802:2c::32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.13; Fri, 22 Jan
- 2021 16:36:28 +0000
-Received: from SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::8c0e:9a64:673b:4fff]) by SN1PR12MB2560.namprd12.prod.outlook.com
- ([fe80::8c0e:9a64:673b:4fff%5]) with mapi id 15.20.3784.012; Fri, 22 Jan 2021
- 16:36:28 +0000
-Subject: [PATCH] i386: Add the support for AMD EPYC 3rd generation processors
-From: Babu Moger <babu.moger@amd.com>
-To: pbonzini@redhat.com, richard.henderson@linaro.org, ehabkost@redhat.com
-Date: Fri, 22 Jan 2021 10:36:27 -0600
-Message-ID: <161133338780.27536.17735339269843944966.stgit@bmoger-ubuntu>
-User-Agent: StGit/0.17.1-dirty
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: SN4PR0201CA0054.namprd02.prod.outlook.com
- (2603:10b6:803:20::16) To SN1PR12MB2560.namprd12.prod.outlook.com
- (2603:10b6:802:26::19)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2zSj-0003Es-Fc
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:39:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45576)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2zSf-00044y-PN
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:39:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611333540;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UHYGPHhn7cRCOB/PuBEjkuGAHDeenNnW4O6SCFmfp+M=;
+ b=ND+ycdullKLPIlqKkcqy1709pamGYZQaYslpcI4/2fc+jyU/Cc98wd35Vo8T1nMTnmZj4e
+ vxRtyJENzdQV9X5OvkVnZP4/HWDzHpA8b/wOkpDTk22OXCUE7KiOxP2etFx/wRbqo8eL9Q
+ hQV1iquqZcNlJxufHp2aRPwIV5p99dc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-391-EfUhZz7ePxur8gIEdi88HA-1; Fri, 22 Jan 2021 11:38:54 -0500
+X-MC-Unique: EfUhZz7ePxur8gIEdi88HA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 082DFBBEE3
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 16:38:54 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-81.ams2.redhat.com
+ [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 87CDB19C59;
+ Fri, 22 Jan 2021 16:38:49 +0000 (UTC)
+Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20210122102041.27031-1-mreitz@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <10be5fcc-5e7a-3e44-3229-8526ad3b4547@redhat.com>
+Date: Fri, 22 Jan 2021 17:38:48 +0100
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [127.0.1.1] (165.204.77.1) by
- SN4PR0201CA0054.namprd02.prod.outlook.com (2603:10b6:803:20::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11 via Frontend
- Transport; Fri, 22 Jan 2021 16:36:28 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 518d1cbf-fff7-4f83-7fa4-08d8bef3de26
-X-MS-TrafficTypeDiagnostic: SN1PR12MB2589:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SN1PR12MB258976FD89823B89CDCB9E1795A00@SN1PR12MB2589.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IGTeXX7x62ZPnyEo2vRHYGBRuWltk2jJoTDMNDTvjb8cZ+A+FRQsBYUuaCgVKbcACLvfQMWGt5/e2d3o9kionmOCFHxYO3VEzvUFQFED2fahwS7BCmMTz1oBYijS4FP4pQiqz59vehK8zyrbUfD8OkYF8aGpJsOR6RsAolp+O2c7ur7pqrDdHRGTUFOnSsbE9bS1scoHQ3eTiKcHbStBwoiJSK2SyDNiXZMRrRUS5bE714EjWlD7obgtMdUxGKpGPobrilktO+TkAtxGkSsRn5yPmaUVFHFElpLs30eB77KoGAzdkA71bo7/k8Q9qqln48X2GLnTU/MTYqDCd+q39zStpYxNPyBJBtng0W03KTdA2X5pjPEpJM3hCsmVL2cDgW7kXIpZX9pqadD66p37pA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN1PR12MB2560.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(4636009)(366004)(396003)(376002)(346002)(39860400002)(136003)(66946007)(83380400001)(5660300002)(33716001)(6486002)(2906002)(44832011)(4326008)(956004)(316002)(66476007)(8676002)(9686003)(66556008)(478600001)(8936002)(16526019)(103116003)(16576012)(86362001)(52116002)(26005)(186003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NkpZWnBPRU10cHZEWXpJb0RhVk1yaXllTE9xbDI2ZkRiQlpxREtodmZkQ1Zr?=
- =?utf-8?B?WWdFblhqdnFMTStPZVNlaEJObVpwbHp3bTRqcjdkeTc3Ym01Tm9kTXlESzlN?=
- =?utf-8?B?U1N2TU9WbVdLY0FyekRxb0NZbFlQTlh3MnU1TXB5QVM1endIWjVuUTBUanpk?=
- =?utf-8?B?WG1nUFBtSGtlM1NhU2JibzVDeWVZU0FNVWRHam1vcm41Qmh2azlFSmdCUDlF?=
- =?utf-8?B?dk5WakZ6MGcvcGJxM3ZnWFM1RFBwOEF0SE1QWlBMQUZEU1JIcXR1ZHY1dEtK?=
- =?utf-8?B?SWp3N0dFQnZQZlAvM1d0NEhLcVRoK2p2M1V0WlE2VU9RQlYwRmx5ZnQrUFR3?=
- =?utf-8?B?LzZUeFlVeERKd2NVUlNDUTg5TEtaVGlmS2JyTE9KR2p4a2ZZNmpJamEveUVu?=
- =?utf-8?B?RnI0eFlEU2UxUmJZa0JnN1JqcCtnRXpNK05iK2R5RldSQ1B6Slh0b1dsaVhE?=
- =?utf-8?B?ZUtqTG5YVDhmNitsQURWOWErMmRHK0dZQytoY2tmOWxoU0ovcGxGbFpWT3do?=
- =?utf-8?B?bWhtYzZyTEVRT0FBZlk1TXN6Ri9UN0hld1JhSWNreEl0YkhXNURUZUMyUTJw?=
- =?utf-8?B?N3FxYk1WTDlJcFpPSFl1MjhQcFI4N3FRWmNsUkZDQlpnbEJMRHlNNVF6UDBV?=
- =?utf-8?B?TWl0VWJYb0J2OWg2Y0FjR21kbUw2WkRWeHpualMxeFNhTDl3ZURKUTA4Qjhw?=
- =?utf-8?B?NlcxcTdtelBvcGpsbnhxbUFhamN4UmVmYXRtMDljbFMzWi9GSDBpTWNQVU84?=
- =?utf-8?B?VE1yUTVhZktyYjlKekNmeHg2ZmpreTM5TWlpTE5DK0xOSUhYVTZJVHNpSWVw?=
- =?utf-8?B?REVTaVFJSzE1WHl6TlZENnk2ZDg4djNPK0trZm9XcG5RK2hRd05UcEQyUy9k?=
- =?utf-8?B?VVFsUCszSzdtWWh4YjJ4SFpTZ09IcVY0RERhWmRJc3JjZ1E0Rmt6VW5VdWZz?=
- =?utf-8?B?SU01U0UzdkllcnZ1NE5WQ3JIODdtSlFHaWpobTFIZ3FIampMUTM3anNFeXQy?=
- =?utf-8?B?R0FaSTIyMmM1clV3cEF2Yk1MdGk2Y1V5akgwRDJ0dHpxMlN1aFoxSDhzbm5U?=
- =?utf-8?B?RGE1TDBXNHNZZEY4WWFKbThPRHZxL1VveUc1dm5xM09GZ0ZrZzNJYlNjODFV?=
- =?utf-8?B?MDNrVDJVR1BMdWFUUkFtQ0tERUIweUdMY1cxSzhNb1NYOU9UNnhneDdHZERZ?=
- =?utf-8?B?Y2E3ZGw5SGx4ME5TL2pDZS9hU1Bqc0lDQzBwRmpaNHNUK0hQMjlpMEhzM0U2?=
- =?utf-8?B?dUNNeDRVN080OW1NTDR4T0p4NUIxb0FCUHVXaDhwNjc5TFUrMVVlNkZJN29t?=
- =?utf-8?Q?H3vFEHUAJegraHBH87H6i5wivk0tkejkqd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 518d1cbf-fff7-4f83-7fa4-08d8bef3de26
-X-MS-Exchange-CrossTenant-AuthSource: SN1PR12MB2560.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Jan 2021 16:36:28.8249 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0PAjs7I0xgpSXM91zAwiy8MPuQHKfzomIMnYAw3gmGYO+dEmrJSw1VU8dc9QK6Gz
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN1PR12MB2589
-Received-SPF: softfail client-ip=40.107.93.55; envelope-from=Babu.Moger@amd.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210122102041.27031-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -133,169 +78,381 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: babu.moger@amd.com, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adds the support for AMD 3rd generation processors. The model
-display for the new processor will be EPYC-Milan.
+On 01/22/21 11:20, Max Reitz wrote:
+> Modifying signal handlers is a process-global operation.  When two
+> threads run coroutine-sigaltstack's qemu_coroutine_new() concurrently,
+> they may interfere with each other: One of them may revert the SIGUSR2
+> handler back to the default between the other thread setting up
+> coroutine_trampoline() as the handler and raising SIGUSR2.  That SIGUSR2
+> will then lead to the process exiting.
+>
+> Outside of coroutine-sigaltstack, qemu does not use SIGUSR2.  We can
+> thus keep the signal handler installed all the time.
+> CoroutineThreadState.tr_handler tells coroutine_trampoline() whether its
+> stack is set up so a new coroutine is to be launched (i.e., it should
+> invoke sigsetjmp()), or not (i.e., the signal came from an external
+> source and we should just perform the default action, which is to exit
+> the process).
+>
+> Note that in user-mode emulation, the guest can register signal handlers
+> for any signal but SIGSEGV and SIGBUS, so if it registers a SIGUSR2
+> handler, sigaltstack coroutines will break from then on.  However, we do
+> not use coroutines for user-mode emulation, so that is fine.
+>
+> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  util/coroutine-sigaltstack.c | 56 +++++++++++++++++++-----------------
+>  1 file changed, 29 insertions(+), 27 deletions(-)
 
-Adds the following new feature bits on top of the feature bits from
-the first and second generation EPYC models.
+(1) With SIGUSR2 permanently dedicated to "coroutine-sigaltstack.c", the
+comment on the qemu_init_main_loop() declaration, in
+"include/qemu/main-loop.h", also needs to be updated. SIGUSR2 is no
+longer a "free for thread-internal usage" signal.
 
-pcid    : Process context identifiers support
-ibrs    : Indirect Branch Restricted Speculation
-ssbd    : Speculative Store Bypass Disable
-erms    : Enhanced REP MOVSB/STOSB support
-fsrm    : Fast Short REP MOVSB support
-invpcid : Invalidate processor context ID
-pku     : Protection keys support
 
-Signed-off-by: Babu Moger <babu.moger@amd.com>
----
- target/i386/cpu.c |  105 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- target/i386/cpu.h |    4 ++
- 2 files changed, 109 insertions(+)
+>
+> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+> index aade82afb8..2d32afc322 100644
+> --- a/util/coroutine-sigaltstack.c
+> +++ b/util/coroutine-sigaltstack.c
+> @@ -59,6 +59,8 @@ typedef struct {
+>
+>  static pthread_key_t thread_state_key;
+>
+> +static void coroutine_trampoline(int signal);
+> +
+>  static CoroutineThreadState *coroutine_get_thread_state(void)
+>  {
+>      CoroutineThreadState *s = pthread_getspecific(thread_state_key);
+> @@ -80,6 +82,7 @@ static void qemu_coroutine_thread_cleanup(void *opaque)
+>
+>  static void __attribute__((constructor)) coroutine_init(void)
+>  {
+> +    struct sigaction sa;
+>      int ret;
+>
+>      ret = pthread_key_create(&thread_state_key, qemu_coroutine_thread_cleanup);
+> @@ -87,6 +90,20 @@ static void __attribute__((constructor)) coroutine_init(void)
+>          fprintf(stderr, "unable to create leader key: %s\n", strerror(errno));
+>          abort();
+>      }
+> +
+> +    /*
+> +     * Establish the SIGUSR2 signal handler.  This is a process-wide
+> +     * operation, and so will apply to all threads from here on.
+> +     */
+> +    sa = (struct sigaction) {
+> +        .sa_handler = coroutine_trampoline,
+> +        .sa_flags   = SA_ONSTACK,
+> +    };
+> +
+> +    if (sigaction(SIGUSR2, &sa, NULL) != 0) {
+> +        perror("Unable to install SIGUSR2 handler");
+> +        abort();
+> +    }
+>  }
+>
+>  /* "boot" function
+> @@ -121,7 +138,17 @@ static void coroutine_trampoline(int signal)
+>      /* Get the thread specific information */
+>      coTS = coroutine_get_thread_state();
+>      self = coTS->tr_handler;
+> +
+> +    if (!self) {
+> +        /*
+> +         * This SIGUSR2 came from an external source, not from
+> +         * qemu_coroutine_new(), so perform the default action.
+> +         */
+> +        exit(0);
+> +    }
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 35459a38bb..666995bb42 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -1798,6 +1798,56 @@ static CPUCaches epyc_rome_cache_info = {
-     },
- };
- 
-+static CPUCaches epyc_milan_cache_info = {
-+    .l1d_cache = &(CPUCacheInfo) {
-+        .type = DATA_CACHE,
-+        .level = 1,
-+        .size = 32 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 64,
-+        .lines_per_tag = 1,
-+        .self_init = 1,
-+        .no_invd_sharing = true,
-+    },
-+    .l1i_cache = &(CPUCacheInfo) {
-+        .type = INSTRUCTION_CACHE,
-+        .level = 1,
-+        .size = 32 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 64,
-+        .lines_per_tag = 1,
-+        .self_init = 1,
-+        .no_invd_sharing = true,
-+    },
-+    .l2_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 2,
-+        .size = 512 * KiB,
-+        .line_size = 64,
-+        .associativity = 8,
-+        .partitions = 1,
-+        .sets = 1024,
-+        .lines_per_tag = 1,
-+    },
-+    .l3_cache = &(CPUCacheInfo) {
-+        .type = UNIFIED_CACHE,
-+        .level = 3,
-+        .size = 32 * MiB,
-+        .line_size = 64,
-+        .associativity = 16,
-+        .partitions = 1,
-+        .sets = 32768,
-+        .lines_per_tag = 1,
-+        .self_init = true,
-+        .inclusive = true,
-+        .complex_indexing = true,
-+    },
-+};
-+
- /* The following VMX features are not supported by KVM and are left out in the
-  * CPU definitions:
-  *
-@@ -4130,6 +4180,61 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .model_id = "AMD EPYC-Rome Processor",
-         .cache_info = &epyc_rome_cache_info,
-     },
-+    {
-+        .name = "EPYC-Milan",
-+        .level = 0xd,
-+        .vendor = CPUID_VENDOR_AMD,
-+        .family = 25,
-+        .model = 1,
-+        .stepping = 1,
-+        .features[FEAT_1_EDX] =
-+            CPUID_SSE2 | CPUID_SSE | CPUID_FXSR | CPUID_MMX | CPUID_CLFLUSH |
-+            CPUID_PSE36 | CPUID_PAT | CPUID_CMOV | CPUID_MCA | CPUID_PGE |
-+            CPUID_MTRR | CPUID_SEP | CPUID_APIC | CPUID_CX8 | CPUID_MCE |
-+            CPUID_PAE | CPUID_MSR | CPUID_TSC | CPUID_PSE | CPUID_DE |
-+            CPUID_VME | CPUID_FP87,
-+        .features[FEAT_1_ECX] =
-+            CPUID_EXT_RDRAND | CPUID_EXT_F16C | CPUID_EXT_AVX |
-+            CPUID_EXT_XSAVE | CPUID_EXT_AES |  CPUID_EXT_POPCNT |
-+            CPUID_EXT_MOVBE | CPUID_EXT_SSE42 | CPUID_EXT_SSE41 |
-+            CPUID_EXT_CX16 | CPUID_EXT_FMA | CPUID_EXT_SSSE3 |
-+            CPUID_EXT_MONITOR | CPUID_EXT_PCLMULQDQ | CPUID_EXT_SSE3 |
-+            CPUID_EXT_PCID,
-+        .features[FEAT_8000_0001_EDX] =
-+            CPUID_EXT2_LM | CPUID_EXT2_RDTSCP | CPUID_EXT2_PDPE1GB |
-+            CPUID_EXT2_FFXSR | CPUID_EXT2_MMXEXT | CPUID_EXT2_NX |
-+            CPUID_EXT2_SYSCALL,
-+        .features[FEAT_8000_0001_ECX] =
-+            CPUID_EXT3_OSVW | CPUID_EXT3_3DNOWPREFETCH |
-+            CPUID_EXT3_MISALIGNSSE | CPUID_EXT3_SSE4A | CPUID_EXT3_ABM |
-+            CPUID_EXT3_CR8LEG | CPUID_EXT3_SVM | CPUID_EXT3_LAHF_LM |
-+            CPUID_EXT3_TOPOEXT | CPUID_EXT3_PERFCORE,
-+        .features[FEAT_8000_0008_EBX] =
-+            CPUID_8000_0008_EBX_CLZERO | CPUID_8000_0008_EBX_XSAVEERPTR |
-+            CPUID_8000_0008_EBX_WBNOINVD | CPUID_8000_0008_EBX_IBPB |
-+            CPUID_8000_0008_EBX_IBRS | CPUID_8000_0008_EBX_STIBP |
-+            CPUID_8000_0008_EBX_AMD_SSBD,
-+        .features[FEAT_7_0_EBX] =
-+            CPUID_7_0_EBX_FSGSBASE | CPUID_7_0_EBX_BMI1 | CPUID_7_0_EBX_AVX2 |
-+            CPUID_7_0_EBX_SMEP | CPUID_7_0_EBX_BMI2 | CPUID_7_0_EBX_RDSEED |
-+            CPUID_7_0_EBX_ADX | CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
-+            CPUID_7_0_EBX_SHA_NI | CPUID_7_0_EBX_CLWB | CPUID_7_0_EBX_ERMS |
-+            CPUID_7_0_EBX_INVPCID,
-+        .features[FEAT_7_0_ECX] =
-+            CPUID_7_0_ECX_UMIP | CPUID_7_0_ECX_RDPID | CPUID_7_0_ECX_PKU,
-+        .features[FEAT_7_0_EDX] =
-+            CPUID_7_0_EDX_FSRM,
-+        .features[FEAT_XSAVE] =
-+            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-+            CPUID_XSAVE_XGETBV1 | CPUID_XSAVE_XSAVES,
-+        .features[FEAT_6_EAX] =
-+            CPUID_6_EAX_ARAT,
-+        .features[FEAT_SVM] =
-+            CPUID_SVM_NPT | CPUID_SVM_NRIPSAVE,
-+        .xlevel = 0x8000001E,
-+        .model_id = "AMD EPYC-Milan Processor",
-+        .cache_info = &epyc_milan_cache_info,
-+    },
- };
- 
- /* KVM-specific features that are automatically added/removed
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d23a5b340a..3bc210863a 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -808,8 +808,12 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_8000_0008_EBX_WBNOINVD    (1U << 9)
- /* Indirect Branch Prediction Barrier */
- #define CPUID_8000_0008_EBX_IBPB        (1U << 12)
-+/* Indirect Branch Restricted Speculation */
-+#define CPUID_8000_0008_EBX_IBRS        (1U << 14)
- /* Single Thread Indirect Branch Predictors */
- #define CPUID_8000_0008_EBX_STIBP       (1U << 15)
-+/* Speculative Store Bypass Disable */
-+#define CPUID_8000_0008_EBX_AMD_SSBD    (1U << 24)
- 
- #define CPUID_XSAVE_XSAVEOPT   (1U << 0)
- #define CPUID_XSAVE_XSAVEC     (1U << 1)
+(2) exit() is generally unsafe to call in signal handlers.
+
+We could reason whether or not it is safe in this particular case (POSIX
+describes the exact conditions --
+<https://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04_03_03>),
+but it's much simpler to just call _exit().
+
+
+(3) "Performing the default action" would be slightly different from
+calling _exit(). When a process is terminated with a signal, the parent
+can distinguish that, when reaping the child. See waitpid() /
+WIFSIGNALED() / WTERMSIG(), versus WIFEXITED() / WEXITSTATUS().
+
+So for the "default action", we'd have to:
+- restore the SIGUSR2 handler to SIG_DFL, and
+- re-raise the signal for the thread, and
+- because the signal being handled is automatically blocked unless
+  SA_NODEFER was set: unblock the signal for the thread.
+
+The pthread_sigmask() call, made for the last step, would be the one
+that would not return.
+
+*However*, all of this complexity is not really useful here. We don't
+really want to simulate being "forcefully terminated" by the unexpected
+(asynchronous) SIGUSR2. We just want to exit.
+
+Therefore, _exit() is fine. But, we should use an exit code different
+from 0, as this is definitely not a pristine exit from QEMU. I'm not
+sure if a convention exists for nonzero exit codes in QEMU; if not, then
+just pass EXIT_FAILURE to _exit().
+
+
+(4) Furthermore, please update the comment, because "perform the default
+action" is not precise.
+
+
+> +
+>      coTS->tr_called = 1;
+> +    coTS->tr_handler = NULL;
+>      co = &self->base;
+>
+>      /*
+
+(5) I see that "tr_called" has type "volatile sig_atomic_t", which is
+great (I think that "sig_atomic_t" is not even necessary here, because
+of the careful signal masking that we do, and because the signal is
+raised synchronously).
+
+"volatile" is certainly justified though (the compiler may not be able
+to trace the call through the signal), and that's what I'm missing from
+"tr_handler" too. IMO, the "tr_handler" field should be decalered as
+follow:
+
+  volatile void * volatile tr_handler;
+
+wherein the second "volatile" serves just the same purpose as the
+"volatile" in "tr_called", and the first "volatile" follows from *that*
+-- wherever we chase the *chain of pointers* rooted in "tr_handler"
+should not be optimized out by the compiler.
+
+But: my point (5) is orthogonal to this patch. In practice, it may not
+matter at all. So feel free to ignore now, I guess.
+
+
+> @@ -150,12 +177,9 @@ Coroutine *qemu_coroutine_new(void)
+>  {
+>      CoroutineSigAltStack *co;
+>      CoroutineThreadState *coTS;
+> -    struct sigaction sa;
+> -    struct sigaction osa;
+>      stack_t ss;
+>      stack_t oss;
+>      sigset_t sigs;
+> -    sigset_t osigs;
+>      sigjmp_buf old_env;
+>
+>      /* The way to manipulate stack is with the sigaltstack function. We
+> @@ -172,24 +196,6 @@ Coroutine *qemu_coroutine_new(void)
+>      co->stack = qemu_alloc_stack(&co->stack_size);
+>      co->base.entry_arg = &old_env; /* stash away our jmp_buf */
+>
+> -    coTS = coroutine_get_thread_state();
+> -    coTS->tr_handler = co;
+> -
+> -    /*
+> -     * Preserve the SIGUSR2 signal state, block SIGUSR2,
+> -     * and establish our signal handler. The signal will
+> -     * later transfer control onto the signal stack.
+> -     */
+> -    sigemptyset(&sigs);
+> -    sigaddset(&sigs, SIGUSR2);
+> -    pthread_sigmask(SIG_BLOCK, &sigs, &osigs);
+> -    sa.sa_handler = coroutine_trampoline;
+> -    sigfillset(&sa.sa_mask);
+> -    sa.sa_flags = SA_ONSTACK;
+> -    if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+> -        abort();
+> -    }
+> -
+>      /*
+>       * Set the new stack.
+>       */
+> @@ -207,6 +213,8 @@ Coroutine *qemu_coroutine_new(void)
+>       * signal can be delivered the first time sigsuspend() is
+>       * called.
+>       */
+> +    coTS = coroutine_get_thread_state();
+> +    coTS->tr_handler = co;
+>      coTS->tr_called = 0;
+>      pthread_kill(pthread_self(), SIGUSR2);
+>      sigfillset(&sigs);
+> @@ -230,12 +238,6 @@ Coroutine *qemu_coroutine_new(void)
+>          sigaltstack(&oss, NULL);
+>      }
+>
+> -    /*
+> -     * Restore the old SIGUSR2 signal handler and mask
+> -     */
+> -    sigaction(SIGUSR2, &osa, NULL);
+> -    pthread_sigmask(SIG_SETMASK, &osigs, NULL);
+> -
+>      /*
+>       * Now enter the trampoline again, but this time not as a signal
+>       * handler. Instead we jump into it directly. The functionally
+>
+
+(6) This change, for qemu_coroutine_new(), is too heavy-handed, in my
+opinion. I suggest (a) removing only the sigaction() calls and their
+directly needed aux variables, and (b) *not* moving around operations.
+
+In particular, you remove the blocking of SIGUSR2 for the thread -- the
+pthread_sigmask() call. That means the sigsuspend() later on becomes
+superfluous, as the signal will not be delivered inside sigsuspend(),
+but inside pthread_kill(). With the signal not blocked, *generation* and
+*delivery* will coalesce into a single event.
+
+The general logic should stay the same, only the signal action
+manipulation should be removed. IOW, for this function, I propose the
+following change only:
+
+> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+> index aade82afb8c0..722fed7b2502 100644
+> --- a/util/coroutine-sigaltstack.c
+> +++ b/util/coroutine-sigaltstack.c
+> @@ -149,107 +149,97 @@ static void coroutine_trampoline(int signal)
+>  Coroutine *qemu_coroutine_new(void)
+>  {
+>      CoroutineSigAltStack *co;
+>      CoroutineThreadState *coTS;
+> -    struct sigaction sa;
+> -    struct sigaction osa;
+>      stack_t ss;
+>      stack_t oss;
+>      sigset_t sigs;
+>      sigset_t osigs;
+>      sigjmp_buf old_env;
+>
+>      /* The way to manipulate stack is with the sigaltstack function. We
+>       * prepare a stack, with it delivering a signal to ourselves and then
+>       * put sigsetjmp/siglongjmp where needed.
+>       * This has been done keeping coroutine-ucontext as a model and with the
+>       * pth ideas (GNU Portable Threads). See coroutine-ucontext for the basics
+>       * of the coroutines and see pth_mctx.c (from the pth project) for the
+>       * sigaltstack way of manipulating stacks.
+>       */
+>
+>      co = g_malloc0(sizeof(*co));
+>      co->stack_size = COROUTINE_STACK_SIZE;
+>      co->stack = qemu_alloc_stack(&co->stack_size);
+>      co->base.entry_arg = &old_env; /* stash away our jmp_buf */
+>
+>      coTS = coroutine_get_thread_state();
+>      coTS->tr_handler = co;
+>
+>      /*
+> -     * Preserve the SIGUSR2 signal state, block SIGUSR2,
+> -     * and establish our signal handler. The signal will
+> -     * later transfer control onto the signal stack.
+> +     * Block SIGUSR2. The signal will later transfer control onto the signal
+> +     * stack.
+>       */
+>      sigemptyset(&sigs);
+>      sigaddset(&sigs, SIGUSR2);
+>      pthread_sigmask(SIG_BLOCK, &sigs, &osigs);
+> -    sa.sa_handler = coroutine_trampoline;
+> -    sigfillset(&sa.sa_mask);
+> -    sa.sa_flags = SA_ONSTACK;
+> -    if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+> -        abort();
+> -    }
+>
+>      /*
+>       * Set the new stack.
+>       */
+>      ss.ss_sp = co->stack;
+>      ss.ss_size = co->stack_size;
+>      ss.ss_flags = 0;
+>      if (sigaltstack(&ss, &oss) < 0) {
+>          abort();
+>      }
+>
+>      /*
+>       * Now transfer control onto the signal stack and set it up.
+>       * It will return immediately via "return" after the sigsetjmp()
+>       * was performed. Be careful here with race conditions.  The
+>       * signal can be delivered the first time sigsuspend() is
+>       * called.
+>       */
+>      coTS->tr_called = 0;
+>      pthread_kill(pthread_self(), SIGUSR2);
+>      sigfillset(&sigs);
+>      sigdelset(&sigs, SIGUSR2);
+>      while (!coTS->tr_called) {
+>          sigsuspend(&sigs);
+>      }
+>
+>      /*
+>       * Inform the system that we are back off the signal stack by
+>       * removing the alternative signal stack. Be careful here: It
+>       * first has to be disabled, before it can be removed.
+>       */
+>      sigaltstack(NULL, &ss);
+>      ss.ss_flags = SS_DISABLE;
+>      if (sigaltstack(&ss, NULL) < 0) {
+>          abort();
+>      }
+>      sigaltstack(NULL, &ss);
+>      if (!(oss.ss_flags & SS_DISABLE)) {
+>          sigaltstack(&oss, NULL);
+>      }
+>
+>      /*
+> -     * Restore the old SIGUSR2 signal handler and mask
+> +     * Restore the old mask
+>       */
+> -    sigaction(SIGUSR2, &osa, NULL);
+>      pthread_sigmask(SIG_SETMASK, &osigs, NULL);
+>
+>      /*
+>       * Now enter the trampoline again, but this time not as a signal
+>       * handler. Instead we jump into it directly. The functionally
+>       * redundant ping-pong pointer arithmetic is necessary to avoid
+>       * type-conversion warnings related to the `volatile' qualifier and
+>       * the fact that `jmp_buf' usually is an array type.
+>       */
+>      if (!sigsetjmp(old_env, 0)) {
+>          siglongjmp(coTS->tr_reenter, 1);
+>      }
+>
+>      /*
+>       * Ok, we returned again, so now we're finished
+>       */
+>
+>      return &co->base;
+>  }
+
+
+(7) The sigaction() call has not been moved entirely correctly from
+qemu_coroutine_new() to coroutine_init(), in my opinion.
+
+Namely, the original call site fills the "sa_mask" member, meaning that,
+while the signal handler is executing, not only SIGUSR2 itself should be
+blocked, but *all* signals.
+
+This is missing from the new call site, in coroutine_init() -- the
+"sa_mask" member is left zeroed.
+
+Now, in practice, this may not matter a whole lot, because "sa_mask" is
+additive, and at the only place we allow the signal to be delivered,
+namely in sigsuspend(), we already have everything blocked, except for
+SIGUSR2. So when "sa_mask" is ORed with the set of blocked signals, upon
+delivery of SIGUSR2, there is no actual change to the signal mask.
+
+*But*, I feel that such a change would really deserve its own argument,
+i.e. a separate patch, or at least a separate paragraph in the commit
+message. And I suggest not doing those; instead please just faithfully
+transfer the "sa_mask" setting too, to coroutine_init(). (My impression
+is that the effective removal of the "sa_mask" population was an
+oversight in this patch, not a conscious decision.)
+
+Thanks
+Laszlo
 
 
