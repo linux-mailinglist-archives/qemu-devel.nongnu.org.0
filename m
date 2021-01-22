@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96919300EE3
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:29:03 +0100 (CET)
-Received: from localhost ([::1]:46484 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4881D300EFF
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 22:36:11 +0100 (CET)
+Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l33zK-00078F-LX
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:29:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36380)
+	id 1l346D-0001C0-UQ
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 16:36:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l33xd-00063C-0x; Fri, 22 Jan 2021 16:27:17 -0500
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:41675)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l33xb-0004JL-HR; Fri, 22 Jan 2021 16:27:16 -0500
-Received: by mail-io1-xd36.google.com with SMTP id q1so14129916ion.8;
- Fri, 22 Jan 2021 13:27:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=cNtSqKBYYVPkgE3c4O1QNMMPvggSHuOmLIGJfDGvmX0=;
- b=ViVQdNGafF+VcpUKoB36rE0w1aiXEAT/wXey2VrGEYcG4ARz/Z+5dp3Iui5O/+4G/i
- Jfra3zUE8LmntnZYu3cE0phVSEz47Zg/WnR4hkONPGsqxpJdhLIsfjKo5v99SD2NFmyP
- P/Z88ggEw3aAOoG8yFWcUojC3rHQDMu+ak65Qlfuqc0lCn65wPuj1AnrceOhmDLEGvIJ
- OTDG2Crd58u77YS9iFCpZ9vwpW4lG58jq1NqeEm7cP1gprRnSXw+Z31pnaAp1nv1/T3M
- X6qjugE2qjtxTYVuaMo7QwIekMOY/6B2iKfrqVkQFx+ZHRbC/r99nSrXi0yJF5AxktkZ
- p/mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=cNtSqKBYYVPkgE3c4O1QNMMPvggSHuOmLIGJfDGvmX0=;
- b=fi5lyww8ubk/RSkIGzMznHoUXX+WYr47SDXH5p1kaAXUe9rVlRbYyWr+vls46c6VWL
- lawuP7pIttAPWzW4RnRrz+ZLllxk6Gdti2zi2svVLtJpiN6NPIcMLcjE8mT6BwAIzQQd
- NmFhaJyZ5FKuB1rhFJdg3Ti8hfQKPK9oliuBiztdivnGJzFEJQA+xcYfjHK/fMB3Tbjm
- si1SAfeTsDhMnKMZyD9sntTxodfbwUNC87rKZ8cyCXAF+MsfAyD9csW1Pctv1VS0dw+q
- HBjdHscGTf7cbWOtznWAMMFXyj6bDUaoZkcCvgXcjzL6kfwggGmRwKz+WeF/wzKQvOSH
- AC+Q==
-X-Gm-Message-State: AOAM531XifRcIsEYw22Kil9LbdC5Rsu7MWiNSHrM00kRdivJsxsCA6YB
- eKF/owI1xnWGp9godd1MQ572QkYWHVmOIn3gJ5I=
-X-Google-Smtp-Source: ABdhPJy4rvTlnuRwGEw/o6PoBNh7loL0yx/zuOgs3GgFcdp1k2870EqZVzOjQGhRo9GOTCOpMAHQDLD+NylMmLQFn28=
-X-Received: by 2002:a02:2544:: with SMTP id g65mr1373263jag.91.1611350834083; 
- Fri, 22 Jan 2021 13:27:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l344f-0000Jh-Gw
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:34:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43274)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l344Z-0007Y9-PK
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 16:34:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611351265;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=lt33CBf5eCinoMtRblvDhNJ+p8rcrAbJ1ulFn4wehBY=;
+ b=Mv6JMrjYdsFyHztJjYdz/eyjoS6P3+7hrge0Ofi7Q9h6mwN/YRPmwk/OvnlmR9Y5UDNBJY
+ TEHJfC70xFArueyGqVDxwT3K+ugf3PLsfzBX+k4glKrpTjFIghvKnh1eFepD6rlNQAfPm4
+ TYclWHeFlDcKhQB6MiOvG1QJgiYjUSY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-556-ZSNHNfs3NreD6EsXUA6V_A-1; Fri, 22 Jan 2021 16:34:23 -0500
+X-MC-Unique: ZSNHNfs3NreD6EsXUA6V_A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 56EE0879500;
+ Fri, 22 Jan 2021 21:34:22 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-81.ams2.redhat.com
+ [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7FDB110013BD;
+ Fri, 22 Jan 2021 21:34:15 +0000 (UTC)
+Subject: Re: Thread safety of coroutine-sigaltstack
+From: Laszlo Ersek <lersek@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
+ <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
+ <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
+ <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com>
+ <20210121160733.GP3125227@redhat.com>
+ <CAFEAcA-zVvu+16xxjCvXqeZxZMqppUUb7aQkL-5nBTNY+JeyGg@mail.gmail.com>
+ <a944d86c-2871-3301-6f42-f5368a122593@redhat.com>
+ <7353bcda-6363-6f56-75ad-5e2e9e0dbb16@redhat.com>
+Message-ID: <9f9dbda6-0011-36af-1f5b-22d15c7eb09f@redhat.com>
+Date: Fri, 22 Jan 2021 22:34:14 +0100
 MIME-Version: 1.0
-References: <20210122122958.12311-1-bmeng.cn@gmail.com>
- <20210122122958.12311-4-bmeng.cn@gmail.com>
-In-Reply-To: <20210122122958.12311-4-bmeng.cn@gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 22 Jan 2021 13:26:47 -0800
-Message-ID: <CAKmqyKO3gG9E2n4cBV1KjLEzGs3Cn9eR3S5S21=uXUeWrUwneQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] hw/riscv: virt: Limit RAM size in a 32-bit system
-To: Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7353bcda-6363-6f56-75ad-5e2e9e0dbb16@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,57 +87,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 4:34 AM Bin Meng <bmeng.cn@gmail.com> wrote:
->
-> From: Bin Meng <bin.meng@windriver.com>
->
-> RV32 supports 34-bit physical address hence the maximum RAM size
-> should be limitted. Limit the RAM size to 10 GiB, which leaves
-> some room for PCIe high mmio space.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+On 01/22/21 21:38, Laszlo Ersek wrote:
+> On 01/21/21 18:24, Paolo Bonzini wrote:
+>> On 21/01/21 17:44, Peter Maydell wrote:
+>>> On Thu, 21 Jan 2021 at 16:10, Daniel P. Berrangé <berrange@redhat.com>
+>>> wrote:
+>>>> FWIW The libucontext impl is all ASM based and has coverage for all the
+>>>> arches we care about:
+>>>>
+>>>>     https://github.com/kaniini/libucontext
+>>>>
+>>>> so doesn't seem like there's a need for  coroutine-asm if we can rely
+>>>> on libucontext for portability where neede.
+>>>
+>>> The README for that notes a couple of pretty major omissions:
+>>>   * it doesn't handle floating point registers
+>>>   * it doesn't do anything about the signal mask
+>>> I'm pretty sure that not handling the fp regs could cause breakage
+>>> for Arm at least (depending on what the compiler chooses to do
+>>> in the functions that work with the ucontext functions). The
+>>> signal mask stuff might be OK for us because of the carefully
+>>> limited use we make of the ucontext functions, but it would be
+>>> a bit of a pain to have to analyse that code for both sets of semantics.
+>>
+>> The lack of signal mask handling is an improvement for us. :)  We want
+>> the signal mask to be per thread, not per coroutine.
+> 
+> I didn't quite get this when I first read it, but now that I'm digging
+> through the code, I have a follow-up comment.
+> 
+> According to POSIX, passing savemask=0 to sigsetjmp() may or may not
+> save the current signal mask, into "env". A nonzero savemask is required
+> to save the signal mask, but a zero savemask is not forbidden to -- it
+> is only not required to:
+> 
+> https://pubs.opengroup.org/onlinepubs/9699919799/functions/sigsetjmp.html#tag_16_554_07
+> 
+>     Note that since this function is defined in terms of setjmp(), if
+>     savemask is zero, it is unspecified whether the signal mask is
+>     saved.
+> 
+> And I feel that's a bit of a problem, because when we first exit the
+> trampoline -- executed as a signal handler -- via sigsetjmp(), *all
+> signals* are masked, and sigsetjmp might actually stash that mask in
+> "tr_reenter", because savemask=0 does not suffice for forbidding that.
+> 
+> When we reenter the trampoline via siglongjmp(tr_reenter), and
+> subsequently call coroutine_bootstrap(), it's possible (per POSIX, see
+> above) that all signals are masked again. And then that could further be
+> remembered in "self->env", in coroutine_bootstrap(). Which would be
+> wrong IMO; co-routines in general should receive synchronous signals if
+> they mess up somewhere (terminating the process).
+> 
+> IOW, just before the call to coroutine_bootstrap(),
+> coroutine_trampoline() should explicitly restore the signal mask that
+> was in effect when qemu_coroutine_new() was entered.
+> 
+> Has this been a problem in practice, or should we ignore it?
+> 
+> IOW, should we assume "savemask=0" for *never* saving the signal mask?
+> 
+> The behavior of "savemask=0" is a platform trait that platforms are not
+> required to document (the behavior is unspecified, not
+> implementation-defined), so it really boils down to where this code
+> actually runs...
+> 
+> NB Linux is more specific:
+> 
+> https://man7.org/linux/man-pages/man3/setjmp.3.html
+> 
+>    sigsetjmp() and siglongjmp()
+>        sigsetjmp() and siglongjmp() also perform nonlocal gotos, but
+>        provide predictable handling of the process signal mask.
+> 
+>        If, and only if, the savesigs argument provided to sigsetjmp() is
+>        nonzero, the process's current signal mask is saved in env and
+>        will be restored if a siglongjmp() is later performed with this
+>        env.
+> 
+> Cue "and only if".
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+... I notice commit 6ab7e5465a4d ("Replace all setjmp()/longjmp() with
+sigsetjmp()/siglongjmp()", 2013-02-23) chose the Linux definition, not
+the POSIX one.
 
-Alistair
+Thanks
+Laszlo
 
-> ---
->
->  hw/riscv/virt.c | 13 +++++++++++++
->  1 file changed, 13 insertions(+)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 1d05bb3ef9..4f44509360 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -590,6 +590,19 @@ static void virt_machine_init(MachineState *machine)
->          }
->      }
->
-> +    /* limit RAM size in a 32-bit system */
-> +    if (riscv_is_32bit(&s->soc[0])) {
-> +        /*
-> +         * Cast machine->ram_size to 64-bit for 32-bit host,
-> +         * to make the build on 32-bit host happy.
-> +         */
-> +        if ((uint64_t)(machine->ram_size) > 10 * GiB) {
-> +            /* 32-bit host won't have a chance to execute here */
-> +            machine->ram_size = 10 * GiB;
-> +            error_report("Limitting RAM size to 10 GiB");
-> +        }
-> +    }
-> +
->      /* register system main memory (actual RAM) */
->      memory_region_init_ram(main_mem, NULL, "riscv_virt_board.ram",
->                             machine->ram_size, &error_fatal);
-> --
-> 2.25.1
->
->
 
