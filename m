@@ -2,72 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6C32FFFF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:17:48 +0100 (CET)
-Received: from localhost ([::1]:48454 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3646B2FFFFC
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:18:47 +0100 (CET)
+Received: from localhost ([::1]:50928 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2tVj-0004Ii-MK
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:17:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
+	id 1l2tWg-0005Wp-AI
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:18:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49304)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2tSm-0003gE-Jt
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:14:44 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:35508)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l2tSk-0000vW-H9
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:14:44 -0500
-Received: by mail-ej1-x633.google.com with SMTP id ox12so6912398ejb.2
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 02:14:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=+LBZaf5aKuqW3OjBb5nA3hu+/pwa9W6Box7qhkCgjLE=;
- b=ZTyIlDrRVmdYYShzzPsKtSEry+qs4WquTCBXkIQMnoQNTOXHvuCzECs46I+2rW2plg
- hTDsuavUcLNmnASnYIRsHtk5UtzpAGv4JdCYU7nIg3RJgnG7hotyUNAxMDa3ILK4Zjl+
- hkRSU2vtKJAMyrN/c3S6HeEkolbB08HcPsJfLgCEmAwRqwtqQuMPNQ9V6WM664vRVEcr
- j9aUa/gc/rbfow7YKTV13RQaiGklq/QUbQJymuXD6OsUn+r3Fhywtuvz+phUqt87Kpij
- r02NRJrTsrl+NMLyTDLiY0WJkKKwQOH1d9DVWYxGBhlklBjXZIoK1sZsfSpBmCjODJWM
- TlAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=+LBZaf5aKuqW3OjBb5nA3hu+/pwa9W6Box7qhkCgjLE=;
- b=YaNV///JH8lw4aJteBhkIOIPPCAGFXWxbDh0m9DBLJAShaN84BaYZ2Eysbx9+QjbXo
- U1mJadW3TSJrEd83Fdl0P3hiV10cofFjFqdJT4PwykrUGBGQNgO3NPH8z8HmGSGsPhVg
- flmvccd8OTVKpMlZUbWUnN95cGEbCbBEfMEBUKE8VdO8yvNZCwHhIgfSvzMI2nkM3abe
- Oy7ODGyuNMVjF6kADKVHKBOOXH244czD7DKOVIKho7su8axtUymB51olQ6TP12H5QzTc
- +qsB+p9yGnKwt3vdb870PDS6/7ruvv3dAjh/SM0dt8BSL11JMiggy3Igq9w1SHElKc1m
- +Z2g==
-X-Gm-Message-State: AOAM530LQsQ0wJoZ1XZk8DcMC7v6rUyIKLau3ww1Wseaj8pBuNpqSzB0
- jrTr94Jy5RibyVer392AbEBb2iqwTPZE+Ox1aCguyQ==
-X-Google-Smtp-Source: ABdhPJzaRsuGnvmrNDvr59OSkcBCRw2ON5G4VyVxOOrumjNPblSXv82ZNDf4PaPoEYaJgA+xHrLdIHY6IT5LsTQNxMo=
-X-Received: by 2002:a17:906:b215:: with SMTP id
- p21mr2421253ejz.407.1611310479794; 
- Fri, 22 Jan 2021 02:14:39 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2tUr-0004SB-Qj
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:16:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56134)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l2tUo-0001hv-5q
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:16:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611310608;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RGZN1pbgN2l2MJX3tjZsSz2h/3Fn1CU5hRIHdmyYJiE=;
+ b=Pwu9JowkU1wekNp1d1nU3EjdYui05ZH6WuJ2JW9uNIUdPs30vdxWc2dvbW32dGP+kr4Uur
+ 9TInSVXORRmauQKU2IB6TaHMGZlc1Q7Kt3J6Tfugaj7U/CUexUbHodsUPUQn3kXleVFPD0
+ m+FkVUznYRYkomfBpMSeSp7jbxOTadU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-156-38k3i5DxPAaEogM9p7TdkQ-1; Fri, 22 Jan 2021 05:16:45 -0500
+X-MC-Unique: 38k3i5DxPAaEogM9p7TdkQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7FEBB59;
+ Fri, 22 Jan 2021 10:16:44 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-109.ams2.redhat.com
+ [10.36.114.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7055660BF3;
+ Fri, 22 Jan 2021 10:16:40 +0000 (UTC)
+Subject: Re: Thread safety of coroutine-sigaltstack
+To: Peter Maydell <peter.maydell@linaro.org>
 References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
  <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
  <fc35da77-a5c2-08dd-05f2-0ebe781b338c@redhat.com>
-In-Reply-To: <fc35da77-a5c2-08dd-05f2-0ebe781b338c@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 10:14:28 +0000
-Message-ID: <CAFEAcA8GWMh=Cbrnw4+mzbG7gkHLkeQKXCTGxev6iYu8Q8TkxQ@mail.gmail.com>
-Subject: Re: Thread safety of coroutine-sigaltstack
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ <CAFEAcA8GWMh=Cbrnw4+mzbG7gkHLkeQKXCTGxev6iYu8Q8TkxQ@mail.gmail.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <3c80b408-56d1-ebf9-7275-e45569286e05@redhat.com>
+Date: Fri, 22 Jan 2021 11:16:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8GWMh=Cbrnw4+mzbG7gkHLkeQKXCTGxev6iYu8Q8TkxQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,40 +90,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Jan 2021 at 08:50, Max Reitz <mreitz@redhat.com> wrote:
->
-> On 20.01.21 18:25, Laszlo Ersek wrote:
->
-> [...]
->
-> > A simple grep for SIGUSR2 seems to indicate that SIGUSR2 is not used by
-> > system emulation for anything else, in practice. Is it possible to
-> > dedicate SIGUSR2 explicitly to coroutine-sigaltstack, and set up the
-> > action beforehand, from some init function that executes on a "central"
-> > thread, before qemu_coroutine_new() is ever called?
->
-> I wrote a patch to that effect, but just before sending I wondered
-> whether SIGUSR2 cannot be registered by the =E2=80=9Cguest=E2=80=9D in us=
-er-mode
-> emulation, and whether that would then break coroutines from there on.
->
-> (I have no experience dealing with user-mode emulation, but it does look
-> like the guest can just register handlers for any signal but SIGSEGV and
-> SIGBUS.)
+On 22.01.21 11:14, Peter Maydell wrote:
+> On Fri, 22 Jan 2021 at 08:50, Max Reitz <mreitz@redhat.com> wrote:
+>>
+>> On 20.01.21 18:25, Laszlo Ersek wrote:
+>>
+>> [...]
+>>
+>>> A simple grep for SIGUSR2 seems to indicate that SIGUSR2 is not used by
+>>> system emulation for anything else, in practice. Is it possible to
+>>> dedicate SIGUSR2 explicitly to coroutine-sigaltstack, and set up the
+>>> action beforehand, from some init function that executes on a "central"
+>>> thread, before qemu_coroutine_new() is ever called?
+>>
+>> I wrote a patch to that effect, but just before sending I wondered
+>> whether SIGUSR2 cannot be registered by the “guest” in user-mode
+>> emulation, and whether that would then break coroutines from there on.
+>>
+>> (I have no experience dealing with user-mode emulation, but it does look
+>> like the guest can just register handlers for any signal but SIGSEGV and
+>> SIGBUS.)
+> 
+> Yes, SIGUSR2 is for the guest in user-emulation mode. OTOH do we
+> even use the coroutine code in user-emulation mode? Looking at
+> the meson.build files, we only add the coroutine_*.c to util_ss
+> if 'have_block', and we set have_block = have_system or have_tools.
+> I think (but have not checked) that that means we will build and
+> link the object file into the user-mode binaries if you happen
+> to build them in the same run as system-mode binaries, but won't
+> build them in if you built the user-mode binaries as a separate
+> build. Which is odd and probably worth fixing, but does mean we
+> know that we aren't actually using coroutines in user-mode.
+> (Also user-mode really means Linux or BSD and I think both of
+> those have working ucontext.)
 
-Yes, SIGUSR2 is for the guest in user-emulation mode. OTOH do we
-even use the coroutine code in user-emulation mode? Looking at
-the meson.build files, we only add the coroutine_*.c to util_ss
-if 'have_block', and we set have_block =3D have_system or have_tools.
-I think (but have not checked) that that means we will build and
-link the object file into the user-mode binaries if you happen
-to build them in the same run as system-mode binaries, but won't
-build them in if you built the user-mode binaries as a separate
-build. Which is odd and probably worth fixing, but does mean we
-know that we aren't actually using coroutines in user-mode.
-(Also user-mode really means Linux or BSD and I think both of
-those have working ucontext.)
+OK, great.  Thanks for looking that up.
 
-thanks
--- PMM
+Max
+
 
