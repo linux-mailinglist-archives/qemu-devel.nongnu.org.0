@@ -2,60 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F15300525
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:19:37 +0100 (CET)
-Received: from localhost ([::1]:35438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68CA8300542
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:25:19 +0100 (CET)
+Received: from localhost ([::1]:44878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2xHk-00060r-R1
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:19:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
+	id 1l2xNG-0001qQ-DM
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:25:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2xEA-0002dS-Cb
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:15:54 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:57857)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2xE7-0008PN-KJ
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:15:54 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.174])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id AB82C7E11B48;
- Fri, 22 Jan 2021 15:15:47 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2044.4; Fri, 22 Jan
- 2021 15:15:44 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R0057c47e932-fcfe-4eda-b74c-cf70b457a404,
- 5C4462AA179A775B9E7B1B010AD87AE25185C17B) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Fri, 22 Jan 2021 15:15:40 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: [PATCH v2] 9pfs: Improve unreclaim loop
-Message-ID: <20210122151540.00872135@bahia.lan>
-In-Reply-To: <1671508.b1m4HzQG7Z@silver>
-References: <20210121181510.1459390-1-groug@kaod.org>
- <1671508.b1m4HzQG7Z@silver>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2xKV-0007tX-IW
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:22:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57228)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2xKS-0002xl-E7
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:22:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611325340;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FFU7TXKI5nHkdhydv0n3oLgGrWv2Sn77wOFkFrwXh7A=;
+ b=DRmhg2FnE1FQ8iY05or8BuSu/5AsEHFHCd2Y7FLGf31rWm3iCRSTR1EvuCqLMmd+EbqPpl
+ mgUSd+VxOwloyWDkO38oXLPB6ikAXxODc5wEOM/g/atCKOv/urNWR0n/lsubrE8XDa+qLs
+ dMC+eHJKKDISnayRZOqkr4Z+iHBwqvA=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-530-g-0RHJU8O8-yv8J5zJ4NXQ-1; Fri, 22 Jan 2021 09:22:18 -0500
+X-MC-Unique: g-0RHJU8O8-yv8J5zJ4NXQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 991C4107ACE3
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 14:22:17 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 684605C224;
+ Fri, 22 Jan 2021 14:22:17 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id D4C7D113865F; Fri, 22 Jan 2021 15:22:15 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 07/25] keyval: introduce keyval_parse_into
+References: <20210118163113.780171-1-pbonzini@redhat.com>
+ <20210118163113.780171-8-pbonzini@redhat.com>
+Date: Fri, 22 Jan 2021 15:22:15 +0100
+In-Reply-To: <20210118163113.780171-8-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 18 Jan 2021 11:30:55 -0500")
+Message-ID: <87o8hh2grs.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: c42949ba-eb31-46b4-a77e-0d60966c0113
-X-Ovh-Tracer-Id: 16002133903274580378
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrudeigdeijecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeeftdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeetgffffffggfekgeffteekhffhueelffdvhedvgfdthfeiudetvddulefgveevteenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -68,127 +80,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Jan 2021 14:09:12 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On Donnerstag, 21. Januar 2021 19:15:10 CET Greg Kurz wrote:
-> > If a fid was actually re-opened by v9fs_reopen_fid(), we re-traverse the
-> > fid list from the head in case some other request created a fid that
-> > needs to be marked unreclaimable as well (ie. the client opened a new
-> 
-> That's "i.e.". Not a big deal so ...
-> 
+> Allow parsing multiple keyval sequences into the same dictionary.
+>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-I'll fix this up before pushing.
+I trust later patches will make the need for this obvious.
 
-> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-> 
+I guess we could use qdict_join() instead.  Observation, not objection.
 
-Thanks ! I'll post the patch for the reclaim_list conversion shortly.
+> ---
+>  include/qemu/option.h |  2 ++
+>  util/keyval.c         | 39 ++++++++++++++++++++++++++++++++-------
+>  2 files changed, 34 insertions(+), 7 deletions(-)
+>
+> diff --git a/include/qemu/option.h b/include/qemu/option.h
+> index f73e0dc7d9..092e291c37 100644
+> --- a/include/qemu/option.h
+> +++ b/include/qemu/option.h
+> @@ -147,6 +147,8 @@ void qemu_opts_print_help(QemuOptsList *list, bool print_caption);
+>  void qemu_opts_free(QemuOptsList *list);
+>  QemuOptsList *qemu_opts_append(QemuOptsList *dst, QemuOptsList *list);
+>  
+> +QDict *keyval_parse_into(QDict *qdict, const char *params, const char *implied_key,
+> +                         bool *p_help, Error **errp);
+>  QDict *keyval_parse(const char *params, const char *implied_key,
+>                      bool *help, Error **errp);
+>  
+> diff --git a/util/keyval.c b/util/keyval.c
+> index e7f708cd1e..1d4ca12129 100644
+> --- a/util/keyval.c
+> +++ b/util/keyval.c
+> @@ -436,13 +436,12 @@ static QObject *keyval_listify(QDict *cur, GSList *key_of_cur, Error **errp)
+>   * If @p_help is not NULL, store whether help is requested there.
+>   * If @p_help is NULL and help is requested, fail.
+>   *
+> - * On success, return a dictionary of the parsed keys and values.
+> + * On success, return @dict, now filled with the parsed keys and values.
+>   * On failure, store an error through @errp and return NULL.
 
-> > handle on the path that is being unlinked). This is suboptimal since
-> > most if not all fids that require it have likely been taken care of
-> > already.
-> > 
-> > This is mostly the result of new fids being added to the head of the
-> > list. Since the list is now a QSIMPLEQ, add new fids at the end instead
-> > to avoid the need to rewind. Take a reference on the fid to ensure it
-> > doesn't go away during v9fs_reopen_fid() and that it can be safely
-> > passed to QSIMPLEQ_NEXT() afterwards. Since the associated put_fid()
-> > can also yield, same is done with the next fid. So the logic here is
-> > to get a reference on a fid and only put it back during the next
-> > iteration after we could get a reference on the next fid.
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> > v2: - fix typos in changelog
-> >     - drop bogus assert()
-> > ---
-> >  hw/9pfs/9p.c | 46 ++++++++++++++++++++++++++++++++--------------
-> >  1 file changed, 32 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-> > index b65f320e6518..3864d014b43c 100644
-> > --- a/hw/9pfs/9p.c
-> > +++ b/hw/9pfs/9p.c
-> > @@ -311,7 +311,7 @@ static V9fsFidState *alloc_fid(V9fsState *s, int32_t
-> > fid) * reclaim won't close the file descriptor
-> >       */
-> >      f->flags |= FID_REFERENCED;
-> > -    QSIMPLEQ_INSERT_HEAD(&s->fid_list, f, next);
-> > +    QSIMPLEQ_INSERT_TAIL(&s->fid_list, f, next);
-> > 
-> >      v9fs_readdir_init(s->proto_version, &f->fs.dir);
-> >      v9fs_readdir_init(s->proto_version, &f->fs_reclaim.dir);
-> > @@ -497,32 +497,50 @@ static int coroutine_fn
-> > v9fs_mark_fids_unreclaim(V9fsPDU *pdu, V9fsPath *path) {
-> >      int err;
-> >      V9fsState *s = pdu->s;
-> > -    V9fsFidState *fidp;
-> > +    V9fsFidState *fidp, *fidp_next;
-> > 
-> > -again:
-> > -    QSIMPLEQ_FOREACH(fidp, &s->fid_list, next) {
-> > -        if (fidp->path.size != path->size) {
-> > -            continue;
-> > -        }
-> > -        if (!memcmp(fidp->path.data, path->data, path->size)) {
-> > +    fidp = QSIMPLEQ_FIRST(&s->fid_list);
-> > +    if (!fidp) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    /*
-> > +     * v9fs_reopen_fid() can yield : a reference on the fid must be held
-> > +     * to ensure its pointer remains valid and we can safely pass it to
-> > +     * QSIMPLEQ_NEXT(). The corresponding put_fid() can also yield so
-> > +     * we must keep a reference on the next fid as well. So the logic here
-> > +     * is to get a reference on a fid and only put it back during the next
-> > +     * iteration after we could get a reference on the next fid. Start with
-> > +     * the first one.
-> > +     */
-> > +    for (fidp->ref++; fidp; fidp = fidp_next) {
-> > +        if (fidp->path.size == path->size &&
-> > +            !memcmp(fidp->path.data, path->data, path->size)) {
-> >              /* Mark the fid non reclaimable. */
-> >              fidp->flags |= FID_NON_RECLAIMABLE;
-> > 
-> >              /* reopen the file/dir if already closed */
-> >              err = v9fs_reopen_fid(pdu, fidp);
-> >              if (err < 0) {
-> > +                put_fid(pdu, fidp);
-> >                  return err;
-> >              }
-> > +        }
-> > +
-> > +        fidp_next = QSIMPLEQ_NEXT(fidp, next);
-> > +
-> > +        if (fidp_next) {
-> >              /*
-> > -             * Go back to head of fid list because
-> > -             * the list could have got updated when
-> > -             * switched to the worker thread
-> > +             * Ensure the next fid survives a potential clunk request
-> > during +             * put_fid() below and v9fs_reopen_fid() in the next
-> > iteration. */
-> > -            if (err == 0) {
-> > -                goto again;
-> > -            }
-> > +            fidp_next->ref++;
-> >          }
-> > +
-> > +        /* We're done with this fid */
-> > +        put_fid(pdu, fidp);
-> >      }
-> > +
-> >      return 0;
-> >  }
-> 
-> 
-> 
+May @dict be modified then?
+
+>   */
+> -QDict *keyval_parse(const char *params, const char *implied_key,
+> -                    bool *p_help, Error **errp)
+> +QDict *keyval_parse_into(QDict *qdict, const char *params, const char *implied_key,
+> +                         bool *p_help, Error **errp)
+>  {
+> -    QDict *qdict = qdict_new();
+>      QObject *listified;
+>      g_autofree char *dup;
+>      char *s;
+> @@ -452,7 +451,6 @@ QDict *keyval_parse(const char *params, const char *implied_key,
+>      while (*s) {
+>          s = keyval_parse_one(qdict, s, implied_key, &help, errp);
+>          if (!s) {
+> -            qobject_unref(qdict);
+>              return NULL;
+>          }
+>          implied_key = NULL;
+> @@ -462,15 +460,42 @@ QDict *keyval_parse(const char *params, const char *implied_key,
+>          *p_help = help;
+>      } else if (help) {
+>          error_setg(errp, "Help is not available for this option");
+> -        qobject_unref(qdict);
+>          return NULL;
+>      }
+>  
+>      listified = keyval_listify(qdict, NULL, errp);
+>      if (!listified) {
+> -        qobject_unref(qdict);
+>          return NULL;
+>      }
+>      assert(listified == QOBJECT(qdict));
+>      return qdict;
+>  }
+> +
+> +/*
+> + * Parse @params in QEMU's traditional KEY=VALUE,... syntax.
+> + *
+> + * If @implied_key, the first KEY= can be omitted.  @implied_key is
+> + * implied then, and VALUE can't be empty or contain ',' or '='.
+> + *
+> + * A parameter "help" or "?" without a value isn't added to the
+> + * resulting dictionary, but instead is interpreted as help request.
+> + * All other options are parsed and returned normally so that context
+> + * specific help can be printed.
+> + *
+> + * If @p_help is not NULL, store whether help is requested there.
+> + * If @p_help is NULL and help is requested, fail.
+> + *
+> + * On success, return a dictionary of the parsed keys and values.
+> + * On failure, store an error through @errp and return NULL.
+> + */
+> +QDict *keyval_parse(const char *params, const char *implied_key,
+> +                    bool *p_help, Error **errp)
+> +{
+> +    QDict *qdict = qdict_new();
+> +    QDict *ret = keyval_parse_into(qdict, params, implied_key, p_help, errp);
+> +
+> +    if (!ret) {
+> +        qobject_unref(qdict);
+> +    }
+> +    return ret;
+> +}
 
 
