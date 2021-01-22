@@ -2,42 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FAA22FFFBB
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:05:43 +0100 (CET)
-Received: from localhost ([::1]:39374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EDF62FFFC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 11:08:46 +0100 (CET)
+Received: from localhost ([::1]:42246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2tK1-0007ry-Ul
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:05:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46092)
+	id 1l2tMz-000108-E4
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 05:08:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1l2tII-0007Ng-P6
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:03:54 -0500
-Received: from mail.ispras.ru ([83.149.199.84]:44584)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1l2tIF-0004DJ-HE
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:03:54 -0500
-Received: from [127.0.1.1] (unknown [62.118.151.149])
- by mail.ispras.ru (Postfix) with ESMTPSA id 4D1A940D403D;
- Fri, 22 Jan 2021 10:03:45 +0000 (UTC)
-Subject: [PATCH] util/log: flush TB cache when log level changes
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-To: qemu-devel@nongnu.org
-Date: Fri, 22 Jan 2021 13:03:44 +0300
-Message-ID: <161130982491.1038646.15688151175539344664.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.23
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2tLv-0000VH-M2
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:07:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54699)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2tLs-0006IL-JF
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:07:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611310054;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=YEPc4v292rvaxR+KpcUcFpoznmzw0UgPD5qxquVlvpM=;
+ b=U6eMNJBSgG6v7sx4k998PRdwKL2/q8xdW8ENxOKjt1DrVU383rnP02NMmlb1Vl7JskEAjy
+ GuKnrVRVyIGnFsEYTHtSFkASHQ3jCI5hCR4/juhYpj3QDdG1rrOiBpxwtsZAsYhHxmQK9+
+ G3wbJkioqdX19ceiclfFzzU5lRRgR24=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-260-AthxwTb-NCisUy2JQuItxg-1; Fri, 22 Jan 2021 05:07:32 -0500
+X-MC-Unique: AthxwTb-NCisUy2JQuItxg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 80EF780A5C5;
+ Fri, 22 Jan 2021 10:07:31 +0000 (UTC)
+Received: from thuth.com (ovpn-112-109.ams2.redhat.com [10.36.112.109])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 181AC5D9FC;
+ Fri, 22 Jan 2021 10:07:23 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH] gitlab-ci.yml: Use the whole tree as artifacts to speed up
+ the CI
+Date: Fri, 22 Jan 2021 11:07:22 +0100
+Message-Id: <20210122100722.705375-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,108 +75,280 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, pbonzini@redhat.com, pavel.dovgalyuk@ispras.ru,
- stefanha@redhat.com
+Cc: Willian Rampazzo <willianr@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes we need to collect the translation logs starting
-from some point of the execution. Some TB listings may
-be missed in this case, when blocks were translated before.
-This patch clears TB cache to allow re-translation of such
-code blocks.
+Currently, our check-system-* jobs are recompiling the whole sources
+again. This happens due to the fact that the jobs are checking out
+the whole source tree and required submodules again, and only try
+to use the "build" directory with the binaries and object files
+as an artifact from the previous stage - which simply does not work
+anymore (with the current version of meson). Due to some changed
+time stamps, meson is always trying to rebuild the whole tree.
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+So instead of trying to marry a freshly checked out source tree
+with the pre-built binaries in these jobs, let's simply pass the
+whole source including the submodules and the build tree as artifact
+to the test jobs. That way timestamps get preserved and there is
+no rebuild of the sources anymore. This saves ca. 15 - 20 minutes
+of precious CI cycles in each run.
+
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- accel/tcg/translate-all.c |    8 ++++++++
- include/sysemu/tcg.h      |    1 +
- stubs/meson.build         |    1 +
- stubs/tcg.c               |   12 ++++++++++++
- util/log.c                |    3 +++
- 5 files changed, 25 insertions(+)
- create mode 100644 stubs/tcg.c
+ This is how a job looked like before my patch, running for 42 minutes:
+ https://gitlab.com/huth/qemu/-/jobs/978432757
 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index e9de6ff9dd..3acb227c57 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1461,6 +1461,14 @@ void tb_flush(CPUState *cpu)
-     }
- }
+ And this is how it looks like afterwards - it just took 18 minutes:
+ https://gitlab.com/huth/qemu/-/jobs/979500316
+
+ .gitlab-ci.d/containers.yml |  1 +
+ .gitlab-ci.yml              | 40 +++++++++++++++++++++++++------------
+ 2 files changed, 28 insertions(+), 13 deletions(-)
+
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index e2f9c99e27..d55280661f 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -39,7 +39,6 @@ include:
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+   script:
+     - cd build
+-    - find . -type f -exec touch {} +
+     - make $MAKE_CHECK_ARGS
  
-+void tb_flush_all(void)
-+{
-+    CPUState *cpu;
-+    CPU_FOREACH(cpu) {
-+        tb_flush(cpu);
-+    }
-+}
-+
- /*
-  * Formerly ifdef DEBUG_TB_CHECK. These debug functions are user-mode-only,
-  * so in order to prevent bit rot we compile them unconditionally in user-mode,
-diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
-index 00349fb18a..7415f11022 100644
---- a/include/sysemu/tcg.h
-+++ b/include/sysemu/tcg.h
-@@ -9,6 +9,7 @@
- #define SYSEMU_TCG_H
+ .acceptance_template: &acceptance_definition
+@@ -83,8 +82,7 @@ build-system-alpine:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - .git-submodule-status
+-      - build
++      - "*"
  
- void tcg_exec_init(unsigned long tb_size, int splitwx);
-+void tb_flush_all(void);
+ check-system-alpine:
+   <<: *native_test_job_definition
+@@ -92,6 +90,7 @@ check-system-alpine:
+     - job: build-system-alpine
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: alpine
+     MAKE_CHECK_ARGS: check
  
- #ifdef CONFIG_TCG
- extern bool tcg_allowed;
-diff --git a/stubs/meson.build b/stubs/meson.build
-index 80b1d81a31..95e70f8542 100644
---- a/stubs/meson.build
-+++ b/stubs/meson.build
-@@ -38,6 +38,7 @@ stub_ss.add(files('set-fd-handler.c'))
- stub_ss.add(files('sysbus.c'))
- stub_ss.add(files('target-get-monitor-def.c'))
- stub_ss.add(files('target-monitor-defs.c'))
-+stub_ss.add(files('tcg.c'))
- stub_ss.add(files('tpm.c'))
- stub_ss.add(files('trace-control.c'))
- stub_ss.add(files('uuid.c'))
-diff --git a/stubs/tcg.c b/stubs/tcg.c
-new file mode 100644
-index 0000000000..775a748c77
---- /dev/null
-+++ b/stubs/tcg.c
-@@ -0,0 +1,12 @@
-+/*
-+ * TCG stubs
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "sysemu/tcg.h"
-+
-+void tb_flush_all(void)
-+{
-+}
-diff --git a/util/log.c b/util/log.c
-index 2ee1500bee..2ff342a91b 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -26,6 +26,7 @@
- #include "trace/control.h"
- #include "qemu/thread.h"
- #include "qemu/lockable.h"
-+#include "sysemu/tcg.h"
+@@ -101,6 +100,7 @@ acceptance-system-alpine:
+     - job: build-system-alpine
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: alpine
+     MAKE_CHECK_ARGS: check-acceptance
+   <<: *acceptance_definition
+@@ -116,7 +116,7 @@ build-system-ubuntu:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - build
++      - "*"
  
- static char *logfilename;
- static QemuMutex qemu_logfile_mutex;
-@@ -84,6 +85,8 @@ void qemu_set_log(int log_flags)
- #ifdef CONFIG_TRACE_LOG
-     qemu_loglevel |= LOG_TRACE;
- #endif
-+    tb_flush_all();
-+
-     /*
-      * In all cases we only log if qemu_loglevel is set.
-      * Also:
+ check-system-ubuntu:
+   <<: *native_test_job_definition
+@@ -124,6 +124,7 @@ check-system-ubuntu:
+     - job: build-system-ubuntu
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check
+ 
+@@ -133,6 +134,7 @@ acceptance-system-ubuntu:
+     - job: build-system-ubuntu
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: ubuntu2004
+     MAKE_CHECK_ARGS: check-acceptance
+   <<: *acceptance_definition
+@@ -148,7 +150,7 @@ build-system-debian:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - build
++      - "*"
+ 
+ check-system-debian:
+   <<: *native_test_job_definition
+@@ -156,6 +158,7 @@ check-system-debian:
+     - job: build-system-debian
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: debian-amd64
+     MAKE_CHECK_ARGS: check
+ 
+@@ -170,7 +173,7 @@ build-tools-and-docs-debian:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - build
++      - "*"
+ 
+ acceptance-system-debian:
+   <<: *native_test_job_definition
+@@ -178,6 +181,7 @@ acceptance-system-debian:
+     - job: build-system-debian
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: debian-amd64
+     MAKE_CHECK_ARGS: check-acceptance
+   <<: *acceptance_definition
+@@ -194,7 +198,7 @@ build-system-fedora:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - build
++      - "*"
+ 
+ check-system-fedora:
+   <<: *native_test_job_definition
+@@ -202,6 +206,7 @@ check-system-fedora:
+     - job: build-system-fedora
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: fedora
+     MAKE_CHECK_ARGS: check
+ 
+@@ -211,6 +216,7 @@ acceptance-system-fedora:
+     - job: build-system-fedora
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: fedora
+     MAKE_CHECK_ARGS: check-acceptance
+   <<: *acceptance_definition
+@@ -226,7 +232,7 @@ build-system-centos:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - build
++      - "*"
+ 
+ check-system-centos:
+   <<: *native_test_job_definition
+@@ -234,6 +240,7 @@ check-system-centos:
+     - job: build-system-centos
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: centos8
+     MAKE_CHECK_ARGS: check
+ 
+@@ -243,6 +250,7 @@ acceptance-system-centos:
+     - job: build-system-centos
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: centos8
+     MAKE_CHECK_ARGS: check-acceptance
+   <<: *acceptance_definition
+@@ -257,7 +265,7 @@ build-system-opensuse:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - build
++      - "*"
+ 
+ check-system-opensuse:
+   <<: *native_test_job_definition
+@@ -265,6 +273,7 @@ check-system-opensuse:
+     - job: build-system-opensuse
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: opensuse-leap
+     MAKE_CHECK_ARGS: check
+ 
+@@ -274,6 +283,7 @@ acceptance-system-opensuse:
+      - job: build-system-opensuse
+        artifacts: true
+    variables:
++     GIT_CHECKOUT: "false"
+      IMAGE: opensuse-leap
+      MAKE_CHECK_ARGS: check-acceptance
+    <<: *acceptance_definition
+@@ -444,7 +454,7 @@ build-deprecated:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - build
++      - "*"
+ 
+ # We split the check-tcg step as test failures are expected but we still
+ # want to catch the build breaking.
+@@ -454,6 +464,7 @@ check-deprecated:
+     - job: build-deprecated
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: debian-all-test-cross
+     MAKE_CHECK_ARGS: check-tcg
+   allow_failure: true
+@@ -526,7 +537,7 @@ build-crypto-old-nettle:
+     MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+-      - build
++      - "*"
+ 
+ check-crypto-old-nettle:
+   <<: *native_test_job_definition
+@@ -534,6 +545,7 @@ check-crypto-old-nettle:
+     - job: build-crypto-old-nettle
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: centos7
+     MAKE_CHECK_ARGS: check
+ 
+@@ -547,7 +559,7 @@ build-crypto-old-gcrypt:
+     MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+-      - build
++      - "*"
+ 
+ check-crypto-old-gcrypt:
+   <<: *native_test_job_definition
+@@ -555,6 +567,7 @@ check-crypto-old-gcrypt:
+     - job: build-crypto-old-gcrypt
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: centos7
+     MAKE_CHECK_ARGS: check
+ 
+@@ -568,7 +581,7 @@ build-crypto-only-gnutls:
+     MAKE_CHECK_ARGS: check-build
+   artifacts:
+     paths:
+-      - build
++      - "*"
+ 
+ check-crypto-only-gnutls:
+   <<: *native_test_job_definition
+@@ -576,6 +589,7 @@ check-crypto-only-gnutls:
+     - job: build-crypto-only-gnutls
+       artifacts: true
+   variables:
++    GIT_CHECKOUT: "false"
+     IMAGE: centos7
+     MAKE_CHECK_ARGS: check
+ 
+-- 
+2.27.0
 
 
