@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0B302FFBF1
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 05:47:35 +0100 (CET)
-Received: from localhost ([::1]:43906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44E5B2FFDAA
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 08:56:31 +0100 (CET)
+Received: from localhost ([::1]:57084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2oMA-0007GN-Uw
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 23:47:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48922)
+	id 1l2rIz-0005LQ-Uv
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 02:56:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47060)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l2oKb-0005YS-Gi
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:57 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029]:33161)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
- id 1l2oKa-0000jL-14
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:57 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id lw17so5882719pjb.0
- for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 20:45:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=JAFdn6IbZBNqvP6S0gWLCOyNml8OyzsyVzQVR6rXHRA=;
- b=dVjPlpHpA5gjaOyrN9kTiPPqEmETELaA7Z3ud0mmVP4BnMOZKRsw72EXI/hLOmkjky
- M1XRzQk4e/6kA7kKFCflufvguEW5dJbKP/5irQ912+H5/Dg54O3Nge9xNXZPc5uYUB4i
- Fp4AwalbU/uFqfYtkp2r3QtdUcmxzn1KzXwcwqbVeD1dYeUMWWL8duZE8HYvDxHczGQK
- fKKGB1R9TN3bdrjnulmYMS7DdtbwTftIXpqWtbquxlgRIfVupgLkkcPflrDYRg8X/JGH
- eneGGelUyfT+DvidTR0uqNUmxW4mNYWgkVurChts34yw3mv99d+x3+WI7RlleFvXR+NV
- lr8A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=JAFdn6IbZBNqvP6S0gWLCOyNml8OyzsyVzQVR6rXHRA=;
- b=nZ6WIYehvJ70Ul5NNVK8W7ZUtMHz8a0qSnZ7nlp47dR93wqvS9uXcK4IxYQ3BTiNLp
- cp6TaPfsX+rjNjI0F/Wp9n8xyRT5iWGAHhY2z/OGiwlKhGVKRlA4NSIJ0ol2An0epOhZ
- SaB6p6D1W2aapN/Dg7W0ai+SwRvh0OfOE7V2yFOI0EitAYx2uwI7GCD777kS7jgY3A59
- c0+tchrBxzOuOjlq6k+WSoee4ItS0WMZZc+LjpFyAgCmeQxGkjo6tfy7MBWS80km+1p5
- TtrFA+QYdTTPCmnZiCXUQhc9dVtk7XanV3gqTL5q97C0e6+f/4OBRGiuQv3D6gslLnK7
- W/Wg==
-X-Gm-Message-State: AOAM533TuElwMSpN2ZnrYXBEpletkPblhifVnVOKQmQf+tuKuE+z6BTO
- kJNCkjX5mxoWRp04gDqho6JHa/EJdBAmRH2C+381hFWeMy/bKvVlQsiM0wMO/Px/bjMB8aWMMTn
- HvDPn12wvZCuPzxmiPyDxjyWjeGIa6wi4gdfHHL0e8zSLaMIlguluOgmL7hI/aeO+ukA7rHCRMw
- ==
-X-Google-Smtp-Source: ABdhPJxcsHfIw8B18Z+z9mtitcvuzuPst8o2kouB5MzxKs4Or0bwsaZVvzv57GZ3Mec7YbxMf9siBQ==
-X-Received: by 2002:a17:90b:34b:: with SMTP id
- fh11mr3088150pjb.225.1611290754385; 
- Thu, 21 Jan 2021 20:45:54 -0800 (PST)
-Received: from cube.int.bluestop.org (c-174-52-16-57.hsd1.ut.comcast.net.
- [174.52.16.57])
- by smtp.gmail.com with ESMTPSA id b10sm7050494pgh.15.2021.01.21.20.45.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 21 Jan 2021 20:45:53 -0800 (PST)
-From: Rebecca Cran <rebecca@nuviainc.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] target/arm: Set ID_AA64PFR0.DIT and ID_PFR0.DIT to 1
- for "max" AA64 CPU
-Date: Thu, 21 Jan 2021 21:45:37 -0700
-Message-Id: <20210122044537.1823-4-rebecca@nuviainc.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210122044537.1823-1-rebecca@nuviainc.com>
-References: <20210122044537.1823-1-rebecca@nuviainc.com>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2rIB-0004nf-V9
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 02:55:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53679)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l2rI6-00042G-Q9
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 02:55:38 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611302127;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7zARW+/z2bBINDhCCCOZzXgIoOEWqMoKt5NM7l5lms0=;
+ b=CIoP1VgXhCDHD44gVyID0EbLEHVdGW19EooAXgIsYU4XNzhlCyzMmJkpzjfQao0wuiARix
+ tzH0bquvEHDMToP6JZm8zCTRQJHZzBe8+PvLuYMAz/VtV6pde+Cm1cwtRp5uy8YLXlADr0
+ tgUTaY2nrfqDZBLxKytH6wm5zy9QvLU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-306-oqH2KYsyN1m5T3QmcTy-Sg-1; Fri, 22 Jan 2021 02:55:23 -0500
+X-MC-Unique: oqH2KYsyN1m5T3QmcTy-Sg-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C948B1800D42
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 07:55:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C1DB260BF3;
+ Fri, 22 Jan 2021 07:55:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 3F1D0113865F; Fri, 22 Jan 2021 08:55:18 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: Thread safety of coroutine-sigaltstack
+References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
+ <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
+ <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
+ <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com>
+Date: Fri, 22 Jan 2021 08:55:18 +0100
+In-Reply-To: <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com> (Paolo
+ Bonzini's message of "Thu, 21 Jan 2021 16:14:21 +0100")
+Message-ID: <87r1mde789.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=rebecca@nuviainc.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ URIBL_SBL=1.623 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,44 +85,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Rebecca Cran <rebecca@nuviainc.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enable FEAT_DIT for the "max" AARCH64 CPU.
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Signed-off-by: Rebecca Cran <rebecca@nuviainc.com>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu64.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> On 21/01/21 10:27, Max Reitz wrote:
+>> Sure, I can do that.
+>> I agree that there probably are better solutions than to wrap
+>> everything in a lock.=C2=A0 OTOH, it looks to me like this lock is the
+>> most simple solution.=C2=A0 If Daniel is right[1] and we should drop=20
+>> coroutine-sigaltstack altogether (at some point...), perhaps it is
+>> best to go for the most simple solution now.
+>> [1]
+>> https://lists.nongnu.org/archive/html/qemu-block/2021-01/msg00808.html
+>
+> Yes, between coroutine-ucontext and the upcoming coroutine-asm[1]
+> (which I have shelved because it was mostly a requirement for x86 CET;
+> but it will come back some day), sooner or later there will be no
+> reason to keep coroutine-sigaltstack.  Porting coroutine-asm to a new
+> architecture is easy, I even managed to do it for s390. ;)
 
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 5e851028c592..9a5cfd4fc632 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -666,6 +666,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64PFR0, FP, 1);
-         t = FIELD_DP64(t, ID_AA64PFR0, ADVSIMD, 1);
-         t = FIELD_DP64(t, ID_AA64PFR0, SEL2, 1);
-+        t = FIELD_DP64(t, ID_AA64PFR0, DIT, 1);
-         cpu->isar.id_aa64pfr0 = t;
- 
-         t = cpu->isar.id_aa64pfr1;
-@@ -715,6 +716,10 @@ static void aarch64_max_initfn(Object *obj)
-         u = FIELD_DP32(u, ID_ISAR6, SPECRES, 1);
-         cpu->isar.id_isar6 = u;
- 
-+        u = cpu->isar.id_pfr0;
-+        u = FIELD_DP32(u, ID_PFR0, DIT, 1);
-+        cpu->isar.id_pfr0 = u;
-+
-         u = cpu->isar.id_mmfr3;
-         u = FIELD_DP32(u, ID_MMFR3, PAN, 2); /* ATS1E1 */
-         cpu->isar.id_mmfr3 = u;
--- 
-2.26.2
+POSIX dropping ucontext without a replacement was shortsighted.  Yes,
+ucontext is warty, but that's no excuse for letting your users fend for
+themselves.  Standard building blocks for coroutines are clearly needed.
+Without them, everybody gets to build from scratch or with ill-suited
+blocks like sigaltstack.
+
+> Paolo
+>
+> [1] https://patchew.org/QEMU/20190504120528.6389-1-pbonzini@redhat.com/
 
 
