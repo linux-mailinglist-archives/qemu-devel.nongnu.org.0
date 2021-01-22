@@ -2,54 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BA47300DAA
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:27:22 +0100 (CET)
-Received: from localhost ([::1]:51212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D356300DC4
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:32:54 +0100 (CET)
+Received: from localhost ([::1]:56906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l331d-00049T-IP
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:27:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53426)
+	id 1l336x-0006mF-BP
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:32:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l330C-0003YX-65; Fri, 22 Jan 2021 15:25:52 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:54336)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3307-0002Xj-Pp; Fri, 22 Jan 2021 15:25:51 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 9428FC602E6;
- Fri, 22 Jan 2021 21:25:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611347143;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=TdVsPbk1jIzS4QbhB9Mfj4Vc6c2hc42I8DGaj20yQdY=;
- b=eW0HOg0QFRTvy06az+9ztXTeJmCZiVD9vecBzmvLXfWKxouHPNQbcQZKsE1RGS80wxJgjB
- 8Jq/EYS6dJQnrWfkX6i4HRaZ5YmAQ/PBK3IjPAZy49SzdaAyISZWyYNywaSUhG1p8Wteip
- LI9AUr7zGHn1rYfeQZwJQfbREHwuG5NDCiUHGw9xNK+XAsGvXU/4Zbl2O5SZyC6z/WGg2N
- 2bs7xiNJ8qLoMVvxoMbZgHrLORhOUUqn0t8wOdr8T7arHdJfxPB5PQOiXhs7ciBjIZVwuR
- kLfZNSpgBlnUTG/KZRhUrHRZWyRG+Bf6Gu4gbhIEV4v0iMfkXE05ypzCNgcLog==
-Date: Fri, 22 Jan 2021 21:26:04 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 16/25] hw/arm/stellaris: Convert SSYS to QOM device
-Message-ID: <20210122202604.r6e3nyyueqa57nm2@sekoia-pc.home.lmichel.fr>
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-17-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l334l-0005hM-Kv
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:30:35 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:41342)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l334j-0004Xc-Et
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:30:35 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id g12so9490508ejf.8
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:30:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=pelOE8ZTmqJGpBGxaSCzWRLVAUazkkoMSKZjqx4i55o=;
+ b=s0FYiQaPu83WvNDlTmo32lQo7pggd1InqhKUSvSCw+iAPvou+/8/wIcppQMCbZMd6R
+ FNyw+zDnQkNNVVc9V25Jl4fFpsfgRDRb3vn9Zmd0C2KStjW1qIKOClNMP5WD5q+sGE0B
+ fDUbL3Cd3KiLTtshepBx8G4Cymx3SctlJJaPsWSSkLajMadb+sWv4YlX+kC7zXRVEecE
+ ALJkuRnac8b7fO4M8KjIiOBRmqwkdAD4eACYYKhcyA95ssqEYNYtrOgt7vSV075u2We+
+ 2cxNx/AoMaOfirIsmJ2J5hnFZS81y/Q6tQK3at/cvpfWrXMXpK4vjz01mU35VhWhVE8n
+ FCiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=pelOE8ZTmqJGpBGxaSCzWRLVAUazkkoMSKZjqx4i55o=;
+ b=dvMM6eFjHEAWp7m53DHcUQuoZOpPiibdIH/gaM9vQ3TJAY8VSQWHW/XIJQfoCRyCJW
+ r8jYpuTsYuN1IrJm1qz9FfgEUqZ2vKJvVtGkEMtagscuq2eZ9dbTf41Gwt1vLocNOWY2
+ mPYe3Rd0XVhh+he8Hr1y3TEoRNnTH/vh8v49Dlow5f1GLR04izisIlLAzC+p7oDEp2IW
+ jqGPlJ29smpoXtA89N93nnvLF2LJdURahzLqJZg9YvU7iNyWNtDG1TXEdid13jw2c9jN
+ NdqwOPCHCUdFXaD461ftXB2UiZSV8lQ+65fkh8bZXE6RHmv5FY+z1aBf9AOx9VFolIgh
+ 0DkA==
+X-Gm-Message-State: AOAM531ICYrSxRks+zTLsUS06MZP5resreDHZv2ChMov+A0qsqgZCOT4
+ PaVRCfvhVnlZtE3QK5h2FNQ=
+X-Google-Smtp-Source: ABdhPJzW9/I11GoLAsxqTNP9n+QxbkB7BtaezwnbJAnh8hIbpwIbtqAxEeiRWCVqaamNmTdz1xU52g==
+X-Received: by 2002:a17:906:1d5a:: with SMTP id
+ o26mr4161891ejh.301.1611347431354; 
+ Fri, 22 Jan 2021 12:30:31 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id z2sm5262167ejd.44.2021.01.22.12.30.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jan 2021 12:30:30 -0800 (PST)
+Subject: Re: [PATCH v7 07/35] Hexagon (target/hexagon) scalar core helpers
+To: Taylor Simpson <tsimpson@quicinc.com>, qemu-devel@nongnu.org
+References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
+ <1611113349-24906-8-git-send-email-tsimpson@quicinc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <ae9949ca-aa0c-8917-8498-2b0dc5161465@amsat.org>
+Date: Fri, 22 Jan 2021 21:30:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-17-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <1611113349-24906-8-git-send-email-tsimpson@quicinc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.221,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,257 +90,250 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: ale@rev.ng, alex.bennee@linaro.org, richard.henderson@linaro.org,
+ laurent@vivier.eu, bcain@quicinc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Convert the SSYS code in the Stellaris boards (which encapsulates the
-> system registers) to a proper QOM device.  This will provide us with
-> somewhere to put the output Clock whose frequency depends on the
-> setting of the PLL configuration registers.
-> 
-> This is a migration compatibility break for lm3s811evb, lm3s6965evb.
-> 
-> We use 3-phase reset here because the Clock will need to propagate
-> its value in the hold phase.
-> 
-> For the moment we reset the device during the board creation so that
-> the system_clock_scale global gets set; this will be removed in a
-> subsequent commit.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Hi Taylor,
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-
+On 1/20/21 4:28 AM, Taylor Simpson wrote:
+> The majority of helpers are generated.  Define the helper functions needed
+> then include the generated file
+> 
+> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
 > ---
->  hw/arm/stellaris.c | 132 ++++++++++++++++++++++++++++++++++++---------
->  1 file changed, 107 insertions(+), 25 deletions(-)
-> 
-> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-> index 652823195b1..0194ede2fe0 100644
-> --- a/hw/arm/stellaris.c
-> +++ b/hw/arm/stellaris.c
-> @@ -357,7 +357,12 @@ static void stellaris_gptm_realize(DeviceState *dev, Error **errp)
->  
->  /* System controller.  */
->  
-> -typedef struct {
-> +#define TYPE_STELLARIS_SYS "stellaris-sys"
-> +OBJECT_DECLARE_SIMPLE_TYPE(ssys_state, STELLARIS_SYS)
+>  target/hexagon/helper.h    |   85 ++++
+>  target/hexagon/op_helper.c | 1066 ++++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 1151 insertions(+)
+>  create mode 100644 target/hexagon/helper.h
+>  create mode 100644 target/hexagon/op_helper.c
+...
+
+> diff --git a/target/hexagon/op_helper.c b/target/hexagon/op_helper.c
+> new file mode 100644
+> index 0000000..5186dd1
+> --- /dev/null
+> +++ b/target/hexagon/op_helper.c
+> @@ -0,0 +1,1066 @@
+> +/*
+> + *  Copyright(c) 2019-2021 Qualcomm Innovation Center, Inc. All Rights Reserved.
+> + *
+> + *  This program is free software; you can redistribute it and/or modify
+> + *  it under the terms of the GNU General Public License as published by
+> + *  the Free Software Foundation; either version 2 of the License, or
+> + *  (at your option) any later version.
+> + *
+> + *  This program is distributed in the hope that it will be useful,
+> + *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+> + *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> + *  GNU General Public License for more details.
+> + *
+> + *  You should have received a copy of the GNU General Public License
+> + *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + */
 > +
-> +struct ssys_state {
-> +    SysBusDevice parent_obj;
+> +#include "qemu/osdep.h"
+> +#include "qemu.h"
+> +#include "exec/helper-proto.h"
+> +#include "fpu/softfloat.h"
+> +#include "cpu.h"
+> +#include "internal.h"
+> +#include "macros.h"
+> +#include "arch.h"
+> +#include "hex_arch_types.h"
+> +#include "fma_emu.h"
+> +#include "conv_emu.h"
 > +
->      MemoryRegion iomem;
->      uint32_t pborctl;
->      uint32_t ldopctl;
-> @@ -371,11 +376,18 @@ typedef struct {
->      uint32_t dcgc[3];
->      uint32_t clkvclr;
->      uint32_t ldoarst;
-> +    qemu_irq irq;
-> +    /* Properties (all read-only registers) */
->      uint32_t user0;
->      uint32_t user1;
-> -    qemu_irq irq;
-> -    stellaris_board_info *board;
-> -} ssys_state;
-> +    uint32_t did0;
-> +    uint32_t did1;
-> +    uint32_t dc0;
-> +    uint32_t dc1;
-> +    uint32_t dc2;
-> +    uint32_t dc3;
-> +    uint32_t dc4;
-> +};
->  
->  static void ssys_update(ssys_state *s)
->  {
-> @@ -430,7 +442,7 @@ static uint32_t pllcfg_fury[16] = {
->  
->  static int ssys_board_class(const ssys_state *s)
->  {
-> -    uint32_t did0 = s->board->did0;
-> +    uint32_t did0 = s->did0;
->      switch (did0 & DID0_VER_MASK) {
->      case DID0_VER_0:
->          return DID0_CLASS_SANDSTORM;
-> @@ -456,19 +468,19 @@ static uint64_t ssys_read(void *opaque, hwaddr offset,
->  
->      switch (offset) {
->      case 0x000: /* DID0 */
-> -        return s->board->did0;
-> +        return s->did0;
->      case 0x004: /* DID1 */
-> -        return s->board->did1;
-> +        return s->did1;
->      case 0x008: /* DC0 */
-> -        return s->board->dc0;
-> +        return s->dc0;
->      case 0x010: /* DC1 */
-> -        return s->board->dc1;
-> +        return s->dc1;
->      case 0x014: /* DC2 */
-> -        return s->board->dc2;
-> +        return s->dc2;
->      case 0x018: /* DC3 */
-> -        return s->board->dc3;
-> +        return s->dc3;
->      case 0x01c: /* DC4 */
-> -        return s->board->dc4;
-> +        return s->dc4;
->      case 0x030: /* PBORCTL */
->          return s->pborctl;
->      case 0x034: /* LDOPCTL */
-> @@ -646,9 +658,9 @@ static const MemoryRegionOps ssys_ops = {
->      .endianness = DEVICE_NATIVE_ENDIAN,
->  };
->  
-> -static void ssys_reset(void *opaque)
-> +static void stellaris_sys_reset_enter(Object *obj, ResetType type)
->  {
-> -    ssys_state *s = (ssys_state *)opaque;
-> +    ssys_state *s = STELLARIS_SYS(obj);
->  
->      s->pborctl = 0x7ffd;
->      s->rcc = 0x078e3ac0;
-> @@ -661,9 +673,19 @@ static void ssys_reset(void *opaque)
->      s->rcgc[0] = 1;
->      s->scgc[0] = 1;
->      s->dcgc[0] = 1;
+> +#define SF_BIAS        127
+> +#define SF_MANTBITS    23
+> +
+> +/* Exceptions processing helpers */
+> +static void QEMU_NORETURN do_raise_exception_err(CPUHexagonState *env,
+> +                                                 uint32_t exception,
+> +                                                 uintptr_t pc)
+> +{
+> +    CPUState *cs = CPU(hexagon_env_get_cpu(env));
+> +    qemu_log_mask(CPU_LOG_INT, "%s: %d\n", __func__, exception);
+> +    cs->exception_index = exception;
+> +    cpu_loop_exit_restore(cs, pc);
 > +}
 > +
-> +static void stellaris_sys_reset_hold(Object *obj)
+> +void QEMU_NORETURN HELPER(raise_exception)(CPUHexagonState *env, uint32_t excp)
 > +{
-> +    ssys_state *s = STELLARIS_SYS(obj);
-> +
->      ssys_calculate_system_clock(s);
->  }
->  
-> +static void stellaris_sys_reset_exit(Object *obj)
-> +{
+> +    do_raise_exception_err(env, excp, 0);
 > +}
 > +
->  static int stellaris_sys_post_load(void *opaque, int version_id)
->  {
->      ssys_state *s = opaque;
-> @@ -695,27 +717,66 @@ static const VMStateDescription vmstate_stellaris_sys = {
->      }
->  };
->  
-> +static Property stellaris_sys_properties[] = {
-> +    DEFINE_PROP_UINT32("user0", ssys_state, user0, 0),
-> +    DEFINE_PROP_UINT32("user1", ssys_state, user1, 0),
-> +    DEFINE_PROP_UINT32("did0", ssys_state, did0, 0),
-> +    DEFINE_PROP_UINT32("did1", ssys_state, did1, 0),
-> +    DEFINE_PROP_UINT32("dc0", ssys_state, dc0, 0),
-> +    DEFINE_PROP_UINT32("dc1", ssys_state, dc1, 0),
-> +    DEFINE_PROP_UINT32("dc2", ssys_state, dc2, 0),
-> +    DEFINE_PROP_UINT32("dc3", ssys_state, dc3, 0),
-> +    DEFINE_PROP_UINT32("dc4", ssys_state, dc4, 0),
-> +    DEFINE_PROP_END_OF_LIST()
-> +};
-> +
-> +static void stellaris_sys_instance_init(Object *obj)
+> +static inline void log_reg_write(CPUHexagonState *env, int rnum,
+> +                                 target_ulong val, uint32_t slot)
 > +{
-> +    ssys_state *s = STELLARIS_SYS(obj);
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(s);
-> +
-> +    memory_region_init_io(&s->iomem, obj, &ssys_ops, s, "ssys", 0x00001000);
-> +    sysbus_init_mmio(sbd, &s->iomem);
-> +    sysbus_init_irq(sbd, &s->irq);
+> +    HEX_DEBUG_LOG("log_reg_write[%d] = " TARGET_FMT_ld " (0x" TARGET_FMT_lx ")",
+> +                  rnum, val, val);
+> +    if (env->slot_cancelled & (1 << slot)) {
+> +        HEX_DEBUG_LOG(" CANCELLED");
+> +    }
+> +    if (val == env->gpr[rnum]) {
+> +        HEX_DEBUG_LOG(" NO CHANGE");
+> +    }
+> +    HEX_DEBUG_LOG("\n");
+> +    if (!(env->slot_cancelled & (1 << slot))) {
+> +        env->new_value[rnum] = val;
+> +#if HEX_DEBUG
+> +        /* Do this so HELPER(debug_commit_end) will know */
+> +        env->reg_written[rnum] = 1;
+> +#endif
+> +    }
 > +}
 > +
->  static int stellaris_sys_init(uint32_t base, qemu_irq irq,
->                                stellaris_board_info * board,
->                                uint8_t *macaddr)
->  {
-> -    ssys_state *s;
-> +    DeviceState *dev = qdev_new(TYPE_STELLARIS_SYS);
-> +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
->  
-> -    s = g_new0(ssys_state, 1);
-> -    s->irq = irq;
-> -    s->board = board;
->      /* Most devices come preprogrammed with a MAC address in the user data. */
-> -    s->user0 = macaddr[0] | (macaddr[1] << 8) | (macaddr[2] << 16);
-> -    s->user1 = macaddr[3] | (macaddr[4] << 8) | (macaddr[5] << 16);
-> +    qdev_prop_set_uint32(dev, "user0",
-> +                         macaddr[0] | (macaddr[1] << 8) | (macaddr[2] << 16));
-> +    qdev_prop_set_uint32(dev, "user1",
-> +                         macaddr[3] | (macaddr[4] << 8) | (macaddr[5] << 16));
-> +    qdev_prop_set_uint32(dev, "did0", board->did0);
-> +    qdev_prop_set_uint32(dev, "did1", board->did1);
-> +    qdev_prop_set_uint32(dev, "dc0", board->dc0);
-> +    qdev_prop_set_uint32(dev, "dc1", board->dc1);
-> +    qdev_prop_set_uint32(dev, "dc2", board->dc2);
-> +    qdev_prop_set_uint32(dev, "dc3", board->dc3);
-> +    qdev_prop_set_uint32(dev, "dc4", board->dc4);
+> +static __attribute__((unused))
+> +inline void log_reg_write_pair(CPUHexagonState *env, int rnum,
+> +                                      int64_t val, uint32_t slot)
+> +{
+> +    HEX_DEBUG_LOG("log_reg_write_pair[%d:%d] = %ld\n", rnum + 1, rnum, val);
+> +    log_reg_write(env, rnum, val & 0xFFFFFFFF, slot);
+> +    log_reg_write(env, rnum + 1, (val >> 32) & 0xFFFFFFFF, slot);
+> +}
 > +
-> +    sysbus_realize_and_unref(sbd, &error_fatal);
-> +    sysbus_mmio_map(sbd, 0, base);
-> +    sysbus_connect_irq(sbd, 0, irq);
+> +static inline void log_pred_write(CPUHexagonState *env, int pnum,
+> +                                  target_ulong val)
+> +{
+> +    HEX_DEBUG_LOG("log_pred_write[%d] = " TARGET_FMT_ld
+> +                  " (0x" TARGET_FMT_lx ")\n",
+> +                  pnum, val, val);
+> +
+> +    /* Multiple writes to the same preg are and'ed together */
+> +    if (env->pred_written & (1 << pnum)) {
+> +        env->new_pred_value[pnum] &= val & 0xff;
+> +    } else {
+> +        env->new_pred_value[pnum] = val & 0xff;
+> +        env->pred_written |= 1 << pnum;
+> +    }
+> +}
+> +
+> +static inline void log_store32(CPUHexagonState *env, target_ulong addr,
+> +                               target_ulong val, int width, int slot)
+> +{
+> +    HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx ", " TARGET_FMT_ld
+> +                  " [0x" TARGET_FMT_lx "])\n",
+> +                  width, addr, val, val);
+> +    env->mem_log_stores[slot].va = addr;
+> +    env->mem_log_stores[slot].width = width;
+> +    env->mem_log_stores[slot].data32 = val;
+> +}
+> +
+> +static inline void log_store64(CPUHexagonState *env, target_ulong addr,
+> +                               int64_t val, int width, int slot)
+> +{
+> +    HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx ", %ld [0x%lx])\n",
+> +                   width, addr, val, val);
+> +    env->mem_log_stores[slot].va = addr;
+> +    env->mem_log_stores[slot].width = width;
+> +    env->mem_log_stores[slot].data64 = val;
+> +}
+> +
+> +static inline void write_new_pc(CPUHexagonState *env, target_ulong addr)
+> +{
+> +    HEX_DEBUG_LOG("write_new_pc(0x" TARGET_FMT_lx ")\n", addr);
 > +
 > +    /*
-> +     * Normally we should not be resetting devices like this during
-> +     * board creation. For the moment we need to do so, because
-> +     * system_clock_scale will only get set when the STELLARIS_SYS
-> +     * device is reset, and we need its initial value to pass to
-> +     * the watchdog device. This hack can be removed once the
-> +     * watchdog has been converted to use a Clock input instead.
+> +     * If more than one branch is taken in a packet, only the first one
+> +     * is actually done.
 > +     */
-> +    device_cold_reset(dev);
->  
-> -    memory_region_init_io(&s->iomem, NULL, &ssys_ops, s, "ssys", 0x00001000);
-> -    memory_region_add_subregion(get_system_memory(), base, &s->iomem);
-> -    ssys_reset(s);
-> -    vmstate_register(NULL, VMSTATE_INSTANCE_ID_ANY, &vmstate_stellaris_sys, s);
->      return 0;
->  }
->  
-> -
->  /* I2C controller.  */
->  
->  #define TYPE_STELLARIS_I2C "stellaris-i2c"
-> @@ -1553,11 +1614,32 @@ static const TypeInfo stellaris_adc_info = {
->      .class_init    = stellaris_adc_class_init,
->  };
->  
-> +static void stellaris_sys_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +    ResettableClass *rc = RESETTABLE_CLASS(klass);
-> +
-> +    dc->vmsd = &vmstate_stellaris_sys;
-> +    rc->phases.enter = stellaris_sys_reset_enter;
-> +    rc->phases.hold = stellaris_sys_reset_hold;
-> +    rc->phases.exit = stellaris_sys_reset_exit;
-> +    device_class_set_props(dc, stellaris_sys_properties);
+> +    if (env->branch_taken) {
+> +        HEX_DEBUG_LOG("INFO: multiple branches taken in same packet, "
+> +                      "ignoring the second one\n");
+> +    } else {
+> +        fCHECK_PCALIGN(addr);
+> +        env->branch_taken = 1;
+> +        env->next_PC = addr;
+> +    }
 > +}
-> +
-> +static const TypeInfo stellaris_sys_info = {
-> +    .name = TYPE_STELLARIS_SYS,
-> +    .parent = TYPE_SYS_BUS_DEVICE,
-> +    .instance_size = sizeof(ssys_state),
-> +    .instance_init = stellaris_sys_instance_init,
-> +    .class_init = stellaris_sys_class_init,
-> +};
-> +
->  static void stellaris_register_types(void)
->  {
->      type_register_static(&stellaris_i2c_info);
->      type_register_static(&stellaris_gptm_info);
->      type_register_static(&stellaris_adc_info);
-> +    type_register_static(&stellaris_sys_info);
->  }
->  
->  type_init(stellaris_register_types)
-> -- 
-> 2.20.1
-> 
 
--- 
+I'm getting:
+
+In file included from ../target/hexagon/op_helper.c:23:
+../target/hexagon/op_helper.c: In function ‘log_reg_write_pair’:
+../target/hexagon/op_helper.c:74:19: error: format ‘%ld’ expects
+argument of type ‘long int’, but argument 4 has type ‘int64_t’ {aka
+‘long long int’} [-Werror=format=]
+   74 |     HEX_DEBUG_LOG("log_reg_write_pair[%d:%d] = %ld\n", rnum + 1,
+rnum, val);
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       ~~~
+      |
+       |
+      |
+       int64_t {aka long long int}
+../target/hexagon/internal.h:28:22: note: in definition of macro
+‘HEX_DEBUG_LOG’
+   28 |             qemu_log(__VA_ARGS__); \
+      |                      ^~~~~~~~~~~
+../target/hexagon/op_helper.c:74:50: note: format string is defined here
+   74 |     HEX_DEBUG_LOG("log_reg_write_pair[%d:%d] = %ld\n", rnum + 1,
+rnum, val);
+      |                                                ~~^
+      |                                                  |
+      |                                                  long int
+      |                                                %lld
+In file included from ../target/hexagon/op_helper.c:23:
+../target/hexagon/op_helper.c: In function ‘log_store64’:
+../target/hexagon/op_helper.c:109:19: error: format ‘%ld’ expects
+argument of type ‘long int’, but argument 4 has type ‘int64_t’ {aka
+‘long long int’} [-Werror=format=]
+  109 |     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx ", %ld [0x%lx])\n",
+      |                   ^~~~~~~~~~~~~~~~
+  110 |                    width, addr, val, val);
+      |                                 ~~~
+      |                                 |
+      |                                 int64_t {aka long long int}
+../target/hexagon/internal.h:28:22: note: in definition of macro
+‘HEX_DEBUG_LOG’
+   28 |             qemu_log(__VA_ARGS__); \
+      |                      ^~~~~~~~~~~
+../target/hexagon/op_helper.c:109:19: error: format ‘%lx’ expects
+argument of type ‘long unsigned int’, but argument 5 has type ‘int64_t’
+{aka ‘long long int’} [-Werror=format=]
+  109 |     HEX_DEBUG_LOG("log_store%d(0x" TARGET_FMT_lx ", %ld [0x%lx])\n",
+      |                   ^~~~~~~~~~~~~~~~
+  110 |                    width, addr, val, val);
+      |                                      ~~~
+      |                                      |
+      |                                      int64_t {aka long long int}
+../target/hexagon/internal.h:28:22: note: in definition of macro
+‘HEX_DEBUG_LOG’
+   28 |             qemu_log(__VA_ARGS__); \
+      |                      ^~~~~~~~~~~
+../target/hexagon/op_helper.c: In function ‘print_store’:
+../target/hexagon/op_helper.c:201:27: error: format ‘%lu’ expects
+argument of type ‘long unsigned int’, but argument 3 has type ‘uint64_t’
+{aka ‘long long unsigned int’} [-Werror=format=]
+  201 |             HEX_DEBUG_LOG("\tmemd[0x" TARGET_FMT_lx "] = %lu
+(0x%016lx)\n",
+      |                           ^~~~~~~~~~~
+  202 |                           env->mem_log_stores[slot].va,
+  203 |                           env->mem_log_stores[slot].data64,
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                                    |
+      |                                                    uint64_t {aka
+long long unsigned int}
+../target/hexagon/internal.h:28:22: note: in definition of macro
+‘HEX_DEBUG_LOG’
+   28 |             qemu_log(__VA_ARGS__); \
+      |                      ^~~~~~~~~~~
+../target/hexagon/op_helper.c:201:27: error: format ‘%lx’ expects
+argument of type ‘long unsigned int’, but argument 4 has type ‘uint64_t’
+{aka ‘long long unsigned int’} [-Werror=format=]
+  201 |             HEX_DEBUG_LOG("\tmemd[0x" TARGET_FMT_lx "] = %lu
+(0x%016lx)\n",
+      |                           ^~~~~~~~~~~
+......
+  204 |                           env->mem_log_stores[slot].data64);
+      |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                                    |
+      |                                                    uint64_t {aka
+long long unsigned int}
+../target/hexagon/internal.h:28:22: note: in definition of macro
+‘HEX_DEBUG_LOG’
+   28 |             qemu_log(__VA_ARGS__); \
+      |                      ^~~~~~~~~~~
 
