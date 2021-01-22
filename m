@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8E53008A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 17:28:17 +0100 (CET)
-Received: from localhost ([::1]:59460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FF4F3008BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 17:36:02 +0100 (CET)
+Received: from localhost ([::1]:35456 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2zIG-0007vU-5b
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 11:28:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52096)
+	id 1l2zPj-0001yY-PI
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 11:35:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2zGo-0007Gj-Ga
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:26:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43041)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2zOL-0001JN-D8
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:34:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2zGj-0007pi-R5
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:26:46 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l2zOJ-0002La-Dk
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 11:34:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611332800;
+ s=mimecast20190719; t=1611333270;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0V2cZQCgdXu71CWIOWCfA7cl2ajqPE+4ZZKhCMxrtG0=;
- b=BSusJRCBVdAL1MuxN2YeChs+9Z2pitYMoGSHY2+FNrdWNnQp6ARl6T8cjDLEbk8Kx8HMww
- LaYgrw232NEQY03FBFc41BN/5uP4/lLKajDqPY0oZtdX0nlDtK0acwmNoxMN2SDSR2Duk7
- HnAG28/iv67IxMZODokuuEEWchfBnPw=
+ bh=MYNAVf9vvJFkpuJh0DPk0v4GRqM/jrLnpFxeyPRn0/0=;
+ b=i+G+SyH802mrb4mwPvNFrAWAfOIOIldckgZUqIP91KI66ii3oPjMCrW2hWkTC2HLDmEVUH
+ RyzBlU39QfMpSOuQT4xIgFP6JnC5O7SwehNWuMDeO0u/0hpIBAKnoNPfPQY2NDv/fo489A
+ eH83/RtHa9UitMqKbVrjfhhLSZmAHpc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-19-Q75uKTCbPsSCrd3epcGNSQ-1; Fri, 22 Jan 2021 11:26:38 -0500
-X-MC-Unique: Q75uKTCbPsSCrd3epcGNSQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-286-srtqvmtsNtaq9CvER71l4w-1; Fri, 22 Jan 2021 11:34:27 -0500
+X-MC-Unique: srtqvmtsNtaq9CvER71l4w-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EFCE180DE22;
- Fri, 22 Jan 2021 16:26:37 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B8C4CA0CA1;
+ Fri, 22 Jan 2021 16:34:25 +0000 (UTC)
 Received: from [10.3.113.116] (ovpn-113-116.phx2.redhat.com [10.3.113.116])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6AFC5E2E9;
- Fri, 22 Jan 2021 16:26:32 +0000 (UTC)
-Subject: Re: [PATCH v4 11/16] block/io: support int64_t bytes in
- bdrv_aligned_pwritev()
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D69D15C582;
+ Fri, 22 Jan 2021 16:34:18 +0000 (UTC)
+Subject: Re: [PATCH v4 12/16] block/io: support int64_t bytes in
+ bdrv_co_do_copy_on_readv()
 To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
  qemu-block@nongnu.org
 References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
- <20201211183934.169161-12-vsementsov@virtuozzo.com>
+ <20201211183934.169161-13-vsementsov@virtuozzo.com>
 From: Eric Blake <eblake@redhat.com>
 Organization: Red Hat, Inc.
-Message-ID: <0ff23baf-57b1-5889-7d43-47921b2a6700@redhat.com>
-Date: Fri, 22 Jan 2021 10:26:31 -0600
+Message-ID: <9049ecd9-533c-0d7a-5142-8a15fa21b526@redhat.com>
+Date: Fri, 22 Jan 2021 10:34:18 -0600
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201211183934.169161-12-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20201211183934.169161-13-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -62,16 +62,16 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,33 +100,27 @@ On 12/11/20 12:39 PM, Vladimir Sementsov-Ogievskiy wrote:
 > with possibility for signed return type (where negative value means
 > error).
 > 
-> So, prepare bdrv_aligned_pwritev() now and convert the dependencies:
-> bdrv_co_write_req_prepare() and bdrv_co_write_req_finish() to signed
-> type bytes.
+> So, prepare bdrv_co_do_copy_on_readv() now.
 > 
-> Conversion of bdrv_co_write_req_prepare() and
-> bdrv_co_write_req_finish() is definitely safe, as all requests in
-> block/io must not overflow BDRV_MAX_LENGTH. Still add assertions.
+> 'bytes' type widening, so callers are safe. Look at the function
+> itself:
 > 
-> For bdrv_aligned_pwritev() 'bytes' type is widened, so callers are
-> safe. Let's check usage of the parameter inside the function.
+> bytes, skip_bytes and progress become int64_t.
 > 
-> Passing to bdrv_co_write_req_prepare() and bdrv_co_write_req_finish()
-> is OK.
+> bdrv_round_to_clusters() is OK, cluster_bytes now may be large.
+> trace_bdrv_co_do_copy_on_readv() is OK
 > 
-> Passing to qemu_iovec_* is OK after new assertion. All other callees
-> are already updated to int64_t.
+> looping through cluster_bytes is still OK.
 > 
-> Checking alignment is not changed, offset + bytes and qiov_offset +
-> bytes calculations are safe (thanks to new assertions).
-> 
-> max_transfer is kept to be int for now. It has a default of INT_MAX
-> here, and some drivers may rely on it. It's to be refactored later.
+> pnum is still capped to max_transfer, and to MAX_BOUNCE_BUFFER when we
+> are going to do COR operation. Therefor calculations in
+> qemu_iovec_from_buf() and bdrv_driver_preadv() should not change.
 > 
 > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > ---
->  block/io.c | 21 +++++++++++++--------
->  1 file changed, 13 insertions(+), 8 deletions(-)
+>  block/io.c         | 8 +++++---
+>  block/trace-events | 2 +-
+>  2 files changed, 6 insertions(+), 4 deletions(-)
 > 
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
