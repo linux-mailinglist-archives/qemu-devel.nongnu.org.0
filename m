@@ -2,54 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3949300DCB
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:34:33 +0100 (CET)
-Received: from localhost ([::1]:33562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00393300DDD
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:40:06 +0100 (CET)
+Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l338a-0000NI-Md
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:34:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54726)
+	id 1l33Do-0002l2-4c
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:39:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l337A-0007lu-Am; Fri, 22 Jan 2021 15:33:04 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:55856)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3378-0005Yi-5j; Fri, 22 Jan 2021 15:33:03 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id AFDA3C602E6;
- Fri, 22 Jan 2021 21:32:59 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611347579;
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l33Cs-00027l-H1
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:38:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l33Co-0008Lm-IC
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:38:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611347932;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=faOVIinSqea55p9lVc+8t9GiMOiIjuL60TaUy5QwqYQ=;
- b=NthCbdQ7dkhnqagpBskgROsqy0FiM6tFIDmXtf2rQMomEc+zlFr+ObmF5Q2H3evtW4Yrf7
- Z340F6d+v/FNafmRkFYT8qxiWwYNAXBBHTNwqLwspBBgWJDlEuHo5XQKmFp7qaQblXk9df
- hZbTmURETBJ/n+KqtygrzAbmHjSRvp8dQo0UKrAX/JvH0yqcySMa6XfKcoRgkdnu8PQNU2
- PRQ/xUhHLKr+Xc4AfEQls+O/SzHtNxex0ThH9WBqrj2tSt4sS44KkkyXbTRxBJ199UMHkx
- iRDTBKOtruwcfMNWQP7e8L5/sMqTBRid4AkNPs+L48BEpT5/5TFvn7YNiwPaWQ==
-Date: Fri, 22 Jan 2021 21:33:21 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 18/25] hw/timer/cmsdk-apb-timer: Convert to use Clock input
-Message-ID: <20210122203321.ondgckxsqdcnksld@sekoia-pc.home.lmichel.fr>
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-19-peter.maydell@linaro.org>
+ bh=97zBbw/kyUun8U1yauWqQ7RcM4AvKniI1Eo0tll2hJw=;
+ b=DwIyDCyl7DSY1VIU3h23uiYohGaM547kmee9dpvsmdXfIyIHhbLgDc9GYXA4yDasBP9vbR
+ UmGf4ynrXy1uMfowRSQqdSkHYyVhZl3AAbgtmTDQxy2m9AiAtgNDx0DSGF2ayQayIAvihH
+ hGRLhSn45xjvfpqY9ELO7SFvsgy7eKc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-248-Thi65ECwPCqDDqORx0f0ew-1; Fri, 22 Jan 2021 15:38:49 -0500
+X-MC-Unique: Thi65ECwPCqDDqORx0f0ew-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7399610054FF;
+ Fri, 22 Jan 2021 20:38:48 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-81.ams2.redhat.com
+ [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 476AC60BE5;
+ Fri, 22 Jan 2021 20:38:42 +0000 (UTC)
+Subject: Re: Thread safety of coroutine-sigaltstack
+To: Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <7b8155ad-0942-dc1c-f43c-bb5eb518a278@redhat.com>
+ <445268c9-d91f-af5a-3d7e-f4c6f014ca52@redhat.com>
+ <62d5d33c-fe2a-228b-146d-632c84d09fd5@redhat.com>
+ <30457fa0-6d7c-4e81-2623-8551d8bf2674@redhat.com>
+ <20210121160733.GP3125227@redhat.com>
+ <CAFEAcA-zVvu+16xxjCvXqeZxZMqppUUb7aQkL-5nBTNY+JeyGg@mail.gmail.com>
+ <a944d86c-2871-3301-6f42-f5368a122593@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <7353bcda-6363-6f56-75ad-5e2e9e0dbb16@redhat.com>
+Date: Fri, 22 Jan 2021 21:38:41 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-19-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <a944d86c-2871-3301-6f42-f5368a122593@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,76 +86,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Switch the CMSDK APB timer device over to using its Clock input; the
-> pclk-frq property is now ignored.
+On 01/21/21 18:24, Paolo Bonzini wrote:
+> On 21/01/21 17:44, Peter Maydell wrote:
+>> On Thu, 21 Jan 2021 at 16:10, Daniel P. Berrangé <berrange@redhat.com>
+>> wrote:
+>>> FWIW The libucontext impl is all ASM based and has coverage for all the
+>>> arches we care about:
+>>>
+>>>     https://github.com/kaniini/libucontext
+>>>
+>>> so doesn't seem like there's a need for  coroutine-asm if we can rely
+>>> on libucontext for portability where neede.
+>>
+>> The README for that notes a couple of pretty major omissions:
+>>   * it doesn't handle floating point registers
+>>   * it doesn't do anything about the signal mask
+>> I'm pretty sure that not handling the fp regs could cause breakage
+>> for Arm at least (depending on what the compiler chooses to do
+>> in the functions that work with the ucontext functions). The
+>> signal mask stuff might be OK for us because of the carefully
+>> limited use we make of the ucontext functions, but it would be
+>> a bit of a pain to have to analyse that code for both sets of semantics.
 > 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> The lack of signal mask handling is an improvement for us. :)  We want
+> the signal mask to be per thread, not per coroutine.
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+I didn't quite get this when I first read it, but now that I'm digging
+through the code, I have a follow-up comment.
 
-> ---
->  hw/timer/cmsdk-apb-timer.c | 18 ++++++++++++++----
->  1 file changed, 14 insertions(+), 4 deletions(-)
+According to POSIX, passing savemask=0 to sigsetjmp() may or may not
+save the current signal mask, into "env". A nonzero savemask is required
+to save the signal mask, but a zero savemask is not forbidden to -- it
+is only not required to:
+
+https://pubs.opengroup.org/onlinepubs/9699919799/functions/sigsetjmp.html#tag_16_554_07
+
+    Note that since this function is defined in terms of setjmp(), if
+    savemask is zero, it is unspecified whether the signal mask is
+    saved.
+
+And I feel that's a bit of a problem, because when we first exit the
+trampoline -- executed as a signal handler -- via sigsetjmp(), *all
+signals* are masked, and sigsetjmp might actually stash that mask in
+"tr_reenter", because savemask=0 does not suffice for forbidding that.
+
+When we reenter the trampoline via siglongjmp(tr_reenter), and
+subsequently call coroutine_bootstrap(), it's possible (per POSIX, see
+above) that all signals are masked again. And then that could further be
+remembered in "self->env", in coroutine_bootstrap(). Which would be
+wrong IMO; co-routines in general should receive synchronous signals if
+they mess up somewhere (terminating the process).
+
+IOW, just before the call to coroutine_bootstrap(),
+coroutine_trampoline() should explicitly restore the signal mask that
+was in effect when qemu_coroutine_new() was entered.
+
+Has this been a problem in practice, or should we ignore it?
+
+IOW, should we assume "savemask=0" for *never* saving the signal mask?
+
+The behavior of "savemask=0" is a platform trait that platforms are not
+required to document (the behavior is unspecified, not
+implementation-defined), so it really boils down to where this code
+actually runs...
+
+NB Linux is more specific:
+
+https://man7.org/linux/man-pages/man3/setjmp.3.html
+
+   sigsetjmp() and siglongjmp()
+       sigsetjmp() and siglongjmp() also perform nonlocal gotos, but
+       provide predictable handling of the process signal mask.
+
+       If, and only if, the savesigs argument provided to sigsetjmp() is
+       nonzero, the process's current signal mask is saved in env and
+       will be restored if a siglongjmp() is later performed with this
+       env.
+
+Cue "and only if".
+
+Thanks
+Laszlo
+
 > 
-> diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
-> index c63145ff553..f053146d88f 100644
-> --- a/hw/timer/cmsdk-apb-timer.c
-> +++ b/hw/timer/cmsdk-apb-timer.c
-> @@ -204,6 +204,15 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
->      ptimer_transaction_commit(s->timer);
->  }
->  
-> +static void cmsdk_apb_timer_clk_update(void *opaque)
-> +{
-> +    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
-> +
-> +    ptimer_transaction_begin(s->timer);
-> +    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
-> +    ptimer_transaction_commit(s->timer);
-> +}
-> +
->  static void cmsdk_apb_timer_init(Object *obj)
->  {
->      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-> @@ -213,15 +222,16 @@ static void cmsdk_apb_timer_init(Object *obj)
->                            s, "cmsdk-apb-timer", 0x1000);
->      sysbus_init_mmio(sbd, &s->iomem);
->      sysbus_init_irq(sbd, &s->timerint);
-> -    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk", NULL, NULL);
-> +    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk",
-> +                                 cmsdk_apb_timer_clk_update, s);
->  }
->  
->  static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
->  {
->      CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
->  
-> -    if (s->pclk_frq == 0) {
-> -        error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
-> +    if (!clock_has_source(s->pclk)) {
-> +        error_setg(errp, "CMSDK APB timer: pclk clock must be connected");
->          return;
->      }
->  
-> @@ -232,7 +242,7 @@ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
->                             PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
->  
->      ptimer_transaction_begin(s->timer);
-> -    ptimer_set_freq(s->timer, s->pclk_frq);
-> +    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
->      ptimer_transaction_commit(s->timer);
->  }
->  
-> -- 
-> 2.20.1
+> Floating point however is an issue if they don't save-restore v8-v15
+> (for aarch64, I don't remember what the AAPCS32 says).
+> 
+> Paolo
+> 
 > 
 
--- 
 
