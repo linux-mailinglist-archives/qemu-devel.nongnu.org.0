@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9739C3001A5
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:34:28 +0100 (CET)
-Received: from localhost ([::1]:35166 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBC0E3001AF
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:36:02 +0100 (CET)
+Received: from localhost ([::1]:37288 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2uhv-0006bs-4g
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:34:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36440)
+	id 1l2ujR-0007UX-QQ
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:36:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36642)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2ugc-0005yB-Ni
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:33:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51568)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2uhK-0006eM-Th
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:33:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2ugZ-0002jm-Vd
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:33:06 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l2uhJ-00035E-AE
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 06:33:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611315182;
+ s=mimecast20190719; t=1611315228;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sj5la1V5nAmlmw9NNf7hY4mLBIxzn6UnSqKgeDUmNzA=;
- b=XHPPxb0LbXpqu1VG/Wew4AZ5vy9FI4fgpJ41F8XZUZqY4FpJJdOrIfqOxKlebQshF0RAyZ
- uM/ulKD8OAbt+3ck4/vXrwitRfL9X97crUsrUK+q3LZf7L4/6gIAHb9ZJNRTwYewNpKQIM
- Ps17sENkvhfn8n8C2rfMHZoaPx1G0Ns=
+ bh=O8SvrADUm23bDFqNU5UCAFcyRWqhbRUcsXH4ouQxuE4=;
+ b=JMaKM/TbE+PGzDBQZ0pQSCY+gnpjvcmG3V0EB60jzz/Dcq/rI7tdKntV+O5FaMJ5gAQyhe
+ VgckEt2HGh21lbU9DJWro/9V14zf0b0OuQ0WNaemQPvqzZ4jh/PRliwRorwLJo/yL8bpOZ
+ xdhj1obra1dx6B4wzU71FFrrE+UhIOU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-170--w2FFzaCNKW2ysTV17HcTg-1; Fri, 22 Jan 2021 06:33:00 -0500
-X-MC-Unique: -w2FFzaCNKW2ysTV17HcTg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-378-cHBLJqx3ODq9kMAzpYgjrA-1; Fri, 22 Jan 2021 06:33:46 -0500
+X-MC-Unique: cHBLJqx3ODq9kMAzpYgjrA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 27BC4107ACE3;
- Fri, 22 Jan 2021 11:32:59 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA0FF10054FF;
+ Fri, 22 Jan 2021 11:33:45 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-112-109.ams2.redhat.com [10.36.112.109])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5E28310021AA;
- Fri, 22 Jan 2021 11:32:57 +0000 (UTC)
-Subject: Re: [PATCH v2 3/4] configure: Improve TCI feature description
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CB7017047D;
+ Fri, 22 Jan 2021 11:33:37 +0000 (UTC)
+Subject: Re: [RFC PATCH v2 4/4] configure: Reword --enable-tcg-interpreter as
+ --disable-native-tcg
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210122105836.1878506-1-philmd@redhat.com>
- <20210122105836.1878506-4-philmd@redhat.com>
+ <20210122105836.1878506-5-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <fc2847c8-d897-aad1-0b00-1f6b3b1211a2@redhat.com>
-Date: Fri, 22 Jan 2021 12:32:56 +0100
+Message-ID: <d8dbe17b-92f4-89b7-de75-36c3c9e1cde6@redhat.com>
+Date: Fri, 22 Jan 2021 12:33:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210122105836.1878506-4-philmd@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20210122105836.1878506-5-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -90,31 +91,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22/01/2021 11.58, Philippe Mathieu-Daudé wrote:
 > Users might want to enable all features, without realizing some
-> features have negative effect. Mention the TCI feature is slow
-> and experimental, hoping it will be selected knowingly.
+> features have negative effect. Rename '--enable-tcg-interpreter'
+> as '--disable-native-tcg' to avoid user selecting this feature
+> without understanding it. '--enable-tcg-interpreter' is kept in
+> for backward compability with scripts.
 > 
 > Suggested-by: Thomas Huth <thuth@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->   configure | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> RFC so it can be discarded from the series
+> 
+>   configure | 5 +++--
+>   1 file changed, 3 insertions(+), 2 deletions(-)
 > 
 > diff --git a/configure b/configure
-> index 9f016b06b54..71bdc523aa0 100755
+> index 71bdc523aa0..5e56fa76499 100755
 > --- a/configure
 > +++ b/configure
-> @@ -1753,7 +1753,7 @@ Advanced options (experts only):
+> @@ -1121,7 +1121,8 @@ for opt do
+>     ;;
+>     --disable-tcg-interpreter) tcg_interpreter="no"
+>     ;;
+> -  --enable-tcg-interpreter) tcg_interpreter="yes"
+> +  --enable-tcg-interpreter) # backward compatibility
+> +  --disable-native-tcg) tcg_interpreter="yes"
+>     ;;
+>     --disable-cap-ng)  cap_ng="disabled"
+>     ;;
+> @@ -1753,7 +1754,7 @@ Advanced options (experts only):
 >     --with-trace-file=NAME   Full PATH,NAME of file to store traces
 >                              Default:trace-<pid>
 >     --disable-slirp          disable SLIRP userspace network connectivity
-> -  --enable-tcg-interpreter enable TCG with bytecode interpreter (TCI)
-> +  --enable-tcg-interpreter enable TCG with bytecode interpreter (experimental and slow)
+> -  --enable-tcg-interpreter enable TCG with bytecode interpreter (experimental and slow)
+> +  --disable-native-tcg     enable TCG with bytecode interpreter (experimental and slow)
 
-I'd prefer if we could keep the "TCI" in there ... I remember having grep'ed 
-for "tci" in the help output in the past, so I think it would be good to 
-keep the TLA here. Maybe just put "TCI, slow" in the parantheses and omit 
-"experimental"?
+The more I think about it, the more I like the idea.
 
-  Thomas
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
