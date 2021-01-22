@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931AD3000F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:01:32 +0100 (CET)
-Received: from localhost ([::1]:34142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F3FB30011E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 12:03:33 +0100 (CET)
+Received: from localhost ([::1]:39046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2uC3-00007k-K5
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:01:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56838)
+	id 1l2uE0-0002Ok-4b
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 06:03:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2u9e-0007J7-1o
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:59:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46249)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2u9o-0007Sq-W1
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:59:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21964)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2u9c-0003oI-7R
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:59:01 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l2u9g-0003rO-9p
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 05:59:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611313138;
+ s=mimecast20190719; t=1611313143;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H+Pq8Z9GG4F4ZYMbIAnDME9sYtYMxfqDFI3WzJbMa8g=;
- b=NktoAVG75NPssVUjBuWFN+CHhrLdpBVa1f8nX7z46PG5rMqC+LKWy/P7cMdBvYfRJ+7T+w
- Y+yjzvHf3R3w1iwWnqoU9k9u1NNFDdWt99yDUaj5T24bsNJ9Mf/Ie7ge9SW6UhCweeUkDP
- NYU30dFSBHmgCvJwVfF3E+zyjs/nD4o=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-488-S6HGfCtiNe63xIJM1Bd9hg-1; Fri, 22 Jan 2021 05:58:56 -0500
-X-MC-Unique: S6HGfCtiNe63xIJM1Bd9hg-1
-Received: by mail-ed1-f72.google.com with SMTP id w4so2731545edu.0
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 02:58:56 -0800 (PST)
+ bh=g4EDW26wqJzvbldi/AmeB50uRCleZG3tNbcnAK553ZI=;
+ b=QLaVFyKfaShGL/DEEmzkK+VXJEvm6RtpkigEU/66ceKphsWpFS4IhxzY3n5LgRHHOQfswS
+ uKfSkIgu6hyGF4vk0G+w2Axvacvg/SXN07mIrW/RJMVWiQlOtd25yHV9iUyKfBEzRFD8MK
+ 0AX9+DWDI72FI67RX2hCOPE5cl273Y8=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-215-F6fSyW76NP2ZyG_ZeSDOVg-1; Fri, 22 Jan 2021 05:59:01 -0500
+X-MC-Unique: F6fSyW76NP2ZyG_ZeSDOVg-1
+Received: by mail-ed1-f71.google.com with SMTP id t9so2738720edd.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 02:59:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=H+Pq8Z9GG4F4ZYMbIAnDME9sYtYMxfqDFI3WzJbMa8g=;
- b=lu2+amMe2ewWKod2/0Vs6MmOr6r0ZyQ7cxwSc4D+qLs5VAiIceZsXrz2YLNmW717NY
- w4LI/oXvmgYy2hEhh6EpQNj0VcEgnwhri3HTwwiKCTYqYIiHWbO25eED5wgxhEE51A1X
- 3JHWmmybY/kizkhrWhoiVUCyo/nVcQlPE3UwLikTHLThQ4mXjB0Qno235oxr3DF+TKJ+
- j5Xa2JBEjNWpt4lMmzaCWKFTNkx87WkQ+4+aGkrGb+Pe9ZHhzdbORVsImeZpY9kLOapT
- RpDiiZr9jL1M3XET+jlHlmcIhQ2P0BcmLY1P5Tu9TfGcBdYzOuBq3yLtE6fVF/0rpYXc
- 7Oaw==
-X-Gm-Message-State: AOAM530402krL683bO8LYbtuTV3Hq07ppCqtY6n3ccDKOGwp3ss5o1RU
- wBns3b0XDKyEzttlIa84OU7vbVAAuyEl8EEaJowQQIyobFSOSblBN9i6fKooN9leY0u+8b+5gS5
- fE9x9oiss9/ns7ow7hfbTaQrgiAGODehHuUbtMUI9ZByK1CtVmL/99F/iczxG6SgO
-X-Received: by 2002:a17:907:1701:: with SMTP id
- le1mr2680585ejc.68.1611313135338; 
- Fri, 22 Jan 2021 02:58:55 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxePCKVC0sCfO/tfOGopndsXH5PiT03ujGBvbb9AiW9wAcN4hsQ6U+c1yN7JD4Yd58cezhZUQ==
-X-Received: by 2002:a17:907:1701:: with SMTP id
- le1mr2680570ejc.68.1611313135134; 
- Fri, 22 Jan 2021 02:58:55 -0800 (PST)
+ bh=g4EDW26wqJzvbldi/AmeB50uRCleZG3tNbcnAK553ZI=;
+ b=Hay/DpXltBcteSvOcJ4IfBYITJNyYdsj7pNL3fX3XXl7W0Cc/RLU4EM4SidVkXXXdE
+ vKUfwP3VBDu0lbhO44HTc2qSykh7Z52nZMOz3KLBPqZEyXxAVHQhmfED2l5J1heJ52Ul
+ xPChZ3o+Js3HF/cpupDMEMer5KDwJyWMYMILS3MkNeTcwpa9QDEbVl4BS5INmKu6is7X
+ NTASJn3wPESacPXLSPBDhJxF1meAURu1pULUG88ifc2Fi4ptb/BYt7z+sanlxMyoUaGE
+ OMam/R3wN+bi5ESqXzLwheITAY4i3USs7HA9FdRUjfwoxGtc9cXhr1RLE+Ct/PXH1Uuw
+ 5Mlg==
+X-Gm-Message-State: AOAM533doLINcWpPqIk4JZePNgXLN4p4EWnmrddDLS9WthKlMhM/ibNn
+ TZhu8EmnpQDO+tYl2F4M6flpwgLnCmGJcVXXAcSM5WJzTxtqvBrT7G1pBZlnbyfblU54LYuiJFz
+ jtlSrvBd1TUs8io3IxQxglzjvzPyrj//oiRJOVOe+2KWkv02VOrglCZoYMlbw/FhA
+X-Received: by 2002:aa7:c94a:: with SMTP id h10mr87325edt.247.1611313140336;
+ Fri, 22 Jan 2021 02:59:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwL+8ju/0d0X7lZcqJhWEo9y75bFTmkAXG2IM9QJl1rh6fBJbCLgLTnzUtjOXo7rjbybTpWiA==
+X-Received: by 2002:aa7:c94a:: with SMTP id h10mr87311edt.247.1611313140199;
+ Fri, 22 Jan 2021 02:59:00 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id d8sm5169602edm.75.2021.01.22.02.58.53
+ by smtp.gmail.com with ESMTPSA id z25sm4134918ejd.23.2021.01.22.02.58.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 22 Jan 2021 02:58:54 -0800 (PST)
+ Fri, 22 Jan 2021 02:58:59 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/4] configure: Improve TCI feature description
-Date: Fri, 22 Jan 2021 11:58:35 +0100
-Message-Id: <20210122105836.1878506-4-philmd@redhat.com>
+Subject: [RFC PATCH v2 4/4] configure: Reword --enable-tcg-interpreter as
+ --disable-native-tcg
+Date: Fri, 22 Jan 2021 11:58:36 +0100
+Message-Id: <20210122105836.1878506-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210122105836.1878506-1-philmd@redhat.com>
 References: <20210122105836.1878506-1-philmd@redhat.com>
@@ -74,14 +73,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,25 +102,39 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Users might want to enable all features, without realizing some
-features have negative effect. Mention the TCI feature is slow
-and experimental, hoping it will be selected knowingly.
+features have negative effect. Rename '--enable-tcg-interpreter'
+as '--disable-native-tcg' to avoid user selecting this feature
+without understanding it. '--enable-tcg-interpreter' is kept in
+for backward compability with scripts.
 
 Suggested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+RFC so it can be discarded from the series
+
+ configure | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 9f016b06b54..71bdc523aa0 100755
+index 71bdc523aa0..5e56fa76499 100755
 --- a/configure
 +++ b/configure
-@@ -1753,7 +1753,7 @@ Advanced options (experts only):
+@@ -1121,7 +1121,8 @@ for opt do
+   ;;
+   --disable-tcg-interpreter) tcg_interpreter="no"
+   ;;
+-  --enable-tcg-interpreter) tcg_interpreter="yes"
++  --enable-tcg-interpreter) # backward compatibility
++  --disable-native-tcg) tcg_interpreter="yes"
+   ;;
+   --disable-cap-ng)  cap_ng="disabled"
+   ;;
+@@ -1753,7 +1754,7 @@ Advanced options (experts only):
    --with-trace-file=NAME   Full PATH,NAME of file to store traces
                             Default:trace-<pid>
    --disable-slirp          disable SLIRP userspace network connectivity
--  --enable-tcg-interpreter enable TCG with bytecode interpreter (TCI)
-+  --enable-tcg-interpreter enable TCG with bytecode interpreter (experimental and slow)
+-  --enable-tcg-interpreter enable TCG with bytecode interpreter (experimental and slow)
++  --disable-native-tcg     enable TCG with bytecode interpreter (experimental and slow)
    --enable-malloc-trim     enable libc malloc_trim() for memory optimization
    --oss-lib                path to OSS library
    --cpu=CPU                Build for host CPU [$cpu]
