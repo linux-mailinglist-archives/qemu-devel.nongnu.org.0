@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BAF22FFDCE
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 09:03:05 +0100 (CET)
-Received: from localhost ([::1]:60142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 825232FFDE4
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 09:08:58 +0100 (CET)
+Received: from localhost ([::1]:34576 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2rPM-0006u1-6k
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 03:03:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48150)
+	id 1l2rV3-0008IK-JI
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 03:08:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49478)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1l2rNB-0006Fz-UL
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:00:50 -0500
-Received: from mail-lj1-x22e.google.com ([2a00:1450:4864:20::22e]:35268)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
- id 1l2rMy-0006Mi-Fu
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:00:47 -0500
-Received: by mail-lj1-x22e.google.com with SMTP id p13so5527898ljg.2
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 00:00:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:reply-to:from:date:message-id
- :subject:to:cc;
- bh=eBnEIsSpdvtaAulcwb60egXtJXLbKdgq5l9EgYQnFNY=;
- b=vf50v8XQIysiJ9g0xpT2hTvm/ED+jdhI0b0b3HL7DWcBakpYCGB2Av+QLaAXvObefS
- 1Sqhp41mi1cfQV+JCzAko7z9lTgUeRBMJ+S4YP9zYRHVTb/jhvzUZWBb4IdumW/2WyMf
- mR3J5z3LKetqd8Vw3jk2+RQaNdqdeaekc+iliKP3XmMbwsc5LFXMz0nSE1q/39IZvTBk
- Ep3mE0PAaroTHLCTqlVgrqCWFm81N8Z3CrZe14ORo4LFKNiYijE/nJb1sCHKJhgWbztC
- IxtYlwscAOnh41Z91t4dU+hcuEscxSFW5Gd9qWRnF9TqzvvqoL3kR6404hyCGARmT3QL
- X0vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
- :from:date:message-id:subject:to:cc;
- bh=eBnEIsSpdvtaAulcwb60egXtJXLbKdgq5l9EgYQnFNY=;
- b=VPMvYW1ZVQz/d4E7R2asbZhfr764Qe/wEt1DnvGyOZKUCkuRbhwklsbzcJbiw/mm9x
- VCDLtowUIvQJh7kHzcz5dRuX6AHJMW3uzjcauNz23bQvrns6Fy49kktUcCOTi9SNADJs
- Nfl1YY8l9hR0bAEnNyAHpwdnCmEThUbbTZJzfPXWAphx9DaWThOYk7xa6ELSb22WCsXP
- o3oVqOw4gkDQSoU3Z9wH5bsrar9PrljLheJAfB3WPVXEkmPjydoglEiWukD9MnhTx8Mh
- Xb990ZsG+5wbZi+HL46J6Ts2AwFwYhYb630e07UWFJPF7ByATeQpIkAQog+ef+tLHMRQ
- EVKQ==
-X-Gm-Message-State: AOAM530hDcSDSd6m0r7i7OBkk2+DQ8Oek5zIDCg3GE70bCmIG9eSDq7m
- BLZnnUcYWXYBuzELZcDBmY6Ugk/ow0Bs2htT0ic=
-X-Google-Smtp-Source: ABdhPJygbrnKPgnFOw0cAPSWsQ/x6F95VmAfaW3b/dBke2U55KPSSgoKL7OBDf+uHrO+6jVNquwNFc2CkcTKUGsZZHU=
-X-Received: by 2002:a2e:8717:: with SMTP id m23mr1763536lji.490.1611302431058; 
- Fri, 22 Jan 2021 00:00:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1l2rTd-0007kx-6w
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:07:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60159)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <drjones@redhat.com>)
+ id 1l2rTW-00019W-Mn
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 03:07:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611302840;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wceigeWi447uFqqOJBTYIF2O1oO/W+rRjQCaPdz1EqM=;
+ b=YLolBkqQqQ39UI9QU6/rdrU+pvm5Vvm79q8jkbsXiVeZ78j0F7e1X3lO6DMvIkuBNrXUof
+ PFpZeECD6e7gX9RzlFbgb1Bl6w6pgR0l08cV3W+G6y55MNUQnQeJ39OexctxPyPOLk/OPo
+ YkrmM4m0hcwzNNMorwsqX9ku5d8+tKc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-327-pqCwM7fwNsuwkhRTXI3Ppg-1; Fri, 22 Jan 2021 03:07:18 -0500
+X-MC-Unique: pqCwM7fwNsuwkhRTXI3Ppg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 353AC15725;
+ Fri, 22 Jan 2021 08:07:17 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (unknown [10.40.192.139])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E430A2C6BF;
+ Fri, 22 Jan 2021 08:07:14 +0000 (UTC)
+Date: Fri, 22 Jan 2021 09:07:12 +0100
+From: Andrew Jones <drjones@redhat.com>
+To: Maxim Uvarov <maxim.uvarov@linaro.org>
+Subject: Re: [PATCHv8 2/3] arm-virt: refactor gpios creation
+Message-ID: <20210122080712.bwkjyyanwdv22eqd@kamzik.brq.redhat.com>
+References: <20210120092748.14789-1-maxim.uvarov@linaro.org>
+ <20210120092748.14789-3-maxim.uvarov@linaro.org>
 MIME-Version: 1.0
-References: <20210107140039.467969-1-pbonzini@redhat.com>
- <20210107140039.467969-9-pbonzini@redhat.com>
- <20210113103143.GA1568240@redhat.com>
- <50a309ed-64a3-6d17-9edb-6274abb4e498@redhat.com>
-In-Reply-To: <50a309ed-64a3-6d17-9edb-6274abb4e498@redhat.com>
-From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
-Date: Fri, 22 Jan 2021 00:00:19 -0800
-Message-ID: <CAE2XoE9gag5J7reaQPaovto6HDvDPaGOJCSGeModiXVr5p7chg@mail.gmail.com>
-Subject: Re: [PATCH 8/8] configure: automatically parse command line for meson
- -D options
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: multipart/alternative; boundary="000000000000076f7305b97895b8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::22e;
- envelope-from=luoyonggang@gmail.com; helo=mail-lj1-x22e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210120092748.14789-3-maxim.uvarov@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=drjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=drjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.168,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,84 +78,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: luoyonggang@gmail.com
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: peter.maydell@linaro.org, Jose.Marinho@arm.com, qemu-devel@nongnu.org,
+ f4bug@amsat.org, tf-a@lists.trustedfirmware.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000076f7305b97895b8
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Jan 20, 2021 at 12:27:47PM +0300, Maxim Uvarov wrote:
+> No functional change. Just refactor code to better
+> support secure and normal world gpios.
+> 
+> Signed-off-by: Maxim Uvarov <maxim.uvarov@linaro.org>
+> ---
+>  hw/arm/virt.c | 64 ++++++++++++++++++++++++++++++++++-----------------
+>  1 file changed, 43 insertions(+), 21 deletions(-)
+> 
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index 96985917d3..c427ce5f81 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -820,17 +820,43 @@ static void virt_powerdown_req(Notifier *n, void *opaque)
+>      }
+>  }
+>  
+> -static void create_gpio(const VirtMachineState *vms)
+> +static void create_gpio_keys(const VirtMachineState *vms,
+> +                             DeviceState *pl061_dev,
+> +                             uint32_t phandle)
+> +{
+> +    gpio_key_dev = sysbus_create_simple("gpio-key", -1,
+> +                                        qdev_get_gpio_in(pl061_dev, 3));
+> +
+> +    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys");
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys", "compatible", "gpio-keys");
+> +    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#size-cells", 0);
+> +    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#address-cells", 1);
+> +
+> +    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys/poweroff");
+> +    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys/poweroff",
+> +                            "label", "GPIO Key Poweroff");
+> +    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys/poweroff", "linux,code",
+> +                          KEY_POWER);
+> +    qemu_fdt_setprop_cells(vms->fdt, "/gpio-keys/poweroff",
+> +                           "gpios", phandle, 3, 0);
+> +}
+> +
+> +static void create_gpio_devices(const VirtMachineState *vms, int gpio,
+> +                                MemoryRegion *mem)
+>  {
+>      char *nodename;
+>      DeviceState *pl061_dev;
+> -    hwaddr base = vms->memmap[VIRT_GPIO].base;
+> -    hwaddr size = vms->memmap[VIRT_GPIO].size;
+> -    int irq = vms->irqmap[VIRT_GPIO];
+> +    hwaddr base = vms->memmap[gpio].base;
+> +    hwaddr size = vms->memmap[gpio].size;
+> +    int irq = vms->irqmap[gpio];
+>      const char compat[] = "arm,pl061\0arm,primecell";
+> +    SysBusDevice *s;
+>  
+> -    pl061_dev = sysbus_create_simple("pl061", base,
+> -                                     qdev_get_gpio_in(vms->gic, irq));
+> +    pl061_dev = qdev_new("pl061");
+> +    s = SYS_BUS_DEVICE(pl061_dev);
+> +    sysbus_realize_and_unref(s, &error_fatal);
+> +    memory_region_add_subregion(mem, base, sysbus_mmio_get_region(s, 0));
+> +    sysbus_connect_irq(s, 0, qdev_get_gpio_in(vms->gic, irq));
+>  
+>      uint32_t phandle = qemu_fdt_alloc_phandle(vms->fdt);
+>      nodename = g_strdup_printf("/pl061@%" PRIx64, base);
+> @@ -847,21 +873,17 @@ static void create_gpio(const VirtMachineState *vms)
+>      qemu_fdt_setprop_string(vms->fdt, nodename, "clock-names", "apb_pclk");
+>      qemu_fdt_setprop_cell(vms->fdt, nodename, "phandle", phandle);
+>  
+> -    gpio_key_dev = sysbus_create_simple("gpio-key", -1,
+> -                                        qdev_get_gpio_in(pl061_dev, 3));
+> -    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys");
+> -    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys", "compatible", "gpio-keys");
+> -    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#size-cells", 0);
+> -    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys", "#address-cells", 1);
+> -
+> -    qemu_fdt_add_subnode(vms->fdt, "/gpio-keys/poweroff");
+> -    qemu_fdt_setprop_string(vms->fdt, "/gpio-keys/poweroff",
+> -                            "label", "GPIO Key Poweroff");
+> -    qemu_fdt_setprop_cell(vms->fdt, "/gpio-keys/poweroff", "linux,code",
+> -                          KEY_POWER);
+> -    qemu_fdt_setprop_cells(vms->fdt, "/gpio-keys/poweroff",
+> -                           "gpios", phandle, 3, 0);
+> +    if (gpio != VIRT_GPIO) {
+> +        /* Mark as not usable by the normal world */
+> +        qemu_fdt_setprop_string(vms->fdt, nodename, "status", "disabled");
+> +        qemu_fdt_setprop_string(vms->fdt, nodename, "secure-status", "okay");
+> +    }
 
-Hi Paolo, as python and meson are required dependencies to building qemu
-now,
-can we detecting python/meson at the very begining of configure,
-even before the --help parameter.
+nit: The above if-block could/should have waited until the next patch to
+be added.
 
-On Wed, Jan 13, 2021 at 6:08 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>      g_free(nodename);
+> +
+> +    /* Child gpio devices */
+> +    if (gpio == VIRT_GPIO) {
+
+Same nit as above, the next patch is where we should start conditionally
+doing stuff based on the gpio type.
+
+> +        create_gpio_keys(vms, pl061_dev, phandle);
+> +    }
+>  }
+>  
+>  static void create_virtio_devices(const VirtMachineState *vms)
+> @@ -1990,7 +2012,7 @@ static void machvirt_init(MachineState *machine)
+>      if (has_ged && aarch64 && firmware_loaded && virt_is_acpi_enabled(vms)) {
+>          vms->acpi_dev = create_acpi_ged(vms);
+>      } else {
+> -        create_gpio(vms);
+> +        create_gpio_devices(vms, VIRT_GPIO, sysmem);
+>      }
+>  
+>       /* connect powerdown request */
+> -- 
+> 2.17.1
+> 
 >
-> On 13/01/21 11:31, Daniel P. Berrang=C3=A9 wrote:
-> >>   meson-buildoptions.json                 | 717
-++++++++++++++++++++++++
-> > I'm not a fan of seeing this file introduced as it has significant
-> > overlap with meson_options.txt.    I feel like the latter has enough
-> > information present to do an acceptable job for help output. After
-> > all that's sufficient if we were using meson directly.
->
-> Sorry, I missed this remark.  meson-buildoptions.json is not
-> hand-written.  It is the result of Meson's own parsing meson_options.txt
-> exported as JSON.
->
-> In the commit message "because we parse command-line options before
-> meson is available, the introspection output is stored in the source
-> tree.  This is the reason for the unattractive diffstat; the number of
-> JSON lines added is higher than the number of configure lines removed.
-> Of course the latter are code that must be maintained manually and the
-> former is not".
->
-> Paolo
->
->
 
+Reviewed-by: Andrew Jones <drjones@redhat.com>
 
---
-         =E6=AD=A4=E8=87=B4
-=E7=A4=BC
-=E7=BD=97=E5=8B=87=E5=88=9A
-Yours
-    sincerely,
-Yonggang Luo
+Thanks,
+drew
 
---000000000000076f7305b97895b8
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi Paolo, as python and meson are required dependencies to=
- building qemu now,<div>can we detecting python/meson at the very begining =
-of configure,</div><div>even before the --help parameter.<br><br>On Wed, Ja=
-n 13, 2021 at 6:08 AM Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.c=
-om">pbonzini@redhat.com</a>&gt; wrote:<br>&gt;<br>&gt; On 13/01/21 11:31, D=
-aniel P. Berrang=C3=A9 wrote:<br>&gt; &gt;&gt; =C2=A0 meson-buildoptions.js=
-on =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 717 ++++++++++=
-++++++++++++++<br>&gt; &gt; I&#39;m not a fan of seeing this file introduce=
-d as it has significant<br>&gt; &gt; overlap with meson_options.txt. =C2=A0=
- =C2=A0I feel like the latter has enough<br>&gt; &gt; information present t=
-o do an acceptable job for help output. After<br>&gt; &gt; all that&#39;s s=
-ufficient if we were using meson directly.<br>&gt;<br>&gt; Sorry, I missed =
-this remark. =C2=A0meson-buildoptions.json is not<br>&gt; hand-written.=C2=
-=A0 It is the result of Meson&#39;s own parsing meson_options.txt<br>&gt; e=
-xported as JSON.<br>&gt;<br>&gt; In the commit message &quot;because we par=
-se command-line options before<br>&gt; meson is available, the introspectio=
-n output is stored in the source<br>&gt; tree.=C2=A0 This is the reason for=
- the unattractive diffstat; the number of<br>&gt; JSON lines added is highe=
-r than the number of configure lines removed.<br>&gt; Of course the latter =
-are code that must be maintained manually and the<br>&gt; former is not&quo=
-t;.<br>&gt;<br>&gt; Paolo<br>&gt;<br>&gt;<br><br><br>--<br>=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0=E6=AD=A4=E8=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=
-=E5=88=9A<br>Yours<br>=C2=A0 =C2=A0 sincerely,<br>Yonggang Luo</div></div>
-
---000000000000076f7305b97895b8--
 
