@@ -2,55 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E350130059E
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:38:10 +0100 (CET)
-Received: from localhost ([::1]:34246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C63B93005A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 15:39:53 +0100 (CET)
+Received: from localhost ([::1]:39560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2xZh-0001qt-NW
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:38:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51330)
+	id 1l2xbM-00043v-Tr
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 09:39:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52012)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2xX7-0000Ot-6R
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:35:29 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:28841)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l2xaM-0003bF-Rk
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:38:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41496)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2xX2-00005s-0z
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:35:28 -0500
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-172-Fojr4eJpOByhEdJzS00jpQ-1; Fri, 22 Jan 2021 09:35:17 -0500
-X-MC-Unique: Fojr4eJpOByhEdJzS00jpQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 739368066E8;
- Fri, 22 Jan 2021 14:35:16 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7C7CA19C59;
- Fri, 22 Jan 2021 14:35:15 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] 9pfs: Convert reclaim list to QSLIST
-Date: Fri, 22 Jan 2021 15:35:14 +0100
-Message-Id: <20210122143514.215780-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l2xaI-0001oj-54
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 09:38:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611326325;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8436w1rC1HzNIW0qO4PX8tfLxzapj9eezSdbt86sbdQ=;
+ b=gWwWSdO2v/T8KdAqypGb2ph/L1++0AtyGJh2ns8QbBcR219Kib2Xo9/kuLk+uOnuZpwLyY
+ o8rf55wqadUpGGXIK1r0lobBIEBlGn6ilqTut9sF7SKWtS3LflR+SyWuSq551UqzP5WuR+
+ FQqeOi9sk/PoaHGI9JIxPUIkTKZJtJA=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-35-4u2NVSuoO9m_uQsEkcLqQA-1; Fri, 22 Jan 2021 09:38:43 -0500
+X-MC-Unique: 4u2NVSuoO9m_uQsEkcLqQA-1
+Received: by mail-ed1-f72.google.com with SMTP id m16so2983568edd.21
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 06:38:43 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=8436w1rC1HzNIW0qO4PX8tfLxzapj9eezSdbt86sbdQ=;
+ b=CqMd3L9+TyFuYXOaX+ZnXsw1BJhzP9QpqReL1Vcx2hmSdXYYK+v7PcMrqV4pAlT0+X
+ 70EvGJOM1+22gLIgSUBYI5k9Om7XEG3QuCO7CFDXPEnGLkNd0/JDXyyqEGuEtU80DRWw
+ aKWqM5osZ9FLt92kXwVXkFJePB6hdzFX0z5s2xTOrSAgH74JH+jj0OqjvMfVETHAjj0A
+ PLJi7NqsA5nKGmhcAdVZ8a4x94+qO16Pbn+NbYZbnevmeSUp7txNBDiRh3PD5wgEs5KH
+ /o/cu3D5zeRQNWUE93VCf7PMyqlluN7ab/CQ7A2C50ZsAAcTSHo4xamgGH6Id/EgQdYw
+ THIQ==
+X-Gm-Message-State: AOAM530Ic1IcW4CdrTfZ5ucyc169+aZq8AMo8QMIm7EndKPx4vMQBfdu
+ R4oLx/bM4Ewzq238y3VfRa71OGqWA4ZE5VJ29PG0g7V//tTW2u3loZ66XjbftKrH6ZL4so8NQgz
+ +0eZEH7ExMv1KGXMlnCVxO7tKi2FUN1r3xgF8htrqeS/VhENlhvBBu5aOuWNRvPBSms0=
+X-Received: by 2002:a17:906:f85b:: with SMTP id
+ ks27mr3068753ejb.20.1611326322223; 
+ Fri, 22 Jan 2021 06:38:42 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxd6rniRtNIA9Cj1B59aPViy/fyXdCJ8Jd0PU06GdCTCEY2fxNbKnPm7+2QGmcECC1XjD76SA==
+X-Received: by 2002:a17:906:f85b:: with SMTP id
+ ks27mr3068740ejb.20.1611326322027; 
+ Fri, 22 Jan 2021 06:38:42 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.gmail.com with ESMTPSA id l1sm4478366eje.12.2021.01.22.06.38.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 22 Jan 2021 06:38:41 -0800 (PST)
+Subject: Re: [PATCH 06/25] tests: convert check-qom-proplist to keyval
+To: Markus Armbruster <armbru@redhat.com>
+References: <20210118163113.780171-1-pbonzini@redhat.com>
+ <20210118163113.780171-7-pbonzini@redhat.com>
+ <87y2gl2h4a.fsf@dusky.pond.sub.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <c9045f27-27bf-5b93-911c-ddce47ed2a84@redhat.com>
+Date: Fri, 22 Jan 2021 15:38:39 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <87y2gl2h4a.fsf@dusky.pond.sub.org>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, PDS_OTHER_BAD_TLD=1.997,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.221, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,88 +103,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>, Greg Kurz <groug@kaod.org>
+Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use QSLIST instead of open-coding for a slightly improved readability.
+On 22/01/21 15:14, Markus Armbruster wrote:
+> ok 2 /qom/proplist/createv
+> Unexpected error in find_list() at ../util/qemu-config.c:24:
+> There is no option group 'object'
 
-No behavioral change.
+Hmm, maybe a semantic conflict when I rebased.  I'll take a look.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/9pfs/9p.c | 17 ++++++++---------
- hw/9pfs/9p.h |  2 +-
- 2 files changed, 9 insertions(+), 10 deletions(-)
+>> +    qdict = keyval_parse(params, "qom-type", &help, &err);
+> 
+> Why parse again?
 
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 3864d014b43c..5a6e2c9d3d7f 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -416,7 +416,9 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
- {
-     int reclaim_count =3D 0;
-     V9fsState *s =3D pdu->s;
--    V9fsFidState *f, *reclaim_list =3D NULL;
-+    V9fsFidState *f;
-+    QSLIST_HEAD(, V9fsFidState) reclaim_list =3D
-+        QSLIST_HEAD_INITIALIZER(reclaim_list);
-=20
-     QSIMPLEQ_FOREACH(f, &s->fid_list, next) {
-         /*
-@@ -448,8 +450,7 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-                  * a clunk request won't free this fid
-                  */
-                 f->ref++;
--                f->rclm_lst =3D reclaim_list;
--                reclaim_list =3D f;
-+                QSLIST_INSERT_HEAD(&reclaim_list, f, reclaim_next);
-                 f->fs_reclaim.fd =3D f->fs.fd;
-                 f->fs.fd =3D -1;
-                 reclaim_count++;
-@@ -461,8 +462,7 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-                  * a clunk request won't free this fid
-                  */
-                 f->ref++;
--                f->rclm_lst =3D reclaim_list;
--                reclaim_list =3D f;
-+                QSLIST_INSERT_HEAD(&reclaim_list, f, reclaim_next);
-                 f->fs_reclaim.dir.stream =3D f->fs.dir.stream;
-                 f->fs.dir.stream =3D NULL;
-                 reclaim_count++;
-@@ -476,15 +476,14 @@ void coroutine_fn v9fs_reclaim_fd(V9fsPDU *pdu)
-      * Now close the fid in reclaim list. Free them if they
-      * are already clunked.
-      */
--    while (reclaim_list) {
--        f =3D reclaim_list;
--        reclaim_list =3D f->rclm_lst;
-+    while (!QSLIST_EMPTY(&reclaim_list)) {
-+        f =3D QSLIST_FIRST(&reclaim_list);
-+        QSLIST_REMOVE(&reclaim_list, f, V9fsFidState, reclaim_next);
-         if (f->fid_type =3D=3D P9_FID_FILE) {
-             v9fs_co_close(pdu, &f->fs_reclaim);
-         } else if (f->fid_type =3D=3D P9_FID_DIR) {
-             v9fs_co_closedir(pdu, &f->fs_reclaim);
-         }
--        f->rclm_lst =3D NULL;
-         /*
-          * Now drop the fid reference, free it
-          * if clunked.
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 85fb6930b0ca..00381591ffa2 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -281,7 +281,7 @@ struct V9fsFidState {
-     int ref;
-     bool clunked;
-     QSIMPLEQ_ENTRY(V9fsFidState) next;
--    V9fsFidState *rclm_lst;
-+    QSLIST_ENTRY(V9fsFidState) reclaim_next;
- };
-=20
- typedef enum AffixType_t {
---=20
-2.26.2
+I don't remember why I did it that way, but it does seem cleaner. 
+Unlike QemuOpts, which are persistent until qemu_opts_del and can be 
+retrieved later, keyval's result only survives as long as you want it to 
+survive, and are leaked if you don't unref the qdict.  Parsing every 
+time the object is created seems more similar to the way the vl.c code 
+works.
+
+>> -     * cmdline-parsing via qemu_opts_parse() results in a QemuOpts entry
+>> -     * corresponding to the Object's ID to be added to the QemuOptsList
+>> -     * for objects. To avoid having this entry conflict with future
+>> -     * Objects using the same ID (which can happen in cases where
+>> -     * qemu_opts_parse() is used to parse the object params, such as
+>> -     * with hmp_object_add() at the time of this comment), we need to
+>> -     * check for this in user_creatable_del() and remove the QemuOpts if
+>> -     * it is present.
+>> -     *
+>> -     * The below check ensures this works as expected.
+>> -     */
+>> -    g_assert_null(qemu_opts_find(&qemu_object_opts, "dev0"));
+>> +    g_assert(user_creatable_add_dict(qdict, true, &err));
+> Am I confused, or are you going from two to three creates?  Should this
+> be in a separate patch?
+
+It's a different way to test for "you can create another object with the 
+same id" you had before.  It used to check for NULL qemu_opts_find, now 
+it checks directly that the creation succeeds.  I can put it in the 
+commit message.
+
+Paolo
+
+>> +    g_assert(err == NULL);
+>> +    qobject_unref(qdict);
+>> +
+>> +    dobj = DUMMY_OBJECT(object_resolve_path_component(object_get_objects_root(),
+>> +                                                      "dev0"));
+>> +    g_assert(dobj);
+>> +    g_assert_cmpstr(dobj->sv, ==, "Hiss hiss hiss");
+>> +    g_assert(dobj->bv == true);
+>> +    g_assert(dobj->av == DUMMY_PLATYPUS);
+>> +    g_assert(object_resolve_path_component(object_get_objects_root(), "dev0")
+>> +             == OBJECT(dobj));
+>> +
+>> +    object_unparent(OBJECT(dobj));
 
 
