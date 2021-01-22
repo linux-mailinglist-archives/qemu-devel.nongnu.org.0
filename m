@@ -2,85 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931AA300B2D
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:26:13 +0100 (CET)
-Received: from localhost ([::1]:55268 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB3BC300B05
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:22:03 +0100 (CET)
+Received: from localhost ([::1]:39466 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l318O-0000sy-Iy
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:26:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57676)
+	id 1l314M-0001lG-RV
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:22:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57514)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1l311k-0007hZ-Lg
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1l311i-0006ww-Mb
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611339557;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=i5uG3VkTMr9TyU6fW63sMt/tjIFddnD19fqLFaikmWM=;
- b=SCsMVNuNfynObix7MAibDszyU9WbvX+qwCqgGF0W5BKL89uu5CFioALt4Fds8qgJBc1pnM
- AAOfIMUejoE37ptzCzYTVcSeRIGdIsqCDvvmmkU5/jvpJJ1kEHn7V63ba6APdLhSosBXsS
- KlSL4lGPUDbeOO5f3f9s2RdlILklb5c=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-355-P0zj-z88ORWuUbvmpbQUtQ-1; Fri, 22 Jan 2021 13:19:16 -0500
-X-MC-Unique: P0zj-z88ORWuUbvmpbQUtQ-1
-Received: by mail-qv1-f70.google.com with SMTP id m8so4468396qvt.14
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:19:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l311Q-0007Uq-GO
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:00 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:46233)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l311O-0006qC-KU
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:00 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id q7so5941738wre.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:18:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=duAUI/SoLZVx4nJfugSKpgmaGQ90w6pEpn1tczboaE8=;
+ b=K9oVPQ2t03HXdGtpKB5/0nL7kp2j6QFHRqPEaBJfeUMIvLouTAJmiBvCizVlYJncm0
+ YS7jPzBxeLgik10dgPU3oKTwFUgqKaba5Z3xhnNrIYEsZzYkdot+cmc3j7gsdFSUHQHi
+ T3GCpMVykUgwO63Wsc2XulbnIe+BOnqsow4+iPg5TRJnXCwpFkQdSQQArPdH5cNyH210
+ kw63MyYL3lADZqR2jsBChMNAbnNNoadORCXEYjFRLAvsaKGA5bCzdcO+z52lxfmEsmIk
+ jbkY758qizkIQsQWpOmwnnbf1f7uVIb5DcckEKgxiZz5Ci1F7jRs4KKZAJpzlMBBvmF2
+ q9PA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=i5uG3VkTMr9TyU6fW63sMt/tjIFddnD19fqLFaikmWM=;
- b=h1ciz015H7yoh+UO1tMaq7cWbep7XuV+y9ymV8xWAybPF8hXT5kPK6khrwkYiNrCY8
- /zxeuESlbFiDzS/YjfNL3jeFtRZr4V2K4H6vRAiapNxM8lim/RWdLeNcJS3L8HqMSq09
- E1OVO7KpFxiU+5IsgiO3OrozlzW49O61QmzaRbgczs/jJbbmslaMdE2wzJZOnlNZJ3Zn
- 8ZKqaaYU4oFso+xxMmWuXDYgDFH0NO6E51QLDExmKdySigUZkOaXhYPJlfSUQ5AXNef9
- qG6oMWWfx6ANpbUMCX9vgEPPgLpaH/OZ8UQGRIy5kYXm8HHdf6mwNg2u+ba7iPNPQ8Ro
- 6quQ==
-X-Gm-Message-State: AOAM532QJVB0AjJb2Z9Z4cZknzbN87NgP2uBBSxHGBBWyTV+mX2wL2/H
- 7oGsp9YTFJhoolt2vusQloDN6ZkYZnKtAkuMslDk+0lqbN5DeW2nA0d6XdeXzMfyt17Iy3l1p4t
- GbU/7wbeRvPuViBacK9xc7pfRAS+APbU=
-X-Received: by 2002:aed:3ac1:: with SMTP id o59mr5439434qte.203.1611339555672; 
- Fri, 22 Jan 2021 10:19:15 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxpPu8drxNo1TOf01hRflaUbJD4hoWniIU5vblEAujNTjuxLzJtBLkYPa8MgoCrN1bnI0xumA6K4af+E0k4B48=
-X-Received: by 2002:aed:3ac1:: with SMTP id o59mr5439388qte.203.1611339555418; 
- Fri, 22 Jan 2021 10:19:15 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=duAUI/SoLZVx4nJfugSKpgmaGQ90w6pEpn1tczboaE8=;
+ b=bYwL+Hf6UEhbjBSDY7EktISMU83cmocdMA2xaze2KVn+7TT02WVAWMk2GNxji+qb3r
+ MA6cXk1A0VE/GoTcZL5+fAFvosd8tS6hcva8YPfloNujfTSVOba4ytbS2HUTQ5Ny4KFw
+ GJ5CrFUUGJIb15JV+K2Ma2zocHhDoOdB4Dxyn1FrRuJkwg+jMblkPWwuoThSn8Enjoj5
+ bvsaJBujayyb2PF7ib25qK/9mf824PolgBlV+yWREA3LFvVJ4daxFQ9+zvdHM34YDugf
+ Z8wmPGESc7GrLIzTUdaCu/7SyCf6NHCXzWnVv+We71j1E9A9e+lJBKkVEFulbQMbkmVa
+ vfPw==
+X-Gm-Message-State: AOAM530p4sMCN/TBANlrss3B7c1EgAe3VPGHOZ/8NmO7mhYs1p3mygV9
+ jhyiq/fYqUjhclIBX0bH+o7GaA==
+X-Google-Smtp-Source: ABdhPJxecmEbPiTJJTsVSWsNmM+3IINzmS5OmnhE4/I7NrIGhcWk53bqwp5G3a+yHEA3Veq9sA949Q==
+X-Received: by 2002:adf:9261:: with SMTP id 88mr3991304wrj.227.1611339536366; 
+ Fri, 22 Jan 2021 10:18:56 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id a130sm11901601wmf.4.2021.01.22.10.18.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 22 Jan 2021 10:18:55 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A3FC71FF7E;
+ Fri, 22 Jan 2021 18:18:54 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH  v2 0/8] testing/next (docker, binfmt, gdb version)
+Date: Fri, 22 Jan 2021 18:18:46 +0000
+Message-Id: <20210122181854.23105-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20201120185105.279030-1-eperezma@redhat.com>
- <20201120185105.279030-14-eperezma@redhat.com>
- <20201208081621.GR203660@stefanha-x1.localdomain>
- <CAJaqyWf13ta5MtzmTUz2N5XnQ+ebqFPYAivdggL64LEQAf=y+A@mail.gmail.com>
- <20201210115547.GH416119@stefanha-x1.localdomain>
-In-Reply-To: <20201210115547.GH416119@stefanha-x1.localdomain>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Fri, 22 Jan 2021 19:18:39 +0100
-Message-ID: <CAJaqyWe3EKiHHxgtabeZ8d7TS3LKP_BsCvHjt3YUDGLxy-Egjg@mail.gmail.com>
-Subject: Re: [RFC PATCH 13/27] vhost: Send buffers to device
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,97 +84,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kvm list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
- Stefan Hajnoczi <stefanha@gmail.com>, Jason Wang <jasowang@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Daniel Daly <dandaly0@gmail.com>,
- virtualization@lists.linux-foundation.org, Liran Alon <liralon@gmail.com>,
- Eli Cohen <eli@mellanox.com>, Nitin Shrivastav <nitin.shrivastav@broadcom.com>,
- Alex Barba <alex.barba@broadcom.com>,
- Christophe Fontaine <cfontain@redhat.com>, Juan Quintela <quintela@redhat.com>,
- Lee Ballard <ballle98@gmail.com>, Lars Ganrot <lars.ganrot@gmail.com>,
- Rob Miller <rob.miller@broadcom.com>, Stefano Garzarella <sgarzare@redhat.com>,
- Howard Cai <howard.cai@gmail.com>, Parav Pandit <parav@mellanox.com>,
- vm <vmireyno@marvell.com>, Salil Mehta <mehta.salil.lnk@gmail.com>,
- Stephen Finucane <stephenfin@redhat.com>, Xiao W Wang <xiao.w.wang@intel.com>,
- Sean Mooney <smooney@redhat.com>, Jim Harford <jim.harford@broadcom.com>,
- Dmytro Kazantsev <dmytro.kazantsev@gmail.com>, Siwei Liu <loseweigh@gmail.com>,
- Harpreet Singh Anand <hanand@xilinx.com>, Michael Lilja <ml@napatech.com>,
- Max Gurtovoy <maxgu14@gmail.com>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Dec 10, 2020 at 12:55 PM Stefan Hajnoczi <stefanha@redhat.com> wrot=
-e:
->
-> On Wed, Dec 09, 2020 at 07:41:23PM +0100, Eugenio Perez Martin wrote:
-> > On Tue, Dec 8, 2020 at 9:16 AM Stefan Hajnoczi <stefanha@gmail.com> wro=
-te:
-> > > On Fri, Nov 20, 2020 at 07:50:51PM +0100, Eugenio P=C3=A9rez wrote:
-> > > > +        while (true) {
-> > > > +            int r;
-> > > > +            if (virtio_queue_full(vq)) {
-> > > > +                break;
-> > > > +            }
-> > >
-> > > Why is this check necessary? The guest cannot provide more descriptor=
-s
-> > > than there is ring space. If that happens somehow then it's a driver
-> > > error that is already reported in virtqueue_pop() below.
-> > >
-> >
-> > It's just checked because virtqueue_pop prints an error on that case,
-> > and there is no way to tell the difference between a regular error and
-> > another caused by other causes. Maybe the right thing to do is just to
-> > not to print that error? Caller should do the error printing in that
-> > case. Should we return an error code?
->
-> The reason an error is printed today is because it's a guest error that
-> never happens with correct guest drivers. Something is broken and the
-> user should know about it.
->
-> Why is "virtio_queue_full" (I already forgot what that actually means,
-> it's not clear whether this is referring to avail elements or used
-> elements) a condition that should be silently ignored in shadow vqs?
->
+Hi,
 
-TL;DR: It can be changed to a check of the number of available
-descriptors in shadow vq, instead of returning as a regular operation.
-However, I think that making it a special return of virtqueue_pop
-could help in devices that run to completion, avoiding having to
-duplicate the count logic in them.
+The testing updates keep on rolling. This expands on the last version
+by adding some more handling of weird gdb version numbers and bumping
+the minimum requirement again.
 
-The function virtio_queue_empty checks if the vq has all descriptors
-available, so the device has no more work to do until the driver makes
-another descriptor available. I can see how it can be a bad name
-choice, but virtio_queue_full means the opposite: device has pop()
-every descriptor available, and it has not returned any, so the driver
-cannot progress until the device marks some descriptors as used.
+The following need review:
 
-As I understand, if vq->in_use >vq->num would mean we have a bug in
-the device vq code, not in the driver. virtio_queue_full could even be
-changed to "assert(vq->inuse <=3D vq->vring.num); return vq->inuse =3D=3D
-vq->vring.num", as long as vq->in_use is operated right.
+ - configure: bump the minimum gdb version for check-tcg to 9.1
+ - configure: make version_ge more tolerant of shady version input
+ - tests/docker: add a docker-exec-copy-test
+ - tests/docker: alias docker-help target for consistency
+ - tests/docker: preserve original name when copying libs
 
-If we hit vq->in_use =3D=3D vq->num in virtqueue_pop it means the device
-tried to pop() one more buffer after having all of them available and
-pop'ed. This would be invalid if the device is counting right the
-number of in_use descriptors, but then we are duplicating that logic
-in the device and the vq.
+Alex Bennée (6):
+  tests/docker: make _copy_with_mkdir accept missing files
+  tests/docker: preserve original name when copying libs
+  tests/docker: alias docker-help target for consistency
+  tests/docker: add a docker-exec-copy-test
+  configure: make version_ge more tolerant of shady version input
+  configure: bump the minimum gdb version for check-tcg to 9.1
 
-In shadow vq this situation happens with the correct guest network
-driver, since the rx queue is filled for the device to write. Network
-device in qemu fetch descriptors on demand, but shadow vq fetch all
-available in batching. If the driver just happens to fill the queue of
-available descriptors, the log will raise, so we need to check in
-handle_sw_lm_vq before calling pop(). Of course the shadow vq can
-duplicate guest_vq->in_use instead of checking virtio_queue_full, but
-then it needs to check two things for every virtqueue_pop() [1].
+Philippe Mathieu-Daudé (2):
+  tests/docker: Fix _get_so_libs() for docker-binfmt-image
+  tests/docker: Fix typo in help message
 
-Having said that, would you prefer a checking of available slots in
-the shadow vq?
+ configure                             |  6 +++---
+ tests/docker/Makefile.include         | 26 +++++++++++++++++++++++---
+ tests/docker/docker.py                | 23 +++++++++++++++++------
+ tests/docker/dockerfiles/empty.docker |  8 ++++++++
+ 4 files changed, 51 insertions(+), 12 deletions(-)
+ create mode 100644 tests/docker/dockerfiles/empty.docker
 
-Thanks!
-
-[1] if we don't change virtqueue_pop code.
+-- 
+2.20.1
 
 
