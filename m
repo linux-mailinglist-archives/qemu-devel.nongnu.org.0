@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D27300B09
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:24:17 +0100 (CET)
-Received: from localhost ([::1]:47974 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97261300B03
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:21:53 +0100 (CET)
+Received: from localhost ([::1]:38098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l316W-0005nw-UH
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:24:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57516)
+	id 1l314A-00014j-B4
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:21:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l311Q-0007VZ-Qv
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:00 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:37138)
+ id 1l311V-0007Y2-4u
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:05 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:46240)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l311P-0006qI-A9
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:00 -0500
-Received: by mail-wm1-x336.google.com with SMTP id c128so5150183wme.2
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:18:58 -0800 (PST)
+ id 1l311T-0006rE-5i
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:19:04 -0500
+Received: by mail-wr1-x436.google.com with SMTP id q7so5941879wre.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 10:19:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Z1pwI3vYS5zF+thwL7KFBLXWBDqCuQgrG7iqQ6JY8Jc=;
- b=qjMKYb+ClrN97Yndcd74T/PxkgWG7GskeMe6oJTx/R0KZUOlJC2j7hQbtb/4JgMneV
- BaJm0KSJE4a1uy39X742wCcW1FPWPRoby3gAQ8o7ArJLXtYTXTCsJlxiqAyn6tSLlFVK
- htFcAQcghQot6O3fQVVrWbrCY2poG42j68SHAjFfz1qQB7T0ZXZeKoeEiVnZErLHpV2m
- ABUxFfHQMYKUSoLg4GWEfqZ5vbpjDk2KR0WK1ZPCg+3o4hcmOUIUD95ZV+7+AFJgYlWf
- eV579ihJ1fwr50xpQjM/3+Zo/t2bhHHANURM7Qr3P0Nip9C6ktpUi53Wnw8Qq45WIv4r
- ijlQ==
+ bh=sE2rw1O4u9cYqn0FvywReTtt3n/OCFCQyRnzm4hokb8=;
+ b=L4CKDPG3h/ELlAHycAPDD38TFU6PiRrQXH8ClGXPRCVUHLTEQGDF4p3n0S22OCY60W
+ 8n/hPlzmS35PbsFB7BmNqYkm3lo7rH85STsB7unQ7XYQSVfuaH9gyNzZNzKN17h0PLDM
+ MP+ApkvTW+rukSch0Av+peBjRvFq6LxymZrUzrRol9SH1rUoanwW+DyU+SQ+vnUIPh0G
+ +jqO5kEIvTOc36SdtCrkjJq/UwMjbCpuQJZvJ0xUZ7riL5YQjes7wv7o4sHGexrMkFwu
+ 7pAC5SxN5n4Mp9P+FJVwVNkGfSJWIwQLKM7CM5SeU+fcXn9l2h98SEdCz3hcyr6PBCXZ
+ 783A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=Z1pwI3vYS5zF+thwL7KFBLXWBDqCuQgrG7iqQ6JY8Jc=;
- b=JhfhK9e1RUXijGkBrPu/a7zWS/WSgtHw7V6Xg9yjB/RAbQYWj51kNIfXOIlwFc85bc
- 02Gs0EKh76FrHY7oTpqsRokqInlddKRaTKtwQ46vftKiW7e0BqCQom+3nv3quiTNQ6gC
- bt+RZQQVnstweimX6i2Ei151eGmW6mNwTSSoWQnpUk3OnWmVzbhK2q4j5kbIISDgxmxM
- mv4XydiaRu3wygnkL109HjqcB1ti1ejjASz8pER41GGlawO/cZeDSlfr6XXLnRhxVOiO
- y+o7Fuq1ZuUCRzCQ8yZg0dRAVS26wRJXGA2Q6EKbTarDlDvZary1CjcmebYJULIGVr6S
- pWMA==
-X-Gm-Message-State: AOAM530gUiWP8Jq4YQXmJjTQjAAzh+UMGiYcAgrD85a36HfL7KGTxjDk
- bKP1495nfUURDs0N4Wlf7dShSA==
-X-Google-Smtp-Source: ABdhPJzxniy1Wr56RyX52X45sQr4iD/xdekcRrDf0wabRPBxTPViQ5rPsoH0LXmCQa78x2JGSNW/Cg==
-X-Received: by 2002:a1c:bb07:: with SMTP id l7mr5235147wmf.102.1611339537478; 
- Fri, 22 Jan 2021 10:18:57 -0800 (PST)
+ bh=sE2rw1O4u9cYqn0FvywReTtt3n/OCFCQyRnzm4hokb8=;
+ b=N89HftY2RaQUF1+RIJ+0BzW8l4q8nRp6ocFNQwp0H2ahnesX92a5L6ubIwcHjdj9IJ
+ CVTwKBhHzDBLEmxzp32gc3SBw0jFW8sRggcH96HjC2ypCfwEE79c/CVDI/s/mwJSeCGu
+ ICKubk4OyONrjicW48PCvn41+B64ruq5tKYaGBAW9pSnusPuJ2uuFt5ttSVx65DdDrup
+ Q/cNRdfm293BulKsuSoHjAUvTtWbiahS/okiQQ2HoznigMrUBZ9tXgHwxefQSVRKq7wg
+ 1CoeHXEzILBGvM78BPLZDypwHlBcfB9LxpVyNNx9Us9/yWADpUS9CRfFgN1nr9vMNWrb
+ Oy+g==
+X-Gm-Message-State: AOAM532jJaDI70hC8maECd/8I6me/sDmRsxgKcQXLlVaQvuEzRFaThEr
+ xBl2vDKd8EKPbWkaROTuYfzNMg==
+X-Google-Smtp-Source: ABdhPJx7saTyzTdrXPUB34EL8t9fPp91LEJLJFg+QPwTsBW5yQg+1ATWsABb1JkHZeGUGMPZY8vZ+A==
+X-Received: by 2002:a5d:55c6:: with SMTP id i6mr5910057wrw.145.1611339539478; 
+ Fri, 22 Jan 2021 10:18:59 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l1sm5833353wrp.40.2021.01.22.10.18.55
+ by smtp.gmail.com with ESMTPSA id f14sm12228461wre.69.2021.01.22.10.18.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 22 Jan 2021 10:18:55 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B89901FF87;
+ by zen.linaroharston (Postfix) with ESMTP id D00F31FF8C;
  Fri, 22 Jan 2021 18:18:54 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/8] tests/docker: Fix _get_so_libs() for
- docker-binfmt-image
-Date: Fri, 22 Jan 2021 18:18:47 +0000
-Message-Id: <20210122181854.23105-2-alex.bennee@linaro.org>
+Subject: [PATCH  v2 2/8] tests/docker: Fix typo in help message
+Date: Fri, 22 Jan 2021 18:18:48 +0000
+Message-Id: <20210122181854.23105-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210122181854.23105-1-alex.bennee@linaro.org>
 References: <20210122181854.23105-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,42 +95,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Fix a variable rename mistake from commit 5e33f7fead5:
+To have the variable properly passed, we need to set it,
+ie. NOUSER=1. Fix the message displayed by 'make docker'.
 
-  Traceback (most recent call last):
-    File "./tests/docker/docker.py", line 710, in <module>
-      sys.exit(main())
-    File "./tests/docker/docker.py", line 706, in main
-      return args.cmdobj.run(args, argv)
-    File "./tests/docker/docker.py", line 489, in run
-      _copy_binary_with_libs(args.include_executable,
-    File "./tests/docker/docker.py", line 149, in _copy_binary_with_libs
-      libs = _get_so_libs(src)
-    File "./tests/docker/docker.py", line 123, in _get_so_libs
-      libs.append(s.group(1))
-  NameError: name 's' is not defined
-
-Fixes: 5e33f7fead5 ("tests/docker: better handle symlinked libs")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210119050149.516910-1-f4bug@amsat.org>
+Message-Id: <20210119052120.522069-1-f4bug@amsat.org>
 ---
- tests/docker/docker.py | 2 +-
+ tests/docker/Makefile.include | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/docker.py b/tests/docker/docker.py
-index 884dfeb29c..0b4f6167b3 100755
---- a/tests/docker/docker.py
-+++ b/tests/docker/docker.py
-@@ -120,7 +120,7 @@ def _get_so_libs(executable):
-             search = ldd_re.search(line)
-             if search:
-                 try:
--                    libs.append(s.group(1))
-+                    libs.append(search.group(1))
-                 except IndexError:
-                     pass
-     except subprocess.CalledProcessError:
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 0779dab5b9..bdc53ddfcf 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -209,7 +209,7 @@ endif
+ 	@echo '                         before running the command.'
+ 	@echo '    NETWORK=1            Enable virtual network interface with default backend.'
+ 	@echo '    NETWORK=$$BACKEND     Enable virtual network interface with $$BACKEND.'
+-	@echo '    NOUSER               Define to disable adding current user to containers passwd.'
++	@echo '    NOUSER=1             Define to disable adding current user to containers passwd.'
+ 	@echo '    NOCACHE=1            Ignore cache when build images.'
+ 	@echo '    EXECUTABLE=<path>    Include executable in image.'
+ 	@echo '    EXTRA_FILES="<path> [... <path>]"'
 -- 
 2.20.1
 
