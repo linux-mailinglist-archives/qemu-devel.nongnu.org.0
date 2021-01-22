@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 104BF2FFBBC
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 05:27:05 +0100 (CET)
-Received: from localhost ([::1]:36762 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6182F2FFBEE
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 05:47:27 +0100 (CET)
+Received: from localhost ([::1]:42966 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2o2J-0002uk-K4
-	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 23:27:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45726)
+	id 1l2oM1-0006tZ-UY
+	for lists+qemu-devel@lfdr.de; Thu, 21 Jan 2021 23:47:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48884)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2o1S-0002Vh-IR
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:26:10 -0500
-Received: from indium.canonical.com ([91.189.90.7]:49894)
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1l2oKV-0005OK-NE
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:51 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l2o1O-00089q-Bg
- for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:26:10 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l2o1K-0001bY-BI
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 04:26:02 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5C4452E813D
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 04:26:01 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 22 Jan 2021 04:17:15 -0000
-From: Launchpad Bug Tracker <1788665@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <rebecca@nuviainc.com>)
+ id 1l2oKT-0000g8-GY
+ for qemu-devel@nongnu.org; Thu, 21 Jan 2021 23:45:51 -0500
+Received: by mail-pg1-x532.google.com with SMTP id p18so2851701pgm.11
+ for <qemu-devel@nongnu.org>; Thu, 21 Jan 2021 20:45:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=nuviainc-com.20150623.gappssmtp.com; s=20150623;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uy0gCEX36d5XZlBS+Nl9z1E2SVL7L6nrGFrEE21Rnrg=;
+ b=MHOi505tM8NW2XbmA6U3ApMHOpWabt2dOpXBBmV/TgUIX0y5qbNrI25UHwfK0AdEgj
+ cYx89xtJXwjRymZXy7KPV/PJ1kn1tmqY76Rxu7xBUWKMQES/Azvpy2oBOfXGchQimEZF
+ 0y0e7OL/xkbBHQJDagAxqqG+VPnYHS37OaHt2fokG0SUs+eu6mnbefM2f0LuMLxa+9VV
+ ackdhxYF7ULfw3AQT5wLTDqzU2Jwb6IORRH/8bLlSQUP0+nh/eP9oABZ0l43O8MkTxWl
+ Fp2j2KG0Op6BI1B5zp+Iepzx/eEda3tw6OvwoCifvJD7G+wIz+ru07aMU9VXgOOvcX7p
+ Gq5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=uy0gCEX36d5XZlBS+Nl9z1E2SVL7L6nrGFrEE21Rnrg=;
+ b=LU4RCV/oM5od1oqa/RO3xZTm7rpPuBmvth6Yb3BbKUrrV7Qt8n7fWNOrq23NzEh2/1
+ PFv8VPATwFHWzPqCIru6Hb+csqPOk+4J9E0YdPRKJI1412QTRnUYdZMwTkYr95ESfERq
+ ok0HLixtWbOzkQOWskLg/jjQ8sXqUc1T/S9FFl8KvKhdY0NEKVc30uuIaWwWYOJG2Iba
+ k0ZkOvmP1pq2pQSJB7s8r+XQBpk3XtjPlJdppzd5axMgDpIsc1sOv3oX5URI27Bmtzms
+ 8Bxp/Z1k5bwTHvDWaAo+cZedrKKrJhz6Zo0R1GAHD7ufn/oM8VhA7Q0rF+S1Qp/DLaBW
+ eVAA==
+X-Gm-Message-State: AOAM533vv1668fiOEKoxYFXTiHyf6YsjcFzi+yStgksROLg9ZoCRA2rK
+ Hlvlovt3Onc9OCA+2j6Ig961OLqhFpZ1rZKmzTRLMCJIb7vWpJjanPCeAnEaiB8sdZ1SgdM67Y1
+ vj8X2HF4w72m6owiUM0wde8ssCRfjxHtke6Dz/bJlqFIMwWGHl6r8g5qvWKDbf4tS8tQ+Rk9kfQ
+ ==
+X-Google-Smtp-Source: ABdhPJxs7zpXutpOwIyiIx309Hx0RWGK5WsUhFtFSbXCQgYx34riV+4Sto2SpNVZTfXq8GVdvFjBVQ==
+X-Received: by 2002:a63:e849:: with SMTP id a9mr2838017pgk.231.1611290747225; 
+ Thu, 21 Jan 2021 20:45:47 -0800 (PST)
+Received: from cube.int.bluestop.org (c-174-52-16-57.hsd1.ut.comcast.net.
+ [174.52.16.57])
+ by smtp.gmail.com with ESMTPSA id b10sm7050494pgh.15.2021.01.21.20.45.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 21 Jan 2021 20:45:46 -0800 (PST)
+From: Rebecca Cran <rebecca@nuviainc.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: intel microcode spectre
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange dgilbert-h gamanakis h-sieger janitor
- th-huth
-X-Launchpad-Bug-Reporter: Heiko Sieger (h-sieger)
-X-Launchpad-Bug-Modifier: Launchpad Janitor (janitor)
-References: <153504502595.30588.13203676939349086206.malonedeb@soybean.canonical.com>
-Message-Id: <161128903604.30407.15592422818474586837.malone@loganberry.canonical.com>
-Subject: [Bug 1788665] Re: Low 2D graphics performance with Windows 10 (1803)
- VGA passthrough VM using "Spectre" protection
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: b149c201ceeec42b6822c7e9f2cb0bc83cdf602b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: [PATCH v2 0/3] target/arm: Add support for FEAT_DIT,
+ Data Independent Timing
+Date: Thu, 21 Jan 2021 21:45:34 -0700
+Message-Id: <20210122044537.1823-1-rebecca@nuviainc.com>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=rebecca@nuviainc.com; helo=mail-pg1-x532.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,89 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1788665 <1788665@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Rebecca Cran <rebecca@nuviainc.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[Expired for QEMU because there has been no activity for 60 days.]
+As suggested in https://www.mail-archive.com/qemu-devel@nongnu.org/msg767057.html
+this second patch contains code to move PSTATE_SS from uncached_cpsr to 
+env->pstate.
 
-** Changed in: qemu
-       Status: Incomplete =3D> Expired
+Being fairly new to both aarch64 and qemu development I hope I'm on the
+right track, but I suspect my implementation is incomplete.
 
--- =
+Rebecca Cran (3):
+  target/arm: Remove PSTATE_SS from cpsr and move it into env->pstate.
+  target/arm: Add support for FEAT_DIT, Data Independent Timing
+  target/arm: Set ID_AA64PFR0.DIT and ID_PFR0.DIT to 1 for "max" AA64
+    CPU
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1788665
+ target/arm/cpu.h           | 12 +++++++++
+ target/arm/cpu64.c         |  5 ++++
+ target/arm/helper-a64.c    |  4 +--
+ target/arm/helper.c        | 26 ++++++++++++++++++--
+ target/arm/internals.h     |  6 +++++
+ target/arm/op_helper.c     |  9 +------
+ target/arm/translate-a64.c | 12 +++++++++
+ 7 files changed, 61 insertions(+), 13 deletions(-)
 
-Title:
-  Low 2D graphics performance with Windows 10 (1803) VGA passthrough VM
-  using "Spectre" protection
+-- 
+2.26.2
 
-Status in QEMU:
-  Expired
-
-Bug description:
-  Windows 10 (1803) VM using VGA passthrough via qemu script.
-
-  After upgrading Windows 10 Pro VM to version 1803, or possibly after
-  applying the March/April security updates from Microsoft, the VM would
-  show low 2D graphics performance (sluggishness in 2D applications and
-  low Passmark results).
-
-  Turning off Spectre vulnerability protection in Windows remedies the
-  issue.
-
-  Expected behavior:
-  qemu/kvm hypervisor to expose firmware capabilities of host to guest OS -=
- see https://docs.microsoft.com/en-us/virtualization/hyper-v-on-windows/CVE=
--2017-5715-and-hyper-v-vms
-
-  Background:
-
-  Starting in March or April Microsoft began to push driver updates in
-  their updates / security updates. See https://support.microsoft.com
-  /en-us/help/4073757/protect-your-windows-devices-against-spectre-
-  meltdown
-
-  One update concerns the Intel microcode - see
-  https://support.microsoft.com/en-us/help/4100347. It is activated by
-  default within Windows.
-
-  Once the updates are applied within the Windows guest, 2D graphics
-  performance drops significantly. Other performance benchmarks are not
-  affected.
-
-  A bare metal Windows installation does not display a performance loss
-  after the update. See https://heiko-sieger.info/low-2d-graphics-
-  benchmark-with-windows-10-1803-kvm-vm/
-
-  Similar reports can be found here:
-  https://www.reddit.com/r/VFIO/comments/97unx4/passmark_lousy_2d_graphics_=
-performance_on_windows/
-
-  Hardware:
-
-  6 core Intel Core i7-3930K (-MT-MCP-)
-
-  Host OS:
-  Linux Mint 19/Ubuntu 18.04
-  Kernel: 4.15.0-32-generic x86_64
-  Qemu: QEMU emulator version 2.11.1
-  Intel microcode (host): 0x714
-  dmesg | grep microcode
-  [    0.000000] microcode: microcode updated early to revision 0x714, date=
- =3D 2018-05-08
-  [    2.810683] microcode: sig=3D0x206d7, pf=3D0x4, revision=3D0x714
-  [    2.813340] microcode: Microcode Update Driver: v2.2.
-
-  Note: I manually updated the Intel microcode on the host from 0x713 to
-  0x714. However, both microcode versions produce the same result in the
-  Windows guest.
-
-  Guest OS:
-  Windows 10 Pro 64 bit, release 1803
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1788665/+subscriptions
 
