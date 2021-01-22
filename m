@@ -2,54 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5D3F300950
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 18:11:36 +0100 (CET)
-Received: from localhost ([::1]:43690 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8346A30094E
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 18:11:08 +0100 (CET)
+Received: from localhost ([::1]:42796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l2zyC-0003Uc-1I
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 12:11:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36392)
+	id 1l2zxj-000389-FK
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 12:11:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2zpI-0003qD-4X
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 12:02:24 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:20813)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2zwO-0002EE-LD
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 12:09:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31571)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l2zpF-0004BN-DD
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 12:02:23 -0500
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l2zwL-00073h-Aw
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 12:09:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611335380;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=EGfeueoRMxA+d4oljBtQNMbbxwhdnwiPt+ZL6+4aeDY=;
+ b=hb+1XAh3HvD37Tdhm2gFtSgzTP/eWD0BJ1B9eOcBrb0Fg5Fmq1dvJZoZ31I4ZiXxnKg5dE
+ /4OMvePiaGkIqp7tXv4XCNAfmT6ZaUDMOLDcK+FVyn4ngBmRKrj8ZG8UUtej8pNO9hrvK6
+ c/VETmQSnqpVNhurqSZxU/RTsECA9TM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-98-D2W8w_zsMx22pWITZW4wZQ-1; Fri, 22 Jan 2021 12:02:01 -0500
-X-MC-Unique: D2W8w_zsMx22pWITZW4wZQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-343-6z-9YnSKO6enyuDLe3HjVA-1; Fri, 22 Jan 2021 12:09:38 -0500
+X-MC-Unique: 6z-9YnSKO6enyuDLe3HjVA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 084A88144E5;
- Fri, 22 Jan 2021 17:02:00 +0000 (UTC)
-Received: from bahia.redhat.com (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 646C35DA33;
- Fri, 22 Jan 2021 17:01:58 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] spapr: Adjust firmware path of PCI devices
-Date: Fri, 22 Jan 2021 18:01:57 +0100
-Message-Id: <20210122170157.246374-1-groug@kaod.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 795C09CC03
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 17:09:37 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-81.ams2.redhat.com
+ [10.36.113.81])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C6A5F60CE7;
+ Fri, 22 Jan 2021 17:09:31 +0000 (UTC)
+Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+References: <20210122102041.27031-1-mreitz@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
+Date: Fri, 22 Jan 2021 18:09:30 +0100
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210122102041.27031-1-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: kaod.org
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=WINDOWS-1252
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,202 +78,188 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is currently not possible to perform a strict boot from USB storage:
+On 01/22/21 11:20, Max Reitz wrote:
+> Modifying signal handlers is a process-global operation.  When two
+> threads run coroutine-sigaltstack's qemu_coroutine_new() concurrently,
+> they may interfere with each other: One of them may revert the SIGUSR2
+> handler back to the default between the other thread setting up
+> coroutine_trampoline() as the handler and raising SIGUSR2.  That SIGUSR2
+> will then lead to the process exiting.
+> 
+> Outside of coroutine-sigaltstack, qemu does not use SIGUSR2.  We can
+> thus keep the signal handler installed all the time.
+> CoroutineThreadState.tr_handler tells coroutine_trampoline() whether its
+> stack is set up so a new coroutine is to be launched (i.e., it should
+> invoke sigsetjmp()), or not (i.e., the signal came from an external
+> source and we should just perform the default action, which is to exit
+> the process).
+> 
+> Note that in user-mode emulation, the guest can register signal handlers
+> for any signal but SIGSEGV and SIGBUS, so if it registers a SIGUSR2
+> handler, sigaltstack coroutines will break from then on.  However, we do
+> not use coroutines for user-mode emulation, so that is fine.
+> 
+> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  util/coroutine-sigaltstack.c | 56 +++++++++++++++++++-----------------
+>  1 file changed, 29 insertions(+), 27 deletions(-)
+> 
+> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+> index aade82afb8..2d32afc322 100644
+> --- a/util/coroutine-sigaltstack.c
+> +++ b/util/coroutine-sigaltstack.c
+> @@ -59,6 +59,8 @@ typedef struct {
+>  
+>  static pthread_key_t thread_state_key;
+>  
+> +static void coroutine_trampoline(int signal);
+> +
+>  static CoroutineThreadState *coroutine_get_thread_state(void)
+>  {
+>      CoroutineThreadState *s = pthread_getspecific(thread_state_key);
+> @@ -80,6 +82,7 @@ static void qemu_coroutine_thread_cleanup(void *opaque)
+>  
+>  static void __attribute__((constructor)) coroutine_init(void)
+>  {
+> +    struct sigaction sa;
+>      int ret;
+>  
+>      ret = pthread_key_create(&thread_state_key, qemu_coroutine_thread_cleanup);
+> @@ -87,6 +90,20 @@ static void __attribute__((constructor)) coroutine_init(void)
+>          fprintf(stderr, "unable to create leader key: %s\n", strerror(errno));
+>          abort();
+>      }
+> +
+> +    /*
+> +     * Establish the SIGUSR2 signal handler.  This is a process-wide
+> +     * operation, and so will apply to all threads from here on.
+> +     */
+> +    sa = (struct sigaction) {
+> +        .sa_handler = coroutine_trampoline,
+> +        .sa_flags   = SA_ONSTACK,
+> +    };
+> +
+> +    if (sigaction(SIGUSR2, &sa, NULL) != 0) {
+> +        perror("Unable to install SIGUSR2 handler");
+> +        abort();
+> +    }
+>  }
+>  
+>  /* "boot" function
+> @@ -121,7 +138,17 @@ static void coroutine_trampoline(int signal)
+>      /* Get the thread specific information */
+>      coTS = coroutine_get_thread_state();
+>      self = coTS->tr_handler;
+> +
+> +    if (!self) {
+> +        /*
+> +         * This SIGUSR2 came from an external source, not from
+> +         * qemu_coroutine_new(), so perform the default action.
+> +         */
+> +        exit(0);
+> +    }
+> +
+>      coTS->tr_called = 1;
+> +    coTS->tr_handler = NULL;
+>      co = &self->base;
+>  
+>      /*
 
-$ qemu-system-ppc64 -accel kvm -nodefaults -nographic -serial stdio \
-=09-boot strict=3Don \
-=09-device qemu-xhci \
-=09-device usb-storage,drive=3Ddisk,bootindex=3D0 \
-=09-blockdev driver=3Dfile,node-name=3Ddisk,filename=3Dfedora-ppc64le.qcow2
+(8) There's a further complication here, assuming we really want to
+recognize the case when the handler is executing unexpectedly:
 
+- pthread_getspecific() is not necessarily async-signal-safe, according
+to POSIX, so calling coroutine_get_thread_state() in the "unexpected"
+case (e.g. in response to an asynchronously generated SIGUSR2) is
+problematic in its own right,
 
-SLOF **********************************************************************
-QEMU Starting
- Build Date =3D Jul 17 2020 11:15:24
- FW Version =3D git-e18ddad8516ff2cf
- Press "s" to enter Open Firmware.
+- if the SIGUSR2 is delivered to a thread that has never called
+coroutine_get_thread_state() before, then we'll reach g_malloc0() inside
+coroutine_get_thread_state(), in signal handler context, which is very bad.
 
-Populating /vdevice methods
-Populating /vdevice/vty@71000000
-Populating /vdevice/nvram@71000001
-Populating /pci@800000020000000
-                     00 0000 (D) : 1b36 000d    serial bus [ usb-xhci ]
-No NVRAM common partition, re-initializing...
-Scanning USB
-  XHCI: Initializing
-    USB Storage
-       SCSI: Looking for devices
-          101000000000000 DISK     : "QEMU     QEMU HARDDISK    2.5+"
-Using default console: /vdevice/vty@71000000
+You'd have to block SIGUSR2 for the entire process (all threads) at all
+times, and only temporarily unblock it for a particular coroutine
+thread, with the sigsuspend(). The above check would suffice, that way.
 
-  Welcome to Open Firmware
+Such blocking is possible by calling pthread_sigmask() from the main
+thread, before any other thread is created (the signal mask is inherited
+across pthread_create()). I guess it could be done in coroutine_init() too.
 
-  Copyright (c) 2004, 2017 IBM Corporation All rights reserved.
-  This program and the accompanying materials are made available
-  under the terms of the BSD License available at
-  http://www.opensource.org/licenses/bsd-license.php
+And *then* the pthread_sigmask() calls should indeed be removed from
+qemu_coroutine_new().
 
+(Apologies if my feedback is difficult to understand, it's my fault. I
+could propose a patch, if (and only if) you want that.)
 
-Trying to load:  from: /pci@800000020000000/usb@0/storage@1/disk@1010000000=
-00000 ...
-E3405: No such device
+Thanks
+Laszlo
 
-E3407: Load failed
-
-  Type 'boot' and press return to continue booting the system.
-  Type 'reset-all' and press return to reboot the system.
-
-
-Ready!
-0 >
-
-The device tree handed over by QEMU to SLOF indeed contains:
-
-qemu,boot-list =3D
-=09"/pci@800000020000000/usb@0/storage@1/disk@101000000000000 HALT";
-
-but the device node is named usb-xhci@0, not usb@0.
-
-This happens because the firmware names of PCI devices returned
-by get_boot_devices_list() come from pcibus_get_fw_dev_path(),
-while the sPAPR PHB code uses a different naming scheme for
-device nodes. This inconsistency has always been there but it was
-hidden for a long time because SLOF used to rename USB device
-nodes, until this commit, merged in QEMU 4.2.0 :
-
-commit 85164ad4ed9960cac842fa4cc067c6b6699b0994
-Author: Alexey Kardashevskiy <aik@ozlabs.ru>
-Date:   Wed Sep 11 16:24:32 2019 +1000
-
-    pseries: Update SLOF firmware image
-
-    This fixes USB host bus adapter name in the device tree to match QEMU's
-    one.
-
-    Signed-off-by: Alexey Kardashevskiy <aik@ozlabs.ru>
-    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-
-Fortunately, sPAPR implements the firmware path provider interface.
-This provides a way to override the default firmware paths.
-
-Just factor out the sPAPR PHB naming logic from spapr_dt_pci_device()
-to a helper, and use it in the sPAPR firmware path provider hook.
-
-Fixes: 85164ad4ed99 ("pseries: Update SLOF firmware image")
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- include/hw/pci-host/spapr.h |  2 ++
- hw/ppc/spapr.c              |  5 +++++
- hw/ppc/spapr_pci.c          | 33 ++++++++++++++++++---------------
- 3 files changed, 25 insertions(+), 15 deletions(-)
-
-diff --git a/include/hw/pci-host/spapr.h b/include/hw/pci-host/spapr.h
-index bd014823a933..5b03a7b0eb3f 100644
---- a/include/hw/pci-host/spapr.h
-+++ b/include/hw/pci-host/spapr.h
-@@ -210,4 +210,6 @@ static inline unsigned spapr_phb_windows_supported(Spap=
-rPhbState *sphb)
-     return sphb->ddw_enabled ? SPAPR_PCI_DMA_MAX_WINDOWS : 1;
- }
-=20
-+char *spapr_pci_fw_dev_name(PCIDevice *dev);
-+
- #endif /* PCI_HOST_SPAPR_H */
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 6ab27ea269d5..632502c2ecf8 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3048,6 +3048,7 @@ static char *spapr_get_fw_dev_path(FWPathProvider *p,=
- BusState *bus,
-     SCSIDevice *d =3D CAST(SCSIDevice,  dev, TYPE_SCSI_DEVICE);
-     SpaprPhbState *phb =3D CAST(SpaprPhbState, dev, TYPE_SPAPR_PCI_HOST_BR=
-IDGE);
-     VHostSCSICommon *vsc =3D CAST(VHostSCSICommon, dev, TYPE_VHOST_SCSI_CO=
-MMON);
-+    PCIDevice *pcidev =3D CAST(PCIDevice, dev, TYPE_PCI_DEVICE);
-=20
-     if (d) {
-         void *spapr =3D CAST(void, bus->parent, "spapr-vscsi");
-@@ -3121,6 +3122,10 @@ static char *spapr_get_fw_dev_path(FWPathProvider *p=
-, BusState *bus,
-         return g_strdup_printf("pci@%x", PCI_SLOT(pcidev->devfn));
-     }
-=20
-+    if (pcidev) {
-+        return spapr_pci_fw_dev_name(pcidev);
-+    }
-+
-     return NULL;
- }
-=20
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 76d7c91e9c64..da6eb58724c8 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1334,15 +1334,29 @@ static int spapr_dt_pci_bus(SpaprPhbState *sphb, PC=
-IBus *bus,
-     return offset;
- }
-=20
-+char *spapr_pci_fw_dev_name(PCIDevice *dev)
-+{
-+    const gchar *basename;
-+    int slot =3D PCI_SLOT(dev->devfn);
-+    int func =3D PCI_FUNC(dev->devfn);
-+    uint32_t ccode =3D pci_default_read_config(dev, PCI_CLASS_PROG, 3);
-+
-+    basename =3D dt_name_from_class((ccode >> 16) & 0xff, (ccode >> 8) & 0=
-xff,
-+                                  ccode & 0xff);
-+
-+    if (func !=3D 0) {
-+        return g_strdup_printf("%s@%x,%x", basename, slot, func);
-+    } else {
-+        return g_strdup_printf("%s@%x", basename, slot);
-+    }
-+}
-+
- /* create OF node for pci device and required OF DT properties */
- static int spapr_dt_pci_device(SpaprPhbState *sphb, PCIDevice *dev,
-                                void *fdt, int parent_offset)
- {
-     int offset;
--    const gchar *basename;
--    gchar *nodename;
--    int slot =3D PCI_SLOT(dev->devfn);
--    int func =3D PCI_FUNC(dev->devfn);
-+    g_autofree gchar *nodename =3D spapr_pci_fw_dev_name(dev);
-     PCIDeviceClass *pc =3D PCI_DEVICE_GET_CLASS(dev);
-     ResourceProps rp;
-     SpaprDrc *drc =3D drc_from_dev(sphb, dev);
-@@ -1359,19 +1373,8 @@ static int spapr_dt_pci_device(SpaprPhbState *sphb, =
-PCIDevice *dev,
-     uint32_t pci_status =3D pci_default_read_config(dev, PCI_STATUS, 2);
-     gchar *loc_code;
-=20
--    basename =3D dt_name_from_class((ccode >> 16) & 0xff, (ccode >> 8) & 0=
-xff,
--                                  ccode & 0xff);
--
--    if (func !=3D 0) {
--        nodename =3D g_strdup_printf("%s@%x,%x", basename, slot, func);
--    } else {
--        nodename =3D g_strdup_printf("%s@%x", basename, slot);
--    }
--
-     _FDT(offset =3D fdt_add_subnode(fdt, parent_offset, nodename));
-=20
--    g_free(nodename);
--
-     /* in accordance with PAPR+ v2.7 13.6.3, Table 181 */
-     _FDT(fdt_setprop_cell(fdt, offset, "vendor-id", vendor_id));
-     _FDT(fdt_setprop_cell(fdt, offset, "device-id", device_id));
---=20
-2.26.2
+> @@ -150,12 +177,9 @@ Coroutine *qemu_coroutine_new(void)
+>  {
+>      CoroutineSigAltStack *co;
+>      CoroutineThreadState *coTS;
+> -    struct sigaction sa;
+> -    struct sigaction osa;
+>      stack_t ss;
+>      stack_t oss;
+>      sigset_t sigs;
+> -    sigset_t osigs;
+>      sigjmp_buf old_env;
+>  
+>      /* The way to manipulate stack is with the sigaltstack function. We
+> @@ -172,24 +196,6 @@ Coroutine *qemu_coroutine_new(void)
+>      co->stack = qemu_alloc_stack(&co->stack_size);
+>      co->base.entry_arg = &old_env; /* stash away our jmp_buf */
+>  
+> -    coTS = coroutine_get_thread_state();
+> -    coTS->tr_handler = co;
+> -
+> -    /*
+> -     * Preserve the SIGUSR2 signal state, block SIGUSR2,
+> -     * and establish our signal handler. The signal will
+> -     * later transfer control onto the signal stack.
+> -     */
+> -    sigemptyset(&sigs);
+> -    sigaddset(&sigs, SIGUSR2);
+> -    pthread_sigmask(SIG_BLOCK, &sigs, &osigs);
+> -    sa.sa_handler = coroutine_trampoline;
+> -    sigfillset(&sa.sa_mask);
+> -    sa.sa_flags = SA_ONSTACK;
+> -    if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+> -        abort();
+> -    }
+> -
+>      /*
+>       * Set the new stack.
+>       */
+> @@ -207,6 +213,8 @@ Coroutine *qemu_coroutine_new(void)
+>       * signal can be delivered the first time sigsuspend() is
+>       * called.
+>       */
+> +    coTS = coroutine_get_thread_state();
+> +    coTS->tr_handler = co;
+>      coTS->tr_called = 0;
+>      pthread_kill(pthread_self(), SIGUSR2);
+>      sigfillset(&sigs);
+> @@ -230,12 +238,6 @@ Coroutine *qemu_coroutine_new(void)
+>          sigaltstack(&oss, NULL);
+>      }
+>  
+> -    /*
+> -     * Restore the old SIGUSR2 signal handler and mask
+> -     */
+> -    sigaction(SIGUSR2, &osa, NULL);
+> -    pthread_sigmask(SIG_SETMASK, &osigs, NULL);
+> -
+>      /*
+>       * Now enter the trampoline again, but this time not as a signal
+>       * handler. Instead we jump into it directly. The functionally
+> 
 
 
