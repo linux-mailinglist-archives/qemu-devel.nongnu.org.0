@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1191300B41
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:30:58 +0100 (CET)
-Received: from localhost ([::1]:40600 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 322A3300B44
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 19:31:45 +0100 (CET)
+Received: from localhost ([::1]:41958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l31Cz-0006vL-Ps
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:30:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59894)
+	id 1l31Dk-0007bX-7B
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 13:31:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59760)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l31BU-00066Z-Ru
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:29:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54179)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l31B6-0005lw-KL
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:29:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52620)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l31BT-00033G-0k
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:29:24 -0500
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l31B3-0002r1-R1
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 13:29:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611340162;
+ s=mimecast20190719; t=1611340137;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=1gSp9ERj017FwLzn2f4Lfm+OB75dLSyLAQitiJsd1fk=;
- b=fZhH1Zm6sJIZ/uWz3AbJ2p8uASTcuee43N2y31/zwTPgTlYfTpBjX3hTC0Y16Wp3ga48H1
- Jedn7zWqGggZK1Cl6XXDG0+TExabohXzPwdLh46w4om9VdoVIU5RtvL1u7I9TTyenSvnQ2
- bCQ2y2m/R+am+UTmrtqT+Wuo43JE+KY=
+ bh=IrYYfMJdf4Bial6MC3+9CgXQh5qF9p0zTjqILfo5cHQ=;
+ b=cIj5zZ62KOGtKrsTHaL999+lMZLpfBO15hPjoy7tmNJ8L+xwvZ410d6GD/QoJeQCCuVcJv
+ Xr2XeuNGMHuzTVxyEU3tCWBtNrxG7WmCFw8QJFjQbfyUHVJXRwNQwd1xqKPK8IrLWJsSnx
+ Haao12r3hQFwFQmmJ+UqeJsok6ZeHro=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-598-gMRlrrOCMs6eRVBJbgvwqw-1; Fri, 22 Jan 2021 13:29:20 -0500
-X-MC-Unique: gMRlrrOCMs6eRVBJbgvwqw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-504-tPXncHYkMeGX_8lFdkRgvQ-1; Fri, 22 Jan 2021 13:28:55 -0500
+X-MC-Unique: tPXncHYkMeGX_8lFdkRgvQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BE2E7A0CA2
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 18:29:19 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3B5A7806663
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 18:28:54 +0000 (UTC)
 Received: from lacos-laptop-7.usersys.redhat.com (ovpn-113-81.ams2.redhat.com
  [10.36.113.81])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6B05B6EF57;
- Fri, 22 Jan 2021 18:29:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id BEB8D60BE5;
+ Fri, 22 Jan 2021 18:28:49 +0000 (UTC)
 Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+To: Eric Blake <eblake@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org
 References: <20210122102041.27031-1-mreitz@redhat.com>
- <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
- <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
+ <10be5fcc-5e7a-3e44-3229-8526ad3b4547@redhat.com>
+ <3e6b417c-eebb-dc6a-da7d-af2295118c6a@redhat.com>
+ <30d27bfa-770f-4edb-6f4b-9a1cd2eb2833@redhat.com>
 From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <1121a803-98e7-6d41-119c-3d82717976ec@redhat.com>
-Date: Fri, 22 Jan 2021 19:29:14 +0100
+Message-ID: <327c324f-9a36-3c8f-1db4-ac261dbbf695@redhat.com>
+Date: Fri, 22 Jan 2021 19:28:48 +0100
 MIME-Version: 1.0
-In-Reply-To: <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <30d27bfa-770f-4edb-6f4b-9a1cd2eb2833@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,149 +87,81 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/22/21 19:05, Max Reitz wrote:
-> On 22.01.21 18:09, Laszlo Ersek wrote:
->> On 01/22/21 11:20, Max Reitz wrote:
->>> Modifying signal handlers is a process-global operation.  When two
->>> threads run coroutine-sigaltstack's qemu_coroutine_new() concurrently,
->>> they may interfere with each other: One of them may revert the SIGUSR2
->>> handler back to the default between the other thread setting up
->>> coroutine_trampoline() as the handler and raising SIGUSR2.  That SIGUSR2
->>> will then lead to the process exiting.
+On 01/22/21 19:19, Eric Blake wrote:
+> On 1/22/21 11:58 AM, Max Reitz wrote:
+> 
+>>>> +    if (!self) {
+>>>> +        /*
+>>>> +         * This SIGUSR2 came from an external source, not from
+>>>> +         * qemu_coroutine_new(), so perform the default action.
+>>>> +         */
+>>>> +        exit(0);
+>>>> +    }
 >>>
->>> Outside of coroutine-sigaltstack, qemu does not use SIGUSR2.  We can
->>> thus keep the signal handler installed all the time.
->>> CoroutineThreadState.tr_handler tells coroutine_trampoline() whether its
->>> stack is set up so a new coroutine is to be launched (i.e., it should
->>> invoke sigsetjmp()), or not (i.e., the signal came from an external
->>> source and we should just perform the default action, which is to exit
->>> the process).
+>>> (2) exit() is generally unsafe to call in signal handlers.
 >>>
->>> Note that in user-mode emulation, the guest can register signal handlers
->>> for any signal but SIGSEGV and SIGBUS, so if it registers a SIGUSR2
->>> handler, sigaltstack coroutines will break from then on.  However, we do
->>> not use coroutines for user-mode emulation, so that is fine.
+>>> We could reason whether or not it is safe in this particular case (POSIX
+>>> describes the exact conditions --
+>>> <https://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04_03_03>),
 >>>
->>> Suggested-by: Laszlo Ersek <lersek@redhat.com>
->>> Signed-off-by: Max Reitz <mreitz@redhat.com>
->>> ---
->>>   util/coroutine-sigaltstack.c | 56 +++++++++++++++++++-----------------
->>>   1 file changed, 29 insertions(+), 27 deletions(-)
+>>> but it's much simpler to just call _exit().
 >>>
->>> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
->>> index aade82afb8..2d32afc322 100644
->>> --- a/util/coroutine-sigaltstack.c
->>> +++ b/util/coroutine-sigaltstack.c
->>> @@ -59,6 +59,8 @@ typedef struct {
->>>     static pthread_key_t thread_state_key;
->>>   +static void coroutine_trampoline(int signal);
->>> +
->>>   static CoroutineThreadState *coroutine_get_thread_state(void)
->>>   {
->>>       CoroutineThreadState *s = pthread_getspecific(thread_state_key);
->>> @@ -80,6 +82,7 @@ static void qemu_coroutine_thread_cleanup(void
->>> *opaque)
->>>     static void __attribute__((constructor)) coroutine_init(void)
->>>   {
->>> +    struct sigaction sa;
->>>       int ret;
->>>         ret = pthread_key_create(&thread_state_key,
->>> qemu_coroutine_thread_cleanup);
->>> @@ -87,6 +90,20 @@ static void __attribute__((constructor))
->>> coroutine_init(void)
->>>           fprintf(stderr, "unable to create leader key: %s\n",
->>> strerror(errno));
->>>           abort();
->>>       }
->>> +
->>> +    /*
->>> +     * Establish the SIGUSR2 signal handler.  This is a process-wide
->>> +     * operation, and so will apply to all threads from here on.
->>> +     */
->>> +    sa = (struct sigaction) {
->>> +        .sa_handler = coroutine_trampoline,
->>> +        .sa_flags   = SA_ONSTACK,
->>> +    };
->>> +
->>> +    if (sigaction(SIGUSR2, &sa, NULL) != 0) {
->>> +        perror("Unable to install SIGUSR2 handler");
->>> +        abort();
->>> +    }
->>>   }
->>>     /* "boot" function
->>> @@ -121,7 +138,17 @@ static void coroutine_trampoline(int signal)
->>>       /* Get the thread specific information */
->>>       coTS = coroutine_get_thread_state();
->>>       self = coTS->tr_handler;
->>> +
->>> +    if (!self) {
->>> +        /*
->>> +         * This SIGUSR2 came from an external source, not from
->>> +         * qemu_coroutine_new(), so perform the default action.
->>> +         */
->>> +        exit(0);
->>> +    }
->>> +
->>>       coTS->tr_called = 1;
->>> +    coTS->tr_handler = NULL;
->>>       co = &self->base;
->>>         /*
+>>>
+>>> (3) "Performing the default action" would be slightly different from
+>>> calling _exit(). When a process is terminated with a signal, the parent
+>>> can distinguish that, when reaping the child. See waitpid() /
+>>> WIFSIGNALED() / WTERMSIG(), versus WIFEXITED() / WEXITSTATUS().
+>>>
+>>> So for the "default action", we'd have to:
+>>> - restore the SIGUSR2 handler to SIG_DFL, and
+>>> - re-raise the signal for the thread, and
+>>> - because the signal being handled is automatically blocked unless
+>>>    SA_NODEFER was set: unblock the signal for the thread.
+>>>
+>>> The pthread_sigmask() call, made for the last step, would be the one
+>>> that would not return.
+>>>
+>>> *However*, all of this complexity is not really useful here. We don't
+>>> really want to simulate being "forcefully terminated" by the unexpected
+>>> (asynchronous) SIGUSR2. We just want to exit.
+>>>
+>>> Therefore, _exit() is fine. But, we should use an exit code different
+>>> from 0, as this is definitely not a pristine exit from QEMU. I'm not
+>>> sure if a convention exists for nonzero exit codes in QEMU; if not, then
+>>> just pass EXIT_FAILURE to _exit().
 >>
->> (8) There's a further complication here, assuming we really want to
->> recognize the case when the handler is executing unexpectedly:
->>
->> - pthread_getspecific() is not necessarily async-signal-safe, according
->> to POSIX, so calling coroutine_get_thread_state() in the "unexpected"
->> case (e.g. in response to an asynchronously generated SIGUSR2) is
->> problematic in its own right,
+>> I’m fine with calling _exit().  I hope, Eric is, too (as long as the
+>> comment no longer claims this were the default behavior).
 > 
-> That’s a shame.
+> Using _exit(nonzero) is fine by me as long as the comment is accurate.
+> There are signals like SIGINT where you really DO want to terminate by
+> signal rather than using _exit(SIGINT+128), because shells can tell the
+> difference [1]; but SIGUSR2 is not one of the signals where shells
+> special-case their behavior.
 > 
->> - if the SIGUSR2 is delivered to a thread that has never called
->> coroutine_get_thread_state() before, then we'll reach g_malloc0() inside
->> coroutine_get_thread_state(), in signal handler context, which is very
->> bad.
-> 
-> Could be solved with a coroutine_try_get_thread_state() that will never
-> malloc, but return NULL then.
-> 
->> You'd have to block SIGUSR2 for the entire process (all threads) at all
->> times, and only temporarily unblock it for a particular coroutine
->> thread, with the sigsuspend(). The above check would suffice, that way.
-> 
-> Yes, that’s what I was originally afraid of.  I feel like that may be
-> the complexity drop that pushes this change too far out of my comfort
-> zone.  (And as evidenced by your review, it already was pretty much
-> outside as it was.)
-> 
->> Such blocking is possible by calling pthread_sigmask() from the main
->> thread, before any other thread is created (the signal mask is inherited
->> across pthread_create()). I guess it could be done in coroutine_init()
->> too.
->>
->> And *then* the pthread_sigmask() calls should indeed be removed from
->> qemu_coroutine_new().
-> 
-> OTOH, that does sound rather simple...
-> 
->> (Apologies if my feedback is difficult to understand, it's my fault. I
->> could propose a patch, if (and only if) you want that.)
-> 
-> I can’t say I wouldn’t be happy with a patch for this code that doesn’t
-> bear my S-o-b. ;)
-> 
-> I feel conflicted.  I can send a v2 that addresses this (probably
-> consisting of multiple patches then, e.g. I’d split the SIGUSR2 blocking
-> off the main patch), but to me, this bug is really more of a nuisance
-> that just blocks me from sending a pull request for my block branch...
-> So I’d rather not drag it out forever.  OTOH, sending a quick and bad
-> fix just because I can’t wait is just bad.
-> 
-> I suppose I’ll have to decide over the weekend.  Though if you’re
-> itching to write a patch yourself, I’d definitely be grateful.
+> [1] https://www.cons.org/cracauer/sigint.html
 
-OK, I'll try my hand at it; I hope I won't be eating my words.
+Good point!
 
+> 
+>>
+>> Given that SIGUSR2 is not something that qemu is prepared to receive
+>> from the outside, EXIT_FAILURE seems right to me.  (Even abort() could
+>> be justified, but I don’t think generating a core dump does any good here.)
+>>
+>> (As for qemu-specific exit code conventions, the only ones I know of are
+>> for certain qemu-img subcommands.  I’m sure you grepped, too, but I
+>> can’t find anything for the system emulator.)
+>>
+>>> (4) Furthermore, please update the comment, because "perform the default
+>>> action" is not precise.
+>>
+>> Sure, that’s definitely easier than to re-raise SIGUSR2.
+> 
+> Works for me as well.
+> 
+
+Thanks.
 Laszlo
 
 
