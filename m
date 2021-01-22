@@ -2,55 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63B6300D86
-	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:17:13 +0100 (CET)
-Received: from localhost ([::1]:59324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0A4300D96
+	for <lists+qemu-devel@lfdr.de>; Fri, 22 Jan 2021 21:20:46 +0100 (CET)
+Received: from localhost ([::1]:41730 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l32rn-00034D-Vx
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:17:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50550)
+	id 1l32vF-0007mJ-Nf
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 15:20:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32mG-000511-Bi; Fri, 22 Jan 2021 15:11:28 -0500
-Received: from mail-pf1-f182.google.com ([209.85.210.182]:40943)
+ id 1l32mH-000529-2z
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:29 -0500
+Received: from mail-pj1-f51.google.com ([209.85.216.51]:38682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l32mE-0004cv-QX; Fri, 22 Jan 2021 15:11:28 -0500
-Received: by mail-pf1-f182.google.com with SMTP id i63so4549951pfg.7;
- Fri, 22 Jan 2021 12:11:26 -0800 (PST)
+ id 1l32mF-0004dN-HB
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 15:11:28 -0500
+Received: by mail-pj1-f51.google.com with SMTP id x20so4597303pjh.3
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 12:11:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B3bgTvyMVaMNKOvbfkCeAjPnu2P94ObpQ3L4Z8LkPIk=;
- b=Y0J4RsFAifHC2lIaWdIBucyYGnMM5ATHnp9xlJsOMyzXElk8htBtXtGc8dPzIYQbBJ
- iTyma/aliTf24pBt2CWPlvPUedIumRZrUGcy8PTk2rDN2iZXGUtnwKg7mIF68KnJ+eg9
- YDGxJsbnVA+7R5cog1uiLJ7EpqLpbXcvj8cqT4HqvDWxJmoQcmkQHROrIb6McWfiAef8
- /UIRl4SixaeYA75z4NXxYfa15LS1bfyljmN7paVydfInt8abw7YWBiZMMc1EeYlCotNd
- 7/CV8Yq0RntoQXaqxiuFQswz12wFtaVMxsGSDBWVTLsEzgh633Qzpz14BqZEZYXJS+fg
- tUgg==
-X-Gm-Message-State: AOAM533TSvR28oJ51wyvCZ7HvTfEoxptVQaP09Qu/zrJED4WDZ3LUIEZ
- r0H63nhcN2V7Qz3tjGpJwAICgoyZd0U=
-X-Google-Smtp-Source: ABdhPJxBrXNtWSd3gd/yJoTymIBbNHd6W04dZW2VpE6niu6fkfTktaNFOPMSuEyTG/zGiyXI8K+QGg==
-X-Received: by 2002:a63:749:: with SMTP id 70mr6469704pgh.182.1611346284972;
- Fri, 22 Jan 2021 12:11:24 -0800 (PST)
+ bh=cjf3zkEzdC7Sji+ngGUJT+yhUPJZ6w/w5ucvRluKxqY=;
+ b=P8TkNNVmRno25WfJBJFbT6Ux9PDTKBuxIj3wLGssyhb/8MJAu/1QtFPNg6BZifTglz
+ gRsYr+aVRmHZM4yHkFQ6Jieqk8kFTV5sJh4uJA3RyQXM87V+DyYERh9XPe8C+VhGMZ0i
+ ew8se/KgV/FJFnxmCcWJN4i8BOC6QGaPUl/aGZCq8qW+b7BNBRCzS7TSsjkzrYtTv9CB
+ rzOE4ZCxPceTCxAkB7KmQgLxKadwVbdkBTfJocYNOdcJopWFRVCsUFsZUk+2y6oe/OUj
+ J4S7GT+TEaAVEOAwUfO5NnwMFV2e17cUyYbhfO/FHwB/ibMdqpEc4ABhfw3l1XXkvSNA
+ Rsrw==
+X-Gm-Message-State: AOAM533nJDFF/YnhPsm8raGWvhg+JzNHknRpuY35D/KZ8PWFSwOEf3YB
+ g8eBIhYZl5JrAPC5eTC4/T8sq1llXrc=
+X-Google-Smtp-Source: ABdhPJzFcl8V6+Owu0LGAT2J5bXXiioKXD8FkUDb0qukZ3F1y1jNtIQAnqSY6bK6AvOkKF+RlqMNQA==
+X-Received: by 2002:a17:90a:1182:: with SMTP id
+ e2mr7157800pja.152.1611346285901; 
+ Fri, 22 Jan 2021 12:11:25 -0800 (PST)
 Received: from localhost.localdomain ([73.93.152.129])
- by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.24
+ by smtp.gmail.com with ESMTPSA id u12sm8741839pgi.91.2021.01.22.12.11.25
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 22 Jan 2021 12:11:24 -0800 (PST)
+ Fri, 22 Jan 2021 12:11:25 -0800 (PST)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v7 09/11] block: check availablity for preadv/pwritev on mac
-Date: Fri, 22 Jan 2021 12:11:11 -0800
-Message-Id: <20210122201113.63788-10-j@getutm.app>
+Subject: [PATCH v7 10/11] darwin: detect CoreAudio for build
+Date: Fri, 22 Jan 2021 12:11:12 -0800
+Message-Id: <20210122201113.63788-11-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210122201113.63788-1-j@getutm.app>
 References: <20210122201113.63788-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.210.182;
- envelope-from=osy86github@gmail.com; helo=mail-pf1-f182.google.com
+Received-SPF: pass client-ip=209.85.216.51; envelope-from=osy86github@gmail.com;
+ helo=mail-pj1-f51.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -71,75 +74,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Joelle van Dyne <j@getutm.app>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-will succeed with CONFIG_PREADV even when targeting a lower OS version.
-We therefore need to check at run time if we can actually use these APIs.
+On iOS there is no CoreAudio, so we should not assume Darwin always
+has it.
 
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- block/file-posix.c | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ configure | 35 +++++++++++++++++++++++++++++++++--
+ 1 file changed, 33 insertions(+), 2 deletions(-)
 
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 666d3e7504..6473f84db8 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -1386,17 +1386,50 @@ static int handle_aiocb_flush(void *opaque)
- #ifdef CONFIG_PREADV
+diff --git a/configure b/configure
+index f487be3cfe..fb671258e6 100755
+--- a/configure
++++ b/configure
+@@ -319,6 +319,7 @@ fdt="auto"
+ netmap="no"
+ sdl="auto"
+ sdl_image="auto"
++coreaudio="auto"
+ virtiofsd="auto"
+ virtfs="auto"
+ libudev="auto"
+@@ -779,7 +780,7 @@ Darwin)
+     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
+     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
+   fi
+-  audio_drv_list="coreaudio try-sdl"
++  audio_drv_list="try-coreaudio try-sdl"
+   audio_possible_drivers="coreaudio sdl"
+   # Disable attempts to use ObjectiveC features in os/object.h since they
+   # won't work when we're compiling with gcc as a C compiler.
+@@ -3162,6 +3163,24 @@ EOF
+   fi
+ fi
  
- static bool preadv_present = true;
-+static bool preadv_checked;
++##########################################
++# detect CoreAudio
++if test "$coreaudio" != "no" ; then
++  coreaudio_libs="-framework CoreAudio"
++  cat > $TMPC << EOF
++#include <CoreAudio/CoreAudio.h>
++int main(void)
++{
++  return (int)AudioGetCurrentHostTime();
++}
++EOF
++  if compile_prog "" "$coreaudio_libs" ; then
++    coreaudio=yes
++  else
++    coreaudio=no
++  fi
++fi
++
+ ##########################################
+ # Sound support libraries probe
  
- static ssize_t
- qemu_preadv(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-+    if (unlikely(!preadv_checked)) {
-+        if (__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+            preadv_checked = true;
-+        } else {
-+            preadv_present = false;
-+            return -ENOSYS;
-+        }
-+    }
-+    /* Now we suppress the availability warning since we use the cached check */
-+#pragma clang diagnostic push
-+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
-+    return preadv(fd, iov, nr_iov, offset);
-+#pragma clang diagnostic pop
-+#else /* CONFIG_DARWIN */
-     return preadv(fd, iov, nr_iov, offset);
-+#endif
- }
+@@ -3218,8 +3237,20 @@ for drv in $audio_drv_list; do
+     fi
+     ;;
  
- static ssize_t
- qemu_pwritev(int fd, const struct iovec *iov, int nr_iov, off_t offset)
- {
-+#ifdef CONFIG_DARWIN /* preadv introduced in macOS 11 */
-+    if (unlikely(!preadv_checked)) {
-+        if (__builtin_available(macOS 11, iOS 14, watchOS 7, tvOS 14, *)) {
-+            preadv_checked = true;
-+        } else {
-+            preadv_present = false;
-+            return -ENOSYS;
-+        }
-+    }
-+    /* Now we suppress the availability warning since we use the cached check */
-+#pragma clang diagnostic push
-+#pragma clang diagnostic ignored "-Wunguarded-availability-new"
-+    return pwritev(fd, iov, nr_iov, offset);
-+#pragma clang diagnostic pop
-+#else /* CONFIG_DARWIN */
-     return pwritev(fd, iov, nr_iov, offset);
-+#endif
- }
+-    coreaudio)
++    coreaudio | try-coreaudio)
++    if test "$coreaudio" = "no"; then
++      if test "$drv" = "try-coreaudio"; then
++        audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-coreaudio//')
++      else
++        error_exit "$drv check failed" \
++                "Make sure to have the $drv is available."
++      fi
++    else
+       coreaudio_libs="-framework CoreAudio"
++      if test "$drv" = "try-coreaudio"; then
++        audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-coreaudio/coreaudio/')
++      fi
++    fi
+     ;;
  
- #else
+     dsound)
 -- 
 2.28.0
 
