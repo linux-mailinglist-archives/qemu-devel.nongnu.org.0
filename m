@@ -2,75 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DFB630110D
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 00:36:11 +0100 (CET)
-Received: from localhost ([::1]:34668 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC7B30113E
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 00:57:13 +0100 (CET)
+Received: from localhost ([::1]:41808 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l35yM-0005ZA-6e
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 18:36:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60078)
+	id 1l36Ih-0001vW-Re
+	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 18:57:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34888)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l35wy-00054y-U4
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:34:45 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:34032)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l36HF-0001MQ-S8
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:55:41 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53336)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l35wx-0007zY-B5
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:34:44 -0500
-Received: by mail-ed1-x532.google.com with SMTP id d22so8492300edy.1
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 15:34:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=fzwjDCDCUjioHSOa1u93wcSColF6PrwSaefAYbjDPL0=;
- b=XniOpDHQKj4ykCP0u3bqYAFYF3Oouu/vVh+60ZHgJEE3QZwAwJ3ZNIEk0EeJzJ8Xyn
- 7jrKwFa91m8OcQPgGDNspIS/jANg5FRwhtUZodH6X7s/gnRbUUY1BS46xRJ64AHAiv9T
- G4vc9TMG8/7u2KVOZDdRK4IWEMeF1kMSoQbvQrK/KNKqCnYnARW9Xf7FqaWGQJCiH6OO
- hzzsorWYFfwEFC7qycC7cvX7A30rAHNMv/bjUTbl8p33HhgEkfUBzTDnySfMTp+FTG5F
- EdxXL9JWTToXHa43Wq+b4/N7ylRyqQKpTBb/njHzM91Nn+mQ9jgjQZ+lW7liwHh8CVSW
- IBxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=fzwjDCDCUjioHSOa1u93wcSColF6PrwSaefAYbjDPL0=;
- b=gTqKlUq3xw7qvICbRbnTyMWyTN4k/QQugRS7gWmPBzZZ0VKmUTpSMlWzlz/fmsZhfg
- TsUndmcplw2dg8f4lzQ0JIkxPdh/oXZk4W1MxpN3AFngJOGPrHDdMRFy7zHf5YVDk19y
- Bi+xM2/SN22sWivPW7Hp3cFR2wp51/Ax+xSCZU+tqoU8zQo/6Zc8kH2vFG/4Snlc+PzQ
- G2/YzrebNnFpv6QCgmkKrflYiENO+YRA5xAi8GcsroQo1iBOjnugEpQBrkL+r/TdXnB0
- 9g3ZRWCTP1oQ/GagMMMP7fFJuWsg0s4uvR5yvLilc5TTR5eNTv9gvIUyCCJpX/xq1gfR
- dT/w==
-X-Gm-Message-State: AOAM533l4NaAukNBW/fcISZi8Z6GgcGfkiiQ1ruUpjSj3G76ewIeWR9x
- 2wddtdIENLmYSnK38sVT10gMD02KPvM6dxy1k6UWIA==
-X-Google-Smtp-Source: ABdhPJxz0SULBZvj1V+a/bo03SdgZ847pc/GFIwk+ZHRqds2yIx/rfANH2AvwZicE7TF6SX8+qL9+p8v7FAJqaLaRFA=
-X-Received: by 2002:a05:6402:1383:: with SMTP id
- b3mr4877739edv.100.1611358480704; 
- Fri, 22 Jan 2021 15:34:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l36HD-0006Me-Hd
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 18:55:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l36HB-0008MR-5y
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 23:55:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0DC7A2E8054
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 23:55:37 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210122215222.8320-1-maxim.uvarov@linaro.org>
-In-Reply-To: <20210122215222.8320-1-maxim.uvarov@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 22 Jan 2021 23:34:29 +0000
-Message-ID: <CAFEAcA87xy8uqUuJYugi3PO-n--7ntSAa7oqmKPS=ywf1PGxCw@mail.gmail.com>
-Subject: Re: [PATCHv9 0/3] arm-virt: add secure pl061 for reset/power down
-To: Maxim Uvarov <maxim.uvarov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Fri, 22 Jan 2021 23:45:53 -0000
+From: Ven Karri <1912857@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: imperialguy
+X-Launchpad-Bug-Reporter: Ven Karri (imperialguy)
+X-Launchpad-Bug-Modifier: Ven Karri (imperialguy)
+References: <161135175608.19792.5002633896122919993.malonedeb@wampee.canonical.com>
+Message-Id: <161135915430.13858.4312648459268179902.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1912857] Re: virtio-serial blocks hostfwd ssh on windows 10 host
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: e19e8ba7508d321a6baf3a109c69c1a89695690d
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -79,60 +69,134 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Jose Marinho <Jose.Marinho@arm.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- tf-a@lists.trustedfirmware.org, qemu-arm <qemu-arm@nongnu.org>
+Reply-To: Bug 1912857 <1912857@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 22 Jan 2021 at 21:52, Maxim Uvarov <maxim.uvarov@linaro.org> wrote:
->
->  v9: - cosmetic changes (move if from patch2 to patch3, rename function n=
-ame
->        and define).
->  v8: - use gpio 0 and 1, align dtb with kernel gpio-restart, gpio-powerof=
-f,
->        change define names, trigger on upper front. (Peter Maydell).
->  v7: - same as v6, but resplit patches: patch 2 no function changes and r=
-efactor
->         gpio setup for virt platfrom and patch 3 adds secure gpio.
->  v6: - 64k align gpio memory region (Andrew Jones)
->      - adjusted memory region to map this address in the corresponding at=
-f patch
->  v5: - removed vms flag, added fdt  (Andrew Jones)
->      - added patch3 to combine secure and non secure pl061. It has to be
->        more easy to review if this changes are in the separate patch.
->  v4: rework patches accodring to Peter Maydells comments:
->         - split patches on gpio-pwr driver and arm-virt integration.
->         - start secure gpio only from virt-6.0.
->         - rework qemu interface for gpio-pwr to use 2 named gpio.
->         - put secure gpio to secure name space.
->  v3: added missed include qemu/log.h for qemu_log(..
->  v2: replace printf with qemu_log (Philippe Mathieu-Daud=C3=A9)
->
-> This patch works together with ATF patch:
->         https://github.com/muvarov/arm-trusted-firmware/commit/886965bddb=
-0624bdf85103efb2b39fd4eb73d89b
->
-> Maxim Uvarov (3):
->   hw: gpio: implement gpio-pwr driver for qemu reset/poweroff
->   arm-virt: refactor gpios creation
->   arm-virt: add secure pl061 for reset/power down
+** Description changed:
 
-Applied to target-arm.next, thanks. I realized we forgot the
-documentation, so I'm going to squash this change in to patch 3:
+  qemu-system-x86_64
+  =C2=A0=C2=A0-display none
+  =C2=A0=C2=A0-hda archlinux.qcow2
+  =C2=A0=C2=A0-m 4G
+  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
+  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
+  =
 
---- a/docs/system/arm/virt.rst
-+++ b/docs/system/arm/virt.rst
-@@ -43,6 +43,8 @@ The virt board supports:
- - Secure-World-only devices if the CPU has TrustZone:
+  --> THIS WORKS - meaning I can ssh into the vm via port 2222
+  =
 
-   - A second PL011 UART
-+  - A second PL061 GPIO controller, with GPIO lines for triggering
-+    a system reset or system poweroff
-   - A secure flash memory
-   - 16MB of secure RAM
+  qemu-system-x86_64
+  =C2=A0=C2=A0-display none
+  =C2=A0=C2=A0-hda archlinux.qcow2
+  =C2=A0=C2=A0-m 4G
+  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
+  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
+  =C2=A0=C2=A0-device virtio-serial
+  =C2=A0=C2=A0-device virtserialport,chardev=3Dcid0
+  =C2=A0=C2=A0-chardev socket,id=3Dcid0,host=3Dlocalhost,port=3D55298,serve=
+r,nowait
+  =
 
--- PMM
+  --> DOES NOT WORK - meaning I cannot ssh into the vm
+  =
+
+  Not only does the port 2222 not work, but I am not able to perform any
+  serial transfer on port 55298 as well.
+  =
+
+  The following doesn't work either:
+  =
+
+  qemu-system-x86_64
+  =C2=A0=C2=A0-display none
+  =C2=A0=C2=A0-hda archlinux.qcow2
+  =C2=A0=C2=A0-m 4G
+  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
+  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
+  =C2=A0=C2=A0-device virtio-serial
+  =C2=A0=C2=A0-device virtserialport,chardev=3Dcid0
+  =C2=A0=C2=A0-chardev file,id=3Dcid0,path=3Dmypath
+  =
+
+  No matter which character device I use for my virtserialport
+  communication (socket or udp or file or pipe), the hostfwd doesn't work.
+  =
+
+  Also, if I enable the display, I am unable to type anything in the
+  emulator window when I use virtserialport.
+  =
+
+  Host: Windows 10
+  Guest: archlinux
+  QEMU version 5.2
++ =
+
++ The same thing works just fine on a Mac OS X host (tested on Big Sur)
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912857
+
+Title:
+  virtio-serial blocks hostfwd ssh on windows 10 host
+
+Status in QEMU:
+  New
+
+Bug description:
+  qemu-system-x86_64
+  =C2=A0=C2=A0-display none
+  =C2=A0=C2=A0-hda archlinux.qcow2
+  =C2=A0=C2=A0-m 4G
+  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
+  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
+
+  --> THIS WORKS - meaning I can ssh into the vm via port 2222
+
+  qemu-system-x86_64
+  =C2=A0=C2=A0-display none
+  =C2=A0=C2=A0-hda archlinux.qcow2
+  =C2=A0=C2=A0-m 4G
+  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
+  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
+  =C2=A0=C2=A0-device virtio-serial
+  =C2=A0=C2=A0-device virtserialport,chardev=3Dcid0
+  =C2=A0=C2=A0-chardev socket,id=3Dcid0,host=3Dlocalhost,port=3D55298,serve=
+r,nowait
+
+  --> DOES NOT WORK - meaning I cannot ssh into the vm
+
+  Not only does the port 2222 not work, but I am not able to perform any
+  serial transfer on port 55298 as well.
+
+  The following doesn't work either:
+
+  qemu-system-x86_64
+  =C2=A0=C2=A0-display none
+  =C2=A0=C2=A0-hda archlinux.qcow2
+  =C2=A0=C2=A0-m 4G
+  =C2=A0=C2=A0-netdev user,id=3Dn1,hostfwd=3Dtcp::2222-:22
+  =C2=A0=C2=A0-device virtio-net-pci,netdev=3Dn1
+  =C2=A0=C2=A0-device virtio-serial
+  =C2=A0=C2=A0-device virtserialport,chardev=3Dcid0
+  =C2=A0=C2=A0-chardev file,id=3Dcid0,path=3Dmypath
+
+  No matter which character device I use for my virtserialport
+  communication (socket or udp or file or pipe), the hostfwd doesn't
+  work.
+
+  Also, if I enable the display, I am unable to type anything in the
+  emulator window when I use virtserialport.
+
+  Host: Windows 10
+  Guest: archlinux
+  QEMU version 5.2
+
+  The same thing works just fine on a Mac OS X host (tested on Big Sur)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912857/+subscriptions
 
