@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F97E301591
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 14:54:12 +0100 (CET)
-Received: from localhost ([::1]:46544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2A33015E9
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 15:36:05 +0100 (CET)
+Received: from localhost ([::1]:35888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3JMh-0006hw-Jv
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 08:54:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53406)
+	id 1l3K1E-0000M5-IQ
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 09:36:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l3JLk-0006A9-EW
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 08:53:12 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:37814)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l3JLh-00049B-W7
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 08:53:12 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id kg20so11203838ejc.4
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 05:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vgYY/aBSxYWmJUdTMmRz+eJ5RIoKbDSVQOWQcDWn5aA=;
- b=hR4sFk8avLuivjMExonKw7Oc6kGHoqiHk5FFrTN5ZVdK3TKBbQemCGe9QoPzQQol0H
- EWwMspiFKCp346JmF3wFB03JPx7YsNypQXl1mJQICGTBfDOYT+uxwp9j2+rKPAj6TOX1
- 7N5fPgonthB04v63O+Zo8QZPcD4Af6xM0btrwtjvflQa9LEn2eVy4eAgKpt0TYsQnzX1
- Z3ckwZnkivvIoNgk9Jd/l9pZHmpPmQiRFTjolIYZ1qIb95aIKvwMaot5Vn8nTj0Tbzu0
- a7teic5tVswP//DfI5lteXAuOzxo2i4oJDpdf/w0CJ3tAbQPWSU/VicvZX2u1RUJOeMx
- Noqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vgYY/aBSxYWmJUdTMmRz+eJ5RIoKbDSVQOWQcDWn5aA=;
- b=qmd5AkIDrGkS3AINa/IX4dNBb6vnGzCuC3gm5sFDGzmp2KwnLQTOSuean/7EKdN9b/
- 2BrzUfQH1ARPQbWUCW31HTv0hNABPPD7vNau+tQoOk85NUvnAVlsczkqTMPkmEWlysSH
- hLKRLGOxsMxi2gBZ7VUWRWK0741+OiiJrKC0Zq6izl27DO+P2oYLlVcPRpTsbkTfNdR+
- SaVYPptpMxkNVTbb7+KRU3vAUECpX7Q8KwA9jxzwQ0cd2o1bowo+/fP5R5eAjWFhqBVj
- FI4x5KB+/KWL7LqA4CpANBrJocnJUlwtJ0AH3j40QE6j0bMeJuUzug/J2MABuTMC7wC1
- qWOw==
-X-Gm-Message-State: AOAM531KsbGv2KpP9wepwbrjueWIupcAj9cqjHzZyhwywyTQAScaYoUQ
- zacKXlqL+P7H/xbJULtTj4TOw+a6Lmu2Mzxs2tqdSA==
-X-Google-Smtp-Source: ABdhPJyQmnDvFPzkOCBpr5DCmtr3LEYjJ7mlyO1slbuAjuK/5sdeLNzCBEH0RLjQH+hPVSZUQ/ZqI0amlfPGyuH0JAE=
-X-Received: by 2002:a17:906:3d4a:: with SMTP id
- q10mr997743ejf.85.1611409988123; 
- Sat, 23 Jan 2021 05:53:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l3Jx3-0003T4-9P
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35971)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l3Jwt-0005mk-9M
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611412294;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=mk67UM1SI4Ziavfgo5nKf0DVKIDe/ugiU/r1SbV3mkw=;
+ b=f5ZOkrhwnXqTXXcEw465sGNiadhu7x04L56qDn2N3G9Dv2WnqSW4iosZo4eJ8jfRuJenb5
+ 9GSomZ08RJ36LPHvU5M8oHCpg9fJQWTfrWuquJC5hFckpxqCdswPnJc5hc5pCHPipKSJRw
+ 5IDyKJQbo65oH/o/JkLDl43qo7wQICY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-149-aZL_pUsGPOiveX_zPEqM7Q-1; Sat, 23 Jan 2021 09:31:30 -0500
+X-MC-Unique: aZL_pUsGPOiveX_zPEqM7Q-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 759538018A1
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:31:29 +0000 (UTC)
+Received: from virtlab701.virt.lab.eng.bos.redhat.com
+ (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 1797B5D9CC
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:31:28 +0000 (UTC)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 00/31] Misc patches for 2020-01-21
+Date: Sat, 23 Jan 2021 09:30:57 -0500
+Message-Id: <20210123143128.1167797-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-References: <20210123045632.18482-1-j@getutm.app>
- <20210123045632.18482-10-j@getutm.app>
-In-Reply-To: <20210123045632.18482-10-j@getutm.app>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 23 Jan 2021 13:52:57 +0000
-Message-ID: <CAFEAcA-nxjUifZ8yb85KGAFnwwa10ZAdemxyH5YnetNLhVt8cA@mail.gmail.com>
-Subject: Re: [PATCH v8 09/11] block: check availablity for preadv/pwritev on
- mac
-To: Joelle van Dyne <j@getutm.app>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,31 +76,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 23 Jan 2021 at 05:03, Joelle van Dyne <j@getutm.app> wrote:
->
-> macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-> will succeed with CONFIG_PREADV even when targeting a lower OS version.
-> We therefore need to check at run time if we can actually use these APIs.
+The following changes since commit fef80ea073c4862bc9eaddb6ddb0ed970b8ad7c4:
 
-If you make the preadv check be a meson.build has_function()
-test, I think (but have not tested) that it ought to correctly
-fail the link in the targeting-lower-OS-version case, because
-meson.build's has_function() implementation for clang
-https://github.com/mesonbuild/meson/blob/bad0e95caec4cf49165572df3cf2edc4832280fa/mesonbuild/compilers/mixins/clang.py#L89
-adds -Wl,-no-weak-imports when it's building the test-case
-exactly to force that linker visibility obeys the minimum
-version targets for OSX.
+  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-01-20' into staging (2021-01-21 10:44:28 +0000)
 
-If that works I think it would be neater than delaying the
-check to runtime (and it would also mean another test moved
-out of configure and into meson.build, which is the direction
-we're heading anyway).
+are available in the Git repository at:
 
-thanks
--- PMM
+  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+
+for you to fetch changes up to fc70d67e73e9cba950cf9d16281a78eb4ab6e4ce:
+
+  qemu-option: warn for short-form boolean options (2021-01-23 09:29:42 -0500)
+
+----------------------------------------------------------------
+* Make MinGW respect --bindir (Joshua)
+* Switch MinGW to a "deep" installation (Joshua + NSIS fixes by myself)
+* Fix compilation errors/warnings (Qixin, Philippe)
+* Switch slirp to a subproject (Marc-André)
+* QemuOpts cleanups (myself)
+* Consistency improvements for -action (myself)
+* remove deprecated "change vnc TARGET" functionality (myself)
+* meson cleanups (Philippe, myself)
+* IDE out-of-bounds access (Prasad)
+* LA57 fix for -cpu max (Weijiang)
+
+----------------------------------------------------------------
+Gan Qixin (1):
+      util/cacheflush: Fix error generated by clang
+
+Joshua Watt (1):
+      configure: MinGW respect --bindir argument
+
+Marc-André Lureau (4):
+      build-sys: remove unused LIBS
+      build-sys: set global arguments for cflags/ldflags
+      build-sys: add libvhost-user missing dependencies
+      slirp: update to git master
+
+Paolo Bonzini (11):
+      runstate: cleanup reboot and panic actions
+      build-system: clean up TCG/TCI configury
+      nsis: adjust for new MinGW paths
+      meson: convert wixl detection to Meson
+      acceptance: switch to QMP change-vnc-password command
+      hmp: remove "change vnc TARGET" command
+      qmp: remove deprecated "change" command
+      vnc: support "-vnc help"
+      qemu-option: clean up id vs. list->merge_lists
+      qemu-option: move help handling to get_opt_name_value
+      qemu-option: warn for short-form boolean options
+
+Philippe Mathieu-Daudé (12):
+      softmmu/physmem: Silence GCC 10 maybe-uninitialized error
+      meson: Declare have_virtfs_proxy_helper in main meson.build
+      meson: Summarize information related to directories first
+      meson: Display host binaries information altogether
+      meson: Summarize overall features altogether
+      meson: Summarize compilation-related information altogether
+      meson: Display accelerators and selected targets altogether
+      meson: Display block layer information altogether
+      meson: Display crypto-related information altogether
+      meson: Add a section header for library dependencies
+      meson.build: Declare global edk2_targets / install_edk2_blobs variables
+      meson.build: Detect bzip2 program
+
+Prasad J Pandit (1):
+      ide: atapi: check logical block address and read size (CVE-2020-29443)
+
+Yang Weijiang (1):
+      x86/cpu: Use max host physical address if -cpu max option is applied
+
+ .gitmodules                           |   6 +-
+ Makefile                              |   2 -
+ configure                             | 146 +++---------
+ disas/meson.build                     |   2 -
+ docs/system/deprecated.rst            |  11 +-
+ docs/system/removed-features.rst      |  11 +
+ fsdev/meson.build                     |   1 -
+ hmp-commands.hx                       |   6 -
+ hw/ide/atapi.c                        |  30 ++-
+ include/ui/console.h                  |   2 +-
+ meson.build                           | 408 +++++++++++++++++-----------------
+ meson_options.txt                     |   4 +
+ monitor/hmp-cmds.c                    |   7 +-
+ monitor/qmp-cmds.c                    |  51 -----
+ pc-bios/descriptors/meson.build       |  30 +--
+ pc-bios/meson.build                   |   6 +-
+ qapi/misc.json                        |  49 ----
+ qapi/run-state.json                   |  10 +-
+ qemu-options.hx                       |   8 +-
+ qemu.nsi                              |  42 +---
+ qga/meson.build                       |  55 +++--
+ slirp                                 |   1 -
+ softmmu/physmem.c                     |   2 +-
+ softmmu/runstate-action.c             |   4 +-
+ softmmu/runstate.c                    |   7 +-
+ softmmu/vl.c                          |   8 +-
+ subprojects/libslirp                  |   1 +
+ subprojects/libvhost-user/meson.build |   3 +
+ target/i386/cpu.c                     |   1 +
+ tests/acceptance/vnc.py               |  18 +-
+ tests/test-qemu-opts.c                |   2 +-
+ ui/vnc-stubs.c                        |   7 +-
+ ui/vnc.c                              |   8 +-
+ util/cacheflush.c                     |   8 +-
+ util/qemu-option.c                    |  86 ++++---
+ 35 files changed, 442 insertions(+), 601 deletions(-)
+ delete mode 160000 slirp
+ create mode 160000 subprojects/libslirp
+-- 
+2.26.2
+
 
