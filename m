@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13D903017CB
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:54:16 +0100 (CET)
-Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EFFE3017E9
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:56:36 +0100 (CET)
+Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3O35-0000g6-4p
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:54:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49746)
+	id 1l3O5L-000327-Mj
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:56:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3NzT-0005Ag-BL
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:31 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40827)
+ id 1l3NzU-0005C3-Uk
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:32 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40828)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3NzP-0008E3-7F
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:31 -0500
-Received: by mail-pl1-x633.google.com with SMTP id j21so547445pls.7
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:26 -0800 (PST)
+ id 1l3NzQ-0008Eg-LL
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:32 -0500
+Received: by mail-pl1-x634.google.com with SMTP id j21so547470pls.7
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=wdBJyG9pvdbY/tWrWdbknFMnMMlRkyr0IIdSlApvTpw=;
- b=ymwZOQfHld7DCBVukldRcdmdz9p7bX9JMNNYxbCglSEhb+BcI4dgf10ud6SrBA5StU
- 8zfvAMcuY9UTz0ieOm0vBRxwlak282Om6Aa25XizmeEqmlRY7c/115qmJoPUv4DlJAOD
- CvzamhDgJOl/o1XK2/Qe5mnDa28zFiAi8U34d3CSXl+Ru1E+FNIWW2Ko8DC8FBdOb+Ye
- P/+7dRfpcpkI6EQPkDsFWgYeH3WS5QhpDoLBcTfwSfN5RSRCRor9qOv3t0RyGY8kMoY/
- T3oLzNW5C5nEOb9/OOwvXNuyWSHvTfe7CkgXPOR0Z73Own5DPfjzfbrO6c1vvRpFcS76
- XjMA==
+ bh=+XTAgpbLP+ZIDnz+giRotvFVeNq2GJ4eMelxbBgp91w=;
+ b=ZpL8O6jKFBCXsgdOQeuNAMYhkiFqPT107HSoYPvbU2HgWcY+uZg5BHHMh7EhTCAUCc
+ HWRh34E7kkcHkaoJCYAWGNONVXUN44lFOPOp3SBw5eb2isE8JNdM9DU8K0BNQhgGG5h3
+ f6G391lyQB8sNjpzw1BG8UJ97Sy1JhiYeWRo8ltdK96ixSRRMjQ4Ejxq5t6A4JPxNiuK
+ EZ9Ccpi+aV4XTdIOt/eonudFgNLwCYPNnHutd3olZ33UN3nPlI3li1fNyi0AGdepO82D
+ 9bnjJzJwW/qdx1V3RJT8fW6htbQ9+67RmiMz1yU5UyBOD5kIlwtSC0Euxbf0+O5HhduB
+ Lsfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=wdBJyG9pvdbY/tWrWdbknFMnMMlRkyr0IIdSlApvTpw=;
- b=FfWe71XCZuKOrZCUFH4m43+SW+L8C+ldnJArAyTviibMsd+AwF12yd3F0+EfUpiapj
- 3xFGbENesJbHtydUJ4vQfqxKdVFt4k5zj33U0U48PhjUZMQCDQB/mx50vbbYqa/79Jfs
- pLXHGaVUwB9EHQKicPdqt+5AWHlWx7XZaVKKMrfd+wB0//PeRcDDi7ygs7XLEgpK9LiZ
- AHeNk26mJibpQpaWKw6x1lFtcb+lPUVDy/q6NrJpVVc4v5OqC7xdAObgiGSps2CFAH7E
- K1e8ZmKm1YbekJvHjfnhfdaG9tXuuXMbv44evtLjVx43TFAVp3OqklSgxxmS0kt+b1D5
- wSlg==
-X-Gm-Message-State: AOAM530wP5JgHeqZp9FiWhfTll5340oNrYJAgz4X2ZfXvwRNYqDAgv0e
- yJ6+x7WvBpFMn/JxMl2bX8DhpOkPFYwQDg==
-X-Google-Smtp-Source: ABdhPJytriIY6fH/s2P2xo4QIZKiRkjtRS7CAse6VrJQ3uF5Lg5WnNIlE0IW4cS3nvwxwE2tJ/ME9A==
-X-Received: by 2002:a17:90a:db50:: with SMTP id
- u16mr12958389pjx.39.1611427825225; 
- Sat, 23 Jan 2021 10:50:25 -0800 (PST)
+ bh=+XTAgpbLP+ZIDnz+giRotvFVeNq2GJ4eMelxbBgp91w=;
+ b=PF1fsxXzD0Gp5sAsacv3CIXqEHbA83z0LlvUzIj3x5KDlkQE3HDG68wQmqS4IVDG/S
+ P8le2GtDLJFFnSViV6BkywsuDbJhaTa/XvYHAZkWyf3NbMStth5UOsMItWCVuYVNT89X
+ DGqp5Gb/hvmUFbw/7YH1koV0wU61RAgBlGQrNdx8fNFrbo5HPyF8zKwqrnZT28lgEGA6
+ 2pY68lgetJiPZVljAaIPQT+jlHUpZK3C44kigzAepYPyP+oUVGcJiIOPyre7DKgVKw3h
+ bIZaZXwudLuzcyQGBmxcwHpW4RjtYKoX9xfsuOFkqKvdg7pQMEOeuyCgGgTdI0ANJ/il
+ eLeA==
+X-Gm-Message-State: AOAM53069qWs63f4mdLSR8ZWWgkCxCvIrPW/6aaGzvHgzUypVDGAzPj4
+ qpyheBpIGeOhxqJ42SyXhiCCE9f657K7Bg==
+X-Google-Smtp-Source: ABdhPJwxM+fy01R7HYqrHpir2E1orSvc5ABkmA/SxPwlWvYhNIfhRBkLX5KI8/RgcgZR2dB9xcPueQ==
+X-Received: by 2002:a17:90b:3786:: with SMTP id
+ mz6mr12925603pjb.19.1611427826983; 
+ Sat, 23 Jan 2021 10:50:26 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.23
+ by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jan 2021 10:50:24 -0800 (PST)
+ Sat, 23 Jan 2021 10:50:26 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/10] tcg: update the cpu running flag in cpu_exec_step_atomic
-Date: Sat, 23 Jan 2021 08:50:11 -1000
-Message-Id: <20210123185020.1766324-2-richard.henderson@linaro.org>
+Subject: [PULL 02/10] qemu/compiler: Split out qemu_build_not_reached_always
+Date: Sat, 23 Jan 2021 08:50:12 -1000
+Message-Id: <20210123185020.1766324-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210123185020.1766324-1-richard.henderson@linaro.org>
 References: <20210123185020.1766324-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,50 +85,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Douglas Crosher <dtc-ubuntu@scieneer.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Douglas Crosher <dtc-ubuntu@scieneer.com>
+Provide a symbol that can always be used to signal an error,
+regardless of optimization.  Usage of this should be protected
+by e.g. __builtin_constant_p, which guards for optimization.
 
-The cpu_exec_step_atomic() function is called with the cpu->running
-clear and proceeds to run target code without setting this flag. If
-this target code generates an exception then handle_cpu_signal() will
-unnecessarily abort.  For example if atomic code generates a memory
-protection fault.
-
-This patch at least sets and clears this running flag, and adds some
-assertions to help detect other cases.
-
-Signed-off-by: Douglas Crosher <dtc-ubuntu@scieneer.com>
-Message-Id: <a272c656-f7c5-019d-1cc0-499b8f80f2fc@scieneer.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/cpu-exec.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ include/qemu/compiler.h | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index e0df9b6a1d..8053aa3f11 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -285,6 +285,9 @@ void cpu_exec_step_atomic(CPUState *cpu)
- 
-     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
-         start_exclusive();
-+        g_assert(cpu == current_cpu);
-+        g_assert(!cpu->running);
-+        cpu->running = true;
- 
-         tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
-         if (tb == NULL) {
-@@ -323,6 +326,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
-      */
-     g_assert(cpu_in_exclusive_context(cpu));
-     parallel_cpus = true;
-+    cpu->running = false;
-     end_exclusive();
- }
- 
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index d620a841e4..cf28bb2bcd 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -215,9 +215,10 @@
+  * supports QEMU_ERROR, this will be reported at compile time; otherwise
+  * this will be reported at link time due to the missing symbol.
+  */
+-#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
+ extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
+-    qemu_build_not_reached(void);
++    qemu_build_not_reached_always(void);
++#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
++#define qemu_build_not_reached()  qemu_build_not_reached_always()
+ #else
+ #define qemu_build_not_reached()  g_assert_not_reached()
+ #endif
 -- 
 2.25.1
 
