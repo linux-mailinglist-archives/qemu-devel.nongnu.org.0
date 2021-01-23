@@ -2,97 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9839B3018A2
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 23:14:20 +0100 (CET)
-Received: from localhost ([::1]:33696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DD973018AA
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 23:20:20 +0100 (CET)
+Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3RAh-0003kw-Mw
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 17:14:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53424)
+	id 1l3RGV-0005he-MZ
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 17:20:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3R9l-000366-Kq
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:13:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57871)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3R9h-0001Ml-KR
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:13:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611439995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p5wEhY11tcHU1fmKrQ0YLi2C/FyD1TknmlVYR/xAx7g=;
- b=chZjhfAR7WWxiB3ckZ2lKcQSWZcIRtiANS3taOfbGXZbUwOw0pjfnkN7ImY4zEWfcKvJGL
- 8EQ+7xW/OYlrealQl7KTUCe7kTS/FiKQPVqNy7od8Xs2X5uyY0zmOfWNl8ZNOYHOJMS541
- Y9dAwYjoZVLIMsKgRlO3xWZadZL29xQ=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-420-qmnyf4PsNc6O8U8OuAl7Kw-1; Sat, 23 Jan 2021 17:13:13 -0500
-X-MC-Unique: qmnyf4PsNc6O8U8OuAl7Kw-1
-Received: by mail-ed1-f71.google.com with SMTP id m16so5023302edd.21
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:13:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l3RFA-0005Ew-Kp
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:18:56 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33306)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l3RF9-0003Uo-0j
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:18:56 -0500
+Received: by mail-pl1-x631.google.com with SMTP id b8so5357474plx.0
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:18:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=6TRgrOTVn2PYXKP35q3xmWaDIXhrDHQXuoiRkjxHGMo=;
+ b=UtA1/ojsueVkc4lDMJbNj6ibD8+E1DEzfGBbGpT+iKAAzeFN0GnMR0SbedzM4YG6Eh
+ zhzDsvug1eeSzvBfCs05rYDpr4OsLn4Y8wryQ6h4VroBE9g0izdQjD3onlu2Tws7XIsH
+ FVZv0GzrUnGI3lmxTp0nCD0Y19ChQ4EHp0aGShg34TLIcCe6oLtJ9BPSShorDuXHQ+bG
+ c4ZEKB7F9c4EG7HUBUGloiITelETkdWGPZBRMqbs6GmY0jmyr0eFk7OKZd3J+SLBTj28
+ qGEt2r/wWx0tH2XRe0wzbDvw8rmFOWtmo6JK6ptqhpDDvb8mE4OKWPtIEBz7onfRjZaT
+ V/lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=p5wEhY11tcHU1fmKrQ0YLi2C/FyD1TknmlVYR/xAx7g=;
- b=dbEPR82lnK2jKar0dmcA1VYewpxqp//VH3FCYBjTkVkNaA9uM4ChuPK8VEXvTQQZ4q
- 8EBYGuIrpkYalQZbEL5ZYzfwa9xNWmS/ZQtbijL8Es6KMNyWxOrMmqftPnmPaIK5ZoPK
- 4EWUd7ED4Dhz+yWZSbomz3z0BMhBkqaBCuYG21SfWsf4qtnyOycwhnIFkoftcTyzGtRa
- Tn9zaVgshwOTTgxJPv9/WhzOvq2yjVb1x7chY0BW7NmugIfU+v0oVH2ZRiBbrQgJwMBt
- KdER/av1zva0X9cX6rjta8NsIsDbLwvwj/Gfb5spi/poV2IzIRFbD+ayuxoj+stYSjv+
- rBMA==
-X-Gm-Message-State: AOAM531pNpizy+MHKQCuJjk+GY2rCFaTB3Y5wmYUWhI/yRZiNGXLMDKn
- B7ByTch50gdRExWWXX05j2ybWdvu/N3J2m1xgo+wCRJVtZA4RKYZWUsy65OGW2h7MTEZXxKpoD4
- pzQjudm96vya2bFw=
-X-Received: by 2002:a17:906:ff43:: with SMTP id
- zo3mr572068ejb.542.1611439992550; 
- Sat, 23 Jan 2021 14:13:12 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxsudneKbcZVJRGMsR/vrf5ep60WmHH1qgFITsL9UN6augE6uWvtkPCj4EiRz5BXSxbENgH+Q==
-X-Received: by 2002:a17:906:ff43:: with SMTP id
- zo3mr572060ejb.542.1611439992391; 
- Sat, 23 Jan 2021 14:13:12 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id q4sm6267465ejx.8.2021.01.23.14.13.10
+ bh=6TRgrOTVn2PYXKP35q3xmWaDIXhrDHQXuoiRkjxHGMo=;
+ b=jH6xDtPMm94CdGYfAsajwYS+pkonURfniGMMCZWUXYQEcXWPw7bqXEUPMwWBuaJBU9
+ AC4PQEKTuTrgO4UDpOMF7FDEQZTAZ9LHpHg8/hn/7M83tlb9KQSLNc9Bbi/buKDOrPyR
+ h1QaojF0UW26l+0Gru8qibg2qTNsFg+o/MlE98eT6HBfsHT/6WHWrzWMto6ED+mLhgvM
+ vMM/cRuc1vbD7L9bGd6kvlECytZGAqNKpGClslOVrUYwH5IL4lqGcolHVKpYIOhm8vm0
+ OyAu6IaTRl1oPiTf5rqjh173Q4AiI35jqutt2rjLN6BhtavDWrVfkvov7WyxR5AT6XIj
+ MZXA==
+X-Gm-Message-State: AOAM533slJUSYc3GxtiXn8PKxEQ3KTq2KeVt5SYFx4qTjqIRpGCzP45V
+ FuRGz1B9X1dCHtT5w0pcQDDlEA==
+X-Google-Smtp-Source: ABdhPJzbGeMaKfvxRsqKN/168YNiZMddqceH687TvbkxM9j/b9m3e3FYajUBoEBA8d5EtgWfNEyOFA==
+X-Received: by 2002:a17:90a:e656:: with SMTP id
+ ep22mr13546056pjb.127.1611440333321; 
+ Sat, 23 Jan 2021 14:18:53 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id k15sm8125303pfi.94.2021.01.23.14.18.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Jan 2021 14:13:11 -0800 (PST)
-To: Laszlo Ersek <lersek@redhat.com>, Max Reitz <mreitz@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210122102041.27031-1-mreitz@redhat.com>
- <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
- <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
- <1121a803-98e7-6d41-119c-3d82717976ec@redhat.com>
- <cba8919b-0480-3520-6ad6-920bf9d4186e@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
-Message-ID: <063dd2a6-a3ae-0d7c-3e29-96a08a6d9a3d@redhat.com>
-Date: Sat, 23 Jan 2021 23:13:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Sat, 23 Jan 2021 14:18:52 -0800 (PST)
+Subject: Re: [PATCH] tcg: Increase the static number of temporaries
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20210121025439.1120405-1-richard.henderson@linaro.org>
+ <521603eb-205f-9659-25f9-d72bb2eec01f@vivier.eu>
+ <92ffa9ea-1013-db7c-554e-2bab1564a9f4@vivier.eu>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <e0e88324-d7bd-2b95-5e79-335039cd5619@linaro.org>
+Date: Sat, 23 Jan 2021 12:18:49 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <cba8919b-0480-3520-6ad6-920bf9d4186e@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <92ffa9ea-1013-db7c-554e-2bab1564a9f4@vivier.eu>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,26 +90,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: lvivier@redhat.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/01/21 22:26, Laszlo Ersek wrote:
-> That seems bogus, per POSIX, given that all signals except SIGUSR2 are
-> included in the mask passed to sigsuspend().
+On 1/23/21 9:36 AM, Laurent Vivier wrote:
+>>> -#define TCG_MAX_TEMPS 512
+>>> +#define TCG_MAX_TEMPS 1024
+>>
+>> This seems not enough, I have:
+>>
+>> ERROR:.../tcg/tcg.c:1210:tcg_temp_alloc: assertion failed: (n < TCG_MAX_TEMPS)
+>> Bail out! ERROR:.../tcg/tcg.c:1210:tcg_temp_alloc: assertion failed: (n < TCG_MAX_TEMPS)
+>>
+>> With my branch m68k-virt (68040 processor with virtio-mmio devices) booting debian sid.
+> 
+> The cause of the overflow is this sequence:
 
-What happens if you get a SIGSTOP at exactly the wrong time?  (Yeah I 
-know how incredibly unlikely that would be).
+Thanks for the test case.  I was able to reproduce this with m68k-linux-user.
+This TB uses 1063 separate constants.  :-/
 
-BTW if we are in a mood for cleanup, there's no reason to use 
-pthread_key_t instead of __thread + qemu_thread_atexit_add (adding a 
-Notifier to struct CoroutineThreadState).  That would fix the issue with 
-async-signal safety of pthread_getspecific.
 
-(It makes sense for the function not to be async-signal safe since it 
-can in principle allocate memory for the data.  In practice it's most 
-likely okay if the function has been called before on this thread).
-
-Paolo
-
+r~
 
