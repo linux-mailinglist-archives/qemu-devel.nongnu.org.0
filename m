@@ -2,119 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFCE830187B
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 22:08:35 +0100 (CET)
-Received: from localhost ([::1]:56156 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 902D13018A1
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 23:10:03 +0100 (CET)
+Received: from localhost ([::1]:58546 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3Q94-0002pr-Pn
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 16:08:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44718)
+	id 1l3R6Y-00024D-4E
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 17:10:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l3Q5s-0000zE-Fd; Sat, 23 Jan 2021 16:05:16 -0500
-Received: from mail-eopbgr150139.outbound.protection.outlook.com
- ([40.107.15.139]:30663 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l3Q5q-0001gI-Ok; Sat, 23 Jan 2021 16:05:16 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mbn17kbZQMg0z01WVDWpjoRcUnyOZ1jroJ8PwyE23j2DvJEK6GTjRhluIN1ZQUH3SWRN0wFEBFspzJpD5QUNXmjB96ItD8GGGEnQIgrleAW+mzAQq7f3wUQxjCxzfZgt1OhydkIiT5n2qStzoNFwezEtl6X+mgYkninzkFqRkNB84k8/wfs2C5cmlFfPqNNld5CfTru7RFRmpVxIyI4Dw7jmT+vCO1j56GmDx8MUa1nJqKnaXXyqC6rUQ4h9wgBEgWVO00Vk7+fdHwpTYLL5SpAXQ8rv4x15XN8/flV+0ShDP0jpNKlJn9qDrLJc3TVVIEU3ncsAjXv72esT9TZA0Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FtE0VJL6N4O93BLVx+z3eArBoVg82V4idyb1Sk5Ka4w=;
- b=coczZWCnZdI3ngOnF8gpGtVjzht1T+K8eJQUdEie1UqvZt9SoCkrP4mMvJPZu5onQf0A8zkAaCQZCkitnvwjWI6Uqkwt+UHbXMBitP9q23Ob2JpAD3cYmhbamdUBUmqOgg6snSBCdBv0Y55fhNPi5DIcmHpucxiCFd09eSXjzE5MQ/UYubrcfmVxREQ9etHkgV9s7jpjOa2aUJRUDN5XDdq5kLzxUBsJEEU5uTE5XdPpE/+dR0NtD1tKl6O5HvFQkmSi3Q6DGzrbpGTbSezxbjEc/XdHb8a9VDaNrDyRcJDvkSqxvUBqWUrjXa0kxlCs3H0FhXMs0lDJyszvvP7WXA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FtE0VJL6N4O93BLVx+z3eArBoVg82V4idyb1Sk5Ka4w=;
- b=onsaLPS7C51X6i0wFGSwB+DbDYD6pqu8YWABHkxrnhosWuLQM8ddbaB5L/FmFPwL3ClX62gyFz28Fuxx4FhzqYRvbvVLa19dflx/KxmO5VLGWnNIGoFviNLR4YwWNg0e98G7oQESkOUM0KRgL/EGm7RLW9ggi4dxb3sT188EABw=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AS8PR08MB6053.eurprd08.prod.outlook.com (2603:10a6:20b:292::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Sat, 23 Jan
- 2021 21:04:54 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.015; Sat, 23 Jan 2021
- 21:04:54 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Subject: [PATCH v8 5/5] iotests: rename and move 169 and 199 tests
-Date: Sun, 24 Jan 2021 00:04:28 +0300
-Message-Id: <20210123210428.27220-6-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210123210428.27220-1-vsementsov@virtuozzo.com>
-References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [178.176.79.161]
-X-ClientProxiedBy: HE1PR05CA0196.eurprd05.prod.outlook.com
- (2603:10a6:3:f9::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l3R5T-0001bs-UE
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:08:56 -0500
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:43429)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l3R5Q-0008M4-Lt
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:08:55 -0500
+Received: by mail-pf1-x430.google.com with SMTP id q131so6113209pfq.10
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:08:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=kW8Jx9+KXzCJnGhhX0iucJFvE62uXwaJZfqWl2SqUVQ=;
+ b=J/iuxva36h3v2k3q6o4BCK+FwqWEnfYn1xmWUZs5pvmXLWQW+eTOrARw0P+fh5Ws/V
+ XwQD1kDAeW1L3J3cqGfroOm5Jainrymmcvjgqvfqbj/SZasXwgCB8O7UcvbbeqS2FCjB
+ Km3YvqGNunpOISRXxPyVL87fUI8aEDYp8b1VLfbEA8XCCyt1J+LEOiElm97XXUFvY/Bs
+ JDW1gDlmF6YXUNadP43yWjkAB0w+jroO4HZ0V3hQXfn4KWMGPMOCGcB0GpW1AS0XP/5/
+ xBpSjCETvoQ7D7R+y4UjJF0jK2kFVmti/j8i5jhuyhE9Xt0kyniZsFtyaVyxJiaOB88x
+ MymA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kW8Jx9+KXzCJnGhhX0iucJFvE62uXwaJZfqWl2SqUVQ=;
+ b=Alx2ip2oTrHPiry6dLvI9ZInPXnmmi+upJGv73Pr5Q/atX/Vd1apQfvuOvuIgwOlHY
+ fj2+1LFDJkcQwEg/qAT4YQ+w57D6e7YSiWPl++ThNb16qCuKr5i6r+vBEL54b6AD3J0/
+ abF6xdvzx13Mn99PF1+RD6hxqQZxl0aBD9z3iR/GmeVS571R350EKiI6ptgc9AnG37L9
+ 90OrsDdtZZemwoavRPGj128CfKy21MDlyGl2QgM1Y68wPWv5YU0vRE8JgDHrllSGxicb
+ /JqJx9E3EZqzCHXaYjNz1ehuujEnrQKfJvWO0E3qkkxufhrC6aNrSQUT0YmJhUyz2Xkx
+ fqEg==
+X-Gm-Message-State: AOAM532rNSVlYWSNrXRMmCVKn7OC34GD8DuhvQv+a7nknukDC1jpZue9
+ KKtlP3suIiVX9IMbKK3iyyvrVQ==
+X-Google-Smtp-Source: ABdhPJzy/2gbG0ciMtYJyWKiscSacQYF6CfaWMqcMcoERUvZ1W3Mqca+apnr6Irwc5j2svDYsfwAig==
+X-Received: by 2002:a65:4c43:: with SMTP id l3mr10059357pgr.327.1611439729290; 
+ Sat, 23 Jan 2021 14:08:49 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id n15sm12823583pgl.31.2021.01.23.14.08.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 23 Jan 2021 14:08:48 -0800 (PST)
+Subject: Re: [PULL 00/10] tcg patch queue
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+References: <20210123185020.1766324-1-richard.henderson@linaro.org>
+Message-ID: <7aca4886-894e-e921-cef8-738ccc7f59de@linaro.org>
+Date: Sat, 23 Jan 2021 12:08:44 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from kvm.sw.ru (178.176.79.161) by
- HE1PR05CA0196.eurprd05.prod.outlook.com (2603:10a6:3:f9::20) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Sat, 23 Jan 2021 21:04:52 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6bf09b7d-c7b6-483a-7ae7-08d8bfe28801
-X-MS-TrafficTypeDiagnostic: AS8PR08MB6053:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB6053B5F2741574E6A167A412C1BF0@AS8PR08MB6053.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:497;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: y1kQ4Ckgi6flV9sTnFwaf1mdqyJ58MkzbpVaYd3R4Lm+Xjg8lO1a6FbbmkKAFCzUYCt4UY4+Nec0G1wSkdpD2MxI4ywH2CcsamtNQhb3B/61IR1SsPmekeS+uomswU/HFs1dxD3F66CNEOFcbygJXB57MRXHKc9rbyCPKcR2ezFE01XTJdORts0fgeWgb5klqGPtcahR7oqwjUapZWzndCuKvcOtRl2OknFw1tvbEaLQxB2/E1VWER5b2CupIdmlXD51Hbwl2o2Fd+kFSUvZHOTQOJZv4bvAU0J95jJPyKAq3X168Y4dSSVbRC+Qk+LIRngr/bxJcN9Es7nVb/hchEqhLt9ghK/ET1Yrq+W0DQR95weA+8os1Ipta8CXiopDHoOp9++Qt3uaA8TN005QMVn5nHUIJ9KdEXwJ9iV2Hm5pkpXQ7uLxbNqIcPSrKXU00ZG94gbQVzFR5my37aN4ihIpq7kqcBEjOHKuDYhKIpW297r7Nliuu9NTuflK1guHeZpLJEbU2xBSX95is10QEg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(346002)(366004)(396003)(136003)(376002)(39840400004)(83380400001)(956004)(107886003)(6486002)(186003)(66946007)(66476007)(4326008)(52116002)(5660300002)(1076003)(8936002)(478600001)(26005)(2906002)(6916009)(6512007)(6666004)(36756003)(8676002)(6506007)(2616005)(316002)(66556008)(16526019)(86362001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?9VzpHdCEKJ4gM0UeGOYUP0DomQvGv13XXqJbGyE/gsCQ3ImGqK/HCDnLQQ9o?=
- =?us-ascii?Q?PHeibdRPx2+XobGDx9LxNDi38CNkAu1KBzyQSZEi74BEZ9kCzSJfvs1p1dF9?=
- =?us-ascii?Q?OgasvgWf5j+GbtJl58UFUJLtVmKbUdU/8WKYGuIGyXAzPBwJUTGArZjGSCBt?=
- =?us-ascii?Q?9Xr7SWs30XlBla8pmKG+MtPJQoGMYtMwoUL3QCAh0ThRUyGGH7GBYs+phuuh?=
- =?us-ascii?Q?V4i02lfkq4zSMwF9ZcZuW7XkuTcm/aqM3i/PEMj/tprPuHigsWvf2oC5Deg4?=
- =?us-ascii?Q?wSIOeQkxM0gRZ4nP5AF3WiiD3hrOqJPVBbaSF6XG/advDp2fxKkJF+TRHOeN?=
- =?us-ascii?Q?nUDdHTB1NJHlEpp0CDXHalxZlSMSCr/k8riee7gvO0uXKpf0FnEUoj7OxPew?=
- =?us-ascii?Q?gjZ2bNz5Zbw6agQLsKNLRFZWfJayHjteY1eWQg6guBYlD5ZFBp99hVFOu59S?=
- =?us-ascii?Q?/gF+ZIhpwY0uY0pe/Us8BNgdFoGawa6rdHmgHrlnx5td5LbhSwWW0Ztcxlin?=
- =?us-ascii?Q?wyRvwEWeHqbohhBmfgkgp6s8hFSHrcTIK0Lcgj9FuUV+Pt57Is+qm7jcx+s0?=
- =?us-ascii?Q?MEFPVAo2uPU2y3RJqR1NyC+leHCiuYYh0tlPSNgkGBeSEXnLt3I8+IE+0TZy?=
- =?us-ascii?Q?aAoJfh3ARQ95mic+z3kAIkT/aF4O4rrgEHFvkWv6KDFyFL5ccjT2LbvIuN1V?=
- =?us-ascii?Q?q2KIIj/IJAz8jMOzYz61jLaYx9I+4VKXFH9DWW3zGvC6wxGOv8FwIkRPfraX?=
- =?us-ascii?Q?qpXGchnEDizoXB+WFElLZWIT4ucQs/tZFwv+DdeuIQt/MufeuleUxOHAE5CJ?=
- =?us-ascii?Q?OBlE5DtojFf0v+HvEtUWO+Dn0EStnxEpMMOiGnzMXGRhy3gfeftfXyzA/wYE?=
- =?us-ascii?Q?HvPLG7rh4K5PHFwEMLZ/NSq3Uv3NwOM4300LuTMFdGSjjQ6x+YExlM42Ai34?=
- =?us-ascii?Q?lr8Bl2B1qbQ50KNU0pvBVb2OD3fqOOYlURR0HP5p0RQd3GcLWZviy/Ssq1Mr?=
- =?us-ascii?Q?4pWL?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bf09b7d-c7b6-483a-7ae7-08d8bfe28801
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2021 21:04:54.0179 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: eg35AnO/8pl7jjUVa1uE1eh9bLNHH5CJFu42dIcP89x6/GlxqCXJsfuRsQZpUcKJVi6RgC+F6xCSUID7KMAvt+oVl0+j0LPFVhek2r3Utjg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6053
-Received-SPF: pass client-ip=40.107.15.139;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR01-DB5-obe.outbound.protection.outlook.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20210123185020.1766324-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::430;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x430.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -127,43 +87,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rename bitmaps migration tests and move them to tests subdirectory to
-demonstrate new human-friendly test naming.
+On 1/23/21 8:50 AM, Richard Henderson wrote:
+> The following changes since commit 0e32462630687a18039464511bd0447ada5709c3:
+> 
+>   Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-01-22 10:35:55 +0000)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210123
+> 
+> for you to fetch changes up to 2e34067e9959f149a904cf1255985d3b68b52566:
+> 
+>   tcg: Toggle page execution for Apple Silicon (2021-01-22 12:48:01 -1000)
+> 
+> ----------------------------------------------------------------
+> Fix tcg constant segv.
+> Optimize inline dup_const for MO_64.
+> Update the cpu running flag in cpu_exec_step_atomic
+> Some tidy up of tcg vs other accelerators
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test}   | 0
- .../{199.out => tests/migrate-bitmaps-postcopy-test.out}          | 0
- tests/qemu-iotests/{169 => tests/migrate-bitmaps-test}            | 0
- tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out}    | 0
- 4 files changed, 0 insertions(+), 0 deletions(-)
- rename tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test} (100%)
- rename tests/qemu-iotests/{199.out => tests/migrate-bitmaps-postcopy-test.out} (100%)
- rename tests/qemu-iotests/{169 => tests/migrate-bitmaps-test} (100%)
- rename tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out} (100%)
+Please do not apply this pull.
+The tcg constant fix isn't good enough.
 
-diff --git a/tests/qemu-iotests/199 b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-similarity index 100%
-rename from tests/qemu-iotests/199
-rename to tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test
-diff --git a/tests/qemu-iotests/199.out b/tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test.out
-similarity index 100%
-rename from tests/qemu-iotests/199.out
-rename to tests/qemu-iotests/tests/migrate-bitmaps-postcopy-test.out
-diff --git a/tests/qemu-iotests/169 b/tests/qemu-iotests/tests/migrate-bitmaps-test
-similarity index 100%
-rename from tests/qemu-iotests/169
-rename to tests/qemu-iotests/tests/migrate-bitmaps-test
-diff --git a/tests/qemu-iotests/169.out b/tests/qemu-iotests/tests/migrate-bitmaps-test.out
-similarity index 100%
-rename from tests/qemu-iotests/169.out
-rename to tests/qemu-iotests/tests/migrate-bitmaps-test.out
--- 
-2.29.2
+
+r~
+
+
+> 
+> ----------------------------------------------------------------
+> Douglas Crosher (1):
+>       tcg: update the cpu running flag in cpu_exec_step_atomic
+> 
+> Philippe Mathieu-Daudé (4):
+>       accel/tcg: Make cpu_gen_init() static
+>       accel/tcg: Restrict tb_gen_code() from other accelerators
+>       accel/tcg: Declare missing cpu_loop_exit*() stubs
+>       accel/tcg: Restrict cpu_io_recompile() from other accelerators
+> 
+> Richard Henderson (4):
+>       qemu/compiler: Split out qemu_build_not_reached_always
+>       tcg: Optimize inline dup_const for MO_64
+>       tcg: Increase the static number of temporaries
+>       accel/tcg: Move tb_flush_jmp_cache() to cputlb.c
+> 
+> Roman Bolshakov (1):
+>       tcg: Toggle page execution for Apple Silicon
+> 
+>  accel/tcg/internal.h      | 20 ++++++++++++++++++++
+>  include/exec/exec-all.h   | 11 -----------
+>  include/qemu/compiler.h   |  5 +++--
+>  include/qemu/osdep.h      | 28 ++++++++++++++++++++++++++++
+>  include/tcg/tcg.h         |  5 +++--
+>  accel/stubs/tcg-stub.c    | 10 ++++++++++
+>  accel/tcg/cpu-exec.c      |  7 +++++++
+>  accel/tcg/cputlb.c        | 19 +++++++++++++++++++
+>  accel/tcg/translate-all.c | 23 +++++------------------
+>  tcg/tcg.c                 |  7 ++++---
+>  10 files changed, 99 insertions(+), 36 deletions(-)
+>  create mode 100644 accel/tcg/internal.h
+> 
 
 
