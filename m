@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C916A301879
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 22:08:24 +0100 (CET)
-Received: from localhost ([::1]:55560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4E3030187A
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 22:08:35 +0100 (CET)
+Received: from localhost ([::1]:55990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3Q8t-0002bN-Po
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 16:08:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44634)
+	id 1l3Q94-0002lm-Fq
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 16:08:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44658)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l3Q5Z-0000d2-F5; Sat, 23 Jan 2021 16:04:57 -0500
+ id 1l3Q5c-0000iI-JT; Sat, 23 Jan 2021 16:05:00 -0500
 Received: from mail-eopbgr150139.outbound.protection.outlook.com
  ([40.107.15.139]:30663 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l3Q5X-0001gI-16; Sat, 23 Jan 2021 16:04:57 -0500
+ id 1l3Q5a-0001gI-4D; Sat, 23 Jan 2021 16:05:00 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M55U71ikFMAYAGJ2XWC/SifhBT6+SCOTj4bHbp6Nx/IQJmSd/lBoVq5HNSJvzh51jzWFlclSatgUAkmwB5uHE4eRN8OyvrHIOI5U+tDAuLksSaGkgVLJqOlWwodLc9ODdgqABFRem/nVL8dhZxcotOm46f5cJF90tU2LnTyqP0zPilUSN0kKNtJVhPdUsD4bT9xs9IHuELlUYx+3MZ4HYKR0xPZxdtUyZz3+I0JXdHGCF3p1kc+MF9axKcn2x4i93EJ4J+h6dbfjPPm3Td0h3OAtFZ5ejpaD1b14HyWRd58lIqG0ZAUHK8jkOsT+Wog/uDqmxk5plIT8CHwIu4Cn8w==
+ b=Kaw6DguAA2sjrrlShoPU1PAkp60EdCBfMxQnHeV0kL9ITd05kwc+I0yUH0ssZjmx9GIAmGK8y5hu0E3s7Epwzmoo7cPAm/aT9YEiC+q4bZbByJ7JM8GNuUFDJfcwn8BQw44rgP5zzPQpr/wX97bK1Pf8rVZbHlOfFW8J2DPp15c2OK7R+4+l6EddgjvM1Jp0v5faTYOGgBER3pvCRcTmbehCxZXlDA1Qs6KYyNi4d8PKigzCqtkjU2C/IyrIHR2G3GKiCPk321ABrzx4v0YNF/nTnFI4NHNxKuvV/fPHUS2Sz2IfA0d+9ek/XrVCbEJjtsFHJCAKB0yQaKAHG7Hmdg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jZQzbO4hDeG0+fQYXsKT+vDtbDm6eI1MFCPIw/zUxnQ=;
- b=GR1ROLJ7JYUQ9txRfKEBDqmbG0UQVzWqKcG/2Xji4m+wX/vZ7l8tAniSr9ZhLgvt8mg4X9gQnEhBTXt03qo7CgKv3teRilgQEZJfgTxMzYvsux0qjd5ZT5RMBP35orQHzttBK1kpXRJM/TSNoa+etM5SCkp8NAuj/W4wcdX5qWzF7fDHdOjsLEZqCtIclKGulbtaCOB2Mr4sd56IBNh3h0ATL30/zLXeJOFAkKatgw6UtSUBcogmE0FpM+9S7AWB8Vl5hroY4LTxSwgFxAXYScal9Z965fXFcNjs6y14xmz1jnQfKxFiqBA54YIZBNrpIM4QPJUy3RcNFg2RqH0Ibg==
+ bh=dpkeDTjsfwNIZoU1gSXkziKZAw82/8MIp5IkoP5d49E=;
+ b=GM4rswCkRaqX80a9WMO579IvKbasXOk3v3D9hFSSWToqYJNb2Cf/o7bl4gHh2ZtJ5A4Ng/+/ZI4Ah4E4IV3NtR/H4vaeX/UWxIpsyOipS/e7fBWLTxZ/e0zyOFrqcZPace+CkKmLgivySz8ihjdsPFPT+JjOAoFXbaJte8KXrLNFiUTqUjNjbx680jglyRnfAkbTfPdVzFOuESlN6P/109NTxqdEp1SGAzfKwN01rAL6h91Klhc4wS/22z5/+MUzkxMsmUpE4g4EAbeN5bcON5PGgmSbz5UWJTHxKfdwh3lcsdndlWluT+1PzWYQsgcxK6BzN/UJf8vkpJ45Rexb8w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jZQzbO4hDeG0+fQYXsKT+vDtbDm6eI1MFCPIw/zUxnQ=;
- b=IspYs0wD69VlYmhzZbplqQ1aOQ6BgrlHl6oTDkl/uklaZiPjCQm27tP7zLuY4eaSe62NUjj8goeYkF4nstJ/fqAiIm/hDlMF7JhMtZ4JIQM7kFHolKPU9+pUk0I/wKk/jxe97MSngDRArot02TADuPN71ikohXSJglZ/SqUfhXM=
+ bh=dpkeDTjsfwNIZoU1gSXkziKZAw82/8MIp5IkoP5d49E=;
+ b=pqPCOrMZGBD+y7CfDdkRHeps+cxaHMGLwo0MPVIbh2JT4QvbFiybFDNTYKeCqWU+189i/5NrfF2wO4tAV7991w2mcCrK5WbDJI9tRugu8Akj89pPdSNLvghKrmOCbBdLhjD318ojJwntwlSwhr4sdgO2WDo0uBSo3SV3628jXpg=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AS8PR08MB6053.eurprd08.prod.outlook.com (2603:10a6:20b:292::14)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Sat, 23 Jan
- 2021 21:04:47 +0000
+ 2021 21:04:49 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.015; Sat, 23 Jan 2021
- 21:04:47 +0000
+ 21:04:49 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v8 1/5] iotests: add findtests.py
-Date: Sun, 24 Jan 2021 00:04:24 +0300
-Message-Id: <20210123210428.27220-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v8 2/5] iotests: add testenv.py
+Date: Sun, 24 Jan 2021 00:04:25 +0300
+Message-Id: <20210123210428.27220-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210123210428.27220-1-vsementsov@virtuozzo.com>
 References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
@@ -63,47 +63,47 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (178.176.79.161) by
  HE1PR05CA0196.eurprd05.prod.outlook.com (2603:10a6:3:f9::20) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.11 via Frontend Transport; Sat, 23 Jan 2021 21:04:45 +0000
+ 15.20.3784.11 via Frontend Transport; Sat, 23 Jan 2021 21:04:47 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 15940a35-3318-4f07-df11-08d8bfe283d4
+X-MS-Office365-Filtering-Correlation-Id: 71aa19c0-00b3-4d51-f1bf-08d8bfe284c7
 X-MS-TrafficTypeDiagnostic: AS8PR08MB6053:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AS8PR08MB60533E82B59A54D9E8112A0CC1BF0@AS8PR08MB6053.eurprd08.prod.outlook.com>
+X-Microsoft-Antispam-PRVS: <AS8PR08MB6053F648A3C3BBEED9A34ABCC1BF0@AS8PR08MB6053.eurprd08.prod.outlook.com>
 X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: m5+u+09fQtlT24uuvbG0flUhUUnvebytzquohnWHLnlq5dwGPP2wBDp4xT4tkhOy0NM+VkyHbOGX4TFqiMsImgXiXUso0h2UjZ/jfn8hnAMO/QJVUikvQmPPno/a+TL0igoFM5cba8hOc5+Y9+WnTaW1YcGM6m7iuFFXLqR7MltR0pHao9jT+UTO2mRLEQGx8IqXuIcJYvbSDTANgb4vPWGKx2L3pAbcvuHfNt01o0+1yopEv8Ryqi3HpWB5LO5A3yCKZ9sYlQMH64hYQomZ79hPsQ++tuZ3HJYBE/Yzhc7AyMzJHZt7WtQo5t/QSo7W4jUgQcaHfWfbbyMADFJXtEvbBQ954U35i7n3jyi/DIDyL9IKqtkHfZhE2FZ+FRD0p91WPo3FTyfHZjgCbOx7n0kGlb2N4gs+zgaSPliHHd5nhElxBQaRIpjIvMB5SqGbQ5xMddSpeOeIf36G7eMLpia8sdApmiKnb2BkXxcJG34WqkSYzPB4dVXP/FFC39EDTG7QhCJmMXrdIRQ4BWA/Hdsy4TAc8Ae/rxf/upMmGXsMiW0I6AUUhfu0OxlrYfFo9nRmjarZszncEcjpVDNSKSfLzkRy1+Kc/W4NyKo/PU3ZZ4ARMnF89sp/xTMQg7OFFnq3lnsca0sPejCnesDDVQ==
+X-Microsoft-Antispam-Message-Info: FaXA4mVBCoM3QHqb2dxy+cownKRirmlEPC93oELFsLviUFg34XfJ16FOXNnn86h0c12Q5PpTVWCFGYF2/aI1sE4+CAwwpT8yBv/XHwKxcNt6sU07GWQ/7jGEfqzvjBNYUGn3htBgBTV0PBk4Yp3jhq33cmMut1N8ZKuNHwk/ufirqz7b1dUYauYJ17MjQOqF5c2gQVbALHhZdwel5vWA50qvwsKHRq6yR8rzoqOFzQLBtTCl9d/RlutqJnYJeWpikBLpA0Gyofnw2Y/lxQvl595K9RCn13Ionc1ZbWhElZPjaE1hGxch62ko1c2iNWLaFKcgEPjRJy3L5PFO6FXfwlVZef2BfmogcsuTtewC0iCUDr52Jjb24N8ihTbtrHORrbjMx3Kyk0vjq476yIb2k0+khXngskKOdSnwttNLmQGyLyZqLfokjR4zlWgaxuC1Xmex/2y+BS98W4pj2Ut9drg616UQjHhA1kD6190o/CptrjbraO/sY3T66/RgN0BhR1I6khe50NtoWSmVSpkc4SW2EVm6CevsmYUb1rLdmyAOqznWH5Ii/yNAqTwrxUWbYGeW7/VN2B21xJT9FHXLsEZESjj/7i8xx2caKUDe5dBlDrtAhX5RYBkgbfRmFBPO5Bo9moJKmemdliFNh8ZOzw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(366004)(83380400001)(956004)(107886003)(6486002)(186003)(66946007)(66476007)(4326008)(52116002)(5660300002)(1076003)(8936002)(26005)(2906002)(6916009)(6512007)(6666004)(36756003)(8676002)(6506007)(2616005)(498600001)(66556008)(16526019)(86362001)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Lj3ZLNJhewOoBSaji7qEkXwF0786xfHe9GF8FyGkTKEzqjU3t/QdEjza3OOt?=
- =?us-ascii?Q?VqtmA8GAbcwubXwNoVlkhNzp80Fftu2bd2Q3M4raRPbXtO2ai7A9q+EU0H5t?=
- =?us-ascii?Q?LsEq8z0oCc/2BfOBvYEq4kZ0hK4xft2GLPRR49yl8rWvdaKjjDr6UhXvd7SA?=
- =?us-ascii?Q?WaDxp1NEfd7n9oLfh5r3RfcmisWa7l1M+GLTrEqZIqOOCZyfTCBM/fUr0cS7?=
- =?us-ascii?Q?8jOcfPsYwKpyUp7W3ZvAOMsph5rXVgyxZavPIKaVWajCZ6MRP2VK8oKRwKui?=
- =?us-ascii?Q?oclOC18+kBBG9m3V0odVPr7/SSwXlPkclsYH+WjWhOi4u+F8dhI5D5iJKxWp?=
- =?us-ascii?Q?D+n7yXoA0LGJEngYS0cZBQy/0cjA1kCzX3jZ+M/zO1FYa/VcEfdd8w6peoQg?=
- =?us-ascii?Q?NU7EW6vstan65K4PlX3SDzg6IZlSCi5KvsqUURIVM47XObMdU1U1airpew4g?=
- =?us-ascii?Q?Rsp59duMa88DwMiFY7qqbD39rDHiPTFVEwQHJzsNSivOZXZOFBZsm9GoVMIP?=
- =?us-ascii?Q?hX+VrmEDH0QpVVgu/9/x/nJ7Yeh7icaLD9Q4Rn1CQJEvJPZICn0MvPxJU9X8?=
- =?us-ascii?Q?xIFVHIMOqibsyJwl8AWQZUmHb2wOtNbTx/X5msJ6WFQfXGAruPm6KYkDnMrk?=
- =?us-ascii?Q?kUQZ3JcihU8kbK0boCo/3T0aKfX2vC4MLQi4FFy+9Z64PpxGpmfqZptZvbLw?=
- =?us-ascii?Q?Ao1Zj1yhcVV736e4rEj05anaElxRTuzNl/73ZZgN9jz6nEXgcQdOE6HaWGs+?=
- =?us-ascii?Q?Ibv1IMgVxiRJk3GbXBAZwrL0OZYz7uXiCsXK9PtCqJmdGXL86w/e+9Dygc4D?=
- =?us-ascii?Q?c3lW29LoiytMhG9ewidIwi58ePm9mHMV5ZTe5MV2iUul1RkHJANMr+G02nyz?=
- =?us-ascii?Q?55wb0L0YENqewWW6F4aJaWwkCRMmR6jH4iB+NQ9HjqwB6k70gUWICNTd7oUI?=
- =?us-ascii?Q?nF1uAjjYs4QJAXdC+qNBAH2nWmRi1LsNzCuIbLXbWgNyRpGOfvdddhT6m6gE?=
- =?us-ascii?Q?je5X?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?aGbl89VVf6vVz7Jomp5jJyQEzYeKgLDkVySmJH87YaCBOF3d9FzUtQSMHs0l?=
+ =?us-ascii?Q?pNn8f0WL7CPHuFsFzcD84m+5lO44IMUIRcfzR+SaarqCUYwBFlHwcNlTSn/O?=
+ =?us-ascii?Q?TaeRbXjMGKOlWrgdqlMhBaZutaX/gOj4llzBNZ4rluH3SIZ1DGWmDV/i3dAR?=
+ =?us-ascii?Q?s8BC/Y6ELK0d4Rpm/jzhWjMvU/kCM47Hv96FfCkF2418Mw35g0TAGPm95mf5?=
+ =?us-ascii?Q?3cV6SrYuKITNCo+p69QrY001goyBc8nAOaEQIIY4myZf4JKLeaEe5vDsMSAz?=
+ =?us-ascii?Q?QUnyEX6SgV7Mt0VXu7YeqBaR/d5hqY3E2pytAFr3Q2DmU8nY8Gj++cauFD65?=
+ =?us-ascii?Q?0qd3YS55orSVtDVxQa+5El4RqPQGd8AhXJF1vcfjrms0V1GLsWzlX4+OrekY?=
+ =?us-ascii?Q?opSViVbrErwk5qoDjj0OinkNs9dxbWdbNkIWn8L1mduKu9CNa3xV62UTfA9P?=
+ =?us-ascii?Q?7WxrVVEjGCjnWlFhW5pRgz3PxgCiify5rpNiZH8vurnF2mzGo7SyZ2upAnfJ?=
+ =?us-ascii?Q?w8YwoNX3qoscofff5XU8XrH3lyjzZUejAj3XRe88hBmCyJ1LHgzi0HWH5B78?=
+ =?us-ascii?Q?O0VziVD+uf7QfrufGrzf+BzN2X5wl/NONMPsapUv1SsmqXygok3/YXVAv5S2?=
+ =?us-ascii?Q?JGr2ILq+/qGRcY4MMYSu4Q1tm2w+sO8GSGFAVNfIu2PyTlpS3MpcxHAnEd3T?=
+ =?us-ascii?Q?7v7LdPphN4DEaCx5Via/aaNNMUmzbSa9+y+UbXQYttFulbkYe+SyXChIgML6?=
+ =?us-ascii?Q?1W9OKIp/f5K6AvN2TS03x7rhxjBhs/T5i06jtid0Wsyhkj3+g532MXP+6YZf?=
+ =?us-ascii?Q?wSZlz2DApiHXuqzFXZijzIqzJyo4+JvKI43gfkQGfqLQjWf08KsB+7IxtYP7?=
+ =?us-ascii?Q?6GgLIafrGN18BBKd5qGMefXSTNXBo4LkIhSTz+GbG4l4UaLmtjUO6iHGN2QN?=
+ =?us-ascii?Q?GNF+aFn/cxrWjjcAbtFVkJsgfq3hOBVMSV3CLHWf+mb0O9irOhVbyYTFatcd?=
+ =?us-ascii?Q?dd9v?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 15940a35-3318-4f07-df11-08d8bfe283d4
+X-MS-Exchange-CrossTenant-Network-Message-Id: 71aa19c0-00b3-4d51-f1bf-08d8bfe284c7
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2021 21:04:47.2118 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2021 21:04:49.1134 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /vy+wbkdBttZq+VgfmzINYP6d4a6bKzZ3Z4lBQUxNMHwIRvCTQdePb9tGRVxVCKh911C8ETZDavfTVowpXSlmAr6ORAxmmN9jqkQ4h7Ys5c=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BzsnFa+biZIoT2p+bYSpaRaDAII/3FTYV8PkMlfpoaR+7BsitfPJWk/kKY/naEWShq24vMHWopmkPSflTZYMZl1h62ALogphUb9srdcDlTQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6053
 Received-SPF: pass client-ip=40.107.15.139;
  envelope-from=vsementsov@virtuozzo.com;
@@ -132,130 +132,24 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add python script with new logic of searching for tests:
+Add TestEnv class, which will handle test environment in a new python
+iotests running framework.
 
-Current ./check behavior:
- - tests are named [0-9][0-9][0-9]
- - tests must be registered in group file (even if test doesn't belong
-   to any group, like 142)
-
-Behavior of findtests.py:
- - group file is dropped
- - tests are all files in tests/ subdirectory (except for .out files),
-   so it's not needed more to "register the test", just create it with
-   appropriate name in tests/ subdirectory. Old names like
-   [0-9][0-9][0-9] (in root iotests directory) are supported too, but
-   not recommended for new tests
- - groups are parsed from '# group: ' line inside test files
- - optional file group.local may be used to define some additional
-   groups for downstreams
- - 'disabled' group is used to temporary disable tests. So instead of
-   commenting tests in old 'group' file you now can add them to
-   disabled group with help of 'group.local' file
- - selecting test ranges like 5-15 are not supported more
-   (to support restarting failed ./check command from the middle of the
-    process, new argument is added: --start-from)
-
-Benefits:
- - no rebase conflicts in group file on patch porting from branch to
-   branch
- - no conflicts in upstream, when different series want to occupy same
-   test number
- - meaningful names for test files
-   For example, with digital number, when some person wants to add some
-   test about block-stream, he most probably will just create a new
-   test. But if there would be test-block-stream test already, he will
-   at first look at it and may be just add a test-case into it.
-   And anyway meaningful names are better.
-
-This commit doesn't update check behavior (which will be done in
-further commit), still, the documentation changed like new behavior is
-already here.  Let's live with this small inconsistency for the
-following few commits, until final change.
+Don't add compat=1.1 for qcow2 IMGOPTS, as v3 is default anyway.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- docs/devel/testing.rst          |  50 +++++++++-
- tests/qemu-iotests/findtests.py | 159 ++++++++++++++++++++++++++++++++
- 2 files changed, 208 insertions(+), 1 deletion(-)
- create mode 100644 tests/qemu-iotests/findtests.py
+ tests/qemu-iotests/testenv.py | 278 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 278 insertions(+)
+ create mode 100644 tests/qemu-iotests/testenv.py
 
-diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
-index 0aa7a13bba..454b706141 100644
---- a/docs/devel/testing.rst
-+++ b/docs/devel/testing.rst
-@@ -111,7 +111,7 @@ check-block
- -----------
- 
- ``make check-block`` runs a subset of the block layer iotests (the tests that
--are in the "auto" group in ``tests/qemu-iotests/group``).
-+are in the "auto" group).
- See the "QEMU iotests" section below for more information.
- 
- GCC gcov support
-@@ -224,6 +224,54 @@ another application on the host may have locked the file, possibly leading to a
- test failure.  If using such devices are explicitly desired, consider adding
- ``locking=off`` option to disable image locking.
- 
-+Test case groups
-+----------------
-+
-+"Tests may belong to one or more test groups, which are defined in the form
-+of a comment in the test source file. By convention, test groups are listed
-+in the second line of the test file, after the "#!/..." line, like this:
-+
-+.. code::
-+
-+  #!/usr/bin/env python3
-+  # group: auto quick
-+  #
-+  ...
-+
-+Another way of defining groups is creating the tests/qemu-iotests/group.local
-+file. This should be used only for downstream (this file should never appear
-+in upstream). This file may be used for defining some downstream test groups
-+or for temporarily disabling tests, like this:
-+
-+.. code::
-+
-+  # groups for some company downstream process
-+  #
-+  # ci - tests to run on build
-+  # down - our downstream tests, not for upstream
-+  #
-+  # Format of each line is:
-+  # TEST_NAME TEST_GROUP [TEST_GROUP ]...
-+
-+  013 ci
-+  210 disabled
-+  215 disabled
-+  our-ugly-workaround-test down ci
-+
-+Note that the following group names have a special meaning:
-+
-+- quick: Tests in this group should finish within a few seconds.
-+
-+- auto: Tests in this group are used during "make check" and should be
-+  runnable in any case. That means they should run with every QEMU binary
-+  (also non-x86), with every QEMU configuration (i.e. must not fail if
-+  an optional feature is not compiled in - but reporting a "skip" is ok),
-+  work at least with the qcow2 file format, work with all kind of host
-+  filesystems and users (e.g. "nobody" or "root") and must not take too
-+  much memory and disk space (since CI pipelines tend to fail otherwise).
-+
-+- disabled: Tests in this group are disabled and ignored by check.
-+
- .. _docker-ref:
- 
- Docker based tests
-diff --git a/tests/qemu-iotests/findtests.py b/tests/qemu-iotests/findtests.py
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
 new file mode 100644
-index 0000000000..d0c72efd6a
+index 0000000000..348af593e9
 --- /dev/null
-+++ b/tests/qemu-iotests/findtests.py
-@@ -0,0 +1,159 @@
-+# TestFinder class, define set of tests to run.
++++ b/tests/qemu-iotests/testenv.py
+@@ -0,0 +1,278 @@
++# TestEnv class to manage test environment variables.
 +#
 +# Copyright (c) 2020-2021 Virtuozzo International GmbH
 +#
@@ -274,146 +168,265 @@ index 0000000000..d0c72efd6a
 +#
 +
 +import os
++import sys
++import tempfile
++from pathlib import Path
++import shutil
++import collections
++import random
++import subprocess
 +import glob
-+import re
-+from collections import defaultdict
-+from contextlib import contextmanager
-+from typing import Optional, List, Iterator, Set
++from contextlib import AbstractContextManager
++from typing import Dict, Any, Optional
 +
 +
-+@contextmanager
-+def chdir(path: Optional[str] = None) -> Iterator[None]:
-+    if path is None:
-+        yield
-+        return
++def get_default_machine(qemu_prog: str) -> str:
++    outp = subprocess.run([qemu_prog, '-machine', 'help'], check=True,
++                          universal_newlines=True,
++                          stdout=subprocess.PIPE).stdout
 +
-+    saved_dir = os.getcwd()
-+    os.chdir(path)
-+    try:
-+        yield
-+    finally:
-+        os.chdir(saved_dir)
++    machines = outp.split('\n')
++    default_machine = next(m for m in machines if m.endswith(' (default)'))
++    default_machine = default_machine.split(' ', 1)[0]
++
++    alias_suf = ' (alias of {})'.format(default_machine)
++    alias = next((m for m in machines if m.endswith(alias_suf)), None)
++    if alias is not None:
++        default_machine = alias.split(' ', 1)[0]
++
++    return default_machine
 +
 +
-+class TestFinder:
-+    def __init__(self, test_dir: Optional[str] = None) -> None:
-+        self.groups = defaultdict(set)
++class TestEnv(AbstractContextManager['TestEnv']):
++    """
++    Manage system environment for running tests
 +
-+        with chdir(test_dir):
-+            self.all_tests = glob.glob('[0-9][0-9][0-9]')
-+            self.all_tests += [f for f in glob.iglob('tests/*')
-+                               if not f.endswith('.out') and
-+                               os.path.isfile(f + '.out')]
++    The following variables are supported/provided. They are represented by
++    lower-cased TestEnv attributes.
++    """
 +
-+            for t in self.all_tests:
-+                with open(t) as f:
-+                    for line in f:
-+                        if line.startswith('# group: '):
-+                            for g in line.split()[2:]:
-+                                self.groups[g].add(t)
-+                            break
++    # We store environment variables as instance attributes, and there are a
++    # lot of them. Silence pylint:
++    # pylint: disable=too-many-instance-attributes
 +
-+    def add_group_file(self, fname: str) -> None:
-+        with open(fname) as f:
-+            for line in f:
-+                line = line.strip()
++    env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
++                     'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
++                     'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
++                     'SOCKET_SCM_HELPER', 'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
++                     'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
++                     'QEMU_NBD_OPTIONS', 'IMGOPTS', 'IMGFMT', 'IMGPROTO',
++                     'AIOMODE', 'CACHEMODE', 'VALGRIND_QEMU',
++                     'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC', 'IMGOPTSSYNTAX',
++                     'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_']
 +
-+                if (not line) or line[0] == '#':
-+                    continue
++    def get_env(self) -> Dict[str, str]:
++        env = {}
++        for v in self.env_variables:
++            val = getattr(self, v.lower(), None)
++            if val is not None:
++                env[v] = val
 +
-+                words = line.split()
-+                test_file = self.parse_test_name(words[0])
-+                groups = words[1:]
++        return env
 +
-+                for g in groups:
-+                    self.groups[g].add(test_file)
-+
-+    def parse_test_name(self, name: str) -> str:
-+        if '/' in name:
-+            raise ValueError('Paths are unsupported for test selection, '
-+                             f'requiring "{name}" is wrong')
-+
-+        if re.fullmatch(r'\d+', name):
-+            # Numbered tests are old naming convention. We should convert them
-+            # to three-digit-length, like 1 --> 001.
-+            name = f'{int(name):03}'
-+        else:
-+            # Named tests all should be in tests/ subdirectory
-+            name = os.path.join('tests', name)
-+
-+        if name not in self.all_tests:
-+            raise ValueError(f'Test "{name}" is not found')
-+
-+        return name
-+
-+    def find_tests(self, groups: Optional[List[str]] = None,
-+                   exclude_groups: Optional[List[str]] = None,
-+                   tests: Optional[List[str]] = None,
-+                   start_from: Optional[str] = None) -> List[str]:
-+        """Find tests
-+
-+        Algorithm:
-+
-+        1. a. if some @groups specified
-+             a.1 Take all tests from @groups
-+             a.2 Drop tests, which are in at least one of @exclude_groups or in
-+                 'disabled' group (if 'disabled' is not listed in @groups)
-+             a.3 Add tests from @tests (don't exclude anything from them)
-+
-+           b. else, if some @tests specified:
-+             b.1 exclude_groups must be not specified, so just take @tests
-+
-+           c. else (only @exclude_groups list is non-empty):
-+             c.1 Take all tests
-+             c.2 Drop tests, which are in at least one of @exclude_groups or in
-+                 'disabled' group
-+
-+        2. sort
-+
-+        3. If start_from specified, drop tests from first one to @start_from
-+           (not inclusive)
++    def init_directories(self):
++        """Init directory variables:
++             PYTHONPATH
++             TEST_DIR
++             SOCK_DIR
++             SAMPLE_IMG_DIR
++             OUTPUT_DIR
 +        """
-+        if groups is None:
-+            groups = []
-+        if exclude_groups is None:
-+            exclude_groups = []
-+        if tests is None:
-+            tests = []
-+
-+        res: Set[str] = set()
-+        if groups:
-+            # Some groups specified. exclude_groups supported, additionally
-+            # selecting some individual tests supported as well.
-+            res.update(*(self.groups[g] for g in groups))
-+        elif tests:
-+            # Some individual tests specified, but no groups. In this case
-+            # we don't support exclude_groups.
-+            if exclude_groups:
-+                raise ValueError("Can't exclude from individually specified "
-+                                 "tests.")
++        self.pythonpath = os.getenv('PYTHONPATH')
++        if self.pythonpath:
++            self.pythonpath = self.source_iotests + os.pathsep + \
++                self.pythonpath
 +        else:
-+            # No tests no groups: start from all tests, exclude_groups
-+            # supported.
-+            res.update(self.all_tests)
++            self.pythonpath = self.source_iotests
 +
-+        if 'disabled' not in groups and 'disabled' not in exclude_groups:
-+            # Don't want to modify function argument, so create new list.
-+            exclude_groups = exclude_groups + ['disabled']
++        self.test_dir = os.getenv('TEST_DIR',
++                                  os.path.join(os.getcwd(), 'scratch'))
++        Path(self.test_dir).mkdir(parents=True, exist_ok=True)
 +
-+        res = res.difference(*(self.groups[g] for g in exclude_groups))
++        self.sock_dir = os.getenv('SOCK_DIR')
++        self.tmp_sock_dir = False
++        if self.sock_dir:
++            Path(self.test_dir).mkdir(parents=True, exist_ok=True)
++        else:
++            self.sock_dir = tempfile.mkdtemp()
++            self.tmp_sock_dir = True
 +
-+        # We want to add @tests. But for compatibility with old test names,
-+        # we should convert any number < 100 to number padded by
-+        # leading zeroes, like 1 -> 001 and 23 -> 023.
-+        for t in tests:
-+            res.add(self.parse_test_name(t))
++        self.sample_img_dir = os.getenv('SAMPLE_IMG_DIR',
++                                        os.path.join(self.source_iotests,
++                                                     'sample_images'))
 +
-+        sequence = sorted(res)
++        self.output_dir = os.getcwd()  # OUTPUT_DIR
 +
-+        if start_from is not None:
-+            del sequence[:sequence.index(self.parse_test_name(start_from))]
++    def init_binaries(self):
++        """Init binary path variables:
++             PYTHON (for bash tests)
++             QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
++             SOCKET_SCM_HELPER
++        """
++        self.python = sys.executable
 +
-+        return sequence
++        def root(*names):
++            return os.path.join(self.build_root, *names)
++
++        arch = os.uname().machine
++        if 'ppc64' in arch:
++            arch = 'ppc64'
++
++        self.qemu_prog = os.getenv('QEMU_PROG', root(f'qemu-system-{arch}'))
++        if not os.path.exists(self.qemu_prog):
++            pattern = root('qemu-system-*')
++            progs = glob.glob(pattern)
++            if not progs:
++                sys.exit(f"Not found any Qemu binary by pattern '{pattern}'")
++            if len(progs) > 1:
++                progs_list = ', '.join(progs)
++                sys.exit(f"Several non '{arch}' qemu binaries found: "
++                         f"{progs_list}, please set QEMU_PROG environment "
++                         "variable")
++            self.qemu_prog = progs[0]
++
++        self.qemu_img_prog = os.getenv('QEMU_IMG_PROG', root('qemu-img'))
++        self.qemu_io_prog = os.getenv('QEMU_IO_PROG', root('qemu-io'))
++        self.qemu_nbd_prog = os.getenv('QEMU_NBD_PROG', root('qemu-nbd'))
++        self.qsd_prog = os.getenv('QSD_PROG', root('storage-daemon',
++                                                   'qemu-storage-daemon'))
++
++        for b in [self.qemu_img_prog, self.qemu_io_prog, self.qemu_nbd_prog,
++                  self.qemu_prog, self.qsd_prog]:
++            if not os.path.exists(b):
++                sys.exit('No such file: ' + b)
++            if not os.access(b, os.X_OK):
++                sys.exit('Not executable: ' + b)
++
++        helper_path = os.path.join(self.build_iotests, 'socket_scm_helper')
++        if os.access(helper_path, os.X_OK):
++            self.socket_scm_helper = helper_path  # SOCKET_SCM_HELPER
++
++    def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
++                 cachemode: Optional[str] = None,
++                 imgopts: Optional[str] = None,
++                 misalign: bool = False,
++                 debug: bool = False,
++                 valgrind: bool = False) -> None:
++        self.imgfmt = imgfmt
++        self.imgproto = imgproto
++        self.aiomode = aiomode
++        self.imgopts = imgopts
++        self.misalign = misalign
++        self.debug = debug
++
++        if valgrind:
++            self.valgrind_qemu = 'y'
++
++        if cachemode is None:
++            self.cachemode_is_default = 'true'
++            self.cachemode = 'writeback'
++        else:
++            self.cachemode_is_default = 'false'
++            self.cachemode = cachemode
++
++        # Initialize generic paths: build_root, build_iotests, source_iotests,
++        # which are needed to initialize some environment variables. They are
++        # used by init_*() functions as well.
++
++        if os.path.islink(sys.argv[0]):
++            # called from the build tree
++            self.source_iotests = os.path.dirname(os.readlink(sys.argv[0]))
++            self.build_iotests = os.path.dirname(os.path.abspath(sys.argv[0]))
++        else:
++            # called from the source tree
++            self.source_iotests = os.getcwd()
++            self.build_iotests = self.source_iotests
++
++        self.build_root = os.path.join(self.build_iotests, '..', '..')
++
++        self.init_directories()
++        self.init_binaries()
++
++        self.malloc_perturb_ = os.getenv('MALLOC_PERTURB_',
++                                         str(random.randrange(1, 255)))
++
++        # QEMU_OPTIONS
++        self.qemu_options = '-nodefaults -display none -accel qtest'
++        machine_map = (
++            ('arm', 'virt'),
++            ('aarch64', 'virt'),
++            ('avr', 'mega2560'),
++            ('rx', 'gdbsim-r5f562n8'),
++            ('tricore', 'tricore_testboard')
++        )
++        for suffix, machine in machine_map:
++            if self.qemu_prog.endswith(f'qemu-system-{suffix}'):
++                self.qemu_options += f' -machine {machine}'
++
++        # QEMU_DEFAULT_MACHINE
++        self.qemu_default_machine = get_default_machine(self.qemu_prog)
++
++        self.qemu_img_options = os.getenv('QEMU_IMG_OPTIONS')
++        self.qemu_nbd_options = os.getenv('QEMU_NBD_OPTIONS')
++
++        is_generic = self.imgfmt not in ['bochs', 'cloop', 'dmg']
++        self.imgfmt_generic = 'true' if is_generic else 'false'
++
++        self.qemu_io_options = f'--cache {self.cachemode} --aio {self.aiomode}'
++        if self.misalign:
++            self.qemu_io_options += ' --misalign'
++
++        self.qemu_io_options_no_fmt = self.qemu_io_options
++
++        if self.imgfmt == 'luks':
++            self.imgoptssyntax = 'true'
++            self.imgkeysecret = '123456'
++            if not self.imgopts:
++                self.imgopts = 'iter-time=10'
++            elif 'iter-time=' not in self.imgopts:
++                self.imgopts += ',iter-time=10'
++        else:
++            self.imgoptssyntax = 'false'
++            self.qemu_io_options += ' -f ' + self.imgfmt
++
++        if self.imgfmt == 'vmdk':
++            if not self.imgopts:
++                self.imgopts = 'zeroed_grain=on'
++            elif 'zeroed_grain=' not in self.imgopts:
++                self.imgopts += ',zeroed_grain=on'
++
++    def close(self) -> None:
++        if self.tmp_sock_dir:
++            shutil.rmtree(self.sock_dir)
++
++    def __enter__(self) -> 'TestEnv':
++        return self
++
++    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
++        self.close()
++
++    def print_env(self) -> None:
++        template = """\
++QEMU          -- "{QEMU_PROG}" {QEMU_OPTIONS}
++QEMU_IMG      -- "{QEMU_IMG_PROG}" {QEMU_IMG_OPTIONS}
++QEMU_IO       -- "{QEMU_IO_PROG}" {QEMU_IO_OPTIONS}
++QEMU_NBD      -- "{QEMU_NBD_PROG}" {QEMU_NBD_OPTIONS}
++IMGFMT        -- {IMGFMT}{imgopts}
++IMGPROTO      -- {IMGPROTO}
++PLATFORM      -- {platform}
++TEST_DIR      -- {TEST_DIR}
++SOCK_DIR      -- {SOCK_DIR}
++SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}"""
++
++        args = collections.defaultdict(str, self.get_env())
++
++        if 'IMGOPTS' in args:
++            args['imgopts'] = f" ({args['IMGOPTS']})"
++
++        u = os.uname()
++        args['platform'] = f'{u.sysname}/{u.machine} {u.nodename} {u.release}'
++
++        print(template.format_map(args))
 -- 
 2.29.2
 
