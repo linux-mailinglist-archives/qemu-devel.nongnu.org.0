@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80043301788
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:17:21 +0100 (CET)
-Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C72CE30178E
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:18:28 +0100 (CET)
+Received: from localhost ([::1]:60190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3NTM-0002Ix-Jc
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:17:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
+	id 1l3NUR-0003G3-Tm
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:18:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3NQ8-0000Li-FC
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:14:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55921)
+ id 1l3NRk-0001gG-FE
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:15:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:20511)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3NQ6-0008IS-Py
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:14:00 -0500
+ id 1l3NRi-0000XH-6u
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:15:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611425636;
+ s=mimecast20190719; t=1611425737;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ftLog2l3GYpwEDbgj+tSztCJKdCE5n3vzUWIriYpTGs=;
- b=DMqrODQIXTIwEtwxbAJAqcLQUxbqDZYGZOf2BHtWAYn3Bd/dqKvu6xGoJ466QkzGHxQg0R
- mX20wsZb5b8zdwb3pkG1GrhJLGJD6CZ6CiIbED/OyxMTFXQJuS6iqg3fkSLpf3u1Usb5Pi
- H/xmlo/BiaaPp7vwG1jJa8e4rFCeCOY=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-56-joLyb-1cN3CBBBMDVcUJHw-1; Sat, 23 Jan 2021 13:13:54 -0500
-X-MC-Unique: joLyb-1cN3CBBBMDVcUJHw-1
-Received: by mail-ed1-f71.google.com with SMTP id w4so4820698edu.0
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:13:53 -0800 (PST)
+ bh=UGJBIJ1zWij4o7XL78ZfLNk00jovjl/JFPxW83rw358=;
+ b=SAIgElnJVgQURFvCdmdGgGkrHl7aaglGA6iNb8ENiJnB6DPqDGSy+YmGFOJFUlFTAt3zc0
+ PNo/RVTnWMhX2b4dH7XgqRaHx4TRVzPWieSNaigi4UogIkGLko5kOu8rpkZ9fgg61kN+Cz
+ nfSeOpz+A7Z8k7kq4WPrdzh1Q1uKq4E=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-294-0gdKGLtxNlu2wZvkpXn0kQ-1; Sat, 23 Jan 2021 13:15:35 -0500
+X-MC-Unique: 0gdKGLtxNlu2wZvkpXn0kQ-1
+Received: by mail-ed1-f70.google.com with SMTP id j12so4806423edq.10
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:15:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=ftLog2l3GYpwEDbgj+tSztCJKdCE5n3vzUWIriYpTGs=;
- b=o23jsLP1aHARdxxVr5VAD0n0visSIVoVu6TxmanKJFQRSY1aPj0h12IbxQg+xh/imz
- OfjXzjxgnrX6IeyaLXZsZoaM0NUSDkV9OEKAsnO3RdsZRToIbjpCGBekiPZfWO3OjodY
- zk1xH9+NWm2P74JtXF7iCLi9gSaM6PDLP13WFQyDgOeGGsmqdvhPCiFDbMjSPNQ41UIP
- G54P0UF2cmYYhc8oY0+AqAJ9xm8Gq8Rywbtm0jn/XU79tWEiLCvOAVKCidH2noZHTtV4
- mM7QZk2wKmRCGrjH6ehAn/ko7maPLyCooJT2OGfYtzg+2S6O4tf7EngrJpN56f/3H8/E
- D8mg==
-X-Gm-Message-State: AOAM532cx8A3XG7Q2VqaWCIo1MtiBYVD2okbluhN8BVLw3cGFLB2bB2M
- PgbtkOlneIiIgzToMCXcd+/lW9ZSg4+n4fkVspdTGr/WVphNo5ownYU9+T/ICLaPxn/PN3zZe1r
- 0wxaeyab6CI9nD+s=
-X-Received: by 2002:a17:906:6087:: with SMTP id
- t7mr1545423ejj.90.1611425632946; 
- Sat, 23 Jan 2021 10:13:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPwwsCHYWTaDUkvHtskALaYJbvPkTkRW4XSDP/u0dJTKUP3+bdQbDosy5x8HTbjfDEjH4/gQ==
-X-Received: by 2002:a17:906:6087:: with SMTP id
- t7mr1545416ejj.90.1611425632800; 
- Sat, 23 Jan 2021 10:13:52 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id v20sm1014701edt.3.2021.01.23.10.13.51
+ bh=UGJBIJ1zWij4o7XL78ZfLNk00jovjl/JFPxW83rw358=;
+ b=OEhCMtUkujDrRNiHYyxqj8KbaXqmdu0LFd3QEVziJpFUeGfxegPPfY94aN3y8+Se3O
+ vWubzBVgpRRPZanF7lhwP76T2UPkjX1g46oK3X3LWsthi5EZs3nNsB3wrWqnsS7z/7xK
+ dSshfQECSAaybU2aJRmyLQcRwyXuv/iCIsju229X+n71wUEzYUOE5elQ5AH9TTnxFJC7
+ 2na2EXMuA2CBniPBgnlygAPU//Z2G14uWCS+2HAjtgblyQcCUn4rpvvBp1yZMt7XDgyu
+ fC0ryoD8i7SywSbMWSanejGD1CCy9OS0GsSuxnHX+stCJDRYB8vyYuymWAIiDQg2papB
+ 2rDA==
+X-Gm-Message-State: AOAM531z299Bv03MQfgj4r1vwmTBl9/Irc7P1ct6FVOCrbseCvZYD9JX
+ cU4uLycp1LjuVXblKAQ8CBm99FIlRqqYrF2qLAPTq4ado4MZ6yUf5kFqz7iFJ59NIPulKNhgc11
+ b5lYAQFnsrqQKIyA=
+X-Received: by 2002:aa7:d1d7:: with SMTP id g23mr62397edp.6.1611425734593;
+ Sat, 23 Jan 2021 10:15:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1T7RMBkWA0Qf2wX7HDUDgT2k4SjnI+xIWG0VpsWiT6OJpFnXb4dI12BJyIIW6FPyWOX17CA==
+X-Received: by 2002:aa7:d1d7:: with SMTP id g23mr62390edp.6.1611425734472;
+ Sat, 23 Jan 2021 10:15:34 -0800 (PST)
+Received: from [192.168.1.124] ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id i18sm7488335edr.2.2021.01.23.10.15.32
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Jan 2021 10:13:52 -0800 (PST)
-Subject: Re: [PATCH v3 0/4] meson: Try to clarify TCG / TCI options for new
- users
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210122133004.1913923-1-philmd@redhat.com>
+ Sat, 23 Jan 2021 10:15:33 -0800 (PST)
+Subject: Re: [PATCH] replay: fix replay of the interrupts
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <161105999349.694343.16096128094758045254.stgit@pasha-ThinkPad-X280>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <cb108017-1c4c-1145-a88c-f03661b6c805@redhat.com>
-Date: Sat, 23 Jan 2021 19:13:51 +0100
+Message-ID: <288b2af5-94d5-36c8-9eb2-de31ff1de066@redhat.com>
+Date: Sat, 23 Jan 2021 19:15:31 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210122133004.1913923-1-philmd@redhat.com>
+In-Reply-To: <161105999349.694343.16096128094758045254.stgit@pasha-ThinkPad-X280>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -103,40 +98,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- "Daniel P . Berrange" <berrange@redhat.com>
+Cc: richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/01/21 14:30, Philippe Mathieu-Daudé wrote:
-> Since v2:
-> - Included Thomas suggestions
+On 19/01/21 13:39, Pavel Dovgalyuk wrote:
+> Sometimes interrupt event comes at the same time with
+> the virtual timers. In this case replay tries to proceed
+> the timers, because deadline for them is zero.
+> This patch allows processing interrupts and exceptions
+> by entering the vCPU execution loop, when deadline is zero,
+> but checkpoint associated with virtual timers is not ready
+> to be replayed.
 > 
-> Some new users get confused between 'TCG' and 'TCI' and enable
-> TCI when TCG is better for they needs. Try to clarify it is
-> better to not use TCI when native backend is available.
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+> ---
+>   accel/tcg/tcg-cpus-icount.c |    8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> Note, before Meson, warnings were summarized at the end of
-> ./configure. Now they are displayed earlier, and likely
-> missed IMHO. No clue how to improve that :/
-> 
-> Based-on: <20210121095616.1471869-1-philmd@redhat.com>
-> 
-> Philippe Mathieu-Daudé (4):
->    meson: Explicit TCG backend used
->    meson: Warn when TCI is selected but TCG backend is available
->    configure: Improve TCI feature description
->    configure: Reword --enable-tcg-interpreter as --disable-native-tcg
-> 
->   configure   |  5 +++--
->   meson.build | 11 +++++++++--
->   2 files changed, 12 insertions(+), 4 deletions(-)
-> 
+> diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
+> index 9f45432275..a6d2bb8a88 100644
+> --- a/accel/tcg/tcg-cpus-icount.c
+> +++ b/accel/tcg/tcg-cpus-icount.c
+> @@ -81,7 +81,13 @@ void icount_handle_deadline(void)
+>       int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+>                                                     QEMU_TIMER_ATTR_ALL);
+>   
+> -    if (deadline == 0) {
+> +    /*
+> +     * Instructions, interrupts, and exceptions are processed in cpu-exec.
+> +     * Don't interrupt cpu thread, when these events are waiting
+> +     * (i.e., there is no checkpoint)
+> +     */
+> +    if (deadline == 0
+> +        && (replay_mode == REPLAY_MODE_RECORD || replay_has_checkpoint())) {
 
-This will have to be reworked because the TCI option is moved to Meson 
-in the pull request I have just sent, but patches 1-3 are good in concept.
+Should this be replay_mode != REPLAY_MODE_PLAY || replay_has_checkpoint()?
 
 Paolo
+
+>           icount_notify_aio_contexts();
+>       }
+>   }
+> 
 
 
