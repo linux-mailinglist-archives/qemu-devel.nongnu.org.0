@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E02301322
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 05:58:28 +0100 (CET)
-Received: from localhost ([::1]:56246 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23CB7301328
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 06:00:26 +0100 (CET)
+Received: from localhost ([::1]:37046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3B0F-0000CZ-CO
-	for lists+qemu-devel@lfdr.de; Fri, 22 Jan 2021 23:58:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40188)
+	id 1l3B29-0003sU-04
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 00:00:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40204)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l3AyZ-0006uo-2G
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 23:56:43 -0500
-Received: from mail-pg1-f181.google.com ([209.85.215.181]:41692)
+ id 1l3Aya-0006w9-CD
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 23:56:44 -0500
+Received: from mail-pf1-f177.google.com ([209.85.210.177]:46237)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l3AyX-0005ph-Bi
- for qemu-devel@nongnu.org; Fri, 22 Jan 2021 23:56:42 -0500
-Received: by mail-pg1-f181.google.com with SMTP id i7so5225718pgc.8
- for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 20:56:40 -0800 (PST)
+ id 1l3AyZ-0005qg-06
+ for qemu-devel@nongnu.org; Fri, 22 Jan 2021 23:56:44 -0500
+Received: by mail-pf1-f177.google.com with SMTP id f63so5153955pfa.13
+ for <qemu-devel@nongnu.org>; Fri, 22 Jan 2021 20:56:42 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=t/s7LuKyWj4qS9lc8M/U0JqbBc0yM+MKS6B5tjJBzrs=;
- b=dPhBGK13v3Es39JfNr0G4Hm/3kgl7JOWPYz+tUhqy/NA1uKxwkrq2Tk7vfpU1kDvOL
- XTPwax7r/9E/VSpwxgmO/1TSu0auOz1ZXetv/ygiioTQr6DPmRaJLQTkT7PW1y828zGb
- j7Z3W2hb8CbJsaqXmK4LzNkbgWyeBxHNFBAHIcQSWfNslwWbrBoXo/ftAX78EVdZcsqA
- W0FP9nvSZt1fWk+a0TkJiXZRhKzyu8rlFH8sITZTM/LzLX2jkpslpLiYK5NISm6U1u87
- LDPfKYvxr0NLaVv7LLBB62wMhhV0QcfBBMh4YFR56LaDkEAYZv5c9Zk3woVf71YI+X2v
- vXpA==
-X-Gm-Message-State: AOAM532gmlhrq3YfV1z9OjiauUEQY3FrvI4Q2W2GKryQeSW1Q1rLg1Rt
- 8y5JorXaSUJaT39RiVaB+cXMj08M5SM=
-X-Google-Smtp-Source: ABdhPJyi2Ejo3dvI8x4jVNuMfwID+YJpVXbM+yxygI2KOKV8cf3SOvb+l6IauIEmeRqgOdRsMcVCpA==
-X-Received: by 2002:a63:f249:: with SMTP id d9mr45119pgk.109.1611377799757;
- Fri, 22 Jan 2021 20:56:39 -0800 (PST)
+ bh=kIoUr2yR0KcUYoWG4DQ2Z71j4B+vjENfUsLTTDxw42w=;
+ b=AnxK4rezKyOD9GNi7pevCHb1MfqLWAG+gW6HeMYL+cUsIjWfb3f9+LGxzJvoQppvdr
+ YhSDZSgQpGGjTqFNaj+s4YCv00aMKVHqlg7XeFmjqjsWqOgIKJubFBQ4WPBN2uOSiwiM
+ 9pv93cquXnLqrPxGrZnnwyNDBjBcVY8ylEDOzFZJUL2NISS9+p9gzCT12ahUYwCvYZd/
+ UehsaHjwv+WBklOl+HhIRpc5d+mea4e22aHJffo7VaUjBeE+XjkMkNeOol6BPA8Kb2qw
+ jx845Lvc8nfDabHZIosQyY0i/y7RB/3gM0waUgbUcF5co180NB9EDDfP4GieK6EVIS+h
+ TAtw==
+X-Gm-Message-State: AOAM533STTzMV6SgiAWJPkiV6GqODQL7ZCbrceBoaT0WlqkcRBWyuZIS
+ pO7ONUFBELG7HDiIEQ6KJMsTGncngZg=
+X-Google-Smtp-Source: ABdhPJyxPmwLq/bu8lSCIaiXPqEOkxQaFvvF09AP3Vxs1yzSBFrJor1uA9u/XWEbk1t125U2w8ORbg==
+X-Received: by 2002:a63:dc53:: with SMTP id f19mr7879889pgj.443.1611377801326; 
+ Fri, 22 Jan 2021 20:56:41 -0800 (PST)
 Received: from localhost.localdomain ([73.93.154.229])
- by smtp.gmail.com with ESMTPSA id c62sm9872772pfa.116.2021.01.22.20.56.38
+ by smtp.gmail.com with ESMTPSA id c62sm9872772pfa.116.2021.01.22.20.56.40
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Fri, 22 Jan 2021 20:56:39 -0800 (PST)
+ Fri, 22 Jan 2021 20:56:41 -0800 (PST)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v8 04/11] slirp: feature detection for smbd
-Date: Fri, 22 Jan 2021 20:56:25 -0800
-Message-Id: <20210123045632.18482-5-j@getutm.app>
+Subject: [PATCH v8 05/11] osdep: build with non-working system() function
+Date: Fri, 22 Jan 2021 20:56:26 -0800
+Message-Id: <20210123045632.18482-6-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210123045632.18482-1-j@getutm.app>
 References: <20210123045632.18482-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.215.181;
- envelope-from=osy86github@gmail.com; helo=mail-pg1-f181.google.com
+Received-SPF: pass client-ip=209.85.210.177;
+ envelope-from=osy86github@gmail.com; helo=mail-pf1-f177.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -73,172 +73,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>, Joelle van Dyne <j@getutm.app>
+Cc: Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Replace Windows specific macro with a more generic feature detection
-macro. Allows slirp smb feature to be disabled manually as well.
+Build without error on hosts without a working system(). If system()
+is called, return -1 with ENOSYS.
 
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- configure   | 22 +++++++++++++++++++++-
- meson.build |  2 +-
- net/slirp.c | 16 ++++++++--------
- 3 files changed, 30 insertions(+), 10 deletions(-)
+ configure            | 20 ++++++++++++++++++++
+ include/qemu/osdep.h | 12 ++++++++++++
+ 2 files changed, 32 insertions(+)
 
 diff --git a/configure b/configure
-index 8d8a4733d7..d72ab22da5 100755
+index d72ab22da5..de7487a0c7 100755
 --- a/configure
 +++ b/configure
-@@ -464,6 +464,7 @@ fuse="auto"
- fuse_lseek="auto"
- 
- malloc_trim="auto"
-+slirp_smbd="auto"
- 
- # parse CC options second
- for opt do
-@@ -845,7 +846,18 @@ do
+@@ -5302,6 +5302,22 @@ but not implemented on your system"
      fi
- done
- 
-+# Check for smbd dupport
- : ${smbd=${SMBD-/usr/sbin/smbd}}
-+if test "$slirp_smbd" != "no" ; then
-+  if test "$mingw32" = "yes" ; then
-+    if test "$slirp_smbd" = "yes" ; then
-+      error_exit "Host smbd not supported on this platform."
-+    fi
-+    slirp_smbd=no
-+  else
-+    slirp_smbd=yes
-+  fi
-+fi
- 
- # Default objcc to clang if available, otherwise use CC
- if has clang; then
-@@ -1560,6 +1572,10 @@ for opt do
-   ;;
-   --disable-fuse-lseek) fuse_lseek="disabled"
-   ;;
-+  --enable-slirp-smbd) slirp_smbd=yes
-+  ;;
-+  --disable-slirp-smbd) slirp_smbd=no
-+  ;;
-   *)
-       echo "ERROR: unknown option $opt"
-       echo "Try '$0 --help' for more information"
-@@ -1899,6 +1915,7 @@ disabled with --disable-FEATURE, default is enabled if available
-   libdaxctl       libdaxctl support
-   fuse            FUSE block device export
-   fuse-lseek      SEEK_HOLE/SEEK_DATA support for FUSE exports
-+  slirp-smbd      use smbd (at path --smbd=*) in slirp networking
- 
- NOTE: The object files are built at the place where configure is launched
- EOF
-@@ -5573,7 +5590,10 @@ fi
- if test "$guest_agent" = "yes" ; then
-   echo "CONFIG_GUEST_AGENT=y" >> $config_host_mak
  fi
--echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-+if test "$slirp_smbd" = "yes" ; then
-+  echo "CONFIG_SLIRP_SMBD=y" >> $config_host_mak
-+  echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+ 
++##########################################
++# check for system()
++# make sure there is no compile error
++
++have_system_function=no
++cat > $TMPC << EOF
++#include <stdlib.h>
++int main(void) {
++    return system("");
++}
++EOF
++if compile_prog "" "" ; then
++    have_system_function=yes
 +fi
- if test "$vde" = "yes" ; then
-   echo "CONFIG_VDE=y" >> $config_host_mak
-   echo "VDE_LIBS=$vde_libs" >> $config_host_mak
-diff --git a/meson.build b/meson.build
-index 6818d97df5..f1e67b8cd1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -2336,7 +2336,7 @@ summary_info += {'sphinx-build':      sphinx_build.found()}
- summary_info += {'genisoimage':       config_host['GENISOIMAGE']}
- # TODO: add back version
- summary_info += {'slirp support':     slirp_opt == 'disabled' ? false : slirp_opt}
--if slirp_opt != 'disabled'
-+if slirp_opt != 'disabled' and 'CONFIG_SLIRP_SMBD' in config_host
-   summary_info += {'smbd':            config_host['CONFIG_SMBD_COMMAND']}
- endif
- summary_info += {'module support':    config_host.has_key('CONFIG_MODULES')}
-diff --git a/net/slirp.c b/net/slirp.c
-index 8350c6d45f..4348e74805 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -27,7 +27,7 @@
- #include "net/slirp.h"
++
++
+ ##########################################
+ # End of CC checks
+ # After here, no more $cc or $ld runs
+@@ -6200,6 +6216,10 @@ if test "$secret_keyring" = "yes" ; then
+   echo "CONFIG_SECRET_KEYRING=y" >> $config_host_mak
+ fi
  
++if test "$have_system_function" = "yes" ; then
++  echo "HAVE_SYSTEM_FUNCTION=y" >> $config_host_mak
++fi
++
+ echo "ROMS=$roms" >> $config_host_mak
+ echo "MAKE=$make" >> $config_host_mak
+ echo "PYTHON=$python" >> $config_host_mak
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index a434382c58..5bd1a67769 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -682,4 +682,16 @@ char *qemu_get_host_name(Error **errp);
+  */
+ size_t qemu_get_host_physmem(void);
  
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
- #include <pwd.h>
- #include <sys/wait.h>
++/**
++ * Platforms which do not support system() return ENOSYS
++ */
++#ifndef HAVE_SYSTEM_FUNCTION
++#define system platform_does_not_support_system
++static inline int platform_does_not_support_system(const char *command)
++{
++    errno = ENOSYS;
++    return -1;
++}
++#endif /* !HAVE_SYSTEM_FUNCTION */
++
  #endif
-@@ -90,7 +90,7 @@ typedef struct SlirpState {
-     Slirp *slirp;
-     Notifier poll_notifier;
-     Notifier exit_notifier;
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     gchar *smb_dir;
- #endif
-     GSList *fwd;
-@@ -103,7 +103,7 @@ static QTAILQ_HEAD(, SlirpState) slirp_stacks =
- static int slirp_hostfwd(SlirpState *s, const char *redir_str, Error **errp);
- static int slirp_guestfwd(SlirpState *s, const char *config_str, Error **errp);
- 
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
- static int slirp_smb(SlirpState *s, const char *exported_dir,
-                      struct in_addr vserver_addr, Error **errp);
- static void slirp_smb_cleanup(SlirpState *s);
-@@ -367,7 +367,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-     struct in6_addr ip6_prefix;
-     struct in6_addr ip6_host;
-     struct in6_addr ip6_dns;
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     struct in_addr smbsrv = { .s_addr = 0 };
- #endif
-     NetClientState *nc;
-@@ -477,7 +477,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-         return -1;
-     }
- 
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     if (vsmbserver && !inet_aton(vsmbserver, &smbsrv)) {
-         error_setg(errp, "Failed to parse SMB address");
-         return -1;
-@@ -592,7 +592,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-             }
-         }
-     }
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
-     if (smb_export) {
-         if (slirp_smb(s, smb_export, smbsrv, errp) < 0) {
-             goto error;
-@@ -784,7 +784,7 @@ void hmp_hostfwd_add(Monitor *mon, const QDict *qdict)
- 
- }
- 
--#ifndef _WIN32
-+#if defined(CONFIG_SLIRP_SMBD)
- 
- /* automatic user mode samba server configuration */
- static void slirp_smb_cleanup(SlirpState *s)
-@@ -899,7 +899,7 @@ static int slirp_smb(SlirpState* s, const char *exported_dir,
-     return 0;
- }
- 
--#endif /* !defined(_WIN32) */
-+#endif /* defined(CONFIG_SLIRP_SMBD) */
- 
- static int guestfwd_can_read(void *opaque)
- {
 -- 
 2.28.0
 
