@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13B1E3017F0
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:59:06 +0100 (CET)
-Received: from localhost ([::1]:45816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBD923017F3
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 20:03:06 +0100 (CET)
+Received: from localhost ([::1]:51334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3O7l-00062I-3A
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:59:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
+	id 1l3OBc-0000CS-GY
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 14:03:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3Nzg-0005Oa-2X
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:44 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c]:32809)
+ id 1l3Nze-0005KA-3g
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:42 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:51249)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3Nze-0008Jg-1s
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:43 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id n25so6170319pgb.0
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:41 -0800 (PST)
+ id 1l3Nzc-0008IA-8i
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:41 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id a20so2881401pjs.1
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BKBpY0AI8UiujeeaSOJWvVpTSr3Ee4SaVnbe/ePIKI4=;
- b=GHOeh8UVkzyqaLwaYnEgPQUPmK+G5UwNzESewekrloWP5CraMnmixRR1LQP6QqPWAy
- tN3YdPySUb1iamstfQGvBRgp7lrgB6ED2hm6FUCx14uAT2zuuYrWFuvRynEsdhOL5h04
- tKt5iqgzitHWpbIiBso4uUHwd2a4Xk9NfZix3Ub2JZJW2guWEEM7dZ3mbae8qoqqu/Kn
- M4LkNGspNta6tcH4dqV1dhm/3Y81yGC4JNJs0jER1nMlMvz09W/GoUp0pjCuATBg/ucQ
- ZPxTRwOPMZEPmTTEBO8vRznCviH12jfAJ+aoymuetf6rC1sYK5+4EWZ4LOtSKR4IHYaf
- MIRQ==
+ bh=1GmBs5ay9uV9kxOX2oWB2tt33ICLoNCCnlqJiSZlo34=;
+ b=mAKrbA0sM/NSZqoO9kIpDgE1DeEX0VdikjFGeHu0Q5vu7IGU1UUvMNm3bPf3K96t/2
+ d3Y+1VZpiupRtOJBWkLplblP1PbSGDq5QX8iLcjACF2+NQi5kxYqKOQ/ZIuE9uvnog0/
+ lwurlEne4wOZrtJK3KqHqQJ0L42y05lghOvDDRCAbUFEIGJDwfCo0FlD1VjMRRBk2ays
+ 22wOcBT2qx4dKBPT+JwnWYz890GLz3Qsv2J4Qw32cRBi/LyqxteUP6LOLAabitEQGaeX
+ 2cV0DxOAXwi5V7nxP8OW/myuKPTPMO7+S1eBgoCc2gq4YZZM8oPl249YN/dqUN4lbwn6
+ voRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=BKBpY0AI8UiujeeaSOJWvVpTSr3Ee4SaVnbe/ePIKI4=;
- b=o3oTg+W2G9tHsTWKW59XN75lByuR401vKLP1gkDiIox07OZR9CSj5nj/SCA70qfuv/
- 3TpQPslcuwA56jPN4PL+3iEOwQF670IQKAv89OvDHoFbybAO6SLC+MXklgGKkwm+i3fa
- Kx6F8f6FLAnbbLicc6BLm2Obd094mrnijoAB35fiUTL6YUKr9LWapLwMYzxIkZs8OCbA
- dFZRTSWijXEF5z9zDukbYVfhrwCrJsYlAf97nlFYdLvZ13qtL83QAEwX4SpdQBroHiar
- UPFt3C6y0FVXX30/d8uOrSwY/wBn41HxaokpVV18Zf4uy1yBhUByw6EPj407q44J//S8
- skzg==
-X-Gm-Message-State: AOAM532HojyTvnfwam+w4vGw7VynT5JpAD4AQWsXq+yn1Nd+1UXH+MDT
- 35ZBb6kqXAJi2Nf+28SarRzmEoeGbozCMg==
-X-Google-Smtp-Source: ABdhPJzo5a1hZJyAi9z93HcDYQ9OsQ6FUsC7sStZLQCxlc8W8kRH2AtWxL7PuJR3qSImj1UOMGtJGA==
-X-Received: by 2002:a63:3549:: with SMTP id c70mr10655403pga.361.1611427840722; 
- Sat, 23 Jan 2021 10:50:40 -0800 (PST)
+ bh=1GmBs5ay9uV9kxOX2oWB2tt33ICLoNCCnlqJiSZlo34=;
+ b=hgaGgx7LC9M8Y7gs2g3guKNWPN8LQ9mqFT8lXQT5UP2ElZAtqf1ucPJp+prhpSZyj0
+ hMY4gUjsQCujGh9f/ZL7SgPBhLezdw2Dh/FgkM7eiUWKcveGfLiufcVWzDkPAhe9gAO+
+ RnadhMl5t6MDU6k/KDU9CFXa68mYEsb515eoOWv72yV+mlX7y7vqYuVqD90I6ucr5dhX
+ oVotbwEXGn8RTocp54Y6syGHv7gVOQQQj/JTHCpP8BIEj8Nkln/f8PfERSQyA3fVElXu
+ uYV2CC7cxd1Yv9LGRfT5Y27DO8kKRxQfuXeVXaMiJWiAKEh9uTwLJ1kaiVcTe4YwV/zD
+ nLvw==
+X-Gm-Message-State: AOAM533ZkmdvlgFGqdJDrLiy01IV1CZaRymjOdTwG489+fr0ZfWk3ElY
+ IFj4bGyii2co8NpgwITFdCsEcUsfFnLNKA==
+X-Google-Smtp-Source: ABdhPJy5Fl/hKbJtt5833x5DTjkcuq9ZJnW4lHLqmxhIv5b/txBUgknxgNfcr+7We5IVCGu3VFd6fg==
+X-Received: by 2002:a17:90a:8b8a:: with SMTP id
+ z10mr12690085pjn.67.1611427839006; 
+ Sat, 23 Jan 2021 10:50:39 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.39
+ by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.37
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jan 2021 10:50:40 -0800 (PST)
+ Sat, 23 Jan 2021 10:50:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/10] tcg: Toggle page execution for Apple Silicon
-Date: Sat, 23 Jan 2021 08:50:20 -1000
-Message-Id: <20210123185020.1766324-11-richard.henderson@linaro.org>
+Subject: [PULL 09/10] accel/tcg: Restrict cpu_io_recompile() from other
+ accelerators
+Date: Sat, 23 Jan 2021 08:50:19 -1000
+Message-Id: <20210123185020.1766324-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210123185020.1766324-1-richard.henderson@linaro.org>
 References: <20210123185020.1766324-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,130 +86,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alexander Graf <agraf@csgraf.de>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Bolshakov <r.bolshakov@yadro.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Pages can't be both write and executable at the same time on Apple
-Silicon. macOS provides public API to switch write protection [1] for
-JIT applications, like TCG.
+As cpu_io_recompile() is only called within TCG accelerator
+in cputlb.c, declare it locally.
 
-1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
-
-Tested-by: Alexander Graf <agraf@csgraf.de>
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Message-Id: <20210113032806.18220-1-r.bolshakov@yadro.com>
-[rth: Inline the qemu_thread_jit_* functions;
- drop the MAP_JIT change for a follow-on patch.]
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20210117164813.4101761-6-f4bug@amsat.org>
+[rth: Adjust vs changed tb_flush_jmp_cache patch.]
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/osdep.h      | 28 ++++++++++++++++++++++++++++
- accel/tcg/cpu-exec.c      |  2 ++
- accel/tcg/translate-all.c |  3 +++
- tcg/tcg.c                 |  1 +
- 4 files changed, 34 insertions(+)
+ accel/tcg/internal.h    | 2 ++
+ include/exec/exec-all.h | 1 -
+ accel/tcg/cputlb.c      | 1 +
+ 3 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index a434382c58..b6ffdc15bf 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -119,6 +119,10 @@ extern int daemon(int, int);
- #include "sysemu/os-posix.h"
- #endif
+diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
+index 06b341fceb..e9c145e0fb 100644
+--- a/accel/tcg/internal.h
++++ b/accel/tcg/internal.h
+@@ -15,4 +15,6 @@ TranslationBlock *tb_gen_code(CPUState *cpu, target_ulong pc,
+                               target_ulong cs_base, uint32_t flags,
+                               int cflags);
  
-+#ifdef __APPLE__
-+#include <AvailabilityMacros.h>
-+#endif
++void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
 +
- #include "glib-compat.h"
- #include "qemu/typedefs.h"
+ #endif /* ACCEL_TCG_INTERNAL_H */
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 3acc7c2943..125000bcf7 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -63,7 +63,6 @@ void restore_state_to_opc(CPUArchState *env, TranslationBlock *tb,
+ bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
  
-@@ -682,4 +686,28 @@ char *qemu_get_host_name(Error **errp);
-  */
- size_t qemu_get_host_physmem(void);
- 
-+/*
-+ * Toggle write/execute on the pages marked MAP_JIT
-+ * for the current thread.
-+ */
-+#if defined(MAC_OS_VERSION_11_0) && \
-+    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
-+static inline void qemu_thread_jit_execute(void)
-+{
-+    if (__builtin_available(macOS 11.0, *)) {
-+        pthread_jit_write_protect_np(true);
-+    }
-+}
-+
-+static inline void qemu_thread_jit_write(void)
-+{
-+    if (__builtin_available(macOS 11.0, *)) {
-+        pthread_jit_write_protect_np(false);
-+    }
-+}
-+#else
-+static inline void qemu_thread_jit_write(void) {}
-+static inline void qemu_thread_jit_execute(void) {}
-+#endif
-+
+ void QEMU_NORETURN cpu_loop_exit_noexc(CPUState *cpu);
+-void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
+ void QEMU_NORETURN cpu_loop_exit(CPUState *cpu);
+ void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc);
+ void QEMU_NORETURN cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc);
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index 0fa1643ed3..7a69726ba4 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -37,6 +37,7 @@
+ #include "exec/translate-all.h"
+ #include "trace/trace-root.h"
+ #include "trace/mem.h"
++#include "internal.h"
+ #ifdef CONFIG_PLUGIN
+ #include "qemu/plugin-memory.h"
  #endif
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 37d17c8e88..6d017e46dd 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -186,6 +186,7 @@ cpu_tb_exec(CPUState *cpu, TranslationBlock *itb, int *tb_exit)
-     }
- #endif /* DEBUG_DISAS */
- 
-+    qemu_thread_jit_execute();
-     ret = tcg_qemu_tb_exec(env, tb_ptr);
-     cpu->can_do_io = 1;
-     /*
-@@ -410,6 +411,7 @@ static inline void tb_add_jump(TranslationBlock *tb, int n,
- {
-     uintptr_t old;
- 
-+    qemu_thread_jit_write();
-     assert(n < ARRAY_SIZE(tb->jmp_list_next));
-     qemu_spin_lock(&tb_next->jmp_lock);
- 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 73fef47148..d09c187e0f 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -1670,7 +1670,9 @@ static void do_tb_phys_invalidate(TranslationBlock *tb, bool rm_from_page_list)
- 
- static void tb_phys_invalidate__locked(TranslationBlock *tb)
- {
-+    qemu_thread_jit_write();
-     do_tb_phys_invalidate(tb, true);
-+    qemu_thread_jit_execute();
- }
- 
- /* invalidate one TB
-@@ -1872,6 +1874,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
- #endif
- 
-     assert_memory_lock();
-+    qemu_thread_jit_write();
- 
-     phys_pc = get_page_addr_code(env, pc);
- 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 5110f6f39c..4d734130df 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1112,6 +1112,7 @@ void tcg_prologue_init(TCGContext *s)
-     s->pool_labels = NULL;
- #endif
- 
-+    qemu_thread_jit_write();
-     /* Generate the prologue.  */
-     tcg_target_qemu_prologue(s);
- 
 -- 
 2.25.1
 
