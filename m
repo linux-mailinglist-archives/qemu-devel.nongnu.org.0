@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51CC13014C5
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 11:55:15 +0100 (CET)
-Received: from localhost ([::1]:34874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E19C43014D5
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 12:02:39 +0100 (CET)
+Received: from localhost ([::1]:51440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3GZW-0003wq-Bl
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 05:55:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51350)
+	id 1l3Ggg-0002oU-Ri
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 06:02:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l3GMT-0003UX-6E; Sat, 23 Jan 2021 05:41:45 -0500
-Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429]:40781)
+ id 1l3GME-0003T2-I0; Sat, 23 Jan 2021 05:41:33 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:46474)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l3GME-0003Hv-6V; Sat, 23 Jan 2021 05:41:43 -0500
-Received: by mail-pf1-x429.google.com with SMTP id i63so5468691pfg.7;
- Sat, 23 Jan 2021 02:41:27 -0800 (PST)
+ id 1l3GLv-000373-6S; Sat, 23 Jan 2021 05:41:23 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id u11so4696559plg.13;
+ Sat, 23 Jan 2021 02:41:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=UQOMtGdz0w0TywH10TJtkHuiebtl24nbFHb0UeqsueY=;
- b=SrFxQ9dTqZv0qxnrpOmx/VyXccUIpYyMZ5IdIhhoJJnatNlSDSr32a8znRuT/TxxH8
- ISuWbvKTWQzjKwJjGQXxfTjoydv1jXOsnIZ836Rmxuzq7nELQk6AF5zo8wN9i1wwqE2M
- 34YIU+tySOizsSm3UlMOM1FG7I8a904IJ0r4/0MfAcjdhoocEmZ8fBiJMVqimQr5gC25
- k/0koWM3mrui5qCf83MjzJlKQ9biUuaNwW/Lg8JY/MbU+fV/nL6O6Q1qnotetwj6IYBs
- lxPneoXlNW6irQ4+o8Q1wqUJB0xZZsQC4F3CNGDJELNw+JqkbNfqNYgCBUDSUOOigFrL
- T2og==
+ bh=vMwNDhJzrNnSIXeq99hgPETYS9nHQnoJ/lsGNQKjl7o=;
+ b=vAI90+uwkyzo2TYV1wvomtQHmfqHHOOKuB4LWWwQznOie+wU0RWBOntQ+uLne6RQ+G
+ K/ab8eaWxpEVpM5kAR9yzAJVWKqKOqQXr6fri+6i/9CUXn/L6AqvEhAwuWFDDkvxU/kC
+ 3jbguS7amRH6HEgqpEtInI8yV2Khzv9zL68WoUxL4fUQp5n2HlwCaNAf5+Bl1OmMqnVy
+ s6geM66MHxX6yl7mzCS7QS3T5bycJ7q+iFeo1i5RKw3jXOavRHsdyFAF6McrVURXyFFl
+ 7Z3iOPGdFumC6tAxKUDJhxuITTKIvhB28AZVV9gyzN5S7fWvJRnC3a8XB25+iRMefBSh
+ 2S9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=UQOMtGdz0w0TywH10TJtkHuiebtl24nbFHb0UeqsueY=;
- b=PdRFjeeyx0vXScdZgN+7B3bFpIdYGvZGNq25s2r/G9TkMsVml8DMvWJkIhwAcnMqZx
- +QzT2NAV7ThsVacX5KjbBt/b+Ee4L16CgEkZsqgh/7FtR4UZZULBZtEifblbpzrkDCBC
- Gxbiy9DdRB2nH8T+Hmycxsp/bJKbiWXk6WCX5qZ1XCD2lOea8tikFr2x2KOLy7dQQZji
- ZRHeI5TWf+0zH/6ZkhZcnka0bwEsImKASByfQrxLtTpWGRAaEki0aC4ZwQy/wnL8kq6r
- LSVJ6BigZSoCrTLpv73qPCTW6+5IRMY7WS263qxcEVMGZlRxIVNmaupza7Dl9PI+BrPi
- Ffig==
-X-Gm-Message-State: AOAM533s27qs16gJeMI6Y1NkU/3xz2th8IvYFwk2tz+3lRNlFpqv1THj
- YGqZiS9Sc5S6geNG9Jkf4xQ=
-X-Google-Smtp-Source: ABdhPJweOxTuHixjpAcjy/UJR1o/OPBFsrB5R/wDESVSP58adBmk437l5rfR5h8zoQOhazxQ8fLlGQ==
-X-Received: by 2002:a63:d814:: with SMTP id b20mr9054712pgh.202.1611398486596; 
- Sat, 23 Jan 2021 02:41:26 -0800 (PST)
+ bh=vMwNDhJzrNnSIXeq99hgPETYS9nHQnoJ/lsGNQKjl7o=;
+ b=O15PsXbhA5JUdLoFrPTn0LBAb1fbCBQVAqSrzuIQUeNWFZBSZkrECDudBQWO/utguE
+ uaqmHNZgU9Dt1/lWq/MLjZW5dXtxiSBwts1/PTzYcYcpM5jIo0fdNG1a75a04IbnRV6y
+ hjFLlet7mimF2fC7YNQCSdFKMo6+G1jMReOClg2IrNsv3PrVeDoelTBJxCu9mgGqGmBz
+ eZn6RNtYZbUebrzANCKQQVzbfx9Frqsv2JMh0e8HzcMci9TILgVuUXerAxMG5yH/zgNC
+ 03Vtt4InQLFbimPn/e2T2nrLiGLfzQK7oIbdfchal5bxCk0he2AXBCrdUdi0ozyvogTK
+ 3eAA==
+X-Gm-Message-State: AOAM533+B19/gTtZP3XKmti16IDRS6oBOyRLxrkPm+Bce4YvZkdgRhMW
+ WAE0bD/7olbMnaoqKnUVRe4=
+X-Google-Smtp-Source: ABdhPJwZWEaCFEbOKJjbxN+lhiPTuX0P6CzH8k0lDuOf6RGXRAzrkoRhgrv9yX5CNU42pFdcmXQhZQ==
+X-Received: by 2002:a17:90a:7e82:: with SMTP id
+ j2mr1850999pjl.217.1611398466523; 
+ Sat, 23 Jan 2021 02:41:06 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id a5sm10575463pgl.41.2021.01.23.02.41.24
+ by smtp.gmail.com with ESMTPSA id a5sm10575463pgl.41.2021.01.23.02.41.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jan 2021 02:41:26 -0800 (PST)
+ Sat, 23 Jan 2021 02:41:05 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Alistair Francis <alistair.francis@wdc.com>, qemu-block@nongnu.org,
  qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH v2 24/25] docs/system: Add RISC-V documentation
-Date: Sat, 23 Jan 2021 18:40:15 +0800
-Message-Id: <20210123104016.17485-25-bmeng.cn@gmail.com>
+Subject: [PATCH v2 16/25] hw/sd: ssi-sd: Support single block write
+Date: Sat, 23 Jan 2021 18:40:07 +0800
+Message-Id: <20210123104016.17485-17-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210123104016.17485-1-bmeng.cn@gmail.com>
 References: <20210123104016.17485-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x429.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,101 +90,116 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-Add RISC-V system emulator documentation for generic information.
-`Board-specific documentation` and `RISC-V CPU features` are only
-a placeholder and will be added in the future.
+Add 2 more states for the block write operation. The SPI host needs
+to send a data start token to start the transfer, and the data block
+written to the card will be acknowledged by a data response token.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+
 ---
 
-(no changes since v1)
+Changes in v2:
+- Correct the "token" typo in the commit message
+- Add 'write_bytes' in vmstate_ssi_sd
 
- docs/system/target-riscv.rst | 62 ++++++++++++++++++++++++++++++++++++
- docs/system/targets.rst      |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 docs/system/target-riscv.rst
+ hw/sd/ssi-sd.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
-new file mode 100644
-index 0000000000..9f4b7586e5
---- /dev/null
-+++ b/docs/system/target-riscv.rst
-@@ -0,0 +1,62 @@
-+.. _RISC-V-System-emulator:
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index 75e76cf87a..240cfd919c 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -43,6 +43,8 @@ typedef enum {
+     SSI_SD_DATA_START,
+     SSI_SD_DATA_READ,
+     SSI_SD_DATA_CRC16,
++    SSI_SD_DATA_WRITE,
++    SSI_SD_SKIP_CRC16,
+ } ssi_sd_mode;
+ 
+ struct ssi_sd_state {
+@@ -53,6 +55,7 @@ struct ssi_sd_state {
+     uint8_t response[5];
+     uint16_t crc16;
+     int32_t read_bytes;
++    int32_t write_bytes;
+     int32_t arglen;
+     int32_t response_pos;
+     int32_t stopping;
+@@ -85,6 +88,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(ssi_sd_state, SSI_SD)
+ /* dummy value - don't care */
+ #define SSI_DUMMY               0xff
+ 
++/* data accepted */
++#define DATA_RESPONSE_ACCEPTED  0x05
 +
-+RISC-V System emulator
-+======================
+ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+ {
+     ssi_sd_state *s = SSI_SD(dev);
+@@ -113,10 +119,17 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+ 
+     switch (s->mode) {
+     case SSI_SD_CMD:
+-        if (val == SSI_DUMMY) {
++        switch (val) {
++        case SSI_DUMMY:
+             DPRINTF("NULL command\n");
+             return SSI_DUMMY;
++            break;
++        case SSI_TOKEN_SINGLE:
++            DPRINTF("Start write block\n");
++            s->mode = SSI_SD_DATA_WRITE;
++            return SSI_DUMMY;
+         }
 +
-+QEMU can emulate both 32-bit and 64-bit RISC-V CPUs. Use the
-+``qemu-system-riscv64`` executable to simulate a 64-bit RISC-V machine,
-+``qemu-system-riscv32`` executable to simulate a 32-bit RISC-V machine.
-+
-+QEMU has generally good support for RISC-V guests. It has support for
-+several different machines. The reason we support so many is that
-+RISC-V hardware is much more widely varying than x86 hardware. RISC-V
-+CPUs are generally built into "system-on-chip" (SoC) designs created by
-+many different companies with different devices, and these SoCs are
-+then built into machines which can vary still further even if they use
-+the same SoC.
-+
-+For most boards the CPU type is fixed (matching what the hardware has),
-+so typically you don't need to specify the CPU type by hand, except for
-+special cases like the ``virt`` board.
-+
-+Choosing a board model
-+----------------------
-+
-+For QEMU's RISC-V system emulation, you must specify which board
-+model you want to use with the ``-M`` or ``--machine`` option;
-+there is no default.
-+
-+Because RISC-V systems differ so much and in fundamental ways, typically
-+operating system or firmware images intended to run on one machine
-+will not run at all on any other. This is often surprising for new
-+users who are used to the x86 world where every system looks like a
-+standard PC. (Once the kernel has booted, most user space software
-+cares much less about the detail of the hardware.)
-+
-+If you already have a system image or a kernel that works on hardware
-+and you want to boot with QEMU, check whether QEMU lists that machine
-+in its ``-machine help`` output. If it is listed, then you can probably
-+use that board model. If it is not listed, then unfortunately your image
-+will almost certainly not boot on QEMU. (You might be able to
-+extract the file system and use that with a different kernel which
-+boots on a system that QEMU does emulate.)
-+
-+If you don't care about reproducing the idiosyncrasies of a particular
-+bit of hardware, such as small amount of RAM, no PCI or other hard
-+disk, etc., and just want to run Linux, the best option is to use the
-+``virt`` board. This is a platform which doesn't correspond to any
-+real hardware and is designed for use in virtual machines. You'll
-+need to compile Linux with a suitable configuration for running on
-+the ``virt`` board. ``virt`` supports PCI, virtio, recent CPUs and
-+large amounts of RAM. It also supports 64-bit CPUs.
-+
-+Board-specific documentation
-+----------------------------
-+
-+Unfortunately many of the RISC-V boards QEMU supports are currently
-+undocumented; you can get a complete list by running
-+``qemu-system-riscv64 --machine help``, or
-+``qemu-system-riscv32 --machine help``.
-+
-+RISC-V CPU features
-+-------------------
-diff --git a/docs/system/targets.rst b/docs/system/targets.rst
-index 564cea9a9b..75ed1087fd 100644
---- a/docs/system/targets.rst
-+++ b/docs/system/targets.rst
-@@ -19,6 +19,7 @@ Contents:
-    target-m68k
-    target-mips
-    target-ppc
-+   target-riscv
-    target-rx
-    target-s390x
-    target-sparc
+         s->cmd = val & 0x3f;
+         s->mode = SSI_SD_CMDARG;
+         s->arglen = 0;
+@@ -250,6 +263,27 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+             s->response_pos = 0;
+         }
+         return val;
++    case SSI_SD_DATA_WRITE:
++        sdbus_write_byte(&s->sdbus, val);
++        s->write_bytes++;
++        if (!sdbus_receive_ready(&s->sdbus) || s->write_bytes == 512) {
++            DPRINTF("Data write end\n");
++            s->mode = SSI_SD_SKIP_CRC16;
++            s->response_pos = 0;
++        }
++        return val;
++    case SSI_SD_SKIP_CRC16:
++        /* we don't verify the crc16 */
++        s->response_pos++;
++        if (s->response_pos == 2) {
++            DPRINTF("CRC16 receive end\n");
++            s->mode = SSI_SD_RESPONSE;
++            s->write_bytes = 0;
++            s->arglen = 1;
++            s->response[0] = DATA_RESPONSE_ACCEPTED;
++            s->response_pos = 0;
++        }
++        return SSI_DUMMY;
+     }
+     /* Should never happen.  */
+     return SSI_DUMMY;
+@@ -287,6 +321,7 @@ static const VMStateDescription vmstate_ssi_sd = {
+         VMSTATE_UINT8_ARRAY(response, ssi_sd_state, 5),
+         VMSTATE_UINT16(crc16, ssi_sd_state),
+         VMSTATE_INT32(read_bytes, ssi_sd_state),
++        VMSTATE_INT32(write_bytes, ssi_sd_state),
+         VMSTATE_INT32(arglen, ssi_sd_state),
+         VMSTATE_INT32(response_pos, ssi_sd_state),
+         VMSTATE_INT32(stopping, ssi_sd_state),
+@@ -340,6 +375,7 @@ static void ssi_sd_reset(DeviceState *dev)
+     memset(s->response, 0, sizeof(s->response));
+     s->crc16 = 0;
+     s->read_bytes = 0;
++    s->write_bytes = 0;
+     s->arglen = 0;
+     s->response_pos = 0;
+     s->stopping = 0;
 -- 
 2.25.1
 
