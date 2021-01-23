@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DD973018AA
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 23:20:20 +0100 (CET)
-Received: from localhost ([::1]:37658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E99E53018B5
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 23:37:18 +0100 (CET)
+Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3RGV-0005he-MZ
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 17:20:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54398)
+	id 1l3RWw-0002ua-0L
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 17:37:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3RFA-0005Ew-Kp
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:18:56 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:33306)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3RVJ-00025k-D7
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:35:37 -0500
+Received: from indium.canonical.com ([91.189.90.7]:53040)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3RF9-0003Uo-0j
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:18:56 -0500
-Received: by mail-pl1-x631.google.com with SMTP id b8so5357474plx.0
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:18:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6TRgrOTVn2PYXKP35q3xmWaDIXhrDHQXuoiRkjxHGMo=;
- b=UtA1/ojsueVkc4lDMJbNj6ibD8+E1DEzfGBbGpT+iKAAzeFN0GnMR0SbedzM4YG6Eh
- zhzDsvug1eeSzvBfCs05rYDpr4OsLn4Y8wryQ6h4VroBE9g0izdQjD3onlu2Tws7XIsH
- FVZv0GzrUnGI3lmxTp0nCD0Y19ChQ4EHp0aGShg34TLIcCe6oLtJ9BPSShorDuXHQ+bG
- c4ZEKB7F9c4EG7HUBUGloiITelETkdWGPZBRMqbs6GmY0jmyr0eFk7OKZd3J+SLBTj28
- qGEt2r/wWx0tH2XRe0wzbDvw8rmFOWtmo6JK6ptqhpDDvb8mE4OKWPtIEBz7onfRjZaT
- V/lQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6TRgrOTVn2PYXKP35q3xmWaDIXhrDHQXuoiRkjxHGMo=;
- b=jH6xDtPMm94CdGYfAsajwYS+pkonURfniGMMCZWUXYQEcXWPw7bqXEUPMwWBuaJBU9
- AC4PQEKTuTrgO4UDpOMF7FDEQZTAZ9LHpHg8/hn/7M83tlb9KQSLNc9Bbi/buKDOrPyR
- h1QaojF0UW26l+0Gru8qibg2qTNsFg+o/MlE98eT6HBfsHT/6WHWrzWMto6ED+mLhgvM
- vMM/cRuc1vbD7L9bGd6kvlECytZGAqNKpGClslOVrUYwH5IL4lqGcolHVKpYIOhm8vm0
- OyAu6IaTRl1oPiTf5rqjh173Q4AiI35jqutt2rjLN6BhtavDWrVfkvov7WyxR5AT6XIj
- MZXA==
-X-Gm-Message-State: AOAM533slJUSYc3GxtiXn8PKxEQ3KTq2KeVt5SYFx4qTjqIRpGCzP45V
- FuRGz1B9X1dCHtT5w0pcQDDlEA==
-X-Google-Smtp-Source: ABdhPJzbGeMaKfvxRsqKN/168YNiZMddqceH687TvbkxM9j/b9m3e3FYajUBoEBA8d5EtgWfNEyOFA==
-X-Received: by 2002:a17:90a:e656:: with SMTP id
- ep22mr13546056pjb.127.1611440333321; 
- Sat, 23 Jan 2021 14:18:53 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-75-72-126.hawaii.res.rr.com.
- [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id k15sm8125303pfi.94.2021.01.23.14.18.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Jan 2021 14:18:52 -0800 (PST)
-Subject: Re: [PATCH] tcg: Increase the static number of temporaries
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20210121025439.1120405-1-richard.henderson@linaro.org>
- <521603eb-205f-9659-25f9-d72bb2eec01f@vivier.eu>
- <92ffa9ea-1013-db7c-554e-2bab1564a9f4@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <e0e88324-d7bd-2b95-5e79-335039cd5619@linaro.org>
-Date: Sat, 23 Jan 2021 12:18:49 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3RVH-0000cw-8d
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:35:37 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l3RVD-0007GM-7U
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 22:35:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 316E82E8137
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 22:35:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <92ffa9ea-1013-db7c-554e-2bab1564a9f4@vivier.eu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sat, 23 Jan 2021 22:29:04 -0000
+From: Roman Bolshakov <1912065@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: balaton-4 harrysintonen roolebo rth
+X-Launchpad-Bug-Reporter: Harry Sintonen (harrysintonen)
+X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
+References: <161081817733.30007.5357056175605529567.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161144094497.13126.15054817203065739070.malone@chaenomeles.canonical.com>
+Subject: [Bug 1912065] Re: Segfaults in tcg/optimize.c:212 after commit
+ 7c79721606be11b5bc556449e5bcbc331ef6867d
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: fa0f204ea5960597cfca9755c551f90dbc98e4c2
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,26 +71,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, alistair23@gmail.com
+Reply-To: Bug 1912065 <1912065@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/21 9:36 AM, Laurent Vivier wrote:
->>> -#define TCG_MAX_TEMPS 512
->>> +#define TCG_MAX_TEMPS 1024
->>
->> This seems not enough, I have:
->>
->> ERROR:.../tcg/tcg.c:1210:tcg_temp_alloc: assertion failed: (n < TCG_MAX_TEMPS)
->> Bail out! ERROR:.../tcg/tcg.c:1210:tcg_temp_alloc: assertion failed: (n < TCG_MAX_TEMPS)
->>
->> With my branch m68k-virt (68040 processor with virtio-mmio devices) booting debian sid.
-> 
-> The cause of the overflow is this sequence:
+Richard, thanks for providing the workaround. It helps.
 
-Thanks for the test case.  I was able to reproduce this with m68k-linux-user.
-This TB uses 1063 separate constants.  :-/
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912065
 
-r~
+Title:
+  Segfaults in tcg/optimize.c:212 after commit
+  7c79721606be11b5bc556449e5bcbc331ef6867d
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  QEMU segfaults to NULL dereference in tcg/optimize.c:212 semi-randomly
+  after commit 7c79721606be11b5bc556449e5bcbc331ef6867d
+
+  Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+  Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000020
+  Exception Note:        EXC_CORPSE_NOTIFY
+
+  ...
+
+  Thread 4 Crashed:
+  0   qemu-system-ppc               	0x0000000109cd26d2 tcg_opt_gen_mov + 1=
+78 (optimize.c:212)
+  1   qemu-system-ppc               	0x0000000109ccf838 tcg_optimize + 5656
+  2   qemu-system-ppc               	0x0000000109c27600 tcg_gen_code + 64 (=
+tcg.c:4490)
+  3   qemu-system-ppc               	0x0000000109c17b6d tb_gen_code + 493 (=
+translate-all.c:1952)
+  4   qemu-system-ppc               	0x0000000109c16085 tb_find + 41 (cpu-e=
+xec.c:454) [inlined]
+  5   qemu-system-ppc               	0x0000000109c16085 cpu_exec + 2117 (cp=
+u-exec.c:810)
+  6   qemu-system-ppc               	0x0000000109c09ac3 tcg_cpus_exec + 35 =
+(tcg-cpus.c:57)
+  7   qemu-system-ppc               	0x0000000109c75edd rr_cpu_thread_fn + =
+445 (tcg-cpus-rr.c:217)
+  8   qemu-system-ppc               	0x0000000109e41fae qemu_thread_start +=
+ 126 (qemu-thread-posix.c:521)
+  9   libsystem_pthread.dylib       	0x00007fff2038e950 _pthread_start + 224
+  10  libsystem_pthread.dylib       	0x00007fff2038a47b thread_start + 15
+
+  Here the crash is in tcg/optimize.c line 212:
+
+    mask =3D si->mask;
+
+  "si" is NULL. The NULL value arises from tcg/optimize.c line 198:
+
+   si =3D ts_info(src_ts);
+
+  I did not attempt to determine the root cause of this issue, however.
+  It clearly is related to the "tcg/optimize" changes in this commit.
+  The previous commit c0dd6654f207810b16a75b673258f5ce2ceffbf0 doesn't
+  crash.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912065/+subscriptions
 
