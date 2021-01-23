@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0170D3015E5
+	by mail.lfdr.de (Postfix) with ESMTPS id F37833015E4
 	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 15:34:01 +0100 (CET)
-Received: from localhost ([::1]:55668 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3JzE-0005Iq-Hd
+	id 1l3JzE-0005HH-6Q
 	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 09:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35108)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3Jx2-0003Sw-DL
+ id 1l3Jx2-0003Su-DS
  for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31848)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30849)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3Jwt-0005lz-8r
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:42 -0500
+ id 1l3Jwt-0005mh-9K
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611412292;
+ s=mimecast20190719; t=1611412293;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VJ1fRXEWgZK75YL4NKJ8vwrp8nC0K49Fqdf/B6+qbaU=;
- b=Zg9eCgMOsKfulT2O/D0mzNbfgnwKwlS+14sFTPZyai1K1dsJ/4PUggmOshpwbZyxNPmGt+
- 1lhT+Kn8/RQNrx2voI0kM/Nms2KWEWWInMm6HHW43zGCVBbWnHCWk5ruVDwUK6I8VqIZ+u
- EKUpwz18J5GA1fag+b9iDg7HI4MNdYE=
+ bh=De9dXKUG8u4h66RkKvO0lN36uT1QI8hZE4mWVBO78n4=;
+ b=MiMKNL0DApBJInowxfI/X2gr9otPHy1SXXim9BSfBlV+QM29XeV7EYnTNypR8dl/OXZL3M
+ F6A1vmi6tl5739iv6u1CnGtSAkbQSXUsa/BpBglIVa5He/psdnmL8vqvZ+gAKeYPYSGnTf
+ dOhpDYtZzxZZFu3kKxBKm0soiEf7HXM=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-TM-skCEKNDiLCszdsfEoKA-1; Sat, 23 Jan 2021 09:31:30 -0500
-X-MC-Unique: TM-skCEKNDiLCszdsfEoKA-1
+ us-mta-504-AsLLaY2kPD-jlbvpGrqfqQ-1; Sat, 23 Jan 2021 09:31:31 -0500
+X-MC-Unique: AsLLaY2kPD-jlbvpGrqfqQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B6AD5180A093
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:31:29 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 316FC10054FF;
+ Sat, 23 Jan 2021 14:31:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 732915D9D0;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D2EE25D9CC;
  Sat, 23 Jan 2021 14:31:29 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/31] runstate: cleanup reboot and panic actions
-Date: Sat, 23 Jan 2021 09:30:58 -0500
-Message-Id: <20210123143128.1167797-2-pbonzini@redhat.com>
+Subject: [PULL 02/31] configure: MinGW respect --bindir argument
+Date: Sat, 23 Jan 2021 09:30:59 -0500
+Message-Id: <20210123143128.1167797-3-pbonzini@redhat.com>
 In-Reply-To: <20210123143128.1167797-1-pbonzini@redhat.com>
 References: <20210123143128.1167797-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -79,141 +79,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The possible choices for panic, reset and watchdog actions are inconsistent.
+From: Joshua Watt <jpewhacker@gmail.com>
 
-"-action panic=poweroff" should be renamed to "-action panic=shutdown"
-on the command line.  This is because "-action panic=poweroff" and
-"-action watchdog=poweroff" have slightly different semantics, the first
-does an unorderly exit while the second goes through qemu_cleanup().  With
-this change, -no-shutdown would not have to change "-action panic=pause"
-"pause", just like it does not have to change the reset action.
+There are two cases that need to be accounted for when compiling QEMU
+for MinGW32:
+ 1) A standalone distribution, where QEMU is self contained and
+    extracted by the user, such as a user would download from the QEMU
+    website. In this case, all the QEMU executable files should be
+    rooted in $prefix to ensure they can be easily found by the user
+ 2) QEMU integrated into a distribution image/sysroot/SDK and
+    distributed with other programs. In this case, the provided
+    arguments for bindir/datadir/etc. should be respected as they for a
+    Linux build.
 
-"-action reboot=none" should be renamed to "-action reboot=reset".
-This should be self explanatory, since for example "-action panic=none"
-lets the guest proceed without taking any action.
+Restructures the MinGW path configuration so that all of the paths
+except bindir use the same rules as when building for other platforms.
+This satisfies #2 and #1 since these files do not need to be directly in
+$prefix anyway.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+The handling for --bindir is changed so that it defaults to $prefix on
+MinGW (maintaining the compatibility with #1), but if the user specifies
+a specific path when configuring it can also satisfy #2.
+
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Message-Id: <20210112210239.28836-1-JPEWhacker@gmail.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/run-state.json       | 10 ++++++----
- qemu-options.hx           |  8 ++++----
- softmmu/runstate-action.c |  4 ++--
- softmmu/runstate.c        |  7 ++++---
- softmmu/vl.c              |  2 +-
- 5 files changed, 17 insertions(+), 14 deletions(-)
+ configure | 17 ++++++-----------
+ 1 file changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/qapi/run-state.json b/qapi/run-state.json
-index 1f3b329f05..43d66d700f 100644
---- a/qapi/run-state.json
-+++ b/qapi/run-state.json
-@@ -330,14 +330,14 @@
- #
- # Possible QEMU actions upon guest reboot
- #
--# @none: Reset the VM
-+# @reset: Reset the VM
- #
--# @shutdown: Shutdown the VM and exit
-+# @shutdown: Shutdown the VM and exit, according to the shutdown action
- #
- # Since: 6.0
- ##
- { 'enum': 'RebootAction',
--  'data': [ 'none', 'shutdown' ] }
-+  'data': [ 'reset', 'shutdown' ] }
+diff --git a/configure b/configure
+index 6f6a319c2f..f16fa99060 100755
+--- a/configure
++++ b/configure
+@@ -1571,20 +1571,15 @@ libexecdir="${libexecdir:-$prefix/libexec}"
+ includedir="${includedir:-$prefix/include}"
  
- ##
- # @ShutdownAction:
-@@ -360,10 +360,12 @@
- #
- # @pause: Pause the VM
- #
-+# @shutdown: Shutdown the VM and exit, according to the shutdown action
-+#
- # Since: 6.0
- ##
- { 'enum': 'PanicAction',
--  'data': [ 'poweroff', 'pause', 'none' ] }
-+  'data': [ 'pause', 'shutdown', 'none' ] }
+ if test "$mingw32" = "yes" ; then
+-    mandir="$prefix"
+-    datadir="$prefix"
+-    docdir="$prefix"
+-    bindir="$prefix"
+-    sysconfdir="$prefix"
+-    local_statedir="$prefix"
++    bindir="${bindir:-$prefix}"
+ else
+-    mandir="${mandir:-$prefix/share/man}"
+-    datadir="${datadir:-$prefix/share}"
+-    docdir="${docdir:-$prefix/share/doc}"
+     bindir="${bindir:-$prefix/bin}"
+-    sysconfdir="${sysconfdir:-$prefix/etc}"
+-    local_statedir="${local_statedir:-$prefix/var}"
+ fi
++mandir="${mandir:-$prefix/share/man}"
++datadir="${datadir:-$prefix/share}"
++docdir="${docdir:-$prefix/share/doc}"
++sysconfdir="${sysconfdir:-$prefix/etc}"
++local_statedir="${local_statedir:-$prefix/var}"
+ firmwarepath="${firmwarepath:-$datadir/qemu-firmware}"
+ localedir="${localedir:-$datadir/locale}"
  
- ##
- # @watchdog-set-action:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 62791f56d8..9172d51659 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -3900,12 +3900,12 @@ SRST
- ERST
- 
- DEF("action", HAS_ARG, QEMU_OPTION_action,
--    "-action reboot=none|shutdown\n"
--    "                   action when guest reboots [default=none]\n"
-+    "-action reboot=reset|shutdown\n"
-+    "                   action when guest reboots [default=reset]\n"
-     "-action shutdown=poweroff|pause\n"
-     "                   action when guest shuts down [default=poweroff]\n"
--    "-action panic=poweroff|pause|none\n"
--    "                   action when guest panics [default=poweroff]\n"
-+    "-action panic=pause|shutdown|none\n"
-+    "                   action when guest panics [default=shutdown]\n"
-     "-action watchdog=reset|shutdown|poweroff|inject-nmi|pause|debug|none\n"
-     "                   action when watchdog fires [default=reset]\n",
-     QEMU_ARCH_ALL)
-diff --git a/softmmu/runstate-action.c b/softmmu/runstate-action.c
-index 99ce880886..ae0761a9c3 100644
---- a/softmmu/runstate-action.c
-+++ b/softmmu/runstate-action.c
-@@ -13,9 +13,9 @@
- #include "qapi/error.h"
- #include "qemu/option_int.h"
- 
--RebootAction reboot_action = REBOOT_ACTION_NONE;
-+RebootAction reboot_action = REBOOT_ACTION_RESET;
- ShutdownAction shutdown_action = SHUTDOWN_ACTION_POWEROFF;
--PanicAction panic_action = PANIC_ACTION_POWEROFF;
-+PanicAction panic_action = PANIC_ACTION_SHUTDOWN;
- 
- /*
-  * Receives actions to be applied for specific guest events
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index 6177693a30..beee050815 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -471,14 +471,15 @@ void qemu_system_guest_panicked(GuestPanicInformation *info)
-     }
-     /*
-      * TODO:  Currently the available panic actions are: none, pause, and
--     * poweroff, but in principle debug and reset could be supported as well.
-+     * shutdown, but in principle debug and reset could be supported as well.
-      * Investigate any potential use cases for the unimplemented actions.
-      */
--    if (panic_action == PANIC_ACTION_PAUSE) {
-+    if (panic_action == PANIC_ACTION_PAUSE
-+        || (panic_action == PANIC_ACTION_SHUTDOWN && shutdown_action == SHUTDOWN_ACTION_PAUSE)) {
-         qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_PAUSE,
-                                         !!info, info);
-         vm_stop(RUN_STATE_GUEST_PANICKED);
--    } else if (panic_action == PANIC_ACTION_POWEROFF) {
-+    } else if (panic_action == PANIC_ACTION_SHUTDOWN) {
-         qapi_event_send_guest_panicked(GUEST_PANIC_ACTION_POWEROFF,
-                                        !!info, info);
-         vm_stop(RUN_STATE_GUEST_PANICKED);
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 7ddf405d76..59304261cf 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3202,7 +3202,7 @@ void qemu_init(int argc, char **argv, char **envp)
-                 break;
-             case QEMU_OPTION_no_shutdown:
-                 olist = qemu_find_opts("action");
--                qemu_opts_parse_noisily(olist, "panic=pause,shutdown=pause", false);
-+                qemu_opts_parse_noisily(olist, "shutdown=pause", false);
-                 break;
-             case QEMU_OPTION_uuid:
-                 if (qemu_uuid_parse(optarg, &qemu_uuid) < 0) {
 -- 
 2.26.2
 
