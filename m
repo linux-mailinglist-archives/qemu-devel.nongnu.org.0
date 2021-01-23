@@ -2,76 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D40030144E
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 10:42:34 +0100 (CET)
-Received: from localhost ([::1]:50352 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ED3301474
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 11:07:44 +0100 (CET)
+Received: from localhost ([::1]:58470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3FRA-00054I-OK
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 04:42:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42078)
+	id 1l3FpX-0001XQ-0l
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 05:07:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3FPt-0004Zd-Pd
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 04:41:13 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40153)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3FPs-0000k5-4B
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 04:41:13 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id s3so963591edt.7
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 01:41:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=JlpFwXP97m26kKhg3fDPurnVi41KUaNstA33/yTPmGY=;
- b=DN/rHSfkRrwbZwuLbOlXyeGnKvUKUVCss4w1s0/luDUk2Jsv593yZmzBoEFY5tA8GF
- 7XqEvdpHlQ4S26ygW/WbHjX8k7DeU+YkRYlgPVAleyhXXSdrvOSiJTqaEZ9VhfZwIQXy
- 7SaS3dJvWrPwSVVYpwOBufkiDuudZ3+4osPx5VFe3I50AurKSwSRH2zARnnEoLTKnUpl
- Mt6STsMVVluGYjM2f+GrUY3VDApVrd0rmCRoKr2skPeH1q6cXCeECKso9KaffTWd/UlI
- SYrmw48M1W2GsJNTSx71H34M21SeJk4ksmYLuhGA8Kd1FEt8r+vUWmz5CpmQa2YRWfXv
- uP0A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=JlpFwXP97m26kKhg3fDPurnVi41KUaNstA33/yTPmGY=;
- b=Rb7+y1b73gB0GQmYpAs2cT0cMfjIWh8r0xYuXvR5UC4yk8IIZlqkzjmaBE+yGdOw/0
- lGUMUDb2MG3s4KSeufCqzOf7KjizXfNfgnMRbLwc4xRGS8d5gVNjQB9bPgXDuWB9OZpa
- lYMZtu+zAeU9K5YFDLDELigs2yi70kizpeyGXcU3jtd71sPJkRegZzGsNIXOjswZdtfh
- 1TH9k9Sa4zRHbDnln0gkh6GN7dttSjGpCPYEbqYH1N8DQ1mRO+fclmRJ9q/5j6kTe5Kf
- JjYOKAmjCaUxSK5+IYqmeXbgivEip/0aWNqZdS2p2VggbmSYw6CYLNZYv+racmPHAPQD
- 2nXw==
-X-Gm-Message-State: AOAM531wryCIeIo6tHBXEAvfzNw25J/gnqjx6hElZunC1C8pbBtdE14z
- 3wB7sAZhjvDYJ1efsAapIgjquvsYHOk=
-X-Google-Smtp-Source: ABdhPJx74ZQ2dUyxdrD8Ipj4HhymdMUye9bIT45WM3HFjTRo9vRagJRl7QpDlcERHi13A08d838bEQ==
-X-Received: by 2002:a05:6402:28e:: with SMTP id
- l14mr1439756edv.19.1611394869927; 
- Sat, 23 Jan 2021 01:41:09 -0800 (PST)
-Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z22sm6878626edb.88.2021.01.23.01.41.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jan 2021 01:41:09 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/tci: Restrict tci_write_reg16() to 64-bit hosts
-Date: Sat, 23 Jan 2021 10:41:07 +0100
-Message-Id: <20210123094107.2340222-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l3Fo1-0000sn-Ee
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 05:06:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:47829)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l3Fnw-0003Ul-DP
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 05:06:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611396361;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=iDV+fAnpYxRRMENpO3wSS90PgF487Vfo9BsKde0DiGw=;
+ b=hRHFg68h9/4GviE/fi5jk/8yplU3VfU+O50pirzfPs9kYMKeupVI8Y1kT4BYz6//S0312p
+ O0qiu4q1VCl82ogkkNGThfG/IfM3k3NWDre+jIJwICsq+0Jj/zkkjKKAR8KZ+8gyWoJULC
+ 7I3Nntvbojrqesd9MuBbBBFizNhS5nY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-521-10QSqrsrMbiq7wVO9y_Aaw-1; Sat, 23 Jan 2021 05:05:58 -0500
+X-MC-Unique: 10QSqrsrMbiq7wVO9y_Aaw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3943801817;
+ Sat, 23 Jan 2021 10:05:56 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-112-11.phx2.redhat.com
+ [10.3.112.11])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC34F71C9D;
+ Sat, 23 Jan 2021 10:05:54 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: [PATCH] fdc: check drive block device before usage (CVE-2021-20196)
+Date: Sat, 23 Jan 2021 15:33:45 +0530
+Message-Id: <20210123100345.642933-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.182,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +76,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Gaoning Pan <pgn@zju.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Restrict tci_write_reg16() to 64-bit hosts to fix on 32-bit ones:
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-  [520/1115] Compiling C object libqemu-arm-linux-user.fa.p/tcg_tci.c.o
-  FAILED: libqemu-arm-linux-user.fa.p/tcg_tci.c.o
-  tcg/tci.c:132:1: error: 'tci_write_reg16' defined but not used [-Werror=unused-function]
-   tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
-   ^~~~~~~~~~~~~~~
+While processing ioport command in 'fdctrl_write_dor', device
+controller may select a drive which is not initialised with a
+block device. This may result in a NULL pointer dereference.
+Add checks to avoid it.
 
-Fixes: 2f160e0f979 ("tci: Add implementation for INDEX_op_ld16u_i64")
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Fixes: CVE-2021-20196
+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+Buglink: https://bugs.launchpad.net/qemu/+bug/1912780
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 ---
- tcg/tci.c | 2 ++
- 1 file changed, 2 insertions(+)
+ hw/block/fdc.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index 2311aa7d3ab..3fc82d3c79d 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -128,11 +128,13 @@ static void tci_write_reg8(tcg_target_ulong *regs, TCGReg index, uint8_t value)
-     tci_write_reg(regs, index, value);
- }
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 3636874432..13a9470d19 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -1429,7 +1429,9 @@ static void fdctrl_write_dor(FDCtrl *fdctrl, uint32_t value)
+         }
+     }
+     /* Selected drive */
+-    fdctrl->cur_drv = value & FD_DOR_SELMASK;
++    if (fdctrl->drives[value & FD_DOR_SELMASK].blk) {
++        fdctrl->cur_drv = value & FD_DOR_SELMASK;
++    }
  
-+#if TCG_TARGET_REG_BITS == 64
- static void
- tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
- {
-     tci_write_reg(regs, index, value);
+     fdctrl->dor = value;
  }
-+#endif
+@@ -1894,6 +1896,10 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
+     uint32_t pos;
  
- static void
- tci_write_reg32(tcg_target_ulong *regs, TCGReg index, uint32_t value)
+     cur_drv = get_cur_drv(fdctrl);
++    if (!cur_drv->blk) {
++        FLOPPY_DPRINTF("No drive connected\n");
++        return 0;
++    }
+     fdctrl->dsr &= ~FD_DSR_PWRDOWN;
+     if (!(fdctrl->msr & FD_MSR_RQM) || !(fdctrl->msr & FD_MSR_DIO)) {
+         FLOPPY_DPRINTF("error: controller not ready for reading\n");
+@@ -2420,7 +2426,8 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
+         if (pos == FD_SECTOR_LEN - 1 ||
+             fdctrl->data_pos == fdctrl->data_len) {
+             cur_drv = get_cur_drv(fdctrl);
+-            if (blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
++            if (cur_drv->blk == NULL
++                || blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+                            BDRV_SECTOR_SIZE, 0) < 0) {
+                 FLOPPY_DPRINTF("error writing sector %d\n",
+                                fd_sector(cur_drv));
 -- 
-2.26.2
+2.29.2
 
 
