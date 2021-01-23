@@ -2,69 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC45F301811
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 20:56:19 +0100 (CET)
-Received: from localhost ([::1]:51314 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E1BF30181A
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 21:00:58 +0100 (CET)
+Received: from localhost ([::1]:57618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3P17-0007Bf-R2
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 14:56:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33516)
+	id 1l3P5d-0001hn-Er
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 15:00:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l3OyA-0006HP-M9
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 14:53:16 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:38505)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l3Oy6-0002vo-VD
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 14:53:14 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id s11so10584740edd.5
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 11:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=6HrHCOGbzwKhc+H/KQgosdVI/PW0UaTV4WMRPmUpwf0=;
- b=N/csazI2HuQwYmbRcVRknbunyjK8CMBQ0NE6lo9AcO+dEZ8cUhh+5i2Pfnl2EX9wxT
- CtkUgRj0W1w/tnv8nXNzY1Hpkvg/M3FrtJFDBprBZI3LzU9Yg6EEuJ2Gr+5EC6tlaDDl
- 41ZC27ppHoaY8Zt+87q0ZryGoTUg+CkgiwCI8GhNMA7+QwnomHG3ds/qumrN7jFcTqde
- XPHmCoomNi/zOkby7I4ky8emp0vDJVTUWAVK2aNNLWgUxj+mFYTiqcpvHGhm0xi7mn29
- M8g/yBJLhgc1JWFrIUaoFemOq135KzMf/4yUs6eL3huvRXaGP4r0sOZcFprAlOrN+OpW
- De9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6HrHCOGbzwKhc+H/KQgosdVI/PW0UaTV4WMRPmUpwf0=;
- b=CYzcCF05+JN3N1wnJy25K4wKECjtl2iOLx2eClWtgmNJVGCZSW8PzxtHm608QnMe0x
- IWq7TOicYsrsWjuyDhXLyWmxo7zUineL9eoVCxwCjtBfVWBa93cHuvFfAAHmmMINoQZA
- m562iL3OqBcJ6B5LrouwvepzfUroh/uShi9TwpBexbjW7SGfk4xHjZ5JTACt5PnbOcn5
- Fwdfta01z9QS8ITucrQ96fehGHEHR5c4PE+XLkMZz9nxGoL0T2B/Fah+jYkcsKgh8Vel
- uMzl9hpTgujh7ETqBEQivvRTRM7vSXle50aqYLbes457fOQh4to41kRtm1tCASrDRlVZ
- ubUQ==
-X-Gm-Message-State: AOAM5320xjUHQ5wV7BB0jqB2KMSkZ8Dg6nd4OjfPVWZBZPoDwAVgksH5
- St1Q55XGUtvNZB8THbsUTBiDMGeoYgVvO5BstytorQ==
-X-Google-Smtp-Source: ABdhPJzqxPdaFo29PDheWVMP+Zp+xnN/pmmIR4Z6YY3QJC6mIFZ+j14qu0kjJyZNKHt+ZVRGDE80zJdxyk6wKtdqZuI=
-X-Received: by 2002:aa7:c88a:: with SMTP id p10mr113250eds.204.1611431588426; 
- Sat, 23 Jan 2021 11:53:08 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l3P3Z-00016e-TM; Sat, 23 Jan 2021 14:58:50 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:51834)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l3P3U-0005Um-2v; Sat, 23 Jan 2021 14:58:48 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id F1386C602E6;
+ Sat, 23 Jan 2021 20:58:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1611431918;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=FaDpLnjgBAc1P1v9+G3Z98irkzGLB2axmdOyN1CrnMQ=;
+ b=cziHh6YbnJGkDgtP1bWUuyZNYDnoWreem1XpiZ3YMK0mc8Je9UHrxiXuuxOtXw1HGvJtp7
+ AgdRscHEiQG88Dt/fBFD3cV/1h4fMD5Mw4D8Xdo0cKf3Ueo8J2sA1gs0EBanDenGlcDezs
+ K2lq/B93Co5yTogoQKl+TeRvVt2Yu0qRhb4x3WDC9T13dVqmDF0aHOcMCVFXyGPOAdhWFD
+ /aBLPynRbTDSjhjouX3oHsymsGjKorOSQDr+j8um+WrpS/XerlC/OFcYRJ0cMbozr2cufd
+ a7f11hlo2lE3gr7dBvH5N9WGNBXFmfCfuIZYqInpGMzg7JUHt6tB1Fs3KSNNYg==
+Date: Sat, 23 Jan 2021 20:58:59 +0100
+From: Luc Michel <luc@lmichel.fr>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH 19/25] hw/timer/cmsdk-apb-dualtimer: Convert to use Clock
+ input
+Message-ID: <20210123195859.btxj66mgka4c7s62@sekoia-pc.home.lmichel.fr>
+References: <20210121190622.22000-1-peter.maydell@linaro.org>
+ <20210121190622.22000-20-peter.maydell@linaro.org>
+ <20210122204910.xadaf4zutpbu4qp5@sekoia-pc.home.lmichel.fr>
+ <CAFEAcA8adGg+i65an_2Pser8acSmgz4D1wvmidaKNpeOt6jJKw@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210123143128.1167797-1-pbonzini@redhat.com>
-In-Reply-To: <20210123143128.1167797-1-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 23 Jan 2021 19:52:57 +0000
-Message-ID: <CAFEAcA-2v9csPRBraXWNnnE67AhyRHMZNYJn6No0GUusMnwBRw@mail.gmail.com>
-Subject: Re: [PULL 00/31] Misc patches for 2020-01-21
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8adGg+i65an_2Pser8acSmgz4D1wvmidaKNpeOt6jJKw@mail.gmail.com>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,113 +65,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 23 Jan 2021 at 14:36, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit fef80ea073c4862bc9eaddb6ddb0ed970b8ad7=
-c4:
->
->   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-01-20' i=
-nto staging (2021-01-21 10:44:28 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to fc70d67e73e9cba950cf9d16281a78eb4ab6e4ce:
->
->   qemu-option: warn for short-form boolean options (2021-01-23 09:29:42 -=
-0500)
->
-> ----------------------------------------------------------------
-> * Make MinGW respect --bindir (Joshua)
-> * Switch MinGW to a "deep" installation (Joshua + NSIS fixes by myself)
-> * Fix compilation errors/warnings (Qixin, Philippe)
-> * Switch slirp to a subproject (Marc-Andr=C3=A9)
-> * QemuOpts cleanups (myself)
-> * Consistency improvements for -action (myself)
-> * remove deprecated "change vnc TARGET" functionality (myself)
-> * meson cleanups (Philippe, myself)
-> * IDE out-of-bounds access (Prasad)
-> * LA57 fix for -cpu max (Weijiang)
+On 21:41 Fri 22 Jan     , Peter Maydell wrote:
+> On Fri, 22 Jan 2021 at 20:48, Luc Michel <luc@lmichel.fr> wrote:
+> >
+> > On 19:06 Thu 21 Jan     , Peter Maydell wrote:
+> > > Switch the CMSDK APB dualtimer device over to using its Clock input;
+> > > the pclk-frq property is now ignored.
+> > >
+> > > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> > > ---
+> > >  hw/timer/cmsdk-apb-dualtimer.c | 42 ++++++++++++++++++++++++++++++----
+> > >  1 file changed, 37 insertions(+), 5 deletions(-)
+> > >
+> > > diff --git a/hw/timer/cmsdk-apb-dualtimer.c b/hw/timer/cmsdk-apb-dualtimer.c
+> > > index 781b496037b..828127b366f 100644
+> > > --- a/hw/timer/cmsdk-apb-dualtimer.c
+> > > +++ b/hw/timer/cmsdk-apb-dualtimer.c
+> > > @@ -106,6 +106,22 @@ static void cmsdk_apb_dualtimer_update(CMSDKAPBDualTimer *s)
+> > >      qemu_set_irq(s->timerintc, timintc);
+> > >  }
+> > >
+> > > +static int cmsdk_dualtimermod_divisor(CMSDKAPBDualTimerModule *m)
+> > > +{
+> > > +    /* Return the divisor set by the current CONTROL.PRESCALE value */
+> > > +    switch (FIELD_EX32(m->control, CONTROL, PRESCALE)) {
+> > > +    case 0:
+> > > +        return 1;
+> > > +    case 1:
+> > > +        return 16;
+> > > +    case 2:
+> > > +    case 3: /* UNDEFINED, we treat like 2 (and complained when it was set) */
+> > > +        return 256;
+> > > +    default:
+> > > +        g_assert_not_reached();
+> > > +    }
+> > > +}
+> > > +
+> > >  static void cmsdk_dualtimermod_write_control(CMSDKAPBDualTimerModule *m,
+> > >                                               uint32_t newctrl)
+> > >  {
+> > > @@ -146,7 +162,7 @@ static void cmsdk_dualtimermod_write_control(CMSDKAPBDualTimerModule *m,
+> > >          default:
+> > >              g_assert_not_reached();
+> > >          }
+> > > -        ptimer_set_freq(m->timer, m->parent->pclk_frq / divisor);
+> > > +        ptimer_set_period_from_clock(m->timer, m->parent->timclk, divisor);
+> >
+> > Just a small cosmetic note, maybe you can use your new
+> > cmsdk_dualtimermod_divisor function to factor out the switch above?
+> > Something like:
+> >
+> > if (changed & R_CONTROL_PRESCALE_MASK) {
+> >     if (FIELD_EX32(newctrl, CONTROL, PRESCALE) == 3) {
+> >         qemu_log_mask(LOG_GUEST_ERROR,
+> >                       "CMSDK APB dual-timer: CONTROL.PRESCALE==0b11"
+> >                       " is undefined behaviour\n");
+> >     }
+> >
+> >     ptimer_set_period_from_clock(m->timer, m->parent->timclk,
+> >                                  cmsdk_dualtimermod_divisor(m));
+> > }
+> 
+> Nope, because cmsdk_dualtimermod_divisor() uses the current
+> m->control value, and at this point in the code we need the
+> divisor from the new control value which isn't in m->control yet.
+> I liked the slight duplication better than either having to
+> pass m->control in in all the other callsites or trying to
+> refactor the control write handling so that m->control is
+> updated before this point in the code.
 
-Fails to compile, OSX. There's an oddball "unable to rmdir"
-warning immediately on git checkout, which may or may not be
-related:
+Oops yes I missed that. Sure make sense, forget what I said.
 
-From git://git-us.linaro.org/people/pmaydell/qemu-arm
-   e93c65a6c6..9bfe4825ae  staging    -> pmaydell/staging
-warning: unable to rmdir 'slirp': Directory not empty
-make: Entering directory '/Users/pm215/src/qemu-for-merges/build/all'
-config-host.mak is out-of-date, running configure
-Disabling PIE due to missing toolchain support
-Submodule 'subprojects/libslirp'
-(https://git.qemu.org/git/libslirp.git) registered for path
-'subprojects/libslirp'
-Cloning into '/Users/pm215/src/qemu-for-merges/subprojects/libslirp'...
-cross containers  no
+> 
+> thanks
+> -- PMM
 
-NOTE: guest cross-compilers enabled: cc
-/usr/local/bin/ninja  build.ninja && touch build.ninja.stamp
-[...]
-ninja: no work to do.
-/usr/local/bin/python3 -B
-/Users/pm215/src/qemu-for-merges/meson/meson.py introspect --targets
---tests --benchmarks | /usr/local/bin/python3 -B scripts/mtest2make.py
-> Makefile.mtest
-[1/5915] Compiling C object
-subprojects/libslirp/libslirp.0.dylib.p/src_ip_output.c.o
-[2/5915] Compiling C object subprojects/libslirp/libslirp.0.dylib.p/src_ncs=
-i.c.o
-[3/5915] Compiling C object subprojects/libslirp/libslirp.0.dylib.p/src_mbu=
-f.c.o
-[4/5915] Compiling C object subprojects/libslirp/libslirp.0.dylib.p/src_mis=
-c.c.o
-[5/5915] Compiling C object
-subprojects/libslirp/libslirp.0.dylib.p/src_slirp.c.o
-FAILED: subprojects/libslirp/libslirp.0.dylib.p/src_slirp.c.o
-cc -Isubprojects/libslirp/libslirp.0.dylib.p -Isubprojects/libslirp
--I../../subprojects/libslirp -I/usr/local/Cellar/glib/2.66.1/include
--I/usr/local/Cellar/glib/2.66.1/include/glib-2.0
--I/usr/local/Cellar/glib/2.66.1/lib/glib-2.0/include
--I/usr/local/opt/gettext/include -I/usr/local/Cellar/pcre/8.44/include
--Xclang -fcolor-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -O2
--g -m64 -mcx16 -DOS_OBJECT_USE_OBJC=3D0 -arch x86_64 -D_GNU_SOURCE
--D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstrict-prototypes
--Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototypes
--fno-strict-aliasing -fno-common -fwrapv -fdiagnostics-color=3Dnever
--Werror -Wno-error=3Ddeprecated-declarations -Wold-style-definition
--Wtype-limits -Wformat-security -Wformat-y2k -Winit-self
--Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels
--Wexpansion-to-defined -Wno-initializer-overrides
--Wno-missing-include-dirs -Wno-shift-negative-value
--Wno-string-plus-int -Wno-typedef-redefinition
--Wno-tautological-type-limit-compare -fstack-protector-strong
-'-DG_LOG_DOMAIN=3D"Slirp"' -MD -MQ
-subprojects/libslirp/libslirp.0.dylib.p/src_slirp.c.o -MF
-subprojects/libslirp/libslirp.0.dylib.p/src_slirp.c.o.d -o
-subprojects/libslirp/libslirp.0.dylib.p/src_slirp.c.o -c
-../../subprojects/libslirp/src/slirp.c
-../../subprojects/libslirp/src/slirp.c:131:17: error: unused variable
-'old_stat' [-Werror,-Wunused-variable]
-    struct stat old_stat;
-                ^
-../../subprojects/libslirp/src/slirp.c:143:10: error: unused variable
-'buff' [-Werror,-Wunused-variable]
-    char buff[512];
-         ^
-2 errors generated.
-[6/5915] Compiling C object subprojects/libslirp/libslirp.0.dylib.p/src_sbu=
-f.c.o
-[7/5915] Compiling C object
-subprojects/libslirp/libslirp.0.dylib.p/src_ndp_table.c.o
-[8/5915] Compiling C object
-subprojects/libslirp/libslirp.0.dylib.p/src_socket.c.o
-ninja: build stopped: subcommand failed.
-
-thanks
--- PMM
+-- 
 
