@@ -2,99 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072A0301772
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:03:04 +0100 (CET)
-Received: from localhost ([::1]:41620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E09030177B
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:06:26 +0100 (CET)
+Received: from localhost ([::1]:46016 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3NFW-0002jv-Hl
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:03:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40706)
+	id 1l3NIn-0004dY-Fg
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:06:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3NDW-0001yv-PA
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:00:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3NDS-0003A1-9i
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:00:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611424852;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=7HeZdHqYjeXec9ywYVCkfKb9HkDLby788FRPLCpcHYg=;
- b=J9KGJaPpswXIG2puYDz9Tctl4Hc3JTkgFAZxSpnkj/M/SdkDsU3oFFeTX4e/m9/yZ8Avr9
- LEFp08NiD+JykW6tdkrRnXpZTPNVKWE8pPZwgOlKTrmM7roy9UvadfGeG8iq2uTDUJ3VLg
- WIuOn0aL0q6EeeMXVFjpDWsdmFKd0KI=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-569-2T04PfYdM4q8aMQvAEg89g-1; Sat, 23 Jan 2021 13:00:49 -0500
-X-MC-Unique: 2T04PfYdM4q8aMQvAEg89g-1
-Received: by mail-ed1-f72.google.com with SMTP id j11so4045290edy.20
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:00:49 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=7HeZdHqYjeXec9ywYVCkfKb9HkDLby788FRPLCpcHYg=;
- b=Cwrk33nQ/0XPD4n0qk0QfWOtCLoEPztJNHGZTKQqyLjOSxXRfkjYDQmoqTlD7GyW+I
- 8U/YYtJw07O83+W8NjIuu8yiLhfzCOo8wLkAM50hwZtCCQmFplPlDF20hyo5IjP/bA7s
- UaOK0fJVwKu+BuhPxMUxM6cNBSX3vq1/1Tu1/aYsyWNh7o/iQ69PVjVUCg/drBawDbvq
- L7G3o5M9OXu+qMyVXBz4cIvRsPo+euXTN2nfiMWE+se//PMQvYyNVayfkDmnovDuoIlo
- RaOo8WYXT275uPrdHlaP1buTcjLb7R0NBv16zbBI9ef8U2+2eEcfJYQcE2ZmJ45Ko+Uz
- So0Q==
-X-Gm-Message-State: AOAM532oojntMcx99RgWRlYMjrmAG5QsP2Lh67NdrlsMx8qA7sNPAJH7
- LQ9xFbdGrrrixshKeOlz0bdvyTIOcD1+gF/ZWQ2NrcIBYRfzbZodRKlylIkt2cE1bbanLRJfEbc
- 4dfkbHkD+2XMtETE=
-X-Received: by 2002:a17:906:cc89:: with SMTP id
- oq9mr298929ejb.154.1611424848839; 
- Sat, 23 Jan 2021 10:00:48 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJw5pfgYG5L97qOk381OWB6xXiEJYWPn0PkqIcmSR57jblPxJaE5NldA9OoxEkn6KIxxGyB/cQ==
-X-Received: by 2002:a17:906:cc89:: with SMTP id
- oq9mr298919ejb.154.1611424848669; 
- Sat, 23 Jan 2021 10:00:48 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id p3sm7615968edh.50.2021.01.23.10.00.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Jan 2021 10:00:47 -0800 (PST)
-To: luoyonggang@gmail.com
-References: <20210107140039.467969-1-pbonzini@redhat.com>
- <20210107140039.467969-9-pbonzini@redhat.com>
- <20210113103143.GA1568240@redhat.com>
- <50a309ed-64a3-6d17-9edb-6274abb4e498@redhat.com>
- <CAE2XoE9gag5J7reaQPaovto6HDvDPaGOJCSGeModiXVr5p7chg@mail.gmail.com>
- <CABgObfa0A_q3_Hev49hT5SHPNvxaE1TrLJ4QPagM5n3g-8P5xw@mail.gmail.com>
- <CAE2XoE_UyVdRnLAYijiwuEO=8-uC4Tv=PRyHMTarvEjTwN8bxw@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 8/8] configure: automatically parse command line for meson
- -D options
-Message-ID: <c1dc7a3f-ad19-6000-a2ee-eb9a49cfac52@redhat.com>
-Date: Sat, 23 Jan 2021 19:00:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l3NH6-0003xd-GW
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:04:41 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:43306 helo=mta-01.yadro.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l3NH0-0004GZ-VG
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:04:40 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id 15B02413DD;
+ Sat, 23 Jan 2021 18:04:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-disposition:content-type:content-type
+ :mime-version:references:message-id:subject:subject:from:from
+ :date:date:received:received:received; s=mta-01; t=1611425071;
+ x=1613239472; bh=rR87BKFcq+WZk8Hy84t486NJ7mAfnuznHCcfzPFJ/Vw=; b=
+ a4zyXqulrBCDzZzrsy5QAsL80Nj7q+cd7qURzb2exqaaX3lkxr5drW+j5mKulWch
+ s8/M/p0ha28E7quhmLmwZBrigUoD3nvfXHd8q9OjRAynSPLsXF7Je7iZd5NzSvGm
+ AcS8+FMOeGAIBUumQt7zpIKsc/YY06laMSOzs9skVEg=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id 9Nk_sRowjRZY; Sat, 23 Jan 2021 21:04:31 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 3250041333;
+ Sat, 23 Jan 2021 21:04:31 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Sat, 23
+ Jan 2021 21:04:30 +0300
+Date: Sat, 23 Jan 2021 21:04:30 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4] tcg: Toggle page execution for Apple Silicon
+Message-ID: <YAxlLvAbQzbHYwjB@SPB-NB-133.local>
+References: <20210121184752.1395873-1-richard.henderson@linaro.org>
+ <YAwOTAljKMLvHd7M@SPB-NB-133.local>
 MIME-Version: 1.0
-In-Reply-To: <CAE2XoE_UyVdRnLAYijiwuEO=8-uC4Tv=PRyHMTarvEjTwN8bxw@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <YAwOTAljKMLvHd7M@SPB-NB-133.local>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,38 +78,158 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: agraf@csgraf.de, qemu-devel@nongnu.org, j@getutm.app
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/21 04:30, 罗勇刚(Yonggang Luo) wrote:
->  > We could and I did it in the first version. However it's ugly that 
-> the user has to use --python on some setups in order to get a full help 
-> message.
+On Sat, Jan 23, 2021 at 02:53:49PM +0300, Roman Bolshakov wrote:
+> On Thu, Jan 21, 2021 at 08:47:52AM -1000, Richard Henderson wrote:
+> > From: Roman Bolshakov <r.bolshakov@yadro.com>
+> > 
+> > Pages can't be both write and executable at the same time on Apple
+> > Silicon. macOS provides public API to switch write protection [1] for
+> > JIT applications, like TCG.
+> > 
+> > 1. https://developer.apple.com/documentation/apple_silicon/porting_just-in-time_compilers_to_apple_silicon
+> > 
+> > Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
+> > Message-Id: <20210113032806.18220-1-r.bolshakov@yadro.com>
+> > [rth: Inline the qemu_thread_jit_* functions;
+> >  drop the MAP_JIT change for a follow-on patch.]
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> > 
+> > Supercedes: <20210113032806.18220-1-r.bolshakov@yadro.com>
+> > 
+> > This is the version of Roman's patch that I'm queuing to tcg-next.
+> > What's missing from the full "Fix execution" patch is setting MAP_JIT
+> > for !splitwx in alloc_code_gen_buffer().
+> > 
 > 
->    Yeap, but finally configure should gone, so I think --python are 
-> acceptable by user, just need make sure to be noticed when the default 
-> python
-> are not python3
+> Richard, thanks for updating the patch. I have no objections against
+> moving the functions and inlining them. However I'm seeing an issue that
+> wasn't present in v3:
+> 
+> Process 37109 stopped                                                                                                                          * thread #6, stop reason = EXC_BAD_ACCESS (code=1, address=0xfffffffffffffd4f)
+>     frame #0: 0x00000001002f1c90 qemu-system-x86_64`tcg_emit_op(opc=INDEX_op_add_i64) at tcg.c:2531:5 [opt]                                       2528 TCGOp *tcg_emit_op(TCGOpcode opc)
+>    2529 {                                                                                                                                         2530     TCGOp *op = tcg_op_alloc(opc);
+> -> 2531     QTAILQ_INSERT_TAIL(&tcg_ctx->ops, op, link);
+>    2532     return op;
+>    2533 }
+>    2534
+> Target 0: (qemu-system-x86_64) stopped.
+> (lldb) bt
+> * thread #6, stop reason = EXC_BAD_ACCESS (code=1, address=0xfffffffffffffd4f)
+>   * frame #0: 0x00000001002f1c90 qemu-system-x86_64`tcg_emit_op(opc=INDEX_op_add_i64) at tcg.c:2531:5 [opt]
+>     frame #1: 0x000000010026f040 qemu-system-x86_64`tcg_gen_addi_i64 [inlined] tcg_gen_op3(opc=INDEX_op_add_i64, a1=4430334952, a2=4430333440,
+> a3=4430361496) at tcg-op.c:60:17 [opt]
+>     frame #2: 0x000000010026f038 qemu-system-x86_64`tcg_gen_addi_i64 [inlined] tcg_gen_op3_i64(opc=INDEX_op_add_i64, a1=<unavailable>, a2=<unav
+> ailable>, a3=<unavailable>) at tcg-op.h:94 [opt]
+>     frame #3: 0x000000010026f030 qemu-system-x86_64`tcg_gen_addi_i64 [inlined] tcg_gen_add_i64(ret=<unavailable>, arg1=<unavailable>, arg2=<una
+> vailable>) at tcg-op.h:618 [opt]
+>     frame #4: 0x000000010026f030 qemu-system-x86_64`tcg_gen_addi_i64(ret=<unavailable>, arg1=<unavailable>, arg2=<unavailable>) at tcg-op.c:123
+> 5 [opt]
+>     frame #5: 0x000000010021d1e0 qemu-system-x86_64`gen_lea_modrm_1(s=<unavailable>, a=(def_seg = 2, base = 5, index = -1, scale = 0, disp = -6
+> 89)) at translate.c:2101:9 [opt]
+>     frame #6: 0x000000010020eeec qemu-system-x86_64`disas_insn [inlined] gen_lea_modrm(env=0x0000000118610870, s=0x00000001700b6b00, modrm=<una
+> vailable>) at translate.c:2111:15 [opt]
+>     frame #7: 0x000000010020eec0 qemu-system-x86_64`disas_insn(s=0x00000001700b6b00, cpu=<unavailable>) at translate.c:5509 [opt]
+>     frame #8: 0x000000010020bb44 qemu-system-x86_64`i386_tr_translate_insn(dcbase=0x00000001700b6b00, cpu=<unavailable>) at translate.c:8573:15
+>  [opt]
+>     frame #9: 0x00000001002fbcf8 qemu-system-x86_64`translator_loop(ops=0x0000000100b209c8, db=0x00000001700b6b00, cpu=0x0000000118608000, tb=0
+> x0000000120017200, max_insns=512) at translator.c:0 [opt]
+>     frame #10: 0x000000010020b73c qemu-system-x86_64`gen_intermediate_code(cpu=<unavailable>, tb=<unavailable>, max_insns=<unavailable>) at tra
+> nslate.c:8635:5 [opt]
+>     frame #11: 0x0000000100257970 qemu-system-x86_64`tb_gen_code(cpu=0x0000000118608000, pc=<unavailable>, cs_base=0, flags=4194483, cflags=-16
+> 777216) at translate-all.c:1931:5 [opt]
+>     frame #12: 0x00000001002deb90 qemu-system-x86_64`cpu_exec [inlined] tb_find(cpu=0x0000000118608000, last_tb=0x0000000000000000, tb_exit=<un
+> available>, cf_mask=0) at cpu-exec.c:456:14 [opt]
+>     frame #13: 0x00000001002deb54 qemu-system-x86_64`cpu_exec(cpu=0x0000000118608000) at cpu-exec.c:812 [opt]
+>     frame #14: 0x00000001002bc0d0 qemu-system-x86_64`tcg_cpus_exec(cpu=0x0000000118608000) at tcg-cpus.c:57:11 [opt]
+>     frame #15: 0x000000010024c2cc qemu-system-x86_64`rr_cpu_thread_fn(arg=<unavailable>) at tcg-cpus-rr.c:217:21 [opt]
+>     frame #16: 0x00000001004b00b4 qemu-system-x86_64`qemu_thread_start(args=<unavailable>) at qemu-thread-posix.c:521:9 [opt]
+>     frame #17: 0x0000000191c4d06c libsystem_pthread.dylib`_pthread_start + 320
+> 
+> I'm looking into the issue but perhaps we'll need v5.
+> 
 
-When configure will be gone, these 200 lines of Perl will disappear with 
-it, so we don't have to think for future users and developers, but for 
-the present.
+Nope. The issue is not directly related to the patch and W^X. I think it
+can be applied.
 
-I don't expect configure or Makefile to go away completely, because for 
-example things such as "git submodule" handling are easier to do in the 
-shell.  However, we also need to evaluate what's the road to a minimal 
-configure (just like our Makefile is pretty minimal, only tests/tcg 
-still has lots of build logic).  In that respect, automatic parsing 
-command line simplifies moving things from configure to meson, and that 
-is true no matter what language the parser is written in.
+tcg_ctx->ops is somehow getting corrupted despite it's initialized
+properly during TCG start:
 
-(BTW, I'm not such a Perl fan.  I have only ever written like 3 or 4 
-programs in Perl).
+(lldb) p tcg_ctx->ops
+(TCGContext::(anonymous union)) $18 = {
+  tqh_first = 0x0000008401010000
+  tqh_circ = {
+    tql_next = 0x0000008401010000
+    tql_prev = 0xfffffffffffffd4f
+  }
+}
 
-Paolo
+I've bisected it (with v3 of Apple Silicon fix for TCG) to:
 
+commit 8fe35e0444be88de4e3ab80a2a0e210a1f6d663d
+Author: Richard Henderson <richard.henderson@linaro.org>
+Date:   Mon Mar 30 20:42:43 2020 -0700
+
+    tcg/optimize: Use tcg_constant_internal with constant folding
+
+    Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+ tcg/optimize.c | 108 ++++++++++++++++++++++++++-------------------------------
+ 1 file changed, 49 insertions(+), 59 deletions(-)
+
+Although, it crashes with a bit different backtrace than provided above:
+
+Process 17251 stopped
+* thread #6, stop reason = EXC_BAD_ACCESS (code=1, address=0x10)
+    frame #0: 0x00000001002727a8 qemu-system-x86_64`tcg_opt_gen_mov [inlined] ts_is_copy(ts=<unavailable>) at optimize.c:68:25 [opt]
+   65
+   66   static inline bool ts_is_copy(TCGTemp *ts)
+   67   {
+-> 68       return ts_info(ts)->next_copy != ts;
+   69   }
+   70
+   71   /* Reset TEMP's state, possibly removing the temp for the list of copies.  */
+Target 0: (qemu-system-x86_64) stopped.
+(lldb) bt
+* thread #6, stop reason = EXC_BAD_ACCESS (code=1, address=0x10)
+  * frame #0: 0x00000001002727a8 qemu-system-x86_64`tcg_opt_gen_mov [inlined] ts_is_copy(ts=<unavailable>) at optimize.c:68:25 [opt]
+    frame #1: 0x00000001002727a4 qemu-system-x86_64`tcg_opt_gen_mov [inlined] ts_are_copies(ts1=0x00000001202e8e50, ts2=0x00000001202ef398) at optimize.c:163 [opt]
+    frame #2: 0x000000010027278c qemu-system-x86_64`tcg_opt_gen_mov(s=0x00000001202e8000, op=0x0000000119157710, dst=4834889296, src=4834915224) at optimize.c:191 [opt]
+    frame #3: 0x0000000100271740 qemu-system-x86_64`tcg_optimize(s=<unavailable>) at optimize.c:0:9 [opt]
+    frame #4: 0x00000001002f39c4 qemu-system-x86_64`tcg_gen_code(s=0x00000001202e8000, tb=0x0000000128020800) at tcg.c:4407:5 [opt]
+    frame #5: 0x00000001002b2688 qemu-system-x86_64`tb_gen_code(cpu=0x0000000118428000, pc=<unavailable>, cs_base=0, flags=4194483, cflags=-16777216) at translate-all.c:1961:21 [opt]
+    frame #6: 0x0000000100279460 qemu-system-x86_64`cpu_exec [inlined] tb_find(cpu=0x0000000118428000, last_tb=0x0000000000000000, tb_exit=<unavailable>, cf_mask=0) at cpu-exec.c:456:14 [opt]
+    frame #7: 0x0000000100279424 qemu-system-x86_64`cpu_exec(cpu=0x0000000118428000) at cpu-exec.c:812 [opt]
+    frame #8: 0x000000010026ea74 qemu-system-x86_64`tcg_cpus_exec(cpu=0x0000000118428000) at tcg-cpus.c:57:11 [opt]
+    frame #9: 0x0000000100284efc qemu-system-x86_64`rr_cpu_thread_fn(arg=<unavailable>) at tcg-cpus-rr.c:217:21 [opt]
+    frame #10: 0x00000001004cffe8 qemu-system-x86_64`qemu_thread_start(args=<unavailable>) at qemu-thread-posix.c:521:9 [opt]
+    frame #11: 0x0000000191c4d06c libsystem_pthread.dylib`_pthread_start + 320
+
+The problem is that ts2 in ts_are_copies() contains NULL state_ptr:
+
+(lldb) p *ts2
+(TCGTemp) $2 = {
+  reg = TCG_REG_X0
+  val_type = TEMP_VAL_DEAD
+  base_type = TCG_TYPE_I64
+  type = TCG_TYPE_I64
+  kind = TEMP_CONST
+  indirect_reg = 0
+  indirect_base = 0
+  mem_coherent = 0
+  mem_allocated = 0
+  temp_allocated = 1
+  val = -690
+  mem_base = 0x0000000000000000
+  mem_offset = 0
+  name = 0x0000000000000000
+  state = 0
+  state_ptr = 0x0000000000000000
+}
+
+-Roman
 
