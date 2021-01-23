@@ -2,68 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DD1A301873
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 22:01:14 +0100 (CET)
-Received: from localhost ([::1]:48982 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BE6301878
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 22:08:14 +0100 (CET)
+Received: from localhost ([::1]:54794 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3Q1w-0007wT-Tj
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 16:01:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43648)
+	id 1l3Q8j-0002I3-Lf
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 16:08:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3Pyo-0006i8-6w
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 15:57:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:34489)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3Pyk-0007Mw-9r
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 15:57:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611435472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=1nu+kXK8lwCltOcv+dSPdAMR7G29Qifed4U6LDNun6U=;
- b=PBBRDGogXqWx+UadQoI7K3nNHduz8rlQaFT4YD8KVXZh9GLxXr9+AY/gvSCTMoNfAG1Kvl
- PQM17tuEWEk/9I/kzhs3QdufV/oBbqSL1I0KFQ6BSUSKrNL8bfZ9toRFjG6J37pPjnZfOb
- 4T08Is197P6m7KekRhIo3Vb5Lt7E8bg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-2-nMtgdjFIM1uMOGlNemNq0g-1; Sat, 23 Jan 2021 15:57:49 -0500
-X-MC-Unique: nMtgdjFIM1uMOGlNemNq0g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43ECC801817
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 20:57:48 +0000 (UTC)
-Received: from virtlab701.virt.lab.eng.bos.redhat.com
- (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 11C64100AE43
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 20:57:47 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v2 00/30] Misc patches for 2021-01-21
-Date: Sat, 23 Jan 2021 15:57:47 -0500
-Message-Id: <20210123205747.1175854-1-pbonzini@redhat.com>
-MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l3Q5X-0000Zq-QT; Sat, 23 Jan 2021 16:04:55 -0500
+Received: from mail-eopbgr150139.outbound.protection.outlook.com
+ ([40.107.15.139]:30663 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l3Q5U-0001gI-4z; Sat, 23 Jan 2021 16:04:54 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=LRpAwDBoMwrIwhkr+Hdw6ISLwsrDV8jMsLHybqtl93rOIwymefa3WFdN6Dul6zRSFUZZZI0Zyjv+l15HxZWm34IvD16sxLv2RweLCiGd1r+AjQbO4gWnzXqunoyL1vVe1zI0jDbPXurhvIDI4f+MxkGrL8MuKUNGi2uJKB/sdLBldyP3VHhRW6NUXZRq+Qry1VRcXThZId27YFSh/VhM2E1rEPNf6CyZLjgGlrbc4KSBuyaDADILESsHeWKGgn2mM5CLS541gN0Sjdf1cUQeonuhBtoBp/mU5+HpsA9ysrDjHVLl8cDQq/JF1jCwQrILxNdvEmfGMutfi6vsBLRbXQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7dmiW3EEWG8Jg4ac22/HauFEnVIcYv8a1QHIldbcM24=;
+ b=OPL3PJm8jxfL4pogDD0L2kfSNw4aDLBKSsZDZwBTV2BI6PYbbcu06ixqX5agdjsr1Ocb1CUlABhkj6uvAFes+tdRQ9TkqnROjru+ByUuj+xib8jeqCHaYNUmCJhTISR8YC4spqZW1wciHA2DK0V7STtNMexMdyGbaeXSstZurrbIgTrq4pLZnJSRWZoTmuIJK1eDjx9p9z2Nz4iI/aSs/x1B4+eSWvH+DAFUcAmRp93JjFMo2P3abmBIyZBTve2UWlPY9y2ltny5Oz7qctMxA9oEN4Z2q+FBtX5xejx2/u9GWuCYcGWv+gzsJTQXEkX6urWlvZXgnpBRsJ37uS69FA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=7dmiW3EEWG8Jg4ac22/HauFEnVIcYv8a1QHIldbcM24=;
+ b=K33yVNTPOPuBbfRX8VWN+1vA1gUK/SwancKhxGYaqOXoz0I9zhcBRptwtokT6AeoTXYxf5wXizt8lsW3TV9b5beYszMzsjSCHEhj+5NjGClQaE0gxhkte6Rw07PZBUoE2pPr4bprnInk04UKUcwxXgQldl8K5CHQmSjiEA4/hL4=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AS8PR08MB6053.eurprd08.prod.outlook.com (2603:10a6:20b:292::14)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.11; Sat, 23 Jan
+ 2021 21:04:45 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.015; Sat, 23 Jan 2021
+ 21:04:45 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH v8 0/5] Rework iotests/check
+Date: Sun, 24 Jan 2021 00:04:23 +0300
+Message-Id: <20210123210428.27220-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.29.2
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -22
-X-Spam_score: -2.3
+Content-Type: text/plain
+X-Originating-IP: [178.176.79.161]
+X-ClientProxiedBy: HE1PR05CA0196.eurprd05.prod.outlook.com
+ (2603:10a6:3:f9::20) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from kvm.sw.ru (178.176.79.161) by
+ HE1PR05CA0196.eurprd05.prod.outlook.com (2603:10a6:3:f9::20) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3784.11 via Frontend Transport; Sat, 23 Jan 2021 21:04:44 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 425f2395-6d7d-42d2-d64c-08d8bfe282e4
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6053:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AS8PR08MB60535D66CC929CB684F02661C1BF0@AS8PR08MB6053.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:202;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: zqHK8M3PSqyOLJKns28TeNUfhc8dYpp+2HvJqRlPZ5nT/1X+Dz9J2vxmRkZzqZjR+TBOfMgJFhayyzbpMDp4ka61QC6BnO5P6Mm1h7BbUTdIWqy7XjwywexmrVAQu4mIBug71PP1hMTYqTn5YPGyKjSHJ8lnjSJwnH/D2Lkrwdqov2GTctHwPyajdtcCJ6RYtnQdUafsbPTmhT6M4XrwnIcoCGURwspLN6pBXpcQnDBLy3gopQLRnkn9AclKMXLnU5bJZmUMSgWFpLbmApqICM/kp5dii4J2n40sFip0wmL8ASjkFrfz+ZYP5n/MIww9WtuwPdSgV5YtsWzvV0RVBNNKt87QaxN3FwD205LCmUHd82KuoYUYO9NWKoag0ts7bVh9A35NRsKYgtv9KbidF2keXWiRtLwp8RqKdqvsKyL4gSg1yjAXcWmyEjZh+Mmnz6jhIxnvz2Hsk7zl86YImpKg4guj+K7grCc69A3VktXS1l1JTE/D+SsN833RNciHZjVF0JazQX4NVkuVztyz2g==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(83380400001)(956004)(107886003)(6486002)(186003)(66946007)(66476007)(4326008)(52116002)(5660300002)(1076003)(8936002)(26005)(2906002)(6916009)(6512007)(6666004)(36756003)(8676002)(6506007)(2616005)(498600001)(66556008)(16526019)(86362001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?7jSoE4y/Meg9xxbU3HrAcMnvf+95czIbIyqKaue/5Ef2Pm8pfbc6oInaRp8H?=
+ =?us-ascii?Q?qLwHXSSOGd3ybL6cvAS54Lcnqqs42c13dwJKnWhqzq8vJmdgn70VAQcjGiJc?=
+ =?us-ascii?Q?WPm4F534e3XYG17zfCj7nq6YFYqFQB1LjtnRyEV7P/toXf/bsLuVmmpwfOBd?=
+ =?us-ascii?Q?0rGJWqMNhYEwsdU8NdeuK/XEqfL4SRZvS1MGiMO4i4fx76dVKkaKTtZ6p+cg?=
+ =?us-ascii?Q?376zxbxW08Fk3ZfQ6PqXdczPYgPBS0DqNijIWxXItLPFky6SC0g01R5YWuUm?=
+ =?us-ascii?Q?sx3gCgOvgntVNwwjpsr98KkNFsZH/ZlcpgEy9n4psIo/Reibwsqlm9OsIbNp?=
+ =?us-ascii?Q?4uOM2fszVbGNGw69I+34cGN4lyrjTdWTNFoBXPC7Zq7v0qctOJpnOuemVAxL?=
+ =?us-ascii?Q?SLw8zE8cY0tsztAhxAuG0f0U3mraspOgYoC8R3N+enYlGwlQHIta9wgI9piT?=
+ =?us-ascii?Q?GWfQkcZ2AUog6D/t1YQacR1W7ABbCwshqJBxKa53vc74a5Gb0ZB4aPglt4GF?=
+ =?us-ascii?Q?40CTO4bjDsDqXOa1gS3mV0w1s8eKhnvD8/cUka2Xik8kOZTvKGM6z75draK9?=
+ =?us-ascii?Q?xf2OOLjgkJLQ+EnxD+7bhml7EBvjpZQf4ikRCm0VISGSkSvhgGbcvnSNfP9S?=
+ =?us-ascii?Q?omdkrQ+epSbWYwPk/2RP2qQWfQRVTlIWzL4SdtQ+fy10wMe1Tqd1mXfMrRSM?=
+ =?us-ascii?Q?Czp9I5jFwBFpVTeXr24mwIyO7yQUTyN5RDSUnWSaer4KGibIMWtKTFCBfp66?=
+ =?us-ascii?Q?6dDCj+eOmCtSYIgBshJak9mePeVznHMkkpyGfodbFZyaQbdcwYjKlq0l/Nad?=
+ =?us-ascii?Q?bcDrxOhT4uF7Whlq+AXSwFqJpv/oNeYcAuMgAum7ZaJu+k5kPcDl6IVoC4wD?=
+ =?us-ascii?Q?5mkv6eYfghNwIbVBTV0Q882cx0XvYQpsS7E6xrXoJf158wU63JiZ2JMS59vh?=
+ =?us-ascii?Q?z3bcjoJGpX5AuW7JgxAgRpKBiCzOCZkRQuk/mdOHly/DEW+sjG2flHN2oRNW?=
+ =?us-ascii?Q?xWh1?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 425f2395-6d7d-42d2-d64c-08d8bfe282e4
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2021 21:04:45.5451 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tUTFRSBmJ6lc03NASnnGhRqXxwd9tbnuPzcFHA3Piq09LpoK6tFIhA/sFSBKkp/ESK7G5uoGzyw5hpXaFeIEuR/mJ1ovzI1OAXQK7VbOSMI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6053
+Received-SPF: pass client-ip=40.107.15.139;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,111 +125,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit fef80ea073c4862bc9eaddb6ddb0ed970b8ad7c4:
+v8:
 
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-01-20' into staging (2021-01-21 10:44:28 +0000)
+about linters:
 
-are available in the Git repository at:
+I didn't modify 297, as Max already staged 297 modifications to test all files.
 
-  https://gitlab.com/bonzini/qemu.git tags/for-upstream
+Also, now I have two complains:
++************* Module testenv
++testenv.py:158:4: R0915: Too many statements (53/50) (too-many-statements)
++************* Module testrunner
++testrunner.py:222:4: R0911: Too many return statements (7/6) (too-many-return-statements)
+ Success: no issues found in 5 source files
 
-for you to fetch changes up to ccd3b3b8112b670fdccf8a392b8419b173ffccb4:
+And I feel, I'm tired to refactor it now.. Probably we can ignore them in 297. Probably I can
+do some refactoring as a follow-up.
 
-  qemu-option: warn for short-form boolean options (2021-01-23 15:55:08 -0500)
+findtests: grammar, wording, add Eric's r-b
+testenv: commit msg adjusted
+         wording, grammar
+         missed env_variables added
+         add logic for searching qemu-system-*, if
+         qemu-system-{arch} is not exist
+         handle valgrind and MALLOC_PERTURB_
+         fix s/vmkd/vmdk/
+testrunner: commit msg adjusted
+            wording
+            fix extra new lines in diff output
+            s/0/fd/
+            use class instead of namedtuple
+            don't handle MALLOC_PERTURB_
+            declare self._stack in __init__
+            change thistime to be float
+            handle KeyboardInterrupt
+            casenotrun init to ''
+            fix "output mismatch .. {f_bad}" to be f-string
+            smarter terminal color handling
+check: wording, grammar, sheepdoG, exClude_groups
+       change valgrind to be simple boolean option and pass
+          it to TestEnv
+       handle group.local
+       check virtio-blk in iotests.py
+       add --color option
 
-----------------------------------------------------------------
-* Make MinGW respect --bindir (Joshua)
-* Switch MinGW to a "deep" installation (Joshua + NSIS fixes by myself)
-* Fix compilation errors/warnings (Qixin, Philippe)
-* QemuOpts cleanups (myself)
-* Consistency improvements for -action (myself)
-* remove deprecated "change vnc TARGET" functionality (myself)
-* meson cleanups (Marc-André, Philippe, myself)
-* IDE out-of-bounds access (Prasad)
-* LA57 fix for -cpu max (Weijiang)
+Vladimir Sementsov-Ogievskiy (5):
+  iotests: add findtests.py
+  iotests: add testenv.py
+  iotests: add testrunner.py
+  iotests: rewrite check into python
+  iotests: rename and move 169 and 199 tests
 
-----------------------------------------------------------------
-Gan Qixin (1):
-      util/cacheflush: Fix error generated by clang
+ docs/devel/testing.rst                        |   50 +-
+ Makefile                                      |    1 -
+ tests/check-block.sh                          |    2 +-
+ tests/qemu-iotests/check                      | 1095 ++---------------
+ tests/qemu-iotests/common.env.in              |    3 -
+ tests/qemu-iotests/findtests.py               |  159 +++
+ tests/qemu-iotests/group                      |  321 -----
+ tests/qemu-iotests/iotests.py                 |    8 +
+ tests/qemu-iotests/meson.build                |    3 -
+ tests/qemu-iotests/testenv.py                 |  278 +++++
+ tests/qemu-iotests/testrunner.py              |  366 ++++++
+ .../migrate-bitmaps-postcopy-test}            |    0
+ .../migrate-bitmaps-postcopy-test.out}        |    0
+ .../{169 => tests/migrate-bitmaps-test}       |    0
+ .../migrate-bitmaps-test.out}                 |    0
+ 15 files changed, 990 insertions(+), 1296 deletions(-)
+ delete mode 100644 tests/qemu-iotests/common.env.in
+ create mode 100644 tests/qemu-iotests/findtests.py
+ delete mode 100644 tests/qemu-iotests/group
+ create mode 100644 tests/qemu-iotests/testenv.py
+ create mode 100644 tests/qemu-iotests/testrunner.py
+ rename tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test} (100%)
+ rename tests/qemu-iotests/{199.out => tests/migrate-bitmaps-postcopy-test.out} (100%)
+ rename tests/qemu-iotests/{169 => tests/migrate-bitmaps-test} (100%)
+ rename tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out} (100%)
 
-Joshua Watt (1):
-      configure: MinGW respect --bindir argument
-
-Marc-André Lureau (3):
-      build-sys: remove unused LIBS
-      build-sys: set global arguments for cflags/ldflags
-      build-sys: add libvhost-user missing dependencies
-
-Paolo Bonzini (11):
-      runstate: cleanup reboot and panic actions
-      build-system: clean up TCG/TCI configury
-      nsis: adjust for new MinGW paths
-      meson: convert wixl detection to Meson
-      acceptance: switch to QMP change-vnc-password command
-      hmp: remove "change vnc TARGET" command
-      qmp: remove deprecated "change" command
-      vnc: support "-vnc help"
-      qemu-option: clean up id vs. list->merge_lists
-      qemu-option: move help handling to get_opt_name_value
-      qemu-option: warn for short-form boolean options
-
-Philippe Mathieu-Daudé (12):
-      softmmu/physmem: Silence GCC 10 maybe-uninitialized error
-      meson: Declare have_virtfs_proxy_helper in main meson.build
-      meson: Summarize information related to directories first
-      meson: Display host binaries information altogether
-      meson: Summarize overall features altogether
-      meson: Summarize compilation-related information altogether
-      meson: Display accelerators and selected targets altogether
-      meson: Display block layer information altogether
-      meson: Display crypto-related information altogether
-      meson: Add a section header for library dependencies
-      meson.build: Declare global edk2_targets / install_edk2_blobs variables
-      meson.build: Detect bzip2 program
-
-Prasad J Pandit (1):
-      ide: atapi: check logical block address and read size (CVE-2020-29443)
-
-Yang Weijiang (1):
-      x86/cpu: Use max host physical address if -cpu max option is applied
-
- Makefile                              |   2 -
- configure                             | 144 +++-----------
- disas/meson.build                     |   2 -
- docs/system/deprecated.rst            |  11 +-
- docs/system/removed-features.rst      |  11 ++
- fsdev/meson.build                     |   1 -
- hmp-commands.hx                       |   6 -
- hw/ide/atapi.c                        |  30 ++-
- include/ui/console.h                  |   2 +-
- meson.build                           | 346 ++++++++++++++++++++--------------
- meson_options.txt                     |   4 +
- monitor/hmp-cmds.c                    |   7 +-
- monitor/qmp-cmds.c                    |  51 -----
- pc-bios/descriptors/meson.build       |  30 +--
- pc-bios/meson.build                   |   6 +-
- qapi/misc.json                        |  49 -----
- qapi/run-state.json                   |  10 +-
- qemu-options.hx                       |   8 +-
- qemu.nsi                              |  42 +----
- qga/meson.build                       |  55 +++---
- softmmu/physmem.c                     |   2 +-
- softmmu/runstate-action.c             |   4 +-
- softmmu/runstate.c                    |   7 +-
- softmmu/vl.c                          |   8 +-
- subprojects/libvhost-user/meson.build |   3 +
- target/i386/cpu.c                     |   1 +
- tests/acceptance/vnc.py               |  18 +-
- tests/test-qemu-opts.c                |   2 +-
- ui/vnc-stubs.c                        |   7 +-
- ui/vnc.c                              |   8 +-
- util/cacheflush.c                     |   8 +-
- util/qemu-option.c                    |  86 +++++----
- 32 files changed, 433 insertions(+), 538 deletions(-)
 -- 
-2.26.2
+2.29.2
 
 
