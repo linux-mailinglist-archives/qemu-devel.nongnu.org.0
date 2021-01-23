@@ -2,63 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB313018B4
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 23:35:14 +0100 (CET)
-Received: from localhost ([::1]:45552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BF113018D1
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 00:03:46 +0100 (CET)
+Received: from localhost ([::1]:56894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3RUv-0001Qx-Bb
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 17:35:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56440)
+	id 1l3RwW-0007nS-Ef
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 18:03:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59554)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l3RTD-0000tG-PM
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:33:27 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43258)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l3Ru5-0007IJ-Ps
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 18:01:15 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:42758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l3RT9-0008Ng-KE
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 17:33:27 -0500
-Received: by mail-ed1-x530.google.com with SMTP id n6so10806784edt.10
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:33:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l3Ru2-000137-HN
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 18:01:13 -0500
+Received: by mail-pl1-x630.google.com with SMTP id s15so5355941plr.9
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 15:01:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=k6PQhW4EYLzIlCo6lg0umTAHut46nCuQ35nQrOa/c3c=;
- b=NDDkSPpSq7FA8zpaMRFKfvUg03qv41eJVBDiMErZn4hfkQtRL3G++FXZAy4drrM1Kz
- JY+00pbFoTwI2QpXOlyOlGgE3X5pjkLO2XAarw/BU4OwQYdKp0AGxLFdE1hPyMl90kzR
- Kt7YOQzIxuD9BkVxJsHt8jBuxMtysw3ae2J9x9SJDTix5iTehIyrMJeX0Au8NVj4wWwz
- hWkW5D0H3sGTLde2bGl6zDwdT0nIRf6+rkaKfYprZoEdVouwvbrG8is7nKvAKCgZr8Vr
- l+tSlfkEp14CloSnwmfWmKCgYu8tD0ygKQsJ3FCe1TFLvX5m2NpUXj8zK4MSJXYCOrO3
- 3BOg==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pUBQbqe4A30BsRnyAQZWsz9QK33dA/fPH993x2jm/Uc=;
+ b=WbYUILHIu2Xv2Ovt87cqlH4GyEEoPXlUu+FQP8ji5ctgRnLePrvBhHENdg/pHKCshr
+ cSqJoB+0ijGpCliTq/9tS4IFMnKKxyTLItc3fCepAcOSOLwmLqQs5FsYCVZ1jmTXUbwy
+ Zyu1b/xm1LzM9CwuPQGPkHgEt+jKPA8c4EJeVpPjE/WLCa7J04feR/CAQfUjMWeKWDBC
+ XQ2hPYyKjwrzC4VLAB8LCn8Tj7+GIFpTt0C3FOFJYPtr2EyZHAn9MLwMXxc3afwfNdOz
+ +Za1X04y5+yVCJjXJEacBVOew9PQMC4cNJ/ATA/bDMY7v9blzcR1+7z3fRr3vkwXA5Vl
+ kCAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=k6PQhW4EYLzIlCo6lg0umTAHut46nCuQ35nQrOa/c3c=;
- b=muOrPRLOc5wlXv126fj1mcjrgNRwL773RpS2132S8NQbWYU7Q3W2PC2FlxXFGZRUcU
- XmVFBLNG4uUeupD3McI05zDxolzYpCXqOb3MNN3igIgyY0M8Tbiqrm09wbPKjbZevi3t
- Cb3Z//L6WJKMainjCWH3wDROp87WRYCuxgBWXbCaPQa1Z4eEcc76TURyr3Q1a6XsbhiU
- ZbCH3AMR0ja7Q+0o5T4ywelHo77Jwjn4kcz8HNh8bOTmojdFJmCt/9AJ/kDqA3g28qUW
- Zre9iSupD3Ka4AO3azClt3Im41GvNWpKZV4mxni77V+/rG3oRVd28r4NhNJ7GT48aN6N
- WxIA==
-X-Gm-Message-State: AOAM532lhRWiEEuKU/n2zwhxegtho7J0X1EXlNl8GehvBtJuZ8acYrED
- 4ZNkbO+C0FSJv5LpHZJMQ1fYYtE0uR2Ti4mAv4jYCA==
-X-Google-Smtp-Source: ABdhPJyY6aVpfz5XudC7MmStlEZE6aip65dythDerYNjUa1mMW+fXEOUGXsUcoM3DmDagHG0xP76JQbPS359MNx7kIM=
-X-Received: by 2002:a05:6402:1383:: with SMTP id b3mr983edv.100.1611441201244; 
- Sat, 23 Jan 2021 14:33:21 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pUBQbqe4A30BsRnyAQZWsz9QK33dA/fPH993x2jm/Uc=;
+ b=D2trLbVGK6Gn+ozVH/RbOIF3ZWsV/ns746Ap2fbrePzeohVHrfRHRKCAIHhveRiZga
+ 5sGYi0JU+pZ8tPdXJA5EiTkXWuK8jeFpLJhnN45XLqFOwVlzKS2JqImsFMQNloj9IKAc
+ LKez2YIqvca5u9osh6Lkw7MXhktU99FqM17ceXSMHEMr529pdsHbFu6QMDTZWecAPn3j
+ XlkYhZp7aBVc84sAL+al5JPe01xJtwGSId5QvdlTYIwSvoZILzTgKzhOLEFyVN26w51k
+ yT6O25UbORI9VwesxHxgFHYTxzorw8CK84JEQy9fyYT0AqcVnqOpBqgriZN/K0bp9+zY
+ UJGg==
+X-Gm-Message-State: AOAM5324Qe+oJv0eNyV2NzGnkFwaDbt0ot6jPW56F541Udbfqz8p1mNx
+ 6NKWWtVikaoisqyky2MFPfoQv8bBpkScww==
+X-Google-Smtp-Source: ABdhPJztDj+Dm8RCUlem3iAnR5lkbfNaWv1QDOYGt8vLP63Gonsgr7IJym+XvJsm3iz0hwEuFcoNFg==
+X-Received: by 2002:a17:902:8492:b029:de:17d0:16cf with SMTP id
+ c18-20020a1709028492b02900de17d016cfmr12107311plo.74.1611442868784; 
+ Sat, 23 Jan 2021 15:01:08 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
+ [66.75.72.126])
+ by smtp.gmail.com with ESMTPSA id l14sm13146588pjy.15.2021.01.23.15.01.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Jan 2021 15:01:08 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg: Restart code generation when we run out of temps
+Date: Sat, 23 Jan 2021 13:01:05 -1000
+Message-Id: <20210123230105.2076270-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-23-peter.maydell@linaro.org>
- <20210123203115.5wz66nu5z3faj3no@sekoia-pc.home.lmichel.fr>
-In-Reply-To: <20210123203115.5wz66nu5z3faj3no@sekoia-pc.home.lmichel.fr>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 23 Jan 2021 22:33:10 +0000
-Message-ID: <CAFEAcA-jStKa6KGFjBAVA1QMF9158W9NheGwK_-RP7dAgpmrAQ@mail.gmail.com>
-Subject: Re: [PATCH 22/25] hw/arm/armsse: Use Clock to set system_clock_scale
-To: Luc Michel <luc@lmichel.fr>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x530.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,61 +82,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm <qemu-arm@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: lvivier@redhat.com, alistair23@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 23 Jan 2021 at 20:30, Luc Michel <luc@lmichel.fr> wrote:
->
-> On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> > Use the MAINCLK Clock input to set the system_clock_scale variable
-> > rather than using the mainclk_frq property.
-> >
-> > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> > ---
-> > At some point we should make the SysTick take a Clock itself so
-> > that we can get rid of the system_clock_scale global entirely.
-> > (In fact we want two Clocks: one that is the CPU clock and one
-> > for the 'external reference clock' whose period is currently
-> > hardcoded at 1000ns in systick_scale()...)
-> > ---
-> >  hw/arm/armsse.c | 21 +++++++++++++++++----
-> >  1 file changed, 17 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-> > index 4349ce9bfdb..1da0c1be4c7 100644
-> > --- a/hw/arm/armsse.c
-> > +++ b/hw/arm/armsse.c
-> > @@ -232,6 +232,16 @@ static void armsse_forward_sec_resp_cfg(ARMSSE *s)
-> >      qdev_connect_gpio_out(dev_splitter, 2, s->sec_resp_cfg_in);
-> >  }
-> >
-> > +static void armsse_mainclk_update(void *opaque)
-> > +{
-> > +    ARMSSE *s = ARM_SSE(opaque);
-> > +    /*
-> > +     * Set system_clock_scale from our Clock input; this is what
-> > +     * controls the tick rate of the CPU SysTick timer.
-> > +     */
-> > +    system_clock_scale = clock_ticks_to_ns(s->mainclk, 1);
-> > +}
-> > +
-> I think you forgot to connect this callback to the clock itself (the
-> `qdev_init_clock_in` call in `armsse_init`).
+Some large translation blocks can generate so many unique
+constants that we run out of temps to hold them.  In this
+case, longjmp back to the start of code generation and
+restart with a smaller translation block.
 
-Whoops, yes :-) As it happens all ARMSSE users are fixed-frequency
-so this doesn't make a guest-visible difference, but it was
-definitely my intention that this was a clock update callback.
+Buglink: https://bugs.launchpad.net/bugs/1912065
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
 
-> Moreover on a clock change event, shouldn't the SysTick timer be
-> recomputed?
+This replaces both the patch to increase the number of temps,
+and the buggy patch set that dynamically allocated the temps.
 
-Systick correctly handles the system_clock_scale global being changed
-at runtime, so once this callback is actually wired up to its Clock
-that should just work.
 
-thanks
--- PMM
+r~
+
+---
+ include/tcg/tcg.h         |  3 +++
+ accel/tcg/translate-all.c | 15 ++++++++++++++-
+ tcg/tcg.c                 | 11 ++++++++---
+ 3 files changed, 25 insertions(+), 4 deletions(-)
+
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index c5a9d65d5f..0f0695e90d 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -680,6 +680,9 @@ struct TCGContext {
+ 
+     uint16_t gen_insn_end_off[TCG_MAX_INSNS];
+     target_ulong gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
++
++    /* Exit to translator on overflow. */
++    sigjmp_buf jmp_trans;
+ };
+ 
+ static inline bool temp_readonly(TCGTemp *ts)
+diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+index d09c187e0f..81d4c83f22 100644
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1926,11 +1926,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+     ti = profile_getclock();
+ #endif
+ 
++    gen_code_size = sigsetjmp(tcg_ctx->jmp_trans, 0);
++    if (unlikely(gen_code_size != 0)) {
++        goto error_return;
++    }
++
+     tcg_func_start(tcg_ctx);
+ 
+     tcg_ctx->cpu = env_cpu(env);
+     gen_intermediate_code(cpu, tb, max_insns);
+     tcg_ctx->cpu = NULL;
++    max_insns = tb->icount;
+ 
+     trace_translate_block(tb, tb->pc, tb->tc.ptr);
+ 
+@@ -1955,6 +1961,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+ 
+     gen_code_size = tcg_gen_code(tcg_ctx, tb);
+     if (unlikely(gen_code_size < 0)) {
++ error_return:
+         switch (gen_code_size) {
+         case -1:
+             /*
+@@ -1966,6 +1973,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+              * flush the TBs, allocate a new TB, re-initialize it per
+              * above, and re-do the actual code generation.
+              */
++            qemu_log_mask(CPU_LOG_TB_OP | CPU_LOG_TB_OP_OPT,
++                          "Restarting code generation for "
++                          "code_gen_buffer overflow\n");
+             goto buffer_overflow;
+ 
+         case -2:
+@@ -1978,9 +1988,12 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+              * Try again with half as many insns as we attempted this time.
+              * If a single insn overflows, there's a bug somewhere...
+              */
+-            max_insns = tb->icount;
+             assert(max_insns > 1);
+             max_insns /= 2;
++            qemu_log_mask(CPU_LOG_TB_OP | CPU_LOG_TB_OP_OPT,
++                          "Restarting code generation with "
++                          "smaller translation block (max %d insns)\n",
++                          max_insns);
+             goto tb_overflow;
+ 
+         default:
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 67b08f708d..9e1b0d73c7 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -1205,18 +1205,23 @@ void tcg_func_start(TCGContext *s)
+     QSIMPLEQ_INIT(&s->labels);
+ }
+ 
+-static inline TCGTemp *tcg_temp_alloc(TCGContext *s)
++static TCGTemp *tcg_temp_alloc(TCGContext *s)
+ {
+     int n = s->nb_temps++;
+-    tcg_debug_assert(n < TCG_MAX_TEMPS);
++
++    if (n >= TCG_MAX_TEMPS) {
++        /* Signal overflow, starting over with fewer guest insns. */
++        siglongjmp(s->jmp_trans, -2);
++    }
+     return memset(&s->temps[n], 0, sizeof(TCGTemp));
+ }
+ 
+-static inline TCGTemp *tcg_global_alloc(TCGContext *s)
++static TCGTemp *tcg_global_alloc(TCGContext *s)
+ {
+     TCGTemp *ts;
+ 
+     tcg_debug_assert(s->nb_globals == s->nb_temps);
++    tcg_debug_assert(s->nb_globals < TCG_MAX_TEMPS);
+     s->nb_globals++;
+     ts = tcg_temp_alloc(s);
+     ts->kind = TEMP_GLOBAL;
+-- 
+2.25.1
+
 
