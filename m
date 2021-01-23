@@ -2,79 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1BED301785
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:15:30 +0100 (CET)
-Received: from localhost ([::1]:54646 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80043301788
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:17:21 +0100 (CET)
+Received: from localhost ([::1]:58008 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3NRZ-0000lE-VQ
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:15:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42618)
+	id 1l3NTM-0002Ix-Jc
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:17:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42736)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3NPP-00081G-5w
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:13:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33353)
+ id 1l3NQ8-0000Li-FC
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:14:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3NPN-00080k-Gy
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:13:14 -0500
+ id 1l3NQ6-0008IS-Py
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:14:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611425592;
+ s=mimecast20190719; t=1611425636;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=t74zT8sC6+gXua+Ohvn+dU9Qk6WcmVYcHAxxzrlMTr4=;
- b=eqTDur20KMfANHQZq3DSRyZLRldrRUEfXRyNbAoXjF4yu0pU2P7SgvB+3hijSy7fvEeBgM
- zk5vTBqcCU0nk0NVf7nr0aI8m14XWRCzcTsCu2f4r+MLuF+dA3FyGOuu/TL03cHm0ugOdO
- gPfvsB1pxgyuTSFYlF1XLl5A2cUkebo=
+ bh=ftLog2l3GYpwEDbgj+tSztCJKdCE5n3vzUWIriYpTGs=;
+ b=DMqrODQIXTIwEtwxbAJAqcLQUxbqDZYGZOf2BHtWAYn3Bd/dqKvu6xGoJ466QkzGHxQg0R
+ mX20wsZb5b8zdwb3pkG1GrhJLGJD6CZ6CiIbED/OyxMTFXQJuS6iqg3fkSLpf3u1Usb5Pi
+ H/xmlo/BiaaPp7vwG1jJa8e4rFCeCOY=
 Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
  [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-335-jaZRg8aKN7yVjj7WlWCFcw-1; Sat, 23 Jan 2021 13:13:08 -0500
-X-MC-Unique: jaZRg8aKN7yVjj7WlWCFcw-1
-Received: by mail-ed1-f71.google.com with SMTP id a26so4857039edx.8
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:13:08 -0800 (PST)
+ us-mta-56-joLyb-1cN3CBBBMDVcUJHw-1; Sat, 23 Jan 2021 13:13:54 -0500
+X-MC-Unique: joLyb-1cN3CBBBMDVcUJHw-1
+Received: by mail-ed1-f71.google.com with SMTP id w4so4820698edu.0
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:13:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=t74zT8sC6+gXua+Ohvn+dU9Qk6WcmVYcHAxxzrlMTr4=;
- b=uG02qN2seY/6lsWQHS7A1gJKF5Xz+9OW1s8pwLHLiv+TasUMR9C0cgA/2fnKvLeQVp
- 844hmKM0YQiBpwPHTjj4WmFdiY8ugpKYXBUGFA3m0HOsNHSyGMUhlMkqLfxsgdpv8xhP
- xyIH87Gqq5loKV7sSvTXKz0KzNZAhqcudUlyH3i+zxJTi0XLv4SHOGNnt82+Tz1juO0e
- oInuOTt0CAWGUgw7sqUeYuZQbMdWVvpPk4HR983ro0R1RTmwOHvyL7rGGKTYQ3KRvuqx
- loMW+MAxYEtJifB6Ckd56LuuRthpV/x5pMrI0M/48asCiWGz2ymKkuG5qXF24brHYZmz
- qt6Q==
-X-Gm-Message-State: AOAM531QL66Vjo6LmSKqAcDX3aImUmB73l3Mjb6y7haxTBs6pTajbriN
- hncOxtH6jhhFwYMERYs++9/bDmmUt2CIV+z8Hs4iVWjspCTw5uVteB8d0n4Qy9U9S+vsyndCsyH
- U+CFokcUmozvSxWw=
-X-Received: by 2002:a17:906:c954:: with SMTP id
- fw20mr955497ejb.342.1611425587439; 
- Sat, 23 Jan 2021 10:13:07 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzLPRzfZjKy4kONwEWGgn3opOxP2WAUUrQkLccsLYd1sRKWl684C52o3S9NC42wfYKWPGeA3w==
-X-Received: by 2002:a17:906:c954:: with SMTP id
- fw20mr955487ejb.342.1611425587292; 
- Sat, 23 Jan 2021 10:13:07 -0800 (PST)
+ bh=ftLog2l3GYpwEDbgj+tSztCJKdCE5n3vzUWIriYpTGs=;
+ b=o23jsLP1aHARdxxVr5VAD0n0visSIVoVu6TxmanKJFQRSY1aPj0h12IbxQg+xh/imz
+ OfjXzjxgnrX6IeyaLXZsZoaM0NUSDkV9OEKAsnO3RdsZRToIbjpCGBekiPZfWO3OjodY
+ zk1xH9+NWm2P74JtXF7iCLi9gSaM6PDLP13WFQyDgOeGGsmqdvhPCiFDbMjSPNQ41UIP
+ G54P0UF2cmYYhc8oY0+AqAJ9xm8Gq8Rywbtm0jn/XU79tWEiLCvOAVKCidH2noZHTtV4
+ mM7QZk2wKmRCGrjH6ehAn/ko7maPLyCooJT2OGfYtzg+2S6O4tf7EngrJpN56f/3H8/E
+ D8mg==
+X-Gm-Message-State: AOAM532cx8A3XG7Q2VqaWCIo1MtiBYVD2okbluhN8BVLw3cGFLB2bB2M
+ PgbtkOlneIiIgzToMCXcd+/lW9ZSg4+n4fkVspdTGr/WVphNo5ownYU9+T/ICLaPxn/PN3zZe1r
+ 0wxaeyab6CI9nD+s=
+X-Received: by 2002:a17:906:6087:: with SMTP id
+ t7mr1545423ejj.90.1611425632946; 
+ Sat, 23 Jan 2021 10:13:52 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyPwwsCHYWTaDUkvHtskALaYJbvPkTkRW4XSDP/u0dJTKUP3+bdQbDosy5x8HTbjfDEjH4/gQ==
+X-Received: by 2002:a17:906:6087:: with SMTP id
+ t7mr1545416ejj.90.1611425632800; 
+ Sat, 23 Jan 2021 10:13:52 -0800 (PST)
 Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
  ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id dj25sm7337138edb.5.2021.01.23.10.13.05
+ by smtp.gmail.com with ESMTPSA id v20sm1014701edt.3.2021.01.23.10.13.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Jan 2021 10:13:06 -0800 (PST)
-Subject: Re: [PATCH v3 4/4] configure: Reword --enable-tcg-interpreter as
- --disable-native-tcg
+ Sat, 23 Jan 2021 10:13:52 -0800 (PST)
+Subject: Re: [PATCH v3 0/4] meson: Try to clarify TCG / TCI options for new
+ users
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
 References: <20210122133004.1913923-1-philmd@redhat.com>
- <20210122133004.1913923-5-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <c92fdd54-d67c-adfe-66a3-24206b8f4108@redhat.com>
-Date: Sat, 23 Jan 2021 19:13:05 +0100
+Message-ID: <cb108017-1c4c-1145-a88c-f03661b6c805@redhat.com>
+Date: Sat, 23 Jan 2021 19:13:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210122133004.1913923-5-philmd@redhat.com>
+In-Reply-To: <20210122133004.1913923-1-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -82,14 +81,14 @@ X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -111,49 +110,32 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 22/01/21 14:30, Philippe Mathieu-Daudé wrote:
-> Users might want to enable all features, without realizing some
-> features have negative effect. Rename '--enable-tcg-interpreter'
-> as '--disable-native-tcg' to avoid user selecting this feature
-> without understanding it. '--enable-tcg-interpreter' is kept in
-> for backward compability with scripts.
+> Since v2:
+> - Included Thomas suggestions
 > 
-> Suggested-by: Thomas Huth <thuth@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->   configure | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+> Some new users get confused between 'TCG' and 'TCI' and enable
+> TCI when TCG is better for they needs. Try to clarify it is
+> better to not use TCI when native backend is available.
 > 
-> diff --git a/configure b/configure
-> index 48bd6f48d7a..5e5ff779a69 100755
-> --- a/configure
-> +++ b/configure
-> @@ -1121,7 +1121,8 @@ for opt do
->     ;;
->     --disable-tcg-interpreter) tcg_interpreter="no"
->     ;;
-> -  --enable-tcg-interpreter) tcg_interpreter="yes"
-> +  --enable-tcg-interpreter) # backward compatibility
-
-Do you really want to break the old option?
-
-> +  --disable-native-tcg) tcg_interpreter="yes"
->     ;;
->     --disable-cap-ng)  cap_ng="disabled"
->     ;;
-> @@ -1753,7 +1754,7 @@ Advanced options (experts only):
->     --with-trace-file=NAME   Full PATH,NAME of file to store traces
->                              Default:trace-<pid>
->     --disable-slirp          disable SLIRP userspace network connectivity
-> -  --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter, experimental and slow)
-> +  --disable-native-tcg     enable TCI (TCG with bytecode interpreter, experimental and slow)
->     --enable-malloc-trim     enable libc malloc_trim() for memory optimization
->     --oss-lib                path to OSS library
->     --cpu=CPU                Build for host CPU [$cpu]
+> Note, before Meson, warnings were summarized at the end of
+> ./configure. Now they are displayed earlier, and likely
+> missed IMHO. No clue how to improve that :/
+> 
+> Based-on: <20210121095616.1471869-1-philmd@redhat.com>
+> 
+> Philippe Mathieu-Daudé (4):
+>    meson: Explicit TCG backend used
+>    meson: Warn when TCI is selected but TCG backend is available
+>    configure: Improve TCI feature description
+>    configure: Reword --enable-tcg-interpreter as --disable-native-tcg
+> 
+>   configure   |  5 +++--
+>   meson.build | 11 +++++++++--
+>   2 files changed, 12 insertions(+), 4 deletions(-)
 > 
 
-The problem here is that for some CPUs there is no native TCG...  I 
-mean, what's unclear in "exprimental and slow"?
+This will have to be reworked because the TCI option is moved to Meson 
+in the pull request I have just sent, but patches 1-3 are good in concept.
 
 Paolo
 
