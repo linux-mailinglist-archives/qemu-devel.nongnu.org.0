@@ -2,57 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01E243016BC
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 17:21:11 +0100 (CET)
-Received: from localhost ([::1]:45546 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C70BD301761
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 18:49:08 +0100 (CET)
+Received: from localhost ([::1]:35048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3Lev-0005Z4-Jt
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 11:21:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43252)
+	id 1l3N23-0007e0-E0
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 12:49:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38688)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l3LdI-00056x-VF
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 11:19:28 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:39307)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l3N18-0007Dg-3Y
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 12:48:10 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:42512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l3LdH-000714-1Z
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 11:19:28 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MHG4W-1lGbBd38fw-00DJFv; Sat, 23 Jan 2021 17:19:17 +0100
-Subject: Re: [PATCH] tcg: Increase the static number of temporaries
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210121025439.1120405-1-richard.henderson@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <521603eb-205f-9659-25f9-d72bb2eec01f@vivier.eu>
-Date: Sat, 23 Jan 2021 17:19:16 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1l3N15-000756-Uc
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 12:48:09 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 10NHlPPh028037
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Sat, 23 Jan 2021 12:47:28 -0500
+Date: Sat, 23 Jan 2021 12:47:25 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: P J P <ppandit@redhat.com>
+Subject: Re: [PATCH] fdc: check drive block device before usage
+ (CVE-2021-20196)
+Message-ID: <20210123174725.slddy75u7egga43n@mozz.bu.edu>
+References: <20210123100345.642933-1-ppandit@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210121025439.1120405-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: fr
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:olRFb6IPuoJfDupMTjg7IVWRY6b97RzD9ZIxp93cnd35HryO2jB
- XEDIyLzV3MD/YHadP6C9nqpMqsyMSxpzcrHMZNnotTFB/qD19sDvEwrhE3urTbo5RIXCDGB
- tMuf1wIFjb/Cbkhipshj2NZSEVuXjBcFr4Gi4vFcdy+HNzgHluqDc8IOjghj5prWKmlkJpH
- f7i/saP/joyQqADrasbzA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gm8CihkKVBQ=:H5/g+BWWqWL+y8hjj7ZmyQ
- Q2xr5nsUh5UwhzmWI8WbkS/K269zif9WFLEHaRWEa2WKwnecu+QdmwQd2geYZJf0U1i/8DxSZ
- 1s72IH/0krJb3z0nmFGv8JzEUefBsuU09kNxPU/uQzf13L75CXQSz0Z6efDDwi+IlU9SFa0Zy
- XZwrhtGRN6l/15RFPqmGk07LHQQgpviZ7ch6TpewsN22cWFlJGOzOweAuA4PsNz0hlEE/iIvi
- hZeIO90R5axITvxf5ZqrAWAkiElRqunRVQ7Kg5J98KWfbdqDFflTcZ40gNpfkeO97xvHG79tR
- NslCnxxPcx2CcqSBXAwDwGfZOmyEHpVcUZ7ZZp3AkSHlyUm9p7+Un9YQ3inW2UoYR9SvOH8be
- nbBl9sraSFI36BFbdWDJFg/NQi2u/6Tbp8PEJIymesFXdoWVpWQ89ZHiHcc8AfMc5EC41A1u7
- mdXzktOZ5A==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210123100345.642933-1-ppandit@redhat.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,53 +55,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, alistair23@gmail.com
+Cc: Gaoning Pan <pgn@zju.edu.cn>, John Snow <jsnow@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 21/01/2021 à 03:54, Richard Henderson a écrit :
-> This isn't a total or permanent solution to the problem of running
-> out of temporaries, but it puts off the issue for a bit.
+Hello,
+Here is a reproducer for this bug found by the OSS-Fuzz fuzzer:
+
+cat << EOF | qemu-system-i386 -display none -machine accel=qtest \
+-m 512M -machine pc -device floppy,unit=1,id=floppy0,drive=disk0 \
+-drive id=disk0,file=null-co://,file.read-zeroes=on,if=none,format=raw \
+-qtest stdio
+outw 0x3f4 0x2500
+outb 0x3f5 0x81
+outb 0x3f5 0x0
+outb 0x3f5 0x0
+outb 0x3f5 0x0
+outw 0x3f4 0x0
+outw 0x3f4 0x4000
+outw 0x3f4 0x13
+outb 0x3f5 0x1
+outw 0x3f2 0x1405
+outw 0x3f4 0x0
+EOF
+
+-Alex
+
+On 210123 1533, P J P wrote:
+> From: Prasad J Pandit <pjp@fedoraproject.org>
 > 
-> Make the assert in tcg_temp_alloc unconditional.  If we do run out
-> of temps, this can fail much later as a weird SIGSEGV, due to the
-> buffer overrun of the temp array.
+> While processing ioport command in 'fdctrl_write_dor', device
+> controller may select a drive which is not initialised with a
+> block device. This may result in a NULL pointer dereference.
+> Add checks to avoid it.
 > 
-> Remove the inlines from tcg_temp_alloc and tcg_global_alloc.
-> 
-> Buglink: https://bugs.launchpad.net/bugs/1912065
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Fixes: CVE-2021-20196
+> Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1912780
+> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
 > ---
+>  hw/block/fdc.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
 > 
-> There are more bugs that need fixing in order to actually make
-> the dynamic allocation scheme work.  Rather than keep this bug
-> pending longer, hack around it and make the SEGV an ABRT.
-> 
-> r~
-> 
-> ---
->  include/tcg/tcg.h | 2 +-
->  tcg/tcg.c         | 6 +++---
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> index c5a9d65d5f..0187de1352 100644
-> --- a/include/tcg/tcg.h
-> +++ b/include/tcg/tcg.h
-> @@ -275,7 +275,7 @@ typedef struct TCGPool {
+> diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+> index 3636874432..13a9470d19 100644
+> --- a/hw/block/fdc.c
+> +++ b/hw/block/fdc.c
+> @@ -1429,7 +1429,9 @@ static void fdctrl_write_dor(FDCtrl *fdctrl, uint32_t value)
+>          }
+>      }
+>      /* Selected drive */
+> -    fdctrl->cur_drv = value & FD_DOR_SELMASK;
+> +    if (fdctrl->drives[value & FD_DOR_SELMASK].blk) {
+> +        fdctrl->cur_drv = value & FD_DOR_SELMASK;
+> +    }
 >  
->  #define TCG_POOL_CHUNK_SIZE 32768
+>      fdctrl->dor = value;
+>  }
+> @@ -1894,6 +1896,10 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
+>      uint32_t pos;
 >  
-> -#define TCG_MAX_TEMPS 512
-> +#define TCG_MAX_TEMPS 1024
-
-This seems not enough, I have:
-
-ERROR:.../tcg/tcg.c:1210:tcg_temp_alloc: assertion failed: (n < TCG_MAX_TEMPS)
-Bail out! ERROR:.../tcg/tcg.c:1210:tcg_temp_alloc: assertion failed: (n < TCG_MAX_TEMPS)
-
-With my branch m68k-virt (68040 processor with virtio-mmio devices) booting debian sid.
-
-Thanks,
-Laurent
+>      cur_drv = get_cur_drv(fdctrl);
+> +    if (!cur_drv->blk) {
+> +        FLOPPY_DPRINTF("No drive connected\n");
+> +        return 0;
+> +    }
+>      fdctrl->dsr &= ~FD_DSR_PWRDOWN;
+>      if (!(fdctrl->msr & FD_MSR_RQM) || !(fdctrl->msr & FD_MSR_DIO)) {
+>          FLOPPY_DPRINTF("error: controller not ready for reading\n");
+> @@ -2420,7 +2426,8 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
+>          if (pos == FD_SECTOR_LEN - 1 ||
+>              fdctrl->data_pos == fdctrl->data_len) {
+>              cur_drv = get_cur_drv(fdctrl);
+> -            if (blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+> +            if (cur_drv->blk == NULL
+> +                || blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+>                             BDRV_SECTOR_SIZE, 0) < 0) {
+>                  FLOPPY_DPRINTF("error writing sector %d\n",
+>                                 fd_sector(cur_drv));
+> -- 
+> 2.29.2
+> 
+> 
 
