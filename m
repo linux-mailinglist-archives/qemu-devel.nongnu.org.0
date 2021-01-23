@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1553015F8
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 15:38:11 +0100 (CET)
-Received: from localhost ([::1]:44968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED5F53015FE
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 15:40:21 +0100 (CET)
+Received: from localhost ([::1]:53040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3K3G-00049E-Sb
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 09:38:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35248)
+	id 1l3K5M-0007Pa-Sk
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 09:40:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35226)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3JxE-0003Xf-Qs
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28522)
+ id 1l3JxD-0003WH-P6
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35071)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3Jx7-0005pn-3L
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:56 -0500
+ id 1l3Jx7-0005pl-3A
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1611412307;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=G53v+YvNLiB1K/6dKeok+ow3qjFbSe9WsAFY2YX1Zxc=;
- b=VisuYnTCWQAQp20AKI5KCHAXuYsexQ43nRpHo7RhfmCEKEhzCvG7adpk8rJ6k8Q+P8inze
- zaWVUTf5WwEH1pgD7gUpUYNKuIV5ZuFje8vXD0R4q+XVf76iAOZtXbqovAnHoWTSlA67iK
- YOYxZPDTb11IYb7MoeuzKckyy/Ov6mg=
+ bh=Nwqo/nYznHttAiuDRgtWEU6qBSBMkdrfePaH0rvxN5E=;
+ b=HFsH8SsP4Bqjv9qsV28ZALdRxptDZENGjY4FdF+yy0eDWJOpTM6uh3DMz4cYff6ee5Z/P2
+ c9M4CfbuiVMXbMlO+xb7CNrKDk/6i6ie+z9eOaqQaPCX6b0vmrgwRN26bDTjosIqaYV34A
+ gkE1Mf/aOTG2xYOy6Ynp3qHdSE1OXu4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-137-bidsLhyZMTa2MWnnrkkdcQ-1; Sat, 23 Jan 2021 09:31:45 -0500
-X-MC-Unique: bidsLhyZMTa2MWnnrkkdcQ-1
+ us-mta-383-P8DXPYf0O-mbz1h63cIj3w-1; Sat, 23 Jan 2021 09:31:45 -0500
+X-MC-Unique: P8DXPYf0O-mbz1h63cIj3w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
  [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3045E1005504
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 81C25806662
  for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:31:44 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E17BE19C44;
- Sat, 23 Jan 2021 14:31:43 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4BF9719C44
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 14:31:44 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/31] meson: Declare have_virtfs_proxy_helper in main
- meson.build
-Date: Sat, 23 Jan 2021 09:31:09 -0500
-Message-Id: <20210123143128.1167797-13-pbonzini@redhat.com>
+Subject: [PULL 13/31] nsis: adjust for new MinGW paths
+Date: Sat, 23 Jan 2021 09:31:10 -0500
+Message-Id: <20210123143128.1167797-14-pbonzini@redhat.com>
 In-Reply-To: <20210123143128.1167797-1-pbonzini@redhat.com>
 References: <20210123143128.1167797-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -57,8 +56,8 @@ Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
@@ -80,50 +79,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-have_virtfs_proxy_helper is used from docs/meson.build, and can be
-not declared when including it before fsdev/meson.build. This fixes:
-
-  ../docs/meson.build:54:2: ERROR: Unknown variable "have_virtfs_proxy_helper".
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20210120151539.1166252-1-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- fsdev/meson.build | 1 -
- meson.build       | 2 ++
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ qemu.nsi | 42 ++++--------------------------------------
+ 1 file changed, 4 insertions(+), 38 deletions(-)
 
-diff --git a/fsdev/meson.build b/fsdev/meson.build
-index 65455a179e..adf57cc43e 100644
---- a/fsdev/meson.build
-+++ b/fsdev/meson.build
-@@ -8,7 +8,6 @@ fsdev_ss.add(when: ['CONFIG_FSDEV_9P'], if_true: files(
- ), if_false: files('qemu-fsdev-dummy.c'))
- softmmu_ss.add_all(when: 'CONFIG_LINUX', if_true: fsdev_ss)
+diff --git a/qemu.nsi b/qemu.nsi
+index 1a0112265b..c3df8c9d3b 100644
+--- a/qemu.nsi
++++ b/qemu.nsi
+@@ -35,11 +35,6 @@
+ !define OUTFILE "qemu-setup.exe"
+ !endif
  
--have_virtfs_proxy_helper = have_tools and libattr.found() and libcap_ng.found() and have_virtfs
- if have_virtfs_proxy_helper
-   executable('virtfs-proxy-helper',
-              files('virtfs-proxy-helper.c', '9p-marshal.c', '9p-iov-marshal.c'),
-diff --git a/meson.build b/meson.build
-index deda061c86..4a5f265bd0 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1034,6 +1034,8 @@ have_virtfs = (targetos == 'linux' and
-     libattr.found() and
-     libcap_ng.found())
+-; Optionally install documentation.
+-!ifndef CONFIG_DOCUMENTATION
+-!define CONFIG_DOCUMENTATION
+-!endif
+-
+ ; Use maximum compression.
+ SetCompressor /SOLID lzma
  
-+have_virtfs_proxy_helper = have_virtfs and have_tools
-+
- if get_option('virtfs').enabled()
-   if not have_virtfs
-     if targetos != 'linux'
+@@ -116,26 +111,13 @@ Section "${PRODUCT} (required)"
+     ; Set output path to the installation directory.
+     SetOutPath "$INSTDIR"
+ 
+-    File "${SRCDIR}\Changelog"
+     File "${SRCDIR}\COPYING"
+     File "${SRCDIR}\COPYING.LIB"
+     File "${SRCDIR}\README.rst"
+     File "${SRCDIR}\VERSION"
+ 
+-    File "${BINDIR}\*.bmp"
+-    File "${BINDIR}\*.bin"
+-    File "${BINDIR}\*.dtb"
+-    File "${BINDIR}\*.fd"
+-    File "${BINDIR}\*.img"
+-    File "${BINDIR}\*.lid"
+-    File "${BINDIR}\*.ndrv"
+-    File "${BINDIR}\*.rom"
+-    File "${BINDIR}\openbios-*"
+-
+     File /r "${BINDIR}\keymaps"
+-!ifdef CONFIG_GTK
+     File /r "${BINDIR}\share"
+-!endif
+ 
+ !ifdef W64
+     SetRegView 64
+@@ -176,21 +158,11 @@ SectionEnd
+ 
+ !ifdef CONFIG_DOCUMENTATION
+ Section "Documentation" SectionDoc
+-    SetOutPath "$INSTDIR"
+-    File "${BINDIR}\index.html"
+-    SetOutPath "$INSTDIR\interop"
+-    FILE /r "${BINDIR}\interop\*.*"
+-    SetOutPath "$INSTDIR\specs"
+-    FILE /r "${BINDIR}\specs\*.*"
+-    SetOutPath "$INSTDIR\system"
+-    FILE /r "${BINDIR}\system\*.*"
+-    SetOutPath "$INSTDIR\tools"
+-    FILE /r "${BINDIR}\tools\*.*"
+-    SetOutPath "$INSTDIR\user"
+-    FILE /r "${BINDIR}\user\*.*"
++    SetOutPath "$INSTDIR\doc"
++    File /r "${BINDIR}\doc"
+     SetOutPath "$INSTDIR"
+     CreateDirectory "$SMPROGRAMS\${PRODUCT}"
+-    CreateShortCut "$SMPROGRAMS\${PRODUCT}\User Documentation.lnk" "$INSTDIR\index.html" "" "$INSTDIR\index.html" 0
++    CreateShortCut "$SMPROGRAMS\${PRODUCT}\User Documentation.lnk" "$INSTDIR\doc\index.html" "" "$INSTDIR\doc\index.html" 0
+ SectionEnd
+ !endif
+ 
+@@ -238,13 +210,7 @@ Section "Uninstall"
+     Delete "$INSTDIR\qemu-io.exe"
+     Delete "$INSTDIR\qemu.exe"
+     Delete "$INSTDIR\qemu-system-*.exe"
+-    Delete "$INSTDIR\index.html"
+-    RMDir /r "$INSTDIR\interop"
+-    RMDir /r "$INSTDIR\specs"
+-    RMDir /r "$INSTDIR\system"
+-    RMDir /r "$INSTDIR\tools"
+-    RMDir /r "$INSTDIR\user"
+-    RMDir /r "$INSTDIR\keymaps"
++    RMDir /r "$INSTDIR\doc"
+     RMDir /r "$INSTDIR\share"
+     ; Remove generated files
+     Delete "$INSTDIR\stderr.txt"
 -- 
 2.26.2
 
