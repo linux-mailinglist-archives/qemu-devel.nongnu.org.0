@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F49630185E
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 21:34:53 +0100 (CET)
-Received: from localhost ([::1]:56526 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59147301860
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 21:36:07 +0100 (CET)
+Received: from localhost ([::1]:60714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3PcS-0006kD-Jo
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 15:34:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40142)
+	id 1l3Pde-00006O-9p
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 15:36:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3PZw-0005dT-7U; Sat, 23 Jan 2021 15:32:17 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:58560)
+ id 1l3Pam-0006Q9-5m; Sat, 23 Jan 2021 15:33:08 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:58778)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3PZp-0003yT-CL; Sat, 23 Jan 2021 15:32:16 -0500
+ id 1l3Pai-0004M0-NA; Sat, 23 Jan 2021 15:33:07 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 0A9B2C602E6;
- Sat, 23 Jan 2021 21:32:07 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id E6E27C602E6;
+ Sat, 23 Jan 2021 21:33:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611433927;
+ t=1611433982;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=zZoN0v7rmxAScNwjyaP5Vs3snrK3aFC32pqDZKZCyRI=;
- b=ZFMOx2KIebFXoDwEQF452PGxtcOshcB/Nb+pWQp4eCk8MmazFjG9eX7peOrv40Fb1pTgvd
- fS/OZA9tjcjh1gi6B5vNGQ+J3RFZ3KtE6hd9erC0aYaErSWA9xHzXgcNKb1FcU39n95TCa
- GvMPeCoaP+84uJ0ZCSfn21GfeqvWpNb0tnreBhx+NTZMsqsBNPbzBvYbO9H3BV8orRROQL
- PZ4uJ9RaO0mJ4xR31kdGJ3lrvfZcKCrkbKX5fMbOVdukHjSwGeiKOYTJO1MzNbxYgCOUh6
- iqryG9ov2h22ufP/DFWpBQ1p+Tc17NVbvgE+0OpSsA8BioOkT36BDXPnh5L8YQ==
-Date: Sat, 23 Jan 2021 21:32:28 +0100
+ bh=o0MhxP2amAO2wmCkP5GQa9QYhvVkmkT5o+o/3r+w3LM=;
+ b=RPOCR4ewsFmmlX7ZSZ2btX7iFJbtxAiUA6HBwz8zfHTH1ofOw2QniarLcrJYaBAQylf+tc
+ 3o5uBkKmz7qtBqUnfx9jFjyG9SeSf/PNiF31dTzh42Kdhg0ziKA/M0iebmeGmbr8DLGCDl
+ sRz2rXP+mNQe8VaVkETicJooPO/CBE4wnD7qJI4noEMDc8RjICk1DGOMkfOK6GqI8xHE/w
+ JazGcBk825xe5YC05BEaG9Rlqdrp3IsNupProfFoDD0HF/R9lYJweh9vEst0yQj+OP6C/k
+ +XCfwo0cP6MYj7npzbfC7uvrIaIJdH2z4LAMl3pA9Gm4YH6KPABmPTCn7CY3Xw==
+Date: Sat, 23 Jan 2021 21:33:24 +0100
 From: Luc Michel <luc@lmichel.fr>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 23/25] arm: Don't set freq properties on CMSDK timer,
+Subject: Re: [PATCH 24/25] arm: Remove frq properties on CMSDK timer,
  dualtimer, watchdog, ARMSSE
-Message-ID: <20210123203228.nt3l7wvon3lub5bi@sekoia-pc.home.lmichel.fr>
+Message-ID: <20210123203324.wgzlgcyxclyo6i4i@sekoia-pc.home.lmichel.fr>
 References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-24-peter.maydell@linaro.org>
+ <20210121190622.22000-25-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-24-peter.maydell@linaro.org>
+In-Reply-To: <20210121190622.22000-25-peter.maydell@linaro.org>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -70,149 +70,197 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Remove all the code that sets frequency properties on the CMSDK
-> timer, dualtimer and watchdog devices and on the ARMSSE SoC device:
-> these properties are unused now that the devices rely on their Clock
-> inputs instead.
+> Now no users are setting the frq properties on the CMSDK timer,
+> dualtimer, watchdog or ARMSSE SoC devices, we can remove the
+> properties and the struct fields that back them.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 
 > ---
->  hw/arm/armsse.c    | 7 -------
->  hw/arm/mps2-tz.c   | 1 -
->  hw/arm/mps2.c      | 3 ---
->  hw/arm/musca.c     | 1 -
->  hw/arm/stellaris.c | 3 ---
->  5 files changed, 15 deletions(-)
+>  include/hw/arm/armsse.h                  | 2 --
+>  include/hw/timer/cmsdk-apb-dualtimer.h   | 2 --
+>  include/hw/timer/cmsdk-apb-timer.h       | 2 --
+>  include/hw/watchdog/cmsdk-apb-watchdog.h | 2 --
+>  hw/arm/armsse.c                          | 2 --
+>  hw/timer/cmsdk-apb-dualtimer.c           | 6 ------
+>  hw/timer/cmsdk-apb-timer.c               | 6 ------
+>  hw/watchdog/cmsdk-apb-watchdog.c         | 6 ------
+>  8 files changed, 28 deletions(-)
 > 
+> diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+> index bfa1e79c4fe..676cd4f36b0 100644
+> --- a/include/hw/arm/armsse.h
+> +++ b/include/hw/arm/armsse.h
+> @@ -41,7 +41,6 @@
+>   *  + Clock input "S32KCLK": slow 32KHz clock used for a few peripherals
+>   *  + QOM property "memory" is a MemoryRegion containing the devices provided
+>   *    by the board model.
+> - *  + QOM property "MAINCLK_FRQ" is the frequency of the main system clock
+>   *  + QOM property "EXP_NUMIRQ" sets the number of expansion interrupts.
+>   *    (In hardware, the SSE-200 permits the number of expansion interrupts
+>   *    for the two CPUs to be configured separately, but we restrict it to
+> @@ -218,7 +217,6 @@ struct ARMSSE {
+>      /* Properties */
+>      MemoryRegion *board_memory;
+>      uint32_t exp_numirq;
+> -    uint32_t mainclk_frq;
+>      uint32_t sram_addr_width;
+>      uint32_t init_svtor;
+>      bool cpu_fpu[SSE_MAX_CPUS];
+> diff --git a/include/hw/timer/cmsdk-apb-dualtimer.h b/include/hw/timer/cmsdk-apb-dualtimer.h
+> index 3adbb01dd34..f3ec86c00b5 100644
+> --- a/include/hw/timer/cmsdk-apb-dualtimer.h
+> +++ b/include/hw/timer/cmsdk-apb-dualtimer.h
+> @@ -16,7 +16,6 @@
+>   * https://developer.arm.com/products/system-design/system-design-kits/cortex-m-system-design-kit
+>   *
+>   * QEMU interface:
+> - *  + QOM property "pclk-frq": frequency at which the timer is clocked
+>   *  + Clock input "TIMCLK": clock (for both timers)
+>   *  + sysbus MMIO region 0: the register bank
+>   *  + sysbus IRQ 0: combined timer interrupt TIMINTC
+> @@ -63,7 +62,6 @@ struct CMSDKAPBDualTimer {
+>      /*< public >*/
+>      MemoryRegion iomem;
+>      qemu_irq timerintc;
+> -    uint32_t pclk_frq;
+>      Clock *timclk;
+>  
+>      CMSDKAPBDualTimerModule timermod[CMSDK_APB_DUALTIMER_NUM_MODULES];
+> diff --git a/include/hw/timer/cmsdk-apb-timer.h b/include/hw/timer/cmsdk-apb-timer.h
+> index 54f7ec8c502..c4c7eae8499 100644
+> --- a/include/hw/timer/cmsdk-apb-timer.h
+> +++ b/include/hw/timer/cmsdk-apb-timer.h
+> @@ -23,7 +23,6 @@ OBJECT_DECLARE_SIMPLE_TYPE(CMSDKAPBTimer, CMSDK_APB_TIMER)
+>  
+>  /*
+>   * QEMU interface:
+> - *  + QOM property "pclk-frq": frequency at which the timer is clocked
+>   *  + Clock input "pclk": clock for the timer
+>   *  + sysbus MMIO region 0: the register bank
+>   *  + sysbus IRQ 0: timer interrupt TIMERINT
+> @@ -35,7 +34,6 @@ struct CMSDKAPBTimer {
+>      /*< public >*/
+>      MemoryRegion iomem;
+>      qemu_irq timerint;
+> -    uint32_t pclk_frq;
+>      struct ptimer_state *timer;
+>      Clock *pclk;
+>  
+> diff --git a/include/hw/watchdog/cmsdk-apb-watchdog.h b/include/hw/watchdog/cmsdk-apb-watchdog.h
+> index 34069ca6969..c6b3e78731e 100644
+> --- a/include/hw/watchdog/cmsdk-apb-watchdog.h
+> +++ b/include/hw/watchdog/cmsdk-apb-watchdog.h
+> @@ -16,7 +16,6 @@
+>   * https://developer.arm.com/products/system-design/system-design-kits/cortex-m-system-design-kit
+>   *
+>   * QEMU interface:
+> - *  + QOM property "wdogclk-frq": frequency at which the watchdog is clocked
+>   *  + Clock input "WDOGCLK": clock for the watchdog's timer
+>   *  + sysbus MMIO region 0: the register bank
+>   *  + sysbus IRQ 0: watchdog interrupt
+> @@ -53,7 +52,6 @@ struct CMSDKAPBWatchdog {
+>      /*< public >*/
+>      MemoryRegion iomem;
+>      qemu_irq wdogint;
+> -    uint32_t wdogclk_frq;
+>      bool is_luminary;
+>      struct ptimer_state *timer;
+>      Clock *wdogclk;
 > diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-> index 1da0c1be4c7..7494afc630e 100644
+> index 7494afc630e..513caa33a9a 100644
 > --- a/hw/arm/armsse.c
 > +++ b/hw/arm/armsse.c
-> @@ -726,7 +726,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
->       * it to the appropriate PPC port; then we can realize the PPC and
->       * map its upstream ends to the right place in the container.
->       */
-> -    qdev_prop_set_uint32(DEVICE(&s->timer0), "pclk-frq", s->mainclk_frq);
->      qdev_connect_clock_in(DEVICE(&s->timer0), "pclk", s->mainclk);
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->timer0), errp)) {
->          return;
-> @@ -737,7 +736,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
->      object_property_set_link(OBJECT(&s->apb_ppc0), "port[0]", OBJECT(mr),
->                               &error_abort);
+> @@ -48,7 +48,6 @@ static Property iotkit_properties[] = {
+>      DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+>                       MemoryRegion *),
+>      DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+> -    DEFINE_PROP_UINT32("MAINCLK_FRQ", ARMSSE, mainclk_frq, 0),
+>      DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+>      DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+>      DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], true),
+> @@ -60,7 +59,6 @@ static Property armsse_properties[] = {
+>      DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+>                       MemoryRegion *),
+>      DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+> -    DEFINE_PROP_UINT32("MAINCLK_FRQ", ARMSSE, mainclk_frq, 0),
+>      DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+>      DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+>      DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], false),
+> diff --git a/hw/timer/cmsdk-apb-dualtimer.c b/hw/timer/cmsdk-apb-dualtimer.c
+> index 828127b366f..ef49f5852d3 100644
+> --- a/hw/timer/cmsdk-apb-dualtimer.c
+> +++ b/hw/timer/cmsdk-apb-dualtimer.c
+> @@ -533,11 +533,6 @@ static const VMStateDescription cmsdk_apb_dualtimer_vmstate = {
+>      }
+>  };
 >  
-> -    qdev_prop_set_uint32(DEVICE(&s->timer1), "pclk-frq", s->mainclk_frq);
->      qdev_connect_clock_in(DEVICE(&s->timer1), "pclk", s->mainclk);
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->timer1), errp)) {
->          return;
-> @@ -748,7 +746,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
->      object_property_set_link(OBJECT(&s->apb_ppc0), "port[1]", OBJECT(mr),
->                               &error_abort);
+> -static Property cmsdk_apb_dualtimer_properties[] = {
+> -    DEFINE_PROP_UINT32("pclk-frq", CMSDKAPBDualTimer, pclk_frq, 0),
+> -    DEFINE_PROP_END_OF_LIST(),
+> -};
+> -
+>  static void cmsdk_apb_dualtimer_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -545,7 +540,6 @@ static void cmsdk_apb_dualtimer_class_init(ObjectClass *klass, void *data)
+>      dc->realize = cmsdk_apb_dualtimer_realize;
+>      dc->vmsd = &cmsdk_apb_dualtimer_vmstate;
+>      dc->reset = cmsdk_apb_dualtimer_reset;
+> -    device_class_set_props(dc, cmsdk_apb_dualtimer_properties);
+>  }
 >  
-> -    qdev_prop_set_uint32(DEVICE(&s->dualtimer), "pclk-frq", s->mainclk_frq);
->      qdev_connect_clock_in(DEVICE(&s->dualtimer), "TIMCLK", s->mainclk);
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->dualtimer), errp)) {
->          return;
-> @@ -907,7 +904,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
->      /* Devices behind APB PPC1:
->       *   0x4002f000: S32K timer
->       */
-> -    qdev_prop_set_uint32(DEVICE(&s->s32ktimer), "pclk-frq", S32KCLK);
->      qdev_connect_clock_in(DEVICE(&s->s32ktimer), "pclk", s->s32kclk);
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->s32ktimer), errp)) {
->          return;
-> @@ -1001,7 +997,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
->      qdev_connect_gpio_out(DEVICE(&s->nmi_orgate), 0,
->                            qdev_get_gpio_in_named(DEVICE(&s->armv7m), "NMI", 0));
+>  static const TypeInfo cmsdk_apb_dualtimer_info = {
+> diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
+> index f053146d88f..ee51ce3369c 100644
+> --- a/hw/timer/cmsdk-apb-timer.c
+> +++ b/hw/timer/cmsdk-apb-timer.c
+> @@ -261,11 +261,6 @@ static const VMStateDescription cmsdk_apb_timer_vmstate = {
+>      }
+>  };
 >  
-> -    qdev_prop_set_uint32(DEVICE(&s->s32kwatchdog), "wdogclk-frq", S32KCLK);
->      qdev_connect_clock_in(DEVICE(&s->s32kwatchdog), "WDOGCLK", s->s32kclk);
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->s32kwatchdog), errp)) {
->          return;
-> @@ -1012,7 +1007,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+> -static Property cmsdk_apb_timer_properties[] = {
+> -    DEFINE_PROP_UINT32("pclk-frq", CMSDKAPBTimer, pclk_frq, 0),
+> -    DEFINE_PROP_END_OF_LIST(),
+> -};
+> -
+>  static void cmsdk_apb_timer_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -273,7 +268,6 @@ static void cmsdk_apb_timer_class_init(ObjectClass *klass, void *data)
+>      dc->realize = cmsdk_apb_timer_realize;
+>      dc->vmsd = &cmsdk_apb_timer_vmstate;
+>      dc->reset = cmsdk_apb_timer_reset;
+> -    device_class_set_props(dc, cmsdk_apb_timer_properties);
+>  }
 >  
->      /* 0x40080000 .. 0x4008ffff : ARMSSE second Base peripheral region */
+>  static const TypeInfo cmsdk_apb_timer_info = {
+> diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
+> index 9cad0c67da4..302f1711738 100644
+> --- a/hw/watchdog/cmsdk-apb-watchdog.c
+> +++ b/hw/watchdog/cmsdk-apb-watchdog.c
+> @@ -373,11 +373,6 @@ static const VMStateDescription cmsdk_apb_watchdog_vmstate = {
+>      }
+>  };
 >  
-> -    qdev_prop_set_uint32(DEVICE(&s->nswatchdog), "wdogclk-frq", s->mainclk_frq);
->      qdev_connect_clock_in(DEVICE(&s->nswatchdog), "WDOGCLK", s->mainclk);
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->nswatchdog), errp)) {
->          return;
-> @@ -1021,7 +1015,6 @@ static void armsse_realize(DeviceState *dev, Error **errp)
->                         armsse_get_common_irq_in(s, 1));
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->nswatchdog), 0, 0x40081000);
+> -static Property cmsdk_apb_watchdog_properties[] = {
+> -    DEFINE_PROP_UINT32("wdogclk-frq", CMSDKAPBWatchdog, wdogclk_frq, 0),
+> -    DEFINE_PROP_END_OF_LIST(),
+> -};
+> -
+>  static void cmsdk_apb_watchdog_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+> @@ -385,7 +380,6 @@ static void cmsdk_apb_watchdog_class_init(ObjectClass *klass, void *data)
+>      dc->realize = cmsdk_apb_watchdog_realize;
+>      dc->vmsd = &cmsdk_apb_watchdog_vmstate;
+>      dc->reset = cmsdk_apb_watchdog_reset;
+> -    device_class_set_props(dc, cmsdk_apb_watchdog_properties);
+>  }
 >  
-> -    qdev_prop_set_uint32(DEVICE(&s->swatchdog), "wdogclk-frq", s->mainclk_frq);
->      qdev_connect_clock_in(DEVICE(&s->swatchdog), "WDOGCLK", s->mainclk);
->      if (!sysbus_realize(SYS_BUS_DEVICE(&s->swatchdog), errp)) {
->          return;
-> diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-> index 7acdf490f28..90caa914934 100644
-> --- a/hw/arm/mps2-tz.c
-> +++ b/hw/arm/mps2-tz.c
-> @@ -413,7 +413,6 @@ static void mps2tz_common_init(MachineState *machine)
->      object_property_set_link(OBJECT(&mms->iotkit), "memory",
->                               OBJECT(system_memory), &error_abort);
->      qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", MPS2TZ_NUMIRQ);
-> -    qdev_prop_set_uint32(iotkitdev, "MAINCLK_FRQ", SYSCLK_FRQ);
->      qdev_connect_clock_in(iotkitdev, "MAINCLK", mms->sysclk);
->      qdev_connect_clock_in(iotkitdev, "S32KCLK", mms->s32kclk);
->      sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
-> diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-> index cd1c215f941..39add416db5 100644
-> --- a/hw/arm/mps2.c
-> +++ b/hw/arm/mps2.c
-> @@ -346,7 +346,6 @@ static void mps2_common_init(MachineState *machine)
->          object_initialize_child(OBJECT(mms), name, &mms->timer[i],
->                                  TYPE_CMSDK_APB_TIMER);
->          sbd = SYS_BUS_DEVICE(&mms->timer[i]);
-> -        qdev_prop_set_uint32(DEVICE(&mms->timer[i]), "pclk-frq", SYSCLK_FRQ);
->          qdev_connect_clock_in(DEVICE(&mms->timer[i]), "pclk", mms->sysclk);
->          sysbus_realize_and_unref(sbd, &error_fatal);
->          sysbus_mmio_map(sbd, 0, base);
-> @@ -355,7 +354,6 @@ static void mps2_common_init(MachineState *machine)
->  
->      object_initialize_child(OBJECT(mms), "dualtimer", &mms->dualtimer,
->                              TYPE_CMSDK_APB_DUALTIMER);
-> -    qdev_prop_set_uint32(DEVICE(&mms->dualtimer), "pclk-frq", SYSCLK_FRQ);
->      qdev_connect_clock_in(DEVICE(&mms->dualtimer), "TIMCLK", mms->sysclk);
->      sysbus_realize(SYS_BUS_DEVICE(&mms->dualtimer), &error_fatal);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&mms->dualtimer), 0,
-> @@ -363,7 +361,6 @@ static void mps2_common_init(MachineState *machine)
->      sysbus_mmio_map(SYS_BUS_DEVICE(&mms->dualtimer), 0, 0x40002000);
->      object_initialize_child(OBJECT(mms), "watchdog", &mms->watchdog,
->                              TYPE_CMSDK_APB_WATCHDOG);
-> -    qdev_prop_set_uint32(DEVICE(&mms->watchdog), "wdogclk-frq", SYSCLK_FRQ);
->      qdev_connect_clock_in(DEVICE(&mms->watchdog), "WDOGCLK", mms->sysclk);
->      sysbus_realize(SYS_BUS_DEVICE(&mms->watchdog), &error_fatal);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&mms->watchdog), 0,
-> diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-> index a9292482a06..945643c3cd7 100644
-> --- a/hw/arm/musca.c
-> +++ b/hw/arm/musca.c
-> @@ -385,7 +385,6 @@ static void musca_init(MachineState *machine)
->      qdev_prop_set_uint32(ssedev, "EXP_NUMIRQ", mmc->num_irqs);
->      qdev_prop_set_uint32(ssedev, "init-svtor", mmc->init_svtor);
->      qdev_prop_set_uint32(ssedev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width);
-> -    qdev_prop_set_uint32(ssedev, "MAINCLK_FRQ", SYSCLK_FRQ);
->      qdev_connect_clock_in(ssedev, "MAINCLK", mms->sysclk);
->      qdev_connect_clock_in(ssedev, "S32KCLK", mms->s32kclk);
->      /*
-> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-> index 9b67c739ef2..5acb043a07e 100644
-> --- a/hw/arm/stellaris.c
-> +++ b/hw/arm/stellaris.c
-> @@ -1415,9 +1415,6 @@ static void stellaris_init(MachineState *ms, stellaris_board_info *board)
->      if (board->dc1 & (1 << 3)) { /* watchdog present */
->          dev = qdev_new(TYPE_LUMINARY_WATCHDOG);
->  
-> -        /* system_clock_scale is valid now */
-> -        uint32_t mainclk = NANOSECONDS_PER_SECOND / system_clock_scale;
-> -        qdev_prop_set_uint32(dev, "wdogclk-frq", mainclk);
->          qdev_connect_clock_in(dev, "WDOGCLK",
->                                qdev_get_clock_out(ssys_dev, "SYSCLK"));
->  
+>  static const TypeInfo cmsdk_apb_watchdog_info = {
 > -- 
 > 2.20.1
 > 
