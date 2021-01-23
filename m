@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359733017F1
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 20:00:01 +0100 (CET)
-Received: from localhost ([::1]:48662 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A07993017EA
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:56:38 +0100 (CET)
+Received: from localhost ([::1]:39150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3O8e-0007Dv-9Z
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 14:00:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49852)
+	id 1l3O5N-00036X-MP
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:56:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3Nzd-0005IW-9i
+ id 1l3Nzd-0005Hn-2e
  for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:41 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:34576)
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:32960)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3Nzb-0008HK-9k
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:41 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id t6so5178814plq.1
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:36 -0800 (PST)
+ id 1l3Nzb-0008Hx-9H
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:40 -0500
+Received: by mail-pl1-x631.google.com with SMTP id b8so5180547plx.0
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=w2ogJZM2za2je2RMQYG7Dr+ReH/Y4veEnOKOQS9UGe4=;
- b=m+EOdmZoPA3eICWYfZm1TMpZm/KfhM6x5cUIsxv82lNzKtam6uy405M1rWo6Ts82mb
- 1zmdG43W+DB/H8tlp5xUL8JQxeuSv+u91HsE2mf5aFJ1jic8xd0adusRHYpa8TJNetUD
- IjL6KpDsKajMG8LwcK3wrqfK0MjlPtPk9y9HILnpKPGDuVMRnm8dNihn8tC2ZY1Su8w1
- NMNnIOHtYJhgGDk9EaALnDpk0XptFgfXB0IVFXWtwPgtCYpGO4cG4xjfYlQzOeV5NjfN
- VuCTlOVN9TX3kEERHosmv899S7eakF6CmMeGqHoWfm/qGV/Z9kImmN6PN/Y/yNRSG9GK
- gQJQ==
+ bh=JMOpMnB2EIi71uPv++zJqhVu0CRBzaOh+TyvyTqEpP4=;
+ b=Qpe+hYsDUnN7hD8gUuwcBxbSZmd3H8KlL6lX5WxrSee1LohaeWZzuXCyzhomdzHBYG
+ n+3XO4XpFh61DWI0rwNuf3W3STTt5jGhHT0cWGa/jMsXSHfvNXu7BxXF6Q9jOWT/sd/2
+ Ks8weu1RGsejYnQoCfuDweVlRugS17TgdIQmBipPLgrYFHn2Zcyz3gGKbisphrIYd5ce
+ B7yzm6b593oYc8NSdI8p+NkJUW2y1FgBVYz6fRe5LXbkk3vy/4AGZEFszf6lcont4Rwf
+ qltt+dB9e7eeQYizHbKllVIWKIZ7KtLPt0bphrItweqHHDU0O0IyhPrYNj4caFuLtdO6
+ S5dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=w2ogJZM2za2je2RMQYG7Dr+ReH/Y4veEnOKOQS9UGe4=;
- b=sx0jIUIlb6of6tCicF0mu5NabNSfOmoFSaBS3sMymXezlnCWdFQt/xA8WBf3fFfcjV
- KJrTab+d7eBwDVIEbuWsVDBPR/ikZs38+9+WMOtzpGr2jx+IBoC5wNphkRg/vBJ3oFfT
- P9cYg+lPF0dyHPyvkrDou+EkTww9Cmd/WLZbC7krmcJnKWXThH2MrByX0RsGRMJWKJvc
- MpZHtVwcKjafjoXdxFdsZ7G/0UvSgbrHlYI798Fk3yZGwDHXc6lvkw1t1rHq6IB2hEE0
- CoFX0z2aN7HALl6guuDM2QuCIiimlVGAbtDjsJ4SGV+WKT89Yd/geYEHCchd7HApOkWS
- 2xiA==
-X-Gm-Message-State: AOAM531oE/midlPmHXQj9MrxXsGtF8X9Kfau5/TloZap0NOIAEhvql8/
- MbyRAbgswId/m1VX+kzPqj/jzSLID5TIyg==
-X-Google-Smtp-Source: ABdhPJzwJtjA+HsyAaDuTnfLRczKSpssHKVf16t8mHesdgEZM59VVM0k+qPcJ6+04lZQI9UC740Big==
-X-Received: by 2002:a17:902:8503:b029:dc:44f:62d8 with SMTP id
- bj3-20020a1709028503b02900dc044f62d8mr987366plb.34.1611427835769; 
- Sat, 23 Jan 2021 10:50:35 -0800 (PST)
+ bh=JMOpMnB2EIi71uPv++zJqhVu0CRBzaOh+TyvyTqEpP4=;
+ b=eTHNKYaJEPKcRfmMFHWuubiUba/U/zq+C0wb53gZeFPAT5efiASiKZLgsQrdIvz65G
+ hGaM9zlYEYAxXvs820gaoif0dD287C78W1UUsOCk1GvlfF2ytleqM88vYUQqHevvrEd8
+ cAL9wTUdlJI7gjBe3tS+AVNSqh9RNTTjRvez3XG5l6+AJgqOJASJlJ22B2lNyPBaRZ+G
+ vd+XePGdXqAj5vSdzNmdD0UPa6KWvmKlRQfQN0adgSIOsnsynVgWAz2xAo1lq1TC6+VQ
+ shu7ee8qL8BMNi5WPKMLuYWj1sgXpwLUFZVQt62WBfKuT2d1Wa4YN4YUoEiXkUZ5QEsx
+ 2dbQ==
+X-Gm-Message-State: AOAM530n6j0WX0J5oXONCziO/e7NfziYpCoPEb6Fc8Jzp/vFZ7JobH5i
+ aQxa8K4gSx256y2nVtiQDHbYWuEwJ7/oWg==
+X-Google-Smtp-Source: ABdhPJx6GMr2+Q9F1KyEIdclaamEv4R8R/+Kw6WpB6SUqpJR5MMO9FDU9MLq3S4gDoRS9OLycQiCFw==
+X-Received: by 2002:a17:902:bd03:b029:df:cfe6:3444 with SMTP id
+ p3-20020a170902bd03b02900dfcfe63444mr1677681pls.24.1611427837456; 
+ Sat, 23 Jan 2021 10:50:37 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.34
+ by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jan 2021 10:50:35 -0800 (PST)
+ Sat, 23 Jan 2021 10:50:36 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/10] accel/tcg: Restrict tb_gen_code() from other accelerators
-Date: Sat, 23 Jan 2021 08:50:17 -1000
-Message-Id: <20210123185020.1766324-8-richard.henderson@linaro.org>
+Subject: [PULL 08/10] accel/tcg: Declare missing cpu_loop_exit*() stubs
+Date: Sat, 23 Jan 2021 08:50:18 -1000
+Message-Id: <20210123185020.1766324-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210123185020.1766324-1-richard.henderson@linaro.org>
 References: <20210123185020.1766324-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,84 +92,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-tb_gen_code() is only called within TCG accelerator, declare it locally.
+cpu_loop_exit*() functions are declared in accel/tcg/cpu-exec-common.c,
+and are not available when TCG accelerator is not built. Add stubs so
+linking without TCG succeed.
+
+Problematic files:
+
+- hw/semihosting/console.c in qemu_semihosting_console_inc()
+- hw/ppc/spapr_hcall.c in h_confer()
+- hw/s390x/ipl.c in s390_ipl_reset_request()
+- hw/misc/mips_itu.c
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210117164813.4101761-4-f4bug@amsat.org>
-[rth: Adjust vs changed tb_flush_jmp_cache patch.]
+Message-Id: <20210117164813.4101761-5-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/internal.h      | 18 ++++++++++++++++++
- include/exec/exec-all.h   |  5 -----
- accel/tcg/cpu-exec.c      |  1 +
- accel/tcg/translate-all.c |  1 +
- 4 files changed, 20 insertions(+), 5 deletions(-)
- create mode 100644 accel/tcg/internal.h
+ accel/stubs/tcg-stub.c | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
 
-diff --git a/accel/tcg/internal.h b/accel/tcg/internal.h
-new file mode 100644
-index 0000000000..06b341fceb
---- /dev/null
-+++ b/accel/tcg/internal.h
-@@ -0,0 +1,18 @@
-+/*
-+ * Internal execution defines for qemu
-+ *
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ * SPDX-License-Identifier: LGPL-2.1-or-later
-+ */
+diff --git a/accel/stubs/tcg-stub.c b/accel/stubs/tcg-stub.c
+index 8c18d3eabd..2304606f8e 100644
+--- a/accel/stubs/tcg-stub.c
++++ b/accel/stubs/tcg-stub.c
+@@ -28,3 +28,13 @@ void *probe_access(CPUArchState *env, target_ulong addr, int size,
+      /* Handled by hardware accelerator. */
+      g_assert_not_reached();
+ }
 +
-+#ifndef ACCEL_TCG_INTERNAL_H
-+#define ACCEL_TCG_INTERNAL_H
++void QEMU_NORETURN cpu_loop_exit(CPUState *cpu)
++{
++    g_assert_not_reached();
++}
 +
-+#include "exec/exec-all.h"
-+
-+TranslationBlock *tb_gen_code(CPUState *cpu, target_ulong pc,
-+                              target_ulong cs_base, uint32_t flags,
-+                              int cflags);
-+
-+#endif /* ACCEL_TCG_INTERNAL_H */
-diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
-index 1e3e7cf8e7..3acc7c2943 100644
---- a/include/exec/exec-all.h
-+++ b/include/exec/exec-all.h
-@@ -64,11 +64,6 @@ bool cpu_restore_state(CPUState *cpu, uintptr_t searched_pc, bool will_exit);
- 
- void QEMU_NORETURN cpu_loop_exit_noexc(CPUState *cpu);
- void QEMU_NORETURN cpu_io_recompile(CPUState *cpu, uintptr_t retaddr);
--TranslationBlock *tb_gen_code(CPUState *cpu,
--                              target_ulong pc, target_ulong cs_base,
--                              uint32_t flags,
--                              int cflags);
--
- void QEMU_NORETURN cpu_loop_exit(CPUState *cpu);
- void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc);
- void QEMU_NORETURN cpu_loop_exit_atomic(CPUState *cpu, uintptr_t pc);
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 8053aa3f11..37d17c8e88 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -41,6 +41,7 @@
- #include "exec/cpu-all.h"
- #include "sysemu/cpu-timers.h"
- #include "sysemu/replay.h"
-+#include "internal.h"
- 
- /* -icount align implementation. */
- 
-diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-index 5bd0e267c8..73fef47148 100644
---- a/accel/tcg/translate-all.c
-+++ b/accel/tcg/translate-all.c
-@@ -60,6 +60,7 @@
- #include "sysemu/cpu-timers.h"
- #include "sysemu/tcg.h"
- #include "qapi/error.h"
-+#include "internal.h"
- 
- /* #define DEBUG_TB_INVALIDATE */
- /* #define DEBUG_TB_FLUSH */
++void QEMU_NORETURN cpu_loop_exit_restore(CPUState *cpu, uintptr_t pc)
++{
++    g_assert_not_reached();
++}
 -- 
 2.25.1
 
