@@ -2,49 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47C8B301485
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 11:31:46 +0100 (CET)
-Received: from localhost ([::1]:47894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D34B0301491
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 11:44:43 +0100 (CET)
+Received: from localhost ([::1]:53678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3GCn-0001jw-7Q
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 05:31:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48972)
+	id 1l3GPK-00057X-Cd
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 05:44:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1l3GBI-00015y-3d; Sat, 23 Jan 2021 05:30:12 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:43648
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>)
- id 1l3GBG-0006Mw-Kj; Sat, 23 Jan 2021 05:30:11 -0500
-Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 3219FDA1481;
- Sat, 23 Jan 2021 11:30:08 +0100 (CET)
-Subject: Re: [PATCH] tcg/tci: Restrict tci_write_reg16() to 64-bit hosts
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210123094107.2340222-1-f4bug@amsat.org>
-From: Stefan Weil <sw@weilnetz.de>
-Message-ID: <5450690d-bda6-4ea8-4e4e-006db464dbda@weilnetz.de>
-Date: Sat, 23 Jan 2021 11:30:11 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.6.1
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l3GLH-0002wf-3D; Sat, 23 Jan 2021 05:40:31 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:40625)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l3GLC-0002tN-Vz; Sat, 23 Jan 2021 05:40:30 -0500
+Received: by mail-pg1-x536.google.com with SMTP id 15so5585352pgx.7;
+ Sat, 23 Jan 2021 02:40:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RcRjG+X0Xo4vscFYCx1I07zrRV2KAeR4O+Ike8XQTNI=;
+ b=lSrrdd48XftYHDn7IMwLNVn0AbH0yIJTWlswEasz8d38Z/Qb1/qGSlkYxVYJ0GyeGc
+ EIq3G8LKwiHPiKYXNOMi3fIFHaO36ZOqeo5gbx4I0WcRBgmfydkzYjPo3h+Gb9xafeHA
+ uEDiLoD8NFWXwzR0uOgghyHer1VwR5eGA+mKYiJPFY6t9lZuIR4t5I0kekYdQbnyc7we
+ 0mhtKFLY/sOuDKtGbAO1s43xFhEXZ0lCW9FtYQPWvicYIAIR27n7o2ZxLgyms+0sYhFa
+ 5kBJzgxIV6xE3nosStA6ruBLNnshOg9MVi0005g7pEEpMNk0mCRDY/PE9JMOpQ1hWNl/
+ UyEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=RcRjG+X0Xo4vscFYCx1I07zrRV2KAeR4O+Ike8XQTNI=;
+ b=M4kFl6GaimMojmzKSlxjtizRBrrXcfpmBYPb5L25NTt1VB20KBOjJNcKd9OZ4+VwFU
+ 4QYShrZbkxZCPESkwWTy6K40M7I9ntsnelR7CSGDwkH22KAVbCTN03tmI8E3i3M8w/wL
+ ublV9zg7GTP+Tg7eMxdhhQKys5M9aNtoQTOEPbC2XcN81eb4thDeqmwxEI9dAGKQXEP2
+ p4ovrtiioBn0uZcazv7kfyBUXCa98AMdYfy2/1TQjX9l3v5tApN6/swbv7/pdoAZiRSH
+ hx7Byx3s9k7VTvGYmSoD9SlJggAxtuwphhvcXiUyfxqMuMQkKPbIBYmHJKjOgW62COpH
+ BAyQ==
+X-Gm-Message-State: AOAM531IL9X54p/jQAI8vyjmBR4Z+P+UrhPT303MBkiMHX1GbZS42kYi
+ sB4qBo/sv816DhntfuhWakk=
+X-Google-Smtp-Source: ABdhPJzoonL59IEW4nEEONysdhoVBcSLNWfKjYt/ZyyiM+tNxCx9nTIXflLuuQ+P0w+LyMDF11NW9g==
+X-Received: by 2002:a63:fc42:: with SMTP id r2mr9158369pgk.234.1611398424985; 
+ Sat, 23 Jan 2021 02:40:24 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id a5sm10575463pgl.41.2021.01.23.02.40.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Jan 2021 02:40:24 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-block@nongnu.org,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v2 00/25] hw/riscv: sifive_u: Add missing SPI support
+Date: Sat, 23 Jan 2021 18:39:51 +0800
+Message-Id: <20210123104016.17485-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20210123094107.2340222-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.221,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,50 +82,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.01.21 um 10:41 schrieb Philippe Mathieu-Daudé:
+From: Bin Meng <bin.meng@windriver.com>
 
-> Restrict tci_write_reg16() to 64-bit hosts to fix on 32-bit ones:
->
->    [520/1115] Compiling C object libqemu-arm-linux-user.fa.p/tcg_tci.c.o
->    FAILED: libqemu-arm-linux-user.fa.p/tcg_tci.c.o
->    tcg/tci.c:132:1: error: 'tci_write_reg16' defined but not used [-Werror=unused-function]
->     tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
->     ^~~~~~~~~~~~~~~
->
-> Fixes: 2f160e0f979 ("tci: Add implementation for INDEX_op_ld16u_i64")
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   tcg/tci.c | 2 ++
->   1 file changed, 2 insertions(+)
->
-> diff --git a/tcg/tci.c b/tcg/tci.c
-> index 2311aa7d3ab..3fc82d3c79d 100644
-> --- a/tcg/tci.c
-> +++ b/tcg/tci.c
-> @@ -128,11 +128,13 @@ static void tci_write_reg8(tcg_target_ulong *regs, TCGReg index, uint8_t value)
->       tci_write_reg(regs, index, value);
->   }
->   
-> +#if TCG_TARGET_REG_BITS == 64
->   static void
->   tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
->   {
->       tci_write_reg(regs, index, value);
->   }
-> +#endif
->   
->   static void
->   tci_write_reg32(tcg_target_ulong *regs, TCGReg index, uint32_t value)
+This adds the missing SPI support to the `sifive_u` machine in the QEMU
+mainline. With this series, upstream U-Boot for the SiFive HiFive Unleashed
+board can boot on QEMU `sifive_u` out of the box. This allows users to
+develop and test the recommended RISC-V boot flow with a real world use
+case: ZSBL (in QEMU) loads U-Boot SPL from SD card or SPI flash to L2LIM,
+then U-Boot SPL loads the payload from SD card or SPI flash that is a
+combination of OpenSBI fw_dynamic firmware and U-Boot proper.
 
+The m25p80 model is updated to support ISSI flash series. A bunch of
+ssi-sd issues are fixed, and writing to SD card in SPI mode is supported.
 
-Thanks for fixing this. This could optionally be applied via qemu-trivial.
+reST documentation for RISC-V is added. Currently only `sifive_u`
+machine is documented, but more to come.
 
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Changes in v2:
+- Mention QPI (Quad Peripheral Interface) mode is not supported
+- Add a debug printf in the state handling codes
+- Fix several typos in the commit message
+- new patch: add a state representing Nac
+- Make this fix a separate patch from the CMD18 support
+- Fix 2 typos in the commit message
+- Add a comment block to explain the CMD12 timing
+- Catch CMD12 in all of the data read states per the timing requirement
+- Move multiple write token definitions out of this patch
+- Correct the "coding" typo in the commit message
+- Correct the "token" typo in the commit message
+- Add 'write_bytes' in vmstate_ssi_sd
+- Correct the "token" typo in the commit message
+- Introduce multiple write token definitions in this patch
+- new patch: bump up version ids of VMStateDescription
+- Log guest error when trying to write reserved registers
+- Log guest error when trying to access out-of-bounds registers
+- log guest error when writing to reserved bits for chip select
+  registers and watermark registers
+- Log unimplemented warning when trying to write direct-map flash
+  interface registers
+- Add test tx fifo full logic in sifive_spi_read(), hence remove
+  setting the tx fifo full flag in sifive_spi_write().
+- Populate register with their default value
+- Correct the "connects" typo in the commit message
+- Mention in the commit message that <reg> property does not populate
+  the second group which represents the memory mapped address of the
+  SPI flash
+- Correct the "connects" typo in the commit message
+- Correct several typos in sifive_u.rst
+- Update doc to mention U-Boot v2021.01
 
+Bin Meng (25):
+  hw/block: m25p80: Add ISSI SPI flash support
+  hw/block: m25p80: Add various ISSI flash information
+  hw/sd: ssi-sd: Fix incorrect card response sequence
+  hw/sd: sd: Support CMD59 for SPI mode
+  hw/sd: sd: Drop sd_crc16()
+  util: Add CRC16 (CCITT) calculation routines
+  hw/sd: ssi-sd: Suffix a data block with CRC16
+  hw/sd: ssi-sd: Add a state representing Nac
+  hw/sd: ssi-sd: Fix the wrong command index for STOP_TRANSMISSION
+  hw/sd: ssi-sd: Support multiple block read
+  hw/sd: ssi-sd: Use macros for the dummy value and tokens in the
+    transfer
+  hw/sd: sd: Remove duplicated codes in single/multiple block read/write
+  hw/sd: sd: Allow single/multiple block write for SPI mode
+  hw/sd: sd.h: Cosmetic change of using spaces
+  hw/sd: Introduce receive_ready() callback
+  hw/sd: ssi-sd: Support single block write
+  hw/sd: ssi-sd: Support multiple block write
+  hw/sd: ssi-sd: Bump up version ids of VMStateDescription
+  hw/ssi: Add SiFive SPI controller support
+  hw/riscv: sifive_u: Add QSPI0 controller and connect a flash
+  hw/riscv: sifive_u: Add QSPI2 controller and connect an SD card
+  hw/riscv: sifive_u: Change SIFIVE_U_GEM_IRQ to decimal value
+  docs/system: Sort targets in alphabetical order
+  docs/system: Add RISC-V documentation
+  docs/system: riscv: Add documentation for sifive_u machine
+
+ docs/system/riscv/sifive_u.rst | 336 ++++++++++++++++++++++++++++++
+ docs/system/target-riscv.rst   |  72 +++++++
+ docs/system/targets.rst        |  20 +-
+ include/hw/riscv/sifive_u.h    |   9 +-
+ include/hw/sd/sd.h             |  44 ++--
+ include/hw/ssi/sifive_spi.h    |  47 +++++
+ include/qemu/crc-ccitt.h       |  33 +++
+ hw/block/m25p80.c              |  57 ++++-
+ hw/riscv/sifive_u.c            |  91 ++++++++
+ hw/sd/core.c                   |  13 ++
+ hw/sd/sd.c                     |  82 +-------
+ hw/sd/ssi-sd.c                 | 166 +++++++++++++--
+ hw/ssi/sifive_spi.c            | 367 +++++++++++++++++++++++++++++++++
+ util/crc-ccitt.c               | 127 ++++++++++++
+ hw/riscv/Kconfig               |   3 +
+ hw/ssi/Kconfig                 |   4 +
+ hw/ssi/meson.build             |   1 +
+ util/meson.build               |   1 +
+ 18 files changed, 1347 insertions(+), 126 deletions(-)
+ create mode 100644 docs/system/riscv/sifive_u.rst
+ create mode 100644 docs/system/target-riscv.rst
+ create mode 100644 include/hw/ssi/sifive_spi.h
+ create mode 100644 include/qemu/crc-ccitt.h
+ create mode 100644 hw/ssi/sifive_spi.c
+ create mode 100644 util/crc-ccitt.c
+
+-- 
+2.25.1
 
 
