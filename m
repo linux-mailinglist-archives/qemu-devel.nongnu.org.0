@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EE303017BE
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:52:06 +0100 (CET)
-Received: from localhost ([::1]:55416 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D903017CB
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:54:16 +0100 (CET)
+Received: from localhost ([::1]:33386 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3O0z-0006W3-0p
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:52:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49738)
+	id 1l3O35-0000g6-4p
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:54:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49746)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3NzS-0005AD-Ve
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:30 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c]:37202)
+ id 1l3NzT-0005Ag-BL
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:31 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:40827)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3NzO-0008DQ-F1
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:30 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id g15so5969100pjd.2
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:24 -0800 (PST)
+ id 1l3NzP-0008E3-7F
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:31 -0500
+Received: by mail-pl1-x633.google.com with SMTP id j21so547445pls.7
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+Dn3paDwYs/XVMdPSob631/2BsKj2nyGGS5Sh7mc2RY=;
- b=u1wpe4/7/zuDjUZmO+z7g5bF6cScd95PMQoqZa1nMzwC8BcjlUbk0KHHTzHAWbri2Q
- AFC6tJdj7RjR9iuEiyhXxBSoDJ4kb5ml1qDGipIAoPWH3SA9WIWS+VXRzbgtmnECFS7o
- +3tCjsG9cEjVgrbpRrYgvnpTqST01k/cF9NIeOqOKYAiVGJ+BYLOxv+Ab0ZZfRYZdWJ6
- 2POrUxS9eTtxE/uQ4sF6YRwuy8fMPVsGe1vcGvgkaU+zunQ/63V5WhkYaNhkQNgykogn
- NFMmO6xyee/Zb0QJhY/7BuGlBNaWfblj5rdC9XWb1CYuCzfKA1HT4/EGnzeM/1qsV5tp
- d86w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=wdBJyG9pvdbY/tWrWdbknFMnMMlRkyr0IIdSlApvTpw=;
+ b=ymwZOQfHld7DCBVukldRcdmdz9p7bX9JMNNYxbCglSEhb+BcI4dgf10ud6SrBA5StU
+ 8zfvAMcuY9UTz0ieOm0vBRxwlak282Om6Aa25XizmeEqmlRY7c/115qmJoPUv4DlJAOD
+ CvzamhDgJOl/o1XK2/Qe5mnDa28zFiAi8U34d3CSXl+Ru1E+FNIWW2Ko8DC8FBdOb+Ye
+ P/+7dRfpcpkI6EQPkDsFWgYeH3WS5QhpDoLBcTfwSfN5RSRCRor9qOv3t0RyGY8kMoY/
+ T3oLzNW5C5nEOb9/OOwvXNuyWSHvTfe7CkgXPOR0Z73Own5DPfjzfbrO6c1vvRpFcS76
+ XjMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=+Dn3paDwYs/XVMdPSob631/2BsKj2nyGGS5Sh7mc2RY=;
- b=gozz84fFkaZt44twNWAbIiSvLMl9SucYbSKDQYyYJmRB3aQf3+9TQDGV9fwJwN/z+6
- 0zMnzLzLfRpmON9UUpiDkiuaRB0HaEoubcVNnTT6U5n13Op8wHDIYUKxaZPZJ1CJ4jug
- m1MGjPy6RG0bsFrEFdx8r5sRjTInk0/YdjIuiZxoUDYNdoqpke1QoaPBWmBZkxvDrLnI
- mnfd/qo2XdyRPvsQxj/HF27zZifKgWeCqg8RLSjP/o/eUZzHskZ5x+FVFmWeI+VECkb5
- +oRyPYGuBmuhHb5Tq0Fz8YFKfO1whGEq2bKQG/JwZbMtyNxRuRruThhmcbeszS5sqp+y
- VpeQ==
-X-Gm-Message-State: AOAM5306aWkp2qu0QwGbTMJQ5arx8FQcKfRw1Pp48cVFM1gFuXCXGR4N
- jVGsUr3igm34LKii27mTgDPohyfZPuCNKg==
-X-Google-Smtp-Source: ABdhPJwV4MSPlecgWXH80HJor2/LOoAvAerad8dFWFjzsg/qTxx8MbA2B+iQomNcYHU3OvkrqEhcvA==
-X-Received: by 2002:a17:902:ed8c:b029:de:8484:809 with SMTP id
- e12-20020a170902ed8cb02900de84840809mr3094399plj.23.1611427823558; 
- Sat, 23 Jan 2021 10:50:23 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=wdBJyG9pvdbY/tWrWdbknFMnMMlRkyr0IIdSlApvTpw=;
+ b=FfWe71XCZuKOrZCUFH4m43+SW+L8C+ldnJArAyTviibMsd+AwF12yd3F0+EfUpiapj
+ 3xFGbENesJbHtydUJ4vQfqxKdVFt4k5zj33U0U48PhjUZMQCDQB/mx50vbbYqa/79Jfs
+ pLXHGaVUwB9EHQKicPdqt+5AWHlWx7XZaVKKMrfd+wB0//PeRcDDi7ygs7XLEgpK9LiZ
+ AHeNk26mJibpQpaWKw6x1lFtcb+lPUVDy/q6NrJpVVc4v5OqC7xdAObgiGSps2CFAH7E
+ K1e8ZmKm1YbekJvHjfnhfdaG9tXuuXMbv44evtLjVx43TFAVp3OqklSgxxmS0kt+b1D5
+ wSlg==
+X-Gm-Message-State: AOAM530wP5JgHeqZp9FiWhfTll5340oNrYJAgz4X2ZfXvwRNYqDAgv0e
+ yJ6+x7WvBpFMn/JxMl2bX8DhpOkPFYwQDg==
+X-Google-Smtp-Source: ABdhPJytriIY6fH/s2P2xo4QIZKiRkjtRS7CAse6VrJQ3uF5Lg5WnNIlE0IW4cS3nvwxwE2tJ/ME9A==
+X-Received: by 2002:a17:90a:db50:: with SMTP id
+ u16mr12958389pjx.39.1611427825225; 
+ Sat, 23 Jan 2021 10:50:25 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.22
+ by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jan 2021 10:50:22 -0800 (PST)
+ Sat, 23 Jan 2021 10:50:24 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 00/10] tcg patch queue
-Date: Sat, 23 Jan 2021 08:50:10 -1000
-Message-Id: <20210123185020.1766324-1-richard.henderson@linaro.org>
+Subject: [PULL 01/10] tcg: update the cpu running flag in cpu_exec_step_atomic
+Date: Sat, 23 Jan 2021 08:50:11 -1000
+Message-Id: <20210123185020.1766324-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210123185020.1766324-1-richard.henderson@linaro.org>
+References: <20210123185020.1766324-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -83,57 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: peter.maydell@linaro.org, Douglas Crosher <dtc-ubuntu@scieneer.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 0e32462630687a18039464511bd0447ada5709c3:
+From: Douglas Crosher <dtc-ubuntu@scieneer.com>
 
-  Merge remote-tracking branch 'remotes/vivier2/tags/linux-user-for-6.0-pull-request' into staging (2021-01-22 10:35:55 +0000)
+The cpu_exec_step_atomic() function is called with the cpu->running
+clear and proceeds to run target code without setting this flag. If
+this target code generates an exception then handle_cpu_signal() will
+unnecessarily abort.  For example if atomic code generates a memory
+protection fault.
 
-are available in the Git repository at:
+This patch at least sets and clears this running flag, and adds some
+assertions to help detect other cases.
 
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20210123
+Signed-off-by: Douglas Crosher <dtc-ubuntu@scieneer.com>
+Message-Id: <a272c656-f7c5-019d-1cc0-499b8f80f2fc@scieneer.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ accel/tcg/cpu-exec.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-for you to fetch changes up to 2e34067e9959f149a904cf1255985d3b68b52566:
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index e0df9b6a1d..8053aa3f11 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -285,6 +285,9 @@ void cpu_exec_step_atomic(CPUState *cpu)
+ 
+     if (sigsetjmp(cpu->jmp_env, 0) == 0) {
+         start_exclusive();
++        g_assert(cpu == current_cpu);
++        g_assert(!cpu->running);
++        cpu->running = true;
+ 
+         tb = tb_lookup__cpu_state(cpu, &pc, &cs_base, &flags, cf_mask);
+         if (tb == NULL) {
+@@ -323,6 +326,7 @@ void cpu_exec_step_atomic(CPUState *cpu)
+      */
+     g_assert(cpu_in_exclusive_context(cpu));
+     parallel_cpus = true;
++    cpu->running = false;
+     end_exclusive();
+ }
+ 
+-- 
+2.25.1
 
-  tcg: Toggle page execution for Apple Silicon (2021-01-22 12:48:01 -1000)
-
-----------------------------------------------------------------
-Fix tcg constant segv.
-Optimize inline dup_const for MO_64.
-Update the cpu running flag in cpu_exec_step_atomic
-Some tidy up of tcg vs other accelerators
-
-----------------------------------------------------------------
-Douglas Crosher (1):
-      tcg: update the cpu running flag in cpu_exec_step_atomic
-
-Philippe Mathieu-Daudé (4):
-      accel/tcg: Make cpu_gen_init() static
-      accel/tcg: Restrict tb_gen_code() from other accelerators
-      accel/tcg: Declare missing cpu_loop_exit*() stubs
-      accel/tcg: Restrict cpu_io_recompile() from other accelerators
-
-Richard Henderson (4):
-      qemu/compiler: Split out qemu_build_not_reached_always
-      tcg: Optimize inline dup_const for MO_64
-      tcg: Increase the static number of temporaries
-      accel/tcg: Move tb_flush_jmp_cache() to cputlb.c
-
-Roman Bolshakov (1):
-      tcg: Toggle page execution for Apple Silicon
-
- accel/tcg/internal.h      | 20 ++++++++++++++++++++
- include/exec/exec-all.h   | 11 -----------
- include/qemu/compiler.h   |  5 +++--
- include/qemu/osdep.h      | 28 ++++++++++++++++++++++++++++
- include/tcg/tcg.h         |  5 +++--
- accel/stubs/tcg-stub.c    | 10 ++++++++++
- accel/tcg/cpu-exec.c      |  7 +++++++
- accel/tcg/cputlb.c        | 19 +++++++++++++++++++
- accel/tcg/translate-all.c | 23 +++++------------------
- tcg/tcg.c                 |  7 ++++---
- 10 files changed, 99 insertions(+), 36 deletions(-)
- create mode 100644 accel/tcg/internal.h
 
