@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EFFE3017E9
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:56:36 +0100 (CET)
-Received: from localhost ([::1]:38978 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4D43017BF
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 19:52:21 +0100 (CET)
+Received: from localhost ([::1]:55582 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3O5L-000327-Mj
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:56:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49778)
+	id 1l3O1E-0006a4-3x
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 13:52:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3NzU-0005C3-Uk
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:32 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:40828)
+ id 1l3NzW-0005Cv-Rx
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:34 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f]:53662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3NzQ-0008Eg-LL
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:32 -0500
-Received: by mail-pl1-x634.google.com with SMTP id j21so547470pls.7
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:27 -0800 (PST)
+ id 1l3NzS-0008Es-JN
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 13:50:34 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id p15so5850431pjv.3
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 10:50:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=+XTAgpbLP+ZIDnz+giRotvFVeNq2GJ4eMelxbBgp91w=;
- b=ZpL8O6jKFBCXsgdOQeuNAMYhkiFqPT107HSoYPvbU2HgWcY+uZg5BHHMh7EhTCAUCc
- HWRh34E7kkcHkaoJCYAWGNONVXUN44lFOPOp3SBw5eb2isE8JNdM9DU8K0BNQhgGG5h3
- f6G391lyQB8sNjpzw1BG8UJ97Sy1JhiYeWRo8ltdK96ixSRRMjQ4Ejxq5t6A4JPxNiuK
- EZ9Ccpi+aV4XTdIOt/eonudFgNLwCYPNnHutd3olZ33UN3nPlI3li1fNyi0AGdepO82D
- 9bnjJzJwW/qdx1V3RJT8fW6htbQ9+67RmiMz1yU5UyBOD5kIlwtSC0Euxbf0+O5HhduB
- Lsfw==
+ bh=AwbeW203h18CH5C6eZxAsKhYtBKVyHAGifKiBt07tZk=;
+ b=j+MfltymXxIYJDGwPCOntg78SHZw+sPd48mplNPzEBRExGB6tj9y6Vk0kg5v8bjCyP
+ ItsikzL7Wd9P9hyu1pt41eblF/lqybkYgvWGENMwMBSt9CAGYU9auHB0wesXFkbiyPSg
+ Ag47PlP598g/SvcVrvmxQDbWzmS565WG9zC2BwS81NpItOKMbP8zmmq+CItpDZCBwL0x
+ /JiAXb7dWD5qOj4RwNIVcKVsjfbveaWcc7+TiCpZO/oErf5/Ey2E4DkD9W2NE8tkBjfT
+ yowWusLAl4LIFEMg55vEtcBDAZ0fhVIrtCPFzpfXyKzsyf9G8EbJbfTBr0rghvITHloF
+ /URQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=+XTAgpbLP+ZIDnz+giRotvFVeNq2GJ4eMelxbBgp91w=;
- b=PF1fsxXzD0Gp5sAsacv3CIXqEHbA83z0LlvUzIj3x5KDlkQE3HDG68wQmqS4IVDG/S
- P8le2GtDLJFFnSViV6BkywsuDbJhaTa/XvYHAZkWyf3NbMStth5UOsMItWCVuYVNT89X
- DGqp5Gb/hvmUFbw/7YH1koV0wU61RAgBlGQrNdx8fNFrbo5HPyF8zKwqrnZT28lgEGA6
- 2pY68lgetJiPZVljAaIPQT+jlHUpZK3C44kigzAepYPyP+oUVGcJiIOPyre7DKgVKw3h
- bIZaZXwudLuzcyQGBmxcwHpW4RjtYKoX9xfsuOFkqKvdg7pQMEOeuyCgGgTdI0ANJ/il
- eLeA==
-X-Gm-Message-State: AOAM53069qWs63f4mdLSR8ZWWgkCxCvIrPW/6aaGzvHgzUypVDGAzPj4
- qpyheBpIGeOhxqJ42SyXhiCCE9f657K7Bg==
-X-Google-Smtp-Source: ABdhPJwxM+fy01R7HYqrHpir2E1orSvc5ABkmA/SxPwlWvYhNIfhRBkLX5KI8/RgcgZR2dB9xcPueQ==
-X-Received: by 2002:a17:90b:3786:: with SMTP id
- mz6mr12925603pjb.19.1611427826983; 
- Sat, 23 Jan 2021 10:50:26 -0800 (PST)
+ bh=AwbeW203h18CH5C6eZxAsKhYtBKVyHAGifKiBt07tZk=;
+ b=Nf3epzmrvMa7yrnTAEa0zDfjJRhR9JbcF5vF1QcxT3MvZ1q1VY35P9gsiQID8if4OT
+ XZusxbJNgOhUtvFxg6SRGNov2S/fcwsjC0KSWfM/3OVhH5OhZq2ARu27gemZ7v/vPZfi
+ 7vtrLWbPHP5uCzVMkTP5/UBVCr5roxBipYGoippZhFoeiCO2YKthplFltfYEsLx9zexJ
+ fH9aabDV9cdhM1T3/QZibBkdEV/Ji9uNkiIcpbBLmV/ndwNCeekoDWQQrYldFNVR6+bl
+ FkwG7RkXb/GoeOSHHxhEjWeTBsdgfMIBvrSK8LPE+jCSh0kBGwSomlM1VDBQJHBQ9pJB
+ NJbA==
+X-Gm-Message-State: AOAM53013wSjbI73B7m7ULqFIZnUgcZnDvBJzDc0eZr6xyPBVRsJFRvl
+ xqEv5uJ1tRRnp3LAofrLZjjIL4mwd77dHQ==
+X-Google-Smtp-Source: ABdhPJyy2n0ZSztMDKPAbRbFRM3jQ+1QgVjjTyNMCQq/0aqUVwOrk7jfd0SeKZeUoxRtO5nwfSbwQw==
+X-Received: by 2002:a17:90a:f2cf:: with SMTP id
+ gt15mr12328096pjb.166.1611427828754; 
+ Sat, 23 Jan 2021 10:50:28 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-75-72-126.hawaii.res.rr.com.
  [66.75.72.126])
- by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.25
+ by smtp.gmail.com with ESMTPSA id j19sm5018614pfn.14.2021.01.23.10.50.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 23 Jan 2021 10:50:26 -0800 (PST)
+ Sat, 23 Jan 2021 10:50:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/10] qemu/compiler: Split out qemu_build_not_reached_always
-Date: Sat, 23 Jan 2021 08:50:12 -1000
-Message-Id: <20210123185020.1766324-3-richard.henderson@linaro.org>
+Subject: [PULL 03/10] tcg: Optimize inline dup_const for MO_64
+Date: Sat, 23 Jan 2021 08:50:13 -1000
+Message-Id: <20210123185020.1766324-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210123185020.1766324-1-richard.henderson@linaro.org>
 References: <20210123185020.1766324-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,38 +84,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: peter.maydell@linaro.org, David Hildenbrand <david@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Provide a symbol that can always be used to signal an error,
-regardless of optimization.  Usage of this should be protected
-by e.g. __builtin_constant_p, which guards for optimization.
+Avoid the out-of-line function call for immediate MO_64.
+In addition, diagnose all invalid constants at compile-time.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/compiler.h | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ include/tcg/tcg.h | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index d620a841e4..cf28bb2bcd 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -215,9 +215,10 @@
-  * supports QEMU_ERROR, this will be reported at compile time; otherwise
-  * this will be reported at link time due to the missing symbol.
-  */
--#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
- extern void QEMU_NORETURN QEMU_ERROR("code path is reachable")
--    qemu_build_not_reached(void);
-+    qemu_build_not_reached_always(void);
-+#if defined(__OPTIMIZE__) && !defined(__NO_INLINE__)
-+#define qemu_build_not_reached()  qemu_build_not_reached_always()
- #else
- #define qemu_build_not_reached()  g_assert_not_reached()
- #endif
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 504c5e9bb0..c5a9d65d5f 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -1325,7 +1325,8 @@ uint64_t dup_const(unsigned vece, uint64_t c);
+      ? (  (VECE) == MO_8  ? 0x0101010101010101ull * (uint8_t)(C)   \
+         : (VECE) == MO_16 ? 0x0001000100010001ull * (uint16_t)(C)  \
+         : (VECE) == MO_32 ? 0x0000000100000001ull * (uint32_t)(C)  \
+-        : dup_const(VECE, C))                                      \
++        : (VECE) == MO_64 ? (uint64_t)(C)                          \
++        : (qemu_build_not_reached_always(), 0))                    \
+      : dup_const(VECE, C))
+ 
+ 
 -- 
 2.25.1
 
