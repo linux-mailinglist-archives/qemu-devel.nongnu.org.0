@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3867430161F
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 16:00:13 +0100 (CET)
-Received: from localhost ([::1]:49996 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59EF0301624
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 16:07:14 +0100 (CET)
+Received: from localhost ([::1]:53734 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3KOa-0005B6-9f
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 10:00:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40932)
+	id 1l3KVN-0007H9-Ej
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 10:07:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l3KNQ-0004IC-Fd
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:59:00 -0500
-Received: from mout.kundenserver.de ([212.227.17.24]:54453)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1l3KU9-0006lU-2u; Sat, 23 Jan 2021 10:05:57 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:35539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1l3KNO-0001BG-Gx
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:59:00 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1l3KU7-00047V-AH; Sat, 23 Jan 2021 10:05:56 -0500
 Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MhlCg-1lh2qa2TD6-00dlfe; Sat, 23 Jan 2021 15:58:52 +0100
-Subject: Re: [PATCH] virtio-mmio: fix guest kernel crash with SHM regions
+ (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MlfCk-1llyhz3vaU-00ioBg; Sat, 23 Jan 2021 16:05:50 +0100
+Subject: Re: [PATCH v2 6/7] goldfish_rtc: re-arm the alarm after migration
 To: qemu-devel@nongnu.org
-References: <20201220163539.2255963-1-laurent@vivier.eu>
+References: <20201220112615.933036-1-laurent@vivier.eu>
+ <20201220112615.933036-7-laurent@vivier.eu>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <f524b492-a185-8de8-ea26-ce513fbe98d2@vivier.eu>
-Date: Sat, 23 Jan 2021 15:58:51 +0100
+Message-ID: <2bb1378d-1ccb-d373-1de2-9add2f5e8a23@vivier.eu>
+Date: Sat, 23 Jan 2021 16:05:48 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20201220163539.2255963-1-laurent@vivier.eu>
+In-Reply-To: <20201220112615.933036-7-laurent@vivier.eu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:52vCH5kgPJabmJxoXBqm9J1rSlyxyhjbXNSV/8kYPVbkaA2e90T
- aRdM6DWoTW3QLtAaHOel+qDgxlil3kYK9Ywx4l5WgJ/tVFkMUg8R7nQ8ONHZntwSnDUjFgj
- WgFJs4oKkgrmyXhx4cvNw6eWr4+Bd54o3yYB/wycq/aHHEvjkZ6ae/mb00xiJz1NDBUVXJd
- sm6ZvzUewXVQ2wv17jLTA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BzlMLbijCaU=:ePW3FzXYv3QWtTNymt6G9z
- tN5xcVG3BnVadIs0Ow1tkkVBGV13mZq64+4uwbxwwbmHqT16b+P5uQ84/NSN2O03notttupjN
- 7sVwV8J5XfQmAKNyphySR7yRniJHjqFew4l/PWdE8yA1yi6BBhd0DnXU1c6mQQxhAqyhIeITm
- Qur+h986OyYY21RlHATjDt2zgm7e/PcCWWTxHzyvkB4zMtX4WxvDrVO3jJwYSS+Z70RIwkM6N
- mdF/TAWO1Z3vSMMTgDr+laI/CDlZhDzi05BchzsMrP2/cnTzkrMzX1ppglhAE9BLvQuhLsIuE
- FNE6aq/gZ5J9DOpBCMnJCm44trO+3w4NdN4AglVrRcHn2AKPjPKhVrMzluhQrGAYxANKrTiMq
- NPkFnGBgZ/TZyrd1yQyOoHREr+hgO5dz/Sv4r9lfOy/TCHkR1cUkJxe/2DIL1
-Received-SPF: none client-ip=212.227.17.24; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:jcfTchoR6uXclY4ce5oZeChIRPLiSNw60qtfPR17yQgQjlXFatV
+ 9kIRSD/lb4DQrcGD0O+lRYS5xIP9IZ43Wiq8gJ/ltLMQfDMhd27oKh2sqKfthANCQLzb7Us
+ P52guzvJKYYDX2l8DAk2zyxIGFkor0jUoObTOKUz2s0788cpFoYLIEt/4K1I+NsciiIp2io
+ rYMwKjY4qgksihmOXmNzw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:S4CcasyI6y4=:lb5TwWh4nBLSNDutE06okA
+ 7inH8VC5/XZsB+OVcUy4FSI2Ml9D2q++LXa7Z02QXmo9qvADmn2V96ZRIGdWK+6c5/tVwwOae
+ udhnxbtQEmLOZORWR+qokMaV3pyy5HHQXCpv1zlBeVSYiT2/DM2gWHT6g39Xvbch3HQiCsCyH
+ cpIwvuCHutgvUb0xO7RghkQ1qty11bi2sOKIG88M9kw5jIX052g4E3iJjxfRYWr+0i9ki0DUk
+ tcmb47sNmKWGhDJxH+uHsFLibRj8fbAE6sXcZcnca9nC6pm1LlW9Hy8X7ZRelVJloYq1YYI9B
+ 9GfN/o7vCZSz/cu9Sf0ewB5rm0jxDUqJPrBRhZ7pRTVjcrQG7F87CkyzoYtCLjggiP+E1MfGJ
+ rUIn9GBKYW6n19D4p2NZdsE936n1RWWW5ZXO2CH63NpBwj+FKEIe1iBAoRZbcDOTJJ9rPH2Wx
+ mnoQRyAYtQ==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -64,59 +66,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-riscv@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Anyone to merge this?
+Is there someone to merge this?
 
 Thanks,
 Laurent
 
-Le 20/12/2020 à 17:35, Laurent Vivier a écrit :
-> In the kernel, virtio_gpu_init() uses virtio_get_shm_region()
-> since
-> commit 6076a9711dc5 ("drm/virtio: implement blob resources: probe for host visible region")
-> but vm_get_shm_region() unconditionally uses VIRTIO_MMIO_SHM_SEL to
-> get the address and the length of the region.
-> 
-> commit 38e895487afc ("virtio: Implement get_shm_region for MMIO transport"
-> 
-> As this is not implemented in QEMU, address and length are 0 and passed
-> as is to devm_request_mem_region() that triggers a crash:
-> 
->   [drm:virtio_gpu_init] *ERROR* Could not reserve host visible region
->   Unable to handle kernel NULL pointer dereference at virtual address (ptrval)
-> 
-> According to the comments in the kernel, a non existent shared region
-> has a length of (u64)-1.
-> 
-> This is what we return now with this patch to disable the region.
+Le 20/12/2020 à 12:26, Laurent Vivier a écrit :
+> After a migration the clock offset is updated, but we also
+> need to re-arm the alarm if needed.
 > 
 > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/virtio/virtio-mmio.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  hw/rtc/goldfish_rtc.c | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
-> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> index e1b5c3b81e37..610661d6a526 100644
-> --- a/hw/virtio/virtio-mmio.c
-> +++ b/hw/virtio/virtio-mmio.c
-> @@ -191,6 +191,14 @@ static uint64_t virtio_mmio_read(void *opaque, hwaddr offset, unsigned size)
->              return 0;
->          }
->          return vdev->generation;
-> +   case VIRTIO_MMIO_SHM_LEN_LOW:
-> +   case VIRTIO_MMIO_SHM_LEN_HIGH:
-> +        /*
-> +         * VIRTIO_MMIO_SHM_SEL is unimplemented
-> +         * according to the linux driver, if region length is -1
-> +         * the shared memory doesn't exist
-> +         */
-> +        return -1;
->      case VIRTIO_MMIO_DEVICE_FEATURES_SEL:
->      case VIRTIO_MMIO_DRIVER_FEATURES:
->      case VIRTIO_MMIO_DRIVER_FEATURES_SEL:
+> diff --git a/hw/rtc/goldfish_rtc.c b/hw/rtc/goldfish_rtc.c
+> index 0f4e8185a796..e07ff0164e0c 100644
+> --- a/hw/rtc/goldfish_rtc.c
+> +++ b/hw/rtc/goldfish_rtc.c
+> @@ -211,6 +211,8 @@ static int goldfish_rtc_post_load(void *opaque, int version_id)
+>              qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>      s->tick_offset = s->tick_offset_vmstate - delta;
+>  
+> +    goldfish_rtc_set_alarm(s);
+> +
+>      return 0;
+>  }
+>  
 > 
 
 
