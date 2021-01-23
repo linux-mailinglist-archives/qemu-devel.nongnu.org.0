@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37833015E4
-	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 15:34:01 +0100 (CET)
-Received: from localhost ([::1]:55606 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75D6C3015E6
+	for <lists+qemu-devel@lfdr.de>; Sat, 23 Jan 2021 15:34:02 +0100 (CET)
+Received: from localhost ([::1]:55750 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3JzE-0005HH-6Q
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 09:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35104)
+	id 1l3JzF-0005Ku-Dw
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 09:34:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3Jx2-0003Su-DS
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30849)
+ id 1l3Jx7-0003Tp-Bf
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29852)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3Jwt-0005mh-9K
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:38 -0500
+ id 1l3Jwt-0005n5-FW
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 09:31:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611412293;
+ s=mimecast20190719; t=1611412294;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=De9dXKUG8u4h66RkKvO0lN36uT1QI8hZE4mWVBO78n4=;
- b=MiMKNL0DApBJInowxfI/X2gr9otPHy1SXXim9BSfBlV+QM29XeV7EYnTNypR8dl/OXZL3M
- F6A1vmi6tl5739iv6u1CnGtSAkbQSXUsa/BpBglIVa5He/psdnmL8vqvZ+gAKeYPYSGnTf
- dOhpDYtZzxZZFu3kKxBKm0soiEf7HXM=
+ bh=gAmQwhlSgGC3nvJeBVzdxf82+bKzyQU76t5EI0xvwT8=;
+ b=KJf753jsdM/qEfbK8fJtq42fNq4L1handxPMs+2WNVXzhjLEXIYVb9+u68eNbIwYbWRo6g
+ IqcWSSp/XyHL8ovaVVNoqWeO/M9J3d5dQU3aBdtOma3cTnhGUGOLJO+6LwEnvRV1Wos+Bf
+ JliU457SblvcyyvLBuWYZ3Vrt9fWogQ=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-AsLLaY2kPD-jlbvpGrqfqQ-1; Sat, 23 Jan 2021 09:31:31 -0500
-X-MC-Unique: AsLLaY2kPD-jlbvpGrqfqQ-1
+ us-mta-169-bzFm-jzaPNOSX0fqB9vjOA-1; Sat, 23 Jan 2021 09:31:31 -0500
+X-MC-Unique: bzFm-jzaPNOSX0fqB9vjOA-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 316FC10054FF;
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D26298018A3;
  Sat, 23 Jan 2021 14:31:30 +0000 (UTC)
 Received: from virtlab701.virt.lab.eng.bos.redhat.com
  (virtlab701.virt.lab.eng.bos.redhat.com [10.19.152.228])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D2EE25D9CC;
- Sat, 23 Jan 2021 14:31:29 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4D70B5D9CC;
+ Sat, 23 Jan 2021 14:31:30 +0000 (UTC)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/31] configure: MinGW respect --bindir argument
-Date: Sat, 23 Jan 2021 09:30:59 -0500
-Message-Id: <20210123143128.1167797-3-pbonzini@redhat.com>
+Subject: [PULL 03/31] x86/cpu: Use max host physical address if -cpu max
+ option is applied
+Date: Sat, 23 Jan 2021 09:31:00 -0500
+Message-Id: <20210123143128.1167797-4-pbonzini@redhat.com>
 In-Reply-To: <20210123143128.1167797-1-pbonzini@redhat.com>
 References: <20210123143128.1167797-1-pbonzini@redhat.com>
 MIME-Version: 1.0
@@ -58,15 +59,15 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
 X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,70 +80,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joshua Watt <JPEWhacker@gmail.com>
+Cc: Yang Weijiang <weijiang.yang@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joshua Watt <jpewhacker@gmail.com>
+From: Yang Weijiang <weijiang.yang@intel.com>
 
-There are two cases that need to be accounted for when compiling QEMU
-for MinGW32:
- 1) A standalone distribution, where QEMU is self contained and
-    extracted by the user, such as a user would download from the QEMU
-    website. In this case, all the QEMU executable files should be
-    rooted in $prefix to ensure they can be easily found by the user
- 2) QEMU integrated into a distribution image/sysroot/SDK and
-    distributed with other programs. In this case, the provided
-    arguments for bindir/datadir/etc. should be respected as they for a
-    Linux build.
+QEMU option -cpu max(max_features) means "Enables all features supported by
+the accelerator in the current host", this looks true for all the features
+except guest max physical address width, so add this patch to enable it.
 
-Restructures the MinGW path configuration so that all of the paths
-except bindir use the same rules as when building for other platforms.
-This satisfies #2 and #1 since these files do not need to be directly in
-$prefix anyway.
-
-The handling for --bindir is changed so that it defaults to $prefix on
-MinGW (maintaining the compatibility with #1), but if the user specifies
-a specific path when configuring it can also satisfy #2.
-
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-Message-Id: <20210112210239.28836-1-JPEWhacker@gmail.com>
+Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
+Message-Id: <20210113090430.26394-1-weijiang.yang@intel.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+ target/i386/cpu.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/configure b/configure
-index 6f6a319c2f..f16fa99060 100755
---- a/configure
-+++ b/configure
-@@ -1571,20 +1571,15 @@ libexecdir="${libexecdir:-$prefix/libexec}"
- includedir="${includedir:-$prefix/include}"
- 
- if test "$mingw32" = "yes" ; then
--    mandir="$prefix"
--    datadir="$prefix"
--    docdir="$prefix"
--    bindir="$prefix"
--    sysconfdir="$prefix"
--    local_statedir="$prefix"
-+    bindir="${bindir:-$prefix}"
- else
--    mandir="${mandir:-$prefix/share/man}"
--    datadir="${datadir:-$prefix/share}"
--    docdir="${docdir:-$prefix/share/doc}"
-     bindir="${bindir:-$prefix/bin}"
--    sysconfdir="${sysconfdir:-$prefix/etc}"
--    local_statedir="${local_statedir:-$prefix/var}"
- fi
-+mandir="${mandir:-$prefix/share/man}"
-+datadir="${datadir:-$prefix/share}"
-+docdir="${docdir:-$prefix/share/doc}"
-+sysconfdir="${sysconfdir:-$prefix/etc}"
-+local_statedir="${local_statedir:-$prefix/var}"
- firmwarepath="${firmwarepath:-$datadir/qemu-firmware}"
- localedir="${localedir:-$datadir/locale}"
- 
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 35459a38bb..72a79e6019 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4319,6 +4319,7 @@ static void max_x86_cpu_initfn(Object *obj)
+         if (lmce_supported()) {
+             object_property_set_bool(OBJECT(cpu), "lmce", true, &error_abort);
+         }
++        object_property_set_bool(OBJECT(cpu), "host-phys-bits", true, &error_abort);
+     } else {
+         object_property_set_str(OBJECT(cpu), "vendor", CPUID_VENDOR_AMD,
+                                 &error_abort);
 -- 
 2.26.2
 
