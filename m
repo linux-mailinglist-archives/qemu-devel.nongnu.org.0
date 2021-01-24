@@ -2,80 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFBDD301EBB
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:34:02 +0100 (CET)
-Received: from localhost ([::1]:50346 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB15301ECA
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:47:09 +0100 (CET)
+Received: from localhost ([::1]:34628 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3m5B-0005Jl-Qd
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:34:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41696)
+	id 1l3mHr-0002um-TV
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45828)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3m0E-0000pC-L6; Sun, 24 Jan 2021 15:28:55 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:34607)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3mGT-0002OK-Fc
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 15:45:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:36538)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3m0C-0005WE-Sd; Sun, 24 Jan 2021 15:28:54 -0500
-Received: by mail-wr1-x430.google.com with SMTP id g10so10273978wrx.1;
- Sun, 24 Jan 2021 12:28:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=yP26PpmJagN4jG84JFkSeSaPQBLeLAiKLXm9b3ACybs=;
- b=tzfBvAz3pQDVChvcJBMR9Tu7opB3A18s0lrsBHzAhJYQfarIP+3WR48SoxU+DisNSb
- ZCSipGtobD7ux00IfeoE47MRqMANSe/aYGK+J3J4caclgOYGBccHXrkAG9lmelQwghwB
- 2vEs2ZftuA9uq6bl0ZDfPNfN+LaiFQAD1fO8nk5RiSqiZNh0HPregZJWVvhphVv5JSaF
- 1bk79ygHWtAGyEH7XlJAJaWlZKjq+7HIVrK9z9LtE72AnoW2AmhuXcoflSqHHqUTpTQb
- thEYIrQIF6SjPLW3CbMbvSmajIsdGcjEWWJipM8anKfHEFX0YvwPTYOyZ2jfETmvEyEF
- 260A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=yP26PpmJagN4jG84JFkSeSaPQBLeLAiKLXm9b3ACybs=;
- b=pURvnKytHlUj99eWDxM8JVgBaKf7U2srQJun2qZ4w9ni/B7KXuo3xCuN6VhzgaYrlW
- goVIf89z7zwdZ5haMtkChYunHYAb8t23OXRt2r0s0OpPGRv3GVTkTw5pHmGuzMvCzAev
- arh5DzPy6Fd0UnCwJTGtLKTV37AVtXsBWgy9jd0/IFVu52Da2xddWon3XlYTmFyA/8me
- m0rhKrz4IPOPoi1QHDb8Er/MJp+fVoyhsESw0NmzqKOkNF4+3MjxE+3Mo3E7H9/n5IJ5
- 2DwTVYLAkkF5xVrcykxV9+yrn/MZXjLjojjZLytg1vUscbF+RXabz0tBobZEIef+lnoc
- QMKg==
-X-Gm-Message-State: AOAM530v7q32MsPSTvdcpNPbpljDkjb95tHQ2nnEq/ennNjR6Ey7dVlM
- 5vXvJs0KMrEQPyTmdK7cBVNBBhiOxOE=
-X-Google-Smtp-Source: ABdhPJyG17Ye37egAn5Gd5CN8XCVreyrg9hI35tuKX/AIuPVCj7/iZ/Gxw7RaNreThRKkyllUkHIeg==
-X-Received: by 2002:adf:eb05:: with SMTP id s5mr233869wrn.333.1611520130636;
- Sun, 24 Jan 2021 12:28:50 -0800 (PST)
-Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id y14sm714198wro.58.2021.01.24.12.28.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Jan 2021 12:28:50 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
-	Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v3 6/6] hw/sd: ssi-sd: Support multiple block write
-Date: Sun, 24 Jan 2021 21:28:17 +0100
-Message-Id: <20210124202817.2624557-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210124202817.2624557-1-f4bug@amsat.org>
-References: <20210124202817.2624557-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3mGQ-0002uj-Dl
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 15:45:41 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l3mGO-0006FX-CG
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 20:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 579842E8137
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 20:45:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 24 Jan 2021 20:38:18 -0000
+From: Bruno Haible <1892441@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: s390x softmmu
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahmedkrmn bruno-clisp th-huth
+X-Launchpad-Bug-Reporter: Ahmed Karaman (ahmedkrmn)
+X-Launchpad-Bug-Modifier: Bruno Haible (bruno-clisp)
+References: <159797545688.2805.5115079878417995484.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161152069870.10605.17475201461312326628.malone@gac.canonical.com>
+Subject: [Bug 1892441] Re: "No zIPL section in IPL2 record" error when
+ emulating Debian 10.5.0 on s390x
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: a45938c42e225d534247b8604571c3002c63f110
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,109 +72,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Pragnesh Patel <pragnesh.patel@sifive.com>,
- Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-block@nongnu.org
+Reply-To: Bug 1892441 <1892441@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Bin Meng <bin.meng@windriver.com>
+Yes. For booting Debian images using QEMU (<=3D 5.0.0) I use this recipe:
 
-For a multiple block write operation, each block begins with a multi
-write start token. Unlike the SD mode that the multiple block write
-ends when receiving a STOP_TRAN command (CMD12), a special stop tran
-token is used to signal the card.
+machine_args=3D"-M s390-ccw-virtio -m 512"
+disk_args=3D"-drive file=3Ddebian86.img,if=3Dnone,format=3Draw,id=3Dhd0 -de=
+vice virtio-blk-ccw,drive=3Dhd0"
+net_args=3D""
+display_args=3D"-display gtk -monitor stdio"
+common_args=3D"$machine_args $disk_args $net_args $display_args"
 
-Emulating this by manually sending a CMD12 to the SD card core, to
-bring it out of the receiving data state.
+Pull kernel and initrd from the ftp server:
+mkdir boot-for-install
+(cd boot-for-install
+ wget ftp://ftp.de.debian.org/pub/debian/dists/jessie/main/installer-s390x/=
+current/images/generic/kernel.debian
+ wget ftp://ftp.de.debian.org/pub/debian/dists/jessie/main/installer-s390x/=
+current/images/generic/initrd.debian)
 
-Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20210123104016.17485-18-bmeng.cn@gmail.com>
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/sd/ssi-sd.c | 35 +++++++++++++++++++++++++++++++++--
- 1 file changed, 33 insertions(+), 2 deletions(-)
+Then, for running the installer:
+qemu-system-s390x $common_args -kernel boot-for-install/kernel.debian -init=
+rd boot-for-install/initrd.debian
 
-diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index 1205ad8b52c..2d08ce4820a 100644
---- a/hw/sd/ssi-sd.c
-+++ b/hw/sd/ssi-sd.c
-@@ -4,6 +4,11 @@
-  * Copyright (c) 2007-2009 CodeSourcery.
-  * Written by Paul Brook
-  *
-+ * Copyright (c) 2021 Wind River Systems, Inc.
-+ * Improved by Bin Meng <bin.meng@windriver.com>
-+ *
-+ * Validated with U-Boot v2021.01 and Linux v5.10 mmc_spi driver
-+ *
-  * This code is licensed under the GNU GPL v2.
-  *
-  * Contributions after 2012-01-13 are licensed under the terms of the
-@@ -82,6 +87,10 @@ OBJECT_DECLARE_SIMPLE_TYPE(ssi_sd_state, SSI_SD)
- #define SSI_SDR_ADDRESS_ERROR   0x2000
- #define SSI_SDR_PARAMETER_ERROR 0x4000
- 
-+/* multiple block write */
-+#define SSI_TOKEN_MULTI_WRITE   0xfc
-+/* terminate multiple block write */
-+#define SSI_TOKEN_STOP_TRAN     0xfd
- /* single block read/write, multiple block read */
- #define SSI_TOKEN_SINGLE        0xfe
- 
-@@ -94,6 +103,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(ssi_sd_state, SSI_SD)
- static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
- {
-     ssi_sd_state *s = SSI_SD(dev);
-+    SDRequest request;
-+    uint8_t longresp[16];
- 
-     /*
-      * Special case: allow CMD12 (STOP TRANSMISSION) while reading data.
-@@ -125,9 +136,31 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-             return SSI_DUMMY;
-             break;
-         case SSI_TOKEN_SINGLE:
-+        case SSI_TOKEN_MULTI_WRITE:
-             DPRINTF("Start write block\n");
-             s->mode = SSI_SD_DATA_WRITE;
-             return SSI_DUMMY;
-+        case SSI_TOKEN_STOP_TRAN:
-+            DPRINTF("Stop multiple write\n");
-+
-+            /* manually issue cmd12 to stop the transfer */
-+            request.cmd = 12;
-+            request.arg = 0;
-+            s->arglen = sdbus_do_command(&s->sdbus, &request, longresp);
-+            if (s->arglen <= 0) {
-+                s->arglen = 1;
-+                /* a zero value indicates the card is busy */
-+                s->response[0] = 0;
-+                DPRINTF("SD card busy\n");
-+            } else {
-+                s->arglen = 1;
-+                /* a non-zero value indicates the card is ready */
-+                s->response[0] = SSI_DUMMY;
-+            }
-+
-+            s->mode = SSI_SD_RESPONSE;
-+            s->response_pos = 0;
-+            return SSI_DUMMY;
-         }
- 
-         s->cmd = val & 0x3f;
-@@ -136,8 +169,6 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-         return SSI_DUMMY;
-     case SSI_SD_CMDARG:
-         if (s->arglen == 4) {
--            SDRequest request;
--            uint8_t longresp[16];
-             /* FIXME: Check CRC.  */
-             request.cmd = s->cmd;
-             request.arg = ldl_be_p(s->cmdarg);
--- 
-2.26.2
+For booting from disk:
+qemu-system-s390x $common_args -kernel boot/vmlinuz -initrd boot/initrd.img=
+ -append "root=3D/dev/vda2"
 
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1892441
+
+Title:
+  "No zIPL section in IPL2 record" error when emulating Debian 10.5.0 on
+  s390x
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  Hi,
+
+  I want to emulate Debian 10.5.0 for the s390x architecture on an
+  Ubuntu x86_64 host.
+
+  The Debian image is downloaded from the following link:
+  https://cdimage.debian.org/debian-cd/current/s390x/iso-cd/debian-10.5.0-s=
+390x-netinst.iso
+
+  Using the latest QEMU version 5.1.0, the Debian image is emulated using t=
+he given command:
+  qemu-system-s390x -boot d -m 4096 -hda debian.qcow -cdrom debian-10.5.0-s=
+390x-netinst.iso -nographic
+
+  Running the command causes the output below:
+
+      LOADPARM=3D[        ]
+      Using virtio-blk.
+      Using guessed DASD geometry.
+      Using ECKD scheme (block size  4096), CDL
+      =
+
+      ! No zIPL section in IPL2 record. !
+
+  Using exactly the same qemu command above with the Alpine 3.12 image
+  for s390x ran successfully without any errors.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1892441/+subscriptions
 
