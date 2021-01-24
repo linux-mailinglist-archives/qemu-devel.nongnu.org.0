@@ -2,46 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C06301C37
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 14:27:16 +0100 (CET)
-Received: from localhost ([::1]:54604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C022E301C45
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 14:36:15 +0100 (CET)
+Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3fQB-000365-3r
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 08:27:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38710)
+	id 1l3fYs-0005X1-Rt
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 08:36:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3fND-00027A-AT; Sun, 24 Jan 2021 08:24:11 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:56126)
+ id 1l3fXQ-0004xI-0y; Sun, 24 Jan 2021 08:34:44 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:56602)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3fN5-0003m5-Qf; Sun, 24 Jan 2021 08:24:10 -0500
+ id 1l3fXN-00080t-MW; Sun, 24 Jan 2021 08:34:43 -0500
 Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id E63DCC602E6;
- Sun, 24 Jan 2021 14:23:58 +0100 (CET)
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 3B211C602E6;
+ Sun, 24 Jan 2021 14:34:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611494638;
+ t=1611495278;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=3o34+lAU4XY1/GFF+V3mC8w1b7OeDIpR8jzDQe+IAic=;
- b=GRSEd2wd5UbATzP2fHeZGAlLFHDPvWZISkFELmtIJlyyupKWtuyG+gozI5+3fP3wiXBmwE
- DDy6NOGoCAt6ydF8scS4AnkQ/hcT3dR4ra4ECP0o5FzVtuyf+f8i4EHmwYWNQ/+YbbZpSl
- dhdV5KxKbDjr1uGJWQpqH+7T+c/nd2EMTMweBvVwVkNHA1K1aV+yMu20Xgosjes6GQXmVa
- A85KALMgc4sGNZuYbYEWh8BpBypr/ehgvYsjKMygCQ9mWBSfY5bO1kBqVDDF6WH6RhRKLM
- a5abx+Na/8JewMfjr1EyR3czan8ATnKsHk8jOsqWa9nlhsLNx0Dtm8H/7pflAg==
-Date: Sun, 24 Jan 2021 14:24:21 +0100
+ bh=DnEB7eCvT+FDDOw6DNNPM1u7lv33jN4hxVUC4ix651M=;
+ b=ZVzqNh/7ovJLeGgrahAH4yNO3Tr7UwxJmJcQ1aAks65D9mgm4v6/YXLshTuUbJW+/ei95Q
+ tnpKxu7Oj/eHikiUoTFhccQGZ1jXKGtrlJAXBXi1BuD//dccD0Y9Zupft3rI+0++W1Hm93
+ uo+L8HxVTmhmogiKDyjYS7SSJhz8Wg7fc/CcVDUZx3ET1/vLYFFI+xe84IrL2Aj6V7yKeu
+ 6QropEbyLo/tFU7LsyiC1l3BDaf8LZNKlq8rhAFAexTAS5YEJySrKB6baPMxZvWPTYIzX5
+ ch84g/YAjVbQ5koiDeH6UIIRLdeybTD0dX0fpBXmJgx0CyLDRga9Up9A7bBAcQ==
+Date: Sun, 24 Jan 2021 14:35:00 +0100
 From: Luc Michel <luc@lmichel.fr>
 To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 05/25] tests: Add a simple test of the CMSDK APB dual timer
-Message-ID: <20210124132421.f6k25f2dcjm6cnsb@sekoia-pc.home.lmichel.fr>
+Subject: Re: [PATCH 21/25] tests/qtest/cmsdk-apb-watchdog-test: Test clock
+ changes
+Message-ID: <20210124133500.utnoaefyfozwg64e@sekoia-pc.home.lmichel.fr>
 References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-6-peter.maydell@linaro.org>
+ <20210121190622.22000-22-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-6-peter.maydell@linaro.org>
+In-Reply-To: <20210121190622.22000-22-peter.maydell@linaro.org>
 Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
  helo=pharaoh.lmichel.fr
 X-Spam_score_int: -20
@@ -69,181 +70,104 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Add a simple test of the CMSDK dual timer, since we're about to do
-> some refactoring of how it is clocked.
+> Now that the CMSDK APB watchdog uses its Clock input, it will
+> correctly respond when the system clock frequency is changed using
+> the RCC register on in the Stellaris board system registers.  Test
+> that when the RCC register is written it causes the watchdog timer to
+> change speed.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+
 > ---
->  tests/qtest/cmsdk-apb-dualtimer-test.c | 131 +++++++++++++++++++++++++
->  MAINTAINERS                            |   1 +
->  tests/qtest/meson.build                |   1 +
->  3 files changed, 133 insertions(+)
->  create mode 100644 tests/qtest/cmsdk-apb-dualtimer-test.c
+>  tests/qtest/cmsdk-apb-watchdog-test.c | 52 +++++++++++++++++++++++++++
+>  1 file changed, 52 insertions(+)
 > 
-> diff --git a/tests/qtest/cmsdk-apb-dualtimer-test.c b/tests/qtest/cmsdk-apb-dualtimer-test.c
-> new file mode 100644
-> index 00000000000..5a29d65fd6d
-> --- /dev/null
-> +++ b/tests/qtest/cmsdk-apb-dualtimer-test.c
-> @@ -0,0 +1,131 @@
-> +/*
-> + * QTest testcase for the CMSDK APB dualtimer device
-> + *
-> + * Copyright (c) 2021 Linaro Limited
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms of the GNU General Public License as published by the
-> + * Free Software Foundation; either version 2 of the License, or
-> + * (at your option) any later version.
-> + *
-> + * This program is distributed in the hope that it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-> + * for more details.
-> + */
+> diff --git a/tests/qtest/cmsdk-apb-watchdog-test.c b/tests/qtest/cmsdk-apb-watchdog-test.c
+> index c6add1fee85..9a4873a8314 100644
+> --- a/tests/qtest/cmsdk-apb-watchdog-test.c
+> +++ b/tests/qtest/cmsdk-apb-watchdog-test.c
+> @@ -15,6 +15,7 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> +#include "qemu/bitops.h"
+>  #include "libqtest-single.h"
+>  
+>  /*
+> @@ -31,6 +32,11 @@
+>  #define WDOGMIS 0x14
+>  #define WDOGLOCK 0xc00
+>  
+> +#define SSYS_BASE 0x400fe000
+> +#define RCC 0x60
+> +#define SYSDIV_SHIFT 23
+> +#define SYSDIV_LENGTH 4
 > +
-> +#include "qemu/osdep.h"
-> +#include "libqtest-single.h"
-> +
-> +/* IoTKit/ARMSSE dualtimer; driven at 25MHz in mps2-an385, so 40ns per tick */
-> +#define TIMER_BASE 0x40002000
-> +
-> +#define TIMER1LOAD 0
-> +#define TIMER1VALUE 4
-> +#define TIMER1CONTROL 8
-> +#define TIMER1INTCLR 0xc
-> +#define TIMER1RIS 0x10
-> +#define TIMER1MIS 0x14
-> +#define TIMER1BGLOAD 0x18
-> +
-> +#define TIMER2LOAD 0x20
-> +#define TIMER2VALUE 0x24
-> +#define TIMER2CONTROL 0x28
-> +#define TIMER2INTCLR 0x2c
-> +#define TIMER2RIS 0x30
-> +#define TIMER2MIS 0x34
-> +#define TIMER2BGLOAD 0x38
-> +
-> +#define CTRL_ENABLE (1 << 7)
-> +#define CTRL_PERIODIC (1 << 6)
-> +#define CTRL_INTEN (1 << 5)
-> +#define CTRL_PRESCALE_1 (0 << 2)
-> +#define CTRL_PRESCALE_16 (1 << 2)
-> +#define CTRL_PRESCALE_256 (2 << 2)
-> +#define CTRL_32BIT (1 << 1)
-> +#define CTRL_ONESHOT (1 << 0)
-> +
-> +static void test_dualtimer(void)
+>  static void test_watchdog(void)
+>  {
+>      g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
+> @@ -61,6 +67,50 @@ static void test_watchdog(void)
+>      g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
+>  }
+>  
+> +static void test_clock_change(void)
 > +{
-> +    g_assert_true(readl(TIMER_BASE + TIMER1RIS) == 0);
-> +
-> +    /* Start timer: will fire after 40000 ns */
-> +    writel(TIMER_BASE + TIMER1LOAD, 1000);
-> +    /* enable in free-running, wrapping, interrupt mode */
-> +    writel(TIMER_BASE + TIMER1CONTROL, CTRL_ENABLE | CTRL_INTEN);
-> +
-> +    /* Step to just past the 500th tick and check VALUE */
-> +    clock_step(20001);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER1RIS), ==, 0);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER1VALUE), ==, 500);
-> +
-> +    /* Just past the 1000th tick: timer should have fired */
-> +    clock_step(20000);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER1RIS), ==, 1);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER1VALUE), ==, 0);
+> +    uint32_t rcc;
 > +
 > +    /*
-> +     * We are in free-running wrapping 16-bit mode, so on the following
-> +     * tick VALUE should have wrapped round to 0xffff.
+> +     * Test that writing to the stellaris board's RCC register to
+> +     * change the system clock frequency causes the watchdog
+> +     * to change the speed it counts at.
 > +     */
-> +    clock_step(40);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER1VALUE), ==, 0xffff);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
 > +
-> +    /* Check that any write to INTCLR clears interrupt */
-> +    writel(TIMER_BASE + TIMER1INTCLR, 1);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER1RIS), ==, 0);
+> +    writel(WDOG_BASE + WDOGCONTROL, 1);
+> +    writel(WDOG_BASE + WDOGLOAD, 1000);
 > +
-> +    /* Turn off the timer */
-> +    writel(TIMER_BASE + TIMER1CONTROL, 0);
-> +}
+> +    /* Step to just past the 500th tick */
+> +    clock_step(80 * 500 + 1);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 500);
 > +
-> +static void test_prescale(void)
-> +{
-> +    g_assert_true(readl(TIMER_BASE + TIMER2RIS) == 0);
-> +
-> +    /* Start timer: will fire after 40 * 256 * 1000 == 1024000 ns */
-> +    writel(TIMER_BASE + TIMER2LOAD, 1000);
-> +    /* enable in periodic, wrapping, interrupt mode, prescale 256 */
-> +    writel(TIMER_BASE + TIMER2CONTROL,
-> +           CTRL_ENABLE | CTRL_INTEN | CTRL_PERIODIC | CTRL_PRESCALE_256);
-> +
-> +    /* Step to just past the 500th tick and check VALUE */
-> +    clock_step(40 * 256 * 501);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER2RIS), ==, 0);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER2VALUE), ==, 500);
+> +    /* Rewrite RCC.SYSDIV from 16 to 8, so the clock is now 40ns per tick */
+> +    rcc = readl(SSYS_BASE + RCC);
+> +    g_assert_cmpuint(extract32(rcc, SYSDIV_SHIFT, SYSDIV_LENGTH), ==, 0xf);
+> +    rcc = deposit32(rcc, SYSDIV_SHIFT, SYSDIV_LENGTH, 7);
+> +    writel(SSYS_BASE + RCC, rcc);
 > +
 > +    /* Just past the 1000th tick: timer should have fired */
-> +    clock_step(40 * 256 * 500);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER2RIS), ==, 1);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER2VALUE), ==, 0);
+> +    clock_step(40 * 500);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 1);
 > +
-> +    /* In periodic mode the tick VALUE now reloads */
-> +    clock_step(256);
-
-Shouldn't it be "clock_step(40 * 256)", i.e. 1 tick?
-
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER2VALUE), ==, 1000);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 0);
 > +
-> +    /* Check that any write to INTCLR clears interrupt */
-> +    writel(TIMER_BASE + TIMER2INTCLR, 1);
-> +    g_assert_cmpuint(readl(TIMER_BASE + TIMER2RIS), ==, 0);
+> +    /* VALUE reloads at following tick */
+> +    clock_step(41);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 1000);
 > +
-> +    /* Turn off the timer */
-> +    writel(TIMER_BASE + TIMER2CONTROL, 0);
+> +    /* Writing any value to WDOGINTCLR clears the interrupt and reloads */
+> +    clock_step(40 * 500);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 500);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 1);
+> +    writel(WDOG_BASE + WDOGINTCLR, 0);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 1000);
+> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
 > +}
 > +
-> +int main(int argc, char **argv)
-> +{
-> +    QTestState *s;
-> +    int r;
-> +
-> +    g_test_init(&argc, &argv, NULL);
-> +
-> +    s = qtest_start("-machine mps2-an385");
-> +
-> +    qtest_add_func("/cmsdk-apb-dualtimer/dualtimer", test_dualtimer);
-> +    qtest_add_func("/cmsdk-apb-dualtimer/prescale", test_prescale);
-> +
-> +    r = g_test_run();
-> +
-> +    qtest_end();
-> +
-> +    return r;
-> +}
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 58956497888..118f70e47fb 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -584,6 +584,7 @@ F: include/hw/timer/cmsdk-apb-timer.h
->  F: tests/qtest/cmsdk-apb-timer-test.c
->  F: hw/timer/cmsdk-apb-dualtimer.c
->  F: include/hw/timer/cmsdk-apb-dualtimer.h
-> +F: tests/qtest/cmsdk-apb-dualtimer-test.c
->  F: hw/char/cmsdk-apb-uart.c
->  F: include/hw/char/cmsdk-apb-uart.h
->  F: hw/watchdog/cmsdk-apb-watchdog.c
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 9e2ebc47041..69dd4a8547c 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -141,6 +141,7 @@ qtests_npcm7xx = \
->     'npcm7xx_timer-test',
->     'npcm7xx_watchdog_timer-test']
->  qtests_arm = \
-> +  (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-apb-dualtimer-test'] : []) + \
->    (config_all_devices.has_key('CONFIG_CMSDK_APB_TIMER') ? ['cmsdk-apb-timer-test'] : []) + \
->    (config_all_devices.has_key('CONFIG_CMSDK_APB_WATCHDOG') ? ['cmsdk-apb-watchdog-test'] : []) + \
->    (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
+>  int main(int argc, char **argv)
+>  {
+>      QTestState *s;
+> @@ -71,6 +121,8 @@ int main(int argc, char **argv)
+>      s = qtest_start("-machine lm3s811evb");
+>  
+>      qtest_add_func("/cmsdk-apb-watchdog/watchdog", test_watchdog);
+> +    qtest_add_func("/cmsdk-apb-watchdog/watchdog_clock_change",
+> +                   test_clock_change);
+>  
+>      r = g_test_run();
+>  
 > -- 
 > 2.20.1
 > 
