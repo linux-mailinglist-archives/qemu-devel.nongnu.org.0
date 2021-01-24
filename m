@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 442E7301DC3
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 18:02:25 +0100 (CET)
-Received: from localhost ([::1]:37678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C0A301DC4
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 18:03:15 +0100 (CET)
+Received: from localhost ([::1]:43088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3imN-0007gu-SJ
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 12:02:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37470)
+	id 1l3inC-00020K-7r
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 12:03:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37754)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3ijW-00077b-UF; Sun, 24 Jan 2021 11:59:27 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35127)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l3ikP-0007nE-42
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 12:00:22 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:45708)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3ijU-0002Jm-Eb; Sun, 24 Jan 2021 11:59:25 -0500
-Received: by mail-wm1-x332.google.com with SMTP id e15so8709867wme.0;
- Sun, 24 Jan 2021 08:59:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SCAq6CAjdh/kM64lLJ1dLKCXFmD06g9cO4Vtg8iHNZ4=;
- b=RTxjAQrDKYnOPKhnO2RTmhcOoL9YC3X6GKhgVEwcN3bBWorUDse8aCtXKxaOVYko/u
- HoOOiCRf96JWY7J+GG7bgqiwP9NxGExxmOcul5P7VeXrDFee2HXwZPQyG48iLhcpWYcj
- 4+rl0PLLLvkDsSoyXyLedxAbAphMcKByCo9P/VOVgMdDl1KZdc6umtvLh8aIlPYrqwLG
- Um45Ra8hsfskaTeKzM5CuJ4ev2JhRjrWpuaSMzc0al0KF5ME5Q0artk8Es4SmDPzYMfg
- AmjOx9gYUVrPQeRysdbqWm4dgyOUwlFT2T43e2zb1I5jB6ApSQNNbpYdt6PZp7S8SHyw
- r5JA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l3ikN-0002m6-BL
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 12:00:20 -0500
+Received: by mail-ej1-x634.google.com with SMTP id ke15so14578585ejc.12
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 09:00:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=WVy420wCTLPtxKlainlh4vkkjeABe2fc5Ro8rxtxDqM=;
+ b=NmyvaVkgNj9kSfM9BcAVPhCSlyABGXs8Z2FFa/5aKzxI0+sxCSCfgy2qhhRCYyx7Kk
+ mT6QQrfi9CYc1cGDvVS204O8r7B7SnIyKn6LEavduckWB6U7Pk7WfFyQw3Ui4SLd3wtX
+ 4JBPQPhuzcO6VbNg/LmPTVYidMUe8TxvZPUlBmEU06I+9geVHt+ajS7e/7VDISV95Tgh
+ jbHabsU28DKVcRwc5iZ1+I11eciJ4elECrLARumJvX9XwNffO7w7QqR5vjJ2KfQ9abSb
+ nqqKpAKYwZ7xYWZuKBmXvc+oF30WOvpQBrHtCrIkDQzTGMh2L4hV9Ym585SD2v4FO68j
+ +SVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SCAq6CAjdh/kM64lLJ1dLKCXFmD06g9cO4Vtg8iHNZ4=;
- b=cNH4yOkmFrnIUYLuBmOuE0TvMxb4qOs5ekAxmuxtY2hbPxr5IVrDgxki5LRyJjrdcc
- C87tR2Fpbn0+Y4Ittg+InSdYpkOrf2Wvso0zQk0QHxMLT6um8NrfcajvFWfQD3e09GG/
- HApysTcXlIuiLcDqr1QCx7YJJ3ccRS7FED/xqQRTloWMpaaGE//p2QWXqnkv3Y4ObeRj
- EYLyS7T9DZx6BCc1LstOXArvugy1R9XhnsOok5FNAAWCECjUudg8XjWYBQTABKo40hua
- j4VE/gUZDyneT0EIR1GKzqnghgJjr4jIa7B00WDI1sjQVP6GIHt3CSI89LOVFrMD1XhA
- 6mrw==
-X-Gm-Message-State: AOAM532HuYiwrTNTMH3+NOV7ta0MUtKo6eJUTEvaZJM3p7y+TBJBraPC
- UbrzbXLVxoLU+Gy+sIWabTI=
-X-Google-Smtp-Source: ABdhPJzSgW8R9dB1FMyk+YrU4aAFqJEwZjEsRtZubd91j+J0XUlp4pFtSF1iQ9y9MXP3Thx/LEGNhw==
-X-Received: by 2002:a05:600c:1911:: with SMTP id
- j17mr49512wmq.63.1611507562254; 
- Sun, 24 Jan 2021 08:59:22 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id h9sm18154008wme.11.2021.01.24.08.59.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 24 Jan 2021 08:59:21 -0800 (PST)
-Subject: Re: [PATCH v2 18/25] hw/sd: ssi-sd: Bump up version ids of
- VMStateDescription
-To: Bin Meng <bmeng.cn@gmail.com>, Alistair Francis
- <alistair.francis@wdc.com>, qemu-block@nongnu.org, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210123104016.17485-1-bmeng.cn@gmail.com>
- <20210123104016.17485-19-bmeng.cn@gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <634d629a-999d-b1e2-28dc-f9b49f9918a7@amsat.org>
-Date: Sun, 24 Jan 2021 17:59:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=WVy420wCTLPtxKlainlh4vkkjeABe2fc5Ro8rxtxDqM=;
+ b=pgVenr0N6pJzan27/rzWsNbpn9vp66JYXFeDzTrgywU/+1c42ak2xlXeteD3/LDlTH
+ i9S80ZSi9jIv6Bx3LUWLvZwEnmvZOrwvoJIThCbRSwvsGzkvVk/hot8Is9bds0F3cZRa
+ grCYQ3o9aWonkhhv1wRjjZhVQ+L6PVz8YIZ+NLO7JPs85VXmDRSmQQVSEdwXLFpT5pU8
+ OniBt1T5jmzvB+Qoyc4giw+S6IJOFqTNGJ7mIyLesG8OZujWIjfTiSbPjm1xdlxHC4uW
+ GzoBVwCqnMVBRYMoyMP6oMbLPGxtahnWjvnqOPihH2SVDIs5bp1MrIu4YVpaeyGcJPUd
+ OmMQ==
+X-Gm-Message-State: AOAM533r8YRmRFamhJvg2GOkiVi/Omacl1uevyJi61w/e8Yyk8m/8qQz
+ GupXK7Fpg2uYjX5CfxuXi/gnu+U2JJZPpuIYOXc0HEBAS30=
+X-Google-Smtp-Source: ABdhPJyesW2tlqDgIgTomjGhgZ78Tegn6saVdF4ne64sehFBAy8CSA+lqvLVppabjoivUjnhA0xVNiI92+BY0zu2lSo=
+X-Received: by 2002:a17:906:b215:: with SMTP id
+ p21mr67020ejz.407.1611507617836; 
+ Sun, 24 Jan 2021 09:00:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210123104016.17485-19-bmeng.cn@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+References: <20210123205747.1175854-1-pbonzini@redhat.com>
+In-Reply-To: <20210123205747.1175854-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 24 Jan 2021 17:00:06 +0000
+Message-ID: <CAFEAcA-1-qQBMsnLWyPktASWZBZshT-19R1NApUMyNYhfv-t-w@mail.gmail.com>
+Subject: Re: [PULL v2 00/30] Misc patches for 2021-01-21
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,73 +79,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/21 11:40 AM, Bin Meng wrote:
-> From: Bin Meng <bin.meng@windriver.com>
-> 
-> With all these fixes and improvements, there is no way for the
-> VMStateDescription to keep backward compatibility. We will have
-> to bump up version ids.
+On Sat, 23 Jan 2021 at 21:01, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit fef80ea073c4862bc9eaddb6ddb0ed970b8ad7=
+c4:
+>
+>   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-01-20' i=
+nto staging (2021-01-21 10:44:28 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to ccd3b3b8112b670fdccf8a392b8419b173ffccb4:
+>
+>   qemu-option: warn for short-form boolean options (2021-01-23 15:55:08 -=
+0500)
+>
+> ----------------------------------------------------------------
+> * Make MinGW respect --bindir (Joshua)
+> * Switch MinGW to a "deep" installation (Joshua + NSIS fixes by myself)
+> * Fix compilation errors/warnings (Qixin, Philippe)
+> * QemuOpts cleanups (myself)
+> * Consistency improvements for -action (myself)
+> * remove deprecated "change vnc TARGET" functionality (myself)
+> * meson cleanups (Marc-Andr=C3=A9, Philippe, myself)
+> * IDE out-of-bounds access (Prasad)
+> * LA57 fix for -cpu max (Weijiang)
 
-Unfortunately this breaks bisectability (think about downstream
-distributions cherry-picking patches individually).
 
-I don't think there is a problem increasing 2 -> 3 -> 4 -> 5
-(Cc'ed David in case). Could you respin increasing the version
-on each VMState change?
 
-> 
-> The s->mode check in the post_load() hook is also updated.
-> 
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
-> 
-> ---
-> 
-> Changes in v2:
-> - new patch: bump up version ids of VMStateDescription
-> 
->  hw/sd/ssi-sd.c | 11 ++++++++---
->  1 file changed, 8 insertions(+), 3 deletions(-)
-> 
-> diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-> index ee4fbc3dfe..0c507f3ec5 100644
-> --- a/hw/sd/ssi-sd.c
-> +++ b/hw/sd/ssi-sd.c
-> @@ -4,6 +4,11 @@
->   * Copyright (c) 2007-2009 CodeSourcery.
->   * Written by Paul Brook
->   *
-> + * Copyright (c) 2021 Wind River Systems, Inc.
-> + * Improved by Bin Meng <bin.meng@windriver.com>
-> + *
-> + * Validated with U-Boot v2021.01 and Linux v5.10 mmc_spi driver
-> + *
->   * This code is licensed under the GNU GPL v2.
->   *
->   * Contributions after 2012-01-13 are licensed under the terms of the
-> @@ -319,7 +324,7 @@ static int ssi_sd_post_load(void *opaque, int version_id)
->  {
->      ssi_sd_state *s = (ssi_sd_state *)opaque;
->  
-> -    if (s->mode > SSI_SD_DATA_READ) {
-> +    if (s->mode > SSI_SD_SKIP_CRC16) {
->          return -EINVAL;
->      }
->      if (s->mode == SSI_SD_CMDARG &&
-> @@ -337,8 +342,8 @@ static int ssi_sd_post_load(void *opaque, int version_id)
->  
->  static const VMStateDescription vmstate_ssi_sd = {
->      .name = "ssi_sd",
-> -    .version_id = 2,
-> -    .minimum_version_id = 2,
-> +    .version_id = 3,
-> +    .minimum_version_id = 3,
->      .post_load = ssi_sd_post_load,
->      .fields = (VMStateField []) {
->          VMSTATE_UINT32(mode, ssi_sd_state),
-> 
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
