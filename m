@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4802C301EA6
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:14:33 +0100 (CET)
-Received: from localhost ([::1]:42826 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1D74301EAE
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:18:48 +0100 (CET)
+Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3lmK-0006Gc-BQ
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:14:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38854)
+	id 1l3lqR-0001Ui-QI
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:18:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3ljg-0002ly-2r; Sun, 24 Jan 2021 15:11:49 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:36486)
+ id 1l3ljj-0002oe-OR; Sun, 24 Jan 2021 15:11:51 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41084)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3ljc-00088w-B8; Sun, 24 Jan 2021 15:11:47 -0500
-Received: by mail-wm1-x333.google.com with SMTP id i9so2445924wmq.1;
- Sun, 24 Jan 2021 12:11:43 -0800 (PST)
+ id 1l3ljh-0008AG-GO; Sun, 24 Jan 2021 15:11:50 -0500
+Received: by mail-wr1-x433.google.com with SMTP id p15so3579056wrq.8;
+ Sun, 24 Jan 2021 12:11:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=pR8RIRikWmMM4mIlnRJBEZUYigNw7whrBQqm3cZ/N6c=;
- b=j36P9siOi40WYv3UEWAAlhqr+z143duUla2hc6EKVfgGmkx1Y6IjoBlBRHzzSQOAWH
- 7+oBfJke8lCDrIOXrEdlhKwhAEzEQjaJ+CmmSCrfd2DMVJ3La11Rd+CzWAgUcXDfV1hC
- FBbbFNjLkb3zY3Pv1fhwEbm0AZ+wdRbDPMRZg5TQdSjW+lfgSXlpgfv5nb08xkOsXSlP
- wa2DBd6TaWnvYnYi32sYyuGRpBhPLPEuDo6lOKu99j0z4knR8C3+lkMlUMfksns7dbIB
- SqWbCyECjkvetD1lxMbAQwSbtToIX12hBYxFYN3Yejjr009nkjaI/uBz8FpAsdBuoqf6
- w3Ng==
+ bh=CvlrFXvx36UvMO8am/Ebt5BL3p3nP+BcIJYQlCouQhQ=;
+ b=iibR4p2K2ozBOrvrvixWTdiMR69bEbwQzxhdgdvEdVtjWnZDZrAWs3ZUHtBITnKGdN
+ /AAY1OyKIiTqopAFJNDoJqYPJTR8TjREnx13y9xHCeNFDuR9/7dbHm7KrUHDb3vDi/C9
+ foiEPNZr3gBe3c5ue4L09C30+yPfy0k4M0y3oLkLA4/PJSk2tbI5/402LioKb39BxR1t
+ dVPGDHnlGgqabEJ1n0lN9XGFS+gMlAUgV6Zsok53zsa15eQfWWc8KavH3MDm2wUF8iIr
+ r0PpJg/oi9aHHMGSyIy8GpA4yqLU4S+KpBEJPcAFGLlHCRuJHZfjEJb4rDw/44h2U+9v
+ n6eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=pR8RIRikWmMM4mIlnRJBEZUYigNw7whrBQqm3cZ/N6c=;
- b=NpJzoHMi6rSaaPOBQDCDsMAigbBKPqpo4MeOE1scQ4ec/sgMRiyjQXiF2ntKJNTI+G
- hV1owVKEmSi1MQ6kI9eAf/+plLSbN4+Jh1ayt0r05RZwYy9Cfgl4EPGFeX0FnpgaPPRk
- MsA0OVnzPxFZGozToh6Zopnlw2W+mmahSuF1STLpFUct8xjdFal3IBts1z/MaGrhaaU7
- WYg83glTi15UgwihbXLaIiJLlMi8wPJOGtWSWfJVFNxWfo1eGp4uViFMRpEyvop3gn2c
- PtGjxy3I3KcvmMv79E4J/UVIyLOySZoJyTRE130jDTxVRGEmYSQIBAZVZSW1kELhsRXJ
- Oo0A==
-X-Gm-Message-State: AOAM532Zs33rVumcrkSiU2JQwT22712ItmRWce3CnzvVu6Fs6sf8YOhz
- uiZUsDOuQilKIbHwNxvYdVI9Qnm+KZw=
-X-Google-Smtp-Source: ABdhPJwPLK53We6ngm+2hPCb3ZPsXtFvZlL1GMgfN34eTqOkq306GrtBkoqK5WU/7NDjjaizsAqZgw==
-X-Received: by 2002:a1c:6802:: with SMTP id d2mr12631028wmc.32.1611519102375; 
- Sun, 24 Jan 2021 12:11:42 -0800 (PST)
+ bh=CvlrFXvx36UvMO8am/Ebt5BL3p3nP+BcIJYQlCouQhQ=;
+ b=EaE7Vh98Ycd/UP1kPYcKLoCDCmrU90eW9yRPWjMvZ/87bQxL21VBkPHPC47iaFGAUz
+ 4WP12mo/h6DMAL++R5pw6ZqcMA4/LRNMVUiZrvYCrjMMVNu9s0GUjJdTHZFPTc+hPXqm
+ /AOuhmku2+S8NTJdwsymhvekdkLM8whNGO4HD/gbYhqOG7F6+JdmfrUwSqpCYbcdfLT5
+ rdlOIjmnQn033+DcGgO2u53Bbe6vZa1/a5h09Kj/9bIvoWsRBefHpoFWp2uVOCGt22Iq
+ 8OZwOXzs5V+poS138qKxbBM/NO4qNt5/gRu5TwBw6ft4xgPx6Y/+0mm8Cfn8XEXmJVoE
+ dEiw==
+X-Gm-Message-State: AOAM531yWPQlRFHWUKwLRbeFj18xby9ZQ34mSPL2+nmEgsr21f5vwYRw
+ LfbmUfq/YRdKMOGcjaSDDWY9NLk0HHo=
+X-Google-Smtp-Source: ABdhPJzxbwcyMWSK0hq8p0/OoC/e1TVLiEeT1vwoGzjmSg5wkxV0JYNRmJyQ5GBxf2PXMNjB9S5/6w==
+X-Received: by 2002:a5d:6a02:: with SMTP id m2mr4063559wru.364.1611519107021; 
+ Sun, 24 Jan 2021 12:11:47 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id m11sm11589758wmc.15.2021.01.24.12.11.41
+ by smtp.gmail.com with ESMTPSA id d9sm12409388wrq.74.2021.01.24.12.11.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Jan 2021 12:11:41 -0800 (PST)
+ Sun, 24 Jan 2021 12:11:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 7/9] hw/sd: ssi-sd: Fix the wrong command index for
- STOP_TRANSMISSION
-Date: Sun, 24 Jan 2021 21:11:04 +0100
-Message-Id: <20210124201106.2602238-8-f4bug@amsat.org>
+Subject: [PULL 8/9] hw/sd: ssi-sd: Use macros for the dummy value and tokens
+ in the transfer
+Date: Sun, 24 Jan 2021 21:11:05 +0100
+Message-Id: <20210124201106.2602238-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210124201106.2602238-1-f4bug@amsat.org>
 References: <20210124201106.2602238-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,6 +85,7 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Bin Meng <bin.meng@windriver.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -92,32 +93,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This fixes the wrong command index for STOP_TRANSMISSION, the
-required command to interrupt the multiple block read command,
-in the old codes. It should be CMD12 (0x4c), not CMD13 (0x4d).
+At present the codes use hardcoded numbers (0xff/0xfe) for the dummy
+value and block start token. Replace them with macros.
 
-Fixes: 775616c3ae8c ("Partial SD card SPI mode support")
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210123104016.17485-10-bmeng.cn@gmail.com>
+Message-Id: <20210123104016.17485-12-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/ssi-sd.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sd/ssi-sd.c | 26 ++++++++++++++++----------
+ 1 file changed, 16 insertions(+), 10 deletions(-)
 
 diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index 1cdaf73c292..12dffb6f55e 100644
+index 12dffb6f55e..be1bb101645 100644
 --- a/hw/sd/ssi-sd.c
 +++ b/hw/sd/ssi-sd.c
-@@ -83,7 +83,7 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-     ssi_sd_state *s = SSI_SD(dev);
+@@ -78,6 +78,12 @@ OBJECT_DECLARE_SIMPLE_TYPE(ssi_sd_state, SSI_SD)
+ #define SSI_SDR_ADDRESS_ERROR   0x2000
+ #define SSI_SDR_PARAMETER_ERROR 0x4000
  
-     /* Special case: allow CMD12 (STOP TRANSMISSION) while reading data.  */
--    if (s->mode == SSI_SD_DATA_READ && val == 0x4d) {
-+    if (s->mode == SSI_SD_DATA_READ && val == 0x4c) {
-         s->mode = SSI_SD_CMD;
-         /* There must be at least one byte delay before the card responds.  */
-         s->stopping = 1;
++/* single block read/write, multiple block read */
++#define SSI_TOKEN_SINGLE        0xfe
++
++/* dummy value - don't care */
++#define SSI_DUMMY               0xff
++
+ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+ {
+     ssi_sd_state *s = SSI_SD(dev);
+@@ -91,14 +97,14 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+ 
+     switch (s->mode) {
+     case SSI_SD_CMD:
+-        if (val == 0xff) {
++        if (val == SSI_DUMMY) {
+             DPRINTF("NULL command\n");
+-            return 0xff;
++            return SSI_DUMMY;
+         }
+         s->cmd = val & 0x3f;
+         s->mode = SSI_SD_CMDARG;
+         s->arglen = 0;
+-        return 0xff;
++        return SSI_DUMMY;
+     case SSI_SD_CMDARG:
+         if (s->arglen == 4) {
+             SDRequest request;
+@@ -173,15 +179,15 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+         } else {
+             s->cmdarg[s->arglen++] = val;
+         }
+-        return 0xff;
++        return SSI_DUMMY;
+     case SSI_SD_PREP_RESP:
+         DPRINTF("Prepare card response (Ncr)\n");
+         s->mode = SSI_SD_RESPONSE;
+-        return 0xff;
++        return SSI_DUMMY;
+     case SSI_SD_RESPONSE:
+         if (s->stopping) {
+             s->stopping = 0;
+-            return 0xff;
++            return SSI_DUMMY;
+         }
+         if (s->response_pos < s->arglen) {
+             DPRINTF("Response 0x%02x\n", s->response[s->response_pos]);
+@@ -194,16 +200,16 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+             DPRINTF("End of command\n");
+             s->mode = SSI_SD_CMD;
+         }
+-        return 0xff;
++        return SSI_DUMMY;
+     case SSI_SD_PREP_DATA:
+         DPRINTF("Prepare data block (Nac)\n");
+         s->mode = SSI_SD_DATA_START;
+-        return 0xff;
++        return SSI_DUMMY;
+     case SSI_SD_DATA_START:
+         DPRINTF("Start read block\n");
+         s->mode = SSI_SD_DATA_READ;
+         s->response_pos = 0;
+-        return 0xfe;
++        return SSI_TOKEN_SINGLE;
+     case SSI_SD_DATA_READ:
+         val = sdbus_read_byte(&s->sdbus);
+         s->crc16 = crc_ccitt_false(s->crc16, (uint8_t *)&val, 1);
+@@ -224,7 +230,7 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+         return val;
+     }
+     /* Should never happen.  */
+-    return 0xff;
++    return SSI_DUMMY;
+ }
+ 
+ static int ssi_sd_post_load(void *opaque, int version_id)
 -- 
 2.26.2
 
