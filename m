@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C022E301C45
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 14:36:15 +0100 (CET)
-Received: from localhost ([::1]:58712 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 223CA301C54
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 14:50:10 +0100 (CET)
+Received: from localhost ([::1]:33070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3fYs-0005X1-Rt
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 08:36:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40098)
+	id 1l3fmK-0007Lu-LZ
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 08:50:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3fXQ-0004xI-0y; Sun, 24 Jan 2021 08:34:44 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:56602)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l3fl9-0006vN-Q9
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 08:48:55 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32936)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l3fXN-00080t-MW; Sun, 24 Jan 2021 08:34:43 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 3B211C602E6;
- Sun, 24 Jan 2021 14:34:38 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1611495278;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=DnEB7eCvT+FDDOw6DNNPM1u7lv33jN4hxVUC4ix651M=;
- b=ZVzqNh/7ovJLeGgrahAH4yNO3Tr7UwxJmJcQ1aAks65D9mgm4v6/YXLshTuUbJW+/ei95Q
- tnpKxu7Oj/eHikiUoTFhccQGZ1jXKGtrlJAXBXi1BuD//dccD0Y9Zupft3rI+0++W1Hm93
- uo+L8HxVTmhmogiKDyjYS7SSJhz8Wg7fc/CcVDUZx3ET1/vLYFFI+xe84IrL2Aj6V7yKeu
- 6QropEbyLo/tFU7LsyiC1l3BDaf8LZNKlq8rhAFAexTAS5YEJySrKB6baPMxZvWPTYIzX5
- ch84g/YAjVbQ5koiDeH6UIIRLdeybTD0dX0fpBXmJgx0CyLDRga9Up9A7bBAcQ==
-Date: Sun, 24 Jan 2021 14:35:00 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH 21/25] tests/qtest/cmsdk-apb-watchdog-test: Test clock
- changes
-Message-ID: <20210124133500.utnoaefyfozwg64e@sekoia-pc.home.lmichel.fr>
-References: <20210121190622.22000-1-peter.maydell@linaro.org>
- <20210121190622.22000-22-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l3fl4-0005E1-RU
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 08:48:54 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 9FCE97462DB;
+ Sun, 24 Jan 2021 14:48:45 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 63A937462BD; Sun, 24 Jan 2021 14:48:45 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 61E047456B4;
+ Sun, 24 Jan 2021 14:48:45 +0100 (CET)
+Date: Sun, 24 Jan 2021 14:48:45 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] tcg: Restart code generation when we run out of temps
+In-Reply-To: <20210123230105.2076270-1-richard.henderson@linaro.org>
+Message-ID: <9f216d18-7d62-1e5-795e-3d2a2ae2ac4f@eik.bme.hu>
+References: <20210123230105.2076270-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210121190622.22000-22-peter.maydell@linaro.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,114 +56,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: lvivier@redhat.com, alistair23@gmail.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19:06 Thu 21 Jan     , Peter Maydell wrote:
-> Now that the CMSDK APB watchdog uses its Clock input, it will
-> correctly respond when the system clock frequency is changed using
-> the RCC register on in the Stellaris board system registers.  Test
-> that when the RCC register is written it causes the watchdog timer to
-> change speed.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+On Sat, 23 Jan 2021, Richard Henderson wrote:
+> Some large translation blocks can generate so many unique
+> constants that we run out of temps to hold them.  In this
+> case, longjmp back to the start of code generation and
+> restart with a smaller translation block.
+>
+> Buglink: https://bugs.launchpad.net/bugs/1912065
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Luc Michel <luc@lmichel.fr>
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+
+Regards,
+BALATON Zoltan
 
 > ---
->  tests/qtest/cmsdk-apb-watchdog-test.c | 52 +++++++++++++++++++++++++++
->  1 file changed, 52 insertions(+)
-> 
-> diff --git a/tests/qtest/cmsdk-apb-watchdog-test.c b/tests/qtest/cmsdk-apb-watchdog-test.c
-> index c6add1fee85..9a4873a8314 100644
-> --- a/tests/qtest/cmsdk-apb-watchdog-test.c
-> +++ b/tests/qtest/cmsdk-apb-watchdog-test.c
-> @@ -15,6 +15,7 @@
->   */
->  
->  #include "qemu/osdep.h"
-> +#include "qemu/bitops.h"
->  #include "libqtest-single.h"
->  
->  /*
-> @@ -31,6 +32,11 @@
->  #define WDOGMIS 0x14
->  #define WDOGLOCK 0xc00
->  
-> +#define SSYS_BASE 0x400fe000
-> +#define RCC 0x60
-> +#define SYSDIV_SHIFT 23
-> +#define SYSDIV_LENGTH 4
+>
+> This replaces both the patch to increase the number of temps,
+> and the buggy patch set that dynamically allocated the temps.
+>
+>
+> r~
+>
+> ---
+> include/tcg/tcg.h         |  3 +++
+> accel/tcg/translate-all.c | 15 ++++++++++++++-
+> tcg/tcg.c                 | 11 ++++++++---
+> 3 files changed, 25 insertions(+), 4 deletions(-)
+>
+> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+> index c5a9d65d5f..0f0695e90d 100644
+> --- a/include/tcg/tcg.h
+> +++ b/include/tcg/tcg.h
+> @@ -680,6 +680,9 @@ struct TCGContext {
+>
+>     uint16_t gen_insn_end_off[TCG_MAX_INSNS];
+>     target_ulong gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
 > +
->  static void test_watchdog(void)
->  {
->      g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
-> @@ -61,6 +67,50 @@ static void test_watchdog(void)
->      g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
->  }
->  
-> +static void test_clock_change(void)
-> +{
-> +    uint32_t rcc;
+> +    /* Exit to translator on overflow. */
+> +    sigjmp_buf jmp_trans;
+> };
+>
+> static inline bool temp_readonly(TCGTemp *ts)
+> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+> index d09c187e0f..81d4c83f22 100644
+> --- a/accel/tcg/translate-all.c
+> +++ b/accel/tcg/translate-all.c
+> @@ -1926,11 +1926,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>     ti = profile_getclock();
+> #endif
+>
+> +    gen_code_size = sigsetjmp(tcg_ctx->jmp_trans, 0);
+> +    if (unlikely(gen_code_size != 0)) {
+> +        goto error_return;
+> +    }
 > +
-> +    /*
-> +     * Test that writing to the stellaris board's RCC register to
-> +     * change the system clock frequency causes the watchdog
-> +     * to change the speed it counts at.
-> +     */
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
+>     tcg_func_start(tcg_ctx);
+>
+>     tcg_ctx->cpu = env_cpu(env);
+>     gen_intermediate_code(cpu, tb, max_insns);
+>     tcg_ctx->cpu = NULL;
+> +    max_insns = tb->icount;
+>
+>     trace_translate_block(tb, tb->pc, tb->tc.ptr);
+>
+> @@ -1955,6 +1961,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>
+>     gen_code_size = tcg_gen_code(tcg_ctx, tb);
+>     if (unlikely(gen_code_size < 0)) {
+> + error_return:
+>         switch (gen_code_size) {
+>         case -1:
+>             /*
+> @@ -1966,6 +1973,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>              * flush the TBs, allocate a new TB, re-initialize it per
+>              * above, and re-do the actual code generation.
+>              */
+> +            qemu_log_mask(CPU_LOG_TB_OP | CPU_LOG_TB_OP_OPT,
+> +                          "Restarting code generation for "
+> +                          "code_gen_buffer overflow\n");
+>             goto buffer_overflow;
+>
+>         case -2:
+> @@ -1978,9 +1988,12 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
+>              * Try again with half as many insns as we attempted this time.
+>              * If a single insn overflows, there's a bug somewhere...
+>              */
+> -            max_insns = tb->icount;
+>             assert(max_insns > 1);
+>             max_insns /= 2;
+> +            qemu_log_mask(CPU_LOG_TB_OP | CPU_LOG_TB_OP_OPT,
+> +                          "Restarting code generation with "
+> +                          "smaller translation block (max %d insns)\n",
+> +                          max_insns);
+>             goto tb_overflow;
+>
+>         default:
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 67b08f708d..9e1b0d73c7 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -1205,18 +1205,23 @@ void tcg_func_start(TCGContext *s)
+>     QSIMPLEQ_INIT(&s->labels);
+> }
+>
+> -static inline TCGTemp *tcg_temp_alloc(TCGContext *s)
+> +static TCGTemp *tcg_temp_alloc(TCGContext *s)
+> {
+>     int n = s->nb_temps++;
+> -    tcg_debug_assert(n < TCG_MAX_TEMPS);
 > +
-> +    writel(WDOG_BASE + WDOGCONTROL, 1);
-> +    writel(WDOG_BASE + WDOGLOAD, 1000);
-> +
-> +    /* Step to just past the 500th tick */
-> +    clock_step(80 * 500 + 1);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 500);
-> +
-> +    /* Rewrite RCC.SYSDIV from 16 to 8, so the clock is now 40ns per tick */
-> +    rcc = readl(SSYS_BASE + RCC);
-> +    g_assert_cmpuint(extract32(rcc, SYSDIV_SHIFT, SYSDIV_LENGTH), ==, 0xf);
-> +    rcc = deposit32(rcc, SYSDIV_SHIFT, SYSDIV_LENGTH, 7);
-> +    writel(SSYS_BASE + RCC, rcc);
-> +
-> +    /* Just past the 1000th tick: timer should have fired */
-> +    clock_step(40 * 500);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 1);
-> +
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 0);
-> +
-> +    /* VALUE reloads at following tick */
-> +    clock_step(41);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 1000);
-> +
-> +    /* Writing any value to WDOGINTCLR clears the interrupt and reloads */
-> +    clock_step(40 * 500);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 500);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 1);
-> +    writel(WDOG_BASE + WDOGINTCLR, 0);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGVALUE), ==, 1000);
-> +    g_assert_cmpuint(readl(WDOG_BASE + WDOGRIS), ==, 0);
-> +}
-> +
->  int main(int argc, char **argv)
->  {
->      QTestState *s;
-> @@ -71,6 +121,8 @@ int main(int argc, char **argv)
->      s = qtest_start("-machine lm3s811evb");
->  
->      qtest_add_func("/cmsdk-apb-watchdog/watchdog", test_watchdog);
-> +    qtest_add_func("/cmsdk-apb-watchdog/watchdog_clock_change",
-> +                   test_clock_change);
->  
->      r = g_test_run();
->  
-> -- 
-> 2.20.1
-> 
-
--- 
+> +    if (n >= TCG_MAX_TEMPS) {
+> +        /* Signal overflow, starting over with fewer guest insns. */
+> +        siglongjmp(s->jmp_trans, -2);
+> +    }
+>     return memset(&s->temps[n], 0, sizeof(TCGTemp));
+> }
+>
+> -static inline TCGTemp *tcg_global_alloc(TCGContext *s)
+> +static TCGTemp *tcg_global_alloc(TCGContext *s)
+> {
+>     TCGTemp *ts;
+>
+>     tcg_debug_assert(s->nb_globals == s->nb_temps);
+> +    tcg_debug_assert(s->nb_globals < TCG_MAX_TEMPS);
+>     s->nb_globals++;
+>     ts = tcg_temp_alloc(s);
+>     ts->kind = TEMP_GLOBAL;
+>
 
