@@ -2,78 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F24C301955
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 04:23:46 +0100 (CET)
-Received: from localhost ([::1]:52230 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E8FF301957
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 04:26:34 +0100 (CET)
+Received: from localhost ([::1]:54618 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3W09-0007ju-6d
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 22:23:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57778)
+	id 1l3W2r-0000N2-6p
+	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 22:26:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3Vz2-0007DZ-Ke
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 22:22:37 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033]:36071)
+ id 1l3W0s-0008Ej-3h
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 22:24:30 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b]:35431)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l3Vz0-00040x-Ry
- for qemu-devel@nongnu.org; Sat, 23 Jan 2021 22:22:36 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id gx1so681996pjb.1
- for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 19:22:34 -0800 (PST)
+ id 1l3W0p-0004XB-IY
+ for qemu-devel@nongnu.org; Sat, 23 Jan 2021 22:24:29 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id b5so6406260pjl.0
+ for <qemu-devel@nongnu.org>; Sat, 23 Jan 2021 19:24:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=1spgO1hDuSZYjVK161oa9S+/MZYE8R5CJ6UNKJrRqu4=;
- b=PUE8zRM6z4sP8IN3wyBvM2GPHqstSAVroDnDvVm7Ak0QPzTnUN0E6HgoCOP3YWEuoK
- rnBwhf+85Sh7FGL4e2/YmKvHK6crk7XxI0PDkFKP7pKyoPs0OHmtRLIcwvcQSdqVqEPX
- rHPHNNieL7ehqmc926n2T/6t20QSxDyvFNgrckKdvMn27czdwmKEYigBsf0UXlSpYhoa
- n4ikB36TCw+TdQAZJv1zx3tnNjFJVygfVOAkI+MzycGMez8fsVbuBxFHkiqrObPwJoSb
- BcNAO/PWlG99wiGVvUlDA7r5i4FfXL/RoZBp7FFIRZfOK60ATpgb58LNmMrPaHyKYXrc
- W8jA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=Vvnud4lf10RK9HFVG2rIjTTkol6SNyfz9JsDLoAYqd8=;
+ b=DXmj1tbMp4+nUc50VNK8HPoTl3Q/5OrwqaoJXPqt8FAdMouJnAR0E1LpfQtp5PfVVt
+ AoUZHI25YtOV2m5pSIim+k1SQcEL+dSt3VXcP5sDIrPXqlrCEprtB/rm6P9iOIKetOgl
+ LPkpNB7mku4FehVfrTh78hc7cb8j7ohwszJlIBGPEdWUK+uyw9jfLT9FxQg5is8XtU2C
+ JgyNOGBdAoMahdga4qQuwtWqQ1qJBetbGUQ1KutT9/x+SUHc2PLWaHY0I0vh7madOLZ/
+ 00yZpGpBdCT1mNCZ/M1mvo8L4pwYur90dfrnWCcwNKOk/5BPKYFO3C5g16vaYt9pWT58
+ 4zPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=1spgO1hDuSZYjVK161oa9S+/MZYE8R5CJ6UNKJrRqu4=;
- b=BO/jCr2AWuz4MjKUBIpkDP4EN8TYtVt3aTGMqy0jFCtnxwkQsEKDd5zqSELVsH20Oi
- ual1Hzef3EDdc59yWFPRAuRylil/PqI0iz+Aet/Sfmm72/NY/BCKcrBAEr3YWF6mNAc4
- fDwj75V30eO1Kx724UMxldbcn4s2f5yYvQ7+TRxaXo/TL3b5Fn5cKieGBQMwFhqtu6D8
- j5FKtT5aTMwubyQTPpRUMhjsTZ3lK0WA9hpqDyfbKUwB2hRZXZqlFXF2Yj9/cX8A8Hgw
- T7Bu9LJbTecb+nnaMtXW1dI8HhKjM/sUhjbx161WWduALoTUDkUPVF7TYrwGM4dusP3g
- htGA==
-X-Gm-Message-State: AOAM532L5T7cNyTFZPxYic+d9aXmnOzJHKSQN2gDXhgT62ImHNHaFGMH
- a9aaxPYlzf4RZZOsJzMUiNVUaSN7NnwkpQ==
-X-Google-Smtp-Source: ABdhPJxJeMjODs2vADFqI5kjisSnKljA9TsXcK2hWYkbEhyvCRxaiZRVbpuBhkZ+EpNcgRvRMyZQ1A==
-X-Received: by 2002:a17:90a:db0d:: with SMTP id
- g13mr4013438pjv.76.1611458553073; 
- Sat, 23 Jan 2021 19:22:33 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ bh=Vvnud4lf10RK9HFVG2rIjTTkol6SNyfz9JsDLoAYqd8=;
+ b=j4Y2fwDwt5YNQ97rg/zLYO0JwMk6y0O79Tz7M6sMgOT/3NimTcd51Qf0Oh8acWgvyX
+ nIeOBr3gAWLI+m3rRN5j9zyVfoBjmlnt9wfZ868J5pjwbCakMGFNuWQGgkcZAhB4Q2Nu
+ lfwPWa650qDhewQt5Axho9dAQlNz9KvgdB+5cjHmCgAs1ybJvRmeUcQ0fqZq0kKTEpif
+ u7q5b6wR3o5aTcy0GbKfNYGBsA0xWyhY1UORNp6wtybpHzkQ5F0z1CaxV/yTBiuKrNl/
+ R2lN6NOU5O2MZr7W2/qJ5p4WbwHbF17NBHaZqE78ot4Bcg4c97ZNDcvX/2nuwhSrAKjJ
+ Vb4w==
+X-Gm-Message-State: AOAM533Ba4Id1bdBJkShQSqAk5A2wMAbm/ADqYr1JXNCOHAMa7EZ776E
+ Tuj+TCadzANaqy8b/qaltzli9ASYNs8KHg==
+X-Google-Smtp-Source: ABdhPJyN44WPANkPXUyGgmmiRRspGLo9tOpPMixxqNvtIXAfPfkk7JTH/kRaRELS+HEYHwlLNpi49A==
+X-Received: by 2002:a17:903:1c2:b029:de:ad0a:2dbf with SMTP id
+ e2-20020a17090301c2b02900dead0a2dbfmr2571167plh.44.1611458666152; 
+ Sat, 23 Jan 2021 19:24:26 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id j19sm5471429pfn.14.2021.01.23.19.22.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 23 Jan 2021 19:22:32 -0800 (PST)
-Subject: Re: PPC64 TCG problem.. MSR[SF] switching.
-To: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org
-References: <73db1b7f-00c2-53d9-9de1-3939b39a525b@vmfacility.fr>
+ by smtp.gmail.com with ESMTPSA id v19sm14112872pjg.50.2021.01.23.19.24.24
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 23 Jan 2021 19:24:25 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <a034d9a3-834c-a400-d573-143de570c134@linaro.org>
-Date: Sat, 23 Jan 2021 17:22:29 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+To: qemu-devel@nongnu.org
+Subject: [PATCH] target/ppc: Fix truncation of env->hflags
+Date: Sat, 23 Jan 2021 17:24:22 -1000
+Message-Id: <20210124032422.2113565-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <73db1b7f-00c2-53d9-9de1-3939b39a525b@vmfacility.fr>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
@@ -88,66 +82,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/23/21 4:03 PM, Ivan Warren wrote:
-> Hello people,
-> 
-> I have the following issue : I'm using an OS (not linux) on a
-> qemu-system-ppc64. (in my case a Power8 qemu target with a x86_64 TCG target)
-> 
-> This OS provides a set of NARROW/WIDE (MSR[SF]) agnostic code snippets in the
-> 1st 64K of addresses (so they can be called using the PPC 'bla' instruction).
-> Possibly this is kernel provided code so that it can provide the best strategy
-> for the current runtime environment depending on CPU model or whatever the
-> SPAPR Hypervisor says.
-> 
-> One of the routine is 1st being called in NARROW mode, and the TCG generated
-> code reflects that. For example it (seems) to generate address folding in the
-> output TCG target code (looking at log out_asm output) and/or possibly uses the
-> 32 bit soft mmu helper (but can't be sure of this)..
-> 
-> Later the vCPU is switched to WIDE mode (MSR[SF]==1) and invokes the code
-> again. No new code is being generated because it is already in the TCG cache,
-> but that code is still the NARROW mode generated TCG target code so it fails
-> miserably (address incorrectly truncated to 32 bit and/or wrong MMU strategy).
+Use the cs_base field, because it happens to be the same
+size as hflags (and MSR, from which hflags is derived).
 
-You are correct, this is a bug in the ppc translator.
+In translate, extract most bits from a local hflags variable.
+Mark several cases where code generation is *not* derived from
+data stored within the hashed elements of the TranslationBlock.
 
-The bug is in ppc_tr_init_disas_context:
+Cc: David Gibson <david@gibson.dropbear.id.au>
+Reported-by: Ivan Warren <ivan@vmfacility.fr>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/ppc/cpu.h       |  4 +--
+ target/ppc/translate.c | 64 ++++++++++++++++--------------------------
+ 2 files changed, 26 insertions(+), 42 deletions(-)
 
-    ctx->sf_mode = msr_is_64bit(env, env->msr);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 2609e4082e..4a05e4e544 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -2396,8 +2396,8 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState *env, target_ulong *pc,
+                                         target_ulong *cs_base, uint32_t *flags)
+ {
+     *pc = env->nip;
+-    *cs_base = 0;
+-    *flags = env->hflags;
++    *cs_base = env->hflags;
++    *flags = 0;
+ }
+ 
+ void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index 0984ce637b..1eb2e1b0c6 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -7879,47 +7879,37 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+ {
+     DisasContext *ctx = container_of(dcbase, DisasContext, base);
+     CPUPPCState *env = cs->env_ptr;
++    target_ulong hflags = ctx->base.tb->cs_base;
+     int bound;
+ 
+     ctx->exception = POWERPC_EXCP_NONE;
+     ctx->spr_cb = env->spr_cb;
+-    ctx->pr = msr_pr;
++    ctx->pr = (hflags >> MSR_PR) & 1;
+     ctx->mem_idx = env->dmmu_idx;
+-    ctx->dr = msr_dr;
+-#if !defined(CONFIG_USER_ONLY)
+-    ctx->hv = msr_hv || !env->has_hv_mode;
++    ctx->dr = (hflags >> MSR_DR) & 1;
++#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
++    ctx->hv = (hflags >> MSR_HV) & 1;
+ #endif
+     ctx->insns_flags = env->insns_flags;
+     ctx->insns_flags2 = env->insns_flags2;
+     ctx->access_type = -1;
+     ctx->need_access_type = !mmu_is_64bit(env->mmu_model);
+-    ctx->le_mode = !!(env->hflags & (1 << MSR_LE));
++    ctx->le_mode = (hflags >> MSR_LE) & 1;
+     ctx->default_tcg_memop_mask = ctx->le_mode ? MO_LE : MO_BE;
+     ctx->flags = env->flags;
+ #if defined(TARGET_PPC64)
+-    ctx->sf_mode = msr_is_64bit(env, env->msr);
++    ctx->sf_mode = (hflags >> MSR_SF) & 1;
+     ctx->has_cfar = !!(env->flags & POWERPC_FLAG_CFAR);
+ #endif
+     ctx->lazy_tlb_flush = env->mmu_model == POWERPC_MMU_32B
+         || env->mmu_model == POWERPC_MMU_601
+         || env->mmu_model & POWERPC_MMU_64;
+ 
+-    ctx->fpu_enabled = !!msr_fp;
+-    if ((env->flags & POWERPC_FLAG_SPE) && msr_spe) {
+-        ctx->spe_enabled = !!msr_spe;
+-    } else {
+-        ctx->spe_enabled = false;
+-    }
+-    if ((env->flags & POWERPC_FLAG_VRE) && msr_vr) {
+-        ctx->altivec_enabled = !!msr_vr;
+-    } else {
+-        ctx->altivec_enabled = false;
+-    }
+-    if ((env->flags & POWERPC_FLAG_VSX) && msr_vsx) {
+-        ctx->vsx_enabled = !!msr_vsx;
+-    } else {
+-        ctx->vsx_enabled = false;
+-    }
++    ctx->fpu_enabled = (hflags >> MSR_FP) & 1;
++    ctx->spe_enabled = (hflags >> MSR_SPE) & 1;
++    ctx->altivec_enabled = (hflags >> MSR_VR) & 1;
++    ctx->vsx_enabled = (hflags >> MSR_VSX) & 1;
++    /* FIXME: This needs to be stored in env->hflags_nmsr. */
+     if ((env->flags & POWERPC_FLAG_SCV)
+         && (env->spr[SPR_FSCR] & (1ull << FSCR_SCV))) {
+         ctx->scv_enabled = true;
+@@ -7927,23 +7917,21 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+         ctx->scv_enabled = false;
+     }
+ #if defined(TARGET_PPC64)
+-    if ((env->flags & POWERPC_FLAG_TM) && msr_tm) {
+-        ctx->tm_enabled = !!msr_tm;
+-    } else {
+-        ctx->tm_enabled = false;
+-    }
++    ctx->tm_enabled = (hflags >> MSR_TM) & 1;
+ #endif
++    /* FIXME: This needs to be stored in env->hflags_nmsr. */
+     ctx->gtse = !!(env->spr[SPR_LPCR] & LPCR_GTSE);
+-    if ((env->flags & POWERPC_FLAG_SE) && msr_se) {
+-        ctx->singlestep_enabled = CPU_SINGLE_STEP;
+-    } else {
+-        ctx->singlestep_enabled = 0;
+-    }
+-    if ((env->flags & POWERPC_FLAG_BE) && msr_be) {
+-        ctx->singlestep_enabled |= CPU_BRANCH_STEP;
+-    }
+-    if ((env->flags & POWERPC_FLAG_DE) && msr_de) {
++
++    ctx->singlestep_enabled = ((hflags >> MSR_SE) & 1 ? CPU_SINGLE_STEP : 0)
++                            | ((hflags >> MSR_BE) & 1 ? CPU_BRANCH_STEP : 0);
++
++    if ((hflags >> MSR_DE) & 1) {
+         ctx->singlestep_enabled = 0;
++        /*
++         * FIXME: This needs to be stored in env->hflags_nmsr,
++         * probably overlapping MSR_SE/MSR_BE like we do for
++         * MSR_LE and the ppc 601.
++         */
+         target_ulong dbcr0 = env->spr[SPR_BOOKE_DBCR0];
+         if (dbcr0 & DBCR0_ICMP) {
+             ctx->singlestep_enabled |= CPU_SINGLE_STEP;
+@@ -7956,10 +7944,6 @@ static void ppc_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     if (unlikely(ctx->base.singlestep_enabled)) {
+         ctx->singlestep_enabled |= GDBSTUB_SINGLE_STEP;
+     }
+-#if defined(DO_SINGLE_STEP) && 0
+-    /* Single step trace mode */
+-    msr_se = 1;
+-#endif
+ 
+     bound = -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
+     ctx->base.max_insns = MIN(ctx->base.max_insns, bound);
+-- 
+2.25.1
 
-this is an incorrect read of env state within the translator.
-
-It looks like ppc is attempting to do this correctly, by computing a value into
-env->hflags, which includes MSR[SF].
-
-However, this doesn't quite work out because in cpu_get_tb_cpu_state,
-
-    *flags = env->hflags;
-
-truncates the value from target_ulong to uint32_t.
-
-So the setting of the MSR[SF] bit gets lost.
-
-> The solutions (if my assumptions are correct) I believe is either to flush the
-> TCG output cache upon MSR[SF] switching (but that could kill performances if
-> there is a lot of NARROW/WIDE switches... or have 2 TCG caches (one for narrow
-> code and one for wide code).
-
-The values stored by cpu_get_tb_cpu_state are saved, and we will only reuse an
-entry in the TCG output cache when all of the values are the same.  So fixing
-the truncation issue will fix this bug.
-
-The easiest way to fix this is to (ab)use tb->cs_base to store env->hflags,
-because they are both target_ulong values.
-
-I will follow up with a partial patch for this general class of bug, which
-should fix your specific case.
-
-
-r~
 
