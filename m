@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73702301A48
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 08:07:33 +0100 (CET)
-Received: from localhost ([::1]:49854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23EED301A67
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 09:00:08 +0100 (CET)
+Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3ZUi-0000PM-GB
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 02:07:32 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46696)
+	id 1l3aJV-00066F-8u
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 03:00:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51198)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l3ZSt-0007vZ-DS
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:05:39 -0500
-Received: from indium.canonical.com ([91.189.90.7]:50700)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l3ZSr-0002qJ-2T
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:05:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l3ZSp-0000Yq-6r
- for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 07:05:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 274862E8137
- for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 07:05:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l3aIX-0005fr-U6
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:59:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41158)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l3aIV-0001Em-Cg
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:59:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611475137;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Gg5QnFTZ11N41JzF6xaKQJgKt0cIww/D35SOa4THD1g=;
+ b=FUWPVBuzuxw/ZW8U93CYgjQJXsnrWXXYfW/VHzzyyp3yOhuOZvS7CDdZK+qzs1VoLU017B
+ aBz875j0uyckroOIOK3JwPcx9yRBxa0p70uLSW3PyNIdhalCCr7esugp91eEf+Qthk3vEv
+ 4squpIzDGTRZrDl22Ssm8NZ/B8B9JLY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-78-Z3HQ8cP_PxWe7jTnTPYq0w-1; Sun, 24 Jan 2021 02:58:55 -0500
+X-MC-Unique: Z3HQ8cP_PxWe7jTnTPYq0w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD17B107ACE3
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 07:58:54 +0000 (UTC)
+Received: from thuth.com (ovpn-112-42.ams2.redhat.com [10.36.112.42])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 68EC91346F;
+ Sun, 24 Jan 2021 07:58:50 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
+Subject: [RFC PATCH] gitlab-ci.yml: Speed up CI by using "meson test
+ --no-rebuild"
+Date: Sun, 24 Jan 2021 08:58:48 +0100
+Message-Id: <20210124075848.53971-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 24 Jan 2021 06:58:36 -0000
-From: Thomas Huth <1893040@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: berrange davidhildenbrand gsalgaon
-X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
-Message-Id: <161147151767.10056.2875595568640046222.launchpad@gac.canonical.com>
-Subject: [Bug 1893040] Re: External modules retreval using Go1.15 on s390x
- appears to have checksum and ECDSA verification issues
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: 49b6d1f3cdcbb4aeb137104dd1fa586666738579
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,59 +75,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Incomplete
+Currently, our check-system-* jobs are recompiling the whole sources
+again. This happens due to the fact that the jobs are checking out
+the whole source tree and required submodules again, and only try
+to use the "build" directory with the binaries and object files
+as an artifact from the previous stage - which simply does not work
+anymore (with the current version of meson). Due to some changed
+time stamps, meson is always trying to rebuild the whole tree.
 
--- =
+To fix this problem, use "meson test --no-rebuild" instead of
+"make check" to avoid rebuilding all binaries every time. This
+saves ca. 15 - 20 minutes of precious CI cycles in each run.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1893040
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Marked as "RFC" since I'm not quite sure whether "meson test" has
+ the same test coverage as "make check"... Paolo?
 
-Title:
-   External modules retreval using Go1.15 on s390x appears to have
-  checksum and ECDSA verification issues
+ .gitlab-ci.yml | 41 ++++++++++++++++++++++-------------------
+ 1 file changed, 22 insertions(+), 19 deletions(-)
 
-Status in QEMU:
-  Incomplete
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index de3a3d25b5..c9fb11c325 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -34,6 +34,19 @@ include:
+         make -j"$JOBS" $MAKE_CHECK_ARGS ;
+       fi
+ 
++.native_meson_test_job:
++  stage: test
++  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
++  script:
++    - cd build
++    - touch *
++    - make git-submodule-update
++    - if [ -x ../meson/meson.py ]; then
++          ../meson/meson.py test --no-rebuild -t 5 $MESON_TEST_ARGS ;
++      else
++          meson test --no-rebuild -t 5 $MESON_TEST_ARGS ;
++      fi
++
+ .native_test_job_template: &native_test_job_definition
+   stage: test
+   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
+@@ -83,17 +96,15 @@ build-system-alpine:
+   artifacts:
+     expire_in: 2 days
+     paths:
+-      - .git-submodule-status
+       - build
+ 
+ check-system-alpine:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-system-alpine
+       artifacts: true
+   variables:
+     IMAGE: alpine
+-    MAKE_CHECK_ARGS: check
+ 
+ acceptance-system-alpine:
+   <<: *native_test_job_definition
+@@ -118,13 +129,12 @@ build-system-ubuntu:
+       - build
+ 
+ check-system-ubuntu:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-system-ubuntu
+       artifacts: true
+   variables:
+     IMAGE: ubuntu2004
+-    MAKE_CHECK_ARGS: check
+ 
+ acceptance-system-ubuntu:
+   <<: *native_test_job_definition
+@@ -149,13 +159,12 @@ build-system-debian:
+       - build
+ 
+ check-system-debian:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-system-debian
+       artifacts: true
+   variables:
+     IMAGE: debian-amd64
+-    MAKE_CHECK_ARGS: check
+ 
+ # No targets are built here, just tools, docs, and unit tests. This
+ # also feeds into the eventual documentation deployment steps later
+@@ -194,13 +203,12 @@ build-system-fedora:
+       - build
+ 
+ check-system-fedora:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-system-fedora
+       artifacts: true
+   variables:
+     IMAGE: fedora
+-    MAKE_CHECK_ARGS: check
+ 
+ acceptance-system-fedora:
+   <<: *native_test_job_definition
+@@ -226,13 +234,12 @@ build-system-centos:
+       - build
+ 
+ check-system-centos:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-system-centos
+       artifacts: true
+   variables:
+     IMAGE: centos8
+-    MAKE_CHECK_ARGS: check
+ 
+ acceptance-system-centos:
+   <<: *native_test_job_definition
+@@ -256,13 +263,12 @@ build-system-opensuse:
+       - build
+ 
+ check-system-opensuse:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-system-opensuse
+       artifacts: true
+   variables:
+     IMAGE: opensuse-leap
+-    MAKE_CHECK_ARGS: check
+ 
+ acceptance-system-opensuse:
+    <<: *native_test_job_definition
+@@ -525,13 +531,12 @@ build-crypto-old-nettle:
+       - build
+ 
+ check-crypto-old-nettle:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-crypto-old-nettle
+       artifacts: true
+   variables:
+     IMAGE: centos7
+-    MAKE_CHECK_ARGS: check
+ 
+ 
+ build-crypto-old-gcrypt:
+@@ -546,13 +551,12 @@ build-crypto-old-gcrypt:
+       - build
+ 
+ check-crypto-old-gcrypt:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-crypto-old-gcrypt
+       artifacts: true
+   variables:
+     IMAGE: centos7
+-    MAKE_CHECK_ARGS: check
+ 
+ 
+ build-crypto-only-gnutls:
+@@ -567,13 +571,12 @@ build-crypto-only-gnutls:
+       - build
+ 
+ check-crypto-only-gnutls:
+-  <<: *native_test_job_definition
++  extends: .native_meson_test_job
+   needs:
+     - job: build-crypto-only-gnutls
+       artifacts: true
+   variables:
+     IMAGE: centos7
+-    MAKE_CHECK_ARGS: check
+ 
+ # We don't need to exercise every backend with every front-end
+ build-trace-multi-user:
+-- 
+2.27.0
 
-Bug description:
-  We are observing issue while building go-runner image and we suspect it i=
-s due to QEMU version being used. As referred in below issue:
-  https://github.com/golang/go/issues/40949
-
-  We tried to build go-runner image using go1.15 and register QEMU
-  (docker run --rm --privileged multiarch/qemu-user-
-  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
-b2af4
-  --reset -p yes) as mentioned in PR
-  https://github.com/kubernetes/release/pull/1499. We observed below
-  failure during build:
-
-  -------------------------------------------------------------------------=
---------
-  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
-OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
-ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
-ully
-  ------
-  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
-   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
-nner .:
-  ------
-  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
-ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
- -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
-age}]: buildkit-runc did not terminate successfully
-  Makefile:52: recipe for target 'container' failed
-  make: *** [container] Error 1
-  -------------------------------------------------------------------------=
---------
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
 
