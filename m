@@ -2,67 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23EED301A67
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 09:00:08 +0100 (CET)
-Received: from localhost ([::1]:57528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C8A301A89
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 09:25:22 +0100 (CET)
+Received: from localhost ([::1]:33452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3aJV-00066F-8u
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 03:00:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51198)
+	id 1l3ai1-0000lT-B0
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 03:25:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l3aIX-0005fr-U6
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:59:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41158)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l3aIV-0001Em-Cg
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:59:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611475137;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Gg5QnFTZ11N41JzF6xaKQJgKt0cIww/D35SOa4THD1g=;
- b=FUWPVBuzuxw/ZW8U93CYgjQJXsnrWXXYfW/VHzzyyp3yOhuOZvS7CDdZK+qzs1VoLU017B
- aBz875j0uyckroOIOK3JwPcx9yRBxa0p70uLSW3PyNIdhalCCr7esugp91eEf+Qthk3vEv
- 4squpIzDGTRZrDl22Ssm8NZ/B8B9JLY=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-78-Z3HQ8cP_PxWe7jTnTPYq0w-1; Sun, 24 Jan 2021 02:58:55 -0500
-X-MC-Unique: Z3HQ8cP_PxWe7jTnTPYq0w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BD17B107ACE3
- for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 07:58:54 +0000 (UTC)
-Received: from thuth.com (ovpn-112-42.ams2.redhat.com [10.36.112.42])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 68EC91346F;
- Sun, 24 Jan 2021 07:58:50 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
-Subject: [RFC PATCH] gitlab-ci.yml: Speed up CI by using "meson test
- --no-rebuild"
-Date: Sun, 24 Jan 2021 08:58:48 +0100
-Message-Id: <20210124075848.53971-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1l3ah1-0000KM-C8
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 03:24:19 -0500
+Received: from mail-oo1-xc32.google.com ([2607:f8b0:4864:20::c32]:44466)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
+ id 1l3agw-0004eH-E2
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 03:24:16 -0500
+Received: by mail-oo1-xc32.google.com with SMTP id n19so1154804ooj.11
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 00:24:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=HYuN1n1oWusChIb1Bzqk7XlI68C3RfWtdO1aOdC61EM=;
+ b=wYQQIrgA6qTw7rjNBHMm3HVvEtrV4+VKkNzjWMipJC7wYxun4jZeHSkd3h2WaGWTxo
+ jKk07/7WtMf+U+3tS3FfFfkpduJx5Xziz8mkTqm2R3yq1Hz+bflKFzIJDczNXlJrGcr/
+ CycTpb1yTf786DiEXx1jWb99uDCsgqxht+SJkPnhc8pMXMv1dBtMNZ3mW0Z7IPpjt1Lr
+ kHY+hSE/phGk5UyINpw76v83iSw4d4sIqqmHcfoC39+uigl3D2SDxxOfl3+DEx2MqJRO
+ 3eiwc84MHhDLOULXcalITz/1ry4QJMt2kLCbThr1V3GXE3cZdMW0S+tieticfNZhzgd4
+ R/8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=HYuN1n1oWusChIb1Bzqk7XlI68C3RfWtdO1aOdC61EM=;
+ b=jn21evJIbWLSMN1/Hyfv20CSWmsx+Fh67H3mmeyF3vbaA+hv8FdITxYeLxHFNlAaRl
+ iVadmUFRGvzXDHZ1Daet5naODvxP4GWEWL/JaWzbEb5PKHTlN7meeFgN5VtfUFWUIJTB
+ j1tVcwXchcQU2YeNVNWnvKVmK5BpTaiocnVKCNja8l7itnOEYj88Qkq3YIYlXAoalGlv
+ GmyRLJpvBfaxbXC+Iqrxpo9J+piOZTLCBMsCNKAX/wLGMvAvsptUDpr23HFryCzB+ph5
+ aRlbdWU0wrRkj9u3OHAUonIA2rp71VHEPlhUMZ1/4sjDkxrZIZpMwu8hrcEWmp1bGBd6
+ u/vg==
+X-Gm-Message-State: AOAM531ztA6mm+1EH8Kexf6dVU0LBdiLtS3KD4oW5ULc5S2PugcAsRbr
+ /zd2rf+yFJS+R5Mifiqa12gN+cnpyVGd9IEg56fT2g==
+X-Google-Smtp-Source: ABdhPJxy1WhHVCPVFCNIY2J6297Zlh08M05+e1vapgnAiMlO69vcCeGYA0leNMlyCNIuz664lNa4fI3Tf0ZUl14Y04M=
+X-Received: by 2002:a4a:7353:: with SMTP id e19mr8932719oof.55.1611476652341; 
+ Sun, 24 Jan 2021 00:24:12 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.165,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210114211612.387052-1-andrew@daynix.com>
+ <20210114211612.387052-6-andrew@daynix.com>
+ <266f9040-542e-199e-1903-fb871ae3ad81@redhat.com>
+ <CAOEp5Oe0ZDRxSVaO4Q=YiJ3LTmXzcoUot1y1WhD97SsN=-oTgg@mail.gmail.com>
+ <21d802e9-b8d9-61b0-b966-0843df2364e1@redhat.com>
+In-Reply-To: <21d802e9-b8d9-61b0-b966-0843df2364e1@redhat.com>
+From: Yuri Benditovich <yuri.benditovich@daynix.com>
+Date: Sun, 24 Jan 2021 10:24:00 +0200
+Message-ID: <CAOEp5Oc265Z7+yipfuGSFcVY_tt5oqyf4pkk1jjyxyVTNoCkmQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 5/6] virtio-net: Added eBPF RSS to virtio-net.
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: none client-ip=2607:f8b0:4864:20::c32;
+ envelope-from=yuri.benditovich@daynix.com; helo=mail-oo1-xc32.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,196 +82,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
+ =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, our check-system-* jobs are recompiling the whole sources
-again. This happens due to the fact that the jobs are checking out
-the whole source tree and required submodules again, and only try
-to use the "build" directory with the binaries and object files
-as an artifact from the previous stage - which simply does not work
-anymore (with the current version of meson). Due to some changed
-time stamps, meson is always trying to rebuild the whole tree.
+Hi Jason,
 
-To fix this problem, use "meson test --no-rebuild" instead of
-"make check" to avoid rebuilding all binaries every time. This
-saves ca. 15 - 20 minutes of precious CI cycles in each run.
+I've prepared a POC of graceful switch to 'vhost off' if respective
+features are acked by the guest.
+Such a way we do not need to silently clear RSS and hash report
+features in case of 'vhost on'.
+Can you please review it and provide your feedback?
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Marked as "RFC" since I'm not quite sure whether "meson test" has
- the same test coverage as "make check"... Paolo?
+I think the only open question is what to do with cases of vhost-user
+and vhost-vdpa.
 
- .gitlab-ci.yml | 41 ++++++++++++++++++++++-------------------
- 1 file changed, 22 insertions(+), 19 deletions(-)
+https://github.com/qemu/qemu/pull/105
+This pull request is for reviews only.
 
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index de3a3d25b5..c9fb11c325 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -34,6 +34,19 @@ include:
-         make -j"$JOBS" $MAKE_CHECK_ARGS ;
-       fi
- 
-+.native_meson_test_job:
-+  stage: test
-+  image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-+  script:
-+    - cd build
-+    - touch *
-+    - make git-submodule-update
-+    - if [ -x ../meson/meson.py ]; then
-+          ../meson/meson.py test --no-rebuild -t 5 $MESON_TEST_ARGS ;
-+      else
-+          meson test --no-rebuild -t 5 $MESON_TEST_ARGS ;
-+      fi
-+
- .native_test_job_template: &native_test_job_definition
-   stage: test
-   image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
-@@ -83,17 +96,15 @@ build-system-alpine:
-   artifacts:
-     expire_in: 2 days
-     paths:
--      - .git-submodule-status
-       - build
- 
- check-system-alpine:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-system-alpine
-       artifacts: true
-   variables:
-     IMAGE: alpine
--    MAKE_CHECK_ARGS: check
- 
- acceptance-system-alpine:
-   <<: *native_test_job_definition
-@@ -118,13 +129,12 @@ build-system-ubuntu:
-       - build
- 
- check-system-ubuntu:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-system-ubuntu
-       artifacts: true
-   variables:
-     IMAGE: ubuntu2004
--    MAKE_CHECK_ARGS: check
- 
- acceptance-system-ubuntu:
-   <<: *native_test_job_definition
-@@ -149,13 +159,12 @@ build-system-debian:
-       - build
- 
- check-system-debian:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-system-debian
-       artifacts: true
-   variables:
-     IMAGE: debian-amd64
--    MAKE_CHECK_ARGS: check
- 
- # No targets are built here, just tools, docs, and unit tests. This
- # also feeds into the eventual documentation deployment steps later
-@@ -194,13 +203,12 @@ build-system-fedora:
-       - build
- 
- check-system-fedora:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-system-fedora
-       artifacts: true
-   variables:
-     IMAGE: fedora
--    MAKE_CHECK_ARGS: check
- 
- acceptance-system-fedora:
-   <<: *native_test_job_definition
-@@ -226,13 +234,12 @@ build-system-centos:
-       - build
- 
- check-system-centos:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-system-centos
-       artifacts: true
-   variables:
-     IMAGE: centos8
--    MAKE_CHECK_ARGS: check
- 
- acceptance-system-centos:
-   <<: *native_test_job_definition
-@@ -256,13 +263,12 @@ build-system-opensuse:
-       - build
- 
- check-system-opensuse:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-system-opensuse
-       artifacts: true
-   variables:
-     IMAGE: opensuse-leap
--    MAKE_CHECK_ARGS: check
- 
- acceptance-system-opensuse:
-    <<: *native_test_job_definition
-@@ -525,13 +531,12 @@ build-crypto-old-nettle:
-       - build
- 
- check-crypto-old-nettle:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-crypto-old-nettle
-       artifacts: true
-   variables:
-     IMAGE: centos7
--    MAKE_CHECK_ARGS: check
- 
- 
- build-crypto-old-gcrypt:
-@@ -546,13 +551,12 @@ build-crypto-old-gcrypt:
-       - build
- 
- check-crypto-old-gcrypt:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-crypto-old-gcrypt
-       artifacts: true
-   variables:
-     IMAGE: centos7
--    MAKE_CHECK_ARGS: check
- 
- 
- build-crypto-only-gnutls:
-@@ -567,13 +571,12 @@ build-crypto-only-gnutls:
-       - build
- 
- check-crypto-only-gnutls:
--  <<: *native_test_job_definition
-+  extends: .native_meson_test_job
-   needs:
-     - job: build-crypto-only-gnutls
-       artifacts: true
-   variables:
-     IMAGE: centos7
--    MAKE_CHECK_ARGS: check
- 
- # We don't need to exercise every backend with every front-end
- build-trace-multi-user:
--- 
-2.27.0
+Thanks in advance
 
+
+
+
+
+
+On Mon, Jan 18, 2021 at 5:16 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2021/1/17 =E4=B8=8B=E5=8D=885:04, Yuri Benditovich wrote:
+> > On Fri, Jan 15, 2021 at 9:20 AM Jason Wang<jasowang@redhat.com>  wrote:
+> >> On 2021/1/15 =E4=B8=8A=E5=8D=885:16, Andrew Melnychenko wrote:
+> >>> From: Andrew<andrew@daynix.com>
+> >>>
+> >>> When RSS is enabled the device tries to load the eBPF program
+> >>> to select RX virtqueue in the TUN. If eBPF can be loaded
+> >>> the RSS will function also with vhost (works with kernel 5.8 and late=
+r).
+> >>> Software RSS is used as a fallback with vhost=3Doff when eBPF can't b=
+e loaded
+> >>> or when hash population requested by the guest.
+> >>>
+> >>> Signed-off-by: Yuri Benditovich<yuri.benditovich@daynix.com>
+> >>> Signed-off-by: Andrew Melnychenko<andrew@daynix.com>
+> >>> ---
+> >>>    hw/net/vhost_net.c             |   2 +
+> >>>    hw/net/virtio-net.c            | 125 +++++++++++++++++++++++++++++=
+++--
+> >>>    include/hw/virtio/virtio-net.h |   4 ++
+> >>>    net/vhost-vdpa.c               |   2 +
+> >>>    4 files changed, 129 insertions(+), 4 deletions(-)
+> >>>
+> >>> diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> >>> index 24d555e764..16124f99c3 100644
+> >>> --- a/hw/net/vhost_net.c
+> >>> +++ b/hw/net/vhost_net.c
+> >>> @@ -71,6 +71,8 @@ static const int user_feature_bits[] =3D {
+> >>>        VIRTIO_NET_F_MTU,
+> >>>        VIRTIO_F_IOMMU_PLATFORM,
+> >>>        VIRTIO_F_RING_PACKED,
+> >>> +    VIRTIO_NET_F_RSS,
+> >>> +    VIRTIO_NET_F_HASH_REPORT,
+> >>>
+> >>>        /* This bit implies RARP isn't sent by QEMU out of band */
+> >>>        VIRTIO_NET_F_GUEST_ANNOUNCE,
+> >>> diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> >>> index 09ceb02c9d..37016fc73a 100644
+> >>> --- a/hw/net/virtio-net.c
+> >>> +++ b/hw/net/virtio-net.c
+> >>> @@ -691,6 +691,19 @@ static void virtio_net_set_queues(VirtIONet *n)
+> >>>
+> >>>    static void virtio_net_set_multiqueue(VirtIONet *n, int multiqueue=
+);
+> >>>
+> >>> +static uint64_t fix_ebpf_vhost_features(uint64_t features)
+> >>> +{
+> >>> +    /* If vhost=3Don & CONFIG_EBPF doesn't set - disable RSS feature=
+ */
+> >> I still think we should not clear feature silently. This may break
+> >> migraiton if the feature is cleared on destination.
+> > Do I understand it correctly that if we do not clear features silently
+> > and implement a graceful drop to vhost=3Doff when we can't do what we
+> > need with vhost - then we do not need to add any migration blocker?
+>
+>
+> Yes. I think we won't go with migration blocker since we need support
+> migration in the end.
+>
+> Thanks
+>
+>
+> >
+>
 
