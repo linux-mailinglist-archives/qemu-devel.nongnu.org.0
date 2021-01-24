@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1D74301EAE
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:18:48 +0100 (CET)
-Received: from localhost ([::1]:51064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ADAA301EB0
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:22:05 +0100 (CET)
+Received: from localhost ([::1]:57566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3lqR-0001Ui-QI
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:18:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38890)
+	id 1l3ltc-0004Q7-FY
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:22:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3ljj-0002oe-OR; Sun, 24 Jan 2021 15:11:51 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:41084)
+ id 1l3ljn-0002xx-EF; Sun, 24 Jan 2021 15:11:55 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:46747)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3ljh-0008AG-GO; Sun, 24 Jan 2021 15:11:50 -0500
-Received: by mail-wr1-x433.google.com with SMTP id p15so3579056wrq.8;
- Sun, 24 Jan 2021 12:11:48 -0800 (PST)
+ id 1l3ljl-0008Bw-Lw; Sun, 24 Jan 2021 15:11:54 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id q7so10204984wre.13;
+ Sun, 24 Jan 2021 12:11:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=CvlrFXvx36UvMO8am/Ebt5BL3p3nP+BcIJYQlCouQhQ=;
- b=iibR4p2K2ozBOrvrvixWTdiMR69bEbwQzxhdgdvEdVtjWnZDZrAWs3ZUHtBITnKGdN
- /AAY1OyKIiTqopAFJNDoJqYPJTR8TjREnx13y9xHCeNFDuR9/7dbHm7KrUHDb3vDi/C9
- foiEPNZr3gBe3c5ue4L09C30+yPfy0k4M0y3oLkLA4/PJSk2tbI5/402LioKb39BxR1t
- dVPGDHnlGgqabEJ1n0lN9XGFS+gMlAUgV6Zsok53zsa15eQfWWc8KavH3MDm2wUF8iIr
- r0PpJg/oi9aHHMGSyIy8GpA4yqLU4S+KpBEJPcAFGLlHCRuJHZfjEJb4rDw/44h2U+9v
- n6eQ==
+ bh=m8jljS4EW5V2Y+XQ3p65ModjRC4/hYLCEEONBClbWgI=;
+ b=aTx47kL+Av3B1DXPUzjVgXl0s8zC0ucf2mmsbIq93z02FUmeZbhP/4yIX6rQeCzii5
+ eeD+jjP0gj57rmedfOkmopJM28dzVKi2TDPxddCK2YBI9EtAST88HWS1e49UeV7Q8iMR
+ qfc1pLsKgItDUM8n3NvU2IJrzLm7c0711GjsqB58a9lQ6J6ocrw6AHQywo/Xy+IWwZW6
+ Z4FoyWyZTvMddmVZ9Tey1CoMT5B3B3zqCrVVc6UXbQi5oE6yboxnfqvpDC9/yhMZ1F8b
+ HoVzkMw746YkBXKt/qwOuUVH3+KLkp4P0FKBz/kCK98PlkShJUZ+cZugLQMBnoLHTvdR
+ coYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=CvlrFXvx36UvMO8am/Ebt5BL3p3nP+BcIJYQlCouQhQ=;
- b=EaE7Vh98Ycd/UP1kPYcKLoCDCmrU90eW9yRPWjMvZ/87bQxL21VBkPHPC47iaFGAUz
- 4WP12mo/h6DMAL++R5pw6ZqcMA4/LRNMVUiZrvYCrjMMVNu9s0GUjJdTHZFPTc+hPXqm
- /AOuhmku2+S8NTJdwsymhvekdkLM8whNGO4HD/gbYhqOG7F6+JdmfrUwSqpCYbcdfLT5
- rdlOIjmnQn033+DcGgO2u53Bbe6vZa1/a5h09Kj/9bIvoWsRBefHpoFWp2uVOCGt22Iq
- 8OZwOXzs5V+poS138qKxbBM/NO4qNt5/gRu5TwBw6ft4xgPx6Y/+0mm8Cfn8XEXmJVoE
- dEiw==
-X-Gm-Message-State: AOAM531yWPQlRFHWUKwLRbeFj18xby9ZQ34mSPL2+nmEgsr21f5vwYRw
- LfbmUfq/YRdKMOGcjaSDDWY9NLk0HHo=
-X-Google-Smtp-Source: ABdhPJzxbwcyMWSK0hq8p0/OoC/e1TVLiEeT1vwoGzjmSg5wkxV0JYNRmJyQ5GBxf2PXMNjB9S5/6w==
-X-Received: by 2002:a5d:6a02:: with SMTP id m2mr4063559wru.364.1611519107021; 
- Sun, 24 Jan 2021 12:11:47 -0800 (PST)
+ bh=m8jljS4EW5V2Y+XQ3p65ModjRC4/hYLCEEONBClbWgI=;
+ b=NUBeTBXj1N1ArDS0Jb5pgZNMEYSTtOqxTdT/dv83iT9zkkLmRz3NjwZiy0v5MVfHyb
+ 8QHgZOC1CehneiVdmI4lKqtXY6h4R073apH27yjpq+fPFbrfclUUMohIWKQfeU+2yi0t
+ 1o+xB2Sy3eyZgnDqyxGSHksh1L52MFFj8h/4qNmJkrzZc6wdrzYwSBe3cFfx73hyWnw4
+ NSzKofrNyWNsPNoGjftgl1d0BfvCmQE8ij/1RFQ6YK0pxOKInfYcB2F4rru2S4zb7eYv
+ OPJsmrKxgJ+9gjCqe7pYFZ52lBKHC9MiVO5577qn4xfu6LqgdSChKL+94APreF+mlVSJ
+ MBFg==
+X-Gm-Message-State: AOAM533onTW1rcGzvM3odNEgFHlBrjHnEsY2hYyP+ksryeGC3pOF9uSo
+ fsAGXTd61p3TbFAmSZ5L+TQN4/4CpC0=
+X-Google-Smtp-Source: ABdhPJyMWCHmxT4rJUIdWKrX39+apFOc3ZLu9EvVJWJyVsoi7slA0pY18Qk3wzcNK5nt/GqNGgHlcg==
+X-Received: by 2002:a5d:58dc:: with SMTP id o28mr3385160wrf.414.1611519111807; 
+ Sun, 24 Jan 2021 12:11:51 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id d9sm12409388wrq.74.2021.01.24.12.11.46
+ by smtp.gmail.com with ESMTPSA id l20sm21654064wrh.82.2021.01.24.12.11.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Jan 2021 12:11:46 -0800 (PST)
+ Sun, 24 Jan 2021 12:11:51 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 8/9] hw/sd: ssi-sd: Use macros for the dummy value and tokens
- in the transfer
-Date: Sun, 24 Jan 2021 21:11:05 +0100
-Message-Id: <20210124201106.2602238-9-f4bug@amsat.org>
+Subject: [PULL 9/9] hw/sd: sd.h: Cosmetic change of using spaces
+Date: Sun, 24 Jan 2021 21:11:06 +0100
+Message-Id: <20210124201106.2602238-10-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210124201106.2602238-1-f4bug@amsat.org>
 References: <20210124201106.2602238-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,101 +92,70 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present the codes use hardcoded numbers (0xff/0xfe) for the dummy
-value and block start token. Replace them with macros.
+QEMU coding convention prefers spaces over tabs.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210123104016.17485-12-bmeng.cn@gmail.com>
+Message-Id: <20210123104016.17485-15-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/ssi-sd.c | 26 ++++++++++++++++----------
- 1 file changed, 16 insertions(+), 10 deletions(-)
+ include/hw/sd/sd.h | 42 +++++++++++++++++++++---------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
-index 12dffb6f55e..be1bb101645 100644
---- a/hw/sd/ssi-sd.c
-+++ b/hw/sd/ssi-sd.c
-@@ -78,6 +78,12 @@ OBJECT_DECLARE_SIMPLE_TYPE(ssi_sd_state, SSI_SD)
- #define SSI_SDR_ADDRESS_ERROR   0x2000
- #define SSI_SDR_PARAMETER_ERROR 0x4000
+diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
+index 59d108d4535..05ef9b73e56 100644
+--- a/include/hw/sd/sd.h
++++ b/include/hw/sd/sd.h
+@@ -33,27 +33,27 @@
+ #include "hw/qdev-core.h"
+ #include "qom/object.h"
  
-+/* single block read/write, multiple block read */
-+#define SSI_TOKEN_SINGLE        0xfe
-+
-+/* dummy value - don't care */
-+#define SSI_DUMMY               0xff
-+
- static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
- {
-     ssi_sd_state *s = SSI_SD(dev);
-@@ -91,14 +97,14 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+-#define OUT_OF_RANGE		(1 << 31)
+-#define ADDRESS_ERROR		(1 << 30)
+-#define BLOCK_LEN_ERROR		(1 << 29)
+-#define ERASE_SEQ_ERROR		(1 << 28)
+-#define ERASE_PARAM		(1 << 27)
+-#define WP_VIOLATION		(1 << 26)
+-#define CARD_IS_LOCKED		(1 << 25)
+-#define LOCK_UNLOCK_FAILED	(1 << 24)
+-#define COM_CRC_ERROR		(1 << 23)
+-#define ILLEGAL_COMMAND		(1 << 22)
+-#define CARD_ECC_FAILED		(1 << 21)
+-#define CC_ERROR		(1 << 20)
+-#define SD_ERROR		(1 << 19)
+-#define CID_CSD_OVERWRITE	(1 << 16)
+-#define WP_ERASE_SKIP		(1 << 15)
+-#define CARD_ECC_DISABLED	(1 << 14)
+-#define ERASE_RESET		(1 << 13)
+-#define CURRENT_STATE		(7 << 9)
+-#define READY_FOR_DATA		(1 << 8)
+-#define APP_CMD			(1 << 5)
+-#define AKE_SEQ_ERROR		(1 << 3)
++#define OUT_OF_RANGE            (1 << 31)
++#define ADDRESS_ERROR           (1 << 30)
++#define BLOCK_LEN_ERROR         (1 << 29)
++#define ERASE_SEQ_ERROR         (1 << 28)
++#define ERASE_PARAM             (1 << 27)
++#define WP_VIOLATION            (1 << 26)
++#define CARD_IS_LOCKED          (1 << 25)
++#define LOCK_UNLOCK_FAILED      (1 << 24)
++#define COM_CRC_ERROR           (1 << 23)
++#define ILLEGAL_COMMAND         (1 << 22)
++#define CARD_ECC_FAILED         (1 << 21)
++#define CC_ERROR                (1 << 20)
++#define SD_ERROR                (1 << 19)
++#define CID_CSD_OVERWRITE       (1 << 16)
++#define WP_ERASE_SKIP           (1 << 15)
++#define CARD_ECC_DISABLED       (1 << 14)
++#define ERASE_RESET             (1 << 13)
++#define CURRENT_STATE           (7 << 9)
++#define READY_FOR_DATA          (1 << 8)
++#define APP_CMD                 (1 << 5)
++#define AKE_SEQ_ERROR           (1 << 3)
  
-     switch (s->mode) {
-     case SSI_SD_CMD:
--        if (val == 0xff) {
-+        if (val == SSI_DUMMY) {
-             DPRINTF("NULL command\n");
--            return 0xff;
-+            return SSI_DUMMY;
-         }
-         s->cmd = val & 0x3f;
-         s->mode = SSI_SD_CMDARG;
-         s->arglen = 0;
--        return 0xff;
-+        return SSI_DUMMY;
-     case SSI_SD_CMDARG:
-         if (s->arglen == 4) {
-             SDRequest request;
-@@ -173,15 +179,15 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-         } else {
-             s->cmdarg[s->arglen++] = val;
-         }
--        return 0xff;
-+        return SSI_DUMMY;
-     case SSI_SD_PREP_RESP:
-         DPRINTF("Prepare card response (Ncr)\n");
-         s->mode = SSI_SD_RESPONSE;
--        return 0xff;
-+        return SSI_DUMMY;
-     case SSI_SD_RESPONSE:
-         if (s->stopping) {
-             s->stopping = 0;
--            return 0xff;
-+            return SSI_DUMMY;
-         }
-         if (s->response_pos < s->arglen) {
-             DPRINTF("Response 0x%02x\n", s->response[s->response_pos]);
-@@ -194,16 +200,16 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-             DPRINTF("End of command\n");
-             s->mode = SSI_SD_CMD;
-         }
--        return 0xff;
-+        return SSI_DUMMY;
-     case SSI_SD_PREP_DATA:
-         DPRINTF("Prepare data block (Nac)\n");
-         s->mode = SSI_SD_DATA_START;
--        return 0xff;
-+        return SSI_DUMMY;
-     case SSI_SD_DATA_START:
-         DPRINTF("Start read block\n");
-         s->mode = SSI_SD_DATA_READ;
-         s->response_pos = 0;
--        return 0xfe;
-+        return SSI_TOKEN_SINGLE;
-     case SSI_SD_DATA_READ:
-         val = sdbus_read_byte(&s->sdbus);
-         s->crc16 = crc_ccitt_false(s->crc16, (uint8_t *)&val, 1);
-@@ -224,7 +230,7 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
-         return val;
-     }
-     /* Should never happen.  */
--    return 0xff;
-+    return SSI_DUMMY;
- }
- 
- static int ssi_sd_post_load(void *opaque, int version_id)
+ enum SDPhySpecificationVersion {
+     SD_PHY_SPECv1_10_VERS     = 1,
 -- 
 2.26.2
 
