@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3B6301EB9
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:33:40 +0100 (CET)
-Received: from localhost ([::1]:49066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4380D301EC0
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:35:08 +0100 (CET)
+Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3m4p-0004mw-UP
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:33:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41606)
+	id 1l3m6F-0007Ca-Bf
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:35:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3lzy-0000ex-ML; Sun, 24 Jan 2021 15:28:38 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37553)
+ id 1l3m03-0000lh-N1; Sun, 24 Jan 2021 15:28:43 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36553)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3lzx-0005Qf-9M; Sun, 24 Jan 2021 15:28:38 -0500
-Received: by mail-wr1-x430.google.com with SMTP id v15so10245743wrx.4;
- Sun, 24 Jan 2021 12:28:36 -0800 (PST)
+ id 1l3m02-0005SX-Aa; Sun, 24 Jan 2021 15:28:43 -0500
+Received: by mail-wm1-x336.google.com with SMTP id i9so2465443wmq.1;
+ Sun, 24 Jan 2021 12:28:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=tfh6ZX6HuhyRZJV4+yZY7Muv5Hss9JwmwPOFvwdUOwo=;
- b=IsMnx0mhqo1o3sUrK5hX+CNtFURyVhNMOtL+ZsWgyCdXx6ROK5/nJ6AMceQYWc3OKd
- jKzt1PagCji85LRordIHcMNs7UPPxU6+rYbg6Rp7r9v+FZCiLBmzFjJ5XzEVCbowbiPy
- IjY+6i+oJl1BYHRVo7oJRxqmLMpJ55bPJEXuVGOE3qTHgJ130NG2Ic3UJU4kCYY0D3T2
- LO+6Hiree2kOXAOHabSHE1aSR+mp+eFkarNUKJbezOYyHXf/bBmjIo5Ha5jtDv+PcJZO
- QqIiSSwIPW62yH/HzFiFwf62P4jUE8zuYIAsGdgmehsvWUUdEHLZaLPWjzoR3ilTnDPX
- veDA==
+ bh=0OXE2ghwu/u4aUK+J3Nc88xMP1SZwgJgIRrsmYs8INU=;
+ b=Fpg6V24l1DjGB4gs7vV+NgtFU504NpKBadkEWUju0Iy2nhqjR8OZYnehu+mDw5LNLs
+ WDjpjdwbN2Nv0Oufxba5oVgq50OLWp318wele7ILzxgfi7p/t+e9uWKdLJ0lw5MlhePV
+ u3vIwm5idR92Nb0NY4vnRr1C0YoDInsy36mKpIhX5qWCViXig3oZHor+ykCxkVXXB5Ha
+ nUbiKvww8Bm7Ff8/xaIg/9cl+boz6/u+ulTFsQm28bjA/eNaLS1X46tts6uQBOH+hzgb
+ eSyULyhF1OfQUJJrQg9LgfQJ5xVdYAWDhMEz0RPgISxGmhnCbWlPvr+XKloOj9dha239
+ MVDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=tfh6ZX6HuhyRZJV4+yZY7Muv5Hss9JwmwPOFvwdUOwo=;
- b=O9bS+31gNglk9nzWQgysh47BJxosYjUoiXqU9CBYXAy8vRA2F+JVHpQj8aea13H5qI
- wK4h5vlHksobyHntsYeFelzNo50pWBcMG53PbIAhoU6Hiz3qL2fLjfOYN0CVV71bYt8X
- P7vMMfycseR6E0Ex/8bDfwGftyTAk1iEyoC0bpy49Q2WgosNe57y3LPWwpd+DLKnkwKS
- n/bpUxDFP7bCriMONB6yojXqEzE/6DzRWdlNy3/H2aJTVl92muIu4Lzv1O/kXNuE6Yvr
- ywHcKy+Tx5OsEemN/+t8VFvmffHWicjyhH2/Xm9dR/L90hVVlOElg1KIJE/ykvR3xTGQ
- b+jg==
-X-Gm-Message-State: AOAM532WFOC9IXPlx1oxqS4LxGiADZHufHcPm/uvPaXSRQRgLZdXNgW6
- cqV2KpACJSeUAvRnCM9bKHcoCMm1Jb0=
-X-Google-Smtp-Source: ABdhPJzHTqQlOKRFWiHufjaXujFPeCeO7zXFdSOLNhw+DhlfUkTITuuQt8nqN7cStwDONvRTJ6JkyA==
-X-Received: by 2002:a05:6000:1542:: with SMTP id
- 2mr3606362wry.356.1611520115545; 
- Sun, 24 Jan 2021 12:28:35 -0800 (PST)
+ bh=0OXE2ghwu/u4aUK+J3Nc88xMP1SZwgJgIRrsmYs8INU=;
+ b=nqYsX1xutpSQIuhBUGGy+C3axdAfu1mVzNYgGtNu+WrYIwd2LzRH/cgOiHKqzOkS6f
+ nQwmc7bVMA7qMPAGk7g1kAEy0eB5yoKrg3sAh4wvSeM7ooQFoposaaQ2DIdpyBz0LRMD
+ DyjhokRAPKonV8ZR9tSiia2ENu2rB822SOFzJsQryQ8sjDti016P1UKmJjV6fx2zauht
+ id3OA2JohQGjfa0RT7Jxlag0r7rDf0JlQX6NpsULPRQ46gLXehSHnZZf3GzI4b7BXvCz
+ MyBjWVduhoy8ULXzaJXRTy3fFnyWGY8LTt23dtuWU3BPiAatk2aQSVFmoump3cSMmNTx
+ B6ZA==
+X-Gm-Message-State: AOAM532bbOgKtXe3KMAt58Y/JyMjDPFS36jLlXTiD+wtxh8ISmP2F7kt
+ Qz6aPVTG4Sm2vjo7hPuMs7+3x44ax9s=
+X-Google-Smtp-Source: ABdhPJwWU7fdvvd14ySUsV82xUMtCofipzK9ODnEz2vI4g52A+uetBU9wf2OEApHMMmdu7SC9FXL3w==
+X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr3993239wmk.72.1611520120615;
+ Sun, 24 Jan 2021 12:28:40 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id k15sm8138582wmj.6.2021.01.24.12.28.34
+ by smtp.gmail.com with ESMTPSA id q6sm17888028wmj.32.2021.01.24.12.28.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Jan 2021 12:28:34 -0800 (PST)
+ Sun, 24 Jan 2021 12:28:39 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v3 3/6] hw/sd: sd: Allow single/multiple block write for SPI
- mode
-Date: Sun, 24 Jan 2021 21:28:14 +0100
-Message-Id: <20210124202817.2624557-4-f4bug@amsat.org>
+Subject: [PATCH v3 4/6] hw/sd: Introduce receive_ready() callback
+Date: Sun, 24 Jan 2021 21:28:15 +0100
+Message-Id: <20210124202817.2624557-5-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210124202817.2624557-1-f4bug@amsat.org>
 References: <20210124202817.2624557-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -95,31 +93,88 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present the single/multiple block write in SPI mode is blocked
-by sd_normal_command(). Remove the limitation.
+At present there is a data_ready() callback for the SD data read
+path. Let's add a receive_ready() for the SD data write path.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20210123104016.17485-14-bmeng.cn@gmail.com>
+Message-Id: <20210123104016.17485-16-bmeng.cn@gmail.com>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/sd/sd.c | 3 ---
- 1 file changed, 3 deletions(-)
+ include/hw/sd/sd.h |  2 ++
+ hw/sd/core.c       | 13 +++++++++++++
+ hw/sd/sd.c         |  6 ++++++
+ 3 files changed, 21 insertions(+)
 
+diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
+index 05ef9b73e56..47360ba4ee9 100644
+--- a/include/hw/sd/sd.h
++++ b/include/hw/sd/sd.h
+@@ -116,6 +116,7 @@ struct SDCardClass {
+      * Return: byte value read
+      */
+     uint8_t (*read_byte)(SDState *sd);
++    bool (*receive_ready)(SDState *sd);
+     bool (*data_ready)(SDState *sd);
+     void (*set_voltage)(SDState *sd, uint16_t millivolts);
+     uint8_t (*get_dat_lines)(SDState *sd);
+@@ -187,6 +188,7 @@ void sdbus_write_data(SDBus *sdbus, const void *buf, size_t length);
+  * Read multiple bytes of data on the data lines of a SD bus.
+  */
+ void sdbus_read_data(SDBus *sdbus, void *buf, size_t length);
++bool sdbus_receive_ready(SDBus *sd);
+ bool sdbus_data_ready(SDBus *sd);
+ bool sdbus_get_inserted(SDBus *sd);
+ bool sdbus_get_readonly(SDBus *sd);
+diff --git a/hw/sd/core.c b/hw/sd/core.c
+index 08c93b59034..30ee62c5106 100644
+--- a/hw/sd/core.c
++++ b/hw/sd/core.c
+@@ -160,6 +160,19 @@ void sdbus_read_data(SDBus *sdbus, void *buf, size_t length)
+     }
+ }
+ 
++bool sdbus_receive_ready(SDBus *sdbus)
++{
++    SDState *card = get_card(sdbus);
++
++    if (card) {
++        SDCardClass *sc = SD_CARD_GET_CLASS(card);
++
++        return sc->receive_ready(card);
++    }
++
++    return false;
++}
++
+ bool sdbus_data_ready(SDBus *sdbus)
+ {
+     SDState *card = get_card(sdbus);
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 09753359bb2..946036d87cb 100644
+index 946036d87cb..c99c0e93bb8 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -1230,9 +1230,6 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
-     case 25:	/* CMD25:  WRITE_MULTIPLE_BLOCK */
-         switch (sd->state) {
-         case sd_transfer_state:
--            /* Writing in SPI mode not implemented.  */
--            if (sd->spi)
--                break;
+@@ -2037,6 +2037,11 @@ uint8_t sd_read_byte(SDState *sd)
+     return ret;
+ }
  
-             if (addr + sd->blk_len > sd->size) {
-                 sd->card_status |= ADDRESS_ERROR;
++static bool sd_receive_ready(SDState *sd)
++{
++    return sd->state == sd_receivingdata_state;
++}
++
+ static bool sd_data_ready(SDState *sd)
+ {
+     return sd->state == sd_sendingdata_state;
+@@ -2147,6 +2152,7 @@ static void sd_class_init(ObjectClass *klass, void *data)
+     sc->do_command = sd_do_command;
+     sc->write_byte = sd_write_byte;
+     sc->read_byte = sd_read_byte;
++    sc->receive_ready = sd_receive_ready;
+     sc->data_ready = sd_data_ready;
+     sc->enable = sd_enable;
+     sc->get_inserted = sd_get_inserted;
 -- 
 2.26.2
 
