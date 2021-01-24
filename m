@@ -2,47 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 223CA301C54
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 14:50:10 +0100 (CET)
-Received: from localhost ([::1]:33070 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF613301D4F
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 16:51:08 +0100 (CET)
+Received: from localhost ([::1]:36162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3fmK-0007Lu-LZ
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 08:50:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41582)
+	id 1l3hfP-0004Md-8t
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 10:51:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l3fl9-0006vN-Q9
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 08:48:55 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:32936)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l3fl4-0005E1-RU
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 08:48:54 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9FCE97462DB;
- Sun, 24 Jan 2021 14:48:45 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 63A937462BD; Sun, 24 Jan 2021 14:48:45 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 61E047456B4;
- Sun, 24 Jan 2021 14:48:45 +0100 (CET)
-Date: Sun, 24 Jan 2021 14:48:45 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] tcg: Restart code generation when we run out of temps
-In-Reply-To: <20210123230105.2076270-1-richard.henderson@linaro.org>
-Message-ID: <9f216d18-7d62-1e5-795e-3d2a2ae2ac4f@eik.bme.hu>
-References: <20210123230105.2076270-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l3heT-0003uW-3h
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 10:50:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28905)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l3heQ-00023d-06
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 10:50:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611503403;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IS4BUxACdjnOwLLL4rpG+R3vMr63YTUw27ZKFkqcEAE=;
+ b=AOYAW8xfOcH1lqBGBk+g3EREGT9CxFG+QYzJRvs3qV0MaIe1Dp91FccAnKEoK2ZoIfUk5Y
+ PkREaZ3mnnXmplrpWsvKXwUbIQMtemy0DzHRZFNBlxoES7dNsgCWq+S8s1AZuzt8o8zv+v
+ LxEzH3w3HILxERZNyckNyB8iBqrrkFg=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-377-Qnu3MPRlN5ey8K3Lm8yR5A-1; Sun, 24 Jan 2021 10:50:01 -0500
+X-MC-Unique: Qnu3MPRlN5ey8K3Lm8yR5A-1
+Received: by mail-wr1-f71.google.com with SMTP id d7so6037793wri.23
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 07:50:01 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IS4BUxACdjnOwLLL4rpG+R3vMr63YTUw27ZKFkqcEAE=;
+ b=MjfrmzOoLJjCpF/AiyCS35tVEWCQsFsvFE3aRtnO8DPo5OfZ52y0LRZuyh8UKgrQTT
+ tUUQZCooAyNtWUbSDgjhlfaGaJ9DoNGChfox9Gnp6ZGV5efcv+KYIhP53jLpIck3q4+S
+ G6Cgc1YL+IyRWwTGSQphp2sj2tzFyLQ+kR8vQGUc5iBdeZ0w0halvx3AFI3/r46IZ5wJ
+ 0ALgThHTo6n+vpUuBRcon63xfk5xf/0YXuqp/wZUMUsKuNho5kOrYWI/pTv7wD8/9uBP
+ Shu+be4+eqzmm7VQrobaOfwxwC19+4xw3t+geymCPrRGGAzmCInu6qaSDqclAM/BHrcW
+ +jrQ==
+X-Gm-Message-State: AOAM531P7r1qtIg78YQY6epqb1a0mGRQNEYw/LjIMEp75U5Md+b4k8Im
+ gEQ2MffRxY2Skk/TcJ3/nJeDG4BmzTNIuwWuT0V9uQmf3OuAM5EBWL4CmLBGL98JX7d2T3jJrh3
+ HtjRfXHp7UV8xLJY=
+X-Received: by 2002:a5d:6191:: with SMTP id j17mr13167064wru.281.1611503400142; 
+ Sun, 24 Jan 2021 07:50:00 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwC2JI3cnwXLZRTmDILRpGYyb3i5jCUTIAWI4YeTvzn2A/07AF1n03xJAyQyGYMy2+ZfEoyYg==
+X-Received: by 2002:a5d:6191:: with SMTP id j17mr13167052wru.281.1611503399946; 
+ Sun, 24 Jan 2021 07:49:59 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id g187sm18698599wmf.1.2021.01.24.07.49.58
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 24 Jan 2021 07:49:59 -0800 (PST)
+Subject: Re: [PATCH v3 4/4] configure: Reword --enable-tcg-interpreter as
+ --disable-native-tcg
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20210122133004.1913923-1-philmd@redhat.com>
+ <20210122133004.1913923-5-philmd@redhat.com>
+ <c92fdd54-d67c-adfe-66a3-24206b8f4108@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <15d52e3f-618a-3ad0-baed-0ae35da94b90@redhat.com>
+Date: Sun, 24 Jan 2021 16:49:57 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+In-Reply-To: <c92fdd54-d67c-adfe-66a3-24206b8f4108@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,136 +100,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, alistair23@gmail.com, qemu-devel@nongnu.org
+Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Daniel P . Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 23 Jan 2021, Richard Henderson wrote:
-> Some large translation blocks can generate so many unique
-> constants that we run out of temps to hold them.  In this
-> case, longjmp back to the start of code generation and
-> restart with a smaller translation block.
->
-> Buglink: https://bugs.launchpad.net/bugs/1912065
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On 1/23/21 7:13 PM, Paolo Bonzini wrote:
+> On 22/01/21 14:30, Philippe Mathieu-Daudé wrote:
+>> Users might want to enable all features, without realizing some
+>> features have negative effect. Rename '--enable-tcg-interpreter'
+>> as '--disable-native-tcg' to avoid user selecting this feature
+>> without understanding it. '--enable-tcg-interpreter' is kept in
+>> for backward compability with scripts.
+>>
+>> Suggested-by: Thomas Huth <thuth@redhat.com>
+>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>   configure | 5 +++--
+>>   1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/configure b/configure
+>> index 48bd6f48d7a..5e5ff779a69 100755
+>> --- a/configure
+>> +++ b/configure
+>> @@ -1121,7 +1121,8 @@ for opt do
+>>     ;;
+>>     --disable-tcg-interpreter) tcg_interpreter="no"
+>>     ;;
+>> -  --enable-tcg-interpreter) tcg_interpreter="yes"
+>> +  --enable-tcg-interpreter) # backward compatibility
+> 
+> Do you really want to break the old option?
 
-Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+I am not breaking it, I'm keeping it, but not listed
+in the help. Maybe you meant "not break the old option",
+in that case you suggest me to add a warning such "this
+option is deprecated and has been replaced by
+--disable-native-tcg"?
 
-Regards,
-BALATON Zoltan
+> 
+>> +  --disable-native-tcg) tcg_interpreter="yes"
+>>     ;;
+>>     --disable-cap-ng)  cap_ng="disabled"
+>>     ;;
+>> @@ -1753,7 +1754,7 @@ Advanced options (experts only):
+>>     --with-trace-file=NAME   Full PATH,NAME of file to store traces
+>>                              Default:trace-<pid>
+>>     --disable-slirp          disable SLIRP userspace network connectivity
+>> -  --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter,
+>> experimental and slow)
+>> +  --disable-native-tcg     enable TCI (TCG with bytecode interpreter,
+>> experimental and slow)
+>>     --enable-malloc-trim     enable libc malloc_trim() for memory
+>> optimization
+>>     --oss-lib                path to OSS library
+>>     --cpu=CPU                Build for host CPU [$cpu]
+>>
+> 
+> The problem here is that for some CPUs there is no native TCG...  I
+> mean, what's unclear in "exprimental and slow"?
 
-> ---
->
-> This replaces both the patch to increase the number of temps,
-> and the buggy patch set that dynamically allocated the temps.
->
->
-> r~
->
-> ---
-> include/tcg/tcg.h         |  3 +++
-> accel/tcg/translate-all.c | 15 ++++++++++++++-
-> tcg/tcg.c                 | 11 ++++++++---
-> 3 files changed, 25 insertions(+), 4 deletions(-)
->
-> diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-> index c5a9d65d5f..0f0695e90d 100644
-> --- a/include/tcg/tcg.h
-> +++ b/include/tcg/tcg.h
-> @@ -680,6 +680,9 @@ struct TCGContext {
->
->     uint16_t gen_insn_end_off[TCG_MAX_INSNS];
->     target_ulong gen_insn_data[TCG_MAX_INSNS][TARGET_INSN_START_WORDS];
-> +
-> +    /* Exit to translator on overflow. */
-> +    sigjmp_buf jmp_trans;
-> };
->
-> static inline bool temp_readonly(TCGTemp *ts)
-> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
-> index d09c187e0f..81d4c83f22 100644
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1926,11 +1926,17 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->     ti = profile_getclock();
-> #endif
->
-> +    gen_code_size = sigsetjmp(tcg_ctx->jmp_trans, 0);
-> +    if (unlikely(gen_code_size != 0)) {
-> +        goto error_return;
-> +    }
-> +
->     tcg_func_start(tcg_ctx);
->
->     tcg_ctx->cpu = env_cpu(env);
->     gen_intermediate_code(cpu, tb, max_insns);
->     tcg_ctx->cpu = NULL;
-> +    max_insns = tb->icount;
->
->     trace_translate_block(tb, tb->pc, tb->tc.ptr);
->
-> @@ -1955,6 +1961,7 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->
->     gen_code_size = tcg_gen_code(tcg_ctx, tb);
->     if (unlikely(gen_code_size < 0)) {
-> + error_return:
->         switch (gen_code_size) {
->         case -1:
->             /*
-> @@ -1966,6 +1973,9 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->              * flush the TBs, allocate a new TB, re-initialize it per
->              * above, and re-do the actual code generation.
->              */
-> +            qemu_log_mask(CPU_LOG_TB_OP | CPU_LOG_TB_OP_OPT,
-> +                          "Restarting code generation for "
-> +                          "code_gen_buffer overflow\n");
->             goto buffer_overflow;
->
->         case -2:
-> @@ -1978,9 +1988,12 @@ TranslationBlock *tb_gen_code(CPUState *cpu,
->              * Try again with half as many insns as we attempted this time.
->              * If a single insn overflows, there's a bug somewhere...
->              */
-> -            max_insns = tb->icount;
->             assert(max_insns > 1);
->             max_insns /= 2;
-> +            qemu_log_mask(CPU_LOG_TB_OP | CPU_LOG_TB_OP_OPT,
-> +                          "Restarting code generation with "
-> +                          "smaller translation block (max %d insns)\n",
-> +                          max_insns);
->             goto tb_overflow;
->
->         default:
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 67b08f708d..9e1b0d73c7 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -1205,18 +1205,23 @@ void tcg_func_start(TCGContext *s)
->     QSIMPLEQ_INIT(&s->labels);
-> }
->
-> -static inline TCGTemp *tcg_temp_alloc(TCGContext *s)
-> +static TCGTemp *tcg_temp_alloc(TCGContext *s)
-> {
->     int n = s->nb_temps++;
-> -    tcg_debug_assert(n < TCG_MAX_TEMPS);
-> +
-> +    if (n >= TCG_MAX_TEMPS) {
-> +        /* Signal overflow, starting over with fewer guest insns. */
-> +        siglongjmp(s->jmp_trans, -2);
-> +    }
->     return memset(&s->temps[n], 0, sizeof(TCGTemp));
-> }
->
-> -static inline TCGTemp *tcg_global_alloc(TCGContext *s)
-> +static TCGTemp *tcg_global_alloc(TCGContext *s)
-> {
->     TCGTemp *ts;
->
->     tcg_debug_assert(s->nb_globals == s->nb_temps);
-> +    tcg_debug_assert(s->nb_globals < TCG_MAX_TEMPS);
->     s->nb_globals++;
->     ts = tcg_temp_alloc(s);
->     ts->kind = TEMP_GLOBAL;
->
+OK, we can skip this patch then.
+
+> 
+> Paolo
+> 
+
 
