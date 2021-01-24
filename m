@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E55C7301984
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 05:47:54 +0100 (CET)
-Received: from localhost ([::1]:47480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E165A301A47
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 08:07:32 +0100 (CET)
+Received: from localhost ([::1]:49842 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3XJZ-00055J-5R
-	for lists+qemu-devel@lfdr.de; Sat, 23 Jan 2021 23:47:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35784)
+	id 1l3ZUh-0000P2-Iq
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 02:07:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46698)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l3XId-0004YG-1k; Sat, 23 Jan 2021 23:46:55 -0500
-Received: from ozlabs.org ([203.11.71.1]:36685)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l3XIZ-0006DY-VZ; Sat, 23 Jan 2021 23:46:54 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DNgSb3MBJz9sVw; Sun, 24 Jan 2021 15:46:39 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611463599;
- bh=W9K2wDpOJX5CQSNv9s/UmGUWqg4x8k8Vp33bMnGXO1Y=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jN5bgt6+Aow7bxnYLzfXIXgMqxGHPhmsuLHfcj2ou1X6yK6c3/hg2k5FeKcck7A24
- mmX6m4TD91hfR9JD0CUXDVYkeweqUNgyTcIif4rsk24/DM7ShmWv3ORtB6OIVHGga0
- fcMhNhnuPJKg1rsRYuu14e+w0nVQzOG9Urae86Yc=
-Date: Sun, 24 Jan 2021 15:46:34 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] target/ppc: Fix truncation of env->hflags
-Message-ID: <20210124044634.GA8202@yekko.fritz.box>
-References: <20210124032422.2113565-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3ZSt-0007vb-Lu
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:05:39 -0500
+Received: from indium.canonical.com ([91.189.90.7]:50720)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3ZSr-0002qp-Ie
+ for qemu-devel@nongnu.org; Sun, 24 Jan 2021 02:05:39 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l3ZSq-0000Yu-57
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 07:05:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 1EEEC2E8137
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 07:05:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="Nq2Wo0NMKNjxTN9z"
-Content-Disposition: inline
-In-Reply-To: <20210124032422.2113565-1-richard.henderson@linaro.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 24 Jan 2021 06:57:19 -0000
+From: Thomas Huth <1886793@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: davidhildenbrand laurent-vivier nirmannarang
+X-Launchpad-Bug-Reporter: Nirman Narang (nirmannarang)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159420215057.30952.7191975282964377029.malonedeb@wampee.canonical.com>
+Message-Id: <161147144064.10523.14272367110054501670.launchpad@gac.canonical.com>
+Subject: [Bug 1886793] Re: "go install" command fails while running inside
+ s390x docker container on x86_64 host using qemu
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: 4558985299a5aa09783205bb40e003ce93ebe16c
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,202 +71,201 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
+Reply-To: Bug 1886793 <1886793@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-- =
 
-On Sat, Jan 23, 2021 at 05:24:22PM -1000, Richard Henderson wrote:
-> Use the cs_base field, because it happens to be the same
-> size as hflags (and MSR, from which hflags is derived).
->=20
-> In translate, extract most bits from a local hflags variable.
-> Mark several cases where code generation is *not* derived from
-> data stored within the hashed elements of the TranslationBlock.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1886793
 
-My knowledge of TCG isn't great, so I'm pretty much prepared to accept
-this is correct on your say so.
+Title:
+  "go install" command fails while running inside s390x docker container
+  on x86_64 host using qemu
 
-But that commit message feels like it's following on from a
-conversation that's not here, nor linked.  It'd be great if it
-explained how said hflags truncation is happening, because it's
-certainly not obvious to someone with only a fair to middling
-understanding of TCG.
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  Steps to reproduce the issue:
+
+  Register x86_64 host with the latest qemu-user-static.
+  docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+
+  Build the following Docker Image using following Dockerfile.s390x
+  using command docker build -t test/crossbuild:latest-s390x -f
+  Dockerfile.s390x .
+
+  Dockerfile.s390x
+
+  ##############################################
+  FROM alpine:3.11 as qemu
+  ARG QEMU_VERSION=3D5.0.0-2
+  ARG QEMU_ARCHS=3D"s390x"
+  RUN apk --update add curl
+  #Enable non-native runs on amd64 architecture hosts
+  RUN for i in ${QEMU_ARCHS}; do curl -L https://github.com/multiarch/qemu-=
+user-static/releases/download/v${QEMU_VERSION}/qemu-${i}-static.tar.gz | ta=
+r zxvf - -C /usr/bin; done
+  RUN chmod +x /usr/bin/qemu-*
+
+  FROM s390x/golang:1.14.2-alpine3.11
+  MAINTAINER LoZ Open Source Ecosystem (https://www.ibm.com/developerworks/=
+community/groups/community/lozopensource)
+
+  ARG MANIFEST_TOOL_VERSION=3Dv1.0.2
+
+  #Enable non-native builds of this image on an amd64 hosts.
+  #This must be the first RUN command in this file!
+  COPY --from=3Dqemu /usr/bin/qemu-*-static /usr/bin/
+
+  #Install su-exec for use in the entrypoint.sh (so processes run as the ri=
+ght user)
+  #Install bash for the entry script (and because it's generally useful)
+  #Install curl to download glide
+  #Install git for fetching Go dependencies
+  #Install ssh for fetching Go dependencies
+  #Install mercurial for fetching go dependencies
+  #Install wget since it's useful for fetching
+  #Install make for building things
+  #Install util-linux for column command (used for output formatting).
+  #Install grep and sed for use in some Makefiles (e.g. pulling versions ou=
+t of glide.yaml)
+  #Install shadow for useradd (it allows to use big UID)
+  RUN apk update && apk add --no-cache su-exec curl bash git openssh mercur=
+ial make wget util-linux tini file grep sed shadow
+  RUN apk upgrade --no-cache
+
+  #Disable ssh host key checking
+  RUN echo 'Host *' >> /etc/ssh/ssh_config \
+  =C2=A0=C2=A0&& echo '    StrictHostKeyChecking no' >> /etc/ssh/ssh_config
+
+  #Disable cgo so that binaries we build will be fully static.
+  ENV CGO_ENABLED=3D0
+
+  #Recompile the standard library with cgo disabled.  This prevents the sta=
+ndard library from being
+  #marked stale, causing full rebuilds every time.
+  RUN go install -v std
+
+  #Install glide
+  RUN go get github.com/Masterminds/glide
+  ENV GLIDE_HOME /home/user/.glide
+
+  #Install dep
+  RUN go get github.com/golang/dep/cmd/dep
+
+  #Install ginkgo CLI tool for running tests
+  RUN go get github.com/onsi/ginkgo/ginkgo
+
+  #Install linting tools.
+  RUN wget -O - -q https://install.goreleaser.com/github.com/golangci/golan=
+gci-lint.sh | sh -s v1.20.0
+  RUN golangci-lint --version
+
+  #Install license checking tool.
+  RUN go get github.com/pmezard/licenses
+
+  #Install tool to merge coverage reports.
+  RUN go get github.com/wadey/gocovmerge
+
+  #Install CLI tool for working with yaml files
+  RUN go get github.com/mikefarah/yaml
+
+  #Delete all the Go sources that were downloaded, we only rely on the bina=
+ries
+  RUN rm -rf /go/src/*
+
+  #Install vgo (should be removed once we take Go 1.11)
+  RUN go get -u golang.org/x/vgo
+
+  #Ensure that everything under the GOPATH is writable by everyone
+  RUN chmod -R 777 $GOPATH
+
+  RUN curl -sSL https://github.com/estesp/manifest-tool/releases/download/$=
+{MANIFEST_TOOL_VERSION}/manifest-tool-linux-s390x > manifest-tool && \
+  =C2=A0=C2=A0=C2=A0=C2=A0chmod +x manifest-tool && \
+  =C2=A0=C2=A0=C2=A0=C2=A0mv manifest-tool /usr/bin/
+
+  COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+  ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/entrypoint.sh"]
+  ##################################################################
+
+  =
+
+  The build just hangs at RUN go install -v std
 
 
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Reported-by: Ivan Warren <ivan@vmfacility.fr>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  target/ppc/cpu.h       |  4 +--
->  target/ppc/translate.c | 64 ++++++++++++++++--------------------------
->  2 files changed, 26 insertions(+), 42 deletions(-)
->=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 2609e4082e..4a05e4e544 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -2396,8 +2396,8 @@ static inline void cpu_get_tb_cpu_state(CPUPPCState=
- *env, target_ulong *pc,
->                                          target_ulong *cs_base, uint32_t =
-*flags)
->  {
->      *pc =3D env->nip;
-> -    *cs_base =3D 0;
-> -    *flags =3D env->hflags;
-> +    *cs_base =3D env->hflags;
-> +    *flags =3D 0;
->  }
-> =20
->  void QEMU_NORETURN raise_exception(CPUPPCState *env, uint32_t exception);
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 0984ce637b..1eb2e1b0c6 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -7879,47 +7879,37 @@ static void ppc_tr_init_disas_context(DisasContex=
-tBase *dcbase, CPUState *cs)
->  {
->      DisasContext *ctx =3D container_of(dcbase, DisasContext, base);
->      CPUPPCState *env =3D cs->env_ptr;
-> +    target_ulong hflags =3D ctx->base.tb->cs_base;
->      int bound;
-> =20
->      ctx->exception =3D POWERPC_EXCP_NONE;
->      ctx->spr_cb =3D env->spr_cb;
-> -    ctx->pr =3D msr_pr;
-> +    ctx->pr =3D (hflags >> MSR_PR) & 1;
->      ctx->mem_idx =3D env->dmmu_idx;
-> -    ctx->dr =3D msr_dr;
-> -#if !defined(CONFIG_USER_ONLY)
-> -    ctx->hv =3D msr_hv || !env->has_hv_mode;
-> +    ctx->dr =3D (hflags >> MSR_DR) & 1;
-> +#if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
-> +    ctx->hv =3D (hflags >> MSR_HV) & 1;
->  #endif
->      ctx->insns_flags =3D env->insns_flags;
->      ctx->insns_flags2 =3D env->insns_flags2;
->      ctx->access_type =3D -1;
->      ctx->need_access_type =3D !mmu_is_64bit(env->mmu_model);
-> -    ctx->le_mode =3D !!(env->hflags & (1 << MSR_LE));
-> +    ctx->le_mode =3D (hflags >> MSR_LE) & 1;
->      ctx->default_tcg_memop_mask =3D ctx->le_mode ? MO_LE : MO_BE;
->      ctx->flags =3D env->flags;
->  #if defined(TARGET_PPC64)
-> -    ctx->sf_mode =3D msr_is_64bit(env, env->msr);
-> +    ctx->sf_mode =3D (hflags >> MSR_SF) & 1;
->      ctx->has_cfar =3D !!(env->flags & POWERPC_FLAG_CFAR);
->  #endif
->      ctx->lazy_tlb_flush =3D env->mmu_model =3D=3D POWERPC_MMU_32B
->          || env->mmu_model =3D=3D POWERPC_MMU_601
->          || env->mmu_model & POWERPC_MMU_64;
-> =20
-> -    ctx->fpu_enabled =3D !!msr_fp;
-> -    if ((env->flags & POWERPC_FLAG_SPE) && msr_spe) {
-> -        ctx->spe_enabled =3D !!msr_spe;
-> -    } else {
-> -        ctx->spe_enabled =3D false;
-> -    }
-> -    if ((env->flags & POWERPC_FLAG_VRE) && msr_vr) {
-> -        ctx->altivec_enabled =3D !!msr_vr;
-> -    } else {
-> -        ctx->altivec_enabled =3D false;
-> -    }
-> -    if ((env->flags & POWERPC_FLAG_VSX) && msr_vsx) {
-> -        ctx->vsx_enabled =3D !!msr_vsx;
-> -    } else {
-> -        ctx->vsx_enabled =3D false;
-> -    }
-> +    ctx->fpu_enabled =3D (hflags >> MSR_FP) & 1;
-> +    ctx->spe_enabled =3D (hflags >> MSR_SPE) & 1;
-> +    ctx->altivec_enabled =3D (hflags >> MSR_VR) & 1;
-> +    ctx->vsx_enabled =3D (hflags >> MSR_VSX) & 1;
-> +    /* FIXME: This needs to be stored in env->hflags_nmsr. */
->      if ((env->flags & POWERPC_FLAG_SCV)
->          && (env->spr[SPR_FSCR] & (1ull << FSCR_SCV))) {
->          ctx->scv_enabled =3D true;
-> @@ -7927,23 +7917,21 @@ static void ppc_tr_init_disas_context(DisasContex=
-tBase *dcbase, CPUState *cs)
->          ctx->scv_enabled =3D false;
->      }
->  #if defined(TARGET_PPC64)
-> -    if ((env->flags & POWERPC_FLAG_TM) && msr_tm) {
-> -        ctx->tm_enabled =3D !!msr_tm;
-> -    } else {
-> -        ctx->tm_enabled =3D false;
-> -    }
-> +    ctx->tm_enabled =3D (hflags >> MSR_TM) & 1;
->  #endif
-> +    /* FIXME: This needs to be stored in env->hflags_nmsr. */
->      ctx->gtse =3D !!(env->spr[SPR_LPCR] & LPCR_GTSE);
-> -    if ((env->flags & POWERPC_FLAG_SE) && msr_se) {
-> -        ctx->singlestep_enabled =3D CPU_SINGLE_STEP;
-> -    } else {
-> -        ctx->singlestep_enabled =3D 0;
-> -    }
-> -    if ((env->flags & POWERPC_FLAG_BE) && msr_be) {
-> -        ctx->singlestep_enabled |=3D CPU_BRANCH_STEP;
-> -    }
-> -    if ((env->flags & POWERPC_FLAG_DE) && msr_de) {
-> +
-> +    ctx->singlestep_enabled =3D ((hflags >> MSR_SE) & 1 ? CPU_SINGLE_STE=
-P : 0)
-> +                            | ((hflags >> MSR_BE) & 1 ? CPU_BRANCH_STEP =
-: 0);
-> +
-> +    if ((hflags >> MSR_DE) & 1) {
->          ctx->singlestep_enabled =3D 0;
-> +        /*
-> +         * FIXME: This needs to be stored in env->hflags_nmsr,
-> +         * probably overlapping MSR_SE/MSR_BE like we do for
-> +         * MSR_LE and the ppc 601.
-> +         */
->          target_ulong dbcr0 =3D env->spr[SPR_BOOKE_DBCR0];
->          if (dbcr0 & DBCR0_ICMP) {
->              ctx->singlestep_enabled |=3D CPU_SINGLE_STEP;
-> @@ -7956,10 +7944,6 @@ static void ppc_tr_init_disas_context(DisasContext=
-Base *dcbase, CPUState *cs)
->      if (unlikely(ctx->base.singlestep_enabled)) {
->          ctx->singlestep_enabled |=3D GDBSTUB_SINGLE_STEP;
->      }
-> -#if defined(DO_SINGLE_STEP) && 0
-> -    /* Single step trace mode */
-> -    msr_se =3D 1;
-> -#endif
-> =20
->      bound =3D -(ctx->base.pc_first | TARGET_PAGE_MASK) / 4;
->      ctx->base.max_insns =3D MIN(ctx->base.max_insns, bound);
+  Also, while running the same command inside s390x container on x86_64
+  host, error Illegal instruction (core dumped) is thrown.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+  Register x86_64 host with the latest qemu-user-static.
+  docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
 
---Nq2Wo0NMKNjxTN9z
-Content-Type: application/pgp-signature; name="signature.asc"
+  docker run -it -v /home/test/qemu-s390x-static:/usr/bin/qemu-s390x-
+  static s390x/golang:1.14.2-alpine3.11
 
------BEGIN PGP SIGNATURE-----
+  Inside s390x container:
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAM+6cACgkQbDjKyiDZ
-s5JtsA/8DtW27SuhLgOrRkb75p3Peyj2YiGwqUPfY0hgVHY05vcXe+6IvlC0b38c
-d+eA4mafbP9K26QiSJ7FvGwuCEMMV9JorK0zjN4rKfpo8PTjhBlqB7I4IvQ8ynGS
-onlWySs73CD9kzgXUBfxS5LcAZLOu8OWzSJMrYC/VXIb/qby9ArPVeUXrHQeILKW
-pFW9Sewq9iyaobntEQqw7TpulJFYeSY49scHZBT6cvtKk68uceT9PQmM+ug9Qnwd
-WOvVIz/UBwhQJRstl5ST5hUrvbudLIpOvHrmvqeayfLN+NKLW2GQ1vG4r0AJTYMR
-jaTdE8yRxEhklm2Mv2NIRuYT+30tCeJnv5MOVdKtEBVdDG+mmz+lfwYiIklUo5/z
-JCrWkNsaJ0sIPR0BCiRX7IesCQdcyDkNu1+/TxBtYcJ2pXv3Ssnvvma8UXnGeg65
-mPrcl5hishtvNYjDFpVRFhPDkuuCchesy5qQqzhxMX4BvecwtWgXEmgpF+MH0YVP
-UX7MsR0RZPF8TDoEnqIpm4OuqksPAHztyOISJPIMO/P+v7la9Da/aMDC3CjILt51
-R0RSyWLSgdHCHa7k3dfmPVC8j1PzFPTVeerFI5EXB3p5Uk7Nuoyh8fBB+IWbggLB
-+ePkugeBeE6DuJM6wwMrkQ4iPhyv3nyaLYmvcDmheuGC3mRltWI=
-=VDmZ
------END PGP SIGNATURE-----
+  apk update && apk add --no-cache su-exec curl bash git openssh mercurial =
+make wget util-linux tini file grep sed shadow
+  apk upgrade --no-cache
 
---Nq2Wo0NMKNjxTN9z--
+  #Disable cgo so that binaries we build will be fully static.
+  export CGO_ENABLED=3D0
+  go install -v std
+
+  =
+
+  This gives the following error:
+  Illegal instruction (core dumped)
+
+  =
+
+  Environment:
+  x86_64 Ub18.04 4.15.0-101-generic Ubuntu SMP x86_64 GNU/Linux
+
+  QEMU user static version: 5.0.0-2
+
+  Container application: Docker
+
+  Client: Docker Engine - Community
+  =C2=A0Version:           19.03.11
+  =C2=A0API version:       1.40
+  =C2=A0Go version:        go1.13.10
+  =C2=A0Git commit:        42e35e61f3
+  =C2=A0Built:             Mon Jun  1 09:12:22 2020
+  =C2=A0OS/Arch:           linux/amd64
+  =C2=A0Experimental:      false
+
+  Server: Docker Engine - Community
+  =C2=A0Engine:
+  =C2=A0=C2=A0Version:          19.03.11
+  =C2=A0=C2=A0API version:      1.40 (minimum version 1.12)
+  =C2=A0=C2=A0Go version:       go1.13.10
+  =C2=A0=C2=A0Git commit:       42e35e61f3
+  =C2=A0=C2=A0Built:            Mon Jun  1 09:10:54 2020
+  =C2=A0=C2=A0OS/Arch:          linux/amd64
+  =C2=A0=C2=A0Experimental:     false
+  =C2=A0containerd:
+  =C2=A0=C2=A0Version:          1.2.13
+  =C2=A0=C2=A0GitCommit:        7ad184331fa3e55e52b890ea95e65ba581ae3429
+  =C2=A0runc:
+  =C2=A0=C2=A0Version:          1.0.0-rc10
+  =C2=A0=C2=A0GitCommit:        dc9208a3303feef5b3839f4323d9beb36df0a9dd
+  =C2=A0docker-init:
+  =C2=A0=C2=A0Version:          0.18.0
+  =C2=A0=C2=A0GitCommit:        fec3683
+
+  Additional information optionally:
+  When I build the same Dockerfile.s390x on an s390x machine, it is built s=
+uccessfully.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1886793/+subscriptions
 
