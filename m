@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4380D301EC0
-	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:35:08 +0100 (CET)
-Received: from localhost ([::1]:54874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FB8E301EB8
+	for <lists+qemu-devel@lfdr.de>; Sun, 24 Jan 2021 21:31:17 +0100 (CET)
+Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3m6F-0007Ca-Bf
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:35:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41628)
+	id 1l3m2W-0002ND-CG
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 15:31:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41644)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3m03-0000lh-N1; Sun, 24 Jan 2021 15:28:43 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:36553)
+ id 1l3m09-0000ng-0r; Sun, 24 Jan 2021 15:28:49 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:39682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3m02-0005SX-Aa; Sun, 24 Jan 2021 15:28:43 -0500
-Received: by mail-wm1-x336.google.com with SMTP id i9so2465443wmq.1;
- Sun, 24 Jan 2021 12:28:41 -0800 (PST)
+ id 1l3m07-0005UG-FD; Sun, 24 Jan 2021 15:28:48 -0500
+Received: by mail-wr1-x429.google.com with SMTP id a1so10260572wrq.6;
+ Sun, 24 Jan 2021 12:28:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=0OXE2ghwu/u4aUK+J3Nc88xMP1SZwgJgIRrsmYs8INU=;
- b=Fpg6V24l1DjGB4gs7vV+NgtFU504NpKBadkEWUju0Iy2nhqjR8OZYnehu+mDw5LNLs
- WDjpjdwbN2Nv0Oufxba5oVgq50OLWp318wele7ILzxgfi7p/t+e9uWKdLJ0lw5MlhePV
- u3vIwm5idR92Nb0NY4vnRr1C0YoDInsy36mKpIhX5qWCViXig3oZHor+ykCxkVXXB5Ha
- nUbiKvww8Bm7Ff8/xaIg/9cl+boz6/u+ulTFsQm28bjA/eNaLS1X46tts6uQBOH+hzgb
- eSyULyhF1OfQUJJrQg9LgfQJ5xVdYAWDhMEz0RPgISxGmhnCbWlPvr+XKloOj9dha239
- MVDQ==
+ bh=8cyx359tJuUV31B1jXXoRAIiQKjeJQ7/Oz0pZLR+MTQ=;
+ b=a9wYft/xQe+7/tTaxmt1V5nDg+L0UBufe8rSk21RnUESoUYEHxXhs65QBT9VOT5N56
+ l8FLQVZKSbe9TlgtKjZVu7q9PEkHG7ov5Hvv15aqGn8SReB4Q3a4rItSEgdUx8QSVo+a
+ QVPm8yltETWflut4YGNJnad+2LcbQtRnWKIL70BdiiBfdOO677cG/z3NnnH88A5tvDca
+ 3yfmEhjbTURT+/Pc2v8buVgQp/ZwHQlycUeqtKqxXVR5BOUaDAFM+3x0OBENHeUvIYIe
+ GEoUJKBiydEpY35UZ4RCx3wQT35YNpkXQXXnAV/XYOm96il/Qqu2YcWKjEcLpOzWHPCd
+ bx3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=0OXE2ghwu/u4aUK+J3Nc88xMP1SZwgJgIRrsmYs8INU=;
- b=nqYsX1xutpSQIuhBUGGy+C3axdAfu1mVzNYgGtNu+WrYIwd2LzRH/cgOiHKqzOkS6f
- nQwmc7bVMA7qMPAGk7g1kAEy0eB5yoKrg3sAh4wvSeM7ooQFoposaaQ2DIdpyBz0LRMD
- DyjhokRAPKonV8ZR9tSiia2ENu2rB822SOFzJsQryQ8sjDti016P1UKmJjV6fx2zauht
- id3OA2JohQGjfa0RT7Jxlag0r7rDf0JlQX6NpsULPRQ46gLXehSHnZZf3GzI4b7BXvCz
- MyBjWVduhoy8ULXzaJXRTy3fFnyWGY8LTt23dtuWU3BPiAatk2aQSVFmoump3cSMmNTx
- B6ZA==
-X-Gm-Message-State: AOAM532bbOgKtXe3KMAt58Y/JyMjDPFS36jLlXTiD+wtxh8ISmP2F7kt
- Qz6aPVTG4Sm2vjo7hPuMs7+3x44ax9s=
-X-Google-Smtp-Source: ABdhPJwWU7fdvvd14ySUsV82xUMtCofipzK9ODnEz2vI4g52A+uetBU9wf2OEApHMMmdu7SC9FXL3w==
-X-Received: by 2002:a7b:c7c8:: with SMTP id z8mr3993239wmk.72.1611520120615;
- Sun, 24 Jan 2021 12:28:40 -0800 (PST)
+ bh=8cyx359tJuUV31B1jXXoRAIiQKjeJQ7/Oz0pZLR+MTQ=;
+ b=ql30XBMcV22uI9LPH/Ep2DvPl3aXSTGXSytS1ipsk0nHdaqvzVPmOMlPAvZGr0VBOS
+ ToblaRUADD7eda+QPsjJLyZ9ikjRZ+kJr8aeiFKPk8XybrLN+UXfqA902+pgaD9gXa/I
+ eVUKc1v6Jo0m1xoK+S1tufP/97dFiQEEptL25qHLjI5kdYSUSQ/xInYjhGezl/SwKs3W
+ D0KcusC53P5/xBnx6q0eRVcZjxqNFDFwdcHH0g0ol0Lh02t4y9zA5NjOdpE5Dmj0WvCM
+ 4Qy6fbxKsNKyW32WJTjs5dWlxK8w/dauN5Ay7TB8ZrAs9EQL4gJXArEFoZmEHMVcUlkJ
+ mb2Q==
+X-Gm-Message-State: AOAM53118EvI/Z7VNpI6e/MRcu6Rcoo/zS/u6e1h0OuEtWUarD+H5Odl
+ QqgcYtNTbz1Dwi4lYDjjodXbNZwIgaA=
+X-Google-Smtp-Source: ABdhPJyFegcgHD0JxJKxXyO2zJKacCOEcOdl4JWpcbwL8SbhdyCMurclxebCZYkqSYD1biMfgN1JAQ==
+X-Received: by 2002:adf:c6c4:: with SMTP id c4mr3692701wrh.348.1611520125663; 
+ Sun, 24 Jan 2021 12:28:45 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id q6sm17888028wmj.32.2021.01.24.12.28.39
+ by smtp.gmail.com with ESMTPSA id m82sm19364651wmf.29.2021.01.24.12.28.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 24 Jan 2021 12:28:39 -0800 (PST)
+ Sun, 24 Jan 2021 12:28:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
 	Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v3 4/6] hw/sd: Introduce receive_ready() callback
-Date: Sun, 24 Jan 2021 21:28:15 +0100
-Message-Id: <20210124202817.2624557-5-f4bug@amsat.org>
+Subject: [PATCH v3 5/6] hw/sd: ssi-sd: Support single block write
+Date: Sun, 24 Jan 2021 21:28:16 +0100
+Message-Id: <20210124202817.2624557-6-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210124202817.2624557-1-f4bug@amsat.org>
 References: <20210124202817.2624557-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -93,88 +93,133 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-At present there is a data_ready() callback for the SD data read
-path. Let's add a receive_ready() for the SD data write path.
+Add 2 more states for the block write operation. The SPI host needs
+to send a data start token to start the transfer, and the data block
+written to the card will be acknowledged by a data response token.
 
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Acked-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20210123104016.17485-16-bmeng.cn@gmail.com>
+Message-Id: <20210123104016.17485-17-bmeng.cn@gmail.com>
+[PMD: Change VMState version id 6 -> 7]
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- include/hw/sd/sd.h |  2 ++
- hw/sd/core.c       | 13 +++++++++++++
- hw/sd/sd.c         |  6 ++++++
- 3 files changed, 21 insertions(+)
+ hw/sd/ssi-sd.c | 44 ++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 40 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/sd/sd.h b/include/hw/sd/sd.h
-index 05ef9b73e56..47360ba4ee9 100644
---- a/include/hw/sd/sd.h
-+++ b/include/hw/sd/sd.h
-@@ -116,6 +116,7 @@ struct SDCardClass {
-      * Return: byte value read
-      */
-     uint8_t (*read_byte)(SDState *sd);
-+    bool (*receive_ready)(SDState *sd);
-     bool (*data_ready)(SDState *sd);
-     void (*set_voltage)(SDState *sd, uint16_t millivolts);
-     uint8_t (*get_dat_lines)(SDState *sd);
-@@ -187,6 +188,7 @@ void sdbus_write_data(SDBus *sdbus, const void *buf, size_t length);
-  * Read multiple bytes of data on the data lines of a SD bus.
-  */
- void sdbus_read_data(SDBus *sdbus, void *buf, size_t length);
-+bool sdbus_receive_ready(SDBus *sd);
- bool sdbus_data_ready(SDBus *sd);
- bool sdbus_get_inserted(SDBus *sd);
- bool sdbus_get_readonly(SDBus *sd);
-diff --git a/hw/sd/core.c b/hw/sd/core.c
-index 08c93b59034..30ee62c5106 100644
---- a/hw/sd/core.c
-+++ b/hw/sd/core.c
-@@ -160,6 +160,19 @@ void sdbus_read_data(SDBus *sdbus, void *buf, size_t length)
+diff --git a/hw/sd/ssi-sd.c b/hw/sd/ssi-sd.c
+index 6d20a240c69..1205ad8b52c 100644
+--- a/hw/sd/ssi-sd.c
++++ b/hw/sd/ssi-sd.c
+@@ -43,6 +43,8 @@ typedef enum {
+     SSI_SD_DATA_START,
+     SSI_SD_DATA_READ,
+     SSI_SD_DATA_CRC16,
++    SSI_SD_DATA_WRITE,
++    SSI_SD_SKIP_CRC16,
+ } ssi_sd_mode;
+ 
+ struct ssi_sd_state {
+@@ -53,6 +55,7 @@ struct ssi_sd_state {
+     uint8_t response[5];
+     uint16_t crc16;
+     int32_t read_bytes;
++    int32_t write_bytes;
+     int32_t arglen;
+     int32_t response_pos;
+     int32_t stopping;
+@@ -85,6 +88,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(ssi_sd_state, SSI_SD)
+ /* dummy value - don't care */
+ #define SSI_DUMMY               0xff
+ 
++/* data accepted */
++#define DATA_RESPONSE_ACCEPTED  0x05
++
+ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+ {
+     ssi_sd_state *s = SSI_SD(dev);
+@@ -113,10 +119,17 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+ 
+     switch (s->mode) {
+     case SSI_SD_CMD:
+-        if (val == SSI_DUMMY) {
++        switch (val) {
++        case SSI_DUMMY:
+             DPRINTF("NULL command\n");
+             return SSI_DUMMY;
++            break;
++        case SSI_TOKEN_SINGLE:
++            DPRINTF("Start write block\n");
++            s->mode = SSI_SD_DATA_WRITE;
++            return SSI_DUMMY;
+         }
++
+         s->cmd = val & 0x3f;
+         s->mode = SSI_SD_CMDARG;
+         s->arglen = 0;
+@@ -250,6 +263,27 @@ static uint32_t ssi_sd_transfer(SSIPeripheral *dev, uint32_t val)
+             s->response_pos = 0;
+         }
+         return val;
++    case SSI_SD_DATA_WRITE:
++        sdbus_write_byte(&s->sdbus, val);
++        s->write_bytes++;
++        if (!sdbus_receive_ready(&s->sdbus) || s->write_bytes == 512) {
++            DPRINTF("Data write end\n");
++            s->mode = SSI_SD_SKIP_CRC16;
++            s->response_pos = 0;
++        }
++        return val;
++    case SSI_SD_SKIP_CRC16:
++        /* we don't verify the crc16 */
++        s->response_pos++;
++        if (s->response_pos == 2) {
++            DPRINTF("CRC16 receive end\n");
++            s->mode = SSI_SD_RESPONSE;
++            s->write_bytes = 0;
++            s->arglen = 1;
++            s->response[0] = DATA_RESPONSE_ACCEPTED;
++            s->response_pos = 0;
++        }
++        return SSI_DUMMY;
      }
- }
- 
-+bool sdbus_receive_ready(SDBus *sdbus)
-+{
-+    SDState *card = get_card(sdbus);
-+
-+    if (card) {
-+        SDCardClass *sc = SD_CARD_GET_CLASS(card);
-+
-+        return sc->receive_ready(card);
-+    }
-+
-+    return false;
-+}
-+
- bool sdbus_data_ready(SDBus *sdbus)
+     /* Should never happen.  */
+     return SSI_DUMMY;
+@@ -259,7 +293,7 @@ static int ssi_sd_post_load(void *opaque, int version_id)
  {
-     SDState *card = get_card(sdbus);
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index 946036d87cb..c99c0e93bb8 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -2037,6 +2037,11 @@ uint8_t sd_read_byte(SDState *sd)
-     return ret;
- }
+     ssi_sd_state *s = (ssi_sd_state *)opaque;
  
-+static bool sd_receive_ready(SDState *sd)
-+{
-+    return sd->state == sd_receivingdata_state;
-+}
-+
- static bool sd_data_ready(SDState *sd)
- {
-     return sd->state == sd_sendingdata_state;
-@@ -2147,6 +2152,7 @@ static void sd_class_init(ObjectClass *klass, void *data)
-     sc->do_command = sd_do_command;
-     sc->write_byte = sd_write_byte;
-     sc->read_byte = sd_read_byte;
-+    sc->receive_ready = sd_receive_ready;
-     sc->data_ready = sd_data_ready;
-     sc->enable = sd_enable;
-     sc->get_inserted = sd_get_inserted;
+-    if (s->mode > SSI_SD_DATA_CRC16) {
++    if (s->mode > SSI_SD_SKIP_CRC16) {
+         return -EINVAL;
+     }
+     if (s->mode == SSI_SD_CMDARG &&
+@@ -277,8 +311,8 @@ static int ssi_sd_post_load(void *opaque, int version_id)
+ 
+ static const VMStateDescription vmstate_ssi_sd = {
+     .name = "ssi_sd",
+-    .version_id = 6,
+-    .minimum_version_id = 6,
++    .version_id = 7,
++    .minimum_version_id = 7,
+     .post_load = ssi_sd_post_load,
+     .fields = (VMStateField []) {
+         VMSTATE_UINT32(mode, ssi_sd_state),
+@@ -287,6 +321,7 @@ static const VMStateDescription vmstate_ssi_sd = {
+         VMSTATE_UINT8_ARRAY(response, ssi_sd_state, 5),
+         VMSTATE_UINT16(crc16, ssi_sd_state),
+         VMSTATE_INT32(read_bytes, ssi_sd_state),
++        VMSTATE_INT32(write_bytes, ssi_sd_state),
+         VMSTATE_INT32(arglen, ssi_sd_state),
+         VMSTATE_INT32(response_pos, ssi_sd_state),
+         VMSTATE_INT32(stopping, ssi_sd_state),
+@@ -340,6 +375,7 @@ static void ssi_sd_reset(DeviceState *dev)
+     memset(s->response, 0, sizeof(s->response));
+     s->crc16 = 0;
+     s->read_bytes = 0;
++    s->write_bytes = 0;
+     s->arglen = 0;
+     s->response_pos = 0;
+     s->stopping = 0;
 -- 
 2.26.2
 
