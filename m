@@ -2,68 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E28FF302C3F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 21:10:00 +0100 (CET)
-Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95665302CA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 21:37:02 +0100 (CET)
+Received: from localhost ([::1]:51784 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l48BT-0003ss-Gi
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 15:09:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51926)
+	id 1l48bd-0004Jh-2S
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 15:37:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l488G-0002Lf-2X
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 15:06:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l488D-0007OZ-6A
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 15:06:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611605195;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=VjY+Q6oat1z43JuxPE0IZ3Kv3T5sx064JjJN1c5n1Bk=;
- b=HQyDora+B0fOimEc8AJDA35jB73aGH2/6ETfSjSb9NdM+ROJOqPaHkqpJp52G61TewnJZE
- L5PBQ6PddaI5YYmos1vhznPnIeES5vUCMtjiFr2Q490h02VOZy81QBEzUo4WKVs5u3LSYh
- /Q3INpdzIUtBwH+/KZ1NzHrwvvFws1o=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-FVduRbMZNhGBClCYTe9zjw-1; Mon, 25 Jan 2021 15:06:31 -0500
-X-MC-Unique: FVduRbMZNhGBClCYTe9zjw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B9E11005D44;
- Mon, 25 Jan 2021 20:06:28 +0000 (UTC)
-Received: from work-vm (ovpn-114-3.ams2.redhat.com [10.36.114.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3961677707;
- Mon, 25 Jan 2021 20:06:17 +0000 (UTC)
-Date: Mon, 25 Jan 2021 20:06:14 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [PATCH v5 4/6] sev/i386: Don't allow a system reset under an
- SEV-ES guest
-Message-ID: <20210125200614.GT2925@work-vm>
-References: <cover.1610665956.git.thomas.lendacky@amd.com>
- <c1b45c0f74820dffbc28625c9c44f603f44b76ee.1610665956.git.thomas.lendacky@amd.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l48Ux-0003Qm-AK; Mon, 25 Jan 2021 15:30:07 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:47403)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l48Uv-0002ZD-0N; Mon, 25 Jan 2021 15:30:06 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailout.west.internal (Postfix) with ESMTP id 2BD44F68;
+ Mon, 25 Jan 2021 15:30:02 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute1.internal (MEProxy); Mon, 25 Jan 2021 15:30:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=I1rLunNvf30NgKMAifS6VuNDRd6
+ uNAK2zjY/eI2TJV8=; b=sYBo3AWe+aMrnyzKjQqnGZd5G66YLihgRLd8YUxu6ed
+ kKZGxxdKZrLY0ceL85rZ85jx9rSERqdAe8Q7c+s0dT2sF6GdO1DAX6w+Cr/1rOrH
+ VH1eJL48W3E9edX7pzHgShHjoTGpn9jGZ+7zhk9yWMkml2/3EVlbD0GxsKrWjryx
+ /JSCG7JLVvr4Pj7EQ3RGIekMmXTS4rmW8hyubqn6J/BIC21pnL3rrA+pjRDSToWv
+ D74jiVfZo/ezc8qaUztb/1WLb2YCINr1ZL1PIJfcIwGcjqmJ/xFU+5WzD796w59z
+ YW+rfnysetOj1jglJ5mGrb95I8R3Hk2fzfMuMiQCLWA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=I1rLun
+ Nvf30NgKMAifS6VuNDRd6uNAK2zjY/eI2TJV8=; b=IB1CIZg03gHX+o+lG3p+gf
+ 3xyaQLX+oiQBsHqxu1Cr+lVwKmZHY6acN1e9BDrFgyPu/PMwJRP8M+BEcpORNOZy
+ SkToHNsprTNpuxBfxPHMqU9871HeZXTmYMtkznsJ/PTwhKMx044HlG98MGFhuHYJ
+ jjAzbpT/mLryJoIC7CCSYrzks+gD51jUI8lIFC1bOQ2EpRcDKAYOY8QFgZup7Sbq
+ rqg/XzbuvR7G6faKk9XiZifxMssbzNF2UeYHlwvMvTwM2SxxPuzPtOA1XABtQOGh
+ 2AvatbYNzK3wbbM7Wu9gKT39hCQLDuucYJkor0Z9qsTiyw+Y5vTYHK5AIm1TZkMQ
+ ==
+X-ME-Sender: <xms:SSoPYC0SB9VZ_9WO9kGl-_LXuAKPX7yw6ycFjJ52d5fykpKAl3Oybw>
+ <xme:SSoPYPo4vUMktTQyAylFtApOvhcnOrMnReH4Q8REb6-YzWIDeluA7wnTnaoF_dIBy
+ _fuRsX1dYziqkEeb3M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdefgddufeeiucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeehgeehgfffgeekveefteetudekheejffdtvedvudfgffelleefvdfftdekgffg
+ udenucffohhmrghinhepvddtudelqddtkedrohhrghenucfkphepkedtrdduieejrdelke
+ drudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+ pehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:SSoPYHfsWQThIb1Gio7aL1CFZOUm0uHJHGcBb7hGxrBKOQcrXxol7g>
+ <xmx:SSoPYGrOsYFO8Qlkgl08W7XMFSSQcbYsktpbBPdGuS8n3P_d5_l-_w>
+ <xmx:SSoPYAFtdnxc3khcxSFkv1bNVdeYloAGxlRw51IzWn--LOCp10no8g>
+ <xmx:SSoPYGxxlIaG1qrv0NqDrDTpw55t9dEfnXW8P-0F1tIM9x6Wx_deJw>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 3F37F108005F;
+ Mon, 25 Jan 2021 15:30:00 -0500 (EST)
+Date: Mon, 25 Jan 2021 21:29:58 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH V6 0/6] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <YA8qRozbWUr37dI3@apples.localdomain>
+References: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="NH9EKUynFz14L5Lb"
 Content-Disposition: inline
-In-Reply-To: <c1b45c0f74820dffbc28625c9c44f603f44b76ee.1610665956.git.thomas.lendacky@amd.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,228 +94,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- kvm@vger.kernel.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Sean Christopherson <seanjc@google.com>,
- Marcelo Tosatti <mtosatti@redhat.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Jiri Slaby <jslaby@suse.cz>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Tom Lendacky (thomas.lendacky@amd.com) wrote:
-> From: Tom Lendacky <thomas.lendacky@amd.com>
-> 
-> An SEV-ES guest does not allow register state to be altered once it has
-> been measured. When an SEV-ES guest issues a reboot command, Qemu will
-> reset the vCPU state and resume the guest. This will cause failures under
-> SEV-ES. Prevent that from occuring by introducing an arch-specific
-> callback that returns a boolean indicating whether vCPUs are resettable.
-> 
-> Cc: Peter Maydell <peter.maydell@linaro.org>
-> Cc: Aurelien Jarno <aurelien@aurel32.net>
-> Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-> Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Cc: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 
-Thanks, that looks better than the earlier version.
-Needs checking by one of the kvm guys, but I think:
+--NH9EKUynFz14L5Lb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Jan 24 11:54, Minwoo Im wrote:
+> Hello,
+>=20
+> This is sixth patch series for the support of NVMe subsystem scheme with
+> multi-controller and namespace sharing in a subsystem.
+>=20
+> This version has a fix in nvme_init_ctrl() when 'cntlid' is set to the
+> Identify Controller data structure by making it by cpu_to_le16() as
+> Keith reviewed.
+>=20
+> Here's test result with a simple 'nvme list -v' command from this model:
+>=20
+>   -device nvme-subsys,id=3Dsubsys0 \
+>   -device nvme,serial=3Dfoo,id=3Dnvme0,subsys=3Dsubsys0 \
+>   -device nvme,serial=3Dbar,id=3Dnvme1,subsys=3Dsubsys0 \
+>   -device nvme,serial=3Dbaz,id=3Dnvme2,subsys=3Dsubsys0 \
+>   -device nvme-ns,id=3Dns1,drive=3Ddrv10,nsid=3D1,subsys=3Dsubsys0 \
+>   -device nvme-ns,id=3Dns2,drive=3Ddrv11,nsid=3D2,bus=3Dnvme2 \
+>   \
+>   -device nvme,serial=3Dqux,id=3Dnvme3 \
+>   -device nvme-ns,id=3Dns3,drive=3Ddrv12,nsid=3D3,bus=3Dnvme3 \
+>   \
+>   -device nvme-subsys,id=3Dsubsys1 \
+>   -device nvme,serial=3Dquux,id=3Dnvme4,subsys=3Dsubsys1 \
+>   -device nvme-ns,id=3Dns4,drive=3Ddrv13,nsid=3D1,subsys=3Dsubsys1,zoned=
+=3Dtrue \
+>=20
+>   root@vm:~/work# nvme list -v
+>   NVM Express Subsystems
+>=20
+>   Subsystem        Subsystem-NQN                                         =
+                                           Controllers
+>   ---------------- ------------------------------------------------------=
+------------------------------------------ ----------------
+>   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                          =
+                                           nvme0, nvme1, nvme2
+>   nvme-subsys3     nqn.2019-08.org.qemu:qux                              =
+                                           nvme3
+>   nvme-subsys4     nqn.2019-08.org.qemu:subsys1                          =
+                                           nvme4
+>=20
+>   NVM Express Controllers
+>=20
+>   Device   SN                   MN                                       =
+FR       TxPort Address        Subsystem    Namespaces
+>   -------- -------------------- ---------------------------------------- =
+-------- ------ -------------- ------------ ----------------
+>   nvme0    foo                  QEMU NVMe Ctrl                           =
+1.0      pcie   0000:00:06.0   nvme-subsys1 nvme1c0n1
+>   nvme1    bar                  QEMU NVMe Ctrl                           =
+1.0      pcie   0000:00:07.0   nvme-subsys1 nvme1c1n1
+>   nvme2    baz                  QEMU NVMe Ctrl                           =
+1.0      pcie   0000:00:08.0   nvme-subsys1 nvme1c2n1, nvme1c2n2
+>   nvme3    qux                  QEMU NVMe Ctrl                           =
+1.0      pcie   0000:00:09.0   nvme-subsys3 nvme3n1
+>   nvme4    quux                 QEMU NVMe Ctrl                           =
+1.0      pcie   0000:00:0a.0   nvme-subsys4 nvme4c4n1
+>=20
+>   NVM Express Namespaces
+>=20
+>   Device       NSID     Usage                      Format           Contr=
+ollers
+>   ------------ -------- -------------------------- ---------------- -----=
+-----------
+>   nvme1n1      1        134.22  MB / 134.22  MB    512   B +  0 B   nvme0=
+, nvme1, nvme2
+>   nvme1n2      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme2
+>   nvme3n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
+>   nvme4n1      1        268.44  MB / 268.44  MB    512   B +  0 B   nvme4
+>=20
+> Thanks,
+>=20
+> Since V5:
+>   - Fix endianness for 'cntlid' in Identify Controller data structure.
+>     (Keith)
+>=20
+> Since V4:
+>   - Code clean-up to snprintf rather than duplicating it and copy.
+>     (Keith)
+>   - Documentation for 'subsys' clean-up.  (Keith)
+>   - Remove 'cntlid' param from nvme_init_ctrl().  (Keith)
+>   - Put error_propagate() in nvme_realize().  (Keith)
+>=20
+> Since RFC V3:
+>   - Exclude 'deatched' scheme from this series.  This will be covered in
+>     the next series by covering all the ns-related admin commands
+>     including ZNS and ns-mgmt. (Niklas)
+>   - Rebased on nvme-next.
+>   - Remove RFC tag from this V4.
+>=20
+> Since RFC V2:
+>   - Rebased on nvme-next branch with trivial patches from the previous
+>     version(V2) applied. (Klaus)
+>   - Fix enumeration type name convention with NvmeIdNs prefix. (Klaus)
+>   - Put 'cntlid' to NvmeCtrl instance in nvme_init_ctrl() which was
+>     missed in V2.
+>   - Added 'detached' parameter to nvme-ns device to decide whether to
+>     attach or not to controller(s) in the subsystem. (Klaus)
+>   - Implemented Identify Active Namespace ID List aprt from Identify
+>     Allocated Namespace ID List by removing fall-thru statement.
+>=20
+> Since RFC V1:
+>   - Updated namespace sharing scheme to be based on nvme-subsys
+>     hierarchy.
+>=20
+> Minwoo Im (6):
+>   hw/block/nvme: introduce nvme-subsys device
+>   hw/block/nvme: support to map controller to a subsystem
+>   hw/block/nvme: add CMIC enum value for Identify Controller
+>   hw/block/nvme: support for multi-controller in subsystem
+>   hw/block/nvme: add NMIC enum value for Identify Namespace
+>   hw/block/nvme: support for shared namespace in subsystem
+>=20
+>  hw/block/meson.build   |   2 +-
+>  hw/block/nvme-ns.c     |  23 +++++++--
+>  hw/block/nvme-ns.h     |   7 +++
+>  hw/block/nvme-subsys.c | 106 +++++++++++++++++++++++++++++++++++++++++
+>  hw/block/nvme-subsys.h |  32 +++++++++++++
+>  hw/block/nvme.c        |  72 +++++++++++++++++++++++++---
+>  hw/block/nvme.h        |   4 ++
+>  include/block/nvme.h   |   8 ++++
+>  8 files changed, 242 insertions(+), 12 deletions(-)
+>  create mode 100644 hw/block/nvme-subsys.c
+>  create mode 100644 hw/block/nvme-subsys.h
+>=20
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Thanks Minwoo! This really is great stuff.
 
-> ---
->  accel/kvm/kvm-all.c       |  5 +++++
->  include/sysemu/cpus.h     |  2 ++
->  include/sysemu/hw_accel.h |  5 +++++
->  include/sysemu/kvm.h      | 10 ++++++++++
->  softmmu/cpus.c            |  5 +++++
->  softmmu/runstate.c        |  7 +++++--
->  target/arm/kvm.c          |  5 +++++
->  target/i386/kvm/kvm.c     |  6 ++++++
->  target/mips/kvm.c         |  5 +++++
->  target/ppc/kvm.c          |  5 +++++
->  target/s390x/kvm.c        |  5 +++++
->  11 files changed, 58 insertions(+), 2 deletions(-)
-> 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index 9db74b465e..9ac44ad018 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -2411,6 +2411,11 @@ void kvm_flush_coalesced_mmio_buffer(void)
->      s->coalesced_flush_in_progress = false;
->  }
->  
-> +bool kvm_cpu_check_are_resettable(void)
-> +{
-> +    return kvm_arch_cpu_check_are_resettable();
-> +}
-> +
->  static void do_kvm_cpu_synchronize_state(CPUState *cpu, run_on_cpu_data arg)
->  {
->      if (!cpu->vcpu_dirty) {
-> diff --git a/include/sysemu/cpus.h b/include/sysemu/cpus.h
-> index e8156728c6..1cb4f9dbeb 100644
-> --- a/include/sysemu/cpus.h
-> +++ b/include/sysemu/cpus.h
-> @@ -57,6 +57,8 @@ extern int icount_align_option;
->  /* Unblock cpu */
->  void qemu_cpu_kick_self(void);
->  
-> +bool cpus_are_resettable(void);
-> +
->  void cpu_synchronize_all_states(void);
->  void cpu_synchronize_all_post_reset(void);
->  void cpu_synchronize_all_post_init(void);
-> diff --git a/include/sysemu/hw_accel.h b/include/sysemu/hw_accel.h
-> index ffed6192a3..61672f9b32 100644
-> --- a/include/sysemu/hw_accel.h
-> +++ b/include/sysemu/hw_accel.h
-> @@ -22,4 +22,9 @@ void cpu_synchronize_post_reset(CPUState *cpu);
->  void cpu_synchronize_post_init(CPUState *cpu);
->  void cpu_synchronize_pre_loadvm(CPUState *cpu);
->  
-> +static inline bool cpu_check_are_resettable(void)
-> +{
-> +    return kvm_enabled() ? kvm_cpu_check_are_resettable() : true;
-> +}
-> +
->  #endif /* QEMU_HW_ACCEL_H */
-> diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> index 875ca101e3..3e265cea3d 100644
-> --- a/include/sysemu/kvm.h
-> +++ b/include/sysemu/kvm.h
-> @@ -573,4 +573,14 @@ int kvm_get_max_memslots(void);
->  /* Notify resamplefd for EOI of specific interrupts. */
->  void kvm_resample_fd_notify(int gsi);
->  
-> +/**
-> + * kvm_cpu_check_are_resettable - return whether CPUs can be reset
-> + *
-> + * Returns: true: CPUs are resettable
-> + *          false: CPUs are not resettable
-> + */
-> +bool kvm_cpu_check_are_resettable(void);
-> +
-> +bool kvm_arch_cpu_check_are_resettable(void);
-> +
->  #endif
-> diff --git a/softmmu/cpus.c b/softmmu/cpus.c
-> index 1dc20b9dc3..89de46eae0 100644
-> --- a/softmmu/cpus.c
-> +++ b/softmmu/cpus.c
-> @@ -194,6 +194,11 @@ void cpu_synchronize_pre_loadvm(CPUState *cpu)
->      }
->  }
->  
-> +bool cpus_are_resettable(void)
-> +{
-> +    return cpu_check_are_resettable();
-> +}
-> +
->  int64_t cpus_get_virtual_clock(void)
->  {
->      /*
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index 636aab0add..7b4f212d19 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
-> @@ -523,8 +523,11 @@ void qemu_system_guest_crashloaded(GuestPanicInformation *info)
->  
->  void qemu_system_reset_request(ShutdownCause reason)
->  {
-> -    if (reboot_action == REBOOT_ACTION_SHUTDOWN &&
-> -        reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
-> +    if (!cpus_are_resettable()) {
-> +        error_report("cpus are not resettable, terminating");
-> +        shutdown_requested = reason;
-> +    } else if (reboot_action == REBOOT_ACTION_SHUTDOWN &&
-> +               reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
->          shutdown_requested = reason;
->      } else {
->          reset_requested = reason;
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index ffe186de8d..00e124c812 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -1045,3 +1045,8 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
->  {
->      return (data - 32) & 0xffff;
->  }
-> +
-> +bool kvm_arch_cpu_check_are_resettable(void)
-> +{
-> +    return true;
-> +}
-> diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-> index aaae79557d..bb6bfc19de 100644
-> --- a/target/i386/kvm/kvm.c
-> +++ b/target/i386/kvm/kvm.c
-> @@ -27,6 +27,7 @@
->  #include "sysemu/kvm_int.h"
->  #include "sysemu/runstate.h"
->  #include "kvm_i386.h"
-> +#include "sev_i386.h"
->  #include "hyperv.h"
->  #include "hyperv-proto.h"
->  
-> @@ -4788,3 +4789,8 @@ bool kvm_has_waitpkg(void)
->  {
->      return has_msr_umwait;
->  }
-> +
-> +bool kvm_arch_cpu_check_are_resettable(void)
-> +{
-> +    return !sev_es_enabled();
-> +}
-> diff --git a/target/mips/kvm.c b/target/mips/kvm.c
-> index 477692566a..a907c59c5e 100644
-> --- a/target/mips/kvm.c
-> +++ b/target/mips/kvm.c
-> @@ -1289,3 +1289,8 @@ int mips_kvm_type(MachineState *machine, const char *vm_type)
->  
->      return -1;
->  }
-> +
-> +bool kvm_arch_cpu_check_are_resettable(void)
-> +{
-> +    return true;
-> +}
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index daf690a678..f45ed11058 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -2947,3 +2947,8 @@ void kvmppc_svm_off(Error **errp)
->          error_setg_errno(errp, -rc, "KVM_PPC_SVM_OFF ioctl failed");
->      }
->  }
-> +
-> +bool kvm_arch_cpu_check_are_resettable(void)
-> +{
-> +    return true;
-> +}
-> diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
-> index b8385e6b95..5c5ba801f1 100644
-> --- a/target/s390x/kvm.c
-> +++ b/target/s390x/kvm.c
-> @@ -2601,3 +2601,8 @@ void kvm_s390_stop_interrupt(S390CPU *cpu)
->  
->      kvm_s390_vcpu_interrupt(cpu, &irq);
->  }
-> +
-> +bool kvm_arch_cpu_check_are_resettable(void)
-> +{
-> +    return true;
-> +}
-> -- 
-> 2.30.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Notwithstanding the nitpicks I've pointed out for [1/6] and [6/6] (no
+need to v7 for those), take my
 
+Tested-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+
+--NH9EKUynFz14L5Lb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAPKkQACgkQTeGvMW1P
+DelUOAf9FqgN176OFc/hIbp6x0mI9/mwYUgbQzO/yCEvcOujmWMGuvnfI/h08A/t
+F+6kzub2COo4MmxydyxPWh3PB8uae3m6kMsyR3bR8yzLqBCwrzej0ZZLrigVXuUE
+ZxDQ8OfXr1sW1ctg5n/E1pyLLnLRxV1+GXm+L0CXuBclZ8+0IFHMpKBd5K8vLmO6
+pRlCaEhrkI2r5qyg1AxkE3mzdIKIu5RS+uv2ZvDGD9f0kI5MB3pGo9V5QDtANuOc
+8MHtLNC021DB1juocC+KDRd0N4us5WeiktF+BD/x2XztYmaAB/EoeoTdxmCP5Nrc
+ADXIf1Z9VQnRitJE/WNvItN6xnF0Cw==
+=tH70
+-----END PGP SIGNATURE-----
+
+--NH9EKUynFz14L5Lb--
 
