@@ -2,93 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43F930218C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 06:04:17 +0100 (CET)
-Received: from localhost ([::1]:41864 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 233EB302193
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 06:09:33 +0100 (CET)
+Received: from localhost ([::1]:44354 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3u2y-0003cq-C0
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 00:04:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52296)
+	id 1l3u80-00053c-CV
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 00:09:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53034)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l3u1A-00039p-U2
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 00:02:25 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:48191)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l3u17-0002fK-VJ
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 00:02:24 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.nyi.internal (Postfix) with ESMTP id 15D6E58065D;
- Mon, 25 Jan 2021 00:02:20 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Mon, 25 Jan 2021 00:02:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=Y
- veSQT7oxZn7qNxlWF5yZQBN0PWgzLyd0d173TUs6Js=; b=xpj0JtMVvSRJgkfnm
- TYsyK+lZnzyL3xdCMS8wrtBjyMT/PUneRn5Q1rOln7YYMly59sR5zmZxTyXyS8hc
- t5CWFdwTRy/jBPj1D4PWeJ+T+tWQKX4ufA2Kyh5QVvc2z1/tmTMPTdCn6R1l4zW+
- 42rmEN9hnv4oqNQzTU63mHR/wilwtbdzhF/uhu5PzElJtTSy8salcuoir4lFamLQ
- AAZ2gxxI91z2o1YSzo/TR8bm4e6udVL+o3DZDHTyngWJ1Fp7gjPyv6fXYXyoD7pM
- Br4MJ92Vl5N+53kzB4FxSS/GnBDHD5KpzH3tp5R1l3OIkCITRMwEGcI6cPQDAlRa
- 2bRTg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=YveSQT7oxZn7qNxlWF5yZQBN0PWgzLyd0d173TUs6
- Js=; b=lCau5htvktzSdSJxxINvAIFT7RznftzJxr9cjOfTTxeiexpieULcp8UJB
- WSO5l84siQ86VeDkO7WAr1j6u9Z05oHvmrOh4yglYzRHFYCBX+uK4gbe++WtFd/L
- 0sFGEiGh1n7XBW6MUP+nkg8XAXIM1Z6DImj2VlQnpp7U+RbFcfZ98D7JNa53VW6R
- UF4gJd87/iRN0oPawGXnzjXXb3ZGuoki0c7UV9US7iO6omfQcW+jbyJaUUzBaBvh
- kOp6vpqrrn++xhLQyN+Wchp7UeWYMbgDgnqtpfgmUd/Jpb00DMdT2TPrlzYCHTXh
- 7gdORsFFtkMQr/GArp8uN5ryNhhiA==
-X-ME-Sender: <xms:21AOYEB2BBycaosZE7abpBIE9SMRotgo46AFQwbnkiDjmaFcFBeqqQ>
- <xme:21AOYGj1GbsGI2_BLq99j9Ve5B0UaAAqegx_EQ-eSPOFXv3NQAVY57-6ieHrm190U
- XaVx7WTb_DXP89BcfM>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvgdejjecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepiefhgffhieekudegjeevgfffveegveegheffhfduieeiffffveff
- ueegveefgfefnecukfhppedufeelrdduiedvrdehhedrieelnecuvehluhhsthgvrhfuih
- iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhl
- hihgohgrthdrtghomh
-X-ME-Proxy: <xmx:21AOYHlFyV9Q3Cm2HeIREadHSRiD4Kt061XVD-lacxoB48mcWC7Ksg>
- <xmx:21AOYKy2jNtEkG9v7u3AfTsIMgE6C9UDqQ-F3yP4_czOMODjr0cbyQ>
- <xmx:21AOYJQT3LETrD4XR7ebcdA9lGBBDnhP5hHGH0-go3hLAIEoJH0U1w>
- <xmx:21AOYLcEgUxAOUHa_qdKNzwe9WRabfBZWITWgpZakBsf2Sl_2KY6LA>
-Received: from [0.0.0.0] (li1468-69.members.linode.com [139.162.55.69])
- by mail.messagingengine.com (Postfix) with ESMTPA id 98C771080057;
- Mon, 25 Jan 2021 00:02:16 -0500 (EST)
-Subject: Re: [PATCH 0/6] target/mips: Convert Loongson LEXT opcodes to
- decodetree
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l3u6X-0004Ts-Dp
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 00:07:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57889)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l3u6U-00056C-FU
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 00:07:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611551272;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y8Q5CN2E6oXT1Me7jfVWZLqyVWcvIxzQ9fxcEk0ozww=;
+ b=Est1/xQrQjhvIe3pZOvZVWl37N0IrWXz8Yio9mcFJMczHsRtI2iPbliQ+6BKVb+pRZuNFn
+ 6LI/9S8I7cIH/Ov6jpSqpAcA6sV4qwvTQQ1ycz3tgWMMRIy8lxDvOPmya20w/jOHke1Oy4
+ mHZcf13CPQ/pD5W6vp58TVPqFiw2ljY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-223-WcVPBqgTNXGnCAn_pcac9Q-1; Mon, 25 Jan 2021 00:07:50 -0500
+X-MC-Unique: WcVPBqgTNXGnCAn_pcac9Q-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 117EDE757;
+ Mon, 25 Jan 2021 05:07:49 +0000 (UTC)
+Received: from [10.72.12.105] (ovpn-12-105.pek2.redhat.com [10.72.12.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AF94460C17;
+ Mon, 25 Jan 2021 05:07:44 +0000 (UTC)
+Subject: Re: [PATCH v2 2/2] net/eth: Fix stack-buffer-overflow in
+ _eth_get_rss_ex_dst_addr()
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  qemu-devel@nongnu.org
-References: <20210112215504.2093955-1-f4bug@amsat.org>
- <e0385d70-81d7-fe70-b5c3-6607c1212ce9@linaro.org>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <5480b040-4e84-95b2-cc5e-da28ac83e3e2@flygoat.com>
-Date: Mon, 25 Jan 2021 13:02:12 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+References: <20210115151126.3334333-1-philmd@redhat.com>
+ <20210115151126.3334333-3-philmd@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <23d35fc5-b7f4-cc7d-247b-5d77f7489ed1@redhat.com>
+Date: Mon, 25 Jan 2021 13:07:43 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <e0385d70-81d7-fe70-b5c3-6607c1212ce9@linaro.org>
+In-Reply-To: <20210115151126.3334333-3-philmd@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=66.111.4.224;
- envelope-from=jiaxun.yang@flygoat.com; helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,26 +85,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Huacai Chen <chenhuacai@kernel.org>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, qemu-stable@nongnu.org,
+ Prasad J Pandit <ppandit@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Paolo Bonzini <pbonzini@redhat.com>, Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2021/1/22 上午4:07, Richard Henderson 写道:
-> On 1/12/21 11:54 AM, Philippe Mathieu-Daudé wrote:
->> Based-on: <20210112184156.2014305-1-f4bug@amsat.org>
->>            "decodetree: Allow 'dot' in opcode names"
-> I'm still unconvinced about this.  I've reviewed the code without regard to the
-> spelling in the decodetree files.
 
-Should we use '_' in decodetree to replace dot?
+On 2021/1/15 下午11:11, Philippe Mathieu-Daudé wrote:
+> QEMU fuzzer reported a buffer overflow in _eth_get_rss_ex_dst_addr()
+> reproducible as:
 
-Thanks.
 
-- Jiaxun
+Want to apply but it doesn't apply on master:
 
->
->
-> r~
+Applying: net/eth: Fix stack-buffer-overflow in _eth_get_rss_ex_dst_addr()
+error: sha1 information is lacking or useless (MAINTAINERS).
+error: could not build fake ancestor
+Patch failed at 0002 net/eth: Fix stack-buffer-overflow in 
+_eth_get_rss_ex_dst_addr()
+
+Thanks
 
 
