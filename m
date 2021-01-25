@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55574302262
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 08:21:14 +0100 (CET)
-Received: from localhost ([::1]:44642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D410A30225D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 08:17:01 +0100 (CET)
+Received: from localhost ([::1]:39384 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3wBV-0003Px-Cq
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 02:21:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44958)
+	id 1l3w7Q-0000t6-Bh
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 02:17:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l3w6E-0001Wr-OR
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:15:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52502)
+ (Exim 4.90_1) (envelope-from <natechancellor@gmail.com>)
+ id 1l3w1c-00007j-St
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:11:00 -0500
+Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:39054)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l3w68-0001gq-AY
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:15:44 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l3w64-0006Mq-Hc
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 07:15:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 61E842E804B
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 07:15:36 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <natechancellor@gmail.com>)
+ id 1l3w1Y-0008NM-LK
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:11:00 -0500
+Received: by mail-qv1-xf2e.google.com with SMTP id s6so5750482qvn.6
+ for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 23:10:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to;
+ bh=kwFxyBvsQK/TwhU+VrJy0F6bF6G22xoiKNurG2/nPYI=;
+ b=u118dKG8lLdYA08hvOgPdVp4JWyf7ZSzbE0YuwrEvinfM98jbzur+m/uYZZW4bjA91
+ wl/07HmEDJsL1WRZTuzsM1feRu2LMDP5aUU8dw6Rv+LJDAWT014cBP8ShbGXPjIiA2z/
+ ws2XM/honSoJrYEXGdGVlL24bEKiA76MbE9xgRsFFC6EcRtThg31iV4K44CGKegfceKw
+ wUAKZRYDT0Mz5+RLhibVAubSWwlYOiLhYCLdM4nTLTVH5mXE3CCD1MCuedv+wKux/Kw1
+ EGAlw00+BobdlQVB/FYwdRRbjf8vofOFkXqwuRLmFeL/RD/WR/NUyUGWe4bAu2eqcZ86
+ 1T3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=kwFxyBvsQK/TwhU+VrJy0F6bF6G22xoiKNurG2/nPYI=;
+ b=oV7w0/qyrx/kAnf9DOXgn6OaAx2CRqnNkeSoEBSQVFH19LWIUcxaH6pRdxGnL28mBy
+ eZCIDZZQ6DD9eFyxOuFF49wRqHqwGgSAdlN5SjSGOF22vDXSC1OPhJAdB5OD056lVYGf
+ A7JF9SGRgyZhAC3rOZl94cZOZXBno7dZ4v88ho/HyZsRge2QesCcoHN7eXlIyvPxvivR
+ 7AMLE3PIXVHhQmgoGvJyolas+MKy3Jrl7dUhXj+CI2JK3f2WAnvcY1yln0ZL9Imz13hJ
+ GQa3x3dFFKnX30q8UsXxXEEZISuuKP7nIer6llEO39XwGQnKSlEqOmZ2zqt6v6JN7Olp
+ BK1g==
+X-Gm-Message-State: AOAM5327eyaIS2UGo3jiTWb5J9gC4ZE2c6+UltE0n6dEy7uuMO0s7ePR
+ Zts4bvkmzuhFEaFZj1c5iM0=
+X-Google-Smtp-Source: ABdhPJz6J9z8fxr578uagKTfUDEaN39X5aC/3t4Ry1jUh2NIkaexmFIxrw9dOYp1KYnyHSXmCMxnUA==
+X-Received: by 2002:a05:6214:7aa:: with SMTP id v10mr537943qvz.2.1611558654308; 
+ Sun, 24 Jan 2021 23:10:54 -0800 (PST)
+Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
+ by smtp.gmail.com with ESMTPSA id c7sm10508274qtc.82.2021.01.24.23.10.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 24 Jan 2021 23:10:53 -0800 (PST)
+Date: Mon, 25 Jan 2021 00:10:52 -0700
+From: Nathan Chancellor <natechancellor@gmail.com>
+To: Yang Weijiang <weijiang.yang@intel.com>
+Subject: Re: [Qemu-devel][PATCH] x86/cpu: Use max host physical address if
+ -cpu max option is applied
+Message-ID: <20210125071052.GA307708@ubuntu-m3-large-x86>
+References: <20210113090430.26394-1-weijiang.yang@intel.com>
+ <20210124210829.GA2238365@ubuntu-m3-large-x86>
+ <20210125054150.GA4969@local-michael-cet-test.sh.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 25 Jan 2021 06:59:01 -0000
-From: Alain Kalker <1913012@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ackalker
-X-Launchpad-Bug-Reporter: Alain Kalker (ackalker)
-X-Launchpad-Bug-Modifier: Alain Kalker (ackalker)
-References: <161155449009.29442.6099473190703163302.malonedeb@soybean.canonical.com>
-Message-Id: <161155794198.13944.9621591730874094310.malone@chaenomeles.canonical.com>
-Subject: [Bug 1913012] Re: Installed firmware descriptor files contain
- (invalid) relative paths
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
-X-Launchpad-Hash: 541e1cfa8d31aee40cbcb2f5d56e0512706022ee
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210125054150.GA4969@local-michael-cet-test.sh.intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
+ envelope-from=natechancellor@gmail.com; helo=mail-qv1-xf2e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,267 +85,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913012 <1913012@bugs.launchpad.net>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, seanjc@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is an issue on Void Linux packages issue tracker about this bug[1]
+On Mon, Jan 25, 2021 at 01:41:50PM +0800, Yang Weijiang wrote:
+> On Sun, Jan 24, 2021 at 02:08:29PM -0700, Nathan Chancellor wrote:
+> > On Wed, Jan 13, 2021 at 05:04:30PM +0800, Yang Weijiang wrote:
+> > > QEMU option -cpu max(max_features) means "Enables all features supported by
+> > > the accelerator in the current host", this looks true for all the features
+> > > except guest max physical address width, so add this patch to enable it.
+> > > 
+> > > Signed-off-by: Yang Weijiang <weijiang.yang@intel.com>
+> > > ---
+> > >  target/i386/cpu.c | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> > > index 35459a38bb..b5943406f7 100644
+> > > --- a/target/i386/cpu.c
+> > > +++ b/target/i386/cpu.c
+> > > @@ -6673,7 +6673,7 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+> > >                  warned = true;
+> > >              }
+> > >  
+> > > -            if (cpu->host_phys_bits) {
+> > > +            if (cpu->host_phys_bits || cpu->max_features) {
+> > >                  /* The user asked for us to use the host physical bits */
+> > >                  cpu->phys_bits = host_phys_bits;
+> > >                  if (cpu->host_phys_bits_limit &&
+> > > -- 
+> > > 2.17.2
+> > > 
+> > > 
+> > 
+> > Hi,
+> > 
+> > This patch as commit 5a140b255d ("x86/cpu: Use max host physical address
+> > if -cpu max option is applied") prevents me from using '-cpu host' while
+> > booting an i386_defconfig kernel.
+> > 
+> > $ qemu-system-i386 \
+> > -append console=ttyS0 \
+> > -cpu host \
+> > -display none \
+> > -enable-kvm \
+> > -initrd rootfs.cpio \
+> > -kernel bzImage \
+> > -serial mon:stdio
+> > qemu-system-i386: phys-bits should be between 32 and 36  (but is 48)
+> > 
+> > Am I expected to pass "-cpu host,host-phys-bits=false" now or did this
+> > do something unexpected?
+> >
+> Hi, Nathan,
+> Could you try Paolo's latest patch?
+> 
+> [PULL 03/31] x86/cpu: Use max host physical address if -cpu max option is applied
 
-# Steps to verify the issue on a fresh Git clone of QEMU source
+Hi Yang,
 
-$ git clone https://github.com/qemu/qemu
-$ cd qemu
-$ make DEBUG=3D1 docker-test-misc@alpine
-[...]
-  COPY    RUNNER
-    RUN test-misc in qemu/alpine =
+That is the version of the patch I tried, which has been pulled into the
+master branch.
 
-* Prepared to run command:
-  ./test-misc
-* Hit Ctrl-D to continue, or type 'exit 1' to abort
-
-bash-5.1$ . common-rc
-[...]
-bash-5.1$ configure_qemu --disable-system --disable-user
-Configure options:
---enable-werror --prefix=3D/tmp/qemu-test/install --disable-system --disabl=
-e-user
-cross containers  no
-The Meson build system
-Version: 0.56.2
-Source dir: /tmp/qemu-test/src
-Build dir: /tmp/qemu-test/src/tests/docker
-Build type: native build
-Project name: qemu
-Project version: 5.2.50
-[...]
-bash-5.1$ grep filename pc-bios/descriptors/*
-pc-bios/descriptors/50-edk2-i386-secure.json:            "filename": "share=
-/qemu/edk2-i386-secure-code.fd",
-pc-bios/descriptors/50-edk2-i386-secure.json:            "filename": "share=
-/qemu/edk2-i386-vars.fd",
-[...all other matches have relative paths...]
-bash-5.1$ exit 1
-[...]
-
-# Research
-
-The filename path substitution appears to be done in the file `pc-bios/desc=
-riptors/meson.build`.
-In particular, occurrences of `@DATADIR@` in the template files get substit=
-uted using the value of `qemu_datadir`:
-
-  configure_file(input: files(f),                                          =
-     =
-
-                 output: f,                                                =
-     =
-
-                 configuration: {'DATADIR': qemu_datadir},                 =
-     =
-
-                 install: get_option('install_blobs'),                     =
-     =
-
-                 install_dir: qemu_datadir / 'firmware')
-
-The variable `qemu_datadir` gets initialized from toplevel `meson.build`
-file using:
-
-   qemu_datadir =3D get_option('datadir') / get_option('qemu_suffix')
-
->From the Meson documentation on built-in (build) options[2], `datadir`
-option gets initialized to `"share"` (note: a relative path!) by
-default, unless `datadir` build option is configured explicitly, so the
-value of `qemu_datadir`, as well as the substitution made ends up being
-a relative path as well.
-
-I found a commit which I think is relevant to why this choice was
-made[3].
-
-# Test a workaround, try #1: specify `datadir` manually
-
-$ make DEBUG=3D1 docker-test-misc@alpine
-[...]
-bash-5.1$ configure_qemu --datadir=3D/usr/share --disable-system --disable-=
-user
-Configure options:
---enable-werror --prefix=3D/tmp/qemu-test/install --datadir=3D/usr/share --=
-disable-system --disable-user
-cross containers  no
-The Meson build system
-Version: 0.56.2
-Source dir: /tmp/qemu-test/src
-Build dir: /tmp/qemu-test/src/tests/docker
-Build type: native build
-
-../../meson.build:1:0: ERROR: The value of the 'datadir' option is '/usr/sh=
-are' which must be a subdir of the prefix '/tmp/qemu-test/install'.
-Note that if you pass a relative path, it is assumed to be a subdir of pref=
-ix.
-
-A full log can be found at /tmp/qemu-test/src/tests/docker/meson-logs
-/meson-log.txt
-
-ERROR: meson setup failed
-
-Ah! So perhaps `datadir` can be an absolute path, but then it must be a sub=
-dir of the (already specified) `prefix`.
-Let's try again.
-
-# Test a workaround, try #2: specify `datadir` as subdir of <prefix>
-manually
-
-$ make DEBUG=3D1 docker-test-misc@alpine
-[...]
-bash-5.1$ configure_qemu --datadir=3D/tmp/qemu-test/install/share --disable=
--system --disable-user
-Configure options:
---enable-werror --prefix=3D/tmp/qemu-test/install --datadir=3D/tmp/qemu-tes=
-t/install/share --disable-system --disable-user
-[...]
-bash-5.1$ grep filename pc-bios/descriptors/*
-pc-bios/descriptors/50-edk2-i386-secure.json:            "filename": "share=
-/qemu/edk2-i386-secure-code.fd",
-pc-bios/descriptors/50-edk2-i386-secure.json:            "filename": "share=
-/qemu/edk2-i386-vars.fd",
-bash-5.1$ exit 1
-
-Getting there, but the paths are still relative, missing the initial
-`/`.
-
-[1]: https://github.com/void-linux/void-packages/issues/27965
-[2]: https://mesonbuild.com/Builtin-options.html
-[3]: https://github.com/qemu/qemu/commit/ab4c0996f80d43d1fc28c6e76f4ecb2742=
-3a7e29
-
-
-** Bug watch added: github.com/void-linux/void-packages/issues #27965
-   https://github.com/void-linux/void-packages/issues/27965
-
-** Description changed:
-
-- Unless the Qemu build is configured using `./configure --datadir=3D<path>
-- where <path> is some absolute path which is a subdirectory of <prefix>,
-- the resulting installed firmware descriptor files contain relative paths
-- for their `mapping.filename` properties. These relative paths will not
-- be accepted as valid by tools like `virt-install`, resulting in the
-- inability to configure new VMs using these firmware descriptors.
-+ After building and installing QEMU, the resulting installed firmware
-+ descriptor files contain relative paths for their `mapping.filename`
-+ properties. These relative paths will not be accepted as valid by tools
-+ like `virt-install`, resulting in the inability to configure new VMs
-+ which reference these firmware descriptors.
-  =
-
-  # QEMU version
-  $ qemu-system-x86_64 -version
-  QEMU emulator version 5.2.0
-  =
-
-  (I've also reproduced the issue with QEMU built from Git master @
-  v5.2.0-1300-g0e32462630, see next comment.)
-  =
-
-  # OS version
-  Void Linux x86_64 (glibc)
-  =
-
-  Steps to reproduce (with results on my system):
-  =
-
-  # Verify the symptom
-  =
-
-  $ virt-install --boot firmware=3Defi --disk none --memory 2048
-  Using default --name vm4
-  WARNING  No operating system detected, VM performance may suffer. Specify=
- an OS with --os-variant for optimal results.
-  =
-
-  Starting install...
-  ERROR    Failed to open file 'share/qemu/edk2-i386-vars.fd': No such file=
- or directory
-  Domain installation does not appear to have been successful.
-  If it was, you can restart your domain by running:
--   virsh --connect qemu:///session start vm4
-+ =C2=A0=C2=A0virsh --connect qemu:///session start vm4
-  otherwise, please restart your installation.
-  =
-
-  # Verify most likely cause
-  =
-
-- $ grep filename /usr/share/qemu/firmware/*i386*.json =
-
-+ $ grep filename /usr/share/qemu/firmware/*i386*.json
-  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
- "share/qemu/edk2-i386-secure-code.fd",
-  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
- "share/qemu/edk2-i386-vars.fd",
-  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
-/qemu/edk2-i386-code.fd",
-  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
-/qemu/edk2-i386-vars.fd",
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913012
-
-Title:
-  Installed firmware descriptor files contain (invalid) relative paths
-
-Status in QEMU:
-  New
-
-Bug description:
-  After building and installing QEMU, the resulting installed firmware
-  descriptor files contain relative paths for their `mapping.filename`
-  properties. These relative paths will not be accepted as valid by
-  tools like `virt-install`, resulting in the inability to configure new
-  VMs which reference these firmware descriptors.
-
-  # QEMU version
-  $ qemu-system-x86_64 -version
-  QEMU emulator version 5.2.0
-
-  (I've also reproduced the issue with QEMU built from Git master @
-  v5.2.0-1300-g0e32462630, see next comment.)
-
-  # OS version
-  Void Linux x86_64 (glibc)
-
-  Steps to reproduce (with results on my system):
-
-  # Verify the symptom
-
-  $ virt-install --boot firmware=3Defi --disk none --memory 2048
-  Using default --name vm4
-  WARNING  No operating system detected, VM performance may suffer. Specify=
- an OS with --os-variant for optimal results.
-
-  Starting install...
-  ERROR    Failed to open file 'share/qemu/edk2-i386-vars.fd': No such file=
- or directory
-  Domain installation does not appear to have been successful.
-  If it was, you can restart your domain by running:
-  =C2=A0=C2=A0virsh --connect qemu:///session start vm4
-  otherwise, please restart your installation.
-
-  # Verify most likely cause
-
-  $ grep filename /usr/share/qemu/firmware/*i386*.json
-  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
- "share/qemu/edk2-i386-secure-code.fd",
-  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
- "share/qemu/edk2-i386-vars.fd",
-  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
-/qemu/edk2-i386-code.fd",
-  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
-/qemu/edk2-i386-vars.fd",
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913012/+subscriptions
+Cheers,
+Nathan
 
