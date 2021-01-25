@@ -2,59 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9C1302518
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:48:53 +0100 (CET)
-Received: from localhost ([::1]:34986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 159FF30251B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:49:54 +0100 (CET)
+Received: from localhost ([::1]:37198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l41Ia-0005xz-7I
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:48:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58416)
+	id 1l41JZ-0006uM-6F
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:49:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58724)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l41H5-0005E3-Nj
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:47:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59663)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l41IN-000697-JJ
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:48:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42867)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l41H1-0001Wj-LL
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:47:18 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l41IL-00026B-Nh
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:48:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611578833;
+ s=mimecast20190719; t=1611578916;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=O0bE2L0AHKAKLbQHZssa0z23B8o8FI29uWPuoe+PLys=;
- b=cBn5/RGkpbaLUuGQBRKspUVw63O3DcxpehfzNJoirilqP+Ad2hwyB+nUhG5Eda3BBOw+nf
- ZyP4pmWCiqfXKbj4/LyCazpGCZS6q3GU7H13W33m56nw/12yvm23q/UBjxIFXR+UsWpCcZ
- nC8yRECMShakS0C0S184oApXzyT9S9Q=
+ bh=Ku1hW4sjYQ/kt2o/MeHv9F8i8xPcBROkVysovKC51+s=;
+ b=FYlIVrrjQsge9IPvrumZsgnXR+23iMTydvUHg3RXBtDxDbtUTonkGh53xs0xyAyiUcVnoK
+ M59LceA/K/sGLOEPPQbmM7FSp0iLQepyEwAmLUdpx3FI1r4qrGgMfMXSrNE39qEJm9N9Sl
+ 9cAvAQzcvIdQskXkI76NxNSP9nAWBF4=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-274-Ffptb8seO0-gYN0J9Crdxw-1; Mon, 25 Jan 2021 07:47:11 -0500
-X-MC-Unique: Ffptb8seO0-gYN0J9Crdxw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-560-WsHe94-FOZetr9F89Htyzg-1; Mon, 25 Jan 2021 07:48:35 -0500
+X-MC-Unique: WsHe94-FOZetr9F89Htyzg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EFCA284A5E1
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 12:47:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3EC7D800FF0
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 12:48:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
  [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C058A5D9DB;
- Mon, 25 Jan 2021 12:47:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 10FE05C1C5;
+ Mon, 25 Jan 2021 12:48:34 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 53B56113865F; Mon, 25 Jan 2021 13:47:09 +0100 (CET)
+ id 9D2D6113865F; Mon, 25 Jan 2021 13:48:32 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 09/25] qom: use qemu_printf to print help for
- user-creatable objects
+Subject: Re: [PATCH 10/25] hmp: special case help options for object_add
 References: <20210118163113.780171-1-pbonzini@redhat.com>
- <20210118163113.780171-10-pbonzini@redhat.com>
-Date: Mon, 25 Jan 2021 13:47:09 +0100
-In-Reply-To: <20210118163113.780171-10-pbonzini@redhat.com> (Paolo Bonzini's
- message of "Mon, 18 Jan 2021 11:30:57 -0500")
-Message-ID: <87a6sxgp4i.fsf@dusky.pond.sub.org>
+ <20210118163113.780171-11-pbonzini@redhat.com>
+Date: Mon, 25 Jan 2021 13:48:32 +0100
+In-Reply-To: <20210118163113.780171-11-pbonzini@redhat.com> (Paolo Bonzini's
+ message of "Mon, 18 Jan 2021 11:30:58 -0500")
+Message-ID: <875z3lgp27.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -87,10 +86,11 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> This is needed when we add help support for object_add.
+> Fix "object_add help" and "object_add TYPE,help".
 >
 > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Standard question when I read "Fix $interface" in a commit message: how
+exactly is it broken?
 
 
