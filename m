@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7530302842
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:56:06 +0100 (CET)
-Received: from localhost ([::1]:48116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C43302843
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:56:20 +0100 (CET)
+Received: from localhost ([::1]:48956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l459p-0007UZ-AW
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:56:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50516)
+	id 1l45A3-0007wI-Ms
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:56:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l453j-0005U6-PV
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:49:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60346)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l454G-0005o7-8g
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:50:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32415)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l453f-0003Is-Hi
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:49:46 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l454D-0003NN-Tz
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:50:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611593382;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1611593416;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=xkjYBiLx/xxE38bCk/e0wZf9IEnc0eSOUQGAQQ8q5Tw=;
- b=DBgsnCWsrOU4ilQud2oO6a1gonegBSHKrPBP8edPab3Te5kYNfAsFKwH1SKWN18AtLqbfx
- TH3QKMhnZp3+0oV2hpmyYQLSc085gR7egg075iOAJmk+wFCQCkvKeIof6Q+ZerLCciP82Y
- KW/VSRZQ2pno2VllYcvaNTUO5zlMsIU=
+ bh=ZmcZKYJmCLD0ZJHiVSdA1RE7z3tCdaClhT+Z9VzVBR8=;
+ b=gblqe8HVSK7oBguIw7GPYpxdJuVogJ52IvRL7ihOmxo/RdacrpJQP/ozEzbCFLE9k9LCt5
+ ECWVojlbWSx6GactPVA1sB+nXUNbkeXuDczH7Jf9d38IPU/d3lqikFRTMXQYIygrzeFW3o
+ GrW67aIHsqsS84hf8Qb4sJRjkpDV4ks=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-499-7loqGzR7OK2sr6tHuMz6CA-1; Mon, 25 Jan 2021 11:47:52 -0500
-X-MC-Unique: 7loqGzR7OK2sr6tHuMz6CA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-491-pM8e_944OaGoGkCjTIT6yQ-1; Mon, 25 Jan 2021 11:50:14 -0500
+X-MC-Unique: pM8e_944OaGoGkCjTIT6yQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE79210054FF;
- Mon, 25 Jan 2021 16:47:50 +0000 (UTC)
-Received: from redhat.com (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E7B160CE9;
- Mon, 25 Jan 2021 16:47:49 +0000 (UTC)
-Date: Mon, 25 Jan 2021 16:47:46 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
- is available
-Message-ID: <20210125164746.GE3538803@redhat.com>
-References: <20210125144530.2837481-1-philmd@redhat.com>
- <20210125144530.2837481-5-philmd@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0CD110054FF;
+ Mon, 25 Jan 2021 16:50:12 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-150.ams2.redhat.com [10.36.115.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D96619C47;
+ Mon, 25 Jan 2021 16:50:11 +0000 (UTC)
+Date: Mon, 25 Jan 2021 17:50:09 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v8 0/5] Rework iotests/check
+Message-ID: <20210125165009.GF7107@merkur.fritz.box>
+References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
+ <20210125160820.GD7107@merkur.fritz.box>
+ <65a24006-32af-1ce2-fafd-e1ea152e4412@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <20210125144530.2837481-5-philmd@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <65a24006-32af-1ce2-fafd-e1ea152e4412@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -83,60 +77,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 03:45:30PM +0100, Philippe Mathieu-Daudé wrote:
-> Some new users get confused with 'TCG' and 'TCI', and enable TCI
-> support expecting to enable TCG.
+Am 25.01.2021 um 17:36 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 25.01.2021 19:08, Kevin Wolf wrote:
+> > Am 23.01.2021 um 22:04 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > v8:
+> > > 
+> > > about linters:
+> > > 
+> > > I didn't modify 297, as Max already staged 297 modifications to test all files.
+> > > 
+> > > Also, now I have two complains:
+> > > +************* Module testenv
+> > > +testenv.py:158:4: R0915: Too many statements (53/50) (too-many-statements)
+> > > +************* Module testrunner
+> > > +testrunner.py:222:4: R0911: Too many return statements (7/6) (too-many-return-statements)
+> > >   Success: no issues found in 5 source files
+> > > 
+> > > And I feel, I'm tired to refactor it now.. Probably we can ignore them in 297. Probably I can
+> > > do some refactoring as a follow-up.
+> > 
+> > I don't think these warning are very helpful, I would agree with
+> > disabling them (even globally).
+> > 
+> > When testing this with the other image formats, I found some problems.
+> > 
+> > 1. The first one probably means that we have changed the order of some
+> >     checks: 150 and 178 have reference outputs for raw and qcow2, but no
+> >     other formats.
+> > 
+> >     Previously, the _supported_fmt line in the test would just skip the test:
+> > 
+> >     $ build/check -vhdx 150 178
+> >     150      not run    [16:45:46] [16:45:46]                    not suitable for this image format: vhdx
+> >     178      not run    [16:45:46] [16:45:46]                    not suitable for this image format: vhdx
+> > 
+> >     Now we seem to test first if a reference output exists and fail:
+> > 
+> >     150   fail       [16:49:18] [16:49:18]   ...                  No qualified output (expected /home/kwolf/source/qemu/tests/qemu-iotests/150.out)
+> >     178   fail       [16:49:18] [16:49:18]   ...                  No qualified output (expected /home/kwolf/source/qemu/tests/qemu-iotests/178.out)
 > 
-> Emit a warning when native TCG backend is available on the
-> host architecture, mentioning this is a suboptimal configuration.
 > 
-> Reviewed-by: Stefan Weil <sw@weilnetz.de>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Hmm. Still, I do think that new order is better: no reason to run the
+> test, when we don't have corresponding .out file. So, may be just
+> change it into "not run", with same "No qualified output (expected
+> ..)" message, what do you think?
 
-Nitpick, the text printed is completely rewritten from what they
-reviewed, so I would probably have dropped their R-b for that
-scenario.
+Works for me.
 
-> Suggested-by: Daniel Berrangé <berrange@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> ---
->  meson.build | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/meson.build b/meson.build
-> index 16b2560e7e7..f675c54e636 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -228,6 +228,13 @@
->      else
->        error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
->      endif
-> +  elif get_option('tcg_interpreter')
-> +    warning('Use of the TCG interpretor is not recommended on this host')
-> +    warning('architecture. There is a native TCG execution backend available')
-> +    warning('which provides substantially better performance and reliability.')
-> +    warning('It is strongly recommended to remove the --enable-tcg-interpreter')
-> +    warning('configuration option on this architecture to use the native')
-> +    warning('backend.')
->    endif
->    if get_option('tcg_interpreter')
->      tcg_arch = 'tci'
-> -- 
-> 2.26.2
-> 
+(There would actually be a reason to run the test, namely for creating
+the reference output when you add the test. But this didn't leave a .bad
+file behind before either, and just doing 'touch 123.out' first is easy
+enough anyway.)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Kevin
 
 
