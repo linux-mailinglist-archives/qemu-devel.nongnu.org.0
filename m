@@ -2,64 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07A3E3024A3
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:05:32 +0100 (CET)
-Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020413024C8
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:23:43 +0100 (CET)
+Received: from localhost ([::1]:37578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l40cd-0002Pi-3D
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:05:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48068)
+	id 1l40uD-0002V4-NK
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:23:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l40aZ-0001XP-QW
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:03:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35854)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l40aQ-00078p-0l
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:03:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611576193;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=66JOwiJJMLE8roueHfHmx0jEkrS44ri4V7+pGn4+88A=;
- b=aKiqPqdq3XeI5qPp3R6gcLlXtIIF1w9yOuMtBoVIUjssZfIqFfrGMiP3OuhqEljVdVTitU
- fKfxz6HhBqrh/kOyaRcRhwNXO+oBbK10KPWzrg4DD2ooj9o7ng2L+8opMJiQbzB6Zbx55o
- qpJ+E0APy3UhBzX/lJ1kjsKrcLlPgy8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-235-7_YKMSbPMKyH7_EepLBgBQ-1; Mon, 25 Jan 2021 07:03:10 -0500
-X-MC-Unique: 7_YKMSbPMKyH7_EepLBgBQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E19441015C80
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 12:03:09 +0000 (UTC)
-Received: from localhost (ovpn-114-237.ams2.redhat.com [10.36.114.237])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EAB05C737;
- Mon, 25 Jan 2021 12:03:06 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] coroutine-sigaltstack: Add SIGUSR2 mutex
-Date: Mon, 25 Jan 2021 13:03:05 +0100
-Message-Id: <20210125120305.19520-1-mreitz@redhat.com>
+ (Exim 4.90_1) (envelope-from <08005325@163.com>)
+ id 1l40rt-0001qA-R3; Mon, 25 Jan 2021 07:21:18 -0500
+Received: from m12-11.163.com ([220.181.12.11]:58252)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <08005325@163.com>)
+ id 1l40rk-0006pq-08; Mon, 25 Jan 2021 07:21:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=IzJta
+ DBWMa1mh6350s4GLf654FExhE6JDGCznqKqZp4=; b=WHnjXvCDosOZoCmXzN0XT
+ dwOvMHXrgmY3FchuSeL++BkDGN3HucRsgGcQOEb4O+H983XlEpFQAE0dE/yawgX6
+ i6ugLF+Y/t5SKtLHnQhyWe3gPPEpexJlYZ5q/5oFrcyhFrPQqj9ZsgxD55UcD751
+ 10L4mu1vmmd1fPzLTm5if8=
+Received: from localhost.localdomain (unknown [116.228.45.98])
+ by smtp7 (Coremail) with SMTP id C8CowADnqrq+sw5gI0YjKg--.35022S2;
+ Mon, 25 Jan 2021 20:04:14 +0800 (CST)
+From: 08005325@163.com
+To: kwolf@redhat.co,
+	mreitz@redhat.com,
+	jsnow@redhat.com
+Subject: [PATCH] Fix crash with IOthread when block commit after snapshot
+Date: Mon, 25 Jan 2021 20:03:31 +0800
+Message-Id: <20210125120331.7740-1-08005325@163.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+X-CM-TRANSID: C8CowADnqrq+sw5gI0YjKg--.35022S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxAFyfWF1xAFW7WFyxuw4DArb_yoW5tF1kpr
+ W8Xw4Skr48Kas7ZanFy3W2gw15Kw4v9F4DG3sxJw1rCry7J3WxKFWrAr1YgFy2vrs7Ja1q
+ vFWjga4ftan8C3DanT9S1TB71UUUUUDqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jHUDJUUUUU=
+X-Originating-IP: [116.228.45.98]
+X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbiox4lrFUMV1MSJAAAsf
+Received-SPF: pass client-ip=220.181.12.11; envelope-from=08005325@163.com;
+ helo=m12-11.163.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,74 +65,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?q?L=C3=A1szl=C3=B3=20=C3=89rsek?= <lersek@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Michael Qiu <qiudayu@huayun.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Disposition (action) for any given signal is global for the process.
-When two threads run coroutine-sigaltstack's qemu_coroutine_new()
-concurrently, they may interfere with each other: One of them may revert
-the SIGUSR2 handler to SIG_DFL, between the other thread (a) setting up
-coroutine_trampoline() as the handler and (b) raising SIGUSR2.  That
-SIGUSR2 will then terminate the QEMU process abnormally.
+From: Michael Qiu <qiudayu@huayun.com>
 
-We have to ensure that only one thread at a time can modify the
-process-global SIGUSR2 handler.  To do so, wrap the whole section where
-that is done in a mutex.
+Currently, if guest has workloads, IO thread will acquire aio_context
+lock before do io_submit, it leads to segmentfault when do block commit
+after snapshot. Just like below:
+[Switching to thread 2 (Thread 0x7f046c312700 (LWP 108791))]
+#0  0x00005573f57930db in bdrv_mirror_top_pwritev ... at block/mirror.c:1420
+1420    in block/mirror.c
+(gdb) p s->job
+$17 = (MirrorBlockJob *) 0x0
+(gdb) p s->stop
+$18 = false
+(gdb)
+(gdb) bt
+#0  0x00005573f57930db in bdrv_mirror_top_pwritev ... at block/mirror.c:1420
+#1  0x00005573f5798ceb in bdrv_driver_pwritev ... at block/io.c:1183
+#2  0x00005573f579ae7a in bdrv_aligned_pwritev ... at block/io.c:1980
+#3  0x00005573f579b667 in bdrv_co_pwritev_part ... at block/io.c:2137
+#4  0x00005573f57886c8 in blk_do_pwritev_part ... at block/block-backend.c:1231
+#5  0x00005573f578879d in blk_aio_write_entry ... at block/block-backend.c:1439
+#6  0x00005573f58317cb in coroutine_trampoline ... at util/coroutine-ucontext.c:115
+#7  0x00007f047414a0d0 in __start_context () at /lib64/libc.so.6
+#8  0x00007f046c310e60 in  ()
+#9  0x0000000000000000 in  ()
 
-Alternatively, we could for example have the SIGUSR2 handler always be
-coroutine_trampoline(), so there would be no need to invoke sigaction()
-in qemu_coroutine_new().  Laszlo has posted a patch to do so here:
+Switch to qmp:
+#0  0x00007f04744dd4ed in __lll_lock_wait () at /lib64/libpthread.so.0
+#1  0x00007f04744d8de6 in _L_lock_941 () at /lib64/libpthread.so.0
+#2  0x00007f04744d8cdf in pthread_mutex_lock () at /lib64/libpthread.so.0
+#3  0x00005573f581de89 in qemu_mutex_lock_impl ... at util/qemu-thread-posix.c:78
+#4  0x00005573f575789e in block_job_add_bdrv ... at blockjob.c:223
+#5  0x00005573f5757ebd in block_job_create ... at blockjob.c:441
+#6  0x00005573f5792430 in mirror_start_job ... at block/mirror.c:1604
+#7  0x00005573f5794b6f in commit_active_start ... at block/mirror.c:1789
 
-  https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg05962.html
+in IO thread when do bdrv_mirror_top_pwritev, the job is NULL, and stop field
+is false, this means the s object has not been initialized, and this object
+is initialized by block_job_create(), but the initialize process stuck in
+acquire the lock.
 
-However, given that coroutine-sigaltstack is more of a fallback
-implementation for platforms that do not support ucontext, that change
-may be a bit too invasive to be comfortable with it.  The mutex proposed
-here may negatively impact performance, but the change is much simpler.
+The rootcause is that qemu do release/acquire when hold the lock,
+at the same time, IO thread get the lock after release stage, and the crash
+occured.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
+Actually, in this situation, job->job.aio_context will not equal to
+qemu_get_aio_context(), and will be the same as bs->aio_context,
+thus, no need to release the lock, becasue bdrv_root_attach_child()
+will not change the context.
+
+This patch fix this issue.
+
+Signed-off-by: Michael Qiu <qiudayu@huayun.com>
 ---
- util/coroutine-sigaltstack.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ blockjob.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
-index aade82afb8..e99b8a4f9c 100644
---- a/util/coroutine-sigaltstack.c
-+++ b/util/coroutine-sigaltstack.c
-@@ -157,6 +157,7 @@ Coroutine *qemu_coroutine_new(void)
-     sigset_t sigs;
-     sigset_t osigs;
-     sigjmp_buf old_env;
-+    static pthread_mutex_t sigusr2_mutex = PTHREAD_MUTEX_INITIALIZER;
+diff --git a/blockjob.c b/blockjob.c
+index c6e20e2f..e1d41db9 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -214,12 +214,14 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     BdrvChild *c;
  
-     /* The way to manipulate stack is with the sigaltstack function. We
-      * prepare a stack, with it delivering a signal to ourselves and then
-@@ -186,6 +187,12 @@ Coroutine *qemu_coroutine_new(void)
-     sa.sa_handler = coroutine_trampoline;
-     sigfillset(&sa.sa_mask);
-     sa.sa_flags = SA_ONSTACK;
-+
-+    /*
-+     * sigaction() is a process-global operation.  We must not run
-+     * this code in multiple threads at once.
-+     */
-+    pthread_mutex_lock(&sigusr2_mutex);
-     if (sigaction(SIGUSR2, &sa, &osa) != 0) {
-         abort();
+     bdrv_ref(bs);
+-    if (job->job.aio_context != qemu_get_aio_context()) {
++    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
++        job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_release(job->job.aio_context);
      }
-@@ -234,6 +241,8 @@ Coroutine *qemu_coroutine_new(void)
-      * Restore the old SIGUSR2 signal handler and mask
-      */
-     sigaction(SIGUSR2, &osa, NULL);
-+    pthread_mutex_unlock(&sigusr2_mutex);
-+
-     pthread_sigmask(SIG_SETMASK, &osigs, NULL);
- 
-     /*
+     c = bdrv_root_attach_child(bs, name, &child_job, job->job.aio_context,
+                                perm, shared_perm, job, errp);
+-    if (job->job.aio_context != qemu_get_aio_context()) {
++    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
++        job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_acquire(job->job.aio_context);
+     }
+     if (c == NULL) {
 -- 
-2.29.2
+2.22.0
 
 
