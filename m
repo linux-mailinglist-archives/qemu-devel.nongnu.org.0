@@ -2,70 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98709302E78
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 22:56:54 +0100 (CET)
-Received: from localhost ([::1]:37636 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D8E302E7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 22:58:30 +0100 (CET)
+Received: from localhost ([::1]:39790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l49qv-0002tr-NZ
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 16:56:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51804)
+	id 1l49sT-0003qg-Qh
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 16:58:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l49pJ-0002L3-ES
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 16:55:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50272)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l49rN-0003RH-2G
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 16:57:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:29791)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l49pG-0005y9-F9
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 16:55:12 -0500
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l49rL-0006J5-Bg
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 16:57:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611611709;
+ s=mimecast20190719; t=1611611838;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=9nK72k/Folhbwd9IQb+ormU80OfBBQ2SsSN3XmF0vHM=;
- b=VTj7JhvS9kiK2unQqrqBQpcWtDfFMIQJbLn0/LDYGiNGYcqtcGAcJ1nbpqFzkNAUL6GjIE
- FoESzhnKxAhdEWLUtcB4ZaCqBIRJvaEvugNniyxuWyqDl6avhZRfln1wdVCsDDYyipXyFP
- DkQFgKjLu/VmEKEz/EeZ9RKCu/mqQhI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-88-0PUD1W_BPp6HG72su7ZEHw-1; Mon, 25 Jan 2021 16:55:06 -0500
-X-MC-Unique: 0PUD1W_BPp6HG72su7ZEHw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0307B107ACE3
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 21:55:06 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-67.ams2.redhat.com
- [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id ED34E19C78;
- Mon, 25 Jan 2021 21:55:01 +0000 (UTC)
-Subject: Re: [PATCH] coroutine-sigaltstack: Add SIGUSR2 mutex
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20210125120305.19520-1-mreitz@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <4f36c7fc-9ff5-ddd7-de6b-ee6f8d896e23@redhat.com>
-Date: Mon, 25 Jan 2021 22:55:00 +0100
+ bh=FZBjO5i+suxYbvQGRWDeub+YpaPJZ4zPAAyPKokapq4=;
+ b=T5JMfcNdqmGUFXJYzu8MQp/9wIXT3hxTmdM6AywMl+s+BcRfOnRUiPpfYIn0iH7E7p9R2P
+ VU6y5+ZsAKqFP2HvxhvU0zelp5pXsaWhXMYi+Z9HNEWlyzDaclGfAIMPSXXTfcIOkwpsTj
+ 53bm7c7zex3zoxuoKFJH7ffAXwABwSs=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-359-KtytZoebPLeCTsRLdMIqRQ-1; Mon, 25 Jan 2021 16:57:15 -0500
+X-MC-Unique: KtytZoebPLeCTsRLdMIqRQ-1
+Received: by mail-ed1-f72.google.com with SMTP id n8so8266790edo.19
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 13:57:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:to:references:from:subject:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FZBjO5i+suxYbvQGRWDeub+YpaPJZ4zPAAyPKokapq4=;
+ b=iVR+Q+h3q1YRhzrgfJI1akv/lELz3wpQWNYYh6qLW6cdENecsqeIqscQ5N8G6K/DLK
+ SdEDsOWUKEbgU6vAybb2LMRR+bxNbQDqTp0pZNszzELGULPJ4WjegKtIZa5u4J7YBw6B
+ nVU+FESBvEZ+WxU0dlhFecdQdHVBp2RKzJtVrjUk5EydNrg8KflF/WyPXss/pf6gWtF4
+ 6NUZqNQX/n+X2ieIXr3XteLdQZcBDgJBZa7hN78jJlUqP3/9LyLfkoTObmptMyAWnq5c
+ tkf1jPV0nQ7FbBu8fZOI6677BIjAkX8NacbLuxe979arAqdbN1rp1gGy+WyV6d9yhRaH
+ 0qKQ==
+X-Gm-Message-State: AOAM533MVEXkRmpvcGs5Lri8gD5wawqqwlwI9KKVItpi+JfLmUIWb7fF
+ 7K5Rhh372OQk/fyYXAsH1JYZACmbErEif9sEQYduB7hZxUgr/gMk16C8UEW/2FeBwBB/45VQgut
+ 2uyGxdJFeDVVxTDM=
+X-Received: by 2002:a17:906:6b91:: with SMTP id
+ l17mr1516911ejr.171.1611611834062; 
+ Mon, 25 Jan 2021 13:57:14 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzHbHOQTzcMTEn47pxboYjk6OSKGRgCi67Yk1y/cl0FG6N48IpiHPyzRpyCbQ1nT7LPrR+M+A==
+X-Received: by 2002:a17:906:6b91:: with SMTP id
+ l17mr1516900ejr.171.1611611833887; 
+ Mon, 25 Jan 2021 13:57:13 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id l13sm10525971edq.37.2021.01.25.13.57.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jan 2021 13:57:13 -0800 (PST)
+To: Peter Lieven <pl@kamp.de>, dillaman@redhat.com,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, philmd@redhat.com
+References: <23268a39-078d-ed13-6bb4-590ce1292662@kamp.de>
+ <b8dff207-21d9-ce8f-63b3-f877d29d90c6@kamp.de>
+ <bb07c231-6584-0d4d-959b-46948c9ab9bc@redhat.com>
+ <00855a0d-33e0-d835-e6e0-4d3af963975b@kamp.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: configure does not detect librados or librbd since the switch to
+ meson
+Message-ID: <7499e47d-b3d9-5ca5-2321-45b04ba06fca@redhat.com>
+Date: Mon, 25 Jan 2021 22:57:12 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210125120305.19520-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <00855a0d-33e0-d835-e6e0-4d3af963975b@kamp.de>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,77 +106,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/25/21 13:03, Max Reitz wrote:
-> Disposition (action) for any given signal is global for the process.
-> When two threads run coroutine-sigaltstack's qemu_coroutine_new()
-> concurrently, they may interfere with each other: One of them may revert
-> the SIGUSR2 handler to SIG_DFL, between the other thread (a) setting up
-> coroutine_trampoline() as the handler and (b) raising SIGUSR2.  That
-> SIGUSR2 will then terminate the QEMU process abnormally.
+On 25/01/21 20:47, Peter Lieven wrote:
+>> Can you include the meson-logs/meson-log.txt output?
 > 
-> We have to ensure that only one thread at a time can modify the
-> process-global SIGUSR2 handler.  To do so, wrap the whole section where
-> that is done in a mutex.
-> 
-> Alternatively, we could for example have the SIGUSR2 handler always be
-> coroutine_trampoline(), so there would be no need to invoke sigaction()
-> in qemu_coroutine_new().  Laszlo has posted a patch to do so here:
-> 
->   https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg05962.html
-> 
-> However, given that coroutine-sigaltstack is more of a fallback
-> implementation for platforms that do not support ucontext, that change
-> may be a bit too invasive to be comfortable with it.  The mutex proposed
-> here may negatively impact performance, but the change is much simpler.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  util/coroutine-sigaltstack.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
-> 
-> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
-> index aade82afb8..e99b8a4f9c 100644
-> --- a/util/coroutine-sigaltstack.c
-> +++ b/util/coroutine-sigaltstack.c
-> @@ -157,6 +157,7 @@ Coroutine *qemu_coroutine_new(void)
->      sigset_t sigs;
->      sigset_t osigs;
->      sigjmp_buf old_env;
-> +    static pthread_mutex_t sigusr2_mutex = PTHREAD_MUTEX_INITIALIZER;
->  
->      /* The way to manipulate stack is with the sigaltstack function. We
->       * prepare a stack, with it delivering a signal to ourselves and then
-> @@ -186,6 +187,12 @@ Coroutine *qemu_coroutine_new(void)
->      sa.sa_handler = coroutine_trampoline;
->      sigfillset(&sa.sa_mask);
->      sa.sa_flags = SA_ONSTACK;
-> +
-> +    /*
-> +     * sigaction() is a process-global operation.  We must not run
-> +     * this code in multiple threads at once.
-> +     */
-> +    pthread_mutex_lock(&sigusr2_mutex);
->      if (sigaction(SIGUSR2, &sa, &osa) != 0) {
->          abort();
->      }
-> @@ -234,6 +241,8 @@ Coroutine *qemu_coroutine_new(void)
->       * Restore the old SIGUSR2 signal handler and mask
->       */
->      sigaction(SIGUSR2, &osa, NULL);
-> +    pthread_mutex_unlock(&sigusr2_mutex);
-> +
->      pthread_sigmask(SIG_SETMASK, &osigs, NULL);
->  
->      /*
-> 
+> Sure:https://pastebin.com/u3XtbDvQ
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+Does this work for you?
 
-Thanks!
-Laszlo
+diff --git a/meson.build b/meson.build
+index 690d48a6fd..a662772c4a 100644
+--- a/meson.build
++++ b/meson.build
+@@ -14,6 +14,9 @@ config_host = keyval.load(meson.current_build_dir() / 
+'config-host.mak')
+  enable_modules = 'CONFIG_MODULES' in config_host
+  enable_static = 'CONFIG_STATIC' in config_host
+
++# Allow both shared and static libraries unless --enable-static
++static_kwargs = enable_static ? {'static': true} : {}
++
+  # Temporary directory used for files created while
+  # configure runs. Since it is in the build directory
+  # we can safely blow away any previous version of it
+@@ -679,10 +682,10 @@ endif
+  rbd = not_found
+  if not get_option('rbd').auto() or have_block
+    librados = cc.find_library('rados', required: get_option('rbd'),
+-                             static: enable_static)
++                             kwargs: static_kwargs)
+    librbd = cc.find_library('rbd', has_headers: ['rbd/librbd.h'],
+                             required: get_option('rbd'),
+-                           static: enable_static)
++                           kwargs: static_kwargs)
+    if librados.found() and librbd.found() and cc.links('''
+      #include <stdio.h>
+      #include <rbd/librbd.h>
+@@ -693,6 +696,9 @@ if not get_option('rbd').auto() or have_block
+      }''', dependencies: [librbd, librados])
+      rbd = declare_dependency(dependencies: [librbd, librados])
+    endif
++  if not rbd.found() and get_option('rbd').enabled()
++    error('could not link librbd')
++  endif
+  endif
+
+  glusterfs = not_found
+
+(It's not a complete patch, all instances of "static: enable_static" 
+would need to be changed because other libraries could have the same issue).
+
+Thanks,
+
+Paolo
 
 
