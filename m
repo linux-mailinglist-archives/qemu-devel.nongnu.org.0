@@ -2,101 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9D3302540
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 14:03:18 +0100 (CET)
-Received: from localhost ([::1]:51450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33052302541
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 14:03:41 +0100 (CET)
+Received: from localhost ([::1]:52560 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l41WX-0005Lu-Lh
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 08:03:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60744)
+	id 1l41Wt-0005p4-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 08:03:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l41TW-0004D1-GE; Mon, 25 Jan 2021 08:00:10 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:8104)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l41Uk-0004tJ-40
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 08:01:26 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54898)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l41TU-0006tm-Jm; Mon, 25 Jan 2021 08:00:10 -0500
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10PCqNvH109990; Mon, 25 Jan 2021 08:00:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=subject : to : cc :
- references : from : message-id : date : mime-version : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=f7/eHX+2XmGElnHbVt9snyxaN8RA3yX+t/AFobB0b6c=;
- b=LYwO4TTLJsYyq1qTuIFXyIjWLce3SFeOIqtvz/DNYnrHUw0bA+izEJqPgfK+XONamUCD
- UpU5RiI5cRf0pgEQs6zJcy0oFhPOCZX21hZ8/qdCRtel7g2d3JahBTVY27dxctA34URk
- BMdSdb131f/AjNk6ei5pfoIlQd0WG9cVLBfEXJK507JZQdA8loQGPPSA+EOQrIvys79R
- e72uNYlgUUFfUMipH1SfiEac5AQ4kWXeMYegmyfMxV4Uh8YoD8mcJQJ4M2sq7mX6elps
- CkY3dlEI2dInRRPm1I3Ybya9x5RhvZO/8sqbmWwTigMoYjFqVGEcd8y1R/1912WBD6Q6 rA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 369vg946nc-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jan 2021 08:00:03 -0500
-Received: from m0098394.ppops.net (m0098394.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10PCqnIi112958;
- Mon, 25 Jan 2021 08:00:03 -0500
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com with ESMTP id 369vg946k9-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jan 2021 08:00:03 -0500
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10PCvA8V015918;
- Mon, 25 Jan 2021 13:00:00 GMT
-Received: from b06cxnps4076.portsmouth.uk.ibm.com
- (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
- by ppma04ams.nl.ibm.com with ESMTP id 368be89twg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jan 2021 13:00:00 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10PCxvxS35389816
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 25 Jan 2021 12:59:57 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id AFB3FA4054;
- Mon, 25 Jan 2021 12:59:57 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 26025A405C;
- Mon, 25 Jan 2021 12:59:57 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.171.75.12])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
- Mon, 25 Jan 2021 12:59:57 +0000 (GMT)
-Subject: Re: [PATCH] s390x/cpu_model: disallow unpack for --only-migratable
-To: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
-References: <20210125125312.138491-1-borntraeger@de.ibm.com>
- <12198ce5-8164-1e15-685d-d19f0aa234b4@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <90bb436e-bbf2-6d77-587a-0fb5b22d13cd@de.ibm.com>
-Date: Mon, 25 Jan 2021 13:59:56 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l41Uf-0007T1-DK
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 08:01:25 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id E708CACF5;
+ Mon, 25 Jan 2021 13:01:18 +0000 (UTC)
+Subject: Re: [PATCH] replay: fix replay of the interrupts
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <161105999349.694343.16096128094758045254.stgit@pasha-ThinkPad-X280>
+ <288b2af5-94d5-36c8-9eb2-de31ff1de066@redhat.com>
+ <d9f8e9d4-8aef-29b6-765d-014c782e4764@ispras.ru>
+ <CABgObfaFnKztrjc7mpgTxEi9R7jXD-Qed5vVcPBSGcE_nexONg@mail.gmail.com>
+ <87sg6pmcsz.fsf@linaro.org> <c2799acd-a3f0-daaf-f7e0-b9a3c398f1eb@suse.de>
+Message-ID: <ef64105c-7ae3-9495-45ed-8a9e31fc0d10@suse.de>
+Date: Mon, 25 Jan 2021 14:01:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <12198ce5-8164-1e15-685d-d19f0aa234b4@redhat.com>
+In-Reply-To: <c2799acd-a3f0-daaf-f7e0-b9a3c398f1eb@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-25_04:2021-01-25,
- 2021-01-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 phishscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- spamscore=0 priorityscore=1501 clxscore=1015 mlxscore=0 lowpriorityscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101250072
-Received-SPF: pass client-ip=148.163.156.1;
- envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,56 +59,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, qemu-devel <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
- David Gibson <david@gibson.dropbear.id.au>,
- Richard Henderson <rth@twiddle.net>
+Cc: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 25.01.21 13:57, David Hildenbrand wrote:
-> On 25.01.21 13:53, Christian Borntraeger wrote:
->> secure execution (aka protected virtualization) guests cannot be
->> migrated at the moment. Disallow the unpack facility if the user
->> specifies --only-migratable.
+On 1/25/21 1:43 PM, Claudio Fontana wrote:
+> On 1/25/21 1:12 PM, Alex Bennée wrote:
 >>
->> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
->> ---
->>  target/s390x/cpu_models.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
+>> Paolo Bonzini <pbonzini@redhat.com> writes:
 >>
->> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
->> index 35179f9dc7ba..0fa082ae2546 100644
->> --- a/target/s390x/cpu_models.c
->> +++ b/target/s390x/cpu_models.c
->> @@ -26,6 +26,7 @@
->>  #include "qapi/qmp/qdict.h"
->>  #ifndef CONFIG_USER_ONLY
->>  #include "sysemu/arch_init.h"
->> +#include "sysemu/sysemu.h"
->>  #include "hw/pci/pci.h"
->>  #endif
->>  #include "qapi/qapi-commands-machine-target.h"
->> @@ -878,6 +879,11 @@ static void check_compatibility(const S390CPUModel *max_model,
->>          return;
->>      }
->>  
->> +    if (only_migratable && test_bit(S390_FEAT_UNPACK, model->features)) {
->> +        error_setg(errp, "The unpack facility is not compatible with "
->> +                   "the --only-migratable option");
-> 
-> return; ?
-
-of course.
-
+>>> In general I agree, but != means that rr disabled returns true. In general
+>>> it seems to me that rr disabled should work more or less the same as record
+>>> mode, because there is no replay log to provide the checkpoints.
+>>
+>> Is this not an argument to combine the mode and check into replay.h
+>> inline helpers with some clear semantic documentation and the call sites
+>> become self documenting?
+>>
+>> if (deadline == 0 && replay_recording_or_checkpoint())
+>>
+>> which also makes things easier to compile away if replay isn't there?
 > 
 > 
-> This implies that a VM with "-cpu host" might not start anymore, right?
+> Seems that the TCG build faces a similar issue to the issue I was facing with the non-TCG build,
+> before the non-TCG build got functional again (for x86).
+> 
+> We solved the non-TCG build problem, by not compiling replay at all for non-TCG, plus closing our nose and stubbing away what couldn't be completely removed (yet).
+> 
+> But the CONFIG_TCG build has the same legitimate requirement towards a non-CONFIG_REPLAY build.
+> 
+> ie, like we have tcg_enabled(), should we have replay_enabled()? Maybe it could be reworked starting from replay_events_enabled()?
+> 
+> And then when things are refactored properly for replay_enabled(), a non-REPLAY TCG build can basically ignore all the inner workings of replay.
+> 
 
-Only if --only-migratable is set.
+I guess to summarize the above, should there be a CONFIG_REPLAY, dependent on CONFIG_TCG, by default on,
+but which could be disabled with
+
+--disable-replay
+
+?
+
+Thanks,
+
+Claudio
+
+> 
+>>
+>>>
+>>> Paolo
+>>>
+>>> Il lun 25 gen 2021, 06:38 Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> ha
+>>> scritto:
+>>>
+>>>> On 23.01.2021 21:15, Paolo Bonzini wrote:
+>>>>> On 19/01/21 13:39, Pavel Dovgalyuk wrote:
+>>>>>> Sometimes interrupt event comes at the same time with
+>>>>>> the virtual timers. In this case replay tries to proceed
+>>>>>> the timers, because deadline for them is zero.
+>>>>>> This patch allows processing interrupts and exceptions
+>>>>>> by entering the vCPU execution loop, when deadline is zero,
+>>>>>> but checkpoint associated with virtual timers is not ready
+>>>>>> to be replayed.
+>>>>>>
+>>>>>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>>>>>> ---
+>>>>>>   accel/tcg/tcg-cpus-icount.c |    8 +++++++-
+>>>>>>   1 file changed, 7 insertions(+), 1 deletion(-)
+>>>>>>
+>>>>>> diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
+>>>>>> index 9f45432275..a6d2bb8a88 100644
+>>>>>> --- a/accel/tcg/tcg-cpus-icount.c
+>>>>>> +++ b/accel/tcg/tcg-cpus-icount.c
+>>>>>> @@ -81,7 +81,13 @@ void icount_handle_deadline(void)
+>>>>>>       int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+>>>>>>
+>>>> QEMU_TIMER_ATTR_ALL);
+>>>>>> -    if (deadline == 0) {
+>>>>>> +    /*
+>>>>>> +     * Instructions, interrupts, and exceptions are processed in
+>>>>>> cpu-exec.
+>>>>>> +     * Don't interrupt cpu thread, when these events are waiting
+>>>>>> +     * (i.e., there is no checkpoint)
+>>>>>> +     */
+>>>>>> +    if (deadline == 0
+>>>>>> +        && (replay_mode == REPLAY_MODE_RECORD ||
+>>>>>> replay_has_checkpoint())) {
+>>>>>
+>>>>> Should this be replay_mode != REPLAY_MODE_PLAY ||
+>>>> replay_has_checkpoint()?
+>>>>
+>>>> It was the first idea, but I thought, that == is more straightforward
+>>>> to understand than !=.
+>>>>
+>>>> Pavel Dovgalyuk
+>>>>
+>>>>
+>>
+>>
+> 
+
 
