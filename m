@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9A830270D
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 16:44:16 +0100 (CET)
-Received: from localhost ([::1]:41754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 710A930274B
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 16:57:37 +0100 (CET)
+Received: from localhost ([::1]:50562 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l442J-0005bM-NG
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 10:44:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59268)
+	id 1l44FC-0001b3-Sc
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 10:57:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l441U-00052q-IJ
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:43:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40319)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l441T-0000e8-1c
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:43:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611589402;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=waDvD2xGY0pM1vXHF8q4K33s2Hx4q9gfz8ubFOOrA6Q=;
- b=PHzb/Uf98JCGlhiCdahvn+hD4PTcpMReAPtQPOZIDeahFUVfT2YDAcmKyF8BK+cGQAzpb9
- QnaprpaV0rFW7M3G8JQCjXeBTMRVdYTipckRkCUAHcg5jyK90YOrVoUPfDyjqDEExre2wn
- PLnLR/KqJ2iw6SARSxgy0ChkYTLh8gE=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-_q2UsMHrNVmNKiDw-vJx0A-1; Mon, 25 Jan 2021 10:43:20 -0500
-X-MC-Unique: _q2UsMHrNVmNKiDw-vJx0A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2E20810054FF;
- Mon, 25 Jan 2021 15:43:19 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-150.ams2.redhat.com [10.36.115.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D95B5D6AB;
- Mon, 25 Jan 2021 15:43:17 +0000 (UTC)
-Date: Mon, 25 Jan 2021 16:43:16 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: How to check when "raw" format driver uses a "regular" file?
-Message-ID: <20210125154316.GC7107@merkur.fritz.box>
-References: <1ccc5e60-65fa-21aa-713d-d5bb575b2594@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l44Dw-00016m-GG
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:56:16 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:36126)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l44Du-0002Nv-Rh
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:56:16 -0500
+Received: by mail-ej1-x634.google.com with SMTP id l9so18758296ejx.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 07:56:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=fw9kgh1uQ8Wu2C3EJFZD0EOPiXo7lWwU8pM8EsoJSyo=;
+ b=ClCW8Pw5J245mp3J+6cvuXNsr8BCf/8c0K+dKM7Nl9p51++FTgRr/DwZw8MIMp9k7G
+ qTYViyJslMYvJPD2JVCt+G/7/5TTNcek6S0T4JqJhQ4tuYdRADqbiTZ983it2NnkofNh
+ 6vU1o0KnatoR1rDFAkOkW/x7269LCb2mAPGFcpGDyXKi3aAeg/bY6kcXGYpAW/3NgXP7
+ OZ75Z2APubGVTxQW1G71JkphQj/6uFyAntSGxmx3VQoJ0rcBYt74wBKySxw2I/JMt32J
+ E9VpT7I1VRQqoUep6HeGxbQ2zIKuE1DVbqMeYVe6tTEj5cEPLJe7fVkTwRZSW5wL7hS6
+ koqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=fw9kgh1uQ8Wu2C3EJFZD0EOPiXo7lWwU8pM8EsoJSyo=;
+ b=Y7CiwDVsvOsG8HhFoQFrTfomDOM0s1/Pd+gKm00eEIyghCZvSvhTJ4D42nl9hbHq+h
+ 9+9KTIY9Ab5bXWabBlyW4EBLUkEXn0Z+guVGkWIRUeJDXJIm2fqYRVPjQoGFoMtHLq8j
+ m35r7W+sY6wqrWDDzwc3jgWsmnoW7vAleYFt6DIVY2n5XjPQ3lqFFe5IQFAZp5PwdGMa
+ 6l5uOggVO4VUucFPL1GH8IMa4xBKaqQUSmMMM/BvmqP2PFEsvpIid71PP5pItMzzFUYW
+ OibAJgXef2aEQt9pvcqgCQF+foOTRvqIY+phnxRdMkVK7rrQspbYnEob1s9OaD3NgV6C
+ PDfg==
+X-Gm-Message-State: AOAM532OZsOtpX2q+1QzMdCIzl7CEPdGg1kIk+KrYTs2PbEWONySGpPL
+ jWv/eoiA0rY7ye8ca5nE9xkpo8lNEm/nCS2O5NzgeQ==
+X-Google-Smtp-Source: ABdhPJy4hedK0y2COYkXHjwzz0MZG92zgKA7i0ZCNohXxNYY9W5AbfzxlB0mlzXpx/Q/WLPY9F6bdYufpVnEE05ehoA=
+X-Received: by 2002:a17:906:3603:: with SMTP id
+ q3mr772217ejb.382.1611590173128; 
+ Mon, 25 Jan 2021 07:56:13 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <1ccc5e60-65fa-21aa-713d-d5bb575b2594@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210125114443.933857-1-groug@kaod.org>
+In-Reply-To: <20210125114443.933857-1-groug@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 25 Jan 2021 15:56:01 +0000
+Message-ID: <CAFEAcA-5NhbEJVboEGfyDXA4Zx7fGwrBDEfE+7HgAr97nn5zQQ@mail.gmail.com>
+Subject: Re: [PULL 0/5] 9p next patches
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,47 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
- Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.01.2021 um 16:05 hat Philippe Mathieu-Daudé geschrieben:
-> Is it possible to restrict a block driver to a particular set of
-> options? In my case I'd like to restrict the raw driver to regular files.
-> 
-> I noticed the NFS driver does it locally in nfs_client_open(),
-> and FUSE has is_regular_file() -- which is POSIX specific however.
-> 
-> When a backend is a SCSI drive, the block layer provide the blk_is_sg()
-> method to test it.
-> 1/ Should I provide a similar blk_is_regular_file()?
-> 
-> 2/ There is no oslib function to check for regular file,
-> should I add one too?
+On Mon, 25 Jan 2021 at 11:44, Greg Kurz <groug@kaod.org> wrote:
+>
+> The following changes since commit fef80ea073c4862bc9eaddb6ddb0ed970b8ad7c4:
+>
+>   Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-01-20' into staging (2021-01-21 10:44:28 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/gkurz/qemu.git tags/9p-next-pull-request
+>
+> for you to fetch changes up to 81f9766b7a16ccfcfd19e0b4525a5eeba862c851:
+>
+>   9pfs: Convert reclaim list to QSLIST (2021-01-22 18:26:40 +0100)
+>
+> ----------------------------------------------------------------
+> This fixes a Coverity report and improves the fid reclaim logic.
+>
+> ----------------------------------------------------------------
 
-I find this question confusing because on one hand you're talking about
-block driver implementations like NFS, but on the other hand about SCSI
-devices, which are users, not implementations of block drivers.
 
-At which level is the code where you think you need to make this
-distinction?
+Applied, thanks.
 
-The other problem is that "is this a regular file?" is probably not what
-you're really interested in. The content of an image can be spread
-across several files (for example, consider backing files) or not use a
-local file descriptor at all (network protocol drivers), and block layer
-functions should ideally make sense for all drivers unless something can
-only possibly make sense for a single driver (blk_is_sg might be a case
-of this).
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-I assume that you are interested in some specific property that regular
-files happen to provide. If at all possible, we shouldn't check for a
-specific backend type, but for capabilities or properties of a given
-block node.
-
-So what are you really trying to do here?
-
-Kevin
-
+-- PMM
 
