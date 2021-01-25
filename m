@@ -2,64 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39AF302817
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:44:04 +0100 (CET)
-Received: from localhost ([::1]:33438 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82BBC302818
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:44:08 +0100 (CET)
+Received: from localhost ([::1]:33678 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l44yB-0000Xb-P7
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:44:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48690)
+	id 1l44yF-0000dJ-K2
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:44:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l44w3-0007TR-4j
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:41:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28021)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l44wE-0007cL-1K
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:42:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40478)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l44w1-0002BT-3K
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:41:50 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l44wB-0002CU-PP
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:42:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611592908;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=XwS9t41eqIw3AQobUMb1+r3g55FxUrUjMv3I7M6RHts=;
- b=Bj3E9z+bb8UbsIUUsGFxyPKmC9Zd6dvHaxBbXoUjaREU9fwnX6a57pkDPvtEce8i+gJmix
- MIByPCP6lvtCTSOvw2lKdfSzgHF7a58mzX9wKYTCYoiHgzk4xwM+9UUHy9On1Vyl2KjcDy
- gOyzVzCXJRDleN6UeFeTXeTMmjwvYXo=
+ s=mimecast20190719; t=1611592919;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dKaKuvFTiS9+2ySO3L8kehnHSDk2qIJJBFd8MhI8yik=;
+ b=YDDEmkMIOCw0LZRcLk11DZiqi3chhsRh3VOO3pW8YNCxL3hQQtqQQR/MTGlVXLxqNYQq9V
+ A/f9S0BKKgcfCopzZAbgeY/ClDrkv/9CRYf8Oa44WSOanTsWKwuQiBADWfArA7mG5t5yqX
+ hhKhpVVNDy5K1ZQ0YpLEX6A8szQU8uY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-KBmSq4-bNzyymKtUNasPyw-1; Mon, 25 Jan 2021 11:41:29 -0500
-X-MC-Unique: KBmSq4-bNzyymKtUNasPyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-321-T5Y-vKnoPuy0RjsnNiC1Nw-1; Mon, 25 Jan 2021 11:41:57 -0500
+X-MC-Unique: T5Y-vKnoPuy0RjsnNiC1Nw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 150E4801817;
- Mon, 25 Jan 2021 16:41:27 +0000 (UTC)
-Received: from redhat.com (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E65760C0F;
- Mon, 25 Jan 2021 16:41:07 +0000 (UTC)
-Date: Mon, 25 Jan 2021 16:41:04 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Jagannathan Raman <jag.raman@oracle.com>
-Subject: Re: [PATCH v20 08/20] io: add qio_channel_readv_full_all_eof &
- qio_channel_readv_full_all helpers
-Message-ID: <20210125164104.GA3538803@redhat.com>
-References: <cover.1611081587.git.jag.raman@oracle.com>
- <ac1c0900ed34c8bf4e93dd77507fc34169bb8ee4.1611081587.git.jag.raman@oracle.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6B2C710051BB;
+ Mon, 25 Jan 2021 16:41:56 +0000 (UTC)
+Received: from work-vm (ovpn-114-3.ams2.redhat.com [10.36.114.3])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DAB6E5D9E2;
+ Mon, 25 Jan 2021 16:41:30 +0000 (UTC)
+Date: Mon, 25 Jan 2021 16:41:28 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH v9 02/11] migration: Make save_snapshot() return bool,
+ not 0/-1
+Message-ID: <20210125164128.GM2925@work-vm>
+References: <20210120104411.3084801-1-berrange@redhat.com>
+ <20210120104411.3084801-3-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <ac1c0900ed34c8bf4e93dd77507fc34169bb8ee4.1611081587.git.jag.raman@oracle.com>
+In-Reply-To: <20210120104411.3084801-3-berrange@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -80,305 +82,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
- john.g.johnson@oracle.com, qemu-devel@nongnu.org, kraxel@redhat.com,
- quintela@redhat.com, mst@redhat.com, armbru@redhat.com,
- kanth.ghatraju@oracle.com, felipe@nutanix.com, thuth@redhat.com,
- ehabkost@redhat.com, konrad.wilk@oracle.com, dgilbert@redhat.com,
- alex.williamson@redhat.com, stefanha@redhat.com, thanos.makatos@nutanix.com,
- kwolf@redhat.com, mreitz@redhat.com, ross.lagerwall@citrix.com,
- marcandre.lureau@gmail.com, pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>,
+ qemu-block@nongnu.org, Juan Quintela <quintela@redhat.com>,
+ John Snow <jsnow@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 19, 2021 at 03:28:25PM -0500, Jagannathan Raman wrote:
-> From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+* Daniel P. Berrangé (berrange@redhat.com) wrote:
+> From: Philippe Mathieu-Daudé <philmd@redhat.com>
 > 
-> Adds qio_channel_readv_full_all_eof() and qio_channel_readv_full_all()
-> to read both data and FDs. Refactors existing code to use these helpers.
+> Just for consistency, following the example documented since
+> commit e3fe3988d7 ("error: Document Error API usage rules"),
+> return a boolean value indicating an error is set or not.
 > 
-> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Acked-by: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->  include/io/channel.h |  53 ++++++++++++++++++++++++++
->  io/channel.c         | 106 +++++++++++++++++++++++++++++++++++++++++----------
->  2 files changed, 138 insertions(+), 21 deletions(-)
+>  include/migration/snapshot.h |  9 ++++++++-
+>  migration/savevm.c           | 16 ++++++++--------
+>  replay/replay-debugging.c    |  2 +-
+>  replay/replay-snapshot.c     |  2 +-
+>  4 files changed, 18 insertions(+), 11 deletions(-)
 > 
-> diff --git a/include/io/channel.h b/include/io/channel.h
-> index 19e76fc..8898897 100644
-> --- a/include/io/channel.h
-> +++ b/include/io/channel.h
-> @@ -778,6 +778,59 @@ void qio_channel_set_aio_fd_handler(QIOChannel *ioc,
->                                      void *opaque);
+> diff --git a/include/migration/snapshot.h b/include/migration/snapshot.h
+> index c85b6ec75b..0eaf1ba0b1 100644
+> --- a/include/migration/snapshot.h
+> +++ b/include/migration/snapshot.h
+> @@ -15,7 +15,14 @@
+>  #ifndef QEMU_MIGRATION_SNAPSHOT_H
+>  #define QEMU_MIGRATION_SNAPSHOT_H
 >  
->  /**
-> + * qio_channel_readv_full_all_eof:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to read data to
-> + * @niov: the length of the @iov array
-> + * @fds: an array of file handles to read
-> + * @nfds: number of file handles in @fds
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + *
-> + * Performs same function as qio_channel_readv_all_eof.
-> + * Additionally, attempts to read file descriptors shared
-> + * over the channel. The function will wait for all
-> + * requested data to be read, yielding from the current
-> + * coroutine if required. data refers to both file
-> + * descriptors and the iovs.
-> + *
-> + * Returns: 1 if all bytes were read, 0 if end-of-file
-> + *          occurs without data, or -1 on error
-> + */
-> +
-> +int qio_channel_readv_full_all_eof(QIOChannel *ioc,
-> +                                   const struct iovec *iov,
-> +                                   size_t niov,
-> +                                   int **fds, size_t *nfds,
-> +                                   Error **errp);
-> +
+> -int save_snapshot(const char *name, Error **errp);
 > +/**
-> + * qio_channel_readv_full_all:
-> + * @ioc: the channel object
-> + * @iov: the array of memory regions to read data to
-> + * @niov: the length of the @iov array
-> + * @fds: an array of file handles to read
-> + * @nfds: number of file handles in @fds
-> + * @errp: pointer to a NULL-initialized error object
-> + *
-> + *
-> + * Performs same function as qio_channel_readv_all_eof.
-> + * Additionally, attempts to read file descriptors shared
-> + * over the channel. The function will wait for all
-> + * requested data to be read, yielding from the current
-> + * coroutine if required. data refers to both file
-> + * descriptors and the iovs.
-> + *
-> + * Returns: 0 if all bytes were read, or -1 on error
+> + * save_snapshot: Save an internal snapshot.
+> + * @name: name of internal snapshot
+> + * @errp: pointer to error object
+> + * On success, return %true.
+> + * On failure, store an error through @errp and return %false.
 > + */
-> +
-> +int qio_channel_readv_full_all(QIOChannel *ioc,
-> +                               const struct iovec *iov,
-> +                               size_t niov,
-> +                               int **fds, size_t *nfds,
-> +                               Error **errp);
-> +
-> +/**
->   * qio_channel_writev_full_all:
->   * @ioc: the channel object
->   * @iov: the array of memory regions to write data from
-> diff --git a/io/channel.c b/io/channel.c
-> index 0d4b8b5..b12db9d 100644
-> --- a/io/channel.c
-> +++ b/io/channel.c
-
-
-> +int qio_channel_readv_full_all_eof(QIOChannel *ioc,
-> +                                   const struct iovec *iov,
-> +                                   size_t niov,
-> +                                   int **fds, size_t *nfds,
-> +                                   Error **errp)
-> +{
->      int ret = -1;
->      struct iovec *local_iov = g_new(struct iovec, niov);
->      struct iovec *local_iov_head = local_iov;
->      unsigned int nlocal_iov = niov;
-> +    int **local_fds = fds;
-> +    size_t *local_nfds = nfds;
->      bool partial = false;
+> +bool save_snapshot(const char *name, Error **errp);
+>  int load_snapshot(const char *name, Error **errp);
 >  
-> +    if (nfds) {
-> +        *nfds = 0;
-> +    }
-> +
-> +    if (fds) {
-> +        *fds = NULL;
-> +    }
-> +
->      nlocal_iov = iov_copy(local_iov, nlocal_iov,
->                            iov, niov,
->                            0, iov_size(iov, niov));
->  
-> -    while (nlocal_iov > 0) {
-> +    while ((nlocal_iov > 0) || local_fds) {
->          ssize_t len;
-> -        len = qio_channel_readv(ioc, local_iov, nlocal_iov, errp);
-> +        len = qio_channel_readv_full(ioc, local_iov, nlocal_iov, local_fds,
-> +                                     local_nfds, errp);
->          if (len == QIO_CHANNEL_ERR_BLOCK) {
->              if (qemu_in_coroutine()) {
->                  qio_channel_yield(ioc, G_IO_IN);
-> @@ -112,20 +140,53 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->                  qio_channel_wait(ioc, G_IO_IN);
->              }
->              continue;
-> -        } else if (len < 0) {
-> -            goto cleanup;
-> -        } else if (len == 0) {
-> -            if (partial) {
-> -                error_setg(errp,
-> -                           "Unexpected end-of-file before all bytes were read");
-> -            } else {
-> -                ret = 0;
-> +        }
-> +
-> +        if (len <= 0) {
-> +            size_t fd_idx;
-> +
-> +            if (!len && !niov && (nfds && *nfds)) {
-> +                break;
-> +            }
-> +
-> +            if (!partial && (!nfds || !(*nfds))) {
-> +                ret = len;
-> +                goto cleanup;
->              }
-> +
-> +            error_prepend(errp,
-> +                          "Unexpected end-of-file before all data were read.");
-> +
-> +            if (!nfds || !(*nfds)) {
-> +                goto cleanup;
-> +            }
-
-I'm finding it really hard to understand what scenario each of
-these three if() tests is validating, so can't be confident that
-we've dealt with the failure cases correctly.
-
-In the  len < 0 case, we shouldn't be reporting the "unexpected end-of-file"
-message at all, as it won't be and end of file - its some other failure
-condition.
-
-In the len == 0 case, we should be using error_setg not error_prepend
-AFAIK.
-
-> +
-> +            /*
-> +             * If (len < 0) and fds are returned, it's not clear if the
-> +             * returned fds are valid to be closed. Just free'ing the
-> +             * allocated memory for fds in this case
-> +             */
-> +            fd_idx = *nfds;
-> +            while (fd_idx && !len) {
-> +                close((*fds)[fd_idx - 1]);
-> +                fd_idx--;
-> +            }
-
-I'm not sure ignoring the len < 0 case is correct. The first time we
-call qio_channel_readv_full(), we can receive some FDs, either with
-or without some data bytes.
-
-The second time we call qio_channel_readv_full we can get len == -1
-and so need to return an error. We must close the FDs we received on
-the previous iteration at this point.
-
-
-
-> +
-> +            g_free(*fds);
-> +            *fds = NULL;
-> +            *nfds = 0;
-> +
->              goto cleanup;
->          }
-
-I'm thinking the above error handling would be clearer if we could
-separate out the len == 0 case from the len == -1 case initially.
-
-eg, would this logic do what we need:
-
-        if (len == 0) {
-            if (local_nfds && *local_nfds) {
-                /* got some FDs, but not data yet. This isn't an EOF
-                 * scenario (yet), so carry on to try to read data
-                 * on next loop iteration */
-            } else if (!partial) {
-                /* no fds and no data, must be an expected EOF */
-                ret = 0;
-                goto cleanup;
-            } else {
-                len = -1;
-                error_setg(errp,
-                           "Unexpected end-of-file before all data were read.");
-                /* fallthrough into len < 0 handling now */
-            }
-        }
-
-        if (len < 0) {
-            /* Close any FDs we previously received */
-            if (nfds && fds) {
-                size_t i;
-                for (i = 0; nfds && i < *nfds; i++) {
-                    close((*fds)[i]);
-                }
-
-                g_free(*fds);
-                *fds = NULL;
-                *nfds = 0;
-            }
-
-            goto cleanup;
-        }
-
->  
->          partial = true;
-> -        iov_discard_front(&local_iov, &nlocal_iov, len);
-> +
-> +        if (nlocal_iov) {
-> +            iov_discard_front(&local_iov, &nlocal_iov, len);
-> +        }
-> +
-> +        local_fds = NULL;
-> +        local_nfds = NULL;
->      }
->  
->      ret = 1;
-> @@ -135,20 +196,23 @@ int qio_channel_readv_all_eof(QIOChannel *ioc,
->      return ret;
+>  #endif
+> diff --git a/migration/savevm.c b/migration/savevm.c
+> index 4a7237337e..ef7963f6c9 100644
+> --- a/migration/savevm.c
+> +++ b/migration/savevm.c
+> @@ -2729,7 +2729,7 @@ int qemu_load_device_state(QEMUFile *f)
+>      return 0;
 >  }
 >  
-> -int qio_channel_readv_all(QIOChannel *ioc,
-> -                          const struct iovec *iov,
-> -                          size_t niov,
-> -                          Error **errp)
-> +int qio_channel_readv_full_all(QIOChannel *ioc,
-> +                               const struct iovec *iov,
-> +                               size_t niov,
-> +                               int **fds, size_t *nfds,
-> +                               Error **errp)
+> -int save_snapshot(const char *name, Error **errp)
+> +bool save_snapshot(const char *name, Error **errp)
 >  {
-> -    int ret = qio_channel_readv_all_eof(ioc, iov, niov, errp);
-> +    int ret = qio_channel_readv_full_all_eof(ioc, iov, niov, fds, nfds, errp);
+>      BlockDriverState *bs;
+>      QEMUSnapshotInfo sn1, *sn = &sn1;
+> @@ -2742,29 +2742,29 @@ int save_snapshot(const char *name, Error **errp)
+>      AioContext *aio_context;
 >  
->      if (ret == 0) {
-> -        ret = -1;
-> -        error_setg(errp,
-> -                   "Unexpected end-of-file before all bytes were read");
-> -    } else if (ret == 1) {
-> -        ret = 0;
-> +        error_prepend(errp,
-> +                      "Unexpected end-of-file before all data were read.");
-> +        return -1;
+>      if (migration_is_blocked(errp)) {
+> -        return ret;
+> +        return false;
 >      }
-> +    if (ret == 1) {
-> +        return 0;
-> +    }
-> +
->      return ret;
+>  
+>      if (!replay_can_snapshot()) {
+>          error_setg(errp, "Record/replay does not allow making snapshot "
+>                     "right now. Try once more later.");
+> -        return ret;
+> +        return false;
+>      }
+>  
+>      if (!bdrv_all_can_snapshot(errp)) {
+> -        return ret;
+> +        return false;
+>      }
+>  
+>      /* Delete old snapshots of the same name */
+>      if (name) {
+>          if (bdrv_all_delete_snapshot(name, errp) < 0) {
+> -            return ret;
+> +            return false;
+>          }
+>      }
+>  
+>      bs = bdrv_all_find_vmstate_bs(errp);
+>      if (bs == NULL) {
+> -        return ret;
+> +        return false;
+>      }
+>      aio_context = bdrv_get_aio_context(bs);
+>  
+> @@ -2773,7 +2773,7 @@ int save_snapshot(const char *name, Error **errp)
+>      ret = global_state_store();
+>      if (ret) {
+>          error_setg(errp, "Error saving global state");
+> -        return ret;
+> +        return false;
+>      }
+>      vm_stop(RUN_STATE_SAVE_VM);
+>  
+> @@ -2845,7 +2845,7 @@ int save_snapshot(const char *name, Error **errp)
+>      if (saved_vm_running) {
+>          vm_start();
+>      }
+> -    return ret;
+> +    return ret == 0;
 >  }
 >  
+>  void qmp_xen_save_devices_state(const char *filename, bool has_live, bool live,
+> diff --git a/replay/replay-debugging.c b/replay/replay-debugging.c
+> index 3a9b609e62..8e0050915d 100644
+> --- a/replay/replay-debugging.c
+> +++ b/replay/replay-debugging.c
+> @@ -323,7 +323,7 @@ void replay_gdb_attached(void)
+>       */
+>      if (replay_mode == REPLAY_MODE_PLAY
+>          && !replay_snapshot) {
+> -        if (save_snapshot("start_debugging", NULL) != 0) {
+> +        if (!save_snapshot("start_debugging", NULL)) {
+>              /* Can't create the snapshot. Continue conventional debugging. */
+>          }
+>      }
+> diff --git a/replay/replay-snapshot.c b/replay/replay-snapshot.c
+> index e26fa4c892..4f2560d156 100644
+> --- a/replay/replay-snapshot.c
+> +++ b/replay/replay-snapshot.c
+> @@ -77,7 +77,7 @@ void replay_vmstate_init(void)
+>  
+>      if (replay_snapshot) {
+>          if (replay_mode == REPLAY_MODE_RECORD) {
+> -            if (save_snapshot(replay_snapshot, &err) != 0) {
+> +            if (!save_snapshot(replay_snapshot, &err)) {
+>                  error_report_err(err);
+>                  error_report("Could not create snapshot for icount record");
+>                  exit(1);
 > -- 
-> 1.8.3.1
+> 2.29.2
 > 
-
-Regards,
-Daniel
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
