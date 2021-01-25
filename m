@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D051D302205
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 07:08:04 +0100 (CET)
-Received: from localhost ([::1]:40162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1762D302242
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 07:54:47 +0100 (CET)
+Received: from localhost ([::1]:49984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3v2h-0001sr-UO
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 01:08:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60800)
+	id 1l3vlt-0000BQ-J4
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 01:54:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l3v0y-0001G7-LH
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 01:06:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:43167)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l3v0u-0005y7-Hi
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 01:06:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611554770;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=uUAvBdwkc8yYtB6yILDFk6aqLJbdpbztz9px7Yobhng=;
- b=Kl/Gv1mqc53LKyfAnoYMkfPXGpIR8lpcMyP5nhbJ4dNhxqVvzvOuL5Cdv1y/jND1kFFuwl
- E6g1YCfBaBDZIh7H47OprbjWX94YLR1tHF+Vr5NzyND0WXQGfbr56SUb71dop0MU6w6Rmp
- 1CdDjZtZMyYke8+At3y2RTr4lgrRMZw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-6-PuCD9R1MNuqr88Pig7O6vQ-1; Mon, 25 Jan 2021 01:06:08 -0500
-X-MC-Unique: PuCD9R1MNuqr88Pig7O6vQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4CDE107ACE3;
- Mon, 25 Jan 2021 06:06:07 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-127.ams2.redhat.com [10.36.112.127])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3D0F95F9A6;
- Mon, 25 Jan 2021 06:06:06 +0000 (UTC)
-Subject: Re: [PATCH] configure: Only build s390-ccw BIOS for system emulation
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210124161740.2502786-1-f4bug@amsat.org>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <37a7cac9-5907-94f3-3699-6bd30936a229@redhat.com>
-Date: Mon, 25 Jan 2021 07:06:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1l3vjh-0008BX-A4
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 01:52:29 -0500
+Received: from mail.ispras.ru ([83.149.199.84]:35820)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
+ id 1l3vje-0000XR-QS
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 01:52:28 -0500
+Received: from [192.168.0.92] (unknown [62.118.151.149])
+ by mail.ispras.ru (Postfix) with ESMTPSA id 85C6F4076248;
+ Mon, 25 Jan 2021 06:52:18 +0000 (UTC)
+Subject: Re: [PATCH] util/log: flush TB cache when log level changes
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <161130982491.1038646.15688151175539344664.stgit@pasha-ThinkPad-X280>
+ <87y2glry84.fsf@linaro.org>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+Message-ID: <56ff4770-3e01-ef72-e054-fdc93533a3b3@ispras.ru>
+Date: Mon, 25 Jan 2021 09:52:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210124161740.2502786-1-f4bug@amsat.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <87y2glry84.fsf@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=83.149.199.84;
+ envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,36 +55,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 24/01/2021 17.17, Philippe Mathieu-Daudé wrote:
-> It is pointless to build the s390-ccw BIOS when only user-mode
-> emulation is built. Only build it when system mode emulation is
-> selected.
+On 22.01.2021 14:42, Alex Bennée wrote:
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
->   configure | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> writes:
 > 
-> diff --git a/configure b/configure
-> index 6f6a319c2f6..d5e97ff2d52 100755
-> --- a/configure
-> +++ b/configure
-> @@ -5453,7 +5453,7 @@ if { test "$cpu" = "i386" || test "$cpu" = "x86_64"; } && \
->   fi
->   
->   # Only build s390-ccw bios if we're on s390x and the compiler has -march=z900
-> -if test "$cpu" = "s390x" ; then
-> +if test "$cpu" = "s390x" && test "$softmmu" = yes; then
+>> Sometimes we need to collect the translation logs starting
+>> from some point of the execution. Some TB listings may
+>> be missed in this case, when blocks were translated before.
+>> This patch clears TB cache to allow re-translation of such
+>> code blocks.
+>>
+>> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> ---
+>>   accel/tcg/translate-all.c |    8 ++++++++
+>>   include/sysemu/tcg.h      |    1 +
+>>   stubs/meson.build         |    1 +
+>>   stubs/tcg.c               |   12 ++++++++++++
+>>   util/log.c                |    3 +++
+>>   5 files changed, 25 insertions(+)
+>>   create mode 100644 stubs/tcg.c
+>>
+>> diff --git a/accel/tcg/translate-all.c b/accel/tcg/translate-all.c
+>> index e9de6ff9dd..3acb227c57 100644
+>> --- a/accel/tcg/translate-all.c
+>> +++ b/accel/tcg/translate-all.c
+>> @@ -1461,6 +1461,14 @@ void tb_flush(CPUState *cpu)
+>>       }
+>>   }
+>>   
+>> +void tb_flush_all(void)
+>> +{
+>> +    CPUState *cpu;
+>> +    CPU_FOREACH(cpu) {
+>> +        tb_flush(cpu);
+>> +    }
+>> +}
+>> +
+> 
+> This isn't needed - tb_flush flushes all translations although it does
+> need to be executed in a CPU context to do so.
+> 
+>>   /*
+>>    * Formerly ifdef DEBUG_TB_CHECK. These debug functions are user-mode-only,
+>>    * so in order to prevent bit rot we compile them unconditionally in user-mode,
+>> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+>> index 00349fb18a..7415f11022 100644
+>> --- a/include/sysemu/tcg.h
+>> +++ b/include/sysemu/tcg.h
+>> @@ -9,6 +9,7 @@
+>>   #define SYSEMU_TCG_H
+>>   
+>>   void tcg_exec_init(unsigned long tb_size, int splitwx);
+>> +void tb_flush_all(void);
+>>   
+>>   #ifdef CONFIG_TCG
+>>   extern bool tcg_allowed;
+>> diff --git a/stubs/meson.build b/stubs/meson.build
+>> index 80b1d81a31..95e70f8542 100644
+>> --- a/stubs/meson.build
+>> +++ b/stubs/meson.build
+>> @@ -38,6 +38,7 @@ stub_ss.add(files('set-fd-handler.c'))
+>>   stub_ss.add(files('sysbus.c'))
+>>   stub_ss.add(files('target-get-monitor-def.c'))
+>>   stub_ss.add(files('target-monitor-defs.c'))
+>> +stub_ss.add(files('tcg.c'))
+>>   stub_ss.add(files('tpm.c'))
+>>   stub_ss.add(files('trace-control.c'))
+>>   stub_ss.add(files('uuid.c'))
+>> diff --git a/stubs/tcg.c b/stubs/tcg.c
+>> new file mode 100644
+>> index 0000000000..775a748c77
+>> --- /dev/null
+>> +++ b/stubs/tcg.c
+>> @@ -0,0 +1,12 @@
+>> +/*
+>> + * TCG stubs
+>> + *
+>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>> + * See the COPYING file in the top-level directory.
+>> + */
+>> +
+>> +#include "sysemu/tcg.h"
+>> +
+>> +void tb_flush_all(void)
+>> +{
+>> +}
+>> diff --git a/util/log.c b/util/log.c
+>> index 2ee1500bee..2ff342a91b 100644
+>> --- a/util/log.c
+>> +++ b/util/log.c
+>> @@ -26,6 +26,7 @@
+>>   #include "trace/control.h"
+>>   #include "qemu/thread.h"
+>>   #include "qemu/lockable.h"
+>> +#include "sysemu/tcg.h"
+>>   
+>>   static char *logfilename;
+>>   static QemuMutex qemu_logfile_mutex;
+>> @@ -84,6 +85,8 @@ void qemu_set_log(int log_flags)
+>>   #ifdef CONFIG_TRACE_LOG
+>>       qemu_loglevel |= LOG_TRACE;
+>>   #endif
+>> +    tb_flush_all();
+>> +
+> 
+> I would call tb_flush(current_cpu) or first_cpu here. But two things:
+> 
+>   - I'm not sure you have a CPU at all times qemu_set_log is called
+>   - It seems overly aggressive to throw away all translations every time
+>     the log level is changed. I would define a mask in log.h and have
+>     something like:
 
-Actually, you could even improve by checking whether we're building the 
-s390x-softmmu target (the bios is also not required if we're just building 
-the x86_64-softmmu target on a s390x host, for example).
+Do you propose removing the parameter from tb_flush or omitting the loop
+from tb_flush_all?
 
-  Thomas
+>    if (log_flags & LOG_TRANSLATION) {
+>        tb_flush();
+>    }
+> 
+>>       /*
+>>        * In all cases we only log if qemu_loglevel is set.
+>>        * Also:
+> 
+> 
 
 
