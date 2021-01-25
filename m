@@ -2,116 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D945C302EE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 23:23:48 +0100 (CET)
-Received: from localhost ([::1]:33884 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A78302EB1
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 23:10:53 +0100 (CET)
+Received: from localhost ([::1]:47930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4AGx-0006GN-VY
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 17:23:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57278)
+	id 1l4A4S-0008DX-A5
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 17:10:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54926)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1l4AFq-0005ol-On
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:22:38 -0500
-Received: from mail-dm6nam11on2071.outbound.protection.outlook.com
- ([40.107.223.71]:38241 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1l4AFn-000160-8F
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:22:37 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KE/xCIjQb6YpbnSUrAeA9/LZMXfwQeIjwr4YGfhEQPht9Co5UFBuEDcxF5hzu5ZhOhtkBqoa26+AygnOs30WJkTrZReIG+IkwGdbHb3hdII2xkpq3QIhGev8hFAZ8rJQe+SLNpX0arNknx3lApCCx3WkrdFIfHVOLT1SCRevmQJLMHpXQ3UiZFJk1laygcOq5pH7xpTPMh3gekDoJeI9/xfJ8Z/D/B88HaestgWWuy4wbAbATsa6WErLRiz4yOWfwzW6hwaAP0MDC0auePKqs0azNVxHvQ+KnZHS724xkTQuW70jL/HDVd4MslrLzoQFrPLaAOKXumLhfcSvqaOkSg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sOGnOvx8r96o6iXxgG5VJrMgfNggAd/yLs4cUo8mwUY=;
- b=g45VZFG7O/8rDQUsv53zJVQd3N/Bb3t9RbuMUAVBXQVwsPjFfSPWUztZFRphIw5IsfbWf66iRiJ4/XxBh3xcch1JP5LkhWoDhj1oXZSaBAtotxzrHkq1vHGAUo+qmXmSFGF55OANvZ284eE+ESW7PBvFx2NSDdPIUAOyvS2MI5W2SuyC2mN2Omja1zToMyHa6GP92iGvqx9MjyXudQrp6bVbHfLmS9mElSWndXOKssTfZf40NUkSUmaJx24XaV2Rll5PziXWqgjgbipWXid4WMQ8qWfLWmc85g0+h/OskLvF1Fars8XTfqjbp4mlNmWvbsvuncXNwNCrWrF9qG88/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sOGnOvx8r96o6iXxgG5VJrMgfNggAd/yLs4cUo8mwUY=;
- b=LdpEp7x/9Zfm0QrzdoTGb5KYtL8iJymWStBPCYmvKS90ai6Hoq2DHV21uu2ERXePlKtg9TcRYfVMpBDpXCINNcXmRiJaicnq25CMxfHv2loYPYLGHuj9x8pFm23RFd12Qp7iDH0ukfzeYdJoQ0XZIkWTFoXTUEvT++yLlak/LpE=
-Received: from DM6PR11CA0052.namprd11.prod.outlook.com (2603:10b6:5:14c::29)
- by BYAPR02MB4102.namprd02.prod.outlook.com (2603:10b6:a02:fa::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Mon, 25 Jan
- 2021 22:07:20 +0000
-Received: from CY1NAM02FT043.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:14c:cafe::b1) by DM6PR11CA0052.outlook.office365.com
- (2603:10b6:5:14c::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.14 via Frontend
- Transport; Mon, 25 Jan 2021 22:07:20 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; linaro.org; dkim=none (message not signed)
- header.d=none;linaro.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT043.mail.protection.outlook.com (10.152.74.182) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3784.12 via Frontend Transport; Mon, 25 Jan 2021 22:07:20 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 25 Jan 2021 14:07:17 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 25 Jan 2021 14:07:17 -0800
-Received: from [172.19.2.115] (port=52874 helo=xilinx.com)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <fnu.vikram@xilinx.com>)
- id 1l4A0z-00081K-58; Mon, 25 Jan 2021 14:07:17 -0800
-Date: Mon, 25 Jan 2021 14:07:17 -0800
-From: Vikram Garhwal <fnu.vikram@xilinx.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] arm: rename xlnx-zcu102.canbusN properties
-Message-ID: <20210125220716.GA344542@xilinx.com>
-References: <20210118162537.779542-1-pbonzini@redhat.com>
- <CAFEAcA_En1xo10n3121r3ZRANkhiH0dRRwT5QwMZ1wRTeLyFWA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l4A23-0007hG-IC
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:08:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29995)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l4A1z-0007op-2V
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:08:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611612498;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=9HY3qhnj/ffo+wVNvyFDPJVCIIf4WQCEGLPZnyD+V1I=;
+ b=XPwt2vrvslzaF44JRAHGcaTj1AI7TfalhwcPvb8WqplVmz1dYZG8JDBtTIUk+Z+CQvAgKI
+ lFBIvQyv7cDvVdKEgkYAB+CTeDkQBac3aUhHNPDWFNgUmHauNAB9Ju0AVZPgoHSfwpZvB9
+ hRWCmPFymqFRLNUXA9Pm+1lL7fBF+Ls=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-470-Q5CfdzxONQCXpiLHOFnhmw-1; Mon, 25 Jan 2021 17:08:15 -0500
+X-MC-Unique: Q5CfdzxONQCXpiLHOFnhmw-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 84187107ACE4
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 22:08:14 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-67.ams2.redhat.com
+ [10.36.112.67])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D39819C47;
+ Mon, 25 Jan 2021 22:08:09 +0000 (UTC)
+Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+From: Laszlo Ersek <lersek@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>, Max Reitz <mreitz@redhat.com>,
+ qemu-devel@nongnu.org
+References: <20210122102041.27031-1-mreitz@redhat.com>
+ <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
+ <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
+ <1121a803-98e7-6d41-119c-3d82717976ec@redhat.com>
+ <cba8919b-0480-3520-6ad6-920bf9d4186e@redhat.com>
+ <063dd2a6-a3ae-0d7c-3e29-96a08a6d9a3d@redhat.com>
+ <88cba59c-f644-7474-03b7-90208697bcb6@redhat.com>
+Message-ID: <46d5fa39-9f71-39a2-6085-0f508071b370@redhat.com>
+Date: Mon, 25 Jan 2021 23:08:09 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_En1xo10n3121r3ZRANkhiH0dRRwT5QwMZ1wRTeLyFWA@mail.gmail.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d32b35a9-18e0-4c72-f5de-08d8c17d95ce
-X-MS-TrafficTypeDiagnostic: BYAPR02MB4102:
-X-Microsoft-Antispam-PRVS: <BYAPR02MB4102249DF67B74067B574EE7BCBD0@BYAPR02MB4102.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 2AXSRx1vRVQ1cZysN44hyvJL/Zc/B92atP2Y24ipmLnMogulv2BnASLOxS9FAcs7oMKds+9pLp3aWf7TQRYViuj1wOT2Y+jBDZFUoxb8We9hd738rhXM5VN10Eck1MDzunzSkqnVP1Cx7YICl/us85hb/5Agd8PIDEhMXCkftYmqQWwXrH9+uDbliJJl8KCa14fay0qmIzdFyQ5BoQ/VqzEDJjimS8rJMidg+JL199uJghHAWDt9g90OdZ+UdaszM7DenDjl9sy1Gzz7KSSFrR0b2bU+6EZOdXvTKyxebSqUSaZHF07P7hdZjSJ9VHQlVygTX++YkiE0ft2jaW0266BGTOYN0EG1D397381lGa5CwvB8Le1idpZUNouWSK5fu+hyC3fU6w8EIsx2ktERBBeyYjMK7zOlEtlEAz3aKzSxw7s+Hq6NGR23opAWwz7YgOCxra57ZVHrVTr8V/wOh/V+/8srXu0np07Obe5kXn/2XD9wju61CZ4QDAogFRF3V7WunQVU5fig0sXX+wniZXIXZSraOdgGHK9Ss9jNGLQIoEEz5UecwiTvDZfS110BAiaaeVSKjScbQ68YOo8KU60sFoKwu3to/T629POxjvFap/XFTR0N/vgWiZxUxOQr
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(4636009)(136003)(346002)(376002)(39860400002)(396003)(46966006)(1076003)(5660300002)(356005)(4326008)(8936002)(7636003)(6916009)(426003)(2616005)(26005)(54906003)(478600001)(8676002)(83380400001)(82740400003)(36906005)(2906002)(9786002)(82310400003)(316002)(36756003)(33656002)(186003)(336012)(70206006)(7696005)(70586007)(47076005)(27376004);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2021 22:07:20.0746 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d32b35a9-18e0-4c72-f5de-08d8c17d95ce
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT043.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4102
-Received-SPF: pass client-ip=40.107.223.71; envelope-from=fnuv@xilinx.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <88cba59c-f644-7474-03b7-90208697bcb6@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,123 +85,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Alistair Francis <alistair@alistair23.me>,
- QEMU Developers <qemu-devel@nongnu.org>, "Edgar E.
- Iglesias" <edgar.iglesias@gmail.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 22, 2021 at 01:21:53PM +0000, Peter Maydell wrote:
-Patch looks good to me.
-Reviewed-by: Vikram Garhwal <fnu.vikram@xilinx.com>
-> Just noticed this wasn't cc'd to the Xilinx folks. Would one
-> of you like to review it?
->
-> thanks
-> -- PMM
->
-> On Mon, 18 Jan 2021 at 16:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
-> >
-> > The properties to attach a CANBUS object to the xlnx-zcu102 machine have
-> > a period in them.  We want to use periods in properties for compound QAPI types,
-> > and besides the "xlnx-zcu102." prefix is both unnecessary and different
-> > from any other machine property name.  Remove it.
-> >
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> > ---
-> >  hw/arm/xlnx-zcu102.c        |  4 ++--
-> >  tests/qtest/xlnx-can-test.c | 30 +++++++++++++++---------------
-> >  2 files changed, 17 insertions(+), 17 deletions(-)
-> >
-> > diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-> > index 4ef0c516bf..c9713638c5 100644
-> > --- a/hw/arm/xlnx-zcu102.c
-> > +++ b/hw/arm/xlnx-zcu102.c
-> > @@ -219,12 +219,12 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
-> >      s->secure = false;
-> >      /* Default to virt (EL2) being disabled */
-> >      s->virt = false;
-> > -    object_property_add_link(obj, "xlnx-zcu102.canbus0", TYPE_CAN_BUS,
-> > +    object_property_add_link(obj, "canbus0", TYPE_CAN_BUS,
-> >                               (Object **)&s->canbus[0],
-> >                               object_property_allow_set_link,
-> >                               0);
-> >
-> > -    object_property_add_link(obj, "xlnx-zcu102.canbus1", TYPE_CAN_BUS,
-> > +    object_property_add_link(obj, "canbus1", TYPE_CAN_BUS,
-> >                               (Object **)&s->canbus[1],
-> >                               object_property_allow_set_link,
-> >                               0);
-> > diff --git a/tests/qtest/xlnx-can-test.c b/tests/qtest/xlnx-can-test.c
-> > index 3d1120005b..54de71a686 100644
-> > --- a/tests/qtest/xlnx-can-test.c
-> > +++ b/tests/qtest/xlnx-can-test.c
-> > @@ -138,9 +138,9 @@ static void test_can_bus(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0 and CAN1. */
-> > @@ -175,9 +175,9 @@ static void test_can_loopback(void)
-> >      uint32_t status = 0;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0 in loopback mode. */
-> > @@ -223,9 +223,9 @@ static void test_can_filter(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0 and CAN1. */
-> > @@ -271,9 +271,9 @@ static void test_can_sleepmode(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0. */
-> > @@ -317,9 +317,9 @@ static void test_can_snoopmode(void)
-> >      uint8_t can_timestamp = 1;
-> >
-> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
-> > -                " -object can-bus,id=canbus0"
-> > -                " -machine xlnx-zcu102.canbus0=canbus0"
-> > -                " -machine xlnx-zcu102.canbus1=canbus0"
-> > +                " -object can-bus,id=canbus"
-> > +                " -machine canbus0=canbus"
-> > +                " -machine canbus1=canbus"
-> >                  );
-> >
-> >      /* Configure the CAN0. */
-> > --
-> > 2.26.2
+On 01/25/21 22:13, Laszlo Ersek wrote:
+> On 01/23/21 23:13, Paolo Bonzini wrote:
+>> On 22/01/21 22:26, Laszlo Ersek wrote:
+>>> That seems bogus, per POSIX, given that all signals except SIGUSR2 are
+>>> included in the mask passed to sigsuspend().
+>>
+>> What happens if you get a SIGSTOP at exactly the wrong time?  (Yeah I
+>> know how incredibly unlikely that would be).
+> 
+> Nothing; it is impossible to ignore or catch SIGSTOP:
+> 
+> https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/signal.h.html
+> 
+> And therefore it is also impossible to block it (but an attempt to block
+> it will not cause issues); see e.g.
+> 
+> https://pubs.opengroup.org/onlinepubs/9699919799/functions/sigsuspend.html
+> 
+> ("It is not possible to block signals that cannot be ignored. This is
+> enforced by the system without causing an error to be indicated.")
+> 
+> So the process will simply stop executing.
+> 
+> 
+> The more interesting question is SIGCONT. SIGCONT will always behave
+> like it should:
+> 
+> https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/signal.h.html
+> 
+> The interesting part is that it's possible to install a handler for
+> SIGCONT, which will act *in addition* to the normal SIGCONT effect.
+> 
+> Such a handler is actually useful for (e.g.) restarting timers that may
+> have been thrown off while the process was not scheduled for a while
+> (due to SIGSTOP).
+> 
+> If there is no handler installed for SIGCONT, nothing particular happens
+> when it is delivered (the process doesn't notice).
+
+Sorry, I need to correct my terminology here (no change to my
+description of the behavior, just the terms) -- basically SIGCONT
+resumes the target process (if stopped) as soon as it is generated (=
+made pending) for the target process; the disposition and/or masking of
+SIGCONT in the target has no effect on this.
+
+If a handler and/or masking are used in the target process, those only
+affect delivery; and in that case, delivery of SIGCONT is no different
+from that of other signals.
+
+In the end, SIGCONT first resumes the process (if stopped), regardless
+of disposition / masking, and *then* it is delivered, subject to
+disposition and masking. (If SIGCONT is not blocked but it is caught,
+then of course generation and delivery are indistinguishable in the
+target process.)
+
+(A program I had written earlier relied on this specifically, for
+restarting a timer -- it would block SIGCONT at all times, except in a
+very tight "event fetch" call, such as pselect(). So there could easily
+be sections of code that would run with SIGCONT actively pending. In
+fact, async SIGCONT could be used to force a timer restart, without ever
+sending SIGSTOP!)
+
+So the short paragraph I'm quoting right above is inaccurate because, if
+no handler is installed, SIGCONT is not "delivered" at all.
+
+Thanks
+Laszlo
+
+> 
+> QEMU does seem to install a SIGCONT handler, in "chardev/char-stdio.c".
+> But that's not a problem (at least with the patch I had attached)
+> because the mask that sigsuspend() puts in place, temporarily, for
+> unblocking SIGUSR2, also blocks SIGCONT (together with everything else).
+> If a STOP/CONT occurs exactly then, then SIGCONT will resume the
+> process, but the handler for SIGCONT will run precisely *after*
+> sigsuspend() -- including the SIGUSR2 handling -- returns, and SIGCONT
+> becomes unblocked by virtue of sigsuspend() restoring the original mask.
+> 
+> (Side comment: I'm not convinced the existent SIGCONT handling in
+> "chardev/char-stdio.c" is safe, regardless of the topic at hand --
+> SIGCONT does not seem to be masked for all threads except one, and so
+> any thread could execute term_stdio_handler(). While the only called
+> function in that is tcsetattr(), which is async signal safe, I don't
+> know whether accessing "stdio_echo_state" and "stdio_allow_signal" is
+> also safe. It may be.)
+> 
+> 
+> BTW, the signal(7) Linux manual documents spurious wakeups for
+> sigtimedwait(2) and sigwaitinfo(2), indeed in connection with SIGCONT.
+> However, sigsuspend() is not listed in that section (I had checked):
+> 
+> https://man7.org/linux/man-pages/man7/signal.7.html
+> 
+>    Interruption of system calls and library functions by stop signals
+>        On Linux, even in the absence of signal handlers, certain
+>        blocking interfaces can fail with the error EINTR after the
+>        process is stopped by one of the stop signals and then resumed
+>        via SIGCONT.  This behavior is not sanctioned by POSIX.1, and
+>        doesn't occur on other systems.
+> 
+>        The Linux interfaces that display this behavior are:
+> 
+>        * "Input" socket interfaces, when a timeout (SO_RCVTIMEO) has
+>          been set on the socket using setsockopt(2): accept(2), recv(2),
+>          recvfrom(2), recvmmsg(2) (also with a non-NULL timeout
+>          argument), and recvmsg(2).
+> 
+>        * "Output" socket interfaces, when a timeout (SO_RCVTIMEO) has
+>          been set on the socket using setsockopt(2): connect(2),
+>          send(2), sendto(2), and sendmsg(2), if a send timeout
+>          (SO_SNDTIMEO) has been set.
+> 
+>        * epoll_wait(2), epoll_pwait(2).
+> 
+>        * semop(2), semtimedop(2).
+> 
+>        * sigtimedwait(2), sigwaitinfo(2).
+> 
+>        * Linux 3.7 and earlier: read(2) from an inotify(7) file
+>          descriptor
+> 
+>        * Linux 2.6.21 and earlier: futex(2) FUTEX_WAIT,
+>          sem_timedwait(3), sem_wait(3).
+> 
+>        * Linux 2.6.8 and earlier: msgrcv(2), msgsnd(2).
+> 
+>        * Linux 2.4 and earlier: nanosleep(2).
+> 
+> If other host OSes that QEMU supports have similar non-conformance
+> notes, and sigsuspend() is affected on them, then removing the loop
+> around sigsuspend() is unsafe.
+> 
+> I only know where to check POSIX and the Linux manuals.
+> 
+> 
+>> BTW if we are in a mood for cleanup, there's no reason to use
+>> pthread_key_t instead of __thread + qemu_thread_atexit_add (adding a
+>> Notifier to struct CoroutineThreadState).  That would fix the issue with
+>> async-signal safety of pthread_getspecific.
+>>
+>> (It makes sense for the function not to be async-signal safe since it
+>> can in principle allocate memory for the data.  In practice it's most
+>> likely okay if the function has been called before on this thread).
+> 
+> This is a good idea, but with the patch I had attached, it's not urgent
+> -- pthread_getspecific is only called from a safe context. Per POSIX,
+> there is a problem only when an unsafe function is executed while the
+> signal interrupts an unsafe function:
+> 
+> https://pubs.opengroup.org/onlinepubs/9699919799/functions/V2_chap02.html#tag_15_04_03_03
+> 
+>     In the presence of signals, all functions defined by this volume of
+>     POSIX.1-2017 shall behave as defined when called from or interrupted
+>     by a signal-catching function, with the exception that when a signal
+>     interrupts an unsafe function or equivalent (such as the processing
+>     equivalent to exit() performed after a return from the initial call
+>     to main()) and the signal-catching function calls an unsafe
+>     function, the behavior is undefined.
+> 
+> And with the proposed patch, the only function that can be interrupted
+> by SIGUSR2 is sigsuspend(), and sigsuspend() is listed in the table of
+> safe functions.
+> 
+> Thanks
+> Laszlo
+> 
+
 
