@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5F8B3022DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 09:40:42 +0100 (CET)
-Received: from localhost ([::1]:41548 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C569302317
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 10:05:30 +0100 (CET)
+Received: from localhost ([::1]:56572 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3xQP-0004cs-TK
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 03:40:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59510)
+	id 1l3xoP-0003tN-Mq
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 04:05:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3xOG-0003jv-43; Mon, 25 Jan 2021 03:38:28 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:36774)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3xkk-0002X6-Fw
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 04:01:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:40020)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l3xOE-0005Py-Fz; Mon, 25 Jan 2021 03:38:27 -0500
-Received: by mail-wr1-x435.google.com with SMTP id 6so11331757wri.3;
- Mon, 25 Jan 2021 00:38:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=uVuV7J3+WDcn5ZqWxQOKIZzgaVEjqgt35D+uE59R/mM=;
- b=WgHHs8GDp4XHGcNYUCHD5FJ7JbobqswXyCQA1d1dmkzTN7kjJOVXtQgwYKq8uddCQE
- fxQPjy2a4XXcdW/y8QV5y07Aw56Ok7ziNcHOnx3WL2xe0B/ro7LJaTKOTeWrRk+nahHr
- ryoSB3SiqGPUlDWSVaaVfpqVCkEOEJ5zwYdBK88EFnfEWi8Ddi6BXA6ThFXDNbAHlaVj
- fwzbmJcC3Zs9pM4Me8D8+TKERyRpRHdVMBdYvVT217jHEtLi3DIAFMgppXS8XupNdf4M
- Z/hPD8ODJFAgK/qoJuVpASZedp92CHSMCr21FcNaIoKhSmRySHKrwYxRJyQ5KMF+koex
- a1jQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=uVuV7J3+WDcn5ZqWxQOKIZzgaVEjqgt35D+uE59R/mM=;
- b=NT4NG1dDRHv0nkplcGXcIKLaIiyt5C/7rhx9+6EZrO9Q3fuEK8MQmfkiXAzYnmzCEi
- vpISL8bO0CMYAYH0DaxkG/iyi1K9D+7G+nPpPsuDdNA1AdUSuBqU/Erq7XyK/FObHCRu
- JkjNw2+63OcrY36RB7UwidjM9iN4NlVom4bVExR5NdRg48vyEPiXyeDGX2xwmJMAr+D5
- MLST2ROj6MnPf7bXWPn4GSAlZdWR6VGBvXuOEIw9WBnEzXq3traAeF2FBE9FcqYlquAd
- HbQkOHVRzECITzPeqKnMOIeuuiBup9gPH1dwPh0WQNx9Uod7vZOLIWPD+KcTCaT35oYB
- TiAQ==
-X-Gm-Message-State: AOAM532rdMyVDMi0zGLSOKIshbAYHLtmXrG62S0IkEMJvTQopIz6/nuz
- 5CfBC2noVdLghPRgBwJCQf59pLQVc34=
-X-Google-Smtp-Source: ABdhPJz4Szn5kHVPmfK0vAs89N5vsTNTQXLSKRW9Mml75bYlllsU85nvbKWv1jHawkxPUedYZZLcvA==
-X-Received: by 2002:a5d:6cb4:: with SMTP id a20mr5126937wra.192.1611563903881; 
- Mon, 25 Jan 2021 00:38:23 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id z18sm5840340wro.91.2021.01.25.00.38.22
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 00:38:23 -0800 (PST)
-Subject: Re: [PATCH v3 0/6] hw/sd: Support block write in SPI mode
-To: qemu-devel@nongnu.org, Bin Meng <bmeng.cn@gmail.com>
-References: <20210124202817.2624557-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <4dd7fdd2-e6b5-a607-5c6a-63fe96eb795b@amsat.org>
-Date: Mon, 25 Jan 2021 09:38:22 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3xke-0007hh-UP
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 04:01:38 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l3xkb-0007Dd-22
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 09:01:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 0E86B2E8149
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 09:01:33 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210124202817.2624557-1-f4bug@amsat.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 Jan 2021 08:47:06 -0000
+From: Paolo Bonzini <1811862@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: abbbi bonzini th-huth
+X-Launchpad-Bug-Reporter: Michael Ablassmeier (abbbi)
+X-Launchpad-Bug-Modifier: Paolo Bonzini (bonzini)
+References: <154756723569.32460.9318945599039422988.malonedeb@wampee.canonical.com>
+Message-Id: <161156442611.13620.11868004987335897041.malone@chaenomeles.canonical.com>
+Subject: [Bug 1811862] Re: microcode version stays 0x1 even if -cpu host is
+ used
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: dfd3af41100c6fa7f754aefde107bcec7aa90860
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,32 +71,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair.francis@wdc.com>, qemu-block@nongnu.org,
- Pragnesh Patel <pragnesh.patel@sifive.com>
+Reply-To: Bug 1811862 <1811862@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/24/21 9:28 PM, Philippe Mathieu-Daudé wrote:
-> These are Bin's SD patches from his v2, rebased on sd-next.
-> 
-> v2:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg775712.html
-> 
-> Based-on: <20210124201106.2602238-1-f4bug@amsat.org>
-> 
-> Bin Meng (6):
->   hw/sd: ssi-sd: Support multiple block read
->   hw/sd: sd: Remove duplicated codes in single/multiple block read/write
->   hw/sd: sd: Allow single/multiple block write for SPI mode
->   hw/sd: Introduce receive_ready() callback
->   hw/sd: ssi-sd: Support single block write
->   hw/sd: ssi-sd: Support multiple block write
-> 
->  include/hw/sd/sd.h |   2 +
->  hw/sd/core.c       |  13 +++++
->  hw/sd/sd.c         |  56 +++-------------------
->  hw/sd/ssi-sd.c     | 117 ++++++++++++++++++++++++++++++++++++++++-----
->  4 files changed, 125 insertions(+), 63 deletions(-)
+This is fixed in 5.2.
 
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+** Changed in: qemu
+       Status: Incomplete =3D> Fix Released
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1811862
+
+Title:
+  microcode version stays 0x1 even if -cpu host is used
+
+Status in QEMU:
+  Fix Released
+
+Bug description:
+  The microcode version of my host cpu has the following version:
+
+  grep microcode /proc/cpuinfo | head -1
+  microcode       : 0x3d
+
+  while trying to run ESXi in an nested VM, the boot bailed out with
+  error message that at least microcode version 0x19 is needed. It =
+
+  seems they have introduced such a check on certain CPU types.
+
+  The VM in question is using the "host-passthrough" option in libvirt
+  and the qemu command line reads as this:
+
+  21172 ?        Sl     0:09 /usr/libexec/qemu-kvm -name guest=3Dhpe-env-
+  client1,debug-threads=3Don -S -object
+  secret,id=3DmasterKey0,format=3Draw,file=3D/var/lib/libvirt/qemu/domain-33
+  -hpe-env-client1/master-key.aes -machine pc-i440fx-
+  rhel7.6.0,accel=3Dkvm,usb=3Doff,dump-guest-core=3Doff -cpu host <rest
+  stripped>
+
+  Running a regular Linux VM with `host-passthrough` shows that the
+  microcode version is still reported as 0x1.
+
+  Within the VM:
+
+  [root@hpe-env-client1 ~]# cat /proc/cpuinfo =
+
+  processor       : 0
+  vendor_id       : GenuineIntel
+  cpu family      : 6
+  model           : 63
+  model name      : Intel(R) Xeon(R) CPU E5-2620 v3 @ 2.40GHz
+  stepping        : 2
+  microcode       : 0x1
+  cpu MHz         : 2397.222
+
+  =
+
+  My impression is qemu should copy the hosts microcode version in this cas=
+e?
+
+  Running Qemu von RHEl8 beta here.
+
+  [root@3parserver ~]# /usr/libexec/qemu-kvm --version
+  QEMU emulator version 2.12.0 (qemu-kvm-2.12.0-41.el8+2104+3e32e6f8)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1811862/+subscriptions
 
