@@ -2,91 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 056AE302442
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 12:29:10 +0100 (CET)
-Received: from localhost ([::1]:36300 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86908302440
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 12:29:02 +0100 (CET)
+Received: from localhost ([::1]:35826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l403R-00015l-20
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 06:29:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40206)
+	id 1l403J-0000to-D8
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 06:29:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l4028-0008So-Hj
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 06:27:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l4025-000874-GY
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 06:27:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611574063;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/6s9RrdbybPSugOIjr5Gk1nlvD/e6tpDmHUjXTiDnic=;
- b=XtyrGTHmxLLmYJT2l5lpkvZBbEYX50uEt7/mG1eWhPA3HYkAN/JyTBCS5MbQbLGe9UGOSW
- Yv8oayCBybNbJ7NUhWYar/cYROPUKWeGpdyaXY5KRufUty4NVEr2t+YIPdQKEiJ7oqPxGN
- gzKOHOtnQWSA1nS53wkqniaO1J4bSBc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-306-94cvV7eROgCHMKRlzXmh2A-1; Mon, 25 Jan 2021 06:27:41 -0500
-X-MC-Unique: 94cvV7eROgCHMKRlzXmh2A-1
-Received: by mail-ed1-f72.google.com with SMTP id x13so7216170edi.7
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 03:27:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1l4026-0008Sb-C2; Mon, 25 Jan 2021 06:27:46 -0500
+Received: from mail-qt1-x82c.google.com ([2607:f8b0:4864:20::82c]:45450)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
+ id 1l4024-00086Q-1H; Mon, 25 Jan 2021 06:27:46 -0500
+Received: by mail-qt1-x82c.google.com with SMTP id d15so9342298qtw.12;
+ Mon, 25 Jan 2021 03:27:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=VfkIM6cRb2Yk3pemO9P08XiRHkJGl8e9BBO9WZWfUrQ=;
+ b=OEOjBEN5eFFuFVCZ7SzBU7xMEnKOMht13l6uohMVmz9Chgx72WiQyPmPB91Fzh3eN6
+ eMscS4BbhYit3qmEbzyXqlSmsD73jEcjS/fSNfPM0cYNkBELT1p970L3BmRV7VseU0oN
+ BbGlQkSW8nXA9yr+dPwXvBERY4Dflt/xyTwsbf3V4yk7wBbluASGUl24tMKq36kG20BK
+ Eppmcy2IUHalw/z12GRz0p9q0PdJBbYYKP7hulH7GxWHmDInU+eT2kA75IoL05/eHdzi
+ qDt8W84Z5XIX6sqtJsH2dy2OQkzJesZM5tp8x7N8gz/adBL3uWw+emwoQm1xFtoarZ3C
+ UnLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:subject:to:cc:references:from:message-id:date
  :user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=/6s9RrdbybPSugOIjr5Gk1nlvD/e6tpDmHUjXTiDnic=;
- b=aeghfSHaHRUuAFZq3ORXfMeSQNnA91ZqMJE9BllX0MbFXXPmxikHUDTR8JkpvpesUb
- 0SYZt55uvXZFx+p3H+PEDT0THojrGw3D8jofs6cEnuViakxMz6OCtsUmaXc2K5iA8N+/
- xEtyqjUAv4wAqyey3Z+FjTijZF1i8lsXXaNhpHy4ANzQ3pBVkqZfxebNpmbzbm7IZvHE
- 3Ewy3dboFViNZuePe487U8LNSEJPeXBdby8Vt4vGSXeaVR+1w6tNN2l+ZJr1KukeacY0
- zXAMdGaB70dVr59TcVlUwlVM37/YRc1Qx0RPtTcc7AZJZt4BbkgrNX5wTCoWA53QDTZZ
- qDCQ==
-X-Gm-Message-State: AOAM53077xp+CY4E7KqVZM82fc/uR7kTwXjq4jaqbKCtaItFWCyM6q2l
- sg7ht3VeKDkQVnjRyh8SNAhWYPBHOZouL1U1vC8wjXECj/S58F0iSEmGxrsDLTuXqh/sgQDi7PN
- 5oyuAQD9swIiJRhs=
-X-Received: by 2002:aa7:d1d4:: with SMTP id g20mr56432edp.244.1611574060587;
- Mon, 25 Jan 2021 03:27:40 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyRjqqI0pKo27dVCon5wEseDYy0v7NFE9AwpeY63ZRLjavwXxdBj0L+t3NYq+gdULQMrsIL5Q==
-X-Received: by 2002:aa7:d1d4:: with SMTP id g20mr56419edp.244.1611574060417;
- Mon, 25 Jan 2021 03:27:40 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id i4sm8326714eje.90.2021.01.25.03.27.39
+ bh=VfkIM6cRb2Yk3pemO9P08XiRHkJGl8e9BBO9WZWfUrQ=;
+ b=Zi/mosO170tQBV3eCvLQKDtiPcq2wLoNAhG5QgVg0U+jo6OB8nxvQFQrNkViRbmnF6
+ hJu4W+99UNopeYQMSMV3j9pbUgppomPxMaswUCrWIFKJCFSS3z69plb36sQSYpeuuCt9
+ SRzIMfgeYu/ueldoVtltl+NDZd83AmXG4DArJuEvhzFHaXyV9yjsHbiK6IEon2ox8CRT
+ u+Cg4w1EO9gfR67Mg1IA6HH6QJeVSr2tWWl0eC513r+aDGHHA9n+lZ8qjgDf5APGDjud
+ Xhi48JIgBaAj66DX1JHf8XjA06owhRDt7BwKzRlmVjQO2q1yUTr563Zw3YdCztgpC3ZB
+ zVnA==
+X-Gm-Message-State: AOAM531OmbZ8TKbO70dsjNXoiOIh19jzt3/Ct9k4a8WveKhcUuCX6sIH
+ 5LL4PaYnukRzPRSeb2cQMU8=
+X-Google-Smtp-Source: ABdhPJy0WTJgOQF9nwHVs0EDniElEEALjUO5m61BdrYieJ5QNrFISdFwN2KGfKdsjsE2+sHUHoUNDA==
+X-Received: by 2002:ac8:6c52:: with SMTP id z18mr232941qtu.173.1611574062020; 
+ Mon, 25 Jan 2021 03:27:42 -0800 (PST)
+Received: from ?IPv6:2804:431:c7c7:8054:4ea2:2099:411c:227c?
+ ([2804:431:c7c7:8054:4ea2:2099:411c:227c])
+ by smtp.gmail.com with ESMTPSA id h8sm11256691qtm.5.2021.01.25.03.27.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 03:27:39 -0800 (PST)
-Subject: Re: [PATCH] trace: add meson custom_target() depend_files for
- tracetool
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20210125110958.214017-1-stefanha@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <7c1bb73f-bbca-aad4-2d06-6768be5c3cb5@redhat.com>
-Date: Mon, 25 Jan 2021 12:27:38 +0100
+ Mon, 25 Jan 2021 03:27:41 -0800 (PST)
+Subject: Re: [PATCH v2 1/1] spapr_caps.c: check user input before warning
+ about TCG only caps
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210120105406.163074-1-danielhb413@gmail.com>
+ <20210120105406.163074-2-danielhb413@gmail.com>
+ <20210123014625.GH4400@yekko.fritz.box>
+From: Daniel Henrique Barboza <danielhb413@gmail.com>
+Message-ID: <a0afb814-2f82-f697-63fd-3dddcf5f4490@gmail.com>
+Date: Mon, 25 Jan 2021 08:27:39 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210125110958.214017-1-stefanha@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20210123014625.GH4400@yekko.fritz.box>
+Content-Type: text/plain; charset=windows-1252; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82c;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,133 +89,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, groug@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/01/21 12:09, Stefan Hajnoczi wrote:
-> Re-generate tracetool output when the tracetool source code changes. Use
-> the same approach as qapi_gen_depends and introduce a tracetool_depends
-> files list so meson is aware of the dependencies.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->   meson.build       | 28 +++++++++++++++++++++++++++-
->   trace/meson.build | 21 ++++++++++++++-------
->   2 files changed, 41 insertions(+), 8 deletions(-)
-> 
-> diff --git a/meson.build b/meson.build
-> index 35a9eddf5c..3909d6b4c1 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1626,6 +1626,31 @@ tracetool = [
->     python, files('scripts/tracetool.py'),
->      '--backend=' + config_host['TRACE_BACKENDS']
->   ]
-> +tracetool_depends = files(
-> +  'scripts/tracetool/backend/log.py',
-> +  'scripts/tracetool/backend/__init__.py',
-> +  'scripts/tracetool/backend/dtrace.py',
-> +  'scripts/tracetool/backend/ftrace.py',
-> +  'scripts/tracetool/backend/simple.py',
-> +  'scripts/tracetool/backend/syslog.py',
-> +  'scripts/tracetool/backend/ust.py',
-> +  'scripts/tracetool/format/tcg_h.py',
-> +  'scripts/tracetool/format/ust_events_c.py',
-> +  'scripts/tracetool/format/ust_events_h.py',
-> +  'scripts/tracetool/format/__init__.py',
-> +  'scripts/tracetool/format/d.py',
-> +  'scripts/tracetool/format/tcg_helper_c.py',
-> +  'scripts/tracetool/format/simpletrace_stap.py',
-> +  'scripts/tracetool/format/c.py',
-> +  'scripts/tracetool/format/h.py',
-> +  'scripts/tracetool/format/tcg_helper_h.py',
-> +  'scripts/tracetool/format/log_stap.py',
-> +  'scripts/tracetool/format/stap.py',
-> +  'scripts/tracetool/format/tcg_helper_wrapper_h.py',
-> +  'scripts/tracetool/__init__.py',
-> +  'scripts/tracetool/transform.py',
-> +  'scripts/tracetool/vcpu.py'
-> +)
->   
->   qemu_version_cmd = [find_program('scripts/qemu-version.sh'),
->                       meson.current_source_dir(),
-> @@ -2192,7 +2217,8 @@ foreach target : target_dirs
->                           '--target-type=' + target_type,
->                           '--probe-prefix=qemu.' + target_type + '.' + target_name,
->                           '@INPUT@', '@OUTPUT@'
-> -                      ])
-> +                      ],
-> +                      depend_files: tracetool_depends)
->         endforeach
->       endif
->     endforeach
-> diff --git a/trace/meson.build b/trace/meson.build
-> index a0be8f9b0d..08f83a15c3 100644
-> --- a/trace/meson.build
-> +++ b/trace/meson.build
-> @@ -12,17 +12,20 @@ foreach dir : [ '.' ] + trace_events_subdirs
->     trace_h = custom_target(fmt.format('trace', 'h'),
->                             output: fmt.format('trace', 'h'),
->                             input: trace_events_file,
-> -                          command: [ tracetool, group, '--format=h', '@INPUT@', '@OUTPUT@' ])
-> +                          command: [ tracetool, group, '--format=h', '@INPUT@', '@OUTPUT@' ],
-> +                          depend_files: tracetool_depends)
->     genh += trace_h
->     trace_c = custom_target(fmt.format('trace', 'c'),
->                             output: fmt.format('trace', 'c'),
->                             input: trace_events_file,
-> -                          command: [ tracetool, group, '--format=c', '@INPUT@', '@OUTPUT@' ])
-> +                          command: [ tracetool, group, '--format=c', '@INPUT@', '@OUTPUT@' ],
-> +                          depend_files: tracetool_depends)
->     if 'CONFIG_TRACE_UST' in config_host
->       trace_ust_h = custom_target(fmt.format('trace-ust', 'h'),
->                                   output: fmt.format('trace-ust', 'h'),
->                                   input: trace_events_file,
-> -                                command: [ tracetool, group, '--format=ust-events-h', '@INPUT@', '@OUTPUT@' ])
-> +                                command: [ tracetool, group, '--format=ust-events-h', '@INPUT@', '@OUTPUT@' ],
-> +                                depend_files: tracetool_depends)
->       trace_ss.add(trace_ust_h, lttng, urcubp)
->       genh += trace_ust_h
->     endif
-> @@ -31,7 +34,8 @@ foreach dir : [ '.' ] + trace_events_subdirs
->       trace_dtrace = custom_target(fmt.format('trace-dtrace', 'dtrace'),
->                                    output: fmt.format('trace-dtrace', 'dtrace'),
->                                    input: trace_events_file,
-> -                                 command: [ tracetool, group, '--format=d', '@INPUT@', '@OUTPUT@' ])
-> +                                 command: [ tracetool, group, '--format=d', '@INPUT@', '@OUTPUT@' ],
-> +                                 depend_files: tracetool_depends)
->       trace_dtrace_h = custom_target(fmt.format('trace-dtrace', 'h'),
->                                      output: fmt.format('trace-dtrace', 'h'),
->                                      input: trace_dtrace,
-> @@ -66,7 +70,8 @@ foreach d : [
->     gen = custom_target(d[0],
->                   output: d[0],
->                   input: meson.source_root() / 'trace-events',
-> -                command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@', '@OUTPUT@' ])
-> +                command: [ tracetool, '--group=root', '--format=@0@'.format(d[1]), '@INPUT@', '@OUTPUT@' ],
-> +                depend_files: tracetool_depends)
->     specific_ss.add(when: 'CONFIG_TCG', if_true: gen)
->   endforeach
->   
-> @@ -74,11 +79,13 @@ if 'CONFIG_TRACE_UST' in config_host
->     trace_ust_all_h = custom_target('trace-ust-all.h',
->                                     output: 'trace-ust-all.h',
->                                     input: trace_events_files,
-> -                                  command: [ tracetool, '--group=all', '--format=ust-events-h', '@INPUT@', '@OUTPUT@' ])
-> +                                  command: [ tracetool, '--group=all', '--format=ust-events-h', '@INPUT@', '@OUTPUT@' ],
-> +                                  depend_files: tracetool_depends)
->     trace_ust_all_c = custom_target('trace-ust-all.c',
->                                     output: 'trace-ust-all.c',
->                                     input: trace_events_files,
-> -                                  command: [ tracetool, '--group=all', '--format=ust-events-c', '@INPUT@', '@OUTPUT@' ])
-> +                                  command: [ tracetool, '--group=all', '--format=ust-events-c', '@INPUT@', '@OUTPUT@' ],
-> +                                  depend_files: tracetool_depends)
->     trace_ss.add(trace_ust_all_h, trace_ust_all_c)
->     genh += trace_ust_all_h
->   endif
-> 
 
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
+On 1/22/21 10:46 PM, David Gibson wrote:
+> On Wed, Jan 20, 2021 at 07:54:06AM -0300, Daniel Henrique Barboza wrote:
+>> Commit 006e9d361869 added warning messages for cap-cfpc, cap-ibs and
+>> cap-sbbc when enabled under TCG. Commit 8ff43ee404d3 did the same thing
+>> when introducing cap-ccf-assist.
+>>
+>> These warning messages, although benign to the machine launch, can make
+>> users a bit confused. E.g:
+>>
+>> $ sudo ./ppc64-softmmu/qemu-system-ppc64
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-cfpc=workaround
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-sbbc=workaround
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ibs=workaround
+>> qemu-system-ppc64: warning: TCG doesn't support requested feature, cap-ccf-assist=on
+>>
+>> We're complaining about "TCG doesn't support requested feature" when the
+>> user didn't request any of those caps in the command line.
+>>
+>> Check if these caps were set in the command line before sending an user
+>> warning.
+>>
+>> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> 
+> Oof.  I have real mixed feelings about this.
+> 
+> So, yes, the warnings are annoying, but they're not meaningless.  They
+> are really indicating that the guest environment is different from the
+> one you requested (implicitly, via the machine version). The fact that
+> they are only warnings, not hard errors, is already a compromise
+> because otherwise there would be no real way to use TCG at all with
+> current machines.
+> 
+> In short, the warnings are scary because they're *meant* to be scary.
+> TCG will not, and cannot, supply the Spectre mitigations that are
+> expected on a current machine type.
+
+Quick story: I'm involved in helping folks in a local Brazilian college working
+with QEMU in Power ([1] for more info). One user is trying to run a pseries TCG
+guest in Windows 10, and he is having problems with the current pseries machine,
+while we is still able to do it with the pseries-2.8 one (I'm actually surprised
+that it works at all in Windows 10 TBH).
+
+So this user ask me for help with this scenario because he didn't know how to
+fix these TCG warnings, because he was thinking that they had something to do
+with the problem he is having with his use case. I said that these warnings
+could be safely ignored for TCG.
+
+These warnings are indeed scary, as you said. But not in a helpful way. Consider
+that most QEMU warnings are a call for action for the user to fix something, e.g.
+an option that's about to be deprecated/no longer supported. In this case we're
+warning the user of something that the user has no fault on, and more important,
+can do nothing about it but to ignore. And this user interaction I had made me
+realize that it's not trivial to ignore warnings when your use case is not
+working as intended. You will attempt to fix the warnings before trying to open
+a developer bug and so on.
+
+What we're doing here I can call a 'developer warning', something to remind us,
+developers, that TCG does not implement Spectre caps that are default in the
+pseries machine. Well, I'd rather document somewhere (in tcg/README, or perhaps
+create a hw/ppc/README since this is a pseries exclusive behavior) that TCG is
+ignoring default Spectre caps of the pseries machine, than to issue warnings about
+it.
+
+
+> 
+> I agree that the current behaviour is pretty irritating, but I don't
+> know that silently pretending TCG can do what's normally expected of
+> that command line is a great option either.
+
+
+I can send a patch to change the messages to say something like "this can be safely
+ignored. Use -machine cap-X=broken to hid it". At least we will inform TCG users
+that these warning are not their fault and they shouldn't spend their time trying to
+figure them out. But then, why issue a warning and tell the user "this is warning,
+please ignore me"?
+
+
+
+Thanks,
+
+
+DHB
+
+
+
+[1] https://openpower.ic.unicamp.br/minicloud/
+
+> 
+> 
+>> ---
+>>   hw/ppc/spapr_caps.c | 47 ++++++++++++++++++++++++++++++++++-----------
+>>   1 file changed, 36 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+>> index 9341e9782a..629c24a96d 100644
+>> --- a/hw/ppc/spapr_caps.c
+>> +++ b/hw/ppc/spapr_caps.c
+>> @@ -244,9 +244,15 @@ static void cap_safe_cache_apply(SpaprMachineState *spapr, uint8_t val,
+>>       uint8_t kvm_val =  kvmppc_get_cap_safe_cache();
+>>   
+>>       if (tcg_enabled() && val) {
+>> -        /* TCG only supports broken, allow other values and print a warning */
+>> -        warn_report("TCG doesn't support requested feature, cap-cfpc=%s",
+>> -                    cap_cfpc_possible.vals[val]);
+>> +        /*
+>> +         * TCG only supports broken, allow other values and print a warning
+>> +         * in case the user attempted to set a different value in the command
+>> +         * line.
+>> +         */
+>> +        if (spapr->cmd_line_caps[SPAPR_CAP_CFPC] != SPAPR_CAP_BROKEN) {
+>> +            warn_report("TCG doesn't support requested feature, cap-cfpc=%s",
+>> +                        cap_cfpc_possible.vals[val]);
+>> +        }
+>>       } else if (kvm_enabled() && (val > kvm_val)) {
+>>           error_setg(errp,
+>>                      "Requested safe cache capability level not supported by KVM");
+>> @@ -269,9 +275,15 @@ static void cap_safe_bounds_check_apply(SpaprMachineState *spapr, uint8_t val,
+>>       uint8_t kvm_val =  kvmppc_get_cap_safe_bounds_check();
+>>   
+>>       if (tcg_enabled() && val) {
+>> -        /* TCG only supports broken, allow other values and print a warning */
+>> -        warn_report("TCG doesn't support requested feature, cap-sbbc=%s",
+>> -                    cap_sbbc_possible.vals[val]);
+>> +        /*
+>> +         * TCG only supports broken, allow other values and print a warning
+>> +         * in case the user attempted to set a different value in the command
+>> +         * line.
+>> +         */
+>> +        if (spapr->cmd_line_caps[SPAPR_CAP_SBBC] != SPAPR_CAP_BROKEN) {
+>> +            warn_report("TCG doesn't support requested feature, cap-sbbc=%s",
+>> +                        cap_sbbc_possible.vals[val]);
+>> +        }
+>>       } else if (kvm_enabled() && (val > kvm_val)) {
+>>           error_setg(errp,
+>>   "Requested safe bounds check capability level not supported by KVM");
+>> @@ -297,9 +309,15 @@ static void cap_safe_indirect_branch_apply(SpaprMachineState *spapr,
+>>       uint8_t kvm_val = kvmppc_get_cap_safe_indirect_branch();
+>>   
+>>       if (tcg_enabled() && val) {
+>> -        /* TCG only supports broken, allow other values and print a warning */
+>> -        warn_report("TCG doesn't support requested feature, cap-ibs=%s",
+>> -                    cap_ibs_possible.vals[val]);
+>> +        /*
+>> +         * TCG only supports broken, allow other values and print a warning
+>> +         * in case the user attempted to set a different value in the command
+>> +         * line.
+>> +         */
+>> +        if (spapr->cmd_line_caps[SPAPR_CAP_IBS] != SPAPR_CAP_BROKEN) {
+>> +            warn_report("TCG doesn't support requested feature, cap-ibs=%s",
+>> +                        cap_ibs_possible.vals[val]);
+>> +        }
+>>       } else if (kvm_enabled() && (val > kvm_val)) {
+>>           error_setg(errp,
+>>   "Requested safe indirect branch capability level not supported by KVM");
+>> @@ -483,8 +501,15 @@ static void cap_ccf_assist_apply(SpaprMachineState *spapr, uint8_t val,
+>>       uint8_t kvm_val = kvmppc_get_cap_count_cache_flush_assist();
+>>   
+>>       if (tcg_enabled() && val) {
+>> -        /* TCG doesn't implement anything here, but allow with a warning */
+>> -        warn_report("TCG doesn't support requested feature, cap-ccf-assist=on");
+>> +        /*
+>> +         * TCG doesn't implement anything here, but allow with a warning
+>> +         * in case the user attempted to set a different value in the command
+>> +         * line.
+>> +         */
+>> +        if (spapr->cmd_line_caps[SPAPR_CAP_CCF_ASSIST] != SPAPR_CAP_OFF) {
+>> +            warn_report("TCG doesn't support requested feature, "
+>> +                        "cap-ccf-assist=on");
+>> +        }
+>>       } else if (kvm_enabled() && (val > kvm_val)) {
+>>           uint8_t kvm_ibs = kvmppc_get_cap_safe_indirect_branch();
+>>   
+> 
 
