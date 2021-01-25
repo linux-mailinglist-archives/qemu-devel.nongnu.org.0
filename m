@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C3330307D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 00:50:10 +0100 (CET)
-Received: from localhost ([::1]:53364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EE7E303082
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 00:50:55 +0100 (CET)
+Received: from localhost ([::1]:54846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4BcX-0006m6-Fc
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 18:50:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45484)
+	id 1l4BdG-0007OP-BG
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 18:50:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l4BaO-0005Ve-JJ; Mon, 25 Jan 2021 18:47:56 -0500
-Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:41256)
+ (Exim 4.90_1) (envelope-from
+ <35lgPYAgKCtsTRE7LQPEDLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--wuhaotsh.bounces.google.com>)
+ id 1l4BbO-0006Fd-H2
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 18:48:58 -0500
+Received: from mail-pg1-x549.google.com ([2607:f8b0:4864:20::549]:38436)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l4BaJ-00032s-T7; Mon, 25 Jan 2021 18:47:56 -0500
-Received: by mail-io1-xd35.google.com with SMTP id q1so30229965ion.8;
- Mon, 25 Jan 2021 15:47:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=ltdvLRut9jt05WqQ6n3EYDa6CKdHO+XAquo+pviXuRM=;
- b=k1WvJlfWpR+wgosKJJdeKBIlc+L1jA6Jd5gqzM1A0eIz5EyQd6WDtFpTZwFcL4SFzJ
- qcRTvAbYh27q3wRw8EHwnmGDkCMQNy3dckyRb2nObJeaPBvUfce0109TSi41P1z5VANI
- JWMYm7YoID0JKA9BTHcsONZcLcJywhqfrNV3Iz2kCPD7sn7ofJj6YnOqyOa1iMUg41Bk
- 94H+QFO6apXb3M9y38z/JZbC5gC+2UGkM6JjrmdvnafY5Th37GHjpU61Wqiqbc9bBMoe
- x4IdK00n2UWIVqsAlf2TdXkmppJPsQYQY1yXyHaHmPlgoZfbT84o7AVSwSBF5RYpg6Y3
- h4pA==
+ (Exim 4.90_1) (envelope-from
+ <35lgPYAgKCtsTRE7LQPEDLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--wuhaotsh.bounces.google.com>)
+ id 1l4BbM-00038e-L5
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 18:48:58 -0500
+Received: by mail-pg1-x549.google.com with SMTP id l2so8919668pgi.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 15:48:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=I+jzqQbXvQgWEuHn+S1cGshEJkxZZv/tRlV4YBUAhVY=;
+ b=mRCTh8N3GYdCOaCaGlFqMFUkJp0rJ0i4BEUeKzpQ9hW1vK8AcNT6ij0J4irEMjEZCJ
+ 5OnxJb4TbhFrboNDKEKYjKt9fV9NXN9dXUfEO9nNVGvrQF14SRBaQOby/0GMs1NyZ9Zg
+ Njr0zji/DBdO2OlHsbc5ZZm6W6Xx5bjuxsF8f92NjBhPMGoAqxgmqm7ah9UQ0ghxHBH9
+ 56S+JOH6KhFVlcvUiFGPT9T9MU+xzYYxDQkgRudf34NRoFy0skXb/CzQhjY6TLPfe+01
+ hDsdhJ+mg35SNprl5yqHAS+g2TpEX7IlvJAigpSV+KxlBrfB5P7fTxrjOAt8rZW+FQvB
+ MNVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=ltdvLRut9jt05WqQ6n3EYDa6CKdHO+XAquo+pviXuRM=;
- b=ibVAMj1VK5PHqvBgPw7zYEFaEHitbUtavo3PbgBp5K3lEAHCoci66rHiAEs/APXNEN
- 1tTaFiXA7M2sPjP1i5HWN4GvtxzAeI+0L9CLZLy/0hHyEqpgyt/96oZtOMc+i8I1s3An
- L/LpC1mURc7HnOQG7K37kbaCSHr9J6SbkDB1iarhkxjruN5ttSxbWRlx3F6KhdEYtrTS
- qqeUVfTteA3oONL5VW+VDzDRZYCE2XMss+NKDVWdkfORLvEAAek5IowMgStcmyQtMWYg
- T1CGnDPYiF4FGLjtLAPuDSPhJQCl8j5ROrK+z3oA6nub10ciugf0qzVgUhS1qZDD1tBj
- R0HQ==
-X-Gm-Message-State: AOAM531mVt3iY3FkTWbKa2eKbg/8WI+1ytwCQyLLrfQan2Eq54XWZAPA
- cvZmav4ZpjquO0a3Z7+himRH8gi34r9hcYPNovs=
-X-Google-Smtp-Source: ABdhPJzxiD7HKEGSKwRjlDrWNmXIP2uXAb0OWNDBx2tVdSRDpT3Zqvp0UMnG/Ot2CbERf/e0g8twAgdxVc9XmBI5N1Y=
-X-Received: by 2002:a92:8455:: with SMTP id l82mr2441375ild.40.1611618470127; 
- Mon, 25 Jan 2021 15:47:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20210113071350.24852-1-frank.chang@sifive.com>
- <20210113071350.24852-2-frank.chang@sifive.com>
-In-Reply-To: <20210113071350.24852-2-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 25 Jan 2021 15:47:23 -0800
-Message-ID: <CAKmqyKONT0oB4Wzf5wQop7veOz=hOs1ceMJ2MttdhOBRnUoT=w@mail.gmail.com>
-Subject: Re: [RFC v4 01/16] target/riscv: reformat @sh format encoding for
- B-extension
-To: Frank Chang <frank.chang@sifive.com>
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=I+jzqQbXvQgWEuHn+S1cGshEJkxZZv/tRlV4YBUAhVY=;
+ b=ohMYplBBvJ7tyfaIIILpEkxHCx7B166P5hcIbQ0U0qM+oWUGv2gK+9DYQ3vMyi17QZ
+ VTVGCQtgOi53V47Txha2afh13LuNUX/vCr3mQzDpIexHIdCQqhhv82D0Evu7xFCrT8M8
+ 5uX9VfmE9oz80Ig44XUqUAwaISnUKKVnnP9F+rnuRHG8U3ed6W/J2ibJJYd0byapmAKX
+ H9dnphdQEmIdPTxuQhgwQpS/je9lSWlAlBu7zxk/yLzkAHRSiObA7Qx9S93dW6fEoXaa
+ QZ1qw6FzprPBTZTWDvvbt4e3/d4NB1lBl7jaA7bYpVmBXmVT/L2OzxZISSM71Qy/jD4v
+ XmnA==
+X-Gm-Message-State: AOAM532gESlNpjSBbRAMuat2m+UN9iGgh1SoXyJtEQmw6ZPoTEfnXwld
+ J/KClXJwTc5UQ66n8Cg1TVSw9IleFrbRvg==
+X-Google-Smtp-Source: ABdhPJwCxBtjWpteiEJxI0dYDZjWQ7m1nZJzBi5EzLtJpn2EhrpC7Eacsrozx1WxSGDUTLbnLkB4YDowN4VNMA==
+X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:10:7f:e700:c0a8:4e])
+ (user=wuhaotsh job=sendgmr) by 2002:a17:902:b189:b029:dc:4102:4edf with SMTP
+ id s9-20020a170902b189b02900dc41024edfmr3086577plr.80.1611618534131; Mon, 25
+ Jan 2021 15:48:54 -0800 (PST)
+Date: Mon, 25 Jan 2021 15:48:36 -0800
+Message-Id: <20210125234836.607233-1-wuhaotsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.280.ga3ce27912f-goog
+Subject: [PATCH] hw/misc: Fix arith overflow in NPCM7XX PWM module
+To: peter.maydell@linaro.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::549;
+ envelope-from=35lgPYAgKCtsTRE7LQPEDLLDIB.9LJNBJR-ABSBIKLKDKR.LOD@flex--wuhaotsh.bounces.google.com;
+ helo=mail-pg1-x549.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,68 +79,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Kito Cheng <kito.cheng@sifive.com>
+Cc: qemu-trivial@nongnu.org, wuhaotsh@google.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, hskinnemoen@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hao Wu <wuhaotsh@google.com>
+From: wuhaotsh--- via <qemu-devel@nongnu.org>
 
-On Tue, Jan 12, 2021 at 11:18 PM <frank.chang@sifive.com> wrote:
->
-> From: Kito Cheng <kito.cheng@sifive.com>
->
-> Signed-off-by: Kito Cheng <kito.cheng@sifive.com>
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+There's a potential arith overflow in npcm7xx_pwm_calculate_duty.
+This patch fixes it.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Thanks Peter for finding this out.
 
-Alistair
+Signed-off-by: Hao Wu <wuhaotsh@google.com>
+---
+ hw/misc/npcm7xx_pwm.c          | 4 ++--
+ tests/qtest/npcm7xx_pwm-test.c | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-> ---
->  target/riscv/insn32.decode | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 84080dd18ca..3823b3ea800 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -22,7 +22,7 @@
->  %rs1       15:5
->  %rd        7:5
->
-> -%sh10    20:10
-> +%sh7    20:7
->  %csr    20:12
->  %rm     12:3
->  %nf     29:3                     !function=ex_plus_1
-> @@ -58,7 +58,7 @@
->  @u       ....................      ..... ....... &u      imm=%imm_u          %rd
->  @j       ....................      ..... ....... &j      imm=%imm_j          %rd
->
-> -@sh      ......  ...... .....  ... ..... ....... &shift  shamt=%sh10      %rs1 %rd
-> +@sh      ......  ...... .....  ... ..... ....... &shift  shamt=%sh7     %rs1 %rd
->  @csr     ............   .....  ... ..... .......               %csr     %rs1 %rd
->
->  @atom_ld ..... aq:1 rl:1 ..... ........ ..... ....... &atomic rs2=0     %rs1 %rd
-> @@ -122,9 +122,9 @@ sltiu    ............     ..... 011 ..... 0010011 @i
->  xori     ............     ..... 100 ..... 0010011 @i
->  ori      ............     ..... 110 ..... 0010011 @i
->  andi     ............     ..... 111 ..... 0010011 @i
-> -slli     00.... ......    ..... 001 ..... 0010011 @sh
-> -srli     00.... ......    ..... 101 ..... 0010011 @sh
-> -srai     01.... ......    ..... 101 ..... 0010011 @sh
-> +slli     00000. ......    ..... 001 ..... 0010011 @sh
-> +srli     00000. ......    ..... 101 ..... 0010011 @sh
-> +srai     01000. ......    ..... 101 ..... 0010011 @sh
->  add      0000000 .....    ..... 000 ..... 0110011 @r
->  sub      0100000 .....    ..... 000 ..... 0110011 @r
->  sll      0000000 .....    ..... 001 ..... 0110011 @r
-> --
-> 2.17.1
->
->
+diff --git a/hw/misc/npcm7xx_pwm.c b/hw/misc/npcm7xx_pwm.c
+index e99e3cc7ef..90b4f630a0 100644
+--- a/hw/misc/npcm7xx_pwm.c
++++ b/hw/misc/npcm7xx_pwm.c
+@@ -102,9 +102,9 @@ static uint32_t npcm7xx_pwm_calculate_duty(NPCM7xxPWM *p)
+         if (p->cnr == 0) {
+             duty = 0;
+         } else if (p->cmr >= p->cnr) {
+-            duty = NPCM7XX_PWM_MAX_DUTY;
++            duty = (uint64_t)NPCM7XX_PWM_MAX_DUTY;
+         } else {
+-            duty = NPCM7XX_PWM_MAX_DUTY * (p->cmr + 1) / (p->cnr + 1);
++            duty = (uint64_t)NPCM7XX_PWM_MAX_DUTY * (p->cmr + 1) / (p->cnr + 1);
+         }
+     } else {
+         duty = 0;
+diff --git a/tests/qtest/npcm7xx_pwm-test.c b/tests/qtest/npcm7xx_pwm-test.c
+index 63557d2c06..f55571b31d 100644
+--- a/tests/qtest/npcm7xx_pwm-test.c
++++ b/tests/qtest/npcm7xx_pwm-test.c
+@@ -280,7 +280,7 @@ static uint64_t pwm_compute_duty(uint32_t cnr, uint32_t cmr, bool inverted)
+     } else if (cmr >= cnr) {
+         duty = MAX_DUTY;
+     } else {
+-        duty = MAX_DUTY * (cmr + 1) / (cnr + 1);
++        duty = (uint64_t)MAX_DUTY * (cmr + 1) / (cnr + 1);
+     }
+ 
+     if (inverted) {
+-- 
+2.30.0.280.ga3ce27912f-goog
+
 
