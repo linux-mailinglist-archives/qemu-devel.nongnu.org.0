@@ -2,61 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C43302843
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:56:20 +0100 (CET)
-Received: from localhost ([::1]:48956 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2977302849
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:58:26 +0100 (CET)
+Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l45A3-0007wI-Ms
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:56:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50694)
+	id 1l45C6-0001j2-2D
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:58:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l454G-0005o7-8g
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:50:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32415)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l45A6-0000Fd-E7
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:56:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25758)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l454D-0003NN-Tz
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:50:19 -0500
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l45A3-0004jr-C6
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:56:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611593416;
+ s=mimecast20190719; t=1611593777;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZmcZKYJmCLD0ZJHiVSdA1RE7z3tCdaClhT+Z9VzVBR8=;
- b=gblqe8HVSK7oBguIw7GPYpxdJuVogJ52IvRL7ihOmxo/RdacrpJQP/ozEzbCFLE9k9LCt5
- ECWVojlbWSx6GactPVA1sB+nXUNbkeXuDczH7Jf9d38IPU/d3lqikFRTMXQYIygrzeFW3o
- GrW67aIHsqsS84hf8Qb4sJRjkpDV4ks=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-491-pM8e_944OaGoGkCjTIT6yQ-1; Mon, 25 Jan 2021 11:50:14 -0500
-X-MC-Unique: pM8e_944OaGoGkCjTIT6yQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E0CD110054FF;
- Mon, 25 Jan 2021 16:50:12 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-150.ams2.redhat.com [10.36.115.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6D96619C47;
- Mon, 25 Jan 2021 16:50:11 +0000 (UTC)
-Date: Mon, 25 Jan 2021 17:50:09 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8 0/5] Rework iotests/check
-Message-ID: <20210125165009.GF7107@merkur.fritz.box>
-References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
- <20210125160820.GD7107@merkur.fritz.box>
- <65a24006-32af-1ce2-fafd-e1ea152e4412@virtuozzo.com>
+ bh=H9PuGU3boryDYXtn22F1+JKHBZsOioMF7eZu1KMV6b4=;
+ b=aMnxczWgO4OUCdRjVDvj52kUYbBEc0PMyqW/4tvXQEPRsxn12dALTsh3P6u3I+mR0HNSqs
+ c5XXybEObpSeeRl+8z45zu8TizSPjFZ4RBLpKkuSdwD7EoHCdVx1r9F4zMYxQvpiX/cvv5
+ DOEAmwqm469ReQnlkyYV7vmF43U9tlI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-577-e4FEYCyEPTG5brTiMabW4A-1; Mon, 25 Jan 2021 11:56:12 -0500
+X-MC-Unique: e4FEYCyEPTG5brTiMabW4A-1
+Received: by mail-qk1-f200.google.com with SMTP id u9so10403444qkk.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 08:56:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=H9PuGU3boryDYXtn22F1+JKHBZsOioMF7eZu1KMV6b4=;
+ b=MY6j5vrAc8CTOB7OyXJP7oqZA24sdh8iu9vC7hAOw+Dt+JL/Br7EPEE1szCkB2ZwOo
+ IchwyG8Aw1P0sLjzAxF1iXALKjaeV6oLHInwlRICVMyilm1Pz2QwO0SmW7ITwoIR6ZqT
+ Ok62ZcUrtSl1UkqUUEMzi5HPYtCrB2R9TXSxPS9YHPRgAZtKgTIVgZVlkiYAyC3Ed6dR
+ mQVQKSWo09yjG7vdeLxc7KaswEoH6/8W4DCqbExkQJ/6R3xGsRQLm8pMSpwqLDiIh6v9
+ CkkNTdSQcMJmIG9tvOSFPe8WMwTb8/JmTlGyU1p5OAFSGBv7MdfvrGRr76Bahc+q2nib
+ KNLg==
+X-Gm-Message-State: AOAM531459ReUU8NqJXxiyA2vnhuz789NM4JrJDpYpOYtVuhDGvmW1RV
+ Kg7afxv0z7E9H/zHG+HwS5Q2PLZr6vzyew3qeSr346oZh9pxFWnZ16IpSJnsM8rN39134oQsyzi
+ JPCUNJqdLJ7jMQbWZi0jxWuJafZNBA8c=
+X-Received: by 2002:ad4:580f:: with SMTP id dd15mr1613519qvb.40.1611593771635; 
+ Mon, 25 Jan 2021 08:56:11 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx46H32gy9nxZBAGiSEP0ia+qyID5oLuk0guSi01nUl7bjDIS3NXIBtgQ+M0xVw5NXfl9eHYDHoYCsU+1BkhiE=
+X-Received: by 2002:ad4:580f:: with SMTP id dd15mr1613491qvb.40.1611593771401; 
+ Mon, 25 Jan 2021 08:56:11 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <65a24006-32af-1ce2-fafd-e1ea152e4412@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210122200851.345259-1-eperezma@redhat.com>
+ <65ea6f69-538f-7f2e-b2d9-bb0a110f004b@redhat.com>
+In-Reply-To: <65ea6f69-538f-7f2e-b2d9-bb0a110f004b@redhat.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 25 Jan 2021 17:55:35 +0100
+Message-ID: <CAJaqyWdYQH8O-WvLm4raWtWbhwz6BiC3ucGyi584BWALyy+UUA@mail.gmail.com>
+Subject: Re: [PATCH] virtio: Add corresponding memory_listener_unregister to
+ unrealize
+To: Jason Wang <jasowang@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -77,63 +91,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: qemu-level <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.01.2021 um 17:36 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 25.01.2021 19:08, Kevin Wolf wrote:
-> > Am 23.01.2021 um 22:04 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > v8:
-> > > 
-> > > about linters:
-> > > 
-> > > I didn't modify 297, as Max already staged 297 modifications to test all files.
-> > > 
-> > > Also, now I have two complains:
-> > > +************* Module testenv
-> > > +testenv.py:158:4: R0915: Too many statements (53/50) (too-many-statements)
-> > > +************* Module testrunner
-> > > +testrunner.py:222:4: R0911: Too many return statements (7/6) (too-many-return-statements)
-> > >   Success: no issues found in 5 source files
-> > > 
-> > > And I feel, I'm tired to refactor it now.. Probably we can ignore them in 297. Probably I can
-> > > do some refactoring as a follow-up.
-> > 
-> > I don't think these warning are very helpful, I would agree with
-> > disabling them (even globally).
-> > 
-> > When testing this with the other image formats, I found some problems.
-> > 
-> > 1. The first one probably means that we have changed the order of some
-> >     checks: 150 and 178 have reference outputs for raw and qcow2, but no
-> >     other formats.
-> > 
-> >     Previously, the _supported_fmt line in the test would just skip the test:
-> > 
-> >     $ build/check -vhdx 150 178
-> >     150      not run    [16:45:46] [16:45:46]                    not suitable for this image format: vhdx
-> >     178      not run    [16:45:46] [16:45:46]                    not suitable for this image format: vhdx
-> > 
-> >     Now we seem to test first if a reference output exists and fail:
-> > 
-> >     150   fail       [16:49:18] [16:49:18]   ...                  No qualified output (expected /home/kwolf/source/qemu/tests/qemu-iotests/150.out)
-> >     178   fail       [16:49:18] [16:49:18]   ...                  No qualified output (expected /home/kwolf/source/qemu/tests/qemu-iotests/178.out)
-> 
-> 
-> Hmm. Still, I do think that new order is better: no reason to run the
-> test, when we don't have corresponding .out file. So, may be just
-> change it into "not run", with same "No qualified output (expected
-> ..)" message, what do you think?
+On Mon, Jan 25, 2021 at 4:15 AM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2021/1/23 =E4=B8=8A=E5=8D=884:08, Eugenio P=C3=A9rez wrote:
+> > Cannot destroy address spaces of IOMMU-aware virtio devices without it,
+> > since they can contain memory listeners.
+>
+>
+> It's better to explain why the one in finalize doesn't work here.
+>
 
-Works for me.
+Hi Jason! Good point. The other call is at virtio_device_instance_finalize.
 
-(There would actually be a reason to run the test, namely for creating
-the reference output when you add the test. But this didn't leave a .bad
-file behind before either, and just doing 'touch 123.out' first is easy
-enough anyway.)
+Function virtio_device_instance_finalize is called after
+address_space_destroy if we follow steps of buglink.
 
-Kevin
+Address_space_destroy is called by
+pci_qdev_unrealize/do_pci_unregister_device, after call to
+virtio_device_unrealize. After that call,
+virtio_device_instance_finalize is called through object_deinit,
+freeing the bus.
+
+Also, memory_listener_unregister can be called again because it checks
+for listener->address_space !=3D NULL at start, and sets it to NULL at
+end.
+
+In regular shutdown, nothing of this is called, so maybe we could
+safely delete the call to memory_listener_unregister at
+virtio_device_instance_finalize?
+
+If not, should I send again the patch with a new commit message?
+
+Thanks!
+
+> Thanks
+>
+>
+> >
+> > Fixes: c611c76417f ("virtio: add MemoryListener to cache ring translati=
+ons")
+> > Buglink: https://bugs.launchpad.net/qemu/+bug/1912846
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >   hw/virtio/virtio.c | 1 +
+> >   1 file changed, 1 insertion(+)
+> >
+> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > index b308026596..67efd2c301 100644
+> > --- a/hw/virtio/virtio.c
+> > +++ b/hw/virtio/virtio.c
+> > @@ -3680,6 +3680,7 @@ static void virtio_device_unrealize(DeviceState *=
+dev)
+> >       VirtIODevice *vdev =3D VIRTIO_DEVICE(dev);
+> >       VirtioDeviceClass *vdc =3D VIRTIO_DEVICE_GET_CLASS(dev);
+> >
+> > +    memory_listener_unregister(&vdev->listener);
+> >       virtio_bus_device_unplugged(vdev);
+> >
+> >       if (vdc->unrealize !=3D NULL) {
+>
 
 
