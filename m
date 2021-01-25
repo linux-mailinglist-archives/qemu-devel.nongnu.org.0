@@ -2,145 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 579C1303020
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 00:30:13 +0100 (CET)
-Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1992E303037
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 00:34:55 +0100 (CET)
+Received: from localhost ([::1]:42728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4BJE-00006r-Ee
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 18:30:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41358)
+	id 1l4BNm-0001Wj-6n
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 18:34:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42320)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1l4BHy-00087Z-Cg
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 18:28:54 -0500
-Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:3276)
- by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1l4BHv-0000ZJ-VX
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 18:28:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
- t=1611617331; x=1643153331;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-transfer-encoding:mime-version;
- bh=/j8RTSMeQGHrKbvyhJZwjZ08SkKew4PLGTW/Szvu00c=;
- b=raSNu5YDtb7uChpnkJrOhSRHxaWofbWbtuoEplz2nZc1JPSA3vbYJqvY
- JL4+x35yKtnb4ndrPHKUClWYuUUKpUHKa6l6Dv0rYoXXvh9GxvoO37a4n
- UlhWr2YwH9c/DicAewjOOuD7iycEQTkHwBj31EJHZqb69i0ie+6iCVJWq E=;
-Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
- by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Jan 2021 15:28:48 -0800
-X-QCInternal: smtphost
-Received: from nasanexm03g.na.qualcomm.com ([10.85.0.49])
- by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
- 25 Jan 2021 15:28:48 -0800
-Received: from nasanexm03a.na.qualcomm.com (10.85.0.103) by
- nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS) id
- 15.0.1497.2; Mon, 25 Jan 2021 15:28:47 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
- by nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS)
- id 15.0.1497.2 via Frontend Transport; Mon, 25 Jan 2021 15:28:47 -0800
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com (2603:10b6:805:35::17)
- by SN6PR02MB4558.namprd02.prod.outlook.com (2603:10b6:805:b2::17)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Mon, 25 Jan
- 2021 23:28:46 +0000
-Received: from SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::f197:545d:3192:165e]) by SN6PR02MB4205.namprd02.prod.outlook.com
- ([fe80::f197:545d:3192:165e%6]) with mapi id 15.20.3784.017; Mon, 25 Jan 2021
- 23:28:46 +0000
-From: Brian Cain <bcain@quicinc.com>
-To: Taylor Simpson <tsimpson@quicinc.com>,
- =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: RE: [PATCH v7 00/35] Hexagon patch series
-Thread-Topic: [PATCH v7 00/35] Hexagon patch series
-Thread-Index: AQHW828XyftQN75TcUylZvvcPhlgEKo4+/OQ
-Date: Mon, 25 Jan 2021 23:28:46 +0000
-Message-ID: <SN6PR02MB4205631BE926DC85052330E9B8BD9@SN6PR02MB4205.namprd02.prod.outlook.com>
-References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
- <02e7217d-6376-b93d-842d-197d9e13fc58@amsat.org>
- <BYAPR02MB4886C64A59EAC3B164159D5BDEBD9@BYAPR02MB4886.namprd02.prod.outlook.com>
-In-Reply-To: <BYAPR02MB4886C64A59EAC3B164159D5BDEBD9@BYAPR02MB4886.namprd02.prod.outlook.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: quicinc.com; dkim=none (message not signed)
- header.d=none;quicinc.com; dmarc=none action=none header.from=quicinc.com;
-x-originating-ip: [199.106.103.61]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 2052f414-501f-4950-8e37-08d8c188f689
-x-ms-traffictypediagnostic: SN6PR02MB4558:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <SN6PR02MB4558B53E28D1E050EC756820B8BD9@SN6PR02MB4558.namprd02.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 2e+RMGU7qI7EX2zuFtguyt5OoI+ciO2bPt5a4PKD5QVy5cJY0rP8GuaK0oF6R/qJXqsZ/kDJONr0C4xMsiMVidqto9JG1+ScAWX0mXG+R4cQBXSvH0JFbIGYdLZ4VpzfhOPCiq5Ezj62do7DjafuU7xRMGi1BBQksDfOVwBbl6PRNPpgXL2DD5ZwFLylnRxxIFchHRnZusVYO4QsnzmgAYvzO5gxUgvPew9jr4EXo/iCC+9g4C3CVnbg9d5yT0Rk2Om5xpdReRDzl/MObqSH1Mkg6ozl98sDWpei/2NkD+dwInLas8HfRypFM3hbWrIQndRleaZ+T7VoaHBK3oRGT9xV7u8xrO8amnBNKzqrP8Lpa5+R3WiQ/40xZw5b4h7+NNzsauhmiLeW0W4PyKuwdilhxjDvDKlGVqV7L49npkMUchoVDe/OrYp+xeXa8IO2M9vra3klCvG1gHZ0K6QQUUZNAazsxJHMQ4wHJHi0sApcRzH2Me/pt2phypiZEyZF83YldgcrJgj1JiTd92rphA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SN6PR02MB4205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(376002)(366004)(39860400002)(346002)(136003)(396003)(66476007)(66556008)(66946007)(64756008)(66446008)(2906002)(54906003)(86362001)(83380400001)(55016002)(71200400001)(8676002)(186003)(52536014)(53546011)(33656002)(26005)(5660300002)(6506007)(4326008)(478600001)(316002)(8936002)(76116006)(9686003)(110136005)(7696005);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?utf-8?B?ckpzeDJzR2p4cDRRQjZVWEUrZWZ1QklJcDRpOGV6M1ZsR3RVckdyZVcxUDNu?=
- =?utf-8?B?azEwQXhONmE5bFZrZ1pXYU0xbHNyTUxkVnEzV0ZvMTArMlE1cFpmZFJQUkZx?=
- =?utf-8?B?SUgwMTIrQ0d1VHFacVE5STlhdkNndmYvdW9kZ2h6RjVrcVViQUhLd283Mktk?=
- =?utf-8?B?VFV2VGoyOFU0TS9ha0tCTmp0VnpKbzBoMzJNNkhMY3VPVG5OTEovYW9ka1RR?=
- =?utf-8?B?alZpclhCYnFLOGRLcXpyVDNSRlRmQjJ3Q05qckwxRjlHWWl0QW5Vd0hvVWZT?=
- =?utf-8?B?aW90bXRzSlo4TmxPM1lvT1hJMzEyMk05U25iN3Z1REhMQnVUZ1pjNEYvTVpy?=
- =?utf-8?B?T1JMSHE1TjZkMmZ2Y2ozVGdjb29MQm4vRUNYZnU2RTlKSE9kQjZOOGZyT1JG?=
- =?utf-8?B?NjI1dWRWRmlmNXNCQkNrVTNSVEZVNk5DMjJwRjdrOFMvZE1jRFFIK1ltRlda?=
- =?utf-8?B?M09sWVVseVQ2QVphK2NZS20rR3ZGRDFKSnU1bU56NDIwMnordHRwRGpLV3Rt?=
- =?utf-8?B?Q1BsRmloMDF2K1F0SHdUV0hub0UySDlkaEJnSlBpQ1k2OFMydG1xbkJ2di9k?=
- =?utf-8?B?b2gyTFNrYlF0dTZWbjhydHlQOTFrY2lESFl2emEwOEpJbkRKVElRK3F6S2N1?=
- =?utf-8?B?aHZOZ2UrQjFvSy8rVDFLeXVVamZiSDVhVFdDdjNHenBiMGJvWGtkdWl6OFZr?=
- =?utf-8?B?N1Nlc2lhV2toeEpuaXlaQ21vTzVOdDVmeTFkWGxacHJQWWpxUnRwM0lYL2hm?=
- =?utf-8?B?WE9NNnRnS0JQOUMwQzcvRERTb0ROMFZZMVZuU3lGUTdnR0tlZ1BVOEN3K3NX?=
- =?utf-8?B?eWFSSFBmTlZ3dTR3VkU0ZHFoSnl6R2IzMHIwb0RUcDRFMTJGcmJNSUhPK3RG?=
- =?utf-8?B?eVN0REFDNy8rWllONWt5U1hiWVhsbnMwVndaNGw2WkdrSjlMVWEvWE40WCtR?=
- =?utf-8?B?aElPSFR2NjYvYzBLWVJZOXdSczFFNDZOMWdwdFE0azFYYWhGMXhpZ1luTHZj?=
- =?utf-8?B?L1ZNT295Yzl6dFdhWlF4YXk0Qkkya0IrdFNhd0xKUzBmTEF5bHFSaWs4K3Av?=
- =?utf-8?B?S2NPZ3M1U3BOWFVrUlJPREc3c1Z4cE5zWXNaaEM3dmpkbU9BYmRndGJ0aXdn?=
- =?utf-8?B?MzdLZXBqbjZhRXFPSjQwNDYxMit4SURzV01QQ2dQMWdleS9hUG16VzI5UUoz?=
- =?utf-8?B?YmVHSVExcE5UU3lqSmtzMWhSVzJoRzhSZDN2SXdFbGMxTDF2NnFseXgxUXZO?=
- =?utf-8?B?ZnlEUTgzSTlOZzhCUTYzM29GcnFkVFUrSEk5azIzUTM2QjVCbGhpWXp5UjRJ?=
- =?utf-8?B?OE9NRTVnaGZQVEczTHNwU3IzSGJUODJ0dHdNVVFNTDcxRHB6NVFLRi8xM1F4?=
- =?utf-8?B?UTF4Z01UNjJCeWpRUFRsUVllQ3h6cFRJWnZPNUdnOS91T2hZcFdkRjIvTGhX?=
- =?utf-8?Q?IC2ZLFPT?=
-arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GFZSJiM2XdO6JeMoCnX/lNOHRDJ/RHecOpUCBlEztm9LRiytrExr6WFlszMh8FX62R1JR7YNPp+N3whVOwUi+WCgGe94zYn0XYSObJyWXc/5OCHRYLsY/LRh2B6/tEHIpaFrXWcuLs7VCsOD5z5RxCL0T/6/WOJ7yA9GLspjvGWF+ps9k1QW/pE8JqoPjl1TyjunP55iVOn4gFeVg4061qesADc36xkWhXXL/r9inS877gFGdDor+WDo//2O7JGnoncLVDZKh0slDIFnsqvV2be7YO4xlcCFnABcjYin5aPHHKROEFYwbzSuJ1S3sNsJzA9B1foE88aJQvLEyb61vg==
-arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jhSZ+pxRbJVybnzdZWgEBza3r9H1g2hRrt4Ljx9B+tw=;
- b=AiUh/xSajV8MhOtGWY+4lTOxQH2aArLwfCVKF+A8bWiuSy6XTjyr+6mzQe6rGU2CJyQPqJ1xCRoP54g3pOVKAK7MPxJYJIMTmivcP1dlO7O3449GcLAAUaPLM26tny8yB1ow4qwWRRifbDAQo+hGMx7/BWrJkSH65IWtpC0kohryvjPSPG8ThcUIR6Qw+yS9eSPvuDrEBwy1/njv2oxyE5D86QYjBj0ibcX10nZnjFMQMAhgy3iymAZ2zQDy2Tzxh5e/rULoEFaG1oKnpQOIeNcBG6MWWzSSk22TNqELhM2mLS6s2v1CHGvG3CjJXx+Q9io14NFnxez+qlLb5ulG8A==
-arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
- dkim=pass header.d=quicinc.com; arc=none
-dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jhSZ+pxRbJVybnzdZWgEBza3r9H1g2hRrt4Ljx9B+tw=;
- b=WkTHzUao2OwnnHBrxKN+aaKd8av+Ua6ico1iPF2tgZVeHI5qzGr7udYivdt7zVC+wBuFF+Fs6A39tEaNDH68+7w41vnZRY7eXQFSDIObchiC9CVQGLzAyHpjzNPCzLQsSwiQ2zWy+/lfTNO2xczTdfMhhKjTsH8Tu9ablMch/ZA=
-x-ms-exchange-crosstenant-authas: Internal
-x-ms-exchange-crosstenant-authsource: SN6PR02MB4205.namprd02.prod.outlook.com
-x-ms-exchange-crosstenant-network-message-id: 2052f414-501f-4950-8e37-08d8c188f689
-x-ms-exchange-crosstenant-originalarrivaltime: 25 Jan 2021 23:28:46.7918 (UTC)
-x-ms-exchange-crosstenant-fromentityheader: Hosted
-x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
-x-ms-exchange-crosstenant-mailboxtype: HOSTED
-x-ms-exchange-crosstenant-userprincipalname: TTH6EA5NCQ4KUy07O2oWI9NX0qbAl6uHn39Xk9eVJq/O4YiuvqUdz3FZpATneOlPEFx+NGh8teU+Q6njLa9nHQ==
-x-ms-exchange-transport-crosstenantheadersstamped: SN6PR02MB4558
-x-originatororg: quicinc.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l4BMT-000122-0c; Mon, 25 Jan 2021 18:33:33 -0500
+Received: from mail-io1-xd32.google.com ([2607:f8b0:4864:20::d32]:45341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l4BMQ-0001H8-6M; Mon, 25 Jan 2021 18:33:32 -0500
+Received: by mail-io1-xd32.google.com with SMTP id p72so30119778iod.12;
+ Mon, 25 Jan 2021 15:33:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CfLh10qChs9mBGuymEnA3a9D4CfQc1NkTroJxzBjoJA=;
+ b=DZTWNn7489+dbAey41TAo/P/kXhDniFCzXW+9frGU1Zxfv9DxJ+i6hb3cjlzPGvewI
+ j5AADVT8WIhF9aHgj/d3McpVerdPGmQ1OVxlEzoD3w+pKURxsMzUGp1PmI7rLfGjxA97
+ p+P4twfNwFCQNvLBHSvvkOnRAcC+mtXafC+U6pH5hzYRPpzkVVIqxIlIpmVPDX6XaMIy
+ StVznLD9gwjtbs8UxmTdKknKI7D7DoFkJKZm8gfNaHAQ115nPWwTHHjbuc0UodlL8IPs
+ MW9cWv00nKSdXG28LrkV5sQvLK5D6NJUHqPCxnwJAQ/I+psY2GNnomi/KlX+6FZKtOcP
+ 4KwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CfLh10qChs9mBGuymEnA3a9D4CfQc1NkTroJxzBjoJA=;
+ b=F0IDtSaKBryGo0WjWlglJivzxfBizq0HuzGeOPCFD5dT0lji9Trh87tfVhPoR2wGOX
+ kKsUNFrXcpRBx7i+RU2BgPKlLhMwTITgEckp+idd9sPReu3rO/CdP6ToLl9ocKmJwn/I
+ yEV8ynnujJqH0gXaar06tGc6W5rYRMQfekD6W4eQ1NP2+2nY5yslaalLabl2a49/8/rz
+ FLNXKESya1zbVNXn6wu4F7de8n+v/H7JxB25fZSb6UzUtQEhzLyZw2HtiARPEX7RGAS5
+ wGyDO/vHAU5dHXq84vccwpDM9lan/s5hEqj2TbTLE5a86hMf0PKM/n0a8vqD9JiEHrsl
+ KThQ==
+X-Gm-Message-State: AOAM531VUDV8V7T21gPNbhUfHBGHCkAgJS9IgjkYNP3xII9qwbJ0KauH
+ j5YqczkZgp/9KuXWvC7mXP3xrFTFuJcL1pxoRvE=
+X-Google-Smtp-Source: ABdhPJw2pkQTOfilOUrqbR2g44pMiuG88xPEFAixMNXQjgBKgrkcWSc+gNVMHKyDccLHpouZj7KXf55uuH7KeROp97s=
+X-Received: by 2002:a02:634b:: with SMTP id j72mr2626880jac.106.1611617608488; 
+ Mon, 25 Jan 2021 15:33:28 -0800 (PST)
 MIME-Version: 1.0
-Received-SPF: pass client-ip=199.106.114.39; envelope-from=bcain@quicinc.com;
- helo=alexa-out-sd-02.qualcomm.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20210112093950.17530-1-frank.chang@sifive.com>
+ <20210112093950.17530-25-frank.chang@sifive.com>
+In-Reply-To: <20210112093950.17530-25-frank.chang@sifive.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 25 Jan 2021 15:33:02 -0800
+Message-ID: <CAKmqyKM7Hgi2Hv5Np2Ohjkt0vq-AQs--md-bg7adH9n8iy-Zhg@mail.gmail.com>
+Subject: Re: [PATCH v6 24/72] target/riscv: rvv-1.0: update vext_max_elems()
+ for load/store insns
+To: Frank Chang <frank.chang@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d32;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd32.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -154,33 +77,428 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBUYXlsb3IgU2ltcHNvbiA8dHNp
-bXBzb25AcXVpY2luYy5jb20+DQo+IFNlbnQ6IE1vbmRheSwgSmFudWFyeSAyNSwgMjAyMSA1OjA5
-IFBNDQo+IFRvOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8ZjRidWdAYW1zYXQub3JnPjsgcWVt
-dS1kZXZlbEBub25nbnUub3JnDQo+IENjOiByaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnOyBh
-bGV4LmJlbm5lZUBsaW5hcm8ub3JnOw0KPiBsYXVyZW50QHZpdmllci5ldTsgYWxlQHJldi5uZzsg
-QnJpYW4gQ2FpbiA8YmNhaW5AcXVpY2luYy5jb20+DQo+IFN1YmplY3Q6IFJFOiBbUEFUQ0ggdjcg
-MDAvMzVdIEhleGFnb24gcGF0Y2ggc2VyaWVzDQo+DQo+DQo+DQo+ID4gLS0tLS1PcmlnaW5hbCBN
-ZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbGlwcGUu
-bWF0aGlldS5kYXVkZUBnbWFpbC5jb20+IE9uDQo+ID4gQmVoYWxmIE9mIFBoaWxpcHBlIE1hdGhp
-ZXUtRGF1ZMOpDQo+ID4gU2VudDogTW9uZGF5LCBKYW51YXJ5IDI1LCAyMDIxIDQ6MTUgUE0NCj4g
-PiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29tPjsgcWVtdS1kZXZlbEBu
-b25nbnUub3JnDQo+ID4gQ2M6IHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc7IGFsZXguYmVu
-bmVlQGxpbmFyby5vcmc7DQo+ID4gbGF1cmVudEB2aXZpZXIuZXU7IGFsZUByZXYubmc7IEJyaWFu
-IENhaW4gPGJjYWluQHF1aWNpbmMuY29tPg0KPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjcgMDAv
-MzVdIEhleGFnb24gcGF0Y2ggc2VyaWVzDQo+ID4NCj4gPg0KPiA+IEhpIFRheWxvciwNCj4gPg0K
-Li4uDQo+ID4NCj4gPiBJJ20gbG9va2luZyBhdCBzdHJlc3NpbmcgYSBiaXQgbW9yZSB5b3VyIHdv
-cmsuDQouLi4NCj4gPiBBbnkgb3RoZXIgcmVhbC13b3JsZCBiaW5hcnkgeW91IGNvdWxkIHNoYXJl
-Pw0KPg0KPiBJbiBhZGRpdGlvbiB0byBidXN5Ym94LCB3ZSBjb3VsZCBidWlsZCBvdGhlciBvcGVu
-IHNvdXJjZSBwYWNrYWdlcy4gIFdvdWxkDQo+IHRoYXQgYmUgb2YgaW50ZXJlc3Q/DQoNClRheWxv
-ciAtLSBJIGhhdmUgYmVlbiBydW5uaW5nIG5pZ2h0bHkgYnVpbGRzIG9mIHRoZSBjcm9zcyB0b29s
-Y2hhaW4gd2hpY2ggaW5jbHVkZSBidXN5Ym94IGFuZCBQeXRob24gKENQeXRob24pIGFzIHRlc3Qg
-Y2FzZXMuICBXZSBjb3VsZCBwdXQgb25lIHRob3NlIGJpbmFyaWVzIHNvbWV3aGVyZS4NCg==
+On Tue, Jan 12, 2021 at 1:59 AM <frank.chang@sifive.com> wrote:
+>
+> From: Frank Chang <frank.chang@sifive.com>
+>
+> Signed-off-by: Frank Chang <frank.chang@sifive.com>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  target/riscv/insn_trans/trans_rvv.c.inc | 32 +++++++--
+>  target/riscv/vector_helper.c            | 90 ++++++++++++++-----------
+>  2 files changed, 74 insertions(+), 48 deletions(-)
+>
+> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
+> index 2b0e0590efc..367fb28186f 100644
+> --- a/target/riscv/insn_trans/trans_rvv.c.inc
+> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
+> @@ -586,6 +586,12 @@ static bool trans_##NAME(DisasContext *s, arg_##ARGTYPE * a) \
+>      return false;                                            \
+>  }
+>
+> +static uint8_t vext_get_emul(DisasContext *s, uint8_t eew)
+> +{
+> +    int8_t emul = eew - s->sew + s->lmul;
+> +    return emul < 0 ? 0 : emul;
+> +}
+> +
+>  /*
+>   *** unit stride load and store
+>   */
+> @@ -651,8 +657,14 @@ static bool ld_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>          return false;
+>      }
+>
+> +    /*
+> +     * Vector load/store instructions have the EEW encoded
+> +     * directly in the instructions. The maximum vector size is
+> +     * calculated with EMUL rather than LMUL.
+> +     */
+> +    uint8_t emul = vext_get_emul(s, eew);
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> -    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, false);
+>  }
+> @@ -687,8 +699,9 @@ static bool st_us_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>          return false;
+>      }
+>
+> +    uint8_t emul = vext_get_emul(s, eew);
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> -    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+>      return ldst_us_trans(a->rd, a->rs1, data, fn, s, true);
+>  }
+> @@ -761,8 +774,9 @@ static bool ld_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>          return false;
+>      }
+>
+> +    uint8_t emul = vext_get_emul(s, eew);
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> -    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+>      return ldst_stride_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>  }
+> @@ -789,8 +803,9 @@ static bool st_stride_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>          gen_helper_vsse32_v,  gen_helper_vsse64_v
+>      };
+>
+> +    uint8_t emul = vext_get_emul(s, eew);
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> -    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+>      fn = fns[eew];
+>      if (fn == NULL) {
+> @@ -887,8 +902,9 @@ static bool ld_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>
+>      fn = fns[eew][s->sew];
+>
+> +    uint8_t emul = vext_get_emul(s, s->sew);
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> -    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, false);
+>  }
+> @@ -938,8 +954,9 @@ static bool st_index_op(DisasContext *s, arg_rnfvm *a, uint8_t eew)
+>
+>      fn = fns[eew][s->sew];
+>
+> +    uint8_t emul = vext_get_emul(s, s->sew);
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> -    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+>      return ldst_index_trans(a->rd, a->rs1, a->rs2, data, fn, s, true);
+>  }
+> @@ -1003,8 +1020,9 @@ static bool ldff_op(DisasContext *s, arg_r2nfvm *a, uint8_t eew)
+>          return false;
+>      }
+>
+> +    uint8_t emul = vext_get_emul(s, eew);
+>      data = FIELD_DP32(data, VDATA, VM, a->vm);
+> -    data = FIELD_DP32(data, VDATA, LMUL, s->lmul);
+> +    data = FIELD_DP32(data, VDATA, LMUL, emul);
+>      data = FIELD_DP32(data, VDATA, NF, a->nf);
+>      return ldff_trans(a->rd, a->rs1, data, fn, s);
+>  }
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 57564c5c0c9..8556ab3b0df 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -17,6 +17,7 @@
+>   */
+>
+>  #include "qemu/osdep.h"
+> +#include "qemu/host-utils.h"
+>  #include "cpu.h"
+>  #include "exec/memop.h"
+>  #include "exec/exec-all.h"
+> @@ -121,14 +122,21 @@ static uint32_t vext_wd(uint32_t desc)
+>  }
+>
+>  /*
+> - * Get vector group length in bytes. Its range is [64, 2048].
+> + * Get the maximum number of elements can be operated.
+>   *
+> - * As simd_desc support at most 256, the max vlen is 512 bits.
+> - * So vlen in bytes is encoded as maxsz.
+> + * esz: log2 of element size in bytes.
+>   */
+> -static inline uint32_t vext_maxsz(uint32_t desc)
+> +static inline uint32_t vext_max_elems(uint32_t desc, uint32_t esz)
+>  {
+> -    return simd_maxsz(desc) << vext_lmul(desc);
+> +    /*
+> +     * As simd_desc support at most 256 bytes, the max vlen is 256 bits.
+> +     * so vlen in bytes (vlenb) is encoded as maxsz.
+> +     */
+> +    uint32_t vlenb = simd_maxsz(desc);
+> +
+> +    /* Return VLMAX */
+> +    int scale = vext_lmul(desc) - esz;
+> +    return scale < 0 ? vlenb >> -scale : vlenb << scale;
+>  }
+>
+>  /*
+> @@ -221,14 +229,14 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>  {
+>      uint32_t i, k;
+>      uint32_t nf = vext_nf(desc);
+> -    uint32_t vlmax = vext_maxsz(desc) / esz;
+> +    uint32_t max_elems = vext_max_elems(desc, esz);
+>
+>      /* probe every access*/
+>      for (i = 0; i < env->vl; i++) {
+>          if (!vm && !vext_elem_mask(v0, i)) {
+>              continue;
+>          }
+> -        probe_pages(env, base + stride * i, nf * esz, ra, access_type);
+> +        probe_pages(env, base + stride * i, nf << esz, ra, access_type);
+>      }
+>      /* do real access */
+>      for (i = 0; i < env->vl; i++) {
+> @@ -237,8 +245,8 @@ vext_ldst_stride(void *vd, void *v0, target_ulong base,
+>              continue;
+>          }
+>          while (k < nf) {
+> -            target_ulong addr = base + stride * i + k * esz;
+> -            ldst_elem(env, addr, i + k * vlmax, vd, ra);
+> +            target_ulong addr = base + stride * i + (k << esz);
+> +            ldst_elem(env, addr, i + k * max_elems, vd, ra);
+>              k++;
+>          }
+>      }
+> @@ -251,7 +259,7 @@ void HELPER(NAME)(void *vd, void * v0, target_ulong base,               \
+>  {                                                                       \
+>      uint32_t vm = vext_vm(desc);                                        \
+>      vext_ldst_stride(vd, v0, base, stride, env, desc, vm, LOAD_FN,      \
+> -                     sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);            \
+> +                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
+>  }
+>
+>  GEN_VEXT_LD_STRIDE(vlse8_v,  int8_t,  lde_b)
+> @@ -266,7 +274,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
+>  {                                                                       \
+>      uint32_t vm = vext_vm(desc);                                        \
+>      vext_ldst_stride(vd, v0, base, stride, env, desc, vm, STORE_FN,     \
+> -                     sizeof(ETYPE), GETPC(), MMU_DATA_STORE);           \
+> +                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     \
+>  }
+>
+>  GEN_VEXT_ST_STRIDE(vsse8_v,  int8_t,  ste_b)
+> @@ -286,16 +294,16 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+>  {
+>      uint32_t i, k;
+>      uint32_t nf = vext_nf(desc);
+> -    uint32_t vlmax = vext_maxsz(desc) / esz;
+> +    uint32_t max_elems = vext_max_elems(desc, esz);
+>
+>      /* probe every access */
+> -    probe_pages(env, base, env->vl * nf * esz, ra, access_type);
+> +    probe_pages(env, base, env->vl * (nf << esz), ra, access_type);
+>      /* load bytes from guest memory */
+>      for (i = 0; i < env->vl; i++) {
+>          k = 0;
+>          while (k < nf) {
+> -            target_ulong addr = base + (i * nf + k) * esz;
+> -            ldst_elem(env, addr, i + k * vlmax, vd, ra);
+> +            target_ulong addr = base + ((i * nf + k) << esz);
+> +            ldst_elem(env, addr, i + k * max_elems, vd, ra);
+>              k++;
+>          }
+>      }
+> @@ -310,16 +318,16 @@ vext_ldst_us(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
+>  void HELPER(NAME##_mask)(void *vd, void *v0, target_ulong base,         \
+>                           CPURISCVState *env, uint32_t desc)             \
+>  {                                                                       \
+> -    uint32_t stride = vext_nf(desc) * sizeof(ETYPE);                    \
+> +    uint32_t stride = vext_nf(desc) << ctzl(sizeof(ETYPE));             \
+>      vext_ldst_stride(vd, v0, base, stride, env, desc, false, LOAD_FN,   \
+> -                     sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);            \
+> +                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);      \
+>  }                                                                       \
+>                                                                          \
+>  void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
+>                    CPURISCVState *env, uint32_t desc)                    \
+>  {                                                                       \
+>      vext_ldst_us(vd, base, env, desc, LOAD_FN,                          \
+> -                 sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);                \
+> +                 ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD);          \
+>  }
+>
+>  GEN_VEXT_LD_US(vle8_v,  int8_t,  lde_b)
+> @@ -331,16 +339,16 @@ GEN_VEXT_LD_US(vle64_v, int64_t, lde_d)
+>  void HELPER(NAME##_mask)(void *vd, void *v0, target_ulong base,         \
+>                           CPURISCVState *env, uint32_t desc)             \
+>  {                                                                       \
+> -    uint32_t stride = vext_nf(desc) * sizeof(ETYPE);                    \
+> +    uint32_t stride = vext_nf(desc) << ctzl(sizeof(ETYPE));             \
+>      vext_ldst_stride(vd, v0, base, stride, env, desc, false, STORE_FN,  \
+> -                     sizeof(ETYPE), GETPC(), MMU_DATA_STORE);           \
+> +                     ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);     \
+>  }                                                                       \
+>                                                                          \
+>  void HELPER(NAME)(void *vd, void *v0, target_ulong base,                \
+>                    CPURISCVState *env, uint32_t desc)                    \
+>  {                                                                       \
+>      vext_ldst_us(vd, base, env, desc, STORE_FN,                         \
+> -                 sizeof(ETYPE), GETPC(), MMU_DATA_STORE);               \
+> +                 ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_STORE);         \
+>  }
+>
+>  GEN_VEXT_ST_US(vse8_v,  int8_t,  ste_b)
+> @@ -376,14 +384,14 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>      uint32_t i, k;
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t vm = vext_vm(desc);
+> -    uint32_t vlmax = vext_maxsz(desc) / esz;
+> +    uint32_t max_elems = vext_max_elems(desc, esz);
+>
+>      /* probe every access*/
+>      for (i = 0; i < env->vl; i++) {
+>          if (!vm && !vext_elem_mask(v0, i)) {
+>              continue;
+>          }
+> -        probe_pages(env, get_index_addr(base, i, vs2), nf * esz, ra,
+> +        probe_pages(env, get_index_addr(base, i, vs2), nf << esz, ra,
+>                      access_type);
+>      }
+>      /* load bytes from guest memory */
+> @@ -393,8 +401,8 @@ vext_ldst_index(void *vd, void *v0, target_ulong base,
+>              continue;
+>          }
+>          while (k < nf) {
+> -            abi_ptr addr = get_index_addr(base, i, vs2) + k * esz;
+> -            ldst_elem(env, addr, i + k * vlmax, vd, ra);
+> +            abi_ptr addr = get_index_addr(base, i, vs2) + (k << esz);
+> +            ldst_elem(env, addr, i + k * max_elems, vd, ra);
+>              k++;
+>          }
+>      }
+> @@ -405,7 +413,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base,                   \
+>                    void *vs2, CPURISCVState *env, uint32_t desc)            \
+>  {                                                                          \
+>      vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,                \
+> -                    LOAD_FN, sizeof(ETYPE), GETPC(), MMU_DATA_LOAD);       \
+> +                    LOAD_FN, ctzl(sizeof(ETYPE)), GETPC(), MMU_DATA_LOAD); \
+>  }
+>
+>  GEN_VEXT_LD_INDEX(vlxei8_8_v,   int8_t,  idx_b, lde_b)
+> @@ -430,7 +438,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base,         \
+>                    void *vs2, CPURISCVState *env, uint32_t desc)  \
+>  {                                                                \
+>      vext_ldst_index(vd, v0, base, vs2, env, desc, INDEX_FN,      \
+> -                    STORE_FN, sizeof(ETYPE),                     \
+> +                    STORE_FN, ctzl(sizeof(ETYPE)),               \
+>                      GETPC(), MMU_DATA_STORE);                    \
+>  }
+>
+> @@ -464,7 +472,7 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+>      uint32_t i, k, vl = 0;
+>      uint32_t nf = vext_nf(desc);
+>      uint32_t vm = vext_vm(desc);
+> -    uint32_t vlmax = vext_maxsz(desc) / esz;
+> +    uint32_t max_elems = vext_max_elems(desc, esz);
+>      target_ulong addr, offset, remain;
+>
+>      /* probe every access*/
+> @@ -472,24 +480,24 @@ vext_ldff(void *vd, void *v0, target_ulong base,
+>          if (!vm && !vext_elem_mask(v0, i)) {
+>              continue;
+>          }
+> -        addr = base + nf * i * esz;
+> +        addr = base + i * (nf << esz);
+>          if (i == 0) {
+> -            probe_pages(env, addr, nf * esz, ra, MMU_DATA_LOAD);
+> +            probe_pages(env, addr, nf << esz, ra, MMU_DATA_LOAD);
+>          } else {
+>              /* if it triggers an exception, no need to check watchpoint */
+> -            remain = nf * esz;
+> +            remain = nf << esz;
+>              while (remain > 0) {
+>                  offset = -(addr | TARGET_PAGE_MASK);
+>                  host = tlb_vaddr_to_host(env, addr, MMU_DATA_LOAD,
+>                                           cpu_mmu_index(env, false));
+>                  if (host) {
+>  #ifdef CONFIG_USER_ONLY
+> -                    if (page_check_range(addr, nf * esz, PAGE_READ) < 0) {
+> +                    if (page_check_range(addr, nf << esz, PAGE_READ) < 0) {
+>                          vl = i;
+>                          goto ProbeSuccess;
+>                      }
+>  #else
+> -                    probe_pages(env, addr, nf * esz, ra, MMU_DATA_LOAD);
+> +                    probe_pages(env, addr, nf << esz, ra, MMU_DATA_LOAD);
+>  #endif
+>                  } else {
+>                      vl = i;
+> @@ -514,8 +522,8 @@ ProbeSuccess:
+>              continue;
+>          }
+>          while (k < nf) {
+> -            target_ulong addr = base + (i * nf + k) * esz;
+> -            ldst_elem(env, addr, i + k * vlmax, vd, ra);
+> +            target_ulong addr = base + ((i * nf + k) << esz);
+> +            ldst_elem(env, addr, i + k * max_elems, vd, ra);
+>              k++;
+>          }
+>      }
+> @@ -526,7 +534,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong base,  \
+>                    CPURISCVState *env, uint32_t desc)      \
+>  {                                                         \
+>      vext_ldff(vd, v0, base, env, desc, LOAD_FN,           \
+> -              sizeof(ETYPE), GETPC());                    \
+> +              ctzl(sizeof(ETYPE)), GETPC());              \
+>  }
+>
+>  GEN_VEXT_LDFF(vle8ff_v,  int8_t,  lde_b)
+> @@ -739,7 +747,7 @@ void HELPER(NAME)(void *vs3, void *v0, target_ulong base,       \
+>  {                                                               \
+>      vext_amo_noatomic(vs3, v0, base, vs2, env, desc,            \
+>                        INDEX_FN, vext_##NAME##_noatomic_op,      \
+> -                      sizeof(ETYPE), GETPC());                  \
+> +                      ctzl(sizeof(ETYPE)), GETPC());            \
+>  }
+>
+>  GEN_VEXT_AMO(vamoswapei8_32_v,  int32_t, idx_b)
+> @@ -1225,7 +1233,7 @@ void HELPER(NAME)(void *vd, void *v0, target_ulong s1,          \
+>                    void *vs2, CPURISCVState *env, uint32_t desc) \
+>  {                                                               \
+>      uint32_t vl = env->vl;                                      \
+> -    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);          \
+> +    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE))); \
+>      uint32_t i;                                                 \
+>                                                                  \
+>      for (i = 0; i < vl; i++) {                                  \
+> @@ -3880,7 +3888,7 @@ void HELPER(NAME)(void *vd, void *v0, uint64_t s1, void *vs2,       \
+>  {                                                                   \
+>      uint32_t vm = vext_vm(desc);                                    \
+>      uint32_t vl = env->vl;                                          \
+> -    uint32_t vlmax = vext_maxsz(desc) / sizeof(ETYPE);              \
+> +    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));     \
+>      uint32_t i;                                                     \
+>                                                                      \
+>      for (i = 0; i < vl; i++) {                                      \
+> @@ -4666,7 +4674,7 @@ GEN_VEXT_VSLIDE1DOWN_VX(vslide1down_vx_d, uint64_t, H8)
+>  void HELPER(NAME)(void *vd, void *v0, void *vs1, void *vs2,               \
+>                    CPURISCVState *env, uint32_t desc)                      \
+>  {                                                                         \
+> -    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
+> +    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
+>      uint32_t vm = vext_vm(desc);                                          \
+>      uint32_t vl = env->vl;                                                \
+>      uint32_t index, i;                                                    \
+> @@ -4694,7 +4702,7 @@ GEN_VEXT_VRGATHER_VV(vrgather_vv_d, uint64_t, H8)
+>  void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,         \
+>                    CPURISCVState *env, uint32_t desc)                      \
+>  {                                                                         \
+> -    uint32_t vlmax = env_archcpu(env)->cfg.vlen;                          \
+> +    uint32_t vlmax = vext_max_elems(desc, ctzl(sizeof(ETYPE)));           \
+>      uint32_t vm = vext_vm(desc);                                          \
+>      uint32_t vl = env->vl;                                                \
+>      uint32_t index = s1, i;                                               \
+> --
+> 2.17.1
+>
+>
 
