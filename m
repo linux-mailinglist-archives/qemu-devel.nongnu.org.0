@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97970302B95
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:28:45 +0100 (CET)
-Received: from localhost ([::1]:48852 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5B5302BA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:33:11 +0100 (CET)
+Received: from localhost ([::1]:53240 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l47XY-0007pv-NK
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:28:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
+	id 1l47bq-0001VY-EL
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:33:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44636)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1l47UI-0005Z8-0j
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:25:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41635)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1l47UF-0001g7-UA
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:25:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611602718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=npFNg3We8RmZoWPAl+lFXedY4757HvLmt+DYZGl1cJU=;
- b=H4ruK1ljhtXjvZCLVsxILxdO4/tK+qZc/PG4Mjx0UHVrwgs/xmzEklGtfrBKN/I5d1vJE+
- p6yqd0+73I0r4NyX8DKu0+q7qIix5ErFPI9TTy2viPBVhZIkTSxJP5gg5VhRyURk1UA5Ai
- ykclg3z9ADuvR8xPZmdXHDnvYCsNHzw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-450-e29x4Z3pN9uP1aZz-koITw-1; Mon, 25 Jan 2021 14:25:15 -0500
-X-MC-Unique: e29x4Z3pN9uP1aZz-koITw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9881B1934102
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 19:25:14 +0000 (UTC)
-Received: from eperezma.remote.csb (ovpn-112-128.ams2.redhat.com
- [10.36.112.128])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D85625C737;
- Mon, 25 Jan 2021 19:25:07 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2] virtio: Add corresponding memory_listener_unregister to
- unrealize
-Date: Mon, 25 Jan 2021 20:25:05 +0100
-Message-Id: <20210125192505.390554-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l47ac-0000ri-2B
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:31:54 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:38449)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l47aZ-0002uw-KR
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:31:53 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id s11so16922799edd.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 11:31:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=igGPYyTKGI0d1IcMZbbDd+5WkSHWgDiTUHLbfOKIMYU=;
+ b=oorJwYZHZO/7rqs5jxgb4uOOb6AQlnYs4sUXTPoQi+NEQjzmC6smj5RXuEu+qOaYMw
+ sst/wI05sMNbz+9CdjG7CFY7U4HFGhnLxkpfBCY8QboBGGoAHM+zDjNoiv7N8lt+1r09
+ eJLNv1qQDluIGFRPuGhMbcJDLBuLatp/Wopo+F7riSg7GI5Vi+wTKJo4b6KR/zONbnMY
+ eoczWf2c7IMWQT2iA7DdhBJ7VvoThuvZ1BTBtwTQ1rrVf1LE+49smvz8lSUG4ZpohyLZ
+ g5zU4jn3gEiv9dWPv2Q4GtHGPejsmeWDeH7781g8KJFq/+Bssfp1TBvcxAh446tkqq2i
+ VdFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=igGPYyTKGI0d1IcMZbbDd+5WkSHWgDiTUHLbfOKIMYU=;
+ b=uUReUxLHXnBIJh+X4O7/vRxY/8/qxc5KXMkQkuIqWGaKkY1GFSS7WQwW1Zw3c267zu
+ KjtxoDDhuEkeNWsILOPe6Hw1mIwgzJhXS1AY2gFceMUhFb7wQuNN1k3yKGNuJa6UsYFM
+ H6x748zHlussEZWAVZWm4TQIB+EkA+fDS8q69k+g8ujQkkOIKJ+7lqjMX+mQF66fAITi
+ DkFH+qra8akbTQVXYy+9yoxUCLpVMI69brCH1nqwAXFbCspWtQ+gPBr+bMO05zvT/JgR
+ cVLbL0AqvsXtJVc6byJTVWRQgS5S9Ri9uRoJGzK9WypdxXv0wynf/6vlHFCUGUIK6iPg
+ Nruw==
+X-Gm-Message-State: AOAM531hfD2ZxFtDGJOwCtmzSza/goouILI6qizJ3FgObJPtq5rHKAhb
+ 4onIWC2vjhK9yAeO3jv3ehSOUyA+YzWDZIo/4eg=
+X-Google-Smtp-Source: ABdhPJwLWY2RJqQUa+B5T40FPoFrzvYUWXAam6YImncpkPG/dcFM0nNlRPJVIdfVnri1n27FdTMM1UKQJ5dsJBxzJJA=
+X-Received: by 2002:a05:6402:1682:: with SMTP id
+ a2mr1865490edv.30.1611603109256; 
+ Mon, 25 Jan 2021 11:31:49 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210120102556.125012-1-marcandre.lureau@redhat.com>
+ <26032f17-cfbc-1e86-1ca1-10661d4f5cbb@redhat.com>
+ <CAJ+F1CKKh7Ap-4TE+Wtc584HEEOKaGFva5SYa9B-bBPUFwqfPg@mail.gmail.com>
+ <7ffcb025-56ca-377d-d08b-d06b900c2fee@redhat.com>
+In-Reply-To: <7ffcb025-56ca-377d-d08b-d06b900c2fee@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 25 Jan 2021 23:31:37 +0400
+Message-ID: <CAJ+F1CK+5QOuUc_0R-7Cqf86K5i5t-Q9kS5ROBkQJZeODc3bLQ@mail.gmail.com>
+Subject: Re: [PATCH v3] sphinx: adopt kernel readthedoc theme
+To: John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,216 +82,174 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, bmeng.cn@gmail.com,
+ "Daniel P. Berrange" <berrange@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Address space is destroyed without proper removal of its listeners with
-current code. They are expected to be removed in
-virtio_device_instance_finalize [1], but qemu calls it through
-object_deinit, after address_space_destroy call through
-device_set_realized [2].
+Hi
 
-Move it to virtio_device_unrealize, called before device_set_realized
-[3] and making it symmetric with memory_listener_register in
-virtio_device_realize.
+On Mon, Jan 25, 2021 at 8:47 PM John Snow <jsnow@redhat.com> wrote:
+>
+> On 1/24/21 1:19 PM, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
+> >
+> > On Fri, Jan 22, 2021 at 12:59 AM John Snow <jsnow@redhat.com> wrote:
+> >>
+> >> On 1/20/21 5:25 AM, marcandre.lureau@redhat.com wrote:
+> >>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>>
+> >>> The default "alabaster" sphinx theme has a couple shortcomings:
+> >>> - the navbar moves along the page
+> >>> - the search bar is not always at the same place
+> >>> - it lacks some contrast and colours
+> >>>
+> >>> The "rtd" theme from readthedocs.org is a popular third party theme u=
+sed
+> >>> notably by the kernel, with a custom style sheet. I like it better,
+> >>> perhaps others do too. It also simplify "Edit on Gitlab" links.
+> >>>
+> >>> Tweak a bit the custom theme to match qemu.org style, use the
+> >>> QEMU logo, and favicon etc.
+> >>>
+> >>> Screenshot:
+> >>> https://i.ibb.co/XWwG1bZ/Screenshot-2021-01-20-Welcome-to-QEMU-s-docu=
+mentation-QEMU-documentation.png
+> >>>
+> >>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> >>> ---
+> >>>    docs/_templates/editpage.html              |   5 -
+> >>>    docs/conf.py                               |  47 +++---
+> >>>    docs/devel/_templates/editpage.html        |   5 -
+> >>>    docs/interop/_templates/editpage.html      |   5 -
+> >>>    docs/specs/_templates/editpage.html        |   5 -
+> >>>    docs/sphinx-static/theme_overrides.css     | 161 +++++++++++++++++=
+++++
+> >>>    docs/system/_templates/editpage.html       |   5 -
+> >>>    docs/tools/_templates/editpage.html        |   5 -
+> >>>    docs/user/_templates/editpage.html         |   5 -
+> >>>    tests/docker/dockerfiles/debian10.docker   |   1 +
+> >>>    tests/docker/dockerfiles/fedora.docker     |   1 +
+> >>>    tests/docker/dockerfiles/ubuntu.docker     |   1 +
+> >>>    tests/docker/dockerfiles/ubuntu1804.docker |   1 +
+> >>>    tests/docker/dockerfiles/ubuntu2004.docker |   1 +
+> >>>    14 files changed, 193 insertions(+), 55 deletions(-)
+> >>>    delete mode 100644 docs/_templates/editpage.html
+> >>>    delete mode 100644 docs/devel/_templates/editpage.html
+> >>>    delete mode 100644 docs/interop/_templates/editpage.html
+> >>>    delete mode 100644 docs/specs/_templates/editpage.html
+> >>>    create mode 100644 docs/sphinx-static/theme_overrides.css
+> >>>    delete mode 100644 docs/system/_templates/editpage.html
+> >>>    delete mode 100644 docs/tools/_templates/editpage.html
+> >>>    delete mode 100644 docs/user/_templates/editpage.html
+> >>>
+> >>> diff --git a/docs/_templates/editpage.html b/docs/_templates/editpage=
+.html
+> >>> deleted file mode 100644
+> >>> index 4319b0f5ac..0000000000
+> >>> --- a/docs/_templates/editpage.html
+> >>> +++ /dev/null
+> >>> @@ -1,5 +0,0 @@
+> >>> -<div id=3D"editpage">
+> >>> -  <ul>
+> >>> -    <li><a href=3D"https://gitlab.com/qemu-project/qemu/-/blob/maste=
+r/docs/{{pagename}}.rst">Page source</a></li>
+> >>> -  </ul>
+> >>> -</div>
+> >>> diff --git a/docs/conf.py b/docs/conf.py
+> >>> index 2ee6111872..5ee577750b 100644
+> >>> --- a/docs/conf.py
+> >>> +++ b/docs/conf.py
+> >>> @@ -151,37 +151,44 @@ with open(os.path.join(qemu_docdir, 'defs.rst.i=
+nc')) as f:
+> >>>    # a list of builtin themes.
+> >>>    #
+> >>>    html_theme =3D 'alabaster'
+> >>> +try:
+> >>> +    import sphinx_rtd_theme
+> >>> +    html_theme =3D 'sphinx_rtd_theme'
+> >>> +except ImportError:
+> >>> +    sys.stderr.write('Warning: The Sphinx \'sphinx_rtd_theme\' HTML =
+theme was not found. Make sure you have the theme installed to produce pret=
+ty HTML output. Falling back to the default theme.\n')
+> >>>
+> >>>    # Theme options are theme-specific and customize the look and feel=
+ of a theme
+> >>>    # further.  For a list of options available for each theme, see th=
+e
+> >>>    # documentation.
+> >>> -# We initialize this to empty here, so the per-manual conf.py can ju=
+st
+> >>> -# add individual key/value entries.
+> >>> -html_theme_options =3D {
+> >>> -}
+> >>> +if html_theme =3D=3D 'sphinx_rtd_theme':
+> >>> +    html_theme_options =3D {
+> >>> +        "style_nav_header_background": "#802400",
+> >>> +    }
+> >>> +
+> >>
+> >> This needs a default for html_theme_options so that if sphinx_rtd_them=
+e
+> >> isn't present, the build doesn't break when using the fallback to
+> >> alabaster; I'm seeing:
+> >>
+> >> Traceback (most recent call last):
+> >>     File "/usr/lib/python3.8/site-packages/sphinx/config.py", line 361=
+,
+> >> in eval_config_file
+> >>       execfile_(filename, namespace)
+> >>     File "/usr/lib/python3.8/site-packages/sphinx/util/pycompat.py", l=
+ine
+> >> 81, in execfile_
+> >>       exec(code, _globals)
+> >>     File "/home/jsnow/src/qemu/docs/user/conf.py", line 15, in <module=
+>
+> >>       html_theme_options['description'] =3D u'User Mode Emulation User=
+''s
+> >> Guide'
+> >> NameError: name 'html_theme_options' is not defined
+> >>
+> >
+> > Ok, I don't get that error with sphinx 3.2.1 on fc33...
+> >
+>
+> Just in case it helps you:
+>
+> - FC33
+> - Sphinx 3.4.3
+> - alabaster 0.7.12
+> - Python 3.9.1 (3.9.1-1.fc33)
+>
+> Hopefully we can just switch over to RTD theme and ignore the fallback,
+> but you'll probably need to come up with a test matrix for sphinx
+> versions and RTD theme versions and ensure that it works on our
+> supported distro list.
+>
+> Variables:
+> - Python versions (3.6 through 3.9)
+> - Sphinx versions (?? through 3.4.3)
+> - sphinx-rtd-theme vesrions (?? through 0.5.1)
 
-v2: Delete no-op call of virtio_device_instance_finalize.
-    Add backtraces.
+Well it depends if we consider the sphinx documentation as a
+first-class product that must build on all the systems we support.
+When sphinx dependency was added, I don't think we did a thorough
+check on where it was available and ensuring it builds properly on all
+those systems. It's a bit unfair to ask that now just for the
+rtd-theme.
 
-[1]
+That patch already checks debian/fedora/ubuntu (all the dockerfiles
+where python-sphinx was installed already)
 
- #0  virtio_device_instance_finalize (obj=0x555557de5120)
-     at /home/qemu/include/hw/virtio/virtio.h:71
- #1  0x0000555555b703c9 in object_deinit (type=0x555556639860,
-      obj=<optimized out>) at ../qom/object.c:671
- #2  object_finalize (data=0x555557de5120) at ../qom/object.c:685
- #3  object_unref (objptr=0x555557de5120) at ../qom/object.c:1184
- #4  0x0000555555b4de9d in bus_free_bus_child (kid=0x555557df0660)
-     at ../hw/core/qdev.c:55
- #5  0x0000555555c65003 in call_rcu_thread (opaque=opaque@entry=0x0)
-     at ../util/rcu.c:281
+(quoting myself from earlier)
+Peter (and others), do you have an opinion about whether we should
+support the fallback/default theme?
 
-Queued by:
+Given that RTD is the kernel theme, it seems widely available:
+https://repology.org/project/python:sphinx-rtd-theme/versions.
 
- #0  bus_remove_child (bus=0x555557de5098,
-     child=child@entry=0x555557de5120) at ../hw/core/qdev.c:60
- #1  0x0000555555b4ee31 in device_unparent (obj=<optimized out>)
-     at ../hw/core/qdev.c:984
- #2  0x0000555555b70465 in object_finalize_child_property (
-     obj=<optimized out>, name=<optimized out>, opaque=0x555557de5120)
-     at ../qom/object.c:1725
- #3  0x0000555555b6fa17 in object_property_del_child (
-     child=0x555557de5120, obj=0x555557ddcf90) at ../qom/object.c:645
- #4  object_unparent (obj=0x555557de5120) at ../qom/object.c:664
- #5  0x0000555555b4c071 in bus_unparent (obj=<optimized out>)
-     at ../hw/core/bus.c:147
- #6  0x0000555555b70465 in object_finalize_child_property (
-     obj=<optimized out>, name=<optimized out>, opaque=0x555557de5098)
-     at ../qom/object.c:1725
- #7  0x0000555555b6fa17 in object_property_del_child (
-     child=0x555557de5098, obj=0x555557ddcf90) at ../qom/object.c:645
- #8  object_unparent (obj=0x555557de5098) at ../qom/object.c:664
- #9  0x0000555555b4ee19 in device_unparent (obj=<optimized out>)
-     at ../hw/core/qdev.c:981
- #10 0x0000555555b70465 in object_finalize_child_property (
-     obj=<optimized out>, name=<optimized out>, opaque=0x555557ddcf90)
-     at ../qom/object.c:1725
- #11 0x0000555555b6fa17 in object_property_del_child (
-     child=0x555557ddcf90, obj=0x55555685da10) at ../qom/object.c:645
- #12 object_unparent (obj=0x555557ddcf90) at ../qom/object.c:664
- #13 0x00005555558dc331 in pci_for_each_device_under_bus (
-     opaque=<optimized out>, fn=<optimized out>, bus=<optimized out>)
-     at ../hw/pci/pci.c:1654
+I can update the patch to check if the sphinx_rtd_theme module is
+present, and error during configure time.
 
-[2]
-
-Optimizer omits pci_qdev_unrealize, called by device_set_realized, and
-do_pci_unregister_device, called by pci_qdev_unrealize and caller of
-address_space_destroy.
-
- #0  address_space_destroy (as=0x555557ddd1b8)
-     at ../softmmu/memory.c:2840
- #1  0x0000555555b4fc53 in device_set_realized (obj=0x555557ddcf90,
-      value=<optimized out>, errp=0x7fffeea8f1e0)
-     at ../hw/core/qdev.c:850
- #2  0x0000555555b6eaa6 in property_set_bool (obj=0x555557ddcf90,
-      v=<optimized out>, name=<optimized out>, opaque=0x555556650ba0,
-     errp=0x7fffeea8f1e0) at ../qom/object.c:2255
- #3  0x0000555555b70e07 in object_property_set (
-      obj=obj@entry=0x555557ddcf90,
-      name=name@entry=0x555555db99df "realized",
-      v=v@entry=0x7fffe46b7500,
-      errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1400
- #4  0x0000555555b73c5f in object_property_set_qobject (
-      obj=obj@entry=0x555557ddcf90,
-      name=name@entry=0x555555db99df "realized",
-      value=value@entry=0x7fffe44f6180,
-      errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/qom-qobject.c:28
- #5  0x0000555555b71044 in object_property_set_bool (
-      obj=0x555557ddcf90, name=0x555555db99df "realized",
-      value=<optimized out>, errp=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1470
- #6  0x0000555555921cb7 in pcie_unplug_device (bus=<optimized out>,
-      dev=0x555557ddcf90,
-      opaque=<optimized out>) at /home/qemu/include/hw/qdev-core.h:17
- #7  0x00005555558dc331 in pci_for_each_device_under_bus (
-      opaque=<optimized out>, fn=<optimized out>,
-      bus=<optimized out>) at ../hw/pci/pci.c:1654
-
-[3]
-
- #0  virtio_device_unrealize (dev=0x555557de5120)
-     at ../hw/virtio/virtio.c:3680
- #1  0x0000555555b4fc63 in device_set_realized (obj=0x555557de5120,
-     value=<optimized out>, errp=0x7fffee28df90)
-     at ../hw/core/qdev.c:850
- #2  0x0000555555b6eab6 in property_set_bool (obj=0x555557de5120,
-     v=<optimized out>, name=<optimized out>, opaque=0x555556650ba0,
-     errp=0x7fffee28df90) at ../qom/object.c:2255
- #3  0x0000555555b70e17 in object_property_set (
-     obj=obj@entry=0x555557de5120,
-     name=name@entry=0x555555db99ff "realized",
-     v=v@entry=0x7ffdd8035040,
-     errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1400
- #4  0x0000555555b73c6f in object_property_set_qobject (
-     obj=obj@entry=0x555557de5120,
-     name=name@entry=0x555555db99ff "realized",
-     value=value@entry=0x7ffdd8035020,
-     errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/qom-qobject.c:28
- #5  0x0000555555b71054 in object_property_set_bool (
-     obj=0x555557de5120, name=name@entry=0x555555db99ff "realized",
-     value=value@entry=false, errp=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1470
- #6  0x0000555555b4edc5 in qdev_unrealize (dev=<optimized out>)
-     at ../hw/core/qdev.c:403
- #7  0x0000555555b4c2a9 in bus_set_realized (obj=<optimized out>,
-     value=<optimized out>, errp=<optimized out>)
-     at ../hw/core/bus.c:204
- #8  0x0000555555b6eab6 in property_set_bool (obj=0x555557de5098,
-     v=<optimized out>, name=<optimized out>, opaque=0x555557df04c0,
-     errp=0x7fffee28e0a0) at ../qom/object.c:2255
- #9  0x0000555555b70e17 in object_property_set (
-     obj=obj@entry=0x555557de5098,
-     name=name@entry=0x555555db99ff "realized",
-     v=v@entry=0x7ffdd8034f50,
-     errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1400
- #10 0x0000555555b73c6f in object_property_set_qobject (
-     obj=obj@entry=0x555557de5098,
-     name=name@entry=0x555555db99ff "realized",
-     value=value@entry=0x7ffdd8020630,
-     errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/qom-qobject.c:28
- #11 0x0000555555b71054 in object_property_set_bool (
-     obj=obj@entry=0x555557de5098,
-     name=name@entry=0x555555db99ff "realized",
-     value=value@entry=false, errp=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1470
- #12 0x0000555555b4c725 in qbus_unrealize (
-     bus=bus@entry=0x555557de5098) at ../hw/core/bus.c:178
- #13 0x0000555555b4fc00 in device_set_realized (obj=0x555557ddcf90,
-     value=<optimized out>, errp=0x7fffee28e1e0)
-     at ../hw/core/qdev.c:844
- #14 0x0000555555b6eab6 in property_set_bool (obj=0x555557ddcf90,
-     v=<optimized out>, name=<optimized out>, opaque=0x555556650ba0,
-     errp=0x7fffee28e1e0) at ../qom/object.c:2255
- #15 0x0000555555b70e17 in object_property_set (
-     obj=obj@entry=0x555557ddcf90,
-     name=name@entry=0x555555db99ff "realized",
-     v=v@entry=0x7ffdd8020560,
-     errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1400
- #16 0x0000555555b73c6f in object_property_set_qobject (
-     obj=obj@entry=0x555557ddcf90,
-     name=name@entry=0x555555db99ff "realized",
-     value=value@entry=0x7ffdd8020540,
-     errp=errp@entry=0x5555565bbf38 <error_abort>)
-     at ../qom/qom-qobject.c:28
- #17 0x0000555555b71054 in object_property_set_bool (
-     obj=0x555557ddcf90, name=0x555555db99ff "realized",
-     value=<optimized out>, errp=0x5555565bbf38 <error_abort>)
-     at ../qom/object.c:1470
- #18 0x0000555555921cb7 in pcie_unplug_device (bus=<optimized out>,
-     dev=0x555557ddcf90, opaque=<optimized out>)
-     at /home/qemu/include/hw/qdev-core.h:17
- #19 0x00005555558dc331 in pci_for_each_device_under_bus (
-     opaque=<optimized out>, fn=<optimized out>, bus=<optimized out>)
-     at ../hw/pci/pci.c:1654
-
-Fixes: c611c76417f ("virtio: add MemoryListener to cache ring translations")
-Buglink: https://bugs.launchpad.net/qemu/+bug/1912846
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/virtio/virtio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index b308026596..1fd1917ca0 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -3680,6 +3680,7 @@ static void virtio_device_unrealize(DeviceState *dev)
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(dev);
- 
-+    memory_listener_unregister(&vdev->listener);
-     virtio_bus_device_unplugged(vdev);
- 
-     if (vdc->unrealize != NULL) {
-@@ -3710,7 +3711,6 @@ static void virtio_device_instance_finalize(Object *obj)
- {
-     VirtIODevice *vdev = VIRTIO_DEVICE(obj);
- 
--    memory_listener_unregister(&vdev->listener);
-     virtio_device_free_virtqueues(vdev);
- 
-     g_free(vdev->config);
--- 
-2.27.0
-
+thanks
 
