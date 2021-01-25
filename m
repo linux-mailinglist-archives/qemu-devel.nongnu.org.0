@@ -2,80 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B413022A0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 09:02:19 +0100 (CET)
-Received: from localhost ([::1]:38520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD8CE3022A6
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 09:07:00 +0100 (CET)
+Received: from localhost ([::1]:45044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3wpF-0006iy-Rv
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 03:02:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52182)
+	id 1l3wtn-0001Cp-Qp
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 03:06:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53418)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3wm3-0005yo-5H
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:59:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50368)
+ id 1l3wre-0000km-5n
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 03:04:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3wm0-0004YD-0T
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:58:58 -0500
+ id 1l3wra-0006ZX-Nd
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 03:04:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611561534;
+ s=mimecast20190719; t=1611561881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=T+7WjiOmDR+iRM8h23QCGyeWUjgzrOVXBEkOoR1Jzpc=;
- b=e2/Z9AV7GsW90ff0/9Gt5EfPcOPMbxk8+PvdAEntTFFTolUS8EdfJm/Ov5pqGlXiuAugfH
- V8tl0vuF94+Mc9lfKQw2tras3FGAq1GXrJeN/BPwQ8kQ3FeSx9RyOUR6pTZ4fJLc4F2E9a
- FZEiFpQBPu2kULKY7NrJTS9kLtrajYQ=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-faHdP4_TPLGiUeNrw78dSA-1; Mon, 25 Jan 2021 02:58:51 -0500
-X-MC-Unique: faHdP4_TPLGiUeNrw78dSA-1
-Received: by mail-pg1-f198.google.com with SMTP id 18so7508942pgp.22
- for <qemu-devel@nongnu.org>; Sun, 24 Jan 2021 23:58:51 -0800 (PST)
+ bh=bVUBMf1X81PrnqblBtHI/9kKSNmKX6r1PpNBWF4wDeU=;
+ b=i92NDKjVX8qNqDJDvzTCzRQwHK84EfS0mDxxR61wm+mtaXSIbvmNlLtSnXUS0b7z+bY2D9
+ VfU6sdhh7LS9PjeUN+xU1xTZsdkrrhEE6FKEQuKulA8HyDInJctBKDG9tGLCwmhngG6uVm
+ W41Cp23XWpCHxs83NZSKF2iazZJNtHg=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-184-hBBZ7FUjNxOov0PNt1X3HA-1; Mon, 25 Jan 2021 03:04:38 -0500
+X-MC-Unique: hBBZ7FUjNxOov0PNt1X3HA-1
+Received: by mail-ed1-f70.google.com with SMTP id f4so6916395eds.5
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 00:04:38 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=T+7WjiOmDR+iRM8h23QCGyeWUjgzrOVXBEkOoR1Jzpc=;
- b=OzM/7PHigtZnMzJq5wc9MK1g7QojzjPm3PGt240QOQYkgio0bG32bZmcxQC2dLM840
- kI0c0IdllzyfvPRPsAGpA8D9CLKlrOl2OWqzNx5JkDYeusdXnslbQGoVIXZRXsg9MQtf
- 8AEnRrzj5+dyTfX4wffOOKqTTsLgSkKRHybXChCoYRnRfUCw5qat9BBN6PUna4Sc+ysY
- U7LjQzEtwQT8P4Nn7XvYOG68cwE/W1QBYqh1KNQdUQRClP9ZzOJ+Ksv1+50+nM3nfO71
- /GBFQJ0jiUYIljeCkdxj/rxLdReuAubd3OGnA91BTnO7T1tP2CMFf45dEMXkDIhcCrEZ
- rkOg==
-X-Gm-Message-State: AOAM531bwNF5HZlfp41VO0xsG66nwLLQCaBuUpV3+EKo1kzlGQT3+vMq
- KljkLpNtH1QVcrKM6j9iRfaweeAshhAAWX1krxYbKstE48uTLwrY63equPHS3XWVR7GUb3J3g0z
- e4eK1OOQFf3Qct+bfEQ564QjCvJJRGbM=
-X-Received: by 2002:a63:cb06:: with SMTP id p6mr33472pgg.146.1611561530330;
- Sun, 24 Jan 2021 23:58:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwS87XsqtPxf2gJbrD4hqTwqrP45JJpuDQVQ/0GYM6o12IEj8GnfQKy/V8E3YmrA06bLvwkNi6kDc6ABBjKzDY=
-X-Received: by 2002:a63:cb06:: with SMTP id p6mr33457pgg.146.1611561530091;
- Sun, 24 Jan 2021 23:58:50 -0800 (PST)
-MIME-Version: 1.0
-References: <20210123143128.1167797-1-pbonzini@redhat.com>
- <20210123143128.1167797-30-pbonzini@redhat.com>
- <878s8hqx7u.fsf@dusky.pond.sub.org>
-In-Reply-To: <878s8hqx7u.fsf@dusky.pond.sub.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=bVUBMf1X81PrnqblBtHI/9kKSNmKX6r1PpNBWF4wDeU=;
+ b=nnBYNpxCFCSnn6c/IDNN1kwGfQEiBxmIGP8b/FIuy6HjMpnBZxYsIDr1V+VI0iYe/X
+ HB56tjvH88qFxBKiuerz1d9AcOmVM6X2pA5mCh96xOY6n9abaNy/vOYfyQqCDr60nTOq
+ L++DIYkhI7BGafeZ3JKzhvf1taMEcQ3Pxo+Ofpo/tdXnbVBh812UXGlHbcXydPj3IGPq
+ KUBz/LuvxSxOLpEvSJOTPJ+yAKR2S9cUrFzxTyeFKEz6ouggKrLJMoAhoiRzvsE3AOdc
+ Vjy6ubEFvad6pvrh4hQwDEgKJNgUp8x28M+wDb4dXlebOVO98JOqM4oeWtxjzT6ACL5R
+ 2/dA==
+X-Gm-Message-State: AOAM530mlUt/G6abEQyA315ZbaDtikd8my/PiHue1rfA7R8NByhwxvP/
+ W1I+mLN73FbIGJLdQ2+d8X5Vg9mnP5gHf9IjzrL8QalhlwmWTwB6nvcJBMi7KDZCaA/vwA8V3CE
+ TFFjyjMOdiqGSIG0uVBMrhsLyYNYaSkdh3V0WYIGooZu0l3chq99fZ9hUX6hAabVkz9U=
+X-Received: by 2002:a17:906:f98f:: with SMTP id
+ li15mr84668ejb.123.1611561876800; 
+ Mon, 25 Jan 2021 00:04:36 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwldh8M3qWId6aaIAgEVf2uJZMiH6QcALlhwcTA1ymDXo+zhylfAaurq1QDmAjgMkqQMxIgHA==
+X-Received: by 2002:a17:906:f98f:: with SMTP id
+ li15mr84658ejb.123.1611561876597; 
+ Mon, 25 Jan 2021 00:04:36 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id t19sm7868809ejc.62.2021.01.25.00.04.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jan 2021 00:04:35 -0800 (PST)
+Subject: Re: [PATCH v7 05/11] osdep: build with non-working system() function
+To: Peter Maydell <peter.maydell@linaro.org>, Joelle van Dyne <j@getutm.app>
+References: <20210122201113.63788-1-j@getutm.app>
+ <20210122201113.63788-6-j@getutm.app>
+ <CAFEAcA8V1nv1VV6t8UN25JoA7bw96xSBamaw6VnfBavOQjj44A@mail.gmail.com>
+ <CAFEAcA8hA7_isLsAtyS8oSwcfL9nRjdSehL+qLj5C2MycbzLoA@mail.gmail.com>
+ <CA+E+eSAhNNBxY06a5iQj9ANpgmYZk0Kf6LYQPduCLwNmr1UQvA@mail.gmail.com>
+ <CAFEAcA8KZqxjDd0H7faF=YtkyY-XFB2WoP31qv_2ecFij_rLqQ@mail.gmail.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Date: Mon, 25 Jan 2021 08:58:37 +0100
-Message-ID: <CABgObfYva0+p1TP52MoTsaOBKv4=BcfAyYOT0QC=GhVR1dLD5w@mail.gmail.com>
-Subject: Re: [PULL 29/31] qemu-option: clean up id vs. list->merge_lists
-To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <59a773e4-b277-a8a2-b496-d95b515718e2@redhat.com>
+Date: Mon, 25 Jan 2021 09:04:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA8KZqxjDd0H7faF=YtkyY-XFB2WoP31qv_2ecFij_rLqQ@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="00000000000088ff6505b9b4e855"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
  RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,247 +106,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000088ff6505b9b4e855
-Content-Type: text/plain; charset="UTF-8"
+On 23/01/21 14:45, Peter Maydell wrote:
+> On Sat, 23 Jan 2021 at 03:18, Joelle van Dyne <j@getutm.app> wrote:
+> On Fri, Jan 22, 2021 at 3:17 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+>>> Can we do the "does system() exist?" check in meson.build ?
+> 
+>>> config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system'))
+> 
+>> Unfortunately, this doesn't work for iOS, which defines system() but
+>> throws a compile time error if you try to call it.
+> 
+> That's odd -- as far as I can tell the meson implementation
+> of has_function() does what I expected it to do, ie
+> "try to compile and link a little program that uses the
+> function, and see if it successfully links":
+> https://github.com/mesonbuild/meson/blob/39ede12aa5b27376341df85bc9ec254913f044bd/mesonbuild/compilers/mixins/clike.py#L791
+> There's some initial cleverness there too, so I guess some
+> part of that must be what's tripping us up.
+> 
+> In any case, I think we should be doing new checks in
+> meson.build, not configure.  Paolo, what's the right
+> way to do a meson "really compile this program and
+> check it built" test?
 
-Too late but I will point it out in the commit that cleans up the iteration.
+One possibility is that you have to specify the #include in the "prefix" 
+argument of cc.has_function for the test to behave as the QEMU code?
+
+If cc.has_function doesn't work, there's cc.compiles() and cc.links().
 
 Paolo
-
-Il lun 25 gen 2021, 08:42 Markus Armbruster <armbru@redhat.com> ha scritto:
-
-> Paolo Bonzini <pbonzini@redhat.com> writes:
->
-> > Looking at all merge-lists QemuOptsList, here is how they access their
-> > QemuOpts:
-> >
-> > reopen_opts in qemu-io-cmds.c ("qemu-img reopen -o")
-> >       qemu_opts_find(&reopen_opts, NULL)
-> >
-> > empty_opts in qemu-io.c ("qemu-io open -o")
-> >       qemu_opts_find(&empty_opts, NULL)
-> >
-> > qemu_rtc_opts ("-rtc")
-> >       qemu_find_opts_singleton("rtc")
-> >
-> > qemu_machine_opts ("-M")
-> >       qemu_find_opts_singleton("machine")
-> >
-> > qemu_action_opts ("-name")
->
-> Pasto: it's "-action".
->
-> >       qemu_opts_foreach->process_runstate_actions
-> >
-> > qemu_boot_opts ("-boot")
-> >       in hw/nvram/fw_cfg.c and hw/s390x/ipl.c:
-> >         QTAILQ_FIRST(&qemu_find_opts("bootopts")->head)
-> >       in softmmu/vl.c:
-> >         qemu_opts_find(qemu_find_opts("boot-opts"), NULL)
-> >
-> > qemu_name_opts ("-name")
-> >       qemu_opts_foreach->parse_name
-> >       parse_name does not use id
-> >
-> > qemu_mem_opts ("-m")
-> >       qemu_find_opts_singleton("memory")
-> >
-> > qemu_icount_opts ("-icount")
-> >       qemu_opts_foreach->do_configure_icount
-> >       do_configure_icount->icount_configure
-> >       icount_configure does not use id
-> >
-> > qemu_smp_opts ("-smp")
-> >       qemu_opts_find(qemu_find_opts("smp-opts"), NULL)
-> >
-> > qemu_spice_opts ("-spice")
-> >       QTAILQ_FIRST(&qemu_spice_opts.head)
-> >
-> > i.e. they don't need an id.  Sometimes its presence is ignored
-> > (e.g. when using qemu_opts_foreach), sometimes all the options
-> > with the id are skipped, sometimes only the first option on the
->
-> Let's insert
->
->     (when using qemu_find_opts_singleton() or qemu_opts_find(list, NULL))
->
-> right after skipped, and
->
-> > command line is considered.  -boot does two different things
->
->     (when using QTAILQ_FIRST)
->
-> right after considered.
->
-> > depending on who's looking at the options.
-> >
-> > With this patch we just forbid id on merge-lists QemuOptsLists; if the
-> > command line still works, it has the same semantics as before.
-> >
-> > qemu_opts_create's fail_if_exists parameter is now unnecessary:
-> >
-> > - it is unused if id is NULL
-> >
-> > - opts_parse only passes false if reached from qemu_opts_set_defaults,
-> > in which case this patch enforces that id must be NULL
-> >
-> > - other callers that can pass a non-NULL id always set it to true
-> >
-> > Assert that it is true in the only case where "fail_if_exists" matters,
-> > i.e. "id && !lists->merge_lists".  This means that if an id is present,
-> > duplicates are always forbidden, which was already the status quo.
-> >
-> > Discounting the case that aborts as it's not user-controlled (it's
-> > "just" a matter of inspecting qemu_opts_create callers), the paths
-> > through qemu_opts_create can be summarized as:
-> >
-> > - merge_lists = true: singleton opts with NULL id; non-NULL id fails
-> >
-> > - merge_lists = false: always return new opts; non-NULL id fails if dup
-> >
-> > Reviewed-by: Kevin Wolf <kwolf@redhat.com>
-> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
->
-> Reviewed-by: Markus Armbruster <armbru@redhat.com>
->
->
-
---00000000000088ff6505b9b4e855
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div dir=3D"auto">Too late but I will point it out in the=
- commit that cleans up the iteration.</div><div dir=3D"auto"><br></div>Paol=
-o<div dir=3D"auto"><br><div class=3D"gmail_quote" dir=3D"auto"><div dir=3D"=
-ltr" class=3D"gmail_attr">Il lun 25 gen 2021, 08:42 Markus Armbruster &lt;<=
-a href=3D"mailto:armbru@redhat.com" target=3D"_blank" rel=3D"noreferrer">ar=
-mbru@redhat.com</a>&gt; ha scritto:<br></div><blockquote class=3D"gmail_quo=
-te" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex"=
->Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com" rel=3D"noreferrer=
- noreferrer" target=3D"_blank">pbonzini@redhat.com</a>&gt; writes:<br>
-<br>
-&gt; Looking at all merge-lists QemuOptsList, here is how they access their=
-<br>
-&gt; QemuOpts:<br>
-&gt;<br>
-&gt; reopen_opts in qemu-io-cmds.c (&quot;qemu-img reopen -o&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_find(&amp;reopen_opts, NULL)<br>
-&gt;<br>
-&gt; empty_opts in qemu-io.c (&quot;qemu-io open -o&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_find(&amp;empty_opts, NULL)<br>
-&gt;<br>
-&gt; qemu_rtc_opts (&quot;-rtc&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_find_opts_singleton(&quot;rtc&quot;)<br=
->
-&gt;<br>
-&gt; qemu_machine_opts (&quot;-M&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_find_opts_singleton(&quot;machine&quot;=
-)<br>
-&gt;<br>
-&gt; qemu_action_opts (&quot;-name&quot;)<br>
-<br>
-Pasto: it&#39;s &quot;-action&quot;.<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_foreach-&gt;process_runstate_actio=
-ns<br>
-&gt;<br>
-&gt; qemu_boot_opts (&quot;-boot&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0in hw/nvram/fw_cfg.c and hw/s390x/ipl.c:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0QTAILQ_FIRST(&amp;qemu_find_opts(&quo=
-t;bootopts&quot;)-&gt;head)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0in softmmu/vl.c:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_find(qemu_find_opts(&quot;b=
-oot-opts&quot;), NULL)<br>
-&gt;<br>
-&gt; qemu_name_opts (&quot;-name&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_foreach-&gt;parse_name<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0parse_name does not use id<br>
-&gt;<br>
-&gt; qemu_mem_opts (&quot;-m&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_find_opts_singleton(&quot;memory&quot;)=
-<br>
-&gt;<br>
-&gt; qemu_icount_opts (&quot;-icount&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_foreach-&gt;do_configure_icount<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0do_configure_icount-&gt;icount_configure<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0icount_configure does not use id<br>
-&gt;<br>
-&gt; qemu_smp_opts (&quot;-smp&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_opts_find(qemu_find_opts(&quot;smp-opts=
-&quot;), NULL)<br>
-&gt;<br>
-&gt; qemu_spice_opts (&quot;-spice&quot;)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0QTAILQ_FIRST(&amp;qemu_spice_opts.head)<br>
-&gt;<br>
-&gt; i.e. they don&#39;t need an id.=C2=A0 Sometimes its presence is ignore=
-d<br>
-&gt; (e.g. when using qemu_opts_foreach), sometimes all the options<br>
-&gt; with the id are skipped, sometimes only the first option on the<br>
-<br>
-Let&#39;s insert<br>
-<br>
-=C2=A0 =C2=A0 (when using qemu_find_opts_singleton() or qemu_opts_find(list=
-, NULL))<br>
-<br>
-right after skipped, and<br>
-<br>
-&gt; command line is considered.=C2=A0 -boot does two different things<br>
-<br>
-=C2=A0 =C2=A0 (when using QTAILQ_FIRST)<br>
-<br>
-right after considered.<br>
-<br>
-&gt; depending on who&#39;s looking at the options.<br>
-&gt;<br>
-&gt; With this patch we just forbid id on merge-lists QemuOptsLists; if the=
-<br>
-&gt; command line still works, it has the same semantics as before.<br>
-&gt;<br>
-&gt; qemu_opts_create&#39;s fail_if_exists parameter is now unnecessary:<br=
->
-&gt;<br>
-&gt; - it is unused if id is NULL<br>
-&gt;<br>
-&gt; - opts_parse only passes false if reached from qemu_opts_set_defaults,=
-<br>
-&gt; in which case this patch enforces that id must be NULL<br>
-&gt;<br>
-&gt; - other callers that can pass a non-NULL id always set it to true<br>
-&gt;<br>
-&gt; Assert that it is true in the only case where &quot;fail_if_exists&quo=
-t; matters,<br>
-&gt; i.e. &quot;id &amp;&amp; !lists-&gt;merge_lists&quot;.=C2=A0 This mean=
-s that if an id is present,<br>
-&gt; duplicates are always forbidden, which was already the status quo.<br>
-&gt;<br>
-&gt; Discounting the case that aborts as it&#39;s not user-controlled (it&#=
-39;s<br>
-&gt; &quot;just&quot; a matter of inspecting qemu_opts_create callers), the=
- paths<br>
-&gt; through qemu_opts_create can be summarized as:<br>
-&gt;<br>
-&gt; - merge_lists =3D true: singleton opts with NULL id; non-NULL id fails=
-<br>
-&gt;<br>
-&gt; - merge_lists =3D false: always return new opts; non-NULL id fails if =
-dup<br>
-&gt;<br>
-&gt; Reviewed-by: Kevin Wolf &lt;<a href=3D"mailto:kwolf@redhat.com" rel=3D=
-"noreferrer noreferrer" target=3D"_blank">kwolf@redhat.com</a>&gt;<br>
-&gt; Signed-off-by: Paolo Bonzini &lt;<a href=3D"mailto:pbonzini@redhat.com=
-" rel=3D"noreferrer noreferrer" target=3D"_blank">pbonzini@redhat.com</a>&g=
-t;<br>
-<br>
-Reviewed-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.com" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
-<br>
-</blockquote></div></div></div>
-
---00000000000088ff6505b9b4e855--
 
 
