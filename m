@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EED302AE0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:55:56 +0100 (CET)
-Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A3FC302AE8
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:56:48 +0100 (CET)
+Received: from localhost ([::1]:59762 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l471n-000255-9A
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:55:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60690)
+	id 1l472d-0003fq-Fc
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:56:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60776)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l46xR-0007IP-NA; Mon, 25 Jan 2021 13:51:25 -0500
+ id 1l46xU-0007QP-Hw; Mon, 25 Jan 2021 13:51:28 -0500
 Received: from mail-vi1eur05on2101.outbound.protection.outlook.com
  ([40.107.21.101]:34720 helo=EUR05-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l46xM-0005Oj-4s; Mon, 25 Jan 2021 13:51:24 -0500
+ id 1l46xR-0005Oj-RZ; Mon, 25 Jan 2021 13:51:28 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=UM1TFMnLJqn67Nj/VRQGQK/7o/a4BTtAw2El+RhfsJ3d7+M+q60UdnFX+7JLTKYzGGushySDbhu9KPuSE9bDUyBlupWPF3hpcJvMBjdPSBfbcLJGvPNkPAsmQpP/seB1PoEYUnt0EvoGGiXxjKpwEpplrQ4+ujD58SrOvPpD4ldYtk5m5wLMRluFMDJG41RfZf8j3sNZ4RcL3CWY4QvLkJUs9QYLvSoypqNIX8TmA5FMtRmk+RyYmwwemkaDuFz1FcVcxeq7xtGhGvF6rqdLks5dIxnNBr9mT5aFAq98MoGzM/drgF4sidQ1t+xLt0y8WGQdqthCafGJAPYs5hJihA==
+ b=Wub/vODodEb2pzOouNVgp+wFl58WYqoj0oeSqoRr7o0rI4mhBhqib+rAT2eOQX9pDaTkHJA2LPXHksTgcBKE4IF2AxNddQGZ0xtY6b7TR3vkXcCQAq+pcOu/E1CKLunVGu6ao8QeQq1p1jC1vNhu7CN0oSLY8taHjpmsZCeazLrJIW06RY0Rd81C3QlZLcR3+kIAUj0sjenlGtjREql6ahBtBNg1u0bfEZyLuXG21f9oJVKBuoR5ESjjJ8BIE349VtyJgEaaVzYsjIWPHReGPblAVGqPN/I2OzCP7HFbjm7j0N941Oj8x9geUM9qrIvtCcvYdkzAwgmsm5zPuDXSgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OIQSU4o22lP9aSmCpVj7OuMnvGlhRqZfnTmeoHLVZq0=;
- b=Zktm1QOZKNf4hKaXctwkbzMqJWoxOO13USgYprqjWOEc2TILGDQCg1aY1MDG2pqlHci9L2miQv6WCub8J9jIqVrEkVu8R66j3UYQOPO/iiYv2vMoIomFqVmKib2rOQ+TswoYIQAwj9KjdH5gdhowHBY+XTrfon1aT+k7GD5uYGhTBVuxJWVxun+N2+PnFOdxUY+mF+0Ex9OXQEauMPnZ24vFzclCutflwA16HusA/DswJ3jhn48P9CA5HMV5m4LnfHBTEnYqO/qNSQafYG/GOSONeFew9D0AenpMh3i9aSYERpkvPczGycaYGdpuVcHRGM34IsxxZ55w31aObIG4Rw==
+ bh=YtKODNFfzg+/Pxx/gy1g3x2BerZIwQ/QT2rGYvxskzw=;
+ b=miQTUfnAVhPIVUt+G50uCxNc4EKf0M1zh2jd851UKzULLGevodGerOsafxAx95OGtHmEfOhY83pkNi3Ze31UZXo8pqtBmjuiw1MSMRn3Sr5xcCDvwbiKoTa6q6Bf6AuRVDNBWkds8opDdqy6kMQDsZmeiqgoPI0BfInoLORmlTDldqJagTIPUQY61W580AMNqR0XMAVFSICqSufaAqQsDJYDZxymiwjcU9tx8/EjTTMwriCz9hb79dlzayeUfCeg4oNWUc4JasFRgM4s6MDIV2smnVyjqbXYxBjUxP64GdCPN0c7zX1APC/c1Yrffq9KB89pANhZSs4l9qTjp5fJBQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OIQSU4o22lP9aSmCpVj7OuMnvGlhRqZfnTmeoHLVZq0=;
- b=cMs/elOTdTYO5joUDHzotBF4ba8Pqe3XxabCVqLrf6fqEki9e/W1yj7qMe5U7Krn9YKtZZdj8E+kKn3DY7r3LBJiV6wt9Xrsj8nIdEpuQEpt0q0WpFkKOph4tUo58E5w1oe755Okr6tPBf5Z0vxUVuN3gXqiqWXXVoCTg2aq5zE=
+ bh=YtKODNFfzg+/Pxx/gy1g3x2BerZIwQ/QT2rGYvxskzw=;
+ b=Yvcs2nQHXkWrMymlI/KFd9dgXNEeTf3Tm/YwNHD1leFYu7FmL+k5X85XhbxhbtpcIhxROA2MX8X423aonOxhjRGikY/EkH2EkGEPIo+H+mHpanGVGQ+0WkrEdHMDuelM2gut1D5oU7ydRY+39N/hLyoQXyGdxbt7uga11Nm7tCU=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4405.eurprd08.prod.outlook.com (2603:10a6:20b:b7::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.15; Mon, 25 Jan
- 2021 18:51:14 +0000
+ 2021 18:51:17 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.019; Mon, 25 Jan 2021
- 18:51:14 +0000
+ 18:51:17 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v9 0/6] Rework iotests/check
-Date: Mon, 25 Jan 2021 21:50:50 +0300
-Message-Id: <20210125185056.129513-1-vsementsov@virtuozzo.com>
+Subject: [PATCH v9 3/6] iotests: add testenv.py
+Date: Mon, 25 Jan 2021 21:50:53 +0300
+Message-Id: <20210125185056.129513-4-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210125185056.129513-1-vsementsov@virtuozzo.com>
+References: <20210125185056.129513-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.113]
@@ -62,48 +64,48 @@ Received: from kvm.sw.ru (185.215.60.113) by
  AM0PR01CA0134.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::39) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12 via Frontend
- Transport; Mon, 25 Jan 2021 18:51:13 +0000
+ Transport; Mon, 25 Jan 2021 18:51:16 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 46db2a7c-6ea1-4218-1fbd-08d8c16230d2
+X-MS-Office365-Filtering-Correlation-Id: 3b84fae5-0597-4e97-8a70-08d8c1623272
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4405:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4405CC0CA6A56A2D4CA860AAC1BD0@AM6PR08MB4405.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB4405FC1E05CCEFC94932CD24C1BD0@AM6PR08MB4405.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: K0YSf+Hjv3htIYr8wdMEJdFQ3QqMLrs4Z2PAoOhSJl1nlMp3lxij6LLc4V06Q4JOdZH3hp49o6118Q2oIurtRoMSjRWb7UcWrbgeCWOYnSLsT/p0BS7IR75CkHRPykk58xC4ilMQPQsiSZR7z8QEsB+f/9h+qIurj8oDrc6ruNTY+YM2yvKmJwTET36P91uvI44ddrT+wjW2LKDUQ8dvBvs2KNBzbfxub6uDZnJJfXbH880DuOU8xIeDco0iqEp4kBEa1345shbjU5IzU6gFzXC1ImH8WIAtiE826yBR64d6bTdHrHtmtoTDVzaEVl5NhYToEMguQvUTQhPA4gPbD495K4ac/7o73f12BZgcpRciLBQtHoZ9t6BU/O4ur3KLsxx4z7733eatF/A5xWGf1A==
+X-Microsoft-Antispam-Message-Info: dURiPDdztlUMrXfK12cedMgEk3RNvyjBP07QUCPUzkRIjCJe5RaovAuPxDvPqFjYUq8yyWJgqy2AQ5ZqPuN1W08R4rSe9oGMr3MkdWP4Jsi4CxJm9BnB8YOQuASweXq4hxMCZFqIgEzwmOl4dTR0iwox3Awv+tD+06+inJvEJt3yw911JF/mAnhDveVMx8zsAJZupy1n8q1+ft2xf+PUlyaF8uIQt4wP6w7dN+ILYjXd52MFuGWz8Eo/HQrytrn5/SuV7Hi4jw6ZWdDIgX8OI4pBdQmb63cJ1zt/69E4EupLBl8LKhd+Z6KmJEIi9h6qozSp1IpAvA1dVfzTqadHg3/wJxFGdlAMOjd9Wu3gOJfF4o2y4yEm9zfUcT987kugXDyqCveVTMPDGwWDsyiCeQ8Wiz338hdlMvqeMJHXGqJd/fcchIksLgmMXkUDduJGiQ741wviwUYHNdbM99RThbV5gMITCcTeD5yRc86Y+8duSHvlZwklEXmOSu8WZPlvOohgftLsmo/Zw3nJ7cXyuw==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(136003)(366004)(396003)(376002)(346002)(478600001)(2906002)(8676002)(6512007)(83380400001)(6666004)(6506007)(86362001)(5660300002)(36756003)(26005)(186003)(2616005)(16526019)(107886003)(1076003)(66476007)(66946007)(6486002)(52116002)(66556008)(4326008)(956004)(8936002)(316002)(6916009);
+ SFS:(4636009)(39840400004)(136003)(366004)(396003)(376002)(346002)(478600001)(2906002)(8676002)(6512007)(83380400001)(6666004)(6506007)(86362001)(5660300002)(36756003)(26005)(186003)(2616005)(16526019)(107886003)(1076003)(66476007)(66946007)(6486002)(52116002)(66556008)(4326008)(956004)(8936002)(316002)(6916009)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?XuQ4k0JtrGkM/QReUx+OkQ02uejOJt6y8LNkODaK6FI/tu3cebjvAY5bvCSd?=
- =?us-ascii?Q?kQfNlLpXls2o0YRLwzYFlKXFT4mQLY+Gkqbnh+WLmDJOfxGbtQwNmMNOKSsO?=
- =?us-ascii?Q?kqfvIecnVw7r/lD7BfLbnS2aL9Uy18dXu+icxB/ATT1ZjST5jmVRue1uzSaj?=
- =?us-ascii?Q?2qGVhat+l5w2TKQBVl+ztA4lJFZEh24cjSK/MckkB0xJ9ZG7a5waBrXjH4lu?=
- =?us-ascii?Q?lht3ukC7j9BISXzPXygQ+8j92uUy6J1Er83c5hGwMAuhlPuFNBZMInrlKHBV?=
- =?us-ascii?Q?0FzOFcKNwKexxQD3HWKiJ9/rF5ce4A/QZdz1HN2YvR0oMmH41JZaWS6qBpww?=
- =?us-ascii?Q?Sz9rWJeAFNBj0cj2OErGFUNumdSCFtTyeKME+RX2dC/0QzLpNQvcVSnaFr8a?=
- =?us-ascii?Q?+Ot0TnXbXozNBYiCAIcTwSUgSddVwHWDKH3vF4cWr5Nlb/UwpFlrUefjT458?=
- =?us-ascii?Q?NBPR69/sliVTvCFMh0mZbiSaACdVZ+tpOb5sLblIU/Bbh0wGXTm22sxmpcfi?=
- =?us-ascii?Q?k0jP2BMRUH1M5E/kl/bRGtx8ayaJ712VfrS01esvGj1fAhEcV/8EpIv77Dem?=
- =?us-ascii?Q?aQMvCDIDB9xzawQMyQbX8vGLTIl5q6wIwXdLlABMmkvBoc96sbWg5vXDOX+x?=
- =?us-ascii?Q?hDeW3APxhJkO4CO27S5ea/zLCHO7uzwkk6nOSkUmHBVG/lYYSWFjjZ7ZcE8V?=
- =?us-ascii?Q?imcruP/ZA7RiK05aBTgiCQIokZsYrRA+qxxIKjWxSFjIsNJvtgVPKomQAKy3?=
- =?us-ascii?Q?HHGCeCKvjPAlVO/V0rsjUxDCszAKPK9mHc6nyOi2n4cnvfFWd3JgPI8gbkPs?=
- =?us-ascii?Q?Hh8k1htz538FxZ/EMOIKBMu79PdInzpmk/UhDCsOl8OO9N5uBE1avJYogJ9S?=
- =?us-ascii?Q?EPdtCTbEgNYA4ekwjKjAkdI4NEPoC1LCo4Wh3KhVzJ35uNaNjXW5OIYrXI82?=
- =?us-ascii?Q?bUv8xuXenyuVShK62ISK4ACUNd48fxoHotiXXVObPGsUft6EuLnBFu6Ida/d?=
- =?us-ascii?Q?vcFO3weStoXjwugZORD4j+5J1/1H1RECD8g6OA/sH5CVr3dciGgW5sLPGumi?=
- =?us-ascii?Q?l63N/nM/?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?QJZbtvHEr0yTmBCY+btxV0R3LKy6qokhJtMwzbJzfQ60l74y8/VzPcw8m0MA?=
+ =?us-ascii?Q?3EHX6S8Mi6MjryRRpaqljo1McTbNSnPNAw+iD/i/AcwaIwu3dde4a0Hdcgb6?=
+ =?us-ascii?Q?wMF+Q4t4mlcdGHas/CBPufcOAR8OaWIQAhZyYVLUETDCOjnn47WqywEXo7oz?=
+ =?us-ascii?Q?Y99lF8C4zwSYry2xRFmOMAwQhsSpvxQhI7Gv5xpBAhMWjmNoM8wEMLvo+v7k?=
+ =?us-ascii?Q?XSqtnvH50ia0p0yVud7zNDJYZ3rFiDCY26buNbqLyz5V338HqXkjLys/4a8Q?=
+ =?us-ascii?Q?p0j6jzzQbUDM3wKHCI3uffjelrl2iWQGuh4aEAQDvFgfjzUtJdELEMOuPmKi?=
+ =?us-ascii?Q?QOX6Jse7FKxTErYqbEOLEaG3kP1xpNjW8Gmo30qbEbgQjzrg4ntrSRT4k19Y?=
+ =?us-ascii?Q?kETrrhTM7c1eD9JYPm+zq7fvV9hgGMvSuMJZMX8tfLz0AgNRCn1JhYAY/xzk?=
+ =?us-ascii?Q?O0am6JOHkx1jUphNQvzppNMf8DSQDrLVPnrr7w4+shtekabkta1b9qnI9Oeo?=
+ =?us-ascii?Q?/Rh2SBKupDGt0FKyMOuPRGYXrS2MZTonIHesVssx6su+asAR7KFEbPbqJMf1?=
+ =?us-ascii?Q?TJBl32UrCjc+uF5nI7ZMQVIdF7kDcl6mZGj6s1Aaw8EJB47KMwwfE+tL7vuA?=
+ =?us-ascii?Q?DBg1EeqNN24BsU8wYp6mYmshak8NF/xokZR26feKguftlYI1dPqwO5OP4+SM?=
+ =?us-ascii?Q?yX2PtELuhSDU1kr116H6kr2Z07AlsbF7p/Nva36pXSq8LbcBAuPFGeSazNLi?=
+ =?us-ascii?Q?DxnCTPwig8mglPtMqzS3NPp98Opm6SdnYfU3amRZwjBSmXor6o5ibIq1nD5N?=
+ =?us-ascii?Q?sBNDp/VFb6zNvRJYhFcT0pg2iaLq2PZB6KafgrxpX0S5quTT83KI1t6DhvnY?=
+ =?us-ascii?Q?QGV8F2a48GvC2Yqe2XDhvY3QwrAGI0Jtr7bg0p5VVkXVzlO1kNn3DesOnE9s?=
+ =?us-ascii?Q?1t0XAOcSkseeJ9zVAEldOZw59stZjrrA0yqpG7KHf8teFxtMYU3dE1/l7kuf?=
+ =?us-ascii?Q?UBG3BkVHWQuGW4RUWfKDewhYByvCmKZr0frxh/LNOhmsZy6UBRC1yHsLBNxj?=
+ =?us-ascii?Q?5TjH1VEw?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46db2a7c-6ea1-4218-1fbd-08d8c16230d2
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b84fae5-0597-4e97-8a70-08d8c1623272
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2021 18:51:14.4381 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2021 18:51:17.1711 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: G4yX5Hm8UwNcO1RC0Djsr1bInt5ON4aYwth+lYEchrZiI1yW4l0mRndVr1skdck2Ug9O6EUCB47bLy4/WZmEfOVItWx4TiaHlBMK32LNtZw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Pg8FmAfa+yx7XyNTMLfnnTvY/bHyjSzMfoWsCPoBXePRZYQKZ+0JKsccS2lcJpr++P8JWb8MljXeU/OsSt6A6qepPBFeAXmu+cqVtwdXueM=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4405
 Received-SPF: pass client-ip=40.107.21.101;
  envelope-from=vsementsov@virtuozzo.com;
@@ -133,48 +135,302 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-v9:
-01: new, one more whitespace-fixing patch
-testenv: allow case when we don't have system-arch emulator, but have several for another architectures
-         change direct os.access(..., os.X_OK) calls to new helper function which also check that path is a file
-testrunner: s/fail/not run/ for 'No qualified output'
-            drop elapsed time arg for one of 'not run' results (now no elapsed time for any 'not run' result)
+Add TestEnv class, which will handle test environment in a new python
+iotests running framework.
 
-Vladimir Sementsov-Ogievskiy (6):
-  iotests: 146: drop extra whitespaces from .out file
-  iotests: add findtests.py
-  iotests: add testenv.py
-  iotests: add testrunner.py
-  iotests: rewrite check into python
-  iotests: rename and move 169 and 199 tests
+Don't add compat=1.1 for qcow2 IMGOPTS, as v3 is default anyway.
 
- docs/devel/testing.rst                        |   50 +-
- Makefile                                      |    1 -
- tests/check-block.sh                          |    2 +-
- tests/qemu-iotests/146.out                    |  780 ++++++------
- tests/qemu-iotests/check                      | 1095 ++---------------
- tests/qemu-iotests/common.env.in              |    3 -
- tests/qemu-iotests/findtests.py               |  159 +++
- tests/qemu-iotests/group                      |  321 -----
- tests/qemu-iotests/iotests.py                 |    8 +
- tests/qemu-iotests/meson.build                |    3 -
- tests/qemu-iotests/testenv.py                 |  279 +++++
- tests/qemu-iotests/testrunner.py              |  366 ++++++
- .../migrate-bitmaps-postcopy-test}            |    0
- .../migrate-bitmaps-postcopy-test.out}        |    0
- .../{169 => tests/migrate-bitmaps-test}       |    0
- .../migrate-bitmaps-test.out}                 |    0
- 16 files changed, 1381 insertions(+), 1686 deletions(-)
- delete mode 100644 tests/qemu-iotests/common.env.in
- create mode 100644 tests/qemu-iotests/findtests.py
- delete mode 100644 tests/qemu-iotests/group
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ tests/qemu-iotests/testenv.py | 279 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 279 insertions(+)
  create mode 100644 tests/qemu-iotests/testenv.py
- create mode 100644 tests/qemu-iotests/testrunner.py
- rename tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test} (100%)
- rename tests/qemu-iotests/{199.out => tests/migrate-bitmaps-postcopy-test.out} (100%)
- rename tests/qemu-iotests/{169 => tests/migrate-bitmaps-test} (100%)
- rename tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out} (100%)
 
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+new file mode 100644
+index 0000000000..ca9cab531b
+--- /dev/null
++++ b/tests/qemu-iotests/testenv.py
+@@ -0,0 +1,279 @@
++# TestEnv class to manage test environment variables.
++#
++# Copyright (c) 2020-2021 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import os
++import sys
++import tempfile
++from pathlib import Path
++import shutil
++import collections
++import random
++import subprocess
++import glob
++from contextlib import AbstractContextManager
++from typing import Dict, Any, Optional
++
++
++def isxfile(path: str) -> bool:
++    return os.path.isfile(path) and os.access(path, os.X_OK)
++
++
++def get_default_machine(qemu_prog: str) -> str:
++    outp = subprocess.run([qemu_prog, '-machine', 'help'], check=True,
++                          universal_newlines=True,
++                          stdout=subprocess.PIPE).stdout
++
++    machines = outp.split('\n')
++    default_machine = next(m for m in machines if m.endswith(' (default)'))
++    default_machine = default_machine.split(' ', 1)[0]
++
++    alias_suf = ' (alias of {})'.format(default_machine)
++    alias = next((m for m in machines if m.endswith(alias_suf)), None)
++    if alias is not None:
++        default_machine = alias.split(' ', 1)[0]
++
++    return default_machine
++
++
++class TestEnv(AbstractContextManager['TestEnv']):
++    """
++    Manage system environment for running tests
++
++    The following variables are supported/provided. They are represented by
++    lower-cased TestEnv attributes.
++    """
++
++    # We store environment variables as instance attributes, and there are a
++    # lot of them. Silence pylint:
++    # pylint: disable=too-many-instance-attributes
++
++    env_variables = ['PYTHONPATH', 'TEST_DIR', 'SOCK_DIR', 'SAMPLE_IMG_DIR',
++                     'OUTPUT_DIR', 'PYTHON', 'QEMU_PROG', 'QEMU_IMG_PROG',
++                     'QEMU_IO_PROG', 'QEMU_NBD_PROG', 'QSD_PROG',
++                     'SOCKET_SCM_HELPER', 'QEMU_OPTIONS', 'QEMU_IMG_OPTIONS',
++                     'QEMU_IO_OPTIONS', 'QEMU_IO_OPTIONS_NO_FMT',
++                     'QEMU_NBD_OPTIONS', 'IMGOPTS', 'IMGFMT', 'IMGPROTO',
++                     'AIOMODE', 'CACHEMODE', 'VALGRIND_QEMU',
++                     'CACHEMODE_IS_DEFAULT', 'IMGFMT_GENERIC', 'IMGOPTSSYNTAX',
++                     'IMGKEYSECRET', 'QEMU_DEFAULT_MACHINE', 'MALLOC_PERTURB_']
++
++    def get_env(self) -> Dict[str, str]:
++        env = {}
++        for v in self.env_variables:
++            val = getattr(self, v.lower(), None)
++            if val is not None:
++                env[v] = val
++
++        return env
++
++    def init_directories(self):
++        """Init directory variables:
++             PYTHONPATH
++             TEST_DIR
++             SOCK_DIR
++             SAMPLE_IMG_DIR
++             OUTPUT_DIR
++        """
++        self.pythonpath = os.getenv('PYTHONPATH')
++        if self.pythonpath:
++            self.pythonpath = self.source_iotests + os.pathsep + \
++                self.pythonpath
++        else:
++            self.pythonpath = self.source_iotests
++
++        self.test_dir = os.getenv('TEST_DIR',
++                                  os.path.join(os.getcwd(), 'scratch'))
++        Path(self.test_dir).mkdir(parents=True, exist_ok=True)
++
++        self.sock_dir = os.getenv('SOCK_DIR')
++        self.tmp_sock_dir = False
++        if self.sock_dir:
++            Path(self.test_dir).mkdir(parents=True, exist_ok=True)
++        else:
++            self.sock_dir = tempfile.mkdtemp()
++            self.tmp_sock_dir = True
++
++        self.sample_img_dir = os.getenv('SAMPLE_IMG_DIR',
++                                        os.path.join(self.source_iotests,
++                                                     'sample_images'))
++
++        self.output_dir = os.getcwd()  # OUTPUT_DIR
++
++    def init_binaries(self):
++        """Init binary path variables:
++             PYTHON (for bash tests)
++             QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
++             SOCKET_SCM_HELPER
++        """
++        self.python = sys.executable
++
++        def root(*names):
++            return os.path.join(self.build_root, *names)
++
++        arch = os.uname().machine
++        if 'ppc64' in arch:
++            arch = 'ppc64'
++
++        self.qemu_prog = os.getenv('QEMU_PROG', root(f'qemu-system-{arch}'))
++        if not os.path.exists(self.qemu_prog):
++            pattern = root('qemu-system-*')
++            try:
++                progs = glob.iglob(pattern)
++                self.qemu_prog = next(p for p in progs if isxfile(p))
++            except StopIteration:
++                sys.exit("Not found any Qemu executable binary by pattern "
++                         f"'{pattern}'")
++
++        self.qemu_img_prog = os.getenv('QEMU_IMG_PROG', root('qemu-img'))
++        self.qemu_io_prog = os.getenv('QEMU_IO_PROG', root('qemu-io'))
++        self.qemu_nbd_prog = os.getenv('QEMU_NBD_PROG', root('qemu-nbd'))
++        self.qsd_prog = os.getenv('QSD_PROG', root('storage-daemon',
++                                                   'qemu-storage-daemon'))
++
++        for b in [self.qemu_img_prog, self.qemu_io_prog, self.qemu_nbd_prog,
++                  self.qemu_prog, self.qsd_prog]:
++            if not os.path.exists(b):
++                sys.exit('No such file: ' + b)
++            if not isxfile(b):
++                sys.exit('Not executable: ' + b)
++
++        helper_path = os.path.join(self.build_iotests, 'socket_scm_helper')
++        if isxfile(helper_path):
++            self.socket_scm_helper = helper_path  # SOCKET_SCM_HELPER
++
++    def __init__(self, imgfmt: str, imgproto: str, aiomode: str,
++                 cachemode: Optional[str] = None,
++                 imgopts: Optional[str] = None,
++                 misalign: bool = False,
++                 debug: bool = False,
++                 valgrind: bool = False) -> None:
++        self.imgfmt = imgfmt
++        self.imgproto = imgproto
++        self.aiomode = aiomode
++        self.imgopts = imgopts
++        self.misalign = misalign
++        self.debug = debug
++
++        if valgrind:
++            self.valgrind_qemu = 'y'
++
++        if cachemode is None:
++            self.cachemode_is_default = 'true'
++            self.cachemode = 'writeback'
++        else:
++            self.cachemode_is_default = 'false'
++            self.cachemode = cachemode
++
++        # Initialize generic paths: build_root, build_iotests, source_iotests,
++        # which are needed to initialize some environment variables. They are
++        # used by init_*() functions as well.
++
++        if os.path.islink(sys.argv[0]):
++            # called from the build tree
++            self.source_iotests = os.path.dirname(os.readlink(sys.argv[0]))
++            self.build_iotests = os.path.dirname(os.path.abspath(sys.argv[0]))
++        else:
++            # called from the source tree
++            self.source_iotests = os.getcwd()
++            self.build_iotests = self.source_iotests
++
++        self.build_root = os.path.join(self.build_iotests, '..', '..')
++
++        self.init_directories()
++        self.init_binaries()
++
++        self.malloc_perturb_ = os.getenv('MALLOC_PERTURB_',
++                                         str(random.randrange(1, 255)))
++
++        # QEMU_OPTIONS
++        self.qemu_options = '-nodefaults -display none -accel qtest'
++        machine_map = (
++            ('arm', 'virt'),
++            ('aarch64', 'virt'),
++            ('avr', 'mega2560'),
++            ('rx', 'gdbsim-r5f562n8'),
++            ('tricore', 'tricore_testboard')
++        )
++        for suffix, machine in machine_map:
++            if self.qemu_prog.endswith(f'qemu-system-{suffix}'):
++                self.qemu_options += f' -machine {machine}'
++
++        # QEMU_DEFAULT_MACHINE
++        self.qemu_default_machine = get_default_machine(self.qemu_prog)
++
++        self.qemu_img_options = os.getenv('QEMU_IMG_OPTIONS')
++        self.qemu_nbd_options = os.getenv('QEMU_NBD_OPTIONS')
++
++        is_generic = self.imgfmt not in ['bochs', 'cloop', 'dmg']
++        self.imgfmt_generic = 'true' if is_generic else 'false'
++
++        self.qemu_io_options = f'--cache {self.cachemode} --aio {self.aiomode}'
++        if self.misalign:
++            self.qemu_io_options += ' --misalign'
++
++        self.qemu_io_options_no_fmt = self.qemu_io_options
++
++        if self.imgfmt == 'luks':
++            self.imgoptssyntax = 'true'
++            self.imgkeysecret = '123456'
++            if not self.imgopts:
++                self.imgopts = 'iter-time=10'
++            elif 'iter-time=' not in self.imgopts:
++                self.imgopts += ',iter-time=10'
++        else:
++            self.imgoptssyntax = 'false'
++            self.qemu_io_options += ' -f ' + self.imgfmt
++
++        if self.imgfmt == 'vmdk':
++            if not self.imgopts:
++                self.imgopts = 'zeroed_grain=on'
++            elif 'zeroed_grain=' not in self.imgopts:
++                self.imgopts += ',zeroed_grain=on'
++
++    def close(self) -> None:
++        if self.tmp_sock_dir:
++            shutil.rmtree(self.sock_dir)
++
++    def __enter__(self) -> 'TestEnv':
++        return self
++
++    def __exit__(self, exc_type: Any, exc_value: Any, traceback: Any) -> None:
++        self.close()
++
++    def print_env(self) -> None:
++        template = """\
++QEMU          -- "{QEMU_PROG}" {QEMU_OPTIONS}
++QEMU_IMG      -- "{QEMU_IMG_PROG}" {QEMU_IMG_OPTIONS}
++QEMU_IO       -- "{QEMU_IO_PROG}" {QEMU_IO_OPTIONS}
++QEMU_NBD      -- "{QEMU_NBD_PROG}" {QEMU_NBD_OPTIONS}
++IMGFMT        -- {IMGFMT}{imgopts}
++IMGPROTO      -- {IMGPROTO}
++PLATFORM      -- {platform}
++TEST_DIR      -- {TEST_DIR}
++SOCK_DIR      -- {SOCK_DIR}
++SOCKET_SCM_HELPER -- {SOCKET_SCM_HELPER}"""
++
++        args = collections.defaultdict(str, self.get_env())
++
++        if 'IMGOPTS' in args:
++            args['imgopts'] = f" ({args['IMGOPTS']})"
++
++        u = os.uname()
++        args['platform'] = f'{u.sysname}/{u.machine} {u.nodename} {u.release}'
++
++        print(template.format_map(args))
 -- 
 2.29.2
 
