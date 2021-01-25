@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73A963027B1
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:22:58 +0100 (CET)
-Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EE9B3027B2
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:23:38 +0100 (CET)
+Received: from localhost ([::1]:50084 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l44dk-000764-VB
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:22:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40984)
+	id 1l44eP-0007yi-I2
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:23:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41316)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l44a7-0005RF-RF
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:19:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34085)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l44au-0005xu-QK
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:20:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37368)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l44a5-0006y7-GD
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:19:11 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l44at-00075l-77
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:20:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611591547;
+ s=mimecast20190719; t=1611591597;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YdCqsS/MwBurzZqcI7FMdTwvrb0HfA1rr1Kp8DPU/7k=;
- b=HPu+CJOB8Q64RiJDIVGCdIuJMuICLxc4tpl5gtKwR+Bop6GY7h+hTTabcFNOWIxvm1cxTg
- AiXtoO6VJAzKTjw89rpRipY4kIndn3BZfRYCjiWLGl5bCBhqsDtlahu9wLX4fWLnVy2WmL
- BG/Z4WhEw1anc3zIRM+sc1UUzlt3Pmk=
+ bh=Rqgd6lng9OfD+mj3f9xERc8cvQna8Zqa/0OlBz1Lo/g=;
+ b=Bd6M+yCaeSh3lpwqkD57nRRIspxiLnlOBFRV7pf0ymmykz0dsXNrARIbQnbMjtZGCfsWyT
+ AeFB0XaLRi68q20pKYYfFPdQDxyHnJb7xSyKEcLWjUgeFyztvuoCRsseArOZ2CRor/yesX
+ jozy5UFVqsdtolgzCZLYCR+RsyqbAgI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-VBV4dqjUP1a7BPHp2Xpvmw-1; Mon, 25 Jan 2021 11:19:04 -0500
-X-MC-Unique: VBV4dqjUP1a7BPHp2Xpvmw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-539-hGGgHjsBMVqapzkHk4Go_g-1; Mon, 25 Jan 2021 11:19:56 -0500
+X-MC-Unique: hGGgHjsBMVqapzkHk4Go_g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 625A91934B87
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 16:19:02 +0000 (UTC)
-Received: from localhost (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0D18D5D9DB;
- Mon, 25 Jan 2021 16:19:01 +0000 (UTC)
-Date: Mon, 25 Jan 2021 16:19:00 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E1FA51005504;
+ Mon, 25 Jan 2021 16:19:54 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-150.ams2.redhat.com [10.36.115.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89B7319C47;
+ Mon, 25 Jan 2021 16:19:53 +0000 (UTC)
+Date: Mon, 25 Jan 2021 17:19:52 +0100
+From: Kevin Wolf <kwolf@redhat.com>
 To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
-Subject: Re: [PATCH 0/2] trace: make the 'log' backend timestamp configurable
-Message-ID: <20210125161900.GA228223@stefanha-x1.localdomain>
-References: <20210125113507.224287-1-stefanha@redhat.com>
- <220bc0d1-4d1d-eeaf-6e2e-66fa33de8f98@redhat.com>
+Subject: Re: How to check when "raw" format driver uses a "regular" file?
+Message-ID: <20210125161952.GE7107@merkur.fritz.box>
+References: <1ccc5e60-65fa-21aa-713d-d5bb575b2594@redhat.com>
+ <20210125154316.GC7107@merkur.fritz.box>
+ <c53e6ff2-b09a-ee1e-110d-b64f23e7b609@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <220bc0d1-4d1d-eeaf-6e2e-66fa33de8f98@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <c53e6ff2-b09a-ee1e-110d-b64f23e7b609@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,67 +79,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---h31gzZEtNLTqOjlF
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Am 25.01.2021 um 17:01 hat Philippe Mathieu-Daudé geschrieben:
+> On 1/25/21 4:43 PM, Kevin Wolf wrote:
+> > Am 25.01.2021 um 16:05 hat Philippe Mathieu-Daudé geschrieben:
+> >> Is it possible to restrict a block driver to a particular set of
+> >> options? In my case I'd like to restrict the raw driver to regular files.
+> >>
+> >> I noticed the NFS driver does it locally in nfs_client_open(),
+> >> and FUSE has is_regular_file() -- which is POSIX specific however.
+> >>
+> >> When a backend is a SCSI drive, the block layer provide the blk_is_sg()
+> >> method to test it.
+> >> 1/ Should I provide a similar blk_is_regular_file()?
+> >>
+> >> 2/ There is no oslib function to check for regular file,
+> >> should I add one too?
+> > 
+> > I find this question confusing because on one hand you're talking about
+> > block driver implementations like NFS, but on the other hand about SCSI
+> > devices, which are users, not implementations of block drivers.
+> 
+> Sorry for the confusion and thanks for the quick answer :)
+> 
+> My question is confused because the problem is not clear to me...
+> 
+> > At which level is the code where you think you need to make this
+> > distinction?
+> 
+> (see below)
+> 
+> > The other problem is that "is this a regular file?" is probably not what
+> > you're really interested in. The content of an image can be spread
+> > across several files (for example, consider backing files) or not use a
+> > local file descriptor at all (network protocol drivers), and block layer
+> > functions should ideally make sense for all drivers unless something can
+> > only possibly make sense for a single driver (blk_is_sg might be a case
+> > of this).
+> > 
+> > I assume that you are interested in some specific property that regular
+> > files happen to provide. If at all possible, we shouldn't check for a
+> > specific backend type, but for capabilities or properties of a given
+> > block node.
+> > 
+> > So what are you really trying to do here?
+> 
+> Well, maybe this is more an emulation problem rather than a block
+> one. But system emulation consumes block layer :)
+> 
+> The problem is when emulating devices such NOR Flash (parallel mapping
+> or SD cards) we expect the block driver being a plain file (either "raw"
+> format or another) but a "regular" file. When an user passes something
+> else like a block device, odd things happen.
 
-On Mon, Jan 25, 2021 at 03:06:30PM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Hi Stefan,
->=20
-> On 1/25/21 12:35 PM, Stefan Hajnoczi wrote:
-> > Zoltan reminded me that the 'log' backend prints tids/timestamps and th=
-is can
-> > be unwanted in some cases. It's easier to look at trace output without =
-them and
-> > in some cases parsing is also more convenient with them.
-> >=20
-> > Extend -msg timestamp=3Don|off to control the 'log' backend's tid/times=
-tamp output.
-> >=20
-> > Stefan Hajnoczi (2):
-> >   error: rename error_with_timestamp to message_with_timestamp
-> >   trace: make the 'log' backend timestamp configurable
-> >=20
-> >  docs/devel/tracing.txt           |  3 +++
-> >  include/qemu/error-report.h      |  2 +-
-> >  softmmu/vl.c                     |  2 +-
-> >  util/qemu-error.c                |  4 ++--
-> >  scripts/tracetool/backend/log.py | 19 +++++++++++++------
-> >  5 files changed, 20 insertions(+), 10 deletions(-)
->=20
-> I applied your series, rebuilt, but nothing changed.
->=20
-> Apparently there is some buildsys rule missing, the
-> trace files weren't regenerated.
+What kind of odd things?
 
-I sent a separate patch that adds tracetool dependencies to meson.build:
-"[PATCH] trace: add meson custom_target() depend_files for tracetool"
+In theory, a block device shouldn't look much different from a regular
+file for almost all block layer functions. The major difference is that
+it has a fixed size, but device emulation isn't supposed to change the
+size of an image file anyway. I could imagine some differences related
+to block status. What else?
 
-That will fix the issue.
+So far no other device emulation makes the distinction, so there are a
+few options: Either they would need it, but we failed to realise this.
+Or there is a block layer bug that happens to only be exposed with your
+flash code. Or your flash code is doing something wrong. Or you really
+have a unique requirement (which we should then make explicitly known to
+block layer people) and there is a limitation in the handling of block
+devices that we weren't aware of and should document at least.
 
-Stefan
+"odd things happen" doesn't really give much information about which of
+these cases we actually have here.
 
---h31gzZEtNLTqOjlF
-Content-Type: application/pgp-signature; name="signature.asc"
+> Well, I guess I self-restricted my question to device emulation. So
+> in the cases mentioned I would like to add a check in sd_realize()/
+> pflash_cfi0?_realize() for regular file when a block drive is provided.
+> 
+> Description of problematic user case:
+> 
+> * -pflash /dev/sda
+> * -sd /dev/mmcblk0
+> 
+> User runs emulation on top of hardware (maybe like passthru?), and
+> expect underlying block to be in correct state out of QEMU.
 
------BEGIN PGP SIGNATURE-----
+Indeed, I would expect the same. Why doesn't this work, and is it
+fundamentally impossible to make it work?
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAO73QACgkQnKSrs4Gr
-c8i/EAf/bRsEfzME+4T19ODWbTE+QkBRec7xNgsYGnPeotx7bA+eCXMPtsFlaiAW
-be8K9+MI1Pk5x3YRjhWkM8fjWygh9Wm+B7ofllkQl8D02u+PxIdvrTCIsFxyJM9j
-aE3NkaY+HFQDSvQf7S2FFsoRcJPlWdg6YHvtj1UDCg/4Ej1D3N0a0SSBjt2WRvNC
-daB4v+Jn/RiNIOufX6A0Me/JDdiPYU+7aFapLjG1kZWXeKZH/VcLFstHPnmKCAif
-Rks2uxfT+BadkU576rmHMH74vpMItrIognkElV0JAHldgZY2Jq2jGyTtQGNn+21R
-I9yLZe1+Z7KgMFUBD/bteCPddyhW2g==
-=2pbx
------END PGP SIGNATURE-----
-
---h31gzZEtNLTqOjlF--
+Kevin
 
 
