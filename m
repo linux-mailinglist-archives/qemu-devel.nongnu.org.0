@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51A7430246F
+	by mail.lfdr.de (Postfix) with ESMTPS id 460C330246E
 	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 12:48:03 +0100 (CET)
-Received: from localhost ([::1]:52992 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:52826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l40Li-0000kF-5y
+	id 1l40Lh-0000fm-BU
 	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 06:48:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43518)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43516)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l40Ii-0007lL-Hz
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l40Ii-0007lK-Gn
  for qemu-devel@nongnu.org; Mon, 25 Jan 2021 06:44:56 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([207.211.30.44]:45012)
+Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44]:55173)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l40If-0007KD-DA
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 06:44:55 -0500
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l40Ig-0007KN-9z
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 06:44:56 -0500
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-543-jyeZvMl1OcOfA1sU6Nc6tA-1; Mon, 25 Jan 2021 06:44:46 -0500
-X-MC-Unique: jyeZvMl1OcOfA1sU6Nc6tA-1
+ us-mta-328-zdsEo8jQM_OcsCptfPQiJQ-1; Mon, 25 Jan 2021 06:44:48 -0500
+X-MC-Unique: zdsEo8jQM_OcsCptfPQiJQ-1
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
  [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF00B107ACE4;
- Mon, 25 Jan 2021 11:44:45 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19DDD801AB7;
+ Mon, 25 Jan 2021 11:44:47 +0000 (UTC)
 Received: from bahia.redhat.com (ovpn-112-48.ams2.redhat.com [10.36.112.48])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 86FA45D9D7;
- Mon, 25 Jan 2021 11:44:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 06C1A5D9D7;
+ Mon, 25 Jan 2021 11:44:45 +0000 (UTC)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/5] 9p next patches
-Date: Mon, 25 Jan 2021 12:44:38 +0100
-Message-Id: <20210125114443.933857-1-groug@kaod.org>
+Subject: [PULL 1/5] 9pfs/proxy: Check return value of proxy_marshal()
+Date: Mon, 25 Jan 2021 12:44:39 +0100
+Message-Id: <20210125114443.933857-2-groug@kaod.org>
+In-Reply-To: <20210125114443.933857-1-groug@kaod.org>
+References: <20210125114443.933857-1-groug@kaod.org>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=groug@kaod.org
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: kaod.org
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: softfail client-ip=207.211.30.44; envelope-from=groug@kaod.org;
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
  helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -11
-X-Spam_score: -1.2
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
  SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,39 +69,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit fef80ea073c4862bc9eaddb6ddb0ed970b8ad7c4=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/ericb/tags/pull-nbd-2021-01-20' int=
-o staging (2021-01-21 10:44:28 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  https://gitlab.com/gkurz/qemu.git tags/9p-next-pull-request=0D
-=0D
-for you to fetch changes up to 81f9766b7a16ccfcfd19e0b4525a5eeba862c851:=0D
-=0D
-  9pfs: Convert reclaim list to QSLIST (2021-01-22 18:26:40 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-This fixes a Coverity report and improves the fid reclaim logic.=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Greg Kurz (5):=0D
-  9pfs/proxy: Check return value of proxy_marshal()=0D
-  9pfs: Convert V9fsFidState::clunked to bool=0D
-  9pfs: Convert V9fsFidState::fid_list to QSIMPLEQ=0D
-  9pfs: Improve unreclaim loop=0D
-  9pfs: Convert reclaim list to QSLIST=0D
-=0D
- hw/9pfs/9p-proxy.c |   3 +-=0D
- hw/9pfs/9p.c       | 102 +++++++++++++++++++++++++--------------------=0D
- hw/9pfs/9p.h       |   8 ++--=0D
- 3 files changed, 63 insertions(+), 50 deletions(-)=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+This should always successfully write exactly two 32-bit integers.
+Make it clear with an assert(), like v9fs_receive_status() and
+v9fs_receive_response() already do when unmarshalling the same
+header.
+
+Fixes: Coverity CID 1438968
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <161035859647.1221144.4691749806675653934.stgit@bahia.lan>
+Signed-off-by: Greg Kurz <groug@kaod.org>
+---
+ hw/9pfs/9p-proxy.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/hw/9pfs/9p-proxy.c b/hw/9pfs/9p-proxy.c
+index 6f598a0f111c..4aa4e0a3baa0 100644
+--- a/hw/9pfs/9p-proxy.c
++++ b/hw/9pfs/9p-proxy.c
+@@ -537,7 +537,8 @@ static int v9fs_request(V9fsProxy *proxy, int type, voi=
+d *response, ...)
+     }
+=20
+     /* marshal the header details */
+-    proxy_marshal(iovec, 0, "dd", header.type, header.size);
++    retval =3D proxy_marshal(iovec, 0, "dd", header.type, header.size);
++    assert(retval =3D=3D 4 * 2);
+     header.size +=3D PROXY_HDR_SZ;
+=20
+     retval =3D qemu_write_full(proxy->sockfd, iovec->iov_base, header.size=
+);
+--=20
+2.26.2
 
 
