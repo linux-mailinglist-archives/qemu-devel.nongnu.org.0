@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7269730277B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:09:07 +0100 (CET)
-Received: from localhost ([::1]:57048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5515630277C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:09:55 +0100 (CET)
+Received: from localhost ([::1]:59602 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l44QM-0005wt-Cl
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:09:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36556)
+	id 1l44R8-00074E-Du
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:09:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37100)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l44OG-000503-05
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:06:56 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:35644)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l44OC-0004WB-Ea
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:06:55 -0500
-Received: by mail-ej1-x629.google.com with SMTP id ox12so18861214ejb.2
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 08:06:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=n/TOhHdo6/Zgtnx+xiIOxK04RI0pFWudQqC+i2Zk+2Y=;
- b=s/VSB2zKy56d4jUp43vreaEz6+Pjzj+vz4LGr06uHS1IzoMA5ZofwmFIQK/BLfIstU
- FXPriS5bN70KGeWhJOmoEQPv21USDQew19t5CNzHkdng/dufgczk2dN1Iq+saWC48izG
- b2OfZV1hiECHIGaGn6UlN1PDa4uFjtrWNLiS4uVTV+pR3WgScB1554y4c9pLgstbSU0e
- tTSzgjZoAU6NLzlwJyps+dwoFd0VcdMYK0g/NN8xvGgHQd/jzqQTh5FTl92d6DRVF+b8
- CA+2ADQ8if3DTGymY68OSgG6zOljnRisYMec00AQ3Bwf12wU3rzVDA9BwtQymjwboLWW
- E28g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=n/TOhHdo6/Zgtnx+xiIOxK04RI0pFWudQqC+i2Zk+2Y=;
- b=XRUlyIbtvHXFEvbmIFl/1mquGMEJvPVQlVxAecaAWSVGGjcQlGNR8mISLB4cLgTo/t
- 3I7E7BoTkgLEOiDmBoueo2BBU9x9CZMSxaCSHEMgmHpazHLETHMmVs88aVIitaQnSoek
- jte1pZQ+Bbsw4P2CpVfAQ9XKkOvfEJkeTlodiH1T0QylFv15LfRtdMHrNMWB12bBqXRx
- jqwfPjy05TELGuN/1gZCZR2/uyMk4qHfDi2of3T48jb04wa4zKxHbbzoB5EgKMl4XFf1
- sqyFd5NhOBi7Kb2UMTYJG8S6woucqnC6WtRCtDaHt8Pd+nNMlXf/pbR/ROLpBhWSlv/w
- AiIg==
-X-Gm-Message-State: AOAM530NPQ7WXr1sgi/X3gkVa+dN5Nmi9X3+NmRnw7tt6nZecw+GKgNa
- zbHsddVkZrZcfqj7VZlNDbz5qnhNVfXr09HMXdJKPQ==
-X-Google-Smtp-Source: ABdhPJxYaWc2dGJSuih1l4G/3Tb1Gau1DXurGceKlydD2p4Nx1bM+/DP0L1emXbeofbhbDimdbWGSa4Ij+4ap6ryWAc=
-X-Received: by 2002:a17:907:3d92:: with SMTP id
- he18mr832165ejc.85.1611590810555; 
- Mon, 25 Jan 2021 08:06:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l44Pq-00063E-Ot
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:08:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60196)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l44Pk-00054N-7J
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:08:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611590906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wll6Mf+URSYwsdNiT6pCE5NBwKA5H8AcjsbC1RwHLP0=;
+ b=io8+YaMYyjI4kklDoS0CkDvvXPPNAuDOSMBIJOqzbdv62lk140D9absbcEdJjIZw97SGbn
+ 6SdQZLKDVtYVXj87155EWRJWGKnzMlpGH5cGapXd5eHfg5kzzU5qhqoZTksw7xxlQgukcv
+ romlT2zE+0NAmHZKN5fMLRQAOcr7VNk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-288-Lhf7tQjYMvaJfO3dzyX8Og-1; Mon, 25 Jan 2021 11:08:24 -0500
+X-MC-Unique: Lhf7tQjYMvaJfO3dzyX8Og-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 53C0D190A7A6;
+ Mon, 25 Jan 2021 16:08:23 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-150.ams2.redhat.com [10.36.115.150])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B41356F983;
+ Mon, 25 Jan 2021 16:08:21 +0000 (UTC)
+Date: Mon, 25 Jan 2021 17:08:20 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v8 0/5] Rework iotests/check
+Message-ID: <20210125160820.GD7107@merkur.fritz.box>
+References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-References: <1ccc5e60-65fa-21aa-713d-d5bb575b2594@redhat.com>
- <20210125154316.GC7107@merkur.fritz.box>
- <c53e6ff2-b09a-ee1e-110d-b64f23e7b609@redhat.com>
-In-Reply-To: <c53e6ff2-b09a-ee1e-110d-b64f23e7b609@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 25 Jan 2021 16:06:39 +0000
-Message-ID: <CAFEAcA9i+Z5iZxmdfemfHk1EZj5v66kokOu0T9on8XVe92xGrQ@mail.gmail.com>
-Subject: Re: How to check when "raw" format driver uses a "regular" file?
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210123210428.27220-1-vsementsov@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,35 +75,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
+Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Jan 2021 at 16:03, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
-> The problem is when emulating devices such NOR Flash (parallel mapping
-> or SD cards) we expect the block driver being a plain file (either "raw"
-> format or another) but a "regular" file. When an user passes something
-> else like a block device, odd things happen.
->
-> Well, I guess I self-restricted my question to device emulation. So
-> in the cases mentioned I would like to add a check in sd_realize()/
-> pflash_cfi0?_realize() for regular file when a block drive is provided.
->
-> Description of problematic user case:
->
-> * -pflash /dev/sda
-> * -sd /dev/mmcblk0
->
-> User runs emulation on top of hardware (maybe like passthru?), and
-> expect underlying block to be in correct state out of QEMU.
+Am 23.01.2021 um 22:04 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> v8:
+> 
+> about linters:
+> 
+> I didn't modify 297, as Max already staged 297 modifications to test all files.
+> 
+> Also, now I have two complains:
+> +************* Module testenv
+> +testenv.py:158:4: R0915: Too many statements (53/50) (too-many-statements)
+> +************* Module testrunner
+> +testrunner.py:222:4: R0911: Too many return statements (7/6) (too-many-return-statements)
+>  Success: no issues found in 5 source files
+> 
+> And I feel, I'm tired to refactor it now.. Probably we can ignore them in 297. Probably I can
+> do some refactoring as a follow-up.
 
-It would certainly be nice if these cases worked (AIUI they do for
-IDE/SCSI disk emulation, right?). So what goes wrong in the SD card
-emulation case?
+I don't think these warning are very helpful, I would agree with
+disabling them (even globally).
 
-thanks
--- PMM
+When testing this with the other image formats, I found some problems.
+
+1. The first one probably means that we have changed the order of some
+   checks: 150 and 178 have reference outputs for raw and qcow2, but no
+   other formats.
+
+   Previously, the _supported_fmt line in the test would just skip the test:
+
+   $ build/check -vhdx 150 178
+   150      not run    [16:45:46] [16:45:46]                    not suitable for this image format: vhdx
+   178      not run    [16:45:46] [16:45:46]                    not suitable for this image format: vhdx
+
+   Now we seem to test first if a reference output exists and fail:
+
+   150   fail       [16:49:18] [16:49:18]   ...                  No qualified output (expected /home/kwolf/source/qemu/tests/qemu-iotests/150.out)
+   178   fail       [16:49:18] [16:49:18]   ...                  No qualified output (expected /home/kwolf/source/qemu/tests/qemu-iotests/178.out)
+
+2. Test case 146 for vpc passed previously, it fails now. This seems to
+   be because of whitespace that is checked now.
+
+3. Skipped tests display either "..." or "0.1s" as the elapsed time. The
+   old check implementation didn't display any time for them. I don't
+   really mind either of the three ways, but a consistent result would
+   be nice.
+
+Kevin
+
 
