@@ -2,51 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9413026C9
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 16:19:35 +0100 (CET)
-Received: from localhost ([::1]:35096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42F7C3026D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 16:26:33 +0100 (CET)
+Received: from localhost ([::1]:45026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l43eP-0006pz-VM
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 10:19:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50494)
+	id 1l43l9-0002pk-R7
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 10:26:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53396)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l43ce-0005ve-Cu
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:17:44 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57344)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l43cY-00015N-No
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:17:44 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 2BC5CAC97;
- Mon, 25 Jan 2021 15:17:37 +0000 (UTC)
-Subject: Re: [PATCH] replay: fix replay of the interrupts
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <161105999349.694343.16096128094758045254.stgit@pasha-ThinkPad-X280>
- <288b2af5-94d5-36c8-9eb2-de31ff1de066@redhat.com>
- <d9f8e9d4-8aef-29b6-765d-014c782e4764@ispras.ru>
- <CABgObfaFnKztrjc7mpgTxEi9R7jXD-Qed5vVcPBSGcE_nexONg@mail.gmail.com>
- <87sg6pmcsz.fsf@linaro.org> <c2799acd-a3f0-daaf-f7e0-b9a3c398f1eb@suse.de>
- <ef64105c-7ae3-9495-45ed-8a9e31fc0d10@suse.de> <87im7lkruo.fsf@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <6b9b7a08-ae70-3fe7-65c7-6c3c4a17da83@suse.de>
-Date: Mon, 25 Jan 2021 16:17:36 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l43jD-0001s2-2H
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:24:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34953)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l43jA-0004C6-Vb
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 10:24:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611588267;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=0swa4/7u1CHRHz2EnzUMxOWbEqicwF3SgvBtLym0aE0=;
+ b=Hpk9vRNejJmeyXEBsdUuzIfuRZObkdf/d2xc6tJHk58EQjhK3xFXv7SUdAY5UyZoGmiWCK
+ yC664NeHlm04GEU19WsTcNI7MGvyklvw7ZpWp/laigLPwObuGuRVwZIgsxKfS5ExZxKprP
+ sajpW2lyVqOdn/KZrlNCspyWqn/Mhu4=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-336-2ohpmOZOP7iCdH0Gp7syKA-1; Mon, 25 Jan 2021 10:24:25 -0500
+X-MC-Unique: 2ohpmOZOP7iCdH0Gp7syKA-1
+Received: by mail-ed1-f70.google.com with SMTP id j11so6848819edy.20
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 07:24:25 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=0swa4/7u1CHRHz2EnzUMxOWbEqicwF3SgvBtLym0aE0=;
+ b=JbRo4qBxGMQI68cTzg03T+wFN/Frda5G54ciExeW0+e1cjf8NIFZwBZCDZi+E7zuZI
+ pFZvY8AIN0CuVMJJcR/IA5YC2+Z7sQsjypIOOB0dfIKNFHxu/bJEJojfaReUpXhZwbth
+ KlLqBoLsUeAIfzmwCaD+HZzxCo1DgqFtP4qyA/QD9Q5Ji8VVbSboFS2LeK1ci2dokKSS
+ LcfU2sy9spH7FGy54RzKtrzwjfugVush0tPRmtlKGmKoFgFW6a/ThcXEcrcfqFaIlIZt
+ ka8E6MVAPXF6tbW0LO1w5/7AK69p6T3tGvuVXOclS2x58mCL9JQ9Kal3FrK5eyBxqh6r
+ RDUw==
+X-Gm-Message-State: AOAM530FSr5NfuapE9CKtxE3I6GM9RCEWeImd1EYy95I3t7kDJLKMaIF
+ 7mxQMilu4DyKuiP60iX6zXHJ/7BM6paQUf1QVahOG33GQX0kmho6K88I1eZBAQEgNafEiLgHz7w
+ D8JTQFJuL9/xlTig=
+X-Received: by 2002:aa7:cb42:: with SMTP id w2mr904986edt.21.1611588264077;
+ Mon, 25 Jan 2021 07:24:24 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx2nb/V/tfKwIu0mMqYRRd99NarwWcxzxegC5GM+V/Oud3UrcJ2uxGuzAfa9JByshNUwcbIZQ==
+X-Received: by 2002:aa7:cb42:: with SMTP id w2mr904975edt.21.1611588263881;
+ Mon, 25 Jan 2021 07:24:23 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id b17sm410503edv.56.2021.01.25.07.24.22
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jan 2021 07:24:23 -0800 (PST)
+Subject: Re: configure does not detect librados or librbd since the switch to
+ meson
+To: Peter Lieven <pl@kamp.de>, dillaman@redhat.com,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, philmd@redhat.com
+References: <23268a39-078d-ed13-6bb4-590ce1292662@kamp.de>
+ <b8dff207-21d9-ce8f-63b3-f877d29d90c6@kamp.de>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <bb07c231-6584-0d4d-959b-46948c9ab9bc@redhat.com>
+Date: Mon, 25 Jan 2021 16:24:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <87im7lkruo.fsf@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <b8dff207-21d9-ce8f-63b3-f877d29d90c6@kamp.de>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,95 +102,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/25/21 3:26 PM, Alex Bennée wrote:
+On 25/01/21 15:31, Peter Lieven wrote:
+> on Dedian / Ubuntu configure does no longer detect librbd / librados
+> since the switch to meson.
 > 
-> Claudio Fontana <cfontana@suse.de> writes:
+> I need to add dirs: ['/usr/lib'] to the cc.find_library for librados
+> and librbd. But I am not familiar with meson
 > 
->> On 1/25/21 1:43 PM, Claudio Fontana wrote:
->>> On 1/25/21 1:12 PM, Alex Bennée wrote:
->>>>
->>>> Paolo Bonzini <pbonzini@redhat.com> writes:
->>>>
->>>>> In general I agree, but != means that rr disabled returns true. In general
->>>>> it seems to me that rr disabled should work more or less the same as record
->>>>> mode, because there is no replay log to provide the checkpoints.
->>>>
->>>> Is this not an argument to combine the mode and check into replay.h
->>>> inline helpers with some clear semantic documentation and the call sites
->>>> become self documenting?
->>>>
->>>> if (deadline == 0 && replay_recording_or_checkpoint())
->>>>
->>>> which also makes things easier to compile away if replay isn't there?
->>>
->>>
->>> Seems that the TCG build faces a similar issue to the issue I was facing with the non-TCG build,
->>> before the non-TCG build got functional again (for x86).
->>>
->>> We solved the non-TCG build problem, by not compiling replay at all for non-TCG, plus closing our nose and stubbing away what couldn't be completely removed (yet).
->>>
->>> But the CONFIG_TCG build has the same legitimate requirement towards a non-CONFIG_REPLAY build.
->>>
->>> ie, like we have tcg_enabled(), should we have replay_enabled()? Maybe it could be reworked starting from replay_events_enabled()?
->>>
->>> And then when things are refactored properly for replay_enabled(), a non-REPLAY TCG build can basically ignore all the inner workings of replay.
->>>
->>
->> I guess to summarize the above, should there be a CONFIG_REPLAY, dependent on CONFIG_TCG, by default on,
->> but which could be disabled with
->>
->> --disable-replay
->>
->> ?
-> 
-> I'm not sure - fundamentally having replay is one of those cool things
-> you can do when you have TCG and I suspect there is less pressure to
-> have a finely tuned TCG enabled build compared to our HW accelerated
-> brethren using hypervisors. TCG plugins are a configure option purely
-> because there is a small but non-marginal cost in having it enabled. I
-> doubt replay figures that much if you are not using it.
-> 
-> That said if it makes it easier to make sure our abstractions are clean
-> and the layering is good then maybe it is worth having a build that
+> and can't say if thats the appropriate fix.
 
-I think that cleaning up these aspects would be beneficial in replay itself,
-but maybe this could be done without forcing the --disable-replay option.
+Can you include the meson-logs/meson-log.txt output?
 
-> allows us to check that. But if it's going to be super fiddly and
-> involve large amounts of code motion I doubt the "win" is big enough for
-> the effort.
-> 
-> Also I suspect the config option would be CONFIG_ICOUNT because replay
-> is just one of the features on the spectrum of:
-> 
->  deterministic icount -> record/replay -> reverse debugging
-> 
-> which all require the base support for icount.
-> 
+> Further issue: if I specify configure --enable-rbd and cc.links fails
+> the configure command succeeds and rbd support is disabled.
 
-Right, icount_enabled() is already fundamentally able to check whether replay functionality is available or not.
-Probably there is already some cleanup possible by applying this consistently.
+That's a separate bug.
 
-Other clean up opportunities I see are in making consistent checks for whether the functionality is active, and consolidate all the spread state,
-including (but not limited to):
-
-replay_mode, events_enabled, replay_is_debugging, in_checkpoint, ... (into a single struct replay ?)
-
-..and then I guess clean up the namespace from all the replay_ functions for which we need a gazillion stubs for non-TCG code..
-
-
-Ciao,
-
-Claudio
-
-
-
-
+Paolo
 
 
