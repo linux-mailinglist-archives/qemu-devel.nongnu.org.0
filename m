@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB3153020B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 04:16:34 +0100 (CET)
-Received: from localhost ([::1]:39396 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D323E3020CF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 04:22:52 +0100 (CET)
+Received: from localhost ([::1]:44862 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3sMj-0000RE-IO
-	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 22:16:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37954)
+	id 1l3sSp-0002vR-Du
+	for lists+qemu-devel@lfdr.de; Sun, 24 Jan 2021 22:22:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39092)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l3sLc-0008N4-V0
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 22:15:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:33549)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l3sLY-0005o4-8K
- for qemu-devel@nongnu.org; Sun, 24 Jan 2021 22:15:23 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611544517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3n0qig3kW8jwbV5DjlSsm7N7Oa8gVmwqBShD05kXwBE=;
- b=Rv3If/Juz8ZNVEo+I+GE3w5tIAhZNmJhSsxrE+840llBrUuaPs7p8zdiVkLJ78EBxH5MCG
- o9Env52AJ5ZPYapQrmZ3XyzNdqvhyOZuoIo2ft33/xowtGCnqtsG9ezKSIlHwwYvciSPi7
- 015l0cd6eMdPeX5mT2PfCCKTRKueXjA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-8-Xc3Uosz2M6euKWEDHXIeGQ-1; Sun, 24 Jan 2021 22:15:14 -0500
-X-MC-Unique: Xc3Uosz2M6euKWEDHXIeGQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 428BD107ACE3
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 03:15:13 +0000 (UTC)
-Received: from [10.72.12.105] (ovpn-12-105.pek2.redhat.com [10.72.12.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 7B3D15D9D7;
- Mon, 25 Jan 2021 03:15:04 +0000 (UTC)
-Subject: Re: [PATCH] virtio: Add corresponding memory_listener_unregister to
- unrealize
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
-References: <20210122200851.345259-1-eperezma@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <65ea6f69-538f-7f2e-b2d9-bb0a110f004b@redhat.com>
-Date: Mon, 25 Jan 2021 11:15:03 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l3sRi-0002Qu-O1; Sun, 24 Jan 2021 22:21:42 -0500
+Received: from mail-yb1-xb34.google.com ([2607:f8b0:4864:20::b34]:42763)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l3sRe-00087z-LU; Sun, 24 Jan 2021 22:21:41 -0500
+Received: by mail-yb1-xb34.google.com with SMTP id b11so11954972ybj.9;
+ Sun, 24 Jan 2021 19:21:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=/tmLxqIYFWBreD5TjAq9ZgOtYITHngOiHF8turJwZ+k=;
+ b=KQbyt4Ne1FWZolX1jFvRrywq5dLxtfqXYJhARcynQuoQHOE+DS39sREdu8Jn2xSEQL
+ gFybTDFLrvPGPOavS8iugOx6g1D28MjLGM4/n4I7qhqindM+tqi3sccoVghwCQ+IoWwB
+ Jf10ERMOLaQ3NvXcEjBkadtbvyBZVzLnbrZ39o7ven3BQ3xB2iK/c5GJoFpGdNPRUFaB
+ 4poUEk6Om2sCfvgFRBYj7LQBX4l556XmFrDrnaETGYQecf53Lyd4b/nfJr1Ndjwvdfgm
+ 1g5H9c+Zhb/n49NupkDNCUZ2M4jw2zM56KRqmhbeVQUjbhcg5l0PrSr5YStSBb0q4Zxq
+ Ii3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=/tmLxqIYFWBreD5TjAq9ZgOtYITHngOiHF8turJwZ+k=;
+ b=a4RwwvMV8PbHA2bC0X6yGcULkGFFXr7EqDcmtU2T73QxKDKZBr5FejZT5SNuRQXVCe
+ OPiLX3cXpXnDRdreYKXI+pTbCmd7bbQGau/Od7h5S78/R2/lbWEDX/wOuVTFdSMNqzls
+ iwfsJAWI+bcH5EELHXAeg+fLWqH22gk0F9CzjvEHH9gbKgSuOjLXaZ6uE9ivYL5w3iit
+ jwJk8Hw2vKn8QtIPRXvzSkOetTbU95Md/lHqLo3rgucq/DcnJe89gFcCHzaN2pIcjJm+
+ 65sNxil7EjDRWnkvBc538yl8wS+MA2e013jtrax/6zDlcKt6maARiMymINGbGSVFmtLz
+ Lztg==
+X-Gm-Message-State: AOAM530ZFR4tgNa338AIhusjitvJv7nHqYjhXs1bgm1R9cZstZZzzWik
+ llrFIIcQHMDMzQahqZHORESuoxy79vGGth7ASpc=
+X-Google-Smtp-Source: ABdhPJwyZGEphJL+95NEx75D3w5BbJaijHn2FDpkhXuA/ZrjsGmHVT+pJlw6ntk5PQF0wPm9OCNlcZxRVFMF8cawjjs=
+X-Received: by 2002:a25:e013:: with SMTP id x19mr21784457ybg.122.1611544896551; 
+ Sun, 24 Jan 2021 19:21:36 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210122200851.345259-1-eperezma@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
+References: <20210124202817.2624557-1-f4bug@amsat.org>
+In-Reply-To: <20210124202817.2624557-1-f4bug@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Mon, 25 Jan 2021 11:21:25 +0800
+Message-ID: <CAEUhbmXzGJGhCC62N+QwbDvxPmFoTkbwM0bKM15ZENwPwMAzwg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] hw/sd: Support block write in SPI mode
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b34;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb34.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,40 +76,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Xu <peterx@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Pragnesh Patel <pragnesh.patel@sifive.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, Jan 25, 2021 at 4:28 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> These are Bin's SD patches from his v2, rebased on sd-next.
 
-On 2021/1/23 上午4:08, Eugenio Pérez wrote:
-> Cannot destroy address spaces of IOMMU-aware virtio devices without it,
-> since they can contain memory listeners.
-
-
-It's better to explain why the one in finalize doesn't work here.
-
-Thanks
-
+Looks good to me. Thanks!
 
 >
-> Fixes: c611c76417f ("virtio: add MemoryListener to cache ring translations")
-> Buglink: https://bugs.launchpad.net/qemu/+bug/1912846
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> ---
->   hw/virtio/virtio.c | 1 +
->   1 file changed, 1 insertion(+)
+> v2:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg775712.html
 >
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index b308026596..67efd2c301 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -3680,6 +3680,7 @@ static void virtio_device_unrealize(DeviceState *dev)
->       VirtIODevice *vdev = VIRTIO_DEVICE(dev);
->       VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(dev);
->   
-> +    memory_listener_unregister(&vdev->listener);
->       virtio_bus_device_unplugged(vdev);
->   
->       if (vdc->unrealize != NULL) {
+> Based-on: <20210124201106.2602238-1-f4bug@amsat.org>
+>
+> Bin Meng (6):
+>   hw/sd: ssi-sd: Support multiple block read
+>   hw/sd: sd: Remove duplicated codes in single/multiple block read/write
+>   hw/sd: sd: Allow single/multiple block write for SPI mode
+>   hw/sd: Introduce receive_ready() callback
+>   hw/sd: ssi-sd: Support single block write
+>   hw/sd: ssi-sd: Support multiple block write
+>
+>  include/hw/sd/sd.h |   2 +
+>  hw/sd/core.c       |  13 +++++
+>  hw/sd/sd.c         |  56 +++-------------------
+>  hw/sd/ssi-sd.c     | 117 ++++++++++++++++++++++++++++++++++++++++-----
+>  4 files changed, 125 insertions(+), 63 deletions(-)
+>
 
+Regards,
+Bin
 
