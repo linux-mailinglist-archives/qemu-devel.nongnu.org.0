@@ -2,92 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05550302522
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:51:56 +0100 (CET)
-Received: from localhost ([::1]:39508 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B94CA30252F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:55:22 +0100 (CET)
+Received: from localhost ([::1]:43772 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l41LX-0007zM-3v
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:51:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58930)
+	id 1l41Or-0001Zn-QF
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:55:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59710)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l41Jd-0007IP-1O
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:49:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45848)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l41Jb-0002bO-Bf
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:49:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611578994;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/mTds6bFc+yhyLAFwC57hN7uwGhfL0yLyRjznWyaxnA=;
- b=G/ZPY2fne8TOGb05ytKDgXeSZHoZLWfwbydWFHiUHxj3MJqLoBvSdFQAwe0Be5/j1xcvf6
- TJLNAn+vrt3eYw0TpDur7+OXmuF+kSzXvKr055FD3VqVehI6DR9pFr7IrdvOKEoR467ekk
- Q7Xu8KWwNk5GN0Q4yQrJM0xCYqqF6jM=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-504-VDMaRJEGNDWWeAIcFI39AA-1; Mon, 25 Jan 2021 07:49:52 -0500
-X-MC-Unique: VDMaRJEGNDWWeAIcFI39AA-1
-Received: by mail-ed1-f71.google.com with SMTP id w4so7322493edu.0
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 04:49:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=/mTds6bFc+yhyLAFwC57hN7uwGhfL0yLyRjznWyaxnA=;
- b=BEj/2WBiwxiULB6hbD0aNs0XgwZ6rEhcT+Q4rhAgRS1onzxyi5ApKqKGUgVdqUnppp
- NP9B2XvybSjTGEpqGwEll7kEeP9iS9aFRENbAk2LwQYMHYqPue/xY7UiUuhlj5MdMmL4
- O8r1tl1cwLFVWHFxeUeXPueYt7oHN2qBVbrYWLDAuBwRRM1nLcZrKFun3guEHeEUl8nQ
- 8Cemczy/uR38LSDiQrv0Wtu4TEK8Pk833/QB5rbDI6bedLZshdI585oLCGkF9JtZmpEl
- zzcs6zKsf3wvFWY3GemvI/XiRjJKwb8MoVNqfqOfbIb3A5CEB17Y+YriXECfEZVeueGy
- 6bhw==
-X-Gm-Message-State: AOAM530/kZNZZDnHjjSN9/9SY5zfKzRSkfmeF8ts+MJTP+fAES6+H3sI
- 5iyL5VVtezRpjc6z5Qt3GYNAwhK/pp8FlZjhpQa3GOUpY6Ugr04KDosHxFLoAbPdAZs3S2woEeI
- gKEq25rUKKtxfx3o=
-X-Received: by 2002:a17:906:6dc6:: with SMTP id j6mr280381ejt.88.1611578991695; 
- Mon, 25 Jan 2021 04:49:51 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwlCfU6/JlFRsIftR5ig2NgndEbaBmNK2wYJiZ5XhH1ysX9W0+9gbfstLutk3tl7bzY1pkAlg==
-X-Received: by 2002:a17:906:6dc6:: with SMTP id j6mr280375ejt.88.1611578991537; 
- Mon, 25 Jan 2021 04:49:51 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x9sm8296275ejd.99.2021.01.25.04.49.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 04:49:50 -0800 (PST)
-Subject: Re: [PATCH 10/25] hmp: special case help options for object_add
-To: Markus Armbruster <armbru@redhat.com>
-References: <20210118163113.780171-1-pbonzini@redhat.com>
- <20210118163113.780171-11-pbonzini@redhat.com>
- <875z3lgp27.fsf@dusky.pond.sub.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3d8a34d2-47b2-5f6f-0294-66c950717397@redhat.com>
-Date: Mon, 25 Jan 2021 13:49:49 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1l41NU-0000js-7Q; Mon, 25 Jan 2021 07:53:56 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:19410)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
+ id 1l41NR-0004JB-JO; Mon, 25 Jan 2021 07:53:56 -0500
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10PCqBEG030791; Mon, 25 Jan 2021 07:53:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : mime-version : content-transfer-encoding; s=pp1;
+ bh=Z1f5uJpmLACOD2LUVJ7l0+5UMxzteZTfNOQkvSyb0hs=;
+ b=N1hPkPlEbzdkM6JTdQIzgaTsLacXr0jWONMwDeF7tu6GfOPnq4z+lucjTJ+jFDSXu2OE
+ 3QnvJjaYVq6fSgkH7ULPWwo17GFLcQMS1vTCWW/taAZKfj91CtYwaswkBo7XMbumrrKd
+ 462+PcGXZbrh856qYPj4+hkdBbNcMchAjXwPm1YFN3zT5fLrRbUJmbNpEIxyg+nAm/wZ
+ HSbvRp3t/q2E0uKd+WJ7kOSZMuAM9bz4NbFxHIeAYC0AjqrRK4N3qVdOdBhKH9N3CNZo
+ VoZM5wzeqlO7NqTQC+Qgh1EB8Ts72E7bFBI0Wuz+OUnGyw1uqWExYSJcnnnm3vTnh83A Mg== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 369wc7hw7n-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jan 2021 07:53:30 -0500
+Received: from m0098409.ppops.net (m0098409.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10PCqhKK036205;
+ Mon, 25 Jan 2021 07:53:27 -0500
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.106])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 369wc7hvtw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jan 2021 07:53:26 -0500
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+ by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10PCWXbF026260;
+ Mon, 25 Jan 2021 12:53:16 GMT
+Received: from b06cxnps4076.portsmouth.uk.ibm.com
+ (d06relay13.portsmouth.uk.ibm.com [9.149.109.198])
+ by ppma04fra.de.ibm.com with ESMTP id 369jjsg8kj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 25 Jan 2021 12:53:16 +0000
+Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
+ [9.149.105.58])
+ by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10PCrDCa35193174
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 25 Jan 2021 12:53:13 GMT
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8BBD34C04A;
+ Mon, 25 Jan 2021 12:53:13 +0000 (GMT)
+Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 7A46F4C040;
+ Mon, 25 Jan 2021 12:53:13 +0000 (GMT)
+Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
+ by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
+ Mon, 25 Jan 2021 12:53:13 +0000 (GMT)
+Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
+ id 3F4E8E23A6; Mon, 25 Jan 2021 13:53:13 +0100 (CET)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Subject: [PATCH] s390x/cpu_model: disallow unpack for --only-migratable
+Date: Mon, 25 Jan 2021 13:53:12 +0100
+Message-Id: <20210125125312.138491-1-borntraeger@de.ibm.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <875z3lgp27.fsf@dusky.pond.sub.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-25_04:2021-01-25,
+ 2021-01-25 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 clxscore=1015
+ impostorscore=0 phishscore=0 malwarescore=0 adultscore=0 mlxscore=0
+ spamscore=0 priorityscore=1501 lowpriorityscore=0 mlxlogscore=999
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101250074
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=borntraeger@de.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,22 +105,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, imammedo@redhat.com, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Halil Pasic <pasic@linux.ibm.com>,
+ Christian Borntraeger <borntraeger@de.ibm.com>,
+ qemu-s390x <qemu-s390x@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 25/01/21 13:48, Markus Armbruster wrote:
-> Paolo Bonzini <pbonzini@redhat.com> writes:
-> 
->> Fix "object_add help" and "object_add TYPE,help".
->>
->> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> 
-> Standard question when I read "Fix $interface" in a commit message: how
-> exactly is it broken?
+secure execution (aka protected virtualization) guests cannot be
+migrated at the moment. Disallow the unpack facility if the user
+specifies --only-migratable.
 
-It doesn't work at all ("Error: parameter 'id' is missing").
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
+ target/s390x/cpu_models.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Paolo
+diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+index 35179f9dc7ba..0fa082ae2546 100644
+--- a/target/s390x/cpu_models.c
++++ b/target/s390x/cpu_models.c
+@@ -26,6 +26,7 @@
+ #include "qapi/qmp/qdict.h"
+ #ifndef CONFIG_USER_ONLY
+ #include "sysemu/arch_init.h"
++#include "sysemu/sysemu.h"
+ #include "hw/pci/pci.h"
+ #endif
+ #include "qapi/qapi-commands-machine-target.h"
+@@ -878,6 +879,11 @@ static void check_compatibility(const S390CPUModel *max_model,
+         return;
+     }
+ 
++    if (only_migratable && test_bit(S390_FEAT_UNPACK, model->features)) {
++        error_setg(errp, "The unpack facility is not compatible with "
++                   "the --only-migratable option");
++    }
++
+     /* detect the missing features to properly report them */
+     bitmap_andnot(missing, model->features, max_model->features, S390_FEAT_MAX);
+     if (bitmap_empty(missing, S390_FEAT_MAX)) {
+-- 
+2.28.0
 
 
