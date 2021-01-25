@@ -2,73 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA34F30278E
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:14:46 +0100 (CET)
-Received: from localhost ([::1]:37644 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 796BF302799
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:18:03 +0100 (CET)
+Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l44Vp-0001ks-Q1
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:14:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38384)
+	id 1l44Z0-00045e-JF
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:18:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39958)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l44Tg-0000oq-N3
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:12:32 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:37002)
+ id 1l44XP-0003aQ-Mb
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:16:23 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l44Te-0005gL-1R
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:12:32 -0500
-Received: by mail-ed1-x535.google.com with SMTP id g1so16063358edu.4
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 08:12:29 -0800 (PST)
+ id 1l44XO-0006dX-B5
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:16:23 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id f1so16021596edr.12
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 08:16:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=+GTqdiXrkwABuO9MFTvUmNBT2HQ8zEm3jBiealtw/os=;
- b=m09osZxVjZtaiiUvnYPEO/TFp+lpWzLfaASEBjydtq46RTd5u3vIUedsADc3NVB9ET
- zOCZkjEdE0Z05khoC6ubc9z0jS6C5JwJtEvG7xkjpJgDrbia0dUdD4I/dSCzu04mFaZ3
- egYERNswv9UXk/S6rD/RFohAq3b4X/nR4Of56Rht2wvReStVwEiQhbgfx9HBRY/srTMb
- xwznub+D7JGKtArRz4K7H3z/6D52iRI4VIjtu4iGkjpIbT9rqu71QFykJBbSX20tL/Nr
- Gpm9MQpRLoHOTsK78lEcIss18NmHU/MLZcjwOLgW/0t+F7tkds7sDI/eSF5xznjW/sYm
- zGFA==
+ bh=TbHQX+UFwcyzNi71PDdQ77nlDe+HEZpobYtT3W14WJI=;
+ b=It9BzOsFQ9wcT/W+kgRvTVGqOGtNGWWSOTTz8LBKLc4cf+P6Kh/lp3PgfR+xzrWVNc
+ KGtG56C+psaqjT2rtSgTWzv38LmSg3Mz4W5M0FCZs4lQPhKfQqpYjEbkVM32DZIPdjde
+ 3XeYM1YuwT/shV0vHT63T1AFEAqp1qA978ZQGobKYqaK3lOdamxkNb11kb+YiOFYQFFD
+ vzMxrkcXANaI9LcYYH4Qu20hXquAKYQeuCj7Rh/SVdLS6xtf7eznTPTtMduuGPNopSM5
+ jpP09Hddjj6p+YXZTE3TGsTC3fBCVDiz0xN8oKJtANcnnSaeNwQS6kF4u2pUTWk+22H5
+ H4Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=+GTqdiXrkwABuO9MFTvUmNBT2HQ8zEm3jBiealtw/os=;
- b=YHOJEyyNPK2uZEz79sQoqL1KT9PehfFsHp65C/3vWjkr5A5VJJuPELtJEDi00Z1MZo
- ua205KAgVZRSNzPsO/Lia3Og7gJA5zIFbyHcFgUsVMQd42vXR3bzbcFNh59VSznaEtZJ
- MmpujSEQKOSzLySHaar+Feoh6YzdviOXvtV0vfFrAoTW6fOq100J13Cg4IDZA04AZ9Nr
- 95+eCKNVtM1JQLs0hHHQNUBV5li6LQHhHv2WIkXoxamOvCdSReTLvN8557BJCWyre9JQ
- 6l0JAYuCZQ+tN9+fASE5TMluVzn9sCzdHRAu9WpdFLb/QJVSgcWgE5id2UnEVJHzR94j
- oYbw==
-X-Gm-Message-State: AOAM531t17CFzwPNvHrTQm0TPBTsukXpl/yZMPTiYVN+pAMrxlfXbcOO
- NmGY7Om9pNVCbEELwCISo28=
-X-Google-Smtp-Source: ABdhPJwvZckXyiSKW/H/e1Hl1cvj0uyZCzL+GuRiwzkeTgCllu7SlKU8k5mvqcEEeGw7/S8/Pw9V3A==
-X-Received: by 2002:a05:6402:1c0b:: with SMTP id
- ck11mr1091269edb.35.1611591148233; 
- Mon, 25 Jan 2021 08:12:28 -0800 (PST)
+ bh=TbHQX+UFwcyzNi71PDdQ77nlDe+HEZpobYtT3W14WJI=;
+ b=s/lCqXyeorSChu87Jvxbm2LSxkEo8w1tYi82S0TjVNABJF6doogZ19iaSSQi2dQGz4
+ rbibeWsIIwpqAxYbTxawH0NKpE8iYPeoGy+3Q1sNGgjElLiugCyGu0HH181Gnlyzcumo
+ YqKWSNWSRdmZni87d/GKA2Wy/ddt7IzRyVQszFhAqzGEDeYCqOXjp7gm409ylOs/TH48
+ NkYUdd+U3oMH2zm9W+p6SIDZCR9die+JnyH0IBuBzkTId8htvO7qqY+HHXCyx6RA0/ee
+ YHpYqk+J9oZj0r0CP2aKAOA22FjEMt2rC3fffO7DV7D1aLyVxtdQA3srD+xdSG3T5O9H
+ hnXg==
+X-Gm-Message-State: AOAM531HZ+vYwPyFwe7BF47QiaIU0ZgzQBD11sqSa9btYke/TL8XosYv
+ DzKYK51BoJ07CJhlNZ5fMo2JINobq4E=
+X-Google-Smtp-Source: ABdhPJyCTaPdaJbpG3CZQevfa54NgaJOEB4XnMjcKgo30JG86eqF6DIOUKoRPtY9uI9XUY0tdxJGdg==
+X-Received: by 2002:a05:6402:1ad0:: with SMTP id
+ ba16mr1079731edb.287.1611591380994; 
+ Mon, 25 Jan 2021 08:16:20 -0800 (PST)
 Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id p27sm8562439ejd.72.2021.01.25.08.12.26
+ by smtp.gmail.com with ESMTPSA id q22sm8527966ejx.3.2021.01.25.08.16.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 08:12:27 -0800 (PST)
-Subject: Re: [PATCH] nsis: adjust for new MinGW paths
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210121134813.1002946-1-pbonzini@redhat.com>
+ Mon, 25 Jan 2021 08:16:20 -0800 (PST)
+Subject: Re: [PATCH v7 07/35] Hexagon (target/hexagon) scalar core helpers
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
+ <1611113349-24906-8-git-send-email-tsimpson@quicinc.com>
+ <ae9949ca-aa0c-8917-8498-2b0dc5161465@amsat.org>
+ <BYAPR02MB4886E0356F7845E71C92D87FDEA09@BYAPR02MB4886.namprd02.prod.outlook.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <65517661-cc63-8b98-4d7b-70969322cb6f@amsat.org>
-Date: Mon, 25 Jan 2021 17:12:25 +0100
+Message-ID: <6038ec96-e524-0ea7-60f2-6c9a0267e00d@amsat.org>
+Date: Mon, 25 Jan 2021 17:16:18 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210121134813.1002946-1-pbonzini@redhat.com>
+In-Reply-To: <BYAPR02MB4886E0356F7845E71C92D87FDEA09@BYAPR02MB4886.namprd02.prod.outlook.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x535.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,104 +93,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>, Joshua Watt <jpewhacker@gmail.com>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Forgot to Cc the maintainer, doing it now:
+On 1/22/21 10:50 PM, Taylor Simpson wrote:
+>> -----Original Message-----
+>> From: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> On
+>> Behalf Of Philippe Mathieu-Daudé
+>> Sent: Friday, January 22, 2021 2:30 PM
+>> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
+>> Cc: richard.henderson@linaro.org; alex.bennee@linaro.org;
+>> laurent@vivier.eu; ale@rev.ng; Brian Cain <bcain@quicinc.com>
+>> Subject: Re: [PATCH v7 07/35] Hexagon (target/hexagon) scalar core helpers
+>>
+>> Hi Taylor,
+>>
+>> On 1/20/21 4:28 AM, Taylor Simpson wrote:
+>>> The majority of helpers are generated.  Define the helper functions
+>> needed
+>>> then include the generated file
+>>>
+>>> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
+>>> ---
+>>>  target/hexagon/helper.h    |   85 ++++
+>>>  target/hexagon/op_helper.c | 1066
+>> ++++++++++++++++++++++++++++++++++++++++++++
+>>>  2 files changed, 1151 insertions(+)
+>>>  create mode 100644 target/hexagon/helper.h
+>>>  create mode 100644 target/hexagon/op_helper.c
+...
 
-./scripts/get_maintainer.pl -f qemu.nsi
-Stefan Weil <sw@weilnetz.de> (maintainer:W32, W64)
-
-On 1/21/21 2:48 PM, Paolo Bonzini wrote:
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  qemu.nsi | 42 ++++--------------------------------------
->  1 file changed, 4 insertions(+), 38 deletions(-)
+>> ../target/hexagon/op_helper.c:201:27: error: format ‘%lx’ expects
+>> argument of type ‘long unsigned int’, but argument 4 has type ‘uint64_t’
+>> {aka ‘long long unsigned int’} [-Werror=format=]
+>>   201 |             HEX_DEBUG_LOG("\tmemd[0x" TARGET_FMT_lx "] = %lu
+>> (0x%016lx)\n",
+>>       |                           ^~~~~~~~~~~
+>> ......
+>>   204 |                           env->mem_log_stores[slot].data64);
+>>       |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>>       |                                                    |
+>>       |                                                    uint64_t {aka
+>> long long unsigned int}
+>> ../target/hexagon/internal.h:28:22: note: in definition of macro
+>> ‘HEX_DEBUG_LOG’
+>>    28 |             qemu_log(__VA_ARGS__); \
+>>       |                      ^~~~~~~~~~~
 > 
-> diff --git a/qemu.nsi b/qemu.nsi
-> index 1a0112265b..c3df8c9d3b 100644
-> --- a/qemu.nsi
-> +++ b/qemu.nsi
-> @@ -35,11 +35,6 @@
->  !define OUTFILE "qemu-setup.exe"
->  !endif
->  
-> -; Optionally install documentation.
-> -!ifndef CONFIG_DOCUMENTATION
-> -!define CONFIG_DOCUMENTATION
-> -!endif
-> -
->  ; Use maximum compression.
->  SetCompressor /SOLID lzma
->  
-> @@ -116,26 +111,13 @@ Section "${PRODUCT} (required)"
->      ; Set output path to the installation directory.
->      SetOutPath "$INSTDIR"
->  
-> -    File "${SRCDIR}\Changelog"
->      File "${SRCDIR}\COPYING"
->      File "${SRCDIR}\COPYING.LIB"
->      File "${SRCDIR}\README.rst"
->      File "${SRCDIR}\VERSION"
->  
-> -    File "${BINDIR}\*.bmp"
-> -    File "${BINDIR}\*.bin"
-> -    File "${BINDIR}\*.dtb"
-> -    File "${BINDIR}\*.fd"
-> -    File "${BINDIR}\*.img"
-> -    File "${BINDIR}\*.lid"
-> -    File "${BINDIR}\*.ndrv"
-> -    File "${BINDIR}\*.rom"
-> -    File "${BINDIR}\openbios-*"
-> -
->      File /r "${BINDIR}\keymaps"
-> -!ifdef CONFIG_GTK
->      File /r "${BINDIR}\share"
-> -!endif
->  
->  !ifdef W64
->      SetRegView 64
-> @@ -176,21 +158,11 @@ SectionEnd
->  
->  !ifdef CONFIG_DOCUMENTATION
->  Section "Documentation" SectionDoc
-> -    SetOutPath "$INSTDIR"
-> -    File "${BINDIR}\index.html"
-> -    SetOutPath "$INSTDIR\interop"
-> -    FILE /r "${BINDIR}\interop\*.*"
-> -    SetOutPath "$INSTDIR\specs"
-> -    FILE /r "${BINDIR}\specs\*.*"
-> -    SetOutPath "$INSTDIR\system"
-> -    FILE /r "${BINDIR}\system\*.*"
-> -    SetOutPath "$INSTDIR\tools"
-> -    FILE /r "${BINDIR}\tools\*.*"
-> -    SetOutPath "$INSTDIR\user"
-> -    FILE /r "${BINDIR}\user\*.*"
-> +    SetOutPath "$INSTDIR\doc"
-> +    File /r "${BINDIR}\doc"
->      SetOutPath "$INSTDIR"
->      CreateDirectory "$SMPROGRAMS\${PRODUCT}"
-> -    CreateShortCut "$SMPROGRAMS\${PRODUCT}\User Documentation.lnk" "$INSTDIR\index.html" "" "$INSTDIR\index.html" 0
-> +    CreateShortCut "$SMPROGRAMS\${PRODUCT}\User Documentation.lnk" "$INSTDIR\doc\index.html" "" "$INSTDIR\doc\index.html" 0
->  SectionEnd
->  !endif
->  
-> @@ -238,13 +210,7 @@ Section "Uninstall"
->      Delete "$INSTDIR\qemu-io.exe"
->      Delete "$INSTDIR\qemu.exe"
->      Delete "$INSTDIR\qemu-system-*.exe"
-> -    Delete "$INSTDIR\index.html"
-> -    RMDir /r "$INSTDIR\interop"
-> -    RMDir /r "$INSTDIR\specs"
-> -    RMDir /r "$INSTDIR\system"
-> -    RMDir /r "$INSTDIR\tools"
-> -    RMDir /r "$INSTDIR\user"
-> -    RMDir /r "$INSTDIR\keymaps"
-> +    RMDir /r "$INSTDIR\doc"
->      RMDir /r "$INSTDIR\share"
->      ; Remove generated files
->      Delete "$INSTDIR\stderr.txt"
-> 
+> Strange, I don't see those errors.  I tested it on Ubuntu 16 with gcc 4.8 and 5.5 and Ubuntu 20 with gcc 9.3.  Could you tell me more about the system you are building on?
 
+Raspberry Pi 2, but it is probably reproducible on all 32-bit hosts
+(QEMU provides Docker images for cross-building win32, armel, armhf).
+
+> 
+> All of those HEX_DEBUG_LOG calls should be #ifdef'ed out.  Did you change the definition of HEX_DEBUG in internal.h?  Even when I set HEX_DEBUG to 1, I don't see these errors.
+
+I haven't changed anything.
+
+Regards,
+
+Phil.
 
