@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B0E302B29
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:09:41 +0100 (CET)
-Received: from localhost ([::1]:51504 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C3F302AFF
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:02:15 +0100 (CET)
+Received: from localhost ([::1]:41192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l47F6-00045z-4L
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:09:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32822)
+	id 1l477p-0007mn-KY
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:02:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60826)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l46xi-0007sO-J0; Mon, 25 Jan 2021 13:51:42 -0500
+ id 1l46xV-0007Tj-TO; Mon, 25 Jan 2021 13:51:29 -0500
 Received: from mail-eopbgr140101.outbound.protection.outlook.com
  ([40.107.14.101]:5255 helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l46xd-0005RE-FS; Mon, 25 Jan 2021 13:51:42 -0500
+ id 1l46xS-0005RE-Tk; Mon, 25 Jan 2021 13:51:29 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SEdA1nCozxgvUwxnCWYm68OTvXzGLv1n0HQ4ZfOXg/ofggvWE7s9Lwb9mC0nB7Y9bnw6z6st+w4pEJUy0j7ohTYtElWWD268P78X3j07p9xZED/E6jsn3Nz9c4vwXn+JQNfDSI2KSPeXxW3Q749gjLwsCux0QpREL2+ojrPIrHBoGVFUQ0ucBE3Xe+VeaU2winEl8HmrzaMhPTRl5DdGGl7ba3IxLMx5FrhwRSGLgMVULZv9cP7hTVgCDVxEkf1LtaIlDbWJV2ZUoqxGhDmV/pi+HIfxnr/4EL686J3jBWXZwKVuj37ZGbG22257t1TGmbE46ytxycazekhw6Yfg9w==
+ b=G0cZtP6IyiXU/PhEzlSmmH0r+/+nUpKb/3jxoGyCC44lmX70DBAVfi/9sgHdzXpTR/JRkZteYFIFKk2r0qhjjC4BG4pBr3eUnx3wtIWMfHvheTe0tZAcZffPVytpPLPocZ+6O9fjCNpXTxyTOiOtLgypw2mLem3GevYadkFBFD2AEygAMvJQrU6rBCORU/Ztmnw+3L+kt9w5kW1buk8E3lcARJHL0NSEXE9FGnRz1SnQFLdthJD/vbZZHirHLwAf44jw3uyZcrfZ61WL1C84UjZF6ZSHmV69PeV3dW86uhlMMYEGfrFXDec6MFUpPyZfjo5g+KA+PbbahEtn5gTuQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2lGHH2AEToWoll5KPTJYwQ8+oyHR4g5Gv6294qkK1HI=;
- b=fcGRq5rFuFqvKgdcJw2ds/bVX5VWcfmqAtZGq5975aMk6Tm57TG2J1iZ9MXIGi3kvZ3XNxYe/Bo4NDAleq+AD+ZOE9POlBeQPez6Y1hQ4+qL78oyaq7IEsetjbCfBLKpnPSAO/hre7qxj5wz/4XiqB4VGFJZy2y47l1iw7HoxZOCROA/OzdrnE7B1CwEJyY2Ky8VNIVD2SLlQGab1QssIpF3fR3VSIJPdzTP+kh4REkUUBD6/5zZ46gerunN0yKdwl4QVTNB5p6zGIrw8bVuRbTxY9G/viUb578/bsR0606Cr/sjsk4mCg+k8q02bNpp5tPMTG4SBJSZc8O27YWIbQ==
+ bh=jZQzbO4hDeG0+fQYXsKT+vDtbDm6eI1MFCPIw/zUxnQ=;
+ b=GnRnEaF/9HeQFwm+wPY87AFliOxlHgbWnGkAOWnxHMSGnccwuP6oxqoQqmkGzp4jZYzdmTFSpfXr7lqOnG8elN60McU5K2sqVDziVL9PGwmWqT+K5TY7zGBhIDnk3LJ6DV2IdFnGIVUnq5TKGIT0QhVKzY2ANb6X6Vpccr0kp++SSt78KjEi5JOm001WkMcdR7CmRFiUjj/4aHy95Bc/canXNmzDvR1MqJayfvekDF90XX8R7w6F9Nw+464GjXMoC2dq2+8a3a9E5d4Ae3jgHQh6xF8Tyit5HnMA01WUP+3dhtC40l8u7ybFAbIX5qkZc9f4/yFe8Vh04/Hjzt9mig==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2lGHH2AEToWoll5KPTJYwQ8+oyHR4g5Gv6294qkK1HI=;
- b=ZoSoFLIwJvB+oR32K6Gn/T7QPkMkvvo/AQKDmfUmf4+0Z0do+xcKdpCxxDwnIVaFdnutMbAXNyPTsPFrapBaxoZT0Ngqz7vycwyqKHDCvHbjVRmCwzMrujCjOvkhOBNd+9lqqo0h9I+UmhOFAYy5e0htEQ6+LYXbPcc1ignrs50=
+ bh=jZQzbO4hDeG0+fQYXsKT+vDtbDm6eI1MFCPIw/zUxnQ=;
+ b=ZwIB/KTCMIN3LQcwwXhPeYjjUOuyUKQ6pKIgWdCPioL67x81asw/Lydl1QYhO5K7aEuuO2BoFulLQjkhs/czKslzwUsERK+7AgkzIW2ZxEJsgnASZKb6fRVRgThXVQQyRI83L5SJC+Q8kg9rXL7Aipmde7KNCuAmFTukinvk9qU=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB4405.eurprd08.prod.outlook.com (2603:10a6:20b:b7::15)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.15; Mon, 25 Jan
- 2021 18:51:15 +0000
+ 2021 18:51:16 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.019; Mon, 25 Jan 2021
- 18:51:15 +0000
+ 18:51:16 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH v9 1/6] iotests: 146: drop extra whitespaces from .out file
-Date: Mon, 25 Jan 2021 21:50:51 +0300
-Message-Id: <20210125185056.129513-2-vsementsov@virtuozzo.com>
+Subject: [PATCH v9 2/6] iotests: add findtests.py
+Date: Mon, 25 Jan 2021 21:50:52 +0300
+Message-Id: <20210125185056.129513-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210125185056.129513-1-vsementsov@virtuozzo.com>
 References: <20210125185056.129513-1-vsementsov@virtuozzo.com>
@@ -64,48 +64,48 @@ Received: from kvm.sw.ru (185.215.60.113) by
  AM0PR01CA0134.eurprd01.prod.exchangelabs.com (2603:10a6:208:168::39) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12 via Frontend
- Transport; Mon, 25 Jan 2021 18:51:14 +0000
+ Transport; Mon, 25 Jan 2021 18:51:15 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 51cb2e10-177c-48c9-cd24-08d8c1623152
+X-MS-Office365-Filtering-Correlation-Id: 12a99195-e70e-46de-2760-08d8c16231ed
 X-MS-TrafficTypeDiagnostic: AM6PR08MB4405:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB4405487A8263B5DF74C423CFC1BD0@AM6PR08MB4405.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:345;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB440519BABABC52CAC5E73A80C1BD0@AM6PR08MB4405.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: BDNyB8Zqq+s1z2JjvJvjxLlXzFopyVlRGtKUf2lYftrxZjv6jihGft72DD6sjvxFl2uAS4mEfeJB7/y3I378MnH76886wogHR1ZI6HmHtqZAz3hDZhCPSoxB8ofoUADo0Xkwbz5Vk+spsrRGsfiIvksWrN8ecmpqcMRGQWF4VO+hWr72GZN+c3EEzXisu/TFJaoNdLgZkoitQvixmptpnbudOXy5VRzaujNk9f3I1zgrbpIm594Kgo6o/sVC8ILiXRBiFvIW3fH6mYQ+3WdInNF2M0wg9IVTwHEyLeF4hm/LiXTQpTASx5INsOB7EH0mvi4p3CG9Pb8iucZvdAUYX26aRM2JorCumxAzO7HM1KYsxLjy5aEocYp/e+FOPu1tRq9lRctNDpf/f3RkwX4VI1LMD4RQUIe7aHN0uzjWS+UjggtCPhBcDfdjN2OZC3Ti
+X-Microsoft-Antispam-Message-Info: dReIdRe4v6laZNhU3MFiNfjrIRflOnWl/1ywRB7Z5iC4nJ//Eyq3iAuF/pmrayl2d4XhWQKznVZP9/qXBz1kJXNfL9swRhdfVnBp+NeYTpbitucCYqDRUSOBGol/EN8RwmlxRl8ta/5/8oBRJMKyprcjh3YjMz14VVroe08fgfDNWwNFVyNC2vN0c+uImP5u+Z8a7rv+vo56TPx9Ajhakk32SghxwCPZVtp/SAb2JuuK9yxANXuAEYA97o8XdmCQRYi3yKwOuRCcOCPr3vJwOrFkTxRp77Bq+lilODSOhW6nEpAJH2IgkwborYPO2ZtSN2FRU9Ii2tfW2HbhMSnjqjekEFOYfgZP1z2jhEgw8wyodjZNyFeimPBvrIYRIH1kfIoFwxL93SdR2oPULxz/j+A/R3xMsNsBbOo6YEeaJ6Q24iO3mGFfi7lmPgElRw4FTwHjP4+XndbFnbyU44UlLFEf26Okzc1Ouitr/XpUzHipgczh1fZcD5BDcBqKqHt8Y4IkvBWARaEMivwvkoUj/w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(39840400004)(136003)(366004)(396003)(376002)(346002)(478600001)(2906002)(8676002)(6512007)(83380400001)(6666004)(6506007)(86362001)(5660300002)(36756003)(26005)(186003)(2616005)(16526019)(107886003)(1076003)(66476007)(66946007)(6486002)(30864003)(52116002)(66556008)(4326008)(956004)(8936002)(316002)(6916009)(142923001)(559001)(579004);
+ SFS:(4636009)(39840400004)(136003)(366004)(396003)(376002)(346002)(478600001)(2906002)(8676002)(6512007)(83380400001)(6666004)(6506007)(86362001)(5660300002)(36756003)(26005)(186003)(2616005)(16526019)(107886003)(1076003)(66476007)(66946007)(6486002)(52116002)(66556008)(4326008)(956004)(8936002)(316002)(6916009)(2004002);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?VNDK5jwVpEJz/m4nOzKyyQBJmfzVoo/ZhJDl/o+TI9154yBM7wGjZv/qO08H?=
- =?us-ascii?Q?E0MbvpFqnB+oV62y5ZQsmvc79sRsnTIpHPSVcPeJNKgUq2dIfcBIRbR1IV1K?=
- =?us-ascii?Q?y5lJGlNwfubX+axqCqh7VM8kR9ur9TK1MFSrh2F7FJ2m/SycaqT1yrsQ6BbJ?=
- =?us-ascii?Q?liVC8d8qEyNKQA6uqZQE+5kFtiuJPD00ERu8BFgrKH21D9UK6VvA+BzQWItW?=
- =?us-ascii?Q?KEa4ATHYE3lvKCXW6u1HTDzKu8/h1r/QacOWgXtmmhJIVXH8cBvErP3Wed9t?=
- =?us-ascii?Q?GBHcMqMiM7WPOF3+DXHhJ0DrTnshX4ng04+hMXkp4p6NYjrJ+4PdHBYkdXUY?=
- =?us-ascii?Q?OlQkR1CpUj1OLvggcMJ+vVb8j+mDHuh3nUc66MgpxU9cNLhzgXtQzKCDoyXr?=
- =?us-ascii?Q?Fsy/wtcphTy9xsonJieMXpm19Brcon/glxESlGCw3WCzJLGtI18zSlVmWIg0?=
- =?us-ascii?Q?69Okk/Eu7iVY2sMohvHEMfAXF7KaBjZA+Z/NYeW0M0ts9iHt5I/V4GflITTK?=
- =?us-ascii?Q?L0vr5byxpmD6wZdMtj72V0wtv3d4uQ4z1T03yjkUdl0CUDxxpVw7P867wAxW?=
- =?us-ascii?Q?nab1WCa4EoYNfkXsYu7rJ7iYnyU4nxVwSVM2YAD40Klka+2yEORln46D6I2F?=
- =?us-ascii?Q?ymbwq4Xvb5L7RpRVSJqPYa7niaaGFeXy7FSEky/91USIUCLkt2+azIU/ui9n?=
- =?us-ascii?Q?CNCpUXTRzQiGtKxKVcNtCOrmhMHooTu1ziayb82g+3WasGD18yoOTSKsSPdk?=
- =?us-ascii?Q?6xcxpIN2p7XOS+idGvkYq7xmjIKb1s4CPhlLgFDAkJ4niTXWYpg3E5fqtCLb?=
- =?us-ascii?Q?7bTD8qL2MjmqAVmd1R6WTtN7Jv0H7ZXwZ4JSwUMA33MPJR7wDcfwbXhW3bco?=
- =?us-ascii?Q?VufY8ZU3XrvGu5k2BkFTjai7rh0zpF5pFjwv9eyKbRlbZYceS1dp/Fm1gRaj?=
- =?us-ascii?Q?LprPy1MyShS7VZ7Z4jLigs70Djckbwra9lhw0nLbK8Jqn3EYNVxmgNskgKpn?=
- =?us-ascii?Q?toHINs92+0v5+hEine4/vXO9KpftXIuFiVWsMw5URLdEqwQTPFBnRVq2YhVS?=
- =?us-ascii?Q?VN98qNSB?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?/yTaVxIz2QQUrGr2dWVEEwwimoPJ60ebmh4laeb/FkWAQ+LrVwZaEqGYmX6H?=
+ =?us-ascii?Q?OMcDX4H6cZHeqvg5Yr0sZV2eQWTdVNW6g5Bu+rTpzVwgnYgLQayBj7JBp4Z2?=
+ =?us-ascii?Q?zVWqNvjjNUWg7Q6FJ5cO6gpG+Vj4iJRWCMf/2Gvwz6FNm6k28rd3J1Gb4X6u?=
+ =?us-ascii?Q?G3ThStrVoEFGQTUWhHEmhjo0nosuFsYt3z344eR09cqCq8PpdOiFETdp0+F3?=
+ =?us-ascii?Q?ApNLE5Ho3AW3cwqj+8HD6szjCPXlKHdhztWOV0vlmJtHD813H8tlenU/IUVA?=
+ =?us-ascii?Q?aClJG6RZe8ZO6vxB4AeA/u4KZqAwDu9HWviDugxGK4IbtTB6v9zLABubpU2b?=
+ =?us-ascii?Q?wZTH/ueoQVUKswdZE5LdSQq5fEgJN38g57cwFioSBkR9FviVNejBEOn7zy/6?=
+ =?us-ascii?Q?33WbgP0pD/hQFKv/dwq6mKvTcaAw0qWHg2oBk49CuphxKncIKkRvlPUQo6sx?=
+ =?us-ascii?Q?joPzA+hWQRrBrMxSTDP+9f/wNmPE5ovi8hsv8YTYBnoyTatcelw6/0toFwYS?=
+ =?us-ascii?Q?I3zPYZukdbhthyXjQLga2+4BgjMX0rRVYv6Gzdt3QK/t8Zqc31LeOfau3kMV?=
+ =?us-ascii?Q?A5mnb15Xt1qEZgh4DwMywIVzNPY7pwHbTpdr6nwqDaP92YeySx1lV0r674DA?=
+ =?us-ascii?Q?hMgWzBwLAswTaKkjvXZEgMYUc/8r+g5kjUYon7nK0xjb9NKcNi9+/24Ag6aN?=
+ =?us-ascii?Q?CuvueY5TRguM0IMCLl18Wd7ySm3q5YZ7eRRP8UGKdWVONYSahfXN/aTALwGm?=
+ =?us-ascii?Q?DExKPGpGpq+b03pyxLu+MBQ5o5LvhbQ5NJ/pKTnlgF898C1QXTJjyHZ7mQrK?=
+ =?us-ascii?Q?bNS5AqrfNMUYAlbPZGEQT60R0J5m8DzOeFwbmMn4TVpCLC3NnB15UuzsXjS7?=
+ =?us-ascii?Q?PpmFOWwaN+X5QfSzHv+RCv7J9VP/sFSPWkizOQ0g+8v6fR/UZKQKapRjRANV?=
+ =?us-ascii?Q?DPXz7+C/7VvlqJRZS0vXx7OQ3Oc91RlGEOEKEBjotQZ5ID4ctE0aWdPiTFcu?=
+ =?us-ascii?Q?qgy5dcwblsDN3PoUtyL50pbBmOYkjOy4tBYhjcDuMQG4z3BVf14adqeQ2P3Q?=
+ =?us-ascii?Q?2jI+yjO3?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 51cb2e10-177c-48c9-cd24-08d8c1623152
+X-MS-Exchange-CrossTenant-Network-Message-Id: 12a99195-e70e-46de-2760-08d8c16231ed
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2021 18:51:15.4656 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2021 18:51:16.3209 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rQtW9MaOahw83SIiNsUHy6T3aTyl7tm60R2O6YWM8pmS781H0WMu8AqsZL5cbPpiGqDQRe+sP2TA3Qd8aWlR46T4b2+JLTmovypW67+uz5o=
+X-MS-Exchange-CrossTenant-UserPrincipalName: HzRLt4ZYRfsorPosnOGC2vbD+oepkSbGyjOLcpOVVzAjPWZxhsTj9joQuL7QbHoJ+yTBkleG9lXJt8bmSBmLRgs+Shx7HKuJfCfOeBAIxdI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4405
 Received-SPF: pass client-ip=40.107.14.101;
  envelope-from=vsementsov@virtuozzo.com;
@@ -135,853 +135,288 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-check script will be stricter soon about whitespaces, so fix 146.out
-now.
+Add python script with new logic of searching for tests:
+
+Current ./check behavior:
+ - tests are named [0-9][0-9][0-9]
+ - tests must be registered in group file (even if test doesn't belong
+   to any group, like 142)
+
+Behavior of findtests.py:
+ - group file is dropped
+ - tests are all files in tests/ subdirectory (except for .out files),
+   so it's not needed more to "register the test", just create it with
+   appropriate name in tests/ subdirectory. Old names like
+   [0-9][0-9][0-9] (in root iotests directory) are supported too, but
+   not recommended for new tests
+ - groups are parsed from '# group: ' line inside test files
+ - optional file group.local may be used to define some additional
+   groups for downstreams
+ - 'disabled' group is used to temporary disable tests. So instead of
+   commenting tests in old 'group' file you now can add them to
+   disabled group with help of 'group.local' file
+ - selecting test ranges like 5-15 are not supported more
+   (to support restarting failed ./check command from the middle of the
+    process, new argument is added: --start-from)
+
+Benefits:
+ - no rebase conflicts in group file on patch porting from branch to
+   branch
+ - no conflicts in upstream, when different series want to occupy same
+   test number
+ - meaningful names for test files
+   For example, with digital number, when some person wants to add some
+   test about block-stream, he most probably will just create a new
+   test. But if there would be test-block-stream test already, he will
+   at first look at it and may be just add a test-case into it.
+   And anyway meaningful names are better.
+
+This commit doesn't update check behavior (which will be done in
+further commit), still, the documentation changed like new behavior is
+already here.  Let's live with this small inconsistency for the
+following few commits, until final change.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- tests/qemu-iotests/146.out | 780 ++++++++++++++++++-------------------
- 1 file changed, 390 insertions(+), 390 deletions(-)
+ docs/devel/testing.rst          |  50 +++++++++-
+ tests/qemu-iotests/findtests.py | 159 ++++++++++++++++++++++++++++++++
+ 2 files changed, 208 insertions(+), 1 deletion(-)
+ create mode 100644 tests/qemu-iotests/findtests.py
 
-diff --git a/tests/qemu-iotests/146.out b/tests/qemu-iotests/146.out
-index 80513cdd06..c67ba4ba7c 100644
---- a/tests/qemu-iotests/146.out
-+++ b/tests/qemu-iotests/146.out
-@@ -2,414 +2,414 @@ QA output created by 146
+diff --git a/docs/devel/testing.rst b/docs/devel/testing.rst
+index 0aa7a13bba..454b706141 100644
+--- a/docs/devel/testing.rst
++++ b/docs/devel/testing.rst
+@@ -111,7 +111,7 @@ check-block
+ -----------
  
- === Testing VPC Autodetect ===
+ ``make check-block`` runs a subset of the block layer iotests (the tests that
+-are in the "auto" group in ``tests/qemu-iotests/group``).
++are in the "auto" group).
+ See the "QEMU iotests" section below for more information.
  
--[{ "start": 0, "length": 136363130880, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 136363130880, "depth": 0, "zero": true, "data": false}]
+ GCC gcov support
+@@ -224,6 +224,54 @@ another application on the host may have locked the file, possibly leading to a
+ test failure.  If using such devices are explicitly desired, consider adding
+ ``locking=off`` option to disable image locking.
  
- === Testing VPC with current_size force ===
++Test case groups
++----------------
++
++"Tests may belong to one or more test groups, which are defined in the form
++of a comment in the test source file. By convention, test groups are listed
++in the second line of the test file, after the "#!/..." line, like this:
++
++.. code::
++
++  #!/usr/bin/env python3
++  # group: auto quick
++  #
++  ...
++
++Another way of defining groups is creating the tests/qemu-iotests/group.local
++file. This should be used only for downstream (this file should never appear
++in upstream). This file may be used for defining some downstream test groups
++or for temporarily disabling tests, like this:
++
++.. code::
++
++  # groups for some company downstream process
++  #
++  # ci - tests to run on build
++  # down - our downstream tests, not for upstream
++  #
++  # Format of each line is:
++  # TEST_NAME TEST_GROUP [TEST_GROUP ]...
++
++  013 ci
++  210 disabled
++  215 disabled
++  our-ugly-workaround-test down ci
++
++Note that the following group names have a special meaning:
++
++- quick: Tests in this group should finish within a few seconds.
++
++- auto: Tests in this group are used during "make check" and should be
++  runnable in any case. That means they should run with every QEMU binary
++  (also non-x86), with every QEMU configuration (i.e. must not fail if
++  an optional feature is not compiled in - but reporting a "skip" is ok),
++  work at least with the qcow2 file format, work with all kind of host
++  filesystems and users (e.g. "nobody" or "root") and must not take too
++  much memory and disk space (since CI pipelines tend to fail otherwise).
++
++- disabled: Tests in this group are disabled and ignored by check.
++
+ .. _docker-ref:
  
--[{ "start": 0, "length": 136365211648, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 136365211648, "depth": 0, "zero": true, "data": false}]
- 
- === Testing VPC with chs force ===
- 
--[{ "start": 0, "length": 136363130880, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 136363130880, "depth": 0, "zero": true, "data": false}]
- 
- === Testing Hyper-V Autodetect ===
- 
--[{ "start": 0, "length": 136365211648, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 136365211648, "depth": 0, "zero": true, "data": false}]
- 
- === Testing Hyper-V with current_size force ===
- 
--[{ "start": 0, "length": 136365211648, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 136365211648, "depth": 0, "zero": true, "data": false}]
- 
- === Testing Hyper-V with chs force ===
- 
--[{ "start": 0, "length": 136363130880, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 136363130880, "depth": 0, "zero": true, "data": false}]
- 
- === Testing d2v Autodetect ===
- 
--[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 4194304, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 6291456, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 8388608, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 10485760, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 12582912, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 14680064, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 16777216, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 20971520, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 25165824, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 27262976, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 29360128, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 33554432, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 35651584, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 37748736, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 39845888, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 41943040, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 44040192, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 46137344, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 48234496, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 50331648, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 52428800, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 54525952, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 56623104, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 58720256, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 60817408, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 62914560, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 65011712, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 67108864, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 69206016, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 71303168, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 73400320, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 75497472, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 77594624, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 79691776, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 81788928, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 83886080, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 85983232, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 88080384, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 90177536, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 92274688, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 94371840, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 96468992, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 98566144, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 100663296, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 102760448, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 104857600, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 106954752, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 109051904, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 111149056, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 113246208, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 115343360, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 117440512, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 119537664, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 121634816, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 123731968, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 125829120, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 127926272, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 130023424, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 132120576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 134217728, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 136314880, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 138412032, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 140509184, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 142606336, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 144703488, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 146800640, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 148897792, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 150994944, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 153092096, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 155189248, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 157286400, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 159383552, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 161480704, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 163577856, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 165675008, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 167772160, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 169869312, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 171966464, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 174063616, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 176160768, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 178257920, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 180355072, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 182452224, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 184549376, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 186646528, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 188743680, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 190840832, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 192937984, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 195035136, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 197132288, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 199229440, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 201326592, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 203423744, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 205520896, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 207618048, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 209715200, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 211812352, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 213909504, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 216006656, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 218103808, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 220200960, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 222298112, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 224395264, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 226492416, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 228589568, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 230686720, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 232783872, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 234881024, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 236978176, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 239075328, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 241172480, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 243269632, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 245366784, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 247463936, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 249561088, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 251658240, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 253755392, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 255852544, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 257949696, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 260046848, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 262144000, "length": 1310720, "depth": 0, "zero": false, "data": true, "offset": OFFSET }]
-+[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4194304, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 8388608, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 10485760, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 12582912, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 14680064, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 16777216, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 20971520, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 25165824, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 27262976, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 29360128, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 33554432, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 35651584, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 37748736, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 39845888, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 41943040, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 44040192, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 46137344, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 48234496, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 50331648, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 52428800, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 54525952, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 56623104, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 58720256, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 60817408, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 62914560, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 65011712, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 67108864, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 69206016, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 71303168, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 73400320, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 75497472, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 77594624, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 79691776, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 81788928, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 83886080, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 85983232, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 88080384, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 90177536, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 92274688, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 94371840, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 96468992, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 98566144, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 100663296, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 102760448, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 104857600, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 106954752, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 109051904, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 111149056, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 113246208, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 115343360, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 117440512, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 119537664, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 121634816, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 123731968, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 125829120, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 127926272, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 130023424, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 132120576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 134217728, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 136314880, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 138412032, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 140509184, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 142606336, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 144703488, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 146800640, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 148897792, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 150994944, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 153092096, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 155189248, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 157286400, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 159383552, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 161480704, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 163577856, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 165675008, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 167772160, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 169869312, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 171966464, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 174063616, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 176160768, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 178257920, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 180355072, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 182452224, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 184549376, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 186646528, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 188743680, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 190840832, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 192937984, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 195035136, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 197132288, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 199229440, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 201326592, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 203423744, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 205520896, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 207618048, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 209715200, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 211812352, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 213909504, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 216006656, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 218103808, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 220200960, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 222298112, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 224395264, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 226492416, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 228589568, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 230686720, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 232783872, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 234881024, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 236978176, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 239075328, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 241172480, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 243269632, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 245366784, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 247463936, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 249561088, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 251658240, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 253755392, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 255852544, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 257949696, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 260046848, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 262144000, "length": 1310720, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- 
- === Testing d2v with current_size force ===
- 
--[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 4194304, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 6291456, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 8388608, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 10485760, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 12582912, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 14680064, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 16777216, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 20971520, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 25165824, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 27262976, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 29360128, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 33554432, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 35651584, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 37748736, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 39845888, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 41943040, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 44040192, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 46137344, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 48234496, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 50331648, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 52428800, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 54525952, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 56623104, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 58720256, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 60817408, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 62914560, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 65011712, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 67108864, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 69206016, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 71303168, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 73400320, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 75497472, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 77594624, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 79691776, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 81788928, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 83886080, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 85983232, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 88080384, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 90177536, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 92274688, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 94371840, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 96468992, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 98566144, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 100663296, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 102760448, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 104857600, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 106954752, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 109051904, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 111149056, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 113246208, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 115343360, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 117440512, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 119537664, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 121634816, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 123731968, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 125829120, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 127926272, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 130023424, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 132120576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 134217728, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 136314880, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 138412032, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 140509184, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 142606336, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 144703488, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 146800640, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 148897792, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 150994944, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 153092096, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 155189248, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 157286400, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 159383552, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 161480704, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 163577856, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 165675008, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 167772160, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 169869312, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 171966464, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 174063616, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 176160768, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 178257920, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 180355072, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 182452224, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 184549376, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 186646528, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 188743680, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 190840832, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 192937984, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 195035136, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 197132288, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 199229440, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 201326592, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 203423744, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 205520896, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 207618048, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 209715200, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 211812352, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 213909504, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 216006656, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 218103808, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 220200960, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 222298112, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 224395264, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 226492416, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 228589568, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 230686720, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 232783872, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 234881024, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 236978176, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 239075328, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 241172480, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 243269632, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 245366784, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 247463936, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 249561088, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 251658240, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 253755392, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 255852544, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 257949696, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 260046848, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 262144000, "length": 1310720, "depth": 0, "zero": false, "data": true, "offset": OFFSET }]
-+[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4194304, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 8388608, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 10485760, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 12582912, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 14680064, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 16777216, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 20971520, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 25165824, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 27262976, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 29360128, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 33554432, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 35651584, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 37748736, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 39845888, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 41943040, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 44040192, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 46137344, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 48234496, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 50331648, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 52428800, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 54525952, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 56623104, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 58720256, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 60817408, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 62914560, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 65011712, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 67108864, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 69206016, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 71303168, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 73400320, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 75497472, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 77594624, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 79691776, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 81788928, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 83886080, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 85983232, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 88080384, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 90177536, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 92274688, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 94371840, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 96468992, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 98566144, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 100663296, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 102760448, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 104857600, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 106954752, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 109051904, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 111149056, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 113246208, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 115343360, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 117440512, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 119537664, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 121634816, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 123731968, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 125829120, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 127926272, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 130023424, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 132120576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 134217728, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 136314880, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 138412032, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 140509184, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 142606336, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 144703488, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 146800640, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 148897792, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 150994944, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 153092096, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 155189248, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 157286400, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 159383552, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 161480704, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 163577856, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 165675008, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 167772160, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 169869312, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 171966464, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 174063616, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 176160768, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 178257920, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 180355072, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 182452224, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 184549376, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 186646528, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 188743680, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 190840832, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 192937984, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 195035136, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 197132288, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 199229440, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 201326592, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 203423744, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 205520896, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 207618048, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 209715200, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 211812352, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 213909504, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 216006656, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 218103808, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 220200960, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 222298112, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 224395264, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 226492416, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 228589568, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 230686720, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 232783872, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 234881024, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 236978176, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 239075328, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 241172480, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 243269632, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 245366784, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 247463936, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 249561088, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 251658240, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 253755392, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 255852544, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 257949696, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 260046848, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 262144000, "length": 1310720, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- 
- === Testing d2v with chs force ===
- 
--[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 4194304, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 6291456, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 8388608, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 10485760, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 12582912, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 14680064, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 16777216, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 20971520, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 25165824, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 27262976, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 29360128, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 33554432, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 35651584, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 37748736, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 39845888, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 41943040, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 44040192, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 46137344, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 48234496, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 50331648, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 52428800, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 54525952, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 56623104, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 58720256, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 60817408, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 62914560, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 65011712, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 67108864, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 69206016, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 71303168, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 73400320, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 75497472, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 77594624, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 79691776, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 81788928, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 83886080, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 85983232, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 88080384, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 90177536, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 92274688, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 94371840, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 96468992, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 98566144, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 100663296, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 102760448, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 104857600, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 106954752, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 109051904, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 111149056, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 113246208, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 115343360, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 117440512, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 119537664, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 121634816, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 123731968, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 125829120, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 127926272, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 130023424, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 132120576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 134217728, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 136314880, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 138412032, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 140509184, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 142606336, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 144703488, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 146800640, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 148897792, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 150994944, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 153092096, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 155189248, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 157286400, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 159383552, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 161480704, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 163577856, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 165675008, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 167772160, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 169869312, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 171966464, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 174063616, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 176160768, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 178257920, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 180355072, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 182452224, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 184549376, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 186646528, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 188743680, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 190840832, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 192937984, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 195035136, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 197132288, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 199229440, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 201326592, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 203423744, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 205520896, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 207618048, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 209715200, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 211812352, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 213909504, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 216006656, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 218103808, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 220200960, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 222298112, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 224395264, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 226492416, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 228589568, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 230686720, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 232783872, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 234881024, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 236978176, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 239075328, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 241172480, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 243269632, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 245366784, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 247463936, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 249561088, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 251658240, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 253755392, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 255852544, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 257949696, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 260046848, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET },
--{ "start": 262144000, "length": 1310720, "depth": 0, "zero": false, "data": true, "offset": OFFSET }]
-+[{ "start": 0, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 2097152, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 4194304, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 6291456, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 8388608, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 10485760, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 12582912, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 14680064, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 16777216, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 18874368, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 20971520, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 23068672, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 25165824, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 27262976, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 29360128, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 31457280, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 33554432, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 35651584, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 37748736, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 39845888, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 41943040, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 44040192, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 46137344, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 48234496, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 50331648, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 52428800, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 54525952, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 56623104, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 58720256, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 60817408, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 62914560, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 65011712, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 67108864, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 69206016, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 71303168, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 73400320, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 75497472, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 77594624, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 79691776, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 81788928, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 83886080, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 85983232, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 88080384, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 90177536, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 92274688, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 94371840, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 96468992, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 98566144, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 100663296, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 102760448, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 104857600, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 106954752, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 109051904, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 111149056, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 113246208, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 115343360, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 117440512, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 119537664, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 121634816, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 123731968, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 125829120, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 127926272, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 130023424, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 132120576, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 134217728, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 136314880, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 138412032, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 140509184, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 142606336, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 144703488, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 146800640, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 148897792, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 150994944, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 153092096, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 155189248, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 157286400, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 159383552, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 161480704, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 163577856, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 165675008, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 167772160, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 169869312, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 171966464, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 174063616, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 176160768, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 178257920, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 180355072, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 182452224, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 184549376, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 186646528, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 188743680, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 190840832, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 192937984, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 195035136, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 197132288, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 199229440, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 201326592, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 203423744, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 205520896, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 207618048, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 209715200, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 211812352, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 213909504, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 216006656, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 218103808, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 220200960, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 222298112, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 224395264, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 226492416, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 228589568, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 230686720, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 232783872, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 234881024, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 236978176, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 239075328, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 241172480, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 243269632, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 245366784, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 247463936, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 249561088, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 251658240, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 253755392, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 255852544, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 257949696, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 260046848, "length": 2097152, "depth": 0, "zero": false, "data": true, "offset": OFFSET},
-+{ "start": 262144000, "length": 1310720, "depth": 0, "zero": false, "data": true, "offset": OFFSET}]
- 
- === Testing Image create, default ===
- 
-@@ -417,15 +417,15 @@ Formatting 'TEST_DIR/IMGFMT-create-test.IMGFMT', fmt=IMGFMT size=4294967296
- 
- === Read created image, default opts ====
- 
--[{ "start": 0, "length": 4295467008, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 4295467008, "depth": 0, "zero": true, "data": false}]
- 
- === Read created image, force_size_calc=chs ====
- 
--[{ "start": 0, "length": 4295467008, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 4295467008, "depth": 0, "zero": true, "data": false}]
- 
- === Read created image, force_size_calc=current_size ====
- 
--[{ "start": 0, "length": 4295467008, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 4295467008, "depth": 0, "zero": true, "data": false}]
- 
- === Testing Image create, force_size ===
- 
-@@ -433,13 +433,13 @@ Formatting 'TEST_DIR/IMGFMT-create-test.IMGFMT', fmt=IMGFMT size=4294967296
- 
- === Read created image, default opts ====
- 
--[{ "start": 0, "length": 4294967296, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 4294967296, "depth": 0, "zero": true, "data": false}]
- 
- === Read created image, force_size_calc=chs ====
- 
--[{ "start": 0, "length": 4294967296, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 4294967296, "depth": 0, "zero": true, "data": false}]
- 
- === Read created image, force_size_calc=current_size ====
- 
--[{ "start": 0, "length": 4294967296, "depth": 0, "zero": true, "data": false }]
-+[{ "start": 0, "length": 4294967296, "depth": 0, "zero": true, "data": false}]
- *** done
+ Docker based tests
+diff --git a/tests/qemu-iotests/findtests.py b/tests/qemu-iotests/findtests.py
+new file mode 100644
+index 0000000000..d0c72efd6a
+--- /dev/null
++++ b/tests/qemu-iotests/findtests.py
+@@ -0,0 +1,159 @@
++# TestFinder class, define set of tests to run.
++#
++# Copyright (c) 2020-2021 Virtuozzo International GmbH
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
++
++import os
++import glob
++import re
++from collections import defaultdict
++from contextlib import contextmanager
++from typing import Optional, List, Iterator, Set
++
++
++@contextmanager
++def chdir(path: Optional[str] = None) -> Iterator[None]:
++    if path is None:
++        yield
++        return
++
++    saved_dir = os.getcwd()
++    os.chdir(path)
++    try:
++        yield
++    finally:
++        os.chdir(saved_dir)
++
++
++class TestFinder:
++    def __init__(self, test_dir: Optional[str] = None) -> None:
++        self.groups = defaultdict(set)
++
++        with chdir(test_dir):
++            self.all_tests = glob.glob('[0-9][0-9][0-9]')
++            self.all_tests += [f for f in glob.iglob('tests/*')
++                               if not f.endswith('.out') and
++                               os.path.isfile(f + '.out')]
++
++            for t in self.all_tests:
++                with open(t) as f:
++                    for line in f:
++                        if line.startswith('# group: '):
++                            for g in line.split()[2:]:
++                                self.groups[g].add(t)
++                            break
++
++    def add_group_file(self, fname: str) -> None:
++        with open(fname) as f:
++            for line in f:
++                line = line.strip()
++
++                if (not line) or line[0] == '#':
++                    continue
++
++                words = line.split()
++                test_file = self.parse_test_name(words[0])
++                groups = words[1:]
++
++                for g in groups:
++                    self.groups[g].add(test_file)
++
++    def parse_test_name(self, name: str) -> str:
++        if '/' in name:
++            raise ValueError('Paths are unsupported for test selection, '
++                             f'requiring "{name}" is wrong')
++
++        if re.fullmatch(r'\d+', name):
++            # Numbered tests are old naming convention. We should convert them
++            # to three-digit-length, like 1 --> 001.
++            name = f'{int(name):03}'
++        else:
++            # Named tests all should be in tests/ subdirectory
++            name = os.path.join('tests', name)
++
++        if name not in self.all_tests:
++            raise ValueError(f'Test "{name}" is not found')
++
++        return name
++
++    def find_tests(self, groups: Optional[List[str]] = None,
++                   exclude_groups: Optional[List[str]] = None,
++                   tests: Optional[List[str]] = None,
++                   start_from: Optional[str] = None) -> List[str]:
++        """Find tests
++
++        Algorithm:
++
++        1. a. if some @groups specified
++             a.1 Take all tests from @groups
++             a.2 Drop tests, which are in at least one of @exclude_groups or in
++                 'disabled' group (if 'disabled' is not listed in @groups)
++             a.3 Add tests from @tests (don't exclude anything from them)
++
++           b. else, if some @tests specified:
++             b.1 exclude_groups must be not specified, so just take @tests
++
++           c. else (only @exclude_groups list is non-empty):
++             c.1 Take all tests
++             c.2 Drop tests, which are in at least one of @exclude_groups or in
++                 'disabled' group
++
++        2. sort
++
++        3. If start_from specified, drop tests from first one to @start_from
++           (not inclusive)
++        """
++        if groups is None:
++            groups = []
++        if exclude_groups is None:
++            exclude_groups = []
++        if tests is None:
++            tests = []
++
++        res: Set[str] = set()
++        if groups:
++            # Some groups specified. exclude_groups supported, additionally
++            # selecting some individual tests supported as well.
++            res.update(*(self.groups[g] for g in groups))
++        elif tests:
++            # Some individual tests specified, but no groups. In this case
++            # we don't support exclude_groups.
++            if exclude_groups:
++                raise ValueError("Can't exclude from individually specified "
++                                 "tests.")
++        else:
++            # No tests no groups: start from all tests, exclude_groups
++            # supported.
++            res.update(self.all_tests)
++
++        if 'disabled' not in groups and 'disabled' not in exclude_groups:
++            # Don't want to modify function argument, so create new list.
++            exclude_groups = exclude_groups + ['disabled']
++
++        res = res.difference(*(self.groups[g] for g in exclude_groups))
++
++        # We want to add @tests. But for compatibility with old test names,
++        # we should convert any number < 100 to number padded by
++        # leading zeroes, like 1 -> 001 and 23 -> 023.
++        for t in tests:
++            res.add(self.parse_test_name(t))
++
++        sequence = sorted(res)
++
++        if start_from is not None:
++            del sequence[:sequence.index(self.parse_test_name(start_from))]
++
++        return sequence
 -- 
 2.29.2
 
