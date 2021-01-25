@@ -2,72 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A74A30236D
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 10:58:43 +0100 (CET)
-Received: from localhost ([::1]:34362 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9104302382
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 11:13:35 +0100 (CET)
+Received: from localhost ([::1]:41634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3yds-0004pK-RJ
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 04:58:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46654)
+	id 1l3ysI-0000BC-Dl
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 05:13:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49950)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l3ycQ-00040E-Uh
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 04:57:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31294)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l3ycN-0007oo-LO
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 04:57:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611568625;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Sf5rH0lUaeDUZhTkMCpzA/aqtBa8u19O8apW0ze0n18=;
- b=QphLQAexckvFaHyxg1lpvrVRz1ioLmnssMALmJJ36LWKsD3IH60Vh+qxWBu9r/Irk/Bc4F
- ZrQlZnnjd2CoVA7Ntc8ItzLxUjxVhP0xF+KwLJhhy1xiNPBSuS6u0bPqIp+HHZ+Yzua14R
- oLm7MDvkF/7rz2N+y0nXm3GDXITfXXM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-399-CzuySmWSOtqMb-NsqiPk4A-1; Mon, 25 Jan 2021 04:57:03 -0500
-X-MC-Unique: CzuySmWSOtqMb-NsqiPk4A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8106B180A094
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 09:57:02 +0000 (UTC)
-Received: from redhat.com (ovpn-114-9.ams2.redhat.com [10.36.114.9])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 049BF1F047;
- Mon, 25 Jan 2021 09:56:57 +0000 (UTC)
-Date: Mon, 25 Jan 2021 09:56:55 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH v1] gitlab-ci.yml: Speed up CI by using "meson test
- --no-rebuild"
-Message-ID: <20210125095655.GD3527172@redhat.com>
-References: <20210125090339.134019-1-thuth@redhat.com>
- <e8699ffe-3260-3033-cc13-ae9c3f86cbf1@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l3yr3-0008Au-AL
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:12:17 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:54893)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l3yr1-0006FW-C3
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:12:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id u14so3429725wml.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 02:12:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=a4fpywiWuWN37CzGxu4igyYiwcrOHFuZXIrERTvUIsE=;
+ b=f0y10zPW6A3G/+/5hWpIkFEujyEx1eKf2VacEb5aebTJ8eFYGZMC7aFz6isC1AzqXO
+ uuobjHZrjzaWoeliemGCq0kKskl4FJKmVSMZL2sWzCH1A2oYEeMSznl/nlFYGFHie8PO
+ v5V3RNDX6SuGwzNu/zO5sdGqFiCiV/6/rJVEN3EWQ3pi7X+34mCmcHXVh/3d8jcIh0zQ
+ Czf2kyhE+AK+y9ZUiT1uf+8FDdVKJLIOy1lQZxJtRpLtfGJmEwE1gYcU7qjPfoytEgta
+ yG88XORH2zlgf7OIQ+KhTUCN5EPQ62i57LcIkptfZ+qmG5JFfJjBOtDH98nvcxQXnk88
+ jIeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=a4fpywiWuWN37CzGxu4igyYiwcrOHFuZXIrERTvUIsE=;
+ b=C+XtZcMXhSDy24vXgExnBn7HIKBmWswsQiQN3zbuQ2PPRCm0qVzQaeevx24B+s7GJw
+ WnasXANIfV+9zzzp5GrOAyw7agNZB4NJo/zYMjwHEIVbdINzleHcOIMUFwxy18S1sQCf
+ WaMh1GvojDxmisivB90zQj6y955RFeh4hHhbt4Cth4HLdrr4sLROIMPzPB2Q5QQoxFu4
+ J4EhMD2jFeomPYJWfUAPMmL2pTZbyXFdymSnP20TWeEE9mhBJA/tNGTUR2bDffbTXeIC
+ tZ4I1pF/Rn6OarEP6vR6n2UND2kxpHD6THTcqBHCVmG/56kdUZDxsEqCR3fZESvvacrp
+ EAYg==
+X-Gm-Message-State: AOAM532eZYmW/kb119htiE2XDM0EzyI0lXfYAG+UQxRG4gZO0bNrjKV0
+ y7qWUldx8YQMoa0Fct6QA/zE8w==
+X-Google-Smtp-Source: ABdhPJyUmGhCvsHJXEKWcC2Vuazq6hO14uD48f0UMlRGP/9YIJ6Z/R9iMmD6GaELqpsxN6mUNvl+6g==
+X-Received: by 2002:a1c:bc8b:: with SMTP id m133mr1592215wmf.58.1611569532901; 
+ Mon, 25 Jan 2021 02:12:12 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id u14sm19593254wml.19.2021.01.25.02.12.11
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jan 2021 02:12:11 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BEDFA1FF7E;
+ Mon, 25 Jan 2021 10:12:10 +0000 (GMT)
+References: <20210124032422.2113565-1-richard.henderson@linaro.org>
+ <20210124044634.GA8202@yekko.fritz.box>
+ <fed7279c-528c-c4d3-f305-c88ffcdf7bff@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH] target/ppc: Fix truncation of env->hflags
+Date: Mon, 25 Jan 2021 10:03:19 +0000
+In-reply-to: <fed7279c-528c-c4d3-f305-c88ffcdf7bff@linaro.org>
+Message-ID: <871re9nx51.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <e8699ffe-3260-3033-cc13-ae9c3f86cbf1@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,66 +88,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Ivan Warren <ivan@vmfacility.fr>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 10:51:04AM +0100, Paolo Bonzini wrote:
-> On 25/01/21 10:03, Thomas Huth wrote:
-> > Currently, our check-system-* jobs are recompiling the whole sources
-> > again. This happens due to the fact that the jobs are checking out
-> > the whole source tree and required submodules again, and only try
-> > to use the "build" directory with the binaries and object files
-> > as an artifact from the previous stage - which simply does not work
-> > anymore (with the current version of meson). Due to some changed
-> > time stamps, meson is always trying to rebuild the whole tree.
-> > 
-> > To fix this problem, we can use "meson test --no-rebuild" instead of
-> > make check" to avoid rebuilding all binaries every time. However, the
-> > iotests ("make check-block") are not run by "meson test", so we have
-> > to execute these manually now. But instead of adding them to the same
-> > job as "meson test", it's better to put them into a separate new job
-> > instead, to keep things nicely running in parallel in the CI.
-> > This saves ca. 15 - 20 minutes of precious CI cycles in each run.
-> 
-> The reason why we're not using "meson test" is that the reporting is (still)
-> inferior to what you get from "make check", especially with respect to which
-> tests are failing.  This is being tracked at
-> https://github.com/mesonbuild/meson/issues/7830 and the last missing bits
-> are at https://github.com/mesonbuild/meson/issues/8200 (after which we'll
-> change the "meson test" command line to also include "meson test
-> --verbose").
-> 
-> However, for CI this is a minor issue because we can let GitLab parse the
-> XML testing logs.  Can you add something like this to the test jobs for v2?
-> 
-> +  artifacts:
-> +    when: always
-> +    paths:
-> +      - build/meson-logs/
-> +    reports:
-> +      junit: build/meson-logs/testlog.junit.xml
-> 
-> Another possibility could be to use "make check NINJA=:".  I am not sure if
-> that works, but if it does it would be the smallest possible workaround.
 
-When I suggested use of --no-rebuild, I was actally thinking that
-we would change the Makefile(s) to enable to pass the --no-rebuild
-arg to meson. eg
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-  make check MESON_ARGS=--no-rebuild
+> On 1/23/21 6:46 PM, David Gibson wrote:
+>> On Sat, Jan 23, 2021 at 05:24:22PM -1000, Richard Henderson wrote:
+>>> Use the cs_base field, because it happens to be the same
+>>> size as hflags (and MSR, from which hflags is derived).
+>>>
+>>> In translate, extract most bits from a local hflags variable.
+>>> Mark several cases where code generation is *not* derived from
+>>> data stored within the hashed elements of the TranslationBlock.
+>>=20
+>> My knowledge of TCG isn't great, so I'm pretty much prepared to accept
+>> this is correct on your say so.
+>>=20
+>> But that commit message feels like it's following on from a
+>> conversation that's not here, nor linked.  It'd be great if it
+>> explained how said hflags truncation is happening, because it's
+>> certainly not obvious to someone with only a fair to middling
+>> understanding of TCG.
+>
+> Mm, fair.
+>
+> How about:
+>
+> The assignment from env->hflags to tb->flags truncates
+> target_ulong to uint32_t.  This loses important bits from
+> the top of hflags, which results in incorrect tb selection.
 
-is that, or something similar possible ?
+We are just putting off the day we declare tb->flags to be 64 bit or end
+up renaming cs_base to
+tb->cs_base_or_extra_flag_bits_we_could_not_fit_in_flags. The fact that
+cs_base is expressed in terms of target_ulong worries me if there is
+ever any hflag state above bit 32 for the ppc32 targets.
+
+>
+> Use the cs_base field instead, because it happens to be the
+> same size as hflags (and MSR fom which hflags is derived).
+>
+> In translate, extract most bits from a local hflags variable.
+> All of the checks vs env->flags are redundant with env->msr_mask
+> in that msr bits cannot be set when the feature is not available.
+> Mark several cases where code generation is *not* derived from
+> data stored within hashed elements of the tb.
+>
+>
+> r~
 
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+--=20
+Alex Benn=C3=A9e
 
