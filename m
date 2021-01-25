@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 879173024A2
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:05:09 +0100 (CET)
-Received: from localhost ([::1]:47060 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07A3E3024A3
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:05:32 +0100 (CET)
+Received: from localhost ([::1]:47598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l40cG-0002BQ-BL
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:05:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47962)
+	id 1l40cd-0002Pi-3D
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:05:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48068)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l40a2-0001MC-Ps
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:02:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22201)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l40aZ-0001XP-QW
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:03:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35854)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l40a0-0006xd-9R
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:02:50 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l40aQ-00078p-0l
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:03:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611576166;
+ s=mimecast20190719; t=1611576193;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=YPHFWKp1SSjdnxxOSJIC+VVyKn5s/lFM6t0j3UgmenI=;
- b=eYJdtQdQ7cqjF8z4jYmsWFAjOdQvwbhryWMYF2AL6FnExyWVcv0mTIsM2P9f3gWOXBtPj1
- zjTznpDaax8R5EVicwphFuaINvfU8VC0du4dWp4oHEncRbev5sTGp3Ez5Gg5HwEvy+orsq
- /HdO8IWuR4iukAvtmQZZoNB1uWFWSuA=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=66JOwiJJMLE8roueHfHmx0jEkrS44ri4V7+pGn4+88A=;
+ b=aKiqPqdq3XeI5qPp3R6gcLlXtIIF1w9yOuMtBoVIUjssZfIqFfrGMiP3OuhqEljVdVTitU
+ fKfxz6HhBqrh/kOyaRcRhwNXO+oBbK10KPWzrg4DD2ooj9o7ng2L+8opMJiQbzB6Zbx55o
+ qpJ+E0APy3UhBzX/lJ1kjsKrcLlPgy8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-519-y5cumIP8MGyvT54K2hIB5A-1; Mon, 25 Jan 2021 07:02:44 -0500
-X-MC-Unique: y5cumIP8MGyvT54K2hIB5A-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-235-7_YKMSbPMKyH7_EepLBgBQ-1; Mon, 25 Jan 2021 07:03:10 -0500
+X-MC-Unique: 7_YKMSbPMKyH7_EepLBgBQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3F3BE59;
- Mon, 25 Jan 2021 12:02:43 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-150.ams2.redhat.com [10.36.115.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 6E93060938;
- Mon, 25 Jan 2021 12:02:41 +0000 (UTC)
-Date: Mon, 25 Jan 2021 13:02:40 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v7 10/11] iotests: rewrite check into python
-Message-ID: <20210125120240.GA7107@merkur.fritz.box>
-References: <20210116134424.82867-1-vsementsov@virtuozzo.com>
- <20210116134424.82867-11-vsementsov@virtuozzo.com>
- <20210122160804.GJ15866@merkur.fritz.box>
- <0cee83d0-c77f-b2ef-3c42-648d217ad9a7@virtuozzo.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E19441015C80
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 12:03:09 +0000 (UTC)
+Received: from localhost (ovpn-114-237.ams2.redhat.com [10.36.114.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9EAB05C737;
+ Mon, 25 Jan 2021 12:03:06 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] coroutine-sigaltstack: Add SIGUSR2 mutex
+Date: Mon, 25 Jan 2021 13:03:05 +0100
+Message-Id: <20210125120305.19520-1-mreitz@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <0cee83d0-c77f-b2ef-3c42-648d217ad9a7@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -78,101 +73,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com,
- den@openvz.org, jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?q?L=C3=A1szl=C3=B3=20=C3=89rsek?= <lersek@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.01.2021 um 16:08 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 22.01.2021 19:08, Kevin Wolf wrote:
-> > Am 16.01.2021 um 14:44 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > Just use classes introduced in previous three commits. Behavior
-> > > difference is described in these three commits.
-> > > 
-> > > Drop group file, as it becomes unused.
-> > > 
-> > > Drop common.env: now check is in python, and for tests we use same
-> > > python interpreter that runs the check itself. Use build environment
-> > > PYTHON in check-block instead, to keep "make check" use the same
-> > > python.
-> > > 
-> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > 
-> > > diff --git a/tests/check-block.sh b/tests/check-block.sh
-> > > index fb4c1baae9..26eb1c0a9b 100755
-> > > --- a/tests/check-block.sh
-> > > +++ b/tests/check-block.sh
-> > > @@ -69,7 +69,7 @@ export QEMU_CHECK_BLOCK_AUTO=1
-> > >   ret=0
-> > >   for fmt in $format_list ; do
-> > > -    ./check -makecheck -$fmt $group || ret=1
-> > > +    ${PYTHON} ./check -makecheck -$fmt $group || ret=1
-> > >   done
-> > 
-> > When I add an echo to print that command line, it seems that ${PYTHON}
-> > is empty for me. Is this expected?
-> 
-> It seems to be defined defined when called from make check. Did you
-> just call check-block directly?
-D> 
-> It's not intentional, but I think it's OK: if PYTHON is not defined
-> let's just execute check as self-executable. And for make-check PYTHON
-> is defined and correct python is used.
+Disposition (action) for any given signal is global for the process.
+When two threads run coroutine-sigaltstack's qemu_coroutine_new()
+concurrently, they may interfere with each other: One of them may revert
+the SIGUSR2 handler to SIG_DFL, between the other thread (a) setting up
+coroutine_trampoline() as the handler and (b) raising SIGUSR2.  That
+SIGUSR2 will then terminate the QEMU process abnormally.
 
-Hm, where does that happen in 'make check'? It seems the old makefiles
-were quite readable in comparison to what we have now...
+We have to ensure that only one thread at a time can modify the
+process-global SIGUSR2 handler.  To do so, wrap the whole section where
+that is done in a mutex.
 
-Anyway, I think 'make check-block' should run just the block-specific
-subset of 'make check', without changing the behaviour of the remaining
-tests. Anything that can be started through make should respect the
-configured Python interpreter.
+Alternatively, we could for example have the SIGUSR2 handler always be
+coroutine_trampoline(), so there would be no need to invoke sigaction()
+in qemu_coroutine_new().  Laszlo has posted a patch to do so here:
 
-> > >   exit $ret
-> > > diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> > > index 952762d5ed..914321806a 100755
-> > > --- a/tests/qemu-iotests/check
-> > > +++ b/tests/qemu-iotests/check
-> 
-> [..]
-> 
-> > > -            if [ -x "$binary" ]
-> > > -            then
-> > > -                export QEMU_PROG="$build_root/$binary"
-> > > -                break
-> > > -            fi
-> > > -        done
-> > > -        popd > /dev/null
-> > > -        [ "$QEMU_PROG" = "" ] && _init_error "qemu not found"
-> > > -    fi
-> > 
-> > I think this else branch is kind of important (if there is no system
-> > emulator binary for the host architecture, find _any_ system emulator
-> > binary that was built). I can't find its equivalent in the new code.
-> 
-> Hmm, I decided testing "first found" emulator is strange.. It seems
-> like we have several emulators and user don't care which would be
-> tested?
+  https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg05962.html
 
-Remember that we're mainly testing the block layer, which is the same in
-all qemu-system-* binaries anyway. So yes, any system emulator binary is
-good enough for many test cases, and certainly better than having no
-system emulator. Differences are only in the supported guest devices,
-which may cause some tests to be skipped.
+However, given that coroutine-sigaltstack is more of a fallback
+implementation for platforms that do not support ucontext, that change
+may be a bit too invasive to be comfortable with it.  The mutex proposed
+here may negatively impact performance, but the change is much simpler.
 
-If there are multiple binaries that we could use, we could change the
-way to select one instead of just the first one, e.g. by trying x86_64
-first because this is what enables the largest set of tests.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ util/coroutine-sigaltstack.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-But anything is better than failing with "qemu not found".
-
-> Probably we should instead used qemu-system-* binary only if there is
-> only one matching binary. And fail if there are many.
-
-No, 'make check' shouldn't fail because I built arm and ppc emulators on
-my x86_64 machine without also building a x86_64 emulator. (And I think
-this is a case that fails both with the actual patch under review and
-with your suggested change.)
-
-Kevin
+diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+index aade82afb8..e99b8a4f9c 100644
+--- a/util/coroutine-sigaltstack.c
++++ b/util/coroutine-sigaltstack.c
+@@ -157,6 +157,7 @@ Coroutine *qemu_coroutine_new(void)
+     sigset_t sigs;
+     sigset_t osigs;
+     sigjmp_buf old_env;
++    static pthread_mutex_t sigusr2_mutex = PTHREAD_MUTEX_INITIALIZER;
+ 
+     /* The way to manipulate stack is with the sigaltstack function. We
+      * prepare a stack, with it delivering a signal to ourselves and then
+@@ -186,6 +187,12 @@ Coroutine *qemu_coroutine_new(void)
+     sa.sa_handler = coroutine_trampoline;
+     sigfillset(&sa.sa_mask);
+     sa.sa_flags = SA_ONSTACK;
++
++    /*
++     * sigaction() is a process-global operation.  We must not run
++     * this code in multiple threads at once.
++     */
++    pthread_mutex_lock(&sigusr2_mutex);
+     if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+         abort();
+     }
+@@ -234,6 +241,8 @@ Coroutine *qemu_coroutine_new(void)
+      * Restore the old SIGUSR2 signal handler and mask
+      */
+     sigaction(SIGUSR2, &osa, NULL);
++    pthread_mutex_unlock(&sigusr2_mutex);
++
+     pthread_sigmask(SIG_SETMASK, &osigs, NULL);
+ 
+     /*
+-- 
+2.29.2
 
 
