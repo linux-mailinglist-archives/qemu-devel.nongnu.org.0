@@ -2,97 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD6A30257A
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 14:27:16 +0100 (CET)
-Received: from localhost ([::1]:34432 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B38030257C
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 14:29:03 +0100 (CET)
+Received: from localhost ([::1]:37172 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l41ti-0002t3-KS
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 08:27:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38780)
+	id 1l41vS-0004LF-4a
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 08:29:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40042)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l41pX-0002Hu-OO; Mon, 25 Jan 2021 08:22:55 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41868)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <borntraeger@de.ibm.com>)
- id 1l41pR-0008PO-F5; Mon, 25 Jan 2021 08:22:55 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10PD4Kbl195455; Mon, 25 Jan 2021 08:22:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : mime-version : content-transfer-encoding; s=pp1;
- bh=RCBGR/W7jAsZnxXt4wG+E6Lz2IUrkZH/+/8FjV66LYI=;
- b=CCq9nFTWZkVqH14P2kI2HATFPwu484WlxFThVrLwyf2Kc687xWVcZyNSA0dxq/+2YhyA
- D5RaO9AN2xbUf32d2ZT5CzhNvJLGYgjE3Fe2ZXg116PHrj5qIAQk3nIMqTVOCTgPKPTU
- 94/sgN4LKvKCLweaDuEj4vGXPE1+f4FjIkX1MoMFL+A/hvDvn3SV1W6tU3MF4a/tpA2g
- HnASby423w600TuCP1blULuILmUvELcIqVdUP2Atxf+87+vD+fWrUA6q7eTHQKUyrJmK
- mUOM5B/uDIGt6YyDnWm3NodUIfifUef6ZYCaSVi7xzg7r11wMPfqgAqXA9C+74eNDanM /g== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com with ESMTP id 369x531esj-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jan 2021 08:22:44 -0500
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10PD59UQ007813;
- Mon, 25 Jan 2021 08:22:44 -0500
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com with ESMTP id 369x531erx-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jan 2021 08:22:43 -0500
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10PDM5hH025363;
- Mon, 25 Jan 2021 13:22:42 GMT
-Received: from b06cxnps4075.portsmouth.uk.ibm.com
- (d06relay12.portsmouth.uk.ibm.com [9.149.109.197])
- by ppma03ams.nl.ibm.com with ESMTP id 368be7suhv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jan 2021 13:22:42 +0000
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
- [9.149.105.62])
- by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10PDMdmi22020464
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 25 Jan 2021 13:22:39 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 1D855AE05A;
- Mon, 25 Jan 2021 13:22:39 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 07BF8AE055;
- Mon, 25 Jan 2021 13:22:39 +0000 (GMT)
-Received: from tuxmaker.boeblingen.de.ibm.com (unknown [9.152.85.9])
- by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTPS;
- Mon, 25 Jan 2021 13:22:38 +0000 (GMT)
-Received: by tuxmaker.boeblingen.de.ibm.com (Postfix, from userid 25651)
- id AF19BE23A4; Mon, 25 Jan 2021 14:22:38 +0100 (CET)
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v2] s390x/cpu_model: disallow unpack for --only-migratable
-Date: Mon, 25 Jan 2021 14:22:38 +0100
-Message-Id: <20210125132238.179972-1-borntraeger@de.ibm.com>
-X-Mailer: git-send-email 2.28.0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l41tc-0003VC-Bd
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 08:27:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31254)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l41tE-00019t-9X
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 08:27:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611581199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=p6di9iKNOUKAkPfwCF6qlxTpwF41usl7ZzwpFioWevU=;
+ b=HGMUtbP1I9FJn/hXviqS1qq2CMoLjsqdYbcWBHCYsv786aTqYfpXVq44Ae6ZebzVJiuV2h
+ XeQFKqzPNHiIV4JK7k/s5v5lwqxoJg3TddYkDXtIy8Sql45y7YpJuaUV8DEeyiCgwhyRM8
+ ajNJS/UHnR/+JWFqttmR1ZMwYOK99Gs=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-582-TpHlV262PFuzkAR_GkWYvw-1; Mon, 25 Jan 2021 08:26:37 -0500
+X-MC-Unique: TpHlV262PFuzkAR_GkWYvw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 05DB0107ACE6;
+ Mon, 25 Jan 2021 13:26:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CDA2F4D;
+ Mon, 25 Jan 2021 13:26:36 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 36D2F113865F; Mon, 25 Jan 2021 14:26:35 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] error: Fix "Converting to ERRP_GUARD()" doc on "valid at
+ return"
+Date: Mon, 25 Jan 2021 14:26:35 +0100
+Message-Id: <20210125132635.1253219-1-armbru@redhat.com>
 MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-25_04:2021-01-25,
- 2021-01-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 clxscore=1015
- spamscore=0 mlxscore=0 malwarescore=0 phishscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 impostorscore=0 lowpriorityscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2101250074
-Received-SPF: pass client-ip=148.163.158.5;
- envelope-from=borntraeger@de.ibm.com; helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,59 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Janosch Frank <frankja@linux.ibm.com>, David Hildenbrand <david@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Halil Pasic <pasic@linux.ibm.com>,
- Christian Borntraeger <borntraeger@de.ibm.com>,
- qemu-s390x <qemu-s390x@nongnu.org>, David Gibson <david@gibson.dropbear.id.au>,
- Richard Henderson <rth@twiddle.net>
+Cc: vsementsov@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-secure execution (aka protected virtualization) guests cannot be
-migrated at the moment. Disallow the unpack facility if the user
-specifies --only-migratable.
+Setting errp = NULL is wrong: the automatic error propagation still
+propagates the dangling pointer _auto_errp_prop.local_err.  We need to
+set *errp = NULL to clear the dangling pointer.
 
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
-v1->v2:
-- add missing return
-- protect check with CONFIG_USER_ONLY for building non softmmu binaries
+ include/qapi/error.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- target/s390x/cpu_models.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index 35179f9dc7ba..e844a4007210 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -26,6 +26,7 @@
- #include "qapi/qmp/qdict.h"
- #ifndef CONFIG_USER_ONLY
- #include "sysemu/arch_init.h"
-+#include "sysemu/sysemu.h"
- #include "hw/pci/pci.h"
- #endif
- #include "qapi/qapi-commands-machine-target.h"
-@@ -878,6 +879,14 @@ static void check_compatibility(const S390CPUModel *max_model,
-         return;
-     }
- 
-+#ifndef CONFIG_USER_ONLY
-+    if (only_migratable && test_bit(S390_FEAT_UNPACK, model->features)) {
-+        error_setg(errp, "The unpack facility is not compatible with "
-+                   "the --only-migratable option");
-+	return;
-+    }
-+#endif
-+
-     /* detect the missing features to properly report them */
-     bitmap_andnot(missing, model->features, max_model->features, S390_FEAT_MAX);
-     if (bitmap_empty(missing, S390_FEAT_MAX)) {
+diff --git a/include/qapi/error.h b/include/qapi/error.h
+index eaa05c4837..4a9260b0cc 100644
+--- a/include/qapi/error.h
++++ b/include/qapi/error.h
+@@ -235,7 +235,7 @@
+  *    error_propagate_prepend(errp, *errp, ...) by error_prepend(errp, ...)
+  *
+  * 4. Ensure @errp is valid at return: when you destroy *errp, set
+- *    errp = NULL.
++ *    *errp = NULL.
+  *
+  * Example:
+  *
 -- 
-2.28.0
+2.26.2
 
 
