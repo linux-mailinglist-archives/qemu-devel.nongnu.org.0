@@ -2,59 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0C5302276
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 08:37:06 +0100 (CET)
-Received: from localhost ([::1]:53632 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57CC302277
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 08:37:07 +0100 (CET)
+Received: from localhost ([::1]:53728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3wQr-0008Lj-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 02:37:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47678)
+	id 1l3wQs-0008OE-Oo
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 02:37:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l3wOf-0007TU-1U
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:34:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52181)
+ id 1l3wOg-0007Tb-89
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:34:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27659)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1l3wOY-0001nQ-7h
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:34:48 -0500
+ id 1l3wOc-0001od-VR
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:34:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611560080;
+ s=mimecast20190719; t=1611560086;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=LKfihgdTFEtng/wgj1FTvuZ4H9Gw80OiMy9Lc7XPLX8=;
- b=Z3x3OvotyvBfi2tafYM3QiAyWQQiNqY3z03fOs9kEhwUmD9invv1FekOJ/YtAWe5+Oj5r3
- ZJV+TLyL5UOpZeNdt1E5SWIz9hQaQM6ZdFKS09/BMt/tNQJ7vXck3KaxGYkHvTHNOzdNn3
- 4kmMfIMrNIGEx2c+CSYj+0sPrqG1Avc=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XVfN3nkbNra97+W/+qJCuLWThNmjh5dZaoNAF28VZmA=;
+ b=PWYFMYg+zLbusk03LKbyQ3O2FcfsN1Wxy0CPsib6ydjN0z97KM1H1htUSmzr7vS8TUo0We
+ fxRy7DLCZwGYhA90ABhdx0PVi+TTR/kGHOIUNijmZ2eLnckKxSzFWmakYIGz6Xuae6DoKX
+ kMvNbCCz/HrS2pDxDqClzE1kUoMEXg8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-7oTJd4dtPDmuMN7acqZfwg-1; Mon, 25 Jan 2021 02:34:36 -0500
-X-MC-Unique: 7oTJd4dtPDmuMN7acqZfwg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-443-DxcnETqOMBa9cjk-RAoBZQ-1; Mon, 25 Jan 2021 02:34:44 -0500
+X-MC-Unique: DxcnETqOMBa9cjk-RAoBZQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CE2D8144E3;
- Mon, 25 Jan 2021 07:34:35 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0CC838144E1;
+ Mon, 25 Jan 2021 07:34:43 +0000 (UTC)
 Received: from localhost (unknown [10.36.110.14])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2B9C818401;
- Mon, 25 Jan 2021 07:34:30 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E4985D9D7;
+ Mon, 25 Jan 2021 07:34:38 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/2] Update libslirp & make it a subproject
-Date: Mon, 25 Jan 2021 11:34:25 +0400
-Message-Id: <20210125073427.3970606-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/2] slirp: update to git master
+Date: Mon, 25 Jan 2021 11:34:26 +0400
+Message-Id: <20210125073427.3970606-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20210125073427.3970606-1-marcandre.lureau@redhat.com>
+References: <20210125073427.3970606-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -62,7 +65,7 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,33 +85,50 @@ Cc: samuel.thibault@ens-lyon.org, j@getutm.app,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,=0D
-=0D
-Here is a few patches to update libslirp to git upstream.=0D
-Since it now supports meson subproject(), adapt the build=0D
-system to use it, and related fixes.=0D
-=0D
-v2:=0D
- - fix unused variables on macos=0D
- - fork_exec_child_setup: improve signal handling=0D
-=0D
-Marc-Andr=C3=A9 Lureau (2):=0D
-  slirp: update to git master=0D
-  build-sys: make libslirp a meson subproject=0D
-=0D
- configure            |  2 +-=0D
- meson.build          | 62 +++-----------------------------------------=0D
- .gitmodules          |  4 +--=0D
- slirp                |  1 -=0D
- subprojects/libslirp |  1 +=0D
- 5 files changed, 8 insertions(+), 62 deletions(-)=0D
- delete mode 160000 slirp=0D
- create mode 160000 subprojects/libslirp=0D
-=0D
---=20=0D
-2.29.0=0D
-=0D
+git cherry-diff:
+
+Commits on bacb71f1c3ed5f40e393afd8be81bedfba13a401 branch that is not on 8f43a99191afb47ca3f3c6972f6306209f367ece branch
++ 1021b0dc38d39f1dc95a296fe3e05a24a087cdc6 disable_dns option
++ 0f94ceec752592e4ac632a24e3c64a97dd09bf4c limit vnameserver_addr to port 53
++ b57bafa852ef16b133907a13678ec69e9531f177 libslirp.h: fix SlirpConfig v3 documentation
++ 1abf18b2b5edb462797629ed47ad4515a195686e Update CHANGELOG
++ ff4ecf9b6c6542b24b4ac6ea178be9d44e159f79 Release v4.3.0
++ 21f1d933050a40d62612c6274c32de60b811d9ea changelog: post-release
++ 376187c4b14c795763d472214812826eebe7e9c2 Release v4.3.1
++ 73336e08902a7e826f7d960453df037380266186 changelog: post-release
++ 5c1c9d43be61571608e9b14615045b67b830daf5 udp, udp6, icmp: handle TTL value
++ 73ed49ab71998d4288e71e954ef6214b70f23d79 icmp, icmp6: Add icmp_forward_error and icmp6_forward_error
++ 7a4840a57ec7dbc37cca1ab96f058a9610b26950 udp, udp6, icmp, icmp6: Enable forwarding errors on Linux
++ e9b2bc19ae652a2907f247e621b2e4773bdd2aab TCPIPHDR_DELTA: Fix potential negative value
++ 39f9a363eec082f04513413046321abd04163148 .gitlab-ci: add a Coverity stage
++ 1b0093b973cfa0dc041522e5d4e6f576b2df642e sosendoob: better document what urgc is used for
++ 5b9ad89ebbb8afa50162c9156fabd5fc56291088 Add G_GNUC_PRINTF to local function slirp_vsnprintf
++ 8a808aa493980e212b4d5f5465330905c8294e59 meson: remove meson-dist script
++ 0b669b5fbe4d3c25a682a67f1059d8633c963b3d meson: support compiling as subproject
++ 9f82a47b81f2864422b82c1e40e51a2ed9c6ac32 Add DNS resolving for iOS
++ c0eac03e8ce1b9a743231f2fe21e7cb579fc9339 Remove the QEMU-special make build-system
++ 1bfd4d9368f9fa2e4f0731e1266bec05bbc83a80 socket: consume empty packets
++ 92413be68914f8cae2f5bad4bf3ab8491dcbc5d7 Release v4.4.0
++ 07e8cfac69766081871ab620d9f16a630543d302 changelog: post-release
++ 4c4e035813313d02b63fdeb920d56fb2fdc0a5b1 Remove some needless (void)casts
++ eee9db9d115d91aa82f33685c4e76d656db92976 fork_exec_child_setup: improve signal handling
++ 216f434a018b3af182a4f31bbe5a00daee170343 Fix unused variables
+
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ slirp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/slirp b/slirp
+index 8f43a99191..5dce846e3e 160000
+--- a/slirp
++++ b/slirp
+@@ -1 +1 @@
+-Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
++Subproject commit 5dce846e3ee82d93462bc637bb0db2fd49f0fc5a
+-- 
+2.29.0
 
 
