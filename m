@@ -2,68 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F328303012
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 00:26:07 +0100 (CET)
-Received: from localhost ([::1]:37860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 579C1303020
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 00:30:13 +0100 (CET)
+Received: from localhost ([::1]:40112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4BFG-0007N3-48
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 18:26:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40690)
+	id 1l4BJE-00006r-Ee
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 18:30:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l4BEI-0006tH-W8; Mon, 25 Jan 2021 18:25:07 -0500
-Received: from mail-io1-xd36.google.com ([2607:f8b0:4864:20::d36]:38822)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l4BEG-0000AU-S3; Mon, 25 Jan 2021 18:25:06 -0500
-Received: by mail-io1-xd36.google.com with SMTP id e22so30158843iom.5;
- Mon, 25 Jan 2021 15:25:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=jPqnvlDtD9594QCUTTbHmmbHXh0LISKqar2kzJsIYOg=;
- b=Yro+GMiz3+CxX7kLvb9vEloo2el8tqJoI1tAUnZfXvw5JRyzaHRUBcdLQ8XV0FEIwK
- NNEy6ALAcq3FgxYnt4vVN8ri4ZgHIvh/hkkHj5PSQUhevFYOWTNt+caHZvoDxp2XXqWr
- qm1+kd4i008xd0Etv2TwXpkY4hmc4zHjvMmIPQszI7/Hi/aQeG8tKrV4JZNNOSAALFQx
- 8GSCR5bJNseOcXgdwjwMWHBEQjl5Ne3I+Ep7FiII1XtjGuQjbCVbML7N4a9EVV+PFslF
- WoyIdqByUbnLSkST4gFFwm1LV7S01hEVvmKNEtYBVzwGNWLFe7cJ3NlFPy/R6hBkpzQw
- Z07w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=jPqnvlDtD9594QCUTTbHmmbHXh0LISKqar2kzJsIYOg=;
- b=ibcX1VEXzecP6FKaQetMEAHxRc5HXIJQn2oNIEYRpCmboqHfYmeGDben5Md64MakLi
- LJyO42UcTW0t//jv4W87ixjsGRP2D0pK+qo8sbWISLVBOkt71PEqaY/GPbWKrJR0SMi0
- rlJuiHBunogJaYEzj1WyeQRATqc6yG3uloHrTDUGHdlZs5zhKVHDG9z2mXEBHkoahZXw
- xTH7QSetu/7gcF/34IanW6mn2LBPmO0MU2bDtdmP50D+mb9nZrEeAc1XweOWqW2RnHaS
- MGQI7osIGOtLrtbb+bLSx3P5HDF/iYtdV09ZyFJo2AnXTA2+KNt0kQFnRprs7HZWDeDa
- bbwA==
-X-Gm-Message-State: AOAM530cUCGyg5h6tkb6qloLlzX+c7D53ejakfoKnQ/TSpASpgWVOf5q
- od30evlCX+rtpfHqCKmYLI3zJDpAuCI5IJDQ5z4=
-X-Google-Smtp-Source: ABdhPJyompUKJdoHX3ApNxr+gU9g2P79aIVVfEJ/tuYK70bDZR87b4jrIqkO9guMDHxGGLt6uNQBTeDVtz/+lAMtTM0=
-X-Received: by 2002:a5d:9514:: with SMTP id d20mr2205692iom.118.1611617103434; 
- Mon, 25 Jan 2021 15:25:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1l4BHy-00087Z-Cg
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 18:28:54 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:3276)
+ by eggs.gnu.org with esmtps (TLS1.2:RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <bcain@quicinc.com>) id 1l4BHv-0000ZJ-VX
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 18:28:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=quicinc.com; i=@quicinc.com; q=dns/txt; s=qcdkim;
+ t=1611617331; x=1643153331;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=/j8RTSMeQGHrKbvyhJZwjZ08SkKew4PLGTW/Szvu00c=;
+ b=raSNu5YDtb7uChpnkJrOhSRHxaWofbWbtuoEplz2nZc1JPSA3vbYJqvY
+ JL4+x35yKtnb4ndrPHKUClWYuUUKpUHKa6l6Dv0rYoXXvh9GxvoO37a4n
+ UlhWr2YwH9c/DicAewjOOuD7iycEQTkHwBj31EJHZqb69i0ie+6iCVJWq E=;
+Received: from unknown (HELO ironmsg-SD-alpha.qualcomm.com) ([10.53.140.30])
+ by alexa-out-sd-02.qualcomm.com with ESMTP; 25 Jan 2021 15:28:48 -0800
+X-QCInternal: smtphost
+Received: from nasanexm03g.na.qualcomm.com ([10.85.0.49])
+ by ironmsg-SD-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA;
+ 25 Jan 2021 15:28:48 -0800
+Received: from nasanexm03a.na.qualcomm.com (10.85.0.103) by
+ nasanexm03g.na.qualcomm.com (10.85.0.49) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Mon, 25 Jan 2021 15:28:47 -0800
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (199.106.107.6)
+ by nasanexm03a.na.qualcomm.com (10.85.0.103) with Microsoft SMTP Server (TLS)
+ id 15.0.1497.2 via Frontend Transport; Mon, 25 Jan 2021 15:28:47 -0800
+Received: from SN6PR02MB4205.namprd02.prod.outlook.com (2603:10b6:805:35::17)
+ by SN6PR02MB4558.namprd02.prod.outlook.com (2603:10b6:805:b2::17)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.13; Mon, 25 Jan
+ 2021 23:28:46 +0000
+Received: from SN6PR02MB4205.namprd02.prod.outlook.com
+ ([fe80::f197:545d:3192:165e]) by SN6PR02MB4205.namprd02.prod.outlook.com
+ ([fe80::f197:545d:3192:165e%6]) with mapi id 15.20.3784.017; Mon, 25 Jan 2021
+ 23:28:46 +0000
+From: Brian Cain <bcain@quicinc.com>
+To: Taylor Simpson <tsimpson@quicinc.com>,
+ =?utf-8?B?UGhpbGlwcGUgTWF0aGlldS1EYXVkw6k=?= <f4bug@amsat.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: RE: [PATCH v7 00/35] Hexagon patch series
+Thread-Topic: [PATCH v7 00/35] Hexagon patch series
+Thread-Index: AQHW828XyftQN75TcUylZvvcPhlgEKo4+/OQ
+Date: Mon, 25 Jan 2021 23:28:46 +0000
+Message-ID: <SN6PR02MB4205631BE926DC85052330E9B8BD9@SN6PR02MB4205.namprd02.prod.outlook.com>
+References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
+ <02e7217d-6376-b93d-842d-197d9e13fc58@amsat.org>
+ <BYAPR02MB4886C64A59EAC3B164159D5BDEBD9@BYAPR02MB4886.namprd02.prod.outlook.com>
+In-Reply-To: <BYAPR02MB4886C64A59EAC3B164159D5BDEBD9@BYAPR02MB4886.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: quicinc.com; dkim=none (message not signed)
+ header.d=none;quicinc.com; dmarc=none action=none header.from=quicinc.com;
+x-originating-ip: [199.106.103.61]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 2052f414-501f-4950-8e37-08d8c188f689
+x-ms-traffictypediagnostic: SN6PR02MB4558:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <SN6PR02MB4558B53E28D1E050EC756820B8BD9@SN6PR02MB4558.namprd02.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:6790;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 2e+RMGU7qI7EX2zuFtguyt5OoI+ciO2bPt5a4PKD5QVy5cJY0rP8GuaK0oF6R/qJXqsZ/kDJONr0C4xMsiMVidqto9JG1+ScAWX0mXG+R4cQBXSvH0JFbIGYdLZ4VpzfhOPCiq5Ezj62do7DjafuU7xRMGi1BBQksDfOVwBbl6PRNPpgXL2DD5ZwFLylnRxxIFchHRnZusVYO4QsnzmgAYvzO5gxUgvPew9jr4EXo/iCC+9g4C3CVnbg9d5yT0Rk2Om5xpdReRDzl/MObqSH1Mkg6ozl98sDWpei/2NkD+dwInLas8HfRypFM3hbWrIQndRleaZ+T7VoaHBK3oRGT9xV7u8xrO8amnBNKzqrP8Lpa5+R3WiQ/40xZw5b4h7+NNzsauhmiLeW0W4PyKuwdilhxjDvDKlGVqV7L49npkMUchoVDe/OrYp+xeXa8IO2M9vra3klCvG1gHZ0K6QQUUZNAazsxJHMQ4wHJHi0sApcRzH2Me/pt2phypiZEyZF83YldgcrJgj1JiTd92rphA==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR02MB4205.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(376002)(366004)(39860400002)(346002)(136003)(396003)(66476007)(66556008)(66946007)(64756008)(66446008)(2906002)(54906003)(86362001)(83380400001)(55016002)(71200400001)(8676002)(186003)(52536014)(53546011)(33656002)(26005)(5660300002)(6506007)(4326008)(478600001)(316002)(8936002)(76116006)(9686003)(110136005)(7696005);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata: =?utf-8?B?ckpzeDJzR2p4cDRRQjZVWEUrZWZ1QklJcDRpOGV6M1ZsR3RVckdyZVcxUDNu?=
+ =?utf-8?B?azEwQXhONmE5bFZrZ1pXYU0xbHNyTUxkVnEzV0ZvMTArMlE1cFpmZFJQUkZx?=
+ =?utf-8?B?SUgwMTIrQ0d1VHFacVE5STlhdkNndmYvdW9kZ2h6RjVrcVViQUhLd283Mktk?=
+ =?utf-8?B?VFV2VGoyOFU0TS9ha0tCTmp0VnpKbzBoMzJNNkhMY3VPVG5OTEovYW9ka1RR?=
+ =?utf-8?B?alZpclhCYnFLOGRLcXpyVDNSRlRmQjJ3Q05qckwxRjlHWWl0QW5Vd0hvVWZT?=
+ =?utf-8?B?aW90bXRzSlo4TmxPM1lvT1hJMzEyMk05U25iN3Z1REhMQnVUZ1pjNEYvTVpy?=
+ =?utf-8?B?T1JMSHE1TjZkMmZ2Y2ozVGdjb29MQm4vRUNYZnU2RTlKSE9kQjZOOGZyT1JG?=
+ =?utf-8?B?NjI1dWRWRmlmNXNCQkNrVTNSVEZVNk5DMjJwRjdrOFMvZE1jRFFIK1ltRlda?=
+ =?utf-8?B?M09sWVVseVQ2QVphK2NZS20rR3ZGRDFKSnU1bU56NDIwMnordHRwRGpLV3Rt?=
+ =?utf-8?B?Q1BsRmloMDF2K1F0SHdUV0hub0UySDlkaEJnSlBpQ1k2OFMydG1xbkJ2di9k?=
+ =?utf-8?B?b2gyTFNrYlF0dTZWbjhydHlQOTFrY2lESFl2emEwOEpJbkRKVElRK3F6S2N1?=
+ =?utf-8?B?aHZOZ2UrQjFvSy8rVDFLeXVVamZiSDVhVFdDdjNHenBiMGJvWGtkdWl6OFZr?=
+ =?utf-8?B?N1Nlc2lhV2toeEpuaXlaQ21vTzVOdDVmeTFkWGxacHJQWWpxUnRwM0lYL2hm?=
+ =?utf-8?B?WE9NNnRnS0JQOUMwQzcvRERTb0ROMFZZMVZuU3lGUTdnR0tlZ1BVOEN3K3NX?=
+ =?utf-8?B?eWFSSFBmTlZ3dTR3VkU0ZHFoSnl6R2IzMHIwb0RUcDRFMTJGcmJNSUhPK3RG?=
+ =?utf-8?B?eVN0REFDNy8rWllONWt5U1hiWVhsbnMwVndaNGw2WkdrSjlMVWEvWE40WCtR?=
+ =?utf-8?B?aElPSFR2NjYvYzBLWVJZOXdSczFFNDZOMWdwdFE0azFYYWhGMXhpZ1luTHZj?=
+ =?utf-8?B?L1ZNT295Yzl6dFdhWlF4YXk0Qkkya0IrdFNhd0xKUzBmTEF5bHFSaWs4K3Av?=
+ =?utf-8?B?S2NPZ3M1U3BOWFVrUlJPREc3c1Z4cE5zWXNaaEM3dmpkbU9BYmRndGJ0aXdn?=
+ =?utf-8?B?MzdLZXBqbjZhRXFPSjQwNDYxMit4SURzV01QQ2dQMWdleS9hUG16VzI5UUoz?=
+ =?utf-8?B?YmVHSVExcE5UU3lqSmtzMWhSVzJoRzhSZDN2SXdFbGMxTDF2NnFseXgxUXZO?=
+ =?utf-8?B?ZnlEUTgzSTlOZzhCUTYzM29GcnFkVFUrSEk5azIzUTM2QjVCbGhpWXp5UjRJ?=
+ =?utf-8?B?OE9NRTVnaGZQVEczTHNwU3IzSGJUODJ0dHdNVVFNTDcxRHB6NVFLRi8xM1F4?=
+ =?utf-8?B?UTF4Z01UNjJCeWpRUFRsUVllQ3h6cFRJWnZPNUdnOS91T2hZcFdkRjIvTGhX?=
+ =?utf-8?Q?IC2ZLFPT?=
+arc-seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GFZSJiM2XdO6JeMoCnX/lNOHRDJ/RHecOpUCBlEztm9LRiytrExr6WFlszMh8FX62R1JR7YNPp+N3whVOwUi+WCgGe94zYn0XYSObJyWXc/5OCHRYLsY/LRh2B6/tEHIpaFrXWcuLs7VCsOD5z5RxCL0T/6/WOJ7yA9GLspjvGWF+ps9k1QW/pE8JqoPjl1TyjunP55iVOn4gFeVg4061qesADc36xkWhXXL/r9inS877gFGdDor+WDo//2O7JGnoncLVDZKh0slDIFnsqvV2be7YO4xlcCFnABcjYin5aPHHKROEFYwbzSuJ1S3sNsJzA9B1foE88aJQvLEyb61vg==
+arc-message-signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jhSZ+pxRbJVybnzdZWgEBza3r9H1g2hRrt4Ljx9B+tw=;
+ b=AiUh/xSajV8MhOtGWY+4lTOxQH2aArLwfCVKF+A8bWiuSy6XTjyr+6mzQe6rGU2CJyQPqJ1xCRoP54g3pOVKAK7MPxJYJIMTmivcP1dlO7O3449GcLAAUaPLM26tny8yB1ow4qwWRRifbDAQo+hGMx7/BWrJkSH65IWtpC0kohryvjPSPG8ThcUIR6Qw+yS9eSPvuDrEBwy1/njv2oxyE5D86QYjBj0ibcX10nZnjFMQMAhgy3iymAZ2zQDy2Tzxh5e/rULoEFaG1oKnpQOIeNcBG6MWWzSSk22TNqELhM2mLS6s2v1CHGvG3CjJXx+Q9io14NFnxez+qlLb5ulG8A==
+arc-authentication-results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+dkim-signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=qualcomm.onmicrosoft.com; s=selector1-qualcomm-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jhSZ+pxRbJVybnzdZWgEBza3r9H1g2hRrt4Ljx9B+tw=;
+ b=WkTHzUao2OwnnHBrxKN+aaKd8av+Ua6ico1iPF2tgZVeHI5qzGr7udYivdt7zVC+wBuFF+Fs6A39tEaNDH68+7w41vnZRY7eXQFSDIObchiC9CVQGLzAyHpjzNPCzLQsSwiQ2zWy+/lfTNO2xczTdfMhhKjTsH8Tu9ablMch/ZA=
+x-ms-exchange-crosstenant-authas: Internal
+x-ms-exchange-crosstenant-authsource: SN6PR02MB4205.namprd02.prod.outlook.com
+x-ms-exchange-crosstenant-network-message-id: 2052f414-501f-4950-8e37-08d8c188f689
+x-ms-exchange-crosstenant-originalarrivaltime: 25 Jan 2021 23:28:46.7918 (UTC)
+x-ms-exchange-crosstenant-fromentityheader: Hosted
+x-ms-exchange-crosstenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+x-ms-exchange-crosstenant-mailboxtype: HOSTED
+x-ms-exchange-crosstenant-userprincipalname: TTH6EA5NCQ4KUy07O2oWI9NX0qbAl6uHn39Xk9eVJq/O4YiuvqUdz3FZpATneOlPEFx+NGh8teU+Q6njLa9nHQ==
+x-ms-exchange-transport-crosstenantheadersstamped: SN6PR02MB4558
+x-originatororg: quicinc.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20210112093950.17530-1-frank.chang@sifive.com>
- <20210112093950.17530-24-frank.chang@sifive.com>
-In-Reply-To: <20210112093950.17530-24-frank.chang@sifive.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 25 Jan 2021 15:24:37 -0800
-Message-ID: <CAKmqyKNB5XrhhoGWfkUXp0=qjb6iUmwNwJLgRjJ1A8j84MTOdg@mail.gmail.com>
-Subject: Re: [PATCH v6 23/72] target/riscv: rvv-1.0: load/store whole register
- instructions
-To: Frank Chang <frank.chang@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d36;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd36.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=199.106.114.39; envelope-from=bcain@quicinc.com;
+ helo=alexa-out-sd-02.qualcomm.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,261 +154,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Alistair Francis <Alistair.Francis@wdc.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, LIU Zhiwei <zhiwei_liu@c-sky.com>
+Cc: "ale@rev.ng" <ale@rev.ng>,
+ "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
+ "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+ "laurent@vivier.eu" <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 12, 2021 at 1:59 AM <frank.chang@sifive.com> wrote:
->
-> From: Frank Chang <frank.chang@sifive.com>
->
-> Add the following instructions:
->
-> * vl<nf>re<eew>.v
-> * vs<nf>r.v
->
-> Signed-off-by: Frank Chang <frank.chang@sifive.com>
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Alistair
-
-> ---
->  target/riscv/helper.h                   | 21 ++++++++
->  target/riscv/insn32.decode              | 22 ++++++++
->  target/riscv/insn_trans/trans_rvv.c.inc | 69 +++++++++++++++++++++++++
->  target/riscv/vector_helper.c            | 65 +++++++++++++++++++++++
->  4 files changed, 177 insertions(+)
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index b3fa28d4354..5ec364caecc 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -140,6 +140,27 @@ DEF_HELPER_5(vle16ff_v, void, ptr, ptr, tl, env, i32)
->  DEF_HELPER_5(vle32ff_v, void, ptr, ptr, tl, env, i32)
->  DEF_HELPER_5(vle64ff_v, void, ptr, ptr, tl, env, i32)
->
-> +DEF_HELPER_4(vl1re8_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl1re16_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl1re32_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl1re64_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl2re8_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl2re16_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl2re32_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl2re64_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl4re8_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl4re16_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl4re32_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl4re64_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl8re8_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl8re16_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl8re32_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vl8re64_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vs1r_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vs2r_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vs4r_v, void, ptr, tl, env, i32)
-> +DEF_HELPER_4(vs8r_v, void, ptr, tl, env, i32)
-> +
->  DEF_HELPER_6(vamoswapei8_32_v, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vamoswapei8_64_v, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vamoswapei16_32_v, void, ptr, ptr, tl, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 2047f23bd62..e11666f16df 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -278,6 +278,28 @@ vle16ff_v     ... 000 . 10000 ..... 101 ..... 0000111 @r2_nfvm
->  vle32ff_v     ... 000 . 10000 ..... 110 ..... 0000111 @r2_nfvm
->  vle64ff_v     ... 000 . 10000 ..... 111 ..... 0000111 @r2_nfvm
->
-> +# Vector whole register insns
-> +vl1re8_v      000 000 1 01000 ..... 000 ..... 0000111 @r2
-> +vl1re16_v     000 000 1 01000 ..... 101 ..... 0000111 @r2
-> +vl1re32_v     000 000 1 01000 ..... 110 ..... 0000111 @r2
-> +vl1re64_v     000 000 1 01000 ..... 111 ..... 0000111 @r2
-> +vl2re8_v      001 000 1 01000 ..... 000 ..... 0000111 @r2
-> +vl2re16_v     001 000 1 01000 ..... 101 ..... 0000111 @r2
-> +vl2re32_v     001 000 1 01000 ..... 110 ..... 0000111 @r2
-> +vl2re64_v     001 000 1 01000 ..... 111 ..... 0000111 @r2
-> +vl4re8_v      011 000 1 01000 ..... 000 ..... 0000111 @r2
-> +vl4re16_v     011 000 1 01000 ..... 101 ..... 0000111 @r2
-> +vl4re32_v     011 000 1 01000 ..... 110 ..... 0000111 @r2
-> +vl4re64_v     011 000 1 01000 ..... 111 ..... 0000111 @r2
-> +vl8re8_v      111 000 1 01000 ..... 000 ..... 0000111 @r2
-> +vl8re16_v     111 000 1 01000 ..... 101 ..... 0000111 @r2
-> +vl8re32_v     111 000 1 01000 ..... 110 ..... 0000111 @r2
-> +vl8re64_v     111 000 1 01000 ..... 111 ..... 0000111 @r2
-> +vs1r_v        000 000 1 01000 ..... 000 ..... 0100111 @r2
-> +vs2r_v        001 000 1 01000 ..... 000 ..... 0100111 @r2
-> +vs4r_v        011 000 1 01000 ..... 000 ..... 0100111 @r2
-> +vs8r_v        111 000 1 01000 ..... 000 ..... 0100111 @r2
-> +
->  #*** Vector AMO operations are encoded under the standard AMO major opcode ***
->  vamoswapei8_v   00001 . . ..... ..... 000 ..... 0101111 @r_wdvm
->  vamoswapei16_v  00001 . . ..... ..... 101 ..... 0101111 @r_wdvm
-> diff --git a/target/riscv/insn_trans/trans_rvv.c.inc b/target/riscv/insn_trans/trans_rvv.c.inc
-> index 4c93f8a5c8e..2b0e0590efc 100644
-> --- a/target/riscv/insn_trans/trans_rvv.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvv.c.inc
-> @@ -1014,6 +1014,75 @@ GEN_VEXT_TRANS(vle16ff_v, MO_16, r2nfvm, ldff_op, ld_us_check)
->  GEN_VEXT_TRANS(vle32ff_v, MO_32, r2nfvm, ldff_op, ld_us_check)
->  GEN_VEXT_TRANS(vle64ff_v, MO_64, r2nfvm, ldff_op, ld_us_check)
->
-> +/*
-> + * load and store whole register instructions
-> + */
-> +typedef void gen_helper_ldst_whole(TCGv_ptr, TCGv, TCGv_env, TCGv_i32);
-> +
-> +static bool ldst_whole_trans(uint32_t vd, uint32_t rs1, uint32_t nf,
-> +                             gen_helper_ldst_whole *fn, DisasContext *s,
-> +                             bool is_store)
-> +{
-> +    TCGv_ptr dest;
-> +    TCGv base;
-> +    TCGv_i32 desc;
-> +
-> +    uint32_t data = FIELD_DP32(0, VDATA, NF, nf);
-> +    dest = tcg_temp_new_ptr();
-> +    base = tcg_temp_new();
-> +    desc = tcg_const_i32(simd_desc(0, s->vlen / 8, data));
-> +
-> +    gen_get_gpr(base, rs1);
-> +    tcg_gen_addi_ptr(dest, cpu_env, vreg_ofs(s, vd));
-> +
-> +    fn(dest, base, cpu_env, desc);
-> +
-> +    tcg_temp_free_ptr(dest);
-> +    tcg_temp_free(base);
-> +    tcg_temp_free_i32(desc);
-> +    if (!is_store) {
-> +        mark_vs_dirty(s);
-> +    }
-> +    return true;
-> +}
-> +
-> +/*
-> + * load and store whole register instructions ignore vtype and vl setting.
-> + * Thus, we don't need to check vill bit. (Section 7.9)
-> + */
-> +#define GEN_LDST_WHOLE_TRANS(NAME, ARG_NF, IS_STORE)                      \
-> +static bool trans_##NAME(DisasContext *s, arg_##NAME * a)                 \
-> +{                                                                         \
-> +    if (require_rvv(s) &&                                                 \
-> +        QEMU_IS_ALIGNED(a->rd, ARG_NF)) {                                 \
-> +        return ldst_whole_trans(a->rd, a->rs1, ARG_NF, gen_helper_##NAME, \
-> +                                s, IS_STORE);                             \
-> +    }                                                                     \
-> +    return false;                                                         \
-> +}
-> +
-> +GEN_LDST_WHOLE_TRANS(vl1re8_v,  1, false)
-> +GEN_LDST_WHOLE_TRANS(vl1re16_v, 1, false)
-> +GEN_LDST_WHOLE_TRANS(vl1re32_v, 1, false)
-> +GEN_LDST_WHOLE_TRANS(vl1re64_v, 1, false)
-> +GEN_LDST_WHOLE_TRANS(vl2re8_v,  2, false)
-> +GEN_LDST_WHOLE_TRANS(vl2re16_v, 2, false)
-> +GEN_LDST_WHOLE_TRANS(vl2re32_v, 2, false)
-> +GEN_LDST_WHOLE_TRANS(vl2re64_v, 2, false)
-> +GEN_LDST_WHOLE_TRANS(vl4re8_v,  4, false)
-> +GEN_LDST_WHOLE_TRANS(vl4re16_v, 4, false)
-> +GEN_LDST_WHOLE_TRANS(vl4re32_v, 4, false)
-> +GEN_LDST_WHOLE_TRANS(vl4re64_v, 4, false)
-> +GEN_LDST_WHOLE_TRANS(vl8re8_v,  8, false)
-> +GEN_LDST_WHOLE_TRANS(vl8re16_v, 8, false)
-> +GEN_LDST_WHOLE_TRANS(vl8re32_v, 8, false)
-> +GEN_LDST_WHOLE_TRANS(vl8re64_v, 8, false)
-> +
-> +GEN_LDST_WHOLE_TRANS(vs1r_v, 1, true)
-> +GEN_LDST_WHOLE_TRANS(vs2r_v, 2, true)
-> +GEN_LDST_WHOLE_TRANS(vs4r_v, 4, true)
-> +GEN_LDST_WHOLE_TRANS(vs8r_v, 8, true)
-> +
->  /*
->   *** vector atomic operation
->   */
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 743883449a4..57564c5c0c9 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -534,6 +534,71 @@ GEN_VEXT_LDFF(vle16ff_v, int16_t, lde_h)
->  GEN_VEXT_LDFF(vle32ff_v, int32_t, lde_w)
->  GEN_VEXT_LDFF(vle64ff_v, int64_t, lde_d)
->
-> +/*
-> + *** load and store whole register instructions
-> + */
-> +static void
-> +vext_ldst_whole(void *vd, target_ulong base, CPURISCVState *env, uint32_t desc,
-> +                vext_ldst_elem_fn *ldst_elem, uint32_t esz, uintptr_t ra,
-> +                MMUAccessType access_type)
-> +{
-> +    uint32_t i, k;
-> +    uint32_t nf = vext_nf(desc);
-> +    uint32_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-> +    uint32_t max_elems = vlenb >> esz;
-> +
-> +    /* probe every access */
-> +    probe_pages(env, base, vlenb * nf, ra, access_type);
-> +
-> +    /* load bytes from guest memory */
-> +    for (k = 0; k < nf; k++) {
-> +        for (i = 0; i < max_elems; i++) {
-> +            target_ulong addr = base + ((i + k * max_elems) << esz);
-> +            ldst_elem(env, addr, i + k * max_elems, vd, ra);
-> +        }
-> +    }
-> +}
-> +
-> +#define GEN_VEXT_LD_WHOLE(NAME, ETYPE, LOAD_FN)      \
-> +void HELPER(NAME)(void *vd, target_ulong base,       \
-> +                  CPURISCVState *env, uint32_t desc) \
-> +{                                                    \
-> +    vext_ldst_whole(vd, base, env, desc, LOAD_FN,    \
-> +                    ctzl(sizeof(ETYPE)), GETPC(),    \
-> +                    MMU_DATA_LOAD);                  \
-> +}
-> +
-> +GEN_VEXT_LD_WHOLE(vl1re8_v,  int8_t,  lde_b)
-> +GEN_VEXT_LD_WHOLE(vl1re16_v, int16_t, lde_h)
-> +GEN_VEXT_LD_WHOLE(vl1re32_v, int32_t, lde_w)
-> +GEN_VEXT_LD_WHOLE(vl1re64_v, int64_t, lde_d)
-> +GEN_VEXT_LD_WHOLE(vl2re8_v,  int8_t,  lde_b)
-> +GEN_VEXT_LD_WHOLE(vl2re16_v, int16_t, lde_h)
-> +GEN_VEXT_LD_WHOLE(vl2re32_v, int32_t, lde_w)
-> +GEN_VEXT_LD_WHOLE(vl2re64_v, int64_t, lde_d)
-> +GEN_VEXT_LD_WHOLE(vl4re8_v,  int8_t,  lde_b)
-> +GEN_VEXT_LD_WHOLE(vl4re16_v, int16_t, lde_h)
-> +GEN_VEXT_LD_WHOLE(vl4re32_v, int32_t, lde_w)
-> +GEN_VEXT_LD_WHOLE(vl4re64_v, int64_t, lde_d)
-> +GEN_VEXT_LD_WHOLE(vl8re8_v,  int8_t,  lde_b)
-> +GEN_VEXT_LD_WHOLE(vl8re16_v, int16_t, lde_h)
-> +GEN_VEXT_LD_WHOLE(vl8re32_v, int32_t, lde_w)
-> +GEN_VEXT_LD_WHOLE(vl8re64_v, int64_t, lde_d)
-> +
-> +#define GEN_VEXT_ST_WHOLE(NAME, ETYPE, STORE_FN)     \
-> +void HELPER(NAME)(void *vd, target_ulong base,       \
-> +                  CPURISCVState *env, uint32_t desc) \
-> +{                                                    \
-> +    vext_ldst_whole(vd, base, env, desc, STORE_FN,   \
-> +                    ctzl(sizeof(ETYPE)), GETPC(),    \
-> +                    MMU_DATA_STORE);                 \
-> +}
-> +
-> +GEN_VEXT_ST_WHOLE(vs1r_v, int8_t, ste_b)
-> +GEN_VEXT_ST_WHOLE(vs2r_v, int8_t, ste_b)
-> +GEN_VEXT_ST_WHOLE(vs4r_v, int8_t, ste_b)
-> +GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
-> +
->  /*
->   *** Vector AMO Operations (Zvamo)
->   */
-> --
-> 2.17.1
->
->
+PiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBUYXlsb3IgU2ltcHNvbiA8dHNp
+bXBzb25AcXVpY2luYy5jb20+DQo+IFNlbnQ6IE1vbmRheSwgSmFudWFyeSAyNSwgMjAyMSA1OjA5
+IFBNDQo+IFRvOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8ZjRidWdAYW1zYXQub3JnPjsgcWVt
+dS1kZXZlbEBub25nbnUub3JnDQo+IENjOiByaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnOyBh
+bGV4LmJlbm5lZUBsaW5hcm8ub3JnOw0KPiBsYXVyZW50QHZpdmllci5ldTsgYWxlQHJldi5uZzsg
+QnJpYW4gQ2FpbiA8YmNhaW5AcXVpY2luYy5jb20+DQo+IFN1YmplY3Q6IFJFOiBbUEFUQ0ggdjcg
+MDAvMzVdIEhleGFnb24gcGF0Y2ggc2VyaWVzDQo+DQo+DQo+DQo+ID4gLS0tLS1PcmlnaW5hbCBN
+ZXNzYWdlLS0tLS0NCj4gPiBGcm9tOiBQaGlsaXBwZSBNYXRoaWV1LURhdWTDqSA8cGhpbGlwcGUu
+bWF0aGlldS5kYXVkZUBnbWFpbC5jb20+IE9uDQo+ID4gQmVoYWxmIE9mIFBoaWxpcHBlIE1hdGhp
+ZXUtRGF1ZMOpDQo+ID4gU2VudDogTW9uZGF5LCBKYW51YXJ5IDI1LCAyMDIxIDQ6MTUgUE0NCj4g
+PiBUbzogVGF5bG9yIFNpbXBzb24gPHRzaW1wc29uQHF1aWNpbmMuY29tPjsgcWVtdS1kZXZlbEBu
+b25nbnUub3JnDQo+ID4gQ2M6IHJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmc7IGFsZXguYmVu
+bmVlQGxpbmFyby5vcmc7DQo+ID4gbGF1cmVudEB2aXZpZXIuZXU7IGFsZUByZXYubmc7IEJyaWFu
+IENhaW4gPGJjYWluQHF1aWNpbmMuY29tPg0KPiA+IFN1YmplY3Q6IFJlOiBbUEFUQ0ggdjcgMDAv
+MzVdIEhleGFnb24gcGF0Y2ggc2VyaWVzDQo+ID4NCj4gPg0KPiA+IEhpIFRheWxvciwNCj4gPg0K
+Li4uDQo+ID4NCj4gPiBJJ20gbG9va2luZyBhdCBzdHJlc3NpbmcgYSBiaXQgbW9yZSB5b3VyIHdv
+cmsuDQouLi4NCj4gPiBBbnkgb3RoZXIgcmVhbC13b3JsZCBiaW5hcnkgeW91IGNvdWxkIHNoYXJl
+Pw0KPg0KPiBJbiBhZGRpdGlvbiB0byBidXN5Ym94LCB3ZSBjb3VsZCBidWlsZCBvdGhlciBvcGVu
+IHNvdXJjZSBwYWNrYWdlcy4gIFdvdWxkDQo+IHRoYXQgYmUgb2YgaW50ZXJlc3Q/DQoNClRheWxv
+ciAtLSBJIGhhdmUgYmVlbiBydW5uaW5nIG5pZ2h0bHkgYnVpbGRzIG9mIHRoZSBjcm9zcyB0b29s
+Y2hhaW4gd2hpY2ggaW5jbHVkZSBidXN5Ym94IGFuZCBQeXRob24gKENQeXRob24pIGFzIHRlc3Qg
+Y2FzZXMuICBXZSBjb3VsZCBwdXQgb25lIHRob3NlIGJpbmFyaWVzIHNvbWV3aGVyZS4NCg==
 
