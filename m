@@ -2,68 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62BE302B58
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:19:42 +0100 (CET)
-Received: from localhost ([::1]:33858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C34302B37
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:13:06 +0100 (CET)
+Received: from localhost ([::1]:56046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l47On-0000iC-CS
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:19:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
+	id 1l47IP-00068f-8T
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:13:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34808)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l474e-0006xW-F5
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:58:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:27318)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l474b-0006I3-KG
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:58:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611601127;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zHac+loGt9pvJ3ucyE/+rVawDMRHJawcv3rmbk+zyIM=;
- b=KSAEMA5R62EEp6W+Y8EW3kFRzivClLWmMB0WHP+q9cAyfcmVgpwqgnGlz5Gj37K3BMC03Q
- QbY+TVDzQVmXxx35TY0DE+5PQaSwMjMwPbYNZa4/3mYjRIlSMFoCGQlCUkqJ/Ld4v3GIUk
- NVSc9F7QY1S+oiaDmCu9I0UzZ60yn6s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-545-udNWGQvbMD-sYO2gYbaV8A-1; Mon, 25 Jan 2021 13:58:46 -0500
-X-MC-Unique: udNWGQvbMD-sYO2gYbaV8A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9C5F58799E0;
- Mon, 25 Jan 2021 18:58:44 +0000 (UTC)
-Received: from work-vm (ovpn-114-3.ams2.redhat.com [10.36.114.3])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C2AF100AE46;
- Mon, 25 Jan 2021 18:58:38 +0000 (UTC)
-Date: Mon, 25 Jan 2021 18:58:36 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Tom Lendacky <thomas.lendacky@amd.com>
-Subject: Re: [PATCH v5 2/6] sev/i386: Require in-kernel irqchip support for
- SEV-ES guests
-Message-ID: <20210125185836.GP2925@work-vm>
-References: <cover.1610665956.git.thomas.lendacky@amd.com>
- <d959102a84943107c7c2e58d5e2760d2ef4750a9.1610665956.git.thomas.lendacky@amd.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l478Q-0001NS-Rw
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:02:46 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37426)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l478O-0006t5-Fc
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:02:46 -0500
+Received: by mail-pg1-x535.google.com with SMTP id z21so9572983pgj.4
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 11:02:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=hO+hOry7tk46aPJCYp/QNHoA7Z2uItuZzqUzRJ2N8kI=;
+ b=VREa5/2J/TV0LW8vdZSxUOkmCeS+CCR/K4hR6vVRbpaLmNaEBVmNDpTpkvTeWZn3kq
+ VClSDLT3ZkvD8MhS27F2jGU3mUjUUeUrkVj+7FSRHE0HNoIzqLzMnfOZg8CLd0GTouaB
+ 5lW2O+4i7ToBHsl+DbT9C9ftAz9dLXR/dk02DpOf2mCStdmzg1MUQJDNS+xqYPa7PKiI
+ 8HmuQ7vWNNEaDeIFhM+qd/8PLEwwheAMSTB6I9LEqqZJPTH1qpvJzlkqaiGdSFbP6cWu
+ Hl46usHrzXFBxy4ak0xH6upuo1mqF5P9zs0YkUXjYkanBzX0rEEGlain0gwQlEp547jc
+ 3sWQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=hO+hOry7tk46aPJCYp/QNHoA7Z2uItuZzqUzRJ2N8kI=;
+ b=bnHwF2NDilXo/6ZHW0GvSYcDE04UT3Zks+9XiKLREwMe0LLK5wh8kcX773AUKlYvRD
+ LHKJxWnwLPf+mf3clrOSmTazt83dF/il9zabU17BlceT2oxJ1rKjkpw49p8Cc6c4Q09a
+ /XKBUcW4k31q3pllQUwBjiXN/7dxrX0I1ay52+6JP6dgaIP4/9Drcl546uCZFM39wU0/
+ k2e3jC/FRtWN7X4NpsYP4LiJDzd3qAFlP2Iihe1dvCvFKe8Jg0evDDDB39cEIR3WX0dH
+ PwAUO8M6+imhcBkZCNecs7yh7bxIITTR23y0VUf6rZ3ls6wJVHmS4qNhL5WgoWK6Q2u5
+ 5xaA==
+X-Gm-Message-State: AOAM532+wODYvpcfbCTdXPBGN4RUzEkH1Znk0oD0PGI533Afqt8Cu7vh
+ LUo0gZO4VfSJKGCtGsb5QFuf6g==
+X-Google-Smtp-Source: ABdhPJwgKQUo85hdE/hdY9zsouqDilVAmzP07YmhZkVfMG8Airgouqbz4w3cvMgWyrThBx97884kKg==
+X-Received: by 2002:a62:7b90:0:b029:1be:9e89:1db5 with SMTP id
+ w138-20020a627b900000b02901be9e891db5mr1585120pfc.35.1611601363135; 
+ Mon, 25 Jan 2021 11:02:43 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id 197sm17917140pgg.43.2021.01.25.11.02.40
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jan 2021 11:02:41 -0800 (PST)
+Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
+ is available
+To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20210125144530.2837481-1-philmd@redhat.com>
+ <20210125144530.2837481-5-philmd@redhat.com>
+ <20210125164746.GE3538803@redhat.com>
+ <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
+ <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
+Date: Mon, 25 Jan 2021 09:02:38 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d959102a84943107c7c2e58d5e2760d2ef4750a9.1610665956.git.thomas.lendacky@amd.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,56 +95,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Tom Lendacky (thomas.lendacky@amd.com) wrote:
-> From: Tom Lendacky <thomas.lendacky@amd.com>
-> 
-> In prep for AP booting, require the use of in-kernel irqchip support. This
-> lessens the Qemu support burden required to boot APs.
-> 
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Richard Henderson <richard.henderson@linaro.org>
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+On 1/25/21 8:58 AM, Stefan Weil wrote:
+> I have no evidence that TCI is less reliable than TCG, so I would not write that.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+It can't pass make check-tcg.
 
-(I'm failing to fidn a definition of irqchip_required vs allowed)
 
-> ---
->  target/i386/sev.c | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/target/i386/sev.c b/target/i386/sev.c
-> index fce2128c07..ddec7ebaa7 100644
-> --- a/target/i386/sev.c
-> +++ b/target/i386/sev.c
-> @@ -776,6 +776,12 @@ sev_guest_init(const char *id)
->      sev->api_minor = status.api_minor;
->  
->      if (sev_es_enabled()) {
-> +        if (!kvm_kernel_irqchip_allowed()) {
-> +            error_report("%s: SEV-ES guests require in-kernel irqchip support",
-> +                         __func__);
-> +            goto err;
-> +        }
-> +
->          if (!(status.flags & SEV_STATUS_FLAGS_CONFIG_ES)) {
->              error_report("%s: guest policy requires SEV-ES, but "
->                           "host SEV-ES support unavailable",
-> -- 
-> 2.30.0
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+r~
 
