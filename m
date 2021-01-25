@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C56F9302677
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:50:41 +0100 (CET)
-Received: from localhost ([::1]:54858 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C6F5302683
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:53:05 +0100 (CET)
+Received: from localhost ([::1]:58218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l43CS-0006iP-TP
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:50:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41116)
+	id 1l43Em-0008Cy-8p
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:53:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41160)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l437t-0003zi-T0
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:45:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42259)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4389-00046U-Hp
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:46:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55310)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l437s-0002tT-At
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:45:57 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4380-0002zS-9z
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:46:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611585955;
+ s=mimecast20190719; t=1611585961;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=B2Gd3t26d/y3LY2H+JD2tvGw/gAXWP5A1DeG2ouC98o=;
- b=ans76OWiacsJSqSAHalFYoES04TWW1CfGpvIjVAye3FNhEX/Tm6PuT8jkCM6Mb5OoR1Cp2
- Bo/M6X57G2vk1c/mqa9eCGlkwlPkfUwJPrNDo8qSDtITRnmh1WEjfQvZA5ozbzbm379/MD
- NvnFCsh9lowfT3Cew6nBYdCd4SddUfA=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-244-ZW-Mrge0PVGurjP2giZLyQ-1; Mon, 25 Jan 2021 09:45:54 -0500
-X-MC-Unique: ZW-Mrge0PVGurjP2giZLyQ-1
-Received: by mail-ej1-f70.google.com with SMTP id p1so3855458ejo.4
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 06:45:53 -0800 (PST)
+ bh=moujoo3wpaqNyQsY1CrjUL6h3PWNXXcWEFS2F5fvjSs=;
+ b=IxWLkoyp6FgCx3bkJRVIGQwLwwQYD4GNrR8/daCUB4BYdnUawYfjYURe0S3/yeHiA6KRCn
+ 5PYsmz2ApRiGTipAUoiGtVqmdFG599YoVRNijFDDhb/RWlfRy9X4yVFzjHWzTyY3sKM7Av
+ kRc/BosOKi+auzFJhLuCO+HD4cSxmAU=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-164-nCjyCckmOUaYlhhUl43BcA-1; Mon, 25 Jan 2021 09:46:00 -0500
+X-MC-Unique: nCjyCckmOUaYlhhUl43BcA-1
+Received: by mail-ed1-f72.google.com with SMTP id 32so7527951edy.22
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 06:46:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=B2Gd3t26d/y3LY2H+JD2tvGw/gAXWP5A1DeG2ouC98o=;
- b=O6D45UpXBnxCujP9M6qwnMuvs/ORtVyCySOHFdjzdS5bEEFv8dFFLhDK8gEwLIIfiN
- qQAoBTwcHbvF7cJajvM89QfLUV/63vIRjeKQ60s7ciidBdKeq3VE4uGue9gYPH+3ybP+
- wiQD9EVrSLLl1XMX03WDT3z22c+6+TbXPIj/pQaXm4LpceB6Y3Bv3RLbImX5lCiWh+Ay
- TobBkXoxe+3Q+85uju1bLSJY16SpcLYczq5k3ElkM3eDkNJmQuPjQ5d9SG9alS3wffbS
- 7na1LCGuoCWZVuN8vrjNHB1QYjK8yqw9+86DdARWuOEz4NknaU0PL23ND2dTsCP2HlXi
- 1EUw==
-X-Gm-Message-State: AOAM533IzQCFFCSL8GCG2aFbO56n3f7wQvH5m8eg+CHNup7gYZdEdl+S
- F8Q0aHv7cJ8KWJ4Rwt3KQLW8aeI4oPd1/i8N+rCBUkywL3brcpo6TLgdEe4VAk6LHWKkAZJA8m8
- gXs+L/8LKoNwlfRoF7JjNEihVdzrW9SzA8CRp1QXbI6uhQXguMNzgNMh/2LHXEH9O
-X-Received: by 2002:a50:fd84:: with SMTP id o4mr751455edt.340.1611585952696;
- Mon, 25 Jan 2021 06:45:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwyA0fXL//k93o4UH9A4XlD7FiddFN+j95oeaipptv/B9N4spO8S6tWfqxWTLyTL/YHLG2FCg==
-X-Received: by 2002:a50:fd84:: with SMTP id o4mr751439edt.340.1611585952571;
- Mon, 25 Jan 2021 06:45:52 -0800 (PST)
+ bh=moujoo3wpaqNyQsY1CrjUL6h3PWNXXcWEFS2F5fvjSs=;
+ b=Ap5zC8FWJU9a3EEtVqu9vt9FFnrh3HG57StZpdmhSgE38+lvH3X6HI2m1SABbY5IkE
+ o3nYY1VGDqiuJHbw/+J6+AiUsITYr2Th1SprNQTvDNz0dLpcR2YM38UDWei9eEevy/zz
+ g8K9flVVI0Qy1X8N+IDXc8CBGVf0kwoXjCpsNjlHAc6FZNfXbDPjiDBI2GzarKPdY+pd
+ 4h7+dJi+ycB2VaaXRL5YnmlFVb7b9+hJtYqweEiKrsF+Bhh6wakssBx+7QZoWlOp/Aye
+ V+d+dhi/rTJjPN2Kq181p51GQVt2B3Aw+XTZEO7jSxm8QBzRZUxQI1+6gWUbqk64eRSt
+ tvvg==
+X-Gm-Message-State: AOAM533VYaxCUs4IfCVmDmX5f2dOjqvXv8TvaP2//VxS1JUK7bgUV3/t
+ 1imgrvCtI93VYevnWvp6r09TmnCMxz+ivN8X5qd6htnqCx+gzE46YNXBN8q6yTzSgRLS/L1XXsh
+ 7Qwomgt9HXf1uHih3HL+aoNV87khd2Tu7IZVz9M7H8Cv4tpYaqjPNHE+pGX5n1ZnI
+X-Received: by 2002:a17:907:20a7:: with SMTP id
+ pw7mr578437ejb.283.1611585958793; 
+ Mon, 25 Jan 2021 06:45:58 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwZjFAUdE2ZQt3llbkO2qTr/PmCco0P0DUiSz77Ob9rRL45HV+QX+FG3XB+CIWcH6hzBdnaKQ==
+X-Received: by 2002:a17:907:20a7:: with SMTP id
+ pw7mr578417ejb.283.1611585958640; 
+ Mon, 25 Jan 2021 06:45:58 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id o4sm4324731edw.78.2021.01.25.06.45.51
+ by smtp.gmail.com with ESMTPSA id l1sm8336612eje.12.2021.01.25.06.45.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 06:45:51 -0800 (PST)
+ Mon, 25 Jan 2021 06:45:57 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 3/4] meson: Explicit TCG backend used
-Date: Mon, 25 Jan 2021 15:45:29 +0100
-Message-Id: <20210125144530.2837481-4-philmd@redhat.com>
+Subject: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend is
+ available
+Date: Mon, 25 Jan 2021 15:45:30 +0100
+Message-Id: <20210125144530.2837481-5-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210125144530.2837481-1-philmd@redhat.com>
 References: <20210125144530.2837481-1-philmd@redhat.com>
@@ -100,40 +103,38 @@ Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Some new users get confused with 'TCG' and 'TCI', and enable TCI
+support expecting to enable TCG.
+
+Emit a warning when native TCG backend is available on the
+host architecture, mentioning this is a suboptimal configuration.
+
 Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Suggested-by: Daniel Berrangé <berrange@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- meson.build | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meson.build | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/meson.build b/meson.build
-index 35a9eddf5cf..16b2560e7e7 100644
+index 16b2560e7e7..f675c54e636 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -224,7 +224,7 @@
- if not get_option('tcg').disabled()
-   if cpu not in supported_cpus
-     if get_option('tcg_interpreter')
--      warning('Unsupported CPU @0@, will use TCG with TCI (experimental)'.format(cpu))
-+      warning('Unsupported CPU @0@, will use TCG with TCI (experimental and slow)'.format(cpu))
+@@ -228,6 +228,13 @@
      else
        error('Unsupported CPU @0@, try --enable-tcg-interpreter'.format(cpu))
      endif
-@@ -2447,8 +2447,12 @@
- endif
- summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
- if config_all.has_key('CONFIG_TCG')
-+  if get_option('tcg_interpreter')
-+    summary_info += {'TCG backend':   'TCI (TCG with bytecode interpreter, experimental and slow)'}
-+  else
-+    summary_info += {'TCG backend':   'native (@0@)'.format(cpu)}
-+  endif
-   summary_info += {'TCG debug enabled': config_host.has_key('CONFIG_DEBUG_TCG')}
--  summary_info += {'TCG interpreter':   tcg_arch == 'tci'}
- endif
- summary_info += {'target list':       ' '.join(target_dirs)}
- if have_system
++  elif get_option('tcg_interpreter')
++    warning('Use of the TCG interpretor is not recommended on this host')
++    warning('architecture. There is a native TCG execution backend available')
++    warning('which provides substantially better performance and reliability.')
++    warning('It is strongly recommended to remove the --enable-tcg-interpreter')
++    warning('configuration option on this architecture to use the native')
++    warning('backend.')
+   endif
+   if get_option('tcg_interpreter')
+     tcg_arch = 'tci'
 -- 
 2.26.2
 
