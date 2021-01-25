@@ -2,57 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308C63024EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:28:29 +0100 (CET)
-Received: from localhost ([::1]:48874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A72C3024C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 13:19:36 +0100 (CET)
+Received: from localhost ([::1]:34522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l40yq-0007M1-1t
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:28:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53138)
+	id 1l40qF-00014G-DN
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 07:19:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51500)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <08005325@163.com>)
- id 1l40uN-0003m5-KX; Mon, 25 Jan 2021 07:23:51 -0500
-Received: from m12-14.163.com ([220.181.12.14]:35382)
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <08005325@163.com>)
- id 1l40uJ-00082M-HP; Mon, 25 Jan 2021 07:23:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=IzJta
- DBWMa1mh6350s4GLf654FExhE6JDGCznqKqZp4=; b=jnDrIn7n+4F1BhbknqhTY
- IiCNqlWg9U9dlZeNZkkV1lJij4SmIbZKviSdoeDRXQY0J6UuK0TURXPDkns11lmb
- iR8zI4IRXyim3zl3RO1Rq0RNL2HMy2GBjnDiOLXVfCfD7xbi8umlJBi68oksB4rU
- lA1oWBD9Ym6/aalIJCC820=
-Received: from localhost.localdomain (unknown [116.228.45.98])
- by smtp10 (Coremail) with SMTP id DsCowAAnIw+BtA5gjYAihw--.8366S2;
- Mon, 25 Jan 2021 20:07:30 +0800 (CST)
-From: 08005325@163.com
-To: kwolf@redhat.com,
-	mreitz@redhat.com,
-	jsnow@redhat.com
-Subject: [PATCH] Fix crash with IOthread when block commit after snapshot
-Date: Mon, 25 Jan 2021 20:07:27 +0800
-Message-Id: <20210125120727.7799-1-08005325@163.com>
-X-Mailer: git-send-email 2.25.1
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l40nb-00082H-Bm
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:16:51 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:44240)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l40nY-0004vt-I2
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 07:16:51 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id d16so11503942wro.11
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 04:16:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=glqmj19hETkX4bKvPeKvpEXN6NMsW+k/GLQSv7Vh4u8=;
+ b=ITxenKmqfwCg3/eUFgfbX6tGkzsrtCtGW5QnrWCPJ8YMfiF1b1FA7ymA33kGu0GUDz
+ /WwC87dGErf/R3tw9x21R3ndPhMCYh0utRK2Gr0xMkII+i0baDqJXV+e5lvVo41uU1Vj
+ 57ob+ujOGL9RiCXWWE0lULtvlKcskkv5hHVR6iEULq/NfsV9E6ZxgTCcc5bS92yMI3A4
+ R1YBiI+J4V+uiiDXHHANudUco+YHQqZkABNPRsPbKPP9gQSXGmI95DGaTNbIXHLY7s6g
+ bqtRtyMM7BSYFeQlqV2eUoFkXQuh0uHAz3XBmgS/Hl1YH+KW7ckhLP+mNjsWPNms2V21
+ ZP1g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=glqmj19hETkX4bKvPeKvpEXN6NMsW+k/GLQSv7Vh4u8=;
+ b=SMDZ50LLVe9Qa8qtDAAu7d/9IA79j6PqwlvC7d3F2KWiOGZdwN8vZdwa79FyDhhxQD
+ Uki6tDqwM/URLVOM9sD4yoYA0SmXBF1/Zth/vYYfYpDk/Q8RBA9oFmSu12ssFTUm8Cim
+ bWCKextA6+6xacakiRelCWDvm/bR4/k9hsTLF5MAbexADnVK6DAoqOxvf7wXLZe6Bt3V
+ wbr5I1IahfXYxdGRjZe3m4I/kjVmrZ8c6FORYkiZnh1QMok37Re1HbFI2jtDPLf7V8lx
+ Fi5K0SDdNtQ81Vru/y6Wi2jUTLHPdPLhJhvSXiIE3YQZGuHwOJkBsnCFcJgxpzoOR5sM
+ vlfQ==
+X-Gm-Message-State: AOAM532eO1/le9tgsBFJa0zZsHNi8oELz7oSXMTW7BUR0a2k13hS+D0m
+ FdyNOphkA/V0xD92/aAhkSlXCw==
+X-Google-Smtp-Source: ABdhPJwmSVojrh2wT+S3aynwbPK9S0pN0ooLxbQ+FRnAKx9mDZ9F4Hs4DRZx+4C6K2yRQNZvLWPQxA==
+X-Received: by 2002:adf:fc86:: with SMTP id g6mr662851wrr.20.1611577006803;
+ Mon, 25 Jan 2021 04:16:46 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id j9sm23207127wrm.14.2021.01.25.04.16.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jan 2021 04:16:45 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id BB25F1FF7E;
+ Mon, 25 Jan 2021 12:16:44 +0000 (GMT)
+References: <161105999349.694343.16096128094758045254.stgit@pasha-ThinkPad-X280>
+ <288b2af5-94d5-36c8-9eb2-de31ff1de066@redhat.com>
+ <d9f8e9d4-8aef-29b6-765d-014c782e4764@ispras.ru>
+ <CABgObfaFnKztrjc7mpgTxEi9R7jXD-Qed5vVcPBSGcE_nexONg@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] replay: fix replay of the interrupts
+Date: Mon, 25 Jan 2021 12:12:52 +0000
+In-reply-to: <CABgObfaFnKztrjc7mpgTxEi9R7jXD-Qed5vVcPBSGcE_nexONg@mail.gmail.com>
+Message-ID: <87sg6pmcsz.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: DsCowAAnIw+BtA5gjYAihw--.8366S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxAFyfWF1xAFW7WFyxuw4DArb_yoW5tF1kpr
- W8Xw4Skr48Kas7ZanFy3W2gw15Kw4v9F4DG3sxJw1rCry7J3WxKFWrAr1YgFy2vrs7Ja1q
- vFWjga4ftan8C3DanT9S1TB71UUUUUJqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jLEfrUUUUU=
-X-Originating-IP: [116.228.45.98]
-X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/xtbBNwIlrF-PIbHe8QAAsT
-Received-SPF: pass client-ip=220.181.12.14; envelope-from=08005325@163.com;
- helo=m12-14.163.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,90 +89,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Qiu <qiudayu@huayun.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Michael Qiu <qiudayu@huayun.com>
 
-Currently, if guest has workloads, IO thread will acquire aio_context
-lock before do io_submit, it leads to segmentfault when do block commit
-after snapshot. Just like below:
-[Switching to thread 2 (Thread 0x7f046c312700 (LWP 108791))]
-#0  0x00005573f57930db in bdrv_mirror_top_pwritev ... at block/mirror.c:1420
-1420    in block/mirror.c
-(gdb) p s->job
-$17 = (MirrorBlockJob *) 0x0
-(gdb) p s->stop
-$18 = false
-(gdb)
-(gdb) bt
-#0  0x00005573f57930db in bdrv_mirror_top_pwritev ... at block/mirror.c:1420
-#1  0x00005573f5798ceb in bdrv_driver_pwritev ... at block/io.c:1183
-#2  0x00005573f579ae7a in bdrv_aligned_pwritev ... at block/io.c:1980
-#3  0x00005573f579b667 in bdrv_co_pwritev_part ... at block/io.c:2137
-#4  0x00005573f57886c8 in blk_do_pwritev_part ... at block/block-backend.c:1231
-#5  0x00005573f578879d in blk_aio_write_entry ... at block/block-backend.c:1439
-#6  0x00005573f58317cb in coroutine_trampoline ... at util/coroutine-ucontext.c:115
-#7  0x00007f047414a0d0 in __start_context () at /lib64/libc.so.6
-#8  0x00007f046c310e60 in  ()
-#9  0x0000000000000000 in  ()
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-Switch to qmp:
-#0  0x00007f04744dd4ed in __lll_lock_wait () at /lib64/libpthread.so.0
-#1  0x00007f04744d8de6 in _L_lock_941 () at /lib64/libpthread.so.0
-#2  0x00007f04744d8cdf in pthread_mutex_lock () at /lib64/libpthread.so.0
-#3  0x00005573f581de89 in qemu_mutex_lock_impl ... at util/qemu-thread-posix.c:78
-#4  0x00005573f575789e in block_job_add_bdrv ... at blockjob.c:223
-#5  0x00005573f5757ebd in block_job_create ... at blockjob.c:441
-#6  0x00005573f5792430 in mirror_start_job ... at block/mirror.c:1604
-#7  0x00005573f5794b6f in commit_active_start ... at block/mirror.c:1789
+> In general I agree, but !=3D means that rr disabled returns true. In gene=
+ral
+> it seems to me that rr disabled should work more or less the same as reco=
+rd
+> mode, because there is no replay log to provide the checkpoints.
 
-in IO thread when do bdrv_mirror_top_pwritev, the job is NULL, and stop field
-is false, this means the s object has not been initialized, and this object
-is initialized by block_job_create(), but the initialize process stuck in
-acquire the lock.
+Is this not an argument to combine the mode and check into replay.h
+inline helpers with some clear semantic documentation and the call sites
+become self documenting?
 
-The rootcause is that qemu do release/acquire when hold the lock,
-at the same time, IO thread get the lock after release stage, and the crash
-occured.
+if (deadline =3D=3D 0 && replay_recording_or_checkpoint())
 
-Actually, in this situation, job->job.aio_context will not equal to
-qemu_get_aio_context(), and will be the same as bs->aio_context,
-thus, no need to release the lock, becasue bdrv_root_attach_child()
-will not change the context.
+which also makes things easier to compile away if replay isn't there?
 
-This patch fix this issue.
-
-Signed-off-by: Michael Qiu <qiudayu@huayun.com>
----
- blockjob.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
-
-diff --git a/blockjob.c b/blockjob.c
-index c6e20e2f..e1d41db9 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -214,12 +214,14 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
-     BdrvChild *c;
- 
-     bdrv_ref(bs);
--    if (job->job.aio_context != qemu_get_aio_context()) {
-+    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
-+        job->job.aio_context != qemu_get_aio_context()) {
-         aio_context_release(job->job.aio_context);
-     }
-     c = bdrv_root_attach_child(bs, name, &child_job, job->job.aio_context,
-                                perm, shared_perm, job, errp);
--    if (job->job.aio_context != qemu_get_aio_context()) {
-+    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
-+        job->job.aio_context != qemu_get_aio_context()) {
-         aio_context_acquire(job->job.aio_context);
-     }
-     if (c == NULL) {
--- 
-2.22.0
+>
+> Paolo
+>
+> Il lun 25 gen 2021, 06:38 Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru> ha
+> scritto:
+>
+>> On 23.01.2021 21:15, Paolo Bonzini wrote:
+>> > On 19/01/21 13:39, Pavel Dovgalyuk wrote:
+>> >> Sometimes interrupt event comes at the same time with
+>> >> the virtual timers. In this case replay tries to proceed
+>> >> the timers, because deadline for them is zero.
+>> >> This patch allows processing interrupts and exceptions
+>> >> by entering the vCPU execution loop, when deadline is zero,
+>> >> but checkpoint associated with virtual timers is not ready
+>> >> to be replayed.
+>> >>
+>> >> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+>> >> ---
+>> >>   accel/tcg/tcg-cpus-icount.c |    8 +++++++-
+>> >>   1 file changed, 7 insertions(+), 1 deletion(-)
+>> >>
+>> >> diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
+>> >> index 9f45432275..a6d2bb8a88 100644
+>> >> --- a/accel/tcg/tcg-cpus-icount.c
+>> >> +++ b/accel/tcg/tcg-cpus-icount.c
+>> >> @@ -81,7 +81,13 @@ void icount_handle_deadline(void)
+>> >>       int64_t deadline =3D qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRT=
+UAL,
+>> >>
+>> QEMU_TIMER_ATTR_ALL);
+>> >> -    if (deadline =3D=3D 0) {
+>> >> +    /*
+>> >> +     * Instructions, interrupts, and exceptions are processed in
+>> >> cpu-exec.
+>> >> +     * Don't interrupt cpu thread, when these events are waiting
+>> >> +     * (i.e., there is no checkpoint)
+>> >> +     */
+>> >> +    if (deadline =3D=3D 0
+>> >> +        && (replay_mode =3D=3D REPLAY_MODE_RECORD ||
+>> >> replay_has_checkpoint())) {
+>> >
+>> > Should this be replay_mode !=3D REPLAY_MODE_PLAY ||
+>> replay_has_checkpoint()?
+>>
+>> It was the first idea, but I thought, that =3D=3D is more straightforward
+>> to understand than !=3D.
+>>
+>> Pavel Dovgalyuk
+>>
+>>
 
 
+--=20
+Alex Benn=C3=A9e
 
