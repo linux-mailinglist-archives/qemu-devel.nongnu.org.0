@@ -2,68 +2,116 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E548302EA5
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 23:06:55 +0100 (CET)
-Received: from localhost ([::1]:45654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D945C302EE0
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 23:23:48 +0100 (CET)
+Received: from localhost ([::1]:33884 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4A0b-00076d-R4
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 17:06:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54324)
+	id 1l4AGx-0006GN-VY
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 17:23:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57278)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l49zV-0006Lf-E4
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:05:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:50357)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l49zT-0007Px-0l
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:05:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611612341;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=wzHTpc79R9gxQmlS7+BBXdc9efdL5+74fMd2A0LysOw=;
- b=S2igcvYXEsYL7N6UT4LPJPfN/9EYx0ynTz2GUwNiZzl4lTcClOVfaDoLiPoe90w1yzKJ1U
- /PAlb0U00BDu2T9XqoCF55CgNZi3ZnByItZmxuhSbh90LA01+ptLy6bFc7cDZjE3PJ0K7h
- Ii6LrQsMBHTe9bjfq2kOXTvyfZWlsJQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-441-OrmgyxZ2PEGB6_pDuQtQZg-1; Mon, 25 Jan 2021 17:05:33 -0500
-X-MC-Unique: OrmgyxZ2PEGB6_pDuQtQZg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10085107ACE3;
- Mon, 25 Jan 2021 22:05:32 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-150.ams2.redhat.com [10.36.115.150])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 514BF60C47;
- Mon, 25 Jan 2021 22:05:29 +0000 (UTC)
-Date: Mon, 25 Jan 2021 23:05:28 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8 2/5] iotests: add testenv.py
-Message-ID: <20210125220528.GA170615@merkur.fritz.box>
-References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
- <20210123210428.27220-3-vsementsov@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1l4AFq-0005ol-On
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:22:38 -0500
+Received: from mail-dm6nam11on2071.outbound.protection.outlook.com
+ ([40.107.223.71]:38241 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fnuv@xilinx.com>) id 1l4AFn-000160-8F
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:22:37 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KE/xCIjQb6YpbnSUrAeA9/LZMXfwQeIjwr4YGfhEQPht9Co5UFBuEDcxF5hzu5ZhOhtkBqoa26+AygnOs30WJkTrZReIG+IkwGdbHb3hdII2xkpq3QIhGev8hFAZ8rJQe+SLNpX0arNknx3lApCCx3WkrdFIfHVOLT1SCRevmQJLMHpXQ3UiZFJk1laygcOq5pH7xpTPMh3gekDoJeI9/xfJ8Z/D/B88HaestgWWuy4wbAbATsa6WErLRiz4yOWfwzW6hwaAP0MDC0auePKqs0azNVxHvQ+KnZHS724xkTQuW70jL/HDVd4MslrLzoQFrPLaAOKXumLhfcSvqaOkSg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sOGnOvx8r96o6iXxgG5VJrMgfNggAd/yLs4cUo8mwUY=;
+ b=g45VZFG7O/8rDQUsv53zJVQd3N/Bb3t9RbuMUAVBXQVwsPjFfSPWUztZFRphIw5IsfbWf66iRiJ4/XxBh3xcch1JP5LkhWoDhj1oXZSaBAtotxzrHkq1vHGAUo+qmXmSFGF55OANvZ284eE+ESW7PBvFx2NSDdPIUAOyvS2MI5W2SuyC2mN2Omja1zToMyHa6GP92iGvqx9MjyXudQrp6bVbHfLmS9mElSWndXOKssTfZf40NUkSUmaJx24XaV2Rll5PziXWqgjgbipWXid4WMQ8qWfLWmc85g0+h/OskLvF1Fars8XTfqjbp4mlNmWvbsvuncXNwNCrWrF9qG88/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=linaro.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sOGnOvx8r96o6iXxgG5VJrMgfNggAd/yLs4cUo8mwUY=;
+ b=LdpEp7x/9Zfm0QrzdoTGb5KYtL8iJymWStBPCYmvKS90ai6Hoq2DHV21uu2ERXePlKtg9TcRYfVMpBDpXCINNcXmRiJaicnq25CMxfHv2loYPYLGHuj9x8pFm23RFd12Qp7iDH0ukfzeYdJoQ0XZIkWTFoXTUEvT++yLlak/LpE=
+Received: from DM6PR11CA0052.namprd11.prod.outlook.com (2603:10b6:5:14c::29)
+ by BYAPR02MB4102.namprd02.prod.outlook.com (2603:10b6:a02:fa::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3763.9; Mon, 25 Jan
+ 2021 22:07:20 +0000
+Received: from CY1NAM02FT043.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:5:14c:cafe::b1) by DM6PR11CA0052.outlook.office365.com
+ (2603:10b6:5:14c::29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.14 via Frontend
+ Transport; Mon, 25 Jan 2021 22:07:20 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; linaro.org; dkim=none (message not signed)
+ header.d=none;linaro.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
+Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
+ CY1NAM02FT043.mail.protection.outlook.com (10.152.74.182) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3784.12 via Frontend Transport; Mon, 25 Jan 2021 22:07:20 +0000
+Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Mon, 25 Jan 2021 14:07:17 -0800
+Received: from smtp.xilinx.com (172.19.127.95) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Mon, 25 Jan 2021 14:07:17 -0800
+Received: from [172.19.2.115] (port=52874 helo=xilinx.com)
+ by smtp.xilinx.com with esmtp (Exim 4.90)
+ (envelope-from <fnu.vikram@xilinx.com>)
+ id 1l4A0z-00081K-58; Mon, 25 Jan 2021 14:07:17 -0800
+Date: Mon, 25 Jan 2021 14:07:17 -0800
+From: Vikram Garhwal <fnu.vikram@xilinx.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [PATCH] arm: rename xlnx-zcu102.canbusN properties
+Message-ID: <20210125220716.GA344542@xilinx.com>
+References: <20210118162537.779542-1-pbonzini@redhat.com>
+ <CAFEAcA_En1xo10n3121r3ZRANkhiH0dRRwT5QwMZ1wRTeLyFWA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210123210428.27220-3-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="utf-8"
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAFEAcA_En1xo10n3121r3ZRANkhiH0dRRwT5QwMZ1wRTeLyFWA@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: d32b35a9-18e0-4c72-f5de-08d8c17d95ce
+X-MS-TrafficTypeDiagnostic: BYAPR02MB4102:
+X-Microsoft-Antispam-PRVS: <BYAPR02MB4102249DF67B74067B574EE7BCBD0@BYAPR02MB4102.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:2150;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 2AXSRx1vRVQ1cZysN44hyvJL/Zc/B92atP2Y24ipmLnMogulv2BnASLOxS9FAcs7oMKds+9pLp3aWf7TQRYViuj1wOT2Y+jBDZFUoxb8We9hd738rhXM5VN10Eck1MDzunzSkqnVP1Cx7YICl/us85hb/5Agd8PIDEhMXCkftYmqQWwXrH9+uDbliJJl8KCa14fay0qmIzdFyQ5BoQ/VqzEDJjimS8rJMidg+JL199uJghHAWDt9g90OdZ+UdaszM7DenDjl9sy1Gzz7KSSFrR0b2bU+6EZOdXvTKyxebSqUSaZHF07P7hdZjSJ9VHQlVygTX++YkiE0ft2jaW0266BGTOYN0EG1D397381lGa5CwvB8Le1idpZUNouWSK5fu+hyC3fU6w8EIsx2ktERBBeyYjMK7zOlEtlEAz3aKzSxw7s+Hq6NGR23opAWwz7YgOCxra57ZVHrVTr8V/wOh/V+/8srXu0np07Obe5kXn/2XD9wju61CZ4QDAogFRF3V7WunQVU5fig0sXX+wniZXIXZSraOdgGHK9Ss9jNGLQIoEEz5UecwiTvDZfS110BAiaaeVSKjScbQ68YOo8KU60sFoKwu3to/T629POxjvFap/XFTR0N/vgWiZxUxOQr
+X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
+ PTR:unknown-62-198.xilinx.com; CAT:NONE;
+ SFS:(4636009)(136003)(346002)(376002)(39860400002)(396003)(46966006)(1076003)(5660300002)(356005)(4326008)(8936002)(7636003)(6916009)(426003)(2616005)(26005)(54906003)(478600001)(8676002)(83380400001)(82740400003)(36906005)(2906002)(9786002)(82310400003)(316002)(36756003)(33656002)(186003)(336012)(70206006)(7696005)(70586007)(47076005)(27376004);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2021 22:07:20.0746 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: d32b35a9-18e0-4c72-f5de-08d8c17d95ce
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
+ Helo=[xsj-pvapexch02.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT043.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR02MB4102
+Received-SPF: pass client-ip=40.107.223.71; envelope-from=fnuv@xilinx.com;
+ helo=NAM11-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,99 +124,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ QEMU Developers <qemu-devel@nongnu.org>, "Edgar E.
+ Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 23.01.2021 um 22:04 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> Add TestEnv class, which will handle test environment in a new python
-> iotests running framework.
-> 
-> Don't add compat=1.1 for qcow2 IMGOPTS, as v3 is default anyway.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  tests/qemu-iotests/testenv.py | 278 ++++++++++++++++++++++++++++++++++
->  1 file changed, 278 insertions(+)
->  create mode 100644 tests/qemu-iotests/testenv.py
-> 
-> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> new file mode 100644
-> index 0000000000..348af593e9
-> --- /dev/null
-> +++ b/tests/qemu-iotests/testenv.py
-> @@ -0,0 +1,278 @@
-> +# TestEnv class to manage test environment variables.
-> +#
-> +# Copyright (c) 2020-2021 Virtuozzo International GmbH
-> +#
-> +# This program is free software; you can redistribute it and/or modify
-> +# it under the terms of the GNU General Public License as published by
-> +# the Free Software Foundation; either version 2 of the License, or
-> +# (at your option) any later version.
-> +#
-> +# This program is distributed in the hope that it will be useful,
-> +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> +# GNU General Public License for more details.
-> +#
-> +# You should have received a copy of the GNU General Public License
-> +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> +#
-> +
-> +import os
-> +import sys
-> +import tempfile
-> +from pathlib import Path
-> +import shutil
-> +import collections
-> +import random
-> +import subprocess
-> +import glob
-> +from contextlib import AbstractContextManager
-> +from typing import Dict, Any, Optional
-> +
-> +
-> +def get_default_machine(qemu_prog: str) -> str:
-> +    outp = subprocess.run([qemu_prog, '-machine', 'help'], check=True,
-> +                          universal_newlines=True,
-> +                          stdout=subprocess.PIPE).stdout
-> +
-> +    machines = outp.split('\n')
-> +    default_machine = next(m for m in machines if m.endswith(' (default)'))
-> +    default_machine = default_machine.split(' ', 1)[0]
-> +
-> +    alias_suf = ' (alias of {})'.format(default_machine)
-> +    alias = next((m for m in machines if m.endswith(alias_suf)), None)
-> +    if alias is not None:
-> +        default_machine = alias.split(' ', 1)[0]
-> +
-> +    return default_machine
-> +
-> +
-> +class TestEnv(AbstractContextManager['TestEnv']):
-
-I'm getting CI failures here:
-
-Traceback (most recent call last):
-  File "./check", line 23, in <module>
-    from testenv import TestEnv
-  File "/builds/.../qemu/tests/qemu-iotests/testenv.py", line 49, in <module>
-    class TestEnv(AbstractContextManager['TestEnv']):
-TypeError: 'ABCMeta' object is not subscriptable
-
-On the other hand, if I make it just AbstractContextManager without
-giving the type parameter, mypy complains:
-
-testenv.py:49: error: Missing type parameters for generic type "ContextManager"
-
-I guess I need to have another look into this tomorrow.
-
-By the way, mypy --strict still finds a few errors. I think we want to
-address at least the warnings about missing type annotatings and calling
-untyped functions.
-
-Kevin
-
+On Fri, Jan 22, 2021 at 01:21:53PM +0000, Peter Maydell wrote:
+Patch looks good to me.
+Reviewed-by: Vikram Garhwal <fnu.vikram@xilinx.com>
+> Just noticed this wasn't cc'd to the Xilinx folks. Would one
+> of you like to review it?
+>
+> thanks
+> -- PMM
+>
+> On Mon, 18 Jan 2021 at 16:25, Paolo Bonzini <pbonzini@redhat.com> wrote:
+> >
+> > The properties to attach a CANBUS object to the xlnx-zcu102 machine have
+> > a period in them.  We want to use periods in properties for compound QAPI types,
+> > and besides the "xlnx-zcu102." prefix is both unnecessary and different
+> > from any other machine property name.  Remove it.
+> >
+> > Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> > ---
+> >  hw/arm/xlnx-zcu102.c        |  4 ++--
+> >  tests/qtest/xlnx-can-test.c | 30 +++++++++++++++---------------
+> >  2 files changed, 17 insertions(+), 17 deletions(-)
+> >
+> > diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
+> > index 4ef0c516bf..c9713638c5 100644
+> > --- a/hw/arm/xlnx-zcu102.c
+> > +++ b/hw/arm/xlnx-zcu102.c
+> > @@ -219,12 +219,12 @@ static void xlnx_zcu102_machine_instance_init(Object *obj)
+> >      s->secure = false;
+> >      /* Default to virt (EL2) being disabled */
+> >      s->virt = false;
+> > -    object_property_add_link(obj, "xlnx-zcu102.canbus0", TYPE_CAN_BUS,
+> > +    object_property_add_link(obj, "canbus0", TYPE_CAN_BUS,
+> >                               (Object **)&s->canbus[0],
+> >                               object_property_allow_set_link,
+> >                               0);
+> >
+> > -    object_property_add_link(obj, "xlnx-zcu102.canbus1", TYPE_CAN_BUS,
+> > +    object_property_add_link(obj, "canbus1", TYPE_CAN_BUS,
+> >                               (Object **)&s->canbus[1],
+> >                               object_property_allow_set_link,
+> >                               0);
+> > diff --git a/tests/qtest/xlnx-can-test.c b/tests/qtest/xlnx-can-test.c
+> > index 3d1120005b..54de71a686 100644
+> > --- a/tests/qtest/xlnx-can-test.c
+> > +++ b/tests/qtest/xlnx-can-test.c
+> > @@ -138,9 +138,9 @@ static void test_can_bus(void)
+> >      uint8_t can_timestamp = 1;
+> >
+> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
+> > -                " -object can-bus,id=canbus0"
+> > -                " -machine xlnx-zcu102.canbus0=canbus0"
+> > -                " -machine xlnx-zcu102.canbus1=canbus0"
+> > +                " -object can-bus,id=canbus"
+> > +                " -machine canbus0=canbus"
+> > +                " -machine canbus1=canbus"
+> >                  );
+> >
+> >      /* Configure the CAN0 and CAN1. */
+> > @@ -175,9 +175,9 @@ static void test_can_loopback(void)
+> >      uint32_t status = 0;
+> >
+> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
+> > -                " -object can-bus,id=canbus0"
+> > -                " -machine xlnx-zcu102.canbus0=canbus0"
+> > -                " -machine xlnx-zcu102.canbus1=canbus0"
+> > +                " -object can-bus,id=canbus"
+> > +                " -machine canbus0=canbus"
+> > +                " -machine canbus1=canbus"
+> >                  );
+> >
+> >      /* Configure the CAN0 in loopback mode. */
+> > @@ -223,9 +223,9 @@ static void test_can_filter(void)
+> >      uint8_t can_timestamp = 1;
+> >
+> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
+> > -                " -object can-bus,id=canbus0"
+> > -                " -machine xlnx-zcu102.canbus0=canbus0"
+> > -                " -machine xlnx-zcu102.canbus1=canbus0"
+> > +                " -object can-bus,id=canbus"
+> > +                " -machine canbus0=canbus"
+> > +                " -machine canbus1=canbus"
+> >                  );
+> >
+> >      /* Configure the CAN0 and CAN1. */
+> > @@ -271,9 +271,9 @@ static void test_can_sleepmode(void)
+> >      uint8_t can_timestamp = 1;
+> >
+> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
+> > -                " -object can-bus,id=canbus0"
+> > -                " -machine xlnx-zcu102.canbus0=canbus0"
+> > -                " -machine xlnx-zcu102.canbus1=canbus0"
+> > +                " -object can-bus,id=canbus"
+> > +                " -machine canbus0=canbus"
+> > +                " -machine canbus1=canbus"
+> >                  );
+> >
+> >      /* Configure the CAN0. */
+> > @@ -317,9 +317,9 @@ static void test_can_snoopmode(void)
+> >      uint8_t can_timestamp = 1;
+> >
+> >      QTestState *qts = qtest_init("-machine xlnx-zcu102"
+> > -                " -object can-bus,id=canbus0"
+> > -                " -machine xlnx-zcu102.canbus0=canbus0"
+> > -                " -machine xlnx-zcu102.canbus1=canbus0"
+> > +                " -object can-bus,id=canbus"
+> > +                " -machine canbus0=canbus"
+> > +                " -machine canbus1=canbus"
+> >                  );
+> >
+> >      /* Configure the CAN0. */
+> > --
+> > 2.26.2
 
