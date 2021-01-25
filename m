@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 796BF302799
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:18:03 +0100 (CET)
-Received: from localhost ([::1]:42102 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73A963027B1
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:22:58 +0100 (CET)
+Received: from localhost ([::1]:48066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l44Z0-00045e-JF
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:18:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39958)
+	id 1l44dk-000764-VB
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:22:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l44XP-0003aQ-Mb
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:16:23 -0500
-Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45534)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l44XO-0006dX-B5
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:16:23 -0500
-Received: by mail-ed1-x52c.google.com with SMTP id f1so16021596edr.12
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 08:16:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=TbHQX+UFwcyzNi71PDdQ77nlDe+HEZpobYtT3W14WJI=;
- b=It9BzOsFQ9wcT/W+kgRvTVGqOGtNGWWSOTTz8LBKLc4cf+P6Kh/lp3PgfR+xzrWVNc
- KGtG56C+psaqjT2rtSgTWzv38LmSg3Mz4W5M0FCZs4lQPhKfQqpYjEbkVM32DZIPdjde
- 3XeYM1YuwT/shV0vHT63T1AFEAqp1qA978ZQGobKYqaK3lOdamxkNb11kb+YiOFYQFFD
- vzMxrkcXANaI9LcYYH4Qu20hXquAKYQeuCj7Rh/SVdLS6xtf7eznTPTtMduuGPNopSM5
- jpP09Hddjj6p+YXZTE3TGsTC3fBCVDiz0xN8oKJtANcnnSaeNwQS6kF4u2pUTWk+22H5
- H4Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=TbHQX+UFwcyzNi71PDdQ77nlDe+HEZpobYtT3W14WJI=;
- b=s/lCqXyeorSChu87Jvxbm2LSxkEo8w1tYi82S0TjVNABJF6doogZ19iaSSQi2dQGz4
- rbibeWsIIwpqAxYbTxawH0NKpE8iYPeoGy+3Q1sNGgjElLiugCyGu0HH181Gnlyzcumo
- YqKWSNWSRdmZni87d/GKA2Wy/ddt7IzRyVQszFhAqzGEDeYCqOXjp7gm409ylOs/TH48
- NkYUdd+U3oMH2zm9W+p6SIDZCR9die+JnyH0IBuBzkTId8htvO7qqY+HHXCyx6RA0/ee
- YHpYqk+J9oZj0r0CP2aKAOA22FjEMt2rC3fffO7DV7D1aLyVxtdQA3srD+xdSG3T5O9H
- hnXg==
-X-Gm-Message-State: AOAM531HZ+vYwPyFwe7BF47QiaIU0ZgzQBD11sqSa9btYke/TL8XosYv
- DzKYK51BoJ07CJhlNZ5fMo2JINobq4E=
-X-Google-Smtp-Source: ABdhPJyCTaPdaJbpG3CZQevfa54NgaJOEB4XnMjcKgo30JG86eqF6DIOUKoRPtY9uI9XUY0tdxJGdg==
-X-Received: by 2002:a05:6402:1ad0:: with SMTP id
- ba16mr1079731edb.287.1611591380994; 
- Mon, 25 Jan 2021 08:16:20 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id q22sm8527966ejx.3.2021.01.25.08.16.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 08:16:20 -0800 (PST)
-Subject: Re: [PATCH v7 07/35] Hexagon (target/hexagon) scalar core helpers
-To: Taylor Simpson <tsimpson@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-References: <1611113349-24906-1-git-send-email-tsimpson@quicinc.com>
- <1611113349-24906-8-git-send-email-tsimpson@quicinc.com>
- <ae9949ca-aa0c-8917-8498-2b0dc5161465@amsat.org>
- <BYAPR02MB4886E0356F7845E71C92D87FDEA09@BYAPR02MB4886.namprd02.prod.outlook.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <6038ec96-e524-0ea7-60f2-6c9a0267e00d@amsat.org>
-Date: Mon, 25 Jan 2021 17:16:18 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l44a7-0005RF-RF
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:19:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34085)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l44a5-0006y7-GD
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:19:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611591547;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=YdCqsS/MwBurzZqcI7FMdTwvrb0HfA1rr1Kp8DPU/7k=;
+ b=HPu+CJOB8Q64RiJDIVGCdIuJMuICLxc4tpl5gtKwR+Bop6GY7h+hTTabcFNOWIxvm1cxTg
+ AiXtoO6VJAzKTjw89rpRipY4kIndn3BZfRYCjiWLGl5bCBhqsDtlahu9wLX4fWLnVy2WmL
+ BG/Z4WhEw1anc3zIRM+sc1UUzlt3Pmk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-454-VBV4dqjUP1a7BPHp2Xpvmw-1; Mon, 25 Jan 2021 11:19:04 -0500
+X-MC-Unique: VBV4dqjUP1a7BPHp2Xpvmw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 625A91934B87
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 16:19:02 +0000 (UTC)
+Received: from localhost (ovpn-115-94.ams2.redhat.com [10.36.115.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D18D5D9DB;
+ Mon, 25 Jan 2021 16:19:01 +0000 (UTC)
+Date: Mon, 25 Jan 2021 16:19:00 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH 0/2] trace: make the 'log' backend timestamp configurable
+Message-ID: <20210125161900.GA228223@stefanha-x1.localdomain>
+References: <20210125113507.224287-1-stefanha@redhat.com>
+ <220bc0d1-4d1d-eeaf-6e2e-66fa33de8f98@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <BYAPR02MB4886E0356F7845E71C92D87FDEA09@BYAPR02MB4886.namprd02.prod.outlook.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52c.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <220bc0d1-4d1d-eeaf-6e2e-66fa33de8f98@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="h31gzZEtNLTqOjlF"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,68 +79,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "ale@rev.ng" <ale@rev.ng>,
- "richard.henderson@linaro.org" <richard.henderson@linaro.org>,
- "alex.bennee@linaro.org" <alex.bennee@linaro.org>,
- "laurent@vivier.eu" <laurent@vivier.eu>, Brian Cain <bcain@quicinc.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/21 10:50 PM, Taylor Simpson wrote:
->> -----Original Message-----
->> From: Philippe Mathieu-Daudé <philippe.mathieu.daude@gmail.com> On
->> Behalf Of Philippe Mathieu-Daudé
->> Sent: Friday, January 22, 2021 2:30 PM
->> To: Taylor Simpson <tsimpson@quicinc.com>; qemu-devel@nongnu.org
->> Cc: richard.henderson@linaro.org; alex.bennee@linaro.org;
->> laurent@vivier.eu; ale@rev.ng; Brian Cain <bcain@quicinc.com>
->> Subject: Re: [PATCH v7 07/35] Hexagon (target/hexagon) scalar core helpers
->>
->> Hi Taylor,
->>
->> On 1/20/21 4:28 AM, Taylor Simpson wrote:
->>> The majority of helpers are generated.  Define the helper functions
->> needed
->>> then include the generated file
->>>
->>> Signed-off-by: Taylor Simpson <tsimpson@quicinc.com>
->>> ---
->>>  target/hexagon/helper.h    |   85 ++++
->>>  target/hexagon/op_helper.c | 1066
->> ++++++++++++++++++++++++++++++++++++++++++++
->>>  2 files changed, 1151 insertions(+)
->>>  create mode 100644 target/hexagon/helper.h
->>>  create mode 100644 target/hexagon/op_helper.c
-...
+--h31gzZEtNLTqOjlF
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->> ../target/hexagon/op_helper.c:201:27: error: format ‘%lx’ expects
->> argument of type ‘long unsigned int’, but argument 4 has type ‘uint64_t’
->> {aka ‘long long unsigned int’} [-Werror=format=]
->>   201 |             HEX_DEBUG_LOG("\tmemd[0x" TARGET_FMT_lx "] = %lu
->> (0x%016lx)\n",
->>       |                           ^~~~~~~~~~~
->> ......
->>   204 |                           env->mem_log_stores[slot].data64);
->>       |                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->>       |                                                    |
->>       |                                                    uint64_t {aka
->> long long unsigned int}
->> ../target/hexagon/internal.h:28:22: note: in definition of macro
->> ‘HEX_DEBUG_LOG’
->>    28 |             qemu_log(__VA_ARGS__); \
->>       |                      ^~~~~~~~~~~
-> 
-> Strange, I don't see those errors.  I tested it on Ubuntu 16 with gcc 4.8 and 5.5 and Ubuntu 20 with gcc 9.3.  Could you tell me more about the system you are building on?
+On Mon, Jan 25, 2021 at 03:06:30PM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Hi Stefan,
+>=20
+> On 1/25/21 12:35 PM, Stefan Hajnoczi wrote:
+> > Zoltan reminded me that the 'log' backend prints tids/timestamps and th=
+is can
+> > be unwanted in some cases. It's easier to look at trace output without =
+them and
+> > in some cases parsing is also more convenient with them.
+> >=20
+> > Extend -msg timestamp=3Don|off to control the 'log' backend's tid/times=
+tamp output.
+> >=20
+> > Stefan Hajnoczi (2):
+> >   error: rename error_with_timestamp to message_with_timestamp
+> >   trace: make the 'log' backend timestamp configurable
+> >=20
+> >  docs/devel/tracing.txt           |  3 +++
+> >  include/qemu/error-report.h      |  2 +-
+> >  softmmu/vl.c                     |  2 +-
+> >  util/qemu-error.c                |  4 ++--
+> >  scripts/tracetool/backend/log.py | 19 +++++++++++++------
+> >  5 files changed, 20 insertions(+), 10 deletions(-)
+>=20
+> I applied your series, rebuilt, but nothing changed.
+>=20
+> Apparently there is some buildsys rule missing, the
+> trace files weren't regenerated.
 
-Raspberry Pi 2, but it is probably reproducible on all 32-bit hosts
-(QEMU provides Docker images for cross-building win32, armel, armhf).
+I sent a separate patch that adds tracetool dependencies to meson.build:
+"[PATCH] trace: add meson custom_target() depend_files for tracetool"
 
-> 
-> All of those HEX_DEBUG_LOG calls should be #ifdef'ed out.  Did you change the definition of HEX_DEBUG in internal.h?  Even when I set HEX_DEBUG to 1, I don't see these errors.
+That will fix the issue.
 
-I haven't changed anything.
+Stefan
 
-Regards,
+--h31gzZEtNLTqOjlF
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Phil.
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAO73QACgkQnKSrs4Gr
+c8i/EAf/bRsEfzME+4T19ODWbTE+QkBRec7xNgsYGnPeotx7bA+eCXMPtsFlaiAW
+be8K9+MI1Pk5x3YRjhWkM8fjWygh9Wm+B7ofllkQl8D02u+PxIdvrTCIsFxyJM9j
+aE3NkaY+HFQDSvQf7S2FFsoRcJPlWdg6YHvtj1UDCg/4Ej1D3N0a0SSBjt2WRvNC
+daB4v+Jn/RiNIOufX6A0Me/JDdiPYU+7aFapLjG1kZWXeKZH/VcLFstHPnmKCAif
+Rks2uxfT+BadkU576rmHMH74vpMItrIognkElV0JAHldgZY2Jq2jGyTtQGNn+21R
+I9yLZe1+Z7KgMFUBD/bteCPddyhW2g==
+=2pbx
+-----END PGP SIGNATURE-----
+
+--h31gzZEtNLTqOjlF--
+
 
