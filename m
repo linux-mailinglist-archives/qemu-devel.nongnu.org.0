@@ -2,85 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4500A30226C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 08:31:45 +0100 (CET)
-Received: from localhost ([::1]:47638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0C5302276
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 08:37:06 +0100 (CET)
+Received: from localhost ([::1]:53632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3wLc-0005O3-FD
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 02:31:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46312)
+	id 1l3wQr-0008Lj-Mh
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 02:37:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47678)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l3wFL-0004am-VG; Mon, 25 Jan 2021 02:25:12 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:52585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l3wFJ-0006Bn-5a; Mon, 25 Jan 2021 02:25:11 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.42])
- by mailout.nyi.internal (Postfix) with ESMTP id 745B75C00CE;
- Mon, 25 Jan 2021 02:25:06 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Mon, 25 Jan 2021 02:25:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=hZ3Fytq+3KnzP1ZMhRhRL8lXh4j
- vIJq7aedn99FNI6s=; b=rQY9kH53Fx0wHuL04u26tCeAtfq3it21eFVBEfHQiJq
- vFVJCdFwQxws39Pyy8CbjFaJwq0iwWhwB3ixJNjYs2sWSumAp31nTCDJniIQKeYD
- TchsSqK3WrB3U77Yjrj6wXUUH0oWm2E45x0PHGUS/l56/L78W7gmlsq1diewAFpp
- Onab/pB0yI/Hh63pCmoxhXoQx3K69uJ5BcU4Xh/JdWsLLcdUOdMcH9/S/MHva1/8
- sLPDmlXMDTDNJoz+rgTAf4sCgN4Hr2L/IdLkN1ZhpP2PtKfHc6K052HCoeYb40Ta
- 7bARXOC3zzLq0qKjb6tWMjamGhjS1+2zny6AW0NtFLA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=hZ3Fyt
- q+3KnzP1ZMhRhRL8lXh4jvIJq7aedn99FNI6s=; b=k0s235Ri0e8ekjVrhrTeOp
- hfmB5cXHV2fxZLc1FJy5BcYv8AzWfjMjpvsYVZBolrKCYQj4zRy2NVRVFpIka3nD
- xGd6wEzZLXS/tlh0TBJqQQ/PTmXz7gu5ujDIiTzhOS0SDJ4pbfDGSEKywUDf7eof
- krN5CEnPIaCHe+JKMQ+yP0LhqrD5zAHIGPYsLmZpei6P7jcmz8Rbw++FzWI4N3Wz
- jLlQA1PXd4RzL102cBYITsnczKr00PY6wP8nrFoNvNcSsni67RsuQVW2MOEZHTZu
- ePxtDIKNQnv4LPmThMBYwMz0Z8UrRp9fsmQdo8duOh0+1lqnR5sPMbI6acyRLtjg
- ==
-X-ME-Sender: <xms:UXIOYIrErNNJKKoOZDggGnH5rK-e62gAUOpZaRXHCI-eFA5nbVRCWQ>
- <xme:UXIOYOkr0ZwT758Km_GQyN9O7H6gp8h7G0Bh_HZoy3-HP_zULenxX7IcDIp3rckjP
- DNWx05fAaMHtzqVR4c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvgddutdejucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:UXIOYKH9c9y_c4wiUNVncNdVu6D9Isy7Gvep6NAYKGl5N4rYgaJ3sQ>
- <xmx:UXIOYHqQWEOhUJia4fZsyU6Nld1WLKEBvnLTeGG0U_hgmOE5TRwkiA>
- <xmx:UXIOYG4p-knNLuQassRhR2loV2BZLBcjh02o-oeogIZRmIIIqAJvdA>
- <xmx:UnIOYB0d_ePcWFA_1E1bqCzQc0kY6-lrAhPkMRBwuFdVoRId4h5wGg>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id C6F6424005E;
- Mon, 25 Jan 2021 02:25:04 -0500 (EST)
-Date: Mon, 25 Jan 2021 08:25:02 +0100
-From: Klaus Jensen <its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1l3wOf-0007TU-1U
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:34:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52181)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
+ id 1l3wOY-0001nQ-7h
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 02:34:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611560080;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=LKfihgdTFEtng/wgj1FTvuZ4H9Gw80OiMy9Lc7XPLX8=;
+ b=Z3x3OvotyvBfi2tafYM3QiAyWQQiNqY3z03fOs9kEhwUmD9invv1FekOJ/YtAWe5+Oj5r3
+ ZJV+TLyL5UOpZeNdt1E5SWIz9hQaQM6ZdFKS09/BMt/tNQJ7vXck3KaxGYkHvTHNOzdNn3
+ 4kmMfIMrNIGEx2c+CSYj+0sPrqG1Avc=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-7oTJd4dtPDmuMN7acqZfwg-1; Mon, 25 Jan 2021 02:34:36 -0500
+X-MC-Unique: 7oTJd4dtPDmuMN7acqZfwg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2CE2D8144E3;
+ Mon, 25 Jan 2021 07:34:35 +0000 (UTC)
+Received: from localhost (unknown [10.36.110.14])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2B9C818401;
+ Mon, 25 Jan 2021 07:34:30 +0000 (UTC)
+From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] hw/block/nvme: zoned fixes
-Message-ID: <YA5yTh/OlS4zYGOu@apples.localdomain>
-References: <20210119135500.265403-1-its@irrelevant.dk>
+Subject: [PATCH v2 0/2] Update libslirp & make it a subproject
+Date: Mon, 25 Jan 2021 11:34:25 +0400
+Message-Id: <20210125073427.3970606-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aUu36x0Xw2CSnPXA"
-Content-Disposition: inline
-In-Reply-To: <20210119135500.265403-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=marcandre.lureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124;
+ envelope-from=marcandre.lureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,50 +76,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: samuel.thibault@ens-lyon.org, j@getutm.app,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>=0D
 
---aUu36x0Xw2CSnPXA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi,=0D
+=0D
+Here is a few patches to update libslirp to git upstream.=0D
+Since it now supports meson subproject(), adapt the build=0D
+system to use it, and related fixes.=0D
+=0D
+v2:=0D
+ - fix unused variables on macos=0D
+ - fork_exec_child_setup: improve signal handling=0D
+=0D
+Marc-Andr=C3=A9 Lureau (2):=0D
+  slirp: update to git master=0D
+  build-sys: make libslirp a meson subproject=0D
+=0D
+ configure            |  2 +-=0D
+ meson.build          | 62 +++-----------------------------------------=0D
+ .gitmodules          |  4 +--=0D
+ slirp                |  1 -=0D
+ subprojects/libslirp |  1 +=0D
+ 5 files changed, 8 insertions(+), 62 deletions(-)=0D
+ delete mode 160000 slirp=0D
+ create mode 160000 subprojects/libslirp=0D
+=0D
+--=20=0D
+2.29.0=0D
+=0D
 
-On Jan 19 14:54, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Patch [1/2] fixes the zone append bug reported by Niklas. [2/2]
-> refactors the zone write check function to return status codes in a
-> different order if there are multiple zone write violations that apply.
->=20
-> Klaus Jensen (2):
->   hw/block/nvme: fix zone boundary check for append
->   hw/block/nvme: refactor the logic for zone write checks
->=20
->  hw/block/nvme.c       | 89 +++++++++++++++++++++----------------------
->  hw/block/trace-events |  5 +++
->  2 files changed, 48 insertions(+), 46 deletions(-)
->=20
-
-Pinging for a review. Dmitry maybe?
-
---aUu36x0Xw2CSnPXA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAOckoACgkQTeGvMW1P
-DenriAf8DajsZIgS5Husxxz2wUPFufc/bZZiYNMzPPnawoxdFn0FhP4S6mPfaotY
-1Tm6l9XPhfaCgWf9SktnOYS511qTxVfJ5v5mgvuJdb77KR/qcH95Rp4zRrKkEM3y
-AztHyOQYCyW4YZ3dVHX9D+utgdWeVth9X1D+wlmQrsdTFqDG0P3iwNjPCMtogO/F
-0KpS5brwfTwL11WDHrvZ8pkiBgjr4acx37tyX6T6Q518IfsdJK60RPX+d+oNxk1w
-U6F5RrQy3ZsRZ6G3zsUoykQOnIWjZ3RTK2aC6ZGmIihln7oU0KBnkgHgrOanStkf
-J3TvS/QO/FcKEXA/Qu9k+d3lv9IqWQ==
-=Hh29
------END PGP SIGNATURE-----
-
---aUu36x0Xw2CSnPXA--
 
