@@ -2,102 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD8CE3022A6
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 09:07:00 +0100 (CET)
-Received: from localhost ([::1]:45044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CF903022C0
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 09:22:23 +0100 (CET)
+Received: from localhost ([::1]:48248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3wtn-0001Cp-Qp
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 03:06:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53418)
+	id 1l3x8f-0003d2-P3
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 03:22:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3wre-0000km-5n
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 03:04:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21437)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l3wra-0006ZX-Nd
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 03:04:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611561881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bVUBMf1X81PrnqblBtHI/9kKSNmKX6r1PpNBWF4wDeU=;
- b=i92NDKjVX8qNqDJDvzTCzRQwHK84EfS0mDxxR61wm+mtaXSIbvmNlLtSnXUS0b7z+bY2D9
- VfU6sdhh7LS9PjeUN+xU1xTZsdkrrhEE6FKEQuKulA8HyDInJctBKDG9tGLCwmhngG6uVm
- W41Cp23XWpCHxs83NZSKF2iazZJNtHg=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-184-hBBZ7FUjNxOov0PNt1X3HA-1; Mon, 25 Jan 2021 03:04:38 -0500
-X-MC-Unique: hBBZ7FUjNxOov0PNt1X3HA-1
-Received: by mail-ed1-f70.google.com with SMTP id f4so6916395eds.5
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 00:04:38 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=bVUBMf1X81PrnqblBtHI/9kKSNmKX6r1PpNBWF4wDeU=;
- b=nnBYNpxCFCSnn6c/IDNN1kwGfQEiBxmIGP8b/FIuy6HjMpnBZxYsIDr1V+VI0iYe/X
- HB56tjvH88qFxBKiuerz1d9AcOmVM6X2pA5mCh96xOY6n9abaNy/vOYfyQqCDr60nTOq
- L++DIYkhI7BGafeZ3JKzhvf1taMEcQ3Pxo+Ofpo/tdXnbVBh812UXGlHbcXydPj3IGPq
- KUBz/LuvxSxOLpEvSJOTPJ+yAKR2S9cUrFzxTyeFKEz6ouggKrLJMoAhoiRzvsE3AOdc
- Vjy6ubEFvad6pvrh4hQwDEgKJNgUp8x28M+wDb4dXlebOVO98JOqM4oeWtxjzT6ACL5R
- 2/dA==
-X-Gm-Message-State: AOAM530mlUt/G6abEQyA315ZbaDtikd8my/PiHue1rfA7R8NByhwxvP/
- W1I+mLN73FbIGJLdQ2+d8X5Vg9mnP5gHf9IjzrL8QalhlwmWTwB6nvcJBMi7KDZCaA/vwA8V3CE
- TFFjyjMOdiqGSIG0uVBMrhsLyYNYaSkdh3V0WYIGooZu0l3chq99fZ9hUX6hAabVkz9U=
-X-Received: by 2002:a17:906:f98f:: with SMTP id
- li15mr84668ejb.123.1611561876800; 
- Mon, 25 Jan 2021 00:04:36 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwldh8M3qWId6aaIAgEVf2uJZMiH6QcALlhwcTA1ymDXo+zhylfAaurq1QDmAjgMkqQMxIgHA==
-X-Received: by 2002:a17:906:f98f:: with SMTP id
- li15mr84658ejb.123.1611561876597; 
- Mon, 25 Jan 2021 00:04:36 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id t19sm7868809ejc.62.2021.01.25.00.04.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 00:04:35 -0800 (PST)
-Subject: Re: [PATCH v7 05/11] osdep: build with non-working system() function
-To: Peter Maydell <peter.maydell@linaro.org>, Joelle van Dyne <j@getutm.app>
-References: <20210122201113.63788-1-j@getutm.app>
- <20210122201113.63788-6-j@getutm.app>
- <CAFEAcA8V1nv1VV6t8UN25JoA7bw96xSBamaw6VnfBavOQjj44A@mail.gmail.com>
- <CAFEAcA8hA7_isLsAtyS8oSwcfL9nRjdSehL+qLj5C2MycbzLoA@mail.gmail.com>
- <CA+E+eSAhNNBxY06a5iQj9ANpgmYZk0Kf6LYQPduCLwNmr1UQvA@mail.gmail.com>
- <CAFEAcA8KZqxjDd0H7faF=YtkyY-XFB2WoP31qv_2ecFij_rLqQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <59a773e4-b277-a8a2-b496-d95b515718e2@redhat.com>
-Date: Mon, 25 Jan 2021 09:04:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3x77-00036v-MR
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 03:20:45 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60658)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l3x75-0005Xb-7C
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 03:20:45 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l3x73-0003DM-DW
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 08:20:41 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 638242E8137
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 08:20:41 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8KZqxjDd0H7faF=YtkyY-XFB2WoP31qv_2ecFij_rLqQ@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 Jan 2021 08:05:27 -0000
+From: Alain Kalker <1913012@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ackalker
+X-Launchpad-Bug-Reporter: Alain Kalker (ackalker)
+X-Launchpad-Bug-Modifier: Alain Kalker (ackalker)
+References: <161155449009.29442.6099473190703163302.malonedeb@soybean.canonical.com>
+Message-Id: <161156192759.28617.2830497304674980995.launchpad@soybean.canonical.com>
+Subject: [Bug 1913012] Re: Installed firmware descriptor files contain
+ (invalid) relative paths
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="2d1d5e352f0d063d660df2300e31f66bed027fa5"; Instance="production"
+X-Launchpad-Hash: a7e8efafd533b52d0050a5aa614b46035c325e0f
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -106,38 +70,324 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1913012 <1913012@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23/01/21 14:45, Peter Maydell wrote:
-> On Sat, 23 Jan 2021 at 03:18, Joelle van Dyne <j@getutm.app> wrote:
-> On Fri, Jan 22, 2021 at 3:17 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>> Can we do the "does system() exist?" check in meson.build ?
-> 
->>> config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system'))
-> 
->> Unfortunately, this doesn't work for iOS, which defines system() but
->> throws a compile time error if you try to call it.
-> 
-> That's odd -- as far as I can tell the meson implementation
-> of has_function() does what I expected it to do, ie
-> "try to compile and link a little program that uses the
-> function, and see if it successfully links":
-> https://github.com/mesonbuild/meson/blob/39ede12aa5b27376341df85bc9ec254913f044bd/mesonbuild/compilers/mixins/clike.py#L791
-> There's some initial cleverness there too, so I guess some
-> part of that must be what's tripping us up.
-> 
-> In any case, I think we should be doing new checks in
-> meson.build, not configure.  Paolo, what's the right
-> way to do a meson "really compile this program and
-> check it built" test?
+** Description changed:
 
-One possibility is that you have to specify the #include in the "prefix" 
-argument of cc.has_function for the test to behave as the QEMU code?
+  After building and installing QEMU, the resulting installed firmware
+  descriptor files contain relative paths for their `mapping.filename`
+- properties. These relative paths will not be accepted as valid by tools
+- like `virt-install`, resulting in the inability to configure new VMs
+- which reference these firmware descriptors.
++ properties. These relative paths are causing errors when using tools
++ based on `libvirt` like `virt-install`, resulting in the inability to
++ configure new VMs which reference these firmware descriptors.
+  =
 
-If cc.has_function doesn't work, there's cc.compiles() and cc.links().
+  # QEMU version
+  $ qemu-system-x86_64 -version
+  QEMU emulator version 5.2.0
+  =
 
-Paolo
+  (I've also reproduced the issue with QEMU built from Git master @
+  v5.2.0-1300-g0e32462630, see next comment.)
+  =
 
+  # OS version
+  Void Linux x86_64 (glibc)
+  =
+
+  Steps to reproduce (with results on my system):
+  =
+
+  # Verify the symptom
+  =
+
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  Using default --name vm4
+  WARNING  No operating system detected, VM performance may suffer. Specify=
+ an OS with --os-variant for optimal results.
+  =
+
+  Starting install...
+  ERROR    Failed to open file 'share/qemu/edk2-i386-vars.fd': No such file=
+ or directory
+  Domain installation does not appear to have been successful.
+  If it was, you can restart your domain by running:
+  =C2=A0=C2=A0virsh --connect qemu:///session start vm4
+  otherwise, please restart your installation.
+  =
+
+  # Verify most likely cause
+  =
+
+  $ grep filename /usr/share/qemu/firmware/*i386*.json
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-secure-code.fd",
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-vars.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-code.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-vars.fd",
+  =
+
+  # Workaround
+  =
+
+  Manually editing the firmware descriptor files in
+  `/usr/share/qemu/firmware` to contain full absolute paths to the
+  firmware blobs resolves the issue:
+  =
+
+  $ sudo sed -i.bak -e 's,"share/qemu/,"/usr/share/qemu/,' /usr/share/qemu/=
+firmware/*.json
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  [...VM boots normally...]
+
+** Description changed:
+
+  After building and installing QEMU, the resulting installed firmware
+  descriptor files contain relative paths for their `mapping.filename`
+  properties. These relative paths are causing errors when using tools
+  based on `libvirt` like `virt-install`, resulting in the inability to
+  configure new VMs which reference these firmware descriptors.
+  =
+
+  # QEMU version
+  $ qemu-system-x86_64 -version
+  QEMU emulator version 5.2.0
+  =
+
+  (I've also reproduced the issue with QEMU built from Git master @
+  v5.2.0-1300-g0e32462630, see next comment.)
+  =
+
+  # OS version
+  Void Linux x86_64 (glibc)
+  =
+
+  Steps to reproduce (with results on my system):
+  =
+
+  # Verify the symptom
+  =
+
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  Using default --name vm4
+  WARNING  No operating system detected, VM performance may suffer. Specify=
+ an OS with --os-variant for optimal results.
+  =
+
+  Starting install...
+  ERROR    Failed to open file 'share/qemu/edk2-i386-vars.fd': No such file=
+ or directory
+  Domain installation does not appear to have been successful.
+  If it was, you can restart your domain by running:
+  =C2=A0=C2=A0virsh --connect qemu:///session start vm4
+  otherwise, please restart your installation.
+  =
+
++ # Verify that the file does exist on the system and is accessible
++ =
+
++ $ ls -l /usr/share/qemu/edk2-i386-vars.fd =
+
++ -rw-r--r-- 1 root root 540672 12 dec 18:47 /usr/share/qemu/edk2-i386-vars=
+.fd
++ =
+
+  # Verify most likely cause
+  =
+
+  $ grep filename /usr/share/qemu/firmware/*i386*.json
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-secure-code.fd",
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-vars.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-code.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-vars.fd",
+  =
+
+  # Workaround
+  =
+
+  Manually editing the firmware descriptor files in
+  `/usr/share/qemu/firmware` to contain full absolute paths to the
+  firmware blobs resolves the issue:
+  =
+
+  $ sudo sed -i.bak -e 's,"share/qemu/,"/usr/share/qemu/,' /usr/share/qemu/=
+firmware/*.json
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  [...VM boots normally...]
+
+** Description changed:
+
+  After building and installing QEMU, the resulting installed firmware
+  descriptor files contain relative paths for their `mapping.filename`
+  properties. These relative paths are causing errors when using tools
+  based on `libvirt` like `virt-install`, resulting in the inability to
+  configure new VMs which reference these firmware descriptors.
+  =
+
+  # QEMU version
+  $ qemu-system-x86_64 -version
+  QEMU emulator version 5.2.0
+  =
+
+  (I've also reproduced the issue with QEMU built from Git master @
+  v5.2.0-1300-g0e32462630, see next comment.)
+  =
+
+  # OS version
+  Void Linux x86_64 (glibc)
+  =
+
+  Steps to reproduce (with results on my system):
+  =
+
+  # Verify the symptom
+  =
+
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  Using default --name vm4
+  WARNING  No operating system detected, VM performance may suffer. Specify=
+ an OS with --os-variant for optimal results.
+  =
+
+  Starting install...
+  ERROR    Failed to open file 'share/qemu/edk2-i386-vars.fd': No such file=
+ or directory
+  Domain installation does not appear to have been successful.
+  If it was, you can restart your domain by running:
+  =C2=A0=C2=A0virsh --connect qemu:///session start vm4
+  otherwise, please restart your installation.
+  =
+
+  # Verify that the file does exist on the system and is accessible
+  =
+
+- $ ls -l /usr/share/qemu/edk2-i386-vars.fd =
+
++ $ ls -l /usr/share/qemu/edk2-i386-vars.fd
+  -rw-r--r-- 1 root root 540672 12 dec 18:47 /usr/share/qemu/edk2-i386-vars=
+.fd
+  =
+
+  # Verify most likely cause
+  =
+
+  $ grep filename /usr/share/qemu/firmware/*i386*.json
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-secure-code.fd",
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-vars.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-code.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-vars.fd",
+  =
+
++ Note that all the paths are relative and are missing <prefix>, i.e.
++ `/usr`.
++ =
+
+  # Workaround
+  =
+
+  Manually editing the firmware descriptor files in
+  `/usr/share/qemu/firmware` to contain full absolute paths to the
+  firmware blobs resolves the issue:
+  =
+
+  $ sudo sed -i.bak -e 's,"share/qemu/,"/usr/share/qemu/,' /usr/share/qemu/=
+firmware/*.json
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  [...VM boots normally...]
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913012
+
+Title:
+  Installed firmware descriptor files contain (invalid) relative paths
+
+Status in QEMU:
+  New
+
+Bug description:
+  After building and installing QEMU, the resulting installed firmware
+  descriptor files contain relative paths for their `mapping.filename`
+  properties. These relative paths are causing errors when using tools
+  based on `libvirt` like `virt-install`, resulting in the inability to
+  configure new VMs which reference these firmware descriptors.
+
+  # QEMU version
+  $ qemu-system-x86_64 -version
+  QEMU emulator version 5.2.0
+
+  (I've also reproduced the issue with QEMU built from Git master @
+  v5.2.0-1300-g0e32462630, see next comment.)
+
+  # OS version
+  Void Linux x86_64 (glibc)
+
+  Steps to reproduce (with results on my system):
+
+  # Verify the symptom
+
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  Using default --name vm4
+  WARNING  No operating system detected, VM performance may suffer. Specify=
+ an OS with --os-variant for optimal results.
+
+  Starting install...
+  ERROR    Failed to open file 'share/qemu/edk2-i386-vars.fd': No such file=
+ or directory
+  Domain installation does not appear to have been successful.
+  If it was, you can restart your domain by running:
+  =C2=A0=C2=A0virsh --connect qemu:///session start vm4
+  otherwise, please restart your installation.
+
+  # Verify that the file does exist on the system and is accessible
+
+  $ ls -l /usr/share/qemu/edk2-i386-vars.fd
+  -rw-r--r-- 1 root root 540672 12 dec 18:47 /usr/share/qemu/edk2-i386-vars=
+.fd
+
+  # Verify most likely cause
+
+  $ grep filename /usr/share/qemu/firmware/*i386*.json
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-secure-code.fd",
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-vars.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-code.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-vars.fd",
+
+  Note that all the paths are relative and are missing <prefix>, i.e.
+  `/usr`.
+
+  # Workaround
+
+  Manually editing the firmware descriptor files in
+  `/usr/share/qemu/firmware` to contain full absolute paths to the
+  firmware blobs resolves the issue:
+
+  $ sudo sed -i.bak -e 's,"share/qemu/,"/usr/share/qemu/,' /usr/share/qemu/=
+firmware/*.json
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  [...VM boots normally...]
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913012/+subscriptions
 
