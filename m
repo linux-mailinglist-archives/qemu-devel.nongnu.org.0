@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623963023FA
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 11:58:35 +0100 (CET)
-Received: from localhost ([::1]:46720 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D717A3023FB
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 11:59:20 +0100 (CET)
+Received: from localhost ([::1]:49176 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3zZq-0008G9-4e
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 05:58:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
+	id 1l3zaZ-0000rB-Vx
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 05:59:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58036)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l3zZ2-0007lT-MS
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:57:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l3zZ0-00024D-9h
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:57:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611572259;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=n92av1VO1pDJTB6mFQmlWppnyyAW3a82s2Cj8HujAYs=;
- b=dj6ss/KoE+OLlrGy4fwimFTWeSO57iAKtk+KuUsvD/zoetwGmfL//B2nnsY1vwMZulsBI0
- a5djZGhLVH+eSpsbcm4Aeo+nP8RVqVxm+oGQAzEF3OE3DFpqpEQsIIYWY97dOKVzKf1GD6
- ZT16jmXYrzZzLK/PisRFlnVdSZCpcb8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-549-qOKCjfZcMiC80D2iSHklAA-1; Mon, 25 Jan 2021 05:57:38 -0500
-X-MC-Unique: qOKCjfZcMiC80D2iSHklAA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3C54100C600;
- Mon, 25 Jan 2021 10:57:36 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-114-237.ams2.redhat.com
- [10.36.114.237])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DE1E71D58;
- Mon, 25 Jan 2021 10:57:31 +0000 (UTC)
-Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
-To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
-References: <20210122102041.27031-1-mreitz@redhat.com>
- <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
- <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
- <1121a803-98e7-6d41-119c-3d82717976ec@redhat.com>
- <cba8919b-0480-3520-6ad6-920bf9d4186e@redhat.com>
- <95b1fd67-e980-be70-addc-6f1ac5f95f3d@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Message-ID: <3cfa7f82-866b-e8b7-3e61-bb3dedff3226@redhat.com>
-Date: Mon, 25 Jan 2021 11:57:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l3zZg-00008U-MC
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:58:24 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:36415)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l3zZf-0002OW-3h
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:58:24 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id d2so11152503edz.3
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 02:58:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lVLd9SEatVayGs/dkKOOi0UqvIE17Oocj65I1xB5+CU=;
+ b=fZAYFE7gbjNMzz5EJBN9WdGDfPYo3KzSnyw9fOccinEMAtMF4eg6O7gbN2fvzdUYBB
+ twu0wEs8Jl0VgApMvRYd/u5R9OGFmXUpaXzo/yuN+pm+7nyZhJnrl1yRcNNEQH7cfilY
+ TVdiAYSotqtY8DyMaz5ybpS/dSVlJp8f2d7AKkMWySnrqoScH/652xuttGz3wZG3Layh
+ BKG3l7F+C7bBPYDECzD2S77VtllWkjtLQsluvJFwsVBIa2QWB0teNQPksolSHcuR2VN4
+ A9i5MhGZElK/zDTReVQz6DkYXDWMZKyADXVl3QbFTR28HZr/hqZoSI8FAr54hWKBrE1L
+ 6bCg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=lVLd9SEatVayGs/dkKOOi0UqvIE17Oocj65I1xB5+CU=;
+ b=BlXrGO5qY+mju7WuRzZaKmkmnJ5fJkmDzQuOMpnx/+paVlbEW4Dxs0m95PN0p12345
+ Uew83nhuM493arxm7ciJU7apdXkq3Qq6b5ANCjcw/sjjsjdFT/ddhjmLy+nDD4dIzdQQ
+ 4AWqLm071jTOP7WEk6ieh4dpMPhQoYhAZ30y91yYRqrVu0eT7wx5p4KD3tC1wBVWWIdN
+ tvvbb7XqWIprSyWtDqzjnZg3jKaf9AP//hHrRtbTSdIJmZZLMVyHhfsxHqXuczd3OPx4
+ kHlZu0KHFx7n8eUVuml8tvDdQsE7Jh+StyzI1hS7gwvitNU0MnJjLBtxHz15PtmwynCZ
+ ZSVA==
+X-Gm-Message-State: AOAM532aCWfXFi3jhV7/ZtROGxu4QNvu+/AWqfU+/hu8AthIIiMyEOIR
+ pigO6o1f4ciHNF7NZvEzQQ1iUMhXJbg=
+X-Google-Smtp-Source: ABdhPJxBu3J6xw3MaUip2G5nDQ4BLLmkN9fE/x7KD/qqnfcscCN7gdmNZp33Tog63axi2NArfVH0HA==
+X-Received: by 2002:aa7:d94b:: with SMTP id l11mr319039eds.1.1611572301209;
+ Mon, 25 Jan 2021 02:58:21 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id p16sm8171485ejz.103.2021.01.25.02.58.19
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jan 2021 02:58:20 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] target/mips: fetch code with translator_ld
+Date: Mon, 25 Jan 2021 11:58:18 +0100
+Message-Id: <20210125105818.2707067-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <95b1fd67-e980-be70-addc-6f1ac5f95f3d@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,41 +83,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ "Emilio G . Cota" <cota@braap.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 23.01.21 01:41, Laszlo Ersek wrote:
-> On 01/22/21 22:26, Laszlo Ersek wrote:
-> 
->> I'm drifting towards an overhaul of coroutine-sigaltstack, based on my
->> personal understanding of POSIX, but given that I can absolutely not
->> *test* coroutine-sigaltstack on the platforms where it actually matters,
->> an "overhaul" by me would be reckless.
->>
->> I didn't expect these skeletons when I first read Max's "Thread safety
->> of coroutine-sigaltstack" email :/
->>
->> Max, after having worked on top of your patch for a few hours, I
->> officially endorse your mutex approach. I can't encourage you or myself
->> to touch this code, in good conscience. It's not that it's "bad"; it's
->> inexplicable and (to me) untestable.
+Similarly to commits ae82adc8e29..7f93879e444, use the
+translator_ld*() API introduced in commit 409c1a0bf0f
+to fetch the code on the MIPS target.
 
-On one hand, that’s too bad; on the other perhaps it’s just for the 
-better to get all of this out of our minds again (for now)... O:)
+Reviewed-by: Jiaxun Yang  <jiaxun.yang@flygoat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v2: Restrict to translator path =)
+---
+ target/mips/translate.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-> I'm attaching a patch (based on 0e3246263068). I'm not convinced that I
-> should take responsibility for this, given the lack of testability on my
-> end. So I'm not posting it stand-alone even as an RFC. I've built it and
-> have booted one of my existent domains with it, but that's all.
-
-FWIW, it looks good to me.  We should keep it in mind if in the future 
-for some reason sigaltstack becomes more important, but for now I’m not 
-too sad to abort any improvement efforts.
-
-Max
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index a5cf1742a8b..a6e835809aa 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -26,7 +26,7 @@
+ #include "cpu.h"
+ #include "internal.h"
+ #include "tcg/tcg-op.h"
+-#include "exec/cpu_ldst.h"
++#include "exec/translator.h"
+ #include "exec/helper-proto.h"
+ #include "exec/helper-gen.h"
+ #include "hw/semihosting/semihost.h"
+@@ -13911,7 +13911,7 @@ static void decode_i64_mips16(DisasContext *ctx,
+ 
+ static int decode_extended_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+ {
+-    int extend = cpu_lduw_code(env, ctx->base.pc_next + 2);
++    int extend = translator_lduw(env, ctx->base.pc_next + 2);
+     int op, rx, ry, funct, sa;
+     int16_t imm, offset;
+ 
+@@ -14161,7 +14161,7 @@ static int decode_mips16_opc(CPUMIPSState *env, DisasContext *ctx)
+         /* No delay slot, so just process as a normal instruction */
+         break;
+     case M16_OPC_JAL:
+-        offset = cpu_lduw_code(env, ctx->base.pc_next + 2);
++        offset = translator_lduw(env, ctx->base.pc_next + 2);
+         offset = (((ctx->opcode & 0x1f) << 21)
+                   | ((ctx->opcode >> 5) & 0x1f) << 16
+                   | offset) << 2;
+@@ -16295,7 +16295,7 @@ static void decode_micromips32_opc(CPUMIPSState *env, DisasContext *ctx)
+     uint32_t op, minor, minor2, mips32_op;
+     uint32_t cond, fmt, cc;
+ 
+-    insn = cpu_lduw_code(env, ctx->base.pc_next + 2);
++    insn = translator_lduw(env, ctx->base.pc_next + 2);
+     ctx->opcode = (ctx->opcode << 16) | insn;
+ 
+     rt = (ctx->opcode >> 21) & 0x1f;
+@@ -21350,7 +21350,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+     int offset;
+     int imm;
+ 
+-    insn = cpu_lduw_code(env, ctx->base.pc_next + 2);
++    insn = translator_lduw(env, ctx->base.pc_next + 2);
+     ctx->opcode = (ctx->opcode << 16) | insn;
+ 
+     rt = extract32(ctx->opcode, 21, 5);
+@@ -21469,7 +21469,7 @@ static int decode_nanomips_32_48_opc(CPUMIPSState *env, DisasContext *ctx)
+         break;
+     case NM_P48I:
+         {
+-            insn = cpu_lduw_code(env, ctx->base.pc_next + 4);
++            insn = translator_lduw(env, ctx->base.pc_next + 4);
+             target_long addr_off = extract32(ctx->opcode, 0, 16) | insn << 16;
+             switch (extract32(ctx->opcode, 16, 5)) {
+             case NM_LI48:
+@@ -29087,17 +29087,17 @@ static void mips_tr_translate_insn(DisasContextBase *dcbase, CPUState *cs)
+ 
+     is_slot = ctx->hflags & MIPS_HFLAG_BMASK;
+     if (ctx->insn_flags & ISA_NANOMIPS32) {
+-        ctx->opcode = cpu_lduw_code(env, ctx->base.pc_next);
++        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
+         insn_bytes = decode_nanomips_opc(env, ctx);
+     } else if (!(ctx->hflags & MIPS_HFLAG_M16)) {
+-        ctx->opcode = cpu_ldl_code(env, ctx->base.pc_next);
++        ctx->opcode = translator_ldl(env, ctx->base.pc_next);
+         insn_bytes = 4;
+         decode_opc(env, ctx);
+     } else if (ctx->insn_flags & ASE_MICROMIPS) {
+-        ctx->opcode = cpu_lduw_code(env, ctx->base.pc_next);
++        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
+         insn_bytes = decode_micromips_opc(env, ctx);
+     } else if (ctx->insn_flags & ASE_MIPS16) {
+-        ctx->opcode = cpu_lduw_code(env, ctx->base.pc_next);
++        ctx->opcode = translator_lduw(env, ctx->base.pc_next);
+         insn_bytes = decode_mips16_opc(env, ctx);
+     } else {
+         gen_reserved_instruction(ctx);
+-- 
+2.26.2
 
 
