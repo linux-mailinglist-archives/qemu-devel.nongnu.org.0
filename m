@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DC5D3022C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 09:26:54 +0100 (CET)
-Received: from localhost ([::1]:52604 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C42A3022C9
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 09:27:13 +0100 (CET)
+Received: from localhost ([::1]:53198 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3xD3-0005RY-0m
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 03:26:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56184)
+	id 1l3xDM-0005ft-GW
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 03:27:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l3x8s-00046c-Qx; Mon, 25 Jan 2021 03:22:34 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:39245)
+ id 1l3x8u-00046w-8q; Mon, 25 Jan 2021 03:22:36 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28]:40401)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l3x8r-0006Yr-3Q; Mon, 25 Jan 2021 03:22:34 -0500
+ id 1l3x8s-0006ZZ-0Z; Mon, 25 Jan 2021 03:22:36 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E3C675C00CE;
- Mon, 25 Jan 2021 03:22:31 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id 3DFC05C00DF;
+ Mon, 25 Jan 2021 03:22:33 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Mon, 25 Jan 2021 03:22:31 -0500
+ by compute4.internal (MEProxy); Mon, 25 Jan 2021 03:22:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=zdqJ9jrxaBFA2
- 4yNUAI9V7Ld1She2fQCBl/Mq8kcpvI=; b=D3vrh25JW4xd+9/uKVrYLoT5ezNrO
- YYvjgu55U29Y1EU6KTbtrcBRtZusq999ICVSerIAiDlAypKPbe7dYCrXvLXr9/pX
- EvQQ4bggcVXSvj8qhIdBjPeiXVM7tcETEVxZc7fuoqofLQzr35PBWibLa0cChqBT
- 5DaOgOrRwk7/BlQnzMuhW7NHxoBDet49euYFqEwFukX562ExySUc/jv7WSDFTFKd
- 1hebSwHG3NukBvEsjk11iRca4oXW4FmcXT+l7NnZLsVpTI2GaQSvgl7Yb74JOOGR
- aBMry4TUW6Egs3PH5po29ZAxjzmOli/aKW7hQ1mb0kgC3RtPOdvcUetNg==
+ :mime-version:content-transfer-encoding; s=fm2; bh=f0G59iqwrj5Vf
+ Z0TqNozV6E4r78+iF+wO37wu5NAMmY=; b=tyLe3CX8oq1a0dVMj6iErKJfTSgGN
+ /onzzO6a6n/vi2PnjqQw7tEku/eHrqn7BdDa1VAUMvtqLaqFji3WUBlmaISVZyy0
+ 4HFcsPFwrUFElB0bfTyZ5HsuOGln/zIA2xLGrYXeJL0jg2/JSULzDN43kS/WpniB
+ DjgmViXQAHf2GBPgX+8lVg6XVzmtV+R5LLv8uSyfImvfFNp8geHUn3Na/M+sjS0W
+ z4tiA2+dXyHKgwK5hZ9oDVRbYqkBDAd9WJvNzeihS/aaf0pJchPU9SL4ZVl1ybwI
+ Xn0o22pfq85jFf8aDEkqEo7+52pgCkD/p+V5wKtxCJN+fUXS9UPaKSYCg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=zdqJ9jrxaBFA24yNUAI9V7Ld1She2fQCBl/Mq8kcpvI=; b=XQFn4Non
- gHxRHDrlFwbbyrHWNYoN0mzRgBEIH9oPpdU9NfwVskr0rtD1meChNSCzyIaKKB9E
- sZEOddpUr6SpeLcleWSUVt+G4HMKz5NTM/Nk2n11cXKbsDDYf4pSXwQCBn5ZpkTd
- lOaO35ZRqqgSFLVQhm8IpYDsvgVKdLpC28/srIjvzU4LUn9elT4egQCMYadYh/xN
- 4HgAMsg/ZXQ4yrhntscdGJNdIOSR5vZzAJHrVWlnXJg+bckDfP4l6NnL+b7z7grL
- K7AK733meHdip/9LtYrlVULQNwPqJV9SGMlfec3xyGzzIXjy8Fzf/HAj4rm27zA7
- p42pPRFI8NZ3Uw==
-X-ME-Sender: <xms:x38OYOlLVqkcKahG4UySG0OOfN91BhRzLt-17aaAOmfkiV0AMqLSog>
- <xme:x38OYF3Es_JBjB58ghUrA5F6UzHeVhRQZaKoovpRnUJXnXLYtLD5l2SR_jBZ4M3Ts
- w0-mrGabAwZ5nepSDU>
+ fm1; bh=f0G59iqwrj5VfZ0TqNozV6E4r78+iF+wO37wu5NAMmY=; b=gTNRe6U1
+ US3oDtpSllAuzzkutWs1a/hiy2RpMmzTEPGu+YmKfiFwOXaXY9eLYQ13bZX/R8bS
+ iD8ff+EvWvGAh3ioRVovDQ+LrkXeyiZiuJqw7iqW8ybF9ZNswXbCd1THFRZxjqSY
+ ElZIL4fJ0aOVKjXUTDiyUqLh+DIQcGo4o05eLLKltBwESWQwNRHmzUwhBi+ZUK34
+ DZAEYoVTC+7LlM6EAHVb/7hTtpoMzKgKExQ34CJ93Bnv2v+hne1BvDiwm4ygdAwT
+ 9e5rhLgBYx40qvz3JqaotnwdXeKbmbZO2zFkzkBIGLOJ1Z9MUiLfO2OViGIm+YKg
+ fKFwq9345Tg59w==
+X-ME-Sender: <xms:yX8OYLvNagtlf-X5w23kXLX1y7OOzTUdNgF-q-qDZ37FKII7qovYcw>
+ <xme:yX8OYMe2qeuKoF-OrrjN7m3ulur2W75GyBcQWO2LwWX5g4VoFe1hrl8UcxYFv8fI4
+ AfsuWJB7YTikrdOwus>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvgdduudekucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -53,19 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvddvgdduudekucetufdoteggod
  gvrhhnpeeuleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefg
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:x38OYMqBEnw3dW9mkjxwAE8MD0yie3LvBYuaRU3p_TLQf1Wfk1hPTw>
- <xmx:x38OYCkrmItxF23kaXbFtNKBWZd8zJFRswbTvKwEg605il7zv8Ttmw>
- <xmx:x38OYM36oLp3SZHvP7HLhLMX4V84g8rY_L_22Np-tlRlpRvOAjThtw>
- <xmx:x38OYA8Ewb0GZJ-9gThtInk-ThhRoSvKL5j_suECxwxPeSU8c1yzUg>
+X-ME-Proxy: <xmx:yX8OYOz0TdrLEVFC7k1og8KRLVIn4CBsdIME1l-DQBas3r-S-RtqPw>
+ <xmx:yX8OYKO8sLNpdUbxwF7JK7FldEkBa8llIY6X63QZ7USg-zxl0WJM3A>
+ <xmx:yX8OYL-HQsjrg5XjENsL1COM0Zl1DqcQw7n99N_A58Qi6aKOpU3-Nw>
+ <xmx:yX8OYGn8V-PopeEmyPUo02JL-Cv-poe_4Vjf9gB2OU9wyNnW7UTrUQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id CA36E1080059;
- Mon, 25 Jan 2021 03:22:30 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 121611080059;
+ Mon, 25 Jan 2021 03:22:31 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] hw/block/nvme: fix set feature for error recovery
-Date: Mon, 25 Jan 2021 09:22:25 +0100
-Message-Id: <20210125082227.20160-2-its@irrelevant.dk>
+Subject: [PATCH 2/3] hw/block/nvme: fix set feature save field check
+Date: Mon, 25 Jan 2021 09:22:26 +0100
+Message-Id: <20210125082227.20160-3-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210125082227.20160-1-its@irrelevant.dk>
 References: <20210125082227.20160-1-its@irrelevant.dk>
@@ -101,29 +101,29 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
-Only enable DULBE if the namespace supports it.
+Currently, no features are saveable, so the current check is not wrong,
+but add a check against the feature capabilities to make sure this will
+not regress if saveable features are added later.
 
 Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
 ---
- hw/block/nvme.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/block/nvme.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 21aec90637fa..e7983ff422f2 100644
+index e7983ff422f2..1be5b54e0fed 100644
 --- a/hw/block/nvme.c
 +++ b/hw/block/nvme.c
-@@ -3396,7 +3396,9 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
-         }
+@@ -3324,7 +3324,7 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeRequest *req)
  
-         assert(ns);
--        ns->features.err_rec = dw11;
-+        if (NVME_ID_NS_NSFEAT_DULBE(ns->id_ns.nsfeat))  {
-+            ns->features.err_rec = dw11;
-+        }
-         break;
-     case NVME_VOLATILE_WRITE_CACHE:
-         for (i = 1; i <= n->num_namespaces; i++) {
+     trace_pci_nvme_setfeat(nvme_cid(req), nsid, fid, save, dw11);
+ 
+-    if (save) {
++    if (save && !(nvme_feature_cap[fid] & NVME_FEAT_CAP_SAVE)) {
+         return NVME_FID_NOT_SAVEABLE | NVME_DNR;
+     }
+ 
 -- 
 2.30.0
 
