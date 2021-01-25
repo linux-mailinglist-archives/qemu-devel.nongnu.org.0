@@ -2,51 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 456FD302653
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:33:35 +0100 (CET)
-Received: from localhost ([::1]:37074 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBF73302674
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:49:04 +0100 (CET)
+Received: from localhost ([::1]:50228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l42vu-0006zb-5Y
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:33:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38242)
+	id 1l43At-0004mS-CR
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:49:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l42uF-0006VF-DO
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:31:51 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:54183)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l42uD-0004Xv-Hm
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:31:51 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 15:31:43 +0100
-Received: (qmail 21075 invoked from network); 25 Jan 2021 14:31:44 -0000
-Received: from ac50.vpn.kamp-intra.net (HELO ?172.20.250.50?)
- (pl@kamp.de@::ffff:172.20.250.50)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 25 Jan 2021 14:31:44 -0000
-Subject: Re: configure does not detect librados or librbd since the switch to
- meson
-From: Peter Lieven <pl@kamp.de>
-To: dillaman@redhat.com, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- pbonzini@redhat.com, philmd@redhat.com
-References: <23268a39-078d-ed13-6bb4-590ce1292662@kamp.de>
-Message-ID: <b8dff207-21d9-ce8f-63b3-f877d29d90c6@kamp.de>
-Date: Mon, 25 Jan 2021 15:31:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l437f-0003qp-VS
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:45:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20328)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l437d-0002n3-Fd
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:45:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611585939;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=2IHNGZUBaAo9StI76N/uvNUvlwSnSwAveZj5OZStV7s=;
+ b=MJHoZHHSuYd1zwpb4wXoVB564q7X5X3qQuHyYLKXSdr5w3Cs0KezwcKWgZqXaEExbUfBTs
+ Xc5freRzOItj1Ks4UCu2zwnJgx9srjCP4dymg0UJdJbePrcryIlXPUMy/YM9MxNnC68jW/
+ DkMlkYxaXUKxqQw6dHGKcx61yCI6wqo=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-319-8pyhbmB8Oaq5cYK2Nqu1ZA-1; Mon, 25 Jan 2021 09:45:36 -0500
+X-MC-Unique: 8pyhbmB8Oaq5cYK2Nqu1ZA-1
+Received: by mail-ed1-f72.google.com with SMTP id a26so7581453edx.8
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 06:45:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=hSbENLTnkRVWIk5m3JYN1zNDEfHoE2NdZOJx2jEEJG8=;
+ b=GHkM0AjyUDjNIH8MgBKBTzAuG4KzHeKPQulnhbtBp+gIiZIrTEwfz+p0mtdphDLfDm
+ T6oQgMCJNeAM+QHKGw0VJX7TkO51uCcF5fT3XSOXkptUd+NeOSLqptIlwolLwB/O1ie2
+ +iqqudpyP62axH64zPq22qanL+ivTCc0cK2iGA39C/TyfsBE6EViTQ6JHT1hWNnwBF8v
+ u+P7ByaBzHv0OjY3vwaqUTZ+fsSqjPhoTS8LX4ZvacaZuIT3NE5Pa4/PF7leRJXyAuBA
+ 6js0/OHf+XiRgQmakJcUisgcQY3NBqWl+gAwGIwYTdYsoBnQhDYUd7BYanTxrx/kkLAr
+ MyQg==
+X-Gm-Message-State: AOAM530cqGcMumKVI0E7oJAszI1wo1TOMBWaGPur0s2Qabjpe/UDGOYC
+ bDdzEfCe3uVVK8vHg+cZ4wSXgmTwIBIHBLDojC3miaq/Z9TeaAtRn3DVvAhDIy+c8xcNOKWF0dV
+ pyJBmdgiloSOzzXFlps2WW4YIgeP9ZTxjKTlXTxWHz5FRgKblwPOszGq1DnoQZMCE
+X-Received: by 2002:a17:906:4348:: with SMTP id
+ z8mr577515ejm.371.1611585934507; 
+ Mon, 25 Jan 2021 06:45:34 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz3tleRftBvmN6Ot5HSoBOHC0P6Bo4R5vTv+VOBmvwXfyaW6wp2/g7yCpBHeUmZMgrEkGoPBw==
+X-Received: by 2002:a17:906:4348:: with SMTP id
+ z8mr577499ejm.371.1611585934316; 
+ Mon, 25 Jan 2021 06:45:34 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id a11sm2034758ejc.64.2021.01.25.06.45.31
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jan 2021 06:45:32 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v4 0/4] meson: Try to clarify TCG / TCI options for new users
+Date: Mon, 25 Jan 2021 15:45:26 +0100
+Message-Id: <20210125144530.2837481-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <23268a39-078d-ed13-6bb4-590ce1292662@kamp.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,32 +92,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, "Daniel P . Berrange" <berrange@redhat.com>,
+ Stefan Weil <sw@weilnetz.de>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.01.21 um 15:13 schrieb Peter Lieven:
-> Hi,
->
->
-> on Dedian / Ubuntu configure does no longer detect librbd / librados since the switch to meson.
->
-> I need to add dirs: ['/usr/lib'] to the cc.find_library for librados and librbd. But I am not familiar with meson
->
-> and can't say if thats the appropriate fix.
->
->
-> I would be thankful for a hint. I would create a patch to fix this and include it upfront of my rbd driver rewrite
->
-> that I would like to respin asap.
-
-
-Further issue: if I specify configure --enable-rbd and cc.links fails the configure command succeeds and rbd support is disabled.
-
-
-This seems to be an issue with all cc.links calls in the meson.build script.
-
-
-Peter
-
+Since v3:=0D
+- Rebased=0D
+- Include fix for 23a77b2d18b ("build-system: clean up TCG/TCI configury")=
+=0D
+- Use get_option() (Claudio)=0D
+- Use warning message suggested by Daniel=0D
+- Drop 'Reword --enable-tcg-interpreter as --disable-native-tcg' (Paolo)=0D
+=0D
+Some new users get confused between 'TCG' and 'TCI' and enable=0D
+TCI when TCG is better for they needs. Try to clarify it is=0D
+better to not use TCI when native backend is available.=0D
+=0D
+Note, before Meson, warnings were summarized at the end of=0D
+./configure. Now they are displayed earlier, and likely=0D
+missed IMHO. No clue how to improve that :/=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  configure: Improve TCI feature description=0D
+  meson: Explicit TCG backend used=0D
+  meson: Warn when TCI is selected but TCG backend is available=0D
+=0D
+Richard Henderson (1):=0D
+  configure: Fix --enable-tcg-interpreter=0D
+=0D
+ configure   |  7 ++++---=0D
+ meson.build | 15 +++++++++++++--=0D
+ 2 files changed, 17 insertions(+), 5 deletions(-)=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
