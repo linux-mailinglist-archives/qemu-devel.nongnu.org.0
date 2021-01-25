@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DDB530298F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:07:31 +0100 (CET)
-Received: from localhost ([::1]:47280 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44AD2302983
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:05:57 +0100 (CET)
+Received: from localhost ([::1]:42334 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l46Gw-0005Ns-IA
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:07:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45244)
+	id 1l46FP-0003Gp-R5
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:05:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45186)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46Be-0001Qt-Ug
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:02:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32885)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46Bc-0001OV-0R
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:02:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46BZ-0006lG-Vu
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:02:02 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46BY-0006km-Up
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:01:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611597717;
+ s=mimecast20190719; t=1611597714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=JdE/mjhcHwPCn5Y64DNoT5FJDKEiUtgq25W1YQzZvl0=;
- b=gwZWEi+B6wmnOFjHPvH34hMaNnzSo6sa8CPvQk6RjHMZYKZzunMA6gaNKcF+tkl9hAPb27
- iTpyn6IvCTJl0G/zpndLXKiypPRTjIsO/wDzMnxB3fztesXgiWbQfF0kNgV1UtA/SeGw32
- ptqGhPSLlLLR+otB1b0NtjKtrHIQ5AI=
+ bh=Go5qmUqyPVhLjJ+A7W/OFRJFVNMBRxbvYLjmjXBhUUo=;
+ b=dDt9MElGp4Nvy1J3SOUFgxbUKmOc/pAIJ3gBVpXubRQnOGTSInz6SgAERUYSDxFXO9KdmU
+ qjMzdOLpci/7QuVsZY9sSaFck1K/uXbky8+35i3HdJWrCsAuKnFfGv14qSrLmMY2vkXUuU
+ Ae9Fzmcs2kEvOCTkgWSkTPjNpK+WCsA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-520-o-Vo9qbIMG-50QFFs_HfQg-1; Mon, 25 Jan 2021 13:01:55 -0500
-X-MC-Unique: o-Vo9qbIMG-50QFFs_HfQg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-532-EsoIWbSdO1K3EDcob8FgWQ-1; Mon, 25 Jan 2021 13:01:52 -0500
+X-MC-Unique: EsoIWbSdO1K3EDcob8FgWQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93CA1107ACE3
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 18:01:54 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C1C80100C606
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 18:01:51 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-119.rdu2.redhat.com [10.10.116.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A12341002D43;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A16D26F983;
  Mon, 25 Jan 2021 18:01:38 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 3662E223D98; Mon, 25 Jan 2021 13:01:38 -0500 (EST)
+ id 39C61223D99; Mon, 25 Jan 2021 13:01:38 -0500 (EST)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH 1/6] virtiofsd: Drop ->vu_dispatch_rwlock while waiting for
- thread to exit
-Date: Mon, 25 Jan 2021 13:01:10 -0500
-Message-Id: <20210125180115.22936-2-vgoyal@redhat.com>
+Subject: [PATCH 2/6] libvhost-user: Use slave_mutex in all slave messages
+Date: Mon, 25 Jan 2021 13:01:11 -0500
+Message-Id: <20210125180115.22936-3-vgoyal@redhat.com>
 In-Reply-To: <20210125180115.22936-1-vgoyal@redhat.com>
 References: <20210125180115.22936-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -85,91 +84,118 @@ Cc: marcandre.lureau@redhat.com, stefanha@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When we are shutting down virtqueues, virtio_loop() receives a message
-VHOST_USER_GET_VRING_BASE from master. We acquire ->vu_dispatch_rwlock
-and get into the process of shutting down virtqueue. In one of the
-final steps, we are waiting for fv_queue_thread() to exit/finish and
-wait with ->vu_dispatch_rwlock held.
+dev->slave_mutex needs to be taken when sending messages on slave_fd.
+Currently _vu_queue_notify() does not do that.
 
-But it is possible that fv_queue_thread() itself is waiting to get
-->vu_dispatch_rwlock (With --thread-pool=0 option). If requests
-are being processed by fv_queue_worker(), then fv_queue_worker()
-can wait for the ->vu_dispatch_rwlock, and fv_queue_thread() will
-wait for fv_queue_worker() before thread pool can be stopped.
-
-IOW, if guest is shutdown uncleanly (some sort of emergency reboot),
-it is possible that virtiofsd is processing a fs request and
-qemu initiates device shutdown sequence. In that case there seem
-to be two options. Either abort the existing request completely or
-let existing request finish.
-
-This patch is taking second approach. That is drop the ->vu_dispatch_rwlock
-temporarily so that fv_queue_thread() can finish and deadlock does not
-happen.
-
-->vu_dispatch_rwlock provides mutual exclusion between virtio_loop()
-(handling vhost-user protocol messages) and fv_queue_thread() (handling
-fuse filesystem requests). Rational seems to be that protocol message
-might change queue memory mappings, so we don't want both to proceed
-at the same time.
-
-In this case queue is shutting down, so I hope it is fine for fv_queue_thread() to send response back while virtio_loop() is still waiting (and not handling
-any further vho-user protocol messages).
-
-IOW, assumption here is that while virto_loop is blocked processing
-VHOST_USER_GET_VRING_BASE message, it is still ok to send back the
-response on vq by fv_queue_thread().
+Introduce a helper vu_message_slave_send_receive() which sends as well
+as receive response. Use this helper in all the paths which send
+message on slave_fd channel.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- tools/virtiofsd/fuse_virtio.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ subprojects/libvhost-user/libvhost-user.c | 50 ++++++++++++-----------
+ 1 file changed, 27 insertions(+), 23 deletions(-)
 
-diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-index 9577eaa68d..6805d8ba01 100644
---- a/tools/virtiofsd/fuse_virtio.c
-+++ b/tools/virtiofsd/fuse_virtio.c
-@@ -813,11 +813,20 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
-         fuse_log(FUSE_LOG_ERR, "Eventfd_write for queue %d: %s\n",
-                  qidx, strerror(errno));
+diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+index 4cf4aef63d..7a56c56dc8 100644
+--- a/subprojects/libvhost-user/libvhost-user.c
++++ b/subprojects/libvhost-user/libvhost-user.c
+@@ -403,7 +403,7 @@ vu_send_reply(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
+  * Processes a reply on the slave channel.
+  * Entered with slave_mutex held and releases it before exit.
+  * Returns true on success.
+- * *payload is written on success
++ * *payload is written on success, if payload is not NULL.
+  */
+ static bool
+ vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg,
+@@ -427,7 +427,9 @@ vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg,
+         goto out;
+     }
+ 
+-    *payload = msg_reply.payload.u64;
++    if (payload) {
++        *payload = msg_reply.payload.u64;
++    }
+     result = true;
+ 
+ out:
+@@ -435,6 +437,25 @@ out:
+     return result;
+ }
+ 
++/* Returns true on success, false otherwise */
++static bool
++vu_message_slave_send_receive(VuDev *dev, VhostUserMsg *vmsg, uint64_t *payload)
++{
++    pthread_mutex_lock(&dev->slave_mutex);
++    if (!vu_message_write(dev, dev->slave_fd, vmsg)) {
++        pthread_mutex_unlock(&dev->slave_mutex);
++        return false;
++    }
++
++    if ((vmsg->flags & VHOST_USER_NEED_REPLY_MASK) == 0) {
++        pthread_mutex_unlock(&dev->slave_mutex);
++        return true;
++    }
++
++    /* Also unlocks the slave_mutex */
++    return vu_process_message_reply(dev, vmsg, payload);
++}
++
+ /* Kick the log_call_fd if required. */
+ static void
+ vu_log_kick(VuDev *dev)
+@@ -1340,16 +1361,8 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
+         return false;
+     }
+ 
+-    pthread_mutex_lock(&dev->slave_mutex);
+-    if (!vu_message_write(dev, dev->slave_fd, &vmsg)) {
+-        pthread_mutex_unlock(&dev->slave_mutex);
+-        return false;
+-    }
+-
+-    /* Also unlocks the slave_mutex */
+-    res = vu_process_message_reply(dev, &vmsg, &payload);
++    res = vu_message_slave_send_receive(dev, &vmsg, &payload);
+     res = res && (payload == 0);
+-
+     return res;
+ }
+ 
+@@ -2395,10 +2408,7 @@ static void _vu_queue_notify(VuDev *dev, VuVirtq *vq, bool sync)
+             vmsg.flags |= VHOST_USER_NEED_REPLY_MASK;
+         }
+ 
+-        vu_message_write(dev, dev->slave_fd, &vmsg);
+-        if (ack) {
+-            vu_message_read_default(dev, dev->slave_fd, &vmsg);
+-        }
++        vu_message_slave_send_receive(dev, &vmsg, NULL);
+         return;
+     }
+ 
+@@ -2942,17 +2952,11 @@ int64_t vu_fs_cache_request(VuDev *dev, VhostUserSlaveRequest req, int fd,
+         return -EINVAL;
+     }
+ 
+-    pthread_mutex_lock(&dev->slave_mutex);
+-    if (!vu_message_write(dev, dev->slave_fd, &vmsg)) {
+-        pthread_mutex_unlock(&dev->slave_mutex);
+-        return -EIO;
+-    }
+-
+-    /* Also unlocks the slave_mutex */
+-    res = vu_process_message_reply(dev, &vmsg, &payload);
++    res = vu_message_slave_send_receive(dev, &vmsg, &payload);
+     if (!res) {
+         return -EIO;
      }
 +
-+    /*
-+     * Drop ->vu_dispath_rwlock and reacquire. We are about to wait for
-+     * for fv_queue_thread() and that might require ->vu_dispatch_rwlock
-+     * to finish.
-+     */
-+    pthread_rwlock_unlock(&vud->vu_dispatch_rwlock);
-     ret = pthread_join(ourqi->thread, NULL);
-     if (ret) {
-         fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %d\n",
-                  __func__, qidx, ret);
-     }
-+    pthread_rwlock_wrlock(&vud->vu_dispatch_rwlock);
-+
-     pthread_mutex_destroy(&ourqi->vq_lock);
-     close(ourqi->kill_fd);
-     ourqi->kick_fd = -1;
-@@ -952,7 +961,11 @@ int virtio_loop(struct fuse_session *se)
      /*
-      * Make sure all fv_queue_thread()s quit on exit, as we're about to
-      * free virtio dev and fuse session, no one should access them anymore.
-+     * Hold ->vu_dispatch_rwlock in write mode as fv_queue_cleanup_thread()
-+     * assumes mutex is locked and unlocks/re-locks it.
-      */
-+
-+    pthread_rwlock_wrlock(&se->virtio_dev->vu_dispatch_rwlock);
-     for (int i = 0; i < se->virtio_dev->nqueues; i++) {
-         if (!se->virtio_dev->qi[i]) {
-             continue;
-@@ -961,6 +974,7 @@ int virtio_loop(struct fuse_session *se)
-         fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, i);
-         fv_queue_cleanup_thread(se->virtio_dev, i);
-     }
-+    pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
- 
-     fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
- 
+      * Payload is delivered as uint64_t but is actually signed for
+      * errors.
 -- 
 2.25.4
 
