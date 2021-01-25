@@ -2,94 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0D4B30268B
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:55:21 +0100 (CET)
-Received: from localhost ([::1]:35698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C943E30268F
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:57:19 +0100 (CET)
+Received: from localhost ([::1]:37914 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l43Gy-00027f-U1
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:55:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42542)
+	id 1l43Is-00039y-U1
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:57:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l43Ea-0000JV-Pe
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:52:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25341)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l43Fa-0001Tj-Ps
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:53:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32235)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l43EY-00062t-PC
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:52:52 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l43FX-0006Ug-43
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:53:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611586369;
+ s=mimecast20190719; t=1611586429;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VJkrszPqo2I4VziP0mu1vjpTHXYxq1zyaB1mBUSPjFM=;
- b=GhyekckWgWym43gKlkEtyHm6q5hH5bwBT+mnU6aIcCm0Uhu7lZTdSksSDKdOBW1YuDYCVD
- YrOX85Zh+dLmOvLik/8URU/Ok/Zxw/t7BzcxFj0Kgkpw4ba4WAX6x2RE8Snr7svx3LSmLT
- 06taN0eWTFh0vglyt6Pnju3rZkYRu+A=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-433-jN7PROmnOAqEBf7q6QtDYQ-1; Mon, 25 Jan 2021 09:52:46 -0500
-X-MC-Unique: jN7PROmnOAqEBf7q6QtDYQ-1
-Received: by mail-ej1-f70.google.com with SMTP id jg11so3880644ejc.23
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 06:52:46 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=VJkrszPqo2I4VziP0mu1vjpTHXYxq1zyaB1mBUSPjFM=;
- b=YsGmcVyWVlF0rBcZjCL+IZinHhMKtXoW4M4gr1RVCPIlEO7xPZokSY3YpBnXfsqdUl
- oEfCQ+zmroF4KfBRoEmK8ofVugVzQ070L7MAP9HJ4JKAXKsTfTeWnFLRfsi5ZiQfijsT
- XpqWjJ1jCU5OxIJNbgPogEsuW3aVCrxUOCL3OjnBr4vOD2jj9A1SSHi1BEJosw1g5tIV
- t/Gv/ChNTGZqD1245TJA9mx71UPg34Bt9dnFTYZlT2RcNmaoonroc3LTM2lJQFuLNboX
- f47eM7EDQH7b7kqDzH68UgJIO5llqjMIuRQl5xQ0gf6F+2QI82GCR8BV4vhbC39bUVte
- CLsA==
-X-Gm-Message-State: AOAM531CEJnh9redTeye4mJD6UTaZmc2CVceGERBFADc5yIyJ0iDYcI1
- 0ZDBRhWKYGojXkf5aKq0vqS9UQpQWC3tR7FAKahcJWpXv7xYsQjbj4F8nJOkj8TbOOzPNub0YA/
- DwIVgAIL7czzeaMU=
-X-Received: by 2002:a17:906:34c3:: with SMTP id
- h3mr619583ejb.132.1611586365704; 
- Mon, 25 Jan 2021 06:52:45 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwxUApqZS7oxF2joYRSzkMuGEdE7p1wxgTyxOTldyTIvN2RmYtOBkZGRQ8fr1rz5EDnlr30pA==
-X-Received: by 2002:a17:906:34c3:: with SMTP id
- h3mr619565ejb.132.1611586365498; 
- Mon, 25 Jan 2021 06:52:45 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id u23sm4225952edt.87.2021.01.25.06.52.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 06:52:44 -0800 (PST)
-Subject: Re: [PATCH] hw/scsi/megasas: check for NULL frame in
- megasas_command_cancelled()
-To: Mauro Matteo Cascella <mcascell@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>
-References: <20201224175441.67538-1-mcascell@redhat.com>
- <CAA8xKjWf8HBj6qgZ8iJTW0hbU8D6QKcycxT-hBo8=HG3TD36NQ@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <769d08e0-1da8-f281-65ec-f7d085b850f0@redhat.com>
-Date: Mon, 25 Jan 2021 15:52:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=PFapq3o67VL0o6TnpsCt76xq5fSLyCFi+VyuN/1N4lw=;
+ b=feL0l6wyHoU+AYU+HD2k9ZntI0z7qhsSZ2n6e4g6K4ehUYXH1Hh4lPyxIzFdYewwTsC+rV
+ JiCmrErgbKzrLLAW9LHDQTDG6NobvroN/PwUxMVxgygOXhlKQToUtqSsQ1/et+E2puude1
+ E2Mt8Vxi5BaFz7YUFxWdr/ZYi1RvQdI=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-207-QfHoaorwMIWD1_1IZwCOZg-1; Mon, 25 Jan 2021 09:53:44 -0500
+X-MC-Unique: QfHoaorwMIWD1_1IZwCOZg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 947E31922022;
+ Mon, 25 Jan 2021 14:53:43 +0000 (UTC)
+Received: from localhost (ovpn-115-94.ams2.redhat.com [10.36.115.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C98FD100AE4E;
+ Mon, 25 Jan 2021 14:53:31 +0000 (UTC)
+Date: Mon, 25 Jan 2021 14:53:30 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: [PATCH] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Message-ID: <20210125145330.GA226981@stefanha-x1.localdomain>
+References: <20210121144429.58885-1-stefanha@redhat.com>
+ <20210121144803.GN3125227@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAA8xKjWf8HBj6qgZ8iJTW0hbU8D6QKcycxT-hBo8=HG3TD36NQ@mail.gmail.com>
+In-Reply-To: <20210121144803.GN3125227@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="YZ5djTAD1cGYuMQK"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,71 +80,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Hannes Reinecke <hare@suse.com>,
- qemu-block@nongnu.org, cwmyung@snu.ac.kr, Alexander Bulekov <alxndr@bu.edu>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: mszeredi@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
+ P J P <ppandit@redhat.com>, virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
+ vgoyal@redhat.com, "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-You forgot to Cc the subsystem maintainers...
+--YZ5djTAD1cGYuMQK
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-./scripts/get_maintainer.pl -f hw/scsi/megasas.c
-Hannes Reinecke <hare@suse.com> (supporter:megasas)
-Paolo Bonzini <pbonzini@redhat.com> (supporter:SCSI)
-Fam Zheng <fam@euphon.net> (reviewer:SCSI)
+On Thu, Jan 21, 2021 at 02:48:03PM +0000, Daniel P. Berrang=E9 wrote:
+> On Thu, Jan 21, 2021 at 02:44:29PM +0000, Stefan Hajnoczi wrote:
+> > A well-behaved FUSE client does not attempt to open special files with
+> > FUSE_OPEN because they are handled on the client side (e.g. device node=
+s
+> > are handled by client-side device drivers).
+> >=20
+> > The check to prevent virtiofsd from opening special files is missing in
+> > a few cases, most notably FUSE_OPEN. A malicious client can cause
+> > virtiofsd to open a device node, potentially allowing the guest to
+> > escape. This can be exploited by a modified guest device driver. It is
+> > not exploitable from guest userspace since the guest kernel will handle
+> > special files inside the guest instead of sending FUSE requests.
+> >=20
+> > This patch adds the missing checks to virtiofsd. This is a short-term
+> > solution because it does not prevent a compromised virtiofsd process
+> > from opening device nodes on the host.
+> >=20
+> > Reported-by: Alex Xu <alex@alxu.ca>
+> > Fixes: CVE-2020-35517
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> > This issue was diagnosed on public IRC and is therefore already known
+> > and not embargoed.
+> >=20
+> > A stronger fix, and the long-term solution, is for users to mount the
+> > shared directory and any sub-mounts with nodev, as well as nosuid and
+> > noexec. Unfortunately virtiofsd cannot do this automatically because
+> > bind mounts added by the user after virtiofsd has launched would not be
+> > detected. I suggest the following:
+> >=20
+> > 1. Modify libvirt and Kata Containers to explicitly set these mount
+> >    options.
+> > 2. Then modify virtiofsd to check that the shared directory has the
+> >    necessary options at startup. Refuse to start if the options are
+> >    missing so that the user is aware of the security requirements.
+> >=20
+> > As a bonus this also increases the likelihood that other host processes
+> > besides virtiofsd will be protected by nosuid/noexec/nodev so that a
+> > malicious guest cannot drop these files in place and then arrange for a
+> > host process to come across them.
+> >=20
+> > Additionally, user namespaces have been discussed. They seem like a
+> > worthwhile addition as an unprivileged or privilege-separated mode
+> > although there are limitations with respect to security xattrs and the
+> > actual uid/gid stored on the host file system not corresponding to the
+> > guest uid/gid.
+> > ---
+> >  tools/virtiofsd/passthrough_ll.c | 84 +++++++++++++++++++++-----------
+> >  1 file changed, 56 insertions(+), 28 deletions(-)
+> >=20
+> > diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthr=
+ough_ll.c
+> > index 5fb36d9407..e08352d649 100644
+> > --- a/tools/virtiofsd/passthrough_ll.c
+> > +++ b/tools/virtiofsd/passthrough_ll.c
+> > @@ -555,6 +555,29 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino)
+> >      return fd;
+> >  }
+> > =20
+> > +/*
+> > + * Open a file descriptor for an inode. Returns -EBADF if the inode is=
+ not a
+> > + * regular file or a directory. Use this helper function instead of ra=
+w
+> > + * openat(2) to prevent security issues when a malicious client opens =
+special
+> > + * files such as block device nodes.
+> > + */
+> > +static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+> > +                         int open_flags)
+> > +{
+> > +    g_autofree char *fd_str =3D g_strdup_printf("%d", inode->fd);
+> > +    int fd;
+> > +
+> > +    if (!S_ISREG(inode->filetype) && !S_ISDIR(inode->filetype)) {
+> > +        return -EBADF;
+> > +    }
+> > +
+> > +    fd =3D openat(lo->proc_self_fd, fd_str, open_flags);
+>=20
+> Whats the intended behaviour with symlinks ?  Do we need to
+> allow S_ISLNK, or are we assuming the symlink has already
+> been expanded to the target file by this point ? If the latter
+> adding a comment about this would be useful.
 
-On 1/25/21 3:22 PM, Mauro Matteo Cascella wrote:
-> Hello,
-> 
-> Any updates on this little patch? Please find below a reproducer for
-> this bug (thanks Alexander):
-> https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg02567.html
+I will add a comment. The FUSE client is expected to resolve symlinks
+on the client side.
 
-"Little patch" but with security involvements ;)
+In other words, the client does not open the symlink inode in order to
+access the target of the symlink. It must open the target directly.
 
-As Paolo usually asks for reproducer to be integrated with the fix,
-it might save him/you time if you respin with the reproducer. You
-can have a look at
-https://www.mail-archive.com/qemu-block@nongnu.org/msg78982.html
-for example.
+Stefan
 
-That said, unrelated to your patch but I'm not sure how useful it
-is to test for bugs found by fuzzer each time in our CI. There are
-borderline cases not representing proper use. Maybe we could run
-them weekly instead...
+--YZ5djTAD1cGYuMQK
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Thank you,
-> 
-> On Thu, Dec 24, 2020 at 6:55 PM Mauro Matteo Cascella
-> <mcascell@redhat.com> wrote:
->>
->> Ensure that 'cmd->frame' is not NULL before accessing the 'header' field.
->> This check prevents a potential NULL pointer dereference issue.
->>
->> RHBZ: https://bugzilla.redhat.com/show_bug.cgi?id=1910346
->> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
->> Reported-by: Cheolwoo Myung <cwmyung@snu.ac.kr>
->> ---
->>  hw/scsi/megasas.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
->> index 1a5fc5857d..77510e120c 100644
->> --- a/hw/scsi/megasas.c
->> +++ b/hw/scsi/megasas.c
->> @@ -1893,7 +1893,7 @@ static void megasas_command_cancelled(SCSIRequest *req)
->>  {
->>      MegasasCmd *cmd = req->hba_private;
->>
->> -    if (!cmd) {
->> +    if (!cmd || !cmd->frame) {
->>          return;
->>      }
->>      cmd->frame->header.cmd_status = MFI_STAT_SCSI_IO_FAILED;
->> --
->> 2.29.2
->>
-> 
-> 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAO22oACgkQnKSrs4Gr
+c8hIWwf9GmpnwRx10Flg4TZV96v3TJmJa7pZ8cSfEiUqP/9hPUpiaPz06yeXb8Qk
+2EcGTb+9afyxzxhhg88N1/xQPSI15qBYsSi/lCA65hVO/AG9W0SuGiTx2B03ADKu
+4kpHrzEzkm58S04ui2sm/wojdowvmBgv4TlUP49XpnA4r7P44Kt8STqEQwRiHSAr
+6V4qFwZcyB64MWYpvqe3oLjD2WTZ9DO8gSgJVBrVAVMvasZn+aYxmxp03+a57gqR
+Qi0PMqhWveWtfvMqwR3DKEx3oC3aawji/s2jd5w0mopPBzKNtpnkXN/7FBNd+dju
+UsnVM/gtOxHLHzVUD7T9etTr/p78Zw==
+=r5EZ
+-----END PGP SIGNATURE-----
+
+--YZ5djTAD1cGYuMQK--
 
 
