@@ -2,54 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA3193029CC
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:16:12 +0100 (CET)
-Received: from localhost ([::1]:37794 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 157A83029F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:21:15 +0100 (CET)
+Received: from localhost ([::1]:44662 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l46PJ-0005CW-F8
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:16:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48102)
+	id 1l46UD-00006y-Qb
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:21:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l46LA-0002Km-DK; Mon, 25 Jan 2021 13:11:53 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47704)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l46L6-0007xQ-7E; Mon, 25 Jan 2021 13:11:51 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id ECBDB22583;
- Mon, 25 Jan 2021 18:11:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611598306;
- bh=va805WlqBFG9KeYdmLAGOcJb5nLjILX/ab8wgza6Sr8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=cYhm5M2KrnO4DgDFOVs87XUDJ53+jHxXl3kzd7VwImEfjeqGvYKzuu57WdaBhuQE4
- 1xOpx/YbL1Fz0q2dMj6QAyBCeYO3RwhqrTKdEEynbfVXFcziFHcxTiPKJ4D6saG8gL
- nfqtUOHqBVhm+PKY8szI0L3Mq9Ip2HFongRiyJGO2HyTpc1FAh0GOmlK43TkUwfQa5
- AgfyOwhePtlCVXcF/xhIHFMo592l6NTePRz3En0jiWRl8Mr3GRe33THlylgMXgBzRZ
- L6+ogipoAYsofdhvXtJBZulIZzjlp3V2C3LuosukxqnRJvnuX5tONXX59DtJIo89K7
- JgqHUkrta62ow==
-Date: Mon, 25 Jan 2021 10:11:43 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH V6 4/6] hw/block/nvme: support for multi-controller in
- subsystem
-Message-ID: <20210125181143.GA1732086@dhcp-10-100-145-180.wdc.com>
-References: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
- <20210124025450.11071-5-minwoo.im.dev@gmail.com>
- <YA8H9GTfBNPZFdqo@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l46Qz-0007FY-Vn
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:17:54 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:46898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l46Qv-0000Xm-2s
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:17:53 -0500
+Received: by mail-ed1-x532.google.com with SMTP id dj23so16601634edb.13
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 10:17:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=L63I9GB/SBi9dMjduAFTYS1M1zi9wLBxXjjz7RTaZqk=;
+ b=GQvho3szEgN+0SeHiIYh/gVBl2EhGieojBCjF97YPtlVG2vAaME4yc/DRwnfnkg4o8
+ +vQt9OMMbJm/yyW4zp9ojNIikKXXAlZL7UjpEooUd225AVuDwJoCt+Ogj/p9P8GYKBxt
+ keEfXINEaGwa7lVKg7cVjEp4gTl831pUdE2SWJ/MCrWSWKF/fRpS5e5gRKcwKHUZBP11
+ aos2AX8MOL1u82rnFwf87YVogkBMg3V29OixdVh6G1KkvRHw5py4Pku97kiupNBBOa2g
+ GzKZf1GAzhDKFaZ0xea5k7QW9gASVlcYhZWIoIoSMREj6AV/dVVx4xTxGdiKMHlEKsOo
+ 1v1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=L63I9GB/SBi9dMjduAFTYS1M1zi9wLBxXjjz7RTaZqk=;
+ b=RSdz9N2m+pzhLdDKvYKQYBvr2blAZQ7pU3GrJ9GCnDLXapAHMVnuoXYsDpv/UrSJwu
+ kz+1QVWsTOfKJBOxPj0k9rUrz1Wpk9uQxE1p8qOeOwo7+qFd3T+WTNoe+7bCjs+mu2f9
+ GjE5qang/2NepOALqj+wY1/J6cG9QWo8dDURfKCKadY15fOE4lMYwcNJADwCf+TYu8Ii
+ Vwv225Ld+0d//Mt02mEMDE0F5BnZ86tSAn768OdpP9Oprot+UEwiyK8Tblp7X9p36Uzw
+ GWnXvsJgRc14g/rM7Vl/xNnbKXr+Kp+EkQyZNewWOwWeheBiJ2e1wjWRmD9Sik3dEtUk
+ 8SRw==
+X-Gm-Message-State: AOAM532EuzDl3grQSikmHu+7NgiSYrGXVK2LTgDxpK5flZV2DwjLaT6G
+ qfIMOT4dvlCrUgudsYbdQwVlmb1GmsIY867KOinNKA==
+X-Google-Smtp-Source: ABdhPJxApEJSnTqJC4JjBysw63aPf+DDEeUoSX4KQ53gMDXPRAAcebqbWWBN3RezsiEVj3rTvMLf/Au4lISFCeBciSw=
+X-Received: by 2002:a05:6402:1701:: with SMTP id
+ y1mr1490380edu.251.1611598667510; 
+ Mon, 25 Jan 2021 10:17:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YA8H9GTfBNPZFdqo@apples.localdomain>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <1611577387-4296-1-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1611577387-4296-1-git-send-email-jasowang@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 25 Jan 2021 18:17:36 +0000
+Message-ID: <CAFEAcA85QHtmtq8AG_wEg44t7=unkp0LM=RLaD2KpUSJm5JPAA@mail.gmail.com>
+Subject: Re: [RESEND PULL 0/4] Net patches
+To: Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,54 +77,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Minwoo Im <minwoo.im.dev@gmail.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 07:03:32PM +0100, Klaus Jensen wrote:
-> On Jan 24 11:54, Minwoo Im wrote:
-> > We have nvme-subsys and nvme devices mapped together.  To support
-> > multi-controller scheme to this setup, controller identifier(id) has to
-> > be managed.  Earlier, cntlid(controller id) used to be always 0 because
-> > we didn't have any subsystem scheme that controller id matters.
-> > 
-> > This patch introduced 'cntlid' attribute to the nvme controller
-> > instance(NvmeCtrl) and make it allocated by the nvme-subsys device
-> > mapped to the controller.  If nvme-subsys is not given to the
-> > controller, then it will always be 0 as it was.
-> > 
-> > Added 'ctrls' array in the nvme-subsys instance to manage attached
-> > controllers to the subsystem with a limit(32).  This patch didn't take
-> > list for the controllers to make it seamless with nvme-ns device.
-> > 
-> > Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
-> > ---
-> >  hw/block/nvme-subsys.c | 21 +++++++++++++++++++++
-> >  hw/block/nvme-subsys.h |  4 ++++
-> >  hw/block/nvme.c        | 29 +++++++++++++++++++++++++++++
-> >  hw/block/nvme.h        |  1 +
-> >  4 files changed, 55 insertions(+)
-> > 
-> > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > index b525fca14103..7138389be4bd 100644
-> > --- a/hw/block/nvme.c
-> > +++ b/hw/block/nvme.c
-> > @@ -4481,6 +4484,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
-> >      id->psd[0].enlat = cpu_to_le32(0x10);
-> >      id->psd[0].exlat = cpu_to_le32(0x4);
-> >  
-> > +    if (n->subsys) {
-> > +        id->cmic |= NVME_CMIC_MULTI_CTRL;
-> > +    }
-> 
-> Since multiple controllers show up with a PCIe port of their own, do we
-> need to set bit 0 (NVME_CMIC_MULTI_PORT?) as well? Or am I
-> misunderstanding that bit?
+On Mon, 25 Jan 2021 at 12:23, Jason Wang <jasowang@redhat.com> wrote:
+>
+> The following changes since commit e81eb5e6d108008445821e4f891fb9563016c71b:
+>
+>   Merge remote-tracking branch 'remotes/bonzini-gitlab/tags/for-upstream' into staging (2021-01-23 22:34:21 +0000)
+>
+> are available in the git repository at:
+>
+>   https://github.com/jasowang/qemu.git tags/net-pull-request
+>
+> for you to fetch changes up to f574633529926697ced51b6865e5c50bbb78bf1b:
+>
+>   net: checksum: Introduce fine control over checksum type (2021-01-25 17:04:56 +0800)
+>
+> ----------------------------------------------------------------
+>
+> ----------------------------------------------------------------
 
-AIUI, if you report this MULTI_PORT bit, then each PCI device in the
-subsystem needs to report a different "Port Number" in their PCIe Link
-Capabilities register. I don't think we can manipulate that value from
-the nvme "device", but I also don't know what a host should do with this
-information even if we could. So, I think it's safe to leave it at 0.
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
