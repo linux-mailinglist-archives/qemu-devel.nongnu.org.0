@@ -2,84 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA30C302B8F
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:26:35 +0100 (CET)
-Received: from localhost ([::1]:44056 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97970302B95
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:28:45 +0100 (CET)
+Received: from localhost ([::1]:48852 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l47VS-0005eT-PN
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:26:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41448)
+	id 1l47XY-0007pv-NK
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:28:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1l47SU-0004KD-Q7
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:23:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36328)
+ id 1l47UI-0005Z8-0j
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:25:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41635)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1l47SR-0001SQ-SV
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:23:29 -0500
+ id 1l47UF-0001g7-UA
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:25:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611602606;
+ s=mimecast20190719; t=1611602718;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6IbLGpxMvxKoUOiJf6AdHbZqKriWP56yXvhjHXz27f8=;
- b=AJF/HRotdWkbj3H95iVeOUgCMvxYW0T3tHMYJpkr6+LWHRL4S0UwSFBOVoadVthuc5Bedy
- kYCZRHNgUaZrMCY7PnNiDUSBJT7KFW5tHiPOfHQE9y7Ldl20bgzHqQ43YL9zodEpbZFtq+
- +mzg9IYMwnacgNdzk6sy8BKm9osOjP4=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-493-bEya46RoPZSiwaISH58F_w-1; Mon, 25 Jan 2021 14:23:24 -0500
-X-MC-Unique: bEya46RoPZSiwaISH58F_w-1
-Received: by mail-qt1-f198.google.com with SMTP id b23so7899525qto.23
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 11:23:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=6IbLGpxMvxKoUOiJf6AdHbZqKriWP56yXvhjHXz27f8=;
- b=Q3x5MipSvEowXVD0riwyRi5yM8jlZL5wqpzPo1QKCh782XtjpGMTWcyauM6AAAWthr
- sACSVRgIlxMnXVbqw9CS47QOCNeDDseFDkh+KuTF7xdKBqydnk2yvSfq/NJtsM1LRWb/
- 1Ejhrv6XAsZJNYTDpHjKPw8sXt4E7jCx0IgXTTHwaLt+y4w/R6eC02qCzqtf7FzO1MIB
- DPEQri4PHoMrtLr9/GJwHo9g2/ML93gpZawKoyX6LUUmmkYBsfWsyRVf39HzRRMfABV4
- 7+nZMMBTdvht5pkWS2Hm6T9GtIWeX2bF8OQZD1tm66Yh77HrrlquxUha1O21z4o08p3E
- 4Xsw==
-X-Gm-Message-State: AOAM530Mdqgs1Fnv07lkT6lzc7qoMazJOqFsSW1OLGPxru33GEArlukE
- HOfirWLtQi3JBfjeQkIUWHt+RYn4PkB0JlqNuZC+sb2vnAni8J6OGIMImFvb//AlrU0M+ZKcsdv
- VljMBb/WC+xGRUhLbvNGmVTp1kQ11wPo=
-X-Received: by 2002:a0c:c488:: with SMTP id u8mr2264697qvi.9.1611602603869;
- Mon, 25 Jan 2021 11:23:23 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwpJnzRBWVGahRrwHTr6211Av2R8nSk2kNZGJZ6hUYehxo87Shgm/6ClaQrThCDZyGb0yyEkrdCkC7TRouFyuc=
-X-Received: by 2002:a0c:c488:: with SMTP id u8mr2264682qvi.9.1611602603676;
- Mon, 25 Jan 2021 11:23:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20210122200851.345259-1-eperezma@redhat.com>
- <65ea6f69-538f-7f2e-b2d9-bb0a110f004b@redhat.com>
- <CAJaqyWdYQH8O-WvLm4raWtWbhwz6BiC3ucGyi584BWALyy+UUA@mail.gmail.com>
- <20210125171804.GL260413@xz-x1>
-In-Reply-To: <20210125171804.GL260413@xz-x1>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Mon, 25 Jan 2021 20:22:47 +0100
-Message-ID: <CAJaqyWc_0kuRieVFpcvVVtQvTz5DApPLQcD9_Ww0vzUKc69LhQ@mail.gmail.com>
-Subject: Re: [PATCH] virtio: Add corresponding memory_listener_unregister to
+ content-transfer-encoding:content-transfer-encoding;
+ bh=npFNg3We8RmZoWPAl+lFXedY4757HvLmt+DYZGl1cJU=;
+ b=H4ruK1ljhtXjvZCLVsxILxdO4/tK+qZc/PG4Mjx0UHVrwgs/xmzEklGtfrBKN/I5d1vJE+
+ p6yqd0+73I0r4NyX8DKu0+q7qIix5ErFPI9TTy2viPBVhZIkTSxJP5gg5VhRyURk1UA5Ai
+ ykclg3z9ADuvR8xPZmdXHDnvYCsNHzw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-450-e29x4Z3pN9uP1aZz-koITw-1; Mon, 25 Jan 2021 14:25:15 -0500
+X-MC-Unique: e29x4Z3pN9uP1aZz-koITw-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9881B1934102
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 19:25:14 +0000 (UTC)
+Received: from eperezma.remote.csb (ovpn-112-128.ams2.redhat.com
+ [10.36.112.128])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D85625C737;
+ Mon, 25 Jan 2021 19:25:07 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] virtio: Add corresponding memory_listener_unregister to
  unrealize
-To: Peter Xu <peterx@redhat.com>
+Date: Mon, 25 Jan 2021 20:25:05 +0100
+Message-Id: <20210125192505.390554-1-eperezma@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eperezma@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,66 +77,216 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+Cc: Jason Wang <jasowang@redhat.com>, Peter Xu <peterx@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 6:18 PM Peter Xu <peterx@redhat.com> wrote:
->
-> On Mon, Jan 25, 2021 at 05:55:35PM +0100, Eugenio Perez Martin wrote:
-> > On Mon, Jan 25, 2021 at 4:15 AM Jason Wang <jasowang@redhat.com> wrote:
-> > >
-> > >
-> > > On 2021/1/23 =E4=B8=8A=E5=8D=884:08, Eugenio P=C3=A9rez wrote:
-> > > > Cannot destroy address spaces of IOMMU-aware virtio devices without=
- it,
-> > > > since they can contain memory listeners.
-> > >
-> > >
-> > > It's better to explain why the one in finalize doesn't work here.
-> > >
-> >
-> > Hi Jason! Good point. The other call is at virtio_device_instance_final=
-ize.
-> >
-> > Function virtio_device_instance_finalize is called after
-> > address_space_destroy if we follow steps of buglink.
-> >
-> > Address_space_destroy is called by
-> > pci_qdev_unrealize/do_pci_unregister_device, after call to
-> > virtio_device_unrealize. After that call,
-> > virtio_device_instance_finalize is called through object_deinit,
-> > freeing the bus.
-> >
-> > Also, memory_listener_unregister can be called again because it checks
-> > for listener->address_space !=3D NULL at start, and sets it to NULL at
-> > end.
-> >
-> > In regular shutdown, nothing of this is called, so maybe we could
-> > safely delete the call to memory_listener_unregister at
-> > virtio_device_instance_finalize?
->
-> I didn't notice this; if so we'd better remove that call if it's destined=
- to be
-> a noop after all.
->
-> >
-> > If not, should I send again the patch with a new commit message?
->
-> Maybe attach the full backtrace too along with above?  The assertion itse=
-lf
-> could be a very good explanation of what's happened.
->
+Address space is destroyed without proper removal of its listeners with
+current code. They are expected to be removed in
+virtio_device_instance_finalize [1], but qemu calls it through
+object_deinit, after address_space_destroy call through
+device_set_realized [2].
 
-I agree, sending v2.
+Move it to virtio_device_unrealize, called before device_set_realized
+[3] and making it symmetric with memory_listener_register in
+virtio_device_realize.
 
-Thanks!
+v2: Delete no-op call of virtio_device_instance_finalize.
+    Add backtraces.
 
-> Thanks,
->
-> --
-> Peter Xu
->
+[1]
+
+ #0  virtio_device_instance_finalize (obj=0x555557de5120)
+     at /home/qemu/include/hw/virtio/virtio.h:71
+ #1  0x0000555555b703c9 in object_deinit (type=0x555556639860,
+      obj=<optimized out>) at ../qom/object.c:671
+ #2  object_finalize (data=0x555557de5120) at ../qom/object.c:685
+ #3  object_unref (objptr=0x555557de5120) at ../qom/object.c:1184
+ #4  0x0000555555b4de9d in bus_free_bus_child (kid=0x555557df0660)
+     at ../hw/core/qdev.c:55
+ #5  0x0000555555c65003 in call_rcu_thread (opaque=opaque@entry=0x0)
+     at ../util/rcu.c:281
+
+Queued by:
+
+ #0  bus_remove_child (bus=0x555557de5098,
+     child=child@entry=0x555557de5120) at ../hw/core/qdev.c:60
+ #1  0x0000555555b4ee31 in device_unparent (obj=<optimized out>)
+     at ../hw/core/qdev.c:984
+ #2  0x0000555555b70465 in object_finalize_child_property (
+     obj=<optimized out>, name=<optimized out>, opaque=0x555557de5120)
+     at ../qom/object.c:1725
+ #3  0x0000555555b6fa17 in object_property_del_child (
+     child=0x555557de5120, obj=0x555557ddcf90) at ../qom/object.c:645
+ #4  object_unparent (obj=0x555557de5120) at ../qom/object.c:664
+ #5  0x0000555555b4c071 in bus_unparent (obj=<optimized out>)
+     at ../hw/core/bus.c:147
+ #6  0x0000555555b70465 in object_finalize_child_property (
+     obj=<optimized out>, name=<optimized out>, opaque=0x555557de5098)
+     at ../qom/object.c:1725
+ #7  0x0000555555b6fa17 in object_property_del_child (
+     child=0x555557de5098, obj=0x555557ddcf90) at ../qom/object.c:645
+ #8  object_unparent (obj=0x555557de5098) at ../qom/object.c:664
+ #9  0x0000555555b4ee19 in device_unparent (obj=<optimized out>)
+     at ../hw/core/qdev.c:981
+ #10 0x0000555555b70465 in object_finalize_child_property (
+     obj=<optimized out>, name=<optimized out>, opaque=0x555557ddcf90)
+     at ../qom/object.c:1725
+ #11 0x0000555555b6fa17 in object_property_del_child (
+     child=0x555557ddcf90, obj=0x55555685da10) at ../qom/object.c:645
+ #12 object_unparent (obj=0x555557ddcf90) at ../qom/object.c:664
+ #13 0x00005555558dc331 in pci_for_each_device_under_bus (
+     opaque=<optimized out>, fn=<optimized out>, bus=<optimized out>)
+     at ../hw/pci/pci.c:1654
+
+[2]
+
+Optimizer omits pci_qdev_unrealize, called by device_set_realized, and
+do_pci_unregister_device, called by pci_qdev_unrealize and caller of
+address_space_destroy.
+
+ #0  address_space_destroy (as=0x555557ddd1b8)
+     at ../softmmu/memory.c:2840
+ #1  0x0000555555b4fc53 in device_set_realized (obj=0x555557ddcf90,
+      value=<optimized out>, errp=0x7fffeea8f1e0)
+     at ../hw/core/qdev.c:850
+ #2  0x0000555555b6eaa6 in property_set_bool (obj=0x555557ddcf90,
+      v=<optimized out>, name=<optimized out>, opaque=0x555556650ba0,
+     errp=0x7fffeea8f1e0) at ../qom/object.c:2255
+ #3  0x0000555555b70e07 in object_property_set (
+      obj=obj@entry=0x555557ddcf90,
+      name=name@entry=0x555555db99df "realized",
+      v=v@entry=0x7fffe46b7500,
+      errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1400
+ #4  0x0000555555b73c5f in object_property_set_qobject (
+      obj=obj@entry=0x555557ddcf90,
+      name=name@entry=0x555555db99df "realized",
+      value=value@entry=0x7fffe44f6180,
+      errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/qom-qobject.c:28
+ #5  0x0000555555b71044 in object_property_set_bool (
+      obj=0x555557ddcf90, name=0x555555db99df "realized",
+      value=<optimized out>, errp=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1470
+ #6  0x0000555555921cb7 in pcie_unplug_device (bus=<optimized out>,
+      dev=0x555557ddcf90,
+      opaque=<optimized out>) at /home/qemu/include/hw/qdev-core.h:17
+ #7  0x00005555558dc331 in pci_for_each_device_under_bus (
+      opaque=<optimized out>, fn=<optimized out>,
+      bus=<optimized out>) at ../hw/pci/pci.c:1654
+
+[3]
+
+ #0  virtio_device_unrealize (dev=0x555557de5120)
+     at ../hw/virtio/virtio.c:3680
+ #1  0x0000555555b4fc63 in device_set_realized (obj=0x555557de5120,
+     value=<optimized out>, errp=0x7fffee28df90)
+     at ../hw/core/qdev.c:850
+ #2  0x0000555555b6eab6 in property_set_bool (obj=0x555557de5120,
+     v=<optimized out>, name=<optimized out>, opaque=0x555556650ba0,
+     errp=0x7fffee28df90) at ../qom/object.c:2255
+ #3  0x0000555555b70e17 in object_property_set (
+     obj=obj@entry=0x555557de5120,
+     name=name@entry=0x555555db99ff "realized",
+     v=v@entry=0x7ffdd8035040,
+     errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1400
+ #4  0x0000555555b73c6f in object_property_set_qobject (
+     obj=obj@entry=0x555557de5120,
+     name=name@entry=0x555555db99ff "realized",
+     value=value@entry=0x7ffdd8035020,
+     errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/qom-qobject.c:28
+ #5  0x0000555555b71054 in object_property_set_bool (
+     obj=0x555557de5120, name=name@entry=0x555555db99ff "realized",
+     value=value@entry=false, errp=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1470
+ #6  0x0000555555b4edc5 in qdev_unrealize (dev=<optimized out>)
+     at ../hw/core/qdev.c:403
+ #7  0x0000555555b4c2a9 in bus_set_realized (obj=<optimized out>,
+     value=<optimized out>, errp=<optimized out>)
+     at ../hw/core/bus.c:204
+ #8  0x0000555555b6eab6 in property_set_bool (obj=0x555557de5098,
+     v=<optimized out>, name=<optimized out>, opaque=0x555557df04c0,
+     errp=0x7fffee28e0a0) at ../qom/object.c:2255
+ #9  0x0000555555b70e17 in object_property_set (
+     obj=obj@entry=0x555557de5098,
+     name=name@entry=0x555555db99ff "realized",
+     v=v@entry=0x7ffdd8034f50,
+     errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1400
+ #10 0x0000555555b73c6f in object_property_set_qobject (
+     obj=obj@entry=0x555557de5098,
+     name=name@entry=0x555555db99ff "realized",
+     value=value@entry=0x7ffdd8020630,
+     errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/qom-qobject.c:28
+ #11 0x0000555555b71054 in object_property_set_bool (
+     obj=obj@entry=0x555557de5098,
+     name=name@entry=0x555555db99ff "realized",
+     value=value@entry=false, errp=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1470
+ #12 0x0000555555b4c725 in qbus_unrealize (
+     bus=bus@entry=0x555557de5098) at ../hw/core/bus.c:178
+ #13 0x0000555555b4fc00 in device_set_realized (obj=0x555557ddcf90,
+     value=<optimized out>, errp=0x7fffee28e1e0)
+     at ../hw/core/qdev.c:844
+ #14 0x0000555555b6eab6 in property_set_bool (obj=0x555557ddcf90,
+     v=<optimized out>, name=<optimized out>, opaque=0x555556650ba0,
+     errp=0x7fffee28e1e0) at ../qom/object.c:2255
+ #15 0x0000555555b70e17 in object_property_set (
+     obj=obj@entry=0x555557ddcf90,
+     name=name@entry=0x555555db99ff "realized",
+     v=v@entry=0x7ffdd8020560,
+     errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1400
+ #16 0x0000555555b73c6f in object_property_set_qobject (
+     obj=obj@entry=0x555557ddcf90,
+     name=name@entry=0x555555db99ff "realized",
+     value=value@entry=0x7ffdd8020540,
+     errp=errp@entry=0x5555565bbf38 <error_abort>)
+     at ../qom/qom-qobject.c:28
+ #17 0x0000555555b71054 in object_property_set_bool (
+     obj=0x555557ddcf90, name=0x555555db99ff "realized",
+     value=<optimized out>, errp=0x5555565bbf38 <error_abort>)
+     at ../qom/object.c:1470
+ #18 0x0000555555921cb7 in pcie_unplug_device (bus=<optimized out>,
+     dev=0x555557ddcf90, opaque=<optimized out>)
+     at /home/qemu/include/hw/qdev-core.h:17
+ #19 0x00005555558dc331 in pci_for_each_device_under_bus (
+     opaque=<optimized out>, fn=<optimized out>, bus=<optimized out>)
+     at ../hw/pci/pci.c:1654
+
+Fixes: c611c76417f ("virtio: add MemoryListener to cache ring translations")
+Buglink: https://bugs.launchpad.net/qemu/+bug/1912846
+Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
+---
+ hw/virtio/virtio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index b308026596..1fd1917ca0 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -3680,6 +3680,7 @@ static void virtio_device_unrealize(DeviceState *dev)
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VirtioDeviceClass *vdc = VIRTIO_DEVICE_GET_CLASS(dev);
+ 
++    memory_listener_unregister(&vdev->listener);
+     virtio_bus_device_unplugged(vdev);
+ 
+     if (vdc->unrealize != NULL) {
+@@ -3710,7 +3711,6 @@ static void virtio_device_instance_finalize(Object *obj)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(obj);
+ 
+-    memory_listener_unregister(&vdev->listener);
+     virtio_device_free_virtqueues(vdev);
+ 
+     g_free(vdev->config);
+-- 
+2.27.0
 
 
