@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2013023E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 11:53:48 +0100 (CET)
-Received: from localhost ([::1]:44054 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 623963023FA
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 11:58:35 +0100 (CET)
+Received: from localhost ([::1]:46720 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l3zVE-0006o5-05
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 05:53:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57036)
+	id 1l3zZq-0008G9-4e
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 05:58:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1l3zU9-0006Lt-BR
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:52:41 -0500
-Received: from mail-oo1-xc29.google.com ([2607:f8b0:4864:20::c29]:36184)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <yuri.benditovich@daynix.com>)
- id 1l3zU6-00086l-Ns
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:52:41 -0500
-Received: by mail-oo1-xc29.google.com with SMTP id j8so3168169oon.3
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 02:52:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=p/IGAQEMjIAmc9N38X0DDJS42LQpgyFnBGQ9rpuzKzk=;
- b=Uni6km1Fo8jboT6MoVaWrXmo6qqHe50PwxQItgUDjJYP0gUncetsyML8ZmlJG/YZOl
- WDYCjkC9lVFaBWkPL2+7B64nbOFMAZunsXgc+09BcFtAJfEoSk/jBWB3LYRb7fGX8bh1
- xjzsjHG7isDu5x+z+ooNaW42Rmf2OFk/pQUZiqc7iKqmT7XW7jdssvy0RAM5vVcBzQt0
- Yc2SCgcMjcDLoYfqDAy4qULPE3cYsDz9D7i3g+oSHKNKPfmh9V+W7P+w3vOOkL7W8Pe9
- XgVDOYnCglO/Er2ffEXxiUcdZKU6vfWqttXrIkRCewd7nj9DsMq4n2b/Jr0gRkjQipE4
- v9qA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=p/IGAQEMjIAmc9N38X0DDJS42LQpgyFnBGQ9rpuzKzk=;
- b=SrjsVp6hU7gMy2MK5CNWYYrp65X+2+CsRIsM/8yu/LrTjkayZwsncJiGABGEp3E7B2
- q+OGIMouzV4Ie2M00ntl16NJIbNYlsnN7IPT28pyJFKf4AVLMbpt3eR15NBacvBMuzQe
- 181c2N9t6tFGIQ0u5HPXAvsDIGa5H/OhwcBD5PBHUAvPGvLOLGu9j0uOQKgerXppAMFl
- kRnq07TycbQIt7Ow2mCTNU0Ut8yrczB8oCpb/fDW9o0IHNZC2sml48ZxUB54CQVbznYn
- JQ3v45iqsg7ukqnH1ZYQrWEjmyEzTSQLqIufActuLUxp8KNBtRqKlkfkA/dXv4CuKJHm
- KkDg==
-X-Gm-Message-State: AOAM533H4QBDStjFV4A9+ybkTXFZ9cQ7GH6AfXdop4l74sa4Kb3IqjFb
- 0wv1iAPUCUqmLiPHLj2E01LVJTPJBGOotpajsZWxEA==
-X-Google-Smtp-Source: ABdhPJxM7NvilVtzmYHRcKwCsK7od8q5F//LvrGodlXtWQ3V+aUwEh6bFPngj4BdL9mL8QfNaMYw4n8xVJsMtcvpH3Y=
-X-Received: by 2002:a4a:7353:: with SMTP id e19mr83993oof.55.1611571956359;
- Mon, 25 Jan 2021 02:52:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l3zZ2-0007lT-MS
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:57:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:60398)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l3zZ0-00024D-9h
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 05:57:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611572259;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=n92av1VO1pDJTB6mFQmlWppnyyAW3a82s2Cj8HujAYs=;
+ b=dj6ss/KoE+OLlrGy4fwimFTWeSO57iAKtk+KuUsvD/zoetwGmfL//B2nnsY1vwMZulsBI0
+ a5djZGhLVH+eSpsbcm4Aeo+nP8RVqVxm+oGQAzEF3OE3DFpqpEQsIIYWY97dOKVzKf1GD6
+ ZT16jmXYrzZzLK/PisRFlnVdSZCpcb8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-qOKCjfZcMiC80D2iSHklAA-1; Mon, 25 Jan 2021 05:57:38 -0500
+X-MC-Unique: qOKCjfZcMiC80D2iSHklAA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E3C54100C600;
+ Mon, 25 Jan 2021 10:57:36 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-237.ams2.redhat.com
+ [10.36.114.237])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4DE1E71D58;
+ Mon, 25 Jan 2021 10:57:31 +0000 (UTC)
+Subject: Re: [PATCH] coroutine-sigaltstack: Keep SIGUSR2 handler up
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org
+References: <20210122102041.27031-1-mreitz@redhat.com>
+ <d68e5cc9-d6ba-2dac-04ad-49d5509cd836@redhat.com>
+ <eef8237e-293a-b6e6-20be-fa004509fa05@redhat.com>
+ <1121a803-98e7-6d41-119c-3d82717976ec@redhat.com>
+ <cba8919b-0480-3520-6ad6-920bf9d4186e@redhat.com>
+ <95b1fd67-e980-be70-addc-6f1ac5f95f3d@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <3cfa7f82-866b-e8b7-3e61-bb3dedff3226@redhat.com>
+Date: Mon, 25 Jan 2021 11:57:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <20210114211612.387052-1-andrew@daynix.com>
- <20210114211612.387052-5-andrew@daynix.com>
- <909194f8-17f6-b8d6-d1b0-353866257ee2@redhat.com>
- <CAOEp5Odjd89aoCghFeZsuNv=G=2fJonFigm+3Whtj_zLuB2Jrg@mail.gmail.com>
- <e4577775-2ca1-ee99-9ee9-687b5840d8c3@redhat.com>
-In-Reply-To: <e4577775-2ca1-ee99-9ee9-687b5840d8c3@redhat.com>
-From: Yuri Benditovich <yuri.benditovich@daynix.com>
-Date: Mon, 25 Jan 2021 12:52:25 +0200
-Message-ID: <CAOEp5OeXrwh5zupc+AuZffa9EGuHxFi9qmu-GDCQqbQe1bJYSw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 4/6] ebpf: Added eBPF RSS loader.
-To: Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: none client-ip=2607:f8b0:4864:20::c29;
- envelope-from=yuri.benditovich@daynix.com; helo=mail-oo1-xc29.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <95b1fd67-e980-be70-addc-6f1ac5f95f3d@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.25,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,182 +86,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yan@daynix.com>, Andrew Melnychenko <andrew@daynix.com>,
- =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 11:03 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> On 2021/1/19 =E4=B8=8B=E5=8D=8810:53, Yuri Benditovich wrote:
-> > On Fri, Jan 15, 2021 at 9:02 AM Jason Wang <jasowang@redhat.com> wrote:
-> >>
-> >> On 2021/1/15 =E4=B8=8A=E5=8D=885:16, Andrew Melnychenko wrote:
-> >>> From: Andrew <andrew@daynix.com>
-> >>>
-> >>> Added function that loads RSS eBPF program.
-> >>> Added stub functions for RSS eBPF loader.
-> >>> Added meson and configuration options.
-> >>>
-> >>> By default, eBPF feature enabled if libbpf is present in the build sy=
-stem.
-> >>> libbpf checked in configuration shell script and meson script.
-> >>>
-> >>> Signed-off-by: Yuri Benditovich <yuri.benditovich@daynix.com>
-> >>> Signed-off-by: Andrew Melnychenko <andrew@daynix.com>
-> >>> ---
-> >>>    configure               |  33 ++++
-> >>>    ebpf/ebpf_rss-stub.c    |  40 ++++
-> >>>    ebpf/ebpf_rss.c         | 165 +++++++++++++++++
-> >>>    ebpf/ebpf_rss.h         |  44 +++++
-> >>>    ebpf/meson.build        |   1 +
-> >>>    ebpf/rss.bpf.skeleton.h | 397 ++++++++++++++++++++++++++++++++++++=
-++++
-> >>>    ebpf/trace-events       |   4 +
-> >>>    ebpf/trace.h            |   2 +
-> >>>    meson.build             |  13 ++
-> >>>    9 files changed, 699 insertions(+)
-> >>>    create mode 100644 ebpf/ebpf_rss-stub.c
-> >>>    create mode 100644 ebpf/ebpf_rss.c
-> >>>    create mode 100644 ebpf/ebpf_rss.h
-> >>>    create mode 100644 ebpf/meson.build
-> >>>    create mode 100644 ebpf/rss.bpf.skeleton.h
-> >>>    create mode 100644 ebpf/trace-events
-> >>>    create mode 100644 ebpf/trace.h
-> >>>
-> >>> diff --git a/configure b/configure
-> >>> index 5860bdb77b..9d18e941f5 100755
-> >>> --- a/configure
-> >>> +++ b/configure
-> >>> @@ -342,6 +342,7 @@ vhost_vsock=3D"$default_feature"
-> >>>    vhost_user=3D"no"
-> >>>    vhost_user_blk_server=3D"auto"
-> >>>    vhost_user_fs=3D"$default_feature"
-> >>> +bpf=3D""
-> >>>    kvm=3D"auto"
-> >>>    hax=3D"auto"
-> >>>    hvf=3D"auto"
-> >>> @@ -1236,6 +1237,10 @@ for opt do
-> >>>      ;;
-> >>>      --enable-membarrier) membarrier=3D"yes"
-> >>>      ;;
-> >>> +  --disable-bpf) bpf=3D"no"
-> >>> +  ;;
-> >>> +  --enable-bpf) bpf=3D"yes"
-> >>> +  ;;
-> >>>      --disable-blobs) blobs=3D"false"
-> >>>      ;;
-> >>>      --with-pkgversion=3D*) pkgversion=3D"$optarg"
-> >>> @@ -1845,6 +1850,7 @@ disabled with --disable-FEATURE, default is ena=
-bled if available
-> >>>      vhost-user      vhost-user backend support
-> >>>      vhost-user-blk-server    vhost-user-blk server support
-> >>>      vhost-vdpa      vhost-vdpa kernel backend support
-> >>> +  bpf             BPF kernel support
-> >>>      spice           spice
-> >>>      rbd             rados block device (rbd)
-> >>>      libiscsi        iscsi support
-> >>> @@ -5057,6 +5063,30 @@ else
-> >>>        membarrier=3Dno
-> >>>    fi
-> >>>
-> >>> +##########################################
-> >>> +# check for usable bpf system call
-> >>> +if test "$bpf" =3D ""; then
-> >>
-> >> This implies the bpf is enabled by default?
-> > Yes, assuming libbpf-devel present and bpf system call defined.
-> >
-> > Any problem with it?
->
->
-> It means the configure will fail if libbpf is not installed. Consider
-> libbpf is not very common at current stage. I think it's better to make
-> it auto or disabled by default.
->
->
-> >
-> >>
-> >>> +    have_bpf=3Dno
-> >>> +    if test "$linux" =3D "yes" -a "$bigendian" !=3D "yes"; then
-> >>> +        cat > $TMPC << EOF
-> >>> +    #include <stdlib.h>
-> >>> +    #include <bpf/libbpf.h>
-> >>> +    int main(void) {
-> >>> +        struct bpf_object *obj =3D NULL;
-> >>> +        bpf_object__load(obj);
-> >>> +        exit(0);
-> >>> +    }
-> >>> +EOF
-> >>> +        if compile_prog "" "-lbpf" ; then
-> >>> +            have_bpf=3Dyes
-> >>> +            bpf=3Dyes
-> >>> +        fi
-> >>> +    fi
-> >>> +    if test "$have_bpf" =3D "no"; then
-> >>> +      feature_not_found "bpf" "the libbpf is not available"
-> >>> +    fi
+On 23.01.21 01:41, Laszlo Ersek wrote:
+> On 01/22/21 22:26, Laszlo Ersek wrote:
+> 
+>> I'm drifting towards an overhaul of coroutine-sigaltstack, based on my
+>> personal understanding of POSIX, but given that I can absolutely not
+>> *test* coroutine-sigaltstack on the platforms where it actually matters,
+>> an "overhaul" by me would be reckless.
+>>
+>> I didn't expect these skeletons when I first read Max's "Thread safety
+>> of coroutine-sigaltstack" email :/
+>>
+>> Max, after having worked on top of your patch for a few hours, I
+>> officially endorse your mutex approach. I can't encourage you or myself
+>> to touch this code, in good conscience. It's not that it's "bad"; it's
+>> inexplicable and (to me) untestable.
 
-Yes, this is a mistake. These 3 lines are to be removed.
-If libbpf is not installed, this should not fail the build.
+On one hand, that’s too bad; on the other perhaps it’s just for the 
+better to get all of this out of our minds again (for now)... O:)
 
-> >>> +fi
-> >>> +
-> >>>    ##########################################
-> >>>    # check if rtnetlink.h exists and is useful
-> >>>    have_rtnetlink=3Dno
-> >>> @@ -5905,6 +5935,9 @@ fi
-> >>>    if test "$membarrier" =3D "yes" ; then
-> >>>      echo "CONFIG_MEMBARRIER=3Dy" >> $config_host_mak
-> >>>    fi
-> >>> +if test "$bpf" =3D "yes" -a "$bigendian" !=3D "yes" -a "$linux" =3D =
-"yes" ; then
-> >>> +  echo "CONFIG_EBPF=3Dy" >> $config_host_mak
-> >>> +fi
-> >>>    if test "$signalfd" =3D "yes" ; then
-> >>>      echo "CONFIG_SIGNALFD=3Dy" >> $config_host_mak
-> >>>    fi
-> >>> diff --git a/ebpf/ebpf_rss-stub.c b/ebpf/ebpf_rss-stub.c
-> >>> new file mode 100644
-> >>> index 0000000000..e71e229190
-> >>> --- /dev/null
-> >>> +++ b/ebpf/ebpf_rss-stub.c
-> >>> @@ -0,0 +1,40 @@
-> >>> +/*
-> >>> + * eBPF RSS stub file
-> >>> + *
-> >>> + * Developed by Daynix Computing LTD (http://www.daynix.com)
-> >>> + *
-> >>> + * Authors:
-> >>> + *  Yuri Benditovich <yuri.benditovich@daynix.com>
-> >>> + *
-> >>> + * This work is licensed under the terms of the GNU GPL, version 2. =
- See
-> >>> + * the COPYING file in the top-level directory.
-> >>> + */
-> >>> +
-> >>> +#include "qemu/osdep.h"
-> >>> +#include "ebpf/ebpf_rss.h"
-> >>
-> >> I wonder why not simply use #ifdef #else to exclude the rss functions.
-> > Just to make the reading easier.
-> >
-> >> If I read code correctly, this stub requires rss_is_loaded called befo=
-re
-> >> ebpf_rss_set_all(), so actually ebpf_rss_is_loaded serve the same as
-> > Can you please get into details?
-> > I think the stub does not require it, it just converts all the
-> > ebpf_rss calls to nop at link time.
-> > If I miss something please let us know, we'll fix it in v4.
->
->
-> I mean the current can not be used without checking rss_is_loaded(). So
-> rss_is_loaded() is somehow a guard like macro.
->
-> I personally prefer #ifdef but it's not a must.
->
-> Thanks
->
+> I'm attaching a patch (based on 0e3246263068). I'm not convinced that I
+> should take responsibility for this, given the lack of testability on my
+> end. So I'm not posting it stand-alone even as an RFC. I've built it and
+> have booted one of my existent domains with it, but that's all.
+
+FWIW, it looks good to me.  We should keep it in mind if in the future 
+for some reason sigaltstack becomes more important, but for now I’m not 
+too sad to abort any improvement efforts.
+
+Max
+
 
