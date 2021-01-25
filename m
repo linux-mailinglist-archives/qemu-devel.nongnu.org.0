@@ -2,85 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7236F302A09
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:22:30 +0100 (CET)
-Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEE2302A82
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:43:06 +0100 (CET)
+Received: from localhost ([::1]:38144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l46VR-00011N-DI
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:22:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50834)
+	id 1l46pN-0002Hq-T3
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:43:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57844)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <natechancellor@gmail.com>)
- id 1l46SN-0008AL-UO
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:19:27 -0500
-Received: from mail-qt1-x834.google.com ([2607:f8b0:4864:20::834]:33601)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l46nE-0001jk-FV
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:40:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56570)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <natechancellor@gmail.com>)
- id 1l46SK-0000h8-UW
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:19:19 -0500
-Received: by mail-qt1-x834.google.com with SMTP id z6so10409551qtn.0
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 10:19:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-disposition:content-transfer-encoding:in-reply-to;
- bh=Dji3zr7fVkZhW1p+dLRrq0vJWk4nRwjn/i3Axi1RQk8=;
- b=ASdE5G237gV39r1fxtbVVbgcJ0Wrtf6LtQdIaX6+DtIPp2wH+GCn6dIVArW9taIPB8
- Mssg9+2wZN1Mc9Y6WTnAL1J5HU2aYl/kbjxj8xzEclODO4FXf+XW5NlZfMbsLY6Ktzwb
- vI5G7D6z/F8bx7YWY1KWV9vwP2pw6eMjCoCYi2oaDeWjg6BB+75znja6bYq5kwEEcti9
- 5I49pU0QEh7znaDWos9PgoSrdT3IKrkKKeGl3IyY87WjHhm9fmkLyTg7NI8BhQI103XO
- MEPOzhxnXPn0Gk0o7c8iRQTEkB5ZQJHfhSyGylxmEF3Gv0L5YRUo7O+lVUukCdKKT5wr
- FU0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=Dji3zr7fVkZhW1p+dLRrq0vJWk4nRwjn/i3Axi1RQk8=;
- b=fBcAUdJAFUDPTXl9DorPDr3sf41+r0JiTY0HNDTQYcOc6lI4sRcQc3M+0QnZn6JMHZ
- S3AOp53WSf5KKNharEabJ+wK+wDFQvY8RndVKDUau6np+S4NauUPCz+M9ZO+W7hGFO+P
- M4YOiF4qfwTVbgqxAAQFGG8cg76mN/LvopCNp9dokuvnAGb5VccIrbMGGgZNd3oYTMnz
- zEitlnZLuRWdI3OLs+lXHFK/a8k88DtofuWcRcq2EEO4NpAjSdmIR0YLB7jJWb6Eutf6
- eTHVWfcb6mKC+1fVcVx/DuH0bDpC2uMudqya6DKHZEQScN35Y4JeJCIRUpnhLTwwnW9Z
- kFqw==
-X-Gm-Message-State: AOAM530tT5TUmJvILO/wsAdqqIfMOAG/wY4Q8uG9o0xhBeSnmR2vLDa6
- iTg79ufy0r3MSyyhO7bPq0U=
-X-Google-Smtp-Source: ABdhPJwWrC1B+K4YXQR8Tu0fEKfq6/37EdEvwV76X1pWMZnr/ZWktQzD46CvKy5f9b75Xn3+oaVwnQ==
-X-Received: by 2002:ac8:bc8:: with SMTP id p8mr1707500qti.135.1611598754972;
- Mon, 25 Jan 2021 10:19:14 -0800 (PST)
-Received: from ubuntu-m3-large-x86 ([2604:1380:45f1:1d00::1])
- by smtp.gmail.com with ESMTPSA id j27sm11607671qtc.41.2021.01.25.10.19.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 25 Jan 2021 10:19:14 -0800 (PST)
-Date: Mon, 25 Jan 2021 11:19:12 -0700
-From: Nathan Chancellor <natechancellor@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [Qemu-devel][PATCH] x86/cpu: Use max host physical address if
- -cpu max option is applied
-Message-ID: <20210125181912.GA3779613@ubuntu-m3-large-x86>
-References: <20210113090430.26394-1-weijiang.yang@intel.com>
- <20210124210829.GA2238365@ubuntu-m3-large-x86>
- <20210125054150.GA4969@local-michael-cet-test.sh.intel.com>
- <20210125071052.GA307708@ubuntu-m3-large-x86>
- <7a1d69e7-a3e0-e4e8-b09b-3e904466cd97@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l46nC-0003qE-09
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:40:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l46n9-0001Z2-Pq
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 18:40:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id C24332E8137
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 18:40:47 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7a1d69e7-a3e0-e4e8-b09b-3e904466cd97@redhat.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::834;
- envelope-from=natechancellor@gmail.com; helo=mail-qt1-x834.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 25 Jan 2021 18:31:05 -0000
+From: Richard Henderson <1912065@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=rth@twiddle.net; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: balaton-4 harrysintonen roolebo rth
+X-Launchpad-Bug-Reporter: Harry Sintonen (harrysintonen)
+X-Launchpad-Bug-Modifier: Richard Henderson (rth)
+References: <161081817733.30007.5357056175605529567.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161159946603.4702.7935625063594093899.launchpad@soybean.canonical.com>
+Subject: [Bug 1912065] Re: Segfaults in tcg/optimize.c:212 after commit
+ 7c79721606be11b5bc556449e5bcbc331ef6867d
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 4f6d4ae7c70e9e60db0efd0c3cdf84c5d7a612e7
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,81 +71,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yang Weijiang <weijiang.yang@intel.com>, qemu-devel@nongnu.org,
- seanjc@google.com
+Reply-To: Bug 1912065 <1912065@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 11:42:43AM +0100, Paolo Bonzini wrote:
-> On 25/01/21 08:10, Nathan Chancellor wrote:
-> > > > This patch as commit 5a140b255d ("x86/cpu: Use max host physical address
-> > > > if -cpu max option is applied") prevents me from using '-cpu host' while
-> > > > booting an i386_defconfig kernel.
-> > > > 
-> > > > $ qemu-system-i386 \
-> > > > -append console=ttyS0 \
-> > > > -cpu host \
-> > > > -display none \
-> > > > -enable-kvm \
-> > > > -initrd rootfs.cpio \
-> > > > -kernel bzImage \
-> > > > -serial mon:stdio
-> > > > qemu-system-i386: phys-bits should be between 32 and 36  (but is 48)
-> > > > 
-> > > > Am I expected to pass "-cpu host,host-phys-bits=false" now or did this
-> > > > do something unexpected?
-> 
-> Yes, it's setting the LM bit for a 32-bit guest.
-> 
-> Does this work for you?
+** Changed in: qemu
+       Status: In Progress =3D> Fix Committed
 
-Yes, it does!
+-- =
 
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912065
 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 72a79e6019..70df57337f 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5081,6 +5081,11 @@ static uint64_t
-> x86_cpu_get_supported_feature_word(FeatureWord w,
->      } else {
->          return ~0;
->      }
-> +#ifdef TARGET_I386
-> +    if (wi->cpuid.eax = 0x80000001) {
+Title:
+  Segfaults in tcg/optimize.c:212 after commit
+  7c79721606be11b5bc556449e5bcbc331ef6867d
 
-This should be a '==':
+Status in QEMU:
+  Fix Committed
 
-../target/i386/cpu.c: In function ‘x86_cpu_get_supported_feature_word’:
-../target/i386/cpu.c:5085:9: error: suggest parentheses around
-assignment used as truth value [-Werror=parentheses]
- 5085 |     if (wi->cpuid.eax = 0x80000001) {
-      |         ^~
-cc1: all warnings being treated as errors
+Bug description:
+  QEMU segfaults to NULL dereference in tcg/optimize.c:212 semi-randomly
+  after commit 7c79721606be11b5bc556449e5bcbc331ef6867d
 
-> +        r &= ~CPUID_EXT2_LM;
-> +    }
-> +#endif
->      if (migratable_only) {
->          r &= x86_cpu_get_migratable_flags(w);
->      }
-> 
-> 
-> Paolo
-> 
-> > > Hi, Nathan,
-> > > Could you try Paolo's latest patch?
-> > > 
-> > > [PULL 03/31] x86/cpu: Use max host physical address if -cpu max option is applied
-> > 
-> > Hi Yang,
-> > 
-> > That is the version of the patch I tried, which has been pulled into the
-> > master branch.
-> > 
-> > Cheers,
-> > Nathan
-> > 
-V> 
+  Exception Type:        EXC_BAD_ACCESS (SIGSEGV)
+  Exception Codes:       KERN_INVALID_ADDRESS at 0x0000000000000020
+  Exception Note:        EXC_CORPSE_NOTIFY
+
+  ...
+
+  Thread 4 Crashed:
+  0   qemu-system-ppc               	0x0000000109cd26d2 tcg_opt_gen_mov + 1=
+78 (optimize.c:212)
+  1   qemu-system-ppc               	0x0000000109ccf838 tcg_optimize + 5656
+  2   qemu-system-ppc               	0x0000000109c27600 tcg_gen_code + 64 (=
+tcg.c:4490)
+  3   qemu-system-ppc               	0x0000000109c17b6d tb_gen_code + 493 (=
+translate-all.c:1952)
+  4   qemu-system-ppc               	0x0000000109c16085 tb_find + 41 (cpu-e=
+xec.c:454) [inlined]
+  5   qemu-system-ppc               	0x0000000109c16085 cpu_exec + 2117 (cp=
+u-exec.c:810)
+  6   qemu-system-ppc               	0x0000000109c09ac3 tcg_cpus_exec + 35 =
+(tcg-cpus.c:57)
+  7   qemu-system-ppc               	0x0000000109c75edd rr_cpu_thread_fn + =
+445 (tcg-cpus-rr.c:217)
+  8   qemu-system-ppc               	0x0000000109e41fae qemu_thread_start +=
+ 126 (qemu-thread-posix.c:521)
+  9   libsystem_pthread.dylib       	0x00007fff2038e950 _pthread_start + 224
+  10  libsystem_pthread.dylib       	0x00007fff2038a47b thread_start + 15
+
+  Here the crash is in tcg/optimize.c line 212:
+
+    mask =3D si->mask;
+
+  "si" is NULL. The NULL value arises from tcg/optimize.c line 198:
+
+   si =3D ts_info(src_ts);
+
+  I did not attempt to determine the root cause of this issue, however.
+  It clearly is related to the "tcg/optimize" changes in this commit.
+  The previous commit c0dd6654f207810b16a75b673258f5ce2ceffbf0 doesn't
+  crash.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912065/+subscriptions
 
