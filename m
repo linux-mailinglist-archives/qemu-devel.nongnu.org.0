@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6213C30282D
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB1C30282C
 	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 17:48:48 +0100 (CET)
-Received: from localhost ([::1]:40336 helo=lists1p.gnu.org)
+Received: from localhost ([::1]:40344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l452l-0003gs-DF
+	id 1l452l-0003h4-5T
 	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 11:48:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49814)
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l4503-00021K-1q
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:45:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28042)
+ id 1l450z-0002ca-Bw
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:46:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l4500-0002tY-Fw
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:45:58 -0500
+ id 1l450x-00033J-KT
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 11:46:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611593152;
+ s=mimecast20190719; t=1611593215;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=H3qrAKxZpu015BaMyT4Ugn5EfLDTyIgezykaJf+Pt5o=;
- b=a9TEOlKFIjA31OvH9mfWqsgI9bOoRUaRIQQ0o0Wi0M8oj9bwfDM58DcEEpfY+vJmjEu1gJ
- K5nbm3Fy5hZ6LIFSuBGnhMNWk3S6eJX1NpMxsanC7AQfNfyURT6z/niaki+qsGkgwaj49F
- nmYZUq+JpCJeNEXB6aSd4YLYq6fFpBc=
+ bh=c5bFyButeznPeLqF8dDG1SIiNm7K0Z5e3yEpAlJQYPI=;
+ b=Ttfc0S9ExfuYu5Vf1oNGAQDEe2QNNBxmaLuhAMVFYFOJ2y9b0fw0TECo3Tws84M4xDXbWR
+ 0hZz2Lny5VQQMHJgYC2wexfIH1Bpk1y5hSthStfJMJ7RjLvqBFKqP6u+9svwzayL5bOtLR
+ 90l85VGp7GrSBQ44UW/t24kHVGT7kcY=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-JusXL4FeNryBm54FSaa8PQ-1; Mon, 25 Jan 2021 11:45:49 -0500
-X-MC-Unique: JusXL4FeNryBm54FSaa8PQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-573-3ikmbldIPmmm2-1GFn9GRQ-1; Mon, 25 Jan 2021 11:46:53 -0500
+X-MC-Unique: 3ikmbldIPmmm2-1GFn9GRQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A4F4B814500;
- Mon, 25 Jan 2021 16:45:43 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9ADF1926DA0;
+ Mon, 25 Jan 2021 16:46:51 +0000 (UTC)
 Received: from redhat.com (ovpn-112-134.ams2.redhat.com [10.36.112.134])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBDA060CE9;
- Mon, 25 Jan 2021 16:45:41 +0000 (UTC)
-Date: Mon, 25 Jan 2021 16:45:38 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A93F60C0F;
+ Mon, 25 Jan 2021 16:46:49 +0000 (UTC)
+Date: Mon, 25 Jan 2021 16:46:47 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 3/4] meson: Explicit TCG backend used
-Message-ID: <20210125164538.GC3538803@redhat.com>
+Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
+ is available
+Message-ID: <20210125164647.GD3538803@redhat.com>
 References: <20210125144530.2837481-1-philmd@redhat.com>
- <20210125144530.2837481-4-philmd@redhat.com>
+ <20210125144530.2837481-5-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210125144530.2837481-4-philmd@redhat.com>
+In-Reply-To: <20210125144530.2837481-5-philmd@redhat.com>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -89,13 +90,20 @@ Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 03:45:29PM +0100, Philippe Mathieu-Daudé wrote:
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+On Mon, Jan 25, 2021 at 03:45:30PM +0100, Philippe Mathieu-Daudé wrote:
+> Some new users get confused with 'TCG' and 'TCI', and enable TCI
+> support expecting to enable TCG.
+> 
+> Emit a warning when native TCG backend is available on the
+> host architecture, mentioning this is a suboptimal configuration.
+> 
 > Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Suggested-by: Daniel Berrangé <berrange@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  meson.build | 8 ++++++--
->  1 file changed, 6 insertions(+), 2 deletions(-)
+>  meson.build | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
