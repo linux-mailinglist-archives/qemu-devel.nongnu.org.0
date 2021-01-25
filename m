@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95665302CA2
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 21:37:02 +0100 (CET)
-Received: from localhost ([::1]:51784 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3583302CE5
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 21:48:48 +0100 (CET)
+Received: from localhost ([::1]:59578 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l48bd-0004Jh-2S
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 15:37:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60046)
+	id 1l48n1-0008Nu-3Q
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 15:48:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34474)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l48Ux-0003Qm-AK; Mon, 25 Jan 2021 15:30:07 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:47403)
+ id 1l48h6-0006iU-Tp; Mon, 25 Jan 2021 15:42:40 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:58921)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l48Uv-0002ZD-0N; Mon, 25 Jan 2021 15:30:06 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.west.internal (Postfix) with ESMTP id 2BD44F68;
- Mon, 25 Jan 2021 15:30:02 -0500 (EST)
+ id 1l48h4-0004Ge-8N; Mon, 25 Jan 2021 15:42:40 -0500
+Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id 6C33EF1C;
+ Mon, 25 Jan 2021 15:42:35 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
- by compute1.internal (MEProxy); Mon, 25 Jan 2021 15:30:02 -0500
+ by compute7.internal (MEProxy); Mon, 25 Jan 2021 15:42:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=I1rLunNvf30NgKMAifS6VuNDRd6
- uNAK2zjY/eI2TJV8=; b=sYBo3AWe+aMrnyzKjQqnGZd5G66YLihgRLd8YUxu6ed
- kKZGxxdKZrLY0ceL85rZ85jx9rSERqdAe8Q7c+s0dT2sF6GdO1DAX6w+Cr/1rOrH
- VH1eJL48W3E9edX7pzHgShHjoTGpn9jGZ+7zhk9yWMkml2/3EVlbD0GxsKrWjryx
- /JSCG7JLVvr4Pj7EQ3RGIekMmXTS4rmW8hyubqn6J/BIC21pnL3rrA+pjRDSToWv
- D74jiVfZo/ezc8qaUztb/1WLb2YCINr1ZL1PIJfcIwGcjqmJ/xFU+5WzD796w59z
- YW+rfnysetOj1jglJ5mGrb95I8R3Hk2fzfMuMiQCLWA==
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=i/7sY3CnVYT2oLCHSGmblGatLF
+ dSVJ+rhcsq+7yxsU4=; b=kt87o2hrRkupcFftN6mYULNj6I22De4EJeTDfrGigY
+ yaTq2jsHWos6ZWMQuM0SCsIFhIblCnk23P8QFkahLO3nC6ATLOfyCcjZBgrLnpJt
+ TS10KzplQHTDDn30uTF5/p2764PCO9Hnz36sYVay3fch793ock8TL22V3KpCHmr7
+ CO2yee79BVGd+/CtiW3441m0jIM+e4Xh8lCEgqRbMhpvbcoJNPygMQ1q+8dt4ACH
+ OK8YW5iJn7ZEYpINlAetNyXePsGAJ8QznmsxIDwwhBMgR0y7Go3eN4ZPBHVxDzaA
+ kWb4mtq+sKHAcfAZ3K1e/3UNi18NuVFozBTaNQpLmpog==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=I1rLun
- Nvf30NgKMAifS6VuNDRd6uNAK2zjY/eI2TJV8=; b=IB1CIZg03gHX+o+lG3p+gf
- 3xyaQLX+oiQBsHqxu1Cr+lVwKmZHY6acN1e9BDrFgyPu/PMwJRP8M+BEcpORNOZy
- SkToHNsprTNpuxBfxPHMqU9871HeZXTmYMtkznsJ/PTwhKMx044HlG98MGFhuHYJ
- jjAzbpT/mLryJoIC7CCSYrzks+gD51jUI8lIFC1bOQ2EpRcDKAYOY8QFgZup7Sbq
- rqg/XzbuvR7G6faKk9XiZifxMssbzNF2UeYHlwvMvTwM2SxxPuzPtOA1XABtQOGh
- 2AvatbYNzK3wbbM7Wu9gKT39hCQLDuucYJkor0Z9qsTiyw+Y5vTYHK5AIm1TZkMQ
- ==
-X-ME-Sender: <xms:SSoPYC0SB9VZ_9WO9kGl-_LXuAKPX7yw6ycFjJ52d5fykpKAl3Oybw>
- <xme:SSoPYPo4vUMktTQyAylFtApOvhcnOrMnReH4Q8REb6-YzWIDeluA7wnTnaoF_dIBy
- _fuRsX1dYziqkEeb3M>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdefgddufeeiucetufdoteggodetrfdotf
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=i/7sY3CnVYT2oLCHS
+ GmblGatLFdSVJ+rhcsq+7yxsU4=; b=XsLhH5lO8IdhhIwo8th+HPl4fgLMuBtZd
+ 0K/Y4BkYcu+eksl1ueplxnVWrV856yZhDmYTSZJorvB1bwnP+Z3+ar5XVfktPZU9
+ bcjByw/gFQ6GkxX3tjeSyX7m+Z0HJXA382JC+8JpjwkqcQ2mDKoYjPNCfhcLS4pw
+ YbK25eadViT37F+mv6U5xj+fsqJ17WR0pJOl3vGXVgYfnxHrLcPMrDxVz4ouYS0Q
+ GNIveI3xSpP4wv7PnxjXw0yqFo2TM2ASAnvnCFiEd6LLqZ1UWg82TYbD780rVFsr
+ WyQO9YeUOANigfP1XMPS7RY2tSXLAfHIpKSoYs+hVx/KhJKb3lyTg==
+X-ME-Sender: <xms:OS0PYApoKaisQGF-wy5cSRTy_d6RtWCTXRzUy1WLLgr4mIvD9Qa8Og>
+ <xme:OS0PYL5RUXExTDQOlP1axjk8PltChKCeKrG31Sn8xqTikefvUR-St2x_OV83EKwKv
+ -jDIVj_3G7ED9H4J6I>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdefgddufeejucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeehgeehgfffgeekveefteetudekheejffdtvedvudfgffelleefvdfftdekgffg
- udenucffohhmrghinhepvddtudelqddtkedrohhrghenucfkphepkedtrdduieejrdelke
- drudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
- pehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:SSoPYHfsWQThIb1Gio7aL1CFZOUm0uHJHGcBb7hGxrBKOQcrXxol7g>
- <xmx:SSoPYGrOsYFO8Qlkgl08W7XMFSSQcbYsktpbBPdGuS8n3P_d5_l-_w>
- <xmx:SSoPYAFtdnxc3khcxSFkv1bNVdeYloAGxlRw51IzWn--LOCp10no8g>
- <xmx:SSoPYGxxlIaG1qrv0NqDrDTpw55t9dEfnXW8P-0F1tIM9x6Wx_deJw>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ cujfgurhephffvufffkffoggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucfl
+ vghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrh
+ hnpeefveelvdeikeduueffteeggeefhedvffffjeeuueeludehvdegjeevjefhtdetheen
+ ucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurf
+ grrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:OS0PYG4hzEbLazH5Rh_milPBT7estXgONYTEVa_TdEgxbbtlQT9HDQ>
+ <xmx:OS0PYAEGpPRSH6mjkBD_iWOec-uB2c6qskcjU_T9Nmhn3O2wrOLaIQ>
+ <xmx:OS0PYHS9ARaxa01933F2_axM39kfKqRqGFvsuUeL4D1UXASJ1ePVhw>
+ <xmx:Oy0PYICp9vCsdpCw4ewLeNq-BpTMpb5ElcK7xlarh3bgUGzYO61njw>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3F37F108005F;
- Mon, 25 Jan 2021 15:30:00 -0500 (EST)
-Date: Mon, 25 Jan 2021 21:29:58 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 21FFC1080063;
+ Mon, 25 Jan 2021 15:42:32 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
-To: Minwoo Im <minwoo.im.dev@gmail.com>
-Subject: Re: [PATCH V6 0/6] hw/block/nvme: support multi-path for ctrl/ns
-Message-ID: <YA8qRozbWUr37dI3@apples.localdomain>
-References: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] hw/block/nvme: add broadcast nsid support flush command
+Date: Mon, 25 Jan 2021 21:42:31 +0100
+Message-Id: <20210125204231.254925-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="NH9EKUynFz14L5Lb"
-Content-Disposition: inline
-In-Reply-To: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=64.147.123.21; envelope-from=its@irrelevant.dk;
  helo=wout5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -94,165 +89,222 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 
---NH9EKUynFz14L5Lb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Add support for using the broadcast nsid to issue a flush on all
+namespaces through a single command.
 
-On Jan 24 11:54, Minwoo Im wrote:
-> Hello,
->=20
-> This is sixth patch series for the support of NVMe subsystem scheme with
-> multi-controller and namespace sharing in a subsystem.
->=20
-> This version has a fix in nvme_init_ctrl() when 'cntlid' is set to the
-> Identify Controller data structure by making it by cpu_to_le16() as
-> Keith reviewed.
->=20
-> Here's test result with a simple 'nvme list -v' command from this model:
->=20
->   -device nvme-subsys,id=3Dsubsys0 \
->   -device nvme,serial=3Dfoo,id=3Dnvme0,subsys=3Dsubsys0 \
->   -device nvme,serial=3Dbar,id=3Dnvme1,subsys=3Dsubsys0 \
->   -device nvme,serial=3Dbaz,id=3Dnvme2,subsys=3Dsubsys0 \
->   -device nvme-ns,id=3Dns1,drive=3Ddrv10,nsid=3D1,subsys=3Dsubsys0 \
->   -device nvme-ns,id=3Dns2,drive=3Ddrv11,nsid=3D2,bus=3Dnvme2 \
->   \
->   -device nvme,serial=3Dqux,id=3Dnvme3 \
->   -device nvme-ns,id=3Dns3,drive=3Ddrv12,nsid=3D3,bus=3Dnvme3 \
->   \
->   -device nvme-subsys,id=3Dsubsys1 \
->   -device nvme,serial=3Dquux,id=3Dnvme4,subsys=3Dsubsys1 \
->   -device nvme-ns,id=3Dns4,drive=3Ddrv13,nsid=3D1,subsys=3Dsubsys1,zoned=
-=3Dtrue \
->=20
->   root@vm:~/work# nvme list -v
->   NVM Express Subsystems
->=20
->   Subsystem        Subsystem-NQN                                         =
-                                           Controllers
->   ---------------- ------------------------------------------------------=
------------------------------------------- ----------------
->   nvme-subsys1     nqn.2019-08.org.qemu:subsys0                          =
-                                           nvme0, nvme1, nvme2
->   nvme-subsys3     nqn.2019-08.org.qemu:qux                              =
-                                           nvme3
->   nvme-subsys4     nqn.2019-08.org.qemu:subsys1                          =
-                                           nvme4
->=20
->   NVM Express Controllers
->=20
->   Device   SN                   MN                                       =
-FR       TxPort Address        Subsystem    Namespaces
->   -------- -------------------- ---------------------------------------- =
--------- ------ -------------- ------------ ----------------
->   nvme0    foo                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:06.0   nvme-subsys1 nvme1c0n1
->   nvme1    bar                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:07.0   nvme-subsys1 nvme1c1n1
->   nvme2    baz                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:08.0   nvme-subsys1 nvme1c2n1, nvme1c2n2
->   nvme3    qux                  QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:09.0   nvme-subsys3 nvme3n1
->   nvme4    quux                 QEMU NVMe Ctrl                           =
-1.0      pcie   0000:00:0a.0   nvme-subsys4 nvme4c4n1
->=20
->   NVM Express Namespaces
->=20
->   Device       NSID     Usage                      Format           Contr=
-ollers
->   ------------ -------- -------------------------- ---------------- -----=
------------
->   nvme1n1      1        134.22  MB / 134.22  MB    512   B +  0 B   nvme0=
-, nvme1, nvme2
->   nvme1n2      2        268.44  MB / 268.44  MB    512   B +  0 B   nvme2
->   nvme3n1      3        268.44  MB / 268.44  MB    512   B +  0 B   nvme3
->   nvme4n1      1        268.44  MB / 268.44  MB    512   B +  0 B   nvme4
->=20
-> Thanks,
->=20
-> Since V5:
->   - Fix endianness for 'cntlid' in Identify Controller data structure.
->     (Keith)
->=20
-> Since V4:
->   - Code clean-up to snprintf rather than duplicating it and copy.
->     (Keith)
->   - Documentation for 'subsys' clean-up.  (Keith)
->   - Remove 'cntlid' param from nvme_init_ctrl().  (Keith)
->   - Put error_propagate() in nvme_realize().  (Keith)
->=20
-> Since RFC V3:
->   - Exclude 'deatched' scheme from this series.  This will be covered in
->     the next series by covering all the ns-related admin commands
->     including ZNS and ns-mgmt. (Niklas)
->   - Rebased on nvme-next.
->   - Remove RFC tag from this V4.
->=20
-> Since RFC V2:
->   - Rebased on nvme-next branch with trivial patches from the previous
->     version(V2) applied. (Klaus)
->   - Fix enumeration type name convention with NvmeIdNs prefix. (Klaus)
->   - Put 'cntlid' to NvmeCtrl instance in nvme_init_ctrl() which was
->     missed in V2.
->   - Added 'detached' parameter to nvme-ns device to decide whether to
->     attach or not to controller(s) in the subsystem. (Klaus)
->   - Implemented Identify Active Namespace ID List aprt from Identify
->     Allocated Namespace ID List by removing fall-thru statement.
->=20
-> Since RFC V1:
->   - Updated namespace sharing scheme to be based on nvme-subsys
->     hierarchy.
->=20
-> Minwoo Im (6):
->   hw/block/nvme: introduce nvme-subsys device
->   hw/block/nvme: support to map controller to a subsystem
->   hw/block/nvme: add CMIC enum value for Identify Controller
->   hw/block/nvme: support for multi-controller in subsystem
->   hw/block/nvme: add NMIC enum value for Identify Namespace
->   hw/block/nvme: support for shared namespace in subsystem
->=20
->  hw/block/meson.build   |   2 +-
->  hw/block/nvme-ns.c     |  23 +++++++--
->  hw/block/nvme-ns.h     |   7 +++
->  hw/block/nvme-subsys.c | 106 +++++++++++++++++++++++++++++++++++++++++
->  hw/block/nvme-subsys.h |  32 +++++++++++++
->  hw/block/nvme.c        |  72 +++++++++++++++++++++++++---
->  hw/block/nvme.h        |   4 ++
->  include/block/nvme.h   |   8 ++++
->  8 files changed, 242 insertions(+), 12 deletions(-)
->  create mode 100644 hw/block/nvme-subsys.c
->  create mode 100644 hw/block/nvme-subsys.h
->=20
-
-Thanks Minwoo! This really is great stuff.
-
-Notwithstanding the nitpicks I've pointed out for [1/6] and [6/6] (no
-need to v7 for those), take my
-
-Tested-by: Klaus Jensen <k.jensen@samsung.com>
+Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
 Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ include/block/nvme.h  |   8 +++
+ hw/block/nvme.c       | 123 +++++++++++++++++++++++++++++++++++++++---
+ hw/block/trace-events |   2 +
+ 3 files changed, 126 insertions(+), 7 deletions(-)
 
---NH9EKUynFz14L5Lb
-Content-Type: application/pgp-signature; name="signature.asc"
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index e4b918064df9..0e2e94c7ebbb 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -1024,6 +1024,14 @@ enum NvmeIdCtrlOncs {
+     NVME_ONCS_TIMESTAMP     = 1 << 6,
+ };
+ 
++enum NvmeIdctrlVwc {
++    NVME_VWC_PRESENT                    = 1 << 0,
++    NVME_VWC_NSID_BROADCAST_NO_SUPPORT  = 0 << 1,
++    NVME_VWC_NSID_BROADCAST_RESERVED    = 1 << 1,
++    NVME_VWC_NSID_BROADCAST_CTRL_SPEC   = 2 << 1,
++    NVME_VWC_NSID_BROADCAST_SUPPORT     = 3 << 1,
++};
++
+ enum NvmeIdCtrlFrmw {
+     NVME_FRMW_SLOT1_RO = 1 << 0,
+ };
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 98d84fe26644..b5ce8ed7c785 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1406,6 +1406,41 @@ static void nvme_rw_cb(void *opaque, int ret)
+     nvme_enqueue_req_completion(nvme_cq(req), req);
+ }
+ 
++struct nvme_aio_flush_ctx {
++    NvmeRequest     *req;
++    NvmeNamespace   *ns;
++    BlockAcctCookie acct;
++};
++
++static void nvme_aio_flush_cb(void *opaque, int ret)
++{
++    struct nvme_aio_flush_ctx *ctx = opaque;
++    NvmeRequest *req = ctx->req;
++    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
++
++    BlockBackend *blk = ctx->ns->blkconf.blk;
++    BlockAcctCookie *acct = &ctx->acct;
++    BlockAcctStats *stats = blk_get_stats(blk);
++
++    trace_pci_nvme_aio_flush_cb(nvme_cid(req), blk_name(blk));
++
++    if (!ret) {
++        block_acct_done(stats, acct);
++    } else {
++        block_acct_failed(stats, acct);
++        nvme_aio_err(req, ret);
++    }
++
++    (*num_flushes)--;
++    g_free(ctx);
++
++    if (*num_flushes) {
++        return;
++    }
++
++    nvme_enqueue_req_completion(nvme_cq(req), req);
++}
++
+ static void nvme_aio_discard_cb(void *opaque, int ret)
+ {
+     NvmeRequest *req = opaque;
+@@ -1644,10 +1679,56 @@ static uint16_t nvme_compare(NvmeCtrl *n, NvmeRequest *req)
+ 
+ static uint16_t nvme_flush(NvmeCtrl *n, NvmeRequest *req)
+ {
+-    block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
+-                     BLOCK_ACCT_FLUSH);
+-    req->aiocb = blk_aio_flush(req->ns->blkconf.blk, nvme_rw_cb, req);
+-    return NVME_NO_COMPLETE;
++    uint32_t nsid = le32_to_cpu(req->cmd.nsid);
++    uintptr_t *num_flushes = (uintptr_t *)&req->opaque;
++    uint16_t status;
++    struct nvme_aio_flush_ctx *ctx;
++    NvmeNamespace *ns;
++
++    trace_pci_nvme_flush(nvme_cid(req), nsid);
++
++    if (nsid != NVME_NSID_BROADCAST) {
++        req->ns = nvme_ns(n, nsid);
++        if (unlikely(!req->ns)) {
++            return NVME_INVALID_FIELD | NVME_DNR;
++        }
++
++        block_acct_start(blk_get_stats(req->ns->blkconf.blk), &req->acct, 0,
++                         BLOCK_ACCT_FLUSH);
++        req->aiocb = blk_aio_flush(req->ns->blkconf.blk, nvme_rw_cb, req);
++        return NVME_NO_COMPLETE;
++    }
++
++    /* 1-initialize; see comment in nvme_dsm */
++    *num_flushes = 1;
++
++    for (int i = 1; i <= n->num_namespaces; i++) {
++        ns = nvme_ns(n, i);
++        if (!ns) {
++            continue;
++        }
++
++        ctx = g_new(struct nvme_aio_flush_ctx, 1);
++        ctx->req = req;
++        ctx->ns = ns;
++
++        (*num_flushes)++;
++
++        block_acct_start(blk_get_stats(ns->blkconf.blk), &ctx->acct, 0,
++                         BLOCK_ACCT_FLUSH);
++        req->aiocb = blk_aio_flush(ns->blkconf.blk, nvme_aio_flush_cb, ctx);
++    }
++
++    /* account for the 1-initialization */
++    (*num_flushes)--;
++
++    if (*num_flushes) {
++        status = NVME_NO_COMPLETE;
++    } else {
++        status = req->status;
++    }
++
++    return status;
+ }
+ 
+ static uint16_t nvme_read(NvmeCtrl *n, NvmeRequest *req)
+@@ -2344,6 +2425,29 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+         return NVME_INVALID_NSID | NVME_DNR;
+     }
+ 
++    /*
++     * In the base NVM command set, Flush may apply to all namespaces
++     * (indicated by NSID being set to 0xFFFFFFFF). But if that feature is used
++     * along with TP 4056 (Namespace Types), it may be pretty screwed up.
++     *
++     * If NSID is indeed set to 0xFFFFFFFF, we simply cannot associate the
++     * opcode with a specific command since we cannot determine a unique I/O
++     * command set. Opcode 0x0 could have any other meaning than something
++     * equivalent to flushing and say it DOES have completely different
++     * semantics in some other command set - does an NSID of 0xFFFFFFFF then
++     * mean "for all namespaces, apply whatever command set specific command
++     * that uses the 0x0 opcode?" Or does it mean "for all namespaces, apply
++     * whatever command that uses the 0x0 opcode if, and only if, it allows
++     * NSID to be 0xFFFFFFFF"?
++     *
++     * Anyway (and luckily), for now, we do not care about this since the
++     * device only supports namespace types that includes the NVM Flush command
++     * (NVM and Zoned), so always do an NVM Flush.
++     */
++    if (req->cmd.opcode == NVME_CMD_FLUSH) {
++        return nvme_flush(n, req);
++    }
++
+     req->ns = nvme_ns(n, nsid);
+     if (unlikely(!req->ns)) {
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -2355,8 +2459,6 @@ static uint16_t nvme_io_cmd(NvmeCtrl *n, NvmeRequest *req)
+     }
+ 
+     switch (req->cmd.opcode) {
+-    case NVME_CMD_FLUSH:
+-        return nvme_flush(n, req);
+     case NVME_CMD_WRITE_ZEROES:
+         return nvme_write_zeroes(n, req);
+     case NVME_CMD_ZONE_APPEND:
+@@ -4450,7 +4552,14 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+                            NVME_ONCS_FEATURES | NVME_ONCS_DSM |
+                            NVME_ONCS_COMPARE);
+ 
+-    id->vwc = (0x2 << 1) | 0x1;
++    /*
++     * NOTE: If this device ever supports a command set that does NOT use 0x0
++     * as a Flush-equivalent operation, support for the broadcast NSID in Flush
++     * should probably be removed.
++     *
++     * See comment in nvme_io_cmd.
++     */
++    id->vwc = NVME_VWC_NSID_BROADCAST_SUPPORT | NVME_VWC_PRESENT;
+     id->sgls = cpu_to_le32(NVME_CTRL_SGLS_SUPPORT_NO_ALIGN |
+                            NVME_CTRL_SGLS_BITBUCKET);
+ 
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index 8e249ea910aa..ce2a35c34ea6 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -43,6 +43,8 @@ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8_t opcode, const char *opna
+ pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t nlb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
+ pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
++pci_nvme_flush(uint16_t cid, uint32_t nsid) "cid %"PRIu16" nsid %"PRIu32""
++pci_nvme_aio_flush_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s'"
+ pci_nvme_block_status(int64_t offset, int64_t bytes, int64_t pnum, int ret, bool zeroed) "offset %"PRId64" bytes %"PRId64" pnum %"PRId64" ret 0x%x zeroed %d"
+ pci_nvme_dsm(uint16_t cid, uint32_t nsid, uint32_t nr, uint32_t attr) "cid %"PRIu16" nsid %"PRIu32" nr %"PRIu32" attr 0x%"PRIx32""
+ pci_nvme_dsm_deallocate(uint16_t cid, uint32_t nsid, uint64_t slba, uint32_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
+-- 
+2.30.0
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAPKkQACgkQTeGvMW1P
-DelUOAf9FqgN176OFc/hIbp6x0mI9/mwYUgbQzO/yCEvcOujmWMGuvnfI/h08A/t
-F+6kzub2COo4MmxydyxPWh3PB8uae3m6kMsyR3bR8yzLqBCwrzej0ZZLrigVXuUE
-ZxDQ8OfXr1sW1ctg5n/E1pyLLnLRxV1+GXm+L0CXuBclZ8+0IFHMpKBd5K8vLmO6
-pRlCaEhrkI2r5qyg1AxkE3mzdIKIu5RS+uv2ZvDGD9f0kI5MB3pGo9V5QDtANuOc
-8MHtLNC021DB1juocC+KDRd0N4us5WeiktF+BD/x2XztYmaAB/EoeoTdxmCP5Nrc
-ADXIf1Z9VQnRitJE/WNvItN6xnF0Cw==
-=tH70
------END PGP SIGNATURE-----
-
---NH9EKUynFz14L5Lb--
 
