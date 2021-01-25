@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4CB830260C
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:09:03 +0100 (CET)
-Received: from localhost ([::1]:49450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24D9630261D
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 15:13:46 +0100 (CET)
+Received: from localhost ([::1]:53494 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l42YA-0007Dq-VF
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:09:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56960)
+	id 1l42ch-0000po-6C
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 09:13:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l42Vq-0005vy-9w
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:06:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21837)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l42bP-0000OU-Me
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:12:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20722)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l42Vo-0000fe-Rm
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:06:38 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l42bN-0003Qv-VT
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 09:12:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611583595;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=BbqtbeXI3GlAIHlu5yobqjxEb59D/eFycCVsATaQOKw=;
- b=WlOxHXGKXa2sv6HIm/MejX0iYZ+NVQXNCKVeytZJUzDiOH950Im8ENX6CD03XVtwrVVr5i
- gQH/Q3/Z8pvQSXx8JSpGkgKrb26KUCrICA6gTt9Efo1VhtLfxkTSBcw6vT1btUX8yVSnRA
- pdWnbeQQ/NUGCZUHUDsPMAHdWfO49l4=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-33-q2VMru5xOW6kos0sff8UGg-1; Mon, 25 Jan 2021 09:06:34 -0500
-X-MC-Unique: q2VMru5xOW6kos0sff8UGg-1
-Received: by mail-ed1-f70.google.com with SMTP id y6so7464533edc.17
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 06:06:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=BbqtbeXI3GlAIHlu5yobqjxEb59D/eFycCVsATaQOKw=;
- b=JZ6F3BzlkTJJBjXD75betFL5KNltILD13YawTNnmtXkxa86bvc8KtTuF+oWGFUmD36
- Li80BZIq2H5vSjNr4FfPGyr99QaJPcPrQifKN0OQnkROaOHEVL9gtvC8/3Y7Q3XFg8gP
- VgRa2aGaveDf92g3i5Y5rA5HYGWQEpsdOHYit1VpQAb/HodXiJdBLdBgYAsR8awEDo0N
- U8LMDroD6Wtj+uVrtQ5nXG66eCPgKUISTIYdYDyAIoKw8zSt05QMTBiSoln2NAjEzCSq
- /kvnVtx2/NaLvZJ/yo4cvdReci8GW7mLDOouq9MqtD2yyPdYdnd1aT2SkgCte+hoWtY/
- hB+Q==
-X-Gm-Message-State: AOAM531Qt1YJBGDh8LfRRzwC1X7qWp46yefvMx7dII4cqRlBAvfvTXr4
- P/uQofqCeLL4xtEuews4W0zJREKPsP3RtjPbnEUGfG5HIQe/I+029pz8I6uDKtHTWD+f1Ldwelw
- Dn5EZXt951uli7hM=
-X-Received: by 2002:aa7:ca13:: with SMTP id y19mr582711eds.59.1611583592883;
- Mon, 25 Jan 2021 06:06:32 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyHF9+CIwp/coybHxcCe8enNF5XeXYHpf15sCln35IY/iKaT52uKE8ZYbR0vmO6BAVQP8RUQQ==
-X-Received: by 2002:aa7:ca13:: with SMTP id y19mr582696eds.59.1611583592671;
- Mon, 25 Jan 2021 06:06:32 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id n2sm856970ejl.1.2021.01.25.06.06.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 06:06:31 -0800 (PST)
-Subject: Re: [PATCH 0/2] trace: make the 'log' backend timestamp configurable
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210125113507.224287-1-stefanha@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <220bc0d1-4d1d-eeaf-6e2e-66fa33de8f98@redhat.com>
-Date: Mon, 25 Jan 2021 15:06:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ s=mimecast20190719; t=1611583941;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=BLO/deXFXXfTeqFgDMjkPVOfKb0Ug51Ti4vfnS/FBcg=;
+ b=gyDxSQQ6tXQFcuU615m/C6ARdkmVUh+TBYnfZvJVSlZN9bZDgyM5Uy/sqFHGNPpVC3kUx5
+ UBGkmHOSQkZiARhKXaQU1dCLjdX23g/vEl08iypPMNq6Pc8fMjmGczFwAeQj5mfiJF6WLK
+ H2QbsfniFEpVG+2VKeJMEl29bOgjJz8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-191-1Aj5OMO2PI-EQRt3eyUsXA-1; Mon, 25 Jan 2021 09:12:16 -0500
+X-MC-Unique: 1Aj5OMO2PI-EQRt3eyUsXA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 77697107ACE4
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 14:12:15 +0000 (UTC)
+Received: from redhat.com (ovpn-114-9.ams2.redhat.com [10.36.114.9])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D9785D71D;
+ Mon, 25 Jan 2021 14:12:03 +0000 (UTC)
+Date: Mon, 25 Jan 2021 14:12:00 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH 11/25] remove -writeconfig
+Message-ID: <20210125141200.GH3527172@redhat.com>
+References: <20210118163113.780171-1-pbonzini@redhat.com>
+ <20210118163113.780171-12-pbonzini@redhat.com>
+ <87y2ghfa8u.fsf@dusky.pond.sub.org>
+ <70b3a8fd-8f54-8eeb-3f9d-be731d9367ac@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210125113507.224287-1-stefanha@redhat.com>
+In-Reply-To: <70b3a8fd-8f54-8eeb-3f9d-be731d9367ac@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -98,44 +81,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: kwolf@redhat.com, imammedo@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Stefan,
-
-On 1/25/21 12:35 PM, Stefan Hajnoczi wrote:
-> Zoltan reminded me that the 'log' backend prints tids/timestamps and this can
-> be unwanted in some cases. It's easier to look at trace output without them and
-> in some cases parsing is also more convenient with them.
+On Mon, Jan 25, 2021 at 03:01:01PM +0100, Paolo Bonzini wrote:
+> On 25/01/21 13:53, Markus Armbruster wrote:
+> > I love the "and how give me a config file for all that" idea, but I
+> > agree our -writeconfig is flawed.  I hope we can bring it back in more
+> > useful shape.
+> > 
+> > No deprecation grace period?
+> > 
 > 
-> Extend -msg timestamp=on|off to control the 'log' backend's tid/timestamp output.
+> That's a decision that we have to take overall once the whole series is
+> reviewed, I think.  I have no problem having a grace period:
+
+I'm normally in strongly pushing for honouring our deprecation policy,
+but in almost all past cases we're changing/removing something that is
+genuinely used by people in the real world.
+
+I think it is possible to argue that -writeconfig is a special case
+becuase its functionality is so limited in scope that its real world
+use cases are fairly niche, and is majorly buggy in what it writes
+in some cases. IOW we could argue it is too broken + useless to justify
+going through the deprecation process.
+
+So overall I'm ambivalent on whether we use deprecation for -writeconfig
+or not.
+
 > 
-> Stefan Hajnoczi (2):
->   error: rename error_with_timestamp to message_with_timestamp
->   trace: make the 'log' backend timestamp configurable
+> - the patches aren't 101% ready
 > 
->  docs/devel/tracing.txt           |  3 +++
->  include/qemu/error-report.h      |  2 +-
->  softmmu/vl.c                     |  2 +-
->  util/qemu-error.c                |  4 ++--
->  scripts/tracetool/backend/log.py | 19 +++++++++++++------
->  5 files changed, 20 insertions(+), 10 deletions(-)
+> - the real conflict magnets have been merged already
+> 
+> - I have a large KVM backlog so I don't mind leaving this aside for a few
+> months
 
-I applied your series, rebuilt, but nothing changed.
 
-Apparently there is some buildsys rule missing, the
-trace files weren't regenerated.
-
-After full tree 'make clean' I could successfully test:
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Ignoring the buildsys issue:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Regards,
-
-Phil.
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
