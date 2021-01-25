@@ -2,56 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 894C0302EDD
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 23:22:05 +0100 (CET)
-Received: from localhost ([::1]:59934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D876302F25
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 23:37:03 +0100 (CET)
+Received: from localhost ([::1]:42232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4AFI-0005Fc-Ki
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 17:22:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56986)
+	id 1l4ATl-0002Bx-Vw
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 17:37:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59890)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4ADm-0004oY-C1
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:20:32 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:56956)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4ADf-0000nq-SG
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:20:28 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 23:20:17 +0100
-Received: (qmail 24661 invoked from network); 25 Jan 2021 22:20:19 -0000
-Received: from ac50.vpn.kamp-intra.net (HELO ?172.20.250.50?)
- (pl@kamp.de@::ffff:172.20.250.50)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 25 Jan 2021 22:20:19 -0000
-Subject: Re: configure does not detect librados or librbd since the switch to
- meson
-To: Paolo Bonzini <pbonzini@redhat.com>, dillaman@redhat.com,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, philmd@redhat.com
-References: <23268a39-078d-ed13-6bb4-590ce1292662@kamp.de>
- <b8dff207-21d9-ce8f-63b3-f877d29d90c6@kamp.de>
- <bb07c231-6584-0d4d-959b-46948c9ab9bc@redhat.com>
- <00855a0d-33e0-d835-e6e0-4d3af963975b@kamp.de>
- <7499e47d-b3d9-5ca5-2321-45b04ba06fca@redhat.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <d697d48f-f202-b542-63c2-1e19c8f25062@kamp.de>
-Date: Mon, 25 Jan 2021 23:20:19 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l4AS6-0001BQ-9Q
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:35:18 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e]:36521)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l4AS4-0002b9-Eq
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 17:35:17 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id gx1so558476pjb.1
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 14:35:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=T9DmXEOJUmlVsSD3RI4iW4MSaXLFo+DhO06v4a8eotY=;
+ b=LAcr5sEeA9SGRsemDFwUMigq6VlXnLG1P8qAiSJhkbBoEHcFYTBecI9q65BTYbebMW
+ mxeW81BPPn6BBpd17BGwkcX8TjCDzig58DRoBwxjNyrahAjSSc23pW3swrNV/HbYtVsY
+ A0FGJwZGw1pdcDSZ1EvTnbnXwPQypazIpA5UZCeG5oY08PhtW8AoVwH1tkdKwrPii7GW
+ pdMPX8F55xf+yhZiLZc/g0cuvvsqVG1hCqVEi6WzFNcfrcxqvRSiLfHXEOWDCL9740vO
+ HkhUT28bKBND6lTw4C0KhwwcqiUjWZuZhghM7UCjyRXx7+EN373ZMYG5RHk4BoGdOMrn
+ 6lvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=T9DmXEOJUmlVsSD3RI4iW4MSaXLFo+DhO06v4a8eotY=;
+ b=YypeeJkbCOWhxP56kvDx8jx1MfkDyj2r/9v20p8p0pZhDU7+6YskpeDdi6li1FGuPy
+ XM4wUeYiH/u7xoVYTI4iVIYk4OOiHznX66bLgbwFQ/oSwuHZRWMYPP7m0ZO6SBNejFmo
+ yiEwE1+zGb6C0bg+k2/pxHwsFeAW+i1jBK5wbFdw6D3zAGuZ7iaQUv0ozdBD4cNnGYnY
+ EwCK1fdrPyGKJkMnYf9FjS+U76CSPU2sBbjRtVXoVq+oeypYGFSKoUO6D/bfqatP56ZC
+ gjiK9oovsjEnTF+i+fdYRBnPUr+RQmXn40OOnl7DiipgqEop5/UTD7hEfsKJj9jwKRAI
+ kX8A==
+X-Gm-Message-State: AOAM5307vCnE3KPlLH9mXk09/TnuhrPyXTw4foxd3wPcRjhTJ9/Igu4C
+ 06xXNmKtCG+FnsTh71CVDWwnRA==
+X-Google-Smtp-Source: ABdhPJz0+5r2ulXWJh3tZZ/gzCJTSI6JVXbMMNfho1E/UAKTbs5VFdaxNhCXaq5BZHZm6DsCLRVY1w==
+X-Received: by 2002:a17:90b:257:: with SMTP id
+ fz23mr2480291pjb.162.1611614114691; 
+ Mon, 25 Jan 2021 14:35:14 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id z68sm11686162pfb.198.2021.01.25.14.35.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jan 2021 14:35:13 -0800 (PST)
+Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
+ is available
+To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20210125144530.2837481-1-philmd@redhat.com>
+ <20210125144530.2837481-5-philmd@redhat.com>
+ <20210125164746.GE3538803@redhat.com>
+ <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
+ <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
+ <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
+ <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
+Date: Mon, 25 Jan 2021 12:35:10 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <7499e47d-b3d9-5ca5-2321-45b04ba06fca@redhat.com>
+In-Reply-To: <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -64,67 +97,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.01.21 um 22:57 schrieb Paolo Bonzini:
-> On 25/01/21 20:47, Peter Lieven wrote:
->>> Can you include the meson-logs/meson-log.txt output?
->>
->> Sure:https://pastebin.com/u3XtbDvQ
->
-> Does this work for you?
->
-> diff --git a/meson.build b/meson.build
-> index 690d48a6fd..a662772c4a 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -14,6 +14,9 @@ config_host = keyval.load(meson.current_build_dir() / 'config-host.mak')
->  enable_modules = 'CONFIG_MODULES' in config_host
->  enable_static = 'CONFIG_STATIC' in config_host
->
-> +# Allow both shared and static libraries unless --enable-static
-> +static_kwargs = enable_static ? {'static': true} : {}
-> +
->  # Temporary directory used for files created while
->  # configure runs. Since it is in the build directory
->  # we can safely blow away any previous version of it
-> @@ -679,10 +682,10 @@ endif
->  rbd = not_found
->  if not get_option('rbd').auto() or have_block
->    librados = cc.find_library('rados', required: get_option('rbd'),
-> -                             static: enable_static)
-> +                             kwargs: static_kwargs)
->    librbd = cc.find_library('rbd', has_headers: ['rbd/librbd.h'],
->                             required: get_option('rbd'),
-> -                           static: enable_static)
-> +                           kwargs: static_kwargs)
->    if librados.found() and librbd.found() and cc.links('''
->      #include <stdio.h>
->      #include <rbd/librbd.h>
-> @@ -693,6 +696,9 @@ if not get_option('rbd').auto() or have_block
->      }''', dependencies: [librbd, librados])
->      rbd = declare_dependency(dependencies: [librbd, librados])
->    endif
-> +  if not rbd.found() and get_option('rbd').enabled()
-> +    error('could not link librbd')
-> +  endif
->  endif
->
->  glusterfs = not_found
->
-> (It's not a complete patch, all instances of "static: enable_static" would need to be changed because other libraries could have the same issue).
+On 1/25/21 11:02 AM, Stefan Weil wrote:
+> Am 25.01.21 um 20:02 schrieb Richard Henderson:
+> 
+>> On 1/25/21 8:58 AM, Stefan Weil wrote:
+>>> I have no evidence that TCI is less reliable than TCG, so I would not write
+>>> that.
+>> It can't pass make check-tcg.
+> 
+> 
+> Where does it fail? Maybe an expected timeout problem which can be solved by
+> increasing the timeouts for TCI?
+> 
+> I have just run a local test of `make check-tcg` with native TCG and with TCI
+> and did not see a difference. But I noticed that in both cases many tests show
+> "skipped".
+
+You need to enable docker or podman for your development, so that you get all
+of the cross-compilers.
+
+Then:
+
+  TEST    fcvt on arm
+TODO ../qemu/tcg/tci.c:614: tcg_qemu_tb_exec()
+../qemu/tcg/tci.c:614: tcg fatal error
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+
+  TEST    float_convs on m68k
+TODO ../qemu/tcg/tci.c:614: tcg_qemu_tb_exec()
+../qemu/tcg/tci.c:614: tcg fatal error
+qemu: uncaught target signal 11 (Segmentation fault) - core dumped
+
+which is of course one of the TODO assertions.
+It's positively criminal those still exist in the code.
 
 
-Yes, it does.
-
-
-Please CC me, when you submit a complete patch. I will build my V2 of the rbd driver rewrite on top of this then.
-
-
-Thanks,
-
-Peter
-
-
+r~
 
