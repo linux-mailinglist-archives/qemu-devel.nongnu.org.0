@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A6283029A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:10:51 +0100 (CET)
-Received: from localhost ([::1]:55800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F384302990
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 19:07:36 +0100 (CET)
+Received: from localhost ([::1]:47826 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l46KA-0000bV-Lr
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:10:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45262)
+	id 1l46H1-0005hC-LG
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 13:07:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45260)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46Bl-0001SV-3U
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46Bl-0001SU-2c
  for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:02:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26250)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46BY-0006l6-V4
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:02:08 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l46BY-0006kk-V4
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 13:02:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611597716;
+ s=mimecast20190719; t=1611597714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=YmEUC9rCNqDqwD5zQ92uQmGlnwpe6P4xyRXIFapD23A=;
- b=UPQB+x2nxElTB4cwmsVJVMwVc2X3tuS3ArFFsSNaM5kq8F6+uukKkeoWUWw9HOygt4DDwC
- RUC7k9bPm+k5sdqW+VTlcb4IP8iAHe7jam3Wqc9vvNZKJRJhm1+hj3eO5uAwbEx1LaU+gq
- vvQa4l4ZWd3p1chcrDL2+zxNXThvceM=
+ bh=DVU4Q6xMtVOhCV7Mcgnky2YsorHb7GhIScj9GdyYhiE=;
+ b=K3xhMG1xXE/EFvMb3cND7amcacKnOVd5cXM4HHOcFMcclPkzozuTYetem9tPEu6T2TjRa4
+ EqJltnuRNpbbShF+CYfH2UP+OUFT4VA2gKui3Tap/jDQ7Sycxck2Hfn5yFiO67CNatVDvG
+ /dNt9B9aJu9sXlmEJvobWfb1QCjJT2A=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-2D5W2i-RM0mrobIlyaL-_Q-1; Mon, 25 Jan 2021 13:01:53 -0500
-X-MC-Unique: 2D5W2i-RM0mrobIlyaL-_Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-165-Sun8uxuYMC-1aNJlQhanOg-1; Mon, 25 Jan 2021 13:01:52 -0500
+X-MC-Unique: Sun8uxuYMC-1aNJlQhanOg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A78B91081B2B
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 18:01:52 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A45E11842149
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 18:01:51 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-119.rdu2.redhat.com [10.10.116.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AD59A5D6DC;
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B070B71D4F;
  Mon, 25 Jan 2021 18:01:38 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 3DD4E225FCD; Mon, 25 Jan 2021 13:01:38 -0500 (EST)
+ id 44BF7225FCE; Mon, 25 Jan 2021 13:01:38 -0500 (EST)
 From: Vivek Goyal <vgoyal@redhat.com>
 To: qemu-devel@nongnu.org,
 	virtio-fs@redhat.com
-Subject: [PATCH 3/6] vhost-user: Return error code from slave_read()
-Date: Mon, 25 Jan 2021 13:01:12 -0500
-Message-Id: <20210125180115.22936-4-vgoyal@redhat.com>
+Subject: [PATCH 4/6] qemu,
+ vhost-user: Extend protocol to start/stop/flush slave channel
+Date: Mon, 25 Jan 2021 13:01:13 -0500
+Message-Id: <20210125180115.22936-5-vgoyal@redhat.com>
 In-Reply-To: <20210125180115.22936-1-vgoyal@redhat.com>
 References: <20210125180115.22936-1-vgoyal@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=vgoyal@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,121 +85,257 @@ Cc: marcandre.lureau@redhat.com, stefanha@redhat.com, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Right now slave_read() is called through main event loop and does not
-return error. In next few patches I want to call slave_read() from
-vhost device shutdown path as well and want to know if an error
-happened so that caller can give up and return error accordingly.
+Currently we don't have a mechanism to flush slave channel while shutting
+down vhost-user device and that can result a deadlock. Consider following
+scenario.
 
-Hence, create helper function do_slave_read(), which returns an
-integer. Success is 0 and negative number is error code. slave_read()
-calls do_slave_read() and ignores error code.
+1. Slave gets a request from guest on virtqueue (say index 1, vq1), to map
+   a portion of file in qemu address space.
+
+2. Thread serving vq1 receives this request and sends a message to qemu on
+   slave channel/fd and gets blocked in waiting for a response from qemu.
+
+3. In the mean time, user does "echo b > /proc/sysrq-trigger" in guest. This
+   leads to qemu reset and ultimately in main thread we end up in
+   vhost_dev_stop() which is trying to shutdown virtqueues for the device.
+
+4. Slave gets VHOST_USER_GET_VRING_BASE message to shutdown a virtqueue on
+   unix socket being used for communication.
+
+5. Slave tries to shutdown the thread serving vq1 and waits for it to
+   terminate. But vq1 thread can't terminate because it is waiting for
+   a response from qemu on slave_fd. And qemu is not processing slave_fd
+   anymore as qemu is ressing (and not running main event loop anymore)
+   and is waiting for a response to VHOST_USER_GET_VRING_BASE.
+
+So we have a deadlock. Qemu is waiting on slave to response to
+VHOST_USER_GET_VRING_BASE message and slave is waiting on qemu to
+respond to request it sent on slave_fd.
+
+I can reliably reproduce this race with virtio-fs.
+
+Hence here is the proposal to solve this problem. Enhance vhost-user
+protocol to properly shutdown slave_fd channel. And if there are pending
+requests, flush the channel completely before sending the request to
+shutdown virtqueues.
+
+New workflow to shutdown slave channel is.
+
+- Qemu sends VHOST_USER_STOP_SLAVE_CHANNEL request to slave. It waits
+  for an reply from guest.
+
+- Then qemu sits in a tight loop waiting for
+  VHOST_USER_SLAVE_STOP_CHANNEL_COMPLETE message from slave on slave_fd.
+  And while waiting for this message, qemu continues to process requests
+  on slave_fd to flush any pending requests. This will unblock threads
+  in slave and allow slave to shutdown slave channel.
+
+- Once qemu gets VHOST_USER_SLAVE_STOP_CHANNEL_COMPLETE message, it knows
+  no more requests will come on slave_fd and it can continue to shutdown
+  virtqueues now.
+
+- Once device starts again, qemu will send VHOST_USER_START_SLAVE_CHANNEL
+  message to slave to open the slave channel and receive requests.
+
+IOW, this allows for proper shutdown of slave channel, making sure
+no threads in slave are blocked on sending/receiving message. And
+this in-turn allows for shutting down of virtqueues, hence resolving
+the deadlock.
 
 Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
 ---
- hw/virtio/vhost-user.c | 43 ++++++++++++++++++++++++++++++++++++------
- 1 file changed, 37 insertions(+), 6 deletions(-)
+ hw/virtio/vhost-user.c | 108 +++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 108 insertions(+)
 
 diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-index d95dbc39e3..867cac034f 100644
+index 867cac034f..56be61d4e2 100644
 --- a/hw/virtio/vhost-user.c
 +++ b/hw/virtio/vhost-user.c
-@@ -1401,7 +1401,7 @@ static uint64_t vhost_user_slave_handle_vring_host_notifier(
-     return false;
+@@ -80,6 +80,7 @@ enum VhostUserProtocolFeature {
+     VHOST_USER_PROTOCOL_F_RESET_DEVICE = 13,
+     /* Feature 14 reserved for VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS. */
+     VHOST_USER_PROTOCOL_F_CONFIGURE_MEM_SLOTS = 15,
++    VHOST_USER_PROTOCOL_F_SLAVE_CH_START_STOP = 16,
+     VHOST_USER_PROTOCOL_F_MAX
+ };
+ 
+@@ -125,6 +126,8 @@ typedef enum VhostUserRequest {
+     VHOST_USER_GET_MAX_MEM_SLOTS = 36,
+     VHOST_USER_ADD_MEM_REG = 37,
+     VHOST_USER_REM_MEM_REG = 38,
++    VHOST_USER_START_SLAVE_CHANNEL = 39,
++    VHOST_USER_STOP_SLAVE_CHANNEL = 40,
+     VHOST_USER_MAX
+ } VhostUserRequest;
+ 
+@@ -139,6 +142,7 @@ typedef enum VhostUserSlaveRequest {
+     VHOST_USER_SLAVE_FS_UNMAP = 7,
+     VHOST_USER_SLAVE_FS_SYNC = 8,
+     VHOST_USER_SLAVE_FS_IO = 9,
++    VHOST_USER_SLAVE_STOP_CHANNEL_COMPLETE = 10,
+     VHOST_USER_SLAVE_MAX
+ }  VhostUserSlaveRequest;
+ 
+@@ -246,6 +250,7 @@ struct vhost_user {
+     /* Shared between vhost devs of the same virtio device */
+     VhostUserState *user;
+     int slave_fd;
++    bool slave_channel_open;
+     NotifierWithReturn postcopy_notifier;
+     struct PostCopyFD  postcopy_fd;
+     uint64_t           postcopy_client_bases[VHOST_USER_MAX_RAM_SLOTS];
+@@ -1511,6 +1516,10 @@ static int do_slave_read(void *opaque)
+         ret = vhost_user_fs_slave_io(dev, &payload.fs, fd[0]);
+         break;
+ #endif
++    case VHOST_USER_SLAVE_STOP_CHANNEL_COMPLETE:
++        u->slave_channel_open = false;
++        ret = 0;
++        break;
+     default:
+         error_report("Received unexpected msg type: %d.", hdr.request);
+         ret = (uint64_t)-EINVAL;
+@@ -1580,6 +1589,70 @@ static void slave_read(void *opaque)
+     do_slave_read(opaque);
  }
  
--static void slave_read(void *opaque)
-+static int do_slave_read(void *opaque)
- {
-     struct vhost_dev *dev = opaque;
-     struct vhost_user *u = dev->opaque;
-@@ -1432,13 +1432,22 @@ static void slave_read(void *opaque)
-         size = recvmsg(u->slave_fd, &msgh, 0);
-     } while (size < 0 && (errno == EINTR || errno == EAGAIN));
- 
--    if (size != VHOST_USER_HDR_SIZE) {
-+    if (size < 0) {
-+        ret = -errno;
-         error_report("Failed to read from slave.");
-         goto err;
-     }
- 
-+    if (size != VHOST_USER_HDR_SIZE) {
-+        error_report("Failed to read %lu bytes from slave.",
-+                     VHOST_USER_HDR_SIZE);
-+        ret = -EBADMSG;
-+        goto err;
++static int vhost_start_slave_channel(struct vhost_dev *dev)
++{
++    struct vhost_user *u = dev->opaque;
++    VhostUserMsg msg = {
++        .hdr.request = VHOST_USER_START_SLAVE_CHANNEL,
++        .hdr.flags = VHOST_USER_VERSION | VHOST_USER_NEED_REPLY_MASK,
++    };
++    int ret = 0;
++
++    if (!virtio_has_feature(dev->protocol_features,
++                            VHOST_USER_PROTOCOL_F_SLAVE_CH_START_STOP)) {
++        return 0;
 +    }
 +
-     if (msgh.msg_flags & MSG_CTRUNC) {
-         error_report("Truncated message.");
-+        ret = -EBADMSG;
-         goto err;
-     }
- 
-@@ -1456,6 +1465,7 @@ static void slave_read(void *opaque)
-         error_report("Failed to read msg header."
-                 " Size %d exceeds the maximum %zu.", hdr.size,
-                 VHOST_USER_PAYLOAD_SIZE);
-+        ret = -EBADMSG;
-         goto err;
-     }
- 
-@@ -1464,8 +1474,15 @@ static void slave_read(void *opaque)
-         size = read(u->slave_fd, &payload, hdr.size);
-     } while (size < 0 && (errno == EINTR || errno == EAGAIN));
- 
--    if (size != hdr.size) {
-+    if (size == -1) {
-         error_report("Failed to read payload from slave.");
-+        ret = errno;
-+        goto err;
++    ret = vhost_user_write(dev, &msg, NULL, 0);
++    if (ret) {
++        return ret;
 +    }
 +
-+    if (size != hdr.size) {
-+        error_report("Failed to read %d payload bytes from slave.", hdr.size);
-+        ret = -EBADMSG;
-         goto err;
-     }
- 
-@@ -1529,13 +1546,22 @@ static void slave_read(void *opaque)
-             size = writev(u->slave_fd, iovec, ARRAY_SIZE(iovec));
-         } while (size < 0 && (errno == EINTR || errno == EAGAIN));
- 
--        if (size != VHOST_USER_HDR_SIZE + hdr.size) {
-+        if (size == -1) {
-             error_report("Failed to send msg reply to slave.");
-+            ret = -errno;
-+            goto err;
-+        }
++    ret = process_message_reply(dev, &msg);
++    if (ret)
++        return ret;
 +
-+        if (size != VHOST_USER_HDR_SIZE + hdr.size) {
-+            error_report("Failed to send msg reply to slave. Wrote %d bytes"
-+                         " expected %lu bytes.", size,
-+                         VHOST_USER_HDR_SIZE + hdr.size);
-+            ret = -EIO;
-             goto err;
-         }
-     }
- 
--    return;
-+    return 0;
- 
- err:
-     qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
-@@ -1546,7 +1572,12 @@ err:
-             close(fd[i]);
-         }
-     }
--    return;
++    u->slave_channel_open = true;
 +    return ret;
 +}
 +
-+static void slave_read(void *opaque)
++static int vhost_stop_slave_channel(struct vhost_dev *dev)
 +{
-+    do_slave_read(opaque);
++    struct vhost_user *u = dev->opaque;
++    VhostUserMsg msg = {
++        .hdr.request = VHOST_USER_STOP_SLAVE_CHANNEL,
++        .hdr.flags = VHOST_USER_VERSION | VHOST_USER_NEED_REPLY_MASK,
++    };
++    int ret = 0;
++
++    if (!virtio_has_feature(dev->protocol_features,
++                            VHOST_USER_PROTOCOL_F_SLAVE_CH_START_STOP)) {
++        return 0;
++    }
++
++    ret = vhost_user_write(dev, &msg, NULL, 0);
++    if (ret) {
++        return ret;
++    }
++
++    ret = process_message_reply(dev, &msg);
++    if (ret) {
++        return ret;
++    }
++
++    /*
++     * Wait for flush finish message from slave. And continue to process
++     * slave messages till we get flush finish.
++     */
++    while (u->slave_channel_open) {
++        ret = do_slave_read(dev);
++        if (ret)
++            break;
++    }
++
++    return ret;
++}
++
+ static int vhost_setup_slave_channel(struct vhost_dev *dev)
+ {
+     VhostUserMsg msg = {
+@@ -1860,6 +1933,7 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+     u = g_new0(struct vhost_user, 1);
+     u->user = opaque;
+     u->slave_fd = -1;
++    u->slave_channel_open = false;
+     u->dev = dev;
+     dev->opaque = u;
+ 
+@@ -1934,6 +2008,17 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+ 
+             u->user->memory_slots = MIN(ram_slots, VHOST_USER_MAX_RAM_SLOTS);
+         }
++
++        if (virtio_has_feature(dev->protocol_features,
++                               VHOST_USER_PROTOCOL_F_SLAVE_CH_START_STOP) &&
++                !(virtio_has_feature(dev->protocol_features,
++                    VHOST_USER_PROTOCOL_F_SLAVE_REQ) &&
++                 virtio_has_feature(dev->protocol_features,
++                    VHOST_USER_PROTOCOL_F_REPLY_ACK))) {
++            error_report("Slave channel start/stop support requires reply-ack"
++                         " and slave-req protocol features.");
++            return -1;
++        }
+     }
+ 
+     if (dev->migration_blocker == NULL &&
+@@ -1949,6 +2034,10 @@ static int vhost_user_backend_init(struct vhost_dev *dev, void *opaque)
+         if (err < 0) {
+             return err;
+         }
++        err = vhost_start_slave_channel(dev);
++        if (err < 0) {
++            return err;
++        }
+     }
+ 
+     u->postcopy_notifier.notify = vhost_user_postcopy_notifier;
+@@ -2408,6 +2497,24 @@ void vhost_user_cleanup(VhostUserState *user)
+     user->chr = NULL;
  }
  
- static int vhost_setup_slave_channel(struct vhost_dev *dev)
++static int vhost_user_dev_start(struct vhost_dev *dev, bool started)
++{
++    int ret;
++
++    if (!started) {
++        ret = vhost_stop_slave_channel(dev);
++        if (ret < 0) {
++            return ret;
++        }
++    } else {
++        ret = vhost_start_slave_channel(dev);
++        if (ret < 0) {
++            return ret;
++        }
++    }
++    return 0;
++}
++
+ const VhostOps user_ops = {
+         .backend_type = VHOST_BACKEND_TYPE_USER,
+         .vhost_backend_init = vhost_user_backend_init,
+@@ -2434,6 +2541,7 @@ const VhostOps user_ops = {
+         .vhost_net_set_mtu = vhost_user_net_set_mtu,
+         .vhost_set_iotlb_callback = vhost_user_set_iotlb_callback,
+         .vhost_send_device_iotlb_msg = vhost_user_send_device_iotlb_msg,
++        .vhost_dev_start = vhost_user_dev_start,
+         .vhost_get_config = vhost_user_get_config,
+         .vhost_set_config = vhost_user_set_config,
+         .vhost_crypto_create_session = vhost_user_crypto_create_session,
 -- 
 2.25.4
 
