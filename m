@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 945D1302BF0
-	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:49:15 +0100 (CET)
-Received: from localhost ([::1]:40274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C57302C01
+	for <lists+qemu-devel@lfdr.de>; Mon, 25 Jan 2021 20:53:12 +0100 (CET)
+Received: from localhost ([::1]:45070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l47rO-0000SY-50
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:49:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47914)
+	id 1l47vC-0002md-M0
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 14:53:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48342)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l47ps-0008HW-3Z
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:47:41 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:56039)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l47sj-0001V8-7k
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:50:37 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:60058)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l47pk-000509-QV
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:47:37 -0500
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 20:47:26 +0100
-Received: (qmail 22944 invoked from network); 25 Jan 2021 19:47:28 -0000
-Received: from ac50.vpn.kamp-intra.net (HELO ?172.20.250.50?)
- (pl@kamp.de@::ffff:172.20.250.50)
- by submission.kamp.de with ESMTPS (DHE-RSA-AES128-SHA encrypted) ESMTPA;
- 25 Jan 2021 19:47:28 -0000
-Subject: Re: configure does not detect librados or librbd since the switch to
- meson
-To: Paolo Bonzini <pbonzini@redhat.com>, dillaman@redhat.com,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, philmd@redhat.com
-References: <23268a39-078d-ed13-6bb4-590ce1292662@kamp.de>
- <b8dff207-21d9-ce8f-63b3-f877d29d90c6@kamp.de>
- <bb07c231-6584-0d4d-959b-46948c9ab9bc@redhat.com>
-From: Peter Lieven <pl@kamp.de>
-Message-ID: <00855a0d-33e0-d835-e6e0-4d3af963975b@kamp.de>
-Date: Mon, 25 Jan 2021 20:47:28 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l47se-0005Az-0y
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 14:50:36 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 66E38746395;
+ Mon, 25 Jan 2021 20:50:23 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 397F174632F; Mon, 25 Jan 2021 20:50:23 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 37A0D746358;
+ Mon, 25 Jan 2021 20:50:23 +0100 (CET)
+Date: Mon, 25 Jan 2021 20:50:23 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [PATCH 0/2] trace: make the 'log' backend timestamp configurable
+In-Reply-To: <20210125113507.224287-1-stefanha@redhat.com>
+Message-ID: <afa594a-921a-6c3d-db29-56173570f080@eik.bme.hu>
+References: <20210125113507.224287-1-stefanha@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <bb07c231-6584-0d4d-959b-46948c9ab9bc@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
- helo=kerio.kamp.de
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,37 +56,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 25.01.21 um 16:24 schrieb Paolo Bonzini:
-> On 25/01/21 15:31, Peter Lieven wrote:
->> on Dedian / Ubuntu configure does no longer detect librbd / librados
->> since the switch to meson.
->>
->> I need to add dirs: ['/usr/lib'] to the cc.find_library for librados
->> and librbd. But I am not familiar with meson
->>
->> and can't say if thats the appropriate fix.
+On Mon, 25 Jan 2021, Stefan Hajnoczi wrote:
+> Zoltan reminded me that the 'log' backend prints tids/timestamps and this can
+> be unwanted in some cases. It's easier to look at trace output without them and
+> in some cases parsing is also more convenient with them.
 >
-> Can you include the meson-logs/meson-log.txt output?
+> Extend -msg timestamp=on|off to control the 'log' backend's tid/timestamp output.
 
+Thank you, this works for me
 
-Sure: https://pastebin.com/u3XtbDvQ
+Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
 
+but I had to remove build dir and rerun configure to get it omit 
+timestamps. Just running make (which reruns configure) or make distclean 
+and running configure does not seem to be enough to pick up some changes 
+since the meson conversion. (I had similar problem with gtk being detected 
+and used despite having --disable-gtk on configure before the gtk test was 
+moved to meson; so I think there's some problem detecting changes in 
+configure options somewhere. That was also fixed by rerunning configure 
+after starting from clean build dir but did not work when keeping old 
+build dir or make distclean. This is probably not a problem for someone 
+downloading the sources and compiling it once, only annoying for 
+developers who build it all the time.)
 
+Regards,
+BALATON Zoltan
+
+> Stefan Hajnoczi (2):
+>  error: rename error_with_timestamp to message_with_timestamp
+>  trace: make the 'log' backend timestamp configurable
 >
->> Further issue: if I specify configure --enable-rbd and cc.links fails
->> the configure command succeeds and rbd support is disabled.
->
-> That's a separate bug.
-
-
-For the rbd check I can address this as well in the series. Sadly, librbd has no pkg-config (yet). So, I have to create a C file that checks for the version.
-
-
-Peter
-
-
-
+> docs/devel/tracing.txt           |  3 +++
+> include/qemu/error-report.h      |  2 +-
+> softmmu/vl.c                     |  2 +-
+> util/qemu-error.c                |  4 ++--
+> scripts/tracetool/backend/log.py | 19 +++++++++++++------
+> 5 files changed, 20 insertions(+), 10 deletions(-)
 
