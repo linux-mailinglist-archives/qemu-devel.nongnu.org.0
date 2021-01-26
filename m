@@ -2,92 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80195303C99
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 13:10:34 +0100 (CET)
-Received: from localhost ([::1]:47724 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49380303CC6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 13:19:48 +0100 (CET)
+Received: from localhost ([::1]:50480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4NB3-0000G1-KI
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 07:10:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48930)
+	id 1l4NJy-0001wI-Uh
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 07:19:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49550)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4N9X-0007xO-EB
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 07:08:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58789)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4N9V-000172-WF
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 07:08:59 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611662937;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=FBvmAtkbogEdKgvtww+rDWU+f40o0hwqQQXMvPj9dGM=;
- b=Flme914LwWfQaSyCCxQ7ApuwsG4AxDKypJ3wXekXvY5Qo+Ov/cf33Hp0QmUOtNsvwkAATR
- 9RsqUEBKfBp1/2bpc7QnmBfICjGfpju1O0luCUwR02eZtWbRQLo4twznL0vicikTY/0fcv
- XvwZkAv76bmwdtxeO5EEk5cdXWXnEz8=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-gbJ16d_0OXmPnEsKWJrbxQ-1; Tue, 26 Jan 2021 07:08:54 -0500
-X-MC-Unique: gbJ16d_0OXmPnEsKWJrbxQ-1
-Received: by mail-ed1-f72.google.com with SMTP id v19so1242056edx.22
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 04:08:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=FBvmAtkbogEdKgvtww+rDWU+f40o0hwqQQXMvPj9dGM=;
- b=sU6WQw9bh4EM+GrrC1WxlQYPbtksiDmX6S3IgkxZVbV3PYQ5w71WSJ6ysOFSNSiNHN
- bJO/Cd6BgM6tvmbqRi9Ief22bkdgly/JEduz7I795wOboAWgqlmoLtwdnU1nt0MDBU6M
- b145IF7IypvoeRqXPI+VQXXwBa6muu+XQ2JA9uGJRwsD0OP78V+G+3hQY5nF8m5EsoWX
- CAbdAkiwbn/5lOiegef0yGr73WKLCUee/WN9Qiuhhj3jeMBQr2osnWb2HLmtD1eC8u8E
- pFm0pxhF95TNMVP+jTpPMv7AZoKVuaFSqqPaKcEl3Z14VgbISTxFCq2jT7XN89tOLGIn
- HRKw==
-X-Gm-Message-State: AOAM531vJWdn+ffwgT79jDCcxG16u+VfCz3jm+DxfLA0M6ha+siRLMdH
- vk5a4nCu7h7TgGoOaGuSOrU2QYHkcA8NUrIkAQD/mvBMiI8d/ySiaCjeS8mmHfiaA5D4QL7p4Iz
- PTEeFGzfFAyljOXM=
-X-Received: by 2002:a05:6402:35d6:: with SMTP id
- z22mr4251001edc.58.1611662932478; 
- Tue, 26 Jan 2021 04:08:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxvGRpsNGp9EuqyYvMFJsDfdTroydrM9cuH37JYQe/pY0qjbnoilZNA3By9jnXdnUGI122qPA==
-X-Received: by 2002:a05:6402:35d6:: with SMTP id
- z22mr4250993edc.58.1611662932370; 
- Tue, 26 Jan 2021 04:08:52 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s2sm7637248edx.77.2021.01.26.04.08.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jan 2021 04:08:51 -0800 (PST)
-Subject: Re: [PATCH] gitlab-ci.yml: Avoid some submodules to speed up the CI a
- little bit
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210121174451.658924-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <bd0ff3d1-56a4-ba1d-8129-521937b092b2@redhat.com>
-Date: Tue, 26 Jan 2021 13:08:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4NG2-00016t-8z; Tue, 26 Jan 2021 07:15:42 -0500
+Received: from wout2-smtp.messagingengine.com ([64.147.123.25]:59243)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4NFx-00036z-9L; Tue, 26 Jan 2021 07:15:41 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.west.internal (Postfix) with ESMTP id 33571976;
+ Tue, 26 Jan 2021 07:15:34 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 26 Jan 2021 07:15:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding; s=fm2; bh=55MLpOfBYieI0YzTc8Cm1m5fN9
+ 71YUxui3jeEK/nDQY=; b=boU6mWfgzkTIPhFgJ7lSh5fk20fZ9w0vUItYsVg8na
+ 9bxS0oQXIVoE4vd++5Mtfdew9CcGaiRf6QAJ650eXGjFxSt3k9mGWKHaZ8EIJ5AW
+ hfJULVrqQf07jU9aDX1RbERTmPEMWn3++TNRj6fjwMvnO61aOE6uewZ6Ym8vgQbb
+ sNZgzimmafXGiZjPTaIG7CKhitm3sTYEC/mHO8HPLbVuJLT0VidYS7BFt+8awn+m
+ 4FLqR/qNm3XVTw2/EGhlgIsQPqpgL1TQDgr4TFk7JhmgrpUYGMuznUDrtkx6uiF8
+ E4cHIgwKnG491mDDBP9UdiqyytoLq+4yu18jiJJNvZBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=55MLpOfBYieI0YzTc
+ 8Cm1m5fN971YUxui3jeEK/nDQY=; b=JNuDruSOCVddE+4CVfRYVZ+9fgP3t+v9O
+ cPHSpWM4hqXYJz/B85x2nMRpj2/tXben0ZfPH6RG48fcdhr5sCECkjESxWtktO0T
+ /XIJ6XseslnHkPN9P0Dgs3j7mwPYwVj5JYJfEdrafls8IYMS75af/eQg2p9EZqJP
+ 6UFNSHTjDMZMMKA53JUw/Jo+2xD2e4ZnbZZZofmItG1hrIoQT9q8B5fNRhnxX3ql
+ +LdG9KoG5eQHB9KQCIvXxfUEmQaaIuHfyMeDkqK3ahK0YjnD1NwkLBS1Uov5rXvR
+ C38mj97wolzFdcfGmV5Tl+TSevKO4U+XeD9FVP3g49SPnhjTrzxjg==
+X-ME-Sender: <xms:5AcQYLbJoSUzC4lnRMHIqESur0EUDuGI7FgKhJqzih5bpfBO_kgvnA>
+ <xme:5AcQYKaC2nBec60IbtdHp0Zm8hrXDKH54WAYoLVimBNGTzbvczNZjKA5CJkpjk3cJ
+ jV9s4HDjKWKR7A3CPs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehgdefjecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushculfgv
+ nhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnh
+ epfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteehnecu
+ kfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
+ hrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:5AcQYN8c07qi3RHgclpvVRmw3NvTN7Ez0P9rD_sNjfIQZA0BOOy8iw>
+ <xmx:5AcQYBoRS3zby0SeZ8DwLph_JG0aHSzpsD6sPuw8M6vyWoE4HUOJXg>
+ <xmx:5AcQYGpoj-nEB5G1Pm1vlF8QzNRlEQymEM29wZR-TbTuqb25Ikkzjg>
+ <xmx:5QcQYHcIjSMhpU90ofLz4fk6D6ItpsVflDppjyOlA_7gorKWbO9kQA>
+Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id AA00324005A;
+ Tue, 26 Jan 2021 07:15:31 -0500 (EST)
+From: Klaus Jensen <its@irrelevant.dk>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2] hw/block/nvme: add missing mor/mar constraint checks
+Date: Tue, 26 Jan 2021 13:15:29 +0100
+Message-Id: <20210126121529.317189-1-its@irrelevant.dk>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <20210121174451.658924-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=64.147.123.25; envelope-from=its@irrelevant.dk;
+ helo=wout2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,35 +89,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
+ Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+From: Klaus Jensen <k.jensen@samsung.com>
 
-On 1/21/21 6:44 PM, Thomas Huth wrote:
-> Since the meson build system rework, the configure script prefers the
-> git submodules over the system libraries. So we are testing compilation
-> with capstone, fdt and libslirp as a submodule all over the place,
-> burning CPU cycles by recompiling these third party modules and wasting
-> some network bandwidth in the CI by cloning the submodules each time.
-> Let's stop doing that in at least a couple of jobs and use the system
-> libraries instead.
-> 
-> While we're at it, also install meson in the Fedora container, since
-> it is new enough already, so we do not need to check out the meson
-> submodule here.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.yml                               | 6 +++++-
->  tests/docker/dockerfiles/centos8.docker      | 1 +
->  tests/docker/dockerfiles/debian-amd64.docker | 1 +
->  tests/docker/dockerfiles/fedora.docker       | 3 +++
->  tests/docker/dockerfiles/ubuntu2004.docker   | 1 +
->  5 files changed, 11 insertions(+), 1 deletion(-)
+Firstly, if zoned.max_active is non-zero, zoned.max_open must be less
+than or equal to zoned.max_active.
 
-So now which are the jobs left building from git submodule clone?
+Secondly, if only zones.max_active is set, we have to explicitly set
+zones.max_open or we end up with an invalid MAR/MOR configuration. This
+is an artifact of the parameters not being zeroes-based like in the
+spec.
+
+Cc: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Reported-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+
+v2:
+
+  * Jumped the gun on removing the check on zoned.max_open. It should
+    still be done since the device might only have a constraint on open
+    zones, not active.
+  * Instead, added an explicit set of zoned.max_open if only
+    zoned.max_active is specifed.
+
+ hw/block/nvme-ns.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
+
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index 62b25cf69bfa..df514287b58f 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -153,6 +153,18 @@ static int nvme_ns_zoned_check_calc_geometry(NvmeNamespace *ns, Error **errp)
+         return -1;
+     }
+ 
++    if (ns->params.max_active_zones) {
++        if (ns->params.max_open_zones > ns->params.max_active_zones) {
++            error_setg(errp, "max_open_zones (%u) exceeds max_active_zones (%u)",
++                       ns->params.max_open_zones, ns->params.max_active_zones);
++            return -1;
++        }
++
++        if (!ns->params.max_open_zones) {
++            ns->params.max_open_zones = ns->params.max_active_zones;
++        }
++    }
++
+     if (ns->params.zd_extension_size) {
+         if (ns->params.zd_extension_size & 0x3f) {
+             error_setg(errp,
+-- 
+2.30.0
 
 
