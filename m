@@ -2,70 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8AA3030B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 01:02:13 +0100 (CET)
-Received: from localhost ([::1]:39674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC8D03030ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 01:14:02 +0100 (CET)
+Received: from localhost ([::1]:45270 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4BoD-0005ID-1A
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 19:02:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48686)
+	id 1l4Bzd-0008J5-JC
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 19:14:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l4BnJ-0004rb-My
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 19:01:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54055)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1l4BnC-0004r4-FL
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 19:01:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611619268;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nbvz0YKVlTvPvu1tvmrz/Qz6VlfSPpuFjsqRzT9jBSw=;
- b=ErUs4nqXHGAj6MKUw8Ee8z/B3WUJovE8hBiH+XfM8T66cgksz1WtynQNO+qdhDUWXH342J
- aPTRXWJUAwpkbUrO/H0B5W0fQDUA1WmeL3C4m/YVa+14L1WOMilPRYNz8oEwvph1J2mHaI
- 9sGaS2Qphqx8reZ0y0rzboQjdQ2nqD8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-574-qyvyrXpANwWhWQTPHgfbag-1; Mon, 25 Jan 2021 19:01:06 -0500
-X-MC-Unique: qyvyrXpANwWhWQTPHgfbag-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BA14E180A0A2
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 00:01:05 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-112-67.ams2.redhat.com
- [10.36.112.67])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 23A2D6F45C;
- Tue, 26 Jan 2021 00:01:01 +0000 (UTC)
-Subject: Re: [PATCH v2 0/2] vnc: unbreak older gtk-vnc
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20210125104041.495274-1-kraxel@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <20179070-a63d-f55d-a6bd-11b5c10e2ea1@redhat.com>
-Date: Tue, 26 Jan 2021 01:01:01 +0100
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1l4Byf-0007oc-G5
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 19:13:01 -0500
+Received: from mail-io1-f44.google.com ([209.85.166.44]:39912)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1l4Byd-0006Cn-Gi
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 19:13:01 -0500
+Received: by mail-io1-f44.google.com with SMTP id e22so30315936iog.6
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 16:12:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=4G0Pad2MVNmYhT/T2B3oqNjX8uTAW3sgRIP2eX/poOQ=;
+ b=toSt3XV2ryqkUHVcX/NuEQ/62C4jFeL2XBIq+yNQJAVj1hhraZKXUu7nD8rsQV05pF
+ cgR+sh39ykc9vrcqmsyRa20DomNvvIZAECx9yhTxMndApv+mDAJcJ9qLfjKs1lwS+7L0
+ 5B32aQmYvX9cuChNmN19Md4zZFnuuWDo50pdTMP6qeCtbuMyc7+xMZ37tGBZS1ipJ33y
+ qcMNkIBG5mqUm1gHwCCjONliJk9NK6jNWhFgct0JTLQusa1gT1Z0wGn2lKrlT2/1/xDb
+ qfBaVqDjSXThsSP13RzfGiLA+PY91FKbk+n7I1x1t+qQT7U4Ln12h9U4TFR5LfcMh0K2
+ c6ng==
+X-Gm-Message-State: AOAM532CwPJjL4TFpe2BZ1o6d7t4yueIUNIXicqYdoYs93lnNYdQ3N+W
+ OuSgo75MqS8VvLOPTmio/uwng2C4wFA=
+X-Google-Smtp-Source: ABdhPJzTrf8gPFbsSxhAx263x+sIysUGDytpMuKMgGrxtfTf3WgxLuT5MY6oMgmh6cXndFHAgpClfg==
+X-Received: by 2002:a92:c26f:: with SMTP id h15mr2423790ild.65.1611619977641; 
+ Mon, 25 Jan 2021 16:12:57 -0800 (PST)
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com.
+ [209.85.166.48])
+ by smtp.gmail.com with ESMTPSA id k11sm2897545ilo.8.2021.01.25.16.12.56
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jan 2021 16:12:57 -0800 (PST)
+Received: by mail-io1-f48.google.com with SMTP id y19so30326205iov.2
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 16:12:56 -0800 (PST)
+X-Received: by 2002:a6b:fb09:: with SMTP id h9mr2301977iog.32.1611619976745;
+ Mon, 25 Jan 2021 16:12:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210125104041.495274-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lersek@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lersek@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210122201113.63788-1-j@getutm.app>
+ <20210122201113.63788-6-j@getutm.app>
+ <CAFEAcA8V1nv1VV6t8UN25JoA7bw96xSBamaw6VnfBavOQjj44A@mail.gmail.com>
+ <CAFEAcA8hA7_isLsAtyS8oSwcfL9nRjdSehL+qLj5C2MycbzLoA@mail.gmail.com>
+ <CA+E+eSAhNNBxY06a5iQj9ANpgmYZk0Kf6LYQPduCLwNmr1UQvA@mail.gmail.com>
+ <CAFEAcA8KZqxjDd0H7faF=YtkyY-XFB2WoP31qv_2ecFij_rLqQ@mail.gmail.com>
+ <59a773e4-b277-a8a2-b496-d95b515718e2@redhat.com>
+In-Reply-To: <59a773e4-b277-a8a2-b496-d95b515718e2@redhat.com>
+From: Joelle van Dyne <j@getutm.app>
+Date: Mon, 25 Jan 2021 16:12:45 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSB_ZbO4GGCJWdZsOL+e4VE7nzW0THUqBgmdeA05yjAzmg@mail.gmail.com>
+Message-ID: <CA+E+eSB_ZbO4GGCJWdZsOL+e4VE7nzW0THUqBgmdeA05yjAzmg@mail.gmail.com>
+Subject: Re: [PATCH v7 05/11] osdep: build with non-working system() function
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=209.85.166.44; envelope-from=osy86dev@gmail.com;
+ helo=mail-io1-f44.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,25 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joelle van Dyne <j@getutm.app>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/25/21 11:40, Gerd Hoffmann wrote:
-> 
-> 
-> Gerd Hoffmann (2):
->   Revert "vnc: move initialization to framebuffer_update_request"
->   vnc: send extended desktop resize on update requests
-> 
->  ui/vnc.c | 14 ++++++++++----
->  1 file changed, 10 insertions(+), 4 deletions(-)
-> 
+Here's how meson does cc.has_function
 
-I didn't test desktop resize, but I can confirm the regression is gone.
+https://github.com/mesonbuild/meson/blob/master/mesonbuild/compilers/mixins/clike.py#L761
 
-Tested-by: Laszlo Ersek <lersek@redhat.com>
+Since the compiler error comes from the header file with
 
-Thanks!
-Laszlo
+__attribute__((availability(ios,unavailable)))
 
+The meson check will always pass.
+
+cc.compiles should work though. Is there a reason why it's not used
+instead of all the compile_prog checks in ./configure ?
+
+-j
+
+On Mon, Jan 25, 2021 at 12:04 AM Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> On 23/01/21 14:45, Peter Maydell wrote:
+> > On Sat, 23 Jan 2021 at 03:18, Joelle van Dyne <j@getutm.app> wrote:
+> > On Fri, Jan 22, 2021 at 3:17 PM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >>> Can we do the "does system() exist?" check in meson.build ?
+> >
+> >>> config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system'))
+> >
+> >> Unfortunately, this doesn't work for iOS, which defines system() but
+> >> throws a compile time error if you try to call it.
+> >
+> > That's odd -- as far as I can tell the meson implementation
+> > of has_function() does what I expected it to do, ie
+> > "try to compile and link a little program that uses the
+> > function, and see if it successfully links":
+> > https://github.com/mesonbuild/meson/blob/39ede12aa5b27376341df85bc9ec254913f044bd/mesonbuild/compilers/mixins/clike.py#L791
+> > There's some initial cleverness there too, so I guess some
+> > part of that must be what's tripping us up.
+> >
+> > In any case, I think we should be doing new checks in
+> > meson.build, not configure.  Paolo, what's the right
+> > way to do a meson "really compile this program and
+> > check it built" test?
+>
+> One possibility is that you have to specify the #include in the "prefix"
+> argument of cc.has_function for the test to behave as the QEMU code?
+>
+> If cc.has_function doesn't work, there's cc.compiles() and cc.links().
+>
+> Paolo
+>
 
