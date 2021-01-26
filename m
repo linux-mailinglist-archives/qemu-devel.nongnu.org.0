@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DC73040F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:53:51 +0100 (CET)
-Received: from localhost ([::1]:35144 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74953040D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:49:38 +0100 (CET)
+Received: from localhost ([::1]:49460 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Pj4-00042F-RL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:53:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46942)
+	id 1l4Pez-0006Xo-My
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:49:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46962)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDs-0000cD-ET
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45440)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDt-0000dF-6Z
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55331)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDk-0006Hl-RZ
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDp-0006LQ-41
  for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670888;
+ s=mimecast20190719; t=1611670892;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=nRqC4s10jkycvPt4J93XiUzxO7GZtvCvUaejSY6/48k=;
- b=cRs1z0KliDySPR5ZWCt3cdeBToKpepEvHswA58QfHJbkJBxOiXjCv43QWN7i0gaqI8GNCp
- pR73zODU1k4gOnDmIHUss8Q8IwzsmwGSYoym6X7y5Gph5T6h4vjuigsd4pUix2vMkAJ8Sc
- +ku2CNddHy0KZJW/OYQL0K9pCMpOtXM=
+ bh=lc5utZMvYxADvJCqpJc4/a5X8q+YDhMe72BYCGP0KQg=;
+ b=bUj8R8IAJOfT62ACc7WIJkOJL1AIYGf8gaPAeogtQXDwm5D3WDcNJHIdr/lgguLqnP0oNA
+ HWZjqcgnUkBnyKbWcUW6KidxQN0mzBg9S6lVqxYQbogxfy40d6w2T4yTdqhfBXgCWxzV8Y
+ euL1HFDT0QVYqLVvMmIstg1LxSgi42I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-HpxqmpmXNb2m_BTA2km1Jg-1; Tue, 26 Jan 2021 09:21:25 -0500
-X-MC-Unique: HpxqmpmXNb2m_BTA2km1Jg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-343-p99pGX-3N3WMerQL7iS8ZQ-1; Tue, 26 Jan 2021 09:21:28 -0500
+X-MC-Unique: p99pGX-3N3WMerQL7iS8ZQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C48F1180E46E;
- Tue, 26 Jan 2021 14:21:24 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 10EA08143E5;
+ Tue, 26 Jan 2021 14:21:27 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 60A0960871;
- Tue, 26 Jan 2021 14:21:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A840760C47;
+ Tue, 26 Jan 2021 14:21:26 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 29/53] block/block-copy: add max_chunk and max_workers
- parameters
-Date: Tue, 26 Jan 2021 15:19:52 +0100
-Message-Id: <20210126142016.806073-30-mreitz@redhat.com>
+Subject: [PULL 30/53] block/block-copy: add list of all call-states
+Date: Tue, 26 Jan 2021 15:19:53 +0100
+Message-Id: <20210126142016.806073-31-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,96 +83,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-They will be used for backup.
+It simplifies debugging.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210116214705.822267-5-vsementsov@virtuozzo.com>
+Message-Id: <20210116214705.822267-6-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block-copy.h |  6 ++++++
- block/block-copy.c         | 11 +++++++++--
- 2 files changed, 15 insertions(+), 2 deletions(-)
+ block/block-copy.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/include/block/block-copy.h b/include/block/block-copy.h
-index 8c225ebf81..22372aa375 100644
---- a/include/block/block-copy.h
-+++ b/include/block/block-copy.h
-@@ -49,9 +49,15 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
-  *
-  * Caller is responsible to call block_copy_call_free() to free
-  * BlockCopyCallState object.
-+ *
-+ * @max_workers means maximum of parallel coroutines to execute sub-requests,
-+ * must be > 0.
-+ *
-+ * @max_chunk means maximum length for one IO operation. Zero means unlimited.
-  */
- BlockCopyCallState *block_copy_async(BlockCopyState *s,
-                                      int64_t offset, int64_t bytes,
-+                                     int max_workers, int64_t max_chunk,
-                                      BlockCopyAsyncCallbackFunc cb,
-                                      void *cb_opaque);
- 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 74655b86f8..35213bd832 100644
+index 35213bd832..6bf1735b93 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -34,6 +34,8 @@ typedef struct BlockCopyCallState {
-     BlockCopyState *s;
-     int64_t offset;
-     int64_t bytes;
-+    int max_workers;
-+    int64_t max_chunk;
-     BlockCopyAsyncCallbackFunc cb;
-     void *cb_opaque;
+@@ -42,6 +42,9 @@ typedef struct BlockCopyCallState {
+     /* Coroutine where async block-copy is running */
+     Coroutine *co;
  
-@@ -148,10 +150,11 @@ static BlockCopyTask *block_copy_task_create(BlockCopyState *s,
-                                              int64_t offset, int64_t bytes)
- {
-     BlockCopyTask *task;
-+    int64_t max_chunk = MIN_NON_ZERO(s->copy_size, call_state->max_chunk);
++    /* To reference all call states from BlockCopyState */
++    QLIST_ENTRY(BlockCopyCallState) list;
++
+     /* State */
+     int ret;
+     bool finished;
+@@ -81,7 +84,8 @@ typedef struct BlockCopyState {
+     bool use_copy_range;
+     int64_t copy_size;
+     uint64_t len;
+-    QLIST_HEAD(, BlockCopyTask) tasks;
++    QLIST_HEAD(, BlockCopyTask) tasks; /* All tasks from all block-copy calls */
++    QLIST_HEAD(, BlockCopyCallState) calls;
  
-     if (!bdrv_dirty_bitmap_next_dirty_area(s->copy_bitmap,
-                                            offset, offset + bytes,
--                                           s->copy_size, &offset, &bytes))
-+                                           max_chunk, &offset, &bytes))
-     {
-         return NULL;
+     BdrvRequestFlags write_flags;
+ 
+@@ -282,6 +286,7 @@ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
      }
-@@ -623,7 +626,7 @@ block_copy_dirty_clusters(BlockCopyCallState *call_state)
-         bytes = end - offset;
  
-         if (!aio && bytes) {
--            aio = aio_task_pool_new(BLOCK_COPY_MAX_WORKERS);
-+            aio = aio_task_pool_new(call_state->max_workers);
-         }
+     QLIST_INIT(&s->tasks);
++    QLIST_INIT(&s->calls);
  
-         ret = block_copy_task_run(aio, task);
-@@ -701,6 +704,7 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
-         .s = s,
-         .offset = start,
-         .bytes = bytes,
-+        .max_workers = BLOCK_COPY_MAX_WORKERS,
-     };
- 
-     int ret = block_copy_common(&call_state);
-@@ -719,6 +723,7 @@ static void coroutine_fn block_copy_async_co_entry(void *opaque)
- 
- BlockCopyCallState *block_copy_async(BlockCopyState *s,
-                                      int64_t offset, int64_t bytes,
-+                                     int max_workers, int64_t max_chunk,
-                                      BlockCopyAsyncCallbackFunc cb,
-                                      void *cb_opaque)
+     return s;
+ }
+@@ -669,6 +674,8 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
  {
-@@ -728,6 +733,8 @@ BlockCopyCallState *block_copy_async(BlockCopyState *s,
-         .s = s,
-         .offset = offset,
-         .bytes = bytes,
-+        .max_workers = max_workers,
-+        .max_chunk = max_chunk,
-         .cb = cb,
-         .cb_opaque = cb_opaque,
+     int ret;
+ 
++    QLIST_INSERT_HEAD(&call_state->s->calls, call_state, list);
++
+     do {
+         ret = block_copy_dirty_clusters(call_state);
+ 
+@@ -694,6 +701,8 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+         call_state->cb(call_state->cb_opaque);
+     }
+ 
++    QLIST_REMOVE(call_state, list);
++
+     return ret;
+ }
  
 -- 
 2.29.2
