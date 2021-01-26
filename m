@@ -2,96 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 800DA303761
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:38:45 +0100 (CET)
-Received: from localhost ([::1]:45702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7BCC303778
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:49:30 +0100 (CET)
+Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Iw0-0004u1-K0
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:38:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53404)
+	id 1l4J6P-00043W-Td
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:49:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4IuL-0004RC-OM
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:37:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51961)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4IuK-00084l-1O
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:37:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611646616;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qq77+YRvB3jyIF9f7GjZX7uXRhB1u+/UeC87pC0XZgw=;
- b=OJL+2sLklMNZi/u4DCww2Ik52vOABrfH+7c8hoP32WvYBDWuYKM3xMBQyqpFtOqhjKyoS3
- ZP/5tW7a4FPLshyNhRr84oY6U0nRTRFmlFsTFXe3A6TcYGy4/3o15QTv39UWzB9LE5axor
- f/SMg3l8ngJGALrHkLe5sawL2rCahzU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-193-1NObnBsUPr219nM40w6Xag-1; Tue, 26 Jan 2021 02:36:55 -0500
-X-MC-Unique: 1NObnBsUPr219nM40w6Xag-1
-Received: by mail-ed1-f70.google.com with SMTP id a26so9017010edx.8
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 23:36:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=qq77+YRvB3jyIF9f7GjZX7uXRhB1u+/UeC87pC0XZgw=;
- b=Urx1i7xnVjpojq922qlZjfkpLLjxTt5WjEbevi8MF1s94g9S+SmzaQLdPk3wp1R6ym
- b7kjkTsGn/47KTP8uRQ5RPwj7JwUIYvxJOd5rxEIU3l4XMM6YrIMxvBXoExp2jgO40vG
- UOq9ot+COagQIzcMmAh2DUQ9dMKO7o7hFbBDS5KtbPxQ14yUcNoI+z/y62poYUy0SJv+
- /87D/8GzKnq6qDBOHndF3HxQF83yQ2gntmn9OGiucaITLvFDMF/cpsqwOj1IT7KIyg8f
- DnaUFxOosVLorTwvH8KW/JH+YRttZuNxXytCbZPma3AMtVpUIQoECMMF6wouUTANrn8N
- JUjA==
-X-Gm-Message-State: AOAM530aY8Go1/SxAbhe4EiuLCdgd2KNIBMpGCKkKxa111MTAXyR8/jt
- vbfc0WEmne5WN8TfIz8KMdttStpmtFMCc5Fq/Opshc5bGjUitd+hCY3Ih7lj1km1zPyfbxH7Uwo
- wiokLVndzFjN7QNc=
-X-Received: by 2002:a17:906:1f8b:: with SMTP id
- t11mr2641482ejr.224.1611646613879; 
- Mon, 25 Jan 2021 23:36:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxQqttLClTwRL+I9U+yfBXs4ozn/9W+6TL3+ZQR+1LkOXl+FydadW8ngGaUYpJQhXr5s2/57Q==
-X-Received: by 2002:a17:906:1f8b:: with SMTP id
- t11mr2641474ejr.224.1611646613711; 
- Mon, 25 Jan 2021 23:36:53 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id w17sm9368839ejk.124.2021.01.25.23.36.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 23:36:52 -0800 (PST)
-Subject: Re: [PATCH] gitlab-ci.yml: Avoid recompiling the sources in the test
- jobs
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210126065757.403853-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ed621c17-43e4-3ae4-2a5f-56fb8d054e3f@redhat.com>
-Date: Tue, 26 Jan 2021 08:36:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l4J2x-0001Y9-Ao
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:45:55 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47108)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l4J2t-0002fE-2U
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:45:55 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l4J2p-0003H1-JN
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:45:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 42F312E813C
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:45:47 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20210126065757.403853-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 26 Jan 2021 07:38:11 -0000
+From: Roman Bolshakov <1909256@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+ assignee=roolebo@gmail.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: pmaydell roolebo
+X-Launchpad-Bug-Reporter: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
+References: <160884296870.1780.12540070136312087397.malonedeb@soybean.canonical.com>
+Message-Id: <161164669213.32681.9713591253339318121.malone@chaenomeles.canonical.com>
+Subject: [Bug 1909256] Re: compile failure if gnutls headers not on default
+ include path
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 69a0f330f221231b08c7f0174b464c2256bfa134
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -100,60 +71,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Reply-To: Bug 1909256 <1909256@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 7:57 AM, Thomas Huth wrote:
-> Currently, our check-system-* jobs are recompiling the whole sources
-> again. This happens due to the fact that the jobs are checking out
-> the whole source tree and required submodules again, and only try
-> to use the "build" directory with the binaries and object files as an
-> artifact from the previous stage - which simply does not work right
-> anymore (with the current version of meson). Due to some changed
-> time stamps, meson/ninja are always trying to rebuild the whole tree.
-> 
-> In the long run, we could likely use "meson test --no-rebuild", but
-> there is still some work going on in that area to improve the user
-> experience. So until this has been done, simply avoid recompiling the
-> sources with a trick: pass NINJA=":" to the make process in the test
-> jobs. Also check out the submodules manually before updating the
-> timestamps in the build folder, so that the binaries are definitely
-> newer that all the source files.
-> This saves ca. 10 - 15 minutes of precious CI cycles in each run.
-> 
-> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.yml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-> index de3a3d25b5..16fea25ba9 100644
-> --- a/.gitlab-ci.yml
-> +++ b/.gitlab-ci.yml
-> @@ -38,9 +38,11 @@ include:
->    stage: test
->    image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->    script:
-> +    - scripts/git-submodule.sh update
-> +        $(grep GIT_SUBMODULES build/config-host.mak | sed 's/GIT_SUBMODULES=//')
->      - cd build
->      - find . -type f -exec touch {} +
-> -    - make $MAKE_CHECK_ARGS
-> +    - make NINJA=":" $MAKE_CHECK_ARGS
+The fix is committed in 3eacf70bb5a8.
 
-This ninja trick deserves a comment in the YAML file.
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+** Changed in: qemu
+     Assignee: (unassigned) =3D> Roman Bolshakov (roolebo)
 
->  
->  .acceptance_template: &acceptance_definition
->    cache:
-> 
+-- =
 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1909256
+
+Title:
+  compile failure if gnutls headers not on default include path
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  If the gnutls headers are not on the default compiler include path,
+  then configure correctly finds them and config-host.mak sets up the
+  variables:
+
+  GNUTLS_CFLAGS=3D-I/opt/homebrew/Cellar/gnutls/3.6.15/include -I/opt/homeb=
+rew/Cellar/nettle/3.6/include -I/opt/homebrew/Cellar/libtasn1/4.16.0/includ=
+e -I/opt/homebrew/Cellar/libidn2/2.3.0/include -I/opt/homebrew/Cellar/p11-k=
+it/0.23.22/include/p11-kit-1
+  GNUTLS_LIBS=3D-L/opt/homebrew/Cellar/gnutls/3.6.15/lib -lgnutls
+
+  but meson fails to put GNUTLS_CFLAGS in the compiler arguments and so
+  you get compile failures like:
+
+  [2/1865] Compiling C object qemu-nbd.p/qemu-nbd.c.o
+  FAILED: qemu-nbd.p/qemu-nbd.c.o =
+
+  cc -Iqemu-nbd.p -I. -I../.. -Iqapi -Itrace -Iui -Iui/shader -I/opt/homebr=
+ew/Cellar/glib/2.66.4/include -I/opt/homebrew/Cellar/glib/2.66.4/include/gl=
+ib-2.0 -I/opt/homebrew/Cellar/glib/2.66.4/lib/glib-2.0/include -I/opt/homeb=
+rew/opt/gettext/include -I/opt/homebrew/Cellar/pcre/8.44/include -Xclang -f=
+color-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -g -DOS_OBJECT_USE=
+_OBJC=3D0 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstri=
+ct-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototype=
+s -fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition -Wtype-li=
+mits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempt=
+y-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wno-initiali=
+zer-overrides -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-stri=
+ng-plus-int -Wno-typedef-redefinition -Wno-tautological-type-limit-compare =
+-fstack-protector-strong -iquote /Users/pm215/qemu/tcg/aarch64 -iquote . -i=
+quote /Users/pm215/qemu -iquote /Users/pm215/qemu/accel/tcg -iquote /Users/=
+pm215/qemu/include -iquote /Users/pm215/qemu/disas/libvixl -MD -MQ qemu-nbd=
+.p/qemu-nbd.c.o -MF qemu-nbd.p/qemu-nbd.c.o.d -o qemu-nbd.p/qemu-nbd.c.o -c=
+ ../../qemu-nbd.c
+  In file included from ../../qemu-nbd.c:30:
+  In file included from /Users/pm215/qemu/include/block/nbd.h:25:
+  /Users/pm215/qemu/include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/g=
+nutls.h' file not found
+  #include <gnutls/gnutls.h>
+           ^~~~~~~~~~~~~~~~~
+  1 error generated.
+
+  =
+
+  The compiler errors happen for any .c file that includes block/nbd.h and =
+also for files in tests that include gnutls.h directly, and for files that =
+directly or indirectly include crypto/tlssession.c.
+
+  My meson-foo is insufficient to suggest the correct fix...
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1909256/+subscriptions
 
