@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764C030406A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:35:39 +0100 (CET)
-Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F8A0304058
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:33:22 +0100 (CET)
+Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4PRS-0000Fh-I9
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:35:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46542)
+	id 1l4PPF-000652-7x
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:33:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDZ-000064-BS
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDZ-000076-SV
  for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60649)
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20038)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDQ-00067h-R9
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:16 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDQ-00068a-TG
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670866;
+ s=mimecast20190719; t=1611670868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gUQ20ql6ShadmhmheKzCZU4Llt1nLykVGW8nByQvVms=;
- b=FQlP0bdfw3y5HzA7V9oGCkoohmI3/Or13KrnY2JApYe9WChiCJC05+PLRW1hIhXEweKBf0
- Tr8ZdGa47CPXgvpArxjZKacL7Jndon/lQbcrG1nQoWIYFX8kM51Tc36lNBR9eLxI0Cq2x4
- kihvCr5neRCUnEjWFkPl12OiGx57Xuw=
+ bh=p/lN7PVX1EPmNE99v4jjgkzf3PASdskwXBHFKqZVScA=;
+ b=N6TMJclrxD8ihY9c8B4h19JzsWC7zstRS3Zit/ff+wizdah2HV19LQk1UyIhFviuumDKJ0
+ glPivUXg1Wp1Vp6IRVP2XqVoh3SXwvyKerE+FQ0JlIPGc4VVpJOYBAM5Gd4mvVmxR5H0Nv
+ TNZyzjqU2tFos0JVXxcr1qRNnVzSM5E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-234-xUrCRdbsMLiXoXPIaaThFQ-1; Tue, 26 Jan 2021 09:21:02 -0500
-X-MC-Unique: xUrCRdbsMLiXoXPIaaThFQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-227-nxORQpwjPd6KGOhG9xCL6g-1; Tue, 26 Jan 2021 09:21:03 -0500
+X-MC-Unique: nxORQpwjPd6KGOhG9xCL6g-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89A1E800592;
- Tue, 26 Jan 2021 14:20:41 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 650971005CAF;
+ Tue, 26 Jan 2021 14:20:48 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FB6510023AB;
- Tue, 26 Jan 2021 14:20:40 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E87245D9C2;
+ Tue, 26 Jan 2021 14:20:47 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 10/53] stream: rework backing-file changing
-Date: Tue, 26 Jan 2021 15:19:33 +0100
-Message-Id: <20210126142016.806073-11-mreitz@redhat.com>
+Subject: [PULL 13/53] block/stream: add s->target_bs
+Date: Tue, 26 Jan 2021 15:19:36 +0100
+Message-Id: <20210126142016.806073-14-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,116 +81,120 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Stream in stream_prepare calls bdrv_change_backing_file() to change
-backing-file in the metadata of bs.
+Add a direct link to target bs for convenience and to simplify
+following commit which will insert COR filter above target bs.
 
-It may use either backing-file parameter given by user or just take
-filename of base on job start.
+This is a part of original commit written by Andrey.
 
-Backing file format is determined by base on job finish.
-
-There are some problems with this design, we solve only two by this
-patch:
-
-1. Consider scenario with backing-file unset. Current concept of stream
-supports changing of the base during the job (we don't freeze link to
-the base). So, we should not save base filename at job start,
-
-  - let's determine name of the base on job finish.
-
-2. Using direct base to determine filename and format is not very good:
-base node may be a filter, so its filename may be JSON, and format_name
-is not good for storing into qcow2 metadata as backing file format.
-
-  - let's use unfiltered_base
-
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-  [vsementsov: change commit subject, change logic in stream_prepare]
-Message-Id: <20201216061703.70908-10-vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20201216061703.70908-13-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/stream.c | 9 +++++----
- blockdev.c     | 8 +-------
- 2 files changed, 6 insertions(+), 11 deletions(-)
+ block/stream.c | 23 ++++++++++-------------
+ 1 file changed, 10 insertions(+), 13 deletions(-)
 
 diff --git a/block/stream.c b/block/stream.c
-index 6e281c71ac..6a525a5edf 100644
+index 045d6bc76b..626dfa2b22 100644
 --- a/block/stream.c
 +++ b/block/stream.c
-@@ -65,6 +65,7 @@ static int stream_prepare(Job *job)
-     BlockDriverState *bs = blk_bs(bjob->blk);
-     BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+@@ -33,6 +33,7 @@ typedef struct StreamBlockJob {
+     BlockJob common;
+     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
+     BlockDriverState *above_base;   /* Node directly above the base */
++    BlockDriverState *target_bs;
+     BlockdevOnError on_error;
+     char *backing_file_str;
+     bool bs_read_only;
+@@ -53,23 +54,20 @@ static void stream_abort(Job *job)
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+ 
+     if (s->chain_frozen) {
+-        BlockJob *bjob = &s->common;
+-        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
++        bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
+     }
+ }
+ 
+ static int stream_prepare(Job *job)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+-    BlockJob *bjob = &s->common;
+-    BlockDriverState *bs = blk_bs(bjob->blk);
+-    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
++    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
      BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
-+    BlockDriverState *unfiltered_base = bdrv_skip_filters(base);
+     BlockDriverState *unfiltered_base = bdrv_skip_filters(base);
      Error *local_err = NULL;
      int ret = 0;
  
-@@ -73,10 +74,10 @@ static int stream_prepare(Job *job)
+-    bdrv_unfreeze_backing_chain(bs, s->above_base);
++    bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
+     s->chain_frozen = false;
  
      if (bdrv_cow_child(unfiltered_bs)) {
-         const char *base_id = NULL, *base_fmt = NULL;
--        if (base) {
--            base_id = s->backing_file_str;
--            if (base->drv) {
--                base_fmt = base->drv->format_name;
-+        if (unfiltered_base) {
-+            base_id = s->backing_file_str ?: unfiltered_base->filename;
-+            if (unfiltered_base->drv) {
-+                base_fmt = unfiltered_base->drv->format_name;
-             }
-         }
-         bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
-diff --git a/blockdev.c b/blockdev.c
-index e496356e10..8c03de582c 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2511,7 +2511,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-     BlockDriverState *base_bs = NULL;
-     AioContext *aio_context;
-     Error *local_err = NULL;
--    const char *base_name = NULL;
-     int job_flags = JOB_DEFAULT;
+@@ -95,13 +93,12 @@ static void stream_clean(Job *job)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+     BlockJob *bjob = &s->common;
+-    BlockDriverState *bs = blk_bs(bjob->blk);
  
-     if (!has_on_error) {
-@@ -2539,7 +2538,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-             goto out;
-         }
-         assert(bdrv_get_aio_context(base_bs) == aio_context);
--        base_name = base;
+     /* Reopen the image back in read-only mode if necessary */
+     if (s->bs_read_only) {
+         /* Give up write permissions before making it read-only */
+         blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
+-        bdrv_reopen_set_read_only(bs, true, NULL);
++        bdrv_reopen_set_read_only(s->target_bs, true, NULL);
      }
  
-     if (has_base_node) {
-@@ -2554,7 +2552,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         }
-         assert(bdrv_get_aio_context(base_bs) == aio_context);
-         bdrv_refresh_filename(base_bs);
--        base_name = base_bs->filename;
+     g_free(s->backing_file_str);
+@@ -111,8 +108,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+ {
+     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+     BlockBackend *blk = s->common.blk;
+-    BlockDriverState *bs = blk_bs(blk);
+-    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
++    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
+     bool enable_cor = !bdrv_cow_child(s->base_overlay);
+     int64_t len;
+     int64_t offset = 0;
+@@ -125,7 +121,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         return 0;
      }
  
-     /* Check for op blockers in the whole chain between bs and base */
-@@ -2574,9 +2571,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         goto out;
+-    len = bdrv_getlength(bs);
++    len = bdrv_getlength(s->target_bs);
+     if (len < 0) {
+         return len;
+     }
+@@ -137,7 +133,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+      * account.
+      */
+     if (enable_cor) {
+-        bdrv_enable_copy_on_read(bs);
++        bdrv_enable_copy_on_read(s->target_bs);
      }
  
--    /* backing_file string overrides base bs filename */
--    base_name = has_backing_file ? backing_file : base_name;
--
-     if (has_auto_finalize && !auto_finalize) {
-         job_flags |= JOB_MANUAL_FINALIZE;
-     }
-@@ -2584,7 +2578,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
-         job_flags |= JOB_MANUAL_DISMISS;
+     for ( ; offset < len; offset += n) {
+@@ -199,7 +195,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
      }
  
--    stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
-+    stream_start(has_job_id ? job_id : NULL, bs, base_bs, backing_file,
-                  job_flags, has_speed ? speed : 0, on_error,
-                  filter_node_name, &local_err);
-     if (local_err) {
+     if (enable_cor) {
+-        bdrv_disable_copy_on_read(bs);
++        bdrv_disable_copy_on_read(s->target_bs);
+     }
+ 
+     /* Do not remove the backing file if an error was there but ignored. */
+@@ -314,6 +310,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+     s->base_overlay = base_overlay;
+     s->above_base = above_base;
+     s->backing_file_str = g_strdup(backing_file_str);
++    s->target_bs = bs;
+     s->bs_read_only = bs_read_only;
+     s->chain_frozen = true;
+ 
 -- 
 2.29.2
 
