@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6517D30448D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:14:19 +0100 (CET)
-Received: from localhost ([::1]:53212 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73D993044F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:21:10 +0100 (CET)
+Received: from localhost ([::1]:38410 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Rv0-0002cz-ET
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:14:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34688)
+	id 1l4S1d-0000QV-Eh
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:21:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1l4RsE-0000qc-VO; Tue, 26 Jan 2021 12:11:26 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17084)
+ id 1l4RsK-00015w-Oy; Tue, 26 Jan 2021 12:11:32 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:1938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1l4RsC-0007BZ-Pj; Tue, 26 Jan 2021 12:11:26 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ id 1l4RsJ-0007DO-08; Tue, 26 Jan 2021 12:11:32 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
  by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10QH1dbM128401; Tue, 26 Jan 2021 12:11:09 -0500
-Received: from ppma02fra.de.ibm.com (47.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.71])
- by mx0a-001b2d01.pphosted.com with ESMTP id 36apmqs5dw-1
+ 10QH2uhG057303; Tue, 26 Jan 2021 12:11:11 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36aj4c1kdp-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jan 2021 12:11:09 -0500
-Received: from pps.filterd (ppma02fra.de.ibm.com [127.0.0.1])
- by ppma02fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10QGwd1U008951;
+ Tue, 26 Jan 2021 12:11:10 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10QGvehc025559;
  Tue, 26 Jan 2021 17:11:08 GMT
-Received: from b06cxnps4074.portsmouth.uk.ibm.com
- (d06relay11.portsmouth.uk.ibm.com [9.149.109.196])
- by ppma02fra.de.ibm.com with ESMTP id 368be89j46-1
+Received: from b06avi18878370.portsmouth.uk.ibm.com
+ (b06avi18878370.portsmouth.uk.ibm.com [9.149.26.194])
+ by ppma03fra.de.ibm.com with ESMTP id 368be89hvm-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jan 2021 17:11:07 +0000
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
- (b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
- by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10QHB55E44433744
+ Tue, 26 Jan 2021 17:11:08 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
+ [9.149.105.60])
+ by b06avi18878370.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP
+ id 10QHAw6D35127722
  (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jan 2021 17:11:05 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 53DF8A4054;
+ Tue, 26 Jan 2021 17:10:58 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F3CD042041;
  Tue, 26 Jan 2021 17:11:05 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 191C6A4066;
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id B95D74203F;
  Tue, 26 Jan 2021 17:11:05 +0000 (GMT)
 Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
- by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
  Tue, 26 Jan 2021 17:11:05 +0000 (GMT)
 Received: from yukon.ibmuc.com (sig-9-145-70-48.uk.ibm.com [9.145.70.48])
- by smtp.tlslab.ibm.com (Postfix) with ESMTP id 6223922010B;
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 0E84A22013C;
  Tue, 26 Jan 2021 18:11:04 +0100 (CET)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Subject: [PATCH 5/7] ppc/pnv: Discard internal BMC initialization when BMC is
- external
-Date: Tue, 26 Jan 2021 18:10:57 +0100
-Message-Id: <20210126171059.307867-6-clg@kaod.org>
+Subject: [PATCH 6/7] ppc/pnv: Remove default disablement of the PNOR contents
+Date: Tue, 26 Jan 2021 18:10:58 +0100
+Message-Id: <20210126171059.307867-7-clg@kaod.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210126171059.307867-1-clg@kaod.org>
 References: <20210126171059.307867-1-clg@kaod.org>
@@ -68,13 +67,13 @@ X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
  definitions=2021-01-26_09:2021-01-26,
  2021-01-26 signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- malwarescore=0 suspectscore=0 mlxlogscore=999 impostorscore=0
- clxscore=1034 spamscore=0 bulkscore=0 adultscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2009150000 definitions=main-2101260086
-Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
- helo=mx0b-001b2d01.pphosted.com
+ impostorscore=0 bulkscore=0
+ phishscore=0 mlxscore=0 spamscore=0 clxscore=1034 malwarescore=0
+ mlxlogscore=663 lowpriorityscore=0 suspectscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101260086
+Received-SPF: softfail client-ip=148.163.156.1; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -98,71 +97,53 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PowerNV machine can be run with an external IPMI BMC device
-connected to a remote QEMU machine acting as BMC, using these options :
+On PowerNV systems, the BMC is in charge of mapping the PNOR contents
+on the LPC FW address space using the HIOMAP protocol. Under QEMU, we
+emulate this behavior and we also add an extra control on the flash
+accesses by letting the HIOMAP command handler decide whether the
+memory region is accessible or not depending on the firmware requests.
 
-  -chardev socket,id=3Dipmi0,host=3Dlocalhost,port=3D9002,reconnect=3D10 =
-\
-  -device ipmi-bmc-extern,id=3Dbmc0,chardev=3Dipmi0 \
-  -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10 \
-  -nodefaults
+However, this behavior is not compatible with hostboot like firmwares
+which need this mapping to be always available. For this reason, the
+PNOR memory region is initially disabled for skiboot mode only.
 
-In that case, some aspects of the BMC initialization should be
-skipped, since they rely on the simulator interface.
+This is badly placed under the LPC model and requires the use of the
+machine. Since it doesn't add much, simply remove the initial setting.
+The extra control in the HIOMAP command handler will still be performed.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/pnv_bmc.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ hw/ppc/pnv_lpc.c | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-index 86d16b493539..b9bf5735ea0f 100644
---- a/hw/ppc/pnv_bmc.c
-+++ b/hw/ppc/pnv_bmc.c
-@@ -51,6 +51,11 @@ typedef struct OemSel {
- #define SOFT_OFF        0x00
- #define SOFT_REBOOT     0x01
+diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+index 590359022084..11739e397b27 100644
+--- a/hw/ppc/pnv_lpc.c
++++ b/hw/ppc/pnv_lpc.c
+@@ -825,7 +825,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
+l use_cpld, Error **errp)
+     qemu_irq *irqs;
+     qemu_irq_handler handler;
+     PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
+-    bool hostboot_mode =3D !!pnv->fw_load_addr;
 =20
-+static bool pnv_bmc_is_simulator(IPMIBmc *bmc)
-+{
-+    return object_dynamic_cast(OBJECT(bmc), TYPE_IPMI_BMC_SIMULATOR);
-+}
-+
- static void pnv_gen_oem_sel(IPMIBmc *bmc, uint8_t reboot)
- {
-     /* IPMI SEL Event are 16 bytes long */
-@@ -79,6 +84,10 @@ void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt)
-     const struct ipmi_sdr_compact *sdr;
-     uint16_t nextrec;
+     /* let isa_bus_new() create its own bridge on SysBus otherwise
+      * devices specified on the command line won't find the bus and
+@@ -856,13 +855,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bo=
+ol use_cpld, Error **errp)
+      */
+     memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
+                                 &pnv->pnor->mmio);
+-    /*
+-     * Start disabled. The HIOMAP protocol will activate the mapping
+-     * with HIOMAP_C_CREATE_WRITE_WINDOW
+-     */
+-    if (!hostboot_mode) {
+-        memory_region_set_enabled(&pnv->pnor->mmio, false);
+-    }
 =20
-+    if (!pnv_bmc_is_simulator(bmc)) {
-+        return;
-+    }
-+
-     offset =3D fdt_add_subnode(fdt, 0, "bmc");
-     _FDT(offset);
-=20
-@@ -243,6 +252,10 @@ static const IPMINetfn hiomap_netfn =3D {
-=20
- void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
- {
-+    if (!pnv_bmc_is_simulator(bmc)) {
-+        return;
-+    }
-+
-     object_ref(OBJECT(pnor));
-     object_property_add_const_link(OBJECT(bmc), "pnor", OBJECT(pnor));
-=20
-@@ -286,7 +299,7 @@ static int bmc_find(Object *child, void *opaque)
-=20
- IPMIBmc *pnv_bmc_find(Error **errp)
- {
--    ForeachArgs args =3D { TYPE_IPMI_BMC_SIMULATOR, NULL };
-+    ForeachArgs args =3D { TYPE_IPMI_BMC, NULL };
-     int ret;
-=20
-     ret =3D object_child_foreach_recursive(object_get_root(), bmc_find, =
-&args);
+     return isa_bus;
+ }
 --=20
 2.26.2
 
