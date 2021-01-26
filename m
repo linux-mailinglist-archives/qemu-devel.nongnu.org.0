@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B19E530377E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:51:06 +0100 (CET)
-Received: from localhost ([::1]:42868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8929303789
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:57:09 +0100 (CET)
+Received: from localhost ([::1]:46142 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4J7x-0007W7-P6
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:51:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54876)
+	id 1l4JDo-0000lV-HH
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:57:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1l4J5Y-0004Sv-1P
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:48:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54862)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1l4J5W-0003cN-8h
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:48:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611647313;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=hWxOxOvBlLzowF6Ed6XuaVAx01HHiInDIwqo1JHD9D8=;
- b=RiTJA9BrBTPJFCXImPhslW//AN+oEUC2PVovlzow5vMix+WHRqrWQgoTII3pbGPnFmnTR1
- g/OQYfqX6NBmBqbOvWKi8VvWdqx+/gdzIx6zvsEk8QgqFugQWPArZGgFRIhMJxdga7sANO
- byA82lCVVEacE3sZeNeqmsAdMc6FtaA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-416-FD7lngdhNvyTdn4sHLc52A-1; Tue, 26 Jan 2021 02:48:30 -0500
-X-MC-Unique: FD7lngdhNvyTdn4sHLc52A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A05D415727
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:48:29 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.40.193.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E996B1A890;
- Tue, 26 Jan 2021 07:48:28 +0000 (UTC)
-From: Michal Privoznik <mprivozn@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH RESEND] hostmem: Don't report pmem attribute if unsupported
-Date: Tue, 26 Jan 2021 08:48:25 +0100
-Message-Id: <dfcc5dc7e2efc0283bc38e3036da2c0323621cdb.1611647111.git.mprivozn@redhat.com>
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4J7H-0006u8-B0; Tue, 26 Jan 2021 02:50:23 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:47263)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4J7E-0004CH-OG; Tue, 26 Jan 2021 02:50:22 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 95ACE580917;
+ Tue, 26 Jan 2021 02:50:17 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 26 Jan 2021 02:50:17 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=BRB6hu+G/DOrRW0T9MPflNz2l2d
+ YXGMf9KpXR4dTeLM=; b=QO9tJpj5N6vqTEo/IT3xTU+mvN/qAJnwy/p0FvgAzle
+ G89zWz/2i+xi9zDKkBaa+PqrXGvquWLbfpV+CuPIhErjkW4Oi1uufeTClKvbLwxB
+ YgwT2+JVVJ0eqTGGOz533Jh+sCfHXxXsB5w4C7M9Vww7hqCuqzLHN9Gc1STl+gTk
+ IPNekwARdtKs6U/9p9WfRZH4k2NuRnjhydzjiJdEtLLtJ50SnwW+2w8lbqLdaBMd
+ R6M1nh8MRNhmRMHOWrRr9r2RNXOuUYHtaquPDs4ZislmKbOZdA05yVwNTPI6P1XN
+ 7jWAhOMNhY+CrwNywxo8nWASxTxCYM32qxE8A5qYVVg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=BRB6hu
+ +G/DOrRW0T9MPflNz2l2dYXGMf9KpXR4dTeLM=; b=NKzUk02NO90fKPALEY/MzW
+ wEbGvlGGHJxK/CJT2PZr+ojdlWd6iy4Y65SiOuu0ie65b998CGxOeDkOE1p4DOUa
+ fnAyJ9Lu4owJIJsHbCBBYpTpPaMn92EDtBdGSyxPC2bBDa784OLIkCijGcwVBhSF
+ 4Mpc5B6gBccaE+nNxTZOkiojzs4Mj8X+CYkv8jKNmhCV6RboB/qwOymoFZOFa+nH
+ 8yxIhFf+RVi99OM8KjHN02a3RzucWioSUUgGLePJueOrYiIQdIeFHdQmxs7SP+P6
+ guAPQshuR3oN5k/xhRnfmOCfjDRtlgKGRwjsADg69onrJ9I6hFc2G/EmBMMKw6hA
+ ==
+X-ME-Sender: <xms:uMkPYGu1O9ejFOhraOMovNPtW8RRSLXIL49zsym8q4QDZj_ns6j3iw>
+ <xme:uMkPYLd8BJqf60QvL9EqG4chMw7DASIf4MblbTRYOUPSq2PH-F3Nd1rxG_KplRtsb
+ n6QrMyZPsaBQYK7FP0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeggddutdekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:uMkPYBzcCT5c6fs48-xmWMliFA4rwknuG0h5axhuMY17As9qpG3BCA>
+ <xmx:uMkPYBNMp7x8ecI2QxlLd-wP0KVV2sLULVC9Q_BnCaBGecP2k9jgzQ>
+ <xmx:uMkPYG86XHmqTQX8IKL3rE7I0CLUEvnUQkbKOLj689jTvrmAhK2maQ>
+ <xmx:uckPYKQDmEgKUr7etDEZIsjFG6O1tJi6_I_IDjhqS_uoIkCqw4JD1w>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 7BB4F1080063;
+ Tue, 26 Jan 2021 02:50:15 -0500 (EST)
+Date: Tue, 26 Jan 2021 08:50:13 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH 1/3] hw/block/nvme: Check for zone boundary during append
+Message-ID: <YA/JtQ3LfNKAlkhM@apples.localdomain>
+References: <20210126050248.9077-1-dmitry.fomichev@wdc.com>
+ <20210126050248.9077-2-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="5E/MpDSYWHPUNPy4"
+Content-Disposition: inline
+In-Reply-To: <20210126050248.9077-2-dmitry.fomichev@wdc.com>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -75,76 +94,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When management applications (like Libvirt) want to check whether
-memory-backend-file.pmem is supported they can list object
-properties using 'qom-list-properties'. However, 'pmem' is
-declared always (and thus reported always) and only at runtime
-QEMU errors out if it was built without libpmem (and thus can not
-guarantee write persistence). This is suboptimal since we have
-ability to declare attributes at compile time.
 
-Resolves: https://bugzilla.redhat.com/show_bug.cgi?id=1915216
-Signed-off-by: Michal Privoznik <mprivozn@redhat.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Tested-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
----
+--5E/MpDSYWHPUNPy4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This is just a resend of a patch I've sent earlier with Reviewed-by and
-Tested-by added:
+On Jan 26 14:02, Dmitry Fomichev wrote:
+> It is observed that with the existing code it is possible to keep
+> appending to a zone indefinitely. To fix, add the missing check to
+> verify that the zone append is not going to write beyond zone capacity.
+>=20
+> Reported-by: Niklas Cassel <niklas.cassel@wdc.com>
+> Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+> ---
+>  hw/block/nvme.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index f64676a930..67538010ef 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -1135,9 +1135,10 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n,=
+ NvmeNamespace *ns,
+>                                        NvmeZone *zone, uint64_t slba,
+>                                        uint32_t nlb, bool append)
+>  {
+> +    uint64_t bndry =3D nvme_zone_wr_boundary(zone);
+>      uint16_t status;
+> =20
+> -    if (unlikely((slba + nlb) > nvme_zone_wr_boundary(zone))) {
+> +    if (unlikely(slba + nlb > bndry)) {
+>          status =3D NVME_ZONE_BOUNDARY_ERROR;
+>      } else {
+>          status =3D nvme_check_zone_state_for_write(zone);
+> @@ -1151,8 +1152,9 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n, =
+NvmeNamespace *ns,
+>              if (unlikely(slba !=3D zone->d.zslba)) {
+>                  trace_pci_nvme_err_append_not_at_start(slba, zone->d.zsl=
+ba);
+>                  status =3D NVME_INVALID_FIELD;
+> -            }
+> -            if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
+> +            } else if (unlikely(zone->w_ptr + nlb > bndry)) {
+> +                status =3D NVME_ZONE_BOUNDARY_ERROR;
 
-https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg04558.html
+Now, for appends, you are just checking the boundary condition twice.
+And the first one will be moot for appends anyway.
 
- backends/hostmem-file.c | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+> +            } else if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
+>                  trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl);
+>                  status =3D NVME_INVALID_FIELD;
+>              }
+> --=20
+> 2.28.0
+>=20
+>=20
 
-diff --git a/backends/hostmem-file.c b/backends/hostmem-file.c
-index 40e1e5b3e3..7e30eb5985 100644
---- a/backends/hostmem-file.c
-+++ b/backends/hostmem-file.c
-@@ -123,6 +123,7 @@ static void file_memory_backend_set_align(Object *o, Visitor *v,
-     fb->align = val;
- }
- 
-+#ifdef CONFIG_LIBPMEM
- static bool file_memory_backend_get_pmem(Object *o, Error **errp)
- {
-     return MEMORY_BACKEND_FILE(o)->is_pmem;
-@@ -139,17 +140,9 @@ static void file_memory_backend_set_pmem(Object *o, bool value, Error **errp)
-         return;
-     }
- 
--#ifndef CONFIG_LIBPMEM
--    if (value) {
--        error_setg(errp, "Lack of libpmem support while setting the 'pmem=on'"
--                   " of %s. We can't ensure data persistence.",
--                   object_get_typename(o));
--        return;
--    }
--#endif
--
-     fb->is_pmem = value;
- }
-+#endif /* CONFIG_LIBPMEM */
- 
- static void file_backend_unparent(Object *obj)
- {
-@@ -180,8 +173,10 @@ file_backend_class_init(ObjectClass *oc, void *data)
-         file_memory_backend_get_align,
-         file_memory_backend_set_align,
-         NULL, NULL);
-+#ifdef CONFIG_LIBPMEM
-     object_class_property_add_bool(oc, "pmem",
-         file_memory_backend_get_pmem, file_memory_backend_set_pmem);
-+#endif
- }
- 
- static void file_backend_instance_finalize(Object *o)
--- 
-2.26.2
+--5E/MpDSYWHPUNPy4
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAPybQACgkQTeGvMW1P
+DenqQwgAp1N6jm0Zrq1gYEPbFkcuKvxpLiRkAOIEA0XlUxd8K4WSfqzctRxmd35Y
+IlbuYzPYHuNCQterABDGN/Z+h84pEIHXlOGDs/n0QMAM4ys3va6s5mSlOkFBUBZR
+K3Yffl8d5+2dDvNEeZc9Y33/EIREAy9kK1DKUynxOfj1eUh5c+7ViCCFvF30lVHd
+0lFEcW5Tx8ZOLl3E03wGl5U82CuqkU2Pj7+LFUHAQpD1dsVWOLzidgtGi9+2S9W3
+CrAM7EVAVCeh6yV7VejyJGdZlNKxnHv8nKRCekprKxLGL23MlsK8zz38SHgGkPaY
+RjEOL/PwAx3v2WH+M0x10Aw/jFd31w==
+=W1Mo
+-----END PGP SIGNATURE-----
+
+--5E/MpDSYWHPUNPy4--
 
