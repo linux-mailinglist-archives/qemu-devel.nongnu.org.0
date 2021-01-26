@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8A0304058
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:33:22 +0100 (CET)
-Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB4AD30409A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:39:57 +0100 (CET)
+Received: from localhost ([::1]:55790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4PPF-000652-7x
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:33:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46552)
+	id 1l4PVc-000510-C5
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:39:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDZ-000076-SV
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20038)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDe-0000I4-4E
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50674)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDQ-00068a-TG
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:17 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDU-000694-Uc
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670868;
+ s=mimecast20190719; t=1611670870;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p/lN7PVX1EPmNE99v4jjgkzf3PASdskwXBHFKqZVScA=;
- b=N6TMJclrxD8ihY9c8B4h19JzsWC7zstRS3Zit/ff+wizdah2HV19LQk1UyIhFviuumDKJ0
- glPivUXg1Wp1Vp6IRVP2XqVoh3SXwvyKerE+FQ0JlIPGc4VVpJOYBAM5Gd4mvVmxR5H0Nv
- TNZyzjqU2tFos0JVXxcr1qRNnVzSM5E=
+ bh=M03fhKs8+7gwOCLOFfDh8olykNfKXkilvJk7a2xvxh4=;
+ b=XPf/kcmyL5QUko9PLqzD7G+bMtS7oo6xRmAYUifs6X0MWCc/PtNdGELh2YGvpbDEZJCiT7
+ pDACBFylCt6XS7EbGVaDEw6xaPginwU8xq/8H/Y9cMjSCV+JDYTx/R8d5Dis5yNsn4bwiK
+ Av15WRqrzHAbGymgwvQAtd2dENq7z1c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-227-nxORQpwjPd6KGOhG9xCL6g-1; Tue, 26 Jan 2021 09:21:03 -0500
-X-MC-Unique: nxORQpwjPd6KGOhG9xCL6g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-438-squKQKa7PJaUdojaTAhPTA-1; Tue, 26 Jan 2021 09:21:08 -0500
+X-MC-Unique: squKQKa7PJaUdojaTAhPTA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 650971005CAF;
- Tue, 26 Jan 2021 14:20:48 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28D7E195D58F;
+ Tue, 26 Jan 2021 14:20:53 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E87245D9C2;
- Tue, 26 Jan 2021 14:20:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B35A762A24;
+ Tue, 26 Jan 2021 14:20:52 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 13/53] block/stream: add s->target_bs
-Date: Tue, 26 Jan 2021 15:19:36 +0100
-Message-Id: <20210126142016.806073-14-mreitz@redhat.com>
+Subject: [PULL 15/53] iotests.py: Assume a couple of variables as given
+Date: Tue, 26 Jan 2021 15:19:38 +0100
+Message-Id: <20210126142016.806073-16-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,120 +81,89 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+There are a couple of environment variables that we fetch with
+os.environ.get() without supplying a default.  Clearly they are required
+and expected to be set by the ./check script (as evidenced by
+execute_setup_common(), which checks for test_dir and
+qemu_default_machine to be set, and aborts if they are not).
 
-Add a direct link to target bs for convenience and to simplify
-following commit which will insert COR filter above target bs.
+Using .get() this way has the disadvantage of returning an Optional[str]
+type, which mypy will complain about when tests just assume these values
+to be str.
 
-This is a part of original commit written by Andrey.
+Use [] instead, which raises a KeyError for environment variables that
+are not set.  When this exception is raised, catch it and move the abort
+code from execute_setup_common() there.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20201216061703.70908-13-vsementsov@virtuozzo.com>
+Drop the 'assert iotests.sock_dir is not None' from iotest 300, because
+that sort of thing is precisely what this patch wants to prevent.
+
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Willian Rampazzo <willianr@redhat.com>
+Message-Id: <20210118105720.14824-2-mreitz@redhat.com>
 ---
- block/stream.c | 23 ++++++++++-------------
- 1 file changed, 10 insertions(+), 13 deletions(-)
+ tests/qemu-iotests/300        |  1 -
+ tests/qemu-iotests/iotests.py | 26 +++++++++++++-------------
+ 2 files changed, 13 insertions(+), 14 deletions(-)
 
-diff --git a/block/stream.c b/block/stream.c
-index 045d6bc76b..626dfa2b22 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -33,6 +33,7 @@ typedef struct StreamBlockJob {
-     BlockJob common;
-     BlockDriverState *base_overlay; /* COW overlay (stream from this) */
-     BlockDriverState *above_base;   /* Node directly above the base */
-+    BlockDriverState *target_bs;
-     BlockdevOnError on_error;
-     char *backing_file_str;
-     bool bs_read_only;
-@@ -53,23 +54,20 @@ static void stream_abort(Job *job)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
+diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
+index 23aca59d9c..38ef5945b7 100755
+--- a/tests/qemu-iotests/300
++++ b/tests/qemu-iotests/300
+@@ -28,7 +28,6 @@ import qemu
  
-     if (s->chain_frozen) {
--        BlockJob *bjob = &s->common;
--        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->above_base);
-+        bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
-     }
- }
+ BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
  
- static int stream_prepare(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
--    BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
--    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
-     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
-     BlockDriverState *unfiltered_base = bdrv_skip_filters(base);
-     Error *local_err = NULL;
-     int ret = 0;
+-assert iotests.sock_dir is not None
+ mig_sock = os.path.join(iotests.sock_dir, 'mig_sock')
  
--    bdrv_unfreeze_backing_chain(bs, s->above_base);
-+    bdrv_unfreeze_backing_chain(s->target_bs, s->above_base);
-     s->chain_frozen = false;
  
-     if (bdrv_cow_child(unfiltered_bs)) {
-@@ -95,13 +93,12 @@ static void stream_clean(Job *job)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockJob *bjob = &s->common;
--    BlockDriverState *bs = blk_bs(bjob->blk);
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+index 2e89c0ab1a..45cb9bd288 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -75,12 +75,20 @@ qemu_opts = os.environ.get('QEMU_OPTIONS', '').strip().split(' ')
  
-     /* Reopen the image back in read-only mode if necessary */
-     if (s->bs_read_only) {
-         /* Give up write permissions before making it read-only */
-         blk_set_perm(bjob->blk, 0, BLK_PERM_ALL, &error_abort);
--        bdrv_reopen_set_read_only(bs, true, NULL);
-+        bdrv_reopen_set_read_only(s->target_bs, true, NULL);
-     }
+ imgfmt = os.environ.get('IMGFMT', 'raw')
+ imgproto = os.environ.get('IMGPROTO', 'file')
+-test_dir = os.environ.get('TEST_DIR')
+-sock_dir = os.environ.get('SOCK_DIR')
+ output_dir = os.environ.get('OUTPUT_DIR', '.')
+-cachemode = os.environ.get('CACHEMODE')
+-aiomode = os.environ.get('AIOMODE')
+-qemu_default_machine = os.environ.get('QEMU_DEFAULT_MACHINE')
++
++try:
++    test_dir = os.environ['TEST_DIR']
++    sock_dir = os.environ['SOCK_DIR']
++    cachemode = os.environ['CACHEMODE']
++    aiomode = os.environ['AIOMODE']
++    qemu_default_machine = os.environ['QEMU_DEFAULT_MACHINE']
++except KeyError:
++    # We are using these variables as proxies to indicate that we're
++    # not being run via "check". There may be other things set up by
++    # "check" that individual test cases rely on.
++    sys.stderr.write('Please run this test via the "check" script\n')
++    sys.exit(os.EX_USAGE)
  
-     g_free(s->backing_file_str);
-@@ -111,8 +108,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
- {
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockBackend *blk = s->common.blk;
--    BlockDriverState *bs = blk_bs(blk);
--    BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
-+    BlockDriverState *unfiltered_bs = bdrv_skip_filters(s->target_bs);
-     bool enable_cor = !bdrv_cow_child(s->base_overlay);
-     int64_t len;
-     int64_t offset = 0;
-@@ -125,7 +121,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         return 0;
-     }
+ socket_scm_helper = os.environ.get('SOCKET_SCM_HELPER', 'socket_scm_helper')
  
--    len = bdrv_getlength(bs);
-+    len = bdrv_getlength(s->target_bs);
-     if (len < 0) {
-         return len;
-     }
-@@ -137,7 +133,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-      * account.
-      */
-     if (enable_cor) {
--        bdrv_enable_copy_on_read(bs);
-+        bdrv_enable_copy_on_read(s->target_bs);
-     }
+@@ -1286,14 +1294,6 @@ def execute_setup_common(supported_fmts: Sequence[str] = (),
+     """
+     # Note: Python 3.6 and pylint do not like 'Collection' so use 'Sequence'.
  
-     for ( ; offset < len; offset += n) {
-@@ -199,7 +195,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-     }
- 
-     if (enable_cor) {
--        bdrv_disable_copy_on_read(bs);
-+        bdrv_disable_copy_on_read(s->target_bs);
-     }
- 
-     /* Do not remove the backing file if an error was there but ignored. */
-@@ -314,6 +310,7 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-     s->base_overlay = base_overlay;
-     s->above_base = above_base;
-     s->backing_file_str = g_strdup(backing_file_str);
-+    s->target_bs = bs;
-     s->bs_read_only = bs_read_only;
-     s->chain_frozen = true;
- 
+-    # We are using TEST_DIR and QEMU_DEFAULT_MACHINE as proxies to
+-    # indicate that we're not being run via "check". There may be
+-    # other things set up by "check" that individual test cases rely
+-    # on.
+-    if test_dir is None or qemu_default_machine is None:
+-        sys.stderr.write('Please run this test via the "check" script\n')
+-        sys.exit(os.EX_USAGE)
+-
+     debug = '-d' in sys.argv
+     if debug:
+         sys.argv.remove('-d')
 -- 
 2.29.2
 
