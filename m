@@ -2,116 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DC9C303BB4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:34:11 +0100 (CET)
-Received: from localhost ([::1]:51196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3A4A303BCF
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:39:52 +0100 (CET)
+Received: from localhost ([::1]:35490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Mbq-00023M-FG
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:34:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38278)
+	id 1l4MhL-0007Jj-QJ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:39:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1l4MZ8-0000Ri-Kq
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:31:22 -0500
-Received: from mail-bn8nam12on2066.outbound.protection.outlook.com
- ([40.107.237.66]:24033 helo=NAM12-BN8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4MTz-0003mA-E3
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:26:03 -0500
+Received: from kerio.kamp.de ([195.62.97.192]:33559)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <edgar@xilinx.com>) id 1l4MZ5-0004l5-7p
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:31:21 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nsvc13QlncraVki+8BM0iDhbJtfDG4VOZnBczt7oWngTLk/shtCr1N3thBz7CEMu7QHKuKK48mJj9eO5JDnbjgWF//Dt9q85CnUW7XDwxRATtnq/oQhZ9vaV9hmjdNbryOmJEdeN2gCQIe7YsxIIf7wpF9sTrlonH/EgllW3jZP7NRyg9cU4cOO7DAkRXIdRqxvpX1Z4ajOEFLS6BgZPQhWsRIZ88OxB8IgEbEBLnI3wvhkcYWzjjvPAZIZ9SSnyaVgqU0A8uWXV+k2Omdb3sRXv+tl6Uqmbg3KKXcACWo1W1Vad6fIbv982qgCEjeuZyYmPDI/mBlBECh4ZqF5tTw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ao1X1cc/9UKLqmnB3BAQ7ng+hgdcA+/r2THeAVQN59g=;
- b=EIlOSK5323Q8XC0q87asKcB6yD1zI5HgMzWntTVELg7RCug/lnBPgh3yG9b3c8sOXtBmLGKrxIik1UytFHXW3KVneEsfQbi3grdjPD6sfdE+k13bD7O71gVYQTRAAN+2TUelCQO1E6IMYp74WDD1TtJauw70nZrZuxKhOlRW6XnYIsjsjXgwE2DL/qPMaNfx/DJsGOyc4dPRxLDhkMZk0kaodhC9xAK8g4CJP/I8wELDM7qSI0bvuLka10BparaXnWG9GQxRqF92GkKGHgHlTu15v1YAbs1mVgrhRdto6kUd4GcqQk/wodJW1imlj3vvjY2lffssWu+z5pJn/WGBIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=nongnu.org smtp.mailfrom=xilinx.com;
- dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
- not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ao1X1cc/9UKLqmnB3BAQ7ng+hgdcA+/r2THeAVQN59g=;
- b=cXKdXS5xft/ON0t6ZLBZX+lIHer4KLbcKCV67J7R58ANKKvmmRj7zq0BZJVSLwcHP2YwaCvVvu3I7OK4CLfJTGJnHUE+o+CbMFQJwzSoS3z4lUm3NCWAUf2lFuvhYrW0opjk6P2FmlElBtOzt4cqrwYB5lXy+AP7bCsN2DKTUSw=
-Received: from SN6PR04CA0081.namprd04.prod.outlook.com (2603:10b6:805:f2::22)
- by MWHPR02MB2589.namprd02.prod.outlook.com (2603:10b6:300:4a::14)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.15; Tue, 26 Jan
- 2021 11:16:12 +0000
-Received: from SN1NAM02FT018.eop-nam02.prod.protection.outlook.com
- (2603:10b6:805:f2:cafe::7c) by SN6PR04CA0081.outlook.office365.com
- (2603:10b6:805:f2::22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.14 via Frontend
- Transport; Tue, 26 Jan 2021 11:16:12 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch02.xlnx.xilinx.com;
-Received: from xsj-pvapexch02.xlnx.xilinx.com (149.199.62.198) by
- SN1NAM02FT018.mail.protection.outlook.com (10.152.72.122) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3784.12 via Frontend Transport; Tue, 26 Jan 2021 11:16:11 +0000
-Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Tue, 26 Jan 2021 03:16:11 -0800
-Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Tue, 26 Jan 2021 03:16:10 -0800
-Received: from [10.71.117.86] (port=52851 helo=localhost)
- by smtp.xilinx.com with esmtp (Exim 4.90)
- (envelope-from <edgar@xilinx.com>)
- id 1l4MKQ-0002cd-ID; Tue, 26 Jan 2021 03:16:10 -0800
-Date: Tue, 26 Jan 2021 12:16:16 +0100
-From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
-To: Joe Komlodi <joe.komlodi@xilinx.com>
-Subject: Re: [PATCH v1 1/3] target/microblaze: Add use-non-secure property
-Message-ID: <20210126111616.GF10562@toto>
-References: <1611274735-303873-1-git-send-email-komlodi@xilinx.com>
- <1611274735-303873-2-git-send-email-komlodi@xilinx.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <1611274735-303873-2-git-send-email-komlodi@xilinx.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 71781de2-1535-4376-7d69-08d8c1ebc9a2
-X-MS-TrafficTypeDiagnostic: MWHPR02MB2589:
-X-Microsoft-Antispam-PRVS: <MWHPR02MB258928AE4151B0C020903A19C2BC9@MWHPR02MB2589.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nQKSUkJ7OevmyCkJa3f2R9eSz2siSwJ3wkH4GqotKhxsb66FFbtt/M3V2FY1ZtS7YsCnIn54VP/TYCc+qWeVrd56VfZgLHbi3amapIPMbEGLIFMofh2bcyMJLtArP2VxQ33qKAix0kvwO7Uw4IOkERIqQq3Qwj2m+UPiWQlvp0q0NT5Xt4utmL7rtcPjD122u5f9uSfzm0QjpAUDitV1P5YTDn5b8ICR6q7n0PMCsd1mxFUDmuWF8FpUfGyQ76G7uT7h6D/342I1njGBfs0lC0M47AomTOseiFfxZdBmc+h0tNCUx6FK5WMeaXf+n5cpdXyZ+kdehAkJnXWDzqDGP6rhjEa95r9l1DAdzR8OVrpkvMF/84zNTYcUfI0OfKxST9fzA1LhVHEe1jwDSq+NYDw/lXXXhLlr8fN/EC+hl2uwBy2+M9wRXSY28A5mYMG5cbiAaJlC/vVzZKbbYwD3j7gdKDozVlzUZD9L3yjwYoL8CA24niRyZ/xJ63WhvK3fFl3N0eoHsS2C2/+e4+JOTf8D6pkrVSrqBqjnK+GzhDg=
-X-Forefront-Antispam-Report: CIP:149.199.62.198; CTRY:US; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:xsj-pvapexch02.xlnx.xilinx.com;
- PTR:unknown-62-198.xilinx.com; CAT:NONE;
- SFS:(7916004)(4636009)(396003)(136003)(376002)(346002)(39860400002)(46966006)(82310400003)(9686003)(70586007)(4326008)(356005)(8676002)(5660300002)(70206006)(107886003)(1076003)(54906003)(2906002)(478600001)(47076005)(426003)(83380400001)(33716001)(6862004)(186003)(82740400003)(316002)(966005)(336012)(9786002)(8936002)(6636002)(33656002)(26005)(7636003)(36906005);
- DIR:OUT; SFP:1101; 
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 11:16:11.6470 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 71781de2-1535-4376-7d69-08d8c1ebc9a2
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c; Ip=[149.199.62.198];
- Helo=[xsj-pvapexch02.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT018.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MWHPR02MB2589
-Received-SPF: pass client-ip=40.107.237.66; envelope-from=edgar@xilinx.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4MTo-0002x5-OO
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:26:03 -0500
+X-Footer: a2FtcC5kZQ==
+Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:25:44 +0100
+Received: (qmail 32743 invoked from network); 26 Jan 2021 11:25:47 -0000
+Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
+ (relay@kamp.de@::ffff:172.21.12.60)
+ by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
+ 26 Jan 2021 11:25:47 -0000
+Received: by lieven-pc (Postfix, from userid 1060)
+ id CA8FC13D87D; Tue, 26 Jan 2021 12:25:47 +0100 (CET)
+From: Peter Lieven <pl@kamp.de>
+To: qemu-block@nongnu.org
+Subject: [PATCH V2 1/7] block/rbd: bump librbd requirement to luminous release
+Date: Tue, 26 Jan 2021 12:25:34 +0100
+Message-Id: <20210126112540.11880-2-pl@kamp.de>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210126112540.11880-1-pl@kamp.de>
+References: <20210126112540.11880-1-pl@kamp.de>
+Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
+ helo=kerio.kamp.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -124,146 +55,311 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: edgari@xilinx.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
+ ct@flyingcircus.io, pbonzini@redhat.com, mreitz@redhat.com,
+ dillaman@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 21, 2021 at 04:18:53PM -0800, Joe Komlodi wrote:
-> This property is used to control the security of the following interfaces
-> on MicroBlaze:
-> M_AXI_DP - data interface
-> M_AXI_IP - instruction interface
-> M_AXI_DC - dcache interface
-> M_AXI_IC - icache interface
-> 
-> It works by enabling or disabling the use of the non_secure[3:0] signals.
-> 
-> Interfaces and their corresponding values are taken from:
-> https://www.xilinx.com/support/documentation/sw_manuals/xilinx2020_2/ug984-vivado-microblaze-ref.pdf
-> page 153.
+even luminous (version 12.2) is unmaintained for over 3 years now.
+Bump the requirement to get rid of the ifdef'ry in the code.
 
-Thanks Joe!
+Signed-off-by: Peter Lieven <pl@kamp.de>
+---
+ block/rbd.c | 120 ++++------------------------------------------------
+ meson.build |  13 ++++--
+ 2 files changed, 17 insertions(+), 116 deletions(-)
 
-Reviewed-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
-Tested-by: Edgar E. Iglesias <edgar.iglesias@xilinx.com>
+diff --git a/block/rbd.c b/block/rbd.c
+index 9071a00e3f..a191c74619 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -55,24 +55,10 @@
+  * leading "\".
+  */
+ 
+-/* rbd_aio_discard added in 0.1.2 */
+-#if LIBRBD_VERSION_CODE >= LIBRBD_VERSION(0, 1, 2)
+-#define LIBRBD_SUPPORTS_DISCARD
+-#else
+-#undef LIBRBD_SUPPORTS_DISCARD
+-#endif
+-
+ #define OBJ_MAX_SIZE (1UL << OBJ_DEFAULT_OBJ_ORDER)
+ 
+ #define RBD_MAX_SNAPS 100
+ 
+-/* The LIBRBD_SUPPORTS_IOVEC is defined in librbd.h */
+-#ifdef LIBRBD_SUPPORTS_IOVEC
+-#define LIBRBD_USE_IOVEC 1
+-#else
+-#define LIBRBD_USE_IOVEC 0
+-#endif
+-
+ typedef enum {
+     RBD_AIO_READ,
+     RBD_AIO_WRITE,
+@@ -84,7 +70,6 @@ typedef struct RBDAIOCB {
+     BlockAIOCB common;
+     int64_t ret;
+     QEMUIOVector *qiov;
+-    char *bounce;
+     RBDAIOCmd cmd;
+     int error;
+     struct BDRVRBDState *s;
+@@ -94,7 +79,6 @@ typedef struct RADOSCB {
+     RBDAIOCB *acb;
+     struct BDRVRBDState *s;
+     int64_t size;
+-    char *buf;
+     int64_t ret;
+ } RADOSCB;
+ 
+@@ -332,13 +316,9 @@ static int qemu_rbd_set_keypairs(rados_t cluster, const char *keypairs_json,
+ 
+ static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
+ {
+-    if (LIBRBD_USE_IOVEC) {
+-        RBDAIOCB *acb = rcb->acb;
+-        iov_memset(acb->qiov->iov, acb->qiov->niov, offs, 0,
+-                   acb->qiov->size - offs);
+-    } else {
+-        memset(rcb->buf + offs, 0, rcb->size - offs);
+-    }
++    RBDAIOCB *acb = rcb->acb;
++    iov_memset(acb->qiov->iov, acb->qiov->niov, offs, 0,
++               acb->qiov->size - offs);
+ }
+ 
+ /* FIXME Deprecate and remove keypairs or make it available in QMP. */
+@@ -493,13 +473,6 @@ static void qemu_rbd_complete_aio(RADOSCB *rcb)
+ 
+     g_free(rcb);
+ 
+-    if (!LIBRBD_USE_IOVEC) {
+-        if (acb->cmd == RBD_AIO_READ) {
+-            qemu_iovec_from_buf(acb->qiov, 0, acb->bounce, acb->qiov->size);
+-        }
+-        qemu_vfree(acb->bounce);
+-    }
+-
+     acb->common.cb(acb->common.opaque, (acb->ret > 0 ? 0 : acb->ret));
+ 
+     qemu_aio_unref(acb);
+@@ -866,28 +839,6 @@ static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
+                                      rbd_finish_bh, rcb);
+ }
+ 
+-static int rbd_aio_discard_wrapper(rbd_image_t image,
+-                                   uint64_t off,
+-                                   uint64_t len,
+-                                   rbd_completion_t comp)
+-{
+-#ifdef LIBRBD_SUPPORTS_DISCARD
+-    return rbd_aio_discard(image, off, len, comp);
+-#else
+-    return -ENOTSUP;
+-#endif
+-}
+-
+-static int rbd_aio_flush_wrapper(rbd_image_t image,
+-                                 rbd_completion_t comp)
+-{
+-#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
+-    return rbd_aio_flush(image, comp);
+-#else
+-    return -ENOTSUP;
+-#endif
+-}
+-
+ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+                                  int64_t off,
+                                  QEMUIOVector *qiov,
+@@ -910,21 +861,6 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+ 
+     rcb = g_new(RADOSCB, 1);
+ 
+-    if (!LIBRBD_USE_IOVEC) {
+-        if (cmd == RBD_AIO_DISCARD || cmd == RBD_AIO_FLUSH) {
+-            acb->bounce = NULL;
+-        } else {
+-            acb->bounce = qemu_try_blockalign(bs, qiov->size);
+-            if (acb->bounce == NULL) {
+-                goto failed;
+-            }
+-        }
+-        if (cmd == RBD_AIO_WRITE) {
+-            qemu_iovec_to_buf(acb->qiov, 0, acb->bounce, qiov->size);
+-        }
+-        rcb->buf = acb->bounce;
+-    }
+-
+     acb->ret = 0;
+     acb->error = 0;
+     acb->s = s;
+@@ -938,7 +874,7 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+     }
+ 
+     switch (cmd) {
+-    case RBD_AIO_WRITE: {
++    case RBD_AIO_WRITE:
+         /*
+          * RBD APIs don't allow us to write more than actual size, so in order
+          * to support growing images, we resize the image before write
+@@ -950,25 +886,16 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+                 goto failed_completion;
+             }
+         }
+-#ifdef LIBRBD_SUPPORTS_IOVEC
+-            r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
+-#else
+-            r = rbd_aio_write(s->image, off, size, rcb->buf, c);
+-#endif
++        r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
+         break;
+-    }
+     case RBD_AIO_READ:
+-#ifdef LIBRBD_SUPPORTS_IOVEC
+-            r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
+-#else
+-            r = rbd_aio_read(s->image, off, size, rcb->buf, c);
+-#endif
++        r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
+         break;
+     case RBD_AIO_DISCARD:
+-        r = rbd_aio_discard_wrapper(s->image, off, size, c);
++        r = rbd_aio_discard(s->image, off, size, c);
+         break;
+     case RBD_AIO_FLUSH:
+-        r = rbd_aio_flush_wrapper(s->image, c);
++        r = rbd_aio_flush(s->image, c);
+         break;
+     default:
+         r = -EINVAL;
+@@ -983,9 +910,6 @@ failed_completion:
+     rbd_aio_release(c);
+ failed:
+     g_free(rcb);
+-    if (!LIBRBD_USE_IOVEC) {
+-        qemu_vfree(acb->bounce);
+-    }
+ 
+     qemu_aio_unref(acb);
+     return NULL;
+@@ -1011,7 +935,6 @@ static BlockAIOCB *qemu_rbd_aio_pwritev(BlockDriverState *bs,
+                          RBD_AIO_WRITE);
+ }
+ 
+-#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
+ static BlockAIOCB *qemu_rbd_aio_flush(BlockDriverState *bs,
+                                       BlockCompletionFunc *cb,
+                                       void *opaque)
+@@ -1019,20 +942,6 @@ static BlockAIOCB *qemu_rbd_aio_flush(BlockDriverState *bs,
+     return rbd_start_aio(bs, 0, NULL, 0, cb, opaque, RBD_AIO_FLUSH);
+ }
+ 
+-#else
+-
+-static int qemu_rbd_co_flush(BlockDriverState *bs)
+-{
+-#if LIBRBD_VERSION_CODE >= LIBRBD_VERSION(0, 1, 1)
+-    /* rbd_flush added in 0.1.1 */
+-    BDRVRBDState *s = bs->opaque;
+-    return rbd_flush(s->image);
+-#else
+-    return 0;
+-#endif
+-}
+-#endif
+-
+ static int qemu_rbd_getinfo(BlockDriverState *bs, BlockDriverInfo *bdi)
+ {
+     BDRVRBDState *s = bs->opaque;
+@@ -1198,7 +1107,6 @@ static int qemu_rbd_snap_list(BlockDriverState *bs,
+     return snap_count;
+ }
+ 
+-#ifdef LIBRBD_SUPPORTS_DISCARD
+ static BlockAIOCB *qemu_rbd_aio_pdiscard(BlockDriverState *bs,
+                                          int64_t offset,
+                                          int bytes,
+@@ -1208,9 +1116,7 @@ static BlockAIOCB *qemu_rbd_aio_pdiscard(BlockDriverState *bs,
+     return rbd_start_aio(bs, offset, NULL, bytes, cb, opaque,
+                          RBD_AIO_DISCARD);
+ }
+-#endif
+ 
+-#ifdef LIBRBD_SUPPORTS_INVALIDATE
+ static void coroutine_fn qemu_rbd_co_invalidate_cache(BlockDriverState *bs,
+                                                       Error **errp)
+ {
+@@ -1220,7 +1126,6 @@ static void coroutine_fn qemu_rbd_co_invalidate_cache(BlockDriverState *bs,
+         error_setg_errno(errp, -r, "Failed to invalidate the cache");
+     }
+ }
+-#endif
+ 
+ static QemuOptsList qemu_rbd_create_opts = {
+     .name = "rbd-create-opts",
+@@ -1278,23 +1183,14 @@ static BlockDriver bdrv_rbd = {
+     .bdrv_aio_preadv        = qemu_rbd_aio_preadv,
+     .bdrv_aio_pwritev       = qemu_rbd_aio_pwritev,
+ 
+-#ifdef LIBRBD_SUPPORTS_AIO_FLUSH
+     .bdrv_aio_flush         = qemu_rbd_aio_flush,
+-#else
+-    .bdrv_co_flush_to_disk  = qemu_rbd_co_flush,
+-#endif
+-
+-#ifdef LIBRBD_SUPPORTS_DISCARD
+     .bdrv_aio_pdiscard      = qemu_rbd_aio_pdiscard,
+-#endif
+ 
+     .bdrv_snapshot_create   = qemu_rbd_snap_create,
+     .bdrv_snapshot_delete   = qemu_rbd_snap_remove,
+     .bdrv_snapshot_list     = qemu_rbd_snap_list,
+     .bdrv_snapshot_goto     = qemu_rbd_snap_rollback,
+-#ifdef LIBRBD_SUPPORTS_INVALIDATE
+     .bdrv_co_invalidate_cache = qemu_rbd_co_invalidate_cache,
+-#endif
+ 
+     .strong_runtime_opts    = qemu_rbd_strong_runtime_opts,
+ };
+diff --git a/meson.build b/meson.build
+index 5943aa8a51..02d263ad33 100644
+--- a/meson.build
++++ b/meson.build
+@@ -691,19 +691,24 @@ if not get_option('rbd').auto() or have_block
+                            required: get_option('rbd'),
+                            kwargs: static_kwargs)
+   if librados.found() and librbd.found()
+-    if cc.links('''
++    result = cc.run('''
+       #include <stdio.h>
+       #include <rbd/librbd.h>
+       int main(void) {
+         rados_t cluster;
+         rados_create(&cluster, NULL);
++        rados_shutdown(cluster);
++        #if LIBRBD_VERSION_CODE < LIBRBD_VERSION(1, 12, 0)
++        return 1;
++        #endif
+         return 0;
+-      }''', dependencies: [librbd, librados])
++    }''', dependencies: [librbd, librados], name: 'librbd version check')
++    if result.compiled() and result.returncode() == 0
+       rbd = declare_dependency(dependencies: [librbd, librados])
+     elif get_option('rbd').enabled()
+-      error('could not link librados')
++      error('librados/librbd >= 12.0.0 required')
+     else
+-      warning('could not link librados, disabling')
++      warning('librados/librbd >= 12.0.0 not found, disabling rbd support')
+     endif
+   endif
+ endif
+-- 
+2.17.1
 
 
-
-> 
-> Signed-off-by: Joe Komlodi <komlodi@xilinx.com>
-> ---
->  target/microblaze/cpu.c | 46 ++++++++++++++++++++++++++++++++++++++++++++++
->  target/microblaze/cpu.h | 11 +++++++++++
->  2 files changed, 57 insertions(+)
-> 
-> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-> index c8e754c..accfb23 100644
-> --- a/target/microblaze/cpu.c
-> +++ b/target/microblaze/cpu.c
-> @@ -98,6 +98,38 @@ static bool mb_cpu_has_work(CPUState *cs)
->  }
->  
->  #ifndef CONFIG_USER_ONLY
-> +static void mb_cpu_ns_axi_dp(void *opaque, int irq, int level)
-> +{
-> +    MicroBlazeCPU *cpu = opaque;
-> +    bool en = cpu->cfg.use_non_secure & USE_NON_SECURE_M_AXI_DP_MASK;
-> +
-> +    cpu->ns_axi_dp = level & en;
-> +}
-> +
-> +static void mb_cpu_ns_axi_ip(void *opaque, int irq, int level)
-> +{
-> +    MicroBlazeCPU *cpu = opaque;
-> +    bool en = cpu->cfg.use_non_secure & USE_NON_SECURE_M_AXI_IP_MASK;
-> +
-> +    cpu->ns_axi_ip = level & en;
-> +}
-> +
-> +static void mb_cpu_ns_axi_dc(void *opaque, int irq, int level)
-> +{
-> +    MicroBlazeCPU *cpu = opaque;
-> +    bool en = cpu->cfg.use_non_secure & USE_NON_SECURE_M_AXI_DC_MASK;
-> +
-> +    cpu->ns_axi_dc = level & en;
-> +}
-> +
-> +static void mb_cpu_ns_axi_ic(void *opaque, int irq, int level)
-> +{
-> +    MicroBlazeCPU *cpu = opaque;
-> +    bool en = cpu->cfg.use_non_secure & USE_NON_SECURE_M_AXI_IC_MASK;
-> +
-> +    cpu->ns_axi_ic = level & en;
-> +}
-> +
->  static void microblaze_cpu_set_irq(void *opaque, int irq, int level)
->  {
->      MicroBlazeCPU *cpu = opaque;
-> @@ -248,6 +280,10 @@ static void mb_cpu_initfn(Object *obj)
->  #ifndef CONFIG_USER_ONLY
->      /* Inbound IRQ and FIR lines */
->      qdev_init_gpio_in(DEVICE(cpu), microblaze_cpu_set_irq, 2);
-> +    qdev_init_gpio_in_named(DEVICE(cpu), mb_cpu_ns_axi_dp, "ns_axi_dp", 1);
-> +    qdev_init_gpio_in_named(DEVICE(cpu), mb_cpu_ns_axi_ip, "ns_axi_ip", 1);
-> +    qdev_init_gpio_in_named(DEVICE(cpu), mb_cpu_ns_axi_dc, "ns_axi_dc", 1);
-> +    qdev_init_gpio_in_named(DEVICE(cpu), mb_cpu_ns_axi_ic, "ns_axi_ic", 1);
->  #endif
->  }
->  
-> @@ -277,6 +313,16 @@ static Property mb_properties[] = {
->      DEFINE_PROP_BOOL("use-msr-instr", MicroBlazeCPU, cfg.use_msr_instr, true),
->      DEFINE_PROP_BOOL("use-pcmp-instr", MicroBlazeCPU, cfg.use_pcmp_instr, true),
->      DEFINE_PROP_BOOL("use-mmu", MicroBlazeCPU, cfg.use_mmu, true),
-> +    /*
-> +     * use-non-secure enables/disables the use of the non_secure[3:0] signals.
-> +     * It is a bitfield where 1 = non-secure for the following bits and their
-> +     * corresponding interfaces:
-> +     * 0x1 - M_AXI_DP
-> +     * 0x2 - M_AXI_IP
-> +     * 0x4 - M_AXI_DC
-> +     * 0x8 - M_AXI_IC
-> +     */
-> +    DEFINE_PROP_UINT8("use-non-secure", MicroBlazeCPU, cfg.use_non_secure, 0),
->      DEFINE_PROP_BOOL("dcache-writeback", MicroBlazeCPU, cfg.dcache_writeback,
->                       false),
->      DEFINE_PROP_BOOL("endianness", MicroBlazeCPU, cfg.endi, false),
-> diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
-> index c1c2641..199cfb0 100644
-> --- a/target/microblaze/cpu.h
-> +++ b/target/microblaze/cpu.h
-> @@ -233,6 +233,12 @@ typedef struct CPUMBState CPUMBState;
->  
->  #define TARGET_INSN_START_EXTRA_WORDS 1
->  
-> +/* use-non-secure property masks */
-> +#define USE_NON_SECURE_M_AXI_DP_MASK 0x1
-> +#define USE_NON_SECURE_M_AXI_IP_MASK 0x2
-> +#define USE_NON_SECURE_M_AXI_DC_MASK 0x4
-> +#define USE_NON_SECURE_M_AXI_IC_MASK 0x8
-> +
->  struct CPUMBState {
->      uint32_t bvalue;   /* TCG temporary, only valid during a TB */
->      uint32_t btarget;  /* Full resolved branch destination */
-> @@ -316,6 +322,7 @@ typedef struct {
->      bool use_msr_instr;
->      bool use_pcmp_instr;
->      bool use_mmu;
-> +    uint8_t use_non_secure;
->      bool dcache_writeback;
->      bool endi;
->      bool dopb_bus_exception;
-> @@ -337,6 +344,10 @@ struct MicroBlazeCPU {
->      CPUState parent_obj;
->  
->      /*< public >*/
-> +    bool ns_axi_dp;
-> +    bool ns_axi_ip;
-> +    bool ns_axi_dc;
-> +    bool ns_axi_ic;
->  
->      CPUNegativeOffsetState neg;
->      CPUMBState env;
-> -- 
-> 2.7.4
-> 
 
