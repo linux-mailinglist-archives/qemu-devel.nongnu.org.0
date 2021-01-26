@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8D6D303158
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 02:38:18 +0100 (CET)
-Received: from localhost ([::1]:58874 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D870C303153
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 02:33:51 +0100 (CET)
+Received: from localhost ([::1]:51048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4DJB-0006MJ-RF
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 20:38:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35472)
+	id 1l4DEs-000367-Tg
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 20:33:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l4D6X-0005f4-7Q
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 20:25:22 -0500
-Received: from mail-pf1-f181.google.com ([209.85.210.181]:37588)
+ id 1l4D6V-0005ev-BB
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 20:25:13 -0500
+Received: from mail-pj1-f43.google.com ([209.85.216.43]:53227)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <osy86github@gmail.com>)
- id 1l4D6T-0006AM-7v
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 20:25:12 -0500
-Received: by mail-pf1-f181.google.com with SMTP id 11so9465998pfu.4
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 17:25:05 -0800 (PST)
+ id 1l4D6S-0006AT-Qz
+ for qemu-devel@nongnu.org; Mon, 25 Jan 2021 20:25:10 -0500
+Received: by mail-pj1-f43.google.com with SMTP id kx7so714350pjb.2
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 17:25:06 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JWajNuHMbFLeCYP/PsxYbKNIiTAbIrYsUJE7nhjw6p4=;
- b=URjtkS4D/99uFCzVzbTq57SnczbbqaATQqLGartrTcpslicFMD35rKHC2kELBdD9fI
- Kfs8emaWUKulUJS1v53vq93o0/vF/QqXYKqTzlQ36etZQhdh3YMlpVBXl3mAsE/7MPFE
- HzVI6gWfgiGl6wCiPykJfUo50MVwf+P/7EzwgbQrQjVvGLixXW0ifMlw5iMUqoaF+fAV
- azpmPkCc3HvVjDhA55WIjg2n5k2DkZ1jc8FsP6XVhuWHfkGmEribh2n/F4tG3WJvCUvu
- GLRtv3uKLcabjYdUVRsaN6ziWt7ziXKA5rXWWyFPNTMlc3jDHgJoTboLU2PMSRycG1z6
- UTEQ==
-X-Gm-Message-State: AOAM530Am7xTLUEyH9h4kszEHd1kp+JjlZJ2/elkrDt67/u8DWP6xwsn
- IoIqzhmzh1KNujZA/rKBgXVzIfXC+pQ=
-X-Google-Smtp-Source: ABdhPJzESxjDW7OI6bjAG2H8Z85ei7exnSES4mtAt/RuKmIdEvYW2HOduaSaMM7LwX5xa/nHH2oL5Q==
-X-Received: by 2002:a63:1d47:: with SMTP id d7mr3266859pgm.251.1611624304726; 
- Mon, 25 Jan 2021 17:25:04 -0800 (PST)
+ bh=9j7Jyu3wauLM62/41PRZiedCHY3SfQgNILuQd61JwcM=;
+ b=ijBS+iWqvfB6EDU0UfAHTwks//Rt5wZ4h97z2l7Jf1SFF1N48ItYvMXTcguhiHExzn
+ Y9nvqvILZyb/NTCi6NnaMs2wMX9wkTxthFzOLo3iPSd2xTsz66doV4OGYtXbcdktAWly
+ xCegxjb7RFQ88K//dpePzZO9i1xmpj10aeTV/OKoiKD0TxPvonO4SXqVPEaNcLb/iYlZ
+ oUIYgmKqMhBhLd8lrqqbNyLBR5Jn5deB8B4Jri8dSilm2MlmBxxkx70P5Yeqo6sC2l5u
+ AT0zLTmdiyha/Xj3UptbvRtliLGkyRSHxszbKIq7kSFGEwad5cYk26OrWW+h3pgWG4zN
+ h6TQ==
+X-Gm-Message-State: AOAM532AzkRfkHWum4sA4FuPcG6/DP9lolpzv+KT36zVtxKOIq54T9d7
+ cx+l5RDis71YhESxUz3nbPpCnDNb1XM=
+X-Google-Smtp-Source: ABdhPJzXFID/qf+AAHrsFCvuVeAbAdqS6Z54hy0eDPl8BiY1RoJ0cKnscDV03wibVvc1Wne56201Rg==
+X-Received: by 2002:a17:90a:f98c:: with SMTP id
+ cq12mr3073749pjb.191.1611624305563; 
+ Mon, 25 Jan 2021 17:25:05 -0800 (PST)
 Received: from Yifans-Mac-Mini.hsd1.ca.comcast.net. ([98.35.5.7])
  by smtp.gmail.com with ESMTPSA id o14sm536921pjf.12.2021.01.25.17.25.04
  (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 25 Jan 2021 17:25:04 -0800 (PST)
+ Mon, 25 Jan 2021 17:25:05 -0800 (PST)
 From: Joelle van Dyne <j@getutm.app>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v9 05/11] osdep: build with non-working system() function
-Date: Mon, 25 Jan 2021 17:24:51 -0800
-Message-Id: <20210126012457.39046-6-j@getutm.app>
+Subject: [PATCH v9 06/11] darwin: remove redundant dependency declaration
+Date: Mon, 25 Jan 2021 17:24:52 -0800
+Message-Id: <20210126012457.39046-7-j@getutm.app>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20210126012457.39046-1-j@getutm.app>
 References: <20210126012457.39046-1-j@getutm.app>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=209.85.210.181;
- envelope-from=osy86github@gmail.com; helo=mail-pf1-f181.google.com
+Received-SPF: pass client-ip=209.85.216.43; envelope-from=osy86github@gmail.com;
+ helo=mail-pj1-f43.google.com
 X-Spam_score_int: -13
 X-Spam_score: -1.4
 X-Spam_bar: -
@@ -72,52 +73,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joelle van Dyne <j@getutm.app>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Build without error on hosts without a working system(). If system()
-is called, return -1 with ENOSYS.
+Meson will find CoreFoundation, IOKit, and Cocoa as needed.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Joelle van Dyne <j@getutm.app>
 ---
- meson.build          |  1 +
- include/qemu/osdep.h | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meson.build b/meson.build
-index f1e67b8cd1..a7650956d3 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1118,6 +1118,7 @@ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
- config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
- config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
- config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
-+config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
- 
- ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
- arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index a434382c58..5bd1a67769 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -682,4 +682,16 @@ char *qemu_get_host_name(Error **errp);
-  */
- size_t qemu_get_host_physmem(void);
- 
-+/**
-+ * Platforms which do not support system() return ENOSYS
-+ */
-+#ifndef HAVE_SYSTEM_FUNCTION
-+#define system platform_does_not_support_system
-+static inline int platform_does_not_support_system(const char *command)
-+{
-+    errno = ENOSYS;
-+    return -1;
-+}
-+#endif /* !HAVE_SYSTEM_FUNCTION */
-+
- #endif
+diff --git a/configure b/configure
+index d72ab22da5..1b2fc502ea 100755
+--- a/configure
++++ b/configure
+@@ -781,7 +781,6 @@ Darwin)
+   fi
+   audio_drv_list="coreaudio try-sdl"
+   audio_possible_drivers="coreaudio sdl"
+-  QEMU_LDFLAGS="-framework CoreFoundation -framework IOKit $QEMU_LDFLAGS"
+   # Disable attempts to use ObjectiveC features in os/object.h since they
+   # won't work when we're compiling with gcc as a C compiler.
+   QEMU_CFLAGS="-DOS_OBJECT_USE_OBJC=0 $QEMU_CFLAGS"
 -- 
 2.28.0
 
