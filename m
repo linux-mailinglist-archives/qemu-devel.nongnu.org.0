@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EED6303EBD
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:32:21 +0100 (CET)
-Received: from localhost ([::1]:54410 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C1F303ECA
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:33:38 +0100 (CET)
+Received: from localhost ([::1]:57708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4OSC-0006Qy-Ay
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:32:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35280)
+	id 1l4OTR-0007ui-EO
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:33:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35978)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4OLx-0003wy-9H
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:25:53 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:35456)
+ id 1l4OOk-0005I2-Vb
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:28:50 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:41713)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4OLu-000475-LQ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:25:52 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id ox12so22975371ejb.2
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 05:25:50 -0800 (PST)
+ id 1l4OOi-0004zc-D7
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:28:46 -0500
+Received: by mail-ed1-x533.google.com with SMTP id bx12so19708274edb.8
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 05:28:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5Tkbt/2W0KW5D6fMTxU3x2svYcTXPbM8IkzjtgmG9rk=;
- b=j7lp40fkn6eObXlj2RBMltBytXdrGdW7TH+M0qOdHVbZkpQr452lu+6z3ok/dedjLx
- AvP+sjwM7WZ4/dm5hZNXO9I8ElY5WTuaz4G1numFBgLNRuqdt0k3ncKRpNSoASzgd7Rk
- BX2R6nOItlxaqlj9Ogno/J77pibwu4a+erJywvesRyITAJ5xOhmh0XcNo3llYa5Ek83V
- rm+Cpg3thvFhN8hV5wN7wAeFpF1Pym0/6ab1QxfGeSboa2e81uJa26OC2c4zfXNfpwQg
- /zai4kr9Lbmrjsx5tVC+zVfvcuOtpT7aTcmKdnwqfOdC6n6E+OYwtyzl05dp7ZVQbd2s
- +eaw==
+ :cc:content-transfer-encoding;
+ bh=Mg22Hljaih/4jmjJvUHRzFHSMnb+KU8BkQkSosfAazA=;
+ b=bvkC7DECP1RcHom/BpQkXNEg9S3/eZU9xuE8rX7l/AyvVMEFiryUUjo4VmThjMBL6u
+ VfSM+f3a/HUEUEBHxWIQjtWdwRWu7ckT/LumIuVQ4DAoF5Eorp9ZAitABRFLqEqxJSvU
+ FzWd7pAbjGdOQraWmoiEEZVIuj2zEcT36iJ4uezyPS0rVD1TerIAiQFaKVpVEhuj38hZ
+ Jn66B1bIzhfuXWkULGgEvyEvISlO5wUwLGZV6y8PBV/DXeg2vxlbTCQNnQ9fxQR5Q1Fy
+ jQt+ortElO0CxBf3lg6n0j5BXjGaxPLzE5d3SKpDpXuvlGVCYQRhmNDUjXDKgNcDUVgi
+ LvqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5Tkbt/2W0KW5D6fMTxU3x2svYcTXPbM8IkzjtgmG9rk=;
- b=qjplf4+yClSEVZSRXTScczVCEvhd4p9lZl27exoSw+Q50p0GDosfVWRtPhkQ5I+hzv
- GmsJbfqi8tLmtF2wohnxEJ1CSkwozUr5E8bqGeCDXwAXwpzxK45XJbVyRHC3G0n/Idgx
- kSPO20zriX+SVdjNVPMKbFGAibYVcoME6GIfBEsT9HpWNmk0gXPD5OBjYn8WcfqLzIXZ
- YogqHn9s2MI/fLWagTDxXi+Sdh7PsZ8vXMkCYYN8byt0IFwOopckFJxa9/d4OE0zKKOA
- +kt6BqwCjxW5NBceF9VcRut1HxBhw0ujrgJdkNKdcp56bMJww0ZoBva62epmzjc39inK
- fHUw==
-X-Gm-Message-State: AOAM5302cMlQ24qwHFEUmxhS0hrujTlBmSLC8KLfn78nZbEIb4wvXoGo
- WlaqYbf1hUu5kw10OiALYrBewgBwl24DuMVkMGUVlA==
-X-Google-Smtp-Source: ABdhPJzzkcMUh6QJn4fk/7AlaiXrtr6TBah2Zxmxse6EX9c3hsnSymUUv/hDCIT8G7xjwXa5XsyrQNjffG4sx90C02I=
-X-Received: by 2002:a17:906:b215:: with SMTP id
- p21mr3363645ejz.407.1611667549029; 
- Tue, 26 Jan 2021 05:25:49 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Mg22Hljaih/4jmjJvUHRzFHSMnb+KU8BkQkSosfAazA=;
+ b=kH7o77ZlYCJV0n2Ww4t2M++zFlpMs6x7AvyDgEJkXi10luOrtMyMppQHhiXh8zlRKz
+ KARfmSbhQ0wdoepr2kruqB1FT2z4DGyM8VD4zpKwLC8Cpb8V2m1HzbmBTVPjMow6y764
+ 9gu1tuRWCqLD0ach/TBWMENWTCiHV4TUgkwEkWYEjTi1gTM5MMZIXrsXW8eVGzbvY2g3
+ xZXpT0Yo4oGdl//ZgE1iv6B7QG785GFjdiEVS7R6lazYdf9v2EEOKGok1rUr+7uQVgyv
+ x9fCZyC1tvZcQGdghLbqHIzyiGt8K6Bp0IMDFYGjhlDsKpLec5ih7VGfin54G62AuCLs
+ Btrg==
+X-Gm-Message-State: AOAM5330eMa4fkEtSOkVB9pZTyBly1OfE3fmdydIhe1WNxIq1ftMrUqr
+ JQSlvG/akFCVpkYmxAW7ZmcDsD8Ul9dt2xlA6eBB5w==
+X-Google-Smtp-Source: ABdhPJxipriDFCTewK9qVDvnMf5Dw++twuS3lhRvLIX2WNZ9hu/GEUM+9YHunDLYnwohivlhtHHco/DMOBYI6CzParo=
+X-Received: by 2002:aa7:dd12:: with SMTP id i18mr4543114edv.36.1611667722801; 
+ Tue, 26 Jan 2021 05:28:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20210126020816.352782-1-stefanb@linux.vnet.ibm.com>
-In-Reply-To: <20210126020816.352782-1-stefanb@linux.vnet.ibm.com>
+References: <20210126132637.3175037-1-philmd@redhat.com>
+In-Reply-To: <20210126132637.3175037-1-philmd@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 26 Jan 2021 13:25:37 +0000
-Message-ID: <CAFEAcA_SaiVoX5HsOkOSnPBo4iWrL2WDO0Zjo1staoOV+j0ppA@mail.gmail.com>
-Subject: Re: [PULL v1 0/1] Merge tpm 2021/01/25 v1
-To: Stefan Berger <stefanb@linux.vnet.ibm.com>
+Date: Tue, 26 Jan 2021 13:28:31 +0000
+Message-ID: <CAFEAcA8q=ZgMYvZfr75RP90T0SVvD1JUnT2sN08H5T8DLpanbg@mail.gmail.com>
+Subject: Re: [PATCH] meson: Restrict Cocoa framework check to macOS
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,44 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Brendan Shanks <brendan@bslabs.net>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Christophe de Dinechin <dinechin@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Jan 2021 at 02:08, Stefan Berger <stefanb@linux.vnet.ibm.com> wrote:
+On Tue, 26 Jan 2021 at 13:26, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
+m> wrote:
 >
-> Peter,
+> Do not check for Cocoa framework if the OS is not macOS.
 >
->   this PR removes an unused tracepoint from tpm_spapr.
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  meson.build | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >
->    Stefan
+> diff --git a/meson.build b/meson.build
+> index 35a9eddf5cf..9a9ee5408b9 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -369,7 +369,10 @@
+>    endif
+>  endif
 >
-> The following changes since commit 31ee895047bdcf7387e3570cbd2a473c6f744b08:
->
->   Merge remote-tracking branch 'remotes/jasowang/tags/net-pull-request' into staging (2021-01-25 15:56:13 +0000)
->
-> are available in the Git repository at:
->
->   git://github.com/stefanberger/qemu-tpm.git tags/pull-tpm-2021-01-25-1
->
-> for you to fetch changes up to 68a5b02a4684e6f9bbe5113499f88c0018469d08:
->
->   tpm: tpm_spapr: Remove unused tracepoint (2021-01-25 20:56:38 -0500)
->
-> ----------------------------------------------------------------
->
-> Roman Bolshakov (1):
->   tpm: tpm_spapr: Remove unused tracepoint
->
->  hw/tpm/tpm_spapr.c  | 8 ++------
->  hw/tpm/trace-events | 1 -
->  2 files changed, 2 insertions(+), 7 deletions(-)
+> -cocoa =3D dependency('appleframeworks', modules: 'Cocoa', required: get_=
+option('cocoa'))
+> +cocoa =3D not_found
+> +if targetos =3D=3D 'darwin'
+> +  cocoa =3D dependency('appleframeworks', modules: 'Cocoa', required: ge=
+t_option('cocoa'))
+> +endif
+>  if cocoa.found() and get_option('sdl').enabled()
+>    error('Cocoa and SDL cannot be enabled at the same time')
+>  endif
 
+What difference does this change make? Are there ever
+situations where the 'detect cocoa' test incorrectly
+finds cocoa on a non-macOS system and breaks something?
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
+thanks
 -- PMM
 
