@@ -2,67 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7BCC303778
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:49:30 +0100 (CET)
-Received: from localhost ([::1]:34822 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 117D530376D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:45:02 +0100 (CET)
+Received: from localhost ([::1]:52740 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4J6P-00043W-Td
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:49:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54562)
+	id 1l4J24-00085H-LS
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:45:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54102)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4J2x-0001Y9-Ao
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:45:55 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47108)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4J2t-0002fE-2U
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:45:55 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l4J2p-0003H1-JN
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:45:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 42F312E813C
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:45:47 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4J0F-0006qg-CX
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:43:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34745)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4J0D-0001fR-DN
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:43:06 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611646984;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=osTmZ4aMmDtsHIY+XzjajP1S/QvpZKzwr0eONuj2iyQ=;
+ b=Osl67EPtYGmIVwkXc6Q/jx7rMbZlosPSw+Jr8Vis0ov+wtlHE1CYqjEU7dxJo1jHwZEhQ0
+ kgwyoBm6+oUUDoBj43hgdiIYEMDzaxy301yO7mwj52iAnH+k6HGCz7OBNruYI8eblEoFKV
+ wECgZNjteXetDS8XsJERXmUYnPEHOQ4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-362-OkJjA7TTN7mHFvPxW8qLzw-1; Tue, 26 Jan 2021 02:43:02 -0500
+X-MC-Unique: OkJjA7TTN7mHFvPxW8qLzw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86B5F1922028
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:43:01 +0000 (UTC)
+Received: from laptop.redhat.com (ovpn-12-115.pek2.redhat.com [10.72.12.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 016F75D74E;
+ Tue, 26 Jan 2021 07:42:56 +0000 (UTC)
+From: Cindy Lu <lulu@redhat.com>
+To: mst@redhat.com,
+	jasowang@redhat.com,
+	qemu-devel@nongnu.org
+Subject: [PATCH v3 0/5] vhost-vdpa: add support for configure interrupt
+Date: Tue, 26 Jan 2021 15:42:49 +0800
+Message-Id: <20210126074254.3225-1-lulu@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 26 Jan 2021 07:38:11 -0000
-From: Roman Bolshakov <1909256@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=roolebo@gmail.com; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell roolebo
-X-Launchpad-Bug-Reporter: Peter Maydell (pmaydell)
-X-Launchpad-Bug-Modifier: Roman Bolshakov (roolebo)
-References: <160884296870.1780.12540070136312087397.malonedeb@soybean.canonical.com>
-Message-Id: <161164669213.32681.9713591253339318121.malone@chaenomeles.canonical.com>
-Subject: [Bug 1909256] Re: compile failure if gnutls headers not on default
- include path
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 69a0f330f221231b08c7f0174b464c2256bfa134
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,80 +75,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1909256 <1909256@bugs.launchpad.net>
+Cc: lulu@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The fix is committed in 3eacf70bb5a8.
+These code are all tested in vp-vdpa (support configure interrupt)
+vdpa_sim (not support configure interrupt)
 
-** Changed in: qemu
-       Status: New =3D> Fix Committed
+test in virtio-pci bus and virtio-mmio bus
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Roman Bolshakov (roolebo)
 
--- =
+change in v2:
+Add support fot virtio-mmio bus
+active the notifier wihle the backend support configure intterrput
+misc fixes form v1
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1909256
+change in v3
+fix the coding style problems 
 
-Title:
-  compile failure if gnutls headers not on default include path
+Cindy Lu (5):
+  virtio: add support for configure interrupt
+  vhost_net: enable configure interrupt when vhost_net start
+  virtio-pci: add support for configure interrupt
+  virtio-mmio: add support for configure interrupt
+  vhost-vdpa: add callback function for configure interrupt
 
-Status in QEMU:
-  Fix Committed
+ hw/net/vhost_net.c                | 19 ++++++-
+ hw/virtio/trace-events            |  2 +
+ hw/virtio/vhost-vdpa.c            | 37 ++++++++++++-
+ hw/virtio/virtio-mmio.c           | 16 ++++++
+ hw/virtio/virtio-pci.c            | 92 +++++++++++++++++++++++++------
+ hw/virtio/virtio.c                | 26 +++++++++
+ include/hw/virtio/vhost-backend.h |  4 ++
+ include/hw/virtio/virtio-bus.h    |  2 +
+ include/hw/virtio/virtio.h        |  6 ++
+ 9 files changed, 185 insertions(+), 19 deletions(-)
 
-Bug description:
-  If the gnutls headers are not on the default compiler include path,
-  then configure correctly finds them and config-host.mak sets up the
-  variables:
+-- 
+2.21.3
 
-  GNUTLS_CFLAGS=3D-I/opt/homebrew/Cellar/gnutls/3.6.15/include -I/opt/homeb=
-rew/Cellar/nettle/3.6/include -I/opt/homebrew/Cellar/libtasn1/4.16.0/includ=
-e -I/opt/homebrew/Cellar/libidn2/2.3.0/include -I/opt/homebrew/Cellar/p11-k=
-it/0.23.22/include/p11-kit-1
-  GNUTLS_LIBS=3D-L/opt/homebrew/Cellar/gnutls/3.6.15/lib -lgnutls
-
-  but meson fails to put GNUTLS_CFLAGS in the compiler arguments and so
-  you get compile failures like:
-
-  [2/1865] Compiling C object qemu-nbd.p/qemu-nbd.c.o
-  FAILED: qemu-nbd.p/qemu-nbd.c.o =
-
-  cc -Iqemu-nbd.p -I. -I../.. -Iqapi -Itrace -Iui -Iui/shader -I/opt/homebr=
-ew/Cellar/glib/2.66.4/include -I/opt/homebrew/Cellar/glib/2.66.4/include/gl=
-ib-2.0 -I/opt/homebrew/Cellar/glib/2.66.4/lib/glib-2.0/include -I/opt/homeb=
-rew/opt/gettext/include -I/opt/homebrew/Cellar/pcre/8.44/include -Xclang -f=
-color-diagnostics -pipe -Wall -Winvalid-pch -std=3Dgnu99 -g -DOS_OBJECT_USE=
-_OBJC=3D0 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -Wstri=
-ct-prototypes -Wredundant-decls -Wundef -Wwrite-strings -Wmissing-prototype=
-s -fno-strict-aliasing -fno-common -fwrapv -Wold-style-definition -Wtype-li=
-mits -Wformat-security -Wformat-y2k -Winit-self -Wignored-qualifiers -Wempt=
-y-body -Wnested-externs -Wendif-labels -Wexpansion-to-defined -Wno-initiali=
-zer-overrides -Wno-missing-include-dirs -Wno-shift-negative-value -Wno-stri=
-ng-plus-int -Wno-typedef-redefinition -Wno-tautological-type-limit-compare =
--fstack-protector-strong -iquote /Users/pm215/qemu/tcg/aarch64 -iquote . -i=
-quote /Users/pm215/qemu -iquote /Users/pm215/qemu/accel/tcg -iquote /Users/=
-pm215/qemu/include -iquote /Users/pm215/qemu/disas/libvixl -MD -MQ qemu-nbd=
-.p/qemu-nbd.c.o -MF qemu-nbd.p/qemu-nbd.c.o.d -o qemu-nbd.p/qemu-nbd.c.o -c=
- ../../qemu-nbd.c
-  In file included from ../../qemu-nbd.c:30:
-  In file included from /Users/pm215/qemu/include/block/nbd.h:25:
-  /Users/pm215/qemu/include/crypto/tlscreds.h:28:10: fatal error: 'gnutls/g=
-nutls.h' file not found
-  #include <gnutls/gnutls.h>
-           ^~~~~~~~~~~~~~~~~
-  1 error generated.
-
-  =
-
-  The compiler errors happen for any .c file that includes block/nbd.h and =
-also for files in tests that include gnutls.h directly, and for files that =
-directly or indirectly include crypto/tlssession.c.
-
-  My meson-foo is insufficient to suggest the correct fix...
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1909256/+subscriptions
 
