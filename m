@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7671130392B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 10:41:17 +0100 (CET)
-Received: from localhost ([::1]:41986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2D23303952
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 10:47:32 +0100 (CET)
+Received: from localhost ([::1]:45918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Kqa-0004CB-If
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 04:41:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43892)
+	id 1l4Kwe-00068l-0z
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 04:47:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44942)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4Kon-0003jC-DZ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 04:39:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41806)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4Kv4-0005YI-HX
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 04:45:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40771)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4Koj-0007uq-AP
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 04:39:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4Kuy-0001lr-Pi
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 04:45:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611653960;
+ s=mimecast20190719; t=1611654347;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vBeQpGdMWaEYgpTGx+6EWMYD7MJAtgu57QuYzHMhkYU=;
- b=jQl30j3+pp5XSYWIU4Ejkae6I9CXXTbfhzMG7F+clikjt/ddAN2FkH5qb+uqPaIQoZCDse
- bA/X/tEPGsdkQ8/kDpap5GDV8dmlkTt5awblhyGtl1iiAcZWj4w4VKrl8G2iJWBQ3sjxUQ
- avLFFm2Qh9yhiKIdWcVNlu5bh7VX+OI=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-523-i_tlvkTRNreiRI3nSu6fBg-1; Tue, 26 Jan 2021 04:38:55 -0500
-X-MC-Unique: i_tlvkTRNreiRI3nSu6fBg-1
-Received: by mail-ej1-f71.google.com with SMTP id z2so4752506ejf.3
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 01:38:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vBeQpGdMWaEYgpTGx+6EWMYD7MJAtgu57QuYzHMhkYU=;
- b=a24qxmy6UV/3ApLKcLfQR4XaylH5eqMAZd9uieUXBywXiMK632UrVH6a132bjJTm/b
- X1GAaPjD/W54LCldhcf80YlJNylCkzIFbOUEQNlsIwuOeAyx17k7y29IXEfpzKeknVO6
- JfN1Jrs5LJdmzKeiXrKjqqBX6NWQSXPLHC7A/KxKIGwe8WYi1OsXglBCGR+KFm8ggFWr
- SqBe4o8OHidlmITFwilYw8tfLOo9kgiIQ1vx0OfyQBNpkHYpJGCHarGNeytNN66+Xxg0
- Ydh7MxWFHrH2JwDtw9bl3VhM0hODCJ7QJCMVdVFxbSKER/u9SZa96glp0J4JUiMRy8++
- PLbA==
-X-Gm-Message-State: AOAM531Jw3udX1XBF0w9GwSHm/1aZCbWiPGin4JbahPBKSz61Kh/z7Y1
- S4V8hp7vmrlHyB6ym44/sWBh72Dt3TFO5q0EMkQyt6GxmRCs/IEQFwNeecY9fFdf3vV4otcJvV8
- WJn7uiGJYLacoJL0=
-X-Received: by 2002:a17:906:3146:: with SMTP id
- e6mr2791447eje.363.1611653933996; 
- Tue, 26 Jan 2021 01:38:53 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxRF8F1KloVXwLBJvJroM/vQMyIDw+mwM9MpBurX2FM7uwmZlSTMwLS4hI5umgTeXqU0QjVFg==
-X-Received: by 2002:a17:906:3146:: with SMTP id
- e6mr2791434eje.363.1611653933790; 
- Tue, 26 Jan 2021 01:38:53 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id di28sm12112433edb.71.2021.01.26.01.38.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jan 2021 01:38:53 -0800 (PST)
-Subject: Re: [PATCH] gitlab-ci.yml: Avoid recompiling the sources in the test
- jobs
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20210126065757.403853-1-thuth@redhat.com>
- <ed621c17-43e4-3ae4-2a5f-56fb8d054e3f@redhat.com>
- <19cbfd81-3d33-dbc1-b8f4-fecdce8ce09c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <dec6a8f1-2486-0ded-0994-6ac25416ef2c@redhat.com>
-Date: Tue, 26 Jan 2021 10:38:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=Susqszl05XGsuuuPk0lbclFRoyEJ8CEMMUl5LoDsU+c=;
+ b=X/bje2QNL63KAfe0J5IffYL/v97HjF7eg/hTaRpSDJjdP1eHqZzgynAtMLvZqXuqMusBn5
+ gbiqi/a9cQrpQ3Ul+PgXn7GZo6xl/u8/Elqydhxfoi2HOz0LXojDKuxwY25aUU+64bZ6om
+ Hxy+rzohwVL3L8kf5ZByRTmQmcYH9g0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-6PxRXADmP1aAT6QeQrqQnQ-1; Tue, 26 Jan 2021 04:45:44 -0500
+X-MC-Unique: 6PxRXADmP1aAT6QeQrqQnQ-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BAD71966320;
+ Tue, 26 Jan 2021 09:45:43 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-114-202.ams2.redhat.com [10.36.114.202])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94D776F45C;
+ Tue, 26 Jan 2021 09:45:41 +0000 (UTC)
+Date: Tue, 26 Jan 2021 10:45:39 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH v8 2/5] iotests: add testenv.py
+Message-ID: <20210126094539.GA4385@merkur.fritz.box>
+References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
+ <20210123210428.27220-3-vsementsov@virtuozzo.com>
+ <20210125220528.GA170615@merkur.fritz.box>
+ <86218b16-33cd-b9da-cb36-892c301197a3@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <19cbfd81-3d33-dbc1-b8f4-fecdce8ce09c@redhat.com>
+In-Reply-To: <86218b16-33cd-b9da-cb36-892c301197a3@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -102,64 +78,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 10:08 AM, Thomas Huth wrote:
-> On 26/01/2021 08.36, Philippe Mathieu-Daudé wrote:
->> On 1/26/21 7:57 AM, Thomas Huth wrote:
->>> Currently, our check-system-* jobs are recompiling the whole sources
->>> again. This happens due to the fact that the jobs are checking out
->>> the whole source tree and required submodules again, and only try
->>> to use the "build" directory with the binaries and object files as an
->>> artifact from the previous stage - which simply does not work right
->>> anymore (with the current version of meson). Due to some changed
->>> time stamps, meson/ninja are always trying to rebuild the whole tree.
->>>
->>> In the long run, we could likely use "meson test --no-rebuild", but
->>> there is still some work going on in that area to improve the user
->>> experience. So until this has been done, simply avoid recompiling the
->>> sources with a trick: pass NINJA=":" to the make process in the test
->>> jobs. Also check out the submodules manually before updating the
->>> timestamps in the build folder, so that the binaries are definitely
->>> newer that all the source files.
->>> This saves ca. 10 - 15 minutes of precious CI cycles in each run.
->>>
->>> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   .gitlab-ci.yml | 4 +++-
->>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>
->>> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->>> index de3a3d25b5..16fea25ba9 100644
->>> --- a/.gitlab-ci.yml
->>> +++ b/.gitlab-ci.yml
->>> @@ -38,9 +38,11 @@ include:
->>>     stage: test
->>>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->>>     script:
->>> +    - scripts/git-submodule.sh update
->>> +        $(grep GIT_SUBMODULES build/config-host.mak | sed
->>> 's/GIT_SUBMODULES=//')
->>>       - cd build
->>>       - find . -type f -exec touch {} +
->>> -    - make $MAKE_CHECK_ARGS
->>> +    - make NINJA=":" $MAKE_CHECK_ARGS
->>
->> This ninja trick deserves a comment in the YAML file.
+Am 26.01.2021 um 09:28 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 26.01.2021 01:05, Kevin Wolf wrote:
+> > Am 23.01.2021 um 22:04 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> > > Add TestEnv class, which will handle test environment in a new python
+> > > iotests running framework.
+> > > 
+> > > Don't add compat=1.1 for qcow2 IMGOPTS, as v3 is default anyway.
+> > > 
+> > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> > > ---
+> > >   tests/qemu-iotests/testenv.py | 278 ++++++++++++++++++++++++++++++++++
+> > >   1 file changed, 278 insertions(+)
+> > >   create mode 100644 tests/qemu-iotests/testenv.py
+> > > 
+> > > diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+> > > new file mode 100644
+> > > index 0000000000..348af593e9
+> > > --- /dev/null
+> > > +++ b/tests/qemu-iotests/testenv.py
+> > > @@ -0,0 +1,278 @@
+> > > +# TestEnv class to manage test environment variables.
+> > > +#
+> > > +# Copyright (c) 2020-2021 Virtuozzo International GmbH
+> > > +#
+> > > +# This program is free software; you can redistribute it and/or modify
+> > > +# it under the terms of the GNU General Public License as published by
+> > > +# the Free Software Foundation; either version 2 of the License, or
+> > > +# (at your option) any later version.
+> > > +#
+> > > +# This program is distributed in the hope that it will be useful,
+> > > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
+> > > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> > > +# GNU General Public License for more details.
+> > > +#
+> > > +# You should have received a copy of the GNU General Public License
+> > > +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> > > +#
+> > > +
+> > > +import os
+> > > +import sys
+> > > +import tempfile
+> > > +from pathlib import Path
+> > > +import shutil
+> > > +import collections
+> > > +import random
+> > > +import subprocess
+> > > +import glob
+> > > +from contextlib import AbstractContextManager
+> > > +from typing import Dict, Any, Optional
+> > > +
+> > > +
+> > > +def get_default_machine(qemu_prog: str) -> str:
+> > > +    outp = subprocess.run([qemu_prog, '-machine', 'help'], check=True,
+> > > +                          universal_newlines=True,
+> > > +                          stdout=subprocess.PIPE).stdout
+> > > +
+> > > +    machines = outp.split('\n')
+> > > +    default_machine = next(m for m in machines if m.endswith(' (default)'))
+> > > +    default_machine = default_machine.split(' ', 1)[0]
+> > > +
+> > > +    alias_suf = ' (alias of {})'.format(default_machine)
+> > > +    alias = next((m for m in machines if m.endswith(alias_suf)), None)
+> > > +    if alias is not None:
+> > > +        default_machine = alias.split(' ', 1)[0]
+> > > +
+> > > +    return default_machine
+> > > +
+> > > +
+> > > +class TestEnv(AbstractContextManager['TestEnv']):
+> > 
+> > I'm getting CI failures here:
+> > 
+> > Traceback (most recent call last):
+> >    File "./check", line 23, in <module>
+> >      from testenv import TestEnv
+> >    File "/builds/.../qemu/tests/qemu-iotests/testenv.py", line 49, in <module>
+> >      class TestEnv(AbstractContextManager['TestEnv']):
+> > TypeError: 'ABCMeta' object is not subscriptable
+> > 
+> > On the other hand, if I make it just AbstractContextManager without
+> > giving the type parameter, mypy complains:
+> > 
+> > testenv.py:49: error: Missing type parameters for generic type "ContextManager"
+> > 
+> > I guess I need to have another look into this tomorrow.
 > 
-> I'll add:
-> 
->     # Avoid recompiling by hiding ninja with NINJA=":"
-> 
-> Ok?
+> It may help to use typing.ContextManager instead of
+> AbstractContextManager. mypy is OK with it, probably CI will be OK
+> too..
 
-Perfect, thanks!
+Okay, I'm trying now if this change works (on top of v9, of course). If
+it does, I'll just squash it in. I also silenced some of the mypy
+warnings, so that I'm not testing with the following patch squashed in.
 
-Phil.
+Kevin
+
+
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index ca9cab531b..becea1bb7d 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -25,8 +25,7 @@ import collections
+ import random
+ import subprocess
+ import glob
+-from contextlib import AbstractContextManager
+-from typing import Dict, Any, Optional
++from typing import ContextManager, Dict, Any, Optional
+
+
+ def isxfile(path: str) -> bool:
+@@ -50,7 +49,7 @@ def get_default_machine(qemu_prog: str) -> str:
+     return default_machine
+
+
+-class TestEnv(AbstractContextManager['TestEnv']):
++class TestEnv(ContextManager['TestEnv']):
+     """
+     Manage system environment for running tests
+
+@@ -81,7 +80,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
+
+         return env
+
+-    def init_directories(self):
++    def init_directories(self) -> None:
+         """Init directory variables:
+              PYTHONPATH
+              TEST_DIR
+@@ -114,7 +113,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
+
+         self.output_dir = os.getcwd()  # OUTPUT_DIR
+
+-    def init_binaries(self):
++    def init_binaries(self) -> None:
+         """Init binary path variables:
+              PYTHON (for bash tests)
+              QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
+@@ -122,7 +121,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
+         """
+         self.python = sys.executable
+
+-        def root(*names):
++        def root(*names: str) -> str:
+             return os.path.join(self.build_root, *names)
+
+         arch = os.uname().machine
 
 
