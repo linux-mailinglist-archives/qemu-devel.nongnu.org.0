@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F012304A33
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 21:37:08 +0100 (CET)
-Received: from localhost ([::1]:36578 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2F46304A42
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 21:40:51 +0100 (CET)
+Received: from localhost ([::1]:39524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4V5G-0006QS-Tp
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 15:37:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47004)
+	id 1l4V8r-0007tp-N8
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 15:40:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4V3q-0005Mz-Fz
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 15:35:38 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52818)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4V3l-00088t-Pi
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 15:35:37 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l4V3j-0007E0-U5
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 20:35:31 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id DDA892E8060
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 20:35:31 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l4V7g-0007OA-HG; Tue, 26 Jan 2021 15:39:36 -0500
+Received: from mail.kernel.org ([198.145.29.99]:39460)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
+ id 1l4V7e-00015x-Vt; Tue, 26 Jan 2021 15:39:36 -0500
+Received: by mail.kernel.org (Postfix) with ESMTPSA id 19864221FC;
+ Tue, 26 Jan 2021 20:39:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1611693571;
+ bh=bLyThdL1UyED0gL6XUv01OircAJJsj4NkuMU/Tnwgxs=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=X4d/hXaNu2MdXzEhIn0TWl2jufET2H80cRjE8ZQOndBxSnQ1hdX/ex84janJh06Hy
+ vVo58pO25wxjNsy54E7G/dTIKO6KgWwY/7yRDR7hwkWwCN2C+V1mBpM/BWpKiBMYlo
+ lsIKoB2VEDIZBG+ooWwHx5aNDhxvzGgv+8Mr3F0P8T6qwlGWXstfkVgehvUgws+W73
+ BXpTZhfMODUyU8kz4Qj1f3Qs6q6RbFAdEKCvk8XNEZiU4jKgrLoAVMcWhcFNrPYp6s
+ 2W7UJFuQEecT0hVVlSQImgIV+9wxlKqJelOjE1IbWgiYsmIsx/136IolR5eywDkZ4Z
+ yjgsP/RSU//Jg==
+Date: Wed, 27 Jan 2021 05:39:29 +0900
+From: Keith Busch <kbusch@kernel.org>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH V6 0/6] hw/block/nvme: support multi-path for ctrl/ns
+Message-ID: <20210126203929.GB23059@redsun51.ssa.fujisawa.hgst.com>
+References: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 26 Jan 2021 20:25:43 -0000
-From: Iris Johnson <1913344@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: modwizcode
-X-Launchpad-Bug-Reporter: Iris Johnson (modwizcode)
-X-Launchpad-Bug-Modifier: Iris Johnson (modwizcode)
-Message-Id: <161169274433.14547.17841565794451082949.malonedeb@wampee.canonical.com>
-Subject: [Bug 1913344] [NEW]  Exynos4210 UART peripheral data loss
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: f3bca4985af60ca466abf11820183be1d4a3d81d
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
+User-Agent: Mutt/1.12.1 (2019-06-15)
+Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
+ helo=mail.kernel.org
+X-Spam_score_int: -73
+X-Spam_score: -7.4
+X-Spam_bar: -------
+X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,69 +61,13 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913344 <1913344@bugs.launchpad.net>
+Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+This came out looking cleaner than I had initially expected. Thanks for
+seeing this feature through!
 
-Currently the Exynos4210 UART (hw/char/exynos4210_uart.c) incorrectly
-reports however many empty bytes are available in the FIFO when queried
-for receive capacity. However this peripheral supports a polled mode
-where only a single byte can be submitted at a time and the FIFO is
-unused, meaning that in polled mode data is lost since it's written into
-the FIFO and the polling code in FIFO disabled mode only returns the
-value in the RX data register.
-
-Even worse, potentially enabling the FIFO without a FIFO reset will
-create a weird situation where data is already in the FIFO whenever data
-came in faster than the polling could pick it up (which is basically
-always).
-
-This change obscured the issue in
-https://bugs.launchpad.net/qemu/+bug/1913341, which instead presented as
-strange data loss until I locally resolved this issue.
-
-I have a patch ready for the bug and will submit it later today, I'm
-just filing for clarity.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913344
-
-Title:
-   Exynos4210 UART peripheral data loss
-
-Status in QEMU:
-  New
-
-Bug description:
-  Currently the Exynos4210 UART (hw/char/exynos4210_uart.c) incorrectly
-  reports however many empty bytes are available in the FIFO when
-  queried for receive capacity. However this peripheral supports a
-  polled mode where only a single byte can be submitted at a time and
-  the FIFO is unused, meaning that in polled mode data is lost since
-  it's written into the FIFO and the polling code in FIFO disabled mode
-  only returns the value in the RX data register.
-
-  Even worse, potentially enabling the FIFO without a FIFO reset will
-  create a weird situation where data is already in the FIFO whenever
-  data came in faster than the polling could pick it up (which is
-  basically always).
-
-  This change obscured the issue in
-  https://bugs.launchpad.net/qemu/+bug/1913341, which instead presented
-  as strange data loss until I locally resolved this issue.
-
-  I have a patch ready for the bug and will submit it later today, I'm
-  just filing for clarity.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913344/+subscriptions
+Reviewed-by: Keith Busch <kbusch@kernel.org>
 
