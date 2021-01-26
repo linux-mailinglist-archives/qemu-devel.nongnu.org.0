@@ -2,75 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A2E73038B2
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 10:09:42 +0100 (CET)
-Received: from localhost ([::1]:51100 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BC83038BE
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 10:14:11 +0100 (CET)
+Received: from localhost ([::1]:54068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4KM1-0002ya-5N
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 04:09:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38534)
+	id 1l4KQM-0004Qa-Jo
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 04:14:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4KKp-0002Iz-St
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 04:08:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:37627)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4KKn-0005ma-81
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 04:08:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611652103;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lVebEM+TYK+hwn0m9C69wkro+H1qDTDxP982Lwre7js=;
- b=cVkzLf0ilwpG/giIHVtzHnvj8d3J0k/shy5RoNSHcXI6xN+kMRwPSF+m+qDo+x7cRfELbb
- Nu78cZKZ8MlR0plRR5QPgX5ZmLATPe7H9kNkaONe4UWHCCAv5IAgncx2emAYUC8tRycq9C
- oOVW7J3jg6QaPXfdl+bEK29EYFVWvic=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-275-SD0bsrxDOXmYHnFmhGCSwg-1; Tue, 26 Jan 2021 04:08:21 -0500
-X-MC-Unique: SD0bsrxDOXmYHnFmhGCSwg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 485C684A5E1
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 09:08:20 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-115-18.ams2.redhat.com [10.36.115.18])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E97ED6267C;
- Tue, 26 Jan 2021 09:08:15 +0000 (UTC)
-Subject: Re: [PATCH] gitlab-ci.yml: Avoid recompiling the sources in the test
- jobs
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org
-References: <20210126065757.403853-1-thuth@redhat.com>
- <ed621c17-43e4-3ae4-2a5f-56fb8d054e3f@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <19cbfd81-3d33-dbc1-b8f4-fecdce8ce09c@redhat.com>
-Date: Tue, 26 Jan 2021 10:08:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4KLK-0002xN-55; Tue, 26 Jan 2021 04:08:58 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26]:37341)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4KLG-0005wH-Ss; Tue, 26 Jan 2021 04:08:57 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 62E5E5C0174;
+ Tue, 26 Jan 2021 04:08:53 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Tue, 26 Jan 2021 04:08:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=yBV97bkMaH+vIpyPKZAmeiXLmdU
+ mcUq5/661GQIYJbc=; b=akTp91R1VL2G4DkXRADxiaRn6IaZN1lnoDy/T3Kt/bY
+ lwjoR9u/zlYR5i9KqMpWLn0ywA6KjcyUbqNL/QYHrBn3lsoJVxux3PVwN56BBsXX
+ OtiQhsVP610QkzBoe7bUZ/ID8WtrvleiwREjtkHC1d5LkXI/oHF3xEw0tEDqvnex
+ UwaWHayenNYk01GT1lan7tRZaZqxthWAosyrCusR+jU4Sn0RNo+uYi9N/Zm7Rpyj
+ dT6p3EbS4qtd/+/EcWRVyJc6oXf7uGlvAG/KkNo7RKD5eaWZclOz3ePgl8+IbtUM
+ +i9bKamGYnro2Tg/yfPjryPhQjXKEAZCNGvytcIHQGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=yBV97b
+ kMaH+vIpyPKZAmeiXLmdUmcUq5/661GQIYJbc=; b=Wh8MpQmbZNSenVWuN2mfA9
+ HMpZGr8UvF780f+VyB0WzpcGX+zye53WWesDyhLWxYTX6vw9/rAxyuCvsvABphiS
+ oLDfKLl39HKKn5FmEoAMVtqfbsfByJJxVsLyBtHfUZbItTUkq4rWfp8ZsOaWVXVv
+ 8BzHGdTviZ6OU2CU4A1APSTvTOsp106bNmA/2pxh755hjARtZHmYwIBvy1XZ0mdI
+ p6b/pYRazg7iqG7qzUylPBjKtexyuspkvvW1HHIHad8YtiJ0sV9UC9qwvqasrYdr
+ +/MeZJjEvebQ/xIzbeqnK/oAs0M+De8dJE9MRmezhG3//NqaZ1FKsUUO9OZ3fD9w
+ ==
+X-ME-Sender: <xms:JdwPYPNFj0_AK5ZggzUTzn2q7H6mEsUXZLnVuHYaZILHS8S_5kXK8A>
+ <xme:JdwPYOQFdWzcp1ReAqxM--goo_nI62Ngj6F0WrsRQdTTpF61WB8MoTmAhC5eRUvPt
+ O0HclpneXstA07if4M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdehucetufdoteggodetrfdotffvucfrrh
+ hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
+ lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+ epfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhsucflvghn
+ shgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrhhnpe
+ ejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudffkeenucfk
+ phepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
+ grmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:JdwPYNYM41IY89ISGuR7gCX4FvSngaGdgLBZ6XNsRZDmKOFpxNQ8MQ>
+ <xmx:JdwPYL2yTmPcHuczlfps1DaafE-cyrdemfm_fP1lZOdxPI_TiQ21rg>
+ <xmx:JdwPYNXw0d0GbbK-e1i7YHSagcXAyFx6wE6nUlJFo5p1XkU2jSYnWg>
+ <xmx:JdwPYAldSUCOUnaQEuvLeigx85MqA-VaoydvinGYkbCs9c4krrJpmQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 215BB24005C;
+ Tue, 26 Jan 2021 04:08:52 -0500 (EST)
+Date: Tue, 26 Jan 2021 10:08:50 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Minwoo Im <minwoo.im.dev@gmail.com>
+Subject: Re: [PATCH] hw/block/nvme: fix wrong parameter name 'cross_read'
+Message-ID: <YA/cIsINJkFbtnWr@apples.localdomain>
+References: <20210126001924.3963-1-minwoo.im.dev@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <ed621c17-43e4-3ae4-2a5f-56fb8d054e3f@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="/h7ZcNpcC20mriaT"
+Content-Disposition: inline
+In-Reply-To: <20210126001924.3963-1-minwoo.im.dev@gmail.com>
+Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,60 +93,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>
+Cc: Keith Busch <kbusch@kernel.org>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/01/2021 08.36, Philippe Mathieu-Daudé wrote:
-> On 1/26/21 7:57 AM, Thomas Huth wrote:
->> Currently, our check-system-* jobs are recompiling the whole sources
->> again. This happens due to the fact that the jobs are checking out
->> the whole source tree and required submodules again, and only try
->> to use the "build" directory with the binaries and object files as an
->> artifact from the previous stage - which simply does not work right
->> anymore (with the current version of meson). Due to some changed
->> time stamps, meson/ninja are always trying to rebuild the whole tree.
->>
->> In the long run, we could likely use "meson test --no-rebuild", but
->> there is still some work going on in that area to improve the user
->> experience. So until this has been done, simply avoid recompiling the
->> sources with a trick: pass NINJA=":" to the make process in the test
->> jobs. Also check out the submodules manually before updating the
->> timestamps in the build folder, so that the binaries are definitely
->> newer that all the source files.
->> This saves ca. 10 - 15 minutes of precious CI cycles in each run.
->>
->> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
->> Signed-off-by: Thomas Huth <thuth@redhat.com>
->> ---
->>   .gitlab-ci.yml | 4 +++-
->>   1 file changed, 3 insertions(+), 1 deletion(-)
->>
->> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
->> index de3a3d25b5..16fea25ba9 100644
->> --- a/.gitlab-ci.yml
->> +++ b/.gitlab-ci.yml
->> @@ -38,9 +38,11 @@ include:
->>     stage: test
->>     image: $CI_REGISTRY_IMAGE/qemu/$IMAGE:latest
->>     script:
->> +    - scripts/git-submodule.sh update
->> +        $(grep GIT_SUBMODULES build/config-host.mak | sed 's/GIT_SUBMODULES=//')
->>       - cd build
->>       - find . -type f -exec touch {} +
->> -    - make $MAKE_CHECK_ARGS
->> +    - make NINJA=":" $MAKE_CHECK_ARGS
-> 
-> This ninja trick deserves a comment in the YAML file.
 
-I'll add:
+--/h7ZcNpcC20mriaT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-     # Avoid recompiling by hiding ninja with NINJA=":"
+On Jan 26 09:19, Minwoo Im wrote:
+> The actual parameter name is 'cross_read' rather than 'cross_zone_read'.
+>=20
+> Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> ---
+>  hw/block/nvme.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> index 21aec90637fa..bf9134f73d81 100644
+> --- a/hw/block/nvme.c
+> +++ b/hw/block/nvme.c
+> @@ -81,7 +81,7 @@
+>   *         The default value means there is no limit to the number of
+>   *         concurrently open zones.
+>   *
+> - *     zoned.cross_zone_read=3D<enable RAZB, default: false>
+> + *     zoned.cross_read=3D<enable RAZB, default: false>
+>   *         Setting this property to true enables Read Across Zone Bounda=
+ries.
+>   */
+> =20
 
-Ok?
+Thanks, applied!
 
-  Thomas
+--/h7ZcNpcC20mriaT
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAP3CAACgkQTeGvMW1P
+DemNVgf/bVHGE7bQc0jtPNkB27xKU4yeqsqvTbFsxsSdlNwsa3+VdEE8KIDd7Y0F
+KykX/NfbYv54x1TX1GGBYD2DKb8GuzLX6YGr5jkBv8nl6etsR83r9z7b2cYXeQ2X
+UmMZ+fWNn5MYpuiWoR4hPWuhNmcWT60oRPAsrK6bqs5s6R9kLdT0HUL2CMgDuF9i
+z3CHvvYGUVQsbPgqK6Ysj5Y7xwoQsyRR6P3ISslfbmlSOHSWQ/5vAzpK06VveuEN
+U5NGRsrEmwfgZpAmWPjBkq66bgy3Ly9Jlp5AZiz24pmJZR3zRir5LSBZJ0Fh2LKu
+9FXu3xIAo89JKbyuHdGoxMLIVrLOFw==
+=h39U
+-----END PGP SIGNATURE-----
+
+--/h7ZcNpcC20mriaT--
 
