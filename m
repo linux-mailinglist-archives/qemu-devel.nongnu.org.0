@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7EAC3043BA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 17:24:42 +0100 (CET)
-Received: from localhost ([::1]:54390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00F7E3043C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 17:27:05 +0100 (CET)
+Received: from localhost ([::1]:56896 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4R8z-0000OS-R7
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 11:24:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48948)
+	id 1l4RBI-0001XG-2y
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 11:27:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49070)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4R53-0007Zh-QA
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:20:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59544)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4R4x-0006jH-10
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:20:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611678030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=dEkS4acqpFa4PNtJuanNBXx0hHtXNMxs9EOpCjsbUfA=;
- b=JM21xFkmKsrWnOp3za+zgnU8v5Jpg/wirx5QIzAYBhXfpND/XnwvG5jWUrrK9GMbQ1JK9w
- i+Jvlsghox/tC6aTOwZJPnbnr2pj19JLM4EYpC3QrlcZr1D9DOBwcwHD+G1l7XQUZk2VFQ
- n/e9VQY/t5EOUOmF7vDKSl1RUPFskTs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-550-xptw6nOXMZSfOa7AJlhnOw-1; Tue, 26 Jan 2021 11:20:27 -0500
-X-MC-Unique: xptw6nOXMZSfOa7AJlhnOw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC12C81440D;
- Tue, 26 Jan 2021 16:20:24 +0000 (UTC)
-Received: from localhost (ovpn-114-186.ams2.redhat.com [10.36.114.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4F3BC5D720;
- Tue, 26 Jan 2021 16:20:24 +0000 (UTC)
-Date: Tue, 26 Jan 2021 16:20:23 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH] hw/block/nvme: add broadcast nsid support flush command
-Message-ID: <20210126162023.GB271392@stefanha-x1.localdomain>
-References: <20210125204231.254925-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l4R5Y-0007u4-FP
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:21:08 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:33162)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l4R5N-0006vD-K5
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:21:06 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id by1so23800670ejc.0
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 08:20:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=Fe6+7iGijWMmyR+8x/yTNe+7VImq4C4ZRtMHjNxpa5Q=;
+ b=S/Lt1+uRno0Hh4zMNALGewmcQtTgvMX8MDv2Z3r31AHpMttT4gInzefhfI3yqRbEiL
+ qZiCGwXULYWWRmsyk5nuxxz4USRWRmpshGSYUFuihrCSfWf85SkeCDrSLokgp3OcZKN7
+ QrwYyTJXVmYm9arLJCTW8+Wmmm+C4ynafSas3AKx/VJN2ji1W0Xlv3HgmR9cUnU17qX3
+ t9Lr57Tjh+eP0yQvJF18Pb0cTdM4LVYIOihLNkuRnZLdD0M4Yp5kHKWXpYp3NB6hzuas
+ tCb5//N0Zg58WZc9sy1ZFwtSodFg0OwJAw4hcqECnY+rhGCnPp/+cZWge02jwgy8ySju
+ bPNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=Fe6+7iGijWMmyR+8x/yTNe+7VImq4C4ZRtMHjNxpa5Q=;
+ b=QtblFSd0uDTk3B49MBlmJOkdM5+D1t4eu4Vr3GJVo236lSk5YZg/jICrr6EIVuyVtZ
+ 234FxwiVWI1RZWiI88EpNB7j261If2oesW7tGMXr85eFdgZoJ5kg7apu7mE59RzfZoj5
+ riPW7ZA28A7bkvI+hmQl6ylIyd4R58B1GBb+KdyQ/0KvhMsNVXGajhHhRAQS+lTk5gxd
+ 9kwy65Ng1hw655rXlBqV5QCJQQkE7TJ2h0pGYEbFWaKLlsqRDsQpcLHh6wj4HLCGxY/f
+ N9ul+9zuZLzXUYtQqD3tC/yJZjujuOdB4ORsgKEkML1SCVDl9J8dpU+CZsV0MTBE79Nt
+ tuvw==
+X-Gm-Message-State: AOAM532qo4Yj/eru6TNb8Kbe7JJonuFiTtsMoLtTWlN+UrYW+HYs2ESj
+ iWxqUtq/295O7/i3afa7ni7mytWp/QgV0fVirQXSww==
+X-Google-Smtp-Source: ABdhPJzrkfX+BFzaGBuRcEVgE12M71gjAuH4RrGQl0uD9CNpA6Na7CFbby4vOB1ToXdOBb7RGnstE93FCJhfmow997c=
+X-Received: by 2002:a17:906:494c:: with SMTP id
+ f12mr4062829ejt.56.1611678056136; 
+ Tue, 26 Jan 2021 08:20:56 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210125204231.254925-1-its@irrelevant.dk>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="aVD9QWMuhilNxW9f"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <1611138717-1672-1-git-send-email-mihai.carabas@oracle.com>
+In-Reply-To: <1611138717-1672-1-git-send-email-mihai.carabas@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 26 Jan 2021 16:20:44 +0000
+Message-ID: <CAFEAcA9vjm2Ad9SFoq1ZLid3k86sKJyjb5QJC7VNonD=MRQvUg@mail.gmail.com>
+Subject: Re: [PATCH v4] Add support for pvpanic pci device
+To: Mihai Carabas <mihai.carabas@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,49 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, qemu-devel@nongnu.org,
- Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---aVD9QWMuhilNxW9f
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 20 Jan 2021 at 11:21, Mihai Carabas <mihai.carabas@oracle.com> wrote:
+>
+> This patchset adds support for pvpanic pci device.
+>
+> v3:
+> - patch 1: made pvpanic isa device available only for PC, compile pvpanic-test
+>   only when isa device is present
+> - patch 2: fixed device id to 0x0011, used OBJECT_DECLARE_TYPE,
+>   PVPANIC_PCI_DEVICE, added VMSTATE_PCI_DEVICE, removed INTERFACE_PCIE_DEVICE
+> - patch 3: fixed documentation
+> - patch 4: add a qtest for pvpanic-pci
 
-On Mon, Jan 25, 2021 at 09:42:31PM +0100, Klaus Jensen wrote:
-> From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
->=20
-> Add support for using the broadcast nsid to issue a flush on all
-> namespaces through a single command.
->=20
-> Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-> Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  include/block/nvme.h  |   8 +++
->  hw/block/nvme.c       | 123 +++++++++++++++++++++++++++++++++++++++---
->  hw/block/trace-events |   2 +
->  3 files changed, 126 insertions(+), 7 deletions(-)
+This fails make check (x86-64 host, clang, sanitizer build):
 
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
+Running test qtest-ppc64/pvpanic-pci-test
+../../tests/qtest/libqos/pci.c:256:17: runtime error: member access
+within null pointer of type 'QPCIDevice' (aka 'struct QPCIDevice')
+../../tests/qtest/libqos/pci.c:256:17: runtime error: load of null
+pointer of type 'QPCIBus *' (aka 'struct QPCIBus *')
+UndefinedBehaviorSanitizer:DEADLYSIGNAL
+==24237==ERROR: UndefinedBehaviorSanitizer: SEGV on unknown address
+0x000000000000 (pc 0x5560e21f4d32 bp 0x5560e35d0c00 sp 0x7ffd75fd4740
+T24237)
+==24237==The signal is caused by a READ memory access.
+==24237==Hint: address points to the zero page.
+    #0 0x5560e21f4d31 in qpci_config_readw
+/home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/../../tests/qtest/libqos/pci.c:256:17
+    #1 0x5560e21f5201 in qpci_device_enable
+/home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/../../tests/qtest/libqos/pci.c:107:11
+    #2 0x5560e21eaa79 in test_panic
+/home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/../../tests/qtest/pvpanic-pci-test.c:64:5
+    #3 0x7f4fd6d6cf29  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72f29)
+    #4 0x7f4fd6d6ce5a  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72e5a)
+    #5 0x7f4fd6d6ce5a  (/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x72e5a)
+    #6 0x7f4fd6d6d101 in g_test_run_suite
+(/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x73101)
+    #7 0x7f4fd6d6d120 in g_test_run
+(/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x73120)
+    #8 0x5560e21eaa15 in main
+/home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/../../tests/qtest/pvpanic-pci-test.c:91:11
+    #9 0x7f4fd5d49bf6 in __libc_start_main
+/build/glibc-S7xCS9/glibc-2.27/csu/../csu/libc-start.c:310
+    #10 0x5560e21ca559 in _start
+(/home/petmay01/linaro/qemu-from-laptop/qemu/build/clang/tests/qtest/pvpanic-pci-test+0x7d559)
 
---aVD9QWMuhilNxW9f
-Content-Type: application/pgp-signature; name="signature.asc"
+UndefinedBehaviorSanitizer can not provide additional info.
+==24237==ABORTING
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAQQUcACgkQnKSrs4Gr
-c8iPYgf/fGMm2YumYfeSbG+EEMU3DlPxCVBw/gQ8mRJx6C5KWREcXLG21w1Ysi96
-+ly6RiSicK2wOyb8XFhTJNgqhuDoAo2Fgk3deYfiUF6dIjbl/3Nk/2OCScEkvx9E
-crsv5Git4TcXsDNy5bE35TwGIIo08bhbRGf0DtRk05ek4JbsHwl+JL5llWdqC/aH
-BpJg1l3zQ3sMDRMWjuFTHP2g23GyaSJerSdbjbgRoLV6ZSNc5YUhXjf+kPJ26dPm
-7FrT4E6K62aj85Obu0Hgnpiu1RRySYZsom7H+8aFHvQ24w7xrwy9QldpKH0lzLcv
-ctzaq0Qp8+u1mt5VG2XdvKXPuYve1w==
-=f932
------END PGP SIGNATURE-----
-
---aVD9QWMuhilNxW9f--
-
+thanks
+-- PMM
 
