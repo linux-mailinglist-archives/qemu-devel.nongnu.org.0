@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DFAE303A3E
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 11:29:59 +0100 (CET)
-Received: from localhost ([::1]:49934 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A7479303A71
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 11:36:41 +0100 (CET)
+Received: from localhost ([::1]:55824 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Lbi-0005cu-Le
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 05:29:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52572)
+	id 1l4LiC-0008Pu-Nc
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 05:36:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53972)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l4LZi-0004Nx-0F
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:27:54 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:45332)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l4LZg-0007l5-J5
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:27:53 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id f1so19048253edr.12
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 02:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=vpbJczO3PVsciaR6dMpar4XfrjbgrNpROnA6WnjqUUQ=;
- b=BVdWHnjWq17R82pb9/LD2X7vu8go+rsDgHnYi5v9Ueqmp9Anuj+8vSdR/nyeFlFRT6
- izlCAVZGQ7FrVRMT9alRtgt4zNVhkc9jgS4aE2K1uP7Nh7KkAebpy0U18njY/PBNx3P0
- QFwdDeVqsr6/OTVwOGJxP40tfNx7EKWJZAed38Wl/Ojq+IKiymTm3sRd8x7bRh1ipdAQ
- f/bUt0PLZKYVIylcZSyEM/qM5K4a6Hn3HM9J7hhbE+NnmMIRFDRzsGopjh8Cwdk2KHWb
- BmxqlTOmJCim4tUIrHTF0o+ORBNGRbQHddNlkpa9ZW5jKusJqX5sLoMmIt+v/clxuOnZ
- xHAw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=vpbJczO3PVsciaR6dMpar4XfrjbgrNpROnA6WnjqUUQ=;
- b=EVTKBVns+sYUWp8BxfJyf1NsKS6qH/cOFnNYgRMjwN1z/e+4pz9KUs8tB5rwHiwwaD
- 5yFBIsWq0TlIgKiVElR2aVwwysv+DUXBrRgwqyPd28KTtqRm0jkXFSnqsXmb8FdZiIF6
- pw01u2cuZy0LwdHwUjr3sQX/Pqn4k7iD9sqDHQ1Zwgk6Vum7/IUu3H0jL9Gk/FgntH3n
- 1DQCp4+ne5VO3C0TjjRdJi6qSKZUo2U3+reLnM7M6ec6QodotfU154sQ2AL0eWsUKUk1
- OIezhO3Gixj50musb2gs0olRDeCF18La3psAnqSqgVpi11v1x5UE4oY6OTzhCWnXqihT
- NPdA==
-X-Gm-Message-State: AOAM533Yhk8XLS/fD+QePojULlZg0RxQocTQ5gRa7Rdv6O3WCink6KYT
- H75ncwNFG8VRpaHsdFe8vvqE8DD9qZk8hw==
-X-Google-Smtp-Source: ABdhPJxAS4ktkAOcxPB2divLg5e1QE/8QTmfsNUzBlmhs8PPm1KYWXOIH4f3nmCBpg/mKKuhCJYHTA==
-X-Received: by 2002:aa7:d44c:: with SMTP id q12mr3994390edr.368.1611656870819; 
- Tue, 26 Jan 2021 02:27:50 -0800 (PST)
-Received: from avogadro.redhat.com ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id
- bo12sm9447907ejb.93.2021.01.26.02.27.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 02:27:50 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] meson: honor --enable-rbd if cc.links test fails
-Date: Tue, 26 Jan 2021 11:27:48 +0100
-Message-Id: <20210126102748.341403-2-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4Lg8-0007mx-Jx
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:34:32 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42267)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4Lg6-0001he-UT
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:34:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611657269;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=mFLPByZtD3CiaUOWecJC93fKgeta4FM2cB6yc+CzJU8=;
+ b=ZTUJCQ8fy9stGGTHOAhRFcDpHANJfk/CW52QEw81FKgtFArCvMWlkaE3JoWHL6XgrWAgTG
+ yO1MRzPxn7RQvx3JfQBFnXea2anDhd77HrL6Sm+MDoKs9sU651InBgg+UpJT+msPRxk3CC
+ gZoap3dMdOtvWD7TUEaNhRCgPgsNu+0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-M4OkQSzFNPiA7tdJqy4eCA-1; Tue, 26 Jan 2021 05:34:27 -0500
+X-MC-Unique: M4OkQSzFNPiA7tdJqy4eCA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 493228735C3;
+ Tue, 26 Jan 2021 10:34:26 +0000 (UTC)
+Received: from redhat.com (ovpn-115-101.ams2.redhat.com [10.36.115.101])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4C83019D80;
+ Tue, 26 Jan 2021 10:34:24 +0000 (UTC)
+Date: Tue, 26 Jan 2021 10:34:21 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
+ is available
+Message-ID: <20210126103421.GC3640294@redhat.com>
+References: <20210125144530.2837481-1-philmd@redhat.com>
+ <20210125144530.2837481-5-philmd@redhat.com>
+ <20210125164746.GE3538803@redhat.com>
+ <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
+ <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
+ <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,55 +84,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pl@kamp.de
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>, Thomas Huth <thuth@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the link test failed, compilation proceeded with RBD disabled,
-even if --enable-rbd was used on the configure command line.
-Fix that.
+On Mon, Jan 25, 2021 at 09:02:38AM -1000, Richard Henderson wrote:
+> On 1/25/21 8:58 AM, Stefan Weil wrote:
+> > I have no evidence that TCI is less reliable than TCG, so I would not write that.
+> 
+> It can't pass make check-tcg.
 
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
----
- meson.build | 24 +++++++++++++++---------
- 1 file changed, 15 insertions(+), 9 deletions(-)
+It also doesn't have anyhere near the same level of automated or manual
+testing than TCG does, so I don't think we can claim it is at the same
+quality level. 
 
-diff --git a/meson.build b/meson.build
-index f991d4274d..5943aa8a51 100644
---- a/meson.build
-+++ b/meson.build
-@@ -690,15 +690,21 @@ if not get_option('rbd').auto() or have_block
-   librbd = cc.find_library('rbd', has_headers: ['rbd/librbd.h'],
-                            required: get_option('rbd'),
-                            kwargs: static_kwargs)
--  if librados.found() and librbd.found() and cc.links('''
--    #include <stdio.h>
--    #include <rbd/librbd.h>
--    int main(void) {
--      rados_t cluster;
--      rados_create(&cluster, NULL);
--      return 0;
--    }''', dependencies: [librbd, librados])
--    rbd = declare_dependency(dependencies: [librbd, librados])
-+  if librados.found() and librbd.found()
-+    if cc.links('''
-+      #include <stdio.h>
-+      #include <rbd/librbd.h>
-+      int main(void) {
-+        rados_t cluster;
-+        rados_create(&cluster, NULL);
-+        return 0;
-+      }''', dependencies: [librbd, librados])
-+      rbd = declare_dependency(dependencies: [librbd, librados])
-+    elif get_option('rbd').enabled()
-+      error('could not link librados')
-+    else
-+      warning('could not link librados, disabling')
-+    endif
-   endif
- endif
- 
+Regards,
+Daniel
 -- 
-2.29.2
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
