@@ -2,82 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8101B303B85
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:24:28 +0100 (CET)
-Received: from localhost ([::1]:58704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AA7303B6B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:21:29 +0100 (CET)
+Received: from localhost ([::1]:49920 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4MSR-0001ZB-JP
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:24:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35502)
+	id 1l4MPY-00068b-PL
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:21:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4MN7-0004fn-Q8
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:18:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28342)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4MNB-0004mb-P7
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:19:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30052)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4MN5-0000Yr-BO
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:18:57 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4MNA-0000ab-4N
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:19:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611659934;
+ s=mimecast20190719; t=1611659939;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=e9o9HSbgrAO9dhwuuX5RxoGyVnZHiCuOqoEwkUXX8gk=;
- b=g2OHyR6lKjoXk5W1qbaeNH0qUqh3lkguCvKrT1jPxydKsqAaQjlpT8R4RWZq4/7uBU2HHC
- XPhKTroa1tMLIb2c2qc7ShI7ihcd8L9tK5poSOceaCZTh/N7WrNMA2g9G4wuc8SwcUO1O1
- DcfTEOxmNaNlwxFbcnCzWj71YCaDyW8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-17dIS3HUOvGqJlHjKn7auA-1; Tue, 26 Jan 2021 06:18:52 -0500
-X-MC-Unique: 17dIS3HUOvGqJlHjKn7auA-1
-Received: by mail-ed1-f69.google.com with SMTP id dg17so9236617edb.11
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 03:18:52 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3PM3c1hDQViy2jaBMDNzLZyG4cMXsFVA914IRG0X4aE=;
+ b=WsZe0FTNxJecFGqTX+ppaa89nSkxlWps7ASOvfCsCRY5VEWX+8EGZM8P8fJ0O2tUQQ+7j5
+ Zvv77YtS6F1xKQ2mXR/o5vHoS5uMR4pZJmvby8z2HjSflTbSOoIXcZQPf/WhU7qGsdBAlH
+ Xis0+9A2Zpoeso6UmlBFdKgsifN939Q=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-445-J6mFiNGLO6qyDLGGph9cLg-1; Tue, 26 Jan 2021 06:18:58 -0500
+X-MC-Unique: J6mFiNGLO6qyDLGGph9cLg-1
+Received: by mail-ej1-f71.google.com with SMTP id jg11so4834682ejc.23
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 03:18:57 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cMgfQ2dDiKnx/eP1FpimyOYb6jMKw5Z/xIj2oE0pYsE=;
- b=hJfEiV8zoVDqRVVdij488vTebemaxVG1ak2NyhJu4LbhgL2B/0G+euyIRED0QNu9Pb
- 1ELogREHXN6sA0dvC0wbyBwWdprViMYVfZaJXqpCbU5dG+udw16LQ4mbyH2ee70wZfmL
- l6vhja/k6iYvXA3newuShnjbvH4GnZns3DwUMz2xk4pUlNMa/fts9I+JNUMMzRyb0LHu
- yNlrkVK4gSfuLLIeUkCHrFVSgn24bcwgDfJXqDJFnFE09qHl9M3kQVaHlytmROb3UHQW
- SmzBe2d+Q5AdVXgdOlJbxHQAw+FEGlORwRl+XEJFPo9X2hvfuQTSc52mKrTaavNI8bTJ
- dFwA==
-X-Gm-Message-State: AOAM531WvcvfdauN5Sqp3KJqaxJKTmc0mDPw/zw5kZOCpXb5vKls1RuC
- VPz39S6tqObtXzQfw2aqUsjZK2np1J1Zs/IQEKfIY/XELQhA6x1ea6Gy6efu2KQqbyOxK8xNYAF
- Zq4YvgtsasPZaBz166gMr88woKJb/Vm4IKumBnDavRWikTSSjf8YKZ2bFm5vII/yw
-X-Received: by 2002:aa7:c2ce:: with SMTP id m14mr4067340edp.76.1611659930883; 
- Tue, 26 Jan 2021 03:18:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwp0KxUfCsWAMIync58kU2EnTUXsXrZyDfhEJzjMz+H12aPSTFDDWtJm45yBrWouU+b5u1R6w==
-X-Received: by 2002:aa7:c2ce:: with SMTP id m14mr4067321edp.76.1611659930704; 
- Tue, 26 Jan 2021 03:18:50 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=3PM3c1hDQViy2jaBMDNzLZyG4cMXsFVA914IRG0X4aE=;
+ b=LeeY+FpgKEdczelnuAtLyfICUsNrZtA5RntqXpRdO2a1jnRNCLW6DgQzXN3K8ePeFy
+ uP/pbp4smm8j/6sT6IOxx18E+/+9TeQpxz4754+N5svb4C80+tCzzNhKltQ2FQl7bvOx
+ PbiLsU1wQk48+cAw/GKEIupaZGUd/qrNOiNDfD2N2CS74UuMLxg/RNxtn3/oz8DjIlst
+ infuZ2sdr54lrkAYwDec5nPaD3/5geDXZ+e2Z4YZGAT2m0J7WZSlk3G4jw3/gXKLDX6N
+ X4CCWVbqgZEPtQ2MMjqf5SD0Bw6kcrx8S8E9ktgnAgk72iHYFt6+tW6Sxo4I7cryJ/3y
+ Cuog==
+X-Gm-Message-State: AOAM531b2hAiBUHs4meK0ovOxK4OJ9oXq+8eugW2i4yeqo6JCiT+Ahan
+ WP+XoaKNtdZRuvkFj5Ud1sxJTBmqlIjRr6CJSERZfVdaN0wG0e3iPPMMJJrQwyBHh7y9WvL0V6t
+ FHfPDqbEgBgMROIAWvyYhNei1cTN/9ySItSiIytVbGP+dVWeYtJVJzFpvdQof3+2s
+X-Received: by 2002:a17:906:30c4:: with SMTP id
+ b4mr3126201ejb.456.1611659936625; 
+ Tue, 26 Jan 2021 03:18:56 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwvSBoxvnXEPgW/ums/Xrk2BFCvLj6tGBahGF66yxcNIn88nqcyuRINNn/qwihHL7yGFagU8A==
+X-Received: by 2002:a17:906:30c4:: with SMTP id
+ b4mr3126180ejb.456.1611659936392; 
+ Tue, 26 Jan 2021 03:18:56 -0800 (PST)
 Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id co6sm12266189edb.96.2021.01.26.03.18.48
+ by smtp.gmail.com with ESMTPSA id re19sm9257518ejb.111.2021.01.26.03.18.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 03:18:49 -0800 (PST)
+ Tue, 26 Jan 2021 03:18:55 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 0/2] net/eth: Fix stack-buffer-overflow in
- _eth_get_rss_ex_dst_addr()
-Date: Tue, 26 Jan 2021 12:18:45 +0100
-Message-Id: <20210126111847.3142636-1-philmd@redhat.com>
+Subject: [PATCH v3 1/2] net/eth: Simplify _eth_get_rss_ex_dst_addr()
+Date: Tue, 26 Jan 2021 12:18:46 +0100
+Message-Id: <20210126111847.3142636-2-philmd@redhat.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210126111847.3142636-1-philmd@redhat.com>
+References: <20210126111847.3142636-1-philmd@redhat.com>
 MIME-Version: 1.0
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,29 +98,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
  Li Qiang <liq3ea@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Miroslav Rezanina <mrezanin@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I had a look at the patch from Miroslav trying to silence a=0D
-compiler warning which in fact is a nasty bug. Here is a fix.=0D
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg772735.html=0D
-=0D
-v3: Added Thomas qtest Acked-by=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (2):=0D
-  net/eth: Simplify _eth_get_rss_ex_dst_addr()=0D
-  net/eth: Fix stack-buffer-overflow in _eth_get_rss_ex_dst_addr()=0D
-=0D
- net/eth.c                      | 37 +++++++++++-------------=0D
- tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++=0D
- MAINTAINERS                    |  1 +=0D
- tests/qtest/meson.build        |  1 +=0D
- 4 files changed, 72 insertions(+), 20 deletions(-)=0D
- create mode 100644 tests/qtest/fuzz-e1000e-test.c=0D
-=0D
---=20=0D
-2.26.2=0D
-=0D
+The length field is already contained in the ip6_ext_hdr structure.
+Check it direcly in eth_parse_ipv6_hdr() before calling
+_eth_get_rss_ex_dst_addr(), which gets a bit simplified.
+
+Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+ net/eth.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
+
+diff --git a/net/eth.c b/net/eth.c
+index 1e0821c5f81..7d4dd48c1ff 100644
+--- a/net/eth.c
++++ b/net/eth.c
+@@ -407,9 +407,7 @@ _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+ {
+     struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+ 
+-    if ((rthdr->rtype == 2) &&
+-        (rthdr->len == sizeof(struct in6_address) / 8) &&
+-        (rthdr->segleft == 1)) {
++    if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+ 
+         size_t input_size = iov_size(pkt, pkt_frags);
+         size_t bytes_read;
+@@ -528,10 +526,12 @@ bool eth_parse_ipv6_hdr(const struct iovec *pkt, int pkt_frags,
+         }
+ 
+         if (curr_ext_hdr_type == IP6_ROUTING) {
+-            info->rss_ex_dst_valid =
+-                _eth_get_rss_ex_dst_addr(pkt, pkt_frags,
+-                                         ip6hdr_off + info->full_hdr_len,
+-                                         &ext_hdr, &info->rss_ex_dst);
++            if (ext_hdr.ip6r_len == sizeof(struct in6_address) / 8) {
++                info->rss_ex_dst_valid =
++                    _eth_get_rss_ex_dst_addr(pkt, pkt_frags,
++                                             ip6hdr_off + info->full_hdr_len,
++                                             &ext_hdr, &info->rss_ex_dst);
++            }
+         } else if (curr_ext_hdr_type == IP6_DESTINATON) {
+             info->rss_ex_src_valid =
+                 _eth_get_rss_ex_src_addr(pkt, pkt_frags,
+-- 
+2.26.2
 
 
