@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 905DA304330
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:57:48 +0100 (CET)
-Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023EC304352
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 17:02:26 +0100 (CET)
+Received: from localhost ([::1]:55836 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Qix-0007Nx-LY
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:57:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41566)
+	id 1l4QnQ-0003RP-Ia
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 11:02:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42940)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4QhW-0006du-1Z
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:56:18 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52479)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4QhT-0005AD-EQ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:56:17 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.240])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 3108886242FA;
- Tue, 26 Jan 2021 16:56:05 +0100 (CET)
-Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 26 Jan
- 2021 16:56:03 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0046dd75f66-b01f-46cf-b6eb-140c7840c5be,
- 0BEDCD57DDE4FFFD0A05CC08AE31DEE925320B36) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Tue, 26 Jan 2021 16:56:00 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH 1/6] virtiofsd: Drop ->vu_dispatch_rwlock while waiting
- for thread to exit
-Message-ID: <20210126165600.7bbe369d@bahia.lan>
-In-Reply-To: <20210125180115.22936-2-vgoyal@redhat.com>
-References: <20210125180115.22936-1-vgoyal@redhat.com>
- <20210125180115.22936-2-vgoyal@redhat.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l4Qk0-0000VZ-1Y
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:58:52 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:39856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l4Qjx-0006AI-PD
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:58:51 -0500
+Received: by mail-wm1-x336.google.com with SMTP id u14so3210797wmq.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:58:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BQaxOlQW+aQqNIrIZ509yi72c0upxizseNav4SBSmqY=;
+ b=oiM5KFDVTDi/Du2ny8/Fc/2uY1kf6/8RnW+ySOa9jntKTeENr5Ijuxs3DT59c7lSIg
+ efs+2ejlJdDnbold9ywvW0Be6NHe12vRNSWzTdmdVRyXO9OArjAptlVu1bWxF4zmjz4y
+ h9IU5Oo7G+dlcmZkxzn8ymWGDbb2umbDgd/FwkZrIgj6GYes1XF27DIUTxWAx6psLpI+
+ IaAYiDiCqDCio71KGn5pQSQBb7pImD2eO1HCjR4Ew6pNFZLcZkZMY6JXWHLvzld/S3Ys
+ efY95koIriE2VlSLJEFrzdt7HMHNixSjzpgKN8xe6tyjBRFfHsaVN2bPyssJ7alEDUSE
+ NOwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=BQaxOlQW+aQqNIrIZ509yi72c0upxizseNav4SBSmqY=;
+ b=kbKZnuLhGdu1BszUUzhF3Th7k2gvSsF9ugi1D/KMqOLSZbxRBaz5YEb1OAbU8UAWl8
+ adx9CEuxSm5qXcYVxpADCzOEhiRYWq1tVaUrn3TVz7SP8oIJdSvtQoBrgITVHS/e3CKm
+ pHFZ/bO2qx+HowQ2AfW/dYOzeiuf6gLTdA7s6z50G8xqlrtvMh8LqHVb8WbAUzt1DiKZ
+ Lh/bKyjRvu+qOW6G3AJSC9Fm7lMPuLKMM08gfB+wpBjCS+6UZfpMOdqBvcEvsOO63WKF
+ i//3Kmzxt9aMbpzRoFcALkMJQfBHsDsLpwQ4UaH5/MGEhtybOGRjnuN/Vw5yQQFXB+Xt
+ RhkQ==
+X-Gm-Message-State: AOAM533L/WQVgdp2b6I7SC+bGxRbvP5Nst+TUaDDcgr0ySRbC6QVru6L
+ JF+d/yMvqC3QgaAJhtc/fWKke+vIwaaB1g==
+X-Google-Smtp-Source: ABdhPJza7hCUtP5HCTLUDzNqtmGYTMASwpnjSNqE07tO1QRZC4wPa5dBhs6VIdpsw33yr0edEKJJ9Q==
+X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr388187wml.110.1611676728333;
+ Tue, 26 Jan 2021 07:58:48 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id w20sm3936243wmm.12.2021.01.26.07.58.47
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jan 2021 07:58:47 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] configure: Move preadv check to meson.build
+Date: Tue, 26 Jan 2021 15:58:46 +0000
+Message-Id: <20210126155846.17109-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 92dd65ff-e29c-4d8f-b066-fab66db9e19a
-X-Ovh-Tracer-Id: 4293056349054933353
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdeigddvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehmshhtsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -69,128 +80,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- virtio-fs@redhat.com, stefanha@redhat.com, marcandre.lureau@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Jan 2021 13:01:10 -0500
-Vivek Goyal <vgoyal@redhat.com> wrote:
+Move the preadv availability check to meson.build.  This is what we
+want to be doing for host-OS-feature-checks anyway, but it also fixes
+a problem with building for macOS with the most recent XCode SDK on a
+Catalina host.
 
-> When we are shutting down virtqueues, virtio_loop() receives a message
-> VHOST_USER_GET_VRING_BASE from master. We acquire ->vu_dispatch_rwlock
-> and get into the process of shutting down virtqueue. In one of the
-> final steps, we are waiting for fv_queue_thread() to exit/finish and
-> wait with ->vu_dispatch_rwlock held.
-> 
-> But it is possible that fv_queue_thread() itself is waiting to get
-> ->vu_dispatch_rwlock (With --thread-pool=0 option). If requests
-> are being processed by fv_queue_worker(), then fv_queue_worker()
-> can wait for the ->vu_dispatch_rwlock, and fv_queue_thread() will
-> wait for fv_queue_worker() before thread pool can be stopped.
-> 
-> IOW, if guest is shutdown uncleanly (some sort of emergency reboot),
-> it is possible that virtiofsd is processing a fs request and
-> qemu initiates device shutdown sequence. In that case there seem
-> to be two options. Either abort the existing request completely or
-> let existing request finish.
-> 
-> This patch is taking second approach. That is drop the ->vu_dispatch_rwlock
-> temporarily so that fv_queue_thread() can finish and deadlock does not
-> happen.
-> 
-> ->vu_dispatch_rwlock provides mutual exclusion between virtio_loop()
-> (handling vhost-user protocol messages) and fv_queue_thread() (handling
-> fuse filesystem requests). Rational seems to be that protocol message
-> might change queue memory mappings, so we don't want both to proceed
-> at the same time.
-> 
-> In this case queue is shutting down, so I hope it is fine for fv_queue_thread() to send response back while virtio_loop() is still waiting (and not handling
+On that configuration, 'preadv()' is provided as a weak symbol, so
+that programs can be built with optional support for it and make a
+runtime availability check to see whether the preadv() they have is a
+working one or one which they must not call because it will
+runtime-assert.  QEMU's configure test passes (unless you're building
+with --enable-werror) because the test program using preadv()
+compiles, but then QEMU crashes at runtime when preadv() is called,
+with errors like:
 
-It looks this lacks a \n after "fine for"
+  dyld: lazy symbol binding failed: Symbol not found: _preadv
+    Referenced from: /Users/pm215/src/qemu/./build/x86/tests/test-replication
+    Expected in: /usr/lib/libSystem.B.dylib
 
-> any further vho-user protocol messages).
-> 
-> IOW, assumption here is that while virto_loop is blocked processing
-> VHOST_USER_GET_VRING_BASE message, it is still ok to send back the
-> response on vq by fv_queue_thread().
-> 
-> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> ---
->  tools/virtiofsd/fuse_virtio.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
-> 
-> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
-> index 9577eaa68d..6805d8ba01 100644
-> --- a/tools/virtiofsd/fuse_virtio.c
-> +++ b/tools/virtiofsd/fuse_virtio.c
-> @@ -813,11 +813,20 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
->          fuse_log(FUSE_LOG_ERR, "Eventfd_write for queue %d: %s\n",
->                   qidx, strerror(errno));
->      }
-> +
-> +    /*
-> +     * Drop ->vu_dispath_rwlock and reacquire. We are about to wait for
-> +     * for fv_queue_thread() and that might require ->vu_dispatch_rwlock
-> +     * to finish.
-> +     */
-> +    pthread_rwlock_unlock(&vud->vu_dispatch_rwlock);
->      ret = pthread_join(ourqi->thread, NULL);
->      if (ret) {
->          fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %d\n",
->                   __func__, qidx, ret);
->      }
-> +    pthread_rwlock_wrlock(&vud->vu_dispatch_rwlock);
-> +
+  dyld: Symbol not found: _preadv
+    Referenced from: /Users/pm215/src/qemu/./build/x86/tests/test-replication
+    Expected in: /usr/lib/libSystem.B.dylib
 
-So this is assuming that fv_queue_cleanup_thread() is called with
-vu_dispatch_rwlock already taken for writing, but there are no
-clear evidence in the code why it should care for the locking at
-all in the first place.
+Meson's own function availability check has a special case for macOS
+which adds '-Wl,-no_weak_imports' to the compiler flags, which forces
+the test to require the real function, not the macOS-version-too-old
+stub.
 
-On the contrary, one of its two callers is a vhost-user callback,
-in which we can reasonably have this assumption, while we can
-have the opposite assumption for the other one in virtio_loop().
+So this commit fixes the bug where macOS builds on Catalina currently
+require --disable-werror.
 
-This makes me think that the drop/reacquire trick should only
-be done in fv_queue_set_started(), instead of...
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ configure   | 16 ----------------
+ meson.build |  4 +++-
+ 2 files changed, 3 insertions(+), 17 deletions(-)
 
->      pthread_mutex_destroy(&ourqi->vq_lock);
->      close(ourqi->kill_fd);
->      ourqi->kick_fd = -1;
-> @@ -952,7 +961,11 @@ int virtio_loop(struct fuse_session *se)
->      /*
->       * Make sure all fv_queue_thread()s quit on exit, as we're about to
->       * free virtio dev and fuse session, no one should access them anymore.
-> +     * Hold ->vu_dispatch_rwlock in write mode as fv_queue_cleanup_thread()
-> +     * assumes mutex is locked and unlocks/re-locks it.
->       */
-> +
-> +    pthread_rwlock_wrlock(&se->virtio_dev->vu_dispatch_rwlock);
-
-
-... artificially introducing another critical section here.
-
-The issue isn't even specific to vu_dispatch_rwlock actually :
-fv_queue_cleanup_thread() shouldn't be called with any lock
-held because it might sleep in pthread_join() and cause a
-deadlock all the same. So I'd rather document that instead :
-drop all locks before calling fv_queue_cleanup_thread().
-
-Also, since pthread_rwlock_wrlock() can fail, I think we should
-always check it's return value, at least with an assert() like
-already done elsewhere.
-
->      for (int i = 0; i < se->virtio_dev->nqueues; i++) {
->          if (!se->virtio_dev->qi[i]) {
->              continue;
-> @@ -961,6 +974,7 @@ int virtio_loop(struct fuse_session *se)
->          fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, i);
->          fv_queue_cleanup_thread(se->virtio_dev, i);
->      }
-> +    pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
->  
->      fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
->  
+diff --git a/configure b/configure
+index dcc5ea7d630..0e672c3e291 100755
+--- a/configure
++++ b/configure
+@@ -3525,19 +3525,6 @@ if compile_prog "" "" ; then
+   iovec=yes
+ fi
+ 
+-##########################################
+-# preadv probe
+-cat > $TMPC <<EOF
+-#include <sys/types.h>
+-#include <sys/uio.h>
+-#include <unistd.h>
+-int main(void) { return preadv(0, 0, 0, 0); }
+-EOF
+-preadv=no
+-if compile_prog "" "" ; then
+-  preadv=yes
+-fi
+-
+ ##########################################
+ # fdt probe
+ 
+@@ -5742,9 +5729,6 @@ fi
+ if test "$iovec" = "yes" ; then
+   echo "CONFIG_IOVEC=y" >> $config_host_mak
+ fi
+-if test "$preadv" = "yes" ; then
+-  echo "CONFIG_PREADV=y" >> $config_host_mak
+-fi
+ if test "$membarrier" = "yes" ; then
+   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
+ fi
+diff --git a/meson.build b/meson.build
+index 35a9eddf5cf..c4a66d87793 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1128,6 +1128,8 @@ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
+ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+ 
++config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
++
+ ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+ arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+ strings = ['HOST_DSOSUF', 'CONFIG_IASL']
+@@ -2411,7 +2413,7 @@ summary_info += {'PIE':               get_option('b_pie')}
+ summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
+ summary_info += {'malloc trim support': has_malloc_trim}
+ summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
+-summary_info += {'preadv support':    config_host.has_key('CONFIG_PREADV')}
++summary_info += {'preadv support':    config_host_data.get('CONFIG_PREADV')}
+ summary_info += {'fdatasync':         config_host.has_key('CONFIG_FDATASYNC')}
+ summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
+ summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
+-- 
+2.20.1
 
 
