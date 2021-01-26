@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AE3E304048
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:28:55 +0100 (CET)
-Received: from localhost ([::1]:53356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 129ED304039
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:27:12 +0100 (CET)
+Received: from localhost ([::1]:47880 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4PKw-0000hH-B5
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:28:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46294)
+	id 1l4PJH-0006nC-2R
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:27:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDM-0008HX-Vh
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36601)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDR-0008JU-5I
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:50133)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDI-00060W-6H
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:04 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDK-00063a-2Z
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670855;
+ s=mimecast20190719; t=1611670860;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bBEBtLeHp83kk5gB0lxbmwWRQcdOD4CCjamab2MELmM=;
- b=CySIzoi8+WYh7zPT9QNkgpFNOo97UNVwv+/cSdol6fPqwwUg1VcTjlHB129ht+COTeA8Y9
- ziy+NcRq0QS0K784NvwpFwRgPSUD8oMcjzADQDahk7fVOM7V5BZLLhmm6hHJLuJrg1pqju
- 9urZp8Bw2e87b/ZgD5Ng9b14aXZe2a0=
+ bh=zwtEBlSE7/lm6OE/ImHvXcmg1QBGILkYMHIX7pf9mek=;
+ b=YRMrmOCuLNNiJHkM24SPvKvh9fSwZaX5kekFsyiIt1NF7hR9MWip/Mnm3OWXodd7SuFtlv
+ 8g3jJrAjzg/UT0aERHhypUBC28jAnVgqrL3rBTo4U/AvJ3LDRie1Hnp8Hd0Gmi/QbHCqaQ
+ jVeNLRo1eM2Sf6Eq+/NMqEAzWKdU3Mg=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-213-cN7VqF4hMfOsgHxsjxY15A-1; Tue, 26 Jan 2021 09:20:52 -0500
-X-MC-Unique: cN7VqF4hMfOsgHxsjxY15A-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-406-A7rqamWPOFuNUxOsAZ_4rw-1; Tue, 26 Jan 2021 09:20:57 -0500
+X-MC-Unique: A7rqamWPOFuNUxOsAZ_4rw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA2521016D1F;
- Tue, 26 Jan 2021 14:20:32 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD02B10AA00D;
+ Tue, 26 Jan 2021 14:20:34 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 21DC660C47;
- Tue, 26 Jan 2021 14:20:31 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7803F6F45C;
+ Tue, 26 Jan 2021 14:20:34 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 06/53] qapi: copy-on-read filter: add 'bottom' option
-Date: Tue, 26 Jan 2021 15:19:29 +0100
-Message-Id: <20210126142016.806073-7-mreitz@redhat.com>
+Subject: [PULL 07/53] iotests: add #310 to test bottom node in COR driver
+Date: Tue, 26 Jan 2021 15:19:30 +0100
+Message-Id: <20210126142016.806073-8-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,216 +83,177 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Add an option to limit copy-on-read operations to specified sub-chain
-of backing-chain, to make copy-on-read filter useful for block-stream
-job.
+The test case #310 is similar to #216 by Max Reitz. The difference is
+that the test #310 involves a bottom node to the COR filter driver.
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-  [vsementsov: change subject, modified to freeze the chain,
-   do some fixes]
-Message-Id: <20201216061703.70908-6-vsementsov@virtuozzo.com>
+  [vsementsov: detach backing to test reads from top, limit to qcow2]
+Message-Id: <20201216061703.70908-7-vsementsov@virtuozzo.com>
+[mreitz: Add "# group:" line]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- qapi/block-core.json | 20 ++++++++-
- block/copy-on-read.c | 98 +++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 115 insertions(+), 3 deletions(-)
+ tests/qemu-iotests/310     | 117 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/310.out |  15 +++++
+ tests/qemu-iotests/group   |   1 +
+ 3 files changed, 133 insertions(+)
+ create mode 100755 tests/qemu-iotests/310
+ create mode 100644 tests/qemu-iotests/310.out
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index b55732d802..65167ebf56 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3959,6 +3959,24 @@
-   'data': { 'throttle-group': 'str',
-             'file' : 'BlockdevRef'
-              } }
-+
-+##
-+# @BlockdevOptionsCor:
+diff --git a/tests/qemu-iotests/310 b/tests/qemu-iotests/310
+new file mode 100755
+index 0000000000..9d9c928c4b
+--- /dev/null
++++ b/tests/qemu-iotests/310
+@@ -0,0 +1,117 @@
++#!/usr/bin/env python3
++# group: rw quick
 +#
-+# Driver specific block device options for the copy-on-read driver.
++# Copy-on-read tests using a COR filter with a bottom node
 +#
-+# @bottom: The name of a non-filter node (allocation-bearing layer) that
-+#          limits the COR operations in the backing chain (inclusive), so
-+#          that no data below this node will be copied by this filter.
-+#          If option is absent, the limit is not applied, so that data
-+#          from all backing layers may be copied.
++# Copyright (C) 2018 Red Hat, Inc.
++# Copyright (c) 2020 Virtuozzo International GmbH
 +#
-+# Since: 6.0
-+##
-+{ 'struct': 'BlockdevOptionsCor',
-+  'base': 'BlockdevOptionsGenericFormat',
-+  'data': { '*bottom': 'str' } }
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
- ##
- # @BlockdevOptions:
- #
-@@ -4011,7 +4029,7 @@
-       'bochs':      'BlockdevOptionsGenericFormat',
-       'cloop':      'BlockdevOptionsGenericFormat',
-       'compress':   'BlockdevOptionsGenericFormat',
--      'copy-on-read':'BlockdevOptionsGenericFormat',
-+      'copy-on-read':'BlockdevOptionsCor',
-       'dmg':        'BlockdevOptionsGenericFormat',
-       'file':       'BlockdevOptionsFile',
-       'ftp':        'BlockdevOptionsCurlFtp',
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 618c4c4f43..71560984f6 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -24,18 +24,24 @@
- #include "block/block_int.h"
- #include "qemu/module.h"
- #include "qapi/error.h"
-+#include "qapi/qmp/qdict.h"
- #include "block/copy-on-read.h"
- 
- 
- typedef struct BDRVStateCOR {
-     bool active;
-+    BlockDriverState *bottom_bs;
-+    bool chain_frozen;
- } BDRVStateCOR;
- 
- 
- static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-                     Error **errp)
- {
-+    BlockDriverState *bottom_bs = NULL;
-     BDRVStateCOR *state = bs->opaque;
-+    /* Find a bottom node name, if any */
-+    const char *bottom_node = qdict_get_try_str(options, "bottom");
- 
-     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
-                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
-@@ -51,7 +57,38 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
-             bs->file->bs->supported_zero_flags);
- 
-+    if (bottom_node) {
-+        bottom_bs = bdrv_find_node(bottom_node);
-+        if (!bottom_bs) {
-+            error_setg(errp, "Bottom node '%s' not found", bottom_node);
-+            qdict_del(options, "bottom");
-+            return -EINVAL;
-+        }
-+        qdict_del(options, "bottom");
++import iotests
++from iotests import log, qemu_img, qemu_io_silent
 +
-+        if (!bottom_bs->drv) {
-+            error_setg(errp, "Bottom node '%s' not opened", bottom_node);
-+            return -EINVAL;
-+        }
++# Need backing file support
++iotests.script_initialize(supported_fmts=['qcow2'],
++                          supported_platforms=['linux'])
 +
-+        if (bottom_bs->drv->is_filter) {
-+            error_setg(errp, "Bottom node '%s' is a filter", bottom_node);
-+            return -EINVAL;
-+        }
++log('')
++log('=== Copy-on-read across nodes ===')
++log('')
 +
-+        if (bdrv_freeze_backing_chain(bs, bottom_bs, errp) < 0) {
-+            return -EINVAL;
-+        }
-+        state->chain_frozen = true;
++# This test is similar to the 216 one by Max Reitz <mreitz@redhat.com>
++# The difference is that this test case involves a bottom node to the
++# COR filter driver.
 +
-+        /*
-+         * We do freeze the chain, so it shouldn't be removed. Still, storing a
-+         * pointer worth bdrv_ref().
-+         */
-+        bdrv_ref(bottom_bs);
-+    }
-     state->active = true;
-+    state->bottom_bs = bottom_bs;
- 
-     /*
-      * We don't need to call bdrv_child_refresh_perms() now as the permissions
-@@ -107,8 +144,46 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
-                                            size_t qiov_offset,
-                                            int flags)
- {
--    return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
--                               flags | BDRV_REQ_COPY_ON_READ);
-+    int64_t n;
-+    int local_flags;
-+    int ret;
-+    BDRVStateCOR *state = bs->opaque;
++with iotests.FilePath('base.img') as base_img_path, \
++     iotests.FilePath('mid.img') as mid_img_path, \
++     iotests.FilePath('top.img') as top_img_path, \
++     iotests.VM() as vm:
 +
-+    if (!state->bottom_bs) {
-+        return bdrv_co_preadv_part(bs->file, offset, bytes, qiov, qiov_offset,
-+                                   flags | BDRV_REQ_COPY_ON_READ);
-+    }
++    log('--- Setting up images ---')
++    log('')
 +
-+    while (bytes) {
-+        local_flags = flags;
++    assert qemu_img('create', '-f', iotests.imgfmt, base_img_path, '64M') == 0
++    assert qemu_io_silent(base_img_path, '-c', 'write -P 1 0M 1M') == 0
++    assert qemu_io_silent(base_img_path, '-c', 'write -P 1 3M 1M') == 0
++    assert qemu_img('create', '-f', iotests.imgfmt, '-b', base_img_path,
++                    '-F', iotests.imgfmt, mid_img_path) == 0
++    assert qemu_io_silent(mid_img_path,  '-c', 'write -P 3 2M 1M') == 0
++    assert qemu_io_silent(mid_img_path,  '-c', 'write -P 3 4M 1M') == 0
++    assert qemu_img('create', '-f', iotests.imgfmt, '-b', mid_img_path,
++                    '-F', iotests.imgfmt, top_img_path) == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'write -P 2 1M 1M') == 0
 +
-+        /* In case of failure, try to copy-on-read anyway */
-+        ret = bdrv_is_allocated(bs->file->bs, offset, bytes, &n);
-+        if (ret <= 0) {
-+            ret = bdrv_is_allocated_above(bdrv_backing_chain_next(bs->file->bs),
-+                                          state->bottom_bs, true, offset,
-+                                          n, &n);
-+            if (ret > 0 || ret < 0) {
-+                local_flags |= BDRV_REQ_COPY_ON_READ;
-+            }
-+            /* Finish earlier if the end of a backing file has been reached */
-+            if (n == 0) {
-+                break;
-+            }
-+        }
++#      0 1 2 3 4
++# top    2
++# mid      3   3
++# base 1     1
 +
-+        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
-+                                  local_flags);
-+        if (ret < 0) {
-+            return ret;
-+        }
++    log('Done')
 +
-+        offset += n;
-+        qiov_offset += n;
-+        bytes -= n;
-+    }
++    log('')
++    log('--- Doing COR ---')
++    log('')
 +
-+    return 0;
- }
- 
- 
-@@ -160,11 +235,25 @@ static void cor_lock_medium(BlockDriverState *bs, bool locked)
- }
- 
- 
-+static void cor_close(BlockDriverState *bs)
-+{
-+    BDRVStateCOR *s = bs->opaque;
++    vm.launch()
 +
-+    if (s->chain_frozen) {
-+        s->chain_frozen = false;
-+        bdrv_unfreeze_backing_chain(bs, s->bottom_bs);
-+    }
++    log(vm.qmp('blockdev-add',
++               node_name='node0',
++               driver='copy-on-read',
++               bottom='node2',
++               file={
++                   'driver': iotests.imgfmt,
++                   'file': {
++                       'driver': 'file',
++                       'filename': top_img_path
++                   },
++                   'backing': {
++                       'node-name': 'node2',
++                       'driver': iotests.imgfmt,
++                       'file': {
++                           'driver': 'file',
++                           'filename': mid_img_path
++                       },
++                       'backing': {
++                           'driver': iotests.imgfmt,
++                           'file': {
++                               'driver': 'file',
++                               'filename': base_img_path
++                           }
++                       },
++                   }
++               }))
 +
-+    bdrv_unref(s->bottom_bs);
-+}
++    # Trigger COR
++    log(vm.qmp('human-monitor-command',
++               command_line='qemu-io node0 "read 0 5M"'))
 +
++    vm.shutdown()
 +
- static BlockDriver bdrv_copy_on_read = {
-     .format_name                        = "copy-on-read",
-     .instance_size                      = sizeof(BDRVStateCOR),
- 
-     .bdrv_open                          = cor_open,
-+    .bdrv_close                         = cor_close,
-     .bdrv_child_perm                    = cor_child_perm,
- 
-     .bdrv_getlength                     = cor_getlength,
-@@ -201,6 +290,11 @@ void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs)
-     bdrv_drained_begin(bs);
-     /* Drop permissions before the graph change. */
-     s->active = false;
-+    /* unfreeze, as otherwise bdrv_replace_node() will fail */
-+    if (s->chain_frozen) {
-+        s->chain_frozen = false;
-+        bdrv_unfreeze_backing_chain(cor_filter_bs, s->bottom_bs);
-+    }
-     bdrv_child_refresh_perms(cor_filter_bs, child, &error_abort);
-     bdrv_replace_node(cor_filter_bs, bs, &error_abort);
- 
++    log('')
++    log('--- Checking COR result ---')
++    log('')
++
++    # Detach backing to check that we can read the data from the top level now
++    assert qemu_img('rebase', '-u', '-b', '', '-f', iotests.imgfmt,
++                    top_img_path) == 0
++
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 0 0 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 2 1M 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 3 2M 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 0 3M 1M') == 0
++    assert qemu_io_silent(top_img_path,  '-c', 'read -P 3 4M 1M') == 0
++
++    log('Done')
+diff --git a/tests/qemu-iotests/310.out b/tests/qemu-iotests/310.out
+new file mode 100644
+index 0000000000..a70aa5cdae
+--- /dev/null
++++ b/tests/qemu-iotests/310.out
+@@ -0,0 +1,15 @@
++
++=== Copy-on-read across nodes ===
++
++--- Setting up images ---
++
++Done
++
++--- Doing COR ---
++
++{"return": {}}
++{"return": ""}
++
++--- Checking COR result ---
++
++Done
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index bc5bc324fe..d4a3e36a9a 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -318,4 +318,5 @@
+ 307 rw quick export
+ 308 rw
+ 309 rw auto quick
++310 rw quick
+ 312 rw quick
 -- 
 2.29.2
 
