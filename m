@@ -2,135 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBBAF3044EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:20:55 +0100 (CET)
-Received: from localhost ([::1]:37520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00CF8304540
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:27:52 +0100 (CET)
+Received: from localhost ([::1]:50242 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4S1O-0008V2-SF
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:20:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35264)
+	id 1l4S86-0005b6-TF
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:27:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l4RuF-0003JL-2F
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:13:32 -0500
-Received: from mail-dm6nam11on2056.outbound.protection.outlook.com
- ([40.107.223.56]:20482 helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4Rww-0005zR-1b
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:16:18 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:44149)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l4RuC-0007vM-Cx
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:13:30 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=BNnLFUnRcnWHe9ifc6SBgToOmrkfoq+V7vr4UNOBYkEkbE9wdYWedk1bpMK2ORIoqpuMdzDFBsWJYa5nn5OIVNVUN4ttCxMuuq+w0UZfFCUXD8Xoe6pLpO1Dkwyx7pwcmrLV5UjAWh9QT/4xeYpzO2JopkOscsJt8wTFJUuG2hU7t9XszG8HHAnv18qKs41scFl//TPVEV++s4Fp8Ub4+xxEymZrq0mvs0IGyeVV8kzUHHYWwmOkEM5+9mh0Ij9pP+p5kdmgsgNQD0rYUuZ2nHB6L3xfLrbV8jr1ySQEu7B+1Tf4cd8AC7ZsEMtZBZ/NzrAdZkCaJF4AgQeUvP6kew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j6oLo9tfRYK9O1O9T/dm9bY2HsYqivug57U9GBNsjpQ=;
- b=bDyVKRH5mSokxoHDVZ6X2Ox4PMjT2KtNSYaUmubjBt1YEfBp47RqyVQ2X8Q6E9ouWd9qsebXYKmGp9/iqoiBf167mwpULPC4ssHQAzHjfpPPNYpLjk+XwmIOgk9zpelHZ9YKCZ2JrmVlkn0oVig1IFnYJ9LmWPHtATuTxbvlw0qECn2B7FLWSurxHY8BzUMgQ5/rhLgmyfaiccMkEti96PjfxDlOWLLq28AbL93gEgofzdB4MZNztcxd60Kb6gcX6k+RiiDRHm1FdiL3x82ttu1r3gXolmGHmxHQW8hirrEmtB4dWjm6bCR6dNqDzSEf3K2fWsoDF1vaJPwKaVlAxA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j6oLo9tfRYK9O1O9T/dm9bY2HsYqivug57U9GBNsjpQ=;
- b=2cWxdyJrcxfGzC7+pMpDzkhul+ek24d5pZOEt/fLUHIxWgg3Oa3yKvZrLF2i0YVRNOeMVti0JW/3gdZqla2n8UQLeLEoba16ibWou/wVhZIb2tjOl6yJa4F8VMjydf6josJTEjhpz4g0NIV3GMCy+j8wGHYPz7/yYNMHLCcrD6k=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
- DM5PR1201MB0028.namprd12.prod.outlook.com (2603:10b6:4:5a::11) with
- Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.16; Tue, 26 Jan 2021 17:13:24 +0000
-Received: from DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::cc15:4b1f:9f84:6914]) by DM5PR12MB1355.namprd12.prod.outlook.com
- ([fe80::cc15:4b1f:9f84:6914%4]) with mapi id 15.20.3784.019; Tue, 26 Jan 2021
- 17:13:24 +0000
-Subject: Re: [PATCH v4 0/6] Qemu SEV-ES guest support
-From: Tom Lendacky <thomas.lendacky@amd.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-References: <cover.1601060620.git.thomas.lendacky@amd.com>
- <30164d98-3d8c-64bf-500b-f98a7f12d3c3@redhat.com>
- <b0c14997-22c2-2bfc-c570-a1c39280696b@amd.com>
-Message-ID: <946ac9e2-a363-6460-87a0-9575429d3b49@amd.com>
-Date: Tue, 26 Jan 2021 11:13:22 -0600
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <b0c14997-22c2-2bfc-c570-a1c39280696b@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: SN4PR0501CA0026.namprd05.prod.outlook.com
- (2603:10b6:803:40::39) To DM5PR12MB1355.namprd12.prod.outlook.com
- (2603:10b6:3:6e::7)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4Rwn-0000Tf-KT
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:16:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.109])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 888C1862A515;
+ Tue, 26 Jan 2021 18:16:06 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 26 Jan
+ 2021 18:16:05 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R00380ccec42-bc0c-4d1b-8e6d-1eb6481ae219,
+ 0BEDCD57DDE4FFFD0A05CC08AE31DEE925320B36) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 26 Jan 2021 18:16:04 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: prevent opening of special
+ files (CVE-2020-35517)
+Message-ID: <20210126181604.1a4c69c6@bahia.lan>
+In-Reply-To: <20210126103502.260758-1-stefanha@redhat.com>
+References: <20210126103502.260758-1-stefanha@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [10.236.30.118] (165.204.77.1) by
- SN4PR0501CA0026.namprd05.prod.outlook.com (2603:10b6:803:40::39) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.6 via Frontend
- Transport; Tue, 26 Jan 2021 17:13:23 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 3db15328-722f-4cb5-d3b5-08d8c21db05f
-X-MS-TrafficTypeDiagnostic: DM5PR1201MB0028:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM5PR1201MB0028FF0DB5A2CD14413C29FCECBC9@DM5PR1201MB0028.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:7691;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: wyhhj1RsUkH6gb8jU0fXPGl9kJ0/svQ/QRM6hPnv8i1U7bMIZK61Aw32X2Goz6QVEgbXkJH2tl5chp3Z8U4fw3E5yOAemeK4guee2vdS9slP+Lp6ikC0modLub2mwo9aLLC04v63jHI7IFlTcENyRp+SZmaGFeLWXk5U7xshsafVidwb1vjTOguJwIs6whFCxrWXG9m/vQSPKFqj3CwLDxltJJvlg6cR64bf8xggxI6fSxcCcDYQ5QyAiOzPbC3kRunQfMh9eeJMSqMJkyjLdkDhAELSGqwopXiTEs8eHMgZGKWZMhSYb4qpx26ImUdjnj3QMw3mYODgTAmgWnmztWZUzZ1X5mVg8g89Je6EEks+0SQXj/Wu9Y15dHd2gD003df3IxlR1zIHOW34W4kBRejKcTrqitLf7ZdZdQFSsMVYZQ0+I0SsC8sPzfF08i717ueV6iqrDxddjx4gnJEWjZ8XkmT7eBK3If3KH1P8VbzSpzViJu4ynnU0SshH7KPFdPjXb8mldjhxkxjvNt5kz3e4o16pdbNzFksJ+7ugPPOujJWzRgEJR8H06hU1X/UQjP3aJd2D2omFxrBTCkrX4iZe9Q0LLW/IAKDsaTQrPB5rzJyfvJDxkIgxR1L/aisB7E4lLiB/Hi+bmVQscje8h/CuGmr3hYzcDkBi1xHKWuGYCkK4DtfMW00DljbJhmxs
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(376002)(136003)(39860400002)(346002)(31686004)(966005)(478600001)(2616005)(956004)(4744005)(53546011)(2906002)(36756003)(186003)(26005)(16526019)(6486002)(86362001)(52116002)(31696002)(8676002)(16576012)(54906003)(316002)(8936002)(7416002)(5660300002)(4326008)(66946007)(66556008)(66476007)(45980500001)(43740500002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?dU8wK3VWdlZmVjQ4a1QzaGc2WXpqLzFvTGk1bDdYV0kxbVcrdnJGcm14bkhL?=
- =?utf-8?B?Q1gxSCtsSTNvQThzWjRzcEdZdU55NHY2bitCNy9TdnZWMjhtTUdPeVphMWRV?=
- =?utf-8?B?bUdkN0Y1UWlLdmJpTUZ4WkRHRTh0Smp4R1I1VUxGMktEci9FS3FydEI3d0Nz?=
- =?utf-8?B?aXZvb2x2aFR3U1NLaUdiTDJHRStPc0FNSzAvZWV1NURMaHNkYW8yYnVCR2M5?=
- =?utf-8?B?bjRJcHEzaEVTcVVWVVFEMWcyVUF4Vy9sOXpxVUZnYVErZzFYQUZoVkplSE1p?=
- =?utf-8?B?SDYzZEFINjhIeFVMcGlDOUVlZUV1cVdxUE4wSTgzRTJydmMwNklrcVYxQWVy?=
- =?utf-8?B?bDZrQi8wc2xNclV5Qzhpd1VnQkc4MUtBZmVNbXlnM2hPSGMzbCtQL2d4Tld4?=
- =?utf-8?B?aEVpZ3F3aHNVbHI4NitkQVM4OGtQWGRocVcwaytZQmhFYWtkcHBJUmY3eldi?=
- =?utf-8?B?eEs2YzN2ZjlicWJaMUh4bVE5Y2dBOU1mM0V1bEZzSkhCNmNadEN2MzNwVXI1?=
- =?utf-8?B?cFZ5cE1STjYvQ1d0NWhNWGc0UDVmNGxEZDZMTUpQenpYOTNiRVYyNXRoRjJ3?=
- =?utf-8?B?bzByMXdMVGJLZ1JadWkrNlRnTi9ZNkd2Qmh5NTJLak1qdElJWmY5dUFGblB6?=
- =?utf-8?B?OVZTelNrWlVMWm96VDh4S3pNc2ZGUk1Ib0t1c0RPL2dsNzlYRDlVbXNBQ1Q3?=
- =?utf-8?B?WnJoY1pzbFlHaWp5UGllR014M2djcHI5MzFGV1dtWXF2WHBvc2VDYmI0ZzdR?=
- =?utf-8?B?LzJ5Yi9UeGkzUFRwV3k5bjdzQXNLWmRHV2pRTlNiZTlxeWRlWFVOdldkamhs?=
- =?utf-8?B?TTVaSUJZS1lRMHZZam9kcUpER28wUDRnVVBGWUNNUTRUMm1FZFBENVpHYjBs?=
- =?utf-8?B?aWViRk1nOWhCcnFsMWh4SzZyMXlmSU1CaE5rNWsrODBta09PaU4veXQwUFZo?=
- =?utf-8?B?NmZvdWxWQ2dDeDNuMlV6enV5Z0I2UlA4dzlqNGxUaTh1aG9hNW4rYk5sQ0RP?=
- =?utf-8?B?VE43cC9vZHFKNWs4WnFCenQ2S05JWXIyM3JZRDVia1djYjJmQW1OK3RyVGxK?=
- =?utf-8?B?S2l1UTFVR0lRS2EvTHY4QW5RakVVLzRuVzVEaytGcjgxeG50a3lHNTNCYmwx?=
- =?utf-8?B?TjRUeDRjSDVyUkpVNG1mM2w1WlRPbW8zVGwrekFVUWtBeHN2aEFlYm5oTVA3?=
- =?utf-8?B?dlpBYmtid2NWZ3hxR2RPUWVwWE5Nd2JwRzY2VWZpMldTZ0hqQ0NmRFowZy9Z?=
- =?utf-8?B?Q3huKzcxejVhbS92UnZaMDJ3cEE0STlVaGVSaTdoY1RqeU1ZNnZlaFZ6dy9y?=
- =?utf-8?B?NVFwaWRlSTZhUldIbUxsM2I2d1ZON0ZQVWJ2eUF0M21rNWcvd1FMNXQ3WXFK?=
- =?utf-8?B?d29pOWkrV0trV1VXTUZISHBQUml4QXQxMjZBUVpKS3d2QmFXRkE5NjhxSnJT?=
- =?utf-8?Q?88PH2pxO?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3db15328-722f-4cb5-d3b5-08d8c21db05f
-X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 17:13:24.6593 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: U+yYKqc16BfifaGc6rzxzo+r+MzgL16P9PsRgJAyh3EnuLHEACybXjIZEMv1JYTbrEHdeIXn50KBmiAFWAXBDw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR1201MB0028
-Received-SPF: softfail client-ip=40.107.223.56;
- envelope-from=Thomas.Lendacky@amd.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 8eedb017-f306-469f-b380-66ed1bf4d043
+X-Ovh-Tracer-Id: 5644699185187363180
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdeigdefjecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehvghhohigrlhesrhgvughhrghtrdgtohhm
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -143,49 +68,255 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Cc: Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
+ P J P <ppandit@redhat.com>, virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
+ Laszlo Ersek <lersek@redhat.com>, vgoyal@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 10:49 AM, Tom Lendacky wrote:
-> On 1/26/21 10:21 AM, Paolo Bonzini wrote:
->> On 25/09/20 21:03, Tom Lendacky wrote:
->>> From: Tom Lendacky <thomas.lendacky@amd.com>
->>>
->>> This patch series provides support for launching an SEV-ES guest.
->>>
-> 
-> ...
-> 
->>>
->>
->> Looks good!  Please fix the nit in patch 4 and rebase, I'll then apply it.
-> 
-> There's a v5 on the list that was rebased on the latest tree, but still
-> has the patch 4 issue. I'm updating that now, so look for the v6 version
-> for merging.
+On Tue, 26 Jan 2021 10:35:02 +0000
+Stefan Hajnoczi <stefanha@redhat.com> wrote:
 
-Also, the new version will have a prereq against another patch series that
-has not been accepted yet:
-
-  [PATCH v2 0/2] sev: enable secret injection to a self described area in OVMF
-
-  https://lore.kernel.org/qemu-devel/20201214154429.11023-1-jejb@linux.ibm.com/
-
-Thanks,
-Tom
-
+> A well-behaved FUSE client does not attempt to open special files with
+> FUSE_OPEN because they are handled on the client side (e.g. device nodes
+> are handled by client-side device drivers).
 > 
-> Thanks,
-> Tom
+> The check to prevent virtiofsd from opening special files is missing in
+> a few cases, most notably FUSE_OPEN. A malicious client can cause
+> virtiofsd to open a device node, potentially allowing the guest to
+> escape. 
+
+or pretty much anything nasty you can think of, e.g. DoS if the malicious
+client repeatedly asks virtiofsd to open FIFOs the other side of which is
+never opened.
+
+> This can be exploited by a modified guest device driver. It is
+> not exploitable from guest userspace since the guest kernel will handle
+> special files inside the guest instead of sending FUSE requests.
 > 
->>
->> Thanks,
->>
->> Paolo
->>
+> This patch adds the missing checks to virtiofsd. This is a short-term
+> solution because it does not prevent a compromised virtiofsd process
+> from opening device nodes on the host.
+> 
+> Reported-by: Alex Xu <alex@alxu.ca>
+> Fixes: CVE-2020-35517
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+
+The patch looks pretty good to me. It just seems to be missing a change in
+lo_create():
+
+    fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
+                mode);
+
+A malicious guest could have created anything called ${name} in this directory
+before calling FUSE_CREATE and we'll open it blindly, or I'm missing something ?
+
+> v2:
+>  * Add doc comment clarifying that symlinks are traversed client-side
+>    [Daniel]
+> 
+> This issue was diagnosed on public IRC and is therefore already known
+> and not embargoed.
+> 
+> A stronger fix, and the long-term solution, is for users to mount the
+> shared directory and any sub-mounts with nodev, as well as nosuid and
+> noexec. Unfortunately virtiofsd cannot do this automatically because
+> bind mounts added by the user after virtiofsd has launched would not be
+> detected. I suggest the following:
+> 
+> 1. Modify libvirt and Kata Containers to explicitly set these mount
+>    options.
+> 2. Then modify virtiofsd to check that the shared directory has the
+>    necessary options at startup. Refuse to start if the options are
+>    missing so that the user is aware of the security requirements.
+> 
+> As a bonus this also increases the likelihood that other host processes
+> besides virtiofsd will be protected by nosuid/noexec/nodev so that a
+> malicious guest cannot drop these files in place and then arrange for a
+> host process to come across them.
+> 
+> Additionally, user namespaces have been discussed. They seem like a
+> worthwhile addition as an unprivileged or privilege-separated mode
+> although there are limitations with respect to security xattrs and the
+> actual uid/gid stored on the host file system not corresponding to the
+> guest uid/gid.
+> ---
+>  tools/virtiofsd/passthrough_ll.c | 85 +++++++++++++++++++++-----------
+>  1 file changed, 57 insertions(+), 28 deletions(-)
+> 
+> diff --git a/tools/virtiofsd/passthrough_ll.c b/tools/virtiofsd/passthrough_ll.c
+> index 5fb36d9407..b722f43809 100644
+> --- a/tools/virtiofsd/passthrough_ll.c
+> +++ b/tools/virtiofsd/passthrough_ll.c
+> @@ -555,6 +555,30 @@ static int lo_fd(fuse_req_t req, fuse_ino_t ino)
+>      return fd;
+>  }
+>  
+> +/*
+> + * Open a file descriptor for an inode. Returns -EBADF if the inode is not a
+> + * regular file or a directory. Use this helper function instead of raw
+> + * openat(2) to prevent security issues when a malicious client opens special
+> + * files such as block device nodes. Symlink inodes are also rejected since
+> + * symlinks must already have been traversed on the client side.
+> + */
+> +static int lo_inode_open(struct lo_data *lo, struct lo_inode *inode,
+> +                         int open_flags)
+> +{
+> +    g_autofree char *fd_str = g_strdup_printf("%d", inode->fd);
+> +    int fd;
+> +
+> +    if (!S_ISREG(inode->filetype) && !S_ISDIR(inode->filetype)) {
+> +        return -EBADF;
+> +    }
+> +
+> +    fd = openat(lo->proc_self_fd, fd_str, open_flags);
+> +    if (fd < 0) {
+> +        return -errno;
+> +    }
+> +    return fd;
+> +}
+> +
+>  static void lo_init(void *userdata, struct fuse_conn_info *conn)
+>  {
+>      struct lo_data *lo = (struct lo_data *)userdata;
+> @@ -684,8 +708,7 @@ static void lo_setattr(fuse_req_t req, fuse_ino_t ino, struct stat *attr,
+>          if (fi) {
+>              truncfd = fd;
+>          } else {
+> -            sprintf(procname, "%i", ifd);
+> -            truncfd = openat(lo->proc_self_fd, procname, O_RDWR);
+> +            truncfd = lo_inode_open(lo, inode, O_RDWR);
+>              if (truncfd < 0) {
+>                  goto out_err;
+>              }
+> @@ -1725,7 +1748,6 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
+>                                                        pid_t pid, int *err)
+>  {
+>      struct lo_inode_plock *plock;
+> -    char procname[64];
+>      int fd;
+>  
+>      plock =
+> @@ -1742,12 +1764,10 @@ static struct lo_inode_plock *lookup_create_plock_ctx(struct lo_data *lo,
+>      }
+>  
+>      /* Open another instance of file which can be used for ofd locks. */
+> -    sprintf(procname, "%i", inode->fd);
+> -
+>      /* TODO: What if file is not writable? */
+> -    fd = openat(lo->proc_self_fd, procname, O_RDWR);
+> -    if (fd == -1) {
+> -        *err = errno;
+> +    fd = lo_inode_open(lo, inode, O_RDWR);
+> +    if (fd < 0) {
+> +        *err = -fd;
+>          free(plock);
+>          return NULL;
+>      }
+> @@ -1894,18 +1914,24 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>  {
+>      int fd;
+>      ssize_t fh;
+> -    char buf[64];
+>      struct lo_data *lo = lo_data(req);
+> +    struct lo_inode *inode = lo_inode(req, ino);
+>  
+>      fuse_log(FUSE_LOG_DEBUG, "lo_open(ino=%" PRIu64 ", flags=%d)\n", ino,
+>               fi->flags);
+>  
+> +    if (!inode) {
+> +        fuse_reply_err(req, EBADF);
+> +        return;
+> +    }
+> +
+>      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+>  
+> -    sprintf(buf, "%i", lo_fd(req, ino));
+> -    fd = openat(lo->proc_self_fd, buf, fi->flags & ~O_NOFOLLOW);
+> -    if (fd == -1) {
+> -        return (void)fuse_reply_err(req, errno);
+> +    fd = lo_inode_open(lo, inode, fi->flags & ~O_NOFOLLOW);
+> +    if (fd < 0) {
+> +        lo_inode_put(lo, &inode);
+> +        fuse_reply_err(req, -fd);
+> +        return;
+>      }
+>  
+>      pthread_mutex_lock(&lo->mutex);
+> @@ -1913,6 +1939,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>      pthread_mutex_unlock(&lo->mutex);
+>      if (fh == -1) {
+>          close(fd);
+> +        lo_inode_put(lo, &inode);
+>          fuse_reply_err(req, ENOMEM);
+>          return;
+>      }
+> @@ -1923,6 +1950,7 @@ static void lo_open(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>      } else if (lo->cache == CACHE_ALWAYS) {
+>          fi->keep_cache = 1;
+>      }
+> +    lo_inode_put(lo, &inode);
+>      fuse_reply_open(req, fi);
+>  }
+>  
+> @@ -1982,39 +2010,40 @@ static void lo_flush(fuse_req_t req, fuse_ino_t ino, struct fuse_file_info *fi)
+>  static void lo_fsync(fuse_req_t req, fuse_ino_t ino, int datasync,
+>                       struct fuse_file_info *fi)
+>  {
+> +    struct lo_inode *inode = lo_inode(req, ino);
+> +    struct lo_data *lo = lo_data(req);
+>      int res;
+>      int fd;
+> -    char *buf;
+>  
+>      fuse_log(FUSE_LOG_DEBUG, "lo_fsync(ino=%" PRIu64 ", fi=0x%p)\n", ino,
+>               (void *)fi);
+>  
+> +    if (!inode) {
+> +        fuse_reply_err(req, EBADF);
+> +        return;
+> +    }
+> +
+>      if (!fi) {
+> -        struct lo_data *lo = lo_data(req);
+> -
+> -        res = asprintf(&buf, "%i", lo_fd(req, ino));
+> -        if (res == -1) {
+> -            return (void)fuse_reply_err(req, errno);
+> -        }
+> -
+> -        fd = openat(lo->proc_self_fd, buf, O_RDWR);
+> -        free(buf);
+> -        if (fd == -1) {
+> -            return (void)fuse_reply_err(req, errno);
+> +        fd = lo_inode_open(lo, inode, O_RDWR);
+> +        if (fd < 0) {
+> +            res = -fd;
+> +            goto out;
+>          }
+>      } else {
+>          fd = lo_fi_fd(req, fi);
+>      }
+>  
+>      if (datasync) {
+> -        res = fdatasync(fd);
+> +        res = fdatasync(fd) == -1 ? errno : 0;
+>      } else {
+> -        res = fsync(fd);
+> +        res = fsync(fd) == -1 ? errno : 0;
+>      }
+>      if (!fi) {
+>          close(fd);
+>      }
+> -    fuse_reply_err(req, res == -1 ? errno : 0);
+> +out:
+> +    lo_inode_put(lo, &inode);
+> +    fuse_reply_err(req, res);
+>  }
+>  
+>  static void lo_read(fuse_req_t req, fuse_ino_t ino, size_t size, off_t offset,
+
 
