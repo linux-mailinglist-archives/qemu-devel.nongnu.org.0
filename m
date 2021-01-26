@@ -2,42 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C3A304882
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 20:28:49 +0100 (CET)
-Received: from localhost ([::1]:33084 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63DB3048C2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 20:37:13 +0100 (CET)
+Received: from localhost ([::1]:41716 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4U1A-0002Xx-3O
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 14:28:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35738)
+	id 1l4U9I-0006XI-CU
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 14:37:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36964)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1l4Ty0-0001JN-RA; Tue, 26 Jan 2021 14:25:34 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:41422
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1l4Txv-0001PZ-7E; Tue, 26 Jan 2021 14:25:31 -0500
-Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id D693FDA0CF3;
- Tue, 26 Jan 2021 20:25:19 +0100 (CET)
-Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id C2620460C81; Tue, 26 Jan 2021 20:25:19 +0100 (CET)
-From: Stefan Weil <sw@weilnetz.de>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg/tci: Implement INDEX_op_ld16u_i32
-Date: Tue, 26 Jan 2021 20:25:18 +0100
-Message-Id: <20210126192518.2019885-1-sw@weilnetz.de>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from
+ <3ZG4QYAgKCok97un165ut11tyr.p1z3rz7-qr8ry010t07.14t@flex--wuhaotsh.bounces.google.com>)
+ id 1l4U5E-0004V4-PB
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 14:33:01 -0500
+Received: from mail-qt1-x849.google.com ([2607:f8b0:4864:20::849]:43613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from
+ <3ZG4QYAgKCok97un165ut11tyr.p1z3rz7-qr8ry010t07.14t@flex--wuhaotsh.bounces.google.com>)
+ id 1l4U59-00045y-Lz
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 14:32:59 -0500
+Received: by mail-qt1-x849.google.com with SMTP id n22so9856710qtv.10
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 11:32:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=sender:date:message-id:mime-version:subject:from:to:cc;
+ bh=/JN1lLN3S8bni2bQFj3ryjv5Yrpf4V6ED6Yz/THzn/I=;
+ b=S/h35lygBa8LOjiZFqhtQYoAExcr9YMxB/0ZxMAHF+umcEUt0SqPXOfJJZ5apslxBi
+ aDZDK8K6aHB0waTBqJtUgv3GCG/KjAlI6aRcEDGVmN++p6FViJJ8ue5X3fOikRHFqlOt
+ uPoWO9KwGOFOrfFJBJ38oZ/sCvSYJ4oMo6DKyaLhkZpTiUjihw6WZnhwaia6LDM21Elu
+ zqOl3X8rm/CqJDU+lFtlGUWxhxQq3fIoDnF5bgO70n4LuiQjE+JJwCrduiVWNQI55FO6
+ D+qCRf72MAAaNc9auWhzWz8XlnABgh8pDkuBcOo0AZGsCaL7YoUQJY3N7iO71xxIDIFI
+ JXcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:message-id:mime-version:subject:from
+ :to:cc;
+ bh=/JN1lLN3S8bni2bQFj3ryjv5Yrpf4V6ED6Yz/THzn/I=;
+ b=gGA204fDQb8STHyAawB+7G0bkODt/yByLMgkyucQttFf0RYJa4zeZatWzucNAJoTW4
+ OzZzXFvcmjKd7e24K0KdgRDWeGJHvpn824aGTtNEYNrobjV7Q+g7Nh5u8GkmmUuBUBaY
+ +ruFeM3+ZQvROBD9K+jxj4/r3iZ5ZZhcW7nTa1tyXHwQIabg4NNA54b5hYpArqusnZod
+ 7QKDpIi70d5CrS9Pw8khNHAue8KGCGyLs0nyzc8v/uKE+yslA902sF3Yh7izDd9tDZh8
+ f3EmOyRBWaC0f+2vbZQ5nP5SmiTBGRkeg0AdVElw+5FvXW0ry63LFSUlmzhBptuHJSrJ
+ DsLA==
+X-Gm-Message-State: AOAM532rzwtj6Mjuetaai36KNvInDBYsurJ0QY1JIVinBfJT1JYw44eO
+ IAEuadE0yNDXpIJ6Y6YNqEKPE0lXOjQUJw==
+X-Google-Smtp-Source: ABdhPJyeePfjJIMAgx5WryzSRlGl1dLA7U0JqTfkU6SRbDghaFQUG57nlD1c8M3Yf6XopIPjkgki7TI7/dvdVQ==
+X-Received: from mimik.c.googlers.com ([fda3:e722:ac3:10:7f:e700:c0a8:4e])
+ (user=wuhaotsh job=sendgmr) by 2002:a0c:bf12:: with SMTP id
+ m18mr7138242qvi.40.1611689572143; Tue, 26 Jan 2021 11:32:52 -0800 (PST)
+Date: Tue, 26 Jan 2021 11:32:31 -0800
+Message-Id: <20210126193237.1534208-1-wuhaotsh@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.30.0.365.g02bc693789-goog
+Subject: [PATCH 0/6] hw/i2c: Add NPCM7XX SMBus Device
+To: peter.maydell@linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::849;
+ envelope-from=3ZG4QYAgKCok97un165ut11tyr.p1z3rz7-qr8ry010t07.14t@flex--wuhaotsh.bounces.google.com;
+ helo=mail-qt1-x849.google.com
+X-Spam_score_int: -95
+X-Spam_score: -9.6
+X-Spam_bar: ---------
+X-Spam_report: (-9.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -50,35 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>
+Cc: venture@google.com, hskinnemoen@google.com, qemu-devel@nongnu.org,
+ wuhaotsh@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ Avi.Fishman@nuvoton.com, dje@google.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Hao Wu <wuhaotsh@google.com>
+From: wuhaotsh--- via <qemu-devel@nongnu.org>
 
-This fixes `make check-tcg`.
+This patch set implements the System manager bus (SMBus) module in NPCM7XX
+SoC. Basically, it emulates the data transactions of the module, not the
+SDA/SCL levels. We have also added a QTest which contains read and write
+operations for both single-byte and FIFO mode, and added basic I2C device
+trees for npcm750-evb and quanta-gsj boards.
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
----
- tcg/tci.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+We also cleaned up the unimplemented GPIO devices in npcm7xx.c since they
+are already implemented.
 
-diff --git a/tcg/tci.c b/tcg/tci.c
-index 2311aa7d3a..42354d8ebb 100644
---- a/tcg/tci.c
-+++ b/tcg/tci.c
-@@ -611,7 +611,10 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchState *env,
-             TODO();
-             break;
-         case INDEX_op_ld16u_i32:
--            TODO();
-+            t0 = *tb_ptr++;
-+            t1 = tci_read_r(regs, &tb_ptr);
-+            t2 = tci_read_s32(&tb_ptr);
-+            tci_write_reg16(regs, t0, *(uint16_t *)(t1 + t2));
-             break;
-         case INDEX_op_ld16s_i32:
-             TODO();
+Hao Wu (6):
+  hw/arm: Remove GPIO from unimplemented NPCM7XX
+  hw/i2c: Implement NPCM7XX SMBus Module Single Mode
+  hw/arm: Add I2C device tree for NPCM750 eval board
+  hw/arm: Add I2C device tree for Quanta GSJ
+  hw/i2c: Add a QTest for NPCM7XX SMBus Device
+  hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
+
+ docs/system/arm/nuvoton.rst      |    2 +-
+ hw/arm/npcm7xx.c                 |   76 ++-
+ hw/arm/npcm7xx_boards.c          |   32 +
+ hw/i2c/meson.build               |    1 +
+ hw/i2c/npcm7xx_smbus.c           | 1071 ++++++++++++++++++++++++++++++
+ hw/i2c/trace-events              |   12 +
+ include/hw/arm/npcm7xx.h         |    2 +
+ include/hw/i2c/npcm7xx_smbus.h   |  113 ++++
+ tests/qtest/meson.build          |    1 +
+ tests/qtest/npcm7xx_smbus-test.c |  495 ++++++++++++++
+ 10 files changed, 1780 insertions(+), 25 deletions(-)
+ create mode 100644 hw/i2c/npcm7xx_smbus.c
+ create mode 100644 include/hw/i2c/npcm7xx_smbus.h
+ create mode 100644 tests/qtest/npcm7xx_smbus-test.c
+
 -- 
-2.29.2
+2.30.0.365.g02bc693789-goog
 
 
