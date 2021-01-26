@@ -2,110 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6D2304580
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:40:56 +0100 (CET)
-Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ACC9304581
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:40:58 +0100 (CET)
+Received: from localhost ([::1]:36490 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4SKl-0003ck-28
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:40:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40318)
+	id 1l4SKn-0003h6-5L
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:40:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40394)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l4SHD-000279-GY
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:37:15 -0500
+ id 1l4SHG-00028K-EA
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:37:19 -0500
 Received: from mail-co1nam11on2057.outbound.protection.outlook.com
  ([40.107.220.57]:48352 helo=NAM11-CO1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
- id 1l4SHA-0006st-Da
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:37:14 -0500
+ id 1l4SHD-0006st-Iy
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:37:18 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Hx6BJSqImoZVpgnZMkBP8a7Kryj7ebJniOKWLQVviaYBBVwnEAF0xpdzLj1Ag2b6SyAXjjQPtu5420O5zREs8Sq5EXOKkMEm04FHD5qn71wDk34dpsFDtOhDlmhk2nlsQuN5ZnAQKJbZzlMPkLZ4305rRxxesBcVwqeXYURdBOxpGjlVuCRrL1A4OKYNo9quFeFXsacX9KIcQh5LlrSkoGKIs2TW+eesWWLzoawdr246FxdD527lggvA/GanxNQlKoEK3znvat5jwIC48uPtbjm+uqj9n4hUOM8wpeM+r2Afa5ZNFrz0XX8lt/q14/YofhGDCf/uIS5JqL4k46kPlQ==
+ b=D7snSCtG3JTUFvjw4zxp4EfRPQ2/9goph9Qw3UUnLX5TjQaXkiori7WnCOHuZ6BKb8hwzNksw8L8aECb2H+8ekz+7+HC5cQAi7kL61yiOVG+WZMMAMJpGR5GJ21MwKhQq37GgR4IgyytrFF2sC//tMKW+wv3XXNcTov7y6xz+luvx3Z7Ij0DJ2DujSYI3/lfYEvNAn9ACI4kKfkUrwtoxcggKrhsB/gb4Iqh1ymy/pgQyQomL0xNQyUslLDUGmdaPCn/ZyQvrzb4LEbCV9hO6ris9/2Yb8hIxrUiUbItLMshwfv8gxR4tp7ZFqgcIS/JXKPtWIkuDR5wr5Fdyp8yMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L6MOkBBcpubOvgl4hCEAjOyS4NBnDXd58l2abFH7eNs=;
- b=CWjg2oZGgIdBw2S1XqR7mE9uEkGx84BnhPtHQ8WF3BT83GXfvxC6pBvfn9fqF5DU7k2mHm228F7b63tWnHgmQj+M2SK3qjwo0blrfxWWeKxREO2I5vUcd2p4bBjmn11OYMSVYDf6Olfy+7pZtLVO5AE2YC6ZQseA+KPbv1XdsZ42a46FoahRclM1XTIW/EhgHFanIN2/y9onzGavMpV590PQQTfifuMxKGmLt0NKJuAHFwPUhyn8/D9HYcCZ+okjlczAOA8as3TugA/k3R9SaJOgvemCVke6E4EJkfa7oVAPbzIo3RuWFH9lhrO4RNg3HHFB+uWVcT1zvvMaX1bpdg==
+ bh=EMT6c48pr51dMYrBD0z3r9sMxcFpJUFNtsoZoqe32nY=;
+ b=CDg4uVat/wjqTqjmqmqbGrbvJV1Vahvu4o4W96JSfUJl6gYrY5MGYMF8eZ/cU2Obz9mHo/gqkk9eoOdFE8D4VCNbXYpz8eMexHL6aGsS1BU0AXfHIYPamcK5EmGNFsI6kBXF1TdrJztx2WLRJHt1pe+vGBNa+5F2zpmA4YSbE5cz9hFGvEJGVIHVLvZyoxxfq0SpIoPJup+0kZI08FKPCEV9F5KMrA7KeYJdoF+CPhPA5gD4nfcmOdlI3Kl+4KxTkbbNrJIdVvAXS1f+/8o3ZyfO++IZc+StujnzYfn5zDDvts8NbyZ+WuARgNqitIx2G6iKMMXMMcmz7FoVChDUdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=L6MOkBBcpubOvgl4hCEAjOyS4NBnDXd58l2abFH7eNs=;
- b=eedsVTutuTES6NJZ7f2NvBZ/nJE8B3QIR26XYwrSxK8ughLX3bxVHH7V29vVZWl0dVT/kiX3UK5d9+x46d0yhtjF2BbYROsQHRUzBWOvDl5tdSfWO1mQ3qzBpsumyY3+RnIA6r7ppeEczF6QkuE9zDEds+YBrSzWbf/mtyjsXUU=
+ bh=EMT6c48pr51dMYrBD0z3r9sMxcFpJUFNtsoZoqe32nY=;
+ b=O5CbGWstHBbkkg2Ayfi8CBa73EL7HczDpv6AYDs0mCVOJrli8Fjhi++0r76RTaR0ZwV+7P2qICyoVCcEb2+zGlqGp3e4CVvzA6QHkG6oAgCPzsLWztb4aS085mi9o+9WUUzqTbqJPTcWXxPmgCj8rpi5XIBLAPJwNqX/wupGsJY=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=amd.com;
 Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
  DM6PR12MB4153.namprd12.prod.outlook.com (2603:10b6:5:212::22) with
  Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3784.13; Tue, 26 Jan 2021 17:37:05 +0000
+ 15.20.3784.13; Tue, 26 Jan 2021 17:37:13 +0000
 Received: from DM5PR12MB1355.namprd12.prod.outlook.com
  ([fe80::cc15:4b1f:9f84:6914]) by DM5PR12MB1355.namprd12.prod.outlook.com
  ([fe80::cc15:4b1f:9f84:6914%4]) with mapi id 15.20.3784.019; Tue, 26 Jan 2021
- 17:37:04 +0000
+ 17:37:13 +0000
 From: Tom Lendacky <thomas.lendacky@amd.com>
 To: qemu-devel@nongnu.org,
 	kvm@vger.kernel.org
-Subject: [PATCH v6 0/6] Qemu SEV-ES guest support
-Date: Tue, 26 Jan 2021 11:36:43 -0600
-Message-Id: <cover.1611682609.git.thomas.lendacky@amd.com>
+Subject: [PATCH v6 1/6] sev/i386: Add initial support for SEV-ES
+Date: Tue, 26 Jan 2021 11:36:44 -0600
+Message-Id: <2e6386cbc1ddeaf701547dd5677adf5ddab2b6bd.1611682609.git.thomas.lendacky@amd.com>
 X-Mailer: git-send-email 2.30.0
+In-Reply-To: <cover.1611682609.git.thomas.lendacky@amd.com>
+References: <cover.1611682609.git.thomas.lendacky@amd.com>
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [165.204.77.1]
-X-ClientProxiedBy: SN6PR04CA0102.namprd04.prod.outlook.com
- (2603:10b6:805:f2::43) To DM5PR12MB1355.namprd12.prod.outlook.com
+X-ClientProxiedBy: SA9PR13CA0167.namprd13.prod.outlook.com
+ (2603:10b6:806:28::22) To DM5PR12MB1355.namprd12.prod.outlook.com
  (2603:10b6:3:6e::7)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from tlendack-t1.amd.com (165.204.77.1) by
- SN6PR04CA0102.namprd04.prod.outlook.com (2603:10b6:805:f2::43) with Microsoft
+ SA9PR13CA0167.namprd13.prod.outlook.com (2603:10b6:806:28::22) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.16 via Frontend Transport; Tue, 26 Jan 2021 17:37:03 +0000
+ 15.20.3805.7 via Frontend Transport; Tue, 26 Jan 2021 17:37:12 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 56da634a-aa8a-4cc9-01a9-08d8c220ff11
+X-MS-Office365-Filtering-Correlation-Id: cd680423-a6c0-4743-6b61-08d8c22103ff
 X-MS-TrafficTypeDiagnostic: DM6PR12MB4153:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <DM6PR12MB4153244D31AF13197756FE1BECBC9@DM6PR12MB4153.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4941;
+X-Microsoft-Antispam-PRVS: <DM6PR12MB41530B9BC121ADAE373E39DCECBC9@DM6PR12MB4153.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 1Om57hovJUlyALvCSA/3I5q9cel4P3AkBLE3vo9z5daIYv6AWzcGmOdNHrT9IPg5UKv/iWvmVxwrznjvKEZOpmuUuz33ROFV4p6amjHowD3iRygq/GAdRky+bkKJhbSPXcYxYSMhO5OPGAVgMtkhgRKzGSoqm7gm9tkt2RjRyviExYThH0BRmve9hN1fpreHupRZs4yW7/HO+DxMCfy1xG3CRlYUGruEgjX9v6nNOyHcpJHgKrwXT8UgHkxkMQTRJw8zr5NLajbTm4rJHxTuDesxOrkedel0hkr+etVttbr3PvY6bCJ8Itv7StbZ/ib5yJkkRPoNGa/oFdpz16dU1bDhpXbN8wx+qcDyJv9DJq5uu9wUBWFPRYXiGxqEUwjxpH0Bd1vbjomhBXSrvvNnSjeUcOEeoDJQh05pWTZdVbdFw4PDPTJCAXQG3RzvmLilZp4MRYls2Oo35XfEXEezsg==
+X-Microsoft-Antispam-Message-Info: ID8oZ8HyKDiVBP3sKufLlvnUcIYfOzoLtvxXHy3J4eOiUbnmqvAJr9P6tGjdSXIlsrIKXSqKKtS/0cFs2gneCd4r3FUZVZANcz5ycr9jgXQd5wnXaS0nMAZQS/xaNzXrzcTQhalbwikrbRJjzUPvqH5fdtfbWsBhD1eBYgeYab2vli1lM4hEVkteM/EQIIn89oMx43CO0ZTe+kCiGDgg8xM4piMG5dq+rrwOc/vu7uc4H7+tpGWypql2EwihFZe+l8fCe4T5lkMBt8qnNd16Th9mV7vgOxn+Z0k6ss3FwYQx50Oxn26M1CgueajvcdGeYSzKs0WPFZLD4gOKUBS6ls1V34RBD3fDlABL8HZvi62CoRZXphyAdPWHMW79wOCbBWCGT5qPHlFMqd9dqtkDtDGRefG6gv5CqldHHBzJpPhQc0jzkQnkKfpreNZM4Nob
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(39860400002)(376002)(396003)(346002)(136003)(8676002)(7696005)(52116002)(478600001)(6666004)(966005)(7416002)(4326008)(2906002)(66476007)(316002)(54906003)(5660300002)(26005)(2616005)(956004)(86362001)(83380400001)(36756003)(186003)(16526019)(6486002)(66946007)(8936002)(66556008);
+ SFS:(4636009)(366004)(39860400002)(376002)(396003)(346002)(136003)(8676002)(7696005)(52116002)(478600001)(6666004)(7416002)(4326008)(2906002)(66476007)(316002)(54906003)(5660300002)(26005)(2616005)(956004)(86362001)(83380400001)(36756003)(186003)(16526019)(6486002)(66946007)(8936002)(66556008)(309714004);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?JCvcO06qKEUTTohkc8qMkLa/Tg5XV7sE5cVR6+dYjxjU/qJSaVo6yJqmSCFr?=
- =?us-ascii?Q?xS1mCq6OnQGPzIZynZOMNDFgydwPsTHfL+lYpgD6hiXjyisT6X4s0piHpb0q?=
- =?us-ascii?Q?Zo4hNfh05oGJn6+vQ7XNWdpPnchnsoYkYYJNnWG/VN6XnbLQe+nY/6aLocgv?=
- =?us-ascii?Q?Pr6nltwMu0YV5hlYoZIV79dk5tNLOFoG5H4P0OF3gMP7AiCH+0MF3ebIgIlT?=
- =?us-ascii?Q?fSgHwtc7RoDE2KVsM5f5FMjPNqFMpkPz0jCkUnMO/xvIT9mD53U90UtseCAp?=
- =?us-ascii?Q?MEsb2p/3f5haf2FQbCXOrKdyvwgCYKPqHjfJO/1t765J8pNJ4iT4ebl1IhNd?=
- =?us-ascii?Q?8Knivh9Fupg40ibKTlC7Fw9jxamKNulZsyy/0nEOlsC/KtM/3DlaAIj52qnS?=
- =?us-ascii?Q?NmTZ283ndQztC/B/BiGIJobskYQZrXlyzC350I/bqCl7LjreG4u6bVA2l1Xh?=
- =?us-ascii?Q?Q1m6jW8X50vkoOI7JT6PG56Xejg6PJbc5u354/u19Aa8wXhoS1zLb7s4Tr3H?=
- =?us-ascii?Q?13E3XDIIFmwOGL1VfDpL8PD8vIGolBwO1r4rz6lcLKQ0MP8JDMeY5kF4uo0S?=
- =?us-ascii?Q?BuutwC0JQ0xbP2+fIgXPEtTAvcMLJ+N8WnR0vdb2kGplbx5DvXWDuCChsjS7?=
- =?us-ascii?Q?7RHMYXaYF676Asm3v48RtVTjlDaeIEpS6+iWi81ese31EAQF5DTsbJcVvRf0?=
- =?us-ascii?Q?iepckVkdgmjFdiaLqlCxmg3FY7Ezj88YM7oxxD/Gg9WhYnRzNmXsXjlqDyTJ?=
- =?us-ascii?Q?qgtgvdYA4Y8lBXzesxS1r6I6dKQsA+WeqQhnmBec9/y5exJvBsR1W3LYeyQ/?=
- =?us-ascii?Q?mpKpezeGSn69oiNfsht/iWoG+nesEJZOz10A4paY6518UyE9RdoyNR+pyhes?=
- =?us-ascii?Q?/NUIdwbkJAeMRfhD2cdLIIk1oD1EEFH494etQPMyQ+br4TZx91wdylw7xvyT?=
- =?us-ascii?Q?kvy92XF1gSS9veTepXEyHw75PamS7DIBBb5ac9/jbNy8vR1FF2b/C+oX8+vu?=
- =?us-ascii?Q?WJDScUnLLtXto7Agw0E5T0ptpHJCD323sRHBtrojhGy/4QLKDrR797o924tn?=
- =?us-ascii?Q?KEgkgUoh?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Shmyu85v4bEKCyD55c3P6XPk4Mhcvrv0RK06BMtQlUY4kB8h7SofV78dJBMl?=
+ =?us-ascii?Q?32g5s0/sq3xQZrTNX+FRu4BTRosv/v1+BMQep10Pvp1avDhUhSdwnnMNmqIB?=
+ =?us-ascii?Q?SiDq2gkfUkcRZZK2XMynScVrpTod84AUPdiPUhRdxZzjiqgOnD7pwoQztvpH?=
+ =?us-ascii?Q?gi5/md69G+guzlpaX0MWAVFiCQWwoslyD8waq/85l5QXa3U/lzyEVCdR8SpT?=
+ =?us-ascii?Q?MGX/uhDkyAqg3Kc/SorvNUwRAT74mZrpSgrODM2YUvsBxTr//6A6wqm//CWX?=
+ =?us-ascii?Q?Kg43JdaMFPg82CdEaf+7KiWxKfcEonrn/I1GyXsSeH0okmRKdX1+MTUdP69G?=
+ =?us-ascii?Q?g4ofs0ojmUcTWrefbK6HF8q+d7cQskNzd9WNH5HWhoVzLD603j9MHGQA0L8/?=
+ =?us-ascii?Q?OlHP6STvR4qSrxIZLKSs3yYeGP/VEkvmqbRdNrLsJP4BAoRbCfa9eOGrBXtD?=
+ =?us-ascii?Q?orTmL96exy50UhxcaNb3JbFnVnboHDa5n/PQIBx3/FGe5Txld7tJDxqLhbAC?=
+ =?us-ascii?Q?PSFDDM6rFCAiOJpwNRLCaU/rYDseATay5LeP2QLhvRzqM8rh6sbVTpBEqQrt?=
+ =?us-ascii?Q?UCvIAkYEtgnUpyjKfDcpwV6V87ZcgwHonaOkoHfwLRpa2d9u/ZftXdDoy0pJ?=
+ =?us-ascii?Q?p0W9sxFg+jNpaKa8pkBMUpJ0qFBpdiv9pWLZgU8Z5HKhjjJX0JXX9p0LwPl7?=
+ =?us-ascii?Q?/GUBq25CUDl48RBiH5ykxGO3WQdREPwhiaR3hDhbcXKepC/SUIL2o3z352WX?=
+ =?us-ascii?Q?7xhfcsK/CeyNjv01RBau+NYYCYTWL2HEkQMMYL9Gds7YbRa1xWQW0QCmXtem?=
+ =?us-ascii?Q?kSJ0hmnnpzSIOUhKaxFWNP7HX4kblhR7DkqpeRwcF17ho3LVJrAgwIgpOkcw?=
+ =?us-ascii?Q?+lt5ZmNQJWOzPSb+fbNvRaWV3fWH9d6tgzImldu+GGrE1AuKbl7bqXM9hA2b?=
+ =?us-ascii?Q?Cj/EkAC1hw1W7rhYi87WQlbavpfNoK0qefmi3kfOAd8e+pjf8AHlvM9ozifW?=
+ =?us-ascii?Q?gvrTX8RXz5pSRm6WtONgq2SedJlq5Fv5d7myzEKo8+o3NSAuoZvLRQtZ8f2a?=
+ =?us-ascii?Q?2n4ITbdL?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 56da634a-aa8a-4cc9-01a9-08d8c220ff11
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd680423-a6c0-4743-6b61-08d8c22103ff
 X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 17:37:04.8321 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 17:37:13.1024 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 83DCcZb4IzaeJ2nlNqWnMRMIUSqVzjxHArzQsgG3LDipNakIr6pid4i1DsS5VnXfSE3EUgJg4U6ZS6qLaTgViA==
+X-MS-Exchange-CrossTenant-UserPrincipalName: v36q3jn3MSHn2Zm2A0qAG0xXWK4DYtb3RylNbtBh74J3V8Qfs0ztEhL2H0PXUfLdn6ScXUPN2GF2HcS3Y+0qSQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4153
 Received-SPF: softfail client-ip=40.107.220.57;
  envelope-from=Thomas.Lendacky@amd.com;
@@ -129,150 +131,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
- Sean Christopherson <seanjc@google.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Connor Kuehl <ckuehl@redhat.com>, Sean Christopherson <seanjc@google.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- David Gibson <david@gibson.dropbear.id.au>, Jiri Slaby <jslaby@suse.cz>,
- Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Tom Lendacky <thomas.lendacky@amd.com>
 
-This patch series provides support for launching an SEV-ES guest.
+Provide initial support for SEV-ES. This includes creating a function to
+indicate the guest is an SEV-ES guest (which will return false until all
+support is in place), performing the proper SEV initialization and
+ensuring that the guest CPU state is measured as part of the launch.
 
-Secure Encrypted Virtualization - Encrypted State (SEV-ES) expands on the
-SEV support to protect the guest register state from the hypervisor. See
-"AMD64 Architecture Programmer's Manual Volume 2: System Programming",
-section "15.35 Encrypted State (SEV-ES)" [1].
-
-In order to allow a hypervisor to perform functions on behalf of a guest,
-there is architectural support for notifying a guest's operating system
-when certain types of VMEXITs are about to occur. This allows the guest to
-selectively share information with the hypervisor to satisfy the requested
-function. The notification is performed using a new exception, the VMM
-Communication exception (#VC). The information is shared through the
-Guest-Hypervisor Communication Block (GHCB) using the VMGEXIT instruction.
-The GHCB format and the protocol for using it is documented in "SEV-ES
-Guest-Hypervisor Communication Block Standardization" [2].
-
-The main areas of the Qemu code that are updated to support SEV-ES are
-around the SEV guest launch process and AP booting in order to support
-booting multiple vCPUs.
-
-There are no new command line switches required. Instead, the desire for
-SEV-ES is presented using the SEV policy object. Bit 2 of the SEV policy
-object indicates that SEV-ES is required.
-
-The SEV launch process is updated in two ways. The first is that a the
-KVM_SEV_ES_INIT ioctl is used to initialize the guest instead of the
-standard KVM_SEV_INIT ioctl. The second is that before the SEV launch
-measurement is calculated, the LAUNCH_UPDATE_VMSA SEV API is invoked for
-each vCPU that Qemu has created. Once the LAUNCH_UPDATE_VMSA API has been
-invoked, no direct changes to the guest register state can be made.
-
-AP booting poses some interesting challenges. The INIT-SIPI-SIPI sequence
-is typically used to boot the APs. However, the hypervisor is not allowed
-to update the guest registers. For the APs, the reset vector must be known
-in advance. An OVMF method to provide a known reset vector address exists
-by providing an SEV information block, identified by UUID, near the end of
-the firmware [3]. OVMF will program the jump to the actual reset vector in
-this area of memory. Since the memory location is known in advance, an AP
-can be created with the known reset vector address as its starting CS:IP.
-The GHCB document [2] talks about how SMP booting under SEV-ES is
-performed. SEV-ES also requires the use of the in-kernel irqchip support
-in order to minimize the changes required to Qemu to support AP booting.
-
-[1] https://www.amd.com/system/files/TechDocs/24593.pdf
-[2] https://developer.amd.com/wp-content/resources/56421.pdf
-[3] 30937f2f98c4 ("OvmfPkg: Use the SEV-ES work area for the SEV-ES AP reset vector")
-    https://github.com/tianocore/edk2/commit/30937f2f98c42496f2f143fe8374ae7f7e684847
-
-Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Cc: David Gibson <david@gibson.dropbear.id.au>
-Cc: David Hildenbrand <david@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Cc: Marcelo Tosatti <mtosatti@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>
 Cc: Richard Henderson <richard.henderson@linaro.org>
-
+Cc: Eduardo Habkost <ehabkost@redhat.com>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Co-developed-by: Jiri Slaby <jslaby@suse.cz>
+Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
 ---
+ target/i386/cpu.c      |  1 +
+ target/i386/sev-stub.c |  6 ++++++
+ target/i386/sev.c      | 44 ++++++++++++++++++++++++++++++++++++++++--
+ target/i386/sev_i386.h |  1 +
+ 4 files changed, 50 insertions(+), 2 deletions(-)
 
-These patches are based on commit:
-9cd69f1a27 ("Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-01-25-1' into staging")
-
-Additionally, these patches pre-req the following patch series that has
-not yet been accepted into the Qemu tree:
-
-[PATCH v2 0/2] sev: enable secret injection to a self described area in OVMF
-  https://lore.kernel.org/qemu-devel/20201214154429.11023-1-jejb@linux.ibm.com/
-
-A version of the tree can be found at:
-https://github.com/AMDESE/qemu/tree/sev-es-v14
-
-Changes since v5:
-- Rework the reset prevention patch to not issue the error message if the
-  --no-reboot option has been specified for SEV-ES guests.
-
-Changes since v4:
-- Add support for an updated Firmware GUID table implementation, that
-  is now present in OVMF SEV-ES firmware, when searching for the reset
-  vector information. The code will check for the new implementation
-  first, followed by the original implementation to maintain backward
-  compatibility.
-
-Changes since v3:
-- Use the QemuUUID structure for GUID definitions
-- Use SEV-ES policy bit definition from target/i386/sev_i386.h
-- Update SMM support to a per-VM check in order to check SMM capability
-  at the VM level since SEV-ES guests don't currently support SMM
-- Make the CPU resettable check an arch-specific check
-
-Changes since v2:
-- Add in-kernel irqchip requirement for SEV-ES guests
-
-Changes since v1:
-- Fixed checkpatch.pl errors/warnings
-
-Tom Lendacky (6):
-  sev/i386: Add initial support for SEV-ES
-  sev/i386: Require in-kernel irqchip support for SEV-ES guests
-  sev/i386: Allow AP booting under SEV-ES
-  sev/i386: Don't allow a system reset under an SEV-ES guest
-  kvm/i386: Use a per-VM check for SMM capability
-  sev/i386: Enable an SEV-ES guest based on SEV policy
-
- accel/kvm/kvm-all.c       |  69 +++++++++++++++++++++
- accel/stubs/kvm-stub.c    |   5 ++
- hw/i386/pc_sysfw.c        |  10 ++-
- include/sysemu/cpus.h     |   2 +
- include/sysemu/hw_accel.h |   5 ++
- include/sysemu/kvm.h      |  26 ++++++++
- include/sysemu/sev.h      |   3 +
- softmmu/cpus.c            |   5 ++
- softmmu/runstate.c        |   3 +
- target/arm/kvm.c          |   5 ++
- target/i386/cpu.c         |   1 +
- target/i386/kvm/kvm.c     |  10 ++-
- target/i386/sev-stub.c    |   6 ++
- target/i386/sev.c         | 124 +++++++++++++++++++++++++++++++++++++-
- target/i386/sev_i386.h    |   1 +
- target/mips/kvm.c         |   5 ++
- target/ppc/kvm.c          |   5 ++
- target/s390x/kvm.c        |   5 ++
- 18 files changed, 286 insertions(+), 4 deletions(-)
-
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 72a79e6019..0415d8a99c 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5987,6 +5987,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+         break;
+     case 0x8000001F:
+         *eax = sev_enabled() ? 0x2 : 0;
++        *eax |= sev_es_enabled() ? 0x8 : 0;
+         *ebx = sev_get_cbit_position();
+         *ebx |= sev_get_reduced_phys_bits() << 6;
+         *ecx = 0;
+diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+index c1fecc2101..229a2ee77b 100644
+--- a/target/i386/sev-stub.c
++++ b/target/i386/sev-stub.c
+@@ -49,8 +49,14 @@ SevCapability *sev_get_capabilities(Error **errp)
+     error_setg(errp, "SEV is not available in this QEMU");
+     return NULL;
+ }
++
+ int sev_inject_launch_secret(const char *hdr, const char *secret,
+                              uint64_t gpa, Error **errp)
+ {
+     return 1;
+ }
++
++bool sev_es_enabled(void)
++{
++    return false;
++}
+diff --git a/target/i386/sev.c b/target/i386/sev.c
+index 1546606811..fce2128c07 100644
+--- a/target/i386/sev.c
++++ b/target/i386/sev.c
+@@ -360,6 +360,12 @@ sev_enabled(void)
+     return !!sev_guest;
+ }
+ 
++bool
++sev_es_enabled(void)
++{
++    return false;
++}
++
+ uint64_t
+ sev_get_me_mask(void)
+ {
+@@ -580,6 +586,20 @@ sev_launch_update_data(SevGuestState *sev, uint8_t *addr, uint64_t len)
+     return ret;
+ }
+ 
++static int
++sev_launch_update_vmsa(SevGuestState *sev)
++{
++    int ret, fw_error;
++
++    ret = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_UPDATE_VMSA, NULL, &fw_error);
++    if (ret) {
++        error_report("%s: LAUNCH_UPDATE_VMSA ret=%d fw_error=%d '%s'",
++                __func__, ret, fw_error, fw_error_to_str(fw_error));
++    }
++
++    return ret;
++}
++
+ static void
+ sev_launch_get_measure(Notifier *notifier, void *unused)
+ {
+@@ -592,6 +612,14 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
+         return;
+     }
+ 
++    if (sev_es_enabled()) {
++        /* measure all the VM save areas before getting launch_measure */
++        ret = sev_launch_update_vmsa(sev);
++        if (ret) {
++            exit(1);
++        }
++    }
++
+     measurement = g_new0(struct kvm_sev_launch_measure, 1);
+ 
+     /* query the measurement blob length */
+@@ -686,7 +714,7 @@ sev_guest_init(const char *id)
+ {
+     SevGuestState *sev;
+     char *devname;
+-    int ret, fw_error;
++    int ret, fw_error, cmd;
+     uint32_t ebx;
+     uint32_t host_cbitpos;
+     struct sev_user_data_status status = {};
+@@ -747,8 +775,20 @@ sev_guest_init(const char *id)
+     sev->api_major = status.api_major;
+     sev->api_minor = status.api_minor;
+ 
++    if (sev_es_enabled()) {
++        if (!(status.flags & SEV_STATUS_FLAGS_CONFIG_ES)) {
++            error_report("%s: guest policy requires SEV-ES, but "
++                         "host SEV-ES support unavailable",
++                         __func__);
++            goto err;
++        }
++        cmd = KVM_SEV_ES_INIT;
++    } else {
++        cmd = KVM_SEV_INIT;
++    }
++
+     trace_kvm_sev_init();
+-    ret = sev_ioctl(sev->sev_fd, KVM_SEV_INIT, NULL, &fw_error);
++    ret = sev_ioctl(sev->sev_fd, cmd, NULL, &fw_error);
+     if (ret) {
+         error_report("%s: failed to initialize ret=%d fw_error=%d '%s'",
+                      __func__, ret, fw_error, fw_error_to_str(fw_error));
+diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+index 4db6960f60..4f9a5e9b21 100644
+--- a/target/i386/sev_i386.h
++++ b/target/i386/sev_i386.h
+@@ -29,6 +29,7 @@
+ #define SEV_POLICY_SEV          0x20
+ 
+ extern bool sev_enabled(void);
++extern bool sev_es_enabled(void);
+ extern uint64_t sev_get_me_mask(void);
+ extern SevInfo *sev_get_info(void);
+ extern uint32_t sev_get_cbit_position(void);
 -- 
 2.30.0
 
