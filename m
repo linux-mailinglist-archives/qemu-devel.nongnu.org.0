@@ -2,86 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4829C303803
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 09:37:43 +0100 (CET)
-Received: from localhost ([::1]:35904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC95303840
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 09:45:54 +0100 (CET)
+Received: from localhost ([::1]:40988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Jr4-0002PI-Cm
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 03:37:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33144)
+	id 1l4Jyz-0004uA-07
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 03:45:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33906)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1l4Jpt-0001p2-Rj
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 03:36:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34650)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
- id 1l4Jpq-0003Dm-Ow
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 03:36:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611650183;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=1ouRLIPZ5j/dQrsLo0MMLkDtSE9QiRZCalHZiZWDiaE=;
- b=flZFhuO4v/gvucyGbd6kwbk7/KKTfMZM1x7sqiZeS32tqCf3+GLgEj8iyvPL9/AYpeCiWr
- 83knV5jEtAFR5hw4DIdWVxD+0RX6pm9ZKbhzZNF1kUCSSd4s19ZE6cOMhK0eq9+Ix4UK8s
- ol9TvLDsBh7dDGipZDulTsIVJ21JVLw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-342-mJGxGjsUOQe4JtLCgFmZWA-1; Tue, 26 Jan 2021 03:36:21 -0500
-X-MC-Unique: mJGxGjsUOQe4JtLCgFmZWA-1
-Received: by mail-ej1-f72.google.com with SMTP id z2so4702601ejf.3
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 00:36:21 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=1ouRLIPZ5j/dQrsLo0MMLkDtSE9QiRZCalHZiZWDiaE=;
- b=AxrVTG14c0iSk3H6NFRnDEHglOXkJ0kFkUcTKi/MtEGjlesIMxT18Dnixr2Vor4TLa
- 20JZ/3GaTRCSdl7yBBZsfCQ8E5SfIkG4HqAFDzqcRjA5irAoH35LKdRwIEapHXsi2tWh
- bORyoKU6lthR0cW9O7Q0BWINdw3k43ZGNk4MvWElpXlXrinViV1I90QyNyRg/7/87YkD
- EFC11gAs2mjvQcuPcYCis/B8GfcOKgVbHJLvwK77Gb7n0/BihB5nKfbYhiFcy7EtQzr+
- WrbsLfa3zVx2Y6qGR78dCxbmSsRjS7h2SxJNktFiCWbgF2XudAcBxH6Zq3zn2iXrZuqD
- JTAg==
-X-Gm-Message-State: AOAM532+H3lsw/c2a3O2mVAFLUNHj0OVNloX6NG9TNEAn1KFBEsglm7W
- ONmXLNaSGCfEbHhNnjew+x26VI/bvj0udTJRnMa4prYSOwYBqf51KRtMSE0yowkR/TNelSnYhtV
- Qfjf5hMJ3XLRsusAZux0yRO+kqyc7snc=
-X-Received: by 2002:a17:906:3885:: with SMTP id
- q5mr2819462ejd.105.1611650180142; 
- Tue, 26 Jan 2021 00:36:20 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxf1oywIsjrJJcAuDbVQ0xfG3zhKHAv7H35Syr2ndw1Qvgs8ATKXPoMlQ4Od27hxY4RiFiswLskkvHwgRajQrQ=
-X-Received: by 2002:a17:906:3885:: with SMTP id
- q5mr2819448ejd.105.1611650179928; 
- Tue, 26 Jan 2021 00:36:19 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4JuA-0003ZE-L0; Tue, 26 Jan 2021 03:40:54 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:54759)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1l4Ju8-0004c9-BR; Tue, 26 Jan 2021 03:40:54 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 8EABB58094D;
+ Tue, 26 Jan 2021 03:40:48 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Tue, 26 Jan 2021 03:40:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-type:in-reply-to; s=fm2; bh=PMsbskp7osdjoAEx1RrE2uXCnrM
+ ywwykNLMVi0nX6yE=; b=z40VsxLXo9GjBNUxYWYWVuhvntsSWdnypxWJCmaG+oM
+ OLi0qhY/NycasEbFKJtHB/G5jBbVDITWLu7MA+WYiPMH5SamNj+O6Ahxu020N5Bg
+ 0oytvEUmJUit+p74bgl4n63uN5NMakTRyFil6iq3uQ1vOiuQDMlQpFeQ5QGbOlna
+ Rik+M3avHgr/SCk/6Y/HP4rrAQLwRB+BpXFmKpbKon+mmo31oz+cAZ3L1TgjB4xh
+ SIkyT7b0STt8h4Yo6DDap/yifHNzcK0yxs5MPAPKoNul5o4lAF0isnuG+Tq3a/HK
+ RhkT3BnLIvXh+epX/OJl5qVzpRMOpYu3aBcheWyG6FQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-type:date:from:in-reply-to
+ :message-id:mime-version:references:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=PMsbsk
+ p7osdjoAEx1RrE2uXCnrMywwykNLMVi0nX6yE=; b=V5OcIkYwxBQ2QiQV8omNot
+ aJEl8r5o7OkM69qqkcELFwCnDFVapY7PNjAbi9bbREVsxsZS+XikYCeKJNKckflA
+ gGVI12cI8OqmwimBqikkRYSlD9gEoWOdn9U2gWknA1FHTsHBrPNcBzOb54NrC2uO
+ DiYgp1uzmZRlDPr1H4k0+HWvYJ7UT69C8gUjq8w7E9fx1XRyChkQhx0+T6q7N+S2
+ 1uj636t1emrE1vGZchllcbZvIaV+WL+Vc20LM+Xcyc0LTkz3WBVQstrtVsNpOMKs
+ xeyTmEtkgmYOZS3hNYo21mCeq/M66l6usUR9lhhqxzrjX/yPdyPoKtyNnwZSYrJw
+ ==
+X-ME-Sender: <xms:j9UPYK8e0hZNbzM1nQLh-KDqg6Eq8A-95fhJEJRWubf2_jD2t98e2A>
+ <xme:j9UPYKtmUtJJNeurzT98rv8ChG5rotfDEPCJFS9d83mc9YoFum1G5pOdKiCSkBhQI
+ WvgIXiUZPndZMtGqac>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeggdduudekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
+ ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
+ gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
+ keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
+ curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:j9UPYACxV3wRv5XfnxF8CssU--vEDGDLLwKr-xOpLYOAkKPJ-0-5Ng>
+ <xmx:j9UPYCfJPyt6dkIUjD12fI7C6lphZpCmRU2nUDo3elHt0sRiJ_yCQA>
+ <xmx:j9UPYPNzGTe_RY0zFaoO4HdfQSLrMThBWVvYPQMj1i9yGZb51E9IAQ>
+ <xmx:kNUPYIjZVK0Iq04KsZM0Gdpt57G8UTF4VlT_oKJiLI0S5t97KHHOfQ>
+Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
+ [80.167.98.190])
+ by mail.messagingengine.com (Postfix) with ESMTPA id 31761108005F;
+ Tue, 26 Jan 2021 03:40:46 -0500 (EST)
+Date: Tue, 26 Jan 2021 09:40:44 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
+Subject: Re: [PATCH 0/3] Fix zone write validation
+Message-ID: <YA/VjPTKjl0Mhq9l@apples.localdomain>
+References: <20210126050248.9077-1-dmitry.fomichev@wdc.com>
+ <YA/RJhWQMV/6jqTS@apples.localdomain>
 MIME-Version: 1.0
-References: <20201224175441.67538-1-mcascell@redhat.com>
- <CAA8xKjWf8HBj6qgZ8iJTW0hbU8D6QKcycxT-hBo8=HG3TD36NQ@mail.gmail.com>
- <769d08e0-1da8-f281-65ec-f7d085b850f0@redhat.com>
-In-Reply-To: <769d08e0-1da8-f281-65ec-f7d085b850f0@redhat.com>
-From: Mauro Matteo Cascella <mcascell@redhat.com>
-Date: Tue, 26 Jan 2021 09:36:09 +0100
-Message-ID: <CAA8xKjWJ_37ha6U9vz62o83i-L2MdE=Bz_XNevQGpAdcd8xWvg@mail.gmail.com>
-Subject: Re: [PATCH] hw/scsi/megasas: check for NULL frame in
- megasas_command_cancelled()
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mcascell@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mcascell@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3DFXH55EJH6hxP4D"
+Content-Disposition: inline
+In-Reply-To: <YA/RJhWQMV/6jqTS@apples.localdomain>
+Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
+ helo=new3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,43 +94,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- qemu-block@nongnu.org, cwmyung@snu.ac.kr, Hannes Reinecke <hare@suse.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
+ Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
+ Klaus Jensen <k.jensen@samsung.com>, qemu-devel@nongnu.org,
+ Max Reitz <mreitz@redhat.com>, Keith Busch <kbusch@kernel.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 3:52 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> You forgot to Cc the subsystem maintainers...
->
-> ./scripts/get_maintainer.pl -f hw/scsi/megasas.c
-> Hannes Reinecke <hare@suse.com> (supporter:megasas)
-> Paolo Bonzini <pbonzini@redhat.com> (supporter:SCSI)
-> Fam Zheng <fam@euphon.net> (reviewer:SCSI)
 
-I used to only check the MAINTAINERS file, which only mentions Hannes
-in connection with megasas. Good to know for the nex time.
+--3DFXH55EJH6hxP4D
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> As Paolo usually asks for reproducer to be integrated with the fix,
-> it might save him/you time if you respin with the reproducer. You
-> can have a look at
-> https://www.mail-archive.com/qemu-block@nongnu.org/msg78982.html
-> for example.
+On Jan 26 09:21, Klaus Jensen wrote:
+> On Jan 26 14:02, Dmitry Fomichev wrote:
+> > These patches solve a few problems that exist in zoned Write
+> > ans Zone Append validation code.
+> >=20
+> > Dmitry Fomichev (3):
+> >   hw/block/nvme: Check for zone boundary during append
+> >   hw/block/nvme: Check zone state before checking boundaries
+> >   hw/block/nvme: Add trace events for zone boundary violations
+> >=20
+> >  hw/block/nvme.c       | 35 ++++++++++++++++++++---------------
+> >  hw/block/trace-events |  3 +++
+> >  2 files changed, 23 insertions(+), 15 deletions(-)
+> >=20
+>=20
+> I don't think there are any obvious benefits to this series over my fix
+> and since you didn't identify any functional issues with it, I'm
+> thinking we go with that.
+>=20
+> My fix additionally removes setting ALBA in the CQE for regular writes
+> and bundles the endianness fix by changing the related logic in
+> do_write.
+>=20
+> I have a couple of series in queue that also includes zoned writes and
+> there is no reason they have to indirectly deal with append. It's just
+> cleaner to move this special case closer to where it's used.
 
-Thank you for the heads up, Philippe. I'll try to incorporate the reproduce=
-r.
+Keith,
 
-> That said, unrelated to your patch but I'm not sure how useful it
-> is to test for bugs found by fuzzer each time in our CI. There are
-> borderline cases not representing proper use. Maybe we could run
-> them weekly instead...
+I think this calls for your +1 tiebreaking special ability.
 
---
-Mauro Matteo Cascella
-Red Hat Product Security
-PGP-Key ID: BB3410B0
+--3DFXH55EJH6hxP4D
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAP1YoACgkQTeGvMW1P
+DemikAgAgPUlzF6kEZvwJE6mfeHupSaVf/wKbfLGBP3rPSZqZGPJRHg/XlgiZEw0
+E3vIuMGq3OZ3kcV24hLG3jdE18ypKCjJp57M/18jHJgaKjNNXUpCwuRG9PYTkcXE
+TRhvFkNVj+Kvv7Hg0gOLxsRlwouILmNXoqRKyZcZ8aShaSAtIO/Usrn6Ydrx23zu
+LI3ZgcqKXtWqCKqGQ44I2keMeGsJvnfmHF5APFqepbPEbi1iLa8v77/4WKFXSIwO
+uoWX0x/JIKshKxeLQgximZAYLl+ew2V3yHzXXR5VdpugcSEe02dvGUwuE/QErLJu
+476zPYq9HEe3bx4kpL0s6z79OVdOLQ==
+=vIJj
+-----END PGP SIGNATURE-----
+
+--3DFXH55EJH6hxP4D--
 
