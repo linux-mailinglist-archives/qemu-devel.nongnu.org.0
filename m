@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11269303B6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:21:35 +0100 (CET)
-Received: from localhost ([::1]:50356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8101B303B85
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:24:28 +0100 (CET)
+Received: from localhost ([::1]:58704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4MPe-0006LS-3h
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:21:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35428)
+	id 1l4MSR-0001ZB-JP
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:24:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35502)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4MMx-0004Mr-5y
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:18:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58087)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4MN7-0004fn-Q8
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:18:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4MMv-0000VI-KZ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:18:46 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4MN5-0000Yr-BO
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:18:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611659925;
+ s=mimecast20190719; t=1611659934;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=e3OItHbfUA3QT8UFa6QgvNKjVX0ZaHjGE2HhCd8Ttpc=;
- b=YvHUWztA+qGNsbjowNpy8gRth/o8dli61BCa90t/NpBoymlFodMp5U4RduU6BgkUzSmGCt
- tLqT3TN4Yq3w1k4IFTjLEeEIdy3Dd6oBipFRYjYRFDTCr8wf2FGRoZeILhVURcoJ3e7qP2
- s21oIk/B4TpE53bXp4U7nsIgmxFv8VM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-596-QbhYxQUSNNW6Lj_I4-yTyw-1; Tue, 26 Jan 2021 06:18:43 -0500
-X-MC-Unique: QbhYxQUSNNW6Lj_I4-yTyw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 44F28BBEE2;
- Tue, 26 Jan 2021 11:18:42 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-202.ams2.redhat.com [10.36.114.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BD2F60C5F;
- Tue, 26 Jan 2021 11:18:41 +0000 (UTC)
-Date: Tue, 26 Jan 2021 12:18:39 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Subject: Re: [PATCH] iotests/118: Drop 'change' test
-Message-ID: <20210126111839.GC4385@merkur.fritz.box>
-References: <20210126104833.57026-1-mreitz@redhat.com>
+ content-transfer-encoding:content-transfer-encoding;
+ bh=e9o9HSbgrAO9dhwuuX5RxoGyVnZHiCuOqoEwkUXX8gk=;
+ b=g2OHyR6lKjoXk5W1qbaeNH0qUqh3lkguCvKrT1jPxydKsqAaQjlpT8R4RWZq4/7uBU2HHC
+ XPhKTroa1tMLIb2c2qc7ShI7ihcd8L9tK5poSOceaCZTh/N7WrNMA2g9G4wuc8SwcUO1O1
+ DcfTEOxmNaNlwxFbcnCzWj71YCaDyW8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-266-17dIS3HUOvGqJlHjKn7auA-1; Tue, 26 Jan 2021 06:18:52 -0500
+X-MC-Unique: 17dIS3HUOvGqJlHjKn7auA-1
+Received: by mail-ed1-f69.google.com with SMTP id dg17so9236617edb.11
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 03:18:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cMgfQ2dDiKnx/eP1FpimyOYb6jMKw5Z/xIj2oE0pYsE=;
+ b=hJfEiV8zoVDqRVVdij488vTebemaxVG1ak2NyhJu4LbhgL2B/0G+euyIRED0QNu9Pb
+ 1ELogREHXN6sA0dvC0wbyBwWdprViMYVfZaJXqpCbU5dG+udw16LQ4mbyH2ee70wZfmL
+ l6vhja/k6iYvXA3newuShnjbvH4GnZns3DwUMz2xk4pUlNMa/fts9I+JNUMMzRyb0LHu
+ yNlrkVK4gSfuLLIeUkCHrFVSgn24bcwgDfJXqDJFnFE09qHl9M3kQVaHlytmROb3UHQW
+ SmzBe2d+Q5AdVXgdOlJbxHQAw+FEGlORwRl+XEJFPo9X2hvfuQTSc52mKrTaavNI8bTJ
+ dFwA==
+X-Gm-Message-State: AOAM531WvcvfdauN5Sqp3KJqaxJKTmc0mDPw/zw5kZOCpXb5vKls1RuC
+ VPz39S6tqObtXzQfw2aqUsjZK2np1J1Zs/IQEKfIY/XELQhA6x1ea6Gy6efu2KQqbyOxK8xNYAF
+ Zq4YvgtsasPZaBz166gMr88woKJb/Vm4IKumBnDavRWikTSSjf8YKZ2bFm5vII/yw
+X-Received: by 2002:aa7:c2ce:: with SMTP id m14mr4067340edp.76.1611659930883; 
+ Tue, 26 Jan 2021 03:18:50 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwp0KxUfCsWAMIync58kU2EnTUXsXrZyDfhEJzjMz+H12aPSTFDDWtJm45yBrWouU+b5u1R6w==
+X-Received: by 2002:aa7:c2ce:: with SMTP id m14mr4067321edp.76.1611659930704; 
+ Tue, 26 Jan 2021 03:18:50 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id co6sm12266189edb.96.2021.01.26.03.18.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jan 2021 03:18:49 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/2] net/eth: Fix stack-buffer-overflow in
+ _eth_get_rss_ex_dst_addr()
+Date: Tue, 26 Jan 2021 12:18:45 +0100
+Message-Id: <20210126111847.3142636-1-philmd@redhat.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210126104833.57026-1-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -75,40 +91,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, Alexander Bulekov <alxndr@bu.edu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.01.2021 um 11:48 hat Max Reitz geschrieben:
-> Commit 0afec75734331 removed the 'change' QMP command, so we can no
-> longer test it in 118.
-> 
-> Fixes: 0afec75734331a0b52fa3aa4235220eda8c7846f
->        ('qmp: remove deprecated "change" command')
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-
-Thanks, applied to the block branch.
-
-(I was just about to make the same change myself...)
-
-If you don't mind, I'd squash in something like the following.
-
-Kevin
-
-diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
-index 88e8354e21..cae52ffa5e 100755
---- a/tests/qemu-iotests/118
-+++ b/tests/qemu-iotests/118
-@@ -1,8 +1,7 @@
- #!/usr/bin/env python3
- # group: rw
- #
--# Test case for the QMP 'change' command and all other associated
--# commands
-+# Test case for media change monitor commands
- #
- # Copyright (C) 2015 Red Hat, Inc.
- #
+I had a look at the patch from Miroslav trying to silence a=0D
+compiler warning which in fact is a nasty bug. Here is a fix.=0D
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg772735.html=0D
+=0D
+v3: Added Thomas qtest Acked-by=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  net/eth: Simplify _eth_get_rss_ex_dst_addr()=0D
+  net/eth: Fix stack-buffer-overflow in _eth_get_rss_ex_dst_addr()=0D
+=0D
+ net/eth.c                      | 37 +++++++++++-------------=0D
+ tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++=0D
+ MAINTAINERS                    |  1 +=0D
+ tests/qtest/meson.build        |  1 +=0D
+ 4 files changed, 72 insertions(+), 20 deletions(-)=0D
+ create mode 100644 tests/qtest/fuzz-e1000e-test.c=0D
+=0D
+--=20=0D
+2.26.2=0D
+=0D
 
 
