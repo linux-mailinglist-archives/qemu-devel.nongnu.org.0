@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32728304034
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:25:39 +0100 (CET)
-Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 230A0304026
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:23:48 +0100 (CET)
+Received: from localhost ([::1]:36232 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4PHm-0004pV-81
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:25:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46154)
+	id 1l4PFz-0001vI-5S
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:23:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46196)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PCw-0007pv-6x
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:20:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32073)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PD8-000834-GL
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:20:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46970)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PCu-0005ri-JD
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:20:37 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PD2-0005u3-Bj
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:20:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670835;
+ s=mimecast20190719; t=1611670843;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=bHUZY59Z4493UOCpqaU1A468PAiw0AAQeDN8rB+E2hU=;
- b=gc/Rn9Aiw1Z0eotTQq+g5l0jQNsYx5DONxcBqC+lWTSizwVjCFOPP256k55pi0GLjgYCsS
- o//0HT2yTqdVkm2D0hk3Cg6JEz9t0579Zb4mK+j3miUNEsrOu1QaMIr2RbUnwH4416p11q
- shKrhIuS+vFWiK+dsOATqU/DpjkcZY4=
+ bh=7KSv+t6mWbRgJUaI085CiY6NM0m0poggbOSsBtkUmpE=;
+ b=RS7bqfVSv2hbkgEzcPBnJ2Dp4reDm476yqwd+Mf/t8Vv0ZrRiN29KVXVLMirXacLzm7s9s
+ 01Z4esFgJPhCvXqyUjJuYyP+vXTRVbPfo79xfLpeOgUu08NxbPSFowHfdZHTBwbzw1vefG
+ O1hJi4Qrf2ZJ1qyEyrRHWfwpJ1WxAms=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-141-U403ReqIO7inHITGDquavQ-1; Tue, 26 Jan 2021 09:20:32 -0500
-X-MC-Unique: U403ReqIO7inHITGDquavQ-1
+ us-mta-273-SvepPAtYN0eZVsaqsGqIjg-1; Tue, 26 Jan 2021 09:20:41 -0500
+X-MC-Unique: SvepPAtYN0eZVsaqsGqIjg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BFAAA1005E4A;
- Tue, 26 Jan 2021 14:20:25 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DD9F919611A8;
+ Tue, 26 Jan 2021 14:20:27 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2E2D86E714;
- Tue, 26 Jan 2021 14:20:24 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E9C260C62;
+ Tue, 26 Jan 2021 14:20:27 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 03/53] block: add API function to insert a node
-Date: Tue, 26 Jan 2021 15:19:26 +0100
-Message-Id: <20210126142016.806073-4-mreitz@redhat.com>
+Subject: [PULL 04/53] copy-on-read: add filter drop function
+Date: Tue, 26 Jan 2021 15:19:27 +0100
+Message-Id: <20210126142016.806073-5-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
@@ -63,7 +63,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,68 +83,165 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-Provide API for insertion a node to backing chain.
+Provide API for the COR-filter removal. Also, drop the filter child
+permissions for an inactive state when the filter node is being
+removed.
+To insert the filter, the block generic layer function
+bdrv_insert_node() can be used.
+The new function bdrv_cor_filter_drop() may be considered as an
+intermediate solution before the QEMU permission update system has
+overhauled. Then we are able to implement the API function
+bdrv_remove_node() on the block generic layer.
 
-Suggested-by: Max Reitz <mreitz@redhat.com>
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20201216061703.70908-3-vsementsov@virtuozzo.com>
+Message-Id: <20201216061703.70908-4-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block.h |  2 ++
- block.c               | 25 +++++++++++++++++++++++++
- 2 files changed, 27 insertions(+)
+ block/copy-on-read.h | 32 +++++++++++++++++++++++++
+ block/copy-on-read.c | 56 ++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 88 insertions(+)
+ create mode 100644 block/copy-on-read.h
 
-diff --git a/include/block/block.h b/include/block/block.h
-index a193545b6a..127bdf3392 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -358,6 +358,8 @@ void bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
-                  Error **errp);
- void bdrv_replace_node(BlockDriverState *from, BlockDriverState *to,
-                        Error **errp);
-+BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
-+                                   int flags, Error **errp);
+diff --git a/block/copy-on-read.h b/block/copy-on-read.h
+new file mode 100644
+index 0000000000..7bf405dccd
+--- /dev/null
++++ b/block/copy-on-read.h
+@@ -0,0 +1,32 @@
++/*
++ * Copy-on-read filter block driver
++ *
++ * The filter driver performs Copy-On-Read (COR) operations
++ *
++ * Copyright (c) 2018-2020 Virtuozzo International GmbH.
++ *
++ * Author:
++ *   Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
++ *
++ * This program is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License
++ * along with this program. If not, see <http://www.gnu.org/licenses/>.
++ */
++
++#ifndef BLOCK_COPY_ON_READ
++#define BLOCK_COPY_ON_READ
++
++#include "block/block_int.h"
++
++void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs);
++
++#endif /* BLOCK_COPY_ON_READ */
+diff --git a/block/copy-on-read.c b/block/copy-on-read.c
+index cb03e0f2d3..618c4c4f43 100644
+--- a/block/copy-on-read.c
++++ b/block/copy-on-read.c
+@@ -23,11 +23,20 @@
+ #include "qemu/osdep.h"
+ #include "block/block_int.h"
+ #include "qemu/module.h"
++#include "qapi/error.h"
++#include "block/copy-on-read.h"
++
++
++typedef struct BDRVStateCOR {
++    bool active;
++} BDRVStateCOR;
  
- int bdrv_parse_aio(const char *mode, int *flags);
- int bdrv_parse_cache_mode(const char *mode, int *flags, bool *writethrough);
-diff --git a/block.c b/block.c
-index 8b9d457546..91a66d4f3e 100644
---- a/block.c
-+++ b/block.c
-@@ -4660,6 +4660,31 @@ static void bdrv_delete(BlockDriverState *bs)
-     g_free(bs);
+ 
+ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+                     Error **errp)
+ {
++    BDRVStateCOR *state = bs->opaque;
++
+     bs->file = bdrv_open_child(NULL, options, "file", bs, &child_of_bds,
+                                BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+                                false, errp);
+@@ -42,6 +51,13 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
+         ((BDRV_REQ_FUA | BDRV_REQ_MAY_UNMAP | BDRV_REQ_NO_FALLBACK) &
+             bs->file->bs->supported_zero_flags);
+ 
++    state->active = true;
++
++    /*
++     * We don't need to call bdrv_child_refresh_perms() now as the permissions
++     * will be updated later when the filter node gets its parent.
++     */
++
+     return 0;
  }
  
-+BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *node_options,
-+                                   int flags, Error **errp)
+@@ -57,6 +73,17 @@ static void cor_child_perm(BlockDriverState *bs, BdrvChild *c,
+                            uint64_t perm, uint64_t shared,
+                            uint64_t *nperm, uint64_t *nshared)
+ {
++    BDRVStateCOR *s = bs->opaque;
++
++    if (!s->active) {
++        /*
++         * While the filter is being removed
++         */
++        *nperm = 0;
++        *nshared = BLK_PERM_ALL;
++        return;
++    }
++
+     *nperm = perm & PERM_PASSTHROUGH;
+     *nshared = (shared & PERM_PASSTHROUGH) | PERM_UNCHANGED;
+ 
+@@ -135,6 +162,7 @@ static void cor_lock_medium(BlockDriverState *bs, bool locked)
+ 
+ static BlockDriver bdrv_copy_on_read = {
+     .format_name                        = "copy-on-read",
++    .instance_size                      = sizeof(BDRVStateCOR),
+ 
+     .bdrv_open                          = cor_open,
+     .bdrv_child_perm                    = cor_child_perm,
+@@ -154,6 +182,34 @@ static BlockDriver bdrv_copy_on_read = {
+     .is_filter                          = true,
+ };
+ 
++
++void bdrv_cor_filter_drop(BlockDriverState *cor_filter_bs)
 +{
-+    BlockDriverState *new_node_bs;
-+    Error *local_err = NULL;
++    BdrvChild *child;
++    BlockDriverState *bs;
++    BDRVStateCOR *s = cor_filter_bs->opaque;
 +
-+    new_node_bs = bdrv_open(NULL, NULL, node_options, flags, errp);
-+    if (new_node_bs == NULL) {
-+        error_prepend(errp, "Could not create node: ");
-+        return NULL;
++    child = bdrv_filter_child(cor_filter_bs);
++    if (!child) {
++        return;
 +    }
++    bs = child->bs;
 +
++    /* Retain the BDS until we complete the graph change. */
++    bdrv_ref(bs);
++    /* Hold a guest back from writing while permissions are being reset. */
 +    bdrv_drained_begin(bs);
-+    bdrv_replace_node(bs, new_node_bs, &local_err);
++    /* Drop permissions before the graph change. */
++    s->active = false;
++    bdrv_child_refresh_perms(cor_filter_bs, child, &error_abort);
++    bdrv_replace_node(cor_filter_bs, bs, &error_abort);
++
 +    bdrv_drained_end(bs);
-+
-+    if (local_err) {
-+        bdrv_unref(new_node_bs);
-+        error_propagate(errp, local_err);
-+        return NULL;
-+    }
-+
-+    return new_node_bs;
++    bdrv_unref(bs);
++    bdrv_unref(cor_filter_bs);
 +}
 +
- /*
-  * Run consistency checks on an image
-  *
++
+ static void bdrv_copy_on_read_init(void)
+ {
+     bdrv_register(&bdrv_copy_on_read);
 -- 
 2.29.2
 
