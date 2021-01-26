@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932B33040A0
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:42:08 +0100 (CET)
-Received: from localhost ([::1]:60354 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0113330406B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:35:43 +0100 (CET)
+Received: from localhost ([::1]:44690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4PXi-00074m-Ht
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:42:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46768)
+	id 1l4PRW-0000Jq-0D
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:35:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDh-0000Qu-6v
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36636)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDj-0000ST-7x
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDZ-0006Ba-QV
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:24 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDd-0006DF-7u
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670877;
+ s=mimecast20190719; t=1611670880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XH6X+6ScV6XrnqxQTSO9Xrcj62FiZ0S41tAeBQhfEM0=;
- b=XrBrerkWyGCfAwNxSPBLkt+KeJ/bJ5OL0CvEpJ5ej8h19AyD+d450nQ8mqDduhKg9fyfuP
- pgmKePt/3YUEnCAW4cDzB4qIXliXeFVwZd/SBLgfQvzij4nzT6Mpf4O67YwdwwuQsuh0sC
- UEoofcR9rmpB121Yyv3QRzCsB/F2d38=
+ bh=pJXqiMlr4xBoN9Ka8VmfDgLQv1vJ7Whu9MEVSwWZ/gg=;
+ b=cZRaHAar02Im3UC9O6d2ONBjhc86Vx4/NW+fLt0pKOY9fiaFxZr0E+ZrD91XyEHBqJObP+
+ Etscrx6fE/cLj2GO3cBTTRrB9diNo2gurpkhQ2mPyJUbVq8e9n7cEpDaNblHcx4gAQZemM
+ jIvctFSAHUDwJ68SmIlWKiulZixp28s=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-109-rZ_zl0MaNmG9Tx_JkG8DkQ-1; Tue, 26 Jan 2021 09:21:14 -0500
-X-MC-Unique: rZ_zl0MaNmG9Tx_JkG8DkQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-377-I80_6ty8MLKYB0ht6oPLkg-1; Tue, 26 Jan 2021 09:21:16 -0500
+X-MC-Unique: I80_6ty8MLKYB0ht6oPLkg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6EDC88015DD;
- Tue, 26 Jan 2021 14:21:13 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92E2B108442D;
+ Tue, 26 Jan 2021 14:21:15 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FD3110023B2;
- Tue, 26 Jan 2021 14:21:12 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 33DB75C1A3;
+ Tue, 26 Jan 2021 14:21:15 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 24/53] iotests/300: Clean up pylint and mypy complaints
-Date: Tue, 26 Jan 2021 15:19:47 +0100
-Message-Id: <20210126142016.806073-25-mreitz@redhat.com>
+Subject: [PULL 25/53] coroutine-sigaltstack: Add SIGUSR2 mutex
+Date: Tue, 26 Jan 2021 15:19:48 +0100
+Message-Id: <20210126142016.806073-26-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -81,78 +81,70 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-And consequentially drop it from 297's skip list.
+Disposition (action) for any given signal is global for the process.
+When two threads run coroutine-sigaltstack's qemu_coroutine_new()
+concurrently, they may interfere with each other: One of them may revert
+the SIGUSR2 handler to SIG_DFL, between the other thread (a) setting up
+coroutine_trampoline() as the handler and (b) raising SIGUSR2.  That
+SIGUSR2 will then terminate the QEMU process abnormally.
+
+We have to ensure that only one thread at a time can modify the
+process-global SIGUSR2 handler.  To do so, wrap the whole section where
+that is done in a mutex.
+
+Alternatively, we could for example have the SIGUSR2 handler always be
+coroutine_trampoline(), so there would be no need to invoke sigaction()
+in qemu_coroutine_new().  Laszlo has posted a patch to do so here:
+
+  https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg05962.html
+
+However, given that coroutine-sigaltstack is more of a fallback
+implementation for platforms that do not support ucontext, that change
+may be a bit too invasive to be comfortable with it.  The mutex proposed
+here may negatively impact performance, but the change is much simpler.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Message-Id: <20210125120305.19520-1-mreitz@redhat.com>
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Willian Rampazzo <willianr@redhat.com>
-Message-Id: <20210118105720.14824-11-mreitz@redhat.com>
 ---
- tests/qemu-iotests/297 |  2 +-
- tests/qemu-iotests/300 | 18 +++++++++++++++---
- 2 files changed, 16 insertions(+), 4 deletions(-)
+ util/coroutine-sigaltstack.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-index 79e63f8625..a37910b42d 100755
---- a/tests/qemu-iotests/297
-+++ b/tests/qemu-iotests/297
-@@ -34,7 +34,7 @@ SKIP_FILES = (
-     '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
-     '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
-     '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
--    '299', '300', '302', '303', '304', '307',
-+    '299', '302', '303', '304', '307',
-     'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
- )
+diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+index aade82afb8..e99b8a4f9c 100644
+--- a/util/coroutine-sigaltstack.c
++++ b/util/coroutine-sigaltstack.c
+@@ -157,6 +157,7 @@ Coroutine *qemu_coroutine_new(void)
+     sigset_t sigs;
+     sigset_t osigs;
+     sigjmp_buf old_env;
++    static pthread_mutex_t sigusr2_mutex = PTHREAD_MUTEX_INITIALIZER;
  
-diff --git a/tests/qemu-iotests/300 b/tests/qemu-iotests/300
-index 38ef5945b7..43264d883d 100755
---- a/tests/qemu-iotests/300
-+++ b/tests/qemu-iotests/300
-@@ -23,7 +23,11 @@ import os
- import random
- import re
- from typing import Dict, List, Optional, Union
+     /* The way to manipulate stack is with the sigaltstack function. We
+      * prepare a stack, with it delivering a signal to ourselves and then
+@@ -186,6 +187,12 @@ Coroutine *qemu_coroutine_new(void)
+     sa.sa_handler = coroutine_trampoline;
+     sigfillset(&sa.sa_mask);
+     sa.sa_flags = SA_ONSTACK;
 +
- import iotests
++    /*
++     * sigaction() is a process-global operation.  We must not run
++     * this code in multiple threads at once.
++     */
++    pthread_mutex_lock(&sigusr2_mutex);
+     if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+         abort();
+     }
+@@ -234,6 +241,8 @@ Coroutine *qemu_coroutine_new(void)
+      * Restore the old SIGUSR2 signal handler and mask
+      */
+     sigaction(SIGUSR2, &osa, NULL);
++    pthread_mutex_unlock(&sigusr2_mutex);
 +
-+# Import qemu after iotests.py has amended sys.path
-+# pylint: disable=wrong-import-order
- import qemu
+     pthread_sigmask(SIG_SETMASK, &osigs, NULL);
  
- BlockBitmapMapping = List[Dict[str, Union[str, List[Dict[str, str]]]]]
-@@ -111,10 +115,14 @@ class TestDirtyBitmapMigration(iotests.QMPTestCase):
-         If @msg is None, check that there has not been any error.
-         """
-         self.vm_b.shutdown()
-+
-+        log = self.vm_b.get_log()
-+        assert log is not None  # Loaded after shutdown
-+
-         if msg is None:
--            self.assertNotIn('qemu-system-', self.vm_b.get_log())
-+            self.assertNotIn('qemu-system-', log)
-         else:
--            self.assertIn(msg, self.vm_b.get_log())
-+            self.assertIn(msg, log)
- 
-     @staticmethod
-     def mapping(node_name: str, node_alias: str,
-@@ -446,9 +454,13 @@ class TestBlockBitmapMappingErrors(TestDirtyBitmapMigration):
- 
-         # Check for the error in the source's log
-         self.vm_a.shutdown()
-+
-+        log = self.vm_a.get_log()
-+        assert log is not None  # Loaded after shutdown
-+
-         self.assertIn(f"Cannot migrate bitmap '{name}' on node "
-                       f"'{self.src_node_name}': Name is longer than 255 bytes",
--                      self.vm_a.get_log())
-+                      log)
- 
-         # Expect abnormal shutdown of the destination VM because of
-         # the failed migration
+     /*
 -- 
 2.29.2
 
