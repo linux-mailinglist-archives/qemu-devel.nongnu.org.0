@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490A63041D8
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:13:31 +0100 (CET)
-Received: from localhost ([::1]:43806 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F502304165
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:05:38 +0100 (CET)
+Received: from localhost ([::1]:46412 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Q26-00063x-9F
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:13:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52910)
+	id 1l4PuT-0003Yd-5q
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:05:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53672)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l4PjO-0005lE-DW
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:54:12 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:35094)
+ id 1l4Pnf-0003lu-5z
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:58:35 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40146)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l4PjI-00008H-Gz
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:54:08 -0500
-Received: by mail-wm1-x333.google.com with SMTP id e15so3058669wme.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 06:54:02 -0800 (PST)
+ id 1l4Pnd-0001gi-8h
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:58:34 -0500
+Received: by mail-wr1-x430.google.com with SMTP id c12so16812322wrc.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 06:58:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=XnIiV3DzWrSm/DAQmEemcSTp/e/oYXKiquN/7lrri3s=;
- b=C9niEHAdM2qOkrwiyXqmffC1hA6EMCHZeznj0BLtMRwBLGVR6fCPy8paar0JRdr5Bu
- dRctIKsG1mDfSmpqBVktAMLcYnyf3JDRuPPNulPJIXQbwUBkJl9obtgOYWhqrWP14Dwe
- HdEH4awDWFZ5EBNeeZ+k5xkPt6ARgQBz/gMGB+FXgmJeyHbiupM4Ndxk7aEMNytkvxBL
- 8iexhXqaSBocBQioVGuXQC21QlPwNWklyLOG4agVPmGUk9weLn2H380Bcx75TO1xdn14
- KGlwZW2Tt8Vz/v4AJf4g4OZ1GhDg42ioJXlcMo0lYAOyOOLmbui6tUcIHB/iGJTx8SIR
- SC2A==
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=iSFsqH3+jAWKqIg7kZm0YReysM4e1/nWFlIJ0psXCdE=;
+ b=KU1hw2BkNbkCFTLoOhf6pfcoqT4ejWrHhsi9ba+mjGEFFMmEfW6pkv2cDTfpLfX2RM
+ fxRVfuihjt6qIx4CAGEs8jIZOOD4bc/UNJEDQab2FOyPXh8Gy5K3AP+Kq3QnL3cZW/mm
+ YOCk6kUkhF7n5rV3BYLvSEIb6rBYSX5jyFqykXSPKr5BQuknefj6wiV6+0FJkUquLjhh
+ YC26Rs44nzJqzkebEen+Q/Jb+4nkhEcvjPMGoHECRAbTNkL++mGoF/0mRkHZGsvgkdAK
+ ECn+ABJubcCILvCnIXp86gSP1jN6fWM3LbJg3DpkW5rqYR+R+3Bf8ePDAeNzLetgvl0b
+ SH8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=XnIiV3DzWrSm/DAQmEemcSTp/e/oYXKiquN/7lrri3s=;
- b=bpUZAZIQ2FejM2OYhnobOifjWGeBNYQnm/UtqhS3k/31snyh7GkjszW1yT6y+xMTbl
- 8Y68rlnQt62dSs2Kn1GC4ZplTeTE3+z0KCjmfDMoVBPyUg7a/d1ZR/L9cUFmcsygonNi
- /IZzuwzLuqC67b63NjWxeS1HaYKfdwuIvbxp9Hk5RpaPt/GDsRDJhADDRZ3X+KhDExcf
- dlbKQT8sNfcA7lt+yU4smQvvoIcgymD1GX5sCfjwbcFNUJvbASTzBhR0a+opGzNR+VnG
- o6v0bswMM3diV6/iZvK/3Dr7v5koNuagDQCSjW7ztIYWXPrbAQFy3ifF2XOgDLNaBJ1r
- xgOw==
-X-Gm-Message-State: AOAM533bMmrLv1snzJ64kuWqCOqLwENsmnRaFwDxrZTzotbdqXz6G0uq
- QA6cG4Oo67X4qR9uympSgFhKOA==
-X-Google-Smtp-Source: ABdhPJzHX3ECjOrE8bESjlio/pdO/ZL5o6dx1c7smHRXTCPbT71NYLYpeMQa70IEwIrmTy5uBnn3sA==
-X-Received: by 2002:a1c:a145:: with SMTP id k66mr140619wme.18.1611672841907;
- Tue, 26 Jan 2021 06:54:01 -0800 (PST)
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=iSFsqH3+jAWKqIg7kZm0YReysM4e1/nWFlIJ0psXCdE=;
+ b=pyjEipKDgw83mNzaD1YUSaEaEmOY7YToPtRfsGtiDw2NG4oLdvDrpDhi/jtaRPQWq4
+ MEdtaM+Yi9lFc7pNsytV1PuL6gD8UCyYW29piMQd4g4OPntjpiVin6/fWl7dxAvFsGj/
+ w3cMQkBQiEtETr9DbiiBWXJ7tv/KHRub0KJ3yQ/4twP1pnGQOpGT4xrtvIFur7vThZoK
+ L4+Io3SXmxAbUzjgxsL+pLUPdVMPBr/b6rD0s5Vbcpxu5DZ8zZOFbcHMqUWToJRnh7Zp
+ iWsABcP+644Hsi+bnRPvi1PfctRXrrr5pRZSU/wxUsveLghMCfnzNrkmgK/GA9PndULS
+ HFOA==
+X-Gm-Message-State: AOAM533rVx5JKG7Z2pZ07rWa8co8Sr8uKzC5IbLHwfoH3Buw7ypciDWm
+ Z41GZFUIx43Q1uPI5M8Ja+eG2A==
+X-Google-Smtp-Source: ABdhPJwIvjeUnaYExvZs7UryBYfk4pL7qv6vJaNm4QpPI8l3M75rLgGHcdpZJoNsh8386GOhp4ghTg==
+X-Received: by 2002:adf:ab1d:: with SMTP id q29mr6325447wrc.415.1611673111701; 
+ Tue, 26 Jan 2021 06:58:31 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b12sm19990409wrr.35.2021.01.26.06.53.57
+ by smtp.gmail.com with ESMTPSA id l10sm13193183wro.4.2021.01.26.06.58.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 06:53:57 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 386581FF8C;
- Tue, 26 Jan 2021 14:53:57 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v1 2/2] tests/Makefile.include: don't use TARGET_DIRS for
- check-tcg
-Date: Tue, 26 Jan 2021 14:53:56 +0000
-Message-Id: <20210126145356.7860-3-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210126145356.7860-1-alex.bennee@linaro.org>
-References: <20210126145356.7860-1-alex.bennee@linaro.org>
+ Tue, 26 Jan 2021 06:58:30 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id A470D1FF7E;
+ Tue, 26 Jan 2021 14:58:29 +0000 (GMT)
+References: <20210122204441.2145197-1-philmd@redhat.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v2 00/12] buildsys: Do not build various objects if not
+ necessary
+Date: Tue, 26 Jan 2021 14:57:44 +0000
+In-reply-to: <20210122204441.2145197-1-philmd@redhat.com>
+Message-ID: <87eei7ycbu.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,57 +87,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, f4bug@amsat.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TARGET_DIRS reflects what we wanted to configure which in the normal
-case is all our targets. However once meson has pared-down our target
-list due to missing features we need to check the final list of
-ninja-targets. This prevents check-tcg barfing on a --disable-tcg
-build.
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- Makefile               | 3 +++
- tests/Makefile.include | 7 +++----
- 2 files changed, 6 insertions(+), 4 deletions(-)
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-diff --git a/Makefile b/Makefile
-index a380bbfa12..a25b2a5431 100644
---- a/Makefile
-+++ b/Makefile
-@@ -174,6 +174,9 @@ ifneq ($(filter $(ninja-targets), $(ninja-cmd-goals)),)
- endif
- endif
- 
-+# Build up our target list from the filtered list of ninja targets
-+TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
-+
- # Force configure to re-run if the API symbols are updated
- ifeq ($(CONFIG_PLUGIN),y)
- config-host.mak: $(SRC_PATH)/plugins/qemu-plugins.symbols
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 3ce8b03f34..ee438f8d6d 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -41,10 +41,9 @@ SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
- SPEED = quick
- 
- # Per guest TCG tests
--
--BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
--CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGET_DIRS))
--RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
-+BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGETS))
-+CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGETS))
-+RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGETS))
- 
- # Probe for the Docker Builds needed for each build
- $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
--- 
-2.20.1
+> In this series we deselect a bunch of features when they
+> not required, so less objects are built.
+>
+> While this reduce pressure on CI and slow systems, this is
+> particularly helpful for developers regularly testing multiple
+> build configurations.
+>
+> All CI tests pass:
+> https://gitlab.com/philmd/qemu/-/pipelines/245654160
+>
+> Supersedes: <20210120151916.1167448-1-philmd@redhat.com>
 
+Series looks good to me but I guess you need some sub-system feedback.
+I've sent a few more patches that might be worth rolling in to better
+handle check-tcg/softfloat.
+
+>
+> Philippe Mathieu-Daud=C3=A9 (12):
+>   configure: Only check for audio drivers if system-mode is selected
+>   tests/meson: Only build softfloat objects if TCG is selected
+>   pc-bios/meson: Only install EDK2 blob firmwares with system emulation
+>   meson: Do not build optional libraries by default
+>   meson: Restrict block subsystem processing
+>   meson: Merge trace_events_subdirs array
+>   meson: Restrict some trace event directories to user/system emulation
+>   meson: Restrict emulation code
+>   qapi/meson: Restrict qdev code to system-mode emulation
+>   qapi/meson: Remove QMP from user-mode emulation
+>   qapi/meson: Restrict system-mode specific modules
+>   qapi/meson: Restrict UI module to system emulation and tools
+>
+>  configure           |  6 +++++
+>  meson.build         | 55 ++++++++++++++++++++++++++-------------------
+>  stubs/qdev.c        | 23 +++++++++++++++++++
+>  MAINTAINERS         |  1 +
+>  pc-bios/meson.build |  1 +
+>  qapi/meson.build    | 34 +++++++++++++++++++---------
+>  stubs/meson.build   |  2 ++
+>  tests/meson.build   | 11 +++++++--
+>  8 files changed, 97 insertions(+), 36 deletions(-)
+>  create mode 100644 stubs/qdev.c
+
+
+--=20
+Alex Benn=C3=A9e
 
