@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 710C6304132
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:00:05 +0100 (CET)
-Received: from localhost ([::1]:58116 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2484304126
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:59:00 +0100 (CET)
+Received: from localhost ([::1]:54622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Pp6-00051X-4F
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:00:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47452)
+	id 1l4Po3-0003ch-TJ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:58:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PEZ-0001IK-8n
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26397)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PEe-0001P2-Q6
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PES-0006bj-QC
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:19 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PEW-0006cO-TD
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670931;
+ s=mimecast20190719; t=1611670936;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lY0hdjsjN3fztPAk9OlWziM+bPR/G3gly7Y3/8acPIg=;
- b=PoaPCZM7OBODAbyXToISrzLNqHyWjgCzKbhUl62ZgmWoAmVzkm5mAQqix3fHkgpSpv53LU
- pMVrRCfnaeUtfIKMREoPMWEHbtXfUKPMMWenbrd1Zv+Fu0G/5vY67Y/trj9XeDvDG6tabp
- 8zivL2JOkCT+PiIDh9iU4T+0/82wspk=
+ bh=KZRfBktnbaKLE47a3PZ/VXGzUJPXUuVMgjZDtq2YaQc=;
+ b=SmujXOLva5vnkmlsmWtNk/vwu5nriejJTaXVkJImCplWpvyU1TWptYU9GL6adqjh6ZRvf9
+ epLKT1Cqps+MAGOIK5emdBeLrHF3vnOmul0NCtdraOJTSeUyXNstnLjGcBo5GY7eX+fumh
+ ZLwhHJZU+erdPvjYxJmI/b7c/5SzAls=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-191-IyeZHNL_MVCG0mxaujZunQ-1; Tue, 26 Jan 2021 09:22:09 -0500
-X-MC-Unique: IyeZHNL_MVCG0mxaujZunQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-362-AfFnsTYlOKOoJlR0NeLtoQ-1; Tue, 26 Jan 2021 09:22:14 -0500
+X-MC-Unique: AfFnsTYlOKOoJlR0NeLtoQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 694B38144E2;
- Tue, 26 Jan 2021 14:22:08 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0A4D1801AB3;
+ Tue, 26 Jan 2021 14:22:13 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AF4B60C62;
- Tue, 26 Jan 2021 14:22:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D6135D768;
+ Tue, 26 Jan 2021 14:22:12 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 48/53] simplebench: bench_block_job: add cmd_options argument
-Date: Tue, 26 Jan 2021 15:20:11 +0100
-Message-Id: <20210126142016.806073-49-mreitz@redhat.com>
+Subject: [PULL 50/53] block: report errno when flock fcntl fails
+Date: Tue, 26 Jan 2021 15:20:13 +0100
+Message-Id: <20210126142016.806073-51-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,60 +81,117 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: David Edmondson <david.edmondson@oracle.com>
 
-Add argument to allow additional block-job options.
+When a call to fcntl(2) for the purpose of adding file locks fails
+with an error other than EAGAIN or EACCES, report the error returned
+by fcntl.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210116214705.822267-23-vsementsov@virtuozzo.com>
+EAGAIN or EACCES are elided as they are considered to be common
+failures, indicating that a conflicting lock is held by another
+process.
+
+No errors are elided when removing file locks.
+
+Signed-off-by: David Edmondson <david.edmondson@oracle.com>
+Message-Id: <20210113164447.2545785-1-david.edmondson@oracle.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- scripts/simplebench/bench-example.py   |  2 +-
- scripts/simplebench/bench_block_job.py | 11 +++++++----
- 2 files changed, 8 insertions(+), 5 deletions(-)
+ block/file-posix.c | 38 ++++++++++++++++++++++++++++----------
+ 1 file changed, 28 insertions(+), 10 deletions(-)
 
-diff --git a/scripts/simplebench/bench-example.py b/scripts/simplebench/bench-example.py
-index d9c7f7bc17..4864435f39 100644
---- a/scripts/simplebench/bench-example.py
-+++ b/scripts/simplebench/bench-example.py
-@@ -25,7 +25,7 @@ from bench_block_job import bench_block_copy, drv_file, drv_nbd
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 00cdaaa2d4..11aafa9d82 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -216,6 +216,20 @@ typedef struct RawPosixAIOData {
+ static int cdrom_reopen(BlockDriverState *bs);
+ #endif
  
- def bench_func(env, case):
-     """ Handle one "cell" of benchmarking table. """
--    return bench_block_copy(env['qemu_binary'], env['cmd'],
-+    return bench_block_copy(env['qemu_binary'], env['cmd'], {}
-                             case['source'], case['target'])
- 
- 
-diff --git a/scripts/simplebench/bench_block_job.py b/scripts/simplebench/bench_block_job.py
-index a0dda1dc4e..7332845c1c 100755
---- a/scripts/simplebench/bench_block_job.py
-+++ b/scripts/simplebench/bench_block_job.py
-@@ -78,16 +78,19 @@ def bench_block_job(cmd, cmd_args, qemu_args):
- 
- 
- # Bench backup or mirror
--def bench_block_copy(qemu_binary, cmd, source, target):
-+def bench_block_copy(qemu_binary, cmd, cmd_options, source, target):
-     """Helper to run bench_block_job() for mirror or backup"""
-     assert cmd in ('blockdev-backup', 'blockdev-mirror')
- 
-     source['node-name'] = 'source'
-     target['node-name'] = 'target'
- 
--    return bench_block_job(cmd,
--                           {'job-id': 'job0', 'device': 'source',
--                            'target': 'target', 'sync': 'full'},
-+    cmd_options['job-id'] = 'job0'
-+    cmd_options['device'] = 'source'
-+    cmd_options['target'] = 'target'
-+    cmd_options['sync'] = 'full'
++/*
++ * Elide EAGAIN and EACCES details when failing to lock, as this
++ * indicates that the specified file region is already locked by
++ * another process, which is considered a common scenario.
++ */
++#define raw_lock_error_setg_errno(errp, err, fmt, ...)                  \
++    do {                                                                \
++        if ((err) == EAGAIN || (err) == EACCES) {                       \
++            error_setg((errp), (fmt), ## __VA_ARGS__);                  \
++        } else {                                                        \
++            error_setg_errno((errp), (err), (fmt), ## __VA_ARGS__);     \
++        }                                                               \
++    } while (0)
 +
-+    return bench_block_job(cmd, cmd_options,
-                            [qemu_binary,
-                             '-blockdev', json.dumps(source),
-                             '-blockdev', json.dumps(target)])
+ #if defined(__NetBSD__)
+ static int raw_normalize_devicepath(const char **filename, Error **errp)
+ {
+@@ -836,7 +850,8 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
+         if ((perm_lock_bits & bit) && !(locked_perm & bit)) {
+             ret = qemu_lock_fd(fd, off, 1, false);
+             if (ret) {
+-                error_setg(errp, "Failed to lock byte %d", off);
++                raw_lock_error_setg_errno(errp, -ret, "Failed to lock byte %d",
++                                          off);
+                 return ret;
+             } else if (s) {
+                 s->locked_perm |= bit;
+@@ -844,7 +859,7 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
+         } else if (unlock && (locked_perm & bit) && !(perm_lock_bits & bit)) {
+             ret = qemu_unlock_fd(fd, off, 1);
+             if (ret) {
+-                error_setg(errp, "Failed to unlock byte %d", off);
++                error_setg_errno(errp, -ret, "Failed to unlock byte %d", off);
+                 return ret;
+             } else if (s) {
+                 s->locked_perm &= ~bit;
+@@ -857,7 +872,8 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
+         if ((shared_perm_lock_bits & bit) && !(locked_shared_perm & bit)) {
+             ret = qemu_lock_fd(fd, off, 1, false);
+             if (ret) {
+-                error_setg(errp, "Failed to lock byte %d", off);
++                raw_lock_error_setg_errno(errp, -ret, "Failed to lock byte %d",
++                                          off);
+                 return ret;
+             } else if (s) {
+                 s->locked_shared_perm |= bit;
+@@ -866,7 +882,7 @@ static int raw_apply_lock_bytes(BDRVRawState *s, int fd,
+                    !(shared_perm_lock_bits & bit)) {
+             ret = qemu_unlock_fd(fd, off, 1);
+             if (ret) {
+-                error_setg(errp, "Failed to unlock byte %d", off);
++                error_setg_errno(errp, -ret, "Failed to unlock byte %d", off);
+                 return ret;
+             } else if (s) {
+                 s->locked_shared_perm &= ~bit;
+@@ -890,9 +906,10 @@ static int raw_check_lock_bytes(int fd, uint64_t perm, uint64_t shared_perm,
+             ret = qemu_lock_fd_test(fd, off, 1, true);
+             if (ret) {
+                 char *perm_name = bdrv_perm_names(p);
+-                error_setg(errp,
+-                           "Failed to get \"%s\" lock",
+-                           perm_name);
++
++                raw_lock_error_setg_errno(errp, -ret,
++                                          "Failed to get \"%s\" lock",
++                                          perm_name);
+                 g_free(perm_name);
+                 return ret;
+             }
+@@ -905,9 +922,10 @@ static int raw_check_lock_bytes(int fd, uint64_t perm, uint64_t shared_perm,
+             ret = qemu_lock_fd_test(fd, off, 1, true);
+             if (ret) {
+                 char *perm_name = bdrv_perm_names(p);
+-                error_setg(errp,
+-                           "Failed to get shared \"%s\" lock",
+-                           perm_name);
++
++                raw_lock_error_setg_errno(errp, -ret,
++                                          "Failed to get shared \"%s\" lock",
++                                          perm_name);
+                 g_free(perm_name);
+                 return ret;
+             }
 -- 
 2.29.2
 
