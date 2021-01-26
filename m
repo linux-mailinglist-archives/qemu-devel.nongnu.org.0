@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59C0930372C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:10:07 +0100 (CET)
-Received: from localhost ([::1]:39892 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96EEE303736
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:14:21 +0100 (CET)
+Received: from localhost ([::1]:46174 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4IUI-0005hR-CC
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:10:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48932)
+	id 1l4IYO-0008VI-LS
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:14:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4IOn-0001Yi-BM
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:04:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40876)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4ISs-0005LI-Gy
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:08:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41848)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4IOj-0006EN-AL
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:04:25 -0500
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4ISq-0007VV-Lk
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 02:08:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611644660;
+ s=mimecast20190719; t=1611644916;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7qdl93JekhWZJjnIq1hoHi5oKqOGda0Zdeph0T9NHP0=;
- b=KZqEVF4JUA5C18JINEX/HLbSgYvsCeh0VzAnJ6C+C8VwBuPT1Mul0aZ2DdHkK7vQ4rRVHF
- 6UGAYW62Gm6bRPz7wXz2XdNPvENdmgzHShtYObhoMczT6gFKAnjuQEKN8u533vAZQixnIo
- //9Vxd2apU6Aun4BtNKJAGCWbdz+LPc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-269-uBl0N1cPOB6GKNFXu0xcZw-1; Tue, 26 Jan 2021 02:04:18 -0500
-X-MC-Unique: uBl0N1cPOB6GKNFXu0xcZw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F62A8799E0
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:04:17 +0000 (UTC)
-Received: from laptop.redhat.com (ovpn-12-115.pek2.redhat.com [10.72.12.115])
- by smtp.corp.redhat.com (Postfix) with ESMTP id EF6325B4BC;
- Tue, 26 Jan 2021 07:04:15 +0000 (UTC)
-From: Cindy Lu <lulu@redhat.com>
-To: mst@redhat.com,
-	jasowang@redhat.com,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 5/5] vhost-vdpa: add callback function for configure
- interrupt
-Date: Tue, 26 Jan 2021 15:03:51 +0800
-Message-Id: <20210126070351.28575-6-lulu@redhat.com>
-In-Reply-To: <20210126070351.28575-1-lulu@redhat.com>
-References: <20210126070351.28575-1-lulu@redhat.com>
+ bh=RR12lR+lFNPUaChM5RhwSpP3un2txl21L4hHUPUSdJA=;
+ b=CcdlhpILHfV1FsSrFLMvEtacmMJ5khHR4G68mBjllc/Ptp7zrv+4+vHq4FPJqlhzHJkrnS
+ pghVvfVAUEEWVaLVbE4/JjfcoNBmdYjLUo6W9xVPXxZI01x64Eh7mAks5dPb3X2WiIHtaW
+ GGmDOBGLF3zfox/nKx22zpIKshT6OcE=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-549-CQdjwbJgMdWRmMaQMYNAtg-1; Tue, 26 Jan 2021 02:08:32 -0500
+X-MC-Unique: CQdjwbJgMdWRmMaQMYNAtg-1
+Received: by mail-ed1-f70.google.com with SMTP id v19so890503edx.22
+ for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 23:08:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=RR12lR+lFNPUaChM5RhwSpP3un2txl21L4hHUPUSdJA=;
+ b=hvvYdY1PL0fyS4RRLTmmRUhhNT3vQx0CjAL9Zwqy6YLRMKVPAmU6dCZp+IAJcf64rl
+ ggZyafab3kAY5FQCYZJS/Ycat5cv621DA5G9AXzII2vfhFWW5Qtwi7Pk1YwaC4mNVnaH
+ ViUaQ2p3P8K3pHWQ1nnyVvELU9G2bo87S55Xl7GCkJqg/8KQEnNNnWN6CsaCR8mOBQ1X
+ zQmSezMWVnVAhQj9d3U5Pc5FcJZxZAXm9T6R+Fs5iXAKtpMS+le7y8FJFIJfz7dUB8xc
+ rQeAgdR4Fsqzb1KR9fY1JlOetKEUQwcwFv+HL2PnYlC8SBV3cmPa41juVPAmi4Xc12B9
+ Dp5w==
+X-Gm-Message-State: AOAM5309yBdTjBfmT0xpGmMUsit+M5pd0x0roR4o5tY5ctN1eGKQQ0cG
+ Flt4Z8a8KQCnUOeJYLfiY5N3etBURztknI8vERfbmD/JQXox0STXE1HpZIR48vWGa6tSbH7AzSd
+ 6akfzN8AdS60w/axyw/u1CNAN5509q5wpUm4hX/vxWyrF8IJvPNeKcUI7vL8z9yLZ
+X-Received: by 2002:a17:906:5618:: with SMTP id
+ f24mr2565179ejq.517.1611644910844; 
+ Mon, 25 Jan 2021 23:08:30 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwIShTC/aUv4tHRp4gFZHI5V8L5cVU+PYPYD8hO1bqOKW5tAKImsujP2oDlb0Z+PL6A3wee8w==
+X-Received: by 2002:a17:906:5618:: with SMTP id
+ f24mr2565162ejq.517.1611644910486; 
+ Mon, 25 Jan 2021 23:08:30 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id zg7sm9346228ejb.31.2021.01.25.23.08.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 25 Jan 2021 23:08:29 -0800 (PST)
+Subject: Re: [PATCH v9 03/11] configure: check for sys/disk.h
+To: Joelle van Dyne <j@getutm.app>, Warner Losh <imp@bsdimp.com>
+References: <20210126012457.39046-1-j@getutm.app>
+ <20210126012457.39046-4-j@getutm.app>
+ <CANCZdfqcbb5r_BmsqCN6uymBghbJg6nd1aAr1qfNryVQmfdOwQ@mail.gmail.com>
+ <CA+E+eSAAaMagLdb_oUA2xS41jVLBSop-Z1AARKZ4A6uCLbqK+A@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e361b373-75bd-e75d-027c-51b6562ed81c@redhat.com>
+Date: Tue, 26 Jan 2021 08:08:28 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <CA+E+eSAAaMagLdb_oUA2xS41jVLBSop-Z1AARKZ4A6uCLbqK+A@mail.gmail.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=lulu@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,131 +102,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lulu@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add call back function for configure interrupt.
-Set the notifier's fd to the kernel driver when vdpa start.
-also set -1 while vdpa stop. then the kernel will release
-the related resource
+On 1/26/21 6:55 AM, Joelle van Dyne wrote:
+> Previously, the only case where sys/disk.h does not exist is on
+> platforms that define __DragonFly__. However, iOS also does not have
+> this header. Previously, I had it as
+> 
+> #if defined(__DragonFly__) || defined(CONFIG_IOS)
+> 
+> But there was a code review comment that we should use feature flags
+> instead of platform defines. So I added the HAS_SYS_DISK_H flag.
 
-Signed-off-by: Cindy Lu <lulu@redhat.com>
----
- hw/virtio/trace-events            |  2 ++
- hw/virtio/vhost-vdpa.c            | 37 ++++++++++++++++++++++++++++++-
- include/hw/virtio/vhost-backend.h |  4 ++++
- 3 files changed, 42 insertions(+), 1 deletion(-)
+On technical lists, it's best to avoid top-posting, and to
+instead reply inline to make the conversation easier to follow.
 
-diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-index 2060a144a2..6710835b46 100644
---- a/hw/virtio/trace-events
-+++ b/hw/virtio/trace-events
-@@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
- vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
- vhost_vdpa_set_owner(void *dev) "dev: %p"
- vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-+vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
-+
- 
- # virtio.c
- virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-index 01d2101d09..cf957fa7a3 100644
---- a/hw/virtio/vhost-vdpa.c
-+++ b/hw/virtio/vhost-vdpa.c
-@@ -467,20 +467,47 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
-     }
-     return ret;
-  }
-+static void vhost_vdpa_config_notify_start(struct vhost_dev *dev,
-+                                struct VirtIODevice *vdev, bool start)
-+{
-+    int fd, r;
-+    if (start) {
-+        fd = event_notifier_get_fd(&vdev->config_notifier);
-+        vdev->use_config_notifier = true;
-+     } else {
-+        fd = -1;
-+        vdev->use_config_notifier = false;
-+     }
-+     /*set the fd call back to vdpa driver*/
-+    r = dev->vhost_ops->vhost_set_config_call(dev, &fd);
-+    if (r) {
-+        vdev->use_config_notifier = false;
-+        info_report("vhost_vdpa_config_notify not started!");
-+    }
-+    /*active the config_notifier when vdev->use_config_notifier is true*/
-+    if ((vdev->use_config_notifier) && (start)){
-+        event_notifier_set(&vdev->config_notifier);
-+    }
-+    return;
- 
-+}
- static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
- {
-     struct vhost_vdpa *v = dev->opaque;
-     trace_vhost_vdpa_dev_start(dev, started);
-+    VirtIODevice *vdev = dev->vdev;
-+
-     if (started) {
-         uint8_t status = 0;
-         memory_listener_register(&v->listener, &address_space_memory);
-         vhost_vdpa_set_vring_ready(dev);
-         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-         vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
--
-+        /*set the configure interrupt call back*/
-+        vhost_vdpa_config_notify_start(dev, vdev, true);
-         return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
-     } else {
-+        vhost_vdpa_config_notify_start(dev, vdev, false);
-         vhost_vdpa_reset_device(dev);
-         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-                                    VIRTIO_CONFIG_S_DRIVER);
-@@ -546,6 +573,13 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
-     return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
- }
- 
-+static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
-+                                       int *fd)
-+{
-+    trace_vhost_vdpa_set_config_call(dev, fd);
-+    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
-+}
-+
- static int vhost_vdpa_get_features(struct vhost_dev *dev,
-                                      uint64_t *features)
- {
-@@ -611,4 +645,5 @@ const VhostOps vdpa_ops = {
-         .vhost_get_device_id = vhost_vdpa_get_device_id,
-         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
-         .vhost_force_iommu = vhost_vdpa_force_iommu,
-+        .vhost_set_config_call = vhost_vdpa_set_config_call,
- };
-diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-index 8a6f8e2a7a..1a2fee8994 100644
---- a/include/hw/virtio/vhost-backend.h
-+++ b/include/hw/virtio/vhost-backend.h
-@@ -125,6 +125,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
- 
- typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
- 
-+typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-+                                       int *fd);
-+
- typedef struct VhostOps {
-     VhostBackendType backend_type;
-     vhost_backend_init vhost_backend_init;
-@@ -170,6 +173,7 @@ typedef struct VhostOps {
-     vhost_vq_get_addr_op  vhost_vq_get_addr;
-     vhost_get_device_id_op vhost_get_device_id;
-     vhost_force_iommu_op vhost_force_iommu;
-+    vhost_set_config_call_op vhost_set_config_call;
- } VhostOps;
- 
- extern const VhostOps user_ops;
--- 
-2.21.3
+> 
+> -j
+> 
+> On Mon, Jan 25, 2021 at 8:35 PM Warner Losh <imp@bsdimp.com> wrote:
+>>
+>>
+>>
+>> On Mon, Jan 25, 2021 at 6:33 PM Joelle van Dyne <j@getutm.app> wrote:
+>>>
+>>> Some BSD platforms do not have this header.
+>>>
+>>> Signed-off-by: Joelle van Dyne <j@getutm.app>
+>>> ---
+>>>  meson.build        | 1 +
+>>>  block.c            | 2 +-
+>>>  block/file-posix.c | 2 +-
+>>>  3 files changed, 3 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meson.build b/meson.build
+>>> index 27110075df..6818d97df5 100644
+>>> --- a/meson.build
+>>> +++ b/meson.build
+>>> @@ -1117,6 +1117,7 @@ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
+>>>  config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+>>>  config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
+>>>  config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
+>>> +config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
+>>>
+>>>  ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
+>>>  arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
+>>> diff --git a/block.c b/block.c
+>>> index 8b9d457546..c4cf391dea 100644
+>>> --- a/block.c
+>>> +++ b/block.c
+>>> @@ -54,7 +54,7 @@
+>>>  #ifdef CONFIG_BSD
+>>>  #include <sys/ioctl.h>
+>>>  #include <sys/queue.h>
+>>> -#ifndef __DragonFly__
+>>> +#if defined(HAVE_SYS_DISK_H)
+>>>  #include <sys/disk.h>
+>>>  #endif
+>>>  #endif
+>>> diff --git a/block/file-posix.c b/block/file-posix.c
+>>> index 11d2021346..666d3e7504 100644
+>>> --- a/block/file-posix.c
+>>> +++ b/block/file-posix.c
+>>> @@ -2320,7 +2320,7 @@ again:
+>>>          }
+>>>          if (size == 0)
+>>>  #endif
+>>> -#if defined(__APPLE__) && defined(__MACH__)
+>>> +#if defined(HAVE_SYS_DISK_H) && defined(__APPLE__) && defined(__MACH__)
+>>
+>>
+>> Why is this needed? __DragonFly__ doesn't define either __APPLE__ or __MACH__
+
+Hmm we could also add:
+
+  config_host_data.set('HAVE_DKIOCGETBLOCKCOUNT', cc.compiles(...))
+
+Then this block would be easier to read:
+
+  #if defined(HAVE_DKIOCGETBLOCKCOUNT)
+  ...
+
+(Maybe this is what Warner meant?)
+
+>>
+>> Warner
+>>
+>>>
+>>>          {
+>>>              uint64_t sectors = 0;
+>>>              uint32_t sector_size = 0;
+>>> --
+>>> 2.28.0
+>>>
+>>>
+> 
 
 
