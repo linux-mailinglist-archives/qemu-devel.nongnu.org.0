@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C881830406C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:36:16 +0100 (CET)
-Received: from localhost ([::1]:46696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764C030406A
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:35:39 +0100 (CET)
+Received: from localhost ([::1]:44550 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4PS3-00018D-S2
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:36:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46584)
+	id 1l4PRS-0000Fh-I9
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:35:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDb-0000AP-5v
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37085)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDZ-000064-BS
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:17 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60649)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDQ-00067U-PJ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:18 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDQ-00067h-R9
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1611670866;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=28CVvT2G54J3FZYJjfNlAQL8l3qmUnDe43AQPKaBGkY=;
- b=ZsmFYRTfY6RR9C5hsCSrig3U6Lyx5JHAuYf2Lh5jhbsVNk6WK4s7JgRRde6ypp0YsVqDte
- mYCXVyS3NrCW/mL+6ludJ6geii0RTpUTrm9iR4es7YZ05yHa4GdyCadNUjdA8WgYGuUR29
- WVyecyqwsbF0WW9jGNqoc3gj6AX6JPw=
+ bh=gUQ20ql6ShadmhmheKzCZU4Llt1nLykVGW8nByQvVms=;
+ b=FQlP0bdfw3y5HzA7V9oGCkoohmI3/Or13KrnY2JApYe9WChiCJC05+PLRW1hIhXEweKBf0
+ Tr8ZdGa47CPXgvpArxjZKacL7Jndon/lQbcrG1nQoWIYFX8kM51Tc36lNBR9eLxI0Cq2x4
+ kihvCr5neRCUnEjWFkPl12OiGx57Xuw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-480-qRsQLkOfOTaCQfWlaXFRSw-1; Tue, 26 Jan 2021 09:21:02 -0500
-X-MC-Unique: qRsQLkOfOTaCQfWlaXFRSw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-234-xUrCRdbsMLiXoXPIaaThFQ-1; Tue, 26 Jan 2021 09:21:02 -0500
+X-MC-Unique: xUrCRdbsMLiXoXPIaaThFQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7494F81451D;
- Tue, 26 Jan 2021 14:20:39 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89A1E800592;
+ Tue, 26 Jan 2021 14:20:41 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E4FD85D739;
- Tue, 26 Jan 2021 14:20:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1FB6510023AB;
+ Tue, 26 Jan 2021 14:20:40 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 09/53] copy-on-read: skip non-guest reads if no copy needed
-Date: Tue, 26 Jan 2021 15:19:32 +0100
-Message-Id: <20210126142016.806073-10-mreitz@redhat.com>
+Subject: [PULL 10/53] stream: rework backing-file changing
+Date: Tue, 26 Jan 2021 15:19:33 +0100
+Message-Id: <20210126142016.806073-11-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,79 +83,114 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-If the flag BDRV_REQ_PREFETCH was set, skip idling read/write
-operations in COR-driver. It can be taken into account for the
-COR-algorithms optimization. That check is being made during the
-block stream job by the moment.
+Stream in stream_prepare calls bdrv_change_backing_file() to change
+backing-file in the metadata of bs.
 
-Add the BDRV_REQ_PREFETCH flag to the supported_read_flags of the
-COR-filter.
+It may use either backing-file parameter given by user or just take
+filename of base on job start.
 
-block: Modify the comment for the flag BDRV_REQ_PREFETCH as we are
-going to use it alone and pass it to the COR-filter driver for further
-processing.
+Backing file format is determined by base on job finish.
+
+There are some problems with this design, we solve only two by this
+patch:
+
+1. Consider scenario with backing-file unset. Current concept of stream
+supports changing of the base during the job (we don't freeze link to
+the base). So, we should not save base filename at job start,
+
+  - let's determine name of the base on job finish.
+
+2. Using direct base to determine filename and format is not very good:
+base node may be a filter, so its filename may be JSON, and format_name
+is not good for storing into qcow2 metadata as backing file format.
+
+  - let's use unfiltered_base
 
 Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+  [vsementsov: change commit subject, change logic in stream_prepare]
+Message-Id: <20201216061703.70908-10-vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20201216061703.70908-9-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- include/block/block.h |  8 +++++---
- block/copy-on-read.c  | 14 ++++++++++----
- 2 files changed, 15 insertions(+), 7 deletions(-)
+ block/stream.c | 9 +++++----
+ blockdev.c     | 8 +-------
+ 2 files changed, 6 insertions(+), 11 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 127bdf3392..81fcaad5ac 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -72,9 +72,11 @@ typedef enum {
-     BDRV_REQ_NO_FALLBACK        = 0x100,
+diff --git a/block/stream.c b/block/stream.c
+index 6e281c71ac..6a525a5edf 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -65,6 +65,7 @@ static int stream_prepare(Job *job)
+     BlockDriverState *bs = blk_bs(bjob->blk);
+     BlockDriverState *unfiltered_bs = bdrv_skip_filters(bs);
+     BlockDriverState *base = bdrv_filter_or_cow_bs(s->above_base);
++    BlockDriverState *unfiltered_base = bdrv_skip_filters(base);
+     Error *local_err = NULL;
+     int ret = 0;
  
-     /*
--     * BDRV_REQ_PREFETCH may be used only together with BDRV_REQ_COPY_ON_READ
--     * on read request and means that caller doesn't really need data to be
--     * written to qiov parameter which may be NULL.
-+     * BDRV_REQ_PREFETCH makes sense only in the context of copy-on-read
-+     * (i.e., together with the BDRV_REQ_COPY_ON_READ flag or when a COR
-+     * filter is involved), in which case it signals that the COR operation
-+     * need not read the data into memory (qiov) but only ensure they are
-+     * copied to the top layer (i.e., that COR operation is done).
-      */
-     BDRV_REQ_PREFETCH  = 0x200,
+@@ -73,10 +74,10 @@ static int stream_prepare(Job *job)
  
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 71560984f6..9cad9e1b8c 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -50,6 +50,8 @@ static int cor_open(BlockDriverState *bs, QDict *options, int flags,
-         return -EINVAL;
-     }
- 
-+    bs->supported_read_flags = BDRV_REQ_PREFETCH;
-+
-     bs->supported_write_flags = BDRV_REQ_WRITE_UNCHANGED |
-         (BDRV_REQ_FUA & bs->file->bs->supported_write_flags);
- 
-@@ -172,10 +174,14 @@ static int coroutine_fn cor_co_preadv_part(BlockDriverState *bs,
+     if (bdrv_cow_child(unfiltered_bs)) {
+         const char *base_id = NULL, *base_fmt = NULL;
+-        if (base) {
+-            base_id = s->backing_file_str;
+-            if (base->drv) {
+-                base_fmt = base->drv->format_name;
++        if (unfiltered_base) {
++            base_id = s->backing_file_str ?: unfiltered_base->filename;
++            if (unfiltered_base->drv) {
++                base_fmt = unfiltered_base->drv->format_name;
              }
          }
+         bdrv_set_backing_hd(unfiltered_bs, base, &local_err);
+diff --git a/blockdev.c b/blockdev.c
+index e496356e10..8c03de582c 100644
+--- a/blockdev.c
++++ b/blockdev.c
+@@ -2511,7 +2511,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+     BlockDriverState *base_bs = NULL;
+     AioContext *aio_context;
+     Error *local_err = NULL;
+-    const char *base_name = NULL;
+     int job_flags = JOB_DEFAULT;
  
--        ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
--                                  local_flags);
--        if (ret < 0) {
--            return ret;
-+        /* Skip if neither read nor write are needed */
-+        if ((local_flags & (BDRV_REQ_PREFETCH | BDRV_REQ_COPY_ON_READ)) !=
-+            BDRV_REQ_PREFETCH) {
-+            ret = bdrv_co_preadv_part(bs->file, offset, n, qiov, qiov_offset,
-+                                      local_flags);
-+            if (ret < 0) {
-+                return ret;
-+            }
+     if (!has_on_error) {
+@@ -2539,7 +2538,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+             goto out;
          }
+         assert(bdrv_get_aio_context(base_bs) == aio_context);
+-        base_name = base;
+     }
  
-         offset += n;
+     if (has_base_node) {
+@@ -2554,7 +2552,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         }
+         assert(bdrv_get_aio_context(base_bs) == aio_context);
+         bdrv_refresh_filename(base_bs);
+-        base_name = base_bs->filename;
+     }
+ 
+     /* Check for op blockers in the whole chain between bs and base */
+@@ -2574,9 +2571,6 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         goto out;
+     }
+ 
+-    /* backing_file string overrides base bs filename */
+-    base_name = has_backing_file ? backing_file : base_name;
+-
+     if (has_auto_finalize && !auto_finalize) {
+         job_flags |= JOB_MANUAL_FINALIZE;
+     }
+@@ -2584,7 +2578,7 @@ void qmp_block_stream(bool has_job_id, const char *job_id, const char *device,
+         job_flags |= JOB_MANUAL_DISMISS;
+     }
+ 
+-    stream_start(has_job_id ? job_id : NULL, bs, base_bs, base_name,
++    stream_start(has_job_id ? job_id : NULL, bs, base_bs, backing_file,
+                  job_flags, has_speed ? speed : 0, on_error,
+                  filter_node_name, &local_err);
+     if (local_err) {
 -- 
 2.29.2
 
