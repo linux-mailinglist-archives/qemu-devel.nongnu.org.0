@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71444303F34
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:48:59 +0100 (CET)
-Received: from localhost ([::1]:40502 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2C16303F53
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:53:35 +0100 (CET)
+Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4OiH-00051d-Lr
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:48:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39810)
+	id 1l4Omj-0006r9-8U
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:53:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4Ogi-0004Uc-UP
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:47:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32282)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l4Okn-0006Mf-NA
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:51:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43322)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4Ogf-00036k-Uz
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:47:20 -0500
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l4Okk-0004Uh-Oo
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:51:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611668836;
+ s=mimecast20190719; t=1611669089;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OnucD0Q+6VDh3aCp4wulxjaeUqmXHXVBoG2m/W1jWmo=;
- b=KWQ5mdHHJWdH9B1qADwBU2+HnD5uz4sCyALjunji9/qzOTj3DpYko3mJNtWWMStkbGsjMa
- OekPZ+uXEz0G1F5Ej/qFgCAb1K3PTN7ARYQ5xQ/c8avOqctxBkYhvvZYa7RXbBVCKQj/Ye
- C4rnKFIX37YC/sfIIJYVcmkitCu/snQ=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-7NPnfdGYOyK5IRqGRzYRgQ-1; Tue, 26 Jan 2021 08:47:13 -0500
-X-MC-Unique: 7NPnfdGYOyK5IRqGRzYRgQ-1
-Received: by mail-ed1-f70.google.com with SMTP id q12so4568434edr.2
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 05:47:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=OnucD0Q+6VDh3aCp4wulxjaeUqmXHXVBoG2m/W1jWmo=;
- b=lsnc0VowVwqxG2fVMx/7J75kw/DFnir9ftBbMwqKOnhzW84pisv0WjNrAB130lw0TI
- gN3dAz/1tQ0lGX4LJquwZgGhHa1ag3KWznRWjHKs0mYGg8VUjh+srmFmx41GjA3JHRsv
- WTXF1+YtaVSICpgJUmixV7poDOgSU0dss/IgmdIpGhqo9FBf/bbDm3BhodhbhzAb0F1n
- E5F2YpoRJrvl/3XGdPnwntY1Mpw4Eux3cNYlcVPTRCDX2vd5FRY+vUaE+TRieQJZnHuU
- 9+H/iQwYDeShvL+IHYFweI2X5WfMj8nyFHC16WNIcx64eRmDpQFRVPDYrI6FzIbwFNg5
- JjPg==
-X-Gm-Message-State: AOAM533lHU0KsGWdSAD3ts0VtQ5tvzHCD5We6nybgP06gKKPAjvOzln9
- M3PXZLUdILHJxLORMaUeBjHFHn6fu2ib4evH37PBjZcaUyNOxFQqCGFsa+p9mWs95/UqweStt9I
- /osAQY/b9PjHv598=
-X-Received: by 2002:a17:906:298b:: with SMTP id
- x11mr3612417eje.158.1611668831973; 
- Tue, 26 Jan 2021 05:47:11 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwS+aoXy2IaBHlZDU3YQ2+j7Ppj1GIDsXzzuV09Lz9enybpK8XeelpTHmzzXD8IYww+ltqc5w==
-X-Received: by 2002:a17:906:298b:: with SMTP id
- x11mr3612402eje.158.1611668831763; 
- Tue, 26 Jan 2021 05:47:11 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id br6sm7973509ejb.46.2021.01.26.05.47.10
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jan 2021 05:47:10 -0800 (PST)
-Subject: Re: [PATCH] meson: Restrict Cocoa framework check to macOS
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210126132637.3175037-1-philmd@redhat.com>
- <CAFEAcA8q=ZgMYvZfr75RP90T0SVvD1JUnT2sN08H5T8DLpanbg@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <799ec5a4-7a0f-074b-87dd-99d0f80bbb35@redhat.com>
-Date: Tue, 26 Jan 2021 14:47:09 +0100
+ bh=7kYYCY2hnpTN0pUm0CDVk3GttCGkvuy7yPvHAAI7nHo=;
+ b=FTmg7hdGxHHOPMxU+K3GPKZw1e3kbIuOo/cBw3OPxFVUgptDMoj0kRyXgfMiTlWrRmUGnm
+ i/FPOAaKjiJAT0kVr8+0o7vAHeAS8e1P1WyR6i3x91lEEwAFoYIH2qrCqM21ie9uRXjz+m
+ MITIcv4/TwCoAyB5nNmWSrKDUgG7LSM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-527-w2QZSGdDOa6sSA0fHnsCdw-1; Tue, 26 Jan 2021 08:51:27 -0500
+X-MC-Unique: w2QZSGdDOa6sSA0fHnsCdw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47E1B15724;
+ Tue, 26 Jan 2021 13:51:26 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
+ [10.97.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2313B10013BD;
+ Tue, 26 Jan 2021 13:51:20 +0000 (UTC)
+Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+References: <20210110162739.858087-1-f4bug@amsat.org>
+ <20210110162739.858087-3-f4bug@amsat.org>
+ <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
+ <eb4976bc-133d-7d77-cae3-899028751a85@redhat.com>
+ <20210121181303.GR3125227@redhat.com>
+ <89b62df4-e077-fb82-75af-e180a89fba27@redhat.com>
+ <762a020e-43a6-9228-1a44-0d38d086a61f@redhat.com>
+ <87297994-4495-681a-5359-7807e537fa89@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <97b5fff9-8359-35ae-8749-a5ba91204dae@redhat.com>
+Date: Tue, 26 Jan 2021 10:51:17 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8q=ZgMYvZfr75RP90T0SVvD1JUnT2sN08H5T8DLpanbg@mail.gmail.com>
+In-Reply-To: <87297994-4495-681a-5359-7807e537fa89@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,55 +91,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- Brendan Shanks <brendan@bslabs.net>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Christophe de Dinechin <dinechin@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Stefan Weil <sw@weilnetz.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 2:28 PM, Peter Maydell wrote:
-> On Tue, 26 Jan 2021 at 13:26, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> Do not check for Cocoa framework if the OS is not macOS.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  meson.build | 5 ++++-
->>  1 file changed, 4 insertions(+), 1 deletion(-)
->>
->> diff --git a/meson.build b/meson.build
->> index 35a9eddf5cf..9a9ee5408b9 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -369,7 +369,10 @@
->>    endif
->>  endif
->>
->> -cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
->> +cocoa = not_found
->> +if targetos == 'darwin'
->> +  cocoa = dependency('appleframeworks', modules: 'Cocoa', required: get_option('cocoa'))
->> +endif
->>  if cocoa.found() and get_option('sdl').enabled()
->>    error('Cocoa and SDL cannot be enabled at the same time')
->>  endif
-> 
-> What difference does this change make?
+Hi Thomas,
 
-On my slow Fedora host it run cmake checks if it can build cocoa.
+On 1/22/21 5:19 AM, Thomas Huth wrote:
+> On 21/01/2021 21.46, Wainer dos Santos Moschetta wrote:
+>>
+>> On 1/21/21 3:28 PM, Thomas Huth wrote:
+>>> On 21/01/2021 19.13, Daniel P. Berrangé wrote:
+>>>> On Thu, Jan 21, 2021 at 03:05:43PM -0300, Wainer dos Santos 
+>>>> Moschetta wrote:
+>>>>> Hi,
+>>>>>
+>>>>> On 1/21/21 7:08 AM, Thomas Huth wrote:
+>>>>>> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
+>>>>>>> Split the current GCC build-tci job in 2, and use Clang
+>>>>>>> compiler in the new job.
+>>>>>>>
+>>>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>>>>>>> ---
+>>>>>>> RFC in case someone have better idea to optimize can respin this 
+>>>>>>> patch.
+>>>>>>>
+>>>>>>>    .gitlab-ci.yml | 22 ++++++++++++++++++++--
+>>>>>>>    1 file changed, 20 insertions(+), 2 deletions(-)
+>>>>>>
+>>>>>> I'm not quite sure whether we should go down this road ... if we 
+>>>>>> wanted
+>>>>>> to have full test coverage for clang, we'd need to duplicate 
+>>>>>> *all* jobs
+>>>>>> to run them once with gcc and once with clang. And that would be 
+>>>>>> just
+>>>>>> overkill.
+>>>>>
+>>>>> I agree with Thomas.
+>>>>>
+>>>>>>
+>>>>>>
+>>>>>> I think we already catch most clang-related problems with the 
+>>>>>> clang jobs
+>>>>>> that we already have in our CI, so problems like the ones that 
+>>>>>> you've
+>>>>>> tried to address here should be very, very rare. So I'd rather 
+>>>>>> vote for
+>>>>>> not splitting the job here.
+>>>>>
+>>>>> We got only one clang job on GitLab CI...
+>>>>>
+>>>>>    build-clang:
+>>>>>      <<: *native_build_job_definition
+>>>>>      variables:
+>>>>>        IMAGE: fedora
+>>>>>        CONFIGURE_ARGS: --cc=clang --cxx=clang++
+>>>>>        TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
+>>>>>          ppc-softmmu s390x-softmmu arm-linux-user
+>>>>>        MAKE_CHECK_ARGS: check
+>>>>>
+>>>>> ... and others on Travis:
+>>>>>
+>>>>>    "Clang (user)"
+>>>>>
+>>>>>    "Clang (main-softmmu)"
+>>>>>
+>>>>>    "Clang (other-softmmu)"
+>>>>
+>>>> I guess these three overlap partially with the build-clang job.
+>>>>
+>>>>>    "[s390x] Clang (disable-tcg)"
+>>>>
+>>>> Don't forget the  Cirrus CI jobs for freebsd and macOS will
+>>>> be using  CLang too.
+>>>
+>>> Right... we should work towards getting cirrus-run into the QEMU-CI, 
+>>> too, to finally have these in the gitlab-ci dashboard, too.
+>>>
+>>>>>
+>>>>> So I've some questions:
+>>>>>
+>>>>>   * Can we move those first three Travis jobs to Gitlab CI? (I can 
+>>>>> work on
+>>>>> that)
+>>>>
+>>>> Yeah, if we move those three travis jobs they can replace the existing
+>>>> build-clang job. We don't neccesssarily need to keep them as three
+>>>> separate jobs - that split was just due to the Travis time limits.
+>>>> If a different split works better on GitLab we can do that.
+>>>
+>>> Well, if we really want to increase the amount clang jobs, one of 
+>>> them should likely use TCI, as Phillippe suggested.
+>> Ok, got it. I won't touch on those jobs.
+>
+> I didn't meant my comment as a "no", but rather as a "needs further 
+> discussion first" ...
+>
+> So here's my suggestion:
+>
+> - Keep the current build-tci job as it is
+>
+> - Add a build-clang-user job that compiles with clang and
+>   --disable-system
+>
+> - Add a "build-clang-system 2" job that compiles with clang
+>   and --enable-tcg-interpreter and uses more or less the same
+>   targets as the "build-tci" job. Maybe add the avr-softmmu
+>   target here now, too, since it now also has a qtest with
+>   TCG (boot-serial-test)
+>
+> - Rename the current "build-clang" job to "build-clang-system 1"
+>   and remove the arm-linux-user target and all the targets that
+>   are already part of the "build-clang-system 2" / "build-tci"
+>   from that job. Then add some other softmmu targets to that job
+>   (but take care that it does not exceed the 1h run time limit,
+>   so likely not all remaining targets can be added here)
+>
+> - If we feel confident that we got enough test coverage there
+>   (together with the clang-based jobs on Cirrus-CI), finally
+>   remove the three x86 clang jobs from travis.yml.
+>
+> What do you think? Could you work on such a patch (or patch series), 
+> Wainer?
 
-> Are there ever
-> situations where the 'detect cocoa' test incorrectly
-> finds cocoa on a non-macOS system and breaks something?
+It looks reasonable to me. I will work on a patch series based on your 
+suggestions so further discussion can be done on concrete changes.
 
-In my case it is not breaking, just slow. The host is slow anyway,
-making it more apparent.
+Thanks!
 
-> 
-> thanks
-> -- PMM
-> 
+- Wainer
+
+>
+>
+>  Thomas
 
 
