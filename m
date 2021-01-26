@@ -2,39 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1776E303B9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:29:24 +0100 (CET)
-Received: from localhost ([::1]:39966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B629F303B9B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 12:29:16 +0100 (CET)
+Received: from localhost ([::1]:39364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4MXD-0005lI-2n
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:29:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36952)
+	id 1l4MX5-0005VF-PJ
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 06:29:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4MTx-0003kj-2R
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4MTx-0003kn-30
  for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:26:01 -0500
-Received: from kerio.kamp.de ([195.62.97.192]:33536)
+Received: from kerio.kamp.de ([195.62.97.192]:33548)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4MTm-0002w5-D4
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:25:55 -0500
+ (Exim 4.90_1) (envelope-from <pl@kamp.de>) id 1l4MTo-0002wy-Kn
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 06:26:00 -0500
 X-Footer: a2FtcC5kZQ==
 Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
  for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:25:44 +0100
-Received: (qmail 32737 invoked from network); 26 Jan 2021 11:25:47 -0000
+Received: (qmail 32740 invoked from network); 26 Jan 2021 11:25:47 -0000
 Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
  (relay@kamp.de@::ffff:172.21.12.60)
  by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted) ESMTPA;
  26 Jan 2021 11:25:47 -0000
 Received: by lieven-pc (Postfix, from userid 1060)
- id C8D7613DC86; Tue, 26 Jan 2021 12:25:47 +0100 (CET)
+ id D4EAE13DC8A; Tue, 26 Jan 2021 12:25:47 +0100 (CET)
 From: Peter Lieven <pl@kamp.de>
 To: qemu-block@nongnu.org
-Subject: [PATCH V2 0/7] block/rbd: migrate to coroutines and add write zeroes
- support
-Date: Tue, 26 Jan 2021 12:25:33 +0100
-Message-Id: <20210126112540.11880-1-pl@kamp.de>
+Subject: [PATCH V2 4/7] block/rbd: add bdrv_attach_aio_context
+Date: Tue, 26 Jan 2021 12:25:37 +0100
+Message-Id: <20210126112540.11880-5-pl@kamp.de>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20210126112540.11880-1-pl@kamp.de>
+References: <20210126112540.11880-1-pl@kamp.de>
 Received-SPF: pass client-ip=195.62.97.192; envelope-from=pl@kamp.de;
  helo=kerio.kamp.de
 X-Spam_score_int: -18
@@ -60,42 +61,65 @@ Cc: kwolf@redhat.com, Peter Lieven <pl@kamp.de>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-this series migrates the qemu rbd driver from the old aio emulation
-to native coroutines and adds write zeroes support which is important
-for block operations.
+Signed-off-by: Peter Lieven <pl@kamp.de>
+---
+ block/rbd.c | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
 
-To achive this we first bump the librbd requirement to the already
-outdated luminous release of ceph to get rid of some wrappers and
-ifdef'ry in the code.
-
-V1->V2:
- - this patch is now rebased on top of current master with Paolos
-   upcoming fixes for the meson.build script included:
-    - meson: accept either shared or static libraries if --disable-static
-    - meson: honor --enable-rbd if cc.links test fails
- - Patch 1: adjusted to meson.build script
- - Patch 2: unchanged
- - Patch 3: new patch
- - Patch 4: do not implement empty detach_aio_context callback [Jason]
- - Patch 5: - fix aio completion cleanup in error case [Jason]
-            - return error codes from librbd
- - Patch 6: - add support for thick provisioning [Jason]
-            - do not set write zeroes alignment
- - Patch 7: new patch
-
-Peter Lieven (7):
-  block/rbd: bump librbd requirement to luminous release
-  block/rbd: store object_size in BDRVRBDState
-  block/rbd: update s->image_size in qemu_rbd_getlength
-  block/rbd: add bdrv_attach_aio_context
-  block/rbd: migrate from aio to coroutines
-  block/rbd: add write zeroes support
-  block/rbd: drop qemu_rbd_refresh_limits
-
- block/rbd.c | 418 +++++++++++++++++-----------------------------------
- meson.build |  13 +-
- 2 files changed, 142 insertions(+), 289 deletions(-)
-
+diff --git a/block/rbd.c b/block/rbd.c
+index f68ebcf240..7abd0252c9 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -91,6 +91,7 @@ typedef struct BDRVRBDState {
+     char *namespace;
+     uint64_t image_size;
+     uint64_t object_size;
++    AioContext *aio_context;
+ } BDRVRBDState;
+ 
+ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+@@ -749,6 +750,8 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
+         }
+     }
+ 
++    s->aio_context = bdrv_get_aio_context(bs);
++
+     /* When extending regular files, we get zeros from the OS */
+     bs->supported_truncate_flags = BDRV_REQ_ZERO_WRITE;
+ 
+@@ -839,8 +842,7 @@ static void rbd_finish_aiocb(rbd_completion_t c, RADOSCB *rcb)
+     rcb->ret = rbd_aio_get_return_value(c);
+     rbd_aio_release(c);
+ 
+-    replay_bh_schedule_oneshot_event(bdrv_get_aio_context(acb->common.bs),
+-                                     rbd_finish_bh, rcb);
++    replay_bh_schedule_oneshot_event(acb->s->aio_context, rbd_finish_bh, rcb);
+ }
+ 
+ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
+@@ -1160,6 +1162,13 @@ static const char *const qemu_rbd_strong_runtime_opts[] = {
+     NULL
+ };
+ 
++static void qemu_rbd_attach_aio_context(BlockDriverState *bs,
++                                       AioContext *new_context)
++{
++    BDRVRBDState *s = bs->opaque;
++    s->aio_context = new_context;
++}
++
+ static BlockDriver bdrv_rbd = {
+     .format_name            = "rbd",
+     .instance_size          = sizeof(BDRVRBDState),
+@@ -1189,6 +1198,8 @@ static BlockDriver bdrv_rbd = {
+     .bdrv_snapshot_goto     = qemu_rbd_snap_rollback,
+     .bdrv_co_invalidate_cache = qemu_rbd_co_invalidate_cache,
+ 
++    .bdrv_attach_aio_context  = qemu_rbd_attach_aio_context,
++
+     .strong_runtime_opts    = qemu_rbd_strong_runtime_opts,
+ };
+ 
 -- 
 2.17.1
 
