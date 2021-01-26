@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2B3B303A09
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 11:18:53 +0100 (CET)
-Received: from localhost ([::1]:41472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A323303A0C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 11:19:01 +0100 (CET)
+Received: from localhost ([::1]:41996 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4LQy-0001MM-Q2
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 05:18:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49866)
+	id 1l4LR6-0001b8-Mj
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 05:19:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4LMB-0007Tx-Me
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:13:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54541)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4LM7-0002yy-14
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:13:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611656030;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=HOshw5kKj2j3RTblRuQNyshE+dH/NMzkC8bysko39OY=;
- b=SxfBbvsBPJ15UQzp9oSgR92kRAnWvPo6vmtjPutC3/dFjaPDiysOj9iusaCF4igyZr/niF
- A/t4dmjBd0ghbzwpcXVbgUDyoy/JD18agug03+e4uNsct7JB2jIrTx9PioWcRluskyr5uj
- CcNjgHjywqL/pjMeIKWk+q5pydXR5HQ=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-456-hgO3MDB9NraHN5XZEcyaWQ-1; Tue, 26 Jan 2021 05:13:47 -0500
-X-MC-Unique: hgO3MDB9NraHN5XZEcyaWQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A170580A5C0;
- Tue, 26 Jan 2021 10:13:46 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-114-202.ams2.redhat.com [10.36.114.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2F49819D80;
- Tue, 26 Jan 2021 10:13:45 +0000 (UTC)
-Date: Tue, 26 Jan 2021 11:13:43 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v8 2/5] iotests: add testenv.py
-Message-ID: <20210126101343.GB4385@merkur.fritz.box>
-References: <20210123210428.27220-1-vsementsov@virtuozzo.com>
- <20210123210428.27220-3-vsementsov@virtuozzo.com>
- <20210125220528.GA170615@merkur.fritz.box>
- <86218b16-33cd-b9da-cb36-892c301197a3@virtuozzo.com>
- <20210126094539.GA4385@merkur.fritz.box>
- <1d2e022a-68d7-9fcb-cbcd-837b3089d4b2@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l4LPU-0000aH-49
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:17:20 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46083)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l4LPR-0004MG-KF
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:17:19 -0500
+Received: by mail-wr1-x434.google.com with SMTP id q7so15802619wre.13
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 02:17:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=dHFseCNwab2bfparxR6t31k0kDcV/qCcGicg1Cc4dM4=;
+ b=e5VSJrZ95yDeEI9mrq2bCjA9Up2p+PtUvV+BLywaP5A7ICiIBBXTyn5RgI2oXK1ysk
+ UlpqKmJ8PCu/9C7GWVfYbua95oOR5SnQArZZUyCxJSNasALhsu4ZJ2WqIIgGoKn3Yj8X
+ OxE0mwhAetJkVjpp915NgeCr5pm0R+/SCpV4f30157bK/RHgwHiJ1tFzMJ/s9hD+d0IR
+ aAorjjEMPDnLJFrRUNXsrJXzg+KhFp+ALnJ7mFZrZ4IywZX96Q2gFfVKFA3tozJGJpsq
+ v2NjeHVDfrLkYHI21hi0cTArGNOXTUIor65AC5BNA1Q2xwW7r+0glPF9hlmuFs7hCaEo
+ KyEA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=dHFseCNwab2bfparxR6t31k0kDcV/qCcGicg1Cc4dM4=;
+ b=BkofrsG6oRj7AtggA8DAPTuIpR3LqzrOizAgGsCjSp7Q7h2C+SJq3y2X2alGiiGtyt
+ 2x7MPS+uYTq8fSEdX71RwPvuyGgFj+u+JPVjdb35DKVoVzb//QDTJOb9o8nj9GpmB3LF
+ Xn8geI/SAFs0aOZD8DGsjSj0xO+VdX+0G3AwMBISEnwD+SJwiiQO9iyNGgWhzA/gSQGQ
+ GLB8HRm/on7l6UlcAfJ4DqoK3f8Kln7qn9qiA4yQ2l+6p5h+FvpFX26TbhrpBXh6MCrc
+ MEpaznWH4N0lc0ZMjqqNjysrVNYsROVjVvWFHOdhvBEmbhROlNqbhJ8fUXXL+OO1k9Dt
+ S+9Q==
+X-Gm-Message-State: AOAM531LA0Y8MOyaR2IwHKvy7anhWI+6N986ncveEe+PDvnYbFmWnvWB
+ det7k29mfRLFPxPurRPSzH7GIw==
+X-Google-Smtp-Source: ABdhPJxmK943OfqXueGmiE/+e4FT0sLXuMyQDSSjQNflx3ifiTcGIhe7ZppBZZgvTiYF8w9Qat+K8w==
+X-Received: by 2002:a05:6000:1201:: with SMTP id
+ e1mr5227652wrx.112.1611656230162; 
+ Tue, 26 Jan 2021 02:17:10 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id z130sm2487260wmb.33.2021.01.26.02.17.08
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jan 2021 02:17:08 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C2B251FF7E;
+ Tue, 26 Jan 2021 10:17:07 +0000 (GMT)
+References: <20210125105818.2707067-1-f4bug@amsat.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v2] target/mips: fetch code with translator_ld
+Date: Tue, 26 Jan 2021 10:17:03 +0000
+In-reply-to: <20210125105818.2707067-1-f4bug@amsat.org>
+Message-ID: <87h7n4xasc.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1d2e022a-68d7-9fcb-cbcd-837b3089d4b2@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,168 +87,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, jsnow@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ "Emilio G . Cota" <cota@braap.org>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.01.2021 um 11:08 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 26.01.2021 12:45, Kevin Wolf wrote:
-> > Am 26.01.2021 um 09:28 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > 26.01.2021 01:05, Kevin Wolf wrote:
-> > > > Am 23.01.2021 um 22:04 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > > > Add TestEnv class, which will handle test environment in a new python
-> > > > > iotests running framework.
-> > > > > 
-> > > > > Don't add compat=1.1 for qcow2 IMGOPTS, as v3 is default anyway.
-> > > > > 
-> > > > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > > > ---
-> > > > >    tests/qemu-iotests/testenv.py | 278 ++++++++++++++++++++++++++++++++++
-> > > > >    1 file changed, 278 insertions(+)
-> > > > >    create mode 100644 tests/qemu-iotests/testenv.py
-> > > > > 
-> > > > > diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> > > > > new file mode 100644
-> > > > > index 0000000000..348af593e9
-> > > > > --- /dev/null
-> > > > > +++ b/tests/qemu-iotests/testenv.py
-> > > > > @@ -0,0 +1,278 @@
-> > > > > +# TestEnv class to manage test environment variables.
-> > > > > +#
-> > > > > +# Copyright (c) 2020-2021 Virtuozzo International GmbH
-> > > > > +#
-> > > > > +# This program is free software; you can redistribute it and/or modify
-> > > > > +# it under the terms of the GNU General Public License as published by
-> > > > > +# the Free Software Foundation; either version 2 of the License, or
-> > > > > +# (at your option) any later version.
-> > > > > +#
-> > > > > +# This program is distributed in the hope that it will be useful,
-> > > > > +# but WITHOUT ANY WARRANTY; without even the implied warranty of
-> > > > > +# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> > > > > +# GNU General Public License for more details.
-> > > > > +#
-> > > > > +# You should have received a copy of the GNU General Public License
-> > > > > +# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-> > > > > +#
-> > > > > +
-> > > > > +import os
-> > > > > +import sys
-> > > > > +import tempfile
-> > > > > +from pathlib import Path
-> > > > > +import shutil
-> > > > > +import collections
-> > > > > +import random
-> > > > > +import subprocess
-> > > > > +import glob
-> > > > > +from contextlib import AbstractContextManager
-> > > > > +from typing import Dict, Any, Optional
-> > > > > +
-> > > > > +
-> > > > > +def get_default_machine(qemu_prog: str) -> str:
-> > > > > +    outp = subprocess.run([qemu_prog, '-machine', 'help'], check=True,
-> > > > > +                          universal_newlines=True,
-> > > > > +                          stdout=subprocess.PIPE).stdout
-> > > > > +
-> > > > > +    machines = outp.split('\n')
-> > > > > +    default_machine = next(m for m in machines if m.endswith(' (default)'))
-> > > > > +    default_machine = default_machine.split(' ', 1)[0]
-> > > > > +
-> > > > > +    alias_suf = ' (alias of {})'.format(default_machine)
-> > > > > +    alias = next((m for m in machines if m.endswith(alias_suf)), None)
-> > > > > +    if alias is not None:
-> > > > > +        default_machine = alias.split(' ', 1)[0]
-> > > > > +
-> > > > > +    return default_machine
-> > > > > +
-> > > > > +
-> > > > > +class TestEnv(AbstractContextManager['TestEnv']):
-> > > > 
-> > > > I'm getting CI failures here:
-> > > > 
-> > > > Traceback (most recent call last):
-> > > >     File "./check", line 23, in <module>
-> > > >       from testenv import TestEnv
-> > > >     File "/builds/.../qemu/tests/qemu-iotests/testenv.py", line 49, in <module>
-> > > >       class TestEnv(AbstractContextManager['TestEnv']):
-> > > > TypeError: 'ABCMeta' object is not subscriptable
-> > > > 
-> > > > On the other hand, if I make it just AbstractContextManager without
-> > > > giving the type parameter, mypy complains:
-> > > > 
-> > > > testenv.py:49: error: Missing type parameters for generic type "ContextManager"
-> > > > 
-> > > > I guess I need to have another look into this tomorrow.
-> > > 
-> > > It may help to use typing.ContextManager instead of
-> > > AbstractContextManager. mypy is OK with it, probably CI will be OK
-> > > too..
-> > 
-> > Okay, I'm trying now if this change works (on top of v9, of course). If
-> > it does, I'll just squash it in. I also silenced some of the mypy
-> > warnings, so that I'm not testing with the following patch squashed in.
-> > 
-> > Kevin
-> > 
-> > 
-> > diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> > index ca9cab531b..becea1bb7d 100644
-> > --- a/tests/qemu-iotests/testenv.py
-> > +++ b/tests/qemu-iotests/testenv.py
-> > @@ -25,8 +25,7 @@ import collections
-> >   import random
-> >   import subprocess
-> >   import glob
-> > -from contextlib import AbstractContextManager
-> > -from typing import Dict, Any, Optional
-> > +from typing import ContextManager, Dict, Any, Optional
-> > 
-> > 
-> >   def isxfile(path: str) -> bool:
-> > @@ -50,7 +49,7 @@ def get_default_machine(qemu_prog: str) -> str:
-> >       return default_machine
-> > 
-> > 
-> > -class TestEnv(AbstractContextManager['TestEnv']):
-> > +class TestEnv(ContextManager['TestEnv']):
-> >       """
-> >       Manage system environment for running tests
-> > 
-> > @@ -81,7 +80,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
-> > 
-> >           return env
-> > 
-> > -    def init_directories(self):
-> > +    def init_directories(self) -> None:
-> >           """Init directory variables:
-> >                PYTHONPATH
-> >                TEST_DIR
-> > @@ -114,7 +113,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
-> > 
-> >           self.output_dir = os.getcwd()  # OUTPUT_DIR
-> > 
-> > -    def init_binaries(self):
-> > +    def init_binaries(self) -> None:
-> >           """Init binary path variables:
-> >                PYTHON (for bash tests)
-> >                QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
-> > @@ -122,7 +121,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
-> >           """
-> >           self.python = sys.executable
-> > 
-> > -        def root(*names):
-> > +        def root(*names: str) -> str:
-> >               return os.path.join(self.build_root, *names)
-> > 
-> >           arch = os.uname().machine
-> 
-> Strange, that CI doesn't complain AbstractContextManager['...'] in
-> testrunner.py.. Anyway, I think we should consistently use
-> typing.ContextManager, if it works.
 
-Ah, it probably does. The runs just take so long that I haven't got
-results yet. So I'll probably have to start another run.
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-Kevin
+> Similarly to commits ae82adc8e29..7f93879e444, use the
+> translator_ld*() API introduced in commit 409c1a0bf0f
+> to fetch the code on the MIPS target.
+>
+> Reviewed-by: Jiaxun Yang  <jiaxun.yang@flygoat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+--=20
+Alex Benn=C3=A9e
 
