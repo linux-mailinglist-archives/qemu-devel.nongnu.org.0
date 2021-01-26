@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3749E304322
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:55:35 +0100 (CET)
-Received: from localhost ([::1]:42886 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905DA304330
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:57:48 +0100 (CET)
+Received: from localhost ([::1]:46026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Qgn-0005x8-VL
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:55:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40852)
+	id 1l4Qix-0007Nx-LY
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:57:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41566)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4Qff-000580-Vb
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:54:23 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:39419)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4Qfe-0004RP-1h
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:54:23 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id b21so20332779edy.6
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 07:54:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=OxST30yERnyzfADRKkXg00thgMVYejKkhfuLMBdF43E=;
- b=FlUqbu0ZNxO4et8WHT5tZ5CN/F+KA3yPxzmhFMijMFxDxV4DRMVLvZaj0ZN6S3fDh1
- pNP8ZcAoLyXPvCFF76pnasOQnOCefn/QbOFT8y6m1Hh4p1iB8ShH9qEaRwjAZRckq6W3
- E6YDQOUcLfxnivbkrMI/g9skOPOZgz6RA6IcDXAl4oZnXoT83+Pxa7ohSpMZiIaX/pA7
- XIohwNzCLObk/n9zzrQc53JJ+jRgV1pD48UsowCeKsyFsXXHuDhyTBDwVxFgbPBxoC+0
- Z+oiSs9ZG6QnqhFF2uGDzECOgBqVDSNTfNHE1GWxU+98cIj7Ju9xC47H0/HFClvyvTcq
- BA8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=OxST30yERnyzfADRKkXg00thgMVYejKkhfuLMBdF43E=;
- b=LBWxAkkBdLEnuxbosOBx3KMopXhKF4WAmZinFVzNPLXsdS3i4R5FF7NnSkU/4dQxA7
- XK4xAnFgEWSuB6Eo4OhS5nQJ/CBEYHtP9AhRxCuObrbpbRO+YiBtWDlhHjqXaOeicN2K
- ASiqjViOqOQnBvj7mm92CaKDzFj09p3VyA0h7TB0+EddOwQzldwtDNFedCg2h8RLDgxi
- gPIPR9eJArhWZDFk10CC7VVMaIZztE+ENnreda+MDbeqYi3XKu7WRQQuZTvXz2kWuxm1
- UZQeZhqEp0hZaf7rKy99tq/OPnJM35iawh7+KbYx4G2NbUidYys4kRhKK8pwD1D03g+y
- i53A==
-X-Gm-Message-State: AOAM53387XVrF52y+pGlnjDz2RWakeN9kGpdiMDxxT9v0qBJTdjCTQt2
- YkmZJdzHu3jA3lyBfiiblmC9VpFCQlVUMVHnu8TTzw==
-X-Google-Smtp-Source: ABdhPJz6hzlmR3ZuYh9hicXf701oBL7kWML1NLmUNTV9I8G+kOJwFsoB/zAkoqiY5lgVR8wQEtFlg7y7ePeg+JRHVQA=
-X-Received: by 2002:aa7:dd12:: with SMTP id i18mr5069494edv.36.1611676460457; 
- Tue, 26 Jan 2021 07:54:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4QhW-0006du-1Z
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:56:18 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:52479)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4QhT-0005AD-EQ
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 10:56:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.240])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 3108886242FA;
+ Tue, 26 Jan 2021 16:56:05 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 26 Jan
+ 2021 16:56:03 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0046dd75f66-b01f-46cf-b6eb-140c7840c5be,
+ 0BEDCD57DDE4FFFD0A05CC08AE31DEE925320B36) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 26 Jan 2021 16:56:00 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 1/6] virtiofsd: Drop ->vu_dispatch_rwlock while waiting
+ for thread to exit
+Message-ID: <20210126165600.7bbe369d@bahia.lan>
+In-Reply-To: <20210125180115.22936-2-vgoyal@redhat.com>
+References: <20210125180115.22936-1-vgoyal@redhat.com>
+ <20210125180115.22936-2-vgoyal@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210126012457.39046-1-j@getutm.app>
- <20210126012457.39046-10-j@getutm.app>
-In-Reply-To: <20210126012457.39046-10-j@getutm.app>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 26 Jan 2021 15:54:09 +0000
-Message-ID: <CAFEAcA9+t5bcwN1XMCG94vv0A5cG0yac7_Ke28hjsiSf-5tjJA@mail.gmail.com>
-Subject: Re: [PATCH v9 09/11] block: check availablity for preadv/pwritev on
- mac
-To: Joelle van Dyne <j@getutm.app>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 92dd65ff-e29c-4d8f-b066-fab66db9e19a
+X-Ovh-Tracer-Id: 4293056349054933353
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdeigddvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehmshhtsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,51 +69,128 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- "open list:raw" <qemu-block@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ virtio-fs@redhat.com, stefanha@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Jan 2021 at 01:38, Joelle van Dyne <j@getutm.app> wrote:
->
-> macOS 11/iOS 14 added preadv/pwritev APIs. Due to weak linking, configure
-> will succeed with CONFIG_PREADV even when targeting a lower OS version.
+On Mon, 25 Jan 2021 13:01:10 -0500
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-I just ran into this this afternoon. It turns out that all our OSX
-CI configs pass --enable-werror or equivalent to configure, which
-means that when the configure test provokes the warning that
-"'preadv' is only available on macOS 11.0 or newer", that is a
-compile error due to -Werror, and configure decides preadv is
-not available. But if you do a configure for the default setup that
-doesn't add -Werror then the test passes and then the binaries
-fail at runtime... and this is the first time I'd happened to do
-a build with the newer XCode SDK and without -Werror enabled.
+> When we are shutting down virtqueues, virtio_loop() receives a message
+> VHOST_USER_GET_VRING_BASE from master. We acquire ->vu_dispatch_rwlock
+> and get into the process of shutting down virtqueue. In one of the
+> final steps, we are waiting for fv_queue_thread() to exit/finish and
+> wait with ->vu_dispatch_rwlock held.
+> 
+> But it is possible that fv_queue_thread() itself is waiting to get
+> ->vu_dispatch_rwlock (With --thread-pool=0 option). If requests
+> are being processed by fv_queue_worker(), then fv_queue_worker()
+> can wait for the ->vu_dispatch_rwlock, and fv_queue_thread() will
+> wait for fv_queue_worker() before thread pool can be stopped.
+> 
+> IOW, if guest is shutdown uncleanly (some sort of emergency reboot),
+> it is possible that virtiofsd is processing a fs request and
+> qemu initiates device shutdown sequence. In that case there seem
+> to be two options. Either abort the existing request completely or
+> let existing request finish.
+> 
+> This patch is taking second approach. That is drop the ->vu_dispatch_rwlock
+> temporarily so that fv_queue_thread() can finish and deadlock does not
+> happen.
+> 
+> ->vu_dispatch_rwlock provides mutual exclusion between virtio_loop()
+> (handling vhost-user protocol messages) and fv_queue_thread() (handling
+> fuse filesystem requests). Rational seems to be that protocol message
+> might change queue memory mappings, so we don't want both to proceed
+> at the same time.
+> 
+> In this case queue is shutting down, so I hope it is fine for fv_queue_thread() to send response back while virtio_loop() is still waiting (and not handling
 
-So I think that leaves two points for this patch:
+It looks this lacks a \n after "fine for"
 
-(1) we need to fix the configure test so that it either
-succeeds without warnings or fails, so that --enable-werror
-and --disable-werror configures make the same decision about
-preadv support.
+> any further vho-user protocol messages).
+> 
+> IOW, assumption here is that while virto_loop is blocked processing
+> VHOST_USER_GET_VRING_BASE message, it is still ok to send back the
+> response on vq by fv_queue_thread().
+> 
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+>  tools/virtiofsd/fuse_virtio.c | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+> 
+> diff --git a/tools/virtiofsd/fuse_virtio.c b/tools/virtiofsd/fuse_virtio.c
+> index 9577eaa68d..6805d8ba01 100644
+> --- a/tools/virtiofsd/fuse_virtio.c
+> +++ b/tools/virtiofsd/fuse_virtio.c
+> @@ -813,11 +813,20 @@ static void fv_queue_cleanup_thread(struct fv_VuDev *vud, int qidx)
+>          fuse_log(FUSE_LOG_ERR, "Eventfd_write for queue %d: %s\n",
+>                   qidx, strerror(errno));
+>      }
+> +
+> +    /*
+> +     * Drop ->vu_dispath_rwlock and reacquire. We are about to wait for
+> +     * for fv_queue_thread() and that might require ->vu_dispatch_rwlock
+> +     * to finish.
+> +     */
+> +    pthread_rwlock_unlock(&vud->vu_dispatch_rwlock);
+>      ret = pthread_join(ourqi->thread, NULL);
+>      if (ret) {
+>          fuse_log(FUSE_LOG_ERR, "%s: Failed to join thread idx %d err %d\n",
+>                   __func__, qidx, ret);
+>      }
+> +    pthread_rwlock_wrlock(&vud->vu_dispatch_rwlock);
+> +
 
-(2) we need to decide whether we want to support the OSX idea
-that you can compile in support for a function like preadv()
-and then find that it's not present at runtime, or if we just
-want to make the choice at configure time. I'm on the fence about
-this.
+So this is assuming that fv_queue_cleanup_thread() is called with
+vu_dispatch_rwlock already taken for writing, but there are no
+clear evidence in the code why it should care for the locking at
+all in the first place.
 
-I'm going to send out a patch which converts the configure
-test to a meson.build one-liner -- this fixes (1) and
-(by default) leaves the answer to (2) at "no" (you get preadv()
-only if you built on macOS 11 for macOS 11; if you build with
-10.x support then you dont' get it).
+On the contrary, one of its two callers is a vhost-user callback,
+in which we can reasonably have this assumption, while we can
+have the opposite assumption for the other one in virtio_loop().
 
-I'm agnostic about the final answer to (2) -- we do have the
-support for the runtime preadv_present flag in this file already,
-after all -- so I guess I'll leave that to the block maintainers.
-In the meantime we can fix the non-controversial part.
+This makes me think that the drop/reacquire trick should only
+be done in fv_queue_set_started(), instead of...
 
-thanks
--- PMM
+>      pthread_mutex_destroy(&ourqi->vq_lock);
+>      close(ourqi->kill_fd);
+>      ourqi->kick_fd = -1;
+> @@ -952,7 +961,11 @@ int virtio_loop(struct fuse_session *se)
+>      /*
+>       * Make sure all fv_queue_thread()s quit on exit, as we're about to
+>       * free virtio dev and fuse session, no one should access them anymore.
+> +     * Hold ->vu_dispatch_rwlock in write mode as fv_queue_cleanup_thread()
+> +     * assumes mutex is locked and unlocks/re-locks it.
+>       */
+> +
+> +    pthread_rwlock_wrlock(&se->virtio_dev->vu_dispatch_rwlock);
+
+
+... artificially introducing another critical section here.
+
+The issue isn't even specific to vu_dispatch_rwlock actually :
+fv_queue_cleanup_thread() shouldn't be called with any lock
+held because it might sleep in pthread_join() and cause a
+deadlock all the same. So I'd rather document that instead :
+drop all locks before calling fv_queue_cleanup_thread().
+
+Also, since pthread_rwlock_wrlock() can fail, I think we should
+always check it's return value, at least with an assert() like
+already done elsewhere.
+
+>      for (int i = 0; i < se->virtio_dev->nqueues; i++) {
+>          if (!se->virtio_dev->qi[i]) {
+>              continue;
+> @@ -961,6 +974,7 @@ int virtio_loop(struct fuse_session *se)
+>          fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, i);
+>          fv_queue_cleanup_thread(se->virtio_dev, i);
+>      }
+> +    pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
+>  
+>      fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
+>  
+
 
