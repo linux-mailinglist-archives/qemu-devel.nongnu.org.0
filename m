@@ -2,134 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B92303DFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:02:43 +0100 (CET)
-Received: from localhost ([::1]:54686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A61303E47
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:13:58 +0100 (CET)
+Received: from localhost ([::1]:35272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4NzV-0001Yl-A0
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:02:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57284)
+	id 1l4OAP-0005m1-9E
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:13:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58806)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l4Nx1-0000GJ-Ss
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:00:07 -0500
-Received: from mail-he1eur04on0719.outbound.protection.outlook.com
- ([2a01:111:f400:fe0d::719]:1922
- helo=EUR04-HE1-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l4Nwy-0001eZ-Ht
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:00:07 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gbR4IjJBAAL+4Q6iAwTvFtR0H6L9u549Xw0wasSg1qto+Nuf7IhJa8/AJKv4fcwDW9L1+nshdjrviyY3OTF/SytvqrhHAn9Hl0157YhC81KGjI9Q2/OmWqH/SKBYISTHwFCfnJiXAxGEXZm01FcaExzSDAH8CNY+Lem1KB9Bph7gWFEOrP6OXsZe/HWLs+T9d94k8D0I50G2TtyY/zWixsukYFIqCM9eRJf3OyAFpIAMMK3Rpnc+K2KsOUeZmXsHeMRIHajWZh1CDKvUjc4WVK7Kn9phEGmgLjv3QW2GIjlsijBoJAAI8hCYN50JfMjxA69iHMts6MqPtCop8Vdtdw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GD2ZPvmfHAi++tX/9R8L5S4yExFl3qnR9OVIds+dPmc=;
- b=BhR595WFOdzJw76osvWyO0TZ6fTrJUsAEFDbZpk+nBn5kIIu6eZMW7eFVyLHxz6ZKcFsCtnJZ12YLHAby+VMWUSiOzPxSZdq2Kn85iW0BdRpZIEcvBYNuoKL4fWwwhDTLZPuU2tf5URAR5v+j/FF00m0TTdqUdHZRnGVqkz/ACI3VD2d8SsqnWdJ2pH5AMK2mkpUSBxCxXiZHj/FAVUVGPixTeQZ6BDBOTPM3HIaQjIwFsz8cWWUPTUolUDIsdYkHNOEFEKYqxbWcB3itUehKK5gDjO7TPyjI3CDKg1DWmG4v22hhbnA8qVVgmH0V6LSdNlBWoGOuAtTbQ5YImeiuQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GD2ZPvmfHAi++tX/9R8L5S4yExFl3qnR9OVIds+dPmc=;
- b=ckf1XraYV1YOU7TwxQLvyhKPK9qJuNkeq64mcCfzJklplXxPKs1ojNssUP7b95vixL5ToH9WAapEw/raPwDxDNBf83cC/DaKIczqXUwmnGKnyYbtKnRXUd+6PMYR5Js0kH9PpEnM5WehQAQSfBEUnxufDkDrosIUhjEmxEcdiUA=
-Authentication-Results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM7PR08MB5447.eurprd08.prod.outlook.com (2603:10a6:20b:10b::18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.12; Tue, 26 Jan
- 2021 12:44:44 +0000
-Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
- ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.019; Tue, 26 Jan 2021
- 12:44:44 +0000
-Subject: Re: [PATCH] coroutine-sigaltstack: Add SIGUSR2 mutex
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-References: <20210125120305.19520-1-mreitz@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <7dc89925-764b-cdc6-8d25-0bae03d90be4@virtuozzo.com>
-Date: Tue, 26 Jan 2021 15:44:43 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
-In-Reply-To: <20210125120305.19520-1-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [185.215.60.100]
-X-ClientProxiedBy: AM4PR05CA0002.eurprd05.prod.outlook.com (2603:10a6:205::15)
- To AM7PR08MB5494.eurprd08.prod.outlook.com
- (2603:10a6:20b:dc::15)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l4O87-0004pJ-21
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:11:35 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47986)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l4O84-00068Z-41
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:11:34 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l4O81-00059j-6n
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 13:11:29 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 326DF2E813C
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 13:11:29 +0000 (UTC)
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [192.168.100.8] (185.215.60.100) by
- AM4PR05CA0002.eurprd05.prod.outlook.com (2603:10a6:205::15) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.16 via Frontend Transport; Tue, 26 Jan 2021 12:44:44 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 2d852756-b361-4c37-a914-08d8c1f82866
-X-MS-TrafficTypeDiagnostic: AM7PR08MB5447:
-X-Microsoft-Antispam-PRVS: <AM7PR08MB5447568A48B7FD6663459501C1BC0@AM7PR08MB5447.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: PEH03eTIAUJcA2+NR/mXCSdDoTRPEcvniPiVw2vP7tzlD6j7S8GPi5lTXc7/xShMUaZ7D5iAKsRrLyeqXv20BSJFrG7J9j3VcoNNOCWIOi6hO9YXhoqI5UyokGPOUr2gHyYal6dD7FLWq+TUA3CT/gzK5aGg0EM+ww5zvFZxAebX15hIy3SADhloFAX+JhADwAIBui3VJtfeVXFPyAgvwUBJ+4YYZ73xsAuteHL2/LtHAQF52Cx3SyKrHD0DOfR4tX0cMRolDlMDPE6rRLI9lbAa89aSij3C1L6YOzbpODmPMtHb2BsAwGLNHrVP0/skrOj51/oIDs0uSp+u0ddsNmJm4T9XEq/zvd6lohQUCLW12n70MzcfFytcwATc3i1woKz+Hg2kDTVRyd1ZmYGt1PV3jvDWFkC1Q6QYGKVPp3AcMkCu8c3U2ZeNL1c03B2GBH929nJeIkodckJhMiLO12c4QUQWUMORGo/D6jDJaJnSIAMAuFOKWjj48OVDoKNjI73T5vkqRhGV0X1HkUecpmvSW/G0bDoBB55T8sYi/KZOgZL8Rbn4BEBUSUamb5sq
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(396003)(136003)(39840400004)(346002)(366004)(376002)(52116002)(2906002)(5660300002)(36756003)(31686004)(86362001)(66946007)(8676002)(956004)(186003)(316002)(54906003)(83380400001)(16576012)(16526019)(4326008)(26005)(31696002)(6486002)(66556008)(966005)(66476007)(2616005)(478600001)(8936002)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?Ymp3SnZWWW1xaFBMbFJRb2lBVGhMakdzd3NtZ0prWE5PcGtIM2JBY2pmZlRN?=
- =?utf-8?B?bVlYV0E4YUx3Um9UcFBxVlpJK0U1V0RtY0YwRXpxeVNGSUtoZVFmb0ZvTWtJ?=
- =?utf-8?B?YzNlOGwzR21EK2Z1bkFKWXQvaFRBdE1QVTJPT3FYOFV4YzlBS0lNWWpFTWRi?=
- =?utf-8?B?a3JoOU5xOU1qT0Z6UnhjTFBURVo0UnBMY3VLb0l2cThTaWxDdFc3WjdmdTRj?=
- =?utf-8?B?QjllVXFwVE5wVnhrdE5tWU5wYVBZd1NPYmZZWGY4RmtmV3FpRk9ETDFKMUtK?=
- =?utf-8?B?NlZuSnFndlhuWGF5MnpvYkkvKzZJN2lxcFpxeDN3bCtlT1RwMEtSTW0vVGxV?=
- =?utf-8?B?c2lUV0JHU293RVUvWnkvblkzZ1FudmNGK1A1UTB6TmpEOURySENHeEFRenNW?=
- =?utf-8?B?djczcUZzTXBVRXd5Um9MLzVRN1RuMXJ2NzJNNkhRNkMybWVmUG1UMzRrV2xw?=
- =?utf-8?B?USt0OGRnNWJhSWViL2NRS29ac1BOM3hsb0VMS2dUMGg0WjVMN1pVekdwZ01N?=
- =?utf-8?B?SGk4WTJGT05Pem9sUDM4QWl3dXN0VzJ6OWVrUC9QQ00xbEV3MFQrQloyay90?=
- =?utf-8?B?dG4vaUxjOG84NC9zSTZwZkMvT3FDemdqcmtndkVUa0JwOThXWW5YZ2xMdjNh?=
- =?utf-8?B?SG5yL1ljT1JYR3VnTG5aVGNZRzlpa1N4VENaRXpRSnJIK3VPMzJzdHo2M1Zs?=
- =?utf-8?B?SWQxd1JxOEFmeHdreitWNlh6c3kyOUYvdXhXbGVUU2NTK3NMVmRURlB2NGI5?=
- =?utf-8?B?aHMwT09lU09WcStMQ1gyUWtRVi9LMDZZS2kzbG9PdmNLL1VnWllNOGVTTXNN?=
- =?utf-8?B?K3Y1dHc3VDE4R082WnFpbStDVHkySnFlOUtFb28wWWJBR1Z4L1BuYWR6c3or?=
- =?utf-8?B?SkM5NWFUZ21WZk1kUm5yKzRFNjZnS2tjd0lXSkVQWG9RWVJhUUgrdm5YV3M5?=
- =?utf-8?B?T2o1dno2NzdWMW5TZVRiaWtwekpLNXgyQit1M3BiN3QrQjgxeU9oR2hnSGhl?=
- =?utf-8?B?MXBMQXF5QWp4alN2MnFzNHpaejZWdGJ1dG5KZDFJYXBDUUVHUlpkSkc5Zjln?=
- =?utf-8?B?VS9uNllIb2NpNmtWTjFiQk12clRSeFR0MFhOWDdZdjRIYXgxUEZEaWh3QnZx?=
- =?utf-8?B?WEdNU3JqWVlrYWhjWDFIRFA2a1Jia0VqV0pJQ0kzeldKdXZXeGlUS0xnaWVk?=
- =?utf-8?B?TkhXVDgxeXBySi9ZNzlzQWhnSVRGRzVPR0oyQkN5djlSdThsMmNueGNjR2N2?=
- =?utf-8?B?Z3R3YUJTME5aaDQzS0JLM0h1RXFucnZ0dzZrSzBZSGsrMnpQcVhqVS8zQ0JR?=
- =?utf-8?B?Z0IxTDd0YjhST2s2VCtPa1dQZ3dhOFVxUS9CR1BjSkVuRjRiK2RaeC9VaTBl?=
- =?utf-8?B?ckxpVUxGeUJnYnFrdzVDWmpyYi9kSGdEaVBCSWIxeVNSWmdSRjV6RlV0RXdh?=
- =?utf-8?B?UndvVTJwcWZmTktBdUhyN1g2T0RWbFBZdkdLRVZnPT0=?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2d852756-b361-4c37-a914-08d8c1f82866
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 12:44:44.8464 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pKzXz1M1OxsH5Zllhv3FH4U2y2l9/LV41NUCAFk8x+jHlY2dWlnda4XG3Hqz4tui+xWhY8C4wLcBkdAp7pkMro+p6okg0IdlR/XbNPLicAQ=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5447
-Received-SPF: pass client-ip=2a01:111:f400:fe0d::719;
- envelope-from=vsementsov@virtuozzo.com;
- helo=EUR04-HE1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 26 Jan 2021 12:58:11 -0000
+From: Peter Maydell <1879531@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <158990645210.17233.17999678627149634965.malonedeb@soybean.canonical.com>
+Message-Id: <161166589146.8024.18122336307721719237.launchpad@gac.canonical.com>
+Subject: [Bug 1879531] Re: Stack-overflow in _eth_get_rss_ex_dst_addr
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 668043dc5651383155936d824281848c6bddacc1
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -138,82 +70,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- =?UTF-8?B?TMOhc3psw7Mgw4lyc2Vr?= <lersek@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>
+Reply-To: Bug 1879531 <1879531@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-25.01.2021 15:03, Max Reitz wrote:
-> Disposition (action) for any given signal is global for the process.
-> When two threads run coroutine-sigaltstack's qemu_coroutine_new()
-> concurrently, they may interfere with each other: One of them may revert
-> the SIGUSR2 handler to SIG_DFL, between the other thread (a) setting up
-> coroutine_trampoline() as the handler and (b) raising SIGUSR2.  That
-> SIGUSR2 will then terminate the QEMU process abnormally.
-> 
-> We have to ensure that only one thread at a time can modify the
-> process-global SIGUSR2 handler.  To do so, wrap the whole section where
-> that is done in a mutex.
-> 
-> Alternatively, we could for example have the SIGUSR2 handler always be
-> coroutine_trampoline(), so there would be no need to invoke sigaction()
-> in qemu_coroutine_new().  Laszlo has posted a patch to do so here:
-> 
->    https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg05962.html
-> 
-> However, given that coroutine-sigaltstack is more of a fallback
-> implementation for platforms that do not support ucontext, that change
-> may be a bit too invasive to be comfortable with it.  The mutex proposed
-> here may negatively impact performance, but the change is much simpler.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->   util/coroutine-sigaltstack.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
-> 
-> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
-> index aade82afb8..e99b8a4f9c 100644
-> --- a/util/coroutine-sigaltstack.c
-> +++ b/util/coroutine-sigaltstack.c
-> @@ -157,6 +157,7 @@ Coroutine *qemu_coroutine_new(void)
->       sigset_t sigs;
->       sigset_t osigs;
->       sigjmp_buf old_env;
-> +    static pthread_mutex_t sigusr2_mutex = PTHREAD_MUTEX_INITIALIZER;
->   
->       /* The way to manipulate stack is with the sigaltstack function. We
->        * prepare a stack, with it delivering a signal to ourselves and then
-> @@ -186,6 +187,12 @@ Coroutine *qemu_coroutine_new(void)
->       sa.sa_handler = coroutine_trampoline;
->       sigfillset(&sa.sa_mask);
->       sa.sa_flags = SA_ONSTACK;
-> +
-> +    /*
-> +     * sigaction() is a process-global operation.  We must not run
-> +     * this code in multiple threads at once.
-> +     */
-> +    pthread_mutex_lock(&sigusr2_mutex);
->       if (sigaction(SIGUSR2, &sa, &osa) != 0) {
->           abort();
->       }
-> @@ -234,6 +241,8 @@ Coroutine *qemu_coroutine_new(void)
->        * Restore the old SIGUSR2 signal handler and mask
->        */
->       sigaction(SIGUSR2, &osa, NULL);
-> +    pthread_mutex_unlock(&sigusr2_mutex);
-> +
->       pthread_sigmask(SIG_SETMASK, &osigs, NULL);
->   
->       /*
-> 
+** Tags added: fuzzer
 
-weak:
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+-- =
 
-Side thought: so, sigaltstack coroutine implementation is not thread-safe. Is that the only bug? Or actually, the whole implementation should be revisited to check, could it be used with iothreads or not? Shouldn't we just state that sigaltstack coroutine implementation doesn't support iothreads? And do error out on iothread creation if sigaltstack coroutines is in use?
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1879531
 
--- 
-Best regards,
-Vladimir
+Title:
+  Stack-overflow in _eth_get_rss_ex_dst_addr
+
+Status in QEMU:
+  New
+
+Bug description:
+  Hello,
+  While fuzzing, I found a 1-byte stack-overflow (read) through the
+  e1000e. =
+
+
+  =3D=3D10318=3D=3DERROR: AddressSanitizer: stack-buffer-overflow on addres=
+s 0x7ffdb76c16c2 at pc 0x55594f1a69e1 bp 0x7ffdb76c15a0 sp 0x7ffdb76c1598
+  READ of size 1 at 0x7ffdb76c16c2 thread T0
+      #0 0x55594f1a69e0 in _eth_get_rss_ex_dst_addr /home/alxndr/Developmen=
+t/qemu/net/eth.c:410:17
+      #1 0x55594f1a39da in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
+/net/eth.c:532:17
+      #2 0x55594ebc34f2 in net_tx_pkt_parse_headers /home/alxndr/Developmen=
+t/qemu/hw/net/net_tx_pkt.c:228:14
+      #3 0x55594ebc2149 in net_tx_pkt_parse /home/alxndr/Development/qemu/h=
+w/net/net_tx_pkt.c:273:9
+      #4 0x55594ec1ba76 in e1000e_process_tx_desc /home/alxndr/Development/=
+qemu/hw/net/e1000e_core.c:737:29
+      #5 0x55594ec1aea4 in e1000e_start_xmit /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:934:9
+      #6 0x55594ec0e70e in e1000e_set_tdt /home/alxndr/Development/qemu/hw/=
+net/e1000e_core.c:2451:9
+      #7 0x55594ebec435 in e1000e_core_write /home/alxndr/Development/qemu/=
+hw/net/e1000e_core.c:3261:9
+      #8 0x55594ebdf11b in e1000e_mmio_write /home/alxndr/Development/qemu/=
+hw/net/e1000e.c:109:5
+      #9 0x55594dfd98b1 in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/memory.c:483:5
+      #10 0x55594dfd9211 in access_with_adjusted_size /home/alxndr/Developm=
+ent/qemu/memory.c:544:18
+      #11 0x55594dfd7c30 in memory_region_dispatch_write /home/alxndr/Devel=
+opment/qemu/memory.c:1476:16
+      #12 0x55594dde24b8 in flatview_write_continue /home/alxndr/Developmen=
+t/qemu/exec.c:3137:23
+      #13 0x55594ddd12dc in flatview_write /home/alxndr/Development/qemu/ex=
+ec.c:3177:14
+      #14 0x55594ddd0dec in address_space_write /home/alxndr/Development/qe=
+mu/exec.c:3268:18
+      #15 0x55594dfcdbdc in qtest_process_command /home/alxndr/Development/=
+qemu/qtest.c:567:9
+      #16 0x55594dfc3700 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/qtest.c:710:9
+      #17 0x55594dfc2cc8 in qtest_read /home/alxndr/Development/qemu/qtest.=
+c:722:5
+      #18 0x55594f74b259 in qemu_chr_be_write_impl /home/alxndr/Development=
+/qemu/chardev/char.c:183:9
+      #19 0x55594f74b3ee in qemu_chr_be_write /home/alxndr/Development/qemu=
+/chardev/char.c:195:9
+      #20 0x55594f7556fc in fd_chr_read /home/alxndr/Development/qemu/chard=
+ev/char-fd.c:68:9
+      #21 0x55594f7ea488 in qio_channel_fd_source_dispatch /home/alxndr/Dev=
+elopment/qemu/io/channel-watch.c:84:12
+      #22 0x7f43f6c1d897 in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x4e897)
+      #23 0x55594f9dea5d in glib_pollfds_poll /home/alxndr/Development/qemu=
+/util/main-loop.c:219:9
+      #24 0x55594f9dd1d7 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/util/main-loop.c:242:5
+      #25 0x55594f9dcd6e in main_loop_wait /home/alxndr/Development/qemu/ut=
+il/main-loop.c:518:11
+      #26 0x55594e44cd01 in qemu_main_loop /home/alxndr/Development/qemu/so=
+ftmmu/vl.c:1664:9
+      #27 0x55594f803c21 in main /home/alxndr/Development/qemu/softmmu/main=
+.c:49:5
+      #28 0x7f43f57b4e0a in __libc_start_main /build/glibc-GwnBeO/glibc-2.3=
+0/csu/../csu/libc-start.c:308:16
+      #29 0x55594dd03889 in _start (/home/alxndr/Development/qemu/build/i38=
+6-softmmu/qemu-system-i386+0xdbd889)
+
+  Address 0x7ffdb76c16c2 is located in stack of thread T0 at offset 34 in f=
+rame
+      #0 0x55594f1a303f in eth_parse_ipv6_hdr /home/alxndr/Development/qemu=
+/net/eth.c:486
+
+    This frame has 1 object(s):
+      [32, 34) 'ext_hdr' (line 487) <=3D=3D Memory access at offset 34 over=
+flows this variable
+  HINT: this may be a false positive if your program uses some custom stack=
+ unwind mechanism, swapcontext or vfork
+        (longjmp and C++ exceptions *are* supported)
+  SUMMARY: AddressSanitizer: stack-buffer-overflow /home/alxndr/Development=
+/qemu/net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
+  Shadow bytes around the buggy address:
+    0x100036ed0280: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0290: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02a0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02b0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02c0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  =3D>0x100036ed02d0: 00 00 00 00 f1 f1 f1 f1[02]f3 f3 f3 00 00 00 00
+    0x100036ed02e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed02f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0300: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0310: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+    0x100036ed0320: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+  Shadow byte legend (one shadow byte represents 8 application bytes):
+    Addressable:           00
+    Partially addressable: 01 02 03 04 05 06 07
+    Heap left redzone:       fa
+    Freed heap region:       fd
+    Stack left redzone:      f1
+    Stack mid redzone:       f2
+    Stack right redzone:     f3
+    Stack after return:      f5
+    Stack use after scope:   f8
+    Global redzone:          f9
+    Global init order:       f6
+    Poisoned by user:        f7
+    Container overflow:      fc
+    Array cookie:            ac
+    Intra object redzone:    bb
+    ASan internal:           fe
+    Left alloca redzone:     ca
+    Right alloca redzone:    cb
+    Shadow gap:              cc
+  =3D=3D10318=3D=3DABORTING
+
+  I can reproduce it in qemu 5.0 built with address sanitizer using:
+
+  cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -=
+monitor none -serial none -nographic
+  outl 0xcf8 0x80001010
+  outl 0xcfc 0xe1020000
+  outl 0xcf8 0x80001014
+  outl 0xcf8 0x80001004
+  outw 0xcfc 0x7
+  outl 0xcf8 0x800010a2
+  write 0x25 0x2b 0x86dd1900ff5df747002bfc90dd1900ff5df747002bfc9add1900ff5=
+df747002bfca4dd1900ff5df747002b
+  write 0xe1020030 0x409 0x190002e100000000350908077cdd190002e1000000003509=
+12077cdd190002e10000000035091c077cdd190002e100000000350926077cdd190002e1000=
+00000350930077cdd190002e10000000035093a077cdd190002e100000000350944077cdd19=
+0002e10000000035094e077cdd190002e100000000350958077cdd190002e10000000035096=
+2077cdd190002e10000000035096c077cdd190002e100000000350976077cdd190002e10000=
+0000350980077cdd190002e10000000035098a077cdd190002e100000000350994077cdd190=
+002e10000000035099e077cdd190002e1000000003509a8077cdd190002e1000000003509b2=
+077cdd190002e1000000003509bc077cdd190002e1000000003509c6077cdd190002e100000=
+0003509d0077cdd190002e1000000003509da077cdd190002e1000000003509e4077cdd1900=
+02e1000000003509ee077cdd190002e1000000003509f8077cdd190002e1000000003509020=
+77cdd190002e10000000035090c077cdd190002e100000000350916077cdd190002e1000000=
+00350920077cdd190002e10000000035092a077cdd190002e100000000350934077cdd19000=
+2e10000000035093e077cdd190002e100000000350948077cdd190002e10000000035095207=
+7cdd190002e10000000035095c077cdd190002e100000000350966077cdd190002e10000000=
+0350970077cdd190002e10000000035097a077cdd190002e100000000350984077cdd190002=
+e10000000035098e077cdd190002e100000000350998077cdd190002e1000000003509a2077=
+cdd190002e1000000003509ac077cdd190002e1000000003509b6077cdd190002e100000000=
+3509c0077cdd190002e1000000003509ca077cdd190002e1000000003509d4077cdd190002e=
+1000000003509de077cdd190002e1000000003509e8077cdd190002e1000000003509f2077c=
+dd190002e1000000003509fc077cdd190002e100000000350906077cdd190002e1000000003=
+50910077cdd190002e10000000035091a077cdd190002e100000000350924077cdd190002e1=
+0000000035092e077cdd190002e100000000350938077cdd190002e100000000350942077cd=
+d190002e10000000035094c077cdd190002e100000000350956077cdd190002e10000000035=
+0960077cdd190002e10000000035096a077cdd190002e100000000350974077cdd190002e10=
+000000035097e077cdd190002e100000000350988077cdd190002e100000000350992077cdd=
+190002e10000000035099c077cdd190002e1000000003509a6077cdd190002e100000000350=
+9b0077cdd190002e1000000003509ba077cdd190002e1000000003509c4077cdd190002e100=
+0000003509ce077cdd190002e1000000003509d8077cdd190002e1000000003509e2
+  EOF
+
+  Also attaching these commands. They can be executed with
+  ./qemu-system-i386 -M pc-q35-5.0 -accel qtest -qtest stdio -monitor none =
+-serial none -nographic < attachment
+
+  Let me know if I can provide any further info.
+  -Alex
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1879531/+subscriptions
 
