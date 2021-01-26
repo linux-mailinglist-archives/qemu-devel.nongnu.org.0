@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 304FE303E32
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:11:25 +0100 (CET)
-Received: from localhost ([::1]:59742 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E50B303E3B
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:12:12 +0100 (CET)
+Received: from localhost ([::1]:60702 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4O7v-00042V-0i
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:11:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58632)
+	id 1l4O8h-0004VG-4M
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:12:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58662)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l4O6C-0003Ni-Qd
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:09:36 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530]:43975)
+ id 1l4O6P-0003ZH-AS
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:09:49 -0500
+Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632]:41128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l4O6B-0005PG-AG
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:09:36 -0500
-Received: by mail-ed1-x530.google.com with SMTP id n6so19638078edt.10
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 05:09:34 -0800 (PST)
+ id 1l4O6N-0005Sw-8C
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:09:49 -0500
+Received: by mail-ej1-x632.google.com with SMTP id g12so22852489ejf.8
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 05:09:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=6U9jc1GUpP4avLrTuNGkxIy22o5xUTadzhnm1SLPtdM=;
- b=uQ06pVpKgLlLmo5uMnIQwYrxpkMfOZlFwl19FaKKUBHslQSTG1PCD2pALmGBTOHCSV
- /+U6P05md/AbN4pxpmWOpNLnChFE0kdN6fs3RoiAOs57TQI8TtPhwJI4K6zi/IWZ7kIZ
- +epDzUXQnI9F/sjWO0aLjOLDdOkVr+LRh35I6wXPozk6Ne632pPC+6SlGDcgzKcXwxHL
- aV5gYYgiacs7i99+dgSwxF70cyXUnlroxRe5frRR8oHwDf3tg/Qn/V8FSiIy785WtQJJ
- gG+cWZvKnELBe3m4oc862HYKp66bwETyRnbYoddVuGxtrvLkNIzPxVwa/hCXimTvyV3m
- YUJQ==
+ bh=o589BE9ZZ/mvlWm7cv3uz4bbhn7SR1z2YrhnuwTSzhA=;
+ b=HQAlkjpAwE/CrxYRB1SUGlxA0sYAHbsWeH/kDgigUfG+H4BlQS/9ZiPPGEwy3h/l2n
+ WLuRL8uD7pyhPXYBG2ds3pVH4wloKBi/IHPiFC49V/u+Iciab3gFRFwK8+xvD3zlugg0
+ Pix5LBF/IcLUDuiMJu2Y5YsK2pFoz+2MLMsFFXeMHAfNThR4Vyd8tqWpU3VnODZHBXpE
+ FV29BOiO7UI3JqORcfgI7ek7sasm7s66wKHC4yVA+Pr245tQPGcw2vg3vgLi848BcgCT
+ yZZOXdK2UJVJPSF1fvS04BdNU76Pz9IKoNakJARaDtop+fjX/QEF+hic53qPNjRl+WRN
+ HrKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=6U9jc1GUpP4avLrTuNGkxIy22o5xUTadzhnm1SLPtdM=;
- b=Q2/taBw9GCWp5g7ndf6SUFUt1dc4fXtU3HG+DA9a3mEt0xVIlMbskCNT283+OCQ9OF
- s3t3UbquJ05hSWIA0Yo3gBfMIooldKLZtvhGHI7N3CvTv2sD5pI0roiy7CiSDUbGF2sK
- c3VpMWHcHv3En6nSMTlDBy9MiyLrqmT+Y1aUWNIrBmqoBkWx1vpYGCvvbMIB4tCfPhxc
- prqOXsdMJUkj2PpuIVnAA8uZXYECDtKrsbXVX3X+yNeXCsj74inpq0ortKijzfSZOJaR
- wJlwXFTPCyg9K+tjs+fZV02QqlfhsZPyavhM5svY5QRChjNSdX52ZWkNAM1xCQKaFJJb
- UJ9Q==
-X-Gm-Message-State: AOAM531mplmVE/yptKsg/TShSD1QB32AM2xYSS5Vvy3tc8SvOE89LuA7
- xPCH43DhIujoCgGVA2Qcm+3IfGqFNNDelCmMdAg=
-X-Google-Smtp-Source: ABdhPJwRzTU6EYwHYafWSPfaAMYvZvDx9KcgnN9MarQDxBRZCMKBiYT9Iy0Jol93RMvkvDQ8DxadPN6oYvL7TjvL2eQ=
-X-Received: by 2002:a05:6402:757:: with SMTP id
- p23mr4602373edy.245.1611666573717; 
- Tue, 26 Jan 2021 05:09:33 -0800 (PST)
+ bh=o589BE9ZZ/mvlWm7cv3uz4bbhn7SR1z2YrhnuwTSzhA=;
+ b=uGVv9QrgpMRhgX6VanvG9LFpwz/S7mUsUWB6XhhbufSWZqxX03b4evx3gqrVNZ3YP7
+ xbavTSC5BKPMasehnVdql09LDG5bUSmMHWK17M3eFy+6tvU0eENn+zm+F0PFHZBg7s3J
+ 43A3aDV0iykRhCJtBc0JG7UVeefDbep4qolGiqT0Sybtu9heDB5vuSF99VfZYiHvXH/R
+ SLBMOuwUffscjpcRAsM4BUwS+l/kNr7XrOdHbhfWRZdv9SRn6KKJWSIbL56CDY1/9VUu
+ j6FePnDWTYcxAxAYLZuWGMA+1eccwWTBZOO8hGhpQQxfRxbN4aHkiEsGvrJjglth8J7F
+ ubpw==
+X-Gm-Message-State: AOAM532H5DAVczaVOA+n6FI6JNxGw3UGfcdMBuG0Ve3FJaczQVs6Orpc
+ OimvKuJe4hrPPTeQVar/233e9spnMofj5KwAbEA=
+X-Google-Smtp-Source: ABdhPJysztcwZhGo6SvmxIdIz2D2RCcChY3FJl9r2afBciH8oPdEE+6R2am6k/h8t3Z4z9oTlHDATyPNzcMrXZ32E0o=
+X-Received: by 2002:a17:906:2b9b:: with SMTP id
+ m27mr3465160ejg.92.1611666585884; 
+ Tue, 26 Jan 2021 05:09:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20210126124240.2081959-1-armbru@redhat.com>
- <20210126124240.2081959-2-armbru@redhat.com>
-In-Reply-To: <20210126124240.2081959-2-armbru@redhat.com>
+ <20210126124240.2081959-3-armbru@redhat.com>
+In-Reply-To: <20210126124240.2081959-3-armbru@redhat.com>
 From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 26 Jan 2021 17:09:21 +0400
-Message-ID: <CAJ+F1CKZ+b+EUE3sgq-v3jmXedvBJELMO0HQYpy_MJRRzwXMgQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] backends/dbus-vmstate: Fix short read error handling
+Date: Tue, 26 Jan 2021 17:09:34 +0400
+Message-ID: <CAJ+F1C+v9XCk2xRO_m8zWu-sdN+NdNuJHMU_UK-grZw0j_nRtA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] vhost_user_gpu: Drop dead check for g_malloc() failure
 To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::632;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,44 +85,32 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, QEMU <qemu-devel@nongnu.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 26, 2021 at 4:43 PM Markus Armbruster <armbru@redhat.com> wrote=
+On Tue, Jan 26, 2021 at 4:47 PM Markus Armbruster <armbru@redhat.com> wrote=
 :
 >
-> When dbus_vmstate_post_load() fails, it complains to stderr.  Except
-> on short read, where it checks with g_return_val_if_fail().  This
-> fails silently if G_DISABLE_CHECKS is undefined (it should be), or
-> else pads the short read with uninitialized bytes.
->
-> Replace g_return_val_if_fail() by a proper error check.
->
-> Fixes: 5010cec2bc87dafab39b3913c8ca91f88df9c540
 > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+
 
 Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
 thanks
 
 > ---
->  backends/dbus-vmstate.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+>  hw/display/vhost-user-gpu.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/backends/dbus-vmstate.c b/backends/dbus-vmstate.c
-> index bd050e8e9c..2a0d2e4a31 100644
-> --- a/backends/dbus-vmstate.c
-> +++ b/backends/dbus-vmstate.c
-> @@ -229,7 +229,10 @@ static int dbus_vmstate_post_load(void *opaque, int =
-version_id)
->                                       &bytes_read, NULL, &err)) {
->              goto error;
->          }
-> -        g_return_val_if_fail(bytes_read =3D=3D len, -1);
-> +        if (bytes_read !=3D len) {
-> +            error_report("%s: Short read", __func__);
-> +            return -1;
-> +        }
->          id[len] =3D 0;
+> diff --git a/hw/display/vhost-user-gpu.c b/hw/display/vhost-user-gpu.c
+> index 51f1747c4a..db042c7c5e 100644
+> --- a/hw/display/vhost-user-gpu.c
+> +++ b/hw/display/vhost-user-gpu.c
+> @@ -332,7 +332,6 @@ vhost_user_gpu_chr_read(void *opaque)
+>      }
 >
->          trace_dbus_vmstate_loading(id);
+>      msg =3D g_malloc(VHOST_USER_GPU_HDR_SIZE + size);
+> -    g_return_if_fail(msg !=3D NULL);
+>
+>      r =3D qemu_chr_fe_read_all(&g->vhost_chr,
+>                               (uint8_t *)&msg->payload, size);
 > --
 > 2.26.2
 >
