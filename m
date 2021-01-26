@@ -2,93 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAD38304C5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 23:40:50 +0100 (CET)
-Received: from localhost ([::1]:59018 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 906C8304D52
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 00:23:52 +0100 (CET)
+Received: from localhost ([::1]:44066 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4X0z-0006Ey-8h
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 17:40:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41224)
+	id 1l4Xgd-0006sy-2P
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 18:23:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l4WzU-0005ga-Ra
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 17:39:17 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a]:54558)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l4WzS-0008U3-Mp
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 17:39:16 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id cq1so86119pjb.4
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 14:39:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=kB2oVbYwI5e4pPxc814avBVCTUqGILmWfMAETjxzdcQ=;
- b=w3CCSwSU9TE2l4117ybmNrlAHPFnA+HHrHlOJHQ1w6odkcDNsxsnzM3kkGsiCa8yi4
- OEofSiGjY3GA5pmSNRD8fqxwU1gIMAwlmqLNJszchA+H3YmIipS7mQgLQSwyYS09G/uP
- dfagkeianB/KSMAC4E/hFJUG0bZ2uvkgGdCLOKJoVG7Si9mKyNzFc68dzlC9STl5+VKa
- zS7QtwnSvMC9RQqtQc2T2iTWbg2dSBJKcNcpwvuFMLzu7fqGrE2PLA7nL0rImveA/R+E
- 2tyxad/HboXCr77IQqWZI4M6UPGDbZAhUHS/0BNTuk+fs5XmsLnuShAIFq/EAA+dquY6
- eqJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kB2oVbYwI5e4pPxc814avBVCTUqGILmWfMAETjxzdcQ=;
- b=D4wenu23K6+N9FeUSe6TDZi6tdB0i0atFQe0InlZ2Vq8zGsRngyNixBrgBcC1Hy8v3
- bf8Gi5eRKZxTrOv0qufyxhKQibx/rg3rqT7OxfFPOhXj3piU+4SpoPqT+mRJ7Py1EEwY
- Ijecwgq6nKxqB9Oq87z7ZArTyo1RBwSwDis+80mp/6qNvr3+2bHjDFDEZlMoaOiaGFDj
- bMJxal0BuS7xiG5ZQiuxwZUDd6WRxpSOIG5sfTm8gQEacYiE1KrxZVn3SiFABK65y7d1
- yzW/utrShaFgIE8iNl1rtl9pSR5ZKOcCZnihlRE9tGT5K1LseWbikGUgo9IcUAIX4Irc
- EsWA==
-X-Gm-Message-State: AOAM530EN7/c8FY85ZIJrgs6Fd4teVEivLl+q88abUcIsPDwacSgi4nR
- PFa9cu4CU8USApM+7xeDyUw5NLDDP9zwC0IT
-X-Google-Smtp-Source: ABdhPJya03Mg2SLz2a+xYneluHeMi9B1RdEhgqX1Kye3CKyfS7lp0Fwy325ED0sFC0DNBgCshlNt2w==
-X-Received: by 2002:a17:90a:d249:: with SMTP id
- o9mr2083452pjw.78.1611700752234; 
- Tue, 26 Jan 2021 14:39:12 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id l4sm2320pju.26.2021.01.26.14.39.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jan 2021 14:39:11 -0800 (PST)
-Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
- is available
-To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <20210125144530.2837481-1-philmd@redhat.com>
- <20210125144530.2837481-5-philmd@redhat.com>
- <20210125164746.GE3538803@redhat.com>
- <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
- <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
- <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
- <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
- <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
- <cd9265f7-4887-63bb-e36e-ace708d062c1@weilnetz.de>
- <875z3jy3tt.fsf@linaro.org>
- <89209f1b-29ad-e5df-6d45-b2480db4775e@weilnetz.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
-Date: Tue, 26 Jan 2021 12:39:07 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <lagarcia@br.ibm.com>)
+ id 1l4WMa-0006Ur-U4
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:59:05 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:62312)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lagarcia@br.ibm.com>)
+ id 1l4WMX-00032J-NJ
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:59:04 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10QLgmMD146710
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 16:58:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=subject : references :
+ from : cc : to : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=2D/UuUCD5sZuD9Mtzl2rWgk57MHj6zMebOb4viG7njs=;
+ b=jl7ztKkClV1dPcMhRmrexl2uTEpanr8CDK5kqA6DavBjBOG3ejclStGmOKQz1YtCUcrY
+ fmjJXiuqDIEgx/Ky7gxrlEaeNUzPvW1pDU32bYU8V8DrSmH+45dVQ49Ni2c6qf7MNwha
+ ahqeu5wZl0YumwEzXPxzDuFA6gPgmxwKcuOIX0BbZTnvXSVw5AksO8m7pNqWpH0Kh4jw
+ RwXwn6QWJsLzrK78y+aSlW8bKgYVNAAzMnV/XDMUTDVaycEmoLryCVSRhlCdHWB+6193
+ f5GUIZ2lsGVQnv3n9QmFIvQ25dz1I6+l6YdNBMzb2eVB2jo9o9sX8pv5oIEDJK6Zrop0 kQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36au7vg9bq-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 16:58:56 -0500
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10QLh1BS147453
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 16:58:56 -0500
+Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
+ [169.55.85.253])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36au7vg9bb-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Jan 2021 16:58:55 -0500
+Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
+ by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10QLjl1J000632;
+ Tue, 26 Jan 2021 21:58:54 GMT
+Received: from b03cxnp07029.gho.boulder.ibm.com
+ (b03cxnp07029.gho.boulder.ibm.com [9.17.130.16])
+ by ppma01wdc.us.ibm.com with ESMTP id 36a8uh6ayy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Jan 2021 21:58:54 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10QLwr9C25493942
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Jan 2021 21:58:53 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C5AB178060;
+ Tue, 26 Jan 2021 21:58:53 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id D8A4D78064;
+ Tue, 26 Jan 2021 21:58:52 +0000 (GMT)
+Received: from lagarcia.br.ibm.com (unknown [9.85.165.159])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Tue, 26 Jan 2021 21:58:52 +0000 (GMT)
+Subject: Re: [PATCH] IOMMU and ATS not supported by vhost-user filesystem.
+References: <e76462fdcfaa07208380e2a7df9b281b6e6717b8.1611685180.git.lagarcia@br.ibm.com>
+ <20210126194553.GJ2978@work-vm>
+From: =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?= <lagarcia@br.ibm.com>
+To: dgilbert@redhat.com
+Organization: IBM
+Message-ID: <fa9da505-58d9-70e6-3980-73519713ebb2@br.ibm.com>
+Date: Tue, 26 Jan 2021 18:58:51 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <89209f1b-29ad-e5df-6d45-b2480db4775e@weilnetz.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+In-Reply-To: <20210126194553.GJ2978@work-vm>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-26_11:2021-01-26,
+ 2021-01-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 mlxscore=0 clxscore=1011
+ mlxlogscore=999 phishscore=0 spamscore=0 lowpriorityscore=0 suspectscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101260109
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=lagarcia@br.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 26 Jan 2021 18:22:32 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
 Precedence: list
@@ -100,72 +115,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 9:44 AM, Stefan Weil wrote:
-> I was not talking about the TODO assertions. When I wrote TCI, I only enabled
-> and included code which was triggered by my testing - that's why I said the
-> productive code lines have 100 % test coverage. TODO assertions are not
-> productive code, but debug code which were made to detect new test cases. They
-> were successful, too, because they were triggered by some tests in `make
-> check-tcg`.
-
-The TODO assertions are all bugs.
-
-Any *real* dead code detection should have been done in
-tcg/tci/tcg-target.c.inc.  What's interpreted in tcg/tci.c should be exactly
-what is produced on the other side, and you are producing more than you are
-consuming.
-
-> It should pass now unless you get timeouts for some tests. Please tell me if
-> more TODO assertions are triggered by new tests.
-
-        case INDEX_op_ld8s_i32:
-            TODO();
-            break;
-
-Can be triggered by
-
-target/arm/translate-a64.c:1061:
-        tcg_gen_ld8s_i64(tcg_dest, cpu_env, vect_off);
-target/arm/translate-a64.c:1090:
-        tcg_gen_ld8s_i32(tcg_dest, cpu_env, vect_off);
-target/arm/translate.c:1210:
-        tcg_gen_ld8s_i32(dest, cpu_env, off);
-
-target/s390x/translate_vx.c.inc:81:
-        tcg_gen_ld8s_i64(dst, cpu_env, offs);
-target/s390x/translate_vx.c.inc:111:
-        tcg_gen_ld8s_i32(dst, cpu_env, offs);
-
-        case INDEX_op_ld16s_i32:
-            TODO();
-            break;
-
-Can be triggered by
-
-target/arm/translate-a64.c:1064:
-        tcg_gen_ld16s_i64(tcg_dest, cpu_env, vect_off);
-target/arm/translate-a64.c:1093:
-        tcg_gen_ld16s_i32(tcg_dest, cpu_env, vect_off);
-target/arm/translate.c:1216:
-        tcg_gen_ld16s_i32(dest, cpu_env, off);
-target/s390x/translate_vx.c.inc:84:
-        tcg_gen_ld16s_i64(dst, cpu_env, offs);
-target/s390x/translate_vx.c.inc:114:
-        tcg_gen_ld16s_i32(dst, cpu_env, offs);
-
-All of which are target vector instructions.
-I'm sure it would be trivial to whip up test cases for them, but I don't see
-that as my job.
-
-Please maintain this code properly or give it up.
+On 1/26/21 4:45 PM, Dr. David Alan Gilbert wrote:
+> * lagarcia@linux.ibm.com (lagarcia@linux.ibm.com) wrote:
+>> From: Leonardo Garcia <lagarcia@br.ibm.com>
+>>
+>> Currently, as IOMMU and ATS are not supported, if a user mistakenly set
+>> any of them and tries to mount the vhost-user filesystem inside the
+>> guest, whenever the user tries to access the mount point, the system
+>> will hang forever.
+>>
+>> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+>> ---
+>>   hw/virtio/vhost-user-fs-pci.c | 7 +++++++
+>>   hw/virtio/vhost-user-fs.c     | 5 +++++
+>>   2 files changed, 12 insertions(+)
+>>
+>> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
+>> index 2ed8492b3f..564d1fd108 100644
+>> --- a/hw/virtio/vhost-user-fs-pci.c
+>> +++ b/hw/virtio/vhost-user-fs-pci.c
+>> @@ -11,6 +11,8 @@
+>>    * top-level directory.
+>>    */
+>>   
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>>   #include "qemu/osdep.h"
+>>   #include "hw/qdev-properties.h"
+>>   #include "hw/virtio/vhost-user-fs.h"
+>> @@ -45,6 +47,11 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>>           vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
+>>       }
+>>   
+>> +    if (vpci_dev->flags & VIRTIO_PCI_FLAG_ATS) {
+>> +        error_setg(errp, "ATS is currently not supported with vhost-user-fs-pci");
+>> +        return;
+>> +    }
+>> +
+>>       qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+>>   }
+>>   
+>> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+>> index ac4fc34b36..914d68b3ee 100644
+>> --- a/hw/virtio/vhost-user-fs.c
+>> +++ b/hw/virtio/vhost-user-fs.c
+>> @@ -203,6 +203,11 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+>>           return;
+>>       }
+>>   
+>> +    if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+>> +        error_setg(errp, "IOMMU is currently not supported with vhost-user-fs");
+>> +        return;
+>> +    }
+> Yes, I've seen this problem - however, I'm a little confused; isn't the
+> negotiation of features on virtio supposed to happen automatically?
+> If so, how come it's managing to set VIRTIO_F_IOMMU_PLATFORM?
 
 
-r~
+It is easy to set by passing iommu_platform=on on the QEMU command line. 
+Something like this:
+
+-device 
+vhost-user-fs-pci,chardev=chr-vu-fs0,queue-size=512,tag=myfs,iommu_platform=on,ats=on
+
+I understand this is a user error, but QEMU should not allow this 
+configuration as it doesn't work.
+
+Cheers,
+
+Leo
+
+
+>
+> Dave
+>
+>>       if (!vhost_user_init(&fs->vhost_user, &fs->conf.chardev, errp)) {
+>>           return;
+>>       }
+>> -- 
+>> 2.29.2
+>>
 
