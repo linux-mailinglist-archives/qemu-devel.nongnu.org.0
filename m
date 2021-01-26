@@ -2,72 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C976304182
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:07:08 +0100 (CET)
-Received: from localhost ([::1]:51470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE8130419C
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:09:57 +0100 (CET)
+Received: from localhost ([::1]:34256 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Pvv-0005lE-Gk
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:07:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48560)
+	id 1l4Pye-0001vm-5d
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:09:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49192)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l4PM0-0003tY-RR
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:30:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43981)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1l4PR4-0001Mo-2m
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:35:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51483)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1l4PLy-0000eS-Lh
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:30:00 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1l4PR0-0002HJ-Mh
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:35:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611671397;
+ s=mimecast20190719; t=1611671710;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pOoN3gQy9zrOxfn5/X8RGU8vfPt/rsNYtgXCY+Xeunc=;
- b=JYaw77aQ0aIAdcTb0MyKn8Jf9MH+7ddax2FHcYUTupxmjd94N5Pr3E/bjgytoqd3XS2B0u
- T3YU9pvwxiHnSPEcr29coSHo2MqAhBh7RRgHLMLNTvSzoPbPgc7ulHwS8NDeYlEyet6qDf
- sOoELcAdMxsYqepsrf7jIHX+kqyzn/M=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-308-3R_dHYAbPyStr1-RyPnudw-1; Tue, 26 Jan 2021 09:29:56 -0500
-X-MC-Unique: 3R_dHYAbPyStr1-RyPnudw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0862A59;
- Tue, 26 Jan 2021 14:29:55 +0000 (UTC)
-Received: from localhost (unknown [10.40.208.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C8B765275D;
- Tue, 26 Jan 2021 14:29:44 +0000 (UTC)
-Date: Tue, 26 Jan 2021 15:29:43 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Subject: Re: [RFC 4/5] pci: acpi: add _DSM method to PCI devices
-Message-ID: <20210126152943.3768e14e@redhat.com>
-In-Reply-To: <20210126061600-mutt-send-email-mst@kernel.org>
-References: <20201222233934.451578-1-imammedo@redhat.com>
- <20201222233934.451578-5-imammedo@redhat.com>
- <20210126061600-mutt-send-email-mst@kernel.org>
+ bh=6Bxm5S40/ay/7oJ1sMJL5byS9O+0lkcN1mv6euD2rSY=;
+ b=SrdT6RzGuouoqPl01f6UlFJLb0Qfh9lz/4tJFBttfp6ySVg4jKIDcUkT5cmm9LEgb6jTfx
+ pB1XbA6KUsMuE936KxMrJkpE0fubMipQ2k0dLm8wEY4b+FlRzKj/2cipNMNqdi3CZgVhfc
+ udtY1bQgKobuYOzKn6VRoAtlzVYq4Yk=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-121-flem6LK4MJ6My9oG4TR5fQ-1; Tue, 26 Jan 2021 09:35:06 -0500
+X-MC-Unique: flem6LK4MJ6My9oG4TR5fQ-1
+Received: by mail-ed1-f72.google.com with SMTP id t9so9467438edd.3
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 06:35:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:content-transfer-encoding
+ :in-reply-to;
+ bh=6Bxm5S40/ay/7oJ1sMJL5byS9O+0lkcN1mv6euD2rSY=;
+ b=tfjkDPLu56i/PVvaETDPnIbAMTFGvqdwSefzGsFOhGmbvlh9KOUtySbEijl0TZKk6e
+ 1wseHSHLnpjVYdAZ65a9tnUgaKJ/Y3FEeNo6AbVlVKrBLFCTboCs0gOTwEyD3Txw3Psw
+ ymZBbPw79038g59Tpq6AH9CSVYafAP5NZrpwknUjH8GgYZUiO/9EH4mjhHZRzjdhrjKH
+ 9Qm50WtQaRNnN4WpPRsblx3lhy9MRAuVpuWhvHabasHySpHww0gbu1J2uZgAMceijXzd
+ cvhKD8z0AIpZzYqEVT+lWTF6h32uT1K/G/75jn/hNSKpixzCn7W0lSVb2SOhiBMGxZA+
+ WYhg==
+X-Gm-Message-State: AOAM533slYl4VeKGoEyJ4WF2ufZL1NiHcv+OPuZ0kcHdaBhLvRzqbPIG
+ X27aXGJk/+TXAkTUAqCUYmOzq5p3YImIFnr539eAOd8Nq2+zSJ3WLguMH3ZpT6UwWkgyd5L5tP6
+ juPWjZbZoUjKPE9Q=
+X-Received: by 2002:a17:906:3b92:: with SMTP id
+ u18mr3723985ejf.7.1611671704856; 
+ Tue, 26 Jan 2021 06:35:04 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwtb7vxcpjnnGkuRZeBwhkOt7Dpd5FlM188eOtxcme6kitnKyz0h5sYUY/Q1Zw8kLmSnaF9Kw==
+X-Received: by 2002:a17:906:3b92:: with SMTP id
+ u18mr3723964ejf.7.1611671704588; 
+ Tue, 26 Jan 2021 06:35:04 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id gj9sm9126522ejb.107.2021.01.26.06.35.03
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jan 2021 06:35:03 -0800 (PST)
+Date: Tue, 26 Jan 2021 15:35:01 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Subject: Re: [PATCH v3 2/2] net/eth: Fix stack-buffer-overflow in
+ _eth_get_rss_ex_dst_addr()
+Message-ID: <20210126143501.fy2teh465ngjrelk@steredhat>
+References: <20210126111847.3142636-1-philmd@redhat.com>
+ <20210126111847.3142636-3-philmd@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <20210126111847.3142636-3-philmd@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,203 +100,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: laine@redhat.com, jusual@redhat.com, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>,
+ Li Qiang <liq3ea@gmail.com>, qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>, Paolo Bonzini <pbonzini@redhat.com>,
+ Miroslav Rezanina <mrezanin@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Jan 2021 06:16:50 -0500
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On Tue, Jan 26, 2021 at 12:18:47PM +0100, Philippe Mathieu-Daudé wrote:
+>QEMU fuzzer reported a buffer overflow in _eth_get_rss_ex_dst_addr()
+>reproducible as:
+>
+>  $ cat << EOF | ./qemu-system-i386 -M pc-q35-5.0 \
+>    -accel qtest -monitor none \
+>    -serial none -nographic -qtest stdio
+>  outl 0xcf8 0x80001010
+>  outl 0xcfc 0xe1020000
+>  outl 0xcf8 0x80001004
+>  outw 0xcfc 0x7
+>  write 0x25 0x1 0x86
+>  write 0x26 0x1 0xdd
+>  write 0x4f 0x1 0x2b
+>  write 0xe1020030 0x4 0x190002e1
+>  write 0xe102003a 0x2 0x0807
+>  write 0xe1020048 0x4 0x12077cdd
+>  write 0xe1020400 0x4 0xba077cdd
+>  write 0xe1020420 0x4 0x190002e1
+>  write 0xe1020428 0x4 0x3509d807
+>  write 0xe1020438 0x1 0xe2
+>  EOF
+>  =================================================================
+>  ==2859770==ERROR: AddressSanitizer: stack-buffer-overflow on address 0x7ffdef904902 at pc 0x561ceefa78de bp 0x7ffdef904820 sp 0x7ffdef904818
+>  READ of size 1 at 0x7ffdef904902 thread T0
+>      #0 0x561ceefa78dd in _eth_get_rss_ex_dst_addr net/eth.c:410:17
+>      #1 0x561ceefa41fb in eth_parse_ipv6_hdr net/eth.c:532:17
+>      #2 0x561cef7de639 in net_tx_pkt_parse_headers hw/net/net_tx_pkt.c:228:14
+>      #3 0x561cef7dbef4 in net_tx_pkt_parse hw/net/net_tx_pkt.c:273:9
+>      #4 0x561ceec29f22 in e1000e_process_tx_desc hw/net/e1000e_core.c:730:29
+>      #5 0x561ceec28eac in e1000e_start_xmit hw/net/e1000e_core.c:927:9
+>      #6 0x561ceec1baab in e1000e_set_tdt hw/net/e1000e_core.c:2444:9
+>      #7 0x561ceebf300e in e1000e_core_write hw/net/e1000e_core.c:3256:9
+>      #8 0x561cef3cd4cd in e1000e_mmio_write hw/net/e1000e.c:110:5
+>
+>  Address 0x7ffdef904902 is located in stack of thread T0 at offset 34 in frame
+>      #0 0x561ceefa320f in eth_parse_ipv6_hdr net/eth.c:486
+>
+>    This frame has 1 object(s):
+>      [32, 34) 'ext_hdr' (line 487) <== Memory access at offset 34 overflows this variable
+>  HINT: this may be a false positive if your program uses some custom stack unwind mechanism, swapcontext or vfork
+>        (longjmp and C++ exceptions *are* supported)
+>  SUMMARY: AddressSanitizer: stack-buffer-overflow net/eth.c:410:17 in _eth_get_rss_ex_dst_addr
+>  Shadow bytes around the buggy address:
+>    0x10003df188d0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df188e0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df188f0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df18900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df18910: 00 00 00 00 00 00 00 00 00 00 00 00 f1 f1 f1 f1
+>  =>0x10003df18920:[02]f3 f3 f3 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df18930: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df18940: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df18950: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df18960: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>    0x10003df18970: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>  Shadow byte legend (one shadow byte represents 8 application bytes):
+>    Addressable:           00
+>    Partially addressable: 01 02 03 04 05 06 07
+>    Stack left redzone:      f1
+>    Stack right redzone:     f3
+>  ==2859770==ABORTING
+>
+>Similarly GCC 11 reports:
+>
+>  net/eth.c: In function 'eth_parse_ipv6_hdr':
+>  net/eth.c:410:15: error: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Werror=array-bounds]
+>    410 |     if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+>        |          ~~~~~^~~~~~~
+>  net/eth.c:485:24: note: while referencing 'ext_hdr'
+>    485 |     struct ip6_ext_hdr ext_hdr;
+>        |                        ^~~~~~~
+>  net/eth.c:410:38: error: array subscript 'struct ip6_ext_hdr_routing[0]' is partly outside array bounds of 'struct ip6_ext_hdr[1]' [-Werror=array-bounds]
+>    410 |     if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+>        |                                 ~~~~~^~~~~~~~~
+>  net/eth.c:485:24: note: while referencing 'ext_hdr'
+>    485 |     struct ip6_ext_hdr ext_hdr;
+>        |                        ^~~~~~~
+>
+>In eth_parse_ipv6_hdr() we called iov_to_buf() to fill the 2 bytes of
+>the 'ext_hdr' buffer, then _eth_get_rss_ex_dst_addr() tries to access
+>beside the 2 filled bytes.
+>
+>Fix by reworking the function, filling the full rt_hdr buffer on the
+>stack calling iov_to_buf() again.
+>
+>Add the corresponding qtest case with the fuzzer reproducer.
+>
+>Cc: qemu-stable@nongnu.org
+>Buglink: https://bugs.launchpad.net/qemu/+bug/1879531
+>Reported-by: Alexander Bulekov <alxndr@bu.edu>
+>Reported-by: Miroslav Rezanina <mrezanin@redhat.com>
+>Fixes: eb700029c78 ("net_pkt: Extend packet abstraction as required by e1000e functionality")
+>Reviewed-by: Miroslav Rezanina <mrezanin@redhat.com>
+>Acked-by: Thomas Huth <thuth@redhat.com>
+>Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>---
+> net/eth.c                      | 25 +++++++---------
+> tests/qtest/fuzz-e1000e-test.c | 53 ++++++++++++++++++++++++++++++++++
+> MAINTAINERS                    |  1 +
+> tests/qtest/meson.build        |  1 +
+> 4 files changed, 66 insertions(+), 14 deletions(-)
+> create mode 100644 tests/qtest/fuzz-e1000e-test.c
+>
+>diff --git a/net/eth.c b/net/eth.c
+>index 7d4dd48c1ff..ae4db37888e 100644
+>--- a/net/eth.c
+>+++ b/net/eth.c
+>@@ -401,26 +401,23 @@ eth_is_ip6_extension_header_type(uint8_t hdr_type)
+>
+> static bool
+> _eth_get_rss_ex_dst_addr(const struct iovec *pkt, int pkt_frags,
+>-                        size_t rthdr_offset,
+>+                        size_t ext_hdr_offset,
+>                         struct ip6_ext_hdr *ext_hdr,
+>                         struct in6_address *dst_addr)
+> {
+>-    struct ip6_ext_hdr_routing *rthdr = (struct ip6_ext_hdr_routing *) ext_hdr;
+>+    struct ip6_ext_hdr_routing rt_hdr;
+>+    size_t input_size = iov_size(pkt, pkt_frags);
+>+    size_t bytes_read;
+>
+>-    if ((rthdr->rtype == 2) && (rthdr->segleft == 1)) {
+>+    if (input_size < ext_hdr_offset + sizeof(rt_hdr)) {
+>+        return false;
+>+    }
+>
+>-        size_t input_size = iov_size(pkt, pkt_frags);
+>-        size_t bytes_read;
+>+    bytes_read = iov_to_buf(pkt, pkt_frags, ext_hdr_offset,
+>+                            &rt_hdr, sizeof(rt_hdr));
+>
+>-        if (input_size < rthdr_offset + sizeof(*ext_hdr)) {
+>-            return false;
+>-        }
+>-
+>-        bytes_read = iov_to_buf(pkt, pkt_frags,
+>-                                rthdr_offset + sizeof(*ext_hdr),
+>-                                dst_addr, sizeof(*dst_addr));
+>-
+>-        return bytes_read == sizeof(*dst_addr);
+>+    if ((rt_hdr.rtype == 2) && (rt_hdr.segleft == 1)) {
+>+        return bytes_read == sizeof(*ext_hdr) + sizeof(*dst_addr);
 
-> On Tue, Dec 22, 2020 at 06:39:33PM -0500, Igor Mammedov wrote:
-> > Implement _DSM according to:
-> >     PCI Firmware Specification 3.1
-> >     4.6.7.  DSM for Naming a PCI or PCI Express Device Under
-> >             Operating Systems
-> > and wire it up to cold and hot-plugged PCI devices.
-> > Feature depends on ACPI hotplug being enabled (as that provides
-> > PCI devices descriptions in ACPI and MMIO registers that are
-> > reused to fetch acpi-index).
-> > 
-> > acpi-index should work for
-> >   - cold plugged NICs:
-> >       $QEMU -evice e1000,acpi-index=100  
-> >          => 'eno100'  
-> >   - hot-plugged
-> >       (monitor) device_add e1000,acpi-index=200,id=remove_me  
-> >          => 'eno200'  
-> >   - replugged
-> >       (monitor) device_del remove_me
-> >       (monitor) device_add e1000,acpi-index=1  
-> >          => 'eno1'  
-> > 
-> > Windows also sees index under "PCI Label Id" field in properties
-> > dialog but otherwise it doesn't seem to have any effect.
-> > 
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > ---
-> >  include/hw/acpi/pci.h |  1 +
-> >  hw/acpi/pci.c         | 78 +++++++++++++++++++++++++++++++++++++++++++
-> >  hw/i386/acpi-build.c  | 21 ++++++++++--
-> >  3 files changed, 97 insertions(+), 3 deletions(-)
-> > 
-> > diff --git a/include/hw/acpi/pci.h b/include/hw/acpi/pci.h
-> > index bf2a3ed0ba..5e1eb2a96a 100644
-> > --- a/include/hw/acpi/pci.h
-> > +++ b/include/hw/acpi/pci.h
-> > @@ -34,4 +34,5 @@ typedef struct AcpiMcfgInfo {
-> >  } AcpiMcfgInfo;
-> >  
-> >  void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info);
-> > +Aml *aml_pci_device_dsm(void);
-> >  #endif
-> > diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
-> > index 07d5101d83..6d49d515d3 100644
-> > --- a/hw/acpi/pci.c
-> > +++ b/hw/acpi/pci.c
-> > @@ -65,3 +65,81 @@ bool vmstate_acpi_pcihp_use_acpi_index(void *opaque, int version_id)
-> >       AcpiPciHpState *s = opaque;
-> >       return s->acpi_index;
-> >  }
-> > +
-> > +Aml *aml_pci_device_dsm(void)
-> > +{
-> > +    Aml *method, *UUID, *ifctx, *ifctx1, *ifctx2, *ifctx3, *elsectx;  
-> 
-> s/UUID/uuid/ I think ...
-> 
-> And can we move ifctx things to the correct scope?
-I'll try to do it.
+Maybe I missed something but bytes_read can be at most 8, 
+sizeof(*ext_hdr) should be 2 and sizeof(*dst_addr) should be 16, so IIUC 
+this check is always false.
 
-> 
-> > +    Aml *acpi_index = aml_local(0);
-> > +    Aml *zero = aml_int(0);
-> > +    Aml *bnum = aml_arg(4);
-> > +    Aml *sun = aml_arg(5);
-> > +
-> > +    method = aml_method("PDSM", 6, AML_SERIALIZED);
-> > +
-> > +    /*
-> > +     * PCI Firmware Specification 3.1
-> > +     * 4.6.  _DSM Definitions for PCI
-> > +     */
-> > +    UUID = aml_touuid("E5C937D0-3553-4D7A-9117-EA4D19C3434D");
-> > +    ifctx = aml_if(aml_equal(aml_arg(0), UUID));
-> > +    {
-> > +        aml_append(ifctx, aml_store(aml_call2("AIDX", bnum, sun), acpi_index));
-> > +        ifctx1 = aml_if(aml_equal(aml_arg(2), zero));
-> > +        {
-> > +            uint8_t byte_list[1];
-> > +
-> > +            ifctx2 = aml_if(aml_equal(aml_arg(1), aml_int(2)));
-> > +            {
-> > +                /*
-> > +                 * advertise function 7 if device has acpi-index
-> > +                 */
-> > +                ifctx3 = aml_if(aml_lnot(aml_equal(acpi_index, zero)));
-> > +                {
-> > +                    byte_list[0] =
-> > +                        1 /* have supported functions */ |
-> > +                        1 << 7 /* support for function 7 */
-> > +                    ;
-> > +                    aml_append(ifctx3, aml_return(aml_buffer(1, byte_list)));
-> > +                }
-> > +                aml_append(ifctx2, ifctx3);
-> > +             }
-> > +             aml_append(ifctx1, ifctx2);
-> > +
-> > +             byte_list[0] = 0; /* nothing supported */
-> > +             aml_append(ifctx1, aml_return(aml_buffer(1, byte_list)));
-> > +         }
-> > +         aml_append(ifctx, ifctx1);
-> > +         elsectx = aml_else();
-> > +         /*
-> > +          * PCI Firmware Specification 3.1
-> > +          * 4.6.7. _DSM for Naming a PCI or PCI Express Device Under
-> > +          *        Operating Systems
-> > +          */
-> > +         ifctx1 = aml_if(aml_equal(aml_arg(2), aml_int(7)));
-> > +         {
-> > +             Aml *pkg = aml_package(2);
-> > +             Aml *label = aml_local(2);
-> > +             Aml *ret = aml_local(1);
-> > +
-> > +             aml_append(ifctx1, aml_concatenate(aml_string("PCI Device "),
-> > +                 aml_to_decimalstring(acpi_index, NULL), label));
-> > +
-> > +             aml_append(pkg, zero);
-> > +             aml_append(pkg, aml_string("placeholder"));
-> > +             aml_append(ifctx1, aml_store(pkg, ret));
-> > +             /*
-> > +              * update apci-index to actual value
-> > +              */
-> > +             aml_append(ifctx1, aml_store(acpi_index, aml_index(ret, zero)));
-> > +             /*
-> > +              * update device label to actual value
-> > +              */
-> > +             aml_append(ifctx1, aml_store(label, aml_index(ret, aml_int(1))));
-> > +             aml_append(ifctx1, aml_return(ret));
-> > +         }
-> > +         aml_append(elsectx, ifctx1);
-> > +         aml_append(ifctx, elsectx);
-> > +    }
-> > +    aml_append(method, ifctx);
-> > +    return method;
-> > +}
-> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> > index 27d2958e25..447ad39c35 100644
-> > --- a/hw/i386/acpi-build.c
-> > +++ b/hw/i386/acpi-build.c
-> > @@ -385,6 +385,13 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >                      aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
-> >                  );
-> >                  aml_append(dev, method);
-> > +                method = aml_method("_DSM", 4, AML_SERIALIZED);
-> > +                aml_append(method,
-> > +                    aml_return(aml_call6("PDSM", aml_arg(0), aml_arg(1),
-> > +                                         aml_arg(2), aml_arg(3),
-> > +                                         aml_name("BSEL"), aml_name("_SUN")))
-> > +                );
-> > +                aml_append(dev, method);
-> >                  aml_append(parent_scope, dev);
-> >  
-> >                  build_append_pcihp_notify_entry(notify_method, slot);
-> > @@ -412,6 +419,14 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >          dev = aml_device("S%.02X", PCI_DEVFN(slot, 0));
-> >          aml_append(dev, aml_name_decl("_ADR", aml_int(slot << 16)));
-> >  
-> > +        aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-> > +        method = aml_method("_DSM", 4, AML_SERIALIZED);
-> > +        aml_append(method,
-> > +           aml_return(aml_call6("PDSM", aml_arg(0), aml_arg(1), aml_arg(2),
-> > +                                aml_arg(3), aml_name("BSEL"), aml_name("_SUN")))
-> > +        );
-> > +        aml_append(dev, method);
-> > +
-> >          if (pc->class_id == PCI_CLASS_DISPLAY_VGA) {
-> >              /* add VGA specific AML methods */
-> >              int s3d;
-> > @@ -434,9 +449,7 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-> >              aml_append(method, aml_return(aml_int(s3d)));
-> >              aml_append(dev, method);
-> >          } else if (hotplug_enabled_dev) {
-> > -            /* add _SUN/_EJ0 to make slot hotpluggable  */
-> > -            aml_append(dev, aml_name_decl("_SUN", aml_int(slot)));
-> > -
-> > +            /* add _EJ0 to make slot hotpluggable  */
-> >              method = aml_method("_EJ0", 1, AML_NOTSERIALIZED);
-> >              aml_append(method,
-> >                  aml_call2("PCEJ", aml_name("BSEL"), aml_name("_SUN"))
-> > @@ -1142,6 +1155,8 @@ static void build_piix4_pci_hotplug(Aml *table)
-> >      aml_append(method, aml_return(aml_local(0)));
-> >      aml_append(scope, method);
-> >  
-> > +    aml_append(scope, aml_pci_device_dsm());
-> > +
-> >      aml_append(table, scope);
-> >  }
-> >  
-> > -- 
-> > 2.27.0  
-> 
+Also, before this patch, the function filled dst_addr, now we don't, is 
+that right?
+
+Thanks,
+Stefano
 
 
