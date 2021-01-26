@@ -2,93 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239ED30319B
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 03:11:35 +0100 (CET)
-Received: from localhost ([::1]:50544 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AACD2303282
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 04:13:29 +0100 (CET)
+Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4DpN-0008Gw-TF
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 21:11:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42514)
+	id 1l4EnI-0008Q0-7h
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 22:13:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1l4DmO-0006ur-S7
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 21:08:28 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:21036
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanb@linux.vnet.ibm.com>)
- id 1l4DmJ-0003Iq-OV
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 21:08:28 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
- 10Q22aOs179079; Mon, 25 Jan 2021 21:08:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=/IxLUMGW1/BUtu4Eqkjly7kjOpKiflCsA5W8O7SJmxo=;
- b=Ti8o7UTVbJtO1P+quS5IaP4Ifdm1m89OOQ3baXvXDFQzrMQ5zZ0q1CvokD+KVk3wcYeZ
- SEdxw3sVyavn3Oi4sc0ZjW19h2NnVEIEOGJLtviU4c61OJOPFSpBmfg59vCeOsNc3X5w
- puor5Xw7j8VOAmys5JCQrIO8KY3aJB0ERhr/szO9dG0Oc+l4mSRWv8zOs4P5uc4epQrW
- quFcFnX6AX+f4UNs/+A/9RkBKalnIwFQbAsCAGuJ0D6og3CaPPA56nfG8d6Q6HM1/UX5
- rPr8mFhmtaNcdbVPhUNuujuq6kiPdcljfWdZs6eEJ5wTUsEuFtUF3vUO3N34OEiOvUbj Ng== 
-Received: from ppma01wdc.us.ibm.com (fd.55.37a9.ip4.static.sl-reverse.com
- [169.55.85.253])
- by mx0b-001b2d01.pphosted.com with ESMTP id 36a58y5yhk-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 25 Jan 2021 21:08:21 -0500
-Received: from pps.filterd (ppma01wdc.us.ibm.com [127.0.0.1])
- by ppma01wdc.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10Q23Ff7022427;
- Tue, 26 Jan 2021 02:08:20 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
- [9.57.198.24]) by ppma01wdc.us.ibm.com with ESMTP id 36a8uh0cff-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Tue, 26 Jan 2021 02:08:20 +0000
-Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
- [9.57.199.106])
- by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 10Q28IW020316606
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 26 Jan 2021 02:08:18 GMT
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 982F128058;
- Tue, 26 Jan 2021 02:08:18 +0000 (GMT)
-Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 803902805C;
- Tue, 26 Jan 2021 02:08:18 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
- by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
- Tue, 26 Jan 2021 02:08:18 +0000 (GMT)
-From: Stefan Berger <stefanb@linux.vnet.ibm.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL v1 1/1] tpm: tpm_spapr: Remove unused tracepoint
-Date: Mon, 25 Jan 2021 21:08:16 -0500
-Message-Id: <20210126020816.352782-2-stefanb@linux.vnet.ibm.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210126020816.352782-1-stefanb@linux.vnet.ibm.com>
-References: <20210126020816.352782-1-stefanb@linux.vnet.ibm.com>
+ (Exim 4.90_1) (envelope-from <08005325@163.com>)
+ id 1l4EmH-0007ur-KO; Mon, 25 Jan 2021 22:12:25 -0500
+Received: from m12-17.163.com ([220.181.12.17]:56708)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <08005325@163.com>)
+ id 1l4EmA-0001TP-Fh; Mon, 25 Jan 2021 22:12:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ARGFx
+ 3eyFgOKdRTd52qxfbeghKpqzDB6AglisdeUAPo=; b=mWsL+DG2k88SzLNPawj9h
+ h+9P8L/wgBhz2AkVRNF2rbhPanvBrl0X53Z3At+fIeE6x3dRT7m1Dyu3VF8fs6fx
+ PA1CCprVTt4+29c0yZlkPsKlO5oEbUEzR1AC+F+1xh58EXymimMjB99pibDhxJof
+ hky+wOe6hl8GV08OtjdDls=
+Received: from localhost.localdomain (unknown [116.228.45.98])
+ by smtp13 (Coremail) with SMTP id EcCowADnnkaAiA9gprz_hg--.47925S2;
+ Tue, 26 Jan 2021 11:12:00 +0800 (CST)
+From: 08005325@163.com
+To: kwolf@redhat.com,
+	mreitz@redhat.com,
+	jsnow@redhat.com
+Subject: [PATCH v2] Fix crash with IOthread when block commit after snapshot
+Date: Tue, 26 Jan 2021 11:11:44 +0800
+Message-Id: <20210126031144.13121-1-08005325@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210125120727.7799-1-08005325@163.com>
+References: <20210125120727.7799-1-08005325@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-25_10:2021-01-25,
- 2021-01-25 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0
- mlxscore=0 phishscore=0 clxscore=1011 suspectscore=0 lowpriorityscore=0
- mlxlogscore=999 priorityscore=1501 adultscore=0 spamscore=0 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101260003
-Received-SPF: none client-ip=148.163.158.5;
- envelope-from=stefanb@linux.vnet.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-CM-TRANSID: EcCowADnnkaAiA9gprz_hg--.47925S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZw43Cw13Jw1DCw13CFWxWFg_yoWrKw18pr
+ yUWFnakw40kFn7ZFs2y3WIgry5Kw40vF4DCwnrtr18ur9xA3WxKFyrArWYgFWjq3yfJr4q
+ qF12ga48tFn5A3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j9jjgUUUUU=
+X-Originating-IP: [116.228.45.98]
+X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbiGQAmrFyPbtCX5gAAsP
+Received-SPF: pass client-ip=220.181.12.17; envelope-from=08005325@163.com;
+ helo=m12-17.163.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,71 +66,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Stefan Berger <stefanb@linux.ibm.com>
+Cc: Michael Qiu <qiudayu@huayun.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Roman Bolshakov <r.bolshakov@yadro.com>
+From: Michael Qiu <qiudayu@huayun.com>
 
-Linking of qemu-system-ppc64 fails on macOS with dtrace enabled:
+v2: modify the coredump backtrace within commit log with the newest
+    qemu with master branch
 
-  error: probe tpm_spapr_show_buffer doesn't exist
-  error: Could not register probes
-  ld: error creating dtrace DOF section for architecture x86_64
+Currently, if guest has workloads, IO thread will acquire aio_context
+lock before do io_submit, it leads to segmentfault when do block commit
+after snapshot. Just like below:
 
-The failure is explained in 8c8ed03850208e4 ("net/colo: Match is-enabled
-probe to tracepoint"). In short, is-enabled probe can't be used without
-a matching trace probe. And for this particular case
-tpm_util_show_buffer probe should be enabled to print TPM buffer.
+Program received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0x7f7c7d91f700 (LWP 99907)]
+0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
+1437    ../block/mirror.c: No such file or directory.
+(gdb) p s->job
+$17 = (MirrorBlockJob *) 0x0
+(gdb) p s->stop
+$18 = false
 
-Signed-off-by: Roman Bolshakov <r.bolshakov@yadro.com>
-Reviewed-by: Stefan Berger <stefanb@linux.ibm.com>
-Signed-off-by: Stefan Berger <stefanb@linux.ibm.com>
+(gdb) bt
+Program received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0x7f7c7d91f700 (LWP 99907)]
+0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
+1437    ../block/mirror.c: No such file or directory.
+
+(gdb) bt
+#0  0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
+#1  0x00005576d0f7f3ab in bdrv_driver_pwritev at ../block/io.c:1174
+#2  0x00005576d0f8139d in bdrv_aligned_pwritev at ../block/io.c:1988
+#3  0x00005576d0f81b65 in bdrv_co_pwritev_part at ../block/io.c:2156
+#4  0x00005576d0f8e6b7 in blk_do_pwritev_part at ../block/block-backend.c:1260
+#5  0x00005576d0f8e84d in blk_aio_write_entry at ../block/block-backend.c:1476
+#6  0x00005576d1060ddb in coroutine_trampoline at ../util/coroutine-ucontext.c:173
+#7  0x00007f7c8d3be0d0 in __start_context at /lib/../lib64/libc.so.6
+#8  0x00007f7b52beb1e0 in  ()
+#9  0x0000000000000000 in  ()
+
+Switch to qemu main thread:
+#0  0x00007f903be704ed in __lll_lock_wait at
+/lib/../lib64/libpthread.so.0
+#1  0x00007f903be6bde6 in _L_lock_941 at /lib/../lib64/libpthread.so.0
+#2  0x00007f903be6bcdf in pthread_mutex_lock at
+/lib/../lib64/libpthread.so.0
+#3  0x0000564b21456889 in qemu_mutex_lock_impl at
+../util/qemu-thread-posix.c:79
+#4  0x0000564b213af8a5 in block_job_add_bdrv at ../blockjob.c:224
+#5  0x0000564b213b00ad in block_job_create at ../blockjob.c:440
+#6  0x0000564b21357c0a in mirror_start_job at ../block/mirror.c:1622
+#7  0x0000564b2135a9af in commit_active_start at ../block/mirror.c:1867
+#8  0x0000564b2133d132 in qmp_block_commit at ../blockdev.c:2768
+#9  0x0000564b2141fef3 in qmp_marshal_block_commit at
+qapi/qapi-commands-block-core.c:346
+#10 0x0000564b214503c9 in do_qmp_dispatch_bh at
+../qapi/qmp-dispatch.c:110
+#11 0x0000564b21451996 in aio_bh_poll at ../util/async.c:164
+#12 0x0000564b2146018e in aio_dispatch at ../util/aio-posix.c:381
+#13 0x0000564b2145187e in aio_ctx_dispatch at ../util/async.c:306
+#14 0x00007f9040239049 in g_main_context_dispatch at
+/lib/../lib64/libglib-2.0.so.0
+#15 0x0000564b21447368 in main_loop_wait at ../util/main-loop.c:232
+#16 0x0000564b21447368 in main_loop_wait at ../util/main-loop.c:255
+#17 0x0000564b21447368 in main_loop_wait at ../util/main-loop.c:531
+#18 0x0000564b212304e1 in qemu_main_loop at ../softmmu/runstate.c:721
+#19 0x0000564b20f7975e in main at ../softmmu/main.c:50
+
+in IO thread when do bdrv_mirror_top_pwritev, the job is NULL, and stop field
+is false, this means the s object has not been initialized, and this object
+is initialized by block_job_create(), but the initialize process stuck in
+acquire the lock.
+
+The rootcause is that qemu do release/acquire when hold the lock,
+at the same time, IO thread get the lock after release stage, and the crash
+occured.
+
+Actually, in this situation, job->job.aio_context will not equal to
+qemu_get_aio_context(), and will be the same as bs->aio_context,
+thus, no need to release the lock, becasue bdrv_root_attach_child()
+will not change the context.
+
+This patch fix this issue.
+
+Signed-off-by: Michael Qiu <qiudayu@huayun.com>
 ---
- hw/tpm/tpm_spapr.c  | 8 ++------
- hw/tpm/trace-events | 1 -
- 2 files changed, 2 insertions(+), 7 deletions(-)
+ blockjob.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/hw/tpm/tpm_spapr.c b/hw/tpm/tpm_spapr.c
-index e3775adc57..dea7b1333b 100644
---- a/hw/tpm/tpm_spapr.c
-+++ b/hw/tpm/tpm_spapr.c
-@@ -93,9 +93,7 @@ struct SpaprTpmState {
-  */
- static void tpm_spapr_tpm_send(SpaprTpmState *s)
- {
--    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, s->be_buffer_size, "To TPM");
+diff --git a/blockjob.c b/blockjob.c
+index c6e20e2f..e1d41db9 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -214,12 +214,14 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     BdrvChild *c;
  
-     s->state = SPAPR_VTPM_STATE_EXECUTION;
-     s->cmd = (TPMBackendCmd) {
-@@ -255,9 +253,7 @@ static void tpm_spapr_request_completed(TPMIf *ti, int ret)
-     rc = spapr_vio_dma_write(&s->vdev, be32_to_cpu(crq->data),
-                              s->buffer, len);
- 
--    if (trace_event_get_state_backends(TRACE_TPM_SPAPR_SHOW_BUFFER)) {
--        tpm_util_show_buffer(s->buffer, len, "From TPM");
--    }
-+    tpm_util_show_buffer(s->buffer, len, "From TPM");
- 
-     crq->valid = SPAPR_VTPM_MSG_RESULT;
-     if (rc == H_SUCCESS) {
-diff --git a/hw/tpm/trace-events b/hw/tpm/trace-events
-index 266de17d38..6005ecb5da 100644
---- a/hw/tpm/trace-events
-+++ b/hw/tpm/trace-events
-@@ -25,7 +25,6 @@ tpm_tis_pre_save(uint8_t locty, uint32_t rw_offset) "locty: %d, rw_offset = %u"
- tpm_ppi_memset(uint8_t *ptr, size_t size) "memset: %p %zu"
- 
- # tpm_spapr.c
--tpm_spapr_show_buffer(const char *direction, size_t len, const char *buf) "direction: %s len: %zu\n%s"
- tpm_spapr_do_crq(uint8_t raw1, uint8_t raw2) "1st 2 bytes in CRQ: 0x%02x 0x%02x"
- tpm_spapr_do_crq_crq_result(void) "SPAPR_VTPM_INIT_CRQ_RESULT"
- tpm_spapr_do_crq_crq_complete_result(void) "SPAPR_VTPM_INIT_CRQ_COMP_RESULT"
+     bdrv_ref(bs);
+-    if (job->job.aio_context != qemu_get_aio_context()) {
++    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
++        job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_release(job->job.aio_context);
+     }
+     c = bdrv_root_attach_child(bs, name, &child_job, job->job.aio_context,
+                                perm, shared_perm, job, errp);
+-    if (job->job.aio_context != qemu_get_aio_context()) {
++    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
++        job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_acquire(job->job.aio_context);
+     }
+     if (c == NULL) {
 -- 
-2.26.2
+2.22.0
+
 
 
