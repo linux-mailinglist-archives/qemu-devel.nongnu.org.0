@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C09083040B9
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:45:27 +0100 (CET)
-Received: from localhost ([::1]:38160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE393304093
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:39:18 +0100 (CET)
+Received: from localhost ([::1]:53924 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Par-0001Qd-IW
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:45:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46840)
+	id 1l4PUz-0004Dt-Jy
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:39:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46914)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDm-0000VP-NQ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41156)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDr-0000bD-6T
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43785)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDg-0006F4-Dl
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:30 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PDm-0006Iu-Df
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:21:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670883;
+ s=mimecast20190719; t=1611670889;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Z1KBTKHs1kHUVcLFlCgIusIHOg+6ge+gUiafMJnm3ts=;
- b=MftzlLFnsfMjNPzI5XSqwY8NzR2saIsXUZcEokVCFB4SL8nsAgF3nzil61G//qV1TxM215
- 2v5RGlBHzHvXZCfYV00ZidEOa+JZiNO2ftRHYWfXfRTcZkuz7sf0HIhN8ru7Bu4j9AJiXA
- 8/esr3tOx7PDrLEOV0SR32Ee6rPGDfM=
+ bh=Cu9MwT2CdfGPrg3EMlOLRjxF2ldDYMYSvnDncq7VrkI=;
+ b=Ipd3Lt4Yp6FEPCJtf5otH4OLSGRGh31w9s2fjEmGYDaFqieLrEIM6D5vF0hMAdznk007Cs
+ zptEh0wNziOnmsxzpKPpo/PJ3ZT6jDEYXmWjcdp3mxN4oIs3zM9EtD5uNamnhy88g/9gQu
+ IqIqxFtdBavXcYCTkjKeq8KhsZYEXOo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-46-MxbQGsMBMlCYMRSXbgYqaA-1; Tue, 26 Jan 2021 09:21:21 -0500
-X-MC-Unique: MxbQGsMBMlCYMRSXbgYqaA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-496-UO8GvGM2NJ2Jv7bQR4sbkg-1; Tue, 26 Jan 2021 09:21:23 -0500
+X-MC-Unique: UO8GvGM2NJ2Jv7bQR4sbkg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 6CFFD107ACE6;
- Tue, 26 Jan 2021 14:21:20 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A0D03107ACF7;
+ Tue, 26 Jan 2021 14:21:22 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 09F6A5D9C2;
- Tue, 26 Jan 2021 14:21:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4076960871;
+ Tue, 26 Jan 2021 14:21:22 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 27/53] block/block-copy: More explicit call_state
-Date: Tue, 26 Jan 2021 15:19:50 +0100
-Message-Id: <20210126142016.806073-28-mreitz@redhat.com>
+Subject: [PULL 28/53] block/block-copy: implement block_copy_async
+Date: Tue, 26 Jan 2021 15:19:51 +0100
+Message-Id: <20210126142016.806073-29-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -83,128 +83,178 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-Refactor common path to use BlockCopyCallState pointer as parameter, to
-prepare it for use in asynchronous block-copy (at least, we'll need to
-run block-copy in a coroutine, passing the whole parameters as one
-pointer).
+We'll need async block-copy invocation to use in backup directly.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210116214705.822267-3-vsementsov@virtuozzo.com>
+Message-Id: <20210116214705.822267-4-vsementsov@virtuozzo.com>
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/block-copy.c | 51 ++++++++++++++++++++++++++++++++++------------
- 1 file changed, 38 insertions(+), 13 deletions(-)
+ include/block/block-copy.h | 29 ++++++++++++++
+ block/block-copy.c         | 81 ++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 106 insertions(+), 4 deletions(-)
 
+diff --git a/include/block/block-copy.h b/include/block/block-copy.h
+index 6397505f30..8c225ebf81 100644
+--- a/include/block/block-copy.h
++++ b/include/block/block-copy.h
+@@ -19,7 +19,9 @@
+ #include "qemu/co-shared-resource.h"
+ 
+ typedef void (*ProgressBytesCallbackFunc)(int64_t bytes, void *opaque);
++typedef void (*BlockCopyAsyncCallbackFunc)(void *opaque);
+ typedef struct BlockCopyState BlockCopyState;
++typedef struct BlockCopyCallState BlockCopyCallState;
+ 
+ BlockCopyState *block_copy_state_new(BdrvChild *source, BdrvChild *target,
+                                      int64_t cluster_size, bool use_copy_range,
+@@ -41,6 +43,33 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
+ int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
+                             bool *error_is_read);
+ 
++/*
++ * Run block-copy in a coroutine, create corresponding BlockCopyCallState
++ * object and return pointer to it. Never returns NULL.
++ *
++ * Caller is responsible to call block_copy_call_free() to free
++ * BlockCopyCallState object.
++ */
++BlockCopyCallState *block_copy_async(BlockCopyState *s,
++                                     int64_t offset, int64_t bytes,
++                                     BlockCopyAsyncCallbackFunc cb,
++                                     void *cb_opaque);
++
++/*
++ * Free finished BlockCopyCallState. Trying to free running
++ * block-copy will crash.
++ */
++void block_copy_call_free(BlockCopyCallState *call_state);
++
++/*
++ * Note, that block-copy call is marked finished prior to calling
++ * the callback.
++ */
++bool block_copy_call_finished(BlockCopyCallState *call_state);
++bool block_copy_call_succeeded(BlockCopyCallState *call_state);
++bool block_copy_call_failed(BlockCopyCallState *call_state);
++int block_copy_call_status(BlockCopyCallState *call_state, bool *error_is_read);
++
+ BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s);
+ void block_copy_set_skip_unallocated(BlockCopyState *s, bool skip);
+ 
 diff --git a/block/block-copy.c b/block/block-copy.c
-index 63398a171c..6ea55f1f9a 100644
+index 6ea55f1f9a..74655b86f8 100644
 --- a/block/block-copy.c
 +++ b/block/block-copy.c
-@@ -30,7 +30,15 @@
+@@ -30,13 +30,19 @@
  static coroutine_fn int block_copy_task_entry(AioTask *task);
  
  typedef struct BlockCopyCallState {
-+    /* IN parameters */
-+    BlockCopyState *s;
-+    int64_t offset;
-+    int64_t bytes;
+-    /* IN parameters */
++    /* IN parameters. Initialized in block_copy_async() and never changed. */
+     BlockCopyState *s;
+     int64_t offset;
+     int64_t bytes;
++    BlockCopyAsyncCallbackFunc cb;
++    void *cb_opaque;
 +
-+    /* State */
-     bool failed;
-+
-+    /* OUT parameters */
++    /* Coroutine where async block-copy is running */
++    Coroutine *co;
+ 
+     /* State */
+-    bool failed;
++    int ret;
++    bool finished;
+ 
+     /* OUT parameters */
      bool error_is_read;
- } BlockCopyCallState;
+@@ -428,8 +434,8 @@ static coroutine_fn int block_copy_task_entry(AioTask *task)
  
-@@ -544,15 +552,17 @@ int64_t block_copy_reset_unallocated(BlockCopyState *s,
-  * Returns 1 if dirty clusters found and successfully copied, 0 if no dirty
-  * clusters found and -errno on failure.
-  */
--static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
--                                                  int64_t offset, int64_t bytes,
--                                                  bool *error_is_read)
-+static int coroutine_fn
-+block_copy_dirty_clusters(BlockCopyCallState *call_state)
- {
-+    BlockCopyState *s = call_state->s;
-+    int64_t offset = call_state->offset;
-+    int64_t bytes = call_state->bytes;
+     ret = block_copy_do_copy(t->s, t->offset, t->bytes, t->zeroes,
+                              &error_is_read);
+-    if (ret < 0 && !t->call_state->failed) {
+-        t->call_state->failed = true;
++    if (ret < 0 && !t->call_state->ret) {
++        t->call_state->ret = ret;
+         t->call_state->error_is_read = error_is_read;
+     } else {
+         progress_work_done(t->s->progress, t->bytes);
+@@ -679,6 +685,12 @@ static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
+          */
+     } while (ret > 0);
+ 
++    call_state->finished = true;
 +
-     int ret = 0;
-     bool found_dirty = false;
-     int64_t end = offset + bytes;
-     AioTaskPool *aio = NULL;
--    BlockCopyCallState call_state = {false, false};
- 
-     /*
-      * block_copy() user is responsible for keeping source and target in same
-@@ -568,7 +578,7 @@ static int coroutine_fn block_copy_dirty_clusters(BlockCopyState *s,
-         BlockCopyTask *task;
-         int64_t status_bytes;
- 
--        task = block_copy_task_create(s, &call_state, offset, bytes);
-+        task = block_copy_task_create(s, call_state, offset, bytes);
-         if (!task) {
-             /* No more dirty bits in the bitmap */
-             trace_block_copy_skip_range(s, offset, bytes);
-@@ -633,15 +643,12 @@ out:
- 
-         aio_task_pool_free(aio);
-     }
--    if (error_is_read && ret < 0) {
--        *error_is_read = call_state.error_is_read;
--    }
- 
-     return ret < 0 ? ret : found_dirty;
- }
- 
- /*
-- * block_copy
-+ * block_copy_common
-  *
-  * Copy requested region, accordingly to dirty bitmap.
-  * Collaborate with parallel block_copy requests: if they succeed it will help
-@@ -649,16 +656,16 @@ out:
-  * it means that some I/O operation failed in context of _this_ block_copy call,
-  * not some parallel operation.
-  */
--int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
--                            bool *error_is_read)
-+static int coroutine_fn block_copy_common(BlockCopyCallState *call_state)
- {
-     int ret;
- 
-     do {
--        ret = block_copy_dirty_clusters(s, offset, bytes, error_is_read);
-+        ret = block_copy_dirty_clusters(call_state);
- 
-         if (ret == 0) {
--            ret = block_copy_wait_one(s, offset, bytes);
-+            ret = block_copy_wait_one(call_state->s, call_state->offset,
-+                                      call_state->bytes);
-         }
- 
-         /*
-@@ -675,6 +682,24 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t offset, int64_t bytes,
++    if (call_state->cb) {
++        call_state->cb(call_state->cb_opaque);
++    }
++
      return ret;
  }
  
-+int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
-+                            bool *error_is_read)
+@@ -700,6 +712,67 @@ int coroutine_fn block_copy(BlockCopyState *s, int64_t start, int64_t bytes,
+     return ret;
+ }
+ 
++static void coroutine_fn block_copy_async_co_entry(void *opaque)
 +{
-+    BlockCopyCallState call_state = {
++    block_copy_common(opaque);
++}
++
++BlockCopyCallState *block_copy_async(BlockCopyState *s,
++                                     int64_t offset, int64_t bytes,
++                                     BlockCopyAsyncCallbackFunc cb,
++                                     void *cb_opaque)
++{
++    BlockCopyCallState *call_state = g_new(BlockCopyCallState, 1);
++
++    *call_state = (BlockCopyCallState) {
 +        .s = s,
-+        .offset = start,
++        .offset = offset,
 +        .bytes = bytes,
++        .cb = cb,
++        .cb_opaque = cb_opaque,
++
++        .co = qemu_coroutine_create(block_copy_async_co_entry, call_state),
 +    };
 +
-+    int ret = block_copy_common(&call_state);
++    qemu_coroutine_enter(call_state->co);
 +
-+    if (error_is_read && ret < 0) {
-+        *error_is_read = call_state.error_is_read;
++    return call_state;
++}
++
++void block_copy_call_free(BlockCopyCallState *call_state)
++{
++    if (!call_state) {
++        return;
 +    }
 +
-+    return ret;
++    assert(call_state->finished);
++    g_free(call_state);
++}
++
++bool block_copy_call_finished(BlockCopyCallState *call_state)
++{
++    return call_state->finished;
++}
++
++bool block_copy_call_succeeded(BlockCopyCallState *call_state)
++{
++    return call_state->finished && call_state->ret == 0;
++}
++
++bool block_copy_call_failed(BlockCopyCallState *call_state)
++{
++    return call_state->finished && call_state->ret < 0;
++}
++
++int block_copy_call_status(BlockCopyCallState *call_state, bool *error_is_read)
++{
++    assert(call_state->finished);
++    if (error_is_read) {
++        *error_is_read = call_state->error_is_read;
++    }
++    return call_state->ret;
 +}
 +
  BdrvDirtyBitmap *block_copy_dirty_bitmap(BlockCopyState *s)
