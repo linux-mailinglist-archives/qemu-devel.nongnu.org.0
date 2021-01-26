@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B5E230414A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:02:00 +0100 (CET)
-Received: from localhost ([::1]:34976 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED4330415F
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:04:07 +0100 (CET)
+Received: from localhost ([::1]:41246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Pqx-00074m-EN
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:01:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47586)
+	id 1l4Pt0-0001Nu-8T
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:04:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PEg-0001Tl-Dl
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41386)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PEh-0001XN-Kr
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PEd-0006eG-IQ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:26 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4PEe-0006fA-6A
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:22:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611670942;
+ s=mimecast20190719; t=1611670943;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZefFo3/5sZ8Heis3k9JcmSqklHkULbhCLO2F93kibLk=;
- b=Q1CBCtFKds0UGAE11AGlJF1U5LcALWJvrshsk/L85Vt0qxHmAua2XLAwiqLroSMAHR61Rj
- lWkhMUcWcdAZvIDGDyx1255rteQFcH0UKJqgTw96+jYF4Mg02bLtpOwcCpItio68krM51H
- vYjyGHzKAyFtQETgJtE09FberZdqpUs=
+ bh=kBicypUFQZ93mTCmYgc4nDr8LMmsqzLWFH+Z1T3ouRI=;
+ b=ClsYqSVthgUgCmEb2Xi9JBkSc8CJgsDvgKNH5pUt6S6zrIPi/NgNWbfX/Ho0fbzeJljy2z
+ NlEATvQK/IFhifioIhiYGnbWUEBUppQh3Vu/kgTiTk80DIbHeCiHp7msyeNJWzBqlaItBV
+ DHRinFxDSDmSdRnKAzVsJqgLCU2zZ2Y=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-597-J5p6rnlvP2ebThyXBi1f7A-1; Tue, 26 Jan 2021 09:22:18 -0500
-X-MC-Unique: J5p6rnlvP2ebThyXBi1f7A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-475-ocQD6wKmOoycvtXygzVnxw-1; Tue, 26 Jan 2021 09:22:20 -0500
+X-MC-Unique: ocQD6wKmOoycvtXygzVnxw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 950BD801AAB;
- Tue, 26 Jan 2021 14:22:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id CC5E09CDA0;
+ Tue, 26 Jan 2021 14:22:19 +0000 (UTC)
 Received: from localhost (ovpn-114-175.ams2.redhat.com [10.36.114.175])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 329805D9C2;
- Tue, 26 Jan 2021 14:22:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 71E4760C62;
+ Tue, 26 Jan 2021 14:22:19 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Subject: [PULL 52/53] iotests/118: Drop 'change' test
-Date: Tue, 26 Jan 2021 15:20:15 +0100
-Message-Id: <20210126142016.806073-53-mreitz@redhat.com>
+Subject: [PULL 53/53] iotests/178: Pass value to invalid option
+Date: Tue, 26 Jan 2021 15:20:16 +0100
+Message-Id: <20210126142016.806073-54-mreitz@redhat.com>
 In-Reply-To: <20210126142016.806073-1-mreitz@redhat.com>
 References: <20210126142016.806073-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -81,69 +81,68 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 0afec75734331 removed the 'change' QMP command, so we can no
-longer test it in 118.
+ccd3b3b8112 has deprecated short-hand boolean options (i.e., options
+with values).  All options without values are interpreted as boolean
+options, so this includes the invalid option "snapshot.foo" used in
+iotest 178.
 
-Fixes: 0afec75734331a0b52fa3aa4235220eda8c7846f
-       ('qmp: remove deprecated "change" command')
+So after ccd3b3b8112, 178 fails with:
+
+  +qemu-img: warning: short-form boolean option 'snapshot.foo' deprecated
+  +Please use snapshot.foo=on instead
+
+Suppress that deprecation warning by passing some value to it (it does
+not matter which, because the option is invalid anyway).
+
+Fixes: ccd3b3b8112b670fdccf8a392b8419b173ffccb4
+       ("qemu-option: warn for short-form boolean options")
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-Id: <20210126104833.57026-1-mreitz@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20210126123834.115915-1-mreitz@redhat.com>
 ---
- tests/qemu-iotests/118     | 20 +-------------------
- tests/qemu-iotests/118.out |  4 ++--
- 2 files changed, 3 insertions(+), 21 deletions(-)
+ tests/qemu-iotests/178           | 2 +-
+ tests/qemu-iotests/178.out.qcow2 | 2 +-
+ tests/qemu-iotests/178.out.raw   | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qemu-iotests/118 b/tests/qemu-iotests/118
-index 1a2e219057..cae52ffa5e 100755
---- a/tests/qemu-iotests/118
-+++ b/tests/qemu-iotests/118
-@@ -1,8 +1,7 @@
- #!/usr/bin/env python3
- # group: rw
- #
--# Test case for the QMP 'change' command and all other associated
--# commands
-+# Test case for media change monitor commands
- #
- # Copyright (C) 2015 Red Hat, Inc.
- #
-@@ -74,23 +73,6 @@ class ChangeBaseClass(iotests.QMPTestCase):
- 
- class GeneralChangeTestsBaseClass(ChangeBaseClass):
- 
--    def test_change(self):
--        # 'change' requires a drive name, so skip the test for blockdev
--        if not self.use_drive:
--            return
--
--        result = self.vm.qmp('change', device='drive0', target=new_img,
--                                       arg=iotests.imgfmt)
--        self.assert_qmp(result, 'return', {})
--
--        self.wait_for_open()
--        self.wait_for_close()
--
--        result = self.vm.qmp('query-block')
--        if self.has_real_tray:
--            self.assert_qmp(result, 'return[0]/tray_open', False)
--        self.assert_qmp(result, 'return[0]/inserted/image/filename', new_img)
--
-     def test_blockdev_change_medium(self):
-         result = self.vm.qmp('blockdev-change-medium',
-                              id=self.device_name, filename=new_img,
-diff --git a/tests/qemu-iotests/118.out b/tests/qemu-iotests/118.out
-index bf5bfd5aca..0a70391105 100644
---- a/tests/qemu-iotests/118.out
-+++ b/tests/qemu-iotests/118.out
-@@ -1,5 +1,5 @@
--.......................................................................................................................................................................
-+...........................................................................................................................................................
- ----------------------------------------------------------------------
--Ran 167 tests
-+Ran 155 tests
- 
- OK
+diff --git a/tests/qemu-iotests/178 b/tests/qemu-iotests/178
+index 3b1a7adce4..8df241ead8 100755
+--- a/tests/qemu-iotests/178
++++ b/tests/qemu-iotests/178
+@@ -57,7 +57,7 @@ $QEMU_IMG measure --image-opts # missing filename
+ $QEMU_IMG measure -f qcow2 # missing filename
+ $QEMU_IMG measure -l snap1 # missing filename
+ $QEMU_IMG measure -o , # invalid option list
+-$QEMU_IMG measure -l snapshot.foo # invalid snapshot option
++$QEMU_IMG measure -l snapshot.foo=bar # invalid snapshot option
+ $QEMU_IMG measure --output foo # invalid output format
+ $QEMU_IMG measure --size -1 # invalid image size
+ $QEMU_IMG measure -O foo "$TEST_IMG" # unknown image file format
+diff --git a/tests/qemu-iotests/178.out.qcow2 b/tests/qemu-iotests/178.out.qcow2
+index c7997760fd..fe193fd5f4 100644
+--- a/tests/qemu-iotests/178.out.qcow2
++++ b/tests/qemu-iotests/178.out.qcow2
+@@ -11,7 +11,7 @@ qemu-img: --image-opts, -f, and -l require a filename argument.
+ qemu-img: --image-opts, -f, and -l require a filename argument.
+ qemu-img: Invalid option list: ,
+ qemu-img: Invalid parameter 'snapshot.foo'
+-qemu-img: Failed in parsing snapshot param 'snapshot.foo'
++qemu-img: Failed in parsing snapshot param 'snapshot.foo=bar'
+ qemu-img: --output must be used with human or json as argument.
+ qemu-img: Invalid image size specified. Must be between 0 and 9223372036854775807.
+ qemu-img: Unknown file format 'foo'
+diff --git a/tests/qemu-iotests/178.out.raw b/tests/qemu-iotests/178.out.raw
+index 20e17da115..445e460fad 100644
+--- a/tests/qemu-iotests/178.out.raw
++++ b/tests/qemu-iotests/178.out.raw
+@@ -11,7 +11,7 @@ qemu-img: --image-opts, -f, and -l require a filename argument.
+ qemu-img: --image-opts, -f, and -l require a filename argument.
+ qemu-img: Invalid option list: ,
+ qemu-img: Invalid parameter 'snapshot.foo'
+-qemu-img: Failed in parsing snapshot param 'snapshot.foo'
++qemu-img: Failed in parsing snapshot param 'snapshot.foo=bar'
+ qemu-img: --output must be used with human or json as argument.
+ qemu-img: Invalid image size specified. Must be between 0 and 9223372036854775807.
+ qemu-img: Unknown file format 'foo'
 -- 
 2.29.2
 
