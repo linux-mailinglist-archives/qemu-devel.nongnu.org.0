@@ -2,97 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728EA304539
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:27:08 +0100 (CET)
-Received: from localhost ([::1]:48834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EB33304550
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:30:20 +0100 (CET)
+Received: from localhost ([::1]:54390 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4S7P-0004zv-HN
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:27:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36262)
+	id 1l4SAV-0007JW-9N
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:30:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36994)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l4Rz3-000710-MU
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:18:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24653)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4S4O-0003JK-Ee
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:24:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:20556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l4Ryy-00013B-3g
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:18:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4S4K-0002Xh-Rb
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:24:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611681502;
+ s=mimecast20190719; t=1611681835;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=nof8IdLrTxVaL/tx6R5htDiAQ8WfOqafWYYKwtoUQQk=;
- b=iVm+1MW/A5f6ZnZeGiU1sVi8V3qv9/qIurBI0At58BFwADP5wSN14wu37fwqhuw1e1MC8a
- ESl90dmwpd8yVds5C/3h7YWBMprzKHKaIb+TDhkG73GmkNjtpZgfA4paQ6FuYaoypCpACu
- mwqsurJLLmww4RSgGF48W9GAoSActPk=
-Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
- [209.85.208.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-465-5LIlc2flNy6zc9Aokw82eQ-1; Tue, 26 Jan 2021 12:18:18 -0500
-X-MC-Unique: 5LIlc2flNy6zc9Aokw82eQ-1
-Received: by mail-ed1-f71.google.com with SMTP id a26so9782619edx.8
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 09:18:18 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=nof8IdLrTxVaL/tx6R5htDiAQ8WfOqafWYYKwtoUQQk=;
- b=bPb/4bsG7tG+BWQjzYeFtABCOzxMAJH6nb2Kr+f/6JNpCYIKw46sQn6zgkBuqgkNL3
- 2sO/qo4mOcdFKVYfGRxSoTuEaXoSWAAY73HjArar+gUdySgP188NxMYqgnIRCTpxbbuw
- Oih1QaIOQ2KL3HcU4ls+tkjvQa/LnPnooHaPOYmAymdqcdvnW9wzsswP9NS8kjU63CG7
- Ui77Cf+/9DSIi/u4qnct2sKArdujjF6uQ0LKQMgJshyStuf3GrEQRlilFIFeGmo5vhGE
- 9h0rgjLwWQ+z5+J3mmDA4FL4a7+6Db3PoByu5c3fPkNnzt9Hdr0oHTDC3BDfQpVIFcDU
- MRzg==
-X-Gm-Message-State: AOAM530btEVa9m2n309llNY0YdkT4otp0n1SDt70QSG5lTMA1tguWliw
- n8Ve6A/G5XhqoOPkATolFs8a62MuPpdsfK0sYNiLa5/69DxMelNR3ttCpKtsDGY1dL+qj3+1L+5
- WjtLakpLKjDVL25Q=
-X-Received: by 2002:a17:906:99c5:: with SMTP id
- s5mr4173020ejn.236.1611681497260; 
- Tue, 26 Jan 2021 09:18:17 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxsIt0ePa151I+zh8Rc0nKVJkyzzkW03zZ9EAgjxV6dKtJcTYrF5+uTQAXpFuZFMCPy9hY9zg==
-X-Received: by 2002:a17:906:99c5:: with SMTP id
- s5mr4173007ejn.236.1611681497082; 
- Tue, 26 Jan 2021 09:18:17 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id z20sm12790614edx.15.2021.01.26.09.18.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jan 2021 09:18:16 -0800 (PST)
-Subject: Re: [PATCH v4 0/6] Qemu SEV-ES guest support
-To: Tom Lendacky <thomas.lendacky@amd.com>, qemu-devel@nongnu.org,
- kvm@vger.kernel.org
-References: <cover.1601060620.git.thomas.lendacky@amd.com>
- <30164d98-3d8c-64bf-500b-f98a7f12d3c3@redhat.com>
- <b0c14997-22c2-2bfc-c570-a1c39280696b@amd.com>
- <946ac9e2-a363-6460-87a0-9575429d3b49@amd.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <137ad1f2-8411-c0cd-4621-611d7f5d72d2@redhat.com>
-Date: Tue, 26 Jan 2021 18:18:13 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Ca/H9QVfBUYdHSazke7XaN3ct7XsBsijmAhW2XHSOJA=;
+ b=CTMx+vfeWAeaTIqxQGl9n6+gcT6Euq9dQto3TT0DhsQfPSMauCiZBaj49ttid+XKpf375s
+ ltzxNBR1neUQuj0/SuJX1jH2y+Wjtb2baiTlSk0LKmq5I48WpgIoctxXZR4V1v2YqWqvWi
+ 28h4AA0BoHhPOjcNfgXdmskLprmmmxQ=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-185-XcoAYOjOO4OM9UHi2r1QoA-1; Tue, 26 Jan 2021 12:23:53 -0500
+X-MC-Unique: XcoAYOjOO4OM9UHi2r1QoA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 273EE1842140;
+ Tue, 26 Jan 2021 17:23:52 +0000 (UTC)
+Received: from thuth.com (ovpn-112-182.ams2.redhat.com [10.36.112.182])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 695B16B8D4;
+ Tue, 26 Jan 2021 17:23:47 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] gitlab-ci.yml: Exclude some redundant targets in
+ build-without-default-features
+Date: Tue, 26 Jan 2021 18:23:45 +0100
+Message-Id: <20210126172345.15947-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <946ac9e2-a363-6460-87a0-9575429d3b49@amd.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,25 +74,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Brijesh Singh <brijesh.singh@amd.com>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Connor Kuehl <ckuehl@redhat.com>, Marcelo Tosatti <mtosatti@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
- Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>, cohuck@redhat.com,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/01/21 18:13, Tom Lendacky wrote:
-> Also, the new version will have a prereq against another patch series that
-> has not been accepted yet:
-> 
->    [PATCH v2 0/2] sev: enable secret injection to a self described area in OVMF
-> 
->    https://lore.kernel.org/qemu-devel/20201214154429.11023-1-jejb@linux.ibm.com/
+The build-without-default-features job is running quite long and sometimes
+already hits the 1h time limit. Exclude some targets which do not provide
+additional test coverage here (since we e.g. also already test other targets
+of the same type, just with different endianess, or a 64-bit superset) to
+avoid that we hit the timeout here so easily.
 
-David reviewed it today, so even if a v3 will be needed that shouldn't 
-be a problem for SEV-ES itself.
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.yml | 1 +
+ 1 file changed, 1 insertion(+)
 
-Paolo
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index e2f9c99e27..8e0416f11b 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -610,6 +610,7 @@ build-without-default-features:
+   variables:
+     IMAGE: debian-amd64
+     CONFIGURE_ARGS: --without-default-features --disable-user
++        --target-list-exclude=arm-softmmu,i386-softmmu,mipsel-softmmu,mips64-softmmu,ppc-softmmu
+     MAKE_CHECK_ARGS: check-unit
+ 
+ check-patch:
+-- 
+2.27.0
 
 
