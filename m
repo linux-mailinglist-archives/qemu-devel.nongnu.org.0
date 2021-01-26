@@ -2,70 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0958F3043E1
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 17:32:09 +0100 (CET)
-Received: from localhost ([::1]:34590 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34DD83043EB
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 17:42:09 +0100 (CET)
+Received: from localhost ([::1]:51258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4RGB-0004Ra-Vz
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 11:32:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49446)
+	id 1l4RPs-0003p5-7b
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 11:42:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53288)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4R6g-00005A-Qa
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:22:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:30797)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4R6X-00079y-Sf
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:22:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611678124;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BYPuer9zYHlhzhptZ4WXyj1I4dmGQYVz4ZAltTTorwM=;
- b=DYnxkXqzHjwiO7vjRCtKfEmS7R8gIid+vhVTmBgkHy51wHdn/fBLBqkITNtvenbOjHHZsm
- c+dMb6jhNn8uzqo0bC4W0YhcglcklA5lJGu9OlbSmWhIpYRlOsmOj7eO66t3Hh0cJN4xsI
- mInpBoZQsYy9Pxf6JUlO/Gugnugzg80=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-291-l-aQq7JeOgyCirtCVD5q-g-1; Tue, 26 Jan 2021 11:22:02 -0500
-X-MC-Unique: l-aQq7JeOgyCirtCVD5q-g-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2C898030AF;
- Tue, 26 Jan 2021 16:22:00 +0000 (UTC)
-Received: from localhost (ovpn-114-186.ams2.redhat.com [10.36.114.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 41C6A60636;
- Tue, 26 Jan 2021 16:22:00 +0000 (UTC)
-Date: Tue, 26 Jan 2021 16:21:59 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] trace: make the 'log' backend timestamp configurable
-Message-ID: <20210126162159.GC271392@stefanha-x1.localdomain>
-References: <20210125113507.224287-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1l4RNp-0002rl-UG
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:40:01 -0500
+Received: from mail-bn8nam11on2055.outbound.protection.outlook.com
+ ([40.107.236.55]:16033 helo=NAM11-BN8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <Thomas.Lendacky@amd.com>)
+ id 1l4RNn-0004GV-N3
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 11:40:01 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=P04wtbJhTa+2mK0Mme7GsZtLF1IhxMYxzyFOX0RX3Pn8yZV5YX1f+z5IrmGCY6A2HNI0katt0GEKlFCKFRVv6UNID7Y+rNTOxj9UFiRMC5OOiRqJRXeb3jhNUh/7E96NJacOtbRMzWC2/pn2dDNdnefH/gQGiOe5uhuHf0weSdSHuqh6YeXpZWCNzBFfCyoKknJIykFpGVe6XVwbkLKT3cj+xnOHCTcHDVxmCK51mdV1CZ/JFShKcRa2RRachxBS2JcnPz+3tAhiJL6qWqKtE+Z4O3PZayAHOKIk+oOn4lqArPoe6nIuNH7iXlZ4WYwOcdVj7h5QraAWGNwiegwDHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z5eurLtR7HqhhU6xxUP0xAw08AUagPLqbvdKUeu+3bQ=;
+ b=kcT+VGBYjFznyqXdV2G95OnDTcF953fAIWJg2bGZG6mI+2QVpAN4Q0p2uieeD7gC5MaqZw0KYtqgtqCGiFSBCeZsK/0O9wmR38MscmFxy6qQphCfnEIRmQG/n53+y4EDqDa/5zc35acG8p8W5VIKOZVDEkKCrz4kNfkLuaBmEuaHhlB0ZC8HHfAukRqtRgG8jiZjd7kLFNT26r3TsAeGvJZUwB6XsPq/uCrp81eYYjN46rk4pyBcvB6DRIOdzMLJHWwvEuV21Mqk1mu/hilBQjTIJ1piDYEhRKdXriyOxOo7IMJGUJx+4aO2Xt3X05hVYnsNMNkjEmRSzZfA8Yr9Zg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=z5eurLtR7HqhhU6xxUP0xAw08AUagPLqbvdKUeu+3bQ=;
+ b=Rta3ytfyCaWwakHSNFeMM/qUE4pBoXAguhfUec8YNwTwW2yrxRu0L0dGOz9SZf7UuFbk/siEfHfiLa59kudE0FzlvTO4nOA4rI1j+E2dmR3u8iZ5KXh8CHCmUq1dNiDLXiX1Y4kta+mJ8Iwc5dQa6u8vgoXUAHZpz/+mvT/VbXE=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=amd.com;
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com (2603:10b6:3:6e::7) by
+ DM5PR12MB2504.namprd12.prod.outlook.com (2603:10b6:4:b5::19) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.16; Tue, 26 Jan 2021 16:24:54 +0000
+Received: from DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::cc15:4b1f:9f84:6914]) by DM5PR12MB1355.namprd12.prod.outlook.com
+ ([fe80::cc15:4b1f:9f84:6914%4]) with mapi id 15.20.3784.019; Tue, 26 Jan 2021
+ 16:24:54 +0000
+Subject: Re: [PATCH v4 4/6] sev/i386: Don't allow a system reset under an
+ SEV-ES guest
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ kvm@vger.kernel.org
+References: <cover.1601060620.git.thomas.lendacky@amd.com>
+ <c40de4c1bf4d14d60942fba86b2827543c19374a.1601060620.git.thomas.lendacky@amd.com>
+ <66a57543-a98a-d62e-5213-e203efda5dce@redhat.com>
+From: Tom Lendacky <thomas.lendacky@amd.com>
+Message-ID: <7f7e0ac9-8a11-7c36-1e1c-568f6ea2035c@amd.com>
+Date: Tue, 26 Jan 2021 10:24:20 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <66a57543-a98a-d62e-5213-e203efda5dce@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [165.204.77.1]
+X-ClientProxiedBy: SN7PR04CA0250.namprd04.prod.outlook.com
+ (2603:10b6:806:f3::15) To DM5PR12MB1355.namprd12.prod.outlook.com
+ (2603:10b6:3:6e::7)
 MIME-Version: 1.0
-In-Reply-To: <20210125113507.224287-1-stefanha@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yVhtmJPUSI46BTXb"
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [10.236.30.118] (165.204.77.1) by
+ SN7PR04CA0250.namprd04.prod.outlook.com (2603:10b6:806:f3::15) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.16 via Frontend Transport; Tue, 26 Jan 2021 16:24:53 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: 80c2be43-115d-4302-7893-08d8c216e9d2
+X-MS-TrafficTypeDiagnostic: DM5PR12MB2504:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <DM5PR12MB25042E2AA05FB1A3DE347F73ECBC9@DM5PR12MB2504.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:6790;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: h2Ar94F++0DFaTcqk6BwjyQpn8JxUfY+3DKxoZcYJdUP6BiwgiQR4ISmuIjE+Vy0TMg2MiCB9RqpTyeMQ7LiIOC4YCHrHR2Kcf6QKJ0bbEINeBS8Qmwr1m1X6v8nYNEuu888uYKZZo860DMSNDzArn3pByUFTFbEDk2XNfGtpD/n2RvLEsIUf1pKY3dNYOFIXIX6eWysBweGp7wSR0v9yZjjHeuSa+9B2cula8oUNCfMQAILIELgmHi3f1cndD2oRWYTKJ1Xtq6bRf8W1RgOyK8Smq7Wb6jvOXef/5b1d/80WMUXxUgqvwGUiK2/wuO0WLHNUNoI3fDnZ045BQVjKZc4CSUTAdq2UpjoSGrpvrO5o/rT6lpVgippz9AHWhiuoBka4IUPArje5dClyE3vpn4qzvZIxLRJ1NdgHuAg0ryXkUXparT7k09zXdIIjx3AFG9gqhXtZ7kY4PbRjt/0VXjdnbOPmkUHCgwGV0hgBHA=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR12MB1355.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(39860400002)(136003)(366004)(346002)(376002)(5660300002)(6666004)(186003)(16526019)(26005)(83380400001)(66476007)(31686004)(31696002)(36756003)(86362001)(66556008)(4744005)(66946007)(2616005)(4326008)(16576012)(53546011)(478600001)(316002)(2906002)(8676002)(54906003)(956004)(8936002)(52116002)(7416002)(6486002)(45980500001)(43740500002);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?NWxKYlliSklGNFVRbUkxZGFJd0pEenpDbHZYUVAwMW1EbFJCa1R6YzlsSy95?=
+ =?utf-8?B?OGRtVFJtUFp3SDBsbjBVRDlUQS8rUmp4RmlUaDRYdGNSajZXdlE1d2N5WEQ4?=
+ =?utf-8?B?NXU5ZURDR20rbzhsR2ZGcGpEdm1PbWl4ZHhJWWhvTVpLT1h6YmZWL3NtUGJY?=
+ =?utf-8?B?WmhGVEFHWUdEMWlXTHBzd2V0eXY3a0NyVVRKZjhlNVdLY2RjU3VXTXVlS0RU?=
+ =?utf-8?B?clJDZEpwOCtnWHJseXdJK2lCNzhtZzRXblFvU3JvbEYzU2xWcHh3S1Z3ci9U?=
+ =?utf-8?B?eWpUdC9QdjlqSy8yUW9QRkpram9SWkVqRlRDRnlkdjFtZHJjTU8ydlEzbVVH?=
+ =?utf-8?B?UUhreDRkNE1qb0ZNSWdDVnYxQWN1enh3WWJ6SThsWXdUbnk4eGVVVHRkLyt2?=
+ =?utf-8?B?V2E1Rk9xRkdhNnJiQkRKaitBb2VaRmErb1ZobGRsbTQ0Rk1yQVNlbG5ybnhQ?=
+ =?utf-8?B?Tk8wVm5Mb01iUXQxd3diQTlVaHRySldaT2pOQ0hlUjVlUFhIaGY4SEF0SHFW?=
+ =?utf-8?B?UmwxM0ZVbjBBMXN2NTdaRGQ5UXFtMXlqWkVNSTl5MG9EVzF0YXNiSU9KWDhj?=
+ =?utf-8?B?WnZoS1BvZU0zR3o3RTNXVVBhN3pCcjBhNjdtWXFsVHpQS1RUUEVhbHU5dGhw?=
+ =?utf-8?B?cjhlcmk0TVZkYTBKUmxKWmhIL1pnN2tpY0cwVytvV042cmxMMmFwUU5aZlRU?=
+ =?utf-8?B?QXRlcVplYWk4NDBOMUJzV3ZGT0cxN1E4L0crN2R0aFBteXV0NS91S1lyNjdr?=
+ =?utf-8?B?cGZJRTI3K25hdjRIYUlUVzNJSjVZWnUvdUdzRFhKUzNDSnFJaDdiNTZab2hr?=
+ =?utf-8?B?NnNCS1NpTUc0SVA1WEgrZkg3OHc2THZrZzlpMUhobFVBKzZGTlU1Y0tkSFhq?=
+ =?utf-8?B?MzYwTWVYSDRkQnVxNnp2dW03aWxNWjcvUyt3ZmNIdHllelVmaEZSL0dSaXpL?=
+ =?utf-8?B?b3ZoODhVK0pPOFJLSzBLQldwYlgrdU5XcHM2cVpnekJqL3pQY05PeWF2SHVY?=
+ =?utf-8?B?L0hUK1dUTURiekNicGZ4eUZNSmNWVlNJQ1B6Y1JwLzRVU3pvR2JLUU90YmZN?=
+ =?utf-8?B?cG1reFJLQXp6MVIrS2tiSDR1RHh3eDR2YVJsWGl4eG55SUl6Q2d5SXFGeUh2?=
+ =?utf-8?B?anB5Z2g3aENxOVFzQ1B0SXh4Vy9YRWNVK0g4aHpZV05XUmVqZysxTEJiNEtH?=
+ =?utf-8?B?T1ppUnBRY0M2MW5YZDk5Vkk5UWprbXdnQkYwV29WdmYyU0FVVFR0Vm1Eclcr?=
+ =?utf-8?B?Umhpb2VYbzhKYTNhL0t5U0lBUEdaNG5UcW9EZldBencva1NDaTBDUVNsQlVp?=
+ =?utf-8?B?VU9qY0pyZWNXUTJ4aHE1aEFVZ0I3dlJYQU9mMjhjRWdHZ3hNUWZjUkRVRVhn?=
+ =?utf-8?B?UlVPbENFY3BZbzJlNGVRK29KRzVxN3d5RkxaODFXM0dDQVlWdVgyNnRiSk9m?=
+ =?utf-8?Q?ASFrlp2v?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 80c2be43-115d-4302-7893-08d8c216e9d2
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR12MB1355.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 16:24:54.2968 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CQqYGcC1P90zpmsRHquqhCl9OrK/+1cs5NQ7XKc9utzPjCnyQIQFPw9o2jLzzSJDwFSe7SsVVteQC+iBF/HcPg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM5PR12MB2504
+Received-SPF: softfail client-ip=40.107.236.55;
+ envelope-from=Thomas.Lendacky@amd.com;
+ helo=NAM11-BN8-obe.outbound.protection.outlook.com
+X-Spam_score_int: 12
+X-Spam_score: 1.2
+X-Spam_bar: +
+X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,61 +143,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Daniel Berrange <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Marcelo Tosatti <mtosatti@redhat.com>, David Hildenbrand <david@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Jiri Slaby <jslaby@suse.cz>,
+ Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---yVhtmJPUSI46BTXb
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 1/26/21 10:16 AM, Paolo Bonzini wrote:
+> On 25/09/20 21:03, Tom Lendacky wrote:
+>>
+>>  {
+>> -    if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
+>> +    if (!cpus_are_resettable()) {
+>> +        error_report("cpus are not resettable, terminating");
+>> +        shutdown_requested = reason;
+>> +    } else if (no_reboot && reason != SHUTDOWN_CAUSE_SUBSYSTEM_RESET) {
+> 
+> The error should not be emitted if "no_reboot && reason !=
+> SHUTDOWN_CAUSE_SUBSYSTEM_RESET" (the condition has changed a bit in latest
+> QEMU but the idea is the same).
+> 
+> This is because whoever invoked QEMU could already know about this SEV-ES
+> limitation, and use -no-reboot (aka -action reset=shutdown in 6.0) in
+> order to change the forbidden warm reset into a shutdown+restart cold reset.
 
-On Mon, Jan 25, 2021 at 11:35:05AM +0000, Stefan Hajnoczi wrote:
-> Zoltan reminded me that the 'log' backend prints tids/timestamps and this=
- can
-> be unwanted in some cases. It's easier to look at trace output without th=
-em and
-> in some cases parsing is also more convenient with them.
->=20
-> Extend -msg timestamp=3Don|off to control the 'log' backend's tid/timesta=
-mp output.
->=20
-> Stefan Hajnoczi (2):
->   error: rename error_with_timestamp to message_with_timestamp
->   trace: make the 'log' backend timestamp configurable
->=20
->  docs/devel/tracing.txt           |  3 +++
->  include/qemu/error-report.h      |  2 +-
->  softmmu/vl.c                     |  2 +-
->  util/qemu-error.c                |  4 ++--
->  scripts/tracetool/backend/log.py | 19 +++++++++++++------
->  5 files changed, 20 insertions(+), 10 deletions(-)
->=20
-> --=20
-> 2.29.2
->=20
+Ah, right. Let me re-work this to not emit the message when it is not
+warranted.
 
-Thanks, applied to my master tree:
-https://gitlab.com/stefanha/qemu/commits/master
+Thanks,
+Tom
 
-Stefan
-
---yVhtmJPUSI46BTXb
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAQQacACgkQnKSrs4Gr
-c8hAnQf+OZ8cjOQDZmo2Jw75YKf73RkU86/1GkfA0K+heY4tdHoIghutDeVHFQJ0
-NyOBRaI2rSigJQjEzP8u1vtwkT96dESGciu909E6Nzda1h7uUQtkMyI7LN9LWa2u
-3StH9rRenyq1EdJWNgo7envuoCzVu2pTcHmZzTM62Vds2MI2tbJXqhFoHykmYCDa
-fdPuuMYME+nWPvBvXir+ldtK1cPExbXA/ABIuhuEVrcBg/ofam04Oj8EM+OX97fA
-tIkl1uLpHgbx1n6lP2IbcxLZ8lMzNH0h59GMFSyIdpROV752oH/aJo46dUuVKx2j
-cMrsX9UtxAYhmaRx/CKPsttC6NJLQw==
-=P9e6
------END PGP SIGNATURE-----
-
---yVhtmJPUSI46BTXb--
-
+> 
+> Paolo
+> 
 
