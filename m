@@ -2,72 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 327C03039F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 11:13:21 +0100 (CET)
-Received: from localhost ([::1]:60766 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A143039F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 11:13:47 +0100 (CET)
+Received: from localhost ([::1]:33564 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4LLc-0005aR-75
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 05:13:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49364)
+	id 1l4LM2-00060p-ML
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 05:13:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4LJ9-0003tP-Mk
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:10:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:47166)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4LJ6-0001zv-EZ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 05:10:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611655841;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0tBHAvJGRpg1o0UwQLWnyVXIkuGck9jgoxa62FcQLMg=;
- b=FX3rMOT5EIWQ/N71IjXVfR5w0Eo7dV9YREJseXopNWWz77cS8gfFqaOkJIm+AfkXfo7q9I
- aJPA3qaMqmQMaG3EsC1coE+o+JA7JwW8z9NQNH++7y4Yp2MEyGXsJFs7TT0X3QKsILJstC
- DyUqWnY8FuRewdykn2YeDan9vwrDN0s=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-430-TNTi-Bp9NASfrUR9q1VlfA-1; Tue, 26 Jan 2021 05:10:39 -0500
-X-MC-Unique: TNTi-Bp9NASfrUR9q1VlfA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 642DF802B40;
- Tue, 26 Jan 2021 10:10:38 +0000 (UTC)
-Received: from localhost (ovpn-114-186.ams2.redhat.com [10.36.114.186])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3B66810023AB;
- Tue, 26 Jan 2021 10:10:32 +0000 (UTC)
-Date: Tue, 26 Jan 2021 10:10:31 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Vivek Goyal <vgoyal@redhat.com>
-Subject: Re: [PATCH] virtiofsd: prevent opening of special files
- (CVE-2020-35517)
-Message-ID: <20210126101031.GB226981@stefanha-x1.localdomain>
-References: <20210121144429.58885-1-stefanha@redhat.com>
- <20210122154054.GA120574@redhat.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l4LJO-0004BV-86; Tue, 26 Jan 2021 05:11:02 -0500
+Received: from mail-am6eur05on2119.outbound.protection.outlook.com
+ ([40.107.22.119]:1377 helo=EUR05-AM6-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l4LJL-000293-QU; Tue, 26 Jan 2021 05:11:01 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TxKIgZ1E6CHmmTnfhHAWsUHJB3xDhUStJR6k6HHIUpBuicl3UlAi09YtRIkxue2ZcsrLQrSCe+20Ik5H++YKJ4u+J6g52EKOwwSBsFnJHRXPT9vWyV4v2KiNXX0ajI4vfUbh7+lI/qg+r4Ff+lKlSK/dqFZXoZBdTK6VW+IUmMrPqmoNnC1QfVdjctp+5avIzG7WMwfFZUvU5Pg+WndRFAxSSRMSW5f60JNjLTFdIZr0vQxsfsvKw9rKk04uodVA5vayq+XQRkEJV4Z2S8BY/30rtAEWTWei9oC4ki6caQqwNr1JbhIZgCinaToM8RlE5NcKVfO5FV/UtRaddL8z4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oFiRpiJVvLvdWTrIba8Jj1fi9r+/DrBQ/mlSPD0d8P8=;
+ b=S4TGcNJoPw96DabNAk2RtYomk3+XuzgeBgaMP2/24hsqeCchuh+6VmVfvMUKrZ+p2hmcsswnz9JH3urCQguE54ALnaGkwl5OR+1qGbmIwotaU/40RYvveraX7R9UgEUeYK5YmywzJIKCxvuTYELsfokRLJ7S9JHxBilo1dsnkL88ssAmO1lo9KYbAOfHInHctQ3PPEsbBnzNo9Kp8C9zcLJbsnJLwxJ/T3ye5W4oUV3f7W0Fp5c783MyGgL6Ze6HiY5rp8x+xx5gktefhsGx/wAWVBrTxY3yRm7pDTC89iT2tUcLEA49HMhbb5tQmBkaFVppOoceBnnHNF09D6oF+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oFiRpiJVvLvdWTrIba8Jj1fi9r+/DrBQ/mlSPD0d8P8=;
+ b=Fnii/t8dGl1HwFiWUdHeMZSnLMQ0aileTTI+nIJ0q/QbeTEXwr3rfGp2SZLYjReMkp9L0/OXmlxALWl3hBs6An/yGU5/gox+DKR65zVPM9je2O8c4vh/QINSJL5Jan2jjB+CKttKeZ2sv5quK9tbWGSksAufR595hEkEwhoHIn0=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB4787.eurprd08.prod.outlook.com (2603:10a6:20b:c9::12)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.17; Tue, 26 Jan
+ 2021 10:10:56 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.019; Tue, 26 Jan 2021
+ 10:10:56 +0000
+Subject: Re: [PATCH v9 3/6] iotests: add testenv.py
+To: qemu-block@nongnu.org
+References: <20210125185056.129513-1-vsementsov@virtuozzo.com>
+ <20210125185056.129513-4-vsementsov@virtuozzo.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <cbe3a602-f6d9-9b04-3e37-7c28fef43633@virtuozzo.com>
+Date: Tue, 26 Jan 2021 13:10:54 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210125185056.129513-4-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.100]
+X-ClientProxiedBy: FR2P281CA0004.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a::14) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-In-Reply-To: <20210122154054.GA120574@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="O5XBE6gyVG5Rl6Rj"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.100) by
+ FR2P281CA0004.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:a::14) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.6 via Frontend Transport; Tue, 26 Jan 2021 10:10:55 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 07730a54-f469-4efa-605b-08d8c1e2abc7
+X-MS-TrafficTypeDiagnostic: AM6PR08MB4787:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB47879BE79BA6E6DC7AB249BDC1BC0@AM6PR08MB4787.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3276;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: dJdIA1in7bH+QQrpb6bvxI25uLBDDuKETW+UoZ5qq9mVbIJSy+SSGAXYug9ww94GTiXgYEVSZRMIHyiT6dzsV9zn8MQmF8n91UUvi0OeLUw5UFcYJrWnaP54nBc/eISlFDUZhhuyEQYUbojh6T8EuEclB49ytVmRMmlWYEXvhkaMrJKaKdwL7IHI/R6fQ0LAhRj7Fdc5Uudx9wPmnymXEKqDE95scZ2Vke8KFqVi7o0sVCmgl5A2MsKLJxCy16S78aJq2ixCXihmfLFpeTDDccwFKoeTst3j3JEq3t+Ryr9+lDMauCazhGepfjvBjRZo4q2xi0FyeZYlmVR+oXjRe2EHAbJxADGS5GEfusS2Sp3soyyOwFt9R5ccRMT84MhfgHJxQnt8Za7rQnOs4BwOhSbnAdpw6GvJS/b8HS0+jHLORmYgkfkl13nfRhm7kv2cCoE68a+Gvk9aRgnOaThV81AyN0DK3EMmD/EX0pv4kKw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(376002)(366004)(136003)(346002)(39830400003)(316002)(86362001)(36756003)(8936002)(66476007)(2616005)(66946007)(6486002)(6916009)(956004)(31686004)(66556008)(31696002)(16576012)(4326008)(52116002)(478600001)(186003)(5660300002)(16526019)(8676002)(2906002)(26005)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?eXdXMVE0UnE2Wm1FU2RBNUZYZllPR2s3STVMMExhbnpYMkNFeFhwMmtzT0dN?=
+ =?utf-8?B?eW9YVWFkTkpiQ1BCUUdhOEJZRkFnOURtMlZWWG5kOVkwMUVIdGxIVFgrUFVR?=
+ =?utf-8?B?R1c4UlpOejFCTjNKdk1iN0dXdEh3L2NFaG40bXZTMFRJa29wcUdpeExLbkEz?=
+ =?utf-8?B?NDlqVDd3c29zU1NhYzZDd0JYZGlRaW5wdkVuOC80NFFoa1VyVWVDbm1sdUpq?=
+ =?utf-8?B?SGx4OVMvT2VJekdTMVBRMmI1eDdZT3AybThxY2phemxyRDNERXlTU1c4cDVH?=
+ =?utf-8?B?ejVkekdrV3BXM0RReEF1aUxmUmw1ajVxMG4reHBvU0lPR0dFSVQzVUovay9v?=
+ =?utf-8?B?RExGSFNIOVY3eEplaS8zd2lBdmQvSmQvOVNlWjcwejh2N0I2MVl2cVFndThx?=
+ =?utf-8?B?RGxjWkRIZ0lqOVF3RFdYVzNNa3pPY2hFOU1JSFMwY3lUemVsZjIzNFYyT2hD?=
+ =?utf-8?B?TE02RG80bDcvaml0SXYrQXF0T2tnQWVraStzQkxLU250Rms4alU0eGJVUkFl?=
+ =?utf-8?B?VEpuZFVxdWpDem1ndUcxZ0JwOVA0UXZIRkw2a0FmR2ZEa2Y5TWg5c0NmcnpX?=
+ =?utf-8?B?TEdnVDlzZ1EzTm9PcmwvRXRZR1V2SlAySjZDaFhQcHBPVzlydVJ6bllLYnNC?=
+ =?utf-8?B?RExJQ052dVN4KzVZRkpaK21PT1hmZDhpK1JVOTNyaEJpK2xZeS93UnROdHlF?=
+ =?utf-8?B?c1pyVlQyVHdNdlAzVFF0RTdHVVNUNC85WTZqRC83bFRsY2hXSFd2QzdHTnNl?=
+ =?utf-8?B?Q25KZUJvUHpuQjVBaHRCV2RBbk1hMHMvdGVwMDkwSWE4aHhBM0Q5bFJpODR0?=
+ =?utf-8?B?ZVNZam5YOUI2cnAzRno1QmlpTGh5WWJxa1hyVkRmNk0vM0pDbHphU0xWWHox?=
+ =?utf-8?B?ZzhrS093ZkNCOHpzSnF5VmcyZVh2YzMrTFRCYlJOQWdYeXBXc1ZMTVFoeDE4?=
+ =?utf-8?B?Yys1UmZqOGlRR015WTZHVGVwNWpMNGpGMjFSaFIvUEdyM0pzTUhtbGRVOW9o?=
+ =?utf-8?B?ZnJpWDM1WngrYmlCckpxUjIzcEluazU5c3dKSjZLZFRscW9sVGVXdnRibUtZ?=
+ =?utf-8?B?QXdoZnhMRUFZamdrbnFXQjFOMGdpaGpZVTk3RzMwbWpVanE2S1BGMzQyOFlK?=
+ =?utf-8?B?OEViaVBPa08wTG9KbG9OU0dpbHRpODhxdG1RMU8xOEkyWGducWtqTTZjdmtK?=
+ =?utf-8?B?eVBiSWFTcVB1Q0k2bjNxNFNId2RBeFJWNXRVQlhtcElVQ1JKWGJpeXp5ZWFR?=
+ =?utf-8?B?TVoxM2R6ZlFITGpXM1Y0Q2JIalFPWVVrcXFEZ3Q3S3hyb0Y5dWYxQW0zTGJL?=
+ =?utf-8?B?T3JqQkIxOEZpMkZRWWIrb3ZNOUh1QkJpa2NreGt4VnRvUktnT1BETkQ1T2Nm?=
+ =?utf-8?B?OEN5OTQrZnVPY1VRdGxVaE1DVFFqemdLMWYrTm8xRDRxQ2FrZ0M5Nlk0NGpY?=
+ =?utf-8?B?d3c1L3h1d1p2SVF2SXJhWlRvYjE5ekMxOXBNV0R3PT0=?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07730a54-f469-4efa-605b-08d8c1e2abc7
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2021 10:10:56.5697 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ExLei8Dfje5DBMlrfEqEHB6D3IzMg+VghrFutjpTt33SkEgvIhzzhmdxpOOkYwYg2AcXiKah/dR0KODofPDSaii+ICHbnV/lTCvZIlOrHFM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB4787
+Received-SPF: pass client-ip=40.107.22.119;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR05-AM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,105 +138,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, slp@redhat.com, qemu-devel@nongnu.org,
- P J P <ppandit@redhat.com>, virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com, den@openvz.org,
+ jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---O5XBE6gyVG5Rl6Rj
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+25.01.2021 21:50, Vladimir Sementsov-Ogievskiy wrote:
+> Add TestEnv class, which will handle test environment in a new python
+> iotests running framework.
+> 
+> Don't add compat=1.1 for qcow2 IMGOPTS, as v3 is default anyway.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy<vsementsov@virtuozzo.com>
 
-On Fri, Jan 22, 2021 at 10:40:54AM -0500, Vivek Goyal wrote:
-> On Thu, Jan 21, 2021 at 02:44:29PM +0000, Stefan Hajnoczi wrote:
-> > A well-behaved FUSE client does not attempt to open special files with
-> > FUSE_OPEN because they are handled on the client side (e.g. device node=
-s
-> > are handled by client-side device drivers).
-> >=20
-> > The check to prevent virtiofsd from opening special files is missing in
-> > a few cases, most notably FUSE_OPEN. A malicious client can cause
-> > virtiofsd to open a device node, potentially allowing the guest to
-> > escape. This can be exploited by a modified guest device driver. It is
-> > not exploitable from guest userspace since the guest kernel will handle
-> > special files inside the guest instead of sending FUSE requests.
-> >=20
-> > This patch adds the missing checks to virtiofsd. This is a short-term
-> > solution because it does not prevent a compromised virtiofsd process
-> > from opening device nodes on the host.
-> >=20
-> > Reported-by: Alex Xu <alex@alxu.ca>
-> > Fixes: CVE-2020-35517
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
->=20
-> It looks good to me. I see there is another openat() instance in
-> lo_opendir(). May be we can convert it to use lo_inode_open() as well?
 
-I thought so too, but this one is interesting:
+squash-in to fix mypy complains, and try use ContextManager for CI:
 
-  fd =3D openat(lo_fd(req, ino), ".", O_RDONLY);
+diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
+index ca9cab531b..8b80425670 100644
+--- a/tests/qemu-iotests/testenv.py
++++ b/tests/qemu-iotests/testenv.py
+@@ -25,8 +25,7 @@ import collections
+  import random
+  import subprocess
+  import glob
+-from contextlib import AbstractContextManager
+-from typing import Dict, Any, Optional
++from typing import Dict, Any, Optional, ContextManager
+  
+  
+  def isxfile(path: str) -> bool:
+@@ -50,7 +49,7 @@ def get_default_machine(qemu_prog: str) -> str:
+      return default_machine
+  
+  
+-class TestEnv(AbstractContextManager['TestEnv']):
++class TestEnv(ContextManager['TestEnv']):
+      """
+      Manage system environment for running tests
+  
+@@ -81,7 +80,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
+  
+          return env
+  
+-    def init_directories(self):
++    def init_directories(self) -> None:
+          """Init directory variables:
+               PYTHONPATH
+               TEST_DIR
+@@ -100,11 +99,11 @@ class TestEnv(AbstractContextManager['TestEnv']):
+                                    os.path.join(os.getcwd(), 'scratch'))
+          Path(self.test_dir).mkdir(parents=True, exist_ok=True)
+  
+-        self.sock_dir = os.getenv('SOCK_DIR')
+-        self.tmp_sock_dir = False
+-        if self.sock_dir:
++        try:
++            self.sock_dir = os.environ['SOCK_DIR']
++            self.tmp_sock_dir = False
+              Path(self.test_dir).mkdir(parents=True, exist_ok=True)
+-        else:
++        except KeyError:
+              self.sock_dir = tempfile.mkdtemp()
+              self.tmp_sock_dir = True
+  
+@@ -114,7 +113,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
+  
+          self.output_dir = os.getcwd()  # OUTPUT_DIR
+  
+-    def init_binaries(self):
++    def init_binaries(self) -> None:
+          """Init binary path variables:
+               PYTHON (for bash tests)
+               QEMU_PROG, QEMU_IMG_PROG, QEMU_IO_PROG, QEMU_NBD_PROG, QSD_PROG
+@@ -122,7 +121,7 @@ class TestEnv(AbstractContextManager['TestEnv']):
+          """
+          self.python = sys.executable
+  
+-        def root(*names):
++        def root(*names: str) -> str:
+              return os.path.join(self.build_root, *names)
+  
+          arch = os.uname().machine
 
-Using "." here is basically equivalent to O_DIRECTORY!
 
-Therefore this always fails on special files. That's why I ended up
-leaving it unchanged.
 
-  $ cat a.c
-  #define _GNU_SOURCE
-  #include <sys/types.h>
-  #include <sys/stat.h>
-  #include <fcntl.h>
-  #include <unistd.h>
-  #include <stdio.h>
-  #include <stdlib.h>
 
-  int main(int argc, char **argv)
-  {
-      int fd;
-      int pfd =3D open(argv[1], O_PATH);
-
-      if (pfd < 0) {
-          perror("open");
-          return EXIT_FAILURE;
-      }
-
-      fd =3D openat(pfd, ".", O_RDONLY);
-      if (fd < 0) {
-          perror("openat");
-          return EXIT_FAILURE;
-      }
-
-      close(fd);
-      close(pfd);
-      return EXIT_SUCCESS;
-  }
-  $ gcc -o a a.c
-  $ ./a /tmp
-  <--- no error
-  $ ./a /tmp/a.c
-  openat: Not a directory
-  $ ./a /dev/stdin
-  openat: Not a directory
-
-Stefan
-
---O5XBE6gyVG5Rl6Rj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAP6pcACgkQnKSrs4Gr
-c8hGdQgAvd//+jyb2QVpI7GGXlaJslHi+Wm15qWqoEff2/LpuqCtmWJ0hgZ202Fi
-B70+Y+27Be3D8f6d28UNo1eM1Yq+TMQLc506SREir0dt3ACkT4SxLgSYcZ3LMeyf
-SYee6TDe2/Sbfs/s2/amdo7u4Kr0U06ujho5MXgBktbP2Orv1ydj72XFYsAcq2pJ
-+j+Irg0F7nwMdRdYc+nPBCCHlaGh/CG+TRJZ1HkqJyk3g+9UHFs9tn7EWYD5jsik
-6R5E5XEFu9IWzEcEGUAwuBIy5JkV+7j9wP3k7rXEFB4Dj0zWEYVWodDGE2iXNzxm
-2AZwsjVNhjO/bymeEgXL/YzcNq0e+Q==
-=VTao
------END PGP SIGNATURE-----
-
---O5XBE6gyVG5Rl6Rj--
-
+-- 
+Best regards,
+Vladimir
 
