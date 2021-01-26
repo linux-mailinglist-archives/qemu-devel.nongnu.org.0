@@ -2,66 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5EFA3046C4
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 19:43:44 +0100 (CET)
-Received: from localhost ([::1]:39938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6EAF3047F6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 20:16:27 +0100 (CET)
+Received: from localhost ([::1]:51886 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4TJX-0007VH-8p
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 13:43:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57038)
+	id 1l4TpB-0006Ag-0I
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 14:16:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4TH9-0006TK-5O
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 13:41:15 -0500
-Received: from indium.canonical.com ([91.189.90.7]:35404)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4TH5-0003AQ-P9
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 13:41:14 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l4TH0-00055m-Rd
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 18:41:07 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 4040D2E813D
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 18:41:06 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4Tlh-00052r-FB
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 14:12:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:55630)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4Tld-0005a1-EM
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 14:12:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611688363;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kSwY58aPgKmsogfO+3+HdrAo7mfo2TZbgEfTEh5jo/Q=;
+ b=OYz/WyJsa7xPBkEiU8wPjE2bWnGAkkoTckpyR58Ndudq3F+PKgXhnCPP/EcfiIk2P60L1m
+ IYZ645x2+PHGEuVy7eY5ZuVJuAMJybPKGSsPC9X+rFkxXxsqvfViYEWUcNPtd9y+JGeTIn
+ H/KXZTqw8OBJx8F56qhCFI5sD05Ttaw=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-339-aSDEJ5vSOa6FzoPo3Bbubg-1; Tue, 26 Jan 2021 14:12:41 -0500
+X-MC-Unique: aSDEJ5vSOa6FzoPo3Bbubg-1
+Received: by mail-ed1-f69.google.com with SMTP id x13so9887083edi.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 11:12:41 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kSwY58aPgKmsogfO+3+HdrAo7mfo2TZbgEfTEh5jo/Q=;
+ b=P9aohdidGPRyMreVpCo3iWuXaTd73JueCnJ1Wr5P43IMz5AOw6JlBxgAYFKqfgS2Xa
+ E5m2ANZK7p6CMFBOyiGFodBBYK2bLJALW9Dao6zzQfND3tNhTLiuD84e/bhKY9iWgQmF
+ 0S6/ZwcZfb4dlfU8pHnr1qypIXELRtQjIZyXakqMX4NWNSaej1utYkdOlKDkIR69OOB7
+ jzj4HTrUJA8vy0Q2HMCvL6gdkLh4ujbCqtWQn+1xZTU/5XHLMZnsCcq6nyqE2ia1yUDM
+ 2g4s2Zs8+gLjFMboUu3ns8B0oPSAF0emnaGQ62keQNyeK9lXCIgesSV0f3JyKnS97yyW
+ vZ+A==
+X-Gm-Message-State: AOAM533en2iRwNxCK5JlaDP4ZDzRi2I5p0a5sV2FqhiPXLcbzFeYxNXv
+ 64lRZaTvQ2dOiMLn0BfFhsyLXEIfx7+ACW+jRWvkUjtUZfvm8ZM/aD0eN9fgC4S6A+irwRCe/SJ
+ wtA85PG10fcPfFTk=
+X-Received: by 2002:a17:906:d159:: with SMTP id
+ br25mr4350520ejb.398.1611688360142; 
+ Tue, 26 Jan 2021 11:12:40 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyxbv05oc3qsBxHie9IlhxmRPBx3Z3mx3px/cUyIvYSzYhtfiRvi52/TuHMuegBDW029x6VNg==
+X-Received: by 2002:a17:906:d159:: with SMTP id
+ br25mr4350510ejb.398.1611688359989; 
+ Tue, 26 Jan 2021 11:12:39 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id fi12sm10308645ejb.49.2021.01.26.11.12.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 26 Jan 2021 11:12:39 -0800 (PST)
+Subject: Re: [PATCH] gitlab-ci.yml: Exclude some redundant targets in
+ build-without-default-features
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20210126172345.15947-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <e3d1e7e6-b83a-aa34-d313-ac7c2658da91@redhat.com>
+Date: Tue, 26 Jan 2021 20:12:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 26 Jan 2021 18:34:25 -0000
-From: Alexander Bulekov <1907042@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr hades0506 v1nke
-X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
-X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-References: <160732123417.11736.2125519707622289865.malonedeb@soybean.canonical.com>
-Message-Id: <161168606590.7600.1998102757924114271.malone@gac.canonical.com>
-Subject: [Bug 1907042] Re: assert issue locates in hw/usb/core.c:727:
- usb_ep_get: Assertion `pid == USB_TOKEN_IN || pid == USB_TOKEN_OUT' failed 
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 35e8594dda1f7c53be2c4e1061d9968eadd50b0e
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210126172345.15947-1-thuth@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,87 +100,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1907042 <1907042@bugs.launchpad.net>
+Cc: cohuck@redhat.com, =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This looks like a dupe of https://bugs.launchpad.net/qemu/+bug/1525123/
-, though through OHCI rather than XHCI
+On 1/26/21 6:23 PM, Thomas Huth wrote:
+> The build-without-default-features job is running quite long and sometimes
+> already hits the 1h time limit. Exclude some targets which do not provide
+> additional test coverage here (since we e.g. also already test other targets
+> of the same type, just with different endianess, or a 64-bit superset) to
+> avoid that we hit the timeout here so easily.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  .gitlab-ci.yml | 1 +
+>  1 file changed, 1 insertion(+)
 
--- =
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1907042
-
-Title:
-  assert issue locates in hw/usb/core.c:727: usb_ep_get: Assertion `pid
-  =3D=3D USB_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT' failed
-
-Status in QEMU:
-  New
-
-Bug description:
-  Hello,
-
-  An assertion failure was found in hw/usb/core.c:727 in latest version
-  5.2.0.
-
-  Reproduced environment is as follows:
-      Host: ubuntu 18.04
-      Guest: ubuntu 18.04
-
-  QEMU boot command line:
-  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
-=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -device pci-ohci,i=
-d=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1 -trace usb\*
-
-  Backtrace is as follows:
-  #0  0x00007f13fff14438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
-unix/sysv/linux/raise.c:54
-  #1  0x00007f13fff1603a in __GI_abort () at abort.c:89
-  #2  0x00007f13fff0cbe7 in __assert_fail_base (fmt=3D<optimized out>, asse=
-rtion=3Dassertion@entry=3D0x55f97745ffe0 "pid =3D=3D USB_TOKEN_IN || pid =
-=3D=3D USB_TOKEN_OUT", file=3Dfile@entry=3D0x55f97745f6c0 "../hw/usb/core.c=
-", line=3Dline@entry=3D727, function=3Dfunction@entry=3D0x55f9774606e0 <__P=
-RETTY_FUNCTION__.22877> "usb_ep_get") at assert.c:92
-  #3  0x00007f13fff0cc92 in __GI___assert_fail (assertion=3D0x55f97745ffe0 =
-"pid =3D=3D USB_TOKEN_IN || pid =3D=3D USB_TOKEN_OUT", file=3D0x55f97745f6c=
-0 "../hw/usb/core.c", line=3D727, function=3D0x55f9774606e0 <__PRETTY_FUNCT=
-ION__.22877> "usb_ep_get") at assert.c:101
-  #4  0x000055f975bfc9b2 in usb_ep_get (dev=3D0x62300000c500, pid=3D45, ep=
-=3D1) at ../hw/usb/core.c:727
-  #5  0x000055f975f945db in ohci_service_td (ohci=3D0x6270000191f0, ed=3D0x=
-7ffcd9308410) at ../hw/usb/hcd-ohci.c:1044
-  #6  0x000055f975f95d5e in ohci_service_ed_list (ohci=3D0x6270000191f0, he=
-ad=3D857580576, completion=3D0) at ../hw/usb/hcd-ohci.c:1200
-  #7  0x000055f975f9656d in ohci_process_lists (ohci=3D0x6270000191f0, comp=
-letion=3D0) at ../hw/usb/hcd-ohci.c:1238
-  #8  0x000055f975f9725c in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
-t ../hw/usb/hcd-ohci.c:1281
-  #9  0x000055f977212494 in timerlist_run_timers (timer_list=3D0x60b00005b0=
-60) at ../util/qemu-timer.c:574
-  #10 0x000055f9772126db in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
-L) at ../util/qemu-timer.c:588
-  #11 0x000055f977212fde in qemu_clock_run_all_timers () at ../util/qemu-ti=
-mer.c:670
-  #12 0x000055f9772d5717 in main_loop_wait (nonblocking=3D0) at ../util/mai=
-n-loop.c:531
-  #13 0x000055f97695100c in qemu_main_loop () at ../softmmu/vl.c:1677
-  #14 0x000055f9758f7601 in main (argc=3D16, argv=3D0x7ffcd9308888, envp=3D=
-0x7ffcd9308910) at ../softmmu/main.c:50
-  #15 0x00007f13ffeff840 in __libc_start_main (main=3D0x55f9758f75b0 <main>=
-, argc=3D16, argv=3D0x7ffcd9308888, init=3D<optimized out>, fini=3D<optimiz=
-ed out>, rtld_fini=3D<optimized out>, stack_end=3D0x7ffcd9308878) at ../csu=
-/libc-start.c:291
-  #16 0x000055f9758f74a9 in _start ()
-
-  =
-
-  The poc is attached.
-
-  Thanks.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1907042/+subscriptions
 
