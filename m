@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493913035E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 06:57:07 +0100 (CET)
-Received: from localhost ([::1]:54420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C270303620
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 07:02:31 +0100 (CET)
+Received: from localhost ([::1]:33900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4HLd-0007Ds-Sj
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 00:57:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40802)
+	id 1l4HQs-0002Fo-5Z
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 01:02:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41668)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1l4HKQ-0006hG-U1; Tue, 26 Jan 2021 00:55:50 -0500
-Received: from mail-io1-f50.google.com ([209.85.166.50]:39292)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l4HOt-0000EN-VY; Tue, 26 Jan 2021 01:00:27 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:37459)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1l4HKP-0008Ia-39; Tue, 26 Jan 2021 00:55:50 -0500
-Received: by mail-io1-f50.google.com with SMTP id e22so31473855iog.6;
- Mon, 25 Jan 2021 21:55:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l4HOr-0001Lq-Ib; Tue, 26 Jan 2021 01:00:27 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id 11so9882352pfu.4;
+ Mon, 25 Jan 2021 22:00:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PoNn/bFoDnh5efZd0mYKkDFkOeN43DFe/uwJ8wWwY4U=;
+ b=pz3PAiqtr2IUdXQiUKcIYJ+Tb6G0CPqtyAGrODeSltj9iqvtb9eGPMIX9jJgKI+Y96
+ Mw+f2mUcwHKyT1QM/S41B3wukXZ+s4dg4xo1XyL4Ac82s97ZIfs/1zX1RWvWh3yRe4i+
+ n5Bx7Lr3xk62pTNvdbL/w58HLjhhZW7k8pLEYH9JcE26vRCfHoXTZygrAUIzqZGi/R0Q
+ sKJq1rpzW9/WiaSuOQSCl+VxhDtTzAtC3p30LvEEnQ30kpBfcZl/mpVePCgFAU37Sa71
+ mHC9s1dq21A9+Mh4sYde/bspbgzwlOTT9zYHJcOHHzAgB5S2AoPq16zsYLejHv30PdN/
+ otZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=wDwqpZ23EVuBY/XjeXlWxNVssghHMRyXqKqjO0vFlf4=;
- b=bq8MVt63A6prvH1PxqmRqITABk9xGxSOgzz9Wu5x44nM2HHD/1V9NpNLGSRsq2K3fc
- 8tz7ReGLxM+MJvmbYPaxkewfXAAe+uaeCiWkNKgDCuFrl+hVkA/26lnboyPOjDG1lYEG
- 635e8ayyAh0qdWCr40BmebJ4RK/FYqCwC3U6rKqw3mQVYrgu79YU4r1stTqLU+er8WaV
- YAn0kyhhK60Cw79ywP70kTV2XaQwel2QAtqfYteLCRquxoN2z709NOVvENTmto3zfIRV
- 8CQbFtIq3KQcBg3gCluOKil7p05kNUXqLRW9otE5B5HFIGjgBcWv5nt3odFdYTW7wawB
- HqVA==
-X-Gm-Message-State: AOAM5303MUCdLlvczEDODz0SZ/MM2Edok4a1iPW5azsf0QYKrXOYHe64
- BrAgMVBHDnN+lleAh0W0dcin73q6k6k=
-X-Google-Smtp-Source: ABdhPJzELcJ4PiR1hGSHEXeyrDkfjtGLVNqsZTV1SUDTEzDa6FWOcNKCJy+uGvlv8auJwshKq577SA==
-X-Received: by 2002:a02:9107:: with SMTP id a7mr3617861jag.12.1611640547224;
- Mon, 25 Jan 2021 21:55:47 -0800 (PST)
-Received: from mail-io1-f45.google.com (mail-io1-f45.google.com.
- [209.85.166.45])
- by smtp.gmail.com with ESMTPSA id h11sm1308931ior.19.2021.01.25.21.55.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 21:55:46 -0800 (PST)
-Received: by mail-io1-f45.google.com with SMTP id 16so971047ioz.5;
- Mon, 25 Jan 2021 21:55:46 -0800 (PST)
-X-Received: by 2002:a02:781f:: with SMTP id p31mr3608666jac.14.1611640546377; 
- Mon, 25 Jan 2021 21:55:46 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=PoNn/bFoDnh5efZd0mYKkDFkOeN43DFe/uwJ8wWwY4U=;
+ b=MMVKdVvmodsPsSB2hMfToA5wWV/rfnfEBScY/wpP8PcW8x/FlSIhhx6an3yMLcqwy4
+ 5iM1UUOKlrVuqey15MufqFuW/WR3ckTKH/dRp4bHgy3nM0DfLPBNMqMF9XOkVcy2wqHq
+ fUkWJlYNU3ac+IyYwedRpUIjEdX1hrSDxWB5WaQTSM6mk7k86IhSSZ8UMjD7PixYE0Oq
+ RTaXIv4wBQXxzFh1xqtJdUcs+OZR+LDBZWNm0n68DKXrluWD8zh8wrpAAAQwajKL+2/a
+ drCnyDPe8qWoNNr1i9RRL2RwF0a+xEF3dhVzAyoeL7BtsT62XWR5AAzEB7oUzix6tJ9D
+ Z7+g==
+X-Gm-Message-State: AOAM533bUcifR2T0OHGdw0QNp9tQwDEHPKe/Wd/7ldYpv2DJ6O5DtQa3
+ w55DwvEfZQJ64jB0Zj7KZTU=
+X-Google-Smtp-Source: ABdhPJw1kiVFWXpAPGD9yLYIUuhAXJ9mPMRhmpE5p9/nm++6/QbqmDzk3XovCCZrj5/4oQRTRg4Ixg==
+X-Received: by 2002:a63:1047:: with SMTP id 7mr4251302pgq.292.1611640823426;
+ Mon, 25 Jan 2021 22:00:23 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id k10sm12471076pfk.0.2021.01.25.22.00.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 25 Jan 2021 22:00:22 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Alistair Francis <alistair.francis@wdc.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH v3 0/9] hw/riscv: sifive_u: Add missing SPI support
+Date: Tue, 26 Jan 2021 13:59:58 +0800
+Message-Id: <20210126060007.12904-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20210126012457.39046-1-j@getutm.app>
- <20210126012457.39046-4-j@getutm.app>
- <CANCZdfqcbb5r_BmsqCN6uymBghbJg6nd1aAr1qfNryVQmfdOwQ@mail.gmail.com>
-In-Reply-To: <CANCZdfqcbb5r_BmsqCN6uymBghbJg6nd1aAr1qfNryVQmfdOwQ@mail.gmail.com>
-From: Joelle van Dyne <j@getutm.app>
-Date: Mon, 25 Jan 2021 21:55:35 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSAAaMagLdb_oUA2xS41jVLBSop-Z1AARKZ4A6uCLbqK+A@mail.gmail.com>
-Message-ID: <CA+E+eSAAaMagLdb_oUA2xS41jVLBSop-Z1AARKZ4A6uCLbqK+A@mail.gmail.com>
-Subject: Re: [PATCH v9 03/11] configure: check for sys/disk.h
-To: Warner Losh <imp@bsdimp.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=209.85.166.50; envelope-from=osy86dev@gmail.com;
- helo=mail-io1-f50.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,86 +80,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Joelle van Dyne <j@getutm.app>,
- "open list:Block layer core" <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Previously, the only case where sys/disk.h does not exist is on
-platforms that define __DragonFly__. However, iOS also does not have
-this header. Previously, I had it as
+From: Bin Meng <bin.meng@windriver.com>
 
-#if defined(__DragonFly__) || defined(CONFIG_IOS)
+This adds the missing SPI support to the `sifive_u` machine in the QEMU
+mainline. With this series, upstream U-Boot for the SiFive HiFive Unleashed
+board can boot on QEMU `sifive_u` out of the box. This allows users to
+develop and test the recommended RISC-V boot flow with a real world use
+case: ZSBL (in QEMU) loads U-Boot SPL from SD card or SPI flash to L2LIM,
+then U-Boot SPL loads the payload from SD card or SPI flash that is a
+combination of OpenSBI fw_dynamic firmware and U-Boot proper.
 
-But there was a code review comment that we should use feature flags
-instead of platform defines. So I added the HAS_SYS_DISK_H flag.
+The m25p80 model is updated to support ISSI flash series. A bunch of
+ssi-sd issues are fixed, and writing to SD card in SPI mode is supported.
 
--j
+Note the ssi-sd changes are split out of this series in v3, so that all
+patches in v3 can go via Alistair's riscv tree.
 
-On Mon, Jan 25, 2021 at 8:35 PM Warner Losh <imp@bsdimp.com> wrote:
->
->
->
-> On Mon, Jan 25, 2021 at 6:33 PM Joelle van Dyne <j@getutm.app> wrote:
->>
->> Some BSD platforms do not have this header.
->>
->> Signed-off-by: Joelle van Dyne <j@getutm.app>
->> ---
->>  meson.build        | 1 +
->>  block.c            | 2 +-
->>  block/file-posix.c | 2 +-
->>  3 files changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/meson.build b/meson.build
->> index 27110075df..6818d97df5 100644
->> --- a/meson.build
->> +++ b/meson.build
->> @@ -1117,6 +1117,7 @@ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
->>  config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
->>  config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
->>  config_host_data.set('HAVE_HOST_BLOCK_DEVICE', have_host_block_device)
->> +config_host_data.set('HAVE_SYS_DISK_H', cc.has_header('sys/disk.h'))
->>
->>  ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
->>  arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
->> diff --git a/block.c b/block.c
->> index 8b9d457546..c4cf391dea 100644
->> --- a/block.c
->> +++ b/block.c
->> @@ -54,7 +54,7 @@
->>  #ifdef CONFIG_BSD
->>  #include <sys/ioctl.h>
->>  #include <sys/queue.h>
->> -#ifndef __DragonFly__
->> +#if defined(HAVE_SYS_DISK_H)
->>  #include <sys/disk.h>
->>  #endif
->>  #endif
->> diff --git a/block/file-posix.c b/block/file-posix.c
->> index 11d2021346..666d3e7504 100644
->> --- a/block/file-posix.c
->> +++ b/block/file-posix.c
->> @@ -2320,7 +2320,7 @@ again:
->>          }
->>          if (size == 0)
->>  #endif
->> -#if defined(__APPLE__) && defined(__MACH__)
->> +#if defined(HAVE_SYS_DISK_H) && defined(__APPLE__) && defined(__MACH__)
->
->
-> Why is this needed? __DragonFly__ doesn't define either __APPLE__ or __MACH__
->
-> Warner
->
->>
->>          {
->>              uint64_t sectors = 0;
->>              uint32_t sector_size = 0;
->> --
->> 2.28.0
->>
->>
+Part of the ssi-sd changes are now in qemu/master. The remaining patches
+are http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226136
+that will go via Philippe's sd tree.
+
+reST documentation for RISC-V is added. Currently only `sifive_u`
+machine is documented, but more to come.
+
+Changes in v3:
+- Simplify flush txfifo logic
+- Convert sifive_u.rst from UTF-8 to ASCII
+
+Changes in v2:
+- Mention QPI (Quad Peripheral Interface) mode is not supported
+- Log guest error when trying to write reserved registers
+- Log guest error when trying to access out-of-bounds registers
+- log guest error when writing to reserved bits for chip select
+  registers and watermark registers
+- Log unimplemented warning when trying to write direct-map flash
+  interface registers
+- Add test tx fifo full logic in sifive_spi_read(), hence remove
+  setting the tx fifo full flag in sifive_spi_write().
+- Populate register with their default value
+- Correct the "connects" typo in the commit message
+- Mention in the commit message that <reg> property does not populate
+  the second group which represents the memory mapped address of the
+  SPI flash
+- Correct the "connects" typo in the commit message
+- Correct several typos in sifive_u.rst
+- Update doc to mention U-Boot v2021.01
+
+Bin Meng (9):
+  hw/block: m25p80: Add ISSI SPI flash support
+  hw/block: m25p80: Add various ISSI flash information
+  hw/ssi: Add SiFive SPI controller support
+  hw/riscv: sifive_u: Add QSPI0 controller and connect a flash
+  hw/riscv: sifive_u: Add QSPI2 controller and connect an SD card
+  hw/riscv: sifive_u: Change SIFIVE_U_GEM_IRQ to decimal value
+  docs/system: Sort targets in alphabetical order
+  docs/system: Add RISC-V documentation
+  docs/system: riscv: Add documentation for sifive_u machine
+
+ docs/system/riscv/sifive_u.rst | 336 +++++++++++++++++++++++++++++++
+ docs/system/target-riscv.rst   |  72 +++++++
+ docs/system/targets.rst        |  20 +-
+ include/hw/riscv/sifive_u.h    |   9 +-
+ include/hw/ssi/sifive_spi.h    |  47 +++++
+ hw/block/m25p80.c              |  57 +++++-
+ hw/riscv/sifive_u.c            |  91 +++++++++
+ hw/ssi/sifive_spi.c            | 358 +++++++++++++++++++++++++++++++++
+ hw/riscv/Kconfig               |   3 +
+ hw/ssi/Kconfig                 |   4 +
+ hw/ssi/meson.build             |   1 +
+ 11 files changed, 989 insertions(+), 9 deletions(-)
+ create mode 100644 docs/system/riscv/sifive_u.rst
+ create mode 100644 docs/system/target-riscv.rst
+ create mode 100644 include/hw/ssi/sifive_spi.h
+ create mode 100644 hw/ssi/sifive_spi.c
+
+-- 
+2.25.1
+
 
