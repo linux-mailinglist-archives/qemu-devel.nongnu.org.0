@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FC67304D7A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 01:41:14 +0100 (CET)
-Received: from localhost ([::1]:38970 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 976FC304D89
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 01:44:03 +0100 (CET)
+Received: from localhost ([::1]:43358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4YtV-0005PO-Jq
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 19:41:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57370)
+	id 1l4YwE-0007F3-LG
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 19:44:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57542)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <21d77b33c578d80b5bba1068e61fd3562958b3c2@lizzy.crudebyte.com>)
- id 1l4YrU-0004R4-34
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:39:09 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:38823)
+ (envelope-from <110bef3595cb841dfa1b86733c174ac9774eb37e@lizzy.crudebyte.com>)
+ id 1l4YsV-00058B-71
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:40:11 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:39029)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
- (envelope-from <21d77b33c578d80b5bba1068e61fd3562958b3c2@lizzy.crudebyte.com>)
- id 1l4YrP-0007JD-LF
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:39:07 -0500
+ (envelope-from <110bef3595cb841dfa1b86733c174ac9774eb37e@lizzy.crudebyte.com>)
+ id 1l4YsT-0007ao-OP
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:40:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
  Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=xJY34z9y4a9luo9WI4JB4/BrWS6UutKjACaKNcoQfdM=; b=jnzMK
- Zvnfd6QPe2ISbcOYXjjm4mLEC7zJ7uZXyMIUIOj7oV+WzZ5De8zrSeKKg0/ZcXus+RDkmddiBmagK
- yv9zMWMKAa6E1EkRxo0wv+rD+u68WADTN35IVdktIhJ9223x/k7o3UubbFV0bZgeCyaCqrnVCliVM
- QLjE74W+/+j85JsYyg+sCVrsEwhtEntjTGmeUIPyWOgbC0wogQGtB73/mSRXjj1VOYkEgxNFVBkjg
- avJ8OnplQ0ni3SDA7QoIBW0k6HnBh3532iqLj+EkEMvk7licvqC3RrKp53vTAHN9fn5UlSoUq5S9o
- uMQ6N3gzKnsYdHfgSwL5TxMzq9eBg==;
-Message-Id: <21d77b33c578d80b5bba1068e61fd3562958b3c2.1611704181.git.qemu_oss@crudebyte.com>
+ Content-Description; bh=lRzWEo6b7k9+kApoB+89gLCgSlgbKdep1hgOxL6/O8s=; b=MNsvY
+ LWcj1Cz3mE3nQH579Vxuvj7w+H7N/S9rZSdNeTyEANH2ZHcae6pBPBfxMwACW2Dd1E6K3w8rFWBQl
+ J2/WDIl0q4sPe0ttT+l+ru4rAz25sx1nj+pqmMq3oWmGfpLv/2z1OxFIGng2I5JYq1plg6wsqjIFm
+ nZ+oyu8JDWQ5Qqe7ryexKy5EIt5IG4ICG/FKMt4MI1JDuKETYWr0KaSLVQWnrL73/IrE7i7UZmaev
+ rD+yY37wNWyA9fRIpQkhzxXmDrGTa8Xm+W9/9Do6mPYWwpWA+IW6V+/5wAerYETEuieL3tI8Y03uN
+ d/mYptw3dRpS1WaUvDGbuuzKdsBhA==;
+Message-Id: <110bef3595cb841dfa1b86733c174ac9774eb37e.1611704181.git.qemu_oss@crudebyte.com>
 In-Reply-To: <cover.1611704181.git.qemu_oss@crudebyte.com>
 References: <cover.1611704181.git.qemu_oss@crudebyte.com>
-Date: Wed, 27 Jan 2021 00:17:36 +0100
-Subject: [PATCH 4/5] tests/qtest/qos-test: dump environment variables if
- verbose
+Date: Wed, 27 Jan 2021 00:26:16 +0100
+Subject: [PATCH 5/5] tests/qtest/qos-test: dump QEMU command if verbose
 To: qemu-devel@nongnu.org
 Received-SPF: none client-ip=91.194.90.13;
- envelope-from=21d77b33c578d80b5bba1068e61fd3562958b3c2@lizzy.crudebyte.com;
+ envelope-from=110bef3595cb841dfa1b86733c174ac9774eb37e@lizzy.crudebyte.com;
  helo=lizzy.crudebyte.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -66,49 +65,31 @@ Reply-to:  Christian Schoenebeck <qemu_oss@crudebyte.com>
 From: qemu_oss--- via <qemu-devel@nongnu.org>
 
 If qtests are run in verbose mode (i.e. if --verbose CL argument
-was provided) then print all environment variables to stdout
-before running the individual tests.
-
-It is common nowadays, at least being able to output all config
-vectors in a build chain, especially if it is required to
-investigate build- and test-issues on foreign/remote machines,
-which includes environment variables. In the context of writing
-new test cases this is also useful for finding out whether there
-are already some existing options for common questions like is
-there a preferred location for writing test files to? Is there
-a maximum size for test data? Is there a deadline for running
-tests?
+was provided) then print the assembled qemu command line for each
+test.
 
 Use qos_printf() instead of g_test_message() to avoid the latter
 cluttering the output.
 
 Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 ---
- tests/qtest/qos-test.c | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ tests/qtest/qos-test.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index d98ef78613..b279b6f816 100644
+index b279b6f816..f97d0a08fd 100644
 --- a/tests/qtest/qos-test.c
 +++ b/tests/qtest/qos-test.c
-@@ -313,9 +313,16 @@ static void walk_path(QOSGraphNode *orig_path, int len)
-  *   machine/drivers/test objects
-  * - Cleans up everything
-  */
--int main(int argc, char **argv)
-+int main(int argc, char **argv, char** envp)
+@@ -89,6 +89,9 @@ static void qos_set_machines_devices_available(void)
+ 
+ static void restart_qemu_or_continue(char *path)
  {
-     g_test_init(&argc, &argv, NULL);
 +    if (g_test_verbose()) {
-+        qos_printf("ENVIRONMENT VARIABLES: {\n");
-+        for (char **env = envp; *env != 0; env++) {
-+            qos_printf("\t%s\n", *env);
-+        }
-+        qos_printf("}\n");
++        qos_printf("Run QEMU with: '%s'\n", path);
 +    }
-     qos_graph_init();
-     module_call_init(MODULE_INIT_QOM);
-     module_call_init(MODULE_INIT_LIBQOS);
+     /* compares the current command line with the
+      * one previously executed: if they are the same,
+      * don't restart QEMU, if they differ, stop previous
 -- 
 2.20.1
 
