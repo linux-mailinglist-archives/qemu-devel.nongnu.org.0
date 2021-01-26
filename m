@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8929303789
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:57:09 +0100 (CET)
-Received: from localhost ([::1]:46142 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 541E430378D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 08:59:30 +0100 (CET)
+Received: from localhost ([::1]:48622 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4JDo-0000lV-HH
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:57:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55026)
+	id 1l4JG4-000268-UF
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 02:59:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l4J7H-0006u8-B0; Tue, 26 Jan 2021 02:50:23 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:47263)
+ id 1l4JB9-0000qA-S1; Tue, 26 Jan 2021 02:54:23 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:45591)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l4J7E-0004CH-OG; Tue, 26 Jan 2021 02:50:22 -0500
+ id 1l4JB8-0005WT-9M; Tue, 26 Jan 2021 02:54:23 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailnew.nyi.internal (Postfix) with ESMTP id 95ACE580917;
- Tue, 26 Jan 2021 02:50:17 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Tue, 26 Jan 2021 02:50:17 -0500
+ by mailnew.nyi.internal (Postfix) with ESMTP id 4162D58091B;
+ Tue, 26 Jan 2021 02:54:21 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute4.internal (MEProxy); Tue, 26 Jan 2021 02:54:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=BRB6hu+G/DOrRW0T9MPflNz2l2d
- YXGMf9KpXR4dTeLM=; b=QO9tJpj5N6vqTEo/IT3xTU+mvN/qAJnwy/p0FvgAzle
- G89zWz/2i+xi9zDKkBaa+PqrXGvquWLbfpV+CuPIhErjkW4Oi1uufeTClKvbLwxB
- YgwT2+JVVJ0eqTGGOz533Jh+sCfHXxXsB5w4C7M9Vww7hqCuqzLHN9Gc1STl+gTk
- IPNekwARdtKs6U/9p9WfRZH4k2NuRnjhydzjiJdEtLLtJ50SnwW+2w8lbqLdaBMd
- R6M1nh8MRNhmRMHOWrRr9r2RNXOuUYHtaquPDs4ZislmKbOZdA05yVwNTPI6P1XN
- 7jWAhOMNhY+CrwNywxo8nWASxTxCYM32qxE8A5qYVVg==
+ :content-type:in-reply-to; s=fm2; bh=QHuznZ4V+FX6D8wl6UGoSIeehe/
+ FkTl82oa3K7R+E7A=; b=s/hVbl//NoEhIMu+qUYtRJV4MkyoFEAd/md+UhaUyAx
+ CxMwFkuwLlFcHpgF6RsQTGwTcIHAOnJuh/aoMC4ENzKxZ+2E12YVnAVlbFWuEo7y
+ 7KB5at/J8dawqgPlpPrgckmTAMuYt8dTuxmWNmMClqFibly6zOq57grDwRAm2I5+
+ 87kecu8s5YgAejqOYhMMrfJ0j+LWoTVI55qfYF2dIgYP4WTriDjAuCYeMrj/fAK+
+ enXDeIwAAGZZHLYz9+/uUntP2JkA5JoGK2SwkPePYUe1pyVgoU/fN5rcZLZavquG
+ mqPRaoPO4/NSQaw3H8uB2QxXxN+4h0fkPcCz3LJq2Dg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-type:date:from:in-reply-to
  :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=BRB6hu
- +G/DOrRW0T9MPflNz2l2dYXGMf9KpXR4dTeLM=; b=NKzUk02NO90fKPALEY/MzW
- wEbGvlGGHJxK/CJT2PZr+ojdlWd6iy4Y65SiOuu0ie65b998CGxOeDkOE1p4DOUa
- fnAyJ9Lu4owJIJsHbCBBYpTpPaMn92EDtBdGSyxPC2bBDa784OLIkCijGcwVBhSF
- 4Mpc5B6gBccaE+nNxTZOkiojzs4Mj8X+CYkv8jKNmhCV6RboB/qwOymoFZOFa+nH
- 8yxIhFf+RVi99OM8KjHN02a3RzucWioSUUgGLePJueOrYiIQdIeFHdQmxs7SP+P6
- guAPQshuR3oN5k/xhRnfmOCfjDRtlgKGRwjsADg69onrJ9I6hFc2G/EmBMMKw6hA
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=QHuznZ
+ 4V+FX6D8wl6UGoSIeehe/FkTl82oa3K7R+E7A=; b=RzA+VgORj95LtxwhW+/1Aw
+ ecyVI53WHO2YcA4fCjUhyBI4LQWA7m57XgueZiiCQCxpBjpMgDf8rkLgAM2xf4G1
+ 0jULtkScWDq5zqM4FZxMo4UAGGDK7Fg3VILHe03LtblfVvzmoqNr2loQFIKP/RGV
+ eg217XSNBAceaIvBkbLd4h9DFlQgWXja9RfvmVdarL5AXIQ+4PzmZt+rLXKplQrd
+ 5NVuywkm5jxWbld2XiHm5uNzKYF34MSnZxagvHTPpPoou7R0X/JoO1zeG6whHLaj
+ +Z5ZxT5ErlsDxY30XDrIEpyi//um6H0TqFM2oIdtr5wCVdiyLOlmVZtGKKFvuh0w
  ==
-X-ME-Sender: <xms:uMkPYGu1O9ejFOhraOMovNPtW8RRSLXIL49zsym8q4QDZj_ns6j3iw>
- <xme:uMkPYLd8BJqf60QvL9EqG4chMw7DASIf4MblbTRYOUPSq2PH-F3Nd1rxG_KplRtsb
- n6QrMyZPsaBQYK7FP0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeggddutdekucetufdoteggodetrfdotf
+X-ME-Sender: <xms:rMoPYPSVtvI0nshXfoU4m-judZ54eLLAtjGcP9lZh0i5Ol0CR5f_uA>
+ <xme:rMoPYAwtXX-Ugp2tIVX81zqsuYA0geBWvHJ7rczZ4U932Vp8PuFgq7vmY9AR8-6TB
+ -zok5KA8ebtC9PWfPE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeggddutdelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
  uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
  cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
@@ -53,26 +53,27 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdeggddutdekucetufdoteggod
  gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
  keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
  curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:uMkPYBzcCT5c6fs48-xmWMliFA4rwknuG0h5axhuMY17As9qpG3BCA>
- <xmx:uMkPYBNMp7x8ecI2QxlLd-wP0KVV2sLULVC9Q_BnCaBGecP2k9jgzQ>
- <xmx:uMkPYG86XHmqTQX8IKL3rE7I0CLUEvnUQkbKOLj689jTvrmAhK2maQ>
- <xmx:uckPYKQDmEgKUr7etDEZIsjFG6O1tJi6_I_IDjhqS_uoIkCqw4JD1w>
+X-ME-Proxy: <xmx:rMoPYE1OldcUalUcO7_XIfoQBwGVaBZlHSiSGSZBUKxuCLxcdrCSlg>
+ <xmx:rMoPYPDwyiif2WDCfed4TxMO66nM9aQqXGorXgzewfB3C0O88lmpsQ>
+ <xmx:rMoPYIj6YyzC4WCuN-lTPuX6F4vW-ErgNI8nAFRnSOtcLZRvA_6_-Q>
+ <xmx:rcoPYBVkGHo3qEVCZUuYf6s1cf87Oii29pwcpjT-Vd_DzN3QEXHTDw>
 Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 7BB4F1080063;
- Tue, 26 Jan 2021 02:50:15 -0500 (EST)
-Date: Tue, 26 Jan 2021 08:50:13 +0100
+ by mail.messagingengine.com (Postfix) with ESMTPA id 27CDF24005E;
+ Tue, 26 Jan 2021 02:54:19 -0500 (EST)
+Date: Tue, 26 Jan 2021 08:54:17 +0100
 From: Klaus Jensen <its@irrelevant.dk>
 To: Dmitry Fomichev <dmitry.fomichev@wdc.com>
-Subject: Re: [PATCH 1/3] hw/block/nvme: Check for zone boundary during append
-Message-ID: <YA/JtQ3LfNKAlkhM@apples.localdomain>
+Subject: Re: [PATCH 2/3] hw/block/nvme: Check zone state before checking
+ boundaries
+Message-ID: <YA/KqWVPA0hUmP4B@apples.localdomain>
 References: <20210126050248.9077-1-dmitry.fomichev@wdc.com>
- <20210126050248.9077-2-dmitry.fomichev@wdc.com>
+ <20210126050248.9077-3-dmitry.fomichev@wdc.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="5E/MpDSYWHPUNPy4"
+ protocol="application/pgp-signature"; boundary="ygY5rFnQi1zcnbUe"
 Content-Disposition: inline
-In-Reply-To: <20210126050248.9077-2-dmitry.fomichev@wdc.com>
+In-Reply-To: <20210126050248.9077-3-dmitry.fomichev@wdc.com>
 Received-SPF: pass client-ip=66.111.4.229; envelope-from=its@irrelevant.dk;
  helo=new3-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -103,76 +104,95 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5E/MpDSYWHPUNPy4
+--ygY5rFnQi1zcnbUe
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
 On Jan 26 14:02, Dmitry Fomichev wrote:
-> It is observed that with the existing code it is possible to keep
-> appending to a zone indefinitely. To fix, add the missing check to
-> verify that the zone append is not going to write beyond zone capacity.
+> The code in nvme_check_zone_write() first checks for zone boundary
+> condition violation and only after that it proceeds to verify that the
+> zone state is suitable the write to happen. This is not consistent with
+> nvme_check_zone_read() flow - in that function, zone state is checked
+> before making any boundary checks. Besides, checking that ZSLBA + NLB
+> does not cross the write boundary is now redundant for Zone Append and
+> only needs to be done for writes.
 >=20
-> Reported-by: Niklas Cassel <niklas.cassel@wdc.com>
+> Move the check in the code to be performed for Write and Write Zeroes
+> commands only and to occur after zone state checks.
+>=20
 > Signed-off-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 > ---
->  hw/block/nvme.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+>  hw/block/nvme.c | 21 ++++++++++-----------
+>  1 file changed, 10 insertions(+), 11 deletions(-)
 >=20
 > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index f64676a930..67538010ef 100644
+> index 67538010ef..b712634c27 100644
 > --- a/hw/block/nvme.c
 > +++ b/hw/block/nvme.c
-> @@ -1135,9 +1135,10 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n,=
+> @@ -1138,13 +1138,8 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n,=
  NvmeNamespace *ns,
->                                        NvmeZone *zone, uint64_t slba,
->                                        uint32_t nlb, bool append)
->  {
-> +    uint64_t bndry =3D nvme_zone_wr_boundary(zone);
+>      uint64_t bndry =3D nvme_zone_wr_boundary(zone);
 >      uint16_t status;
 > =20
-> -    if (unlikely((slba + nlb) > nvme_zone_wr_boundary(zone))) {
-> +    if (unlikely(slba + nlb > bndry)) {
->          status =3D NVME_ZONE_BOUNDARY_ERROR;
+> -    if (unlikely(slba + nlb > bndry)) {
+> -        status =3D NVME_ZONE_BOUNDARY_ERROR;
+> -    } else {
+> -        status =3D nvme_check_zone_state_for_write(zone);
+> -    }
+
+Alright. The double check on boundary that I pointed out in the previous
+patch is fixed here.
+
+> -
+> -    if (status !=3D NVME_SUCCESS) {
+> +    status =3D nvme_check_zone_state_for_write(zone);
+> +    if (status) {
+>          trace_pci_nvme_err_zone_write_not_ok(slba, nlb, status);
 >      } else {
->          status =3D nvme_check_zone_state_for_write(zone);
-> @@ -1151,8 +1152,9 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n, =
-NvmeNamespace *ns,
->              if (unlikely(slba !=3D zone->d.zslba)) {
->                  trace_pci_nvme_err_append_not_at_start(slba, zone->d.zsl=
-ba);
->                  status =3D NVME_INVALID_FIELD;
-> -            }
-> -            if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
-> +            } else if (unlikely(zone->w_ptr + nlb > bndry)) {
-> +                status =3D NVME_ZONE_BOUNDARY_ERROR;
-
-Now, for appends, you are just checking the boundary condition twice.
-And the first one will be moot for appends anyway.
-
-> +            } else if (nvme_l2b(ns, nlb) > (n->page_size << n->zasl)) {
+>          assert(nvme_wp_is_valid(zone));
+> @@ -1158,10 +1153,14 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n=
+, NvmeNamespace *ns,
 >                  trace_pci_nvme_err_append_too_large(slba, nlb, n->zasl);
 >                  status =3D NVME_INVALID_FIELD;
 >              }
+> -        } else if (unlikely(slba !=3D zone->w_ptr)) {
+> -            trace_pci_nvme_err_write_not_at_wp(slba, zone->d.zslba,
+> -                                               zone->w_ptr);
+> -            status =3D NVME_ZONE_INVALID_WRITE;
+> +        } else {
+> +            if (unlikely(slba !=3D zone->w_ptr)) {
+> +                trace_pci_nvme_err_write_not_at_wp(slba, zone->d.zslba,
+> +                                                   zone->w_ptr);
+> +                status =3D NVME_ZONE_INVALID_WRITE;
+> +            } else if (unlikely(slba + nlb > bndry)) {
+> +                status =3D NVME_ZONE_BOUNDARY_ERROR;
+> +            }
+>          }
+>      }
+> =20
 > --=20
 > 2.28.0
 >=20
 >=20
 
---5E/MpDSYWHPUNPy4
+--=20
+One of us - No more doubt, silence or taboo about mental illness.
+
+--ygY5rFnQi1zcnbUe
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAPybQACgkQTeGvMW1P
-DenqQwgAp1N6jm0Zrq1gYEPbFkcuKvxpLiRkAOIEA0XlUxd8K4WSfqzctRxmd35Y
-IlbuYzPYHuNCQterABDGN/Z+h84pEIHXlOGDs/n0QMAM4ys3va6s5mSlOkFBUBZR
-K3Yffl8d5+2dDvNEeZc9Y33/EIREAy9kK1DKUynxOfj1eUh5c+7ViCCFvF30lVHd
-0lFEcW5Tx8ZOLl3E03wGl5U82CuqkU2Pj7+LFUHAQpD1dsVWOLzidgtGi9+2S9W3
-CrAM7EVAVCeh6yV7VejyJGdZlNKxnHv8nKRCekprKxLGL23MlsK8zz38SHgGkPaY
-RjEOL/PwAx3v2WH+M0x10Aw/jFd31w==
-=W1Mo
+iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAPyqgACgkQTeGvMW1P
+DenOaQgAvrYJ6V8o2Gt6yCWA+iy6X6bYzBUYm5h46jsO3ljhwcgx5jJjW5bKg1VQ
+rPR5CiyqD6O1HxsPrS9v+b6iSEFKe+2dM4TQDwYJOmcGSy3o8fEOsmwxkc+oNill
+slDRgqHT0vroNrNKVIS0r6bQmXKvpZnaeHaB8GP/gFpZvzfxpvIs91M/c88YEY5x
+voa04q/6gpmJm52WHQR56aeyHJg/vZiQZwyNlLq9vEgGNWX4eh/ijnBS7khoxoTg
+8Ie7S9oZQPrUWL9zkcfn58HGYjB0riHBPD/dDOyUkp4Zy51tWGpDNzFDjxLVAZS3
+44sFJoPJFO1LX7TA3JJfZgMpec13mg==
+=juRK
 -----END PGP SIGNATURE-----
 
---5E/MpDSYWHPUNPy4--
+--ygY5rFnQi1zcnbUe--
 
