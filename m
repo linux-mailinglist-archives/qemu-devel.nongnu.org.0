@@ -2,39 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976FC304D89
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 01:44:03 +0100 (CET)
-Received: from localhost ([::1]:43358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C01304D88
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 01:43:53 +0100 (CET)
+Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4YwE-0007F3-LG
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 19:44:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57542)
+	id 1l4Yw4-00078e-Gt
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 19:43:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57634)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <110bef3595cb841dfa1b86733c174ac9774eb37e@lizzy.crudebyte.com>)
- id 1l4YsV-00058B-71
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:40:11 -0500
-Received: from lizzy.crudebyte.com ([91.194.90.13]:39029)
+ id 1l4YtW-00062d-8X
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:41:14 -0500
+Received: from lizzy.crudebyte.com ([91.194.90.13]:51471)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <110bef3595cb841dfa1b86733c174ac9774eb37e@lizzy.crudebyte.com>)
- id 1l4YsT-0007ao-OP
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:40:10 -0500
+ id 1l4YtU-0007rP-Im
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 19:41:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:References:In-Reply-To:
- Message-Id:Content-Type:Content-Transfer-Encoding:MIME-Version:Content-ID:
- Content-Description; bh=lRzWEo6b7k9+kApoB+89gLCgSlgbKdep1hgOxL6/O8s=; b=MNsvY
- LWcj1Cz3mE3nQH579Vxuvj7w+H7N/S9rZSdNeTyEANH2ZHcae6pBPBfxMwACW2Dd1E6K3w8rFWBQl
- J2/WDIl0q4sPe0ttT+l+ru4rAz25sx1nj+pqmMq3oWmGfpLv/2z1OxFIGng2I5JYq1plg6wsqjIFm
- nZ+oyu8JDWQ5Qqe7ryexKy5EIt5IG4ICG/FKMt4MI1JDuKETYWr0KaSLVQWnrL73/IrE7i7UZmaev
- rD+yY37wNWyA9fRIpQkhzxXmDrGTa8Xm+W9/9Do6mPYWwpWA+IW6V+/5wAerYETEuieL3tI8Y03uN
- d/mYptw3dRpS1WaUvDGbuuzKdsBhA==;
-Message-Id: <110bef3595cb841dfa1b86733c174ac9774eb37e.1611704181.git.qemu_oss@crudebyte.com>
-In-Reply-To: <cover.1611704181.git.qemu_oss@crudebyte.com>
-References: <cover.1611704181.git.qemu_oss@crudebyte.com>
-Date: Wed, 27 Jan 2021 00:26:16 +0100
-Subject: [PATCH 5/5] tests/qtest/qos-test: dump QEMU command if verbose
+ d=crudebyte.com; s=lizzy; h=Cc:To:Subject:Date:From:Message-Id:Content-Type:
+ Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Content-ID:
+ Content-Description; bh=rRNnqx/f2O/bJZQ/C/qhYZTykLu/mP/cdPSwOolEn7M=; b=Dkqui
+ PTU5TOTRvIa65wsDZQgKRxHJJTc0SoA4u9l9UiV4Bn86i+mdAAM2Q/665yGnO73532p3Uezfv+4iJ
+ Fr2e6KnWqKtdafKDC/Y+xtHTobLxSCS4qABYgR+2Vyncv4OpgKJP/ysu2XXcKSxmluUmgGhS+VrNA
+ Meaafx1IsUG3ttP85lgaIF1vVjGDDRLdJAMk/JovryRsID2fdLe8VqA5v8zmrYMmoXiKx8xEnzKbs
+ gnx7xM+Cb6jlqC30BxcUrQONIWa2HUgmuXE6DAf47c2kB8RJIjLo+CQHZ+NgZunjS37PkNOelmM4X
+ 6XnWdYWLp3d5K8a1Ig5PI7l5kJheg==;
+Message-Id: <cover.1611704181.git.qemu_oss@crudebyte.com>
+Date: Wed, 27 Jan 2021 00:36:21 +0100
+Subject: [PATCH 0/5] enhance debugging with qtest framework
 To: qemu-devel@nongnu.org
 Received-SPF: none client-ip=91.194.90.13;
  envelope-from=110bef3595cb841dfa1b86733c174ac9774eb37e@lizzy.crudebyte.com;
@@ -64,32 +62,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Christian Schoenebeck <qemu_oss@crudebyte.com>
 From: qemu_oss--- via <qemu-devel@nongnu.org>
 
-If qtests are run in verbose mode (i.e. if --verbose CL argument
-was provided) then print the assembled qemu command line for each
-test.
+This series is a follow-up of the following previous series:
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg02251.html
+The 9p patches of the previous series have already been merged.
 
-Use qos_printf() instead of g_test_message() to avoid the latter
-cluttering the output.
+This series consists of 2 parts:
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- tests/qtest/qos-test.c | 3 +++
- 1 file changed, 3 insertions(+)
+1. libqos patch 1 removes a limitation of the qtest/libqos subsystem:
+   support for more than one device using the same (official) QEMU device
+   name.
 
-diff --git a/tests/qtest/qos-test.c b/tests/qtest/qos-test.c
-index b279b6f816..f97d0a08fd 100644
---- a/tests/qtest/qos-test.c
-+++ b/tests/qtest/qos-test.c
-@@ -89,6 +89,9 @@ static void qos_set_machines_devices_available(void)
- 
- static void restart_qemu_or_continue(char *path)
- {
-+    if (g_test_verbose()) {
-+        qos_printf("Run QEMU with: '%s'\n", path);
-+    }
-     /* compares the current command line with the
-      * one previously executed: if they are the same,
-      * don't restart QEMU, if they differ, stop previous
+   Like discussed in the previous series, if nobody finds this patch useful
+   then just ignore it. I needed it in the previou series before but
+   eventually decided for a different approach and personally don't need it
+   in near future.
+
+2. Patches 2 to 5 enhance debugging issues with the qtest framework. I would
+   appreciate if they got merged, because I still find them useful while
+   working on new test cases.
+
+Changes of these patches from derived series:
+
+  * Squashed previous patches 1 & 2 -> [patch 1].
+
+  * Dropped ANSI color escape sequences [patch 3].
+
+  * Squashed previous patches 4 & 5 -> [patch 3].
+
+  * Extended commit log to provide more details about purpose [patch 4].
+
+Christian Schoenebeck (5):
+  libqos/qgraph: add qos_node_create_driver_named()
+  libqos/qgraph_internal: add qos_printf() and qos_printf_literal()
+  tests/qtest/qos-test: dump qos graph if verbose
+  tests/qtest/qos-test: dump environment variables if verbose
+  tests/qtest/qos-test: dump QEMU command if verbose
+
+ tests/qtest/libqos/qgraph.c          | 99 +++++++++++++++++++++++++++-
+ tests/qtest/libqos/qgraph.h          | 36 ++++++++++
+ tests/qtest/libqos/qgraph_internal.h | 12 ++++
+ tests/qtest/qos-test.c               | 15 ++++-
+ 4 files changed, 158 insertions(+), 4 deletions(-)
+
 -- 
 2.20.1
 
