@@ -2,61 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B980304B96
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 22:37:54 +0100 (CET)
-Received: from localhost ([::1]:34402 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACC47304B99
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 22:39:53 +0100 (CET)
+Received: from localhost ([::1]:38634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4W25-0007yu-EK
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 16:37:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57478)
+	id 1l4W40-0001M5-Mg
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 16:39:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57608)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1l4W0b-0006s8-Pc
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:36:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:54821)
+ id 1l4W0w-0007Ih-Ax
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:36:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35510)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1l4W0a-0003fH-77
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:36:21 -0500
+ id 1l4W0u-0003qn-NO
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:36:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611696979;
+ s=mimecast20190719; t=1611697000;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zROVib14jRHiRaqR1JRMjDC84FjzPeimMkA3lXVDz/0=;
- b=IcWaY3XRSQhpfW0Lul3M3hsSyo8vcKcCwdyqRAJ6zjs++kbCF6AeL0AY3Sxu6Cj7EdET+N
- s5YcclJb2Y/yTARGpuICKV+1tr93SjwMc1IK83zQ2qwDwY4uciUjr779fJv5EamJ8bo+OJ
- EmNkoN3CoSnOjbXd9f+ALfqV6Tq96E8=
+ bh=xwKZdxfl2BD5jdE0BuNGoIuKx58HeI7MN7LvxdIxtzA=;
+ b=b/f/YuDXSvffMOX9E0bBDgzBP71p+obcAReTBJbQw8KUEHz6lg6HanCABmnmr8iyrz7hnG
+ PpD4pQQcbQ3hHcCqhVIZiczZDMTIfIy8PPavEF8Ff5Z65Nex7v/rPG8dbWCeAwGnhihYE+
+ Ba35/lhVTaeLnvfVNoZyuatmtNHkK1E=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-182-k6PKxcmzPAKsgtvhZyZMvg-1; Tue, 26 Jan 2021 16:36:11 -0500
-X-MC-Unique: k6PKxcmzPAKsgtvhZyZMvg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
+ us-mta-472-9b3An5ctM26dwFxBUgMtIw-1; Tue, 26 Jan 2021 16:36:36 -0500
+X-MC-Unique: 9b3An5ctM26dwFxBUgMtIw-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A3CDA107ACF7;
- Tue, 26 Jan 2021 21:36:09 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 805CEA0C04;
+ Tue, 26 Jan 2021 21:36:34 +0000 (UTC)
 Received: from omen.home.shazbot.org (ovpn-112-255.phx2.redhat.com
  [10.3.112.255])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CA7036F978;
- Tue, 26 Jan 2021 21:36:02 +0000 (UTC)
-Date: Tue, 26 Jan 2021 14:36:02 -0700
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CED655D9DE;
+ Tue, 26 Jan 2021 21:36:27 +0000 (UTC)
+Date: Tue, 26 Jan 2021 14:36:05 -0700
 From: Alex Williamson <alex.williamson@redhat.com>
 To: Shenming Lu <lushenming@huawei.com>
-Subject: Re: [RFC PATCH v2 1/3] vfio: Move the saving of the config space to
- the right place in VFIO migration
-Message-ID: <20210126143602.0dac239f@omen.home.shazbot.org>
-In-Reply-To: <3f7db9e7-3c98-5022-e907-e6214815fae9@huawei.com>
+Subject: Re: [RFC PATCH v2 2/3] vfio: Set the priority of the VFIO VM state
+ change handler explicitly
+Message-ID: <20210126143605.4f9d5b25@omen.home.shazbot.org>
+In-Reply-To: <20201209080919.156-3-lushenming@huawei.com>
 References: <20201209080919.156-1-lushenming@huawei.com>
- <20201209080919.156-2-lushenming@huawei.com>
- <20201209132947.3177f130.cohuck@redhat.com>
- <20201209113431.5b252e93@omen.home>
- <3f7db9e7-3c98-5022-e907-e6214815fae9@huawei.com>
+ <20201209080919.156-3-lushenming@huawei.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=alex.williamson@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -94,59 +91,44 @@ Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 10 Dec 2020 10:21:21 +0800
+On Wed, 9 Dec 2020 16:09:18 +0800
 Shenming Lu <lushenming@huawei.com> wrote:
 
-> On 2020/12/10 2:34, Alex Williamson wrote:
-> > On Wed, 9 Dec 2020 13:29:47 +0100
-> > Cornelia Huck <cohuck@redhat.com> wrote:
-> >   
-> >> On Wed, 9 Dec 2020 16:09:17 +0800
-> >> Shenming Lu <lushenming@huawei.com> wrote:
-> >>  
-> >>> On ARM64 the VFIO SET_IRQS ioctl is dependent on the VM interrupt
-> >>> setup, if the restoring of the VFIO PCI device config space is
-> >>> before the VGIC, an error might occur in the kernel.
-> >>>
-> >>> So we move the saving of the config space to the non-iterable
-> >>> process, so that it will be called after the VGIC according to
-> >>> their priorities.
-> >>>
-> >>> As for the possible dependence of the device specific migration
-> >>> data on it's config space, we can let the vendor driver to
-> >>> include any config info it needs in its own data stream.
-> >>> (Should we note this in the header file linux-headers/linux/vfio.h?)    
-> >>
-> >> Given that the header is our primary source about how this interface
-> >> should act, we need to properly document expectations about what will
-> >> be saved/restored when there (well, in the source file in the kernel.)
-> >> That goes in both directions: what a userspace must implement, and what
-> >> a vendor driver can rely on.  
-> 
-> Yeah, in order to make the vendor driver and QEMU cooperate better, we might
-> need to document some expectations about the data section in the migration
-> region...
-> >>
-> >> [Related, but not a todo for you: I think we're still missing proper
-> >> documentation of the whole migration feature.]  
-> > 
-> > Yes, we never saw anything past v1 of the documentation patch.  Thanks,
-> >   
-> 
-> By the way, is there anything unproper with this patch? Wish your suggestion. :-)
+> In the VFIO VM state change handler, VFIO devices are transitioned
+> in the _SAVING state, which should keep them from sending interrupts.
 
-I'm really hoping for some feedback from Kirti, I understand the NVIDIA
-vGPU driver to have some dependency on this.  Thanks,
+Is this comment accurate?  It's my expectation that _SAVING has no
+bearing on a device generating interrupts.  Interrupt generation must
+be allowed to continue so long as the device is _RUNNING.  Thanks,
 
 Alex
 
-> >>> Signed-off-by: Shenming Lu <lushenming@huawei.com>
-> >>> ---
-> >>>  hw/vfio/migration.c | 25 +++++++++++++++----------
-> >>>  1 file changed, 15 insertions(+), 10 deletions(-)    
-> > 
-> > .
-> >   
+> Then we can save the pending states of all interrupts in the GIC VM
+> state change handler (on ARM).
 > 
+> So we have to set the priority of the VFIO VM state change handler
+> explicitly (like virtio devices) to ensure it is called before the
+> GIC's in saving.
+> 
+> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+> Reviewed-by: Kirti Wankhede <kwankhede@nvidia.com>
+> ---
+>  hw/vfio/migration.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/vfio/migration.c b/hw/vfio/migration.c
+> index 3b9de1353a..97ea82b100 100644
+> --- a/hw/vfio/migration.c
+> +++ b/hw/vfio/migration.c
+> @@ -862,7 +862,8 @@ static int vfio_migration_init(VFIODevice *vbasedev,
+>      register_savevm_live(id, VMSTATE_INSTANCE_ID_ANY, 1, &savevm_vfio_handlers,
+>                           vbasedev);
+>  
+> -    migration->vm_state = qemu_add_vm_change_state_handler(vfio_vmstate_change,
+> +    migration->vm_state = qdev_add_vm_change_state_handler(vbasedev->dev,
+> +                                                           vfio_vmstate_change,
+>                                                             vbasedev);
+>      migration->migration_state.notify = vfio_migration_state_notifier;
+>      add_migration_state_change_notifier(&migration->migration_state);
 
 
