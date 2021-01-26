@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AACD2303282
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 04:13:29 +0100 (CET)
-Received: from localhost ([::1]:60918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9C153032A2
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 04:27:48 +0100 (CET)
+Received: from localhost ([::1]:37056 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4EnI-0008Q0-7h
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 22:13:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51908)
+	id 1l4F19-00035e-GD
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 22:27:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <08005325@163.com>)
- id 1l4EmH-0007ur-KO; Mon, 25 Jan 2021 22:12:25 -0500
-Received: from m12-17.163.com ([220.181.12.17]:56708)
+ id 1l4EzX-0002H4-9N; Mon, 25 Jan 2021 22:26:07 -0500
+Received: from m12-17.163.com ([220.181.12.17]:54205)
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <08005325@163.com>)
- id 1l4EmA-0001TP-Fh; Mon, 25 Jan 2021 22:12:24 -0500
+ id 1l4EzS-0002xa-6a; Mon, 25 Jan 2021 22:26:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
- s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=ARGFx
- 3eyFgOKdRTd52qxfbeghKpqzDB6AglisdeUAPo=; b=mWsL+DG2k88SzLNPawj9h
- h+9P8L/wgBhz2AkVRNF2rbhPanvBrl0X53Z3At+fIeE6x3dRT7m1Dyu3VF8fs6fx
- PA1CCprVTt4+29c0yZlkPsKlO5oEbUEzR1AC+F+1xh58EXymimMjB99pibDhxJof
- hky+wOe6hl8GV08OtjdDls=
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=JHOw4
+ Z0EmD7eNpAAIcohklJqgng6dxj6zyjUIl2YaPU=; b=lxoJJcDoT+MP+i/dnUfRG
+ tw4IeeZriSVZEaDw1VmR+GXoxyl5nKebwIY0Tlpxzbii73Og2Pa9mkwDrQQOOGyK
+ oyk0Zs5UVpLgq4Tx8m5Zyfey6KbOz0TV8epNH7PnWoz9GvVLRzAybIC7FmR+LFZi
+ gtgCHDJBEhV+M1wCpDkf60=
 Received: from localhost.localdomain (unknown [116.228.45.98])
- by smtp13 (Coremail) with SMTP id EcCowADnnkaAiA9gprz_hg--.47925S2;
- Tue, 26 Jan 2021 11:12:00 +0800 (CST)
+ by smtp13 (Coremail) with SMTP id EcCowACXh3+6iw9gPV8Bhw--.48248S2;
+ Tue, 26 Jan 2021 11:25:47 +0800 (CST)
 From: 08005325@163.com
 To: kwolf@redhat.com,
 	mreitz@redhat.com,
 	jsnow@redhat.com
-Subject: [PATCH v2] Fix crash with IOthread when block commit after snapshot
-Date: Tue, 26 Jan 2021 11:11:44 +0800
-Message-Id: <20210126031144.13121-1-08005325@163.com>
+Subject: [PATCH v3] Fix crash with IOthread when block commit after snapshot
+Date: Tue, 26 Jan 2021 11:25:45 +0800
+Message-Id: <20210126032545.13349-1-08005325@163.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210125120727.7799-1-08005325@163.com>
-References: <20210125120727.7799-1-08005325@163.com>
+In-Reply-To: <20210126031144.13121-1-08005325@163.com>
+References: <20210126031144.13121-1-08005325@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: EcCowADnnkaAiA9gprz_hg--.47925S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxZw43Cw13Jw1DCw13CFWxWFg_yoWrKw18pr
- yUWFnakw40kFn7ZFs2y3WIgry5Kw40vF4DCwnrtr18ur9xA3WxKFyrArWYgFWjq3yfJr4q
- qF12ga48tFn5A3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
- 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j9jjgUUUUU=
+X-CM-TRANSID: EcCowACXh3+6iw9gPV8Bhw--.48248S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxZw4xCw1kWF45Xry8Jw1kXwb_yoWrtF1rpr
+ yUWFnakw40kFn7uFZ2y3W0gryrKw4vvF4DCwnrtr18Zr9xA3Z7KFyrArWYgFWjq3yfJr4q
+ qF12ga48tFs5A3DanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jvfO7UUUUU=
 X-Originating-IP: [116.228.45.98]
-X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbiGQAmrFyPbtCX5gAAsP
+X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbiNRsmrFrPasjVPAAAs6
 Received-SPF: pass client-ip=220.181.12.17; envelope-from=08005325@163.com;
  helo=m12-17.163.com
 X-Spam_score_int: -18
@@ -73,6 +73,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Michael Qiu <qiudayu@huayun.com>
 
+v3: reformat the commit log, remove duplicate content
+
 v2: modify the coredump backtrace within commit log with the newest
     qemu with master branch
 
@@ -88,12 +90,6 @@ Program received signal SIGSEGV, Segmentation fault.
 $17 = (MirrorBlockJob *) 0x0
 (gdb) p s->stop
 $18 = false
-
-(gdb) bt
-Program received signal SIGSEGV, Segmentation fault.
-[Switching to Thread 0x7f7c7d91f700 (LWP 99907)]
-0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
-1437    ../block/mirror.c: No such file or directory.
 
 (gdb) bt
 #0  0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
@@ -135,10 +131,10 @@ qapi/qapi-commands-block-core.c:346
 #18 0x0000564b212304e1 in qemu_main_loop at ../softmmu/runstate.c:721
 #19 0x0000564b20f7975e in main at ../softmmu/main.c:50
 
-in IO thread when do bdrv_mirror_top_pwritev, the job is NULL, and stop field
-is false, this means the s object has not been initialized, and this object
-is initialized by block_job_create(), but the initialize process stuck in
-acquire the lock.
+In IO thread when do bdrv_mirror_top_pwritev, the job is NULL, and stop field
+is false, this means the MirrorBDSOpaque "s" object has not been initialized yet,
+and this object is initialized by block_job_create(), but the initialize
+process is stuck in acquiring the lock.
 
 The rootcause is that qemu do release/acquire when hold the lock,
 at the same time, IO thread get the lock after release stage, and the crash
