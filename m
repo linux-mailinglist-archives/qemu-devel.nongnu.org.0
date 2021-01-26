@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2C16303F53
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:53:35 +0100 (CET)
-Received: from localhost ([::1]:43714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25AF5303F8D
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 15:02:55 +0100 (CET)
+Received: from localhost ([::1]:46798 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Omj-0006r9-8U
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:53:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40676)
+	id 1l4Ovl-0000oA-U7
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 09:02:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l4Okn-0006Mf-NA
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:51:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43322)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l4Ouc-0000AS-A1
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:01:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26725)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l4Okk-0004Uh-Oo
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:51:33 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l4OuP-0008Am-1p
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:01:41 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611669089;
+ s=mimecast20190719; t=1611669685;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7kYYCY2hnpTN0pUm0CDVk3GttCGkvuy7yPvHAAI7nHo=;
- b=FTmg7hdGxHHOPMxU+K3GPKZw1e3kbIuOo/cBw3OPxFVUgptDMoj0kRyXgfMiTlWrRmUGnm
- i/FPOAaKjiJAT0kVr8+0o7vAHeAS8e1P1WyR6i3x91lEEwAFoYIH2qrCqM21ie9uRXjz+m
- MITIcv4/TwCoAyB5nNmWSrKDUgG7LSM=
+ bh=pdbfjyAAAVR6OC2rQq/xpizzGdP2p+hdWswq7I+ReSI=;
+ b=PWwlE2XHUWkIdTTUgV8ks+RJDPID8TZXhc/r8werDzE82unnGHLiua1hBXYs4ZxijkTgUr
+ HKWtLVKeavDBfkMzI1JSIwDSknOqUWiLrYr4mbbyNZEz1kYK1K/6uLglzo6udIeYR99Wm3
+ jQ7wzS80Mb5y63dGWeFWvgSwAhyKjCo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-527-w2QZSGdDOa6sSA0fHnsCdw-1; Tue, 26 Jan 2021 08:51:27 -0500
-X-MC-Unique: w2QZSGdDOa6sSA0fHnsCdw-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-100-UotVpP0JNdmx58x6CDH7tg-1; Tue, 26 Jan 2021 09:01:22 -0500
+X-MC-Unique: UotVpP0JNdmx58x6CDH7tg-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 47E1B15724;
- Tue, 26 Jan 2021 13:51:26 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2313B10013BD;
- Tue, 26 Jan 2021 13:51:20 +0000 (UTC)
-Subject: Re: [RFC PATCH 2/2] gitlab-ci: Add a job building TCI with Clang
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-References: <20210110162739.858087-1-f4bug@amsat.org>
- <20210110162739.858087-3-f4bug@amsat.org>
- <78a9718b-dec0-cc31-7ada-e815d9022e65@redhat.com>
- <eb4976bc-133d-7d77-cae3-899028751a85@redhat.com>
- <20210121181303.GR3125227@redhat.com>
- <89b62df4-e077-fb82-75af-e180a89fba27@redhat.com>
- <762a020e-43a6-9228-1a44-0d38d086a61f@redhat.com>
- <87297994-4495-681a-5359-7807e537fa89@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <97b5fff9-8359-35ae-8749-a5ba91204dae@redhat.com>
-Date: Tue, 26 Jan 2021 10:51:17 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0F2C71842141;
+ Tue, 26 Jan 2021 14:01:20 +0000 (UTC)
+Received: from localhost (ovpn-114-186.ams2.redhat.com [10.36.114.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 936C05C1A3;
+ Tue, 26 Jan 2021 14:01:18 +0000 (UTC)
+Date: Tue, 26 Jan 2021 14:01:17 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH 0/2] trace: make the 'log' backend timestamp configurable
+Message-ID: <20210126140117.GF250425@stefanha-x1.localdomain>
+References: <20210125113507.224287-1-stefanha@redhat.com>
+ <afa594a-921a-6c3d-db29-56173570f080@eik.bme.hu>
 MIME-Version: 1.0
-In-Reply-To: <87297994-4495-681a-5359-7807e537fa89@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <afa594a-921a-6c3d-db29-56173570f080@eik.bme.hu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="KJY2Ze80yH5MUxol"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,143 +79,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- Wataru Ashihara <wataash@wataash.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+--KJY2Ze80yH5MUxol
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 1/22/21 5:19 AM, Thomas Huth wrote:
-> On 21/01/2021 21.46, Wainer dos Santos Moschetta wrote:
->>
->> On 1/21/21 3:28 PM, Thomas Huth wrote:
->>> On 21/01/2021 19.13, Daniel P. Berrangé wrote:
->>>> On Thu, Jan 21, 2021 at 03:05:43PM -0300, Wainer dos Santos 
->>>> Moschetta wrote:
->>>>> Hi,
->>>>>
->>>>> On 1/21/21 7:08 AM, Thomas Huth wrote:
->>>>>> On 10/01/2021 17.27, Philippe Mathieu-Daudé wrote:
->>>>>>> Split the current GCC build-tci job in 2, and use Clang
->>>>>>> compiler in the new job.
->>>>>>>
->>>>>>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->>>>>>> ---
->>>>>>> RFC in case someone have better idea to optimize can respin this 
->>>>>>> patch.
->>>>>>>
->>>>>>>    .gitlab-ci.yml | 22 ++++++++++++++++++++--
->>>>>>>    1 file changed, 20 insertions(+), 2 deletions(-)
->>>>>>
->>>>>> I'm not quite sure whether we should go down this road ... if we 
->>>>>> wanted
->>>>>> to have full test coverage for clang, we'd need to duplicate 
->>>>>> *all* jobs
->>>>>> to run them once with gcc and once with clang. And that would be 
->>>>>> just
->>>>>> overkill.
->>>>>
->>>>> I agree with Thomas.
->>>>>
->>>>>>
->>>>>>
->>>>>> I think we already catch most clang-related problems with the 
->>>>>> clang jobs
->>>>>> that we already have in our CI, so problems like the ones that 
->>>>>> you've
->>>>>> tried to address here should be very, very rare. So I'd rather 
->>>>>> vote for
->>>>>> not splitting the job here.
->>>>>
->>>>> We got only one clang job on GitLab CI...
->>>>>
->>>>>    build-clang:
->>>>>      <<: *native_build_job_definition
->>>>>      variables:
->>>>>        IMAGE: fedora
->>>>>        CONFIGURE_ARGS: --cc=clang --cxx=clang++
->>>>>        TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
->>>>>          ppc-softmmu s390x-softmmu arm-linux-user
->>>>>        MAKE_CHECK_ARGS: check
->>>>>
->>>>> ... and others on Travis:
->>>>>
->>>>>    "Clang (user)"
->>>>>
->>>>>    "Clang (main-softmmu)"
->>>>>
->>>>>    "Clang (other-softmmu)"
->>>>
->>>> I guess these three overlap partially with the build-clang job.
->>>>
->>>>>    "[s390x] Clang (disable-tcg)"
->>>>
->>>> Don't forget the  Cirrus CI jobs for freebsd and macOS will
->>>> be using  CLang too.
->>>
->>> Right... we should work towards getting cirrus-run into the QEMU-CI, 
->>> too, to finally have these in the gitlab-ci dashboard, too.
->>>
->>>>>
->>>>> So I've some questions:
->>>>>
->>>>>   * Can we move those first three Travis jobs to Gitlab CI? (I can 
->>>>> work on
->>>>> that)
->>>>
->>>> Yeah, if we move those three travis jobs they can replace the existing
->>>> build-clang job. We don't neccesssarily need to keep them as three
->>>> separate jobs - that split was just due to the Travis time limits.
->>>> If a different split works better on GitLab we can do that.
->>>
->>> Well, if we really want to increase the amount clang jobs, one of 
->>> them should likely use TCI, as Phillippe suggested.
->> Ok, got it. I won't touch on those jobs.
->
-> I didn't meant my comment as a "no", but rather as a "needs further 
-> discussion first" ...
->
-> So here's my suggestion:
->
-> - Keep the current build-tci job as it is
->
-> - Add a build-clang-user job that compiles with clang and
->   --disable-system
->
-> - Add a "build-clang-system 2" job that compiles with clang
->   and --enable-tcg-interpreter and uses more or less the same
->   targets as the "build-tci" job. Maybe add the avr-softmmu
->   target here now, too, since it now also has a qtest with
->   TCG (boot-serial-test)
->
-> - Rename the current "build-clang" job to "build-clang-system 1"
->   and remove the arm-linux-user target and all the targets that
->   are already part of the "build-clang-system 2" / "build-tci"
->   from that job. Then add some other softmmu targets to that job
->   (but take care that it does not exceed the 1h run time limit,
->   so likely not all remaining targets can be added here)
->
-> - If we feel confident that we got enough test coverage there
->   (together with the clang-based jobs on Cirrus-CI), finally
->   remove the three x86 clang jobs from travis.yml.
->
-> What do you think? Could you work on such a patch (or patch series), 
-> Wainer?
+On Mon, Jan 25, 2021 at 08:50:23PM +0100, BALATON Zoltan wrote:
+> On Mon, 25 Jan 2021, Stefan Hajnoczi wrote:
+> > Zoltan reminded me that the 'log' backend prints tids/timestamps and th=
+is can
+> > be unwanted in some cases. It's easier to look at trace output without =
+them and
+> > in some cases parsing is also more convenient with them.
+> >=20
+> > Extend -msg timestamp=3Don|off to control the 'log' backend's tid/times=
+tamp output.
+>=20
+> Thank you, this works for me
+>=20
+> Tested-by: BALATON Zoltan <balaton@eik.bme.hu>
+>=20
+> but I had to remove build dir and rerun configure to get it omit timestam=
+ps.
+> Just running make (which reruns configure) or make distclean and running
+> configure does not seem to be enough to pick up some changes since the me=
+son
+> conversion. (I had similar problem with gtk being detected and used despi=
+te
+> having --disable-gtk on configure before the gtk test was moved to meson;=
+ so
+> I think there's some problem detecting changes in configure options
+> somewhere. That was also fixed by rerunning configure after starting from
+> clean build dir but did not work when keeping old build dir or make
+> distclean. This is probably not a problem for someone downloading the
+> sources and compiling it once, only annoying for developers who build it =
+all
+> the time.)
 
-It looks reasonable to me. I will work on a patch series based on your 
-suggestions so further discussion can be done on concrete changes.
+Thanks! The following meson.build fix in the tracing queue:
 
-Thanks!
+  [PATCH] trace: add meson custom_target() depend_files for tracetool
 
-- Wainer
+It solves this issue.
 
->
->
->  Thomas
+Stefan
+
+--KJY2Ze80yH5MUxol
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAQIK0ACgkQnKSrs4Gr
+c8i6jQf+NWmOtJCdSFmLI433V84y6S0PTZ7SZiB8KKeSnPQ8GhyeV2Qw+k1RGh2n
+IqjqGAFqS66Rcu8zf0y6raqWlWveE8TMkuCzrnrhn6bmpynfPhDJkIhHBrN5waHZ
+yItkFg+d2Wb2cM/vM9/HG1E45l6tL7QJ8vWtY8M3i8LkJJLfmCNslJRTroY9xL1G
+AqkbxKyK74eyY7ZxTfqFpiKMWjxzvLLvmqbny/N3c9STziGf1NWOdJFtSf3+V+q4
+kDjyjlbWxllGkcHpcRcjnwVONRNPW+LixO8BNXMVpLM2JWUo3MRX0sL4kM31Z3Ez
+aPprTNGv6G0WigJTg1rPkUH53eJ1yQ==
+=X632
+-----END PGP SIGNATURE-----
+
+--KJY2Ze80yH5MUxol--
 
 
