@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9877230448A
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:13:20 +0100 (CET)
-Received: from localhost ([::1]:51474 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 448AA3044EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 18:20:58 +0100 (CET)
+Received: from localhost ([::1]:37846 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4Ru3-0001l6-MO
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:13:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34542)
+	id 1l4S1R-0000Bn-BR
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 12:20:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34694)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l4Rrl-0000O2-Td
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:10:57 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d]:37016)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l4Rrk-00076T-6k
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 12:10:57 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id g15so2600137pjd.2
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 09:10:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=ugh5R04K55nASwcE5f02HiwZDz8uqE+EUVZkb2KWqDQ=;
- b=Yl3wA9qPwapXzt79TxVfRAg5mUSnA3xpLkwPJ0nJEHLxCiBcAnkITbWW9y+jHTfhkC
- 6cgwhe3lCHxFyz7nS2Q/Q5qUF02AmUtBW2E6CeZtoqqw2DgFa/f/3PP5H2nuueo4Mq4u
- hSOq64Huna7QS4xJdXyUKTVNeLy4hvu1sOL8AWCA1iHRiGCdfApGSdH74yimcjn+Qw17
- IPu8EUs3QfWF+kkQGB4c5NMDjghIiTrZKy7cR+iAudACIWD5PcMtPaZufuoSHFdgHRvB
- eXsIeOazVM8yhxkp2HxeyILLyD+JkSpLTDzKimQtqYyq7j28Cx+Z3Gt/htLH8AkpamHx
- EA+Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ugh5R04K55nASwcE5f02HiwZDz8uqE+EUVZkb2KWqDQ=;
- b=aZlWxJR8BJmArQEzQtgJpArKAtFdNZ1hUz5HQ4TFxeOZ8ieHSuRsrRLLiJ3Cxz/XpF
- RKnlwvki52vzchZxoRtJpVW30lEWxcWB/SGEtmJcdjz9OcAam2UHHn8KG4/yCJeusLQi
- OxAgiU/+qaZPDlSuAeP+d1LUXE2lXaLDjQYvIdwDs034Tc+TxYUTTfnXvhVhbkRgrNgi
- jUAepcdBkBQcXhdRxS53be3ZTpuZgc2clbVyJ+Efb/xOl7nFdd7ae6UXPpUekHk+JXeR
- NIyDDypIplIvr3XXGDJwXnkejRFIr3T9rv7GIf43JbYkdvAwjiO6RJt6zbWqp5ri9ENo
- hYZw==
-X-Gm-Message-State: AOAM531fYiF6ke8q+6kjAkP8KfDNF8CNkxmS3cAbEd2cfzScsYV9uEht
- HaddOTW9mv1KFluke/d3/gpMBQ==
-X-Google-Smtp-Source: ABdhPJwIqj0WEIZYNdg59Tfuyzc3o8P6xF6X3pu2jXbHRelfbZqXkO3xKvGufxYtOiDMAVPTywQ3Cg==
-X-Received: by 2002:a17:902:b986:b029:df:e5d6:cd71 with SMTP id
- i6-20020a170902b986b02900dfe5d6cd71mr7214714pls.42.1611681054520; 
- Tue, 26 Jan 2021 09:10:54 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id j5sm2848494pjf.47.2021.01.26.09.10.52
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jan 2021 09:10:53 -0800 (PST)
-Subject: Re: [PATCH v3 11/21] exec: Add support for TARGET_TAGGED_ADDRESSES
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210115224645.1196742-1-richard.henderson@linaro.org>
- <20210115224645.1196742-12-richard.henderson@linaro.org>
- <CAFEAcA_ALYdVn5YLBTN57D8a2ut3C5kt0bVb9faZEQe_-rxmPQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <fee363da-f185-7d84-a43a-0983e5ae6c9c@linaro.org>
-Date: Tue, 26 Jan 2021 07:10:50 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l4RsF-0000qp-2d; Tue, 26 Jan 2021 12:11:27 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:17148)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l4RsC-0007Ba-VM; Tue, 26 Jan 2021 12:11:26 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10QH3Xt0126239; Tue, 26 Jan 2021 12:11:06 -0500
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36amnnnn3h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Jan 2021 12:11:06 -0500
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10QGvkO0004451;
+ Tue, 26 Jan 2021 17:11:04 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma06ams.nl.ibm.com with ESMTP id 368b2h30cg-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Tue, 26 Jan 2021 17:11:04 +0000
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10QHB2Na36438430
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Tue, 26 Jan 2021 17:11:02 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3E3B44203F;
+ Tue, 26 Jan 2021 17:11:02 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 03D0442042;
+ Tue, 26 Jan 2021 17:11:02 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av24.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Tue, 26 Jan 2021 17:11:01 +0000 (GMT)
+Received: from yukon.ibmuc.com (sig-9-145-70-48.uk.ibm.com [9.145.70.48])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id DA29622010B;
+ Tue, 26 Jan 2021 18:11:00 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH 0/7] ppc/pnv: Misc cleanups
+Date: Tue, 26 Jan 2021 18:10:52 +0100
+Message-Id: <20210126171059.307867-1-clg@kaod.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA_ALYdVn5YLBTN57D8a2ut3C5kt0bVb9faZEQe_-rxmPQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-26_09:2021-01-26,
+ 2021-01-26 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 adultscore=0
+ clxscore=1034 mlxlogscore=814 bulkscore=0 spamscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 mlxscore=0 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101260088
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,64 +89,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/21 4:13 AM, Peter Maydell wrote:
-> On Fri, 15 Jan 2021 at 22:47, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> The AArch64 Linux ABI has always enabled TBI, but has historically
->> required that pointer tags be removed before a syscall.  This has
->> changed in the lead-up to ARMv8.5-MTE, in a way that affects the
->> ABI generically and not specifically to MTE.
->>
->> This patch allows the target to indicate that (1) there are tags
->> and (2) whether or not they should be taken into account at the
->> syscall level.
->>
->> Adjust g2h, guest_addr_valid, and guest_range_valid to ignore
->> pointer tags, similar to how TIF_TAGGED_ADDR alters __range_ok
->> in the arm64 kernel source.
->>
->> The prctl syscall is not not yet updated, so this change by itself
->> has no visible effect.
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->>  include/exec/cpu_ldst.h | 20 +++++++++++++++++---
->>  1 file changed, 17 insertions(+), 3 deletions(-)
->>
->> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
->> index e62f4fba00..1df9b93e59 100644
->> --- a/include/exec/cpu_ldst.h
->> +++ b/include/exec/cpu_ldst.h
->> @@ -69,17 +69,31 @@ typedef uint64_t abi_ptr;
->>  #define TARGET_ABI_FMT_ptr "%"PRIx64
->>  #endif
->>
->> +static inline abi_ptr untagged_addr(abi_ptr x)
->> +{
->> +#ifdef TARGET_TAGGED_ADDRESSES
->> +    if (current_cpu) {
->> +        return cpu_untagged_addr(current_cpu, x);
->> +    }
->> +#endif
->> +    return x;
->> +}
-> 
-> The current_cpu global is a nasty hack and I don't like seeing
-> new usages of it. In particular, it's very difficult to
-> analyse in what places this will get called when current_cpu is
-> NULL and whether it's always OK to not clean the tag in that
-> situation.
+Hello,
 
-Well, that'll be a really lot of changes to add cpu/env as an argument to
-get_user et al.
+Most important changes in this series are a fix for the support for
+external BMCs, when a QEMU Aspeed machine is used as a BMC instead of
+the simulator, and a cleanup of the LPC model which was handling the
+PNOR mapping.
 
-Let's see how easily coccinelle can fix em all up for me...
+The PNOR mapping is still a problem when using an external BMC and
+this would require some kind of framework to do memory ops on a remote
+memory region (LPC FW address space). Multi process might be a start
+for that using the proxy object. Something to study.
 
+Thanks,
 
-r~
+C.
+
+C=C3=A9dric Le Goater (7):
+  ppc/pnv: Add trace events for PCI event notification
+  ppc/xive: Add firmware bit when dumping the ENDs
+  ppc/pnv: Use skiboot addresses to load kernel and ramfs
+  ppc/pnv: Simplify pnv_bmc_create()
+  ppc/pnv: Discard internal BMC initialization when BMC is external
+  ppc/pnv: Remove default disablement of the PNOR contents
+  ppc/pnv: Introduce a LPC FW memory region attribute to map the PNOR
+
+ include/hw/ppc/pnv.h       |  1 +
+ include/hw/ppc/xive_regs.h |  2 ++
+ hw/intc/pnv_xive.c         |  3 +++
+ hw/intc/xive.c             |  3 ++-
+ hw/pci-host/pnv_phb4.c     |  3 +++
+ hw/ppc/pnv.c               | 17 ++++++++++++++---
+ hw/ppc/pnv_bmc.c           | 22 +++++++++++++++-------
+ hw/ppc/pnv_lpc.c           | 15 ---------------
+ hw/intc/trace-events       |  3 +++
+ hw/pci-host/trace-events   |  3 +++
+ 10 files changed, 46 insertions(+), 26 deletions(-)
+
+--=20
+2.26.2
+
 
