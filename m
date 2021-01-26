@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6387B304B89
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 22:29:49 +0100 (CET)
-Received: from localhost ([::1]:52968 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C7A304B94
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 22:32:42 +0100 (CET)
+Received: from localhost ([::1]:56022 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4VuF-0003IN-VM
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 16:29:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56450)
+	id 1l4Vx3-0004sO-Ks
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 16:32:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l4Vt4-0002ko-SK
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:28:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59063)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l4Vuv-0003pe-Rx
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:30:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35475)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l4Vsy-00014C-IA
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:28:33 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l4Vup-0001ox-7p
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 16:30:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611696507;
+ s=mimecast20190719; t=1611696622;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cjeeVRgGqLarhSjcCu80tS6ZI5bFAZ+5Uv+uf9tfPxo=;
- b=SI7kijCT3Jv6WdKoXvRE1OJ1it5+60X7wdB9XfNuNR1Dhx2kCqIA8uLi/lFVwqiqfyp9qU
- oyRbTs9qJo3BXNwGsA/cKEEYbMeBf84qnWvTPSft13ShkqJndEwsMEWv0WslVpmTDVZdVm
- 1B3DnjQR77OevF1+u34+WP6v+BaFxoo=
+ bh=VGUY0B7ekf2Udf3K3MjX1udBg9zT8yQNoDuLmidOrds=;
+ b=R54w2HlWEw5EKZZ05cZTikKxWaeDTzS/wgPOskkfrriC53FEEvkI62uGWS/4G/ANa0kf1P
+ FMjQV0X3o6IQfiPdCMsFdTPsdz1DeA7Ql9Izhb1ILStJWG6M5GrjyOA98wGpgijAuh/JPX
+ lVoLFZ5G7Ie2bt2xX2HqU3lydLjTE88=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-247-X1q_TUWOMLCUhBVkF4G5_A-1; Tue, 26 Jan 2021 16:28:23 -0500
-X-MC-Unique: X1q_TUWOMLCUhBVkF4G5_A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-177-Of3azrrLOz6Qr7yjpPrfrQ-1; Tue, 26 Jan 2021 16:30:19 -0500
+X-MC-Unique: Of3azrrLOz6Qr7yjpPrfrQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B75AA107ACE3;
- Tue, 26 Jan 2021 21:28:22 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8A56A8017FB;
+ Tue, 26 Jan 2021 21:30:18 +0000 (UTC)
 Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BE3C563743;
- Tue, 26 Jan 2021 21:28:21 +0000 (UTC)
-Subject: Re: [PATCH v5 02/10] iotests/297: Rewrite in Python and extend reach
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C1AF85D760;
+ Tue, 26 Jan 2021 21:30:15 +0000 (UTC)
+Subject: Re: [PATCH v5 03/10] iotests: Move try_remove to iotests.py
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20210118105720.14824-1-mreitz@redhat.com>
- <20210118105720.14824-3-mreitz@redhat.com>
+ <20210118105720.14824-4-mreitz@redhat.com>
 From: John Snow <jsnow@redhat.com>
-Message-ID: <9fc8e6b5-bac8-6fa5-6e10-7440c7e70b37@redhat.com>
-Date: Tue, 26 Jan 2021 16:28:21 -0500
+Message-ID: <591e79e6-a54d-0bb7-2ea5-e7cb2877d27e@redhat.com>
+Date: Tue, 26 Jan 2021 16:30:14 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210118105720.14824-3-mreitz@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <20210118105720.14824-4-mreitz@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -68,7 +68,7 @@ X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,228 +88,71 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/18/21 5:57 AM, Max Reitz wrote:
-> Instead of checking iotests.py only, check all Python files in the
-> qemu-iotests/ directory.  Of course, most of them do not pass, so there
-> is an extensive skip list for now.  (The only files that do pass are
-> 209, 254, 283, and iotests.py.)
-> 
-
-Chiming in to say that I tried to tackle this before; I wrote some 
-preliminary cleanups and sent to the list as an "WIP RFC" or something 
-like that in earlyish 2020. I paid attention to qed.py and the other 
-non-numerical files.
-
-Maybe badly rotted by now, I don't know.
-
-> (Alternatively, we could have the opposite, i.e. an explicit list of
-> files that we do want to check, but I think it is better to check files
-> by default.)
-> 
-
-I agree. Stop the bleeding first and worry about the rest after.
-
-> Unless started in debug mode (./check -d), the output has no information
-> on which files are tested, so we will not have a problem e.g. with
-> backports, where some files may be missing when compared to upstream.
-> 
-> Besides the technical rewrite, some more things are changed:
-> 
-> - For the pylint invocation, PYTHONPATH is adjusted.  This mirrors
->    setting MYPYPATH for mypy.
-> 
-> - Also, MYPYPATH is now derived from PYTHONPATH, so that we include
->    paths set by the environment.  Maybe at some point we want to let the
->    check script add '../../python/' to PYTHONPATH so that iotests.py does
->    not need to do that.
-> 
-
-Does this solve an observed problem, or is it preventative? I ran into 
-trouble once by pointing mypy to my system python libraries; it seemed 
-to have a check that explicitly warned me against such tricks.
-
-I guess for now, if it works, it works. :o)
-
-> - Passing --notes=FIXME,XXX to pylint suppresses warnings for TODO
->    comments.  TODO is fine, we do not need 297 to complain about such
->    comments.
-> 
-
-Agreed. You can also edit pylintrc to choose which keywords trigger the 
-check -- "TODO" is probably fine, but "FIXME" is maybe a shade worse. 
-Season to taste.
-
-> - The "Success" line from mypy's output is suppressed, because (A) it
->    does not add useful information, and (B) it would leak information
->    about the files having been tested to the reference output, which we
->    decidedly do not want.
-> 
-> Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> Reviewed-by: Willian Rampazzo <willianr@redhat.com>
 > ---
->   tests/qemu-iotests/297     | 112 +++++++++++++++++++++++++++++--------
->   tests/qemu-iotests/297.out |   5 +-
->   2 files changed, 92 insertions(+), 25 deletions(-)
+>   tests/qemu-iotests/124        |  8 +-------
+>   tests/qemu-iotests/iotests.py | 11 +++++++----
+>   2 files changed, 8 insertions(+), 11 deletions(-)
 > 
-> diff --git a/tests/qemu-iotests/297 b/tests/qemu-iotests/297
-> index 5c5420712b..e3db3e061e 100755
-> --- a/tests/qemu-iotests/297
-> +++ b/tests/qemu-iotests/297
-> @@ -1,4 +1,4 @@
-> -#!/usr/bin/env bash
-> +#!/usr/bin/env python3
->   #
->   # Copyright (C) 2020 Red Hat, Inc.
-
-You could bump it up, if you wanted.
-
->   #
-> @@ -15,30 +15,98 @@
->   # You should have received a copy of the GNU General Public License
->   # along with this program.  If not, see <http://www.gnu.org/licenses/>.
+> diff --git a/tests/qemu-iotests/124 b/tests/qemu-iotests/124
+> index 3705cbb6b3..e40eeb50b9 100755
+> --- a/tests/qemu-iotests/124
+> +++ b/tests/qemu-iotests/124
+> @@ -22,6 +22,7 @@
 >   
-> -seq=$(basename $0)
-> -echo "QA output created by $seq"
-> +import os
-> +import re
-> +import shutil
-> +import subprocess
-> +import sys
+>   import os
+>   import iotests
+> +from iotests import try_remove
 >   
-> -status=1	# failure is the default!
-> +import iotests
 >   
-> -# get standard environment
-> -. ./common.rc
+>   def io_write_patterns(img, patterns):
+> @@ -29,13 +30,6 @@ def io_write_patterns(img, patterns):
+>           iotests.qemu_io('-c', 'write -P%s %s %s' % pattern, img)
 >   
-> -if ! type -p "pylint-3" > /dev/null; then
-> -    _notrun "pylint-3 not found"
-> -fi
-> -if ! type -p "mypy" > /dev/null; then
-> -    _notrun "mypy not found"
-> -fi
-> +# TODO: Empty this list!
-> +SKIP_FILES = (
-> +    '030', '040', '041', '044', '045', '055', '056', '057', '065', '093',
-> +    '096', '118', '124', '129', '132', '136', '139', '147', '148', '149',
-> +    '151', '152', '155', '163', '165', '169', '194', '196', '199', '202',
-> +    '203', '205', '206', '207', '208', '210', '211', '212', '213', '216',
-> +    '218', '219', '222', '224', '228', '234', '235', '236', '237', '238',
-> +    '240', '242', '245', '246', '248', '255', '256', '257', '258', '260',
-> +    '262', '264', '266', '274', '277', '280', '281', '295', '296', '298',
-> +    '299', '300', '302', '303', '304', '307',
-> +    'nbd-fault-injector.py', 'qcow2.py', 'qcow2_format.py', 'qed.py'
-> +)
 >   
-> -pylint-3 --score=n iotests.py
+> -def try_remove(img):
+> -    try:
+> -        os.remove(img)
+> -    except OSError:
+> -        pass
+> -
+> -
+>   def transaction_action(action, **kwargs):
+>       return {
+>           'type': action,
+> diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
+> index 52facb8e04..a69b4cdc4e 100644
+> --- a/tests/qemu-iotests/iotests.py
+> +++ b/tests/qemu-iotests/iotests.py
+> @@ -523,12 +523,15 @@ class FilePath:
+>           return False
 >   
-> -MYPYPATH=../../python/ mypy --warn-unused-configs --disallow-subclassing-any \
-> -    --disallow-any-generics --disallow-incomplete-defs \
-> -    --disallow-untyped-decorators --no-implicit-optional \
-> -    --warn-redundant-casts --warn-unused-ignores \
-> -    --no-implicit-reexport iotests.py
-> +def is_python_file(filename):
-> +    if not os.path.isfile(filename):
-> +        return False
 >   
-> -# success, all done
-> -echo "*** done"
-> -rm -f $seq.full
-> -status=0
-> +    if filename.endswith('.py'):
-> +        return True
-> +
-> +    with open(filename) as f:
-> +        try:
-> +            first_line = f.readline()
-> +            return re.match('^#!.*python', first_line) is not None
-> +        except UnicodeDecodeError:  # Ignore binary files
-> +            return False
-> +
-> +
-
-
-> +def run_linters():
-> +    files = [filename for filename in (set(os.listdir('.')) - set(SKIP_FILES))
-> +             if is_python_file(filename)]
-> +
-> +    iotests.logger.debug('Files to be checked:')
-> +    iotests.logger.debug(', '.join(sorted(files)))
-> +
-> +    print('=== pylint ===')
-> +    sys.stdout.flush()
-> +
-> +    # Todo notes are fine, but fixme's or xxx's should probably just be
-> +    # fixed (in tests, at least)
-> +    env = os.environ.copy()
-> +    qemu_module_path = os.path.join(os.path.dirname(__file__),
-> +                                    '..', '..', 'python')
+> +def try_remove(img):
 > +    try:
-> +        env['PYTHONPATH'] += os.pathsep + qemu_module_path
-> +    except KeyError:
-> +        env['PYTHONPATH'] = qemu_module_path
-> +    subprocess.run(('pylint-3', '--score=n', '--notes=FIXME,XXX', *files),
-> +                   env=env, check=False)
+> +        os.remove(img)
+> +    except OSError:
+> +        pass
 > +
-
-Is there a reason to use 'pylint-3' here? I realize that this is not 
-something you are introducing, but it jogged the question loose for me.
-
-'pylint-3' is, I believe, a fedora-ism. The pip package for pylint 
-installs only a 'pylint' script. It might be better to just use it 
-without the suffix.
-
-If we are concerned about accidentally invoking a python 2 version of 
-pylint that might be installed on a system, I'd then recommend doing 
-something like this:
-
-'python3 -m pylint [...]'
-
-> +    print('=== mypy ===')
-> +    sys.stdout.flush()
-> +
-> +    # We have to call mypy separately for each file.  Otherwise, it
-> +    # will interpret all given files as belonging together (i.e., they
-> +    # may not both define the same classes, etc.; most notably, they
-> +    # must not both define the __main__ module).
-> +    env['MYPYPATH'] = env['PYTHONPATH']
-> +    for filename in files:
-> +        p = subprocess.run(('mypy',
-> +                            '--warn-unused-configs',
-> +                            '--disallow-subclassing-any',
-> +                            '--disallow-any-generics',
-> +                            '--disallow-incomplete-defs',
-> +                            '--disallow-untyped-decorators',
-> +                            '--no-implicit-optional',
-> +                            '--warn-redundant-casts',
-> +                            '--warn-unused-ignores',
-> +                            '--no-implicit-reexport',
-> +                            filename),
-> +                           env=env,
-> +                           check=False,
-> +                           stdout=subprocess.PIPE,
-> +                           stderr=subprocess.STDOUT,
-> +                           universal_newlines=True)
-> +
-> +        if p.returncode != 0:
-> +            print(p.stdout)
-> +
-> +
-> +for linter in ('pylint-3', 'mypy'):
-> +    if shutil.which(linter) is None:
-> +        iotests.notrun(f'{linter} not found')
-> +
-> +iotests.script_main(run_linters)
-> diff --git a/tests/qemu-iotests/297.out b/tests/qemu-iotests/297.out
-> index 6acc843649..f2e1314d10 100644
-> --- a/tests/qemu-iotests/297.out
-> +++ b/tests/qemu-iotests/297.out
-> @@ -1,3 +1,2 @@
-> -QA output created by 297
-> -Success: no issues found in 1 source file
-> -*** done
-> +=== pylint ===
-> +=== mypy ===
+>   def file_path_remover():
+>       for path in reversed(file_path_remover.paths):
+> -        try:
+> -            os.remove(path)
+> -        except OSError:
+> -            pass
+> +        try_remove(path)
+>   
+>   
+>   def file_path(*names, base_dir=test_dir):
 > 
+
+For what it's worth, at the time I wrote this I barely knew Python. I'd 
+use FileNotFoundError instead now, which is a subclass of OSError.
+
+Not your baby, not your problem.
 
 Reviewed-by: John Snow <jsnow@redhat.com>
 
