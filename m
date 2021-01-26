@@ -2,90 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64AD8303E64
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:17:21 +0100 (CET)
-Received: from localhost ([::1]:37702 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD5A2303E86
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 14:23:32 +0100 (CET)
+Received: from localhost ([::1]:43782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4ODg-0006t6-Dl
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:17:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59106)
+	id 1l4OJf-0001P0-90
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 08:23:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59864)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4O9z-0005u9-Ju
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:13:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:49084)
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4OCd-0007Rn-3R
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:16:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41929)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4O9w-0006jc-Eh
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:13:30 -0500
+ (Exim 4.90_1) (envelope-from <mreitz@redhat.com>) id 1l4OCa-0008Dz-To
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 08:16:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611666806;
+ s=mimecast20190719; t=1611666972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=vQpb57ydao0n5AB34yC6huKkKscCXFKdTCbIslMSUIU=;
- b=cE1OoLp6PXsROAm1SEXP7n9NX+WJ2yWdAoVmh4BX4kaM9PCBXdsBIZ4+BDfxd9MeFZ8KyQ
- UT0EXrHc9qiMGUs+K4z/SRajURaFLDikjE2/w+puQWz228eCWRqaerJku1TADz6UP3RtZi
- Tcz+ePOGSPBc8RE8Yykep3sLmuZdEC8=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-70-9YkGeQEfO--9nuFKnL9_Mw-1; Tue, 26 Jan 2021 08:13:23 -0500
-X-MC-Unique: 9YkGeQEfO--9nuFKnL9_Mw-1
-Received: by mail-ed1-f69.google.com with SMTP id w4so9334681edu.0
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 05:13:23 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=vQpb57ydao0n5AB34yC6huKkKscCXFKdTCbIslMSUIU=;
- b=dcw9whBb+Ih45zQYXUWUdBuSeN7XcnWnN8jt30paxdo/fVjPCwUJQe7PvzlQ0sP7qQ
- rO0tGVCH66AR3W8Jq3DIcK2CWr4Sk14rL3TDJr8AvFAl6sKUjFQ1jbG9CQqnVeEC0tMy
- +/EAVp1H5XDopzFt9ZzLnjUTJAP55ie5hdARhc5a1sCor0QBQpHWkztQIFCIV7esPCZk
- CbFGswsRZlDGk/vC4CzKz9XfDwpTncvByW1lju7bd50jT61D24KeDDPs4bv31jJ1LCV3
- 7mcfVW5qC5SCIMvIlCnfiixIbWw5uEtMQsmn8WMvPIa60W0bQin60aEzgP4cl0bM/kP8
- CKOA==
-X-Gm-Message-State: AOAM531cSN4EPfejZm4ckZsZBZiBXvapBe3sqTjboNc7O+25iOs3RCOb
- cgT9OOTOGu7sC47flA9hAybgqusQguxaCHmlkqFOsBcQGznVO7/tO1xrNj2pjFp4s8WDPJb6Qwd
- iTLT/JtI5rHbdCvc=
-X-Received: by 2002:a05:6402:22b7:: with SMTP id
- cx23mr4557472edb.313.1611666802217; 
- Tue, 26 Jan 2021 05:13:22 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJz6YAXgkmQ2wG/IsXTSMkMKjfBL8dF4zgbnrSi8s/4S29jCCJ6O5JhO3Bl+IIg22ZkVCI8cIA==
-X-Received: by 2002:a05:6402:22b7:: with SMTP id
- cx23mr4557465edb.313.1611666802118; 
- Tue, 26 Jan 2021 05:13:22 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id w12sm12404965edr.29.2021.01.26.05.13.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 26 Jan 2021 05:13:21 -0800 (PST)
-Subject: Re: [PATCH] meson: accept either shared or static libraries if
- --disable-static
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20210126102748.341403-1-pbonzini@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <eb5a7b38-e18a-7305-9334-eba5a824b268@redhat.com>
-Date: Tue, 26 Jan 2021 14:13:19 +0100
+ bh=nQCYbjZpn3rFNvzcFeYDXJHWhZ1QhjsA+TiGL8IVdcM=;
+ b=CQtkunHxf/13G/7oc92K5iB4ijjUXZYc98ZIJO+MfuZRHS54dTTn+/3GEFx/yq+SpAE2p1
+ LGuTqs8oSboYQx9kvQ4rnVZ2T89BsTnmdkDr5CsyrSlN5DoFq+evBhaMTeqIQ3HonRI1ID
+ kR0L9F4PSEkXhD6Yw4s2ongnD3guj5U=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-55-SIiUqs5dNM2b5fQQrdLa6Q-1; Tue, 26 Jan 2021 08:16:09 -0500
+X-MC-Unique: SIiUqs5dNM2b5fQQrdLa6Q-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A6C1F107AD3C;
+ Tue, 26 Jan 2021 13:16:08 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-114-175.ams2.redhat.com
+ [10.36.114.175])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6B7AD19D80;
+ Tue, 26 Jan 2021 13:16:02 +0000 (UTC)
+Subject: Re: [PATCH] coroutine-sigaltstack: Add SIGUSR2 mutex
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org
+References: <20210125120305.19520-1-mreitz@redhat.com>
+ <7dc89925-764b-cdc6-8d25-0bae03d90be4@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Message-ID: <c4b52eba-aec1-8271-6feb-cce8f1c40ca2@redhat.com>
+Date: Tue, 26 Jan 2021 14:16:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-In-Reply-To: <20210126102748.341403-1-pbonzini@redhat.com>
+In-Reply-To: <7dc89925-764b-cdc6-8d25-0bae03d90be4@virtuozzo.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mreitz@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mreitz@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
  RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -100,31 +83,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pl@kamp.de
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?B?TMOhc3psw7Mgw4lyc2Vr?= <lersek@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/26/21 11:27 AM, Paolo Bonzini wrote:
-> Meson's "static" argument to cc.find_library is a tri-state.  By default
-> Meson *prefers* a shared library, which basically means using -l to
-> look for it; instead, "static: false" *requires* a shared library.  Of
-> course, "static: true" requires a static library, which is all good
-> for --enable-static builds.
+On 26.01.21 13:44, Vladimir Sementsov-Ogievskiy wrote:
+> 25.01.2021 15:03, Max Reitz wrote:
+>> Disposition (action) for any given signal is global for the process.
+>> When two threads run coroutine-sigaltstack's qemu_coroutine_new()
+>> concurrently, they may interfere with each other: One of them may revert
+>> the SIGUSR2 handler to SIG_DFL, between the other thread (a) setting up
+>> coroutine_trampoline() as the handler and (b) raising SIGUSR2.  That
+>> SIGUSR2 will then terminate the QEMU process abnormally.
+>>
+>> We have to ensure that only one thread at a time can modify the
+>> process-global SIGUSR2 handler.  To do so, wrap the whole section where
+>> that is done in a mutex.
+>>
+>> Alternatively, we could for example have the SIGUSR2 handler always be
+>> coroutine_trampoline(), so there would be no need to invoke sigaction()
+>> in qemu_coroutine_new().  Laszlo has posted a patch to do so here:
+>>
+>>    https://lists.nongnu.org/archive/html/qemu-devel/2021-01/msg05962.html
+>>
+>> However, given that coroutine-sigaltstack is more of a fallback
+>> implementation for platforms that do not support ucontext, that change
+>> may be a bit too invasive to be comfortable with it.  The mutex proposed
+>> here may negatively impact performance, but the change is much simpler.
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>   util/coroutine-sigaltstack.c | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/util/coroutine-sigaltstack.c b/util/coroutine-sigaltstack.c
+>> index aade82afb8..e99b8a4f9c 100644
+>> --- a/util/coroutine-sigaltstack.c
+>> +++ b/util/coroutine-sigaltstack.c
+>> @@ -157,6 +157,7 @@ Coroutine *qemu_coroutine_new(void)
+>>       sigset_t sigs;
+>>       sigset_t osigs;
+>>       sigjmp_buf old_env;
+>> +    static pthread_mutex_t sigusr2_mutex = PTHREAD_MUTEX_INITIALIZER;
+>>       /* The way to manipulate stack is with the sigaltstack function. We
+>>        * prepare a stack, with it delivering a signal to ourselves and 
+>> then
+>> @@ -186,6 +187,12 @@ Coroutine *qemu_coroutine_new(void)
+>>       sa.sa_handler = coroutine_trampoline;
+>>       sigfillset(&sa.sa_mask);
+>>       sa.sa_flags = SA_ONSTACK;
+>> +
+>> +    /*
+>> +     * sigaction() is a process-global operation.  We must not run
+>> +     * this code in multiple threads at once.
+>> +     */
+>> +    pthread_mutex_lock(&sigusr2_mutex);
+>>       if (sigaction(SIGUSR2, &sa, &osa) != 0) {
+>>           abort();
+>>       }
+>> @@ -234,6 +241,8 @@ Coroutine *qemu_coroutine_new(void)
+>>        * Restore the old SIGUSR2 signal handler and mask
+>>        */
+>>       sigaction(SIGUSR2, &osa, NULL);
+>> +    pthread_mutex_unlock(&sigusr2_mutex);
+>> +
+>>       pthread_sigmask(SIG_SETMASK, &osigs, NULL);
+>>       /*
+>>
 > 
-> For --disable-static, "static: false" is rarely desirable; it does not
-> match what the configure script used to do and the test is more complex
-> (and harder to debug if it fails, which was reported by Peter Lieven
-> for librbd).
+> weak:
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 > 
-> Reported-by: Peter Lieven <pl@kamp.de>
-> Tested-by: Peter Lieven <pl@kamp.de>
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-> ---
->  docs/devel/build-system.rst |  2 +-
->  meson.build                 | 79 +++++++++++++++++++------------------
->  2 files changed, 42 insertions(+), 39 deletions(-)
+> Side thought: so, sigaltstack coroutine implementation is not 
+> thread-safe. Is that the only bug?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+It would be great if I could tell you for sure whether there’s no bug in 
+some piece of code. :)
+
+> Or actually, the whole implementation 
+> should be revisited to check, could it be used with iothreads or not?
+
+Judging from the discussion I had with Laszlo, I’m definitely not the 
+right person to do so, because for example I don’t know the ins and outs 
+of signal handling.
+
+I can only tell you it’s the only issue I’ve seen, and that there’s just 
+not much more code in coroutine-sigaltstack.c than the code around 
+qemu_coroutine_new().
+
+> Shouldn't we just state that sigaltstack coroutine implementation 
+> doesn't support iothreads? And do error out on iothread creation if 
+> sigaltstack coroutines is in use?
+
+I’m not sure whether that would be better than potentially having a bug 
+in it.  What you’re proposing is effectively breaking all iothreads 
+usage on MacOS.  If I were a MacOS user, I’d rather risk encountering 
+bugs than that.
+
+(And it isn’t like we know it’s unstable with iothreads; I haven’t seen 
+it breaking with this patch applied yet, and I don’t think there’s 
+reason to believe it would be.  qemu_coroutine_new() together with 
+coroutine_trampoline() sets up a coroutine environment, and the rest of 
+the code just consists of sigsetjmp() and siglongjmp().  I believe 
+Laszlo hat some open questions about signal masking done by those 
+functions, but I don’t think that has anything to do with multithreading.)
+
+Max
 
 
