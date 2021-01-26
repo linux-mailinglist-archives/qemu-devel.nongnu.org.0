@@ -2,99 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF536303100
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 01:44:08 +0100 (CET)
-Received: from localhost ([::1]:55984 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DDA0303107
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 01:54:23 +0100 (CET)
+Received: from localhost ([::1]:59204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4CSl-0006tX-Gf
-	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 19:44:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56886)
+	id 1l4Ccg-0000rk-3M
+	for lists+qemu-devel@lfdr.de; Mon, 25 Jan 2021 19:54:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l4CQy-0006PW-3R
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 19:42:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53030)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l4CQs-0001Iw-SE
- for qemu-devel@nongnu.org; Mon, 25 Jan 2021 19:42:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611621727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=IYhEDIROhXo590qHjmztfyTDQn19wr2f19isork+1jk=;
- b=hVTVEmoCvO5MoTAxCi0b4ITNuiO4XbuSX0NFLz4cztw4q+TslOBlCRg9uCgA5wF98ARFJn
- tGDSnuvSUuJydIcEy+5OM/JOP5FL1CziQBTxikg3g7aUGH+cvajOQ4zHXiNCqWd28SEa0A
- 8JDEz7VcA8KuLdhPMsmrBCBc4IWRqUk=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-214-hXPUgd-FPoW8qmOVMVanwA-1; Mon, 25 Jan 2021 19:42:05 -0500
-X-MC-Unique: hXPUgd-FPoW8qmOVMVanwA-1
-Received: by mail-ed1-f72.google.com with SMTP id o19so8486131edq.9
- for <qemu-devel@nongnu.org>; Mon, 25 Jan 2021 16:42:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l4CbI-0008Ra-1v; Mon, 25 Jan 2021 19:52:56 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:53613)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <minwoo.im.dev@gmail.com>)
+ id 1l4CbG-0002ZI-8J; Mon, 25 Jan 2021 19:52:55 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id p15so675162pjv.3;
+ Mon, 25 Jan 2021 16:52:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=date:from:to:cc:subject:message-id:references:mime-version
+ :content-disposition:in-reply-to:user-agent;
+ bh=ItIoU6rpveq2ElPgXtBNepLlTU3DibtATPndMULk6gg=;
+ b=U3fBIttpPUgrzarR20VAp/bwQwdiz/gE20bjStFrVqqKQg4njWzaLN2po4iPVCrjGQ
+ 7Ac7wvhVshS1BVh30UzHpYi/Hy0PPwyEGmGGYIbm7uWBRDpt0PRn+6RWxQmiNSHHTzvJ
+ sOnVJzJOyCE15zNpMyMRjLJad8+Ef7OAK0ZTqUp2Jgy491A+YS3hA1jxTFMIiXgzFt37
+ 5v9z/AwJSZY3R1GO8wDCV7ekZ/Qqx4kVNdOXNFJ9GHCKceRQgNU687JGXgJFfxO6wYV5
+ rNze9cfAbVoMEUQRnc2sAhJWXmGIsFVfH1EDbdwecWJzrMVoqD4buzMGYL5yhwZIg5Zc
+ GJ3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=IYhEDIROhXo590qHjmztfyTDQn19wr2f19isork+1jk=;
- b=hJ98gCdz77P1XyZ6nPdHRMGFX5lseLqwHZKRGe6X23mQlXiXFOTwmPxr9hH+Nrclje
- FuT4tFANXO0qYvp7o8W2LhHNfoYAKQqBvEYGP7GlTos39Ata/txLNkwX4lMDXXaxHUoV
- E+6Ewu/0c725dXPTDTWiEJnobsAADIwW2QHrA3iRsGH0/tYoa9PmyjZPnsYde0moMnea
- 1gS9iOAsOEGXyiIfp9D5eQ1YU+og9pwTKUVGQvqJTxszHuJnsAl/FE5xWiesX6fgltA8
- JixjZM+A/MUipgab9/scekx/UCjNhVZGkqOFyobxXZIvjBms8hIHTC3/aeRF6YCjdz5u
- WcbQ==
-X-Gm-Message-State: AOAM533DCK9DLJ6tFkEzRlcU8lmQSOHAHf/jNZi6jVEa5jvyiNenby+u
- jyawA33PfsurgHMPYTzsdNXfgQ2Ol4rTBh8pWTCN+A2jjjDW1/Zr0IXFkdOSH8sxc+v9/darrYl
- bSKdo7RBbRjUGHf3vKJt/1OJU/zS7cVeUGWHt3FUs3qLIlkjnh3eRtSJ3lwL2kWy9MW8=
-X-Received: by 2002:a17:906:4955:: with SMTP id
- f21mr1919119ejt.384.1611621723503; 
- Mon, 25 Jan 2021 16:42:03 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx12ajmMhRgN5eDtxT8BxYMvIvtfXdVUq8OWetitqwWMyTubFkHoKkZNFBDRS08sq1jAEGq7A==
-X-Received: by 2002:a17:906:4955:: with SMTP id
- f21mr1919106ejt.384.1611621723279; 
- Mon, 25 Jan 2021 16:42:03 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p27sm9008616ejd.72.2021.01.25.16.42.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 25 Jan 2021 16:42:02 -0800 (PST)
-Subject: Re: [PATCH v7 05/11] osdep: build with non-working system() function
-To: Joelle van Dyne <j@getutm.app>
-References: <20210122201113.63788-1-j@getutm.app>
- <20210122201113.63788-6-j@getutm.app>
- <CAFEAcA8V1nv1VV6t8UN25JoA7bw96xSBamaw6VnfBavOQjj44A@mail.gmail.com>
- <CAFEAcA8hA7_isLsAtyS8oSwcfL9nRjdSehL+qLj5C2MycbzLoA@mail.gmail.com>
- <CA+E+eSAhNNBxY06a5iQj9ANpgmYZk0Kf6LYQPduCLwNmr1UQvA@mail.gmail.com>
- <CAFEAcA8KZqxjDd0H7faF=YtkyY-XFB2WoP31qv_2ecFij_rLqQ@mail.gmail.com>
- <59a773e4-b277-a8a2-b496-d95b515718e2@redhat.com>
- <CA+E+eSB_ZbO4GGCJWdZsOL+e4VE7nzW0THUqBgmdeA05yjAzmg@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <69a662a8-f48d-92ee-4202-03a7feb55716@redhat.com>
-Date: Tue, 26 Jan 2021 01:42:01 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+ :mime-version:content-disposition:in-reply-to:user-agent;
+ bh=ItIoU6rpveq2ElPgXtBNepLlTU3DibtATPndMULk6gg=;
+ b=qUiZVBcoX0XpTrixZsmdYMzl022DOxqt/qYVc8Pey0t9qrvFfRTpD7FZbCdDoFUcRO
+ jIO6w9MChP65iZuTO/l8+Hu13whHX7IqV8+Dv9TZsLihm1iljaE3ybEOo+xhVZoKhrXy
+ cVlykDjMT52BsSJ5TPVX39fqtWWU+hYRg0sAIhCgqeUAtgaBI9wd3QvpUSLQWBnMEAtI
+ t2gDEax0GBN6j84NNe40vRdUCo4M7TAyjNbQhKedetYK3OWfylRfY90RBBOWHbtPDgLb
+ wrRutAE48JexUs2K1mDC3ZNF/dqxVohhtwdQZpih8kVwJzpYzorTmKbeChtMtl6FpMOR
+ T0Hw==
+X-Gm-Message-State: AOAM531HNrbeg7vDodwRZJKck3rjh3jWujw2W1dzlXkikgoDpTt52zMY
+ r2y8V6pngKpTZUXYNx4vd9w=
+X-Google-Smtp-Source: ABdhPJxLHRftt6yI2Nh3K1Rcb9pnvklA8ejMLFHRo0A/Mq5zPT3H6W5NYrPu3mx4kvvoH7FCQ+y5/A==
+X-Received: by 2002:a17:90b:fc9:: with SMTP id
+ gd9mr3006097pjb.107.1611622372083; 
+ Mon, 25 Jan 2021 16:52:52 -0800 (PST)
+Received: from localhost ([211.108.35.36])
+ by smtp.gmail.com with ESMTPSA id b10sm17391761pgh.15.2021.01.25.16.52.51
+ (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+ Mon, 25 Jan 2021 16:52:51 -0800 (PST)
+Date: Tue, 26 Jan 2021 09:52:48 +0900
+From: Minwoo Im <minwoo.im.dev@gmail.com>
+To: Keith Busch <kbusch@kernel.org>
+Subject: Re: [PATCH V6 4/6] hw/block/nvme: support for multi-controller in
+ subsystem
+Message-ID: <20210126005248.GA3719@localhost.localdomain>
+References: <20210124025450.11071-1-minwoo.im.dev@gmail.com>
+ <20210124025450.11071-5-minwoo.im.dev@gmail.com>
+ <YA8H9GTfBNPZFdqo@apples.localdomain>
+ <20210125181143.GA1732086@dhcp-10-100-145-180.wdc.com>
 MIME-Version: 1.0
-In-Reply-To: <CA+E+eSB_ZbO4GGCJWdZsOL+e4VE7nzW0THUqBgmdeA05yjAzmg@mail.gmail.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20210125181143.GA1732086@dhcp-10-100-145-180.wdc.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=minwoo.im.dev@gmail.com; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,39 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Klaus Jensen <its@irrelevant.dk>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/01/21 01:12, Joelle van Dyne wrote:
-> Here's how meson does cc.has_function
+On 21-01-25 10:11:43, Keith Busch wrote:
+> On Mon, Jan 25, 2021 at 07:03:32PM +0100, Klaus Jensen wrote:
+> > On Jan 24 11:54, Minwoo Im wrote:
+> > > We have nvme-subsys and nvme devices mapped together.  To support
+> > > multi-controller scheme to this setup, controller identifier(id) has to
+> > > be managed.  Earlier, cntlid(controller id) used to be always 0 because
+> > > we didn't have any subsystem scheme that controller id matters.
+> > > 
+> > > This patch introduced 'cntlid' attribute to the nvme controller
+> > > instance(NvmeCtrl) and make it allocated by the nvme-subsys device
+> > > mapped to the controller.  If nvme-subsys is not given to the
+> > > controller, then it will always be 0 as it was.
+> > > 
+> > > Added 'ctrls' array in the nvme-subsys instance to manage attached
+> > > controllers to the subsystem with a limit(32).  This patch didn't take
+> > > list for the controllers to make it seamless with nvme-ns device.
+> > > 
+> > > Signed-off-by: Minwoo Im <minwoo.im.dev@gmail.com>
+> > > ---
+> > >  hw/block/nvme-subsys.c | 21 +++++++++++++++++++++
+> > >  hw/block/nvme-subsys.h |  4 ++++
+> > >  hw/block/nvme.c        | 29 +++++++++++++++++++++++++++++
+> > >  hw/block/nvme.h        |  1 +
+> > >  4 files changed, 55 insertions(+)
+> > > 
+> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+> > > index b525fca14103..7138389be4bd 100644
+> > > --- a/hw/block/nvme.c
+> > > +++ b/hw/block/nvme.c
+> > > @@ -4481,6 +4484,10 @@ static void nvme_init_ctrl(NvmeCtrl *n, PCIDevice *pci_dev)
+> > >      id->psd[0].enlat = cpu_to_le32(0x10);
+> > >      id->psd[0].exlat = cpu_to_le32(0x4);
+> > >  
+> > > +    if (n->subsys) {
+> > > +        id->cmic |= NVME_CMIC_MULTI_CTRL;
+> > > +    }
+> > 
+> > Since multiple controllers show up with a PCIe port of their own, do we
+> > need to set bit 0 (NVME_CMIC_MULTI_PORT?) as well? Or am I
+> > misunderstanding that bit?
 > 
-> https://github.com/mesonbuild/meson/blob/master/mesonbuild/compilers/mixins/clike.py#L761
-> 
-> Since the compiler error comes from the header file with
-> 
-> __attribute__((availability(ios,unavailable)))
-> 
-> The meson check will always pass.
-> 
-> cc.compiles should work though. Is there a reason why it's not used
-> instead of all the compile_prog checks in ./configure ?
+> AIUI, if you report this MULTI_PORT bit, then each PCI device in the
+> subsystem needs to report a different "Port Number" in their PCIe Link
+> Capabilities register. I don't think we can manipulate that value from
+> the nvme "device", but I also don't know what a host should do with this
+> information even if we could. So, I think it's safe to leave it at 0.
 
-Just because the Meson build system is only a few months old.
-
-Alternatively:
-
-         # If we have any includes in the prefix supplied by the user, 
-assume
-         # that the user wants us to use the symbol prototype defined in 
-those
-         # includes. If not, then try to do the Autoconf-style check with
-         # a dummy prototype definition of our own.
-
-so adding a "prefix: '#include <stdlib.h>'" to cc.has_function should 
-work too.
-
-Paolo
-
+AFAIK, If we leave it to 0, kernel will not allocate disk for multi-path
+case (e.g., nvmeXcYnZ).
 
