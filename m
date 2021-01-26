@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31BD304189
-	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:08:38 +0100 (CET)
-Received: from localhost ([::1]:57222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93053041A6
+	for <lists+qemu-devel@lfdr.de>; Tue, 26 Jan 2021 16:10:26 +0100 (CET)
+Received: from localhost ([::1]:35426 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4PxN-0008A3-B6
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:08:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50674)
+	id 1l4Pz6-0002QB-Ru
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 10:10:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52730)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l4PVt-0006RA-BN
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:40:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40733)
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1l4PiZ-00040K-Tg
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:53:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1l4PVm-0003za-UQ
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:40:09 -0500
+ (Exim 4.90_1) (envelope-from <sgarzare@redhat.com>)
+ id 1l4PiW-0008Kl-1D
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 09:53:18 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611672006;
+ s=mimecast20190719; t=1611672794;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TRuknFR9hnNHNyAevU0aMwFSiomQ/rA6kRJdRwtoRdA=;
- b=FoG1hTQbRvHVc5/qwKECsi30wA5imTntU1xjVXqnZkso8G6Za6cspreO+FwWC7/LPOVylx
- WakgJvUt+Cnd/Cz3j95dy13EGJg5r/nuOm3adSf+3hFybUvezwd61iTEvTftUSIi/nJcvy
- Fg9tnpuQ+NnWSyVXvnf5BwUNW93rBtU=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-588-okTkgqrnNlaHR249BNh4Ug-1; Tue, 26 Jan 2021 09:40:02 -0500
-X-MC-Unique: okTkgqrnNlaHR249BNh4Ug-1
-Received: by mail-wr1-f72.google.com with SMTP id s15so6748840wrt.14
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 06:40:02 -0800 (PST)
+ bh=iVzHitjQ65d9rNoOvG8RgaLLL8tAG3yv5PeD4xwGVIQ=;
+ b=L3FZoQKe3jn0wXXLYRXf+HBoGd06NwRMgrwE2dPIxSCAfDJz5hLCyOEHoY+WRuJhhDqJrX
+ 2mrBWc8xGWlIP0kns72BYRqGDCxxet+slXNzi7IVMAX8GtKw3NQaXJuy9Fc/pcSjD04jEa
+ vu5woA37W3xAo0Ob05B9+W2het/hz+k=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-407-rGcExjbaOvuI_ssClJ8Umg-1; Tue, 26 Jan 2021 09:53:09 -0500
+X-MC-Unique: rGcExjbaOvuI_ssClJ8Umg-1
+Received: by mail-ej1-f69.google.com with SMTP id gt18so5042382ejb.18
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 06:53:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:content-transfer-encoding
- :in-reply-to;
- bh=TRuknFR9hnNHNyAevU0aMwFSiomQ/rA6kRJdRwtoRdA=;
- b=eRZYOiaCAkTnoldg/5Z8bYxa0mKekLTwhERYVd6OA8cYHIZiwZTspXEZvMHrzevj6K
- a6dFq3ooSDdby8tR6hNKSqQ1q3FpNSRsV0mr7LZFK6yLjC6BAO4aPimYmEkbKPt4b8MM
- OILkdFNmMoOjJ9ryvLQ36vHphfWgvNI+nAiFSFuTl8FkAjvir9oNsC0060GqIoN/l4Dj
- nR9Whr5VCpzGJGtHJVOMe8I5JAEY/2OLIpWX9+VNaDivZOGBJ69dqN0d3+lPqK2sPlhY
- 5blOzUJ32uuhi1oZE2r7bjshm20tYTdZNplkx5gomUy4h2ITO7Y/raG8Oa1JQUtd/bJB
- LVww==
-X-Gm-Message-State: AOAM5320z118AEPR33DyCukGkgLv+pT+ATQ1OjkBF1Y5ydO4PGcB8R3V
- 6Cjnnal3eiT7so5I1UnP1/PMH03XXEA2OGg9TlKWuzAQu/iSI0o8MRLdLf/rXkkWyNKB7AhzTx8
- 2yP78EPFpLoq2kPM=
-X-Received: by 2002:a1c:6484:: with SMTP id y126mr51975wmb.45.1611672001272;
- Tue, 26 Jan 2021 06:40:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwiI9t2pzkjfskmrDQZPU86+nUT1VJcOZvdlq4y135V1IPxVCwIS648bbyPFemUx4HDXUR+Eg==
-X-Received: by 2002:a1c:6484:: with SMTP id y126mr51955wmb.45.1611672001054;
- Tue, 26 Jan 2021 06:40:01 -0800 (PST)
-Received: from redhat.com (bzq-79-177-39-148.red.bezeqint.net. [79.177.39.148])
- by smtp.gmail.com with ESMTPSA id r25sm27802607wrr.64.2021.01.26.06.39.59
+ :mime-version:content-disposition:in-reply-to;
+ bh=iVzHitjQ65d9rNoOvG8RgaLLL8tAG3yv5PeD4xwGVIQ=;
+ b=qvfSq4qmxva4J2LM0+ag859j8RAG8f/WjYKxIWPcTKYqKEMzuBN7M7QXoiMdnvLW7n
+ qPVK8POFMlZ9KleQPGneKKBorxS9mKrU8Dz79sHIHo940kD95DaIcsCPg79k7YeMn44v
+ wugiG1vkvAjKq/3I2hw2Krby3HAvIAp5EpLXd0qWvvNRJ7R9vtrduIokFnXGGpDfflpW
+ 2GBiTqSXGZrJ/LsHcFNTlT8hwN2H5bH8HQkrZgj9r5trSyBlR8VU9F0gDs83wNh/jzaB
+ lJujK98j/8BaQyr1tOmJq1Kog6kBaRlGQI77kDIh6sUqE3TJpFLPypeDzCix9NTtgYYK
+ 7iXQ==
+X-Gm-Message-State: AOAM530ZyCqHzHQ+l/qwOOIPzEDgIRNu9j/iJZMHfvoKxuc0NHAQE2m8
+ xJmr8m+mAVEf6jmw0ix4GIRJKo/tQYYjU761efrRxHjdZtS6mNq58xfiBO2MpPOyWtrtaSzrhGT
+ xDHUZ3lLiViUirds=
+X-Received: by 2002:a17:906:cc89:: with SMTP id
+ oq9mr3644555ejb.154.1611672787936; 
+ Tue, 26 Jan 2021 06:53:07 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZNHFLio7Xk4gE3NQ/xaycSK1mToeolc4hKtUyc+dOgdwHXv2WDutXHCrjIcpKp/D2q6C2kQ==
+X-Received: by 2002:a17:906:cc89:: with SMTP id
+ oq9mr3644540ejb.154.1611672787650; 
+ Tue, 26 Jan 2021 06:53:07 -0800 (PST)
+Received: from steredhat (host-79-34-249-199.business.telecomitalia.it.
+ [79.34.249.199])
+ by smtp.gmail.com with ESMTPSA id zg24sm9953010ejb.120.2021.01.26.06.53.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 26 Jan 2021 06:40:00 -0800 (PST)
-Date: Tue, 26 Jan 2021 09:39:57 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Leonid Bloch <lb.workbox@gmail.com>
-Subject: Re: [PATCH 0/4] Introduce a battery, AC adapter, and lid button
-Message-ID: <20210126092549-mutt-send-email-mst@kernel.org>
-References: <20210120205501.33918-1-lb.workbox@gmail.com>
- <b866c8ad-9336-5305-131d-5ccd63be2166@amsat.org>
- <CAOwCge0Qxh6hQiqrko=Mos3WM2jZXhirhCwxdq7N1Kg_e0H4Pw@mail.gmail.com>
+ Tue, 26 Jan 2021 06:53:06 -0800 (PST)
+Date: Tue, 26 Jan 2021 15:53:04 +0100
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Cindy Lu <lulu@redhat.com>
+Subject: Re: [PATCH v3 5/5] vhost-vdpa: add callback function for configure
+ interrupt
+Message-ID: <20210126145304.4zln64yyjbrdbq4p@steredhat>
+References: <20210126074254.3225-1-lulu@redhat.com>
+ <20210126074254.3225-6-lulu@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAOwCge0Qxh6hQiqrko=Mos3WM2jZXhirhCwxdq7N1Kg_e0H4Pw@mail.gmail.com>
+In-Reply-To: <20210126074254.3225-6-lulu@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mst@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=sgarzare@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=sgarzare@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,109 +97,132 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
+Cc: jasowang@redhat.com, qemu-devel@nongnu.org, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 21, 2021 at 07:38:46AM +0200, Leonid Bloch wrote:
-> Hi Phil,
-> 
-> Thanks for your feedback! Please see below.
-> 
-> On Wed, Jan 20, 2021 at 11:52 PM Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
-> >
-> > Hi Leonid, Marcel,
-> >
-> > On 1/20/21 9:54 PM, Leonid Bloch wrote:
-> > > This series introduces the following ACPI devices:
-> > >
-> > > * Battery
-> > > * AC adapter
-> > > * Laptop lid button
-> > >
-> > > When running QEMU on a laptop, these paravirtualized devices reflect the
-> > > state of these physical devices onto the guest. This functionality is
-> > > relevant not only for laptops, but also for any other device which has e.g.
-> > > a battery. This even allows to insert a ``fake'' battery to the
-> > > guest, in a form of a file which emulates the behavior of the actual
-> > > battery in sysfs. A possible use case for such a ``fake'' battery can be
-> > > limiting the budget of VM usage to a subscriber, in a naturally-visible way.
-> >
-> > Your series looks good. Now for this feature to be even more useful for
-> > the community, it would be better to
-> >
-> > 1/ Have a generic (kind of abstract QDev) battery model.
-> >    Your model would be the ISA implementation. But we could add LPC,
-> >    SPI or I2C implementations for example.
-> 
-> It definitely feels that it needs to be more generic, and I thought
-> how to make it so, but so far it is what I came up with. I'll think
-> some more, but any ideas are welcome, cause nowadays I'm doing this in
-> my free time only.
-> 
-> > 2/ Make it a model backend accepting various kind of frontends:
-> >    - host Linux sysfs mirroring is a particular frontend implementation
-> >    - mirroring on Windows would be another
-> >    - any connection (TCP) to battery simulator (Octave, ...)
-> 
-> Well, it does accept an arbitrary file to represent a battery, so this
-> covers the battery simulator, does it? As for Windows - indeed, it
-> would be nice to have.
+On Tue, Jan 26, 2021 at 03:42:54PM +0800, Cindy Lu wrote:
+>Add call back function for configure interrupt.
+>Set the notifier's fd to the kernel driver when vdpa start.
+>also set -1 while vdpa stop. then the kernel will release
+>the related resource
+>
+>Signed-off-by: Cindy Lu <lulu@redhat.com>
+>---
+> hw/virtio/trace-events            |  2 ++
+> hw/virtio/vhost-vdpa.c            | 37 ++++++++++++++++++++++++++++++-
+> include/hw/virtio/vhost-backend.h |  4 ++++
+> 3 files changed, 42 insertions(+), 1 deletion(-)
+>
+>diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+>index 2060a144a2..6710835b46 100644
+>--- a/hw/virtio/trace-events
+>+++ b/hw/virtio/trace-events
+>@@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
+> vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
+> vhost_vdpa_set_owner(void *dev) "dev: %p"
+> vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
+>+vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
+>+
+>
+> # virtio.c
+> virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
+>diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+>index 01d2101d09..cc1d39d663 100644
+>--- a/hw/virtio/vhost-vdpa.c
+>+++ b/hw/virtio/vhost-vdpa.c
+>@@ -467,20 +467,47 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
+>     }
+>     return ret;
+>  }
+>+static void vhost_vdpa_config_notify_start(struct vhost_dev *dev,
+>+                                struct VirtIODevice *vdev, bool start)
+>+{
+>+    int fd, r;
+>+    if (start) {
+>+        fd = event_notifier_get_fd(&vdev->config_notifier);
+>+        vdev->use_config_notifier = true;
+>+     } else {
+       ^
+>+        fd = -1;
+>+        vdev->use_config_notifier = false;
+>+     }
+       ^
+>+     /*set the fd call back to vdpa driver*/
+       ^
+       It seems to me that there is an extra space in these places.
 
-Poking at sysfs from QEMU poses a bunch of issues, for example,
-security, migration, etc. Running timers on the host is also not nice
-since it causes exits from VM ...
+>+    r = dev->vhost_ops->vhost_set_config_call(dev, &fd);
+>+    if (r) {
+>+        vdev->use_config_notifier = false;
+>+        info_report("vhost_vdpa_config_notify not started!");
+>+    }
+>+    /*active the config_notifier when vdev->use_config_notifier is true*/
+>+    if ((vdev->use_config_notifier) && (start)) {
+>+        event_notifier_set(&vdev->config_notifier);
+>+    }
+>+    return;
+>
+>+}
 
-So I agree, as a starting point let's just let user
-control the battery level through QMP.
+Here and also in other patches I would leave a new line between two 
+functions.
 
+> static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
+> {
+>     struct vhost_vdpa *v = dev->opaque;
+>     trace_vhost_vdpa_dev_start(dev, started);
+>+    VirtIODevice *vdev = dev->vdev;
+>+
+>     if (started) {
+>         uint8_t status = 0;
+>         memory_listener_register(&v->listener, &address_space_memory);
+>         vhost_vdpa_set_vring_ready(dev);
+>         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
+>         vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
+>-
+>+        /*set the configure interrupt call back*/
+>+        vhost_vdpa_config_notify_start(dev, vdev, true);
+>         return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
+>     } else {
+>+        vhost_vdpa_config_notify_start(dev, vdev, false);
+>         vhost_vdpa_reset_device(dev);
+>         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
+>                                    VIRTIO_CONFIG_S_DRIVER);
+>@@ -546,6 +573,13 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
+>     return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
+> }
+>
+>+static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
+>+                                       int *fd)
+>+{
+>+    trace_vhost_vdpa_set_config_call(dev, fd);
+>+    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
+>+}
+>+
+> static int vhost_vdpa_get_features(struct vhost_dev *dev,
+>                                      uint64_t *features)
+> {
+>@@ -611,4 +645,5 @@ const VhostOps vdpa_ops = {
+>         .vhost_get_device_id = vhost_vdpa_get_device_id,
+>         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
+>         .vhost_force_iommu = vhost_vdpa_force_iommu,
+>+        .vhost_set_config_call = vhost_vdpa_set_config_call,
+> };
+>diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
+>index 8a6f8e2a7a..1a2fee8994 100644
+>--- a/include/hw/virtio/vhost-backend.h
+>+++ b/include/hw/virtio/vhost-backend.h
+>@@ -125,6 +125,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
+>
+> typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
+>
+>+typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
+>+                                       int *fd);
+                                          ^
+                                          One more space :-)
 
-
-> > Meanwhile 2/ is not available, it would be useful to have QMP commands
-> > to set the battery charge and state (also max capacity).
-> 
-> But the battery state is determined by the physical battery, or by an
-> externally provided file. Do you mean introducing another source for
-> battery information which will be controlled by QMP commands?
-> As for the max capacity, as with an actual battery, the "QEMU battery"
-> has it set "by the manufacturer". It is not passed through from the
-> host, for simplicity sake, and only the percentage is passed. How will
-> it help if we allow to set the max capacity? It's something pretty
-> much transparent to the user. (But if there is a use case, of course
-> it can be done.)
-> 
-> > Ditto QMP command to set the LID/AC adapter state.
-> >
-> > > But of course, the main purpose here is addressing the desktop users.
-> > >
-> > > This series was tested with Windows and (desktop) Linux guests, on which
-> > > indeed the battery icon appears in the corresponding state (full,
-> > > charging, discharging, time remaining to empty, etc.) and the AC adapter
-> > > plugging/unplugging behaves as expected. So is the laptop lid button.
-> > [...]
-> >
-> > In patch #2 you comment 'if a "fake" host battery is to be provided,
-> > a 'sysfs_path' property allows to override the default one.'.
-> >
-> > Eventually you'd provide a such fake file as example, ideally used
-> > by a QTest.
-> 
-> Sure! I will - it's definitely a good idea.
-> 
-> > Another question. If the battery is disconnected, is there an event
-> > propagated to the guest?
-> 
-> No. I definitely need to add! Thanks!
-> 
-> > Thanks for contributing these patches :)
-> 
-> Thank you!
-> Leonid.
-> 
-> > Phil.
+Thanks,
+Stefano
 
 
