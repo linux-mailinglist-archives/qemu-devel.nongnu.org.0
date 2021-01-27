@@ -2,91 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207D23064C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 21:09:42 +0100 (CET)
-Received: from localhost ([::1]:49442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EC913064B4
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 21:02:51 +0100 (CET)
+Received: from localhost ([::1]:37364 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4r8H-0004Qa-65
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 15:09:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57030)
+	id 1l4r1e-0007aH-D4
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 15:02:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l4r5K-0002U6-O4
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 15:06:40 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:35013)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l4r5F-00005v-Sn
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 15:06:38 -0500
-Received: by mail-wm1-x332.google.com with SMTP id e15so2739724wme.0
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 12:06:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=E3+pS4KEc0IU6t9CbRl6vNeXG2vOmi+ncwW/bvSBc4c=;
- b=tiFcclCyEKURxIUn3lJ0LtroGp4MVW/bFWCFfRRZs01Y94zq6d73zTkJnlX9EzcmVr
- GH146/4F9e+MaGATR9354FcUfjfDG4r8tEk3a17W7kUYfS9hSnT+7OYqPhAwp573RZQ2
- hfZxdxTJqBMg+w5E05yoPZdXrqV3rY6fCFR6JqfAN0WVB6yjMEW2z7V0XDqHZx2GiE9A
- wzH/4G1wfILcTF93RvFnzUxffKVuEsDJb6DMnbh9Oa9bvdbvQHK1CEUyN6b8k0VcoaTb
- 1JNolPDiJ5OK6Qz4AJnmj+LmJWmTRMOxE22eZllNovb6nzjoSzAQAYy0IlVThKpk0xlc
- iJUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=E3+pS4KEc0IU6t9CbRl6vNeXG2vOmi+ncwW/bvSBc4c=;
- b=Og299WTFYpIe5A+M03fz11lRCqtDSch120fCAg/5MJ4ttP3qXfqgWuKtKrGnY4qrwR
- sPWZWYdOvGn4gzlokfWF3J4LYYqYdc64mmSDXiJRtF+cM6bRgj5Rc/ShXSy+4E6vfxnM
- 2Mx7ATXX2oJWVMM6a3xlBJTnuHGJ7lfq1tEZimkUnVHBCrLD3R+jgVHb2FyLeXlryFjX
- sXjgPdIu0CYx1V7MkFDwEol1+KXqM8vRcxP4LyoKzbEfNwZk8JkGI10dHc1CAkDMbvw/
- 12xKxXET2Wabs4HX5TLgmMfBdR7P/iwQe2NrsOL3YQ5oE0rNcdO9U5xA3+9n1y3GwSOn
- v5QQ==
-X-Gm-Message-State: AOAM532YJ9TuWM0Kp249JER9UTZ9jS8LN9XcGFSGln2Cc138FScf0XfL
- UrJLl0eoUwhSh9PphRq9f9q9EA==
-X-Google-Smtp-Source: ABdhPJzq7FhQZYNCtE1ydDeTt5KFA0DUH3g70idWpaf/374Ndq5efg3GnGNQAT7TCcPpWC6s9O47ZA==
-X-Received: by 2002:a1c:1b51:: with SMTP id b78mr5637109wmb.123.1611777992293; 
- Wed, 27 Jan 2021 12:06:32 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c18sm9709830wmk.0.2021.01.27.12.06.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 12:06:31 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 292931FF7E;
- Wed, 27 Jan 2021 20:06:30 +0000 (GMT)
-References: <20210125144530.2837481-1-philmd@redhat.com>
- <20210125144530.2837481-5-philmd@redhat.com>
- <20210125164746.GE3538803@redhat.com>
- <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
- <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
- <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
- <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
- <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
- <cd9265f7-4887-63bb-e36e-ace708d062c1@weilnetz.de>
- <875z3jy3tt.fsf@linaro.org>
- <89209f1b-29ad-e5df-6d45-b2480db4775e@weilnetz.de>
- <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
- <a8aaa601-dcb4-ed87-d7ba-f6362942b596@weilnetz.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
- is available
-Date: Wed, 27 Jan 2021 19:52:26 +0000
-In-reply-to: <a8aaa601-dcb4-ed87-d7ba-f6362942b596@weilnetz.de>
-Message-ID: <87wnvyw3eh.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4qx8-0002xN-1j
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:58:10 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22204)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4qx5-0007Z8-Ds
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:58:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611777486;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OcuDmnc87lRVDNVNVc8hS3PvPJGfl+q5y9KRBPjcZ+s=;
+ b=dtFKeVRrFZg1W2J4JP+nxZlhziSshXGC0RObNQ36GIxkkcdTxFAP+XF7Kqc5y0lSkW/0iA
+ MuVdAYcfhnXWfG05Wck5U1wS3wvHohqKN9W2qAGggRKS7CRnnhu8ePrm53BtUIFqVf/qeJ
+ I+NV71gWHa2YEg8KDS6VrSrxTBSp8vY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-393-Fb4Lm3PmPBqjRBPcly3yAQ-1; Wed, 27 Jan 2021 14:58:02 -0500
+X-MC-Unique: Fb4Lm3PmPBqjRBPcly3yAQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AB2BD107ACE3;
+ Wed, 27 Jan 2021 19:58:01 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-94.ams2.redhat.com [10.36.115.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 79C6310016FA;
+ Wed, 27 Jan 2021 19:58:00 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 1/8] block: Separate blk_is_writable() and
+ blk_supports_write_perm()
+Date: Wed, 27 Jan 2021 20:57:46 +0100
+Message-Id: <20210127195753.59773-2-kwolf@redhat.com>
+In-Reply-To: <20210127195753.59773-1-kwolf@redhat.com>
+References: <20210127195753.59773-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -99,83 +77,482 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Daniel_P?= =?utf-8?Q?=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Currently, blk_is_read_only() tells whether a given BlockBackend can
+only be used in read-only mode because its root node is read-only. Some
+callers actually try to answer a slightly different question: Is the
+BlockBackend configured to be writable, by taking write permissions on
+the root node?
 
-Stefan Weil <sw@weilnetz.de> writes:
+This can differ, for example, for CD-ROM devices which don't take write
+permissions, but may be backed by a writable image file. scsi-cd allows
+write requests to the drive if blk_is_read_only() returns false.
+However, the write request will immediately run into an assertion
+failure because the write permission is missing.
 
-> Am 26.01.21 um 23:39 schrieb Richard Henderson:
->
->> On 1/26/21 9:44 AM, Stefan Weil wrote:
->>> I was not talking about the TODO assertions. When I wrote TCI, I only e=
-nabled
->>> and included code which was triggered by my testing - that's why I said=
- the
->>> productive code lines have 100 % test coverage. TODO assertions are not
->>> productive code, but debug code which were made to detect new test case=
-s. They
->>> were successful, too, because they were triggered by some tests in `make
->>> check-tcg`.
->> The TODO assertions are all bugs.
->>
->> Any *real* dead code detection should have been done in
->> tcg/tci/tcg-target.c.inc.  What's interpreted in tcg/tci.c should be exa=
-ctly
->> what is produced on the other side, and you are producing more than you =
-are
->> consuming.
->
->
-> Unless the TCG opcodes in tcg/tci/tcg-target.c.inc are used in real-live=
-=20
-> scenarios, they are dead code, too.
+This patch introduces separate functions for both questions.
+blk_supports_write_perm() answers the question whether the block
+node/image file can support writable devices, whereas blk_is_writable()
+tells whether the BlockBackend is currently configured to be writable.
 
-For example - debian-buster (arm64) running ffmpeg:
+All calls of blk_is_read_only() are converted to one of the two new
+functions.
 
-  alex.bennee@8cd150a4b35d:~/lsrc/qemu.git/builds/all.tci$ ./qemu-aarch64 /=
-usr/bin/ffmpeg -i theora.mkv theora.webm
-  TODO ../../tcg/tci.c:882: tcg_qemu_tb_exec()
-  ../../tcg/tci.c:882: tcg fatal error
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-  Segmentation fault (core dumped)
+Fixes: https://bugs.launchpad.net/bugs/1906693
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20210118123448.307825-2-kwolf@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ include/sysemu/block-backend.h |  3 ++-
+ block/block-backend.c          | 19 ++++++++++++++++---
+ hw/block/dataplane/xen-block.c |  2 +-
+ hw/block/fdc.c                 |  9 +++++----
+ hw/block/m25p80.c              |  6 +++---
+ hw/block/nand.c                |  2 +-
+ hw/block/nvme-ns.c             |  7 ++++---
+ hw/block/onenand.c             |  2 +-
+ hw/block/pflash_cfi01.c        |  2 +-
+ hw/block/pflash_cfi02.c        |  2 +-
+ hw/block/swim.c                |  6 +++---
+ hw/block/virtio-blk.c          |  6 +++---
+ hw/block/xen-block.c           |  2 +-
+ hw/ide/core.c                  |  2 +-
+ hw/misc/sifive_u_otp.c         |  2 +-
+ hw/ppc/pnv_pnor.c              |  2 +-
+ hw/scsi/scsi-disk.c            | 10 +++++-----
+ hw/scsi/scsi-generic.c         |  4 ++--
+ hw/sd/sd.c                     |  6 +++---
+ hw/usb/dev-storage.c           |  4 ++--
+ 20 files changed, 57 insertions(+), 41 deletions(-)
 
-> Writing a test case which produces them directly (not for some real=20
-> architecture) is not a real-live scenario.
->
-> And the remaining TODO assertions are a good indicator that the current=20
-> tests are incomplete for native TCG because they obviously don't cover=20
-> all TCG opcodes.
+diff --git a/include/sysemu/block-backend.h b/include/sysemu/block-backend.h
+index 8203d7f6f9..880e903293 100644
+--- a/include/sysemu/block-backend.h
++++ b/include/sysemu/block-backend.h
+@@ -191,7 +191,8 @@ BlockErrorAction blk_get_error_action(BlockBackend *blk, bool is_read,
+                                       int error);
+ void blk_error_action(BlockBackend *blk, BlockErrorAction action,
+                       bool is_read, int error);
+-bool blk_is_read_only(BlockBackend *blk);
++bool blk_supports_write_perm(BlockBackend *blk);
++bool blk_is_writable(BlockBackend *blk);
+ bool blk_is_sg(BlockBackend *blk);
+ bool blk_enable_write_cache(BlockBackend *blk);
+ void blk_set_enable_write_cache(BlockBackend *blk, bool wce);
+diff --git a/block/block-backend.c b/block/block-backend.c
+index ce78d30794..e493f17515 100644
+--- a/block/block-backend.c
++++ b/block/block-backend.c
+@@ -1826,17 +1826,30 @@ void blk_error_action(BlockBackend *blk, BlockErrorAction action,
+     }
+ }
+ 
+-bool blk_is_read_only(BlockBackend *blk)
++/*
++ * Returns true if the BlockBackend can support taking write permissions
++ * (because its root node is not read-only).
++ */
++bool blk_supports_write_perm(BlockBackend *blk)
+ {
+     BlockDriverState *bs = blk_bs(blk);
+ 
+     if (bs) {
+-        return bdrv_is_read_only(bs);
++        return !bdrv_is_read_only(bs);
+     } else {
+-        return blk->root_state.read_only;
++        return !blk->root_state.read_only;
+     }
+ }
+ 
++/*
++ * Returns true if the BlockBackend can be written to in its current
++ * configuration (i.e. if write permission have been requested)
++ */
++bool blk_is_writable(BlockBackend *blk)
++{
++    return blk->perm & BLK_PERM_WRITE;
++}
++
+ bool blk_is_sg(BlockBackend *blk)
+ {
+     BlockDriverState *bs = blk_bs(blk);
+diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+index 3675f8deaf..860787580a 100644
+--- a/hw/block/dataplane/xen-block.c
++++ b/hw/block/dataplane/xen-block.c
+@@ -168,7 +168,7 @@ static int xen_block_parse_request(XenBlockRequest *request)
+     };
+ 
+     if (request->req.operation != BLKIF_OP_READ &&
+-        blk_is_read_only(dataplane->blk)) {
++        !blk_is_writable(dataplane->blk)) {
+         error_report("error: write req for ro device");
+         goto err;
+     }
+diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+index 3636874432..292ea87805 100644
+--- a/hw/block/fdc.c
++++ b/hw/block/fdc.c
+@@ -444,7 +444,7 @@ static void fd_revalidate(FDrive *drv)
+ 
+     FLOPPY_DPRINTF("revalidate\n");
+     if (drv->blk != NULL) {
+-        drv->ro = blk_is_read_only(drv->blk);
++        drv->ro = !blk_is_writable(drv->blk);
+         if (!blk_is_inserted(drv->blk)) {
+             FLOPPY_DPRINTF("No disk in drive\n");
+             drv->disk = FLOPPY_DRIVE_TYPE_NONE;
+@@ -479,8 +479,8 @@ static void fd_change_cb(void *opaque, bool load, Error **errp)
+         blk_set_perm(drive->blk, 0, BLK_PERM_ALL, &error_abort);
+     } else {
+         if (!blkconf_apply_backend_options(drive->conf,
+-                                           blk_is_read_only(drive->blk), false,
+-                                           errp)) {
++                                           !blk_supports_write_perm(drive->blk),
++                                           false, errp)) {
+             return;
+         }
+     }
+@@ -553,7 +553,8 @@ static void floppy_drive_realize(DeviceState *qdev, Error **errp)
+          * read-only node later */
+         read_only = true;
+     } else {
+-        read_only = !blk_bs(dev->conf.blk) || blk_is_read_only(dev->conf.blk);
++        read_only = !blk_bs(dev->conf.blk) ||
++                    !blk_supports_write_perm(dev->conf.blk);
+     }
+ 
+     if (!blkconf_blocksizes(&dev->conf, errp)) {
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index b744a58d1c..0412d3e7f4 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -508,7 +508,7 @@ static void flash_sync_page(Flash *s, int page)
+ {
+     QEMUIOVector *iov;
+ 
+-    if (!s->blk || blk_is_read_only(s->blk)) {
++    if (!s->blk || !blk_is_writable(s->blk)) {
+         return;
+     }
+ 
+@@ -524,7 +524,7 @@ static inline void flash_sync_area(Flash *s, int64_t off, int64_t len)
+ {
+     QEMUIOVector *iov;
+ 
+-    if (!s->blk || blk_is_read_only(s->blk)) {
++    if (!s->blk || !blk_is_writable(s->blk)) {
+         return;
+     }
+ 
+@@ -1434,7 +1434,7 @@ static void m25p80_realize(SSIPeripheral *ss, Error **errp)
+ 
+     if (s->blk) {
+         uint64_t perm = BLK_PERM_CONSISTENT_READ |
+-                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
++                        (blk_supports_write_perm(s->blk) ? BLK_PERM_WRITE : 0);
+         ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
+         if (ret < 0) {
+             return;
+diff --git a/hw/block/nand.c b/hw/block/nand.c
+index 913292ad1d..8bc80e3514 100644
+--- a/hw/block/nand.c
++++ b/hw/block/nand.c
+@@ -400,7 +400,7 @@ static void nand_realize(DeviceState *dev, Error **errp)
+     pagesize = 1 << s->oob_shift;
+     s->mem_oob = 1;
+     if (s->blk) {
+-        if (blk_is_read_only(s->blk)) {
++        if (!blk_supports_write_perm(s->blk)) {
+             error_setg(errp, "Can't use a read-only drive");
+             return;
+         }
+diff --git a/hw/block/nvme-ns.c b/hw/block/nvme-ns.c
+index 31c80cdf5b..2670787d26 100644
+--- a/hw/block/nvme-ns.c
++++ b/hw/block/nvme-ns.c
+@@ -48,13 +48,14 @@ static void nvme_ns_init(NvmeNamespace *ns)
+ 
+ static int nvme_ns_init_blk(NvmeCtrl *n, NvmeNamespace *ns, Error **errp)
+ {
++    bool read_only;
++
+     if (!blkconf_blocksizes(&ns->blkconf, errp)) {
+         return -1;
+     }
+ 
+-    if (!blkconf_apply_backend_options(&ns->blkconf,
+-                                       blk_is_read_only(ns->blkconf.blk),
+-                                       false, errp)) {
++    read_only = !blk_supports_write_perm(ns->blkconf.blk);
++    if (!blkconf_apply_backend_options(&ns->blkconf, read_only, false, errp)) {
+         return -1;
+     }
+ 
+diff --git a/hw/block/onenand.c b/hw/block/onenand.c
+index 579a73d7f7..afc0cd3a0f 100644
+--- a/hw/block/onenand.c
++++ b/hw/block/onenand.c
+@@ -797,7 +797,7 @@ static void onenand_realize(DeviceState *dev, Error **errp)
+         s->image = memset(g_malloc(size + (size >> 5)),
+                           0xff, size + (size >> 5));
+     } else {
+-        if (blk_is_read_only(s->blk)) {
++        if (!blk_supports_write_perm(s->blk)) {
+             error_setg(errp, "Can't use a read-only drive");
+             return;
+         }
+diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+index ccf326793d..22287a1522 100644
+--- a/hw/block/pflash_cfi01.c
++++ b/hw/block/pflash_cfi01.c
+@@ -745,7 +745,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+ 
+     if (pfl->blk) {
+         uint64_t perm;
+-        pfl->ro = blk_is_read_only(pfl->blk);
++        pfl->ro = !blk_supports_write_perm(pfl->blk);
+         perm = BLK_PERM_CONSISTENT_READ | (pfl->ro ? 0 : BLK_PERM_WRITE);
+         ret = blk_set_perm(pfl->blk, perm, BLK_PERM_ALL, errp);
+         if (ret < 0) {
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index 2ad2f6baea..7962cff745 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -802,7 +802,7 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
+ 
+     if (pfl->blk) {
+         uint64_t perm;
+-        pfl->ro = blk_is_read_only(pfl->blk);
++        pfl->ro = !blk_supports_write_perm(pfl->blk);
+         perm = BLK_PERM_CONSISTENT_READ | (pfl->ro ? 0 : BLK_PERM_WRITE);
+         ret = blk_set_perm(pfl->blk, perm, BLK_PERM_ALL, errp);
+         if (ret < 0) {
+diff --git a/hw/block/swim.c b/hw/block/swim.c
+index 20133a814c..509c2f4900 100644
+--- a/hw/block/swim.c
++++ b/hw/block/swim.c
+@@ -137,8 +137,8 @@ static void swim_change_cb(void *opaque, bool load, Error **errp)
+         blk_set_perm(drive->blk, 0, BLK_PERM_ALL, &error_abort);
+     } else {
+         if (!blkconf_apply_backend_options(drive->conf,
+-                                           blk_is_read_only(drive->blk), false,
+-                                           errp)) {
++                                           !blk_supports_write_perm(drive->blk),
++                                           false, errp)) {
+             return;
+         }
+     }
+@@ -210,7 +210,7 @@ static void swim_drive_realize(DeviceState *qdev, Error **errp)
+     dev->conf.werror = BLOCKDEV_ON_ERROR_AUTO;
+ 
+     if (!blkconf_apply_backend_options(&dev->conf,
+-                                       blk_is_read_only(dev->conf.blk),
++                                       !blk_supports_write_perm(dev->conf.blk),
+                                        false, errp)) {
+         return;
+     }
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index bac2d6fa2b..e8600b069d 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -1021,7 +1021,7 @@ static uint64_t virtio_blk_get_features(VirtIODevice *vdev, uint64_t features,
+          virtio_has_feature(features, VIRTIO_BLK_F_CONFIG_WCE))) {
+         virtio_add_feature(&features, VIRTIO_BLK_F_WCE);
+     }
+-    if (blk_is_read_only(s->blk)) {
++    if (!blk_is_writable(s->blk)) {
+         virtio_add_feature(&features, VIRTIO_BLK_F_RO);
+     }
+     if (s->conf.num_queues > 1) {
+@@ -1175,8 +1175,8 @@ static void virtio_blk_device_realize(DeviceState *dev, Error **errp)
+     }
+ 
+     if (!blkconf_apply_backend_options(&conf->conf,
+-                                       blk_is_read_only(conf->conf.blk), true,
+-                                       errp)) {
++                                       !blk_supports_write_perm(conf->conf.blk),
++                                       true, errp)) {
+         return;
+     }
+     s->original_wce = blk_enable_write_cache(conf->conf.blk);
+diff --git a/hw/block/xen-block.c b/hw/block/xen-block.c
+index 718d886e5c..0e7d66c2a7 100644
+--- a/hw/block/xen-block.c
++++ b/hw/block/xen-block.c
+@@ -567,7 +567,7 @@ static void xen_disk_realize(XenBlockDevice *blockdev, Error **errp)
+         return;
+     }
+ 
+-    blockdev->info = blk_is_read_only(conf->blk) ? VDISK_READONLY : 0;
++    blockdev->info = blk_supports_write_perm(conf->blk) ? 0 : VDISK_READONLY;
+ }
+ 
+ static void xen_disk_class_init(ObjectClass *class, void *data)
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index b49e4cfbc6..81db2c95de 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -2537,7 +2537,7 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+             error_setg(errp, "Device needs media, but drive is empty");
+             return -1;
+         }
+-        if (blk_is_read_only(blk)) {
++        if (!blk_is_writable(blk)) {
+             error_setg(errp, "Can't use a read-only drive");
+             return -1;
+         }
+diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+index f921c67644..b8e8b9eebe 100644
+--- a/hw/misc/sifive_u_otp.c
++++ b/hw/misc/sifive_u_otp.c
+@@ -228,7 +228,7 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+ 
+         if (s->blk) {
+             perm = BLK_PERM_CONSISTENT_READ |
+-                   (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
++                   (blk_supports_write_perm(s->blk) ? BLK_PERM_WRITE : 0);
+             ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
+             if (ret < 0) {
+                 return;
+diff --git a/hw/ppc/pnv_pnor.c b/hw/ppc/pnv_pnor.c
+index ef8dff03e0..4b455de1ea 100644
+--- a/hw/ppc/pnv_pnor.c
++++ b/hw/ppc/pnv_pnor.c
+@@ -86,7 +86,7 @@ static void pnv_pnor_realize(DeviceState *dev, Error **errp)
+ 
+     if (s->blk) {
+         uint64_t perm = BLK_PERM_CONSISTENT_READ |
+-                        (blk_is_read_only(s->blk) ? 0 : BLK_PERM_WRITE);
++                        (blk_supports_write_perm(s->blk) ? BLK_PERM_WRITE : 0);
+         ret = blk_set_perm(s->blk, perm, BLK_PERM_ALL, errp);
+         if (ret < 0) {
+             return;
+diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+index 29504ea081..ed52fcd49f 100644
+--- a/hw/scsi/scsi-disk.c
++++ b/hw/scsi/scsi-disk.c
+@@ -1270,7 +1270,7 @@ static int scsi_disk_emulate_mode_sense(SCSIDiskReq *r, uint8_t *outbuf)
+ 
+     if (s->qdev.type == TYPE_DISK) {
+         dev_specific_param = s->features & (1 << SCSI_DISK_F_DPOFUA) ? 0x10 : 0;
+-        if (blk_is_read_only(s->qdev.conf.blk)) {
++        if (!blk_is_writable(s->qdev.conf.blk)) {
+             dev_specific_param |= 0x80; /* Readonly.  */
+         }
+     } else {
+@@ -1704,7 +1704,7 @@ static void scsi_disk_emulate_unmap(SCSIDiskReq *r, uint8_t *inbuf)
+         goto invalid_param_len;
+     }
+ 
+-    if (blk_is_read_only(s->qdev.conf.blk)) {
++    if (!blk_is_writable(s->qdev.conf.blk)) {
+         block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP);
+         scsi_check_condition(r, SENSE_CODE(WRITE_PROTECTED));
+         return;
+@@ -1795,7 +1795,7 @@ static void scsi_disk_emulate_write_same(SCSIDiskReq *r, uint8_t *inbuf)
+         return;
+     }
+ 
+-    if (blk_is_read_only(s->qdev.conf.blk)) {
++    if (!blk_is_writable(s->qdev.conf.blk)) {
+         scsi_check_condition(r, SENSE_CODE(WRITE_PROTECTED));
+         return;
+     }
+@@ -2207,7 +2207,7 @@ static int32_t scsi_disk_dma_command(SCSIRequest *req, uint8_t *buf)
+     case WRITE_VERIFY_10:
+     case WRITE_VERIFY_12:
+     case WRITE_VERIFY_16:
+-        if (blk_is_read_only(s->qdev.conf.blk)) {
++        if (!blk_is_writable(s->qdev.conf.blk)) {
+             scsi_check_condition(r, SENSE_CODE(WRITE_PROTECTED));
+             return 0;
+         }
+@@ -2380,7 +2380,7 @@ static void scsi_realize(SCSIDevice *dev, Error **errp)
+         }
+     }
+ 
+-    read_only = blk_is_read_only(s->qdev.conf.blk);
++    read_only = !blk_supports_write_perm(s->qdev.conf.blk);
+     if (dev->type == TYPE_ROM) {
+         read_only = true;
+     }
+diff --git a/hw/scsi/scsi-generic.c b/hw/scsi/scsi-generic.c
+index 9740f7e36a..ab220141f5 100644
+--- a/hw/scsi/scsi-generic.c
++++ b/hw/scsi/scsi-generic.c
+@@ -306,7 +306,7 @@ static void scsi_read_complete(void * opaque, int ret)
+      * readonly.
+      */
+     if ((s->type == TYPE_DISK || s->type == TYPE_TAPE || s->type == TYPE_ZBC) &&
+-        blk_is_read_only(s->conf.blk) &&
++        !blk_is_writable(s->conf.blk) &&
+         (r->req.cmd.buf[0] == MODE_SENSE ||
+          r->req.cmd.buf[0] == MODE_SENSE_10) &&
+         (r->req.cmd.buf[1] & 0x8) == 0) {
+@@ -694,7 +694,7 @@ static void scsi_generic_realize(SCSIDevice *s, Error **errp)
+         return;
+     }
+     if (!blkconf_apply_backend_options(&s->conf,
+-                                       blk_is_read_only(s->conf.blk),
++                                       !blk_supports_write_perm(s->conf.blk),
+                                        true, errp)) {
+         return;
+     }
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index b3952514fe..8517dbce8b 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -567,7 +567,7 @@ static void sd_reset(DeviceState *dev)
+     sd_set_sdstatus(sd);
+ 
+     g_free(sd->wp_groups);
+-    sd->wp_switch = sd->blk ? blk_is_read_only(sd->blk) : false;
++    sd->wp_switch = sd->blk ? !blk_is_writable(sd->blk) : false;
+     sd->wpgrps_size = sect;
+     sd->wp_groups = bitmap_new(sd->wpgrps_size);
+     memset(sd->function_group, 0, sizeof(sd->function_group));
+@@ -735,7 +735,7 @@ void sd_set_cb(SDState *sd, qemu_irq readonly, qemu_irq insert)
+ {
+     sd->readonly_cb = readonly;
+     sd->inserted_cb = insert;
+-    qemu_set_irq(readonly, sd->blk ? blk_is_read_only(sd->blk) : 0);
++    qemu_set_irq(readonly, sd->blk ? !blk_is_writable(sd->blk) : 0);
+     qemu_set_irq(insert, sd->blk ? blk_is_inserted(sd->blk) : 0);
+ }
+ 
+@@ -2131,7 +2131,7 @@ static void sd_realize(DeviceState *dev, Error **errp)
+     if (sd->blk) {
+         int64_t blk_size;
+ 
+-        if (blk_is_read_only(sd->blk)) {
++        if (!blk_supports_write_perm(sd->blk)) {
+             error_setg(errp, "Cannot use read-only drive as SD card");
+             return;
+         }
+diff --git a/hw/usb/dev-storage.c b/hw/usb/dev-storage.c
+index f0f005869d..c49e8b819e 100644
+--- a/hw/usb/dev-storage.c
++++ b/hw/usb/dev-storage.c
+@@ -613,8 +613,8 @@ static void usb_msd_storage_realize(USBDevice *dev, Error **errp)
+         return;
+     }
+ 
+-    if (!blkconf_apply_backend_options(&s->conf, blk_is_read_only(blk), true,
+-                                       errp)) {
++    if (!blkconf_apply_backend_options(&s->conf, !blk_supports_write_perm(blk),
++                                       true, errp)) {
+         return;
+     }
+ 
+-- 
+2.29.2
 
-That's because check-tcg isn't a comprehensive test suite and expecting
-it to be misses the point of it. It was added to make it easy to add new
-test cases and remove some of the burden off maintainers having their
-own zoo of test binaries. It has slowly grown as directed test cases
-were written while bug hunting and sometimes when new features where
-added. It will never be a comprehensive exercising of the CPU emulation
-although some architectures have more coverage than others. For example
-MIPs has a bunch of ISA level tests as part of check-tcg but most of the
-ARM ISA validation is done externally using the RISU random instruction
-testing tool.
-
-Besides you've just argued writing a test case that targets missing
-functionality in TCI would somehow be cheating as it's not a "real-live"
-scenario.
-
-I don't mind either way - the fact that TCI is useful to people is cool
-and more power to them. But lets not pretend it is a fully functional
-and maintained backend because it has obviously got some major holes. If
-it ends up being a drag on efforts to maintain and improve the TCG then
-we have to question why we are keeping it in. Being able to run
-emulation on esoteric hardware without a real backend is a party trick
-at best. The other use-cases that have been mentioned could be solved
-with investing some effort in the rest of the TCG code.
-
---=20
-Alex Benn=C3=A9e
 
