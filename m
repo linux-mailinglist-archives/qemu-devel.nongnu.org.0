@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AC3305F1E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 16:10:35 +0100 (CET)
-Received: from localhost ([::1]:59126 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF8F8305F26
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 16:11:23 +0100 (CET)
+Received: from localhost ([::1]:33054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4mSo-0007QX-IQ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 10:10:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33180)
+	id 1l4mTa-0008K3-Si
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 10:11:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33236)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4mRj-00071L-RN
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:09:27 -0500
-Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:52522)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4mRh-0002c0-Qn
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:09:27 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 99BAB245CA6;
- Wed, 27 Jan 2021 16:09:22 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 27 Jan
- 2021 16:09:21 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G0023cc0bb6f-08f3-48d4-8007-e0734a938da1,
- E0AEAA2FFBCC539F7495E66DC8DC75F2C85CA1F9) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Wed, 27 Jan 2021 16:09:20 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Miklos Szeredi <mszeredi@redhat.com>
-Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: prevent opening of special
- files (CVE-2020-35517)
-Message-ID: <20210127160920.062e47f0@bahia.lan>
-In-Reply-To: <CAOssrKeN9iYT-Z46FVtzdKnWcTLfMqK77b1faf78m3XTXnEVGw@mail.gmail.com>
-References: <20210126103502.260758-1-stefanha@redhat.com>
- <20210126181604.1a4c69c6@bahia.lan>
- <CAOssrKdh3kqKN4uGE=s5eiymd2MXKsRXUegqRH-TFhqYOK7WOA@mail.gmail.com>
- <20210127112023.0e97f909@bahia.lan>
- <CAOssrKfezsvcECQ=mO_4T2B09e+2S4LA3=_U6TQyiTtPbE=OYg@mail.gmail.com>
- <20210127144909.22dd778e@bahia.lan>
- <CAOssrKeN9iYT-Z46FVtzdKnWcTLfMqK77b1faf78m3XTXnEVGw@mail.gmail.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4mSL-0007cQ-8h
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:10:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26992)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4mSI-0002tK-Cp
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:10:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611760201;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=JAFFCRSdYd81FxjDSiKxz2ZYfCbZhyvwIv7ohY22JTY=;
+ b=Rc5dYl2ZO/VJKX/XC3lA77DHIxX2oypwBAwG6Rnbnjy7sZlXCnynyZ9gVOIMoPFQ71FyZm
+ SqwEpXFBuvyqIzSZLRILeyQtUjplGkY7xP06yAt9O2pt3l8ddJrU5NSPc6bA7RsY/Oo1Zi
+ Rx7LvkpJZpuAZcYR+WELhEN22K/nTkk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-233-8G4cTKvlNzWSaqCzu6x4ig-1; Wed, 27 Jan 2021 10:09:56 -0500
+X-MC-Unique: 8G4cTKvlNzWSaqCzu6x4ig-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8DB3418C89FE;
+ Wed, 27 Jan 2021 15:09:55 +0000 (UTC)
+Received: from redhat.com (ovpn-115-120.ams2.redhat.com [10.36.115.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 191015D6A1;
+ Wed, 27 Jan 2021 15:09:52 +0000 (UTC)
+Date: Wed, 27 Jan 2021 15:09:50 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Michal Privoznik <mprivozn@redhat.com>
+Subject: Re: [PATCH v3] machine: add missing doc for memory-backend option
+Message-ID: <20210127150950.GO3653144@redhat.com>
+References: <20210121161504.1007247-1-imammedo@redhat.com>
+ <20210127104511.GF3653144@redhat.com>
+ <20210127105436.GG3653144@redhat.com>
+ <756c025a-3811-4a36-98a2-3a02bd756523@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: c3730c34-148f-4187-9863-fcf78432d6ee
-X-Ovh-Tracer-Id: 9377057375258450223
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepvhhgohihrghlsehrvgguhhgrthdrtghomh
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
- helo=7.mo51.mail-out.ovh.net
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <756c025a-3811-4a36-98a2-3a02bd756523@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -74,111 +84,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Alex Xu <alex@alxu.ca>,
- Stefan Hajnoczi <stefanha@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, pkrempa@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Jan 2021 15:09:50 +0100
-Miklos Szeredi <mszeredi@redhat.com> wrote:
-
-> On Wed, Jan 27, 2021 at 2:49 PM Greg Kurz <groug@kaod.org> wrote:
-> >
-> > On Wed, 27 Jan 2021 11:34:52 +0100
-> > Miklos Szeredi <mszeredi@redhat.com> wrote:
+On Wed, Jan 27, 2021 at 03:24:26PM +0100, Michal Privoznik wrote:
+> On 1/27/21 11:54 AM, Daniel P. Berrangé wrote:
+> > On Wed, Jan 27, 2021 at 10:45:11AM +0000, Daniel P. Berrangé wrote:
+> > > On Thu, Jan 21, 2021 at 11:15:04AM -0500, Igor Mammedov wrote:
 > 
-> > > Another solution specifically for O_CREAT without O_EXCL would be to
-> > > turn it into an exclusive create.
-> >
-> > Would this added O_EXCL then appear on the client side, e.g. to
-> > guest userspace doing fcntl(F_GETFL) ?
 > 
-> No.  Guest kernel keeps track of open flags.
+> > > 
+> > > How does a mgmt app know which machine types need to use this
+> > > option ? The machine type names are opaque strings, and apps
+> > > must not attempt to parse or interpret the version number
+> > > inside the machine type name, as they can be changed by
+> > > distros.  IOW, saying to use it for machine types 4.0 and
+> > > older isn't a valid usage strategy IMHO.
+> > 
+> > Looking at the libvirt patch, we do indeed use his property
+> > unconditionally for all machine types, precisely because parsing
+> > version numbers from the machine type is not allowed.
+> > 
+> > https://www.redhat.com/archives/libvir-list/2021-January/msg00633.html
+> > 
+> > So this doc is telling apps to do something that isn't viable
 > 
-
-That was my impression as well as I didn't find a FUSE_GETFL request.
-Thanks for confirming that !
-
-> > > If that fails with EEXIST then try
-> > > the normal open path (open with O_PATH, fstat, open proc symlink).  If
-> >
-> > open(O_PATH | O_NOFOLLOW) + fstatat(AT_EMPTY_PATH|AT_SYMLINK_NOFOLLOW)
-> > would indeed allow to filter out anything that isn't a directory and
-> > to safely open the proc symlink.
-> >
-> > > that fails with ENOENT, then retry the whole thing a certain number of
-> >
-> > Indeed someone could have unlinked the file in the meantime, in which
-> > case the open(O_PATH | O_NOFOLLOW) would fail, but if it succeeds then
-> > we cannot hit ENOENT anymore AFAICT.
+> The other approach that I was suggesting was, that QEMU stops reporting
+> 'default-ram-id' for affected machine types. The way the switch from '-m
+> XMB' to memory-backend-* was implemented in libvirt is that if libvirt sees
+> 'default-ram-id' attribute for given machine type it uses memory-backend-*
+> otherwise it falls back to -m.
 > 
-> Right.
-> 
-> > > times.  If it still fails then somebody is definitely messing with us
-> > > and we can fail the request with EIO.
-> > >
-> >
-> > Not sure what the retry+timeout is trying to mitigate here... why not
-> > returning EIO right away ?
-> 
-> The semantics of O_CREATE are that it can fail neither because the
-> file exists nor because it doesn't.  This doesn't matter if the
-> exported tree is not modified outside of a single guest, because of
-> locking provided by the guest kernel.
-> 
+> Since we know which machine types are "broken", we can stop reporting the
+> attribute and thus stop tickling this bug. I agree that it puts more burden
+> on distro maintainers to backport the change, but I think it's acceptable
+> risk.
 
-Wrong. O_CREAT can legitimately fail with ENOENT if one element
-of the pathname doesn't exist. And even if pathname only has
-one element, you can still have O_CREAT to fail the same way
-if the path of the parent directory is removed.
+IIUC That's only a burden for distros if they're creating their own
+machine types, in which case they've already decided the burden is
+a net win.
 
-cat>enoent.c<<EOF
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
 
-int main(int argc, char **argv)
-{
-	mkdir("foo", 0777);
-	chdir("foo");
-	rmdir("../foo");
-	open("bar", O_CREAT);
-}
-EOF
-make enoent
-strace ./enoent
-
-[...]
-
-mkdir("foo", 0777)                      = 0
-chdir("foo")                            = 0
-rmdir("../foo")                         = 0
-openat(AT_FDCWD, "bar", O_RDONLY|O_CREAT, 0117130) = -1 ENOENT (No such file or directory)
-
-> However if we want to support shared access to a tree then O_CREAT
-> semantics should work even in the face of races due to external
-> modification of the tree.  I.e. following race:
-> 
-
-Yeah, handling shared access is where the fun starts :)
-
-> virtiofsd: open(foo, O_CREAT | O_EXCL) -> EEXIST
-> other task: unlink(foo)
-> virtiofsd: open(foo, O_PATH | O_NOFOLLOW) -> ENOENT
-> 
-> To properly support the above the O_CREAT | O_EXCL open would need to
-> be retried.
-> 
-
-But in this case, it seems fine to return ENOENT since
-the guest userspace cannot really assume it never happens.
-
-> Thanks,
-> Miklos
-> 
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
