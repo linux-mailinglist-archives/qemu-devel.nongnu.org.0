@@ -2,73 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 308F53063B3
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 20:05:01 +0100 (CET)
-Received: from localhost ([::1]:34568 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5C43063F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 20:23:32 +0100 (CET)
+Received: from localhost ([::1]:47978 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4q7g-0005lX-8s
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 14:05:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46816)
+	id 1l4qPb-0003tL-4G
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 14:23:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4q51-0004gx-CF
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:02:19 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33583)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l4qMz-00030K-Ji
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:20:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:51662)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4q4u-0001eu-JY
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:02:12 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id by1so4233876ejc.0
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 11:02:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vru3QfZu/Pm7JSBT5l8yR7Di1zSLAPHvjf7coSDXDhY=;
- b=xFuP5Y4MOhcTGZSEvFYHL9q+TB7G1N+gT20TtQkFE2BGiRuW5tex1fY6D4ClXKRrVw
- 6bGB74guxHknLp2rP8+yk6gbmp5IEXCD0lSt8akvVW82B8GpF1FPutegvgOy9kbyPLv3
- 82os59EHHAqL+B7UWLZAAmEj2/kT7RbmpoRlAjQclV898ufZHsGlgItEFfSCJtLaorYd
- 7Ghr0ehKuAAJImmQ6ycd3qQ/2wwWF+nqdIe53itRjHHyNI50nj6XUS8ZlTbQPiHyyJ1P
- XfA6OGZJMo+pz8fbd7OcDTVELSjDIQDOeXB1tvVCJq0KwXAR0u85SmwcgxK8UWU8mxcQ
- 2hTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vru3QfZu/Pm7JSBT5l8yR7Di1zSLAPHvjf7coSDXDhY=;
- b=cIQEYEi/oeUYykxU152qERzOawyoG3KZ0xIsn/35iRDEYSKlCaXz+U/mzsMyURKQ84
- wlrqtw+vu77BQwbqowJ8nXwTx3rhZu9D412nzVIfo71EKbYL8erD8OqMrMmtSuintg7m
- 9ZIfNC4IUeUDoQxxGecPeRoXjWuDVb5hMZcxDERQVMkWCdcBEfAw7iRkstRiJ+jxQ6km
- 1RxBm8bUC4qUXZFek2RjKaFp8BU0biL9SYwxcOW5eDkLfzhNKidOLGz/HvwW34tYApFv
- dlPLkiG0MoLa6ruCyoxqu/fV0bm0cCZ5Ce1Jj/mweMjNsO7FWjL3utlA5CWL5VfQWYGq
- S/dw==
-X-Gm-Message-State: AOAM530wfctnFvnjmLFNdSJ5txaFIXR/PYxYy3tLypHs5/WnhNzGhkj2
- GEmTQwlemfZyp91xTsKD2itETe3kfaMXJG8G3+RtZg==
-X-Google-Smtp-Source: ABdhPJz7O1Op4MErxU7c6TAJHEp+T5+bwjJmLgEJMYinBUjNlTj1VQw5EaMMqML1qTC6QutugQQsO0NkE17wVkL1kJU=
-X-Received: by 2002:a17:906:4002:: with SMTP id
- v2mr3953982ejj.85.1611774122536; 
- Wed, 27 Jan 2021 11:02:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l4qMx-0003fy-AN
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:20:49 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l4qMu-0002NN-De
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 19:20:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 4BD382E813D
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 19:20:44 +0000 (UTC)
 MIME-Version: 1.0
-References: <20210127074850.1886235-1-edgar.iglesias@gmail.com>
-In-Reply-To: <20210127074850.1886235-1-edgar.iglesias@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 27 Jan 2021 19:01:51 +0000
-Message-ID: <CAFEAcA_xpD=PMWMfd+_fvH3U4sSzs332FHyVD-essU2rkUOxbw@mail.gmail.com>
-Subject: Re: [PULL v1 0/3] Xilinx queue
-To: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 27 Jan 2021 19:12:40 -0000
+From: Santiago Piccinini <1912790@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: linux-user tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: spiccinini
+X-Launchpad-Bug-Reporter: Santiago Piccinini (spiccinini)
+X-Launchpad-Bug-Modifier: Santiago Piccinini (spiccinini)
+References: <161132480248.13427.4671717856160986897.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161177476045.14050.4970922307589636871.malone@wampee.canonical.com>
+Subject: [Bug 1912790] Re: qemu-aarch64-static segfaults python3
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 6ff4ec0730dfb0c9b20d2f4039bb7ed00a39488b
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -77,38 +71,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Joe Komlodi <joe.komlodi@xilinx.com>
+Reply-To: Bug 1912790 <1912790@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Jan 2021 at 07:48, Edgar E. Iglesias
-<edgar.iglesias@gmail.com> wrote:
->
-> From: "Edgar E. Iglesias" <edgar.iglesias@xilinx.com>
->
-> The following changes since commit 9cd69f1a270235b652766f00b94114f48a2d603f:
->
->   Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-01-25-1' into staging (2021-01-26 09:51:02 +0000)
->
-> are available in the Git repository at:
->
->   git@github.com:edgarigl/qemu.git tags/edgar/xilinx-next-2021-01-27.for-upstream
->
-> for you to fetch changes up to 43a9ede1efd12d297278d017ce7df7130672e15d:
->
->   target/microblaze: Add security attributes on memory transactions (2021-01-27 08:32:55 +0100)
->
-> ----------------------------------------------------------------
-> For upstream
->
-> ----------------------------------------------------------------
+Sorry, disregard this report. The qemu version actually running was an old =
+version that had this bug (in debian 10). The 5.2 version does not have thi=
+s issue. =
 
+I was confused by binfmt + docker.
 
-Applied, thanks.
+-- =
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1912790
 
--- PMM
+Title:
+  qemu-aarch64-static segfaults python3
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  qemu-aarch64-static is segfaulting in a debian build process using
+  debootstrap.
+
+  ```
+  Type "apropos word" to search for commands related to "word"...
+  Reading symbols from /usr/bin/qemu-aarch64-static...
+  Reading symbols from /usr/lib/debug/.build-id/30/efd3930fb9519b21470b1136=
+79376f2ffbb41a.debug...
+  [New LWP 21817]
+  [New LWP 21819]
+
+  warning: Corrupted shared library list: 0xd5f140 !=3D 0x0
+  Warning: couldn't activate thread debugging using libthread_db: Cannot fi=
+nd new threads: debugger service failed
+  Core was generated by `/usr/bin/qemu-aarch64-static /usr/bin/python3.9 -c=
+ import imp; print(imp.get_ta'.
+  Program terminated with signal SIGSEGV, Segmentation fault.
+  #0  have_mmap_lock () at ../../linux-user/mmap.c:43
+  43          return mmap_lock_count > 0 ? true : false;
+  [Current thread is 1 (LWP 21817)]
+  (gdb) bt
+  #0  have_mmap_lock () at ../../linux-user/mmap.c:43
+  #1  0x000000000058eb2c in page_set_flags (start=3Dstart@entry=3D4194304, =
+end=3Dend@entry=3D26451968, flags=3Dflags@entry=3D8) at ../../accel/tcg/tra=
+nslate-all.c:2568
+  #2  0x00000000005638cd in target_mmap (start=3Dstart@entry=3D4194304, len=
+=3D<optimized out>, len@entry=3D22257160, target_prot=3Dtarget_prot@entry=
+=3D0, flags=3D16434, =
+
+      fd=3Dfd@entry=3D-1, offset=3Doffset@entry=3D0) at ../../linux-user/mm=
+ap.c:602
+  #3  0x000000000057042d in load_elf_image (image_name=3D0x7ffff7b7e8d8 "/u=
+sr/bin/python3.9", image_fd=3D3, info=3Dinfo@entry=3D0x7ffff7b7ce70, =
+
+      pinterp_name=3Dpinterp_name@entry=3D0x7ffff7b7cbd0, bprm_buf=3Dbprm_b=
+uf@entry=3D0x7ffff7b7d080 "\177ELF\002\001\001") at ../../linux-user/elfloa=
+d.c:2700
+  #4  0x0000000000570b9c in load_elf_binary (bprm=3Dbprm@entry=3D0x7ffff7b7=
+d080, info=3Dinfo@entry=3D0x7ffff7b7ce70) at ../../linux-user/elfload.c:3104
+  #5  0x00000000005c2fdb in loader_exec (fdexec=3Dfdexec@entry=3D3, filenam=
+e=3D<optimized out>, argv=3Dargv@entry=3D0x2622910, envp=3Denvp@entry=3D0x2=
+686340, =
+
+      regs=3Dregs@entry=3D0x7ffff7b7cf70, infop=3Dinfop@entry=3D0x7ffff7b7c=
+e70, bprm=3D<optimized out>) at ../../linux-user/linuxload.c:147
+  #6  0x00000000004027f7 in main (argc=3D<optimized out>, argv=3D0x7ffff7b7=
+d638, envp=3D<optimized out>) at ../../linux-user/main.c:810
+
+  (gdb) i r
+  rax            0x0                 0
+  rbx            0x400000            4194304
+  rcx            0x7a95d2            8033746
+  rdx            0x8                 8
+  rsi            0x193a000           26451968
+  rdi            0x400000            4194304
+  rbp            0x400000            0x400000
+  rsp            0x7ffff7b7c978      0x7ffff7b7c978
+  r8             0xffffffff          4294967295
+  r9             0x0                 0
+  r10            0x4032              16434
+  r11            0x206               518
+  r12            0x193a000           26451968
+  r13            0x8                 8
+  r14            0x8                 8
+  r15            0x193a000           26451968
+  rip            0x562f20            0x562f20 <have_mmap_lock>
+  eflags         0x10206             [ PF IF RF ]
+  cs             0x33                51
+  ss             0x2b                43
+  ds             0x0                 0
+  es             0x0                 0
+  fs             0x0                 0
+  gs             0x0                 0
+
+  ```
+
+  Python3.9 is run as part of the installation of python3-minimal and
+  the segfaults happens reliably here. Debian versionn bullseye
+  (testing)
+
+  Version: qemu-aarch64 version 5.2.0 (Debian 1:5.2+dfsg-3)
+
+  Host is a qemu-system-x86_64: Linux runner 4.19.0-13-amd64 #1 SMP
+  Debian 4.19.160-2 (2020-11-28) x86_64 GNU/Linux.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1912790/+subscriptions
 
