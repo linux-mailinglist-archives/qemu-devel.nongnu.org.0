@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025D8305912
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 12:03:14 +0100 (CET)
-Received: from localhost ([::1]:51708 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C50930597A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 12:21:25 +0100 (CET)
+Received: from localhost ([::1]:59800 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4ibR-0005nI-0V
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 06:03:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42774)
+	id 1l4it1-0001eG-G6
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 06:21:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45866)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l4iZi-0004w2-9A
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 06:01:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46658)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l4ira-0001DC-Vr
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 06:19:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:21761)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l4iZe-000636-Nl
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 06:01:26 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l4irY-0005nm-2w
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 06:19:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611745281;
+ s=mimecast20190719; t=1611746390;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=dg3lPtAIr14K/zqGaS95xx8Dt+ABTx/f8jFA9Ee42ns=;
- b=fNEvmttg96QJ+tkIyFLhwS2SdvvIw1//q55PxcsjUCOFVprpI1nw567XkLYvW828S7oh8b
- /u/cvFzE6fNxgv4rwycD/gbChGRcvl2uQ8lkJIsItCBMB8NsIVEWMEqRrmYgdym/Pxi789
- r/V7XURs7B4J6y000Iyx+F4QluY0Gbo=
+ bh=JD5wQ4kMhvhyFGuRWis7alx5lgnVsePET2Y4oTY/JXc=;
+ b=AzuBGsNGxXRyo+A32FwqTo4PmkdAaFzHNfdNH21/UiC9Q+dGr62jSPOffxTgB5ykzhGZFS
+ +MKp/ko68Ks8NVXtQtYMPSz7voSzAtqVyJDNHyeCTbQcOlUjErJpyuth+MDqoF5jj1Mjv7
+ KA9iYPD8SXhnlxjIdmT317B3M6ZCwcA=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-173-ikopAFnTNACwFUZQkoGobQ-1; Wed, 27 Jan 2021 06:01:19 -0500
-X-MC-Unique: ikopAFnTNACwFUZQkoGobQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-61-9q7-wa3_MIGkJ-z5u2_50g-1; Wed, 27 Jan 2021 06:19:44 -0500
+X-MC-Unique: 9q7-wa3_MIGkJ-z5u2_50g-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 19D0A180E46C;
- Wed, 27 Jan 2021 11:01:18 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E30765D9C6;
- Wed, 27 Jan 2021 11:01:14 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 272EC180039D; Wed, 27 Jan 2021 12:01:13 +0100 (CET)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 3/3] hw/display/vmware_vga: Remove dependency on VNC header
-Date: Wed, 27 Jan 2021 12:01:12 +0100
-Message-Id: <20210127110113.2111855-4-kraxel@redhat.com>
-In-Reply-To: <20210127110113.2111855-1-kraxel@redhat.com>
-References: <20210127110113.2111855-1-kraxel@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C30D48144E0;
+ Wed, 27 Jan 2021 11:19:42 +0000 (UTC)
+Received: from localhost (ovpn-115-15.ams2.redhat.com [10.36.115.15])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F2825D768;
+ Wed, 27 Jan 2021 11:19:39 +0000 (UTC)
+Date: Wed, 27 Jan 2021 11:19:38 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: lagarcia@linux.ibm.com
+Subject: Re: [PATCH] IOMMU and ATS not supported by vhost-user filesystem.
+Message-ID: <20210127111938.GH299797@stefanha-x1.localdomain>
+References: <e76462fdcfaa07208380e2a7df9b281b6e6717b8.1611685180.git.lagarcia@br.ibm.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <e76462fdcfaa07208380e2a7df9b281b6e6717b8.1611685180.git.lagarcia@br.ibm.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="nFBW6CQlri5Qm8JQ"
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -79,60 +78,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Peter Maydell <peter.maydell@linaro.org>
+--nFBW6CQlri5Qm8JQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-In commit 2f487a3d40faff1 we fixed a problem observed with using the
-vmware-vga device and the VNC UI frontend in a belt-and-braces
-manner:
- * we made the VNC frontend handle non-multiple-of-16 surface widths
- * we rounded up the vmware-vga display width to a multiple of 16
+On Tue, Jan 26, 2021 at 03:23:38PM -0300, lagarcia@linux.ibm.com wrote:
+> From: Leonardo Garcia <lagarcia@br.ibm.com>
+>=20
+> Currently, as IOMMU and ATS are not supported, if a user mistakenly set
+> any of them and tries to mount the vhost-user filesystem inside the
+> guest, whenever the user tries to access the mount point, the system
+> will hang forever.
+>=20
+> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+> ---
+>  hw/virtio/vhost-user-fs-pci.c | 7 +++++++
+>  hw/virtio/vhost-user-fs.c     | 5 +++++
+>  2 files changed, 12 insertions(+)
+>=20
+> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.=
+c
+> index 2ed8492b3f..564d1fd108 100644
+> --- a/hw/virtio/vhost-user-fs-pci.c
+> +++ b/hw/virtio/vhost-user-fs-pci.c
+> @@ -11,6 +11,8 @@
+>   * top-level directory.
+>   */
+> =20
+> +#include "qemu/osdep.h"
+> +#include "qapi/error.h"
+>  #include "qemu/osdep.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/virtio/vhost-user-fs.h"
+> @@ -45,6 +47,11 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *=
+vpci_dev, Error **errp)
+>          vpci_dev->nvectors =3D dev->vdev.conf.num_request_queues + 2;
+>      }
+> =20
+> +    if (vpci_dev->flags & VIRTIO_PCI_FLAG_ATS) {
+> +        error_setg(errp, "ATS is currently not supported with vhost-user=
+-fs-pci");
+> +        return;
+> +    }
 
-However this introduced a spurious dependency of a device model on a
-UI frontend header.  vmware-vga isn't special and should not care
-about what UI frontend it is using, and the VNC frontend needs to
-handle arbitrary surface widths because other display device models
-could use them.  Moreover, even if the maximum width in vmware-vga is
-made a multiple of 16, the guest itself can always program a
-different width.
+Why is this check needed in addition to VIRTIO_F_IOMMU_PLATFORM?
 
-Remove the dependency on the VNC header.  Since we have been using
-the rounded-up width value since 2014, stick with it rather than
-introducing a behaviour change, but don't calculate it by rounding up
-to VNC_DIRTY_BITS_PER_PIXEL any more.
+What needs to be added to support ATS?
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20210112161608.16055-1-peter.maydell@linaro.org>
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/display/vmware_vga.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+> +
+>      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+>  }
+> =20
+> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> index ac4fc34b36..914d68b3ee 100644
+> --- a/hw/virtio/vhost-user-fs.c
+> +++ b/hw/virtio/vhost-user-fs.c
+> @@ -203,6 +203,11 @@ static void vuf_device_realize(DeviceState *dev, Err=
+or **errp)
+>          return;
+>      }
+> =20
+> +    if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+> +        error_setg(errp, "IOMMU is currently not supported with vhost-us=
+er-fs");
+> +        return;
+> +    }
+> +
+>      if (!vhost_user_init(&fs->vhost_user, &fs->conf.chardev, errp)) {
 
-diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
-index bef0d7d69a79..e2969a6c81c8 100644
---- a/hw/display/vmware_vga.c
-+++ b/hw/display/vmware_vga.c
-@@ -29,7 +29,6 @@
- #include "qemu/log.h"
- #include "hw/loader.h"
- #include "trace.h"
--#include "ui/vnc.h"
- #include "hw/pci/pci.h"
- #include "hw/qdev-properties.h"
- #include "migration/vmstate.h"
-@@ -220,7 +219,7 @@ enum {
- 
- /* These values can probably be changed arbitrarily.  */
- #define SVGA_SCRATCH_SIZE               0x8000
--#define SVGA_MAX_WIDTH                  ROUND_UP(2360, VNC_DIRTY_PIXELS_PER_BIT)
-+#define SVGA_MAX_WIDTH                  2368
- #define SVGA_MAX_HEIGHT                 1770
- 
- #ifdef VERBOSE
--- 
-2.29.2
+I thought IOMMU support depends on the vhost-user device backend (e.g.
+virtiofsd), so the vhost-user backend should participate in advertising
+this feature.
+
+Perhaps the check should be:
+
+    ret =3D vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
+                         VHOST_BACKEND_TYPE_USER, 0);
+    if (ret < 0) {
+        error_setg_errno(errp, -ret, "vhost_dev_init failed");
+        goto err_virtio;
+    }
++
++   if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM) &&
++       !(fs->vhost_dev.hdev_features & (1ull << VIRTIO_F_IOMMU_PLATFORM)))=
+ {
++       error_setg(errp, "IOMMU is not supported by the vhost-user device b=
+ackend");
++       goto err_iommu_needed;
++   }
+
+Also, can this logic be made generic for all vhost-user devices? It's
+not really specific to vhost-user-fs.
+
+Stefan
+
+--nFBW6CQlri5Qm8JQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmARTEoACgkQnKSrs4Gr
+c8jblQf/fPz2o4FRHFx2TrXEnktNh/RoTm75VdvMCSZe6l/pVTUZVl7jEKHNdV8t
+owv5V6ALxc0xj9zX1ghWYbIzBzhG8z6YqrXtTaQSTokjm5UNVfW/UCWgmdC+fGg+
+KONFP2tVLmZlCReQ5ZfzJmMEtkh9Bj1h+7/XXGO1bby0+dM24NACJ3wd/jn22TVm
+ebr7BNKSxbAyaJpX1zvsSydwpjqfNxC1sqzN0Jz+0Yc+7Zxahj7jgJZk4OfwrlKo
+BUXFPMvfulWyxmxjpRbnP3JKmQbx9o2qN+qavIRLzVsHSJQBWYJUdq28H0vjySMq
+tb9yZafxPCoZj84h0N5gTuFce+S5lw==
+=y/v3
+-----END PGP SIGNATURE-----
+
+--nFBW6CQlri5Qm8JQ--
 
 
