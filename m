@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F04F306735
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 23:44:48 +0100 (CET)
-Received: from localhost ([::1]:58118 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 876BC306736
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 23:44:51 +0100 (CET)
+Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4tYN-0007pZ-Lk
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 17:44:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57650)
+	id 1l4tYQ-0007vN-Hg
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 17:44:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l4tWp-0006VR-MO
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:43:11 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35756)
+ id 1l4tWw-0006Ze-0y
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:43:18 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34339)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l4tWo-0001eq-8z
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:43:11 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id e15so3003550wme.0
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 14:43:09 -0800 (PST)
+ id 1l4tWu-0001f6-Ip
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:43:17 -0500
+Received: by mail-wr1-x434.google.com with SMTP id g10so3575527wrx.1
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 14:43:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=hsf6YslG+iiwGWWyzTzUT651ZdNva63Lvir9YoamAx4=;
- b=K8EQn8GTmUm9OhKOy8D8hABbFns8fRdgboTQVFsPW8omlNRQD/s3q5hL3vAgV5CVid
- l/v+79k8vQpxYwkkNRYAidgKt9h7YbbLkQa7p/qbtcafQ33ZpQ53koAU6rvieSCbf/d2
- fRWtX9BWwYelWexOS6FgW1rRz2d8Bl2kxTXeyEnXizIl1oWJLPH8W5JbTvBFqvTnQgRP
- bOJ1pLhYHMFfJUqeTQWzuIiX9kGssWnTc6DiqfUYjDxqycRol0xQNC/xw8ecRA9ON+h0
- OGa+72Ih9SdA3Ip8+NTIYHoEb/gpaBO88EZlZ9dR2nzOLiQeEMtCyB+tNcEdAVnenJeH
- pkBQ==
+ bh=rVntcXlDQ+FXs02aG9vIA8WUeQl9eOoJE84BzHT5YTk=;
+ b=TzAomfbmboMDw99J7qiKCQjofw9W5CrwukeGApODoV8LBksGmwvTcXXybPxtnurtgj
+ XbLTcCsOuCmv8HEqRPHenFOncgMiRXWEL3NFtuH0xwovTbwuHiaIHXoZ5NRdfTks1EeL
+ B01LlH+pqaoehfZV6io4V1om6GPk88SoyW6qGtInL/dkdjuAHRv5qy7JlUjxxd04GO+6
+ 9Vwk88Lrq/65cvjwfFg7FjvpVNIhVkZ7jKRx3yE9VkWaj4kLpCJnJInX2PVlEYGQZ1qd
+ PnQT3iIILwAV/DHOuu7afw5eWMR6GC1b65/TXDn5QLpBLc/pnnJvDZGrv4FGG/vEwxOl
+ np7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=hsf6YslG+iiwGWWyzTzUT651ZdNva63Lvir9YoamAx4=;
- b=e2xAFHY5GrBoA0liM9IeYG8WLqu0Fd6Xp1oN4S2nXo59QtXS761OITPtRkTKN2zDrl
- PJGvX86df1+Zq/wM6l9Me8lWlKVXxCHRt3vjqpfiBJXeZCV3Ziw7RCECze+BayT8nOGd
- rxGkQE5m2yyvJjC7tzeI57667SMU7noluS4zcaoo7bEgjU/lgpYtyEfMOhIf9yz5lZqd
- MutJqlFujuelHkt4aRfESn8bBpcx9YmUQZ/OQCBhDrf+HrMU0nb9S6ffDNZ8uJMWUDaC
- brweXIgOAW9RbJT9OF5kOelzNJfZFCJprbCx93YIjbW2z00U3SpMenQ+EqSsJQ0CL3r5
- uTVw==
-X-Gm-Message-State: AOAM532gKrAy9hkVUnRNaUhDpdIdh/EJYZ6Gw7vx1J3Gh3RFAnoR1kI9
- +FOZxToJHrchnatAIBu+WckBde42iJk=
-X-Google-Smtp-Source: ABdhPJxefUx5HtYSGlomhi3A2311yHC3rNT8NTLgzr2dvatp6hP23xr0pW5S1FKBRXURA0y+/rhZgg==
-X-Received: by 2002:a1c:df08:: with SMTP id w8mr5797209wmg.81.1611787388638;
- Wed, 27 Jan 2021 14:43:08 -0800 (PST)
+ bh=rVntcXlDQ+FXs02aG9vIA8WUeQl9eOoJE84BzHT5YTk=;
+ b=l5clOCZbh5ymeV2frHudhxvynzO4z8T385T4fOXWb9weZ+HyOTSlRtSeasZk2Um5Ih
+ cNfSpN22ReFVy33HveZd12c2qvj+dkCMh5DqMaUobS+035SwuKFbcRfuBu2MAW0j6Gdn
+ urwRDb+T50tEo8g2rjNdpWYcOlhYXhrHcOhl/NcFSOmb4uiNpIo5bXnQ4XsbkfZVUc1v
+ QpbFx4z4DJR28/TIxHctwaqFnkeA+2fABXl+tsp21OfrlK65KXQ0SsVeUQVl8+9ZaTnp
+ Q2oSbSsTwGZzUzIB5sP8xLrnoP2QaoOyzIhVxpA6cJmFTxwknxLTuY8/fcZ08xa6Bvfu
+ 1Cbg==
+X-Gm-Message-State: AOAM532TYymFYUEIxfwaJ01xrC4Sgzu8Z9GoXPbfZjZjqgXPOncWexGk
+ 3SQ6AxCSkohY3KPrrrou1vENSVMpylc=
+X-Google-Smtp-Source: ABdhPJyXvDkc+wDmWHR136i9MZXOkLPpLcbesBfrx/bBgrgW4Vly/+xojSUAxAZkyvLiZU+UmzCfsg==
+X-Received: by 2002:a05:6000:104f:: with SMTP id
+ c15mr13063012wrx.239.1611787395017; 
+ Wed, 27 Jan 2021 14:43:15 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id q9sm4331552wme.18.2021.01.27.14.43.07
+ by smtp.gmail.com with ESMTPSA id r13sm4063126wmh.9.2021.01.27.14.43.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 14:43:08 -0800 (PST)
+ Wed, 27 Jan 2021 14:43:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] target/tricore: Pass MMUAccessType to
- get_physical_address()
-Date: Wed, 27 Jan 2021 23:42:54 +0100
-Message-Id: <20210127224255.3505711-3-f4bug@amsat.org>
+Subject: [PATCH 3/3] target/tricore: Remove unused definitions
+Date: Wed, 27 Jan 2021 23:42:55 +0100
+Message-Id: <20210127224255.3505711-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210127224255.3505711-1-f4bug@amsat.org>
 References: <20210127224255.3505711-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,43 +94,36 @@ Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'int access_type' and ACCESS_INT are unused, drop them.
-Provide the mmu_idx argument to match other targets.
-'int rw' is actually the MMUAccessType, rename it.
+Remove these confusing and unused definitions.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/tricore/helper.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ target/tricore/cpu.h | 12 ------------
+ 1 file changed, 12 deletions(-)
 
-diff --git a/target/tricore/helper.c b/target/tricore/helper.c
-index 81171db833b..c5e997f3215 100644
---- a/target/tricore/helper.c
-+++ b/target/tricore/helper.c
-@@ -33,7 +33,7 @@ enum {
- #if defined(CONFIG_SOFTMMU)
- static int get_physical_address(CPUTriCoreState *env, hwaddr *physical,
-                                 int *prot, target_ulong address,
--                                int rw, int access_type)
-+                                MMUAccessType access_type, int mmu_idx)
- {
-     int ret = TLBRET_MATCH;
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index b82349d1b10..4b61a2c03f8 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -375,18 +375,6 @@ typedef TriCoreCPU ArchCPU;
  
-@@ -72,13 +72,11 @@ bool tricore_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     CPUTriCoreState *env = &cpu->env;
-     hwaddr physical;
-     int prot;
--    int access_type;
-     int ret = 0;
+ #include "exec/cpu-all.h"
  
-     rw &= 1;
--    access_type = ACCESS_INT;
-     ret = get_physical_address(env, &physical, &prot,
--                               address, rw, access_type);
-+                               address, rw, mmu_idx);
- 
-     qemu_log_mask(CPU_LOG_MMU, "%s address=" TARGET_FMT_lx " ret %d physical "
-                   TARGET_FMT_plx " prot %d\n",
+-enum {
+-    /* 1 bit to define user level / supervisor access */
+-    ACCESS_USER  = 0x00,
+-    ACCESS_SUPER = 0x01,
+-    /* 1 bit to indicate direction */
+-    ACCESS_STORE = 0x02,
+-    /* Type of instruction that generated the access */
+-    ACCESS_CODE  = 0x10, /* Code fetch access                */
+-    ACCESS_INT   = 0x20, /* Integer load/store access        */
+-    ACCESS_FLOAT = 0x30, /* floating point load/store access */
+-};
+-
+ void cpu_state_reset(CPUTriCoreState *s);
+ void tricore_tcg_init(void);
+ int cpu_tricore_signal_handler(int host_signum, void *pinfo, void *puc);
 -- 
 2.26.2
 
