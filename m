@@ -2,69 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 760643062A6
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 18:52:19 +0100 (CET)
-Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 745803062D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 18:58:24 +0100 (CET)
+Received: from localhost ([::1]:34320 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4ozK-0002Om-IU
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 12:52:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35094)
+	id 1l4p5D-0004Eg-H1
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 12:58:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36410)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4ovF-0001Qo-7D
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:48:05 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:35694)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l4ovD-0001a2-Ao
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:48:04 -0500
-Received: by mail-ed1-x531.google.com with SMTP id j13so3498828edp.2
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 09:48:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=JvJcjsp97GNmWZeAjZ2OQmVU2hY2JIuCbmgVft5xza0=;
- b=KF7jgWEvW0JsTh5uVMmb3GbFQfohpDfTZF1yhFEsbdcfPbA59uki6Xfu5qF3sEIID0
- NFaY/gmMm5LC+NedaLpYYyA1Mbdj1n103YjdRQnc/vQsfJ8JW6vvwuaO+BNTIgv5ib9K
- mGJQjZ1pyfzjxKlGj350XEo5Saqply7WFb1vAQE38JXo9h5+nVDP4keS3hsPUyjVw84x
- cdYQY/XXB87d/FjnKDwVMq6G5e76PykNkPK47xoao5dRSbroyGrSyjdDs53wrQbxdlI7
- XU9FykSqanjH/DiALSc9HnRa3g7nLFZW7dvc1ukMrgJQQ+DDvhmzYzuk3n4Zr4km4ZUv
- +bSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=JvJcjsp97GNmWZeAjZ2OQmVU2hY2JIuCbmgVft5xza0=;
- b=gBAs8ddxXm7PfCSTU4A39Uv881u3w3nkbaS76lhBEdIzHvuSW4d+amTLjzl6zs2MIE
- 07mmBuj5pFcGQpDwDqCoIlNiCbtCeSaoocUFl1czx8NTLMsFsJNIyuXbyGbu3r1GoKSJ
- EN/j1GYhg+KUn6d376puTudNzs1YeRzJV0Y+a5TodOaI4zJCDbOIuBPckoA3IAR6vZqQ
- 8epcfbRwTEvC6hCHHfhfjvg94WcfNr36mCgUFrMdqVytM1p+LtHHYiVoouvi/z+Ol2VN
- 6j84+bJvNyIulR42tWrUeVlaxkhvD9EJuKJI0TvFCvZCHmddZxmgao4ddSCDSzqx4rco
- pDJw==
-X-Gm-Message-State: AOAM533ot3G9oqzZpF8wq8OBzQkYy/KL9ybKCiXJw/cvYmsAYaMjObHJ
- eh9yHmnXNlRP5y8Fue+16jvVsb9UIahjA7MzxYwgKg==
-X-Google-Smtp-Source: ABdhPJx9yPqLAgVDAbd7LXVvbL8+u9lkZULRI1OfET25htVO7AJRI1+f0qAgzyB8XdL0OCalwNB6lmTpjPvJ+mFYn34=
-X-Received: by 2002:a05:6402:1701:: with SMTP id
- y1mr9856556edu.251.1611769681592; 
- Wed, 27 Jan 2021 09:48:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4p3r-0003bx-1F
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:56:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4p3n-0002Z6-Cc
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:56:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611770213;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YV1EJ29Z2VxIqaQGAYvHH+VrWl0xURqFQHwSZpWNUKs=;
+ b=eH/fdHOo3fQPxr5U8ayY/H5SQbNhMJFJN4DvwM252zA9z016Pn4PE+bvOA9cMuMHIMeZ20
+ BiZu5Y+zyaH11vu9U/7yfQfOkFW07I2dl+Wh/3MIgX/J4PGmg9yPjKXRD3d/OAbPUPjMSM
+ bY7J2wd+xOlLo9kl0cRy3TS12sxeP44=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-262-unmLua_kP8iW7YqsqbyktQ-1; Wed, 27 Jan 2021 12:56:51 -0500
+X-MC-Unique: unmLua_kP8iW7YqsqbyktQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 43ECA8066F7;
+ Wed, 27 Jan 2021 17:56:50 +0000 (UTC)
+Received: from redhat.com (ovpn-115-120.ams2.redhat.com [10.36.115.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A8BFF1F474;
+ Wed, 27 Jan 2021 17:56:48 +0000 (UTC)
+Date: Wed, 27 Jan 2021 17:56:45 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Subject: Re: [PATCH v3] machine: add missing doc for memory-backend option
+Message-ID: <20210127175645.GW3653144@redhat.com>
+References: <20210121161504.1007247-1-imammedo@redhat.com>
+ <20210127104511.GF3653144@redhat.com>
+ <20210127105436.GG3653144@redhat.com>
+ <756c025a-3811-4a36-98a2-3a02bd756523@redhat.com>
+ <20210127163522.5a8db09a@redhat.com>
 MIME-Version: 1.0
-References: <1611759570-3645-1-git-send-email-mihai.carabas@oracle.com>
-In-Reply-To: <1611759570-3645-1-git-send-email-mihai.carabas@oracle.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 27 Jan 2021 17:47:49 +0000
-Message-ID: <CAFEAcA9SBX-sT983TsiRu9TSBWrZDWe=LM5cAJNxmHxa5ud0pw@mail.gmail.com>
-Subject: Re: [PATCH v6] Add support for pvpanic pci device
-To: Mihai Carabas <mihai.carabas@oracle.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210127163522.5a8db09a@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,39 +85,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yan Vugenfirer <yvugenfi@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Michal Privoznik <mprivozn@redhat.com>, pkrempa@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Jan 2021 at 15:46, Mihai Carabas <mihai.carabas@oracle.com> wrote:
->
-> This patchset adds support for pvpanic pci device.
->
-> v3:
-> - patch 1: made pvpanic isa device available only for PC, compile pvpanic-test
->   only when isa device is present
-> - patch 2: fixed device id to 0x0011, used OBJECT_DECLARE_TYPE,
->   PVPANIC_PCI_DEVICE, added VMSTATE_PCI_DEVICE, removed INTERFACE_PCIE_DEVICE
-> - patch 3: fixed documentation
-> - patch 4: add a qtest for pvpanic-pci
->
-> v4:
-> - added Rb/Ack on patches
-> - modify test case to include -action parameter that was recently added and also
->   to be on par with the pvpanic ISA device testing
->
-> v5:
-> - added subsystem_vendor_id and subsystem_id needed for MS WHQL tests
->
-> v6:
-> - removed subsystem_vendor_id and subsystem_id as they are filed out by default
->   if empty
-> - do not compile pvpanic-pci-test for ppc64 as we our tests do not support that
->   platform
+On Wed, Jan 27, 2021 at 04:35:22PM +0100, Igor Mammedov wrote:
+> On Wed, 27 Jan 2021 15:24:26 +0100
+> Michal Privoznik <mprivozn@redhat.com> wrote:
+> 
+> > On 1/27/21 11:54 AM, Daniel P. Berrangé wrote:
+> > > On Wed, Jan 27, 2021 at 10:45:11AM +0000, Daniel P. Berrangé wrote:  
+> > >> On Thu, Jan 21, 2021 at 11:15:04AM -0500, Igor Mammedov wrote:  
+> > 
+> > 
+> > >>
+> > >> How does a mgmt app know which machine types need to use this
+> > >> option ? The machine type names are opaque strings, and apps
+> > >> must not attempt to parse or interpret the version number
+> > >> inside the machine type name, as they can be changed by
+> > >> distros.  IOW, saying to use it for machine types 4.0 and
+> > >> older isn't a valid usage strategy IMHO.
+> it's possible (but no necessary) to use knob with new machine types
+> (defaults for these match suggested property value).
 
-Why doesn't the test work on PPC ?
+IIUC, this means that setting the property has no impact on
+migration ABI for new machine types > 4.0....
 
-thanks
--- PMM
+> Limiting knob usage to 4.0 and older would allow us to drop
+> without extra efforts once 4.0 is deprecated/removed.
+
+...so, even if we set the property unconditionally for *all*
+machine types, then we can still remove it in future, becuase
+its removal won't affect ABI of the 5.x, 6.x machine types.
+
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
 
