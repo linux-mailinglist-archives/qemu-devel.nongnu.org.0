@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34573305F06
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 16:04:44 +0100 (CET)
-Received: from localhost ([::1]:56078 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74AC3305F1E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 16:10:35 +0100 (CET)
+Received: from localhost ([::1]:59126 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4mN9-0005r8-Fp
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 10:04:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60280)
+	id 1l4mSo-0007QX-IQ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 10:10:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4mLy-0005BU-C5
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:03:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4mLt-0008AD-9l
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:03:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611759801;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jy7QJasRPoDx0cigs/wloybG3rkIeXABb2YNJ2LIs5A=;
- b=WIURpGud0NCpWc/RZh3aWgdjhYT5OJPuc+oXyoH79HFKA0jHBz9deiD609qr6P5s2CHF6O
- ETp6sSiF2mGApuIdlcpIWF5nFfQ4WAELmKhuxVLZL5niIF+lF/rleUv+o9803VC/cwwc0w
- aE2sMTlsVhL5Vs0489dbG3Xw0Qs+4yM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-g87SGapUNmeUerE9Q9VG1g-1; Wed, 27 Jan 2021 10:03:18 -0500
-X-MC-Unique: g87SGapUNmeUerE9Q9VG1g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 384B81842140
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 15:03:17 +0000 (UTC)
-Received: from localhost (ovpn-115-15.ams2.redhat.com [10.36.115.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0D8F60C05;
- Wed, 27 Jan 2021 15:03:12 +0000 (UTC)
-Date: Wed, 27 Jan 2021 15:03:11 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PATCH v3 3/8] meson: add module_trace & module_trace_src
-Message-ID: <20210127150311.GF310142@stefanha-x1.localdomain>
-References: <20210121125028.3247190-1-kraxel@redhat.com>
- <20210121125028.3247190-4-kraxel@redhat.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4mRj-00071L-RN
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:09:27 -0500
+Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:52522)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l4mRh-0002c0-Qn
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:09:27 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.210])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 99BAB245CA6;
+ Wed, 27 Jan 2021 16:09:22 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 27 Jan
+ 2021 16:09:21 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0023cc0bb6f-08f3-48d4-8007-e0734a938da1,
+ E0AEAA2FFBCC539F7495E66DC8DC75F2C85CA1F9) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Wed, 27 Jan 2021 16:09:20 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: prevent opening of special
+ files (CVE-2020-35517)
+Message-ID: <20210127160920.062e47f0@bahia.lan>
+In-Reply-To: <CAOssrKeN9iYT-Z46FVtzdKnWcTLfMqK77b1faf78m3XTXnEVGw@mail.gmail.com>
+References: <20210126103502.260758-1-stefanha@redhat.com>
+ <20210126181604.1a4c69c6@bahia.lan>
+ <CAOssrKdh3kqKN4uGE=s5eiymd2MXKsRXUegqRH-TFhqYOK7WOA@mail.gmail.com>
+ <20210127112023.0e97f909@bahia.lan>
+ <CAOssrKfezsvcECQ=mO_4T2B09e+2S4LA3=_U6TQyiTtPbE=OYg@mail.gmail.com>
+ <20210127144909.22dd778e@bahia.lan>
+ <CAOssrKeN9iYT-Z46FVtzdKnWcTLfMqK77b1faf78m3XTXnEVGw@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20210121125028.3247190-4-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="kbCYTQG2MZjuOjyn"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c3730c34-148f-4187-9863-fcf78432d6ee
+X-Ovh-Tracer-Id: 9377057375258450223
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdekgdejvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepvhhgohihrghlsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
+ helo=7.mo51.mail-out.ovh.net
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,48 +74,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Daniel Berrange <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, Alex Xu <alex@alxu.ca>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---kbCYTQG2MZjuOjyn
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 27 Jan 2021 15:09:50 +0100
+Miklos Szeredi <mszeredi@redhat.com> wrote:
 
-On Thu, Jan 21, 2021 at 01:50:23PM +0100, Gerd Hoffmann wrote:
-> module_trace is a dict which keeps track of the trace source files for a
-> module.
->=20
-> module_trace_src collects the trace source files for a given trace-events=
- file,
-> which then either added to the source set or to a new module_trace dict
-> depending on whenever they are for a module or core qemu.
->=20
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  meson.build       |  3 ++-
->  trace/meson.build | 16 ++++++++++++----
->  2 files changed, 14 insertions(+), 5 deletions(-)
+> On Wed, Jan 27, 2021 at 2:49 PM Greg Kurz <groug@kaod.org> wrote:
+> >
+> > On Wed, 27 Jan 2021 11:34:52 +0100
+> > Miklos Szeredi <mszeredi@redhat.com> wrote:
+> 
+> > > Another solution specifically for O_CREAT without O_EXCL would be to
+> > > turn it into an exclusive create.
+> >
+> > Would this added O_EXCL then appear on the client side, e.g. to
+> > guest userspace doing fcntl(F_GETFL) ?
+> 
+> No.  Guest kernel keeps track of open flags.
+> 
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+That was my impression as well as I didn't find a FUSE_GETFL request.
+Thanks for confirming that !
 
---kbCYTQG2MZjuOjyn
-Content-Type: application/pgp-signature; name="signature.asc"
+> > > If that fails with EEXIST then try
+> > > the normal open path (open with O_PATH, fstat, open proc symlink).  If
+> >
+> > open(O_PATH | O_NOFOLLOW) + fstatat(AT_EMPTY_PATH|AT_SYMLINK_NOFOLLOW)
+> > would indeed allow to filter out anything that isn't a directory and
+> > to safely open the proc symlink.
+> >
+> > > that fails with ENOENT, then retry the whole thing a certain number of
+> >
+> > Indeed someone could have unlinked the file in the meantime, in which
+> > case the open(O_PATH | O_NOFOLLOW) would fail, but if it succeeds then
+> > we cannot hit ENOENT anymore AFAICT.
+> 
+> Right.
+> 
+> > > times.  If it still fails then somebody is definitely messing with us
+> > > and we can fail the request with EIO.
+> > >
+> >
+> > Not sure what the retry+timeout is trying to mitigate here... why not
+> > returning EIO right away ?
+> 
+> The semantics of O_CREATE are that it can fail neither because the
+> file exists nor because it doesn't.  This doesn't matter if the
+> exported tree is not modified outside of a single guest, because of
+> locking provided by the guest kernel.
+> 
 
------BEGIN PGP SIGNATURE-----
+Wrong. O_CREAT can legitimately fail with ENOENT if one element
+of the pathname doesn't exist. And even if pathname only has
+one element, you can still have O_CREAT to fail the same way
+if the path of the parent directory is removed.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmARgK8ACgkQnKSrs4Gr
-c8iXDwf+KlafBv5UQNdWv6KkDhStALDbHFes+CsQIiFLfTVLXKLe2sSUI+Mg47Oa
-ZWpOEMsrCetZ7zqJ99mIGpuoMpxAEs/6bAh2IPvape0Gm3UEIB+QUDdL4Do/QHh9
-AiQ0GdQK9X84jMlM31fk4CJcIEzzxVbj5CStcrlzuNlhwm1C963rkwFrGWBChpkx
-KkHw5TgcwX3ZJfxjWuvGK6pw1UXkoknVnzvYKuH+KgTzMZu+4xdNwcfmTQapAL06
-9AI5jZglu61QPHErxusp0sj1yujhP5bd/Lq9VWvnUyfGxErRLRlyvkIiSNZKUqkc
-LKTjnpevmQNkyKqFvIZ1UQ58Ea3q/g==
-=HFlT
------END PGP SIGNATURE-----
+cat>enoent.c<<EOF
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <unistd.h>
 
---kbCYTQG2MZjuOjyn--
+int main(int argc, char **argv)
+{
+	mkdir("foo", 0777);
+	chdir("foo");
+	rmdir("../foo");
+	open("bar", O_CREAT);
+}
+EOF
+make enoent
+strace ./enoent
+
+[...]
+
+mkdir("foo", 0777)                      = 0
+chdir("foo")                            = 0
+rmdir("../foo")                         = 0
+openat(AT_FDCWD, "bar", O_RDONLY|O_CREAT, 0117130) = -1 ENOENT (No such file or directory)
+
+> However if we want to support shared access to a tree then O_CREAT
+> semantics should work even in the face of races due to external
+> modification of the tree.  I.e. following race:
+> 
+
+Yeah, handling shared access is where the fun starts :)
+
+> virtiofsd: open(foo, O_CREAT | O_EXCL) -> EEXIST
+> other task: unlink(foo)
+> virtiofsd: open(foo, O_PATH | O_NOFOLLOW) -> ENOENT
+> 
+> To properly support the above the O_CREAT | O_EXCL open would need to
+> be retried.
+> 
+
+But in this case, it seems fine to return ENOENT since
+the guest userspace cannot really assume it never happens.
+
+> Thanks,
+> Miklos
+> 
 
 
