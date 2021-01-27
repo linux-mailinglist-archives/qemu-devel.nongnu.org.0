@@ -2,93 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4779C304F51
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 04:05:40 +0100 (CET)
-Received: from localhost ([::1]:56986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8000305040
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 04:53:48 +0100 (CET)
+Received: from localhost ([::1]:45960 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4b9G-0001Xl-H6
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 22:05:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
+	id 1l4btr-0003oH-Ck
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 22:53:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55386)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l4b7Z-000114-9P
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 22:03:53 -0500
-Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:33145)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1l4b7U-0005t5-G6
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 22:03:53 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
- by mailnew.west.internal (Postfix) with ESMTP id 53CE5B81;
- Tue, 26 Jan 2021 22:03:45 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute6.internal (MEProxy); Tue, 26 Jan 2021 22:03:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
- subject:to:cc:references:from:message-id:date:mime-version
- :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=p
- SCSMA99Kf60lL4J2AYE3SLLVkCciT8IyRPmvCA1hlU=; b=N/RzuCLNVh6WOSLol
- SqCV0/orjHZ1wQZYiamb332xBM4SkuAZx97kKfmECz1zr6aOOxYyCxJLXWUOx3/4
- mimxEphIZP8pOmwbbW0kaY51HNw90SFw4PSPFoeu4THPmLkc3WmSbpkPJMfRX+Yn
- yuPfcBs5+dPeJfnxzHQkXRhD7v5XKbVcC36ZDExd+d4nr8/i4umHlr/ApH6zu3s7
- kLcUoI+aPBluMoV8rcZ1fuJB1fJap4A6gngi9Mr3BGB0w/6wMsRUHEVAA6ZPdf7q
- kCxV4fG/MZcAh60lk0HVBXjCbLst91/F2f4jDLHy2kWfNrDClcZAg5B6c4rStckv
- /SIbg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:in-reply-to:message-id:mime-version:references
- :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
- :x-sasl-enc; s=fm1; bh=pSCSMA99Kf60lL4J2AYE3SLLVkCciT8IyRPmvCA1h
- lU=; b=EnjIey01Zb21TqShrIq4ZfNOp22Ex9T86juhwII0k3ZsvDReTY94XaDH4
- 2NXnEJk8Yg0IkgNSVnWzbcnl7T5CpQULyMY06hmDY1e6P8ApD+RS/BKizC/oMvqX
- PoPtYQzU3Hpkhw/UpKBrK8BHcfdb6J8XLjcFyeX+ettntT7yIE+UGXIYLVifDLGu
- SG2lax4zbIuVogTjL5/x+9lyUQc4wCSmZzDO4doI+vOPaPYUKIdAqARoY/jHCxok
- fuKItL8Rxnra6XRO2tlE4ZDWEcLxzLQnW9Wsh8zdAoVLrFQ2T5FPdta72YO3xZBH
- MkR3N1fnw6CSzVKZb2Sgu4gPJyP9Q==
-X-ME-Sender: <xms:D9gQYB7uM5GUy8NTgO33whw8FQ5gpMgIPTEZFowJ78YE_JpjErozwA>
- <xme:D9gQYO5yqUqmEyDmfayK8dnbdrR0hh1jkHFK2M9ZRNzvL06CtXwXreByg_8QCJVdv
- GXYdpR1REBjk-USbZE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejgdehgecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
- nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
- ftrfgrthhtvghrnhepiefhgffhieekudegjeevgfffveegveegheffhfduieeiffffveff
- ueegveefgfefnecukfhppeeghedrfeefrdehtddrvdehgeenucevlhhushhtvghrufhiii
- gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
- ghhorghtrdgtohhm
-X-ME-Proxy: <xmx:D9gQYIcbMFYeJks0G0eW3hiENu-H0zpqTEiDBOpgic7boMTfGcieyQ>
- <xmx:D9gQYKJujqJOSYRYeuTjw63vZLSnw2PQY5HutXNhBAP9ziDAqcPDbg>
- <xmx:D9gQYFJrpuOFf18Kicj-aGQGExkeK6uQjYKlTrmEeOD3qLayxyY0jA>
- <xmx:ENgQYMXQwOL9Cmr05Ayntx8yShoyL2ur6v8ccboYH9e_WZMQ7-Sd6lSR5zw>
-Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
- by mail.messagingengine.com (Postfix) with ESMTPA id CFE71108005F;
- Tue, 26 Jan 2021 22:03:41 -0500 (EST)
-Subject: Re: [PATCH v2 5/8] hw/mips: Use bl_gen_kernel_jump to generate
- bootloaders
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
- <20201215064507.30148-2-jiaxun.yang@flygoat.com>
- <7dac375f-0cc8-7855-4578-e54b319bd2af@amsat.org>
-From: Jiaxun Yang <jiaxun.yang@flygoat.com>
-Message-ID: <5a22bbe1-5023-6fc3-a41b-8d72ec2bb4a1@flygoat.com>
-Date: Wed, 27 Jan 2021 11:03:37 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1l4bss-0003Mw-JC
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 22:52:46 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:40636)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <luoyonggang@gmail.com>)
+ id 1l4bsq-0007Pr-Ch
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 22:52:46 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id a14so711673edu.7
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 19:52:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+ :subject:to:cc;
+ bh=BJ2UxAbQsuWuu1XfPpKQqRx6ej41GPGfyftp/1czovM=;
+ b=toOwiqBGz/AJUkj8fwNLM6+1OWIaAtqflm3vMLzGqcp1QLuc/IWpbUS0pfVusXCHou
+ bjn3gTP902VFt6b2CMdqGfBEYoc/IfGqBz/MuTEf8D1x0I0HdbxbFWBhVYoN7O/C1rFb
+ UpJZ7JkigVOVQsC1U3kOE7lH3WPp4KARgcx7xBtjY5Dfk19zZcY3HChRr0lfGdu+yBFE
+ Evr+OnAGzZnw2MM2tTNy+v+3Ij6NQYbCPas02gQ9jCzvyf8zGpRI5MXCjXuYPxBs3TYh
+ zVtByuzcDp/BNznX/2f7bV2TJsvXUbRVhoc4IxChbICVwocUqg0K78Cx8MjVibNp4Z3c
+ ehtg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+ :from:date:message-id:subject:to:cc;
+ bh=BJ2UxAbQsuWuu1XfPpKQqRx6ej41GPGfyftp/1czovM=;
+ b=fjOzOe7x6W6qy+WReirFRTfI7AyuibubBdiaVblWxCsCt/ieYr1tGZ+fB2ek8M+Sjo
+ p+xv/D7XyPY72EoQ8dHRFNCfVdOXcNvACgSmua3bpK2ynufdRew+IwnDSgw1n+RgJBCZ
+ fT3HUUeeqBytXqYu4YG/4DBcrCEgF3qtrcx6nigVoOWAK6eRvSKeqIZoPbKIyl+S+O7l
+ zwZWx/jjFJnyD7x+/OyRZZd+DOKerRtbDImUvnYg/3h7b8g562RAYK3k7Aq2ZZm+sBpp
+ gGJ8FS8IoZoh1XKl0+3keCGKJY6RGf1Tn/R3j0o314lfkd2ojS4usLQKkGZUVcO9mOew
+ bifg==
+X-Gm-Message-State: AOAM530+x26C8Z0EWhRgd4Ra/Pdk9GnE4vnlssvJViL939q6knCsfE4g
+ vsSeGECjWunVqYWMka/0HGdz9a2lmlvln4XdQg8=
+X-Google-Smtp-Source: ABdhPJypusp/BQWUoBTiYIDlHovXbDek6g+oXXuRZ1y/f0hXZHRexMd+XfbU0WGI8qQAk875C9oS4tsgresUgCBRdBY=
+X-Received: by 2002:a05:6402:4382:: with SMTP id
+ o2mr7311115edc.371.1611719562198; 
+ Tue, 26 Jan 2021 19:52:42 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <7dac375f-0cc8-7855-4578-e54b319bd2af@amsat.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=64.147.123.17;
- envelope-from=jiaxun.yang@flygoat.com; helo=wnew3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+References: <20201001163429.1348-1-luoyonggang@gmail.com>
+ <87pn5v1tag.fsf@linaro.org>
+In-Reply-To: <87pn5v1tag.fsf@linaro.org>
+From: =?UTF-8?B?572X5YuH5YiaKFlvbmdnYW5nIEx1byk=?= <luoyonggang@gmail.com>
+Date: Wed, 27 Jan 2021 11:52:29 +0800
+Message-ID: <CAE2XoE9CgA3MvV9MJnM8bx6JQ0+DU69mqSD0jOFLCvAu5kwwcg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/6] Enable plugin support on msys2/mingw
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="000000000000fb82c805b9d9b343"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=luoyonggang@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,147 +79,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: chenhuacai@kernel.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, paulburton@kernel.org
+Reply-To: luoyonggang@gmail.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, "Emilio G . Cota" <cota@braap.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ qemu-level <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-在 2021/1/7 上午1:48, Philippe Mathieu-Daudé 写道:
-> +Alex
->
-> On 12/15/20 7:45 AM, Jiaxun Yang wrote:
->> Replace embedded binary with generated code.
->>
->> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
->> ---
->>   hw/mips/boston.c    | 17 ++---------------
->>   hw/mips/fuloong2e.c | 28 ++++------------------------
->>   hw/mips/malta.c     | 41 ++++++++++-------------------------------
->>   3 files changed, 16 insertions(+), 70 deletions(-)
->>
->> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
->> index c3b94c68e1..b622222c7d 100644
->> --- a/hw/mips/boston.c
->> +++ b/hw/mips/boston.c
->> @@ -27,6 +27,7 @@
->>   #include "hw/ide/ahci.h"
->>   #include "hw/loader.h"
->>   #include "hw/loader-fit.h"
->> +#include "hw/mips/bootloader.h"
->>   #include "hw/mips/cps.h"
->>   #include "hw/pci-host/xilinx-pcie.h"
->>   #include "hw/qdev-clock.h"
->> @@ -324,21 +325,7 @@ static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr,
->>        * a2/$6 = 0
->>        * a3/$7 = 0
->>        */
->> -    stl_p(p++, 0x2404fffe);                     /* li   $4, -2 */
->> -                                                /* lui  $5, hi(fdt_addr) */
->> -    stl_p(p++, 0x3c050000 | ((fdt_addr >> 16) & 0xffff));
->> -    if (fdt_addr & 0xffff) {                    /* ori  $5, lo(fdt_addr) */
->> -        stl_p(p++, 0x34a50000 | (fdt_addr & 0xffff));
->> -    }
->> -    stl_p(p++, 0x34060000);                     /* li   $6, 0 */
->> -    stl_p(p++, 0x34070000);                     /* li   $7, 0 */
->> -
->> -    /* Load kernel entry address & jump to it */
->> -                                                /* lui  $25, hi(kernel_entry) */
->> -    stl_p(p++, 0x3c190000 | ((kernel_entry >> 16) & 0xffff));
->> -                                                /* ori  $25, lo(kernel_entry) */
->> -    stl_p(p++, 0x37390000 | (kernel_entry & 0xffff));
->> -    stl_p(p++, 0x03200009);                     /* jr   $25 */
-> Eh, no delay slot NOP :)
->
->> +    bl_gen_jump_kernel(&p, 0, (int32_t)-2, fdt_addr, 0, 0, kernel_entry);
->>   }
->>   
-> ...
->
->> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
->> index 9afc0b427b..ffd67b8293 100644
->> --- a/hw/mips/malta.c
->> +++ b/hw/mips/malta.c
->> @@ -37,6 +37,7 @@
->>   #include "hw/i2c/smbus_eeprom.h"
->>   #include "hw/block/flash.h"
->>   #include "hw/mips/mips.h"
->> +#include "hw/mips/bootloader.h"
->>   #include "hw/mips/cpudevs.h"
->>   #include "hw/pci/pci.h"
->>   #include "sysemu/sysemu.h"
->> @@ -844,6 +845,7 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
->>   static void write_bootloader(uint8_t *base, uint64_t run_addr,
->>                                uint64_t kernel_entry)
->>   {
->> +    target_ulong a0;
->>       uint32_t *p;
->>   
->>       /* Small bootloader */
->> @@ -872,30 +874,6 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
->>       /* Second part of the bootloader */
->>       p = (uint32_t *) (base + 0x580);
->>   
->> -    if (semihosting_get_argc()) {
->> -        /* Preserve a0 content as arguments have been passed */
->> -        stl_p(p++, 0x00000000);              /* nop */
->> -    } else {
->> -        stl_p(p++, 0x24040002);              /* addiu a0, zero, 2 */
->> -    }
->> -
->> -    /* lui sp, high(ENVP_VADDR) */
->> -    stl_p(p++, 0x3c1d0000 | (((ENVP_VADDR - 64) >> 16) & 0xffff));
->> -    /* ori sp, sp, low(ENVP_VADDR) */
->> -    stl_p(p++, 0x37bd0000 | ((ENVP_VADDR - 64) & 0xffff));
->> -    /* lui a1, high(ENVP_VADDR) */
->> -    stl_p(p++, 0x3c050000 | ((ENVP_VADDR >> 16) & 0xffff));
->> -    /* ori a1, a1, low(ENVP_VADDR) */
->> -    stl_p(p++, 0x34a50000 | (ENVP_VADDR & 0xffff));
->> -    /* lui a2, high(ENVP_VADDR + 8) */
->> -    stl_p(p++, 0x3c060000 | (((ENVP_VADDR + 8) >> 16) & 0xffff));
->> -    /* ori a2, a2, low(ENVP_VADDR + 8) */
->> -    stl_p(p++, 0x34c60000 | ((ENVP_VADDR + 8) & 0xffff));
->> -    /* lui a3, high(ram_low_size) */
->> -    stl_p(p++, 0x3c070000 | (loaderparams.ram_low_size >> 16));
->> -    /* ori a3, a3, low(ram_low_size) */
->> -    stl_p(p++, 0x34e70000 | (loaderparams.ram_low_size & 0xffff));
->> -
->>       /* Load BAR registers as done by YAMON */
->>       stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
->>   
->> @@ -947,13 +925,14 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
->>   #endif
->>       stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
->>   
->> -    /* Jump to kernel code */
->> -    stl_p(p++, 0x3c1f0000 |
->> -          ((kernel_entry >> 16) & 0xffff));  /* lui ra, high(kernel_entry) */
->> -    stl_p(p++, 0x37ff0000 |
->> -          (kernel_entry & 0xffff));          /* ori ra, ra, low(kernel_entry) */
->> -    stl_p(p++, 0x03e00009);                  /* jalr ra */
->> -    stl_p(p++, 0x00000000);                  /* nop */
->> +    if (semihosting_get_argc()) {
->> +        a0 = 0;
-> I never used semihosting with Malta, but it seems you are
-> clearing $a0 content.
+--000000000000fb82c805b9d9b343
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-That's what original code did.
-I guess when semihosting is enabled, arguments are going to be
-passed by semi-syscall instead of boot registers?
+Hi alex, when does plugins/next getting PR
 
-Thanks.
-
-- Jiaxun
+On Tue, Oct 6, 2020 at 7:35 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
 
 >
->> +    } else {
->> +        a0 = 2;
->> +    }
->> +    bl_gen_jump_kernel(&p, ENVP_VADDR - 64, a0, ENVP_VADDR,
->> +                       ENVP_VADDR + 8, loaderparams.ram_low_size,
->> +                       kernel_entry);
->>   
->>       /* YAMON subroutines */
->>       p = (uint32_t *) (base + 0x800);
->>
+> Yonggang Luo <luoyonggang@gmail.com> writes:
+>
+> > V2-V3
+> > Split following patches out
+> >
+> > V1-V2
+> > 1. Fixes review comments
+> > 2. Increase QEMU_PLUGIN_VERSION to 1 for compat  QEMU_PLUGIN_VERSION 0
+> > 3. Revise the loader to support for version 0 and 1
+> > 4. By export function qemu_plugin_initialize in plugin, and call it in
+> loader=3D
+> > , so
+> >   we have no need call it in every plugin. And also provide a standard
+> implem=3D
+> > entation,
+> >   anyway, use can also override it.
+> >
+> > Add this feature on msys2/mingw by using glib provided cross-platform
+> dlsym f=3D
+> > unctional.
+>
+> I've grabbed the first two fixes into plugins/next for now. Aside from
+> fixing the review comments I'd like to have an indication that the
+> proposed change to the API linking doesn't adversely affect the
+> performance of the plugins.
+>
+> It might be worth enabling a --enable-plugins build for mingw gitlab as
+> Cirrus
+> seems a bit broken at the moment.
+>
+> Thanks,
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
 
+
+--=20
+         =E6=AD=A4=E8=87=B4
+=E7=A4=BC
+=E7=BD=97=E5=8B=87=E5=88=9A
+Yours
+    sincerely,
+Yonggang Luo
+
+--000000000000fb82c805b9d9b343
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi alex, when does plugins/next getting PR</div><br><div c=
+lass=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 6, 2=
+020 at 7:35 PM Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.or=
+g">alex.bennee@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmai=
+l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
+4,204);padding-left:1ex"><br>
+Yonggang Luo &lt;<a href=3D"mailto:luoyonggang@gmail.com" target=3D"_blank"=
+>luoyonggang@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; V2-V3<br>
+&gt; Split following patches out<br>
+&gt;<br>
+&gt; V1-V2<br>
+&gt; 1. Fixes review comments<br>
+&gt; 2. Increase QEMU_PLUGIN_VERSION to 1 for compat=C2=A0 QEMU_PLUGIN_VERS=
+ION 0<br>
+&gt; 3. Revise the loader to support for version 0 and 1<br>
+&gt; 4. By export function qemu_plugin_initialize in plugin, and call it in=
+ loader=3D<br>
+&gt; , so<br>
+&gt;=C2=A0 =C2=A0we have no need call it in every plugin. And also provide =
+a standard implem=3D<br>
+&gt; entation,<br>
+&gt;=C2=A0 =C2=A0anyway, use can also override it.<br>
+&gt;<br>
+&gt; Add this feature on msys2/mingw by using glib provided cross-platform =
+dlsym f=3D<br>
+&gt; unctional.<br>
+<br>
+I&#39;ve grabbed the first two fixes into plugins/next for now. Aside from<=
+br>
+fixing the review comments I&#39;d like to have an indication that the<br>
+proposed change to the API linking doesn&#39;t adversely affect the<br>
+performance of the plugins.<br>
+<br>
+It might be worth enabling a --enable-plugins build for mingw gitlab as Cir=
+rus<br>
+seems a bit broken at the moment.<br>
+<br>
+Thanks,<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+</blockquote></div><br clear=3D"all"><div><br></div>-- <br><div dir=3D"ltr"=
+ class=3D"gmail_signature">=C2=A0 =C2=A0 =C2=A0 =C2=A0=C2=A0 =E6=AD=A4=E8=
+=87=B4<br>=E7=A4=BC<br>=E7=BD=97=E5=8B=87=E5=88=9A<br>Yours<br>=C2=A0 =C2=
+=A0 sincerely,<br>Yonggang Luo<br></div>
+
+--000000000000fb82c805b9d9b343--
 
