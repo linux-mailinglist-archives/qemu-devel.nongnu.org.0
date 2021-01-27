@@ -2,80 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 148123066A7
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:47:14 +0100 (CET)
-Received: from localhost ([::1]:53518 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33AED3066AB
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:49:21 +0100 (CET)
+Received: from localhost ([::1]:57830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4sef-0004yP-49
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:47:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
+	id 1l4sgi-0006lF-Aj
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:49:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47020)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1l4saZ-0001Vq-L8; Wed, 27 Jan 2021 16:43:01 -0500
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:33869)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1l4saX-0002sL-Pw; Wed, 27 Jan 2021 16:42:59 -0500
-Received: by mail-oi1-x234.google.com with SMTP id h192so3847953oib.1;
- Wed, 27 Jan 2021 13:42:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=l9uG97Z64EKE33FzNhO3mgkm0Nrr9f2/6MCrYDEqKDI=;
- b=kNLotVVNKJN1wULrncXh5FENpaN8WQbFWsy/DJBLjxX0WTQ0UdDXYN3KcQf5OtGjY8
- 9YzI0Qg0S3DCkc6Zt3/SIkMIYbToFMAqmMYwx09zaGp7n0oVH8w8/u0zOr03PGCpV2BT
- 14lbTB/Dxkpxj9iVluDJTXJn0ennUhhRXQ0WQ+z/9QItDB+NkfjkO2GmhKSDnamcsXVB
- IVQJ/Cj78LaYs8RBA8zBBn8ZScFXRvzHWRSfHQH8Elnx14yFUAbREEkVwbw6shP/pwKp
- 1/YbXDgN94YunrK3PwqX9Tmnm/BrvJxCxSUj7ewP5BDr6CVYMlYB3iEF/VcxxVSQg0BR
- p+Kg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4sdq-0004dE-63
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:46:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57643)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4sdn-0003XX-SE
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:46:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611783978;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3znq+LpxjXa8s0wfUA9w+Wuii4ZpDYvkb0RNpOfa4i4=;
+ b=Fw7TQNX9ytvZms39FRJUR3CsqSrgzroV4dNBJzu/F+Dv67Oc75ZU6PI7jT3fboSndj7EMm
+ nF5YVRI5K7AFkHb0iQMW+t7VaKbTXsJJUhlMhTEd8QHMx8UDL10y21TI6xG+w/Vqd1hamk
+ S5TaTr1uCqYLZ8UzTgaVApa15QkoOes=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-321-HE86LXOyPXehVbVlK972ow-1; Wed, 27 Jan 2021 16:46:17 -0500
+X-MC-Unique: HE86LXOyPXehVbVlK972ow-1
+Received: by mail-wr1-f69.google.com with SMTP id x12so1914023wrw.21
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 13:46:16 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=l9uG97Z64EKE33FzNhO3mgkm0Nrr9f2/6MCrYDEqKDI=;
- b=Qc8QNewgqHBfnoc+O/LYabIowuikd650NdbfqmYHbB8dm0Q8oo3eg95l7O1thVbq02
- gIzugeC94sdpoTSYA3YPhrXDdaIuLMkww3adK57XxDMYOgnDV+HfQDWazRpVwmF3DXxT
- Hkfae5Ygs/oBBGOlVImt7GErGoChJfrjJdqvkAGZcS+XlbaZCfdvscWSL+cuHIiGLQxD
- VFU0ZmrDzkU2A8vF27sL2QwzUdLCyg5h/sqzbJUQr8Hr0/N9h48uZtrp9/pX0ohM0T59
- dAtAqgw/tNtEuGb3JUvBanfK43Z6mPesZ5IKuooc6HXpWu1LjVjjNjgFFEMkLtosW6z6
- tYrw==
-X-Gm-Message-State: AOAM5326B0PEUl2YAfqAG8zRNlNyOgbTB5k6cYR+yh3ZmFBlYK1xO94s
- PWl3UVlfPdrt9V/EGsgXfA==
-X-Google-Smtp-Source: ABdhPJwVfSlVwobyzejrf82DIqzxNVlH6KbJcfGkFGaXPf0U+KTleqji8+v72CpWlFseClMEWRU5Gw==
-X-Received: by 2002:aca:1901:: with SMTP id l1mr4670839oii.171.1611783774517; 
- Wed, 27 Jan 2021 13:42:54 -0800 (PST)
-Received: from serve.minyard.net ([47.184.170.156])
- by smtp.gmail.com with ESMTPSA id d3sm682676ooi.42.2021.01.27.13.42.53
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 13:42:53 -0800 (PST)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:84df:dff0:9fb7:e686])
- by serve.minyard.net (Postfix) with ESMTPSA id 8D06818055B;
- Wed, 27 Jan 2021 21:42:52 +0000 (UTC)
-Date: Wed, 27 Jan 2021 15:42:51 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Hao Wu <wuhaotsh@google.com>
-Subject: Re: [PATCH 6/6] hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
-Message-ID: <20210127214251.GE2057975@minyard.net>
-References: <20210126193237.1534208-1-wuhaotsh@google.com>
- <20210126193237.1534208-7-wuhaotsh@google.com>
- <20210126234724.GC2057975@minyard.net>
- <CAGcCb12nJAMnZ+eaWC6n08hAFAVueCknSWzbEYFPp+GUApoRdg@mail.gmail.com>
+ h=x-gm-message-state:subject:to:references:cc:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=3znq+LpxjXa8s0wfUA9w+Wuii4ZpDYvkb0RNpOfa4i4=;
+ b=j8B/uesKqDM5MZUn2bhPBslJx1H5LQCrKz9eC7tqayAJFx5KE2K4qxsFFOSaekN8Gl
+ qq243XWPzYu2DLH2SFsJSfJeHdWRsDHLOg420OckrTPtxTwN5CT5kaizNVAxkBhN9cxo
+ 413MRtGYroeJ+8AgIYZbfyY5saB86WuTmm86wqR3QW2/1Ze6eZkDiqLitA468C76fYpI
+ ZgKPJslOQNrA8lQRf6kMGHaSG29y4K/GukYbgHaIdJRbqoFDCHArPlyNXjS7ELGqKtne
+ fBIDRzrnlbYjPCFcIaJ3Ni9jEviJpcXiFh9xTq9gxemzR1ko8ebydcisgxQEml6DSsqR
+ 7xsA==
+X-Gm-Message-State: AOAM531gSOrgqMwBqL5gZUHU2qKtzZFbMiFLwJvWHtZuLl2OoQp/zEDT
+ SITHOrXN4k6hY2nLwU240lggq824LNmeVGVtJhj7Q0/6hY01L43ufw9ZtaroOCJbxUfTUHMex6E
+ dI2xNNlbfZn56gVA=
+X-Received: by 2002:adf:9427:: with SMTP id 36mr13193013wrq.271.1611783975829; 
+ Wed, 27 Jan 2021 13:46:15 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJynWfoM96oSJjkxx4ki0Oo4/n7DxxS9A2zqTUHym+EdyibP4q1nO+i0rtEgD1rifPMzJCcjuw==
+X-Received: by 2002:adf:9427:: with SMTP id 36mr13193000wrq.271.1611783975673; 
+ Wed, 27 Jan 2021 13:46:15 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id u10sm3529165wmj.40.2021.01.27.13.46.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Jan 2021 13:46:15 -0800 (PST)
+Subject: Re: [RFC] Change default ipv6 network from fec0/10 (site local) to
+ fe80/10 (link local)
+To: Doug Evans <dje@google.com>, QEMU Developers <qemu-devel@nongnu.org>
+References: <CADPb22QjukHvqxTzjXUZyiO7jdDxKaHd=ioAb8SSgfrAUgiskg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <7e80b14a-e749-c5a4-69e1-83239f2ee5b1@redhat.com>
+Date: Wed, 27 Jan 2021 22:46:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGcCb12nJAMnZ+eaWC6n08hAFAVueCknSWzbEYFPp+GUApoRdg@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
- envelope-from=tcminyard@gmail.com; helo=mail-oi1-x234.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <CADPb22QjukHvqxTzjXUZyiO7jdDxKaHd=ioAb8SSgfrAUgiskg@mail.gmail.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,68 +98,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Patrick Venture <venture@google.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- Doug Evans <dje@google.com>
+Cc: libvir-list@redhat.com, Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Jason Wang <jasowang@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 27, 2021 at 12:37:46PM -0800, wuhaotsh--- via wrote:
-> On Tue, Jan 26, 2021 at 3:47 PM Corey Minyard <minyard@acm.org> wrote:
+Hi Doug,
+
+Cc'ing more developers.
+
+On 1/27/21 8:13 PM, Doug Evans wrote:
+> Hi.
 > 
-> > On Tue, Jan 26, 2021 at 11:32:37AM -0800, wuhaotsh--- via wrote:
-> > > +
-> > > +static void npcm7xx_smbus_read_byte_fifo(NPCM7xxSMBusState *s)
-> > > +{
-> > > +    uint8_t received_bytes = NPCM7XX_SMBRXF_STS_RX_BYTES(s->rxf_sts);
-> > > +
-> > > +    if (received_bytes == 0) {
-> > > +        npcm7xx_smbus_recv_fifo(s);
-> > > +        return;
-> > > +    }
-> > > +
-> > > +    s->sda = s->rx_fifo[s->rx_cur];
-> > > +    s->rx_cur = (s->rx_cur + 1u) % NPCM7XX_SMBUS_FIFO_SIZE;
-> > > +    --s->rxf_sts;
-> >
-> > This open-coded decrement seems a little risky.  Are you sure in every
-> > case that s->rxf_sts > 0?  There's no way what's running in the VM can
-> > game this and cause a buffer overrun?  One caller to this function seems
-> > to protect against this, and another does not.
-> >
-> s->rxf_sts is uint8_t so it's guaranteed to be >=0.
-> In the case s->rxf_sts == 0,  NPCM7XX_SMBRXF_STS_RX_BYTES(s->rxf_sts) is
-> also 0, so it'll take the if-branch and return without running --s->rxf_sts.
-
-That is true if called from the
-NPCM7XX_SMBUS_STATUS_STOPPING_LAST_RECEIVE case.  There is no such check
-in the NPCM7XX_SMBUS_STATUS_RECEIVING case.
-
-> I'll probably add "g_assert(s->rxf_sts > 0)" to clarify.
-
-You never want to do an assert if the hosted system can do something to
-cause it.  If you add the check to the NPCM7XX_SMBUS_STATUS_RECEIVING
-case, it would be ok, but really unnecessary.
-
-If it's fine if s->rxf_sts wraps to 0xff, then this all doesn't matter,
-but you want to add a comment to that effect if so.  These sorts of
-things look dangerous.
-
-There is also the question about who takes these patches in.  I'm the
-I2C maintainer, but there's other code in this series.  Once everything
-is ready, I can ack them if we take it through the ARM tree.  Or I can
-take it through my tree with the proper acks.
-
--corey
-
+> This is just an information gathering question. I don't know enough to
+> formally propose the change.
+> I happened to notice QEMU's default for the ipv6 network is fec0::/10
+> which is deprecated (RFC3879).
+> I think(!) an obvious replacement is fe80::/10, link local.
 > 
-> >
-> > Other than this, I didn't see any issues with this patch.
-> >
-> > -corey
-> >
+> Has anyone thought about this issue or know of reasons why we shouldn't
+> make this change?
+
+I'm a bit worried this could break various scripts and firewall rules
+where this is the expected default range...
+
 
