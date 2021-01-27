@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76D92305227
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 06:36:47 +0100 (CET)
-Received: from localhost ([::1]:34834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB63B305228
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 06:36:52 +0100 (CET)
+Received: from localhost ([::1]:35210 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4dVV-00014X-V5
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 00:36:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38168)
+	id 1l4dVb-0001FX-NI
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 00:36:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38188)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4dUS-0000Ee-00
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:35:40 -0500
-Received: from indium.canonical.com ([91.189.90.7]:43912)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4dUP-0005om-KG
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:35:39 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l4dUN-0004Uu-3M
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 05:35:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 17A472E813C
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 05:35:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l4dUW-0000G5-3V
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:35:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
+ id 1l4dUS-0005r0-Fk
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:35:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611725738;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=agMNkeVkswJef2P1fevzie+v0f285j99AOw1uvhpYmk=;
+ b=XRuLGQ/yCG9NvsIg0iYLCxfC4PAWE+fjT8uLpcCaUzGumYNs5HLcbPvZNNFaMh9DOg25pp
+ HlQk1SvLY+kQ2Hc4YwrCYoGkysUS6hy+rXB3x3RNllvYmUq/nWc2N+E4GcM65vMTluPJCd
+ ifxcdWqkVOxiEFRW5QVRKUH3w5r+Hbg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-181-U4goUC_JMmSqhvUfG4be7Q-1; Wed, 27 Jan 2021 00:35:35 -0500
+X-MC-Unique: U4goUC_JMmSqhvUfG4be7Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BBB21802B40
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 05:35:34 +0000 (UTC)
+Received: from [10.72.13.33] (ovpn-13-33.pek2.redhat.com [10.72.13.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9F5D55D746;
+ Wed, 27 Jan 2021 05:35:28 +0000 (UTC)
+Subject: Re: [PATCH v3 1/5] virtio: add support for configure interrupt
+To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
+References: <20210126074254.3225-1-lulu@redhat.com>
+ <20210126074254.3225-2-lulu@redhat.com>
+From: Jason Wang <jasowang@redhat.com>
+Message-ID: <b5daf4b8-1c06-e8b5-420a-6c75fdcd38da@redhat.com>
+Date: Wed, 27 Jan 2021 13:35:26 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 27 Jan 2021 05:28:37 -0000
-From: ANIMESH KUMAR SINHA <1912777@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=None; component=None;
- status=New; importance=Undecided; assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: animeshk th-huth
-X-Launchpad-Bug-Reporter: ANIMESH KUMAR SINHA (animeshk)
-X-Launchpad-Bug-Modifier: ANIMESH KUMAR SINHA (animeshk)
-References: <161131847021.10154.14606822070729811950.malonedeb@gac.canonical.com>
-Message-Id: <161172531717.4863.12889942733969696473.malone@soybean.canonical.com>
-Subject: [Bug 1912777] Re: KVM_EXIT_MMIO has increased in Qemu4.0.0 when
- compared to Qemu 2.11.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 2163e45b183881e19e2602005622149ced8082c7
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210126074254.3225-2-lulu@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jasowang@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,226 +83,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912777 <1912777@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The testcase is a rather a very basic one.
-Doing a mmap on a pcie device and triggering a read and write operation on =
-the Virtual Address, which would in-turn trigger transaction requests on th=
-e host device.
 
-I understand that Qemu v4.0 may be and old one, but the issue is that
-test case execution has become rather very slow with Qemu4.0.0 and the
-only thing i could notice from using tracebacks were related with
-increase in KVM_MMIO_EXIT when compared with Qemu2.11.0 version.
-
-Can it be verified as to why the number of KVM_EXIT_MMIO has increased
-drastically in qemu4 when compared to Qemu2.11.0 ?
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912777
-
-Title:
-  KVM_EXIT_MMIO has increased in Qemu4.0.0 when compared to Qemu 2.11.0
-
-Status in QEMU:
-  Incomplete
-Status in Ubuntu:
-  New
-
-Bug description:
-  I was able to generate trace dump in Qemu for kvm_run_exit event in both =
-QEMU 2.11.0 and QEMU 4.0.0
-  From the trace i noticed that the number of KVM_KXIT_MMIO calls has incre=
-ased alot and is causing delay in testcase execution.
-
-  I executed same testcase from Qemu 2.11 and Qemu4.
-  Inside Virtual machine when using qemu 2.11 testcase got completed in 11 =
-seconds
-  but the same testcase when executed on Qemu 4.0.0 got executed in 26 seco=
-nds.
-
-  =
-
-  I did a bit of digging and extracted the kvm_run_exit to figure out whats=
- going on.
-
-  Please find =
-
-  Stats from Qemu2.11:
-
-  KVM_EXIT_UNKNOWN          : 0
-  KVM_EXIT_EXCEPTION        : 0
-  KVM_EXIT_IO               : 182513
-  KVM_EXIT_HYPERCALL        : 0
-  KVM_EXIT_DEBUG            : 0
-  KVM_EXIT_HLT              : 0
-  KVM_EXIT_MMIO             : 216701
-  KVM_EXIT_IRQ_WINDOW_OPEN  : 0
-  KVM_EXIT_SHUTDOWN         : 0
-  KVM_EXIT_FAIL_ENTRY       : 0
-  KVM_EXIT_INTR             : 0
-  KVM_EXIT_SET_TPR          : 0
-  KVM_EXIT_TPR_ACCESS       : 0
-  KVM_EXIT_S390_SIEIC       : 0
-  KVM_EXIT_S390_RESET       : 0
-  KVM_EXIT_DCR              : 0
-  KVM_EXIT_NMI              : 0
-  KVM_EXIT_INTERNAL_ERROR   : 0
-  KVM_EXIT_OSI              : 0
-  KVM_EXIT_PAPR_HCALL       : 0
-  KVM_EXIT_S390_UCONTROL    : 0
-  KVM_EXIT_WATCHDOG         : 0
-  KVM_EXIT_S390_TSCH        : 0
-  KVM_EXIT_EPR              : 0
-  KVM_EXIT_SYSTEM_EVENT     : 0
-  KVM_EXIT_S390_STSI        : 0
-  KVM_EXIT_IOAPIC_EOI       : 0
-  KVM_EXIT_HYPERV           : 0
-
-  KVM_RUN_EXIT              : 399214  (Total in Qemu 2.11 for a
-  testcase)
-
-  =
-
-  Stats For Qemu 4.0.0:
-
-  VM_EXIT_UNKNOWN           : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_EXCEPTION        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_IO               : 163729                                       =
-                                                                           =
-         =
-
-  KVM_EXIT_HYPERCALL        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_DEBUG            : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_HLT              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_MMIO             : 1094231                                      =
-                                                                           =
-         =
-
-  KVM_EXIT_IRQ_WINDOW_OPEN  : 46                                           =
-                                                                           =
-         =
-
-  KVM_EXIT_SHUTDOWN         : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_FAIL_ENTRY       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_INTR             : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_SET_TPR          : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_TPR_ACCESS       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_SIEIC       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_RESET       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_DCR              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_NMI              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_INTERNAL_ERROR   : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_OSI              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_PAPR_HCALL       : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_UCONTROL    : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_WATCHDOG         : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_TSCH        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_EPR              : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_SYSTEM_EVENT     : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_S390_STSI        : 0                                            =
-                                                                           =
-         =
-
-  KVM_EXIT_IOAPIC_EOI       : 464                                          =
-                                                                           =
-         =
-
-  KVM_EXIT_HYPERV           : 0 =
+On 2021/1/26 下午3:42, Cindy Lu wrote:
+> Add configure notifier and virtio_set_config_notifier_fd_handler
+> in virtio
 
 
-  KVM_RUN_EXIT              : 1258470 (Total in qemu 4.0.0 for same
-  testcase)
+The title and commit log is kind of misleading.
+
+I think we should use "virtio: add guest notifier for config interrupt"
 
 
-  From above analysis i found that the number of KVM_EXIT_MMIO has
-  increased by 4.x.
+>
+> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> ---
+>   hw/virtio/virtio.c             | 26 ++++++++++++++++++++++++++
+>   include/hw/virtio/virtio-bus.h |  2 ++
+>   include/hw/virtio/virtio.h     |  6 ++++++
+>   3 files changed, 34 insertions(+)
+>
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index ceb58fda6c..25e164cf8a 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -3502,6 +3502,16 @@ static void virtio_queue_guest_notifier_read(EventNotifier *n)
+>       }
+>   }
+>   
+> +static void virtio_config_read(EventNotifier *n)
+> +{
+> +    VirtIODevice *vdev = container_of(n, VirtIODevice, config_notifier);
+> +    if (!vdev->use_config_notifier) {
+> +        return;
+> +    }
+> +    if (event_notifier_test_and_clear(n)) {
+> +        virtio_notify_config(vdev);
+> +    }
+> +}
+>   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+>                                                   bool with_irqfd)
+>   {
+> @@ -3518,6 +3528,17 @@ void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+>       }
+>   }
+>   
+> +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool assign,
+> +                                                bool with_irqfd)
+> +{
+> +    if (assign && !with_irqfd) {
+> +        event_notifier_set_handler(&vdev->config_notifier,
+> +                                   virtio_config_read);
+> +    } else {
+> +       event_notifier_set_handler(&vdev->config_notifier, NULL);
+> +    }
+> +}
+> +
+>   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq)
+>   {
+>       return &vq->guest_notifier;
+> @@ -3591,6 +3612,11 @@ EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq)
+>       return &vq->host_notifier;
+>   }
+>   
+> +EventNotifier *virtio_get_config_notifier(VirtIODevice *vdev)
+> +{
+> +    return &vdev->config_notifier;
+> +
+> +}
+>   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled)
+>   {
+>       vq->host_notifier_enabled = enabled;
+> diff --git a/include/hw/virtio/virtio-bus.h b/include/hw/virtio/virtio-bus.h
+> index ef8abe49c5..97e13ec484 100644
+> --- a/include/hw/virtio/virtio-bus.h
+> +++ b/include/hw/virtio/virtio-bus.h
+> @@ -93,6 +93,8 @@ struct VirtioBusClass {
+>        */
+>       bool has_variable_vring_alignment;
+>       AddressSpace *(*get_dma_as)(DeviceState *d);
+> +    int (*set_config_notifiers)(DeviceState *d, bool assign);
+> +
+>   };
+>   
+>   struct VirtioBusState {
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index b7ece7a6a8..79f2f78625 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -108,6 +108,8 @@ struct VirtIODevice
+>       bool use_guest_notifier_mask;
+>       AddressSpace *dma_as;
+>       QLIST_HEAD(, VirtQueue) *vector_queues;
+> +    EventNotifier config_notifier;
+> +    bool use_config_notifier;
 
-  Could someone from qemu community help me understand as to why the
-  MMIO exits have increased in qemu4 ?
 
-  The results i obtained are after running same testcase.
-  On Qemu2.11 testcase gets completed in : 11seconds
-  on Qemu4.11 testcase gets completed in : 26 seconds
+Let's document those two fields.
 
-  VM Qcow2 used in Ubuntu 16.04
-  VM kernel OS is : 4.4 generic
+Thanks
 
-  =
 
-  Let me know incase more information is required .
+>   };
+>   
+>   struct VirtioDeviceClass {
+> @@ -310,11 +312,15 @@ uint16_t virtio_get_queue_index(VirtQueue *vq);
+>   EventNotifier *virtio_queue_get_guest_notifier(VirtQueue *vq);
+>   void virtio_queue_set_guest_notifier_fd_handler(VirtQueue *vq, bool assign,
+>                                                   bool with_irqfd);
+> +void virtio_set_config_notifier_fd_handler(VirtIODevice *vdev, bool assign,
+> +                                                bool with_irqfd);
+> +
+>   int virtio_device_start_ioeventfd(VirtIODevice *vdev);
+>   int virtio_device_grab_ioeventfd(VirtIODevice *vdev);
+>   void virtio_device_release_ioeventfd(VirtIODevice *vdev);
+>   bool virtio_device_ioeventfd_enabled(VirtIODevice *vdev);
+>   EventNotifier *virtio_queue_get_host_notifier(VirtQueue *vq);
+> +EventNotifier *virtio_get_config_notifier(VirtIODevice *vdev);
+>   void virtio_queue_set_host_notifier_enabled(VirtQueue *vq, bool enabled);
+>   void virtio_queue_host_notifier_read(EventNotifier *n);
+>   void virtio_queue_aio_set_host_notifier_handler(VirtQueue *vq, AioContext *ctx,
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912777/+subscriptions
 
