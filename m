@@ -2,71 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3201305C16
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 13:53:06 +0100 (CET)
-Received: from localhost ([::1]:50182 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2653D305C66
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 14:04:30 +0100 (CET)
+Received: from localhost ([::1]:56366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4kJm-0001BE-2Y
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 07:53:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33606)
+	id 1l4kUm-0004cp-K6
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 08:04:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36526)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l4kIP-0000hB-SU
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 07:51:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51857)
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1l4kSz-0004AB-75
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 08:02:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51107)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l4kIN-0007Az-RV
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 07:51:41 -0500
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1l4kSv-0003cP-Q5
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 08:02:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611751898;
+ s=mimecast20190719; t=1611752551;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=NGHmqDobti2bCvqiFNsY4YBQUUS7JgKey4NuOztovLg=;
- b=SJHi5em9msuPkdhZton3QMEE80+lYsVod+pEPLODa63bvhK+wyv08+9KgezGDj4zOl9PKe
- GnWU7drQbco7Zuxe2lOx8D6JZ+4egEbMRUx5XKhkgUGgSTIodVvfJ807MAHPax8g85AeKf
- upFQZGiTaVjr+Vsl0EJLOm5hyKoPsuc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-256-IzaDPp90My6-0QZydvXnXQ-1; Wed, 27 Jan 2021 07:51:36 -0500
-X-MC-Unique: IzaDPp90My6-0QZydvXnXQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE2E18144E0
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 12:51:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
- [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9814B19D9D;
- Wed, 27 Jan 2021 12:51:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 04D3A113865F; Wed, 27 Jan 2021 13:51:34 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH 1/6] qapi: Add interfaces for alias support to Visitor
-References: <20201112172850.401925-1-kwolf@redhat.com>
- <20201112172850.401925-2-kwolf@redhat.com>
-Date: Wed, 27 Jan 2021 13:51:33 +0100
-In-Reply-To: <20201112172850.401925-2-kwolf@redhat.com> (Kevin Wolf's message
- of "Thu, 12 Nov 2020 18:28:45 +0100")
-Message-ID: <87czxqr19m.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ bh=OnxnXzDV1MxW5Z00jA0DpmhMGDy8KqF/k7TYcUfKm8A=;
+ b=TASlYlI6ABTbOVU3i0PbeBv0TxqjwuKwwffnFcnfdKaqjCGepyFcrs3rF6IqQXngxe7qJy
+ Ct8UBnHPSA6/SZMBZDAu5eoyJsnQmmTO/qpI9gWxi0YtbhzayA+hzWckDwVnCQyxGsmeyJ
+ YKQiQK3DMru9Tks3vDDBHID/9vVe35c=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-21-l0xoojGEOyG59xHJ1y3qkw-1; Wed, 27 Jan 2021 08:02:06 -0500
+X-MC-Unique: l0xoojGEOyG59xHJ1y3qkw-1
+Received: by mail-qt1-f199.google.com with SMTP id w3so1018917qti.17
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 05:02:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=OnxnXzDV1MxW5Z00jA0DpmhMGDy8KqF/k7TYcUfKm8A=;
+ b=SJOfZB83pVhPWCoRVTZ8QAXrqG9FQfaNwpnS7odjiV1BvurEGmQ87arz8ih9XE/7C3
+ yNwobvu1HhnLiXjuaLVIkjm7okcy65OvizPiXWWrv8JgZPf2Mvp6OeUzoJexIY0s75IF
+ YeDorkUD412TCvnTe58y+Ms2l2DEEg+CpggyrmtPxM3DBBjakZAGybtcI3BiKAi3e8rX
+ Rmg7kA+zlAMPFRPbj9NHrT5fKU2FgmzwqeYkDkdn5Xv7vnyNpKQ8LGcbAzaHRO1p6t8W
+ liey/olHD7Ty45J+orEhqf5zmfB+0eO5rBG6A/+enN07bxNeR6VpvL1l2hkEVihyJgMh
+ bmpg==
+X-Gm-Message-State: AOAM530jAeSIlhypAgpGqPsHivvKDWoGHc7OgGrMwzYcwQE6M76WuPI9
+ q36zq5tuUfsU9WSYMV1MDlCRz95IAVwa1TJJFpL6qYePuZOJpwK3fumuuRYuMUwNCQz4JNHWEuj
+ ZW1xD5tb5TjtdL3HSjVE/N1/QSu1PlRY=
+X-Received: by 2002:a05:620a:2155:: with SMTP id
+ m21mr9994517qkm.395.1611752526183; 
+ Wed, 27 Jan 2021 05:02:06 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwC3voFklNH3zfW1DO+hrT4gNo1VAHXmh52ufkqnaYeW07XjVghOwt22tsyMQ8Py0HQRDO/mKBKThSbRfKKblo=
+X-Received: by 2002:a05:620a:2155:: with SMTP id
+ m21mr9994468qkm.395.1611752525784; 
+ Wed, 27 Jan 2021 05:02:05 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+References: <20210127112131.308451-1-stefanha@redhat.com>
+In-Reply-To: <20210127112131.308451-1-stefanha@redhat.com>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Wed, 27 Jan 2021 14:01:54 +0100
+Message-ID: <CAOssrKfY7zDOH3NNbtyARHMCdJJN1tKQJri8ec=igjBf=K6Dog@mail.gmail.com>
+Subject: Re: [PATCH v3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mszeredi@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,129 +90,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Daniel Berrange <berrange@redhat.com>,
+ Sergio Lopez Pascual <slp@redhat.com>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, virtio-fs-list <virtio-fs@redhat.com>,
+ Alex Xu <alex@alxu.ca>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ P J P <ppandit@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Kevin Wolf <kwolf@redhat.com> writes:
-
-> This adds functions to the Visitor interface that can be used to define
-> aliases and alias scopes.
+On Wed, Jan 27, 2021 at 12:21 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+              }
+> @@ -1654,9 +1677,11 @@ static void update_open_flags(int writeback, int allow_direct_io,
+>  static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
+>                        mode_t mode, struct fuse_file_info *fi)
+>  {
+> +    int open_flags = (fi->flags | O_CREAT) & ~O_NOFOLLOW;
+>      int fd;
+>      struct lo_data *lo = lo_data(req);
+>      struct lo_inode *parent_inode;
+> +    struct lo_inode *existing_inode = NULL;
+>      struct fuse_entry_param e;
+>      int err;
+>      struct lo_cred old = {};
+> @@ -1682,11 +1707,23 @@ static void lo_create(fuse_req_t req, fuse_ino_t parent, const char *name,
 >
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  include/qapi/visitor-impl.h | 12 ++++++++++++
->  include/qapi/visitor.h      | 37 +++++++++++++++++++++++++++++++++++++
->  qapi/qapi-visit-core.c      | 21 +++++++++++++++++++++
->  3 files changed, 70 insertions(+)
+>      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
 >
-> diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
-> index 7362c043be..e30da2599c 100644
-> --- a/include/qapi/visitor-impl.h
-> +++ b/include/qapi/visitor-impl.h
-> @@ -113,6 +113,18 @@ struct Visitor
->         The core takes care of the return type in the public interface. */
->      void (*optional)(Visitor *v, const char *name, bool *present);
->  
-> +    /*
-> +     * Optional; intended for input visitors. If not given, aliases are
-> +     * ignored.
-> +     */
-> +    void (*define_alias)(Visitor *v, const char *alias, const char **source);
+> -    fd = openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFOLLOW,
+> -                mode);
+> +    /* First, try to create a new file but don't open existing files */
+> +    fd = openat(parent_inode->fd, name, open_flags | O_EXCL, mode);
+>      err = fd == -1 ? errno : 0;
 > +
-> +    /* Must be set if define_alias is set */
-> +    void (*start_alias_scope)(Visitor *v);
+>      lo_restore_cred(&old);
+>
+> +    /* Second, open existing files if O_EXCL was not specified */
+> +    if (err == EEXIST && !(fi->flags & O_EXCL)) {
+> +        existing_inode = lookup_name(req, parent, name);
+> +        if (existing_inode) {
+> +            fd = lo_inode_open(lo, existing_inode, open_flags);
+> +            if (fd < 0) {
+> +                err = -fd;
+> +            }
+> +        }
+> +    }
 > +
-> +    /* Must be set if define_alias is set */
-> +    void (*end_alias_scope)(Visitor *v);
-> +
->      /* Must be set */
->      VisitorType type;
->  
-> diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
-> index ebc19ede7f..9bdc0ee03d 100644
-> --- a/include/qapi/visitor.h
-> +++ b/include/qapi/visitor.h
-> @@ -459,6 +459,43 @@ void visit_end_alternate(Visitor *v, void **obj);
->   */
->  bool visit_optional(Visitor *v, const char *name, bool *present);
->  
-> +/*
-> + * Defines a new alias rule.
-> + *
-> + * If @alias is non-NULL, the member named @alias in the external
-> + * representation of the current struct is defined as an alias for the
+>      if (!err) {
+>          ssize_t fh;
 
-Terminology: the big comment uses "object".  See also the FIXME in
-visit_start_struct()'s contract.
+It's more of a mess than I thought.
 
-> + * member described by @source.
-> + *
-> + * If @alias is NULL, all members of the struct described by @source are
-> + * considered to have alias members with the same key in the current
-> + * struct.
+The problem here is there can also be a race between the open and the
+subsequent lo_do_lookup().
 
-Define "the current struct".  I believe it's the object being visited.
+At this point it's probably enough to verify that fuse_entry_param
+refers to the same object as the fh (using fstat and comparing st_dev
+and st_ino).
 
-What happens if we're currently visiting something other than an object,
-i.e. the root of a tree, or a list?
+Also O_CREAT open is not supposed to return ENOENT, so failure to open
+without O_CREAT (race between O_CREAT open and plain open) should at
+least translate error to ESTALE or EIO.
 
-> + *
-> + * @source is a NULL-terminated array of names that describe the path to
-> + * a member, starting from the currently visited struct.
-
-I'm afraid "describe the path to a member" is too vague.  How?
-
-I figure this is what you have in mind:
-
-    cur = the currently visited object
-    for s in source:
-        cur = the member of cur denoted by s
-
-When @cur is indeed an object, then "the member denoted by @s" makes
-sense: you must pass a name when visiting object members, and whatever
-is visited with name @s is the member denoted by @s.
-
-"Must pass a name" is documented in the big comment:
-
- * The @name parameter of visit_type_FOO() describes the relation
- * between this QAPI value and its parent container.  When visiting
- * the root of a tree, @name is ignored; when visiting a member of an
- * object, @name is the key associated with the value; when visiting a
- * member of a list, @name is NULL; and when visiting the member of an
- * alternate, @name should equal the name used for visiting the
- * alternate.
-
-But what if @cur is a list?  I guess that makes no sense.  Say so
-explicitly, please.
-
-> + *
-> + * The alias stays valid until the current alias scope ends.
-> + * visit_start/end_struct() implicitly start/end an alias scope.
-> + * Additionally, visit_start/end_alias_scope() can be used to explicitly
-> + * create a nested alias scope.
-> + */
-> +void visit_define_alias(Visitor *v, const char *alias, const char **source);
-> +
-> +/*
-> + * Begins an explicit alias scope.
-> + *
-> + * Alias definitions after here will only stay valid until the
-> + * corresponding visit_end_alias_scope() is called.
-> + */
-> +void visit_start_alias_scope(Visitor *v);
-> +
-> +/*
-> + * Ends an explicit alias scope.
-> + *
-> + * Alias definitions between the correspoding visit_start_alias_scope()
-> + * call and here go out of scope and won't apply in later code any more.
-> + */
-> +void visit_end_alias_scope(Visitor *v);
-> +
->  /*
->   * Visit an enum value.
->   *
-[...]
+Thanks,
+Miklos
 
 
