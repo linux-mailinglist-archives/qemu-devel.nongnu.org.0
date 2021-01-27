@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9A1305262
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 06:48:40 +0100 (CET)
-Received: from localhost ([::1]:44476 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 884A1305285
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 06:52:15 +0100 (CET)
+Received: from localhost ([::1]:46786 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4dh1-0005p7-OT
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 00:48:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39348)
+	id 1l4dkU-0006wX-Jz
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 00:52:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l4dgB-000501-VA
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:47:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56842)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l4dgA-0003Vm-6l
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:47:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611726465;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M3eWHYOrWyhY/wrH+GTqTKAKBdGByLl95vgUFN9w9U0=;
- b=gXY1FYYuaU40Eajavz3Vl2Oii4wrO66wT2kuKeve3o9wD9BeeKm3fu0J9X1Fd293mbnLU7
- d2S/HGOjy7zaUQZH3uwqLTXUBSvuLpuL478yZ/GM2mxj5mut2q48l1uXh3u7gipX8o3low
- NnhPayPATl+qBOsZfcvilzTEmcz9Bkg=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-432-Lg2RGZ2IOeySOjlfGvmixA-1; Wed, 27 Jan 2021 00:47:41 -0500
-X-MC-Unique: Lg2RGZ2IOeySOjlfGvmixA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 762DA1005D50
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 05:47:40 +0000 (UTC)
-Received: from [10.72.13.33] (ovpn-13-33.pek2.redhat.com [10.72.13.33])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0ED5E5D9DD;
- Wed, 27 Jan 2021 05:47:35 +0000 (UTC)
-Subject: Re: [PATCH v3 5/5] vhost-vdpa: add callback function for configure
- interrupt
-To: Cindy Lu <lulu@redhat.com>, mst@redhat.com, qemu-devel@nongnu.org
-References: <20210126074254.3225-1-lulu@redhat.com>
- <20210126074254.3225-6-lulu@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <639e39d7-e210-e2d6-5d42-0afb01dcddf7@redhat.com>
-Date: Wed, 27 Jan 2021 13:47:34 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20210126074254.3225-6-lulu@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1l4djY-0006Tc-LB
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:51:16 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635]:37000)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <palmer@dabbelt.com>)
+ id 1l4djU-00057J-D3
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:51:16 -0500
+Received: by mail-pl1-x635.google.com with SMTP id q2so437466plk.4
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 21:51:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=dabbelt-com.20150623.gappssmtp.com; s=20150623;
+ h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
+ :content-transfer-encoding;
+ bh=dBIPTKEm+35eKbx/9PS4KpCo8sSYnzNJtUtNjxeOhPA=;
+ b=VaHrHDfGdGwNgsHMIo2x7Sui0lcP9hB6zbfTau1x1NYdgeJV+GfVacTlOW0JCOuRWm
+ c2P1tSiwjbCLEDYtDgC9AvMMq/GW8ZOWuAQgjXGBIoOdYno8xXL7b95gsLPck4kLBL+r
+ GYA8JhWAY+uLkW8WjuELdYk9CcAlSK3SlYpvhv+82TA/Hub7jjpLFj8Tv1nzqtVnbULa
+ UN2jc3vHeQzL5kGo2znYtToCwA1h1LZRVvcWX3PxLzXn7ZNogSWQJqe7X5lW/ShOFTwM
+ WZhgUWd9uWkK6TefFQsGhM7LZqdH9jeU1You33TrAJa6wCsjO1SEKIYPJqh5pwIq7s9h
+ i5gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
+ :mime-version:content-transfer-encoding;
+ bh=dBIPTKEm+35eKbx/9PS4KpCo8sSYnzNJtUtNjxeOhPA=;
+ b=gsZR8gJhOKawVjI30Od33y5Q/l922NbO7ooDn7K5Zi5UgrP1VSRARqOvpOZCWDvzwW
+ pxQxcCpEsqD9PkK4VdgUIj399l7nS7M7EDYS6AoiDQ2M3f7NsMgen79NhDLCkzjMykJC
+ bubm3qqMNdlkPob24Jr+rJvV6SmywyqV6W+RIVGecsW5pp6YvK/esllzV1ZgtMvlOf2H
+ wCmVbKi5Ao1VAf5AnlB+GLITI48x/6OGqMzfsubfvOKUcwXLuHHIs+q7357cuBAg7T+O
+ +RPH86iVk+Sg7iJeBP9pLOZXhcD1LwsAWeGVgs3LRIGxaa0xcAoIRVE7+UWNTwj76YIH
+ z7kg==
+X-Gm-Message-State: AOAM533HVB96p/RwP3PgyEfpgQeWxwTqTMmeZzw4fk4ef2Uu8lNlle73
+ k61665Vmn+qDA4wuVqD+RLR1nQ==
+X-Google-Smtp-Source: ABdhPJyil/HdKrsvgCf0n57NvZQGjb1D+bnZjE+GmZeIZ7uMcN1DNgxDJDjxNuy1W9Raw/rQiCzToQ==
+X-Received: by 2002:a17:90a:f98c:: with SMTP id
+ cq12mr3762492pjb.191.1611726668617; 
+ Tue, 26 Jan 2021 21:51:08 -0800 (PST)
+Received: from localhost (76-210-143-223.lightspeed.sntcca.sbcglobal.net.
+ [76.210.143.223])
+ by smtp.gmail.com with ESMTPSA id i3sm858185pfq.194.2021.01.26.21.51.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 26 Jan 2021 21:51:07 -0800 (PST)
+Date: Tue, 26 Jan 2021 21:51:07 -0800 (PST)
+X-Google-Original-Date: Tue, 26 Jan 2021 21:49:47 PST (-0800)
+Subject: Re: [PATCH v3 9/9] docs/system: riscv: Add documentation for sifive_u
+ machine
+In-Reply-To: <20210126060007.12904-10-bmeng.cn@gmail.com>
+From: Palmer Dabbelt <palmer@dabbelt.com>
+To: bmeng.cn@gmail.com
+Message-ID: <mhng-3094ddc4-83cd-4787-b2ec-04723f4e3e7a@palmerdabbelt-glaptop>
+Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=palmer@dabbelt.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,149 +85,406 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-riscv@nongnu.org, bin.meng@windriver.com,
+ Alistair Francis <Alistair.Francis@wdc.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-On 2021/1/26 下午3:42, Cindy Lu wrote:
-> Add call back function for configure interrupt.
-> Set the notifier's fd to the kernel driver when vdpa start.
-> also set -1 while vdpa stop. then the kernel will release
-> the related resource
+On Mon, 25 Jan 2021 22:00:07 PST (-0800), bmeng.cn@gmail.com wrote:
+> From: Bin Meng <bin.meng@windriver.com>
 >
-> Signed-off-by: Cindy Lu <lulu@redhat.com>
+> This adds detailed documentation for RISC-V `sifive_u` machine,
+> including the following information:
+>
+> - Supported devices
+> - Hardware configuration information
+> - Boot options
+> - Machine-specific options
+> - Running Linux kernel
+> - Running VxWorks kernel
+> - Running U-Boot, and with an alternate configuration
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+>
 > ---
->   hw/virtio/trace-events            |  2 ++
->   hw/virtio/vhost-vdpa.c            | 37 ++++++++++++++++++++++++++++++-
->   include/hw/virtio/vhost-backend.h |  4 ++++
->   3 files changed, 42 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> index 2060a144a2..6710835b46 100644
-> --- a/hw/virtio/trace-events
-> +++ b/hw/virtio/trace-events
-> @@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
->   vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
->   vhost_vdpa_set_owner(void *dev) "dev: %p"
->   vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-> +vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
+> Changes in v3:
+> - Convert sifive_u.rst from UTF-8 to ASCII
+>
+> Changes in v2:
+> - Correct several typos in sifive_u.rst
+> - Update doc to mention U-Boot v2021.01
+>
+>  docs/system/riscv/sifive_u.rst | 336 +++++++++++++++++++++++++++++++++
+>  docs/system/target-riscv.rst   |  10 +
+>  2 files changed, 346 insertions(+)
+>  create mode 100644 docs/system/riscv/sifive_u.rst
+>
+> diff --git a/docs/system/riscv/sifive_u.rst b/docs/system/riscv/sifive_u.rst
+> new file mode 100644
+> index 0000000000..98e7562848
+> --- /dev/null
+> +++ b/docs/system/riscv/sifive_u.rst
+> @@ -0,0 +1,336 @@
+> +SiFive HiFive Unleashed (``sifive_u``)
+> +======================================
 > +
->   
->   # virtio.c
->   virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> index 01d2101d09..cc1d39d663 100644
-> --- a/hw/virtio/vhost-vdpa.c
-> +++ b/hw/virtio/vhost-vdpa.c
-> @@ -467,20 +467,47 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
->       }
->       return ret;
->    }
-> +static void vhost_vdpa_config_notify_start(struct vhost_dev *dev,
-> +                                struct VirtIODevice *vdev, bool start)
-> +{
-> +    int fd, r;
-> +    if (start) {
-> +        fd = event_notifier_get_fd(&vdev->config_notifier);
-> +        vdev->use_config_notifier = true;
-> +     } else {
-> +        fd = -1;
-> +        vdev->use_config_notifier = false;
-> +     }
-> +     /*set the fd call back to vdpa driver*/
-
-
-I guess checkpatch.pl might warn here. Please try to silent checkpath.pl 
-before submitting patches.
-
-
-> +    r = dev->vhost_ops->vhost_set_config_call(dev, &fd);
-> +    if (r) {
-> +        vdev->use_config_notifier = false;
-> +        info_report("vhost_vdpa_config_notify not started!");
-
-
-This looks kind of fragile. Do we need some workaround here like:
-
-1) filter out the features that depends on config interrupt
-
-or
-
-2) A timer to watch the change of config space
-
-Thanks
-
-
-> +    }
-> +    /*active the config_notifier when vdev->use_config_notifier is true*/
-> +    if ((vdev->use_config_notifier) && (start)) {
-> +        event_notifier_set(&vdev->config_notifier);
-> +    }
-> +    return;
->   
-> +}
->   static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
->   {
->       struct vhost_vdpa *v = dev->opaque;
->       trace_vhost_vdpa_dev_start(dev, started);
-> +    VirtIODevice *vdev = dev->vdev;
+> +SiFive HiFive Unleashed Development Board is the ultimate RISC-V development
+> +board featuring the Freedom U540 multi-core RISC-V processor.
 > +
->       if (started) {
->           uint8_t status = 0;
->           memory_listener_register(&v->listener, &address_space_memory);
->           vhost_vdpa_set_vring_ready(dev);
->           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
->           vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-> -
-> +        /*set the configure interrupt call back*/
-> +        vhost_vdpa_config_notify_start(dev, vdev, true);
->           return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
->       } else {
-> +        vhost_vdpa_config_notify_start(dev, vdev, false);
->           vhost_vdpa_reset_device(dev);
->           vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
->                                      VIRTIO_CONFIG_S_DRIVER);
-> @@ -546,6 +573,13 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
->       return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
->   }
->   
-> +static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
-> +                                       int *fd)
-> +{
-> +    trace_vhost_vdpa_set_config_call(dev, fd);
-> +    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
-> +}
+> +Supported devices
+> +-----------------
 > +
->   static int vhost_vdpa_get_features(struct vhost_dev *dev,
->                                        uint64_t *features)
->   {
-> @@ -611,4 +645,5 @@ const VhostOps vdpa_ops = {
->           .vhost_get_device_id = vhost_vdpa_get_device_id,
->           .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
->           .vhost_force_iommu = vhost_vdpa_force_iommu,
-> +        .vhost_set_config_call = vhost_vdpa_set_config_call,
->   };
-> diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-> index 8a6f8e2a7a..1a2fee8994 100644
-> --- a/include/hw/virtio/vhost-backend.h
-> +++ b/include/hw/virtio/vhost-backend.h
-> @@ -125,6 +125,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
->   
->   typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
->   
-> +typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-> +                                       int *fd);
+> +The ``sifive_u`` machine supports the following devices:
 > +
->   typedef struct VhostOps {
->       VhostBackendType backend_type;
->       vhost_backend_init vhost_backend_init;
-> @@ -170,6 +173,7 @@ typedef struct VhostOps {
->       vhost_vq_get_addr_op  vhost_vq_get_addr;
->       vhost_get_device_id_op vhost_get_device_id;
->       vhost_force_iommu_op vhost_force_iommu;
-> +    vhost_set_config_call_op vhost_set_config_call;
->   } VhostOps;
->   
->   extern const VhostOps user_ops;
+> + * 1 E51 / E31 core
+> + * Up to 4 U54 / U34 cores
+> + * Core Level Interruptor (CLINT)
+> + * Platform-Level Interrupt Controller (PLIC)
+> + * Power, Reset, Clock, Interrupt (PRCI)
+> + * L2 Loosely Integrated Memory (L2-LIM)
+> + * DDR memory controller
+> + * 2 UARTs
+> + * 1 GEM Ethernet controller
+> + * 1 GPIO controller
+> + * 1 One-Time Programmable (OTP) memory with stored serial number
+> + * 1 DMA controller
+> + * 2 QSPI controllers
+> + * 1 ISSI 25WP256 flash
+> + * 1 SD card in SPI mode
+> +
+> +Please note the real world HiFive Unleashed board has a fixed configuration of
+> +1 E51 core and 4 U54 core combination and the RISC-V core boots in 64-bit mode.
+> +With QEMU, one can create a machine with 1 E51 core and up to 4 U54 cores. It
+> +is also possible to create a 32-bit variant with the same peripherals except
+> +that the RISC-V cores are replaced by the 32-bit ones (E31 and U34), to help
+> +testing of 32-bit guest software.
+> +
+> +Hardware configuration information
+> +----------------------------------
+> +
+> +The ``sifive_u`` machine automatically generates a device tree blob ("dtb")
+> +which it passes to the guest. This provides information about the addresses,
+> +interrupt lines and other configuration of the various devices in the system.
+> +Guest software should discover the devices that are present in the generated
+> +DTB instead of using a DTB for the real hardware, as some of the devices are
+> +not modeled by QEMU and trying to access these devices may cause unexpected
+> +behavior.
+> +
+> +Boot options
+> +------------
+> +
+> +The ``sifive_u`` machine can start using the standard -kernel functionality
+> +for loading a Linux kernel, a VxWorks kernel, a modified U-Boot bootloader
+> +(S-mode) or ELF executable with the default OpenSBI firmware image as the
+> +-bios. It also supports booting the unmodified U-Boot bootloader using the
+> +standard -bios functionality.
+> +
+> +Machine-specific options
+> +------------------------
+> +
+> +The following machine-specific options are supported:
+> +
+> +- serial=nnn
+> +
+> +  The board serial number. When not given, the default serial number 1 is used.
+> +
+> +  SiFive reserves the first 1 KiB of the 16 KiB OTP memory for internal use.
+> +  The current usage is only used to store the serial number of the board at
+> +  offset 0xfc. U-Boot reads the serial number from the OTP memory, and uses
+> +  it to generate a unique MAC address to be programmed to the on-chip GEM
+> +  Ethernet controller. When multiple QEMU ``sifive_u`` machines are created
+> +  and connected to the same subnet, they all have the same MAC address hence
+> +  it creates an unusable network. In such scenario, user should give different
+> +  values to serial= when creating different ``sifive_u`` machines.
+> +
+> +- start-in-flash
+> +
+> +  When given, QEMU's ROM codes jump to QSPI memory-mapped flash directly.
+> +  Otherwise QEMU will jump to DRAM or L2LIM depending on the msel= value.
+> +  When not given, it defaults to direct DRAM booting.
+> +
+> +- msel=[6|11]
+> +
+> +  Mode Select (MSEL[3:0]) pins value, used to control where to boot from.
+> +
+> +  The FU540 SoC supports booting from several sources, which are controlled
+> +  using the Mode Select pins on the chip. Typically, the boot process runs
+> +  through several stages before it begins execution of user-provided programs.
+> +  These stages typically include the following:
+> +
+> +  1. Zeroth Stage Boot Loader (ZSBL), which is contained in an on-chip mask
+> +     ROM and provided by QEMU. Note QEMU implemented ROM codes are not the
+> +     same as what is programmed in the hardware. The QEMU one is a simplified
+> +     version, but it provides the same functionality as the hardware.
+> +  2. First Stage Boot Loader (FSBL), which brings up PLLs and DDR memory.
+> +     This is U-Boot SPL.
+> +  3. Second Stage Boot Loader (SSBL), which further initializes additional
+> +     peripherals as needed. This is U-Boot proper combined with an OpenSBI
+> +     fw_dynamic firmware image.
+> +
+> +  msel=6 means FSBL and SSBL are both on the QSPI flash. msel=11 means FSBL
+> +  and SSBL are both on the SD card.
+> +
+> +Running Linux kernel
+> +--------------------
+> +
+> +Linux mainline v5.10 release is tested at the time of writing. To build a
+> +Linux mainline kernel that can be booted by the ``sifive_u`` machine in
+> +64-bit mode, simply configure the kernel using the defconfig configuration:
+> +
+> +.. code-block:: bash
+> +
+> +  $ export ARCH=riscv
+> +  $ export CROSS_COMPILE=riscv64-linux-
+> +  $ make defconfig
+> +  $ make
+> +
+> +To boot the newly built Linux kernel in QEMU with the ``sifive_u`` machine:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M sifive_u -smp 5 -m 2G \
+> +      -display none -serial stdio \
+> +      -kernel arch/riscv/boot/Image \
+> +      -initrd /path/to/rootfs.ext4 \
+> +      -append "root=/dev/ram"
+> +
+> +To build a Linux mainline kernel that can be booted by the ``sifive_u`` machine
+> +in 32-bit mode, use the rv32_defconfig configuration. A patch is required to
+> +fix the 32-bit boot issue for Linux kernel v5.10.
+> +
+> +.. code-block:: bash
+> +
+> +  $ export ARCH=riscv
+> +  $ export CROSS_COMPILE=riscv64-linux-
+> +  $ curl https://patchwork.kernel.org/project/linux-riscv/patch/20201219001356.2887782-1-atish.patra@wdc.com/mbox/ > riscv.patch
+> +  $ git am riscv.patch
+> +  $ make rv32_defconfig
+> +  $ make
+> +
+> +Replace ``qemu-system-riscv64`` with ``qemu-system-riscv32`` in the command
+> +line above to boot the 32-bit Linux kernel. A rootfs image containing 32-bit
+> +applications shall be used in order for kernel to boot to user space.
+> +
+> +Running VxWorks kernel
+> +----------------------
+> +
+> +VxWorks 7 SR0650 release is tested at the time of writing. To build a 64-bit
+> +VxWorks mainline kernel that can be booted by the ``sifive_u`` machine, simply
+> +create a VxWorks source build project based on the sifive_generic BSP, and a
+> +VxWorks image project to generate the bootable VxWorks image, by following the
+> +BSP documentation instructions.
+> +
+> +A pre-built 64-bit VxWorks 7 image for HiFive Unleashed board is available as
+> +part of the VxWorks SDK for testing as well. Instructions to download the SDK:
+> +
+> +.. code-block:: bash
+> +
+> +  $ wget https://labs.windriver.com/downloads/wrsdk-vxworks7-sifive-hifive-1.01.tar.bz2
+> +  $ tar xvf wrsdk-vxworks7-sifive-hifive-1.01.tar.bz2
+> +  $ ls bsps/sifive_generic_1_0_0_0/uboot/uVxWorks
+> +
+> +To boot the VxWorks kernel in QEMU with the ``sifive_u`` machine, use:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M sifive_u -smp 5 -m 2G \
+> +      -display none -serial stdio \
+> +      -nic tap,ifname=tap0,script=no,downscript=no \
+> +      -kernel /path/to/vxWorks \
+> +      -append "gem(0,0)host:vxWorks h=192.168.200.1 e=192.168.200.2:ffffff00 u=target pw=vxTarget f=0x01"
+> +
+> +It is also possible to test 32-bit VxWorks on the ``sifive_u`` machine. Create
+> +a 32-bit project to build the 32-bit VxWorks image, and use exact the same
+> +command line options with ``qemu-system-riscv32``.
+> +
+> +Running U-Boot
+> +--------------
+> +
+> +U-Boot mainline v2021.01 release is tested at the time of writing. To build a
+> +U-Boot mainline bootloader that can be booted by the ``sifive_u`` machine, use
+> +the sifive_fu540_defconfig with similar commands as described above for Linux:
+> +
+> +.. code-block:: bash
+> +
+> +  $ export CROSS_COMPILE=riscv64-linux-
+> +  $ export OPENSBI=/path/to/opensbi-riscv64-generic-fw_dynamic.bin
+> +  $ make sifive_fu540_defconfig
+> +
+> +You will get spl/u-boot-spl.bin and u-boot.itb file in the build tree.
+> +
+> +To start U-Boot using the ``sifive_u`` machine, prepare an SPI flash image, or
+> +SD card image that is properly partitioned and populated with correct contents.
+> +genimage_ can be used to generate these images.
+> +
+> +A sample configuration file for a 128 MiB SD card image is:
+> +
+> +.. code-block:: bash
+> +
+> +  $ cat genimage_sdcard.cfg
+> +  image sdcard.img {
+> +          size = 128M
+> +
+> +          hdimage {
+> +                  gpt = true
+> +          }
+> +
+> +          partition u-boot-spl {
+> +                  image = "u-boot-spl.bin"
+> +                  offset = 17K
+> +                  partition-type-uuid = 5B193300-FC78-40CD-8002-E86C45580B47
+> +          }
+> +
+> +          partition u-boot {
+> +                  image = "u-boot.itb"
+> +                  offset = 1041K
+> +                  partition-type-uuid = 2E54B353-1271-4842-806F-E436D6AF6985
+> +          }
+> +  }
+> +
+> +SPI flash image has slightly different partition offsets, and the size has to
+> +be 32 MiB to match the ISSI 25WP256 flash on the real board:
+> +
+> +.. code-block:: bash
+> +
+> +  $ cat genimage_spi-nor.cfg
+> +  image spi-nor.img {
+> +          size = 32M
+> +
+> +          hdimage {
+> +                  gpt = true
+> +          }
+> +
+> +          partition u-boot-spl {
+> +                  image = "u-boot-spl.bin"
+> +                  offset = 20K
+> +                  partition-type-uuid = 5B193300-FC78-40CD-8002-E86C45580B47
+> +          }
+> +
+> +          partition u-boot {
+> +                  image = "u-boot.itb"
+> +                  offset = 1044K
+> +                  partition-type-uuid = 2E54B353-1271-4842-806F-E436D6AF6985
+> +          }
+> +  }
+> +
+> +Assume U-Boot binaries are put in the same directory as the config file,
+> +we can generate the image by:
+> +
+> +.. code-block:: bash
+> +
+> +  $ genimage --config genimage_<boot_src>.cfg --inputpath .
+> +
+> +Boot U-Boot from SD card, by specifying msel=11 and pass the SD card image
+> +to QEMU ``sifive_u`` machine:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M sifive_u,msel=11 -smp 5 -m 8G \
+> +      -display none -serial stdio \
+> +      -bios /path/to/u-boot-spl.bin \
+> +      -drive file=/path/to/sdcard.img,if=sd
+> +
+> +Changing msel= value to 6, allows booting U-Boot from the SPI flash:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M sifive_u,msel=6 -smp 5 -m 8G \
+> +      -display none -serial stdio \
+> +      -bios /path/to/u-boot-spl.bin \
+> +      -drive file=/path/to/spi-nor.img,if=mtd
+> +
+> +Note when testing U-Boot, QEMU automatically generated device tree blob is
+> +not used because U-Boot itself embeds device tree blobs for U-Boot SPL and
+> +U-Boot proper. Hence the number of cores and size of memory have to match
+> +the real hardware, ie: 5 cores (-smp 5) and 8 GiB memory (-m 8G).
+> +
+> +Above use case is to run upstream U-Boot for the SiFive HiFive Unleashed
+> +board on QEMU ``sifive_u`` machine out of the box. This allows users to
+> +develop and test the recommended RISC-V boot flow with a real world use
+> +case: ZSBL (in QEMU) loads U-Boot SPL from SD card or SPI flash to L2LIM,
+> +then U-Boot SPL loads the combined payload image of OpenSBI fw_dynamic
+> +firmware and U-Boot proper. However sometimes we want to have a quick test
+> +of booting U-Boot on QEMU without the needs of preparing the SPI flash or
+> +SD card images, an alternate way can be used, which is to create a U-Boot
+> +S-mode image by modifying the configuration of U-Boot:
+> +
+> +.. code-block:: bash
+> +
+> +  $ make menuconfig
+> +
+> +then manually select the following configuration in U-Boot:
+> +
+> +  Device Tree Control > Provider of DTB for DT Control > Prior Stage bootloader DTB
+> +
+> +This lets U-Boot to use the QEMU generated device tree blob. During the build,
+> +a build error will be seen below:
+> +
+> +.. code-block:: none
+> +
+> +  MKIMAGE u-boot.img
+> +  ./tools/mkimage: Can't open arch/riscv/dts/hifive-unleashed-a00.dtb: No such file or directory
+> +  ./tools/mkimage: failed to build FIT
+> +  make: *** [Makefile:1440: u-boot.img] Error 1
+> +
+> +The above errors can be safely ignored as we don't run U-Boot SPL under QEMU
+> +in this alternate configuration.
+> +
+> +Boot the 64-bit U-Boot S-mode image directly:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv64 -M sifive_u -smp 5 -m 2G \
+> +      -display none -serial stdio \
+> +      -kernel /path/to/u-boot.bin
+> +
+> +It's possible to create a 32-bit U-Boot S-mode image as well.
+> +
+> +.. code-block:: bash
+> +
+> +  $ export CROSS_COMPILE=riscv64-linux-
+> +  $ make sifive_fu540_defconfig
+> +  $ make menuconfig
+> +
+> +then manually update the following configuration in U-Boot:
+> +
+> +  Device Tree Control > Provider of DTB for DT Control > Prior Stage bootloader DTB
+> +  RISC-V architecture > Base ISA > RV32I
+> +  Boot images > Text Base > 0x80400000
+> +
+> +Use the same command line options to boot the 32-bit U-Boot S-mode image:
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-riscv32 -M sifive_u -smp 5 -m 2G \
+> +      -display none -serial stdio \
+> +      -kernel /path/to/u-boot.bin
+> +
+> +.. _genimage: https://github.com/pengutronix/genimage
+> diff --git a/docs/system/target-riscv.rst b/docs/system/target-riscv.rst
+> index 9f4b7586e5..94d99c4c82 100644
+> --- a/docs/system/target-riscv.rst
+> +++ b/docs/system/target-riscv.rst
+> @@ -58,5 +58,15 @@ undocumented; you can get a complete list by running
+>  ``qemu-system-riscv64 --machine help``, or
+>  ``qemu-system-riscv32 --machine help``.
+>
+> +..
+> +   This table of contents should be kept sorted alphabetically
+> +   by the title text of each file, which isn't the same ordering
+> +   as an alphabetical sort by filename.
+> +
+> +.. toctree::
+> +   :maxdepth: 1
+> +
+> +   riscv/sifive_u
+> +
+>  RISC-V CPU features
+>  -------------------
 
+Reviewed-by: Palmer Dabbelt <palmerdabbelt@google.com>
+
+Thanks!
 
