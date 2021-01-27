@@ -2,64 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 514113052B0
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:01:04 +0100 (CET)
-Received: from localhost ([::1]:50748 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63101305314
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:18:08 +0100 (CET)
+Received: from localhost ([::1]:55244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4dsz-0000X1-48
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:01:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40542)
+	id 1l4e9W-0003Ki-Pc
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:18:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4drP-0008WN-CC
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:59:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:40026)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4e8B-0002up-Le
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:16:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21669)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4drM-0000Z0-ML
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 00:59:22 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4e89-0000iX-8m
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:16:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611727159;
+ s=mimecast20190719; t=1611728199;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=3O7pxM7z0HFjl77zbwQ41VqfS2lpzlsFL/4RzcObj/o=;
- b=f4o+Nk9j4iksNNeRzwFBuUyUcld6Gz5Wun9gsz+6jJa3DEQnHduuKmiflv7jyTFWCyD0mf
- baZnsg5Fd9yRvSd2A8pa5iZA9GcTVRjMfJj5Y9okisVTcYH5qUl00iuxrVfXQPbcnKGZur
- xeVbHLMcP5Om8ue3/lxWPQ//Xw4M/8Q=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+veB35PiqzjQiOb4NsXtkPEgd+tmrfhlYYavz4vSZRU=;
+ b=cn2YNmcCtFrvaWWtS+SYy35gGJA9QVVsgv58IsztV/uhIhRyQSGhcnkNBzZum+UMx4mBiO
+ 01HB//pz9GZ52fM33zGzBX09yW8T/0BnbOHj9E9XiAR4qjRR9yMlm1C7m5fLsmu4/Xcd1G
+ 1+G46ByJenD4bbR+A+RpHk8MMiyOwMc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-20-VaENb8ePMRi4IhB_EHT8jA-1; Wed, 27 Jan 2021 00:59:17 -0500
-X-MC-Unique: VaENb8ePMRi4IhB_EHT8jA-1
+ us-mta-228-8ZHuu1GuMJWcsDnw8w-pNQ-1; Wed, 27 Jan 2021 01:16:37 -0500
+X-MC-Unique: 8ZHuu1GuMJWcsDnw8w-pNQ-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 073CC802B40;
- Wed, 27 Jan 2021 05:59:16 +0000 (UTC)
-Received: from thuth.com (ovpn-112-136.ams2.redhat.com [10.36.112.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E9A8260C05;
- Wed, 27 Jan 2021 05:59:05 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67ED81005504
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 06:16:36 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-136.ams2.redhat.com [10.36.112.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4E59360C05;
+ Wed, 27 Jan 2021 06:16:35 +0000 (UTC)
+Subject: Re: [PATCH] libqtest: Rework qtest_rsp()
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+References: <20210126151649.2220902-1-armbru@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] gitlab-ci.yml: Run check-tcg with TCI
-Date: Wed, 27 Jan 2021 06:59:03 +0100
-Message-Id: <20210127055903.40148-1-thuth@redhat.com>
+Message-ID: <1b8c354b-f334-c4c5-f104-354789aa02e8@redhat.com>
+Date: Wed, 27 Jan 2021 07:16:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
+In-Reply-To: <20210126151649.2220902-1-armbru@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,53 +80,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e=20?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Stefan Weil <sw@weilnetz.de>
+Cc: lvivier@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's now possible to also run the non-x86 TCG tests with TCI.
+On 26/01/2021 16.16, Markus Armbruster wrote:
+> qtest_rsp() is used in two different ways: (1) return some arguments
+> to caller, which the caller must free, and (2) return no arguments to
+> caller.  Passing non-zero @expected_args gets you (1), and passing
+> zero gets you (2).
+> 
+> Having "the return value must be freed" depend on an argument this way
+> is less than ideal.
+> 
+> Provide separate functions for the two ways: (1) qtest_rsp_args()
+> takes @expected_args (possibly zero), and returns that number of
+> arguments.  Caller must free the return value always.  (2) qtest_rsp()
+> assumes zero, and returns nothing.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   tests/qtest/libqtest.c | 50 ++++++++++++++++++++++--------------------
+>   1 file changed, 26 insertions(+), 24 deletions(-)
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Based-on: 20210126192518.2019885-1-sw@weilnetz.de
- CI-run: https://gitlab.com/huth/qemu/-/jobs/988742434#L5200
-
- .gitlab-ci.yml | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
-index de3a3d25b5..19602f4319 100644
---- a/.gitlab-ci.yml
-+++ b/.gitlab-ci.yml
-@@ -475,7 +475,7 @@ build-oss-fuzz:
- build-tci:
-   <<: *native_build_job_definition
-   variables:
--    IMAGE: fedora
-+    IMAGE: debian-all-test-cross
-   script:
-     - TARGETS="aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x86_64"
-     - mkdir build
-@@ -483,7 +483,6 @@ build-tci:
-     - ../configure --enable-tcg-interpreter
-         --target-list="$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '; done)" || { cat config.log meson-logs/meson-log.txt && exit 1; }
-     - make -j"$JOBS"
--    - make run-tcg-tests-x86_64-softmmu
-     - make tests/qtest/boot-serial-test tests/qtest/cdrom-test tests/qtest/pxe-test
-     - for tg in $TARGETS ; do
-         export QTEST_QEMU_BINARY="./qemu-system-${tg}" ;
-@@ -492,6 +491,7 @@ build-tci:
-       done
-     - QTEST_QEMU_BINARY="./qemu-system-x86_64" ./tests/qtest/pxe-test
-     - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
-+    - make check-tcg
- 
- # Alternate coroutines implementations are only really of interest to KVM users
- # However we can't test against KVM on Gitlab-CI so we can only run unit tests
--- 
-2.27.0
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
 
