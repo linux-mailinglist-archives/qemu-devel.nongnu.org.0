@@ -2,71 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F57A30647E
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 20:56:59 +0100 (CET)
-Received: from localhost ([::1]:52888 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DF28306492
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 20:59:30 +0100 (CET)
+Received: from localhost ([::1]:58038 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4qvy-0002Hk-AI
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 14:56:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55154)
+	id 1l4qyP-0004UR-6z
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 14:59:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l4quZ-0001MQ-Fq
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:55:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:53166)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4qx4-0002ul-Sl
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:58:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48744)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l4quW-0007FS-Ds
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:55:30 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4qx3-0007Yp-4k
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:58:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611777325;
+ s=mimecast20190719; t=1611777484;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3NyW/kZ+56VwfQeBLAaX4Edc8fmHHVBUMfIwCZ9PI8o=;
- b=OHR22XO8RvjT3B0jvDbV/BRbQvWhDHpvSw2se1w8ymjDZggdomUqblDKLO9PdFlHAlQ7F6
- 91uENnwduEbbm8AEQ7e9T9QgVar9o9qeNAZz9whDfk85fL/tdUDCkXB+JGGr4dXUlFYnOW
- RqczwOotzoTFkZs5K1HsCmQNDiFpxI0=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9O8sO5v0ah1R70Ua/pHntHT0+b/7r/6gGprjAP4DxEI=;
+ b=BiGu9koWPuXwgSLJt+p+h3Wueskg/5ZJCbRXo/qsxFCBAz/hVN2JzH4gngV/Xi2hpJsvhb
+ sJGe+rIBhxJ0mW5cNoi9o5lROiWDJhQ3RS/4Z5WMgLwh5mNLQRSkOApgDE400aOEvZmOcd
+ yZfpIzOjXoleftyZaxJThKbC5pT8ZL8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-317-MhpGmoQFNOWD3P7QtnBzDg-1; Wed, 27 Jan 2021 14:55:21 -0500
-X-MC-Unique: MhpGmoQFNOWD3P7QtnBzDg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
+ us-mta-114-kQxcSYDfNAm16BkgQHinsA-1; Wed, 27 Jan 2021 14:58:01 -0500
+X-MC-Unique: kQxcSYDfNAm16BkgQHinsA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id BAB18101D612;
- Wed, 27 Jan 2021 19:55:03 +0000 (UTC)
-Received: from work-vm (ovpn-115-50.ams2.redhat.com [10.36.115.50])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1373B6267C;
- Wed, 27 Jan 2021 19:54:28 +0000 (UTC)
-Date: Wed, 27 Jan 2021 19:54:25 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Subject: Re: [PATCH] IOMMU and ATS not supported by vhost-user filesystem.
-Message-ID: <20210127195425.GQ3052@work-vm>
-References: <e76462fdcfaa07208380e2a7df9b281b6e6717b8.1611685180.git.lagarcia@br.ibm.com>
- <20210127111938.GH299797@stefanha-x1.localdomain>
- <6e8d0352-8418-ebb4-2562-13d3920093b5@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 30E9C802B45;
+ Wed, 27 Jan 2021 19:58:00 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-115-94.ams2.redhat.com [10.36.115.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3559E10016FB;
+ Wed, 27 Jan 2021 19:57:59 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PULL 0/8] Block layer patches
+Date: Wed, 27 Jan 2021 20:57:45 +0100
+Message-Id: <20210127195753.59773-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <6e8d0352-8418-ebb4-2562-13d3920093b5@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,116 +73,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Leonardo Garcia <lagarcia@br.ibm.com>, lagarcia@linux.ibm.com,
- qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Laszlo Ersek (lersek@redhat.com) wrote:
-> On 01/27/21 12:19, Stefan Hajnoczi wrote:
-> > On Tue, Jan 26, 2021 at 03:23:38PM -0300, lagarcia@linux.ibm.com wrote:
-> >> From: Leonardo Garcia <lagarcia@br.ibm.com>
-> >>
-> >> Currently, as IOMMU and ATS are not supported, if a user mistakenly set
-> >> any of them and tries to mount the vhost-user filesystem inside the
-> >> guest, whenever the user tries to access the mount point, the system
-> >> will hang forever.
-> >>
-> >> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
-> >> ---
-> >>  hw/virtio/vhost-user-fs-pci.c | 7 +++++++
-> >>  hw/virtio/vhost-user-fs.c     | 5 +++++
-> >>  2 files changed, 12 insertions(+)
-> >>
-> >> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
-> >> index 2ed8492b3f..564d1fd108 100644
-> >> --- a/hw/virtio/vhost-user-fs-pci.c
-> >> +++ b/hw/virtio/vhost-user-fs-pci.c
-> >> @@ -11,6 +11,8 @@
-> >>   * top-level directory.
-> >>   */
-> >>  
-> >> +#include "qemu/osdep.h"
-> >> +#include "qapi/error.h"
-> >>  #include "qemu/osdep.h"
-> >>  #include "hw/qdev-properties.h"
-> >>  #include "hw/virtio/vhost-user-fs.h"
-> >> @@ -45,6 +47,11 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
-> >>          vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
-> >>      }
-> >>  
-> >> +    if (vpci_dev->flags & VIRTIO_PCI_FLAG_ATS) {
-> >> +        error_setg(errp, "ATS is currently not supported with vhost-user-fs-pci");
-> >> +        return;
-> >> +    }
-> > 
-> > Why is this check needed in addition to VIRTIO_F_IOMMU_PLATFORM?
-> > 
-> > What needs to be added to support ATS?
-> > 
-> >> +
-> >>      qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
-> >>  }
-> >>  
-> >> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-> >> index ac4fc34b36..914d68b3ee 100644
-> >> --- a/hw/virtio/vhost-user-fs.c
-> >> +++ b/hw/virtio/vhost-user-fs.c
-> >> @@ -203,6 +203,11 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
-> >>          return;
-> >>      }
-> >>  
-> >> +    if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
-> >> +        error_setg(errp, "IOMMU is currently not supported with vhost-user-fs");
-> >> +        return;
-> >> +    }
-> >> +
-> >>      if (!vhost_user_init(&fs->vhost_user, &fs->conf.chardev, errp)) {
-> > 
-> > I thought IOMMU support depends on the vhost-user device backend (e.g.
-> > virtiofsd), so the vhost-user backend should participate in advertising
-> > this feature.
-> 
-> ... I had the same thought when a few weeks earlier I tried to use
-> virtio-fs with an SEV guest (just OVMF), and virtiofsd crashed,
-> apparently :)
-> 
-> (I didn't report it because, well, SEV wants to prevent sharing between
-> host and guest, and virtio-fs works precisely in the opposite direction;
-> so the use case may not have much merit.)
+The following changes since commit bf159f0bdc7b8e7aa8342dedb3829ca744c1b612:
 
-Yeh I'm not expecting that to currently work; I can see some uses, but
-it's much more niche.
+  Merge remote-tracking branch 'remotes/edgar/tags/edgar/xilinx-next-2021-01-27.for-upstream' into staging (2021-01-27 17:40:25 +0000)
 
-Dave
+are available in the Git repository at:
 
-> Thanks
-> Laszlo
-> 
-> > 
-> > Perhaps the check should be:
-> > 
-> >     ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
-> >                          VHOST_BACKEND_TYPE_USER, 0);
-> >     if (ret < 0) {
-> >         error_setg_errno(errp, -ret, "vhost_dev_init failed");
-> >         goto err_virtio;
-> >     }
-> > +
-> > +   if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM) &&
-> > +       !(fs->vhost_dev.hdev_features & (1ull << VIRTIO_F_IOMMU_PLATFORM))) {
-> > +       error_setg(errp, "IOMMU is not supported by the vhost-user device backend");
-> > +       goto err_iommu_needed;
-> > +   }
-> > 
-> > Also, can this logic be made generic for all vhost-user devices? It's
-> > not really specific to vhost-user-fs.
-> > 
-> > Stefan
-> > 
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
+
+for you to fetch changes up to a44be0334beae3a9affb4a3a92cc6852993d7a84:
+
+  iotests: rename and move 169 and 199 tests (2021-01-27 20:53:14 +0100)
+
+----------------------------------------------------------------
+Block layer patches:
+
+- Fix crash on write to read-only devices
+- iotests: Rewrite 'check' in Python, get rid of 'groups' and allow
+  non-numeric test case names
+
+----------------------------------------------------------------
+Kevin Wolf (2):
+      block: Separate blk_is_writable() and blk_supports_write_perm()
+      virtio-scsi-test: Test writing to scsi-cd device
+
+Vladimir Sementsov-Ogievskiy (6):
+      iotests: 146: drop extra whitespaces from .out file
+      iotests: add findtests.py
+      iotests: add testenv.py
+      iotests: add testrunner.py
+      iotests: rewrite check into python
+      iotests: rename and move 169 and 199 tests
+
+ docs/devel/testing.rst                             |   50 +-
+ include/sysemu/block-backend.h                     |    3 +-
+ block/block-backend.c                              |   19 +-
+ hw/block/dataplane/xen-block.c                     |    2 +-
+ hw/block/fdc.c                                     |    9 +-
+ hw/block/m25p80.c                                  |    6 +-
+ hw/block/nand.c                                    |    2 +-
+ hw/block/nvme-ns.c                                 |    7 +-
+ hw/block/onenand.c                                 |    2 +-
+ hw/block/pflash_cfi01.c                            |    2 +-
+ hw/block/pflash_cfi02.c                            |    2 +-
+ hw/block/swim.c                                    |    6 +-
+ hw/block/virtio-blk.c                              |    6 +-
+ hw/block/xen-block.c                               |    2 +-
+ hw/ide/core.c                                      |    2 +-
+ hw/misc/sifive_u_otp.c                             |    2 +-
+ hw/ppc/pnv_pnor.c                                  |    2 +-
+ hw/scsi/scsi-disk.c                                |   10 +-
+ hw/scsi/scsi-generic.c                             |    4 +-
+ hw/sd/sd.c                                         |    6 +-
+ hw/usb/dev-storage.c                               |    4 +-
+ tests/qtest/virtio-scsi-test.c                     |   39 +
+ tests/qemu-iotests/findtests.py                    |  159 +++
+ tests/qemu-iotests/iotests.py                      |    8 +
+ tests/qemu-iotests/testenv.py                      |  281 +++++
+ tests/qemu-iotests/testrunner.py                   |  367 +++++++
+ Makefile                                           |    1 -
+ tests/check-block.sh                               |    3 +-
+ tests/qemu-iotests/146.out                         |  780 +++++++-------
+ tests/qemu-iotests/check                           | 1095 +++-----------------
+ tests/qemu-iotests/common.env.in                   |    3 -
+ tests/qemu-iotests/group                           |  323 ------
+ tests/qemu-iotests/meson.build                     |    3 -
+ .../{199 => tests/migrate-bitmaps-postcopy-test}   |    0
+ .../migrate-bitmaps-postcopy-test.out}             |    0
+ .../{169 => tests/migrate-bitmaps-test}            |    0
+ .../{169.out => tests/migrate-bitmaps-test.out}    |    0
+ 37 files changed, 1481 insertions(+), 1729 deletions(-)
+ create mode 100644 tests/qemu-iotests/findtests.py
+ create mode 100644 tests/qemu-iotests/testenv.py
+ create mode 100644 tests/qemu-iotests/testrunner.py
+ delete mode 100644 tests/qemu-iotests/common.env.in
+ delete mode 100644 tests/qemu-iotests/group
+ rename tests/qemu-iotests/{199 => tests/migrate-bitmaps-postcopy-test} (100%)
+ rename tests/qemu-iotests/{199.out => tests/migrate-bitmaps-postcopy-test.out} (100%)
+ rename tests/qemu-iotests/{169 => tests/migrate-bitmaps-test} (100%)
+ rename tests/qemu-iotests/{169.out => tests/migrate-bitmaps-test.out} (100%)
 
 
