@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C706306095
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 17:09:00 +0100 (CET)
-Received: from localhost ([::1]:59290 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E76143060D2
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 17:18:47 +0100 (CET)
+Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4nNL-0001rr-Uk
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 11:08:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45650)
+	id 1l4nWo-0004Vd-E1
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 11:18:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l4nMR-0001KE-UD; Wed, 27 Jan 2021 11:08:03 -0500
-Received: from mout.kundenserver.de ([217.72.192.74]:55293)
+ id 1l4nUj-0003PD-62; Wed, 27 Jan 2021 11:16:41 -0500
+Received: from mout.kundenserver.de ([217.72.192.73]:41661)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l4nMP-0005Lv-Q3; Wed, 27 Jan 2021 11:08:03 -0500
+ id 1l4nUc-0006Yy-Jv; Wed, 27 Jan 2021 11:16:36 -0500
 Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
  (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MMnru-1lNYf13vlM-00IjSG; Wed, 27 Jan 2021 17:07:40 +0100
-Subject: Re: [PATCH] MAINTAINERS: Update 9pfs tree URL
-To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <161071814430.152031.14540382419012818908.stgit@bahia.lan>
- <2867808.c4G3KLOmWt@silver> <1679340.e36fRnoiaZ@silver>
- <20210127170255.1d381a0a@bahia.lan>
+ 1MGA0o-1lCWjJ0Aw8-00Gb6W; Wed, 27 Jan 2021 17:16:21 +0100
+Subject: Re: [PATCH] tcg/tci: Restrict tci_write_reg16() to 64-bit hosts
+To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <f4bug@amsat.org>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20210123094107.2340222-1-f4bug@amsat.org>
+ <5450690d-bda6-4ea8-4e4e-006db464dbda@weilnetz.de>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <bb2628ed-0e46-16e0-030f-5b846f3e0c62@vivier.eu>
-Date: Wed, 27 Jan 2021 17:07:38 +0100
+Message-ID: <03c285be-dc42-2d7d-3327-0be42c8fe92d@vivier.eu>
+Date: Wed, 27 Jan 2021 17:16:19 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210127170255.1d381a0a@bahia.lan>
+In-Reply-To: <5450690d-bda6-4ea8-4e4e-006db464dbda@weilnetz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: fr
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:0yEBrTmcaro2gGaxJMbsxK4YymEFXSiq3jtidQe0q+5FM77cSWy
- v4IvwczAMq0h6jPuS65R6voVcxhsBOS2Ee0hhKSZEA6DgFtdG0AsmYjmQUCbZqeisuxBugi
- iSLARiAvsvVOT6Q0dvwHpu9WeFMmltu2AJDGpGzATnMRb8vPeofTxCfsrSeqEQycLVKDJrT
- toqUekPVaSnUcnJhXkh4w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4aOnpsaRhOo=:CVA44XZk295Cc+lvqYLcOs
- BOatDQQUfhT+9z7PGvCJswwQPI/zRy3r7JDIw044UHcwcQkWUO+EM3MOFdJ3WTRy3JLCbWPK7
- y/YvDzBa3tsGc1WwlxGkC7nUbWYr5ND7ZBtnxX8r4yiRClizzS4PPMSH/BI9JV9+FF+ZjYpLo
- lwtmmXjK/RDiX7AAmnd5TGXRVu6B0lyMpkjS1V5SrSo7QKxt2mOiBNCynOvPpV5h3uhuCrL5L
- ietAaKtdMSKYK6ytd9vdLw4ezEj+ObS64lIQ1uGyoqLTxJCuporn+EziWvpUqKB3Zx6h0G18m
- 6RFz041ZewhNOJbX3HmNKEzFSz35hLwKXFJlVk12UqydYw6zdBuHGNRUBJhS1mfayn1aqQCef
- lLo9GaIV7kYQp/l6KKninNR/IdS5LhTKgKe5z/8uhAtUGAwuOHt6ghJaG3G6LcxCWjML5f5e1
- //JYZ1h41A==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:pSw/wAyMj3/0d0Mm0/vVim76IHJ3YVG/7MJOnRUkjJp5yWB7vEm
+ i+cT9uoSyZqom3ePnZWdHPxSRCWJfPyo7GWusXFW6/cujSHDlDz4MySdFL/Ctx+UNvD2sUS
+ zlX1fLKzJg5jP5SpRgSXy4bWa0sD6c88wmg5kYNAMmwzNiegNsGnAgErXHd8FZjRiZCfp1y
+ HXQLgFARBjYxkIdEIWS9A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XyADAzfgy1M=:03PZPh5xySjbrOq6fQr/Ue
+ IciY0EZTfahWz7BUlIpLTjAnaJxnYGcvdFKULNdC+xastQ1tkI/+bdKhHKRn/hTdbXuh99kvq
+ x8RFNSXCp5RIap2yMaxtCIwhRzol+s0zk4+sprftTOd+x8nP0flbxCczfiZp6qfE6G1Xc2JYr
+ Ry+AVOQlGyv2+MDlsV0EVn2+R+nDFp7X39XtVfRMPx/ChO2C/gJ7yPIkf1qVRR9dqxVC6x/OQ
+ IG+n0oCeyvwwBI38edudWSbzj5gMupqmJw2BoHoeqs0Id0AGiXYEC87LgDO/u23hfWsiIOasv
+ jtaWUJwkukh6qOFyQEzP7aI4XmkvdMYOGpqX048nSkE99jpJVi/szlnGlMbYxiYNamc2pJBuI
+ 8dpE6R0zMT9qaEfR46IGdUuajn7YR4Y0Xbv2+T38WkVMA0f81RaDDic2IiORC
+Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -67,54 +67,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-devel@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 27/01/2021 à 17:02, Greg Kurz a écrit :
-> On Wed, 27 Jan 2021 15:33:51 +0100
-> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+Le 23/01/2021 à 11:30, Stefan Weil a écrit :
+> Am 23.01.21 um 10:41 schrieb Philippe Mathieu-Daudé:
 > 
->> On Freitag, 15. Januar 2021 14:50:17 CET Christian Schoenebeck wrote:
->>> On Freitag, 15. Januar 2021 14:42:24 CET Greg Kurz wrote:
->>>> I've already moved my repositories to gitlab for extra CI coverage,
->>>> and I won't use the ones at github anymore.
->>>>
->>>> Signed-off-by: Greg Kurz <groug@kaod.org>
->>>
->>> Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
->>>
->>>> ---
->>>>
->>>>  MAINTAINERS |    2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>> index cb0656aec3d4..21038d3fdfce 100644
->>>> --- a/MAINTAINERS
->>>> +++ b/MAINTAINERS
->>>> @@ -1828,7 +1828,7 @@ X: hw/9pfs/xen-9p*
->>>>
->>>>  F: fsdev/
->>>>  F: docs/interop/virtfs-proxy-helper.rst
->>>>  F: tests/qtest/virtio-9p-test.c
->>>>
->>>> -T: git https://github.com/gkurz/qemu.git 9p-next
->>>> +T: git https://gitlab.com/gkurz/qemu.git 9p-next
->>>>
->>>>  virtio-blk
->>>>  M: Stefan Hajnoczi <stefanha@redhat.com>
+>> Restrict tci_write_reg16() to 64-bit hosts to fix on 32-bit ones:
 >>
->> What's the status of this patch? I would add my T: line below just for the 
->> records. But I'd rather wait for this patch being merged to main line.
+>>    [520/1115] Compiling C object libqemu-arm-linux-user.fa.p/tcg_tci.c.o
+>>    FAILED: libqemu-arm-linux-user.fa.p/tcg_tci.c.o
+>>    tcg/tci.c:132:1: error: 'tci_write_reg16' defined but not used [-Werror=unused-function]
+>>     tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
+>>     ^~~~~~~~~~~~~~~
 >>
+>> Fixes: 2f160e0f979 ("tci: Add implementation for INDEX_op_ld16u_i64")
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>>   tcg/tci.c | 2 ++
+>>   1 file changed, 2 insertions(+)
+>>
+>> diff --git a/tcg/tci.c b/tcg/tci.c
+>> index 2311aa7d3ab..3fc82d3c79d 100644
+>> --- a/tcg/tci.c
+>> +++ b/tcg/tci.c
+>> @@ -128,11 +128,13 @@ static void tci_write_reg8(tcg_target_ulong *regs, TCGReg index, uint8_t value)
+>>       tci_write_reg(regs, index, value);
+>>   }
+>>   +#if TCG_TARGET_REG_BITS == 64
+>>   static void
+>>   tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
+>>   {
+>>       tci_write_reg(regs, index, value);
+>>   }
+>> +#endif
+>>     static void
+>>   tci_write_reg32(tcg_target_ulong *regs, TCGReg index, uint32_t value)
 > 
-> Drat... I forgot about this one and I'm not about to post a PR
-> anytime soon.
 > 
-> Laurent,
+> Thanks for fixing this. This could optionally be applied via qemu-trivial.
 > 
-> Any chance you can take this in the trivial tree ?
+> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> 
 > 
 
 Applied to my trivial-patches branch.
