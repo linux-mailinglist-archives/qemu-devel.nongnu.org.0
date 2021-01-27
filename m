@@ -2,61 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40B683053A0
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:54:46 +0100 (CET)
-Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F6903053AE
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:57:20 +0100 (CET)
+Received: from localhost ([::1]:46634 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4eiz-0003h4-8x
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:54:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50804)
+	id 1l4elT-0005GY-1W
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:57:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51096)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l4ehZ-0002up-K8
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:53:17 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:43866
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l4eit-0003ul-1p
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:54:39 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:52245)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l4ehX-0000IV-Bl
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:53:17 -0500
-Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
- [91.21.17.191])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 01419DA14DC;
- Wed, 27 Jan 2021 07:53:12 +0100 (CET)
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210125144530.2837481-1-philmd@redhat.com>
- <20210125144530.2837481-5-philmd@redhat.com>
- <20210125164746.GE3538803@redhat.com>
- <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
- <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
- <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
- <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
- <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
- <cd9265f7-4887-63bb-e36e-ace708d062c1@weilnetz.de>
- <875z3jy3tt.fsf@linaro.org>
- <89209f1b-29ad-e5df-6d45-b2480db4775e@weilnetz.de>
- <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
- is available
-Message-ID: <a8aaa601-dcb4-ed87-d7ba-f6362942b596@weilnetz.de>
-Date: Wed, 27 Jan 2021 07:53:14 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.6.1
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l4eiq-0000sj-Ae
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:54:38 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 84D3A5807BC;
+ Wed, 27 Jan 2021 01:54:34 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute6.internal (MEProxy); Wed, 27 Jan 2021 01:54:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ from:to:cc:subject:date:message-id:mime-version:content-type
+ :content-transfer-encoding; s=fm1; bh=GpQVJMbcT8lnW+YT9nHhhkONH4
+ YMa5yU+cLp/rL7Vt4=; b=uPTk4FjyREvl8/uZ3v/Wf5PUr5ZK/w9T1YpWiOF55z
+ Iml/EcD1sUtVN8kFb8eMA7hmFqtfvgnFfxhGg0po/NK+26mQs3nLmADYxYoC8NfM
+ 1Bw5Qy9o5xhYLkVSCsnTdk6B3PgDdknX4jytDkXHG1vG9MjCHcD2m779Qng2psWm
+ J0L3bbto/cR82i7FwaFB1tFUKhve1RGRt+8E9i5jcQuzyu0W6E3jbZp4rZ9eQtm1
+ ikosDIB0f7PPyCB0quLbZp+jaabKMF+i7/XRR4cKQGHKJIqnQ2WxlBno6c/EOczv
+ ub/mcbXFBf6ThapSrQKj02w4rEmXkxR4lSmSIdRdy/bg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:message-id:mime-version:subject:to:x-me-proxy
+ :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=GpQVJM
+ bcT8lnW+YT9nHhhkONH4YMa5yU+cLp/rL7Vt4=; b=FLmBUp8tLFjF3e4oyd77Dd
+ tlBzVRmPNkZsDxd2B47ORgfSJaQPKZWg1DzxS98gJB4B/kZ6bwpFzCUCmnpRmVgk
+ ZwxsC4zVgLAIQRIZzC3Q3vtlLR2G+dgoKRGPQPO3cI/0fIfiShw45a3Wz2x4U7mt
+ sPvxdau5qI5hogjqgX6C34p8dtAdPaC1NrsSHH7qvQQNaZY8/V3w4568UgGKgnI1
+ se5DJR3nnFClUGXV+vovB8IM6w/spf2EDEoDbK9JyM0I3+ljxLJHmcRMFtjMCWQi
+ yQaF+HIE5aun8ognvhzZd3r1W+KShhYNGVVEzcL8Kqhu+ZyH2QqvdQtXAw6JAPbw
+ ==
+X-ME-Sender: <xms:KQ4RYG0Fqy9O4eAK3-DaXQF2kX87prUc6hXsKzk9XpGJCZ6l-pAyOw>
+ <xme:KQ4RYJFZI8F-OOgsGAJ6DOeQAmcZOkLz_ofdxV2de2_oFuSfKe3tRAgxI14nMpAHY
+ t3f4QpGGSMWjOxCdEg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejgddutdduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvufffkffogggtgfesthekredtredtjeenucfhrhhomheplfhirgiguhhn
+ ucgjrghnghcuoehjihgrgihunhdrhigrnhhgsehflhihghhorghtrdgtohhmqeenucggtf
+ frrghtthgvrhhnpeevgeeufeegledttedutdetteefkedugeetvdffgefhledugeefgedt
+ hedvgeevleenucfkphepudduhedrudeljedrvddvgedrvddvfeenucevlhhushhtvghruf
+ hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehf
+ lhihghhorghtrdgtohhm
+X-ME-Proxy: <xmx:KQ4RYO7AkUUAp8SIxC1IDrmUAMnyCJ7OhSiEjFskdDFLZZFJEh7WvQ>
+ <xmx:KQ4RYH1lsBbbWO2Nb-zTXb3_uNNn1BSc5QBIrjLvMYiyfMT_CExtWw>
+ <xmx:KQ4RYJFIyVW0jtWkscNF2EUI3AZaYqBNxBQsBOgtBLAwSpcKoMEH2A>
+ <xmx:Kg4RYNi8udnDcC84CIU83ZgplryKtNaqDh6rA0Pp3pqGS8AkRsbL7w>
+Received: from strike.202.net.flygoat.com (unknown [115.197.224.223])
+ by mail.messagingengine.com (Postfix) with ESMTPA id B249924005A;
+ Wed, 27 Jan 2021 01:54:29 -0500 (EST)
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 0/4] MIPS Bootloader helper
+Date: Wed, 27 Jan 2021 14:54:20 +0800
+Message-Id: <20210127065424.114125-1-jiaxun.yang@flygoat.com>
+X-Mailer: git-send-email 2.30.0
 MIME-Version: 1.0
-In-Reply-To: <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=66.111.4.224;
+ envelope-from=jiaxun.yang@flygoat.com; helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -69,50 +93,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Paul Burton <paulburton@kernel.org>, Huacai Chen <chenhuacai@kernel.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.01.21 um 23:39 schrieb Richard Henderson:
+v2:
+A big reconstruction. rewrite helpers with CPU feature and sepreate
+changesets.
+v3:
+respin
 
-> On 1/26/21 9:44 AM, Stefan Weil wrote:
->> I was not talking about the TODO assertions. When I wrote TCI, I only =
-enabled
->> and included code which was triggered by my testing - that's why I sai=
-d the
->> productive code lines have 100 % test coverage. TODO assertions are no=
-t
->> productive code, but debug code which were made to detect new test cas=
-es. They
->> were successful, too, because they were triggered by some tests in `ma=
-ke
->> check-tcg`.
-> The TODO assertions are all bugs.
->
-> Any *real* dead code detection should have been done in
-> tcg/tci/tcg-target.c.inc.  What's interpreted in tcg/tci.c should be ex=
-actly
-> what is produced on the other side, and you are producing more than you=
- are
-> consuming.
+Jiaxun Yang (4):
+  hw/mips: Add a bootloader helper
+  hw/mips: Use bl_gen_kernel_jump to generate bootloaders
+  hw/mips/malta: Use bootloader helper to set BAR resgiters
+  hw/mips/boston: Use bootloader helper to set GCRs
 
+ include/hw/mips/bootloader.h |  49 +++++++++++
+ hw/mips/bootloader.c         | 164 +++++++++++++++++++++++++++++++++++
+ hw/mips/boston.c             |  64 +++-----------
+ hw/mips/fuloong2e.c          |  28 +-----
+ hw/mips/malta.c              | 109 +++++++----------------
+ hw/mips/meson.build          |   2 +-
+ 6 files changed, 260 insertions(+), 156 deletions(-)
+ create mode 100644 include/hw/mips/bootloader.h
+ create mode 100644 hw/mips/bootloader.c
 
-Unless the TCG opcodes in tcg/tci/tcg-target.c.inc are used in real-live =
-
-scenarios, they are dead code, too.
-
-Writing a test case which produces them directly (not for some real=20
-architecture) is not a real-live scenario.
-
-And the remaining TODO assertions are a good indicator that the current=20
-tests are incomplete for native TCG because they obviously don't cover=20
-all TCG opcodes.
-
-Stefan
-
-
+-- 
+2.30.0
 
 
