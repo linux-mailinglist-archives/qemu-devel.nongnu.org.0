@@ -2,68 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63E6E3063FC
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 20:28:36 +0100 (CET)
-Received: from localhost ([::1]:58262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCB403063F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 20:23:11 +0100 (CET)
+Received: from localhost ([::1]:47144 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4qUV-0008Eu-F7
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 14:28:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50582)
+	id 1l4qPG-0003Y2-VD
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 14:23:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4qRe-0005uh-Cw
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:25:38 -0500
-Received: from indium.canonical.com ([91.189.90.7]:52014)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l4qRc-00048p-Fw
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:25:38 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l4qRb-0002gq-3n
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 19:25:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 1B5DE2E8137
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 19:25:35 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l4qMF-0002la-19
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:20:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56054)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1l4qMD-0003Z2-4Q
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 14:20:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611775199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tOdw5N0J0P1eXeFXy68nOzEna83/XB4+pqmepgWSn7A=;
+ b=JH86owu8TARJq8oNXL8LkRZ60BucM+BZ/19ZxN7Qzn7alXJvPZ+2t9TOrXO7cyC440e/LC
+ Mpc1idDBC8V8E15FkNZ2qIsQ4ThDQeTBVBQU2uH27QQ6q5hVZ0+CPRDgKapWpAWxB+JBy2
+ 2TzUKUB0L5WI6DXWOWn6v/rqlZca1w0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-568-vGRIP-sOOnyibniZh5J7cw-1; Wed, 27 Jan 2021 14:19:57 -0500
+X-MC-Unique: vGRIP-sOOnyibniZh5J7cw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B9D9C803F41;
+ Wed, 27 Jan 2021 19:19:56 +0000 (UTC)
+Received: from localhost (unknown [10.40.208.33])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09F591007637;
+ Wed, 27 Jan 2021 19:19:54 +0000 (UTC)
+Date: Wed, 27 Jan 2021 20:19:52 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Daniel P. =?UTF-8?B?QmVycmFuZ8Op?=" <berrange@redhat.com>
+Subject: Re: [PATCH v3] machine: add missing doc for memory-backend option
+Message-ID: <20210127201952.14ef842d@redhat.com>
+In-Reply-To: <20210127184146.GA3653144@redhat.com>
+References: <20210121161504.1007247-1-imammedo@redhat.com>
+ <20210127104511.GF3653144@redhat.com>
+ <20210127105436.GG3653144@redhat.com>
+ <756c025a-3811-4a36-98a2-3a02bd756523@redhat.com>
+ <20210127163522.5a8db09a@redhat.com>
+ <20210127175645.GW3653144@redhat.com>
+ <2714b6bd-00f5-6232-a602-f12ea2a4ede0@redhat.com>
+ <20210127184146.GA3653144@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=imammedo@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 27 Jan 2021 19:19:31 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1912790@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: linux-user tcg
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: spiccinini
-X-Launchpad-Bug-Reporter: Santiago Piccinini (spiccinini)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161132480248.13427.4671717856160986897.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161177517223.31620.1175787033537307970.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1912790] Re: qemu-aarch64-static segfaults python3
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 5eb3f8f04dcca4454ad04587d3a9db4d4e5024fd
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,111 +85,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1912790 <1912790@bugs.launchpad.net>
+Cc: Michal Privoznik <mprivozn@redhat.com>, pkrempa@redhat.com,
+ qemu-devel@nongnu.org, pbonzini@redhat.com, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-       Status: New =3D> Invalid
+On Wed, 27 Jan 2021 18:41:46 +0000
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
 
--- =
+> On Wed, Jan 27, 2021 at 07:30:24PM +0100, Michal Privoznik wrote:
+> > On 1/27/21 6:56 PM, Daniel P. Berrang=C3=A9 wrote: =20
+> > > On Wed, Jan 27, 2021 at 04:35:22PM +0100, Igor Mammedov wrote: =20
+> > > > On Wed, 27 Jan 2021 15:24:26 +0100
+> > > > Michal Privoznik <mprivozn@redhat.com> wrote:
+> > > >  =20
+> > > > > On 1/27/21 11:54 AM, Daniel P. Berrang=C3=A9 wrote: =20
+> > > > > > On Wed, Jan 27, 2021 at 10:45:11AM +0000, Daniel P. Berrang=C3=
+=A9 wrote: =20
+> > > > > > > On Thu, Jan 21, 2021 at 11:15:04AM -0500, Igor Mammedov wrote=
+: =20
+> > > > >=20
+> > > > >  =20
+> > > > > > >=20
+> > > > > > > How does a mgmt app know which machine types need to use this
+> > > > > > > option ? The machine type names are opaque strings, and apps
+> > > > > > > must not attempt to parse or interpret the version number
+> > > > > > > inside the machine type name, as they can be changed by
+> > > > > > > distros.  IOW, saying to use it for machine types 4.0 and
+> > > > > > > older isn't a valid usage strategy IMHO. =20
+> > > > it's possible (but no necessary) to use knob with new machine types
+> > > > (defaults for these match suggested property value). =20
+> > >=20
+> > > IIUC, this means that setting the property has no impact on
+> > > migration ABI for new machine types > 4.0....
+> > >  =20
+> > > > Limiting knob usage to 4.0 and older would allow us to drop
+> > > > without extra efforts once 4.0 is deprecated/removed. =20
+> > >=20
+> > > ...so, even if we set the property unconditionally for *all*
+> > > machine types, then we can still remove it in future, becuase
+> > > its removal won't affect ABI of the 5.x, 6.x machine types. =20
+> >=20
+> > Alright, so after all you agree with proposed patch? I'm a bit confused=
+. =20
+>=20
+> +        b) for machine types 4.0 and older, user shall
+> +        use ``x-use-canonical-path-for-ramblock-id=3Doff`` backend optio=
+n
+> +        if migration to/from old QEMU (<5.0) is expected.
+>=20
+> instead of refering to machine type versions, I think it
+> could say something more like
+>=20
+>=20
+>       b) if the ``x-use-canonical-path-for-ramblock-id`` property
+>          exists, it should be set to ``off``,=20
+>          if migration to/from old QEMU (<5.0) is expected.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1912790
+Documentation describes exact limitations/req.
+libvirt can't distinguish types so it can ignore it and apply to all machin=
+e types.
+Others may use it as described if they are able to distinguish
+machine types.
+So I'd like to keep it the way it's written instead of putting
+blanket over all machine types.
 
-Title:
-  qemu-aarch64-static segfaults python3
+> Assuming it genuinely does not have any ABI impact on new machine
+> types.
+x-use-canonical-path-for-ramblock-id is 'off' by default, so
+if one turns off it explicitly it won't change anything for
+new machine types.
 
-Status in QEMU:
-  Invalid
+>=20
+> Regards,
+> Daniel
 
-Bug description:
-  qemu-aarch64-static is segfaulting in a debian build process using
-  debootstrap.
-
-  ```
-  Type "apropos word" to search for commands related to "word"...
-  Reading symbols from /usr/bin/qemu-aarch64-static...
-  Reading symbols from /usr/lib/debug/.build-id/30/efd3930fb9519b21470b1136=
-79376f2ffbb41a.debug...
-  [New LWP 21817]
-  [New LWP 21819]
-
-  warning: Corrupted shared library list: 0xd5f140 !=3D 0x0
-  Warning: couldn't activate thread debugging using libthread_db: Cannot fi=
-nd new threads: debugger service failed
-  Core was generated by `/usr/bin/qemu-aarch64-static /usr/bin/python3.9 -c=
- import imp; print(imp.get_ta'.
-  Program terminated with signal SIGSEGV, Segmentation fault.
-  #0  have_mmap_lock () at ../../linux-user/mmap.c:43
-  43          return mmap_lock_count > 0 ? true : false;
-  [Current thread is 1 (LWP 21817)]
-  (gdb) bt
-  #0  have_mmap_lock () at ../../linux-user/mmap.c:43
-  #1  0x000000000058eb2c in page_set_flags (start=3Dstart@entry=3D4194304, =
-end=3Dend@entry=3D26451968, flags=3Dflags@entry=3D8) at ../../accel/tcg/tra=
-nslate-all.c:2568
-  #2  0x00000000005638cd in target_mmap (start=3Dstart@entry=3D4194304, len=
-=3D<optimized out>, len@entry=3D22257160, target_prot=3Dtarget_prot@entry=
-=3D0, flags=3D16434, =
-
-      fd=3Dfd@entry=3D-1, offset=3Doffset@entry=3D0) at ../../linux-user/mm=
-ap.c:602
-  #3  0x000000000057042d in load_elf_image (image_name=3D0x7ffff7b7e8d8 "/u=
-sr/bin/python3.9", image_fd=3D3, info=3Dinfo@entry=3D0x7ffff7b7ce70, =
-
-      pinterp_name=3Dpinterp_name@entry=3D0x7ffff7b7cbd0, bprm_buf=3Dbprm_b=
-uf@entry=3D0x7ffff7b7d080 "\177ELF\002\001\001") at ../../linux-user/elfloa=
-d.c:2700
-  #4  0x0000000000570b9c in load_elf_binary (bprm=3Dbprm@entry=3D0x7ffff7b7=
-d080, info=3Dinfo@entry=3D0x7ffff7b7ce70) at ../../linux-user/elfload.c:3104
-  #5  0x00000000005c2fdb in loader_exec (fdexec=3Dfdexec@entry=3D3, filenam=
-e=3D<optimized out>, argv=3Dargv@entry=3D0x2622910, envp=3Denvp@entry=3D0x2=
-686340, =
-
-      regs=3Dregs@entry=3D0x7ffff7b7cf70, infop=3Dinfop@entry=3D0x7ffff7b7c=
-e70, bprm=3D<optimized out>) at ../../linux-user/linuxload.c:147
-  #6  0x00000000004027f7 in main (argc=3D<optimized out>, argv=3D0x7ffff7b7=
-d638, envp=3D<optimized out>) at ../../linux-user/main.c:810
-
-  (gdb) i r
-  rax            0x0                 0
-  rbx            0x400000            4194304
-  rcx            0x7a95d2            8033746
-  rdx            0x8                 8
-  rsi            0x193a000           26451968
-  rdi            0x400000            4194304
-  rbp            0x400000            0x400000
-  rsp            0x7ffff7b7c978      0x7ffff7b7c978
-  r8             0xffffffff          4294967295
-  r9             0x0                 0
-  r10            0x4032              16434
-  r11            0x206               518
-  r12            0x193a000           26451968
-  r13            0x8                 8
-  r14            0x8                 8
-  r15            0x193a000           26451968
-  rip            0x562f20            0x562f20 <have_mmap_lock>
-  eflags         0x10206             [ PF IF RF ]
-  cs             0x33                51
-  ss             0x2b                43
-  ds             0x0                 0
-  es             0x0                 0
-  fs             0x0                 0
-  gs             0x0                 0
-
-  ```
-
-  Python3.9 is run as part of the installation of python3-minimal and
-  the segfaults happens reliably here. Debian versionn bullseye
-  (testing)
-
-  Version: qemu-aarch64 version 5.2.0 (Debian 1:5.2+dfsg-3)
-
-  Host is a qemu-system-x86_64: Linux runner 4.19.0-13-amd64 #1 SMP
-  Debian 4.19.160-2 (2020-11-28) x86_64 GNU/Linux.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1912790/+subscriptions
 
