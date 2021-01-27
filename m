@@ -2,82 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2ADCD304F2B
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 03:53:11 +0100 (CET)
-Received: from localhost ([::1]:50350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4779C304F51
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 04:05:40 +0100 (CET)
+Received: from localhost ([::1]:56986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4axB-0006UE-LN
-	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 21:53:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48902)
+	id 1l4b9G-0001Xl-H6
+	for lists+qemu-devel@lfdr.de; Tue, 26 Jan 2021 22:05:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50184)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4awI-00063U-2O
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 21:52:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29611)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4awE-0001wP-Kp
- for qemu-devel@nongnu.org; Tue, 26 Jan 2021 21:52:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611715927;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=tuWMaOKHTFVTlXIfTW8bFgbvs3oLhr9O6+VXohSQYw0=;
- b=Ccjzo/s/BGbnS/8LAhsGiedG5efEB/K/Ms/oLTkNHtJBU/BkOSX7NwkowOf+BZnjDC7KvA
- t9qqDSvTtYOjQkfdXz6jO8DI6BqXEQUBUatA2xFe4cY13htYJrvtoLkgnZROJbDxcBON1A
- bmKTFkvvbp81pbH6UZYbGgQetYISSjs=
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com
- [209.85.214.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-382-LSG-3tmNOPK-cg9C7s585w-1; Tue, 26 Jan 2021 21:52:05 -0500
-X-MC-Unique: LSG-3tmNOPK-cg9C7s585w-1
-Received: by mail-pl1-f199.google.com with SMTP id c5so352059plr.4
- for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 18:52:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=tuWMaOKHTFVTlXIfTW8bFgbvs3oLhr9O6+VXohSQYw0=;
- b=oTOM3SS2aEx0WytXD/lt51X9n4UlWp0WyVvAVquSWwXjGm8VW4BHe3A0GycCZjF0wh
- sajzcd5A6Fn8GlBtbyrknaLVnctGfoTmdiFRBwauoSBTtHYNDa5XDcpXtd0JYNNM1AgP
- tkKn48LiMQn8RPjn484Eu1YjU+k1igp1LPuOvf+8Lq+QhPqs6bi8tLgX5DUWFkK1u7fY
- iRjipUrqCpJlRbYFvLL2sD1UxMszNwTsvWigS0K7+/6Lff9tvIrFWkQRMuAEyO2mVXjj
- sp7eQw4LddrxYrmF9ITCnsmBPQpe7GINv0RmfCEIyoFofvmxIjvpnvxpgd5Bv1xmvC2u
- fOhA==
-X-Gm-Message-State: AOAM531T1B1qYy5w0LwIzogzLfrIYH+J7DR2/SIyF8QKjIrDneLzioK8
- femRtt4E4f5BVZhE9yun3i+NFtUJHVOIGt3iS/+XJdIboLWzwzRXegCJ/9qcR/QwjWT24RgzpSN
- qMKPOkIQGeT1sHs3bTv9d8tqwO2ggQsE=
-X-Received: by 2002:a17:90a:e656:: with SMTP id
- ep22mr3097060pjb.127.1611715924716; 
- Tue, 26 Jan 2021 18:52:04 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwkYmoLrjPa61rk5Xr3x4Mn5xqLqKK/1EWbpRscWw9Nk9BT3JVZel514RR10r+0EA7uk4mS1vvXghhVqHMoo/c=
-X-Received: by 2002:a17:90a:e656:: with SMTP id
- ep22mr3097047pjb.127.1611715924467; 
- Tue, 26 Jan 2021 18:52:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l4b7Z-000114-9P
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 22:03:53 -0500
+Received: from wnew3-smtp.messagingengine.com ([64.147.123.17]:33145)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
+ id 1l4b7U-0005t5-G6
+ for qemu-devel@nongnu.org; Tue, 26 Jan 2021 22:03:53 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+ by mailnew.west.internal (Postfix) with ESMTP id 53CE5B81;
+ Tue, 26 Jan 2021 22:03:45 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute6.internal (MEProxy); Tue, 26 Jan 2021 22:03:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
+ subject:to:cc:references:from:message-id:date:mime-version
+ :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=p
+ SCSMA99Kf60lL4J2AYE3SLLVkCciT8IyRPmvCA1hlU=; b=N/RzuCLNVh6WOSLol
+ SqCV0/orjHZ1wQZYiamb332xBM4SkuAZx97kKfmECz1zr6aOOxYyCxJLXWUOx3/4
+ mimxEphIZP8pOmwbbW0kaY51HNw90SFw4PSPFoeu4THPmLkc3WmSbpkPJMfRX+Yn
+ yuPfcBs5+dPeJfnxzHQkXRhD7v5XKbVcC36ZDExd+d4nr8/i4umHlr/ApH6zu3s7
+ kLcUoI+aPBluMoV8rcZ1fuJB1fJap4A6gngi9Mr3BGB0w/6wMsRUHEVAA6ZPdf7q
+ kCxV4fG/MZcAh60lk0HVBXjCbLst91/F2f4jDLHy2kWfNrDClcZAg5B6c4rStckv
+ /SIbg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:content-transfer-encoding:content-type
+ :date:from:in-reply-to:message-id:mime-version:references
+ :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm1; bh=pSCSMA99Kf60lL4J2AYE3SLLVkCciT8IyRPmvCA1h
+ lU=; b=EnjIey01Zb21TqShrIq4ZfNOp22Ex9T86juhwII0k3ZsvDReTY94XaDH4
+ 2NXnEJk8Yg0IkgNSVnWzbcnl7T5CpQULyMY06hmDY1e6P8ApD+RS/BKizC/oMvqX
+ PoPtYQzU3Hpkhw/UpKBrK8BHcfdb6J8XLjcFyeX+ettntT7yIE+UGXIYLVifDLGu
+ SG2lax4zbIuVogTjL5/x+9lyUQc4wCSmZzDO4doI+vOPaPYUKIdAqARoY/jHCxok
+ fuKItL8Rxnra6XRO2tlE4ZDWEcLxzLQnW9Wsh8zdAoVLrFQ2T5FPdta72YO3xZBH
+ MkR3N1fnw6CSzVKZb2Sgu4gPJyP9Q==
+X-ME-Sender: <xms:D9gQYB7uM5GUy8NTgO33whw8FQ5gpMgIPTEZFowJ78YE_JpjErozwA>
+ <xme:D9gQYO5yqUqmEyDmfayK8dnbdrR0hh1jkHFK2M9ZRNzvL06CtXwXreByg_8QCJVdv
+ GXYdpR1REBjk-USbZE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdejgdehgecutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefuvfhfhffkffgfgggjtgfgsehtkeertddtfeejnecuhfhrohhmpeflihgrgihu
+ nhcujggrnhhguceojhhirgiguhhnrdihrghnghesfhhlhihgohgrthdrtghomheqnecugg
+ ftrfgrthhtvghrnhepiefhgffhieekudegjeevgfffveegveegheffhfduieeiffffveff
+ ueegveefgfefnecukfhppeeghedrfeefrdehtddrvdehgeenucevlhhushhtvghrufhiii
+ gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjihgrgihunhdrhigrnhhgsehflhih
+ ghhorghtrdgtohhm
+X-ME-Proxy: <xmx:D9gQYIcbMFYeJks0G0eW3hiENu-H0zpqTEiDBOpgic7boMTfGcieyQ>
+ <xmx:D9gQYKJujqJOSYRYeuTjw63vZLSnw2PQY5HutXNhBAP9ziDAqcPDbg>
+ <xmx:D9gQYFJrpuOFf18Kicj-aGQGExkeK6uQjYKlTrmEeOD3qLayxyY0jA>
+ <xmx:ENgQYMXQwOL9Cmr05Ayntx8yShoyL2ur6v8ccboYH9e_WZMQ7-Sd6lSR5zw>
+Received: from [0.0.0.0] (li1000-254.members.linode.com [45.33.50.254])
+ by mail.messagingengine.com (Postfix) with ESMTPA id CFE71108005F;
+ Tue, 26 Jan 2021 22:03:41 -0500 (EST)
+Subject: Re: [PATCH v2 5/8] hw/mips: Use bl_gen_kernel_jump to generate
+ bootloaders
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20201215064200.28751-1-jiaxun.yang@flygoat.com>
+ <20201215064507.30148-2-jiaxun.yang@flygoat.com>
+ <7dac375f-0cc8-7855-4578-e54b319bd2af@amsat.org>
+From: Jiaxun Yang <jiaxun.yang@flygoat.com>
+Message-ID: <5a22bbe1-5023-6fc3-a41b-8d72ec2bb4a1@flygoat.com>
+Date: Wed, 27 Jan 2021 11:03:37 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-References: <20210126074254.3225-1-lulu@redhat.com>
- <20210126074254.3225-6-lulu@redhat.com>
- <20210126145304.4zln64yyjbrdbq4p@steredhat>
-In-Reply-To: <20210126145304.4zln64yyjbrdbq4p@steredhat>
-From: Cindy Lu <lulu@redhat.com>
-Date: Wed, 27 Jan 2021 10:51:27 +0800
-Message-ID: <CACLfguUZ_81YZi7bgBpDQvTLkJW8n6e7rWv9RP=9p4V3XVS-0Q@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] vhost-vdpa: add callback function for configure
- interrupt
-To: Stefano Garzarella <sgarzare@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=lulu@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <7dac375f-0cc8-7855-4578-e54b319bd2af@amsat.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+Received-SPF: pass client-ip=64.147.123.17;
+ envelope-from=jiaxun.yang@flygoat.com; helo=wnew3-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,139 +102,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jason Wang <jasowang@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
- Michael Tsirkin <mst@redhat.com>
+Cc: chenhuacai@kernel.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, paulburton@kernel.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 26, 2021 at 10:53 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
+在 2021/1/7 上午1:48, Philippe Mathieu-Daudé 写道:
+> +Alex
 >
-> On Tue, Jan 26, 2021 at 03:42:54PM +0800, Cindy Lu wrote:
-> >Add call back function for configure interrupt.
-> >Set the notifier's fd to the kernel driver when vdpa start.
-> >also set -1 while vdpa stop. then the kernel will release
-> >the related resource
-> >
-> >Signed-off-by: Cindy Lu <lulu@redhat.com>
-> >---
-> > hw/virtio/trace-events            |  2 ++
-> > hw/virtio/vhost-vdpa.c            | 37 ++++++++++++++++++++++++++++++-
-> > include/hw/virtio/vhost-backend.h |  4 ++++
-> > 3 files changed, 42 insertions(+), 1 deletion(-)
-> >
-> >diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> >index 2060a144a2..6710835b46 100644
-> >--- a/hw/virtio/trace-events
-> >+++ b/hw/virtio/trace-events
-> >@@ -52,6 +52,8 @@ vhost_vdpa_set_vring_call(void *dev, unsigned int index, int fd) "dev: %p index:
-> > vhost_vdpa_get_features(void *dev, uint64_t features) "dev: %p features: 0x%"PRIx64
-> > vhost_vdpa_set_owner(void *dev) "dev: %p"
-> > vhost_vdpa_vq_get_addr(void *dev, void *vq, uint64_t desc_user_addr, uint64_t avail_user_addr, uint64_t used_user_addr) "dev: %p vq: %p desc_user_addr: 0x%"PRIx64" avail_user_addr: 0x%"PRIx64" used_user_addr: 0x%"PRIx64
-> >+vhost_vdpa_set_config_call(void *dev, int *fd)"dev: %p fd: %p"
-> >+
-> >
-> > # virtio.c
-> > virtqueue_alloc_element(void *elem, size_t sz, unsigned in_num, unsigned out_num) "elem %p size %zd in_num %u out_num %u"
-> >diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >index 01d2101d09..cc1d39d663 100644
-> >--- a/hw/virtio/vhost-vdpa.c
-> >+++ b/hw/virtio/vhost-vdpa.c
-> >@@ -467,20 +467,47 @@ static int vhost_vdpa_get_config(struct vhost_dev *dev, uint8_t *config,
-> >     }
-> >     return ret;
-> >  }
-> >+static void vhost_vdpa_config_notify_start(struct vhost_dev *dev,
-> >+                                struct VirtIODevice *vdev, bool start)
-> >+{
-> >+    int fd, r;
-> >+    if (start) {
-> >+        fd = event_notifier_get_fd(&vdev->config_notifier);
-> >+        vdev->use_config_notifier = true;
-> >+     } else {
->        ^
-> >+        fd = -1;
-> >+        vdev->use_config_notifier = false;
-> >+     }
->        ^
-> >+     /*set the fd call back to vdpa driver*/
->        ^
->        It seems to me that there is an extra space in these places.
+> On 12/15/20 7:45 AM, Jiaxun Yang wrote:
+>> Replace embedded binary with generated code.
+>>
+>> Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+>> ---
+>>   hw/mips/boston.c    | 17 ++---------------
+>>   hw/mips/fuloong2e.c | 28 ++++------------------------
+>>   hw/mips/malta.c     | 41 ++++++++++-------------------------------
+>>   3 files changed, 16 insertions(+), 70 deletions(-)
+>>
+>> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+>> index c3b94c68e1..b622222c7d 100644
+>> --- a/hw/mips/boston.c
+>> +++ b/hw/mips/boston.c
+>> @@ -27,6 +27,7 @@
+>>   #include "hw/ide/ahci.h"
+>>   #include "hw/loader.h"
+>>   #include "hw/loader-fit.h"
+>> +#include "hw/mips/bootloader.h"
+>>   #include "hw/mips/cps.h"
+>>   #include "hw/pci-host/xilinx-pcie.h"
+>>   #include "hw/qdev-clock.h"
+>> @@ -324,21 +325,7 @@ static void gen_firmware(uint32_t *p, hwaddr kernel_entry, hwaddr fdt_addr,
+>>        * a2/$6 = 0
+>>        * a3/$7 = 0
+>>        */
+>> -    stl_p(p++, 0x2404fffe);                     /* li   $4, -2 */
+>> -                                                /* lui  $5, hi(fdt_addr) */
+>> -    stl_p(p++, 0x3c050000 | ((fdt_addr >> 16) & 0xffff));
+>> -    if (fdt_addr & 0xffff) {                    /* ori  $5, lo(fdt_addr) */
+>> -        stl_p(p++, 0x34a50000 | (fdt_addr & 0xffff));
+>> -    }
+>> -    stl_p(p++, 0x34060000);                     /* li   $6, 0 */
+>> -    stl_p(p++, 0x34070000);                     /* li   $7, 0 */
+>> -
+>> -    /* Load kernel entry address & jump to it */
+>> -                                                /* lui  $25, hi(kernel_entry) */
+>> -    stl_p(p++, 0x3c190000 | ((kernel_entry >> 16) & 0xffff));
+>> -                                                /* ori  $25, lo(kernel_entry) */
+>> -    stl_p(p++, 0x37390000 | (kernel_entry & 0xffff));
+>> -    stl_p(p++, 0x03200009);                     /* jr   $25 */
+> Eh, no delay slot NOP :)
 >
-sure, I will fix this
-> >+    r = dev->vhost_ops->vhost_set_config_call(dev, &fd);
-> >+    if (r) {
-> >+        vdev->use_config_notifier = false;
-> >+        info_report("vhost_vdpa_config_notify not started!");
-> >+    }
-> >+    /*active the config_notifier when vdev->use_config_notifier is true*/
-> >+    if ((vdev->use_config_notifier) && (start)) {
-> >+        event_notifier_set(&vdev->config_notifier);
-> >+    }
-> >+    return;
-> >
-> >+}
+>> +    bl_gen_jump_kernel(&p, 0, (int32_t)-2, fdt_addr, 0, 0, kernel_entry);
+>>   }
+>>   
+> ...
 >
-> Here and also in other patches I would leave a new line between two
-> functions.
+>> diff --git a/hw/mips/malta.c b/hw/mips/malta.c
+>> index 9afc0b427b..ffd67b8293 100644
+>> --- a/hw/mips/malta.c
+>> +++ b/hw/mips/malta.c
+>> @@ -37,6 +37,7 @@
+>>   #include "hw/i2c/smbus_eeprom.h"
+>>   #include "hw/block/flash.h"
+>>   #include "hw/mips/mips.h"
+>> +#include "hw/mips/bootloader.h"
+>>   #include "hw/mips/cpudevs.h"
+>>   #include "hw/pci/pci.h"
+>>   #include "sysemu/sysemu.h"
+>> @@ -844,6 +845,7 @@ static void write_bootloader_nanomips(uint8_t *base, uint64_t run_addr,
+>>   static void write_bootloader(uint8_t *base, uint64_t run_addr,
+>>                                uint64_t kernel_entry)
+>>   {
+>> +    target_ulong a0;
+>>       uint32_t *p;
+>>   
+>>       /* Small bootloader */
+>> @@ -872,30 +874,6 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+>>       /* Second part of the bootloader */
+>>       p = (uint32_t *) (base + 0x580);
+>>   
+>> -    if (semihosting_get_argc()) {
+>> -        /* Preserve a0 content as arguments have been passed */
+>> -        stl_p(p++, 0x00000000);              /* nop */
+>> -    } else {
+>> -        stl_p(p++, 0x24040002);              /* addiu a0, zero, 2 */
+>> -    }
+>> -
+>> -    /* lui sp, high(ENVP_VADDR) */
+>> -    stl_p(p++, 0x3c1d0000 | (((ENVP_VADDR - 64) >> 16) & 0xffff));
+>> -    /* ori sp, sp, low(ENVP_VADDR) */
+>> -    stl_p(p++, 0x37bd0000 | ((ENVP_VADDR - 64) & 0xffff));
+>> -    /* lui a1, high(ENVP_VADDR) */
+>> -    stl_p(p++, 0x3c050000 | ((ENVP_VADDR >> 16) & 0xffff));
+>> -    /* ori a1, a1, low(ENVP_VADDR) */
+>> -    stl_p(p++, 0x34a50000 | (ENVP_VADDR & 0xffff));
+>> -    /* lui a2, high(ENVP_VADDR + 8) */
+>> -    stl_p(p++, 0x3c060000 | (((ENVP_VADDR + 8) >> 16) & 0xffff));
+>> -    /* ori a2, a2, low(ENVP_VADDR + 8) */
+>> -    stl_p(p++, 0x34c60000 | ((ENVP_VADDR + 8) & 0xffff));
+>> -    /* lui a3, high(ram_low_size) */
+>> -    stl_p(p++, 0x3c070000 | (loaderparams.ram_low_size >> 16));
+>> -    /* ori a3, a3, low(ram_low_size) */
+>> -    stl_p(p++, 0x34e70000 | (loaderparams.ram_low_size & 0xffff));
+>> -
+>>       /* Load BAR registers as done by YAMON */
+>>       stl_p(p++, 0x3c09b400);                  /* lui t1, 0xb400 */
+>>   
+>> @@ -947,13 +925,14 @@ static void write_bootloader(uint8_t *base, uint64_t run_addr,
+>>   #endif
+>>       stl_p(p++, 0xad280088);                  /* sw t0, 0x0088(t1) */
+>>   
+>> -    /* Jump to kernel code */
+>> -    stl_p(p++, 0x3c1f0000 |
+>> -          ((kernel_entry >> 16) & 0xffff));  /* lui ra, high(kernel_entry) */
+>> -    stl_p(p++, 0x37ff0000 |
+>> -          (kernel_entry & 0xffff));          /* ori ra, ra, low(kernel_entry) */
+>> -    stl_p(p++, 0x03e00009);                  /* jalr ra */
+>> -    stl_p(p++, 0x00000000);                  /* nop */
+>> +    if (semihosting_get_argc()) {
+>> +        a0 = 0;
+> I never used semihosting with Malta, but it seems you are
+> clearing $a0 content.
+
+That's what original code did.
+I guess when semihosting is enabled, arguments are going to be
+passed by semi-syscall instead of boot registers?
+
+Thanks.
+
+- Jiaxun
+
 >
-sure. will fix this
-> > static int vhost_vdpa_dev_start(struct vhost_dev *dev, bool started)
-> > {
-> >     struct vhost_vdpa *v = dev->opaque;
-> >     trace_vhost_vdpa_dev_start(dev, started);
-> >+    VirtIODevice *vdev = dev->vdev;
-> >+
-> >     if (started) {
-> >         uint8_t status = 0;
-> >         memory_listener_register(&v->listener, &address_space_memory);
-> >         vhost_vdpa_set_vring_ready(dev);
-> >         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_DRIVER_OK);
-> >         vhost_vdpa_call(dev, VHOST_VDPA_GET_STATUS, &status);
-> >-
-> >+        /*set the configure interrupt call back*/
-> >+        vhost_vdpa_config_notify_start(dev, vdev, true);
-> >         return !(status & VIRTIO_CONFIG_S_DRIVER_OK);
-> >     } else {
-> >+        vhost_vdpa_config_notify_start(dev, vdev, false);
-> >         vhost_vdpa_reset_device(dev);
-> >         vhost_vdpa_add_status(dev, VIRTIO_CONFIG_S_ACKNOWLEDGE |
-> >                                    VIRTIO_CONFIG_S_DRIVER);
-> >@@ -546,6 +573,13 @@ static int vhost_vdpa_set_vring_call(struct vhost_dev *dev,
-> >     return vhost_vdpa_call(dev, VHOST_SET_VRING_CALL, file);
-> > }
-> >
-> >+static int vhost_vdpa_set_config_call(struct vhost_dev *dev,
-> >+                                       int *fd)
-> >+{
-> >+    trace_vhost_vdpa_set_config_call(dev, fd);
-> >+    return vhost_vdpa_call(dev, VHOST_VDPA_SET_CONFIG_CALL, fd);
-> >+}
-> >+
-> > static int vhost_vdpa_get_features(struct vhost_dev *dev,
-> >                                      uint64_t *features)
-> > {
-> >@@ -611,4 +645,5 @@ const VhostOps vdpa_ops = {
-> >         .vhost_get_device_id = vhost_vdpa_get_device_id,
-> >         .vhost_vq_get_addr = vhost_vdpa_vq_get_addr,
-> >         .vhost_force_iommu = vhost_vdpa_force_iommu,
-> >+        .vhost_set_config_call = vhost_vdpa_set_config_call,
-> > };
-> >diff --git a/include/hw/virtio/vhost-backend.h b/include/hw/virtio/vhost-backend.h
-> >index 8a6f8e2a7a..1a2fee8994 100644
-> >--- a/include/hw/virtio/vhost-backend.h
-> >+++ b/include/hw/virtio/vhost-backend.h
-> >@@ -125,6 +125,9 @@ typedef int (*vhost_get_device_id_op)(struct vhost_dev *dev, uint32_t *dev_id);
-> >
-> > typedef bool (*vhost_force_iommu_op)(struct vhost_dev *dev);
-> >
-> >+typedef int (*vhost_set_config_call_op)(struct vhost_dev *dev,
-> >+                                       int *fd);
->                                           ^
->                                           One more space :-)
->
-Thanks  Stefano , will fix this
-> Thanks,
-> Stefano
->
+>> +    } else {
+>> +        a0 = 2;
+>> +    }
+>> +    bl_gen_jump_kernel(&p, ENVP_VADDR - 64, a0, ENVP_VADDR,
+>> +                       ENVP_VADDR + 8, loaderparams.ram_low_size,
+>> +                       kernel_entry);
+>>   
+>>       /* YAMON subroutines */
+>>       p = (uint32_t *) (base + 0x800);
+>>
 
 
