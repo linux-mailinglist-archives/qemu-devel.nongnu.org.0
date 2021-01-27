@@ -2,93 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E2463066D1
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:54:09 +0100 (CET)
-Received: from localhost ([::1]:35986 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BEA33066BB
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:51:39 +0100 (CET)
+Received: from localhost ([::1]:60922 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4slM-0001Iq-DP
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:54:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48044)
+	id 1l4siw-00089U-4d
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:51:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l4sjZ-0000WK-4q
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:52:17 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:46398)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l4sjU-0004ET-6B
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:52:16 -0500
-Received: by mail-wr1-x434.google.com with SMTP id q7so3422400wre.13
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 13:52:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=sJ3krzR8qTEoWwqTIQx2csij37nYJrZafAsa00y/BJQ=;
- b=jd9uwhobrOohDaiYi+p3F6h7BE4dIVLcdf9fWfj8uCHQpM848h9k/TpAvPLtcQTAAY
- gmqmYm3eVKyk3qkpXrK4HGAFg/rTPGPVIA1zXYGBp4r//MYyC6cQ/1oSoCaXNsKj+Yxb
- exuJ/hqELBX88YuRSBEOCkXilWJ8RV/DXVAnVz1XPyln7hp1FEhjlGJxhO2/dgeVsECt
- t/H+gNQGTPr9hjalYx6v8V60I/QJQjMGwlcG3OZ9I5bGkN4S2D+ML7fG/2knCQaOTwr6
- XLD5cM44PV6POO0eN3cKSlR/YbBEG+j2d8V+9YWKgCOQ7Dn/uj8qpf6jTRYzEbydE19o
- F0sw==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4shF-0007gZ-8c
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:49:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23306)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l4shD-0003tN-EE
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:49:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611784190;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kO8dWpPUIKIzFnM+50sBlc/hUYgG8GlX34/ygaPwz0Q=;
+ b=Z1vHwMz5TEZuC7t0vWhwQblMDqrtOD8KpejHXcuLZmcHMMpx1R7kgn0MyJ4E1kvAZcYhSJ
+ oHY/hzrU6FHQ4WkW5rk0MFYYcTbztRLmc5nXiZEq8kGpK7ackTyAFH0vrWsnVoWPKMre9T
+ 5l9mBwO5mJimmAe7TUxm6rM4iATMTBw=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-516-tGjfcbM9Np22Rm2fD41gaA-1; Wed, 27 Jan 2021 16:49:45 -0500
+X-MC-Unique: tGjfcbM9Np22Rm2fD41gaA-1
+Received: by mail-wr1-f70.google.com with SMTP id n14so1934247wru.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 13:49:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=sJ3krzR8qTEoWwqTIQx2csij37nYJrZafAsa00y/BJQ=;
- b=JdPLoz7I0EmpeOqka+pYegPHkdrS1GnAfnm2c6QqM+VaIGjTx2ACKPWUIjHxJhdiGf
- P5yNU9aiadN6LcrIARhchtgk/lBLvaE0dgaxnISKig1xMGahwXjCYYHcz/YbIEnfHdP8
- UTy9rb1GIWQSi9Yp9lrZ/FbvFoRHpwKHqbkvBVQfZZPL+QWdpsicFdvGsA2+bM1jAaht
- DsJcCwVlGGkJlU01bnhh6YPZcC9gCrW7ahIuEbwAB1mh6Q0yrX7fRD47ijcOnvG/49Dp
- +WzdqbHfNamnriUackanaob8kOpaVV4x3ikd+lvC6CIDpWGg4vTFX/Oe1wwKUGrIlRIt
- jDyw==
-X-Gm-Message-State: AOAM531xNPKJQt2bhmc1rTrJwgkHlejkwktejoXKP6hTV9u3T6gVfXPv
- 530Bw5reztnX/g4DXlRMbLg+Sw==
-X-Google-Smtp-Source: ABdhPJyTY75+qAeP6D1YBbRbOCN/QN+yzqz+ual7gWXj8oS6kXf7x4azHNPfO+nzTO2xVDBKjYrKnQ==
-X-Received: by 2002:a05:6000:1189:: with SMTP id
- g9mr13099141wrx.230.1611784330021; 
- Wed, 27 Jan 2021 13:52:10 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l5sm4370804wrv.44.2021.01.27.13.52.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 13:52:09 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 372671FF7E;
- Wed, 27 Jan 2021 21:52:08 +0000 (GMT)
-References: <20210125144530.2837481-1-philmd@redhat.com>
- <20210125144530.2837481-5-philmd@redhat.com>
- <20210125164746.GE3538803@redhat.com>
- <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
- <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
- <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
- <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
- <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
- <cd9265f7-4887-63bb-e36e-ace708d062c1@weilnetz.de>
- <875z3jy3tt.fsf@linaro.org>
- <89209f1b-29ad-e5df-6d45-b2480db4775e@weilnetz.de>
- <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
- <a8aaa601-dcb4-ed87-d7ba-f6362942b596@weilnetz.de>
- <87wnvyw3eh.fsf@linaro.org>
- <d265dadc-45e8-3813-4e2d-cde007c389ac@weilnetz.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
- is available
-Date: Wed, 27 Jan 2021 21:47:50 +0000
-In-reply-to: <d265dadc-45e8-3813-4e2d-cde007c389ac@weilnetz.de>
-Message-ID: <87tur2vyif.fsf@linaro.org>
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=kO8dWpPUIKIzFnM+50sBlc/hUYgG8GlX34/ygaPwz0Q=;
+ b=QBo2zDga9kFHU14BFz7v8BlR7JFvdkYw+D/PJIrTMmHDFC/cHca79sIdV5elXATCWO
+ qo+9XyIO/UcWn2n/BXc9zXsN+iK2t6xYd0PRmpaFo2Csuh3YtzjGDVLgMLNpx1X8B3yj
+ ExpyLJ1xuhs4TB69usAQwb4UglADqQq8V4Y+mc4DAHNOOJkSYHrBJWcz2kKJU/RiheIA
+ A+GZZQAA+TUg0CmoDifGa/5bXLmF683QV+UrEdkXF3N3iAD5WKvysqM3fGiAA+S1Kd/D
+ wtGwQLDtgGi0A7F7OWxM1LalH0kbe5xREMuilAW00dXQyRqkG0DvHa4yspaYJ2hFTJRh
+ 912Q==
+X-Gm-Message-State: AOAM530+pumOUP31I6JD4AW+dBRsieAcvs+8AkvZ7wrhbRC1o7H5kNAl
+ yMPInicindtW+ZCSYFJ5ofFCQuG6IX4tXw5gDHcmrnBhE1MzkPv0Rxs80n/wBQw7q/8qWWEDCwP
+ qsKAGksjQvb5iS48=
+X-Received: by 2002:a5d:6c6d:: with SMTP id r13mr13364123wrz.343.1611784183943; 
+ Wed, 27 Jan 2021 13:49:43 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJz1jJ2x0jq8fNAUbqehVSma4J7Wm/2bMgIbG9gbiFfauRkdBMSzszoVaY2ViY3SgjyFzK03Lg==
+X-Received: by 2002:a5d:6c6d:: with SMTP id r13mr13364113wrz.343.1611784183832; 
+ Wed, 27 Jan 2021 13:49:43 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id r15sm4348973wrj.61.2021.01.27.13.49.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Jan 2021 13:49:43 -0800 (PST)
+Subject: Re: [PATCH] configure: Move preadv check to meson.build
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+References: <20210126155846.17109-1-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b61b0309-e5b5-0fb7-ab23-85da66518692@redhat.com>
+Date: Wed, 27 Jan 2021 22:49:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <20210126155846.17109-1-peter.maydell@linaro.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,80 +97,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Daniel_P?= =?utf-8?Q?=2E_Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Joelle van Dyne <j@getutm.app>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/26/21 4:58 PM, Peter Maydell wrote:
+> Move the preadv availability check to meson.build.  This is what we
+> want to be doing for host-OS-feature-checks anyway, but it also fixes
+> a problem with building for macOS with the most recent XCode SDK on a
+> Catalina host.
+> 
+> On that configuration, 'preadv()' is provided as a weak symbol, so
+> that programs can be built with optional support for it and make a
+> runtime availability check to see whether the preadv() they have is a
+> working one or one which they must not call because it will
+> runtime-assert.  QEMU's configure test passes (unless you're building
+> with --enable-werror) because the test program using preadv()
+> compiles, but then QEMU crashes at runtime when preadv() is called,
+> with errors like:
+> 
+>   dyld: lazy symbol binding failed: Symbol not found: _preadv
+>     Referenced from: /Users/pm215/src/qemu/./build/x86/tests/test-replication
+>     Expected in: /usr/lib/libSystem.B.dylib
+> 
+>   dyld: Symbol not found: _preadv
+>     Referenced from: /Users/pm215/src/qemu/./build/x86/tests/test-replication
+>     Expected in: /usr/lib/libSystem.B.dylib
+> 
+> Meson's own function availability check has a special case for macOS
+> which adds '-Wl,-no_weak_imports' to the compiler flags, which forces
+> the test to require the real function, not the macOS-version-too-old
+> stub.
+> 
+> So this commit fixes the bug where macOS builds on Catalina currently
+> require --disable-werror.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  configure   | 16 ----------------
+>  meson.build |  4 +++-
+>  2 files changed, 3 insertions(+), 17 deletions(-)
 
-Stefan Weil <sw@weilnetz.de> writes:
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> Am 27.01.21 um 20:52 schrieb Alex Benn=C3=A9e:
->
->> For example - debian-buster (arm64) running ffmpeg:
->>
->>    alex.bennee@8cd150a4b35d:~/lsrc/qemu.git/builds/all.tci$ ./qemu-aarch=
-64 /usr/bin/ffmpeg -i theora.mkv theora.webm
->>    TODO ../../tcg/tci.c:882: tcg_qemu_tb_exec()
->>    ../../tcg/tci.c:882: tcg fatal error
->>    qemu: uncaught target signal 11 (Segmentation fault) - core dumped
->>    Segmentation fault (core dumped)
->
->
-> Thanks. All I tried to say is that I prefer to replace those TODO=20
-> statements by working code as soon as there was a case which triggers=20
-> them. Most of those TODO statements are very easy to implement, so=20
-> anyone can add them when he/she detects a missing one. If I get=20
-> information about a scenario which triggers a missing TODO, I'll fix=20
-> that of course. I just don't want to add that missing code blindly.
-
-Your just going to end up playing wack-a-mole:
-
-  TODO ../../tcg/tci.c:620: tcg_qemu_tb_exec()me=3D00:00:00.00 bitrate=3DN/=
-A speed=3D   0x
-  ../../tcg/tci.c:620: tcg fatal error
-  qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-  Segmentation fault (core dumped)
-
-> Using `make check-tcg` helped finding and fixing one of them, future=20
-> improved CI checks can find more, and so can examples like the one=20
-> above. The error message tci.c:882 is INDEX_op_ld8s_i64=20
-> (https://github.com/qemu/qemu/blob/master/tcg/tci.c#L882). The missing=20
-> code is nearly identical to the existing code for INDEX_op_ld8u_i64, but=
-=20
-> with *(int8_t *) instead of *(uint8_t *), so maybe you can try that and=20
-> confirm whether it fixes the reported problem. Otherwise I'll try to=20
-> reproduce it with any mkv file.
-
-ffmpeg is a good application for working out the SIMD code because it
-features quite a lot of optimised code for each architecture.
-
-> I recently tried running tesseract with qemu-x86_64 because I had=20
-> expected that it might trigger some unimplemented TCG opcodes.
-
-qemu-x86-64 is a poor choice as a relatively under maintained front-end
-doesn't emulate a particularly new CPU or take advantage of the new TCG
-features. ARM64 is pretty good because the default cpu for linux-user is
-CPU max which a) enables all ISA features we have and b) exposes them
-fairly easily to guest detection routines which probe feature registers.
-
-> Instead=20
-> it showed a general problem for native TCG: qemu-x86_64 allocates too=20
-> much memory for tesseract and gets killed by the Linux kernel OOM
-> handler.
-
-Do you have a command line? That sounds like something that should be
-fixed.
-
->
-> Regards,
->
-> Stefan
-
-
---=20
-Alex Benn=C3=A9e
 
