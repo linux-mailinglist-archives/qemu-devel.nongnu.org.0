@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CCBF30581A
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 11:19:29 +0100 (CET)
-Received: from localhost ([::1]:48380 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40F65305825
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 11:20:23 +0100 (CET)
+Received: from localhost ([::1]:50768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4hv6-0006jl-1a
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 05:19:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
+	id 1l4hvy-0007jB-9G
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 05:20:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4hu0-0006II-U1
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:18:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31559)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4htx-00037Q-Sp
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:18:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611742695;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QJWW2uHnRevuVmuOoI5RLo9F1+8aWhdHTFpQF9yTaGs=;
- b=barykymjXrE3UnXAyqni8Or+m+iHGe58ZbE0VzCsZtvGy/IyCxuIQJmIhMyoJezBzjn3Zt
- ZpaE7KIwnuWL2t1zIOm5G83dWC787QgnO/b15e1cO1KQaF+uWqixojFUNd48J+U2qg6rPl
- mBO1qmwsaFXvuWoQm890afjLlPGGj1U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-240-c2r3I6qfMt--1uMJInt51g-1; Wed, 27 Jan 2021 05:18:10 -0500
-X-MC-Unique: c2r3I6qfMt--1uMJInt51g-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C87E1190A7AF;
- Wed, 27 Jan 2021 10:18:09 +0000 (UTC)
-Received: from localhost (ovpn-115-15.ams2.redhat.com [10.36.115.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 64FE060C05;
- Wed, 27 Jan 2021 10:18:06 +0000 (UTC)
-Date: Wed, 27 Jan 2021 10:18:05 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: prevent opening of special
- files (CVE-2020-35517)
-Message-ID: <20210127101805.GD299797@stefanha-x1.localdomain>
-References: <20210126103502.260758-1-stefanha@redhat.com>
- <20210126181604.1a4c69c6@bahia.lan>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l4hur-0006r5-HO
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:19:13 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:39182)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l4hup-0003XW-To
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:19:13 -0500
+Received: by mail-ed1-x531.google.com with SMTP id b21so1752860edy.6
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 02:19:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=yffz35jNcMTUpbWIxKV9MRN5toulQg5wZETpv9g7JeA=;
+ b=HV3Nu8bQ02rm52pPqG80Oh0Oz9muqbtk0oJLzrcswDzhoLcmGoBRh2cEnCqPneOjHs
+ ImXFXMuRzE9Qy3kefuVI+ISWM3clYCG6RWZz3n/h4KMCJnDzseN/xXNXN4L9I9vHakW0
+ /CNV31ML31CRFNuXElBUSMqtoxgO8fQVaRYpAzxAIiCB89MIfigTgs/otr/6LNRivi6p
+ xP1QtG72TUKpYEBldQHJ1/OU6l3EuyGvvNyUIDTPv5t5b3PDw82340SootH0Whms+SNp
+ ddyNsEYKdF1inkD/rUWaJwHL3i/dyHpcOQ5ygzimrGYE2styxqo4MDIrsWYW16buAcIs
+ KOyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yffz35jNcMTUpbWIxKV9MRN5toulQg5wZETpv9g7JeA=;
+ b=j2+k4E2fLYCSX7m9bLNZ0O6x7WkZebaO2QMtVZNve+ofoXKVzwVaNzHJOpufJYMQeZ
+ AZU+CrhsofBXy5ONlpb27FpGqujlSYR/WbdHwgTSLxJwl6j66z3U7gpSpEboNCL8EwmA
+ Jbj8IwBF8+k0GIqBpTmawAgNUGcWm3wvJi/lUh+QaJ923M0PFLarSzxAgtDsGB3ps2dY
+ 9MPCwTB8eLQJ0RGxEhTD6MJG7aaBC7UP3kFT79zIwEj5hNwHxqe3hiEjP5QhYOTcvSFn
+ hhJSEYlt+Un9uL29QdRKSBEFcJUyKahHlcxAGXd1HJY3J5B0qmj8hJeSvjR0SvnDWFfJ
+ Bb4w==
+X-Gm-Message-State: AOAM530PwLC/K3cFHkuE6jfaVXvCDrTgVKS0QCHaX5MAuSqGAFY9DsPa
+ 9KRIJGBqo98zBxYAh0klWw0IsQpnOSdIMVmQyceWa2SrnlYkiQ==
+X-Google-Smtp-Source: ABdhPJzpRXmvEEDGqAzcJf2tMh2YHfMw91lTFe0JwLfQtFrUsTccBdmAYJct/yys97IZ3Qrkj1fTbccZZId5rAkGXh0=
+X-Received: by 2002:a05:6402:18f:: with SMTP id
+ r15mr8601339edv.53.1611742749363; 
+ Wed, 27 Jan 2021 02:19:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210126181604.1a4c69c6@bahia.lan>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="zbGR4y+acU1DwHSi"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210127100206.277698-1-marcandre.lureau@redhat.com>
+In-Reply-To: <20210127100206.277698-1-marcandre.lureau@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Wed, 27 Jan 2021 14:18:57 +0400
+Message-ID: <CAJ+F1CLJsyq0cQRUg=neJOWOuhm94xKceR4sQFaKOUQxVRi=Yg@mail.gmail.com>
+Subject: Re: [PATCH] ui: fix spice display regression
+To: QEMU <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,82 +79,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>, qemu-devel@nongnu.org,
- P J P <ppandit@redhat.com>, virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
- Laszlo Ersek <lersek@redhat.com>, vgoyal@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---zbGR4y+acU1DwHSi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi
 
-On Tue, Jan 26, 2021 at 06:16:04PM +0100, Greg Kurz wrote:
-> On Tue, 26 Jan 2021 10:35:02 +0000
-> Stefan Hajnoczi <stefanha@redhat.com> wrote:
->=20
-> > A well-behaved FUSE client does not attempt to open special files with
-> > FUSE_OPEN because they are handled on the client side (e.g. device node=
-s
-> > are handled by client-side device drivers).
-> >=20
-> > The check to prevent virtiofsd from opening special files is missing in
-> > a few cases, most notably FUSE_OPEN. A malicious client can cause
-> > virtiofsd to open a device node, potentially allowing the guest to
-> > escape.=20
->=20
-> or pretty much anything nasty you can think of, e.g. DoS if the malicious
-> client repeatedly asks virtiofsd to open FIFOs the other side of which is
-> never opened.
->=20
-> > This can be exploited by a modified guest device driver. It is
-> > not exploitable from guest userspace since the guest kernel will handle
-> > special files inside the guest instead of sending FUSE requests.
-> >=20
-> > This patch adds the missing checks to virtiofsd. This is a short-term
-> > solution because it does not prevent a compromised virtiofsd process
-> > from opening device nodes on the host.
-> >=20
-> > Reported-by: Alex Xu <alex@alxu.ca>
-> > Fixes: CVE-2020-35517
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> > Reviewed-by: Vivek Goyal <vgoyal@redhat.com>
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
->=20
-> The patch looks pretty good to me. It just seems to be missing a change i=
-n
-> lo_create():
->=20
->     fd =3D openat(parent_inode->fd, name, (fi->flags | O_CREAT) & ~O_NOFO=
-LLOW,
->                 mode);
->=20
-> A malicious guest could have created anything called ${name} in this dire=
-ctory
-> before calling FUSE_CREATE and we'll open it blindly, or I'm missing some=
-thing ?
+On Wed, Jan 27, 2021 at 2:03 PM <marcandre.lureau@redhat.com> wrote:
+>
+> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>
+> Since commit b4e1a342112e50e05b609e857f38c1f2b7aafdc4 ("vl: remove
+> separate preconfig main_loop"), spice initialization is a bit dodgy, and
+> the client get stuck waiting for server events.
+>
+> The initialization order changed, so that qemu_spice_display_start() is
+> called before the display interfaces are added. The new interfaces
+> aren't started by spice-server automatically (yet?), so we have to tell
+> the server explicitely when we are already running.
+>
+> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> ---
+>  ui/spice-core.c | 10 +++++++++-
+>  1 file changed, 9 insertions(+), 1 deletion(-)
+>
+> diff --git a/ui/spice-core.c b/ui/spice-core.c
+> index 5746d0aae7..6eebf12e3c 100644
+> --- a/ui/spice-core.c
+> +++ b/ui/spice-core.c
+> @@ -830,6 +830,8 @@ static void qemu_spice_init(void)
+>
+>  static int qemu_spice_add_interface(SpiceBaseInstance *sin)
+>  {
+> +    int ret;
+> +
+>      if (!spice_server) {
+>          if (QTAILQ_FIRST(&qemu_spice_opts.head) !=3D NULL) {
+>              error_report("Oops: spice configured but not active");
+> @@ -848,7 +850,13 @@ static int qemu_spice_add_interface(SpiceBaseInstanc=
+e *sin)
+>          qemu_add_vm_change_state_handler(vm_change_state_handler, NULL);
+>      }
+>
+> -    return spice_server_add_interface(spice_server, sin);
+> +    ret =3D spice_server_add_interface(spice_server, sin);
+> +    /* make sure the newly added interface is started */
+> +    if (ret =3D=3D 0 && spice_display_is_running) {
+> +        spice_server_vm_start(spice_server);
+> +    }
+> +
+> +    return ret;
+>  }
+>
+>  static GSList *spice_consoles;
+> --
+> 2.29.0
+>
+>
 
-Good point! I will send another revision.
+Oops, it doesn't work reliably. There is some race in spice server now.
 
-Stefan
+spice_server_vm_start() sends RED_WORKER_MESSAGE_START to the QXL
+worker thread. But if two of those come, it will assert... It should
+probably not, I will send a patch to spice.
 
---zbGR4y+acU1DwHSi
-Content-Type: application/pgp-signature; name="signature.asc"
+I am looking for other options for QEMU though.
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmARPd0ACgkQnKSrs4Gr
-c8gNIgf/YdElsWhjcT1Hu1brzUPWC4zSiIUK/CUDnKO015eJiCh2jyQ/7tyuAHOO
-njwtXBydBtlbR45lSsDmusMJjpAICE0dJvqShMjYD7WwMXD81Fl8KJFoBseenU8g
-HBrIBouy7OTuuHtOdJ8ofvopuR+CR4zWicrZRmChRRhpKM7UfQPEjbgof4FtpvPL
-XK4CVTGeTtci++icwTQgGPAnvUYn3RJv0be37pIbzKjABfKaAk/NGf3d8HXxLN/9
-n7sJQGj+Lt9y849TfZUhR1/7woPCmBSFBEM2fCpQfTIsU20V7QhgSQMOI4qD0hi0
-T2l7yvHbjKBqXshib1TJA8FFoh2D5w==
-=RnDm
------END PGP SIGNATURE-----
-
---zbGR4y+acU1DwHSi--
-
+--=20
+Marc-Andr=C3=A9 Lureau
 
