@@ -2,70 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0A0A306699
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:44:27 +0100 (CET)
-Received: from localhost ([::1]:47926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148123066A7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:47:14 +0100 (CET)
+Received: from localhost ([::1]:53518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4sby-0002SM-La
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:44:26 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46274)
+	id 1l4sef-0004yP-49
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:47:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4saT-0001S5-31
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:42:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46552)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l4saP-0002rU-MC
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 16:42:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611783767;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9Ji9oWL6eAHcGJogoBDZGTjDf1zooWvorWumD76Mfxs=;
- b=TzLXiG7AgnFj1cWBBnCFKNRCmKMkUlK56BecS0mRlI5A1pky691AA3m9CLDW4WO/meL50o
- 72n/6134ImpWJeMTqyvnA3ZPF7G2FBnv+lhKjpiH742sP6hBvLK0pfFxPPd4bJUJIibT7U
- i8/r/FahcJzR+AzY9AzVpp0Va7sR8B8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-551-oY-PeziuP-aEImkwjqWL-Q-1; Wed, 27 Jan 2021 16:42:45 -0500
-X-MC-Unique: oY-PeziuP-aEImkwjqWL-Q-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 112D356C21
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 21:42:45 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3E58E6F923;
- Wed, 27 Jan 2021 21:42:44 +0000 (UTC)
-Date: Wed, 27 Jan 2021 22:42:42 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 3/6] qapi: Simplify full_name_nth() in
- qobject-input-visitor
-Message-ID: <20210127214242.GG6090@merkur.fritz.box>
-References: <20201112172850.401925-1-kwolf@redhat.com>
- <20201112172850.401925-4-kwolf@redhat.com>
- <87ft2mpjon.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1l4saZ-0001Vq-L8; Wed, 27 Jan 2021 16:43:01 -0500
+Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:33869)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
+ id 1l4saX-0002sL-Pw; Wed, 27 Jan 2021 16:42:59 -0500
+Received: by mail-oi1-x234.google.com with SMTP id h192so3847953oib.1;
+ Wed, 27 Jan 2021 13:42:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:date:from:to:cc:subject:message-id:reply-to:references
+ :mime-version:content-disposition:in-reply-to;
+ bh=l9uG97Z64EKE33FzNhO3mgkm0Nrr9f2/6MCrYDEqKDI=;
+ b=kNLotVVNKJN1wULrncXh5FENpaN8WQbFWsy/DJBLjxX0WTQ0UdDXYN3KcQf5OtGjY8
+ 9YzI0Qg0S3DCkc6Zt3/SIkMIYbToFMAqmMYwx09zaGp7n0oVH8w8/u0zOr03PGCpV2BT
+ 14lbTB/Dxkpxj9iVluDJTXJn0ennUhhRXQ0WQ+z/9QItDB+NkfjkO2GmhKSDnamcsXVB
+ IVQJ/Cj78LaYs8RBA8zBBn8ZScFXRvzHWRSfHQH8Elnx14yFUAbREEkVwbw6shP/pwKp
+ 1/YbXDgN94YunrK3PwqX9Tmnm/BrvJxCxSUj7ewP5BDr6CVYMlYB3iEF/VcxxVSQg0BR
+ p+Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
+ :reply-to:references:mime-version:content-disposition:in-reply-to;
+ bh=l9uG97Z64EKE33FzNhO3mgkm0Nrr9f2/6MCrYDEqKDI=;
+ b=Qc8QNewgqHBfnoc+O/LYabIowuikd650NdbfqmYHbB8dm0Q8oo3eg95l7O1thVbq02
+ gIzugeC94sdpoTSYA3YPhrXDdaIuLMkww3adK57XxDMYOgnDV+HfQDWazRpVwmF3DXxT
+ Hkfae5Ygs/oBBGOlVImt7GErGoChJfrjJdqvkAGZcS+XlbaZCfdvscWSL+cuHIiGLQxD
+ VFU0ZmrDzkU2A8vF27sL2QwzUdLCyg5h/sqzbJUQr8Hr0/N9h48uZtrp9/pX0ohM0T59
+ dAtAqgw/tNtEuGb3JUvBanfK43Z6mPesZ5IKuooc6HXpWu1LjVjjNjgFFEMkLtosW6z6
+ tYrw==
+X-Gm-Message-State: AOAM5326B0PEUl2YAfqAG8zRNlNyOgbTB5k6cYR+yh3ZmFBlYK1xO94s
+ PWl3UVlfPdrt9V/EGsgXfA==
+X-Google-Smtp-Source: ABdhPJwVfSlVwobyzejrf82DIqzxNVlH6KbJcfGkFGaXPf0U+KTleqji8+v72CpWlFseClMEWRU5Gw==
+X-Received: by 2002:aca:1901:: with SMTP id l1mr4670839oii.171.1611783774517; 
+ Wed, 27 Jan 2021 13:42:54 -0800 (PST)
+Received: from serve.minyard.net ([47.184.170.156])
+ by smtp.gmail.com with ESMTPSA id d3sm682676ooi.42.2021.01.27.13.42.53
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jan 2021 13:42:53 -0800 (PST)
+Received: from minyard.net (unknown
+ [IPv6:2001:470:b8f6:1b:84df:dff0:9fb7:e686])
+ by serve.minyard.net (Postfix) with ESMTPSA id 8D06818055B;
+ Wed, 27 Jan 2021 21:42:52 +0000 (UTC)
+Date: Wed, 27 Jan 2021 15:42:51 -0600
+From: Corey Minyard <minyard@acm.org>
+To: Hao Wu <wuhaotsh@google.com>
+Subject: Re: [PATCH 6/6] hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
+Message-ID: <20210127214251.GE2057975@minyard.net>
+References: <20210126193237.1534208-1-wuhaotsh@google.com>
+ <20210126193237.1534208-7-wuhaotsh@google.com>
+ <20210126234724.GC2057975@minyard.net>
+ <CAGcCb12nJAMnZ+eaWC6n08hAFAVueCknSWzbEYFPp+GUApoRdg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <87ft2mpjon.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <CAGcCb12nJAMnZ+eaWC6n08hAFAVueCknSWzbEYFPp+GUApoRdg@mail.gmail.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::234;
+ envelope-from=tcminyard@gmail.com; helo=mail-oi1-x234.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,101 +88,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Reply-To: minyard@acm.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Patrick Venture <venture@google.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
+ Doug Evans <dje@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 27.01.2021 um 14:56 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
+On Wed, Jan 27, 2021 at 12:37:46PM -0800, wuhaotsh--- via wrote:
+> On Tue, Jan 26, 2021 at 3:47 PM Corey Minyard <minyard@acm.org> wrote:
 > 
-> > Instead of counting how many elements from the top of the stack we need
-> > to ignore until we find the thing we're interested in, we can just
-> > directly pass the StackObject pointer because all callers already know
-> > it.
+> > On Tue, Jan 26, 2021 at 11:32:37AM -0800, wuhaotsh--- via wrote:
+> > > +
+> > > +static void npcm7xx_smbus_read_byte_fifo(NPCM7xxSMBusState *s)
+> > > +{
+> > > +    uint8_t received_bytes = NPCM7XX_SMBRXF_STS_RX_BYTES(s->rxf_sts);
+> > > +
+> > > +    if (received_bytes == 0) {
+> > > +        npcm7xx_smbus_recv_fifo(s);
+> > > +        return;
+> > > +    }
+> > > +
+> > > +    s->sda = s->rx_fifo[s->rx_cur];
+> > > +    s->rx_cur = (s->rx_cur + 1u) % NPCM7XX_SMBUS_FIFO_SIZE;
+> > > +    --s->rxf_sts;
 > >
-> > We only need a different way now to tell if we want to know the name of
-> > something contained in the given StackObject or of the StackObject
-> > itself. Passing name = NULL is the obvious way to request the latter.
+> > This open-coded decrement seems a little risky.  Are you sure in every
+> > case that s->rxf_sts > 0?  There's no way what's running in the VM can
+> > game this and cause a buffer overrun?  One caller to this function seems
+> > to protect against this, and another does not.
 > >
-> > This simplifies the interface and makes it easier to use in cases where
-> > we have the StackObject, but don't know how many steps down the stack it
-> > is.
+> s->rxf_sts is uint8_t so it's guaranteed to be >=0.
+> In the case s->rxf_sts == 0,  NPCM7XX_SMBRXF_STS_RX_BYTES(s->rxf_sts) is
+> also 0, so it'll take the if-branch and return without running --s->rxf_sts.
+
+That is true if called from the
+NPCM7XX_SMBUS_STATUS_STOPPING_LAST_RECEIVE case.  There is no such check
+in the NPCM7XX_SMBUS_STATUS_RECEIVING case.
+
+> I'll probably add "g_assert(s->rxf_sts > 0)" to clarify.
+
+You never want to do an assert if the hosted system can do something to
+cause it.  If you add the check to the NPCM7XX_SMBUS_STATUS_RECEIVING
+case, it would be ok, but really unnecessary.
+
+If it's fine if s->rxf_sts wraps to 0xff, then this all doesn't matter,
+but you want to add a comment to that effect if so.  These sorts of
+things look dangerous.
+
+There is also the question about who takes these patches in.  I'm the
+I2C maintainer, but there's other code in this series.  Once everything
+is ready, I can ack them if we take it through the ARM tree.  Or I can
+take it through my tree with the proper acks.
+
+-corey
+
+> 
 > >
-> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> > ---
-> >  qapi/qobject-input-visitor.c | 38 ++++++++++++++++++------------------
-> >  1 file changed, 19 insertions(+), 19 deletions(-)
+> > Other than this, I didn't see any issues with this patch.
 > >
-> > diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-> > index a00ac32682..1415561828 100644
-> > --- a/qapi/qobject-input-visitor.c
-> > +++ b/qapi/qobject-input-visitor.c
-> > @@ -87,20 +87,16 @@ static QObjectInputVisitor *to_qiv(Visitor *v)
-> >  }
-> >  
-> >  /*
-> > - * Find the full name of something @qiv is currently visiting.
-> > - * @qiv is visiting something named @name in the stack of containers
-> > - * @qiv->stack.
-> > - * If @n is zero, return its full name.
-> > - * If @n is positive, return the full name of the @n-th container
-> > - * counting from the top.  The stack of containers must have at least
-> > - * @n elements.
-> > - * The returned string is valid until the next full_name_nth(@v) or
-> > - * destruction of @v.
-> > + * Find the full name of something named @name in @so which @qiv is
-> > + * currently visiting.  If @name is NULL, find the full name of @so
-> > + * itself.
-> > + *
-> > + * The returned string is valid until the next full_name_so(@qiv) or
-> > + * destruction of @qiv.
-> 
-> How can this distinguish between a list and its member?
-> 
-> Before the patch:
-> 
-> * list member: n = 0, name = NULL
-> * list: n = 1, name = NULL
-
-Oh. These two lines were more helpful than the whole function comment
-before this patch (which doesn't talk about name = NULL at all).
-
-> Afterwards?
-> 
-> Checking... yes, regression.  Test case:
-> 
->     {"execute": "blockdev-add", "arguments": {"driver": "file", "node-name": "blk0", "filename": "tmp.img"}}
->     {"return": {}}
->     {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "node-name": "blk1", "image": "blk0", "take-child-perms": [0]}}
->     {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'take-child-perms', expected: string"}}
-> 
-> The second command's reply changes from
-> 
->     {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'take-child-perms[0]', expected: string"}}
-> 
-> to
-> 
->     {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'take-child-perms', expected: string"}}
-> 
-> The idea of using @so instead of @n may be salvagable.
-
-I can always add a bool parameter that tells (independently from @name)
-whether we want the name of a member or of the container.
-
-Though do we really need the name of the container anywhere? The n = 1
-case exists in qobject_input_check_list(), but is this a case that can
-fail? The pattern how lists are intended to be visited seems to be
-calling visit_next_list() until it returns NULL.
-
-The only place where this pattern isn't followed and visit_next_list()
-is called outside such a loop, so that we can actually run into the
-error in qobject_input_check_list(), is a test case specifically for
-this error path.
-
-So should we just declare not visiting all list elements a programming
-error and assert instead of constructing an error message that users
-will never see?
-
-Kevin
-
+> > -corey
+> >
 
