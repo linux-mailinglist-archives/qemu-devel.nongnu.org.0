@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30342305E32
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 15:25:44 +0100 (CET)
-Received: from localhost ([::1]:36386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49ABF305E44
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 15:29:31 +0100 (CET)
+Received: from localhost ([::1]:38840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4llP-00008b-81
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 09:25:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51328)
+	id 1l4lp4-0001PN-B7
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 09:29:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52114)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1l4lkI-000887-N5
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 09:24:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:34971)
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1l4lnI-0000rH-Vg
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 09:27:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:26599)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1l4lkH-0006qI-24
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 09:24:34 -0500
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1l4lnG-0008Mh-Nb
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 09:27:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611757472;
+ s=mimecast20190719; t=1611757657;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=EXCIAMKFBPFBEC7N5aiomVJ72Kcij/5SuW5HqyH2gZU=;
- b=Qm3KDAjA3KHk9bftfR+caSSAT4VV85k1XT7nDsOkNaDfJSt7kLV+gjqgjM/WnXC3OIYEns
- YUlZcRm71D4LANYDpobtuPW9aRlgDxvKcdATfui95XIw7lECG6EyhQEGkSSApMaV22KkUN
- BfP/PnSJ67EKngsrOnxKrXJnlp6i1fI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-157-P2kYBGhaMy60ORt0Cb8Pew-1; Wed, 27 Jan 2021 09:24:30 -0500
-X-MC-Unique: P2kYBGhaMy60ORt0Cb8Pew-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8B4B7107ACE3;
- Wed, 27 Jan 2021 14:24:29 +0000 (UTC)
-Received: from [10.40.194.186] (unknown [10.40.194.186])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 447AE60854;
- Wed, 27 Jan 2021 14:24:28 +0000 (UTC)
-Subject: Re: [PATCH v3] machine: add missing doc for memory-backend option
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>
-References: <20210121161504.1007247-1-imammedo@redhat.com>
- <20210127104511.GF3653144@redhat.com> <20210127105436.GG3653144@redhat.com>
-From: Michal Privoznik <mprivozn@redhat.com>
-Message-ID: <756c025a-3811-4a36-98a2-3a02bd756523@redhat.com>
-Date: Wed, 27 Jan 2021 15:24:26 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ bh=MWBkwvpIFtwnbtPE/1H7ETMgKCiA/dkCZreggI4dNQI=;
+ b=WQEY9/CRn4gyBNMu3IBpRLHMcndYKcIOVC8qXQkdDcrW26hNO9IfAF/FopxV0KQeCslBMI
+ euVz3c9+nI8RhHRa6904sJQn+vM27BMNWqvBHCv+mYGwl+R3p0Rs8cqxypvqkR1uZKHdZE
+ MPtZiCxO5B2q+waBAGf1SGl2oJX+AaM=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-18-1a36Bo8zNNKrFEi2x2uiuw-1; Wed, 27 Jan 2021 09:27:35 -0500
+X-MC-Unique: 1a36Bo8zNNKrFEi2x2uiuw-1
+Received: by mail-qk1-f198.google.com with SMTP id y79so1081713qka.23
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 06:27:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=MWBkwvpIFtwnbtPE/1H7ETMgKCiA/dkCZreggI4dNQI=;
+ b=s0U/vmDyWtTbXKP838iBWR9zIs029eowKVpyvFeCdyA7HzvkdtyUnor30JLgm9fFsc
+ V8Ns9E45NI5wtcuMNUZ+lkgyGuZQv465UMAJQBzo4oTupNreDVL2wks/i1SVx4/T6fuH
+ WcKG4XrrPimkNLf/FgnquK6C37t6t6g9itSFMwX9Cm5D0x+apCIu+cqLisOmVoURO4xw
+ A6rky5ygQO9AKLe+I07BG05VAE6udatU/CfXi+XV3snEazJ9VOt+ySfobiKneYm+gonS
+ sf1PaT2YdlbT32rLz4lpTp0IXthFBjgXb5tUq4Kxz3m4nOTB3kW7pLILBN2cEZUvfUFI
+ hmzA==
+X-Gm-Message-State: AOAM531OtvcIXzGer8mOEFqNNiRTVe0GoMlC8BqPDpBxUlNFspNikGmP
+ ic9Th6/w3aLdsy4AoYku7Kc6vC7yjY/K3GalPeTtKYcS3YsZJzzs5IsddK6e6nn+Dq9q/RjnIyS
+ ZS8V+BEqhfwAdSx+OSbK3Cup4ZR33o7c=
+X-Received: by 2002:a05:622a:453:: with SMTP id
+ o19mr9988581qtx.344.1611757655061; 
+ Wed, 27 Jan 2021 06:27:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyZjzcXD+ElmjgBWMQWQTNfQKjc7udtJ1i0BH5UULVQ2T6uCoeo7RhOcvnTRZJEEoIeYfhORI2dHtoKui6hNDM=
+X-Received: by 2002:a05:622a:453:: with SMTP id
+ o19mr9988564qtx.344.1611757654850; 
+ Wed, 27 Jan 2021 06:27:34 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210127105436.GG3653144@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+References: <20210127112131.308451-1-stefanha@redhat.com>
+ <CAOssrKfY7zDOH3NNbtyARHMCdJJN1tKQJri8ec=igjBf=K6Dog@mail.gmail.com>
+ <20210127141430.GA310142@stefanha-x1.localdomain>
+In-Reply-To: <20210127141430.GA310142@stefanha-x1.localdomain>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Wed, 27 Jan 2021 15:27:23 +0100
+Message-ID: <CAOssrKdmpjMG1fVRJBBG7DKy4Fy46HaBz5gHvWZfOTy6FGF+6Q@mail.gmail.com>
+Subject: Re: [PATCH v3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+To: Stefan Hajnoczi <stefanha@redhat.com>
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mprivozn@redhat.com;
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mszeredi@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+X-Spam_score_int: -23
+X-Spam_score: -2.4
+X-Spam_bar: --
+X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,43 +92,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, pkrempa@redhat.com, qemu-devel@nongnu.org,
- pbonzini@redhat.com
+Cc: Daniel Berrange <berrange@redhat.com>,
+ Sergio Lopez Pascual <slp@redhat.com>, Greg Kurz <groug@kaod.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, virtio-fs-list <virtio-fs@redhat.com>,
+ Alex Xu <alex@alxu.ca>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ P J P <ppandit@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/27/21 11:54 AM, Daniel P. Berrangé wrote:
-> On Wed, Jan 27, 2021 at 10:45:11AM +0000, Daniel P. Berrangé wrote:
->> On Thu, Jan 21, 2021 at 11:15:04AM -0500, Igor Mammedov wrote:
+On Wed, Jan 27, 2021 at 3:14 PM Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>
+> On Wed, Jan 27, 2021 at 02:01:54PM +0100, Miklos Szeredi wrote:
 
+> > The problem here is there can also be a race between the open and the
+> > subsequent lo_do_lookup().
+> >
+> > At this point it's probably enough to verify that fuse_entry_param
+> > refers to the same object as the fh (using fstat and comparing st_dev
+> > and st_ino).
+>
+> Can you describe the race in detail? FUSE_CREATE vs FUSE_OPEN?
+> FUSE_CREATE vs FUSE_CREATE?
 
->>
->> How does a mgmt app know which machine types need to use this
->> option ? The machine type names are opaque strings, and apps
->> must not attempt to parse or interpret the version number
->> inside the machine type name, as they can be changed by
->> distros.  IOW, saying to use it for machine types 4.0 and
->> older isn't a valid usage strategy IMHO.
-> 
-> Looking at the libvirt patch, we do indeed use his property
-> unconditionally for all machine types, precisely because parsing
-> version numbers from the machine type is not allowed.
-> 
-> https://www.redhat.com/archives/libvir-list/2021-January/msg00633.html
-> 
-> So this doc is telling apps to do something that isn't viable
+A race between FUSE_CREATE and external modification:
 
-The other approach that I was suggesting was, that QEMU stops reporting 
-'default-ram-id' for affected machine types. The way the switch from '-m 
-XMB' to memory-backend-* was implemented in libvirt is that if libvirt 
-sees 'default-ram-id' attribute for given machine type it uses 
-memory-backend-* otherwise it falls back to -m.
+VIRTIOFSD: lo_create() {
+VIRTIOFSD:     fd = open(foo, O_CREAT | O_EXCL)
+EXTERNAL:  unlink(foo)
+EXTERNAL:  open(foo, O_CREAT)
+VIRTIOFSD:     lo_do_lookup() {
+VIRTIOFSD:         newfd = open(foo, O_PATH | O_NOFOLLOW)
 
-Since we know which machine types are "broken", we can stop reporting 
-the attribute and thus stop tickling this bug. I agree that it puts more 
-burden on distro maintainers to backport the change, but I think it's 
-acceptable risk.
+Nothing serious will happen, but there will be a discrepancy between
+the open file and the inode that it references.  I.e.  the following
+in the client will yield weird results:
 
-Michal
+open(foo, O_CREAT) -> fd
+sprintf(procname, "/proc/self/fd/%i", fd);
+open(procname, O_RDONLY) -> fd2
+write(fd, buf, bufsize)
+read(fd2, buf, bufsize)
+
+This is probably not a security issue, more of a quality of
+implementation issue.
+
+Thanks,
+Miklos
 
 
