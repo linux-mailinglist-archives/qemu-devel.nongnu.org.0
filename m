@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA143066D9
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:55:06 +0100 (CET)
-Received: from localhost ([::1]:37642 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66E53066DB
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 22:57:21 +0100 (CET)
+Received: from localhost ([::1]:41378 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4smH-00020P-NT
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:55:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48424)
+	id 1l4soS-0003g3-QA
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 16:57:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1l4skO-0000zt-G2; Wed, 27 Jan 2021 16:53:08 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:6821)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwankhede@nvidia.com>)
- id 1l4skM-0004K3-6f; Wed, 27 Jan 2021 16:53:07 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by
- hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
- id <B6011e0bf0004>; Wed, 27 Jan 2021 13:53:03 -0800
-Received: from [10.40.102.156] (172.20.145.6) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 27 Jan
- 2021 21:52:50 +0000
-Subject: Re: [RFC PATCH v2 1/3] vfio: Move the saving of the config space to
- the right place in VFIO migration
-To: Alex Williamson <alex.williamson@redhat.com>, Shenming Lu
- <lushenming@huawei.com>
-References: <20201209080919.156-1-lushenming@huawei.com>
- <20201209080919.156-2-lushenming@huawei.com>
- <20201209132947.3177f130.cohuck@redhat.com>
- <20201209113431.5b252e93@omen.home>
- <3f7db9e7-3c98-5022-e907-e6214815fae9@huawei.com>
- <20210126143602.0dac239f@omen.home.shazbot.org>
-X-Nvconfidentiality: public
-From: Kirti Wankhede <kwankhede@nvidia.com>
-Message-ID: <f11ef511-b0ef-807c-763a-e092684be00e@nvidia.com>
-Date: Thu, 28 Jan 2021 03:22:47 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l4slQ-00026e-2S; Wed, 27 Jan 2021 16:54:12 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:37998)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l4slO-0004OV-Ew; Wed, 27 Jan 2021 16:54:11 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id y187so2909960wmd.3;
+ Wed, 27 Jan 2021 13:54:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=On9OY9uCLuCBNzOxWP54fsp2GjDNAkYk/TSaplVUQNM=;
+ b=jWa7QoHa5yGk/gNnns4Ckx5YgfVsR3JMwWbtzoR3WC92wO3FDdQ1Z4qznHcO3wGEWm
+ rHuU8C6Hmthe7hX6l3tcml+kyCE7GniMA+dCrU2JxnBBiy6lXVTbZr8iQ5TrlUJFMGvS
+ 0DilJl0cfzSUYe/fx3SYOf94SomnIWO73evv0NJWvqL1QTXYTB3GIMtyWxdyzWOv+Inb
+ xIEEqh+HQBiLj2HTX8HWF8sV/DRZTV10kpRBPQsKX70GoiDc2gfSkDyAcvGGdydDdFhO
+ 92m1Pm+wfxAaXFJ5hD8rowF7ildPwg6E6JdKcyFmQTb7SLrmKpto30366JNZ8sq9L5qR
+ bkOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=On9OY9uCLuCBNzOxWP54fsp2GjDNAkYk/TSaplVUQNM=;
+ b=izybi0XAoKPyetNwTxKKAPgMVBj0RLLwZKByvSP7YyrgKW/B9+SfOYIFgHQ4oytJey
+ MBuE/sMcWgXiJBo8Az0/MY+lukiOPA2rA8HyoZlJi3TSh2GNa4gCGkO81PrxVJpRNYy6
+ weDU4facUOS+UoaEvlLxRWO6KCvweMpXwRSvHzP8mqojC1x4NmnohMHbHi2d15UhZbMc
+ zkgdA5PNZDhr0TVNOpEhipELSDssqw30QLQ0/Fg8AvLisn49R/oVXDYO6oH+VEgDHHMp
+ VcLEVbiKohRArGTo13toKliedU7GiCrENVFcY0mv7gMQODgYCWx67E3zpr5YQsT7hPcq
+ tFAQ==
+X-Gm-Message-State: AOAM532BJh5kz6D8VFr/DfiYvNcVwme9VvhD64Vdw5Ku4f/I6CO8Ayda
+ S2p2jyZDg1TtFRuYVQIKztk=
+X-Google-Smtp-Source: ABdhPJyHKSxJhwlqml9962W8mcneMr/OyAapH8kpi0wuasdexIFZLY2FNloBamdxi6CuIvict5AaJA==
+X-Received: by 2002:a1c:df04:: with SMTP id w4mr5685493wmg.66.1611784448710;
+ Wed, 27 Jan 2021 13:54:08 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id z4sm4482159wrw.38.2021.01.27.13.54.07
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 27 Jan 2021 13:54:07 -0800 (PST)
+Subject: Re: [PATCH 04/25] tests: Add a simple test of the CMSDK APB watchdog
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20210121190622.22000-1-peter.maydell@linaro.org>
+ <20210121190622.22000-5-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <df467f73-ba69-dd1e-6c79-830fe209e8ee@amsat.org>
+Date: Wed, 27 Jan 2021 22:54:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210126143602.0dac239f@omen.home.shazbot.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
+In-Reply-To: <20210121190622.22000-5-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [172.20.145.6]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
- t=1611784383; bh=3fB8raZFnOV40ct2MT96BSTKTS97g8mPuG6zACe83OI=;
- h=Subject:To:CC:References:X-Nvconfidentiality:From:Message-ID:Date:
- User-Agent:MIME-Version:In-Reply-To:Content-Type:Content-Language:
- Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
- b=bJQ9y4em+YLwADcav8HG7l05fmna51NfccQ0L4x7cbspCnz881ufv2NqMNsUR7gfN
- EnMYhvsKjUxLsKAXYdkF5pB9oT8O0CyoXBPwOHahHgD65X8ls8XS8A4+kGv4n3KE1U
- DgDUHwkNFUYZ4/q6cd99sIquaKobTMuKTeXeOrBDaTI2AKkqfp54v4MnOq1tVWJL57
- 38FL48w36xKxYmIwZn9OVNA1NTLGOkN97rHsZxuJNDX8dgDsIUnAempn0yTEcLdr49
- p0EA7tqvgy5Yi2BFNgOjP/uROwR5dco8jAG4a8+i24i5oIQLG8rQoiXwz3SGNzb6Sb
- iuNA7b/sQe0eA==
-Received-SPF: pass client-ip=216.228.121.143;
- envelope-from=kwankhede@nvidia.com; helo=hqnvemgate24.nvidia.com
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,78 +88,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
- mst@redhat.com, Marc Zyngier <maz@kernel.org>,
- Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Eric Auger <eric.auger@redhat.com>, qemu-arm@nongnu.org, yuzenghui@huawei.com,
- wanghaibin.wang@huawei.com
+Cc: Damien Hedde <damien.hedde@greensocs.com>, Luc Michel <luc@lmichel.fr>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 1/27/2021 3:06 AM, Alex Williamson wrote:
-> On Thu, 10 Dec 2020 10:21:21 +0800
-> Shenming Lu <lushenming@huawei.com> wrote:
+On 1/21/21 8:06 PM, Peter Maydell wrote:
+> Add a simple test of the CMSDK watchdog, since we're about to do some
+> refactoring of how it is clocked.
 > 
->> On 2020/12/10 2:34, Alex Williamson wrote:
->>> On Wed, 9 Dec 2020 13:29:47 +0100
->>> Cornelia Huck <cohuck@redhat.com> wrote:
->>>    
->>>> On Wed, 9 Dec 2020 16:09:17 +0800
->>>> Shenming Lu <lushenming@huawei.com> wrote:
->>>>   
->>>>> On ARM64 the VFIO SET_IRQS ioctl is dependent on the VM interrupt
->>>>> setup, if the restoring of the VFIO PCI device config space is
->>>>> before the VGIC, an error might occur in the kernel.
->>>>>
->>>>> So we move the saving of the config space to the non-iterable
->>>>> process, so that it will be called after the VGIC according to
->>>>> their priorities.
->>>>>
->>>>> As for the possible dependence of the device specific migration
->>>>> data on it's config space, we can let the vendor driver to
->>>>> include any config info it needs in its own data stream.
->>>>> (Should we note this in the header file linux-headers/linux/vfio.h?)
->>>>
->>>> Given that the header is our primary source about how this interface
->>>> should act, we need to properly document expectations about what will
->>>> be saved/restored when there (well, in the source file in the kernel.)
->>>> That goes in both directions: what a userspace must implement, and what
->>>> a vendor driver can rely on.
->>
->> Yeah, in order to make the vendor driver and QEMU cooperate better, we might
->> need to document some expectations about the data section in the migration
->> region...
->>>>
->>>> [Related, but not a todo for you: I think we're still missing proper
->>>> documentation of the whole migration feature.]
->>>
->>> Yes, we never saw anything past v1 of the documentation patch.  Thanks,
->>>    
->>
->> By the way, is there anything unproper with this patch? Wish your suggestion. :-)
-> 
-> I'm really hoping for some feedback from Kirti, I understand the NVIDIA
-> vGPU driver to have some dependency on this.  Thanks,
-> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  tests/qtest/cmsdk-apb-watchdog-test.c | 80 +++++++++++++++++++++++++++
+>  MAINTAINERS                           |  1 +
+>  tests/qtest/meson.build               |  1 +
+>  3 files changed, 82 insertions(+)
+>  create mode 100644 tests/qtest/cmsdk-apb-watchdog-test.c
 
-I need to verify this patch. Spare me a day to verify this.
-
-Thanks,
-Kirti
-
-
-> Alex
-> 
->>>>> Signed-off-by: Shenming Lu <lushenming@huawei.com>
->>>>> ---
->>>>>   hw/vfio/migration.c | 25 +++++++++++++++----------
->>>>>   1 file changed, 15 insertions(+), 10 deletions(-)
->>>
->>> .
->>>    
->>
-> 
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
