@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A8723067CF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 00:27:10 +0100 (CET)
-Received: from localhost ([::1]:60486 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B8A3067E8
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 00:31:01 +0100 (CET)
+Received: from localhost ([::1]:39028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4uDN-0005i7-Mc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 18:27:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36456)
+	id 1l4uH6-0000GA-5l
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 18:31:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37306)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l4uAS-0004Ch-2h; Wed, 27 Jan 2021 18:24:08 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:36753)
+ id 1l4uEf-0007e9-3J; Wed, 27 Jan 2021 18:28:29 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:52369)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l4uAQ-0006OU-Jw; Wed, 27 Jan 2021 18:24:07 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id i9so3070806wmq.1;
- Wed, 27 Jan 2021 15:24:05 -0800 (PST)
+ id 1l4uEc-0006re-RR; Wed, 27 Jan 2021 18:28:28 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id z16so529506wml.2;
+ Wed, 27 Jan 2021 15:28:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=KywAJi1iH990IONXYtUf0Z5t6U0xeQ+Rtz6RmnWHa7s=;
- b=GOJJW/soREUnQo7GCsikbGCSD7sPfSAM/izTUfneUirHM7BJi3eXBzpxbnDptZX9Ps
- V5ZyxI5w00UUBQJ5kvj1bIk9P8MBk5yPmYTokptp1IS2UAy6VKU0b8iO1jUwUgQUat21
- i9tbZJRdNNvKJhPVOmxTCOZK9m9I9aDbCz4f3cysyhpMsWgdj0sbBLMjs39wraJ+GkET
- VrLcWAMCod//yOSkTUnxG4sIZq8QeQiU1+RBdbwox0QmUVcBLCZKDb4CqSIXRb6V3a/5
- /LDDpxOiAvJd8t/9TcYOaIUTcHC2LLRQJLItcQR56ngrQi4pJxWkQeJCPvMMZjAuaqOj
- uh3A==
+ bh=wvjU515Spj3A6CDw5WT0Qql1F2X6k6eBgld4h9Q3aTY=;
+ b=QslmrtenSqE+UQ/I5U0seLfuh5vVJj48pVeD/EgSl2hcng1f7oCcD8IKmoKa8tuXHe
+ h5nIOI18XP5/NRHAPeqJbU7nGPHXDICqLDTsYslHDBnGa/3qbPGvTYH10u6AnR+n9mwo
+ xvgvn7NVymvpXztbdZjJDa9A9QezOOYej4V9475XcpHFtBopKXjcYjEew8IgM2o9tSyx
+ BBpgozV//eumobKuBkOT6TF8NlNn9IF8XU4TCSU6syh+FMrVFoN/hB6ofAxXZeaVcyS5
+ 86AFHSnD4APi6IBcnVif9s/yy3aGTQETXdZ2c1git0Q1vorjTsOjbnASouQ5xzLrANb3
+ Ou5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :mime-version:content-transfer-encoding;
- bh=KywAJi1iH990IONXYtUf0Z5t6U0xeQ+Rtz6RmnWHa7s=;
- b=hU4T1WVBGZaqhEubv55835PiRcpwpqZddSK3Uqa0GsmU7PCc3PJI9yHOBluJYIjEDm
- hbUZxtOVoifdk643RL9wkdr87Q1AZzGvQGhmMIliA9itXAx9wqkgzZfJ3H1YT/gffBZI
- vLZZigpt49KO02WLnY57i893MmmaDWQa3JEQfu8YmgLd/MAL+SsRWj+IPQb7mUfKwniy
- oKJJuPfTiox5N45KZAdvIzfcJddEpI2kKuCwdujZwhpuUNgcqdY0+LFQ8KlObRDTF3Vo
- lFwBGw2y+j1mjGjojApVngTjXt1yJ3b9O+3NoxSH59KeyjjVuGsth2gcmmcQKU9ommYm
- 1vOQ==
-X-Gm-Message-State: AOAM5337jBX9HXgH1HhUQLJVI/brLkzNX5ybX4BINx2ejXLo5VdcfnZK
- TTa58zWwuCdPBSx7Pl/eEloOIoLoPhY=
-X-Google-Smtp-Source: ABdhPJxdlpS649dHwZCjECtfKBjnh2pYgjVjkh3gyxehFOxYxVbbiRd4Esv3S5EXMlvMApWGlyabXQ==
-X-Received: by 2002:a05:600c:4e8e:: with SMTP id
- f14mr6081182wmq.139.1611789844667; 
- Wed, 27 Jan 2021 15:24:04 -0800 (PST)
+ bh=wvjU515Spj3A6CDw5WT0Qql1F2X6k6eBgld4h9Q3aTY=;
+ b=isonr9Y/thgVA8jUuv8/47MklwLqvGn3vX1a4q7VZ4drjp6PZzfGLMZT5h6ZqANfMB
+ WL3rHsQtg2Ai62tTIrlOE+a+gKBgrLSFVp75fMwLBNn2yztOOs8CTqxwHW7ahn5NIikR
+ FvEqqPpub6RgjpMQ/fRdfmDITiCnLug2hhy38wxGHCkZBNfyQS09rCPXVW4X+u+JHJeI
+ NDdtZ2f4t8OUXSECuDC/te/viJyaH1tbI0tK9gfYBFW7XeaQzFg+kZna2I0fd5+ODtBD
+ e3UtU+Kkd5nISlnSmLeBEZdSLBGnaSbpGYJda6P13r+Dj5fl2rnGBzdpriagGVtw2zBC
+ aPJw==
+X-Gm-Message-State: AOAM5306R7SZzHFbPzmQSrV5mCYyjRJcG98Enw9aQId9kDsKYRy7SgMT
+ jkRJYSla+rMKDDdg3bhMP4wTCTlXVko=
+X-Google-Smtp-Source: ABdhPJxRSCIOmVrGp3wYYbtJ1fjTJB1yMe4D63whcmRzdqEwmRc4s7HSVfkqyPccp8JJ4nhco9U6tw==
+X-Received: by 2002:a05:600c:21d8:: with SMTP id
+ x24mr6049698wmj.27.1611790104950; 
+ Wed, 27 Jan 2021 15:28:24 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id f13sm18075wmf.1.2021.01.27.15.24.03
+ by smtp.gmail.com with ESMTPSA id z130sm3634316wmb.33.2021.01.27.15.28.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 15:24:04 -0800 (PST)
+ Wed, 27 Jan 2021 15:28:24 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH] target/ppc: Remove unused MMU definitions
-Date: Thu, 28 Jan 2021 00:24:01 +0100
-Message-Id: <20210127232401.3525126-1-f4bug@amsat.org>
+Subject: [PATCH] target/arm: Replace magic value by MMU_DATA_LOAD definition
+Date: Thu, 28 Jan 2021 00:28:22 +0100
+Message-Id: <20210127232822.3530782-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -82,34 +82,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Greg Kurz <groug@kaod.org>, qemu-ppc@nongnu.org,
- Joe Komlodi <komlodi@xilinx.com>, David Gibson <david@gibson.dropbear.id.au>
+ Joe Komlodi <komlodi@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove these confusing and unused definitions.
+cpu_get_phys_page_debug() uses 'DATA LOAD' MMU access type.
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/ppc/cpu.h | 3 ---
- 1 file changed, 3 deletions(-)
+ target/arm/helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-index 2609e4082ed..cb002102888 100644
---- a/target/ppc/cpu.h
-+++ b/target/ppc/cpu.h
-@@ -2205,9 +2205,6 @@ enum {
-  * may be needed for precise access rights control and precise exceptions.
-  */
- enum {
--    /* 1 bit to define user level / supervisor access */
--    ACCESS_USER  = 0x00,
--    ACCESS_SUPER = 0x01,
-     /* Type of instruction that generated the access */
-     ACCESS_CODE  = 0x10, /* Code fetch access                */
-     ACCESS_INT   = 0x20, /* Integer load/store access        */
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d2ead3fcbdb..766ca8b5c78 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -12409,7 +12409,7 @@ hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
+ 
+     *attrs = (MemTxAttrs) {};
+ 
+-    ret = get_phys_addr(env, addr, 0, mmu_idx, &phys_addr,
++    ret = get_phys_addr(env, addr, MMU_DATA_LOAD, mmu_idx, &phys_addr,
+                         attrs, &prot, &page_size, &fi, &cacheattrs);
+ 
+     if (ret) {
 -- 
 2.26.2
 
