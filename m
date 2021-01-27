@@ -2,64 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A32930541C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 08:12:47 +0100 (CET)
-Received: from localhost ([::1]:34094 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA1233054A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 08:29:31 +0100 (CET)
+Received: from localhost ([::1]:38988 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4f0Q-0003vG-1F
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 02:12:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53760)
+	id 1l4fGc-0007Cq-AE
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 02:29:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55798)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1l4eyN-0003Ho-Eo; Wed, 27 Jan 2021 02:10:39 -0500
-Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:47091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1l4eyG-0007rm-Rn; Wed, 27 Jan 2021 02:10:39 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.149])
- by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 87EDA864BA01;
- Wed, 27 Jan 2021 08:10:28 +0100 (CET)
-Received: from kaod.org (37.59.142.96) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Wed, 27 Jan
- 2021 08:10:27 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-96R0016ccd5de0-775f-4f62-951e-83339a7b87a9,
- 27C0C699323DAAF51BAA1A079A14B1389549C008) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 3/7] ppc/pnv: Use skiboot addresses to load kernel and
- ramfs
-To: <muriloo@linux.ibm.com>, David Gibson <david@gibson.dropbear.id.au>,
- <qemu-ppc@nongnu.org>
-References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-4-clg@kaod.org> <4677115.31r3eYUQgx@kermit.br.ibm.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <98379f94-0fdf-da75-fe60-c743cf0193ab@kaod.org>
-Date: Wed, 27 Jan 2021 08:10:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4fDH-000630-M1
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 02:26:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51464)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <lulu@redhat.com>) id 1l4fD7-00066A-JH
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 02:26:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611732352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8szPNvIK9CiokdL2PbeyOJjldspQ1ho0olWTV8nfJX0=;
+ b=OUuLAFWnZOZKqz5b7w8iQoLmNbQLdpIJ88AYacE83v2olaptInRrrLG5RTEJhBl/fJf/wh
+ ys3Y6d5LGBExGk03S+3b1Wq27BXfV1tz2gMf6pL8o+AtIbykvdCj+vKkpkQBAN3k/Io6Zj
+ uZERSTObMA3NFuLIR/xdknotajKG668=
+Received: from mail-pg1-f200.google.com (mail-pg1-f200.google.com
+ [209.85.215.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-488-AXeTVcUwOsWONNl85HiHQw-1; Wed, 27 Jan 2021 02:25:51 -0500
+X-MC-Unique: AXeTVcUwOsWONNl85HiHQw-1
+Received: by mail-pg1-f200.google.com with SMTP id 18so945784pgp.22
+ for <qemu-devel@nongnu.org>; Tue, 26 Jan 2021 23:25:50 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=8szPNvIK9CiokdL2PbeyOJjldspQ1ho0olWTV8nfJX0=;
+ b=X8tRjVyycjeBZkGReM3CELNuTEkpD/SVvOyhXJawR7WNDWFwK7oLpiamiNigRsrAub
+ z/1qIE0CeoXJUP1B/oOjPT8xC5JjXxVWAKmP9e1DY6OEXQfktyiCO0bGhE6VnoyquniA
+ 5g6gIUl8ovigmNnMbAFwf3PQBK9JdHGg/NwrRPnuKnKPOI1uPSXjW/ciH/ADQlAq+Fg0
+ pMbfF0mhB3YirFhsFSUuCVq8HF0yscHQqdO92SXGMNuFSrYCbcwifjy3qdq2W0kCPxfZ
+ ha1kMbXl6naKywm8z9cIb3f74yHsETD4oQbOQwkx/ibQ0UG0AcIvZYEdvE2w3vZR73+E
+ iM+g==
+X-Gm-Message-State: AOAM533+tih1Z8xdA2AtRnV7SZJQ3INWLfy03FukLBgWu9pN9EO4AXmj
+ LTtx9Q2YfU9CSlNGjdH2ruvshpwe48J/P8MUbYxB/TxeAExWveiesh/l5axGYRZ8E1t3sSLkfrA
+ NgM7XSUwAaKR1HDWVsnVEN2FE9rl9E6o=
+X-Received: by 2002:a63:5142:: with SMTP id r2mr2166870pgl.248.1611732349890; 
+ Tue, 26 Jan 2021 23:25:49 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJynJebVm3B/jexbOLN5Zm1WY1wAIGW+fIWnNmvKDLp1Zo09dXApr3Wp2qISGnxQRzpizkX87RLzyQmWUadzdI0=
+X-Received: by 2002:a63:5142:: with SMTP id r2mr2166858pgl.248.1611732349676; 
+ Tue, 26 Jan 2021 23:25:49 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <4677115.31r3eYUQgx@kermit.br.ibm.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.96]
-X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 9c231281-1308-4e89-9b15-0efdc8dba757
-X-Ovh-Tracer-Id: 1289155397319035811
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdejgddutdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepheeutdehgefhvdehtdeuleetgedvfeeukedtfeeihfffffeiuddutdduhffgvedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=79.137.123.220; envelope-from=clg@kaod.org;
- helo=smtpout1.mo804.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210126074254.3225-1-lulu@redhat.com>
+ <20210126074254.3225-3-lulu@redhat.com>
+ <6d276606-e4d7-e2ee-3fa6-ab1010c84093@redhat.com>
+In-Reply-To: <6d276606-e4d7-e2ee-3fa6-ab1010c84093@redhat.com>
+From: Cindy Lu <lulu@redhat.com>
+Date: Wed, 27 Jan 2021 15:25:12 +0800
+Message-ID: <CACLfguU6LoCvaY+djk_SMUWny4AegFPVvznYArUr4aW2hgkUcg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] vhost_net: enable configure interrupt when
+ vhost_net start
+To: Jason Wang <jasowang@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=lulu@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=lulu@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,69 +90,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/27/21 2:27 AM, Murilo Opsfelder Araújo wrote:
-> Bonjour, Cédric.
-> 
-> On Tuesday, January 26, 2021 2:10:55 PM -03 Cédric Le Goater wrote:
->> The current settings are useful to load large kernels (with debug) but
->> it moves the initrd image in a memory region not protected by
->> skiboot. If skiboot is compiled with DEBUG=1, memory poisoning will
->> corrupt the initrd.
->>
->> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>
->>  If we want to increase the kernel size limit as commit b45b56baeecd
->>  ("ppc/pnv: increase kernel size limit to 256MiB") intented to do, I
->>  think we should add a machine option.
-> 
-> Is this a problem on bare-metal as well?
-> 
-> I'm wondering if we should address this the other way around by increasing
-> KERNEL_LOAD_SIZE and INITRAMFS_LOAD_SIZE in skiboot to accomodate large kernel
-> and initramfs images.
+On Wed, Jan 27, 2021 at 1:38 PM Jason Wang <jasowang@redhat.com> wrote:
+>
+>
+> On 2021/1/26 =E4=B8=8B=E5=8D=883:42, Cindy Lu wrote:
+> > While peer is vhost vdpa, setup the configure interrupt function
+> > vhost_net_start and release the resource when vhost_net_stop
+> >
+> > Signed-off-by: Cindy Lu <lulu@redhat.com>
+> > ---
+> >   hw/net/vhost_net.c | 19 ++++++++++++++++++-
+> >   1 file changed, 18 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+> > index 24d555e764..0660da474a 100644
+> > --- a/hw/net/vhost_net.c
+> > +++ b/hw/net/vhost_net.c
+> > @@ -345,6 +345,15 @@ int vhost_net_start(VirtIODevice *dev, NetClientSt=
+ate *ncs,
+> >           error_report("Error binding guest notifier: %d", -r);
+> >           goto err;
+> >       }
+> > +    if (ncs->peer && ncs->peer->info->type =3D=3D NET_CLIENT_DRIVER_VH=
+OST_VDPA) {
+> > +        if (k->set_config_notifiers) {
+> > +            r =3D k->set_config_notifiers(qbus->parent, true);
+> > +            if (r < 0) {
+> > +                error_report("Error binding config notifier: %d", -r);
+> > +                goto err;
+> > +            }
+> > +       }
+> > +    }
+> >
+> >       for (i =3D 0; i < total_queues; i++) {
+> >           peer =3D qemu_get_peer(ncs, i);
+> > @@ -391,7 +400,15 @@ void vhost_net_stop(VirtIODevice *dev, NetClientSt=
+ate *ncs,
+> >       for (i =3D 0; i < total_queues; i++) {
+> >           vhost_net_stop_one(get_vhost_net(ncs[i].peer), dev);
+> >       }
+> > -
+> > +   if (ncs->peer && ncs->peer->info->type =3D=3D NET_CLIENT_DRIVER_VHO=
+ST_VDPA) {
+> > +        if (k->set_config_notifiers) {
+>
+>
+> It looks to me that checking k->set_config_notifier is sufficient here.
+>
+> Thanks
+>
+>
+sure will fix this
 
-The different memory areas are all strictly defined here : 
-
-  https://github.com/open-power/skiboot/blob/master/include/mem-map.h
-
-C. 
-
-> I think Linux debuginfo images won't get smaller with time and, assuming this
-> also happens on bare-metal (I haven't verified), updating skiboot looks more
-> appropriate.
-> 
-> Bear in mind that I'm not an skiboot expert, I'm just considering the
-> possibilities.
-> 
->>
->>  hw/ppc/pnv.c | 6 +++---
->>  1 file changed, 3 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
->> index 14fc9758a973..e500c2e2437e 100644
->> --- a/hw/ppc/pnv.c
->> +++ b/hw/ppc/pnv.c
->> @@ -65,9 +65,9 @@
->>  #define FW_MAX_SIZE             (16 * MiB)
->>
->>  #define KERNEL_LOAD_ADDR        0x20000000
->> -#define KERNEL_MAX_SIZE         (256 * MiB)
->> -#define INITRD_LOAD_ADDR        0x60000000
->> -#define INITRD_MAX_SIZE         (256 * MiB)
->> +#define KERNEL_MAX_SIZE         (128 * MiB)
->> +#define INITRD_LOAD_ADDR        0x28000000
->> +#define INITRD_MAX_SIZE         (128 * MiB)
->>
->>  static const char *pnv_chip_core_typename(const PnvChip *o)
->>  {
-> 
-> Cheers!
-> 
+> > +            r =3D k->set_config_notifiers(qbus->parent, false);
+> > +            if (r < 0) {
+> > +                error_report("Error unbinding config notifier: %d", -r=
+);
+> > +            }
+> > +           assert(r >=3D 0);
+> > +        }
+> > +    }
+> >       r =3D k->set_guest_notifiers(qbus->parent, total_queues * 2, fals=
+e);
+> >       if (r < 0) {
+> >           fprintf(stderr, "vhost guest notifier cleanup failed: %d\n", =
+r);
+>
 
 
