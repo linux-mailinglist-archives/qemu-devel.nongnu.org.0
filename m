@@ -2,59 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EEF4305B84
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 13:36:47 +0100 (CET)
-Received: from localhost ([::1]:34916 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54F0305BAF
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 13:41:07 +0100 (CET)
+Received: from localhost ([::1]:37526 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4k3y-0002V3-JT
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 07:36:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58910)
+	id 1l4k8A-0003gI-Pt
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 07:41:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59400)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l4k33-0001oV-OZ
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 07:35:49 -0500
-Received: from kylie.crudebyte.com ([5.189.157.229]:36881)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
- id 1l4k31-00084z-N7
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 07:35:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
- Content-ID:Content-Description;
- bh=iqaInxJLEvavXDY3rU6ek+pU5ml3tKM1ifyLVNd3OpI=; b=ItLvtj1u7ZbAndA7UdAG45PDcQ
- syo4xDFavEohUr9fKzaz6JBTtT3whC1nZn9+4yvLfemJz7FYAj3PkuuqC3mlZhgoASHfqAMfz+cr2
- HqLYzTR0+BhUSTsaZk4b3pwEZ8xtI1PJuyJR4orGIXyMFfyOPax7eJtSFxUNI4yyEAm5xacEqtMFt
- 8zkOOYNbpvAUpHd6/dK0q7X1ho16gin+56Uq2kg6S8Ol3CkOcU9hw+fzWAX1o9Zq8bsyd9hgm3PuD
- 6a9doDRJOg2b3R/peDb000Eos2hI2Kyfx/6GDEvr7mbjSkdBUxkE4iBDCZr/15OmHLAGIb19j+uxl
- AjZC8YerSTxhM+77z8kCR8JZC42i0Qnzow7c1C/QjuQT7q3uMNlY1yeJwdqMNcAFZkJ6NVQnE4MP0
- JonN2ggBw4LXqKuZPktBtIgWccBF+5pSRyP2ZHhM+/FRRXKjRKZlrni87ncXx8P/M6JN62xW5Gds8
- HaNOvAN5v8HBKEt8qTuVi6FivAwdRGjjw/DZtm1lGHpBmRMc4Is2HiIwEPDTphfTWiQ+lKgERcXTx
- detGd6wTIqreTZb0HGi14PUG4cBQmlxwQ7EfzRpgreX1bn2XiafG5PqIjC625ovIaJmTrgf+5MPpk
- aH+CWJrzXAz1AwJsbueqYHizMmykWp4OY+IILxyv0=;
-From: Christian Schoenebeck <qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org,
- Daniel =?ISO-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Subject: Re: macOS (Big Sur,
- Apple Silicon) 'make check' fails in test-crypto-tlscredsx509
-Date: Wed, 27 Jan 2021 13:35:37 +0100
-Message-ID: <26424319.eypid10iWP@silver>
-In-Reply-To: <20210127121723.GI3653144@redhat.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4k5s-0003Cj-Qe
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 07:38:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:46719)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4k5n-00013M-Ef
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 07:38:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611751115;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=F/Nqq/JlHMll+I8ARD0OXJtiidwsw0B3pKDrDNk3I7c=;
+ b=YmqxvY3wdJnuhua1k8U50JtamYvF74uCnP2RdjoRqNmt+ExZJL4pGtzVSOemOH8yGuzrqN
+ PPHLkUB5o712z5k5kHMeuW8QePM2Mcjujgb/a8o25bfdLRN918l8j24rxDArMno0mhdAd1
+ +1xvNgkIBoy4eF51M9BCPgAu1SsZXBY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-476-nL6vCm-rNdm_DTJ0uZ9pPQ-1; Wed, 27 Jan 2021 07:38:33 -0500
+X-MC-Unique: nL6vCm-rNdm_DTJ0uZ9pPQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 503DB801817;
+ Wed, 27 Jan 2021 12:38:32 +0000 (UTC)
+Received: from redhat.com (ovpn-115-120.ams2.redhat.com [10.36.115.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C311360864;
+ Wed, 27 Jan 2021 12:38:30 +0000 (UTC)
+Date: Wed, 27 Jan 2021 12:38:27 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
+ test-crypto-tlscredsx509
+Message-ID: <20210127123827.GK3653144@redhat.com>
 References: <CAFEAcA-bafTaHajkvYQw1rfGP1MgKmeY-wmO6LY=fj2oY87HFQ@mail.gmail.com>
  <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
- <20210127121723.GI3653144@redhat.com>
+ <20210127121723.GI3653144@redhat.com> <26424319.eypid10iWP@silver>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
-Received-SPF: pass client-ip=5.189.157.229;
- envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <26424319.eypid10iWP@silver>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,46 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Alexander Graf <agraf@csgraf.de>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Alexander Graf <agraf@csgraf.de>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mittwoch, 27. Januar 2021 13:17:23 CET Daniel P. Berrang=E9 wrote:
-> On Tue, Jan 26, 2021 at 04:41:13PM +0000, Peter Maydell wrote:
-> > On Tue, 26 Jan 2021 at 16:37, Daniel P. Berrang=E9 <berrange@redhat.com=
->=20
-wrote:
-> > > On Tue, Jan 26, 2021 at 04:32:08PM +0000, Peter Maydell wrote:
-> > > > ** (tests/test-crypto-tlscredsx509:35180): CRITICAL **: 16:23:34.59=
-0:
-> > > > Failed to sign certificate ASN1 parser: Value is not valid.
-> > > > ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to
-> > > > sign certificate ASN1 parser: Value is not valid.
-> > > > make: *** [run-test-70] Error 1
-> > > >=20
-> > > >=20
-> > > > Does this failure ring any bells for anybody?
-> > >=20
-> > > Not seen it before.
-> > >=20
-> > > Is this using a gnutls from homebrew, or one that apple
-> > > ship themselves ?  Any idea what version it is ?
-> >=20
-> > Homebrew gnutls, 3.6.15.
->=20
-> On further investigation it seems the error comes from libtasn1,
-> but unfortunately there are 100's of scenarios it could arise
-> so difficult one to debug.
+On Wed, Jan 27, 2021 at 01:35:37PM +0100, Christian Schoenebeck wrote:
+> On Mittwoch, 27. Januar 2021 13:17:23 CET Daniel P. Berrangé wrote:
+> > On Tue, Jan 26, 2021 at 04:41:13PM +0000, Peter Maydell wrote:
+> > > On Tue, 26 Jan 2021 at 16:37, Daniel P. Berrangé <berrange@redhat.com> 
+> wrote:
+> > > > On Tue, Jan 26, 2021 at 04:32:08PM +0000, Peter Maydell wrote:
+> > > > > ** (tests/test-crypto-tlscredsx509:35180): CRITICAL **: 16:23:34.590:
+> > > > > Failed to sign certificate ASN1 parser: Value is not valid.
+> > > > > ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to
+> > > > > sign certificate ASN1 parser: Value is not valid.
+> > > > > make: *** [run-test-70] Error 1
+> > > > > 
+> > > > > 
+> > > > > Does this failure ring any bells for anybody?
+> > > > 
+> > > > Not seen it before.
+> > > > 
+> > > > Is this using a gnutls from homebrew, or one that apple
+> > > > ship themselves ?  Any idea what version it is ?
+> > > 
+> > > Homebrew gnutls, 3.6.15.
+> > 
+> > On further investigation it seems the error comes from libtasn1,
+> > but unfortunately there are 100's of scenarios it could arise
+> > so difficult one to debug.
+> 
+> I haven't looked into the relevant code of this discussion, but is the failing 
+> code dealing with Apple certificates? Because Apple just announced a switch of 
+> one of their intermediate certificates, so just in case this might be related.
 
-I haven't looked into the relevant code of this discussion, but is the fail=
-ing=20
-code dealing with Apple certificates? Because Apple just announced a switch=
- of=20
-one of their intermediate certificates, so just in case this might be relat=
-ed.
+It shouldn't be affected. The test suite is creating its own self-signed
+root CA, and cert tree under that, so everything should be self contained.
 
-Best regards,
-Christian Schoenebeck
-
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
