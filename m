@@ -2,89 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D27630602F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 16:50:35 +0100 (CET)
-Received: from localhost ([::1]:35648 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE272306034
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 16:51:50 +0100 (CET)
+Received: from localhost ([::1]:39278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4n5W-00075D-4h
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 10:50:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40922)
+	id 1l4n6j-00008R-Sm
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 10:51:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
- id 1l4n3F-0005Rs-N3
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1l4n3F-0005So-9j
  for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:48:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57023)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
- id 1l4n3C-0001oT-Uo
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:48:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611762489;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qyQ2VP4uacGIYrBHlIhCzU7xjvXGnE7iDsk7J62kABo=;
- b=eCbmZhc/f9xVg3tTWFYbE5jvDjwsvvWHLIi1+ImtmBxTtDV3JfTLp2Mnui1I7yBeZe2YrN
- KZdB0bCd9ha14PtZ2zeEEL/Cs1nu/qVRGYnmXJB2aIlpILEJj96cojTrddl7MZzhLBlkQC
- 8wRtKjXiISaKo4/XXAtB8jY+Uq0Zbhg=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-147-OimCks4dOBCQx2Knh5CXHA-1; Wed, 27 Jan 2021 10:48:07 -0500
-X-MC-Unique: OimCks4dOBCQx2Knh5CXHA-1
-Received: by mail-qk1-f199.google.com with SMTP id y187so1789081qke.20
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 07:48:07 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=qyQ2VP4uacGIYrBHlIhCzU7xjvXGnE7iDsk7J62kABo=;
- b=TYeaYTtU27d6C+HjdTKBDyyeEsaKdYr0Dmsh+Mcrzw5FiN5NCD/ON+kdv0uhaLJJg5
- 1Fit1PhLL26QY+CTrh0L3uNGvNaMG17+Y4r7jCBhV6V41nS73C5hiqdS7nQivxD+ZWgw
- XwioadvqUb5qiaODTsoptQPYPymZ8uTnRnme6oCbRHln6JU/uQBwNethllvbgZAnR8pk
- Urm8+SIJ5ViuQJuw2VxPyB1GXo/UvZGazX6FjwGO2j84WcFX1ItYWVEHKijtVzAOc7oK
- zbqF0ZCySvOBUIN0QBx/FnWlZaQ25cwwHFqcB/3zWDH2QzspLEYKCjjmR7ndejbk84s8
- CnNw==
-X-Gm-Message-State: AOAM530n2Xgz97Yjuh4gxtfwv9mR0uwJa2LQi8R+CfgWknoq+R0DWK6U
- DqlmhrsgBNwnGdVl/czjPWuCqSQ3Hw79tE+ptnBmqgwORnsYopfwZbPQ8M6+QKMZH2bWrN6claq
- VHnw1kL/HEPg5Xyr2P7SlX+gB2MWRUKI=
-X-Received: by 2002:a05:620a:24cd:: with SMTP id
- m13mr10955315qkn.273.1611762486725; 
- Wed, 27 Jan 2021 07:48:06 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxWqk0/dGBN7kCzmAVuFCqQsHPePjjmK/MhQcqQDD8uYq8LwC09K99w2Nad8lBmLvp7XmO13b+1cRi2rJGOzmw=
-X-Received: by 2002:a05:620a:24cd:: with SMTP id
- m13mr10955279qkn.273.1611762486368; 
- Wed, 27 Jan 2021 07:48:06 -0800 (PST)
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:42842)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1l4n3C-0001oS-MA
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 10:48:13 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10RF3QMe162674
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 10:48:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=reply-to : subject : to
+ : cc : references : from : message-id : date : mime-version : in-reply-to
+ : content-type : content-transfer-encoding; s=pp1;
+ bh=6ZhfGTmXCOGIA3+UNkaw7nna0HMgiCZVOcU3Hiz8Wmc=;
+ b=KoFvJau5FtKwPbTf3BW8RVFen0Np1G4dyHnhBUjzVLDwOv+wyAPn5dLpdY1ARWRVNXUI
+ z+gOMuaQdIywzYMpPpnyY7uXvUIKWPcojdtCcJU8t+GJtKXHEvjwFWT5ohi+OUJIXFm8
+ KPd02QqRXzXTK1L8m7sgJvL87+U/iSY+0KXo4eSwSXHQBkKnlDl9kuzb+YmOsODrUI5a
+ iGo/X1MPk1Po3pKgNa7duqu3WomnO2T4SnMyYxsBeEffO8o/YwWoKEnqP+Jk8It1Hf9E
+ 6LV+FROh9rYlQLFlfpQ7TGKHbyfYh13F6TPvfiH/fTkEHRuBlhQa8OU1O8F6wpY+6dOy vw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36b3kfxk7u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 10:48:08 -0500
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10RF3u8o166350
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 10:48:08 -0500
+Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
+ [169.63.214.131])
+ by mx0a-001b2d01.pphosted.com with ESMTP id 36b3kfxk6v-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Jan 2021 10:48:08 -0500
+Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
+ by ppma01dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10RFktxb002514;
+ Wed, 27 Jan 2021 15:48:06 GMT
+Received: from b01cxnp22035.gho.pok.ibm.com (b01cxnp22035.gho.pok.ibm.com
+ [9.57.198.25]) by ppma01dal.us.ibm.com with ESMTP id 36adttw17q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Jan 2021 15:48:06 +0000
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+ [9.57.199.110])
+ by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10RFm6Yh29294866
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 Jan 2021 15:48:06 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 190D9AE062;
+ Wed, 27 Jan 2021 15:48:06 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 2448FAE05F;
+ Wed, 27 Jan 2021 15:48:05 +0000 (GMT)
+Received: from lagarcia.br.ibm.com (unknown [9.85.165.159])
+ by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+ Wed, 27 Jan 2021 15:48:04 +0000 (GMT)
+Subject: Re: [PATCH] IOMMU and ATS not supported by vhost-user filesystem.
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <e76462fdcfaa07208380e2a7df9b281b6e6717b8.1611685180.git.lagarcia@br.ibm.com>
+ <20210127111938.GH299797@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?=
+ <lagarcia@linux.ibm.com>
+Organization: IBM
+Message-ID: <cb16f58f-471f-4bf9-8cee-437feeba8750@linux.ibm.com>
+Date: Wed, 27 Jan 2021 12:48:04 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210126103502.260758-1-stefanha@redhat.com>
- <20210126181604.1a4c69c6@bahia.lan>
- <CAOssrKdh3kqKN4uGE=s5eiymd2MXKsRXUegqRH-TFhqYOK7WOA@mail.gmail.com>
- <20210127112023.0e97f909@bahia.lan>
- <CAOssrKfezsvcECQ=mO_4T2B09e+2S4LA3=_U6TQyiTtPbE=OYg@mail.gmail.com>
- <20210127144909.22dd778e@bahia.lan>
- <CAOssrKeN9iYT-Z46FVtzdKnWcTLfMqK77b1faf78m3XTXnEVGw@mail.gmail.com>
- <20210127160920.062e47f0@bahia.lan>
- <CAOssrKc=kSQQLmrAR2VrKfDzkyNDEAAa5qusK1x6+-fCM4+yCA@mail.gmail.com>
- <20210127163524.4e34596d@bahia.lan>
-In-Reply-To: <20210127163524.4e34596d@bahia.lan>
-From: Miklos Szeredi <mszeredi@redhat.com>
-Date: Wed, 27 Jan 2021 16:47:55 +0100
-Message-ID: <CAOssrKcbymmsVtU=jMMcE=K1T9oC=NmOzt3aSCe27K7TxXF61A@mail.gmail.com>
-Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: prevent opening of special
- files (CVE-2020-35517)
-To: Greg Kurz <groug@kaod.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mszeredi@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+In-Reply-To: <20210127111938.GH299797@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-27_05:2021-01-27,
+ 2021-01-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 impostorscore=0
+ spamscore=0 adultscore=0 malwarescore=0 mlxscore=0 suspectscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101270083
+Received-SPF: pass client-ip=148.163.156.1;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -99,46 +114,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Berrange <berrange@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
- virtio-fs-list <virtio-fs@redhat.com>, Alex Xu <alex@alxu.ca>,
- Stefan Hajnoczi <stefanha@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Vivek Goyal <vgoyal@redhat.com>
+Reply-To: lagarcia@br.ibm.com
+Cc: maxime.coquelin@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 27, 2021 at 4:35 PM Greg Kurz <groug@kaod.org> wrote:
+On 1/27/21 8:19 AM, Stefan Hajnoczi wrote:
+> On Tue, Jan 26, 2021 at 03:23:38PM -0300, lagarcia@linux.ibm.com wrote:
+>> From: Leonardo Garcia <lagarcia@br.ibm.com>
+>>
+>> Currently, as IOMMU and ATS are not supported, if a user mistakenly set
+>> any of them and tries to mount the vhost-user filesystem inside the
+>> guest, whenever the user tries to access the mount point, the system
+>> will hang forever.
+>>
+>> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+>> ---
+>>   hw/virtio/vhost-user-fs-pci.c | 7 +++++++
+>>   hw/virtio/vhost-user-fs.c     | 5 +++++
+>>   2 files changed, 12 insertions(+)
+>>
+>> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
+>> index 2ed8492b3f..564d1fd108 100644
+>> --- a/hw/virtio/vhost-user-fs-pci.c
+>> +++ b/hw/virtio/vhost-user-fs-pci.c
+>> @@ -11,6 +11,8 @@
+>>    * top-level directory.
+>>    */
+>>   
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>>   #include "qemu/osdep.h"
+>>   #include "hw/qdev-properties.h"
+>>   #include "hw/virtio/vhost-user-fs.h"
+>> @@ -45,6 +47,11 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>>           vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
+>>       }
+>>   
+>> +    if (vpci_dev->flags & VIRTIO_PCI_FLAG_ATS) {
+>> +        error_setg(errp, "ATS is currently not supported with vhost-user-fs-pci");
+>> +        return;
+>> +    }
+> Why is this check needed in addition to VIRTIO_F_IOMMU_PLATFORM?
 >
-> On Wed, 27 Jan 2021 16:22:49 +0100
-> Miklos Szeredi <mszeredi@redhat.com> wrote:
+> What needs to be added to support ATS?
 >
-> > On Wed, Jan 27, 2021 at 4:09 PM Greg Kurz <groug@kaod.org> wrote:
-> > >
-> > > On Wed, 27 Jan 2021 15:09:50 +0100
-> > > Miklos Szeredi <mszeredi@redhat.com> wrote:
-> > > > The semantics of O_CREATE are that it can fail neither because the
-> > > > file exists nor because it doesn't.  This doesn't matter if the
-> > > > exported tree is not modified outside of a single guest, because of
-> > > > locking provided by the guest kernel.
-> > > >
-> > >
-> > > Wrong. O_CREAT can legitimately fail with ENOENT if one element
-> >
-> > Let me make my  statement more precise:
-> >
-> > O_CREAT cannot fail with ENOENT if parent directory exists throughout
-> > the operation.
-> >
+>> +
+>>       qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+>>   }
+>>   
+>> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+>> index ac4fc34b36..914d68b3ee 100644
+>> --- a/hw/virtio/vhost-user-fs.c
+>> +++ b/hw/virtio/vhost-user-fs.c
+>> @@ -203,6 +203,11 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+>>           return;
+>>       }
+>>   
+>> +    if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+>> +        error_setg(errp, "IOMMU is currently not supported with vhost-user-fs");
+>> +        return;
+>> +    }
+>> +
+>>       if (!vhost_user_init(&fs->vhost_user, &fs->conf.chardev, errp)) {
+> I thought IOMMU support depends on the vhost-user device backend (e.g.
+> virtiofsd), so the vhost-user backend should participate in advertising
+> this feature.
 >
-> True, but I still don't see what guarantees guest userspace that the
-> parent directory doesn't go away... I must have missed something.
-> Please elaborate.
+> Perhaps the check should be:
+>
+>      ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
+>                           VHOST_BACKEND_TYPE_USER, 0);
+>      if (ret < 0) {
+>          error_setg_errno(errp, -ret, "vhost_dev_init failed");
+>          goto err_virtio;
+>      }
+> +
+> +   if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM) &&
+> +       !(fs->vhost_dev.hdev_features & (1ull << VIRTIO_F_IOMMU_PLATFORM))) {
+> +       error_setg(errp, "IOMMU is not supported by the vhost-user device backend");
+> +       goto err_iommu_needed;
+> +   }
+>
+> Also, can this logic be made generic for all vhost-user devices? It's
+> not really specific to vhost-user-fs.
 
-Generally there's no guarantee, however there can be certain
-situations where the caller can indeed rely on the existence of the
-parent (e.g. /tmp).
+Further analyzing this, on vhost-user.c, I see:
 
-Thanks,
-Miklos
+         if (virtio_has_feature(features, VIRTIO_F_IOMMU_PLATFORM) &&
+                 !(virtio_has_feature(dev->protocol_features,
+                     VHOST_USER_PROTOCOL_F_SLAVE_REQ) &&
+                  virtio_has_feature(dev->protocol_features,
+                     VHOST_USER_PROTOCOL_F_REPLY_ACK))) {
+             error_report("IOMMU support requires reply-ack and "
+                          "slave-req protocol features.");
+             return -1;
+         }
 
+This code was included by commit 6dcdd06. It included support for 
+VIRTIO_F_IOMMU_PLATFORM with vhost_net devices. So, the restriction is 
+not generic for all vhost-user devices.
+
+Cheers,
+
+Leo
+
+>
+> Stefan
 
