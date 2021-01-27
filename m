@@ -2,53 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65836306278
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 18:47:46 +0100 (CET)
-Received: from localhost ([::1]:56048 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760643062A6
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 18:52:19 +0100 (CET)
+Received: from localhost ([::1]:59132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4ouv-00013A-AV
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 12:47:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34734)
+	id 1l4ozK-0002Om-IU
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 12:52:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35094)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l4otk-0000NH-48; Wed, 27 Jan 2021 12:46:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:58746)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kbusch@kernel.org>)
- id 1l4otg-0001G1-Kt; Wed, 27 Jan 2021 12:46:31 -0500
-Received: by mail.kernel.org (Postfix) with ESMTPSA id D3D5B64DA3;
- Wed, 27 Jan 2021 17:46:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1611769586;
- bh=g8a+rUaoG7io61GfM1BwmCuE36ZYDhVXJHapUabhW/8=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=BjYxv0X1VDuH9aN1aLgJFXfJba1VNQw9q6UQqCh68UiqRDX0DddtQ0on+YarN5hkI
- PhxSZ77Gu/yTKT2AZbg7SjxhWclH1oIXtR2AOj5Y7+HgxtXbQPDno3wVnE94Eu5wi0
- ywkN728v+EvNIM51cJpptOFmbD7te5OggSW+x8s/L1xi2Kx1W4ccC3Uiz48btG/Pwr
- 7z/dPb+lwR/keDDdGjNMzPKXH0T83cQ78ZRDfN57o2bZNjHxIkiNIfyLXszFMEX71D
- 3d2tx5GhvNXVI4rlt9j//5ioG4BMx4TkyX74JBilnEQmooTbuHH9cOT9sEC60Yyjih
- 884JJbxw7tedA==
-Date: Wed, 27 Jan 2021 09:46:23 -0800
-From: Keith Busch <kbusch@kernel.org>
-To: Klaus Jensen <its@irrelevant.dk>
-Subject: Re: [PATCH 0/3] Fix zone write validation
-Message-ID: <20210127174623.GC1816249@dhcp-10-100-145-180.wdc.com>
-References: <20210126050248.9077-1-dmitry.fomichev@wdc.com>
- <YA/RJhWQMV/6jqTS@apples.localdomain>
- <YA/VjPTKjl0Mhq9l@apples.localdomain>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l4ovF-0001Qo-7D
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:48:05 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:35694)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l4ovD-0001a2-Ao
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:48:04 -0500
+Received: by mail-ed1-x531.google.com with SMTP id j13so3498828edp.2
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 09:48:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=JvJcjsp97GNmWZeAjZ2OQmVU2hY2JIuCbmgVft5xza0=;
+ b=KF7jgWEvW0JsTh5uVMmb3GbFQfohpDfTZF1yhFEsbdcfPbA59uki6Xfu5qF3sEIID0
+ NFaY/gmMm5LC+NedaLpYYyA1Mbdj1n103YjdRQnc/vQsfJ8JW6vvwuaO+BNTIgv5ib9K
+ mGJQjZ1pyfzjxKlGj350XEo5Saqply7WFb1vAQE38JXo9h5+nVDP4keS3hsPUyjVw84x
+ cdYQY/XXB87d/FjnKDwVMq6G5e76PykNkPK47xoao5dRSbroyGrSyjdDs53wrQbxdlI7
+ XU9FykSqanjH/DiALSc9HnRa3g7nLFZW7dvc1ukMrgJQQ+DDvhmzYzuk3n4Zr4km4ZUv
+ +bSg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=JvJcjsp97GNmWZeAjZ2OQmVU2hY2JIuCbmgVft5xza0=;
+ b=gBAs8ddxXm7PfCSTU4A39Uv881u3w3nkbaS76lhBEdIzHvuSW4d+amTLjzl6zs2MIE
+ 07mmBuj5pFcGQpDwDqCoIlNiCbtCeSaoocUFl1czx8NTLMsFsJNIyuXbyGbu3r1GoKSJ
+ EN/j1GYhg+KUn6d376puTudNzs1YeRzJV0Y+a5TodOaI4zJCDbOIuBPckoA3IAR6vZqQ
+ 8epcfbRwTEvC6hCHHfhfjvg94WcfNr36mCgUFrMdqVytM1p+LtHHYiVoouvi/z+Ol2VN
+ 6j84+bJvNyIulR42tWrUeVlaxkhvD9EJuKJI0TvFCvZCHmddZxmgao4ddSCDSzqx4rco
+ pDJw==
+X-Gm-Message-State: AOAM533ot3G9oqzZpF8wq8OBzQkYy/KL9ybKCiXJw/cvYmsAYaMjObHJ
+ eh9yHmnXNlRP5y8Fue+16jvVsb9UIahjA7MzxYwgKg==
+X-Google-Smtp-Source: ABdhPJx9yPqLAgVDAbd7LXVvbL8+u9lkZULRI1OfET25htVO7AJRI1+f0qAgzyB8XdL0OCalwNB6lmTpjPvJ+mFYn34=
+X-Received: by 2002:a05:6402:1701:: with SMTP id
+ y1mr9856556edu.251.1611769681592; 
+ Wed, 27 Jan 2021 09:48:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <YA/VjPTKjl0Mhq9l@apples.localdomain>
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=kbusch@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -73
-X-Spam_score: -7.4
-X-Spam_bar: -------
-X-Spam_report: (-7.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+References: <1611759570-3645-1-git-send-email-mihai.carabas@oracle.com>
+In-Reply-To: <1611759570-3645-1-git-send-email-mihai.carabas@oracle.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 27 Jan 2021 17:47:49 +0000
+Message-ID: <CAFEAcA9SBX-sT983TsiRu9TSBWrZDWe=LM5cAJNxmHxa5ud0pw@mail.gmail.com>
+Subject: Re: [PATCH v6] Add support for pvpanic pci device
+To: Mihai Carabas <mihai.carabas@oracle.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,49 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Niklas Cassel <niklas.cassel@wdc.com>,
- Damien Le Moal <damien.lemoal@wdc.com>, qemu-block@nongnu.org,
- Dmitry Fomichev <dmitry.fomichev@wdc.com>, Klaus Jensen <k.jensen@samsung.com>,
- qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: Yan Vugenfirer <yvugenfi@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 26, 2021 at 09:40:44AM +0100, Klaus Jensen wrote:
-> On Jan 26 09:21, Klaus Jensen wrote:
-> > On Jan 26 14:02, Dmitry Fomichev wrote:
-> > > These patches solve a few problems that exist in zoned Write
-> > > ans Zone Append validation code.
-> > > 
-> > > Dmitry Fomichev (3):
-> > >   hw/block/nvme: Check for zone boundary during append
-> > >   hw/block/nvme: Check zone state before checking boundaries
-> > >   hw/block/nvme: Add trace events for zone boundary violations
-> > > 
-> > >  hw/block/nvme.c       | 35 ++++++++++++++++++++---------------
-> > >  hw/block/trace-events |  3 +++
-> > >  2 files changed, 23 insertions(+), 15 deletions(-)
-> > > 
-> > 
-> > I don't think there are any obvious benefits to this series over my fix
-> > and since you didn't identify any functional issues with it, I'm
-> > thinking we go with that.
-> > 
-> > My fix additionally removes setting ALBA in the CQE for regular writes
-> > and bundles the endianness fix by changing the related logic in
-> > do_write.
-> > 
-> > I have a couple of series in queue that also includes zoned writes and
-> > there is no reason they have to indirectly deal with append. It's just
-> > cleaner to move this special case closer to where it's used.
-> 
-> Keith,
-> 
-> I think this calls for your +1 tiebreaking special ability.
+On Wed, 27 Jan 2021 at 15:46, Mihai Carabas <mihai.carabas@oracle.com> wrote:
+>
+> This patchset adds support for pvpanic pci device.
+>
+> v3:
+> - patch 1: made pvpanic isa device available only for PC, compile pvpanic-test
+>   only when isa device is present
+> - patch 2: fixed device id to 0x0011, used OBJECT_DECLARE_TYPE,
+>   PVPANIC_PCI_DEVICE, added VMSTATE_PCI_DEVICE, removed INTERFACE_PCIE_DEVICE
+> - patch 3: fixed documentation
+> - patch 4: add a qtest for pvpanic-pci
+>
+> v4:
+> - added Rb/Ack on patches
+> - modify test case to include -action parameter that was recently added and also
+>   to be on par with the pvpanic ISA device testing
+>
+> v5:
+> - added subsystem_vendor_id and subsystem_id needed for MS WHQL tests
+>
+> v6:
+> - removed subsystem_vendor_id and subsystem_id as they are filed out by default
+>   if empty
+> - do not compile pvpanic-pci-test for ppc64 as we our tests do not support that
+>   platform
 
-Klaus,
+Why doesn't the test work on PPC ?
 
-Your series arrived very timely, and since it looks fine (unless there
-are outstanding objections?), I think it's fair to apply your series.
-Subsequent changes can rebase to that.
+thanks
+-- PMM
 
