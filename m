@@ -2,69 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA8130597F
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 12:23:06 +0100 (CET)
-Received: from localhost ([::1]:36880 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 557B73059AA
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 12:29:00 +0100 (CET)
+Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4iuf-0003tG-4k
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 06:23:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46164)
+	id 1l4j0N-0005Sq-ET
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 06:28:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4itS-0002zz-T7
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 06:21:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27859)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l4itN-0006kO-3c
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 06:21:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611746503;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=7/rJJlqF9YgJdNiH6uHzkbQV4PUCaAWgBmA2hQbtM9Q=;
- b=cOk5bUnBlOZLlxszmxQV8VXTxa0zLEKy9cFGfmh3T6RMAs700/nlQ7F1inIO6NXA0ws2t6
- kOD3jXw+DMj/LJDYOEo2Mz+jRx4sNMJnZExYx0BLfuey1LJXtrPN6VYfi9FWHyG5tHAfTM
- zhIjzsF8p8omoQ42SL+1Nxl1guNJWmw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-qcEJkwPzPxuXnzr5PP2iUA-1; Wed, 27 Jan 2021 06:21:40 -0500
-X-MC-Unique: qcEJkwPzPxuXnzr5PP2iUA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A7AF91015959;
- Wed, 27 Jan 2021 11:21:33 +0000 (UTC)
-Received: from localhost (ovpn-115-15.ams2.redhat.com [10.36.115.15])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 01D655D766;
- Wed, 27 Jan 2021 11:21:32 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3] virtiofsd: prevent opening of special files
- (CVE-2020-35517)
-Date: Wed, 27 Jan 2021 11:21:31 +0000
-Message-Id: <20210127112131.308451-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1l4izP-0004oT-8i; Wed, 27 Jan 2021 06:27:59 -0500
+Received: from szxga06-in.huawei.com ([45.249.212.32]:2597)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
+ id 1l4izI-0000yY-L1; Wed, 27 Jan 2021 06:27:59 -0500
+Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
+ by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DQhBw2YdLzjCxF;
+ Wed, 27 Jan 2021 19:26:48 +0800 (CST)
+Received: from [10.174.186.182] (10.174.186.182) by
+ DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
+ 14.3.498.0; Wed, 27 Jan 2021 19:27:35 +0800
+Subject: Re: [RFC PATCH v2 3/3] vfio: Avoid disabling and enabling vectors
+ repeatedly in VFIO migration
+To: Alex Williamson <alex.williamson@redhat.com>
+References: <20201209080919.156-1-lushenming@huawei.com>
+ <20201209080919.156-4-lushenming@huawei.com>
+ <20210126143614.175e271c@omen.home.shazbot.org>
+From: Shenming Lu <lushenming@huawei.com>
+Message-ID: <7e61e7ae-e351-4228-d250-660251dcb0c0@huawei.com>
+Date: Wed, 27 Jan 2021 19:27:35 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
+ Thunderbird/78.2.2
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -12
-X-Spam_score: -1.3
-X-Spam_bar: -
-X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MIME_BASE64_TEXT=1.741, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210126143614.175e271c@omen.home.shazbot.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.174.186.182]
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=45.249.212.32; envelope-from=lushenming@huawei.com;
+ helo=szxga06-in.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,178 +61,146 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mszeredi@redhat.com, Daniel Berrange <berrange@redhat.com>, slp@redhat.com,
- Greg Kurz <groug@kaod.org>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- virtio-fs@redhat.com, Alex Xu <alex@alxu.ca>,
- Stefan Hajnoczi <stefanha@redhat.com>, P J P <ppandit@redhat.com>,
- Laszlo Ersek <lersek@redhat.com>, vgoyal@redhat.com
+Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
+ mst@redhat.com, Marc Zyngier <maz@kernel.org>,
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
+ qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QSB3ZWxsLWJlaGF2ZWQgRlVTRSBjbGllbnQgZG9lcyBub3QgYXR0ZW1wdCB0byBvcGVuIHNwZWNp
-YWwgZmlsZXMgd2l0aApGVVNFX09QRU4gYmVjYXVzZSB0aGV5IGFyZSBoYW5kbGVkIG9uIHRoZSBj
-bGllbnQgc2lkZSAoZS5nLiBkZXZpY2Ugbm9kZXMKYXJlIGhhbmRsZWQgYnkgY2xpZW50LXNpZGUg
-ZGV2aWNlIGRyaXZlcnMpLgoKVGhlIGNoZWNrIHRvIHByZXZlbnQgdmlydGlvZnNkIGZyb20gb3Bl
-bmluZyBzcGVjaWFsIGZpbGVzIGlzIG1pc3NpbmcgaW4KYSBmZXcgY2FzZXMsIG1vc3Qgbm90YWJs
-eSBGVVNFX09QRU4uIEEgbWFsaWNpb3VzIGNsaWVudCBjYW4gY2F1c2UKdmlydGlvZnNkIHRvIG9w
-ZW4gYSBkZXZpY2Ugbm9kZSwgcG90ZW50aWFsbHkgYWxsb3dpbmcgdGhlIGd1ZXN0IHRvCmVzY2Fw
-ZS4gVGhpcyBjYW4gYmUgZXhwbG9pdGVkIGJ5IGEgbW9kaWZpZWQgZ3Vlc3QgZGV2aWNlIGRyaXZl
-ci4gSXQgaXMKbm90IGV4cGxvaXRhYmxlIGZyb20gZ3Vlc3QgdXNlcnNwYWNlIHNpbmNlIHRoZSBn
-dWVzdCBrZXJuZWwgd2lsbCBoYW5kbGUKc3BlY2lhbCBmaWxlcyBpbnNpZGUgdGhlIGd1ZXN0IGlu
-c3RlYWQgb2Ygc2VuZGluZyBGVVNFIHJlcXVlc3RzLgoKVGhpcyBwYXRjaCBhZGRzIHRoZSBtaXNz
-aW5nIGNoZWNrcyB0byB2aXJ0aW9mc2QuIFRoaXMgaXMgYSBzaG9ydC10ZXJtCnNvbHV0aW9uIGJl
-Y2F1c2UgaXQgZG9lcyBub3QgcHJldmVudCBhIGNvbXByb21pc2VkIHZpcnRpb2ZzZCBwcm9jZXNz
-CmZyb20gb3BlbmluZyBkZXZpY2Ugbm9kZXMgb24gdGhlIGhvc3QuCgpSZXBvcnRlZC1ieTogQWxl
-eCBYdSA8YWxleEBhbHh1LmNhPgpGaXhlczogQ1ZFLTIwMjAtMzU1MTcKUmV2aWV3ZWQtYnk6IERy
-LiBEYXZpZCBBbGFuIEdpbGJlcnQgPGRnaWxiZXJ0QHJlZGhhdC5jb20+ClJldmlld2VkLWJ5OiBW
-aXZlayBHb3lhbCA8dmdveWFsQHJlZGhhdC5jb20+ClNpZ25lZC1vZmYtYnk6IFN0ZWZhbiBIYWpu
-b2N6aSA8c3RlZmFuaGFAcmVkaGF0LmNvbT4KLS0tCnYzOgogKiBQcm90ZWN0IGxvX2NyZWF0ZSgp
-IFtHcmVnXQp2MjoKICogQWRkIGRvYyBjb21tZW50IGNsYXJpZnlpbmcgdGhhdCBzeW1saW5rcyBh
-cmUgdHJhdmVyc2VkIGNsaWVudC1zaWRlCiAgIFtEYW5pZWxdCgpUaGlzIGlzc3VlIHdhcyBkaWFn
-bm9zZWQgb24gcHVibGljIElSQyBhbmQgaXMgdGhlcmVmb3JlIGFscmVhZHkga25vd24KYW5kIG5v
-dCBlbWJhcmdvZWQuCgpBIHN0cm9uZ2VyIGZpeCwgYW5kIHRoZSBsb25nLXRlcm0gc29sdXRpb24s
-IGlzIGZvciB1c2VycyB0byBtb3VudCB0aGUKc2hhcmVkIGRpcmVjdG9yeSBhbmQgYW55IHN1Yi1t
-b3VudHMgd2l0aCBub2RldiwgYXMgd2VsbCBhcyBub3N1aWQgYW5kCm5vZXhlYy4gVW5mb3J0dW5h
-dGVseSB2aXJ0aW9mc2QgY2Fubm90IGRvIHRoaXMgYXV0b21hdGljYWxseSBiZWNhdXNlCmJpbmQg
-bW91bnRzIGFkZGVkIGJ5IHRoZSB1c2VyIGFmdGVyIHZpcnRpb2ZzZCBoYXMgbGF1bmNoZWQgd291
-bGQgbm90IGJlCmRldGVjdGVkLiBJIHN1Z2dlc3QgdGhlIGZvbGxvd2luZzoKCjEuIE1vZGlmeSBs
-aWJ2aXJ0IGFuZCBLYXRhIENvbnRhaW5lcnMgdG8gZXhwbGljaXRseSBzZXQgdGhlc2UgbW91bnQK
-ICAgb3B0aW9ucy4KMi4gVGhlbiBtb2RpZnkgdmlydGlvZnNkIHRvIGNoZWNrIHRoYXQgdGhlIHNo
-YXJlZCBkaXJlY3RvcnkgaGFzIHRoZQogICBuZWNlc3Nhcnkgb3B0aW9ucyBhdCBzdGFydHVwLiBS
-ZWZ1c2UgdG8gc3RhcnQgaWYgdGhlIG9wdGlvbnMgYXJlCiAgIG1pc3Npbmcgc28gdGhhdCB0aGUg
-dXNlciBpcyBhd2FyZSBvZiB0aGUgc2VjdXJpdHkgcmVxdWlyZW1lbnRzLgoKQXMgYSBib251cyB0
-aGlzIGFsc28gaW5jcmVhc2VzIHRoZSBsaWtlbGlob29kIHRoYXQgb3RoZXIgaG9zdCBwcm9jZXNz
-ZXMKYmVzaWRlcyB2aXJ0aW9mc2Qgd2lsbCBiZSBwcm90ZWN0ZWQgYnkgbm9zdWlkL25vZXhlYy9u
-b2RldiBzbyB0aGF0IGEKbWFsaWNpb3VzIGd1ZXN0IGNhbm5vdCBkcm9wIHRoZXNlIGZpbGVzIGlu
-IHBsYWNlIGFuZCB0aGVuIGFycmFuZ2UgZm9yIGEKaG9zdCBwcm9jZXNzIHRvIGNvbWUgYWNyb3Nz
-IHRoZW0uCgpBZGRpdGlvbmFsbHksIHVzZXIgbmFtZXNwYWNlcyBoYXZlIGJlZW4gZGlzY3Vzc2Vk
-LiBUaGV5IHNlZW0gbGlrZSBhCndvcnRod2hpbGUgYWRkaXRpb24gYXMgYW4gdW5wcml2aWxlZ2Vk
-IG9yIHByaXZpbGVnZS1zZXBhcmF0ZWQgbW9kZQphbHRob3VnaCB0aGVyZSBhcmUgbGltaXRhdGlv
-bnMgd2l0aCByZXNwZWN0IHRvIHNlY3VyaXR5IHhhdHRycyBhbmQgdGhlCmFjdHVhbCB1aWQvZ2lk
-IHN0b3JlZCBvbiB0aGUgaG9zdCBmaWxlIHN5c3RlbSBub3QgY29ycmVzcG9uZGluZyB0byB0aGUK
-Z3Vlc3QgdWlkL2dpZC4KLS0tCiB0b29scy92aXJ0aW9mc2QvcGFzc3Rocm91Z2hfbGwuYyB8IDEw
-NCArKysrKysrKysrKysrKysrKysrKysrLS0tLS0tLS0tCiAxIGZpbGUgY2hhbmdlZCwgNzQgaW5z
-ZXJ0aW9ucygrKSwgMzAgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvdG9vbHMvdmlydGlvZnNk
-L3Bhc3N0aHJvdWdoX2xsLmMgYi90b29scy92aXJ0aW9mc2QvcGFzc3Rocm91Z2hfbGwuYwppbmRl
-eCA1ZmIzNmQ5NDA3Li4wNTRhZDQzOWE1IDEwMDY0NAotLS0gYS90b29scy92aXJ0aW9mc2QvcGFz
-c3Rocm91Z2hfbGwuYworKysgYi90b29scy92aXJ0aW9mc2QvcGFzc3Rocm91Z2hfbGwuYwpAQCAt
-NTU1LDYgKzU1NSwzMCBAQCBzdGF0aWMgaW50IGxvX2ZkKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lu
-b190IGlubykKICAgICByZXR1cm4gZmQ7CiB9CiAKKy8qCisgKiBPcGVuIGEgZmlsZSBkZXNjcmlw
-dG9yIGZvciBhbiBpbm9kZS4gUmV0dXJucyAtRUJBREYgaWYgdGhlIGlub2RlIGlzIG5vdCBhCisg
-KiByZWd1bGFyIGZpbGUgb3IgYSBkaXJlY3RvcnkuIFVzZSB0aGlzIGhlbHBlciBmdW5jdGlvbiBp
-bnN0ZWFkIG9mIHJhdworICogb3BlbmF0KDIpIHRvIHByZXZlbnQgc2VjdXJpdHkgaXNzdWVzIHdo
-ZW4gYSBtYWxpY2lvdXMgY2xpZW50IG9wZW5zIHNwZWNpYWwKKyAqIGZpbGVzIHN1Y2ggYXMgYmxv
-Y2sgZGV2aWNlIG5vZGVzLiBTeW1saW5rIGlub2RlcyBhcmUgYWxzbyByZWplY3RlZCBzaW5jZQor
-ICogc3ltbGlua3MgbXVzdCBhbHJlYWR5IGhhdmUgYmVlbiB0cmF2ZXJzZWQgb24gdGhlIGNsaWVu
-dCBzaWRlLgorICovCitzdGF0aWMgaW50IGxvX2lub2RlX29wZW4oc3RydWN0IGxvX2RhdGEgKmxv
-LCBzdHJ1Y3QgbG9faW5vZGUgKmlub2RlLAorICAgICAgICAgICAgICAgICAgICAgICAgIGludCBv
-cGVuX2ZsYWdzKQoreworICAgIGdfYXV0b2ZyZWUgY2hhciAqZmRfc3RyID0gZ19zdHJkdXBfcHJp
-bnRmKCIlZCIsIGlub2RlLT5mZCk7CisgICAgaW50IGZkOworCisgICAgaWYgKCFTX0lTUkVHKGlu
-b2RlLT5maWxldHlwZSkgJiYgIVNfSVNESVIoaW5vZGUtPmZpbGV0eXBlKSkgeworICAgICAgICBy
-ZXR1cm4gLUVCQURGOworICAgIH0KKworICAgIGZkID0gb3BlbmF0KGxvLT5wcm9jX3NlbGZfZmQs
-IGZkX3N0ciwgb3Blbl9mbGFncyk7CisgICAgaWYgKGZkIDwgMCkgeworICAgICAgICByZXR1cm4g
-LWVycm5vOworICAgIH0KKyAgICByZXR1cm4gZmQ7Cit9CisKIHN0YXRpYyB2b2lkIGxvX2luaXQo
-dm9pZCAqdXNlcmRhdGEsIHN0cnVjdCBmdXNlX2Nvbm5faW5mbyAqY29ubikKIHsKICAgICBzdHJ1
-Y3QgbG9fZGF0YSAqbG8gPSAoc3RydWN0IGxvX2RhdGEgKil1c2VyZGF0YTsKQEAgLTY4NCw4ICs3
-MDgsNyBAQCBzdGF0aWMgdm9pZCBsb19zZXRhdHRyKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190
-IGlubywgc3RydWN0IHN0YXQgKmF0dHIsCiAgICAgICAgIGlmIChmaSkgewogICAgICAgICAgICAg
-dHJ1bmNmZCA9IGZkOwogICAgICAgICB9IGVsc2UgewotICAgICAgICAgICAgc3ByaW50Zihwcm9j
-bmFtZSwgIiVpIiwgaWZkKTsKLSAgICAgICAgICAgIHRydW5jZmQgPSBvcGVuYXQobG8tPnByb2Nf
-c2VsZl9mZCwgcHJvY25hbWUsIE9fUkRXUik7CisgICAgICAgICAgICB0cnVuY2ZkID0gbG9faW5v
-ZGVfb3BlbihsbywgaW5vZGUsIE9fUkRXUik7CiAgICAgICAgICAgICBpZiAodHJ1bmNmZCA8IDAp
-IHsKICAgICAgICAgICAgICAgICBnb3RvIG91dF9lcnI7CiAgICAgICAgICAgICB9CkBAIC0xNjU0
-LDkgKzE2NzcsMTEgQEAgc3RhdGljIHZvaWQgdXBkYXRlX29wZW5fZmxhZ3MoaW50IHdyaXRlYmFj
-aywgaW50IGFsbG93X2RpcmVjdF9pbywKIHN0YXRpYyB2b2lkIGxvX2NyZWF0ZShmdXNlX3JlcV90
-IHJlcSwgZnVzZV9pbm9fdCBwYXJlbnQsIGNvbnN0IGNoYXIgKm5hbWUsCiAgICAgICAgICAgICAg
-ICAgICAgICAgbW9kZV90IG1vZGUsIHN0cnVjdCBmdXNlX2ZpbGVfaW5mbyAqZmkpCiB7CisgICAg
-aW50IG9wZW5fZmxhZ3MgPSAoZmktPmZsYWdzIHwgT19DUkVBVCkgJiB+T19OT0ZPTExPVzsKICAg
-ICBpbnQgZmQ7CiAgICAgc3RydWN0IGxvX2RhdGEgKmxvID0gbG9fZGF0YShyZXEpOwogICAgIHN0
-cnVjdCBsb19pbm9kZSAqcGFyZW50X2lub2RlOworICAgIHN0cnVjdCBsb19pbm9kZSAqZXhpc3Rp
-bmdfaW5vZGUgPSBOVUxMOwogICAgIHN0cnVjdCBmdXNlX2VudHJ5X3BhcmFtIGU7CiAgICAgaW50
-IGVycjsKICAgICBzdHJ1Y3QgbG9fY3JlZCBvbGQgPSB7fTsKQEAgLTE2ODIsMTEgKzE3MDcsMjMg
-QEAgc3RhdGljIHZvaWQgbG9fY3JlYXRlKGZ1c2VfcmVxX3QgcmVxLCBmdXNlX2lub190IHBhcmVu
-dCwgY29uc3QgY2hhciAqbmFtZSwKIAogICAgIHVwZGF0ZV9vcGVuX2ZsYWdzKGxvLT53cml0ZWJh
-Y2ssIGxvLT5hbGxvd19kaXJlY3RfaW8sIGZpKTsKIAotICAgIGZkID0gb3BlbmF0KHBhcmVudF9p
-bm9kZS0+ZmQsIG5hbWUsIChmaS0+ZmxhZ3MgfCBPX0NSRUFUKSAmIH5PX05PRk9MTE9XLAotICAg
-ICAgICAgICAgICAgIG1vZGUpOworICAgIC8qIEZpcnN0LCB0cnkgdG8gY3JlYXRlIGEgbmV3IGZp
-bGUgYnV0IGRvbid0IG9wZW4gZXhpc3RpbmcgZmlsZXMgKi8KKyAgICBmZCA9IG9wZW5hdChwYXJl
-bnRfaW5vZGUtPmZkLCBuYW1lLCBvcGVuX2ZsYWdzIHwgT19FWENMLCBtb2RlKTsKICAgICBlcnIg
-PSBmZCA9PSAtMSA/IGVycm5vIDogMDsKKwogICAgIGxvX3Jlc3RvcmVfY3JlZCgmb2xkKTsKIAor
-ICAgIC8qIFNlY29uZCwgb3BlbiBleGlzdGluZyBmaWxlcyBpZiBPX0VYQ0wgd2FzIG5vdCBzcGVj
-aWZpZWQgKi8KKyAgICBpZiAoZXJyID09IEVFWElTVCAmJiAhKGZpLT5mbGFncyAmIE9fRVhDTCkp
-IHsKKyAgICAgICAgZXhpc3RpbmdfaW5vZGUgPSBsb29rdXBfbmFtZShyZXEsIHBhcmVudCwgbmFt
-ZSk7CisgICAgICAgIGlmIChleGlzdGluZ19pbm9kZSkgeworICAgICAgICAgICAgZmQgPSBsb19p
-bm9kZV9vcGVuKGxvLCBleGlzdGluZ19pbm9kZSwgb3Blbl9mbGFncyk7CisgICAgICAgICAgICBp
-ZiAoZmQgPCAwKSB7CisgICAgICAgICAgICAgICAgZXJyID0gLWZkOworICAgICAgICAgICAgfQor
-ICAgICAgICB9CisgICAgfQorCiAgICAgaWYgKCFlcnIpIHsKICAgICAgICAgc3NpemVfdCBmaDsK
-IApAQCAtMTcwOSw2ICsxNzQ2LDcgQEAgc3RhdGljIHZvaWQgbG9fY3JlYXRlKGZ1c2VfcmVxX3Qg
-cmVxLCBmdXNlX2lub190IHBhcmVudCwgY29uc3QgY2hhciAqbmFtZSwKICAgICB9CiAKIG91dDoK
-KyAgICBsb19pbm9kZV9wdXQobG8sICZleGlzdGluZ19pbm9kZSk7CiAgICAgbG9faW5vZGVfcHV0
-KGxvLCAmcGFyZW50X2lub2RlKTsKIAogICAgIGlmIChlcnIpIHsKQEAgLTE3MjUsNyArMTc2Myw2
-IEBAIHN0YXRpYyBzdHJ1Y3QgbG9faW5vZGVfcGxvY2sgKmxvb2t1cF9jcmVhdGVfcGxvY2tfY3R4
-KHN0cnVjdCBsb19kYXRhICpsbywKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIHBpZF90IHBpZCwgaW50ICplcnIpCiB7CiAgICAgc3RydWN0IGxv
-X2lub2RlX3Bsb2NrICpwbG9jazsKLSAgICBjaGFyIHByb2NuYW1lWzY0XTsKICAgICBpbnQgZmQ7
-CiAKICAgICBwbG9jayA9CkBAIC0xNzQyLDEyICsxNzc5LDEwIEBAIHN0YXRpYyBzdHJ1Y3QgbG9f
-aW5vZGVfcGxvY2sgKmxvb2t1cF9jcmVhdGVfcGxvY2tfY3R4KHN0cnVjdCBsb19kYXRhICpsbywK
-ICAgICB9CiAKICAgICAvKiBPcGVuIGFub3RoZXIgaW5zdGFuY2Ugb2YgZmlsZSB3aGljaCBjYW4g
-YmUgdXNlZCBmb3Igb2ZkIGxvY2tzLiAqLwotICAgIHNwcmludGYocHJvY25hbWUsICIlaSIsIGlu
-b2RlLT5mZCk7Ci0KICAgICAvKiBUT0RPOiBXaGF0IGlmIGZpbGUgaXMgbm90IHdyaXRhYmxlPyAq
-LwotICAgIGZkID0gb3BlbmF0KGxvLT5wcm9jX3NlbGZfZmQsIHByb2NuYW1lLCBPX1JEV1IpOwot
-ICAgIGlmIChmZCA9PSAtMSkgewotICAgICAgICAqZXJyID0gZXJybm87CisgICAgZmQgPSBsb19p
-bm9kZV9vcGVuKGxvLCBpbm9kZSwgT19SRFdSKTsKKyAgICBpZiAoZmQgPCAwKSB7CisgICAgICAg
-ICplcnIgPSAtZmQ7CiAgICAgICAgIGZyZWUocGxvY2spOwogICAgICAgICByZXR1cm4gTlVMTDsK
-ICAgICB9CkBAIC0xODk0LDE4ICsxOTI5LDI0IEBAIHN0YXRpYyB2b2lkIGxvX29wZW4oZnVzZV9y
-ZXFfdCByZXEsIGZ1c2VfaW5vX3QgaW5vLCBzdHJ1Y3QgZnVzZV9maWxlX2luZm8gKmZpKQogewog
-ICAgIGludCBmZDsKICAgICBzc2l6ZV90IGZoOwotICAgIGNoYXIgYnVmWzY0XTsKICAgICBzdHJ1
-Y3QgbG9fZGF0YSAqbG8gPSBsb19kYXRhKHJlcSk7CisgICAgc3RydWN0IGxvX2lub2RlICppbm9k
-ZSA9IGxvX2lub2RlKHJlcSwgaW5vKTsKIAogICAgIGZ1c2VfbG9nKEZVU0VfTE9HX0RFQlVHLCAi
-bG9fb3Blbihpbm89JSIgUFJJdTY0ICIsIGZsYWdzPSVkKVxuIiwgaW5vLAogICAgICAgICAgICAg
-IGZpLT5mbGFncyk7CiAKKyAgICBpZiAoIWlub2RlKSB7CisgICAgICAgIGZ1c2VfcmVwbHlfZXJy
-KHJlcSwgRUJBREYpOworICAgICAgICByZXR1cm47CisgICAgfQorCiAgICAgdXBkYXRlX29wZW5f
-ZmxhZ3MobG8tPndyaXRlYmFjaywgbG8tPmFsbG93X2RpcmVjdF9pbywgZmkpOwogCi0gICAgc3By
-aW50ZihidWYsICIlaSIsIGxvX2ZkKHJlcSwgaW5vKSk7Ci0gICAgZmQgPSBvcGVuYXQobG8tPnBy
-b2Nfc2VsZl9mZCwgYnVmLCBmaS0+ZmxhZ3MgJiB+T19OT0ZPTExPVyk7Ci0gICAgaWYgKGZkID09
-IC0xKSB7Ci0gICAgICAgIHJldHVybiAodm9pZClmdXNlX3JlcGx5X2VycihyZXEsIGVycm5vKTsK
-KyAgICBmZCA9IGxvX2lub2RlX29wZW4obG8sIGlub2RlLCBmaS0+ZmxhZ3MgJiB+T19OT0ZPTExP
-Vyk7CisgICAgaWYgKGZkIDwgMCkgeworICAgICAgICBsb19pbm9kZV9wdXQobG8sICZpbm9kZSk7
-CisgICAgICAgIGZ1c2VfcmVwbHlfZXJyKHJlcSwgLWZkKTsKKyAgICAgICAgcmV0dXJuOwogICAg
-IH0KIAogICAgIHB0aHJlYWRfbXV0ZXhfbG9jaygmbG8tPm11dGV4KTsKQEAgLTE5MTMsNiArMTk1
-NCw3IEBAIHN0YXRpYyB2b2lkIGxvX29wZW4oZnVzZV9yZXFfdCByZXEsIGZ1c2VfaW5vX3QgaW5v
-LCBzdHJ1Y3QgZnVzZV9maWxlX2luZm8gKmZpKQogICAgIHB0aHJlYWRfbXV0ZXhfdW5sb2NrKCZs
-by0+bXV0ZXgpOwogICAgIGlmIChmaCA9PSAtMSkgewogICAgICAgICBjbG9zZShmZCk7CisgICAg
-ICAgIGxvX2lub2RlX3B1dChsbywgJmlub2RlKTsKICAgICAgICAgZnVzZV9yZXBseV9lcnIocmVx
-LCBFTk9NRU0pOwogICAgICAgICByZXR1cm47CiAgICAgfQpAQCAtMTkyMyw2ICsxOTY1LDcgQEAg
-c3RhdGljIHZvaWQgbG9fb3BlbihmdXNlX3JlcV90IHJlcSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVj
-dCBmdXNlX2ZpbGVfaW5mbyAqZmkpCiAgICAgfSBlbHNlIGlmIChsby0+Y2FjaGUgPT0gQ0FDSEVf
-QUxXQVlTKSB7CiAgICAgICAgIGZpLT5rZWVwX2NhY2hlID0gMTsKICAgICB9CisgICAgbG9faW5v
-ZGVfcHV0KGxvLCAmaW5vZGUpOwogICAgIGZ1c2VfcmVwbHlfb3BlbihyZXEsIGZpKTsKIH0KIApA
-QCAtMTk4MiwzOSArMjAyNSw0MCBAQCBzdGF0aWMgdm9pZCBsb19mbHVzaChmdXNlX3JlcV90IHJl
-cSwgZnVzZV9pbm9fdCBpbm8sIHN0cnVjdCBmdXNlX2ZpbGVfaW5mbyAqZmkpCiBzdGF0aWMgdm9p
-ZCBsb19mc3luYyhmdXNlX3JlcV90IHJlcSwgZnVzZV9pbm9fdCBpbm8sIGludCBkYXRhc3luYywK
-ICAgICAgICAgICAgICAgICAgICAgIHN0cnVjdCBmdXNlX2ZpbGVfaW5mbyAqZmkpCiB7CisgICAg
-c3RydWN0IGxvX2lub2RlICppbm9kZSA9IGxvX2lub2RlKHJlcSwgaW5vKTsKKyAgICBzdHJ1Y3Qg
-bG9fZGF0YSAqbG8gPSBsb19kYXRhKHJlcSk7CiAgICAgaW50IHJlczsKICAgICBpbnQgZmQ7Ci0g
-ICAgY2hhciAqYnVmOwogCiAgICAgZnVzZV9sb2coRlVTRV9MT0dfREVCVUcsICJsb19mc3luYyhp
-bm89JSIgUFJJdTY0ICIsIGZpPTB4JXApXG4iLCBpbm8sCiAgICAgICAgICAgICAgKHZvaWQgKilm
-aSk7CiAKKyAgICBpZiAoIWlub2RlKSB7CisgICAgICAgIGZ1c2VfcmVwbHlfZXJyKHJlcSwgRUJB
-REYpOworICAgICAgICByZXR1cm47CisgICAgfQorCiAgICAgaWYgKCFmaSkgewotICAgICAgICBz
-dHJ1Y3QgbG9fZGF0YSAqbG8gPSBsb19kYXRhKHJlcSk7Ci0KLSAgICAgICAgcmVzID0gYXNwcmlu
-dGYoJmJ1ZiwgIiVpIiwgbG9fZmQocmVxLCBpbm8pKTsKLSAgICAgICAgaWYgKHJlcyA9PSAtMSkg
-ewotICAgICAgICAgICAgcmV0dXJuICh2b2lkKWZ1c2VfcmVwbHlfZXJyKHJlcSwgZXJybm8pOwot
-ICAgICAgICB9Ci0KLSAgICAgICAgZmQgPSBvcGVuYXQobG8tPnByb2Nfc2VsZl9mZCwgYnVmLCBP
-X1JEV1IpOwotICAgICAgICBmcmVlKGJ1Zik7Ci0gICAgICAgIGlmIChmZCA9PSAtMSkgewotICAg
-ICAgICAgICAgcmV0dXJuICh2b2lkKWZ1c2VfcmVwbHlfZXJyKHJlcSwgZXJybm8pOworICAgICAg
-ICBmZCA9IGxvX2lub2RlX29wZW4obG8sIGlub2RlLCBPX1JEV1IpOworICAgICAgICBpZiAoZmQg
-PCAwKSB7CisgICAgICAgICAgICByZXMgPSAtZmQ7CisgICAgICAgICAgICBnb3RvIG91dDsKICAg
-ICAgICAgfQogICAgIH0gZWxzZSB7CiAgICAgICAgIGZkID0gbG9fZmlfZmQocmVxLCBmaSk7CiAg
-ICAgfQogCiAgICAgaWYgKGRhdGFzeW5jKSB7Ci0gICAgICAgIHJlcyA9IGZkYXRhc3luYyhmZCk7
-CisgICAgICAgIHJlcyA9IGZkYXRhc3luYyhmZCkgPT0gLTEgPyBlcnJubyA6IDA7CiAgICAgfSBl
-bHNlIHsKLSAgICAgICAgcmVzID0gZnN5bmMoZmQpOworICAgICAgICByZXMgPSBmc3luYyhmZCkg
-PT0gLTEgPyBlcnJubyA6IDA7CiAgICAgfQogICAgIGlmICghZmkpIHsKICAgICAgICAgY2xvc2Uo
-ZmQpOwogICAgIH0KLSAgICBmdXNlX3JlcGx5X2VycihyZXEsIHJlcyA9PSAtMSA/IGVycm5vIDog
-MCk7CitvdXQ6CisgICAgbG9faW5vZGVfcHV0KGxvLCAmaW5vZGUpOworICAgIGZ1c2VfcmVwbHlf
-ZXJyKHJlcSwgcmVzKTsKIH0KIAogc3RhdGljIHZvaWQgbG9fcmVhZChmdXNlX3JlcV90IHJlcSwg
-ZnVzZV9pbm9fdCBpbm8sIHNpemVfdCBzaXplLCBvZmZfdCBvZmZzZXQsCi0tIAoyLjI5LjIKCg==
+On 2021/1/27 5:36, Alex Williamson wrote:
+> On Wed, 9 Dec 2020 16:09:19 +0800
+> Shenming Lu <lushenming@huawei.com> wrote:
+> 
+>> Different from the normal situation when the guest starts, we can
+>> know the max unmasked vetctor (at the beginning) after msix_load()
+>> in VFIO migration. So in order to avoid ineffectively disabling and
+> 
+> s/ineffectively/inefficiently/?  It's "effective" either way I think.
 
+Yeah, I should say "inefficiently". :-)
+
+> 
+>> enabling vectors repeatedly, let's allocate all needed vectors first
+>> and then enable these unmasked vectors one by one without disabling.
+>>
+>> Signed-off-by: Shenming Lu <lushenming@huawei.com>
+>> ---
+>>  hw/pci/msix.c         | 17 +++++++++++++++++
+>>  hw/vfio/pci.c         | 10 ++++++++--
+>>  include/hw/pci/msix.h |  2 ++
+>>  3 files changed, 27 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+>> index 67e34f34d6..bf291d3ff8 100644
+>> --- a/hw/pci/msix.c
+>> +++ b/hw/pci/msix.c
+>> @@ -557,6 +557,23 @@ unsigned int msix_nr_vectors_allocated(const PCIDevice *dev)
+>>      return dev->msix_entries_nr;
+>>  }
+>>  
+>> +int msix_get_max_unmasked_vector(PCIDevice *dev)
+>> +{
+>> +    int max_unmasked_vector = -1;
+>> +    int vector;
+>> +
+>> +    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
+>> +        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
+>> +        for (vector = 0; vector < dev->msix_entries_nr; vector++) {
+>> +            if (!msix_is_masked(dev, vector)) {
+>> +                max_unmasked_vector = vector;
+>> +            }
+>> +        }
+>> +    }
+>> +
+>> +    return max_unmasked_vector;
+>> +}
+> 
+> Comments from QEMU PCI folks?
+> 
+>> +
+>>  static int msix_set_notifier_for_vector(PCIDevice *dev, unsigned int vector)
+>>  {
+>>      MSIMessage msg;
+>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+>> index 51dc373695..e755ed2514 100644
+>> --- a/hw/vfio/pci.c
+>> +++ b/hw/vfio/pci.c
+>> @@ -568,6 +568,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
+>>  
+>>  static void vfio_msix_enable(VFIOPCIDevice *vdev)
+>>  {
+>> +    int max_unmasked_vector = msix_get_max_unmasked_vector(&vdev->pdev);
+>> +    unsigned int used_vector = MAX(max_unmasked_vector, 0);
+>> +
+> 
+> The above PCI function could also be done inline here pretty easily too:
+> 
+> unsigned int nr, max_vec = 0;
+> 
+> if (!msix_masked(&vdev->pdev))
+>     for (nr = 0; nr < msix_nr_vectors_allocated(&vdev->pdev); nr++) {
+>         if (!msix_is_masked(&vdev->pdev, nr)) {
+>             max_vec = nr;
+>         }
+>     }
+> }
+> 
+> It's a bit cleaner than the msix utility function, imo.
+
+Yeah, it makes sense.
+
+> 
+>>      vfio_disable_interrupts(vdev);
+>>  
+>>      vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
+>> @@ -586,9 +589,12 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
+>>       * triggering to userspace, then immediately release the vector, leaving
+>>       * the physical device with no vectors enabled, but MSI-X enabled, just
+>>       * like the guest view.
+>> +     * If there are unmasked vectors (such as in migration) which will be
+>> +     * enabled soon, we can allocate them here to avoid ineffectively disabling
+>> +     * and enabling vectors repeatedly later.
+> 
+> It just happens that migration triggers this usage model where the
+> MSI-X enable bit is set with vectors unmasked in the vector table, but
+> this is not unique to migration, guests can follow this pattern as well.
+> Has this been tested with a variety of guests?  Logically it seems
+> correct, but always good to prove so.  Thanks,
+
+I have tested it in migration and normal guest startup (only the latest Linux).
+And I can try to test with some other kernels, could you be more specific about this?
+
+Thanks,
+Shenming
+
+> 
+> Alex
+> 
+>>       */
+>> -    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
+>> -    vfio_msix_vector_release(&vdev->pdev, 0);
+>> +    vfio_msix_vector_do_use(&vdev->pdev, used_vector, NULL, NULL);
+>> +    vfio_msix_vector_release(&vdev->pdev, used_vector);
+>>  
+>>      if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
+>>                                    vfio_msix_vector_release, NULL)) {
+>> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+>> index 4c4a60c739..4bfb463fa6 100644
+>> --- a/include/hw/pci/msix.h
+>> +++ b/include/hw/pci/msix.h
+>> @@ -23,6 +23,8 @@ void msix_uninit_exclusive_bar(PCIDevice *dev);
+>>  
+>>  unsigned int msix_nr_vectors_allocated(const PCIDevice *dev);
+>>  
+>> +int msix_get_max_unmasked_vector(PCIDevice *dev);
+>> +
+>>  void msix_save(PCIDevice *dev, QEMUFile *f);
+>>  void msix_load(PCIDevice *dev, QEMUFile *f);
+>>  
+> 
+> .
+> 
 
