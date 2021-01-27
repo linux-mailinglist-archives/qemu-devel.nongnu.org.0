@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79D97305393
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:54:05 +0100 (CET)
-Received: from localhost ([::1]:40936 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40B683053A0
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:54:46 +0100 (CET)
+Received: from localhost ([::1]:43098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4eiK-0002oA-1t
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:54:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
+	id 1l4eiz-0003h4-8x
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:54:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50804)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4egy-0001yY-0W
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:52:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58362)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4egv-0008P4-Eg
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:52:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611730355;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=F4zOs8luYSC2oHsdyywMjFE4/Jns9eJEtQ5KE9WBwds=;
- b=Yk38lOMq7kQAceP34gIHY1Oo7sIBWe5cLY5jScyWq2YxlkjqYGoqbaa5bgRBEsSYiHduDn
- LXGsittJHdLSHyaI0H1wYZ6aFdiIIzpyZ01Bknd6z+gx6X6IMhII2e0rt862w8HVZLip6P
- Opd1afllLjNkPjeWDHMuD3Rk06GOyPw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-72-xa89k7g-NBuUg5k60Gey6g-1; Wed, 27 Jan 2021 01:52:32 -0500
-X-MC-Unique: xa89k7g-NBuUg5k60Gey6g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l4ehZ-0002up-K8
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:53:17 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:43866
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l4ehX-0000IV-Bl
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:53:17 -0500
+Received: from edv-macbook-pro.fritz.box (p5b1511bf.dip0.t-ipconnect.de
+ [91.21.17.191])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 039B7190D341;
- Wed, 27 Jan 2021 06:52:31 +0000 (UTC)
-Received: from thuth.com (ovpn-112-136.ams2.redhat.com [10.36.112.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id D1FDF63743;
- Wed, 27 Jan 2021 06:52:24 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
-Subject: [PATCH] tests/acceptance: Increase the timeout in the replay tests
-Date: Wed, 27 Jan 2021 07:52:22 +0100
-Message-Id: <20210127065222.48650-1-thuth@redhat.com>
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 01419DA14DC;
+ Wed, 27 Jan 2021 07:53:12 +0100 (CET)
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210125144530.2837481-1-philmd@redhat.com>
+ <20210125144530.2837481-5-philmd@redhat.com>
+ <20210125164746.GE3538803@redhat.com>
+ <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
+ <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
+ <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
+ <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
+ <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
+ <cd9265f7-4887-63bb-e36e-ace708d062c1@weilnetz.de>
+ <875z3jy3tt.fsf@linaro.org>
+ <89209f1b-29ad-e5df-6d45-b2480db4775e@weilnetz.de>
+ <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
+ is available
+Message-ID: <a8aaa601-dcb4-ed87-d7ba-f6362942b596@weilnetz.de>
+Date: Wed, 27 Jan 2021 07:53:14 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+In-Reply-To: <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,38 +69,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Our gitlab-CI just showed a failed test_ppc_mac99 since it was apparently
-killed some few seconds before the test finished. Allow it some more
-time to complete.
+Am 26.01.21 um 23:39 schrieb Richard Henderson:
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- Seen in this test log:
- https://gitlab.com/qemu-project/qemu/-/jobs/987148065/artifacts/file/build/tests/results/latest/test-results/26-tests_acceptance_replay_kernel.py_ReplayKernelNormal.test_ppc_mac99/debug.log
+> On 1/26/21 9:44 AM, Stefan Weil wrote:
+>> I was not talking about the TODO assertions. When I wrote TCI, I only =
+enabled
+>> and included code which was triggered by my testing - that's why I sai=
+d the
+>> productive code lines have 100 % test coverage. TODO assertions are no=
+t
+>> productive code, but debug code which were made to detect new test cas=
+es. They
+>> were successful, too, because they were triggered by some tests in `ma=
+ke
+>> check-tcg`.
+> The TODO assertions are all bugs.
+>
+> Any *real* dead code detection should have been done in
+> tcg/tci/tcg-target.c.inc.  What's interpreted in tcg/tci.c should be ex=
+actly
+> what is produced on the other side, and you are producing more than you=
+ are
+> consuming.
 
- tests/acceptance/replay_kernel.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
-index 772633b01d..c1cb862468 100644
---- a/tests/acceptance/replay_kernel.py
-+++ b/tests/acceptance/replay_kernel.py
-@@ -31,7 +31,7 @@ class ReplayKernelBase(LinuxKernelTest):
-     terminates.
-     """
- 
--    timeout = 90
-+    timeout = 120
-     KERNEL_COMMON_COMMAND_LINE = 'printk.time=1 panic=-1 '
- 
-     def run_vm(self, kernel_path, kernel_command_line, console_pattern,
--- 
-2.27.0
+Unless the TCG opcodes in tcg/tci/tcg-target.c.inc are used in real-live =
+
+scenarios, they are dead code, too.
+
+Writing a test case which produces them directly (not for some real=20
+architecture) is not a real-live scenario.
+
+And the remaining TODO assertions are a good indicator that the current=20
+tests are incomplete for native TCG because they obviously don't cover=20
+all TCG opcodes.
+
+Stefan
+
+
 
 
