@@ -2,62 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63101305314
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:18:08 +0100 (CET)
-Received: from localhost ([::1]:55244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79D97305393
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 07:54:05 +0100 (CET)
+Received: from localhost ([::1]:40936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4e9W-0003Ki-Pc
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:18:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42652)
+	id 1l4eiK-0002oA-1t
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 01:54:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50656)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4e8B-0002up-Le
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:16:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21669)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4egy-0001yY-0W
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:52:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58362)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4e89-0000iX-8m
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:16:42 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l4egv-0008P4-Eg
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 01:52:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611728199;
+ s=mimecast20190719; t=1611730355;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=+veB35PiqzjQiOb4NsXtkPEgd+tmrfhlYYavz4vSZRU=;
- b=cn2YNmcCtFrvaWWtS+SYy35gGJA9QVVsgv58IsztV/uhIhRyQSGhcnkNBzZum+UMx4mBiO
- 01HB//pz9GZ52fM33zGzBX09yW8T/0BnbOHj9E9XiAR4qjRR9yMlm1C7m5fLsmu4/Xcd1G
- 1+G46ByJenD4bbR+A+RpHk8MMiyOwMc=
+ content-transfer-encoding:content-transfer-encoding;
+ bh=F4zOs8luYSC2oHsdyywMjFE4/Jns9eJEtQ5KE9WBwds=;
+ b=Yk38lOMq7kQAceP34gIHY1Oo7sIBWe5cLY5jScyWq2YxlkjqYGoqbaa5bgRBEsSYiHduDn
+ LXGsittJHdLSHyaI0H1wYZ6aFdiIIzpyZ01Bknd6z+gx6X6IMhII2e0rt862w8HVZLip6P
+ Opd1afllLjNkPjeWDHMuD3Rk06GOyPw=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-228-8ZHuu1GuMJWcsDnw8w-pNQ-1; Wed, 27 Jan 2021 01:16:37 -0500
-X-MC-Unique: 8ZHuu1GuMJWcsDnw8w-pNQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-72-xa89k7g-NBuUg5k60Gey6g-1; Wed, 27 Jan 2021 01:52:32 -0500
+X-MC-Unique: xa89k7g-NBuUg5k60Gey6g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 67ED81005504
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 06:16:36 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-136.ams2.redhat.com [10.36.112.136])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4E59360C05;
- Wed, 27 Jan 2021 06:16:35 +0000 (UTC)
-Subject: Re: [PATCH] libqtest: Rework qtest_rsp()
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210126151649.2220902-1-armbru@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 039B7190D341;
+ Wed, 27 Jan 2021 06:52:31 +0000 (UTC)
+Received: from thuth.com (ovpn-112-136.ams2.redhat.com [10.36.112.136])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D1FDF63743;
+ Wed, 27 Jan 2021 06:52:24 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-Message-ID: <1b8c354b-f334-c4c5-f104-354789aa02e8@redhat.com>
-Date: Wed, 27 Jan 2021 07:16:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+To: qemu-devel@nongnu.org, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+Subject: [PATCH] tests/acceptance: Increase the timeout in the replay tests
+Date: Wed, 27 Jan 2021 07:52:22 +0100
+Message-Id: <20210127065222.48650-1-thuth@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210126151649.2220902-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -65,9 +60,8 @@ X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,29 +74,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, pbonzini@redhat.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/01/2021 16.16, Markus Armbruster wrote:
-> qtest_rsp() is used in two different ways: (1) return some arguments
-> to caller, which the caller must free, and (2) return no arguments to
-> caller.  Passing non-zero @expected_args gets you (1), and passing
-> zero gets you (2).
-> 
-> Having "the return value must be freed" depend on an argument this way
-> is less than ideal.
-> 
-> Provide separate functions for the two ways: (1) qtest_rsp_args()
-> takes @expected_args (possibly zero), and returns that number of
-> arguments.  Caller must free the return value always.  (2) qtest_rsp()
-> assumes zero, and returns nothing.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   tests/qtest/libqtest.c | 50 ++++++++++++++++++++++--------------------
->   1 file changed, 26 insertions(+), 24 deletions(-)
+Our gitlab-CI just showed a failed test_ppc_mac99 since it was apparently
+killed some few seconds before the test finished. Allow it some more
+time to complete.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Seen in this test log:
+ https://gitlab.com/qemu-project/qemu/-/jobs/987148065/artifacts/file/build/tests/results/latest/test-results/26-tests_acceptance_replay_kernel.py_ReplayKernelNormal.test_ppc_mac99/debug.log
+
+ tests/acceptance/replay_kernel.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+index 772633b01d..c1cb862468 100644
+--- a/tests/acceptance/replay_kernel.py
++++ b/tests/acceptance/replay_kernel.py
+@@ -31,7 +31,7 @@ class ReplayKernelBase(LinuxKernelTest):
+     terminates.
+     """
+ 
+-    timeout = 90
++    timeout = 120
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=1 panic=-1 '
+ 
+     def run_vm(self, kernel_path, kernel_command_line, console_pattern,
+-- 
+2.27.0
 
 
