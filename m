@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76143060D2
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 17:18:47 +0100 (CET)
-Received: from localhost ([::1]:35010 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B923060F7
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 17:27:06 +0100 (CET)
+Received: from localhost ([::1]:47698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4nWo-0004Vd-E1
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 11:18:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47314)
+	id 1l4neq-0001vk-Nj
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 11:27:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48908)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l4nUj-0003PD-62; Wed, 27 Jan 2021 11:16:41 -0500
-Received: from mout.kundenserver.de ([217.72.192.73]:41661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l4nUc-0006Yy-Jv; Wed, 27 Jan 2021 11:16:36 -0500
-Received: from [192.168.100.1] ([82.252.149.54]) by mrelayeu.kundenserver.de
- (mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
- 1MGA0o-1lCWjJ0Aw8-00Gb6W; Wed, 27 Jan 2021 17:16:21 +0100
-Subject: Re: [PATCH] tcg/tci: Restrict tci_write_reg16() to 64-bit hosts
-To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <f4bug@amsat.org>, qemu-devel@nongnu.org,
- QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20210123094107.2340222-1-f4bug@amsat.org>
- <5450690d-bda6-4ea8-4e4e-006db464dbda@weilnetz.de>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <03c285be-dc42-2d7d-3327-0be42c8fe92d@vivier.eu>
-Date: Wed, 27 Jan 2021 17:16:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4ncA-0000ps-3j
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 11:24:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42044)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l4nc7-0007hy-42
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 11:24:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611764652;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YOQ1AZwTx/UAli9fGKrvc1i7ySRavHKJqWuDco1G5F8=;
+ b=IIn/dpob2axei5htYjhOkidKV+sV+YXdWu8OSKAyPeYxTBOYh1pcuYyqxB3nt0c1yCfVwE
+ MLuMgFEHMFLSWFXsoGfmA+8Gpbof68LZbQpPNjzdtQP2zv/x3WhkFk4o/LjxIu6KuFMFgj
+ 8LGxSSVJM8okjY1Qnbw+XfqFskUKwQo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-142-5uEC-uGHPQircKLp-TVW_g-1; Wed, 27 Jan 2021 11:23:57 -0500
+X-MC-Unique: 5uEC-uGHPQircKLp-TVW_g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5857F1800D42;
+ Wed, 27 Jan 2021 16:23:56 +0000 (UTC)
+Received: from redhat.com (ovpn-115-120.ams2.redhat.com [10.36.115.120])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E61BB19715;
+ Wed, 27 Jan 2021 16:23:54 +0000 (UTC)
+Date: Wed, 27 Jan 2021 16:23:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Dan Streetman <ddstreet@canonical.com>
+Subject: Re: [PATCHv2] configure: replace --enable/disable-git-update with
+ --with-git-submodules
+Message-ID: <20210127162352.GQ3653144@redhat.com>
+References: <20210119172046.43869-1-ddstreet@canonical.com>
 MIME-Version: 1.0
-In-Reply-To: <5450690d-bda6-4ea8-4e4e-006db464dbda@weilnetz.de>
+In-Reply-To: <20210119172046.43869-1-ddstreet@canonical.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
-Content-Language: fr
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:pSw/wAyMj3/0d0Mm0/vVim76IHJ3YVG/7MJOnRUkjJp5yWB7vEm
- i+cT9uoSyZqom3ePnZWdHPxSRCWJfPyo7GWusXFW6/cujSHDlDz4MySdFL/Ctx+UNvD2sUS
- zlX1fLKzJg5jP5SpRgSXy4bWa0sD6c88wmg5kYNAMmwzNiegNsGnAgErXHd8FZjRiZCfp1y
- HXQLgFARBjYxkIdEIWS9A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XyADAzfgy1M=:03PZPh5xySjbrOq6fQr/Ue
- IciY0EZTfahWz7BUlIpLTjAnaJxnYGcvdFKULNdC+xastQ1tkI/+bdKhHKRn/hTdbXuh99kvq
- x8RFNSXCp5RIap2yMaxtCIwhRzol+s0zk4+sprftTOd+x8nP0flbxCczfiZp6qfE6G1Xc2JYr
- Ry+AVOQlGyv2+MDlsV0EVn2+R+nDFp7X39XtVfRMPx/ChO2C/gJ7yPIkf1qVRR9dqxVC6x/OQ
- IG+n0oCeyvwwBI38edudWSbzj5gMupqmJw2BoHoeqs0Id0AGiXYEC87LgDO/u23hfWsiIOasv
- jtaWUJwkukh6qOFyQEzP7aI4XmkvdMYOGpqX048nSkE99jpJVi/szlnGlMbYxiYNamc2pJBuI
- 8dpE6R0zMT9qaEfR46IGdUuajn7YR4Y0Xbv2+T38WkVMA0f81RaDDic2IiORC
-Received-SPF: none client-ip=217.72.192.73; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,56 +82,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Christian Ehrhardt <christian.ehrhardt@canonical.com>,
+ Rafael David Tinoco <rafael.tinoco@canonical.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 23/01/2021 à 11:30, Stefan Weil a écrit :
-> Am 23.01.21 um 10:41 schrieb Philippe Mathieu-Daudé:
+On Tue, Jan 19, 2021 at 12:20:46PM -0500, Dan Streetman wrote:
+> Replace the --enable-git-update and --disable-git-update configure params
+> with the param --with-git-submodules=(update|validate|ignore) to
+> allow 3 options for building from a git repo.
 > 
->> Restrict tci_write_reg16() to 64-bit hosts to fix on 32-bit ones:
->>
->>    [520/1115] Compiling C object libqemu-arm-linux-user.fa.p/tcg_tci.c.o
->>    FAILED: libqemu-arm-linux-user.fa.p/tcg_tci.c.o
->>    tcg/tci.c:132:1: error: 'tci_write_reg16' defined but not used [-Werror=unused-function]
->>     tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
->>     ^~~~~~~~~~~~~~~
->>
->> Fixes: 2f160e0f979 ("tci: Add implementation for INDEX_op_ld16u_i64")
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   tcg/tci.c | 2 ++
->>   1 file changed, 2 insertions(+)
->>
->> diff --git a/tcg/tci.c b/tcg/tci.c
->> index 2311aa7d3ab..3fc82d3c79d 100644
->> --- a/tcg/tci.c
->> +++ b/tcg/tci.c
->> @@ -128,11 +128,13 @@ static void tci_write_reg8(tcg_target_ulong *regs, TCGReg index, uint8_t value)
->>       tci_write_reg(regs, index, value);
->>   }
->>   +#if TCG_TARGET_REG_BITS == 64
->>   static void
->>   tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
->>   {
->>       tci_write_reg(regs, index, value);
->>   }
->> +#endif
->>     static void
->>   tci_write_reg32(tcg_target_ulong *regs, TCGReg index, uint32_t value)
+> This is needed because downstream packagers, e.g. Debian, Ubuntu, etc,
+> also keep the source code in git, but do not want to enable the
+> 'git_update' mode; with the current code, that's not possible even
+> if the downstream package specifies --disable-git-update.
 > 
+> The previous parameters are deprecated but still available; the
+> --enable-git-update parameter maps to --with-git-submodules=update and
+> --disable-git-update parameter maps to --with-git-submodules=validate.
 > 
-> Thanks for fixing this. This could optionally be applied via qemu-trivial.
+> The configure script behavior is slightly modified, where previously
+> the dtc, capstone, and slirp submodules were not validated when
+> --disable-git-update was specified (but were updated with git-update
+> enabled), now they are validated when using --with-git-submodules=validate
+> and are only ignored when using --with-git-submodules=ignore.
 > 
-> Reviewed-by: Stefan Weil <sw@weilnetz.de>
+> Signed-off-by: Dan Streetman <ddstreet@canonical.com>
+> ---
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04799.html
+> changes since v1:
+>  - add --help output explaining --with-git-submodules valid values
+>  - validate dtc, capstone, slirp submodules also
+>  - update commit description text
 > 
-> 
+>  Makefile                 | 24 ++-----------------
+>  configure                | 51 ++++++++++++++++++++++++++++++----------
+>  scripts/git-submodule.sh | 34 ++++++++++++++++++++-------
+>  3 files changed, 66 insertions(+), 43 deletions(-)
 
-Applied to my trivial-patches branch.
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-Thanks,
-Laurent
+I'll queue this with a batch of misc changes i have pending.
 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
