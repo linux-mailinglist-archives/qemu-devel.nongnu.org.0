@@ -2,53 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 557B73059AA
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 12:29:00 +0100 (CET)
-Received: from localhost ([::1]:39894 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B175305A7A
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 12:59:32 +0100 (CET)
+Received: from localhost ([::1]:46358 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4j0N-0005Sq-ET
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 06:28:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46988)
+	id 1l4jTu-0001lx-KH
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 06:59:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51354)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1l4izP-0004oT-8i; Wed, 27 Jan 2021 06:27:59 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2597)
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1l4jST-0001Gn-Ig; Wed, 27 Jan 2021 06:58:01 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:50288
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1l4izI-0000yY-L1; Wed, 27 Jan 2021 06:27:59 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DQhBw2YdLzjCxF;
- Wed, 27 Jan 2021 19:26:48 +0800 (CST)
-Received: from [10.174.186.182] (10.174.186.182) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.498.0; Wed, 27 Jan 2021 19:27:35 +0800
-Subject: Re: [RFC PATCH v2 3/3] vfio: Avoid disabling and enabling vectors
- repeatedly in VFIO migration
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20201209080919.156-1-lushenming@huawei.com>
- <20201209080919.156-4-lushenming@huawei.com>
- <20210126143614.175e271c@omen.home.shazbot.org>
-From: Shenming Lu <lushenming@huawei.com>
-Message-ID: <7e61e7ae-e351-4228-d250-660251dcb0c0@huawei.com>
-Date: Wed, 27 Jan 2021 19:27:35 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+ (Exim 4.90_1) (envelope-from <muriloo@linux.ibm.com>)
+ id 1l4jSR-00071K-Ot; Wed, 27 Jan 2021 06:58:01 -0500
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10RBWmuv186483; Wed, 27 Jan 2021 06:57:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : reply-to :
+ cc : subject : date : message-id : in-reply-to : references : mime-version
+ : content-transfer-encoding : content-type; s=pp1;
+ bh=YQhmaU8nvfctC+bCqfBdyJMiuJ86jtb6C3kVgFC7KH0=;
+ b=Rt7iCi40KMipt+P8nfMDRFV/Komx7wo71qu/+StWXFnRIc2xMK+Od0YOi/UISRc4WOwg
+ PycdCCNThmhxGVJhS0XYgdwFRw/hZyo4NxrEzK+Jt6Ej0BEjjf0W7fut9E3R2OweU1zi
+ x+fY0S5hmB1CJC1JP+WPJO/XtqOdrsCHt7V22eLOZ5LtpGhpYOLNtnL/vCMLb4FT/RfL
+ GY85U7mDTPfnc6GSKzlF8yGMIqfGOWVSQ5/kXOj54kGb6YosO47bOG6e3l22P5tnvQwX
+ Dw10PfwJkpOpYfVc1NCiopA6xK1jpkf3ISCWQTmercIqk83pl86bvxKN0etTt3R44nl1 mw== 
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36b5aw456h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Jan 2021 06:57:46 -0500
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10RBuhCD022667;
+ Wed, 27 Jan 2021 11:57:45 GMT
+Received: from b01cxnp23034.gho.pok.ibm.com (b01cxnp23034.gho.pok.ibm.com
+ [9.57.198.29]) by ppma02dal.us.ibm.com with ESMTP id 36a4mbxy73-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 27 Jan 2021 11:57:45 +0000
+Received: from b01ledav006.gho.pok.ibm.com (b01ledav006.gho.pok.ibm.com
+ [9.57.199.111])
+ by b01cxnp23034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10RBviHB42008922
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 27 Jan 2021 11:57:44 GMT
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id BA17AAC05B;
+ Wed, 27 Jan 2021 11:57:44 +0000 (GMT)
+Received: from b01ledav006.gho.pok.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CD9E5AC059;
+ Wed, 27 Jan 2021 11:57:43 +0000 (GMT)
+Received: from localhost (unknown [9.160.123.40])
+ by b01ledav006.gho.pok.ibm.com (Postfix) with ESMTPS;
+ Wed, 27 Jan 2021 11:57:43 +0000 (GMT)
+From: Murilo Opsfelder =?ISO-8859-1?Q?Ara=FAjo?= <muriloo@linux.ibm.com>
+To: David Gibson <david@gibson.dropbear.id.au>, qemu-ppc@nongnu.org
+Subject: Re: [PATCH 3/7] ppc/pnv: Use skiboot addresses to load kernel and
+ ramfs
+Date: Wed, 27 Jan 2021 08:57:41 -0300
+Message-ID: <11686843.O9o76ZdvQC@kermit.br.ibm.com>
+Organization: IBM
+In-Reply-To: <20210126171059.307867-4-clg@kaod.org>
+References: <20210126171059.307867-1-clg@kaod.org>
+ <20210126171059.307867-4-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210126143614.175e271c@omen.home.shazbot.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.186.182]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=lushenming@huawei.com;
- helo=szxga06-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-27_04:2021-01-27,
+ 2021-01-27 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0
+ bulkscore=0 adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999
+ phishscore=0 clxscore=1015 impostorscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101270059
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=muriloo@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,146 +102,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
- mst@redhat.com, Marc Zyngier <maz@kernel.org>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Reply-To: muriloo@linux.ibm.com
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
+ =?ISO-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/1/27 5:36, Alex Williamson wrote:
-> On Wed, 9 Dec 2020 16:09:19 +0800
-> Shenming Lu <lushenming@huawei.com> wrote:
-> 
->> Different from the normal situation when the guest starts, we can
->> know the max unmasked vetctor (at the beginning) after msix_load()
->> in VFIO migration. So in order to avoid ineffectively disabling and
-> 
-> s/ineffectively/inefficiently/?  It's "effective" either way I think.
+On Tuesday, January 26, 2021 2:10:55 PM -03 C=E9dric Le Goater wrote:
+> The current settings are useful to load large kernels (with debug) but
+> it moves the initrd image in a memory region not protected by
+> skiboot. If skiboot is compiled with DEBUG=3D1, memory poisoning will
+> corrupt the initrd.
+>
+> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Yeah, I should say "inefficiently". :-)
+Reviewed-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 
-> 
->> enabling vectors repeatedly, let's allocate all needed vectors first
->> and then enable these unmasked vectors one by one without disabling.
->>
->> Signed-off-by: Shenming Lu <lushenming@huawei.com>
->> ---
->>  hw/pci/msix.c         | 17 +++++++++++++++++
->>  hw/vfio/pci.c         | 10 ++++++++--
->>  include/hw/pci/msix.h |  2 ++
->>  3 files changed, 27 insertions(+), 2 deletions(-)
->>
->> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
->> index 67e34f34d6..bf291d3ff8 100644
->> --- a/hw/pci/msix.c
->> +++ b/hw/pci/msix.c
->> @@ -557,6 +557,23 @@ unsigned int msix_nr_vectors_allocated(const PCIDevice *dev)
->>      return dev->msix_entries_nr;
->>  }
->>  
->> +int msix_get_max_unmasked_vector(PCIDevice *dev)
->> +{
->> +    int max_unmasked_vector = -1;
->> +    int vector;
->> +
->> +    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
->> +        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
->> +        for (vector = 0; vector < dev->msix_entries_nr; vector++) {
->> +            if (!msix_is_masked(dev, vector)) {
->> +                max_unmasked_vector = vector;
->> +            }
->> +        }
->> +    }
->> +
->> +    return max_unmasked_vector;
->> +}
-> 
-> Comments from QEMU PCI folks?
-> 
->> +
->>  static int msix_set_notifier_for_vector(PCIDevice *dev, unsigned int vector)
->>  {
->>      MSIMessage msg;
->> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->> index 51dc373695..e755ed2514 100644
->> --- a/hw/vfio/pci.c
->> +++ b/hw/vfio/pci.c
->> @@ -568,6 +568,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
->>  
->>  static void vfio_msix_enable(VFIOPCIDevice *vdev)
->>  {
->> +    int max_unmasked_vector = msix_get_max_unmasked_vector(&vdev->pdev);
->> +    unsigned int used_vector = MAX(max_unmasked_vector, 0);
->> +
-> 
-> The above PCI function could also be done inline here pretty easily too:
-> 
-> unsigned int nr, max_vec = 0;
-> 
-> if (!msix_masked(&vdev->pdev))
->     for (nr = 0; nr < msix_nr_vectors_allocated(&vdev->pdev); nr++) {
->         if (!msix_is_masked(&vdev->pdev, nr)) {
->             max_vec = nr;
->         }
->     }
-> }
-> 
-> It's a bit cleaner than the msix utility function, imo.
+> ---
+>
+>  If we want to increase the kernel size limit as commit b45b56baeecd
+>  ("ppc/pnv: increase kernel size limit to 256MiB") intented to do, I
+>  think we should add a machine option.
+>
+>  hw/ppc/pnv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 14fc9758a973..e500c2e2437e 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -65,9 +65,9 @@
+>  #define FW_MAX_SIZE             (16 * MiB)
+>
+>  #define KERNEL_LOAD_ADDR        0x20000000
+> -#define KERNEL_MAX_SIZE         (256 * MiB)
+> -#define INITRD_LOAD_ADDR        0x60000000
+> -#define INITRD_MAX_SIZE         (256 * MiB)
+> +#define KERNEL_MAX_SIZE         (128 * MiB)
+> +#define INITRD_LOAD_ADDR        0x28000000
+> +#define INITRD_MAX_SIZE         (128 * MiB)
+>
+>  static const char *pnv_chip_core_typename(const PnvChip *o)
+>  {
 
-Yeah, it makes sense.
 
-> 
->>      vfio_disable_interrupts(vdev);
->>  
->>      vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
->> @@ -586,9 +589,12 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
->>       * triggering to userspace, then immediately release the vector, leaving
->>       * the physical device with no vectors enabled, but MSI-X enabled, just
->>       * like the guest view.
->> +     * If there are unmasked vectors (such as in migration) which will be
->> +     * enabled soon, we can allocate them here to avoid ineffectively disabling
->> +     * and enabling vectors repeatedly later.
-> 
-> It just happens that migration triggers this usage model where the
-> MSI-X enable bit is set with vectors unmasked in the vector table, but
-> this is not unique to migration, guests can follow this pattern as well.
-> Has this been tested with a variety of guests?  Logically it seems
-> correct, but always good to prove so.  Thanks,
+=2D-
+Murilo
 
-I have tested it in migration and normal guest startup (only the latest Linux).
-And I can try to test with some other kernels, could you be more specific about this?
-
-Thanks,
-Shenming
-
-> 
-> Alex
-> 
->>       */
->> -    vfio_msix_vector_do_use(&vdev->pdev, 0, NULL, NULL);
->> -    vfio_msix_vector_release(&vdev->pdev, 0);
->> +    vfio_msix_vector_do_use(&vdev->pdev, used_vector, NULL, NULL);
->> +    vfio_msix_vector_release(&vdev->pdev, used_vector);
->>  
->>      if (msix_set_vector_notifiers(&vdev->pdev, vfio_msix_vector_use,
->>                                    vfio_msix_vector_release, NULL)) {
->> diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
->> index 4c4a60c739..4bfb463fa6 100644
->> --- a/include/hw/pci/msix.h
->> +++ b/include/hw/pci/msix.h
->> @@ -23,6 +23,8 @@ void msix_uninit_exclusive_bar(PCIDevice *dev);
->>  
->>  unsigned int msix_nr_vectors_allocated(const PCIDevice *dev);
->>  
->> +int msix_get_max_unmasked_vector(PCIDevice *dev);
->> +
->>  void msix_save(PCIDevice *dev, QEMUFile *f);
->>  void msix_load(PCIDevice *dev, QEMUFile *f);
->>  
-> 
-> .
-> 
 
