@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876BC306736
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 23:44:51 +0100 (CET)
-Received: from localhost ([::1]:58356 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66D3F30674E
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 23:56:30 +0100 (CET)
+Received: from localhost ([::1]:38588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4tYQ-0007vN-Hg
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 17:44:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57676)
+	id 1l4tjg-0003WA-UL
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 17:56:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l4tWw-0006Ze-0y
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:43:18 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:34339)
+ (Exim 4.90_1) (envelope-from <dgreenaway@google.com>)
+ id 1l4tiS-0002z4-3Y
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:55:12 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:44395)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l4tWu-0001f6-Ip
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:43:17 -0500
-Received: by mail-wr1-x434.google.com with SMTP id g10so3575527wrx.1
- for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 14:43:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=rVntcXlDQ+FXs02aG9vIA8WUeQl9eOoJE84BzHT5YTk=;
- b=TzAomfbmboMDw99J7qiKCQjofw9W5CrwukeGApODoV8LBksGmwvTcXXybPxtnurtgj
- XbLTcCsOuCmv8HEqRPHenFOncgMiRXWEL3NFtuH0xwovTbwuHiaIHXoZ5NRdfTks1EeL
- B01LlH+pqaoehfZV6io4V1om6GPk88SoyW6qGtInL/dkdjuAHRv5qy7JlUjxxd04GO+6
- 9Vwk88Lrq/65cvjwfFg7FjvpVNIhVkZ7jKRx3yE9VkWaj4kLpCJnJInX2PVlEYGQZ1qd
- PnQT3iIILwAV/DHOuu7afw5eWMR6GC1b65/TXDn5QLpBLc/pnnJvDZGrv4FGG/vEwxOl
- np7g==
+ (Exim 4.90_1) (envelope-from <dgreenaway@google.com>)
+ id 1l4tiL-0002sk-96
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 17:55:11 -0500
+Received: by mail-ed1-x529.google.com with SMTP id c2so4417813edr.11
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 14:55:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=EezcKOm4qwtQaLEdmCws0tPBu7UMv1rYyn5daq+boFA=;
+ b=pJv/94t/lywgLR7xHowiJDhLlzyKfu8cvUt9eRWoC/TnJVoGsEMVLsm/Mei0ozSwDs
+ OzuQhSJylGfbVgDj5ZwAIGGAzuyVN25bm5GtpwBP4SoA6VZR7bOouhEDUV895XSPldem
+ xQ9hJVR+MqDdAymGSSVqcHZVpKeIZipatD104uBRCaUze896dbX8PIazRUZ0lVwWTzXw
+ 2c6+NHryFmicKMBVgsy7RL2P4Vsdid37UYxJZs23yBmNMMJsn9x82mj1a46yMX0nEzIY
+ uY4aIESKvq5iFLVEATHQLKw2uVf+33UDZYDR4GolFpyr2cropaah+u9vIAOFaduoa1qn
+ LS2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=rVntcXlDQ+FXs02aG9vIA8WUeQl9eOoJE84BzHT5YTk=;
- b=l5clOCZbh5ymeV2frHudhxvynzO4z8T385T4fOXWb9weZ+HyOTSlRtSeasZk2Um5Ih
- cNfSpN22ReFVy33HveZd12c2qvj+dkCMh5DqMaUobS+035SwuKFbcRfuBu2MAW0j6Gdn
- urwRDb+T50tEo8g2rjNdpWYcOlhYXhrHcOhl/NcFSOmb4uiNpIo5bXnQ4XsbkfZVUc1v
- QpbFx4z4DJR28/TIxHctwaqFnkeA+2fABXl+tsp21OfrlK65KXQ0SsVeUQVl8+9ZaTnp
- Q2oSbSsTwGZzUzIB5sP8xLrnoP2QaoOyzIhVxpA6cJmFTxwknxLTuY8/fcZ08xa6Bvfu
- 1Cbg==
-X-Gm-Message-State: AOAM532TYymFYUEIxfwaJ01xrC4Sgzu8Z9GoXPbfZjZjqgXPOncWexGk
- 3SQ6AxCSkohY3KPrrrou1vENSVMpylc=
-X-Google-Smtp-Source: ABdhPJyXvDkc+wDmWHR136i9MZXOkLPpLcbesBfrx/bBgrgW4Vly/+xojSUAxAZkyvLiZU+UmzCfsg==
-X-Received: by 2002:a05:6000:104f:: with SMTP id
- c15mr13063012wrx.239.1611787395017; 
- Wed, 27 Jan 2021 14:43:15 -0800 (PST)
-Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id r13sm4063126wmh.9.2021.01.27.14.43.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 14:43:13 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] target/tricore: Remove unused definitions
-Date: Wed, 27 Jan 2021 23:42:55 +0100
-Message-Id: <20210127224255.3505711-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210127224255.3505711-1-f4bug@amsat.org>
-References: <20210127224255.3505711-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=EezcKOm4qwtQaLEdmCws0tPBu7UMv1rYyn5daq+boFA=;
+ b=gCxyIQf7k0YKe6DM9MDsXgyFe97x/BjUFvWtuOYJop+vG8lBYvdfk9Pq49KAiIU1Yq
+ n2fsaMO3F051IFmZnM4txWFhGRuCzl06Wmml0LOaZ4oTWTcHXdrI5VdIDY3W+Jynlyd2
+ l+b5kVYX7vQ27IgIOGOzyFaZKESIqF/SbB8gfAVTcShy1212Kpt4+gGHNqulCnJYF8XC
+ pUeUA/0DQKGIt8LTkRePIBRllX+qCnyoDSYPWxqaFzyAYk3lTDVKdEYLhN2npskQ4cpt
+ 4Fr4e6uIt9YPrG25XIafxOFu0nprdTzzIi3dDrVGn+bOSQ3zXQyDgBWd4BtkBxaPAqsp
+ jsPQ==
+X-Gm-Message-State: AOAM53329S2PA7owCKQVtNvbDUpqG4N/MN80jEFGUgKdNyXOZ0TqhauW
+ 3LQqBoQvkLRg3tUvKWnHC+5vX519egSN8twSF0pdxSTvqn00xQ==
+X-Google-Smtp-Source: ABdhPJzQp0E6k9TqqJUALQhlsKIQLyqsNlsHhC2PRFF+lApb9o/dSniID2XXz3Ga/5R7Dqpq1nBz6q6FRTQPEN4ZE/0=
+X-Received: by 2002:a50:acc1:: with SMTP id x59mr11089306edc.43.1611788101466; 
+ Wed, 27 Jan 2021 14:55:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+References: <20210114063958.1508050-1-dgreenaway@google.com>
+In-Reply-To: <20210114063958.1508050-1-dgreenaway@google.com>
+From: David Greenaway <dgreenaway@google.com>
+Date: Thu, 28 Jan 2021 09:54:35 +1100
+Message-ID: <CAPs2x8=H+mMgnRWPO5WxS9z8ZvbVr3hPaGFqHjaPQDc+0ASG1A@mail.gmail.com>
+Subject: Re: [PATCH] target/i386: Fix decoding of certain BMI instructions
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=dgreenaway@google.com; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,45 +77,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Joe Komlodi <komlodi@xilinx.com>, David Brenken <david.brenken@efs-auto.org>,
- Andreas Konopik <andreas.konopik@efs-auto.de>
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove these confusing and unused definitions.
+On 14 Jan 2021, David Greenaway <dgreenaway@google.com> wrote:
+> This patch fixes a translation bug for a subset of x86 BMI instructions
+> such as the following: [...]
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/tricore/cpu.h | 12 ------------
- 1 file changed, 12 deletions(-)
+Gentle ping.
 
-diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
-index b82349d1b10..4b61a2c03f8 100644
---- a/target/tricore/cpu.h
-+++ b/target/tricore/cpu.h
-@@ -375,18 +375,6 @@ typedef TriCoreCPU ArchCPU;
- 
- #include "exec/cpu-all.h"
- 
--enum {
--    /* 1 bit to define user level / supervisor access */
--    ACCESS_USER  = 0x00,
--    ACCESS_SUPER = 0x01,
--    /* 1 bit to indicate direction */
--    ACCESS_STORE = 0x02,
--    /* Type of instruction that generated the access */
--    ACCESS_CODE  = 0x10, /* Code fetch access                */
--    ACCESS_INT   = 0x20, /* Integer load/store access        */
--    ACCESS_FLOAT = 0x30, /* floating point load/store access */
--};
--
- void cpu_state_reset(CPUTriCoreState *s);
- void tricore_tcg_init(void);
- int cpu_tricore_signal_handler(int host_signum, void *pinfo, void *puc);
--- 
-2.26.2
+The patch is up at:
 
+https://patchwork.kernel.org/project/qemu-devel/patch/20210114063958.1508050-1-dgreenaway@google.com/
+
+if that helps.
+
+Cheers,
+David
 
