@@ -2,74 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A4FD3057BC
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 11:04:39 +0100 (CET)
-Received: from localhost ([::1]:41786 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EAEAD3057D0
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 11:08:07 +0100 (CET)
+Received: from localhost ([::1]:45028 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4hgk-0002js-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 05:04:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58410)
+	id 1l4hk7-0004IS-0g
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 05:08:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59854)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l4hes-000178-AL
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:02:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38239)
+ id 1l4hj9-0003s5-66
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:07:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36161)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l4hej-0003lc-01
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:02:40 -0500
+ id 1l4hj6-0005zN-RJ
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 05:07:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611741752;
+ s=mimecast20190719; t=1611742023;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=DPAY0sI+7fVFP5fvJftAdBdFvByZe+GzE4pJQshDOTo=;
- b=YOoU8uKLr5D+ktnN+Xy8AGdUbH6yYQWtFF3yt6+zMiwPiVkVqNGo/srESHRDZ7hymdSDMs
- AvTFbJFChyzh1LVR15V4wNo1rreREGb+s7cdJH2AzCr8bPXTyKn4jR0gUfuIwhY8vSV+va
- gfVmcLFffY4cYWwUTYPfljjPpShJTmo=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=POIn1xri8rBb7cDppq6ODrkjtB5bCKEuaM761mWxypw=;
+ b=iXn+OktBdy1Y+koO99G8DIB2j18VO4SXOZxyf68Nw42zk19MRWdLXxwQ2bk90MKhvJ9BSI
+ sHCIgyzZat2+eLSwJlWQBCxjaDrsG36YvKGJ0rlivlRLhoj3ulRe44SEjY0uJ7/KneiM1S
+ /SOU101FbSHcDa66pgd02ebbzDPyjDU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-454-fnt_GTydPKyLPZJry-IAdA-1; Wed, 27 Jan 2021 05:02:27 -0500
-X-MC-Unique: fnt_GTydPKyLPZJry-IAdA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-218-_eMsTLBnNiGOuyUi8rY39A-1; Wed, 27 Jan 2021 05:07:01 -0500
+X-MC-Unique: _eMsTLBnNiGOuyUi8rY39A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 409A1190A7A2;
- Wed, 27 Jan 2021 10:02:26 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 292A8804006;
+ Wed, 27 Jan 2021 10:06:53 +0000 (UTC)
 Received: from redhat.com (ovpn-115-120.ams2.redhat.com [10.36.115.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3DEEE10074E1;
- Wed, 27 Jan 2021 10:02:24 +0000 (UTC)
-Date: Wed, 27 Jan 2021 10:02:21 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8CC9272163;
+ Wed, 27 Jan 2021 10:06:51 +0000 (UTC)
+Date: Wed, 27 Jan 2021 10:06:48 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH v4 4/4] meson: Warn when TCI is selected but TCG backend
- is available
-Message-ID: <20210127100221.GD3653144@redhat.com>
-References: <20210125144530.2837481-1-philmd@redhat.com>
- <20210125144530.2837481-5-philmd@redhat.com>
- <20210125164746.GE3538803@redhat.com>
- <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
- <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
- <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
- <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
- <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
- <cd9265f7-4887-63bb-e36e-ace708d062c1@weilnetz.de>
- <875z3jy3tt.fsf@linaro.org>
+To: Ben Widawsky <ben@bwidawsk.net>
+Subject: Re: Handling multiple inheritance [for CXL]
+Message-ID: <20210127100648.GE3653144@redhat.com>
+References: <20210126213013.6v24im4sler3q3am@mail.bwidawsk.net>
 MIME-Version: 1.0
-In-Reply-To: <875z3jy3tt.fsf@linaro.org>
+In-Reply-To: <20210126213013.6v24im4sler3q3am@mail.bwidawsk.net>
 User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -92,100 +79,32 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Stefan Weil <sw@weilnetz.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
+ Xiao Guangrong <xiaoguangrong.eric@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 26, 2021 at 05:24:10PM +0000, Alex Bennée wrote:
+On Tue, Jan 26, 2021 at 01:33:52PM -0800, Ben Widawsky wrote:
+> I'm working on CXL 2.0 type 3 memory devices [1]. In short, these are PCIe devices
+> that have persistent memory on them. As such, it would be nice to inherit from
+> both a PCI_DEVICE class as well as an NVDIMM device class.
 > 
-> Stefan Weil <sw@weilnetz.de> writes:
+> Truth be told, using TYPE_MEMORY_DEVICE as the interface does provide most of
+> what I need. I'm wondering what the best way to handle this is. Currently, the
+> only thing NVDIMM class provides is write/read_label_data, this is driven by
+> _DSM. For CXL, the mechanism to read/write the equivalent area is not done via
+> _DSM, but done directly via a mailbox interface. However, the intent is the
+> same, and so utilizing similar code seems ideal.
 > 
-> > Am 25.01.21 um 23:35 schrieb Richard Henderson:
-> >> On 1/25/21 11:02 AM, Stefan Weil wrote:
-> >>> Am 25.01.21 um 20:02 schrieb Richard Henderson:
-> >>>> On 1/25/21 8:58 AM, Stefan Weil wrote:
-> >>>>> I have no evidence that TCI is less reliable than TCG, so I would not write
-> >>>>> that.
-> >>>> It can't pass make check-tcg.
-> >>> Where does it fail? Maybe an expected timeout problem which can be solved by
-> >>> increasing the timeouts for TCI?
-> >>>
-> >>> I have just run a local test of `make check-tcg` with native TCG and with TCI
-> >>> and did not see a difference. But I noticed that in both cases many tests show
-> >>> "skipped".
-> >> You need to enable docker or podman for your development, so that you get all
-> >> of the cross-compilers.
-> >>
-> >> Then:
-> >>
-> >>    TEST    fcvt on arm
-> >> TODO ../qemu/tcg/tci.c:614: tcg_qemu_tb_exec()
-> >> ../qemu/tcg/tci.c:614: tcg fatal error
-> >> qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-> >>
-> >>    TEST    float_convs on m68k
-> >> TODO ../qemu/tcg/tci.c:614: tcg_qemu_tb_exec()
-> >> ../qemu/tcg/tci.c:614: tcg fatal error
-> >> qemu: uncaught target signal 11 (Segmentation fault) - core dumped
-> >>
-> >> which is of course one of the TODO assertions.
-> >> It's positively criminal those still exist in the code.
-> >
-> >
-> > I installed podman and repeated `make check-tcg`. The log file still 
-> > shows 87 lines with "SKIPPED". There is also a gdb core dump, several 
-> > warnings, but nothing related to TCI. Both tests cited above seem to 
-> > work without a problem.
-> 
-> I'm going to go out on a limb and guess you have commit:
-> 
->   23a77b2d18 (build-system: clean up TCG/TCI configury)
-> 
-> which temporarily has the effect of disabling TCI. See
-> 
->   Subject: Re: [PATCH v4 1/4] configure: Fix --enable-tcg-interpreter
->   From: Paolo Bonzini <pbonzini@redhat.com>
->   Message-ID: <2b8b6291-b54c-b285-ae38-21f067a8497d@redhat.com>
->   Date: Mon, 25 Jan 2021 17:36:42 +0100
-> 
-> with that fix fixed I see the same failures as Richard:
-> 
->   ./qemu-arm ./tests/tcg/arm-linux-user/fcvt > /dev/null
->   TODO ../../tcg/tci.c:614: tcg_qemu_tb_exec()
->   ../../tcg/tci.c:614: tcg fatal error
->   qemu: uncaught target signal 11 (Segmentation fault) - core dumped
->   fish: “./qemu-arm ./tests/tcg/arm-linu…” terminated by signal SIGSEGV (Address boundary error)
-> 
-> which does raise the question before today when was the last time anyone
-> attempted to run check-tcg on this?
-> 
-> > The complete log file is available from 
-> > https://qemu.weilnetz.de/test/check-tcg.txt.
-> >
-> > Daniel, regarding your comment: TCI has 100 % test coverage for the 
-> > productive code lines.
-> 
-> By what tests? The fact you don't hit asserts in your day to day testing
-> doesn't mean there are features missing that are easily tripped up or
-> that TCI got it right.
-> 
-> > All code lines which were never tested raise an 
-> > assertion, so can easily be identified (and fixed as soon as there is a 
-> > test case which triggers such an assertion). The known deficits are 
-> > speed, missing TCG opcodes, unimplemented TCG opcodes because of missing 
-> > test cases and missing support for some host architectures.
-> 
-> Passing check-tcg would be a minimum for me.
+> If there's a desire to unify these code paths, I'd need something like multiple
+> inheritance. I'm looking for some feedback here on how to do it.
 
-Passing check-tcg *in gitlab CI* would be the minimum to consider
-it on a par with TCG.
+We don't have a direct concept of multiple inheritance in QOM.
 
-The lack of automated GitLab CI for TCI is a reason my proposed wording
-described TCI as less reliable than native TCG. We can't claim it has
-equivalent reliability unless we have equiv automated testing of TCI.
+The closest you can get is to turn the NVDIMM class into an
+interface. You can inherit from PCI_DEVICE and then implement
+the NVDIMM interface.
 
 Regards,
 Daniel
