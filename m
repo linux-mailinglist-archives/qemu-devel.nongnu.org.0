@@ -2,74 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E34E306808
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 00:39:21 +0100 (CET)
-Received: from localhost ([::1]:49372 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FB9F306823
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 00:43:22 +0100 (CET)
+Received: from localhost ([::1]:53046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4uP9-00059Q-W2
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 18:39:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38818)
+	id 1l4uT3-0006wr-Nr
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 18:43:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1l4uNP-0004AA-9Z; Wed, 27 Jan 2021 18:37:32 -0500
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:34573)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l4uRB-0006Bq-Pt
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 18:41:25 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <tcminyard@gmail.com>)
- id 1l4uNN-0007yE-Ko; Wed, 27 Jan 2021 18:37:31 -0500
-Received: by mail-oi1-x22a.google.com with SMTP id h192so4142094oib.1;
- Wed, 27 Jan 2021 15:37:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l4uRA-0008Cn-E2
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 18:41:25 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id z6so3604921wrq.10
+ for <qemu-devel@nongnu.org>; Wed, 27 Jan 2021 15:41:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:date:from:to:cc:subject:message-id:reply-to:references
- :mime-version:content-disposition:in-reply-to;
- bh=HJpqkRsZbLXh2vaN6FT25gyzuQv+LljfKlHw4FHoLyU=;
- b=ZR0evATzK/gAdPuhlnpAsYK51dEbWK3/Z1SomEmj9vYXG0d0s9peuzYEqjkYEHocx2
- iN8gJQ+dW7Om7aRM35M6Twu5KQqW4sgna9rYLLhLvO0UmeV7NMyMc1GOZFCDQXk45d04
- kdSpGgJN5rfgCs+2Rv+ssYX6eDemqFDsDR+iKkuchY69Ib3zajqqDsZPgV+ZZWFTV/IY
- bh6ueeEG+/HNSupjTNYHX8o+UbjX+3OrEyoWsuP5vn7ByeDsvtuRPL9tZuVqERcyIGLB
- Sq2AVJQb1aF9IzN4juHr/PSM5PmAw1aylVQDzBWsUy7vM3GYAb99GpK8CIWXrl5BYZeL
- hYGg==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=+t4DS/RTtMX4Ty3BMweMBtODBcGBJ5r/iA11fP9w6jo=;
+ b=bE10/xCY+msRA+2K3mQELDuSoPcl+9xyH19AU40pRjDZu7TmIRAg7GPF+QvaaT2jzZ
+ tYR/GoDxUWZkaj+WRHBxFY9vX52r1np1oRWDI5ts8gMsnzTh0CE/370kG/Wovmet9OJc
+ GNNq2oRnmlDLBeLF1E1BF+MAt7ks7IoGLdH88SRuUzX/PqxW408vCeTIIfnhe3sbCBUZ
+ tvz+xAM56Z0lU/Hi40Vr4U7U4Xa+aoAm7QP/GOv51kSXqLL4aLHseTTM4fQyCQW3UhF3
+ P7wJFMrKxWvRynxlRmYBkN/v7BuT8ATaOBu+bk9BrCmqfRH9H9iHOzoFtqptUwvuNE3D
+ ac7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
- :reply-to:references:mime-version:content-disposition:in-reply-to;
- bh=HJpqkRsZbLXh2vaN6FT25gyzuQv+LljfKlHw4FHoLyU=;
- b=X0Rp+G34Cy9M+Pwlack439BLcTGNcJdqf/B9ulBx1zkgBFQVvJmxwY8gNcL4W2bs+u
- royG8mwKhWh7SedIC678bbZ9Q2T9cQ3GG2rutUNF3SnWHnZtZz4fRzQiSD0zghnks5XQ
- +3WVgGh55SZst7zbcvswFxCLgZi5WBFfVU50nMQAEdeUeQe4Xj1onKZJGtejVRgEnACl
- bbU5qSYNOSl8fsMrCnyFkYE1RefIHxlejiTUbcRZnu18rD4JNNZ1GGFKdXq5h5elQZSg
- riIqF5FCAbbUnn3JHvsfcQqR1K/TNyfDdFrmpgWwbf1sw8yK3T54cRqi8hzBX4JddFgW
- wYDw==
-X-Gm-Message-State: AOAM533BBlkw+VnYvmBGkn2RWH94/6BmJGBQK9fobmazYRFY4CiOq6kG
- N5e+0knCisvl+3gdHdLp/g==
-X-Google-Smtp-Source: ABdhPJwMVGPETu5diRPOT/wgjckyHAAkuBr1jtVNR0NiFcUK7umjhLTCBbUgf2pLPA7wi6ihDYDe1g==
-X-Received: by 2002:aca:5d09:: with SMTP id r9mr4827682oib.25.1611790647663;
- Wed, 27 Jan 2021 15:37:27 -0800 (PST)
-Received: from serve.minyard.net ([47.184.170.156])
- by smtp.gmail.com with ESMTPSA id 189sm734626oie.23.2021.01.27.15.37.26
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=+t4DS/RTtMX4Ty3BMweMBtODBcGBJ5r/iA11fP9w6jo=;
+ b=lWOF4EzHkjGi0Iw0dGuVsN46dtfWODG9CNMVBjV/lF+lrsAHgVPCZOr7pdBrD1zJZM
+ hor1FBjswXFXN4xvSYF2mbGQyNmf9BZqHX6iwUGOfVAy6f/Rj0+hbt1Jj3BCJn+DGFOv
+ IYx3y7cmkX57GxCPfRFrtyDo/zHKIVIIJO0+Dblxpbh0o6PB3b051dVPwE9Bao736fs3
+ 07LX3OONtbX1fl6a/YlfWF4B1wRxxoFCfhGA5IMlyUJ8xtLjRWqRLgyPzWpwjAwmCJ6X
+ Rf18qt0diDqFZJrwnPflLybg0mFqbmaMC2lwSchIuONC4TR07b6YVRN+LYy+4yaGDcdt
+ D3XA==
+X-Gm-Message-State: AOAM532rPnlDrHIF3sg2HHBwFjKPkABR+pYeqZPjLOtaS7/urGxt2b3G
+ w3RNoW5wabo9FIMCjWa6n2mundAf+YI=
+X-Google-Smtp-Source: ABdhPJwgjwBOIUjhlOGnSanSvb2lM/i/+vqfNWv8I7pAvQ/9WWpiPTgbFR5rgItpUihD7yL1ftsVHw==
+X-Received: by 2002:a5d:6311:: with SMTP id i17mr13393519wru.195.1611790882341; 
+ Wed, 27 Jan 2021 15:41:22 -0800 (PST)
+Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id l5sm4611999wrv.44.2021.01.27.15.41.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 15:37:26 -0800 (PST)
-Received: from minyard.net (unknown
- [IPv6:2001:470:b8f6:1b:84df:dff0:9fb7:e686])
- by serve.minyard.net (Postfix) with ESMTPSA id 6254B18055B;
- Wed, 27 Jan 2021 23:37:25 +0000 (UTC)
-Date: Wed, 27 Jan 2021 17:37:24 -0600
-From: Corey Minyard <minyard@acm.org>
-To: Hao Wu <wuhaotsh@google.com>
-Subject: Re: [PATCH 6/6] hw/i2c: Implement NPCM7XX SMBus Module FIFO Mode
-Message-ID: <20210127233724.GF2057975@minyard.net>
-References: <20210126193237.1534208-1-wuhaotsh@google.com>
- <20210126193237.1534208-7-wuhaotsh@google.com>
- <20210126234724.GC2057975@minyard.net>
- <CAGcCb12nJAMnZ+eaWC6n08hAFAVueCknSWzbEYFPp+GUApoRdg@mail.gmail.com>
- <20210127214251.GE2057975@minyard.net>
- <CAGcCb13N+0wtmkH4Q4rZowrpPBn_KkOae3GgZokC4B1bGi-emg@mail.gmail.com>
+ Wed, 27 Jan 2021 15:41:21 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 0/2] target/nios2: Pass MMUAccessType to mmu_translate()
+Date: Thu, 28 Jan 2021 00:41:17 +0100
+Message-Id: <20210127234119.3537399-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAGcCb13N+0wtmkH4Q4rZowrpPBn_KkOae3GgZokC4B1bGi-emg@mail.gmail.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22a;
- envelope-from=tcminyard@gmail.com; helo=mail-oi1-x22a.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,99 +83,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: minyard@acm.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Patrick Venture <venture@google.com>,
- Havard Skinnemoen <hskinnemoen@google.com>,
- QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
- qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
- Doug Evans <dje@google.com>
+Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Joe Komlodi <komlodi@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 27, 2021 at 01:59:07PM -0800, Hao Wu wrote:
-> On Wed, Jan 27, 2021 at 1:42 PM Corey Minyard <minyard@acm.org> wrote:
-> 
-> > On Wed, Jan 27, 2021 at 12:37:46PM -0800, wuhaotsh--- via wrote:
-> > > On Tue, Jan 26, 2021 at 3:47 PM Corey Minyard <minyard@acm.org> wrote:
-> > >
-> > > > On Tue, Jan 26, 2021 at 11:32:37AM -0800, wuhaotsh--- via wrote:
-> > > > > +
-> > > > > +static void npcm7xx_smbus_read_byte_fifo(NPCM7xxSMBusState *s)
-> > > > > +{
-> > > > > +    uint8_t received_bytes =
-> > NPCM7XX_SMBRXF_STS_RX_BYTES(s->rxf_sts);
-> > > > > +
-> > > > > +    if (received_bytes == 0) {
-> > > > > +        npcm7xx_smbus_recv_fifo(s);
-> > > > > +        return;
-> > > > > +    }
-> > > > > +
-> > > > > +    s->sda = s->rx_fifo[s->rx_cur];
-> > > > > +    s->rx_cur = (s->rx_cur + 1u) % NPCM7XX_SMBUS_FIFO_SIZE;
-> > > > > +    --s->rxf_sts;
-> > > >
-> > > > This open-coded decrement seems a little risky.  Are you sure in every
-> > > > case that s->rxf_sts > 0?  There's no way what's running in the VM can
-> > > > game this and cause a buffer overrun?  One caller to this function
-> > seems
-> > > > to protect against this, and another does not.
-> > > >
-> > > s->rxf_sts is uint8_t so it's guaranteed to be >=0.
-> > > In the case s->rxf_sts == 0,  NPCM7XX_SMBRXF_STS_RX_BYTES(s->rxf_sts) is
-> > > also 0, so it'll take the if-branch and return without running
-> > --s->rxf_sts.
-> >
-> > That is true if called from the
-> > NPCM7XX_SMBUS_STATUS_STOPPING_LAST_RECEIVE case.  There is no such check
-> > in the NPCM7XX_SMBUS_STATUS_RECEIVING case.
-> >
-> I don't understand the reasoning here. The caller doesn't matter.
-> Previous code has:
->  #define NPCM7XX_SMBRXF_STS_RX_BYTES(rv)     extract8((rv), 0, 5)
-> So
->  uint8_t received_bytes = NPCM7XX_SMBRXF_STS_RX_BYTES(s->rxf_sts);
-> is guaranteed to be 0 if s->rxf_sts == 0.
-> As a result the code will take the following branch and returns:
->  if (received_bytes == 0) {
->     npcm7xx_smbus_recv_fifo(s);
->     return;
->  }
-> And will not execute the --s->rxf_sts sentence.
-> Please let me know if I missed anything here.
-
-Ah, sorry, I missed that.  Yes, this is ok.  So...
-
-Reviewed-by: Corey Minyard <cminyard@mvista.com>
-
-> 
-> >
-> > > I'll probably add "g_assert(s->rxf_sts > 0)" to clarify.
-> >
-> > You never want to do an assert if the hosted system can do something to
-> > cause it.  If you add the check to the NPCM7XX_SMBUS_STATUS_RECEIVING
-> > case, it would be ok, but really unnecessary.
-> >
-> > If it's fine if s->rxf_sts wraps to 0xff, then this all doesn't matter,
-> > but you want to add a comment to that effect if so.  These sorts of
-> > things look dangerous.
-> >
-> > There is also the question about who takes these patches in.  I'm the
-> > I2C maintainer, but there's other code in this series.  Once everything
-> > is ready, I can ack them if we take it through the ARM tree.  Or I can
-> > take it through my tree with the proper acks.
-> >
-> I think either  way is fine. Previous NPCM7XX patch series were taken in
-> the ARM tree. But as i2c code taking into your tree is also fine.
-> 
-> >
-> > -corey
-> >
-> > >
-> > > >
-> > > > Other than this, I didn't see any issues with this patch.
-> > > >
-> > > > -corey
-> > > >
-> >
+Taking notes while reviewing commit 671a0a1265a=0D
+("use MMUAccessType instead of int in mmu_translate").=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (2):=0D
+  target/nios2: Replace magic value by MMU definitions=0D
+  target/nios2: Use MMUAccessType enum type when possible=0D
+=0D
+ target/nios2/mmu.h    | 3 ++-=0D
+ target/nios2/helper.c | 2 +-=0D
+ target/nios2/mmu.c    | 4 ++--=0D
+ 3 files changed, 5 insertions(+), 4 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
