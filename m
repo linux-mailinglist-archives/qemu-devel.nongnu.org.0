@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4923B30615C
-	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 17:54:57 +0100 (CET)
-Received: from localhost ([::1]:38800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 19ED3306195
+	for <lists+qemu-devel@lfdr.de>; Wed, 27 Jan 2021 18:08:27 +0100 (CET)
+Received: from localhost ([::1]:52840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4o5o-0003n5-Bx
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 11:54:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54088)
+	id 1l4oIr-0002W4-HA
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 12:08:25 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l4o4a-0003KW-Ex
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 11:53:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28513)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1l4oEG-0000k1-0c
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:03:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45932)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l4o4Y-0003Qm-Gw
- for qemu-devel@nongnu.org; Wed, 27 Jan 2021 11:53:40 -0500
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1l4oEC-0004aE-ME
+ for qemu-devel@nongnu.org; Wed, 27 Jan 2021 12:03:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611766417;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1611767015;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=pilPm5yc2GdFza0Ihd3EWp/O+vPs0OXyRkLWUaNzghw=;
- b=VfvAodw1g6bt9u1lC8w/VHXj8vueyHYzmUmLPEB30V4ELSROJEimc60qpP+BGk5vVGAn9l
- 4WHO4mTSFPEr5v3drWBzlCrC0L8NFOj1qDtnNgGc6T9KHz0COlMTb4QvlOKNwpDaR5YuXC
- gi9KPk5AtMuhmORCXyX1qoonHfEgp0Q=
+ bh=kdreIqywg5fodV32K0FHdGysRDPkSJAfYb3DP50uQVE=;
+ b=YDEbqeCYVPswWCBREQp6/gxEXY97byi1PTbXEcP2022EeZQlXZtsynTLztLU4dwvejnSHO
+ a/xre3mO8QfQdRMQjP5p+XXYgIwt0S3L3PyfWQulvZ0VE0wz87DPHIqDcrDnuhqhlHC3cr
+ Vumvq4Nq+kQGXRba7AJwbuIojaIUHD8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-312-lfkezU9iOdqJeWjLM7Ca-A-1; Wed, 27 Jan 2021 11:53:35 -0500
-X-MC-Unique: lfkezU9iOdqJeWjLM7Ca-A-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-134-fuInxpFyNjuoyItR4mKn6w-1; Wed, 27 Jan 2021 12:03:30 -0500
+X-MC-Unique: fuInxpFyNjuoyItR4mKn6w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 629C38066E9;
- Wed, 27 Jan 2021 16:53:34 +0000 (UTC)
-Received: from redhat.com (ovpn-115-120.ams2.redhat.com [10.36.115.120])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2FAFC5D9CA;
- Wed, 27 Jan 2021 16:53:32 +0000 (UTC)
-Date: Wed, 27 Jan 2021 16:53:30 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
- test-crypto-tlscredsx509
-Message-ID: <20210127165330.GT3653144@redhat.com>
-References: <CAFEAcA-bafTaHajkvYQw1rfGP1MgKmeY-wmO6LY=fj2oY87HFQ@mail.gmail.com>
- <20210126163647.GJ3640294@redhat.com>
- <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
- <20210127121723.GI3653144@redhat.com>
- <0de4a2a8-577d-a46e-3a66-1f9a9e589a4d@weilnetz.de>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DEFB88042C9;
+ Wed, 27 Jan 2021 17:03:29 +0000 (UTC)
+Received: from [10.40.194.186] (unknown [10.40.194.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6722E70958;
+ Wed, 27 Jan 2021 17:03:28 +0000 (UTC)
+Subject: Re: [PATCH v3] machine: add missing doc for memory-backend option
+To: Igor Mammedov <imammedo@redhat.com>
+References: <20210121161504.1007247-1-imammedo@redhat.com>
+ <20210127104511.GF3653144@redhat.com> <20210127105436.GG3653144@redhat.com>
+ <756c025a-3811-4a36-98a2-3a02bd756523@redhat.com>
+ <20210127163522.5a8db09a@redhat.com>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <2a90bb34-3950-ef4a-9c1c-81d6cb6b1155@redhat.com>
+Date: Wed, 27 Jan 2021 18:03:27 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-In-Reply-To: <0de4a2a8-577d-a46e-3a66-1f9a9e589a4d@weilnetz.de>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210127163522.5a8db09a@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mprivozn@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mprivozn@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,79 +85,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Alexander Graf <agraf@csgraf.de>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, pkrempa@redhat.com,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, Jan 27, 2021 at 05:44:59PM +0100, Stefan Weil wrote:
-> Am 27.01.21 um 13:17 schrieb Daniel P. Berrangé:
+On 1/27/21 4:35 PM, Igor Mammedov wrote:
+> On Wed, 27 Jan 2021 15:24:26 +0100
+> Michal Privoznik <mprivozn@redhat.com> wrote:
 > 
-> > On Tue, Jan 26, 2021 at 04:41:13PM +0000, Peter Maydell wrote:
-> > > On Tue, 26 Jan 2021 at 16:37, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > > > On Tue, Jan 26, 2021 at 04:32:08PM +0000, Peter Maydell wrote:
-> > > > > ** (tests/test-crypto-tlscredsx509:35180): CRITICAL **: 16:23:34.590:
-> > > > > Failed to sign certificate ASN1 parser: Value is not valid.
-> > > > > ERROR test-crypto-tlscredsx509 - Bail out! FATAL-CRITICAL: Failed to
-> > > > > sign certificate ASN1 parser: Value is not valid.
-> > > > > make: *** [run-test-70] Error 1
-> > > > > 
-> > > > > 
-> > > > > Does this failure ring any bells for anybody?
-> > > > Not seen it before.
-> > > > 
-> > > > Is this using a gnutls from homebrew, or one that apple
-> > > > ship themselves ?  Any idea what version it is ?
-> > > Homebrew gnutls, 3.6.15.
-> > On further investigation it seems the error comes from libtasn1,
-> > but unfortunately there are 100's of scenarios it could arise
-> > so difficult one to debug.
-> > 
-> > In the test_tls_generate_cert method in QEMU tests/crypto-tls-x509-helpers.c
-> > 
-> > There are conditional lines like
-> > 
-> >      if (req->country) {
-> > 
-> >      if (req->altname1) {
-> >      ...etc...
-> > 
-> > I guess one, or more of those, is writing data that libtasn1 is not happy
-> > with.
-> > 
-> > Some one with easy access to this apple silicon will likely need to start
-> > by incrementally disabling each of those conditionals eg.  if (req->country
-> > && 0)
-> > 
-> > until we find out which one (might be more than one) make the
-> > 
-> >     Failed to sign certificate ASN1 parser: Value is not valid.
-> > 
-> > error message go away. NB, once that ASN1 error goes away, the QEMU test
-> > suite will likely give its own error because the certs will no longer
-> > have the data it is expecting.
-> > 
-> > Regards,
-> > Daniel
-> 
-> 
-> I could debug into gnutls_x509_crt_sign2. gnutls_x509_crt_privkey_sign seems
-> to fail.
-> 
-> Disabling the conditionals mentioned above did not help.
+>> On 1/27/21 11:54 AM, Daniel P. Berrangé wrote:
+>>> On Wed, Jan 27, 2021 at 10:45:11AM +0000, Daniel P. Berrangé wrote:
+>>>> On Thu, Jan 21, 2021 at 11:15:04AM -0500, Igor Mammedov wrote:
+>>
+>>
+>>>>
+>>>> How does a mgmt app know which machine types need to use this
+>>>> option ? The machine type names are opaque strings, and apps
+>>>> must not attempt to parse or interpret the version number
+>>>> inside the machine type name, as they can be changed by
+>>>> distros.  IOW, saying to use it for machine types 4.0 and
+>>>> older isn't a valid usage strategy IMHO.
+> it's possible (but no necessary) to use knob with new machine types
+> (defaults for these match suggested property value).
+> Limiting knob usage to 4.0 and older would allow us to drop
+> without extra efforts once 4.0 is deprecated/removed.
 
-In $QEMU.git/crypto/init.c can you uncomment  the "#define DEBUG_GNUTLS"
-line and then re-build and re-run the test case.
+Problem here is that libvirt treats machine type as an opaque string. 
+Therefore, as could be seen in my patch for libvirt, the property is 
+disabled for all started VMs, regardless of machine type:
 
-There's a bunch of debug logs in code paths from gnutls_x509_crt_privkey_sign
-that might give us useful info.
+https://www.redhat.com/archives/libvir-list/2021-January/msg00686.html
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+So it can't really go away ever, can it?
+
+> 
+>>> Looking at the libvirt patch, we do indeed use his property
+>>> unconditionally for all machine types, precisely because parsing
+>>> version numbers from the machine type is not allowed.
+>>>
+>>> https://www.redhat.com/archives/libvir-list/2021-January/msg00633.html
+>>>
+>>> So this doc is telling apps to do something that isn't viable
+>>
+>> The other approach that I was suggesting was, that QEMU stops reporting
+>> 'default-ram-id' for affected machine types. The way the switch from '-m
+>> XMB' to memory-backend-* was implemented in libvirt is that if libvirt
+>> sees 'default-ram-id' attribute for given machine type it uses
+>> memory-backend-* otherwise it falls back to -m.
+>>
+>> Since we know which machine types are "broken", we can stop reporting
+>> the attribute and thus stop tickling this bug. I agree that it puts more
+>> burden on distro maintainers to backport the change, but I think it's
+>> acceptable risk.
+> 
+> default-ram-id is already exposed in wild including old machine types
+> starting from 5.2
+
+It is, but according to qapi/machine.json it is optional. Mgmt apps have 
+to be able to deal with it missing.
+
+> 
+> if libvirt will take care this one quirk, then I guess we can
+> do as suggested. I can post an additional patch to this effect if there
+> is agreement to go this route.
+
+The beauty of this solution is that libvirt wouldn't need to do anything 
+:-)  As I said earlier, if no default-ram-id is found then libvirt falls 
+back to '-m X'.
+
+I've cooked a dirty patch that works in my testing:
+
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index affffe0c4a..2214782d72 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -238,8 +238,33 @@ MachineInfoList *qmp_query_machines(Error **errp)
+              info->has_default_cpu_type = true;
+          }
+          if (mc->default_ram_id) {
+-            info->default_ram_id = g_strdup(mc->default_ram_id);
+-            info->has_default_ram_id = true;
++            int i;
++            bool broken = false;
++
++            /* Default RAM ID is broken if 
+x-use-canonical-path-for-ramblock-id
++             * property of memory-backend is on. That's why it's 
+disabled in
++             * create_default_memdev(). However, some machine types 
+turn it on
++             * for backwards compatibility. */
++            for (i = 0; i < mc->compat_props->len; i++) {
++                GlobalProperty *p = g_ptr_array_index(mc->compat_props, i);
++
++                if (strcmp(p->driver, TYPE_MEMORY_BACKEND_FILE) != 0)
++                    continue;
++
++                if (strcmp(p->property, 
+"x-use-canonical-path-for-ramblock-id") != 0)
++                    continue;
++
++                if (strcmp(p->value, "true") != 0)
++                    continue;
++
++                broken = true;
++                break;
++            }
++
++            if (!broken) {
++                info->default_ram_id = g_strdup(mc->default_ram_id);
++                info->has_default_ram_id = true;
++            }
+          }
+
+          QAPI_LIST_PREPEND(mach_list, info);
+
+
+Michal
 
 
