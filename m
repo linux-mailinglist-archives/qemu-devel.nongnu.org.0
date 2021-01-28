@@ -2,75 +2,99 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19CC53071C6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:42:23 +0100 (CET)
-Received: from localhost ([::1]:46386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4F7C307207
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:53:49 +0100 (CET)
+Received: from localhost ([::1]:37990 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l52sg-0007xl-4P
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:42:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54842)
+	id 1l533k-0008SO-Um
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:53:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55384)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1l52ca-0007Qy-Nw
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:25:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36207)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1l52cX-00065G-GT
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:25:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611822339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=d60H5iJE6DqO6YJE0NvquIcUnf8D8LVoXKX3SQW4Pu4=;
- b=FeaxjHzcduq9aHN4KEBWbYOA8phwzJ1SJv6NR32m1sNMBOFBCtNgCD0rOV+Eu8xSHJ1gol
- DRmaw8tqxLem+3iCNCzfpAwgl8fuZOuIN6e+eUHLy13pFIjvxEPvWcap86Pq7tGQtso6d5
- fUDwWoigOBnyXv7c+J3b2lGSbpvRob0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-c9VQPkRlOv-QgfpVYq1ZKQ-1; Thu, 28 Jan 2021 03:25:35 -0500
-X-MC-Unique: c9VQPkRlOv-QgfpVYq1ZKQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9AB771842140;
- Thu, 28 Jan 2021 08:25:33 +0000 (UTC)
-Received: from [10.36.113.217] (ovpn-113-217.ams2.redhat.com [10.36.113.217])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 347C31992D;
- Thu, 28 Jan 2021 08:25:32 +0000 (UTC)
-Subject: Re: [PATCH] hw/arm/smmuv3: Fix addr_mask for range-based invalidation
-To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20201225095015.609-1-yuzenghui@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <4e114709-e5c2-1860-c760-c05aa3ed5388@redhat.com>
-Date: Thu, 28 Jan 2021 09:25:30 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l52gM-0004QG-EZ
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:29:38 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:33235)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l52gK-0007Mh-Lg
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:29:38 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id lw17so4401730pjb.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 00:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=LRy2lLVc4NMsTqe41EfewxI0H/jmCDanwydmY6YZPYM=;
+ b=B1Hiwk/wBziCJj/00aBDLEAQynu5NTA7q8WO4eek4V0LQxZLg+UuG/pRuzRYLdwXWo
+ xfqHZJIEevviF2PPTE1htXntYv9eVx1z12G4xisDqHM3ZQ42xhNYX+NcLdBpcwjM75CV
+ hZFmBRWP0YavIR3aUodZbaAznIcTjIDEmWr7n5M15QUyJUj0PR1WWVKaEdRZfpfV58VQ
+ 0aJxwqvzIs624xygfKOVgj8WsakIlEdn855jIjOjZFg1dpEH/SayLeI8OcHdHeBh1/fA
+ iIPrS8bBBclIpKK3HhQv53qqMkqo7mFk3ZTCn/fFq9Yk7fAl31jj9tdXhR0cTjXYjttt
+ Y5qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=LRy2lLVc4NMsTqe41EfewxI0H/jmCDanwydmY6YZPYM=;
+ b=iTyJRP/6mNUcUdpUKqTzpcDzd1f/5KuBAcmGuYqN8mUzks7TlwaudM8HYSPDj8Sj98
+ f0yYApwpPOjwvwUXLo8hFL5a8Spzk+PgnqxGE7R9zJF+wHaUk4XUOT2C5k4BD5R3zZGa
+ S2xkd4vttgqgIXQuCa7izQVAkjIYVQ4ddbQWGRHBeQfYLw58m5Ho1CSfiRAxUD8eL1bd
+ dxVsvlJ4dVAfe9mNGFYShSBmrmoews2f/8F1QZr3Cuq+NENSvwK2yd52dbbc4lU4Xnmv
+ Z2XN4RzyheEVdkMJb9kUOr6z7WrJ8Qho+eEP6UznlFRopuYPUcp4SDhqETuYQwHh6eh7
+ XAaw==
+X-Gm-Message-State: AOAM533niFY6uTxzUQL0rYUkdsrMz4Hu/jCXOG6CI5ic10Smtvq+KyYr
+ D2WfOMSVOrj+vFHQ7QiwDFB8cw==
+X-Google-Smtp-Source: ABdhPJy5Hd8MXQLfQ0oeiNJM6rSMow1+/zJMkFDhpTVdMgtEMup4DNmD8OgJZrZw5TbV++Yamt9BxA==
+X-Received: by 2002:a17:90a:1042:: with SMTP id
+ y2mr10088104pjd.204.1611822575083; 
+ Thu, 28 Jan 2021 00:29:35 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id o190sm1521054pgo.50.2021.01.28.00.29.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 00:29:34 -0800 (PST)
+Subject: Re: qemu user mode fails to run programs with large VM / built with
+ address sanitizer (was: Re: [PATCH v4 4/4] meson: Warn when TCI is selected
+ but TCG backend is available)
+To: Stefan Weil <sw@weilnetz.de>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+References: <20210125144530.2837481-1-philmd@redhat.com>
+ <20210125144530.2837481-5-philmd@redhat.com>
+ <20210125164746.GE3538803@redhat.com>
+ <992cbe66-dfae-7950-0d92-516b2f0c9717@redhat.com>
+ <9f22d4b0-34ca-6798-3661-36057609c152@weilnetz.de>
+ <30cc0c14-fbec-bb21-2b6b-8e295029bc1f@linaro.org>
+ <8f1f2dc6-5ad2-7d48-c2f9-9afa1e4d4065@weilnetz.de>
+ <81c810b4-1bd3-631d-4b5b-7e54a27a5b4c@linaro.org>
+ <cd9265f7-4887-63bb-e36e-ace708d062c1@weilnetz.de>
+ <875z3jy3tt.fsf@linaro.org>
+ <89209f1b-29ad-e5df-6d45-b2480db4775e@weilnetz.de>
+ <bbe4adfe-5bed-c37f-78c6-b120cb192aae@linaro.org>
+ <a8aaa601-dcb4-ed87-d7ba-f6362942b596@weilnetz.de>
+ <87wnvyw3eh.fsf@linaro.org>
+ <d265dadc-45e8-3813-4e2d-cde007c389ac@weilnetz.de>
+ <87tur2vyif.fsf@linaro.org>
+ <7615aa95-79b1-45d3-f998-6ba3f2f33f35@weilnetz.de>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <defbdb94-8571-bd6f-588c-1b7d31864d7b@linaro.org>
+Date: Wed, 27 Jan 2021 22:29:30 -1000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201225095015.609-1-yuzenghui@huawei.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <7615aa95-79b1-45d3-f998-6ba3f2f33f35@weilnetz.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,56 +107,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Zenghui,
-
-On 12/25/20 10:50 AM, Zenghui Yu wrote:
-> When performing range-based IOTLB invalidation, we should decode the TG
-> field into the corresponding translation granule size so that we can pass
-> the correct invalidation range to backend. Set @granule to (tg * 2 + 10) to
-> properly emulate the architecture.
+On 1/27/21 8:51 PM, Stefan Weil wrote:
+> The problem occurred with a locally built tesseract, but I now found that it is
+> more general.
 > 
-> Fixes: d52915616c05 ("hw/arm/smmuv3: Get prepared for range invalidation")
-> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> Any program which was compiled with address sanitizer uses huge virtual memory
+> (TB) right at the start. QEMU user mode tries to allocate that memory until it
+> is killed by the Linux kernel OOM handler.
 
-Good catch! I tested with older guest kernels though. I wonder how I did
-not face the bug?
+Yes, we have an open bug for that.  It is not a trivial problem.
+
+https://bugs.launchpad.net/qemu/+bug/1898011
 
 
-> ---
->  hw/arm/smmuv3.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
-> index bbca0e9f20..65231c7d52 100644
-> --- a/hw/arm/smmuv3.c
-> +++ b/hw/arm/smmuv3.c
-> @@ -801,7 +801,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
->  {
->      SMMUDevice *sdev = container_of(mr, SMMUDevice, iommu);
->      IOMMUTLBEvent event;
-> -    uint8_t granule = tg;
-> +    uint8_t granule;
->  
->      if (!tg) {
->          SMMUEventInfo event = {.inval_ste_allowed = true};
-> @@ -821,6 +821,8 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
->              return;
->          }
->          granule = tt->granule_sz;
-> +    } else {
-> +        guanule = tg * 2 + 10;
-maybe just init granule to this value above while fixing the typo.
-
-Thanks
-
-Eric
->      }
->  
->      event.type = IOMMU_NOTIFIER_UNMAP;
-> 
-
+r~
 
