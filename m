@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D943F3079B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:29:48 +0100 (CET)
-Received: from localhost ([::1]:34264 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF5A3079C9
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:31:30 +0100 (CET)
+Received: from localhost ([::1]:37306 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59Ex-0004Im-VV
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:29:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34626)
+	id 1l59Gb-0005Yz-Tw
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:31:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l59Dh-0003eP-Kn
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:29 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:34553)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l59Df-0007QA-3k
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:29 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id d22so7078925edy.1
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:28:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=FW8IrmaDYnWKdgHUXE+sN4Ii+nBJ56wUbQ4Ky9VXiQ0=;
- b=lDPS3YDbrJYkyQx+5k2w6iVRdRqsFjM+OSB0/fsWeIHwtmEwEnAPohHDlauqMf6n57
- 9diZ/RRoIspYJg4cXbd88cwJHltkqZ84k4aIkb7hDfxa/tBAo4KMZ/iXpeXhntzH8Ib7
- f+tIyW2vwZVHk0Kb4Vvvl9tbclrxISZRhlsNw9AtAFyamH4fhc/d1ykEvA6f9MklszyH
- gNlnWsrBVa7iWg4AGsXzZpM4awpBUnWcqRgr7GC5GN/oH95KUsYaIJ7KW6AVIK93YuEu
- n7KgOSMZJQ+SfE3kZWg/3sOfUAjq5vcSAzk6OaezcQuCPMGVEq0VxSM3iPafzQ8QQdqc
- RT1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=FW8IrmaDYnWKdgHUXE+sN4Ii+nBJ56wUbQ4Ky9VXiQ0=;
- b=RaLhUyhrYkW175iT1zYszBQfzG2FNcq4GZVWrjk+AdLuABNCEUX7Y+G2rWq+RAylW3
- fCXhSbTPqv+HyfVhQ4vbo+8uy0JAHyhqXmaqpucOFHTjnEwYwhgqG6h7+WB93H8a2gaE
- pAOc2FyUmeW1xbrLlsADyFNTEjsYhOCu10mbAY0mS2Dd6HI0aanWPImRrkrxP4gj/zcA
- aHG/mamUcCsnphFnC+5pxZXfQj4MYYjKYwDqrgcXhgvoIL5MLFzZCiIrpoNot6NMashW
- EiYDAY71lrEJuR1bLvkf+pP0CSnle8RDPU1T0YBN1jlWMA6Mh62rPWrz3IDTYHWVEFgv
- ZW3g==
-X-Gm-Message-State: AOAM532RDNnQvkR0HHZhlWUBJFT6TJI7vYciTMUuJqNlab1/fTPmbXCF
- a9T0TJsBmJN6Ma2ynmoZ+uKmnMpVUpVSks7kbtvaFw==
-X-Google-Smtp-Source: ABdhPJyb1X0gN+TZgnJ//UXOa7yuRQpUKvSBi/YBBeSwoRX/2wRfzzyWe7Y/bY6U/axogZzvsq/PdWMSIknxS25ZHPo=
-X-Received: by 2002:aa7:c88a:: with SMTP id p10mr54516eds.204.1611847705567;
- Thu, 28 Jan 2021 07:28:25 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l59E9-0004Dz-4p
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28229)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l59E7-0007aP-Au
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611847734;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=EIs4kAhmHFYVNbzGqA5he/SAdOhK6BuHJdkrirV0LoM=;
+ b=EuLFzDKX2ScKktYN4WKRpzgPvd06AbtlxV0PhdtsPtUflj0PwaIybl4Tp5DnEfPzVeaNCx
+ ARy6RrLIBOWjrYLNSh+9fEVXCA/tZf8PQh3ne3tmMbCqSZ1w/4eFoE10KYUmU4XACEcwrv
+ JSYSyJCNrTzcdKjsueUJgxc2MR+FGBM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-457-Ym_pBcPONKeK82cJTQ7F4w-1; Thu, 28 Jan 2021 10:28:51 -0500
+X-MC-Unique: Ym_pBcPONKeK82cJTQ7F4w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A40C710054FF;
+ Thu, 28 Jan 2021 15:28:50 +0000 (UTC)
+Received: from thuth.com (ovpn-112-110.ams2.redhat.com [10.36.112.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 09A016085D;
+ Thu, 28 Jan 2021 15:28:45 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Subject: [PATCH] tests/acceptance: Re-enable the microblaze test
+Date: Thu, 28 Jan 2021 16:28:15 +0100
+Message-Id: <20210128152815.585478-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-7-agraf@csgraf.de>
-In-Reply-To: <20210120224444.71840-7-agraf@csgraf.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 15:28:13 +0000
-Message-ID: <CAFEAcA8Tm2d+Wmd0X7RddfBHPez_Tjk71YFgXNOo2gycxq32JQ@mail.gmail.com>
-Subject: Re: [PATCH v6 06/11] hvf: Simplify post reset/init/loadvm hooks
-To: Alexander Graf <agraf@csgraf.de>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,38 +74,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
- Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
- Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Peter Collingbourne <pcc@google.com>
+Cc: Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
->
-> The hooks we have that call us after reset, init and loadvm really all
-> just want to say "The reference of all register state is in the QEMU
-> vcpu struct, please push it".
->
-> We already have a working pushing mechanism though called cpu->vcpu_dirty,
-> so we can just reuse that for all of the above, syncing state properly the
-> next time we actually execute a vCPU.
->
-> This fixes PSCI resets on ARM, as they modify CPU state even after the
-> post init call has completed, but before we execute the vCPU again.
->
-> To also make the scheme work for x86, we have to make sure we don't
-> move stale eflags into our env when the vcpu state is dirty.
->
-> Signed-off-by: Alexander Graf <agraf@csgraf.de>
-> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com>
+The microblaze kernel sometimes gets stuck during boot (ca. 1 out of 200
+times), so we disabled the corresponding acceptance tests some months
+ago. However, it's likely better to check that the kernel is still
+starting than to not testing it at all anymore. Move the test to
+a separate file, enable it again and check for an earlier console
+message that should always appear.
 
-What's the difference between HVF and KVM that means this code
-doesn't have the same structure the KVM code does here?
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ MAINTAINERS                            |  1 +
+ tests/acceptance/boot_linux_console.py |  9 -------
+ tests/acceptance/machine_microblaze.py | 35 ++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 9 deletions(-)
+ create mode 100644 tests/acceptance/machine_microblaze.py
 
-thanks
--- PMM
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 34359a99b8..157ad4f7ef 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1112,6 +1112,7 @@ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+ S: Maintained
+ F: hw/microblaze/petalogix_s3adsp1800_mmu.c
+ F: include/hw/char/xilinx_uartlite.h
++F: tests/acceptance/machine_microblaze.py
+ 
+ petalogix_ml605
+ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index fb41bb7144..969fbf3952 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -1047,15 +1047,6 @@ class BootLinuxConsole(LinuxKernelTest):
+         tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
+         self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
+ 
+-    @skip("Test currently broken") # Console stuck as of 5.2-rc1
+-    def test_microblaze_s3adsp1800(self):
+-        """
+-        :avocado: tags=arch:microblaze
+-        :avocado: tags=machine:petalogix-s3adsp1800
+-        """
+-        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
+-        self.do_test_advcal_2018('17', tar_hash, 'ballerina.bin')
+-
+     def test_or1k_sim(self):
+         """
+         :avocado: tags=arch:or1k
+diff --git a/tests/acceptance/machine_microblaze.py b/tests/acceptance/machine_microblaze.py
+new file mode 100644
+index 0000000000..7f6d18495d
+--- /dev/null
++++ b/tests/acceptance/machine_microblaze.py
+@@ -0,0 +1,35 @@
++# Functional test that boots a microblaze Linux kernel and checks the console
++#
++# Copyright (c) 2018, 2021 Red Hat, Inc.
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later. See the COPYING file in the top-level directory.
++
++from avocado_qemu import Test
++from avocado_qemu import wait_for_console_pattern
++from avocado.utils import archive
++
++class MicroblazeMachine(Test):
++
++    timeout = 90
++
++    def test_microblaze_s3adsp1800(self):
++        """
++        :avocado: tags=arch:microblaze
++        :avocado: tags=machine:petalogix-s3adsp1800
++        """
++
++        tar_url = ('https://www.qemu-advent-calendar.org'
++                   '/2018/download/day17.tar.xz')
++        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
++        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
++        archive.extract(file_path, self.workdir)
++        self.vm.set_console()
++        self.vm.add_args('-kernel', self.workdir + '/day17/ballerina.bin')
++        self.vm.launch()
++        wait_for_console_pattern(self, 'This architecture does not have '
++                                       'kernel memory protection')
++        # Note:
++        # The kernel sometimes gets stuck after the "This architecture ..."
++        # message, that's why we don't test for a later string here. This
++        # needs some investigation by a microblaze wizard one day...
+-- 
+2.27.0
+
 
