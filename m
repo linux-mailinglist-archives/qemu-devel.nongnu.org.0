@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEEF6306AB3
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:49:58 +0100 (CET)
-Received: from localhost ([::1]:52096 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDCD306ABE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:53:45 +0100 (CET)
+Received: from localhost ([::1]:59052 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4wRZ-0003WL-Ux
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:49:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55954)
+	id 1l4wVE-0006Yq-Ac
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:53:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55974)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO9-000819-88; Wed, 27 Jan 2021 20:46:25 -0500
-Received: from ozlabs.org ([203.11.71.1]:40979)
+ id 1l4wOA-00085d-MR; Wed, 27 Jan 2021 20:46:26 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52715 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO7-0005Bp-BX; Wed, 27 Jan 2021 20:46:24 -0500
+ id 1l4wO8-0005Br-Nl; Wed, 27 Jan 2021 20:46:26 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DR3GT53Dqz9sWK; Thu, 28 Jan 2021 12:46:09 +1100 (AEDT)
+ id 4DR3GV4721z9sWD; Thu, 28 Jan 2021 12:46:09 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611798369;
- bh=IW5Xfkmzcv+6Ba19+8lxFIhkmOKqXd7A1mzh4DT3aa0=;
+ d=gibson.dropbear.id.au; s=201602; t=1611798370;
+ bh=u1qLpa/yxNyfKUEJ4a2I8hqYOvPvvW0V6T0oVoBdUOw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jn8OyKkRy1vpnAc1MORk9Uq2t0L/VCrYwg4C+I8syHKu4K+Q0qo2JAGHVzNUHVWwi
- XMWBRFiLm239BzZ8GGRj7RvxqOkXA4ugYUlr26wAHTomhOaAV1mC1QMpZISGz6QSZA
- DwCSKvA9nlwOS2MhF/DORCttS0D11n3JxksZmOVI=
-Date: Thu, 28 Jan 2021 11:50:59 +1100
+ b=em16T8G54CwLwTd+Gg/D87wj/zJNsAWfgqiVJnHwKyFXkuEPhFOLnyL8TiWg/RvFI
+ 7MKbg8vHttm1DwQ5jJX0WfZIYbctH8tqydyBZdjlis2WM0WDBwV6D9UvebC1Sk1/pr
+ vceo6sw/v6Bj6sn5grSW2MOsEzHnswv/gU978P+w=
+Date: Thu, 28 Jan 2021 11:52:42 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 5/7] ppc/pnv: Discard internal BMC initialization when
- BMC is external
-Message-ID: <20210128005059.GH18347@yekko.fritz.box>
+Subject: Re: [PATCH 6/7] ppc/pnv: Remove default disablement of the PNOR
+ contents
+Message-ID: <20210128005242.GI18347@yekko.fritz.box>
 References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-6-clg@kaod.org>
+ <20210126171059.307867-7-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="LiQwW4YX+w4axhAx"
+ protocol="application/pgp-signature"; boundary="VaKJWhUROU/xPxjb"
 Content-Disposition: inline
-In-Reply-To: <20210126171059.307867-6-clg@kaod.org>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+In-Reply-To: <20210126171059.307867-7-clg@kaod.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
 X-Spam_score: -1.8
@@ -64,79 +64,62 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---LiQwW4YX+w4axhAx
+--VaKJWhUROU/xPxjb
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 26, 2021 at 06:10:57PM +0100, C=E9dric Le Goater wrote:
-> The PowerNV machine can be run with an external IPMI BMC device
-> connected to a remote QEMU machine acting as BMC, using these options :
+On Tue, Jan 26, 2021 at 06:10:58PM +0100, C=E9dric Le Goater wrote:
+> On PowerNV systems, the BMC is in charge of mapping the PNOR contents
+> on the LPC FW address space using the HIOMAP protocol. Under QEMU, we
+> emulate this behavior and we also add an extra control on the flash
+> accesses by letting the HIOMAP command handler decide whether the
+> memory region is accessible or not depending on the firmware requests.
 >=20
->   -chardev socket,id=3Dipmi0,host=3Dlocalhost,port=3D9002,reconnect=3D10 \
->   -device ipmi-bmc-extern,id=3Dbmc0,chardev=3Dipmi0 \
->   -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10 \
->   -nodefaults
+> However, this behavior is not compatible with hostboot like firmwares
+> which need this mapping to be always available. For this reason, the
+> PNOR memory region is initially disabled for skiboot mode only.
 >=20
-> In that case, some aspects of the BMC initialization should be
-> skipped, since they rely on the simulator interface.
+> This is badly placed under the LPC model and requires the use of the
+> machine. Since it doesn't add much, simply remove the initial setting.
+> The extra control in the HIOMAP command handler will still be performed.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/pnv_bmc.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+>  hw/ppc/pnv_lpc.c | 8 --------
+>  1 file changed, 8 deletions(-)
 >=20
-> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-> index 86d16b493539..b9bf5735ea0f 100644
-> --- a/hw/ppc/pnv_bmc.c
-> +++ b/hw/ppc/pnv_bmc.c
-> @@ -51,6 +51,11 @@ typedef struct OemSel {
->  #define SOFT_OFF        0x00
->  #define SOFT_REBOOT     0x01
+> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+> index 590359022084..11739e397b27 100644
+> --- a/hw/ppc/pnv_lpc.c
+> +++ b/hw/ppc/pnv_lpc.c
+> @@ -825,7 +825,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
+l use_cpld, Error **errp)
+>      qemu_irq *irqs;
+>      qemu_irq_handler handler;
+>      PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
+> -    bool hostboot_mode =3D !!pnv->fw_load_addr;
 > =20
-> +static bool pnv_bmc_is_simulator(IPMIBmc *bmc)
-> +{
-> +    return object_dynamic_cast(OBJECT(bmc), TYPE_IPMI_BMC_SIMULATOR);
-> +}
-> +
->  static void pnv_gen_oem_sel(IPMIBmc *bmc, uint8_t reboot)
->  {
->      /* IPMI SEL Event are 16 bytes long */
-> @@ -79,6 +84,10 @@ void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt)
->      const struct ipmi_sdr_compact *sdr;
->      uint16_t nextrec;
+>      /* let isa_bus_new() create its own bridge on SysBus otherwise
+>       * devices specified on the command line won't find the bus and
+> @@ -856,13 +855,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bo=
+ol use_cpld, Error **errp)
+>       */
+>      memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
+>                                  &pnv->pnor->mmio);
+> -    /*
+> -     * Start disabled. The HIOMAP protocol will activate the mapping
+> -     * with HIOMAP_C_CREATE_WRITE_WINDOW
+> -     */
+> -    if (!hostboot_mode) {
+> -        memory_region_set_enabled(&pnv->pnor->mmio, false);
+> -    }
 > =20
-> +    if (!pnv_bmc_is_simulator(bmc)) {
-> +        return;
-> +    }
-> +
->      offset =3D fdt_add_subnode(fdt, 0, "bmc");
->      _FDT(offset);
-> =20
-> @@ -243,6 +252,10 @@ static const IPMINetfn hiomap_netfn =3D {
-> =20
->  void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
->  {
-> +    if (!pnv_bmc_is_simulator(bmc)) {
-> +        return;
-> +    }
-> +
->      object_ref(OBJECT(pnor));
->      object_property_add_const_link(OBJECT(bmc), "pnor", OBJECT(pnor));
-> =20
-> @@ -286,7 +299,7 @@ static int bmc_find(Object *child, void *opaque)
-> =20
->  IPMIBmc *pnv_bmc_find(Error **errp)
->  {
-> -    ForeachArgs args =3D { TYPE_IPMI_BMC_SIMULATOR, NULL };
-> +    ForeachArgs args =3D { TYPE_IPMI_BMC, NULL };
->      int ret;
-> =20
->      ret =3D object_child_foreach_recursive(object_get_root(), bmc_find, =
-&args);
+>      return isa_bus;
+>  }
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -144,25 +127,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---LiQwW4YX+w4axhAx
+--VaKJWhUROU/xPxjb
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASCnMACgkQbDjKyiDZ
-s5JbJRAAvsaZ/4m8wb3/Ol/7F3YMI0accyWARZjrbyCME1fwrEHAwyn6OpGiiaMq
-89cL7e/wwk0z/fcTCH+MFunANqCpBToKAuxrC+PQYzB+wdowtRXinw4o5qUVU1Dd
-1Dz4riCyecvMguJ/ucFxacNQfKBzy1DszCC/zkW7v/M7DHXH3fCKakrNiBJ+wnGd
-Z3D3uIdBDA49yzdIQNYtwfxoODeZ9/KpjaEE4sbkVSjd6XJLLVYA13WenRLprMhR
-4oYdJRQQW7IIGGxjz5MeW49xQFtOOM7IaWsl7scA/DJET/4GI8nP2kv9QooRW3Oa
-RK4sV3GLdoa/lqryGoWmlpZ0hrPh2MgBVDz7fxOvo333mLgTsYbHN7Ciyo5q6M0Q
-FEguhAhRnlrYmv4R5W/kA/yE1BiVQAvpPp9Qadrb4/h8P+cYa0MH/jGhbipfO7+V
-ckqvqdyLRysQ5W+VwzutQXYfw/ahJsR1V03V4uG4J2EtjH3dWSexAY0fAxoVubVt
-SbzW0IfqfmZVyCecbFuKeeFvvCAWF1wdknDqDquy+hqcwQ6xrHVEq/+iO7CYtF9S
-O9Ru4IfDpYi/bT8mIZzLIXsTARELAuOoiwCnCzSuE0/CNE1KCnzW/wuHTgGZwkXd
-+iTLiw/xnlvPhPVdTI0VFjE9F68b+D3IKscjba+siTWHWE2xQ3Y=
-=vB7C
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASCtoACgkQbDjKyiDZ
+s5KynA/+NubUn0gjthErhynUrhibyQsIikDr7gtVjfoXJlNTU8bolgDkfCcfrSt6
+p+Z+ruBJZcAxcBsXLYkSZYkpkfqrnAcGkJcLtJ6J+uHZA8DRPVR8MLaibCDZHBY3
+QX5Wo4TXx6QyM13lO68P2wIjZJ3R2M//QM6/vqwblyzoMrq+p8yd1SsUXOCHSW6s
+27VuKtaMGzTFjI0gDSexwRueaDTKoqHD7+n1cTUTriwQYT6iB4LOKCwuWn/irJ9D
+lmvzIRzans9J+KyXuioswZ5qhkK0tE5h5WAvcL3+3ALmALnOlhWfDmyq9Hzz/VYO
+Wej/B76Db1ufLF/Y3AI6DoQ6Ia8sF2OdPNI8sLB6zv9Su1IQWE1+ntX+uEARLXbK
+JsYfuqjEXtbLM3A3sRjaQsPdUQYLlQl5Rc2iKMXxsP3Q0L237vETY5xfb52uztke
+V+gryjMR57+pBwmaRebgbC/uU2GyyqcS+rHOJVsFD6ypAfHk67ITGdRYIgx6g72p
+TOevoSFgPD/mY8H0dyHYJlqL4N6yl5rZxXZJN+ZiBFGs/Yfl4oop4mECFK1Sq+9T
+e4JeA/16EW4HPQDTJk9c7XMJcpeUniPMOSLRWlvksiGp/dMTi/g5UJcjkYErfTmS
+LLncbekjZSp9AJmBW/F87r/U5VR9wVEJp/1X1dIw7eoWSKTdgqs=
+=iV66
 -----END PGP SIGNATURE-----
 
---LiQwW4YX+w4axhAx--
+--VaKJWhUROU/xPxjb--
 
