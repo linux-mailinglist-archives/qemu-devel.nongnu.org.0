@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64C7B307BB2
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:05:09 +0100 (CET)
-Received: from localhost ([::1]:41764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06678307BB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:04:40 +0100 (CET)
+Received: from localhost ([::1]:41254 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5AjE-0007i5-Cc
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:05:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43598)
+	id 1l5Aik-0007Uf-EH
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:04:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44456)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l5AcX-0003F2-2y
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:58:13 -0500
-Received: from zangief.bwidawsk.net ([107.170.211.233]:50152
- helo=mail.bwidawsk.net)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l5AcV-0000Xv-3S
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:58:12 -0500
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id F364B122C5B; Thu, 28 Jan 2021 08:58:09 -0800 (PST)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id B45B9122C5B;
- Thu, 28 Jan 2021 08:58:02 -0800 (PST)
-Date: Thu, 28 Jan 2021 08:58:01 -0800
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [RFC PATCH v2 24/32] hw/cxl/device: Add a memory device (8.2.8.5)
-Message-ID: <20210128165801.pvskbbkogz722sns@mail.bwidawsk.net>
-References: <20210105165323.783725-1-ben.widawsky@intel.com>
- <20210105165323.783725-25-ben.widawsky@intel.com>
- <20210127220312.6850abe2@redhat.com>
- <20210127212645.ztuxaopjnwtm7u2i@intel.com>
- <20210128102538.000066ff@Huawei.com>
- <20210128150318.ujl2uzyzbygqnlg2@mail.bwidawsk.net>
- <20210128151444.2rjkcbhrwflq6zga@mail.bwidawsk.net>
- <20210128165151.skmzjvferaipavt6@mail.bwidawsk.net>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5AeJ-00059m-53
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:00:03 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536]:46504)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5AeG-0001PY-P9
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:00:02 -0500
+Received: by mail-ed1-x536.google.com with SMTP id dj23so7392919edb.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 09:00:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=c2DQUMMTaz23XsXyQ++1AimIsHVC3+5hkRsDqtniRNM=;
+ b=xooC7pTa1gnoR3gIQCdcmhbmoWSLDAC+XPNnM+HZzyIlgau7h/5gTHOK1PvjxEgdnh
+ YO8bdvvX8C2iBdwbvGMCXVnSrYqpXvRuJ1D8lm5dl1706d+zv5wZ1Hz27dGv56YOfwlC
+ MmOcbn++vHiYJDBOOulVd2eDdxFyyntxJeMIyXD5eSMkWsZEShvngJ5emSG7fcg9YwXl
+ b0HX/V2GXUp+cZ6cdnL5epZrIi7hR8xTnqEP1TLwpXBdXsZ6HGc3piOdE3Wgsl5L0vSf
+ bps60/YK37ALRh5nbc/9kW06zIj1S/vKv1eMxAKAePRhEYjyb99ZHQdBhP8uG6rrXI3T
+ x7FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=c2DQUMMTaz23XsXyQ++1AimIsHVC3+5hkRsDqtniRNM=;
+ b=l+VVyHsZW4wI94VsosPoZJ/d/XKuUtJoGon0bKuSVWYlJBBPWt5HS0aFq/llwoNVDk
+ 6bwN4IU4HysWSPWECyefBvEspfhIp5PMVi5zVDYWWf9cIHg8xraAgXZ6pWI6jsE4qC+K
+ qJv7s7f3pP4E8MwGE2mdn6pH+ciqugM7oenVHNPBguD/q/d9TaVgtp2fzPpLGmqZkPOk
+ 7zIk2ettKKvE7Ci1QWkvabiujxOYsyOnrUxQkotHltuUkj25kQAZ0tXAwX0sH/D3USyT
+ WbNXNGQSUV2SocqKRe+XPH+A+1CDZQSXRVWqzJEIoxcabU3QPV8PewJnAzIjaP6SHTiG
+ V0oQ==
+X-Gm-Message-State: AOAM532MtYH3LSsXByqdehLbQP8NZbiTiAKzYVn1eH9ucB9SA3HevMy4
+ RrbfJ6fcyQEZHOYE2f6iSfeNK5vWdvQBwQeKcvFHfA==
+X-Google-Smtp-Source: ABdhPJxQanYkN45ceqMlEpmFzeMZhG6YDB5b6mIO+idQaz1KhokAx9hJvpmkeCxbElqeOdZAHAc6IQWZ7DPRk/+3JHI=
+X-Received: by 2002:a05:6402:31ac:: with SMTP id
+ dj12mr551948edb.44.1611853199481; 
+ Thu, 28 Jan 2021 08:59:59 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210128165151.skmzjvferaipavt6@mail.bwidawsk.net>
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+References: <20210120224444.71840-1-agraf@csgraf.de>
+In-Reply-To: <20210120224444.71840-1-agraf@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jan 2021 16:59:47 +0000
+Message-ID: <CAFEAcA_jAWPO09K_O2SceAmcbNDSaNvL3yp3D_=tsY6QeaKMZw@mail.gmail.com>
+Subject: Re: [PATCH v6 00/11] hvf: Implement Apple Silicon Support
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,129 +77,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Chris Browy <cbrowy@avery-design.com>,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Prashant V Agarwal <agpr123@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-28 08:51:51, Ben Widawsky wrote:
-> On 21-01-28 07:14:44, Ben Widawsky wrote:
-> > On 21-01-28 07:03:18, Ben Widawsky wrote:
-> > > On 21-01-28 10:25:38, Jonathan Cameron wrote:
-> > > > On Wed, 27 Jan 2021 13:26:45 -0800
-> > > > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> > > > 
-> > > > > On 21-01-27 22:03:12, Igor Mammedov wrote:
-> > > > > > On Tue,  5 Jan 2021 08:53:15 -0800
-> > > > > > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> > > > > >   
-> > > > > > > A CXL memory device (AKA Type 3) is a CXL component that contains some
-> > > > > > > combination of volatile and persistent memory. It also implements the
-> > > > > > > previously defined mailbox interface as well as the memory device
-> > > > > > > firmware interface.
-> > > > > > > 
-> > > > > > > The following example will create a 256M device in a 512M window:
-> > > > > > > 
-> > > > > > > -object "memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M"
-> > > > > > > -device "cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0,size=256M"  
-> > > > > > 
-> > > > > > I'd expect whole backend used by frontend, so one would not need "size" property
-> > > > > > on frontend (like we do with memory devices).
-> > > > > > So question is why it partially uses memdev?  
-> > > > > 
-> > > > > Answered in a separate thread...
-> > > > 
-> > > > One possible suggestion inline.
-> > > > 
-> > > > > > > +
-> > > > > > > +static void cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-> > > > > > > +{
-> > > > > > > +    MemoryRegionSection mrs;
-> > > > > > > +    MemoryRegion *mr;
-> > > > > > > +    uint64_t offset = 0;
-> > > > > > > +    size_t remaining_size;
-> > > > > > > +
-> > > > > > > +    if (!ct3d->hostmem) {
-> > > > > > > +        error_setg(errp, "memdev property must be set");
-> > > > > > > +        return;
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    /* FIXME: need to check mr is the host bridge's MR */
-> > > > > > > +    mr = host_memory_backend_get_memory(ct3d->hostmem);
-> > > > > > > +
-> > > > > > > +    /* Create our new subregion */
-> > > > > > > +    ct3d->cxl_dstate.pmem = g_new(MemoryRegion, 1);
-> > > > > > > +
-> > > > > > > +    /* Find the first free space in the window */
-> > > > > > > +    WITH_RCU_READ_LOCK_GUARD()
-> > > > > > > +    {
-> > > > > > > +        mrs = memory_region_find(mr, offset, 1);
-> > > > > > > +        while (mrs.mr && mrs.mr != mr) {
-> > > > > > > +            offset += memory_region_size(mrs.mr);
-> > > > > > > +            mrs = memory_region_find(mr, offset, 1);
-> > > > > > > +        }
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    remaining_size = memory_region_size(mr) - offset;
-> > > > > > > +    if (remaining_size < ct3d->size) {
-> > > > > > > +        g_free(ct3d->cxl_dstate.pmem);
-> > > > > > > +        error_setg(errp,
-> > > > > > > +                   "Not enough free space (%zd) required for device (%" PRId64  ")",
-> > > > > > > +                   remaining_size, ct3d->size);
-> > > > > > > +    }
-> > > > > > > +
-> > > > > > > +    /* Register our subregion as non-volatile */
-> > > > > > > +    memory_region_init_ram(ct3d->cxl_dstate.pmem, OBJECT(ct3d),
-> > > > > > > +                           "cxl_type3-memory", ct3d->size, errp);  
-> > > > > > this allocates ct3d->size of anon RAM, was this an intention?
-> > > > > > If yes, can you clarify why extra RAM is used instead of using what
-> > > > > > backend provides?  
-> > > > > 
-> > > > > It sounds like I'm doing the wrong thing then. There should be one chunk of
-> > > > > memory which is a subset of the full memory backend object. Could you please
-> > > > > advise on what I should be doing instead? Is add_subregion() sufficient?
-> > > > 
-> > > > Taking inspiration from nvdimm I'm carrying a patch that uses
-> > > > memory_region_init_alias(ct3d->cxl_dstate.pmem, OBJECT(qct3d)q,
-> > > > 			 "cxl_type3-memory", mr, offset, ct3d->size);
-> > > > 
-> > > > I 'think' that's doing the right thing, but haven't fully tested it yet
-> > > > so may be completely wrong :)
-> > > > 
-> > > > Then for the pmem addr, call memory_region_set_address() to put it
-> > > > in a particular location.
-> > > > 
-> > > 
-> > > Yes - this is what I'd like to do and what I initially tried, and I also believe
-> > > it's right, but it doesn't work.
-> > > 
-> > > range_invariant: Assertion `range->lob <= range->upb || range->lob == range->upb + 1' failed.
-> > > 
-> > > I was digging into this yesterday, but opted to start a new thread on the
-> > > matter.
-> > > 
-> > 
-> > Hmm. I think I need to figure out the right add_subregion after this and it
-> > might work. I'll keep digging, but if you have ideas, let me know.
-> 
-> [snip]
-> 
-> I managed to get a bit further. With the following, I start getting complaints
-> about fragmented memory when adding devices later.
-> 
->      memory_region_init_alias(ct3d->cxl_dstate.pmem, OBJECT(ct3d),
->              "cxl_type3-memory", mr, mr->addr + offset, ct3d->size);
->      memory_region_set_nonvolatile(ct3d->cxl_dstate.pmem, true);
->      memory_region_add_subregion(mr, offset, ct3d->cxl_dstate.pmem);
-> 
-> -device nvdimm,memdev=nvmem1,id=nv1,label-size=2M,node=5: could not find position in guest address space for memory device - memory fragmented due to alignments
-> 
+On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
+>
+> Now that Apple Silicon is widely available, people are obviously excited
+> to try and run virtualized workloads on them, such as Linux and Windows.
+>
+> This patch set implements a fully functional version to get the ball
+> going on that. With this applied, I can successfully run both Linux and
+> Windows as guests. I am not aware of any limitations specific to
+> Hypervisor.framework apart from:
+>
+>   - Live migration / savevm
+>   - gdbstub debugging (SP register)
+>
 
-Ignore this. It was a problem with my commandline.
+I've gone through making code review comments.
 
-I think I have something limping along now.
+Since patch 1 is also required for Big Sur support on x86 Macs,
+I'll take that via target-arm.next now (unless anybody would rather
+it went in via a different route).
+
+thanks
+-- PMM
 
