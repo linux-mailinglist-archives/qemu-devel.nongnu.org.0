@@ -2,72 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC43307441
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:59:05 +0100 (CET)
-Received: from localhost ([::1]:36308 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E6B3074AB
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:27:00 +0100 (CET)
+Received: from localhost ([::1]:53246 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l550y-0006RY-J8
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:59:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53754)
+	id 1l55Rx-0006PN-PA
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:26:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58428)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l54zo-0005m5-Sg
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:57:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39966)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l54zm-0007Uu-8P
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:57:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611831468;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vwR77u+189LL/UU2UMYCw+MeSbcf/LyW1EVg0RVjA/Y=;
- b=KVqoEp17XnV81CKB0R72ykxjMsqiSrvSz8DaUjdYBL4oDlePT3VnRmPAK2XH+h1P/0GFlm
- KUXm5uG3kXTCfnzWDWbOjrRTSl6BYhAVPrsuAraNsGduXUS00z/dIJgY6L8ng2abPGaM7r
- F2OCoFbIxsczYcjDpdoOD8v5q1rXeWM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-587-Ofd0NNSrO2a7RyFumJx5oA-1; Thu, 28 Jan 2021 05:57:46 -0500
-X-MC-Unique: Ofd0NNSrO2a7RyFumJx5oA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 70210180A086
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:57:45 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-102.ams2.redhat.com [10.36.115.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 816426F80A;
- Thu, 28 Jan 2021 10:57:44 +0000 (UTC)
-Date: Thu, 28 Jan 2021 11:57:42 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH 3/6] qapi: Simplify full_name_nth() in
- qobject-input-visitor
-Message-ID: <20210128105742.GA5361@merkur.fritz.box>
-References: <20201112172850.401925-1-kwolf@redhat.com>
- <20201112172850.401925-4-kwolf@redhat.com>
- <87ft2mpjon.fsf@dusky.pond.sub.org>
- <20210127214242.GG6090@merkur.fritz.box>
- <87mtwtfqw2.fsf@dusky.pond.sub.org>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l55PY-0005yS-Ub
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:24:28 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33022)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l55PW-0008RJ-BW
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:24:28 -0500
+Received: by mail-wr1-x435.google.com with SMTP id 7so5030393wrz.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=trO7BEeK5PT/KLW53+xjXZX3b4C5nPIzYtsLh86ws6o=;
+ b=BwQeS4F6Vih9thYQsxNoeU6HCdMh937KW8UPXxBolM94lg4XOLy7S76OtmKTAXTf91
+ OEIi4yPT3Lns6+ridpz/WCkITOX9lJW57x6+UuhgplDkNIUhSlBHfg/rYf0hum/7uQkf
+ VXZVlzlygBTczytkv5GwyYmqc3EeYcsWWLs5WDXkW4lWcEHtwJrOWZI98CPRC2jx8u5q
+ IeXcoJc22X0qBp6mDlNM+dLddlDLwf2QYPlKz4/771Ijt6YZ0mRxlrpFz7qA4D3nb635
+ cQRYgQeeDnQxEJn8EuRBa/9+bWeuygbg5aHYL04HExudHWJnicR5I4lxdqgNJ8mqnut1
+ AQ4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=trO7BEeK5PT/KLW53+xjXZX3b4C5nPIzYtsLh86ws6o=;
+ b=p+zlE93rLYY0jRk+R2r5t3ZiIeFkaUQ8N8E7RP1C3JlnLLbvtg24Zy5We2UI301oyZ
+ Apb6lKhxbNHVbLkduAtmNlr+cNW28Q7ua1/ct3xUkqlHuEaVLibaw3NXVOitTyIkH0CG
+ aksua+lsUY6JqSsuyhGZvoEAak88O4TxQNOVxx7HqEJyVZ9LgXyoJEgGBgzyrDH+R3aa
+ BNnQz1pvMgSj22wypJJPNYIRvPcO53/Jg8FlHYA+fxsPwWMa1rFC1YmFmUKUnqNaTgyG
+ /WEncvR+oDWLIUL7gkv4CAFRIUMydpq7APClhEKVgDQ52V5k6gUWaIoPGmmkNqVnWyTj
+ WyqA==
+X-Gm-Message-State: AOAM53307BRbo/1N24ozDnHi7pVekjBe3YZPGQhXol7r/TMxBbcrzopj
+ zss3CglP8Fti9cwjCUNXLRiqFw==
+X-Google-Smtp-Source: ABdhPJzqt3lCbJmv32SOmuVyAYKIbApuKL4X47jMafV4MRu+4gnGY2OTbd4zo8/uSJRIICXJoLP3tA==
+X-Received: by 2002:adf:80d0:: with SMTP id 74mr16138356wrl.110.1611833064569; 
+ Thu, 28 Jan 2021 03:24:24 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id d17sm1526760wma.2.2021.01.28.03.24.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jan 2021 03:24:23 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 81C901FF7E;
+ Thu, 28 Jan 2021 11:24:22 +0000 (GMT)
+References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
+ <87a6tm2sxb.fsf@linaro.org>
+ <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
+ <878s941x85.fsf@linaro.org>
+ <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
+ <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
+ <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
+ <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
+ <878s8zptrf.fsf@linaro.org>
+ <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
+ <87ft33l8an.fsf@linaro.org>
+ <CAAQ-SiMY8W9TS7eXgWuHY0m4yjaRbqqsZ+41Xyhxm+gW0sYakg@mail.gmail.com>
+ <CAAQ-SiM8_XnW1Ar5xocR7pUG_WW4SrQSnaKhqr1rY62ti2pw7Q@mail.gmail.com>
+ <CAAQ-SiPcBeGGgYcPHn7WSnz4jLAza+hE7tSMYSHJ-caC66D48A@mail.gmail.com>
+ <CAAQ-SiPPk9EfrEq7ja0X2E7gq5x9dH9C3LBDNc4frNi8Ssijug@mail.gmail.com>
+ <CAAQ-SiMsrkDYzqqqRXONw_HCdORqssw-yL9dFGF32y7aG68iCQ@mail.gmail.com>
+ <87v9blmf1x.fsf@linaro.org>
+ <CAAQ-SiNRykBeMFRvjumJ1hbcT3vjuL2bcGU=RBLpksNJNGYm+Q@mail.gmail.com>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
+Subject: Re: Fwd: VirtioSound device emulation implementation
+Date: Thu, 28 Jan 2021 10:42:21 +0000
+In-reply-to: <CAAQ-SiNRykBeMFRvjumJ1hbcT3vjuL2bcGU=RBLpksNJNGYm+Q@mail.gmail.com>
+Message-ID: <87o8h9wbh5.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <87mtwtfqw2.fsf@dusky.pond.sub.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,119 +103,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.01.2021 um 08:43 hat Markus Armbruster geschrieben:
-> Kevin Wolf <kwolf@redhat.com> writes:
-> 
-> > Am 27.01.2021 um 14:56 hat Markus Armbruster geschrieben:
-> >> Kevin Wolf <kwolf@redhat.com> writes:
-> >> 
-> >> > Instead of counting how many elements from the top of the stack we need
-> >> > to ignore until we find the thing we're interested in, we can just
-> >> > directly pass the StackObject pointer because all callers already know
-> >> > it.
-> >> >
-> >> > We only need a different way now to tell if we want to know the name of
-> >> > something contained in the given StackObject or of the StackObject
-> >> > itself. Passing name = NULL is the obvious way to request the latter.
-> >> >
-> >> > This simplifies the interface and makes it easier to use in cases where
-> >> > we have the StackObject, but don't know how many steps down the stack it
-> >> > is.
-> >> >
-> >> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> >> > ---
-> >> >  qapi/qobject-input-visitor.c | 38 ++++++++++++++++++------------------
-> >> >  1 file changed, 19 insertions(+), 19 deletions(-)
-> >> >
-> >> > diff --git a/qapi/qobject-input-visitor.c b/qapi/qobject-input-visitor.c
-> >> > index a00ac32682..1415561828 100644
-> >> > --- a/qapi/qobject-input-visitor.c
-> >> > +++ b/qapi/qobject-input-visitor.c
-> >> > @@ -87,20 +87,16 @@ static QObjectInputVisitor *to_qiv(Visitor *v)
-> >> >  }
-> >> >  
-> >> >  /*
-> >> > - * Find the full name of something @qiv is currently visiting.
-> >> > - * @qiv is visiting something named @name in the stack of containers
-> >> > - * @qiv->stack.
-> >> > - * If @n is zero, return its full name.
-> >> > - * If @n is positive, return the full name of the @n-th container
-> >> > - * counting from the top.  The stack of containers must have at least
-> >> > - * @n elements.
-> >> > - * The returned string is valid until the next full_name_nth(@v) or
-> >> > - * destruction of @v.
-> >> > + * Find the full name of something named @name in @so which @qiv is
-> >> > + * currently visiting.  If @name is NULL, find the full name of @so
-> >> > + * itself.
-> >> > + *
-> >> > + * The returned string is valid until the next full_name_so(@qiv) or
-> >> > + * destruction of @qiv.
-> >> 
-> >> How can this distinguish between a list and its member?
-> >> 
-> >> Before the patch:
-> >> 
-> >> * list member: n = 0, name = NULL
-> >> * list: n = 1, name = NULL
-> >
-> > Oh. These two lines were more helpful than the whole function comment
-> > before this patch (which doesn't talk about name = NULL at all).
-> 
-> See, I can write impenetrable comments with the best of them!
-> 
-> The spot that talks about @name is in visitor.h:
-> 
->  * The @name parameter of visit_type_FOO() describes the relation
->  * between this QAPI value and its parent container.  When visiting
->  * the root of a tree, @name is ignored; when visiting a member of an
->  * object, @name is the key associated with the value; when visiting a
->  * member of a list, @name is NULL; and when visiting the member of an
->  * alternate, @name should equal the name used for visiting the
->  * alternate.
-> 
-> Many contracts in the same file refer back to it like this:
-> 
->  * @name expresses the relationship of this object to its parent
->  * container; see the general description of @name above.
-> 
-> The contract here doesn't.
-> 
-> >> Afterwards?
-> >> 
-> >> Checking... yes, regression.  Test case:
-> >> 
-> >>     {"execute": "blockdev-add", "arguments": {"driver": "file", "node-name": "blk0", "filename": "tmp.img"}}
-> >>     {"return": {}}
-> >>     {"execute": "blockdev-add", "arguments": {"driver": "blkdebug", "node-name": "blk1", "image": "blk0", "take-child-perms": [0]}}
-> >>     {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'take-child-perms', expected: string"}}
-> >> 
-> >> The second command's reply changes from
-> >> 
-> >>     {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'take-child-perms[0]', expected: string"}}
-> >> 
-> >> to
-> >> 
-> >>     {"error": {"class": "GenericError", "desc": "Invalid parameter type for 'take-child-perms', expected: string"}}
-> >> 
-> >> The idea of using @so instead of @n may be salvagable.
-> >
-> > I can always add a bool parameter that tells (independently from @name)
-> > whether we want the name of a member or of the container.
-> >
-> > Though do we really need the name of the container anywhere? The n = 1
-> > case exists in qobject_input_check_list(), but is this a case that can
-> > fail? The pattern how lists are intended to be visited seems to be
-> > calling visit_next_list() until it returns NULL.
-> 
-> Yes, the generated visitors always exhaust the list.  But virtual walks
-> needn't.
 
-Ah. Okay, I'll add the bool parameter then.
+Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
 
-Kevin
+> Thanks a lot Alex!
+>
+>> All QEMU devices have two parts, a frontend (which the guest sees) and a
+>> backend (which is how the data gets to somewhere in the host). Some of
+>> the command line options in QEMU elide the details for convenience (-nic
+>> and -drive are examples). The -netdev device is all about configuring
+>> the backend of the network part for a paired -device front end. There is
+>> a similar setup for audio (-audiodev) although I'll defer to Gerd's
+>> expertise on how the two interact.
+>
+> This helped me understand a bit more about how the devices work. In the
+> source
+> code, I found the `virtio-net-pci.c` and `virtio-net.c` files, I think the
+> pci device is what is visible to the guest.
+> So `virtio-net-pci.c` should be the front end?
 
+No - they are both front-ends. In VirtIO you have two transports. The
+first is virtio-mmio which is a simple set of memory mapped IO
+registers. There is no discovery (well there is some but the guest needs
+to find where in memory the mmio bus is via some method like hardcoded
+address or DTB).
+
+The second is virtio-pci. Here the virtio devices are encapsulated in a
+PCI bus so you get the benefits of discovery and bus enumeration.
+
+> For the realize function, I saw that the `virtio_net_device_realize`
+> function initializes
+> the `net_conf` for the device. So I am guessing that the
+> `virtio_snd_device_realize` function
+> should initialize the number of jacks and streams a device has, along with
+> the configuration
+> for all these jacks and streams?
+
+No those are all front-end configuration knobs.=20
+
+> The thing is I do not understand `net` devices all that well so I get a b=
+it
+> confused with
+> what is specific to a net device and what should I actually be worried
+> about :)
+>
+> The device initalization step mentions that the jack and streams should be
+> read and
+> a query should be made for the config of all jacks and streams. What shou=
+ld
+> be the
+> default values of these configurations? I think the realize function is
+> responsible
+> for setting these up.
+
+Gerd?
+
+
+
+--=20
+Alex Benn=C3=A9e
 
