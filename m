@@ -2,92 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 239D030712C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:18:25 +0100 (CET)
-Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1D530715E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:26:35 +0100 (CET)
+Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l52VT-0003tq-Lv
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:18:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52998)
+	id 1l52dO-0007Lq-7Y
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:26:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l52UO-0003TF-6g
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:17:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43779)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l52UL-0003cA-Fj
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:17:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611821831;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=oTfiDzacX/lj6b1wF5/HWzeeeNoGMsPiEQqsjAdIfLI=;
- b=QNLrqtaSTK/3EnUGSeX2B2rfe6vFDlWy4qJnaQzW/YiQfYrEDG5S/z6Ij+WiyzFA9sIH1z
- 0c9oNRsqa378uX//gQtbMM9scBdZ7qY0fgolNxRlH9RJbaclQidsr0ZbjDqxiyYGA/CsQ1
- yVLel2BECdi5qgE4qrc5aXYovpNB+4g=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-466-osKuLPkuNaij1HGe5KrtRA-1; Thu, 28 Jan 2021 03:17:09 -0500
-X-MC-Unique: osKuLPkuNaij1HGe5KrtRA-1
-Received: by mail-ej1-f71.google.com with SMTP id rl8so1853434ejb.8
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 00:17:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l52ab-0005dO-KQ
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:23:42 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37548)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l52aW-0005aq-Cw
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:23:39 -0500
+Received: by mail-pg1-x535.google.com with SMTP id z21so3807488pgj.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 00:23:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=cbkcW2ok2YQLEbATCJLPGmECgb56rWFy9WhXjrO1Dbs=;
+ b=rql8I8zW25BM87SY/ab5xZJsNDdxGGePSD1pICV86KKuh3Y4tXWlUA3sfixTF3q3ye
+ qoWEG/f4nNHy+sChXu8T5x764PBS6liGiGEkCP1VE/WZDrBFpO0U0vYwvKJZwtqOwQFQ
+ pX+B/GugvldMr6Uxqr+GW2oToJ2JRq2gmwX69CGybLCqWBRNNtvkHBw18h9zcOR3x+eF
+ 51t3xPYU8mQkMMu204/1vY04noCFYBYCOjMMkv07076lrI/juYTVGWplKeTP4xPxAxK8
+ GFrD20LCCNwcxS1Zyb+253VSHS4Uo2NQwx76Ko9eG5mfPJBXLW6RN457Meos5VkaxPhz
+ Jw/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
  :content-transfer-encoding;
- bh=oTfiDzacX/lj6b1wF5/HWzeeeNoGMsPiEQqsjAdIfLI=;
- b=lauVYL2sVMDgW7W3s16I0jpZj1ZbTATcry+aKlRfscvkSHfKzOj4MEeQGH1HuMp5NO
- XZYgZKxgaW7fcOTeATBeGZKdTumHdm/qBAtK7yRn2WN73ldMriRu9Zl9d3QrpF7+fFj0
- eX5TlDT9zu1+XkC0Jhg4DfjyjQtRlaP/genNHqzla9ffvbWSbhJ3d6lEisKZKaH6maAN
- n+5d27LxaiGlLRHYcmWwt56BSxOo1PG/kQgy21VNd0XjCf+MgjLR98nMpML6MslyN55+
- bkuiFh5ZHeOQMSWyTbQg3BXW6zkv1fILatEmi/p7P64YXuDMmSAPAi8CUwQh0nLD2RXL
- Q1Fw==
-X-Gm-Message-State: AOAM530JAHtA2zBfYWwJs6Uq+M/tK5vJYtYb7k4NAPs327g60Ys4VA59
- X6aVqxh3Gb3xrvYjYsgpmrwPDiOk83d1KWPLLP7jht/QB6avDmMbkkZ386QLnZTgh/tIi/AwBRm
- LZADaEAcTPieERbY=
-X-Received: by 2002:a05:6402:50ca:: with SMTP id
- h10mr12656203edb.181.1611821828611; 
- Thu, 28 Jan 2021 00:17:08 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJx+UE/zcy7OmULGal90kvSqvPMgLdJZvepQytrNjGPrGSmZJJsw0UsEyVaScb6Txv/mRtYGFg==
-X-Received: by 2002:a05:6402:50ca:: with SMTP id
- h10mr12656191edb.181.1611821828447; 
- Thu, 28 Jan 2021 00:17:08 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id p16sm1916223ejz.103.2021.01.28.00.17.05
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jan 2021 00:17:07 -0800 (PST)
-Subject: Re: [PATCH] fuzz: fix wrong index in clear_bits
-To: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org
-References: <SYCPR01MB3502E9F6EB06DEDCD484F738FCBA9@SYCPR01MB3502.ausprd01.prod.outlook.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <140b3f2a-56a9-91bb-2b5f-91bc60dd1f92@redhat.com>
-Date: Thu, 28 Jan 2021 09:17:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ bh=cbkcW2ok2YQLEbATCJLPGmECgb56rWFy9WhXjrO1Dbs=;
+ b=tSq6GO1E2XOzu/vIUGrafHKcgQrrDidUoixgjymSK3woZO4QB5jRIYXq6rTM5qnMJR
+ s1dGmRYKONp0mqscPb2ATw2kYCjDo8KBs9vi2BCBnQ1/KOu0dKU3l5S/Nxu9Mi/IFLD7
+ +4NL3Dy1Zb8JFGRWKikuRWuFZ/yal2E+U/X7/VOp0xcmULzQ29XgPHsk5zLq7uLnk2ph
+ 5cD6ZwEUV9hJDGtGC6vxWtmM4HG/8Mutwe12lbFAJq05Rku3uX19hpNWHoCH13SlT+QQ
+ Vemmbg/m1DD5akxRU1u4GQBU2hRwRkUXHpGkdrt+yRtwRiVoCChn6Qhh1vWxG/fg2fEQ
+ NkTw==
+X-Gm-Message-State: AOAM533NkrW8QDRUAfLlQrZeVkb65ZJA+sZstljAnMVavf/PckQW3XuA
+ 4l+k3ATH53wPjtXWdcjchhw9DiyYSi2g8UhJ
+X-Google-Smtp-Source: ABdhPJzAdAbRxLeBbIzP4usMxj5cAdRW6HFvr1VmeBJhwQfMyTF1nsCegMLqOYflejZNWrtCAV51Dw==
+X-Received: by 2002:a65:488d:: with SMTP id n13mr14860919pgs.315.1611822214671; 
+ Thu, 28 Jan 2021 00:23:34 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id s24sm4658292pfd.118.2021.01.28.00.23.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jan 2021 00:23:34 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/23] TCI fixes and cleanups
+Date: Wed, 27 Jan 2021 22:23:08 -1000
+Message-Id: <20210128082331.196801-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <SYCPR01MB3502E9F6EB06DEDCD484F738FCBA9@SYCPR01MB3502.ausprd01.prod.outlook.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,33 +82,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alxndr@bu.edu, thuth@redhat.com, bsd@redhat.com, stefanha@redhat.com
+Cc: sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/01/21 04:59, Qiuhao Li wrote:
-> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
-> ---
->   scripts/oss-fuzz/minimize_qtest_trace.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
-> index 4cba96dee2..20825768c2 100755
-> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
-> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
-> @@ -261,7 +261,7 @@ def clear_bits(newtrace, outpath):
->                   data_try = hex(int("".join(data_bin_list), 2))
->                   # It seems qtest only accepts padded hex-values.
->                   if len(data_try) % 2 == 1:
-> -                    data_try = data_try[:2] + "0" + data_try[2:-1]
-> +                    data_try = data_try[:2] + "0" + data_try[2:]
->   
->                   newtrace[i] = "{prefix} {data_try}\n".format(
->                           prefix=prefix,
-> 
+The first patch I believe is queued by Paolo, but is not yet
+upstream; copied here for convenience.  Then, fill in all of
+the TODO blanks in TCI.
 
-Queued, thanks.
+The tci_write_reg* functions are redundant with tcg_write_reg.
+Just pass in the properly truncated result to begin.  In the
+cases of the loads, we've automatically done that with the
+type of the indirection.  For all of the other arithmetic,
+we don't actually have to do anything -- the value is either
+right, or the high bits are undefined.  And in fact will
+currently be ignored by the extension on read.
 
-Paolo
+
+r~
+
+
+Richard Henderson (21):
+  configure: Fix --enable-tcg-interpreter
+  tcg: Manage splitwx in tc_ptr_to_region_tree by hand
+  exec: Make tci_tb_ptr thread-local
+  tcg/tci: Inline tci_write_reg32s into the only caller
+  tcg/tci: Inline tci_write_reg8 into its callers
+  tcg/tci: Inline tci_write_reg16 into the only caller
+  tcg/tci: Inline tci_write_reg32 into all callers
+  tcg/tci: Inline tci_write_reg64 into 64-bit callers
+  tcg/tci: Merge INDEX_op_ld8u_{i32,i64}
+  tcg/tci: Merge INDEX_op_ld8s_{i32,i64}
+  tcg/tci: Merge INDEX_op_ld16u_{i32,i64}
+  tcg/tci: Merge INDEX_op_ld16s_{i32,i64}
+  tcg/tci: Merge INDEX_op_{ld_i32,ld32u_i64}
+  tcg/tci: Merge INDEX_op_st8_{i32,i64}
+  tcg/tci: Merge INDEX_op_st16_{i32,i64}
+  tcg/tci: Move stack bounds check to compile-time
+  tcg/tci: Merge INDEX_op_{st_i32,st32_i64}
+  tcg/tci: Use g_assert_not_reached
+  tcg/tci: Remove dead code for TCG_TARGET_HAS_div2_*
+  tcg/tci: Implement 64-bit division
+  tcg/tci: Remove TODO as unused
+
+Stefan Weil (2):
+  tcg/tci: Implement INDEX_op_ld16s_i32
+  tcg/tci: Implement INDEX_op_ld8s_i64
+
+ configure                |   5 +-
+ include/exec/exec-all.h  |   2 +-
+ tcg/tci/tcg-target.h     |   4 +-
+ tcg/tcg-common.c         |   2 +-
+ tcg/tcg.c                |  23 +++-
+ tcg/tci.c                | 283 +++++++++++++++------------------------
+ tcg/tci/tcg-target.c.inc |  41 +++---
+ 7 files changed, 154 insertions(+), 206 deletions(-)
+
+-- 
+2.25.1
 
 
