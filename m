@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E247630751B
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:49:37 +0100 (CET)
-Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A120307548
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:57:32 +0100 (CET)
+Received: from localhost ([::1]:49898 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l55ns-00023j-UI
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:49:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33702)
+	id 1l55vX-0004Rr-JU
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:57:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33756)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55ga-0001LN-Hk
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:04 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46265)
+ id 1l55gc-0001Q0-8a
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:06 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55544)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55gV-00068E-47
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:04 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id q7so5023722wre.13
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:41:57 -0800 (PST)
+ id 1l55gV-00068a-BA
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:05 -0500
+Received: by mail-wm1-x329.google.com with SMTP id f16so4031957wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:41:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=mNFHl5aQheGLHGGRVwK/cQ/4FAuv8SfUj6q6QyYBaVg=;
- b=gw1Oi1XjIpDCZLn4Zh9sUN5F9UO8yXzHY9MMrwSEvEHqijvBok8jTcQc389U2x5ON4
- zs/ITJn/nXUIlKjBeeiO25hxz8Npod8a8bSuDFxkb/+Z2rlHWbUxkf3kFmzCNeJxWntG
- A3Jy1BizhxTlfeKqeTN0NYR21mLU+3c0C2BxOME+q6DKgtqIA6Uf+CzHhDejDqmMB5mR
- SecMJGGmCBbwSjfOpKkj36QwDUagMUXxmHx73lCNSnNB8ubIEvOnQVnEaP8yQ2yB4aS6
- 2cNgWo7INtEd5kLginl+js1MSubsAMItwiaVZxwI0dgNCJx0sZTdgG08gKCgdmo/nDnw
- h3eg==
+ bh=2e1YXz+Q0p/Ws1MZPKR+jaAmbZcN+lIEvqjMORMBP0Q=;
+ b=ojOc5ay+OjcuVNl6T/PWhX8DlCZ+Wmhn5VBAljuFbzDp+5+Us57W+8foaSlIlLqu/w
+ XxOL5KBoT1bAbv5oisrpIRVeYCPpOh+7Rryo4dK41jQT7kAJlAXg4hW0VfcE/gIzJcnB
+ sf7RwHkfCxvpt2ZBJ0hnbYjMhGnC4RAMb6oqrN97zfffhjqcYLe/298/T9rqnFbWuLdc
+ hiSyeRMJeJ6gxFh6YQlZuaNqA1QviPxkEPQgFGy0ddGF2PWv0KRfgZ9N707KilS6gLQY
+ tYiaCkFt5MNUJzMUKZPawlmH/HfoTJhehYuaBHHrhVWut7Bco0iMAiqbfE6QaILwsFZa
+ VopQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=mNFHl5aQheGLHGGRVwK/cQ/4FAuv8SfUj6q6QyYBaVg=;
- b=GVXLxockoILIdO/NiHPs5SdlM4SaVTYyGHwgCVA7Mewq7dOnJ31BIrkqtfQWlvfvp0
- haOhhEYlVEhAbwuHWEl8kVRpj0p68NO/aRVoHxIiyvn6r6Hju1qxEJVNiFasiopHiu8j
- vIcgjztCLj/nliPClSvtXIhfoylttJHbqeHkChvq+7Qumq120+zF8Bi6MnOcvDWBKEA6
- 0JGqeudICZm88nD0Vu/xb7dHwISM4QfPzv4ZYdVeh+lAdKQKYdjvveL5yrZFsYr08aMw
- L5DuXvDWS5aT6/oGh979isxpOMr4vTHpt+5kW4WYk0cyYHmxem8qUjy06dciblKQ+Zss
- X29g==
-X-Gm-Message-State: AOAM531eqbhdMiWL+ekO+zA06Opbu4YK/vbQi5A3V6JrRvUQbqV5jzYV
- PBOCxK5XM3PbsyeQ1XgG2dCu7eooecVL4A==
-X-Google-Smtp-Source: ABdhPJwu+SRPAqx7a7B6mcNggYt+7BELMo57wZSKbcsEy4ZIeTgDMoSvR7A4qZpRkkomNrUgTpzjWw==
-X-Received: by 2002:a5d:4b0b:: with SMTP id v11mr15525288wrq.226.1611834117009; 
+ bh=2e1YXz+Q0p/Ws1MZPKR+jaAmbZcN+lIEvqjMORMBP0Q=;
+ b=fd8vdUJ/E6Vy+PctLgeLU9I3Xuwj2QV0sLdupP9rKwEQ9ggDHzkWWD5F4n2Npzwiej
+ t/2FakL2oJm/N8VzKUcWn4Lhkvnl1o8iyi9vc+0YjUxaJ0XxTD9zSUgC3Z3IpsTyryiI
+ 3iPmG65aHROybcjVXnOQNlC85+Zm3aSQuQcKmBEoz1U13fSUrgZkoSPOMHqGo3vnqBxR
+ JQpa7GPy9vrjxEUiHaMaupVm3it4r8jNkgrXT4hFeLWzv6AAsAtXBMjx3upWFJ3EkacN
+ jlCJJA7y83UVY5Va0tm3sUe+hWH6ywIC3flra84h3ttYMoBDM11BAu8vbk1MqPAxtyjA
+ pnBQ==
+X-Gm-Message-State: AOAM532mRFtUGwDLtqYB6GqntKuTdLE2ERO2BImiIlrNE0vVjCReDCQJ
+ LXW2HUs5mHcaBtUM9WVfyCqgqQ==
+X-Google-Smtp-Source: ABdhPJxNNN6otN77Uiv6pFE7T8KLXuosHZ3iTvBufhnCyUe7dELCbg1dntmxBEbV+3SNuI85fXzLMA==
+X-Received: by 2002:a05:600c:22cf:: with SMTP id
+ 15mr8170546wmg.19.1611834117966; 
  Thu, 28 Jan 2021 03:41:57 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q9sm6431033wme.18.2021.01.28.03.41.56
+ by smtp.gmail.com with ESMTPSA id q9sm6431033wme.18.2021.01.28.03.41.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 03:41:56 -0800 (PST)
+ Thu, 28 Jan 2021 03:41:57 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 09/25] hw/watchdog/cmsdk-apb-watchdog: Add Clock input
-Date: Thu, 28 Jan 2021 11:41:29 +0000
-Message-Id: <20210128114145.20536-10-peter.maydell@linaro.org>
+Subject: [PATCH v2 10/25] hw/arm/armsse: Rename "MAINCLK" property to
+ "MAINCLK_FRQ"
+Date: Thu, 28 Jan 2021 11:41:30 +0000
+Message-Id: <20210128114145.20536-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210128114145.20536-1-peter.maydell@linaro.org>
 References: <20210128114145.20536-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,86 +91,102 @@ Cc: Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the first step in converting the CMSDK_APB_TIMER device to the
-Clock framework, add a Clock input.  For the moment we do nothing
-with this clock; we will change the behaviour from using the
-wdogclk-frq property to using the Clock once all the users of this
-device have been converted to wire up the Clock.
+While we transition the ARMSSE code from integer properties
+specifying clock frequencies to Clock objects, we want to have the
+device provide both at once.  We want the final name of the main
+input Clock to be "MAINCLK", following the hardware name.
+Unfortunately creating an input Clock with a name X creates an
+under-the-hood QOM property X; for "MAINCLK" this clashes with the
+existing UINT32 property of that name.
 
-This is a migration compatibility break for machines mps2-an385,
-mps2-an386, mps2-an500, mps2-an511, mps2-an505, mps2-an521, musca-a,
-musca-b1, lm3s811evb, lm3s6965evb.
+Rename the UINT32 property to MAINCLK_FRQ so it can coexist with the
+MAINCLK Clock; once the transition is complete MAINCLK_FRQ will be
+deleted.
+
+Commit created with:
+ perl -p -i -e 's/MAINCLK/MAINCLK_FRQ/g' hw/arm/{armsse,mps2-tz,musca}.c include/hw/arm/armsse.h
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20210121190622.22000-10-peter.maydell@linaro.org
+Message-id: 20210121190622.22000-11-peter.maydell@linaro.org
 ---
- include/hw/watchdog/cmsdk-apb-watchdog.h | 3 +++
- hw/watchdog/cmsdk-apb-watchdog.c         | 7 +++++--
- 2 files changed, 8 insertions(+), 2 deletions(-)
+ include/hw/arm/armsse.h | 2 +-
+ hw/arm/armsse.c         | 6 +++---
+ hw/arm/mps2-tz.c        | 2 +-
+ hw/arm/musca.c          | 2 +-
+ 4 files changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/include/hw/watchdog/cmsdk-apb-watchdog.h b/include/hw/watchdog/cmsdk-apb-watchdog.h
-index 3da0d43e355..34069ca6969 100644
---- a/include/hw/watchdog/cmsdk-apb-watchdog.h
-+++ b/include/hw/watchdog/cmsdk-apb-watchdog.h
-@@ -17,6 +17,7 @@
-  *
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index 83f5e28c16e..4860a793f4b 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -39,7 +39,7 @@
   * QEMU interface:
-  *  + QOM property "wdogclk-frq": frequency at which the watchdog is clocked
-+ *  + Clock input "WDOGCLK": clock for the watchdog's timer
-  *  + sysbus MMIO region 0: the register bank
-  *  + sysbus IRQ 0: watchdog interrupt
-  *
-@@ -33,6 +34,7 @@
+  *  + QOM property "memory" is a MemoryRegion containing the devices provided
+  *    by the board model.
+- *  + QOM property "MAINCLK" is the frequency of the main system clock
++ *  + QOM property "MAINCLK_FRQ" is the frequency of the main system clock
+  *  + QOM property "EXP_NUMIRQ" sets the number of expansion interrupts.
+  *    (In hardware, the SSE-200 permits the number of expansion interrupts
+  *    for the two CPUs to be configured separately, but we restrict it to
+diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
+index baac027659d..d2ba0459c44 100644
+--- a/hw/arm/armsse.c
++++ b/hw/arm/armsse.c
+@@ -47,7 +47,7 @@ static Property iotkit_properties[] = {
+     DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+     DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+-    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
++    DEFINE_PROP_UINT32("MAINCLK_FRQ", ARMSSE, mainclk_frq, 0),
+     DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+     DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+     DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], true),
+@@ -59,7 +59,7 @@ static Property armsse_properties[] = {
+     DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
+                      MemoryRegion *),
+     DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
+-    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
++    DEFINE_PROP_UINT32("MAINCLK_FRQ", ARMSSE, mainclk_frq, 0),
+     DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
+     DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
+     DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], false),
+@@ -448,7 +448,7 @@ static void armsse_realize(DeviceState *dev, Error **errp)
+     }
  
- #include "hw/sysbus.h"
- #include "hw/ptimer.h"
-+#include "hw/clock.h"
- #include "qom/object.h"
+     if (!s->mainclk_frq) {
+-        error_setg(errp, "MAINCLK property was not set");
++        error_setg(errp, "MAINCLK_FRQ property was not set");
+         return;
+     }
  
- #define TYPE_CMSDK_APB_WATCHDOG "cmsdk-apb-watchdog"
-@@ -54,6 +56,7 @@ struct CMSDKAPBWatchdog {
-     uint32_t wdogclk_frq;
-     bool is_luminary;
-     struct ptimer_state *timer;
-+    Clock *wdogclk;
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index 3707876d6d4..6a9eed9022a 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -402,7 +402,7 @@ static void mps2tz_common_init(MachineState *machine)
+     object_property_set_link(OBJECT(&mms->iotkit), "memory",
+                              OBJECT(system_memory), &error_abort);
+     qdev_prop_set_uint32(iotkitdev, "EXP_NUMIRQ", MPS2TZ_NUMIRQ);
+-    qdev_prop_set_uint32(iotkitdev, "MAINCLK", SYSCLK_FRQ);
++    qdev_prop_set_uint32(iotkitdev, "MAINCLK_FRQ", SYSCLK_FRQ);
+     sysbus_realize(SYS_BUS_DEVICE(&mms->iotkit), &error_fatal);
  
-     uint32_t control;
-     uint32_t intstatus;
-diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
-index 5bbadadfa68..b03bcb73628 100644
---- a/hw/watchdog/cmsdk-apb-watchdog.c
-+++ b/hw/watchdog/cmsdk-apb-watchdog.c
-@@ -30,6 +30,7 @@
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/registerfields.h"
-+#include "hw/qdev-clock.h"
- #include "hw/watchdog/cmsdk-apb-watchdog.h"
- #include "migration/vmstate.h"
- 
-@@ -318,6 +319,7 @@ static void cmsdk_apb_watchdog_init(Object *obj)
-                           s, "cmsdk-apb-watchdog", 0x1000);
-     sysbus_init_mmio(sbd, &s->iomem);
-     sysbus_init_irq(sbd, &s->wdogint);
-+    s->wdogclk = qdev_init_clock_in(DEVICE(s), "WDOGCLK", NULL, NULL);
- 
-     s->is_luminary = false;
-     s->id = cmsdk_apb_watchdog_id;
-@@ -346,9 +348,10 @@ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
- 
- static const VMStateDescription cmsdk_apb_watchdog_vmstate = {
-     .name = "cmsdk-apb-watchdog",
--    .version_id = 1,
--    .minimum_version_id = 1,
-+    .version_id = 2,
-+    .minimum_version_id = 2,
-     .fields = (VMStateField[]) {
-+        VMSTATE_CLOCK(wdogclk, CMSDKAPBWatchdog),
-         VMSTATE_PTIMER(timer, CMSDKAPBWatchdog),
-         VMSTATE_UINT32(control, CMSDKAPBWatchdog),
-         VMSTATE_UINT32(intstatus, CMSDKAPBWatchdog),
+     /*
+diff --git a/hw/arm/musca.c b/hw/arm/musca.c
+index b50157f63a6..d82bef11cf2 100644
+--- a/hw/arm/musca.c
++++ b/hw/arm/musca.c
+@@ -375,7 +375,7 @@ static void musca_init(MachineState *machine)
+     qdev_prop_set_uint32(ssedev, "EXP_NUMIRQ", mmc->num_irqs);
+     qdev_prop_set_uint32(ssedev, "init-svtor", mmc->init_svtor);
+     qdev_prop_set_uint32(ssedev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width);
+-    qdev_prop_set_uint32(ssedev, "MAINCLK", SYSCLK_FRQ);
++    qdev_prop_set_uint32(ssedev, "MAINCLK_FRQ", SYSCLK_FRQ);
+     /*
+      * Musca-A takes the default SSE-200 FPU/DSP settings (ie no for
+      * CPU0 and yes for CPU1); Musca-B1 explicitly enables them for CPU0.
 -- 
 2.20.1
 
