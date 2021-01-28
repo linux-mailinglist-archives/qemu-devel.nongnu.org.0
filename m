@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21F8A3068FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 01:57:43 +0100 (CET)
-Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 771C23068FE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 01:57:50 +0100 (CET)
+Received: from localhost ([::1]:33790 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4vd0-00011I-3W
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 19:57:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48838)
+	id 1l4vd7-00012s-DT
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 19:57:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l4vYL-00086n-M8; Wed, 27 Jan 2021 19:52:54 -0500
-Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:42354)
+ id 1l4vYv-0008Sf-KG; Wed, 27 Jan 2021 19:53:30 -0500
+Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:34810)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l4vYJ-0007d2-Ir; Wed, 27 Jan 2021 19:52:53 -0500
-Received: by mail-qv1-xf2c.google.com with SMTP id u16so2055912qvo.9;
- Wed, 27 Jan 2021 16:52:50 -0800 (PST)
+ id 1l4vYu-0007lK-2o; Wed, 27 Jan 2021 19:53:29 -0500
+Received: by mail-qv1-xf36.google.com with SMTP id l11so2081878qvt.1;
+ Wed, 27 Jan 2021 16:53:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=YtdGfORM4+Ow1n+NOuDR+nFQbncmcrP/LkUiB9rdyMo=;
- b=G4P33oNVySUdY1I9ByMuWm/h+Xa+v/WdIipBOTzlnF5qhA//ELZp7fVOOKsCs2svej
- pP47RpkRj5C6pBuQWdPBOd6Jtq1MB2YwBDnMpnsga6JKpG/T8ExGKSsZVabKS8ao1yfv
- xZJLbA35+rjouQ6a9PUjuVJovj59ooiO0o2Fw=
+ bh=SHRvZU1eqmujX5dkXjedEK+g0HYOJlm0E6LERamhGa0=;
+ b=JGElg8GdrSu7oVfrKPRoNLTzM0mCd0Tz6EcGO3+9VWw4ES2TwvRNJd8vCBUUCJCM8u
+ tyUg7tIgJ7gH4FSyuIK463qIYaAmSLpmBXzKvGRCsHVJHQ7iLCy58kUwFiHxKHGlbnJo
+ wAhPY7KHIASvnPXDNzMPynB8Ag8J89rtc3QC0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=YtdGfORM4+Ow1n+NOuDR+nFQbncmcrP/LkUiB9rdyMo=;
- b=DprOOZrTYQ4WQc+g2QslQttyUkIrRSLyEuZj4z4ePaTKKGtio5x8mi3ZAN270YMMTS
- k7rLXvhZ72vyTg7QO7qEtmZwbzjs8seHW4tjcI2uoPyDsq6T5lJ/Np8Zf4FTAsxYTbMA
- RVXDNyknhtWn3oYmLrUfsCQa8IY4uXmMXdI9PpnJaSbOgKvG4esN/fXdSaE7OY25+JhL
- LnG9OsyyKc9yV/wGiZnPOiMly+gRtBZB/qOIg4FyVtewT6Jl1/alj3EW+gfMqRMY3OUM
- tSiWUFZ+Ghh8oDNzwnbahxTSMfi4UzbFE9Wjx7nL+tsr5hDriI/LTMphp2RJh5w9EvAl
- i+RA==
-X-Gm-Message-State: AOAM5315852dfn1uJRR9Qj02+O5kKj+0wh6RUFYwfTxVwuCetYwSkmXb
- Tmar3DPlVzmqxX+wi2VE9SKS2cKKtpzfFIZTrss=
-X-Google-Smtp-Source: ABdhPJxVleeEJtegPdDxe9BBPYLeTm6AFksQ9m2w5jgGjjetX1u0Q68qxu7WW6WmOcGqnIbya8F7Z2JxqUQheRkOm90=
-X-Received: by 2002:a0c:a98c:: with SMTP id a12mr12844862qvb.43.1611795169840; 
- Wed, 27 Jan 2021 16:52:49 -0800 (PST)
+ bh=SHRvZU1eqmujX5dkXjedEK+g0HYOJlm0E6LERamhGa0=;
+ b=GhYoGbZc9Ji8oAqk8VGCIbFAUuTJZquIxD7EUD1+vPaKQXumKND12FHL6evd988AFS
+ Qj9RgM1nClo/iJ+4sz0oVCVNd6sJaQwPeObqmVxEIQhm04e9xodF4pubU4y5dLJcDJVj
+ iyM6w3EaaWP9X/xgocPXgI3ZnzP1vh3vxz3zRFHElIharAkznLYMzEHas0rCoFZoQYhQ
+ JPSBbW+LnaQvEXp7+yvyth+/b/ywGwwI0ezdVXNFzmemjkCPiaDBMA4zzmACpP9LlmuZ
+ 0nFw1T7gk9IUe7/043RDyy1FvLFgQsnGdIhk3do2cHAKJlD4d89/TtEANxRwdhUxZ940
+ lWtw==
+X-Gm-Message-State: AOAM5339vXq1iS8N6tkWfd1Fl9ixw50tcw1q/M5GIfVMDMDdIPdfn0pq
+ WRyDrpTt3SoMuEAOTRkNFWVXzdDSldA3b74F5kg=
+X-Google-Smtp-Source: ABdhPJx6HPz8RHhBiMfAFf92/dV2egzC0L3v/I5A3ELDl9vb82gcy2DCI3u+psysk3a6O/55u2IZNGNAFZmfoKMhnw4=
+X-Received: by 2002:a0c:e48b:: with SMTP id n11mr11835395qvl.10.1611795206882; 
+ Wed, 27 Jan 2021 16:53:26 -0800 (PST)
 MIME-Version: 1.0
 References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-7-clg@kaod.org>
-In-Reply-To: <20210126171059.307867-7-clg@kaod.org>
+ <20210126171059.307867-8-clg@kaod.org>
+In-Reply-To: <20210126171059.307867-8-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 28 Jan 2021 00:52:38 +0000
-Message-ID: <CACPK8Xc-zu4SdHeVd5tesdrNvDreJb1sX7_4KzeiEiac-xVzbg@mail.gmail.com>
-Subject: Re: [PATCH 6/7] ppc/pnv: Remove default disablement of the PNOR
- contents
+Date: Thu, 28 Jan 2021 00:53:14 +0000
+Message-ID: <CACPK8Xd+4JnqrdoJrxgaL59QZBU8Gi3jZVvCy-OGUwaO5Svhqg@mail.gmail.com>
+Subject: Re: [PATCH 7/7] ppc/pnv: Introduce a LPC FW memory region attribute
+ to map the PNOR
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
- envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
+ envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf36.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -81,56 +81,112 @@ Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Jan 2021 at 17:11, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Tue, 26 Jan 2021 at 17:19, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> On PowerNV systems, the BMC is in charge of mapping the PNOR contents
-> on the LPC FW address space using the HIOMAP protocol. Under QEMU, we
-> emulate this behavior and we also add an extra control on the flash
-> accesses by letting the HIOMAP command handler decide whether the
-> memory region is accessible or not depending on the firmware requests.
->
-> However, this behavior is not compatible with hostboot like firmwares
-> which need this mapping to be always available. For this reason, the
-> PNOR memory region is initially disabled for skiboot mode only.
->
-> This is badly placed under the LPC model and requires the use of the
-> machine. Since it doesn't add much, simply remove the initial setting.
-> The extra control in the HIOMAP command handler will still be performed.
+> This to map the PNOR from the machine init handler directly and finish
+> the cleanup of the LPC model.
 >
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
 > ---
->  hw/ppc/pnv_lpc.c | 8 --------
->  1 file changed, 8 deletions(-)
+>  include/hw/ppc/pnv.h |  1 +
+>  hw/ppc/pnv.c         | 11 +++++++++++
+>  hw/ppc/pnv_lpc.c     |  7 -------
+>  3 files changed, 12 insertions(+), 7 deletions(-)
 >
+> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+> index ee7eda3e0102..d69cee17b232 100644
+> --- a/include/hw/ppc/pnv.h
+> +++ b/include/hw/ppc/pnv.h
+> @@ -58,6 +58,7 @@ struct PnvChip {
+>      MemoryRegion xscom;
+>      AddressSpace xscom_as;
+>
+> +    MemoryRegion *fw_mr;
+>      gchar        *dt_isa_nodename;
+>  };
+>
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index e500c2e2437e..50810df83815 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -871,6 +871,14 @@ static void pnv_init(MachineState *machine)
+>          pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
+>      }
+>
+> +    /*
+> +     * The PNOR is mapped on the LPC FW address space by the BMC.
+> +     * Since we can not reach the remote BMC machine with LPC memops,
+> +     * map it always for now.
+> +     */
+> +    memory_region_add_subregion(pnv->chips[0]->fw_mr, PNOR_SPI_OFFSET,
+> +                                &pnv->pnor->mmio);
+> +
+>      /*
+>       * OpenPOWER systems use a IPMI SEL Event message to notify the
+>       * host to powerdown
+> @@ -1150,6 +1158,7 @@ static void pnv_chip_power8_realize(DeviceState *de=
+v, Error **errp)
+>      qdev_realize(DEVICE(&chip8->lpc), NULL, &error_fatal);
+>      pnv_xscom_add_subregion(chip, PNV_XSCOM_LPC_BASE, &chip8->lpc.xscom_=
+regs);
+>
+> +    chip->fw_mr =3D &chip8->lpc.isa_fw;
+>      chip->dt_isa_nodename =3D g_strdup_printf("/xscom@%" PRIx64 "/isa@%x=
+",
+>                                              (uint64_t) PNV_XSCOM_BASE(ch=
+ip),
+>                                              PNV_XSCOM_LPC_BASE);
+> @@ -1479,6 +1488,7 @@ static void pnv_chip_power9_realize(DeviceState *de=
+v, Error **errp)
+>      memory_region_add_subregion(get_system_memory(), PNV9_LPCM_BASE(chip=
+),
+>                                  &chip9->lpc.xscom_regs);
+>
+> +    chip->fw_mr =3D &chip9->lpc.isa_fw;
+>      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
+@0",
+>                                              (uint64_t) PNV9_LPCM_BASE(ch=
+ip));
+>
+> @@ -1592,6 +1602,7 @@ static void pnv_chip_power10_realize(DeviceState *d=
+ev, Error **errp)
+>      memory_region_add_subregion(get_system_memory(), PNV10_LPCM_BASE(chi=
+p),
+>                                  &chip10->lpc.xscom_regs);
+>
+> +    chip->fw_mr =3D &chip10->lpc.isa_fw;
+>      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
+@0",
+>                                              (uint64_t) PNV10_LPCM_BASE(c=
+hip));
+>  }
 > diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-> index 590359022084..11739e397b27 100644
+> index 11739e397b27..bcbca3db9743 100644
 > --- a/hw/ppc/pnv_lpc.c
 > +++ b/hw/ppc/pnv_lpc.c
-> @@ -825,7 +825,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
+> @@ -824,7 +824,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
 l use_cpld, Error **errp)
+>      ISABus *isa_bus;
 >      qemu_irq *irqs;
 >      qemu_irq_handler handler;
->      PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-> -    bool hostboot_mode =3D !!pnv->fw_load_addr;
+> -    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
 >
 >      /* let isa_bus_new() create its own bridge on SysBus otherwise
 >       * devices specified on the command line won't find the bus and
-> @@ -856,13 +855,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bo=
+> @@ -850,11 +849,5 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bo=
 ol use_cpld, Error **errp)
->       */
->      memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
->                                  &pnv->pnor->mmio);
-> -    /*
-> -     * Start disabled. The HIOMAP protocol will activate the mapping
-> -     * with HIOMAP_C_CREATE_WRITE_WINDOW
-> -     */
-> -    if (!hostboot_mode) {
-> -        memory_region_set_enabled(&pnv->pnor->mmio, false);
-> -    }
 >
+>      isa_bus_irqs(isa_bus, irqs);
+>
+> -    /*
+> -     * TODO: Map PNOR on the LPC FW address space on demand ?
+> -     */
+> -    memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
+> -                                &pnv->pnor->mmio);
+> -
 >      return isa_bus;
 >  }
 > --
