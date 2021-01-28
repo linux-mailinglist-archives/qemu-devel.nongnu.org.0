@@ -2,88 +2,108 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 826C13079F7
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:43:52 +0100 (CET)
-Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0EC1F307A04
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:46:32 +0100 (CET)
+Received: from localhost ([::1]:48592 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59SZ-00024o-Hw
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:43:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38928)
+	id 1l59V9-0005sA-4G
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:46:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39448)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1l59PC-000861-Uh
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:23 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:35073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1l59P6-0003NX-Tq
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:22 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id w14so4227043pfi.2
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:40:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=vhxSKjoSd1R7iDKXpsrK7l28NFZix7NigyHB90ikHtY=;
- b=qM+G4j8izzw0uGnIRWEc8tFpiimF8HN7PGsh/M/IW8VSxDpGpQlhGjimSV1cVaKiXL
- 8lf057xx4d3h3BTCiCw1BWmS91Me5ieZrLKCnNi+q0pplCpIOO6Vdrs8dJXEZf159oFp
- KD9gMTE3mAZujwQT7MsJhgLEF7bOZobxS8s8AmFnmnVX7/7AYkLiPO2nG+2NvUqyeF4L
- THmGA4ZXXOevgbicYanXWwH5MMV3EFaB5yEXUn+9FBkptQdJjZhs7KVrQJoP4+KIzpqt
- Weixhh0T7NHo4VSRbxH0Am/j1/nAkjl7n0tDd1eq+GL5lQAsI9paZGFYN/vEhWHLqfSS
- E+SQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=vhxSKjoSd1R7iDKXpsrK7l28NFZix7NigyHB90ikHtY=;
- b=cIVg/6A/t9UOAOYMP/kJh1EdSse8QjsUPfzjPqvdpka++f8KwMorIP57hRYyj+97JY
- VUZkUy1IadsRd5UtYa+NQBBd/N+ZCe6CfYPaH76rrHU/FgeKWdAekOgFrE1pwSOIW2Vo
- AdNU94xcp0uKAOo9mVsWCTs17yLIVHOaw50ONBW//fnNxbn26uv53AH62KO7e1rrFU8/
- ZXVSA25XTthd9M5evi5Apv56GyyUQQaik7i2/aar4m4x7S9pr3ZI+QSwi5eVxMk3ZqFP
- unnjRC/NpP1HnBcruqrqnwlf9yNN5wl+XtpJwWn7Qkr89+lXOotGOJAkruDrZbircBRU
- +6LQ==
-X-Gm-Message-State: AOAM530/p88AR2yT76k2jZytWC9Kth7V05OPhipG441hpPBrz4u6p35Z
- M+byrtME1Ud3WC/SpRNq4B9d3M3k21/H5L5rzWs=
-X-Google-Smtp-Source: ABdhPJxn8bJLEyQ4MMdFcZr2zvxeqWPwZHjK+HJQUaIYdpcYLRCIELXfd6fgmyRGaCxMjmn2U30Mf2AGORxc9aUyCfg=
-X-Received: by 2002:a05:6a00:2bb:b029:1be:aeea:abf4 with SMTP id
- q27-20020a056a0002bbb02901beaeeaabf4mr125993pfs.63.1611848415354; Thu, 28 Jan
- 2021 07:40:15 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1l59QO-0000ov-NI
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:41:36 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:3178
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lagarcia@linux.ibm.com>)
+ id 1l59QD-0003s8-4h
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:41:34 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10SFV6LB100291
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:41:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=reply-to : subject : to
+ : cc : references : from : message-id : date : mime-version : in-reply-to
+ : content-type : content-transfer-encoding; s=pp1;
+ bh=BQLZaaQSDj5jP2lEqC54h91xycMTkJlDu7houvhfuAc=;
+ b=HQKPeg8tJyCPDOvkO5KIVH6z74lVOsdTlSyyyv7FcmdYI9sNvG/k+eHYz0z27ZHimegM
+ cCC7JS5s7RRRSG+sBkieRR5a/EfQ33yL9rDlEU/DMwQBjyN9EKw9QqoQ7W3ZJ0Oe8vAf
+ yrS2eXXRhmhbkO7XnULHqi22XaxatrAj85WybFkmsjHGYMFms9NUsrbWjYnCaC08f/ex
+ b6n+O8YqlNcEL7Bg/OnDypeOaqL/IeBsEYlX1q2lYWcbkCpy+eyjYyvlSJ3MUeVEL6h3
+ TeyabDPjetmx7PtKj3bOO6/PjAqoM7UqyycSQI5GPgPlkxMYnuk7hr/3OC8sgZALJpjD og== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36bxnb3pu5-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:41:20 -0500
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 10SFVdKI103409
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:41:20 -0500
+Received: from ppma04dal.us.ibm.com (7a.29.35a9.ip4.static.sl-reverse.com
+ [169.53.41.122])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36bxnb3ptm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Jan 2021 10:41:20 -0500
+Received: from pps.filterd (ppma04dal.us.ibm.com [127.0.0.1])
+ by ppma04dal.us.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10SFNAE3013584;
+ Thu, 28 Jan 2021 15:41:19 GMT
+Received: from b03cxnp08026.gho.boulder.ibm.com
+ (b03cxnp08026.gho.boulder.ibm.com [9.17.130.18])
+ by ppma04dal.us.ibm.com with ESMTP id 36agvf5d8f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 28 Jan 2021 15:41:19 +0000
+Received: from b03ledav004.gho.boulder.ibm.com
+ (b03ledav004.gho.boulder.ibm.com [9.17.130.235])
+ by b03cxnp08026.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10SFfI0B16777662
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 28 Jan 2021 15:41:18 GMT
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 968FE78066;
+ Thu, 28 Jan 2021 15:41:18 +0000 (GMT)
+Received: from b03ledav004.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 44BF17805E;
+ Thu, 28 Jan 2021 15:41:17 +0000 (GMT)
+Received: from lagarcia.br.ibm.com (unknown [9.85.147.227])
+ by b03ledav004.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Thu, 28 Jan 2021 15:41:16 +0000 (GMT)
+Subject: Re: [PATCH] IOMMU and ATS not supported by vhost-user filesystem.
+To: Stefan Hajnoczi <stefanha@redhat.com>
+References: <e76462fdcfaa07208380e2a7df9b281b6e6717b8.1611685180.git.lagarcia@br.ibm.com>
+ <20210127111938.GH299797@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Leonardo_Augusto_Guimar=c3=a3es_Garcia?=
+ <lagarcia@linux.ibm.com>
+Organization: IBM
+Message-ID: <3c777954-b3c8-b4a9-2713-83245521f82e@linux.ibm.com>
+Date: Thu, 28 Jan 2021 12:41:15 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
- <87a6tm2sxb.fsf@linaro.org>
- <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
- <878s941x85.fsf@linaro.org>
- <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
- <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
- <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
- <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
- <878s8zptrf.fsf@linaro.org>
- <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
- <87ft33l8an.fsf@linaro.org>
- <CAAQ-SiMY8W9TS7eXgWuHY0m4yjaRbqqsZ+41Xyhxm+gW0sYakg@mail.gmail.com>
- <CAAQ-SiM8_XnW1Ar5xocR7pUG_WW4SrQSnaKhqr1rY62ti2pw7Q@mail.gmail.com>
- <CAAQ-SiPcBeGGgYcPHn7WSnz4jLAza+hE7tSMYSHJ-caC66D48A@mail.gmail.com>
- <CAAQ-SiPPk9EfrEq7ja0X2E7gq5x9dH9C3LBDNc4frNi8Ssijug@mail.gmail.com>
- <CAAQ-SiMsrkDYzqqqRXONw_HCdORqssw-yL9dFGF32y7aG68iCQ@mail.gmail.com>
- <87v9blmf1x.fsf@linaro.org>
- <CAAQ-SiNRykBeMFRvjumJ1hbcT3vjuL2bcGU=RBLpksNJNGYm+Q@mail.gmail.com>
- <87o8h9wbh5.fsf@linaro.org>
-In-Reply-To: <87o8h9wbh5.fsf@linaro.org>
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Thu, 28 Jan 2021 21:10:03 +0530
-Message-ID: <CAAQ-SiOCRSFxyWGqw07a-=0yg8tAiNCoLSSNm4sFx3a6+X7b5w@mail.gmail.com>
-Subject: Re: Fwd: VirtioSound device emulation implementation
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: multipart/alternative; boundary="0000000000003aaf1505b9f7b4b1"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210127111938.GH299797@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-28_11:2021-01-28,
+ 2021-01-28 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999
+ priorityscore=1501 mlxscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101280077
+Received-SPF: pass client-ip=148.163.158.5;
+ envelope-from=lagarcia@linux.ibm.com; helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -26
+X-Spam_score: -2.7
+X-Spam_bar: --
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,202 +116,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Reply-To: lagarcia@br.ibm.com
+Cc: Leonardo Garcia <lagarcia@br.ibm.com>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000003aaf1505b9f7b4b1
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 1/27/21 8:19 AM, Stefan Hajnoczi wrote:
+> On Tue, Jan 26, 2021 at 03:23:38PM -0300, lagarcia@linux.ibm.com wrote:
+>> From: Leonardo Garcia <lagarcia@br.ibm.com>
+>>
+>> Currently, as IOMMU and ATS are not supported, if a user mistakenly set
+>> any of them and tries to mount the vhost-user filesystem inside the
+>> guest, whenever the user tries to access the mount point, the system
+>> will hang forever.
+>>
+>> Signed-off-by: Leonardo Garcia <lagarcia@br.ibm.com>
+>> ---
+>>   hw/virtio/vhost-user-fs-pci.c | 7 +++++++
+>>   hw/virtio/vhost-user-fs.c     | 5 +++++
+>>   2 files changed, 12 insertions(+)
+>>
+>> diff --git a/hw/virtio/vhost-user-fs-pci.c b/hw/virtio/vhost-user-fs-pci.c
+>> index 2ed8492b3f..564d1fd108 100644
+>> --- a/hw/virtio/vhost-user-fs-pci.c
+>> +++ b/hw/virtio/vhost-user-fs-pci.c
+>> @@ -11,6 +11,8 @@
+>>    * top-level directory.
+>>    */
+>>   
+>> +#include "qemu/osdep.h"
+>> +#include "qapi/error.h"
+>>   #include "qemu/osdep.h"
+>>   #include "hw/qdev-properties.h"
+>>   #include "hw/virtio/vhost-user-fs.h"
+>> @@ -45,6 +47,11 @@ static void vhost_user_fs_pci_realize(VirtIOPCIProxy *vpci_dev, Error **errp)
+>>           vpci_dev->nvectors = dev->vdev.conf.num_request_queues + 2;
+>>       }
+>>   
+>> +    if (vpci_dev->flags & VIRTIO_PCI_FLAG_ATS) {
+>> +        error_setg(errp, "ATS is currently not supported with vhost-user-fs-pci");
+>> +        return;
+>> +    }
+> Why is this check needed in addition to VIRTIO_F_IOMMU_PLATFORM?
+>
+> What needs to be added to support ATS?
+>
+>> +
+>>       qdev_realize(vdev, BUS(&vpci_dev->bus), errp);
+>>   }
+>>   
+>> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+>> index ac4fc34b36..914d68b3ee 100644
+>> --- a/hw/virtio/vhost-user-fs.c
+>> +++ b/hw/virtio/vhost-user-fs.c
+>> @@ -203,6 +203,11 @@ static void vuf_device_realize(DeviceState *dev, Error **errp)
+>>           return;
+>>       }
+>>   
+>> +    if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM)) {
+>> +        error_setg(errp, "IOMMU is currently not supported with vhost-user-fs");
+>> +        return;
+>> +    }
+>> +
+>>       if (!vhost_user_init(&fs->vhost_user, &fs->conf.chardev, errp)) {
+> I thought IOMMU support depends on the vhost-user device backend (e.g.
+> virtiofsd), so the vhost-user backend should participate in advertising
+> this feature.
+>
+> Perhaps the check should be:
+>
+>      ret = vhost_dev_init(&fs->vhost_dev, &fs->vhost_user,
+>                           VHOST_BACKEND_TYPE_USER, 0);
+>      if (ret < 0) {
+>          error_setg_errno(errp, -ret, "vhost_dev_init failed");
+>          goto err_virtio;
+>      }
+> +
+> +   if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM) &&
+> +       !(fs->vhost_dev.hdev_features & (1ull << VIRTIO_F_IOMMU_PLATFORM))) {
+> +       error_setg(errp, "IOMMU is not supported by the vhost-user device backend");
+> +       goto err_iommu_needed;
+> +   }
+>
+> Also, can this logic be made generic for all vhost-user devices? It's
+> not really specific to vhost-user-fs.
 
-On Thu, 28 Jan 2021 at 16:54, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
+
+I am afraid I will need some additional guidance on how to do that. If I 
+am reading the code correctly, the vhost-user devices don't follow any 
+specific pattern. Looking at the vhost-user-fs code path, we have:
+
+vuf_device_realize -> vhost_dev_init -> vhost_user_backend_init
+
+So, I thought that naturally, if the check was in vuf_device_realize on 
+my previous patch, I should move it to vhost_user_backend_init. However, 
+in order to check if the VirtIODevice has been specified with the 
+VIRTIO_F_IOMMU_PLATFORM option, I would need to have access to the 
+VirtIODevice inside vhost_user_backend_init, which currently is not 
+available and not one of the arguments of vhost_backend_init virtual 
+function it implements. vhost_dev_init doesn't have access to 
+VirIODevices as well. Looking at other device types that call 
+vhost_dev_init, not all of them initialized the VirtIODevice by the time 
+vhost_dev_init is called (e.g. cryptodev-host). Hence, adding a 
+VirtIODevice as parameter to vhost_dev_init and vhost_backedn_init is 
+not a feasible solution. vhost_dev_init does receive structu vhost_dev 
+which has a field VirtIODevice vdev. But as the VirtIODevice hasn't been 
+initialized by the time vhost_dev_init is called on all vhost-user 
+devices today also makes this not a solution.
+
+Any ideas on this? Is it correct for a virtio-user devices to call 
+vhost_dev_init before having VirtIODevice ready?
+
+Leo
+
 
 >
-> Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
->
-> > Thanks a lot Alex!
-> >
-> >> All QEMU devices have two parts, a frontend (which the guest sees) and=
- a
-> >> backend (which is how the data gets to somewhere in the host). Some of
-> >> the command line options in QEMU elide the details for convenience (-n=
-ic
-> >> and -drive are examples). The -netdev device is all about configuring
-> >> the backend of the network part for a paired -device front end. There =
-is
-> >> a similar setup for audio (-audiodev) although I'll defer to Gerd's
-> >> expertise on how the two interact.
-> >
-> > This helped me understand a bit more about how the devices work. In the
-> > source
-> > code, I found the `virtio-net-pci.c` and `virtio-net.c` files, I think
-> the
-> > pci device is what is visible to the guest.
-> > So `virtio-net-pci.c` should be the front end?
->
-> No - they are both front-ends. In VirtIO you have two transports. The
-> first is virtio-mmio which is a simple set of memory mapped IO
-> registers. There is no discovery (well there is some but the guest needs
-> to find where in memory the mmio bus is via some method like hardcoded
-> address or DTB).
->
-> The second is virtio-pci. Here the virtio devices are encapsulated in a
-> PCI bus so you get the benefits of discovery and bus enumeration.
->
-So I am a bit confused here. First of there are two parts to a virtio
-device in general. One is the
-front end that the guest sees, and one is where the processing happens,
-which could be either in QEMU
-or as a separate daemon. In case of an in QEMU virtio device, the QEMU
-front end is replaced by the
-virtio-front end. Is that true? That's what I think should happen if both
-of those files are front ends.
-
-When you said earlier that all QEMU devices have two parts, I somehow
-thought that
-the in-QEMU backend for the audio device will itself have two parts.
-
->
-> > For the realize function, I saw that the `virtio_net_device_realize`
-> > function initializes
-> > the `net_conf` for the device. So I am guessing that the
-> > `virtio_snd_device_realize` function
-> > should initialize the number of jacks and streams a device has, along
-> with
-> > the configuration
-> > for all these jacks and streams?
->
-> No those are all front-end configuration knobs.
->
-I am assuming these are set from the command-line or the configuration
-files.
-
->
-> > The thing is I do not understand `net` devices all that well so I get a
-> bit
-> > confused with
-> > what is specific to a net device and what should I actually be worried
-> > about :)
-> >
-> > The device initalization step mentions that the jack and streams should
-> be
-> > read and
-> > a query should be made for the config of all jacks and streams. What
-> should
-> > be the
-> > default values of these configurations? I think the realize function is
-> > responsible
-> > for setting these up.
->
-> Gerd?
->
->
->
-> --
-> Alex Benn=C3=A9e
->
---
-Shreyansh
-
---0000000000003aaf1505b9f7b4b1
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 28 Jan 2021 at 16:54, Alex Be=
-nn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.=
-org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x"><br>
-Shreyansh Chouhan &lt;<a href=3D"mailto:chouhan.shreyansh2702@gmail.com" ta=
-rget=3D"_blank">chouhan.shreyansh2702@gmail.com</a>&gt; writes:<br>
-<br>
-&gt; Thanks a lot Alex!<br>
-&gt;<br>
-&gt;&gt; All QEMU devices have two parts, a frontend (which the guest sees)=
- and a<br>
-&gt;&gt; backend (which is how the data gets to somewhere in the host). Som=
-e of<br>
-&gt;&gt; the command line options in QEMU elide the details for convenience=
- (-nic<br>
-&gt;&gt; and -drive are examples). The -netdev device is all about configur=
-ing<br>
-&gt;&gt; the backend of the network part for a paired -device front end. Th=
-ere is<br>
-&gt;&gt; a similar setup for audio (-audiodev) although I&#39;ll defer to G=
-erd&#39;s<br>
-&gt;&gt; expertise on how the two interact.<br>
-&gt;<br>
-&gt; This helped me understand a bit more about how the devices work. In th=
-e<br>
-&gt; source<br>
-&gt; code, I found the `virtio-net-pci.c` and `virtio-net.c` files, I think=
- the<br>
-&gt; pci device is what is visible to the guest.<br>
-&gt; So `virtio-net-pci.c` should be the front end?<br>
-<br>
-No - they are both front-ends. In VirtIO you have two transports. The<br>
-first is virtio-mmio which is a simple set of memory mapped IO<br>
-registers. There is no discovery (well there is some but the guest needs<br=
->
-to find where in memory the mmio bus is via some method like hardcoded<br>
-address or DTB).<br>
-<br>
-The second is virtio-pci. Here the virtio devices are encapsulated in a<br>
-PCI bus so you get the benefits of discovery and bus enumeration.<br></bloc=
-kquote><div>So I am a bit confused here. First of there are two parts to a =
-virtio device in general. One is the</div><div>front end that the guest see=
-s, and one is where the processing happens, which could be either in QEMU</=
-div><div>or as a separate daemon. In case of an in QEMU virtio device, the =
-QEMU front end is replaced by the</div><div>virtio-front end. Is that true?=
- That&#39;s what I think should happen if both of those files are front end=
-s.</div><div><br></div><div>When you said earlier that all QEMU devices hav=
-e two parts, I somehow thought that<br></div><div>the in-QEMU backend for t=
-he audio device will itself have two parts.<br> </div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
-4,204,204);padding-left:1ex">
-<br>
-&gt; For the realize function, I saw that the `virtio_net_device_realize`<b=
-r>
-&gt; function initializes<br>
-&gt; the `net_conf` for the device. So I am guessing that the<br>
-&gt; `virtio_snd_device_realize` function<br>
-&gt; should initialize the number of jacks and streams a device has, along =
-with<br>
-&gt; the configuration<br>
-&gt; for all these jacks and streams?<br>
-<br>
-No those are all front-end configuration knobs. <br></blockquote><div>I am =
-assuming these are set from the command-line or the configuration files. <b=
-r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-&gt; The thing is I do not understand `net` devices all that well so I get =
-a bit<br>
-&gt; confused with<br>
-&gt; what is specific to a net device and what should I actually be worried=
-<br>
-&gt; about :)<br>
-&gt;<br>
-&gt; The device initalization step mentions that the jack and streams shoul=
-d be<br>
-&gt; read and<br>
-&gt; a query should be made for the config of all jacks and streams. What s=
-hould<br>
-&gt; be the<br>
-&gt; default values of these configurations? I think the realize function i=
-s<br>
-&gt; responsible<br>
-&gt; for setting these up.<br>
-<br>
-Gerd?<br>
-<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br></blockquote><div>--</div><div>Shreyansh<br></div></div=
-></div>
-
---0000000000003aaf1505b9f7b4b1--
+> Stefan
 
