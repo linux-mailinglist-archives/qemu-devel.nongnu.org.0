@@ -2,86 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A49307826
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:34:41 +0100 (CET)
-Received: from localhost ([::1]:59222 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9AB30782B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:36:53 +0100 (CET)
+Received: from localhost ([::1]:33714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l58Nc-0002lC-U8
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:34:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42508)
+	id 1l58Pk-00043I-KI
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:36:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43258)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l58LU-0001TF-FH; Thu, 28 Jan 2021 09:32:30 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:40280)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l58Os-0003ap-HJ
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:35:58 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:42062)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l58LL-00048W-Ij; Thu, 28 Jan 2021 09:32:22 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id gx5so8056518ejb.7;
- Thu, 28 Jan 2021 06:32:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l58On-0005Lk-9x
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:35:58 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id r12so8072465ejb.9
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 06:35:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=6DRo2VevtgZRCIOMvLkYVjMIfduDRPEFsCZj4TkdEHQ=;
- b=u1AO+jXQpl88AAm8tIxnUUhNsmJin8hGfSeH8pDp7C+Bi78tQuXdo8mIJq6FsjLLIm
- UauQNV0D3P8BXgR3sbIfdMWMZag0tdBTv/i6KWfcegcSLCPx3RT0cgsVY/fPGJ8My057
- jsFpyJ/eC4vQLdbbC3UsJmZy/L0jBgF365rM67X9g1Z/XHo+Xi+0mN+cTEGIH7be1wIA
- B+kVB3hsbkmOFh5iA6CbIbD2Y/K/qzx8G4VSsLzx+M3K9UTOcdESKg6QHSIyug9xJMaK
- c6onmf0yPmZHvG8gKzIxIAXi+cv6RwKTsZN9z0jk83A9l+sCekXoKMl+qicCm7cinipj
- +JMQ==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=xsRIlucWUb5TPL5OXmVQJ2hw4nmPVPeMlUvFG0l7Gic=;
+ b=gJaa/7UtW5sfreStZPlHF7QRJqYf9lC0yrwknlDqqsxPjtA8JS5sQp315//Lf6e3NX
+ 7q4cZ0cFFGEpDOnCJsRmc30aUOgbL8pLXAwg+1uREwwOz09i98cONZ3G1FxHP8A7R+4a
+ m7lBAi9EYIeqQ4bY3l4P6dy/2HIehY3I5uMTEZKzF2/TzaH6eV7VvaQ5KOt5jozXPd0z
+ lV6X37MIxHx7ZAy8BaveB+jU3qxi9KvIzTuyPROvUUYdfrLiUNwGBoO5hQYd+UHLB8mD
+ I7YEhaGT2Y64v+WPVdIg5FcwC1RS3jx04kMMdTbrEL1/sq8Dcpw5MPdzvGoTNSaRZ8+z
+ 8hCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=6DRo2VevtgZRCIOMvLkYVjMIfduDRPEFsCZj4TkdEHQ=;
- b=j67FASvI6ziLqCQhzqEh48B+zD5AwPAEPmqSrxfXvKdzc0JHSh21dyQ3XV/kYrqpPu
- p0CSHURiFAvR1TKN6nojBoqW8W+go4aRQ72P6eH7lnickGeJQZ5AWh+PQ85qnoBc9l3Y
- oBgcFZ1QMGrPrgcTxIJ8CYQU4Gf/vcO4IHPvt3i1C4PTJuL1NRWmT7QGWbhfpJYZ30oO
- 0GosC6OSEbeviDcUyw0dyZRqF/jQ0jYTiMpEF9aXpkibUu52VoUcBKTfm5bpcOqgMV3/
- o3MX7W2d4UJeT8k/vnLYtEwPzNy9+GlAp4oxtvTXXMPR2sfLxJGC4bxco381LY8EnLOQ
- M04g==
-X-Gm-Message-State: AOAM532dhS6lMuZ05azB21cdbEBADNkrXsOCakERSRZIojF3j2GLUF7i
- XJfUkkwVenjwwfbBAW/PsQc=
-X-Google-Smtp-Source: ABdhPJwRevZdeH84vTH50ZU8UAuiznFXZQAPSuidsG3QUX/j/c1RUtzyqJP8cNJfAnL3PIhIVSKN2Q==
-X-Received: by 2002:a17:906:49c2:: with SMTP id
- w2mr10883323ejv.12.1611844337423; 
- Thu, 28 Jan 2021 06:32:17 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id g25sm2337439ejf.15.2021.01.28.06.32.16
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jan 2021 06:32:16 -0800 (PST)
-Subject: Re: [PATCH v8 04/10] hw/ssi: imx_spi: Rework imx_spi_reset() to keep
- CONREG register value
-To: Peter Maydell <peter.maydell@linaro.org>, Bin Meng <bin.meng@windriver.com>
-References: <1611063546-20278-1-git-send-email-bmeng.cn@gmail.com>
- <1611063546-20278-5-git-send-email-bmeng.cn@gmail.com>
- <CAFEAcA-SG1nJ3g1dDSvZ99Wgduz+Wd0p483keCvd-oQNb0DO0A@mail.gmail.com>
- <CAEUhbmVTPnPBO-8qY1UoZ_4HR4d-GcMLcwCf-Hm20rhD9pSi5w@mail.gmail.com>
- <CAFEAcA_cE=fHmegAjs0Sefk4p1Fhi34ohjFcuxYFQUviBtRszQ@mail.gmail.com>
- <34c45d74-adec-2734-830b-612b5e2f6083@amsat.org>
- <CAFEAcA8=t6pxsvSt3FrPbAPXKT6y4t4hqjU8CXfbsw=RbbXK_w@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9a8312d7-d3b3-b896-a669-8ce8efc66bf0@amsat.org>
-Date: Thu, 28 Jan 2021 15:32:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=xsRIlucWUb5TPL5OXmVQJ2hw4nmPVPeMlUvFG0l7Gic=;
+ b=uQXIpYMW/PKR4nqVyMNV++9FlrgIxtBkjStgYLU5WtZGHS0Ax3b4onfv9yDcw5ul8F
+ yTySOrmbwOOpfa2akpGjUqYHNfV2gictOjtPsLwIQsgbgYJ3JLpIZ0mqJImxo0uaGdqe
+ Z8t+hOzH8l4ZpfhIq2pL+5Pnp/umL4KWVsUmA7ahX5ktsv4f56n9hwt5rLO3lEg1DYv/
+ 8rFcYymIRJ3otUi4DfB6nxQ2oNw14kU6D7PY14xN51RGYUPcqmRGJ1DpUF4Y6v7dmqTC
+ fz+sb6CTqM6TnZqERMe98N6iTmDJirAAnRVHczZvUOWqvKtcx2GRnBt5KIW6Gou5OwjD
+ mDVg==
+X-Gm-Message-State: AOAM533ZrK0az1QdaJq/EYIAuBIluUvFK0rEEOqMvcGU/MI1EJ03WCaL
+ jWgGRNHeD47JqJf0Da2S68DDVAcVE/KIV7Fvsak=
+X-Google-Smtp-Source: ABdhPJzn9VpM+82r7H1RxVZjD/iV8BVLlMxs5gcBwEKcqFcARf2bmnvAeDGjq69Oyj6vXtKtaX/kYIoBvVweJ+g00Tk=
+X-Received: by 2002:a17:906:4d8f:: with SMTP id
+ s15mr11454951eju.389.1611844551544; 
+ Thu, 28 Jan 2021 06:35:51 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8=t6pxsvSt3FrPbAPXKT6y4t4hqjU8CXfbsw=RbbXK_w@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20210128111319.329755-1-marcandre.lureau@redhat.com>
+ <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
+ <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
+ <CAMxuvazChfKDHyjP2o1ipfgquawMab9zc4p8J5wnNnmVMmJ1yw@mail.gmail.com>
+ <20210128142625.vzdrehzw6mufja3s@sirius.home.kraxel.org>
+In-Reply-To: <20210128142625.vzdrehzw6mufja3s@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 28 Jan 2021 18:35:39 +0400
+Message-ID: <CAJ+F1CJ0Z378KCLGDzLYOfBor7HkHM2YemRj5F-3kTSnVK7ADg@mail.gmail.com>
+Subject: Re: [PATCH] spice: delay starting until display are initialized
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,74 +83,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bmeng.cn@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
- Alistair Francis <alistair.francis@wdc.com>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/21 3:22 PM, Peter Maydell wrote:
-> On Thu, 28 Jan 2021 at 14:18, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> On 1/28/21 2:54 PM, Peter Maydell wrote:
->>> On Thu, 28 Jan 2021 at 13:47, Bin Meng <bmeng.cn@gmail.com> wrote:
->>>>
->>>> On Thu, Jan 28, 2021 at 9:43 PM Peter Maydell <peter.maydell@linaro.org> wrote:
->>>>> This retains the CONREG register value for both:
->>>>>  * 'soft' reset caused by write to device register to disable
->>>>>    the block
->>>>>    -- this is corrcet as per the datasheet quote
->>>>>  * 'power on' reset via TYPE_DEVICE's reset method
->>>>>    -- but in this case we should reset CONREG, because the Device
->>>>>    reset method is like a complete device powercycle and should
->>>>>    return the device state to what it was when QEMU was first
->>>>>    started.
->>>>
->>>> The POR value of CONREG is zero, which should be the default value, no?
->>>
->>> But you're not setting it to zero here, you're leaving it with
->>> whatever value it had before. (That's correct for soft reset,
->>> but wrong for power-on.)
->>
->> zero value on power-on is what I tried to describe as
->> "It is initialized to zero when the instance is created."
-> 
-> Yes, but QOM device reset does not happen just once at startup and
-> not thereafter. Consider:
-> 
->  * user starts QEMU
->  * QOM devices are created and realized
->  * QOM device reset happens
->      -- CONREG is zero here because QOM structs are zero-initialized
->  * guest runs
->  * guest modifies CONREG from its initial value
->  * system reset is requested (perhaps by user, perhaps by
->    guest writing some register or another)
->  * QOM device reset happens
->      -- CONREG is not zero here, so reset must clear it
+Hi
 
-Oh I totally missed that :S
+On Thu, Jan 28, 2021 at 6:28 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Thu, Jan 28, 2021 at 04:00:20PM +0400, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
+> >
+> > On Thu, Jan 28, 2021 at 3:57 PM Marc-Andr=C3=A9 Lureau <
+> > marcandre.lureau@redhat.com> wrote:
+> >
+> > > Hi
+> > >
+> > > On Thu, Jan 28, 2021 at 3:44 PM Gerd Hoffmann <kraxel@redhat.com> wro=
+te:
+> > >
+> > >>   Hi,
+> > >>
+> > >> > diff --git a/ui/spice-display.c b/ui/spice-display.c
+> > >> > index 0178d5766d..3d3e3bcb22 100644
+> > >> > --- a/ui/spice-display.c
+> > >> > +++ b/ui/spice-display.c
+> > >> > @@ -1188,4 +1188,6 @@ void qemu_spice_display_init(void)
+> > >> >          }
+> > >> >          qemu_spice_display_init_one(con);
+> > >> >      }
+> > >>
+> > >>        if (runstate_is_running()) {
+> > >>             qemu_spice_display_start();
+> > >>        }
+> > >>
+> > >> Isn't that enough?
+> > >>
+> > >
+> > > That should be fine too, I'll update the patch. thanks
+> > >
+> >
+> > Actually no, we still need to prevent the initial
+> > qemu_spice_display_start(), and do a single call when everything is rea=
+dy
+> > (since spice server doesn't handle adding interfaces dynamically when
+> > running).
+>
+> I still think that moving these three lines to the correct place is
+> enough.  Maybe even just qemu_spice_display_start() as it keeps track
+> of the state and you can safely call this twice.
+>
 
-Bin, I'd correct this as:
+It's not enough, since the first time qemu_spice_display_start() is
+called (on vm_start) the display interfaces aren't yet registered. And
+spice server doesn't automatically start the newly added interfaces.
 
-- extract imx_spi_soft_reset(IMXSPIState *s) from imx_spi_reset()
-- zero-initialize CONREG in imx_spi_reset().
 
-static void imx_spi_soft_reset(IMXSPIState *s)
-{
- ...
-}
 
-static void imx_spi_reset(DeviceState *dev)
-{
-    IMXSPIState *s = IMX_SPI(dev);
-
-    s->regs[ECSPI_CONREG] = 0;
-    imx_spi_soft_reset(s);
-}
-
-What do you think?
-
-Phil.
+--=20
+Marc-Andr=C3=A9 Lureau
 
