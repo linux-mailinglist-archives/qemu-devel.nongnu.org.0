@@ -2,50 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A7B307FD7
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:48:50 +0100 (CET)
-Received: from localhost ([::1]:60498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22CA430800C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:59:42 +0100 (CET)
+Received: from localhost ([::1]:36584 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5EDh-0003oj-8h
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:48:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36920)
+	id 1l5EOC-0006ut-Je
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:59:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l5ECB-0003IU-CQ
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:47:15 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:16697)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l5EC7-0004c4-O3
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:47:14 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id C0E0D74581E;
- Thu, 28 Jan 2021 21:47:06 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7CEAC7456B8; Thu, 28 Jan 2021 21:47:06 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 7B44A7456B7;
- Thu, 28 Jan 2021 21:47:06 +0100 (CET)
-Date: Thu, 28 Jan 2021 21:47:06 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>
-Subject: Re: vnc clipboard support
-In-Reply-To: <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
-Message-ID: <f6bc8d6a-9ad1-1d94-ff4a-252f92357338@eik.bme.hu>
-References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
- <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l5ELo-00062e-Si; Thu, 28 Jan 2021 15:57:13 -0500
+Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:47100)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l5ELj-0008FM-Hq; Thu, 28 Jan 2021 15:57:10 -0500
+Received: by mail-io1-xd2a.google.com with SMTP id u8so1958855ior.13;
+ Thu, 28 Jan 2021 12:57:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=ClwL21SYCczby0fzdeouhZvRnuLjLSW68RlEDZnH/Z4=;
+ b=QOW2NCaAU8wwg+x3yUu2RWFy+kkMwitApJLbicr0bcf+p12tneweMlbv5QVjfCFyz5
+ ztaq0pUO4GP/7JtmKX97BiNMN+mlk53fqha7u/5sqxShmAChfPs428Yqf92wU5gCQguD
+ uoSpcY89kZnA2APN7Nu9azj50LWbbIM7O0L7dRJx4CYl3c+meDIEB23AKWonV8sn8lKP
+ pKHRyGjiDx13T7ua49ZJrzYxRg/R9P4rriz2yFfQEaDVkradGY3Gcf+9McpPZAiW3H0M
+ sOM1R8kUQtoLqEwMOQNYXZVR8ZaCLfn+es5/4aXPXlC2y8fmmRjrVRH1I0GdYW48O+zk
+ NI4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=ClwL21SYCczby0fzdeouhZvRnuLjLSW68RlEDZnH/Z4=;
+ b=EUodjehTi+82vdJifQuqJk1Bgnn84nyJ1NqdLp2Sfqw+QizBo60NIQwcJP1EB6FjmP
+ OKLWdjQy0Ntlr8xLh87vYVqU8+LgAwBCm/+KsnSk9+QY4CCkgAIiF0PTEaShHNTcBNuA
+ cz34eHl9BuuamvKVv+vVidUyxWfKE+qMzvoq44DkpxRfBJoscNMxR6/hbh9dhyGUj0zh
+ BcoKeBlT05H9+diJqnYC8YxVb8dxlQ/0b/XYtAYen2kUdXDxgX/YHiS2fkZmKwfXdfVf
+ 0V9Ayy25Pv5j651jq3QUZz1uwL/OQBJD/Pc1jZNJ2hn7bi4DspXuhzFBuky1YbHgaLtc
+ zyYA==
+X-Gm-Message-State: AOAM5300K9WafYZYuwsLfF/E7jBTDuc3KWGTumPoYPesia2Jpw8Hskvd
+ Q8sZpxEyPBtMExUrq8gWxJuhPHmuFvVHnRzV93Q=
+X-Google-Smtp-Source: ABdhPJxkuSP6oHmqNPzrRvgKAwOhZ1rMaNS64n9eMZql7jn4iqE/lP3EM+cjppH8YY/Cky4Ysv7q/RF2RsoVwfgxwRc=
+X-Received: by 2002:a02:3b6c:: with SMTP id i44mr1035319jaf.91.1611867425548; 
+ Thu, 28 Jan 2021 12:57:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-134991964-1611866826=:48218"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210126060007.12904-1-bmeng.cn@gmail.com>
+ <20210126060007.12904-2-bmeng.cn@gmail.com>
+In-Reply-To: <20210126060007.12904-2-bmeng.cn@gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 28 Jan 2021 12:56:39 -0800
+Message-ID: <CAKmqyKN0=fqbsxEpsNJ7uJzG1YWnDH5EL+HFUTYZ0CDi9txdog@mail.gmail.com>
+Subject: Re: [PATCH v3 1/9] hw/block: m25p80: Add ISSI SPI flash support
+To: Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,82 +76,151 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Bin Meng <bin.meng@windriver.com>, Alistair Francis <alistair.francis@wdc.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Mon, Jan 25, 2021 at 10:01 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+>
+> From: Bin Meng <bin.meng@windriver.com>
+>
+> This adds the ISSI SPI flash support. The number of dummy cycles in
+> fast read, fast read dual output and fast read quad output commands
+> is currently using the default 8. Likewise, the same default value
+> is used for fast read dual/quad I/O command. Per the datasheet [1],
+> the number of dummy cycles is configurable, but this is not modeled
+> at present.
+>
+> For flash whose size is larger than 16 MiB, the sequence of 3-byte
+> address along with EXTADD bit in the bank address register (BAR) is
+> not supported. We assume that guest software always uses op codes
+> with 4-byte address sequence. Fortunately, this is the case for both
+> U-Boot and Linux spi-nor drivers.
+>
+> QPI (Quad Peripheral Interface) that supports 2-cycle instruction
+> has different default values for dummy cycles of fast read family
+> commands, and is unsupported at the time being.
+>
+> [1] http://www.issi.com/WW/pdf/25LP-WP256.pdf
+>
+> Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
---3866299591-134991964-1611866826=:48218
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
 
-On Fri, 29 Jan 2021, Marc-André Lureau wrote:
-> I also had recently some thoughts about how to implement clipboard sharing
-> in a more general way for QEMU.
->
-> I admit I like Christophe's suggestion ("it's somebody else problem"), but
-> it falls short to me as I don't know of a common open-source remoting
-> solution for various operating systems, and I don't see how it could
-> integrate well with our UI and remote protocols. Or look at reusing some
-> VirtualBox code perhaps?
+Alistair
 
-I also thought about VirtualBox may worth a look at as that supports 
-clipboard sharing and there's also Synergy 
-[https://en.wikipedia.org/wiki/Synergy_(software)] that I don't know much 
-but it's cross platform and may support clipboard sharing. It seems to 
-have an open source fork called Barrier: 
-https://github.com/debauchee/barrier
-
-Regards,
-BALATON Zoltan
-
-> Some things I keep in mind:
-> - the spice protocol had a number of iterations to fix some races. It would
-> be great not to repeat the same mistakes, and I don't know if VNC have the
-> same flaws or not.
-> - the spice agent design isn't great: the system agent proxies messages to
-> the active session. It would be nice if the new solution didn't have such a
-> middle-man.
-> - with wayland, clipboard sharing isn't really possible. Or not in a
-> seamless way at least. Today it kinda works with some X11 compatibility
-> extensions, but this will eventually go away or change behaviour.
-> - the GNOME desktop is working on remoting using RDP, and they are
-> implementing a DBus interface for it (
-> https://gitlab.gnome.org/jadahl/mutter/-/commits/wip/remote-desktop-clipboard
-> )
-> - it's not just about clipboard. We would also want to have some kind of
-> drag and drop (even if limited to files like Spice atm). We may want some
-> windowing integration. We may also want to have access to some desktop
-> services: apps, documents etc.. And what's not.
 >
-> That leads me to think that virtio-serial is not very well suited, as it
-> doesn't allow various services / processes to come and go. I see vsock as a
-> much better alternative. (I also wonder if it handles control flow any
-> better btw)
+> ---
 >
-> I think we shoud work on getting the free desktops our best-class support.
-> To me, this means we need to speak the lingua franca, which is DBus. The
-> great thing is that DBus is also equipped to handle services that come and
-> go, handling discovery, introspection etc. Various services are already
-> available. As mentioned earlier, that's what the GNOME desktop will offer
-> for clipboard sharing. There are good chances other desktops will follow if
-> that design works, as it should be easy for them to implement the same
-> service. That means good reuse of existing desktop code. Speaking DBus on
-> Windows, MacOS or Android isn't an issue. However, vsock support may be a
-> bit tricky atm.
+> (no changes since v2)
 >
-> Fwiw, DBus doesn't yet officially support vsock connections:
-> https://gitlab.freedesktop.org/dbus/dbus/-/merge_requests/200. This a minor
-> detail, as once you give it a fd for transport, it doesn't really care (I
-> also took care of glib!1892 and Rust zbus)
+> Changes in v2:
+> - Mention QPI (Quad Peripheral Interface) mode is not supported
 >
-> Oh and of course, since this is a new daemon, it would be really a shame
-> not to write it in a modern language (hint! ;-).
+>  hw/block/m25p80.c | 44 +++++++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 43 insertions(+), 1 deletion(-)
 >
-> Hope that helps,
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index b744a58d1c..217c130f56 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -412,6 +412,7 @@ typedef enum {
+>      MAN_NUMONYX,
+>      MAN_WINBOND,
+>      MAN_SST,
+> +    MAN_ISSI,
+>      MAN_GENERIC,
+>  } Manufacturer;
+>
+> @@ -487,6 +488,8 @@ static inline Manufacturer get_man(Flash *s)
+>          return MAN_MACRONIX;
+>      case 0xBF:
+>          return MAN_SST;
+> +    case 0x9D:
+> +        return MAN_ISSI;
+>      default:
+>          return MAN_GENERIC;
+>      }
+> @@ -706,6 +709,9 @@ static void complete_collecting_data(Flash *s)
+>          case MAN_SPANSION:
+>              s->quad_enable = !!(s->data[1] & 0x02);
+>              break;
+> +        case MAN_ISSI:
+> +            s->quad_enable = extract32(s->data[0], 6, 1);
+> +            break;
+>          case MAN_MACRONIX:
+>              s->quad_enable = extract32(s->data[0], 6, 1);
+>              if (s->len > 1) {
+> @@ -895,6 +901,19 @@ static void decode_fast_read_cmd(Flash *s)
+>                                      SPANSION_DUMMY_CLK_LEN
+>                                      );
+>          break;
+> +    case MAN_ISSI:
+> +        /*
+> +         * The Fast Read instruction code is followed by address bytes and
+> +         * dummy cycles, transmitted via the SI line.
+> +         *
+> +         * The number of dummy cycles is configurable but this is currently
+> +         * unmodeled, hence the default value 8 is used.
+> +         *
+> +         * QPI (Quad Peripheral Interface) mode has different default value
+> +         * of dummy cycles, but this is unsupported at the time being.
+> +         */
+> +        s->needed_bytes += 1;
+> +        break;
+>      default:
+>          break;
+>      }
+> @@ -934,6 +953,16 @@ static void decode_dio_read_cmd(Flash *s)
+>              break;
+>          }
+>          break;
+> +    case MAN_ISSI:
+> +        /*
+> +         * The Fast Read Dual I/O instruction code is followed by address bytes
+> +         * and dummy cycles, transmitted via the IO1 and IO0 line.
+> +         *
+> +         * The number of dummy cycles is configurable but this is currently
+> +         * unmodeled, hence the default value 4 is used.
+> +         */
+> +        s->needed_bytes += 1;
+> +        break;
+>      default:
+>          break;
+>      }
+> @@ -974,6 +1003,19 @@ static void decode_qio_read_cmd(Flash *s)
+>              break;
+>          }
+>          break;
+> +    case MAN_ISSI:
+> +        /*
+> +         * The Fast Read Quad I/O instruction code is followed by address bytes
+> +         * and dummy cycles, transmitted via the IO3, IO2, IO1 and IO0 line.
+> +         *
+> +         * The number of dummy cycles is configurable but this is currently
+> +         * unmodeled, hence the default value 6 is used.
+> +         *
+> +         * QPI (Quad Peripheral Interface) mode has different default value
+> +         * of dummy cycles, but this is unsupported at the time being.
+> +         */
+> +        s->needed_bytes += 3;
+> +        break;
+>      default:
+>          break;
+>      }
+> @@ -1132,7 +1174,7 @@ static void decode_new_cmd(Flash *s, uint32_t value)
+>
+>      case RDSR:
+>          s->data[0] = (!!s->write_enable) << 1;
+> -        if (get_man(s) == MAN_MACRONIX) {
+> +        if (get_man(s) == MAN_MACRONIX || get_man(s) == MAN_ISSI) {
+>              s->data[0] |= (!!s->quad_enable) << 6;
+>          }
+>          if (get_man(s) == MAN_SST) {
+> --
+> 2.25.1
 >
 >
---3866299591-134991964-1611866826=:48218--
 
