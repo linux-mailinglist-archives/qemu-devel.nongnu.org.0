@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C16B307A47
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:06:29 +0100 (CET)
-Received: from localhost ([::1]:42414 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A4D7307A48
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:06:39 +0100 (CET)
+Received: from localhost ([::1]:43372 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59oS-00016m-BF
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:06:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52248)
+	id 1l59oc-0001Z7-GN
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:06:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52484)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l59lj-0007yL-60
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:03:39 -0500
-Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:42443)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l59lw-0008Ok-QX; Thu, 28 Jan 2021 11:03:55 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:45493)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l59lg-0004aH-ML
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:03:38 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.236])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 99503239FBA;
- Thu, 28 Jan 2021 17:03:25 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l59lt-0004om-Ef; Thu, 28 Jan 2021 11:03:52 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.25])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id C84DB8019AE3;
+ Thu, 28 Jan 2021 17:03:46 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG8EX1.mxp5.local (172.16.2.71)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
- 2021 17:03:22 +0100
+ 2021 17:03:43 +0100
 Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002b2017eba-8a35-4857-84cd-99a48c1a3912,
+ (GARM-95G001033efc4b-e172-4507-ad99-959c0058cfde,
  12ABEFCAB104A9A3990DEAE01579FEA45C2F0BE3) smtp.auth=groug@kaod.org
 X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 28 Jan 2021 17:03:18 +0100
+Date: Thu, 28 Jan 2021 17:03:39 +0100
 From: Greg Kurz <groug@kaod.org>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 0/3] spapr, spapr_numa: fix max-associativity-domains
-Message-ID: <20210128170318.1e164823@bahia.lan>
-In-Reply-To: <20210128151731.1333664-1-danielhb413@gmail.com>
+Subject: Re: [PATCH 1/3] spapr: move spapr_machine_using_legacy_numa() to
+ spapr_numa.c
+Message-ID: <20210128170339.65e94e9b@bahia.lan>
+In-Reply-To: <20210128151731.1333664-2-danielhb413@gmail.com>
 References: <20210128151731.1333664-1-danielhb413@gmail.com>
+ <20210128151731.1333664-2-danielhb413@gmail.com>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG4EX2.mxp5.local (172.16.2.32) To DAG8EX1.mxp5.local
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG8EX1.mxp5.local
  (172.16.2.71)
-X-Ovh-Tracer-GUID: ec97004b-eabe-4ced-a1b9-49b881273fcc
-X-Ovh-Tracer-Id: 16162574641943910819
+X-Ovh-Tracer-GUID: d55cab4e-8f0b-4844-981e-2b701ddf184e
+X-Ovh-Tracer-Id: 16168485615002687907
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgdekudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=178.32.96.117; envelope-from=groug@kaod.org;
- helo=1.mo52.mail-out.ovh.net
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgdekudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelheenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, RCVD_IN_SBL=0.141,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -72,32 +74,72 @@ Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jan 2021 12:17:28 -0300
+On Thu, 28 Jan 2021 12:17:29 -0300
 Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-> Hi,
+> This function is used only in spapr_numa.c.
 > 
-> Patches 02 and 03 contain fixes for a problem Cedric found out when
-> booting TCG guests with multiple NUMA nodes. See patch 03 commit
-> message for more info.
-> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
 
-This paragraph mentions "TCG guests", but I see nothing that is
-specific to TCG in these patches... so I expect the problem to
-also exists with KVM, right ?
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-> First patch is an unrelated cleanup I did while investigating.
+>  hw/ppc/spapr.c         | 9 ---------
+>  hw/ppc/spapr_numa.c    | 9 +++++++++
+>  include/hw/ppc/spapr.h | 1 -
+>  3 files changed, 9 insertions(+), 10 deletions(-)
 > 
-> Daniel Henrique Barboza (3):
->   spapr: move spapr_machine_using_legacy_numa() to spapr_numa.c
->   spapr_numa.c: create spapr_numa_initial_nvgpu_NUMA_id() helper
->   spapr_numa.c: fix ibm,max-associativity-domains calculation
-> 
->  hw/ppc/spapr.c              | 21 ++------------------
->  hw/ppc/spapr_numa.c         | 39 ++++++++++++++++++++++++++++++++++++-
->  include/hw/ppc/spapr.h      |  1 -
->  include/hw/ppc/spapr_numa.h |  1 +
->  4 files changed, 41 insertions(+), 21 deletions(-)
-> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 6c47466fc2..2d60c6f594 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -295,15 +295,6 @@ static hwaddr spapr_node0_size(MachineState *machine)
+>      return machine->ram_size;
+>  }
+>  
+> -bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
+> -{
+> -    MachineState *machine = MACHINE(spapr);
+> -    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+> -
+> -    return smc->pre_5_2_numa_associativity ||
+> -           machine->numa_state->num_nodes <= 1;
+> -}
+> -
+>  static void add_str(GString *s, const gchar *s1)
+>  {
+>      g_string_append_len(s, s1, strlen(s1) + 1);
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index b50796bbe3..261810525b 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -19,6 +19,15 @@
+>  /* Moved from hw/ppc/spapr_pci_nvlink2.c */
+>  #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+>  
+> +static bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
+> +{
+> +    MachineState *machine = MACHINE(spapr);
+> +    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+> +
+> +    return smc->pre_5_2_numa_associativity ||
+> +           machine->numa_state->num_nodes <= 1;
+> +}
+> +
+>  static bool spapr_numa_is_symmetrical(MachineState *ms)
+>  {
+>      int src, dst;
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index c27c7ce515..ccbeeca1de 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -851,7 +851,6 @@ int spapr_max_server_number(SpaprMachineState *spapr);
+>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>                        uint64_t pte0, uint64_t pte1);
+>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+> -bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr);
+>  
+>  /* DRC callbacks. */
+>  void spapr_core_release(DeviceState *dev);
 
 
