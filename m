@@ -2,82 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3205307A70
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:14:49 +0100 (CET)
-Received: from localhost ([::1]:53464 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C390F307A61
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:13:29 +0100 (CET)
+Received: from localhost ([::1]:50848 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59wW-00073x-UE
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:14:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56686)
+	id 1l59vE-0005vC-E5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:13:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56268)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59vA-0006OU-Ua
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:13:24 -0500
-Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434]:35095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59v9-0000kZ-3a
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:13:24 -0500
-Received: by mail-wr1-x434.google.com with SMTP id l12so5987170wry.2
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 08:13:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=GYZyO00VQjHzmjg2hIqpnizUZVG0y7RGFc0p6NRR2Jk=;
- b=f/IPuVbt/0vnYFha6orgM69FmtN2WGnEEW8uGbc+CT0qLirM/oXeOIhtFf0fCgnpWk
- nLY+4gcZv+wRZuZn769UxBB99T5c0yRbipVs9a9LpOFEBrEtxbqx78aNJU46Q6TnrPhE
- I1u8axtuvpYoVP7leZfcJR9A/rT0sVkkm0HuFa9wwwGjQHbhJocTUdErOC/eT4AbuBhx
- 6MMGy2pWQ4HJLPssJDEUwo0fW7nVr513KI2H/B1WFf4z/js0qEGWz24R3luivh551DAu
- Y3fDr6gBYFLBMWs7hhSlyh2oY6U3iABeK9bDesuQ4koZLEfdCRpGvFwFqrXvOFKYmiho
- SKsA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=GYZyO00VQjHzmjg2hIqpnizUZVG0y7RGFc0p6NRR2Jk=;
- b=gg0IeBxmDJXU3sBBhtUkm++sQ7oPgoe0Fryh9mT5VhFNrirFS2XD6pEf1Clcv+2l5I
- pcxQz9nHcKbwTb6MjWAI34oxcx6s95TdMV69JPU9QO69NGi1w4FIR8Ym+WwzD+TeP1f4
- 87FFkOpq5u5kb8bS2DmU+nsZW1FwgALLd1anjr/98f3V3tYwC5cvCtXjIt3DMStXYUZr
- YbF95MY/uS4Fj4xD1KrYjMGSDt4Lm7FNEHf4XDaP+KKPnJPhx727ldpzzK5Wg5ierVYU
- bZn/uGG2mvIvZGpkA/TklT1/Wogu+DH4PZXIjvPRgzbjDhWQGkFNZ0zkxP42eobLzKht
- xcnQ==
-X-Gm-Message-State: AOAM531miYM5ArloDYK7fAeMjjR0BycL/p3pUQoov9pZAltWZCu3SNN7
- 8SF4xPxSGQWyeywVb0fJpigVQw==
-X-Google-Smtp-Source: ABdhPJy1vEL4lNHTC2pkRv4pZ9SiGjfuqEMmX6qD7LFmt6wVCf8DQzIZqsMV1fQvQbpf38MLPDtv/A==
-X-Received: by 2002:adf:9e47:: with SMTP id v7mr16884184wre.185.1611850401251; 
- Thu, 28 Jan 2021 08:13:21 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y63sm6576685wmd.21.2021.01.28.08.13.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 08:13:19 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B0AC71FF7E;
- Thu, 28 Jan 2021 16:13:18 +0000 (GMT)
-References: <20210128092814.8676-1-cfontana@suse.de>
- <20210128092814.8676-19-cfontana@suse.de>
- <64d8385c-db22-b647-2402-3840b0e0e9b5@redhat.com>
- <9a51a203-f6a8-686f-7859-475537b3607a@suse.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v14 18/22] accel: introduce AccelCPUClass extending
- CPUClass
-Date: Thu, 28 Jan 2021 16:08:48 +0000
-In-reply-to: <9a51a203-f6a8-686f-7859-475537b3607a@suse.de>
-Message-ID: <878s8dujj5.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l59tW-00050N-PV
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:11:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:34424)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1l59tT-0000E5-Q8
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:11:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611850296;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1fkEWeH14aNMpFwEXVbdXki5s4mPrVPzgYDFM92QU4c=;
+ b=B8tB6TixhCiMVWKlw0AA6D+3AEEgITjiZ8bogrVuc+smheLwpKV33MN8Hel5hY8sycQftz
+ YLHaHtlT8BLNz4ByYeDGUK0NS27QmddSqWTTHLEhE1mhVlw+bcVCQRZ+vjlgSGAAW6/KmQ
+ Ma1vdkwA+4hrVx2+EOMRPE5DmftcsuY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-500-TgjZCLM1N-GI6l_Ku0E4aQ-1; Thu, 28 Jan 2021 11:11:32 -0500
+X-MC-Unique: TgjZCLM1N-GI6l_Ku0E4aQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7A0E01922027;
+ Thu, 28 Jan 2021 16:11:31 +0000 (UTC)
+Received: from localhost (ovpn-112-242.ams2.redhat.com [10.36.112.242])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5D0A760C9B;
+ Thu, 28 Jan 2021 16:11:25 +0000 (UTC)
+Date: Thu, 28 Jan 2021 16:11:24 +0000
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH v3] virtiofsd: prevent opening of special files
+ (CVE-2020-35517)
+Message-ID: <20210128161124.GB20377@stefanha-x1.localdomain>
+References: <20210127112131.308451-1-stefanha@redhat.com>
+ <CAOssrKfY7zDOH3NNbtyARHMCdJJN1tKQJri8ec=igjBf=K6Dog@mail.gmail.com>
+ <20210127141430.GA310142@stefanha-x1.localdomain>
+ <20210127162332.272e5a95@bahia.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::434;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210127162332.272e5a95@bahia.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="O5XBE6gyVG5Rl6Rj"
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,70 +82,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Miklos Szeredi <mszeredi@redhat.com>, Daniel Berrange <berrange@redhat.com>,
+ Sergio Lopez Pascual <slp@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, Alex Xu <alex@alxu.ca>,
+ P J P <ppandit@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+--O5XBE6gyVG5Rl6Rj
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Claudio Fontana <cfontana@suse.de> writes:
+On Wed, Jan 27, 2021 at 04:23:32PM +0100, Greg Kurz wrote:
+> On Wed, 27 Jan 2021 14:14:30 +0000
+> Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>=20
+> > On Wed, Jan 27, 2021 at 02:01:54PM +0100, Miklos Szeredi wrote:
+> > > On Wed, Jan 27, 2021 at 12:21 PM Stefan Hajnoczi <stefanha@redhat.com=
+> wrote:
+> > >               }
+> > > > @@ -1654,9 +1677,11 @@ static void update_open_flags(int writeback,=
+ int allow_direct_io,
+> > > >  static void lo_create(fuse_req_t req, fuse_ino_t parent, const cha=
+r *name,
+> > > >                        mode_t mode, struct fuse_file_info *fi)
+> > > >  {
+> > > > +    int open_flags =3D (fi->flags | O_CREAT) & ~O_NOFOLLOW;
+> > > >      int fd;
+> > > >      struct lo_data *lo =3D lo_data(req);
+> > > >      struct lo_inode *parent_inode;
+> > > > +    struct lo_inode *existing_inode =3D NULL;
+> > > >      struct fuse_entry_param e;
+> > > >      int err;
+> > > >      struct lo_cred old =3D {};
+> > > > @@ -1682,11 +1707,23 @@ static void lo_create(fuse_req_t req, fuse_=
+ino_t parent, const char *name,
+> > > >
+> > > >      update_open_flags(lo->writeback, lo->allow_direct_io, fi);
+> > > >
+> > > > -    fd =3D openat(parent_inode->fd, name, (fi->flags | O_CREAT) & =
+~O_NOFOLLOW,
+> > > > -                mode);
+> > > > +    /* First, try to create a new file but don't open existing fil=
+es */
+> > > > +    fd =3D openat(parent_inode->fd, name, open_flags | O_EXCL, mod=
+e);
+> > > >      err =3D fd =3D=3D -1 ? errno : 0;
+> > > > +
+> > > >      lo_restore_cred(&old);
+> > > >
+> > > > +    /* Second, open existing files if O_EXCL was not specified */
+> > > > +    if (err =3D=3D EEXIST && !(fi->flags & O_EXCL)) {
+> > > > +        existing_inode =3D lookup_name(req, parent, name);
+> > > > +        if (existing_inode) {
+> > > > +            fd =3D lo_inode_open(lo, existing_inode, open_flags);
+> > > > +            if (fd < 0) {
+> > > > +                err =3D -fd;
+> > > > +            }
+> > > > +        }
+> > > > +    }
+> > > > +
+> > > >      if (!err) {
+> > > >          ssize_t fh;
+> > >=20
+> > > It's more of a mess than I thought.
+> > >=20
+> > > The problem here is there can also be a race between the open and the
+> > > subsequent lo_do_lookup().
+> > >=20
+> > > At this point it's probably enough to verify that fuse_entry_param
+> > > refers to the same object as the fh (using fstat and comparing st_dev
+> > > and st_ino).
+> >=20
+> > Can you describe the race in detail? FUSE_CREATE vs FUSE_OPEN?
+> > FUSE_CREATE vs FUSE_CREATE?
+> >=20
+> > > Also O_CREAT open is not supposed to return ENOENT, so failure to ope=
+n
+> > > without O_CREAT (race between O_CREAT open and plain open) should at
+> > > least translate error to ESTALE or EIO.
+> >=20
+> > Thanks, will fix.
+> >=20
+>=20
+> Please wait, as explained in another mail, ENOENT can happen with
+> O_CREAT and guest userspace should be ready to handle it.
 
-> On 1/28/21 2:03 PM, Philippe Mathieu-Daud=C3=A9 wrote:
->> On 1/28/21 10:28 AM, Claudio Fontana wrote:
-<snip>
->>> +
->>> +#define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
->>> +#define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
->>> +typedef struct AccelCPUClass AccelCPUClass;
->>> +DECLARE_CLASS_CHECKERS(AccelCPUClass, ACCEL_CPU, TYPE_ACCEL_CPU)
->>> +
->>> +typedef struct AccelCPUClass {
->>> +    /*< private >*/
->>> +    ObjectClass parent_class;
->>> +    /*< public >*/
->>> +
->>> +    void (*cpu_class_init)(CPUClass *cc);
->>> +    void (*cpu_instance_init)(CPUState *cpu);
->>> +    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
->>=20
->> If we want callers to check errp, better have the prototype return
->> a boolean.
->
-> Good point, the whole errp thing is worth revisiting in the series,
-> there are many cases (which are basically reproduced in the refactoring f=
-rom existing code),
-> where errp is passed but is really unused.
->
-> I am constantly internally debating whether to remove the parameter altog=
-ether, or to keep it in there.
->
-> What would you suggest?
+Thanks, I have now read the discussion between Miklos and yourself on
+the previous revision. You showed an interesting O_CREAT case where
+ENOENT does occur.
 
-I think it really depends on if we can expect the realizefn to usefully
-return an error message that can be read and understood by the user. I
-guess this comes down to how much user config is going to be checked at
-the point we realize the CPU?
+The O_NOFOLLOW issue is worth fixing but it's not directly related to
+this CVE so it can be done in a separate patch.
 
-The bool returning realizefn with Error is a fairly common pattern.
+Miklos, Greg: Any other topics to discuss regarding this patch or shall
+we merge it?
 
->
->>=20
->>> +} AccelCPUClass;
->>=20
->>=20
->
-> Thanks for looking at this,
->
-> Claudio
+Stefan
 
+--O5XBE6gyVG5Rl6Rj
+Content-Type: application/pgp-signature; name="signature.asc"
 
---=20
-Alex Benn=C3=A9e
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAS4isACgkQnKSrs4Gr
+c8i6yggApFSRgn1s8X4QjQIeBky4aqh2jScSu7YIGC0yTrq0sRJtxAei9l5N00Er
+9wrsiWJwss2wIVZjW096Lss1OduGtrEfbp3RHL5PeDmYVzyN9ot+BS6x/LqPv1KY
+Nk+O2vUAMHoAjFuIxJ4oXPg/erRwThbBgaUPrk1ktugNd1hLfxCEGT1rbfpeFiFv
+zvR0QtbNlhPI3n0Ltgx0LrDMtOOFs6ndHgred5knuGZmznBp7kneqMSX4DDWbTPg
+Ti3aFOlT8zxNueN4sLJhaOlS2PIeYxmco/6FkU6t1zmeEcwN3Jcgtr3FnDdxlYYz
+XrNtfHQEqK3KTMt6nzihww7xtrtCwg==
+=MR4L
+-----END PGP SIGNATURE-----
+
+--O5XBE6gyVG5Rl6Rj--
+
 
