@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D88ED30818C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 23:56:24 +0100 (CET)
-Received: from localhost ([::1]:48698 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C66F3308198
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 23:58:36 +0100 (CET)
+Received: from localhost ([::1]:52632 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5GD9-0002rS-Tv
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 17:56:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33288)
+	id 1l5GFH-0004UI-Pz
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 17:58:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33336)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5Fzc-0005eE-UF
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 17:42:24 -0500
-Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:41584)
+ id 1l5Fzf-0005l1-7H
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 17:42:27 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:44512)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5FzM-0008A8-1X
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 17:42:24 -0500
-Received: by mail-pg1-x52e.google.com with SMTP id i7so5277695pgc.8
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 14:42:07 -0800 (PST)
+ id 1l5FzP-0008AR-OA
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 17:42:26 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id t29so4962225pfg.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 14:42:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=3ZJGnXzF/NMDb1ycGSuuM5DTXpfVPEQ3f0lC4BF0AxI=;
- b=pbRkK3IaVOuCPYjmdn+qbJWZnZgI2Vlttcs3pu6ylmrf1y/64VpXi4t4gaEQM24GvZ
- UdMXOjgPcTYCt+LFPBIJ/4yrufITKEwp0RGkyumSrwa/YFiua2QBX/oEnd7c81LyvdWv
- W2Z8weYXAGOtMABscklC8UtbqUXw2EzANfMpKkcMtgwJS4CkstXyt0cThA9fEXnRVFWw
- BdMrz3EmnXIKlccxWr4/PxU+dcp5gYWfYzAI16D5WDpe5tRhhwNMZn/Tx3F9aBc0c0ls
- QEWFLldga2q4QtMkVVL29PB799q0io14N86sLuffUu20kvkN0yI4Cool7DzVvB0Pu9EL
- 7Krw==
+ bh=QgNyelKt2GngvKbsoMDpo4CJhyrMaW41bQD6ElDWNXc=;
+ b=IySlJ/+gM72ylDP0saKIP+vk9AVwNxn1CW9eAahP6Co3EiWHHZwhDyHM6aJRuIkXL5
+ 8hE7YwhvnJrPXn+dcqgf1uM4qKQE/H/qMQj0DSi7XXw78TLH4KYkQnTKIMgoRFy4xnTC
+ CLBcfyEnhSq2KrltiI9YXpmW+tDWvDgAtyjlcHMsmt7lGnu5drfBb7tWE9SjQmsS28io
+ GjnO17yTW51DAkBkVpxH8Y/UdPE0SYgwlcbJRnkUNCLwg0K2sLlGeztIaa+iYMvTxAu7
+ joPgdA1kAAfyXmvS31fURzoVK4moiWLpoUbWTkPMOojp35DVdlxSy//v6ijuHR/AJV4B
+ vHcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=3ZJGnXzF/NMDb1ycGSuuM5DTXpfVPEQ3f0lC4BF0AxI=;
- b=sq+GerO1GM0aZCrL4FNIwYXKaOvU21wcUQ/lpBYybwoCjxg8RZnmcoNvshvsEI8kyO
- trBzAWxXtPdsXtmNukv6uXkH8exyst+kPm4bL/17RAqJg8zAtOUu09oJEdCYFEPXxnym
- Xtk5kjmdSCkYUEVfT5gtk4B1LGsvOEBdQ56++tkF3CuiTEQv6GmIhJGS5Fbiym8rV9eh
- Az3jNgmmu3xkZYdZe+ApX9cHLorBeecUoSrVlyc5y9wrkV/Er7cIAg8QEre8KTqxT/+v
- MV+emTDGQvJLZi0zaMacSz5IwN3ufEGDu7WRuty4mzTj0iROxUazOwLmP9NANuGyMSC/
- xUag==
-X-Gm-Message-State: AOAM531mbxETMjXdSb51v6YIbTB514LpXxgqRSkL3sLlXg14J6g/a+zx
- VQaT0FgnW7390PzIwLg+CB30NsofXUKMcf0c
-X-Google-Smtp-Source: ABdhPJwWbvaAdkhaD+Z/Pg1aN8jbMqy8bUivAxx8cppd4NYOsAqKZ6VJAA8c9go2Civ1HOkpo9bJOQ==
-X-Received: by 2002:a63:1865:: with SMTP id 37mr1595347pgy.206.1611873726197; 
- Thu, 28 Jan 2021 14:42:06 -0800 (PST)
+ bh=QgNyelKt2GngvKbsoMDpo4CJhyrMaW41bQD6ElDWNXc=;
+ b=H57QJvYnJYYA4e3C8hep4lzHds4Q8c8DUte55hy0QZd4cqKjPVUb3ktpcDj1BX2HqC
+ R/hVy2pfKZoTxR3vDYVHqW4y7Wr0ijoofZNTmvHh1HxFfg7IMA3ZYZ82TfGMh2gL1DT6
+ FGgr8OcZKUYRmthIldm5uL7PqMkuda9XtlXUCW1fFNNc72J7y0O3JiOokOwgU8jkZUgs
+ j9Dj2w0EoinOc/38h0gh7iRxR7tDkMUOxhWBMFWeoZZMZeT3Cvg124TBDVc4g80dgmK2
+ IxlKrPedUaoDEPdpphrcSRAnfvKxviFUtapDcU3aC9U+mV48dY1WILFB9WBIKj4zZHr1
+ cEug==
+X-Gm-Message-State: AOAM5303Ox5p3BNLd4S5rc5JWNY/k5+lhk480dFQX1t2g00vDInIZTNd
+ GnWuX/FD76A7EXlt/ghbi/iqeNZclEsWEGQ2
+X-Google-Smtp-Source: ABdhPJzKLL+UPLQSAH9mmrq836tG8OrwZV+818yELjwKHYFc3r3B00e4GhfSJlwL/mK1UucYpCPYJQ==
+X-Received: by 2002:aa7:9d0c:0:b029:1bd:1e1f:8885 with SMTP id
+ k12-20020aa79d0c0000b02901bd1e1f8885mr1469801pfp.48.1611873727910; 
+ Thu, 28 Jan 2021 14:42:07 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id m10sm6042358pjs.25.2021.01.28.14.42.04
+ by smtp.gmail.com with ESMTPSA id m10sm6042358pjs.25.2021.01.28.14.42.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 14:42:05 -0800 (PST)
+ Thu, 28 Jan 2021 14:42:07 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 13/23] target/arm: Improve gen_top_byte_ignore
-Date: Thu, 28 Jan 2021 12:41:31 -1000
-Message-Id: <20210128224141.638790-14-richard.henderson@linaro.org>
+Subject: [PATCH v4 14/23] target/arm: Use the proper TBI settings for
+ linux-user
+Date: Thu, 28 Jan 2021 12:41:32 -1000
+Message-Id: <20210128224141.638790-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210128224141.638790-1-richard.henderson@linaro.org>
 References: <20210128224141.638790-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,49 +89,69 @@ Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use simple arithmetic instead of a conditional
-move when tbi0 != tbi1.
+We were fudging TBI1 enabled to speed up the generated code.
+Now that we've improved the code generation, remove this.
+Also, tidy the comment to reflect the current code.
+
+The pauth test was testing a kernel address (-1) and making
+incorrect assumptions about TBI1; stick to userland addresses.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/translate-a64.c | 25 ++++++++++++++-----------
- 1 file changed, 14 insertions(+), 11 deletions(-)
+ target/arm/internals.h      |  4 ++--
+ target/arm/cpu.c            | 10 +++-------
+ tests/tcg/aarch64/pauth-2.c |  1 -
+ 3 files changed, 5 insertions(+), 10 deletions(-)
 
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index ffc060e5d7..3ec0dc17d8 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -183,17 +183,20 @@ static void gen_top_byte_ignore(DisasContext *s, TCGv_i64 dst,
-         /* Sign-extend from bit 55.  */
-         tcg_gen_sextract_i64(dst, src, 0, 56);
- 
--        if (tbi != 3) {
--            TCGv_i64 tcg_zero = tcg_const_i64(0);
--
--            /*
--             * The two TBI bits differ.
--             * If tbi0, then !tbi1: only use the extension if positive.
--             * if !tbi0, then tbi1: only use the extension if negative.
--             */
--            tcg_gen_movcond_i64(tbi == 1 ? TCG_COND_GE : TCG_COND_LT,
--                                dst, dst, tcg_zero, dst, src);
--            tcg_temp_free_i64(tcg_zero);
-+        switch (tbi) {
-+        case 1:
-+            /* tbi0 but !tbi1: only use the extension if positive */
-+            tcg_gen_and_i64(dst, dst, src);
-+            break;
-+        case 2:
-+            /* !tbi0 but tbi1: only use the extension if negative */
-+            tcg_gen_or_i64(dst, dst, src);
-+            break;
-+        case 3:
-+            /* tbi0 and tbi1: always use the extension */
-+            break;
-+        default:
-+            g_assert_not_reached();
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index 853fa88fd6..6efe0c303e 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1413,9 +1413,9 @@ static inline bool tcma_check(uint32_t desc, int bit55, int ptr_tag)
+  */
+ static inline uint64_t useronly_clean_ptr(uint64_t ptr)
+ {
+-    /* TBI is known to be enabled. */
+ #ifdef CONFIG_USER_ONLY
+-    ptr = sextract64(ptr, 0, 56);
++    /* TBI0 is known to be enabled, while TBI1 is disabled. */
++    ptr &= sextract64(ptr, 0, 56);
+ #endif
+     return ptr;
+ }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 40142ac141..db81a12418 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -200,14 +200,10 @@ static void arm_cpu_reset(DeviceState *dev)
+             env->vfp.zcr_el[1] = MIN(cpu->sve_max_vq - 1, 3);
          }
-     }
+         /*
+-         * Enable TBI0 and TBI1.  While the real kernel only enables TBI0,
+-         * turning on both here will produce smaller code and otherwise
+-         * make no difference to the user-level emulation.
+-         *
+-         * In sve_probe_page, we assume that this is set.
+-         * Do not modify this without other changes.
++         * Enable TBI0 but not TBI1.
++         * Note that this must match useronly_clean_ptr.
+          */
+-        env->cp15.tcr_el[1].raw_tcr = (3ULL << 37);
++        env->cp15.tcr_el[1].raw_tcr = (1ULL << 37);
+ #else
+         /* Reset into the highest available EL */
+         if (arm_feature(env, ARM_FEATURE_EL3)) {
+diff --git a/tests/tcg/aarch64/pauth-2.c b/tests/tcg/aarch64/pauth-2.c
+index 9bba0beb63..978652ede3 100644
+--- a/tests/tcg/aarch64/pauth-2.c
++++ b/tests/tcg/aarch64/pauth-2.c
+@@ -53,7 +53,6 @@ void do_test(uint64_t value)
+ int main()
+ {
+     do_test(0);
+-    do_test(-1);
+     do_test(0xda004acedeadbeefull);
+     return 0;
  }
 -- 
 2.25.1
