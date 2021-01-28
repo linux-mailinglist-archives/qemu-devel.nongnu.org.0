@@ -2,51 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AE04306AC9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:56:30 +0100 (CET)
-Received: from localhost ([::1]:33204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F37DC306A66
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:33:52 +0100 (CET)
+Received: from localhost ([::1]:41086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4wXt-0007bf-M1
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:56:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55990)
+	id 1l4wBz-0006GS-Hs
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:33:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wOB-00088o-Pd; Wed, 27 Jan 2021 20:46:27 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:51517)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO8-0005Bs-VV; Wed, 27 Jan 2021 20:46:27 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DR3GW02Nvz9sWd; Thu, 28 Jan 2021 12:46:10 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611798371;
- bh=ivVKVoR04xRkdiECTJBUrXsE/c5z8T2YMeORW8shlck=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=NhNdDIbVRL2Cs7G/1SbZ+8AhIkzKiBqoK/UUgXChXKlqGgJctLyegttRYXQl8vCtd
- Hq4SbYrkqhiYGe/B6VG+p8B737uZmhco9ax5alqx27xgYsSLvxgL26nhZ03R7gtUPb
- kjbsZsbWdyTOakZxmTqa+aQlarAiPC4lX/HD8yF0=
-Date: Thu, 28 Jan 2021 11:54:32 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 7/7] ppc/pnv: Introduce a LPC FW memory region attribute
- to map the PNOR
-Message-ID: <20210128005432.GJ18347@yekko.fritz.box>
-References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-8-clg@kaod.org>
+ (Exim 4.90_1) (envelope-from <08005325@163.com>)
+ id 1l4w9W-0005hk-K9; Wed, 27 Jan 2021 20:31:20 -0500
+Received: from m12-18.163.com ([220.181.12.18]:44906)
+ by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <08005325@163.com>)
+ id 1l4w9O-0003Mu-OV; Wed, 27 Jan 2021 20:31:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+ s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=at2IN
+ pQT/KRyzHK5L7f8Nl2JX3MBfbTeTML2cHqlwQI=; b=hQ/uCK2a34mt6IN2VjcIH
+ dzcHEg6Vf6LEOtudIXOAcN+Q2m9zKU+JI+2EG4rMj3oH9cjdpahZ1vtQEgpo5HOU
+ i5eKgMpUu0AfDLH79dKLSdrdC2RVrVfwpcowSfjOMNSmPmOs2u7t8kP0YV7WJ6Cb
+ yQEGGBRqViWlo70u7yiG9E=
+Received: from localhost.localdomain (unknown [116.228.45.98])
+ by smtp14 (Coremail) with SMTP id EsCowAC3vwPPExJgzSZ7RQ--.40889S2;
+ Thu, 28 Jan 2021 09:30:55 +0800 (CST)
+From: 08005325@163.com
+To: kwolf@redhat.com,
+	mreitz@redhat.com,
+	jsnow@redhat.com
+Subject: [PATCH v4] blockjob: Fix crash with IOthread when block commit after
+ snapshot
+Date: Thu, 28 Jan 2021 09:30:53 +0800
+Message-Id: <20210128013053.23266-1-08005325@163.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210126032545.13349-1-08005325@163.com>
+References: <20210126032545.13349-1-08005325@163.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QxN5xOWGsmh5a4wb"
-Content-Disposition: inline
-In-Reply-To: <20210126171059.307867-8-clg@kaod.org>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID: EsCowAC3vwPPExJgzSZ7RQ--.40889S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxCr1DGw4DWFWrtry3Gw4rKrg_yoW5Gw1rpF
+ y7Xanayw18AFySvayqy3W0gF1rKwnYvF4UGwn8tr4rCry3X3Z2gr1FyFyjvFyUXrZ7tF4j
+ vayjga4xtFs0yrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+ 9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jB388UUUUU=
+X-Originating-IP: [116.228.45.98]
+X-CM-SenderInfo: qqyqikqtsvqiywtou0bp/1tbiGQ8orFyPbumU1QAAsH
+Received-SPF: pass client-ip=220.181.12.18; envelope-from=08005325@163.com;
+ helo=m12-18.163.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
 X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,149 +68,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Michael Qiu <qiudayu@huayun.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Michael Qiu <qiudayu@huayun.com>
 
---QxN5xOWGsmh5a4wb
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+v4: rebase to latest code
 
-On Tue, Jan 26, 2021 at 06:10:59PM +0100, C=E9dric Le Goater wrote:
-> This to map the PNOR from the machine init handler directly and finish
-> the cleanup of the LPC model.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
+v3: reformat the commit log, remove duplicate content
 
-Applied to ppc-for-6.0, thanks.
+v2: modify the coredump backtrace within commit log with the newest
+    qemu with master branch
 
-> ---
->  include/hw/ppc/pnv.h |  1 +
->  hw/ppc/pnv.c         | 11 +++++++++++
->  hw/ppc/pnv_lpc.c     |  7 -------
->  3 files changed, 12 insertions(+), 7 deletions(-)
->=20
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index ee7eda3e0102..d69cee17b232 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -58,6 +58,7 @@ struct PnvChip {
->      MemoryRegion xscom;
->      AddressSpace xscom_as;
-> =20
-> +    MemoryRegion *fw_mr;
->      gchar        *dt_isa_nodename;
->  };
-> =20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index e500c2e2437e..50810df83815 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -871,6 +871,14 @@ static void pnv_init(MachineState *machine)
->          pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
->      }
-> =20
-> +    /*
-> +     * The PNOR is mapped on the LPC FW address space by the BMC.
-> +     * Since we can not reach the remote BMC machine with LPC memops,
-> +     * map it always for now.
-> +     */
-> +    memory_region_add_subregion(pnv->chips[0]->fw_mr, PNOR_SPI_OFFSET,
-> +                                &pnv->pnor->mmio);
-> +
->      /*
->       * OpenPOWER systems use a IPMI SEL Event message to notify the
->       * host to powerdown
-> @@ -1150,6 +1158,7 @@ static void pnv_chip_power8_realize(DeviceState *de=
-v, Error **errp)
->      qdev_realize(DEVICE(&chip8->lpc), NULL, &error_fatal);
->      pnv_xscom_add_subregion(chip, PNV_XSCOM_LPC_BASE, &chip8->lpc.xscom_=
-regs);
-> =20
-> +    chip->fw_mr =3D &chip8->lpc.isa_fw;
->      chip->dt_isa_nodename =3D g_strdup_printf("/xscom@%" PRIx64 "/isa@%x=
-",
->                                              (uint64_t) PNV_XSCOM_BASE(ch=
-ip),
->                                              PNV_XSCOM_LPC_BASE);
-> @@ -1479,6 +1488,7 @@ static void pnv_chip_power9_realize(DeviceState *de=
-v, Error **errp)
->      memory_region_add_subregion(get_system_memory(), PNV9_LPCM_BASE(chip=
-),
->                                  &chip9->lpc.xscom_regs);
-> =20
-> +    chip->fw_mr =3D &chip9->lpc.isa_fw;
->      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
-@0",
->                                              (uint64_t) PNV9_LPCM_BASE(ch=
-ip));
-> =20
-> @@ -1592,6 +1602,7 @@ static void pnv_chip_power10_realize(DeviceState *d=
-ev, Error **errp)
->      memory_region_add_subregion(get_system_memory(), PNV10_LPCM_BASE(chi=
-p),
->                                  &chip10->lpc.xscom_regs);
-> =20
-> +    chip->fw_mr =3D &chip10->lpc.isa_fw;
->      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
-@0",
->                                              (uint64_t) PNV10_LPCM_BASE(c=
-hip));
->  }
-> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-> index 11739e397b27..bcbca3db9743 100644
-> --- a/hw/ppc/pnv_lpc.c
-> +++ b/hw/ppc/pnv_lpc.c
-> @@ -824,7 +824,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
-l use_cpld, Error **errp)
->      ISABus *isa_bus;
->      qemu_irq *irqs;
->      qemu_irq_handler handler;
-> -    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
-> =20
->      /* let isa_bus_new() create its own bridge on SysBus otherwise
->       * devices specified on the command line won't find the bus and
-> @@ -850,11 +849,5 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bo=
-ol use_cpld, Error **errp)
-> =20
->      isa_bus_irqs(isa_bus, irqs);
-> =20
-> -    /*
-> -     * TODO: Map PNOR on the LPC FW address space on demand ?
-> -     */
-> -    memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
-> -                                &pnv->pnor->mmio);
-> -
->      return isa_bus;
->  }
+Currently, if guest has workloads, IO thread will acquire aio_context
+lock before do io_submit, it leads to segmentfault when do block commit
+after snapshot. Just like below:
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Program received signal SIGSEGV, Segmentation fault.
+[Switching to Thread 0x7f7c7d91f700 (LWP 99907)]
+0x00005576d0f65aab in bdrv_mirror_top_pwritev at ../block/mirror.c:1437
+1437    ../block/mirror.c: No such file or directory.
+(gdb) p s->job
+$17 = (MirrorBlockJob *) 0x0
+(gdb) p s->stop
+$18 = false
 
---QxN5xOWGsmh5a4wb
-Content-Type: application/pgp-signature; name="signature.asc"
+(gdb) bt
 
------BEGIN PGP SIGNATURE-----
+Switch to qemu main thread:
+/lib/../lib64/libpthread.so.0
+/lib/../lib64/libpthread.so.0
+../util/qemu-thread-posix.c:79
+qapi/qapi-commands-block-core.c:346
+../qapi/qmp-dispatch.c:110
+/lib/../lib64/libglib-2.0.so.0
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASC0gACgkQbDjKyiDZ
-s5K4ihAAtheGB09GON4p1b2GAPzUgnJDZnXFhho6a4gXLYaB82CI6GpHJA/LxUOl
-qQn1f4f/uvT9FU6Wbtka1ZtjCNMa5GG63aYGVsDQb5hyHx7SA+RjvG9+wgqhiRNa
-Md/rDN2pfGDZ2e1psAMxKzMDwZzJ0lVAvKzbS35Co2CkaZXdjWs77RD+S4X92WAe
-rRhO2cRmhC+KGW5G6j+I3Om2FvnXv/4EQJ0JD/NCgjtTX67uF6yXpf5cFhbxtqdg
-h/a42U6A/0+TXhvx1gE+1CJCTLWslzDea8uZ35KL4zoCNesDYJqG7qKuWddZlS8U
-BNprfemzQmH3sgvqXuIvY1ILTsuJG/hMkrfWoQTrpLCF+SQw1PgIoJy67bMA/PPX
-MjY8bGvXce/RyAxYlBLOU5nAuT1nK9hjJUyDKtaUL0KUo7MTt351Ga7ndCmzvyJA
-qesIe+7XwOX9r8+p7c0UvMcZYQjRlVYTLTv35wSeMw+ITICCbq0AzJHWQqk3rJqB
-N4jLzqJxNiZ4NtR98RBMTidtLczXBfWEhFehq3e6cLdSg9riGI6fgpawvSbGr92p
-mrohdU7L1iQwSMs6tLuGuevM38aCOKuzYcChIlNMGABZX1YMoRpyXfeTa0RckQnc
-IyBTbgvry4eVhX+arGAFqnsX2sicz+XxsjGOCYSLzq6gV3sZOI4=
-=kU9S
------END PGP SIGNATURE-----
+In IO thread when do bdrv_mirror_top_pwritev, the job is NULL, and stop field
+is false, this means the MirrorBDSOpaque "s" object has not been initialized yet,
+and this object is initialized by block_job_create(), but the initialize
+process is stuck in acquiring the lock.
 
---QxN5xOWGsmh5a4wb--
+The rootcause is that qemu do release/acquire when hold the lock,
+at the same time, IO thread get the lock after release stage, and the crash
+occured.
+
+Actually, in this situation, job->job.aio_context will not equal to
+qemu_get_aio_context(), and will be the same as bs->aio_context,
+thus, no need to release the lock, becasue bdrv_root_attach_child()
+will not change the context.
+
+This patch fix this issue.
+
+Signed-off-by: Michael Qiu <qiudayu@huayun.com>
+---
+ blockjob.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/blockjob.c b/blockjob.c
+index 98ac8af982..51a09f3b60 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -214,13 +214,15 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
+     BdrvChild *c;
+ 
+     bdrv_ref(bs);
+-    if (job->job.aio_context != qemu_get_aio_context()) {
++    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
++        job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_release(job->job.aio_context);
+     }
+     c = bdrv_root_attach_child(bs, name, &child_job, 0,
+                                job->job.aio_context, perm, shared_perm, job,
+                                errp);
+-    if (job->job.aio_context != qemu_get_aio_context()) {
++    if (bdrv_get_aio_context(bs) != job->job.aio_context &&
++        job->job.aio_context != qemu_get_aio_context()) {
+         aio_context_acquire(job->job.aio_context);
+     }
+     if (c == NULL) {
+-- 
+2.22.0
+
+
 
