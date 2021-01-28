@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A2D3307A12
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:52:42 +0100 (CET)
-Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B3E307A14
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:54:07 +0100 (CET)
+Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59b7-0001TD-2T
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:52:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42892)
+	id 1l59cU-00037b-Hg
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:54:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1l59ZR-0000YJ-UF
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:50:57 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:40384)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l59b6-00027c-Ie
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:52:40 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40542)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
- id 1l59ZP-0007Mg-Cb
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:50:57 -0500
-Received: by mail-pl1-x636.google.com with SMTP id j21so3546935pls.7
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:50:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l59b3-000820-Fp
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:52:40 -0500
+Received: by mail-ej1-x635.google.com with SMTP id gx5so8476093ejb.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:52:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=2HKQX3kzv0mAjtnKKmE+hU7wGkXR4c1k2XKupeqcQ8k=;
- b=LiojoHEgBA6biRIbCzmhWOHQvoJed+ZOXga/9QcC1WhFdR5GgaY45hFlJyGIq7q/z4
- 23H1o6xFrks4A6qblWooIpAjSL23iUzTmAuNCAm2ffLnczX0KukA5Y2uOA5ZuiS6lkRq
- X7UmQKqJOlJFlQgjkaAYB47moNeck0GUNEoj/gXbmQITVM4aHjr/FMlCYHbpUxejFLqH
- lwR5rpgwGc31LpF63g2uIfwi/MQMOXoZ7sk1qQZ3dP1bZ66PJJQ+UI1CeCapteY9/u7/
- eBz9C1vH4y/SHts7Q+hZ6iw/1QE36v8Bsjwm/lIglPp21i84QsA+mCQ2j0RETkVvR/tL
- 4GsQ==
+ :cc; bh=zF8xeAznwgn4L/OdyBHBQ5UOpYDEsDc3ed21kkQniYI=;
+ b=e7dlQYzZ0toMRVoIdrmp0UvbfXFQfD5JzJMR9IanrWoH5id1wVGBdurAHnh9dJsBn9
+ 2Wzm4wREsis68L7pYX/W4ICKh2XngiTAL3HgnuthK41J92Uy5efHo2kFUNDppBNp/3uo
+ 9dJVMY7tzgIPA6/eJ0D8MfxDocR1wLkp0zjKCzvPEjNAF2jcIXgIrtJiZSmdC1oTl0Vu
+ aTGPG+sVHlIZpNgk0wPh8DHz7LE8cubobVUV7BA6WiA+i2Wq6Q9fNvdLlDRVD59vsSdq
+ g1XYBp2oHfUdI/h6KBwx5Cm3/iarPHoVujhMYKrlqdsDxl3s2mQNHHm7wbZv6o6h8V7q
+ sRzw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=2HKQX3kzv0mAjtnKKmE+hU7wGkXR4c1k2XKupeqcQ8k=;
- b=KAvSO/+AgUcvJebqTsJG86cTZsoFOwcRwh3jVqY5RUcDstXBcAWp/gtoxIqk55vBLJ
- s2jBJUG3dwiaqdaS5xhES9+S20Y/NHpKx/8KD6wPPUUc4JJoP3Jankg1IRWH7On18KYt
- 8M/qtJ5ow+6QdHwdshvSccuyXmEQogdB6yz3VTnnvQ0F+vXQ/0zT6M9orSP7jH8NH4b6
- oAzedGRf/VHxGqvFhGpFeHwgQIef5XrwmSmybjNmUfKAdBjO85ATua3cvL3ivNM+oAOk
- hOsfEtvkZQvZSZ3jmkbo0tvKdRaLxQwkH3sKlPqLVKH3oqs2rJaIXitX2g8ipBEhEKQb
- gb5A==
-X-Gm-Message-State: AOAM531qtlqZw1LSA+dc7v3LQL++uVJDUOv8Dap4btjgmgpX8ppP+mIb
- 0Cn5lhPpyUIAGc+/ShFw0zvmCLXXaRKCXIoq8wE=
-X-Google-Smtp-Source: ABdhPJx5IIKvX5saSUJCtsgALn7KJ/+K8dAHPFjHAOQ2PG4O8Ul5SvJYZGDtVjGuhNuUG7ENIwlvsgxbaAYn04qUPD4=
-X-Received: by 2002:a17:90a:578a:: with SMTP id g10mr42168pji.74.1611849053873; 
- Thu, 28 Jan 2021 07:50:53 -0800 (PST)
+ bh=zF8xeAznwgn4L/OdyBHBQ5UOpYDEsDc3ed21kkQniYI=;
+ b=YzCzceTIovjipx5aCSvyYlj2/Eh3WJLSah+4QQ9IFqneQKBtTFQ1nGoScEjAtEmj+Z
+ U7ZsDZe/1cHN/FIR6Q9Yf3QLud/gLF7EQBGhzQm2H4US97shDhBrHk+boyMgh3uHLR03
+ JugveZxg0hbcFc3RDilh8en85YPz7H7vkoLwsCj32JLMlBK3FnAME392c/2H3pDVd7Tb
+ uTDjcOzE05yDpdL0V4HqpIn9t4r12+w8a7XuJvoKDqSSQZxMWmqr9cXFD1gX3V2rPIxB
+ qsdZISIIeHl/402RJ7fR/sg87gUEmOC7y0rEcxBF9UhCJxIJBh8Wyd5imGJ1kwO1de79
+ xgog==
+X-Gm-Message-State: AOAM530ewAYemZeJ5GLKb8QJDPFBpugET4PdWxyLXDzGxgVvwRihCSbl
+ cx4YntTalpbAmvp4Bi4u/q/82epnK/GUnRg+6Fljkw==
+X-Google-Smtp-Source: ABdhPJwK/ZZcjNrKUbn+ipl10ut5by/3e2gObX+MQuvFJznvx34fVkLv+HL0ZXv2Z9zRdHV26+ntP643rd5ec1ee1II=
+X-Received: by 2002:a17:906:b215:: with SMTP id
+ p21mr11571615ejz.407.1611849153114; 
+ Thu, 28 Jan 2021 07:52:33 -0800 (PST)
 MIME-Version: 1.0
-References: <878s8zptrf.fsf@linaro.org>
- <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
- <87ft33l8an.fsf@linaro.org>
- <CAAQ-SiMY8W9TS7eXgWuHY0m4yjaRbqqsZ+41Xyhxm+gW0sYakg@mail.gmail.com>
- <CAAQ-SiM8_XnW1Ar5xocR7pUG_WW4SrQSnaKhqr1rY62ti2pw7Q@mail.gmail.com>
- <CAAQ-SiPcBeGGgYcPHn7WSnz4jLAza+hE7tSMYSHJ-caC66D48A@mail.gmail.com>
- <CAAQ-SiPPk9EfrEq7ja0X2E7gq5x9dH9C3LBDNc4frNi8Ssijug@mail.gmail.com>
- <CAAQ-SiMsrkDYzqqqRXONw_HCdORqssw-yL9dFGF32y7aG68iCQ@mail.gmail.com>
- <87v9blmf1x.fsf@linaro.org>
- <CAAQ-SiNRykBeMFRvjumJ1hbcT3vjuL2bcGU=RBLpksNJNGYm+Q@mail.gmail.com>
- <20210128112541.qjpve3qbjy46ofkk@sirius.home.kraxel.org>
-In-Reply-To: <20210128112541.qjpve3qbjy46ofkk@sirius.home.kraxel.org>
-From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
-Date: Thu, 28 Jan 2021 21:20:31 +0530
-Message-ID: <CAAQ-SiOYkxRMw=OjnPb5tFD0aNb+ZQykLVfAjOGmwFa2Lzc26w@mail.gmail.com>
-Subject: Re: Fwd: VirtioSound device emulation implementation
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000049a8a905b9f7da32"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20210120224444.71840-1-agraf@csgraf.de>
+ <20210120224444.71840-8-agraf@csgraf.de>
+In-Reply-To: <20210120224444.71840-8-agraf@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jan 2021 15:52:21 +0000
+Message-ID: <CAFEAcA_-4GYk_+jdczWE720-VH1CLcS+1jVB2LzG=bBBJc8w-g@mail.gmail.com>
+Subject: Re: [PATCH v6 07/11] hvf: Add Apple Silicon support
+To: Alexander Graf <agraf@csgraf.de>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,146 +78,284 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Cameron Esfahani <dirty@apple.com>,
+ Roman Bolshakov <r.bolshakov@yadro.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Frank Yang <lfy@google.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Peter Collingbourne <pcc@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000049a8a905b9f7da32
-Content-Type: text/plain; charset="UTF-8"
+On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
+>
+> With Apple Silicon available to the masses, it's a good time to add support
+> for driving its virtualization extensions from QEMU.
+>
+> This patch adds all necessary architecture specific code to get basic VMs
+> working. It's still pretty raw, but definitely functional.
+>
+> Known limitations:
+>
+>   - Vtimer acknowledgement is hacky
+>   - Should implement more sysregs and fault on invalid ones then
+>   - WFI handling is missing, need to marry it with vtimer
+>
+> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+> Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
 
-(Gerd, I wasn't able to get gmail to quote your email, so I have just copy
-pasted the relavant parts.)
+> --- a/accel/hvf/hvf-cpus.c
+> +++ b/accel/hvf/hvf-cpus.c
+> @@ -58,6 +58,10 @@
+>  #include "sysemu/runstate.h"
+>  #include "qemu/guest-random.h"
+>
+> +#ifdef __aarch64__
+> +#define HV_VM_DEFAULT NULL
+> +#endif
+>  /* Memory slots */
+>
+>  struct mac_slot {
+> @@ -328,7 +332,11 @@ static int hvf_init_vcpu(CPUState *cpu)
+>      pthread_sigmask(SIG_BLOCK, NULL, &set);
+>      sigdelset(&set, SIG_IPI);
+>
+> +#ifdef __aarch64__
+> +    r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
+> +#else
+>      r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf->fd, HV_VCPU_DEFAULT);
+> +#endif
+>      cpu->vcpu_dirty = 1;
+>      assert_hvf_ok(r);
+>
+> @@ -399,8 +407,14 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
+>                         cpu, QEMU_THREAD_JOINABLE);
+>  }
+>
+> +__attribute__((weak)) void hvf_kick_vcpu_thread(CPUState *cpu)
+> +{
+> +    cpus_kick_thread(cpu);
+> +}
+> +
+>  static const CpusAccel hvf_cpus = {
+>      .create_vcpu_thread = hvf_start_vcpu_thread,
+> +    .kick_vcpu_thread = hvf_kick_vcpu_thread,
+>
+>      .synchronize_post_reset = hvf_cpu_synchronize_post_reset,
+>      .synchronize_post_init = hvf_cpu_synchronize_post_init,
+> diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
+> index 9d3cb53e47..c2ac6c8f97 100644
+> --- a/include/sysemu/hvf_int.h
+> +++ b/include/sysemu/hvf_int.h
+> @@ -11,7 +11,12 @@
+>  #ifndef HVF_INT_H
+>  #define HVF_INT_H
+>
+> +#include "qemu/osdep.h"
 
-> Yes.  net_conf is common config (backend, mac address, maybe more) for
-> network devices.  For sound devices that would audiodev (link the device
-> to a backend which then handles alsa/pulse/jack/oss/sdl/whatever).
+.h files must never include osdep.h (all .c files do as their first
+include line).
 
-Ah I see, so the net_conf corresponds to audiodev? I thought it would
-correspond
-to `virtio_snd_conf`. So as alex said, `virtio_snd_conf` is the front end
-configuration.
+> +#ifdef __aarch64__
+> +#include <Hypervisor/Hypervisor.h>
+> +#else
+>  #include <Hypervisor/hv.h>
+> +#endif
+>
+>  /* hvf_slot flags */
+>  #define HVF_SLOT_LOG (1 << 0)
+> @@ -44,7 +49,8 @@ struct HVFState {
+>  extern HVFState *hvf_state;
+>
+>  struct hvf_vcpu_state {
+> -    int fd;
+> +    uint64_t fd;
 
-> Configuration can be done either using device properties, or by having
-> different devices.  Using device properties is probably the easier way
-> to go.  An example for the latter are the qemu hda codecs.  We have
-> three different devices:
+Why the change in the type for 'fd' ?
 
->  (1) hda-output: playback-only, offering a virtual line-out.
->  (2) hda-duplex: record/playback, offering line-in and line-out.
->  (3) hda-micro:  record/playback, offering microphone and speaker.
+> +    void *exit;
 
-> The difference between (2) and (3) is just the jack labeling, otherwise
-> the behavior is 100% identical (and they share the emulation code of
-> course).  But some windows VoIP apps didn't like the line-in and
-> complained about a missing microphone, so we added that ...
+Can we define this as a "hv_vcpu_exit_t *" so we don't have to
+cast it in the call to hv_vcpu_create() ?
 
->> The thing is I do not understand `net` devices all that well so I get a
-bit
->> confused with
->> what is specific to a net device and what should I actually be worried
->> about :)
+>  };
+>
+>  void assert_hvf_ok(hv_return_t ret);
+> @@ -54,5 +60,6 @@ int hvf_arch_init_vcpu(CPUState *cpu);
+>  void hvf_arch_vcpu_destroy(CPUState *cpu);
+>  int hvf_vcpu_exec(CPUState *cpu);
+>  hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
+> +void hvf_kick_vcpu_thread(CPUState *cpu);
+>
+>  #endif
+> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+> new file mode 100644
+> index 0000000000..8f18efe856
+> --- /dev/null
+> +++ b/target/arm/hvf/hvf.c
+> @@ -0,0 +1,618 @@
+> +/*
+> + * QEMU Hypervisor.framework support for Apple Silicon
+> +
+> + * Copyright 2020 Alexander Graf <agraf@csgraf.de>
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + *
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu-common.h"
+> +#include "qemu/error-report.h"
+> +
+> +#include "sysemu/runstate.h"
+> +#include "sysemu/hvf.h"
+> +#include "sysemu/hvf_int.h"
+> +#include "sysemu/hw_accel.h"
+> +
+> +#include "exec/address-spaces.h"
+> +#include "hw/irq.h"
+> +#include "qemu/main-loop.h"
+> +#include "sysemu/accel.h"
+> +#include "sysemu/cpus.h"
+> +#include "target/arm/cpu.h"
+> +#include "target/arm/internals.h"
+> +
+> +#define HVF_DEBUG 0
+> +#define DPRINTF(...)                                        \
+> +    if (HVF_DEBUG) {                                        \
+> +        fprintf(stderr, "HVF %s:%d ", __func__, __LINE__);  \
+> +        fprintf(stderr, __VA_ARGS__);                       \
+> +        fprintf(stderr, "\n");                              \
+> +    }
 
-> The only thing really required is the audiodev property.  Everything
-> else can be hard-coded initially, and once the basics are working
-> refined (like adding properties for jack labels, ...).
+No new DPRINTF macros, please. Use tracepoints.
 
-So in the realize function I set up the audiodev, right? Also in that case
-why the difference between the net and sound devices? In the net
-device we set up the common config in net_conf. Does the net_conf
-somehow later sets up NetDev too?
+> +
+> +#define HVF_SYSREG(crn, crm, op0, op1, op2) \
+> +        ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
+> +#define PL1_WRITE_MASK 0x4
+> +
+> +#define SYSREG(op0, op1, crn, crm, op2) \
+> +    ((op0 << 20) | (op2 << 17) | (op1 << 14) | (crn << 10) | (crm << 1))
+> +#define SYSREG_MASK           SYSREG(0x3, 0x7, 0xf, 0xf, 0x7)
+> +#define SYSREG_CNTPCT_EL0     SYSREG(3, 3, 14, 0, 1)
+> +#define SYSREG_PMCCNTR_EL0    SYSREG(3, 3, 9, 13, 0)
+> +
+> +#define WFX_IS_WFE (1 << 0)
 
-And what is a NetClientState? Is the NetClient the emulated guest? This
-confuses me a lot. I can't understand what will be the parellel audio device
-property.
 
-Also I can't seem to find where we parse the command line options passed to
-qemu.
-The code structure is a bit different from what I had expected. In
-virtio_net_device_realize
-we set duplex to half or full depending on the value of the
-net_conf.duplex_str. But I
-couldn't find where we actually set it.
 
-cc Alex
+> +static const struct hvf_sreg_match hvf_sreg_match[] = {
+> +    { HV_SYS_REG_DBGBVR0_EL1, HVF_SYSREG(0, 0, 14, 0, 4) },
+> +    { HV_SYS_REG_DBGBCR0_EL1, HVF_SYSREG(0, 0, 14, 0, 5) },
+> +    { HV_SYS_REG_DBGWVR0_EL1, HVF_SYSREG(0, 0, 14, 0, 6) },
+> +    { HV_SYS_REG_DBGWCR0_EL1, HVF_SYSREG(0, 0, 14, 0, 7) },
 
---
-Shreyansh
+I'm not a huge fan of this big long hardcoded list of registers.
+Is there some way to work from either the QEMU cpregs hashtable
+or asking the hypervisor framework about what sysregs it has?
+(Compare the KVM approach, though I admit it has its own issues,
+so if there's a genuinely better way to do something I'm not
+ruling it out on principle.)
 
---00000000000049a8a905b9f7da32
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> +#ifdef SYNC_NO_RAW_REGS
 
-<div dir=3D"ltr"><div>(Gerd, I wasn&#39;t able to get gmail to quote your e=
-mail, so I have just copy pasted the relavant parts.)</div><div><br></div><=
-div>&gt; Yes.=C2=A0 net_conf is common config (backend, mac address, maybe =
-more) for<br>
-&gt; network devices.=C2=A0 For sound devices that would audiodev (link the=
- device<br>
-&gt; to a backend which then handles alsa/pulse/jack/oss/sdl/whatever).</di=
-v><div><br></div><div>Ah I see, so the net_conf corresponds to audiodev? I =
-thought it would correspond</div><div>to `virtio_snd_conf`. So as alex said=
-, `virtio_snd_conf` is the front end configuration.<br></div><div><br>
-&gt; Configuration can be done either using device properties, or by having=
-<br>
-&gt; different devices.=C2=A0 Using device properties is probably the easie=
-r way<br>
-&gt; to go.=C2=A0 An example for the latter are the qemu hda codecs.=C2=A0 =
-We have<br>
-&gt; three different devices:<br>
-<br>
-&gt;=C2=A0 (1) hda-output: playback-only, offering a virtual line-out.<br>
-&gt;=C2=A0 (2) hda-duplex: record/playback, offering line-in and line-out.<=
-br>
-&gt;=C2=A0 (3) hda-micro:=C2=A0 record/playback, offering microphone and sp=
-eaker.<br>
-<br>
-&gt; The difference between (2) and (3) is just the jack labeling, otherwis=
-e<br>
-&gt; the behavior is 100% identical (and they share the emulation code of<b=
-r>
-&gt; course).=C2=A0 But some windows VoIP apps didn&#39;t like the line-in =
-and<br>
-&gt; complained about a missing microphone, so we added that ...<span class=
-=3D"gmail-im"></span></div><div><span class=3D"gmail-im"><br></span></div><=
-div><span class=3D"gmail-im"><span class=3D"gmail-im">&gt;&gt; The thing is=
- I do not understand `net` devices all that well so I get a bit<br>
-&gt;&gt; confused with<br>
-&gt;&gt; what is specific to a net device and what should I actually be wor=
-ried<br>
-&gt;&gt; about :)<br>
-<br></span>
-&gt; The only thing really required is the audiodev property.=C2=A0 Everyth=
-ing<br>
-&gt; else can be hard-coded initially, and once the basics are working<br>
-&gt; refined (like adding properties for jack labels, ...).</span></div><di=
-v><span class=3D"gmail-im"><br></span></div><div><span class=3D"gmail-im">S=
-o in the realize function I set up the audiodev, right? Also in that case</=
-span></div><div><span class=3D"gmail-im">why the difference between the net=
- and sound devices? In the net</span></div><div><span class=3D"gmail-im">de=
-vice we set up the common config in net_conf. Does the net_conf</span></div=
-><div><span class=3D"gmail-im">somehow later sets up NetDev too? <br></span=
-></div><div><span class=3D"gmail-im"><br></span></div><div><span class=3D"g=
-mail-im">And what is a NetClientState? Is the NetClient the emulated guest?=
- This</span></div><div><span class=3D"gmail-im">confuses me a lot. I can&#3=
-9;t understand what will be the parellel audio device</span></div><div><spa=
-n class=3D"gmail-im">property.<br></span></div><div><span class=3D"gmail-im=
-"><span class=3D"gmail-im"></span></span></div><div><span class=3D"gmail-im=
-"><span class=3D"gmail-im"><br></span></span></div><div><span class=3D"gmai=
-l-im"><span class=3D"gmail-im">Also I can&#39;t seem to find where we parse=
- the command line options passed to qemu.</span></span></div><div><span cla=
-ss=3D"gmail-im"><span class=3D"gmail-im">The code structure is a bit differ=
-ent from what I had expected. In virtio_net_device_realize</span></span></d=
-iv><div><span class=3D"gmail-im"><span class=3D"gmail-im">we set duplex to =
-half or full depending on the value of the net_conf.duplex_str. But I</span=
-></span></div><div><span class=3D"gmail-im"><span class=3D"gmail-im">couldn=
-&#39;t find where we actually set it.<br></span></span></div><div><span cla=
-ss=3D"gmail-im"><span class=3D"gmail-im"><br></span></span></div><div><span=
- class=3D"gmail-im"><span class=3D"gmail-im">cc Alex</span></span></div><di=
-v><span class=3D"gmail-im"><span class=3D"gmail-im"><br></span></span></div=
-><div><span class=3D"gmail-im"><span class=3D"gmail-im">--</span></span></d=
-iv><div><span class=3D"gmail-im"><span class=3D"gmail-im">Shreyansh<br></sp=
-an></span></div><div></div></div>
+What's this ifdef for?
 
---00000000000049a8a905b9f7da32--
+
+> +int hvf_get_registers(CPUState *cpu)
+> +{
+> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
+> +    CPUARMState *env = &arm_cpu->env;
+> +    hv_return_t ret;
+> +    uint64_t val;
+> +    int i;
+> +
+> +    for (i = 0; i < ARRAY_SIZE(hvf_reg_match); i++) {
+> +        ret = hv_vcpu_get_reg(cpu->hvf->fd, hvf_reg_match[i].reg, &val);
+> +        *(uint64_t *)((void *)env + hvf_reg_match[i].offset) = val;
+> +        assert_hvf_ok(ret);
+> +    }
+> +
+> +    val = 0;
+> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_FPCR, &val);
+> +    assert_hvf_ok(ret);
+> +    vfp_set_fpcr(env, val);
+> +
+> +    val = 0;
+> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_FPSR, &val);
+> +    assert_hvf_ok(ret);
+> +    vfp_set_fpsr(env, val);
+> +
+> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_CPSR, &val);
+> +    assert_hvf_ok(ret);
+> +    pstate_write(env, val);
+> +
+> +    for (i = 0; i < ARRAY_SIZE(hvf_sreg_match); i++) {
+> +        ret = hv_vcpu_get_sys_reg(cpu->hvf->fd, hvf_sreg_match[i].reg, &val);
+> +        assert_hvf_ok(ret);
+> +
+> +        arm_cpu->cpreg_values[i] = val;
+> +    }
+> +    write_list_to_cpustate(arm_cpu);
+
+Have I missed it, or are we not syncing the FPU/vector registers?
+
+> +    return 0;
+> +}
+> +            if (iswrite) {
+> +                val = hvf_get_reg(cpu, srt);
+> +                address_space_write(&address_space_memory,
+> +                                    hvf_exit->exception.physical_address,
+> +                                    MEMTXATTRS_UNSPECIFIED, &val, len);
+
+Does the hvf framework provide a way to report the external-abort
+if address_space_write() returns something other than MEMTX_OK ?
+
+> +            break;
+> +        case EC_AA64_SMC:
+> +            cpu_synchronize_state(cpu);
+> +            if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
+> +                arm_handle_psci_call(arm_cpu);
+
+Have you checked that all the PSCI code really can cope
+with being called from a non-TCG accelerator? (As an example
+the CPU_SUSPEND implementation calls the TCG wfi helper...)
+
+> +            } else {
+> +                DPRINTF("unknown SMC! %016llx", env->xregs[0]);
+> +                env->xregs[0] = -1;
+
+This should inject an UNDEF exception into the guest. (Compare
+the pre_smc helper in target/arm/op_helper.c for TCG.)
+
+> +            }
+> +            env->pc += 4;
+> +            break;
+> +        default:
+> +            cpu_synchronize_state(cpu);
+> +            DPRINTF("exit: %llx [ec=0x%x pc=0x%llx]", syndrome, ec, env->pc);
+> +            error_report("%llx: unhandled exit %llx", env->pc, exit_reason);
+
+Hex values should have leading '0x'.
+
+> +        }
+> +
+> +        if (advance_pc) {
+> +            uint64_t pc;
+> +
+> +            flush_cpu_state(cpu);
+> +
+> +            r = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_PC, &pc);
+> +            assert_hvf_ok(r);
+> +            pc += 4;
+> +            r = hv_vcpu_set_reg(cpu->hvf->fd, HV_REG_PC, pc);
+> +            assert_hvf_ok(r);
+> +        }
+> +    }
+> +}
+
+thanks
+-- PMM
 
