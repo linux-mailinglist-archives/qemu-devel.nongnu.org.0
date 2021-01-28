@@ -2,75 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B98583078B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:52:55 +0100 (CET)
-Received: from localhost ([::1]:49020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B5D3078F4
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:01:32 +0100 (CET)
+Received: from localhost ([::1]:39422 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l58fG-0006Zx-O9
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:52:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45046)
+	id 1l58nb-0006Dy-KA
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:01:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47366)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l58Ux-00013y-9e
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:42:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124]:59194)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l58bQ-00029W-CQ
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:48:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:40315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l58Ur-0007Pf-3G
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:42:14 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l58bO-0001Jv-3L
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:48:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611844928;
+ s=mimecast20190719; t=1611845331;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=LuBC8X4XK4RxDreMf9WLPL8Fna1W8Q9SqmzjaqByBck=;
- b=QPZRLspMTmHPiOpDTUWTaG4OcnZPWJVR8rvBdLnkXZQqL/mf3J5r6uNyAjtjZoGfrvF4rO
- 5P3UkfCt7spOBsR00mKaDCzz0Htd2aBrrkRefD8A0HorDWTzDFJB0Eucxtx4ffdTWg7f7b
- gJl3/pQEwNtnWOWfsyAgB1ECHACnD40=
+ bh=fyWO6j7+YTakEXhelLvekc2HyoTgo3q1gEmw2V/wkzc=;
+ b=Cd4bEspqW6+daCKvIVk7iBP9JSw4nxY81oO3kCGtpq7CAkZ5x6n/f/PreHeqezXWGywySW
+ aKCxGv+Up0V79XEZQ5AuMT7iT51VuEL2Edb76fq6tXzjSSbaZwsuVFa+DzsS0eIntgnIGS
+ pXVxXnpSDlPvhypARwhQCyPO0FvNw6I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-16-ohb8MfFoP1C8PR5qzrtkVQ-1; Thu, 28 Jan 2021 09:42:05 -0500
-X-MC-Unique: ohb8MfFoP1C8PR5qzrtkVQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-309-kAyPG-w9P0S7OXVe92Fy5g-1; Thu, 28 Jan 2021 09:48:49 -0500
+X-MC-Unique: kAyPG-w9P0S7OXVe92Fy5g-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1B6E810054FF;
- Thu, 28 Jan 2021 14:42:04 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D7FE45D9EF;
- Thu, 28 Jan 2021 14:42:03 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 245F218000B1; Thu, 28 Jan 2021 15:42:02 +0100 (CET)
-Date: Thu, 28 Jan 2021 15:42:02 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH] spice: delay starting until display are initialized
-Message-ID: <20210128144202.2pqjjn3epspfvlgk@sirius.home.kraxel.org>
-References: <20210128111319.329755-1-marcandre.lureau@redhat.com>
- <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
- <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
- <CAMxuvazChfKDHyjP2o1ipfgquawMab9zc4p8J5wnNnmVMmJ1yw@mail.gmail.com>
- <20210128142625.vzdrehzw6mufja3s@sirius.home.kraxel.org>
- <CAJ+F1CJ0Z378KCLGDzLYOfBor7HkHM2YemRj5F-3kTSnVK7ADg@mail.gmail.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 06CCA107ACE3;
+ Thu, 28 Jan 2021 14:48:48 +0000 (UTC)
+Received: from horse.redhat.com (ovpn-117-248.rdu2.redhat.com [10.10.117.248])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C3B5E6F13B;
+ Thu, 28 Jan 2021 14:48:35 +0000 (UTC)
+Received: by horse.redhat.com (Postfix, from userid 10451)
+ id 58BE7220BCF; Thu, 28 Jan 2021 09:48:35 -0500 (EST)
+Date: Thu, 28 Jan 2021 09:48:35 -0500
+From: Vivek Goyal <vgoyal@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH 2/6] libvhost-user: Use slave_mutex in all slave messages
+Message-ID: <20210128144835.GA3342@redhat.com>
+References: <20210125180115.22936-1-vgoyal@redhat.com>
+ <20210125180115.22936-3-vgoyal@redhat.com>
+ <20210128153123.4aba231c@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJ0Z378KCLGDzLYOfBor7HkHM2YemRj5F-3kTSnVK7ADg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210128153123.4aba231c@bahia.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=vgoyal@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -23
-X-Spam_score: -2.4
-X-Spam_bar: --
-X-Spam_report: (-2.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,22 +79,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ virtio-fs@redhat.com, stefanha@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > I still think that moving these three lines to the correct place is
-> > enough.  Maybe even just qemu_spice_display_start() as it keeps track
-> > of the state and you can safely call this twice.
+On Thu, Jan 28, 2021 at 03:31:23PM +0100, Greg Kurz wrote:
+> On Mon, 25 Jan 2021 13:01:11 -0500
+> Vivek Goyal <vgoyal@redhat.com> wrote:
 > 
-> It's not enough, since the first time qemu_spice_display_start() is
-> called (on vm_start) the display interfaces aren't yet registered. And
-> spice server doesn't automatically start the newly added interfaces.
+> > dev->slave_mutex needs to be taken when sending messages on slave_fd.
+> > Currently _vu_queue_notify() does not do that.
+> > 
+> > Introduce a helper vu_message_slave_send_receive() which sends as well
+> > as receive response. Use this helper in all the paths which send
+> > message on slave_fd channel.
+> > 
+> 
+> Does this fix any known bug ?
 
-So move the vmstate handler registration call too?
-I'd prefer to not add more state variables if we can avoid it ...
+I am not aware of any bug. This fix is based on code inspection.
 
-take care,
-  Gerd
+Also I wanted a central place/function to send messages on slave channel
+so that I can check state of slave channel (open/close) and act
+accordingly. Otherwise I will have to do the check at every place
+which is trying to send/receive message on slave channel.
+
+Vivek
+
+> 
+> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> > ---
+> 
+> LGTM
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> 
+> >  subprojects/libvhost-user/libvhost-user.c | 50 ++++++++++++-----------
+> >  1 file changed, 27 insertions(+), 23 deletions(-)
+> > 
+> > diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+> > index 4cf4aef63d..7a56c56dc8 100644
+> > --- a/subprojects/libvhost-user/libvhost-user.c
+> > +++ b/subprojects/libvhost-user/libvhost-user.c
+> > @@ -403,7 +403,7 @@ vu_send_reply(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
+> >   * Processes a reply on the slave channel.
+> >   * Entered with slave_mutex held and releases it before exit.
+> >   * Returns true on success.
+> > - * *payload is written on success
+> > + * *payload is written on success, if payload is not NULL.
+> >   */
+> >  static bool
+> >  vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg,
+> > @@ -427,7 +427,9 @@ vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg,
+> >          goto out;
+> >      }
+> >  
+> > -    *payload = msg_reply.payload.u64;
+> > +    if (payload) {
+> > +        *payload = msg_reply.payload.u64;
+> > +    }
+> >      result = true;
+> >  
+> >  out:
+> > @@ -435,6 +437,25 @@ out:
+> >      return result;
+> >  }
+> >  
+> > +/* Returns true on success, false otherwise */
+> > +static bool
+> > +vu_message_slave_send_receive(VuDev *dev, VhostUserMsg *vmsg, uint64_t *payload)
+> > +{
+> > +    pthread_mutex_lock(&dev->slave_mutex);
+> > +    if (!vu_message_write(dev, dev->slave_fd, vmsg)) {
+> > +        pthread_mutex_unlock(&dev->slave_mutex);
+> > +        return false;
+> > +    }
+> > +
+> > +    if ((vmsg->flags & VHOST_USER_NEED_REPLY_MASK) == 0) {
+> > +        pthread_mutex_unlock(&dev->slave_mutex);
+> > +        return true;
+> > +    }
+> > +
+> > +    /* Also unlocks the slave_mutex */
+> > +    return vu_process_message_reply(dev, vmsg, payload);
+> > +}
+> > +
+> >  /* Kick the log_call_fd if required. */
+> >  static void
+> >  vu_log_kick(VuDev *dev)
+> > @@ -1340,16 +1361,8 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
+> >          return false;
+> >      }
+> >  
+> > -    pthread_mutex_lock(&dev->slave_mutex);
+> > -    if (!vu_message_write(dev, dev->slave_fd, &vmsg)) {
+> > -        pthread_mutex_unlock(&dev->slave_mutex);
+> > -        return false;
+> > -    }
+> > -
+> > -    /* Also unlocks the slave_mutex */
+> > -    res = vu_process_message_reply(dev, &vmsg, &payload);
+> > +    res = vu_message_slave_send_receive(dev, &vmsg, &payload);
+> >      res = res && (payload == 0);
+> > -
+> >      return res;
+> >  }
+> >  
+> > @@ -2395,10 +2408,7 @@ static void _vu_queue_notify(VuDev *dev, VuVirtq *vq, bool sync)
+> >              vmsg.flags |= VHOST_USER_NEED_REPLY_MASK;
+> >          }
+> >  
+> > -        vu_message_write(dev, dev->slave_fd, &vmsg);
+> > -        if (ack) {
+> > -            vu_message_read_default(dev, dev->slave_fd, &vmsg);
+> > -        }
+> > +        vu_message_slave_send_receive(dev, &vmsg, NULL);
+> >          return;
+> >      }
+> >  
+> > @@ -2942,17 +2952,11 @@ int64_t vu_fs_cache_request(VuDev *dev, VhostUserSlaveRequest req, int fd,
+> >          return -EINVAL;
+> >      }
+> >  
+> > -    pthread_mutex_lock(&dev->slave_mutex);
+> > -    if (!vu_message_write(dev, dev->slave_fd, &vmsg)) {
+> > -        pthread_mutex_unlock(&dev->slave_mutex);
+> > -        return -EIO;
+> > -    }
+> > -
+> > -    /* Also unlocks the slave_mutex */
+> > -    res = vu_process_message_reply(dev, &vmsg, &payload);
+> > +    res = vu_message_slave_send_receive(dev, &vmsg, &payload);
+> >      if (!res) {
+> >          return -EIO;
+> >      }
+> > +
+> >      /*
+> >       * Payload is delivered as uint64_t but is actually signed for
+> >       * errors.
+> 
 
 
