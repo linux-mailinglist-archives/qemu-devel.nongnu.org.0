@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B5F307032
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 08:53:23 +0100 (CET)
-Received: from localhost ([::1]:46730 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D5BD30700C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 08:50:13 +0100 (CET)
+Received: from localhost ([::1]:37704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l527G-0007uF-SE
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 02:53:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48706)
+	id 1l524C-00048g-2B
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 02:50:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48882)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l51zT-0007TC-LE
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 02:45:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25161)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l520G-00085J-5t
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 02:46:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:36986)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l51zP-00017i-9D
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 02:45:19 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l520D-0001Tv-E9
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 02:46:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611819914;
+ s=mimecast20190719; t=1611819964;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=rQ8QaRp54v2UQneOgq7p8MOyVMlmyuJaFqn9/AjobOU=;
- b=H9XNQTG0cL8dALTsDNYWTjie2fpsSjPKiIWR09LD7Yqrl86/H2DfQz4qswDojxsAPxdHe2
- tProANGqYKkxsNT69iAyWrBcwGhQjw1nHgvGaRHlJf7PnOwN2JtaYfBUNfOdLcd1llKOSi
- 3/vA/q9CywZUAbqK9UV2nsEeX2jhxN8=
+ bh=Uq4bIqIjoKbHjYROsHa+mHaUDR6lYjc6x7zHbofqSMo=;
+ b=PHk7hgGyeDYX/O6pBWYyTtM5xchI3hQLzncc+SndAD2qaHswr+UF/YkhGJUxdsIcBVMbxl
+ suEhfaG8BxGkNUkLs38a7tXxOuSka1KFDQiYlfpoIDLG2zFtZW74GtiIQATvqUeEL9mgMn
+ W+cM59xsqVXjElXjsY9m6EQq/xjTauo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-120-1P32_CCAOx-f4duZf7b8uA-1; Thu, 28 Jan 2021 02:45:11 -0500
-X-MC-Unique: 1P32_CCAOx-f4duZf7b8uA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-269-JtktDMkOM-eLDaemg3za7A-1; Thu, 28 Jan 2021 02:46:02 -0500
+X-MC-Unique: JtktDMkOM-eLDaemg3za7A-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 93513806236;
- Thu, 28 Jan 2021 07:45:10 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9555B1966322;
+ Thu, 28 Jan 2021 07:46:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
  [10.36.113.224])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E27F110016F7;
- Thu, 28 Jan 2021 07:45:09 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0C0FA6F80A;
+ Thu, 28 Jan 2021 07:45:53 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id D4BD91132E9A; Thu, 28 Jan 2021 08:45:06 +0100 (CET)
+ id B7D92113865F; Thu, 28 Jan 2021 08:45:51 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PULL 5/5] qapi: More complex uses of QAPI_LIST_APPEND
-Date: Thu, 28 Jan 2021 08:45:06 +0100
-Message-Id: <20210128074506.2725379-6-armbru@redhat.com>
-In-Reply-To: <20210128074506.2725379-1-armbru@redhat.com>
-References: <20210128074506.2725379-1-armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Subject: Re: [PATCH v4 5/5] qapi: More complex uses of QAPI_LIST_APPEND
+References: <20210113221013.390592-1-eblake@redhat.com>
+ <20210113221013.390592-6-eblake@redhat.com>
+ <87mtww59jp.fsf@dusky.pond.sub.org>
+ <077d9364-ceb5-8cb8-c008-0ef74289fdc2@redhat.com>
+Date: Thu, 28 Jan 2021 08:45:51 +0100
+In-Reply-To: <077d9364-ceb5-8cb8-c008-0ef74289fdc2@redhat.com> (Eric Blake's
+ message of "Wed, 27 Jan 2021 12:12:25 -0600")
+Message-ID: <87ft2lfqs0.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,940 +82,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, vsementsov@virtuozzo.com,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ "open list:GLUSTER" <qemu-block@nongnu.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
+ "open list:GLUSTER" <integration@gluster.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eric Blake <eblake@redhat.com>
+Eric Blake <eblake@redhat.com> writes:
 
-These cases require a bit more thought to review; in each case, the
-code was appending to a list, but not with a FOOList **tail variable.
+> On 1/26/21 3:31 AM, Markus Armbruster wrote:
+>> Eric Blake <eblake@redhat.com> writes:
+>> 
+>>> These cases require a bit more thought to review; in each case, the
+>>> code was appending to a list, but not with a FOOList **tail variable.
+>>>
+>>> Signed-off-by: Eric Blake <eblake@redhat.com>
+>>> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>>>
+>>> ---
+>>> fix qmp_guest_network_get_interfaces [Vladimir]
+>> 
+>> Fails tests/test-qga.  I should've double-checked earlier.
+>
+> I ran 'make check', but I'll check again.  In the meantime,
+>
+>
+>> 
+>> Dropping this part unbreaks the test.
+>> 
+>> I'd like to drop just this part, and merge the rest.  You can then
+>> respin just this part as a follow-up patch.  Okay?
+>
+> this plan is okay with me.
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20210113221013.390592-6-eblake@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-[Flawed change to qmp_guest_network_get_interfaces() dropped]
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- block/gluster.c            | 13 ++----
- block/qapi.c               | 14 +-----
- dump/dump.c                | 22 +++------
- hw/core/machine-qmp-cmds.c | 93 ++++++++++++++++----------------------
- hw/mem/memory-device.c     | 12 +----
- hw/pci/pci.c               | 60 ++++++++----------------
- migration/migration.c      | 20 +++-----
- monitor/hmp-cmds.c         | 25 ++++------
- net/net.c                  | 13 +-----
- qga/commands-posix.c       | 19 +++-----
- qga/commands-win32.c       | 88 ++++++++++++------------------------
- softmmu/tpm.c              | 38 +++-------------
- ui/spice-core.c            | 27 ++++-------
- 13 files changed, 141 insertions(+), 303 deletions(-)
-
-diff --git a/block/gluster.c b/block/gluster.c
-index 1f8699b938..e8ee14c8e9 100644
---- a/block/gluster.c
-+++ b/block/gluster.c
-@@ -514,7 +514,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
- {
-     QemuOpts *opts;
-     SocketAddress *gsconf = NULL;
--    SocketAddressList *curr = NULL;
-+    SocketAddressList **tail;
-     QDict *backing_options = NULL;
-     Error *local_err = NULL;
-     char *str = NULL;
-@@ -547,6 +547,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
-     }
-     gconf->path = g_strdup(ptr);
-     qemu_opts_del(opts);
-+    tail = &gconf->server;
- 
-     for (i = 0; i < num_servers; i++) {
-         str = g_strdup_printf(GLUSTER_OPT_SERVER_PATTERN"%d.", i);
-@@ -655,15 +656,7 @@ static int qemu_gluster_parse_json(BlockdevOptionsGluster *gconf,
-             qemu_opts_del(opts);
-         }
- 
--        if (gconf->server == NULL) {
--            gconf->server = g_new0(SocketAddressList, 1);
--            gconf->server->value = gsconf;
--            curr = gconf->server;
--        } else {
--            curr->next = g_new0(SocketAddressList, 1);
--            curr->next->value = gsconf;
--            curr = curr->next;
--        }
-+        QAPI_LIST_APPEND(tail, gsconf);
-         gsconf = NULL;
- 
-         qobject_unref(backing_options);
-diff --git a/block/qapi.c b/block/qapi.c
-index 3a1186fdcc..0a96099e36 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -198,7 +198,7 @@ int bdrv_query_snapshot_info_list(BlockDriverState *bs,
- {
-     int i, sn_count;
-     QEMUSnapshotInfo *sn_tab = NULL;
--    SnapshotInfoList *info_list, *cur_item = NULL, *head = NULL;
-+    SnapshotInfoList *head = NULL, **tail = &head;
-     SnapshotInfo *info;
- 
-     sn_count = bdrv_snapshot_list(bs, &sn_tab);
-@@ -233,17 +233,7 @@ int bdrv_query_snapshot_info_list(BlockDriverState *bs,
-         info->icount        = sn_tab[i].icount;
-         info->has_icount    = sn_tab[i].icount != -1ULL;
- 
--        info_list = g_new0(SnapshotInfoList, 1);
--        info_list->value = info;
--
--        /* XXX: waiting for the qapi to support qemu-queue.h types */
--        if (!cur_item) {
--            head = cur_item = info_list;
--        } else {
--            cur_item->next = info_list;
--            cur_item = info_list;
--        }
--
-+        QAPI_LIST_APPEND(tail, info);
-     }
- 
-     g_free(sn_tab);
-diff --git a/dump/dump.c b/dump/dump.c
-index dec32468d9..929138e91d 100644
---- a/dump/dump.c
-+++ b/dump/dump.c
-@@ -2030,39 +2030,29 @@ void qmp_dump_guest_memory(bool paging, const char *file,
- 
- DumpGuestMemoryCapability *qmp_query_dump_guest_memory_capability(Error **errp)
- {
--    DumpGuestMemoryFormatList *item;
-     DumpGuestMemoryCapability *cap =
-                                   g_malloc0(sizeof(DumpGuestMemoryCapability));
-+    DumpGuestMemoryFormatList **tail = &cap->formats;
- 
-     /* elf is always available */
--    item = g_malloc0(sizeof(DumpGuestMemoryFormatList));
--    cap->formats = item;
--    item->value = DUMP_GUEST_MEMORY_FORMAT_ELF;
-+    QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_ELF);
- 
-     /* kdump-zlib is always available */
--    item->next = g_malloc0(sizeof(DumpGuestMemoryFormatList));
--    item = item->next;
--    item->value = DUMP_GUEST_MEMORY_FORMAT_KDUMP_ZLIB;
-+    QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_KDUMP_ZLIB);
- 
-     /* add new item if kdump-lzo is available */
- #ifdef CONFIG_LZO
--    item->next = g_malloc0(sizeof(DumpGuestMemoryFormatList));
--    item = item->next;
--    item->value = DUMP_GUEST_MEMORY_FORMAT_KDUMP_LZO;
-+    QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_KDUMP_LZO);
- #endif
- 
-     /* add new item if kdump-snappy is available */
- #ifdef CONFIG_SNAPPY
--    item->next = g_malloc0(sizeof(DumpGuestMemoryFormatList));
--    item = item->next;
--    item->value = DUMP_GUEST_MEMORY_FORMAT_KDUMP_SNAPPY;
-+    QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_KDUMP_SNAPPY);
- #endif
- 
-     /* Windows dump is available only if target is x86_64 */
- #ifdef TARGET_X86_64
--    item->next = g_malloc0(sizeof(DumpGuestMemoryFormatList));
--    item = item->next;
--    item->value = DUMP_GUEST_MEMORY_FORMAT_WIN_DMP;
-+    QAPI_LIST_APPEND(tail, DUMP_GUEST_MEMORY_FORMAT_WIN_DMP);
- #endif
- 
-     return cap;
-diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
-index 156223a344..44e979e503 100644
---- a/hw/core/machine-qmp-cmds.c
-+++ b/hw/core/machine-qmp-cmds.c
-@@ -28,11 +28,11 @@ CpuInfoList *qmp_query_cpus(Error **errp)
- {
-     MachineState *ms = MACHINE(qdev_get_machine());
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
--    CpuInfoList *head = NULL, *cur_item = NULL;
-+    CpuInfoList *head = NULL, **tail = &head;
-     CPUState *cpu;
- 
-     CPU_FOREACH(cpu) {
--        CpuInfoList *info;
-+        CpuInfo *value;
- #if defined(TARGET_I386)
-         X86CPU *x86_cpu = X86_CPU(cpu);
-         CPUX86State *env = &x86_cpu->env;
-@@ -58,53 +58,46 @@ CpuInfoList *qmp_query_cpus(Error **errp)
- 
-         cpu_synchronize_state(cpu);
- 
--        info = g_malloc0(sizeof(*info));
--        info->value = g_malloc0(sizeof(*info->value));
--        info->value->CPU = cpu->cpu_index;
--        info->value->current = (cpu == first_cpu);
--        info->value->halted = cpu->halted;
--        info->value->qom_path = object_get_canonical_path(OBJECT(cpu));
--        info->value->thread_id = cpu->thread_id;
-+        value = g_malloc0(sizeof(*value));
-+        value->CPU = cpu->cpu_index;
-+        value->current = (cpu == first_cpu);
-+        value->halted = cpu->halted;
-+        value->qom_path = object_get_canonical_path(OBJECT(cpu));
-+        value->thread_id = cpu->thread_id;
- #if defined(TARGET_I386)
--        info->value->arch = CPU_INFO_ARCH_X86;
--        info->value->u.x86.pc = env->eip + env->segs[R_CS].base;
-+        value->arch = CPU_INFO_ARCH_X86;
-+        value->u.x86.pc = env->eip + env->segs[R_CS].base;
- #elif defined(TARGET_PPC)
--        info->value->arch = CPU_INFO_ARCH_PPC;
--        info->value->u.ppc.nip = env->nip;
-+        value->arch = CPU_INFO_ARCH_PPC;
-+        value->u.ppc.nip = env->nip;
- #elif defined(TARGET_SPARC)
--        info->value->arch = CPU_INFO_ARCH_SPARC;
--        info->value->u.q_sparc.pc = env->pc;
--        info->value->u.q_sparc.npc = env->npc;
-+        value->arch = CPU_INFO_ARCH_SPARC;
-+        value->u.q_sparc.pc = env->pc;
-+        value->u.q_sparc.npc = env->npc;
- #elif defined(TARGET_MIPS)
--        info->value->arch = CPU_INFO_ARCH_MIPS;
--        info->value->u.q_mips.PC = env->active_tc.PC;
-+        value->arch = CPU_INFO_ARCH_MIPS;
-+        value->u.q_mips.PC = env->active_tc.PC;
- #elif defined(TARGET_TRICORE)
--        info->value->arch = CPU_INFO_ARCH_TRICORE;
--        info->value->u.tricore.PC = env->PC;
-+        value->arch = CPU_INFO_ARCH_TRICORE;
-+        value->u.tricore.PC = env->PC;
- #elif defined(TARGET_S390X)
--        info->value->arch = CPU_INFO_ARCH_S390;
--        info->value->u.s390.cpu_state = env->cpu_state;
-+        value->arch = CPU_INFO_ARCH_S390;
-+        value->u.s390.cpu_state = env->cpu_state;
- #elif defined(TARGET_RISCV)
--        info->value->arch = CPU_INFO_ARCH_RISCV;
--        info->value->u.riscv.pc = env->pc;
-+        value->arch = CPU_INFO_ARCH_RISCV;
-+        value->u.riscv.pc = env->pc;
- #else
--        info->value->arch = CPU_INFO_ARCH_OTHER;
-+        value->arch = CPU_INFO_ARCH_OTHER;
- #endif
--        info->value->has_props = !!mc->cpu_index_to_instance_props;
--        if (info->value->has_props) {
-+        value->has_props = !!mc->cpu_index_to_instance_props;
-+        if (value->has_props) {
-             CpuInstanceProperties *props;
-             props = g_malloc0(sizeof(*props));
-             *props = mc->cpu_index_to_instance_props(ms, cpu->cpu_index);
--            info->value->props = props;
-+            value->props = props;
-         }
- 
--        /* XXX: waiting for the qapi to support GSList */
--        if (!cur_item) {
--            head = cur_item = info;
--        } else {
--            cur_item->next = info;
--            cur_item = info;
--        }
-+        QAPI_LIST_APPEND(tail, value);
-     }
- 
-     return head;
-@@ -170,39 +163,33 @@ CpuInfoFastList *qmp_query_cpus_fast(Error **errp)
- {
-     MachineState *ms = MACHINE(qdev_get_machine());
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
--    CpuInfoFastList *head = NULL, *cur_item = NULL;
-+    CpuInfoFastList *head = NULL, **tail = &head;
-     SysEmuTarget target = qapi_enum_parse(&SysEmuTarget_lookup, TARGET_NAME,
-                                           -1, &error_abort);
-     CPUState *cpu;
- 
-     CPU_FOREACH(cpu) {
--        CpuInfoFastList *info = g_malloc0(sizeof(*info));
--        info->value = g_malloc0(sizeof(*info->value));
-+        CpuInfoFast *value = g_malloc0(sizeof(*value));
- 
--        info->value->cpu_index = cpu->cpu_index;
--        info->value->qom_path = object_get_canonical_path(OBJECT(cpu));
--        info->value->thread_id = cpu->thread_id;
-+        value->cpu_index = cpu->cpu_index;
-+        value->qom_path = object_get_canonical_path(OBJECT(cpu));
-+        value->thread_id = cpu->thread_id;
- 
--        info->value->has_props = !!mc->cpu_index_to_instance_props;
--        if (info->value->has_props) {
-+        value->has_props = !!mc->cpu_index_to_instance_props;
-+        if (value->has_props) {
-             CpuInstanceProperties *props;
-             props = g_malloc0(sizeof(*props));
-             *props = mc->cpu_index_to_instance_props(ms, cpu->cpu_index);
--            info->value->props = props;
-+            value->props = props;
-         }
- 
--        info->value->arch = sysemu_target_to_cpuinfo_arch(target);
--        info->value->target = target;
-+        value->arch = sysemu_target_to_cpuinfo_arch(target);
-+        value->target = target;
-         if (target == SYS_EMU_TARGET_S390X) {
--            cpustate_to_cpuinfo_s390(&info->value->u.s390x, cpu);
-+            cpustate_to_cpuinfo_s390(&value->u.s390x, cpu);
-         }
- 
--        if (!cur_item) {
--            head = cur_item = info;
--        } else {
--            cur_item->next = info;
--            cur_item = info;
--        }
-+        QAPI_LIST_APPEND(tail, value);
-     }
- 
-     return head;
-diff --git a/hw/mem/memory-device.c b/hw/mem/memory-device.c
-index cf0627fd01..d9f8301711 100644
---- a/hw/mem/memory-device.c
-+++ b/hw/mem/memory-device.c
-@@ -199,7 +199,7 @@ out:
- MemoryDeviceInfoList *qmp_memory_device_list(void)
- {
-     GSList *devices = NULL, *item;
--    MemoryDeviceInfoList *list = NULL, *prev = NULL;
-+    MemoryDeviceInfoList *list = NULL, **tail = &list;
- 
-     object_child_foreach(qdev_get_machine(), memory_device_build_list,
-                          &devices);
-@@ -207,19 +207,11 @@ MemoryDeviceInfoList *qmp_memory_device_list(void)
-     for (item = devices; item; item = g_slist_next(item)) {
-         const MemoryDeviceState *md = MEMORY_DEVICE(item->data);
-         const MemoryDeviceClass *mdc = MEMORY_DEVICE_GET_CLASS(item->data);
--        MemoryDeviceInfoList *elem = g_new0(MemoryDeviceInfoList, 1);
-         MemoryDeviceInfo *info = g_new0(MemoryDeviceInfo, 1);
- 
-         mdc->fill_device_info(md, info);
- 
--        elem->value = info;
--        elem->next = NULL;
--        if (prev) {
--            prev->next = elem;
--        } else {
--            list = elem;
--        }
--        prev = elem;
-+        QAPI_LIST_APPEND(tail, info);
-     }
- 
-     g_slist_free(devices);
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index a6b0c5602e..512e9042ff 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -1683,41 +1683,34 @@ static PciDeviceInfoList *qmp_query_pci_devices(PCIBus *bus, int bus_num);
- 
- static PciMemoryRegionList *qmp_query_pci_regions(const PCIDevice *dev)
- {
--    PciMemoryRegionList *head = NULL, *cur_item = NULL;
-+    PciMemoryRegionList *head = NULL, **tail = &head;
-     int i;
- 
-     for (i = 0; i < PCI_NUM_REGIONS; i++) {
-         const PCIIORegion *r = &dev->io_regions[i];
--        PciMemoryRegionList *region;
-+        PciMemoryRegion *region;
- 
-         if (!r->size) {
-             continue;
-         }
- 
-         region = g_malloc0(sizeof(*region));
--        region->value = g_malloc0(sizeof(*region->value));
- 
-         if (r->type & PCI_BASE_ADDRESS_SPACE_IO) {
--            region->value->type = g_strdup("io");
-+            region->type = g_strdup("io");
-         } else {
--            region->value->type = g_strdup("memory");
--            region->value->has_prefetch = true;
--            region->value->prefetch = !!(r->type & PCI_BASE_ADDRESS_MEM_PREFETCH);
--            region->value->has_mem_type_64 = true;
--            region->value->mem_type_64 = !!(r->type & PCI_BASE_ADDRESS_MEM_TYPE_64);
-+            region->type = g_strdup("memory");
-+            region->has_prefetch = true;
-+            region->prefetch = !!(r->type & PCI_BASE_ADDRESS_MEM_PREFETCH);
-+            region->has_mem_type_64 = true;
-+            region->mem_type_64 = !!(r->type & PCI_BASE_ADDRESS_MEM_TYPE_64);
-         }
- 
--        region->value->bar = i;
--        region->value->address = r->addr;
--        region->value->size = r->size;
-+        region->bar = i;
-+        region->address = r->addr;
-+        region->size = r->size;
- 
--        /* XXX: waiting for the qapi to support GSList */
--        if (!cur_item) {
--            head = cur_item = region;
--        } else {
--            cur_item->next = region;
--            cur_item = region;
--        }
-+        QAPI_LIST_APPEND(tail, region);
-     }
- 
-     return head;
-@@ -1814,23 +1807,14 @@ static PciDeviceInfo *qmp_query_pci_device(PCIDevice *dev, PCIBus *bus,
- 
- static PciDeviceInfoList *qmp_query_pci_devices(PCIBus *bus, int bus_num)
- {
--    PciDeviceInfoList *info, *head = NULL, *cur_item = NULL;
-+    PciDeviceInfoList *head = NULL, **tail = &head;
-     PCIDevice *dev;
-     int devfn;
- 
-     for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
-         dev = bus->devices[devfn];
-         if (dev) {
--            info = g_malloc0(sizeof(*info));
--            info->value = qmp_query_pci_device(dev, bus, bus_num);
--
--            /* XXX: waiting for the qapi to support GSList */
--            if (!cur_item) {
--                head = cur_item = info;
--            } else {
--                cur_item->next = info;
--                cur_item = info;
--            }
-+            QAPI_LIST_APPEND(tail, qmp_query_pci_device(dev, bus, bus_num));
-         }
-     }
- 
-@@ -1853,21 +1837,13 @@ static PciInfo *qmp_query_pci_bus(PCIBus *bus, int bus_num)
- 
- PciInfoList *qmp_query_pci(Error **errp)
- {
--    PciInfoList *info, *head = NULL, *cur_item = NULL;
-+    PciInfoList *head = NULL, **tail = &head;
-     PCIHostState *host_bridge;
- 
-     QLIST_FOREACH(host_bridge, &pci_host_bridges, next) {
--        info = g_malloc0(sizeof(*info));
--        info->value = qmp_query_pci_bus(host_bridge->bus,
--                                        pci_bus_num(host_bridge->bus));
--
--        /* XXX: waiting for the qapi to support GSList */
--        if (!cur_item) {
--            head = cur_item = info;
--        } else {
--            cur_item->next = info;
--            cur_item = info;
--        }
-+        QAPI_LIST_APPEND(tail,
-+                         qmp_query_pci_bus(host_bridge->bus,
-+                                           pci_bus_num(host_bridge->bus)));
-     }
- 
-     return head;
-diff --git a/migration/migration.c b/migration/migration.c
-index d5136419bf..1986cb8573 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -793,29 +793,21 @@ void migrate_send_rp_resume_ack(MigrationIncomingState *mis, uint32_t value)
- 
- MigrationCapabilityStatusList *qmp_query_migrate_capabilities(Error **errp)
- {
--    MigrationCapabilityStatusList *head = NULL;
--    MigrationCapabilityStatusList *caps;
-+    MigrationCapabilityStatusList *head = NULL, **tail = &head;
-+    MigrationCapabilityStatus *caps;
-     MigrationState *s = migrate_get_current();
-     int i;
- 
--    caps = NULL; /* silence compiler warning */
-     for (i = 0; i < MIGRATION_CAPABILITY__MAX; i++) {
- #ifndef CONFIG_LIVE_BLOCK_MIGRATION
-         if (i == MIGRATION_CAPABILITY_BLOCK) {
-             continue;
-         }
- #endif
--        if (head == NULL) {
--            head = g_malloc0(sizeof(*caps));
--            caps = head;
--        } else {
--            caps->next = g_malloc0(sizeof(*caps));
--            caps = caps->next;
--        }
--        caps->value =
--            g_malloc(sizeof(*caps->value));
--        caps->value->capability = i;
--        caps->value->state = s->enabled_capabilities[i];
-+        caps = g_malloc0(sizeof(*caps));
-+        caps->capability = i;
-+        caps->state = s->enabled_capabilities[i];
-+        QAPI_LIST_APPEND(tail, caps);
-     }
- 
-     return head;
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 529f18099e..a48bc1e904 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1706,7 +1706,8 @@ void hmp_closefd(Monitor *mon, const QDict *qdict)
- void hmp_sendkey(Monitor *mon, const QDict *qdict)
- {
-     const char *keys = qdict_get_str(qdict, "keys");
--    KeyValueList *keylist, *head = NULL, *tmp = NULL;
-+    KeyValue *v = NULL;
-+    KeyValueList *head = NULL, **tail = &head;
-     int has_hold_time = qdict_haskey(qdict, "hold-time");
-     int hold_time = qdict_get_try_int(qdict, "hold-time", -1);
-     Error *err = NULL;
-@@ -1723,16 +1724,7 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
-             keyname_len = 4;
-         }
- 
--        keylist = g_malloc0(sizeof(*keylist));
--        keylist->value = g_malloc0(sizeof(*keylist->value));
--
--        if (!head) {
--            head = keylist;
--        }
--        if (tmp) {
--            tmp->next = keylist;
--        }
--        tmp = keylist;
-+        v = g_malloc0(sizeof(*v));
- 
-         if (strstart(keys, "0x", NULL)) {
-             char *endp;
-@@ -1741,16 +1733,18 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
-             if (endp != keys + keyname_len) {
-                 goto err_out;
-             }
--            keylist->value->type = KEY_VALUE_KIND_NUMBER;
--            keylist->value->u.number.data = value;
-+            v->type = KEY_VALUE_KIND_NUMBER;
-+            v->u.number.data = value;
-         } else {
-             int idx = index_from_key(keys, keyname_len);
-             if (idx == Q_KEY_CODE__MAX) {
-                 goto err_out;
-             }
--            keylist->value->type = KEY_VALUE_KIND_QCODE;
--            keylist->value->u.qcode.data = idx;
-+            v->type = KEY_VALUE_KIND_QCODE;
-+            v->u.qcode.data = idx;
-         }
-+        QAPI_LIST_APPEND(tail, v);
-+        v = NULL;
- 
-         if (!*separator) {
-             break;
-@@ -1762,6 +1756,7 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
-     hmp_handle_error(mon, err);
- 
- out:
-+    qapi_free_KeyValue(v);
-     qapi_free_KeyValueList(head);
-     return;
- 
-diff --git a/net/net.c b/net/net.c
-index 2afac24b79..fb7b7dcc25 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -1213,10 +1213,9 @@ RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
-                                       Error **errp)
- {
-     NetClientState *nc;
--    RxFilterInfoList *filter_list = NULL, *last_entry = NULL;
-+    RxFilterInfoList *filter_list = NULL, **tail = &filter_list;
- 
-     QTAILQ_FOREACH(nc, &net_clients, next) {
--        RxFilterInfoList *entry;
-         RxFilterInfo *info;
- 
-         if (has_name && strcmp(nc->name, name) != 0) {
-@@ -1241,15 +1240,7 @@ RxFilterInfoList *qmp_query_rx_filter(bool has_name, const char *name,
- 
-         if (nc->info->query_rx_filter) {
-             info = nc->info->query_rx_filter(nc);
--            entry = g_malloc0(sizeof(*entry));
--            entry->value = info;
--
--            if (!filter_list) {
--                filter_list = entry;
--            } else {
--                last_entry->next = entry;
--            }
--            last_entry = entry;
-+            QAPI_LIST_APPEND(tail, info);
-         } else if (has_name) {
-             error_setg(errp, "net client(%s) doesn't support"
-                        " rx-filter querying", name);
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index f0a23b0402..8dd94a3314 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -3138,11 +3138,10 @@ static double ga_get_login_time(struct utmpx *user_info)
- GuestUserList *qmp_guest_get_users(Error **errp)
- {
-     GHashTable *cache = NULL;
--    GuestUserList *head = NULL, *cur_item = NULL;
-+    GuestUserList *head = NULL, **tail = &head;
-     struct utmpx *user_info = NULL;
-     gpointer value = NULL;
-     GuestUser *user = NULL;
--    GuestUserList *item = NULL;
-     double login_time = 0;
- 
-     cache = g_hash_table_new(g_str_hash, g_str_equal);
-@@ -3165,19 +3164,13 @@ GuestUserList *qmp_guest_get_users(Error **errp)
-             continue;
-         }
- 
--        item = g_new0(GuestUserList, 1);
--        item->value = g_new0(GuestUser, 1);
--        item->value->user = g_strdup(user_info->ut_user);
--        item->value->login_time = ga_get_login_time(user_info);
-+        user = g_new0(GuestUser, 1);
-+        user->user = g_strdup(user_info->ut_user);
-+        user->login_time = ga_get_login_time(user_info);
- 
--        g_hash_table_insert(cache, item->value->user, item->value);
-+        g_hash_table_insert(cache, user->user, user);
- 
--        if (!cur_item) {
--            head = cur_item = item;
--        } else {
--            cur_item->next = item;
--            cur_item = item;
--        }
-+        QAPI_LIST_APPEND(tail, user);
-     }
-     endutxent();
-     g_hash_table_destroy(cache);
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index a6cc481bc3..a00e6cb165 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -1624,11 +1624,11 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
- {
-     IP_ADAPTER_ADDRESSES *adptr_addrs, *addr;
-     IP_ADAPTER_UNICAST_ADDRESS *ip_addr = NULL;
--    GuestNetworkInterfaceList *head = NULL, *cur_item = NULL;
--    GuestIpAddressList *head_addr, *cur_addr;
--    GuestNetworkInterfaceList *info;
-+    GuestNetworkInterfaceList *head = NULL, **tail = &head;
-+    GuestIpAddressList *head_addr, **tail_addr;
-+    GuestNetworkInterface *info;
-     GuestNetworkInterfaceStat *interface_stat = NULL;
--    GuestIpAddressList *address_item = NULL;
-+    GuestIpAddress *address_item = NULL;
-     unsigned char *mac_addr;
-     char *addr_str;
-     WORD wsa_version;
-@@ -1651,30 +1651,24 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
-     for (addr = adptr_addrs; addr; addr = addr->Next) {
-         info = g_malloc0(sizeof(*info));
- 
--        if (cur_item == NULL) {
--            head = cur_item = info;
--        } else {
--            cur_item->next = info;
--            cur_item = info;
--        }
-+        QAPI_LIST_APPEND(tail, info);
- 
--        info->value = g_malloc0(sizeof(*info->value));
--        info->value->name = guest_wctomb_dup(addr->FriendlyName);
-+        info->name = guest_wctomb_dup(addr->FriendlyName);
- 
-         if (addr->PhysicalAddressLength != 0) {
-             mac_addr = addr->PhysicalAddress;
- 
--            info->value->hardware_address =
-+            info->hardware_address =
-                 g_strdup_printf("%02x:%02x:%02x:%02x:%02x:%02x",
-                                 (int) mac_addr[0], (int) mac_addr[1],
-                                 (int) mac_addr[2], (int) mac_addr[3],
-                                 (int) mac_addr[4], (int) mac_addr[5]);
- 
--            info->value->has_hardware_address = true;
-+            info->has_hardware_address = true;
-         }
- 
-         head_addr = NULL;
--        cur_addr = NULL;
-+        tail_addr = &head_addr;
-         for (ip_addr = addr->FirstUnicastAddress;
-                 ip_addr;
-                 ip_addr = ip_addr->Next) {
-@@ -1685,37 +1679,29 @@ GuestNetworkInterfaceList *qmp_guest_network_get_interfaces(Error **errp)
- 
-             address_item = g_malloc0(sizeof(*address_item));
- 
--            if (!cur_addr) {
--                head_addr = cur_addr = address_item;
--            } else {
--                cur_addr->next = address_item;
--                cur_addr = address_item;
--            }
-+            QAPI_LIST_APPEND(tail_addr, address_item);
- 
--            address_item->value = g_malloc0(sizeof(*address_item->value));
--            address_item->value->ip_address = addr_str;
--            address_item->value->prefix = guest_ip_prefix(ip_addr);
-+            address_item->ip_address = addr_str;
-+            address_item->prefix = guest_ip_prefix(ip_addr);
-             if (ip_addr->Address.lpSockaddr->sa_family == AF_INET) {
--                address_item->value->ip_address_type =
--                    GUEST_IP_ADDRESS_TYPE_IPV4;
-+                address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV4;
-             } else if (ip_addr->Address.lpSockaddr->sa_family == AF_INET6) {
--                address_item->value->ip_address_type =
--                    GUEST_IP_ADDRESS_TYPE_IPV6;
-+                address_item->ip_address_type = GUEST_IP_ADDRESS_TYPE_IPV6;
-             }
-         }
-         if (head_addr) {
--            info->value->has_ip_addresses = true;
--            info->value->ip_addresses = head_addr;
-+            info->has_ip_addresses = true;
-+            info->ip_addresses = head_addr;
-         }
--        if (!info->value->has_statistics) {
-+        if (!info->has_statistics) {
-             interface_stat = g_malloc0(sizeof(*interface_stat));
-             if (guest_get_network_stats(addr->AdapterName,
-                 interface_stat) == -1) {
--                info->value->has_statistics = false;
-+                info->has_statistics = false;
-                 g_free(interface_stat);
-             } else {
--                info->value->statistics = interface_stat;
--                info->value->has_statistics = true;
-+                info->statistics = interface_stat;
-+                info->has_statistics = true;
-             }
-         }
-     }
-@@ -2082,12 +2068,11 @@ GuestUserList *qmp_guest_get_users(Error **errp)
- #define QGA_NANOSECONDS 10000000
- 
-     GHashTable *cache = NULL;
--    GuestUserList *head = NULL, *cur_item = NULL;
-+    GuestUserList *head = NULL, **tail = &head;
- 
-     DWORD buffer_size = 0, count = 0, i = 0;
-     GA_WTSINFOA *info = NULL;
-     WTS_SESSION_INFOA *entries = NULL;
--    GuestUserList *item = NULL;
-     GuestUser *user = NULL;
-     gpointer value = NULL;
-     INT64 login = 0;
-@@ -2123,23 +2108,17 @@ GuestUserList *qmp_guest_get_users(Error **errp)
-                         user->login_time = login_time;
-                     }
-                 } else {
--                    item = g_new0(GuestUserList, 1);
--                    item->value = g_new0(GuestUser, 1);
-+                    user = g_new0(GuestUser, 1);
- 
--                    item->value->user = g_strdup(info->UserName);
--                    item->value->domain = g_strdup(info->Domain);
--                    item->value->has_domain = true;
-+                    user->user = g_strdup(info->UserName);
-+                    user->domain = g_strdup(info->Domain);
-+                    user->has_domain = true;
- 
--                    item->value->login_time = login_time;
-+                    user->login_time = login_time;
- 
--                    g_hash_table_add(cache, item->value->user);
-+                    g_hash_table_add(cache, user->user);
- 
--                    if (!cur_item) {
--                        head = cur_item = item;
--                    } else {
--                        cur_item->next = item;
--                        cur_item = item;
--                    }
-+                    QAPI_LIST_APPEND(tail, user);
-                 }
-             }
-             WTSFreeMemory(info);
-@@ -2424,7 +2403,7 @@ static GStrv ga_get_hardware_ids(DEVINST devInstance)
- 
- GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
- {
--    GuestDeviceInfoList *head = NULL, *cur_item = NULL, *item = NULL;
-+    GuestDeviceInfoList *head = NULL, **tail = &head;
-     HDEVINFO dev_info = INVALID_HANDLE_VALUE;
-     SP_DEVINFO_DATA dev_info_data;
-     int i, j;
-@@ -2522,14 +2501,7 @@ GuestDeviceInfoList *qmp_guest_get_devices(Error **errp)
-         slog("driver: %s\ndriver version: %" PRId64 ",%s\n",
-              device->driver_name, device->driver_date,
-              device->driver_version);
--        item = g_new0(GuestDeviceInfoList, 1);
--        item->value = g_steal_pointer(&device);
--        if (!cur_item) {
--            head = cur_item = item;
--        } else {
--            cur_item->next = item;
--            cur_item = item;
--        }
-+        QAPI_LIST_APPEND(tail, g_steal_pointer(&device));
-     }
- 
-     if (dev_info != INVALID_HANDLE_VALUE) {
-diff --git a/softmmu/tpm.c b/softmmu/tpm.c
-index cab206355a..578563f05a 100644
---- a/softmmu/tpm.c
-+++ b/softmmu/tpm.c
-@@ -196,22 +196,14 @@ int tpm_config_parse(QemuOptsList *opts_list, const char *optarg)
- TPMInfoList *qmp_query_tpm(Error **errp)
- {
-     TPMBackend *drv;
--    TPMInfoList *info, *head = NULL, *cur_item = NULL;
-+    TPMInfoList *head = NULL, **tail = &head;
- 
-     QLIST_FOREACH(drv, &tpm_backends, list) {
-         if (!drv->tpmif) {
-             continue;
-         }
- 
--        info = g_new0(TPMInfoList, 1);
--        info->value = tpm_backend_query_tpm(drv);
--
--        if (!cur_item) {
--            head = cur_item = info;
--        } else {
--            cur_item->next = info;
--            cur_item = info;
--        }
-+        QAPI_LIST_APPEND(tail, tpm_backend_query_tpm(drv));
-     }
- 
-     return head;
-@@ -220,44 +212,26 @@ TPMInfoList *qmp_query_tpm(Error **errp)
- TpmTypeList *qmp_query_tpm_types(Error **errp)
- {
-     unsigned int i = 0;
--    TpmTypeList *head = NULL, *prev = NULL, *cur_item;
-+    TpmTypeList *head = NULL, **tail = &head;
- 
-     for (i = 0; i < TPM_TYPE__MAX; i++) {
-         if (!tpm_be_find_by_type(i)) {
-             continue;
-         }
--        cur_item = g_new0(TpmTypeList, 1);
--        cur_item->value = i;
--
--        if (prev) {
--            prev->next = cur_item;
--        }
--        if (!head) {
--            head = cur_item;
--        }
--        prev = cur_item;
-+        QAPI_LIST_APPEND(tail, i);
-     }
- 
-     return head;
- }
- TpmModelList *qmp_query_tpm_models(Error **errp)
- {
--    TpmModelList *head = NULL, *prev = NULL, *cur_item;
-+    TpmModelList *head = NULL, **tail = &head;
-     GSList *e, *l = object_class_get_list(TYPE_TPM_IF, false);
- 
-     for (e = l; e; e = e->next) {
-         TPMIfClass *c = TPM_IF_CLASS(e->data);
- 
--        cur_item = g_new0(TpmModelList, 1);
--        cur_item->value = c->model;
--
--        if (prev) {
--            prev->next = cur_item;
--        }
--        if (!head) {
--            head = cur_item;
--        }
--        prev = cur_item;
-+        QAPI_LIST_APPEND(tail, c->model);
-     }
-     g_slist_free(l);
- 
-diff --git a/ui/spice-core.c b/ui/spice-core.c
-index 5746d0aae7..514c0f9754 100644
---- a/ui/spice-core.c
-+++ b/ui/spice-core.c
-@@ -354,11 +354,11 @@ static const char *wan_compression_names[] = {
- 
- static SpiceChannelList *qmp_query_spice_channels(void)
- {
--    SpiceChannelList *cur_item = NULL, *head = NULL;
-+    SpiceChannelList *head = NULL, **tail = &head;
-     ChannelList *item;
- 
-     QTAILQ_FOREACH(item, &channel_list, link) {
--        SpiceChannelList *chan;
-+        SpiceChannel *chan;
-         char host[NI_MAXHOST], port[NI_MAXSERV];
-         struct sockaddr *paddr;
-         socklen_t plen;
-@@ -366,29 +366,22 @@ static SpiceChannelList *qmp_query_spice_channels(void)
-         assert(item->info->flags & SPICE_CHANNEL_EVENT_FLAG_ADDR_EXT);
- 
-         chan = g_malloc0(sizeof(*chan));
--        chan->value = g_malloc0(sizeof(*chan->value));
- 
-         paddr = (struct sockaddr *)&item->info->paddr_ext;
-         plen = item->info->plen_ext;
-         getnameinfo(paddr, plen,
-                     host, sizeof(host), port, sizeof(port),
-                     NI_NUMERICHOST | NI_NUMERICSERV);
--        chan->value->host = g_strdup(host);
--        chan->value->port = g_strdup(port);
--        chan->value->family = inet_netfamily(paddr->sa_family);
-+        chan->host = g_strdup(host);
-+        chan->port = g_strdup(port);
-+        chan->family = inet_netfamily(paddr->sa_family);
- 
--        chan->value->connection_id = item->info->connection_id;
--        chan->value->channel_type = item->info->type;
--        chan->value->channel_id = item->info->id;
--        chan->value->tls = item->info->flags & SPICE_CHANNEL_EVENT_FLAG_TLS;
-+        chan->connection_id = item->info->connection_id;
-+        chan->channel_type = item->info->type;
-+        chan->channel_id = item->info->id;
-+        chan->tls = item->info->flags & SPICE_CHANNEL_EVENT_FLAG_TLS;
- 
--       /* XXX: waiting for the qapi to support GSList */
--        if (!cur_item) {
--            head = cur_item = chan;
--        } else {
--            cur_item->next = chan;
--            cur_item = chan;
--        }
-+        QAPI_LIST_APPEND(tail, chan);
-     }
- 
-     return head;
--- 
-2.26.2
+Done.  Thanks!
 
 
