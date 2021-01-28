@@ -2,67 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D1D530715E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:26:35 +0100 (CET)
-Received: from localhost ([::1]:33226 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F120530715D
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:26:34 +0100 (CET)
+Received: from localhost ([::1]:33274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l52dO-0007Lq-7Y
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:26:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54266)
+	id 1l52dN-0007My-OP
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:26:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l52ab-0005dO-KQ
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:23:42 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535]:37548)
+ id 1l52ad-0005dR-IA
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:23:44 -0500
+Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:35589)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l52aW-0005aq-Cw
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:23:39 -0500
-Received: by mail-pg1-x535.google.com with SMTP id z21so3807488pgj.4
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 00:23:35 -0800 (PST)
+ id 1l52aZ-0005bs-DM
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:23:42 -0500
+Received: by mail-pg1-x531.google.com with SMTP id t25so3812129pga.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 00:23:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cbkcW2ok2YQLEbATCJLPGmECgb56rWFy9WhXjrO1Dbs=;
- b=rql8I8zW25BM87SY/ab5xZJsNDdxGGePSD1pICV86KKuh3Y4tXWlUA3sfixTF3q3ye
- qoWEG/f4nNHy+sChXu8T5x764PBS6liGiGEkCP1VE/WZDrBFpO0U0vYwvKJZwtqOwQFQ
- pX+B/GugvldMr6Uxqr+GW2oToJ2JRq2gmwX69CGybLCqWBRNNtvkHBw18h9zcOR3x+eF
- 51t3xPYU8mQkMMu204/1vY04noCFYBYCOjMMkv07076lrI/juYTVGWplKeTP4xPxAxK8
- GFrD20LCCNwcxS1Zyb+253VSHS4Uo2NQwx76Ko9eG5mfPJBXLW6RN457Meos5VkaxPhz
- Jw/Q==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=XE0PhE5jrT77dVnaZXiyTjuegsVetoGaec703uiwX/s=;
+ b=N1SwYG/oksao/5xB/+4AXH5ce18FwdUZuyjIokVm3/Uk5Nf0oc3Ie7cQUaSlxytBxq
+ cRV9ccl8wOtwhnvqSB2cFtC3Fyjg4GV2VTsBSgM27FqFHyE1zsjJnZhvsCRu5yIYnU42
+ uNoEDxvX1Nmy2D7/vy5Yr7XiJXPZSaSW9qjCh5Hg4YfPBt3mxKU2i4dEOR78mnYXc4Hf
+ ObKxjWwJK+m2eG+KBUtDa+ccemn4iNt2MAFr2hjcGEGi/VcSnwhKdc/0ZxLifk8Db2bs
+ M30Wo3nZsqUmgjSBxO3XYZ5KHQpJsG5jnbrZGjr1M1MjiW40rjZVUZ5G4F0FHYhYBRAS
+ 2dJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=cbkcW2ok2YQLEbATCJLPGmECgb56rWFy9WhXjrO1Dbs=;
- b=tSq6GO1E2XOzu/vIUGrafHKcgQrrDidUoixgjymSK3woZO4QB5jRIYXq6rTM5qnMJR
- s1dGmRYKONp0mqscPb2ATw2kYCjDo8KBs9vi2BCBnQ1/KOu0dKU3l5S/Nxu9Mi/IFLD7
- +4NL3Dy1Zb8JFGRWKikuRWuFZ/yal2E+U/X7/VOp0xcmULzQ29XgPHsk5zLq7uLnk2ph
- 5cD6ZwEUV9hJDGtGC6vxWtmM4HG/8Mutwe12lbFAJq05Rku3uX19hpNWHoCH13SlT+QQ
- Vemmbg/m1DD5akxRU1u4GQBU2hRwRkUXHpGkdrt+yRtwRiVoCChn6Qhh1vWxG/fg2fEQ
- NkTw==
-X-Gm-Message-State: AOAM533NkrW8QDRUAfLlQrZeVkb65ZJA+sZstljAnMVavf/PckQW3XuA
- 4l+k3ATH53wPjtXWdcjchhw9DiyYSi2g8UhJ
-X-Google-Smtp-Source: ABdhPJzAdAbRxLeBbIzP4usMxj5cAdRW6HFvr1VmeBJhwQfMyTF1nsCegMLqOYflejZNWrtCAV51Dw==
-X-Received: by 2002:a65:488d:: with SMTP id n13mr14860919pgs.315.1611822214671; 
- Thu, 28 Jan 2021 00:23:34 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=XE0PhE5jrT77dVnaZXiyTjuegsVetoGaec703uiwX/s=;
+ b=m0aFFtLgKq6Ei1Q7le6O2AOcahnSo5kOz1a3Fr8SSLGwt2BKddBPJXRUJXyKjfulAK
+ 67HF+DyQ6GgzBNjebHW09zPoJj4cczoVnM3eRBEtGkFV126FRt2RJkO5rXg5+6sjYMco
+ EnWglyjjWz2iO/XtQf0OIT69GPw4hyzTkqYu7qOfgaoPXnEJjRF9/MEc5za07PiDB7It
+ qYPhgBIyG6sf6QPl/0N9OExsLnNVSlbrDeVXqsMxod2IRPgJ9sTgsJtV0paKdHOfAPGo
+ w3lKyTh+ttEw18WGOmsx3x1LJ3XPx4LgAx6Z7ZMIvZbx4Xpsq51KXf6VOpf84N1F0DS6
+ Jizw==
+X-Gm-Message-State: AOAM533eF6j7T1/Y+Od3RduUiLWKb6ge7POjXa7PiLMQiwMhh1xtLYSB
+ TjM7y68KTDzatdQN2kznyNGUi5bIifjq7LC7
+X-Google-Smtp-Source: ABdhPJwBvO/r08FozQW3sJhH2LKQHv4BE71BUXuDhX7CPaX9B9aD4kp4Mge+myx/VAaAaADVkqFBQA==
+X-Received: by 2002:a62:ed01:0:b029:1c8:c6c:16f0 with SMTP id
+ u1-20020a62ed010000b02901c80c6c16f0mr5203087pfh.80.1611822216199; 
+ Thu, 28 Jan 2021 00:23:36 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id s24sm4658292pfd.118.2021.01.28.00.23.33
+ by smtp.gmail.com with ESMTPSA id s24sm4658292pfd.118.2021.01.28.00.23.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 00:23:34 -0800 (PST)
+ Thu, 28 Jan 2021 00:23:35 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 00/23] TCI fixes and cleanups
-Date: Wed, 27 Jan 2021 22:23:08 -1000
-Message-Id: <20210128082331.196801-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/23] configure: Fix --enable-tcg-interpreter
+Date: Wed, 27 Jan 2021 22:23:09 -1000
+Message-Id: <20210128082331.196801-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210128082331.196801-1-richard.henderson@linaro.org>
+References: <20210128082331.196801-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,58 +88,39 @@ Cc: sw@weilnetz.de
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The first patch I believe is queued by Paolo, but is not yet
-upstream; copied here for convenience.  Then, fill in all of
-the TODO blanks in TCI.
+The configure option was backward, and we failed to
+pass the value on to meson.
 
-The tci_write_reg* functions are redundant with tcg_write_reg.
-Just pass in the properly truncated result to begin.  In the
-cases of the loads, we've automatically done that with the
-type of the indirection.  For all of the other arithmetic,
-we don't actually have to do anything -- the value is either
-right, or the high bits are undefined.  And in fact will
-currently be ignored by the extension on read.
+Fixes: 23a77b2d18b
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ configure | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-
-r~
-
-
-Richard Henderson (21):
-  configure: Fix --enable-tcg-interpreter
-  tcg: Manage splitwx in tc_ptr_to_region_tree by hand
-  exec: Make tci_tb_ptr thread-local
-  tcg/tci: Inline tci_write_reg32s into the only caller
-  tcg/tci: Inline tci_write_reg8 into its callers
-  tcg/tci: Inline tci_write_reg16 into the only caller
-  tcg/tci: Inline tci_write_reg32 into all callers
-  tcg/tci: Inline tci_write_reg64 into 64-bit callers
-  tcg/tci: Merge INDEX_op_ld8u_{i32,i64}
-  tcg/tci: Merge INDEX_op_ld8s_{i32,i64}
-  tcg/tci: Merge INDEX_op_ld16u_{i32,i64}
-  tcg/tci: Merge INDEX_op_ld16s_{i32,i64}
-  tcg/tci: Merge INDEX_op_{ld_i32,ld32u_i64}
-  tcg/tci: Merge INDEX_op_st8_{i32,i64}
-  tcg/tci: Merge INDEX_op_st16_{i32,i64}
-  tcg/tci: Move stack bounds check to compile-time
-  tcg/tci: Merge INDEX_op_{st_i32,st32_i64}
-  tcg/tci: Use g_assert_not_reached
-  tcg/tci: Remove dead code for TCG_TARGET_HAS_div2_*
-  tcg/tci: Implement 64-bit division
-  tcg/tci: Remove TODO as unused
-
-Stefan Weil (2):
-  tcg/tci: Implement INDEX_op_ld16s_i32
-  tcg/tci: Implement INDEX_op_ld8s_i64
-
- configure                |   5 +-
- include/exec/exec-all.h  |   2 +-
- tcg/tci/tcg-target.h     |   4 +-
- tcg/tcg-common.c         |   2 +-
- tcg/tcg.c                |  23 +++-
- tcg/tci.c                | 283 +++++++++++++++------------------------
- tcg/tci/tcg-target.c.inc |  41 +++---
- 7 files changed, 154 insertions(+), 206 deletions(-)
-
+diff --git a/configure b/configure
+index dcc5ea7d63..ad35e26168 100755
+--- a/configure
++++ b/configure
+@@ -1119,9 +1119,9 @@ for opt do
+   ;;
+   --enable-whpx) whpx="enabled"
+   ;;
+-  --disable-tcg-interpreter) tcg_interpreter="true"
++  --disable-tcg-interpreter) tcg_interpreter="false"
+   ;;
+-  --enable-tcg-interpreter) tcg_interpreter="false"
++  --enable-tcg-interpreter) tcg_interpreter="true"
+   ;;
+   --disable-cap-ng)  cap_ng="disabled"
+   ;;
+@@ -6374,6 +6374,7 @@ NINJA=$ninja $meson setup \
+         -Dvhost_user_blk_server=$vhost_user_blk_server \
+         -Dfuse=$fuse -Dfuse_lseek=$fuse_lseek -Dguest_agent_msi=$guest_agent_msi \
+         $(if test "$default_features" = no; then echo "-Dauto_features=disabled"; fi) \
++	-Dtcg_interpreter=$tcg_interpreter \
+         $cross_arg \
+         "$PWD" "$source_path"
+ 
 -- 
 2.25.1
 
