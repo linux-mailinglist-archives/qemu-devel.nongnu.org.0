@@ -2,79 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB2063077A9
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:06:57 +0100 (CET)
-Received: from localhost ([::1]:38558 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF1DB30779B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:04:35 +0100 (CET)
+Received: from localhost ([::1]:60536 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l57wm-0006Wt-Tv
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:06:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33368)
+	id 1l57uU-0003qG-Re
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:04:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33824)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l57q0-0001M7-Cy
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:59:56 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:33643)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l57py-00016C-Np
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:59:56 -0500
-Received: by mail-wr1-x435.google.com with SMTP id 7so5523564wrz.0
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 05:59:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=OxEHKhpBL700BFz3quy9aG3cFpqLOM609JV6cnBT3UY=;
- b=rA78wZ5LzghfBffuCNKccdQcunLpkQW6jBT7r3Whf/KOvHDksyDe4uefWzqZSGXtWL
- UuKhho3YMiOpWmHFgLTOvl4eoJ6dArq9CMzMq+aU5hzAxgtlzc47U0URgUvzymeTYCt+
- sRZM/taMdhc7Pyja2VAifSdxBZXzHB87GpUagY8CbN90XpS23xjlkugiv8XrDMdqLAw4
- zpmTsA3Ccz5i+WWgnsljISXJ2qdsJpOYKGPyMlW6GH5V6B4Eb1br4+hZ3BsWyAO6XLM/
- K/d41wIz+nsvSdnxG43mE9XLVLdRmzUoT0Va7sj1mXGI+CGlzLKOodSeRDRtQZkr8aEP
- v5Rw==
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1l57rI-0002ET-9d
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:01:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:57849)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mszeredi@redhat.com>)
+ id 1l57rF-0001Wp-BX
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:01:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611842472;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0tehKjU/ZoqXoOa8uMYMcjxJwziBFN51jmfXQIRhyLY=;
+ b=QZELzrdQXFr/+ge+buxBrDZCbVpP6YOVuLSGXRJAI9O7kUfp2/OvyJWHY+rOTdMTogGiRe
+ 78A6S+OupqL4zsASAPShmitp4CZrfoJMS3ATOBaVOWD3viRXS+XfEhpTR0ZiKWwRkzT6Ue
+ hc0qtlqx6er/x8AR03FwPWMqfi6+bFc=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-387-aQQBSe8cO524qNHrGB_YsQ-1; Thu, 28 Jan 2021 09:01:10 -0500
+X-MC-Unique: aQQBSe8cO524qNHrGB_YsQ-1
+Received: by mail-qv1-f69.google.com with SMTP id j4so3767320qvi.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 06:01:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=OxEHKhpBL700BFz3quy9aG3cFpqLOM609JV6cnBT3UY=;
- b=RjxbUriU9kYfK3B8rXmp7m/GFaXZFPzJmaJCp6tPIRW7MYPMZZK1Dl2Oi50D74N0hl
- immTfmcHao72CPNEz35+12wwu9bHFcOEcJGMHy2EO7QO5wz+yAcgZ/DmcK31YO4v+Pom
- FkDfcrv7AbDtAexyRDLrlquT56xB9Sk8ltImM8jVTsMLPMiwU6bE7ULSb4cMYKj4VrPq
- GzSx4OtSuB2z0+ass7Xn85TWIXdQcD17H96YgYTc2sL+/PcenEQn2ZL4mFUXbLB1TRPJ
- tqrWowpAu7XyI+dTMT/iu+nAWw5UeR2y3mAquxWsb39EpCLYxJVFn4H1tWxpkHDMHH4C
- 4Bog==
-X-Gm-Message-State: AOAM5339SzNsOlu2OAiqP16mGNDPLcB6TlZFMCX4w2xR7iBt16BKqAD0
- l0PEm1m/J354W5HIhJ1GZPW2Rw==
-X-Google-Smtp-Source: ABdhPJwjG40zFEHBBpzJJxtBbvZDbgPS2lxg9dfSFujP/0yfgUoGXBZ1EYKLO8QIiy09imElayCGbg==
-X-Received: by 2002:adf:f891:: with SMTP id u17mr16668993wrp.253.1611842393326; 
- Thu, 28 Jan 2021 05:59:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q2sm6111999wma.6.2021.01.28.05.59.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 05:59:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5F1331FF7E;
- Thu, 28 Jan 2021 13:59:51 +0000 (GMT)
-References: <20210128082331.196801-1-richard.henderson@linaro.org>
- <20210128082331.196801-6-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 05/23] tcg/tci: Implement INDEX_op_ld8s_i64
-Date: Thu, 28 Jan 2021 13:59:45 +0000
-In-reply-to: <20210128082331.196801-6-richard.henderson@linaro.org>
-Message-ID: <877dnxw4a0.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=0tehKjU/ZoqXoOa8uMYMcjxJwziBFN51jmfXQIRhyLY=;
+ b=DeTl5DIgGTpqor4o7yqBBScUvPnA/y2v13LKsH50fpDRTUgTBom8F4SfadCmq+Tay5
+ 8L9cDEQPebWz6YN71p6rW5AVGkNVNM3PphFmFstMKW629YL2HUzhGqELYYrSeJkD+rgD
+ 2t4dpwTpqUih+I7vOFUM6zUuM6IXOPXMjH9+E3mY2DojdK+og4A/ffkOt/KioXt0hiw4
+ CwLXQwt7N/VnGs5k6sRhqueMtq/qeHJzTa7AYmc/h5DplFXD6wAV9u+gJed3vZJ89A2e
+ rv48FnV7c3baidB9ifMhRJ2EuhqN//Tcgl5NKo0mGm88q3+a/iwyZDZvtF7xhyqSyBmU
+ WDwA==
+X-Gm-Message-State: AOAM532iVOANEgPc3cIeB/BtQoRdaRXtdJx/rGjxFqh4/oiEQMpN2aA2
+ a4BUCjGMRWlp7FmQEcHAJVhfnwXoudQVx0Hl1aZQVadV4tzXY6vRwWFTlpCf+ju/c+AqtVaCCxT
+ BqmJ7CWpiXCWy/CKCOfxggI8Xf+T3+3c=
+X-Received: by 2002:a37:4e05:: with SMTP id c5mr15497271qkb.349.1611842469611; 
+ Thu, 28 Jan 2021 06:01:09 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyQNYjSujkngrM7bjWrZOddeLY9hkV9Xnmg8WWA4V6RCtRbPqr7RwdB6bsjC5IdX1pSmHek//3jJVqE4KIvuxo=
+X-Received: by 2002:a37:4e05:: with SMTP id c5mr15497238qkb.349.1611842469323; 
+ Thu, 28 Jan 2021 06:01:09 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210126103502.260758-1-stefanha@redhat.com>
+ <20210126181604.1a4c69c6@bahia.lan>
+ <CAOssrKdh3kqKN4uGE=s5eiymd2MXKsRXUegqRH-TFhqYOK7WOA@mail.gmail.com>
+ <20210127112023.0e97f909@bahia.lan>
+ <CAOssrKfezsvcECQ=mO_4T2B09e+2S4LA3=_U6TQyiTtPbE=OYg@mail.gmail.com>
+ <20210127144909.22dd778e@bahia.lan>
+ <CAOssrKeN9iYT-Z46FVtzdKnWcTLfMqK77b1faf78m3XTXnEVGw@mail.gmail.com>
+ <20210127160920.062e47f0@bahia.lan>
+ <CAOssrKc=kSQQLmrAR2VrKfDzkyNDEAAa5qusK1x6+-fCM4+yCA@mail.gmail.com>
+ <20210127163524.4e34596d@bahia.lan>
+ <CAOssrKcbymmsVtU=jMMcE=K1T9oC=NmOzt3aSCe27K7TxXF61A@mail.gmail.com>
+ <CAOssrKfGuDOoJKvia4yLcYy7udYDHHs-EtFeEvjrfKiV9UkLPw@mail.gmail.com>
+ <20210128131454.2f66ed21@bahia.lan>
+In-Reply-To: <20210128131454.2f66ed21@bahia.lan>
+From: Miklos Szeredi <mszeredi@redhat.com>
+Date: Thu, 28 Jan 2021 15:00:58 +0100
+Message-ID: <CAOssrKff8FyC0i+Q1MY0paEiXdARp2=vkSnTwNHZxpntyV7oxA@mail.gmail.com>
+Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: prevent opening of special
+ files (CVE-2020-35517)
+To: Greg Kurz <groug@kaod.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mszeredi@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=mszeredi@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,50 +100,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: Daniel Berrange <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, Alex Xu <alex@alxu.ca>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> From: Stefan Weil <sw@weilnetz.de>
+On Thu, Jan 28, 2021 at 1:15 PM Greg Kurz <groug@kaod.org> wrote:
 >
-> That TCG opcode is used by debian-buster (arm64) running ffmpeg:
+> On Wed, 27 Jan 2021 16:52:56 +0100
+> Miklos Szeredi <mszeredi@redhat.com> wrote:
 >
->     qemu-aarch64 /usr/bin/ffmpeg -i theora.mkv theora.webm
+> > On Wed, Jan 27, 2021 at 4:47 PM Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > >
+> > > On Wed, Jan 27, 2021 at 4:35 PM Greg Kurz <groug@kaod.org> wrote:
+> > > >
+> > > > On Wed, 27 Jan 2021 16:22:49 +0100
+> > > > Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > > >
+> > > > > On Wed, Jan 27, 2021 at 4:09 PM Greg Kurz <groug@kaod.org> wrote:
+> > > > > >
+> > > > > > On Wed, 27 Jan 2021 15:09:50 +0100
+> > > > > > Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > > > > > > The semantics of O_CREATE are that it can fail neither because the
+> > > > > > > file exists nor because it doesn't.  This doesn't matter if the
+> > > > > > > exported tree is not modified outside of a single guest, because of
+> > > > > > > locking provided by the guest kernel.
+> > > > > > >
+> > > > > >
+> > > > > > Wrong. O_CREAT can legitimately fail with ENOENT if one element
+> > > > >
+> > > > > Let me make my  statement more precise:
+> > > > >
+> > > > > O_CREAT cannot fail with ENOENT if parent directory exists throughout
+> > > > > the operation.
+> > > > >
+> > > >
+> > > > True, but I still don't see what guarantees guest userspace that the
+> > > > parent directory doesn't go away... I must have missed something.
+> > > > Please elaborate.
+> > >
+> > > Generally there's no guarantee, however there can be certain
+> > > situations where the caller can indeed rely on the existence of the
+> > > parent (e.g. /tmp).
+> >
+> > Example from the virtiofs repo:
+> >
+> > https://gitlab.com/virtio-fs/ireg/-/blob/master/ireg.c#L315
+> > https://gitlab.com/virtio-fs/ireg/-/blob/master/ireg.c#L382
+> >
+> > In that case breaking O_CREAT would be harmless, since no two
+> > instances are allowed anyway, so it would just give a confusing error.
+> > But it is breakage and it probably wouldn't be hard to find much worse
+> > breakage in real life applications.
+> >
 >
-> Reported-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
-> Message-Id: <20210128020425.2055454-1-sw@weilnetz.de>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  tcg/tci.c | 5 ++++-
->  1 file changed, 4 insertions(+), 1 deletion(-)
+> Ok, I get your point : a guest userspace application can't expect
+> to hit ENOENT when doing open("/some_dir/foo", O_CREAT) even if
+> someone else is doing unlink("/some_dir/foo"), which is a different
+> case than somebody doing rmdir("/some_dir").
 >
-> diff --git a/tcg/tci.c b/tcg/tci.c
-> index 2edb47506e..0e1b8e8383 100644
-> --- a/tcg/tci.c
-> +++ b/tcg/tci.c
-> @@ -882,7 +882,10 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArchS=
-tate *env,
->              tci_write_reg8(regs, t0, *(uint8_t *)(t1 + t2));
->              break;
->          case INDEX_op_ld8s_i64:
-> -            TODO();
-> +            t0 =3D *tb_ptr++;
-> +            t1 =3D tci_read_r(regs, &tb_ptr);
-> +            t2 =3D tci_read_s32(&tb_ptr);
-> +            tci_write_reg(regs, t0, *(int8_t *)(t1 + t2));
->              break;
->          case INDEX_op_ld16u_i64:
->              t0 =3D *tb_ptr++;
+> But we still have a TOCTOU : the open(O_CREAT|O_EXCL) acts as
+> the check to use open(O_PATH) and retry+timeout can't fix it
+> reliably.
 
+Right.
 
---=20
-Alex Benn=C3=A9e
+> A possible fix for the case where the race comes from the
+> client itself would be to serialize FUSE requests that
+> create/remove paths in the same directory. I don't know
+> enough the code yet to assess if it's doable though.
+>
+> Then this would leave the case where something else on
+> the host is racing with virtiofsd. IMHO this belongs to
+> the broader family of "bad things the host can do
+> in our back". This requires a bigger hammer than
+> adding band-aids here and there IMHO. So in the
+> scope of this patch, I don't think we should retry
+> and timeout, but just return whatever errno that
+> makes sense.
+
+I never suggested a timeout, that would indeed be nonsense.
+
+Just do a simple retry loop with a counter.  I'd set counter to a
+small number (5 or whatever), so that basically any accidental races
+are cared for, and the only case that would trigger the EIO is if the
+file was constantly removed and recreated (and even in that case it
+would be pretty difficult to trigger).  This would add only minimal
+complexity or overhead.
+
+The proper solution might be adding O_REGULAR, and it actually would
+be useful for other O_CREAT users, since it's probably what they want
+anyway (but existing semantics can't be changed).
+
+Thanks,
+Miklos
+
 
