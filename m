@@ -2,63 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71CF307031
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 08:52:32 +0100 (CET)
-Received: from localhost ([::1]:45460 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 239D030712C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:18:25 +0100 (CET)
+Received: from localhost ([::1]:53964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l526R-0007On-Td
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 02:52:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48902)
+	id 1l52VT-0003tq-Lv
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:18:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52998)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l520I-00086f-HW
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 02:46:11 -0500
-Received: from 2.mo51.mail-out.ovh.net ([178.33.255.19]:57769)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l520F-0001Tu-5V
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 02:46:10 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.249])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id D216F25F264;
- Thu, 28 Jan 2021 08:46:02 +0100 (CET)
-Received: from kaod.org (37.59.142.103) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
- 2021 08:46:01 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-103G005c4938a37-9af3-4be5-b539-1e46df94340d,
- E57BA53B85CD0AA8C573FC380C1E6825DC018892) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 4/7] ppc/pnv: Simplify pnv_bmc_create()
-To: Joel Stanley <joel@jms.id.au>
-References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-5-clg@kaod.org>
- <CACPK8Xfw-E8TetGdfDYpMZChFbY7cQNGLX8_xh390A-vanS--w@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <9ea1ce11-15ba-3eea-f7a4-b036a9db841f@kaod.org>
-Date: Thu, 28 Jan 2021 08:46:01 +0100
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l52UO-0003TF-6g
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:17:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:43779)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l52UL-0003cA-Fj
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:17:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611821831;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=oTfiDzacX/lj6b1wF5/HWzeeeNoGMsPiEQqsjAdIfLI=;
+ b=QNLrqtaSTK/3EnUGSeX2B2rfe6vFDlWy4qJnaQzW/YiQfYrEDG5S/z6Ij+WiyzFA9sIH1z
+ 0c9oNRsqa378uX//gQtbMM9scBdZ7qY0fgolNxRlH9RJbaclQidsr0ZbjDqxiyYGA/CsQ1
+ yVLel2BECdi5qgE4qrc5aXYovpNB+4g=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-466-osKuLPkuNaij1HGe5KrtRA-1; Thu, 28 Jan 2021 03:17:09 -0500
+X-MC-Unique: osKuLPkuNaij1HGe5KrtRA-1
+Received: by mail-ej1-f71.google.com with SMTP id rl8so1853434ejb.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 00:17:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=oTfiDzacX/lj6b1wF5/HWzeeeNoGMsPiEQqsjAdIfLI=;
+ b=lauVYL2sVMDgW7W3s16I0jpZj1ZbTATcry+aKlRfscvkSHfKzOj4MEeQGH1HuMp5NO
+ XZYgZKxgaW7fcOTeATBeGZKdTumHdm/qBAtK7yRn2WN73ldMriRu9Zl9d3QrpF7+fFj0
+ eX5TlDT9zu1+XkC0Jhg4DfjyjQtRlaP/genNHqzla9ffvbWSbhJ3d6lEisKZKaH6maAN
+ n+5d27LxaiGlLRHYcmWwt56BSxOo1PG/kQgy21VNd0XjCf+MgjLR98nMpML6MslyN55+
+ bkuiFh5ZHeOQMSWyTbQg3BXW6zkv1fILatEmi/p7P64YXuDMmSAPAi8CUwQh0nLD2RXL
+ Q1Fw==
+X-Gm-Message-State: AOAM530JAHtA2zBfYWwJs6Uq+M/tK5vJYtYb7k4NAPs327g60Ys4VA59
+ X6aVqxh3Gb3xrvYjYsgpmrwPDiOk83d1KWPLLP7jht/QB6avDmMbkkZ386QLnZTgh/tIi/AwBRm
+ LZADaEAcTPieERbY=
+X-Received: by 2002:a05:6402:50ca:: with SMTP id
+ h10mr12656203edb.181.1611821828611; 
+ Thu, 28 Jan 2021 00:17:08 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJx+UE/zcy7OmULGal90kvSqvPMgLdJZvepQytrNjGPrGSmZJJsw0UsEyVaScb6Txv/mRtYGFg==
+X-Received: by 2002:a05:6402:50ca:: with SMTP id
+ h10mr12656191edb.181.1611821828447; 
+ Thu, 28 Jan 2021 00:17:08 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id p16sm1916223ejz.103.2021.01.28.00.17.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 00:17:07 -0800 (PST)
+Subject: Re: [PATCH] fuzz: fix wrong index in clear_bits
+To: Qiuhao Li <Qiuhao.Li@outlook.com>, qemu-devel@nongnu.org
+References: <SYCPR01MB3502E9F6EB06DEDCD484F738FCBA9@SYCPR01MB3502.ausprd01.prod.outlook.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <140b3f2a-56a9-91bb-2b5f-91bc60dd1f92@redhat.com>
+Date: Thu, 28 Jan 2021 09:17:04 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CACPK8Xfw-E8TetGdfDYpMZChFbY7cQNGLX8_xh390A-vanS--w@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <SYCPR01MB3502E9F6EB06DEDCD484F738FCBA9@SYCPR01MB3502.ausprd01.prod.outlook.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.103]
-X-ClientProxiedBy: DAG9EX1.mxp5.local (172.16.2.81) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 748b7f0c-dd9a-4511-9061-a0b6dff79531
-X-Ovh-Tracer-Id: 7762516909986712483
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrvdelgddutdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepjeekudeuudevleegudeugeekleffveeludejteffiedvledvgfekueefudehheefnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.33.255.19; envelope-from=clg@kaod.org;
- helo=2.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -71,58 +101,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: alxndr@bu.edu, thuth@redhat.com, bsd@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/21 1:46 AM, Joel Stanley wrote:
-> On Tue, 26 Jan 2021 at 17:14, Cédric Le Goater <clg@kaod.org> wrote:
->>
->> and reuse pnv_bmc_set_pnor() to share the setting of the PNOR.
->>
->> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->> ---
->>  hw/ppc/pnv_bmc.c | 7 +------
->>  1 file changed, 1 insertion(+), 6 deletions(-)
->>
->> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
->> index 67ebb16c4d5f..86d16b493539 100644
->> --- a/hw/ppc/pnv_bmc.c
->> +++ b/hw/ppc/pnv_bmc.c
->> @@ -260,13 +260,8 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
->>      Object *obj;
->>
->>      obj = object_new(TYPE_IPMI_BMC_SIMULATOR);
->> -    object_ref(OBJECT(pnor));
->> -    object_property_add_const_link(obj, "pnor", OBJECT(pnor));
+On 28/01/21 04:59, Qiuhao Li wrote:
+> Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+> ---
+>   scripts/oss-fuzz/minimize_qtest_trace.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I assume it's ok to move the link set to after the realise of the BMC object?
- 
+> diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
+> index 4cba96dee2..20825768c2 100755
+> --- a/scripts/oss-fuzz/minimize_qtest_trace.py
+> +++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+> @@ -261,7 +261,7 @@ def clear_bits(newtrace, outpath):
+>                   data_try = hex(int("".join(data_bin_list), 2))
+>                   # It seems qtest only accepts padded hex-values.
+>                   if len(data_try) % 2 == 1:
+> -                    data_try = data_try[:2] + "0" + data_try[2:-1]
+> +                    data_try = data_try[:2] + "0" + data_try[2:]
+>   
+>                   newtrace[i] = "{prefix} {data_try}\n".format(
+>                           prefix=prefix,
+> 
 
-When 2 objects need to be linked, one has to be realized first. 
-I suppose this is why it is allowed but I am not expert in that area. 
+Queued, thanks.
 
-Greg  ?
-
-That was the case already when defining a "ipmi-bmc-sim" device on the 
-command line. 
-
-C. 
-
-
->>      qdev_realize(DEVICE(obj), NULL, &error_fatal);
->> -
->> -    /* Install the HIOMAP protocol handlers to access the PNOR */
->> -    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(obj), IPMI_NETFN_OEM,
->> -                            &hiomap_netfn);
->> +    pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);
->>
->>      return IPMI_BMC(obj);
->>  }
->> --
->> 2.26.2
->>
->>
+Paolo
 
 
