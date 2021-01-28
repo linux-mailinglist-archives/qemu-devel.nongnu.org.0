@@ -2,62 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66F6430757C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:06:52 +0100 (CET)
-Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A0AA307597
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:10:47 +0100 (CET)
+Received: from localhost ([::1]:47932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l564Z-0003ko-GY
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:06:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
+	id 1l568M-0007Xq-M5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:10:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l562P-0002XB-RE
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:04:40 -0500
-Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:60031)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l562N-00050D-J0
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:04:37 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.1.97])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 9127325E92C;
- Thu, 28 Jan 2021 13:04:30 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
- 2021 13:04:29 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002681a401f-d4b9-486c-82af-52dd653f7205,
- 12ABEFCAB104A9A3990DEAE01579FEA45C2F0BE3) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 28 Jan 2021 13:04:28 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 4/7] ppc/pnv: Simplify pnv_bmc_create()
-Message-ID: <20210128130428.62b9adde@bahia.lan>
-In-Reply-To: <9ea1ce11-15ba-3eea-f7a4-b036a9db841f@kaod.org>
-References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-5-clg@kaod.org>
- <CACPK8Xfw-E8TetGdfDYpMZChFbY7cQNGLX8_xh390A-vanS--w@mail.gmail.com>
- <9ea1ce11-15ba-3eea-f7a4-b036a9db841f@kaod.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l566W-0006HL-IE
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:08:52 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:44685)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l566T-0006K4-Jp
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:08:52 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id w1so7339977ejf.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 04:08:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=3mMdRA9ock7OBY6gvnEu8TvMpsXskC8FRkRgfhZOZPY=;
+ b=wsR2wHkRrP78dj8oRCXvXSdTa58XqLbqHULK+4iaPsBEEnaiACW7fPiwcUyZqSmngA
+ JfVf2Ma2iQ30vILssJ37NZ7Mbwhn+HoqnPZ5PHlUg2dLJIWi9mceD9Eu3G3LbSta8/dJ
+ 4r2ltB0qo+PUsK5katd8PAfiIBvelRx9QB3EhDXd8DK+8Xj2ab/K6DX81sMI/E59KWUH
+ JCDRr9xq92R/0+THa4ghCjigOH4fzy6BTEaUlrgNo2ldpPGMCiWNcSiH5zk31suDi6G+
+ ZJsPoq4Vi+hI5SkfqTV4iyX4VoR4RNpAVjTKccVJd4FuqUkyjTIA3z/9YDD6N0aGn6b7
+ 1lJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=3mMdRA9ock7OBY6gvnEu8TvMpsXskC8FRkRgfhZOZPY=;
+ b=tqYTsb9xQgP2AJflp38irTawOjZb3tdYt+zkOudRizoHGNzz68XV7nmt29O025oXQa
+ upMrMtKnDH7xuEDCLG2r2bsUxlCD1t5HIcmFmHSf9bX+tybcIznBQ2X5mNEGwotKTDEw
+ ww8VXOM33FdoSflvHNVe2xCFohU20zf3t480L5B0x1A1oDus2NV5PcrY7LimfoJrKewj
+ cEW43qHaKEe+YOa+2B+5YepzWMPFFSJdOSXSCCsg/bgF/LJlYq+eQRsI9HkZxnCSiUsU
+ 5s4eXHae6kx97k7LelhJKP8JvMdGkVX+wZd6R3RCuyFMXgj2bmufB9Nj/wuemCa/lXYF
+ fVEg==
+X-Gm-Message-State: AOAM532wG0K+uuS0VFwcpmxlVrdNf3zAEDbkSdp2PbMCAWZ6MDy+U9bu
+ XwkqYxWIeLdT4+ttyW29bKrZL191lnJGFdwHzbgeZQ==
+X-Google-Smtp-Source: ABdhPJztk9clZjyKrsupEN40UR7/KGWa8A5jeAz5ffoVKix1QtFoopPbwG7XAQxgUhBmM6F/+kXIB+Gn2H3rHd4rGqM=
+X-Received: by 2002:a17:906:3603:: with SMTP id
+ q3mr10408152ejb.382.1611835727940; 
+ Thu, 28 Jan 2021 04:08:47 -0800 (PST)
 MIME-Version: 1.0
+References: <20210125210817.2564212-1-muellerd@fb.com>
+In-Reply-To: <20210125210817.2564212-1-muellerd@fb.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jan 2021 12:08:36 +0000
+Message-ID: <CAFEAcA-P1JZ731MNpJuPUvZEwg+CZrF3QCpnaV=mvt8GB8LqAg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Correctly initialize MDCR_EL2.HPMN
+To: =?UTF-8?Q?Daniel_M=C3=BCller?= <muellerd@fb.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: c8be2e09-d400-46d6-9365-ae665a2ee0f6
-X-Ovh-Tracer-Id: 12127630850401606051
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
-Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
- helo=7.mo51.mail-out.ovh.net
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -70,92 +79,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
- Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jan 2021 08:46:01 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Mon, 25 Jan 2021 at 21:48, muellerd--- via <qemu-arm@nongnu.org> wrote:
+>
+> When working with performance monitoring counters, we look at
+> MDCR_EL2.HPMN as part of the check whether a counter is enabled. This
+> check fails, because MDCR_EL2.HPMN is reset to 0, meaning that no
+> counters are "enabled" for < EL2.
+> That's in violation of the Arm specification, which states that
+>
+> > On a Warm reset, this field [MDCR_EL2.HPMN] resets to the value in
+> > PMCR_EL0.N
+>
+> That's also what a comment in the code acknowledges, but the necessary
+> adjustment seems to have been forgotten when support for more counters
+> was added.
+> This change fixes the issue by setting the reset value to PMCR.N, which
+> is four.
+>
+> Signed-off-by: Daniel M=C3=BCller <muellerd@fb.com>
+> ---
+>  target/arm/helper.c | 6 ++----
+>  1 file changed, 2 insertions(+), 4 deletions(-)
+>
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index d2ead3fcbd..195db4d378 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -5705,13 +5705,11 @@ static const ARMCPRegInfo el2_cp_reginfo[] =3D {
+>        .writefn =3D gt_hyp_ctl_write, .raw_writefn =3D raw_write },
+>  #endif
+>      /* The only field of MDCR_EL2 that has a defined architectural reset=
+ value
+> -     * is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N; b=
+ut we
+> -     * don't implement any PMU event counters, so using zero as a reset
+> -     * value for MDCR_EL2 is okay
+> +     * is MDCR_EL2.HPMN which should reset to the value of PMCR_EL0.N.
+>       */
+>      { .name =3D "MDCR_EL2", .state =3D ARM_CP_STATE_BOTH,
+>        .opc0 =3D 3, .opc1 =3D 4, .crn =3D 1, .crm =3D 1, .opc2 =3D 1,
+> -      .access =3D PL2_RW, .resetvalue =3D 0,
+> +      .access =3D PL2_RW, .resetvalue =3D 4,
+>        .fieldoffset =3D offsetof(CPUARMState, cp15.mdcr_el2), },
+>      { .name =3D "HPFAR", .state =3D ARM_CP_STATE_AA32,
+>        .cp =3D 15, .opc1 =3D 4, .crn =3D 6, .crm =3D 0, .opc2 =3D 4,
 
-> On 1/28/21 1:46 AM, Joel Stanley wrote:
-> > On Tue, 26 Jan 2021 at 17:14, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
-e:
-> >>
-> >> and reuse pnv_bmc_set_pnor() to share the setting of the PNOR.
-> >>
-> >> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> >> ---
-> >>  hw/ppc/pnv_bmc.c | 7 +------
-> >>  1 file changed, 1 insertion(+), 6 deletions(-)
-> >>
-> >> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-> >> index 67ebb16c4d5f..86d16b493539 100644
-> >> --- a/hw/ppc/pnv_bmc.c
-> >> +++ b/hw/ppc/pnv_bmc.c
-> >> @@ -260,13 +260,8 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
-> >>      Object *obj;
-> >>
-> >>      obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);
-> >> -    object_ref(OBJECT(pnor));
-> >> -    object_property_add_const_link(obj, "pnor", OBJECT(pnor));
-> >=20
-> > I assume it's ok to move the link set to after the realise of the BMC o=
-bject?
-> =20
->=20
-> When 2 objects need to be linked, one has to be realized first.=20
+Rather than having a hardcoded 4 here, could you add a
+#define PMCR_NUM_COUNTERS 4 /* QEMU IMPDEF choice */
+and then use the constant name both in the resetvalue here
+and also where we currently have 'pmcrn =3D 4' in define_pmu_regs()?
 
-Realize isn't a QOM concept in the first place...
-
-> I suppose this is why it is allowed but I am not expert in that area.=20
->=20
-
-... so no surprise object_property_add_const_link() doesn't care
-about it.
-
-> Greg  ?
->=20
-
-What is important though is that a property with a given name
-can only be added *once* to an object during its lifetime.
-Doing the contrary is a bug and QEMU aborts. So, with this
-in mind, it seems to me that adding QOM properties to a
-device object should only be done from some init path
-that is only called once.
-
-> That was the case already when defining a "ipmi-bmc-sim" device on the=20
-> command line.=20
->=20
-
-Yeah and the property is added during machine reset... which
-is typically a path that can be taken several times during
-the machine lifetime. The potential crash is avoided because
-pnv_reset() doesn't call pnv_bmc_set_pnor() if pnv->bmc is
-already set, but this is a fragile workaround...
-
-A QOM link doesn't look like the correct way to model the BMC
-accesses to the PNOR. Since the only user is hiomap_cmd(),
-it seems you could reach the same result with a pointer to
-the PNOR object being passed to ipmi_sim_register_netfn()
-and later passed to hiomap_cmd().
-
-> C.=20
->=20
->=20
-> >>      qdev_realize(DEVICE(obj), NULL, &error_fatal);
-> >> -
-> >> -    /* Install the HIOMAP protocol handlers to access the PNOR */
-> >> -    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(obj), IPMI_NETFN_OEM,
-> >> -                            &hiomap_netfn);
-> >> +    pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);
-> >>
-> >>      return IPMI_BMC(obj);
-> >>  }
-> >> --
-> >> 2.26.2
-> >>
-> >>
->=20
-
+thanks
+-- PMM
 
