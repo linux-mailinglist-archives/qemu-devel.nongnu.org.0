@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523CD3073FA
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:45:56 +0100 (CET)
-Received: from localhost ([::1]:54890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FF1F307408
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:47:48 +0100 (CET)
+Received: from localhost ([::1]:57090 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l54oF-0001vo-D0
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:45:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
+	id 1l54q3-0002yN-5h
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:47:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l54mp-0001Jv-Fq
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:44:27 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44392)
+ id 1l54oq-0002XH-Qt
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:46:33 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:46862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l54mn-0002uQ-RM
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:44:27 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id w1so6976540ejf.11
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 02:44:25 -0800 (PST)
+ id 1l54op-0003jk-8N
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:46:32 -0500
+Received: by mail-ej1-x629.google.com with SMTP id rv9so6979893ejb.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 02:46:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=hwxWhuPAeBOGG7cxyNlAbfsJe23zd190HfsFXc5SNv0=;
- b=TT+1b72xpvG43lT3FgHLt1u44+bwNkKZyv7VGVRiYe3vkd+5wEyAr2Hl6IMqJQ/21d
- P0q+z12TwsxsYsMNSj2p5lUs+dxw6tqgAYKVyK3gFtmzrNtKQIe4kHPoCUBuSFo8wQ83
- ljEjCxiEVHMHmspItr7qV7aCFsmOyCVwWwuiBmXWsxLLRhyFfdhQDpTOxmAUm73fqQzd
- QYZAYpry0GuqhFDKoK+6Ooef2ErvcbRnqYQQJuuaueaglAzehsBJAJQxIOv0WoKQ9NFr
- lTFlOW0WVJRtooRfYwJMmEgn+davoNwnEccdw1bMS/TWUa75jv7XQqXqHh0HL/W61G+c
- jsyg==
+ :cc; bh=SK+pSlSMuV9WmZMev/30oNDK1ltfozrNGh5+VvlINB4=;
+ b=bQvE5LaDOH+PPuVwUzcS4N6J/Vh3NwUZzqEitr5D+5q2ep+Iz42lxLfhFSxOintxLP
+ lWXITb2TV/Jgda34PB/C10s8Vn2X+KHn6gDN0BvqIyTHgrawWsrmSlSehSnTRcr+oQc+
+ TuvcRDfKdV20Ri0MSdn6ANRL4r5Q1hK7MARFGHiv3o+Tkt/6WRgAXM/ylBIz7RB0IdhY
+ 4zdSpYhs5cD/TI0Ohy70vP6YoOp2ra6t+hoWfJBikDQTvEwAqADg9vdjvdKSJyOhKlzH
+ KS8cjfWS6FwtEP8YDkrE2VsjxigoJinvL9I+gkvNickTOh6h1cM3pOg5W5v2Hf48ve8i
+ mUdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=hwxWhuPAeBOGG7cxyNlAbfsJe23zd190HfsFXc5SNv0=;
- b=H8YrvDAIieOvPBp3Tdcl48smOM+NDBc+FlYnusR9IqEbrG4YMjMe1IazCDXXQJWJD/
- 4lz387NmQPEOtl56GpWG0sBVyJBj2WxD41DIRKRI4npDIDEBug+OXd4tWWcW0qbxhdmu
- Xy2QfvBdyjRXic2AGwjnI8MJSCnodZA3CFnJrA6VcFe/7ZWTp/86OnMXm28PLfkvIjyN
- pkASm4wdoiPGqyODLQHOB4NY2b5/mtek2OuFc1i2v8R807mrD6/N1kasIr2NKABVkdcP
- nfWQBNj0xTSBz/FGVj7vvGksy4DjLagVsVMEj8iIdrR+Dj4kRAxl2YNl3JZEi8MO7sUN
- ljTw==
-X-Gm-Message-State: AOAM530SdauuIP3ptahixBL8uL7NdlPKRaqq5bXU3IJPrK7plMKmB8Uc
- 9EEZy+bK+wJO/WWeQErblVJint5WDgWLk124QJ2QCw==
-X-Google-Smtp-Source: ABdhPJxZDsq1yHO8WIHLriNMQdyPFE5TJ2S+pRVK3vGazE9pk4bvAI3GQMZnhgEjq1l0QQSfAJNid67JflJrpdYseew=
-X-Received: by 2002:a17:906:4002:: with SMTP id
- v2mr6504423ejj.85.1611830664023; 
- Thu, 28 Jan 2021 02:44:24 -0800 (PST)
+ bh=SK+pSlSMuV9WmZMev/30oNDK1ltfozrNGh5+VvlINB4=;
+ b=jO+ukPZF8uxV4Ov2zVcMgHLGZfEfSSuwTRWbgCSVNfSnZwnrnPLdpYrn0T+GAiH/qG
+ OHGuuoFAoppXAivOgvN4NT9zP3b7Nsb03oMqFXkbrXtTCNV0s4NQY3EuiKzHt51xka2w
+ dvVxOzzvQCv7FaK4wTheLO4LQyvh7ToOtnq0EUDyNCFOnqDJSv2eosZzdNibx+qO+coG
+ J4UPw01dmgsoB1JdJAU2vrRFSpfVi5BgmVfMkrPfXlCOVXtwXSxZAf7/ZpjQyLbqL/g5
+ UXFXQNO0Hfn+n6XmMHgAV2GzHkHVcBVmdGa8EiGJL6YsaPtXiT1l5B+rSGZjy/8UsvyA
+ j3CQ==
+X-Gm-Message-State: AOAM531lvNTZu2rijaZV62y52O4zlu48mDOZuKS9DCv71qIXzuBgIzxk
+ 6+U3uEngimDqzUe9LWvp/cuYe+IBA7ToDmQtVrPBIA==
+X-Google-Smtp-Source: ABdhPJzDoUbHxdhDQwei2Mz4oaO+PxDuMb+DZZdcLxtc90sNmziLNbNKzpuPT5zrgfFJfWviCH80PCpCEO+XZ5iDj8A=
+X-Received: by 2002:a17:907:1b10:: with SMTP id
+ mp16mr10588373ejc.482.1611830789848; 
+ Thu, 28 Jan 2021 02:46:29 -0800 (PST)
 MIME-Version: 1.0
-References: <20210115224645.1196742-1-richard.henderson@linaro.org>
- <20210115224645.1196742-19-richard.henderson@linaro.org>
- <CAFEAcA8rXQ76AVpqHwum_XGh13u+vwkZw_yOxRKvfyqbV3_GBQ@mail.gmail.com>
- <b81f168c-dfe3-5d59-b1a2-1c3df97f7105@linaro.org>
-In-Reply-To: <b81f168c-dfe3-5d59-b1a2-1c3df97f7105@linaro.org>
+References: <20210127095444.114495-1-thuth@redhat.com>
+In-Reply-To: <20210127095444.114495-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 10:44:13 +0000
-Message-ID: <CAFEAcA9tS7eWDoa7Wu3p6Be4Jce9oaPyHh_8ijJJbjZpmgL+Cg@mail.gmail.com>
-Subject: Re: [PATCH v3 18/21] linux-user/aarch64: Signal SEGV_MTEAERR for
- async tag check error
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Thu, 28 Jan 2021 10:46:18 +0000
+Message-ID: <CAFEAcA-MVVfFbwb4j1-E6YOZEF-qZe3nzqYCb5H0e_qwb+39nQ@mail.gmail.com>
+Subject: Re: [PULL 0/9] Gitlab-CI and testing improvements
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,26 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jan 2021 at 08:49, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Wed, 27 Jan 2021 at 09:54, Thomas Huth <thuth@redhat.com> wrote:
 >
-> On 1/22/21 3:59 AM, Peter Maydell wrote:
-> > Does it work if we just always queue the SEGV on exit from cpu_exec()
-> > and let the signal handling machinery prioritize if we also pend
-> > some other signal because this was an EXCP_UDEF or whatever?
-> > It would be neater if we could keep the fault-check outside the
-> > switch (trapnr) somehow.
+>  Hi Peter,
 >
-> I would think so.  I'll try that.
+> the following changes since commit 9cd69f1a270235b652766f00b94114f48a2d603f:
+>
+>   Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-01-25-1' into staging (2021-01-26 09:51:02 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2021-01-27
+>
+> for you to fetch changes up to f8a9b4c66569cbc1640722369a91c635102b5264:
+>
+>   libqtest: Rework qtest_rsp() (2021-01-27 07:18:13 +0100)
+>
+> ----------------------------------------------------------------
+> * Patches to speed up and improve the gitlab-CI
+> * Documentation for the decorators in the "acceptance" tests
+> * One small rework of a libqtest function
+> ----------------------------------------------------------------
 
-In particular it seems worth testing whether 'singlestep in gdbstub
-over an insn that takes an async MTE fault' has reasonable user-facing
-behaviour.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
 -- PMM
 
