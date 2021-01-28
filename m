@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1F6E307F72
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:21:56 +0100 (CET)
-Received: from localhost ([::1]:42890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0FC9307FBE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:37:44 +0100 (CET)
+Received: from localhost ([::1]:54162 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Dnf-0002Gl-Vc
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:21:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59104)
+	id 1l5E2x-0008SD-8m
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:37:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l5DlA-0000bP-BN
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:19:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23311)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l5Dl4-0004ER-FG
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:19:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611865152;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ZttXyL9JC4A6GOrcWAtQNVFfPTDJiTUN5mUaiyArqvo=;
- b=OsAdKhs1UCDo/Ce7rMPcRHa05wnDJQFFGh1CXH5nyFrajR3eV1IJDxB0bd7Styfpj0526T
- Q8iU3d3wAe4SicL2DYkMG9WDprTrBIHbuIpzZMpPBBooxY/w5L6eyai24JSWbz6/cOgTTP
- LTbk7mcyGzOIJzqQuxuzL+l3OlCzoBU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-Hbiw7AALPs-Z5Lr-ypD78g-1; Thu, 28 Jan 2021 15:19:09 -0500
-X-MC-Unique: Hbiw7AALPs-Z5Lr-ypD78g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 1DC7E1005504;
- Thu, 28 Jan 2021 20:19:08 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0E19E5D9F4;
- Thu, 28 Jan 2021 20:19:04 +0000 (UTC)
-Subject: Re: [PATCH 0/1] tests/acceptance/boot_linux: Switch to Fedora 32
-To: Daniele Buono <dbuono@linux.vnet.ibm.com>, qemu-devel@nongnu.org
-References: <20210127010946.17370-1-dbuono@linux.vnet.ibm.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <20c6fbf7-3000-0ef4-cdb1-31d748878206@redhat.com>
-Date: Thu, 28 Jan 2021 17:19:01 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1l5DzN-0007Vh-5X
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:34:01 -0500
+Received: from mail-il1-f174.google.com ([209.85.166.174]:35219)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
+ id 1l5DzL-0000an-J4
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:34:00 -0500
+Received: by mail-il1-f174.google.com with SMTP id g7so5408142iln.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 12:33:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=F73T67E164+f+xRz/1/bvfhZFdvN9eryZC3z5wN2fgk=;
+ b=pTCGY+VTz2bK9cP/Ih/HHCCJ4JOkXsuhSEuagC18LTHpowImQNxegcXLMKR3hWK7BY
+ wJG6qmN/8c9j+bhVxYy8aIJ7ufBWwyMwSGeGjop8AJjdYhrI9HRlzoFEfGeeL38/q61g
+ qXl6dNveAK11ptmRShcVXxGKH6Txz7vpJyn5rWVa+pgdIE2IL/ONDJW5dA8YNwXTuA0b
+ jxFXZOGw3y2+QTHEhzKaertzvNOm5QWLFzCFOjRBdj3oCuHGvDyTGnqDhDHkpbNVKpg4
+ XnL4mlMAOUZfZNfk1kudL9jnxiaDoPcoEdjGWBKZC+yVvLFF/PFJiD86Q/xh96E5uxpc
+ Boeg==
+X-Gm-Message-State: AOAM531ofF8LkvoMnWH/ika9feiuwtw+ak/vO56+rN4hxjPbAQDE/Nbg
+ TRp3EvutRmXt+sxreD8r4ULaYSp3lXA=
+X-Google-Smtp-Source: ABdhPJzxLtA/6RdzQBgEgeQ6YsLtFqpnFdyUCWGF6EcEsQ7jgN51OSRjrFGNh7jU1dHA5uObF+Gm3Q==
+X-Received: by 2002:a92:874d:: with SMTP id d13mr662948ilm.270.1611866034384; 
+ Thu, 28 Jan 2021 12:33:54 -0800 (PST)
+Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
+ [209.85.166.41])
+ by smtp.gmail.com with ESMTPSA id h11sm2985755ior.19.2021.01.28.12.33.54
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 12:33:54 -0800 (PST)
+Received: by mail-io1-f41.google.com with SMTP id u7so6969599iol.8
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 12:33:54 -0800 (PST)
+X-Received: by 2002:a05:6602:1550:: with SMTP id
+ h16mr1079431iow.204.1611866033783; 
+ Thu, 28 Jan 2021 12:33:53 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210127010946.17370-1-dbuono@linux.vnet.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210126012457.39046-1-j@getutm.app>
+ <20210126012457.39046-5-j@getutm.app>
+ <3431d35b-774d-9c49-b6ef-615866b8341e@redhat.com>
+In-Reply-To: <3431d35b-774d-9c49-b6ef-615866b8341e@redhat.com>
+From: Joelle van Dyne <j@getutm.app>
+Date: Thu, 28 Jan 2021 12:33:43 -0800
+X-Gmail-Original-Message-ID: <CA+E+eSDXBd_Ewxa6SHjXvTLhQECmknZ1d-dr-SbPkyQvhp7oGg@mail.gmail.com>
+Message-ID: <CA+E+eSDXBd_Ewxa6SHjXvTLhQECmknZ1d-dr-SbPkyQvhp7oGg@mail.gmail.com>
+Subject: Re: [PATCH v9 04/11] slirp: feature detection for smbd
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=209.85.166.174; envelope-from=osy86dev@gmail.com;
+ helo=mail-il1-f174.google.com
+X-Spam_score_int: -13
+X-Spam_score: -1.4
+X-Spam_bar: -
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
+ FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,62 +83,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+ Jason Wang <jasowang@redhat.com>, Joelle van Dyne <j@getutm.app>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Mon, Jan 25, 2021 at 11:30 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
+>
+> On 1/26/21 2:24 AM, Joelle van Dyne wrote:
+> > Replace Windows specific macro with a more generic feature detection
+> > macro. Allows slirp smb feature to be disabled manually as well.
+> >
+> > Signed-off-by: Joelle van Dyne <j@getutm.app>
+> > ---
+> >  configure   | 22 +++++++++++++++++++++-
+> >  meson.build |  2 +-
+> >  net/slirp.c | 16 ++++++++--------
+> >  3 files changed, 30 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/configure b/configure
+> > index 8d8a4733d7..d72ab22da5 100755
+> > --- a/configure
+> > +++ b/configure
+> > @@ -464,6 +464,7 @@ fuse=3D"auto"
+> >  fuse_lseek=3D"auto"
+> >
+> >  malloc_trim=3D"auto"
+> > +slirp_smbd=3D"auto"
+> >
+> >  # parse CC options second
+> >  for opt do
+> > @@ -845,7 +846,18 @@ do
+> >      fi
+> >  done
+> >
+> > +# Check for smbd dupport
+> >  : ${smbd=3D${SMBD-/usr/sbin/smbd}}
+> > +if test "$slirp_smbd" !=3D "no" ; then
+>
+> Here slirp_smbd is always "auto".
+>
+> > +  if test "$mingw32" =3D "yes" ; then
+> > +    if test "$slirp_smbd" =3D "yes" ; then
+> > +      error_exit "Host smbd not supported on this platform."
+> > +    fi
+> > +    slirp_smbd=3Dno
+> > +  else
+> > +    slirp_smbd=3Dyes
+> > +  fi
+> > +fi
+>
+> So this check ...
+>
+> >
+> >  # Default objcc to clang if available, otherwise use CC
+> >  if has clang; then
+> > @@ -1560,6 +1572,10 @@ for opt do
+> >    ;;
+> >    --disable-fuse-lseek) fuse_lseek=3D"disabled"
+> >    ;;
+> > +  --enable-slirp-smbd) slirp_smbd=3Dyes
+> > +  ;;
+> > +  --disable-slirp-smbd) slirp_smbd=3Dno
+> > +  ;;
+> >    *)
+>
+> ... should be placed after the cmdline options processing,
+> isn't it?
 
-On 1/26/21 10:09 PM, Daniele Buono wrote:
-> Local acceptance tests run with "make check-acceptance" are now
-> showing some cases canceled like the following:
+That's right, good catch.
 >
-> (01/39) tests/acceptance/boot_linux.py:BootLinuxX8664.test_pc_i440fx_tcg: CANCEL: Failed to download/prepare boot image (0.25 s)
->
-> Turns out, every full-vm test in boot_linux.py is trying to use a
-> Fedora 31 cloud image and is failing, with Avocado refusing to download
-> it, presumably because Fedora 31 is EOL.
->
-> This patch moves to Fedora 32, which is still supported. And seem to
-> work fine
-
-While ago it was discussed about updating the Fedora version which, in 
-my opinion, ended up without a conclusion. Please see the complete 
-thread in:
-
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg763986.html
-
-I'm CC'ing Daniel Berrrangé so that, perhaps, we could resume the 
-discussion.
-
-Thanks!
-
-- Wainer
-
->
-> The script has the image checksums hardcoded. I downloaded and verified
-> the checksums with the Fedora 32 GPG key, but I would feel more
-> confident if someone else wants to verify it too.
->
-> The checksum files are here:
-> https://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/32/Cloud/ppc64le/images/Fedora-Cloud-32-1.6-ppc64le-CHECKSUM
-> https://download-ib01.fedoraproject.org/pub/fedora-secondary/releases/32/Cloud/s390x/images/Fedora-Cloud-32-1.6-s390x-CHECKSUM
-> https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/32/Cloud/aarch64/images/Fedora-Cloud-32-1.6-aarch64-CHECKSUM
-> https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/32/Cloud/x86_64/images/Fedora-Cloud-32-1.6-x86_64-CHECKSUM
-> and the GPG keys are available here:
-> https://getfedora.org/en/security/
->
-> NOTE: I tried moving to Fedora 33, but the aarch64 VM cannot boot
-> properly. May be worth investigating but I have no experience with ARM
-> so I'll leave that to someone else, if interested.
->
-> Daniele Buono (1):
->    tests/acceptance/boot_linux: Switch to Fedora 32
->
->   tests/acceptance/boot_linux.py | 11 +++++------
->   1 file changed, 5 insertions(+), 6 deletions(-)
->
-
 
