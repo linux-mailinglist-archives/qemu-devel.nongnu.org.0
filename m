@@ -2,135 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBDEB30784D
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:40:48 +0100 (CET)
-Received: from localhost ([::1]:40818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB0630786B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:44:32 +0100 (CET)
+Received: from localhost ([::1]:50598 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l58TX-00075M-UA
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:40:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43938)
+	id 1l58X9-00037v-Ip
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:44:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john.levon@nutanix.com>)
- id 1l58R6-0005dR-QI; Thu, 28 Jan 2021 09:38:16 -0500
-Received: from mx0b-002c1b01.pphosted.com ([148.163.155.12]:5638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <john.levon@nutanix.com>)
- id 1l58R4-00067p-2M; Thu, 28 Jan 2021 09:38:16 -0500
-Received: from pps.filterd (m0127842.ppops.net [127.0.0.1])
- by mx0b-002c1b01.pphosted.com (8.16.0.43/8.16.0.43) with SMTP id
- 10SEWgI3023590; Thu, 28 Jan 2021 06:38:10 -0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nutanix.com;
- h=from : to : cc :
- subject : date : message-id : references : in-reply-to : content-type :
- content-id : content-transfer-encoding : mime-version;
- s=proofpoint20171006; bh=A4jxP9gtGLUS67XGPkUIUvR90swwnMZoDCFnxYReFGE=;
- b=lCVHPlTdotrMkqhpK8Xg6z+u5pn+gzLtE6JFfR7Oove58Fhwbrsq+vitXCRwnYjDXlrD
- Knj6uDdOP7CU5IjeCa9F2gtnkME/7vSLCrEohCnw5gyDtc8it2cmWeB70Ozn9b32tF6T
- jmOz27wJ9ISB+/ifCAXxYpe3SUdzbRb0YO9gFcTUK7nup+/+wNCJSO9UK3RUa5yncsTc
- TjRc3hx29mIJF0OJ6w2/wS+fUabqWzRFqH1YkZsFnTtx5oZMC+THyBIApJ1RHLi/dajO
- sYDMBaDeN97OQdHVSaBIXpBletvhwM5bgCvMf6ew3RCQtV9tVUyNyfAPBTwQGcI8Xbb2 VQ== 
-Received: from nam11-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam11lp2172.outbound.protection.outlook.com [104.47.57.172])
- by mx0b-002c1b01.pphosted.com with ESMTP id 368m0mc005-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 28 Jan 2021 06:38:10 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WpIXNPVK2jRnkFQO1IoKm1sz2HySFynHU3TPSm2VkJfKttuT5vrYBtDNTslBeZ8Cii+YDS2hc2TMYTg1cPkpYx4ELpfp2boU5QkhL3vlhoBahaTPtYqaLu9olDPy/g2BpLD9HAz8uobymXzuA0yiwbdei9NqDK1tHKkqUn/aYdQpCDktYFm5RVQBV9wqyZQkfdONwhdXulnIovDlWwad6DL+UA0uKp8rWqvZ1JpXtSlQwInCsgrVn0g8km4MmGhjGOzBrZnQ2ivl7DPn+Qs9ztwxnRbEVS/s4sRfr/pvWZzJwWUBHgrxQ6dq0dqVKTFvt7TYDkBraft1IH8xW+s/zA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=A4jxP9gtGLUS67XGPkUIUvR90swwnMZoDCFnxYReFGE=;
- b=lA4ixWIroNqkMG7r2NEfqTl1eialBCT7yTbvmvh36/XnGFDByfpqURX6XhajOcgint8A7Ye5dvEfB9dUS4dbewE4cvsryX0DirtUUR+gbj9wFnu0Wy42TuZesvLeq784yIhGIS036FzBD/rpF1bjlZ5mLCFFLqTwDM70/nLXptzUi4xstkmPT+uO4pXebtzq0GRz8CFcGA9axrdQpQ6QmKVJ+C8PF5MD9Oz+08uaDPhjmzb7UJwGSIf6YNj7eGBq+o6SH+byBovpHT/0Aut2cNznq1v6deX/lpHj+3YeIMX0EDdVASp1aTTIgabGMsSCPFIVx78/gtLDJw9G1NNPhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nutanix.com; dmarc=pass action=none header.from=nutanix.com;
- dkim=pass header.d=nutanix.com; arc=none
-Received: from BL0PR02MB4580.namprd02.prod.outlook.com (2603:10b6:208:40::27)
- by MN2PR02MB6174.namprd02.prod.outlook.com (2603:10b6:208:184::26)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Thu, 28 Jan
- 2021 14:38:08 +0000
-Received: from BL0PR02MB4580.namprd02.prod.outlook.com
- ([fe80::d853:efb7:2d8b:f191]) by BL0PR02MB4580.namprd02.prod.outlook.com
- ([fe80::d853:efb7:2d8b:f191%5]) with mapi id 15.20.3784.017; Thu, 28 Jan 2021
- 14:38:08 +0000
-From: John Levon <john.levon@nutanix.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [DRAFT RFC] ioeventfd/ioregionfd support in vfio-user
-Thread-Topic: [DRAFT RFC] ioeventfd/ioregionfd support in vfio-user
-Thread-Index: AQHW8A/A4RU7AycUJk25Cn4pd6oBpqo5xPQAgANhTIA=
-Date: Thu, 28 Jan 2021 14:38:08 +0000
-Message-ID: <20210128143805.GA95453@sent>
-References: <20210121160905.GA314820@sent>
- <20210126110104.GA250425@stefanha-x1.localdomain>
-In-Reply-To: <20210126110104.GA250425@stefanha-x1.localdomain>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: redhat.com; dkim=none (message not signed)
- header.d=none;redhat.com; dmarc=none action=none header.from=nutanix.com;
-x-originating-ip: [88.98.93.30]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 96d42a07-903d-465d-de28-08d8c39a547e
-x-ms-traffictypediagnostic: MN2PR02MB6174:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <MN2PR02MB61745D3E36E193EC51B97BBA97BA9@MN2PR02MB6174.namprd02.prod.outlook.com>
-x-proofpoint-crosstenant: true
-x-ms-oob-tlc-oobclassifiers: OLM:6790;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 51LglCCyk9oInEuY2aKClprwHMyNtaLofXul4tivhwVjmhwVXOjYNGgYAsQr4e3IW+03ltRe+FO+qtAM89Uuo05j4/cWI0WQnAQBjQOHmZj0dICPAIh3Ba97IHQEfQ8QSfX1yfMT7D9lj5yPOr5mGwIRq/3EjDx1b81O39/LjZiy3hdhlU0YDvjZ6FhocQ8v7AlO4ispzgISyADQ8UXvjMY0Scif5GK6AcXtGHxN1zp3Om20qL6LOzx/cJ5X0+D9H9pDov9BcQXQC/SP8P0+ihv3flkBfWN6vhuor9TZVrtNtvgq3EoIlfBirwwjX80YcU/mnfmBnjq9ZIshDLGy9fY2eVPUlGvqA0zGnJ8aw4tvPVV4ajf2/hweREXEHZ2lCqamYuP2joYcvx8Gf9r3U760Vg2g659jHaCD3auKo7X59a2BQ3AO9X7UvIbCQypJNZyXJ0UHrsLx/RRwzxTgljdpUDlUiDrjCRVtPJ4q2J0PZ/u/tho87Av2B9T7p5+UEW5w1qY+h5LkUdZ/MBEAQrjcdv3HreYffSWdhCirZyFQScOhVcic8Bl4LzPNVKUn0BBgR3ymDOgWB80sAFIItP//0q0K/zmI21I8y3mV3lo=
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL0PR02MB4580.namprd02.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(7916004)(396003)(376002)(39860400002)(366004)(346002)(136003)(54906003)(6916009)(2906002)(71200400001)(4326008)(6512007)(9686003)(33716001)(966005)(8676002)(1076003)(66446008)(4744005)(66946007)(66556008)(6486002)(66476007)(478600001)(64756008)(8936002)(5660300002)(44832011)(6506007)(33656002)(76116006)(186003)(86362001)(26005)(316002)(91956017);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata: =?us-ascii?Q?2ukrrD54I1XeURrJfIHhvFe0L5JZmxDcpGYpwp8+whQDTxM+amXPYBSTOBRK?=
- =?us-ascii?Q?ONSfGM8kOL8r2hP9hzthpMiwes1HBzxLDsI+aLiyGgPPc+Jqm4FqNt7ExWed?=
- =?us-ascii?Q?Rf+YDTMRzto4r2pxTRRm29bYtseMlE1rZaO4UA72RqMK1rkUJq9xm57xIpIR?=
- =?us-ascii?Q?/mEPFDuvJwRNNTh3YO18fiUhW1CuuzVIAXt5Kc4uKajpGCdThq6jSYxde+aH?=
- =?us-ascii?Q?zqltGRdmoi/Us8KcZRs0bPcpRsHn28ydORflqchAiSOU+AfAOPQxjI+BmNJE?=
- =?us-ascii?Q?omQDGDC6Ex9Fw8e/jHTkEa+FewTzU05uOvYvrRz77Y4YAN3P7+SM3yEq0Ady?=
- =?us-ascii?Q?EW6X1Q/gabVmTxyoLBAgsJSBZo697yWHewelXbOLVB1yPofx82CBbXCXepv9?=
- =?us-ascii?Q?2kq69GWUoomalYLR3EDabRSaOtYqqy/o7+gKc1McMBh4NesbcxK9zVI/mRyX?=
- =?us-ascii?Q?ABIv0I0btOg5CAHM7USMvNqUuRE+Xta8KD+CuzekGWZb3bFMvQmFv9HXIfxz?=
- =?us-ascii?Q?xjR6AlMsUi+B3t1OQMAaq11Jzt+ReFBojdjOwDv1/g/6akRyhJvKBTnre1/z?=
- =?us-ascii?Q?WeDTeWrti8Jve2/yS3Zq4ZdevJEilDclIAyrqx6ze3PB3G1v6Yk4G+nY6ZC/?=
- =?us-ascii?Q?YrmBuGnsjDgdGk+VwBWkql5kpPOdhQGu03kcotnvAHW6NJ+MEWxUdpPz2F3Y?=
- =?us-ascii?Q?0GH4vIaCIhZ8BP4M0hBZIpp2ycIcVNg4NZWTsH343FJa6V+Jg3AmOz5xCUAA?=
- =?us-ascii?Q?BHgOS6ORObdnLazxkBUjrHDmRS2teZAUdb5kqlKcv8Fhqk5hUXVqP+evkP6+?=
- =?us-ascii?Q?Dwh7RVIVTd0SoasVJ6E18O/y1pMRyaSaobfKQ2HbN2lbhL6uKTOUQm6FPwBB?=
- =?us-ascii?Q?1k76p2Svy1QHwSNLDgWlCc8dx6mE5WgzxQp7r1fGAFgKs9YiSQja0Pyau4Gn?=
- =?us-ascii?Q?oyiiafyNT4kDZb59EhS0mei0p9oMcrcbWwbFhsCcf0rdea/QEjMTmju/vcA+?=
- =?us-ascii?Q?9rJ2kretzjFbVcgLlkhhQPY696SsPNGvoPEuOrLjMRcISQ0yZsU6q9ln5K+3?=
- =?us-ascii?Q?hXrwCSFS?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <5A6353160F83AE4C801B2F37F2107E0A@namprd02.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l58UH-00008w-Ca
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:41:33 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d]:46957)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l58UF-0007Ct-Uj
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:41:33 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id dj23so6835865edb.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 06:41:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=GpdUpn5Mm3vSAENjKj90/XRZPLUp/KCHv6H1AH3H9zk=;
+ b=gINvWmTdPq0CzKshGkAh8DGmK0rTCMVmThk8oZ5ctnFmIs6SGI6SuQnT+jzoVX+ZVf
+ SIQHY4EfiYiDRcIGh+NPyr7d+wApeeI0ePdKGm7w9tJlE4G4+jTW2wYbOrEiWYbf18Z2
+ GZ8xJynTv1OMqSCrOmUOtwqdSvi6umBjp5q2CdlXhPlOzBP+l79NJZitIVe3rtPfYzX7
+ tCntFUCXmeJQjbHJLL83u5AgeBaKAyJDbHRjcwm9djwsaoHywPcFEi+TAHMOJ4ymlJiC
+ RUC3eqrBRqbrWxjEmMd+EqvjpXrFP+O9EvWfvrWsi07/oRO1woOJzUEszYJGXDiZAq+d
+ L4Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=GpdUpn5Mm3vSAENjKj90/XRZPLUp/KCHv6H1AH3H9zk=;
+ b=Qu4Z22FVr1EsXK+qPvUcjDthu1637OlsOZCV0PWjopzsaYGdjp9IJ7aZ8leTm3fEQB
+ fpJP75Ailjv/b9/XTnomkpyowvJEZrPPQN6VM5MFbUvimBeCBkNrKLyjHtkiq7dGB1ea
+ FIrw5JxAZ4lMKcXukt5HjlN+33Lw224nqrhsArcR4J3Iqm0PnajSv9j3Se+/eaMnQ/KD
+ nhAw3kyYtKsbQ40eLDUrKcEnBdoyNWl4jhSasIpxB0BGN+W9FcGM1RtQaAA09qL+BqS8
+ Acib14CMSeUmq9XKmxkbEr/s3Ot/3+1fzGsWCOs06GiOaLBJRfFRAfyX79V0Fjn3FR+3
+ 2zXA==
+X-Gm-Message-State: AOAM533zpZFbj8FB6lmVKcE3S3IeeG58ytglcUdQhP0kZ3aF8ct8jT+2
+ U4nnDOPPSg2TSUX6O61rLn1Jv8f3BW8=
+X-Google-Smtp-Source: ABdhPJyevnFw2SVMuYQ9/bWaJoa3XNbDpJA6djK4Z+HJRg42f0yC9MYjCAYf2A34eO7D2CLiJyY3YQ==
+X-Received: by 2002:a50:bc15:: with SMTP id j21mr14265640edh.187.1611844887762; 
+ Thu, 28 Jan 2021 06:41:27 -0800 (PST)
+Received: from x1w.redhat.com (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id o11sm3084710eds.19.2021.01.28.06.41.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jan 2021 06:41:27 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH 00/13] target/mips: Replace integer by MMUAccessType enum when
+ possible
+Date: Thu, 28 Jan 2021 15:41:12 +0100
+Message-Id: <20210128144125.3696119-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-X-OriginatorOrg: nutanix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL0PR02MB4580.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 96d42a07-903d-465d-de28-08d8c39a547e
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Jan 2021 14:38:08.2315 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: bb047546-786f-4de1-bd75-24e5b6f79043
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: qG+AmxlN9zzR/GRX7QqU6qDN3YS0UCb5vw4PvbXHH0AnrmVcMa4cLSsP30lsz/rgdKnDSUNNQ9cW9lfq3ImcRg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR02MB6174
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
- definitions=2021-01-28_08:2021-01-28,
- 2021-01-28 signatures=0
-X-Proofpoint-Spam-Reason: safe
-Received-SPF: pass client-ip=148.163.155.12;
- envelope-from=john.levon@nutanix.com; helo=mx0b-002c1b01.pphosted.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -143,30 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "john.g.johnson@oracle.com" <john.g.johnson@oracle.com>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- John Levon <john.levon@nutanix.com>, Cornelia Huck <cohuck@redhat.com>,
- "libvfio-user-devel@nongnu.org" <libvfio-user-devel@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Huacai Chen <chenhuacai@kernel.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Joe Komlodi <komlodi@xilinx.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Jan 26, 2021 at 11:01:04AM +0000, Stefan Hajnoczi wrote:
-
-> > 4) (ioregionfd issue) region_id is 4 bytes, which seems a little awkwar=
-d from
-> > the server side: this has to encode both the region ID as well as the o=
-ffset of
-> > the sub-region within that region. Can this be 64 bits wide?
->=20
-> The user_data field in Elena's ioregionfd patches is 64 bits. Does this
-> solve the problem?
-
-I had missed this had been changed from the proposal at https://www.spinics=
-.net/lists/kvm/msg208139.html
-
-Thanks for pointing this out.
-
-regards
-john=
+Taking notes while reviewing commit 671a0a1265a=0D
+("use MMUAccessType instead of int in mmu_translate").=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (13):=0D
+  target/mips: Remove access_type argument from map_address() handler=0D
+  target/mips: Remove access_type argument from get_seg_physical_address=0D
+  target/mips: Remove access_type arg from get_segctl_physical_address()=0D
+  target/mips: Remove access_type argument from get_physical_address()=0D
+  target/mips: Remove unused MMU definitions=0D
+  target/mips: Replace magic value by MMU_DATA_LOAD definition=0D
+  target/mips: Let page_table_walk_refill() take MMUAccessType argument=0D
+  target/mips: Let do_translate_address() take MMUAccessType argument=0D
+  target/mips: Let cpu_mips_translate_address() take MMUAccessType arg=0D
+  target/mips: Let raise_mmu_exception() take MMUAccessType argument=0D
+  target/mips: Let get_physical_address() take MMUAccessType argument=0D
+  target/mips: Let get_seg*_physical_address() take MMUAccessType arg=0D
+  target/mips: Let CPUMIPSTLBContext::map_address() take MMUAccessType=0D
+=0D
+ target/mips/cpu.h        | 16 ---------=0D
+ target/mips/internal.h   | 10 +++---=0D
+ target/mips/op_helper.c  |  9 ++---=0D
+ target/mips/tlb_helper.c | 78 +++++++++++++++++++---------------------=0D
+ 4 files changed, 47 insertions(+), 66 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
