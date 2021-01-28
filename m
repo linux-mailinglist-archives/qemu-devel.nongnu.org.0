@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 658233077FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:29:16 +0100 (CET)
-Received: from localhost ([::1]:50470 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1447307800
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:29:27 +0100 (CET)
+Received: from localhost ([::1]:51070 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l58IN-0007If-4W
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:29:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40224)
+	id 1l58IY-0007Xq-O9
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:29:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40360)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l58Fr-0006EX-PP
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:26:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:26073)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l58Fo-0001zv-Sy
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:26:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611843993;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8VJaUGgnXHpHms7hWOcxk210uXQEW13WNjg5xZQHlkI=;
- b=Q/XDqqblGLkdY4Ftw3CnXqy3/5kXEeJKL231vQgTT+bb+c5L/qic8WVNWEaRTw9n74xEzG
- 9z9AZ6r0a37wDAOVDoHs9bv7ooJQN0iFH5RfLg1VDSnXjWy9/ZENRCsgQfcwa0dLHbci6n
- BQLtL6WHd9vIn40Y2RbuPGTSd6w6R/w=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-x-T5mllbOl6i6tipe3qh2w-1; Thu, 28 Jan 2021 09:26:31 -0500
-X-MC-Unique: x-T5mllbOl6i6tipe3qh2w-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 5086580A5C1
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 14:26:30 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 25BEF60C13;
- Thu, 28 Jan 2021 14:26:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 6336318000B1; Thu, 28 Jan 2021 15:26:25 +0100 (CET)
-Date: Thu, 28 Jan 2021 15:26:25 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
-Subject: Re: [PATCH] spice: delay starting until display are initialized
-Message-ID: <20210128142625.vzdrehzw6mufja3s@sirius.home.kraxel.org>
-References: <20210128111319.329755-1-marcandre.lureau@redhat.com>
- <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
- <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
- <CAMxuvazChfKDHyjP2o1ipfgquawMab9zc4p8J5wnNnmVMmJ1yw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l58GA-0006Nf-4b
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:26:58 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:60373)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l58G3-00024T-Jj
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:26:56 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.103])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id 385E886B799C;
+ Thu, 28 Jan 2021 15:26:44 +0100 (CET)
+Received: from kaod.org (37.59.142.100) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
+ 2021 15:26:43 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-100R003146736e0-d751-4e3a-b0d6-f14b669fdd39,
+ 12ABEFCAB104A9A3990DEAE01579FEA45C2F0BE3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 28 Jan 2021 15:26:41 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Miklos Szeredi <mszeredi@redhat.com>
+Subject: Re: [Virtio-fs] [PATCH v2] virtiofsd: prevent opening of special
+ files (CVE-2020-35517)
+Message-ID: <20210128152641.0e9d5fa0@bahia.lan>
+In-Reply-To: <CAOssrKff8FyC0i+Q1MY0paEiXdARp2=vkSnTwNHZxpntyV7oxA@mail.gmail.com>
+References: <20210126103502.260758-1-stefanha@redhat.com>
+ <20210126181604.1a4c69c6@bahia.lan>
+ <CAOssrKdh3kqKN4uGE=s5eiymd2MXKsRXUegqRH-TFhqYOK7WOA@mail.gmail.com>
+ <20210127112023.0e97f909@bahia.lan>
+ <CAOssrKfezsvcECQ=mO_4T2B09e+2S4LA3=_U6TQyiTtPbE=OYg@mail.gmail.com>
+ <20210127144909.22dd778e@bahia.lan>
+ <CAOssrKeN9iYT-Z46FVtzdKnWcTLfMqK77b1faf78m3XTXnEVGw@mail.gmail.com>
+ <20210127160920.062e47f0@bahia.lan>
+ <CAOssrKc=kSQQLmrAR2VrKfDzkyNDEAAa5qusK1x6+-fCM4+yCA@mail.gmail.com>
+ <20210127163524.4e34596d@bahia.lan>
+ <CAOssrKcbymmsVtU=jMMcE=K1T9oC=NmOzt3aSCe27K7TxXF61A@mail.gmail.com>
+ <CAOssrKfGuDOoJKvia4yLcYy7udYDHHs-EtFeEvjrfKiV9UkLPw@mail.gmail.com>
+ <20210128131454.2f66ed21@bahia.lan>
+ <CAOssrKff8FyC0i+Q1MY0paEiXdARp2=vkSnTwNHZxpntyV7oxA@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAMxuvazChfKDHyjP2o1ipfgquawMab9zc4p8J5wnNnmVMmJ1yw@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.100]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 4c74b3c3-0853-4f2d-823a-f707468303ea
+X-Ovh-Tracer-Id: 14529456826062903599
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgdeivdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvedvveeugeeiveefgeefleehfeevleetvefhgfffteeuudeftdeiueeuieevkeeknecuffhomhgrihhnpehgihhtlhgrsgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddttdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepvhhgohihrghlsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,51 +81,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Daniel Berrange <berrange@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, P J P <ppandit@redhat.com>,
+ virtio-fs-list <virtio-fs@redhat.com>, Alex Xu <alex@alxu.ca>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+ Vivek Goyal <vgoyal@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 28, 2021 at 04:00:20PM +0400, Marc-André Lureau wrote:
-> Hi
-> 
-> On Thu, Jan 28, 2021 at 3:57 PM Marc-André Lureau <
-> marcandre.lureau@redhat.com> wrote:
-> 
-> > Hi
-> >
-> > On Thu, Jan 28, 2021 at 3:44 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >
-> >>   Hi,
-> >>
-> >> > diff --git a/ui/spice-display.c b/ui/spice-display.c
-> >> > index 0178d5766d..3d3e3bcb22 100644
-> >> > --- a/ui/spice-display.c
-> >> > +++ b/ui/spice-display.c
-> >> > @@ -1188,4 +1188,6 @@ void qemu_spice_display_init(void)
-> >> >          }
-> >> >          qemu_spice_display_init_one(con);
-> >> >      }
-> >>
-> >>        if (runstate_is_running()) {
-> >>             qemu_spice_display_start();
-> >>        }
-> >>
-> >> Isn't that enough?
-> >>
-> >
-> > That should be fine too, I'll update the patch. thanks
-> >
-> 
-> Actually no, we still need to prevent the initial
-> qemu_spice_display_start(), and do a single call when everything is ready
-> (since spice server doesn't handle adding interfaces dynamically when
-> running).
+On Thu, 28 Jan 2021 15:00:58 +0100
+Miklos Szeredi <mszeredi@redhat.com> wrote:
 
-I still think that moving these three lines to the correct place is
-enough.  Maybe even just qemu_spice_display_start() as it keeps track
-of the state and you can safely call this twice.
+> On Thu, Jan 28, 2021 at 1:15 PM Greg Kurz <groug@kaod.org> wrote:
+> >
+> > On Wed, 27 Jan 2021 16:52:56 +0100
+> > Miklos Szeredi <mszeredi@redhat.com> wrote:
+> >
+> > > On Wed, Jan 27, 2021 at 4:47 PM Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > > >
+> > > > On Wed, Jan 27, 2021 at 4:35 PM Greg Kurz <groug@kaod.org> wrote:
+> > > > >
+> > > > > On Wed, 27 Jan 2021 16:22:49 +0100
+> > > > > Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > > > >
+> > > > > > On Wed, Jan 27, 2021 at 4:09 PM Greg Kurz <groug@kaod.org> wrote:
+> > > > > > >
+> > > > > > > On Wed, 27 Jan 2021 15:09:50 +0100
+> > > > > > > Miklos Szeredi <mszeredi@redhat.com> wrote:
+> > > > > > > > The semantics of O_CREATE are that it can fail neither because the
+> > > > > > > > file exists nor because it doesn't.  This doesn't matter if the
+> > > > > > > > exported tree is not modified outside of a single guest, because of
+> > > > > > > > locking provided by the guest kernel.
+> > > > > > > >
+> > > > > > >
+> > > > > > > Wrong. O_CREAT can legitimately fail with ENOENT if one element
+> > > > > >
+> > > > > > Let me make my  statement more precise:
+> > > > > >
+> > > > > > O_CREAT cannot fail with ENOENT if parent directory exists throughout
+> > > > > > the operation.
+> > > > > >
+> > > > >
+> > > > > True, but I still don't see what guarantees guest userspace that the
+> > > > > parent directory doesn't go away... I must have missed something.
+> > > > > Please elaborate.
+> > > >
+> > > > Generally there's no guarantee, however there can be certain
+> > > > situations where the caller can indeed rely on the existence of the
+> > > > parent (e.g. /tmp).
+> > >
+> > > Example from the virtiofs repo:
+> > >
+> > > https://gitlab.com/virtio-fs/ireg/-/blob/master/ireg.c#L315
+> > > https://gitlab.com/virtio-fs/ireg/-/blob/master/ireg.c#L382
+> > >
+> > > In that case breaking O_CREAT would be harmless, since no two
+> > > instances are allowed anyway, so it would just give a confusing error.
+> > > But it is breakage and it probably wouldn't be hard to find much worse
+> > > breakage in real life applications.
+> > >
+> >
+> > Ok, I get your point : a guest userspace application can't expect
+> > to hit ENOENT when doing open("/some_dir/foo", O_CREAT) even if
+> > someone else is doing unlink("/some_dir/foo"), which is a different
+> > case than somebody doing rmdir("/some_dir").
+> >
+> > But we still have a TOCTOU : the open(O_CREAT|O_EXCL) acts as
+> > the check to use open(O_PATH) and retry+timeout can't fix it
+> > reliably.
+> 
+> Right.
+> 
+> > A possible fix for the case where the race comes from the
+> > client itself would be to serialize FUSE requests that
+> > create/remove paths in the same directory. I don't know
+> > enough the code yet to assess if it's doable though.
+> >
+> > Then this would leave the case where something else on
+> > the host is racing with virtiofsd. IMHO this belongs to
+> > the broader family of "bad things the host can do
+> > in our back". This requires a bigger hammer than
+> > adding band-aids here and there IMHO. So in the
+> > scope of this patch, I don't think we should retry
+> > and timeout, but just return whatever errno that
+> > makes sense.
+> 
+> I never suggested a timeout, that would indeed be nonsense.
+> 
 
-take care,
-  Gerd
+Yeah sorry for that, by timeout I was lazily expressing "retry
+a bit and bail out if it doesn't work".
+
+> Just do a simple retry loop with a counter.  I'd set counter to a
+> small number (5 or whatever), so that basically any accidental races
+> are cared for, and the only case that would trigger the EIO is if the
+> file was constantly removed and recreated (and even in that case it
+> would be pretty difficult to trigger).  This would add only minimal
+> complexity or overhead.
+> 
+
+I still don't like the counter thing very much but I can't think of
+anything better that _works_ in all cases in the short term... so be
+it.
+
+> The proper solution might be adding O_REGULAR, and it actually would
+> be useful for other O_CREAT users, since it's probably what they want
+> anyway (but existing semantics can't be changed).
+> 
+
+Yeah only the kernel can handle this race gracefully and O_REGULAR
+would be great, but it might take some time until this percolates
+up to QEMU.
+
+> Thanks,
+> Miklos
+> 
 
 
