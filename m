@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 926E830772C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 14:33:54 +0100 (CET)
-Received: from localhost ([::1]:44080 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15890307734
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 14:36:35 +0100 (CET)
+Received: from localhost ([::1]:48148 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l57Qn-0000gm-3I
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 08:33:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54418)
+	id 1l57TO-0002P6-4p
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 08:36:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54848)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l57PI-0008TG-Uv
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:32:20 -0500
-Received: from mail-ed1-x52e.google.com ([2a00:1450:4864:20::52e]:45736)
+ id 1l57RM-0001P8-MK
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:34:28 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:45757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l57PH-000138-7q
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:32:20 -0500
-Received: by mail-ed1-x52e.google.com with SMTP id f1so6578422edr.12
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 05:32:18 -0800 (PST)
+ id 1l57RG-0001g7-Dq
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:34:24 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id f1so6585924edr.12
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 05:34:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=VCbuhUgseEdIad8g+kRBzhDOBtgRomK/CWVMXG9z46I=;
- b=ZHCuhA1pfHPUhmCrOZ8pZbPZJA4a31dvwGvdo+Vp3bXo04SyWV0SW1fIhzkqoICYNN
- Tk0C7E0nt+dTnzkLLhWUSV0k8yQsIVkDjCc6VgAPT4jBeRyJQVoH+Dppih+s+tN2D+XI
- FHTifIVbtS6HzEfQZ/iqV7gjfCkDQMvY7ep4TZOzsmOudq6oH3wwpVljRIL7ZKimdLE5
- 2XsbW9Sr0RVBQL98sVsy0HPHR0iM6Z0Gp6S6e7/n7fxRT1sLaAruBW2RCOmvPbbeo6RI
- VrJCFjtvPD6GQIsvh7JGoqPV1QRJfrv0aZu3elqFOKLredqLsgmgmfKq6NrlWe6mRjPa
- w96Q==
+ :cc:content-transfer-encoding;
+ bh=FDbVfjV0OH07Xlau7gYTFjUmJwQAphIIVLwJHzEZa2Y=;
+ b=qUmcW5Jbih0a9zAcxiOt3QM9cabsUqNeXqt2kyevHcZ0KC6ljbTWh9wYgeZgKhixtK
+ ONr6zMMQIoqaar+AidC3HQX6hBmTdkKFgsKaXQNUzydEvBL5C+y2JsJlHyZqBd6ovHDN
+ ASZTdTyAoy5YlFZFRlAKNFDHqFypvP8pJceyP3BaqRKjMEGd4U67slBAdpJyACfND7LS
+ RQqnUPx7LxlQ+Rn/Qfy891eSgg7NXCT75p4UJyfq+Lg+8YOs7SAqoV+rDYpxS7tGOej1
+ alOVKpnFf05kC7RlC0/lfRJ8UP9EoUgHN2bi3s28fbmP+BOEm6PG76pab/IrP6hyBzvw
+ Lijg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=VCbuhUgseEdIad8g+kRBzhDOBtgRomK/CWVMXG9z46I=;
- b=LKU1pCufbSQkkhoLMQzGZ837W6iMsa7sbNNgsEM8Y/NRmsb1NwOpqW73+8g6mOUKEN
- LUM8JYeEbTI4+hJZW4+GXcRm+5osX1qyK1Fxm4Y0B7BcyuDnw4JvCAXtrpcQ/7Bvtc93
- 4qEFVcDgoYsYuTZmnFBdHP7cpc+yj3BbzoIbUawmF7IZ37JMRdZEDtdHKZwVI+PgJA3k
- DLuX3MSNObNwi+PaKKq0v2NM+pqT6RQ0Ljx0Z9B4M5kKD36iPIJHDHH5uEcyw9p/Fd0b
- XsJsTbg3rY2e9ropWjB2u/jJyovuB3oYTeGwJJ+rCCdNDX/cXqVnA4KjjyieOjNFnAoA
- 8GMA==
-X-Gm-Message-State: AOAM5333tWjHgAvcy/Cd4NLZvzfCt51TfNMf6DZAbW4ZiQmnXi9dafdv
- uhTyHBeP79N9P0DKEGUkFaVxatHBOZzce3zGfzryww==
-X-Google-Smtp-Source: ABdhPJwRFN8Vvj4rBzEwdtQ9QhJ8BrqAOfexyhaE68IkIGKlwyQRJ2fgY9UyJaz5ILCHbTfqGcfwFLneN5kW4drO7lo=
-X-Received: by 2002:a05:6402:3514:: with SMTP id
- b20mr13117066edd.100.1611840737400; 
- Thu, 28 Jan 2021 05:32:17 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=FDbVfjV0OH07Xlau7gYTFjUmJwQAphIIVLwJHzEZa2Y=;
+ b=OZNZlZ1E7LUmJVCBLm9Z9sl9e4lDLME5Fk6NEl4oruiH3AhUutZ8JhaeSaNtELmQof
+ h4Kst/ULh/xmU54xIvDHAGw6LrNzfx6t6DCP9UPF6+zG8OYlP+3RN2oC8pjltetFiK78
+ rJCqsUzRdjxwohfxDFHgqOnC7GDQkaD5+SWRUUzZXZPqKg8WBYjn+kekskk6WSrST898
+ utkB7dzmj7r7MnXzdmzrcSy9wlyJCAqJxXcNYOl7X9EjPiVw3IftPhFIsvgtVNARh3ca
+ XqUh7EFf6l9q2aiFhcWi3OqnQYwE+FyLhG0SgZmYPaaHmOp1ZidtUejVqV/ISbuzG3Ec
+ JTHA==
+X-Gm-Message-State: AOAM5301OFLHpD5OO+Wkq3pD2FwmquFo/pJj0cd+BhKMzEMkhs9zkAgR
+ o2vBPXaRZp/9A29o08Ov5frH6J7sUieUK4d1nkITXQ==
+X-Google-Smtp-Source: ABdhPJztztM2F9WUrSF8YR9QC8W0qoAWl5dgpEQDXq+q00x7eiCeo8PgmwHPS87uhjDJscImVqiCWT534Mw7OOGH+sw=
+X-Received: by 2002:aa7:c88a:: with SMTP id p10mr14092231eds.204.1611840859716; 
+ Thu, 28 Jan 2021 05:34:19 -0800 (PST)
 MIME-Version: 1.0
 References: <1611063546-20278-1-git-send-email-bmeng.cn@gmail.com>
- <1611063546-20278-11-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1611063546-20278-11-git-send-email-bmeng.cn@gmail.com>
+ <1611063546-20278-7-git-send-email-bmeng.cn@gmail.com>
+In-Reply-To: <1611063546-20278-7-git-send-email-bmeng.cn@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 13:32:06 +0000
-Message-ID: <CAFEAcA9Dr5Wkd0KSvieX+smcGg51DNvt+DhBxibnNDGNHSsCtg@mail.gmail.com>
-Subject: Re: [PATCH v8 10/10] hw/ssi: imx_spi: Correct tx and rx fifo
- endianness
+Date: Thu, 28 Jan 2021 13:34:08 +0000
+Message-ID: <CAFEAcA9cjJo8W6oOF0uASQDGLuXUdgURkammsXkJOsLkaZU3fw@mail.gmail.com>
+Subject: Re: [PATCH v8 06/10] hw/ssi: imx_spi: Rework imx_spi_write() to
+ handle block disabled
 To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52e;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52e.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,29 +89,21 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 19 Jan 2021 at 13:40, Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 >
-> The endianness of data exchange between tx and rx fifo is incorrect.
-> Earlier bytes are supposed to show up on MSB and later bytes on LSB,
-> ie: in big endian. The manual does not explicitly say this, but the
-> U-Boot and Linux driver codes have a swap on the data transferred
-> to tx fifo and from rx fifo.
+> When the block is disabled, only the ECSPI_CONREG register can
+> be modified. Setting the EN bit enabled the device, clearing it
+> "disables the block and resets the internal logic with the
+> exception of the ECSPI_CONREG" register.
 >
-> With this change, U-Boot read from / write to SPI flash tests pass.
+> Ignore all other registers write except ECSPI_CONREG when the
+> block is disabled.
 >
->   => sf test 1ff000 1000
->   SPI flash test:
->   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
->   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
->   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
->   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
->   Test passed
->   0 erase: 0 ticks, 4096000 KiB/s 32768.000 Mbps
->   1 check: 3 ticks, 1333 KiB/s 10.664 Mbps
->   2 write: 235 ticks, 17 KiB/s 0.136 Mbps
->   3 read: 2 ticks, 2000 KiB/s 16.000 Mbps
+> Ref: i.MX 6DQ Applications Processor Reference Manual (IMX6DQRM),
+>      chapter 21.7.3: Control Register (ECSPIx_CONREG)
 >
-> Fixes: c906a3a01582 ("i.MX: Add the Freescale SPI Controller")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> Message-Id: <20210115153049.3353008-6-f4bug@amsat.org>
 > Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
