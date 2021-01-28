@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BE8307CF4
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:49:12 +0100 (CET)
-Received: from localhost ([::1]:38620 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CAC307CE3
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:46:40 +0100 (CET)
+Received: from localhost ([::1]:35344 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5BPr-0003LO-6A
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:49:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34010)
+	id 1l5BNP-0001e0-Q9
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:46:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34050)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l5BJU-00085L-VO; Thu, 28 Jan 2021 12:42:36 -0500
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:40589)
+ id 1l5BJX-00089R-B7; Thu, 28 Jan 2021 12:42:39 -0500
+Received: from mail-qk1-x736.google.com ([2607:f8b0:4864:20::736]:38450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l5BJQ-00086u-V1; Thu, 28 Jan 2021 12:42:36 -0500
-Received: by mail-qk1-x72a.google.com with SMTP id u20so6052346qku.7;
- Thu, 28 Jan 2021 09:42:28 -0800 (PST)
+ id 1l5BJQ-000875-G2; Thu, 28 Jan 2021 12:42:39 -0500
+Received: by mail-qk1-x736.google.com with SMTP id d85so6055861qkg.5;
+ Thu, 28 Jan 2021 09:42:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=5HfsAKrA1MeJXhkokYuxeDG51ImIm+2RwDEViWvaeFE=;
- b=XsUaUfwzRePWlTHtjUo++UCQYHcm1l/R8zZ8l5ufAyheOx/3XPzEYaHNQFJAxHP1Xf
- R/EsnqZ3iP45RYESMiHU4OOxDJRG67obmPYS8yqFQW5W61hv+QyRf+l6+iLdeUHpPslk
- tPmDvKFHIBxvd1DrZ6By9Z/A5wObby5OimKL3kWDYiU/b7MAcbzLUSidkRAvpDWc6qvA
- mVHqPoA0HxOC7/y4NIgKeuJuijgCRAajJH79GrCZ9NowtRKqJGzWUfdKBJdmRuqklrxT
- 8Ukrab/iNRc50KBt6uyMbhNSo7MBou8dBrX8ua4n2+zYuaBru5hIJ5EjFWSGanabq1/r
- ejSw==
+ bh=4ATDWYb9nI+2OfgmowSKbjTerqXCLFRWBl7VnqTmmhs=;
+ b=VbVomBGEJw5ZXO6BkEYrCn9/Otzn4F/iWbJlzH5jjrYOThRihj5hAN1rZ/XAiH8r8X
+ SSkmXQNIZ+RIfZpTAxSg2fgB85od296rK+Dfz3RUL6Eqsvj+CwMlPA14muK/eseUDHSd
+ Wt31vlfT4qp+34GGDNIPhgVkL4/v6sRGvGXlwyhd5bD4cwynCcDBvHDQkZ0vp8etTtcJ
+ W3mlY/m0a6xm+vCNQMCPNgv/Nd5YeMrPfBWEmlC/3GWe1nIIZTK9XNAbQk2Hc77YaglC
+ Ll7PZ1AuZaeQ4BCPpXsS1WgwkEOtp7qoYU5uSwxeAinKZRhAde3M1DgdMNsz1XRR/uhQ
+ hMtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=5HfsAKrA1MeJXhkokYuxeDG51ImIm+2RwDEViWvaeFE=;
- b=L89pQl7gzfhe+jFGbqykNeuruSHaKNlG0jkjFwM8IlUxGWzicx+yFo54DaQlLZTT7b
- w1cAukoGybruLGgD3ue5GB/DlBLJ1hXTzQNys8LRB/zm4vF8udiMVV0VP3WjGmrX9p++
- pZkBI/21T4zZEfRMZPzhAOo7juR7MHbiRoGYrUY22qQnpi+WISUe1jH+Z8LKgi6bmSEH
- 4KvyfllvSDvgOdaTdXjXgzo3OlmATbapoPXdfnzbeZUSNzyyicPurJ+EQDlDtHUtGpQS
- xWoL+RFkdy6TQ8jZKXqaKWPu+OgrDQV1X/otq2e0duKeunOtlUkJ7FNTpQ46BzgkQXJB
- Wf1Q==
-X-Gm-Message-State: AOAM532H21G9lU51sd79a5Y2r6GKp25vz+MgA6sUQM8skaZ9eCDx/Eqc
- dQ1zgwNM2kygVeReZDGvSDYAZh6b1GI=
-X-Google-Smtp-Source: ABdhPJz/hmtji2d5PvN8W5rH9/sfO6CZxRkhUUymfJgOXFOLzwpN1rPU/Eg7nV91a3zSKDc1afAaZw==
-X-Received: by 2002:a37:d01:: with SMTP id 1mr273188qkn.247.1611855747276;
- Thu, 28 Jan 2021 09:42:27 -0800 (PST)
+ bh=4ATDWYb9nI+2OfgmowSKbjTerqXCLFRWBl7VnqTmmhs=;
+ b=WPuRBg7vYsJtLadxp053RunAoNsMHX+4b+2m9IxUB1+kUf3VvthGBN784RQXpWxiXd
+ M2rluYn2lYs1mSF8KaV+FscD9Zw4/757YDEXOcdZj/HDh3Ra+AZw/KXoJCv8TO7VFZg8
+ FdJIPRP1MZ28CDZPEz2LimI6ecgOXZyLMWbEuKOJpdqaQXyUlbubcA63+Bo+4qD+mbua
+ hFZTsJoKix5eUxcGt7a5+Vr63WP1fMloZFfbgFzqryi7H8quc+crImMB1BdLNCvdinVz
+ xYaGADEN2PNI5LomIs7K8lNGU/AhNuhBVQ79ZDpEkzrC2IvgWjsPkuQUDwyamgt5Mxcs
+ +L1Q==
+X-Gm-Message-State: AOAM530lO8i4l4xagHd3k5oTEMmVPhhs5eHCgB0xtMR3HUNpBo9MqpUG
+ OHOceuU1ydPec2kqAfhkhT33crVjOng=
+X-Google-Smtp-Source: ABdhPJwkZyliCU5gZllgj6BKUv4hCB1zlMlkvY89GzCvXe4oD1QZ/HKw36iEfUx+BBWYnFRay3A5ug==
+X-Received: by 2002:a37:4c8:: with SMTP id 191mr292650qke.338.1611855749308;
+ Thu, 28 Jan 2021 09:42:29 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:6df1:6267:881f:cc79:a1f7])
- by smtp.gmail.com with ESMTPSA id i8sm3804038qtr.84.2021.01.28.09.42.25
+ by smtp.gmail.com with ESMTPSA id i8sm3804038qtr.84.2021.01.28.09.42.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 09:42:26 -0800 (PST)
+ Thu, 28 Jan 2021 09:42:28 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/3] spapr_numa.c: create
- spapr_numa_initial_nvgpu_numa_id() helper
-Date: Thu, 28 Jan 2021 14:42:12 -0300
-Message-Id: <20210128174213.1349181-3-danielhb413@gmail.com>
+Subject: [PATCH v2 3/3] spapr_numa.c: fix ibm,
+ max-associativity-domains calculation
+Date: Thu, 28 Jan 2021 14:42:13 -0300
+Message-Id: <20210128174213.1349181-4-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210128174213.1349181-1-danielhb413@gmail.com>
 References: <20210128174213.1349181-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=danielhb413@gmail.com; helo=mail-qk1-x72a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::736;
+ envelope-from=danielhb413@gmail.com; helo=mail-qk1-x736.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -88,77 +88,61 @@ Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We'll need to check the initial value given to spapr->gpu_numa_id when
-building the rtas DT, so put it in a helper for easier access and to
-avoid repetition.
+The current logic for calculating 'maxdomain' making it a sum of
+numa_state->num_nodes with spapr->gpu_numa_id. spapr->gpu_numa_id is
+used as a index to determine the next available NUMA id that a
+given NVGPU can use.
 
+The problem is that the initial value of gpu_numa_id, for any topology
+that has more than one NUMA node, is equal to numa_state->num_nodes.
+This means that our maxdomain will always be, at least, twice the
+amount of existing NUMA nodes. This means that a guest with 4 NUMA
+nodes will end up with the following max-associativity-domains:
+
+rtas/ibm,max-associativity-domains
+                 00000004 00000008 00000008 00000008 00000008
+
+This overtuning of maxdomains doesn't go unnoticed in the guest, being
+detected in SLUB during boot:
+
+ dmesg | grep SLUB
+[    0.000000] SLUB: HWalign=128, Order=0-3, MinObjects=0, CPUs=4, Nodes=8
+
+SLUB is detecting 8 total nodes, with 4 nodes being online.
+
+This patch fixes ibm,max-associativity-domains by considering the amount
+of NVGPUs NUMA nodes presented in the guest, instead of just
+spapr->gpu_numa_id.
+
+Reported-by: Cédric Le Goater <clg@kaod.org>
 Tested-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 ---
- hw/ppc/spapr.c              | 11 +----------
- hw/ppc/spapr_numa.c         | 14 ++++++++++++++
- include/hw/ppc/spapr_numa.h |  1 +
- 3 files changed, 16 insertions(+), 10 deletions(-)
+ hw/ppc/spapr_numa.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 2d60c6f594..bc3fa276ff 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -2765,16 +2765,7 @@ static void spapr_machine_init(MachineState *machine)
- 
-     }
- 
--    /*
--     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA node.
--     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() which is
--     * called from vPHB reset handler so we initialize the counter here.
--     * If no NUMA is configured from the QEMU side, we start from 1 as GPU RAM
--     * must be equally distant from any other node.
--     * The final value of spapr->gpu_numa_id is going to be written to
--     * max-associativity-domains in spapr_build_fdt().
--     */
--    spapr->gpu_numa_id = MAX(1, machine->numa_state->num_nodes);
-+    spapr->gpu_numa_id = spapr_numa_initial_nvgpu_numa_id(machine);
- 
-     /* Init numa_assoc_array */
-     spapr_numa_associativity_init(spapr, machine);
 diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-index 261810525b..a757dd88b8 100644
+index a757dd88b8..779f18b994 100644
 --- a/hw/ppc/spapr_numa.c
 +++ b/hw/ppc/spapr_numa.c
-@@ -46,6 +46,20 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
-     return true;
- }
- 
-+/*
-+ * NVLink2-connected GPU RAM needs to be placed on a separate NUMA node.
-+ * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() which is
-+ * called from vPHB reset handler so we initialize the counter here.
-+ * If no NUMA is configured from the QEMU side, we start from 1 as GPU RAM
-+ * must be equally distant from any other node.
-+ * The final value of spapr->gpu_numa_id is going to be written to
-+ * max-associativity-domains in spapr_build_fdt().
-+ */
-+unsigned int spapr_numa_initial_nvgpu_numa_id(MachineState *machine)
-+{
-+    return MAX(1, machine->numa_state->num_nodes);
-+}
-+
- /*
-  * This function will translate the user distances into
-  * what the kernel understand as possible values: 10
-diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
-index b3fd950634..6f9f02d3de 100644
---- a/include/hw/ppc/spapr_numa.h
-+++ b/include/hw/ppc/spapr_numa.h
-@@ -31,5 +31,6 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
-                             int offset, PowerPCCPU *cpu);
- int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
-                                          int offset);
-+unsigned int spapr_numa_initial_nvgpu_numa_id(MachineState *machine);
- 
- #endif /* HW_SPAPR_NUMA_H */
+@@ -311,6 +311,8 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
+ {
+     MachineState *ms = MACHINE(spapr);
+     SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(spapr);
++    uint32_t number_nvgpus_nodes = spapr->gpu_numa_id -
++                                   spapr_numa_initial_nvgpu_numa_id(ms);
+     uint32_t refpoints[] = {
+         cpu_to_be32(0x4),
+         cpu_to_be32(0x3),
+@@ -318,7 +320,7 @@ void spapr_numa_write_rtas_dt(SpaprMachineState *spapr, void *fdt, int rtas)
+         cpu_to_be32(0x1),
+     };
+     uint32_t nr_refpoints = ARRAY_SIZE(refpoints);
+-    uint32_t maxdomain = ms->numa_state->num_nodes + spapr->gpu_numa_id;
++    uint32_t maxdomain = ms->numa_state->num_nodes + number_nvgpus_nodes;
+     uint32_t maxdomains[] = {
+         cpu_to_be32(4),
+         cpu_to_be32(maxdomain),
 -- 
 2.26.2
 
