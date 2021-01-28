@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8993306AAF
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:48:02 +0100 (CET)
-Received: from localhost ([::1]:45896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9B7F306AB1
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:49:52 +0100 (CET)
+Received: from localhost ([::1]:51696 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4wPi-0000xS-0N
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:48:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55932)
+	id 1l4wRT-0003MS-Lg
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:49:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO6-0007uN-6w; Wed, 27 Jan 2021 20:46:22 -0500
-Received: from ozlabs.org ([203.11.71.1]:58719)
+ id 1l4wO4-0007ti-Ok; Wed, 27 Jan 2021 20:46:20 -0500
+Received: from ozlabs.org ([203.11.71.1]:55043)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO2-0005Au-0Q; Wed, 27 Jan 2021 20:46:21 -0500
+ id 1l4wO1-0005Av-UM; Wed, 27 Jan 2021 20:46:20 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DR3GR5yHlz9sW0; Thu, 28 Jan 2021 12:46:06 +1100 (AEDT)
+ id 4DR3GS6N0Vz9sW8; Thu, 28 Jan 2021 12:46:07 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611798367;
- bh=zDK0rzJpCyeiRfdCrbZ/eBzXLAziq3jdN1qhbSITexE=;
+ d=gibson.dropbear.id.au; s=201602; t=1611798368;
+ bh=cuvEU7gm8hSNLc4vcOPFfpV40qqp/ZatDWRGe78M9yU=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=TH3bcdtP1XLq7bP6Pnx/S3mXN0zmm34D0ulxptKDgr7TP1ZztWDhvubmPYehG2+74
- CYtnXN/3+b6meqZ3f8qIC/X4OYkE1t9bDbrCuEmDgxRZtNLNdmvITBLHFcWRh/VFRl
- 05SALZPoqeIaMoFUqf50Wt6UXdqRgsDZND4fOuMM=
-Date: Thu, 28 Jan 2021 11:45:37 +1100
+ b=Pn5GYdIrbYb8NJkm9T91UqID3SrxA8RID2pfMDoTbY1KMDTlx2vY6Ak4d18tZ4lDm
+ Q4UywHeiHQXBJrheSv60NZ2ea9RVW+DeOIzlm9wXzyKGi6tb6eO40VLlTWGbeBC4j5
+ 4cUwPKZ9uzcCVmF65G5RN80XereNi8sSQv+HArwk=
+Date: Thu, 28 Jan 2021 11:46:55 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 2/7] ppc/xive: Add firmware bit when dumping the ENDs
-Message-ID: <20210128004537.GE18347@yekko.fritz.box>
+Subject: Re: [PATCH 3/7] ppc/pnv: Use skiboot addresses to load kernel and
+ ramfs
+Message-ID: <20210128004655.GF18347@yekko.fritz.box>
 References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-3-clg@kaod.org>
+ <20210126171059.307867-4-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="lkTb+7nhmha7W+c3"
+ protocol="application/pgp-signature"; boundary="JcvBIhDvR6w3jUPA"
 Content-Disposition: inline
-In-Reply-To: <20210126171059.307867-3-clg@kaod.org>
+In-Reply-To: <20210126171059.307867-4-clg@kaod.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -58,67 +59,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-ppc@nongnu.org,
+ Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---lkTb+7nhmha7W+c3
+--JcvBIhDvR6w3jUPA
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 26, 2021 at 06:10:54PM +0100, C=E9dric Le Goater wrote:
-> ENDs allocated by OPAL for the HW thread VPs are tagged as owned by FW.
-> Dump the state in 'info pic'.
+On Tue, Jan 26, 2021 at 06:10:55PM +0100, C=E9dric Le Goater wrote:
+> The current settings are useful to load large kernels (with debug) but
+> it moves the initrd image in a memory region not protected by
+> skiboot. If skiboot is compiled with DEBUG=3D1, memory poisoning will
+> corrupt the initrd.
 >=20
+> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  include/hw/ppc/xive_regs.h | 2 ++
->  hw/intc/xive.c             | 3 ++-
->  2 files changed, 4 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-> index 787969282593..b7fde2354e31 100644
-> --- a/include/hw/ppc/xive_regs.h
-> +++ b/include/hw/ppc/xive_regs.h
-> @@ -236,6 +236,8 @@ typedef struct XiveEND {
->      (be32_to_cpu((end)->w0) & END_W0_UNCOND_ESCALATE)
->  #define xive_end_is_silent_escalation(end)              \
->      (be32_to_cpu((end)->w0) & END_W0_SILENT_ESCALATE)
-> +#define xive_end_is_firmware(end)              \
-> +    (be32_to_cpu((end)->w0) & END_W0_FIRMWARE)
+>  If we want to increase the kernel size limit as commit b45b56baeecd
+>  ("ppc/pnv: increase kernel size limit to 256MiB") intented to do, I
+>  think we should add a machine option.
+>=20
+>  hw/ppc/pnv.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 14fc9758a973..e500c2e2437e 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -65,9 +65,9 @@
+>  #define FW_MAX_SIZE             (16 * MiB)
 > =20
->  static inline uint64_t xive_end_qaddr(XiveEND *end)
+>  #define KERNEL_LOAD_ADDR        0x20000000
+> -#define KERNEL_MAX_SIZE         (256 * MiB)
+> -#define INITRD_LOAD_ADDR        0x60000000
+> -#define INITRD_MAX_SIZE         (256 * MiB)
+> +#define KERNEL_MAX_SIZE         (128 * MiB)
+> +#define INITRD_LOAD_ADDR        0x28000000
+> +#define INITRD_MAX_SIZE         (128 * MiB)
+> =20
+>  static const char *pnv_chip_core_typename(const PnvChip *o)
 >  {
-> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-> index fa8c3d82877f..eeb4e62ba954 100644
-> --- a/hw/intc/xive.c
-> +++ b/hw/intc/xive.c
-> @@ -1294,7 +1294,7 @@ void xive_end_pic_print_info(XiveEND *end, uint32_t=
- end_idx, Monitor *mon)
-> =20
->      pq =3D xive_get_field32(END_W1_ESn, end->w1);
-> =20
-> -    monitor_printf(mon, "  %08x %c%c %c%c%c%c%c%c%c prio:%d nvt:%02x/%04=
-x",
-> +    monitor_printf(mon, "  %08x %c%c %c%c%c%c%c%c%c%c prio:%d nvt:%02x/%=
-04x",
->                     end_idx,
->                     pq & XIVE_ESB_VAL_P ? 'P' : '-',
->                     pq & XIVE_ESB_VAL_Q ? 'Q' : '-',
-> @@ -1305,6 +1305,7 @@ void xive_end_pic_print_info(XiveEND *end, uint32_t=
- end_idx, Monitor *mon)
->                     xive_end_is_escalate(end) ? 'e' : '-',
->                     xive_end_is_uncond_escalation(end)   ? 'u' : '-',
->                     xive_end_is_silent_escalation(end)   ? 's' : '-',
-> +                   xive_end_is_firmware(end)   ? 'f' : '-',
->                     priority, nvt_blk, nvt_idx);
-> =20
->      if (qaddr_base) {
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -126,25 +114,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---lkTb+7nhmha7W+c3
+--JcvBIhDvR6w3jUPA
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASCTEACgkQbDjKyiDZ
-s5KqYhAAg7Z+coh8M6/4YsJ0FIuVZ1K6yZc5LY6tHTS1btYSOAzsvU8EK4y3vog4
-AhFFezB5mKL0IWzPVvOCPC7InHgciOLX67zIPRRG0ZvUvdSV7jkYCgauFTbs6n4q
-K7ciN6UJb79BYYJUabxfLg4zTRPQt3fZlihizMyjp54/hfkuDKuGuKDd/NP2ehIC
-qKqXjVuMwOmtxT+nJrlCSF8UbEw7XK4lx4rOTkaDtQz2owTVa5frkFdQles6OSZ8
-NB7w3Oep6WF9t5rnFOUN+Y6ctIqHJNcQMQUDQ4hW1dy8WEM24XWYRU9LCjGtHqeb
-6PPuTI3YyqltS7/JpL5gVQcOjIYKbQkfnLQbTxH8cXsCy9atqX9NRz3AZOWE22mk
-DRMA0rzhd+mqWNs2MV+188MuSePTwgsWsBO9fuSXxurPXQR4dUZLdsdEoiQs7/Rs
-CWCW1oRyJCWYYIALVK+tkzAmFnr40hZhdZ1jbIED5HsbCSqSga5gVccNDJLsehyL
-/tzGfyvhb3OMqsP7cTFVWAYl+q8rklNFWIc/WEqy+ydLosMUB0QlDApyJyt4bDII
-OGZ7/VD/Cp3eMjErSsqXf2YWf4MKA9KpAQfghHDq9H1wsxUwmOS9txflXAlYSbWg
-Jrv22bImC7ZXamn6+32SmJXzfLKgSnW4dO7N9njPJqIQ/+b5dhs=
-=DSL9
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASCX8ACgkQbDjKyiDZ
+s5LT9Q/+L4RzJqPQ9BgF4JPWNd9Z3f8QIZdbtmCDWKiJ9/JoXbfZKs0esTiTZUFi
+sq5HxRxlLPhmbcrM/TQpoVg//thfPBh9e1cxe1Ns7djEdsTVOeB721snf8lzM8/a
+wndUyYa+sLkedxr1UJkJXtzSJgaHsUmcYP7YuiCkyVoJUGlWSIlqE6uB+mFrdTSV
+7hDuElEN+8FNxN+wqWS422qQT/hyksO/3qbL4iRSn+8E0HLonzcY52rG5UJ6vLD6
+MUajpxIqK3x4cfSd7jBQowl5439fyn7xvUjLJydyvNaENpF+UyBfngpJLyN088lI
+fMBaJnfqRBvIe3F2GRcgVvkpp5SX2QUTpdWk/D77IO/J8foXXByLkx6/rI6H5RGC
+7s1I0oUTH2J3vUim5NQl+Z5L5sAcMztXvIieeRU/4HbEaPyKUTkR7b/0R5lcfx5p
+tYj5r5wsJG1BY5vcV39/UAdGVMPqdPnQHywecqA9ECIdD4+Eu9YoEU3nKMI6+cy+
+cJGNnkKFJDro3mi/4/kh3C2YyKbFueicklgHjzXOIW2TO/stivwtneMpcqEjgDmf
+L/1NhrBg0MPi2sAPmIK4xEZKWg0OFqWGm+IjkFA1bCT22OLQAhe5kSZsshLEJkIA
+6XaJ6MgAvr59kgGmJcHyG5NAuxGHUnszwTSL1xGYIDy8ZjRqzsc=
+=7Rej
 -----END PGP SIGNATURE-----
 
---lkTb+7nhmha7W+c3--
+--JcvBIhDvR6w3jUPA--
 
