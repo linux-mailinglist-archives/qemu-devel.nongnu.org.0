@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40D8A3075A5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:14:19 +0100 (CET)
-Received: from localhost ([::1]:56042 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D7D307596
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:10:47 +0100 (CET)
+Received: from localhost ([::1]:47992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l56Bm-0002XZ-7s
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:14:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35568)
+	id 1l568M-0007ZK-FY
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:10:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l55r4-0008C9-0I
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:52:54 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:35397)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l55r2-00019u-CH
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:52:53 -0500
-Received: by mail-wr1-x432.google.com with SMTP id l12so5105858wry.2
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:52:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=TBuDbQ2ImRM1hAK/NHptTnbEK5bf/MlAjWM9xQpjMrU=;
- b=YXD9HRRkbT1+BCQmOaXEox/3+kgUTqTTBPuoyO9t8h5ttqUtGgNmMDPk6LFUQ5ZAl1
- qiV4CflA9QutX/MMuUxXnhYfJ1wC4+83ICdqAY70Iz8I/Z86H1TuVg/uHaooGa4UA3+I
- 3wQao7X2vgDs4+pjvyfD+noCq4GH4dwVaYq3kGd1UGzLkE43ppIYHmTCtubeVjZ6XgBq
- JrtqJEljH6MC4KbeiSzCjhpO4rg6DjFgiM0y+M3fbZoPC8LaTATQmoNnh8+WWNBFwyCf
- rc4ZK9gTCturecNb6A+MYX7pNo5UsKAokByUBn9/6i+w2u12L4KJu/H1L2wYiju/ROPQ
- S9bw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=TBuDbQ2ImRM1hAK/NHptTnbEK5bf/MlAjWM9xQpjMrU=;
- b=eQwoYMIoko9rF0Y39HgtK/TZkljqu0j0cvxcdRCRGmlmbDku1pA9gGFyPBnBRAqTzs
- c+mk708O6vZLh3IOwgfVCkURnIuuyC2JkD7Xlnd2+OVcC/s4zgWPuN2mHYwz1+nbL47U
- lORvuSlIUGa0NH4UdE9WHnj9C9DB35CTY2q6Ru4lA5EJxOrnA0+TnzL/GAyW6TDPd3f9
- syk4sZlbj6psjc4MxmjfZRbhFLV+AD89JYo9WMOLm6v0vm4a7LoDkAXbnZ+k5+51FyT4
- oWVRXud1RHuDmLNd6qS5jBUCeT5CmEWDdhb/WwG9A3O72xzak9vOFBRZim7dKAoybfEZ
- T0Jw==
-X-Gm-Message-State: AOAM532I2kF9UY1CNbU75wXi3u2SRdEE4lpJkG9KMk7IeG5pBo2qebFZ
- AgpIPGVqCOHMhe0Xg0hGxYbPjA==
-X-Google-Smtp-Source: ABdhPJwOWAx+J9/hj/aqeCfrSJeWDrfHbKYsC13tH3qcqsLQProfrNjfOqZtdA99AlXYKDXJ5NUYBQ==
-X-Received: by 2002:adf:e7d0:: with SMTP id e16mr16226128wrn.363.1611834770485; 
- Thu, 28 Jan 2021 03:52:50 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id h18sm6704236wru.65.2021.01.28.03.52.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 03:52:49 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 7C2A61FF7E;
- Thu, 28 Jan 2021 11:52:48 +0000 (GMT)
-References: <20210128082331.196801-1-richard.henderson@linaro.org>
- <20210128082331.196801-2-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 01/23] configure: Fix --enable-tcg-interpreter
-Date: Thu, 28 Jan 2021 11:47:44 +0000
-In-reply-to: <20210128082331.196801-2-richard.henderson@linaro.org>
-Message-ID: <87im7hwa5r.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l55po-0006n9-0Q
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:51:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25279)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l55pm-0000kn-0J
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:51:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611834692;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f22jj3YPVZG+IztqN4cOFj56ja3VFFCZhDNNjdI/bII=;
+ b=E5Xcy+0BisakAA1pNa3+G4qezt8RX3GTVmEEy/kZnRuYoXuOFJOivuEPj6QdRXS6KCG3jz
+ gLl/FOZGNtySznpLVhn5uohmFuBzNDwaIA3pm8s6ppdFsVJehCF/b84tnoKaJ1HMzy9GC2
+ L6o2rp2Lfo5fJ5TLoMbe1n+NgNHF3MM=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-25-jbo2cHsXNzq7ffNMfiqXnQ-1; Thu, 28 Jan 2021 06:51:29 -0500
+X-MC-Unique: jbo2cHsXNzq7ffNMfiqXnQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D7E7D8030A1;
+ Thu, 28 Jan 2021 11:51:27 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-110.ams2.redhat.com [10.36.112.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id AFE69100239A;
+ Thu, 28 Jan 2021 11:51:21 +0000 (UTC)
+Subject: Re: [PATCH v4 0/4] GitLab Custom Runners and Jobs (was: QEMU Gating
+ CI)
+To: Cleber Rosa <crosa@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+References: <20201019015003.1527746-1-crosa@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <e253800c-815c-d561-1fd7-ac9b581c5b2b@redhat.com>
+Date: Thu, 28 Jan 2021 12:51:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20201019015003.1527746-1-crosa@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,32 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, Erik Skultety <eskultet@redhat.com>,
+ Stefan Hajnoczi <stefanha@gmail.com>, Andrea Bolognani <abologna@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Willian Rampazzo <wrampazz@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 19/10/2020 03.49, Cleber Rosa wrote:
+> TL;DR: this should allow the QEMU maintainer to push to the staging
+> branch, and have custom jobs running on the project's aarch64 and
+> s390x machines.  Simple usage looks like:
+> 
+>     git push remote staging
+>     ./scripts/ci/gitlab-pipeline-status --verbose --wait
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+  Hi Cleber,
 
-> The configure option was backward, and we failed to
-> pass the value on to meson.
->
-> Fixes: 23a77b2d18b
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+since the QEMU project is now using the gitlab repo as main repository, it 
+should now be possible to finally enable these custom runners, too, I think.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Could you elaborate on what's left to do to get the s390x and aarch64 
+runners enabled, and rebase your patches if necessary?
 
-I was going to say I'd seen this before, and indeed I had so here are
-all the tags you can add from 20210125144530.2837481-2-philmd@redhat.com:
+  Thanks,
+   Thomas
 
-Fixes: 23a77b2d18b ("build-system: clean up TCG/TCI configury")
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Tested-by: Stefan Weil <sw@weilnetz.de>
-
-
---=20
-Alex Benn=C3=A9e
 
