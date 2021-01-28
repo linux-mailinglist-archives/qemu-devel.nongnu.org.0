@@ -2,64 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37515307CE2
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:46:36 +0100 (CET)
-Received: from localhost ([::1]:35134 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 429D2307D2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:57:16 +0100 (CET)
+Received: from localhost ([::1]:55020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5BNL-0001YH-89
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:46:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33964)
+	id 1l5BXf-0002sP-Bj
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:57:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l5BJT-00084B-0y; Thu, 28 Jan 2021 12:42:36 -0500
-Received: from mail-qv1-xf2e.google.com ([2607:f8b0:4864:20::f2e]:33031)
+ id 1l5BJU-00084n-Ov; Thu, 28 Jan 2021 12:42:36 -0500
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:46094)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1l5BJL-00085l-8A; Thu, 28 Jan 2021 12:42:34 -0500
-Received: by mail-qv1-xf2e.google.com with SMTP id 2so3200590qvd.0;
- Thu, 28 Jan 2021 09:42:24 -0800 (PST)
+ id 1l5BJM-00085y-0m; Thu, 28 Jan 2021 12:42:36 -0500
+Received: by mail-qt1-x82a.google.com with SMTP id l23so4649771qtq.13;
+ Thu, 28 Jan 2021 09:42:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BAvwBMnBjegt4jAqvg44/lpbYU+er4k6cG+j0Az5lio=;
- b=agNl5wrWtDXkSmsJ4KxNmNajacIh1leG4UDPXxzS/5FdOCu2mLMqhFYeuXTYe3cQxq
- xFFxMJ1CNGESTvofiztKUlzPwwPMtkSNM7rApZc9+QYP25ssroSDtkIzftVew2y4tryg
- PbvJRawFanDeApD/cQHBqQJccrVVBAJOYxxzHc3V8gQDxqpLsdouOHCwgi6Fqxa51a3N
- l3PORsulQRFILfMjyY3AfldKc1nEvd2PimYLoXDzy38hAB9hdOI/erIOIWvRHa6cKMIa
- XCiRwFiMO/tAhyj0Gzwe5h/dvdApogcjt+u7DvmwqRSlrnnyjLUPDOtXWQx7YL2peyNX
- 5ITg==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=YTqzweLn4Nj+ousw+UGIhpuXZgoifpb7xTlV7lJFO3k=;
+ b=l5w/z/zUY0+jJ2OpzHmSS2IloOypY/JmC125vyKuxiRJERcNNMXhXIx+Giu2Emv7it
+ gPMpSFQO9QbzbNpS1QpthVkU2LS8kznpOLShreUx+iAH7MHw8ONJenFzU4fXxjZU/by2
+ SCv7v8lE5ioLlpH0fQMOVkAZqw9eqGQ8yJ3YF4k1zSBfhZJfU5RfI+7pAwxSxfSV6Waq
+ W5t6GXmHnzK3fxXZRWZcS5ru5q75BCJtV1EkW0yc5kKBtmreM+GE3gUs1otB/lVjFXD7
+ FZ1Yokx1KZrghUGl3cIQu0aOOm2dh5MqeCb1OSJ7ufKStDuTvYOXJjSnFLl4CZcRlSYr
+ 9pDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=BAvwBMnBjegt4jAqvg44/lpbYU+er4k6cG+j0Az5lio=;
- b=nagJ5NitSnBppA5ezRSQIcGk7ZfF2y+R5DpzPXcYe19IGvCs4H1Pvc3l0QLiLL3nla
- qilhBvjxxFbnIUredztmlY1OK7cAkmiWj8gYXVpNuNor8KHnqZZ32ZHHHrvDrzLvCb70
- tO+pk7KvLyuMctUmia24kqgQ8nNALojEuGzGiTBnifDXXEA2XANjv8MkPUX4g032wjjq
- poy/sJ3mLjx839RluEu+NZDy9S+UZFc/Dedumu3SGI5eacxzJaGE2BIEv7h4HAlJc4wg
- NUcU3c/AMoL/kz89wG+lI5OV9ZU/j7JpRc/Db/5Ah6yXLeeeYvjOqoS8URw8oppZ3nfK
- M5uw==
-X-Gm-Message-State: AOAM530NvpCszaZCD9imCOJZultxLOx/hKjHvxAGRML+6BAZoknl/qfw
- umyFlMjL48kP/Je/2gBDHLmX4d13YAY=
-X-Google-Smtp-Source: ABdhPJxA9Wky2qnCDvJjVqochtdaPFEn4GxtAoBSOkzp22iXwDYvhJWyQ7I9SFkhJi6OrjqpXLQMhg==
-X-Received: by 2002:a0c:c38e:: with SMTP id o14mr305597qvi.29.1611855743305;
- Thu, 28 Jan 2021 09:42:23 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=YTqzweLn4Nj+ousw+UGIhpuXZgoifpb7xTlV7lJFO3k=;
+ b=k3mZlSqHv7y6ogvxzUSggK5qfOsaP5PNGEsgHJRlmUL+hKWFz+YlZZ8kggz79PGoN7
+ /tUizfHn0bB47+7JtlvSRKx+V3xmzOTuWg9F6/qmkXZxpR3x8ySaDGswXSiqnt8cSjTj
+ gEswt8QpwPB7W2ITJnsGwPRsH1DlEoOCImwXXWTdjDQhkZ2Kkf5aGQxnMU3RrZf4xo0o
+ Afmw3WpWeOGc9Xv+34kcpSDcorvwLELIGjIRO4xv5tDYknchEwqxv+rj9nAO8LW/21/A
+ p6F77RTytMFsXRAA3265vpNeAY/+eXWq0uP+d5eIE7WMmA2zFL4inJAkA821zTFJUySY
+ Gjhw==
+X-Gm-Message-State: AOAM532se//snEWnRI1B0BuxAlHYkcwAo5JBHmZa+tLN1s6b7ARkkstp
+ 44hYu1SDzkjXnWoquI1EFD8ROxi7Mb8=
+X-Google-Smtp-Source: ABdhPJxlRAkVqQTt223efhe48FzjyR9KOc9stiaD8i7Rzd8eUCom5LT70sEBc8PQpGplQiBaZaAuwA==
+X-Received: by 2002:ac8:710d:: with SMTP id z13mr586024qto.329.1611855745270; 
+ Thu, 28 Jan 2021 09:42:25 -0800 (PST)
 Received: from rekt.ibmuc.com ([2804:431:c7c6:6df1:6267:881f:cc79:a1f7])
- by smtp.gmail.com with ESMTPSA id i8sm3804038qtr.84.2021.01.28.09.42.21
+ by smtp.gmail.com with ESMTPSA id i8sm3804038qtr.84.2021.01.28.09.42.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 09:42:22 -0800 (PST)
+ Thu, 28 Jan 2021 09:42:24 -0800 (PST)
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 0/3] spapr, spapr_numa: fix max-associativity-domains
-Date: Thu, 28 Jan 2021 14:42:10 -0300
-Message-Id: <20210128174213.1349181-1-danielhb413@gmail.com>
+Subject: [PATCH v2 1/3] spapr: move spapr_machine_using_legacy_numa() to
+ spapr_numa.c
+Date: Thu, 28 Jan 2021 14:42:11 -0300
+Message-Id: <20210128174213.1349181-2-danielhb413@gmail.com>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210128174213.1349181-1-danielhb413@gmail.com>
+References: <20210128174213.1349181-1-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f2e;
- envelope-from=danielhb413@gmail.com; helo=mail-qv1-xf2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=danielhb413@gmail.com; helo=mail-qt1-x82a.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,29 +88,69 @@ Cc: clg@kaod.org, Daniel Henrique Barboza <danielhb413@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-changes from v1:
-- Patch 01: added Greg's R-b
-- Patch 02:
-    * removed trivial comment in spapr.c
-    * removed the 'NUMA' caps in spapr_numa_initial_nvgpu_numa_id
-    * added Greg's R-b
-- Patch 03:
-    * open-coded the logic inside spapr_numa_write_rtas_dt() instead of
-      creating a helper
-- added Cédric's 'Tested-by' in all patches
-v1 link: https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07324.html
+This function is used only in spapr_numa.c.
 
-Daniel Henrique Barboza (3):
-  spapr: move spapr_machine_using_legacy_numa() to spapr_numa.c
-  spapr_numa.c: create spapr_numa_initial_nvgpu_numa_id() helper
-  spapr_numa.c: fix ibm,max-associativity-domains calculation
+Tested-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+---
+ hw/ppc/spapr.c         | 9 ---------
+ hw/ppc/spapr_numa.c    | 9 +++++++++
+ include/hw/ppc/spapr.h | 1 -
+ 3 files changed, 9 insertions(+), 10 deletions(-)
 
- hw/ppc/spapr.c              | 20 +-------------------
- hw/ppc/spapr_numa.c         | 27 ++++++++++++++++++++++++++-
- include/hw/ppc/spapr.h      |  1 -
- include/hw/ppc/spapr_numa.h |  1 +
- 4 files changed, 28 insertions(+), 21 deletions(-)
-
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 6c47466fc2..2d60c6f594 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -295,15 +295,6 @@ static hwaddr spapr_node0_size(MachineState *machine)
+     return machine->ram_size;
+ }
+ 
+-bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
+-{
+-    MachineState *machine = MACHINE(spapr);
+-    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
+-
+-    return smc->pre_5_2_numa_associativity ||
+-           machine->numa_state->num_nodes <= 1;
+-}
+-
+ static void add_str(GString *s, const gchar *s1)
+ {
+     g_string_append_len(s, s1, strlen(s1) + 1);
+diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+index b50796bbe3..261810525b 100644
+--- a/hw/ppc/spapr_numa.c
++++ b/hw/ppc/spapr_numa.c
+@@ -19,6 +19,15 @@
+ /* Moved from hw/ppc/spapr_pci_nvlink2.c */
+ #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+ 
++static bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
++{
++    MachineState *machine = MACHINE(spapr);
++    SpaprMachineClass *smc = SPAPR_MACHINE_GET_CLASS(machine);
++
++    return smc->pre_5_2_numa_associativity ||
++           machine->numa_state->num_nodes <= 1;
++}
++
+ static bool spapr_numa_is_symmetrical(MachineState *ms)
+ {
+     int src, dst;
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index c27c7ce515..ccbeeca1de 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -851,7 +851,6 @@ int spapr_max_server_number(SpaprMachineState *spapr);
+ void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+                       uint64_t pte0, uint64_t pte1);
+ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+-bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr);
+ 
+ /* DRC callbacks. */
+ void spapr_core_release(DeviceState *dev);
 -- 
 2.26.2
 
