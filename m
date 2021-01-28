@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 667A7307C6C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:29:48 +0100 (CET)
-Received: from localhost ([::1]:34602 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE640307C98
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:34:49 +0100 (CET)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5B75-0005Bg-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:29:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55306)
+	id 1l5BBw-00009v-ER
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:34:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56326)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5B4A-0003Hq-FL
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:26:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25615)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5B48-0002PB-Gv
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:26:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611854803;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=so582By7IfS4MBNVQZqZUzeUHnF7JBSWcIGeijdaxO4=;
- b=LN0+0/403wmCYpvjhQgIgJj5T76hkz/Sc5kxlnSYCzIeC6TFTWqGdOSGeDVFc36/LkWh0W
- gfVQiqy3ZC30c3FObkkP2eL28JRstWQHHiN+dA38haTCbYgj0QTfNKRe+2u2bkf9IqomTi
- 9PtCQKry4QDLhHubgnc7avhWfoKrRf8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-570-3LqjT4WXPB6cWDcntm0Gxg-1; Thu, 28 Jan 2021 12:26:37 -0500
-X-MC-Unique: 3LqjT4WXPB6cWDcntm0Gxg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8C5BD8066EB;
- Thu, 28 Jan 2021 17:26:36 +0000 (UTC)
-Received: from redhat.com (ovpn-115-133.ams2.redhat.com [10.36.115.133])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 62DFB60C13;
- Thu, 28 Jan 2021 17:26:35 +0000 (UTC)
-Date: Thu, 28 Jan 2021 17:26:32 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] tests: Fix runtime error in test-authz-pam
-Message-ID: <20210128172632.GR3832029@redhat.com>
-References: <20210128171127.45808-1-sw@weilnetz.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5B6J-00054B-BA
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:28:59 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33856)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5B6H-0003A7-Ej
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:28:59 -0500
+Received: by mail-ed1-x532.google.com with SMTP id d22so7558071edy.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 09:28:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GR92uWHbhhdDZc0WH5I5nCMOgJmbOUxJ102ykzoRMaM=;
+ b=QkD7rWhoXccRrVzPcP88aGPUs3kgzYaCzQ2JuyhbILNeO9P7vA46ZKVqAj0zVHHp2a
+ 73sNRLBTP9QWAvnKgGen5TjayMUfMBxD07+Rn08Ah5f7Gu1d4WofN9J/YHkJEvkKd3+c
+ rc4jvBgSIs/srU8NBkLkAjSFbAG1L2maqdMtkN4pjYI9jl2fovvQlqC151Knhhd/yDbJ
+ sPtzoWlHAo3lugOZRyvUZzis7DmrFHBXAWNwqqUPYPy5rEnwXNUvQDFDfDlNCWDIeVA2
+ u1UpqmTKKW67LsrE1as0qYcZ+P2+JJivlgUytr50XK3vjCDluG4u2fEK1GNMPeOTp0Bd
+ KAFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GR92uWHbhhdDZc0WH5I5nCMOgJmbOUxJ102ykzoRMaM=;
+ b=dbseD5jErU/in/ar0nxxFMnutTARNqoPe0blUVkigOGPA5vnByoSQS8qZ5MeNgDR84
+ LhZEbTFC/tWkt9oKWbqQSfstLrLLjryVSbxHjF7wbo9GGPRe1xqZHw+q0fWat6EcUQmE
+ s7cBvSZCatBYi43H8JztNBkFpiBP894nSIjVjylfjAM/q+fQC8uaQpnT05XYt9+9xGrk
+ bbvLj3/Goo0jW3uajaJRHPZYAihObokW7b7VzjQMYcp5SL1wDsLQ8pk3lMf42nbE0wfa
+ WZn4+aONq11QmeF1S4/+0dsxdC7b2rUMXQcDdsnvwelFQiE5DpAR4zF25gSfOHA1toON
+ 5bTg==
+X-Gm-Message-State: AOAM530LHptV6GVuws5zOVDROAblHdyuWZxydbVCehwScnS/pFtsVAyG
+ x+PZ1aFpmZcGpy6nncpU0dJCc0kBRUURvX+DCiRTmg==
+X-Google-Smtp-Source: ABdhPJw16RciL498NLgUMgw2OMJwF1OEotziCCeb4Z3Zpflx2YKwvZ84Yj3o0ZcMvJo3Bgd0C/Kddv7/JFViBnL+iKk=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr718345edd.52.1611854935720; 
+ Thu, 28 Jan 2021 09:28:55 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210128171127.45808-1-sw@weilnetz.de>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210126193237.1534208-1-wuhaotsh@google.com>
+ <20210126193237.1534208-3-wuhaotsh@google.com>
+In-Reply-To: <20210126193237.1534208-3-wuhaotsh@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jan 2021 17:28:44 +0000
+Message-ID: <CAFEAcA8xJdqY0C9VUe1LUfhPP3q6c9Enh+GqqVdqR6NAqBLOMw@mail.gmail.com>
+Subject: Re: [PATCH 2/6] hw/i2c: Implement NPCM7XX SMBus Module Single Mode
+To: Hao Wu <wuhaotsh@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,33 +78,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: Patrick Venture <venture@google.com>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, CS20 KFTing <kfting@nuvoton.com>,
+ qemu-arm <qemu-arm@nongnu.org>, IS20 Avi Fishman <Avi.Fishman@nuvoton.com>,
+ Doug Evans <dje@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Jan 28, 2021 at 06:11:27PM +0100, Stefan Weil wrote:
-> A test with sanitizers on macOS shows this error:
-> 
->     authz/pamacct.c:50:25: runtime error: null pointer passed as argument 1, which is declared to never be null
->     /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include/security/pam_appl.h:56:2: note: nonnull attribute specified here
-> 
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+On Tue, 26 Jan 2021 at 19:32, Hao Wu <wuhaotsh@google.com> wrote:
+>
+> This commit implements the single-byte mode of the SMBus.
+>
+> Each Nuvoton SoC has 16 System Management Bus (SMBus). These buses
+> compliant with SMBus and I2C protocol.
+>
+> This patch implements the single-byte mode of the SMBus. In this mode,
+> the user sends or receives a byte each time. The SMBus device transmits
+> it to the underlying i2c device and sends an interrupt back to the QEMU
+> guest.
+>
+> Reviewed-by: Doug Evans<dje@google.com>
+> Reviewed-by: Tyrong Ting<kfting@nuvoton.com>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
 > ---
->  tests/test-authz-pam.c | 10 +++++++++-
->  1 file changed, 9 insertions(+), 1 deletion(-)
+>  docs/system/arm/nuvoton.rst    |   2 +-
+>  hw/arm/npcm7xx.c               |  68 ++-
+>  hw/i2c/meson.build             |   1 +
+>  hw/i2c/npcm7xx_smbus.c         | 766 +++++++++++++++++++++++++++++++++
+>  hw/i2c/trace-events            |  11 +
+>  include/hw/arm/npcm7xx.h       |   2 +
+>  include/hw/i2c/npcm7xx_smbus.h |  88 ++++
+>  7 files changed, 921 insertions(+), 17 deletions(-)
+>  create mode 100644 hw/i2c/npcm7xx_smbus.c
+>  create mode 100644 include/hw/i2c/npcm7xx_smbus.h
+>
+> diff --git a/docs/system/arm/nuvoton.rst b/docs/system/arm/nuvoton.rst
+> index a1786342e2..34fc799b2d 100644
+> --- a/docs/system/arm/nuvoton.rst
+> +++ b/docs/system/arm/nuvoton.rst
+> @@ -43,6 +43,7 @@ Supported devices
+>   * GPIO controller
+>   * Analog to Digital Converter (ADC)
+>   * Pulse Width Modulation (PWM)
+> + * SMBus controller (SMBF)
+>
+>  Missing devices
+>  ---------------
+> @@ -58,7 +59,6 @@ Missing devices
+>
+>   * Ethernet controllers (GMAC and EMC)
+>   * USB device (USBD)
+> - * SMBus controller (SMBF)
+>   * Peripheral SPI controller (PSPI)
+>   * SD/MMC host
+>   * PECI interface
+> diff --git a/hw/arm/npcm7xx.c b/hw/arm/npcm7xx.c
+> index d1fe9bd1df..8f596ffd69 100644
+> --- a/hw/arm/npcm7xx.c
+> +++ b/hw/arm/npcm7xx.c
+> @@ -104,6 +104,22 @@ enum NPCM7xxInterrupt {
+>      NPCM7XX_OHCI_IRQ            = 62,
+>      NPCM7XX_PWM0_IRQ            = 93,   /* PWM module 0 */
+>      NPCM7XX_PWM1_IRQ,                   /* PWM module 1 */
+> +    NPCM7XX_SMBUS0_IRQ          = 64,
+> +    NPCM7XX_SMBUS1_IRQ,
+> +    NPCM7XX_SMBUS2_IRQ,
+> +    NPCM7XX_SMBUS3_IRQ,
+> +    NPCM7XX_SMBUS4_IRQ,
+> +    NPCM7XX_SMBUS5_IRQ,
+> +    NPCM7XX_SMBUS6_IRQ,
+> +    NPCM7XX_SMBUS7_IRQ,
+> +    NPCM7XX_SMBUS8_IRQ,
+> +    NPCM7XX_SMBUS9_IRQ,
+> +    NPCM7XX_SMBUS10_IRQ,
+> +    NPCM7XX_SMBUS11_IRQ,
+> +    NPCM7XX_SMBUS12_IRQ,
+> +    NPCM7XX_SMBUS13_IRQ,
+> +    NPCM7XX_SMBUS14_IRQ,
+> +    NPCM7XX_SMBUS15_IRQ,
 
+Would be nicer to put these in their correct place in numerical
+order, ie above the PWM IRQs rather than below them. (The list
+is otherwise already in numerical order.)
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+>      NPCM7XX_GPIO0_IRQ           = 116,
+>      NPCM7XX_GPIO1_IRQ,
+>      NPCM7XX_GPIO2_IRQ,
+> @@ -152,6 +168,26 @@ static const hwaddr npcm7xx_pwm_addr[] = {
+>      0xf0104000,
 
-and will add to my queue.
+> +static const VMStateDescription vmstate_npcm7xx_smbus = {
+> +    .name = "npcm7xx-smbus",
+> +    .version_id = 0,
+> +    .minimum_version_id = 0,
+> +    .fields = (VMStateField[]) {
+> +        VMSTATE_END_OF_LIST(),
+> +    },
 
+Looks like you forgot to fill in the fields in the vmstate :-)
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> +};
+> +
 
+thanks
+-- PMM
 
