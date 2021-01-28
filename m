@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09118307B08
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:35:54 +0100 (CET)
-Received: from localhost ([::1]:37924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0C12307B17
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:39:34 +0100 (CET)
+Received: from localhost ([::1]:41778 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5AGv-0008I8-0C
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:35:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33918)
+	id 1l5AKT-00021s-VA
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:39:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34912)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5AFe-0007Rj-AO
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:34:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40529)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5AFc-0000F9-68
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:34:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611851671;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=JlDzhCYVkDQa818Dfxbo1r9MQtBDSzuFQVvtuQrt7b4=;
- b=RBqDiAqdXXHSWPHp3c5fQgr9s02Q5QvK7eDCXDR+0q9+G1ZvEcNfAYiWvfXugN/5MQ1gKk
- myoUgygELeDF9HCxm4Xh2BkCuxf6sOTG9chPzWhveUHaFj+AgE2Jk7KW93mxvkKizcBDLf
- eHQj5Q1m0Ier83BEJxT6dXXPsLDctrU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-508-m2LBp5eGOVOk8c39tL8Z1g-1; Thu, 28 Jan 2021 11:34:29 -0500
-X-MC-Unique: m2LBp5eGOVOk8c39tL8Z1g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4F7AD1052BB6;
- Thu, 28 Jan 2021 16:34:28 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 112F510016F5;
- Thu, 28 Jan 2021 16:34:28 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 17F4F18000B1; Thu, 28 Jan 2021 17:34:26 +0100 (CET)
-Date: Thu, 28 Jan 2021 17:34:26 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH] spice: delay starting until display are initialized
-Message-ID: <20210128163426.lsd2y3w7htovfnfx@sirius.home.kraxel.org>
-References: <20210128111319.329755-1-marcandre.lureau@redhat.com>
- <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
- <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
- <CAMxuvazChfKDHyjP2o1ipfgquawMab9zc4p8J5wnNnmVMmJ1yw@mail.gmail.com>
- <20210128142625.vzdrehzw6mufja3s@sirius.home.kraxel.org>
- <CAJ+F1CJ0Z378KCLGDzLYOfBor7HkHM2YemRj5F-3kTSnVK7ADg@mail.gmail.com>
- <20210128144202.2pqjjn3epspfvlgk@sirius.home.kraxel.org>
- <CAJ+F1C+1LdY2gJp0trTx_pR7iLeJG9j7O+FjqF6pgnDZGUa=YA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l5AJD-0001FA-A2
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:38:15 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:38303)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l5AJB-0001bc-EN
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:38:14 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id s7so3068768wru.5
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 08:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=Ma+Ervy49eCaCVcluMgULNy3IZluJZrW6lkRJJPyfRY=;
+ b=u5U1EHw5c1UbQNwCFMwxMIEdOXkXoy1xKRVyHdIA0GFyS1Q2EuC6qMAZhAsPVk+F9Z
+ wmHWUA6gBbc4DXHOXCqUIc8iqRmvYlUVy1hzpSx9ShPEFN2I04GoSknXUyQ4Bq7YD7HW
+ 0X0SAFxaikeMa50iEPrjsEG0OIgw65feXAKsDuYpe2078rK5f1mp9G4djO2i+a7DyROw
+ sZ6QjTOrQDlm4M7JwyvBQd0RjfqzA1NpJVdawGD7XUiomJmgY9YDmIOr8GXiDzARE0/y
+ neXbLYLjvdT0VfOGhkMqeGqhLH1XygqGeq7aGGf0Ghi2HYtkV9Y7gO9p9aTg1Kx0ipLz
+ u2hg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=Ma+Ervy49eCaCVcluMgULNy3IZluJZrW6lkRJJPyfRY=;
+ b=awiHHBrIiz1YhD8XdYU7jjziGYnwm5SwiEROcmC9+0m+moSWYAw8USYtEv92vqweT0
+ gZeHhA4yyrldB+cJTAbEt50HP5BsPAURJQzwU+FhBQw5gG3ygvGTgTIhvVR3Fazv28Zm
+ GU1cz4dO8/u5BblCAlUQW8ROAW4nD0aEI01F6igeIOA8fO6WbbsndrEsV5lrWIsTSWaU
+ +g96XxQ0xPR2OYpGbByt3mwbxt1eahgNqDi50l+QBvG/cu486OQZxP+GKefHhTPshOi3
+ 1QZRI5yDXQmcoAubRFtgbse2VSZosODqzH1FKAuuAjTRD5wWi8iUEuWo/GaIwYi5yAjK
+ hYRg==
+X-Gm-Message-State: AOAM5318U/w0+9UhfjQVZ7NJaJv3H48dofW6m7un5CIrydcEMzXhIy5Z
+ u+JE4tdVc+piDqaezgOXiX3fjw==
+X-Google-Smtp-Source: ABdhPJyj9Fn0+P4Dti4pQiJDK/GAfQklJC6AhLabdUPgoGiTh7c08b4xToH8I5zLiGYK8nQopd71nQ==
+X-Received: by 2002:a5d:5611:: with SMTP id l17mr17717596wrv.2.1611851891194; 
+ Thu, 28 Jan 2021 08:38:11 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id c16sm7459663wrx.51.2021.01.28.08.38.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jan 2021 08:38:09 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 063A21FF7E;
+ Thu, 28 Jan 2021 16:38:09 +0000 (GMT)
+References: <20210128082331.196801-1-richard.henderson@linaro.org>
+ <20210128082331.196801-19-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 18/23] tcg/tci: Move stack bounds check to compile-time
+Date: Thu, 28 Jan 2021 16:37:44 +0000
+In-reply-to: <20210128082331.196801-19-richard.henderson@linaro.org>
+Message-ID: <87lfcdt3tb.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1C+1LdY2gJp0trTx_pR7iLeJG9j7O+FjqF6pgnDZGUa=YA@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,40 +87,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: sw@weilnetz.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
 
-> > So move the vmstate handler registration call too?
-> > I'd prefer to not add more state variables if we can avoid it ...
-> 
-> Does that seem right to you?
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-> @@ -626,7 +625,7 @@ static int add_channel(void *opaque, const char
-> *name, const char *value,
->  static void vm_change_state_handler(void *opaque, int running,
->                                      RunState state)
->  {
-> -    if (running && spice_display_init_done) {
-> +    if (running) {
->          qemu_spice_display_start();
->      } else if (state != RUN_STATE_PAUSED) {
->          qemu_spice_display_stop();
-> @@ -635,7 +634,7 @@ static void vm_change_state_handler(void *opaque,
-> int running,
-> 
->  void qemu_spice_display_init_done(void)
->  {
-> -    spice_display_init_done = true;
-> +    qemu_add_vm_change_state_handler(vm_change_state_handler, NULL);
->      vm_change_state_handler(NULL, runstate_is_running(), runstate_get());
+> The existing check was incomplete:
+> (1) Only applied to two of the 7 stores, and not to the loads at all.
+> (2) Only checked the upper, but not the lower bound of the stack.
+>
+> Doing this at compile time means that we don't need to do it
+> at runtime as well.
 
-I'd just call qemu_spice_display_start() directly here, the need for
-runstate_get() goes away then.  Otherwise looks good to me.
+You confused me with the statement compile time until I realised which
+compile time it was ;-)
 
-take care,
-  Gerd
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
+--=20
+Alex Benn=C3=A9e
 
