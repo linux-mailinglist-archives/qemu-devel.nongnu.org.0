@@ -2,75 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0FC9307FBE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:37:44 +0100 (CET)
-Received: from localhost ([::1]:54162 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A7B307FD7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:48:50 +0100 (CET)
+Received: from localhost ([::1]:60498 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5E2x-0008SD-8m
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:37:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
+	id 1l5EDh-0003oj-8h
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:48:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36920)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1l5DzN-0007Vh-5X
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:34:01 -0500
-Received: from mail-il1-f174.google.com ([209.85.166.174]:35219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <osy86dev@gmail.com>)
- id 1l5DzL-0000an-J4
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:34:00 -0500
-Received: by mail-il1-f174.google.com with SMTP id g7so5408142iln.2
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 12:33:55 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=F73T67E164+f+xRz/1/bvfhZFdvN9eryZC3z5wN2fgk=;
- b=pTCGY+VTz2bK9cP/Ih/HHCCJ4JOkXsuhSEuagC18LTHpowImQNxegcXLMKR3hWK7BY
- wJG6qmN/8c9j+bhVxYy8aIJ7ufBWwyMwSGeGjop8AJjdYhrI9HRlzoFEfGeeL38/q61g
- qXl6dNveAK11ptmRShcVXxGKH6Txz7vpJyn5rWVa+pgdIE2IL/ONDJW5dA8YNwXTuA0b
- jxFXZOGw3y2+QTHEhzKaertzvNOm5QWLFzCFOjRBdj3oCuHGvDyTGnqDhDHkpbNVKpg4
- XnL4mlMAOUZfZNfk1kudL9jnxiaDoPcoEdjGWBKZC+yVvLFF/PFJiD86Q/xh96E5uxpc
- Boeg==
-X-Gm-Message-State: AOAM531ofF8LkvoMnWH/ika9feiuwtw+ak/vO56+rN4hxjPbAQDE/Nbg
- TRp3EvutRmXt+sxreD8r4ULaYSp3lXA=
-X-Google-Smtp-Source: ABdhPJzxLtA/6RdzQBgEgeQ6YsLtFqpnFdyUCWGF6EcEsQ7jgN51OSRjrFGNh7jU1dHA5uObF+Gm3Q==
-X-Received: by 2002:a92:874d:: with SMTP id d13mr662948ilm.270.1611866034384; 
- Thu, 28 Jan 2021 12:33:54 -0800 (PST)
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com.
- [209.85.166.41])
- by smtp.gmail.com with ESMTPSA id h11sm2985755ior.19.2021.01.28.12.33.54
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jan 2021 12:33:54 -0800 (PST)
-Received: by mail-io1-f41.google.com with SMTP id u7so6969599iol.8
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 12:33:54 -0800 (PST)
-X-Received: by 2002:a05:6602:1550:: with SMTP id
- h16mr1079431iow.204.1611866033783; 
- Thu, 28 Jan 2021 12:33:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l5ECB-0003IU-CQ
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:47:15 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:16697)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l5EC7-0004c4-O3
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:47:14 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id C0E0D74581E;
+ Thu, 28 Jan 2021 21:47:06 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 7CEAC7456B8; Thu, 28 Jan 2021 21:47:06 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 7B44A7456B7;
+ Thu, 28 Jan 2021 21:47:06 +0100 (CET)
+Date: Thu, 28 Jan 2021 21:47:06 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Marc-Andr=E9_Lureau?= <marcandre.lureau@gmail.com>
+Subject: Re: vnc clipboard support
+In-Reply-To: <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
+Message-ID: <f6bc8d6a-9ad1-1d94-ff4a-252f92357338@eik.bme.hu>
+References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
+ <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
 MIME-Version: 1.0
-References: <20210126012457.39046-1-j@getutm.app>
- <20210126012457.39046-5-j@getutm.app>
- <3431d35b-774d-9c49-b6ef-615866b8341e@redhat.com>
-In-Reply-To: <3431d35b-774d-9c49-b6ef-615866b8341e@redhat.com>
-From: Joelle van Dyne <j@getutm.app>
-Date: Thu, 28 Jan 2021 12:33:43 -0800
-X-Gmail-Original-Message-ID: <CA+E+eSDXBd_Ewxa6SHjXvTLhQECmknZ1d-dr-SbPkyQvhp7oGg@mail.gmail.com>
-Message-ID: <CA+E+eSDXBd_Ewxa6SHjXvTLhQECmknZ1d-dr-SbPkyQvhp7oGg@mail.gmail.com>
-Subject: Re: [PATCH v9 04/11] slirp: feature detection for smbd
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.166.174; envelope-from=osy86dev@gmail.com;
- helo=mail-il1-f174.google.com
-X-Spam_score_int: -13
-X-Spam_score: -1.4
-X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9,
- FREEMAIL_FORGED_FROMDOMAIN=0.249, FREEMAIL_FROM=0.001,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-134991964-1611866826=:48218"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,76 +58,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
- Jason Wang <jasowang@redhat.com>, Joelle van Dyne <j@getutm.app>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Jan 25, 2021 at 11:30 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
->
-> On 1/26/21 2:24 AM, Joelle van Dyne wrote:
-> > Replace Windows specific macro with a more generic feature detection
-> > macro. Allows slirp smb feature to be disabled manually as well.
-> >
-> > Signed-off-by: Joelle van Dyne <j@getutm.app>
-> > ---
-> >  configure   | 22 +++++++++++++++++++++-
-> >  meson.build |  2 +-
-> >  net/slirp.c | 16 ++++++++--------
-> >  3 files changed, 30 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/configure b/configure
-> > index 8d8a4733d7..d72ab22da5 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -464,6 +464,7 @@ fuse=3D"auto"
-> >  fuse_lseek=3D"auto"
-> >
-> >  malloc_trim=3D"auto"
-> > +slirp_smbd=3D"auto"
-> >
-> >  # parse CC options second
-> >  for opt do
-> > @@ -845,7 +846,18 @@ do
-> >      fi
-> >  done
-> >
-> > +# Check for smbd dupport
-> >  : ${smbd=3D${SMBD-/usr/sbin/smbd}}
-> > +if test "$slirp_smbd" !=3D "no" ; then
->
-> Here slirp_smbd is always "auto".
->
-> > +  if test "$mingw32" =3D "yes" ; then
-> > +    if test "$slirp_smbd" =3D "yes" ; then
-> > +      error_exit "Host smbd not supported on this platform."
-> > +    fi
-> > +    slirp_smbd=3Dno
-> > +  else
-> > +    slirp_smbd=3Dyes
-> > +  fi
-> > +fi
->
-> So this check ...
->
-> >
-> >  # Default objcc to clang if available, otherwise use CC
-> >  if has clang; then
-> > @@ -1560,6 +1572,10 @@ for opt do
-> >    ;;
-> >    --disable-fuse-lseek) fuse_lseek=3D"disabled"
-> >    ;;
-> > +  --enable-slirp-smbd) slirp_smbd=3Dyes
-> > +  ;;
-> > +  --disable-slirp-smbd) slirp_smbd=3Dno
-> > +  ;;
-> >    *)
->
-> ... should be placed after the cmdline options processing,
-> isn't it?
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-That's right, good catch.
+--3866299591-134991964-1611866826=:48218
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Fri, 29 Jan 2021, Marc-André Lureau wrote:
+> I also had recently some thoughts about how to implement clipboard sharing
+> in a more general way for QEMU.
 >
+> I admit I like Christophe's suggestion ("it's somebody else problem"), but
+> it falls short to me as I don't know of a common open-source remoting
+> solution for various operating systems, and I don't see how it could
+> integrate well with our UI and remote protocols. Or look at reusing some
+> VirtualBox code perhaps?
+
+I also thought about VirtualBox may worth a look at as that supports 
+clipboard sharing and there's also Synergy 
+[https://en.wikipedia.org/wiki/Synergy_(software)] that I don't know much 
+but it's cross platform and may support clipboard sharing. It seems to 
+have an open source fork called Barrier: 
+https://github.com/debauchee/barrier
+
+Regards,
+BALATON Zoltan
+
+> Some things I keep in mind:
+> - the spice protocol had a number of iterations to fix some races. It would
+> be great not to repeat the same mistakes, and I don't know if VNC have the
+> same flaws or not.
+> - the spice agent design isn't great: the system agent proxies messages to
+> the active session. It would be nice if the new solution didn't have such a
+> middle-man.
+> - with wayland, clipboard sharing isn't really possible. Or not in a
+> seamless way at least. Today it kinda works with some X11 compatibility
+> extensions, but this will eventually go away or change behaviour.
+> - the GNOME desktop is working on remoting using RDP, and they are
+> implementing a DBus interface for it (
+> https://gitlab.gnome.org/jadahl/mutter/-/commits/wip/remote-desktop-clipboard
+> )
+> - it's not just about clipboard. We would also want to have some kind of
+> drag and drop (even if limited to files like Spice atm). We may want some
+> windowing integration. We may also want to have access to some desktop
+> services: apps, documents etc.. And what's not.
+>
+> That leads me to think that virtio-serial is not very well suited, as it
+> doesn't allow various services / processes to come and go. I see vsock as a
+> much better alternative. (I also wonder if it handles control flow any
+> better btw)
+>
+> I think we shoud work on getting the free desktops our best-class support.
+> To me, this means we need to speak the lingua franca, which is DBus. The
+> great thing is that DBus is also equipped to handle services that come and
+> go, handling discovery, introspection etc. Various services are already
+> available. As mentioned earlier, that's what the GNOME desktop will offer
+> for clipboard sharing. There are good chances other desktops will follow if
+> that design works, as it should be easy for them to implement the same
+> service. That means good reuse of existing desktop code. Speaking DBus on
+> Windows, MacOS or Android isn't an issue. However, vsock support may be a
+> bit tricky atm.
+>
+> Fwiw, DBus doesn't yet officially support vsock connections:
+> https://gitlab.freedesktop.org/dbus/dbus/-/merge_requests/200. This a minor
+> detail, as once you give it a fd for transport, it doesn't really care (I
+> also took care of glib!1892 and Rust zbus)
+>
+> Oh and of course, since this is a new daemon, it would be really a shame
+> not to write it in a modern language (hint! ;-).
+>
+> Hope that helps,
+>
+>
+--3866299591-134991964-1611866826=:48218--
 
