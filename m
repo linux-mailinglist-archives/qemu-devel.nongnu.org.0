@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBAFD3079CC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:33:38 +0100 (CET)
-Received: from localhost ([::1]:41496 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A92C3079B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:31:11 +0100 (CET)
+Received: from localhost ([::1]:37040 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59If-0007Rj-Sj
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:33:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34770)
+	id 1l59GI-0005S8-J5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:31:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59E1-000441-W2
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:50 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:41061)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59E0-0007Y0-Gc
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:49 -0500
-Received: by mail-wr1-x435.google.com with SMTP id p15so5791997wrq.8
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:28:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=mSI98ThzDinimZnHJns27Jdov5XlA7pDTPCmID6xoVneJ2sGtCZ2g16wGT92oGpJUU
- J800g3FVnJNwj0cZDjCxcdd6TY56AYnwhxZboNeQnMuJ93KzRn1bfeQ1leClfvIO4QQw
- E/dnthfXBKDoZKPwUwmE9AnChfJ9uO23m+O0naABOijA55rawnhpREwBABWXVw8abrus
- 53n/PJyY5P+vE84pXqs4gzDH9I+2vwgT389typUvVPANStzjnFBmGFeREGJwEcAYwv8m
- rOyYM/IhxN0zAU/Pwx7Nh70KgYGfoxUjHqvG5cv+ZNbPJlfLapVCouMhtskmUY4kcPrh
- 2fMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=VWeHWT5mSF8d3+DnygG/WvHsHzOW9FSNCO3w1KNED6Uac2HmMViUYDxzKd6daoyXHf
- xMI0dkSU3UUeJD7M0woQm5WXRvzXA/RVCwoVRvX23rEV8VJRSARSyw5ywjszCerhGyRN
- 9PaxGxaY5e5qQuoPwfbQ/WvfBUC9wGg/UlKztxs54tAEf+GsgBUyrRi5cN2pasasNS/+
- 6h/C8a9NA+Mv0Nt6m9wme49ykN4Ovoqwe3MHGVBgVy9a1edJU+AHoyhgwbcwhNkj5nD8
- 6vZVr+mAyqU45MbU33/n9PMmZ147JYgkHStdMmfzMVZI7i12F2JlFJg120I43OpLbXQS
- QFEQ==
-X-Gm-Message-State: AOAM532ZOGhcmSzK0WW/xxbGcnxXBJ/l86vwrjutraVFFmHYFFu9dilw
- iA4xpKCzAcDEudxWbajfEJyZ8w==
-X-Google-Smtp-Source: ABdhPJzruPr1l4xTXTial8k3Bbkx87IcB+2v7HO61RhMNZG715miXIhsFrTRkpKHRUaOqzPetgDewA==
-X-Received: by 2002:a5d:47ae:: with SMTP id 14mr16581898wrb.378.1611847727035; 
- Thu, 28 Jan 2021 07:28:47 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id u142sm6587530wmu.3.2021.01.28.07.28.45
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 07:28:46 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 2C1CB1FF7E;
- Thu, 28 Jan 2021 15:28:45 +0000 (GMT)
-References: <20210128082331.196801-1-richard.henderson@linaro.org>
- <20210128082331.196801-7-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 06/23] tcg/tci: Inline tci_write_reg32s into the only
- caller
-Date: Thu, 28 Jan 2021 15:28:40 +0000
-In-reply-to: <20210128082331.196801-7-richard.henderson@linaro.org>
-Message-ID: <874kj1w05u.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l59E5-00047q-MK
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58748)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l59E2-0007YP-SC
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:28:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611847728;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FfW2DPoetwl9Jt3croF9k8UASPgH7ESetEtvVSLh1eo=;
+ b=UCg3Vs3zRW21QnC41IhMcsT4k3CIPzd2y3kDVdDOj8/WkB89CgXY9+meEhovGUXmSnMhg6
+ pk/xR2gGUErzvaQ4reUAXoN/gTHh0ygM9IxPmatIHKad5qc9IsDsXs4ZWxVr3E/6mUvNbP
+ Z4B3B1A20K3nv1sdEUGTGJBejxfy6sU=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-245-K7AOexMlNSWuM5qCizjwyg-1; Thu, 28 Jan 2021 10:28:46 -0500
+X-MC-Unique: K7AOexMlNSWuM5qCizjwyg-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id B33051936B72;
+ Thu, 28 Jan 2021 15:28:45 +0000 (UTC)
+Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 967E76064B;
+ Thu, 28 Jan 2021 15:28:44 +0000 (UTC)
+Subject: Re: [PATCH] MAINTAINERS: suggest myself as co-maintainer for Block
+ Jobs
+To: Markus Armbruster <armbru@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+References: <20210128144144.27617-1-vsementsov@virtuozzo.com>
+ <878s8d85dz.fsf@dusky.pond.sub.org>
+From: John Snow <jsnow@redhat.com>
+Message-ID: <2651677f-aa5e-1937-0fb6-767c080fccdc@redhat.com>
+Date: Thu, 28 Jan 2021 10:28:44 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <878s8d85dz.fsf@dusky.pond.sub.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,17 +83,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 1/28/21 10:09 AM, Markus Armbruster wrote:
+> Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+> 
+>> I'm developing Qemu backup for several years, and finally new backup
+>> architecture, including block-copy generic engine and backup-top filter
+>> landed upstream, great thanks to reviewers and especially to
+>> Max Reitz!
+>>
+>> I also have plans of moving other block-jobs onto block-copy, so that
+>> we finally have one generic block copying path, fast and well-formed.
+>>
+>> So, now I suggest to bring all parts of backup architecture into
+>> "Block Jobs" subsystem (actually, aio_task is shared with qcow2 and
+>> qemu-co-shared-resource can be reused somewhere else, but I'd keep an
+>> eye on them in context of block-jobs) and add myself as co-maintainer.
+>>
+>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
+> With pleasure:
+> Reviewed-by: Markus Armbruster <armbru@redhat.com>
+> 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Absolutely! Glad to see it.
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: John Snow <jsnow@redhat.com>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
 
