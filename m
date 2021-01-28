@@ -2,24 +2,24 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D2E3072D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 10:36:20 +0100 (CET)
-Received: from localhost ([::1]:40828 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C56B3072D6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 10:38:48 +0100 (CET)
+Received: from localhost ([::1]:49554 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l53it-0007uJ-Aa
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 04:36:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36824)
+	id 1l53lH-0003G7-1q
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 04:38:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36900)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l53bO-000198-RN
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 04:28:34 -0500
-Received: from mx2.suse.de ([195.135.220.15]:38052)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l53bY-0001RX-SJ
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 04:28:44 -0500
+Received: from mx2.suse.de ([195.135.220.15]:38068)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l53bK-0001yR-OP
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 04:28:34 -0500
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l53bV-0001yx-4G
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 04:28:44 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 44EA8B000;
+ by mx2.suse.de (Postfix) with ESMTP id C67F9B004;
  Thu, 28 Jan 2021 09:28:25 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
@@ -28,9 +28,9 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v14 10/22] cpu: move cc->transaction_failed to tcg_ops
-Date: Thu, 28 Jan 2021 10:28:02 +0100
-Message-Id: <20210128092814.8676-11-cfontana@suse.de>
+Subject: [PATCH v14 11/22] cpu: move do_unaligned_access to tcg_ops
+Date: Thu, 28 Jan 2021 10:28:03 +0100
+Message-Id: <20210128092814.8676-12-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210128092814.8676-1-cfontana@suse.de>
 References: <20210128092814.8676-1-cfontana@suse.de>
@@ -64,304 +64,306 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+make it consistently SOFTMMU-only.
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-[claudio: replaced !CONFIG_USER_ONLY with CONFIG_SOFTMMU in cpu.h]
-
-this is working around a dangerous issue of different parts of the code
-seeing the struct TcgCpuOperations as different, because common_ss
-sources never see target configuration macros like CONFIG_USER_ONLY.
-
-We will keep conditional parts of the struct at the end,
-so that no other fields' starting addresses can be screwed up by
-different views of the struct.
-
-This will be further improved in a later patch, where we change
-the CPUClass struct member into a forward declared pointer.
-
-code in hw/core/cpu.c and include/hw/core/cpu.h, as well as
-other code outside of target, in headers, contains other uses of
-CONFIG_USER_ONLY, and they are potential issues.
-
-CONFIG_USER_ONLY should be poisoned, and in general one must be
-always wary of using CONFIG_ macros in common_ss code.
-
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
 ---
- include/hw/core/cpu.h     | 32 ++++++++++++++++++++++----------
- hw/mips/jazz.c            |  9 +++++++--
- target/alpha/cpu.c        |  2 +-
- target/arm/cpu.c          |  4 ++--
- target/m68k/cpu.c         |  2 +-
- target/microblaze/cpu.c   |  2 +-
- target/mips/cpu.c         |  4 +++-
- target/riscv/cpu.c        |  2 +-
- target/riscv/cpu_helper.c |  2 +-
- target/sparc/cpu.c        |  2 +-
- target/xtensa/cpu.c       |  2 +-
- target/xtensa/helper.c    |  4 ++--
- 12 files changed, 43 insertions(+), 24 deletions(-)
+ include/hw/core/cpu.h           | 22 +++++++++-------------
+ target/alpha/cpu.c              |  2 +-
+ target/arm/cpu.c                |  2 +-
+ target/hppa/cpu.c               |  4 +++-
+ target/microblaze/cpu.c         |  2 +-
+ target/mips/cpu.c               |  3 ++-
+ target/nios2/cpu.c              |  2 +-
+ target/riscv/cpu.c              |  2 +-
+ target/s390x/cpu.c              |  2 +-
+ target/s390x/excp_helper.c      |  2 +-
+ target/sh4/cpu.c                |  2 +-
+ target/sparc/cpu.c              |  2 +-
+ target/xtensa/cpu.c             |  2 +-
+ target/ppc/translate_init.c.inc |  2 +-
+ 14 files changed, 25 insertions(+), 26 deletions(-)
 
 diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 8fcdd55494..fbd8a9e5c7 100644
+index fbd8a9e5c7..95ff2c9eb0 100644
 --- a/include/hw/core/cpu.h
 +++ b/include/hw/core/cpu.h
-@@ -121,6 +121,20 @@ typedef struct TcgCpuOperations {
-     /** @debug_excp_handler: Callback for handling debug exceptions */
-     void (*debug_excp_handler)(CPUState *cpu);
- 
-+#ifdef NEED_CPU_H
-+#ifdef CONFIG_SOFTMMU
+@@ -131,7 +131,12 @@ typedef struct TcgCpuOperations {
+                                   unsigned size, MMUAccessType access_type,
+                                   int mmu_idx, MemTxAttrs attrs,
+                                   MemTxResult response, uintptr_t retaddr);
+-
 +    /**
-+     * @do_transaction_failed: Callback for handling failed memory transactions
-+     * (ie bus faults or external aborts; not MMU faults)
++     * @do_unaligned_access: Callback for unaligned access handling
 +     */
-+    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
-+                                  unsigned size, MMUAccessType access_type,
-+                                  int mmu_idx, MemTxAttrs attrs,
-+                                  MemTxResult response, uintptr_t retaddr);
-+
-+#endif /* CONFIG_SOFTMMU */
-+#endif /* NEED_CPU_H */
-+
- } TcgCpuOperations;
- #endif /* CONFIG_TCG */
++    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
++                                MMUAccessType access_type,
++                                int mmu_idx, uintptr_t retaddr);
+ #endif /* CONFIG_SOFTMMU */
+ #endif /* NEED_CPU_H */
  
-@@ -133,8 +147,6 @@ typedef struct TcgCpuOperations {
+@@ -145,8 +150,6 @@ typedef struct TcgCpuOperations {
+  * @parse_features: Callback to parse command line arguments.
+  * @reset_dump_flags: #CPUDumpFlags to use for reset logging.
   * @has_work: Callback for checking if there is work to do.
-  * @do_unaligned_access: Callback for unaligned access handling, if
-  * the target defines #TARGET_ALIGNED_ONLY.
-- * @do_transaction_failed: Callback for handling failed memory transactions
-- * (ie bus faults or external aborts; not MMU faults)
+- * @do_unaligned_access: Callback for unaligned access handling, if
+- * the target defines #TARGET_ALIGNED_ONLY.
   * @virtio_is_big_endian: Callback to return %true if a CPU which supports
   * runtime configurable endianness is currently big-endian. Non-configurable
   * CPUs can use the default implementation of this method. This method should
-@@ -203,10 +215,6 @@ struct CPUClass {
-     void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
-                                 MMUAccessType access_type,
-                                 int mmu_idx, uintptr_t retaddr);
--    void (*do_transaction_failed)(CPUState *cpu, hwaddr physaddr, vaddr addr,
--                                  unsigned size, MMUAccessType access_type,
--                                  int mmu_idx, MemTxAttrs attrs,
--                                  MemTxResult response, uintptr_t retaddr);
+@@ -212,9 +215,6 @@ struct CPUClass {
+ 
+     int reset_dump_flags;
+     bool (*has_work)(CPUState *cpu);
+-    void (*do_unaligned_access)(CPUState *cpu, vaddr addr,
+-                                MMUAccessType access_type,
+-                                int mmu_idx, uintptr_t retaddr);
      bool (*virtio_is_big_endian)(CPUState *cpu);
      int (*memory_rw_debug)(CPUState *cpu, vaddr addr,
                             uint8_t *buf, int len, bool is_write);
-@@ -893,6 +901,7 @@ static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
-     cc->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
- }
+@@ -890,18 +890,16 @@ CPUState *cpu_by_arch_id(int64_t id);
+ void cpu_interrupt(CPUState *cpu, int mask);
  
-+#ifdef CONFIG_TCG
- static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
-                                           vaddr addr, unsigned size,
-                                           MMUAccessType access_type,
-@@ -902,12 +911,15 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+ #ifdef NEED_CPU_H
+-
+-#ifdef CONFIG_SOFTMMU
++#if defined(CONFIG_SOFTMMU) && defined(CONFIG_TCG)
+ static inline void cpu_unaligned_access(CPUState *cpu, vaddr addr,
+                                         MMUAccessType access_type,
+                                         int mmu_idx, uintptr_t retaddr)
  {
      CPUClass *cc = CPU_GET_CLASS(cpu);
  
--    if (!cpu->ignore_memory_transaction_failures && cc->do_transaction_failed) {
--        cc->do_transaction_failed(cpu, physaddr, addr, size, access_type,
--                                  mmu_idx, attrs, response, retaddr);
-+    if (!cpu->ignore_memory_transaction_failures &&
-+        cc->tcg_ops.do_transaction_failed) {
-+        cc->tcg_ops.do_transaction_failed(cpu, physaddr, addr, size,
-+                                          access_type, mmu_idx, attrs,
-+                                          response, retaddr);
-     }
+-    cc->do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
++    cc->tcg_ops.do_unaligned_access(cpu, addr, access_type, mmu_idx, retaddr);
  }
--#endif
-+#endif /* CONFIG_TCG */
-+#endif /* CONFIG_SOFTMMU */
  
- #endif /* NEED_CPU_H */
- 
-diff --git a/hw/mips/jazz.c b/hw/mips/jazz.c
-index f9442731dd..46c71a0ac8 100644
---- a/hw/mips/jazz.c
-+++ b/hw/mips/jazz.c
-@@ -116,6 +116,8 @@ static const MemoryRegionOps dma_dummy_ops = {
- #define MAGNUM_BIOS_SIZE_MAX 0x7e000
- #define MAGNUM_BIOS_SIZE                                                       \
-         (BIOS_SIZE < MAGNUM_BIOS_SIZE_MAX ? BIOS_SIZE : MAGNUM_BIOS_SIZE_MAX)
-+
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
- static void (*real_do_transaction_failed)(CPUState *cpu, hwaddr physaddr,
+-#ifdef CONFIG_TCG
+ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
                                            vaddr addr, unsigned size,
                                            MMUAccessType access_type,
-@@ -137,6 +139,7 @@ static void mips_jazz_do_transaction_failed(CPUState *cs, hwaddr physaddr,
-     (*real_do_transaction_failed)(cs, physaddr, addr, size, access_type,
-                                   mmu_idx, attrs, response, retaddr);
+@@ -918,9 +916,7 @@ static inline void cpu_transaction_failed(CPUState *cpu, hwaddr physaddr,
+                                           response, retaddr);
+     }
  }
-+#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
+-#endif /* CONFIG_TCG */
+-#endif /* CONFIG_SOFTMMU */
+-
++#endif /* CONFIG_SOFTMMU && CONFIG_TCG */
+ #endif /* NEED_CPU_H */
  
- static void mips_jazz_init(MachineState *machine,
-                            enum jazz_model_e jazz_model)
-@@ -205,8 +208,10 @@ static void mips_jazz_init(MachineState *machine,
-      * memory region that catches all memory accesses, as we do on Malta.
-      */
-     cc = CPU_GET_CLASS(cpu);
--    real_do_transaction_failed = cc->do_transaction_failed;
--    cc->do_transaction_failed = mips_jazz_do_transaction_failed;
-+#if defined(CONFIG_TCG) && !defined(CONFIG_USER_ONLY)
-+    real_do_transaction_failed = cc->tcg_ops.do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = mips_jazz_do_transaction_failed;
-+#endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
- 
-     /* allocate RAM */
-     memory_region_add_subregion(address_space, 0, machine->ram);
+ /**
 diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-index 66f1166672..a1696bebeb 100644
+index a1696bebeb..0710298e5a 100644
 --- a/target/alpha/cpu.c
 +++ b/target/alpha/cpu.c
-@@ -225,7 +225,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = alpha_cpu_gdb_write_register;
+@@ -226,7 +226,7 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
      cc->tcg_ops.tlb_fill = alpha_cpu_tlb_fill;
  #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = alpha_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = alpha_cpu_do_transaction_failed;
-     cc->do_unaligned_access = alpha_cpu_do_unaligned_access;
+     cc->tcg_ops.do_transaction_failed = alpha_cpu_do_transaction_failed;
+-    cc->do_unaligned_access = alpha_cpu_do_unaligned_access;
++    cc->tcg_ops.do_unaligned_access = alpha_cpu_do_unaligned_access;
      cc->get_phys_page_debug = alpha_cpu_get_phys_page_debug;
      dc->vmsd = &vmstate_alpha_cpu;
+ #endif
 diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index dfb2398392..bd1882944c 100644
+index bd1882944c..aa264eec0a 100644
 --- a/target/arm/cpu.c
 +++ b/target/arm/cpu.c
-@@ -2283,11 +2283,11 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+@@ -2281,9 +2281,9 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
+     cc->tcg_ops.tlb_fill = arm_cpu_tlb_fill;
+     cc->tcg_ops.debug_excp_handler = arm_debug_excp_handler;
      cc->debug_check_watchpoint = arm_debug_check_watchpoint;
-     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
+-    cc->do_unaligned_access = arm_cpu_do_unaligned_access;
  #if !defined(CONFIG_USER_ONLY)
--    cc->do_transaction_failed = arm_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = arm_cpu_do_transaction_failed;
+     cc->tcg_ops.do_transaction_failed = arm_cpu_do_transaction_failed;
++    cc->tcg_ops.do_unaligned_access = arm_cpu_do_unaligned_access;
      cc->adjust_watchpoint_address = arm_adjust_watchpoint_address;
      cc->tcg_ops.do_interrupt = arm_cpu_do_interrupt;
  #endif /* CONFIG_TCG && !CONFIG_USER_ONLY */
--#endif
-+#endif /* CONFIG_TCG */
+diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
+index 68233acf53..fd7f849a1c 100644
+--- a/target/hppa/cpu.c
++++ b/target/hppa/cpu.c
+@@ -71,6 +71,7 @@ static void hppa_cpu_disas_set_info(CPUState *cs, disassemble_info *info)
+     info->print_insn = print_insn_hppa;
  }
  
- #ifdef CONFIG_KVM
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 69093a621f..e68b933c84 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -473,7 +473,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_write_register = m68k_cpu_gdb_write_register;
-     cc->tcg_ops.tlb_fill = m68k_cpu_tlb_fill;
- #if defined(CONFIG_SOFTMMU)
--    cc->do_transaction_failed = m68k_cpu_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = m68k_cpu_transaction_failed;
-     cc->get_phys_page_debug = m68k_cpu_get_phys_page_debug;
-     dc->vmsd = &vmstate_m68k_cpu;
++#ifndef CONFIG_USER_ONLY
+ static void hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+                                          MMUAccessType access_type,
+                                          int mmu_idx, uintptr_t retaddr)
+@@ -87,6 +88,7 @@ static void hppa_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+ 
+     cpu_loop_exit_restore(cs, retaddr);
+ }
++#endif /* CONFIG_USER_ONLY */
+ 
+ static void hppa_cpu_realizefn(DeviceState *dev, Error **errp)
+ {
+@@ -150,9 +152,9 @@ static void hppa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->tcg_ops.tlb_fill = hppa_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+     cc->get_phys_page_debug = hppa_cpu_get_phys_page_debug;
++    cc->tcg_ops.do_unaligned_access = hppa_cpu_do_unaligned_access;
+     dc->vmsd = &vmstate_hppa_cpu;
  #endif
+-    cc->do_unaligned_access = hppa_cpu_do_unaligned_access;
+     cc->disas_set_info = hppa_cpu_disas_set_info;
+     cc->tcg_ops.initialize = hppa_translate_init;
+ 
 diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-index c93e44b8e5..e405f6422d 100644
+index e405f6422d..6678310f51 100644
 --- a/target/microblaze/cpu.c
 +++ b/target/microblaze/cpu.c
-@@ -374,7 +374,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = mb_cpu_gdb_write_register;
+@@ -365,7 +365,6 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+     cc->class_by_name = mb_cpu_class_by_name;
+     cc->has_work = mb_cpu_has_work;
+     cc->tcg_ops.do_interrupt = mb_cpu_do_interrupt;
+-    cc->do_unaligned_access = mb_cpu_do_unaligned_access;
+     cc->tcg_ops.cpu_exec_interrupt = mb_cpu_exec_interrupt;
+     cc->dump_state = mb_cpu_dump_state;
+     cc->set_pc = mb_cpu_set_pc;
+@@ -375,6 +374,7 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
      cc->tcg_ops.tlb_fill = mb_cpu_tlb_fill;
  #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = mb_cpu_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = mb_cpu_transaction_failed;
+     cc->tcg_ops.do_transaction_failed = mb_cpu_transaction_failed;
++    cc->tcg_ops.do_unaligned_access = mb_cpu_do_unaligned_access;
      cc->get_phys_page_attrs_debug = mb_cpu_get_phys_page_attrs_debug;
      dc->vmsd = &vmstate_mb_cpu;
  #endif
 diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index a88a138a8d..ed2a7664e9 100644
+index ed2a7664e9..1e93e295cc 100644
 --- a/target/mips/cpu.c
 +++ b/target/mips/cpu.c
 @@ -681,7 +681,6 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
      cc->gdb_read_register = mips_cpu_gdb_read_register;
      cc->gdb_write_register = mips_cpu_gdb_write_register;
  #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = mips_cpu_do_transaction_failed;
-     cc->do_unaligned_access = mips_cpu_do_unaligned_access;
+-    cc->do_unaligned_access = mips_cpu_do_unaligned_access;
      cc->get_phys_page_debug = mips_cpu_get_phys_page_debug;
      cc->vmsd = &vmstate_mips_cpu;
-@@ -693,6 +692,9 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->tcg_ops.cpu_exec_interrupt = mips_cpu_exec_interrupt;
-     cc->tcg_ops.synchronize_from_tb = mips_cpu_synchronize_from_tb;
+ #endif
+@@ -694,6 +693,8 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
      cc->tcg_ops.tlb_fill = mips_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-+    cc->tcg_ops.do_transaction_failed = mips_cpu_do_transaction_failed;
-+#endif /* CONFIG_USER_ONLY */
+ #ifndef CONFIG_USER_ONLY
+     cc->tcg_ops.do_transaction_failed = mips_cpu_do_transaction_failed;
++    cc->tcg_ops.do_unaligned_access = mips_cpu_do_unaligned_access;
++
+ #endif /* CONFIG_USER_ONLY */
  #endif /* CONFIG_TCG */
  
-     cc->gdb_num_core_regs = 73;
+diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
+index b5fe779ceb..c43aa3d4c4 100644
+--- a/target/nios2/cpu.c
++++ b/target/nios2/cpu.c
+@@ -228,7 +228,7 @@ static void nios2_cpu_class_init(ObjectClass *oc, void *data)
+     cc->disas_set_info = nios2_cpu_disas_set_info;
+     cc->tcg_ops.tlb_fill = nios2_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_unaligned_access = nios2_cpu_do_unaligned_access;
++    cc->tcg_ops.do_unaligned_access = nios2_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = nios2_cpu_get_phys_page_debug;
+ #endif
+     cc->gdb_read_register = nios2_cpu_gdb_read_register;
 diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 345b78fc3d..9a23af9a9d 100644
+index 9a23af9a9d..5e85fd58b6 100644
 --- a/target/riscv/cpu.c
 +++ b/target/riscv/cpu.c
-@@ -609,7 +609,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
-     cc->gdb_stop_before_watchpoint = true;
+@@ -610,7 +610,7 @@ static void riscv_cpu_class_init(ObjectClass *c, void *data)
      cc->disas_set_info = riscv_cpu_disas_set_info;
  #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = riscv_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = riscv_cpu_do_transaction_failed;
-     cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
+     cc->tcg_ops.do_transaction_failed = riscv_cpu_do_transaction_failed;
+-    cc->do_unaligned_access = riscv_cpu_do_unaligned_access;
++    cc->tcg_ops.do_unaligned_access = riscv_cpu_do_unaligned_access;
      cc->get_phys_page_debug = riscv_cpu_get_phys_page_debug;
      /* For now, mark unmigratable: */
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index f8350f5f78..2f43939fb6 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -671,7 +671,7 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     env->badaddr = addr;
-     riscv_raise_exception(env, cs->exception_index, retaddr);
- }
--#endif
-+#endif /* !CONFIG_USER_ONLY */
- 
- bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                         MMUAccessType access_type, int mmu_idx,
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 871b2a83c6..8d6d7c1f83 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -875,7 +875,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_write_register = sparc_cpu_gdb_write_register;
-     cc->tcg_ops.tlb_fill = sparc_cpu_tlb_fill;
- #ifndef CONFIG_USER_ONLY
--    cc->do_transaction_failed = sparc_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = sparc_cpu_do_transaction_failed;
-     cc->do_unaligned_access = sparc_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
-     cc->vmsd = &vmstate_sparc_cpu;
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index 3ff025f0fe..fc52fde696 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -205,7 +205,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
- #ifndef CONFIG_USER_ONLY
-     cc->do_unaligned_access = xtensa_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
--    cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
-+    cc->tcg_ops.do_transaction_failed = xtensa_cpu_do_transaction_failed;
+     cc->vmsd = &vmstate_riscv_cpu;
+diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+index e6cf933594..a723ede8d1 100644
+--- a/target/s390x/cpu.c
++++ b/target/s390x/cpu.c
+@@ -510,7 +510,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
+ #ifdef CONFIG_TCG
+     cc->tcg_ops.cpu_exec_interrupt = s390_cpu_exec_interrupt;
+     cc->tcg_ops.debug_excp_handler = s390x_cpu_debug_excp_handler;
+-    cc->do_unaligned_access = s390x_cpu_do_unaligned_access;
++    cc->tcg_ops.do_unaligned_access = s390x_cpu_do_unaligned_access;
  #endif
-     cc->tcg_ops.debug_excp_handler = xtensa_breakpoint_handler;
-     cc->disas_set_info = xtensa_cpu_disas_set_info;
-diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
-index 05e2b7f70a..eeffee297d 100644
---- a/target/xtensa/helper.c
-+++ b/target/xtensa/helper.c
-@@ -261,7 +261,7 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     cpu_loop_exit_restore(cs, retaddr);
- }
- 
--#else
-+#else /* !CONFIG_USER_ONLY */
- 
- void xtensa_cpu_do_unaligned_access(CPUState *cs,
-                                     vaddr addr, MMUAccessType access_type,
-@@ -337,4 +337,4 @@ void xtensa_runstall(CPUXtensaState *env, bool runstall)
-         qemu_cpu_kick(cpu);
+ #endif
+     cc->disas_set_info = s390_cpu_disas_set_info;
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index 9cf66d3690..ce16af394b 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -634,4 +634,4 @@ void HELPER(monitor_call)(CPUS390XState *env, uint64_t monitor_code,
      }
  }
--#endif
+ 
+-#endif /* CONFIG_USER_ONLY */
 +#endif /* !CONFIG_USER_ONLY */
+diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
+index f69360fc16..292152b562 100644
+--- a/target/sh4/cpu.c
++++ b/target/sh4/cpu.c
+@@ -228,7 +228,7 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_write_register = superh_cpu_gdb_write_register;
+     cc->tcg_ops.tlb_fill = superh_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_unaligned_access = superh_cpu_do_unaligned_access;
++    cc->tcg_ops.do_unaligned_access = superh_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = superh_cpu_get_phys_page_debug;
+ #endif
+     cc->disas_set_info = superh_cpu_disas_set_info;
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 8d6d7c1f83..1b785f60df 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -876,7 +876,7 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->tcg_ops.tlb_fill = sparc_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+     cc->tcg_ops.do_transaction_failed = sparc_cpu_do_transaction_failed;
+-    cc->do_unaligned_access = sparc_cpu_do_unaligned_access;
++    cc->tcg_ops.do_unaligned_access = sparc_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_sparc_cpu;
+ #endif
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index fc52fde696..4b6381569f 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -203,7 +203,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_stop_before_watchpoint = true;
+     cc->tcg_ops.tlb_fill = xtensa_cpu_tlb_fill;
+ #ifndef CONFIG_USER_ONLY
+-    cc->do_unaligned_access = xtensa_cpu_do_unaligned_access;
++    cc->tcg_ops.do_unaligned_access = xtensa_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
+     cc->tcg_ops.do_transaction_failed = xtensa_cpu_do_transaction_failed;
+ #endif
+diff --git a/target/ppc/translate_init.c.inc b/target/ppc/translate_init.c.inc
+index b16430a9d4..27ab243c6e 100644
+--- a/target/ppc/translate_init.c.inc
++++ b/target/ppc/translate_init.c.inc
+@@ -10850,7 +10850,6 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->set_pc = ppc_cpu_set_pc;
+     cc->gdb_read_register = ppc_cpu_gdb_read_register;
+     cc->gdb_write_register = ppc_cpu_gdb_write_register;
+-    cc->do_unaligned_access = ppc_cpu_do_unaligned_access;
+ #ifndef CONFIG_USER_ONLY
+     cc->get_phys_page_debug = ppc_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_ppc_cpu;
+@@ -10887,6 +10886,7 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+ #ifndef CONFIG_USER_ONLY
+     cc->tcg_ops.cpu_exec_enter = ppc_cpu_exec_enter;
+     cc->tcg_ops.cpu_exec_exit = ppc_cpu_exec_exit;
++    cc->tcg_ops.do_unaligned_access = ppc_cpu_do_unaligned_access;
+ #endif /* !CONFIG_USER_ONLY */
+ #endif /* CONFIG_TCG */
+ 
 -- 
 2.26.2
 
