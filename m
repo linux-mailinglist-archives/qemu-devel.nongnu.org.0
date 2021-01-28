@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BFF307AF5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:28:19 +0100 (CET)
-Received: from localhost ([::1]:53868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DBAA307AAB
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:25:53 +0100 (CET)
+Received: from localhost ([::1]:45900 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5A9a-0002lB-GG
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:28:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58322)
+	id 1l5A7E-0007qY-6m
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:25:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5A2O-0003Zo-PN
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:20:53 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:36747)
+ id 1l5A2Z-0003hK-B1
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:21:03 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36972)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5A2L-0003g9-RJ
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:20:52 -0500
-Received: by mail-wm1-x330.google.com with SMTP id i9so5054500wmq.1
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 08:20:49 -0800 (PST)
+ id 1l5A2X-0003iy-MI
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:21:03 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id v15so6015539wrx.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 08:21:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
  bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=uDgaN0LzsNeT2Lav56ZuxZHrqASRBvQp2MtAVYpoDlKNC2vmiUdDTOfGGck6zqhRMN
- oTashGcxf6HQN+G7MTIG/JNbcVJjt3yI5AkLeVP20f1kZnYTHGVmeuvKNa75YBUtBB1T
- FCiVUfZxOXKsHM2C0IyyuTV5Szs56LpuqU0yfCnG3jeH3EsGav0HBfxUeazEwcs9zNTd
- EozNGq0lGTn1v4+yoF8IgmlwEuBzFYQW/EFOIbCVAwpji3anpYkeO6tOBjGafTedrshD
- nGeRAUS4eYoz32imNvQLh7j+0DMpKQpVKbxghAg9R5+QzmbU7E3gXbw7gOgUqSoQItGF
- AWrw==
+ b=zvEVwwH77NAsrtSc9xZK/b+hC8x8jwaor1Z9iUZxGDfqUCvD8utpfqM7TuMzqUi2L3
+ uSCY1AcPx7WkMAGpKWdEZA/bgL3aOc+Kvgplry/4tyjLaJbrMb8/OGguF0ybkNRaE38p
+ yew7wMSw+3LIG1+aK5z8t2lsVRRZqZ50Tb74bK5JQe+vXgalDGaanIEyaZhJhMfCjYPH
+ 7BJU7e6SDPLgP/oGm1DvDFxf/wvT2DcAxsBcWj3y3zNfbMoPqZShu0VQQ86BtGcwQ3CA
+ t9FnFrMQ/kvy3ypTQsei87o4bActm6NUtTtNckW52OHonJY881TCsVx1R7o9nDxHvLG/
+ 6XhQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
  bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=Uyc2HjCuFZ/QBVB/nuraoebMfiP7qzF1MbuLOifLGprKx4V7pU9liOYcC8oxGEeDtp
- Lc6gzOcO/L2rKxYWep1oZt9/5cWO20uTZOns1Pp5/TkSmCBriE/aIg+GgrAn+0xfaq0t
- gjgD7b/dEAjkOP+42Rlua4MiQ1aU3kIwy38sDHjIu5eplf63xV9m3PyOYX93QwnN1QyT
- +pPy0K0e4Z9/oooyW9H3kHAmCj2uAOwFXloA6rDLbZGirqcHHXK7jElX/C4YM5u0Z2Wg
- UYKSB1iPfYTKJFrnZ/W9wH7sD4nG1X50Joikjo01f5Z6qjI123+0FHOey/sQlaSRIl5j
- n+Zg==
-X-Gm-Message-State: AOAM531zb2I7Pi4cAOSQCP/B52wrroa3qNsC4JEu5ZOQElc/FnsW0Lvg
- EcjCSj8+rPbpdsmsl2KEMnWLRrTQ4Qd0JDAp
-X-Google-Smtp-Source: ABdhPJySIN2KbeeqvZ9VV3HbUZqDnspHwwcLb3g0SPZngN7Gu445Q72UpKJSw3HOMZiQOjzdZ9r6sA==
-X-Received: by 2002:a05:600c:2281:: with SMTP id 1mr29633wmf.150.1611850848519; 
- Thu, 28 Jan 2021 08:20:48 -0800 (PST)
+ b=ckB75kP5D/jywjxA4RSwU2rSDY1LN9pX3Jr5jaI3fsm5aYsQhNelIULbLKzKf0cWNV
+ k4HU9xSFBBVO3wF5QO4ouT2vua7A9J6+gn2f03BJ5rO1+WV/Xjqs8rIKlQRx/84jdGhl
+ AwBl4I6utr/8ADZcKEq7zRBErhFN6C7BRAnRtuYf538SHDdXJXD1Xq59g3KoF406T+kh
+ 3XkabuMH3M24Bl35yhKNJLrDssy2I0H3l3xNURjYpjUcHDW0GaOnl/NISn2G0oRTm1X2
+ V1DDy+1knEe1DMmcKdyFw3NVXJaxFmRMpxLS0w+bHl0UfYXdjdBXQD1AyLivDvyEocuj
+ 8+cg==
+X-Gm-Message-State: AOAM531t1W6QFmo/rNzDfhoSmMEDIwKpve8tSyLezXARHfCEVgzdPvKs
+ qNxOF7pqXNuK0slQWgkrVmWerg==
+X-Google-Smtp-Source: ABdhPJwpDTpf/jFKhruqbYzUdPOsI4hSbNtiE1qlZL3hnGHI5YOhQjpW4BJocO543v/te0zHF0f5kg==
+X-Received: by 2002:a05:6000:104:: with SMTP id
+ o4mr17122881wrx.419.1611850860386; 
+ Thu, 28 Jan 2021 08:21:00 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i8sm7875741wry.90.2021.01.28.08.20.47
+ by smtp.gmail.com with ESMTPSA id a27sm7599806wrc.94.2021.01.28.08.20.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 08:20:47 -0800 (PST)
+ Thu, 28 Jan 2021 08:20:59 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3E4791FF7E;
- Thu, 28 Jan 2021 16:20:46 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 8581D1FF7E;
+ Thu, 28 Jan 2021 16:20:58 +0000 (GMT)
 References: <20210128082331.196801-1-richard.henderson@linaro.org>
- <20210128082331.196801-17-richard.henderson@linaro.org>
+ <20210128082331.196801-18-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 16/23] tcg/tci: Merge INDEX_op_st8_{i32,i64}
-Date: Thu, 28 Jan 2021 16:20:42 +0000
-In-reply-to: <20210128082331.196801-17-richard.henderson@linaro.org>
-Message-ID: <87r1m5t4m9.fsf@linaro.org>
+Subject: Re: [PATCH 17/23] tcg/tci: Merge INDEX_op_st16_{i32,i64}
+Date: Thu, 28 Jan 2021 16:20:54 +0000
+In-reply-to: <20210128082331.196801-18-richard.henderson@linaro.org>
+Message-ID: <87o8h9t4lx.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
