@@ -2,35 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCAA307357
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:03:13 +0100 (CET)
-Received: from localhost ([::1]:44384 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E110130737E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:17:07 +0100 (CET)
+Received: from localhost ([::1]:60912 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l548u-0000CT-UD
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:03:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43388)
+	id 1l54MN-0007gp-0r
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:17:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45552)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l547D-0007jR-7a
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:01:27 -0500
-Received: from indium.canonical.com ([91.189.90.7]:38678)
+ id 1l54GZ-00044U-5K
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:11:07 -0500
+Received: from indium.canonical.com ([91.189.90.7]:39856)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l547B-0004tH-1Z
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:01:26 -0500
+ id 1l54GX-00083A-7K
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:11:06 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l5479-0007ZU-4l
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:01:23 +0000
+ id 1l54GV-00008W-3d
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:11:03 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 2294F2E800F
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:01:23 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 187262E8138
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:11:03 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 Jan 2021 09:49:21 -0000
-From: Stefan Weil <1898011@bugs.launchpad.net>
+Date: Thu, 28 Jan 2021 09:59:59 -0000
+From: =?utf-8?q?Alex_Benn=C3=A9e?= <1898011@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
@@ -41,9 +41,9 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: ksserebr rth ubuntu-weilnetz
 X-Launchpad-Bug-Reporter: Kostya Serebryany (ksserebr)
-X-Launchpad-Bug-Modifier: Stefan Weil (ubuntu-weilnetz)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
 References: <160153380394.6201.10648910301442382269.malonedeb@soybean.canonical.com>
-Message-Id: <161182736157.7685.8190541280553547402.malone@gac.canonical.com>
+Message-Id: <161182799981.3786.1026322260914500651.launchpad@soybean.canonical.com>
 Subject: [Bug 1898011] Re: mmap MAP_NORESERVE of 2^42 bytes consumes 16Gb of
  actual RAM
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
@@ -51,7 +51,7 @@ X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: d23cbea67d9c9fe427a0a129857ef1faebf471e6
+X-Launchpad-Hash: fe79bb23a433bb2d8c3473acdc16ae9dfd8bd996
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -76,13 +76,7 @@ Reply-To: Bug 1898011 <1898011@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The problem occurs for example with any program which was compiled with
-the address sanitizer.
-
-A simple hello program compiled with "gcc -fsanitize=3Daddress hello.c" is
-sufficient to show the problem. Just run it with "qemu-x86_64 a.out". It
-will be killed by the Linux kernel OOM handler even on a server with 64
-GB RAM.
+** Tags added: linux-user mmap tcg
 
 -- =
 
