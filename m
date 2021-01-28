@@ -2,83 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24291307208
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 09:54:48 +0100 (CET)
-Received: from localhost ([::1]:40220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BD6B3072B0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 10:31:07 +0100 (CET)
+Received: from localhost ([::1]:57224 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l534h-0000zS-7K
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 03:54:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58546)
+	id 1l53dp-0002gh-T8
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 04:31:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36726)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l52zw-0006Pg-6b
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:49:52 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:44263)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l52zt-0005Ph-G9
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 03:49:51 -0500
-Received: by mail-pg1-x532.google.com with SMTP id s23so2568120pgh.11
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 00:49:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=45HKNy8WCWZ85KF+zg6eFv2F4jWYn8ochLvmD9tik2A=;
- b=euVZ3zin8JKLNWj9sD3kyR/aaGs+X6STYIqLK6zWJghX91prPrnhNMz/DCLENGjJQ0
- u2UGDidDdbwJQAFefWYY6YbL8hhduMZaGlAlYCCZCVWIf6KzITs1Q6lm+NYtZKUhYaSg
- cRa9+abo0qhtdsjHsPmQ9jQskdAhukFOaSLvHRjqJts1DZRL+oNYv/cYm6EaypC/3drE
- 0KidiI0Q0Bye57+b3Bsvw6cg8WDcf1OjojPIhqm+yGW1Jv6uQV2aHIbhNVgfiPvjPbzI
- LhBcRH4AbQ2nOKzhqnWuFfzeb00s05ac5wxpkxv36xR4RUMsAh3c8gidCGfLXxMZI2fz
- bXnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=45HKNy8WCWZ85KF+zg6eFv2F4jWYn8ochLvmD9tik2A=;
- b=c4ABE0K9e91CDmOQajJBvLQ8cqv43eOOfkygBy5z+dHE17IsrjW/6CCeXmMCSNcxAQ
- ubgSccGwf9xTooaB5XiqIYOB31/N0EP8LGKfOHYayxgK2qYJnmBCnptmKYWHlOCcEiEd
- kIu0W8Ed6froNU7iuFhLiYj0t14ai2SLPELsQxmPTq8N89fmU4jSJgzVgblL3KAZ0waA
- 8Yw1A6goTSFDhjuS5yAStAv/WZ+WZpBXd3kUliv5s3PXGyJLakZPsWTBgXl9Ey7DrC8J
- hdo2C6kEM3UUPUrUupUwBbElSijJ4LxFn/+kV2rsM+Zss07zHGp7XHeSbDGBmsmzkZMj
- ZW0A==
-X-Gm-Message-State: AOAM530KeKjKpZdx2dLvpxZe0fOwh5Uuyd/0AcLJ4dflIsnF67Xk07Ad
- DuyxCpTFcxSwSg+7lKcySAMZHQ==
-X-Google-Smtp-Source: ABdhPJxQ/KagAed0nIPsV7U+svgePfgT/SHnPnWyLG1lbyNXSzVoipxwPaFaIEwIm3euwcRHUYoqGw==
-X-Received: by 2002:a05:6a00:15c8:b029:1b7:d521:32e9 with SMTP id
- o8-20020a056a0015c8b02901b7d52132e9mr14663350pfu.22.1611823787585; 
- Thu, 28 Jan 2021 00:49:47 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id m10sm4326994pjn.53.2021.01.28.00.49.45
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jan 2021 00:49:46 -0800 (PST)
-Subject: Re: [PATCH v3 18/21] linux-user/aarch64: Signal SEGV_MTEAERR for
- async tag check error
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210115224645.1196742-1-richard.henderson@linaro.org>
- <20210115224645.1196742-19-richard.henderson@linaro.org>
- <CAFEAcA8rXQ76AVpqHwum_XGh13u+vwkZw_yOxRKvfyqbV3_GBQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <b81f168c-dfe3-5d59-b1a2-1c3df97f7105@linaro.org>
-Date: Wed, 27 Jan 2021 22:49:43 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l53bJ-0000xC-B6
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 04:28:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:37692)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l53bG-0001ve-MI
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 04:28:29 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 21E0AAC97;
+ Thu, 28 Jan 2021 09:28:20 +0000 (UTC)
+From: Claudio Fontana <cfontana@suse.de>
+To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v14 00/22] i386 cleanup PART 2
+Date: Thu, 28 Jan 2021 10:27:52 +0100
+Message-Id: <20210128092814.8676-1-cfontana@suse.de>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8rXQ76AVpqHwum_XGh13u+vwkZw_yOxRKvfyqbV3_GBQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,78 +55,379 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Claudio Fontana <cfontana@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/22/21 3:59 AM, Peter Maydell wrote:
-> On Fri, 15 Jan 2021 at 22:47, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> 
-> So when does the real kernel report async MTE exceptions to userspace?
-> The commit message would be a good place to briefly describe the
-> kernel's strategy and where QEMU differs from it (if anywhere)...
+A gentle ping on this series,
 
-I can add that, sure.
+and while we are at it, rebased again due to conflicting changes.
 
->>          case EXCP_INTERRUPT:
->> -            /* just indicate that signals should be handled asap */
->> +            /* Just indicate that signals should be handled asap. */
->> +            check_mte_async_fault(env, &info);
->>              break;
->>          case EXCP_UDEF:
->>              info.si_signo = TARGET_SIGILL;
-> 
-> So this doesn't guarantee to check the async-fault status on
-> every exit from cpu_exec(), which means we might miss things.
-> For instance I think this slightly contrived example would not
-> ever take the SEGV:
->     STR x0, [x1]   # with a bad tag
->     YIELD
-> l:  B l
-> 
-> because the STR and YIELD go into the same TB, the YIELD causes us
-> to leave the TB with EXCP_YIELD, we don't check for an async fault
-> in that code path, and then we'll go into the infinite loop and
-> have nothing to prompt us to come out and look at the async fault flags.
+v13 -> v14: rebased on latest master.
+v12 -> v13: rebased on latest master.
 
-I'll add that test case to the smoke test.
+v11 -> v12: reordered patches and improved tcg_ops
 
-> Does it work if we just always queue the SEGV on exit from cpu_exec()
-> and let the signal handling machinery prioritize if we also pend
-> some other signal because this was an EXCP_UDEF or whatever?
-> It would be neater if we could keep the fault-check outside the
-> switch (trapnr) somehow.
+* reordered all TcgCpuOperations stuff so it is at the beginning
 
-I would think so.  I'll try that.
+* added patches for ARM-specific tcg ops
+  debug_check_watchpoint and adjust_watchpoint_address
 
->> +#ifdef CONFIG_USER_ONLY
->> +        /*
->> +         * Stand in for a timer irq, setting _TIF_MTE_ASYNC_FAULT,
->> +         * which then sends a SIGSEGV when the thread is next scheduled.
->> +         * This cpu will return to the main loop at the end of the TB,
->> +         * which is rather sooner than "normal".  But the alternative
->> +         * is waiting until the next syscall.
->> +         */
->> +        qemu_cpu_kick(env_cpu(env));
->> +#endif
->>          break;
-> 
-> This does the right thing, but qemu_cpu_kick() is one of those
-> functions that's in a category of "not used much at all in the
-> codebase" and which always make me wonder if there's a reason.
-> (In particular there's exactly one use in the whole of target/
-> right now.) I suppose the case of "helper function wants to cause
-> us to leave the TB loop but not to abort the current insn" is
-> an unusual one...
+* added a patch that puts a forward declared pointer in the struct,
+  so as to reduce the change of misuse between common_ss and specific_ss code,
+  and tidy up as a consequence all targets, by defining dedicated structs.
 
-Exactly.
+v10 -> v11: split off PART 2,
 
-Usually something in target/ calls (via mmio or whatnot) something in hw/ which
-raises an interrupt, which does the kick.
+no further changes to PART 2 other than the split.
+
+v9 -> v10: minor tweaks and fixes
+
+* in "i386: split cpu accelerators from cpu.c",
+
+use kvm/kvm-cpu.c, hvf/hvf-cpu.c, tcg/tcg-cpu.c.
+Easier to understand compared to editing multiple cpu.c files,
+and matches the header files if needed (kvm-cpu.h).
+
+* in "accel: replace struct CpusAccel with AccelOpsClass",
+
+make it a bit more consistent, by naming the files defining
+the AccelOpsClass types "...-accel-ops.c" instead of the old
+naming "...-cpus.c".
+
+* in "cpu: move cc->transaction_failed to tcg_ops",
+
+protect with CONFIG_TCG the use of tcg_ops for hw/misc/jazz.c,
+
+ #include "exec/memattrs.h" (Philippe, Eduardo)
+
+* in "cpu: Move synchronize_from_tb() to tcg_ops",
+
+ #include "hw/core/cpu.h" (Philippe, Eduardo)
+
+do not remove the comment about struct TcgCpuOperations (Philippe)
+
+* in "accel/tcg: split TCG-only code from cpu_exec_realizefn",
+
+invert tcg_target_initialized set order (Alex)
+
+* in "i386: move TCG cpu class initialization out of helper.c",
+
+extract helper-tcg.h, tcg-cpu.c, and tcg-cpu.h directly into
+tcg/, avoiding the extra move later to tcg/ (Alex)
 
 
-r~
+
+v8 -> v9: move additional methods to CPUClass->tcg_ops
+
+do_unaligned_access, transaction_failed and do_interrupt.
+
+do_interrupt is a bit tricky, as the same code is reused
+(albeit not usually directly) for KVM under certain odd conditions.
+
+Change arm, as the only user of do_interrupt callback for KVM,
+to instead call the target function directly arm_do_interrupt.
+
+v7 -> v8: add missing CONFIG_TCGs, fix bugs
+
+* add the prerequisite patches for "3 tcg" at the beginning of the
+  series for convenience (already reviewed, queued by RH).
+
+* add CONFIG_TCG to TCGCpuOperations and tcg_ops variable use
+
+* reduce the scope of the realizefn refactoring, do not
+  introduce a separate cpu_accel_realize, and instead use the
+  existing cpu_exec_realizefn, there is not enough benefit
+  to introduce a new function.
+
+* fix bugs in user mode due to attempt to move the tcg_region_init()
+  early, so it could be done just once in tcg_init() for both
+  softmmu and user mode. Unfortunately it needs to remain deferred
+  for user mode, as it needs to be done after prologue init and
+  after the GUEST_BASE has been set.
+
+v6 -> v7: integrate TCGCpuOperations, refactored cpu_exec_realizefn
+
+* integrate TCGCpuOperations (Eduardo)
+
+Taken some refactoring from Eduardo for Tcg-only operations on
+CPUClass.
+
+* refactored cpu_exec_realizefn
+
+The other main change is a refactoring of cpu_exec_realizefn,
+directly linked to the effort of making many cpu_exec operations
+TCG-only (Eduardo series above):
+
+cpu_exec_realizefn is actually a TCG-only thing, with the
+exception of a couple things that can be done in base cpu code.
+
+This changes all targets realizefn, so I guess I have to Cc:
+the Multiverse? (Universe was already CCed for all accelerators).
+
+
+v5 -> v6: remove MODULE_INIT_ACCEL_CPU
+
+
+instead, use a call to accel_init_interfaces().
+
+* The class lookups are now general and performed in accel/
+
+  new AccelCPUClass for new archs are supported as new
+  ones appear in the class hierarchy, no need for stubs.
+
+* Split the code a bit better
+
+
+v4 -> v5: centralized and simplified initializations
+
+I put in Cc: Emilio G. Cota, specifically because in patch 8
+I (re)moved for user-mode the call to tcg_regions_init().
+
+The call happens now inside the tcg AccelClass machine_init,
+(so earlier). This seems to work fine, but thought to get the
+author opinion on this.
+
+Rebased on "tcg-cpus: split into 3 tcg variants" series
+(queued by Richard), to avoid some code churn:
+
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-10/msg04356.html
+
+
+* Extended AccelClass to user-mode.
+
+user-mode now does not call tcg_exec_init directly,
+instead it uses the tcg accel class, and its init_machine method.
+
+Since user-mode does not define or use a machine state,
+the machine is just passed as NULL.
+
+The immediate advantage is that now we can call current_accel()
+from both user mode and softmmu, so we can work out the correct
+class to use for accelerator initializations.
+
+* QOMification of CpusAccelOps
+
+simple QOMification of CpusAccelOps abstract class.
+
+* Centralized all accel_cpu_init, so only one per cpu-arch,
+  plus one for all accels will remain.
+
+  So we can expect accel_cpu_init() to be limited to:
+  
+  softmmu/cpus.c - initializes the chosen softmmu accel ops for the cpus module.
+  target/ARCH/cpu.c - initializes the chosen arch-specific cpu accelerator.
+  
+These changes are meant to address concerns/issues (Paolo):
+
+1) the use of if (tcg_enabled()) and similar in the module_init call path
+
+2) the excessive number of accel_cpu_init() to hunt down in the codebase.
+
+
+* Fixed wrong use of host_cpu_class_init (Eduardo)
+
+
+v3 -> v4: QOMification of X86CPUAccelClass
+
+
+In this version I basically QOMified X86CPUAccel, taking the
+suggestions from Eduardo as the starting point,
+but stopping just short of making it an actual QOM interface,
+using a plain abstract class, and then subclasses for the
+actual objects.
+
+Initialization is still using the existing qemu initialization
+framework (module_call_init), which is I still think is better
+than the alternatives proposed, in the current state.
+
+Possibly some improvements could be developed in the future here.
+In this case, effort should be put in keeping things extendible,
+in order not to be blocked once accelerators also become modules.
+
+Motivation and higher level steps:
+
+https://lists.gnu.org/archive/html/qemu-devel/2020-05/msg04628.html
+
+Looking forward to your comments on this proposal,
+
+Ciao,
+
+Claudio
+
+
+Claudio Fontana (17):
+  target/riscv: remove CONFIG_TCG, as it is always TCG
+  accel/tcg: split TCG-only code from cpu_exec_realizefn
+  target/arm: do not use cc->do_interrupt for KVM directly
+  cpu: move cc->do_interrupt to tcg_ops
+  cpu: move cc->transaction_failed to tcg_ops
+  cpu: move do_unaligned_access to tcg_ops
+  physmem: make watchpoint checking code TCG-only
+  cpu: move adjust_watchpoint_address to tcg_ops
+  cpu: move debug_check_watchpoint to tcg_ops
+  cpu: tcg_ops: move to tcg-cpu-ops.h, keep a pointer in CPUClass
+  accel: extend AccelState and AccelClass to user-mode
+  accel: replace struct CpusAccel with AccelOpsClass
+  accel: introduce AccelCPUClass extending CPUClass
+  i386: split cpu accelerators from cpu.c, using AccelCPUClass
+  cpu: call AccelCPUClass::cpu_realizefn in cpu_exec_realizefn
+  hw/core/cpu: call qemu_init_vcpu in cpu_common_realizefn
+  accel: introduce new accessor functions
+
+Eduardo Habkost (5):
+  cpu: Introduce TCGCpuOperations struct
+  cpu: Move synchronize_from_tb() to tcg_ops
+  cpu: Move cpu_exec_* to tcg_ops
+  cpu: Move tlb_fill to tcg_ops
+  cpu: Move debug_excp_handler to tcg_ops
+
+ accel/accel-softmmu.h                         |  15 +
+ accel/kvm/kvm-cpus.h                          |   2 -
+ ...g-cpus-icount.h => tcg-accel-ops-icount.h} |   2 +
+ accel/tcg/tcg-accel-ops-mttcg.h               |  19 +
+ .../tcg/{tcg-cpus-rr.h => tcg-accel-ops-rr.h} |   0
+ accel/tcg/{tcg-cpus.h => tcg-accel-ops.h}     |   6 +-
+ include/exec/cpu-all.h                        |  11 +-
+ include/hw/boards.h                           |   2 +-
+ include/hw/core/accel-cpu.h                   |  38 ++
+ include/hw/core/cpu.h                         |  92 +---
+ include/hw/core/tcg-cpu-ops.h                 |  95 +++++
+ include/{sysemu => qemu}/accel.h              |  27 +-
+ include/sysemu/accel-ops.h                    |  45 ++
+ include/sysemu/cpus.h                         |  26 +-
+ include/sysemu/hvf.h                          |   2 +-
+ include/sysemu/kvm.h                          |   2 +-
+ include/sysemu/kvm_int.h                      |   2 +-
+ target/arm/internals.h                        |   6 +
+ target/i386/cpu.h                             |  20 +-
+ .../i386/hax/{hax-cpus.h => hax-accel-ops.h}  |   2 -
+ target/i386/hax/hax-windows.h                 |   2 +-
+ target/i386/host-cpu.h                        |  19 +
+ .../i386/hvf/{hvf-cpus.h => hvf-accel-ops.h}  |   2 -
+ target/i386/hvf/hvf-i386.h                    |   2 +-
+ target/i386/kvm/kvm-cpu.h                     |  41 ++
+ target/i386/tcg/tcg-cpu.h                     |  15 -
+ .../whpx/{whpx-cpus.h => whpx-accel-ops.h}    |   2 -
+ accel/accel-common.c                          | 124 ++++++
+ accel/{accel.c => accel-softmmu.c}            |  60 ++-
+ accel/accel-user.c                            |  24 ++
+ accel/kvm/{kvm-cpus.c => kvm-accel-ops.c}     |  26 +-
+ accel/kvm/kvm-all.c                           |   2 -
+ accel/qtest/qtest.c                           |  25 +-
+ accel/tcg/cpu-exec.c                          |  53 ++-
+ accel/tcg/cputlb.c                            |  34 +-
+ ...g-cpus-icount.c => tcg-accel-ops-icount.c} |  21 +-
+ ...tcg-cpus-mttcg.c => tcg-accel-ops-mttcg.c} |  14 +-
+ .../tcg/{tcg-cpus-rr.c => tcg-accel-ops-rr.c} |  13 +-
+ accel/tcg/{tcg-cpus.c => tcg-accel-ops.c}     |  47 +-
+ accel/tcg/tcg-all.c                           |  19 +-
+ accel/tcg/user-exec.c                         |   8 +-
+ accel/xen/xen-all.c                           |  24 +-
+ bsd-user/main.c                               |  11 +-
+ cpu.c                                         |  68 +--
+ hw/core/cpu.c                                 |  23 +-
+ hw/i386/pc_piix.c                             |   1 +
+ hw/mips/jazz.c                                |  12 +-
+ linux-user/main.c                             |   7 +-
+ softmmu/cpus.c                                |  12 +-
+ softmmu/memory.c                              |   2 +-
+ softmmu/physmem.c                             | 149 ++++---
+ softmmu/qtest.c                               |   2 +-
+ softmmu/vl.c                                  |   9 +-
+ target/alpha/cpu.c                            |  26 +-
+ target/arm/cpu.c                              |  53 ++-
+ target/arm/cpu64.c                            |   4 +-
+ target/arm/cpu_tcg.c                          |  32 +-
+ target/arm/helper.c                           |   4 +
+ target/arm/kvm64.c                            |   6 +-
+ target/avr/cpu.c                              |  22 +-
+ target/avr/helper.c                           |   5 +-
+ target/cris/cpu.c                             |  45 +-
+ target/cris/helper.c                          |   5 +-
+ target/hppa/cpu.c                             |  25 +-
+ target/i386/cpu.c                             | 402 ++----------------
+ .../i386/hax/{hax-cpus.c => hax-accel-ops.c}  |  31 +-
+ target/i386/hax/hax-all.c                     |   7 +-
+ target/i386/hax/hax-mem.c                     |   2 +-
+ target/i386/hax/hax-posix.c                   |   2 +-
+ target/i386/hax/hax-windows.c                 |   2 +-
+ target/i386/host-cpu.c                        | 201 +++++++++
+ .../i386/hvf/{hvf-cpus.c => hvf-accel-ops.c}  |  29 +-
+ target/i386/hvf/hvf-cpu.c                     |  65 +++
+ target/i386/hvf/hvf.c                         |   5 +-
+ target/i386/hvf/x86_task.c                    |   2 +-
+ target/i386/hvf/x86hvf.c                      |   2 +-
+ target/i386/kvm/kvm-cpu.c                     | 151 +++++++
+ target/i386/kvm/kvm.c                         |   3 +-
+ target/i386/tcg/tcg-cpu.c                     | 139 +++++-
+ .../whpx/{whpx-cpus.c => whpx-accel-ops.c}    |  31 +-
+ target/i386/whpx/whpx-all.c                   |   9 +-
+ target/lm32/cpu.c                             |  22 +-
+ target/m68k/cpu.c                             |  21 +-
+ target/microblaze/cpu.c                       |  34 +-
+ target/mips/cpu.c                             |  37 +-
+ target/moxie/cpu.c                            |  19 +-
+ target/nios2/cpu.c                            |  22 +-
+ target/openrisc/cpu.c                         |  21 +-
+ target/riscv/cpu.c                            |  34 +-
+ target/riscv/cpu_helper.c                     |   2 +-
+ target/rx/cpu.c                               |  28 +-
+ target/s390x/cpu.c                            |  36 +-
+ target/s390x/excp_helper.c                    |   2 +-
+ target/sh4/cpu.c                              |  23 +-
+ target/sparc/cpu.c                            |  29 +-
+ target/tilegx/cpu.c                           |  19 +-
+ target/tricore/cpu.c                          |  14 +-
+ target/unicore32/cpu.c                        |  23 +-
+ target/xtensa/cpu.c                           |  25 +-
+ target/xtensa/helper.c                        |   4 +-
+ target/ppc/translate_init.c.inc               |  44 +-
+ MAINTAINERS                                   |   9 +-
+ accel/kvm/meson.build                         |   2 +-
+ accel/meson.build                             |   4 +-
+ accel/tcg/meson.build                         |  10 +-
+ target/i386/hax/meson.build                   |   2 +-
+ target/i386/hvf/meson.build                   |   3 +-
+ target/i386/kvm/meson.build                   |   7 +-
+ target/i386/meson.build                       |   6 +-
+ target/i386/whpx/meson.build                  |   2 +-
+ 110 files changed, 2030 insertions(+), 1071 deletions(-)
+ create mode 100644 accel/accel-softmmu.h
+ rename accel/tcg/{tcg-cpus-icount.h => tcg-accel-ops-icount.h} (88%)
+ create mode 100644 accel/tcg/tcg-accel-ops-mttcg.h
+ rename accel/tcg/{tcg-cpus-rr.h => tcg-accel-ops-rr.h} (100%)
+ rename accel/tcg/{tcg-cpus.h => tcg-accel-ops.h} (72%)
+ create mode 100644 include/hw/core/accel-cpu.h
+ create mode 100644 include/hw/core/tcg-cpu-ops.h
+ rename include/{sysemu => qemu}/accel.h (84%)
+ create mode 100644 include/sysemu/accel-ops.h
+ rename target/i386/hax/{hax-cpus.h => hax-accel-ops.h} (95%)
+ create mode 100644 target/i386/host-cpu.h
+ rename target/i386/hvf/{hvf-cpus.h => hvf-accel-ops.h} (94%)
+ create mode 100644 target/i386/kvm/kvm-cpu.h
+ delete mode 100644 target/i386/tcg/tcg-cpu.h
+ rename target/i386/whpx/{whpx-cpus.h => whpx-accel-ops.h} (96%)
+ create mode 100644 accel/accel-common.c
+ rename accel/{accel.c => accel-softmmu.c} (64%)
+ create mode 100644 accel/accel-user.c
+ rename accel/kvm/{kvm-cpus.c => kvm-accel-ops.c} (72%)
+ rename accel/tcg/{tcg-cpus-icount.c => tcg-accel-ops-icount.c} (89%)
+ rename accel/tcg/{tcg-cpus-mttcg.c => tcg-accel-ops-mttcg.c} (92%)
+ rename accel/tcg/{tcg-cpus-rr.c => tcg-accel-ops-rr.c} (97%)
+ rename accel/tcg/{tcg-cpus.c => tcg-accel-ops.c} (63%)
+ rename target/i386/hax/{hax-cpus.c => hax-accel-ops.c} (69%)
+ create mode 100644 target/i386/host-cpu.c
+ rename target/i386/hvf/{hvf-cpus.c => hvf-accel-ops.c} (84%)
+ create mode 100644 target/i386/hvf/hvf-cpu.c
+ create mode 100644 target/i386/kvm/kvm-cpu.c
+ rename target/i386/whpx/{whpx-cpus.c => whpx-accel-ops.c} (71%)
+
+-- 
+2.26.2
+
 
