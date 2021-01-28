@@ -2,53 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB8530794A
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:17:12 +0100 (CET)
-Received: from localhost ([::1]:33472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CADD130796C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:18:35 +0100 (CET)
+Received: from localhost ([::1]:36196 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l592l-000871-3H
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:17:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57516)
+	id 1l5946-0000r1-R9
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:18:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57990)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l590g-0007LL-CN
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:15:02 -0500
-Received: from zangief.bwidawsk.net ([107.170.211.233]:48776
- helo=mail.bwidawsk.net)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l590d-0002LU-Pm
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:15:02 -0500
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id 9FB9E123398; Thu, 28 Jan 2021 07:14:58 -0800 (PST)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id ADB44122C5B;
- Thu, 28 Jan 2021 07:14:45 -0800 (PST)
-Date: Thu, 28 Jan 2021 07:14:44 -0800
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [RFC PATCH v2 24/32] hw/cxl/device: Add a memory device (8.2.8.5)
-Message-ID: <20210128151444.2rjkcbhrwflq6zga@mail.bwidawsk.net>
-References: <20210105165323.783725-1-ben.widawsky@intel.com>
- <20210105165323.783725-25-ben.widawsky@intel.com>
- <20210127220312.6850abe2@redhat.com>
- <20210127212645.ztuxaopjnwtm7u2i@intel.com>
- <20210128102538.000066ff@Huawei.com>
- <20210128150318.ujl2uzyzbygqnlg2@mail.bwidawsk.net>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l591n-0007wr-IZ
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:16:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56481)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l591j-0002nu-Dt
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:16:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611846964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DYMmxn0WY/aIAyBB2C/ZnyCi4mWfwlYJFky34Bmk+Q4=;
+ b=HcqvNyVDO4xGAYLNmW7KverXcSsssFpVt46l0mockOKNC8VVME7ToietifWzsEoi/awCF1
+ HVW1K5oNWModJWa2QM64UkAUGDNPSW0eO7yIkkoNn8lklWrz2vftOGEhOp6dSrvVIosuNM
+ DA2suqQfurgHZofbixpX2vQ3qaGHIwM=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-352-Xx0Fzt5POoSZudM79ZY2aA-1; Thu, 28 Jan 2021 10:16:02 -0500
+X-MC-Unique: Xx0Fzt5POoSZudM79ZY2aA-1
+Received: by mail-ej1-f72.google.com with SMTP id d15so2306655ejc.21
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:16:02 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=DYMmxn0WY/aIAyBB2C/ZnyCi4mWfwlYJFky34Bmk+Q4=;
+ b=ftfjOtDI8Y1Mti41ClWxSeUZF3y6E5wSzpqWhW8gMQ6O4dugFGOkJ8ALa0HwknGQgT
+ d+NN/8sEocF54I6xK1/8Wq/HcpNMx6C7/44t+B4V7gDpA/sTjryw3M2VDOucGjplMbH4
+ 6cXdHnHYbDxRqqZ7eMpaCKzcmmdJYiIAPAncTv6yKCCa3o7S8zw8f5UoD16/dcFj5T4+
+ Q+xl5LMnH25BW7oEf9+zfmzMAuA4WE8Q0ATE0DNLLyKyG1vmBPXkJJva7orNZNbgNHsR
+ t/z9JasQ8NOwtKkgC/2AWakcI8aUcSsJdfQhOGlisTaizisW6+zn5GUxJK6wYY/Cdras
+ qMag==
+X-Gm-Message-State: AOAM530h2TaNTjh6O3jfffw3xgFoyk71y9en5F6wEOPGz3xX4jdhth8/
+ wJgtvKQ+lBwykL3StZg57gNIdsvjOV4OurYSBupL545tFDr4n/92537orFjgoqCzUpnewDs7N5E
+ DNoFfiTA89ArdyLc=
+X-Received: by 2002:a17:906:f991:: with SMTP id
+ li17mr11746456ejb.31.1611846961318; 
+ Thu, 28 Jan 2021 07:16:01 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJzvvH5DkbiANuzqAUhjdEjO07V5dfsXS5adFl/7E3xjgMEq8N2UYhT3cJpmjqCo5tV3F0R0rw==
+X-Received: by 2002:a17:906:f991:: with SMTP id
+ li17mr11746426ejb.31.1611846961006; 
+ Thu, 28 Jan 2021 07:16:01 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id y8sm3040908edd.97.2021.01.28.07.15.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 07:16:00 -0800 (PST)
+Subject: Re: [PATCH] docs: don't install corresponding man page if guest agent
+ is disabled
+To: Stefan Reiter <s.reiter@proxmox.com>, qemu-trivial@nongnu.org
+References: <20210128145801.14384-1-s.reiter@proxmox.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <aea9ab28-61ab-a162-f2fc-20613e74fd4d@redhat.com>
+Date: Thu, 28 Jan 2021 16:15:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210128150318.ujl2uzyzbygqnlg2@mail.bwidawsk.net>
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210128145801.14384-1-s.reiter@proxmox.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -61,454 +102,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>, Chris Browy <cbrowy@avery-design.com>,
- qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Prashant V Agarwal <agpr123@gmail.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-01-28 07:03:18, Ben Widawsky wrote:
-> On 21-01-28 10:25:38, Jonathan Cameron wrote:
-> > On Wed, 27 Jan 2021 13:26:45 -0800
-> > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> > 
-> > > On 21-01-27 22:03:12, Igor Mammedov wrote:
-> > > > On Tue,  5 Jan 2021 08:53:15 -0800
-> > > > Ben Widawsky <ben.widawsky@intel.com> wrote:
-> > > >   
-> > > > > A CXL memory device (AKA Type 3) is a CXL component that contains some
-> > > > > combination of volatile and persistent memory. It also implements the
-> > > > > previously defined mailbox interface as well as the memory device
-> > > > > firmware interface.
-> > > > > 
-> > > > > The following example will create a 256M device in a 512M window:
-> > > > > 
-> > > > > -object "memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M"
-> > > > > -device "cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0,size=256M"  
-> > > > 
-> > > > I'd expect whole backend used by frontend, so one would not need "size" property
-> > > > on frontend (like we do with memory devices).
-> > > > So question is why it partially uses memdev?  
-> > > 
-> > > Answered in a separate thread...
-> > 
-> > One possible suggestion inline.
-> > 
-> > > > > +
-> > > > > +static void cxl_setup_memory(CXLType3Dev *ct3d, Error **errp)
-> > > > > +{
-> > > > > +    MemoryRegionSection mrs;
-> > > > > +    MemoryRegion *mr;
-> > > > > +    uint64_t offset = 0;
-> > > > > +    size_t remaining_size;
-> > > > > +
-> > > > > +    if (!ct3d->hostmem) {
-> > > > > +        error_setg(errp, "memdev property must be set");
-> > > > > +        return;
-> > > > > +    }
-> > > > > +
-> > > > > +    /* FIXME: need to check mr is the host bridge's MR */
-> > > > > +    mr = host_memory_backend_get_memory(ct3d->hostmem);
-> > > > > +
-> > > > > +    /* Create our new subregion */
-> > > > > +    ct3d->cxl_dstate.pmem = g_new(MemoryRegion, 1);
-> > > > > +
-> > > > > +    /* Find the first free space in the window */
-> > > > > +    WITH_RCU_READ_LOCK_GUARD()
-> > > > > +    {
-> > > > > +        mrs = memory_region_find(mr, offset, 1);
-> > > > > +        while (mrs.mr && mrs.mr != mr) {
-> > > > > +            offset += memory_region_size(mrs.mr);
-> > > > > +            mrs = memory_region_find(mr, offset, 1);
-> > > > > +        }
-> > > > > +    }
-> > > > > +
-> > > > > +    remaining_size = memory_region_size(mr) - offset;
-> > > > > +    if (remaining_size < ct3d->size) {
-> > > > > +        g_free(ct3d->cxl_dstate.pmem);
-> > > > > +        error_setg(errp,
-> > > > > +                   "Not enough free space (%zd) required for device (%" PRId64  ")",
-> > > > > +                   remaining_size, ct3d->size);
-> > > > > +    }
-> > > > > +
-> > > > > +    /* Register our subregion as non-volatile */
-> > > > > +    memory_region_init_ram(ct3d->cxl_dstate.pmem, OBJECT(ct3d),
-> > > > > +                           "cxl_type3-memory", ct3d->size, errp);  
-> > > > this allocates ct3d->size of anon RAM, was this an intention?
-> > > > If yes, can you clarify why extra RAM is used instead of using what
-> > > > backend provides?  
-> > > 
-> > > It sounds like I'm doing the wrong thing then. There should be one chunk of
-> > > memory which is a subset of the full memory backend object. Could you please
-> > > advise on what I should be doing instead? Is add_subregion() sufficient?
-> > 
-> > Taking inspiration from nvdimm I'm carrying a patch that uses
-> > memory_region_init_alias(ct3d->cxl_dstate.pmem, OBJECT(qct3d)q,
-> > 			 "cxl_type3-memory", mr, offset, ct3d->size);
-> > 
-> > I 'think' that's doing the right thing, but haven't fully tested it yet
-> > so may be completely wrong :)
-> > 
-> > Then for the pmem addr, call memory_region_set_address() to put it
-> > in a particular location.
-> > 
+On 28/01/21 15:58, Stefan Reiter wrote:
+> No sense outputting the qemu-ga and qemu-ga-ref man pages when the guest
+> agent binary itself is disabled. This mirrors behaviour from before the
+> meson switch.
 > 
-> Yes - this is what I'd like to do and what I initially tried, and I also believe
-> it's right, but it doesn't work.
+> Signed-off-by: Stefan Reiter <s.reiter@proxmox.com>
+> ---
+>   docs/meson.build | 6 ++++--
+>   1 file changed, 4 insertions(+), 2 deletions(-)
 > 
-> range_invariant: Assertion `range->lob <= range->upb || range->lob == range->upb + 1' failed.
-> 
-> I was digging into this yesterday, but opted to start a new thread on the
-> matter.
+> diff --git a/docs/meson.build b/docs/meson.build
+> index bb14eaebd3..f84306ba7e 100644
+> --- a/docs/meson.build
+> +++ b/docs/meson.build
+> @@ -46,9 +46,11 @@ if build_docs
+>                             meson.source_root() / 'docs/sphinx/qmp_lexer.py',
+>                             qapi_gen_depends ]
+>   
+> +  have_ga = have_tools and config_host.has_key('CONFIG_GUEST_AGENT')
+> +
+>     man_pages = {
+> -        'qemu-ga.8': (have_tools ? 'man8' : ''),
+> -        'qemu-ga-ref.7': 'man7',
+> +        'qemu-ga.8': (have_ga ? 'man8' : ''),
+> +        'qemu-ga-ref.7': (have_ga ? 'man7' : ''),
+>           'qemu-qmp-ref.7': 'man7',
+>           'qemu-storage-daemon-qmp-ref.7': (have_tools ? 'man7' : ''),
+>           'qemu-img.1': (have_tools ? 'man1' : ''),
 > 
 
-Hmm. I think I need to figure out the right add_subregion after this and it
-might work. I'll keep digging, but if you have ideas, let me know.
+Queued, thanks.
 
-> > > 
-> > > 
-> > > >   
-> > > > > +    memory_region_set_nonvolatile(ct3d->cxl_dstate.pmem, true);  
-> > > >   
-> > > > > +#ifdef SET_PMEM_PADDR
-> > > > > +    memory_region_add_subregion(mr, offset, ct3d->cxl_dstate.pmem);
-> > > > > +#endif  
-> > > > What this hunk is supposed to do, why it's ifdef-ed?  
-> > > 
-> > > In general, the BIOS or OS should program the physical address of the device via
-> > > a piece of hardware called the HDM (host defined memory) decoder. That is hooked
-> > > up in the code in a later patch. For debug, I set the address internally in
-> > > QEMU, mimicking what might be done by BIOS.
-> > > 
-> > > > 
-> > > >   
-> > > > > +}
-> > > > > +
-> > > > > +static MemoryRegion *cxl_md_get_memory_region(MemoryDeviceState *md,
-> > > > > +                                              Error **errp)
-> > > > > +{
-> > > > > +    CXLType3Dev *ct3d = CT3(md);
-> > > > > +
-> > > > > +    if (!ct3d->cxl_dstate.pmem) {
-> > > > > +        cxl_setup_memory(ct3d, errp);
-> > > > > +    }
-> > > > > +
-> > > > > +    return ct3d->cxl_dstate.pmem;
-> > > > > +}
-> > > > > +
-> > > > > +static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-> > > > > +{
-> > > > > +    CXLType3Dev *ct3d = CT3(pci_dev);
-> > > > > +    CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-> > > > > +    ComponentRegisters *regs = &cxl_cstate->crb;
-> > > > > +    MemoryRegion *mr = &regs->component_registers;
-> > > > > +    uint8_t *pci_conf = pci_dev->config;
-> > > > > +
-> > > > > +    if (!ct3d->cxl_dstate.pmem) {
-> > > > > +        cxl_setup_memory(ct3d, errp);
-> > > > > +    }
-> > > > > +
-> > > > > +    pci_config_set_prog_interface(pci_conf, 0x10);
-> > > > > +    pci_config_set_class(pci_conf, PCI_CLASS_MEMORY_CXL);
-> > > > > +
-> > > > > +    pcie_endpoint_cap_init(pci_dev, 0x80);
-> > > > > +    cxl_cstate->dvsec_offset = 0x100;
-> > > > > +
-> > > > > +    ct3d->cxl_cstate.pdev = pci_dev;
-> > > > > +    build_dvsecs(ct3d);
-> > > > > +
-> > > > > +    cxl_component_register_block_init(OBJECT(pci_dev), cxl_cstate,
-> > > > > +                                      TYPE_CXL_TYPE3_DEV);
-> > > > > +
-> > > > > +    pci_register_bar(
-> > > > > +        pci_dev, COMPONENT_REG_BAR_IDX,
-> > > > > +        PCI_BASE_ADDRESS_SPACE_MEMORY | PCI_BASE_ADDRESS_MEM_TYPE_64, mr);
-> > > > > +
-> > > > > +    cxl_device_register_block_init(OBJECT(pci_dev), &ct3d->cxl_dstate);
-> > > > > +    pci_register_bar(pci_dev, DEVICE_REG_BAR_IDX,
-> > > > > +                     PCI_BASE_ADDRESS_SPACE_MEMORY |
-> > > > > +                         PCI_BASE_ADDRESS_MEM_TYPE_64,
-> > > > > +                     &ct3d->cxl_dstate.device_registers);
-> > > > > +}
-> > > > > +
-> > > > > +static uint64_t cxl_md_get_addr(const MemoryDeviceState *md)
-> > > > > +{
-> > > > > +    CXLType3Dev *ct3d = CT3(md);
-> > > > > +
-> > > > > +    return memory_region_get_ram_addr(ct3d->cxl_dstate.pmem);
-> > > > > +}
-> > > > > +
-> > > > > +static void cxl_md_set_addr(MemoryDeviceState *md, uint64_t addr, Error **errp)
-> > > > > +{
-> > > > > +    object_property_set_uint(OBJECT(md), "paddr", addr, errp);
-> > > > > +}
-> > > > > +
-> > > > > +static void ct3d_reset(DeviceState *dev)
-> > > > > +{
-> > > > > +    CXLType3Dev *ct3d = CT3(dev);
-> > > > > +    uint32_t *reg_state = ct3d->cxl_cstate.crb.cache_mem_registers;
-> > > > > +
-> > > > > +    cxl_component_register_init_common(reg_state, CXL2_TYPE3_DEVICE);
-> > > > > +    cxl_device_register_init_common(&ct3d->cxl_dstate);
-> > > > > +}
-> > > > > +
-> > > > > +static Property ct3_props[] = {
-> > > > > +    DEFINE_PROP_SIZE("size", CXLType3Dev, size, -1),
-> > > > > +    DEFINE_PROP_LINK("memdev", CXLType3Dev, hostmem, TYPE_MEMORY_BACKEND,
-> > > > > +                     HostMemoryBackend *),
-> > > > > +    DEFINE_PROP_END_OF_LIST(),
-> > > > > +};
-> > > > > +
-> > > > > +static void pc_dimm_md_fill_device_info(const MemoryDeviceState *md,
-> > > > > +                                        MemoryDeviceInfo *info)
-> > > > > +{
-> > > > > +    PCDIMMDeviceInfo *di = g_new0(PCDIMMDeviceInfo, 1);
-> > > > > +    const DeviceClass *dc = DEVICE_GET_CLASS(md);
-> > > > > +    const DeviceState *dev = DEVICE(md);
-> > > > > +    CXLType3Dev *ct3d = CT3(md);
-> > > > > +
-> > > > > +    if (dev->id) {
-> > > > > +        di->has_id = true;
-> > > > > +        di->id = g_strdup(dev->id);
-> > > > > +    }
-> > > > > +    di->hotplugged = dev->hotplugged;
-> > > > > +    di->hotpluggable = dc->hotpluggable;
-> > > > > +    di->addr = cxl_md_get_addr(md);
-> > > > > +    di->slot = 0;
-> > > > > +    di->node = 0;
-> > > > > +    di->size = memory_device_get_region_size(md, NULL);
-> > > > > +    di->memdev = object_get_canonical_path(OBJECT(ct3d->hostmem));
-> > > > > +
-> > > > > +
-> > > > > +    info->u.cxl.data = di;
-> > > > > +    info->type = MEMORY_DEVICE_INFO_KIND_CXL;
-> > > > > +}
-> > > > > +
-> > > > > +static void ct3_class_init(ObjectClass *oc, void *data)
-> > > > > +{
-> > > > > +    DeviceClass *dc = DEVICE_CLASS(oc);
-> > > > > +    PCIDeviceClass *pc = PCI_DEVICE_CLASS(oc);
-> > > > > +    MemoryDeviceClass *mdc = MEMORY_DEVICE_CLASS(oc);
-> > > > > +
-> > > > > +    pc->realize = ct3_realize;
-> > > > > +    pc->class_id = PCI_CLASS_STORAGE_EXPRESS;
-> > > > > +    pc->vendor_id = PCI_VENDOR_ID_INTEL;
-> > > > > +    pc->device_id = 0xd93; /* LVF for now */
-> > > > > +    pc->revision = 1;
-> > > > > +
-> > > > > +    set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-> > > > > +    dc->desc = "CXL PMEM Device (Type 3)";
-> > > > > +    dc->reset = ct3d_reset;
-> > > > > +    device_class_set_props(dc, ct3_props);
-> > > > > +
-> > > > > +    mdc->get_memory_region = cxl_md_get_memory_region;
-> > > > > +    mdc->get_addr = cxl_md_get_addr;
-> > > > > +    mdc->fill_device_info = pc_dimm_md_fill_device_info;
-> > > > > +    mdc->get_plugged_size = memory_device_get_region_size;
-> > > > > +    mdc->set_addr = cxl_md_set_addr;
-> > > > > +}
-> > > > > +
-> > > > > +static const TypeInfo ct3d_info = {
-> > > > > +    .name = TYPE_CXL_TYPE3_DEV,
-> > > > > +    .parent = TYPE_PCI_DEVICE,
-> > > > > +    .class_init = ct3_class_init,
-> > > > > +    .instance_size = sizeof(CXLType3Dev),
-> > > > > +    .instance_init = ct3_instance_init,
-> > > > > +    .instance_finalize = ct3_finalize,
-> > > > > +    .interfaces = (InterfaceInfo[]) {
-> > > > > +        { TYPE_MEMORY_DEVICE },
-> > > > > +        { INTERFACE_CXL_DEVICE },
-> > > > > +        { INTERFACE_PCIE_DEVICE },
-> > > > > +        {}
-> > > > > +    },
-> > > > > +};
-> > > > > +
-> > > > > +static void ct3d_registers(void)
-> > > > > +{
-> > > > > +    type_register_static(&ct3d_info);
-> > > > > +}
-> > > > > +
-> > > > > +type_init(ct3d_registers);
-> > > > > diff --git a/hw/mem/meson.build b/hw/mem/meson.build
-> > > > > index 0d22f2b572..d13c3ed117 100644
-> > > > > --- a/hw/mem/meson.build
-> > > > > +++ b/hw/mem/meson.build
-> > > > > @@ -3,5 +3,6 @@ mem_ss.add(files('memory-device.c'))
-> > > > >  mem_ss.add(when: 'CONFIG_DIMM', if_true: files('pc-dimm.c'))
-> > > > >  mem_ss.add(when: 'CONFIG_NPCM7XX', if_true: files('npcm7xx_mc.c'))
-> > > > >  mem_ss.add(when: 'CONFIG_NVDIMM', if_true: files('nvdimm.c'))
-> > > > > +mem_ss.add(when: 'CONFIG_CXL_MEM_DEVICE', if_true: files('cxl_type3.c'))
-> > > > >  
-> > > > >  softmmu_ss.add_all(when: 'CONFIG_MEM_DEVICE', if_true: mem_ss)
-> > > > > diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
-> > > > > index d4010cf8f3..1ecf6f6a55 100644
-> > > > > --- a/hw/pci/pcie.c
-> > > > > +++ b/hw/pci/pcie.c
-> > > > > @@ -20,6 +20,7 @@
-> > > > >  
-> > > > >  #include "qemu/osdep.h"
-> > > > >  #include "qapi/error.h"
-> > > > > +#include "hw/mem/memory-device.h"
-> > > > >  #include "hw/pci/pci_bridge.h"
-> > > > >  #include "hw/pci/pcie.h"
-> > > > >  #include "hw/pci/msix.h"
-> > > > > @@ -27,6 +28,8 @@
-> > > > >  #include "hw/pci/pci_bus.h"
-> > > > >  #include "hw/pci/pcie_regs.h"
-> > > > >  #include "hw/pci/pcie_port.h"
-> > > > > +#include "hw/cxl/cxl.h"
-> > > > > +#include "hw/boards.h"
-> > > > >  #include "qemu/range.h"
-> > > > >  
-> > > > >  //#define DEBUG_PCIE
-> > > > > @@ -419,6 +422,28 @@ void pcie_cap_slot_pre_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > > > >      }
-> > > > >  
-> > > > >      pcie_cap_slot_plug_common(PCI_DEVICE(hotplug_dev), dev, errp);
-> > > > > +
-> > > > > +#ifdef CXL_MEM_DEVICE
-> > > > > +    /*
-> > > > > +     * FIXME:
-> > > > > +     * if (object_dynamic_cast(OBJECT(dev), TYPE_CXL_TYPE3_DEV)) {
-> > > > > +     *    HotplugHandler *hotplug_ctrl;
-> > > > > +     *   Error *local_err = NULL;
-> > > > > +     *  hotplug_ctrl = qdev_get_hotplug_handler(dev);
-> > > > > +     *  if (hotplug_ctrl) {
-> > > > > +     *      hotplug_handler_pre_plug(hotplug_ctrl, dev, &local_err);
-> > > > > +     *      if (local_err) {
-> > > > > +     *          error_propagate(errp, local_err);
-> > > > > +     *          return;
-> > > > > +     *      }
-> > > > > +     *  }
-> > > > > +     */
-> > > > > +    if (object_dynamic_cast(OBJECT(dev), TYPE_CXL_TYPE3_DEV)) {
-> > > > > +        memory_device_pre_plug(MEMORY_DEVICE(dev), MACHINE(qdev_get_machine()),
-> > > > > +                               NULL, errp);
-> > > > > +    }  
-> > > > 
-> > > > why use MEMORY_DEVICE interface instead of exposing memory as PCI BAR?
-> > > >   
-> > > 
-> > > A CXL memory device adds memory to a system that is physically addressable in
-> > > the same way an NVDIMM device would be.
-> > > 
-> > > > > +#endif
-> > > > >  }
-> > > > >  
-> > > > >  void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > > > > @@ -455,6 +480,11 @@ void pcie_cap_slot_plug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > > > >          pcie_cap_slot_event(hotplug_pdev,
-> > > > >                              PCI_EXP_HP_EV_PDC | PCI_EXP_HP_EV_ABP);
-> > > > >      }
-> > > > > +
-> > > > > +#ifdef CXL_MEM_DEVICE
-> > > > > +    if (object_dynamic_cast(OBJECT(dev), TYPE_CXL_TYPE3_DEV))
-> > > > > +        memory_device_plug(MEMORY_DEVICE(dev), MACHINE(qdev_get_machine()));
-> > > > > +#endif
-> > > > >  }
-> > > > >  
-> > > > >  void pcie_cap_slot_unplug_cb(HotplugHandler *hotplug_dev, DeviceState *dev,
-> > > > > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> > > > > index b1e5f4a8fa..809ed7de60 100644
-> > > > > --- a/include/hw/cxl/cxl.h
-> > > > > +++ b/include/hw/cxl/cxl.h
-> > > > > @@ -17,6 +17,8 @@
-> > > > >  #define COMPONENT_REG_BAR_IDX 0
-> > > > >  #define DEVICE_REG_BAR_IDX 2
-> > > > >  
-> > > > > +#define TYPE_CXL_TYPE3_DEV "cxl-type3"
-> > > > > +
-> > > > >  #define CXL_HOST_BASE 0xD0000000
-> > > > >  #define CXL_WINDOW_MAX 10
-> > > > >  
-> > > > > diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
-> > > > > index a53c2e5ae7..9ec28c9feb 100644
-> > > > > --- a/include/hw/cxl/cxl_pci.h
-> > > > > +++ b/include/hw/cxl/cxl_pci.h
-> > > > > @@ -64,6 +64,28 @@ _Static_assert(sizeof(struct dvsec_header) == 10,
-> > > > >   * CXL 2.0 Downstream Port: 3, 4, 7, 8
-> > > > >   */
-> > > > >  
-> > > > > +/* CXL 2.0 - 8.1.3 (ID 0001) */
-> > > > > +struct dvsec_device {
-> > > > > +    struct dvsec_header hdr;
-> > > > > +    uint16_t cap;
-> > > > > +    uint16_t ctrl;
-> > > > > +    uint16_t status;
-> > > > > +    uint16_t ctrl2;
-> > > > > +    uint16_t status2;
-> > > > > +    uint16_t lock;
-> > > > > +    uint16_t cap2;
-> > > > > +    uint32_t range1_size_hi;
-> > > > > +    uint32_t range1_size_lo;
-> > > > > +    uint32_t range1_base_hi;
-> > > > > +    uint32_t range1_base_lo;
-> > > > > +    uint32_t range2_size_hi;
-> > > > > +    uint32_t range2_size_lo;
-> > > > > +    uint32_t range2_base_hi;
-> > > > > +    uint32_t range2_base_lo;
-> > > > > +};
-> > > > > +_Static_assert(sizeof(struct dvsec_device) == 0x38,
-> > > > > +               "dvsec device size incorrect");
-> > > > > +
-> > > > >  /* CXL 2.0 - 8.1.5 (ID 0003) */
-> > > > >  struct extensions_dvsec_port {
-> > > > >      struct dvsec_header hdr;
-> > > > > diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-> > > > > index 11f8ab7149..76bf3ed590 100644
-> > > > > --- a/include/hw/pci/pci_ids.h
-> > > > > +++ b/include/hw/pci/pci_ids.h
-> > > > > @@ -53,6 +53,7 @@
-> > > > >  #define PCI_BASE_CLASS_MEMORY            0x05
-> > > > >  #define PCI_CLASS_MEMORY_RAM             0x0500
-> > > > >  #define PCI_CLASS_MEMORY_FLASH           0x0501
-> > > > > +#define PCI_CLASS_MEMORY_CXL             0x0502
-> > > > >  #define PCI_CLASS_MEMORY_OTHER           0x0580
-> > > > >  
-> > > > >  #define PCI_BASE_CLASS_BRIDGE            0x06
-> > > > > diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-> > > > > index 0dd594f92b..0f67bc61ce 100644
-> > > > > --- a/monitor/hmp-cmds.c
-> > > > > +++ b/monitor/hmp-cmds.c
-> > > > > @@ -1887,6 +1887,21 @@ void hmp_info_memory_devices(Monitor *mon, const QDict *qdict)
-> > > > >                  monitor_printf(mon, "  hotpluggable: %s\n",
-> > > > >                                 di->hotpluggable ? "true" : "false");
-> > > > >                  break;
-> > > > > +            case MEMORY_DEVICE_INFO_KIND_CXL:
-> > > > > +                di = value->u.cxl.data;
-> > > > > +                monitor_printf(mon, "Memory device [%s]: \"%s\"\n",
-> > > > > +                               MemoryDeviceInfoKind_str(value->type),
-> > > > > +                               di->id ? di->id : "");
-> > > > > +                monitor_printf(mon, "  addr: 0x%" PRIx64 "\n", di->addr);
-> > > > > +                monitor_printf(mon, "  slot: %" PRId64 "\n", di->slot);
-> > > > > +                monitor_printf(mon, "  node: %" PRId64 "\n", di->node);
-> > > > > +                monitor_printf(mon, "  size: %" PRIu64 "\n", di->size);
-> > > > > +                monitor_printf(mon, "  memdev: %s\n", di->memdev);
-> > > > > +                monitor_printf(mon, "  hotplugged: %s\n",
-> > > > > +                               di->hotplugged ? "true" : "false");
-> > > > > +                monitor_printf(mon, "  hotpluggable: %s\n",
-> > > > > +                               di->hotpluggable ? "true" : "false");
-> > > > > +                break;
-> > > > >              case MEMORY_DEVICE_INFO_KIND_VIRTIO_PMEM:
-> > > > >                  vpi = value->u.virtio_pmem.data;
-> > > > >                  monitor_printf(mon, "Memory device [%s]: \"%s\"\n",
-> > > > > diff --git a/qapi/machine.json b/qapi/machine.json
-> > > > > index 330189efe3..aa96d662bd 100644
-> > > > > --- a/qapi/machine.json
-> > > > > +++ b/qapi/machine.json
-> > > > > @@ -1394,6 +1394,7 @@
-> > > > >  { 'union': 'MemoryDeviceInfo',
-> > > > >    'data': { 'dimm': 'PCDIMMDeviceInfo',
-> > > > >              'nvdimm': 'PCDIMMDeviceInfo',
-> > > > > +            'cxl': 'PCDIMMDeviceInfo',
-> > > > >              'virtio-pmem': 'VirtioPMEMDeviceInfo',
-> > > > >              'virtio-mem': 'VirtioMEMDeviceInfo'
-> > > > >            }  
-> > > >   
-> > 
-> > 
-> 
+Paolo
+
 
