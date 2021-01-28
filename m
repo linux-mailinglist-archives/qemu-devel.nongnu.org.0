@@ -2,41 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64FF306AAE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:48:02 +0100 (CET)
-Received: from localhost ([::1]:45878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C7A0306AB0
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:48:21 +0100 (CET)
+Received: from localhost ([::1]:46036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4wPh-0000xA-BZ
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:48:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
+	id 1l4wPz-00010q-Up
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:48:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55930)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO4-0007th-Nu; Wed, 27 Jan 2021 20:46:20 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35591 helo=ozlabs.org)
+ id 1l4wO6-0007uI-5I; Wed, 27 Jan 2021 20:46:22 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:55353 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO2-000598-23; Wed, 27 Jan 2021 20:46:20 -0500
+ id 1l4wO1-0005Aw-W1; Wed, 27 Jan 2021 20:46:21 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DR3GQ091kz9sVR; Thu, 28 Jan 2021 12:46:05 +1100 (AEDT)
+ id 4DR3GQ59Rxz9sVv; Thu, 28 Jan 2021 12:46:06 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1611798366;
- bh=gnRw8oqIpX7pWG9vgrQ7LGB2wY0T2ezzYjjcZG+8I2E=;
+ bh=bn/0bBDQgbLEtV49voGRL4hXcClT2bFkypVbCPHXMdw=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=mboBTTwxcEJoLVXKbjrHclkx20triH0MZ2ai7UePZFAnW2HjjGKc3BLQwb4eAD0MK
- g5u7xh7IgY7786yozgfg8JmmdQ+qtOPXjaKbNmUSRwaW2lhU26TekRiYLepywWh3DY
- nGN4dXs3NT4OCj35Pja99HQTqnaoZmENeRVjW6IA=
-Date: Thu, 28 Jan 2021 11:22:31 +1100
+ b=VrVQsBk0cP1bKMz+1hSXsTiHbLjlNE/amndphak5fg3nE+bM1N7bxF0E+6If8YLaU
+ k/uKPr3ffOb30w2WkZvz0BC2XpbdhQv//NzWLqt6+YpA7rra95jCVRRDeHZyGnGyfW
+ 20o8WT41QzkJUs9OuDZMlkrQWTI1J2jaOOaYc6H8=
+Date: Thu, 28 Jan 2021 11:44:36 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] target/ppc: Remove unused MMU definitions
-Message-ID: <20210128002231.GA18347@yekko.fritz.box>
-References: <20210127232401.3525126-1-f4bug@amsat.org>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 1/7] ppc/pnv: Add trace events for PCI event notification
+Message-ID: <20210128004436.GD18347@yekko.fritz.box>
+References: <20210126171059.307867-1-clg@kaod.org>
+ <20210126171059.307867-2-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
+ protocol="application/pgp-signature"; boundary="W5WqUoFLvi1M7tJE"
 Content-Disposition: inline
-In-Reply-To: <20210127232401.3525126-1-f4bug@amsat.org>
+In-Reply-To: <20210126171059.307867-2-clg@kaod.org>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -57,44 +58,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org, Joe Komlodi <komlodi@xilinx.com>,
- Greg Kurz <groug@kaod.org>
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---J2SCkAp4GZ/dPZZf
+--W5WqUoFLvi1M7tJE
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 28, 2021 at 12:24:01AM +0100, Philippe Mathieu-Daud=E9 wrote:
-> Remove these confusing and unused definitions.
+On Tue, Jan 26, 2021 at 06:10:53PM +0100, C=E9dric Le Goater wrote:
+> On POWER9 systems, PHB controllers signal the XIVE interrupt controller
+> of a source interrupt notification using a store on a MMIO region. Add
+> traces for such events.
 >=20
-> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Applied to ppc-for-6.0.
+Applied to ppc-for-6.0, thanks.
 
 > ---
->  target/ppc/cpu.h | 3 ---
->  1 file changed, 3 deletions(-)
+>  hw/intc/pnv_xive.c       | 3 +++
+>  hw/pci-host/pnv_phb4.c   | 3 +++
+>  hw/intc/trace-events     | 3 +++
+>  hw/pci-host/trace-events | 3 +++
+>  4 files changed, 12 insertions(+)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 2609e4082ed..cb002102888 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -2205,9 +2205,6 @@ enum {
->   * may be needed for precise access rights control and precise exception=
-s.
->   */
->  enum {
-> -    /* 1 bit to define user level / supervisor access */
-> -    ACCESS_USER  =3D 0x00,
-> -    ACCESS_SUPER =3D 0x01,
->      /* Type of instruction that generated the access */
->      ACCESS_CODE  =3D 0x10, /* Code fetch access                */
->      ACCESS_INT   =3D 0x20, /* Integer load/store access        */
+> diff --git a/hw/intc/pnv_xive.c b/hw/intc/pnv_xive.c
+> index 5f69626b3a8d..ad43483612e5 100644
+> --- a/hw/intc/pnv_xive.c
+> +++ b/hw/intc/pnv_xive.c
+> @@ -24,6 +24,7 @@
+>  #include "hw/ppc/xive_regs.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/ppc/ppc.h"
+> +#include "trace.h"
+> =20
+>  #include <libfdt.h>
+> =20
+> @@ -1319,6 +1320,8 @@ static void pnv_xive_ic_hw_trigger(PnvXive *xive, h=
+waddr addr, uint64_t val)
+>      uint8_t blk;
+>      uint32_t idx;
+> =20
+> +    trace_pnv_xive_ic_hw_trigger(addr, val);
+> +
+>      if (val & XIVE_TRIGGER_END) {
+>          xive_error(xive, "IC: END trigger at @0x%"HWADDR_PRIx" data 0x%"=
+PRIx64,
+>                     addr, val);
+> diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
+> index 6328e985f81c..54f57c660a94 100644
+> --- a/hw/pci-host/pnv_phb4.c
+> +++ b/hw/pci-host/pnv_phb4.c
+> @@ -22,6 +22,7 @@
+>  #include "hw/irq.h"
+>  #include "hw/qdev-properties.h"
+>  #include "qom/object.h"
+> +#include "trace.h"
+> =20
+>  #define phb_error(phb, fmt, ...)                                        \
+>      qemu_log_mask(LOG_GUEST_ERROR, "phb4[%d:%d]: " fmt "\n",            \
+> @@ -1257,6 +1258,8 @@ static void pnv_phb4_xive_notify(XiveNotifier *xf, =
+uint32_t srcno)
+>      uint64_t data =3D XIVE_TRIGGER_PQ | offset | srcno;
+>      MemTxResult result;
+> =20
+> +    trace_pnv_phb4_xive_notify(notif_port, data);
+> +
+>      address_space_stq_be(&address_space_memory, notif_port, data,
+>                           MEMTXATTRS_UNSPECIFIED, &result);
+>      if (result !=3D MEMTX_OK) {
+> diff --git a/hw/intc/trace-events b/hw/intc/trace-events
+> index 8ed397a0d587..45ddaf48df8e 100644
+> --- a/hw/intc/trace-events
+> +++ b/hw/intc/trace-events
+> @@ -236,3 +236,6 @@ xive_tctx_tm_write(uint64_t offset, unsigned int size=
+, uint64_t value) "@0x0x%"P
+>  xive_tctx_tm_read(uint64_t offset, unsigned int size, uint64_t value) "@=
+0x0x%"PRIx64" sz=3D%d val=3D0x%" PRIx64
+>  xive_presenter_notify(uint8_t nvt_blk, uint32_t nvt_idx, uint8_t ring) "=
+found NVT 0x%x/0x%x ring=3D0x%x"
+>  xive_end_source_read(uint8_t end_blk, uint32_t end_idx, uint64_t addr) "=
+END 0x%x/0x%x @0x0x%"PRIx64
+> +
+> +# pnv_xive.c
+> +pnv_xive_ic_hw_trigger(uint64_t addr, uint64_t val) "@0x%"PRIx64" val=3D=
+0x%"PRIx64
+> diff --git a/hw/pci-host/trace-events b/hw/pci-host/trace-events
+> index d19ca9aef6f7..7d8063ac4212 100644
+> --- a/hw/pci-host/trace-events
+> +++ b/hw/pci-host/trace-events
+> @@ -20,3 +20,6 @@ unin_data_write(uint64_t addr, unsigned len, uint64_t v=
+al) "write addr 0x%"PRIx6
+>  unin_data_read(uint64_t addr, unsigned len, uint64_t val) "read addr 0x%=
+"PRIx64 " len %d val 0x%"PRIx64
+>  unin_write(uint64_t addr, uint64_t value) "addr=3D0x%" PRIx64 " val=3D0x=
+%"PRIx64
+>  unin_read(uint64_t addr, uint64_t value) "addr=3D0x%" PRIx64 " val=3D0x%=
+"PRIx64
+> +
+> +# pnv_phb4.c
+> +pnv_phb4_xive_notify(uint64_t notif_port, uint64_t data) "notif=3D@0x%"P=
+RIx64" data=3D0x%"PRIx64
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -102,25 +168,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---J2SCkAp4GZ/dPZZf
+--W5WqUoFLvi1M7tJE
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASA8UACgkQbDjKyiDZ
-s5Iu1Q/+P8Mwmvl6QcyQMiwgUY+wxtIcnw2EglfMGPh2xaJM0iUhR2XAmhNy2adu
-aA5GXgvC9cFZYZfUHbF0AlIpSbZG3/BP9tz6YvZyd/E5BBX2+WphvFkjdV6yin2a
-tLOUBfI1eEfGks7k/eQCtGbxVKMdp6gfpSuIMvlBnV0DnzIZ0KWN3SkLNaFiFvoZ
-TYXsJwVfwbhHMSWyxyzZpKcTC2wJNgcc0MpbeQBISepcGpp6TstdE91FuW/wNI20
-Dy83p1WdXjQ2Z7Dxz4+cfP611tWz5JV+hUZvZENinZzkDG0UdiO2T8Ia8voqd3MS
-IXvuxBny4VoAlt/OObFT6pMzm/CUqsFfMtLXzjJW4K6pwOl5hhTSHo1snDbrK2G6
-m3egnRKwP+6N74kMjwIc7RYgO4DmS2ChRFOSdduisz9h1hiMfGXLC38HxZnlzFY5
-KoNY0rWOs1O8vrP7n/MuIYsW0cSU4zXtyOhY6ziNi8x+DWBAFOPmOLeXos1qkYHf
-fXtyWRbiTOPrnYvWOPNAQykt0ImwLW002HV8PSAulHIcuKMSGSyyb6NluzaR4ekN
-IcnJJS168Mo4wE8pFwe/45OxxVJZdvVurmxcYdk/oo/0AAhTVj5t+AX3hwyLsayP
-firTOF1EYTHWXPWgrSv3eSNlqYoHtG4OULys3qHkI/oEHssJ7+A=
-=5RO0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASCPQACgkQbDjKyiDZ
+s5J5aBAAxfZhU3JZkOtafabY3hZspfv5wkMX9xQxYpSZEqCGDgAyCU34dWcpo1YO
+4gt4kNnv6pSSuZPL9LB49JAgpArWvPzpPOcLLGsPUAOYY4K3nYa59wQ3lgFkRO3Y
+izVXO9cekgfGDsZBAO6qT4iSyJxC5fNp4DYENAIp//uhLZ2O3UybT9POkjVwxBFq
+e/v99pCG/938Dmcg9L4CExlAGR1662f7vGzNQiCDFTmqKu6cqXpR4ChqYL3lckmg
+4CGzatcAY5jDF/fw7DCTKIV3doEhqEMZ8nLjVKjm8Ydcf+Vho7+8j3OyC0CgHSbX
+76CaADvcVdE9I8aC/1eZFV2VfGVrboyqjDgqxtZxY2EHZGNRV8FGwFKyXDMT5QYP
+pqmG9ROFmawLBdfN6Fpu/ZypkpJ2TPjlic+RTjy+aYWE6iLjwgngJYjkE3sAp3jk
+0PTljZMY9RwDc4SfVNjJJVz0mHsXni87vm7zYZBADur1yY5I1DANuOkARrlpjqYA
+d2rBJEcSGcXYm6EcBExJFYuXouRjdfQ8I/dfnHvY07D3FE6j24UtHmcj2wyGO6fu
+SJ9gXqAxILFSNk+ll7o/6W/JU/iECxIYqHHfafrYcuXqZq4vimhflZNieMz7euzo
+40wCRWFLrLI/kVgzv3unSexh0xHK2Rw9VPAgpqSd+oKkrp28mGw=
+=xqFm
 -----END PGP SIGNATURE-----
 
---J2SCkAp4GZ/dPZZf--
+--W5WqUoFLvi1M7tJE--
 
