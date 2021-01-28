@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C37C3079E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:38:46 +0100 (CET)
-Received: from localhost ([::1]:57686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2745C3079E7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:39:29 +0100 (CET)
+Received: from localhost ([::1]:58888 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59Nd-0005om-5d
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:38:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36936)
+	id 1l59OK-0006Le-7r
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:39:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59Jg-0002WI-Sd
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:34:42 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:33293)
+ id 1l59LO-0003rX-H3
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:36:26 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46697)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59Je-0001I2-L0
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:34:40 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id s24so5376702wmj.0
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:34:36 -0800 (PST)
+ id 1l59LM-0001yk-MX
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:36:26 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id q7so5800071wre.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:36:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=jTA0+z9gm/n5Qpk6MTQ8UzLzY8lpFN+C8Z6AIigv484=;
- b=JnK5fZBNj7yXQqEoqYaSxoD9PgOmtjp4ClXGkko6VrGDh6FyxVMNfELSbMnZmuoDnn
- ykyD8QOdJWKaALR13ZD6kmnQhiL7/6udCoF8gZYIBHqshvKYPoGq7GYgxQUY+FjddxLv
- QyppCGrjYMfd5zCDQ5AXqkkTOd6WUvWRLi9Vn1z10YddYPNwiGUNsw5QIIclt+N6sOaT
- /sHufp89lQirv8fahJHK48UhtkQby/gxpxWu09QN0uEYVc7kjAcq8NRyBjg+SWVc9e3K
- hV1zj6tfjXTE4O56j9y0o+fv/hmrpTuBZG59yO8vpUde2ljBlpfEcYzwxG3pOI4c9quc
- 4n6A==
+ bh=R96aex3BeRlnbGWuyaG5aOeSbhb8ZV1yDxpcDjjujdw=;
+ b=gYpSa9BnhbS3x+vyxGI+deD0m86zXpCSz4rY7ypSMJDRqlKAvddN/aVEGJVIzIk89T
+ M6uhonNxoY7Me/JUy8uHZmoNr71QK0Ja6XDwMi5k9/7p5LvVyGEvAo//W4VPy5ImkOwr
+ QOE81+0uGw6tWosPsaw/SreW7qaI5O0zPJhhhojs+kMVvpRpq29S6Mf8VwDyF2LcWvEt
+ WuYCTcANlN7H8Et3pe+a2jw67hsSu+VRv/A9JKck0p93IfhYfCBo+I24+MbTkQBrhwpk
+ QDmtkOYyvPyBFo66fbs5qBj86nXDALqEY33fRa2V74b8h+Pu4ZjpkjLUN9FexueKQ46H
+ UvPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=jTA0+z9gm/n5Qpk6MTQ8UzLzY8lpFN+C8Z6AIigv484=;
- b=SG0PlE9wcCTugiJwMvC/akHQ8k4aL08oDAs5xh0odA2cuesDOZrU3IvBZIozM6rUeW
- E+W/JmiO01ci+8EVkqWSk2bpjsHBZIXoCeY6M9tV815sfV0o9dw5ro4Nu1/q4u0PCyBg
- Pp7cAnq9Z7TO6Btj9Xg/PFU+ZFPB7SeZlNIRQk6oiR8uE/+N8C9V3GsV/c5SMskvjj12
- smG6pKdG4d7qGFo+gb8oFGMvTKy74112P8LSexk2GvGD+AiDaK6+FKiW042nvtSHCF6w
- TLOOL1akqRCnKzvBc2u9KUgEDmx7USYA3YPma0AsAWl9ydIEi9keBpyOSafYS7FAgjaK
- wCyw==
-X-Gm-Message-State: AOAM533HAXInqks2BlPx5lmqqU0/Sa9hXt/TAycTAEdcS84cc9TXci6k
- Rspck6iTvTuxImDZo9vkXgLNfA==
-X-Google-Smtp-Source: ABdhPJwi3UCWqDRzbw0twb3y0PqMSgoZT34LfA5l+Is6ZBAx7rSxR4eAqACD25yJRvTSehq5JkprCQ==
-X-Received: by 2002:a7b:c449:: with SMTP id l9mr9189148wmi.158.1611848075816; 
- Thu, 28 Jan 2021 07:34:35 -0800 (PST)
+ bh=R96aex3BeRlnbGWuyaG5aOeSbhb8ZV1yDxpcDjjujdw=;
+ b=dzQWFTMZ8usVj/fJiUW9TzAB1ZSPiY1B3Q0Ig+IxzU9/q+SwQfkC9fIlhe0GvklYfY
+ N1mF8J0hJSEWxWyNco5R5LUHZxRI4J1YGz2F9iCG1Ma3FSruEjKNfPqeavfe9DM6/PI4
+ yOi5rHSh7JH47PF592AmZl+SkDnI5qcSOZnQgG4tPbD30GDq2ra3YhouFOZ9O6WcezQ4
+ uaQCWH9Yn3ESwu9yCSRacpdbNlwQUFjwm0aD0CnD17nqzWxLtqr959/dEBpzBK5632+3
+ u/iFANDjQVea1F0KQ62ZPPi1VtHhVHwK++bcA0Ixl1OdR/jBS3UAfS4CuhASujJZeKMS
+ RysA==
+X-Gm-Message-State: AOAM5305IG0DvWQ30oqGlhUWLEFpEbjHOdlZPA8W16m2W7lNpv6T/DdQ
+ MHaon9o+6ny4JfITidN7oSP/HQ==
+X-Google-Smtp-Source: ABdhPJyGcpJKRqw0N+Fswx7hqyHqBZrPq3iKS7LdDUtpqWgRTBss2bRIEIRwnANjDvJKncjQFVuBZQ==
+X-Received: by 2002:a5d:460e:: with SMTP id t14mr17486093wrq.68.1611848183020; 
+ Thu, 28 Jan 2021 07:36:23 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id i59sm7716088wri.3.2021.01.28.07.34.34
+ by smtp.gmail.com with ESMTPSA id j4sm7271012wru.20.2021.01.28.07.36.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 07:34:34 -0800 (PST)
+ Thu, 28 Jan 2021 07:36:21 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D9C4D1FF7E;
- Thu, 28 Jan 2021 15:34:33 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 358261FF7E;
+ Thu, 28 Jan 2021 15:36:21 +0000 (GMT)
 References: <20210128082331.196801-1-richard.henderson@linaro.org>
- <20210128082331.196801-21-richard.henderson@linaro.org>
+ <20210128082331.196801-22-richard.henderson@linaro.org>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 20/23] tcg/tci: Use g_assert_not_reached
-Date: Thu, 28 Jan 2021 15:34:29 +0000
-In-reply-to: <20210128082331.196801-21-richard.henderson@linaro.org>
-Message-ID: <87pn1pulbq.fsf@linaro.org>
+Subject: Re: [PATCH 21/23] tcg/tci: Remove dead code for TCG_TARGET_HAS_div2_*
+Date: Thu, 28 Jan 2021 15:36:16 +0000
+In-reply-to: <20210128082331.196801-22-richard.henderson@linaro.org>
+Message-ID: <87mtwtul8q.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,8 +94,8 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Three TODO instances are never happen cases.
-> Other uses of tcg_abort are also indicating unreachable cases.
+> We do not simultaneously support div and div2 -- it's one
+> or the other.  TCI is already using div, so remove div2.
 >
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
