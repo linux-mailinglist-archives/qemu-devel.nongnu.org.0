@@ -2,80 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33308307A03
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:46:09 +0100 (CET)
-Received: from localhost ([::1]:47122 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E502C307A0E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:52:05 +0100 (CET)
+Received: from localhost ([::1]:54992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59Um-0005Ba-5K
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:46:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39904)
+	id 1l59aX-00017y-0g
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:52:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59Rq-0001xZ-T4
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:43:08 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38117)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59Rj-0004J7-3Z
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:43:04 -0500
-Received: by mail-wm1-x334.google.com with SMTP id y187so4950809wmd.3
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:42:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=12mnrR8ms+5WwSs+PQVzHOmb66VScSLabLuV3gix8ak=;
- b=kuTguAq0PIxh75dPU2EoEK+kClZITPzeJAUWVxlLI4qXRRy0EHl5JbOERJ2BxGOyRM
- yT9Tn2JPqLmUg1A3k8U6kD+EsS/KfoJGq9MFVYh1n8kwm6jXSeAX2yYYRA7aC9a1Tz6n
- 0GCdFo8Jl+PO5frszxrgjaOu4QaG1xRcSPJ8EJY2gfZN8GPFN+cNDPBLf9r43uEjFP1y
- cNa99zIFL8b2J2DfkG7gudABYoDzAsb7EoAiXxTgM9xjF4L79iif28PCWFM98gV85lYI
- mF4/w+be+bo5oU8WNNF4yL9GPmFxOZgI2MR7EO0+zvwHSE+o8VkEvGppO+YJPgKIMJB2
- deLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=12mnrR8ms+5WwSs+PQVzHOmb66VScSLabLuV3gix8ak=;
- b=sHRVmJsQ9yjzDF9C6K0Qat5scA//IyqfUPbgy+kXYz3+EtGGhGZtCKhY8gcR0/H7gx
- R9B3h7gHUKFhNiyJjeZgNm3n8b/cDEnKniHlsQ4w5yDWwUl8mAs0rLZmLlbKm6csY0ni
- tshlvQ9t7VnMM7QtyV8u7Bii67ixyGr2VM+smHXukvSBQimbSf87ckMh3jwdsRJFygWv
- GKLyzXIUeyonlsFETRjAa192QFjiyYVlwG+L9qU+wpQHibfDrDaNjF6UiC//5tAzwgUg
- DVIkO9W3TLQkwxPoVRfBqcYd57OuiUQAVti1zy/zktnHnjLC4ba6OJTa8vGKjkJ/rooY
- jYUQ==
-X-Gm-Message-State: AOAM532uGM+kPpzQOojUrc7LMrgsVM5+FaJqBUpvcKUzj8zPrhx6wfTU
- LGWFyc4XUpVzfHllOn538w2k5w==
-X-Google-Smtp-Source: ABdhPJyuRinAeKRNz0U8QY7HX488Da2kP0mO3x8wMmScPfiPSOxC3b+qIw/y4ga4d/V9tTSnOTvOrQ==
-X-Received: by 2002:a1c:ed0b:: with SMTP id l11mr9248340wmh.47.1611848576851; 
- Thu, 28 Jan 2021 07:42:56 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id y14sm7258669wro.58.2021.01.28.07.42.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 07:42:55 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A63981FF7E;
- Thu, 28 Jan 2021 15:42:54 +0000 (GMT)
-References: <20200929224355.1224017-1-philmd@redhat.com>
- <87r1m5x56h.fsf@linaro.org>
- <98f06a0a-efe6-c630-8e68-0e4559f04d58@redhat.com>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-Subject: Re: [PATCH v4 00/12] Support disabling TCG on ARM (part 2)
-Date: Thu, 28 Jan 2021 15:42:38 +0000
-In-reply-to: <98f06a0a-efe6-c630-8e68-0e4559f04d58@redhat.com>
-Message-ID: <87bld9ukxt.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l59Z4-0000CB-Cs; Thu, 28 Jan 2021 10:50:39 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:38819)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l59Yx-0007EZ-P1; Thu, 28 Jan 2021 10:50:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.146.131])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id DE8158018740;
+ Thu, 28 Jan 2021 16:50:22 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
+ 2021 16:50:20 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004a2f76607-3962-4bac-891e-437264bd160f,
+ 12ABEFCAB104A9A3990DEAE01579FEA45C2F0BE3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 28 Jan 2021 16:50:15 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 2/3] spapr_numa.c: create
+ spapr_numa_initial_nvgpu_NUMA_id() helper
+Message-ID: <20210128165015.328afe19@bahia.lan>
+In-Reply-To: <20210128151731.1333664-3-danielhb413@gmail.com>
+References: <20210128151731.1333664-1-danielhb413@gmail.com>
+ <20210128151731.1333664-3-danielhb413@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: e3e4da3b-cfdf-4de7-9938-73d242b47499
+X-Ovh-Tracer-Id: 15942179733284690339
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgdejlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,50 +69,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: clg@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 28 Jan 2021 12:17:30 -0300
+Daniel Henrique Barboza <danielhb413@gmail.com> wrote:
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+> We'll need to check the initial value given to spapr->gpu_numa_id when
+> building the rtas DT, so put it in a helper for easier access and to
+> avoid repetition.
+> 
+> Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> ---
+>  hw/ppc/spapr.c              | 12 ++----------
+>  hw/ppc/spapr_numa.c         | 14 ++++++++++++++
+>  include/hw/ppc/spapr_numa.h |  1 +
+>  3 files changed, 17 insertions(+), 10 deletions(-)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 2d60c6f594..c2b74cbfdf 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2765,16 +2765,8 @@ static void spapr_machine_init(MachineState *machine)
+>  
+>      }
+>  
+> -    /*
+> -     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA node.
+> -     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() which is
+> -     * called from vPHB reset handler so we initialize the counter here.
+> -     * If no NUMA is configured from the QEMU side, we start from 1 as GPU RAM
+> -     * must be equally distant from any other node.
+> -     * The final value of spapr->gpu_numa_id is going to be written to
+> -     * max-associativity-domains in spapr_build_fdt().
+> -     */
+> -    spapr->gpu_numa_id = MAX(1, machine->numa_state->num_nodes);
+> +    /* Init gpu_numa_id */
 
-> Hi Alex,
->
-> On 1/28/21 1:41 AM, Alex Benn=C3=A9e wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
->>=20
->>> Cover from Samuel Ortiz from (part 1) [1]:
->>>
->>>   This patchset allows for building and running ARM targets with TCG
->>>   disabled. [...]
->>>
->>>   The rationale behind this work comes from the NEMU project where we're
->>>   trying to only support x86 and ARM 64-bit architectures, without
->>>   including the TCG code base. We can only do so if we can build and run
->>>   ARM binaries with TCG disabled.
->>>
->>> v4 almost 2 years later... [2]:
->>> - Rebased on Meson
->>> - Addressed Richard review comments
->>> - Addressed Claudio review comments
->>=20
->> Have you re-based recently because I was having a look but ran into
->> merge conflicts. I'd like to get the merged at some point because I ran
->> into similar issues with the Xen only build without TCG.
->
-> I addressed most of this review comments locally. Since Claudio's
-> accelerator series was getting more attention (and is bigger) I was
-> waiting it gets merged first. He just respun v14:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07171.html
+Code is trivial enough you don't really need to paraphrase with a
+comment.
 
-OK I'll have a look at Claudio's first ;-)
+> +    spapr->gpu_numa_id = spapr_numa_initial_nvgpu_NUMA_id(machine);
+>  
 
+This _NUMA_ looks a bit aggressive and not especially informative
+to me. Maybe just make it spapr_numa_initial_nvgpu_id() ?
 
+With these fixed,
 
---=20
-Alex Benn=C3=A9e
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>      /* Init numa_assoc_array */
+>      spapr_numa_associativity_init(spapr, machine);
+> diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
+> index 261810525b..f71105c783 100644
+> --- a/hw/ppc/spapr_numa.c
+> +++ b/hw/ppc/spapr_numa.c
+> @@ -46,6 +46,20 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
+>      return true;
+>  }
+>  
+> +/*
+> + * NVLink2-connected GPU RAM needs to be placed on a separate NUMA node.
+> + * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() which is
+> + * called from vPHB reset handler so we initialize the counter here.
+> + * If no NUMA is configured from the QEMU side, we start from 1 as GPU RAM
+> + * must be equally distant from any other node.
+> + * The final value of spapr->gpu_numa_id is going to be written to
+> + * max-associativity-domains in spapr_build_fdt().
+> + */
+> +unsigned int spapr_numa_initial_nvgpu_NUMA_id(MachineState *machine)
+> +{
+> +    return MAX(1, machine->numa_state->num_nodes);
+> +}
+> +
+>  /*
+>   * This function will translate the user distances into
+>   * what the kernel understand as possible values: 10
+> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+> index b3fd950634..6655bcf281 100644
+> --- a/include/hw/ppc/spapr_numa.h
+> +++ b/include/hw/ppc/spapr_numa.h
+> @@ -31,5 +31,6 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, void *fdt,
+>                              int offset, PowerPCCPU *cpu);
+>  int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void *fdt,
+>                                           int offset);
+> +unsigned int spapr_numa_initial_nvgpu_NUMA_id(MachineState *machine);
+>  
+>  #endif /* HW_SPAPR_NUMA_H */
+
 
