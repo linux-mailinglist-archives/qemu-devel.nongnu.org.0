@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4449C307516
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:47:03 +0100 (CET)
-Received: from localhost ([::1]:43860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E247630751B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:49:37 +0100 (CET)
+Received: from localhost ([::1]:52442 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l55lO-0006zn-AL
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:47:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33664)
+	id 1l55ns-00023j-UI
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:49:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33702)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55gZ-0001J9-NB
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:03 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38292)
+ id 1l55ga-0001LN-Hk
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:04 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:46265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55gT-00067E-Bl
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:03 -0500
-Received: by mail-wm1-x334.google.com with SMTP id y187so4304601wmd.3
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:41:56 -0800 (PST)
+ id 1l55gV-00068E-47
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:04 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id q7so5023722wre.13
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:41:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=DQapdna4q5KlhOpBjPWEEiHjmFts8BaZpTCE2Nvje2w=;
- b=Re6LUPLB6mXxlIJY7EOZB4deXKydxYivQHETHT+KwrFHNlkjJcDeX4EkUjulfdq1MP
- 4lYm1cNjb+5c8BLaEiNiOIXgG/LhzVg/M42F+lVADyOHgJ9kQTEsopmC7/6/NCc3zl0s
- H9xBfzWyHeH47NK4ElU3IzvECE9WzhCP4nyb/7+JnZ2MH4Jd7GWX/7DDuPIcvzg3cF5n
- D5z+1ioZRNm3RBCo/LQcsnmJsuulL/OoPnKLLQVe/Ipmwv/7fruSfBsNsW9J1qOWMYZ8
- ySrdBiTRTTx54mv91DdRaW/buj67rd36vdyr2p9EX6Z23MAUzUUNeKsYwZWfJVJcE/nm
- xIuQ==
+ bh=mNFHl5aQheGLHGGRVwK/cQ/4FAuv8SfUj6q6QyYBaVg=;
+ b=gw1Oi1XjIpDCZLn4Zh9sUN5F9UO8yXzHY9MMrwSEvEHqijvBok8jTcQc389U2x5ON4
+ zs/ITJn/nXUIlKjBeeiO25hxz8Npod8a8bSuDFxkb/+Z2rlHWbUxkf3kFmzCNeJxWntG
+ A3Jy1BizhxTlfeKqeTN0NYR21mLU+3c0C2BxOME+q6DKgtqIA6Uf+CzHhDejDqmMB5mR
+ SecMJGGmCBbwSjfOpKkj36QwDUagMUXxmHx73lCNSnNB8ubIEvOnQVnEaP8yQ2yB4aS6
+ 2cNgWo7INtEd5kLginl+js1MSubsAMItwiaVZxwI0dgNCJx0sZTdgG08gKCgdmo/nDnw
+ h3eg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=DQapdna4q5KlhOpBjPWEEiHjmFts8BaZpTCE2Nvje2w=;
- b=HPWxC4a3333BRqZyBjhSS8DwC45Wsd4hi4gzCYHgmNXjYcFaUe1tNi3EFJgwhJrFM5
- /zAVDz7etTIOfKSrMsimrxCWQ8PsJW60fDO/adq+/GyHs6t/dN4BkIC6gO6842cxIQ74
- DWHrTZNMllV69qUPFAegEQd+JvwFzW1zp2i4UezBO5a7L3PfWmwg2JWl1dPlk9NrKMys
- tcgOWm6yvV6nlNqfnk1xkkCWMyKPZPKfH/OYnRej1FXLZ4RT7qMsRG95m6oUYa0Z+Rjw
- 4XQ8QUWLou8tMwVFL+qoa6PVo+uWuaRRLyszLe+n8TBIymapewztoSKAVtIU+9JH3XuV
- bIiw==
-X-Gm-Message-State: AOAM532kXWkFwSXVJ9fQDD2OFDVFnCoxvrUTxUJMRTyVaVT4ruWxl+qC
- dS1geJXt/kFPP08JJFk/UENWDg==
-X-Google-Smtp-Source: ABdhPJy+UakbaagTegmJZqzH8mmEedz2zys1giJqtfrB7gXXSwZpYiJdVaC5JLdGYp1ZSzfCjzSzrA==
-X-Received: by 2002:a1c:df08:: with SMTP id w8mr8100524wmg.81.1611834116136;
- Thu, 28 Jan 2021 03:41:56 -0800 (PST)
+ bh=mNFHl5aQheGLHGGRVwK/cQ/4FAuv8SfUj6q6QyYBaVg=;
+ b=GVXLxockoILIdO/NiHPs5SdlM4SaVTYyGHwgCVA7Mewq7dOnJ31BIrkqtfQWlvfvp0
+ haOhhEYlVEhAbwuHWEl8kVRpj0p68NO/aRVoHxIiyvn6r6Hju1qxEJVNiFasiopHiu8j
+ vIcgjztCLj/nliPClSvtXIhfoylttJHbqeHkChvq+7Qumq120+zF8Bi6MnOcvDWBKEA6
+ 0JGqeudICZm88nD0Vu/xb7dHwISM4QfPzv4ZYdVeh+lAdKQKYdjvveL5yrZFsYr08aMw
+ L5DuXvDWS5aT6/oGh979isxpOMr4vTHpt+5kW4WYk0cyYHmxem8qUjy06dciblKQ+Zss
+ X29g==
+X-Gm-Message-State: AOAM531eqbhdMiWL+ekO+zA06Opbu4YK/vbQi5A3V6JrRvUQbqV5jzYV
+ PBOCxK5XM3PbsyeQ1XgG2dCu7eooecVL4A==
+X-Google-Smtp-Source: ABdhPJwu+SRPAqx7a7B6mcNggYt+7BELMo57wZSKbcsEy4ZIeTgDMoSvR7A4qZpRkkomNrUgTpzjWw==
+X-Received: by 2002:a5d:4b0b:: with SMTP id v11mr15525288wrq.226.1611834117009; 
+ Thu, 28 Jan 2021 03:41:57 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q9sm6431033wme.18.2021.01.28.03.41.55
+ by smtp.gmail.com with ESMTPSA id q9sm6431033wme.18.2021.01.28.03.41.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 03:41:55 -0800 (PST)
+ Thu, 28 Jan 2021 03:41:56 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 08/25] hw/timer/cmsdk-apb-dualtimer: Add Clock input
-Date: Thu, 28 Jan 2021 11:41:28 +0000
-Message-Id: <20210128114145.20536-9-peter.maydell@linaro.org>
+Subject: [PATCH v2 09/25] hw/watchdog/cmsdk-apb-watchdog: Add Clock input
+Date: Thu, 28 Jan 2021 11:41:29 +0000
+Message-Id: <20210128114145.20536-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210128114145.20536-1-peter.maydell@linaro.org>
 References: <20210128114145.20536-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,92 +89,86 @@ Cc: Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As the first step in converting the CMSDK_APB_DUALTIMER device to the
+As the first step in converting the CMSDK_APB_TIMER device to the
 Clock framework, add a Clock input.  For the moment we do nothing
-with this clock; we will change the behaviour from using the pclk-frq
-property to using the Clock once all the users of this device have
-been converted to wire up the Clock.
-
-We take the opportunity to correct the name of the clock input to
-match the hardware -- the dual timer names the clock which drives the
-timers TIMCLK.  (It does also have a 'pclk' input, which is used only
-for the register and APB bus logic; on the SSE-200 these clocks are
-both connected together.)
+with this clock; we will change the behaviour from using the
+wdogclk-frq property to using the Clock once all the users of this
+device have been converted to wire up the Clock.
 
 This is a migration compatibility break for machines mps2-an385,
 mps2-an386, mps2-an500, mps2-an511, mps2-an505, mps2-an521, musca-a,
-musca-b1.
+musca-b1, lm3s811evb, lm3s6965evb.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20210121190622.22000-9-peter.maydell@linaro.org
+Message-id: 20210121190622.22000-10-peter.maydell@linaro.org
 ---
- include/hw/timer/cmsdk-apb-dualtimer.h | 3 +++
- hw/timer/cmsdk-apb-dualtimer.c         | 7 +++++--
+ include/hw/watchdog/cmsdk-apb-watchdog.h | 3 +++
+ hw/watchdog/cmsdk-apb-watchdog.c         | 7 +++++--
  2 files changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/timer/cmsdk-apb-dualtimer.h b/include/hw/timer/cmsdk-apb-dualtimer.h
-index 08d9e6fa3d5..3adbb01dd34 100644
---- a/include/hw/timer/cmsdk-apb-dualtimer.h
-+++ b/include/hw/timer/cmsdk-apb-dualtimer.h
+diff --git a/include/hw/watchdog/cmsdk-apb-watchdog.h b/include/hw/watchdog/cmsdk-apb-watchdog.h
+index 3da0d43e355..34069ca6969 100644
+--- a/include/hw/watchdog/cmsdk-apb-watchdog.h
++++ b/include/hw/watchdog/cmsdk-apb-watchdog.h
 @@ -17,6 +17,7 @@
   *
   * QEMU interface:
-  *  + QOM property "pclk-frq": frequency at which the timer is clocked
-+ *  + Clock input "TIMCLK": clock (for both timers)
+  *  + QOM property "wdogclk-frq": frequency at which the watchdog is clocked
++ *  + Clock input "WDOGCLK": clock for the watchdog's timer
   *  + sysbus MMIO region 0: the register bank
-  *  + sysbus IRQ 0: combined timer interrupt TIMINTC
-  *  + sysbus IRO 1: timer block 1 interrupt TIMINT1
-@@ -28,6 +29,7 @@
+  *  + sysbus IRQ 0: watchdog interrupt
+  *
+@@ -33,6 +34,7 @@
  
  #include "hw/sysbus.h"
  #include "hw/ptimer.h"
 +#include "hw/clock.h"
  #include "qom/object.h"
  
- #define TYPE_CMSDK_APB_DUALTIMER "cmsdk-apb-dualtimer"
-@@ -62,6 +64,7 @@ struct CMSDKAPBDualTimer {
-     MemoryRegion iomem;
-     qemu_irq timerintc;
-     uint32_t pclk_frq;
-+    Clock *timclk;
+ #define TYPE_CMSDK_APB_WATCHDOG "cmsdk-apb-watchdog"
+@@ -54,6 +56,7 @@ struct CMSDKAPBWatchdog {
+     uint32_t wdogclk_frq;
+     bool is_luminary;
+     struct ptimer_state *timer;
++    Clock *wdogclk;
  
-     CMSDKAPBDualTimerModule timermod[CMSDK_APB_DUALTIMER_NUM_MODULES];
-     uint32_t timeritcr;
-diff --git a/hw/timer/cmsdk-apb-dualtimer.c b/hw/timer/cmsdk-apb-dualtimer.c
-index f6534241b94..781b496037b 100644
---- a/hw/timer/cmsdk-apb-dualtimer.c
-+++ b/hw/timer/cmsdk-apb-dualtimer.c
-@@ -25,6 +25,7 @@
+     uint32_t control;
+     uint32_t intstatus;
+diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
+index 5bbadadfa68..b03bcb73628 100644
+--- a/hw/watchdog/cmsdk-apb-watchdog.c
++++ b/hw/watchdog/cmsdk-apb-watchdog.c
+@@ -30,6 +30,7 @@
  #include "hw/irq.h"
  #include "hw/qdev-properties.h"
  #include "hw/registerfields.h"
 +#include "hw/qdev-clock.h"
- #include "hw/timer/cmsdk-apb-dualtimer.h"
+ #include "hw/watchdog/cmsdk-apb-watchdog.h"
  #include "migration/vmstate.h"
  
-@@ -445,6 +446,7 @@ static void cmsdk_apb_dualtimer_init(Object *obj)
-     for (i = 0; i < ARRAY_SIZE(s->timermod); i++) {
-         sysbus_init_irq(sbd, &s->timermod[i].timerint);
-     }
-+    s->timclk = qdev_init_clock_in(DEVICE(s), "TIMCLK", NULL, NULL);
- }
+@@ -318,6 +319,7 @@ static void cmsdk_apb_watchdog_init(Object *obj)
+                           s, "cmsdk-apb-watchdog", 0x1000);
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->wdogint);
++    s->wdogclk = qdev_init_clock_in(DEVICE(s), "WDOGCLK", NULL, NULL);
  
- static void cmsdk_apb_dualtimer_realize(DeviceState *dev, Error **errp)
-@@ -485,9 +487,10 @@ static const VMStateDescription cmsdk_dualtimermod_vmstate = {
+     s->is_luminary = false;
+     s->id = cmsdk_apb_watchdog_id;
+@@ -346,9 +348,10 @@ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
  
- static const VMStateDescription cmsdk_apb_dualtimer_vmstate = {
-     .name = "cmsdk-apb-dualtimer",
+ static const VMStateDescription cmsdk_apb_watchdog_vmstate = {
+     .name = "cmsdk-apb-watchdog",
 -    .version_id = 1,
 -    .minimum_version_id = 1,
 +    .version_id = 2,
 +    .minimum_version_id = 2,
      .fields = (VMStateField[]) {
-+        VMSTATE_CLOCK(timclk, CMSDKAPBDualTimer),
-         VMSTATE_STRUCT_ARRAY(timermod, CMSDKAPBDualTimer,
-                              CMSDK_APB_DUALTIMER_NUM_MODULES,
-                              1, cmsdk_dualtimermod_vmstate,
++        VMSTATE_CLOCK(wdogclk, CMSDKAPBWatchdog),
+         VMSTATE_PTIMER(timer, CMSDKAPBWatchdog),
+         VMSTATE_UINT32(control, CMSDKAPBWatchdog),
+         VMSTATE_UINT32(intstatus, CMSDKAPBWatchdog),
 -- 
 2.20.1
 
