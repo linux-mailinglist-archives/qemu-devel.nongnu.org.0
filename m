@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01A4306D9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 07:30:26 +0100 (CET)
-Received: from localhost ([::1]:34928 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBD99306DA6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 07:34:20 +0100 (CET)
+Received: from localhost ([::1]:44258 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l50os-0005St-Uy
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 01:30:19 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35470)
+	id 1l50sm-0001E1-1R
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 01:34:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36002)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l50jY-0004lg-64; Thu, 28 Jan 2021 01:24:48 -0500
-Received: from out2-smtp.messagingengine.com ([66.111.4.26]:50521)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l50jW-0007Oe-CI; Thu, 28 Jan 2021 01:24:47 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id E383F5C0136;
- Thu, 28 Jan 2021 01:24:44 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute4.internal (MEProxy); Thu, 28 Jan 2021 01:24:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=eIgiw/foVTxo2i2lPJ0Om6XMRmR
- d0/ZjIqZKAD/uSaI=; b=PaRIPvlIGkDEi8Yllt0FGFk5UQp8TFw4XwTz1IlVrS9
- M9iWHHkfuxlz7OPzEyq6ABng5TlLZ4jRJthKQK8BL65S+QzRBWdV/4Tc1EE0SNWh
- 9NMHoxr7GrxOY5XekBdSse2W+oU8/Hn27shY43b19qQau5XCaGOv2dUQ3IJi/gqB
- R9tbGL/kHH1FC2forAWk0gpFVx9wzOfCR4SRTwWg9UHL7pbnjOSRs5NWtOBJ+gP/
- Ot7MwzMf6pmcXf3/mqziaOEC7fwulSZ2F3UKm/6O4V6EIZJuMVB19EumtAeFb6X3
- a/1pIzNQ8P35o19x5Z4xyAZQfditEVisbw1yWQNq6tQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=eIgiw/
- foVTxo2i2lPJ0Om6XMRmRd0/ZjIqZKAD/uSaI=; b=C+TjPldA9SHEnDZPwUjwVZ
- gHT2k51wS5FUBGrVrEetz3GJiQ/DoTuQPxNxv49nULWPjJThe06PJ5+68QxKG88y
- ruSuK3P3SEfCKy2nKy/8u5Hwrti/ZaN13vq2AwrLXXpicywVCMkH2GiayJWhmh7E
- RXXCgK0xwghsxryJQqmhDiCUm3vvGb8ZSGhr8BV0mnBN6HwSJt2YGKWzR2uJQ9kv
- VR8f08zntEmXeg5W9O7mQMvlbDgKo/npwjc4NWCGxXibEvKg0EDDVoudasmoJbmD
- 2sekpBMdKCAi55jkipulI7pOq20DZYeSh8PGbM/yx3h8TVb40Rs5QKvA7ZrldW8g
- ==
-X-ME-Sender: <xms:q1gSYGk0dNNTmkYgvlW2wuMmfdvOlpj7SnfGNBH2UPKURdXHqep0tg>
- <xme:q1gSYN3CUhYlRxS6YXrPngmo21IkYsEcLjTJ0eDc-yJ-X0LS11YCxkTriEm5cTAnZ
- yYe1QG-1EXbhnQTfz0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrvdelgdelvdcutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpeffhffvuffkfhggtggujgesghdtreertddtjeenucfhrhhomhepmfhlrghushcu
- lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
- hrnhepjeegudffueeiteekieelkedvueelteevjeduieeludfffeejgeffhfduvdduffek
- necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
- frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:q1gSYEreax1gY7e6Z1HQzQLsCUaA88OabjDS_JZ-qv_ZOZ_t-x99xA>
- <xmx:q1gSYKmNv814iBRlKsfFg5PxV-WJnRjQDzJXNek4w6nQyaQLzglQMw>
- <xmx:q1gSYE3r5BVGBkp4H4Z22zJzEOGKjoG8tc-_dbj_FiQqop5NZRc6xQ>
- <xmx:rFgSYHQbdO5ZCWWq0-zRWpuNxtaxEKkI4sxDd2g8SRIK3MVjsgB32A>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id E6A351080059;
- Thu, 28 Jan 2021 01:24:42 -0500 (EST)
-Date: Thu, 28 Jan 2021 07:24:40 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH 0/2] hw/block/nvme: zoned fixes
-Message-ID: <YBJYqHZYKZeL+rhz@apples.localdomain>
-References: <20210119135500.265403-1-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l50pM-0006wf-0S; Thu, 28 Jan 2021 01:30:48 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036]:50555)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l50pK-00019F-Aw; Thu, 28 Jan 2021 01:30:47 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id md11so3285676pjb.0;
+ Wed, 27 Jan 2021 22:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pQWI2hzzeYANOkzQvB/0EW5ra/qgFLCgmUxuhyK7OCA=;
+ b=mfHy3op2bw8JHqrCkaOqlMB6a/PpEeP8gIYZcAfl3C6/0+GNAC6KNY7afs5EH/JZSB
+ N0gnCGoHv7C4znWxfdKcK/QDFdzdSc5MezV5bXZVjznZtnACtQdQ3FFWVHrjAtzY/VyT
+ yJIwSXq9PWP6P6YvboLujR7DNSiQvUbCRY0QO/30+SR1rvxwtpgu5/aKDC7luKiWRSpq
+ ZFPr6bptXS1n4t3io4naTkr+3Q0E9weIRVR8HgfLMnbqHNUxP7YO2GhXw9lEi18ZUJOr
+ NXbXcmG07n8Swv2XUdTnRgB0LJy8M7wtpS+FhaA1DX2Npqttw8JjTYsR6k/+MHVB3A5L
+ pQMQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=pQWI2hzzeYANOkzQvB/0EW5ra/qgFLCgmUxuhyK7OCA=;
+ b=PJKYB15gm0xYEtZm/YKI59k9B4HcnigzMhJU3NU0vY+rL0gd3bj9PGJnlmCf1NNxr9
+ WAqU9wNs7rFMjoW2YDypKR6J9AKmIsR45uA6h3Bmp79h6cSC/S5lUB+CJ+rsR3ZB/hGY
+ tgeFdiUF76MqwFS2ndv4hnxIS+mciuEiPlgIYYZV7N/mmd2IVvT5/J/ptZqWk1S9sSZM
+ Ivm8zIVFXQHVzHOudnOjNh/S631Q/ugfSTW+K/wgpdR+FVWbuJJexgrK0uzzFuHpO05y
+ m+ctiALhqNfbmnB6bZ5F8ZHHVnC5D38TqsqK2ND3JiJnwXN9PiFpBxPbSnfZhMTEMr+b
+ KGIw==
+X-Gm-Message-State: AOAM533+oa+2RNNcjcztIYe4yxxSYdb65XkoITJ04ndKiLlf2oHc9oPm
+ MDGbOfsm/GVpZdviZyOigi4=
+X-Google-Smtp-Source: ABdhPJxuS1C0GRDgkLteVMilZjPqme7gTUJLSvZy/9/iCNfSEE1r6+P+uVoZ+Yu990pp2nVNEVwQYw==
+X-Received: by 2002:a17:90a:df15:: with SMTP id
+ gp21mr9324887pjb.63.1611815444118; 
+ Wed, 27 Jan 2021 22:30:44 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id t6sm4245080pfc.64.2021.01.27.22.30.42
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 27 Jan 2021 22:30:43 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH v4 0/9] hw/sd: Support block read/write in SPI mode
+Date: Thu, 28 Jan 2021 14:30:26 +0800
+Message-Id: <20210128063035.15674-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="yMKDKV9RyedD3gUu"
-Content-Disposition: inline
-In-Reply-To: <20210119135500.265403-1-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.26; envelope-from=its@irrelevant.dk;
- helo=out2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -93,54 +82,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Klaus Jensen <k.jensen@samsung.com>,
- Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Bin Meng <bin.meng@windriver.com>
 
---yMKDKV9RyedD3gUu
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This includes the previously v3 series [1], and one single patch [2].
 
-On Jan 19 14:54, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Patch [1/2] fixes the zone append bug reported by Niklas. [2/2]
-> refactors the zone write check function to return status codes in a
-> different order if there are multiple zone write violations that apply.
->=20
-> Klaus Jensen (2):
->   hw/block/nvme: fix zone boundary check for append
->   hw/block/nvme: refactor the logic for zone write checks
->=20
->  hw/block/nvme.c       | 89 +++++++++++++++++++++----------------------
->  hw/block/trace-events |  5 +++
->  2 files changed, 48 insertions(+), 46 deletions(-)
->=20
-> --=20
-> 2.30.0
->=20
->=20
+Compared to v3, this fixed the following issue in patch [v3,6/6]:
+- Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
+  receiving the STOP_TRAN token per the spec
 
-Thanks all, applied to nvme-next.
+All software tested so far (U-Boot/Linux/VxWorks) do work without
+the fix, but it is better to comform with the spec.
 
---yMKDKV9RyedD3gUu
-Content-Type: application/pgp-signature; name="signature.asc"
+In addition to [2], one more issue was exposed when testing with
+VxWorks driver related to STOP_TRANSMISSION (CMD12) response.
 
------BEGIN PGP SIGNATURE-----
+[1] http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226136
+[2] http://patchwork.ozlabs.org/project/qemu-devel/patch/1611636214-52427-1-git-send-email-bmeng.cn@gmail.com/
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmASWKYACgkQTeGvMW1P
-DelacAf+O93/cvM4tewKfH+GwOdgFf7G5a8AEiI5d+yfOswzpNl8X3Y4S0UYifpp
-Nlb/PmRqP5tuSp342glJ5nuhoCVvC5kLs5hP35DqMSZjdRZxJP0bLsTTj9hV4jH1
-dTLVlqQ8NAYsSNHW/tNlpYgxtZkF/8zpOfqdNGeZXNczVN9Kw35tfNcnj1MlYOAk
-mTZ252YOo942OwZBZaAK4L8dCYdLbZpIeto84GXAnyiZ2hrhztNhVws09XN3sAoH
-SNMB8XyPktWQo3YU30r6esOZuD3G4ouES+ggl5vXi4cxddC4oadq8CIHkHYK5N+H
-zrpO7gWiLxfLAzdTEgXHoVFhsRha+Q==
-=L//8
------END PGP SIGNATURE-----
+Changes in v4:
+- Keep the card state to SSI_SD_CMD instead of SSI_SD_RESPONSE after
+  receiving the STOP_TRAN token per the spec
+- new patch: fix STOP_TRANSMISSION (CMD12) response
+- new patch: handle the rest commands with R1b response type
 
---yMKDKV9RyedD3gUu--
+Bin Meng (9):
+  hw/sd: ssi-sd: Support multiple block read
+  hw/sd: sd: Remove duplicated codes in single/multiple block read/write
+  hw/sd: sd: Allow single/multiple block write for SPI mode
+  hw/sd: Introduce receive_ready() callback
+  hw/sd: ssi-sd: Support single block write
+  hw/sd: ssi-sd: Support multiple block write
+  hw/sd: ssi-sd: Fix SEND_IF_COND (CMD8) response
+  hw/sd: ssi-sd: Fix STOP_TRANSMISSION (CMD12) response
+  hw/sd: ssi-sd: Handle the rest commands with R1b response type
+
+ include/hw/sd/sd.h |   2 +
+ hw/sd/core.c       |  13 +++++
+ hw/sd/sd.c         |  56 ++-----------------
+ hw/sd/ssi-sd.c     | 136 ++++++++++++++++++++++++++++++++++++++-------
+ 4 files changed, 137 insertions(+), 70 deletions(-)
+
+-- 
+2.25.1
+
 
