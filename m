@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 444843075A6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:14:19 +0100 (CET)
-Received: from localhost ([::1]:56076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C42B13075D3
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:20:36 +0100 (CET)
+Received: from localhost ([::1]:39112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l56Bm-0002Zi-7Z
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:14:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38496)
+	id 1l56Hr-0007Qw-P5
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:20:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38768)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l569R-0001UN-76
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:11:53 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:46141)
+ id 1l56Av-0002bv-LH
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:13:25 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33218)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l569P-0007H8-MQ
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:11:52 -0500
-Received: by mail-ed1-x531.google.com with SMTP id dj23so6281438edb.13
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 04:11:51 -0800 (PST)
+ id 1l56At-0007mQ-Ac
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:13:25 -0500
+Received: by mail-ed1-x532.google.com with SMTP id c6so6360344ede.0
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 04:13:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=0lWTQBcnDCad8XpdN62W1XLqjcZb1faD1VJFzo+wx5c=;
- b=jOsWkj1VBqgvLEJNsfW/aIG2I2AEZM94wUeGAvUAKWuQVDW+d0o5T3z3Zc5bwYV+0/
- Iv1sCgbVG6hBoJqZJB82GLQv3DYx+b4aflbL1cQFgzY3za6Sky7eRkNODOqNQiqpR6PB
- VL3IuliHsG90QP7BHUGYb0GAkhAUJ6eG0YuKw3WXU9fBtZkApxF1iyzocSDx2kpgydkg
- lzHIFLnoHb3QZ330bgr9dPlTwb+b8EZ5mvHK3tcdWnvGuGKmqJlQgvL9kn1dI/bBFOKP
- R9iPc1Zg/CxOYrA/gUqACCryVq6iTlw1gz8SxaMyECSZ2CibaPmTJ0s5V5GK8oIHU+cb
- /fIw==
+ :cc:content-transfer-encoding;
+ bh=o1MPU8r9HSmLvy6ehcR6sHJeNxsgx0I9ZQfq80tgEmo=;
+ b=pifV/XKylliHX4mHla34pIWNX/uEqWi71GxxL2chwR6xIIAxdkhniHgc2DySzLgDP+
+ Du5mVdPq715SeNmPDb7eMOI9QNbWDskmc9BbCLJMZY6B9oNS/BZLdiguY7zBvLWwTfqs
+ aKxoAKk4VpIjCet/azNSvJcmnFM7vZuusP7Ev35oRhukqHIBLcKQvbbcZIN2HnLn0qCb
+ 1OhAxwr3DFqd5vkhkvl5RucfTSXSEmPFZYZ9RuH9NXGC7hIRXNUbTN+KHbvS95kF6cvv
+ GM3pME5VlPcj6CGHeHKTnXQq9uq6u6afNYNo4DR/4Aie7EEgaIjgohbAG0wwFURP3wMM
+ C46A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=0lWTQBcnDCad8XpdN62W1XLqjcZb1faD1VJFzo+wx5c=;
- b=Wn6qtMOocI8bQiL0DkiA1l3c/qsWKY+eooq541EcFM1Mfu0zemEn/1R3aMZrUAYXn2
- CMjMDGbvTm0PWvIbICq+mNjXtmXgKZI3h+SjdaLJWlxB4v04aFcIvfbpkhck+NgkHPSP
- viyt/k9sYf28bKm6d3oMu5H7K4JCvP4BzgMNeZHxySp5oArb64z63xC7f/2/xO+to7uJ
- GbLjWO5k7EMHnkt3N0bw06MU1aIV/5pFNLR76zc+JQNEwUzlb97ZsU8sKGCuiB2s4Tmf
- 3ZcpG7qJv4KGbI7evE4KC6DbVsGbaI2DX2+ayY2Xq9BV/6X9zQabiabvmhDNZ+SJQYpl
- vnwg==
-X-Gm-Message-State: AOAM533h4HtDwXPsoC8EC4gk8ss4iyxGGsYxmXuKPjR3THIHqjk5IFMQ
- iHd5A0X9c7oYLwU5SSWrNvzleGJ7dDh2Fcgr4TWIsg==
-X-Google-Smtp-Source: ABdhPJwSUoyImPlO/hkwouKtduzASZ6+PiOhDTWs2l6snrmmf/CYUnaY/yW2CcrI38hekbTDKAM/8VWQcT4saQ7KOm8=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr13543617edd.52.1611835910179; 
- Thu, 28 Jan 2021 04:11:50 -0800 (PST)
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=o1MPU8r9HSmLvy6ehcR6sHJeNxsgx0I9ZQfq80tgEmo=;
+ b=YezMy/IXCIN19+ycNzwvMxikU0xqzXyiEuNJK5RMAmW4VyjuK6XqLpgeicmNoN2IsU
+ GDMhp3qOW/7wetNaxysIfBfohgO6qqtmghwSd0CiAbpnCzFP3c/CUVMxoD3OkYqvLD0M
+ 6ZmKApT6fGan9YMvsD55h22gZOWct+NZSM69WU45a6YnKJOmc0fbgYKoRno+d0NSnPGG
+ BwyLaCy2poiYaYWIodmyH/Uv9SGkWcdPPvlGoLuSjwqqsRb00/WgU9EFCDCboX19iQuB
+ /tO1nLvspkAv+nGg64vcBC+i/8gkoSp6fZcVyiIgHe2WPE9sNb1jsazm0ywJ8JVzAM9D
+ nN4Q==
+X-Gm-Message-State: AOAM533pLTqa/PE+FEmDm2W/RYoUptZShLcxn7L36vi+QUE/t/9TbgRc
+ GORHWQtr/57BWhENBFMMoyrn8fYqMXN8PAJmuq39RA==
+X-Google-Smtp-Source: ABdhPJyujDN3CNla7a3gKXSduC9aTbF/poNqnhEgjPWz6S/Nodsobf35s5Q4NzCiQDdYQV5HWHEEW2fZibIqPAgMzBY=
+X-Received: by 2002:a05:6402:b2f:: with SMTP id
+ bo15mr14125279edb.146.1611836001301; 
+ Thu, 28 Jan 2021 04:13:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20210127011142.2122790-1-wuhaotsh@google.com>
-In-Reply-To: <20210127011142.2122790-1-wuhaotsh@google.com>
+References: <20210127232822.3530782-1-f4bug@amsat.org>
+In-Reply-To: <20210127232822.3530782-1-f4bug@amsat.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 12:11:38 +0000
-Message-ID: <CAFEAcA_PHnwpdPBT-fYqogwaiVj3CU2tXg1C00F_eVHmc4L+ww@mail.gmail.com>
-Subject: Re: [PATCH v2] hw/misc: Fix arith overflow in NPCM7XX PWM module
-To: Hao Wu <wuhaotsh@google.com>
+Date: Thu, 28 Jan 2021 12:13:10 +0000
+Message-ID: <CAFEAcA_Brm2KH35i9OkihORA9RnOYUUH1Fngh+rJrPccZOrKrg@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Replace magic value by MMU_DATA_LOAD
+ definition
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x531.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -77,28 +80,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Havard Skinnemoen <hskinnemoen@google.com>, Doug Evans <dje@google.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Joe Komlodi <komlodi@xilinx.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 27 Jan 2021 at 01:11, Hao Wu <wuhaotsh@google.com> wrote:
+On Wed, 27 Jan 2021 at 23:28, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
 >
-> Fix potential overflow problem when calculating pwm_duty.
-> 1. Ensure p->cmr and p->cnr to be from [0,65535], according to the
->    hardware specification.
-> 2. Changed duty to uint32_t. However, since MAX_DUTY * (p->cmr+1)
->    can excceed UINT32_MAX, we convert them to uint64_t in computation
->    and converted them back to uint32_t.
->    (duty is guaranteed to be <= MAX_DUTY so it won't overflow.)
+> cpu_get_phys_page_debug() uses 'DATA LOAD' MMU access type.
 >
-> Fixes: CID 1442342
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Doug Evans <dje@google.com>
-> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 > ---
+>  target/arm/helper.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 
 
 
