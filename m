@@ -2,49 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 784B33079F5
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:43:36 +0100 (CET)
-Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 826C13079F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:43:52 +0100 (CET)
+Received: from localhost ([::1]:39788 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59SJ-0001W7-H6
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:43:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38814)
+	id 1l59SZ-00024o-Hw
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:43:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l59Os-0007w1-Tj
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:02 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:60148
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l59Oq-0003GJ-9o
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:02 -0500
-Received: from macbook01.bib.uni-mannheim.de (macbook01.bib.uni-mannheim.de
- [134.155.36.117])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 0C313DA043C;
- Thu, 28 Jan 2021 16:39:58 +0100 (CET)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20210128082331.196801-1-richard.henderson@linaro.org>
- <20210128082331.196801-22-richard.henderson@linaro.org>
-From: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH 21/23] tcg/tci: Remove dead code for TCG_TARGET_HAS_div2_*
-Message-ID: <993a9d04-049b-7e31-9833-115ce07ee8e7@weilnetz.de>
-Date: Thu, 28 Jan 2021 16:39:57 +0100
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
- Gecko/20100101 Thunderbird/78.6.1
+ (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
+ id 1l59PC-000861-Uh
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:23 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f]:35073)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <chouhan.shreyansh2702@gmail.com>)
+ id 1l59P6-0003NX-Tq
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:22 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id w14so4227043pfi.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:40:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=vhxSKjoSd1R7iDKXpsrK7l28NFZix7NigyHB90ikHtY=;
+ b=qM+G4j8izzw0uGnIRWEc8tFpiimF8HN7PGsh/M/IW8VSxDpGpQlhGjimSV1cVaKiXL
+ 8lf057xx4d3h3BTCiCw1BWmS91Me5ieZrLKCnNi+q0pplCpIOO6Vdrs8dJXEZf159oFp
+ KD9gMTE3mAZujwQT7MsJhgLEF7bOZobxS8s8AmFnmnVX7/7AYkLiPO2nG+2NvUqyeF4L
+ THmGA4ZXXOevgbicYanXWwH5MMV3EFaB5yEXUn+9FBkptQdJjZhs7KVrQJoP4+KIzpqt
+ Weixhh0T7NHo4VSRbxH0Am/j1/nAkjl7n0tDd1eq+GL5lQAsI9paZGFYN/vEhWHLqfSS
+ E+SQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=vhxSKjoSd1R7iDKXpsrK7l28NFZix7NigyHB90ikHtY=;
+ b=cIVg/6A/t9UOAOYMP/kJh1EdSse8QjsUPfzjPqvdpka++f8KwMorIP57hRYyj+97JY
+ VUZkUy1IadsRd5UtYa+NQBBd/N+ZCe6CfYPaH76rrHU/FgeKWdAekOgFrE1pwSOIW2Vo
+ AdNU94xcp0uKAOo9mVsWCTs17yLIVHOaw50ONBW//fnNxbn26uv53AH62KO7e1rrFU8/
+ ZXVSA25XTthd9M5evi5Apv56GyyUQQaik7i2/aar4m4x7S9pr3ZI+QSwi5eVxMk3ZqFP
+ unnjRC/NpP1HnBcruqrqnwlf9yNN5wl+XtpJwWn7Qkr89+lXOotGOJAkruDrZbircBRU
+ +6LQ==
+X-Gm-Message-State: AOAM530/p88AR2yT76k2jZytWC9Kth7V05OPhipG441hpPBrz4u6p35Z
+ M+byrtME1Ud3WC/SpRNq4B9d3M3k21/H5L5rzWs=
+X-Google-Smtp-Source: ABdhPJxn8bJLEyQ4MMdFcZr2zvxeqWPwZHjK+HJQUaIYdpcYLRCIELXfd6fgmyRGaCxMjmn2U30Mf2AGORxc9aUyCfg=
+X-Received: by 2002:a05:6a00:2bb:b029:1be:aeea:abf4 with SMTP id
+ q27-20020a056a0002bbb02901beaeeaabf4mr125993pfs.63.1611848415354; Thu, 28 Jan
+ 2021 07:40:15 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210128082331.196801-22-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <CAAQ-SiP8G28ade0jHbhTcv0jtGQb4OSgL5p3mAr0MU_FH8vZ3w@mail.gmail.com>
+ <87a6tm2sxb.fsf@linaro.org>
+ <CAAQ-SiOW8OnWEb0sHUEeS139-Tw0RO2YD1Tx-1s9iuy3ZVQFgw@mail.gmail.com>
+ <878s941x85.fsf@linaro.org>
+ <20210108083433.pfzhxrd4rezk6yxe@sirius.home.kraxel.org>
+ <CAAQ-SiO4VvVTo77J2ga1FmUZ9yrwopeASweO6-AFaakrAUZ80w@mail.gmail.com>
+ <CAAQ-SiPiq5NQN=2mvP3isZ9PtYO2Bu64kVEvE6T+3OJd5B-U5A@mail.gmail.com>
+ <CAAQ-SiMkJGBnxWSnybJqMD0LSASMtvA_wbrPDQcg-S+Y1ddjJA@mail.gmail.com>
+ <878s8zptrf.fsf@linaro.org>
+ <CAAQ-SiNKXhJcT1XEodQT6kojqppq37Kg8F8igipQ-HVYOU0=zA@mail.gmail.com>
+ <87ft33l8an.fsf@linaro.org>
+ <CAAQ-SiMY8W9TS7eXgWuHY0m4yjaRbqqsZ+41Xyhxm+gW0sYakg@mail.gmail.com>
+ <CAAQ-SiM8_XnW1Ar5xocR7pUG_WW4SrQSnaKhqr1rY62ti2pw7Q@mail.gmail.com>
+ <CAAQ-SiPcBeGGgYcPHn7WSnz4jLAza+hE7tSMYSHJ-caC66D48A@mail.gmail.com>
+ <CAAQ-SiPPk9EfrEq7ja0X2E7gq5x9dH9C3LBDNc4frNi8Ssijug@mail.gmail.com>
+ <CAAQ-SiMsrkDYzqqqRXONw_HCdORqssw-yL9dFGF32y7aG68iCQ@mail.gmail.com>
+ <87v9blmf1x.fsf@linaro.org>
+ <CAAQ-SiNRykBeMFRvjumJ1hbcT3vjuL2bcGU=RBLpksNJNGYm+Q@mail.gmail.com>
+ <87o8h9wbh5.fsf@linaro.org>
+In-Reply-To: <87o8h9wbh5.fsf@linaro.org>
+From: Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com>
+Date: Thu, 28 Jan 2021 21:10:03 +0530
+Message-ID: <CAAQ-SiOCRSFxyWGqw07a-=0yg8tAiNCoLSSNm4sFx3a6+X7b5w@mail.gmail.com>
+Subject: Re: Fwd: VirtioSound device emulation implementation
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: multipart/alternative; boundary="0000000000003aaf1505b9f7b4b1"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=chouhan.shreyansh2702@gmail.com; helo=mail-pf1-x42f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -57,139 +96,202 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.01.21 um 09:23 schrieb Richard Henderson:
+--0000000000003aaf1505b9f7b4b1
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> We do not simultaneously support div and div2 -- it's one
-> or the other.  TCI is already using div, so remove div2.
+On Thu, 28 Jan 2021 at 16:54, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/tci.c                | 12 ------------
->   tcg/tci/tcg-target.c.inc | 16 ----------------
->   2 files changed, 28 deletions(-)
+> Shreyansh Chouhan <chouhan.shreyansh2702@gmail.com> writes:
 >
-> diff --git a/tcg/tci.c b/tcg/tci.c
-> index 2ce67a8fd3..32931ea611 100644
-> --- a/tcg/tci.c
-> +++ b/tcg/tci.c
-> @@ -647,7 +647,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArch=
-State *env,
->               t2 =3D tci_read_ri32(regs, &tb_ptr);
->               tci_write_reg(regs, t0, t1 * t2);
->               break;
-> -#if TCG_TARGET_HAS_div_i32
->           case INDEX_op_div_i32:
->               t0 =3D *tb_ptr++;
->               t1 =3D tci_read_ri32(regs, &tb_ptr);
-> @@ -672,12 +671,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArc=
-hState *env,
->               t2 =3D tci_read_ri32(regs, &tb_ptr);
->               tci_write_reg(regs, t0, t1 % t2);
->               break;
-> -#elif TCG_TARGET_HAS_div2_i32
-> -        case INDEX_op_div2_i32:
-> -        case INDEX_op_divu2_i32:
-> -            TODO();
-> -            break;
-> -#endif
->           case INDEX_op_and_i32:
->               t0 =3D *tb_ptr++;
->               t1 =3D tci_read_ri32(regs, &tb_ptr);
-> @@ -903,11 +896,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArc=
-hState *env,
->           case INDEX_op_remu_i64:
->               TODO();
->               break;
-> -#elif TCG_TARGET_HAS_div2_i64
-> -        case INDEX_op_div2_i64:
-> -        case INDEX_op_divu2_i64:
-> -            TODO();
-> -            break;
->   #endif
->           case INDEX_op_and_i64:
->               t0 =3D *tb_ptr++;
-> diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-> index a60fa524a4..842807ff2e 100644
-> --- a/tcg/tci/tcg-target.c.inc
-> +++ b/tcg/tci/tcg-target.c.inc
-> @@ -71,15 +71,10 @@ static const TCGTargetOpDef tcg_target_op_defs[] =3D=
- {
->       { INDEX_op_add_i32, { R, RI, RI } },
->       { INDEX_op_sub_i32, { R, RI, RI } },
->       { INDEX_op_mul_i32, { R, RI, RI } },
-> -#if TCG_TARGET_HAS_div_i32
->       { INDEX_op_div_i32, { R, R, R } },
->       { INDEX_op_divu_i32, { R, R, R } },
->       { INDEX_op_rem_i32, { R, R, R } },
->       { INDEX_op_remu_i32, { R, R, R } },
-> -#elif TCG_TARGET_HAS_div2_i32
-> -    { INDEX_op_div2_i32, { R, R, "0", "1", R } },
-> -    { INDEX_op_divu2_i32, { R, R, "0", "1", R } },
-> -#endif
->       /* TODO: Does R, RI, RI result in faster code than R, R, RI?
->          If both operands are constants, we can optimize. */
->       { INDEX_op_and_i32, { R, RI, RI } },
-> @@ -156,9 +151,6 @@ static const TCGTargetOpDef tcg_target_op_defs[] =3D=
- {
->       { INDEX_op_divu_i64, { R, R, R } },
->       { INDEX_op_rem_i64, { R, R, R } },
->       { INDEX_op_remu_i64, { R, R, R } },
-> -#elif TCG_TARGET_HAS_div2_i64
-> -    { INDEX_op_div2_i64, { R, R, "0", "1", R } },
-> -    { INDEX_op_divu2_i64, { R, R, "0", "1", R } },
->   #endif
->       { INDEX_op_and_i64, { R, RI, RI } },
->   #if TCG_TARGET_HAS_andc_i64
-> @@ -705,10 +697,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode op=
-c, const TCGArg *args,
->       case INDEX_op_remu_i64:     /* Optional (TCG_TARGET_HAS_div_i64).=
- */
->           TODO();
->           break;
-> -    case INDEX_op_div2_i64:     /* Optional (TCG_TARGET_HAS_div2_i64).=
- */
-> -    case INDEX_op_divu2_i64:    /* Optional (TCG_TARGET_HAS_div2_i64).=
- */
-> -        TODO();
-> -        break;
->       case INDEX_op_brcond_i64:
->           tcg_out_r(s, args[0]);
->           tcg_out_ri64(s, const_args[1], args[1]);
-> @@ -748,10 +736,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode op=
-c, const TCGArg *args,
->           tcg_out_ri32(s, const_args[1], args[1]);
->           tcg_out_ri32(s, const_args[2], args[2]);
->           break;
-> -    case INDEX_op_div2_i32:     /* Optional (TCG_TARGET_HAS_div2_i32).=
- */
-> -    case INDEX_op_divu2_i32:    /* Optional (TCG_TARGET_HAS_div2_i32).=
- */
-> -        TODO();
-> -        break;
->   #if TCG_TARGET_REG_BITS =3D=3D 32
->       case INDEX_op_add2_i32:
->       case INDEX_op_sub2_i32:
+> > Thanks a lot Alex!
+> >
+> >> All QEMU devices have two parts, a frontend (which the guest sees) and=
+ a
+> >> backend (which is how the data gets to somewhere in the host). Some of
+> >> the command line options in QEMU elide the details for convenience (-n=
+ic
+> >> and -drive are examples). The -netdev device is all about configuring
+> >> the backend of the network part for a paired -device front end. There =
+is
+> >> a similar setup for audio (-audiodev) although I'll defer to Gerd's
+> >> expertise on how the two interact.
+> >
+> > This helped me understand a bit more about how the devices work. In the
+> > source
+> > code, I found the `virtio-net-pci.c` and `virtio-net.c` files, I think
+> the
+> > pci device is what is visible to the guest.
+> > So `virtio-net-pci.c` should be the front end?
+>
+> No - they are both front-ends. In VirtIO you have two transports. The
+> first is virtio-mmio which is a simple set of memory mapped IO
+> registers. There is no discovery (well there is some but the guest needs
+> to find where in memory the mmio bus is via some method like hardcoded
+> address or DTB).
+>
+> The second is virtio-pci. Here the virtio devices are encapsulated in a
+> PCI bus so you get the benefits of discovery and bus enumeration.
+>
+So I am a bit confused here. First of there are two parts to a virtio
+device in general. One is the
+front end that the guest sees, and one is where the processing happens,
+which could be either in QEMU
+or as a separate daemon. In case of an in QEMU virtio device, the QEMU
+front end is replaced by the
+virtio-front end. Is that true? That's what I think should happen if both
+of those files are front ends.
 
+When you said earlier that all QEMU devices have two parts, I somehow
+thought that
+the in-QEMU backend for the audio device will itself have two parts.
 
-One of the ideas for TCI is that it should ideally support any subset of =
+>
+> > For the realize function, I saw that the `virtio_net_device_realize`
+> > function initializes
+> > the `net_conf` for the device. So I am guessing that the
+> > `virtio_snd_device_realize` function
+> > should initialize the number of jacks and streams a device has, along
+> with
+> > the configuration
+> > for all these jacks and streams?
+>
+> No those are all front-end configuration knobs.
+>
+I am assuming these are set from the command-line or the configuration
+files.
 
-TCG opcodes which is used by an existing TCG backend or a newly written=20
-backend.
+>
+> > The thing is I do not understand `net` devices all that well so I get a
+> bit
+> > confused with
+> > what is specific to a net device and what should I actually be worried
+> > about :)
+> >
+> > The device initalization step mentions that the jack and streams should
+> be
+> > read and
+> > a query should be made for the config of all jacks and streams. What
+> should
+> > be the
+> > default values of these configurations? I think the realize function is
+> > responsible
+> > for setting these up.
+>
+> Gerd?
+>
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
+--
+Shreyansh
 
-This only requires copying the TCG_TARGET_HAS... defines.
+--0000000000003aaf1505b9f7b4b1
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-So this patch should keep the preprocessor conditionals, and the TODO=20
-statements have to be replaced by code (or #error for the moment).
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, 28 Jan 2021 at 16:54, Alex Be=
+nn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.=
+org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
+in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
+x"><br>
+Shreyansh Chouhan &lt;<a href=3D"mailto:chouhan.shreyansh2702@gmail.com" ta=
+rget=3D"_blank">chouhan.shreyansh2702@gmail.com</a>&gt; writes:<br>
+<br>
+&gt; Thanks a lot Alex!<br>
+&gt;<br>
+&gt;&gt; All QEMU devices have two parts, a frontend (which the guest sees)=
+ and a<br>
+&gt;&gt; backend (which is how the data gets to somewhere in the host). Som=
+e of<br>
+&gt;&gt; the command line options in QEMU elide the details for convenience=
+ (-nic<br>
+&gt;&gt; and -drive are examples). The -netdev device is all about configur=
+ing<br>
+&gt;&gt; the backend of the network part for a paired -device front end. Th=
+ere is<br>
+&gt;&gt; a similar setup for audio (-audiodev) although I&#39;ll defer to G=
+erd&#39;s<br>
+&gt;&gt; expertise on how the two interact.<br>
+&gt;<br>
+&gt; This helped me understand a bit more about how the devices work. In th=
+e<br>
+&gt; source<br>
+&gt; code, I found the `virtio-net-pci.c` and `virtio-net.c` files, I think=
+ the<br>
+&gt; pci device is what is visible to the guest.<br>
+&gt; So `virtio-net-pci.c` should be the front end?<br>
+<br>
+No - they are both front-ends. In VirtIO you have two transports. The<br>
+first is virtio-mmio which is a simple set of memory mapped IO<br>
+registers. There is no discovery (well there is some but the guest needs<br=
+>
+to find where in memory the mmio bus is via some method like hardcoded<br>
+address or DTB).<br>
+<br>
+The second is virtio-pci. Here the virtio devices are encapsulated in a<br>
+PCI bus so you get the benefits of discovery and bus enumeration.<br></bloc=
+kquote><div>So I am a bit confused here. First of there are two parts to a =
+virtio device in general. One is the</div><div>front end that the guest see=
+s, and one is where the processing happens, which could be either in QEMU</=
+div><div>or as a separate daemon. In case of an in QEMU virtio device, the =
+QEMU front end is replaced by the</div><div>virtio-front end. Is that true?=
+ That&#39;s what I think should happen if both of those files are front end=
+s.</div><div><br></div><div>When you said earlier that all QEMU devices hav=
+e two parts, I somehow thought that<br></div><div>the in-QEMU backend for t=
+he audio device will itself have two parts.<br> </div><blockquote class=3D"=
+gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(20=
+4,204,204);padding-left:1ex">
+<br>
+&gt; For the realize function, I saw that the `virtio_net_device_realize`<b=
+r>
+&gt; function initializes<br>
+&gt; the `net_conf` for the device. So I am guessing that the<br>
+&gt; `virtio_snd_device_realize` function<br>
+&gt; should initialize the number of jacks and streams a device has, along =
+with<br>
+&gt; the configuration<br>
+&gt; for all these jacks and streams?<br>
+<br>
+No those are all front-end configuration knobs. <br></blockquote><div>I am =
+assuming these are set from the command-line or the configuration files. <b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
+;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; The thing is I do not understand `net` devices all that well so I get =
+a bit<br>
+&gt; confused with<br>
+&gt; what is specific to a net device and what should I actually be worried=
+<br>
+&gt; about :)<br>
+&gt;<br>
+&gt; The device initalization step mentions that the jack and streams shoul=
+d be<br>
+&gt; read and<br>
+&gt; a query should be made for the config of all jacks and streams. What s=
+hould<br>
+&gt; be the<br>
+&gt; default values of these configurations? I think the realize function i=
+s<br>
+&gt; responsible<br>
+&gt; for setting these up.<br>
+<br>
+Gerd?<br>
+<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br></blockquote><div>--</div><div>Shreyansh<br></div></div=
+></div>
 
-Patch 22 should also keep the preprocessor conditionals, see my comment=20
-there.
-
-Thanks,
-
-Stefan
-
-
+--0000000000003aaf1505b9f7b4b1--
 
