@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3430C307B5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:54:04 +0100 (CET)
-Received: from localhost ([::1]:53816 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D565307B27
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:41:58 +0100 (CET)
+Received: from localhost ([::1]:46822 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5AYU-0008Iz-Ns
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:54:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40120)
+	id 1l5AMn-0004GB-CZ
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:41:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5AVl-0007KJ-Nb
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:51:15 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39596)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l5AKp-00035C-E2
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:39:55 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:35363)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5AVf-0006dk-2d
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:51:13 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l5AVZ-0000QU-Oe
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 16:51:02 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 9D37A2E8189
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 16:50:55 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l5AKn-0002Gq-7l
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:39:55 -0500
+Received: by mail-wr1-x433.google.com with SMTP id l12so6080224wry.2
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 08:39:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=/rz8WYVrGiWXnSaWbnMqzYihphGEY1mgYxl9Rgpf5bY=;
+ b=EqCL/9tUxtty526H7fyGmEA7kvnpxvZDm06AnfLh8BFPJUupP6J3iiduQH9TiRyhif
+ c6G62cuFCm6XR+Y2uExrL06den8MXK2ItZdtUl6xTr1c0hlMBt1Qpvn/vtgHvwsIxBzr
+ pADRwavxCcX8szH/Q7Pd42imaDGY530k8gCoLGRz635XLEvgpyFn7KuwnKZxhn/6PzeH
+ cHhWTw37l0mzTPi2DeiYCNCqLj3gSriYo21GD2foqxarXQL+LHsDiTFuNJjY+jPaGrn5
+ c5pr/IOPmAfCTiyOpa16LUdYs0Y5LsHjNztfJ6SGKgLXWevTuEabRdw8RmQWWN3qmu81
+ y+Cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=/rz8WYVrGiWXnSaWbnMqzYihphGEY1mgYxl9Rgpf5bY=;
+ b=XNQIiUORPpAw5S1kXLVnHHmd41Wb5c0xeIM2s1dsebVIwLsaOZ9AWaOYO6Sb9hgFoL
+ kuvJkgMBFHLOVXHl/+AjZGcw+KssCh4MQo8mCjHT2Al8mzi97TgPrmZ+NQYsMaq9bB12
+ eUVNbXV1bJgGsfX1zOLfTIuOLcxpq1XadT+pzJ6pzobiXcjwmhWFvq/vek75b5aUFUNR
+ wSIMs/eGm5ahPtSDtCMa/ohydNv4WXMjQjgPLtRAPb0PZt1CCRz59JTSF2Hd9ESWeB+o
+ qgZ1rPZ5t2cOtRA0MSIBKH6Sic30NMFTiSXRDGbedXzjoZwd+J4B6LwnzaPdsTH4MyE2
+ 5NMQ==
+X-Gm-Message-State: AOAM533/aqDFDljT2B7Hk30QHw9kCbsksuAiC9vgWn2EQHoTzQ13oSxd
+ YMJ1mDhGe3/wSnxZORUDFRVlZvW54EcFYzcw
+X-Google-Smtp-Source: ABdhPJwHZUCVupgHUOLu6RfBuoQBvh5fYCYUWot/DmfJYnb6fuY3wNHxAZTj8TJKs7PhC/wI4QQ2cQ==
+X-Received: by 2002:adf:9031:: with SMTP id h46mr17344407wrh.19.1611851991942; 
+ Thu, 28 Jan 2021 08:39:51 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id e16sm7570136wrp.24.2021.01.28.08.39.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 28 Jan 2021 08:39:50 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D53001FF7E;
+ Thu, 28 Jan 2021 16:39:49 +0000 (GMT)
+References: <20210128082331.196801-1-richard.henderson@linaro.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH 00/23] TCI fixes and cleanups
+Date: Thu, 28 Jan 2021 16:39:32 +0000
+In-reply-to: <20210128082331.196801-1-richard.henderson@linaro.org>
+Message-ID: <87ft2lt3qi.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 Jan 2021 16:39:04 -0000
-From: buzz <1913619@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: nographic
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: buzzheavyyear
-X-Launchpad-Bug-Reporter: buzz (buzzheavyyear)
-X-Launchpad-Bug-Modifier: buzz (buzzheavyyear)
-Message-Id: <161185194511.7487.12920912623269673480.malonedeb@gac.canonical.com>
-Subject: [Bug 1913619] [NEW] qemu-system-x86_64 -cdrom -nographic gives no
- output
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 938c57e8cc8813d93cecb6c1c47c8cd49c9a5cc2
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,58 +86,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913619 <1913619@bugs.launchpad.net>
+Cc: sw@weilnetz.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
 
-Running 'sudo qemu-system-x86_64 -m 2048M -cpu host -cdrom github
-/xvisor-bootable.iso -boot d -enable-kvm' will create a qemu window,
-boot to a grub prompt and then boot the xvisor binary correctly.
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-Once I append -nographic to the command - after the user has selected
-the grub boot binary, there is no further output.
+> The first patch I believe is queued by Paolo, but is not yet
+> upstream; copied here for convenience.  Then, fill in all of
+> the TODO blanks in TCI.
+>
+> The tci_write_reg* functions are redundant with tcg_write_reg.
+> Just pass in the properly truncated result to begin.  In the
+> cases of the loads, we've automatically done that with the
+> type of the indirection.  For all of the other arithmetic,
+> we don't actually have to do anything -- the value is either
+> right, or the high bits are undefined.  And in fact will
+> currently be ignored by the extension on read.
 
-I've tried various permutations with qemu options, but to no avail. It
-would be great to have this working as it will permit scrolling back up
-into the command history for reference and large data output.
+Hmm it also failed CI pretty hard:
 
-QEMU emulator version 5.2.50 (v5.2.0-925-g7b09f12773)
+  https://gitlab.com/stsquad/qemu/-/pipelines/248074046/failures
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-
-** Tags: nographic
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913619
-
-Title:
-  qemu-system-x86_64 -cdrom -nographic gives no output
-
-Status in QEMU:
-  New
-
-Bug description:
-  Running 'sudo qemu-system-x86_64 -m 2048M -cpu host -cdrom github
-  /xvisor-bootable.iso -boot d -enable-kvm' will create a qemu window,
-  boot to a grub prompt and then boot the xvisor binary correctly.
-
-  Once I append -nographic to the command - after the user has selected
-  the grub boot binary, there is no further output.
-
-  I've tried various permutations with qemu options, but to no avail. It
-  would be great to have this working as it will permit scrolling back
-  up into the command history for reference and large data output.
-
-  QEMU emulator version 5.2.50 (v5.2.0-925-g7b09f12773)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913619/+subscriptions
+--=20
+Alex Benn=C3=A9e
 
