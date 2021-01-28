@@ -2,43 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72473307786
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 14:59:26 +0100 (CET)
-Received: from localhost ([::1]:51752 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A2BF307793
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:00:52 +0100 (CET)
+Received: from localhost ([::1]:53698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l57pV-0008Q9-D9
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 08:59:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60572)
+	id 1l57qt-0000nV-EM
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:00:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33054)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1l57mr-0007TY-Az
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:56:41 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]:59410
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan@weilnetz.de>)
- id 1l57mn-0000CX-BP
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:56:40 -0500
-Received: from qemu.weilnetz.de (qemu.weilnetz.de [188.68.58.204])
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTP id 01D1FDA07BF;
- Thu, 28 Jan 2021 14:56:35 +0100 (CET)
-Received: by qemu.weilnetz.de (Postfix, from userid 1000)
- id EE192460C81; Thu, 28 Jan 2021 14:56:34 +0100 (CET)
-From: Stefan Weil <sw@weilnetz.de>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [PATCH] tests/tcg: Replace /bin/true by true (required on macOS)
-Date: Thu, 28 Jan 2021 14:56:27 +0100
-Message-Id: <20210128135627.2067003-1-sw@weilnetz.de>
-X-Mailer: git-send-email 2.29.2
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l57oe-00088I-Gb
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:58:32 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:39057)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l57oc-0000ho-CF
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:58:32 -0500
+Received: by mail-ej1-x631.google.com with SMTP id g3so7886894ejb.6
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 05:58:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=iwMOEzBns7jeQFVIgHNdsutuKOjpYvRGkI+7LFr8Fus=;
+ b=BxlUsCYc6uskpNVwJxmF68v9pcu6zTyk3YG05Y6YjIAjgMHuFNMQpK8HK36LcZO1t8
+ GetRqS6bqVW4ZyVjKnXg+KSqyGAF6v3UY0y5vPigiXDnm3Ar57GG3BhxYY5GsCEeWkEs
+ FpGvHDSYZAY5tMyn1+Ls2R6CmuX0+DSczUhlQAEiB6bSlgjVQbCifM+6sMB7RoqizXF7
+ sDcNa8vcqJRz2U5QMq+MQmVq6DfJm3L2jSa+sjALiH3FcGsXLxTu4W82DuOOmUeZ0pE1
+ H37S5P8Pz3xgrm9UFW0UmfC/v32u0Dy5ybKDknqVVcG3IzG1L4hwk6vDmSUlT+q6hdec
+ LYLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=iwMOEzBns7jeQFVIgHNdsutuKOjpYvRGkI+7LFr8Fus=;
+ b=E/CEi+xHw4PgG1TdkR8XAu28KuDkW+Q6IS4b4hKMt62j4y1g2rNpT5iqWaBv8VaZ8p
+ 4ctvaV9rjVScFY5lDTbl35GpWho5zaxuxUIk2ne+owD226HIAaZjrh7j7LWZVbm2KQSI
+ foSVN+QBOKU/MwzqYxa4BGUahbXdcQtmV6gDVEnRYu+uMGLQ2JPb00E7Q2SILh/mnTem
+ l7qcP108SyMu0MRGDQgeHJ3a92M3Q5Z2iJRhe4fM4mlYPu20u2gW0bN5+tCM7pu+7EWB
+ adc5lMUcqYClt0xVl6pA+PKVKIf2CXMy7kvmgqTTQ4oDub3YWba940WBnhQEdgGuAqMF
+ VVVA==
+X-Gm-Message-State: AOAM531yPDvF+G2F6jzd1tF80SDkLkeNyWmhSMbZMUUMOhwYmNzQHaPZ
+ QxiiD7OIFTHPeXP4GmDkR7AQshsLAN+/PV8NjYMFSQ==
+X-Google-Smtp-Source: ABdhPJzWYfQ4oABs/n/blpvDNlb5YZ5aWG4Ty+6r+zwaAejmwxPKh0nU1P6Ybp43j1+4Kz2yZ+qIBCkPLU4BvTDBTCw=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr11733128ejd.250.1611842308549; 
+ Thu, 28 Jan 2021 05:58:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=stefan@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <20210127195753.59773-1-kwolf@redhat.com>
+In-Reply-To: <20210127195753.59773-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jan 2021 13:58:17 +0000
+Message-ID: <CAFEAcA-vKw48x=5N_KQLZZovZFuKxaZ+jWFstm6LzLJaU3dn8w@mail.gmail.com>
+Subject: Re: [PULL 0/8] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -52,44 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-/bin/true is missing on macOS, but simply "true" is available as a shell builtin.
+On Wed, 27 Jan 2021 at 19:58, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit bf159f0bdc7b8e7aa8342dedb3829ca744c1b612:
+>
+>   Merge remote-tracking branch 'remotes/edgar/tags/edgar/xilinx-next-2021-01-27.for-upstream' into staging (2021-01-27 17:40:25 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to a44be0334beae3a9affb4a3a92cc6852993d7a84:
+>
+>   iotests: rename and move 169 and 199 tests (2021-01-27 20:53:14 +0100)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - Fix crash on write to read-only devices
+> - iotests: Rewrite 'check' in Python, get rid of 'groups' and allow
+>   non-numeric test case names
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
----
 
-A similar change might be needed for tests/qemu-iotests.
 
-Regards,
-Stefan
+Applied, thanks.
 
- tests/tcg/Makefile.qemu | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
-diff --git a/tests/tcg/Makefile.qemu b/tests/tcg/Makefile.qemu
-index c096c611a2..a56564660c 100644
---- a/tests/tcg/Makefile.qemu
-+++ b/tests/tcg/Makefile.qemu
-@@ -90,11 +90,11 @@ run-guest-tests: guest-tests
- 
- else
- guest-tests:
--	$(call quiet-command, /bin/true, "BUILD", \
-+	$(call quiet-command, true, "BUILD", \
- 		"$(TARGET) guest-tests SKIPPED")
- 
- run-guest-tests:
--	$(call quiet-command, /bin/true, "RUN", \
-+	$(call quiet-command, true, "RUN", \
- 		"tests for $(TARGET) SKIPPED")
- endif
- 
--- 
-2.24.3 (Apple Git-128)
-
+-- PMM
 
