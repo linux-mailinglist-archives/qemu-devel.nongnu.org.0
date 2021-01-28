@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 873EC3068D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 01:52:38 +0100 (CET)
-Received: from localhost ([::1]:57512 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21F8A3068FD
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 01:57:43 +0100 (CET)
+Received: from localhost ([::1]:33726 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4vY5-0007LD-G5
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 19:52:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48306)
+	id 1l4vd0-00011I-3W
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 19:57:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48838)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l4vUb-00067F-AS; Wed, 27 Jan 2021 19:49:01 -0500
-Received: from mail-qk1-x72a.google.com ([2607:f8b0:4864:20::72a]:33629)
+ id 1l4vYL-00086n-M8; Wed, 27 Jan 2021 19:52:54 -0500
+Received: from mail-qv1-xf2c.google.com ([2607:f8b0:4864:20::f2c]:42354)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l4vUX-0007Aw-IV; Wed, 27 Jan 2021 19:49:00 -0500
-Received: by mail-qk1-x72a.google.com with SMTP id x81so3808333qkb.0;
- Wed, 27 Jan 2021 16:48:55 -0800 (PST)
+ id 1l4vYJ-0007d2-Ir; Wed, 27 Jan 2021 19:52:53 -0500
+Received: by mail-qv1-xf2c.google.com with SMTP id u16so2055912qvo.9;
+ Wed, 27 Jan 2021 16:52:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=HUC/1fjg07UbSP9RAoA40k5EZrQB3OgDlB10WbcOGwg=;
- b=NbqBhXlhJeXVT7Cfm8FBbfDZSDGtGjXVp1k1gSa2KreB4eVlZwaz+J4MDlqcmVKilZ
- qhnzCnMPFvgEq1PS/0c5dBGECyaXtyhXUk+79H/kHCnH5lsTpON3tq/aHvQLP6JzX9IH
- OcIQc/XRs4YEAwy7GQR89pdwU9ve36zu+dHU4=
+ bh=YtdGfORM4+Ow1n+NOuDR+nFQbncmcrP/LkUiB9rdyMo=;
+ b=G4P33oNVySUdY1I9ByMuWm/h+Xa+v/WdIipBOTzlnF5qhA//ELZp7fVOOKsCs2svej
+ pP47RpkRj5C6pBuQWdPBOd6Jtq1MB2YwBDnMpnsga6JKpG/T8ExGKSsZVabKS8ao1yfv
+ xZJLbA35+rjouQ6a9PUjuVJovj59ooiO0o2Fw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=HUC/1fjg07UbSP9RAoA40k5EZrQB3OgDlB10WbcOGwg=;
- b=gOZKmTN6j2U63qLtj/hiFxAIwcIPSjDJpAhoivWPilsMmTEFZMCx2gCePXyWCXiPzq
- GtbzaNwN3uUfCFTDhQR4HxQjYiFaAs4YrJxlJjVXBxGLInPbS2xVNkTwgFPoDg7uk/84
- 3sAf6oHxVyuLc4HZfZHs9qmF1TOAQFCLSP9dFYSes0VK3qy4Qx8AfbXDsyVvStSIkQ7d
- 9LWmtuTIjclp7jwb/gd+aKBGFHuu+SJtpdKc7CLgmSCFrUpfiW3OsblJe7jvO0VjtGmL
- De4qK/qlNuUT4rVvoxCgYkgj9GL0FcnmPyqC9/g1oQbua7GsSi1LPjf6ZQ+pvX1K/Rlp
- zALA==
-X-Gm-Message-State: AOAM5304VIgdl+RLPJWhRr0UC9+zRc2Xx1MWq+m8xcJp8NTqH0VSa6tu
- Jasv9SWzRix8VdObKq5ZnrnpHy0akcsuLwbP9k8=
-X-Google-Smtp-Source: ABdhPJzvotcjFLqtH6GMo0EgBlCjAi9YnXr74Z7054jl804vIw5C/Ah/8v5/U1cBz+ho8bHI3wSRGM5qlCECsE4FZH8=
-X-Received: by 2002:a37:ac10:: with SMTP id e16mr13353480qkm.465.1611794934932; 
- Wed, 27 Jan 2021 16:48:54 -0800 (PST)
+ bh=YtdGfORM4+Ow1n+NOuDR+nFQbncmcrP/LkUiB9rdyMo=;
+ b=DprOOZrTYQ4WQc+g2QslQttyUkIrRSLyEuZj4z4ePaTKKGtio5x8mi3ZAN270YMMTS
+ k7rLXvhZ72vyTg7QO7qEtmZwbzjs8seHW4tjcI2uoPyDsq6T5lJ/Np8Zf4FTAsxYTbMA
+ RVXDNyknhtWn3oYmLrUfsCQa8IY4uXmMXdI9PpnJaSbOgKvG4esN/fXdSaE7OY25+JhL
+ LnG9OsyyKc9yV/wGiZnPOiMly+gRtBZB/qOIg4FyVtewT6Jl1/alj3EW+gfMqRMY3OUM
+ tSiWUFZ+Ghh8oDNzwnbahxTSMfi4UzbFE9Wjx7nL+tsr5hDriI/LTMphp2RJh5w9EvAl
+ i+RA==
+X-Gm-Message-State: AOAM5315852dfn1uJRR9Qj02+O5kKj+0wh6RUFYwfTxVwuCetYwSkmXb
+ Tmar3DPlVzmqxX+wi2VE9SKS2cKKtpzfFIZTrss=
+X-Google-Smtp-Source: ABdhPJxVleeEJtegPdDxe9BBPYLeTm6AFksQ9m2w5jgGjjetX1u0Q68qxu7WW6WmOcGqnIbya8F7Z2JxqUQheRkOm90=
+X-Received: by 2002:a0c:a98c:: with SMTP id a12mr12844862qvb.43.1611795169840; 
+ Wed, 27 Jan 2021 16:52:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-6-clg@kaod.org>
-In-Reply-To: <20210126171059.307867-6-clg@kaod.org>
+ <20210126171059.307867-7-clg@kaod.org>
+In-Reply-To: <20210126171059.307867-7-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 28 Jan 2021 00:48:42 +0000
-Message-ID: <CACPK8Xd1oLKDB+zox3MwzqTbwsm0o8xULUKXFNCJeBG2tH_6+g@mail.gmail.com>
-Subject: Re: [PATCH 5/7] ppc/pnv: Discard internal BMC initialization when BMC
- is external
+Date: Thu, 28 Jan 2021 00:52:38 +0000
+Message-ID: <CACPK8Xc-zu4SdHeVd5tesdrNvDreJb1sX7_4KzeiEiac-xVzbg@mail.gmail.com>
+Subject: Re: [PATCH 6/7] ppc/pnv: Remove default disablement of the PNOR
+ contents
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::72a;
- envelope-from=joel.stan@gmail.com; helo=mail-qk1-x72a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::f2c;
+ envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf2c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,79 +83,56 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 26 Jan 2021 at 17:11, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> The PowerNV machine can be run with an external IPMI BMC device
-> connected to a remote QEMU machine acting as BMC, using these options :
+> On PowerNV systems, the BMC is in charge of mapping the PNOR contents
+> on the LPC FW address space using the HIOMAP protocol. Under QEMU, we
+> emulate this behavior and we also add an extra control on the flash
+> accesses by letting the HIOMAP command handler decide whether the
+> memory region is accessible or not depending on the firmware requests.
 >
->   -chardev socket,id=3Dipmi0,host=3Dlocalhost,port=3D9002,reconnect=3D10 =
-\
->   -device ipmi-bmc-extern,id=3Dbmc0,chardev=3Dipmi0 \
->   -device isa-ipmi-bt,bmc=3Dbmc0,irq=3D10 \
->   -nodefaults
-
-Should this information also go in docs/system/ppc similar to the
-descriptions we have in docs/system/arm?
-
+> However, this behavior is not compatible with hostboot like firmwares
+> which need this mapping to be always available. For this reason, the
+> PNOR memory region is initially disabled for skiboot mode only.
 >
-> In that case, some aspects of the BMC initialization should be
-> skipped, since they rely on the simulator interface.
+> This is badly placed under the LPC model and requires the use of the
+> machine. Since it doesn't add much, simply remove the initial setting.
+> The extra control in the HIOMAP command handler will still be performed.
 >
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-
 > ---
->  hw/ppc/pnv_bmc.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
+>  hw/ppc/pnv_lpc.c | 8 --------
+>  1 file changed, 8 deletions(-)
 >
-> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
-> index 86d16b493539..b9bf5735ea0f 100644
-> --- a/hw/ppc/pnv_bmc.c
-> +++ b/hw/ppc/pnv_bmc.c
-> @@ -51,6 +51,11 @@ typedef struct OemSel {
->  #define SOFT_OFF        0x00
->  #define SOFT_REBOOT     0x01
+> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
+> index 590359022084..11739e397b27 100644
+> --- a/hw/ppc/pnv_lpc.c
+> +++ b/hw/ppc/pnv_lpc.c
+> @@ -825,7 +825,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
+l use_cpld, Error **errp)
+>      qemu_irq *irqs;
+>      qemu_irq_handler handler;
+>      PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
+> -    bool hostboot_mode =3D !!pnv->fw_load_addr;
 >
-> +static bool pnv_bmc_is_simulator(IPMIBmc *bmc)
-> +{
-> +    return object_dynamic_cast(OBJECT(bmc), TYPE_IPMI_BMC_SIMULATOR);
-> +}
-> +
->  static void pnv_gen_oem_sel(IPMIBmc *bmc, uint8_t reboot)
->  {
->      /* IPMI SEL Event are 16 bytes long */
-> @@ -79,6 +84,10 @@ void pnv_dt_bmc_sensors(IPMIBmc *bmc, void *fdt)
->      const struct ipmi_sdr_compact *sdr;
->      uint16_t nextrec;
+>      /* let isa_bus_new() create its own bridge on SysBus otherwise
+>       * devices specified on the command line won't find the bus and
+> @@ -856,13 +855,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bo=
+ol use_cpld, Error **errp)
+>       */
+>      memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
+>                                  &pnv->pnor->mmio);
+> -    /*
+> -     * Start disabled. The HIOMAP protocol will activate the mapping
+> -     * with HIOMAP_C_CREATE_WRITE_WINDOW
+> -     */
+> -    if (!hostboot_mode) {
+> -        memory_region_set_enabled(&pnv->pnor->mmio, false);
+> -    }
 >
-> +    if (!pnv_bmc_is_simulator(bmc)) {
-> +        return;
-> +    }
-> +
->      offset =3D fdt_add_subnode(fdt, 0, "bmc");
->      _FDT(offset);
->
-> @@ -243,6 +252,10 @@ static const IPMINetfn hiomap_netfn =3D {
->
->  void pnv_bmc_set_pnor(IPMIBmc *bmc, PnvPnor *pnor)
->  {
-> +    if (!pnv_bmc_is_simulator(bmc)) {
-> +        return;
-> +    }
-> +
->      object_ref(OBJECT(pnor));
->      object_property_add_const_link(OBJECT(bmc), "pnor", OBJECT(pnor));
->
-> @@ -286,7 +299,7 @@ static int bmc_find(Object *child, void *opaque)
->
->  IPMIBmc *pnv_bmc_find(Error **errp)
->  {
-> -    ForeachArgs args =3D { TYPE_IPMI_BMC_SIMULATOR, NULL };
-> +    ForeachArgs args =3D { TYPE_IPMI_BMC, NULL };
->      int ret;
->
->      ret =3D object_child_foreach_recursive(object_get_root(), bmc_find, =
-&args);
+>      return isa_bus;
+>  }
 > --
 > 2.26.2
 >
