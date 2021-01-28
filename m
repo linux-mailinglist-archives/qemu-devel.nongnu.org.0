@@ -2,57 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D143078B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:54:30 +0100 (CET)
-Received: from localhost ([::1]:54266 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7612307824
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:33:49 +0100 (CET)
+Received: from localhost ([::1]:57276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l58gi-0000NE-QP
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:54:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
+	id 1l58Mm-0001wh-PR
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:33:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42206)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Nawrocki@gtri.gatech.edu>)
- id 1l58ZO-0007Xz-IR; Thu, 28 Jan 2021 09:46:50 -0500
-Received: from unifiededge.gtri.gatech.edu ([130.207.205.170]:28786)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l58KX-0000xa-M9
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:31:29 -0500
+Received: from smtpout1.mo804.mail-out.ovh.net ([79.137.123.220]:45055)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <Michael.Nawrocki@gtri.gatech.edu>)
- id 1l58ZM-0000c2-0Z; Thu, 28 Jan 2021 09:46:50 -0500
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-DKIM-Signature: v=1; a=rsa-sha256; d=gtri.gatech.edu; s=unifiededge;
- c=simple/simple; t=1611844301; h=from:subject:to:date:message-id;
- bh=w/EyQalOWuVWocDQhP95aCvyNFJVs0DYo9EJN601YUQ=;
- b=flLeISIFqKBUHRaHsrxqNnIlUwKDKvZcdrH/m5LurAIsOJyMAPFB6t82xabk7DSBCIq8cagn7rR
- TGYUXztfF8VaSrjpiKVZXMKqVBkDTCLJI0cIzIq4oRhbIWm9rhBdWlg+6PfnDJtTMA1Q+3A5Ck5Ef
- 0/MiCkp3N3lTy18+MqaIEudGNqZxtNvU6R3PNyR4jneXl/Eg5zy7ME/hISPCxj8vQ2iRa3TpIZr4N
- gCr2XBENOSGCiTSuvqnddKuUNZz/JfXRwbHFa2NCZKbNUUMFHDpIxSJ9zK+THWOZWSN+RcwWideU3
- zxufOLKIrxAnXgm4IT12qsCdArRueIALxptw==
-Received: from tybee.core.gtri.org (10.41.1.49) by exedge06.gtri.dmz
- (10.41.104.63) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.721.2; Thu, 28 Jan 2021
- 09:31:41 -0500
-Received: from localhost.localdomain (10.41.0.30) by tybee.core.gtri.org
- (10.41.1.49) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Thu, 28
- Jan 2021 09:31:41 -0500
-To: <qemu-arm@nongnu.org>
-Subject: [PATCH 1/1] target/arm: Add raw_writefn to SCR_EL3 register
-Date: Thu, 28 Jan 2021 09:31:02 -0500
-Message-ID: <20210128143102.7834-2-michael.nawrocki@gtri.gatech.edu>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210128143102.7834-1-michael.nawrocki@gtri.gatech.edu>
-References: <20210128143102.7834-1-michael.nawrocki@gtri.gatech.edu>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l58KV-0003qr-D4
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:31:29 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.220])
+ by mo804.mail-out.ovh.net (Postfix) with ESMTPS id A5D5C86B7E2B;
+ Thu, 28 Jan 2021 15:31:24 +0100 (CET)
+Received: from kaod.org (37.59.142.102) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
+ 2021 15:31:23 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R004109fc722-0dd6-4be3-9dd0-7f812e95b8e3,
+ 12ABEFCAB104A9A3990DEAE01579FEA45C2F0BE3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 28 Jan 2021 15:31:23 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 2/6] libvhost-user: Use slave_mutex in all slave messages
+Message-ID: <20210128153123.4aba231c@bahia.lan>
+In-Reply-To: <20210125180115.22936-3-vgoyal@redhat.com>
+References: <20210125180115.22936-1-vgoyal@redhat.com>
+ <20210125180115.22936-3-vgoyal@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-ClientProxiedBy: hatteras.core.gtri.org (10.41.22.72) To tybee.core.gtri.org
- (10.41.1.49)
-Received-SPF: pass client-ip=130.207.205.170;
- envelope-from=Michael.Nawrocki@gtri.gatech.edu;
- helo=unifiededge.gtri.gatech.edu
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG8EX2.mxp5.local (172.16.2.72) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: da706388-ba99-40a4-87b3-037476a23bd7
+X-Ovh-Tracer-Id: 14608551292886096233
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgdeifecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehmshhtsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=79.137.123.220; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo804.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,35 +68,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, peter.maydell@linaro.org, qemu-devel@nongnu.org,
- Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ virtio-fs@redhat.com, stefanha@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
-Reply-to:  Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
-From: michael.nawrocki--- via <qemu-devel@nongnu.org>
 
-Fixes an issue in migration where the reset value of SCR and the value
-produced by scr_write via the writefn for SCR_EL3 mismatch.
+On Mon, 25 Jan 2021 13:01:11 -0500
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-Signed-off-by: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
----
- target/arm/helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> dev->slave_mutex needs to be taken when sending messages on slave_fd.
+> Currently _vu_queue_notify() does not do that.
+> 
+> Introduce a helper vu_message_slave_send_receive() which sends as well
+> as receive response. Use this helper in all the paths which send
+> message on slave_fd channel.
+> 
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index d2ead3fcbd..e3c4fe76cb 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -5785,7 +5785,7 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
-     { .name = "SCR_EL3", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 0,
-       .access = PL3_RW, .fieldoffset = offsetof(CPUARMState, cp15.scr_el3),
--      .resetvalue = 0, .writefn = scr_write },
-+      .resetvalue = 0, .writefn = scr_write, .raw_writefn = raw_write },
-     { .name = "SCR",  .type = ARM_CP_ALIAS | ARM_CP_NEWEL,
-       .cp = 15, .opc1 = 0, .crn = 1, .crm = 1, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_trap_aa32s_el1,
--- 
-2.20.1
+Does this fix any known bug ?
+
+> Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
+> ---
+
+LGTM
+
+Reviewed-by: Greg Kurz <groug@kaod.org>
+
+>  subprojects/libvhost-user/libvhost-user.c | 50 ++++++++++++-----------
+>  1 file changed, 27 insertions(+), 23 deletions(-)
+> 
+> diff --git a/subprojects/libvhost-user/libvhost-user.c b/subprojects/libvhost-user/libvhost-user.c
+> index 4cf4aef63d..7a56c56dc8 100644
+> --- a/subprojects/libvhost-user/libvhost-user.c
+> +++ b/subprojects/libvhost-user/libvhost-user.c
+> @@ -403,7 +403,7 @@ vu_send_reply(VuDev *dev, int conn_fd, VhostUserMsg *vmsg)
+>   * Processes a reply on the slave channel.
+>   * Entered with slave_mutex held and releases it before exit.
+>   * Returns true on success.
+> - * *payload is written on success
+> + * *payload is written on success, if payload is not NULL.
+>   */
+>  static bool
+>  vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg,
+> @@ -427,7 +427,9 @@ vu_process_message_reply(VuDev *dev, const VhostUserMsg *vmsg,
+>          goto out;
+>      }
+>  
+> -    *payload = msg_reply.payload.u64;
+> +    if (payload) {
+> +        *payload = msg_reply.payload.u64;
+> +    }
+>      result = true;
+>  
+>  out:
+> @@ -435,6 +437,25 @@ out:
+>      return result;
+>  }
+>  
+> +/* Returns true on success, false otherwise */
+> +static bool
+> +vu_message_slave_send_receive(VuDev *dev, VhostUserMsg *vmsg, uint64_t *payload)
+> +{
+> +    pthread_mutex_lock(&dev->slave_mutex);
+> +    if (!vu_message_write(dev, dev->slave_fd, vmsg)) {
+> +        pthread_mutex_unlock(&dev->slave_mutex);
+> +        return false;
+> +    }
+> +
+> +    if ((vmsg->flags & VHOST_USER_NEED_REPLY_MASK) == 0) {
+> +        pthread_mutex_unlock(&dev->slave_mutex);
+> +        return true;
+> +    }
+> +
+> +    /* Also unlocks the slave_mutex */
+> +    return vu_process_message_reply(dev, vmsg, payload);
+> +}
+> +
+>  /* Kick the log_call_fd if required. */
+>  static void
+>  vu_log_kick(VuDev *dev)
+> @@ -1340,16 +1361,8 @@ bool vu_set_queue_host_notifier(VuDev *dev, VuVirtq *vq, int fd,
+>          return false;
+>      }
+>  
+> -    pthread_mutex_lock(&dev->slave_mutex);
+> -    if (!vu_message_write(dev, dev->slave_fd, &vmsg)) {
+> -        pthread_mutex_unlock(&dev->slave_mutex);
+> -        return false;
+> -    }
+> -
+> -    /* Also unlocks the slave_mutex */
+> -    res = vu_process_message_reply(dev, &vmsg, &payload);
+> +    res = vu_message_slave_send_receive(dev, &vmsg, &payload);
+>      res = res && (payload == 0);
+> -
+>      return res;
+>  }
+>  
+> @@ -2395,10 +2408,7 @@ static void _vu_queue_notify(VuDev *dev, VuVirtq *vq, bool sync)
+>              vmsg.flags |= VHOST_USER_NEED_REPLY_MASK;
+>          }
+>  
+> -        vu_message_write(dev, dev->slave_fd, &vmsg);
+> -        if (ack) {
+> -            vu_message_read_default(dev, dev->slave_fd, &vmsg);
+> -        }
+> +        vu_message_slave_send_receive(dev, &vmsg, NULL);
+>          return;
+>      }
+>  
+> @@ -2942,17 +2952,11 @@ int64_t vu_fs_cache_request(VuDev *dev, VhostUserSlaveRequest req, int fd,
+>          return -EINVAL;
+>      }
+>  
+> -    pthread_mutex_lock(&dev->slave_mutex);
+> -    if (!vu_message_write(dev, dev->slave_fd, &vmsg)) {
+> -        pthread_mutex_unlock(&dev->slave_mutex);
+> -        return -EIO;
+> -    }
+> -
+> -    /* Also unlocks the slave_mutex */
+> -    res = vu_process_message_reply(dev, &vmsg, &payload);
+> +    res = vu_message_slave_send_receive(dev, &vmsg, &payload);
+>      if (!res) {
+>          return -EIO;
+>      }
+> +
+>      /*
+>       * Payload is delivered as uint64_t but is actually signed for
+>       * errors.
 
 
