@@ -2,65 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9403073EE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:42:17 +0100 (CET)
-Received: from localhost ([::1]:52278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 523CD3073FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:45:56 +0100 (CET)
+Received: from localhost ([::1]:54890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l54kg-0000cd-Ob
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:42:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50732)
+	id 1l54oF-0001vo-D0
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:45:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51358)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l54jW-000086-E0
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:41:02 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42876)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l54mp-0001Jv-Fq
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:44:27 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:44392)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l54jU-0001WE-5j
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:41:02 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l54jS-0002Pp-H6
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:40:58 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 7B93B2E8060
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:40:58 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l54mn-0002uQ-RM
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:44:27 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id w1so6976540ejf.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 02:44:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=hwxWhuPAeBOGG7cxyNlAbfsJe23zd190HfsFXc5SNv0=;
+ b=TT+1b72xpvG43lT3FgHLt1u44+bwNkKZyv7VGVRiYe3vkd+5wEyAr2Hl6IMqJQ/21d
+ P0q+z12TwsxsYsMNSj2p5lUs+dxw6tqgAYKVyK3gFtmzrNtKQIe4kHPoCUBuSFo8wQ83
+ ljEjCxiEVHMHmspItr7qV7aCFsmOyCVwWwuiBmXWsxLLRhyFfdhQDpTOxmAUm73fqQzd
+ QYZAYpry0GuqhFDKoK+6Ooef2ErvcbRnqYQQJuuaueaglAzehsBJAJQxIOv0WoKQ9NFr
+ lTFlOW0WVJRtooRfYwJMmEgn+davoNwnEccdw1bMS/TWUa75jv7XQqXqHh0HL/W61G+c
+ jsyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=hwxWhuPAeBOGG7cxyNlAbfsJe23zd190HfsFXc5SNv0=;
+ b=H8YrvDAIieOvPBp3Tdcl48smOM+NDBc+FlYnusR9IqEbrG4YMjMe1IazCDXXQJWJD/
+ 4lz387NmQPEOtl56GpWG0sBVyJBj2WxD41DIRKRI4npDIDEBug+OXd4tWWcW0qbxhdmu
+ Xy2QfvBdyjRXic2AGwjnI8MJSCnodZA3CFnJrA6VcFe/7ZWTp/86OnMXm28PLfkvIjyN
+ pkASm4wdoiPGqyODLQHOB4NY2b5/mtek2OuFc1i2v8R807mrD6/N1kasIr2NKABVkdcP
+ nfWQBNj0xTSBz/FGVj7vvGksy4DjLagVsVMEj8iIdrR+Dj4kRAxl2YNl3JZEi8MO7sUN
+ ljTw==
+X-Gm-Message-State: AOAM530SdauuIP3ptahixBL8uL7NdlPKRaqq5bXU3IJPrK7plMKmB8Uc
+ 9EEZy+bK+wJO/WWeQErblVJint5WDgWLk124QJ2QCw==
+X-Google-Smtp-Source: ABdhPJxZDsq1yHO8WIHLriNMQdyPFE5TJ2S+pRVK3vGazE9pk4bvAI3GQMZnhgEjq1l0QQSfAJNid67JflJrpdYseew=
+X-Received: by 2002:a17:906:4002:: with SMTP id
+ v2mr6504423ejj.85.1611830664023; 
+ Thu, 28 Jan 2021 02:44:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 28 Jan 2021 10:33:46 -0000
-From: Peter Maydell <1913505@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mishari pmaydell
-X-Launchpad-Bug-Reporter: Mishari Muqbil (mishari)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161180131265.32409.4817508561083668447.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161183002642.31514.6656082378231332865.malone@chaenomeles.canonical.com>
-Subject: [Bug 1913505] Re: Windows XP slow on Apple M1
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 817136b565bb2acbcdfabdc23498ef35d553c563
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210115224645.1196742-1-richard.henderson@linaro.org>
+ <20210115224645.1196742-19-richard.henderson@linaro.org>
+ <CAFEAcA8rXQ76AVpqHwum_XGh13u+vwkZw_yOxRKvfyqbV3_GBQ@mail.gmail.com>
+ <b81f168c-dfe3-5d59-b1a2-1c3df97f7105@linaro.org>
+In-Reply-To: <b81f168c-dfe3-5d59-b1a2-1c3df97f7105@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jan 2021 10:44:13 +0000
+Message-ID: <CAFEAcA9tS7eWDoa7Wu3p6Be4Jce9oaPyHh_8ijJJbjZpmgL+Cg@mail.gmail.com>
+Subject: Re: [PATCH v3 18/21] linux-user/aarch64: Signal SEGV_MTEAERR for
+ async tag check error
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -69,41 +81,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913505 <1913505@bugs.launchpad.net>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Is the install that slow on some other hardware (useful comparisons: x86
-Mac; x86 Linux; AArch64 Linux) ?
+On Thu, 28 Jan 2021 at 08:49, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 1/22/21 3:59 AM, Peter Maydell wrote:
+> > Does it work if we just always queue the SEGV on exit from cpu_exec()
+> > and let the signal handling machinery prioritize if we also pend
+> > some other signal because this was an EXCP_UDEF or whatever?
+> > It would be neater if we could keep the fault-check outside the
+> > switch (trapnr) somehow.
+>
+> I would think so.  I'll try that.
 
--- =
+In particular it seems worth testing whether 'singlestep in gdbstub
+over an insn that takes an async MTE fault' has reasonable user-facing
+behaviour.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913505
-
-Title:
-  Windows XP slow on Apple M1
-
-Status in QEMU:
-  New
-
-Bug description:
-  Qemu installed by using brew install qemu -s on M1
-
-  QEMU emulator version 5.2.0
-  XP image from: https://archive.org/details/WinXPProSP3x86
-
-  Commands run:
-  $ qemu-img create -f qcow2 xpsp3.img 10G
-  $ qemu-system-i386 -m 512 -hda xpsp3.img -cdrom WinXPProSP3x86/en_windows=
-_xp_professional_with_service_pack_3_x86_cd_vl_x14-73974.iso -boot d
-
-  It's taken 3 days now with qemu running at around 94% CPU and
-  installation hasn't finished. The mouse pointer moves and occasionally
-  changes between the pointer and hourglass so it doesn't seem to have
-  frozen.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913505/+subscriptions
+thanks
+-- PMM
 
