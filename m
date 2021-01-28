@@ -2,75 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89CBB307376
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:15:05 +0100 (CET)
-Received: from localhost ([::1]:57768 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4044630737F
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 11:18:27 +0100 (CET)
+Received: from localhost ([::1]:35528 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l54KO-0006EO-HX
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:15:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45430)
+	id 1l54Ne-0000Yc-Cb
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 05:18:26 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45624)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l54G0-0003lY-Dp
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:10:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56457)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l54Fv-0007ip-9y
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:10:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611828621;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=396hYMZEfhv26dWnKvY/tNIJ4Y9eVH8KeOYfFs35XbY=;
- b=MsLiIPhDX9ab0CVoH3rwAShkO9XBYP/kNZ7ELj+CYeZP7QAmlVJae3xgmX5dx9ta8DqtQt
- ESkAliVs0xFzJKptCkLrEf6Sb8eKzVoQ5nN2irbVrzNQR9XUsQPghHpEXZttEaHArNYDEO
- MnUCO04ArnzRleAiD8ZXr873B9fnfs0=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-507-BpfDfya-NcaEO9PimzrzjA-1; Thu, 28 Jan 2021 05:10:19 -0500
-X-MC-Unique: BpfDfya-NcaEO9PimzrzjA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2BCD2803622;
- Thu, 28 Jan 2021 10:10:18 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-110.ams2.redhat.com [10.36.112.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8F8C91F045;
- Thu, 28 Jan 2021 10:10:16 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l54Gk-00047p-Qp
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:11:18 -0500
+Received: from mx2.suse.de ([195.135.220.15]:51064)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l54Gj-0008Aq-4x
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 05:11:18 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+ by mx2.suse.de (Postfix) with ESMTP id 3B6CCACC6;
+ Thu, 28 Jan 2021 10:11:14 +0000 (UTC)
 Subject: Re: acceptance-system-fedora and acceptance-system-centos failing
  sporadically with timeout?
-To: Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
 References: <7da911b5-40d3-fd3b-768f-862c07f879ba@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <68c85b98-6a4b-13a7-ae86-8a63013549a7@redhat.com>
-Date: Thu, 28 Jan 2021 11:10:15 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ <68c85b98-6a4b-13a7-ae86-8a63013549a7@redhat.com>
+From: Claudio Fontana <cfontana@suse.de>
+Message-ID: <9bb77a1f-d904-7548-c967-9ed0cf759bbc@suse.de>
+Date: Thu, 28 Jan 2021 11:11:13 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <7da911b5-40d3-fd3b-768f-862c07f879ba@suse.de>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <68c85b98-6a4b-13a7-ae86-8a63013549a7@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.308,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
+ helo=mx2.suse.de
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,35 +56,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Bennee <alex.bennee@linaro.org>, qemu-devel <qemu-devel@nongnu.org>
+Cc: Alex Bennee <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 28/01/2021 10.45, Claudio Fontana wrote:
-> Hi,
+On 1/28/21 11:10 AM, Thomas Huth wrote:
+> On 28/01/2021 10.45, Claudio Fontana wrote:
+>> Hi,
+>>
+>> is it just me, or is the CI sometimes failing with timeout?
+>>
+>> One nice feature that cirrus and travis have is the ability to relaunch one specific test,
+>> do you know if there is some way to do it in gitlab too?
+>>
+>> I could not find it..
+>>
+>> Fedora:
+>> https://gitlab.com/hw-claudio/qemu/-/jobs/986936506
 > 
-> is it just me, or is the CI sometimes failing with timeout?
+> I've sent a patch for that issue just yesterday:
 > 
-> One nice feature that cirrus and travis have is the ability to relaunch one specific test,
-> do you know if there is some way to do it in gitlab too?
+>   https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg06852.html
 > 
-> I could not find it..
+>> CentOS:
+>> https://gitlab.com/hw-claudio/qemu/-/jobs/980769080
 > 
-> Fedora:
-> https://gitlab.com/hw-claudio/qemu/-/jobs/986936506
+> Never seen that one before - if you hit it again, could you please save the 
+> artifacts and have a look at the log file in there to see what's exactly the 
+> problem?
+> 
+>   Thanks
+>    Thomas
+> 
 
-I've sent a patch for that issue just yesterday:
+Hello Thomas,
 
-  https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg06852.html
+will do!
 
-> CentOS:
-> https://gitlab.com/hw-claudio/qemu/-/jobs/980769080
+Ciao,
 
-Never seen that one before - if you hit it again, could you please save the 
-artifacts and have a look at the log file in there to see what's exactly the 
-problem?
-
-  Thanks
-   Thomas
-
+Claudio
 
