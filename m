@@ -2,43 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9B7F306AB1
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:49:52 +0100 (CET)
-Received: from localhost ([::1]:51696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BFD6306AB6
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:52:02 +0100 (CET)
+Received: from localhost ([::1]:55930 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4wRT-0003MS-Lg
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:49:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55898)
+	id 1l4wTZ-0005Ex-4q
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:52:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO4-0007ti-Ok; Wed, 27 Jan 2021 20:46:20 -0500
-Received: from ozlabs.org ([203.11.71.1]:55043)
+ id 1l4wO6-0007uC-2m; Wed, 27 Jan 2021 20:46:22 -0500
+Received: from ozlabs.org ([203.11.71.1]:54035)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l4wO1-0005Av-UM; Wed, 27 Jan 2021 20:46:20 -0500
+ id 1l4wO2-0005B2-0M; Wed, 27 Jan 2021 20:46:21 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DR3GS6N0Vz9sW8; Thu, 28 Jan 2021 12:46:07 +1100 (AEDT)
+ id 4DR3GT1z5xz9sT6; Thu, 28 Jan 2021 12:46:08 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611798368;
- bh=cuvEU7gm8hSNLc4vcOPFfpV40qqp/ZatDWRGe78M9yU=;
+ d=gibson.dropbear.id.au; s=201602; t=1611798369;
+ bh=LGVuQmRvVfZEEUunEofW7BswFPh6zpHadWIYlo9xxAc=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=Pn5GYdIrbYb8NJkm9T91UqID3SrxA8RID2pfMDoTbY1KMDTlx2vY6Ak4d18tZ4lDm
- Q4UywHeiHQXBJrheSv60NZ2ea9RVW+DeOIzlm9wXzyKGi6tb6eO40VLlTWGbeBC4j5
- 4cUwPKZ9uzcCVmF65G5RN80XereNi8sSQv+HArwk=
-Date: Thu, 28 Jan 2021 11:46:55 +1100
+ b=CDCvrArK+poJ3sgG+AZvljvYOnTGhkJVY1vhTOJYvJ8ggfARvXL+dVWz+kIe6VqGi
+ 2HV2IMz7h3f2fKON0+v83bafnkKdKfkstqBnFWI7AmnCC04aHmRikFZU8SASpVLI9X
+ XDR0mjfRkJDiR7KqN+IoBIHCJObcTtsMjYWfsBKw=
+Date: Thu, 28 Jan 2021 11:49:52 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH 3/7] ppc/pnv: Use skiboot addresses to load kernel and
- ramfs
-Message-ID: <20210128004655.GF18347@yekko.fritz.box>
+Subject: Re: [PATCH 4/7] ppc/pnv: Simplify pnv_bmc_create()
+Message-ID: <20210128004952.GG18347@yekko.fritz.box>
 References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-4-clg@kaod.org>
+ <20210126171059.307867-5-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="JcvBIhDvR6w3jUPA"
+ protocol="application/pgp-signature"; boundary="pE2VAHO2njSJCslu"
 Content-Disposition: inline
-In-Reply-To: <20210126171059.307867-4-clg@kaod.org>
+In-Reply-To: <20210126171059.307867-5-clg@kaod.org>
 Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -59,54 +58,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
+Cc: qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---JcvBIhDvR6w3jUPA
+--pE2VAHO2njSJCslu
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Jan 26, 2021 at 06:10:55PM +0100, C=E9dric Le Goater wrote:
-> The current settings are useful to load large kernels (with debug) but
-> it moves the initrd image in a memory region not protected by
-> skiboot. If skiboot is compiled with DEBUG=3D1, memory poisoning will
-> corrupt the initrd.
+On Tue, Jan 26, 2021 at 06:10:56PM +0100, C=E9dric Le Goater wrote:
+> and reuse pnv_bmc_set_pnor() to share the setting of the PNOR.
 >=20
-> Cc: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
+>  hw/ppc/pnv_bmc.c | 7 +------
+>  1 file changed, 1 insertion(+), 6 deletions(-)
 >=20
->  If we want to increase the kernel size limit as commit b45b56baeecd
->  ("ppc/pnv: increase kernel size limit to 256MiB") intented to do, I
->  think we should add a machine option.
->=20
->  hw/ppc/pnv.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 14fc9758a973..e500c2e2437e 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -65,9 +65,9 @@
->  #define FW_MAX_SIZE             (16 * MiB)
+> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> index 67ebb16c4d5f..86d16b493539 100644
+> --- a/hw/ppc/pnv_bmc.c
+> +++ b/hw/ppc/pnv_bmc.c
+> @@ -260,13 +260,8 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+>      Object *obj;
 > =20
->  #define KERNEL_LOAD_ADDR        0x20000000
-> -#define KERNEL_MAX_SIZE         (256 * MiB)
-> -#define INITRD_LOAD_ADDR        0x60000000
-> -#define INITRD_MAX_SIZE         (256 * MiB)
-> +#define KERNEL_MAX_SIZE         (128 * MiB)
-> +#define INITRD_LOAD_ADDR        0x28000000
-> +#define INITRD_MAX_SIZE         (128 * MiB)
+>      obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);
+> -    object_ref(OBJECT(pnor));
+> -    object_property_add_const_link(obj, "pnor", OBJECT(pnor));
+>      qdev_realize(DEVICE(obj), NULL, &error_fatal);
+> -
+> -    /* Install the HIOMAP protocol handlers to access the PNOR */
+> -    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(obj), IPMI_NETFN_OEM,
+> -                            &hiomap_netfn);
+> +    pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);
 > =20
->  static const char *pnv_chip_core_typename(const PnvChip *o)
->  {
+>      return IPMI_BMC(obj);
+>  }
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -114,25 +105,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---JcvBIhDvR6w3jUPA
+--pE2VAHO2njSJCslu
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASCX8ACgkQbDjKyiDZ
-s5LT9Q/+L4RzJqPQ9BgF4JPWNd9Z3f8QIZdbtmCDWKiJ9/JoXbfZKs0esTiTZUFi
-sq5HxRxlLPhmbcrM/TQpoVg//thfPBh9e1cxe1Ns7djEdsTVOeB721snf8lzM8/a
-wndUyYa+sLkedxr1UJkJXtzSJgaHsUmcYP7YuiCkyVoJUGlWSIlqE6uB+mFrdTSV
-7hDuElEN+8FNxN+wqWS422qQT/hyksO/3qbL4iRSn+8E0HLonzcY52rG5UJ6vLD6
-MUajpxIqK3x4cfSd7jBQowl5439fyn7xvUjLJydyvNaENpF+UyBfngpJLyN088lI
-fMBaJnfqRBvIe3F2GRcgVvkpp5SX2QUTpdWk/D77IO/J8foXXByLkx6/rI6H5RGC
-7s1I0oUTH2J3vUim5NQl+Z5L5sAcMztXvIieeRU/4HbEaPyKUTkR7b/0R5lcfx5p
-tYj5r5wsJG1BY5vcV39/UAdGVMPqdPnQHywecqA9ECIdD4+Eu9YoEU3nKMI6+cy+
-cJGNnkKFJDro3mi/4/kh3C2YyKbFueicklgHjzXOIW2TO/stivwtneMpcqEjgDmf
-L/1NhrBg0MPi2sAPmIK4xEZKWg0OFqWGm+IjkFA1bCT22OLQAhe5kSZsshLEJkIA
-6XaJ6MgAvr59kgGmJcHyG5NAuxGHUnszwTSL1xGYIDy8ZjRqzsc=
-=7Rej
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASCjAACgkQbDjKyiDZ
+s5LduhAA0KvXkORqJh+Os2eaAMigYf9/w5pu9wvnbwkR7YQsU5c5gw6HCQ8NPVL5
+RuQDp67JqYDxeP3DByE/78USTThD7/jfEUTERJLvNyVhokhKBb9MvC0tOlK6c6RQ
+hg0bWdYErpk8owQozPpJTOr7+MjI6J3WWGJdL4QMZT7ljXWlBfNkL7AMoZvxN/SJ
+4nSVa4UxVEP0nSBDYiFXteAquZEs9lnnl+EOM3WII99fCwVNVjKYcDRBtkj4LqqY
+CJLoqZOjHllnQYLbt+OQ7PY1ozX268vHqBuK9vRR9pxmw1+WWxhLa+ByDF+u6TvA
+YUKq+4VMgQVC5xJyTzRmPTLeNVL1oHBgcvqP54pb0hC+Og4XsVOTWUhzVptM9NJC
+exnNyclS5OEsVhIf4zla5H7YsEhmWZLxickWzKUtfiWrf2v4bVdUDh/UvrA9EiBq
+FORxPid11sMNpowsqfmOOKzj5AFYeGQ48wOcuGjXMgAaASiL0DIqTNiH2tJWuO7f
+2NXpk1b+SPAxaIJOmBH1HvDYUZc4iqFj4jHkYeu86XdJhv2Q/yH3vl5upqEJhQp/
+tKezWxpqsbckp//xkHuxP8KqbhvqNAOSK7MsR7XbvRqOPr01RRx2Fuuhtc46ufX7
+Im0Cknb6TrzN07yuNMDLqlkg9Eg5VPedNw1OUKexJN4D+i+RE48=
+=8Up2
 -----END PGP SIGNATURE-----
 
---JcvBIhDvR6w3jUPA--
+--pE2VAHO2njSJCslu--
 
