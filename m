@@ -2,77 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CF81307536
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:53:15 +0100 (CET)
-Received: from localhost ([::1]:37358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AB6E30754B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:59:05 +0100 (CET)
+Received: from localhost ([::1]:54656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l55rO-0007Wm-Hc
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:53:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34166)
+	id 1l55x2-0006R7-GN
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:59:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36086)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55gx-0001pC-8E
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:27 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:51114)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55gm-0006G2-KZ
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:26 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id 190so4054465wmz.0
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:42:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=pwpcLBXHOvRWj5QvyfZ6n6CIKMm7bWYCXZk6VnOW8cY=;
- b=LT3QeIr0r0xqgkpylzUf7BFx4Y+5U3eRFVm3/k7Px4fwmb3VTYGRikIPbYbTBhhPcn
- nAwEIBFTXFTOQgvnzHYRF0BQBxKGe8gixy05dXjj6uQUYKty2jGcV+eqNtHBgnTUtrDZ
- QWUnLuRaTqBoaJorwcum9I+s3sMjkDszgKlEaWBW8IfB+rhVWa0rqi5Cm+fFK+PBEsol
- 0LNeDLieDSqGNdHjPgQ5EwnZj5xoTsZI7RO0wbVewlr8LXOJ7Mvq+ZICwEpRR/1ItPrt
- qvekhU76tcc/lmoyC4D4U2VigSNcuS9h6rnv9ozN0jMLdwTm1UFmIb5vtxA3uL6TJ5eg
- f3IA==
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1l55vT-0005AH-LB
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:57:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35203)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
+ id 1l55vR-0002fb-CM
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:57:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611835043;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=7r19sItq/HEJzP3kLDZTcP+pUj8gX+RUKiwk0fbyeKk=;
+ b=BnV8jscjTFPVh1yFpyp3KkQ+iTsKtmVxbSfB1+e7E9gvzFCc7WirfXI3xN1/73Lms95ZtH
+ QVwxED59ZISzpT32uqyW95eoDPUKDu3+boSSvobliYKdPP1UpTQHk+CiQtWNgewR6vm3MF
+ aUbtACAB/nEyookHRTYlV4REYo264Ww=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-96-xOKBcLtXMq6_QhvA2Ef81g-1; Thu, 28 Jan 2021 06:57:19 -0500
+X-MC-Unique: xOKBcLtXMq6_QhvA2Ef81g-1
+Received: by mail-il1-f198.google.com with SMTP id g3so4364722ild.4
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:57:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=pwpcLBXHOvRWj5QvyfZ6n6CIKMm7bWYCXZk6VnOW8cY=;
- b=VJaWANy/yctrSUNQFOr8GA+h83o5gbaCkFjm6qm8eBuQlKkfVZYwFZnIFYrIUp00ik
- 2ciK23fU6uRjLpicudlG2NvWOu9JQVaEip3+h6sEt4e13yaeuexPs/+UFOjJdMoKusDT
- YIB8QCxBDdimZO6AE+hpNPxuxyxJR5mlBjEyZ4Ekq8uUf/KADVVQSXWwcirbG4wdD7g7
- 97dJFseFiFXWLmdVpfR1c58uX1AwutanNb2bWGHsagyk8ZZ+i8Y6ZQOFjeQt4OcUr3j0
- x5aotx9jV99/xHwbTUEyB3P8zz16Fp0vF41xs1vpUUN0vKY3HI4cAcifN6JxQpQyUCFp
- gAAg==
-X-Gm-Message-State: AOAM531Et80+kYeS2hLRu9tB8aQ2/Dn0ONCNZwXXvT5iIEX5FfFpcYDz
- JzZzkBcTieoI5Z3s/o+Gfi6OZO5A4SZldA==
-X-Google-Smtp-Source: ABdhPJzb234Wp+hSBt6KPmuO8DPI3ey+5NFofyy/JM/bB3oP+kiLPIOJiDl6hUBWFOAYz2S/sjv2yA==
-X-Received: by 2002:a1c:408b:: with SMTP id n133mr8350905wma.103.1611834135053; 
- Thu, 28 Jan 2021 03:42:15 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q9sm6431033wme.18.2021.01.28.03.42.14
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 03:42:14 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [PATCH v2 25/25] hw/arm/stellaris: Remove board-creation reset of
- STELLARIS_SYS
-Date: Thu, 28 Jan 2021 11:41:45 +0000
-Message-Id: <20210128114145.20536-26-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210128114145.20536-1-peter.maydell@linaro.org>
-References: <20210128114145.20536-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=7r19sItq/HEJzP3kLDZTcP+pUj8gX+RUKiwk0fbyeKk=;
+ b=HsmDvfuFA81adCjlHHis52dBbD8+WCN5r7glMI6hf2v5uDIyR8bkt4iodfajmnFBCL
+ HekW8bx2rTI1u+f7TvTqAT3BpmMk3wyTQuEwz+62PmCNr7F8KIF0RcU5kV2Q7sovMIxQ
+ fmVHVZJt5GJMEaVCHYBwYS+w23Aokwa6BszUvFqe4L09VoaA2uvaBb+QesdKCh3VFLpj
+ vw4sa45GshUTcbb6r6D8agSsYAh4NSFKSaDokUmeznHCCHFibmiLV2qC1nyx912jEBFh
+ vNtU8cY72JkSKsMAIA/G6h1tJYG3miMThRuZ0CRB0mTL+LhogC16T0ziu753xLbir3DD
+ pTsg==
+X-Gm-Message-State: AOAM531vC9Di1XRYexV6VjICbydLL0V1b1nxjHgXTdjZXb6n0VGjv+if
+ QXFazFZdr95kXBm04AadfaHgfQaJiYSZhnBUhwK2j2syrtHU6D2QLd+/l0EajuDnUI8lfciFgUD
+ wWEWmjEn5ELG/aTo/0G1NiojerwiKWwI=
+X-Received: by 2002:a92:d94f:: with SMTP id l15mr12657775ilq.11.1611835039004; 
+ Thu, 28 Jan 2021 03:57:19 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxIT2OPridAmVucxc/U2rRZAPgjLVBEdtRhK1Xci3WR64OMAn9z0DnC+ApME/5C2YRW3rgo+0GRkVZCTKh/8jw=
+X-Received: by 2002:a92:d94f:: with SMTP id l15mr12657770ilq.11.1611835038742; 
+ Thu, 28 Jan 2021 03:57:18 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210128111319.329755-1-marcandre.lureau@redhat.com>
+ <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
+In-Reply-To: <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
+Date: Thu, 28 Jan 2021 15:57:07 +0400
+Message-ID: <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
+Subject: Re: [PATCH] spice: delay starting until display are initialized
+To: Gerd Hoffmann <kraxel@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: multipart/alternative; boundary="000000000000ebd50c05b9f496fc"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=mlureau@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,48 +89,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luc Michel <luc@lmichel.fr>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the watchdog device uses its Clock input rather than being
-passed the value of system_clock_scale at creation time, we can
-remove the hack where we reset the STELLARIS_SYS at board creation
-time to force it to set system_clock_scale.  Instead it will be reset
-at the usual point in startup and will inform the watchdog of the
-clock frequency at that point.
+--000000000000ebd50c05b9f496fc
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20210121190622.22000-26-peter.maydell@linaro.org
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/stellaris.c | 10 ----------
- 1 file changed, 10 deletions(-)
+Hi
 
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 5acb043a07e..ad72c0959f1 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -780,16 +780,6 @@ static DeviceState *stellaris_sys_init(uint32_t base, qemu_irq irq,
-     sysbus_mmio_map(sbd, 0, base);
-     sysbus_connect_irq(sbd, 0, irq);
- 
--    /*
--     * Normally we should not be resetting devices like this during
--     * board creation. For the moment we need to do so, because
--     * system_clock_scale will only get set when the STELLARIS_SYS
--     * device is reset, and we need its initial value to pass to
--     * the watchdog device. This hack can be removed once the
--     * watchdog has been converted to use a Clock input instead.
--     */
--    device_cold_reset(dev);
--
-     return dev;
- }
- 
--- 
-2.20.1
+On Thu, Jan 28, 2021 at 3:44 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+
+>   Hi,
+>
+> > diff --git a/ui/spice-display.c b/ui/spice-display.c
+> > index 0178d5766d..3d3e3bcb22 100644
+> > --- a/ui/spice-display.c
+> > +++ b/ui/spice-display.c
+> > @@ -1188,4 +1188,6 @@ void qemu_spice_display_init(void)
+> >          }
+> >          qemu_spice_display_init_one(con);
+> >      }
+>
+>        if (runstate_is_running()) {
+>             qemu_spice_display_start();
+>        }
+>
+> Isn't that enough?
+>
+
+That should be fine too, I'll update the patch. thanks
+
+--000000000000ebd50c05b9f496fc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
+"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 28, 2021 at 3:44 PM Ger=
+d Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&g=
+t; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=C2=A0=
+ Hi,<br>
+<br>
+&gt; diff --git a/ui/spice-display.c b/ui/spice-display.c<br>
+&gt; index 0178d5766d..3d3e3bcb22 100644<br>
+&gt; --- a/ui/spice-display.c<br>
+&gt; +++ b/ui/spice-display.c<br>
+&gt; @@ -1188,4 +1188,6 @@ void qemu_spice_display_init(void)<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_spice_display_init_one(con);<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0if (runstate_is_running()) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_spice_display_start();<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+Isn&#39;t that enough?<br></blockquote><div><br></div><div>That should be f=
+ine too, I&#39;ll update the patch. thanks</div><br></div></div>
+
+--000000000000ebd50c05b9f496fc--
 
 
