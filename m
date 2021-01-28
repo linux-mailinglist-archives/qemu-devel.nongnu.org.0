@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91A673078D2
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:58:47 +0100 (CET)
-Received: from localhost ([::1]:35614 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D143078B7
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:54:30 +0100 (CET)
+Received: from localhost ([::1]:54266 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l58kw-0004dj-MM
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:58:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46572)
+	id 1l58gi-0000NE-QP
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:54:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46570)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Nawrocki@gtri.gatech.edu>)
- id 1l58ZQ-0007bU-KC; Thu, 28 Jan 2021 09:46:52 -0500
-Received: from unifiededge.gtri.gatech.edu ([130.207.205.170]:20950)
+ id 1l58ZO-0007Xz-IR; Thu, 28 Jan 2021 09:46:50 -0500
+Received: from unifiededge.gtri.gatech.edu ([130.207.205.170]:28786)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <Michael.Nawrocki@gtri.gatech.edu>)
- id 1l58ZM-0000c3-5H; Thu, 28 Jan 2021 09:46:52 -0500
+ id 1l58ZM-0000c2-0Z; Thu, 28 Jan 2021 09:46:50 -0500
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; d=gtri.gatech.edu; s=unifiededge;
- c=simple/simple; t=1611844300; h=from:subject:to:date:message-id;
- bh=rgvmgdcyzggiCgfSXThLfGZq+ttZqivy+Z4oyt+0EFk=;
- b=rExLeuKUMJ1LJnvCombSZ1oNHXChZaV4MDSTkuxdCwRGHD9HXDqflhtg3Lo/I1Pog0P/te3FqA4
- KkUn7/2v4WzRKliLsNn68Ds1eKT+GRPBNh0zZjxqNMjgav7fXUaPwm4IutoaqrdASsu3opnr8mE3n
- Y21UeOyI90BTydWdivqleaHUWPjR45p/lm7P2LNJzE2qvXbIx4SPaj1AKmWwuQvFJpXdfPmIRUm/Y
- aHOdxyZtWVkwkp3loFZFAjfN+2qDpqOPqkknu2ZExEqz5O7GJdCWLvbcRmd73cZS9a79IHckAz48j
- rOBK6WNG27InYa7b5ZUQDXgLSzAU9iehNq8A==
-Received: from tybee.core.gtri.org (10.41.1.49) by exedge07.gtri.dmz
- (10.41.104.75) with Microsoft SMTP Server (version=TLS1_2,
+ c=simple/simple; t=1611844301; h=from:subject:to:date:message-id;
+ bh=w/EyQalOWuVWocDQhP95aCvyNFJVs0DYo9EJN601YUQ=;
+ b=flLeISIFqKBUHRaHsrxqNnIlUwKDKvZcdrH/m5LurAIsOJyMAPFB6t82xabk7DSBCIq8cagn7rR
+ TGYUXztfF8VaSrjpiKVZXMKqVBkDTCLJI0cIzIq4oRhbIWm9rhBdWlg+6PfnDJtTMA1Q+3A5Ck5Ef
+ 0/MiCkp3N3lTy18+MqaIEudGNqZxtNvU6R3PNyR4jneXl/Eg5zy7ME/hISPCxj8vQ2iRa3TpIZr4N
+ gCr2XBENOSGCiTSuvqnddKuUNZz/JfXRwbHFa2NCZKbNUUMFHDpIxSJ9zK+THWOZWSN+RcwWideU3
+ zxufOLKIrxAnXgm4IT12qsCdArRueIALxptw==
+Received: from tybee.core.gtri.org (10.41.1.49) by exedge06.gtri.dmz
+ (10.41.104.63) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.2.721.2; Thu, 28 Jan 2021
- 09:31:40 -0500
+ 09:31:41 -0500
 Received: from localhost.localdomain (10.41.0.30) by tybee.core.gtri.org
  (10.41.1.49) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2106.2; Thu, 28
- Jan 2021 09:31:40 -0500
+ Jan 2021 09:31:41 -0500
 To: <qemu-arm@nongnu.org>
-Subject: [PATCH 0/1] target/arm: Fix SCR_EL3 migration issue
-Date: Thu, 28 Jan 2021 09:31:01 -0500
-Message-ID: <20210128143102.7834-1-michael.nawrocki@gtri.gatech.edu>
+Subject: [PATCH 1/1] target/arm: Add raw_writefn to SCR_EL3 register
+Date: Thu, 28 Jan 2021 09:31:02 -0500
+Message-ID: <20210128143102.7834-2-michael.nawrocki@gtri.gatech.edu>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210128143102.7834-1-michael.nawrocki@gtri.gatech.edu>
+References: <20210128143102.7834-1-michael.nawrocki@gtri.gatech.edu>
 MIME-Version: 1.0
 X-ClientProxiedBy: hatteras.core.gtri.org (10.41.22.72) To tybee.core.gtri.org
  (10.41.1.49)
@@ -71,28 +73,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reply-to:  Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
 From: michael.nawrocki--- via <qemu-devel@nongnu.org>
 
-The SCR_EL3 register reset value (0)  and the value produced when
-writing 0 via the scr_write function (set as writefn in the register
-struct) differ. This causes migration to fail.
+Fixes an issue in migration where the reset value of SCR and the value
+produced by scr_write via the writefn for SCR_EL3 mismatch.
 
-I believe the solution is to specify a raw_writefn for that register.
-
-Failing invocation:
-$ qemu-system-arm -machine vexpress-a9 -cpu cortex-a9 -nographic
-QEMU 5.2.0 monitor - type 'help' for more information
-(qemu) migrate "exec:cat > img"
-(qemu) q
-$ qemu-system-arm -machine vexpress-a9 -cpu cortex-a9 -nographic -incoming "exec:cat img"
-qemu-system-arm: error while loading state for instance 0x0 of device 'cpu'
-qemu-system-arm: load of migration failed: Operation not permitted
-
-
-Mike Nawrocki (1):
-  target/arm: Add raw_writefn to SCR_EL3 register
-
+Signed-off-by: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
+---
  target/arm/helper.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index d2ead3fcbd..e3c4fe76cb 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -5785,7 +5785,7 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
+     { .name = "SCR_EL3", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 6, .crn = 1, .crm = 1, .opc2 = 0,
+       .access = PL3_RW, .fieldoffset = offsetof(CPUARMState, cp15.scr_el3),
+-      .resetvalue = 0, .writefn = scr_write },
++      .resetvalue = 0, .writefn = scr_write, .raw_writefn = raw_write },
+     { .name = "SCR",  .type = ARM_CP_ALIAS | ARM_CP_NEWEL,
+       .cp = 15, .opc1 = 0, .crn = 1, .crm = 1, .opc2 = 0,
+       .access = PL1_RW, .accessfn = access_trap_aa32s_el1,
 -- 
 2.20.1
 
