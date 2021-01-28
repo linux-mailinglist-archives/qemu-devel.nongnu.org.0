@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91E7307F5F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:18:10 +0100 (CET)
-Received: from localhost ([::1]:32796 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2856307F60
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:18:38 +0100 (CET)
+Received: from localhost ([::1]:34112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Dk1-0006Ji-Sm
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:18:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58288)
+	id 1l5DkT-0006s2-GN
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:18:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58286)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1l5Dgb-0004U8-FC; Thu, 28 Jan 2021 15:14:37 -0500
-Received: from forwardcorp1p.mail.yandex.net
- ([2a02:6b8:0:1472:2741:0:8b6:217]:45074)
+ id 1l5Dgb-0004Tp-40; Thu, 28 Jan 2021 15:14:37 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:40036)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1l5DgU-0002kA-TK; Thu, 28 Jan 2021 15:14:37 -0500
+ id 1l5DgT-0002kB-Vl; Thu, 28 Jan 2021 15:14:36 -0500
 Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
  (vla1-fdfb804fb3f3.qloud-c.yandex.net
  [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1p.mail.yandex.net (Yandex) with ESMTP id 8DAEF2E1AC0;
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id EE0462E1E8D;
  Thu, 28 Jan 2021 23:14:25 +0300 (MSK)
 Received: from vla1-81430ab5870b.qloud-c.yandex.net
  (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
  by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- f265UETGZn-EPwSqL8c; Thu, 28 Jan 2021 23:14:25 +0300
+ 82MqRddYUU-EPwGD2p1; Thu, 28 Jan 2021 23:14:25 +0300
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
  s=default; 
- t=1611864865; bh=KRyR0vXaSOGmYq/LWT3lr62EA7h3B5scd73hSVpIApU=;
+ t=1611864865; bh=KA5vko9rC7DC7OIOySFZlGGGqVv8XiCZrRl+MYLzZig=;
  h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=10EXSasudhHnARESPuQZz8xJPZI6RtVtT6D9zphEJnx8I2GRZhUitGr9deJ1FYWSU
- mWArIehEfp80W3MH9HRmfbKzeYe+ktRTxD30GxzefoiHjSZJkdPYp0l384rCyiJ4gO
- xypZcLD5yEE9y54mBet8j0BO+TTi3OGVr8fX0GUA=
+ b=i0hzXOj6E7l6Bg5zfNDygZekE6zvSo1MWRvxeVJbPL4o30i8lYDw6DZKe3ApYFdVZ
+ NfQ+gEQO3hUaZSngpXta41oqpz6ZorHuHpimsnnMO4S/LB1NpFcI1orCzXiCiZM9mB
+ smXeedOcT8T2Bqt7hXzN7oEDuMECtzX1QJih6EGs=
 Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
  dkim=pass header.i=@yandex-team.ru
 Received: from dynamic-vpn.dhcp.yndx.net (dynamic-vpn.dhcp.yndx.net
  [2a02:6b8:b081:420::1:f])
  by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- fjMENJuJUJ-EOmWAkcj; Thu, 28 Jan 2021 23:14:25 +0300
+ fjMENJuJUJ-EPmWoUg4; Thu, 28 Jan 2021 23:14:25 +0300
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
  (Client certificate not present)
 From: Roman Kagan <rvkagan@yandex-team.ru>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/3] block/nbd: only enter connection coroutine if it's present
-Date: Thu, 28 Jan 2021 23:14:17 +0300
-Message-Id: <20210128201418.607640-3-rvkagan@yandex-team.ru>
+Subject: [PATCH 3/3] nbd: make nbd_read* return -EIO on error
+Date: Thu, 28 Jan 2021 23:14:18 +0300
+Message-Id: <20210128201418.607640-4-rvkagan@yandex-team.ru>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210128201418.607640-1-rvkagan@yandex-team.ru>
 References: <20210128201418.607640-1-rvkagan@yandex-team.ru>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1472:2741:0:8b6:217;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1p.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,89 +78,53 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When an NBD block driver state is moved from one aio_context to another
-(e.g. when doing a drain in a migration thread),
-nbd_client_attach_aio_context_bh is executed that enters the connection
-coroutine.
+NBD reconnect logic considers the error code from the functions that
+read NBD messages to tell if reconnect should be attempted or not: it is
+attempted on -EIO, otherwise the client transitions to NBD_CLIENT_QUIT
+state (see nbd_channel_error).  This error code is propagated from the
+primitives like nbd_read.
 
-However, the assumption that ->connection_co is always present here
-appears incorrect: the connection may have encountered an error other
-than -EIO in the underlying transport, and thus may have decided to quit
-rather than keep trying to reconnect, and therefore it may have
-terminated the connection coroutine.  As a result an attempt to reassign
-the client in this state (NBD_CLIENT_QUIT) to a different aio_context
-leads to a null pointer dereference:
+The problem, however, is that nbd_read itself turns every error into -1
+rather than -EIO.  As a result, if the NBD server happens to die while
+sending the message, the client in QEMU receives less data than it
+expects, considers it as a fatal error, and wouldn't attempt
+reestablishing the connection.
 
-    at /build/qemu-6MF7tq/qemu-5.0.1/util/qemu-coroutine.c:109
-    opaque=0x561805ed4c00) at /build/qemu-6MF7tq/qemu-5.0.1/block/nbd.c:164
-    at /build/qemu-6MF7tq/qemu-5.0.1/util/aio-wait.c:55
-    at /build/qemu-6MF7tq/qemu-5.0.1/util/async.c:136
-    at /build/qemu-6MF7tq/qemu-5.0.1/util/async.c:164
-    blocking=blocking@entry=true)
-    at /build/qemu-6MF7tq/qemu-5.0.1/util/aio-posix.c:650
-    cb=<optimized out>, opaque=<optimized out>)
-    at /build/qemu-6MF7tq/qemu-5.0.1/util/aio-wait.c:71
-    bs=0x561805ed4c00) at /build/qemu-6MF7tq/qemu-5.0.1/block.c:6172
-    new_context=new_context@entry=0x5618056c7580,
-    ignore=ignore@entry=0x7f60e1e63780)
-    at /build/qemu-6MF7tq/qemu-5.0.1/block.c:6237
-    bs=bs@entry=0x561805ed4c00, ctx=0x5618056c7580,
-    ignore_child=<optimized out>, errp=<optimized out>)
-    at /build/qemu-6MF7tq/qemu-5.0.1/block.c:6332
-    new_context=0x5618056c7580, update_root_node=update_root_node@entry=true,
-    errp=errp@entry=0x0)
-    at /build/qemu-6MF7tq/qemu-5.0.1/block/block-backend.c:1989
-    new_context=<optimized out>, errp=errp@entry=0x0)
-    at /build/qemu-6MF7tq/qemu-5.0.1/block/block-backend.c:2010
-    at /build/qemu-6MF7tq/qemu-5.0.1/hw/block/dataplane/virtio-blk.c:292
-    at /build/qemu-6MF7tq/qemu-5.0.1/hw/virtio/virtio-bus.c:245
-    running=0, state=<optimized out>)
-    at /build/qemu-6MF7tq/qemu-5.0.1/hw/virtio/virtio.c:3220
-    state=state@entry=RUN_STATE_FINISH_MIGRATE)
-    at /build/qemu-6MF7tq/qemu-5.0.1/softmmu/vl.c:1275
-    send_stop=<optimized out>) at /build/qemu-6MF7tq/qemu-5.0.1/cpus.c:1032
-    at /build/qemu-6MF7tq/qemu-5.0.1/migration/migration.c:2914
-    at /build/qemu-6MF7tq/qemu-5.0.1/migration/migration.c:3275
-    at /build/qemu-6MF7tq/qemu-5.0.1/migration/migration.c:3439
-    at /build/qemu-6MF7tq/qemu-5.0.1/util/qemu-thread-posix.c:519
-   from /lib/x86_64-linux-gnu/libpthread.so.0
+Fix it by turning every negative return from qio_channel_read_all into
+-EIO returned from nbd_read.  Apparently that was the original behavior,
+but got broken later.  Also adjust nbd_readXX to follow.
 
-Fix it by checking that the connection coroutine is non-null before
-trying to enter it.  If it is null, no entering is needed, as the
-connection is probably going down anyway.
-
+Fixes: e6798f06a6 ("nbd: generalize usage of nbd_read")
 Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
 ---
- block/nbd.c | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
+ include/block/nbd.h | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/block/nbd.c b/block/nbd.c
-index bcd6641e90..b3cbbeb4b0 100644
---- a/block/nbd.c
-+++ b/block/nbd.c
-@@ -250,13 +250,15 @@ static void nbd_client_attach_aio_context_bh(void *opaque)
-     BlockDriverState *bs = opaque;
-     BDRVNBDState *s = (BDRVNBDState *)bs->opaque;
+diff --git a/include/block/nbd.h b/include/block/nbd.h
+index 4a52a43ef5..5f34d23bb0 100644
+--- a/include/block/nbd.h
++++ b/include/block/nbd.h
+@@ -364,7 +364,7 @@ static inline int nbd_read(QIOChannel *ioc, void *buffer, size_t size,
+         if (desc) {
+             error_prepend(errp, "Failed to read %s: ", desc);
+         }
+-        return -1;
++        return ret;
+     }
  
--    /*
--     * The node is still drained, so we know the coroutine has yielded in
--     * nbd_read_eof(), the only place where bs->in_flight can reach 0, or it is
--     * entered for the first time. Both places are safe for entering the
--     * coroutine.
--     */
--    qemu_aio_coroutine_enter(bs->aio_context, s->connection_co);
-+    if (s->connection_co) {
-+        /*
-+         * The node is still drained, so we know the coroutine has yielded in
-+         * nbd_read_eof(), the only place where bs->in_flight can reach 0, or
-+         * it is entered for the first time. Both places are safe for entering
-+         * the coroutine.
-+         */
-+        qemu_aio_coroutine_enter(bs->aio_context, s->connection_co);
-+    }
-     bdrv_dec_in_flight(bs);
- }
- 
+     return 0;
+@@ -375,8 +375,9 @@ static inline int nbd_read##bits(QIOChannel *ioc,                       \
+                                  uint##bits##_t *val,                   \
+                                  const char *desc, Error **errp)        \
+ {                                                                       \
+-    if (nbd_read(ioc, val, sizeof(*val), desc, errp) < 0) {             \
+-        return -1;                                                      \
++    int ret = nbd_read(ioc, val, sizeof(*val), desc, errp);             \
++    if (ret < 0) {                                                      \
++        return ret;                                                     \
+     }                                                                   \
+     *val = be##bits##_to_cpu(*val);                                     \
+     return 0;                                                           \
 -- 
 2.29.2
 
