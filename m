@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B3E307A14
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:54:07 +0100 (CET)
-Received: from localhost ([::1]:59566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A360307A3C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 17:03:18 +0100 (CET)
+Received: from localhost ([::1]:37432 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59cU-00037b-Hg
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:54:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43560)
+	id 1l59lN-0006t0-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 11:03:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l59b6-00027c-Ie
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:52:40 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40542)
+ id 1l59j4-0005zR-7P
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:00:54 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:44312)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l59b3-000820-Fp
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:52:40 -0500
-Received: by mail-ej1-x635.google.com with SMTP id gx5so8476093ejb.7
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:52:34 -0800 (PST)
+ id 1l59j0-00034M-3U
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 11:00:53 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id w1so8493819ejf.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 08:00:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=zF8xeAznwgn4L/OdyBHBQ5UOpYDEsDc3ed21kkQniYI=;
- b=e7dlQYzZ0toMRVoIdrmp0UvbfXFQfD5JzJMR9IanrWoH5id1wVGBdurAHnh9dJsBn9
- 2Wzm4wREsis68L7pYX/W4ICKh2XngiTAL3HgnuthK41J92Uy5efHo2kFUNDppBNp/3uo
- 9dJVMY7tzgIPA6/eJ0D8MfxDocR1wLkp0zjKCzvPEjNAF2jcIXgIrtJiZSmdC1oTl0Vu
- aTGPG+sVHlIZpNgk0wPh8DHz7LE8cubobVUV7BA6WiA+i2Wq6Q9fNvdLlDRVD59vsSdq
- g1XYBp2oHfUdI/h6KBwx5Cm3/iarPHoVujhMYKrlqdsDxl3s2mQNHHm7wbZv6o6h8V7q
- sRzw==
+ :cc; bh=5kwg4gdbZspXmiJL8+f2EgzLJGp2DZkO3F/HF0QXW/Q=;
+ b=fgRNa1rjv2U/gthbSs4rF0jQTm9MGsr1//6c+rxFLLYK0MtqRZIkCaYk21xAldFxuH
+ qSd0DkRIzuRhSX+YEkuaEE0z2qrlv2XMGjUUysvnJX+C4yMtMQm81CSuWxk+YGXCMCB5
+ VjjP7+deTeG7RK7hwSe8lUOgS8wGZTdszASImkTKX7GxpwasVhfqpKwa34TttzW5a3n8
+ pdlJS/A2D9SV602tv6lH1pucd17IC2o2RHLUIdpiip0ihHDluzjzC7je26jsmx6gcIeS
+ sTAEV4FtcNhVbHiM+AanozzurlZsvdd+NKLRDul7W6SoFxO8C/x92JiBo3jwj4MQuCyN
+ EdZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=zF8xeAznwgn4L/OdyBHBQ5UOpYDEsDc3ed21kkQniYI=;
- b=YzCzceTIovjipx5aCSvyYlj2/Eh3WJLSah+4QQ9IFqneQKBtTFQ1nGoScEjAtEmj+Z
- U7ZsDZe/1cHN/FIR6Q9Yf3QLud/gLF7EQBGhzQm2H4US97shDhBrHk+boyMgh3uHLR03
- JugveZxg0hbcFc3RDilh8en85YPz7H7vkoLwsCj32JLMlBK3FnAME392c/2H3pDVd7Tb
- uTDjcOzE05yDpdL0V4HqpIn9t4r12+w8a7XuJvoKDqSSQZxMWmqr9cXFD1gX3V2rPIxB
- qsdZISIIeHl/402RJ7fR/sg87gUEmOC7y0rEcxBF9UhCJxIJBh8Wyd5imGJ1kwO1de79
- xgog==
-X-Gm-Message-State: AOAM530ewAYemZeJ5GLKb8QJDPFBpugET4PdWxyLXDzGxgVvwRihCSbl
- cx4YntTalpbAmvp4Bi4u/q/82epnK/GUnRg+6Fljkw==
-X-Google-Smtp-Source: ABdhPJwK/ZZcjNrKUbn+ipl10ut5by/3e2gObX+MQuvFJznvx34fVkLv+HL0ZXv2Z9zRdHV26+ntP643rd5ec1ee1II=
-X-Received: by 2002:a17:906:b215:: with SMTP id
- p21mr11571615ejz.407.1611849153114; 
- Thu, 28 Jan 2021 07:52:33 -0800 (PST)
+ bh=5kwg4gdbZspXmiJL8+f2EgzLJGp2DZkO3F/HF0QXW/Q=;
+ b=nPraDtBc0GX2pKR50jtZAbKb985ve3PgNqpkeaErX6G7Ibbg6XirOrCXiMuTXa+zHQ
+ Z+dIZfpfpzMjXwV/nz81cSDa1lHVKBkvKbslrX+fg6Coe3NpxpJX37MgSWDGLz7tjQH7
+ 4POG7Mq/m2BIOY8G6NALP2S7C/EB28q6poLY8JlRDZsxp5UiYCGg7Iqhb+kaP6Yue3yr
+ LS+IZ22iM/0gGZ8jKKtYQ6DQyvCqCKe6GjnOnQMRE4Bm0Pf081qwzcDehaw7iQD8oScS
+ zn3yLf0QdcuuKwukxKg+p6U0y21fmRtiTLySa8FSM6+YA6o0ypE87jpIyI7qNNlaaTla
+ khXg==
+X-Gm-Message-State: AOAM5312Y8ZaC13/GPuoy6UauLR/tIxbSGJTZe3GciCVmBfXM5I2uZEO
+ //prYAYxP/w39khV6V+0VUvVRu2W7+ZYsFI+gvZ4CQ==
+X-Google-Smtp-Source: ABdhPJwjOmuLzUTVIiaHaLFlRleMBpdpZLG3r4bY+rVWUMYxIIdLVoGbOAQQ8+r+bZlaWAuHMM8iw37D9XfjPiNW9BM=
+X-Received: by 2002:a17:906:3603:: with SMTP id q3mr47871ejb.382.1611849647601; 
+ Thu, 28 Jan 2021 08:00:47 -0800 (PST)
 MIME-Version: 1.0
 References: <20210120224444.71840-1-agraf@csgraf.de>
- <20210120224444.71840-8-agraf@csgraf.de>
-In-Reply-To: <20210120224444.71840-8-agraf@csgraf.de>
+ <20210120224444.71840-9-agraf@csgraf.de>
+In-Reply-To: <20210120224444.71840-9-agraf@csgraf.de>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 15:52:21 +0000
-Message-ID: <CAFEAcA_-4GYk_+jdczWE720-VH1CLcS+1jVB2LzG=bBBJc8w-g@mail.gmail.com>
-Subject: Re: [PATCH v6 07/11] hvf: Add Apple Silicon support
+Date: Thu, 28 Jan 2021 16:00:35 +0000
+Message-ID: <CAFEAcA_MPkZ_5k=erNdh68wg4WWN2R71s4y9UKhbvQdWa_Pzcw@mail.gmail.com>
+Subject: Re: [PATCH v6 08/11] arm: Add Hypervisor.framework build target
 To: Alexander Graf <agraf@csgraf.de>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,272 +88,67 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Wed, 20 Jan 2021 at 22:44, Alexander Graf <agraf@csgraf.de> wrote:
 >
-> With Apple Silicon available to the masses, it's a good time to add support
-> for driving its virtualization extensions from QEMU.
->
-> This patch adds all necessary architecture specific code to get basic VMs
-> working. It's still pretty raw, but definitely functional.
->
-> Known limitations:
->
->   - Vtimer acknowledgement is hacky
->   - Should implement more sysregs and fault on invalid ones then
->   - WFI handling is missing, need to marry it with vtimer
+> Now that we have all logic in place that we need to handle Hypervisor.framework
+> on Apple Silicon systems, let's add CONFIG_HVF for aarch64 as well so that we
+> can build it.
 >
 > Signed-off-by: Alexander Graf <agraf@csgraf.de>
 > Reviewed-by: Roman Bolshakov <r.bolshakov@yadro.com>
-
-> --- a/accel/hvf/hvf-cpus.c
-> +++ b/accel/hvf/hvf-cpus.c
-> @@ -58,6 +58,10 @@
->  #include "sysemu/runstate.h"
->  #include "qemu/guest-random.h"
+> Tested-by: Roman Bolshakov <r.bolshakov@yadro.com> (x86 only)
 >
-> +#ifdef __aarch64__
-> +#define HV_VM_DEFAULT NULL
-> +#endif
->  /* Memory slots */
+> ---
 >
->  struct mac_slot {
-> @@ -328,7 +332,11 @@ static int hvf_init_vcpu(CPUState *cpu)
->      pthread_sigmask(SIG_BLOCK, NULL, &set);
->      sigdelset(&set, SIG_IPI);
+> v1 -> v2:
 >
-> +#ifdef __aarch64__
-> +    r = hv_vcpu_create(&cpu->hvf->fd, (hv_vcpu_exit_t **)&cpu->hvf->exit, NULL);
-> +#else
->      r = hv_vcpu_create((hv_vcpuid_t *)&cpu->hvf->fd, HV_VCPU_DEFAULT);
-> +#endif
->      cpu->vcpu_dirty = 1;
->      assert_hvf_ok(r);
+>   - Fix build on 32bit arm
 >
-> @@ -399,8 +407,14 @@ static void hvf_start_vcpu_thread(CPUState *cpu)
->                         cpu, QEMU_THREAD_JOINABLE);
->  }
+> v3 -> v4:
 >
-> +__attribute__((weak)) void hvf_kick_vcpu_thread(CPUState *cpu)
-> +{
-> +    cpus_kick_thread(cpu);
-> +}
-> +
->  static const CpusAccel hvf_cpus = {
->      .create_vcpu_thread = hvf_start_vcpu_thread,
-> +    .kick_vcpu_thread = hvf_kick_vcpu_thread,
+>   - Remove i386-softmmu target
+> ---
+>  meson.build                | 11 ++++++++++-
+>  target/arm/hvf/meson.build |  3 +++
+>  target/arm/meson.build     |  2 ++
+>  3 files changed, 15 insertions(+), 1 deletion(-)
+>  create mode 100644 target/arm/hvf/meson.build
 >
->      .synchronize_post_reset = hvf_cpu_synchronize_post_reset,
->      .synchronize_post_init = hvf_cpu_synchronize_post_init,
-> diff --git a/include/sysemu/hvf_int.h b/include/sysemu/hvf_int.h
-> index 9d3cb53e47..c2ac6c8f97 100644
-> --- a/include/sysemu/hvf_int.h
-> +++ b/include/sysemu/hvf_int.h
-> @@ -11,7 +11,12 @@
->  #ifndef HVF_INT_H
->  #define HVF_INT_H
+> diff --git a/meson.build b/meson.build
+> index c667d64498..8302fcbd90 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -74,16 +74,25 @@ else
+>  endif
 >
-> +#include "qemu/osdep.h"
-
-.h files must never include osdep.h (all .c files do as their first
-include line).
-
-> +#ifdef __aarch64__
-> +#include <Hypervisor/Hypervisor.h>
-> +#else
->  #include <Hypervisor/hv.h>
-> +#endif
->
->  /* hvf_slot flags */
->  #define HVF_SLOT_LOG (1 << 0)
-> @@ -44,7 +49,8 @@ struct HVFState {
->  extern HVFState *hvf_state;
->
->  struct hvf_vcpu_state {
-> -    int fd;
-> +    uint64_t fd;
-
-Why the change in the type for 'fd' ?
-
-> +    void *exit;
-
-Can we define this as a "hv_vcpu_exit_t *" so we don't have to
-cast it in the call to hv_vcpu_create() ?
-
->  };
->
->  void assert_hvf_ok(hv_return_t ret);
-> @@ -54,5 +60,6 @@ int hvf_arch_init_vcpu(CPUState *cpu);
->  void hvf_arch_vcpu_destroy(CPUState *cpu);
->  int hvf_vcpu_exec(CPUState *cpu);
->  hvf_slot *hvf_find_overlap_slot(uint64_t, uint64_t);
-> +void hvf_kick_vcpu_thread(CPUState *cpu);
->
->  #endif
-> diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
-> new file mode 100644
-> index 0000000000..8f18efe856
-> --- /dev/null
-> +++ b/target/arm/hvf/hvf.c
-> @@ -0,0 +1,618 @@
-> +/*
-> + * QEMU Hypervisor.framework support for Apple Silicon
+>  accelerator_targets = { 'CONFIG_KVM': kvm_targets }
 > +
-> + * Copyright 2020 Alexander Graf <agraf@csgraf.de>
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
-> + * See the COPYING file in the top-level directory.
-> + *
-> + */
+> +if cpu in ['x86', 'x86_64']
+
+We don't support 32-bit x86 hosts so I don't think you need the 'x86' here.
+
+> +  hvf_targets = ['x86_64-softmmu']
+> +elif cpu in ['aarch64']
+> +  hvf_targets = ['aarch64-softmmu']
+> +else
+> +  hvf_targets = []
+> +endif
 > +
-> +#include "qemu/osdep.h"
-> +#include "qemu-common.h"
-> +#include "qemu/error-report.h"
-> +
-> +#include "sysemu/runstate.h"
-> +#include "sysemu/hvf.h"
-> +#include "sysemu/hvf_int.h"
-> +#include "sysemu/hw_accel.h"
-> +
-> +#include "exec/address-spaces.h"
-> +#include "hw/irq.h"
-> +#include "qemu/main-loop.h"
-> +#include "sysemu/accel.h"
-> +#include "sysemu/cpus.h"
-> +#include "target/arm/cpu.h"
-> +#include "target/arm/internals.h"
-> +
-> +#define HVF_DEBUG 0
-> +#define DPRINTF(...)                                        \
-> +    if (HVF_DEBUG) {                                        \
-> +        fprintf(stderr, "HVF %s:%d ", __func__, __LINE__);  \
-> +        fprintf(stderr, __VA_ARGS__);                       \
-> +        fprintf(stderr, "\n");                              \
-> +    }
+>  if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
+>    # i368 emulator provides xenpv machine type for multiple architectures
+>    accelerator_targets += {
+>      'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
+> +    'CONFIG_HVF': hvf_targets,
 
-No new DPRINTF macros, please. Use tracepoints.
-
-> +
-> +#define HVF_SYSREG(crn, crm, op0, op1, op2) \
-> +        ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP, crn, crm, op0, op1, op2)
-> +#define PL1_WRITE_MASK 0x4
-> +
-> +#define SYSREG(op0, op1, crn, crm, op2) \
-> +    ((op0 << 20) | (op2 << 17) | (op1 << 14) | (crn << 10) | (crm << 1))
-> +#define SYSREG_MASK           SYSREG(0x3, 0x7, 0xf, 0xf, 0x7)
-> +#define SYSREG_CNTPCT_EL0     SYSREG(3, 3, 14, 0, 1)
-> +#define SYSREG_PMCCNTR_EL0    SYSREG(3, 3, 9, 13, 0)
-> +
-> +#define WFX_IS_WFE (1 << 0)
+This 'if' is specific to the weird Xen thing where for
+arm hosts we build the Xen code into a qemu-system-i386/qemu-system-x86_64,
+so it's the wrong place to add HVF stuff.
 
 
+I think what you want is to follow the same pattern
+as the KVM stuff, so just
 
-> +static const struct hvf_sreg_match hvf_sreg_match[] = {
-> +    { HV_SYS_REG_DBGBVR0_EL1, HVF_SYSREG(0, 0, 14, 0, 4) },
-> +    { HV_SYS_REG_DBGBCR0_EL1, HVF_SYSREG(0, 0, 14, 0, 5) },
-> +    { HV_SYS_REG_DBGWVR0_EL1, HVF_SYSREG(0, 0, 14, 0, 6) },
-> +    { HV_SYS_REG_DBGWCR0_EL1, HVF_SYSREG(0, 0, 14, 0, 7) },
+accelerator_targets += { 'CONFIG_HVF': hvf_targets }
 
-I'm not a huge fan of this big long hardcoded list of registers.
-Is there some way to work from either the QEMU cpregs hashtable
-or asking the hypervisor framework about what sysregs it has?
-(Compare the KVM approach, though I admit it has its own issues,
-so if there's a genuinely better way to do something I'm not
-ruling it out on principle.)
-
-> +#ifdef SYNC_NO_RAW_REGS
-
-What's this ifdef for?
-
-
-> +int hvf_get_registers(CPUState *cpu)
-> +{
-> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
-> +    CPUARMState *env = &arm_cpu->env;
-> +    hv_return_t ret;
-> +    uint64_t val;
-> +    int i;
-> +
-> +    for (i = 0; i < ARRAY_SIZE(hvf_reg_match); i++) {
-> +        ret = hv_vcpu_get_reg(cpu->hvf->fd, hvf_reg_match[i].reg, &val);
-> +        *(uint64_t *)((void *)env + hvf_reg_match[i].offset) = val;
-> +        assert_hvf_ok(ret);
-> +    }
-> +
-> +    val = 0;
-> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_FPCR, &val);
-> +    assert_hvf_ok(ret);
-> +    vfp_set_fpcr(env, val);
-> +
-> +    val = 0;
-> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_FPSR, &val);
-> +    assert_hvf_ok(ret);
-> +    vfp_set_fpsr(env, val);
-> +
-> +    ret = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_CPSR, &val);
-> +    assert_hvf_ok(ret);
-> +    pstate_write(env, val);
-> +
-> +    for (i = 0; i < ARRAY_SIZE(hvf_sreg_match); i++) {
-> +        ret = hv_vcpu_get_sys_reg(cpu->hvf->fd, hvf_sreg_match[i].reg, &val);
-> +        assert_hvf_ok(ret);
-> +
-> +        arm_cpu->cpreg_values[i] = val;
-> +    }
-> +    write_list_to_cpustate(arm_cpu);
-
-Have I missed it, or are we not syncing the FPU/vector registers?
-
-> +    return 0;
-> +}
-> +            if (iswrite) {
-> +                val = hvf_get_reg(cpu, srt);
-> +                address_space_write(&address_space_memory,
-> +                                    hvf_exit->exception.physical_address,
-> +                                    MEMTXATTRS_UNSPECIFIED, &val, len);
-
-Does the hvf framework provide a way to report the external-abort
-if address_space_write() returns something other than MEMTX_OK ?
-
-> +            break;
-> +        case EC_AA64_SMC:
-> +            cpu_synchronize_state(cpu);
-> +            if (arm_is_psci_call(arm_cpu, EXCP_SMC)) {
-> +                arm_handle_psci_call(arm_cpu);
-
-Have you checked that all the PSCI code really can cope
-with being called from a non-TCG accelerator? (As an example
-the CPU_SUSPEND implementation calls the TCG wfi helper...)
-
-> +            } else {
-> +                DPRINTF("unknown SMC! %016llx", env->xregs[0]);
-> +                env->xregs[0] = -1;
-
-This should inject an UNDEF exception into the guest. (Compare
-the pre_smc helper in target/arm/op_helper.c for TCG.)
-
-> +            }
-> +            env->pc += 4;
-> +            break;
-> +        default:
-> +            cpu_synchronize_state(cpu);
-> +            DPRINTF("exit: %llx [ec=0x%x pc=0x%llx]", syndrome, ec, env->pc);
-> +            error_report("%llx: unhandled exit %llx", env->pc, exit_reason);
-
-Hex values should have leading '0x'.
-
-> +        }
-> +
-> +        if (advance_pc) {
-> +            uint64_t pc;
-> +
-> +            flush_cpu_state(cpu);
-> +
-> +            r = hv_vcpu_get_reg(cpu->hvf->fd, HV_REG_PC, &pc);
-> +            assert_hvf_ok(r);
-> +            pc += 4;
-> +            r = hv_vcpu_set_reg(cpu->hvf->fd, HV_REG_PC, pc);
-> +            assert_hvf_ok(r);
-> +        }
-> +    }
-> +}
+after the if-ladder where you're setting hvf_targets.
 
 thanks
 -- PMM
