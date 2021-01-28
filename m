@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EC9307777
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 14:53:53 +0100 (CET)
-Received: from localhost ([::1]:44274 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DDC30777B
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 14:55:13 +0100 (CET)
+Received: from localhost ([::1]:46104 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l57k8-0004xJ-Mg
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 08:53:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59404)
+	id 1l57lQ-0005lt-2i
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 08:55:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l57hW-0003kv-JU
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:51:10 -0500
-Received: from mail-ed1-x52b.google.com ([2a00:1450:4864:20::52b]:35994)
+ id 1l57iJ-0004OB-Mj
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:51:59 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:36001)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l57hT-0007Qb-JH
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:51:10 -0500
-Received: by mail-ed1-x52b.google.com with SMTP id d2so6703409edz.3
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 05:51:05 -0800 (PST)
+ id 1l57iC-0007dS-Bf
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 08:51:59 -0500
+Received: by mail-ed1-x529.google.com with SMTP id d2so6706286edz.3
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 05:51:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=GkzRAklb6idVbi4Nlegxw7IMnF2hkEvmjlxBgJ+vS9I=;
- b=zOpHgG6b9hGoscoCcOgh+sv2L2h5StT8MpGQ3HKnRZWSjVgVGfafsctn2g49oBKlfE
- le9G3l2iEuJUk7eOvwiHSKY+E0Bd15Vehux92Q+aFzZVXBra1yLiaoqqGP07MPwX2bPx
- iCNn2HqCtsuh+Ye6/XpzYQv7kXm2A62dyiGByukXpW50u0E66vXxla3GMKg9XWBPHK2O
- 8ju7hr2Ik2bjDwrJsWNeVSCPdsADCcimHDGW305CBOxdcpwlKkCt0o9bdlf08QKZjWMc
- wqr9XJeKB0vM3nOeLE/N+1RgmA23sC9MBHWtaOlk2OP386ecP8Us3KL/8YLiEpRtx40i
- UyVA==
+ :cc; bh=mdfMHvHalYSR0XyKeDsdIX+AReyjSJNYN5Pz1VQ3A9I=;
+ b=xnI2+13zFHB563xKjxw6dEhAAJvAN9NhCoKrf9c/4ATzLS98yrlCOxiAFH6u6tmNl1
+ Duvx0Op33030b+lc5Fv8wUiHCoCvG4hkeV8NbJrZ1dR1ZCXJwSGEQ76IIs/3JtHf6BBp
+ b0YXV3K9onVnIS4nKDvTSReOIshZ4gAAGOBaJmxidVcCc79tX/2/1XFYvUSJaLRVcocZ
+ hFxVteMTv2oFHhGjZqK8GjtPChukmKimdVeFabAfr6xESdEqSE6+kKNBHBow5CA1MC0+
+ 0R0l0Fx6mEBxke/cu1nW44EHEQZQ/owoKlw7Y2VqgazBDk3rANea6Gsgn/JbdR2O5Rxf
+ RKPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=GkzRAklb6idVbi4Nlegxw7IMnF2hkEvmjlxBgJ+vS9I=;
- b=EZUPgwnttjBLoKz9odXVMt6VCmJtwZPSnSlE6FpindN6Xmqt2A787Q2dkNwb0jI8ag
- Mja0XCNf8ShbL+wrT92egckPy3fNhEEK1JhcM2bNf1uCcA/LTo7FzEs+PRVLiRcjvrfP
- Y+6csK7ASb1AWmzS5RSl2CNsHMcyC1C+cE9D8uLGM71jLtXG8+9SbHBoZ9I+tdIHH0gz
- 0qLoFQB1NY64EwrcFK4+MyRW1hBowmofxmTUyrJsydLKJY0TTXf6Vo23yK/JsLmqys5B
- 1L9twiOOrWi0CHVACpDI+CaXncyOX9p3jrUeFCXx5K2xXXOduKxYatAMXYxjjs4OgZlz
- siLw==
-X-Gm-Message-State: AOAM532oGFdnX7y+qC95ZUimJ+15Ytt3BUybrINaLRjqPXvKJPwOEWDL
- qEymCnZxwg21SPKr7M4n98D5V3K0A+iZSqtGiAvCFA==
-X-Google-Smtp-Source: ABdhPJzRnKj4ag9vupbO6FcqHAfLAUfybK1GcRHprF1uv0p5hkz1uXkubvM9+eDU9eMF4+EKRvtCnqUyhoVbIqDq/b4=
-X-Received: by 2002:a05:6402:31ac:: with SMTP id
- dj12mr13929369edb.44.1611841864194; 
- Thu, 28 Jan 2021 05:51:04 -0800 (PST)
+ bh=mdfMHvHalYSR0XyKeDsdIX+AReyjSJNYN5Pz1VQ3A9I=;
+ b=RIUHcNoqzmLZpKHpMyL7jTgIY97lqGVekftt5qt1XvEO5M5s7VTZbb/jEYTLAP/yJA
+ euVltu8hdXcGenTj1MRHahQSrIV9nI6hBjZFCDguLIawDkSHpH/fDBX5v3CKizV9Q/tU
+ OyNun84Qp7KscT9bbt3JX1q6NimAyhvuJBqCcIjQhEa21IKXvuhUW9Yjo6PLYWxiMavJ
+ okjb5McsfK0T2stTWH5AlNcGB5ALvY/wCWOPvCKwNV3EGfPp8Tpahj15Wt632wh37iNo
+ hSjtrJtUwbiSz7FWPk1N0/0cZeAEGwukgv/I9E9HGV/QlZOGhzj5HbSE9i3/QDduly5B
+ Zv4w==
+X-Gm-Message-State: AOAM532MGhGnagX845E80LiHN7aiyvnR6YtZ+qfZL1pu0dFAhtnjJkwm
+ l6eOOAnD2mzwhP4NBxVHR1kbQt56fug+7Y1b92RkQQ==
+X-Google-Smtp-Source: ABdhPJzUkKrfSfYH2Zc+gVGVwGM+dVhjK8iL05GJnnXs4PXM9yvoVRYFlsJ6ZNDRcPv3oDvjmIb08tI3TaY/+qERw+w=
+X-Received: by 2002:a05:6402:b2f:: with SMTP id
+ bo15mr14592397edb.146.1611841909180; 
+ Thu, 28 Jan 2021 05:51:49 -0800 (PST)
 MIME-Version: 1.0
 References: <1611063546-20278-1-git-send-email-bmeng.cn@gmail.com>
- <1611063546-20278-9-git-send-email-bmeng.cn@gmail.com>
-In-Reply-To: <1611063546-20278-9-git-send-email-bmeng.cn@gmail.com>
+ <CAEUhbmWXTdL=DU0bRNJqx--2_=qa7kLpru7PE5jK4GxZRMWU3w@mail.gmail.com>
+ <CAEUhbmWutywRhPNRQJccfo+ojUFL=P4K334zG7L=ZtdjwM_tTA@mail.gmail.com>
+In-Reply-To: <CAEUhbmWutywRhPNRQJccfo+ojUFL=P4K334zG7L=ZtdjwM_tTA@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 13:50:52 +0000
-Message-ID: <CAFEAcA-UHKxqfmWm21qigrH1jvgkdprH3TY8AUW2HGJKTV50sg@mail.gmail.com>
-Subject: Re: [PATCH v8 08/10] hw/ssi: imx_spi: Round up the burst length to be
- multiple of 8
+Date: Thu, 28 Jan 2021 13:51:38 +0000
+Message-ID: <CAFEAcA-yMfP27RKyDyUqNcnwArxnPcSV6z2U3AC-FCM4WisbpA@mail.gmail.com>
+Subject: Re: [PATCH v8 00/10] hw/ssi: imx_spi: Fix various bugs in the imx_spi
+ model
 To: Bin Meng <bmeng.cn@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -79,51 +80,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Bin Meng <bin.meng@windriver.com>, QEMU Developers <qemu-devel@nongnu.org>,
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
  qemu-arm <qemu-arm@nongnu.org>, Alistair Francis <alistair.francis@wdc.com>,
  Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 19 Jan 2021 at 13:40, Bin Meng <bmeng.cn@gmail.com> wrote:
+On Thu, 28 Jan 2021 at 07:15, Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> From: Bin Meng <bin.meng@windriver.com>
+> On Fri, Jan 22, 2021 at 9:36 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Tue, Jan 19, 2021 at 9:40 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > From: Bin Meng <bin.meng@windriver.com>
+> > >
+> > > This v8 series is based on the following 2 versions:
+> > >
+> > > - v5 series sent from Bin
+> > >   http://patchwork.ozlabs.org/project/qemu-devel/list/?series=223919
+> > > - v7 series sent from Philippe
+> > >   http://patchwork.ozlabs.org/project/qemu-devel/list/?series=224612
+> > >
+> > > This series fixes a bunch of bugs in current implementation of the imx
+> > > spi controller, including the following issues:
+> > >
+> > > - remove imx_spi_update_irq() in imx_spi_reset()
+> > > - chip select signal was not lower down when spi controller is disabled
+> > > - round up the tx burst length to be multiple of 8
+> > > - transfer incorrect data when the burst length is larger than 32 bit
+> > > - spi controller tx and rx fifo endianness is incorrect
+> > > - remove pointless variable (s->burst_length) initialization (Philippe)
+> > > - rework imx_spi_reset() to keep CONREG register value (Philippe)
+> > > - rework imx_spi_read() to handle block disabled (Philippe)
+> > > - rework imx_spi_write() to handle block disabled (Philippe)
+> > >
+> > > Tested with upstream U-Boot v2020.10 (polling mode) and VxWorks 7
+> > > (interrupt mode).
+> > >
+> > > Changes in v8:
+> > > - keep the controller disable logic in the ECSPI_CONREG case
+> > >   in imx_spi_write()
+> >
+> > Ping?
 >
-> Current implementation of the imx spi controller expects the burst
-> length to be multiple of 8, which is the most common use case.
->
-> In case the burst length is not what we expect, log it to give user
-> a chance to notice it, and round it up to be multiple of 8.
->
-> Signed-off-by: Bin Meng <bin.meng@windriver.com>
+> Could we get this applied soon if no more comments?
 
-> @@ -128,7 +128,20 @@ static uint8_t imx_spi_selected_channel(IMXSPIState *s)
->
->  static uint32_t imx_spi_burst_length(IMXSPIState *s)
->  {
-> -    return EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-> +    uint32_t burst;
-> +
-> +    burst = EXTRACT(s->regs[ECSPI_CONREG], ECSPI_CONREG_BURST_LENGTH) + 1;
-> +    if (burst % 8) {
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "[%s]%s: burst length (%d) not multiple of 8!\n",
-> +                      TYPE_IMX_SPI, __func__, burst);
-> +        burst = ROUND_UP(burst, 8);
-> +        qemu_log_mask(LOG_UNIMP,
-> +                      "[%s]%s: burst length rounded up to %d; this may not work.\n",
-> +                      TYPE_IMX_SPI, __func__, burst);
-
-It's friendlier to the user to do the LOG_UNIMP when the
-unsupported CONREG value is written, rather than here
-where it is used. That way the warning happens once, rather
-than every time the device transmits data.
-
-Also, you could squash the warning down into one line, something
-like:
-   "[%s]%s: burst length %d not supported: rounding up to next multiple of 8\n"
-rather than logging twice.
+Sorry, I think I missed this re-send. I've reviewed or left
+comments on the patches that were still unreviewed.
 
 thanks
 -- PMM
