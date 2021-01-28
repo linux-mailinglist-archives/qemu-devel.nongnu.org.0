@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0E7C307EBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 20:36:30 +0100 (CET)
-Received: from localhost ([::1]:38216 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EB3F307F1E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 21:06:10 +0100 (CET)
+Received: from localhost ([::1]:43974 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5D5h-0001sL-Eb
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 14:36:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49240)
+	id 1l5DYP-0006TG-6X
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 15:06:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55402)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l5D3f-00018f-B6
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 14:34:23 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:31682)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l5DVB-0005Z0-8k
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:02:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:56709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l5D3Y-0005Ho-6K
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 14:34:22 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l5DV7-0006Wu-AY
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 15:02:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611862453;
+ s=mimecast20190719; t=1611864164;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6IT8Ijun5fuFvCFM+Il5TWCym7NXF0jetW5cR7foO9A=;
- b=JFtCb1rd1tHeUksbobFZ9uprJWyk5mvDs2ix3gSoivrLyLVnglTgj8CoUwyDoMNBRAiiPw
- KHWhcKc7P0a9dcrDtcWOtGulsoG8sl5rpNHEAVeMTM0hXsVxXcsFnRaae9cnPwNdSy/9Ax
- HLN5dHsk9AsbtCHr/PqdPILzZrh9cm8=
+ bh=2Yw+CxTJiwhviO2vWCtUF8T2PlqR8s06c7/qgVPsiU4=;
+ b=goEQlGHYJaKfGgdq0AvzlqMV3IE2dI3FikMwp8bk3KZ65KryEywp4iXaztEZH15wqRdBOf
+ IDmxQoOvbcEgltZ6IvfJysrtSs0K/+I3QziXj9/ApfkgCVdlRAUjkkvyyusaq7pP0zHZMJ
+ TVoN8Qz4gUlxHwcYzUfcei6bODZY5s0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-104-J4OkSs17O-KvITZ6Eo0iJg-1; Thu, 28 Jan 2021 14:34:10 -0500
-X-MC-Unique: J4OkSs17O-KvITZ6Eo0iJg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-175-VHC5ONVENnWCf8m1qw9T-A-1; Thu, 28 Jan 2021 15:02:42 -0500
+X-MC-Unique: VHC5ONVENnWCf8m1qw9T-A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C86F9C7405;
- Thu, 28 Jan 2021 19:34:08 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E59F41002C26;
- Thu, 28 Jan 2021 19:34:04 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance: Re-enable the microblaze test
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <20210128152815.585478-1-thuth@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <a2a8bc19-bc7f-1228-9eac-357784fe819b@redhat.com>
-Date: Thu, 28 Jan 2021 16:34:01 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7805C107ACE4;
+ Thu, 28 Jan 2021 20:02:40 +0000 (UTC)
+Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 79DEE5D9F4;
+ Thu, 28 Jan 2021 20:02:25 +0000 (UTC)
+Date: Thu, 28 Jan 2021 20:02:23 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] vfio/migrate: Move switch of dirty tracking into
+ vfio_memory_listener
+Message-ID: <20210128200223.GJ2951@work-vm>
+References: <20210111073439.20236-1-zhukeqian1@huawei.com>
+ <e5f27643-441c-039c-a20c-a32c11b8d84c@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210128152815.585478-1-thuth@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <e5f27643-441c-039c-a20c-a32c11b8d84c@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,112 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
+ jiangkunkun@huawei.com, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, wanghaibin.wang@huawei.com,
+ Zenghui Yu <yuzenghui@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+* Paolo Bonzini (pbonzini@redhat.com) wrote:
+> On 11/01/21 08:34, Keqian Zhu wrote:
+> > +static void vfio_listener_log_start(MemoryListener *listener,
+> > +                                    MemoryRegionSection *section,
+> > +                                    int old, int new)
+> > +{
+> > +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> > +
+> > +    vfio_set_dirty_page_tracking(container, true);
+> > +}
+> > +
+> > +static void vfio_listener_log_stop(MemoryListener *listener,
+> > +                                   MemoryRegionSection *section,
+> > +                                   int old, int new)
+> > +{
+> > +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+> > +
+> > +    vfio_set_dirty_page_tracking(container, false);
+> > +}
+> > +
+> 
+> This would enable dirty page tracking also just for having a framebuffer
+> (DIRTY_MEMORY_VGA).  Technically it would be correct, but it would also be
+> more heavyweight than expected.
 
-On 1/28/21 12:28 PM, Thomas Huth wrote:
-> The microblaze kernel sometimes gets stuck during boot (ca. 1 out of 200
-> times), so we disabled the corresponding acceptance tests some months
-> ago. However, it's likely better to check that the kernel is still
-> starting than to not testing it at all anymore. Move the test to
-> a separate file, enable it again and check for an earlier console
-> message that should always appear.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   MAINTAINERS                            |  1 +
->   tests/acceptance/boot_linux_console.py |  9 -------
->   tests/acceptance/machine_microblaze.py | 35 ++++++++++++++++++++++++++
->   3 files changed, 36 insertions(+), 9 deletions(-)
->   create mode 100644 tests/acceptance/machine_microblaze.py
->
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 34359a99b8..157ad4f7ef 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -1112,6 +1112,7 @@ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
->   S: Maintained
->   F: hw/microblaze/petalogix_s3adsp1800_mmu.c
->   F: include/hw/char/xilinx_uartlite.h
-> +F: tests/acceptance/machine_microblaze.py
->   
->   petalogix_ml605
->   M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-> index fb41bb7144..969fbf3952 100644
-> --- a/tests/acceptance/boot_linux_console.py
-> +++ b/tests/acceptance/boot_linux_console.py
-> @@ -1047,15 +1047,6 @@ class BootLinuxConsole(LinuxKernelTest):
->           tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
->           self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
->   
-> -    @skip("Test currently broken") # Console stuck as of 5.2-rc1
-> -    def test_microblaze_s3adsp1800(self):
-> -        """
-> -        :avocado: tags=arch:microblaze
-> -        :avocado: tags=machine:petalogix-s3adsp1800
-> -        """
-> -        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
-> -        self.do_test_advcal_2018('17', tar_hash, 'ballerina.bin')
-> -
->       def test_or1k_sim(self):
->           """
->           :avocado: tags=arch:or1k
-> diff --git a/tests/acceptance/machine_microblaze.py b/tests/acceptance/machine_microblaze.py
-> new file mode 100644
-> index 0000000000..7f6d18495d
-> --- /dev/null
-> +++ b/tests/acceptance/machine_microblaze.py
-> @@ -0,0 +1,35 @@
-> +# Functional test that boots a microblaze Linux kernel and checks the console
-> +#
-> +# Copyright (c) 2018, 2021 Red Hat, Inc.
-> +#
-> +# This work is licensed under the terms of the GNU GPL, version 2 or
-> +# later. See the COPYING file in the top-level directory.
-> +
-> +from avocado_qemu import Test
-> +from avocado_qemu import wait_for_console_pattern
-> +from avocado.utils import archive
-> +
-> +class MicroblazeMachine(Test):
-> +
-> +    timeout = 90
-> +
-> +    def test_microblaze_s3adsp1800(self):
-> +        """
-> +        :avocado: tags=arch:microblaze
-> +        :avocado: tags=machine:petalogix-s3adsp1800
-> +        """
-> +
-> +        tar_url = ('https://www.qemu-advent-calendar.org'
-> +                   '/2018/download/day17.tar.xz')
-> +        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
-> +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
-> +        archive.extract(file_path, self.workdir)
-> +        self.vm.set_console()
-> +        self.vm.add_args('-kernel', self.workdir + '/day17/ballerina.bin')
-> +        self.vm.launch()
-> +        wait_for_console_pattern(self, 'This architecture does not have '
-> +                                       'kernel memory protection')
-> +        # Note:
-> +        # The kernel sometimes gets stuck after the "This architecture ..."
-> +        # message, that's why we don't test for a later string here. This
-> +        # needs some investigation by a microblaze wizard one day...
+Wouldn't that only happen on emulated video devices?
 
+> In order to only cover live migration, you can use the log_global_start and
+> log_global_stop callbacks instead.
+> 
+> If you want to use log_start and log_stop, you need to add respectively
+> 
+>     if (old != 0) {
+>         return;
+>     }
+> 
+> and
+> 
+>     if (new != 0) {
+>         return;
+>     }
 
-The change looks good to me.
+Why 0, wouldn't you be checking for DIRTY_LOG_MIGRATION somewhere?
 
-Also I appreciate the note you left on code. In addition I suggest to 
-put some tag to indicate it needs some investigation or that it is flaky 
-(although that's not the case anymore), because it will ease the 
-discovery and filtering of "problematic" tests. What do you think?
+Dave
 
-- Wainer
-
+> before the calls to vfio_set_dirty_page_tracking.  But I think it's more
+> appropriate for VFIO to use log_global_*.
+> 
+> Thanks,
+> 
+> Paolo
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
