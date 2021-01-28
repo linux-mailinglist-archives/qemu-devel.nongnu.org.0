@@ -2,68 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771C23068FE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 01:57:50 +0100 (CET)
-Received: from localhost ([::1]:33790 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C64FF306AAE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 02:48:02 +0100 (CET)
+Received: from localhost ([::1]:45878 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l4vd7-00012s-DT
-	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 19:57:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48916)
+	id 1l4wPh-0000xA-BZ
+	for lists+qemu-devel@lfdr.de; Wed, 27 Jan 2021 20:48:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55896)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l4vYv-0008Sf-KG; Wed, 27 Jan 2021 19:53:30 -0500
-Received: from mail-qv1-xf36.google.com ([2607:f8b0:4864:20::f36]:34810)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1l4vYu-0007lK-2o; Wed, 27 Jan 2021 19:53:29 -0500
-Received: by mail-qv1-xf36.google.com with SMTP id l11so2081878qvt.1;
- Wed, 27 Jan 2021 16:53:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=SHRvZU1eqmujX5dkXjedEK+g0HYOJlm0E6LERamhGa0=;
- b=JGElg8GdrSu7oVfrKPRoNLTzM0mCd0Tz6EcGO3+9VWw4ES2TwvRNJd8vCBUUCJCM8u
- tyUg7tIgJ7gH4FSyuIK463qIYaAmSLpmBXzKvGRCsHVJHQ7iLCy58kUwFiHxKHGlbnJo
- wAhPY7KHIASvnPXDNzMPynB8Ag8J89rtc3QC0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=SHRvZU1eqmujX5dkXjedEK+g0HYOJlm0E6LERamhGa0=;
- b=GhYoGbZc9Ji8oAqk8VGCIbFAUuTJZquIxD7EUD1+vPaKQXumKND12FHL6evd988AFS
- Qj9RgM1nClo/iJ+4sz0oVCVNd6sJaQwPeObqmVxEIQhm04e9xodF4pubU4y5dLJcDJVj
- iyM6w3EaaWP9X/xgocPXgI3ZnzP1vh3vxz3zRFHElIharAkznLYMzEHas0rCoFZoQYhQ
- JPSBbW+LnaQvEXp7+yvyth+/b/ywGwwI0ezdVXNFzmemjkCPiaDBMA4zzmACpP9LlmuZ
- 0nFw1T7gk9IUe7/043RDyy1FvLFgQsnGdIhk3do2cHAKJlD4d89/TtEANxRwdhUxZ940
- lWtw==
-X-Gm-Message-State: AOAM5339vXq1iS8N6tkWfd1Fl9ixw50tcw1q/M5GIfVMDMDdIPdfn0pq
- WRyDrpTt3SoMuEAOTRkNFWVXzdDSldA3b74F5kg=
-X-Google-Smtp-Source: ABdhPJx6HPz8RHhBiMfAFf92/dV2egzC0L3v/I5A3ELDl9vb82gcy2DCI3u+psysk3a6O/55u2IZNGNAFZmfoKMhnw4=
-X-Received: by 2002:a0c:e48b:: with SMTP id n11mr11835395qvl.10.1611795206882; 
- Wed, 27 Jan 2021 16:53:26 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l4wO4-0007th-Nu; Wed, 27 Jan 2021 20:46:20 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35591 helo=ozlabs.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l4wO2-000598-23; Wed, 27 Jan 2021 20:46:20 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DR3GQ091kz9sVR; Thu, 28 Jan 2021 12:46:05 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1611798366;
+ bh=gnRw8oqIpX7pWG9vgrQ7LGB2wY0T2ezzYjjcZG+8I2E=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=mboBTTwxcEJoLVXKbjrHclkx20triH0MZ2ai7UePZFAnW2HjjGKc3BLQwb4eAD0MK
+ g5u7xh7IgY7786yozgfg8JmmdQ+qtOPXjaKbNmUSRwaW2lhU26TekRiYLepywWh3DY
+ nGN4dXs3NT4OCj35Pja99HQTqnaoZmENeRVjW6IA=
+Date: Thu, 28 Jan 2021 11:22:31 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH] target/ppc: Remove unused MMU definitions
+Message-ID: <20210128002231.GA18347@yekko.fritz.box>
+References: <20210127232401.3525126-1-f4bug@amsat.org>
 MIME-Version: 1.0
-References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-8-clg@kaod.org>
-In-Reply-To: <20210126171059.307867-8-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Thu, 28 Jan 2021 00:53:14 +0000
-Message-ID: <CACPK8Xd+4JnqrdoJrxgaL59QZBU8Gi3jZVvCy-OGUwaO5Svhqg@mail.gmail.com>
-Subject: Re: [PATCH 7/7] ppc/pnv: Introduce a LPC FW memory region attribute
- to map the PNOR
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f36;
- envelope-from=joel.stan@gmail.com; helo=mail-qv1-xf36.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="J2SCkAp4GZ/dPZZf"
+Content-Disposition: inline
+In-Reply-To: <20210127232401.3525126-1-f4bug@amsat.org>
+Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,121 +57,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-ppc@nongnu.org,
+ qemu-devel@nongnu.org, Joe Komlodi <komlodi@xilinx.com>,
+ Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 26 Jan 2021 at 17:19, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> This to map the PNOR from the machine init handler directly and finish
-> the cleanup of the LPC model.
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+--J2SCkAp4GZ/dPZZf
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Thu, Jan 28, 2021 at 12:24:01AM +0100, Philippe Mathieu-Daud=E9 wrote:
+> Remove these confusing and unused definitions.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=E9 <f4bug@amsat.org>
+
+Applied to ppc-for-6.0.
 
 > ---
->  include/hw/ppc/pnv.h |  1 +
->  hw/ppc/pnv.c         | 11 +++++++++++
->  hw/ppc/pnv_lpc.c     |  7 -------
->  3 files changed, 12 insertions(+), 7 deletions(-)
->
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index ee7eda3e0102..d69cee17b232 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -58,6 +58,7 @@ struct PnvChip {
->      MemoryRegion xscom;
->      AddressSpace xscom_as;
->
-> +    MemoryRegion *fw_mr;
->      gchar        *dt_isa_nodename;
->  };
->
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index e500c2e2437e..50810df83815 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -871,6 +871,14 @@ static void pnv_init(MachineState *machine)
->          pnv_ipmi_bt_init(pnv->isa_bus, pnv->bmc, 10);
->      }
->
-> +    /*
-> +     * The PNOR is mapped on the LPC FW address space by the BMC.
-> +     * Since we can not reach the remote BMC machine with LPC memops,
-> +     * map it always for now.
-> +     */
-> +    memory_region_add_subregion(pnv->chips[0]->fw_mr, PNOR_SPI_OFFSET,
-> +                                &pnv->pnor->mmio);
-> +
->      /*
->       * OpenPOWER systems use a IPMI SEL Event message to notify the
->       * host to powerdown
-> @@ -1150,6 +1158,7 @@ static void pnv_chip_power8_realize(DeviceState *de=
-v, Error **errp)
->      qdev_realize(DEVICE(&chip8->lpc), NULL, &error_fatal);
->      pnv_xscom_add_subregion(chip, PNV_XSCOM_LPC_BASE, &chip8->lpc.xscom_=
-regs);
->
-> +    chip->fw_mr =3D &chip8->lpc.isa_fw;
->      chip->dt_isa_nodename =3D g_strdup_printf("/xscom@%" PRIx64 "/isa@%x=
-",
->                                              (uint64_t) PNV_XSCOM_BASE(ch=
-ip),
->                                              PNV_XSCOM_LPC_BASE);
-> @@ -1479,6 +1488,7 @@ static void pnv_chip_power9_realize(DeviceState *de=
-v, Error **errp)
->      memory_region_add_subregion(get_system_memory(), PNV9_LPCM_BASE(chip=
-),
->                                  &chip9->lpc.xscom_regs);
->
-> +    chip->fw_mr =3D &chip9->lpc.isa_fw;
->      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
-@0",
->                                              (uint64_t) PNV9_LPCM_BASE(ch=
-ip));
->
-> @@ -1592,6 +1602,7 @@ static void pnv_chip_power10_realize(DeviceState *d=
-ev, Error **errp)
->      memory_region_add_subregion(get_system_memory(), PNV10_LPCM_BASE(chi=
-p),
->                                  &chip10->lpc.xscom_regs);
->
-> +    chip->fw_mr =3D &chip10->lpc.isa_fw;
->      chip->dt_isa_nodename =3D g_strdup_printf("/lpcm-opb@%" PRIx64 "/lpc=
-@0",
->                                              (uint64_t) PNV10_LPCM_BASE(c=
-hip));
->  }
-> diff --git a/hw/ppc/pnv_lpc.c b/hw/ppc/pnv_lpc.c
-> index 11739e397b27..bcbca3db9743 100644
-> --- a/hw/ppc/pnv_lpc.c
-> +++ b/hw/ppc/pnv_lpc.c
-> @@ -824,7 +824,6 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, boo=
-l use_cpld, Error **errp)
->      ISABus *isa_bus;
->      qemu_irq *irqs;
->      qemu_irq_handler handler;
-> -    PnvMachineState *pnv =3D PNV_MACHINE(qdev_get_machine());
->
->      /* let isa_bus_new() create its own bridge on SysBus otherwise
->       * devices specified on the command line won't find the bus and
-> @@ -850,11 +849,5 @@ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bo=
-ol use_cpld, Error **errp)
->
->      isa_bus_irqs(isa_bus, irqs);
->
-> -    /*
-> -     * TODO: Map PNOR on the LPC FW address space on demand ?
-> -     */
-> -    memory_region_add_subregion(&lpc->isa_fw, PNOR_SPI_OFFSET,
-> -                                &pnv->pnor->mmio);
-> -
->      return isa_bus;
->  }
-> --
-> 2.26.2
->
->
+>  target/ppc/cpu.h | 3 ---
+>  1 file changed, 3 deletions(-)
+>=20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 2609e4082ed..cb002102888 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -2205,9 +2205,6 @@ enum {
+>   * may be needed for precise access rights control and precise exception=
+s.
+>   */
+>  enum {
+> -    /* 1 bit to define user level / supervisor access */
+> -    ACCESS_USER  =3D 0x00,
+> -    ACCESS_SUPER =3D 0x01,
+>      /* Type of instruction that generated the access */
+>      ACCESS_CODE  =3D 0x10, /* Code fetch access                */
+>      ACCESS_INT   =3D 0x20, /* Integer load/store access        */
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--J2SCkAp4GZ/dPZZf
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmASA8UACgkQbDjKyiDZ
+s5Iu1Q/+P8Mwmvl6QcyQMiwgUY+wxtIcnw2EglfMGPh2xaJM0iUhR2XAmhNy2adu
+aA5GXgvC9cFZYZfUHbF0AlIpSbZG3/BP9tz6YvZyd/E5BBX2+WphvFkjdV6yin2a
+tLOUBfI1eEfGks7k/eQCtGbxVKMdp6gfpSuIMvlBnV0DnzIZ0KWN3SkLNaFiFvoZ
+TYXsJwVfwbhHMSWyxyzZpKcTC2wJNgcc0MpbeQBISepcGpp6TstdE91FuW/wNI20
+Dy83p1WdXjQ2Z7Dxz4+cfP611tWz5JV+hUZvZENinZzkDG0UdiO2T8Ia8voqd3MS
+IXvuxBny4VoAlt/OObFT6pMzm/CUqsFfMtLXzjJW4K6pwOl5hhTSHo1snDbrK2G6
+m3egnRKwP+6N74kMjwIc7RYgO4DmS2ChRFOSdduisz9h1hiMfGXLC38HxZnlzFY5
+KoNY0rWOs1O8vrP7n/MuIYsW0cSU4zXtyOhY6ziNi8x+DWBAFOPmOLeXos1qkYHf
+fXtyWRbiTOPrnYvWOPNAQykt0ImwLW002HV8PSAulHIcuKMSGSyyb6NluzaR4ekN
+IcnJJS168Mo4wE8pFwe/45OxxVJZdvVurmxcYdk/oo/0AAhTVj5t+AX3hwyLsayP
+firTOF1EYTHWXPWgrSv3eSNlqYoHtG4OULys3qHkI/oEHssJ7+A=
+=5RO0
+-----END PGP SIGNATURE-----
+
+--J2SCkAp4GZ/dPZZf--
 
