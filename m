@@ -2,78 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93659307A02
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:46:01 +0100 (CET)
-Received: from localhost ([::1]:46450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 784B33079F5
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:43:36 +0100 (CET)
+Received: from localhost ([::1]:38472 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59Ue-0004pm-LC
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:46:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39072)
+	id 1l59SJ-0001W7-H6
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:43:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38814)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59PR-0008Fk-Pk
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:38 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:55328)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59PK-0003Wl-Gk
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:37 -0500
-Received: by mail-wm1-x330.google.com with SMTP id f16so4664311wmq.5
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:40:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=WgUOq3unCzwAEvQ6KR4HHJ4dkDbx3WtK0D9jPPAEGxo=;
- b=G4CciQBQrIa9iDgVkcFzA0MqBw4kqYcZtAtaFSTHsIyBxESm45a6TI+oD5DnUuVE7d
- /ESvml5wyD1vPdQsE6t0WtnB08E0WQsFfBUZN/jsX/TyKkKzgV4NAg+VpjhCblQshjhv
- kdE9jto5gdUZZpPz44R4IwlO+1GFW8eM4B3Kjr8+sFJRcMGng+ndfkTZ/UzXfnkaCAim
- D09/fbvDOYN0UHTRklDdohwOQa/h92Xs8NdrtReGQclYEBbpKX140g+xGIYAkZkDOy0F
- 0BVOFVxhCsK04EUgfIHMQxBYPc16jgX6SQwTs8/ywCdvZPsVbMbgunihPBeOm901XTpx
- 1nlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=WgUOq3unCzwAEvQ6KR4HHJ4dkDbx3WtK0D9jPPAEGxo=;
- b=pdVS2gQFWyNIWXC6KAssTo3Pl+SD7Vcg5Z32z8nsGL8cgO1lLh80yqMj83h4w2YVrZ
- IvSzx5eqb/0I0zAyCE0nnhlToIKgbhqs4JcqwVjcGAi+Ocv28Zv+oSuAJkSE3LkuPfi8
- jldQT43mUa8qLy4ax/NtOIqen+ujq8CZP5P+N9QC6lNjGWaNMCvZUguFE+t+KKJieL0S
- D6fJru1jnN66Q/TYDWhe4OmukZfFOyYVjgUfTFLFKbg0qcY0UbFHmvWIFzpluyXz56Wm
- UsRoyB6/Vx+eDah3NA+qXub7N3iTqnES3MpYR7IFa4c5l397VBy0M3I+DfMk5i6xf6Pc
- Heuw==
-X-Gm-Message-State: AOAM533EkQVU6mb3UXDwo6qKyD+WVEjoE3jiGu+UKuJMh9JTxb/Mp507
- rCw1Dfv9/BRNHGZWnAwQTWjLkw==
-X-Google-Smtp-Source: ABdhPJz/AAYTwbfZXpfXFnU4GKTha373MP7i3sfZP5XXo5qsrgQ8PksghEaiv7OGlX/EE7Q4ZWrnPw==
-X-Received: by 2002:a1c:98c3:: with SMTP id a186mr2583736wme.147.1611848429078; 
- Thu, 28 Jan 2021 07:40:29 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id b18sm7311847wrm.57.2021.01.28.07.40.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 07:40:28 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6CC9A1FF7E;
- Thu, 28 Jan 2021 15:40:27 +0000 (GMT)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l59Os-0007w1-Tj
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:02 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]:60148
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1l59Oq-0003GJ-9o
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:40:02 -0500
+Received: from macbook01.bib.uni-mannheim.de (macbook01.bib.uni-mannheim.de
+ [134.155.36.117])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+ (No client certificate requested)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 0C313DA043C;
+ Thu, 28 Jan 2021 16:39:58 +0100 (CET)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 References: <20210128082331.196801-1-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 00/23] TCI fixes and cleanups
-Date: Thu, 28 Jan 2021 15:38:50 +0000
-In-reply-to: <20210128082331.196801-1-richard.henderson@linaro.org>
-Message-ID: <87eei5ul1w.fsf@linaro.org>
+ <20210128082331.196801-22-richard.henderson@linaro.org>
+From: Stefan Weil <sw@weilnetz.de>
+Subject: Re: [PATCH 21/23] tcg/tci: Remove dead code for TCG_TARGET_HAS_div2_*
+Message-ID: <993a9d04-049b-7e31-9833-115ce07ee8e7@weilnetz.de>
+Date: Thu, 28 Jan 2021 16:39:57 +0100
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.16; rv:78.0)
+ Gecko/20100101 Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20210128082331.196801-22-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,76 +57,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Am 28.01.21 um 09:23 schrieb Richard Henderson:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> The first patch I believe is queued by Paolo, but is not yet
-> upstream; copied here for convenience.  Then, fill in all of
-> the TODO blanks in TCI.
+> We do not simultaneously support div and div2 -- it's one
+> or the other.  TCI is already using div, so remove div2.
 >
-> The tci_write_reg* functions are redundant with tcg_write_reg.
-> Just pass in the properly truncated result to begin.  In the
-> cases of the loads, we've automatically done that with the
-> type of the indirection.  For all of the other arithmetic,
-> we don't actually have to do anything -- the value is either
-> right, or the high bits are undefined.  And in fact will
-> currently be ignored by the extension on read.
-
-FWIW aside from the regression with 2/23 I've been testing this in TCI
-mode all day on hackbox. So far ffmpeg has encoded a whole 153 frames of
-video which is the furthest it has ever got in one of my tests ;-)
-
-So for the TCI part itself:
-
-Tested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tcg/tci.c                | 12 ------------
+>   tcg/tci/tcg-target.c.inc | 16 ----------------
+>   2 files changed, 28 deletions(-)
 >
->
-> r~
->
->
-> Richard Henderson (21):
->   configure: Fix --enable-tcg-interpreter
->   tcg: Manage splitwx in tc_ptr_to_region_tree by hand
->   exec: Make tci_tb_ptr thread-local
->   tcg/tci: Inline tci_write_reg32s into the only caller
->   tcg/tci: Inline tci_write_reg8 into its callers
->   tcg/tci: Inline tci_write_reg16 into the only caller
->   tcg/tci: Inline tci_write_reg32 into all callers
->   tcg/tci: Inline tci_write_reg64 into 64-bit callers
->   tcg/tci: Merge INDEX_op_ld8u_{i32,i64}
->   tcg/tci: Merge INDEX_op_ld8s_{i32,i64}
->   tcg/tci: Merge INDEX_op_ld16u_{i32,i64}
->   tcg/tci: Merge INDEX_op_ld16s_{i32,i64}
->   tcg/tci: Merge INDEX_op_{ld_i32,ld32u_i64}
->   tcg/tci: Merge INDEX_op_st8_{i32,i64}
->   tcg/tci: Merge INDEX_op_st16_{i32,i64}
->   tcg/tci: Move stack bounds check to compile-time
->   tcg/tci: Merge INDEX_op_{st_i32,st32_i64}
->   tcg/tci: Use g_assert_not_reached
->   tcg/tci: Remove dead code for TCG_TARGET_HAS_div2_*
->   tcg/tci: Implement 64-bit division
->   tcg/tci: Remove TODO as unused
->
-> Stefan Weil (2):
->   tcg/tci: Implement INDEX_op_ld16s_i32
->   tcg/tci: Implement INDEX_op_ld8s_i64
->
->  configure                |   5 +-
->  include/exec/exec-all.h  |   2 +-
->  tcg/tci/tcg-target.h     |   4 +-
->  tcg/tcg-common.c         |   2 +-
->  tcg/tcg.c                |  23 +++-
->  tcg/tci.c                | 283 +++++++++++++++------------------------
->  tcg/tci/tcg-target.c.inc |  41 +++---
->  7 files changed, 154 insertions(+), 206 deletions(-)
+> diff --git a/tcg/tci.c b/tcg/tci.c
+> index 2ce67a8fd3..32931ea611 100644
+> --- a/tcg/tci.c
+> +++ b/tcg/tci.c
+> @@ -647,7 +647,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArch=
+State *env,
+>               t2 =3D tci_read_ri32(regs, &tb_ptr);
+>               tci_write_reg(regs, t0, t1 * t2);
+>               break;
+> -#if TCG_TARGET_HAS_div_i32
+>           case INDEX_op_div_i32:
+>               t0 =3D *tb_ptr++;
+>               t1 =3D tci_read_ri32(regs, &tb_ptr);
+> @@ -672,12 +671,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArc=
+hState *env,
+>               t2 =3D tci_read_ri32(regs, &tb_ptr);
+>               tci_write_reg(regs, t0, t1 % t2);
+>               break;
+> -#elif TCG_TARGET_HAS_div2_i32
+> -        case INDEX_op_div2_i32:
+> -        case INDEX_op_divu2_i32:
+> -            TODO();
+> -            break;
+> -#endif
+>           case INDEX_op_and_i32:
+>               t0 =3D *tb_ptr++;
+>               t1 =3D tci_read_ri32(regs, &tb_ptr);
+> @@ -903,11 +896,6 @@ uintptr_t QEMU_DISABLE_CFI tcg_qemu_tb_exec(CPUArc=
+hState *env,
+>           case INDEX_op_remu_i64:
+>               TODO();
+>               break;
+> -#elif TCG_TARGET_HAS_div2_i64
+> -        case INDEX_op_div2_i64:
+> -        case INDEX_op_divu2_i64:
+> -            TODO();
+> -            break;
+>   #endif
+>           case INDEX_op_and_i64:
+>               t0 =3D *tb_ptr++;
+> diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+> index a60fa524a4..842807ff2e 100644
+> --- a/tcg/tci/tcg-target.c.inc
+> +++ b/tcg/tci/tcg-target.c.inc
+> @@ -71,15 +71,10 @@ static const TCGTargetOpDef tcg_target_op_defs[] =3D=
+ {
+>       { INDEX_op_add_i32, { R, RI, RI } },
+>       { INDEX_op_sub_i32, { R, RI, RI } },
+>       { INDEX_op_mul_i32, { R, RI, RI } },
+> -#if TCG_TARGET_HAS_div_i32
+>       { INDEX_op_div_i32, { R, R, R } },
+>       { INDEX_op_divu_i32, { R, R, R } },
+>       { INDEX_op_rem_i32, { R, R, R } },
+>       { INDEX_op_remu_i32, { R, R, R } },
+> -#elif TCG_TARGET_HAS_div2_i32
+> -    { INDEX_op_div2_i32, { R, R, "0", "1", R } },
+> -    { INDEX_op_divu2_i32, { R, R, "0", "1", R } },
+> -#endif
+>       /* TODO: Does R, RI, RI result in faster code than R, R, RI?
+>          If both operands are constants, we can optimize. */
+>       { INDEX_op_and_i32, { R, RI, RI } },
+> @@ -156,9 +151,6 @@ static const TCGTargetOpDef tcg_target_op_defs[] =3D=
+ {
+>       { INDEX_op_divu_i64, { R, R, R } },
+>       { INDEX_op_rem_i64, { R, R, R } },
+>       { INDEX_op_remu_i64, { R, R, R } },
+> -#elif TCG_TARGET_HAS_div2_i64
+> -    { INDEX_op_div2_i64, { R, R, "0", "1", R } },
+> -    { INDEX_op_divu2_i64, { R, R, "0", "1", R } },
+>   #endif
+>       { INDEX_op_and_i64, { R, RI, RI } },
+>   #if TCG_TARGET_HAS_andc_i64
+> @@ -705,10 +697,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode op=
+c, const TCGArg *args,
+>       case INDEX_op_remu_i64:     /* Optional (TCG_TARGET_HAS_div_i64).=
+ */
+>           TODO();
+>           break;
+> -    case INDEX_op_div2_i64:     /* Optional (TCG_TARGET_HAS_div2_i64).=
+ */
+> -    case INDEX_op_divu2_i64:    /* Optional (TCG_TARGET_HAS_div2_i64).=
+ */
+> -        TODO();
+> -        break;
+>       case INDEX_op_brcond_i64:
+>           tcg_out_r(s, args[0]);
+>           tcg_out_ri64(s, const_args[1], args[1]);
+> @@ -748,10 +736,6 @@ static void tcg_out_op(TCGContext *s, TCGOpcode op=
+c, const TCGArg *args,
+>           tcg_out_ri32(s, const_args[1], args[1]);
+>           tcg_out_ri32(s, const_args[2], args[2]);
+>           break;
+> -    case INDEX_op_div2_i32:     /* Optional (TCG_TARGET_HAS_div2_i32).=
+ */
+> -    case INDEX_op_divu2_i32:    /* Optional (TCG_TARGET_HAS_div2_i32).=
+ */
+> -        TODO();
+> -        break;
+>   #if TCG_TARGET_REG_BITS =3D=3D 32
+>       case INDEX_op_add2_i32:
+>       case INDEX_op_sub2_i32:
 
 
---=20
-Alex Benn=C3=A9e
+One of the ideas for TCI is that it should ideally support any subset of =
+
+TCG opcodes which is used by an existing TCG backend or a newly written=20
+backend.
+
+This only requires copying the TCG_TARGET_HAS... defines.
+
+So this patch should keep the preprocessor conditionals, and the TODO=20
+statements have to be replaced by code (or #error for the moment).
+
+Patch 22 should also keep the preprocessor conditionals, see my comment=20
+there.
+
+Thanks,
+
+Stefan
+
+
 
