@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C082306DC7
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 07:47:40 +0100 (CET)
-Received: from localhost ([::1]:38324 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E264A306DEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 07:53:47 +0100 (CET)
+Received: from localhost ([::1]:51818 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l515f-0002XY-1V
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 01:47:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38022)
+	id 1l51Bb-0008Jk-0W
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 01:53:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38076)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l511b-0000ty-BW; Thu, 28 Jan 2021 01:43:29 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035]:38315)
+ id 1l511f-0000uH-LU; Thu, 28 Jan 2021 01:43:31 -0500
+Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632]:45174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1l511X-00054c-6K; Thu, 28 Jan 2021 01:43:27 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id l18so3701881pji.3;
- Wed, 27 Jan 2021 22:43:22 -0800 (PST)
+ id 1l511b-00055Z-A5; Thu, 28 Jan 2021 01:43:31 -0500
+Received: by mail-pl1-x632.google.com with SMTP id b8so2775642plh.12;
+ Wed, 27 Jan 2021 22:43:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tzlSB8RptGMbFL1ldDE2HK28AgnehYV0J78KA757CyM=;
- b=BDCd7tjVRuwu8CC43x8kFQ1T9ilFOCBfFj19wVTvUuJfZoqvWTjuOZb7SyFy44VtWO
- RXTXsJoKQRf/+0+5J7XhkPIJr+PUXP7uypK3nSO+E5KQFZE95FybA1e8TSus2KtIGGTP
- B1gzmjmYehU4lF1hErr1032qa/N0+D9xkjh6OVXXijL8moRaArekRSJMvzc0RDzL05og
- YG3dwMPk2HU3jO4StXrafPEp1iN9iJs62O3xFTkVKC+SpVpcWUo+YvtCfUQqm5NetWe9
- TYmFkwiuX+EajPdPce5yeH8nF+EeIw4Uos5I0KFuqTTSFo/fAsueDXItp+kl4mrw+98d
- kivQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=k6LtT3oBEvr/RqKzWKwUas7YF00QYlOogchhlo2BSdQ=;
+ b=QX1qjqL7glbEpdgVZ3EA4syfl88rIu/Y8YZHtf8phmocJdFYbLpisdO/TxYemgOqp+
+ GYIAADthV0X5xn6lEde9M/eWJqq/K0x9Z6RuUIqQE7N+Bb0fcIUH4Rr9HVAoRN+Toz0A
+ hAwHZI81VYazF0KPeRpqDT20apbXA1X7ZWa6B2MDzey7VHmJy2ISilbiDIIdKB8g0R35
+ yZmUQpZr+vH8IauTj8kELXPlnnJ06PpMwe+fZpOm0LVKACASvUoHJLGk4JxuR3VdAwiM
+ LXQTPnEzhmL39hmKZyiH5W+doWtsBWCYli+SU1i/6QIpyhzmmJ1ge+W6KZ9pvr4CggQv
+ u3Bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=tzlSB8RptGMbFL1ldDE2HK28AgnehYV0J78KA757CyM=;
- b=XCsNHFIaCfNZLE3Mm6wvHF5opRiGAODEfW91Z664SchsKT9mFtuL46okxPE065ff2t
- BI3UlVoFkW6CZVFV039hNpnfqiiKNPfg53dxRjLNrUo6YPJ1JIdEB5bTbwrfLEZWA26k
- lfVfAvVCYZXB0YLyQQ9MFxkkqgO2x9AJoXdQ9Nb6/jqBEGOvwPvvbtCqZAWGIDE5go+h
- 72CLFffbRT9k+hT+xD7iz/vp9EboVJMrtcQbMOvjzs69i3aye5VCIU8I8soOVZklGEAE
- 5rCXg2TFOkUrIkTzxtedZYGpqdwC1cqj9YjXx2drDozola6LTHaqe+Lc0Faqelmcnwpp
- 3Hjw==
-X-Gm-Message-State: AOAM533+xvCKZ66Q7tq9ZSsHrvP3rodahlcBlWJJta1qwo4MjVydEbls
- TuPl+gNy/vLr8gG47uH0WAg=
-X-Google-Smtp-Source: ABdhPJxebjvUBdMl5fmL+KYjDIc/m+/ZRdEx1v8YRV9LSBNHnkI46BxmD4txjerH9p67ml2h0kMVsA==
-X-Received: by 2002:a17:902:e54e:b029:de:8c70:2ec4 with SMTP id
- n14-20020a170902e54eb02900de8c702ec4mr15301242plf.56.1611816200928; 
- Wed, 27 Jan 2021 22:43:20 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=k6LtT3oBEvr/RqKzWKwUas7YF00QYlOogchhlo2BSdQ=;
+ b=PU65RAHvhuTT5qcm1uwYaQ03ZWPv6+v2kWgl3aUHql7lrWM1sHJ5+DwInj2m4X1rEY
+ m350YdjGojG06qoToE7D8V1N703Y65pm+YKUGe66dSiFfCC6bRylFIku6dOxIi5vggw3
+ 9VL4PS7oVod/Tdyvfxx7nn/tEUmITgaFb17WFCNFVTS5pagB2pzJE8xzvQoDi7kBAQsF
+ CjDuo1JrGoCZMt3geahjNdAx4t3WDooba2Lr9AdqffaV/SS/Y6EIwsNfkewFQ8wDgqMi
+ v8B9xDNLhgrCqqRW2Uaf4bW14PYPAb8n4VoSBs0X+Oep8Gg9+w9H43iDa51vXrzvs0rQ
+ e5TQ==
+X-Gm-Message-State: AOAM532SYXmSq9sj+ihe8R7npCr1zZZAn9VLrRKwPAZBrbhNcP13MHkb
+ q2jcUXR39eFd1PJZVjuRusL4tiPupBh0Tw==
+X-Google-Smtp-Source: ABdhPJxPTRWKNAHNCuojo+BuwWLzxaBd7E9p3JFqWGRrE2UyHyHlhrzEticx7lPnKHDb5nWdDxtSlQ==
+X-Received: by 2002:a17:90b:948:: with SMTP id
+ dw8mr9815500pjb.72.1611816203023; 
+ Wed, 27 Jan 2021 22:43:23 -0800 (PST)
 Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
  [144.168.56.201])
- by smtp.gmail.com with ESMTPSA id v19sm3800609pjh.37.2021.01.27.22.43.19
+ by smtp.gmail.com with ESMTPSA id v19sm3800609pjh.37.2021.01.27.22.43.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 27 Jan 2021 22:43:20 -0800 (PST)
+ Wed, 27 Jan 2021 22:43:22 -0800 (PST)
 From: Bin Meng <bmeng.cn@gmail.com>
 To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: [PATCH 0/3] hw/sd: sd: erase operation fixes
-Date: Thu, 28 Jan 2021 14:43:09 +0800
-Message-Id: <20210128064312.16085-1-bmeng.cn@gmail.com>
+Subject: [PATCH 1/3] hw/sd: sd: Fix address check in sd_erase()
+Date: Thu, 28 Jan 2021 14:43:10 +0800
+Message-Id: <20210128064312.16085-2-bmeng.cn@gmail.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210128064312.16085-1-bmeng.cn@gmail.com>
+References: <20210128064312.16085-1-bmeng.cn@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=bmeng.cn@gmail.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x632.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,20 +89,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Bin Meng <bin.meng@windriver.com>
 
-This includes several fixes related to erase operation of a SD card.
+For high capacity memory cards, the erase start address and end
+address are multiplied by 512, but the address check is still
+based on the original block number in sd->erase_{start, end}.
 
-Based-on:
-http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226785
+Fixes: 1bd6fd8ed593 ("hw/sd/sdcard: Do not attempt to erase out of range addresses")
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
+---
 
+ hw/sd/sd.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Bin Meng (3):
-  hw/sd: sd: Fix address check in sd_erase()
-  hw/sd: sd: Move the sd_block_{read,write} and macros ahead
-  hw/sd: sd: Actually perform the erase operation
-
- hw/sd/sd.c | 53 +++++++++++++++++++++++++++++++----------------------
- 1 file changed, 31 insertions(+), 22 deletions(-)
-
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index c99c0e93bb..a6a0b3dcc6 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -760,7 +760,7 @@ static void sd_erase(SDState *sd)
+         erase_end *= 512;
+     }
+ 
+-    if (sd->erase_start > sd->size || sd->erase_end > sd->size) {
++    if (erase_start > sd->size || erase_end > sd->size) {
+         sd->card_status |= OUT_OF_RANGE;
+         sd->erase_start = INVALID_ADDRESS;
+         sd->erase_end = INVALID_ADDRESS;
 -- 
 2.25.1
 
