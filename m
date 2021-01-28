@@ -2,70 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037AD307C19
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:21:34 +0100 (CET)
-Received: from localhost ([::1]:44520 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8B03307C51
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:26:44 +0100 (CET)
+Received: from localhost ([::1]:55956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Az7-0005SM-0A
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:21:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49438)
+	id 1l5B47-00029o-SV
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:26:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52794)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l5Aru-0008QZ-9g
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:14:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32296)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l5Ars-00062r-1x
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:14:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611854043;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=EuSgo8Iwlzytakv9NRvoMkKVs0rhgYyBcVBZzlBdHaQ=;
- b=Ek42wZYoY3kvGFp/OGyJCmpYhHzb73KGHsg97msDAirCn7TkQ2p8CUXKTHL7HXNAfK1eGy
- WmZs6YPITdGzKq6t+YEMc+v2O7x2REtrJSZZNrf84KfzwMBnRhJxeNgXDYMy/nz4e1H0Fg
- +z77+gT/7R1pEjZw+aexOpA1M/eWhFU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-561-yjGJRBRKNF-lqXN36KXVgA-1; Thu, 28 Jan 2021 12:14:01 -0500
-X-MC-Unique: yjGJRBRKNF-lqXN36KXVgA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28D20107ACE3;
- Thu, 28 Jan 2021 17:14:00 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-115-102.ams2.redhat.com [10.36.115.102])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AD54060C13;
- Thu, 28 Jan 2021 17:13:58 +0000 (UTC)
-Date: Thu, 28 Jan 2021 18:13:56 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH v2 15/36] block: use topological sort for permission update
-Message-ID: <20210128171356.GE5361@merkur.fritz.box>
-References: <20201127144522.29991-1-vsementsov@virtuozzo.com>
- <20201127144522.29991-16-vsementsov@virtuozzo.com>
- <20210127183809.GD6090@merkur.fritz.box>
- <ef4f43d2-a8b8-932e-78e4-6ffc9d8e7d3e@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <stefan@mini.fritz.box>)
+ id 1l5Az7-0006My-Du
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:21:33 -0500
+Received: from p5b1511bf.dip0.t-ipconnect.de ([91.21.17.191]:51064
+ helo=mini.fritz.box) by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <stefan@mini.fritz.box>) id 1l5Az4-0000Z0-Sz
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:21:33 -0500
+Received: by mini.fritz.box (Postfix, from userid 502)
+ id EFF8392CA8D; Thu, 28 Jan 2021 18:15:26 +0100 (CET)
+From: Stefan Weil <sw@weilnetz.de>
+To: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PATCH] tests: Replace deprecated ASN1 code
+Date: Thu, 28 Jan 2021 18:15:23 +0100
+Message-Id: <20210128171523.45921-1-sw@weilnetz.de>
+X-Mailer: git-send-email 2.24.3 (Apple Git-128)
 MIME-Version: 1.0
-In-Reply-To: <ef4f43d2-a8b8-932e-78e4-6ffc9d8e7d3e@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=91.21.17.191; envelope-from=stefan@mini.fritz.box;
+ helo=mini.fritz.box
+X-Spam_score_int: 21
+X-Spam_score: 2.1
+X-Spam_bar: ++
+X-Spam_report: (2.1 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, KHOP_HELO_FCRDNS=0.399,
+ NO_DNS_FOR_FROM=0.001, RCVD_IN_PBL=3.335, RCVD_IN_SORBS_DUL=0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,144 +49,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-block@nongnu.org, armbru@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Stefan Weil <sw@weilnetz.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 28.01.2021 um 10:34 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 27.01.2021 21:38, Kevin Wolf wrote:
-> > Am 27.11.2020 um 15:45 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > -static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > > -                           uint64_t cumulative_perms,
-> > > -                           uint64_t cumulative_shared_perms,
-> > > -                           GSList *ignore_children, Error **errp)
-> > > +static int bdrv_node_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > > +                                uint64_t cumulative_perms,
-> > > +                                uint64_t cumulative_shared_perms,
-> > > +                                GSList *ignore_children, Error **errp)
-> > >   {
-> > >       BlockDriver *drv = bs->drv;
-> > >       BdrvChild *c;
-> > > @@ -2166,21 +2193,43 @@ static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > >       /* Check all children */
-> > >       QLIST_FOREACH(c, &bs->children, next) {
-> > >           uint64_t cur_perm, cur_shared;
-> > > -        GSList *cur_ignore_children;
-> > >           bdrv_child_perm(bs, c->bs, c, c->role, q,
-> > >                           cumulative_perms, cumulative_shared_perms,
-> > >                           &cur_perm, &cur_shared);
-> > > +        bdrv_child_set_perm_safe(c, cur_perm, cur_shared, NULL);
-> > 
-> > This "added" line is actually old code. What is removed here is the
-> > recursive call of bdrv_check_update_perm(). This is what the code below
-> > will have to replace.
-> 
-> yes, we'll use explicit loop instead of recursion
-> 
-> > 
-> > > +    }
-> > > +
-> > > +    return 0;
-> > > +}
-> > > +
-> > > +static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,
-> > > +                           uint64_t cumulative_perms,
-> > > +                           uint64_t cumulative_shared_perms,
-> > > +                           GSList *ignore_children, Error **errp)
-> > > +{
-> > > +    int ret;
-> > > +    BlockDriverState *root = bs;
-> > > +    g_autoptr(GSList) list = bdrv_topological_dfs(NULL, NULL, root);
-> > > +
-> > > +    for ( ; list; list = list->next) {
-> > > +        bs = list->data;
-> > > +
-> > > +        if (bs != root) {
-> > > +            if (!bdrv_check_parents_compliance(bs, ignore_children, errp)) {
-> > > +                return -EINVAL;
-> > > +            }
-> > 
-> > At this point bs still had the old permissions, but we don't access
-> > them. As we're going in topological order, the parents have already been
-> > updated if they were a child covered in bdrv_node_check_perm(), so we're
-> > checking the relevant values. Good.
-> > 
-> > What about the root node? If I understand correctly, the parents of the
-> > root nodes wouldn't have been checked in the old code. In the new state,
-> > the parent BdrvChild already has to contain the new permission.
-> > 
-> > In bdrv_refresh_perms(), we already check parent conflicts, so no change
-> > for all callers going through it. Good.
-> > 
-> > bdrv_reopen_multiple() is less obvious. It passes permissions from the
-> > BDRVReopenState, without applying the permissions first.
-> 
-> It will be changed in the series
-> 
-> > Do we check the
-> > old parent permissions instead of the new state here?
-> 
-> We use given (new) cumulative permissions for bs, and recalculate
-> permissions for bs subtree.
+This fixes several compiler warnings on MacOS with Homebrew.
 
-Where do we actually set them? I would expect a
-bdrv_child_set_perm_safe() call somewhere, but I can't see it in the
-call path from bdrv_reopen_multiple().
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+---
+ tests/crypto-tls-x509-helpers.c | 10 +++++-----
+ tests/crypto-tls-x509-helpers.h |  2 +-
+ tests/pkix_asn1_tab.c           |  2 +-
+ 3 files changed, 7 insertions(+), 7 deletions(-)
 
-> It follows old behavior. The only thing is changed that pre-patch we
-> do DFS recursion starting from bs (and probably visit some nodes
-> several times), after-patch we first do topological sort of bs subtree
-> and go through the list. The order of nodes is better and we visit
-> each node once.
-
-It's not the only thing that changes. Maybe this is what makes the patch
-hard to understand, because it seems to do two steps at once:
-
-1. Change the order in which nodes are processed
-
-2. Replace bdrv_check_update_perm() with bdrv_check_parents_compliance()
-
-In step 2, the point I mentioned above is important (new permissions
-must already be set in the BdrvChild objects).
-
-The switch to bdrv_check_parents_compliance() also means that error
-messages become a bit worse because we don't know any more which of the
-conflicting nodes is the new one, so we can't provide two different
-messages any more. This is probably unavoidable, though.
-
-> > 
-> > > +            bdrv_get_cumulative_perm(bs, &cumulative_perms,
-> > > +                                     &cumulative_shared_perms);
-> > > +        }
-> > > -        cur_ignore_children = g_slist_prepend(g_slist_copy(ignore_children), c);
-> > > -        ret = bdrv_check_update_perm(c->bs, q, cur_perm, cur_shared,
-> > > -                                     cur_ignore_children, errp);
-> > > -        g_slist_free(cur_ignore_children);
-> > > +        ret = bdrv_node_check_perm(bs, q, cumulative_perms,
-> > > +                                   cumulative_shared_perms,
-> > > +                                   ignore_children, errp);
-> > 
-> > We use the original ignore_children for every node in the sorted list.
-> > The old code extends it with all nodes in the path to each node.
-> > 
-> > For the bdrv_check_update_perm() call that is now replaced with
-> > bdrv_check_parents_compliance(), I think this was necessary because
-> > bdrv_check_update_perm() always assumes adding a new edge, so if you
-> > update one instead of adding it, you have to ignore it so that it can't
-> > conflict with itself. This isn't necessary any more now because we just
-> > update and then check for consistency.
-> > 
-> > For passing to bdrv_node_check_perm() it doesn't make a difference
-> > anyway because the parameter is now unused (and should probably be
-> > removed).
-> 
-> ignore_children will be dropped in [27]. For now it is still needed
-> for bdrv_replace_node_common
-
-In bdrv_node_check_perm(), it's already unused after this patch. But
-fair enough.
-
-Kevin
+diff --git a/tests/crypto-tls-x509-helpers.c b/tests/crypto-tls-x509-helpers.c
+index 01b3daf358..97658592a2 100644
+--- a/tests/crypto-tls-x509-helpers.c
++++ b/tests/crypto-tls-x509-helpers.c
+@@ -30,7 +30,7 @@
+  * This stores some static data that is needed when
+  * encoding extensions in the x509 certs
+  */
+-ASN1_TYPE pkix_asn1;
++asn1_node pkix_asn1;
+ 
+ /*
+  * To avoid consuming random entropy to generate keys,
+@@ -139,7 +139,7 @@ void test_tls_cleanup(const char *keyfile)
+ /*
+  * Turns an ASN1 object into a DER encoded byte array
+  */
+-static void test_tls_der_encode(ASN1_TYPE src,
++static void test_tls_der_encode(asn1_node src,
+                                 const char *src_name,
+                                 gnutls_datum_t *res)
+ {
+@@ -317,7 +317,7 @@ test_tls_generate_cert(QCryptoTLSTestCertReq *req,
+      * the 'critical' field which we want control over
+      */
+     if (req->basicConstraintsEnable) {
+-        ASN1_TYPE ext = ASN1_TYPE_EMPTY;
++        asn1_node ext = NULL;
+ 
+         asn1_create_element(pkix_asn1, "PKIX1.BasicConstraints", &ext);
+         asn1_write_value(ext, "cA",
+@@ -344,7 +344,7 @@ test_tls_generate_cert(QCryptoTLSTestCertReq *req,
+      * to be 'critical'
+      */
+     if (req->keyUsageEnable) {
+-        ASN1_TYPE ext = ASN1_TYPE_EMPTY;
++        asn1_node ext = NULL;
+         char str[2];
+ 
+         str[0] = req->keyUsageValue & 0xff;
+@@ -374,7 +374,7 @@ test_tls_generate_cert(QCryptoTLSTestCertReq *req,
+      * set this the hard way building up ASN1 data ourselves
+      */
+     if (req->keyPurposeEnable) {
+-        ASN1_TYPE ext = ASN1_TYPE_EMPTY;
++        asn1_node ext = NULL;
+ 
+         asn1_create_element(pkix_asn1, "PKIX1.ExtKeyUsageSyntax", &ext);
+         if (req->keyPurposeOID1) {
+diff --git a/tests/crypto-tls-x509-helpers.h b/tests/crypto-tls-x509-helpers.h
+index 08efba4e19..8fcd7785ab 100644
+--- a/tests/crypto-tls-x509-helpers.h
++++ b/tests/crypto-tls-x509-helpers.h
+@@ -125,7 +125,7 @@ void test_tls_cleanup(const char *keyfile);
+     };                                                                  \
+     test_tls_generate_cert(&varname, NULL)
+ 
+-extern const ASN1_ARRAY_TYPE pkix_asn1_tab[];
++extern const asn1_static_node pkix_asn1_tab[];
+ 
+ #endif /* QCRYPTO_HAVE_TLS_TEST_SUPPORT */
+ 
+diff --git a/tests/pkix_asn1_tab.c b/tests/pkix_asn1_tab.c
+index f15fc515cb..4aaf736d3f 100644
+--- a/tests/pkix_asn1_tab.c
++++ b/tests/pkix_asn1_tab.c
+@@ -8,7 +8,7 @@
+ 
+ #ifdef QCRYPTO_HAVE_TLS_TEST_SUPPORT
+ 
+-const ASN1_ARRAY_TYPE pkix_asn1_tab[] = {
++const asn1_static_node pkix_asn1_tab[] = {
+   {"PKIX1", 536875024, 0},
+   {0, 1073741836, 0},
+   {"id-ce", 1879048204, 0},
+-- 
+2.24.3 (Apple Git-128)
 
 
