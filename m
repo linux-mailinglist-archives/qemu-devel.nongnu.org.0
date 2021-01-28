@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADB87307530
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:50:53 +0100 (CET)
-Received: from localhost ([::1]:57562 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4828307547
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 12:56:31 +0100 (CET)
+Received: from localhost ([::1]:46874 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l55p6-00047W-Nt
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:50:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34028)
+	id 1l55uY-0003Av-R2
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 06:56:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34040)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55gq-0001dZ-7b
+ id 1l55gq-0001fK-Rw
  for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:20 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51111)
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40944)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l55gd-0006Bv-2M
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:19 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id 190so4054107wmz.0
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:42:06 -0800 (PST)
+ id 1l55ge-0006DJ-V0
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 06:42:20 -0500
+Received: by mail-wr1-x435.google.com with SMTP id c12so5055806wrc.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 03:42:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=yZ8xu0Lo6T+SwLC4D2n+MG9CZOTMUcUo5Src/38TuZs=;
- b=g40UFwzgOTp7m7ioPZrkGlaY3gtXHEjV3giEP6Wq40EvOKxWkRsJpy81y164YY8mvF
- NgeCt/QzrnHr5Py+P8rdaSWwY1LOy6VEzLgzriUOeiBbkF1xQY89QX8TCZzIIkaxdvEI
- BGZpE9dSabTgaBrDMQ5MjDDOQFY9yng6uJdmUsSFg7y17CXFIeddxEN7djZBJtWnEQ2/
- x60YRnj/7Wj+5w6+rYGHG36G2gz2dkLVBr794ekiRiy3oeDNti8Cdx7VAlGoxGNVGlf5
- Jd6NKaNbz1MIQx8ec8EHFd4D9StJblj8re7I5ila3zAkXVIu/Wysvfi1Cyj9c54Z4fgH
- H2vA==
+ bh=FLhKJfJA3wJXHxcMZPwl39x9goxCdaNuR65Z80YJ5OE=;
+ b=dvL1tvBW0hb+ABtbTnHOaDtgaVPGUu/yGvYan8qVNWP1vnhCE/+Fwwu5T/F6ZzgaL+
+ VLnzY8sQq71XXz833C+mYNEjgn8YmE8U7OfdO7VHs0Y24sErXopLKSZ6uRsHdaMEVwgn
+ 4rxgOztIQ7Yo4z5rsEhCvNCzB81NaO00cgTUWFavGl+YLz+fnNH34CGwyZQ96AFPRGJ7
+ s7yv2Vq9EI9R8ZPOKbKVDPu83+LTNA2Z6dNe7+yNCycedsYd82RxcPOSzjlhodEeQMfj
+ lKHMBzMo5gOeCQu4weHzTKAcvZ7yeeR+UsLd410XQ4KjbBVPksIk7AWwxYgIXa4SqBUO
+ ovmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=yZ8xu0Lo6T+SwLC4D2n+MG9CZOTMUcUo5Src/38TuZs=;
- b=o8ICjrlMW1HnEpfpe4o1gEKORYZE4dJyrG1dZR2RlSeucX88qxiKxDOiKduLKNMjE+
- C8phH7lwj7YiAtERWkM9mqScv3U+3z1G//fBdcvlz9NMMbyTD8evMcPDsR5wA5JZLiju
- YYiFvy1YdqGIEQthxjPCLgzXRKoghNj8WrVg7xPz9Y4S7ILbM7b0WsUrb1MtgvEITj7X
- drzif6YwDIhh4kZQvGiAly11gXJDbRkD9qFdzL26h5xsRHJ4wMhNXZX/TTqTyUnQVPqI
- WRvyvo/GNiQu6ly19kTtpY3/w3yoGEFJKvX+VmkU/DbTjyO6hgzW8Gd7B6B9yzfQf3dM
- rGQQ==
-X-Gm-Message-State: AOAM533Dw75oN13RHzDM4B2Dbpk4Mmvu8qXLT2UH17lgpt0vbgEoHNNO
- 6aIKl2xs6OFUOCUTDdDcbv+l3A==
-X-Google-Smtp-Source: ABdhPJz3Ju3ClAVHoeEHEAj63UJfFdyGb3g3+9ZFwP4kkh86QQzUk4Ooikt5wxpwqE/mQyVxto6Tug==
-X-Received: by 2002:a05:600c:2295:: with SMTP id
- 21mr8506158wmf.133.1611834125570; 
- Thu, 28 Jan 2021 03:42:05 -0800 (PST)
+ bh=FLhKJfJA3wJXHxcMZPwl39x9goxCdaNuR65Z80YJ5OE=;
+ b=QGGtz3p/dP9PmCZ27LbsjnBa4XrBMicPTp6BK+vCwuyaz2N3NclRHTl46MvfDhdAg5
+ pISJ8T8BvOhGwDpf1XRSqLwnYjlBwwkDuwr2JsAsDKjY9ZyjQOGJXY4sItia6ijVLNbW
+ lkbzj4pK8d966QioC/M1qdAHifkb2vyKPZ+SS144x7yunyRZF25RUzvPhW7TwR+YpSbj
+ o46GBIy9P3WZCQjBlslNSyZOP4+C97fBRwYLuM0XJ52EwC8OBaFq2k9ucoQTEuv9FjUf
+ tfPko6+Jq24SWYaCq4368NHI7acL93X5g2Z7GT4tX98DewA6bvio6msQT9Ny7IVeOsxo
+ KiMw==
+X-Gm-Message-State: AOAM530MyzWyBbVL2LZHRrFdMGK1qFjR3gxR6WSaMkwIKyRYKPyyq8+o
+ 14bY3qsNsxeYTPxHoXHoQVKaqA==
+X-Google-Smtp-Source: ABdhPJxMreuamRMoqLMOWVicTPnlrnRQ6KEgY+AWOcJj4r3vdlolY+gDU/ARAOq0DOvjQd1H+i1T0g==
+X-Received: by 2002:a05:6000:188c:: with SMTP id
+ a12mr16295896wri.105.1611834127506; 
+ Thu, 28 Jan 2021 03:42:07 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q9sm6431033wme.18.2021.01.28.03.42.04
+ by smtp.gmail.com with ESMTPSA id q9sm6431033wme.18.2021.01.28.03.42.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 03:42:05 -0800 (PST)
+ Thu, 28 Jan 2021 03:42:07 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 18/25] hw/timer/cmsdk-apb-timer: Convert to use Clock input
-Date: Thu, 28 Jan 2021 11:41:38 +0000
-Message-Id: <20210128114145.20536-19-peter.maydell@linaro.org>
+Subject: [PATCH v2 20/25] hw/watchdog/cmsdk-apb-watchdog: Convert to use Clock
+ input
+Date: Thu, 28 Jan 2021 11:41:40 +0000
+Message-Id: <20210128114145.20536-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210128114145.20536-1-peter.maydell@linaro.org>
 References: <20210128114145.20536-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,63 +91,65 @@ Cc: Luc Michel <luc@lmichel.fr>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Switch the CMSDK APB timer device over to using its Clock input; the
-pclk-frq property is now ignored.
+Switch the CMSDK APB watchdog device over to using its Clock input;
+the wdogclk_frq property is now ignored.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20210121190622.22000-19-peter.maydell@linaro.org
+Message-id: 20210121190622.22000-21-peter.maydell@linaro.org
 ---
- hw/timer/cmsdk-apb-timer.c | 18 ++++++++++++++----
+ hw/watchdog/cmsdk-apb-watchdog.c | 18 ++++++++++++++----
  1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
-index c63145ff553..f053146d88f 100644
---- a/hw/timer/cmsdk-apb-timer.c
-+++ b/hw/timer/cmsdk-apb-timer.c
-@@ -204,6 +204,15 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
+diff --git a/hw/watchdog/cmsdk-apb-watchdog.c b/hw/watchdog/cmsdk-apb-watchdog.c
+index b03bcb73628..9cad0c67da4 100644
+--- a/hw/watchdog/cmsdk-apb-watchdog.c
++++ b/hw/watchdog/cmsdk-apb-watchdog.c
+@@ -310,6 +310,15 @@ static void cmsdk_apb_watchdog_reset(DeviceState *dev)
      ptimer_transaction_commit(s->timer);
  }
  
-+static void cmsdk_apb_timer_clk_update(void *opaque)
++static void cmsdk_apb_watchdog_clk_update(void *opaque)
 +{
-+    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
++    CMSDKAPBWatchdog *s = CMSDK_APB_WATCHDOG(opaque);
 +
 +    ptimer_transaction_begin(s->timer);
-+    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
++    ptimer_set_period_from_clock(s->timer, s->wdogclk, 1);
 +    ptimer_transaction_commit(s->timer);
 +}
 +
- static void cmsdk_apb_timer_init(Object *obj)
+ static void cmsdk_apb_watchdog_init(Object *obj)
  {
      SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
-@@ -213,15 +222,16 @@ static void cmsdk_apb_timer_init(Object *obj)
-                           s, "cmsdk-apb-timer", 0x1000);
+@@ -319,7 +328,8 @@ static void cmsdk_apb_watchdog_init(Object *obj)
+                           s, "cmsdk-apb-watchdog", 0x1000);
      sysbus_init_mmio(sbd, &s->iomem);
-     sysbus_init_irq(sbd, &s->timerint);
--    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk", NULL, NULL);
-+    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk",
-+                                 cmsdk_apb_timer_clk_update, s);
- }
+     sysbus_init_irq(sbd, &s->wdogint);
+-    s->wdogclk = qdev_init_clock_in(DEVICE(s), "WDOGCLK", NULL, NULL);
++    s->wdogclk = qdev_init_clock_in(DEVICE(s), "WDOGCLK",
++                                    cmsdk_apb_watchdog_clk_update, s);
  
- static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+     s->is_luminary = false;
+     s->id = cmsdk_apb_watchdog_id;
+@@ -329,9 +339,9 @@ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
  {
-     CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
+     CMSDKAPBWatchdog *s = CMSDK_APB_WATCHDOG(dev);
  
--    if (s->pclk_frq == 0) {
--        error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
-+    if (!clock_has_source(s->pclk)) {
-+        error_setg(errp, "CMSDK APB timer: pclk clock must be connected");
+-    if (s->wdogclk_frq == 0) {
++    if (!clock_has_source(s->wdogclk)) {
+         error_setg(errp,
+-                   "CMSDK APB watchdog: wdogclk-frq property must be set");
++                   "CMSDK APB watchdog: WDOGCLK clock must be connected");
          return;
      }
  
-@@ -232,7 +242,7 @@ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+@@ -342,7 +352,7 @@ static void cmsdk_apb_watchdog_realize(DeviceState *dev, Error **errp)
                             PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
  
      ptimer_transaction_begin(s->timer);
--    ptimer_set_freq(s->timer, s->pclk_frq);
-+    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
+-    ptimer_set_freq(s->timer, s->wdogclk_frq);
++    ptimer_set_period_from_clock(s->timer, s->wdogclk, 1);
      ptimer_transaction_commit(s->timer);
  }
  
