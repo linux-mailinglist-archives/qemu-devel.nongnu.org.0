@@ -2,80 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AEA4307E1F
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 19:37:27 +0100 (CET)
-Received: from localhost ([::1]:48840 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C40F307E31
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 19:39:43 +0100 (CET)
+Received: from localhost ([::1]:50404 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5CAX-0002kl-SP
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 13:37:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57208)
+	id 1l5CCk-0003NU-8j
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 13:39:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57970)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5C7T-0001Is-9R
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:34:15 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:55477)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5C7R-000264-Ku
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:34:14 -0500
-Received: by mail-wm1-x329.google.com with SMTP id f16so5087899wmq.5
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:34:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=sXO/uEtBKydLEUkEE6D1Yu46pNhFcfEc+IQiaBxncAQ=;
- b=SF/OPyUasi0CYtJNxxdJkfGqagIp8AnMP2zzmAPihe6+rpwk8EoOx/JW10HgZ2PQZR
- txZkyhlPXDsJucWxKcaS1CduCrtjIKzPuoZcCPJui+nqsF9Ei081/lyxlxIyr9LF7Yhb
- JEDSkNvFrnKrLFSLa7e5qybSyfr/KRmJsA6hz1V+1iRD3onyv/OcWN6GMsceN19uQuPk
- bPkp3dWuofqhCyklT6z5wrXLG5m/SpBbVnkKCsckHhqV7fcq50J7x45GBC2rIvPGLaDj
- 3XqYa0IFbZJhw3T7c50K+oHYqngtxk7Aq9FyTM+69weridFSbBByl0vssDBrXO83HWjd
- YC8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=sXO/uEtBKydLEUkEE6D1Yu46pNhFcfEc+IQiaBxncAQ=;
- b=almyYuKucNJOxp4QquabxPLJKDs9AT50AfFYqI9ZuAZKA3X0Eur7MbZyrGiDWMB173
- tcUkq3q5r57p7r9DM1zTdKgsy7YAm5wwB5QAaRyOJEva2gVRi95z5yJu6lSk27jedVTN
- I7DEdb6pCBi7tGmCRPzDC+1W0IOSHbS1p0pn5H3DtZ9RAwN9g7czOkli8U/K0zGs9AQK
- 665MbVQZrJwP9jKJADB8s5y1CNKyzoJZiggWneP4APVlzBaqP+PTd1YGkGmq3wqQQQNb
- wazY6cVHnuK69EgdLaMSmEYVo+KgV/UHrjIc3KlnD0JlFALmks9gNkBEXdUk+4Cxl6hp
- OZvg==
-X-Gm-Message-State: AOAM530DXldtM8j+9ctjFui+bsrswmqMFuOhEhPemmpHm8iRfexFdfP5
- +XhWpU4/qOmPYyCUuA0pLp4hfQ==
-X-Google-Smtp-Source: ABdhPJytlejhOm+Buv12x3ZryddtB/wwK5ovHy19En3pCJfOt7Z+RyBg3WOsiqxjYUhamOiM7ikRoQ==
-X-Received: by 2002:a1c:5403:: with SMTP id i3mr523298wmb.87.1611858851979;
- Thu, 28 Jan 2021 10:34:11 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id q63sm6800803wma.43.2021.01.28.10.34.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 10:34:11 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 33EDE1FF7E;
- Thu, 28 Jan 2021 18:34:10 +0000 (GMT)
-References: <20210128092814.8676-1-cfontana@suse.de>
- <20210128092814.8676-3-cfontana@suse.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Claudio Fontana <cfontana@suse.de>
-Subject: Re: [PATCH v14 02/22] target/riscv: remove CONFIG_TCG, as it is
- always TCG
-Date: Thu, 28 Jan 2021 18:34:05 +0000
-In-reply-to: <20210128092814.8676-3-cfontana@suse.de>
-Message-ID: <87czxoud0d.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l5C9h-0002X9-9t
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:36:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36648)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l5C9b-0002y4-D0
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:36:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611858985;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tdjpX3HXqKIBKHje13UJTis8u8M4ML98Cxj93TrkNEU=;
+ b=AuBAlhujoPUKAPB83uzAnDP7sVpPTJPJ4I5qGrUNVLh/xDamEyj0sdhy9TkbKsizz3gQ7/
+ 14aL7kL8sLDPGDW7aNkdziR2G+nHLsgo2/p5u2IIzqg73OSY8CQcAAbnz+UwgQkrjC6Wn0
+ 1T1eu0uIrmZe+UiCx2d8VfoKBGlm55g=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-520-OL-PakfoNuu6dlaMnY9klg-1; Thu, 28 Jan 2021 13:36:21 -0500
+X-MC-Unique: OL-PakfoNuu6dlaMnY9klg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AF9E29CDB7
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 18:36:20 +0000 (UTC)
+Received: from work-vm (ovpn-115-60.ams2.redhat.com [10.36.115.60])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 9862F6085D;
+ Thu, 28 Jan 2021 18:36:16 +0000 (UTC)
+Date: Thu, 28 Jan 2021 18:36:14 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Subject: Re: [PATCH] migration/qemu-file: Fix maybe uninitialized on
+ qemu_get_buffer_in_place()
+Message-ID: <20210128183614.GB2952@work-vm>
+References: <20210128130625.569900-1-wainersm@redhat.com>
+ <20210128171619.GF2951@work-vm>
+ <b8f47501-0272-af87-8bb2-9074cdc1b51b@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <b8f47501-0272-af87-8bb2-9074cdc1b51b@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,28 +83,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* Philippe Mathieu-Daudé (philmd@redhat.com) wrote:
+> On 1/28/21 6:16 PM, Dr. David Alan Gilbert wrote:
+> > * Wainer dos Santos Moschetta (wainersm@redhat.com) wrote:
+> >> Fixed error when compiling migration/qemu-file.c with -Werror=maybe-uninitialized
+> >> as shown here:
+> >>
+> >> ../migration/qemu-file.c: In function 'qemu_get_buffer_in_place':
+> >> ../migration/qemu-file.c:604:18: error: 'src' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+> >>   604 |             *buf = src;
+> >>       |             ~~~~~^~~~~
+> >> cc1: all warnings being treated as errors
+> >>
+> >> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> > 
+> > Yes, I think I had a discussion with someone about this recently but
+> > can't find it;
+> 
+> Maybe with Thomas, he reported that 2 years ago when building with -O3:
+> https://www.mail-archive.com/qemu-devel@nongnu.org/msg599522.html
 
-Claudio Fontana <cfontana@suse.de> writes:
+I've got this vague memory I've had a conversation much much more
+recently; like in the last month or two but I can't find it.
 
-> for now only TCG is allowed as an accelerator for riscv,
-> so remove the CONFIG_TCG use.
->
-> Signed-off-by: Claudio Fontana <cfontana@suse.de>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Dave
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> > the compiler is technically correct, but the only time
+> > it's unitialised is the case where it's result doesn't matter.
+> > 
+> > Still, to shut the compiler up:
+> > 
+> > 
+> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > 
+> >> ---
+> >> Passed on CI: https://gitlab.com/wainersm/qemu/-/pipelines/247801576
+> >>
+> >>  migration/qemu-file.c | 2 +-
+> >>  1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+> >> index be21518c57..d6e03dbc0e 100644
+> >> --- a/migration/qemu-file.c
+> >> +++ b/migration/qemu-file.c
+> >> @@ -595,7 +595,7 @@ size_t qemu_get_buffer_in_place(QEMUFile *f, uint8_t **buf, size_t size)
+> >>  {
+> >>      if (size < IO_BUF_SIZE) {
+> >>          size_t res;
+> >> -        uint8_t *src;
+> >> +        uint8_t *src = NULL;
+> >>  
+> >>          res = qemu_peek_buffer(f, &src, size, 0);
+> >>  
+> >> -- 
+> >> 2.28.0
+> >>
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
---=20
-Alex Benn=C3=A9e
 
