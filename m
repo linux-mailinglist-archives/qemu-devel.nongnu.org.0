@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D910230784C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:40:06 +0100 (CET)
-Received: from localhost ([::1]:39914 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15DC430784E
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 15:41:33 +0100 (CET)
+Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l58Sr-0006hd-UD
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:40:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43810)
+	id 1l58UG-0007Q1-5V
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 09:41:32 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l58Qv-0005IN-IH; Thu, 28 Jan 2021 09:38:05 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:40412)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l58RF-0005gb-M4
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:38:26 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:44044)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l58Qu-00064x-0L; Thu, 28 Jan 2021 09:38:05 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id a14so6868323edu.7;
- Thu, 28 Jan 2021 06:38:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=lF2vPROpu68BvMMqC28J9bhWvzYOp/ajmcWm3VHx9HI=;
- b=V2fMQSfQGMzB8Iz10EwmwrZinzAXLuHjxX8g9POhiAR0pxlLWn3FLH874KUPje4fGw
- FBRhTuZSHeuZegm1/CZTE8Lxt3fYXj467EMKeCR9QZw8YvDXTJgj/gMpG+AIiETaDc3G
- /eZ4NkfJDGllQyL84MSuMlXuY5QhwPFjVeKEGKpE6fQipsw/KOmJE0GLRHCMUEfXwKnz
- d2MSQmsn3jSMVQoL+2oMPKaNpuSqgcfp+9Wv2Y4cDgyJevR9avW8x9hPqDZqakri4qNS
- 3ULYyuj6rAMYlxbOUnmLS5hiIT9IoCVm4yFtvYK494Q6erOhB9Zil5tKf0Jlo3qzg3FW
- Zfkw==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l58RB-0006Cf-66
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 09:38:25 -0500
+Received: by mail-ej1-x633.google.com with SMTP id w1so8063035ejf.11
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 06:38:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=BOUtrUQbu4v4DcBOyp3QHTI9z/QDDXd95PtlE1x7RnU=;
+ b=esnld8CMrPBUhXNe/av8piYuONGbvNGhHTxp571wsxa00L0pCrdGBsLTOo/PYzz/5D
+ xEVul5br5U2/dA+q23ucGHf1rlBDCG1LdLHRngyO8no5Ow/2mAIg2CP/SEYx/zFRL1jd
+ dwCUYLUIUTTHm99DV/VexRIbzWY3nPOkPoYJaKME7+3GxVa0HvCV6loB3if/dDrEsStS
+ p1KCq0LCXJcmOz4OtFSlkVwEwf3z6xZRSrCaqcI4VsqK1FkyHGFNeXhNsdx11dnIXuvl
+ 1u+VGG57g0KLEukT4cCeAxM9sKsae2ySokq0RiV8nHtxDK4sMfihWLbDPoVd0PJx8Fqr
+ PSMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=lF2vPROpu68BvMMqC28J9bhWvzYOp/ajmcWm3VHx9HI=;
- b=R1bKaTxQmRjKXtPxEfyK9VfuKq0Row8/QAQq4ax5xnAcD6FIl5U+YM4vkGggFyneoJ
- 3MXt3GvKJiSWoJLQ7Q7k3xkUR6OThJIAiG3hji4QWU3P4Tahdwd/dFsjBWR+uRgxUg5J
- b8DvqoHI2YuG37BFppiKmS5cn1C4dpnQy2OuWlT9I/SV1jqrTcVcidCVSsDPjI8LqXjM
- P9PQgJRbzr39plHiA9qdn4PtQQDXJyt2UZ2foBm6lZM8loYa6clWx7HzZ6IJn7Y6IZR7
- 6Y1D37aw4nCW6yz0o6M9PJZuUO+IXJmSYaW+r/OeHWmG+ckK+2rSYQ49P7fbe++sQ93W
- Ejdw==
-X-Gm-Message-State: AOAM531w8Xo1FMf32yWSKrfMGHKP3hcBu0FL1KKx9Io529ku6fj7Tl/2
- QYKDhx0/XmJ72Q4r4Df0C7Q=
-X-Google-Smtp-Source: ABdhPJz/gW27ctiOk7Eg/yKe96DnnevwE3211ewniFas5J3YBVrbo81pYVt5JUUV0niUqFEcTTjaWA==
-X-Received: by 2002:a50:fd12:: with SMTP id i18mr14593650eds.220.1611844682421; 
- Thu, 28 Jan 2021 06:38:02 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id x17sm3027984edd.76.2021.01.28.06.38.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 28 Jan 2021 06:38:01 -0800 (PST)
-Subject: Re: [PATCH v2 01/25] ptimer: Add new ptimer_set_period_from_clock()
- function
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20210128114145.20536-1-peter.maydell@linaro.org>
- <20210128114145.20536-2-peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8d5fbbc7-56fe-9a08-c891-3021f17e32f9@amsat.org>
-Date: Thu, 28 Jan 2021 15:38:00 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=BOUtrUQbu4v4DcBOyp3QHTI9z/QDDXd95PtlE1x7RnU=;
+ b=KbQoUiKtmeXpIBvWm+NoFwoAyRvjImim7M6DEto2lZ4JuecNHorzYJakxY7iuMCLkP
+ Ew4VrtkQHBymumiWvjPL171EmSnfbJo0cLKmH/3kGjUmigOe1hF+8/jJhSyBuKPF1Iiu
+ LUtvtb6OljjatlhjxrTAeU+HCaveWWQWfHd62w/Cc//NekcgGVRUm3f01cdjVw4tdZ/N
+ IPLljMVWUU7bUFp1DhHIEG+yVfoPDDkaULOPnmzkVTtEfJCaOhkx3WkE3sBajfLl+6pW
+ NgUCzlBDmNigkD0e5FYvRyE4RhGxVPv9NaSzkH63T9jqvbEcnnwJBx2sKofSRMcvKKPe
+ gxUQ==
+X-Gm-Message-State: AOAM5328eekJ+/Q5NihumuVog9Ns5lPK7jw2enYsRgSCEbjTk9Ncrl6n
+ dikVo1KjilnCpHvEN8Xjp5iP5Rb8KFA/YtjpkWLGtodhMeij6w==
+X-Google-Smtp-Source: ABdhPJyI9TP7ov/1P3UAanPd7JEGWctGR4ePuKKd78/7NTmQGUnfYq4SNeZPdcUlbeR/w8K5PKpmVOG/W4c10dXiMqg=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr11928329ejd.250.1611844699361; 
+ Thu, 28 Jan 2021 06:38:19 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210128114145.20536-2-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+References: <20210128143102.7834-1-michael.nawrocki@gtri.gatech.edu>
+In-Reply-To: <20210128143102.7834-1-michael.nawrocki@gtri.gatech.edu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 28 Jan 2021 14:38:08 +0000
+Message-ID: <CAFEAcA-tj9+WETE-Jsq0Wt5xHZcX2ysx7BB-jNrVY1X4xravHA@mail.gmail.com>
+Subject: Re: [PATCH 0/1] target/arm: Fix SCR_EL3 migration issue
+To: Mike Nawrocki <michael.nawrocki@gtri.gatech.edu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,36 +77,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Luc Michel <luc@lmichel.fr>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/21 12:41 PM, Peter Maydell wrote:
-> The ptimer API currently provides two methods for setting the period:
-> ptimer_set_period(), which takes a period in nanoseconds, and
-> ptimer_set_freq(), which takes a frequency in Hz.  Neither of these
-> lines up nicely with the Clock API, because although both the Clock
-> and the ptimer track the frequency using a representation of whole
-> and fractional nanoseconds, conversion via either period-in-ns or
-> frequency-in-Hz will introduce a rounding error.
-> 
-> Add a new function ptimer_set_period_from_clock() which takes the
-> Clock object directly to avoid the rounding issues.  This includes a
-> facility for the user to specify that there is a frequency divider
-> between the Clock proper and the timer, as some timer devices like
-> the CMSDK APB dualtimer need this.
-> 
-> To avoid having to drag in clock.h from ptimer.h we add the Clock
-> type to typedefs.h.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> Reviewed-by: Luc Michel <luc@lmichel.fr>
-> Message-id: 20210121190622.22000-2-peter.maydell@linaro.org
-> ---
->  include/hw/ptimer.h     | 22 ++++++++++++++++++++++
->  include/qemu/typedefs.h |  1 +
->  hw/core/ptimer.c        | 34 ++++++++++++++++++++++++++++++++++
->  3 files changed, 57 insertions(+)
+On Thu, 28 Jan 2021 at 14:31, Mike Nawrocki
+<michael.nawrocki@gtri.gatech.edu> wrote:
+>
+> The SCR_EL3 register reset value (0)  and the value produced when
+> writing 0 via the scr_write function (set as writefn in the register
+> struct) differ. This causes migration to fail.
+>
+> I believe the solution is to specify a raw_writefn for that register.
+>
+> Failing invocation:
+> $ qemu-system-arm -machine vexpress-a9 -cpu cortex-a9 -nographic
+> QEMU 5.2.0 monitor - type 'help' for more information
+> (qemu) migrate "exec:cat > img"
+> (qemu) q
+> $ qemu-system-arm -machine vexpress-a9 -cpu cortex-a9 -nographic -incoming "exec:cat img"
+> qemu-system-arm: error while loading state for instance 0x0 of device 'cpu'
+> qemu-system-arm: load of migration failed: Operation not permitted
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+I'll review the patch later, but for the moment just a note that
+I'm pretty sure this is not the only issue you'll run into with
+trying to migrate an AArch32 TrustZone-enabled CPU.
+https://bugs.launchpad.net/qemu/+bug/1839807 has the details
+but in summary we aren't migrating the Secure banked contents
+of cp15 registers which are banked Secure/Non-Secure. The
+symptom will be that migration succeeds but the guest doesn't
+behave correctly on the destination/after state restore.
+
+thanks
+-- PMM
 
