@@ -2,82 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 421553075BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:17:48 +0100 (CET)
-Received: from localhost ([::1]:34146 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66F6430757C
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 13:06:52 +0100 (CET)
+Received: from localhost ([::1]:38972 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l56F9-0005K2-B5
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:17:47 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36740)
+	id 1l564Z-0003ko-GY
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 07:06:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1l55yY-00007n-4J
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:00:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <mlureau@redhat.com>)
- id 1l55yU-0003tB-HA
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:00:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611835233;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=9gxxm3tKnylHSdVTHaL6QFhTxk/HCsvtJb/WWvjB5l4=;
- b=fj7lIpecUCfwJgGrbqgbZmKGmnxqekms5m6y/lih7Kyt+7AHWKd0ynbcHAA8kWOnGuJ1n0
- +9yEK5UiO1LNvQVqXcgx0JjYsZWSAODXHYUoxcsJW46c7Xe8yuSPnf1Pu4iKpinz52gPxX
- KsokmIFmDSxKT1sT4xH5rscQUTSZCaE=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-589-tYBtTGstNwqXOZsoxA-Dpg-1; Thu, 28 Jan 2021 07:00:31 -0500
-X-MC-Unique: tYBtTGstNwqXOZsoxA-Dpg-1
-Received: by mail-il1-f199.google.com with SMTP id j5so4351707ila.13
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 04:00:31 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=9gxxm3tKnylHSdVTHaL6QFhTxk/HCsvtJb/WWvjB5l4=;
- b=OUBLC82db/O8vZyCHx+X7VBG+GPe5s7l0wn5PwK7m7rYb/tW9o7MajAuvq8oWkjQ/h
- ThafQYSulIiFWN6yIBvYd/vevWthaKCC4/pF2JQjzkb7CfTYTP94uHAIAvo0O1y7vQSs
- qJyZIqg5lKTCAEOxRMkFAeoP1ajs2EDPKbRXnfCoJSm40IDthBkdVVSEklWX9YXiWDc7
- QLUazKR7KUTR5xxjViVcMXCUumB1vdrwzZRJGfb4hetai9e35WZ5QxqQHoMPUmEP3vYn
- ewCXj+D3R6UpFCLlagXbQTp+NxfWXdv89zKBLEEVUbNJCZL5/L834AjoGgksHLoN6FjG
- GVAg==
-X-Gm-Message-State: AOAM531Yj4pJR8hIEmNI0VNkPKMaYeQmAtSze3z+QC2Izg/MsMtFyZ/m
- 4+g/SO1tZrZ6kcQz5YxPTeh/xyeUJD3QX7z94GUO1vEQMSXldP3cYgBHmmOseCpTnUodRH7eSVG
- ogaGjTyhPXiRrSduVVjhEx7RII+24AlQ=
-X-Received: by 2002:a02:704e:: with SMTP id f75mr12567503jac.71.1611835231196; 
- Thu, 28 Jan 2021 04:00:31 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwkWUeQ0xIuqZps9HXveRX18Drbdin5b9rEezi7W40hfx+V/1ZkgsizVVwxXTC6YNR4V+dlXVO4eZ00FGF53/U=
-X-Received: by 2002:a02:704e:: with SMTP id f75mr12567494jac.71.1611835231037; 
- Thu, 28 Jan 2021 04:00:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l562P-0002XB-RE
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:04:40 -0500
+Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:60031)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l562N-00050D-J0
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 07:04:37 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.97])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 9127325E92C;
+ Thu, 28 Jan 2021 13:04:30 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Thu, 28 Jan
+ 2021 13:04:29 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G002681a401f-d4b9-486c-82af-52dd653f7205,
+ 12ABEFCAB104A9A3990DEAE01579FEA45C2F0BE3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Thu, 28 Jan 2021 13:04:28 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH 4/7] ppc/pnv: Simplify pnv_bmc_create()
+Message-ID: <20210128130428.62b9adde@bahia.lan>
+In-Reply-To: <9ea1ce11-15ba-3eea-f7a4-b036a9db841f@kaod.org>
+References: <20210126171059.307867-1-clg@kaod.org>
+ <20210126171059.307867-5-clg@kaod.org>
+ <CACPK8Xfw-E8TetGdfDYpMZChFbY7cQNGLX8_xh390A-vanS--w@mail.gmail.com>
+ <9ea1ce11-15ba-3eea-f7a4-b036a9db841f@kaod.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210128111319.329755-1-marcandre.lureau@redhat.com>
- <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
- <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
-In-Reply-To: <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Thu, 28 Jan 2021 16:00:20 +0400
-Message-ID: <CAMxuvazChfKDHyjP2o1ipfgquawMab9zc4p8J5wnNnmVMmJ1yw@mail.gmail.com>
-Subject: Re: [PATCH] spice: delay starting until display are initialized
-To: Gerd Hoffmann <kraxel@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=mlureau@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/alternative; boundary="0000000000006201bf05b9f4a25d"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=mlureau@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: c8be2e09-d400-46d6-9365-ae665a2ee0f6
+X-Ovh-Tracer-Id: 12127630850401606051
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedtgdefgecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtoheptghlgheskhgrohgurdhorhhg
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=groug@kaod.org;
+ helo=7.mo51.mail-out.ovh.net
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,86 +70,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, qemu-ppc@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---0000000000006201bf05b9f4a25d
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Thu, 28 Jan 2021 08:46:01 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-Hi
+> On 1/28/21 1:46 AM, Joel Stanley wrote:
+> > On Tue, 26 Jan 2021 at 17:14, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
+e:
+> >>
+> >> and reuse pnv_bmc_set_pnor() to share the setting of the PNOR.
+> >>
+> >> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> >> ---
+> >>  hw/ppc/pnv_bmc.c | 7 +------
+> >>  1 file changed, 1 insertion(+), 6 deletions(-)
+> >>
+> >> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+> >> index 67ebb16c4d5f..86d16b493539 100644
+> >> --- a/hw/ppc/pnv_bmc.c
+> >> +++ b/hw/ppc/pnv_bmc.c
+> >> @@ -260,13 +260,8 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+> >>      Object *obj;
+> >>
+> >>      obj =3D object_new(TYPE_IPMI_BMC_SIMULATOR);
+> >> -    object_ref(OBJECT(pnor));
+> >> -    object_property_add_const_link(obj, "pnor", OBJECT(pnor));
+> >=20
+> > I assume it's ok to move the link set to after the realise of the BMC o=
+bject?
+> =20
+>=20
+> When 2 objects need to be linked, one has to be realized first.=20
 
-On Thu, Jan 28, 2021 at 3:57 PM Marc-Andr=C3=A9 Lureau <
-marcandre.lureau@redhat.com> wrote:
+Realize isn't a QOM concept in the first place...
 
-> Hi
->
-> On Thu, Jan 28, 2021 at 3:44 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->>   Hi,
->>
->> > diff --git a/ui/spice-display.c b/ui/spice-display.c
->> > index 0178d5766d..3d3e3bcb22 100644
->> > --- a/ui/spice-display.c
->> > +++ b/ui/spice-display.c
->> > @@ -1188,4 +1188,6 @@ void qemu_spice_display_init(void)
->> >          }
->> >          qemu_spice_display_init_one(con);
->> >      }
->>
->>        if (runstate_is_running()) {
->>             qemu_spice_display_start();
->>        }
->>
->> Isn't that enough?
->>
->
-> That should be fine too, I'll update the patch. thanks
->
+> I suppose this is why it is allowed but I am not expert in that area.=20
+>=20
 
-Actually no, we still need to prevent the initial
-qemu_spice_display_start(), and do a single call when everything is ready
-(since spice server doesn't handle adding interfaces dynamically when
-running).
+... so no surprise object_property_add_const_link() doesn't care
+about it.
 
---0000000000006201bf05b9f4a25d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> Greg  ?
+>=20
 
-<div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><div class=3D"gmail_quote=
-"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan 28, 2021 at 3:57 PM Mar=
-c-Andr=C3=A9 Lureau &lt;<a href=3D"mailto:marcandre.lureau@redhat.com">marc=
-andre.lureau@redhat.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex"><div dir=3D"ltr"><div dir=3D"ltr">Hi<br></div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Jan =
-28, 2021 at 3:44 PM Gerd Hoffmann &lt;<a href=3D"mailto:kraxel@redhat.com" =
-target=3D"_blank">kraxel@redhat.com</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">=C2=A0 Hi,<br>
-<br>
-&gt; diff --git a/ui/spice-display.c b/ui/spice-display.c<br>
-&gt; index 0178d5766d..3d3e3bcb22 100644<br>
-&gt; --- a/ui/spice-display.c<br>
-&gt; +++ b/ui/spice-display.c<br>
-&gt; @@ -1188,4 +1188,6 @@ void qemu_spice_display_init(void)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_spice_display_init_one(con);<br=
->
-&gt;=C2=A0 =C2=A0 =C2=A0 }<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0if (runstate_is_running()) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_spice_display_start();<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-Isn&#39;t that enough?<br></blockquote><div><br></div><div>That should be f=
-ine too, I&#39;ll update the patch. thanks</div></div></div></blockquote><d=
-iv><br></div><div>Actually no, we still need to prevent the initial qemu_sp=
-ice_display_start(), and do a single call when everything is ready (since s=
-pice server doesn&#39;t handle adding interfaces dynamically when running).=
- <br></div></div></div>
+What is important though is that a property with a given name
+can only be added *once* to an object during its lifetime.
+Doing the contrary is a bug and QEMU aborts. So, with this
+in mind, it seems to me that adding QOM properties to a
+device object should only be done from some init path
+that is only called once.
 
---0000000000006201bf05b9f4a25d--
+> That was the case already when defining a "ipmi-bmc-sim" device on the=20
+> command line.=20
+>=20
+
+Yeah and the property is added during machine reset... which
+is typically a path that can be taken several times during
+the machine lifetime. The potential crash is avoided because
+pnv_reset() doesn't call pnv_bmc_set_pnor() if pnv->bmc is
+already set, but this is a fragile workaround...
+
+A QOM link doesn't look like the correct way to model the BMC
+accesses to the PNOR. Since the only user is hiomap_cmd(),
+it seems you could reach the same result with a pointer to
+the PNOR object being passed to ipmi_sim_register_netfn()
+and later passed to hiomap_cmd().
+
+> C.=20
+>=20
+>=20
+> >>      qdev_realize(DEVICE(obj), NULL, &error_fatal);
+> >> -
+> >> -    /* Install the HIOMAP protocol handlers to access the PNOR */
+> >> -    ipmi_sim_register_netfn(IPMI_BMC_SIMULATOR(obj), IPMI_NETFN_OEM,
+> >> -                            &hiomap_netfn);
+> >> +    pnv_bmc_set_pnor(IPMI_BMC(obj), pnor);
+> >>
+> >>      return IPMI_BMC(obj);
+> >>  }
+> >> --
+> >> 2.26.2
+> >>
+> >>
+>=20
 
 
