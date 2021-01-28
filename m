@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0594307CBE
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:39:32 +0100 (CET)
-Received: from localhost ([::1]:50560 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 577EB307CBF
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 18:40:55 +0100 (CET)
+Received: from localhost ([::1]:53200 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5BGV-00040R-Ot
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:39:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58114)
+	id 1l5BHq-0005AL-Da
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 12:40:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58446)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5BA7-0008IU-VI
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:32:56 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46973)
+ id 1l5BAm-0000ZI-6z
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:33:36 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:34792)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5B9x-0004sb-56
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:32:54 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id rv9so8940575ejb.13
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 09:32:44 -0800 (PST)
+ id 1l5BAk-00059C-NY
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 12:33:35 -0500
+Received: by mail-ej1-x633.google.com with SMTP id hs11so9016065ejc.1
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 09:33:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=KqTBMNBBEJ1sOhIslJwSqd9Q2bYRZH5ZzE5JPKV85NI=;
- b=Dx39f+XjCmmk79lsbVMqT4bJidCbg6iX/8HgTLxrgZy6SGaMuAH0s299HA7kGyKKFO
- Vad/vENRA2x1R45bM3OOspd62NXlLt3I2Wau3nVBQM/0RR5T8JWWHD584tEZ6vHtiTBd
- w+76Wn1AWP7nX0zome3BxZSUUA7H6avUkalQaWnUX1pKGLaR7TXT1D9JxM5bqwvmyKs5
- ibi5lsKIjwXdzRYkjQXEfwxtjH/vGWU+vY4hu2AERbrQzetFSOCRHQCNNh6gVHfFlugA
- Nlnf4g+NEUOptlLpCIYcoIYgN4cS0BY8HhFXSdJ9qG2oD9sgfNqKWYrxpXLsQuxjK8Iv
- b/7g==
+ :cc; bh=peCI9eHyva00w0o1LMwcOBAo1uSTfHW3Ms1naaOzJLY=;
+ b=AMYszEzN04+I/ZpilnWiA0FYENYDEoOOsCwb0UVyEr3LvgW9U2cHyYKdsPv0X9f50N
+ UASkhsBlTmx4Tkgtviyif9eSSgYK8phppoiSuXsV7C75D/Xn4Uss1DdTKg+0mnGcCUMz
+ HqPp9hwySZfHW/eEUjtdgjVjyyG4IxGAf20jCE0pldMzQItOQIUGfD/cWDBcgaOgrZXC
+ Op8Of18z6QhCAaXHp4uxOGC8JTTyzsgJWD2GbXzrnOs6F7A0qpWEJJtCdxod9DTWLOzh
+ CksK92RqesoE9NzJngjfq8vAScoDKhGWNgbSas1+22vIP1e0mUY/p0yk5I8qJyJ25zav
+ KWnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc;
- bh=KqTBMNBBEJ1sOhIslJwSqd9Q2bYRZH5ZzE5JPKV85NI=;
- b=fJAlLBmQuDLn2Slr5e4NxpGk2Oz9LVvYuf5kSxs2nGACb7doKSC7T0DL/Z0UxjDnoW
- ecxeLztoAJ8XDWolV2oaXiRPiOHfZNdanZrZ1uRjIbZfI7saNDJdsMKdm+FWi0rr0E/r
- hVnX03UGG7lxsjkksvhWEkPhLmoXsQ9Uq9uK0dB+KvKG4+zvjYmHiwmtIXk5AduOqFu+
- fTRsHRiosmCdCgbd9kqdrvM1kBjPsf34ygY80pqrPHoXWz3wcJAEYDT8swYwIqe7veNA
- BKCqxCgJiGWznHki0RuowQ2mzevIH3xFksnbJNg8PesXcxFOXdLRaek5PtjO4EfDxGSw
- kjiA==
-X-Gm-Message-State: AOAM533Fths3dlvj5Y8Exvq7Q3QL4uG+pjFmcAkhlcG6/Oot301CIkpG
- /fwptbp7oNklabA9o2iNJy9+DNVoL3RKAMfqlhsfAA==
-X-Google-Smtp-Source: ABdhPJzdNotn3nWcAO9ijxsBL/0dE+zhxY3PT6heTGmrGqX4TiFoGFTu6MLOf9djFpZ9aSAVdDM/0ayANqrbsymTvPk=
-X-Received: by 2002:a17:906:494c:: with SMTP id
- f12mr522098ejt.56.1611855163813; 
- Thu, 28 Jan 2021 09:32:43 -0800 (PST)
+ bh=peCI9eHyva00w0o1LMwcOBAo1uSTfHW3Ms1naaOzJLY=;
+ b=gySZ3obw3yGoCgUQvwUDO8LfVW4QHmepMyBIPu9b8/NSQjiJYTmq9x1E70n7gxGWgJ
+ tjJw799PHzfq5O/yrKcMjMThAt9wvlxI1ftnMsiN6nznfymE0kpwF+S9lTbJx4pi1IRq
+ /zjcAe6y+KQzCt6NW7/DI8yJ3S8nqORDpK/awiTlgGkeS0eFYHgKSpTeV2Lk9sZ6hOOh
+ NB6LT+oI/CkOXEBsCRmH69f3qoJA+m1RDsp5lEMhoJhd40RGT7KLWTC1Lm4juxDrA7tn
+ MXCA6DTPJ4lY6c0PiU1M+CqpLP3K/3j1Mk7HXYf9n4K8UuhwcHqhSYwgWbslg0NXJ5wN
+ OZTw==
+X-Gm-Message-State: AOAM533ASKNIwurTXGMvDGVeznDJV6lyhm1gPwtK2Z5ZqtJCIJ+b5Lsg
+ 7G1BNxJrdq4w3UIQTbHIQ36soKyUVybej9TWQux4+w==
+X-Google-Smtp-Source: ABdhPJyHF/rlsYqyDwdIxuD6PJPSupccYZg9r6evuUrI8X/QZPauu1LWDUMuBbVKWOjT5zptCo1XvyV4sdUBMQJjG4w=
+X-Received: by 2002:a17:906:4002:: with SMTP id v2mr473813ejj.85.1611855213351; 
+ Thu, 28 Jan 2021 09:33:33 -0800 (PST)
 MIME-Version: 1.0
 References: <20210126193237.1534208-1-wuhaotsh@google.com>
- <20210126193237.1534208-4-wuhaotsh@google.com>
-In-Reply-To: <20210126193237.1534208-4-wuhaotsh@google.com>
+ <20210126193237.1534208-5-wuhaotsh@google.com>
+In-Reply-To: <20210126193237.1534208-5-wuhaotsh@google.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 17:32:32 +0000
-Message-ID: <CAFEAcA80eo9X1v180D6msDsgd7bEkLfuSNmxggKPF256jJqLBw@mail.gmail.com>
-Subject: Re: [PATCH 3/6] hw/arm: Add I2C device tree for NPCM750 eval board
+Date: Thu, 28 Jan 2021 17:33:22 +0000
+Message-ID: <CAFEAcA8XRQ4yG6mXVrgMdQ-65Rqn8nBV1LySOU--XLeOUaOJKQ@mail.gmail.com>
+Subject: Re: [PATCH 4/6] hw/arm: Add I2C device tree for Quanta GSJ
 To: Hao Wu <wuhaotsh@google.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,64 +87,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Tue, 26 Jan 2021 at 19:32, Hao Wu <wuhaotsh@google.com> wrote:
 >
-> Add an I2C device tree for NPCM750 evaluation board.
+> Add an I2C device tree for Quanta GSJ. We only included devices with
+> existing QEMU implementation, including AT24 EEPROM and temperature
+> sensors.
 >
 > Reviewed-by: Doug Evans<dje@google.com>
 > Reviewed-by: Tyrong Ting<kfting@nuvoton.com>
 > Signed-off-by: Hao Wu <wuhaotsh@google.com>
 
-Slightly confusing commit message, because "device tree"
-usually means the data structure describing hardware for Linux
-(https://www.kernel.org/doc/html/latest/devicetree/usage-model.html).
-
-Something like "Create the I2C tmp105 temperature sensor devices"
-would be clearer, I think.
-
-> ---
->  hw/arm/npcm7xx_boards.c | 15 +++++++++++++++
->  1 file changed, 15 insertions(+)
->
-> diff --git a/hw/arm/npcm7xx_boards.c b/hw/arm/npcm7xx_boards.c
-> index 3fdd5cab01..2d82f48848 100644
-> --- a/hw/arm/npcm7xx_boards.c
-> +++ b/hw/arm/npcm7xx_boards.c
-> @@ -98,6 +98,20 @@ static NPCM7xxState *npcm7xx_create_soc(MachineState *machine,
->      return NPCM7XX(obj);
->  }
->
-> +static I2CBus *npcm7xx_i2c_get_bus(NPCM7xxState *soc, uint32_t num)
-> +{
-> +    g_assert(num < ARRAY_SIZE(soc->smbus));
-> +    return I2C_BUS(qdev_get_child_bus(DEVICE(&soc->smbus[num]), "i2c-bus"));
-> +}
-> +
-> +static void npcm750_evb_i2c_init(NPCM7xxState *soc)
-> +{
-> +    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 0), "tmp105", 0x48);
-> +    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 1), "tmp105", 0x48);
-> +    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 2), "tmp105", 0x48);
-> +    i2c_slave_create_simple(npcm7xx_i2c_get_bus(soc, 6), "tmp105", 0x48);
-
-I assume these correspond to temperature sensors on the real board.
-Might be worth having a comment saying what their function is
-(I'm guessing they're measuring temperature of different bits of
-the board somehow?)
-
-> +}
-> +
->  static void npcm750_evb_init(MachineState *machine)
->  {
->      NPCM7xxState *soc;
-> @@ -108,6 +122,7 @@ static void npcm750_evb_init(MachineState *machine)
->
->      npcm7xx_load_bootrom(machine, soc);
->      npcm7xx_connect_flash(&soc->fiu[0], 0, "w25q256", drive_get(IF_MTD, 0, 0));
-> +    npcm750_evb_i2c_init(soc);
->      npcm7xx_load_kernel(machine, soc);
->  }
->
-> --
-> 2.30.0.365.g02bc693789-goog
+Same remarks as for patch 3 apply here too.
 
 thanks
 -- PMM
