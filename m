@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29E4D3079CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:34:01 +0100 (CET)
-Received: from localhost ([::1]:43348 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6553079D5
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 16:35:35 +0100 (CET)
+Received: from localhost ([::1]:47206 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l59J2-0008Dg-8q
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:34:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35610)
+	id 1l59KW-0001NO-Uk
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 10:35:34 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35784)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59G8-0006TE-LK
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:31:00 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:38602)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l59G3-0008JB-Cn
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:31:00 -0500
-Received: by mail-wr1-x429.google.com with SMTP id s7so2830049wru.5
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 07:30:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=Sg/sf9Y/r61r76lly+s7AXtGH3F0t0cJAis6kbFaybr0eZREA12bFAAJZh+fT15NWz
- gjL8SDE0ObSdPPKMPLl+udNM7MTeN+DrcyGaFbJjl3wDdYsckqTQM9kXffAQmURQKP7x
- HVnNHLWKVniv8057WyM6VesaQq/7LO1AO3Cuwn5gNy9nnyc0biLt9WGG9cgLziiZ44GR
- /ZoqZeLgZE40fXcKQcx4zNf4iHHDNNxlrs4X3DKTq1vSNQD2tKq9+CxubrEum4xrN0u6
- z4zhpIYfawSnJozJk446djIn7xPJyVKoKOTpyeom5Vwjx/AFrGhprDC5eIWwhv8N5smp
- WATg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=PhuciOTxGzyt42NozTpQG7KL1ETjDSYk2QrBi6IxQio=;
- b=d5vgXZzhugC5LROC1GPd9nccwz/bFAjMNQVwKVXSdsC3xxpZWm3vdziS6T2xVch7pp
- By06xQqXU0+6/rA1bW3HrTh+tgBFg1y8lCbFnsxFX7kZILFnJp4s7crzCf9aTcA0bO9p
- EmtpdttH8Qh9Em7KT4e+qcwbrJE5o8v20ij+03Tb4H7NxSyhjyYsZFlsBPJdK0K3Ydu2
- xDaAODAq0BAQxSjYlzFNUoYGPd34eHwB7HPBZMgwEq3PspKeONC3j1t6xmQPfikzoRUl
- tX/r8cNt6pz4BsgHEDH1sfsn+R70W+JL6wQCdkzVbB29rRIzWnKZVGGhFwCeO28PbuiT
- j7vA==
-X-Gm-Message-State: AOAM533ZZ0/GzwhBD2sj+Jh/KDDvnydt+mX3mzDxNrq0vr84Q/v67Ekv
- Csaj5ZollQDstcKPXvPs43ldmw==
-X-Google-Smtp-Source: ABdhPJwBz2364LhoWtk2r6/zRIaeJiKW2fe0MLDBznpd9Re7eI9xnGk5F7YJRsKzw6CxlVscrLvwFA==
-X-Received: by 2002:a5d:51c8:: with SMTP id n8mr12525105wrv.18.1611847853674; 
- Thu, 28 Jan 2021 07:30:53 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id l14sm7030045wrq.87.2021.01.28.07.30.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 28 Jan 2021 07:30:52 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8B85A1FF7E;
- Thu, 28 Jan 2021 15:30:51 +0000 (GMT)
-References: <20210128082331.196801-1-richard.henderson@linaro.org>
- <20210128082331.196801-9-richard.henderson@linaro.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 08/23] tcg/tci: Inline tci_write_reg16 into the only caller
-Date: Thu, 28 Jan 2021 15:30:47 +0000
-In-reply-to: <20210128082331.196801-9-richard.henderson@linaro.org>
-Message-ID: <87y2gdulhw.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l59Gu-00079i-LR
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:31:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39186)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l59Gs-0000Hd-V1
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 10:31:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611847906;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Eq3Z32Q2Jhe983+mtIVbmVF+rUzABMPB7JLx2+SrB6s=;
+ b=IEAuv/USPkrxP3ZpWNnMkF280cQH8p2Y5tQKdoqBo96erqf8wuJD1tcUSoTASUM5hO/pPq
+ uHrCuf+GWKJuv7TMzbIsci44is3Q92yYrUguYoAe5CpZZOqZpjAbjkq63LE4Bi8X6576VW
+ aRhJUMuYUGvQfi55mCtdOTSoKyeIujg=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-39-H_pxz2wtOwCS8a51qlYeBw-1; Thu, 28 Jan 2021 10:31:43 -0500
+X-MC-Unique: H_pxz2wtOwCS8a51qlYeBw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 49E02180A092;
+ Thu, 28 Jan 2021 15:31:42 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
+ [10.97.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 778F362464;
+ Thu, 28 Jan 2021 15:31:38 +0000 (UTC)
+Subject: Re: [PATCH] tests/acceptance: Increase the timeout in the replay tests
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>
+References: <20210127065222.48650-1-thuth@redhat.com>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <4651541c-093e-21b4-6416-ac1b29bbc53b@redhat.com>
+Date: Thu, 28 Jan 2021 12:31:35 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210127065222.48650-1-thuth@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,17 +84,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: sw@weilnetz.de, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+On 1/27/21 3:52 AM, Thomas Huth wrote:
+> Our gitlab-CI just showed a failed test_ppc_mac99 since it was apparently
+> killed some few seconds before the test finished. Allow it some more
+> time to complete.
+>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   Seen in this test log:
+>   https://gitlab.com/qemu-project/qemu/-/jobs/987148065/artifacts/file/build/tests/results/latest/test-results/26-tests_acceptance_replay_kernel.py_ReplayKernelNormal.test_ppc_mac99/debug.log
+>
+>   tests/acceptance/replay_kernel.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
 
---=20
-Alex Benn=C3=A9e
+
+>
+> diff --git a/tests/acceptance/replay_kernel.py b/tests/acceptance/replay_kernel.py
+> index 772633b01d..c1cb862468 100644
+> --- a/tests/acceptance/replay_kernel.py
+> +++ b/tests/acceptance/replay_kernel.py
+> @@ -31,7 +31,7 @@ class ReplayKernelBase(LinuxKernelTest):
+>       terminates.
+>       """
+>   
+> -    timeout = 90
+> +    timeout = 120
+>       KERNEL_COMMON_COMMAND_LINE = 'printk.time=1 panic=-1 '
+>   
+>       def run_vm(self, kernel_path, kernel_command_line, console_pattern,
+
 
