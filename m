@@ -2,73 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE8D307D7C
-	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 19:12:00 +0100 (CET)
-Received: from localhost ([::1]:53458 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE765307D8A
+	for <lists+qemu-devel@lfdr.de>; Thu, 28 Jan 2021 19:13:48 +0100 (CET)
+Received: from localhost ([::1]:58368 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Blv-0006Uo-UD
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 13:11:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45944)
+	id 1l5Bng-0000Zc-2F
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 13:13:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47180)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5Bg8-0001x5-5s
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:06:02 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44827)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5Bg5-0008Td-I4
- for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:05:59 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id c2so7658209edr.11
- for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:05:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=Re1RwwGUNB5sg+yEG415P4GxdiDQT4tR/tMFlPyz+vE=;
- b=Y1mvluxVx6smKiNIA8DguWYEPvuHNmTuQ/61ZyeJH2wuucsfccF+9JI4aKKzzXQLki
- Im+/JgUYGrgapTljYUmpC1zXbDFW6tRfXFbzTZyHgB70AD1/CrEmCHiaQTPZBVa8pod9
- b96oc1YtU9YCcZeoTioSTKQ2VSPweuU9frytlZa70FcYEhXw/yxu9gQoHSwDXqs3vU8p
- /W+gOePp5YTx0d0EP6655RRNCOB2tvjUuOt7e/qp3qc5xX7DtQ9J+IuNEgC5kNTD8kT0
- RlYWZv6abf/H91G+9RzT7QhqWfJfLgb4thahG6/pCj3dT0/Q2Ox6bG1SVxq20byMwaSz
- vmkg==
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l5Bi7-00045H-TE
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:08:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55357)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l5Bi4-0000wR-PA
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 13:08:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611857278;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=h+tCL+5M4PYZ3D/V8vunervBHMtf0QvlHaKEoWVr2eQ=;
+ b=ZNRSXGfhdoo2sMLQyUzIx59Vp6qw7Rq1lFmOOzbeEc95V2OtfOPFRbkFeq1LufY61wvPrF
+ 1E9Yvq8m8uex6U3QB9OlQR63qwLStufTex2sipsu2DyejYpvZMB9u4s65BcIuiiyl0WAwf
+ 2PNvM6mrZERwOjA4lbqBdMsfC1jdiZE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-546-z-qJdtsvMJiCsGJK3MiYwg-1; Thu, 28 Jan 2021 13:07:54 -0500
+X-MC-Unique: z-qJdtsvMJiCsGJK3MiYwg-1
+Received: by mail-wm1-f69.google.com with SMTP id x12so2503775wmk.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 10:07:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=Re1RwwGUNB5sg+yEG415P4GxdiDQT4tR/tMFlPyz+vE=;
- b=NkX0mNr2+ePjUNkSBB7mHomLCaq5eWZUvhL7dWloEUhf8Cce8SCtalIvljnUDWFFlo
- m4aNgBS+RVV2e9S6WuNPrrDAJWjfTusBfZSiSrbaz8r65Y2xfzwgAMkPeX3SxnlSaEGc
- +mh8K1wtVhyzv1KlkOStdsBhRzwuACoWE/jCWVaYk+Hb0DgywCXbeZYuTHBYv38TD+T1
- oTuKBAJv/NPlVXGZ8UXH1OFOVNZRrtn7WtUBnkrnd4PAbXj5u0AaA5v6HYw64c8WBHz4
- gKd79uY41+jB2rQQH6urIUWg4x6g+PNOB4f17JywOKac6p2gFspgvy+3U2qURRRO+Mek
- r5Qw==
-X-Gm-Message-State: AOAM530FcdGdZQVX3HEDjyl9lgVROl4uhtmErLGXufxvTqajozBkkhn4
- iMH5OUx57TazedQFbU3ZZkxGuHumlTruDhbEUjJudg==
-X-Google-Smtp-Source: ABdhPJxgf0UpLoEfNPFcp6Uw5+EkWJ03Q6G3dfgQjyiuSmjORfaABwmFZCWKsKXWBI7vMyNzQ0RmzmCJCCGV5v9FSGw=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr908986edd.52.1611857152771; 
- Thu, 28 Jan 2021 10:05:52 -0800 (PST)
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=h+tCL+5M4PYZ3D/V8vunervBHMtf0QvlHaKEoWVr2eQ=;
+ b=raTteg0Za4tqNz9jqdP3bLPDQxmWt/ZNllnNW9es1tltDK2lMXsggMymoSXRxXMk31
+ vq8VOzUMgJSnxKN2TznpvoEe79EkM12tzOH/OzaGCbGBavCi63ZkEPt24gte7ujI57m1
+ iOxvIb6KwfSLUWJGssExCjKFpH5gC/WVzApjJZ3HffDpD7If9mXTtX0W2HZU5Kdta5t6
+ QR67TdgHRaj4NnKbWWCdkEyIn+qrnibonZKtuvC1Nuui3tMXYiuP6tY8IHzthxH7NM4F
+ inRK5eFDURySYowFJ2wMmclrOAbSrXtoOwSKgz/k1I3T1rtCqTB0MPuyfHGFR+NrGeGH
+ Wqww==
+X-Gm-Message-State: AOAM530VaPvtpB19L9ljaBwTgjAwzRhAn61cGQBbokIqOutvmojvGrbH
+ AVEoZTRV3nEzKRlLCjMd7RETuCWABSDnSXwNyEFNBdr/OZXt/eDZ45e4QfWNO4IfLTZimPiT9L/
+ SNv/L6wEQVRFoOHk=
+X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr434000wml.101.1611857273482; 
+ Thu, 28 Jan 2021 10:07:53 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJy9fUNunK1wZI7xgBoF96ByRmYkapM36LGg8Fojq63f7dzyuEHZt6KrVy+RClO0E2Mk/zstzw==
+X-Received: by 2002:a7b:c8ca:: with SMTP id f10mr433990wml.101.1611857273366; 
+ Thu, 28 Jan 2021 10:07:53 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id v6sm7880773wrx.32.2021.01.28.10.07.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 10:07:52 -0800 (PST)
+Subject: Re: [PATCH] migration/qemu-file: Fix maybe uninitialized on
+ qemu_get_buffer_in_place()
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20210128130625.569900-1-wainersm@redhat.com>
+ <20210128171619.GF2951@work-vm>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Message-ID: <b8f47501-0272-af87-8bb2-9074cdc1b51b@redhat.com>
+Date: Thu, 28 Jan 2021 19:07:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210128161417.3726358-1-philmd@redhat.com>
- <20210128171811.jlnevikw4wgywjks@mozz.bu.edu>
- <82de6c97-d13b-01b9-e9ad-3b20f00adc5e@redhat.com>
-In-Reply-To: <82de6c97-d13b-01b9-e9ad-3b20f00adc5e@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 28 Jan 2021 18:05:41 +0000
-Message-ID: <CAFEAcA_PDyyH0yRiVWt27LoqhOq9MNysE7D7KWdsJN_8rV0VLg@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/arm_gic: Allow to use QTest without crashing
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+In-Reply-To: <20210128171619.GF2951@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,103 +100,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Luc Michel <luc@lmichel.fr>,
- Darren Kenny <darren.kenny@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Alexander Bulekov <alxndr@bu.edu>,
- qemu-arm <qemu-arm@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jan 2021 at 17:46, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
->
-> On 1/28/21 6:18 PM, Alexander Bulekov wrote:
-> > On 210128 1714, Philippe Mathieu-Daud=C3=A9 wrote:
-> >> Alexander reported an issue in gic_get_current_cpu() using the
-> >> fuzzer. Yet another "deref current_cpu with QTest" bug, reproducible
-> >> doing:
-> >>
-> >>   $ echo readb 0xf03ff000 | qemu-system-arm -M npcm750-evb,accel=3Dqte=
-st -qtest stdio
-> >>   [I 1611849440.651452] OPENED
-> >>   [R +0.242498] readb 0xf03ff000
-> >>   hw/intc/arm_gic.c:63:29: runtime error: member access within null po=
-inter of type 'CPUState' (aka 'struct CPUState')
-> >>   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior hw/intc/arm_=
-gic.c:63:29 in
-> >>   AddressSanitizer:DEADLYSIGNAL
-> >>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >>   =3D=3D3719691=3D=3DERROR: AddressSanitizer: SEGV on unknown address =
-0x0000000082a0 (pc 0x5618790ac882 bp 0x7ffca946f4f0 sp 0x7ffca946f4a0 T0)
-> >>   =3D=3D3719691=3D=3DThe signal is caused by a READ memory access.
-> >>       #0 0x5618790ac882 in gic_get_current_cpu hw/intc/arm_gic.c:63:29
-> >>       #1 0x5618790a8901 in gic_dist_readb hw/intc/arm_gic.c:955:11
-> >>       #2 0x5618790a7489 in gic_dist_read hw/intc/arm_gic.c:1158:17
-> >>       #3 0x56187adc573b in memory_region_read_with_attrs_accessor soft=
-mmu/memory.c:464:9
-> >>       #4 0x56187ad7903a in access_with_adjusted_size softmmu/memory.c:=
-552:18
-> >>       #5 0x56187ad766d6 in memory_region_dispatch_read1 softmmu/memory=
-.c:1426:16
-> >>       #6 0x56187ad758a8 in memory_region_dispatch_read softmmu/memory.=
-c:1449:9
-> >>       #7 0x56187b09e84c in flatview_read_continue softmmu/physmem.c:28=
-22:23
-> >>       #8 0x56187b0a0115 in flatview_read softmmu/physmem.c:2862:12
-> >>       #9 0x56187b09fc9e in address_space_read_full softmmu/physmem.c:2=
-875:18
-> >>       #10 0x56187aa88633 in address_space_read include/exec/memory.h:2=
-489:18
-> >>       #11 0x56187aa88633 in qtest_process_command softmmu/qtest.c:558:=
-13
-> >>       #12 0x56187aa81881 in qtest_process_inbuf softmmu/qtest.c:797:9
-> >>       #13 0x56187aa80e02 in qtest_read softmmu/qtest.c:809:5
-> >>
-> >> current_cpu is NULL because QTest accelerator does not use CPU.
-> >>
-> >> Fix by skipping the check and returning the first CPU index when
-> >> QTest accelerator is used, similarly to commit c781a2cc423
-> >> ("hw/i386/vmport: Allow QTest use without crashing").
-> >>
-> >> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> >
-> > Reviewed-by: Alexander Bulekov <alxndr@bu.edu>
-> >
-> > For reference, some older threads about similar issues in the GDB stub
-> > and monitor:
-> > https://bugs.launchpad.net/qemu/+bug/1602247
->
-> This one is different. I thought this issue was fixed by
-> the series around commit 7cf48f6752e ("gdbstub: add multiprocess
-> support to (f|s)ThreadInfo and ThreadExtraInfo").
->
-> When using physical addresses with gdbstub, we should be able to
-> select a particular address space.
+On 1/28/21 6:16 PM, Dr. David Alan Gilbert wrote:
+> * Wainer dos Santos Moschetta (wainersm@redhat.com) wrote:
+>> Fixed error when compiling migration/qemu-file.c with -Werror=maybe-uninitialized
+>> as shown here:
+>>
+>> ../migration/qemu-file.c: In function 'qemu_get_buffer_in_place':
+>> ../migration/qemu-file.c:604:18: error: 'src' may be used uninitialized in this function [-Werror=maybe-uninitialized]
+>>   604 |             *buf = src;
+>>       |             ~~~~~^~~~~
+>> cc1: all warnings being treated as errors
+>>
+>> Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+> 
+> Yes, I think I had a discussion with someone about this recently but
+> can't find it;
 
-Yes, but the problem with the GIC device is that it does not
-use AddressSpaces to identify which CPU is accessing it.
-We would either need to make it do that, or else add
-support for using the MemTxAttrs requester_id to identify
-which CPU is making a memory access and get the GIC to use
-that instead. (This is more or less how the h/w does it.)
+Maybe with Thomas, he reported that 2 years ago when building with -O3:
+https://www.mail-archive.com/qemu-devel@nongnu.org/msg599522.html
 
-> Maybe this fixes pmemsave accessing MMIO here:
-> https://bugs.launchpad.net/qemu/+bug/1751674
+> the compiler is technically correct, but the only time
+> it's unitialised is the case where it's result doesn't matter.
+> 
+> Still, to shut the compiler up:
+> 
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> 
+>> ---
+>> Passed on CI: https://gitlab.com/wainersm/qemu/-/pipelines/247801576
+>>
+>>  migration/qemu-file.c | 2 +-
+>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/migration/qemu-file.c b/migration/qemu-file.c
+>> index be21518c57..d6e03dbc0e 100644
+>> --- a/migration/qemu-file.c
+>> +++ b/migration/qemu-file.c
+>> @@ -595,7 +595,7 @@ size_t qemu_get_buffer_in_place(QEMUFile *f, uint8_t **buf, size_t size)
+>>  {
+>>      if (size < IO_BUF_SIZE) {
+>>          size_t res;
+>> -        uint8_t *src;
+>> +        uint8_t *src = NULL;
+>>  
+>>          res = qemu_peek_buffer(f, &src, size, 0);
+>>  
+>> -- 
+>> 2.28.0
+>>
 
-Nope, because the monitor pmemsave command goes via
-cpu_physical_memory_rw(), which does an access to
-address_space_memory. So unlike the gdbstub it's not
-even trying to say which CPU it cares about. (The monitor
-does have a "current CPU" concept, via mon_get_cpu(). But
-it's not used in the pmemsave codepath.)
-
-gdbstub direct-physical-memory-access is also via
-cpu_physical_memory_rw(), incidentally.
-
-thanks
--- PMM
 
