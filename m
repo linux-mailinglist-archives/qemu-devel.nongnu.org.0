@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5EE308E1D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:12:44 +0100 (CET)
-Received: from localhost ([::1]:40262 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B69308E22
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:16:10 +0100 (CET)
+Received: from localhost ([::1]:48892 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5a8I-0007e5-Ew
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:12:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48934)
+	id 1l5aBe-0002uO-0w
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:16:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48948)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5a6G-0005w0-O9
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:10:36 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b]:43137)
+ id 1l5a6I-0005wi-Mv
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:10:39 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:33209)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5a6D-0007x3-6F
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:10:36 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id 8so555010plc.10
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:10:32 -0800 (PST)
+ id 1l5a6E-0007xy-AX
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:10:38 -0500
+Received: by mail-pl1-x634.google.com with SMTP id d13so5901910plg.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:10:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zxbIQHV5NcaMIrUJA8s8pOsB9YXd2so4nhOCP1bNmYw=;
- b=S4GabLX7VLJ30/Er+nt5/ywPTppuTyy3cTKZV14hMDjC4ml9HdS6aFSRl9GV05nNtP
- vQE38IvH47f/GElJ+JQdGCYWqU26mBh50QS9vmh9ZL/UM3DdlXmHTQI+CUzp8Tlr5ZzB
- XFLlQvE7XslEfVdqr3eKI3QO2s4nalHnCZcejNS2as8WYqpyGRqNo6+fRNm5RTGelQIH
- Mhb+wyYEj1NyVf363wqOFYnzi6fAA7SdWamxQKUm8NHBMzJ3cOGbOrNOJc8QeVm+fSvh
- VY4tuRfzuTvRxKQhtL043aqcafWB/kM76sR1m8Se80O4MJo8hX7k0R2FkqqPqzUsYlWV
- 39uQ==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=/S1S8UJkodH9Fn5r/TRF3MeCOBnFTM9S6Ep0lCvcNE8=;
+ b=lmnahPEpbzaF0Lxm2nODiz7kAFOgShnSJrpdSnsMxxZjEJ1fD65XXuczeCle7kQiPD
+ I++sgoYpsXy5wv2wdCCBGvlQd+o8aW2lc5XL9HYb7L13EoiHBKeoFeg6UripcMntQ1PO
+ bxRIjKmoXcM7i0PEfaLafOnTkVakwosFet1h6tQYZ5yGZTfv/DeXcBDarspKWfuS5okr
+ QuFDBVMFZVtVn/4d/5Sh3v5l0JMmL9qw9555G+8pdBfvGSom6ttDVLPwE/EA3qeJBQZB
+ jblDulD33TXg2UBxWJlUQue17OtDkxytZp5YBaArOcKvTEwNJmsERkAj5CBXdLZD8JDU
+ UzIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zxbIQHV5NcaMIrUJA8s8pOsB9YXd2so4nhOCP1bNmYw=;
- b=LDVpZuxrX9jvkuhPYklyS+Y5yP+eoOQlV8wlbcrcbiiB+v7FnYObD7cZFG3CBKmYpD
- RjKRzNEpyZHuOf9iN87F+KbisI23V58jRUQt+t/z3tyCClcCuqh7bYijvxHTAfNlaWMW
- Y+OO/dfr1dnIj46n6ORMVo580NlFyb2CCCDuA7R49plURnAGQCKWZhCHx+Zv9DyBmSWB
- dvS1TUu1leFLdLEYKeqfbWtE4spBFOZBXdLb9xYSZPconpAKgqZevj6aTHldZusdOJf/
- 6kjDkW0jnYzp14wXZpI3RjsXGRryeaHwGHVEBM4lyQOhBb4+gUIO0Q/LnmDetnDEG6lX
- xBKw==
-X-Gm-Message-State: AOAM530ZSH4bqUZSrZTPwVIyyH9t22OQ30zqqSfXBKR7bhsh8NQHMJfF
- 9DxKgdPvxAjdMxpO1dEvZhJuckLbLJ68tFNr
-X-Google-Smtp-Source: ABdhPJwkLBiCXl54PbyWQ/MH+Qh85Kq+6uMZASMRKRSFQObAfubtSnQJmlGu0EKvRz2S+Rson+nj3g==
-X-Received: by 2002:a17:90a:886:: with SMTP id
- v6mr6238009pjc.143.1611951031418; 
- Fri, 29 Jan 2021 12:10:31 -0800 (PST)
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=/S1S8UJkodH9Fn5r/TRF3MeCOBnFTM9S6Ep0lCvcNE8=;
+ b=PslX7xtpIFvcR5fwCknlLNbMrthseapDbRW3mkycTL1u1K+VDsxFUMlc9yFl2dTLBb
+ VLYf5vBTG7NEb9yxUXx0z2U+JBI2JcFduso3ggM6htmmnulgIq8xPYzXXi02b0bjKt3V
+ 2TkIR5DAHz5rpjRjnHBGH8uv9lGxGnPEbv2JkJngcKU/TZ9rZnCfXOLfdBG1rIUJoFkm
+ mNSeA2CYEMcI52q/GUuQsVUiEdL1AaxiXKhFHhLz+Fo8IEMhCuLlA00QhkGY9bYVRci7
+ /TJwbZNH6daFSzEqOsjdTrWY0xBJdDMOElPDpHkyzlRe924ok5kEy3tjEYK0dFbOhkYT
+ T2kw==
+X-Gm-Message-State: AOAM531rLAeYhjQoYR7+CWTbipKypbqOyfB0urDE37gVnf0pkQJ/hTsg
+ BIFCw9B9e5EQvFuHdtwBMrAPD5TwSrX9VyOF
+X-Google-Smtp-Source: ABdhPJwZxwYCnECxODTJ/9nuZCrNy5rV9eSgdYug31zBQrMyp1ZeoCWkILHsj+k2HTdFrdZXAJnPOw==
+X-Received: by 2002:a17:90a:9414:: with SMTP id
+ r20mr5803904pjo.222.1611951032965; 
+ Fri, 29 Jan 2021 12:10:32 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id d133sm9247265pfd.6.2021.01.29.12.10.30
- for <qemu-devel@nongnu.org>
+ by smtp.gmail.com with ESMTPSA id d133sm9247265pfd.6.2021.01.29.12.10.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 12:10:30 -0800 (PST)
+ Fri, 29 Jan 2021 12:10:32 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 00/24] tcg: backend constraints cleanup
-Date: Fri, 29 Jan 2021 10:10:04 -1000
-Message-Id: <20210129201028.787853-1-richard.henderson@linaro.org>
+Subject: [PATCH v3 01/24] tcg/tci: Drop L and S constraints
+Date: Fri, 29 Jan 2021 10:10:05 -1000
+Message-Id: <20210129201028.787853-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210129201028.787853-1-richard.henderson@linaro.org>
+References: <20210129201028.787853-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,116 +84,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This pulls out constraints to a couple of headers, which
-reduces the boilerplate just a little.
+These are identical to the 'r' constraint.
 
-I have a longer term goal, which this aids, in which I
-move some of the startup-time debug-only validation into
-build/compile-time validation.  But not yet.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tci/tcg-target.c.inc | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
-Changes for v3:
-  * Split out tci ifdef removal.
-  * Regularize ALL_GENERAL_REGS, SOFTMMU_RESERVE_REGS
-    across the backends.
-  * Do not lose sparc 'A' constraint (oops).
-  * Fix i386 andc constraint set.
-
-Changes for v2:
-  * Rename "conset" -> "con-str" and "constr" -> "con-str" (pmm).
-  * Fix a bunch of comment spelling mistakes.
-  * Add some macro usage comments.
-
-Patches lacking review:
-  02-tcg-tci-Remove-TCG_TARGET_HAS_-ifdefs.patch
-  03-tcg-i386-Move-constraint-type-check-to-tcg_target.patch
-  04-tcg-i386-Tidy-register-constraint-definitions.patch
-  05-tcg-i386-Split-out-target-constraints-to-tcg-targ.patch
-  11-tcg-riscv-Split-out-target-constraints-to-tcg-tar.patch
-  13-tcg-sparc-Split-out-target-constraints-to-tcg-tar.patch
-  23-tcg-tci-Split-out-constraint-sets-to-tcg-target-c.patch
-
-
-r~
-
-
-Richard Henderson (24):
-  tcg/tci: Drop L and S constraints
-  tcg/tci: Remove TCG_TARGET_HAS_* ifdefs
-  tcg/i386: Move constraint type check to tcg_target_const_match
-  tcg/i386: Tidy register constraint definitions
-  tcg/i386: Split out target constraints to tcg-target-con-str.h
-  tcg/arm: Split out target constraints to tcg-target-con-str.h
-  tcg/aarch64: Split out target constraints to tcg-target-con-str.h
-  tcg/ppc: Split out target constraints to tcg-target-con-str.h
-  tcg/tci: Split out target constraints to tcg-target-con-str.h
-  tcg/mips: Split out target constraints to tcg-target-con-str.h
-  tcg/riscv: Split out target constraints to tcg-target-con-str.h
-  tcg/s390: Split out target constraints to tcg-target-con-str.h
-  tcg/sparc: Split out target constraints to tcg-target-con-str.h
-  tcg: Remove TCG_TARGET_CON_STR_H
-  tcg/i386: Split out constraint sets to tcg-target-con-set.h
-  tcg/aarch64: Split out constraint sets to tcg-target-con-set.h
-  tcg/arm: Split out constraint sets to tcg-target-con-set.h
-  tcg/mips: Split out constraint sets to tcg-target-con-set.h
-  tcg/ppc: Split out constraint sets to tcg-target-con-set.h
-  tcg/riscv: Split out constraint sets to tcg-target-con-set.h
-  tcg/s390: Split out constraint sets to tcg-target-con-set.h
-  tcg/sparc: Split out constraint sets to tcg-target-con-set.h
-  tcg/tci: Split out constraint sets to tcg-target-con-set.h
-  tcg: Remove TCG_TARGET_CON_SET_H
-
- tcg/aarch64/tcg-target-con-set.h |  36 ++++
- tcg/aarch64/tcg-target-con-str.h |  24 +++
- tcg/arm/tcg-target-con-set.h     |  35 +++
- tcg/arm/tcg-target-con-str.h     |  22 ++
- tcg/i386/tcg-target-con-set.h    |  55 +++++
- tcg/i386/tcg-target-con-str.h    |  33 +++
- tcg/mips/tcg-target-con-set.h    |  36 ++++
- tcg/mips/tcg-target-con-str.h    |  24 +++
- tcg/ppc/tcg-target-con-set.h     |  42 ++++
- tcg/ppc/tcg-target-con-str.h     |  30 +++
- tcg/riscv/tcg-target-con-set.h   |  30 +++
- tcg/riscv/tcg-target-con-str.h   |  21 ++
- tcg/s390/tcg-target-con-set.h    |  29 +++
- tcg/s390/tcg-target-con-str.h    |  28 +++
- tcg/sparc/tcg-target-con-set.h   |  32 +++
- tcg/sparc/tcg-target-con-str.h   |  23 ++
- tcg/sparc/tcg-target.h           |   4 -
- tcg/tci/tcg-target-con-set.h     |  25 +++
- tcg/tci/tcg-target-con-str.h     |  11 +
- tcg/tcg.c                        | 136 +++++++++++-
- tcg/aarch64/tcg-target.c.inc     | 137 ++++--------
- tcg/arm/tcg-target.c.inc         | 168 +++++----------
- tcg/i386/tcg-target.c.inc        | 317 +++++++++------------------
- tcg/mips/tcg-target.c.inc        | 173 +++++----------
- tcg/ppc/tcg-target.c.inc         | 209 ++++++------------
- tcg/riscv/tcg-target.c.inc       | 135 ++++--------
- tcg/s390/tcg-target.c.inc        | 174 ++++++---------
- tcg/sparc/tcg-target.c.inc       | 156 +++++---------
- tcg/tci/tcg-target.c.inc         | 359 +++++++++++--------------------
- 29 files changed, 1244 insertions(+), 1260 deletions(-)
- create mode 100644 tcg/aarch64/tcg-target-con-set.h
- create mode 100644 tcg/aarch64/tcg-target-con-str.h
- create mode 100644 tcg/arm/tcg-target-con-set.h
- create mode 100644 tcg/arm/tcg-target-con-str.h
- create mode 100644 tcg/i386/tcg-target-con-set.h
- create mode 100644 tcg/i386/tcg-target-con-str.h
- create mode 100644 tcg/mips/tcg-target-con-set.h
- create mode 100644 tcg/mips/tcg-target-con-str.h
- create mode 100644 tcg/ppc/tcg-target-con-set.h
- create mode 100644 tcg/ppc/tcg-target-con-str.h
- create mode 100644 tcg/riscv/tcg-target-con-set.h
- create mode 100644 tcg/riscv/tcg-target-con-str.h
- create mode 100644 tcg/s390/tcg-target-con-set.h
- create mode 100644 tcg/s390/tcg-target-con-str.h
- create mode 100644 tcg/sparc/tcg-target-con-set.h
- create mode 100644 tcg/sparc/tcg-target-con-str.h
- create mode 100644 tcg/tci/tcg-target-con-set.h
- create mode 100644 tcg/tci/tcg-target-con-str.h
-
+diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+index 15981265db..9c45f5f88f 100644
+--- a/tcg/tci/tcg-target.c.inc
++++ b/tcg/tci/tcg-target.c.inc
+@@ -46,11 +46,11 @@
+ # define R64    "r"
+ #endif
+ #if TARGET_LONG_BITS > TCG_TARGET_REG_BITS
+-# define L      "L", "L"
+-# define S      "S", "S"
++# define L      "r", "r"
++# define S      "r", "r"
+ #else
+-# define L      "L"
+-# define S      "S"
++# define L      "r"
++# define S      "r"
+ #endif
+ 
+ /* TODO: documentation. */
+@@ -390,8 +390,6 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+ {
+     switch (*ct_str++) {
+     case 'r':
+-    case 'L':                   /* qemu_ld constraint */
+-    case 'S':                   /* qemu_st constraint */
+         ct->regs = BIT(TCG_TARGET_NB_REGS) - 1;
+         break;
+     default:
 -- 
 2.25.1
 
