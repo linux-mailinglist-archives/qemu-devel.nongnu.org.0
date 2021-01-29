@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AF86308C0A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:59:53 +0100 (CET)
-Received: from localhost ([::1]:59962 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBCB308C2E
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 19:14:41 +0100 (CET)
+Received: from localhost ([::1]:40468 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Y3k-0003wt-CV
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:59:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55300)
+	id 1l5YI3-0008IP-Tg
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 13:14:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58300)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l5Y2O-00032S-5P
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 12:58:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:45864)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l5Y2L-00010L-IB
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 12:58:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611943104;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=NIgP+LAmQmgg/HGy//NZEK2rBvKJXxkmOQ39wMYOYfM=;
- b=e4MFo2/neP+xpVTe09PbglZLD8Tecf+cKq+ud5Y+/LhxvTkSC9ydETNp0jV4AaqVsl/m1Q
- eBNGoHbtB1zKvpI3I1odGgflRa8py7WB8S9NsjeZrmj8tuAhwCk8RbLgdRJnxh56LloVUE
- UXhIXdbAgyNkNG8H2LWe6EBiiQw5XIA=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-Ge97tMpHNo-0qr_HsOQ0Fg-1; Fri, 29 Jan 2021 12:58:22 -0500
-X-MC-Unique: Ge97tMpHNo-0qr_HsOQ0Fg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9B3D5180A09E;
- Fri, 29 Jan 2021 17:58:21 +0000 (UTC)
-Received: from [10.10.112.247] (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09C4A1945C;
- Fri, 29 Jan 2021 17:58:19 +0000 (UTC)
-Subject: Re: [PATCH] iotests/testrunner: fix recognition of python tests
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210129090616.84145-1-vsementsov@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
-Message-ID: <a7bd5ab5-e1eb-9612-1945-f2e861b26e3b@redhat.com>
-Date: Fri, 29 Jan 2021 12:58:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l5YH3-0007Gb-SQ
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 13:13:37 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43322)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l5YGz-0007O5-39
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 13:13:37 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z6so9721125wrq.10
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 10:13:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zdmfvGuYJTDTydgoHUl776axD7+1d+L0GaH+C6UnN1Q=;
+ b=mBJQ6nkTV0dcchXG5RWLxk3Vnrn6dvswGyIrEQm6o4VToE1XJ/OEpWd1yV/htOzZXm
+ KRZAniTNx/NpckeLTK+sr2YOvAz7miq3TQmEqDyPYW6//zhREmlKmXh4zzZ3DmeN6c03
+ 0mGM8kYWeCFYUT9rBuuOvLJHL3hf4o4y2V70hJlUazIN13rnwBeUYLbgfMeD5qKyGq59
+ c/yKDDeiRmflV4LwgDLLK9g7V2RIsnM2c/Nfg+EYTQ3wVuqCMBO8+tyqgAS79UEPr0cW
+ INvzKft0aa8YSUdron7AptCM94771SHCumjuym+/KWSWLvpsW0evtQ9f0lUKDu3AxUHf
+ 9RQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=zdmfvGuYJTDTydgoHUl776axD7+1d+L0GaH+C6UnN1Q=;
+ b=QFoI5oi+hSE1VcEPDg6UuXVHanjkkHvZaGINZ+sGIN0I6DTVhxSuRea+oyoX0+e6AK
+ 3zQGE/OLTWZXfYNFzv6M0RLlD3rkRwx5Ql/BiYtnyy7xCg5Y8Tr6b9vMKHPuoP51X9lE
+ o2/R0oHP0S2PVW5RUVHCNOXY/vOXs0QNCoiDPoZGwtBe+aPA6jmQvET5gehhDHdPwy/L
+ 3huN3aSKK+2N71u8sl3aBO5LE+aNWPOAtScqkOxfLV323+e50555GkIkCt3YaRS4MBzl
+ Z8P0uLz6wsQL5yZMK7rBp0D0H4Ek5HYBAPtpNJyWzHEAbPCYK3fJbtR9AtWYRQPLyzof
+ HKzw==
+X-Gm-Message-State: AOAM533AIXeOo/vZ3vJQVaaxmYVj42dn8r3j/UAU7Fe5mOqfjypzdy8W
+ HZtGVZFBCgo4Cy8I4TR7Z83zXQ==
+X-Google-Smtp-Source: ABdhPJwNQxI2kVJBC9oJMsrfPu1dfceaZLpwCiFtHbM8ddkA0zQoaFXG561bvIr26FKXIQubbC0Dbw==
+X-Received: by 2002:adf:fd52:: with SMTP id h18mr5973311wrs.295.1611944008477; 
+ Fri, 29 Jan 2021 10:13:28 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id m10sm12337769wro.7.2021.01.29.10.13.27
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 10:13:27 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id CBCED1FF7E;
+ Fri, 29 Jan 2021 18:13:26 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] docs/system: document an example booting the versatilepb
+ machine
+Date: Fri, 29 Jan 2021 18:13:19 +0000
+Message-Id: <20210129181319.2992-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20210129090616.84145-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,36 +85,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, thuth@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: Anders Roxell <anders.roxell@linaro.org>, qemu-arm@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Aurelien Jarno <aurelien@aurel32.net>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/21 4:06 AM, Vladimir Sementsov-Ogievskiy wrote:
-> We should drop final '\n' before comparing with python3 shebang.
-> 
-> Fixes: d74c754c924ca34e90b7c96ce2f5609d82c0e628
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+There is a bit more out there including Aurelien's excellent write up
+and older Debian images here:
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+  https://www.aurel32.net/info/debian_arm_qemu.php
+  https://people.debian.org/~aurel32/qemu/armel/
 
-> ---
->   tests/qemu-iotests/testrunner.py | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-> index a581be6a29..24b3fba115 100644
-> --- a/tests/qemu-iotests/testrunner.py
-> +++ b/tests/qemu-iotests/testrunner.py
-> @@ -248,7 +248,7 @@ class TestRunner(ContextManager['TestRunner']):
->   
->           with f_test.open(encoding="utf-8") as f:
->               try:
-> -                if f.readline() == '#!/usr/bin/env python3':
-> +                if f.readline().rstrip() == '#!/usr/bin/env python3':
->                       args.insert(0, self.env.python)
->               except UnicodeDecodeError:  # binary test? for future.
->                   pass
-> 
+However the web is transitory and git is forever so lets add something
+to the fine manual.
+
+Cc: Anders Roxell <anders.roxell@linaro.org>
+Cc: Aurelien Jarno <aurelien@aurel32.net>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ docs/system/arm/versatile.rst | 32 ++++++++++++++++++++++++++++++++
+ 1 file changed, 32 insertions(+)
+
+diff --git a/docs/system/arm/versatile.rst b/docs/system/arm/versatile.rst
+index 51221c30a4..d16f20ccae 100644
+--- a/docs/system/arm/versatile.rst
++++ b/docs/system/arm/versatile.rst
+@@ -27,3 +27,35 @@ The Arm Versatile baseboard is emulated with the following devices:
+    devices.
+ 
+ -  PL181 MultiMedia Card Interface with SD card.
++
++Booting a Linux kernel
++----------------------
++
++Building a current Linux kernel with ``versatile_defconfig`` should be
++enough to get something running.
++
++.. code-block:: bash
++
++  $ export ARCH=arm
++  $ export CROSS_COMPILE=arm-linux-gnueabihf-
++  $ make versatile_defconfig
++  $ make
++
++You may want to enable some additional modules if you want to boot
++something from the SCSI interface::
++
++  CONFIG_PCI=y
++  CONFIG_PCI_VERSATILE=y
++  CONFIG_SCSI=y
++  CONFIG_SCSI_SYM53C8XX_2=y
++
++You can then boot with a command line like:
++
++.. code-block:: bash
++
++  $ qemu-system-arm -machine type=versatilepb \
++      -serial mon:stdio \
++      -drive if=scsi,driver=file,filename=debian-buster-armel-rootfs.ext4 \
++      -kernel zImage \
++      -dtb versatile-pb.dtb  \
++      -append "console=ttyAMA0 ro root=/dev/sda"
+-- 
+2.20.1
 
 
