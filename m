@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A15BF308EBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:52:23 +0100 (CET)
-Received: from localhost ([::1]:57374 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C786308EC6
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:57:21 +0100 (CET)
+Received: from localhost ([::1]:33542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5akg-00066E-6z
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:52:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57250)
+	id 1l5apU-00089i-2Q
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:57:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57742)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l5aj8-0005Or-QG
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:50:46 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:48164 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l5aj6-0001De-PJ
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:50:46 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 4924E412E8;
- Fri, 29 Jan 2021 20:50:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- in-reply-to:content-disposition:content-type:content-type
- :mime-version:references:message-id:subject:subject:from:from
- :date:date:received:received:received; s=mta-01; t=1611953439;
- x=1613767840; bh=DzGuInXHDLqiaP4Xwy0UI9Q8FrNbUH4oqgubYWP8IMY=; b=
- AH+f9VNAi0hw8IWUzlUmhtKY60vx+ag5Y/g75vVAsQf528ckZbYHbnBZKrfg1nQU
- QkZ52sU8pcoSI80/TMwoAbyZT+Fh7vdDbntN2wL4JALxeHt7/rKUGB47ECWPCNiJ
- V+j3YJ/jbRdES+SAnoCeyj2GIT86VdTsV6N3Y88OevA=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id V3JWB1nEGK_R; Fri, 29 Jan 2021 23:50:39 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l5amv-0006oG-AJ
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:54:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26140)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l5ams-0002a7-Au
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:54:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611953673;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=UV2hWn8q/ddhXKKaWJzZsZ+384MC4bn43CNVD20dudY=;
+ b=KMzFdfbVcfVDqodhfT2AQ3jm/zwNXUh3pEUCrXYuzBYVdIrUHacte/QFkJ5JR7TCvx/TKO
+ EqKhWgrDeAJhCAWtn2Ef/Crm0ssDEqx/98k5//AK7L02goalYrVmC5eWAspNEuS29DLIzl
+ kGArPuazzon1Eb92r/eugTM81CGrk+I=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-575-KsGjnstcMHiDX95fPvGpQg-1; Fri, 29 Jan 2021 15:54:29 -0500
+X-MC-Unique: KsGjnstcMHiDX95fPvGpQg-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id 0263541254;
- Fri, 29 Jan 2021 23:50:35 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 29
- Jan 2021 23:50:35 +0300
-Date: Fri, 29 Jan 2021 23:50:34 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3] tcg: Fix execution on Apple Silicon
-Message-ID: <YBR1GgEg+WLIo9/M@SPB-NB-133.local>
-References: <20210113032806.18220-1-r.bolshakov@yadro.com>
- <e0b70beb-2905-9520-e825-219278fe4ed7@linaro.org>
- <330c4b1a-6a8a-3625-8c39-7f9c88b20847@linaro.org>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A02B287318E;
+ Fri, 29 Jan 2021 20:54:27 +0000 (UTC)
+Received: from eperezma.remote.csb (ovpn-113-115.ams2.redhat.com
+ [10.36.113.115])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0D5F319C66;
+ Fri, 29 Jan 2021 20:54:17 +0000 (UTC)
+From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [RFC 00/10] vDPA shadow virtqueue - notifications forwarding
+Date: Fri, 29 Jan 2021 21:54:05 +0100
+Message-Id: <20210129205415.876290-1-eperezma@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <330c4b1a-6a8a-3625-8c39-7f9c88b20847@linaro.org>
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,71 +76,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Alexander Graf <agraf@csgraf.de>, Joelle van Dyne <j@getutm.app>,
- Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
+Cc: Parav Pandit <parav@mellanox.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ virtualization@lists.linux-foundation.org,
+ Harpreet Singh Anand <hanand@xilinx.com>, Xiao W Wang <xiao.w.wang@intel.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Eli Cohen <eli@mellanox.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Michael Lilja <ml@napatech.com>,
+ Jim Harford <jim.harford@broadcom.com>, Rob Miller <rob.miller@broadcom.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 10:18:58AM -1000, Richard Henderson wrote:
-> On 1/21/21 8:34 AM, Richard Henderson wrote:
-> > On 1/12/21 5:28 PM, Roman Bolshakov wrote:
-> >> @@ -1083,6 +1083,12 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
-> >>  {
-> >>      void *buf;
-> >>  
-> >> +#if defined(MAC_OS_VERSION_11_0) && \
-> >> +    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
-> >> +    if (__builtin_available(macOS 11.0, *)) {
-> >> +        flags |= MAP_JIT;
-> >> +    }
-> >> +#endif
-> > 
-> > This hunk should be in alloc_code_gen_buffer, where we do the other flags
-> > manipulation.
-> > 
-> > I'll drop this hunk and apply the rest, which is exclusively related to
-> > toggling the jit bit.
-> 
-> Ping on this?
-> 
-Hi Richard,
+This series enable vhost (And vhost-vdpa) notifications forwarding for
+software assisted live migration, implemented through a shadow
+virtqueue.
 
-> I would imagine that the patch would look something like
-> 
-> --- a/accel/tcg/translate-all.c
-> +++ b/accel/tcg/translate-all.c
-> @@ -1296,6 +1296,11 @@ static bool alloc_code_gen_buffer
->  #ifdef CONFIG_TCG_INTERPRETER
->      /* The tcg interpreter does not need execute permission. */
->      prot = PROT_READ | PROT_WRITE;
-> +#elif defined(MAC_OS_VERSION_11_0) && \
-> +    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
-> +    if (__builtin_available(macOS 11.0, *)) {
-> +        flags |= MAP_JIT;
-> +    }
->  #elif defined(CONFIG_DARWIN)
->      /* Applicable to both iOS and macOS (Apple Silicon). */
->      if (!splitwx) {
-> 
-> But I don't know how CONFIG_DARWIN, iOS, and MAC_OS_VERSION interact, and I'm
-> not able to even compile-test the patch.
-> Certainly the final comment there looks suspicious, given the preceding MAC_OS
-> stanza...
-> 
+Shadow virtqueue is a new method of tracking memory for migration:
+Instead of relay on vDPA device's dirty logging capability, SW assisted
+LM intercepts dataplane, forwarding the descriptors between VM and
+device.
 
-I thought you already added MAP_JIT in 6f70ddee19e. It's getting enabled
-on my M1 laptop. Was it intended or not?
+In this migration mode, qemu offers a new (shadow) vring to the device
+to read and write into, and forwards descriptors between host vring
+and qemu one. On used buffer relay, qemu will mark the dirty memory as
+with plain virtio-net devices. This way, devices does not need to have
+dirty page logging capability.
 
-    /* Applicable to both iOS and macOS (Apple Silicon). */
-    if (!splitwx) {
-        flags |= MAP_JIT;
-    }
+This RFC series just enables just the notifications forwarding part,
+not buffer forwarding/tracking.
 
-TCG from master branch of QEMU works fine on M1. I'm not sure why do we
-need to duplicate it.
+It is based on the ideas of DPDK SW assisted LM, in the series of
+DPDK's https://patchwork.dpdk.org/cover/48370/ , but will use memory in
+qemu Virtual Address Space for rings, instead of in guest's.
 
-Thanks,
-Roman
+Main changes from previous RFC [1] are:
+* Use QMP to enable. Can disable through QMP too.
+* Do not use vhost_dev_{enable,disable}_notifiers, since they override
+  the VM ioeventfd set, and could cause race conditions. Do never modify
+  irqfd or ioeventfd used for the guest.
+
+Comments are welcome.
+
+Thanks!
+
+[1] https://patchew.org/QEMU/20201120185105.279030-1-eperezma@redhat.com/
+
+Eugenio Pérez (10):
+  virtio: Add virtqueue_set_handler
+  virtio: Add set_vq_handler
+  virtio: Add virtio_queue_get_idx
+  virtio: Add virtio_queue_host_notifier_status
+  vhost: Add vhost_dev_from_virtio
+  vhost: Save masked_notifier state
+  vhost: Add VhostShadowVirtqueue
+  vhost: Add x-vhost-enable-shadow-vq qmp
+  vhost: Route guest->host notification through shadow virtqueue
+  vhost: Route host->guest notification through shadow virtqueue
+
+ qapi/net.json                      |  23 +++
+ hw/virtio/vhost-shadow-virtqueue.h |  31 ++++
+ include/hw/virtio/vhost.h          |   6 +
+ include/hw/virtio/virtio.h         |  14 +-
+ hw/net/virtio-net.c                |  26 ++++
+ hw/virtio/vhost-shadow-virtqueue.c | 234 +++++++++++++++++++++++++++++
+ hw/virtio/vhost.c                  | 161 ++++++++++++++++++++
+ hw/virtio/virtio.c                 |  24 +++
+ hw/virtio/meson.build              |   2 +-
+ 9 files changed, 517 insertions(+), 4 deletions(-)
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.h
+ create mode 100644 hw/virtio/vhost-shadow-virtqueue.c
+
+-- 
+2.27.0
+
 
