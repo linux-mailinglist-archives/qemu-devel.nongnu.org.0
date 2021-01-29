@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C32E30874B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:21:35 +0100 (CET)
-Received: from localhost ([::1]:42022 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1091C308755
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:26:50 +0100 (CET)
+Received: from localhost ([::1]:49918 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PyA-0008NH-8A
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:21:34 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43222)
+	id 1l5Q3E-0003KZ-FN
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:26:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5Psg-0006Tf-MI; Fri, 29 Jan 2021 04:15:54 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:40803)
+ id 1l5Psk-0006UX-8P; Fri, 29 Jan 2021 04:15:58 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:59091)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5Psc-0003dp-A6; Fri, 29 Jan 2021 04:15:54 -0500
+ id 1l5Pse-0003eO-RE; Fri, 29 Jan 2021 04:15:58 -0500
 Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 875F55C01E4;
- Fri, 29 Jan 2021 04:15:49 -0500 (EST)
+ by mailout.nyi.internal (Postfix) with ESMTP id EE4785C01E6;
+ Fri, 29 Jan 2021 04:15:50 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 29 Jan 2021 04:15:49 -0500
+ by compute4.internal (MEProxy); Fri, 29 Jan 2021 04:15:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=QeqOkmn85Ngxe
- aAB8t61RjJSup7bz7+mg7fgZj7T5AE=; b=knrPcMK3I3qSftCKJOWCqNgkcZF+L
- n/B9Z4nxF1grbwqu8CGdD4vwMiIzfy/BtQ/SrpvUkreq0z345w6qylycy1xVcrfz
- VyEN9+yfxSU6271WGIybVbNUWeWC8ovslgrtIhoEWxaBoA91racriFMLQrB3vsTz
- SghKbRKZX7pTQJhkUo5i24eASm9QW0dvo/CqR9ra50rMRmNOU2+JrrwpqHX1kryU
- lX9PvxrLQdWz3hzFJ6Tt3rPp/CB6ZdaxM1YXbI1FzsoBBYMUY5Nxi5AZA7dHsfeG
- KNjy86PxXjHfqwGzLy6eaCk6d2RrCKXdDNRHRiIu46ZLOaEjosMzw0vvA==
+ :mime-version:content-transfer-encoding; s=fm2; bh=c+LeO7/8pdWiy
+ PjLgE3efXsKeJsrYDFeUSL8Ql5GOuI=; b=n0rnHGYYpLQ6R3jYDgZrEBmS9L/1B
+ t3CnXLginrQRQ4iWQiBTXHtCpuZOHkZ9TepJ+jB2u6AdVHwAcQsbppJ2ZkI0rpCI
+ 7mEgEX8Q3chzMJdMIdpF6AyyNyn2fPBYP3h5i2dhgMfIsGYilhJlfDQj5njDfkg1
+ +A3Zj5I0lGHchpKrL/e0vG5F83/Bh/xwgJ4BsRT7aYmSG/5SddRqJo/UT4UIihmw
+ 6iyfsC2N4bMts7Hz4dY70YNTG2wnG00NlxjGJ4Fp87Mbs4Y71KRc4vKg8zrITkto
+ yny4I/u9Kow5vTALQYD0vwJIKyawkye3+hCTfZicWdunx62U7PjIW+pZQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:content-transfer-encoding:date:from
  :in-reply-to:message-id:mime-version:references:subject:to
  :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=QeqOkmn85NgxeaAB8t61RjJSup7bz7+mg7fgZj7T5AE=; b=H5zWDPDf
- ALuUsa307rvVFIbiC1GcNZB2jxgULnWeiEpO6jxt5UKXEJdHAwzBlnpgcLVnBEBF
- jH14WRor3qGJQwQvvv34XH7pehcdcbDT4ddvHUCCG+epcy9wYTYy8AFYNvEsjGOI
- oz/QccnQDQUhkH9qnTvsIwLquORrb3zAD+vHHaBBu4ha8uTJy+etCZnnbRQnQOtx
- 3Fa298RDtpwP+9rpMZUU/SGyxtjHEXxF8Tn3p94oXDni8e73w5wa3sZIpSRcI4PM
- IIz1+EYSRNwU+4H6W53ca8m9WeAm5XeYH6MhHxbSOKJXeT53Cq2M5mx5UYKnTV7d
- 1ODLiIqhunAdLA==
-X-ME-Sender: <xms:RdITYG9qPwSEuQ5PDQ_twsP6pmKuEMfdmqqtNpS7bo_k9F9yAQKjIg>
- <xme:RdITYGsn6nDKewsgEcvtzEHUi_wM5tosuXHCR7_mytkxNW8ChlHi0Y-IYs52zDfc0
- YeyMvawKRXxI6mwVkI>
+ fm1; bh=c+LeO7/8pdWiyPjLgE3efXsKeJsrYDFeUSL8Ql5GOuI=; b=MElYca93
+ aRDgQ1EJzyk9YUA6zTffQheLBmCzclo6nst05woyvfYFy/NheY8PNhSsIxNp5ef5
+ MqxHbchEV7zi26NNOibwkqN7/CijqLhay+CJpF4AMEoovRvJOqQ+RFoNSFyjTsIu
+ Km9Gp8/GwmJrCN2OBq4bkhhs7WD9zVU/KuIfQl0wzXa9KgHbWlQLMXxoN9XnUQEr
+ 74ZgiUFxNwgu0Y3l5yJJyKdsrcMJ9lBx4+qPsZBOYqxeP9f17awz7Uz1Dzp5NnXH
+ NbduzhI0CxvY1hFuuKtqJytXyPX2u3EJNrxhRPfIxrr5gST/RyZf9eeu2MfM30KU
+ EnxW0jB24uv+Kg==
+X-ME-Sender: <xms:RtITYEoq7NFNNiyZ6dG7T64bfVwqh6cls9aE3FxwH6SUzcQHtyAY1g>
+ <xme:RtITYKqZuv_NRs2I-Hn-6QZhXYAPVC_EBbD7PDRsG3h-XIm7m1IDiCIut6PNguefl
+ RBWVV4V4j417xkJOKE>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvucetufdoteggodetrfdotffvucfrrh
  hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
  lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
@@ -53,20 +53,19 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvucetufdoteggodetrfdotf
  euleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefgkeenucfk
  phepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
  grmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:RdITYMBCIYup--8mMEGkZAOBOIKu8j3yEHd2xSY3wlavb51jqolCrg>
- <xmx:RdITYOdXBW2Js4D5OuK_V5t3JptOmib0kqzuhY1ejxTNbB6fjI3Mvg>
- <xmx:RdITYLO7d8_AbKv4kbJwRU-HcPiqDXrrkv-R9WRB6NUS-yw6gSOnjg>
- <xmx:RdITYHBJqBgdRwxw5NSOt5WrYUdTbE26rSjEWyNfXUkqLcBw5icslA>
+X-ME-Proxy: <xmx:RtITYJOBmpSOjAy3nEzY-2n1mohhAV0JghYRqR5sQZQTrfnqXruJ9g>
+ <xmx:RtITYL6pmkhEEXzaDMQJFdNZnbj_db6JUbmqduRGi0bTzt8en8lyDA>
+ <xmx:RtITYD6-xln3lWpTLs4eg3TwSZl4TADupXuKORpAc-OJR2_XzkPkpg>
+ <xmx:RtITYGbiBbf0NeTj9d5fsdFnbZEir9jdTej-FruFtVkl7opyl-PwIQ>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 3D4BA24005B;
- Fri, 29 Jan 2021 04:15:48 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 946D324005B;
+ Fri, 29 Jan 2021 04:15:49 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 3/5] hw/block/nvme: pull write pointer advancement to
- separate function
-Date: Fri, 29 Jan 2021 10:15:39 +0100
-Message-Id: <20210129091541.566330-4-its@irrelevant.dk>
+Subject: [PATCH v5 4/5] nvme: updated shared header for copy command
+Date: Fri, 29 Jan 2021 10:15:40 +0100
+Message-Id: <20210129091541.566330-5-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
 In-Reply-To: <20210129091541.566330-1-its@irrelevant.dk>
 References: <20210129091541.566330-1-its@irrelevant.dk>
@@ -96,54 +95,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
  qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
  Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Stefan Hajnoczi <stefanha@redhat.com>, Keith Busch <kbusch@kernel.org>
+ Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Keith Busch <kbusch@kernel.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Klaus Jensen <k.jensen@samsung.com>
 
-In preparation for Simple Copy, pull write pointer advancement into a
-separate function that is independent on an NvmeRequest.
+Add new data structures and types for the Simple Copy command.
 
 Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
+Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- hw/block/nvme.c | 16 +++++++++++-----
- 1 file changed, 11 insertions(+), 5 deletions(-)
+ include/block/nvme.h | 45 ++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 43 insertions(+), 2 deletions(-)
 
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 01d3801a3cd2..6df285ecac03 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1377,6 +1377,16 @@ static inline uint16_t nvme_zrm_open(NvmeNamespace *ns, NvmeZone *zone)
-     return __nvme_zrm_open(ns, zone, false);
- }
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index e4b918064df9..5977bcf0308a 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -579,6 +579,7 @@ enum NvmeIoCommands {
+     NVME_CMD_COMPARE            = 0x05,
+     NVME_CMD_WRITE_ZEROES       = 0x08,
+     NVME_CMD_DSM                = 0x09,
++    NVME_CMD_COPY               = 0x19,
+     NVME_CMD_ZONE_MGMT_SEND     = 0x79,
+     NVME_CMD_ZONE_MGMT_RECV     = 0x7a,
+     NVME_CMD_ZONE_APPEND        = 0x7d,
+@@ -724,6 +725,35 @@ typedef struct QEMU_PACKED NvmeDsmRange {
+     uint64_t    slba;
+ } NvmeDsmRange;
  
-+static void __nvme_advance_zone_wp(NvmeNamespace *ns, NvmeZone *zone,
-+                                   uint32_t nlb)
-+{
-+    zone->d.wp += nlb;
++enum {
++    NVME_COPY_FORMAT_0 = 0x0,
++};
 +
-+    if (zone->d.wp == nvme_zone_wr_boundary(zone)) {
-+        nvme_zrm_finish(ns, zone);
-+    }
-+}
++typedef struct NvmeCopyCmd {
++    uint8_t     opcode;
++    uint8_t     flags;
++    uint16_t    cid;
++    uint32_t    nsid;
++    uint32_t    rsvd2[4];
++    NvmeCmdDptr dptr;
++    uint64_t    sdlba;
++    uint32_t    cdw12;
++    uint32_t    cdw13;
++    uint32_t    ilbrt;
++    uint16_t    lbat;
++    uint16_t    lbatm;
++} NvmeCopyCmd;
 +
- static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
- {
-     NvmeRwCmd *rw = (NvmeRwCmd *)&req->cmd;
-@@ -1388,11 +1398,7 @@ static void nvme_finalize_zoned_write(NvmeNamespace *ns, NvmeRequest *req)
-     nlb = le16_to_cpu(rw->nlb) + 1;
-     zone = nvme_get_zone_by_slba(ns, slba);
++typedef struct NvmeCopySourceRange {
++    uint8_t  rsvd0[8];
++    uint64_t slba;
++    uint16_t nlb;
++    uint8_t  rsvd18[6];
++    uint32_t eilbrt;
++    uint16_t elbat;
++    uint16_t elbatm;
++} NvmeCopySourceRange;
++
+ enum NvmeAsyncEventRequest {
+     NVME_AER_TYPE_ERROR                     = 0,
+     NVME_AER_TYPE_SMART                     = 1,
+@@ -807,6 +837,7 @@ enum NvmeStatusCodes {
+     NVME_CONFLICTING_ATTRS      = 0x0180,
+     NVME_INVALID_PROT_INFO      = 0x0181,
+     NVME_WRITE_TO_RO            = 0x0182,
++    NVME_CMD_SIZE_LIMIT         = 0x0183,
+     NVME_ZONE_BOUNDARY_ERROR    = 0x01b8,
+     NVME_ZONE_FULL              = 0x01b9,
+     NVME_ZONE_READ_ONLY         = 0x01ba,
+@@ -994,7 +1025,7 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
+     uint8_t     nvscc;
+     uint8_t     rsvd531;
+     uint16_t    acwu;
+-    uint8_t     rsvd534[2];
++    uint16_t    ocfs;
+     uint32_t    sgls;
+     uint8_t     rsvd540[228];
+     uint8_t     subnqn[256];
+@@ -1022,6 +1053,11 @@ enum NvmeIdCtrlOncs {
+     NVME_ONCS_FEATURES      = 1 << 4,
+     NVME_ONCS_RESRVATIONS   = 1 << 5,
+     NVME_ONCS_TIMESTAMP     = 1 << 6,
++    NVME_ONCS_COPY          = 1 << 8,
++};
++
++enum NvmeIdCtrlOcfs {
++    NVME_OCFS_COPY_FORMAT_0 = 1 << 0,
+ };
  
--    zone->d.wp += nlb;
--
--    if (zone->d.wp == nvme_zone_wr_boundary(zone)) {
--        nvme_zrm_finish(ns, zone);
--    }
-+    __nvme_advance_zone_wp(ns, zone, nlb);
- }
- 
- static inline bool nvme_is_write(NvmeRequest *req)
+ enum NvmeIdCtrlFrmw {
+@@ -1171,7 +1207,10 @@ typedef struct QEMU_PACKED NvmeIdNs {
+     uint16_t    npdg;
+     uint16_t    npda;
+     uint16_t    nows;
+-    uint8_t     rsvd74[30];
++    uint16_t    mssrl;
++    uint32_t    mcl;
++    uint8_t     msrc;
++    uint8_t     rsvd81[23];
+     uint8_t     nguid[16];
+     uint64_t    eui64;
+     NvmeLBAF    lbaf[16];
+@@ -1323,6 +1362,7 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeZonedResult) != 8);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) != 16);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) != 16);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeCopySourceRange) != 32);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeCmd) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDeleteQ) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeCreateCq) != 64);
+@@ -1330,6 +1370,7 @@ static inline void _nvme_check_size(void)
+     QEMU_BUILD_BUG_ON(sizeof(NvmeIdentify) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeRwCmd) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmCmd) != 64);
++    QEMU_BUILD_BUG_ON(sizeof(NvmeCopyCmd) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeRangeType) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeErrorLog) != 64);
+     QEMU_BUILD_BUG_ON(sizeof(NvmeFwSlotInfoLog) != 512);
 -- 
 2.30.0
 
