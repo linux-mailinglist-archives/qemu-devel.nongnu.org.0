@@ -2,54 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CCCC308718
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:39:24 +0100 (CET)
-Received: from localhost ([::1]:49340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D273308715
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:37:40 +0100 (CET)
+Received: from localhost ([::1]:45566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PJL-0002nK-DE
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:39:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35614)
+	id 1l5PHf-00015d-5X
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:37:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PD7-00056k-OL; Fri, 29 Jan 2021 03:32:57 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:55899)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PD5-0002Uo-K5; Fri, 29 Jan 2021 03:32:57 -0500
-Received: from localhost.localdomain ([82.252.149.54]) by
- mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MavF5-1lfpsu1tNb-00cSb4; Fri, 29 Jan 2021 09:32:43 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Subject: [PULL 4/4] target/rx: Fix compiler errors for build with sanitizers
-Date: Fri, 29 Jan 2021 09:32:36 +0100
-Message-Id: <20210129083236.584238-5-laurent@vivier.eu>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210129083236.584238-1-laurent@vivier.eu>
-References: <20210129083236.584238-1-laurent@vivier.eu>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l5PEw-00085a-6Q
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:34:51 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39104)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1l5PEt-0003Go-2z
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:34:49 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id g3so11779732ejb.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 00:34:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=8mhyMrPfwPQaRh6RdtUpWtLJxmjlvAsP7fKvfjDk0+A=;
+ b=M1xxV4UPB4YA26MhwjexB2omI27R8AyTQMpvcwLCnUT7bRbZTmfMq+o0+2Fv+0lo/W
+ JVSgz5Qi4pAYp7Ck87Wbm1L0s5cmldF/wwEqE7Nuv/SZeRWovf6LowO44u1jGbu02VJo
+ 1qlqSsmxKyk0bGiNxtieCGhYOxaDny6gPY6LlylHjA+1v5d2Ehq6X8RsYpsaf75nqcEZ
+ zeuiO3Qwy2LxZ8m2LlU468hXJpsKZawlb7QjcFZXKWSYhEzrynjtCDeFz1LAWxDd6Jv6
+ 58ZHukScgMYMrfqGZWLIJHBcE1iodaHC/kHI3qEtx2bBR3fjgpQC/O9q5gnpPwf97JBO
+ jTUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=8mhyMrPfwPQaRh6RdtUpWtLJxmjlvAsP7fKvfjDk0+A=;
+ b=PpQl/iJ9n5RFrXXV1UQUssa79tZJiS72Us96Y5BEYIu7KU15GfYq6k3RG9mOq9FSID
+ PGcdB0B8y6v8Ni56Uw7NgDHuOQvGS4ijVyDAfL4Vhk4yKpg8osR0RwyXu2MSV3CTDeEJ
+ W50mOpFfs71h7VkCefjZvUQcxHmdudHd+DNZMtonkEybakwXUZcAtz+bYXNXzwfzPcF8
+ BcOQNTwuvRFSeLgxAUr3+z7P/Hp7r1ULJz9oJ0lLOFBhA4uyVlvQul+qm4eIlUjHRXHa
+ 2ks0jsOGLyR0Jvcz/HCM5c0jzoiSSJyI4JY1etga3o+c4CPhqM95M3u09cPSWXamYIkr
+ t9yg==
+X-Gm-Message-State: AOAM532smy54DRHDNP1eV+kFEKrXpDUXV6ngS05MQ8/SarZCiFfLddGv
+ Lz8OjOSDWKzkZ4Q23ZuvnhZFY0m7lQXqhoMAf9w=
+X-Google-Smtp-Source: ABdhPJyA6kuTkfWlujRx8brAx43ipQCDt8DtX58awA/W35a8tBPBYBzp1vDJDWAWzis1WlZTpKt2D+KVb94UWyNF+kA=
+X-Received: by 2002:a17:906:2b9b:: with SMTP id
+ m27mr3562492ejg.92.1611909284550; 
+ Fri, 29 Jan 2021 00:34:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:BaYDGEebk0Ib9T0dj5uodmqiGbdl9jH8EHL4EwWBwwXZyKzxuRA
- +nZsdSrhKjt92nft9HurvGIQqVEvxpe6ZOiJqWAAfs5BQTqFyMqiHWrdfTC6VG+KT5evcwD
- cjtI46wRiLwIVmioQiJYuyzrQocmuY/l/Wh6CAwAnVIHMYVq9UrWVkDtNBMXlrS/fS2h38Y
- 3RgMhOZiSnOBq5FRSbXDw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:oBVT3JliVDs=:11x6MepuolRwEqMxtP0sXE
- w7lDhGdb+Qnp9CMTWc6FWZXs13X80ax9odc/qT5pTyYrX3vnEbRq6kLBNHw/6oIFtQ/+V1eCe
- PNhZdpP8+XuJ+1wu3qqUH+5hZk/fS6CxFf6DAH5X/RmhaMrGM410+6vvccx6qHliVXACqd2Ik
- 7BD295U8YuJjFlzenZnYRr1C8oHPIXZJ8i5azsVw2RuXvevqn6qOAKr324EZ+AZ27xtO2ioVr
- zJzKlxCR7D8rHbiIjoZ4bnaV96Ymjsk1XnrMULylXed3NsTlHsC+n0JTDbuW8ml6y2S6oX8HU
- 8Srxb0u5ClxQnBvJrglLOt2hc1+afcA0C4pwdfAV8C9YtvHjcZwSZf+arfzj9ChcSwi4Kurxb
- 4CQ1Cicme5I0PE8nUFT2a6jT0tqYpNB8cGZtgn4vdrR4WQHHuGfSGhExBqGZR
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
+ <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
+ <20210129082758.vx6ebmqhk7e332g4@sirius.home.kraxel.org>
+In-Reply-To: <20210129082758.vx6ebmqhk7e332g4@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 29 Jan 2021 12:34:32 +0400
+Message-ID: <CAJ+F1CKLO=kBZy32e0kgh26K_9nv3c16hBJmKO+tWzr3wqOFNA@mail.gmail.com>
+Subject: Re: vnc clipboard support
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: multipart/alternative; boundary="00000000000050ddb705ba05e044"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,98 +79,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Laurent Vivier <laurent@vivier.eu>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Weil <sw@weilnetz.de>
+--00000000000050ddb705ba05e044
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-gcc (Debian 10.2.1-6) 10.2.1 20210110 aborts builds with enabled sanitizers:
+Hi
 
-../../../target/rx/op_helper.c: In function ‘helper_scmpu’:
-../../../target/rx/op_helper.c:213:24: error: ‘tmp1’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  213 |     env->psw_c = (tmp0 >= tmp1);
-      |                  ~~~~~~^~~~~~~~
-../../../target/rx/op_helper.c:213:24: error: ‘tmp0’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-../../../target/rx/op_helper.c: In function ‘helper_suntil’:
-../../../target/rx/op_helper.c:299:23: error: ‘tmp’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  299 |     env->psw_c = (tmp <= env->regs[2]);
-      |                  ~~~~~^~~~~~~~~~~~~~~~
-../../../target/rx/op_helper.c: In function ‘helper_swhile’:
-../../../target/rx/op_helper.c:318:23: error: ‘tmp’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
-  318 |     env->psw_c = (tmp <= env->regs[2]);
-      |                  ~~~~~^~~~~~~~~~~~~~~~
+On Fri, Jan 29, 2021 at 12:28 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
 
-Rewriting the code fixes those errors.
+>
+> Well.  That is a completely different level of desktop integration.
+> It surely makes sense to have that, and dbus-over-vsock looks like
+> a reasonable choice.
+>
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210128172127.46041-1-sw@weilnetz.de>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- target/rx/op_helper.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+(using vsock & dbus also goes in the direction where UIs and remote server
+can run in different processes and come and go btw)
 
-diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index 59389f49921f..4d315b44492f 100644
---- a/target/rx/op_helper.c
-+++ b/target/rx/op_helper.c
-@@ -201,14 +201,14 @@ void helper_scmpu(CPURXState *env)
-     if (env->regs[3] == 0) {
-         return;
-     }
--    while (env->regs[3] != 0) {
-+    do {
-         tmp0 = cpu_ldub_data_ra(env, env->regs[1]++, GETPC());
-         tmp1 = cpu_ldub_data_ra(env, env->regs[2]++, GETPC());
-         env->regs[3]--;
-         if (tmp0 != tmp1 || tmp0 == '\0') {
-             break;
-         }
--    }
-+    } while (env->regs[3] != 0);
-     env->psw_z = tmp0 - tmp1;
-     env->psw_c = (tmp0 >= tmp1);
- }
-@@ -287,14 +287,14 @@ void helper_suntil(CPURXState *env, uint32_t sz)
-     if (env->regs[3] == 0) {
-         return ;
-     }
--    while (env->regs[3] != 0) {
-+    do {
-         tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
-         env->regs[1] += 1 << sz;
-         env->regs[3]--;
-         if (tmp == env->regs[2]) {
-             break;
-         }
--    }
-+    } while (env->regs[3] != 0);
-     env->psw_z = tmp - env->regs[2];
-     env->psw_c = (tmp <= env->regs[2]);
- }
-@@ -306,14 +306,14 @@ void helper_swhile(CPURXState *env, uint32_t sz)
-     if (env->regs[3] == 0) {
-         return ;
-     }
--    while (env->regs[3] != 0) {
-+    do {
-         tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
-         env->regs[1] += 1 << sz;
-         env->regs[3]--;
-         if (tmp != env->regs[2]) {
-             break;
-         }
--    }
-+    } while (env->regs[3] != 0);
-     env->psw_z = env->regs[3];
-     env->psw_c = (tmp <= env->regs[2]);
- }
--- 
-2.29.2
+But I'm more after a solution for the "paste that long link into the
+> guest firefox" problem, without putting everything upside-down =F0=9F=98=
+=8A
+>
 
+In this case, I would say an agent-less text-to-type solution (even with
+its very limited scope) is quite attractive.
+
+--=20
+Marc-Andr=C3=A9 Lureau
+
+--00000000000050ddb705ba05e044
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, Jan 29, 2021 at 12:28 PM Gerd Hoffman=
+n &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; wrote:=
+<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
+ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
+Well.=C2=A0 That is a completely different level of desktop integration.<br=
+>
+It surely makes sense to have that, and dbus-over-vsock looks like<br>
+a reasonable choice.<br>
+</blockquote><div><br></div><div>(using vsock &amp; dbus also goes in the d=
+irection where UIs and remote server can run in different processes and com=
+e and go btw)<br></div><div><br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">But I&#39;m more after a solution for the &quot;paste that lon=
+g link into the<br>
+guest firefox&quot; problem, without putting everything upside-down =F0=9F=
+=98=8A<br clear=3D"all"></blockquote><div><br></div><div>In this case, I wo=
+uld say an agent-less text-to-type solution (even with its very limited sco=
+pe) is quite attractive. <br></div></div><br>-- <br><div dir=3D"ltr" class=
+=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
+
+--00000000000050ddb705ba05e044--
 
