@@ -2,65 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0405830871A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:41:57 +0100 (CET)
-Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E53A130871E
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:46:01 +0100 (CET)
+Received: from localhost ([::1]:54748 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PLn-0004Hi-Vs
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:41:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
+	id 1l5PPl-0005WS-0v
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:46:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37264)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1l5PJX-0003Ai-PQ; Fri, 29 Jan 2021 03:39:35 -0500
-Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:37785)
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l5PNT-00050d-17
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:43:39 -0500
+Received: from mta-02.yadro.com ([89.207.88.252]:57642 helo=mta-01.yadro.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>)
- id 1l5PJU-00051z-Vw; Fri, 29 Jan 2021 03:39:35 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
- by mo51.mail-out.ovh.net (Postfix) with ESMTPS id C028C25F9D3;
- Fri, 29 Jan 2021 09:39:19 +0100 (CET)
-Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 29 Jan
- 2021 09:39:17 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G0044ce540c0-c2c6-43c1-8e5b-fb0512ad1570,
- 1047C7D7CBF627F9D51619F8EB187DD3EDDBAFD3) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: [PATCH 4/7] ppc/pnv: Simplify pnv_bmc_create()
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <20210126171059.307867-1-clg@kaod.org>
- <20210126171059.307867-5-clg@kaod.org>
- <CACPK8Xfw-E8TetGdfDYpMZChFbY7cQNGLX8_xh390A-vanS--w@mail.gmail.com>
- <9ea1ce11-15ba-3eea-f7a4-b036a9db841f@kaod.org>
- <20210128224011.GB6951@yekko.fritz.box>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <9cd3c937-90a7-5a5d-aefd-8f1d1fd4ff48@kaod.org>
-Date: Fri, 29 Jan 2021 09:39:14 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
+ id 1l5PNQ-0006lI-TO
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:43:38 -0500
+Received: from localhost (unknown [127.0.0.1])
+ by mta-01.yadro.com (Postfix) with ESMTP id B1372412E8;
+ Fri, 29 Jan 2021 08:43:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
+ in-reply-to:content-transfer-encoding:content-disposition
+ :content-type:content-type:mime-version:references:message-id
+ :subject:subject:from:from:date:date:received:received:received;
+ s=mta-01; t=1611909813; x=1613724214; bh=3mPefHariP8mpWdcVm9ugy
+ nBy/8Gq+Om5oF1iRTHqGg=; b=HGPgLbifJvTXkti8c9NodZA0X5kefU/DwGrvgw
+ nB18qP4PID9c2Ti1erbUnn1FU5zMQ0ePUaE+JVYEXShM3FCM+auzcC+dQrwL+1rq
+ TB+F43KViu05W1j5eBz+ZqYuRUdCPHKmapLAlxF1QmiX+ZLm3bJUynuGyJA5VFe8
+ 4F1uw=
+X-Virus-Scanned: amavisd-new at yadro.com
+Received: from mta-01.yadro.com ([127.0.0.1])
+ by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
+ with ESMTP id XuPLDqHx_8Kj; Fri, 29 Jan 2021 11:43:33 +0300 (MSK)
+Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
+ [172.17.100.103])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by mta-01.yadro.com (Postfix) with ESMTPS id 4133E4122E;
+ Fri, 29 Jan 2021 11:43:33 +0300 (MSK)
+Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
+ (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 29
+ Jan 2021 11:43:33 +0300
+Date: Fri, 29 Jan 2021 11:43:32 +0300
+From: Roman Bolshakov <r.bolshakov@yadro.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
+ test-crypto-tlscredsx509
+Message-ID: <YBPKtL3reYFm7bgy@SPB-NB-133.local>
+References: <CAFEAcA-bafTaHajkvYQw1rfGP1MgKmeY-wmO6LY=fj2oY87HFQ@mail.gmail.com>
+ <20210126163647.GJ3640294@redhat.com>
+ <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
+ <20210127121723.GI3653144@redhat.com>
+ <0de4a2a8-577d-a46e-3a66-1f9a9e589a4d@weilnetz.de>
+ <20210127165330.GT3653144@redhat.com>
+ <72e44724-94ca-43f0-aea1-2554c43cc4c3@weilnetz.de>
+ <20210127181731.GX3653144@redhat.com>
+ <27c01eba-ebc1-9b8e-d7ea-38ad9b4350d9@weilnetz.de>
+ <20210127185917.GB3653144@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20210128224011.GB6951@yekko.fritz.box>
-Content-Type: text/plain; charset="windows-1252"
-Content-Language: en-US
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3d1f0eb1-b5c2-41fd-a013-59ed725c15e7
-X-Ovh-Tracer-Id: 14535086323939445542
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedugdduudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeelgfejveehieefffduueehvdevfedtleeiudekjeegveeigfeifefhtdfffedtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
- helo=8.mo51.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210127185917.GB3653144@redhat.com>
+X-Originating-IP: [172.17.204.212]
+X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
+ T-EXCH-03.corp.yadro.com (172.17.100.103)
+Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
+ helo=mta-01.yadro.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,68 +89,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
- qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>, Greg Kurz <groug@kaod.org>
+Cc: Stefan Weil <sw@weilnetz.de>, Alexander Graf <agraf@csgraf.de>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/28/21 11:40 PM, David Gibson wrote:
-> On Thu, Jan 28, 2021 at 08:46:01AM +0100, Cédric Le Goater wrote:
->> On 1/28/21 1:46 AM, Joel Stanley wrote:
->>> On Tue, 26 Jan 2021 at 17:14, Cédric Le Goater <clg@kaod.org> wrote:
->>>>
->>>> and reuse pnv_bmc_set_pnor() to share the setting of the PNOR.
->>>>
->>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
->>>> ---
->>>>  hw/ppc/pnv_bmc.c | 7 +------
->>>>  1 file changed, 1 insertion(+), 6 deletions(-)
->>>>
->>>> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
->>>> index 67ebb16c4d5f..86d16b493539 100644
->>>> --- a/hw/ppc/pnv_bmc.c
->>>> +++ b/hw/ppc/pnv_bmc.c
->>>> @@ -260,13 +260,8 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
->>>>      Object *obj;
->>>>
->>>>      obj = object_new(TYPE_IPMI_BMC_SIMULATOR);
->>>> -    object_ref(OBJECT(pnor));
->>>> -    object_property_add_const_link(obj, "pnor", OBJECT(pnor));
->>>
->>> I assume it's ok to move the link set to after the realise of the BMC object?
->>  
->>
->> When 2 objects need to be linked, one has to be realized first. 
->> I suppose this is why it is allowed but I am not expert in that area. 
->>
->> Greg  ?
->>
->> That was the case already when defining a "ipmi-bmc-sim" device on the 
->> command line.
+On Wed, Jan 27, 2021 at 06:59:17PM +0000, Daniel P. Berrangé wrote:
+> On Wed, Jan 27, 2021 at 07:56:16PM +0100, Stefan Weil wrote:
+> > Am 27.01.21 um 19:17 schrieb Daniel P. Berrangé:
+> > 
+> > > On Wed, Jan 27, 2021 at 06:05:08PM +0100, Stefan Weil wrote:
+> > > > Am 27.01.21 um 17:53 schrieb Daniel P. Berrangé:
+> > > > 
+> > > > > In $QEMU.git/crypto/init.c can you uncomment the "#define DEBUG_GNUTLS"
+> > > > > line and then re-build and re-run the test case.
+> > > > > 
+> > > > > There's a bunch of debug logs in code paths from gnutls_x509_crt_privkey_sign
+> > > > > that might give us useful info.
+> > > > > 
+> > > > > Regards,
+> > > > > Daniel
+> > > > 
+> > > > % LANG=C.UTF-8 tests/test-crypto-tlscredsx509
+> > > > # random seed: R02S9b95072a368ad370cdd4c780b8074596
+> > > > 3: ASSERT: mpi.c[wrap_nettle_mpi_print]:60
+> > > > 3: ASSERT: mpi.c[wrap_nettle_mpi_print]:60
+> > > > 2: signing structure using RSA-SHA256
+> > > > 3: ASSERT: common.c[_gnutls_x509_der_encode]:855
+> > > > 3: ASSERT: sign.c[_gnutls_x509_pkix_sign]:174
+> > > > 3: ASSERT: x509_write.c[gnutls_x509_crt_privkey_sign]:1834
+> > > > 3: ASSERT: x509_write.c[gnutls_x509_crt_sign2]:1152
+> > > > Bail out! FATAL-CRITICAL: Failed to sign certificate ASN1 parser: Value is
+> > > > not valid.
+> > > So it shows its failing inside a asn1_der_coding call, but I can't see
+> > > why it would fail, especially if the same test suite passes fine on
+> > > macOS x86_64 hosts.
+> > 
+> > 
+> > It returns ASN1_MEM_ERROR, so the input vector is too small.
 > 
-> Well, the other thing here is that the IPMI_BMC_SIMULATOR isn't a
-> POWER specific object, and doesn't actually know anything about pnor,
-> so it never looks at that property.  Do we even need it?
+> Hmm, that's odd - "Value is not valid" corresponds to
+> ASN1_VALUE_NOT_VALID error code.
+> 
 
-It does through hiomap_cmd() which handles HIOMAP commands related 
-to the PNOR. The link was introduced to remove a reference to the 
-global machine (qdev_get_machine()). The PNOR device is instantiated 
-at the machine level but conceptually, this is incorrect. 
+Hi Daniel, Stefan,
 
-The PNOR is a device controlled by the BMC and accessed by the host 
-through a mapping on the LPC FW address space. It used to be controlled 
-from the host also, through the iLPC2AHB device and mboxes, but these 
-"doors" were closed sometime ago.
+It's interesting that "make check" of libtasn1 fails with three tests
+and two of them produce VALUE_NOT_VALID error.
 
-I am thinking of moving the PNOR at the BMC level. It won't change 
-the default device settings but '-nodefaults' will result in no PNOR, 
-same impact if the BMC device is an external one, but that's a more 
-complex matter. We would need a way to model memory operations on a 
-LPC bus shared by two QEMU machines.
+The failing tests are:
+  FAIL: Test_parser
+  FAIL: Test_tree
+  FAIL: copynode
 
-We are doing something similar with the Aspeed iBT device but it's
-very specific to this device. I hope the QEMU multi-process patchset
-offers some framework on which we can build upon.
+Full test log:
+===============================================
+   GNU Libtasn1 4.16.0: tests/test-suite.log
+===============================================
 
-C.
+# TOTAL: 30
+# PASS:  27
+# SKIP:  0
+# XFAIL: 0
+# FAIL:  3
+# XPASS: 0
+# ERROR: 0
+
+.. contents:: :depth: 2
+
+FAIL: Test_parser
+=================
+
+ERROR N. 1:
+  Line 5 - TEST_PARSER2 { } DEFINITIONS IMPLICIT TAGS ::= BEGIN int1 ::= INTEGER END
+  Error expected: SYNTAX_ERROR - Test_parser_ERROR.asn:6: Error: syntax error, unexpected IDENTIFIER, expecting $end near 'TEST_PARSER'
+  Error detected: SYNTAX_ERROR - Test_parser_ERROR.asn:6: Error: syntax error, unexpected IDENTIFIER, expecting end of file near 'TEST_PARSER'
+
+FAIL Test_parser (exit status: 1)
+
+FAIL: Test_tree
+===============
+
+./Test_tree.asn:121: Warning: VisibleString is a built-in ASN.1 type.
+./Test_tree.asn:123: Warning: NumericString is a built-in ASN.1 type.
+./Test_tree.asn:125: Warning: IA5String is a built-in ASN.1 type.
+./Test_tree.asn:127: Warning: TeletexString is a built-in ASN.1 type.
+./Test_tree.asn:129: Warning: PrintableString is a built-in ASN.1 type.
+./Test_tree.asn:131: Warning: UniversalString is a built-in ASN.1 type.
+./Test_tree.asn:134: Warning: BMPString is a built-in ASN.1 type.
+./Test_tree.asn:138: Warning: UTF8String is a built-in ASN.1 type.
+Error at line 707
+ERROR in 254:
+  Action 18 - 
+  Error expected: MEM_ERROR - 79
+  Error detected: VALUE_NOT_VALID - 0
+
+FAIL Test_tree (exit status: 1)
+
+FAIL: copynode
+==============
+
+./pkix.asn:332: Warning: VisibleString is a built-in ASN.1 type.
+./pkix.asn:334: Warning: NumericString is a built-in ASN.1 type.
+./pkix.asn:336: Warning: IA5String is a built-in ASN.1 type.
+./pkix.asn:338: Warning: TeletexString is a built-in ASN.1 type.
+./pkix.asn:340: Warning: PrintableString is a built-in ASN.1 type.
+./pkix.asn:342: Warning: UniversalString is a built-in ASN.1 type.
+./pkix.asn:345: Warning: BMPString is a built-in ASN.1 type.
+./pkix.asn:349: Warning: UTF8String is a built-in ASN.1 type.
+LIBTASN1 ERROR: VALUE_NOT_VALID
+Cannot copy node
+FAIL copynode (exit status: 1)
+
+Regards,
+Roman
 
