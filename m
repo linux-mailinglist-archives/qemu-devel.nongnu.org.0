@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9404A3088AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:58:09 +0100 (CET)
-Received: from localhost ([::1]:60818 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01F9B3088BE
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:01:08 +0100 (CET)
+Received: from localhost ([::1]:39942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SPg-0008Ci-Cy
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:58:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39954)
+	id 1l5SSZ-0002lp-1X
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:01:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34738)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l5SMp-0006VX-4V; Fri, 29 Jan 2021 06:55:11 -0500
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:38821 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l5SMm-0004mn-2l; Fri, 29 Jan 2021 06:55:10 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DRwkZ0Bnmz9sW0; Fri, 29 Jan 2021 22:55:01 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611921302;
- bh=hC3OWkLuM14REd/Y8gePpCMKkSYjXNHCxr/KXpHjMAc=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=E+Ulzd9q4GeoMDTlcHDFhgKyG/kSj/qRbk/JWUtGvje7idjh0yFa1ZrJSlteXa3Ev
- DPrSVNT+auN/13yZDr91cVidbhJiVhDLNcDj364J43NE4/3cPENE/8MQeg5ONiHOFm
- yOT7peL9Lx/kyFktm59uLHQhMU5fEqGAaQrk805E=
-Date: Fri, 29 Jan 2021 22:54:54 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] pnv/ppc: Set default RAM size to 1 GB
-Message-ID: <20210129115454.GN6951@yekko.fritz.box>
-References: <20210129092936.769412-1-clg@kaod.org>
- <efcf457d-8390-4352-6180-ac9fd6d78b24@redhat.com>
- <20210129111115.52d1d862@bahia.lan>
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l5RnM-0004S1-C7
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:32 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531]:42186)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l5RnJ-0005y8-1w
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:31 -0500
+Received: by mail-ed1-x531.google.com with SMTP id z22so10125292edb.9
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=WW9FjE01j//RL/qhn41ULN+iS845r2HT2fAeuJfLQAw=;
+ b=d4Rm1TECVs8DwaSdmYbr5qd0DsE1ohR5AK9hpTZqZvulLzWyAiQFor7+He2VmO03Ns
+ 1vm6+lYOQPbKFLFRvC5k6U/S49kXg11A1E2kKtl4WS8sz8XmonZ6Jv31Cguxus0EQ7OM
+ ZknZkYwdSQjGm43zZyQqhIh/X6/NdjUzCJ4KazD1JVW0HhYOqJ/MLsE+rTJr9Kq5lRrO
+ OvYM+TQySSqB/RjqLaiAXeU+kV3RejJALxKV8QJt/LDBL+PxCFIkN1a/WtS4wlKo/Jch
+ AcCE5UqODbHq2qlJJpJNCEEnezXWKKQiLoKksRt26N47sCwU3x3wRP+0C/1lKczkKrWl
+ urpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=WW9FjE01j//RL/qhn41ULN+iS845r2HT2fAeuJfLQAw=;
+ b=M0lFra8JCPUdydN7LEH8voff8eJSrbVGOMOFbVP9gsNk3h8EcwTLp2hYrcI7+KOY85
+ WiQGtyhJtke+Hq+WjgQXaTA3C9X87Qv7CFVB5W82Pga7/fVTolTnOpest0G7qcioqOSh
+ P2hChU8L2twicetoioLT130HqlBrE+CT7Hwqzs83dnj3IUGJeF63bFlHUR5M7d25e4on
+ LnkeLziyYA7u0/a7fqnM9u/IvMTt/1NEEIB51moqLVWnrfzuzxm/PpdY9w7GVB+aVOrq
+ lM1ThecawXPSy6kIbyCHtyB/uWFpBCj5ZjXh4/TXjk9ZmmRprDo9A23mY9tuTkplaKh0
+ yEKw==
+X-Gm-Message-State: AOAM530lpl6aDBKUpnAxFVhCTkpJ6x3fMn3dRJxjm3n77pknjh++R7vx
+ aBDOCjio/QAiNagRsdz4yBYhb305dULcpQ==
+X-Google-Smtp-Source: ABdhPJxVa3J3c0zsW/D0ZuUdQn2XL/xZOk6OosduAs+3+IcZ1NvDoKCxtmkEnGeD24X1Rwvy0/pJmQ==
+X-Received: by 2002:aa7:d4d7:: with SMTP id t23mr4391203edr.321.1611919107735; 
+ Fri, 29 Jan 2021 03:18:27 -0800 (PST)
+Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 03:18:27 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PULL 13/36] fuzz: fix wrong index in clear_bits
+Date: Fri, 29 Jan 2021 12:17:51 +0100
+Message-Id: <20210129111814.566629-14-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
+References: <20210129111814.566629-1-pbonzini@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="8MZM6zh5Bb05FW+3"
-Content-Disposition: inline
-In-Reply-To: <20210129111115.52d1d862@bahia.lan>
-Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x531.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,106 +83,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Joel Stanley <joel@jms.id.au>, qemu-ppc@nongnu.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
- =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Qiuhao Li <Qiuhao.Li@outlook.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Qiuhao Li <Qiuhao.Li@outlook.com>
 
---8MZM6zh5Bb05FW+3
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Qiuhao Li <Qiuhao.Li@outlook.com>
+Message-Id: <SYCPR01MB3502E9F6EB06DEDCD484F738FCBA9@SYCPR01MB3502.ausprd01.prod.outlook.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/oss-fuzz/minimize_qtest_trace.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Jan 29, 2021 at 11:11:15AM +0100, Greg Kurz wrote:
-> On Fri, 29 Jan 2021 10:39:12 +0100
-> Philippe Mathieu-Daud=E9 <philmd@redhat.com> wrote:
->=20
-> > On 1/29/21 10:29 AM, C=E9dric Le Goater wrote:
-> > > Any value below will result in a skiboot crash :
-> > >=20
-> > >     [    0.034949905,3] MEM: Partial overlap detected between regions:
-> > >     [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a4500=
-00] (new)
-> > >     [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000=
--0x38400000]
-> > >     [    0.034980367,3] Out of memory adding skiboot reserved areas
-> > >     [    0.035074945,3] *********************************************=
-**
-> > >     [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
-> > >     [    0.035104247,3]     .
-> > >     [    0.035108025,3]      .
-> > >     [    0.035111651,3]       .
-> > >     [    0.035115231,3]         OO__)
-> > >     [    0.035119198,3]        <"__/
-> > >     [    0.035122980,3]         ^ ^
-> > >=20
-> > > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-> > > ---
-> > >  hw/ppc/pnv.c | 2 +-
-> > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> > > index 50810df83815..70ce12f6dc73 100644
-> > > --- a/hw/ppc/pnv.c
-> > > +++ b/hw/ppc/pnv.c
-> > > @@ -1994,7 +1994,7 @@ static void pnv_machine_class_init(ObjectClass =
-*oc, void *data)
-> > >       * RAM defaults to less than 2048 for 32-bit hosts, and large
-> > >       * enough to fit the maximum initrd size at it's load address
-> > >       */
-> > > -    mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
-> > > +    mc->default_ram_size =3D 1 * GiB;
-> >=20
-> > Maybe also just in case add before the definitions:
-> >=20
-> >   QEMU_BUILD_BUG_ON(INITRD_LOAD_ADDR + INITRD_MAX_SIZE > 1 * GiB);
-> >=20
->=20
-> or
->=20
->     mc->default_ram_size =3D MAX(1 * GiB, INITRD_LOAD_ADDR +
->     INITRD_MAX_SIZE)
+diff --git a/scripts/oss-fuzz/minimize_qtest_trace.py b/scripts/oss-fuzz/minimize_qtest_trace.py
+index 4cba96dee2..20825768c2 100755
+--- a/scripts/oss-fuzz/minimize_qtest_trace.py
++++ b/scripts/oss-fuzz/minimize_qtest_trace.py
+@@ -261,7 +261,7 @@ def clear_bits(newtrace, outpath):
+                 data_try = hex(int("".join(data_bin_list), 2))
+                 # It seems qtest only accepts padded hex-values.
+                 if len(data_try) % 2 == 1:
+-                    data_try = data_try[:2] + "0" + data_try[2:-1]
++                    data_try = data_try[:2] + "0" + data_try[2:]
+ 
+                 newtrace[i] = "{prefix} {data_try}\n".format(
+                         prefix=prefix,
+-- 
+2.29.2
 
-I prefer the BUILD_BUG_ON approach, less mysterious effects of one
-setting on another.
 
->=20
-> > ?
-> >=20
-> > >      mc->default_ram_id =3D "pnv.ram";
-> > >      ispc->print_info =3D pnv_pic_print_info;
-> > >      nc->nmi_monitor_handler =3D pnv_nmi;
-> > >=20
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---8MZM6zh5Bb05FW+3
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAT94wACgkQbDjKyiDZ
-s5LNIw//ZCKAiH8WuLPcrERRDz+EZgHPa69Wc1ThsOQVqpJznT3awUWedu9iroSv
-NVBB7NT4Z/HZak4P6CHpPgsc9S3Jslh1fjiIfzl9hkCcUv4kNnUsrD91Dy/Mlkn0
-fzWNM96lBG5vp3+3iTwLegFnt7PAXhzxM1DVAQRN69r+ZikGImsTrbIFFH0kOY5x
-MfU7tVej+0oMYXBxjazwx9mw5jEf/IsX9cNbN0az5OtdobcZss33Q//koaDDl2hk
-pAFQcG2g6J6PerW42AP39pZ8WeT4urwgmKX/fyzeGgmIrszAENE5Cg7Mb02Jqpl1
-UvQWnKGESlwsE/nS5Ie3gD+HnDY5Vu3ZFexVIrrZ1yEmiP0HZiQuO3ETXZT+JyCN
-34vI9U+VSuQHMDLV79DIY7MwYUsUQU7pw6/txuIq2flzPj82gjuRLpVJFE8Cmu+m
-eKIZkZNPCHcge6wngHOdfTnMvEpgJiPscKi54ExHQKh+9/TBlmEGHVIp6Omcd/xc
-vkiZJhwPjMqqJnSfl9NgNDYehN/lnZisbUfTJgyvw5Nh2jPbsZo8WlEZpi6deTUl
-0IIQduFCzWuxG832sVxM2v+sjxCEyXjHNzoMAdTuWHyMInWk6/UJgEWWh+kZrWqS
-XM6N4qCEJtzXJScd8dV8juTUntMYh9LQCUYntxbKL6V2gAaItmg=
-=t95b
------END PGP SIGNATURE-----
-
---8MZM6zh5Bb05FW+3--
 
