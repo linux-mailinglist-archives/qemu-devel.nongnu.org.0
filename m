@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03477308819
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:12:03 +0100 (CET)
-Received: from localhost ([::1]:40574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A300430882C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:19:29 +0100 (CET)
+Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Rh4-0003NM-0h
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:12:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59896)
+	id 1l5RoG-00047y-Mu
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:19:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59922)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RWE-0004nh-GW
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:50 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:36764)
+ id 1l5RWF-0004q1-Cs
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:51 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43313)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RW4-00074K-6R
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:50 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id 6so8390658wri.3
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:39 -0800 (PST)
+ id 1l5RW4-00074U-RO
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:51 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id z6so8339971wrq.10
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=VDHZCdr7wAWmLu1nBxqmNWwzakTz8BqCkNP46PFd2yA=;
- b=Y3IUc3uugkW3GAOJfM/z7PczmfGorUISq6TLlfW5rkC5TGsWWN1ELySRWRprnQRcRG
- ND6HlTfT7ES0kh4+qDdAJVn/QWTeEp+q/DaxZVVMaGj9GALH9Yo9GQfIxeSZ3zqD99uk
- W3Ms4fITMMzWHjZ0Q5Jkmeh8ZAPqAGNXbqzUj54/E+QQv963qf5z5L7Q5RFL4wr0/SeP
- srvhSMMmcZSwHTZLqPRb7xO1Ig/pgk9CVPqqz/6VY6y01khZLj26GlQR3EmCMiLL1NJN
- FU5cBjUviVnyQvNGIdzkKHmC+PFmzkrdlPyzijUwuBnEd/9uJ8BZOCRk0VDMfHsmSHVV
- dkqA==
+ bh=M46FLnPnSJOp6CKTMzh+U8svgpRWa1S8nofyLSZE57c=;
+ b=FXBtirY4Ffs3ABiDmYDIfcEv5j6hPAeTEhyCTedRl4sBuVf0J5q5TJWtkcfcUp9JMd
+ Qo508IWHvb/qfciIRqXpECia8SopyEmRlDKhpiMNdpJeQuecyoNkTrk5TV4e5DTZVZ2k
+ JM2eG0c3jYN2a5u/LwccKNkHlKhKOSiqADm6ROCns0jVHwsaLpizuXXStUhmrG73rtls
+ KS2gYS3QGbXxrnVgtVrYPYiXHkLEdsYa+65nMgEVqPgpqiMhzLlPcUNfk4IdON5RrCu1
+ Ygya1xngVoc5h8QWGRJply6/yUkgjN2TauPYd9ValRnWPL/WHwJcujL3gsbEWSdCzu2a
+ GUYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=VDHZCdr7wAWmLu1nBxqmNWwzakTz8BqCkNP46PFd2yA=;
- b=p0VT07HQ1zNqb6lzRn7sQeo9hymyZMDUwYl1WJCJXydLGyaj5dpIYEdo/o1/ryuulc
- v06tDfRRMyQV4qa2K2gNTd+irGmTq6h1JALpnIGZPUq9B/Ai/e2gX+p2vTOCoKfrmR/g
- bPlJttGMdU12UJ6eYhr7HsfMtmGXv4fKhKckTrTVZzBjbHkOQ5Nad0cNq4H+J9xCKaBB
- hm8QJ2SIqhcl/IfuKkhn9w7p6VFFpueO3e7nKo8XIlNjI8eQuR+9o3Qq/1d7ZwarPtxH
- 5UC1SsY9RM5GxILFu7kmKbpCz3kvaeh0JrIby8s3GJg+K0xQe3XtjsgbdFRzb78rohIB
- lXGQ==
-X-Gm-Message-State: AOAM5302jRJsLgre77Gy0DEmiH1bA2ZnTo+Zn2UT6WFKzXpXKPTWNqp6
- cE9DnNO5p73uKvTzun89gmgIs6pxVRzYdw==
-X-Google-Smtp-Source: ABdhPJx4gygDfiFV4wvlJMbDccE/EGBRWZvarhbVorWU3t2N83VUgpdmlgCtE2+NrrXLec5CLyrJ4A==
-X-Received: by 2002:adf:f307:: with SMTP id i7mr3778390wro.367.1611918038747; 
- Fri, 29 Jan 2021 03:00:38 -0800 (PST)
+ bh=M46FLnPnSJOp6CKTMzh+U8svgpRWa1S8nofyLSZE57c=;
+ b=e7iyHIqLEuH0yJZ9XfRipWBTH4o1vIXWU1JAg615205nl1x2X4URZee9rFctGvXh8e
+ ZdO96Y+9LrMqlUVptHKrLyPL2A7xnBYxS6dc0H8EDssKmjUmSG4rdqp8JKR3sr0gFmgm
+ c+YGMVuIhVmupISMGC96kKbOrxzfhwLnR5s4ikqE8pgmYhYreOtCkWrBEV8atvAiPtoh
+ 0fSYMxhtqigXok5v3LSg/T0h72ih3OfMv22GaE3WVTNhWa9MdA6chZ60xS1CwNLLEdu5
+ HrH5RBGiQCFE9kqL4idiQN/zyXy9RNriq70afwPCuyBvgSp6/AS8rZ4McNQWNQlU7x1V
+ LvnA==
+X-Gm-Message-State: AOAM530WAeuZ+6mfdJF2zhrtAeXBQchhHwHniWq3p1NCaCecHRSmWEwa
+ lPTOZQkNORdGqzJpgptqRscGtYJTCf8nKw==
+X-Google-Smtp-Source: ABdhPJwQNEwBQ/xzkPkUMwy90fQcSSO9JdbFpEOgP2p0VQBsR5Nt6KxH+9tWGuAYz0k+FBalCIZc9Q==
+X-Received: by 2002:adf:b78d:: with SMTP id s13mr3948237wre.344.1611918039572; 
+ Fri, 29 Jan 2021 03:00:39 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.37
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.38
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:00:38 -0800 (PST)
+ Fri, 29 Jan 2021 03:00:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 26/46] tests: Add a simple test of the CMSDK APB dual timer
-Date: Fri, 29 Jan 2021 10:59:52 +0000
-Message-Id: <20210129110012.8660-27-peter.maydell@linaro.org>
+Subject: [PULL 27/46] hw/timer/cmsdk-apb-timer: Rename CMSDKAPBTIMER struct to
+ CMSDKAPBTimer
+Date: Fri, 29 Jan 2021 10:59:53 +0000
+Message-Id: <20210129110012.8660-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
 References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,182 +88,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a simple test of the CMSDK dual timer, since we're about to do
-some refactoring of how it is clocked.
+The state struct for the CMSDK APB timer device doesn't follow our
+usual naming convention of camelcase -- "CMSDK" and "APB" are both
+acronyms, but "TIMER" is not so should not be all-uppercase.
+Globally rename the struct to "CMSDKAPBTimer" (bringing it into line
+with CMSDKAPBWatchdog and CMSDKAPBDualTimer; CMSDKAPBUART remains
+as-is because "UART" is an acronym).
+
+Commit created with:
+ perl -p -i -e 's/CMSDKAPBTIMER/CMSDKAPBTimer/g' hw/timer/cmsdk-apb-timer.c include/hw/arm/armsse.h include/hw/timer/cmsdk-apb-timer.h
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
-Message-id: 20210128114145.20536-6-peter.maydell@linaro.org
-Message-id: 20210121190622.22000-6-peter.maydell@linaro.org
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210128114145.20536-7-peter.maydell@linaro.org
+Message-id: 20210121190622.22000-7-peter.maydell@linaro.org
 ---
- tests/qtest/cmsdk-apb-dualtimer-test.c | 130 +++++++++++++++++++++++++
- MAINTAINERS                            |   1 +
- tests/qtest/meson.build                |   1 +
- 3 files changed, 132 insertions(+)
- create mode 100644 tests/qtest/cmsdk-apb-dualtimer-test.c
+ include/hw/arm/armsse.h            |  6 +++---
+ include/hw/timer/cmsdk-apb-timer.h |  4 ++--
+ hw/timer/cmsdk-apb-timer.c         | 28 ++++++++++++++--------------
+ 3 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/tests/qtest/cmsdk-apb-dualtimer-test.c b/tests/qtest/cmsdk-apb-dualtimer-test.c
-new file mode 100644
-index 00000000000..ad6a758289c
---- /dev/null
-+++ b/tests/qtest/cmsdk-apb-dualtimer-test.c
-@@ -0,0 +1,130 @@
-+/*
-+ * QTest testcase for the CMSDK APB dualtimer device
-+ *
-+ * Copyright (c) 2021 Linaro Limited
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the
-+ * Free Software Foundation; either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
-+ * for more details.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+
-+/* IoTKit/ARMSSE dualtimer; driven at 25MHz in mps2-an385, so 40ns per tick */
-+#define TIMER_BASE 0x40002000
-+
-+#define TIMER1LOAD 0
-+#define TIMER1VALUE 4
-+#define TIMER1CONTROL 8
-+#define TIMER1INTCLR 0xc
-+#define TIMER1RIS 0x10
-+#define TIMER1MIS 0x14
-+#define TIMER1BGLOAD 0x18
-+
-+#define TIMER2LOAD 0x20
-+#define TIMER2VALUE 0x24
-+#define TIMER2CONTROL 0x28
-+#define TIMER2INTCLR 0x2c
-+#define TIMER2RIS 0x30
-+#define TIMER2MIS 0x34
-+#define TIMER2BGLOAD 0x38
-+
-+#define CTRL_ENABLE (1 << 7)
-+#define CTRL_PERIODIC (1 << 6)
-+#define CTRL_INTEN (1 << 5)
-+#define CTRL_PRESCALE_1 (0 << 2)
-+#define CTRL_PRESCALE_16 (1 << 2)
-+#define CTRL_PRESCALE_256 (2 << 2)
-+#define CTRL_32BIT (1 << 1)
-+#define CTRL_ONESHOT (1 << 0)
-+
-+static void test_dualtimer(void)
-+{
-+    g_assert_true(readl(TIMER_BASE + TIMER1RIS) == 0);
-+
-+    /* Start timer: will fire after 40000 ns */
-+    writel(TIMER_BASE + TIMER1LOAD, 1000);
-+    /* enable in free-running, wrapping, interrupt mode */
-+    writel(TIMER_BASE + TIMER1CONTROL, CTRL_ENABLE | CTRL_INTEN);
-+
-+    /* Step to just past the 500th tick and check VALUE */
-+    clock_step(500 * 40 + 1);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER1RIS), ==, 0);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER1VALUE), ==, 500);
-+
-+    /* Just past the 1000th tick: timer should have fired */
-+    clock_step(500 * 40);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER1RIS), ==, 1);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER1VALUE), ==, 0);
-+
-+    /*
-+     * We are in free-running wrapping 16-bit mode, so on the following
-+     * tick VALUE should have wrapped round to 0xffff.
-+     */
-+    clock_step(40);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER1VALUE), ==, 0xffff);
-+
-+    /* Check that any write to INTCLR clears interrupt */
-+    writel(TIMER_BASE + TIMER1INTCLR, 1);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER1RIS), ==, 0);
-+
-+    /* Turn off the timer */
-+    writel(TIMER_BASE + TIMER1CONTROL, 0);
-+}
-+
-+static void test_prescale(void)
-+{
-+    g_assert_true(readl(TIMER_BASE + TIMER2RIS) == 0);
-+
-+    /* Start timer: will fire after 40 * 256 * 1000 == 1024000 ns */
-+    writel(TIMER_BASE + TIMER2LOAD, 1000);
-+    /* enable in periodic, wrapping, interrupt mode, prescale 256 */
-+    writel(TIMER_BASE + TIMER2CONTROL,
-+           CTRL_ENABLE | CTRL_INTEN | CTRL_PERIODIC | CTRL_PRESCALE_256);
-+
-+    /* Step to just past the 500th tick and check VALUE */
-+    clock_step(40 * 256 * 501);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER2RIS), ==, 0);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER2VALUE), ==, 500);
-+
-+    /* Just past the 1000th tick: timer should have fired */
-+    clock_step(40 * 256 * 500);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER2RIS), ==, 1);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER2VALUE), ==, 0);
-+
-+    /* In periodic mode the tick VALUE now reloads */
-+    clock_step(40 * 256);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER2VALUE), ==, 1000);
-+
-+    /* Check that any write to INTCLR clears interrupt */
-+    writel(TIMER_BASE + TIMER2INTCLR, 1);
-+    g_assert_cmpuint(readl(TIMER_BASE + TIMER2RIS), ==, 0);
-+
-+    /* Turn off the timer */
-+    writel(TIMER_BASE + TIMER2CONTROL, 0);
-+}
-+
-+int main(int argc, char **argv)
-+{
-+    int r;
-+
-+    g_test_init(&argc, &argv, NULL);
-+
-+    qtest_start("-machine mps2-an385");
-+
-+    qtest_add_func("/cmsdk-apb-dualtimer/dualtimer", test_dualtimer);
-+    qtest_add_func("/cmsdk-apb-dualtimer/prescale", test_prescale);
-+
-+    r = g_test_run();
-+
-+    qtest_end();
-+
-+    return r;
-+}
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3729b89f359..154a91d12e5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -584,6 +584,7 @@ F: include/hw/timer/cmsdk-apb-timer.h
- F: tests/qtest/cmsdk-apb-timer-test.c
- F: hw/timer/cmsdk-apb-dualtimer.c
- F: include/hw/timer/cmsdk-apb-dualtimer.h
-+F: tests/qtest/cmsdk-apb-dualtimer-test.c
- F: hw/char/cmsdk-apb-uart.c
- F: include/hw/char/cmsdk-apb-uart.h
- F: hw/watchdog/cmsdk-apb-watchdog.c
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 5b10bfbcfb0..c83bc211b6a 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -142,6 +142,7 @@ qtests_npcm7xx = \
-    'npcm7xx_timer-test',
-    'npcm7xx_watchdog_timer-test']
- qtests_arm = \
-+  (config_all_devices.has_key('CONFIG_CMSDK_APB_DUALTIMER') ? ['cmsdk-apb-dualtimer-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_CMSDK_APB_TIMER') ? ['cmsdk-apb-timer-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_CMSDK_APB_WATCHDOG') ? ['cmsdk-apb-watchdog-test'] : []) + \
-   (config_all_devices.has_key('CONFIG_PFLASH_CFI02') ? ['pflash-cfi02-test'] : []) +         \
+diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
+index 77f86771c30..83f5e28c16e 100644
+--- a/include/hw/arm/armsse.h
++++ b/include/hw/arm/armsse.h
+@@ -153,9 +153,9 @@ struct ARMSSE {
+     TZPPC apb_ppc0;
+     TZPPC apb_ppc1;
+     TZMPC mpc[IOTS_NUM_MPC];
+-    CMSDKAPBTIMER timer0;
+-    CMSDKAPBTIMER timer1;
+-    CMSDKAPBTIMER s32ktimer;
++    CMSDKAPBTimer timer0;
++    CMSDKAPBTimer timer1;
++    CMSDKAPBTimer s32ktimer;
+     qemu_or_irq ppc_irq_orgate;
+     SplitIRQ sec_resp_splitter;
+     SplitIRQ ppc_irq_splitter[NUM_PPCS];
+diff --git a/include/hw/timer/cmsdk-apb-timer.h b/include/hw/timer/cmsdk-apb-timer.h
+index 0d80b2a48cd..baa009bb2da 100644
+--- a/include/hw/timer/cmsdk-apb-timer.h
++++ b/include/hw/timer/cmsdk-apb-timer.h
+@@ -18,9 +18,9 @@
+ #include "qom/object.h"
+ 
+ #define TYPE_CMSDK_APB_TIMER "cmsdk-apb-timer"
+-OBJECT_DECLARE_SIMPLE_TYPE(CMSDKAPBTIMER, CMSDK_APB_TIMER)
++OBJECT_DECLARE_SIMPLE_TYPE(CMSDKAPBTimer, CMSDK_APB_TIMER)
+ 
+-struct CMSDKAPBTIMER {
++struct CMSDKAPBTimer {
+     /*< private >*/
+     SysBusDevice parent_obj;
+ 
+diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
+index f85f1309f37..ae9c5422540 100644
+--- a/hw/timer/cmsdk-apb-timer.c
++++ b/hw/timer/cmsdk-apb-timer.c
+@@ -67,14 +67,14 @@ static const int timer_id[] = {
+     0x0d, 0xf0, 0x05, 0xb1, /* CID0..CID3 */
+ };
+ 
+-static void cmsdk_apb_timer_update(CMSDKAPBTIMER *s)
++static void cmsdk_apb_timer_update(CMSDKAPBTimer *s)
+ {
+     qemu_set_irq(s->timerint, !!(s->intstatus & R_INTSTATUS_IRQ_MASK));
+ }
+ 
+ static uint64_t cmsdk_apb_timer_read(void *opaque, hwaddr offset, unsigned size)
+ {
+-    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(opaque);
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
+     uint64_t r;
+ 
+     switch (offset) {
+@@ -106,7 +106,7 @@ static uint64_t cmsdk_apb_timer_read(void *opaque, hwaddr offset, unsigned size)
+ static void cmsdk_apb_timer_write(void *opaque, hwaddr offset, uint64_t value,
+                                   unsigned size)
+ {
+-    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(opaque);
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
+ 
+     trace_cmsdk_apb_timer_write(offset, value, size);
+ 
+@@ -181,7 +181,7 @@ static const MemoryRegionOps cmsdk_apb_timer_ops = {
+ 
+ static void cmsdk_apb_timer_tick(void *opaque)
+ {
+-    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(opaque);
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
+ 
+     if (s->ctrl & R_CTRL_IRQEN_MASK) {
+         s->intstatus |= R_INTSTATUS_IRQ_MASK;
+@@ -191,7 +191,7 @@ static void cmsdk_apb_timer_tick(void *opaque)
+ 
+ static void cmsdk_apb_timer_reset(DeviceState *dev)
+ {
+-    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(dev);
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
+ 
+     trace_cmsdk_apb_timer_reset();
+     s->ctrl = 0;
+@@ -206,7 +206,7 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
+ static void cmsdk_apb_timer_init(Object *obj)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+-    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(obj);
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(obj);
+ 
+     memory_region_init_io(&s->iomem, obj, &cmsdk_apb_timer_ops,
+                           s, "cmsdk-apb-timer", 0x1000);
+@@ -216,7 +216,7 @@ static void cmsdk_apb_timer_init(Object *obj)
+ 
+ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+ {
+-    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(dev);
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
+ 
+     if (s->pclk_frq == 0) {
+         error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
+@@ -239,17 +239,17 @@ static const VMStateDescription cmsdk_apb_timer_vmstate = {
+     .version_id = 1,
+     .minimum_version_id = 1,
+     .fields = (VMStateField[]) {
+-        VMSTATE_PTIMER(timer, CMSDKAPBTIMER),
+-        VMSTATE_UINT32(ctrl, CMSDKAPBTIMER),
+-        VMSTATE_UINT32(value, CMSDKAPBTIMER),
+-        VMSTATE_UINT32(reload, CMSDKAPBTIMER),
+-        VMSTATE_UINT32(intstatus, CMSDKAPBTIMER),
++        VMSTATE_PTIMER(timer, CMSDKAPBTimer),
++        VMSTATE_UINT32(ctrl, CMSDKAPBTimer),
++        VMSTATE_UINT32(value, CMSDKAPBTimer),
++        VMSTATE_UINT32(reload, CMSDKAPBTimer),
++        VMSTATE_UINT32(intstatus, CMSDKAPBTimer),
+         VMSTATE_END_OF_LIST()
+     }
+ };
+ 
+ static Property cmsdk_apb_timer_properties[] = {
+-    DEFINE_PROP_UINT32("pclk-frq", CMSDKAPBTIMER, pclk_frq, 0),
++    DEFINE_PROP_UINT32("pclk-frq", CMSDKAPBTimer, pclk_frq, 0),
+     DEFINE_PROP_END_OF_LIST(),
+ };
+ 
+@@ -266,7 +266,7 @@ static void cmsdk_apb_timer_class_init(ObjectClass *klass, void *data)
+ static const TypeInfo cmsdk_apb_timer_info = {
+     .name = TYPE_CMSDK_APB_TIMER,
+     .parent = TYPE_SYS_BUS_DEVICE,
+-    .instance_size = sizeof(CMSDKAPBTIMER),
++    .instance_size = sizeof(CMSDKAPBTimer),
+     .instance_init = cmsdk_apb_timer_init,
+     .class_init = cmsdk_apb_timer_class_init,
+ };
 -- 
 2.20.1
 
