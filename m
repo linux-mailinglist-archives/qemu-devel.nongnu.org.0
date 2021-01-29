@@ -2,57 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D39A308BA2
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:38:25 +0100 (CET)
-Received: from localhost ([::1]:56490 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC22308BDA
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:52:57 +0100 (CET)
+Received: from localhost ([::1]:39532 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Xiy-0004EY-AT
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:38:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49932)
+	id 1l5Xx2-000400-BS
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:52:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51618)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l5Xbt-0006EW-K9; Fri, 29 Jan 2021 12:31:05 -0500
-Resent-Date: Fri, 29 Jan 2021 12:31:05 -0500
-Resent-Message-Id: <E1l5Xbt-0006EW-K9@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21351)
+ (Exim 4.90_1) (envelope-from <venu.busireddy@oracle.com>)
+ id 1l5XlK-0000Lk-W9
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 12:40:53 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:51736)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l5Xbq-0006Up-RW; Fri, 29 Jan 2021 12:31:05 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1611941449; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=PghTGTGJ9DNO7JDViGcoANCCr58XoOxzWFYBrZOLXjjYbosB/gUoHqdDh9W0FWh9hpff9wL3FTwURu0v7QgRuUocW0c4fFQ/xUPLnmMOwjlEwwufKUvnIOzZcc6+Ht+thaFk6ai4ZY4uqxV4JIa8/T9MstfuM1OO3yz4FqhMP1o=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1611941449;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=CMY52WhsiPZIxgt+9+8viqotZK8//4O4LvoJ+v8443g=; 
- b=lHvUvp+vo26bvsF06pxN6N2nEhOLW/56XNDy3YsQRXPIPtmepLnbd1eN1GgofaSjSlXAPFy9M3OAQdOLXmCqQyMiKW94skBnC0qGPljuYw6nAMglpWcOKD2B0Hu4jwiQs+bcHC49spCUxs0jEp+1ueOVzRO2PCsR+aU3xeg/2AQ=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1611941448432230.59390804003237;
- Fri, 29 Jan 2021 09:30:48 -0800 (PST)
-In-Reply-To: <20210129165030.640169-1-vsementsov@virtuozzo.com>
-Subject: Re: [PATCH 0/7] qcow2: compressed write cache
-Message-ID: <161194144692.29163.3534650626852021194@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <venu.busireddy@oracle.com>)
+ id 1l5XlI-0001cx-1S
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 12:40:50 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+ by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10THctUY088543;
+ Fri, 29 Jan 2021 17:39:35 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=date : from : to : cc
+ : subject : message-id : references : content-type : in-reply-to :
+ mime-version; s=corp-2020-01-29;
+ bh=9i/uOoB4ZdRn1J3VB1WRhUoX+A4sDUqww9eICQv3RDM=;
+ b=luE+J28VBHejcEMmcNTXgIh+vQJzgT1utEcpSpDiLC7/ZXrUKHfYfG+3VgxLtCSrgqhY
+ liH4m3h+Hnz1oaMMcU8to6RdZZJkRrMyLYyg5wMJKGEmMGCGiTz6UAGzy7hs3/m5Icqw
+ 8yAY2S3Sj1jM7PFYh7O8xNDw6rAc/2GZPvNMTMkSvZmkKxVlS+kpBkyA9oji344dfWNK
+ Xakg2ZL4qW9V/6GPtDaqwh21OqmnUeGe2kOCHt+RJSrFQsTQAndfEnR5N6pHqehBSza+
+ 5Ht5/VcTRs6k5R8ohYLDQMYCLa/22/eyP93k2OISg6sjR15K8XWRnomD7e54VOSTjTFV VA== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+ by aserp2120.oracle.com with ESMTP id 36cmf88t7y-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Jan 2021 17:39:35 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+ by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10THZvlZ158876;
+ Fri, 29 Jan 2021 17:39:34 GMT
+Received: from nam04-co1-obe.outbound.protection.outlook.com
+ (mail-co1nam04lp2055.outbound.protection.outlook.com [104.47.45.55])
+ by userp3020.oracle.com with ESMTP id 36ceugyf9u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Jan 2021 17:39:34 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=DRRnMsFuv1nSISmfRw6p6hwe782CC0ByBII1JzbTkrmhM6UbiRokc/mOeOHgUMbuZgNhU0jzq9A2OidkXPRtsALHkQszXdUOhXORNpWFOi+XA4fEpl5Uf1Uh1AFfQaB97jewfnr1D6yn0yNzWQr1lQDZpUa5idsgbLQBrKa82v7VXLJhxXaEQka/rqhdD5DDdR3i9SheLyKMwX07MxYA7g1dLmOr5aUuArV2O0d6klJHNnxFvWSYT8vUCe0yzZjmsu760scJi5GrZontW8Vv4uyNuDvyLq2DbYfO44J3LdG9XW3kgmscR1XdctEeCPYZI9kkUoeT4plgzEf/8hb+YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9i/uOoB4ZdRn1J3VB1WRhUoX+A4sDUqww9eICQv3RDM=;
+ b=UAaedKFCxiTD24PlCJnhj5KeLls8uD2SRfrjzGNgqbeMcY6zzVdM1a8HKK9PIIeSsjpUncPTsJ44dS7RB7KZdVvudBzS5EpShL9alVYV9U+p7VqbEQEF1paVbEGMUOTHONBAGKOC9SJhJGwNe9O3WgiMWbnxHyKbYukg8CCwYXs6WthA+tra+tk/hhmvRuSzwmlsvTT6kClOBf+jN94iDzp6+zwmr4VTU3rkxaJD+ikB7vbF2kVPs5IXU9CKVfnDaTrOtnRR/9GwsdJDJBsN90CPhzgJGnDwzwTkkAEKZMtVoUafdPocqzsPuPKWqsfujIjMJQWpfyBEvtFOV9O4+Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9i/uOoB4ZdRn1J3VB1WRhUoX+A4sDUqww9eICQv3RDM=;
+ b=Wkxj4XuTgAtdABPA3A80uqUYLUkUMVG9UhO+9cXc86Y7LOiGFQf4s1uzJVaS9hw23S/2ASCGhUipIDjBMBmw/Pv/oat4SyyHO1oz7Wz2JKtgPHJiBoKF4kd1R7ZDAvo3WZ+pVejD3zTsCmysIF5i9UZAZrjWFYBxgOJ/OX19sjk=
+Authentication-Results: amd.com; dkim=none (message not signed)
+ header.d=none;amd.com; dmarc=none action=none header.from=oracle.com;
+Received: from DM5PR10MB2044.namprd10.prod.outlook.com (2603:10b6:3:110::17)
+ by DM6PR10MB3018.namprd10.prod.outlook.com (2603:10b6:5:6d::27) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Fri, 29 Jan
+ 2021 17:39:32 +0000
+Received: from DM5PR10MB2044.namprd10.prod.outlook.com
+ ([fe80::3c1b:996a:6c0f:5bbe]) by DM5PR10MB2044.namprd10.prod.outlook.com
+ ([fe80::3c1b:996a:6c0f:5bbe%6]) with mapi id 15.20.3805.019; Fri, 29 Jan 2021
+ 17:39:32 +0000
+Date: Fri, 29 Jan 2021 11:39:25 -0600
+From: Venu Busireddy <venu.busireddy@oracle.com>
+To: Tom Lendacky <thomas.lendacky@amd.com>
+Subject: Re: [PATCH v6 1/6] sev/i386: Add initial support for SEV-ES
+Message-ID: <20210129173925.GA231819@dt>
+References: <cover.1611682609.git.thomas.lendacky@amd.com>
+ <2e6386cbc1ddeaf701547dd5677adf5ddab2b6bd.1611682609.git.thomas.lendacky@amd.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2e6386cbc1ddeaf701547dd5677adf5ddab2b6bd.1611682609.git.thomas.lendacky@amd.com>
+X-Originating-IP: [209.17.40.36]
+X-ClientProxiedBy: MW4PR03CA0273.namprd03.prod.outlook.com
+ (2603:10b6:303:b5::8) To DM5PR10MB2044.namprd10.prod.outlook.com
+ (2603:10b6:3:110::17)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: vsementsov@virtuozzo.com
-Date: Fri, 29 Jan 2021 09:30:48 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from dt (209.17.40.36) by MW4PR03CA0273.namprd03.prod.outlook.com
+ (2603:10b6:303:b5::8) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend
+ Transport; Fri, 29 Jan 2021 17:39:29 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 9cb48646-8a29-415c-ad67-08d8c47cd5f6
+X-MS-TrafficTypeDiagnostic: DM6PR10MB3018:
+X-Microsoft-Antispam-PRVS: <DM6PR10MB30186F6036A7A98A1AD41DC8E6B99@DM6PR10MB3018.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:2043;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: nXsIxP+laH/cyUQC2Dpmsa7/Flc+KtU//DlRqprje9/xlq5xBqj6FSFgTlXN1I05tIR/fANstutZTQOISRJDecJ/Ypt+3326QzLzAg8U6mnkndrd4AySD0xARWnC5jkIBntClXVia/H9FoBMnp4R3xmibtNl4Qk8DP4LcqPeFwJ0783HRZTOFYNTwwCfsDL5nA5d29wGWUm0Dq2Z3FRoe7PfhhddKs4xcAowjzDyzfnAVJ4HZH8b9NgFiBF72UtYCm7vZ9ZtGR04JDnSQ70d/1tLvCdTIEVoleWHMgk30hM9r3yVyQz8Olge1B+qJh+QWTxgRUY8Yssd9z2T1wVAJpAV3twOgJyFcM+HJ9vPo3pIxRZ+mclRTpf1QnS6nE4Z0o9p3HkNdgZwiEi5PwwLKZ7Tu7Ntt7eTUNEdo9g6OsDHYUdiBzsH2g4t97EragcaDg11oS5zHZiK0NBFxN/DjL/pvDr3Y5ai8PyXhzeSatSvQ8NlrWt4DgJfdVyal7C1qZF0n5alITx8enQEwjUN5QN+iZ3XGunCgUrkQt3W5zpaq4yjvl1DQ81ls/kW0E/mEFtMTxemby97UqQJJiqFFw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM5PR10MB2044.namprd10.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(39860400002)(366004)(396003)(346002)(136003)(376002)(33656002)(55016002)(186003)(9576002)(6666004)(16526019)(7416002)(8936002)(86362001)(9686003)(2906002)(1076003)(54906003)(6916009)(6496006)(4326008)(5660300002)(52116002)(66946007)(44832011)(66556008)(956004)(53546011)(26005)(8676002)(478600001)(33716001)(83380400001)(316002)(66476007)(309714004);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?WMG/arDF9v03nwh5RpIxQmtOdnwGC/HvywlBK1XAkY1QWsMPk00bH43X68AX?=
+ =?us-ascii?Q?Ebh8AYeaZwCQZh5zWHjnFgo3ngmBrFq1zqYwDxHtQGHZ7ifx32urmqVmTeCt?=
+ =?us-ascii?Q?apDzjqXsF9nSgrY+nlIkPCsXXlv070NkYubAIUL51uIP2uvutYuv5HHzAWWQ?=
+ =?us-ascii?Q?QVceVeUWW1TDVJylov+ouPykEyxk9Ts/wsHBcbH6luPQwDf2giBcpy2pza/w?=
+ =?us-ascii?Q?cGyRk9c7AW8f8I1IElNgmUKBeM/+lRZOd9ee5FM4KNdv+ho8NurQpQWGCaFF?=
+ =?us-ascii?Q?3GK/srzC93LLIWIASg0vqJLx0783mhT+QMfpGk3WZjZyyKN05XZN+z1guJoz?=
+ =?us-ascii?Q?yBIvt7O+n9uZP2+om+CaO6gOQbdJYFu11cB4fvmo3mzXCRow9+1o9x/m5BGG?=
+ =?us-ascii?Q?1pdMU+AT2yHAvuJmwR21bQCeLPAk7cq4SvmHhvRicgew+ERbOSdBFYwcIsrC?=
+ =?us-ascii?Q?tt4U/IXroQpLB2Vff/HCQOMueHo8NrBCniChLuJk/adk4zRPOqVgqxX7AUY9?=
+ =?us-ascii?Q?nC5F3rh6JgJe3dpuY10JZKdaPjAkD90RScypnkQUc/XbGMm+JRxSqUxDx2oH?=
+ =?us-ascii?Q?+np/2MrvCT8keolxVsRJJyMlIa1KIEwvst4j48++UhX+npamzWsFeR7RwJXF?=
+ =?us-ascii?Q?uMYGjjNE/ovUIM6EGGEkBmk4GLk3bsrbSRlNyXxiwGZq/HHsMWz2Nlf09D0z?=
+ =?us-ascii?Q?Ey40GLR+7aOBCCwmRvg7wRYsY3judW8D7KNRBSRuYSNwqvJm0/9QjvjL2OKi?=
+ =?us-ascii?Q?vPjwTz+0cBW5xrbEjdqFipDUnsZ/jlhrdstzBxAVIqykgKyH65LPYBMyC1ia?=
+ =?us-ascii?Q?FmQ4Is87jm/mOgKkNBqOz3nwm4VEj4qSyeCa8M2SVSQTy5Aw7dD06ml8fDUc?=
+ =?us-ascii?Q?adxJ5lD48anHUa3EPDhcZal5jCY2MgzMUpS7GIp3Kj61FOoZ6G4IreME5P2D?=
+ =?us-ascii?Q?fqaSZtQwaBPA1zR/gIDd/Sd47xya4Nz/Sd/yf11cu9wJ/4+fN3zoGwCEa5kn?=
+ =?us-ascii?Q?EmY52zjlkI6pAuJOhf8PUS66EbSe0LPE4E8T2oogBQcwfeDCgpj2z/03kNz/?=
+ =?us-ascii?Q?4/TagEqO?=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9cb48646-8a29-415c-ad67-08d8c47cd5f6
+X-MS-Exchange-CrossTenant-AuthSource: DM5PR10MB2044.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 17:39:32.0685 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: H60Uu0GKsiGmjWLi5WKbNF9g+sGnMishfo7r9wdDMryq1B75fKokdBiw9DR52xdxIirnTg8QkyM/Rrw6ogzo11pA6W3DcvB1E+DHbv9VPt4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB3018
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9879
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ malwarescore=0
+ bulkscore=0 suspectscore=0 mlxscore=0 spamscore=0 phishscore=0
+ adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101290086
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9879
+ signatures=668683
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
+ lowpriorityscore=0
+ spamscore=0 clxscore=1011 adultscore=0 priorityscore=1501 impostorscore=0
+ phishscore=0 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2101290086
+Received-SPF: pass client-ip=141.146.126.78;
+ envelope-from=venu.busireddy@oracle.com; helo=aserp2120.oracle.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,71 +167,170 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, armbru@redhat.com, mreitz@redhat.com, den@openvz.org
+Cc: Brijesh Singh <brijesh.singh@amd.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, kvm@vger.kernel.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Connor Kuehl <ckuehl@redhat.com>,
+ Sean Christopherson <seanjc@google.com>, Marcelo Tosatti <mtosatti@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEyOTE2NTAzMC42NDAx
-NjktMS12c2VtZW50c292QHZpcnR1b3p6by5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMg
-dG8gaGF2ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IK
-bW9yZSBpbmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDEyOTE2NTAz
-MC42NDAxNjktMS12c2VtZW50c292QHZpcnR1b3p6by5jb20KU3ViamVjdDogW1BBVENIIDAvN10g
-cWNvdzI6IGNvbXByZXNzZWQgd3JpdGUgY2FjaGUKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0K
-IyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJzZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQg
-Y29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZm
-LnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFt
-Ci4vc2NyaXB0cy9jaGVja3BhdGNoLnBsIC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQ
-VCBFTkQgPT09CgpVcGRhdGluZyAzYzhjZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEz
-Mzg0CkZyb20gaHR0cHM6Ly9naXRodWIuY29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAgIDUxMDFk
-MDAuLjM3MDFjMDcgIG1hc3RlciAgICAgLT4gbWFzdGVyCiAtIFt0YWcgdXBkYXRlXSAgICAgIHBh
-dGNoZXcvMjAyMTAxMjkxMTAwMTIuODY2MC0xLXBldGVyLm1heWRlbGxAbGluYXJvLm9yZyAtPiBw
-YXRjaGV3LzIwMjEwMTI5MTEwMDEyLjg2NjAtMS1wZXRlci5tYXlkZWxsQGxpbmFyby5vcmcKICog
-W25ldyB0YWddICAgICAgICAgcGF0Y2hldy8yMDIxMDEyOTE2NTAzMC42NDAxNjktMS12c2VtZW50
-c292QHZpcnR1b3p6by5jb20gLT4gcGF0Y2hldy8yMDIxMDEyOTE2NTAzMC42NDAxNjktMS12c2Vt
-ZW50c292QHZpcnR1b3p6by5jb20KU3dpdGNoZWQgdG8gYSBuZXcgYnJhbmNoICd0ZXN0JwpkNzc4
-M2E0IHNpbXBsZWJlbmNoL2JlbmNoLWJhY2t1cDogYWRkIHRhcmdldC1jYWNoZSBhcmd1bWVudApk
-ZGY0NDQyIHNpbXBsZWJlbmNoL2JlbmNoLWJhY2t1cDogYWRkIC0tY29tcHJlc3NlZCBvcHRpb24K
-NDdlZTYyNyBzaW1wbGViZW5jaDogYmVuY2hfb25lKCk6IHN1cHBvcnQgY291bnQ9MQoyYjgwZTMz
-IHNpbXBsZWJlbmNoOiBiZW5jaF9vbmUoKTogYWRkIHNsb3dfbGltaXQgYXJndW1lbnQKYWNmMmZi
-NiBibG9jay9xY293MjogdXNlIGNvbXByZXNzZWQgd3JpdGUgY2FjaGUKZDk2ZTM1ZiBibG9jay9x
-Y293MjogaW50cm9kdWNlIGNhY2hlIGZvciBjb21wcmVzc2VkIHdyaXRlcwowZDAwOWUxIHFlbXUv
-cXVldWU6IGFkZCBzb21lIHVzZWZ1bCBRTElTVF8gYW5kIFFUQUlMUV8gbWFjcm9zCgo9PT0gT1VU
-UFVUIEJFR0lOID09PQoxLzcgQ2hlY2tpbmcgY29tbWl0IDBkMDA5ZTE2MjgwZCAocWVtdS9xdWV1
-ZTogYWRkIHNvbWUgdXNlZnVsIFFMSVNUXyBhbmQgUVRBSUxRXyBtYWNyb3MpCkVSUk9SOiBzcGFj
-ZXMgcmVxdWlyZWQgYXJvdW5kIHRoYXQgJyonIChjdHg6V3hWKQojMjU6IEZJTEU6IGluY2x1ZGUv
-cWVtdS9xdWV1ZS5oOjE3NzoKKyAgICB0eXBlb2YoKlFMSVNUX0ZJUlNUKGhlYWQpKSAqcWZmc192
-YXIsICpxZmZzX25leHRfdmFyOyAgICAgICAgICAgICAgIFwKICAgICAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICBeCgpXQVJOSU5HOiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9u
-IGEgc2VwYXJhdGUgbGluZQojMjk6IEZJTEU6IGluY2x1ZGUvcWVtdS9xdWV1ZS5oOjE4MToKK30g
-d2hpbGUgKC8qQ09OU1RDT05EKi8wKQoKRVJST1I6IHNwYWNlcyByZXF1aXJlZCBhcm91bmQgdGhh
-dCAnKicgKGN0eDpXeFYpCiMzOTogRklMRTogaW5jbHVkZS9xZW11L3F1ZXVlLmg6NTAxOgorICAg
-IHR5cGVvZigqUVRBSUxRX0ZJUlNUKGhlYWQpKSAqcWZmc192YXIsICpxZmZzX25leHRfdmFyOyAg
-ICAgICAgICAgICAgXAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBeCgpXQVJOSU5H
-OiBCbG9jayBjb21tZW50cyB1c2UgYSBsZWFkaW5nIC8qIG9uIGEgc2VwYXJhdGUgbGluZQojNDM6
-IEZJTEU6IGluY2x1ZGUvcWVtdS9xdWV1ZS5oOjUwNToKK30gd2hpbGUgKC8qQ09OU1RDT05EKi8w
-KQoKdG90YWw6IDIgZXJyb3JzLCAyIHdhcm5pbmdzLCAyNiBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
-LzcgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
-cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
-ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCjIvNyBDaGVja2luZyBjb21taXQgZDk2ZTM1
-ZjE1NDRmIChibG9jay9xY293MjogaW50cm9kdWNlIGNhY2hlIGZvciBjb21wcmVzc2VkIHdyaXRl
-cykKV0FSTklORzogYWRkZWQsIG1vdmVkIG9yIGRlbGV0ZWQgZmlsZShzKSwgZG9lcyBNQUlOVEFJ
-TkVSUyBuZWVkIHVwZGF0aW5nPwojMzQ6IApuZXcgZmlsZSBtb2RlIDEwMDY0NAoKdG90YWw6IDAg
-ZXJyb3JzLCAxIHdhcm5pbmdzLCA4MTYgbGluZXMgY2hlY2tlZAoKUGF0Y2ggMi83IGhhcyBzdHls
-ZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZh
-bHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFU
-Q0ggaW4gTUFJTlRBSU5FUlMuCjMvNyBDaGVja2luZyBjb21taXQgYWNmMmZiNjBkNWMyIChibG9j
-ay9xY293MjogdXNlIGNvbXByZXNzZWQgd3JpdGUgY2FjaGUpCjQvNyBDaGVja2luZyBjb21taXQg
-MmI4MGUzMzRiMzAwIChzaW1wbGViZW5jaDogYmVuY2hfb25lKCk6IGFkZCBzbG93X2xpbWl0IGFy
-Z3VtZW50KQo1LzcgQ2hlY2tpbmcgY29tbWl0IDQ3ZWU2Mjc2ODMxNyAoc2ltcGxlYmVuY2g6IGJl
-bmNoX29uZSgpOiBzdXBwb3J0IGNvdW50PTEpCjYvNyBDaGVja2luZyBjb21taXQgZGRmNDQ0MjBh
-OWU4IChzaW1wbGViZW5jaC9iZW5jaC1iYWNrdXA6IGFkZCAtLWNvbXByZXNzZWQgb3B0aW9uKQo3
-LzcgQ2hlY2tpbmcgY29tbWl0IGQ3NzgzYTQ1ZWU3YiAoc2ltcGxlYmVuY2gvYmVuY2gtYmFja3Vw
-OiBhZGQgdGFyZ2V0LWNhY2hlIGFyZ3VtZW50KQo9PT0gT1VUUFVUIEVORCA9PT0KClRlc3QgY29t
-bWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApo
-dHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDEyOTE2NTAzMC42NDAxNjktMS12c2VtZW50c292
-QHZpcnR1b3p6by5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
-bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
-L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
+On 2021-01-26 11:36:44 -0600, Tom Lendacky wrote:
+> From: Tom Lendacky <thomas.lendacky@amd.com>
+> 
+> Provide initial support for SEV-ES. This includes creating a function to
+> indicate the guest is an SEV-ES guest (which will return false until all
+> support is in place), performing the proper SEV initialization and
+> ensuring that the guest CPU state is measured as part of the launch.
+> 
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Richard Henderson <richard.henderson@linaro.org>
+> Cc: Eduardo Habkost <ehabkost@redhat.com>
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> Co-developed-by: Jiri Slaby <jslaby@suse.cz>
+> Signed-off-by: Jiri Slaby <jslaby@suse.cz>
+> Signed-off-by: Tom Lendacky <thomas.lendacky@amd.com>
+
+Reviewed-by: Venu Busireddy <venu.busireddy@oracle.com>
+
+> ---
+>  target/i386/cpu.c      |  1 +
+>  target/i386/sev-stub.c |  6 ++++++
+>  target/i386/sev.c      | 44 ++++++++++++++++++++++++++++++++++++++++--
+>  target/i386/sev_i386.h |  1 +
+>  4 files changed, 50 insertions(+), 2 deletions(-)
+> 
+> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+> index 72a79e6019..0415d8a99c 100644
+> --- a/target/i386/cpu.c
+> +++ b/target/i386/cpu.c
+> @@ -5987,6 +5987,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+>          break;
+>      case 0x8000001F:
+>          *eax = sev_enabled() ? 0x2 : 0;
+> +        *eax |= sev_es_enabled() ? 0x8 : 0;
+>          *ebx = sev_get_cbit_position();
+>          *ebx |= sev_get_reduced_phys_bits() << 6;
+>          *ecx = 0;
+> diff --git a/target/i386/sev-stub.c b/target/i386/sev-stub.c
+> index c1fecc2101..229a2ee77b 100644
+> --- a/target/i386/sev-stub.c
+> +++ b/target/i386/sev-stub.c
+> @@ -49,8 +49,14 @@ SevCapability *sev_get_capabilities(Error **errp)
+>      error_setg(errp, "SEV is not available in this QEMU");
+>      return NULL;
+>  }
+> +
+>  int sev_inject_launch_secret(const char *hdr, const char *secret,
+>                               uint64_t gpa, Error **errp)
+>  {
+>      return 1;
+>  }
+> +
+> +bool sev_es_enabled(void)
+> +{
+> +    return false;
+> +}
+> diff --git a/target/i386/sev.c b/target/i386/sev.c
+> index 1546606811..fce2128c07 100644
+> --- a/target/i386/sev.c
+> +++ b/target/i386/sev.c
+> @@ -360,6 +360,12 @@ sev_enabled(void)
+>      return !!sev_guest;
+>  }
+>  
+> +bool
+> +sev_es_enabled(void)
+> +{
+> +    return false;
+> +}
+> +
+>  uint64_t
+>  sev_get_me_mask(void)
+>  {
+> @@ -580,6 +586,20 @@ sev_launch_update_data(SevGuestState *sev, uint8_t *addr, uint64_t len)
+>      return ret;
+>  }
+>  
+> +static int
+> +sev_launch_update_vmsa(SevGuestState *sev)
+> +{
+> +    int ret, fw_error;
+> +
+> +    ret = sev_ioctl(sev->sev_fd, KVM_SEV_LAUNCH_UPDATE_VMSA, NULL, &fw_error);
+> +    if (ret) {
+> +        error_report("%s: LAUNCH_UPDATE_VMSA ret=%d fw_error=%d '%s'",
+> +                __func__, ret, fw_error, fw_error_to_str(fw_error));
+> +    }
+> +
+> +    return ret;
+> +}
+> +
+>  static void
+>  sev_launch_get_measure(Notifier *notifier, void *unused)
+>  {
+> @@ -592,6 +612,14 @@ sev_launch_get_measure(Notifier *notifier, void *unused)
+>          return;
+>      }
+>  
+> +    if (sev_es_enabled()) {
+> +        /* measure all the VM save areas before getting launch_measure */
+> +        ret = sev_launch_update_vmsa(sev);
+> +        if (ret) {
+> +            exit(1);
+> +        }
+> +    }
+> +
+>      measurement = g_new0(struct kvm_sev_launch_measure, 1);
+>  
+>      /* query the measurement blob length */
+> @@ -686,7 +714,7 @@ sev_guest_init(const char *id)
+>  {
+>      SevGuestState *sev;
+>      char *devname;
+> -    int ret, fw_error;
+> +    int ret, fw_error, cmd;
+>      uint32_t ebx;
+>      uint32_t host_cbitpos;
+>      struct sev_user_data_status status = {};
+> @@ -747,8 +775,20 @@ sev_guest_init(const char *id)
+>      sev->api_major = status.api_major;
+>      sev->api_minor = status.api_minor;
+>  
+> +    if (sev_es_enabled()) {
+> +        if (!(status.flags & SEV_STATUS_FLAGS_CONFIG_ES)) {
+> +            error_report("%s: guest policy requires SEV-ES, but "
+> +                         "host SEV-ES support unavailable",
+> +                         __func__);
+> +            goto err;
+> +        }
+> +        cmd = KVM_SEV_ES_INIT;
+> +    } else {
+> +        cmd = KVM_SEV_INIT;
+> +    }
+> +
+>      trace_kvm_sev_init();
+> -    ret = sev_ioctl(sev->sev_fd, KVM_SEV_INIT, NULL, &fw_error);
+> +    ret = sev_ioctl(sev->sev_fd, cmd, NULL, &fw_error);
+>      if (ret) {
+>          error_report("%s: failed to initialize ret=%d fw_error=%d '%s'",
+>                       __func__, ret, fw_error, fw_error_to_str(fw_error));
+> diff --git a/target/i386/sev_i386.h b/target/i386/sev_i386.h
+> index 4db6960f60..4f9a5e9b21 100644
+> --- a/target/i386/sev_i386.h
+> +++ b/target/i386/sev_i386.h
+> @@ -29,6 +29,7 @@
+>  #define SEV_POLICY_SEV          0x20
+>  
+>  extern bool sev_enabled(void);
+> +extern bool sev_es_enabled(void);
+>  extern uint64_t sev_get_me_mask(void);
+>  extern SevInfo *sev_get_info(void);
+>  extern uint32_t sev_get_cbit_position(void);
+> -- 
+> 2.30.0
+> 
 
