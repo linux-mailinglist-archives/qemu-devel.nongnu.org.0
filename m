@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2911C30881E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:12:58 +0100 (CET)
-Received: from localhost ([::1]:43696 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 089B2308811
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:09:15 +0100 (CET)
+Received: from localhost ([::1]:59812 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Rhx-0004eV-5o
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:12:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59806)
+	id 1l5ReM-00081Y-2X
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:09:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RW9-0004ck-S8
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:45 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:45856)
+ id 1l5RW7-0004XO-LX
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:43 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40700)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RVx-0006zU-JH
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:45 -0500
-Received: by mail-wr1-x432.google.com with SMTP id m13so8384001wro.12
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:29 -0800 (PST)
+ id 1l5RVw-0006zY-Qn
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:43 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id c127so6804291wmf.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=zFshe6a9XOs+UpYhaoy/bCbUaTZ0COXMECt5cI7PQd8=;
- b=yD4+BBLsRwM9XpgywxFDhTiYSby5V7R0G5WdUBdsYIuMS36w+UhTy6GwWCBgOUnZBW
- S+QPX9CtEdH6R3yJiHxv341fTGlf3ofCRZSOy5fNbYmJN3LoIyY3LpMkEouQYdd3/H+O
- FozKmNWJHyby6XAFf9bfcVUEmguvpeFyvWktnaWYY5/0TKwXx0YJdTcwbPbJM7opMViM
- d6JChUGvWOHC1WhU9jYP7NOaPakLoreA/dtsAfeuWFXPRJxrpUppkLzkCkgEmb2psUUO
- DaibqDKgW35tvRTY5DEdWuANR5/qSL739DGxLkQyVc+OqGdvKVYeLwCgygUQX/cDGXwA
- 6HSQ==
+ bh=FjD0OXwGzNNfv2GlQuSHJeUVuFbskTZTRqIPXs9Gv+I=;
+ b=VUNTc6U4eNi0A2AtcDUlH1IZ9PGcg9XKbk1PVFjeoXxxnRcxQGBtUXDourtzZ2XWJD
+ BcD1Q+MPOclsMb/RHyelOoxhwmqvrrF3qSTTlhtAlNmkrPz74X9XUz9dbL66CenBDako
+ 9tNek22IEMTaMucMRNUnC2EoIv1qPTdLfAIVqSBQ2bVUNnaqSvv4WX7TA8s95Q/6i2DX
+ jLQzeSx6Ho+D9+i2J49osrKse8XxCTquU2wnbE+04q9dYF4ZI5DQdHmE7jUBobfR9W8a
+ IvIqy5QEJtdgojlwlMGeINQPgoXcDok7vQ1peQCyRAH1cZwj74jJPuYwCCuY7d+Azfy1
+ ffmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=zFshe6a9XOs+UpYhaoy/bCbUaTZ0COXMECt5cI7PQd8=;
- b=P1GE52z/byD0M6WMDs0yivXmteC7DqCVy+CDacuRQotAh33fN+RSpacFicWLUMU4b0
- r63i+FvRoI8XSJUqAX++82DLGnyF4VVgSyhQirRJpnkkkWBm5rSpiFAI1ObqJZMKPLJx
- 9GewPHNACcTWV2pTTthVy+n/pYCcS1PKJfKX5NSiV6KvDYojkD+445MBKdB2LnAhn01+
- E76jGvgedBPTiyMABLmiW9fjuAusdVbP7swQNCPN+Q9IVOymKpSq7udBhLZQZWlEL2/O
- O2pVtUqDXlAXIfYL3nLqFViqT0RY83kAmMOMS7d3+HTpH/wG3LAbzHkd5p+pTcBEy1hv
- homw==
-X-Gm-Message-State: AOAM531Z35b1PkvCMiozj5Ket4QyuGyVcwVnjd8CyIYx2afsoIp2NpGs
- 2wMhw7bKNEsk418b4F3B80xYH8OywSwFSA==
-X-Google-Smtp-Source: ABdhPJytGBSV6M4Dout4xPqTcitdIvuF5OU8ecgh/opSBelyZfewgzW6dx7V65b4kLDKLcx8NY2PDg==
-X-Received: by 2002:adf:eb4e:: with SMTP id u14mr3882960wrn.99.1611918028674; 
- Fri, 29 Jan 2021 03:00:28 -0800 (PST)
+ bh=FjD0OXwGzNNfv2GlQuSHJeUVuFbskTZTRqIPXs9Gv+I=;
+ b=YTiSaPvHCr+j1c9ixydGEaKkKBUa9ePHG958S9zl4aC2KLfnBdXFIwArSnrmUjLj8b
+ tMR1R66H8qVzip/KihffVzdgAvHTBYxnT3NFJnGpEOOs88hbYBfV1N1xKrdfLWPbu923
+ ZpH17O8KsVxaenDCrc18A2UKrl+ybsMxN1Wv4yTmS7KchpoEZ00Z0Xbkcq9T9KLrk8QJ
+ FxW3EX7bVP+OPEKuE3swjfmWOmiUo45atAU3gXQ4yCrCesc9TGAMeOO2ZofXC8OVAhoe
+ xTWsNDyZdigkOGfUgLiakaU944plhLkN6svkokOzumQaXKJNPNW0HdkVHVfaWMqnK5sp
+ 4h+w==
+X-Gm-Message-State: AOAM530Ixi8WLUNe0Zc84wyq2IR+0rUE1z20GGpm3W1xyse1GX5UohYS
+ yDoqW+7Jr7DgnFXe0Dk7K2Z2qLTqBICeMQ==
+X-Google-Smtp-Source: ABdhPJz+k6paP9RFV8GkN6MBbuZmuufuuTuOD24EjGZ4U5UVXp7WsNfdJftuxz/ru43HAlJxYltsmQ==
+X-Received: by 2002:a7b:cbd5:: with SMTP id n21mr3375267wmi.5.1611918029507;
+ Fri, 29 Jan 2021 03:00:29 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.27
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.28
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 Jan 2021 03:00:28 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/46] darwin: detect CoreAudio for build
-Date: Fri, 29 Jan 2021 10:59:41 +0000
-Message-Id: <20210129110012.8660-16-peter.maydell@linaro.org>
+Subject: [PULL 16/46] darwin: remove 64-bit build detection on 32-bit OS
+Date: Fri, 29 Jan 2021 10:59:42 +0000
+Message-Id: <20210129110012.8660-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
 References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,85 +88,49 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joelle van Dyne <j@getutm.app>
 
-On iOS there is no CoreAudio, so we should not assume Darwin always
-has it.
+A workaround added in early days of 64-bit OSX forced x86_64 if the
+host machine had 64-bit support. This creates issues when cross-
+compiling for ARM64. Additionally, the user can always use --cpu=* to
+manually set the host CPU and therefore this workaround should be
+removed.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Joelle van Dyne <j@getutm.app>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210126012457.39046-11-j@getutm.app
+Message-id: 20210126012457.39046-12-j@getutm.app
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- configure | 35 +++++++++++++++++++++++++++++++++--
- 1 file changed, 33 insertions(+), 2 deletions(-)
+ configure | 11 -----------
+ 1 file changed, 11 deletions(-)
 
 diff --git a/configure b/configure
-index 5cf075ac60e..99bf6275087 100755
+index 99bf6275087..dd2225010b7 100755
 --- a/configure
 +++ b/configure
-@@ -319,6 +319,7 @@ fdt="auto"
- netmap="no"
- sdl="auto"
- sdl_image="auto"
-+coreaudio="auto"
- virtiofsd="auto"
- virtfs="auto"
- libudev="auto"
-@@ -778,7 +779,7 @@ Darwin)
-     QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
-     QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
-   fi
--  audio_drv_list="coreaudio try-sdl"
-+  audio_drv_list="try-coreaudio try-sdl"
+@@ -625,13 +625,6 @@ fi
+ # the correct CPU with the --cpu option.
+ case $targetos in
+ Darwin)
+-  # on Leopard most of the system is 32-bit, so we have to ask the kernel if we can
+-  # run 64-bit userspace code.
+-  # If the user didn't specify a CPU explicitly and the kernel says this is
+-  # 64 bit hw, then assume x86_64. Otherwise fall through to the usual detection code.
+-  if test -z "$cpu" && test "$(sysctl -n hw.optional.x86_64)" = "1"; then
+-    cpu="x86_64"
+-  fi
+   HOST_DSOSUF=".dylib"
+   ;;
+ SunOS)
+@@ -775,10 +768,6 @@ OpenBSD)
+ Darwin)
+   bsd="yes"
+   darwin="yes"
+-  if [ "$cpu" = "x86_64" ] ; then
+-    QEMU_CFLAGS="-arch x86_64 $QEMU_CFLAGS"
+-    QEMU_LDFLAGS="-arch x86_64 $QEMU_LDFLAGS"
+-  fi
+   audio_drv_list="try-coreaudio try-sdl"
    audio_possible_drivers="coreaudio sdl"
    # Disable attempts to use ObjectiveC features in os/object.h since they
-   # won't work when we're compiling with gcc as a C compiler.
-@@ -3146,6 +3147,24 @@ EOF
-   fi
- fi
- 
-+##########################################
-+# detect CoreAudio
-+if test "$coreaudio" != "no" ; then
-+  coreaudio_libs="-framework CoreAudio"
-+  cat > $TMPC << EOF
-+#include <CoreAudio/CoreAudio.h>
-+int main(void)
-+{
-+  return (int)AudioGetCurrentHostTime();
-+}
-+EOF
-+  if compile_prog "" "$coreaudio_libs" ; then
-+    coreaudio=yes
-+  else
-+    coreaudio=no
-+  fi
-+fi
-+
- ##########################################
- # Sound support libraries probe
- 
-@@ -3202,8 +3221,20 @@ for drv in $audio_drv_list; do
-     fi
-     ;;
- 
--    coreaudio)
-+    coreaudio | try-coreaudio)
-+    if test "$coreaudio" = "no"; then
-+      if test "$drv" = "try-coreaudio"; then
-+        audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-coreaudio//')
-+      else
-+        error_exit "$drv check failed" \
-+                "Make sure to have the $drv is available."
-+      fi
-+    else
-       coreaudio_libs="-framework CoreAudio"
-+      if test "$drv" = "try-coreaudio"; then
-+        audio_drv_list=$(echo "$audio_drv_list" | sed -e 's/try-coreaudio/coreaudio/')
-+      fi
-+    fi
-     ;;
- 
-     dsound)
 -- 
 2.20.1
 
