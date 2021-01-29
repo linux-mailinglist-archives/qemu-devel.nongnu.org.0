@@ -2,57 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE004308BF8
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:54:41 +0100 (CET)
-Received: from localhost ([::1]:47196 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7883D308BA5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:40:04 +0100 (CET)
+Received: from localhost ([::1]:33462 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Xyi-00076L-Ty
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:54:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48470)
+	id 1l5XkZ-0006Rc-Gt
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:40:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48592)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l5XT8-0005wI-Ad; Fri, 29 Jan 2021 12:22:02 -0500
-Resent-Date: Fri, 29 Jan 2021 12:22:02 -0500
-Resent-Message-Id: <E1l5XT8-0005wI-Ad@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21371)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l5XT5-00033B-Kg; Fri, 29 Jan 2021 12:22:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1611940910; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=F+osgxYFwydk6DIf2ZddB9VdU0pN00T98AgNtrTMeS3Wp0Rt4h+8wudwIKKKSq4pH0JA/t5wM6KTfOG0f6ThpHPHjOq8K2z5kKA82BE6g5V3KQJFeMiede2lbCAFkoYGa/fjgXTsukHHobCNHvQeyCoNkSmrruHFWJe1ga5vdqc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1611940910;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=qFnIgAIQvHyglFffS2MSb6hX5FuKNU8KsdNGCsbh0P0=; 
- b=GhfhXI65FbRpIoM9S/LUk7iIaB/5ZiPi2WjimxDaka7a7kdtb/JJp5pMfU8aXpXsGje46fIAQ7U56pOYQBwFUrJ35xwhKqXk2OvCclUXRiE/jFPFeaHCl4fg3p840o1Mar1gIRfMjzwMnc0AmXmX0CoYN84eXryUkUigOHdhE/k=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 161194090805211.610092255378959;
- Fri, 29 Jan 2021 09:21:48 -0800 (PST)
-In-Reply-To: <20210129171102.4109641-1-berrange@redhat.com>
-Subject: Re: [PULL 00/13] Misc patches
-Message-ID: <161194090650.29163.15490919128007035833@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5XTx-0006cK-74
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 12:22:53 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:43486)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5XTp-0003Jn-9x
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 12:22:52 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id a10so14120033ejg.10
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 09:22:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=AJWB+awo7OwGTd/Ncmee9yEoJNZcviaJcPsGFvWnHqM=;
+ b=iWksQVAN8KS81rlZznU9UGY4H+goUP4VY7dERR/Am5FG0HQ1K6geo4oDdn/Lkuznqc
+ yUmsO2gEBlCeLWy2uwgAca3pQPgDP8ro7GP8xS7JFN/Srju31nU0Rahbrga5GX7fVnPl
+ tFkQIgty/yotODYjRHK6td3FgLnh3BPfgbpnwm1iOy31xRGi1Q5JwlFZ+h5T0sK7c2PV
+ QOvkPHsU22f7y6YYB+ichXqXu71cOjw3oAevf4gopnCjW3a7KpgQa2Kb0BdwTgZCSuuv
+ egHhp7cPwKAXl/Fr9lchXbtvBXJRJTtJPf9nD/8lc2/BC9U8RUUJ7DEL0oIuyaupmnuY
+ IO0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=AJWB+awo7OwGTd/Ncmee9yEoJNZcviaJcPsGFvWnHqM=;
+ b=feouN75gyhXThChObCtlWCnUiDHH7nmQK4a9cMufagVSxiKc4oCkeFg5UG6pqYg2VZ
+ VlwF31hw+7RATLKn8E7A9RyZVcHuCBD/tr4jPSmIubwcVS4u4Vysd31HUDn1KVedkxH/
+ FCgA7VEfltPX/Uy5pKGhu8itdxYJ4E1YKv7jEHL4+GUWU32i0GG/mzWEmmPfFE4DUfhr
+ ZdFTptXyasZH+U+DjxpMGHiAfalHIA+sK/gYoddP0OodBMG3bL8Hu/HbaZlMCINJaJtO
+ IilJWQQsrX4kSielx88+JRl1nsNdrpS/8/0HXX4f8ZhAAtg1fHAoVU+XJEw7kgDH7ZLq
+ 5Lnw==
+X-Gm-Message-State: AOAM530Sg2Ymx7h8CSQFrxIIbvYUJl5Zhbmuj9pLg4QmXSWpqtJrRQi8
+ Tbcp1YcEqiP5/NfJlixu8puMp51/oNHjM5bEA3F3FQ==
+X-Google-Smtp-Source: ABdhPJw02dm4LjyMtRA9GMKfVoSdhorAg2/r2Sd0DIVM8AcQXUuiC87jwHebfk/L4hvIj56ydREGvpP03xAJly2FF/I=
+X-Received: by 2002:a17:906:4002:: with SMTP id
+ v2mr5702984ejj.85.1611940963253; 
+ Fri, 29 Jan 2021 09:22:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Fri, 29 Jan 2021 09:21:48 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210129145240.34104-1-kwolf@redhat.com>
+ <CAFEAcA_5ASnuNjWs8rdRid-VpjFaHX0Y_8cKFRY0ojJKLB7ryA@mail.gmail.com>
+In-Reply-To: <CAFEAcA_5ASnuNjWs8rdRid-VpjFaHX0Y_8cKFRY0ojJKLB7ryA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jan 2021 17:22:32 +0000
+Message-ID: <CAFEAcA9otR2QS7EvH6vjJb+sePyiQ2jpO8bGkL12sG6Vt_Gm5A@mail.gmail.com>
+Subject: Re: [PULL 0/2] block: Fix iotests to respect configured Python binary
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -65,89 +78,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, qemu-block@nongnu.org, libvir-list@redhat.com,
- qemu-devel@nongnu.org, mreitz@redhat.com, kraxel@redhat.com,
- pbonzini@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEyOTE3MTEwMi40MTA5
-NjQxLTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBo
-YXZlIHNvbWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3Jl
-IGluZm9ybWF0aW9uOgoKVHlwZTogc2VyaWVzCk1lc3NhZ2UtaWQ6IDIwMjEwMTI5MTcxMTAyLjQx
-MDk2NDEtMS1iZXJyYW5nZUByZWRoYXQuY29tClN1YmplY3Q6IFtQVUxMIDAwLzEzXSBNaXNjIHBh
-dGNoZXMKCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEvYmluL2Jhc2gKZ2l0IHJldi1wYXJz
-ZSBiYXNlID4gL2Rldi9udWxsIHx8IGV4aXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5h
-bWVsaW1pdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZXMgVHJ1ZQpnaXQgY29uZmln
-IC0tbG9jYWwgZGlmZi5hbGdvcml0aG0gaGlzdG9ncmFtCi4vc2NyaXB0cy9jaGVja3BhdGNoLnBs
-IC0tbWFpbGJhY2sgYmFzZS4uCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgpVcGRhdGluZyAzYzhj
-ZjVhOWMyMWZmODc4MjE2NGQxZGVmN2Y0NGJkODg4NzEzMzg0CkZyb20gaHR0cHM6Ly9naXRodWIu
-Y29tL3BhdGNoZXctcHJvamVjdC9xZW11CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAy
-MTAxMjkxNzExMDIuNDEwOTY0MS0xLWJlcnJhbmdlQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDIx
-MDEyOTE3MTEwMi40MTA5NjQxLTEtYmVycmFuZ2VAcmVkaGF0LmNvbQpTd2l0Y2hlZCB0byBhIG5l
-dyBicmFuY2ggJ3Rlc3QnCmQxYTU0Y2MgdGVzdHM6IFJlcGxhY2UgZGVwcmVjYXRlZCBBU04xIGNv
-ZGUKZmE3ZWE3MCB0ZXN0czogRml4IHJ1bnRpbWUgZXJyb3IgaW4gdGVzdC1hdXRoei1wYW0KMDg1
-ZjIzMyB1aTogdXBkYXRlIGtleWNvZGVtYXBkYiBzdWJtb2R1bGUgY29tbWl0CjYwZWRmNjkgY3J5
-cHRvOiBBZGQgc3BhY2VzIGFyb3VuZCBvcGVyYXRvcgpiOTY4MGNkIGNvbmZpZ3VyZTogcmVwbGFj
-ZSAtLWVuYWJsZS9kaXNhYmxlLWdpdC11cGRhdGUgd2l0aCAtLXdpdGgtZ2l0LXN1Ym1vZHVsZXMK
-NmRiODM0OCBkb2NzOiBmaXggbWlzc2luZyBiYWNrc2xhc2ggaW4gY2VydHRvb2wgc2hlbGwgZXhh
-bXBsZQo0YTViYTE4IGRvY3M6IHNpbXBsaWZ5IGFuZCBjbGFyaWZ5IHRoZSBwbGF0Zm9ybSBzdXBw
-b3J0IHJ1bGVzCjg5NDMzYWUgUHJlZmVyICdvbicgfCAnb2ZmJyBvdmVyICd5ZXMnIHwgJ25vJyBm
-b3IgYm9vbCBvcHRpb25zCmRlNjZiYTEgb3M6IGRlcHJlY2F0ZSB0aGUgLWVuYWJsZS1maXBzIG9w
-dGlvbiBhbmQgUUVNVSdzIEZJUFMgZW5mb3JjZW1lbnQKYWFkZDgxOCBjcnlwdG86IEZpeCBtZW1v
-cnkgbGVha3MgaW4gc2V0X2xvYWRlZCBmb3IgdGxzLSoKZTUwNTZiOCBjcnlwdG86IEZvcmJpZCBi
-cm9rZW4gdW5sb2FkaW5nIG9mIHNlY3JldHMKOTZmNDhhMSBjcnlwdG86IE1vdmUgVVNFUl9DUkVB
-VEFCTEUgdG8gc2VjcmV0X2NvbW1vbiBiYXNlIGNsYXNzCjBhNjY2YTYgY3J5cHRvOiBGaXggc29t
-ZSBjb2RlIHN0eWxlIHByb2JsZW1zLCBhZGQgc3BhY2VzIGFyb3VuZCBvcGVyYXRvcgoKPT09IE9V
-VFBVVCBCRUdJTiA9PT0KMS8xMyBDaGVja2luZyBjb21taXQgMGE2NjZhNjUzYTU2IChjcnlwdG86
-IEZpeCBzb21lIGNvZGUgc3R5bGUgcHJvYmxlbXMsIGFkZCBzcGFjZXMgYXJvdW5kIG9wZXJhdG9y
-KQoyLzEzIENoZWNraW5nIGNvbW1pdCA5NmY0OGExZjQxMjMgKGNyeXB0bzogTW92ZSBVU0VSX0NS
-RUFUQUJMRSB0byBzZWNyZXRfY29tbW9uIGJhc2UgY2xhc3MpCjMvMTMgQ2hlY2tpbmcgY29tbWl0
-IGU1MDU2Yjg5N2IwMyAoY3J5cHRvOiBGb3JiaWQgYnJva2VuIHVubG9hZGluZyBvZiBzZWNyZXRz
-KQo0LzEzIENoZWNraW5nIGNvbW1pdCBhYWRkODE4YTczMWEgKGNyeXB0bzogRml4IG1lbW9yeSBs
-ZWFrcyBpbiBzZXRfbG9hZGVkIGZvciB0bHMtKikKNS8xMyBDaGVja2luZyBjb21taXQgZGU2NmJh
-MTUyN2QyIChvczogZGVwcmVjYXRlIHRoZSAtZW5hYmxlLWZpcHMgb3B0aW9uIGFuZCBRRU1VJ3Mg
-RklQUyBlbmZvcmNlbWVudCkKNi8xMyBDaGVja2luZyBjb21taXQgODk0MzNhZTFlMTdiIChQcmVm
-ZXIgJ29uJyB8ICdvZmYnIG92ZXIgJ3llcycgfCAnbm8nIGZvciBib29sIG9wdGlvbnMpCjcvMTMg
-Q2hlY2tpbmcgY29tbWl0IDRhNWJhMTgyZDI5MyAoZG9jczogc2ltcGxpZnkgYW5kIGNsYXJpZnkg
-dGhlIHBsYXRmb3JtIHN1cHBvcnQgcnVsZXMpCjgvMTMgQ2hlY2tpbmcgY29tbWl0IDZkYjgzNDg2
-ZTg2OSAoZG9jczogZml4IG1pc3NpbmcgYmFja3NsYXNoIGluIGNlcnR0b29sIHNoZWxsIGV4YW1w
-bGUpCjkvMTMgQ2hlY2tpbmcgY29tbWl0IGI5NjgwY2RlZDAzZiAoY29uZmlndXJlOiByZXBsYWNl
-IC0tZW5hYmxlL2Rpc2FibGUtZ2l0LXVwZGF0ZSB3aXRoIC0td2l0aC1naXQtc3VibW9kdWxlcykK
-MTAvMTMgQ2hlY2tpbmcgY29tbWl0IDYwZWRmNjljMGZiZiAoY3J5cHRvOiBBZGQgc3BhY2VzIGFy
-b3VuZCBvcGVyYXRvcikKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJt
-cyBvZiB0aGlzIHN0YXRlbWVudAojMjg6IEZJTEU6IGNyeXB0by9hZXMuYzoxMDgzOgorICAgICAg
-ICBpZiAoYml0cyA9PSAxMjgpClsuLi5dCi0gICAgICAgIGVsc2UgaWYgKGJpdHM9PTE5MikKWy4u
-Ll0KICAgICAgICAgICAgICAgICBrZXktPnJvdW5kcyA9IDEyOwpbLi4uXQoKRVJST1I6IGJyYWNl
-cyB7fSBhcmUgbmVjZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMzE6IEZJ
-TEU6IGNyeXB0by9hZXMuYzoxMDg1OgorICAgICAgICBlbHNlIGlmIChiaXRzID09IDE5MikKWy4u
-Ll0KICAgICAgICAgZWxzZQpbLi4uXQoKRVJST1I6IHNwYWNlIHByb2hpYml0ZWQgYWZ0ZXIgdGhh
-dCBvcGVuIHBhcmVudGhlc2lzICcoJwojNDQ6IEZJTEU6IGNyeXB0by9kZXNyZmIuYzo5NjoKKyAg
-ICAgICAgICAgICAgICAgICAgICAgIGlmKCBwY3JbcGMyW2ogKyAyNF1dICkga25bbl0gfD0gYmln
-Ynl0ZVtqXTsKCkVSUk9SOiBzcGFjZSBwcm9oaWJpdGVkIGJlZm9yZSB0aGF0IGNsb3NlIHBhcmVu
-dGhlc2lzICcpJwojNDQ6IEZJTEU6IGNyeXB0by9kZXNyZmIuYzo5NjoKKyAgICAgICAgICAgICAg
-ICAgICAgICAgIGlmKCBwY3JbcGMyW2ogKyAyNF1dICkga25bbl0gfD0gYmlnYnl0ZVtqXTsKCkVS
-Uk9SOiBzcGFjZSByZXF1aXJlZCBiZWZvcmUgdGhlIG9wZW4gcGFyZW50aGVzaXMgJygnCiM0NDog
-RklMRTogY3J5cHRvL2Rlc3JmYi5jOjk2OgorICAgICAgICAgICAgICAgICAgICAgICAgaWYoIHBj
-cltwYzJbaiArIDI0XV0gKSBrbltuXSB8PSBiaWdieXRlW2pdOwoKRVJST1I6IHRyYWlsaW5nIHN0
-YXRlbWVudHMgc2hvdWxkIGJlIG9uIG5leHQgbGluZQojNDQ6IEZJTEU6IGNyeXB0by9kZXNyZmIu
-Yzo5NjoKKyAgICAgICAgICAgICAgICAgICAgICAgIGlmKCBwY3JbcGMyW2ogKyAyNF1dICkga25b
-bl0gfD0gYmlnYnl0ZVtqXTsKCkVSUk9SOiBicmFjZXMge30gYXJlIG5lY2Vzc2FyeSBmb3IgYWxs
-IGFybXMgb2YgdGhpcyBzdGF0ZW1lbnQKIzQ0OiBGSUxFOiBjcnlwdG8vZGVzcmZiLmM6OTY6Cisg
-ICAgICAgICAgICAgICAgICAgICAgICBpZiggcGNyW3BjMltqICsgMjRdXSApIGtuW25dIHw9IGJp
-Z2J5dGVbal07ClsuLi5dCgp0b3RhbDogNyBlcnJvcnMsIDAgd2FybmluZ3MsIDE5IGxpbmVzIGNo
-ZWNrZWQKClBhdGNoIDEwLzEzIGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElm
-IGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0
-aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgoxMS8xMyBDaGVj
-a2luZyBjb21taXQgMDg1ZjIzMzhjOTA5ICh1aTogdXBkYXRlIGtleWNvZGVtYXBkYiBzdWJtb2R1
-bGUgY29tbWl0KQoxMi8xMyBDaGVja2luZyBjb21taXQgZmE3ZWE3MDZkNjczICh0ZXN0czogRml4
-IHJ1bnRpbWUgZXJyb3IgaW4gdGVzdC1hdXRoei1wYW0pCjEzLzEzIENoZWNraW5nIGNvbW1pdCBk
-MWE1NGNjM2UxYjEgKHRlc3RzOiBSZXBsYWNlIGRlcHJlY2F0ZWQgQVNOMSBjb2RlKQo9PT0gT1VU
-UFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwg
-bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDIxMDEyOTE3MTEw
-Mi40MTA5NjQxLTEtYmVycmFuZ2VAcmVkaGF0LmNvbS90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9
-bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0
-dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3
-LWRldmVsQHJlZGhhdC5jb20=
+On Fri, 29 Jan 2021 at 16:13, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Fri, 29 Jan 2021 at 14:52, Kevin Wolf <kwolf@redhat.com> wrote:
+> >
+> > The following changes since commit 5101d00d2f1138a73344dc4833587f76d7a5fa5c:
+> >
+> >   Merge remote-tracking branch 'remotes/vivier2/tags/trivial-branch-for-6.0-pull-request' into staging (2021-01-29 10:10:43 +0000)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+> >
+> > for you to fetch changes up to 4cea90be62f4f15a63e1a8f7d5d0958f79fdf290:
+> >
+> >   tests/Makefile.include: export PYTHON for check-block.sh (2021-01-29 12:32:36 +0100)
+> >
+> > ----------------------------------------------------------------
+> > Block layer patches:
+> >
+> > - Fix iotests to respect configured Python binary
+> >
+> > ----------------------------------------------------------------
+>
+> This is definitely better so I'm going to apply it, but it seems
+> to reveal a pile of iotest failures on FreeBSD:
+
+These seem to be intermittent -- a rerun was fine. (I have a theory
+that the test framework handles "QEMU process died due to the VM
+running out of memory" and similar kinds of error very badly:
+I semi-regularly find that when the OpenBSD, FreeBSD and NetBSD
+VM jobs are running in parallel on the same machine that one
+might fail but succeed on a rerun.)
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
