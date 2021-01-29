@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9487308995
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:39:53 +0100 (CET)
-Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556DB308994
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:39:02 +0100 (CET)
+Received: from localhost ([::1]:53934 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5UwC-0001gq-MZ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:39:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46282)
+	id 1l5UvN-0000Pi-D0
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:39:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46308)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5UsC-0007UD-Jo
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:35:44 -0500
-Received: from indium.canonical.com ([91.189.90.7]:55886)
+ id 1l5UsE-0007WO-0S
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:35:46 -0500
+Received: from indium.canonical.com ([91.189.90.7]:56088)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5Us7-0005p9-37
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:35:44 -0500
+ id 1l5UsB-0005qS-VY
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:35:45 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l5Us3-0005mN-M2
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:35:35 +0000
+ id 1l5Us7-0005so-4Z
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:35:39 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A57CD2E806B
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:35:35 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 202A72E8089
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:35:39 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 29 Jan 2021 14:27:21 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1913344@bugs.launchpad.net>
+Date: Fri, 29 Jan 2021 14:29:05 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1911216@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Tags: fuzzer
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: modwizcode
-X-Launchpad-Bug-Reporter: Iris Johnson (modwizcode)
+X-Launchpad-Bug-Commenters: a1xndr hades0506
+X-Launchpad-Bug-Reporter: Gaoning Pan (hades0506)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <161169274433.14547.17841565794451082949.malonedeb@wampee.canonical.com>
-Message-Id: <161193044160.7268.4466441732756286969.launchpad@gac.canonical.com>
-Subject: [Bug 1913344] Re:  Exynos4210 UART peripheral data loss
+References: <161046678346.29947.74345360490259273.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161193054632.32468.10808357750649183175.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1911216] Re: abort issue locates in
+ hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: e50bbabf66b5655d496278330852ade2215606c6
+X-Launchpad-Hash: 03e723a2bde98131aac2a6b14f857a89bbf87eb8
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -71,45 +72,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913344 <1913344@bugs.launchpad.net>
+Reply-To: Bug 1911216 <1911216@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: arm
+** Tags added: fuzzer
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913344
+https://bugs.launchpad.net/bugs/1911216
 
 Title:
-   Exynos4210 UART peripheral data loss
+  abort issue locates in hw/usb/hcd-ohci.c:1297:ohci_frame_boundary
 
 Status in QEMU:
   New
 
 Bug description:
-  Currently the Exynos4210 UART (hw/char/exynos4210_uart.c) incorrectly
-  reports however many empty bytes are available in the FIFO when
-  queried for receive capacity. However this peripheral supports a
-  polled mode where only a single byte can be submitted at a time and
-  the FIFO is unused, meaning that in polled mode data is lost since
-  it's written into the FIFO and the polling code in FIFO disabled mode
-  only returns the value in the RX data register.
+  Hello,
 
-  Even worse, potentially enabling the FIFO without a FIFO reset will
-  create a weird situation where data is already in the FIFO whenever
-  data came in faster than the polling could pick it up (which is
-  basically always).
+  I found an assertion failure in hw/usb/hcd-ohci.c:1297
 
-  This change obscured the issue in
-  https://bugs.launchpad.net/qemu/+bug/1913341, which instead presented
-  as strange data loss until I locally resolved this issue.
+  This was found in latest version 5.2.0.
 
-  I have a patch ready for the bug and will submit it later today, I'm
-  just filing for clarity.
+  my reproduced environment is as follows:
+      Host: ubuntu 18.04
+      Guest: ubuntu 18.04
+
+  QEMU boot command line:
+  qemu-system-x86_64 -enable-kvm -boot c -m 4G -drive format=3Dqcow2,file=
+=3D./ubuntu.img -nic user,hostfwd=3Dtcp:0.0.0.0:5555-:22 -display none -dev=
+ice pci-ohci,id=3Dohci -device usb-tablet,bus=3Dohci.0,port=3D1,id=3Dusbdev1
+
+  =
+
+  backtrace is as follows =
+
+  pwndbg> bt
+  #0  0x00007fdf392aa438 in __GI_raise (sig=3Dsig@entry=3D6) at ../sysdeps/=
+unix/sysv/linux/raise.c:54
+  #1  0x00007fdf392ac03a in __GI_abort () at abort.c:89
+  #2  0x000055c613721118 in ohci_frame_boundary (opaque=3D0x6270000191f0) a=
+t hw/usb/hcd-ohci.c:1297
+  #3  0x000055c6140bdf0e in timerlist_run_timers (timer_list=3D0x60b00005bc=
+c0) at util/qemu-timer.c:572
+  #4  0x000055c6140be15a in qemu_clock_run_timers (type=3DQEMU_CLOCK_VIRTUA=
+L) at util/qemu-timer.c:586
+  #5  0x000055c6140beac7 in qemu_clock_run_all_timers () at util/qemu-timer=
+.c:672
+  #6  0x000055c6140a1938 in main_loop_wait (nonblocking=3D0) at util/main-l=
+oop.c:523
+  #7  0x000055c6125d87e9 in qemu_main_loop () at /home/dell/qemu5-hyperviso=
+r/vm/fuzz-seedpool/hcd-ohci/qemu-5.1.0/softmmu/vl.c:1676
+  #8  0x000055c613f216ea in main (argc=3D7, argv=3D0x7fff174cdd28, envp=3D0=
+x7fff174cdd68) at /home/dell/qemu5-hypervisor/vm/fuzz-seedpool/hcd-ohci/qem=
+u-5.1.0/softmmu/main.c:49
+  #9  0x00007fdf39295840 in __libc_start_main (main=3D0x55c613f21699 <main>=
+, argc=3D7, argv=3D0x7fff174cdd28, init=3D<optimized out>, fini=3D<optimize=
+d out>, rtld_fini=3D<optimized out>, stack_end=3D0x7fff174cdd18) at ../csu/=
+libc-start.c:291
+  #10 0x000055c6120a4349 in _start ()
+
+  The poc is attached.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913344/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1911216/+subscriptions
 
