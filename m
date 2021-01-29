@@ -2,74 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8F93308D80
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:38:30 +0100 (CET)
-Received: from localhost ([::1]:51338 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 850DE308D98
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:45:50 +0100 (CET)
+Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5ZbB-00049J-9U
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:38:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42938)
+	id 1l5ZiH-0005pS-BC
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:45:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44098)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l5ZZv-0003hD-9I
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:37:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:44897)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l5ZZs-0002Hb-KN
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:37:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611949027;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=omwprqib/6BZ6S1+ikkMxqykOSJXVdKrJa7JubRIp4Y=;
- b=faOMb+pnvpjSDrPqEQH3ugksebIRKUYI4UIylwUOSycvm2N18rdPLiBKE0TZ//FXDm1XYf
- KzhfXE9UwO+eojfYpzWdANIal6LC7eZrx/FCJEyBrlDTYJTUR/wy62K8qi6mdhqN20l/nH
- zKZbUeQ7XI4I/lpSlgmmEdO2kK/XLnI=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-185-D3wSKPwoMeqQBp5N4aUXVQ-1; Fri, 29 Jan 2021 14:37:02 -0500
-X-MC-Unique: D3wSKPwoMeqQBp5N4aUXVQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id ADFFA8F174C;
- Fri, 29 Jan 2021 19:36:31 +0000 (UTC)
-Received: from localhost (ovpn-118-2.rdu2.redhat.com [10.10.118.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 616355D705;
- Fri, 29 Jan 2021 19:36:31 +0000 (UTC)
-Date: Fri, 29 Jan 2021 14:36:30 -0500
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v14 15/22] cpu: tcg_ops: move to tcg-cpu-ops.h, keep a
- pointer in CPUClass
-Message-ID: <20210129193630.GU1227584@habkost.net>
-References: <20210128092814.8676-1-cfontana@suse.de>
- <20210128092814.8676-16-cfontana@suse.de>
- <171c61e2-36f2-86cf-a5e0-15806cccfd0b@linaro.org>
- <c0b59810-98b1-5de2-3077-6521cc68f673@suse.de>
- <33c1da5b-6f35-6540-becc-5d4e8a4703c8@linaro.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5Zfl-0005H2-U3
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:43:13 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37385)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5Zfk-000510-63
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:43:13 -0500
+Received: by mail-ed1-x529.google.com with SMTP id g1so11902880edu.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 11:43:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
+ bh=l0VBKN5PZjFDNLH2W6CWvi2oVuMYx9slnlJt4jCEElw=;
+ b=Wn6Q6Y7R9PYuSy1RN+BLUgrOMymcb8KGMSmvSFcrNG43kXDi6g0E7FziicWCK80uIs
+ ZAZonWOFhH25wmFqOWGbYgKxOrw0hAGeWPc08JaGpOVVdoi+ZN7YSJJzVwLkaI34arQ8
+ bnv+gpThB0mPztxnT9o1J1W7Asi/t3pdq8Z/S2/J2P7/1bieBMaUlwe8E30Ot9LrUxXk
+ XNTmGv03ncmntm9ZXnx4dyeCln7wqNL5RBz0mqEA4gKjSEXC1hYEUt0d5UT7Vd0MYm4p
+ HQYNqqwLIK/wiKb1YhelzT+5nQ68Bvzer/2rrLQ/5hIZOAqjSNk+xxxijli/ZOlYIn7e
+ baZg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to;
+ bh=l0VBKN5PZjFDNLH2W6CWvi2oVuMYx9slnlJt4jCEElw=;
+ b=ZmqaAVwffQvS5rJi7wYUUalgCm6Q3OggvTuSZOFI8rEwkTBjZOd3HK6hqbfSjVCsWm
+ WdsTyGAeniczWTMUHD2miX/vkeDMq439AKnRE+kc7EQXiDM17R+Ip2eMHeDBxBVbYaWY
+ Yasx+OtRd2u8jHZCrd3rOkGhQFYVDDmONUSzrR9PqEYRLkUZb4Puj8YK/YqpZC5ajH5B
+ 8uerRbZSpyp40glxtbOfT5kcH+LNB2bRH0GKYfhrvUsAUwvX0J2QzZcPRVjiivlhUfY9
+ aQHp/SnbLwI+CXsNdnHGIqpnyUEAByO2ATtDpu1Jdc95Xr6ldoIAEMQaaYCswGDZEa66
+ s+3Q==
+X-Gm-Message-State: AOAM530BBV6F27cnuL/a2/EZHfbwrrpsfhgMg5hYzEYtXXuYoeeS4lbh
+ TZvm+vsE5wPUaegeGhEiwEt5WY09CG0C7yVtJQKt/HTC8TE=
+X-Google-Smtp-Source: ABdhPJxu5nfaB6Z4LcRSSLvo3hGKmncDHzhDGxcIecG+EHjULalKauFBxqWWk/Y1rphDGomvQHCZUoUY9FWXseOHLlI=
+X-Received: by 2002:a05:6402:5107:: with SMTP id
+ m7mr6959990edd.52.1611949389850; 
+ Fri, 29 Jan 2021 11:43:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <33c1da5b-6f35-6540-becc-5d4e8a4703c8@linaro.org>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=ehabkost@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210129160854.11445-1-peter.maydell@linaro.org>
+In-Reply-To: <20210129160854.11445-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jan 2021 19:42:58 +0000
+Message-ID: <CAFEAcA9tMJ2ZjbGJXzAKkP3t1yt4-kmC4xZGi-3bKkWXWocQrQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/46] target-arm queue
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,27 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 09:19:00AM -1000, Richard Henderson wrote:
-> On 1/28/21 11:00 PM, Claudio Fontana wrote:
-> > Do you think I should redo the series anyway? I would have started this way
-> > in the first place, but I tried not to redo Eduardo's work.
-> I think that would be a good idea, yes.
+On Fri, 29 Jan 2021 at 16:08, Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> v2 update: fix memory leaks in pvpanic-pci test case spotted by
+> oss-fuzz gitlab CI run.
+>
+> -- PMM
+>
+> The following changes since commit 7e7eb9f852a46b51a71ae9d82590b2e4d28827ee:
+>
+>   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-01-28' into staging (2021-01-28 22:43:18 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210129-1
+>
+> for you to fetch changes up to 14711b6f54708b9583796db02b12ee7bd0331502:
+>
+>   hw/arm/stellaris: Remove board-creation reset of STELLARIS_SYS (2021-01-29 15:54:44 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Implement ID_PFR2
+>  * Conditionalize DBGDIDR
+>  * rename xlnx-zcu102.canbusN properties
+>  * provide powerdown/reset mechanism for secure firmware on 'virt' board
+>  * hw/misc: Fix arith overflow in NPCM7XX PWM module
+>  * target/arm: Replace magic value by MMU_DATA_LOAD definition
+>  * configure: fix preadv errors on Catalina macOS with new XCode
+>  * Various configure and other cleanups in preparation for iOS support
+>  * hvf: Add hypervisor entitlement to output binaries (needed for Big Sur)
+>  * Implement pvpanic-pci device
+>  * Convert the CMSDK timer devices to the Clock framework
+>
 
-Maybe just removing the #ifdefs from patch 01 (which were not
-present in the patch I wrote) could be a way to avoid redoing the
-whole series.
 
--- 
-Eduardo
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
