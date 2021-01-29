@@ -2,93 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA9D130875B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:31:35 +0100 (CET)
-Received: from localhost ([::1]:58846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98D7330875F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:33:55 +0100 (CET)
+Received: from localhost ([::1]:35802 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Q7p-0006zh-5H
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:31:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45516)
+	id 1l5QA6-00013B-NT
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:33:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45712)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l5Q5U-000602-08
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:29:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:52219)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l5Q5P-0000vG-Nn
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:29:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611912543;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=3ObFCnOCOME3UwjzQtE3r1Rd8H1S1kuidph+PqU82EQ=;
- b=dkiO3/pqMz/nbsnh0kGvvW2pC1gLmsS8Dpg4R5LwcEt3lUyMvDwUw9GGcYZoLbGqT9wk2M
- PjmgsD+TRcKHdbPzYlP2CiGi6EwJV8dz2gVeN0oawM29OONbZgv5uPWl6twHTpVbInSpHR
- jJjkzeXXqXKCcJk0ukRZo+Zo0zcVDHo=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-309-XTRSKEFYPQKwmI7OKDjYDA-1; Fri, 29 Jan 2021 04:28:59 -0500
-X-MC-Unique: XTRSKEFYPQKwmI7OKDjYDA-1
-Received: by mail-wm1-f69.google.com with SMTP id z188so4910286wme.1
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 01:28:58 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=3ObFCnOCOME3UwjzQtE3r1Rd8H1S1kuidph+PqU82EQ=;
- b=EO1luaq99LF0yVHLLhmnBzUqrCSa8ZmN1oBQOyFaVaPoxklLJ5W4pxlTr+FlNj2SXg
- D7rpenySIwHhXsTH304OLctPJtpB8aIjbv2BISvEZz1u0LAKqZS+EJSssUWqh8I2awp8
- SsgbBJYYS+2ho7fDD8bPZaW76W4O4QY6KxONFRuPN+QGX/PyuvEHd8w+3p9tJGDdeB4A
- GV1lo8IXwSq3DdXqGQWI+LMREqr1XluwkEfEGgpzN+U+evlNV2XbRj8J1bQnydEGV8vc
- VF6l7rZBxmfZsJE3cgCOCtYtNJ9lymIvecJ6oTCnqReYT/2HXy6ahDSuliPLPzouQgEc
- D39w==
-X-Gm-Message-State: AOAM530054jhKkwuVbhee2NayGsWFK/4qJQHlhrbnWRBdccKUQAH2mu1
- VL6wUsXDYbwWYIv10apMIfv6ddySFwnkIA2yp0skj41x5AcPUJowzvkjRn+5bEepRQzMBgu9dDp
- h9B3/wwCC4oaBm2E=
-X-Received: by 2002:a05:6000:1189:: with SMTP id
- g9mr3477651wrx.230.1611912537978; 
- Fri, 29 Jan 2021 01:28:57 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyGhy3jxlB93u0N602/75bDdBw7xfpdLbQsDBv2vPvsYJhhbaII/WAgvC5oAbwRZWEgQYN3Eg==
-X-Received: by 2002:a05:6000:1189:: with SMTP id
- g9mr3477645wrx.230.1611912537868; 
- Fri, 29 Jan 2021 01:28:57 -0800 (PST)
-Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id s19sm12447186wrf.72.2021.01.29.01.28.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jan 2021 01:28:57 -0800 (PST)
-Subject: Re: [PATCH] accel/kvm/kvm-all: Fix wrong return code handling in
- dirty log code
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
-References: <20210129084354.42928-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <5531b70e-91df-2f38-df40-7346f5e496b5@redhat.com>
-Date: Fri, 29 Jan 2021 10:28:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l5Q6S-000749-Kl; Fri, 29 Jan 2021 04:30:08 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:25210
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l5Q6Q-0001Og-Pu; Fri, 29 Jan 2021 04:30:08 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id
+ 10T935S2101216; Fri, 29 Jan 2021 04:29:43 -0500
+Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.107])
+ by mx0b-001b2d01.pphosted.com with ESMTP id 36cdwnu1vf-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Jan 2021 04:29:43 -0500
+Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
+ by ppma03fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 10T9NhII010006;
+ Fri, 29 Jan 2021 09:29:42 GMT
+Received: from b06cxnps3075.portsmouth.uk.ibm.com
+ (d06relay10.portsmouth.uk.ibm.com [9.149.109.195])
+ by ppma03fra.de.ibm.com with ESMTP id 368be8axum-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 29 Jan 2021 09:29:41 +0000
+Received: from d06av25.portsmouth.uk.ibm.com (d06av25.portsmouth.uk.ibm.com
+ [9.149.105.61])
+ by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 10T9Tdcg46596434
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 29 Jan 2021 09:29:39 GMT
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6196511C054;
+ Fri, 29 Jan 2021 09:29:39 +0000 (GMT)
+Received: from d06av25.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 1F6B311C04C;
+ Fri, 29 Jan 2021 09:29:39 +0000 (GMT)
+Received: from smtp.tlslab.ibm.com (unknown [9.101.4.1])
+ by d06av25.portsmouth.uk.ibm.com (Postfix) with SMTP;
+ Fri, 29 Jan 2021 09:29:39 +0000 (GMT)
+Received: from yukon.ibmuc.com (sig-9-145-8-231.uk.ibm.com [9.145.8.231])
+ by smtp.tlslab.ibm.com (Postfix) with ESMTP id 4151C220186;
+ Fri, 29 Jan 2021 10:29:38 +0100 (CET)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Subject: [PATCH] pnv/ppc: Set default RAM size to 1 GB
+Date: Fri, 29 Jan 2021 10:29:36 +0100
+Message-Id: <20210129092936.769412-1-clg@kaod.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-In-Reply-To: <20210129084354.42928-1-thuth@redhat.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.343, 18.0.737
+ definitions=2021-01-29_03:2021-01-28,
+ 2021-01-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=505 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 bulkscore=0 adultscore=0
+ suspectscore=0 clxscore=1034 impostorscore=0 phishscore=0 mlxscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2101290046
+Received-SPF: softfail client-ip=148.163.158.5; envelope-from=clg@kaod.org;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -101,33 +91,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Serge Hallyn <serge.hallyn@ubuntu.com>, Michael Tokarev <mjt@tls.msk.ru>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/21 9:43 AM, Thomas Huth wrote:
-> The kvm_vm_ioctl() wrapper already returns -errno if the ioctl itself
-> returned -1, so the callers of kvm_vm_ioctl() should not check for -1
-> but for a value < 0 instead.
-> 
-> This problem has been fixed once already in commit b533f658a98325d0e4
-> but that commit missed that the ENOENT error code is not fatal for
-> this ioctl, so the commit has been reverted in commit 50212d6346f33d6e
-> since the problem occurred close to a pending release at that point
-> in time. The plan was to fix it properly after the release, but it
-> seems like this has been forgotten. So let's do it now finally instead.
-> 
-> Resolves: https://bugs.launchpad.net/qemu/+bug/1294227
+Any value below will result in a skiboot crash :
 
-Is this the "Close the oldest Launchpad bug" contest? =)
+    [    0.034949905,3] MEM: Partial overlap detected between regions:
+    [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a450000] =
+(new)
+    [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000-0x3=
+8400000]
+    [    0.034980367,3] Out of memory adding skiboot reserved areas
+    [    0.035074945,3] ***********************************************
+    [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
+    [    0.035104247,3]     .
+    [    0.035108025,3]      .
+    [    0.035111651,3]       .
+    [    0.035115231,3]         OO__)
+    [    0.035119198,3]        <"__/
+    [    0.035122980,3]         ^ ^
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+---
+ hw/ppc/pnv.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  accel/kvm/kvm-all.c | 21 ++++++++++++---------
->  1 file changed, 12 insertions(+), 9 deletions(-)
+diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+index 50810df83815..70ce12f6dc73 100644
+--- a/hw/ppc/pnv.c
++++ b/hw/ppc/pnv.c
+@@ -1994,7 +1994,7 @@ static void pnv_machine_class_init(ObjectClass *oc,=
+ void *data)
+      * RAM defaults to less than 2048 for 32-bit hosts, and large
+      * enough to fit the maximum initrd size at it's load address
+      */
+-    mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
++    mc->default_ram_size =3D 1 * GiB;
+     mc->default_ram_id =3D "pnv.ram";
+     ispc->print_info =3D pnv_pic_print_info;
+     nc->nmi_monitor_handler =3D pnv_nmi;
+--=20
+2.26.2
 
 
