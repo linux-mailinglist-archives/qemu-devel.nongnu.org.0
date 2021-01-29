@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B25F0308853
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:35:39 +0100 (CET)
-Received: from localhost ([::1]:58948 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E4E2308865
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:42:55 +0100 (CET)
+Received: from localhost ([::1]:52296 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5S3u-0000N7-Qo
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:35:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60154)
+	id 1l5SAw-0001HX-6G
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:42:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60868)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RWR-0005Bm-Pe
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:01:03 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:34989)
+ id 1l5RZR-0001D8-Cc
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:04:09 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:42757)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RWL-0007Ba-Jf
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:01:03 -0500
-Received: by mail-wr1-x432.google.com with SMTP id l12so8406851wry.2
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:57 -0800 (PST)
+ id 1l5RZP-0000A2-Ba
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:04:09 -0500
+Received: by mail-ej1-x629.google.com with SMTP id r12so12370480ejb.9
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:04:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=ZoznrQk5rWNMNVC35EjX7ZEcNiC7xyz+q93KkX/Abcg=;
- b=Sggzt45AuDaAW9REnwrfat1tSzN7jlNwL2U89Qn3h085ghiRtCOqjNFNOZn0+XbJDF
- cZJSJQ/msJ+Ky+AQ0kY8QjNXn6AlSWvQ/kHyBMJy3R/H2mG/CfryJYgZ2qNucd44EHFx
- ZlWkmOOKaG0VD0FImYC2VheLlEnkW47POpK0x9SL3QNA7CwpFqeAWsC1BXN3iJ925Jwq
- XLV7boKKfqOaZMjpID2px18TXO+YAMPebpUXLldma3VwyFCLKYhR2Tadxv8jKdjWVXeJ
- ZJrMSO7AMKU/6EZPOoTpwxWbvrlAjUdApDTiEqIeUctV6kFVRSvcD86pT4GDp7Qo9RPg
- K0TA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=GyLy5CJXM8DxYz1RorINlMAfKlOYmHyccVLg8bejyq8=;
+ b=c6+Io+laVoRsuUxXJ24dvuFW8IyWbGW6/UTT4jzjYZfzrLeLypRcsnWAowDKTQUYVD
+ ayn2Om0LRipPYOOCzJuYDiwP7KyzI/pv3Xl5iufqUkL3Tq8MAXbF95IjonKHB3Cr+L3i
+ YEpLJrbj/c83QoBYcfKqp/tzPF2EjNlncfBlkWOatRV6z6yx43HUb0EKy6KK0oL0n55r
+ hCEYJGnc3zRsR6gKJ/nZN844xkkoW20XBsJ525DPcWlNA3DlfPk6Odwk26k3J4rjSeH0
+ CVn8iXbcxFwVGr4D7sZs/A6lszvNBaimocKI/X4HWRznX0bixUozwwCM2U3aAAmN04QR
+ aiQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=ZoznrQk5rWNMNVC35EjX7ZEcNiC7xyz+q93KkX/Abcg=;
- b=IhvA/Pe2MuBMtNXEShSq27MvstgwrGKYEwI86WRV8cYDPwlM3QU8zSSfPf7qqm1eZN
- 7I4ymgUO2ruKDOX9OO1DCea2pGb8HHnP5IXJsmX23NvxNIjaFig73ZSBs0W7C1xMCd6J
- jxAG9VBdVLPW9qGW7Wzu5ENDnX0tNapC4yNc6m26HKHSEePU84hl3O9/VRbsdqkPkDDv
- y38lWEoljN2at/iQSCDW/lCh9tqNhkyPdMPy+XajyvYBuQ/F9yDBJtRrIZtuDnmc6M1r
- uW/EA+okN7lWl/1To8Nx4faajjHeqGbnMPtzJpsFHWzguoh4qKHX6MOo9bajjTea7nOH
- 151g==
-X-Gm-Message-State: AOAM532Bfrhf/78v3VREoYXXWroOxRm7d1sF4bWUokbFbvxQeUFg3Tge
- iXLl8cZqvU18gNX2nZ9yoJMAAF0BGV8a5A==
-X-Google-Smtp-Source: ABdhPJygicnIb47yvZc1+RHpExp4VoGlmqPk6BwqxAzowOhjcBHa4k0cohps09v45C8oYE3K7+HtkQ==
-X-Received: by 2002:a5d:524a:: with SMTP id k10mr3909390wrc.394.1611918056287; 
- Fri, 29 Jan 2021 03:00:56 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.55
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:00:55 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 46/46] hw/arm/stellaris: Remove board-creation reset of
- STELLARIS_SYS
-Date: Fri, 29 Jan 2021 11:00:12 +0000
-Message-Id: <20210129110012.8660-47-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
-References: <20210129110012.8660-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=GyLy5CJXM8DxYz1RorINlMAfKlOYmHyccVLg8bejyq8=;
+ b=Eg+6pSfKvrBMLkHX+3Xl2uNx7pShyWbOIDInL5gYmt1D36YFhYykIxy/JVWUmVspqD
+ mfmrVj7pcdIhmvKLKurh5Y8mx8XaPuiyfLMGGT//oPyLetKXCKpDuqv6TmRKZi4S0uQm
+ 3BuPSM5s+GFzuTs9gtPG7JBFzlsRshB7b3yAXmJno7IP42PCnlERakDBX5gTT+G43xGc
+ ZDNgdWPaRuv9rs0l8zXN7HX8sOMeswWHNuQ3kXzH5MjbcpgcV4fH7Z6cjGEownzphdO8
+ iFqHbTtYzaTElMespAYCaYwcdnpVqHhY7JzXZyBh3u01C9ge9s3AWzeMf7o85UPT1ouE
+ pLrg==
+X-Gm-Message-State: AOAM530r52N7sUXth33Z4J9czIoR3rLG3w8M4uYTG/qFiwyFcCMxjo6t
+ vvLVy7FC4M9YSwoqeV4PjsYxtrPUpDuSzjUBDDFZzQ==
+X-Google-Smtp-Source: ABdhPJwCh6eG/+0xeNuFdb6szdcrkEWzm2X9gTU64yFo2J91/FUVrubD4IQTpGuzvxXur1SF8OORYddMPfgvyxBn6Pc=
+X-Received: by 2002:a17:906:2747:: with SMTP id
+ a7mr4126776ejd.250.1611918244218; 
+ Fri, 29 Jan 2021 03:04:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
+References: <20210129083236.584238-1-laurent@vivier.eu>
+In-Reply-To: <20210129083236.584238-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jan 2021 11:03:53 +0000
+Message-ID: <CAFEAcA83RCjeeO-9pyM52Vr_unGZe46JW=XmSN_28cE7jvoMvQ@mail.gmail.com>
+Subject: Re: [PULL 0/4] Trivial branch for 6.0 patches
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -85,49 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that the watchdog device uses its Clock input rather than being
-passed the value of system_clock_scale at creation time, we can
-remove the hack where we reset the STELLARIS_SYS at board creation
-time to force it to set system_clock_scale.  Instead it will be reset
-at the usual point in startup and will inform the watchdog of the
-clock frequency at that point.
+On Fri, 29 Jan 2021 at 08:34, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit 9cd69f1a270235b652766f00b94114f48a2d603f:
+>
+>   Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-01-25=
+> -1' into staging (2021-01-26 09:51:02 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu.git tags/trivial-branch-for-6.0-pull-request
+>
+> for you to fetch changes up to 77182df19f874adfc4ac98248606c154764baaa8:
+>
+>   target/rx: Fix compiler errors for build with sanitizers (2021-01-29 09:31:=
+> 53 +0100)
+>
+> ----------------------------------------------------------------
+> Trivial patches 20210129
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Luc Michel <luc@lmichel.fr>
-Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210128114145.20536-26-peter.maydell@linaro.org
-Message-id: 20210121190622.22000-26-peter.maydell@linaro.org
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/stellaris.c | 10 ----------
- 1 file changed, 10 deletions(-)
 
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 5acb043a07e..ad72c0959f1 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -780,16 +780,6 @@ static DeviceState *stellaris_sys_init(uint32_t base, qemu_irq irq,
-     sysbus_mmio_map(sbd, 0, base);
-     sysbus_connect_irq(sbd, 0, irq);
- 
--    /*
--     * Normally we should not be resetting devices like this during
--     * board creation. For the moment we need to do so, because
--     * system_clock_scale will only get set when the STELLARIS_SYS
--     * device is reset, and we need its initial value to pass to
--     * the watchdog device. This hack can be removed once the
--     * watchdog has been converted to use a Clock input instead.
--     */
--    device_cold_reset(dev);
--
-     return dev;
- }
- 
--- 
-2.20.1
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
+
+-- PMM
 
