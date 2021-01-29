@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D273308715
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:37:40 +0100 (CET)
-Received: from localhost ([::1]:45566 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0405830871A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:41:57 +0100 (CET)
+Received: from localhost ([::1]:52430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PHf-00015d-5X
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:37:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35832)
+	id 1l5PLn-0004Hi-Vs
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:41:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36800)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l5PEw-00085a-6Q
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:34:51 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:39104)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l5PEt-0003Go-2z
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:34:49 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id g3so11779732ejb.6
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 00:34:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=8mhyMrPfwPQaRh6RdtUpWtLJxmjlvAsP7fKvfjDk0+A=;
- b=M1xxV4UPB4YA26MhwjexB2omI27R8AyTQMpvcwLCnUT7bRbZTmfMq+o0+2Fv+0lo/W
- JVSgz5Qi4pAYp7Ck87Wbm1L0s5cmldF/wwEqE7Nuv/SZeRWovf6LowO44u1jGbu02VJo
- 1qlqSsmxKyk0bGiNxtieCGhYOxaDny6gPY6LlylHjA+1v5d2Ehq6X8RsYpsaf75nqcEZ
- zeuiO3Qwy2LxZ8m2LlU468hXJpsKZawlb7QjcFZXKWSYhEzrynjtCDeFz1LAWxDd6Jv6
- 58ZHukScgMYMrfqGZWLIJHBcE1iodaHC/kHI3qEtx2bBR3fjgpQC/O9q5gnpPwf97JBO
- jTUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=8mhyMrPfwPQaRh6RdtUpWtLJxmjlvAsP7fKvfjDk0+A=;
- b=PpQl/iJ9n5RFrXXV1UQUssa79tZJiS72Us96Y5BEYIu7KU15GfYq6k3RG9mOq9FSID
- PGcdB0B8y6v8Ni56Uw7NgDHuOQvGS4ijVyDAfL4Vhk4yKpg8osR0RwyXu2MSV3CTDeEJ
- W50mOpFfs71h7VkCefjZvUQcxHmdudHd+DNZMtonkEybakwXUZcAtz+bYXNXzwfzPcF8
- BcOQNTwuvRFSeLgxAUr3+z7P/Hp7r1ULJz9oJ0lLOFBhA4uyVlvQul+qm4eIlUjHRXHa
- 2ks0jsOGLyR0Jvcz/HCM5c0jzoiSSJyI4JY1etga3o+c4CPhqM95M3u09cPSWXamYIkr
- t9yg==
-X-Gm-Message-State: AOAM532smy54DRHDNP1eV+kFEKrXpDUXV6ngS05MQ8/SarZCiFfLddGv
- Lz8OjOSDWKzkZ4Q23ZuvnhZFY0m7lQXqhoMAf9w=
-X-Google-Smtp-Source: ABdhPJyA6kuTkfWlujRx8brAx43ipQCDt8DtX58awA/W35a8tBPBYBzp1vDJDWAWzis1WlZTpKt2D+KVb94UWyNF+kA=
-X-Received: by 2002:a17:906:2b9b:: with SMTP id
- m27mr3562492ejg.92.1611909284550; 
- Fri, 29 Jan 2021 00:34:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l5PJX-0003Ai-PQ; Fri, 29 Jan 2021 03:39:35 -0500
+Received: from 8.mo51.mail-out.ovh.net ([46.105.45.231]:37785)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l5PJU-00051z-Vw; Fri, 29 Jan 2021 03:39:35 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.235])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id C028C25F9D3;
+ Fri, 29 Jan 2021 09:39:19 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 29 Jan
+ 2021 09:39:17 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G0044ce540c0-c2c6-43c1-8e5b-fb0512ad1570,
+ 1047C7D7CBF627F9D51619F8EB187DD3EDDBAFD3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH 4/7] ppc/pnv: Simplify pnv_bmc_create()
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <20210126171059.307867-1-clg@kaod.org>
+ <20210126171059.307867-5-clg@kaod.org>
+ <CACPK8Xfw-E8TetGdfDYpMZChFbY7cQNGLX8_xh390A-vanS--w@mail.gmail.com>
+ <9ea1ce11-15ba-3eea-f7a4-b036a9db841f@kaod.org>
+ <20210128224011.GB6951@yekko.fritz.box>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <9cd3c937-90a7-5a5d-aefd-8f1d1fd4ff48@kaod.org>
+Date: Fri, 29 Jan 2021 09:39:14 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
- <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
- <20210129082758.vx6ebmqhk7e332g4@sirius.home.kraxel.org>
-In-Reply-To: <20210129082758.vx6ebmqhk7e332g4@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Fri, 29 Jan 2021 12:34:32 +0400
-Message-ID: <CAJ+F1CKLO=kBZy32e0kgh26K_9nv3c16hBJmKO+tWzr3wqOFNA@mail.gmail.com>
-Subject: Re: vnc clipboard support
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: multipart/alternative; boundary="00000000000050ddb705ba05e044"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210128224011.GB6951@yekko.fritz.box>
+Content-Type: text/plain; charset="windows-1252"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG6EX2.mxp5.local (172.16.2.52) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 3d1f0eb1-b5c2-41fd-a013-59ed725c15e7
+X-Ovh-Tracer-Id: 14535086323939445542
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedugdduudejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeehnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeelgfejveehieefffduueehvdevfedtleeiudekjeegveeigfeifefhtdfffedtnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=46.105.45.231; envelope-from=clg@kaod.org;
+ helo=8.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,62 +73,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Andrew Jeffery <andrew@aj.id.au>,
+ qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---00000000000050ddb705ba05e044
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 1/28/21 11:40 PM, David Gibson wrote:
+> On Thu, Jan 28, 2021 at 08:46:01AM +0100, Cédric Le Goater wrote:
+>> On 1/28/21 1:46 AM, Joel Stanley wrote:
+>>> On Tue, 26 Jan 2021 at 17:14, Cédric Le Goater <clg@kaod.org> wrote:
+>>>>
+>>>> and reuse pnv_bmc_set_pnor() to share the setting of the PNOR.
+>>>>
+>>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>>> ---
+>>>>  hw/ppc/pnv_bmc.c | 7 +------
+>>>>  1 file changed, 1 insertion(+), 6 deletions(-)
+>>>>
+>>>> diff --git a/hw/ppc/pnv_bmc.c b/hw/ppc/pnv_bmc.c
+>>>> index 67ebb16c4d5f..86d16b493539 100644
+>>>> --- a/hw/ppc/pnv_bmc.c
+>>>> +++ b/hw/ppc/pnv_bmc.c
+>>>> @@ -260,13 +260,8 @@ IPMIBmc *pnv_bmc_create(PnvPnor *pnor)
+>>>>      Object *obj;
+>>>>
+>>>>      obj = object_new(TYPE_IPMI_BMC_SIMULATOR);
+>>>> -    object_ref(OBJECT(pnor));
+>>>> -    object_property_add_const_link(obj, "pnor", OBJECT(pnor));
+>>>
+>>> I assume it's ok to move the link set to after the realise of the BMC object?
+>>  
+>>
+>> When 2 objects need to be linked, one has to be realized first. 
+>> I suppose this is why it is allowed but I am not expert in that area. 
+>>
+>> Greg  ?
+>>
+>> That was the case already when defining a "ipmi-bmc-sim" device on the 
+>> command line.
+> 
+> Well, the other thing here is that the IPMI_BMC_SIMULATOR isn't a
+> POWER specific object, and doesn't actually know anything about pnor,
+> so it never looks at that property.  Do we even need it?
 
-Hi
+It does through hiomap_cmd() which handles HIOMAP commands related 
+to the PNOR. The link was introduced to remove a reference to the 
+global machine (qdev_get_machine()). The PNOR device is instantiated 
+at the machine level but conceptually, this is incorrect. 
 
-On Fri, Jan 29, 2021 at 12:28 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+The PNOR is a device controlled by the BMC and accessed by the host 
+through a mapping on the LPC FW address space. It used to be controlled 
+from the host also, through the iLPC2AHB device and mboxes, but these 
+"doors" were closed sometime ago.
 
->
-> Well.  That is a completely different level of desktop integration.
-> It surely makes sense to have that, and dbus-over-vsock looks like
-> a reasonable choice.
->
+I am thinking of moving the PNOR at the BMC level. It won't change 
+the default device settings but '-nodefaults' will result in no PNOR, 
+same impact if the BMC device is an external one, but that's a more 
+complex matter. We would need a way to model memory operations on a 
+LPC bus shared by two QEMU machines.
 
-(using vsock & dbus also goes in the direction where UIs and remote server
-can run in different processes and come and go btw)
+We are doing something similar with the Aspeed iBT device but it's
+very specific to this device. I hope the QEMU multi-process patchset
+offers some framework on which we can build upon.
 
-But I'm more after a solution for the "paste that long link into the
-> guest firefox" problem, without putting everything upside-down =F0=9F=98=
-=8A
->
-
-In this case, I would say an agent-less text-to-type solution (even with
-its very limited scope) is quite attractive.
-
---=20
-Marc-Andr=C3=A9 Lureau
-
---00000000000050ddb705ba05e044
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi<br></div><br><div class=3D"gmail_quote"><div dir=
-=3D"ltr" class=3D"gmail_attr">On Fri, Jan 29, 2021 at 12:28 PM Gerd Hoffman=
-n &lt;<a href=3D"mailto:kraxel@redhat.com">kraxel@redhat.com</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-Well.=C2=A0 That is a completely different level of desktop integration.<br=
->
-It surely makes sense to have that, and dbus-over-vsock looks like<br>
-a reasonable choice.<br>
-</blockquote><div><br></div><div>(using vsock &amp; dbus also goes in the d=
-irection where UIs and remote server can run in different processes and com=
-e and go btw)<br></div><div><br></div><blockquote class=3D"gmail_quote" sty=
-le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
-ng-left:1ex">But I&#39;m more after a solution for the &quot;paste that lon=
-g link into the<br>
-guest firefox&quot; problem, without putting everything upside-down =F0=9F=
-=98=8A<br clear=3D"all"></blockquote><div><br></div><div>In this case, I wo=
-uld say an agent-less text-to-type solution (even with its very limited sco=
-pe) is quite attractive. <br></div></div><br>-- <br><div dir=3D"ltr" class=
-=3D"gmail_signature">Marc-Andr=C3=A9 Lureau<br></div></div>
-
---00000000000050ddb705ba05e044--
+C.
 
