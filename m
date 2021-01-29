@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B1823088E7
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:11:45 +0100 (CET)
-Received: from localhost ([::1]:34798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 930FE3088EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:14:04 +0100 (CET)
+Received: from localhost ([::1]:40850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Scq-0003r2-EO
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:11:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34872)
+	id 1l5Sf5-0006Q8-MH
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:14:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34954)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnU-0004mt-Ap
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:40 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:41551)
+ id 1l5Rnb-0004uA-Ko
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:47 -0500
+Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a]:46212)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnS-00064o-FC
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:40 -0500
-Received: by mail-ed1-x533.google.com with SMTP id bx12so10108496edb.8
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:38 -0800 (PST)
+ id 1l5RnY-00066i-PF
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:47 -0500
+Received: by mail-ej1-x62a.google.com with SMTP id rv9so12391391ejb.13
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=arnSVt9lOmMwKmuctZoOsBkro1arS1NxpWf+at120yg=;
- b=cuUhsm/7qGqYIp7zmKoJy7ptiFWcHzv+B2LZFUsWyerfYqpYZHLPTtw8Ukf5BlRYBz
- W33xboQzG+3HYc3s8D/fW1G0fNnb2k/3fQ5CjCSPbsUFDy06Ni5MDYOaMQOem/uISfic
- rEtFPu5/Y5TnjcwyazzvRrcr61PZuk/XXtmo3ymeF3PxU/KJKZXVHPBJM79qnfwaDC+r
- OBmzYvGe7t/i21r0b0X2M9PIMkNu88LV+Im5Ug9OC50H/XOqxUMOgxqoHdGmXHnA8X8d
- xx/n44wSsV9IIkCPnq60aoopKVuP9Rft0QhFuzgJ0gAxv2QWZukTEdL0Lp9qiMWCgrW2
- LP6w==
+ bh=X8GWjMLlCcKpCwU19YuwWH2vJ6BIXRt7o+YeyX8PkM0=;
+ b=Wl1OmEoJk95AUBcdwCcUDU96xM41RUBqoO4ocidhZGwJxayV0DrxPjSBZHyogPRUuq
+ w1gIpY3szYuRI57PWMdcOyWzbc6VKuY2HrTpqoQUGIJKoInGh8FT2bG/yy5bzaIUtTV2
+ +SNyMUc5PQNS3xz+62lJyJFpbZT0FRDhWIz61dwLyoGiMiQYxSDrs8FF8Cuq4fyDRtQN
+ GgskPv9HGDJc+SRRjImdt7Gg9v5DQ45sr3qczKErzgSSlZKuAZNMpd56+3Zk7rd88J+8
+ aemBafkn0c+BzR74aFt/JL9cD0rs5hnmwDfHG39fUKcftFzUE9cxY/NJRO4Fm9PgPDF+
+ o6IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=arnSVt9lOmMwKmuctZoOsBkro1arS1NxpWf+at120yg=;
- b=SnUrt5sYMHfiNjXvkjHPNbUccnT2OAoKqoyr9aZEYomH9462OhdXuHkVag/HkKpB9n
- uXALN5tlcwuvrPJyrPjVAhAiyXk4zKrj8j2HL1OjjbZUR71F/yge+7BuahELo5SG52T2
- KVVs2KhRUC73f4em0lZHot9+rQ9AB6m5uA8VMw191kmwRYZLrNWZis3XMr1/bU9sof3f
- iJjNQGNPjGWcyZah5JxxpXGNhVvuiVBd6Y6euP6aa0GK0a92muCpyn2OaEDJgXSvQyjP
- THGZxyv/8rWeSBhHH6zjS5l99fnL21CawTomTTMumjvushwBQe5v0if0yeNI26wgdlIH
- olbQ==
-X-Gm-Message-State: AOAM531m+h3d00kkalgQNvqkPL43tNQRtOgQKMMNyHDKzb9V8E3x9WTH
- cFayViqydqkw+NzvrciZLjM90uiyKHZE/Q==
-X-Google-Smtp-Source: ABdhPJwD9UwkahE6oa+rzfyvLtox4/98OPdLPKp+xk/mHabgUzkTPEoliRliDKMPbzY/t+LGqugyFA==
-X-Received: by 2002:aa7:d919:: with SMTP id a25mr4535922edr.243.1611919117199; 
- Fri, 29 Jan 2021 03:18:37 -0800 (PST)
+ bh=X8GWjMLlCcKpCwU19YuwWH2vJ6BIXRt7o+YeyX8PkM0=;
+ b=bWdsiFmtgrkxonfTP6Q+fRcA5/m4EmEHWP4it6nenKagcnAsHOQPJVnwfjvikJO9U6
+ uJGZ/wP+RavaqaNEJhOmqDbXVzHsAB+EBwRfwGFB1l/++0t3G4a8Kr4l019Z1vEoOdlX
+ 1PsVPR9hW51JHOopm3BiC0b/8P0lF4dMTkFymdXrjFUrlVHdKnPHaj5zMbLyUradgxru
+ YahZxoSHKtZFPMI6b6DsCsJOnY7bPEJ61smfUY5LDr22vgS2f9lQEXWcenmtwscVgnk1
+ XC/E1xQ+OUSM7A9qri3NJXhvu2DtKdUp/kI4JryTTle+fqHcmq2pOzSU4aAQTg2ls7CD
+ v51w==
+X-Gm-Message-State: AOAM532bVErkPMf9R1UjYHk6mifCy17JbkHXylvg65mk5ONgAW7NDlBS
+ WSl2KK+JizglFunRY9O+VQQrstXHM+wlzA==
+X-Google-Smtp-Source: ABdhPJxqo/LMmD1pL/bUwWhBR77fr8hzTcVcOVC3+lPwzMtkZqDol+HVQAyFuIot3DB4aA1ldzfMbw==
+X-Received: by 2002:a17:906:fcce:: with SMTP id
+ qx14mr3972828ejb.220.1611919121399; 
+ Fri, 29 Jan 2021 03:18:41 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.36
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:18:36 -0800 (PST)
+ Fri, 29 Jan 2021 03:18:40 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 24/36] build-sys: make libslirp a meson subproject
-Date: Fri, 29 Jan 2021 12:18:02 +0100
-Message-Id: <20210129111814.566629-25-pbonzini@redhat.com>
+Subject: [PULL 29/36] meson: Restrict some trace event directories to
+ user/system emulation
+Date: Fri, 29 Jan 2021 12:18:07 +0100
+Message-Id: <20210129111814.566629-30-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
 References: <20210129111814.566629-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62a.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,132 +86,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Remove the manual build.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Message-Id: <20210125073427.3970606-3-marcandre.lureau@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Acked-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20210122204441.2145197-8-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- .gitmodules |  4 ++--
- configure   |  2 +-
- meson.build | 63 ++++-------------------------------------------------
- 3 files changed, 7 insertions(+), 62 deletions(-)
+ meson.build | 28 ++++++++++++++++------------
+ 1 file changed, 16 insertions(+), 12 deletions(-)
 
-diff --git a/.gitmodules b/.gitmodules
-index 2bdeeacef8..0fb15efacd 100644
---- a/.gitmodules
-+++ b/.gitmodules
-@@ -49,8 +49,8 @@
- [submodule "roms/edk2"]
- 	path = roms/edk2
- 	url = https://git.qemu.org/git/edk2.git
--[submodule "slirp"]
--	path = slirp
-+[submodule "subprojects/libslirp"]
-+	path = subprojects/libslirp
- 	url = https://git.qemu.org/git/libslirp.git
- [submodule "roms/opensbi"]
- 	path = roms/opensbi
-diff --git a/configure b/configure
-index 21369efc63..337283571a 100755
---- a/configure
-+++ b/configure
-@@ -5212,7 +5212,7 @@ case "$slirp" in
-   auto | enabled | internal)
-     # Simpler to always update submodule, even if not needed.
-     if test -e "${source_path}/.git" && test $git_update = 'yes' ; then
--      git_submodules="${git_submodules} slirp"
-+      git_submodules="${git_submodules} subprojects/libslirp"
-     fi
-     ;;
- esac
 diff --git a/meson.build b/meson.build
-index b6c9db613b..4e694e78a0 100644
+index ec1a9ed0e8..a9dbd2a0db 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -1489,7 +1489,7 @@ slirp_opt = 'disabled'
- if have_system
-   slirp_opt = get_option('slirp')
-   if slirp_opt in ['enabled', 'auto', 'system']
--    have_internal = fs.exists(meson.current_source_dir() / 'slirp/meson.build')
-+    have_internal = fs.exists(meson.current_source_dir() / 'subprojects/libslirp/meson.build')
-     slirp = dependency('slirp', kwargs: static_kwargs,
-                        method: 'pkg-config',
-                        required: slirp_opt == 'system' or
-@@ -1503,64 +1503,9 @@ if have_system
-     endif
-   endif
-   if slirp_opt == 'internal'
--    slirp_deps = []
--    if targetos == 'windows'
--      slirp_deps = cc.find_library('iphlpapi')
--    endif
--    slirp_conf = configuration_data()
--    slirp_conf.set('SLIRP_MAJOR_VERSION', meson.project_version().split('.')[0])
--    slirp_conf.set('SLIRP_MINOR_VERSION', meson.project_version().split('.')[1])
--    slirp_conf.set('SLIRP_MICRO_VERSION', meson.project_version().split('.')[2])
--    slirp_conf.set_quoted('SLIRP_VERSION_STRING', meson.project_version())
--    slirp_cargs = ['-DG_LOG_DOMAIN="Slirp"']
--    slirp_files = [
--      'slirp/src/arp_table.c',
--      'slirp/src/bootp.c',
--      'slirp/src/cksum.c',
--      'slirp/src/dhcpv6.c',
--      'slirp/src/dnssearch.c',
--      'slirp/src/if.c',
--      'slirp/src/ip6_icmp.c',
--      'slirp/src/ip6_input.c',
--      'slirp/src/ip6_output.c',
--      'slirp/src/ip_icmp.c',
--      'slirp/src/ip_input.c',
--      'slirp/src/ip_output.c',
--      'slirp/src/mbuf.c',
--      'slirp/src/misc.c',
--      'slirp/src/ncsi.c',
--      'slirp/src/ndp_table.c',
--      'slirp/src/sbuf.c',
--      'slirp/src/slirp.c',
--      'slirp/src/socket.c',
--      'slirp/src/state.c',
--      'slirp/src/stream.c',
--      'slirp/src/tcp_input.c',
--      'slirp/src/tcp_output.c',
--      'slirp/src/tcp_subr.c',
--      'slirp/src/tcp_timer.c',
--      'slirp/src/tftp.c',
--      'slirp/src/udp.c',
--      'slirp/src/udp6.c',
--      'slirp/src/util.c',
--      'slirp/src/version.c',
--      'slirp/src/vmstate.c',
--    ]
--
--    configure_file(
--      input : 'slirp/src/libslirp-version.h.in',
--      output : 'libslirp-version.h',
--      configuration: slirp_conf)
--
--    slirp_inc = include_directories('slirp', 'slirp/src')
--    libslirp = static_library('slirp',
--                              build_by_default: false,
--                              sources: slirp_files,
--                              c_args: slirp_cargs,
--                              include_directories: slirp_inc)
--    slirp = declare_dependency(link_with: libslirp,
--                               dependencies: slirp_deps,
--                               include_directories: slirp_inc)
-+    libslirp = subproject('libslirp',
-+                          default_options: ['default_library=static'])
-+    slirp = libslirp.get_variable('libslirp_dep')
-   endif
+@@ -1658,22 +1658,10 @@ target_softmmu_arch = {}
+ # TODO: add each directory to the subdirs from its own meson.build, once
+ # we have those
+ trace_events_subdirs = [
+-  'accel/kvm',
+-  'accel/tcg',
+   'crypto',
+-  'hw/core',
+   'qapi',
+   'qom',
+   'monitor',
+-  'target/arm',
+-  'target/hppa',
+-  'target/i386',
+-  'target/i386/kvm',
+-  'target/mips',
+-  'target/ppc',
+-  'target/riscv',
+-  'target/s390x',
+-  'target/sparc',
+   'util',
+ ]
+ if have_user
+@@ -1690,6 +1678,7 @@ if have_block
  endif
+ if have_system
+   trace_events_subdirs += [
++    'accel/kvm',
+     'audio',
+     'backends',
+     'backends/tpm',
+@@ -1747,6 +1736,21 @@ if have_system
+     'ui',
+   ]
+ endif
++if have_system or have_user
++  trace_events_subdirs += [
++    'accel/tcg',
++    'hw/core',
++    'target/arm',
++    'target/hppa',
++    'target/i386',
++    'target/i386/kvm',
++    'target/mips',
++    'target/ppc',
++    'target/riscv',
++    'target/s390x',
++    'target/sparc',
++  ]
++endif
  
+ vhost_user = not_found
+ if 'CONFIG_VHOST_USER' in config_host
 -- 
 2.29.2
 
