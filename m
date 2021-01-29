@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37217308599
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 07:22:22 +0100 (CET)
-Received: from localhost ([::1]:39040 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C14308626
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 08:06:09 +0100 (CET)
+Received: from localhost ([::1]:55756 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5NAj-0007ic-4a
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 01:22:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45162)
+	id 1l5Nr6-0008GP-9X
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 02:06:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51222)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5N6W-00079f-HH; Fri, 29 Jan 2021 01:18:00 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28]:38971)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1l5Nos-0007iW-AH; Fri, 29 Jan 2021 02:03:50 -0500
+Received: from forwardcorp1o.mail.yandex.net ([95.108.205.193]:60756)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5N6T-0002Rw-CO; Fri, 29 Jan 2021 01:18:00 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 436A45C01C0;
- Fri, 29 Jan 2021 01:17:54 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 29 Jan 2021 01:17:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding; s=fm2; bh=344IEAyjcFkakRpaOBl0EmipEa
- TdoHaIDap0MAbEFdI=; b=RcVqj1W1TLIx1bnlC6U5OMHFJF219Xr5NzyqWT+jl3
- 3GoT9Y9CDPLHLl7gERbUDSbWCeiybOhj2afLtaZ0PI8PuBL/styE2lzss9OEd431
- 4MFchJ3NlrIbrV43EKtve/7gZ5JKaOAVyknqUJbUFimBLxUppoG4OEJpbfv5Iq8k
- cY2WogsJnAiPe/WLsyswtC9/aJxBU4QbkuWzxKjRgEpEmlS8Cm/1H+pGa7BqXJ8+
- HvD7756lGm/ToMLWsswZyYYWbEKzWS5sev+5+nQVhH76NmgqP6b+aVJhek8sOvQS
- o2WL3b1Lauuzovap8ShNO18S8RicxfML8Ddh8CglIiMA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :message-id:mime-version:subject:to:x-me-proxy:x-me-proxy
- :x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=344IEAyjcFkakRpaO
- Bl0EmipEaTdoHaIDap0MAbEFdI=; b=PyCMMAa+S8IQxEchKhBMBaf05SmYEMG0w
- EGwZY92xFS6gafCVOzKzKKDgPVvuBSxKlzPbGE2ctQUOxbKw3drvPcAAvHWSzizg
- MxVVDpwD9qf6lsDUygZMgeuQkoSglMAsZZzE9hKhUWkh6b4gJmwa8LsKUWWRwpHo
- dH3lLxE4vZR+G7i11ajMrgIoHYWp/kV/lWaiXN1mq/EwBbpf1N72EYrbG0oSBX5d
- DygmLb10G+6Sw6pCEtLVZzwqWdki/53xyoPV3fFf+TWzoVSQ2cQa07uu5y14Fcg3
- PztmBOqBuPeOt/KHoulOrqbQJZbcuRHrxvGxdkqs2h+NlawPfhDGQ==
-X-ME-Sender: <xms:kagTYHBprgX9zfwnR0ppZHhIe_x0i_IYbli-xGDS04_WRfpjR9c_vw>
- <xme:kagTYNigM7nK0eFdweD2-KluyYI9FubtmzA6ChknMKja_yN1_gRiRu6Vnt_GseUR8
- dBvZBf3C2c61RpcLak>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedugdeklecutefuodetggdotefrodftvf
- curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
- uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
- fjughrpefhvffufffkofgggfestdekredtredttdenucfhrhhomhepmfhlrghushculfgv
- nhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnh
- epfeevledvieekudeuffetgeegfeehvdffffejueeuleduhedvgeejveejhfdtteehnecu
- kfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrg
- hrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:kagTYCnk_cuvkOQc62jUFaawEkO4XPPYyvpuVG222I1_nWuzhZdS0A>
- <xmx:kagTYJxnxh4NFU6MeP0OfkP8fB1z5UuoAXqPXSQcEEQ-OwcjLd8UwA>
- <xmx:kagTYMQJpGNY8KFP4HEF1uuGilM7jlUml8I13qDwjPZq19qtcoLU5A>
- <xmx:kqgTYBIG4Nsf0zUFwnA9nbfrbXamw0l5g68qhNeeHwUGblBABmNLQA>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 62CFF24005E;
- Fri, 29 Jan 2021 01:17:52 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] hw/block/nvme: refactor zone state check for read
-Date: Fri, 29 Jan 2021 07:17:49 +0100
-Message-Id: <20210129061749.551411-1-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.0
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1l5Non-0005wU-De; Fri, 29 Jan 2021 02:03:48 -0500
+Received: from iva8-d077482f1536.qloud-c.yandex.net
+ (iva8-d077482f1536.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2f26:0:640:d077:482f])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id 5E6FE2E2418;
+ Fri, 29 Jan 2021 10:03:40 +0300 (MSK)
+Received: from iva8-5ba4ca89b0c6.qloud-c.yandex.net
+ (iva8-5ba4ca89b0c6.qloud-c.yandex.net [2a02:6b8:c0c:a8ae:0:640:5ba4:ca89])
+ by iva8-d077482f1536.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ Vqu5mkInZT-3dxmwFDh; Fri, 29 Jan 2021 10:03:40 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1611903820; bh=RT+p/nHYKuh62hI0FSkJtTtr66TOIFCFaG5Op2wBjLw=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=QDmXto6k4vZtJQjqF6ollReaXlYBCqH6Jm5K1pwDJNNIviKPQh4kBJfEnfrnAhiuP
+ F6ERXKpHxRDV73jg9kGfdw1pD9bZA9vzBRgpwU5lvVKmqg7c8IPEoN+ZE4qabpfzJt
+ DtOPtjezGDIF30/ORAtbQ1zItcAANUKkekMOAhOU=
+Authentication-Results: iva8-d077482f1536.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
+ [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
+ by iva8-5ba4ca89b0c6.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ ODuXM4u2JX-3dneieEo; Fri, 29 Jan 2021 10:03:39 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Fri, 29 Jan 2021 10:03:36 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 1/3] block/nbd: only detach existing iochannel from
+ aio_context
+Message-ID: <20210129070336.GB3053@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20210128201418.607640-1-rvkagan@yandex-team.ru>
+ <20210128201418.607640-2-rvkagan@yandex-team.ru>
+ <8b3ec104-420d-1504-454c-3f6560850087@virtuozzo.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <8b3ec104-420d-1504-454c-3f6560850087@virtuozzo.com>
+Received-SPF: pass client-ip=95.108.205.193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -89,82 +80,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Klaus Jensen <k.jensen@samsung.com>,
- Gollu Appalanaidu <anaidu.gollu@samsung.com>, Max Reitz <mreitz@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gollu Appalanaidu <anaidu.gollu@samsung.com>
+On Fri, Jan 29, 2021 at 08:37:13AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 28.01.2021 23:14, Roman Kagan wrote:
+> > When the reconnect in NBD client is in progress, the iochannel used for
+> > NBD connection doesn't exist.  Therefore an attempt to detach it from
+> > the aio_context of the parent BlockDriverState results in a NULL pointer
+> > dereference.
+> > 
+> > The problem is triggerable, in particular, when an outgoing migration is
+> > about to finish, and stopping the dataplane tries to move the
+> > BlockDriverState from the iothread aio_context to the main loop.  If the
+> > NBD connection is lost before this point, and the NBD client has entered
+> > the reconnect procedure, QEMU crashes:
+> > 
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/io/channel.c:452
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/block.c:6151
+> >      new_context=new_context@entry=0x562a260c9580,
+> >      ignore=ignore@entry=0x7feeadc9b780)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/block.c:6230
+> >      (bs=bs@entry=0x562a268d6a00, ctx=0x562a260c9580,
+> >      ignore_child=<optimized out>, errp=<optimized out>)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/block.c:6332
+> >      new_context=0x562a260c9580,
+> >      update_root_node=update_root_node@entry=true, errp=errp@entry=0x0)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/block/block-backend.c:1989
+> >      new_context=<optimized out>, errp=errp@entry=0x0)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/block/block-backend.c:2010
+> >      out>)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/hw/block/dataplane/virtio-blk.c:292
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/hw/virtio/virtio-bus.c:245
+> >      running=0, state=<optimized out>)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/hw/virtio/virtio.c:3220
+> >      state=state@entry=RUN_STATE_FINISH_MIGRATE)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/softmmu/vl.c:1275
+> >      send_stop=<optimized out>)
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/cpus.c:1032
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/migration/migration.c:2914
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/migration/migration.c:3275
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/migration/migration.c:3439
+> >      at /build/qemu-gYtjVn/qemu-5.0.1/util/qemu-thread-posix.c:519
+> >      at pthread_create.c:333
+> >      oldval=0x562a2452b138, oldlenp=0x0, newval=0x562a2452c5e0
+> >      <__func__.28102>, newlen=0)
+> >      at ../sysdeps/unix/sysv/linux/sysctl.c:30
+> 
+> function names are somehow lost :(
 
-Align with nvme_check_zone_write.
+Oops.  Backtraces in gdb have frame numbers prefixed with a hash which
+got interpreted as comments by git commit; I should have offset the
+backtrace when pasting.
 
-Remove unnecessary storing status value and return at the end of the
-function, if error occurs return immediately if applicable.
+Will respin with fixed log messages, thanks.
 
-Signed-off-by: Gollu Appalanaidu <anaidu.gollu@samsung.com>
-Reviewed-by: Klaus Jensen <k.jensen@samsung.com>
----
- hw/block/nvme.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
-
-diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-index 8ac997735041..1dbd6ec129ae 100644
---- a/hw/block/nvme.c
-+++ b/hw/block/nvme.c
-@@ -1210,7 +1210,7 @@ static uint16_t nvme_check_zone_write(NvmeCtrl *n, NvmeNamespace *ns,
- 
- static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
- {
--    uint16_t status;
-+    uint64_t zslba = zone->d.zslba;
- 
-     switch (nvme_get_zone_state(zone)) {
-     case NVME_ZONE_STATE_EMPTY:
-@@ -1219,16 +1219,13 @@ static uint16_t nvme_check_zone_state_for_read(NvmeZone *zone)
-     case NVME_ZONE_STATE_FULL:
-     case NVME_ZONE_STATE_CLOSED:
-     case NVME_ZONE_STATE_READ_ONLY:
--        status = NVME_SUCCESS;
--        break;
-+        return NVME_SUCCESS;
-     case NVME_ZONE_STATE_OFFLINE:
--        status = NVME_ZONE_OFFLINE;
--        break;
-+        trace_pci_nvme_err_zone_is_offline(zslba);
-+        return NVME_ZONE_OFFLINE;
-     default:
-         assert(false);
-     }
--
--    return status;
- }
- 
- static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
-@@ -1241,10 +1238,10 @@ static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
- 
-     status = nvme_check_zone_state_for_read(zone);
-     if (status) {
--        ;
-+        return status;
-     } else if (unlikely(end > bndry)) {
-         if (!ns->params.cross_zone_read) {
--            status = NVME_ZONE_BOUNDARY_ERROR;
-+            return NVME_ZONE_BOUNDARY_ERROR;
-         } else {
-             /*
-              * Read across zone boundary - check that all subsequent
-@@ -1254,7 +1251,7 @@ static uint16_t nvme_check_zone_read(NvmeNamespace *ns, uint64_t slba,
-                 zone++;
-                 status = nvme_check_zone_state_for_read(zone);
-                 if (status) {
--                    break;
-+                    return status;
-                 }
-             } while (end > nvme_zone_rd_boundary(ns, zone));
-         }
--- 
-2.30.0
-
+Roman.
 
