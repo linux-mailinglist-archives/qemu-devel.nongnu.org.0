@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF10308813
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:09:19 +0100 (CET)
-Received: from localhost ([::1]:60160 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF0F308815
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:09:49 +0100 (CET)
+Received: from localhost ([::1]:35054 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5ReQ-0008AC-1M
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:09:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59808)
+	id 1l5Reu-0000ym-58
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:09:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RWA-0004ds-9F
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:46 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:36762)
+ id 1l5RW9-0004aS-0N
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:45 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:55101)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RVx-00070I-JT
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:45 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id 6so8390213wri.3
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:32 -0800 (PST)
+ id 1l5RVx-00070N-JB
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:44 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id u14so6495144wml.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=JxNtuIVt7+VefAfJnlEhCbGDns5pnZHg5md1Cqm/Tes=;
- b=hPp7S5YfSwRmMImtoPC/mUxlIoLMq0JhiAgBSy8XHS3Wzqa3GXs9s1xWmq9EpZUoB+
- yarXScA/2/JmzVVNoSI/YSt8TVxenoc7C5OJPmqYDLxElje7QQhmzJA6FAUgU/JuDbn6
- G/HwLZPuH7fXsvLudhuKZBZK3Yix0MP+Fuqq38hBRH/FstTFw3l8LAnc2K6KmrgQo8rC
- k1W6VOoPSbeDWWMf5aCyIoZgtu6IpKGHQsBrDLDJUUUHPFfDOMI6gtRhHZOXh384W3+7
- MYwJckT/NQ1rD3Gi87n6R6pDaDwRY+TrSNVkIHFpk82znAr4kmy2s/A1A37M/+4+k6Rn
- su+Q==
+ bh=0TFLeVs+y/8fHPxjoJdC5/wiolow+hEp5ufBaJr3sfc=;
+ b=MH5bfKmG3LvSf9iGnC8YpGTF693LD6gmLChV2/Mvn1xsZnpM62xES4MhNQw+ghDz7Y
+ iCAfG+3glI9oJxbiRfyjaQaXQkaZpfR68kVBWxh+Da8lKA+jfutTI4tPjTLh34cMGSpU
+ 93xnXQTgH0Zn+ZsSa66ccglPaeSCNl7k6CWZIYSw5kMkH/Aw015cKa6vGJa30J0VxVaa
+ 8b82KJm99qH7pK3+qqfxS7HaoUYMLUCAFBt6A7GwtG2XBbpl8Lo4tREEqNIc5TPDqqLL
+ lGewliWtgmNzxGv1Ai9quv6Sy3513g9rf+idQ0/T8uzgdAooLlBVf1E73YeiSlnKMaGK
+ RgcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=JxNtuIVt7+VefAfJnlEhCbGDns5pnZHg5md1Cqm/Tes=;
- b=KIrXG+q6lDEK84pjKd9eCZBOxmQ06nCqUqMRcexhCS+kLLAReopYj4/5FtDoImIb5k
- C6VHjEZyIm4ppK3hYAPFMbT0iO+qHgFvShpLk5Z/XXs8n0G0tyBhU3gzRyIuYmGchrdI
- cRikoAhqP53TDLJ4ca+4dYQkfevTKbhbrBuViLFeNGDdL6IZFuJrtjOVrP8F5aJbu4UW
- eRNkcxFlGMhmZ//9Egg8jmi+5mJEY7bes2JvmSuHuIs6uZKgJBetkRl64HJWLUV8GRBR
- ToKAGnFSZFXS7Aec6TqmI3LYNVy7YrOXCRUoge7YlWxhen5haRxC9xQmVeu3hVIHgSwZ
- xZAQ==
-X-Gm-Message-State: AOAM532u2IrjxEY5LB3e+KdRE37B5ITZqWds+wRT01l0ZI3mY4Y500ob
- Y1/88TdFg/93EDDMVFQkzyXxKOhczRpvbQ==
-X-Google-Smtp-Source: ABdhPJw0zRIsZxDoJ7w82hw/lI7mVNYW+xGz96fsjKPeM9UOx8CJcThrCsPeoOgc5xtw2ai3VmGB9A==
-X-Received: by 2002:adf:9d48:: with SMTP id o8mr3917987wre.408.1611918031335; 
- Fri, 29 Jan 2021 03:00:31 -0800 (PST)
+ bh=0TFLeVs+y/8fHPxjoJdC5/wiolow+hEp5ufBaJr3sfc=;
+ b=I3LSU+sUy2a69D6+oh8P7Dk+DX27ikwj/7saHovVfOKFmxOi8EJiV0TdBB2HXtvwxg
+ UE4sOBRu5ZSLi1CEQDLi/ci9db2ECRtKwIX0Oi+giniRUrFR6vKDtD8zf24ReLpYXHQF
+ m7Xo0f1LkYRiMccIpTNT1krSwFDQbXq5ZBbLa7eNzrJ/B+GYFa5aLFNH0UAOtgAl0+B1
+ 4kqVjmYeO3cAR5S/TtN4UFec4I0Fc6EGyc+DP3wcaKsvsiaYVP6eld3faiIUhEPqiUg5
+ ByQkr4XBvYTv4JrMAW5HPb0+4u4AFrgivhOWYOCmgxAshXtaoHxfPdYNaqgbGGGDMkFq
+ wjFg==
+X-Gm-Message-State: AOAM533my1CQVsIJQqKfA4RvR4QEEN464M3ZeIglH2EX6H2fXtQAJvOg
+ iYt16IHzrxXnSsWGAuopahdvutATfqeXpg==
+X-Google-Smtp-Source: ABdhPJxAFrZN6SteFd6MZX15oo6c/Q3G9fpTK/jgXN5BuDp/ubMrOY4456CILaUS6d7226I2otN1qQ==
+X-Received: by 2002:a1c:e486:: with SMTP id b128mr3236126wmh.136.1611918032240; 
+ Fri, 29 Jan 2021 03:00:32 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.30
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.31
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:00:30 -0800 (PST)
+ Fri, 29 Jan 2021 03:00:31 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 18/46] hw/misc/pvpanic: split-out generic and bus dependent code
-Date: Fri, 29 Jan 2021 10:59:44 +0000
-Message-Id: <20210129110012.8660-19-peter.maydell@linaro.org>
+Subject: [PULL 19/46] hw/misc/pvpanic: add PCI interface support
+Date: Fri, 29 Jan 2021 10:59:45 +0000
+Message-Id: <20210129110012.8660-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
 References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,85 +88,74 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mihai Carabas <mihai.carabas@oracle.com>
 
-To ease the PCI device addition in next patches, split the code as follows:
-- generic code (read/write/setup) is being kept in pvpanic.c
-- ISA dependent code moved to pvpanic-isa.c
-
-Also, rename:
-- ISA_PVPANIC_DEVICE -> PVPANIC_ISA_DEVICE.
-- TYPE_PVPANIC -> TYPE_PVPANIC_ISA.
-- MemoryRegion io -> mr.
-- pvpanic_ioport_* in pvpanic_*.
-
-Update the build system with the new files and config structure.
+Add PCI interface support for PVPANIC device. Create a new file pvpanic-pci.c
+where the PCI specific routines reside and update the build system with the new
+files and config structure.
 
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/misc/pvpanic.h | 23 +++++++++-
- hw/misc/pvpanic-isa.c     | 94 +++++++++++++++++++++++++++++++++++++++
- hw/misc/pvpanic.c         | 85 +++--------------------------------
- hw/i386/Kconfig           |  2 +-
- hw/misc/Kconfig           |  6 ++-
- hw/misc/meson.build       |  3 +-
- tests/qtest/meson.build   |  2 +-
- 7 files changed, 130 insertions(+), 85 deletions(-)
- create mode 100644 hw/misc/pvpanic-isa.c
+ docs/specs/pci-ids.txt    |  1 +
+ include/hw/misc/pvpanic.h |  1 +
+ include/hw/pci/pci.h      |  1 +
+ hw/misc/pvpanic-pci.c     | 94 +++++++++++++++++++++++++++++++++++++++
+ hw/misc/Kconfig           |  6 +++
+ hw/misc/meson.build       |  1 +
+ 6 files changed, 104 insertions(+)
+ create mode 100644 hw/misc/pvpanic-pci.c
 
+diff --git a/docs/specs/pci-ids.txt b/docs/specs/pci-ids.txt
+index abbdbca6be3..5e407a6f320 100644
+--- a/docs/specs/pci-ids.txt
++++ b/docs/specs/pci-ids.txt
+@@ -64,6 +64,7 @@ PCI devices (other than virtio):
+ 1b36:000d  PCI xhci usb host adapter
+ 1b36:000f  mdpy (mdev sample device), linux/samples/vfio-mdev/mdpy.c
+ 1b36:0010  PCIe NVMe device (-device nvme)
++1b36:0011  PCI PVPanic device (-device pvpanic-pci)
+ 
+ All these devices are documented in docs/specs.
+ 
 diff --git a/include/hw/misc/pvpanic.h b/include/hw/misc/pvpanic.h
-index ae0c8188cef..abc9dde34b3 100644
+index abc9dde34b3..ca3c5bb5330 100644
 --- a/include/hw/misc/pvpanic.h
 +++ b/include/hw/misc/pvpanic.h
-@@ -17,13 +17,32 @@
- 
+@@ -18,6 +18,7 @@
  #include "qom/object.h"
  
--#define TYPE_PVPANIC "pvpanic"
-+#define TYPE_PVPANIC_ISA_DEVICE "pvpanic"
+ #define TYPE_PVPANIC_ISA_DEVICE "pvpanic"
++#define TYPE_PVPANIC_PCI_DEVICE "pvpanic-pci"
  
  #define PVPANIC_IOPORT_PROP "ioport"
  
-+/* The bit of supported pv event, TODO: include uapi header and remove this */
-+#define PVPANIC_F_PANICKED      0
-+#define PVPANIC_F_CRASHLOADED   1
-+
-+/* The pv event value */
-+#define PVPANIC_PANICKED        (1 << PVPANIC_F_PANICKED)
-+#define PVPANIC_CRASHLOADED     (1 << PVPANIC_F_CRASHLOADED)
-+
-+/*
-+ * PVPanicState for any device type
-+ */
-+typedef struct PVPanicState PVPanicState;
-+struct PVPanicState {
-+    MemoryRegion mr;
-+    uint8_t events;
-+};
-+
-+void pvpanic_setup_io(PVPanicState *s, DeviceState *dev, unsigned size);
-+
- static inline uint16_t pvpanic_port(void)
- {
--    Object *o = object_resolve_path_type("", TYPE_PVPANIC, NULL);
-+    Object *o = object_resolve_path_type("", TYPE_PVPANIC_ISA_DEVICE, NULL);
-     if (!o) {
-         return 0;
-     }
-diff --git a/hw/misc/pvpanic-isa.c b/hw/misc/pvpanic-isa.c
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index 259f9c992d5..66db08462fd 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -107,6 +107,7 @@ extern bool pci_available;
+ #define PCI_DEVICE_ID_REDHAT_PCIE_BRIDGE 0x000e
+ #define PCI_DEVICE_ID_REDHAT_MDPY        0x000f
+ #define PCI_DEVICE_ID_REDHAT_NVME        0x0010
++#define PCI_DEVICE_ID_REDHAT_PVPANIC     0x0011
+ #define PCI_DEVICE_ID_REDHAT_QXL         0x0100
+ 
+ #define FMT_PCIBUS                      PRIx64
+diff --git a/hw/misc/pvpanic-pci.c b/hw/misc/pvpanic-pci.c
 new file mode 100644
-index 00000000000..27113abd6cf
+index 00000000000..d629639d8f4
 --- /dev/null
-+++ b/hw/misc/pvpanic-isa.c
++++ b/hw/misc/pvpanic-pci.c
 @@ -0,0 +1,94 @@
 +/*
-+ * QEMU simulated pvpanic device.
++ * QEMU simulated PCI pvpanic device.
 + *
-+ * Copyright Fujitsu, Corp. 2013
++ * Copyright (C) 2020 Oracle
 + *
 + * Authors:
-+ *     Wen Congyang <wency@cn.fujitsu.com>
-+ *     Hu Tao <hutao@cn.fujitsu.com>
++ *     Mihai Carabas <mihai.carabas@oracle.com>
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
@@ -180,265 +169,109 @@ index 00000000000..27113abd6cf
 +
 +#include "hw/nvram/fw_cfg.h"
 +#include "hw/qdev-properties.h"
++#include "migration/vmstate.h"
 +#include "hw/misc/pvpanic.h"
 +#include "qom/object.h"
-+#include "hw/isa/isa.h"
++#include "hw/pci/pci.h"
 +
-+OBJECT_DECLARE_SIMPLE_TYPE(PVPanicISAState, PVPANIC_ISA_DEVICE)
++OBJECT_DECLARE_SIMPLE_TYPE(PVPanicPCIState, PVPANIC_PCI_DEVICE)
 +
 +/*
-+ * PVPanicISAState for ISA device and
-+ * use ioport.
++ * PVPanicPCIState for PCI device
 + */
-+struct PVPanicISAState {
-+    ISADevice parent_obj;
-+
-+    uint16_t ioport;
++typedef struct PVPanicPCIState {
++    PCIDevice dev;
 +    PVPanicState pvpanic;
++} PVPanicPCIState;
++
++static const VMStateDescription vmstate_pvpanic_pci = {
++    .name = "pvpanic-pci",
++    .version_id = 1,
++    .minimum_version_id = 1,
++    .fields = (VMStateField[]) {
++        VMSTATE_PCI_DEVICE(dev, PVPanicPCIState),
++        VMSTATE_END_OF_LIST()
++    }
 +};
 +
-+static void pvpanic_isa_initfn(Object *obj)
++static void pvpanic_pci_realizefn(PCIDevice *dev, Error **errp)
 +{
-+    PVPanicISAState *s = PVPANIC_ISA_DEVICE(obj);
-+
-+    pvpanic_setup_io(&s->pvpanic, DEVICE(s), 1);
-+}
-+
-+static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
-+{
-+    ISADevice *d = ISA_DEVICE(dev);
-+    PVPanicISAState *s = PVPANIC_ISA_DEVICE(dev);
++    PVPanicPCIState *s = PVPANIC_PCI_DEVICE(dev);
 +    PVPanicState *ps = &s->pvpanic;
-+    FWCfgState *fw_cfg = fw_cfg_find();
-+    uint16_t *pvpanic_port;
 +
-+    if (!fw_cfg) {
-+        return;
-+    }
++    pvpanic_setup_io(&s->pvpanic, DEVICE(s), 2);
 +
-+    pvpanic_port = g_malloc(sizeof(*pvpanic_port));
-+    *pvpanic_port = cpu_to_le16(s->ioport);
-+    fw_cfg_add_file(fw_cfg, "etc/pvpanic-port", pvpanic_port,
-+                    sizeof(*pvpanic_port));
-+
-+    isa_register_ioport(d, &ps->mr, s->ioport);
++    pci_register_bar(dev, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &ps->mr);
 +}
 +
-+static Property pvpanic_isa_properties[] = {
-+    DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicISAState, ioport, 0x505),
-+    DEFINE_PROP_UINT8("events", PVPanicISAState, pvpanic.events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
++static Property pvpanic_pci_properties[] = {
++    DEFINE_PROP_UINT8("events", PVPanicPCIState, pvpanic.events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
 +    DEFINE_PROP_END_OF_LIST(),
 +};
 +
-+static void pvpanic_isa_class_init(ObjectClass *klass, void *data)
++static void pvpanic_pci_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc = DEVICE_CLASS(klass);
++    PCIDeviceClass *pc = PCI_DEVICE_CLASS(klass);
 +
-+    dc->realize = pvpanic_isa_realizefn;
-+    device_class_set_props(dc, pvpanic_isa_properties);
++    device_class_set_props(dc, pvpanic_pci_properties);
++
++    pc->realize = pvpanic_pci_realizefn;
++    pc->vendor_id = PCI_VENDOR_ID_REDHAT;
++    pc->device_id = PCI_DEVICE_ID_REDHAT_PVPANIC;
++    pc->revision = 1;
++    pc->class_id = PCI_CLASS_SYSTEM_OTHER;
++    dc->vmsd = &vmstate_pvpanic_pci;
++
 +    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
 +}
 +
-+static TypeInfo pvpanic_isa_info = {
-+    .name          = TYPE_PVPANIC_ISA_DEVICE,
-+    .parent        = TYPE_ISA_DEVICE,
-+    .instance_size = sizeof(PVPanicISAState),
-+    .instance_init = pvpanic_isa_initfn,
-+    .class_init    = pvpanic_isa_class_init,
++static TypeInfo pvpanic_pci_info = {
++    .name          = TYPE_PVPANIC_PCI_DEVICE,
++    .parent        = TYPE_PCI_DEVICE,
++    .instance_size = sizeof(PVPanicPCIState),
++    .class_init    = pvpanic_pci_class_init,
++    .interfaces = (InterfaceInfo[]) {
++        { INTERFACE_CONVENTIONAL_PCI_DEVICE },
++        { }
++    }
 +};
 +
 +static void pvpanic_register_types(void)
 +{
-+    type_register_static(&pvpanic_isa_info);
++    type_register_static(&pvpanic_pci_info);
 +}
 +
-+type_init(pvpanic_register_types)
-diff --git a/hw/misc/pvpanic.c b/hw/misc/pvpanic.c
-index 35d6797831d..e2cb4a5d28a 100644
---- a/hw/misc/pvpanic.c
-+++ b/hw/misc/pvpanic.c
-@@ -22,18 +22,6 @@
- #include "hw/misc/pvpanic.h"
- #include "qom/object.h"
- 
--/* The bit of supported pv event, TODO: include uapi header and remove this */
--#define PVPANIC_F_PANICKED      0
--#define PVPANIC_F_CRASHLOADED   1
--
--/* The pv event value */
--#define PVPANIC_PANICKED        (1 << PVPANIC_F_PANICKED)
--#define PVPANIC_CRASHLOADED     (1 << PVPANIC_F_CRASHLOADED)
--
--typedef struct PVPanicState PVPanicState;
--DECLARE_INSTANCE_CHECKER(PVPanicState, ISA_PVPANIC_DEVICE,
--                         TYPE_PVPANIC)
--
- static void handle_event(int event)
- {
-     static bool logged;
-@@ -54,90 +42,29 @@ static void handle_event(int event)
-     }
- }
- 
--#include "hw/isa/isa.h"
--
--struct PVPanicState {
--    ISADevice parent_obj;
--
--    MemoryRegion io;
--    uint16_t ioport;
--    uint8_t events;
--};
--
- /* return supported events on read */
--static uint64_t pvpanic_ioport_read(void *opaque, hwaddr addr, unsigned size)
-+static uint64_t pvpanic_read(void *opaque, hwaddr addr, unsigned size)
- {
-     PVPanicState *pvp = opaque;
-     return pvp->events;
- }
- 
--static void pvpanic_ioport_write(void *opaque, hwaddr addr, uint64_t val,
-+static void pvpanic_write(void *opaque, hwaddr addr, uint64_t val,
-                                  unsigned size)
- {
-     handle_event(val);
- }
- 
- static const MemoryRegionOps pvpanic_ops = {
--    .read = pvpanic_ioport_read,
--    .write = pvpanic_ioport_write,
-+    .read = pvpanic_read,
-+    .write = pvpanic_write,
-     .impl = {
-         .min_access_size = 1,
-         .max_access_size = 1,
-     },
- };
- 
--static void pvpanic_isa_initfn(Object *obj)
-+void pvpanic_setup_io(PVPanicState *s, DeviceState *dev, unsigned size)
- {
--    PVPanicState *s = ISA_PVPANIC_DEVICE(obj);
--
--    memory_region_init_io(&s->io, OBJECT(s), &pvpanic_ops, s, "pvpanic", 1);
-+    memory_region_init_io(&s->mr, OBJECT(dev), &pvpanic_ops, s, "pvpanic", size);
- }
--
--static void pvpanic_isa_realizefn(DeviceState *dev, Error **errp)
--{
--    ISADevice *d = ISA_DEVICE(dev);
--    PVPanicState *s = ISA_PVPANIC_DEVICE(dev);
--    FWCfgState *fw_cfg = fw_cfg_find();
--    uint16_t *pvpanic_port;
--
--    if (!fw_cfg) {
--        return;
--    }
--
--    pvpanic_port = g_malloc(sizeof(*pvpanic_port));
--    *pvpanic_port = cpu_to_le16(s->ioport);
--    fw_cfg_add_file(fw_cfg, "etc/pvpanic-port", pvpanic_port,
--                    sizeof(*pvpanic_port));
--
--    isa_register_ioport(d, &s->io, s->ioport);
--}
--
--static Property pvpanic_isa_properties[] = {
--    DEFINE_PROP_UINT16(PVPANIC_IOPORT_PROP, PVPanicState, ioport, 0x505),
--    DEFINE_PROP_UINT8("events", PVPanicState, events, PVPANIC_PANICKED | PVPANIC_CRASHLOADED),
--    DEFINE_PROP_END_OF_LIST(),
--};
--
--static void pvpanic_isa_class_init(ObjectClass *klass, void *data)
--{
--    DeviceClass *dc = DEVICE_CLASS(klass);
--
--    dc->realize = pvpanic_isa_realizefn;
--    device_class_set_props(dc, pvpanic_isa_properties);
--    set_bit(DEVICE_CATEGORY_MISC, dc->categories);
--}
--
--static TypeInfo pvpanic_isa_info = {
--    .name          = TYPE_PVPANIC,
--    .parent        = TYPE_ISA_DEVICE,
--    .instance_size = sizeof(PVPanicState),
--    .instance_init = pvpanic_isa_initfn,
--    .class_init    = pvpanic_isa_class_init,
--};
--
--static void pvpanic_register_types(void)
--{
--    type_register_static(&pvpanic_isa_info);
--}
--
--type_init(pvpanic_register_types)
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index eea059ffef5..7f91f30877f 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -14,7 +14,7 @@ config PC
-     imply ISA_DEBUG
-     imply PARALLEL
-     imply PCI_DEVICES
--    imply PVPANIC
-+    imply PVPANIC_ISA
-     imply QXL
-     imply SEV
-     imply SGA
++type_init(pvpanic_register_types);
 diff --git a/hw/misc/Kconfig b/hw/misc/Kconfig
-index cf18ac08e66..23bc9786cf4 100644
+index 23bc9786cf4..19c216f3efb 100644
 --- a/hw/misc/Kconfig
 +++ b/hw/misc/Kconfig
-@@ -121,9 +121,13 @@ config IOTKIT_SYSCTL
- config IOTKIT_SYSINFO
+@@ -124,6 +124,12 @@ config IOTKIT_SYSINFO
+ config PVPANIC_COMMON
      bool
  
--config PVPANIC
-+config PVPANIC_COMMON
++config PVPANIC_PCI
 +    bool
++    default y if PCI_DEVICES
++    depends on PCI
++    select PVPANIC_COMMON
 +
-+config PVPANIC_ISA
+ config PVPANIC_ISA
      bool
      depends on ISA_BUS
-+    select PVPANIC_COMMON
- 
- config AUX
-     bool
 diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 607cd38a210..edaaec2a3ee 100644
+index edaaec2a3ee..629283957fc 100644
 --- a/hw/misc/meson.build
 +++ b/hw/misc/meson.build
-@@ -13,6 +13,7 @@ softmmu_ss.add(when: 'CONFIG_EMC141X', if_true: files('emc141x.c'))
- softmmu_ss.add(when: 'CONFIG_UNIMP', if_true: files('unimp.c'))
- softmmu_ss.add(when: 'CONFIG_EMPTY_SLOT', if_true: files('empty_slot.c'))
- softmmu_ss.add(when: 'CONFIG_LED', if_true: files('led.c'))
-+softmmu_ss.add(when: 'CONFIG_PVPANIC_COMMON', if_true: files('pvpanic.c'))
- 
- # ARM devices
- softmmu_ss.add(when: 'CONFIG_PL310', if_true: files('arm_l2x0.c'))
-@@ -98,7 +99,7 @@ softmmu_ss.add(when: 'CONFIG_IOTKIT_SYSINFO', if_true: files('iotkit-sysinfo.c')
- softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
+@@ -100,6 +100,7 @@ softmmu_ss.add(when: 'CONFIG_ARMSSE_CPUID', if_true: files('armsse-cpuid.c'))
  softmmu_ss.add(when: 'CONFIG_ARMSSE_MHU', if_true: files('armsse-mhu.c'))
  
--softmmu_ss.add(when: 'CONFIG_PVPANIC', if_true: files('pvpanic.c'))
-+softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'))
+ softmmu_ss.add(when: 'CONFIG_PVPANIC_ISA', if_true: files('pvpanic-isa.c'))
++softmmu_ss.add(when: 'CONFIG_PVPANIC_PCI', if_true: files('pvpanic-pci.c'))
  softmmu_ss.add(when: 'CONFIG_AUX', if_true: files('auxbus.c'))
  softmmu_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files('aspeed_scu.c', 'aspeed_sdmc.c', 'aspeed_xdma.c'))
  softmmu_ss.add(when: 'CONFIG_MSF2', if_true: files('msf2-sysreg.c'))
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 16d04625b8b..0e85343b96b 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -33,7 +33,7 @@ qtests_i386 = \
-   (config_host.has_key('CONFIG_LINUX') and                                                  \
-    config_all_devices.has_key('CONFIG_ISA_IPMI_BT') ? ['ipmi-bt-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_WDT_IB700') ? ['wdt_ib700-test'] : []) +              \
--  (config_all_devices.has_key('CONFIG_PVPANIC') ? ['pvpanic-test'] : []) +                  \
-+  (config_all_devices.has_key('CONFIG_PVPANIC_ISA') ? ['pvpanic-test'] : []) +              \
-   (config_all_devices.has_key('CONFIG_HDA') ? ['intel-hda-test'] : []) +                    \
-   (config_all_devices.has_key('CONFIG_I82801B11') ? ['i82801b11-test'] : []) +             \
-   (config_all_devices.has_key('CONFIG_IOH3420') ? ['ioh3420-test'] : []) +                  \
 -- 
 2.20.1
 
