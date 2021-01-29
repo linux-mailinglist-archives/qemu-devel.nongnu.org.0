@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BD4930873D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:10:09 +0100 (CET)
-Received: from localhost ([::1]:55674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB07F308744
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:12:36 +0100 (CET)
+Received: from localhost ([::1]:60440 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Pn6-0001yY-7D
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:10:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41842)
+	id 1l5PpT-000441-Q7
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:12:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42430)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l5PkQ-00077O-1a; Fri, 29 Jan 2021 04:07:22 -0500
-Received: from bilbo.ozlabs.org ([203.11.71.1]:56425 helo=ozlabs.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l5PkM-00007m-NP; Fri, 29 Jan 2021 04:07:21 -0500
-Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DRs0w71Npz9sVt; Fri, 29 Jan 2021 20:07:12 +1100 (AEDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=gibson.dropbear.id.au; s=201602; t=1611911232;
- bh=RImluUDtm9/fn/ObthaPmB8fMgvsqhx2qYkTTVc3mwk=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ASmG6e18uvP+WO2E/D6QVaDARjQC8rHw8WbOK1Kb1Phofn0t05ZSgjSbaqu1gHDyi
- LxQIvC+rgY6fH71uf5/h3bjG1wNW3wcyAdbcl1jyauIKTCZEEc3d2U/kCGgxtcjvJR
- Xp2ci8AwufebDURTlP6IJ3j4zLUhPNFyHn4QMmHg=
-Date: Fri, 29 Jan 2021 17:30:45 +1100
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v7 07/13] confidential guest support: Introduce cgs
- "ready" flag
-Message-ID: <20210129063045.GM6951@yekko.fritz.box>
-References: <20210113235811.1909610-1-david@gibson.dropbear.id.au>
- <20210113235811.1909610-8-david@gibson.dropbear.id.au>
- <20210118194730.GH9899@work-vm>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l5PoH-0003U5-7S
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:11:21 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48686)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l5PoB-0001pt-Jy
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:11:20 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l5Po9-0004ey-H0
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 09:11:13 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 740622E813D
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 09:11:13 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="EOHJn1TVIJfeVXv2"
-Content-Disposition: inline
-In-Reply-To: <20210118194730.GH9899@work-vm>
-Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
- helo=ozlabs.org
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 Jan 2021 08:54:11 -0000
+From: Thomas Huth <1294227@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cdall jnsnow m-smarduch pmaydell th-huth
+X-Launchpad-Bug-Reporter: Mario Smarduch (m-smarduch)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20140318172403.30474.3932.malonedeb@soybean.canonical.com>
+Message-Id: <161191045135.7685.1299030882895936670.malone@gac.canonical.com>
+Subject: [Bug 1294227] Re: migration wrong handling of KVM_GET_DIRTY_LOG ioctl
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 543b1ff5f9c5e4020c32ae0fd7f3d1ecfa59be40
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,152 +70,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pair@us.ibm.com, cohuck@redhat.com, brijesh.singh@amd.com,
- kvm@vger.kernel.org, David Hildenbrand <david@redhat.com>,
- qemu-devel@nongnu.org, frankja@linux.ibm.com, pragyansri.pathi@intel.com,
- mst@redhat.com, mdroth@linux.vnet.ibm.com, pasic@linux.ibm.com,
- borntraeger@de.ibm.com, andi.kleen@intel.com, thuth@redhat.com,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, jun.nakajima@intel.com, berrange@redhat.com,
- Marcelo Tosatti <mtosatti@redhat.com>, qemu-ppc@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1294227 <1294227@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Yet another try to fix this issue:
+https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07557.html
 
---EOHJn1TVIJfeVXv2
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+-- =
 
-On Mon, Jan 18, 2021 at 07:47:30PM +0000, Dr. David Alan Gilbert wrote:
-> * David Gibson (david@gibson.dropbear.id.au) wrote:
-> > The platform specific details of mechanisms for implementing
-> > confidential guest support may require setup at various points during
-> > initialization.  Thus, it's not really feasible to have a single cgs
-> > initialization hook, but instead each mechanism needs its own
-> > initialization calls in arch or machine specific code.
-> >=20
-> > However, to make it harder to have a bug where a mechanism isn't
-> > properly initialized under some circumstances, we want to have a
-> > common place, relatively late in boot, where we verify that cgs has
-> > been initialized if it was requested.
-> >=20
-> > This patch introduces a ready flag to the ConfidentialGuestSupport
-> > base type to accomplish this, which we verify just before the machine
-> > specific initialization function.
->=20
-> You may find you need to define 'ready' and the answer might be a bit
-> variable;
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1294227
 
-Ugh, yeah.  I'm not sure it will be possible to precisely define
-this.  Basically this is a helper for an internal sanity check, rather
-than anything more fundamental.  The idea is that depending on the
-details of the CGS mechanism, it might need initialization of various
-components, which might naturally be distributed across different
-parts of the init code.
+Title:
+  migration wrong handling of KVM_GET_DIRTY_LOG ioctl
 
-> for example, on SEV there's a setup bit and then you may end
-> up doing an attestation and receiving some data before you actaully let
-> the guest execute code.   Is it ready before it's received the
-> attestation response or only when it can run code?
+Status in QEMU:
+  Confirmed
 
-I don't really know enough about how SEV works to answer that.
-Certainly it should be "ready" before any guest instructions are
-executed.
+Bug description:
+  In the code below kvm_vm_ioctl(...) can return --errno !=3D -1 from ioctl=
+ call,  but return only checks for -1. =
 
-> Is a Power or 390 machine 'ready' before it's executed the magic
-> instruction to enter the confidential mode?
+  Found during KVM-ARM migration which apperead to go through but was actua=
+lly failing getting =
 
-Definitely.  Ready must be set before we enter the guest (and so
-assert that it *is* set is before that).
+  memslot dirty bitmap.
 
->=20
-> Dave
->=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
-> >  hw/core/machine.c                         | 8 ++++++++
-> >  include/exec/confidential-guest-support.h | 2 ++
-> >  target/i386/sev.c                         | 2 ++
-> >  3 files changed, 12 insertions(+)
-> >=20
-> > diff --git a/hw/core/machine.c b/hw/core/machine.c
-> > index 94194ab82d..5a7433332b 100644
-> > --- a/hw/core/machine.c
-> > +++ b/hw/core/machine.c
-> > @@ -1190,6 +1190,14 @@ void machine_run_board_init(MachineState *machin=
-e)
-> >      }
-> > =20
-> >      if (machine->cgs) {
-> > +        /*
-> > +         * Where confidential guest support is initialized depends on
-> > +         * the specific mechanism in use.  But, we need to make sure
-> > +         * it's ready by now.  If it isn't, that's a bug in the
-> > +         * implementation of that cgs mechanism.
-> > +         */
-> > +        assert(machine->cgs->ready);
-> > +
-> >          /*
-> >           * With confidential guests, the host can't see the real
-> >           * contents of RAM, so there's no point in it trying to merge
-> > diff --git a/include/exec/confidential-guest-support.h b/include/exec/c=
-onfidential-guest-support.h
-> > index 5f131023ba..bcaf6c9f49 100644
-> > --- a/include/exec/confidential-guest-support.h
-> > +++ b/include/exec/confidential-guest-support.h
-> > @@ -27,6 +27,8 @@ OBJECT_DECLARE_SIMPLE_TYPE(ConfidentialGuestSupport, =
-CONFIDENTIAL_GUEST_SUPPORT)
-> > =20
-> >  struct ConfidentialGuestSupport {
-> >      Object parent;
-> > +
-> > +    bool ready;
-> >  };
-> > =20
-> >  typedef struct ConfidentialGuestSupportClass {
-> > diff --git a/target/i386/sev.c b/target/i386/sev.c
-> > index e2b41ef342..3d94635397 100644
-> > --- a/target/i386/sev.c
-> > +++ b/target/i386/sev.c
-> > @@ -737,6 +737,8 @@ int sev_kvm_init(ConfidentialGuestSupport *cgs, Err=
-or **errp)
-> >      qemu_add_machine_init_done_notifier(&sev_machine_done_notify);
-> >      qemu_add_vm_change_state_handler(sev_vm_state_change, sev);
-> > =20
-> > +    cgs->ready =3D true;
-> > +
-> >      return 0;
-> >  err:
-> >      sev_guest =3D NULL;
+  static int kvm_physical_sync_dirty_bitmap(....)
+  {
+   ....
+   if(kvm_vm_ioctl(s, KVM_GET_DIRTY_LOG, &d) =3D=3D -1) {
+     - err out
+   }
+   ... continue
+  }
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---EOHJn1TVIJfeVXv2
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmATq5UACgkQbDjKyiDZ
-s5Lt7g/8CrqHbV5yt5m2ew9hpBDIRlmAeTuxlGX/xk4RE0bk/dPEV+XsPEKSzsD9
-BLKUhQYOeqVZmjKEl5mgDuoKE4R9H4TJoAG0m8mZaBd4iJoFh3B9JmQ3Oj+eDYuZ
-183lORy7eOrs+r4eyQkcOUfbqf6i40ZILa2RyUPbCxgm946gEwFU+ofjZYDUenye
-mwxF/84ZM0w7LQAKEBjfPSCzOY3TNs5NvV72ugwsmtzgjxThnnlz8Stxl7HdE3hW
-wHT3CKWI7Sg3wf+zdDy6E4phw8/ckmk7UIIsPfbaavdQiBsdkcuLe99wrSGxOtG5
-w80WGdmD6QKvjmyruNifXPKHq9xQV8A5V1qd9xAkP9wJLrivTaJR0WhZgqJNPPsF
-mHiPawNTVSxPr/k8WQZcA+goZQepmz51W8BvmReLb9DK6BzPRDSlk+9NzH34IZ+/
-xce/eMqKrW0lvhQ1u7pW3u/iyTNq7wJGeQNYbbZj/04LNQn/5REEeWwQIo0Hop6H
-qzxJ38BQP7Bhlp4sAKHKZWINbrRokyXroGnP01qpEi7W/WE5ckJ9pagG618X//RV
-60s7DyDpLXUtOASGXXbxKkEpCgIFk21cNRPmyAkT2jteMPpXbFkhare0UVxLqAMc
-z0QiGqabVyNFl2ShG0JaCw3CIGxinPK6raDeqSktRfIbsl/cExc=
-=LJDf
------END PGP SIGNATURE-----
-
---EOHJn1TVIJfeVXv2--
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1294227/+subscriptions
 
