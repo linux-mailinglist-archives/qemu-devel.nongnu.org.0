@@ -2,74 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42AD3308E80
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:33:52 +0100 (CET)
-Received: from localhost ([::1]:42444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DAA5308E65
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:31:31 +0100 (CET)
+Received: from localhost ([::1]:38150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5aSl-0007Fc-BG
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:33:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49366)
+	id 1l5aQU-0005O5-B9
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:31:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50968)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5a6s-0007ER-A6
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:11:14 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:42976)
+ id 1l5aET-0007L8-Dd
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:19:05 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34155)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5a6q-0008En-9L
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:11:14 -0500
-Received: by mail-pg1-x531.google.com with SMTP id g15so7404405pgu.9
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:11:11 -0800 (PST)
+ id 1l5aER-0003Lv-KM
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:19:05 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id u15so5918698plf.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:19:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=Y1lw80f1qkFn4X3t7T1lgV932l1h1eTxnNcDp/G7l10=;
- b=nJmSouER6cNH4iHcoTCn+ZZjMCNUV191PmKleFP8GpEqQ4g0mA8WYWI//Mc1YGA4gX
- KGZfrPgToycN8k4pGK2mXzIs4cr0DrTMmd1xwDmNckLSfVfpdtw6UAjiw9CYLspeRWcY
- nRUsVcWoomv0Qy3SMUx13rHAVRhw2xKq+svLFu0/qKfV6dB/erUtiI5FG5/yU+fyR1Un
- e8xG25ioutlNY2II75iq3vvESnBRWc1tgE/lDTKkxJPr8YfnQy7aHg7HyBPssoCzD3rR
- GORPNkPhOepzKkeGP7Az7rZu4VXWUVU2BYvbqT5c0ajF2YVYpqJUkEcfMOtu+FJJlmPv
- lHIg==
+ h=subject:from:to:cc:references:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=U2Vvxi3FuBgMTxdvYk0aTAMkcZcrnTV/Y69WhMz95+A=;
+ b=qf5DuO6ojcn6B+cpZxErVpPsL+adO/tpGxasA3th12z6ZCkuOoSuM3HWlQ8KeAdpWx
+ Qy98OTOymKq5fZ5/gK17DNeii1gZBL22eJaVoMp1+E+gP7q0oicQPrMUXwrKfggia4ZX
+ Oks3b66vEkgj1IkoPpSwpGaDOc/T9ql/6AtC4SaPWl9Un9RzCr/YqoTsu177/j3/ObR8
+ 4vvC5XznvkMFqRAi1LmlasTsQFqvgDU8ERn4cxRE4+/atai0X07GdQLGOn0pAFqVilQ8
+ DHDoGxDmSZiuAOLnyljNX8d5X1jU+D4nScRTiYn3s+bSPEXzbeMIoijEq22RQsIdHxma
+ fOJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Y1lw80f1qkFn4X3t7T1lgV932l1h1eTxnNcDp/G7l10=;
- b=XGFi3VhHbS/u4VLitxbjaGVjQXe9BwqCwkD/HW2neoeefQ6k+qvUoOYni2Ma7wuCKL
- FQTYKyxtECKHnodeGhIuzwRwrbsBY2F6SKhRhi9yjusl8rv/g0snKje+laAfJ7kWtF4f
- DbbyCMKnyB6rt8C4pIR4UMkk9twSY6zUikXmREvqiQxL7t+FeRfiOr+ePCcdGXD1X6Fr
- Y6ctsTNL3ECX6OmIGnjU0Wp/FPfoeBYSrEXqTnQnS+uoDdsQvnkKFMaUOJlZEZ3SYEKD
- Aolrenx9OoqqD497RbXV/INTG62HG2MBT1tktrCHg3X8slX2MrWBtuQT5QsNijlMvMFu
- skUA==
-X-Gm-Message-State: AOAM531T7LvVgOt4Qk4crW5flBUvNDF2OSjeh/k8wz6pMDl7yDuVEmvA
- pOb/CKNg2dTHYjBR0rAzodnLBGaytF/8CJv5
-X-Google-Smtp-Source: ABdhPJyC4C7Zq/1on4LBKr6cXqaRK6T0lWrSJL9vowteBwz8Z/fPlIyn6u8R8T9kzEc4uNifXVjdkA==
-X-Received: by 2002:a62:ae0c:0:b029:1bc:a0b9:f0aa with SMTP id
- q12-20020a62ae0c0000b02901bca0b9f0aamr5799665pff.78.1611951070892; 
- Fri, 29 Jan 2021 12:11:10 -0800 (PST)
-Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
+ h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=U2Vvxi3FuBgMTxdvYk0aTAMkcZcrnTV/Y69WhMz95+A=;
+ b=AANPPwGgvQfLWZcviTOEPAarBPbs8QDtE9B6v/IeCGuVnVA1MHznrTgqSBFEiB7xZ5
+ HLftSPLIwnNDr5rYw3i37sob8fGvBshEe110n9u63DR+HAUnurIJy5/pphnrI2ZRZJNc
+ WZ1iZvA00MkDPN62JSPddSDFkJKq2gHXmanDQQ2WBZvOZmkF+5E/tyU7dO/nI285tmyO
+ tAomynfWrNqsA+fVwD3GnI2y+p5j1Ihdyq0+kiDy80Nkkeh6ytETPx4lDzSAXjpKjGgl
+ 4+s7hCQo540fI23S0rKX4w2EVuUF0Qw64B65tmaflMoLoWZL2rFcUvs8t2a25xcNH4d9
+ bT4g==
+X-Gm-Message-State: AOAM531yEe6niKzRmdzzVed1avjFhF9iB1bAJrbxYul8P+XgpFk86zhQ
+ 3YlYSBRyF+cdQJULEBnp7pG3uQ==
+X-Google-Smtp-Source: ABdhPJwcMFDFMUaMyoBzFmsBCpgAT9Fv5a/mxRrMX23uV1E5rc63gXhm3xz6oClbw4bST8f3D4V02A==
+X-Received: by 2002:a17:902:ff06:b029:e1:1466:f168 with SMTP id
+ f6-20020a170902ff06b02900e11466f168mr5629401plj.59.1611951542059; 
+ Fri, 29 Jan 2021 12:19:02 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id d133sm9247265pfd.6.2021.01.29.12.11.09
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 12:11:10 -0800 (PST)
+ by smtp.gmail.com with ESMTPSA id w124sm3754766pfb.75.2021.01.29.12.19.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Jan 2021 12:19:01 -0800 (PST)
+Subject: Re: [PATCH v3] tcg: Fix execution on Apple Silicon
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 24/24] tcg: Remove TCG_TARGET_CON_SET_H
-Date: Fri, 29 Jan 2021 10:10:28 -1000
-Message-Id: <20210129201028.787853-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20210129201028.787853-1-richard.henderson@linaro.org>
-References: <20210129201028.787853-1-richard.henderson@linaro.org>
+To: Roman Bolshakov <r.bolshakov@yadro.com>, qemu-devel@nongnu.org
+References: <20210113032806.18220-1-r.bolshakov@yadro.com>
+ <e0b70beb-2905-9520-e825-219278fe4ed7@linaro.org>
+Message-ID: <330c4b1a-6a8a-3625-8c39-7f9c88b20847@linaro.org>
+Date: Fri, 29 Jan 2021 10:18:58 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
+In-Reply-To: <e0b70beb-2905-9520-e825-219278fe4ed7@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -84,181 +89,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Alexander Graf <agraf@csgraf.de>,
+ Joelle van Dyne <j@getutm.app>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-All backends have now been converted to tcg-target-con-set.h,
-so we can remove the fallback code.
+On 1/21/21 8:34 AM, Richard Henderson wrote:
+> On 1/12/21 5:28 PM, Roman Bolshakov wrote:
+>> @@ -1083,6 +1083,12 @@ static bool alloc_code_gen_buffer_anon(size_t size, int prot,
+>>  {
+>>      void *buf;
+>>  
+>> +#if defined(MAC_OS_VERSION_11_0) && \
+>> +    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
+>> +    if (__builtin_available(macOS 11.0, *)) {
+>> +        flags |= MAP_JIT;
+>> +    }
+>> +#endif
+> 
+> This hunk should be in alloc_code_gen_buffer, where we do the other flags
+> manipulation.
+> 
+> I'll drop this hunk and apply the rest, which is exclusively related to
+> toggling the jit bit.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/aarch64/tcg-target.h |  1 -
- tcg/arm/tcg-target.h     |  1 -
- tcg/i386/tcg-target.h    |  1 -
- tcg/mips/tcg-target.h    |  1 -
- tcg/ppc/tcg-target.h     |  1 -
- tcg/riscv/tcg-target.h   |  1 -
- tcg/s390/tcg-target.h    |  1 -
- tcg/sparc/tcg-target.h   |  1 -
- tcg/tci/tcg-target.h     |  2 --
- tcg/tcg.c                | 12 ------------
- 10 files changed, 22 deletions(-)
+Ping on this?
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index 200e9b5e0e..5ec30dba25 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -155,6 +155,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif /* AARCH64_TCG_TARGET_H */
-diff --git a/tcg/arm/tcg-target.h b/tcg/arm/tcg-target.h
-index 4d201b1216..8d1fee6327 100644
---- a/tcg/arm/tcg-target.h
-+++ b/tcg/arm/tcg-target.h
-@@ -142,6 +142,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/i386/tcg-target.h b/tcg/i386/tcg-target.h
-index 48a6f2a336..b693d3692d 100644
---- a/tcg/i386/tcg-target.h
-+++ b/tcg/i386/tcg-target.h
-@@ -235,6 +235,5 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/mips/tcg-target.h b/tcg/mips/tcg-target.h
-index e520a9d6e3..c2c32fb38f 100644
---- a/tcg/mips/tcg-target.h
-+++ b/tcg/mips/tcg-target.h
-@@ -207,6 +207,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #ifdef CONFIG_SOFTMMU
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/ppc/tcg-target.h b/tcg/ppc/tcg-target.h
-index 551f8d0fc9..d1339afc66 100644
---- a/tcg/ppc/tcg-target.h
-+++ b/tcg/ppc/tcg-target.h
-@@ -185,6 +185,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/riscv/tcg-target.h b/tcg/riscv/tcg-target.h
-index a998b951e4..727c8df418 100644
---- a/tcg/riscv/tcg-target.h
-+++ b/tcg/riscv/tcg-target.h
-@@ -171,6 +171,5 @@ void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- #define TCG_TARGET_NEED_POOL_LABELS
- 
- #define TCG_TARGET_HAS_MEMORY_BSWAP 0
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
-index 7aafd25a46..641464eea4 100644
---- a/tcg/s390/tcg-target.h
-+++ b/tcg/s390/tcg-target.h
-@@ -159,6 +159,5 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
- #define TCG_TARGET_NEED_LDST_LABELS
- #endif
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/sparc/tcg-target.h b/tcg/sparc/tcg-target.h
-index f50e8d50ee..f66f5d07dc 100644
---- a/tcg/sparc/tcg-target.h
-+++ b/tcg/sparc/tcg-target.h
-@@ -168,6 +168,5 @@ extern bool use_vis3_instructions;
- void tb_target_set_jmp_target(uintptr_t, uintptr_t, uintptr_t, uintptr_t);
- 
- #define TCG_TARGET_NEED_POOL_LABELS
--#define TCG_TARGET_CON_SET_H
- 
- #endif
-diff --git a/tcg/tci/tcg-target.h b/tcg/tci/tcg-target.h
-index 1efd8c4fb0..bb784e018e 100644
---- a/tcg/tci/tcg-target.h
-+++ b/tcg/tci/tcg-target.h
-@@ -207,6 +207,4 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
-     /* no need to flush icache explicitly */
- }
- 
--#define TCG_TARGET_CON_SET_H
--
- #endif /* TCG_TARGET_H */
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index df9f32763e..63a12b197b 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -69,9 +69,6 @@
- /* Forward declarations for functions declared in tcg-target.c.inc and
-    used here. */
- static void tcg_target_init(TCGContext *s);
--#ifndef TCG_TARGET_CON_SET_H
--static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode);
--#endif
- static void tcg_target_qemu_prologue(TCGContext *s);
- static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
-                         intptr_t value, intptr_t addend);
-@@ -349,7 +346,6 @@ static void set_jmp_reset_offset(TCGContext *s, int which)
-     s->tb_jmp_reset_offset[which] = tcg_current_code_size(s);
- }
- 
--#ifdef TCG_TARGET_CON_SET_H
- #define C_PFX1(P, A)                    P##A
- #define C_PFX2(P, A, B)                 P##A##_##B
- #define C_PFX3(P, A, B, C)              P##A##_##B##_##C
-@@ -453,8 +449,6 @@ static const TCGTargetOpDef constraint_sets[] = {
- #define C_O2_I3(O1, O2, I1, I2, I3)     C_PFX5(c_o2_i3_, O1, O2, I1, I2, I3)
- #define C_O2_I4(O1, O2, I1, I2, I3, I4) C_PFX6(c_o2_i4_, O1, O2, I1, I2, I3, I4)
- 
--#endif /* TCG_TARGET_CON_SET_H */
--
- #include "tcg-target.c.inc"
- 
- /* compare a pointer @ptr and a tb_tc @s */
-@@ -2532,7 +2526,6 @@ static void process_op_defs(TCGContext *s)
-             continue;
-         }
- 
--#ifdef TCG_TARGET_CON_SET_H
-         /*
-          * Macro magic should make it impossible, but double-check that
-          * the array index is in range.  Since the signness of an enum
-@@ -2541,11 +2534,6 @@ static void process_op_defs(TCGContext *s)
-         unsigned con_set = tcg_target_op_def(op);
-         tcg_debug_assert(con_set < ARRAY_SIZE(constraint_sets));
-         tdefs = &constraint_sets[con_set];
--#else
--        tdefs = tcg_target_op_def(op);
--        /* Missing TCGTargetOpDef entry. */
--        tcg_debug_assert(tdefs != NULL);
--#endif
- 
-         for (i = 0; i < nb_args; i++) {
-             const char *ct_str = tdefs->args_ct_str[i];
--- 
-2.25.1
+I would imagine that the patch would look something like
 
+--- a/accel/tcg/translate-all.c
++++ b/accel/tcg/translate-all.c
+@@ -1296,6 +1296,11 @@ static bool alloc_code_gen_buffer
+ #ifdef CONFIG_TCG_INTERPRETER
+     /* The tcg interpreter does not need execute permission. */
+     prot = PROT_READ | PROT_WRITE;
++#elif defined(MAC_OS_VERSION_11_0) && \
++    MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_VERSION_11_0
++    if (__builtin_available(macOS 11.0, *)) {
++        flags |= MAP_JIT;
++    }
+ #elif defined(CONFIG_DARWIN)
+     /* Applicable to both iOS and macOS (Apple Silicon). */
+     if (!splitwx) {
+
+But I don't know how CONFIG_DARWIN, iOS, and MAC_OS_VERSION interact, and I'm
+not able to even compile-test the patch.
+Certainly the final comment there looks suspicious, given the preceding MAC_OS
+stanza...
+
+
+r~
 
