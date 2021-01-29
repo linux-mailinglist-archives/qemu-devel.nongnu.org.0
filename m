@@ -2,71 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25993088D3
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:06:01 +0100 (CET)
-Received: from localhost ([::1]:50444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1072E3088D5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:06:07 +0100 (CET)
+Received: from localhost ([::1]:50704 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SXJ-00078F-0A
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:06:01 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41370)
+	id 1l5SXN-0007Ep-Vf
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:06:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41426)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5SUT-0005Sq-Ms
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 07:03:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:55484)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5SUQ-00082N-Pg
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 07:03:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611921781;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hHuhGf5gImlvS9YoFEGZrt8Z75iMeVz+XKm2OMxozq8=;
- b=LbqZU3J5WE8UFuYxXRsZH3eQk/TnEtP6zcVxjBpVrxgMy7ccZ15YPp47LzrQ7DW9Lb+rLs
- Jca5BKDNxFzychZ6NAFAu8lE5ZZFAgvRi0OMmzJqAr3SqUAAxYIYCui1nfHykMKSLKW5I4
- k1/s8ZJ7NixvjW8J7V35jP4HfpC6yfk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-368-2X_GLBsyP0eeLHEQ-8w8ew-1; Fri, 29 Jan 2021 07:02:56 -0500
-X-MC-Unique: 2X_GLBsyP0eeLHEQ-8w8ew-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0BCFF911E2;
- Fri, 29 Jan 2021 12:02:55 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C216F60BE2;
- Fri, 29 Jan 2021 12:02:54 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 3322318000A2; Fri, 29 Jan 2021 13:02:53 +0100 (CET)
-Date: Fri, 29 Jan 2021 13:02:53 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: vnc clipboard support
-Message-ID: <20210129120253.36dz6ewxsc7dy43q@sirius.home.kraxel.org>
-References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
- <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l5SUg-0005bL-3o
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 07:03:19 -0500
+Received: from 4.mo52.mail-out.ovh.net ([178.33.43.201]:37260)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l5SUd-000877-HV
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 07:03:17 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.1.214])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 0C94123AAEC;
+ Fri, 29 Jan 2021 13:03:10 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 29 Jan
+ 2021 13:03:10 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G00607334bed-9a22-4b89-adf2-3c1e92182632,
+ F0B20D4B8DDBF51DA61C26A45925665B938B7F3E) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Fri, 29 Jan 2021 13:03:09 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Vivek Goyal <vgoyal@redhat.com>
+Subject: Re: [PATCH 1/6] virtiofsd: Drop ->vu_dispatch_rwlock while waiting
+ for thread to exit
+Message-ID: <20210129130309.1e769bdc@bahia.lan>
+In-Reply-To: <20210126183336.GB3239@redhat.com>
+References: <20210125180115.22936-1-vgoyal@redhat.com>
+ <20210125180115.22936-2-vgoyal@redhat.com>
+ <20210126165600.7bbe369d@bahia.lan>
+ <20210126183336.GB3239@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: abc07160-aef3-41dd-8eaa-29074667c416
+X-Ovh-Tracer-Id: 17977806764477356393
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedvgdefhecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehmshhtsehrvgguhhgrthdrtghomh
+Received-SPF: pass client-ip=178.33.43.201; envelope-from=groug@kaod.org;
+ helo=4.mo52.mail-out.ovh.net
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, RCVD_IN_SBL=0.141,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,28 +71,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ virtio-fs@redhat.com, stefanha@redhat.com, marcandre.lureau@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  Hi,
+On Tue, 26 Jan 2021 13:33:36 -0500
+Vivek Goyal <vgoyal@redhat.com> wrote:
 
-> - the spice protocol had a number of iterations to fix some races. It would
-> be great not to repeat the same mistakes, and I don't know if VNC have the
-> same flaws or not.
+[...]
+ 
+> > 
+> > Also, since pthread_rwlock_wrlock() can fail, I think we should
+> > always check it's return value, at least with an assert() like
+> > already done elsewhere.
+> 
+> Will check return code of pthread_rwlock_wrlock() and probably use
+> assert().
+> 
 
-# grep CAP.*CLIPBOARD.*, /usr/include/spice-1/spice/vd_agent.h 
-    VD_AGENT_CAP_CLIPBOARD,
-    VD_AGENT_CAP_CLIPBOARD_BY_DEMAND,
-    VD_AGENT_CAP_CLIPBOARD_SELECTION,
-    VD_AGENT_CAP_MAX_CLIPBOARD,
-    VD_AGENT_CAP_CLIPBOARD_NO_RELEASE_ON_REGRAB,
-    VD_AGENT_CAP_CLIPBOARD_GRAB_SERIAL,
+It turns out that pthread_rwlock_rdlock() and pthread_rwlock_unlock() can
+also fail for various reasons that would likely indicate a programming
+error, but their return values are never checked anywhere.
 
-Oh yea, I see.  Is that (and the rest of the protocol) documented
-somewhere, other than vd_agent.h?
+I have a patch to address this globally in this file. Should I post it
+now or you prefer this series goes first ?
 
-thanks,
-  Gerd
+> Vivek
+> 
+> > 
+> > >      for (int i = 0; i < se->virtio_dev->nqueues; i++) {
+> > >          if (!se->virtio_dev->qi[i]) {
+> > >              continue;
+> > > @@ -961,6 +974,7 @@ int virtio_loop(struct fuse_session *se)
+> > >          fuse_log(FUSE_LOG_INFO, "%s: Stopping queue %d thread\n", __func__, i);
+> > >          fv_queue_cleanup_thread(se->virtio_dev, i);
+> > >      }
+> > > +    pthread_rwlock_unlock(&se->virtio_dev->vu_dispatch_rwlock);
+> > >  
+> > >      fuse_log(FUSE_LOG_INFO, "%s: Exit\n", __func__);
+> > >  
+> > 
+> 
 
 
