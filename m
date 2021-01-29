@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF980308D35
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:23:22 +0100 (CET)
-Received: from localhost ([::1]:37574 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17A0C308D5C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:31:57 +0100 (CET)
+Received: from localhost ([::1]:43992 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5ZMY-0005q9-1k
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:23:22 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39726)
+	id 1l5ZUp-0000a1-Qg
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:31:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41154)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l5ZJA-0004UY-Li
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:19:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:45265)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l5ZJ4-0003M4-2u
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:19:51 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611947982;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=M2lVP1m+1Mb2sceQ4Gr7lNxplBWv5ouZPRtSCXMf3Cc=;
- b=J8oRlC+CSrFU4W4zJAQH3wkuEapjjQX3ZX7ocXW3yaXCI3uQP62g5nWX+bZ2I9ZdP3cqCA
- toR2cYMlZMdodf3/Ilx5mez7t2YsU51Z7kPOb3EHHctNXAmKUhJ0zJIQK8qg3Xba7O7QtW
- 2nCwVX1PJvLXofGiCLcBp6XnZtl7dOo=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-4FaXtrFBNZu4J9mEDJNLkg-1; Fri, 29 Jan 2021 14:19:40 -0500
-X-MC-Unique: 4FaXtrFBNZu4J9mEDJNLkg-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EAC018030A5;
- Fri, 29 Jan 2021 19:19:38 +0000 (UTC)
-Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 241A760BE2;
- Fri, 29 Jan 2021 19:19:34 +0000 (UTC)
-Subject: Re: [PATCH] tests/acceptance: Re-enable the microblaze test
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-References: <20210128152815.585478-1-thuth@redhat.com>
- <a2a8bc19-bc7f-1228-9eac-357784fe819b@redhat.com>
- <514b7f02-030f-7dec-8bf1-84fa6a971caf@redhat.com>
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <bc738bec-ea58-c061-bbfa-96fd46637493@redhat.com>
-Date: Fri, 29 Jan 2021 16:19:32 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l5ZRj-0007ht-SK
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:28:43 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:44549)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
+ id 1l5ZRh-00074k-So
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:28:43 -0500
+Received: by mail-wr1-x431.google.com with SMTP id d16so9918729wro.11
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 11:28:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=xMbeAYujVd3pe8NSwqakVr0SL8S3zLZQekOEHC6kTas=;
+ b=si6Y3w4ZCDJvF1qM/7vbK/ex8yDF1X9UTQmzrtmKK+zvLchrmWCTfJW/KK2wisjSgb
+ CDtZonUaiNdvN6GpmhMOFax2+6uNxmiuaY77RPgI85NThCgMfrBSd6+n6GvWJc2KQoBD
+ 1EU5PpcnIqwKrTRY3DNQfOtS/7QEggV1ymNYkdcGi15xC8l2B091++dqAaaOCL4cJPRp
+ PYDRqbZIXLOjtigFbk2jlsccIb8WvoE2EBab+LU1uGl+1Q9UW/B9HmqjBKGDucrWX9zE
+ Nqe73QzHU6MR+SBRIHjlsyRz2MTCx9Fuz6lYwzY1XeX8S5zxcARnM6JxWCCIYinWZHzw
+ +ukA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=xMbeAYujVd3pe8NSwqakVr0SL8S3zLZQekOEHC6kTas=;
+ b=XGBcyh7LCHhGlSPqL9Odz/J/TR/x7qLqcXiMiEbXMdNtNcMvIXZ13N7HPPUZ2f0ECY
+ RMz8oQhEnAfGmlCAOzTrdx4tHrCrR+4C4wM6RJxA6RP48yRQJdtudfxpCMSeQhqaPFjy
+ /xwQGVUVVe9N/5W4bEASt/aouvClAxmn9zHIXGtM0mjqrz3xMAdvHbYSjBIDsMDj0whL
+ UBZAu+2oNFWrncU6Y8TSW998qVD4kym9fMqxWj8jMlkx2o8G23eYVpJZ2eLXXunxrZ4Z
+ A8HYBux9yDZMftMpMvW/HXNFBrwWgNOk3Pc90KVUIJoK7E54P2KTwNOOXNfw/YiiU3FQ
+ 1iOA==
+X-Gm-Message-State: AOAM530PQoRuMwe5FpCUxVQE5rwT48zM6Y3hNHxIHeSFxfmzqSJUj3hR
+ 9cnhAWUrJQBziZdwfhBzrxNhvm9l/3f+sA==
+X-Google-Smtp-Source: ABdhPJwK72ME9iFdy2aTrBxb+IAhsUa1gDyO1jvofHTSty43vUN8vwVkaWjlie0wWa9D+YAOdmqcFw==
+X-Received: by 2002:adf:f8c8:: with SMTP id f8mr6346355wrq.132.1611948520587; 
+ Fri, 29 Jan 2021 11:28:40 -0800 (PST)
+Received: from avogadro.lan ([93.56.170.5])
+ by smtp.gmail.com with ESMTPSA id l18sm10964528wme.37.2021.01.29.11.28.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 11:28:39 -0800 (PST)
+From: Paolo Bonzini <pbonzini@redhat.com>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v2 0/2] pci: add romsize property
+Date: Fri, 29 Jan 2021 20:28:36 +0100
+Message-Id: <20210129192838.582771-1-pbonzini@redhat.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-In-Reply-To: <514b7f02-030f-7dec-8bf1-84fa6a971caf@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,154 +81,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Cleber Rosa <crosa@redhat.com>
+Cc: lersek@redhat.com, dgilbert@redhat.com, peterx@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Thomas,
+This property can be useful for distros to set up known-good ROM sizes for
+migration purposes.  The VM will fail to start if the ROM is too large,
+and migration compatibility will not be broken if the ROM is too small.
 
-On 1/29/21 2:40 AM, Thomas Huth wrote:
-> On 28/01/2021 20.34, Wainer dos Santos Moschetta wrote:
->> Hi,
->>
->> On 1/28/21 12:28 PM, Thomas Huth wrote:
->>> The microblaze kernel sometimes gets stuck during boot (ca. 1 out of 
->>> 200
->>> times), so we disabled the corresponding acceptance tests some months
->>> ago. However, it's likely better to check that the kernel is still
->>> starting than to not testing it at all anymore. Move the test to
->>> a separate file, enable it again and check for an earlier console
->>> message that should always appear.
->>>
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>   MAINTAINERS                            |  1 +
->>>   tests/acceptance/boot_linux_console.py |  9 -------
->>>   tests/acceptance/machine_microblaze.py | 35 
->>> ++++++++++++++++++++++++++
->>>   3 files changed, 36 insertions(+), 9 deletions(-)
->>>   create mode 100644 tests/acceptance/machine_microblaze.py
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index 34359a99b8..157ad4f7ef 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -1112,6 +1112,7 @@ M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
->>>   S: Maintained
->>>   F: hw/microblaze/petalogix_s3adsp1800_mmu.c
->>>   F: include/hw/char/xilinx_uartlite.h
->>> +F: tests/acceptance/machine_microblaze.py
->>>   petalogix_ml605
->>>   M: Edgar E. Iglesias <edgar.iglesias@gmail.com>
->>> diff --git a/tests/acceptance/boot_linux_console.py 
->>> b/tests/acceptance/boot_linux_console.py
->>> index fb41bb7144..969fbf3952 100644
->>> --- a/tests/acceptance/boot_linux_console.py
->>> +++ b/tests/acceptance/boot_linux_console.py
->>> @@ -1047,15 +1047,6 @@ class BootLinuxConsole(LinuxKernelTest):
->>>           tar_hash = 'ac688fd00561a2b6ce1359f9ff6aa2b98c9a570c'
->>>           self.do_test_advcal_2018('07', tar_hash, 'sanity-clause.elf')
->>> -    @skip("Test currently broken") # Console stuck as of 5.2-rc1
->>> -    def test_microblaze_s3adsp1800(self):
->>> -        """
->>> -        :avocado: tags=arch:microblaze
->>> -        :avocado: tags=machine:petalogix-s3adsp1800
->>> -        """
->>> -        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
->>> -        self.do_test_advcal_2018('17', tar_hash, 'ballerina.bin')
->>> -
->>>       def test_or1k_sim(self):
->>>           """
->>>           :avocado: tags=arch:or1k
->>> diff --git a/tests/acceptance/machine_microblaze.py 
->>> b/tests/acceptance/machine_microblaze.py
->>> new file mode 100644
->>> index 0000000000..7f6d18495d
->>> --- /dev/null
->>> +++ b/tests/acceptance/machine_microblaze.py
->>> @@ -0,0 +1,35 @@
->>> +# Functional test that boots a microblaze Linux kernel and checks 
->>> the console
->>> +#
->>> +# Copyright (c) 2018, 2021 Red Hat, Inc.
->>> +#
->>> +# This work is licensed under the terms of the GNU GPL, version 2 or
->>> +# later. See the COPYING file in the top-level directory.
->>> +
->>> +from avocado_qemu import Test
->>> +from avocado_qemu import wait_for_console_pattern
->>> +from avocado.utils import archive
->>> +
->>> +class MicroblazeMachine(Test):
->>> +
->>> +    timeout = 90
->>> +
->>> +    def test_microblaze_s3adsp1800(self):
->>> +        """
->>> +        :avocado: tags=arch:microblaze
->>> +        :avocado: tags=machine:petalogix-s3adsp1800
->>> +        """
->>> +
->>> +        tar_url = ('https://www.qemu-advent-calendar.org'
->>> +                   '/2018/download/day17.tar.xz')
->>> +        tar_hash = '08bf3e3bfb6b6c7ce1e54ab65d54e189f2caf13f'
->>> +        file_path = self.fetch_asset(tar_url, asset_hash=tar_hash)
->>> +        archive.extract(file_path, self.workdir)
->>> +        self.vm.set_console()
->>> +        self.vm.add_args('-kernel', self.workdir + 
->>> '/day17/ballerina.bin')
->>> +        self.vm.launch()
->>> +        wait_for_console_pattern(self, 'This architecture does not 
->>> have '
->>> +                                       'kernel memory protection')
->>> +        # Note:
->>> +        # The kernel sometimes gets stuck after the "This 
->>> architecture ..."
->>> +        # message, that's why we don't test for a later string 
->>> here. This
->>> +        # needs some investigation by a microblaze wizard one day...
->>
->>
->> The change looks good to me.
->>
->> Also I appreciate the note you left on code. In addition I suggest to 
->> put some tag to indicate it needs some investigation or that it is 
->> flaky (although that's not the case anymore), because it will ease 
->> the discovery and filtering of "problematic" tests. What do you think?
->
-> Sounds reasonable, but I'm not aware of any such tags in the 
-> "acceptance" code yet... what exactly do you have in mind?
+The main difference from v1 is the first patch, which fixes overflow
+issues in nearby code.  The second patch is the same as v1 except for
+replacing %d->%u in the error message.
 
-First, I don't want to hold this patch any longer. So:
+Paolo
 
-Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Paolo Bonzini (2):
+  pci: reject too large ROMs
+  pci: add romsize property
 
-Then back to the tags discussion...
+ hw/pci/pci.c             | 28 ++++++++++++++++++++++++----
+ hw/xen/xen_pt_load_rom.c | 14 ++++++++++++--
+ include/hw/pci/pci.h     |  1 +
+ 3 files changed, 37 insertions(+), 6 deletions(-)
 
-I agree with Philippe when he says [1] that Avocado tags might be 
-underused. But unlike his idea (see [1], which I think is very good btw) 
-here I mentioned the use of tags to solve a different problem: ease the 
-search for tests that need maintenance.
-
-The test in this patch, for example, could be tagged "needReview" 
-(sorry, there must exist a better tag name). If it was failing 
-intermittently (and we hope your changes prevent that) then we could 
-have it tagged "flaky". Disabled tests get marked as "disabled", and so 
-on. Thus, one can use the `avocado list -t needReview` command to get 
-the list of tests.
-
-I will come up with a RFC series so we may continue this conversation on 
-concrete examples. Sounds good to you?
-
-[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg772651.html
-
-Thanks!
-
-- Wainer
-
->
->
->  Thomas
+-- 
+2.29.2
 
 
