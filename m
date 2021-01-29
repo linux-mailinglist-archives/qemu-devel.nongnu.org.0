@@ -2,133 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5BFB30852F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 06:28:17 +0100 (CET)
-Received: from localhost ([::1]:44250 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F2F308547
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 06:39:05 +0100 (CET)
+Received: from localhost ([::1]:48680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5MKO-0004TK-EQ
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 00:28:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38938)
+	id 1l5MUp-0006td-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 00:39:03 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39944)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l5MJE-0003yO-Vr; Fri, 29 Jan 2021 00:27:05 -0500
-Received: from mail-db8eur05on2122.outbound.protection.outlook.com
- ([40.107.20.122]:22945 helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ id 1l5MTQ-0005zO-Hp; Fri, 29 Jan 2021 00:37:36 -0500
+Received: from mail-he1eur04on072e.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0d::72e]:55300
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l5MJA-0004Mu-7B; Fri, 29 Jan 2021 00:27:03 -0500
+ id 1l5MTN-0000tJ-QJ; Fri, 29 Jan 2021 00:37:36 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=M0DMojxuBn2oZaMFCCNJ11s5YioPI/9hdfg+4bKLKiFYRvWkr4CFPk8YVDTrPY4bs2PlMCVxpXuS/6LKZVFdIiSrhXZcy3OgPem7kZyFA5BjmgH9h5CN2Br+i9fO3JJfeq6WcDmyTnGNer0AsZuECszxEtHqP/1bqHViOL6D84tZeyBB1hmytvcR/Xm4FgG15PgDYWdb5qDluUhfAoqyq4NMDNQoGFquPWEAwfAwpY1Q/dS0+RL/Vauy99tsS9wdmk9MVW+H41rf96u7J+ylL5X0Krs3lvpjeLhbGEo9+1J9pUAU5nIrDFu/KE8mnV6xgSdjXPMAcLVzkPeKQCtRZw==
+ b=lMx9sQMwvuH5NtXb72vheJBiqyIqj13j+QpsqYKnlFn+GIpNrNRgal/riyKvCI3pcxFQb8d1t3Gq5LxfRgqEJoiYdN8Woh6RVXauDHDmI0Sq9WD/0+KjwUGqcVd5O+wKJZKK1AxHobq7W+ge9yeZZYvIc9Fl1ITHHv8W1Et0m2hNvu5EpVSNVNU6UrdvE4Vnkj+LHeNr4uSoAl2q0eqnnuhmrx/0sQeDFifXd/rOVPn7tSounc0U5avhdvrB7teyPtxCKH+iaiLvU2omYMQfU+bFv0LG8tVLgW0QjUUNZUMozfXkWzilsEJzaAuqsJRz1y9Jg8+qKsGz3v6N+UDjHg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=amWVJVIsy1JIOLlZOvCN9A8bzGY2WOPqn0l4u5ZUBWI=;
- b=GUdgWy0ye3dmBsabDOzaBzEe2kL1jb5YKbvRpSdfcZXHOuDpg94tPoKVrsgjxWJ/aDl36eUfOEbuRZvCfVhBU32VkhyRgVRgD8z8l1QiaiiJSSRbROulC68Cow//MaSXyhTFqL7nYVwRDc/1FC8KKhMz+ndbM2sS8NGB45+8Fpa4AW9GGuPtTwtbjczjRGnaR3WfrbPtY7/poi+KJ7jEAiNPc+Kp1zGwivjveYLRs4WwjnO0Cc8jUhlI7A50YIh+xFCKODzp7UaNfbMLyxDwVU8FE08aiTO61eH3d5PCkG65a1Q5spUwAr389jnKAVwXs3IzqO5q4ooA/lwJA2txDg==
+ bh=5Oct214cTon07LlY/hqb6O5pXUApItnlDQu9/Qoyp7U=;
+ b=ZPljz9YzpZDW+SZSGdOBgjHpQhW+jc1uJH691AJIzh0k3u8AOGFyKP/N/Pke2SzxeAmtUpYp+oUo7zQjWjxhW2ZSRXzZftS8GUj/UMWTkc5XYah6VdGXDfY60vxoQigh2fE4MVKhkso2XHWwoa1qrOK3BtSwGKfviFeBrh8UK9HX4PlH1ab9M7XjIinVzEcYK2v185VISH12Dm32d5YW4Hzt+lAJfxKsNnlYKJYVGkrD4sa5gsQX9BFGuE5vi8oEfhslGVTAwsZo4Usbey9cDHDVlNFEqrdXTW91LblGpZDxfKHwWOyKAQcj0sKiehar4ScIaRvg3yFJABXu47NNkA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=amWVJVIsy1JIOLlZOvCN9A8bzGY2WOPqn0l4u5ZUBWI=;
- b=wSLPcPxzLrPSR/gFTeuceHK3uCLcruji1dRKIr9YuoBGDalCMToHtmn9bBkSJD3/ZkZvmEwGV5QmSMDjiuf0H/7WlvEn8PFcQMdsj9Zmu8E0BHf2gh5lBdvuHj764+DCb6WBcZM10HT25GhZ/sKDjwHJESsaVI0rxsIpruYRY5s=
-Authentication-Results: nongnu.org; dkim=none (message not signed)
- header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
+ bh=5Oct214cTon07LlY/hqb6O5pXUApItnlDQu9/Qoyp7U=;
+ b=tVUytqqRTkBODBn3VgcVvPqTseYqO77Q1ebOemBkCiSVrmgUmtGIXi2AID72pT4oKJCGkrTFg7ToZKCS0QYAWqum8hEt0T9JnrdWCGy5dTBJ85On3GOI0bFPmDWDKZXWtI3C5wE3N9V0JWfEqKmMhK/HfBF53I3AWYa4JAHfMlA=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
- by AM6PR08MB3159.eurprd08.prod.outlook.com (2603:10a6:209:46::20)
+ by AS8PR08MB6102.eurprd08.prod.outlook.com (2603:10a6:20b:23d::14)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.17; Fri, 29 Jan
- 2021 05:26:56 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.17; Fri, 29 Jan
+ 2021 05:37:16 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.019; Fri, 29 Jan 2021
- 05:26:56 +0000
-Subject: Re: [PULL 14/53] block: apply COR-filter to block-stream jobs
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
- Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-References: <20210126142016.806073-1-mreitz@redhat.com>
- <20210126142016.806073-15-mreitz@redhat.com>
- <9772b42b-8175-9433-7a56-405403d64dd9@redhat.com>
+ 05:37:16 +0000
+Subject: Re: [PATCH 1/3] block/nbd: only detach existing iochannel from
+ aio_context
+To: Roman Kagan <rvkagan@yandex-team.ru>, qemu-devel@nongnu.org
+References: <20210128201418.607640-1-rvkagan@yandex-team.ru>
+ <20210128201418.607640-2-rvkagan@yandex-team.ru>
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <3aea506b-eba0-3068-be5e-d6fbb43e6cba@virtuozzo.com>
-Date: Fri, 29 Jan 2021 08:26:52 +0300
+Message-ID: <8b3ec104-420d-1504-454c-3f6560850087@virtuozzo.com>
+Date: Fri, 29 Jan 2021 08:37:13 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.1
-In-Reply-To: <9772b42b-8175-9433-7a56-405403d64dd9@redhat.com>
+In-Reply-To: <20210128201418.607640-2-rvkagan@yandex-team.ru>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [178.176.77.43]
-X-ClientProxiedBy: AM0PR03CA0083.eurprd03.prod.outlook.com
- (2603:10a6:208:69::24) To AM7PR08MB5494.eurprd08.prod.outlook.com
+X-ClientProxiedBy: AM4PR0902CA0013.eurprd09.prod.outlook.com
+ (2603:10a6:200:9b::23) To AM7PR08MB5494.eurprd08.prod.outlook.com
  (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from [192.168.42.193] (178.176.77.43) by
- AM0PR03CA0083.eurprd03.prod.outlook.com (2603:10a6:208:69::24) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.16 via Frontend Transport; Fri, 29 Jan 2021 05:26:55 +0000
+ AM4PR0902CA0013.eurprd09.prod.outlook.com (2603:10a6:200:9b::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend
+ Transport; Fri, 29 Jan 2021 05:37:15 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 974fc143-71f3-4e0f-088f-08d8c4167e37
-X-MS-TrafficTypeDiagnostic: AM6PR08MB3159:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB31590951F97157E752C8C7C4C1B99@AM6PR08MB3159.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
+X-MS-Office365-Filtering-Correlation-Id: a36dd304-ede5-493e-0e34-08d8c417efed
+X-MS-TrafficTypeDiagnostic: AS8PR08MB6102:
+X-Microsoft-Antispam-PRVS: <AS8PR08MB610226434CF5B3D3F36FA73DC1B99@AS8PR08MB6102.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1824;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0QhIIx9BCWyMmfRSFlxF7tw/kcPq4mVFUHa0hwD9pPqTrD+DhwefYB1GcyBgEJuZ4EXwdRoTH/f64PO+YvtvX87o22itdopXN198WLzV67NVexzz6JASvtY+41tMRgPb1r3F70FRrDES5DnhZu6ljHxS9v7tHdu13+vSs2z+y9t8gvtuGkGYi/ZKh+7+NMedelEO0zFzTuvQjCF584sCQsrFjZU/GBHqDXSH19mvzqHNonTGXWxzoD8093zTE13/bIldAcL+f+cLGxRr4v2eP4mWrIALwnn8GQq4a/yt19uPa80dJV95h55S2CmE/oWG4CRS6kcx6FsxnOjlkpF49rldDc8zdu0lRuscm0zYwdxibNbTaJGq9EkopvpY7DCJ7E+VhJDrzTZ5qB12lXwlh8ahH+aLu70czvcI+JhLMZ/m+cEdHfyaGWINO1r1Zv7LWYKTglPNu9eoEWj3siaIUGYvdWjIQMYH4khZz/Xmm55aj0mR2Y2wTZ4O3TjkteE/Yzn1lNYGHv2nmbft5wfw1md9x+tHpzNkwt8jE8JjI/asr8IeM8eTKgInkEjcpY/ha1b2PlSCTs3kpAbq3o/RXsL7kAKw+pGc5xM0M0WMQtQ=
+X-Microsoft-Antispam-Message-Info: 4llMTJRgu0ibbd6sL36YncIJ2WNoP20Wuxq+TuWJU4wlDfQRqTNFEHsnaZw0G3TNK7JDw9yLAteu0fwV8uN4RMZUFV2bqHewK9B2zfIcpBMMuVS5Pp3ynVXS+lP7UUfGNZjAN3nsVaB0ALSsBDLrfrBuGJfeMycW77y81Ue9cA+VlORamqcdaQ5svLQccd2cT5Z3W5t3GwapoEHGZ34ejJbeuYvTr5xBISFWyOXT1ohSQGcJkqRMoHUlwS929TcFc1nWOgFBFwMISpVrUHt1xLxKl5hiPi44a9fy3joNRkshOfTniVC6G3rL/MeNy+GzMOeO0oHF2M2cF/+wubdRtBH+xUZco5a6cfjp0SEmiYyBQ/d59a09sWrTZS7ElSqxjSPRa6kA5E2Hclzyn7gguZEAkeLp3d/nEeaDvtMpgl7k0/ggkBjn/a0l1xjJYYrzSd5D1oXrOF0R9kc9U/tfY6bRcCgudasIXMzIw6SyOEMiM0haj1eaupa9BO0YoXIf51qj9FZl8vFJRhaXMnueZHitq5eZAtt/ybc/AEFnBlJqa00mTgFR+27CzEka2pLJx1Df/Xy4TyG0zHTkn1yEhEymRUoboS5f5lnyJja9vUk=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(4636009)(366004)(396003)(346002)(376002)(39840400004)(136003)(66946007)(31686004)(66556008)(26005)(316002)(66476007)(6486002)(478600001)(16576012)(8676002)(86362001)(186003)(6666004)(53546011)(5660300002)(31696002)(2616005)(16526019)(8936002)(956004)(54906003)(52116002)(110136005)(2906002)(4326008)(6636002)(83380400001)(36756003)(45980500001)(43740500002);
+ SFS:(4636009)(346002)(396003)(366004)(376002)(39840400004)(136003)(956004)(54906003)(83380400001)(16576012)(2616005)(316002)(6486002)(36756003)(26005)(16526019)(66946007)(8676002)(5660300002)(186003)(31686004)(66476007)(2906002)(31696002)(478600001)(4326008)(66556008)(8936002)(52116002)(86362001)(43740500002)(45980500001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?WnpCNWE0UEIyMEN6VndGV1cxcDR2RjFWMmR4Y3pRa09GRmN1NS9UT3gyS1ZY?=
- =?utf-8?B?QnRpZ1l5NVRuSkRBYkxqUFZQc0dVbVFoZmc5MFhuRWVPcnNLaExheVZPOHE3?=
- =?utf-8?B?dE1XekdRUWJveGVxL0lmWkdRZ3ArL1p1Mkk1MEtOb2xOMG1JWUQ0ai94Tkw1?=
- =?utf-8?B?eHVXU0JhVGg1emxpQVJsbFkxYWdpSEkrdlMzYWIxd2ZFdTB3b3QzcGNpSFl1?=
- =?utf-8?B?UjViOWZmMmpJT2YzT3JZdW8zb0lUbjg1QnkvdVVpVDlxQ0Zwd3ZqdGRLMzhq?=
- =?utf-8?B?SUc3cW5USUI1OGNOWG5kbkVZOVBpeVhYRHA3c004Y2NGZ1A3OGdGQWdoUWZW?=
- =?utf-8?B?WFZXRmd3MVcrUDlDYU8rTWg3Nnl2bjErdi9vbVdTR2x3QVlUTGRRelkzYU5a?=
- =?utf-8?B?aE93RXFjNitOQlRHT2tKUFBTZWw0T3FzR1ZCYy9wSGluaGpSWGZWZVY3Y3Fm?=
- =?utf-8?B?WEZKZ0YxKzlFSm93YmdKZmMzOFZ1V250WHlYV0xBa1ZZOGw2RjQ4L2hvMTRl?=
- =?utf-8?B?RHYwTE1yNTVnZk5VQ1dCeGlwZ1lKNnZvbVBlejJPTUd4OXYzRVdqUFczTGZp?=
- =?utf-8?B?c3kwTW5iRDBWUDhuMEhKQS9aa3dOTWtCK2MyNmp4SWoydTdzQW9oL2JRd3dv?=
- =?utf-8?B?Nkl0QnJXNGNNM1Rhd2dBSWxTeE52Z05JV3A0Y3Nla1VCdzRzd25tK2xtK3JS?=
- =?utf-8?B?OG16aDBuOTZQdGJvYnIxRXVpaE1qTDk2dW9iRFZiQU9DWE1DL3hCeis3Mk1x?=
- =?utf-8?B?dzBRWHJaOVJ4d2RwY3BnMDBEdmU0MENTRjBzbVc4WExpNDZvVFJMbmFJbDE2?=
- =?utf-8?B?RUVxNWVjZGViVVEvRDV0eUFueGp3UlQ5eVd5RVNHMzZmZmkrQjB1K1FNZTMv?=
- =?utf-8?B?a29SL2U0RGlUTzZ6anhsWjlLRVdrak9ISnloL3krMlZaQVlMcUNtU1V6Vit1?=
- =?utf-8?B?dkNVTi9pVkxyZklITEU1ZmUxK3ZoRW5sTFIzS2V1OVY3TDBKRGRxN1FqWUNR?=
- =?utf-8?B?akd1YmFZenA4QzJjNjJlWmo0UWpldlpVbit6OThqZ3g1SWNDUDlud2JJYnVC?=
- =?utf-8?B?YjVzcFlpS0lBRlQxb2FCNDluRXhmQXpySXhIZFBrbWp4cFhVRmRBTys0RTBW?=
- =?utf-8?B?M0hYSWlIRitRcWE0NjBpSy93b0hHRndPbmdTMXdVOWhNSVRDbFV0bmVMZFVw?=
- =?utf-8?B?WXdQQVY5aE1OZWRJblNmTjZKeW50WlBBQW1zMjlGWDhDMTQ4K3A3S3Qrb3Z3?=
- =?utf-8?B?ekZIamttWXFHdzlmZzBVUERiZllVaS9SNmh5YkVML1dNZFdNVjVBaGY2Y1Bv?=
- =?utf-8?B?ZjlVK2xJWkdRUkxsczRTK3VDdExIdDYzdDJKM1lLMzRSeVp4eVJ5d081R1h1?=
- =?utf-8?B?ZWhMVTJGWnJZdGIvUThqUzg3eDIzTGwraXFPMXdScE10NWZMbmQxN0JSSUxj?=
- =?utf-8?Q?5h5sqgiJ?=
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?UHFrVmFnV3puSzFJbWtwc3FVMEFHY2RBNkY4aHZDSFlIR3ZTK0J5OVhaWUFB?=
+ =?utf-8?B?VTdGLy9tZndBNGdiSnFzYjRxTUNnRXY2Y2lzTDVncjRkVEJNdGY4L3hvWXlY?=
+ =?utf-8?B?R2Z2TE1tRWQ5OFdUSXZDMWphVHRxY1ovM2I3MFliSUt5VWZmcFJCVHd5aGFn?=
+ =?utf-8?B?NFExOXV0cGJ5TlU1VTB4UzJqTkYvN1lKOE5ucmJkeTBUK0tkSGx0VnNJWmp3?=
+ =?utf-8?B?UDBCcGZnMTN6QUpCbzV4bkc4RFNSMlJnN3lSSzJHVFZvWGVwV3I5c1lqY0Z5?=
+ =?utf-8?B?elR1V1pRVWZJenZzRjN4dHkwb3ZoZ0lxV24rdUY0elBUaGlROEgzTVFRU0J4?=
+ =?utf-8?B?ZE5XUGduNVBGRUVBVk5QS3BLOWp2ZmtxRWxhUHFxVHBXdlY3ZXQ1eVBzT1dB?=
+ =?utf-8?B?S3BRaXlySGErMHovM0JYUzVqS010cTV4cXkxUUhMcS9kbTA1ay82dUtCc2hZ?=
+ =?utf-8?B?KzVxYkRsV05GZ0syUE5DajJxbE9PeVFzSlRtQjVlR1grSG5VVWJ4bDhnRGpR?=
+ =?utf-8?B?dVB1eFRWVGxRMXJJRG01dG9LZlJ6OW5lRCswYUp5ZmlIZzVmeFVqYUR6amJn?=
+ =?utf-8?B?UVN6dWwxWTIwWjlKaFd3eVJvRnZLY0hWcXUyMkE0QzJxazBCbFNUNkd2MU5l?=
+ =?utf-8?B?QXBZOVEwM0hMRUhhK21qR1FOVDlseThGbHMrSm1KSFB5SG9kYTErNHFFYmlv?=
+ =?utf-8?B?elZleUtpVFpnSUpQVDBNY2pxUlh4RCtyRDFBTHpOZk43Tm5zalhHT1cxNEpm?=
+ =?utf-8?B?UkxCVDRVUzRSSTVhc256QVpOejVWTFFNalBVemFCQlRNSjE0dlNPZmJYL0RY?=
+ =?utf-8?B?MGxsbE1zZmJuNWU5Q3pNdndKZ0F0OURnQkEwRnpjU2gxUUloQ2RlWGtXV1Rr?=
+ =?utf-8?B?c3NUc2NHU1dwUjJuKzFJV2FSY3o3K3Z5NzI5b21PUkx4RkhjUUlNQVRFa3J4?=
+ =?utf-8?B?SVo4VW0rMW9IK01GY2RDeENVUE40KzVnYkxhbWZKbm9UYTZNK2MrQXRMdTZ0?=
+ =?utf-8?B?Q1lIRTgwS3N1bUMwTmZ4TnMwbkdYVmpWaW5LaHdFenZVeGZ0Y2tZRmN0Y1By?=
+ =?utf-8?B?WVFaYXc0YlB4aDZnNWJETFZsY3plbjBsTTZMN0NTVStSUDRZVGVkUGhjdnhP?=
+ =?utf-8?B?ZWJOMTYwQ3RXTU45S1E3RVRqMXRuWDlKSnZOdE0yVUFSMjE1aVlVSGtsemFX?=
+ =?utf-8?B?SDZYK3hyTDRsRmRxWTh5S0pOMlJscmtXSHQzc3JIa0d2YlJEN0k1TjcrTW4z?=
+ =?utf-8?B?QUVwNDFaOCs2ajVDM3RhUlF4dmJ1SHJHYXhaSlN1TkpSTnJRWmpVSW93SDNS?=
+ =?utf-8?B?aHNhbmJDWFdIQ0dHUkRkeU50ZHRlVS9tc1RESS9LQnZvWjRoczZhYlFiclhC?=
+ =?utf-8?B?dlpQUDJZTHNoS1dGbXBQckw4M0EwT0VkQkFaK2V0blY3VHlYSXpTNzNhb1dj?=
+ =?utf-8?Q?JHwvulc0?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 974fc143-71f3-4e0f-088f-08d8c4167e37
+X-MS-Exchange-CrossTenant-Network-Message-Id: a36dd304-ede5-493e-0e34-08d8c417efed
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 05:26:56.0239 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 05:37:16.2443 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7F8lyJ10VYQoAP4vovcQgFaOMYm08sHKDFmkbXEMc9z218PuNM56Gf5MsE74j7iIsrX1i2dyaOJEY4BGfMXdePD73i9ATaoVJiOGTd8HqNU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3159
-Received-SPF: pass client-ip=40.107.20.122;
+X-MS-Exchange-CrossTenant-UserPrincipalName: LDwLzwoW7LIbUIgJlR1RWfy8ZEQtg/KT9EsQAkaHHM2hxrm4+aqLI6HVxPx30QM12Zqht2PHu4WjptmERgJJ2Yta2kmretNRtPEkgBjGwzc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6102
+Received-SPF: pass client-ip=2a01:111:f400:fe0d::72e;
  envelope-from=vsementsov@virtuozzo.com;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -141,170 +139,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-28.01.2021 21:38, Philippe Mathieu-Daudé wrote:
-> Hi Andrey,
+28.01.2021 23:14, Roman Kagan wrote:
+> When the reconnect in NBD client is in progress, the iochannel used for
+> NBD connection doesn't exist.  Therefore an attempt to detach it from
+> the aio_context of the parent BlockDriverState results in a NULL pointer
+> dereference.
 > 
-> On 1/26/21 3:19 PM, Max Reitz wrote:
->> From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->>
->> This patch completes the series with the COR-filter applied to
->> block-stream operations.
->>
->> Adding the filter makes it possible in future implement discarding
->> copied regions in backing files during the block-stream job, to reduce
->> the disk overuse (we need control on permissions).
->>
->> Also, the filter now is smart enough to do copy-on-read with specified
->> base, so we have benefit on guest reads even when doing block-stream of
->> the part of the backing chain.
->>
->> Several iotests are slightly modified due to filter insertion.
->>
->> Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
->> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->> Message-Id: <20201216061703.70908-14-vsementsov@virtuozzo.com>
->> Reviewed-by: Max Reitz <mreitz@redhat.com>
->> Signed-off-by: Max Reitz <mreitz@redhat.com>
->> ---
->>   block/stream.c             | 105 ++++++++++++++++++++++---------------
->>   tests/qemu-iotests/030     |   8 +--
->>   tests/qemu-iotests/141.out |   2 +-
->>   tests/qemu-iotests/245     |  20 ++++---
->>   4 files changed, 80 insertions(+), 55 deletions(-)
->>
->> diff --git a/block/stream.c b/block/stream.c
-> ...
->> @@ -228,7 +211,9 @@ void stream_start(const char *job_id, BlockDriverState *bs,
->>       bool bs_read_only;
->>       int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
->>       BlockDriverState *base_overlay;
->> +    BlockDriverState *cor_filter_bs = NULL;
->>       BlockDriverState *above_base;
->> +    QDict *opts;
->>   
->>       assert(!(base && bottom));
->>       assert(!(backing_file_str && bottom));
->> @@ -266,30 +251,62 @@ void stream_start(const char *job_id, BlockDriverState *bs,
->>           }
->>       }
->>   
->> -    if (bdrv_freeze_backing_chain(bs, above_base, errp) < 0) {
->> -        return;
->> -    }
->> -
->>       /* Make sure that the image is opened in read-write mode */
->>       bs_read_only = bdrv_is_read_only(bs);
->>       if (bs_read_only) {
->> -        if (bdrv_reopen_set_read_only(bs, false, errp) != 0) {
->> -            bs_read_only = false;
->> -            goto fail;
->> +        int ret;
->> +        /* Hold the chain during reopen */
->> +        if (bdrv_freeze_backing_chain(bs, above_base, errp) < 0) {
->> +            return;
->> +        }
->> +
->> +        ret = bdrv_reopen_set_read_only(bs, false, errp);
->> +
->> +        /* failure, or cor-filter will hold the chain */
->> +        bdrv_unfreeze_backing_chain(bs, above_base);
->> +
->> +        if (ret < 0) {
->> +            return;
->>           }
->>       }
->>   
->> -    /* Prevent concurrent jobs trying to modify the graph structure here, we
->> -     * already have our own plans. Also don't allow resize as the image size is
->> -     * queried only at the job start and then cached. */
->> -    s = block_job_create(job_id, &stream_job_driver, NULL, bs,
->> -                         basic_flags | BLK_PERM_GRAPH_MOD,
->> +    opts = qdict_new();
+> The problem is triggerable, in particular, when an outgoing migration is
+> about to finish, and stopping the dataplane tries to move the
+> BlockDriverState from the iothread aio_context to the main loop.  If the
+> NBD connection is lost before this point, and the NBD client has entered
+> the reconnect procedure, QEMU crashes:
 > 
-> Coverity reported (CID 1445793) that this resource could be leaked...
-> 
->> +
->> +    qdict_put_str(opts, "driver", "copy-on-read");
->> +    qdict_put_str(opts, "file", bdrv_get_node_name(bs));
->> +    /* Pass the base_overlay node name as 'bottom' to COR driver */
->> +    qdict_put_str(opts, "bottom", base_overlay->node_name);
->> +    if (filter_node_name) {
->> +        qdict_put_str(opts, "node-name", filter_node_name);
->> +    }
->> +
->> +    cor_filter_bs = bdrv_insert_node(bs, opts, BDRV_O_RDWR, errp);
->> +    if (!cor_filter_bs) {
-> 
-> ... probably here.
-> 
-> Should we call g_free(opts) here?
+>      at /build/qemu-gYtjVn/qemu-5.0.1/io/channel.c:452
+>      at /build/qemu-gYtjVn/qemu-5.0.1/block.c:6151
+>      new_context=new_context@entry=0x562a260c9580,
+>      ignore=ignore@entry=0x7feeadc9b780)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/block.c:6230
+>      (bs=bs@entry=0x562a268d6a00, ctx=0x562a260c9580,
+>      ignore_child=<optimized out>, errp=<optimized out>)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/block.c:6332
+>      new_context=0x562a260c9580,
+>      update_root_node=update_root_node@entry=true, errp=errp@entry=0x0)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/block/block-backend.c:1989
+>      new_context=<optimized out>, errp=errp@entry=0x0)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/block/block-backend.c:2010
+>      out>)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/hw/block/dataplane/virtio-blk.c:292
+>      at /build/qemu-gYtjVn/qemu-5.0.1/hw/virtio/virtio-bus.c:245
+>      running=0, state=<optimized out>)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/hw/virtio/virtio.c:3220
+>      state=state@entry=RUN_STATE_FINISH_MIGRATE)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/softmmu/vl.c:1275
+>      send_stop=<optimized out>)
+>      at /build/qemu-gYtjVn/qemu-5.0.1/cpus.c:1032
+>      at /build/qemu-gYtjVn/qemu-5.0.1/migration/migration.c:2914
+>      at /build/qemu-gYtjVn/qemu-5.0.1/migration/migration.c:3275
+>      at /build/qemu-gYtjVn/qemu-5.0.1/migration/migration.c:3439
+>      at /build/qemu-gYtjVn/qemu-5.0.1/util/qemu-thread-posix.c:519
+>      at pthread_create.c:333
+>      oldval=0x562a2452b138, oldlenp=0x0, newval=0x562a2452c5e0
+>      <__func__.28102>, newlen=0)
+>      at ../sysdeps/unix/sysv/linux/sysctl.c:30
 
-
-Actually, not..
-
-bdrv_insert_node() calls bdrv_open() which eats options even on failure.
-
-I see, CID already marked false-positive?
+function names are somehow lost :(
 
 > 
->> +        goto fail;
->> +    }
->> +
->> +    if (!filter_node_name) {
->> +        cor_filter_bs->implicit = true;
->> +    }
->> +
->> +    s = block_job_create(job_id, &stream_job_driver, NULL, cor_filter_bs,
->> +                         BLK_PERM_CONSISTENT_READ,
->>                            basic_flags | BLK_PERM_WRITE,
->>                            speed, creation_flags, NULL, NULL, errp);
->>       if (!s) {
->>           goto fail;
->>       }
->>   
->> +    /*
->> +     * Prevent concurrent jobs trying to modify the graph structure here, we
->> +     * already have our own plans. Also don't allow resize as the image size is
->> +     * queried only at the job start and then cached.
->> +     */
->> +    if (block_job_add_bdrv(&s->common, "active node", bs, 0,
->> +                           basic_flags | BLK_PERM_WRITE, &error_abort)) {
->> +        goto fail;
->> +    }
->> +
->>       /* Block all intermediate nodes between bs and base, because they will
->>        * disappear from the chain after this operation. The streaming job reads
->>        * every block only once, assuming that it doesn't change, so forbid writes
->> @@ -310,9 +327,9 @@ void stream_start(const char *job_id, BlockDriverState *bs,
->>       s->base_overlay = base_overlay;
->>       s->above_base = above_base;
->>       s->backing_file_str = g_strdup(backing_file_str);
->> +    s->cor_filter_bs = cor_filter_bs;
->>       s->target_bs = bs;
->>       s->bs_read_only = bs_read_only;
->> -    s->chain_frozen = true;
->>   
->>       s->on_error = on_error;
->>       trace_stream_start(bs, base, s);
->> @@ -320,8 +337,10 @@ void stream_start(const char *job_id, BlockDriverState *bs,
->>       return;
->>   
->>   fail:
->> +    if (cor_filter_bs) {
->> +        bdrv_cor_filter_drop(cor_filter_bs);
->> +    }
->>       if (bs_read_only) {
->>           bdrv_reopen_set_read_only(bs, true, NULL);
->>       }
->> -    bdrv_unfreeze_backing_chain(bs, above_base);
->>   }
-> ...
+> Fix it by checking that the iochannel is non-null before trying to
+> detach it from the aio_context.  If it is null, no detaching is needed,
+> and it will get reattached in the proper aio_context once the connection
+> is reestablished.
 > 
+> Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
+
+Thanks!
+
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+
+> ---
+>   block/nbd.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/block/nbd.c b/block/nbd.c
+> index 42e10c7c93..bcd6641e90 100644
+> --- a/block/nbd.c
+> +++ b/block/nbd.c
+> @@ -235,7 +235,14 @@ static void nbd_client_detach_aio_context(BlockDriverState *bs)
+>   
+>       /* Timer is deleted in nbd_client_co_drain_begin() */
+>       assert(!s->reconnect_delay_timer);
+> -    qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
+> +    /*
+> +     * If reconnect is in progress we may have no ->ioc.  It will be
+> +     * re-instantiated in the proper aio context once the connection is
+> +     * reestablished.
+> +     */
+> +    if (s->ioc) {
+> +        qio_channel_detach_aio_context(QIO_CHANNEL(s->ioc));
+> +    }
+>   }
+>   
+>   static void nbd_client_attach_aio_context_bh(void *opaque)
 > 
 
 
