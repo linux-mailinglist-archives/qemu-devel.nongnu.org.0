@@ -2,62 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36197308697
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 08:43:52 +0100 (CET)
-Received: from localhost ([::1]:49754 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 945343086B3
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 08:52:58 +0100 (CET)
+Received: from localhost ([::1]:54062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5ORb-0002Uv-9Q
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 02:43:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56384)
+	id 1l5OaP-0004e3-7g
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 02:52:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1l5ON0-0007MC-Mc; Fri, 29 Jan 2021 02:39:06 -0500
-Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:37032)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
- id 1l5OMy-0004M5-G0; Fri, 29 Jan 2021 02:39:06 -0500
-Received: from vla1-fdfb804fb3f3.qloud-c.yandex.net
- (vla1-fdfb804fb3f3.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0d:3199:0:640:fdfb:804f])
- by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id B005C2E23DC;
- Fri, 29 Jan 2021 10:39:02 +0300 (MSK)
-Received: from vla1-81430ab5870b.qloud-c.yandex.net
- (vla1-81430ab5870b.qloud-c.yandex.net [2a02:6b8:c0d:35a1:0:640:8143:ab5])
- by vla1-fdfb804fb3f3.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
- o1Wtf9HWua-d2wq1vFn; Fri, 29 Jan 2021 10:39:02 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1611905942; bh=gzy55dftt9Amp91HbZtNUUPI6Lgxpk4o7F6uPERRcNs=;
- h=In-Reply-To:Message-Id:References:Date:Subject:To:From:Cc;
- b=07o23AUabzkuntZGTMk6WU1U8alK38yPsown6EUWfFk9l3Z943+VeTE87rkJ/Z0vH
- hUEyt7sqnXnnx434hOhHkCP6rrUw8kDbxE66oBIN4JNv5/3pyg1FZ3GWlDw78aIKBs
- mcsqmNbvCOeDbAW8ooDsdukjXvN9DTCP+nuJl5NM=
-Authentication-Results: vla1-fdfb804fb3f3.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
- [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
- by vla1-81430ab5870b.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- jIpaBE76QG-d2mWB5CA; Fri, 29 Jan 2021 10:39:02 +0300
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
- (Client certificate not present)
-From: Roman Kagan <rvkagan@yandex-team.ru>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 3/3] nbd: make nbd_read* return -EIO on error
-Date: Fri, 29 Jan 2021 10:38:59 +0300
-Message-Id: <20210129073859.683063-4-rvkagan@yandex-team.ru>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210129073859.683063-1-rvkagan@yandex-team.ru>
-References: <20210129073859.683063-1-rvkagan@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l5OXc-0003kJ-1d
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 02:50:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43607)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l5OXZ-0000Xb-JQ
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 02:50:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611906600;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=1yyT7ljPAJOw7efUdqwpwE7JHJhtQxFtsvtnJrgCkJc=;
+ b=NgkrqmsibO5AdQZ1HkaNs7EMgaiv2sAN8ollieHiUeb/XaMGfAkl4bpSqRVtHN7wAj7mJ0
+ dMuf6EUE6yC2Ib3ZiATlDEX6ZiMFt98LrWVCMJedi/FFqY5y4SfqZquYAPmyu53ZITsMxz
+ 7EgAyFaNQhqlFh9/6kcxepoF/OtahLA=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-1-JAfU95BfPfm2_9Skp516iA-1; Fri, 29 Jan 2021 02:49:58 -0500
+X-MC-Unique: JAfU95BfPfm2_9Skp516iA-1
+Received: by mail-wr1-f71.google.com with SMTP id l13so4592071wrq.7
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 23:49:58 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=1yyT7ljPAJOw7efUdqwpwE7JHJhtQxFtsvtnJrgCkJc=;
+ b=g6xqysgy6nyE+XAUtJEsg305Kr8Z/wBY51JMiljyJIlSB8SvbhGwLNhN0Cn+SyGU1x
+ Pgau6n0E0IqLAd8+Y/nuvk+Tvks69BWOAKIhdCtBI71T64sTp54YKIvEN2YCYwe9Aa/Q
+ Ss3LEVfknYtp7iOTN58ce+eHxO+DsEQUS6w5sx0qJmntWKxg0luHl6o051Qt4/wZXYdB
+ Wy1DfxP367NycC+6922HItX0cDwb0WjIHrw+bH5jLIRdqp46OzaocHav5PpTxfF8Annv
+ 1Y6zr9yKtRSmhNpK0D7qRD3AmcbELbUX77p6w1eeHA3xc+jnPQQliS1STmJ3B8W+uIwu
+ 0x8A==
+X-Gm-Message-State: AOAM533dpmDCPb9hat+ntE1tGzRczogPcUtEnQo0nzlTD4qW+3f7z4t3
+ 3/XF+yDbHGDhF2a+bfFKOJBDfS3QWhWbvn/Is2rnTguowmncOGUlskGV2QRYyUDviKs8HsYEGa6
+ 9e3kPxE4k4eQcEf8=
+X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr2560621wml.110.1611906597496; 
+ Thu, 28 Jan 2021 23:49:57 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxDFGpbezKiTrCMsmxMYQCYiSK9dl43X47/SK9aR3Jb2/k0ygfkskH+fEoXwF8N0TUMDIzrbA==
+X-Received: by 2002:a7b:c8c3:: with SMTP id f3mr2560597wml.110.1611906597264; 
+ Thu, 28 Jan 2021 23:49:57 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id d17sm4591500wma.2.2021.01.28.23.49.54
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 23:49:56 -0800 (PST)
+Subject: Re: [PATCH] vfio/migrate: Move switch of dirty tracking into
+ vfio_memory_listener
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <20210111073439.20236-1-zhukeqian1@huawei.com>
+ <e5f27643-441c-039c-a20c-a32c11b8d84c@redhat.com>
+ <20210128200223.GJ2951@work-vm>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d6825e67-3533-ab81-abdb-16c2ab71cfe7@redhat.com>
+Date: Fri, 29 Jan 2021 08:49:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
- envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210128200223.GJ2951@work-vm>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -71,61 +102,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>, qemu-block@nongnu.org,
- Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Keqian Zhu <zhukeqian1@huawei.com>,
+ jiangkunkun@huawei.com, Alex Williamson <alex.williamson@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
+ Kirti Wankhede <kwankhede@nvidia.com>, qemu-arm@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, wanghaibin.wang@huawei.com,
+ Zenghui Yu <yuzenghui@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-NBD reconnect logic considers the error code from the functions that
-read NBD messages to tell if reconnect should be attempted or not: it is
-attempted on -EIO, otherwise the client transitions to NBD_CLIENT_QUIT
-state (see nbd_channel_error).  This error code is propagated from the
-primitives like nbd_read.
+On 28/01/21 21:02, Dr. David Alan Gilbert wrote:
+> * Paolo Bonzini (pbonzini@redhat.com) wrote:
+>> On 11/01/21 08:34, Keqian Zhu wrote:
+>>> +static void vfio_listener_log_start(MemoryListener *listener,
+>>> +                                    MemoryRegionSection *section,
+>>> +                                    int old, int new)
+>>> +{
+>>> +    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
+>>> +
+>>> +    vfio_set_dirty_page_tracking(container, true);
+>>> +}
+>>
+>> This would enable dirty page tracking also just for having a framebuffer
+>> (DIRTY_MEMORY_VGA).  Technically it would be correct, but it would also be
+>> more heavyweight than expected.
+> 
+> Wouldn't that only happen on emulated video devices?
 
-The problem, however, is that nbd_read itself turns every error into -1
-rather than -EIO.  As a result, if the NBD server happens to die while
-sending the message, the client in QEMU receives less data than it
-expects, considers it as a fatal error, and wouldn't attempt
-reestablishing the connection.
+Yes, but still it's not impossible to have both an emulated VGA and an 
+assigned GPU or vGPU.
 
-Fix it by turning every negative return from qio_channel_read_all into
--EIO returned from nbd_read.  Apparently that was the original behavior,
-but got broken later.  Also adjust nbd_readXX to follow.
+>> In order to only cover live migration, you can use the log_global_start and
+>> log_global_stop callbacks instead.
+>>
+>> If you want to use log_start and log_stop, you need to add respectively
+>>
+>>      if (old != 0) {
+>>          return;
+>>      }
+>>
+>> and
+>>
+>>      if (new != 0) {
+>>          return;
+>>      }
+> 
+> Why 0, wouldn't you be checking for DIRTY_LOG_MIGRATION somewhere?
 
-Fixes: e6798f06a6 ("nbd: generalize usage of nbd_read")
-Signed-off-by: Roman Kagan <rvkagan@yandex-team.ru>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- include/block/nbd.h | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+Actually thinking more about it log_start/log_stop are just wrong, 
+because they would be called many times, for each MemoryRegionSection.
 
-diff --git a/include/block/nbd.h b/include/block/nbd.h
-index 4a52a43ef5..5f34d23bb0 100644
---- a/include/block/nbd.h
-+++ b/include/block/nbd.h
-@@ -364,7 +364,7 @@ static inline int nbd_read(QIOChannel *ioc, void *buffer, size_t size,
-         if (desc) {
-             error_prepend(errp, "Failed to read %s: ", desc);
-         }
--        return -1;
-+        return ret;
-     }
- 
-     return 0;
-@@ -375,8 +375,9 @@ static inline int nbd_read##bits(QIOChannel *ioc,                       \
-                                  uint##bits##_t *val,                   \
-                                  const char *desc, Error **errp)        \
- {                                                                       \
--    if (nbd_read(ioc, val, sizeof(*val), desc, errp) < 0) {             \
--        return -1;                                                      \
-+    int ret = nbd_read(ioc, val, sizeof(*val), desc, errp);             \
-+    if (ret < 0) {                                                      \
-+        return ret;                                                     \
-     }                                                                   \
-     *val = be##bits##_to_cpu(*val);                                     \
-     return 0;                                                           \
--- 
-2.29.2
+Paolo
 
 
