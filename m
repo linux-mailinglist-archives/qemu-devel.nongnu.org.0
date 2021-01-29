@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50D88308DA8
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:47:08 +0100 (CET)
-Received: from localhost ([::1]:57932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E15C5308DA9
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:47:19 +0100 (CET)
+Received: from localhost ([::1]:58690 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5ZjX-0007Ms-B8
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:47:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
+	id 1l5Zji-0007gk-VU
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:47:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44292)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5Zgs-0005fD-Rl; Fri, 29 Jan 2021 14:44:22 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34769)
+ id 1l5Zgx-0005oF-Mw; Fri, 29 Jan 2021 14:44:31 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:33709)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5Zgr-0005R9-88; Fri, 29 Jan 2021 14:44:22 -0500
-Received: by mail-wm1-x335.google.com with SMTP id o10so7639839wmc.1;
- Fri, 29 Jan 2021 11:44:20 -0800 (PST)
+ id 1l5Zgw-0005Td-AR; Fri, 29 Jan 2021 14:44:27 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id 7so10022420wrz.0;
+ Fri, 29 Jan 2021 11:44:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=l/SsznvUOPafmTl5qUYK0iZ5NhczZABOHV/F9XW5GoQ=;
- b=sxrnsQuWeA96SXzdI19O0VPLqBtiUiE1AgCmUuJ72xn4sZzxOLNlx3EVbAy09NnIHS
- S9TlJmYNYtxtMEqzUkcUXud5glpSUclAAFQiNfte1hT2vUP0OGLPxuSsSv+7MklkJcdP
- uZnSQCyCwUXaegeDqkYW5evcU5p+6hfqlufQXAU/6C0xUn642S8kcVr59Cmw3N2r0Dsq
- SAGBFx6TPIWX3PGTDZwEBIVn3aNUvvfhdqSsgb23sdTjElUWxXN1Un6WhtGCSSeomwkU
- B7Yc3sAA2HENf52Sk/LHvo0fV8+PdzJM4nugiQk4QNeODLYvPOv5StUHB1WmGsq8kiVT
- 8qcA==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=zREcxldEQ3Ph/m5rzcohbyVMIeRxlTSwY0fOJ5s3us0=;
+ b=TOD6Ywo6T+dwpYememmsc4876Ocyt6gThm6xCwSlUSVE9ZwF3u/WmRNhxNz5bcHnKs
+ 6U4lePdnT5RkpmQgZ+Ld3WNRPp0CiSnkdiGI3PKkotlzOQYnveZ7JdBfJWdCoJjfRwFT
+ /9orrTzJkEROHdH/nNSfAYN2lDB+ToE5Ki80qlsv4xf8x54R4mOkHwQGihcRSYUGnZit
+ DYGs9+Jsf9tfY915q0ufly4cKy9taSeT7GSu4Lz59VvMdteRbLuBXpB2sBrHE3H8y8Y7
+ yHwxUi+APXqArjTFxH1EEiC66J0/wXYlihtIwjcREZup4PFmyv9VdFua7bDV3m+TkxsH
+ O4WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=l/SsznvUOPafmTl5qUYK0iZ5NhczZABOHV/F9XW5GoQ=;
- b=M+HqnKw5AK7VfYNlR9Vc6nZPLAkY3M3Keq7piZ/8YtVAfJcWX5JST27h8kOcY+NfKZ
- HLwvivHPS3djPxnuCK7yLlnsWmiX0ap+34VsVjHCwHmzaPZEDmFljdaPypyz3UrveuII
- M0nUB1BVwhg3S97riOqjAeC7UWzz0vEVZXx4LQqmcKW8glOOTclLNP7hY88d35OugzwI
- LzdA/pog3w9pJ6wl78grGpr7AGmGE+cPc9zUll7HYdb56VqlvjVAmfKHuQFB5OteNZqS
- qMHdaflog8RCTTURykdCsE1bt1vA4tWjfSvc15sjz/HrbIEIKJnWo78rPwdklJF5fMef
- Tipg==
-X-Gm-Message-State: AOAM532suMRO1YjoEQVkiQd//e/pC4ClWARKmLWRUOnc62+4GqEAWPZ0
- 7naQzlX8qHsqoXXWrHDmfwyECL+Xn/w=
-X-Google-Smtp-Source: ABdhPJzvrzKRqIhADka2PQRFgCwVG6hn1Fus6E0B9yfr96UGRFZgJAH7j5S3BTBcv9DcDB9ji13fTw==
-X-Received: by 2002:a7b:c3d8:: with SMTP id t24mr1052234wmj.35.1611949459188; 
- Fri, 29 Jan 2021 11:44:19 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=zREcxldEQ3Ph/m5rzcohbyVMIeRxlTSwY0fOJ5s3us0=;
+ b=WG2f5blzIYs72TXeila3q5RIdWFa0+3Gcpy07MU+rx1x6X8So2oy+i+VHfD29/xfzv
+ LztlTJHyS1jcfuX6UNiNplzRhJKzzc1zWsEvPa8fM9yAIHcRRaoFEpVf1X2vLdXus8bM
+ JQ8x90rjMoN1EouhkxNT8vBs1fS/1TrTxKyXxn2wHYqtTQf/7MAFTKCLyFuo6eFiN47z
+ Vy5+czvdQHne7ocXLYqUiRhFs1YPBaDRaUdzHQQ097Z+mocuTDbQZQ9Wk9pX7WT5yrPB
+ vcUJlerBwjIN1c+YXh61NDatQPj1GWMZniPKme96LNmr+Q0gu2c1BoltLwYSvkN/c4rj
+ HIEQ==
+X-Gm-Message-State: AOAM531MdQ8BT2scW3Rb2FnYLuGjIHB5bzcB62chF+rt+rXxHPa6QHrc
+ Fk+pzAMKH0eKhyVA1wxTXvrlUMvBo8U=
+X-Google-Smtp-Source: ABdhPJzzWrVRb4PvHycWxblwxvk89ccDw3wg8OewbiSCEpCD0Kcckfa8LG5m053N/UuuQPzkjV2n0w==
+X-Received: by 2002:adf:dd0d:: with SMTP id a13mr6316969wrm.143.1611949464459; 
+ Fri, 29 Jan 2021 11:44:24 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id w129sm11691194wmb.11.2021.01.29.11.44.17
+ by smtp.gmail.com with ESMTPSA id r13sm11988526wmh.9.2021.01.29.11.44.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 11:44:18 -0800 (PST)
+ Fri, 29 Jan 2021 11:44:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC PATCH 0/4] hw/xen: Fixes to only build the XEN_PV machine
-Date: Fri, 29 Jan 2021 20:44:11 +0100
-Message-Id: <20210129194415.3925153-1-f4bug@amsat.org>
+Subject: [RFC PATCH 1/4] hw/ide/Kconfig: IDE_ISA requires ISA_BUS
+Date: Fri, 29 Jan 2021 20:44:12 +0100
+Message-Id: <20210129194415.3925153-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210129194415.3925153-1-f4bug@amsat.org>
+References: <20210129194415.3925153-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,37 +92,30 @@ Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,=0D
-=0D
-These are the Xen patches I'm carrying to build the xenpv=0D
-machine alone. I haven't tried to build the xenfv one.=0D
-=0D
-Tagged as RFC because this was part of a draft, so must be=0D
-think better, but I don't have much time to finish it.=0D
-Anyhow quick review appreciated.=0D
-=0D
-Missing (out of scope of this draft):=0D
-Possibility to build another config than the default-configs/=0D
-ones.=0D
-=0D
-Regards,=0D
-=0D
-Phil.=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (4):=0D
-  hw/ide/Kconfig: IDE_ISA requires ISA_BUS=0D
-  hw/ide/Kconfig: IDE_PIIX requires IDE_ISA=0D
-  hw/xen/Kconfig: Introduce XEN_PV config=0D
-  hw/xen: Have the xenpv machine select 9pfs=0D
-=0D
- accel/Kconfig  | 1 -=0D
- hw/Kconfig     | 1 +=0D
- hw/ide/Kconfig | 3 ++-=0D
- hw/xen/Kconfig | 7 +++++++=0D
- 4 files changed, 10 insertions(+), 2 deletions(-)=0D
- create mode 100644 hw/xen/Kconfig=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+hw/ide/ioport.c has a strong dependency on hw/isa/isa-bus.c:
+
+  /usr/bin/ld: libcommon.fa.p/hw_ide_ioport.c.o: in function `ide_init_ioport':
+  /usr/bin/ld: hw/ide/ioport.c:61: undefined reference to `isa_register_portio_list'
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ hw/ide/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
+index 5d9106b1ac2..41cdd9cbe03 100644
+--- a/hw/ide/Kconfig
++++ b/hw/ide/Kconfig
+@@ -12,7 +12,7 @@ config IDE_PCI
+ 
+ config IDE_ISA
+     bool
+-    depends on ISA_BUS
++    select ISA_BUS
+     select IDE_QDEV
+ 
+ config IDE_PIIX
+-- 
+2.26.2
+
 
