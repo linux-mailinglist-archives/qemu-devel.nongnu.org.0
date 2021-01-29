@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485A0308892
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:51:37 +0100 (CET)
-Received: from localhost ([::1]:46448 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 619E530889F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:54:11 +0100 (CET)
+Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SJM-0002I9-CK
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:51:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34634)
+	id 1l5SLq-0004tJ-Fi
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:54:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34646)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnF-0004Js-0b
+ id 1l5RnF-0004K7-TT
  for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:29 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631]:39504)
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:38007)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnD-0005vJ-Gy
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:24 -0500
-Received: by mail-ej1-x631.google.com with SMTP id g3so12439008ejb.6
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:23 -0800 (PST)
+ id 1l5RnE-0005wI-HG
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:25 -0500
+Received: by mail-ej1-x635.google.com with SMTP id bl23so12448953ejb.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ZmniK0yzO+id8G0haBxNriDaxYyBXhcth1WQMA0kwrs=;
- b=L70IC3itBdeg78iCfVEyKOk+9naGCK93NGFai9AZSqCVxGR8JZjgWf3CeIZYgAvQWB
- adjsI+TRZ1HE0Hq0P2XugKrJAnyvJmnLxvHKW9fzfLOymg4OnwYX60nuv7EqeA7F2xSD
- in3VL1z391qpXxN8GJbImHYKVPBw92QJC3kMrxPa/D+7VyKAJX2j7DR7FKUGhVwIKq1/
- hBuxkDEXBXLeDb2CQRw45XxXmFWl+o48zXt6tj7Cex4SVUZWZougNCR/th9CymAfYR/M
- 5+OsTZm50qAt74E8Zoe3/EcSg0g0bh9Vw4DOIHeuKPoOb4wGveWTatkY35ybDqsc+iJe
- Jbww==
+ bh=BO9Qi6gsd1HjJky0aDF1av5K+7FDTCunwCjMyFDDpdU=;
+ b=Ag0t55sD8demCjIJEqXY+7Oq2HRnhxaCFnFBpkKJANYlHKBlVfUUOjjZnRCzUJrlzo
+ n9BKQQS/PmiJJ4dow275/WEODUzDkMQ7LsmaR1Cef9iTw2Z6kJFNiA6oLb8D/Z6jcWZQ
+ YAkuRGD2I6YPb4YTK8hc3X8TVEHWTd8it49ZLpr8UTQjRayqwnKj3ZdrdODJUrp0fDGQ
+ qvPFy8K+JQgJ9P60sbSk8Xb360+DQj6QKRllYeQrpiNcnCJXUFA1o6dgKfVvjPRKwGOW
+ x8akbODRnUonzhL9TOQb0jRNfxgoHjwjx5c7c9T2rEe5XBHalMx3MsOnPhmxH5zv+iFi
+ GWlA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZmniK0yzO+id8G0haBxNriDaxYyBXhcth1WQMA0kwrs=;
- b=BljtyLkGgJU5lNCyY+jAEnNA8t5RhXdJkpCL+4X3x7uJul1YnnFmEWVWsi8RlpN5FK
- P9tZeUs6ch9w5gRICZEE43PNriHT5eKqsu5tr7pc1V0slQb29Z5P/RRtKYUAvtgNysMn
- mfjvJ2x1TauY1nQczr09MmCKZPW92hKRoU8xYcPhs0chhDqwJuvfXyAZmKpPpDEBQxvE
- vcEbdXR1hUU2uHZb6rG+LRWyCZnE6fyR2oT0fflETiMhyIgtdxUK+8YjwHaLId1GKLiX
- n6N6fRL0JxWrCynrt8edL77AehhZDppHFb/yLqtOqCGshbZqPDMC89WGIsGYNKvv07RL
- b/aQ==
-X-Gm-Message-State: AOAM531oDrOS8wY5aUZoQ0WoTqRc0Y/AiqPwh5qhlqARUerTJu+su0tA
- BuwjSz12H5r/T9kNFLgy4XWPcmS6iIOm6w==
-X-Google-Smtp-Source: ABdhPJzzizVAUb6H3Cup2ZAyMdokXccQKAbWqw/EQGkNV4eSb+8y0ISRBb8GheUAMlHJrnA/iacf+Q==
-X-Received: by 2002:a17:906:d8c3:: with SMTP id
- re3mr4135785ejb.80.1611919102256; 
- Fri, 29 Jan 2021 03:18:22 -0800 (PST)
+ bh=BO9Qi6gsd1HjJky0aDF1av5K+7FDTCunwCjMyFDDpdU=;
+ b=Y0KN0aWHnJPg10S1WqJns3dNn+rKINv2+/QHuhheD63CMiG4bSDWA/bB4eWAxm+Vrl
+ G1ft33JPaWfeoqYqtQQQd/gm/kq1FIRH3XyGaPfhsdcdSxzTIB4gUatTDQ/TWdMcsoYs
+ 4zSoU1dT1aG5EnF3sygZJ4j3N0p/zDKtwuzOAD3cT3nzgW5/FxktOgaI8NBNpAzzb0Du
+ ug+9eVl9bmroqI8Xirjyd30dYQuV+AAWBJ4QjwwzOk2WDSWyHBShvp8zKypBbb9/wpRZ
+ Sg7BDJ/jLYN9byt4Z3Xgce1erdiLMGsacV7NIkqLBqhRerEd8+533mdnUloWho+mtwZY
+ oFPA==
+X-Gm-Message-State: AOAM532JVL4k8a8GCLCqwS6kj7nRmGlyzKCNz10WL0M0x6WqLSHPI0T/
+ NT9PJxIwLTA3TSCRBnR4GSfNhIYaS/Rn9A==
+X-Google-Smtp-Source: ABdhPJwNg01Hq8X7HhQRn1XY8GSXdNg9hvbaz+iJlHYfcoboTevzZCeWoDuHS6hpavERUtx3W70GuA==
+X-Received: by 2002:a17:906:ff43:: with SMTP id
+ zo3mr4019647ejb.542.1611919103230; 
+ Fri, 29 Jan 2021 03:18:23 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.21
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:18:21 -0800 (PST)
+ Fri, 29 Jan 2021 03:18:22 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 07/36] fuzz: add virtio-9p configurations for fuzzing
-Date: Fri, 29 Jan 2021 12:17:45 +0100
-Message-Id: <20210129111814.566629-8-pbonzini@redhat.com>
+Subject: [PULL 08/36] target/i386: do not set LM for 32-bit emulation "-cpu
+ host/max"
+Date: Fri, 29 Jan 2021 12:17:46 +0100
+Message-Id: <20210129111814.566629-9-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
 References: <20210129111814.566629-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,67 +85,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>
+Cc: Nathan Chancellor <natechancellor@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alexander Bulekov <alxndr@bu.edu>
+32-bit targets by definition do not support long mode; therefore, the
+bit must be masked in the features supported by the accelerator.
 
-virtio-9p devices are often used to expose a virtual-filesystem to the
-guest. There have been some bugs reported in this device, such as
-CVE-2018-19364, and CVE-2021-20181. We should fuzz this device
+As a side effect, this avoids setting up the 0x80000008 CPUID leaf
+for
 
-This patch adds two virtio-9p configurations:
- * One with the widely used -fsdev local driver. This driver leaks some
-   state in the form of files/directories created in the shared dir.
- * One with the synth driver. While it is not used in the real world, this
-   driver won't leak leak state between fuzz inputs.
+   qemu-system-i386 -cpu host
 
-Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-Reviewed-by: Darren Kenny <darren.kenny@oracle.com>
-Message-Id: <20210117230924.449676-4-alxndr@bu.edu>
+which since commit 5a140b255d ("x86/cpu: Use max host physical address
+if -cpu max option is applied") would have printed this error:
+
+  qemu-system-i386: phys-bits should be between 32 and 36  (but is 48)
+
+Reported-by: Nathan Chancellor <natechancellor@gmail.com>
+Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- tests/qtest/fuzz/generic_fuzz_configs.h | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ target/i386/cpu.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index 51e69c6e42..5d599765c4 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -19,6 +19,16 @@ typedef struct generic_fuzz_config {
-     gchar* (*argfunc)(void); /* Result must be freeable by g_free() */
- } generic_fuzz_config;
- 
-+static inline gchar *generic_fuzzer_virtio_9p_args(void){
-+    char tmpdir[] = "/tmp/qemu-fuzz.XXXXXX";
-+    g_assert_nonnull(mkdtemp(tmpdir));
-+
-+    return g_strdup_printf("-machine q35 -nodefaults "
-+    "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-+    "-fsdev local,id=hshare,path=%s,security_model=mapped-xattr,"
-+    "writeout=immediate,fmode=0600,dmode=0700", tmpdir);
-+}
-+
- const generic_fuzz_config predefined_configs[] = {
-     {
-         .name = "virtio-net-pci-slirp",
-@@ -60,6 +70,16 @@ const generic_fuzz_config predefined_configs[] = {
-         .name = "virtio-mouse",
-         .args = "-machine q35 -nodefaults -device virtio-mouse",
-         .objects = "virtio*",
-+    },{
-+        .name = "virtio-9p",
-+        .argfunc = generic_fuzzer_virtio_9p_args,
-+        .objects = "virtio*",
-+    },{
-+        .name = "virtio-9p-synth",
-+        .args = "-machine q35 -nodefaults "
-+        "-device virtio-9p,fsdev=hshare,mount_tag=hshare "
-+        "-fsdev synth,id=hshare",
-+        .objects = "virtio*",
-     },{
-         .name = "e1000",
-         .args = "-M q35 -nodefaults "
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 72a79e6019..2b2c1c5389 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5081,6 +5081,11 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
+     } else {
+         return ~0;
+     }
++#ifndef TARGET_X86_64
++    if (w == FEAT_8000_0001_EDX) {
++        r &= ~CPUID_EXT2_LM;
++    }
++#endif
+     if (migratable_only) {
+         r &= x86_cpu_get_migratable_flags(w);
+     }
 -- 
 2.29.2
 
