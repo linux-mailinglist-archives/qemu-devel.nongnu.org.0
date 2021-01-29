@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00B0F308725
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:53:07 +0100 (CET)
-Received: from localhost ([::1]:60850 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDE1308726
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:53:14 +0100 (CET)
+Received: from localhost ([::1]:33086 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PWc-0008Nw-2i
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:53:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:38646)
+	id 1l5PWj-000097-Oj
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:53:13 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38682)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l5PUw-0007cw-V6
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:51:22 -0500
-Received: from mta-02.yadro.com ([89.207.88.252]:57934 helo=mta-01.yadro.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <r.bolshakov@yadro.com>)
- id 1l5PUu-0001kK-8d
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:51:22 -0500
-Received: from localhost (unknown [127.0.0.1])
- by mta-01.yadro.com (Postfix) with ESMTP id 394624120E;
- Fri, 29 Jan 2021 08:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=yadro.com; h=
- content-disposition:content-type:content-type:mime-version
- :message-id:subject:subject:from:from:date:date:received
- :received:received; s=mta-01; t=1611910277; x=1613724678; bh=+6r
- y870ML2fuQDMeV/WvxxRrHu+E55YY++y4vHaW7hM=; b=ASRwQ/PJbpyi0OFRRNZ
- Ym7Rob9WQtoH2Pj9kyCE1gPultDR5MX0vXwd7axQ8JE2gSu+uOR/8vKOcgmZLpGz
- xrmjk07QMkxaKWmgwBppwscO677cX5Q8zfzRjz69waXpADlz6GCt3vBCiNe4JXoI
- EnBsqGrlF14yBdCKQvLDxUso=
-X-Virus-Scanned: amavisd-new at yadro.com
-Received: from mta-01.yadro.com ([127.0.0.1])
- by localhost (mta-01.yadro.com [127.0.0.1]) (amavisd-new, port 10024)
- with ESMTP id ZGOTIT4eiOpm; Fri, 29 Jan 2021 11:51:17 +0300 (MSK)
-Received: from T-EXCH-03.corp.yadro.com (t-exch-03.corp.yadro.com
- [172.17.100.103])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
- (No client certificate requested)
- by mta-01.yadro.com (Postfix) with ESMTPS id E743D41305;
- Fri, 29 Jan 2021 11:51:16 +0300 (MSK)
-Received: from localhost (172.17.204.212) by T-EXCH-03.corp.yadro.com
- (172.17.100.103) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384_P384) id 15.1.669.32; Fri, 29
- Jan 2021 11:51:16 +0300
-Date: Fri, 29 Jan 2021 11:51:15 +0300
-From: Roman Bolshakov <r.bolshakov@yadro.com>
-To: <help-libtasn1@gnu.org>
-Subject: libtasn1 test suite fails on macOS Bug Sur with Apple Silicon
-Message-ID: <YBPMgyhr0ClHJyM3@SPB-NB-133.local>
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l5PVB-0007jq-2w; Fri, 29 Jan 2021 03:51:38 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:38323)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l5PV8-0001qi-Pb; Fri, 29 Jan 2021 03:51:36 -0500
+Received: by mail-pl1-x633.google.com with SMTP id d4so4877421plh.5;
+ Fri, 29 Jan 2021 00:51:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CGJwe2KfCbup34X43OpSVdI4W313C+9sqSt3oL2OyqM=;
+ b=PGXXMtWkZP3WRu7XygZfVCfuKiV3OvDyTc0oVegH+S7gcSf/uHJq1wOVs2ziv7KqSR
+ mB51jN1DBtJmgRujTvW+7axPOFvFsU3FugRWaZU8Sqs26VHEWw+2WhOwZlz4u8IeHSlf
+ P8HnxlJr2poiBvA+aBKY0ZASds/KXqEuro2eAs3nAMxfsYHlVN0I5+LLgG/2KBMR/jW3
+ UL4K5iOSdz6HcT001Gv7CmOcusyl55Ma/ptNUlR/iVT/FMvJSSmo7xiQtq6rtNGZSg2P
+ 4U0rk8h/kvhoibojGu7bRRMEkddlOWJGIkkUtgLY89zIdbN+1XdVedsQs+C+H2vkO+et
+ iziA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=CGJwe2KfCbup34X43OpSVdI4W313C+9sqSt3oL2OyqM=;
+ b=n8WiBIH9mFbyZMQ8Y64JuuYbZyWkGtdyJr0iYLZTe23HrB/WxTNZWNtBQyZOHailPR
+ DNpXbE941uMMa8/7ZjQPGqE0IKwHVNvTy6jBnDtkxHCIezwI0zkMQXEEAB+27UvFhXLF
+ swRwRJhNfb2Rcs9tC+C5r2C8ybwyw8zeZuoHi4pekgxziQuJTRxhqNg+u0v4F+zb6dm2
+ FpmeyNjtIqwq/0oBhAoCpJ5y4wb25XJ1ATALHis4IAsBfGnIO0fUjHxzg1dybQXYcyBZ
+ Q/7jU68ZHF1vcKwiR6/F/X24WvC2m/cwBH0ANQK5FglhqNaOca9hxmL2HFH05G43XBdG
+ NKhQ==
+X-Gm-Message-State: AOAM532Thpn5xqv4N8tDxpYBBQClU1rrgwv8tL6/IQs2Ms1NrJnAGNL2
+ hSSyzihv8OECXkW/Go03fxo=
+X-Google-Smtp-Source: ABdhPJxjdZXMhlbssqFqIeCIEWplhvVsPcGOgbPDTutn0d6iI2/nYSdSnXkagCXHDp8W7w8kh6qQtw==
+X-Received: by 2002:a17:90b:d8d:: with SMTP id
+ bg13mr3717293pjb.189.1611910292398; 
+ Fri, 29 Jan 2021 00:51:32 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id t8sm6813925pjm.45.2021.01.29.00.51.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 00:51:31 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Subject: [PATCH] hw/sd: sd: Bypass the RCA check for CMD13 in SPI mode
+Date: Fri, 29 Jan 2021 16:51:24 +0800
+Message-Id: <20210129085124.21525-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-X-Originating-IP: [172.17.204.212]
-X-ClientProxiedBy: T-EXCH-01.corp.yadro.com (172.17.10.101) To
- T-EXCH-03.corp.yadro.com (172.17.100.103)
-Received-SPF: pass client-ip=89.207.88.252; envelope-from=r.bolshakov@yadro.com;
- helo=mta-01.yadro.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,78 +81,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello,
+From: Bin Meng <bin.meng@windriver.com>
 
-I'm seeing the test failures on macOS and there's a concern that the
-behaviour might affect GnuTLS and ultimately QEMU test suite.
+Unlike SD mode, when SD card is working in SPI mode, the argument
+of CMD13 is stuff bits. Hence we should bypass the RCA check.
 
-Are there any ideas of what might be causing it? Any help is
-appreciated.
+Signed-off-by: Bin Meng <bin.meng@windriver.com>
 
-Thanks,
-Roman
+---
+Based-on: http://patchwork.ozlabs.org/project/qemu-devel/list/?series=226787
 
-===============================================
-   GNU Libtasn1 4.16.0: tests/test-suite.log
-===============================================
+ hw/sd/sd.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-# TOTAL: 30
-# PASS:  27
-# SKIP:  0
-# XFAIL: 0
-# FAIL:  3
-# XPASS: 0
-# ERROR: 0
-
-.. contents:: :depth: 2
-
-FAIL: Test_parser
-=================
-
-ERROR N. 1:
-  Line 5 - TEST_PARSER2 { } DEFINITIONS IMPLICIT TAGS ::= BEGIN int1 ::= INTEGER END
-  Error expected: SYNTAX_ERROR - Test_parser_ERROR.asn:6: Error: syntax error, unexpected IDENTIFIER, expecting $end near 'TEST_PARSER'
-  Error detected: SYNTAX_ERROR - Test_parser_ERROR.asn:6: Error: syntax error, unexpected IDENTIFIER, expecting end of file near 'TEST_PARSER'
-
-FAIL Test_parser (exit status: 1)
-
-FAIL: Test_tree
-===============
-
-./Test_tree.asn:121: Warning: VisibleString is a built-in ASN.1 type.
-./Test_tree.asn:123: Warning: NumericString is a built-in ASN.1 type.
-./Test_tree.asn:125: Warning: IA5String is a built-in ASN.1 type.
-./Test_tree.asn:127: Warning: TeletexString is a built-in ASN.1 type.
-./Test_tree.asn:129: Warning: PrintableString is a built-in ASN.1 type.
-./Test_tree.asn:131: Warning: UniversalString is a built-in ASN.1 type.
-./Test_tree.asn:134: Warning: BMPString is a built-in ASN.1 type.
-./Test_tree.asn:138: Warning: UTF8String is a built-in ASN.1 type.
-Error at line 707
-ERROR in 254:
-  Action 18 - 
-  Error expected: MEM_ERROR - 79
-  Error detected: VALUE_NOT_VALID - 0
-
-FAIL Test_tree (exit status: 1)
-
-FAIL: copynode
-==============
-
-./pkix.asn:332: Warning: VisibleString is a built-in ASN.1 type.
-./pkix.asn:334: Warning: NumericString is a built-in ASN.1 type.
-./pkix.asn:336: Warning: IA5String is a built-in ASN.1 type.
-./pkix.asn:338: Warning: TeletexString is a built-in ASN.1 type.
-./pkix.asn:340: Warning: PrintableString is a built-in ASN.1 type.
-./pkix.asn:342: Warning: UniversalString is a built-in ASN.1 type.
-./pkix.asn:345: Warning: BMPString is a built-in ASN.1 type.
-./pkix.asn:349: Warning: UTF8String is a built-in ASN.1 type.
-LIBTASN1 ERROR: VALUE_NOT_VALID
-Cannot copy node
-FAIL copynode (exit status: 1)
-
+diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+index 8c397d4ad7..4f902d0b72 100644
+--- a/hw/sd/sd.c
++++ b/hw/sd/sd.c
+@@ -1166,8 +1166,9 @@ static sd_rsp_type_t sd_normal_command(SDState *sd, SDRequest req)
+     case 13:	/* CMD13:  SEND_STATUS */
+         switch (sd->mode) {
+         case sd_data_transfer_mode:
+-            if (sd->rca != rca)
++            if (!sd->spi && sd->rca != rca) {
+                 return sd_r0;
++            }
+ 
+             return sd_r1;
+ 
+-- 
+2.25.1
 
 
