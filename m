@@ -2,76 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4894F308848
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:31:21 +0100 (CET)
-Received: from localhost ([::1]:44528 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C5CF30885A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:39:20 +0100 (CET)
+Received: from localhost ([::1]:42718 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Rzk-0002mG-97
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:31:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33668)
+	id 1l5S7T-0005Rt-JI
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:39:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33928)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5Rg7-0003K9-OI
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:11:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41585)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5Rg5-0002y6-Uq
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:11:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611918660;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=p75THqUGXRXLmi7AhDWvVXHVbsJtDa1C3uqZGY5gbQA=;
- b=jOmaVMmd/C+2xOpuhw33FKR0vsH/cHtKVETz2vGuG/FMDPdTqnRm9vbjL0oD7BmLw5q6hO
- k5yuugnbHsqW7nXf4B6nvz9tc1mW3eu89VxPNRx3Od86k80kEUNDq5/ZVy0Bu8aT1YzdXz
- 6KMgnoagweeajLxobVEz7heAz0/NHvk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-331-DlF4y-ntOq2aepWF4z4xQA-1; Fri, 29 Jan 2021 06:10:59 -0500
-X-MC-Unique: DlF4y-ntOq2aepWF4z4xQA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0B3EC80A5C4;
- Fri, 29 Jan 2021 11:10:58 +0000 (UTC)
-Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 366FB1945C;
- Fri, 29 Jan 2021 11:10:54 +0000 (UTC)
-Date: Fri, 29 Jan 2021 11:10:51 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: vnc clipboard support
-Message-ID: <20210129111051.GG4001740@redhat.com>
-References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
- <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
- <20210129082758.vx6ebmqhk7e332g4@sirius.home.kraxel.org>
- <CAJ+F1CKLO=kBZy32e0kgh26K_9nv3c16hBJmKO+tWzr3wqOFNA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l5RjU-0007tV-FC; Fri, 29 Jan 2021 06:14:32 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:50761)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>)
+ id 1l5RjS-0004NS-0W; Fri, 29 Jan 2021 06:14:32 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.250])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 5D6C8805D623;
+ Fri, 29 Jan 2021 12:14:25 +0100 (CET)
+Received: from kaod.org (37.59.142.95) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 29 Jan
+ 2021 12:14:25 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-95G001aabfd1d5-c43e-4e34-92b5-404485feb48c,
+ 1047C7D7CBF627F9D51619F8EB187DD3EDDBAFD3) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: [PATCH] pnv/ppc: Set default RAM size to 1 GB
+To: Greg Kurz <groug@kaod.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@redhat.com>
+References: <20210129092936.769412-1-clg@kaod.org>
+ <efcf457d-8390-4352-6180-ac9fd6d78b24@redhat.com>
+ <20210129111115.52d1d862@bahia.lan>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <e5f6547e-2589-7c95-f229-2059bc60f522@kaod.org>
+Date: Fri, 29 Jan 2021 12:14:24 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CKLO=kBZy32e0kgh26K_9nv3c16hBJmKO+tWzr3wqOFNA@mail.gmail.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+In-Reply-To: <20210129111115.52d1d862@bahia.lan>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [37.59.142.95]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: 7dc88a48-9e64-405c-aa4f-13ccf77cad7a
+X-Ovh-Tracer-Id: 17154492458986146598
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedvgddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefuvfhfhffkffgfgggjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtpgfnvggpifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeejkeduueduveelgeduueegkeelffevledujeetffeivdelvdfgkeeufeduheehfeenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehgrhhouhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,45 +72,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, QEMU <qemu-devel@nongnu.org>
+Cc: Joel Stanley <joel@jms.id.au>, qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 12:34:32PM +0400, Marc-André Lureau wrote:
-> Hi
+On 1/29/21 11:11 AM, Greg Kurz wrote:
+> On Fri, 29 Jan 2021 10:39:12 +0100
+> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
 > 
-> On Fri, Jan 29, 2021 at 12:28 PM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>> On 1/29/21 10:29 AM, Cédric Le Goater wrote:
+>>> Any value below will result in a skiboot crash :
+>>>
+>>>     [    0.034949905,3] MEM: Partial overlap detected between regions:
+>>>     [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a450000] (new)
+>>>     [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000-0x38400000]
+>>>     [    0.034980367,3] Out of memory adding skiboot reserved areas
+>>>     [    0.035074945,3] ***********************************************
+>>>     [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
+>>>     [    0.035104247,3]     .
+>>>     [    0.035108025,3]      .
+>>>     [    0.035111651,3]       .
+>>>     [    0.035115231,3]         OO__)
+>>>     [    0.035119198,3]        <"__/
+>>>     [    0.035122980,3]         ^ ^
+>>>
+>>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>>> ---
+>>>  hw/ppc/pnv.c | 2 +-
+>>>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>>
+>>> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+>>> index 50810df83815..70ce12f6dc73 100644
+>>> --- a/hw/ppc/pnv.c
+>>> +++ b/hw/ppc/pnv.c
+>>> @@ -1994,7 +1994,7 @@ static void pnv_machine_class_init(ObjectClass *oc, void *data)
+>>>       * RAM defaults to less than 2048 for 32-bit hosts, and large
+>>>       * enough to fit the maximum initrd size at it's load address
+>>>       */
+>>> -    mc->default_ram_size = INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
+>>> +    mc->default_ram_size = 1 * GiB;
+>>
+>> Maybe also just in case add before the definitions:
+>>
+>>   QEMU_BUILD_BUG_ON(INITRD_LOAD_ADDR + INITRD_MAX_SIZE > 1 * GiB);
+>>
 > 
-> >
-> > Well.  That is a completely different level of desktop integration.
-> > It surely makes sense to have that, and dbus-over-vsock looks like
-> > a reasonable choice.
-> >
+> or
 > 
-> (using vsock & dbus also goes in the direction where UIs and remote server
-> can run in different processes and come and go btw)
-> 
-> But I'm more after a solution for the "paste that long link into the
-> > guest firefox" problem, without putting everything upside-down 😊
-> >
-> 
-> In this case, I would say an agent-less text-to-type solution (even with
-> its very limited scope) is quite attractive.
+>     mc->default_ram_size = MAX(1 * GiB, INITRD_LOAD_ADDR + INITRD_MAX_SIZE)
 
-If you want to implement clipboard paste using text-to-type, then there
-is no work required at all in QEMU. That can be done in the VNC client
-simply by sending keystrokes. Even for something moderately short like
-a URL though this is quite painfully slow because you need a sleep
-between each keystroke to avoid overflowing the keyboard driver input
-buffers
 
+The memory layout of the PowerNV machine is defined as :
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  #define KERNEL_LOAD_BASE	((void *)0x20000000)
+  #define KERNEL_LOAD_SIZE	0x08000000
 
+  #define INITRAMFS_LOAD_BASE	KERNEL_LOAD_BASE + KERNEL_LOAD_SIZE
+  #define INITRAMFS_LOAD_SIZE	0x08000000
+
+  #define SKIBOOT_BASE		0x30000000
+
+  /* bunch of areas: head, console buffers, TCEs, etc  */
+  #define SKIBOOT_SIZE		0x01c10000
+  #define CPU_STACKS_BASE	(SKIBOOT_BASE + SKIBOOT_SIZE)
+
+  #define STACK_SHIFT		15
+  #define STACK_SIZE		(1 << STACK_SHIFT)
+
+The overall size of the CPU stacks is (max PIR + 1) * 32K and the 
+machine easily reaches 800MB of minimum required RAM.
+
+I don't remember where INITRD_LOAD_ADDR + INITRD_MAX_SIZE came from
+but it is a bit bogus.
+
+For now, I will send a v2 with a stronger check similar to what other 
+machines do. May be we should consider adding a 'min_ram_size' in
+MachineClass. 
+
+Thanks,
+
+C. 
 
