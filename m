@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B35143089B6
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 16:04:58 +0100 (CET)
-Received: from localhost ([::1]:52032 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7DD53089B9
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 16:07:49 +0100 (CET)
+Received: from localhost ([::1]:55234 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5VKT-0003zK-9y
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 10:04:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51178)
+	id 1l5VNE-0005Sx-VR
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 10:07:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51414)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l5VIn-0003TC-K3
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:03:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48329)
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l5VK7-0004AJ-QZ
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:04:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:38426)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l5VIj-00018n-PO
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:03:13 -0500
+ (Exim 4.90_1) (envelope-from <vgoyal@redhat.com>) id 1l5VK3-0001g0-FF
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:04:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611932587;
+ s=mimecast20190719; t=1611932670;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IGW8wprBm+/khV5/OTg+TJxFBBsVmQLrl8046J0kszc=;
- b=cVmFt0XTEk7BiSKIwE5H+k5dorxfStb3VkeT0W16S8hnVKV1NK/dlRVWurFVIJepgCQSym
- F7v6IUnLvmhIFixYVdMxdHkHz8W2L3KDSxvjj9hT7+eNxcyHxlcQUwVFHnoE2C67TRcZoO
- TS/8KsWo48sNWk8+1S2Im6Hm2uQBQIE=
+ bh=nOB+RZu2s5/hddLeTpiFLae2L60CCzIyMqqUiCHTStc=;
+ b=JL7ile4B+A8I9VWNJwhfOIPPxWgiM0ixev2n6t7llT1tsbEOUQSliGY8eLQmrGKhOg/Fah
+ eGkHCqvvqa1roP4RnH8F0n2dBqRjY90gNLXbirqb3MlTIATzYwqoBO1Xqew6L4WVIOrjL8
+ 4vRXaGWYpXKnPB2MMOkBi3qCr2mpjpo=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-138-0YxOcWk6MUmgnhG0tLoAXQ-1; Fri, 29 Jan 2021 10:03:03 -0500
-X-MC-Unique: 0YxOcWk6MUmgnhG0tLoAXQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-450-i-1uGEQ4O4aNz-wORgcE0A-1; Fri, 29 Jan 2021 10:04:28 -0500
+X-MC-Unique: i-1uGEQ4O4aNz-wORgcE0A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 76A961842144;
- Fri, 29 Jan 2021 15:03:02 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C2E911005504;
+ Fri, 29 Jan 2021 15:04:27 +0000 (UTC)
 Received: from horse.redhat.com (ovpn-116-45.rdu2.redhat.com [10.10.116.45])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0650D60BE2;
- Fri, 29 Jan 2021 15:02:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8582E5D9C0;
+ Fri, 29 Jan 2021 15:04:15 +0000 (UTC)
 Received: by horse.redhat.com (Postfix, from userid 10451)
- id 890CA220BCF; Fri, 29 Jan 2021 10:02:50 -0500 (EST)
-Date: Fri, 29 Jan 2021 10:02:50 -0500
+ id 243A1220BCF; Fri, 29 Jan 2021 10:04:15 -0500 (EST)
+Date: Fri, 29 Jan 2021 10:04:15 -0500
 From: Vivek Goyal <vgoyal@redhat.com>
 To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/6] vhost-user: Return error code from slave_read()
-Message-ID: <20210129150250.GB3146@redhat.com>
+Subject: Re: [PATCH 1/6] virtiofsd: Drop ->vu_dispatch_rwlock while waiting
+ for thread to exit
+Message-ID: <20210129150415.GC3146@redhat.com>
 References: <20210125180115.22936-1-vgoyal@redhat.com>
- <20210125180115.22936-4-vgoyal@redhat.com>
- <20210129104507.1ade37a7@bahia.lan>
+ <20210125180115.22936-2-vgoyal@redhat.com>
+ <20210126165600.7bbe369d@bahia.lan>
+ <20210126183336.GB3239@redhat.com>
+ <20210129130309.1e769bdc@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <20210129104507.1ade37a7@bahia.lan>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210129130309.1e769bdc@bahia.lan>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=vgoyal@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,174 +87,31 @@ Cc: mst@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 10:45:07AM +0100, Greg Kurz wrote:
-> On Mon, 25 Jan 2021 13:01:12 -0500
+On Fri, Jan 29, 2021 at 01:03:09PM +0100, Greg Kurz wrote:
+> On Tue, 26 Jan 2021 13:33:36 -0500
 > Vivek Goyal <vgoyal@redhat.com> wrote:
 > 
-> > Right now slave_read() is called through main event loop and does not
-> > return error. In next few patches I want to call slave_read() from
-> > vhost device shutdown path as well and want to know if an error
-> > happened so that caller can give up and return error accordingly.
+> [...]
+>  
+> > > 
+> > > Also, since pthread_rwlock_wrlock() can fail, I think we should
+> > > always check it's return value, at least with an assert() like
+> > > already done elsewhere.
 > > 
-> > Hence, create helper function do_slave_read(), which returns an
-> > integer. Success is 0 and negative number is error code. slave_read()
-> > calls do_slave_read() and ignores error code.
+> > Will check return code of pthread_rwlock_wrlock() and probably use
+> > assert().
 > > 
-> > Signed-off-by: Vivek Goyal <vgoyal@redhat.com>
-> > ---
-> >  hw/virtio/vhost-user.c | 43 ++++++++++++++++++++++++++++++++++++------
-> >  1 file changed, 37 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
-> > index d95dbc39e3..867cac034f 100644
-> > --- a/hw/virtio/vhost-user.c
-> > +++ b/hw/virtio/vhost-user.c
-> > @@ -1401,7 +1401,7 @@ static uint64_t vhost_user_slave_handle_vring_host_notifier(
-> >      return false;
-> >  }
-> >  
-> > -static void slave_read(void *opaque)
-> > +static int do_slave_read(void *opaque)
-> >  {
-> >      struct vhost_dev *dev = opaque;
-> >      struct vhost_user *u = dev->opaque;
-> > @@ -1432,13 +1432,22 @@ static void slave_read(void *opaque)
-> >          size = recvmsg(u->slave_fd, &msgh, 0);
-> >      } while (size < 0 && (errno == EINTR || errno == EAGAIN));
-> >  
-> > -    if (size != VHOST_USER_HDR_SIZE) {
-> > +    if (size < 0) {
-> > +        ret = -errno;
-> >          error_report("Failed to read from slave.");
-> >          goto err;
-> >      }
-> >  
-> > +    if (size != VHOST_USER_HDR_SIZE) {
-> > +        error_report("Failed to read %lu bytes from slave.",
-> > +                     VHOST_USER_HDR_SIZE);
 > 
-> Maybe also print size ?
+> It turns out that pthread_rwlock_rdlock() and pthread_rwlock_unlock() can
+> also fail for various reasons that would likely indicate a programming
+> error, but their return values are never checked anywhere.
+> 
+> I have a patch to address this globally in this file. Should I post it
+> now or you prefer this series goes first ?
 
-Sounds good. That way it will be clear how many bytes we were expecting
-and how many did we get.
-
-> 
-> And, question from a newbie : any idea why short reads are
-> considered as errors instead of retrying ? Same question
-> stands for the other locations where we check the numbers
-> of read/written bytes in this function.
-
-I had same question when I was modifying the code. Atleast recvmsg()
-man page does not say anything about read number of bytes can less
-than number of bytes requested. But read() man page does say that
-fewer bytes can be returned.
-
-So maybe something to improve upon down the line.
-
-> 
-> > +        ret = -EBADMSG;
-> > +        goto err;
-> > +    }
-> > +
-> >      if (msgh.msg_flags & MSG_CTRUNC) {
-> >          error_report("Truncated message.");
-> > +        ret = -EBADMSG;
-> >          goto err;
-> >      }
-> >  
-> > @@ -1456,6 +1465,7 @@ static void slave_read(void *opaque)
-> >          error_report("Failed to read msg header."
-> >                  " Size %d exceeds the maximum %zu.", hdr.size,
-> >                  VHOST_USER_PAYLOAD_SIZE);
-> > +        ret = -EBADMSG;
-> >          goto err;
-> >      }
-> >  
-> > @@ -1464,8 +1474,15 @@ static void slave_read(void *opaque)
-> >          size = read(u->slave_fd, &payload, hdr.size);
-> >      } while (size < 0 && (errno == EINTR || errno == EAGAIN));
-> >  
-> > -    if (size != hdr.size) {
-> > +    if (size == -1) {
-> 
-> Maybe make it (size < 0) for consistency with the error checking
-> added above ? And this seems to be the preferred way in the QEMU
-> tree :)
-
-Ok, will do. Don't have any strong preferene. read() man page says
-it returns -1 in case of error, so checked for that.
-
-> 
-> >          error_report("Failed to read payload from slave.");
-> > +        ret = errno;
-> 
->     ret = -errno;
-> 
-> And this should be done before error_report() to ensure errno
-> isn't cloberred.
-
-Aha.. good catch. Will fix it.
-
-> 
-> > +        goto err;
-> > +    }
-> > +
-> > +    if (size != hdr.size) {
-> > +        error_report("Failed to read %d payload bytes from slave.", hdr.size);
-> > +        ret = -EBADMSG;
-> >          goto err;
-> >      }
-> >  
-> > @@ -1529,13 +1546,22 @@ static void slave_read(void *opaque)
-> >              size = writev(u->slave_fd, iovec, ARRAY_SIZE(iovec));
-> >          } while (size < 0 && (errno == EINTR || errno == EAGAIN));
-> >  
-> > -        if (size != VHOST_USER_HDR_SIZE + hdr.size) {
-> > +        if (size == -1) {
-> 
-> size < 0
-> 
-> >              error_report("Failed to send msg reply to slave.");
-> > +            ret = -errno;
-> 
-> Move before error_report()
-
-Will do. 
+Please go ahead and post your patch. Your patch can go first and I can
+rebase my patches on top of yours.
 
 Vivek
-
-> 
-> > +            goto err;
-> > +        }
-> > +
-> > +        if (size != VHOST_USER_HDR_SIZE + hdr.size) {
-> > +            error_report("Failed to send msg reply to slave. Wrote %d bytes"
-> > +                         " expected %lu bytes.", size,
-> > +                         VHOST_USER_HDR_SIZE + hdr.size);
-> > +            ret = -EIO;
-> >              goto err;
-> >          }
-> >      }
-> >  
-> > -    return;
-> > +    return 0;
-> >  
-> >  err:
-> >      qemu_set_fd_handler(u->slave_fd, NULL, NULL, NULL);
-> > @@ -1546,7 +1572,12 @@ err:
-> >              close(fd[i]);
-> >          }
-> >      }
-> > -    return;
-> > +    return ret;
-> > +}
-> > +
-> > +static void slave_read(void *opaque)
-> > +{
-> > +    do_slave_read(opaque);
-> >  }
-> >  
-> >  static int vhost_setup_slave_channel(struct vhost_dev *dev)
-> 
 
 
