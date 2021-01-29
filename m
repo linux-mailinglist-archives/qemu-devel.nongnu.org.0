@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0254F3087AF
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 11:12:18 +0100 (CET)
-Received: from localhost ([::1]:47168 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 067AF3087B0
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 11:13:48 +0100 (CET)
+Received: from localhost ([::1]:49698 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5QlF-0002bT-V3
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 05:12:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52110)
+	id 1l5Qmh-0003fO-3I
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 05:13:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52248)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5QjW-0001xx-8d
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 05:10:30 -0500
-Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c]:34137)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5QjR-00021r-HM
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 05:10:29 -0500
-Received: by mail-ej1-x62c.google.com with SMTP id hs11so12174287ejc.1
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 02:10:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=C4mb8GATNyPzqdbPryp8eHcM3kUzqoM9ij/tOdtDaQ8=;
- b=k5ocwe/BWmMBcOlMPdF1yJiy+rWz9g3t/Y3lKnSnfLmik9Mlzo6LRCxb3ngy23/vrP
- JAzOSm6ewkn18vuLIjIxOClvkRzbbXjERaHVJOimuRkAIFzsINxc57HLWFoDuupJcZHx
- MLjkhMbqS3w7qFQQmVbomTfurimKTY8UsHuZzhZZp3bUVV5cBKEN2vOlx4d1ByhG8j3x
- xU18DbjxU1e5DWffYe+yVKG0VxIxxPmxcsYwD9HbZNhoNqzF+oHVONrmCemU0x6ccZvn
- gkhpfiaO5sTZn2zczEzx9m9HHlDT6SdtkKwroV/pRCSTfx9VDTi8pW7Z8bH8HtT87aDt
- eajg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=C4mb8GATNyPzqdbPryp8eHcM3kUzqoM9ij/tOdtDaQ8=;
- b=Y2e3++Os/pVPJ1m7p4/WJ+1EN7Jj6hV6V2EfhZ2sv6iR65NElgT079qc5EYeTev54S
- g36FAmPXK1ImPdPeZ3PdQMsQd2Ae16TDBYdwlSp8F3DuvrGu5+q4IBzxYdMsuchezy12
- vInakG3Y2YdFnotutD0g1gptvy9FHntKbytbYe/px7UyHvNFEsg3XIGktOGbf2KfOH0N
- UvPRtWd6f+pjJhXinpHYPuNggVF68fy6Ek+TZCOzodiw3eqo6iv39W43YnynWcRi1s3c
- WuviP2tTgdBF5wXB+38hQWeHQ/J/P7BysdBXUnpX+g3e38L9Fa/d+umU4DkwJjE1xtV/
- WKqw==
-X-Gm-Message-State: AOAM532TZlyUwKl0XOPezFSb1jzt4wzaUP48J+dJq5wXJX5gvLXTFHV7
- 2EwiaIRaaaVcFxk0aEa7kMZgsr3+QA244bXLkNwp5g==
-X-Google-Smtp-Source: ABdhPJzHAp2D0qh26B1jM4LTboKoSKhGUShb22X3jJJ7lCXKgF6q8cyBl9tPcEtvQ5VLrz51iwIFvXyyYpqF8qCgEj4=
-X-Received: by 2002:a17:906:3603:: with SMTP id
- q3mr3674579ejb.382.1611915023876; 
- Fri, 29 Jan 2021 02:10:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l5QkV-0002Vt-M0; Fri, 29 Jan 2021 05:11:32 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:58137)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l5QkR-0002Y2-Su; Fri, 29 Jan 2021 05:11:30 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.138.129])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id F39448057358;
+ Fri, 29 Jan 2021 11:11:22 +0100 (CET)
+Received: from kaod.org (37.59.142.105) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 29 Jan
+ 2021 11:11:19 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-105G006d103a78d-89f0-4422-9309-1ecfe5bdaa85,
+ F0B20D4B8DDBF51DA61C26A45925665B938B7F3E) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Fri, 29 Jan 2021 11:11:15 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Subject: Re: [PATCH] pnv/ppc: Set default RAM size to 1 GB
+Message-ID: <20210129111115.52d1d862@bahia.lan>
+In-Reply-To: <efcf457d-8390-4352-6180-ac9fd6d78b24@redhat.com>
+References: <20210129092936.769412-1-clg@kaod.org>
+ <efcf457d-8390-4352-6180-ac9fd6d78b24@redhat.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20210128074506.2725379-1-armbru@redhat.com>
-In-Reply-To: <20210128074506.2725379-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jan 2021 10:10:12 +0000
-Message-ID: <CAFEAcA83VOFYt9+Cmv7pX5pguJim==bU9b0-LQMo8SwUW+i4eA@mail.gmail.com>
-Subject: Re: [PULL 0/5] QAPI patches patches for 2021-01-28
-To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.105]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 4c84b1d2-ceb8-4813-9735-ce88a4d71f09
+X-Ovh-Tracer-Id: 16089672620632414502
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedvgdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdehnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,40 +68,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>, qemu-ppc@nongnu.org,
+ =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jan 2021 at 07:45, Markus Armbruster <armbru@redhat.com> wrote:
->
-> The following changes since commit bf159f0bdc7b8e7aa8342dedb3829ca744c1b612:
->
->   Merge remote-tracking branch 'remotes/edgar/tags/edgar/xilinx-next-2021-01-27.for-upstream' into staging (2021-01-27 17:40:25 +0000)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/armbru.git tags/pull-qapi-2021-01-28
->
-> for you to fetch changes up to 95b3a8c8a82a34ca874ac0d4a9bbbdb38034acf3:
->
->   qapi: More complex uses of QAPI_LIST_APPEND (2021-01-28 08:08:45 +0100)
->
-> ----------------------------------------------------------------
-> QAPI patches patches for 2021-01-28
->
-> ----------------------------------------------------------------
-> Eric Blake (5):
->       net: Clarify early exit condition
->       qapi: A couple more QAPI_LIST_PREPEND() stragglers
->       qapi: Introduce QAPI_LIST_APPEND
->       qapi: Use QAPI_LIST_APPEND in trivial cases
->       qapi: More complex uses of QAPI_LIST_APPEND
+On Fri, 29 Jan 2021 10:39:12 +0100
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
+> On 1/29/21 10:29 AM, C=C3=A9dric Le Goater wrote:
+> > Any value below will result in a skiboot crash :
+> >=20
+> >     [    0.034949905,3] MEM: Partial overlap detected between regions:
+> >     [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a450000=
+] (new)
+> >     [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000-0=
+x38400000]
+> >     [    0.034980367,3] Out of memory adding skiboot reserved areas
+> >     [    0.035074945,3] ***********************************************
+> >     [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
+> >     [    0.035104247,3]     .
+> >     [    0.035108025,3]      .
+> >     [    0.035111651,3]       .
+> >     [    0.035115231,3]         OO__)
+> >     [    0.035119198,3]        <"__/
+> >     [    0.035122980,3]         ^ ^
+> >=20
+> > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> > ---
+> >  hw/ppc/pnv.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> > index 50810df83815..70ce12f6dc73 100644
+> > --- a/hw/ppc/pnv.c
+> > +++ b/hw/ppc/pnv.c
+> > @@ -1994,7 +1994,7 @@ static void pnv_machine_class_init(ObjectClass *o=
+c, void *data)
+> >       * RAM defaults to less than 2048 for 32-bit hosts, and large
+> >       * enough to fit the maximum initrd size at it's load address
+> >       */
+> > -    mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
+> > +    mc->default_ram_size =3D 1 * GiB;
+>=20
+> Maybe also just in case add before the definitions:
+>=20
+>   QEMU_BUILD_BUG_ON(INITRD_LOAD_ADDR + INITRD_MAX_SIZE > 1 * GiB);
+>=20
 
-Applied, thanks.
+or
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
+    mc->default_ram_size =3D MAX(1 * GiB, INITRD_LOAD_ADDR + INITRD_MAX_SIZ=
+E)
 
--- PMM
+> ?
+>=20
+> >      mc->default_ram_id =3D "pnv.ram";
+> >      ispc->print_info =3D pnv_pic_print_info;
+> >      nc->nmi_monitor_handler =3D pnv_nmi;
+> >=20
+>=20
+
 
