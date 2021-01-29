@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 619E530889F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:54:11 +0100 (CET)
-Received: from localhost ([::1]:52728 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A56E6308888
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:48:20 +0100 (CET)
+Received: from localhost ([::1]:37436 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SLq-0004tJ-Fi
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:54:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34646)
+	id 1l5SGB-0006q6-Nq
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:48:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34664)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnF-0004K7-TT
+ id 1l5RnJ-0004KB-7J
  for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:29 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:38007)
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d]:37437)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnE-0005wI-HG
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:25 -0500
-Received: by mail-ej1-x635.google.com with SMTP id bl23so12448953ejb.5
+ id 1l5RnF-0005xM-8Q
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:26 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id kg20so12454096ejc.4
  for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=BO9Qi6gsd1HjJky0aDF1av5K+7FDTCunwCjMyFDDpdU=;
- b=Ag0t55sD8demCjIJEqXY+7Oq2HRnhxaCFnFBpkKJANYlHKBlVfUUOjjZnRCzUJrlzo
- n9BKQQS/PmiJJ4dow275/WEODUzDkMQ7LsmaR1Cef9iTw2Z6kJFNiA6oLb8D/Z6jcWZQ
- YAkuRGD2I6YPb4YTK8hc3X8TVEHWTd8it49ZLpr8UTQjRayqwnKj3ZdrdODJUrp0fDGQ
- qvPFy8K+JQgJ9P60sbSk8Xb360+DQj6QKRllYeQrpiNcnCJXUFA1o6dgKfVvjPRKwGOW
- x8akbODRnUonzhL9TOQb0jRNfxgoHjwjx5c7c9T2rEe5XBHalMx3MsOnPhmxH5zv+iFi
- GWlA==
+ bh=wuogPbvhpo56gM/ceAnzLWm4d5y8A+rkROWRVMmokrQ=;
+ b=WFN7aXA/1ouUoMP2ntwop4to98menYHdAeKDtEIs9w5mt6X0lJnO+FnAqJpdtRE4Hp
+ WYcJOMC8ZkYpDpFSqDm5Jh731DA8YfmYn9NaToR4hq6xUDBndsi+Za/hoqDlkCIWkQiu
+ Oys4kn4zqx3wRcu0BCvNXUUdO6kliFMjykReVvvQsCkpiO9hDog31MrbfTERlqtHqJLC
+ i0a8+CF044qMS/PMepHSjUq0/W6Noo1jZorUfCBNGcTp5pmR8QiX0lTdeB1OKejqs1z8
+ mWd+diEIYQ5t56HqxmSQJgv/2milHQs8mxhPPTbxwhkX87cMCaoFx83QciSISeuqpOjA
+ mZVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BO9Qi6gsd1HjJky0aDF1av5K+7FDTCunwCjMyFDDpdU=;
- b=Y0KN0aWHnJPg10S1WqJns3dNn+rKINv2+/QHuhheD63CMiG4bSDWA/bB4eWAxm+Vrl
- G1ft33JPaWfeoqYqtQQQd/gm/kq1FIRH3XyGaPfhsdcdSxzTIB4gUatTDQ/TWdMcsoYs
- 4zSoU1dT1aG5EnF3sygZJ4j3N0p/zDKtwuzOAD3cT3nzgW5/FxktOgaI8NBNpAzzb0Du
- ug+9eVl9bmroqI8Xirjyd30dYQuV+AAWBJ4QjwwzOk2WDSWyHBShvp8zKypBbb9/wpRZ
- Sg7BDJ/jLYN9byt4Z3Xgce1erdiLMGsacV7NIkqLBqhRerEd8+533mdnUloWho+mtwZY
- oFPA==
-X-Gm-Message-State: AOAM532JVL4k8a8GCLCqwS6kj7nRmGlyzKCNz10WL0M0x6WqLSHPI0T/
- NT9PJxIwLTA3TSCRBnR4GSfNhIYaS/Rn9A==
-X-Google-Smtp-Source: ABdhPJwNg01Hq8X7HhQRn1XY8GSXdNg9hvbaz+iJlHYfcoboTevzZCeWoDuHS6hpavERUtx3W70GuA==
-X-Received: by 2002:a17:906:ff43:: with SMTP id
- zo3mr4019647ejb.542.1611919103230; 
- Fri, 29 Jan 2021 03:18:23 -0800 (PST)
+ bh=wuogPbvhpo56gM/ceAnzLWm4d5y8A+rkROWRVMmokrQ=;
+ b=GgVsoUrDER4EYmCBr3Avxbh2+f2Ebc74z+UfCvTdhaDaz0kCf3HQtS5d+xzQj/GK0b
+ g7/0VumhCtijfTa3GnaYfe1FxX1BlCbknhWkNXjIpaPVPKlpTqSy1SC2VVGBAT7dxW14
+ lXbZOzfh07hSYjiOGUVR88gnkgi0EVUk1gQm5EMbWCeL0fl6/xN/a5XostBTY6CUVxDO
+ RI40Xv/GgT8ct/89xY6Kl1bF7BFqNOMdgGUEA3dOnPuXsGCzsdBlNcKdrdPpfsR0pcTP
+ KLPhuuqELzA4yk9egB+vhpveyAG1NZaj4FcX+iMIi1XPMcIVSnNXRjmeOInZTNaxa/yk
+ alCg==
+X-Gm-Message-State: AOAM530VAVXZYl1VFcTKBlrSXipVxRc1WNsRQekVxnpvhUT79sXhJALh
+ Dr2PvkE+lb6cR2v5lPKwvFhw91DJu/1HLQ==
+X-Google-Smtp-Source: ABdhPJwZzN98/zRAm580PKtQ8rdob4k03LTSjpGZGnzXGzBCdMKOBp4hG0/OyQTBffR0uYyTdndBRA==
+X-Received: by 2002:a17:906:1c13:: with SMTP id
+ k19mr4080613ejg.338.1611919104098; 
+ Fri, 29 Jan 2021 03:18:24 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.22
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:18:22 -0800 (PST)
+ Fri, 29 Jan 2021 03:18:23 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 08/36] target/i386: do not set LM for 32-bit emulation "-cpu
- host/max"
-Date: Fri, 29 Jan 2021 12:17:46 +0100
-Message-Id: <20210129111814.566629-9-pbonzini@redhat.com>
+Subject: [PULL 09/36] machine: add missing doc for memory-backend option
+Date: Fri, 29 Jan 2021 12:17:47 +0100
+Message-Id: <20210129111814.566629-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
 References: <20210129111814.566629-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x635.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,46 +84,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nathan Chancellor <natechancellor@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-32-bit targets by definition do not support long mode; therefore, the
-bit must be masked in the features supported by the accelerator.
+From: Igor Mammedov <imammedo@redhat.com>
 
-As a side effect, this avoids setting up the 0x80000008 CPUID leaf
-for
+Add documentation for '-machine memory-backend' CLI option and
+how to use it.
 
-   qemu-system-i386 -cpu host
+And document that x-use-canonical-path-for-ramblock-id,
+is considered to be stable to make sure it won't go away by accident.
 
-which since commit 5a140b255d ("x86/cpu: Use max host physical address
-if -cpu max option is applied") would have printed this error:
+x- was intended for unstable/iternal properties, and not supposed to
+be stable option. However it's too late to rename (drop x-)
+it as it would mean that users will have to mantain both
+x-use-canonical-path-for-ramblock-id (for QEMU 5.0-5.2) versions
+and prefix-less for later versions.
 
-  qemu-system-i386: phys-bits should be between 32 and 36  (but is 48)
-
-Reported-by: Nathan Chancellor <natechancellor@gmail.com>
-Tested-by: Nathan Chancellor <natechancellor@gmail.com>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20210121161504.1007247-1-imammedo@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ backends/hostmem.c | 10 ++++++++++
+ qemu-options.hx    | 26 +++++++++++++++++++++++++-
+ 2 files changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 72a79e6019..2b2c1c5389 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -5081,6 +5081,11 @@ static uint64_t x86_cpu_get_supported_feature_word(FeatureWord w,
-     } else {
-         return ~0;
-     }
-+#ifndef TARGET_X86_64
-+    if (w == FEAT_8000_0001_EDX) {
-+        r &= ~CPUID_EXT2_LM;
-+    }
-+#endif
-     if (migratable_only) {
-         r &= x86_cpu_get_migratable_flags(w);
-     }
+diff --git a/backends/hostmem.c b/backends/hostmem.c
+index 9f9ac95edd..813aeb83c9 100644
+--- a/backends/hostmem.c
++++ b/backends/hostmem.c
+@@ -498,6 +498,16 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
+         host_memory_backend_get_share, host_memory_backend_set_share);
+     object_class_property_set_description(oc, "share",
+         "Mark the memory as private to QEMU or shared");
++    /*
++     * Do not delete/rename option. This option must be considered stable
++     * (as if it didn't have the 'x-' prefix including deprecation period) as
++     * long as 4.0 and older machine types exists.
++     * Option will be used by upper layers to override (disable) canonical path
++     * for ramblock-id set by compat properties on old machine types ( <= 4.0),
++     * to keep migration working when backend is used for main RAM with
++     * -machine memory-backend= option (main RAM historically used prefix-less
++     * ramblock-id).
++     */
+     object_class_property_add_bool(oc, "x-use-canonical-path-for-ramblock-id",
+         host_memory_backend_get_use_canonical_path,
+         host_memory_backend_set_use_canonical_path);
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 9172d51659..53e547fab0 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -35,7 +35,8 @@ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+     "                suppress-vmdesc=on|off disables self-describing migration (default=off)\n"
+     "                nvdimm=on|off controls NVDIMM support (default=off)\n"
+     "                memory-encryption=@var{} memory encryption object to use (default=none)\n"
+-    "                hmat=on|off controls ACPI HMAT support (default=off)\n",
++    "                hmat=on|off controls ACPI HMAT support (default=off)\n"
++    "                memory-backend='backend-id' specifies explicitly provided backend for main RAM (default=none)\n",
+     QEMU_ARCH_ALL)
+ SRST
+ ``-machine [type=]name[,prop=value[,...]]``
+@@ -96,6 +97,29 @@ SRST
+     ``hmat=on|off``
+         Enables or disables ACPI Heterogeneous Memory Attribute Table
+         (HMAT) support. The default is off.
++
++     ``memory-backend='id'``
++        An alternative to legacy ``-mem-path`` and ``mem-prealloc`` options.
++        Allows to use a memory backend as main RAM.
++
++        For example:
++        ::
++        -object memory-backend-file,id=pc.ram,size=512M,mem-path=/hugetlbfs,prealloc=on,share=on
++        -machine memory-backend=pc.ram
++        -m 512M
++
++        Migration compatibility note:
++        a) as backend id one shall use value of 'default-ram-id', advertised by
++        machine type (available via ``query-machines`` QMP command), if migration
++        to/from old QEMU (<5.0) is expected.
++        b) for machine types 4.0 and older, user shall
++        use ``x-use-canonical-path-for-ramblock-id=off`` backend option
++        if migration to/from old QEMU (<5.0) is expected.
++        For example:
++        ::
++        -object memory-backend-ram,id=pc.ram,size=512M,x-use-canonical-path-for-ramblock-id=off
++        -machine memory-backend=pc.ram
++        -m 512M
+ ERST
+ 
+ HXCOMM Deprecated by -machine
 -- 
 2.29.2
 
