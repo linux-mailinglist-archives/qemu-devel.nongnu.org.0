@@ -2,78 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E9B8308A09
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 16:48:01 +0100 (CET)
-Received: from localhost ([::1]:56426 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6C2308A10
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 16:48:13 +0100 (CET)
+Received: from localhost ([::1]:56522 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5W07-0003Rm-SD
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 10:47:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59066)
+	id 1l5W0K-0003U1-5H
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 10:48:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5VyO-0002cq-CN
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:46:15 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:42809)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5VyI-0002EK-OS
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:46:12 -0500
-Received: by mail-wr1-x435.google.com with SMTP id c4so6588309wru.9
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 07:46:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=Kox+ZeaUM1l9iikVXjebZrI+k+/pwvjXFVjpmOKYKNM=;
- b=VBgvsU84+15WBRSE4scSIrF/UBiEesAlICKmm9S+l21ozylVWeSFEDGEweIWSNoGNV
- Ss6PjbfmuNEGyO8oNJHBXTdZLjcWtja3OVlP5vS5DToEwaWy22pYe+lMDufcLGi9CHoT
- YNc/5D5xQTi7v/AaWiSrWqzC9IL4D6wzNqRC8aGpNXfSGwbwi64OhkAAh6f7ldm0VnOO
- CAQIX8ab6/MFzrU54zX6q2fPmEl6NP09ljvYaxMWyg67TCktLTrWpKFdStBGQRyeqUKN
- vUUgzWtBzP2wPWif8Ptu4HWTXddB80e7ScCowVQUGSKjztms4YwbcEQC2xf3L2f3vqSe
- YDug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=Kox+ZeaUM1l9iikVXjebZrI+k+/pwvjXFVjpmOKYKNM=;
- b=W6G2yJ3x8mvtKHTNSKQZc0FIAWfdiHvPW+/A3F/sHLPQ3rCm9Ej5dNUGGTqnxQ+P19
- 4+M3i7Yta6oJ/jsDX4ZE6WDtqs2ONfs66QF4qwtxLEmhh3XVZgsnRJJHmeG9flJJXcKF
- PPOEsGuGAwmgkj2h8Y59e3+BLzH9tv8vqGai4dwMa3HrJb4sfMRDBYo+sbNIUPyc0obk
- 6CTOa6dg8Po8D3AnK6YFLQ0G0gekaA7ezCPWMAZ/+ayXNzfD+X3LBALT6x6/ArPU1wbm
- mGYqwLbjZ9dJEIzc3v7hKo+eTSrIFox11CXn8IRfzxdiceGvbvv4WAdD7r+a1Trai7li
- Eqcw==
-X-Gm-Message-State: AOAM532QrrG1pcJeXDAAyTdOfGqOqoA4MfHCxr/riQznue9Vvjse9vVI
- dP6dQZb66SAjcv2BsyC5SES8fA==
-X-Google-Smtp-Source: ABdhPJyEeYl1u2WXoGj9DML/452wjYDckiTpZHGy+8ulvQeloRSknlfY+nbcXUNf8TnbgnxPA5mMvw==
-X-Received: by 2002:a05:6000:8c:: with SMTP id
- m12mr5279280wrx.101.1611935164957; 
- Fri, 29 Jan 2021 07:46:04 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g1sm12969797wrq.30.2021.01.29.07.46.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 07:46:03 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id E5F991FF7E;
- Fri, 29 Jan 2021 15:46:02 +0000 (GMT)
-References: <20210128135627.2067003-1-sw@weilnetz.de>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] tests/tcg: Replace /bin/true by true (required on macOS)
-Date: Fri, 29 Jan 2021 15:45:55 +0000
-In-reply-to: <20210128135627.2067003-1-sw@weilnetz.de>
-Message-ID: <87sg6jsq4l.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l5Vyc-0002e5-Ra
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:46:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41894)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l5VyW-0002J4-2u
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 10:46:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611935175;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=kJ4pPEBIVK5mo7ngkw6ac0iFbFz9deOQ3DqX4VUgST0=;
+ b=c94zFOThjKhOBpVtPsg9IMG8r3L1WBv9/BNWudkmx0U949djqlI9CNy87AnU7CfwhByWnl
+ KpltUhg0LwnrAFEfUGw8SgQV0s1gtyKteMmXilER0hIkTm0KtfwKf8If21dwiHgZLYfxgk
+ WVsY2cZQnH5dDmJZWhiqv+A5TxRGUto=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-152-ADqmaV00PYKwkESDVekz6Q-1; Fri, 29 Jan 2021 10:46:13 -0500
+X-MC-Unique: ADqmaV00PYKwkESDVekz6Q-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 28AA659;
+ Fri, 29 Jan 2021 15:46:12 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-112-110.ams2.redhat.com [10.36.112.110])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 36DDA60CE0;
+ Fri, 29 Jan 2021 15:46:11 +0000 (UTC)
+Subject: Re: [PATCH v2 7/8] configure: make version_ge more tolerant of shady
+ version input
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210122181854.23105-1-alex.bennee@linaro.org>
+ <20210122181854.23105-8-alex.bennee@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+Message-ID: <433b85da-b438-ce79-e231-aafd960e05fc@redhat.com>
+Date: Fri, 29 Jan 2021 16:46:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <20210122181854.23105-8-alex.bennee@linaro.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,21 +83,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 22/01/2021 19.18, Alex Bennée wrote:
+> When checking GDB versions we have to tolerate all sorts of random
+> distro extensions to the version string. While we already attempt to
+> do some of that before we call version_ge is makes sense to try and
+> regularise the first input by stripping extraneous -'s. While we at it
+> convert the old-style shell quoting into a cleaner form t shut up my
+> editors linter lest it confuse me by underlining the whole line.
+> 
+> Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   configure | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 6f6a319c2f..dd99939b34 100755
+> --- a/configure
+> +++ b/configure
+> @@ -198,8 +198,8 @@ has() {
+>   }
+>   
+>   version_ge () {
+> -    local_ver1=`echo $1 | tr . ' '`
+> -    local_ver2=`echo $2 | tr . ' '`
+> +    local_ver1=$(expr "$1" : '\([0-9.]*\)' | tr . ' ')
+> +    local_ver2=$(echo "$2" | tr . ' ')
+>       while true; do
+>           set x $local_ver1
+>           local_first=${2-0}
+> 
 
-Stefan Weil <sw@weilnetz.de> writes:
+This silences the warnings that I've recently seen when running configure.
 
-> /bin/true is missing on macOS, but simply "true" is available as a shell =
-builtin.
->
-> Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Tested-by: Thomas Huth <thuth@redhat.com>
 
-Queued to testing/next, thanks.
-
---=20
-Alex Benn=C3=A9e
 
