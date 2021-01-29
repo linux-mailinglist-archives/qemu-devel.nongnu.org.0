@@ -2,75 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ADBF308913
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:33:09 +0100 (CET)
-Received: from localhost ([::1]:51834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 502A2308914
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:36:36 +0100 (CET)
+Received: from localhost ([::1]:55178 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SxY-0005xA-Dc
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:33:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39022)
+	id 1l5T0t-0007Os-Cz
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:36:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:41136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5SFu-0007kA-DI
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:48:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32134)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5SFq-0001kv-7l
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:48:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611920876;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gCojLzpBURK0W8Lls+JECBh5mSMRM9TcYmrN8p+rsu0=;
- b=E561LVlpOXNnelpfGwSRVBlrsDcv4g0wlfsl/WhUFJZrsTsvxF7FltaBQLtppjh+rxV1ax
- 8MUhjC0WYrEPw5JMNwdqqKU1MzuC29xV+zZw8ySLVbeMAJhw3T25Ve0uIg+dqtMzbRV9SD
- uae1vGwmj2uzkl8m54JpDNUBWz4oqco=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-473-kvC5nEysPY2rmrOh-TLY0A-1; Fri, 29 Jan 2021 06:47:50 -0500
-X-MC-Unique: kvC5nEysPY2rmrOh-TLY0A-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 12CEB802B40;
- Fri, 29 Jan 2021 11:47:49 +0000 (UTC)
-Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 38DC25B699;
- Fri, 29 Jan 2021 11:47:48 +0000 (UTC)
-Date: Fri, 29 Jan 2021 11:47:45 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Weil <sw@weilnetz.de>
-Subject: Re: [PATCH] tests: Replace deprecated ASN1 code
-Message-ID: <20210129114745.GI4001740@redhat.com>
-References: <20210128171523.45921-1-sw@weilnetz.de>
- <20210129100624.GE4001740@redhat.com>
- <f8e03cad-4eb8-92c0-eed5-a3ab033e2ab4@weilnetz.de>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5STZ-0004ZH-W6
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 07:02:10 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:42629)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5STW-0007fh-Vg
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 07:02:09 -0500
+Received: by mail-ej1-x634.google.com with SMTP id r12so12608012ejb.9
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 04:02:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QZJP1TTfy2iOvpEi6sOsJbistrzDMWyxr83a9LBx14g=;
+ b=FYE2dReq777MZIF9ywJbGKaIPUXzo+GntLXRYR6F8SUhLgfX4eL7XQDSvAacPqXbKP
+ kXMwDO0VEq/+OBMyouvxkHmrCrkAEnGbCwK1ent362TtXjWEIK3Tzlxeq7Tiy2HNe9Wh
+ xWgk3Zrqy3AIvAREIw6yIkrKSBcB5uC7LW/SQJ1yQP0/1i9BlERVXrP/E4c3uIb5tDGB
+ LAuXJHBW2AYLOXwWh9rW4Z3Mfz/ZE0CahotoECyut81EkR5F/fe0E1xHSafOT1vXUMz0
+ Ah4O4C5qSPWaRaFm3glT6rHiPhJrWv+zWVpWvYkpjh/iXOzljp/u1h6iMr3NlH5tN9lS
+ f6nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QZJP1TTfy2iOvpEi6sOsJbistrzDMWyxr83a9LBx14g=;
+ b=m4rlmfxIc6WbwaRv+IoxF07NjuMPkXJEloUfe5O0oapN8iD8RG41OeI9uW6kuhVuzW
+ yDczqE73am3BgcWQ1OFYxinzaAWnSMYQk6+c2uQmPtNBOXqQ67xl7qC8RzSO6Gq+VTdr
+ 74hvVxWNOgdMsJ5jahVo31UGJZxBJ4ARZg2rj6HAP5cmh7aOCDIa8kI+/OeXwd8KmVIi
+ g5RxlMk1rnLkcEDMRGy+2iDTrgSxw+7w9CbUpuhf8eJQjc9NwfZI8R3OLTn1rIk3WZE1
+ BWK509O4n9w6gi3D/w9UtjeWCKvaueIvatp2Y7tGUZdNL0jYdTcWGWIi6FkkdiqzOrZg
+ skrg==
+X-Gm-Message-State: AOAM530/bFJLaght36DyY19BInI7gA4YPnXolcEcD581aUz9zYwqqM1S
+ 1MW3fscxZb+iYYuKSpE/ZoVXkZnD8XNX62rx+lC4Gg==
+X-Google-Smtp-Source: ABdhPJzx08wx81fMSwVaxJ3XiAQa7IM3Ho01Uv8cMFUni1NItmxeSf0Qyuz1KTgNNfTxs0kwBKIsUMq2fqDeis++4f0=
+X-Received: by 2002:a17:907:1b10:: with SMTP id
+ mp16mr4241344ejc.482.1611921725215; 
+ Fri, 29 Jan 2021 04:02:05 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <f8e03cad-4eb8-92c0-eed5-a3ab033e2ab4@weilnetz.de>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210129081519.3848145-1-armbru@redhat.com>
+In-Reply-To: <20210129081519.3848145-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jan 2021 12:01:53 +0000
+Message-ID: <CAFEAcA_O=48U_3p_mKeRRY99OsJCRSTJmOefDT1gbHVdyE_C0A@mail.gmail.com>
+Subject: Re: [PATCH RFC 0/1] QOM type names and QAPI
+To: Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,72 +77,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ KONRAD Frederic <frederic.konrad@adacore.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Jean-Christophe DUBOIS <jcd@tribudubois.net>,
+ Qemu-block <qemu-block@nongnu.org>, Juan Quintela <quintela@redhat.com>,
+ Andrey Smirnov <andrew.smirnov@gmail.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alistair Francis <alistair@alistair23.me>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Fabien Chouteau <chouteau@adacore.com>, qemu-arm <qemu-arm@nongnu.org>,
+ Peter Chubb <peter.chubb@nicta.com.au>, John Snow <jsnow@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 12:35:59PM +0100, Stefan Weil wrote:
-> Am 29.01.21 um 11:06 schrieb Daniel P. Berrangé:
-> 
-> > On Thu, Jan 28, 2021 at 06:15:23PM +0100, Stefan Weil wrote:
-> > > This fixes several compiler warnings on MacOS with Homebrew.
-> > Could you give an example of the warnings seen as I'm wondering
-> > why we won't have seen them already on other platforms ?
-> 
-> 
-> Here they are (at least the first few, as the list is lengthy). I used
-> 
-> ../configure --enable-sanitizers --enable-debug
-> --extra-cflags=-I/opt/homebrew/include --enable-cocoa
-> 
-> Maybe the warnings were enabled by --enable-debug.
-> 
-> Regards, Stefan
-> 
-> 
-> % ninja
-> [4696/4942] Compiling C object
-> tests/test-crypto-tlscredsx509.p/test-crypto-tlscredsx509.c.o
-> In file included from ../../../tests/test-crypto-tlscredsx509.c:23:
-> ../../../tests/crypto-tls-x509-helpers.h:128:14: warning: 'ASN1_ARRAY_TYPE'
-> macro is deprecated, use 'asn1_static_node' instead. [-W#pragma-messages]
-> extern const ASN1_ARRAY_TYPE pkix_asn1_tab[];
->              ^
-> /opt/homebrew/Cellar/libtasn1/4.16.0/include/libtasn1.h:582:25: note:
-> expanded from macro 'ASN1_ARRAY_TYPE'
-> #define ASN1_ARRAY_TYPE _Pragma ("GCC warning \"'ASN1_ARRAY_TYPE' macro is
-> deprecated, use 'asn1_static_node' instead.\"") asn1_static_node
->                         ^
-> <scratch space>:18:6: note: expanded from here
+On Fri, 29 Jan 2021 at 08:15, Markus Armbruster <armbru@redhat.com> wrote:
+> 2. We have some 550 type names containing '.'.  QAPI's naming rules
+>    could be relaxed to accept '.', but keyval_parse()'s can't.
+>
+>    Aside: I wish keyval_parse() would use '/' instead of '.', but it's
+>    designed to be compatible to the block layer's existing use of
+>    dotted keys (shoehorned into QemuOpts).
 
-This is really odd.
+> Of the type names containing '.' or '+'[**], 293 are CPUs, 107 are
+> machines, and 150 are something else.  48 of them can be plugged with
+> -device, all s390x or spapr CPUs.
+>
+> Can we get rid of '.'?
 
-I've got the 4.16.0 tar.gz for libtasn1 and it does not contain any
-such _Pragma / deprecation warnings.
+On this one, my vote would be "no". "Versioned machine names
+include the QEMU version number" is pretty well entrenched,
+and requiring users to remember that when they want version 4.2
+they need to remember some other way of writing it than "4.2"
+seems rather unfriendly. And 550 uses of '.' is a lot.
 
-The libtasn1  git repo *does* contain these pragmas, but only in the
-dev tree for the unreleased 4.17.0 version.
-
-The homebrew-core.git repo recipe for libtasn1 claims to be using
-4.16.0 release
-
-  https://github.com/Homebrew/homebrew-core/blob/master/Formula/libtasn1.rb
-
-and those tarballs match what i have.
-
-None the less it looks like your 4.16.0 installed version is in fact
-a  git snapshot. Damned if I understand what homebrew is doing.
-
-None the less, given that these deprecations are in libtasn1 git upstream,
-we're going to have to deal with them.
-
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
