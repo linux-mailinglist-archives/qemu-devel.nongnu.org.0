@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F41430893F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 14:14:29 +0100 (CET)
-Received: from localhost ([::1]:50106 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31BC308952
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 14:27:25 +0100 (CET)
+Received: from localhost ([::1]:57152 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5TbY-0001sk-FY
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 08:14:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57098)
+	id 1l5To4-0005ZQ-Sc
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 08:27:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59650)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1l5TYT-0000YM-UC
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 08:11:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:46805)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1l5TYL-00030Y-1i
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 08:11:17 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611925865;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=a0n2iAz7qZVW82Meqto8Hz6DydlTWNUsMON8L3R8h70=;
- b=buGrmOvbHvMH/M9TANwRNlYSrLs6VA/vJdEF4j0Mq44FW591cyKMfp+QhaICZbpzq/JMAn
- NolqlNpmkJx/7CXNeGbsddDy0LBBEu9IequjBWSFooaupDT9uC8T8hNKOGml9w3yj1eIuu
- KpTuaxI0BTIDK3c5oFqDKhaFrJ99xo4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-79-tHs3kU-RPhKpf3hiodCbUw-1; Fri, 29 Jan 2021 08:11:03 -0500
-X-MC-Unique: tHs3kU-RPhKpf3hiodCbUw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4332C107ACE3;
- Fri, 29 Jan 2021 13:11:02 +0000 (UTC)
-Received: from [10.36.114.62] (ovpn-114-62.ams2.redhat.com [10.36.114.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 25DBD620D7;
- Fri, 29 Jan 2021 13:10:59 +0000 (UTC)
-Subject: Re: [PATCH] hw/arm/smmuv3: Fix addr_mask for range-based invalidation
-To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, peter.maydell@linaro.org
-References: <20201225095015.609-1-yuzenghui@huawei.com>
- <4e114709-e5c2-1860-c760-c05aa3ed5388@redhat.com>
- <45f3334d-f0b4-9a40-1bd1-78bd04735eaf@redhat.com>
- <aca67ce0-5e26-a0cf-1c31-4b08694afda4@huawei.com>
-From: Auger Eric <eric.auger@redhat.com>
-Message-ID: <f262e0fb-7544-eac2-4b2d-5eeb9761e447@redhat.com>
-Date: Fri, 29 Jan 2021 14:10:58 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.5.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l5Tkd-0003Wd-N2; Fri, 29 Jan 2021 08:23:51 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:44664)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l5Tkb-0007qW-Ml; Fri, 29 Jan 2021 08:23:51 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id t29so6216959pfg.11;
+ Fri, 29 Jan 2021 05:23:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lmqeHCWqp9qghkyoc/CrFvAqWcZrXsJSJffMK75rvqg=;
+ b=WTvqqt3TparG65WcKlpBXF5YgNWgklHPIm1phSSqCJIpaQeucW1M9gSpxHdrAFvqWB
+ lGLiXO3nkYdWyTU+i+hfcDmSctkLs16yA8bxFDEEp6yUN8oPV4qgdtevXIQjsRoduymn
+ Z0iAXjUrMF00yIs0zmj8ZrIhdjyXPO5OwSjYzjtbt0CVjaWbMazRQHCFN5edwWcxjAEj
+ a+MTpQPo4PoSQS9cTJa0A55hbeGR6bF4ujwE3qEopIYrchUEuV+MDcsMVLeEqlSZYm7h
+ KOYNgvp2h12K1zKnbY5gdTDjq3V9Rmg1DI2FbjgbhrqC4exEV4NUPyw7rXgnyUSuPljH
+ 9fOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=lmqeHCWqp9qghkyoc/CrFvAqWcZrXsJSJffMK75rvqg=;
+ b=mctN1NkQnz9BBj3q3BxUWY6qmkdHAoblIJV8zxEoUuLzc9mEboDqE0L7fKMtdThvV8
+ 8FCHVjDgKkyPQzuINdjqF6IXChoba0sStHdpYmmfqLJxYJh1Qvy+oGdzSjUwHPfNlceb
+ i7kwHnxyUhUyBnkMro+r1KFZXWGj4xotNW3pNFvrPlkiIXc5DCLNqH+Q3r74YXm2L15F
+ V8N8d65HRcSDQQ7aqliuD9CkfiwmxMABVj5E4lw3PzDiB76+kK6w5PDaBWvBzTGl2VRF
+ zx2Npci3NbNs2Pfn340xSk/nZnYnPAEdC7IzpVGjSGZ4Db1b6qBx812Iv2U6jl2x63ij
+ YxKg==
+X-Gm-Message-State: AOAM530myQ4nqhaTYe57ZYpLd37GfD+hR0N4F35lNao8a7h3dFzRmerc
+ 2BaQyqUTRvg/Rq0KUTAZcXU=
+X-Google-Smtp-Source: ABdhPJy+KnUBTISazWITJ6vtkx9W4wcPMAAvn1RTN7ej0sgwvTuIC4qfdcRQHY4wPMbrjSTyIDgkzg==
+X-Received: by 2002:a62:a108:0:b029:1c1:119b:8713 with SMTP id
+ b8-20020a62a1080000b02901c1119b8713mr4340831pff.74.1611926627431; 
+ Fri, 29 Jan 2021 05:23:47 -0800 (PST)
+Received: from i9-aorus-gtx1080.localdomain (144.168.56.201.16clouds.com.
+ [144.168.56.201])
+ by smtp.gmail.com with ESMTPSA id j6sm8857259pfg.159.2021.01.29.05.23.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 05:23:46 -0800 (PST)
+From: Bin Meng <bmeng.cn@gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Alistair Francis <alistair.francis@wdc.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: [PATCH v9 00/10] hw/ssi: imx_spi: Fix various bugs in the imx_spi
+ model
+Date: Fri, 29 Jan 2021 21:23:13 +0800
+Message-Id: <20210129132323.30946-1-bmeng.cn@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <aca67ce0-5e26-a0cf-1c31-4b08694afda4@huawei.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,84 +86,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wanghaibin.wang@huawei.com
+Cc: Bin Meng <bin.meng@windriver.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Zenghui,
+From: Bin Meng <bin.meng@windriver.com>
 
-On 1/29/21 1:15 PM, Zenghui Yu wrote:
-> Hi Eric,
-> 
-> On 2021/1/29 5:30, Auger Eric wrote:
->> Hi Zenghui,
->>
->> On 1/28/21 9:25 AM, Auger Eric wrote:
->>> Hi Zenghui,
->>>
->>> On 12/25/20 10:50 AM, Zenghui Yu wrote:
->>>> When performing range-based IOTLB invalidation, we should decode the TG
->>>> field into the corresponding translation granule size so that we can
->>>> pass
->>>> the correct invalidation range to backend. Set @granule to (tg * 2 +
->>>> 10) to
->>>> properly emulate the architecture.
->>>>
->>>> Fixes: d52915616c05 ("hw/arm/smmuv3: Get prepared for range
->>>> invalidation")
->>>> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
->>>
->>> Good catch! I tested with older guest kernels though. I wonder how I did
->>> not face the bug?
->> Please ignore this wrong comment as this corresponds to recent kernels
->> instead. Still puzzled anyway ;-)
-> 
-> I noticed this when looking through your nested SMMU series and I didn't
-> have much clue about the impact on the real setups.
-> 
-> I guess we may receive some unexpected fault events with this bug. But I
-> think we may miss it for some reasons:
-> 
->  - the stale TLB entries happen to be evicted due to heavy traffic
->  - some form of over-invalidation is performed by your implementation
->  - ...
-Yep I will further trace things. Anyway thank you for spotting it.
-> 
->>>> ---
->>>>   hw/arm/smmuv3.c | 4 +++-
->>>>   1 file changed, 3 insertions(+), 1 deletion(-)
->>>>
->>>> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
->>>> index bbca0e9f20..65231c7d52 100644
->>>> --- a/hw/arm/smmuv3.c
->>>> +++ b/hw/arm/smmuv3.c
->>>> @@ -801,7 +801,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion
->>>> *mr,
->>>>   {
->>>>       SMMUDevice *sdev = container_of(mr, SMMUDevice, iommu);
->>>>       IOMMUTLBEvent event;
->>>> -    uint8_t granule = tg;
->>>> +    uint8_t granule;
->>>>         if (!tg) {
->>>>           SMMUEventInfo event = {.inval_ste_allowed = true};
->>>> @@ -821,6 +821,8 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion
->>>> *mr,
->>>>               return;
->>>>           }
->>>>           granule = tt->granule_sz;
->>>> +    } else {
->>>> +        guanule = tg * 2 + 10;
->>> maybe just init granule to this value above while fixing the typo.
-> 
-> My intention is to initialize @granule to this value explicitly for the
-> range-based invalidation case. But I'm okay with either way.
-same for me ;-)
+Starting from v8, the series is based on the following 2 versions:
 
-Eric
-> 
-> 
-> Thanks,
-> Zenghui
-> 
+- v5 series sent from Bin
+  http://patchwork.ozlabs.org/project/qemu-devel/list/?series=223919
+- v7 series sent from Philippe
+  http://patchwork.ozlabs.org/project/qemu-devel/list/?series=224612
+
+This series fixes a bunch of bugs in current implementation of the imx
+spi controller, including the following issues:
+
+- remove imx_spi_update_irq() in imx_spi_reset()
+- chip select signal was not lower down when spi controller is disabled
+- round up the tx burst length to be multiple of 8
+- transfer incorrect data when the burst length is larger than 32 bit
+- spi controller tx and rx fifo endianness is incorrect
+- remove pointless variable (s->burst_length) initialization (Philippe)
+- rework imx_spi_reset() to keep CONREG register value (Philippe)
+- rework imx_spi_read() to handle block disabled (Philippe)
+- rework imx_spi_write() to handle block disabled (Philippe)
+
+Tested with upstream U-Boot v2020.10 (polling mode) and VxWorks 7
+(interrupt mode).
+
+Changes in v9:
+- Add a 'common_reset' function that does most of reset operation,
+  leaving ECSPI_CONREG clear in imx_spi_reset().
+- Do the LOG_UNIMP when the unsupported burst length value is written,
+  rather than where it is used.
+- Squash the 2 LOG_UNIMP warnings down into one line
+
+Changes in v8:
+- keep the controller disable logic in the ECSPI_CONREG case
+  in imx_spi_write()
+
+Changes in v7:
+- remove the RFC tag
+- remove the RFC tag
+- remove the RFC tag
+- remove the RFC tag
+
+Changes in v6:
+- new patch: [RFC] remove pointless variable initialization
+- new patch: [RFC] rework imx_spi_reset() to keep CONREG register value
+- new patch: [RFC] rework imx_spi_read() to handle block disabled
+- new patch: [RFC] rework imx_spi_write() to handle block disabled
+
+Changes in v5:
+- rename imx_spi_hard_reset() to imx_spi_soft_reset()
+- round up the burst length to be multiple of 8
+
+Changes in v4:
+- adujst the patch 2,3 order
+- rename imx_spi_soft_reset() to imx_spi_hard_reset() to avoid confusion
+- s/normal/common/ in the commit message
+- log the burst length value in the log message
+
+Changes in v3:
+- new patch: remove imx_spi_update_irq() in imx_spi_reset()
+- Move the chip selects disable out of imx_spi_reset()
+- new patch: log unimplemented burst length
+- Simplify the tx fifo endianness handling
+
+Changes in v2:
+- Fix the "Fixes" tag in the commit message
+- Use ternary operator as Philippe suggested
+
+Bin Meng (5):
+  hw/ssi: imx_spi: Use a macro for number of chip selects supported
+  hw/ssi: imx_spi: Remove imx_spi_update_irq() in imx_spi_reset()
+  hw/ssi: imx_spi: Round up the burst length to be multiple of 8
+  hw/ssi: imx_spi: Correct the burst length > 32 bit transfer logic
+  hw/ssi: imx_spi: Correct tx and rx fifo endianness
+
+Philippe Mathieu-Daudé (4):
+  hw/ssi: imx_spi: Remove pointless variable initialization
+  hw/ssi: imx_spi: Rework imx_spi_reset() to keep CONREG register value
+  hw/ssi: imx_spi: Rework imx_spi_read() to handle block disabled
+  hw/ssi: imx_spi: Rework imx_spi_write() to handle block disabled
+
+Xuzhou Cheng (1):
+  hw/ssi: imx_spi: Disable chip selects when controller is disabled
+
+ include/hw/ssi/imx_spi.h |   5 +-
+ hw/ssi/imx_spi.c         | 153 +++++++++++++++++++++++++--------------
+ 2 files changed, 101 insertions(+), 57 deletions(-)
+
+-- 
+2.25.1
 
 
