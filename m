@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 773F3308991
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:36:26 +0100 (CET)
-Received: from localhost ([::1]:50000 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89185308997
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:43:52 +0100 (CET)
+Received: from localhost ([::1]:33190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Usr-00079F-94
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:36:25 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45850)
+	id 1l5V03-0003gB-Jh
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:43:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47276)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5Upj-00063O-Kk
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:33:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:40825)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5Upf-0004ns-Hf
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:33:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611930785;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UmeVeme2a0jDKTNOPJqKP7SH/bz6tNXCL1asP/UZF/A=;
- b=D5NJN0WVXpl4JdFFeRQDBLKLkx6RSGISchwbOSJUZjWIATQupX3tN3E9MRXmoj4rorQ/vo
- ImGezotvLX5fD6LihjmD3x7z++ljzNxuSo0wsORToJ5XPphoUUdAAx+Rw3miC1nGxMsM1I
- /kP4l0yj5mTVyib0/JQlDIRwy358Ubw=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-526-Dra750PLMcmGVfAn-ql5Cg-1; Fri, 29 Jan 2021 09:33:00 -0500
-X-MC-Unique: Dra750PLMcmGVfAn-ql5Cg-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 273ABAFA82
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:32:59 +0000 (UTC)
-Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46A2A6F7E7;
- Fri, 29 Jan 2021 14:32:55 +0000 (UTC)
-Date: Fri, 29 Jan 2021 14:32:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Christophe de Dinechin <cdupontd@redhat.com>
-Subject: Re: vnc clipboard support
-Message-ID: <20210129143252.GE4008275@redhat.com>
-References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
- <C26A91E6-A5AE-4258-A470-91B6B5BC7C7F@redhat.com>
- <20210129080323.xuvokq5kytoomx6j@sirius.home.kraxel.org>
- <8E05F8C9-A60D-45A9-AFCB-79D866F57660@redhat.com>
- <20210129110814.GF4001740@redhat.com>
- <0F802343-19F8-487C-8BBE-5BBE2014BA1C@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5UyK-0003CH-H8
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:42:04 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:35121)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5UyG-0008Pp-IV
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:42:02 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id e15so7378847wme.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 06:41:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:references:cc:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=roGIidkSXK1wljdwmOTsqwtWFtta29CPkLvGxgifUq0=;
+ b=RD6MjjVeNvrJx6Hod5m1abOyJUACXIDcFEJnmp1sHUctTCk6EuT/7AxvTPytX9QaNu
+ 4Psz22Gu0C/JDTFyitsCgDnIzHWQCwumffsdcPfpt3yziuKIEnk1UmOvCpfmQCIGGMJI
+ c3EDKBQ7QNvIKoxl8DepheI4losp84eMzfVBeRdgpUV0hDLRISpRKfdJ55LNxOV1MjTP
+ 3H5WT8RXFJyMtqlh2bA4xSZCKpgwBsULcWcZz/+lq6ReUF5Toa+nnpDr92TmVDBX4wdY
+ lSMdJ14M2oheOLZN3DPhnPOsDkEgUyg8m+4pMuLJsutOodp851gA7kfEO1bkc8KaE1Kc
+ Be/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:references:cc:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=roGIidkSXK1wljdwmOTsqwtWFtta29CPkLvGxgifUq0=;
+ b=pgWq+9BqZcqmaBACV++eVV974pd3ulA/EAxtAJfY+nr3+U4df9upjPKCyGpwdIAWW1
+ sa3fma7v4XPSJmAAdR3eCzrypRHsTmJB3kA12jWz7u5EmS1EZ+DEIKk9+BNe4ywr0Fkb
+ aLZ9TZ2nkFf/tTQi9TZXDulNSyiP4AZyWb84I0S0rjD828L219WKOb8tRlMwcDNlCOUy
+ e3cIGE0uLI8L3smfVq6NqSNkaEBRQikGufAbtyrtKXVjtOfGhfREf3vaCm+3GHjca2b4
+ H4U0P7roxXLafvcQqHNbP0McE7wVfjOuWT5jb4G5STwoEWHwuhJTF4KYihqTbd1QERCs
+ /Hmg==
+X-Gm-Message-State: AOAM531A4CZenRfv/60PIQW7ER+hdF7+A4lfjMT3DQ57O9mQvlGi7HVJ
+ juDO7Ap2/iyu1UAzSUgy5dQ=
+X-Google-Smtp-Source: ABdhPJzxtBob8k1TDM3WPb2nfTMWPHomgTU9K/oAEa8nb5ZBx7I2YbP2RsaqH0ZSCenakRFuCYzuwg==
+X-Received: by 2002:a1c:4b19:: with SMTP id y25mr4177420wma.44.1611931318382; 
+ Fri, 29 Jan 2021 06:41:58 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id r25sm13385573wrr.64.2021.01.29.06.41.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Jan 2021 06:41:57 -0800 (PST)
+Subject: Re: [PULL 17/21] hw/adc: Add an ADC module for NPCM7XX
+To: qemu-devel@nongnu.org, Hao Wu <wuhaotsh@google.com>
+References: <20210112165750.30475-1-peter.maydell@linaro.org>
+ <20210112165750.30475-18-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <461061a0-e516-9e98-308e-a8f270487d5c@amsat.org>
+Date: Fri, 29 Jan 2021 15:41:56 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <0F802343-19F8-487C-8BBE-5BBE2014BA1C@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
+In-Reply-To: <20210112165750.30475-18-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -86,136 +89,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>, Tyrone Ting <kfting@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 03:19:45PM +0100, Christophe de Dinechin wrote:
-> 
-> 
-> > On 29 Jan 2021, at 12:08, Daniel P. Berrangé <berrange@redhat.com> wrote:
-> > 
-> > On Fri, Jan 29, 2021 at 11:50:10AM +0100, Christophe de Dinechin wrote:
-> >> 
-> >> 
-> >>> On 29 Jan 2021, at 09:03, Gerd Hoffmann <kraxel@redhat.com> wrote:
-> >>> 
-> >>> Hi,
-> >>> 
-> >>>>> (1) Have some guest agent (spice does it that way).
-> >>>>>    Advantage: more flexible, allows more features.
-> >>>>>    Disadvantage: requires agent in the guest.
-> >>>> 
-> >>>> What about running the option to relay data to a VNC server in the
-> >>>> guest if there is one running? In other words, using an existing
-> >>>> VNC server as an agent, with the option of having a stripped-down,
-> >>>> clipboard only VNC server as a later optimization.
-> >>> 
-> >>> Well, if you run Xvnc in the guest anyway why use the qemu vnc server
-> >>> in the first place?
-> >> 
-> >> I assume that if you use the qemu VNC, it's because you you don't want to
-> >> run Xvnc on some external network, or care about accessing the guest
-> >> before Xvnc can be launched. There can be many reasons.
-> >> 
-> >> Again, I want to make it clear that my suggestion is _not_ simply to access
-> >> the existing Xvnc as is, but rather to stick with some VNC server code to handle
-> >> the clipboard if / when possible.
-> >> 
-> >> Let me try to imagine a scenario, where I'll use a macOS guest intentionally
-> >> to clarify what I was thinking about.
-> >> 
-> >> - During early boot, there is no in-guest VNC server, so to address that,
-> >> you connect to the qemu VNC. At this stage, all screen refresh is handled
-> >> by the qemu VNC, and the best you can do if you want to support any
-> >> kind of copy-paste is to convert it to virtual keystrokes. The same would
-> >> be true for Linux on a text console.
-> >> 
-> >> - Then comes up you macOS guest, and it still has no VNC port open,
-> >> so you are stuck with qemu-vnc doing all the work. But now you can
-> >> enable screen sharing, and that launches the Apple-maintained macOS
-> >> VNC server.
-> >> 
-> >> - Let's assume for illustration that this listens on some private network
-> >> that qemu can access, but that is not visible externally. In this case,
-> >> you could not VNC to the guest, but you can still VNC to qemu.
-> >> 
-> >> - What I'm suggesting is that qemu-vnc could then switch to simply
-> >> relaying VNC traffic to that in-guest server. You'd get the smart update
-> >> algorithm that Apple has put in place to deal with transparency and the
-> >> like, as well as a level of guest OS integration that would otherwise be
-> >> much harder to replicate.
-> > 
-> > IMHO that's an awful lot of complexity to add to the system
-> > that isn't especially useful and this opens up new attack
-> > vectors for the guest to exploit the host.
-> > 
-> > If people have VNC/RDP/whatever configured inside their guest
-> > OS, then there's really little to no reason for them to want
-> > to connect to the QEMU VNC server, as viewing initial bootup
-> > phase is not required in normal case. The only time such
-> > people will need to use the QEMU VNC server is if the guest
-> > OS has broken in some way before it fully booted and thus failed
-> > to start the guest VNC server. There is no guest VNC server
-> > to hand off to in this scenario.
-> 
-> It's a matter of what you want to do with that qemu vnc.
-> 
-> If it's only a backup when there's nothing in the guest to help,
-> then maybe trying to support copy-paste is not a good idea.
-> 
-> If it's a standard go-to access point for connecting to your
-> guest, then making it smart is hard, but useful.
-> 
-> > 
-> > The value of the QEMU host side VNC server is that it works
-> > for all possible guest OS, no matter whether they are running
-> > normally or broken, regardless of what the guest admin has
-> > configured in terms of guest level remote desktop.
-> 
-> Understood.
-> 
-> The downside is that there are things it can't do. It cannot correctly
-> determine the keyboard map, because that's controlled in software
-> in the guest.
+Hi Hao Wu,
 
-There is no need for the remote desktop server to care about the
-keymap. The remote client takes scancodes and passes them to the
-server, which then passes them to the guest.
-
-The person connected to the remote server simply has to configure
-their guest OS keymap to match the physical keyboard they currently
-have plugged in.
-
-The only reason a remote server would need to know the keymap is
-if it was trying to translate from keycodes back into scancodes.
-This is what VNC protocol had to do originally, but VNC was since
-extended to pass raw scancodes instead of keycodes, precisely to
-avoid needing to care about keymaps.
-
-> > IOW, if you have a guest remote desktop solution you'll just
-> > use that 99% of the time. If you don't have that, then you'll
-> > use QEMU VNC/SPICE server, and there won't be anything in the
-> > guest for that to proxy to/from.
+On 1/12/21 5:57 PM, Peter Maydell wrote:
+> From: Hao Wu <wuhaotsh@google.com>
 > 
-> If really the assumption is there is nothing in the guest to help
-> us, then I'd say "paste" should come up with a warning "do you want
-> me to try and translate that into keystrokes", and I don't see how to
-> implement copy from a graphical display without OCR…
+> The ADC is part of NPCM7XX Module. Its behavior is controled by the
+> ADC_CON register. It converts one of the eight analog inputs into a
+> digital input and stores it in the ADC_DATA register when enabled.
+> 
+> Users can alter input value by using qom-set QMP command.
+> 
+> Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com>
+> Reviewed-by: Tyrone Ting <kfting@nuvoton.com>
+> Signed-off-by: Hao Wu <wuhaotsh@google.com>
+> Message-id: 20210108190945.949196-4-wuhaotsh@google.com
+> [PMM: Added missing hw/adc/trace.h file]
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>  docs/system/arm/nuvoton.rst    |   2 +-
+>  meson.build                    |   1 +
+>  hw/adc/trace.h                 |   1 +
+>  include/hw/adc/npcm7xx_adc.h   |  69 ++++++
+>  include/hw/arm/npcm7xx.h       |   2 +
+>  hw/adc/npcm7xx_adc.c           | 301 ++++++++++++++++++++++++++
+>  hw/arm/npcm7xx.c               |  24 ++-
+>  tests/qtest/npcm7xx_adc-test.c | 377 +++++++++++++++++++++++++++++++++
+>  hw/adc/meson.build             |   1 +
+>  hw/adc/trace-events            |   5 +
+>  tests/qtest/meson.build        |   3 +-
+>  11 files changed, 783 insertions(+), 3 deletions(-)
+>  create mode 100644 hw/adc/trace.h
+>  create mode 100644 include/hw/adc/npcm7xx_adc.h
+>  create mode 100644 hw/adc/npcm7xx_adc.c
+>  create mode 100644 tests/qtest/npcm7xx_adc-test.c
+>  create mode 100644 hw/adc/trace-events
+...
 
-I'm not saying we can't use stuff in the guest, just that we should be
-pragmatic about what we interact with in the guest and degrade nicely.
-I don't think that proxying from a host VNC server to a guest VNC server
-is sensible, but making use of a guest agent of some kind is not
-unreasonable, especially if we can use one that already exists.
+> diff --git a/hw/adc/npcm7xx_adc.c b/hw/adc/npcm7xx_adc.c
+> new file mode 100644
+> index 00000000000..870a6d50c27
+> --- /dev/null
+> +++ b/hw/adc/npcm7xx_adc.c
+> @@ -0,0 +1,301 @@
+> +/*
+> + * Nuvoton NPCM7xx ADC Module
+> + *
+> + * Copyright 2020 Google LLC
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms of the GNU General Public License as published by the
+> + * Free Software Foundation; either version 2 of the License, or
+> + * (at your option) any later version.
+> + *
+> + * This program is distributed in the hope that it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+> + * for more details.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "hw/adc/npcm7xx_adc.h"
+> +#include "hw/qdev-clock.h"
+> +#include "hw/qdev-properties.h"
+> +#include "hw/registerfields.h"
+> +#include "migration/vmstate.h"
+> +#include "qemu/log.h"
+> +#include "qemu/module.h"
+> +#include "qemu/timer.h"
+> +#include "qemu/units.h"
+> +#include "trace.h"
+> +
+> +REG32(NPCM7XX_ADC_CON, 0x0)
+> +REG32(NPCM7XX_ADC_DATA, 0x4)
+> +
+> +/* Register field definitions. */
+> +#define NPCM7XX_ADC_CON_MUX(rv) extract32(rv, 24, 4)
+> +#define NPCM7XX_ADC_CON_INT_EN  BIT(21)
+> +#define NPCM7XX_ADC_CON_REFSEL  BIT(19)
+> +#define NPCM7XX_ADC_CON_INT     BIT(18)
+> +#define NPCM7XX_ADC_CON_EN      BIT(17)
+> +#define NPCM7XX_ADC_CON_RST     BIT(16)
+> +#define NPCM7XX_ADC_CON_CONV    BIT(14)
+> +#define NPCM7XX_ADC_CON_DIV(rv) extract32(rv, 1, 8)
+> +
+> +#define NPCM7XX_ADC_MAX_RESULT      1023
+> +#define NPCM7XX_ADC_DEFAULT_IREF    2000000
+> +#define NPCM7XX_ADC_CONV_CYCLES     20
+> +#define NPCM7XX_ADC_RESET_CYCLES    10
+> +#define NPCM7XX_ADC_R0_INPUT        500000
+> +#define NPCM7XX_ADC_R1_INPUT        1500000
+> +
+> +static void npcm7xx_adc_reset(NPCM7xxADCState *s)
+> +{
+> +    timer_del(&s->conv_timer);
+> +    s->con = 0x000c0001;
 
+This initialize CON to:
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+NPCM7XX_ADC_CON_REFSEL | NPCM7XX_ADC_CON_INT | BIT(0)
 
+What is bit 0?
+
+> +    s->data = 0x00000000;
+> +}
 
