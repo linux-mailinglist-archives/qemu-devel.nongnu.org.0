@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3AD30870F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:34:38 +0100 (CET)
-Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B34EB308710
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:34:40 +0100 (CET)
+Received: from localhost ([::1]:38708 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PEj-0006c5-FS
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:34:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
+	id 1l5PEl-0006iR-BJ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:34:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35598)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PCz-00051H-O2; Fri, 29 Jan 2021 03:32:51 -0500
-Received: from mout.kundenserver.de ([212.227.126.134]:54223)
+ id 1l5PD5-00054a-CH; Fri, 29 Jan 2021 03:32:55 -0500
+Received: from mout.kundenserver.de ([212.227.126.133]:40271)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PCv-0002RP-Us; Fri, 29 Jan 2021 03:32:49 -0500
+ id 1l5PD3-0002UM-B7; Fri, 29 Jan 2021 03:32:55 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1MxHLs-1lto0H1vzs-00xXyr; Fri, 29 Jan 2021 09:32:41 +0100
+ id 1MXGSU-1lU8Q80aOU-00Yh4x; Fri, 29 Jan 2021 09:32:42 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 1/4] MAINTAINERS: Update 9pfs tree URL
-Date: Fri, 29 Jan 2021 09:32:33 +0100
-Message-Id: <20210129083236.584238-2-laurent@vivier.eu>
+Subject: [PULL 2/4] tcg/tci: Restrict tci_write_reg16() to 64-bit hosts
+Date: Fri, 29 Jan 2021 09:32:34 +0100
+Message-Id: <20210129083236.584238-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129083236.584238-1-laurent@vivier.eu>
 References: <20210129083236.584238-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:yvhI0fkZHNwhSXS/JG97y/oAuAg34XOkmIN7KWFkOGgUZ8A+smP
- P/UvUWm1rkr4Xxn7G4jkwMSpUl61N9+YIrFm6F1nlZMNZo3wuav8EL1EYU7OZsPbkGOWKJ+
- tu0YGgR8EOCeKvro8kERa2IYatJKy8bxNGx0AtCUBxtcoJ3aFHpz2ZVh1LOscNIjXFNBFRD
- +RDYm3g6RbtVYpBL3uGgw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:xAhx/aSGbk8=:E4A6xbHwd7GdkCFul46dS+
- /e/N80SOFzgXvTra+pPhNkjEU1gv8tLs2qbrkqVQ90SAkSRkBAIaXZGYBFxprntK80MQ8r59K
- 4MmNhNW7koWLmqdu3WfYjo1GXbVXwMFu+oU4QksYYWgHACXvcD0MXsa4XQmObv+VgbAsjJloI
- qUHrRmvMADXy4XiJrhBvf+Aa/sN+4w0GYHoV/SvKi4W3SFtwoIWUNvCDXqXkMY6/MyXo1Ilng
- ta9tSKCjRaqssf1Oik83EMUMtG2sLobNSIdfvqBJ9C5Qf1oMOA3Cv6LC+CnLT9dw0tHxJg0O0
- tWTz1U/4Bj94eJPxZmXyjz6ZZSxrFFOXxfpMBOxG5ARqmDZeUfns96U4eT/8NXR/bOILDSMij
- omPhLHF3k9a70pFqJXUZsO6YH1DrpO182XZHTmT9n6TWLECd/4z7Q9tZO4VgC
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:f5G6Sd3S5lkNKACmVqO4C1GfHyqj7/tVUjhGmX1jtTIu0/pCGx1
+ 267zMTLOB12O3MLSBfTSThllSIKjlHWTY4HiMOGjCVFxPWDYU15ey4OCMWxt62Xvzi8VtuK
+ urj+e37WilOlf+BM5mnDhpQQEqW+w6aIDNy476+DaNcoMt+q1kXDzVTK22X/HwYyxcif4m8
+ eIjZP8mBnajybTmWwZaHg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A40ekwuV+VQ=:DoSzneYg0PMg4Z/xxtjkBA
+ Zy0I9NHT6ieNiWyJtCb9iAFIOcEQ3w/1NM0ccTvqnA3HSX1KJnMF23A6N/nzP3XbpXVrNuhSM
+ 2BLINZSPL0Cyck0Kj01tSlMaNsPQBUI01+6mTjM+2pV8QMBah7uRERxeb9ZkRl1KP7zzSuN7u
+ C3cwYxR9ep7etgupWu71s3YOauSvKde0SWaiOLBELFZsFGGhWUAOu0OeT7piiFJXp2f5d1i9R
+ vQSm1e/wr8InNCMkRwTCnwbUmapl/mD1me9Dl967IP04cc5mCGV2GTZPO+surl7zd51rD8r3r
+ +digl+aEQjyBqNLPw7Co7djWVkGXkYhmnjNFk4ho/s/8lSzrRcCsBmLnEexeALAQWFYSxfMoa
+ am3nx6yNKMaZNdhQdfmRhA/YqF58DvFULT/Lf2bT1Chx3M/CxxnKhycEFlQXde4hNCMSX/9mu
+ C+zUtURQGA==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,38 +63,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Michael Tokarev <mjt@tls.msk.ru>, Greg Kurz <groug@kaod.org>,
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Greg Kurz <groug@kaod.org>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-I've already moved my repositories to gitlab for extra CI coverage,
-and I won't use the ones at github anymore.
+Restrict tci_write_reg16() to 64-bit hosts to fix on 32-bit ones:
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-Id: <161071814430.152031.14540382419012818908.stgit@bahia.lan>
+  [520/1115] Compiling C object libqemu-arm-linux-user.fa.p/tcg_tci.c.o
+  FAILED: libqemu-arm-linux-user.fa.p/tcg_tci.c.o
+  tcg/tci.c:132:1: error: 'tci_write_reg16' defined but not used [-Werror=unused-function]
+   tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
+   ^~~~~~~~~~~~~~~
+
+Fixes: 2f160e0f979 ("tci: Add implementation for INDEX_op_ld16u_i64")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20210123094107.2340222-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tcg/tci.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 34359a99b8e7..fbb228ef2b34 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1828,7 +1828,7 @@ X: hw/9pfs/xen-9p*
- F: fsdev/
- F: docs/interop/virtfs-proxy-helper.rst
- F: tests/qtest/virtio-9p-test.c
--T: git https://github.com/gkurz/qemu.git 9p-next
-+T: git https://gitlab.com/gkurz/qemu.git 9p-next
+diff --git a/tcg/tci.c b/tcg/tci.c
+index 2311aa7d3ab6..3fc82d3c79d7 100644
+--- a/tcg/tci.c
++++ b/tcg/tci.c
+@@ -128,11 +128,13 @@ static void tci_write_reg8(tcg_target_ulong *regs, TCGReg index, uint8_t value)
+     tci_write_reg(regs, index, value);
+ }
  
- virtio-blk
- M: Stefan Hajnoczi <stefanha@redhat.com>
++#if TCG_TARGET_REG_BITS == 64
+ static void
+ tci_write_reg16(tcg_target_ulong *regs, TCGReg index, uint16_t value)
+ {
+     tci_write_reg(regs, index, value);
+ }
++#endif
+ 
+ static void
+ tci_write_reg32(tcg_target_ulong *regs, TCGReg index, uint32_t value)
 -- 
 2.29.2
 
