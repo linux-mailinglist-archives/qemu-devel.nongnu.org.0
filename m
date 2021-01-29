@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E968308AFC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:12:50 +0100 (CET)
-Received: from localhost ([::1]:52020 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44159308AFA
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:10:03 +0100 (CET)
+Received: from localhost ([::1]:45566 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5XKD-0003II-AF
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:12:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42268)
+	id 1l5XHW-0000VZ-AL
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:10:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42038)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l5WxT-00081K-FB
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 11:49:19 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:33796)
+ id 1l5Wvv-0007Kz-HA
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 11:47:44 -0500
+Received: from userp2130.oracle.com ([156.151.31.86]:57552)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jag.raman@oracle.com>)
- id 1l5WxQ-0006OQ-Uo
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 11:49:19 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
- by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10TGmk7P181129;
- Fri, 29 Jan 2021 16:49:09 GMT
+ id 1l5WvX-0005mI-Bf
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 11:47:40 -0500
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+ by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10TGNxpB130044;
+ Fri, 29 Jan 2021 16:47:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : content-type :
  mime-version; s=corp-2020-01-29;
- bh=RdD2os6t3PSYJEZeInDV3U76ZlcxnwkHmDA1IYMV3bY=;
- b=VtKRa09Ec0PuJ4l7z93FfmC1+A2LKt6ly2u+YmTlRafDTOVPHCxDVJJY37znpzrBfdt8
- P1SiFrv/wv7JD1KuTOALYQPAFlQuWavnvd4fUn8R1MyRiNXtNt2ny7TsrPSTol4POa9x
- qGsLQb7LgXyvEHQIpN/NUKcYL5K8QaXSE6ac9jsU94IawjSdyWWUhaecB5TpskV8i+jE
- 4Ex2e50VBMREupVwTr+wvGPjzU0kL9N5V6ifnALwBq++cx6QHOFVL5Y4b/VbA+SxtGO7
- ZcgERaCBb0m821pXkhZbDPjcQBiDti7SqbbCdLgCmaLLHGJRCNbgMwdoJk5Iyl+7AlPS 6g== 
+ bh=WWJvgtB3AelazeMKJ9LuGJwKpRD2TFnza0WlANweXA0=;
+ b=MxNX6zTncdP8erxLui97hm8/1dAQN5/dQfNxroWk4cokRbeMtAOJDNpg01AX4jtnXjEr
+ QxdI1vLRNoBSI7wQ8KTW1mFBMHV0wzFgnSedTgQX3i3x7XzZMLNH+PDRhOH9TFQ/zKx8
+ PK36TkDP1JpQtHV1V8PfxpB1pxxlMlw+860Dh1ESw04BysCD6azJSUZR5EAjvnk9xlgv
+ I2jLLjesY4bw2oel9ephs/gi3JaQE+0MN7IdfwrfiyuGulsR0JIySsHyJplC0+PfEryn
+ e6OdjsMeCorOiYQvEKNfXrwSux3ZhGMQbSi3fFt8JEOr9SsRVpOaTwRD1alezBRUn5dm CA== 
 Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
- by aserp2120.oracle.com with ESMTP id 36cmf88jf3-1
+ by userp2130.oracle.com with ESMTP id 368b7ra9gw-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Jan 2021 16:49:08 +0000
+ Fri, 29 Jan 2021 16:47:11 +0000
 Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
- by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10TGPHxo121180;
- Fri, 29 Jan 2021 16:47:08 GMT
+ by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 10TGPIFg121237;
+ Fri, 29 Jan 2021 16:47:11 GMT
 Received: from nam10-dm6-obe.outbound.protection.outlook.com
- (mail-dm6nam10lp2105.outbound.protection.outlook.com [104.47.58.105])
- by aserp3030.oracle.com with ESMTP id 368wcse1ry-1
+ (mail-dm6nam10lp2107.outbound.protection.outlook.com [104.47.58.107])
+ by aserp3030.oracle.com with ESMTP id 368wcse1tf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 29 Jan 2021 16:47:08 +0000
+ Fri, 29 Jan 2021 16:47:11 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=QgzAg2IX1hcJuRXKR9IgCmANSdEM/XmZE1sRrg8X0/rK1sGxHjHCqD4x5UagU4rMJuVzu5TTvARW+AVOgOJMoRxkVqdZKDb+6mpA6QFAi5Xtw+6Xw06cE1vRILvL2F2ssO7PoHHrsNO3XK2ZKUzlxSAnUsc+DlLNb5ArnxsFY8Mfb7Ts6HdzmT7scZSHAbUXOyzI5/TqJShSdPk72eD4QzSlXDo2UtVGa9gPMxtTnGksaC6V0TJAiYnOnNbA0+Ryvkh4h1mzlIsx1Pff1wQne4XCC+da6PpP2RMilWh0b5CH5NwUCn/zQCAe6VDfViD5JQfimT5YKtUUdf0edAQasA==
+ b=mgeHxq3eATJCzaueXKXITiwxqDIVLl/TNJZiD8R0XgPpq/wWL5m8tHZj0aSyZuMVMjjURXSw89fo7bzotvPsR56XGGMM8nIe7dNfs7UzNcBoAFkjkbNTcfr6/uLntBxqfLAvrn7zCFUfFHPzZcYOY8XAELduaKYiqbi2cX1CjlafVOMgUQKFb84mpzMcXmEAcz2HgphZtFVQIlTDKBgPuiFILD8Vo/hJ5z4AwNpC1jJe7qono1bKXVmlz1hLXuOa8g6Q1GcxQ7D/oYHZQRe8NnW6CFcXR/ATdNb2Xa85okK5QQ3LKTyKUOW2v9bQ9Y/g79a2rl1Th99C5q9HGvtRgg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RdD2os6t3PSYJEZeInDV3U76ZlcxnwkHmDA1IYMV3bY=;
- b=C/Jmwb4kx9HYL1dAxzZ2rqtWhHPShdIK7Y6vXPsVY/TSue9hXDVkV6Q1VX1RDm75UF0M2D+/kcIHaGcFt2Urzl02tTWKJpvKu4nvKhROkRF1a4dNOulV3ybRrUrOMYtQlk9mma3L8jZS+FV4ZyW7Q9rYJqm+66lwQg+HGKNIhfQ2RppfL8KtH2BnoP8ckWJwz1Yrdr1dHvx/BPU//0g+CtepU+R53AH+4bp3jJ2HtqFd1vSz+yJtn5FY3wJZbOKEoYWtG30Y4FqYgTNza28bY2PDMg4hCc59GGIzgUD2YG3fGrHIRdwgWLxVgsJemJU1A4cgFAz7gUwB/toTsNm3Cw==
+ bh=WWJvgtB3AelazeMKJ9LuGJwKpRD2TFnza0WlANweXA0=;
+ b=lvsLgzg8nxxF/el/lJIu7apa7tXtendXZ5Ifaa2ZQ0P771m26ImVQlmnh4peRJG1gqq7YaTkPegI0kacZ52RTteHgXQKR3qpBKVdQTnYPVAnbHxIpjfWGt4g5Fl5+i7POdzflS0PVK7ZmObiM0GRRQl1W0Ww20AbAyh3Wsk9ftj0Z8eFTmYj4spa8VJ6Ixuy5G2ixoSUo09Ac0xQLxKlcOm5LDd0myJlVRVHpkcYlWZAwVoNJWZ3Pv6hjOi7oFPLRrv7uVPFtNPHQuSIeEnQJcItlWvKtPMBf/+/72ETgZ1m+Kp8W7JmzG7ygIrBxoEE31/H91qQ4uDS9rQ+0WDTJQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
  dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RdD2os6t3PSYJEZeInDV3U76ZlcxnwkHmDA1IYMV3bY=;
- b=EMPwaxIAl0m4x2SYMxHtpI3H9L56AKx7xZgJTssH/Z6Xy3HER1jf1ceXH5Dzv5wf2EH6BT42W0rLunlkdYs32Dzty+I+QcKgopDn7SkFLSDf6KfMD93atXgaixCRff0XUD9rw0I6lL6gORPrH+6yQi2pG/rnB43YYSapyawzqjY=
+ bh=WWJvgtB3AelazeMKJ9LuGJwKpRD2TFnza0WlANweXA0=;
+ b=nk4QTUL2iUatlGfaEBuweIvYkLD8ZYhiobsdnHGIRcH8k3lMWhJvn01yQElGdJijC4/SSNK0YxNh61NeXlD1o8QNzOri4NTi90ESirbCkYBiqVZAGARGZV00HDDBx/ywAy9XVOMWvshhJFvmghBIM8G6FB75F4ZAhO3lT6XP2yw=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=oracle.com;
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com (2603:10b6:a02:ae::18)
  by SJ0PR10MB4671.namprd10.prod.outlook.com (2603:10b6:a03:2d5::16)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.19; Fri, 29 Jan
- 2021 16:47:06 +0000
+ 2021 16:47:09 +0000
 Received: from BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::74a8:e88d:b89e:bf2d]) by BYAPR10MB2744.namprd10.prod.outlook.com
  ([fe80::74a8:e88d:b89e:bf2d%4]) with mapi id 15.20.3805.020; Fri, 29 Jan 2021
- 16:47:06 +0000
+ 16:47:08 +0000
 From: Jagannathan Raman <jag.raman@oracle.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v21 15/20] multi-process: Forward PCI config space acceses to
- the remote process
-Date: Fri, 29 Jan 2021 11:46:16 -0500
-Message-Id: <d3c94f4618813234655356c60e6f0d0362ff42d6.1611938319.git.jag.raman@oracle.com>
+Subject: [PATCH v21 16/20] multi-process: PCI BAR read/write handling for
+ proxy & remote endpoints
+Date: Fri, 29 Jan 2021 11:46:17 -0500
+Message-Id: <a8b76714a9688be5552c4c92d089bc9e8a4707ff.1611938319.git.jag.raman@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1611938319.git.jag.raman@oracle.com>
 References: <cover.1611938319.git.jag.raman@oracle.com>
@@ -89,48 +89,48 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from jaraman-bur-1.us.oracle.com (209.17.40.45) by
  BYAPR05CA0053.namprd05.prod.outlook.com (2603:10b6:a03:74::30) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3825.8 via Frontend Transport; Fri, 29 Jan 2021 16:47:03 +0000
+ 15.20.3825.8 via Frontend Transport; Fri, 29 Jan 2021 16:47:06 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: d24769e1-2f82-49d1-155c-08d8c47582f5
+X-MS-Office365-Filtering-Correlation-Id: f276ca49-06fd-42ea-0a91-08d8c4758479
 X-MS-TrafficTypeDiagnostic: SJ0PR10MB4671:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <SJ0PR10MB4671B4846D9BF49A1412EDEF90B99@SJ0PR10MB4671.namprd10.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:421;
+X-Microsoft-Antispam-PRVS: <SJ0PR10MB4671AD1742AD96F50306B20F90B99@SJ0PR10MB4671.namprd10.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:7219;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 93w7fiWRQro6RVxKKHbcjHUuAsZWdQD9qVsuOJeDs93JhqHWzjlvca+W9Phf2ALa4tRiBtSVTd711jdUUHKf1B4stfLyDIAM2L2qkYdRcPIbHTiB3wmKQuPN2Ny2lKkN2swu5YHJ1dGWn7Gs+B5tGlE/vsdI+8KppEOzkeSzWf330my8Pa8p2Bt/nXJz9RKZTdCd+0v9EpTsWdHVhywL4HZ3fivvZdTisTIkoMU/xERUtzsgMPZTAwUHprbJ6lZHLLLrLsIYFtNioGX2xDNCHcHLXnsCGb/BUMbeXOkk26/HaHKH/pfdCZQVWU30RIiyJA6S9t5CRdJNFZiq0U91t/836y8Z4PgsJ8KUx/97hKbeq6mFLrcxMKdjf0P/6uy92Ej55rH2cpxz0I1LKDC/pFAOfOZEv/7gFD2/gSXJ/YOUqy50COtGMb+S0ttyEeDfDwVl0VsBnRMKIJnvzFud3DQCw31wprP3bMHh2YVL6J4AcoN70S8qqy7KAz95hOojPHclqWq+OhfUSt+y/2gWHQ==
+X-Microsoft-Antispam-Message-Info: 31m4ui4GAP2x8XqTOulx/inpEHPx5/i+QOJm9bW0eiyOtHJb4GxCaRkzJPMq/HhNM7r36391pkxQF9S7Lf0xwX0mJRtCCWRQJTVHipbaa2OCgQMP5NMHufbkgdoD8E3okEUAsRkxjwkPxZBYgvqvQ3RftwZRwaW5QiREaePck/T/ju03Q1ZjW1lr8RJlX0+vAccpM6wvZLPl6tqxvpgmh9kpiblWjGzZIBs4mVdmBWpGZVnX17v8MMXdJ7m4WlAGcXI6eN1za+pIwU9P7q5PyPXgdwFBq9Tb1KFafkXC7ak0cTvALi+rRiqg5xLtOjnUWRExH6BEGXmHh7pUzEJjsDe21tNyaEOzDF83vMT8FAL1ChqJ+uhnvveMwFQJFvhzn6HXlN68tHHo2P43+Th9fxGZi2JG5j9E9jpM2n1x+TnAhQyIAIncGj98GpYRxi/MsrShRpuM85YHXdFyuucbEqUXBs9+4lwegas2ZXa9d7HjeZqhpOTRbw+3x4EKBTwB5jWxJduNm7mOFp0ztIZokg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:BYAPR10MB2744.namprd10.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(136003)(366004)(376002)(39860400002)(396003)(346002)(956004)(2616005)(4326008)(8676002)(6666004)(66556008)(478600001)(86362001)(36756003)(7416002)(107886003)(316002)(6916009)(2906002)(66476007)(16526019)(66946007)(7696005)(52116002)(6486002)(186003)(8936002)(5660300002)(83380400001)(26005);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?n9bWhg99CecbWu49HtRMwzwrvoHHYNvRks/6YhHdc/DGt6mlH2r9XIZuSfwW?=
- =?us-ascii?Q?fiJNjpZrcyWj5d5XwCxHPZx3vtyPZoqwuyIxnP9V99+7rFl0XjXoJf0E0Rh7?=
- =?us-ascii?Q?rxZulGczIcT5bOnuen6R9pjpWGB+sHsmsD9udCTbUcphSrfUNdzAKHkgWDve?=
- =?us-ascii?Q?4qC86Dxb0YlpK63dNJCbs7YgpvmrTSbci2vhHdfsITwQJdiMzVAK0zYRi/Cy?=
- =?us-ascii?Q?YbZi+ySixQ2CqRfhjV8xjyNHjrbOa4NK6EdPGDHE7TiXigRonByr7GBTVfqR?=
- =?us-ascii?Q?8zXq6SUgGPIBEHo6EtjHXkJ8lAj4jW2B+fOmdBLhf/oDD57HC4D3il0Iviw2?=
- =?us-ascii?Q?86jTTeQEL6ue5eSNXhOQQzWbici8a0ERIiL/NZ7ygd86Bvp4+uQIu6/7jTGK?=
- =?us-ascii?Q?4gyFV7hilrM0aW3ZgZIOZRZJqwcm8Ig/baDT67TLSLu/VJKvsGhlpyMlQjcF?=
- =?us-ascii?Q?eG9C84RsVcXphh6ScGwtkFg+ZoRMe+cp556pDmqmJOvGZ3T/+lHnQkMSIaVG?=
- =?us-ascii?Q?v2q3n1HpqwuiyQSnZrmVzbaNQ7jIzYx/CN6DOu4r2FBmbrnmP/hJoHiE7MgU?=
- =?us-ascii?Q?u2MnQSt4u0Ach5MfUIbyb+ZUXJDDxTPPsokBzV/5hxSqu9d//n66u7X7ReSr?=
- =?us-ascii?Q?tKdNS9RA3w9+mRMBIlQfYmLkkVPV8xxiG0VqbtOUgbRe68X6ccD0ixbjCKLB?=
- =?us-ascii?Q?oCbKU+LHzRZtrn2oSVXQlmhaYdq1EiKj61uMTG/NBSOZlc5bzha8qBODaoVE?=
- =?us-ascii?Q?dOSE7tpfel/pF/zd5Nbc+6hRCjtWG1QoGuTeIf0lynzhCpfypfGS6DGSOHRM?=
- =?us-ascii?Q?DW2hnSko0Obv5lIqdnEQAxQzWs1/xMU9dCfIXeNNu1ZbnPEoy2UgZ0pyl76W?=
- =?us-ascii?Q?0Sxuv2sUBsdXns5ccCK+wS1gLrdeVZjm5A1STV75hXwroJ45SGqHhw85rEGR?=
- =?us-ascii?Q?HI5h3B2mi8fLOYkgpWkZrA6OmeQxSQf9FPiJDSo6QFrQOqGgeRlrnFns1BzJ?=
- =?us-ascii?Q?21AMD8CuVYSMVD202xY4ojJhyhXLpbV0drxL3zhYtyX1UlJ5x1UQrI+dX89r?=
- =?us-ascii?Q?yn6FZzDC?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?/RRozMfHzsrJROB8mXBZIzJoKbZRihaC7q1f1OQ1Ls3wFAxBLc7Ssewmv+dN?=
+ =?us-ascii?Q?BAcrg2Ea80x+p170/kAOWlsTb0jcZNxiFjgV4UjtdyIKWBe7vuGScBf5rAsX?=
+ =?us-ascii?Q?iLe7KMlzUP5J8Wn4BZpuiNvV1sNmnoTPFWJriPpQUDtdhAGhQd7LisYt2DuY?=
+ =?us-ascii?Q?NY5Ipqb2X+/fUaGMu4PkzCD40afMyKWjvFf8AFA6JZnpUoy/CrfTv1ZpjQlb?=
+ =?us-ascii?Q?fWJbmcK7Wz0Xf/VGcD81ZdeBWRY9NB5Wql46ICVV8CEn56Jh23uaT++b1/Qk?=
+ =?us-ascii?Q?mqgev7QiFrME3jZ5ZIHyrfA/AQUuV0/Dg0nrgKowMOSXHYWEHnPe8bz4mFjs?=
+ =?us-ascii?Q?/SdwQQC5J94wobeJzyoQmbpgyYxLTPiqyS8IFHrg2oARzSq7t2Wog/iBIfaO?=
+ =?us-ascii?Q?3G59YzsNiDWmLFzbUAJJBY2f37kPkC/Nl0fLIPFUumawh3X0guMr4cyIy9hB?=
+ =?us-ascii?Q?cSZNpP3o/Q8sMFZrLqkXWmmk4gComKQz+4Z4bq7AEBsBhhuwqjBs3qvxaVPh?=
+ =?us-ascii?Q?Re1o+X5hsi+z5ChAge/fixNkSnc+GTRsPdUF3GflWJputP+86JHOe+18c/Hk?=
+ =?us-ascii?Q?4cwbC5SyUbRdSRtxIC0Ruen5BNr9IyJlAL6lQD/WsyHS0vB5l50/nKVHJLvv?=
+ =?us-ascii?Q?wz9grsyYvqVQworK95wCGjUs5Hu3PFb0+m10al9VkloHJp1G6RHeCucm8Dhm?=
+ =?us-ascii?Q?n0u9/csOAIukg/nktfajvOnWaue5wRTy2JDaiSotEXi2cUAQ4k88BjSm3jhZ?=
+ =?us-ascii?Q?cULlfgoxrePxQlsFrPgO/ERb/pnq25GKVv7VgUR9A39vqAiCm20Su5LW67iB?=
+ =?us-ascii?Q?FOZiMma6ndxz+p5qc38K93jzwlwxPtg9tWDGU0LWXhUoEjRG9dPZ2EMAfp7v?=
+ =?us-ascii?Q?d8Vbw8UtsK6IdakoQl66wHPtzHORHGkJk6LgYQsuUEWkCTBTzSl8E4tHs29e?=
+ =?us-ascii?Q?EubPMHSAwMIFVGEYwUSole6+Y0y5UiKo9yHalcuiZ7CcFDKMHwOO/HV4uPdm?=
+ =?us-ascii?Q?fAwtJWwWKIum6QlQoE4r0b+bY7UvkXwIhwE9UnJpgktl3kD/j8L0TImcnu8g?=
+ =?us-ascii?Q?Pe7RbXWF?=
 X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d24769e1-2f82-49d1-155c-08d8c47582f5
+X-MS-Exchange-CrossTenant-Network-Message-Id: f276ca49-06fd-42ea-0a91-08d8c4758479
 X-MS-Exchange-CrossTenant-AuthSource: BYAPR10MB2744.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 16:47:06.1891 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 16:47:08.7936 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5YnUVkX1sAEBfrZFdncUVVxU3tV670zLxRCpjNsbvoFJT8YOzeEqrjncNGHcAwsZkv1EmlvTVtb914lVVJP1Jw==
+X-MS-Exchange-CrossTenant-UserPrincipalName: v+SPcSTNsP6K9DVsK6V+kmGqlQ6eHxADtVdixejT0rYKGuk4JLdMcA7GhGXQp5YQFUaPc6HztwhxkuJSvLA/jQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4671
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9878
  signatures=668683
@@ -141,14 +141,14 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0
  definitions=main-2101290081
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=9878
  signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999
- lowpriorityscore=0
- spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501 impostorscore=0
- phishscore=0 mlxscore=0 malwarescore=0 suspectscore=0 bulkscore=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+ spamscore=0 phishscore=0
+ adultscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 mlxscore=0 clxscore=1015 mlxlogscore=999
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2101290082
-Received-SPF: pass client-ip=141.146.126.78; envelope-from=jag.raman@oracle.com;
- helo=aserp2120.oracle.com
+ definitions=main-2101290081
+Received-SPF: pass client-ip=156.151.31.86; envelope-from=jag.raman@oracle.com;
+ helo=userp2130.oracle.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -179,107 +179,151 @@ Cc: elena.ufimtseva@oracle.com, fam@euphon.net, swapnil.ingle@nutanix.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+Proxy device object implements handler for PCI BAR writes and reads.
+The handler uses BAR_WRITE/BAR_READ message to communicate to the
+remote process with the BAR address and value to be written/read.
+The remote process implements handler for BAR_WRITE/BAR_READ
+message.
 
-The Proxy Object sends the PCI config space accesses as messages
-to the remote process over the communication channel
-
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/hw/remote/mpqemu-link.h | 10 +++++++
- hw/remote/message.c             | 60 +++++++++++++++++++++++++++++++++++++++++
- hw/remote/mpqemu-link.c         |  8 +++++-
- hw/remote/proxy.c               | 55 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 132 insertions(+), 1 deletion(-)
+ include/hw/remote/mpqemu-link.h | 10 +++++
+ include/hw/remote/proxy.h       |  9 +++++
+ hw/remote/message.c             | 83 +++++++++++++++++++++++++++++++++++++++++
+ hw/remote/mpqemu-link.c         |  6 +++
+ hw/remote/proxy.c               | 60 +++++++++++++++++++++++++++++
+ 5 files changed, 168 insertions(+)
 
 diff --git a/include/hw/remote/mpqemu-link.h b/include/hw/remote/mpqemu-link.h
-index 1b35d40..7bc0bdd 100644
+index 7bc0bdd..6303e62 100644
 --- a/include/hw/remote/mpqemu-link.h
 +++ b/include/hw/remote/mpqemu-link.h
-@@ -34,6 +34,9 @@
-  */
- typedef enum {
-     MPQEMU_CMD_SYNC_SYSMEM,
-+    MPQEMU_CMD_RET,
-+    MPQEMU_CMD_PCI_CFGWRITE,
-+    MPQEMU_CMD_PCI_CFGREAD,
+@@ -37,6 +37,8 @@ typedef enum {
+     MPQEMU_CMD_RET,
+     MPQEMU_CMD_PCI_CFGWRITE,
+     MPQEMU_CMD_PCI_CFGREAD,
++    MPQEMU_CMD_BAR_WRITE,
++    MPQEMU_CMD_BAR_READ,
      MPQEMU_CMD_MAX,
  } MPQemuCmd;
  
-@@ -43,6 +46,12 @@ typedef struct {
-     off_t offsets[REMOTE_MAX_FDS];
- } SyncSysmemMsg;
+@@ -52,6 +54,13 @@ typedef struct {
+     int len;
+ } PciConfDataMsg;
  
 +typedef struct {
-+    uint32_t addr;
-+    uint32_t val;
-+    int len;
-+} PciConfDataMsg;
++    hwaddr addr;
++    uint64_t val;
++    unsigned size;
++    bool memory;
++} BarAccessMsg;
 +
  /**
   * MPQemuMsg:
   * @cmd: The remote command
-@@ -60,6 +69,7 @@ typedef struct {
- 
-     union {
+@@ -71,6 +80,7 @@ typedef struct {
          uint64_t u64;
-+        PciConfDataMsg pci_conf_data;
+         PciConfDataMsg pci_conf_data;
          SyncSysmemMsg sync_sysmem;
++        BarAccessMsg bar_access;
      } data;
  
+     int fds[REMOTE_MAX_FDS];
+diff --git a/include/hw/remote/proxy.h b/include/hw/remote/proxy.h
+index faa9c4d..ea7fa4f 100644
+--- a/include/hw/remote/proxy.h
++++ b/include/hw/remote/proxy.h
+@@ -15,6 +15,14 @@
+ #define TYPE_PCI_PROXY_DEV "x-pci-proxy-dev"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCIProxyDev, PCI_PROXY_DEV)
+ 
++typedef struct ProxyMemoryRegion {
++    PCIProxyDev *dev;
++    MemoryRegion mr;
++    bool memory;
++    bool present;
++    uint8_t type;
++} ProxyMemoryRegion;
++
+ struct PCIProxyDev {
+     PCIDevice parent_dev;
+     char *fd;
+@@ -28,6 +36,7 @@ struct PCIProxyDev {
+     QemuMutex io_mutex;
+     QIOChannel *ioc;
+     Error *migration_blocker;
++    ProxyMemoryRegion region[PCI_NUM_REGIONS];
+ };
+ 
+ #endif /* PROXY_H */
 diff --git a/hw/remote/message.c b/hw/remote/message.c
-index 36e2d4f..636bd16 100644
+index 636bd16..f2e8445 100644
 --- a/hw/remote/message.c
 +++ b/hw/remote/message.c
-@@ -15,6 +15,12 @@
- #include "hw/remote/mpqemu-link.h"
+@@ -16,11 +16,14 @@
  #include "qapi/error.h"
  #include "sysemu/runstate.h"
-+#include "hw/pci/pci.h"
-+
-+static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
-+                                 MPQemuMsg *msg, Error **errp);
-+static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
-+                                MPQemuMsg *msg, Error **errp);
+ #include "hw/pci/pci.h"
++#include "exec/memattrs.h"
+ 
+ static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
+                                  MPQemuMsg *msg, Error **errp);
+ static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
+                                 MPQemuMsg *msg, Error **errp);
++static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
++static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp);
  
  void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
  {
-@@ -40,6 +46,12 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-         }
- 
-         switch (msg.cmd) {
-+        case MPQEMU_CMD_PCI_CFGWRITE:
-+            process_config_write(com->ioc, pci_dev, &msg, &local_err);
+@@ -52,6 +55,12 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
+         case MPQEMU_CMD_PCI_CFGREAD:
+             process_config_read(com->ioc, pci_dev, &msg, &local_err);
+             break;
++        case MPQEMU_CMD_BAR_WRITE:
++            process_bar_write(com->ioc, &msg, &local_err);
 +            break;
-+        case MPQEMU_CMD_PCI_CFGREAD:
-+            process_config_read(com->ioc, pci_dev, &msg, &local_err);
++        case MPQEMU_CMD_BAR_READ:
++            process_bar_read(com->ioc, &msg, &local_err);
 +            break;
          default:
              error_setg(&local_err,
                         "Unknown command (%d) received for device %s"
-@@ -55,3 +67,51 @@ void coroutine_fn mpqemu_remote_msg_loop_co(void *data)
-         qemu_system_shutdown_request(SHUTDOWN_CAUSE_GUEST_SHUTDOWN);
+@@ -115,3 +124,77 @@ static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
+                       getpid());
      }
  }
 +
-+static void process_config_write(QIOChannel *ioc, PCIDevice *dev,
-+                                 MPQemuMsg *msg, Error **errp)
++static void process_bar_write(QIOChannel *ioc, MPQemuMsg *msg, Error **errp)
 +{
 +    ERRP_GUARD();
-+    PciConfDataMsg *conf = (PciConfDataMsg *)&msg->data.pci_conf_data;
++    BarAccessMsg *bar_access = &msg->data.bar_access;
++    AddressSpace *as =
++        bar_access->memory ? &address_space_memory : &address_space_io;
 +    MPQemuMsg ret = { 0 };
++    MemTxResult res;
++    uint64_t val;
 +
-+    if ((conf->addr + sizeof(conf->val)) > pci_config_size(dev)) {
-+        error_setg(errp, "Bad address for PCI config write, pid "FMT_pid".",
-+                   getpid());
++    if (!is_power_of_2(bar_access->size) ||
++       (bar_access->size > sizeof(uint64_t))) {
 +        ret.data.u64 = UINT64_MAX;
-+    } else {
-+        pci_default_write_config(dev, conf->addr, conf->val, conf->len);
++        goto fail;
 +    }
 +
++    val = cpu_to_le64(bar_access->val);
++
++    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
++                           (void *)&val, bar_access->size, true);
++
++    if (res != MEMTX_OK) {
++        error_setg(errp, "Bad address %"PRIx64" for mem write, pid "FMT_pid".",
++                   bar_access->addr, getpid());
++        ret.data.u64 = -1;
++    }
++
++fail:
 +    ret.cmd = MPQEMU_CMD_RET;
 +    ret.size = sizeof(ret.data.u64);
 +
@@ -289,22 +333,35 @@ index 36e2d4f..636bd16 100644
 +    }
 +}
 +
-+static void process_config_read(QIOChannel *ioc, PCIDevice *dev,
-+                                MPQemuMsg *msg, Error **errp)
++static void process_bar_read(QIOChannel *ioc, MPQemuMsg *msg, Error **errp)
 +{
 +    ERRP_GUARD();
-+    PciConfDataMsg *conf = (PciConfDataMsg *)&msg->data.pci_conf_data;
++    BarAccessMsg *bar_access = &msg->data.bar_access;
 +    MPQemuMsg ret = { 0 };
++    AddressSpace *as;
++    MemTxResult res;
++    uint64_t val = 0;
 +
-+    if ((conf->addr + sizeof(conf->val)) > pci_config_size(dev)) {
-+        error_setg(errp, "Bad address for PCI config read, pid "FMT_pid".",
-+                   getpid());
-+        ret.data.u64 = UINT64_MAX;
-+    } else {
-+        ret.data.u64 = pci_default_read_config(dev, conf->addr, conf->len);
++    as = bar_access->memory ? &address_space_memory : &address_space_io;
++
++    if (!is_power_of_2(bar_access->size) ||
++       (bar_access->size > sizeof(uint64_t))) {
++        val = UINT64_MAX;
++        goto fail;
 +    }
 +
++    res = address_space_rw(as, bar_access->addr, MEMTXATTRS_UNSPECIFIED,
++                           (void *)&val, bar_access->size, false);
++
++    if (res != MEMTX_OK) {
++        error_setg(errp, "Bad address %"PRIx64" for mem read, pid "FMT_pid".",
++                   bar_access->addr, getpid());
++        val = UINT64_MAX;
++    }
++
++fail:
 +    ret.cmd = MPQEMU_CMD_RET;
++    ret.data.u64 = le64_to_cpu(val);
 +    ret.size = sizeof(ret.data.u64);
 +
 +    if (!mpqemu_msg_send(&ret, ioc, NULL)) {
@@ -313,25 +370,16 @@ index 36e2d4f..636bd16 100644
 +    }
 +}
 diff --git a/hw/remote/mpqemu-link.c b/hw/remote/mpqemu-link.c
-index 88d1f9b..5bd6a9d 100644
+index 5bd6a9d..bcb32e0 100644
 --- a/hw/remote/mpqemu-link.c
 +++ b/hw/remote/mpqemu-link.c
-@@ -207,7 +207,7 @@ uint64_t mpqemu_msg_send_and_await_reply(MPQemuMsg *msg, PCIProxyDev *pdev,
-         return ret;
-     }
- 
--    if (!mpqemu_msg_valid(&msg_reply)) {
-+    if (!mpqemu_msg_valid(&msg_reply) || msg_reply.cmd != MPQEMU_CMD_RET) {
-         error_setg(errp, "ERROR: Invalid reply received for command %d",
-                          msg->cmd);
-         return ret;
-@@ -242,6 +242,12 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
+@@ -248,6 +248,12 @@ bool mpqemu_msg_valid(MPQemuMsg *msg)
              return false;
          }
          break;
-+    case MPQEMU_CMD_PCI_CFGWRITE:
-+    case MPQEMU_CMD_PCI_CFGREAD:
-+        if (msg->size != sizeof(PciConfDataMsg)) {
++    case MPQEMU_CMD_BAR_WRITE:
++    case MPQEMU_CMD_BAR_READ:
++        if ((msg->size != sizeof(BarAccessMsg)) || (msg->num_fds != 0)) {
 +            return false;
 +        }
 +        break;
@@ -339,85 +387,73 @@ index 88d1f9b..5bd6a9d 100644
          break;
      }
 diff --git a/hw/remote/proxy.c b/hw/remote/proxy.c
-index cd5b071..2b14394 100644
+index 2b14394..22eb422 100644
 --- a/hw/remote/proxy.c
 +++ b/hw/remote/proxy.c
-@@ -17,6 +17,8 @@
- #include "monitor/monitor.h"
- #include "migration/blocker.h"
- #include "qemu/sockets.h"
-+#include "hw/remote/mpqemu-link.h"
-+#include "qemu/error-report.h"
- 
- static void pci_proxy_dev_realize(PCIDevice *device, Error **errp)
- {
-@@ -65,6 +67,56 @@ static void pci_proxy_dev_exit(PCIDevice *pdev)
-     error_free(dev->migration_blocker);
+@@ -152,3 +152,63 @@ static void pci_proxy_dev_register_types(void)
  }
  
-+static void config_op_send(PCIProxyDev *pdev, uint32_t addr, uint32_t *val,
-+                           int len, unsigned int op)
+ type_init(pci_proxy_dev_register_types)
++
++static void send_bar_access_msg(PCIProxyDev *pdev, MemoryRegion *mr,
++                                bool write, hwaddr addr, uint64_t *val,
++                                unsigned size, bool memory)
 +{
 +    MPQemuMsg msg = { 0 };
-+    uint64_t ret = -EINVAL;
++    long ret = -EINVAL;
 +    Error *local_err = NULL;
 +
-+    msg.cmd = op;
-+    msg.data.pci_conf_data.addr = addr;
-+    msg.data.pci_conf_data.val = (op == MPQEMU_CMD_PCI_CFGWRITE) ? *val : 0;
-+    msg.data.pci_conf_data.len = len;
-+    msg.size = sizeof(PciConfDataMsg);
++    msg.size = sizeof(BarAccessMsg);
++    msg.data.bar_access.addr = mr->addr + addr;
++    msg.data.bar_access.size = size;
++    msg.data.bar_access.memory = memory;
++
++    if (write) {
++        msg.cmd = MPQEMU_CMD_BAR_WRITE;
++        msg.data.bar_access.val = *val;
++    } else {
++        msg.cmd = MPQEMU_CMD_BAR_READ;
++    }
 +
 +    ret = mpqemu_msg_send_and_await_reply(&msg, pdev, &local_err);
 +    if (local_err) {
 +        error_report_err(local_err);
 +    }
 +
-+    if (ret == UINT64_MAX) {
-+        error_report("Failed to perform PCI config %s operation",
-+                     (op == MPQEMU_CMD_PCI_CFGREAD) ? "READ" : "WRITE");
-+    }
-+
-+    if (op == MPQEMU_CMD_PCI_CFGREAD) {
-+        *val = (uint32_t)ret;
++    if (!write) {
++        *val = ret;
 +    }
 +}
 +
-+static uint32_t pci_proxy_read_config(PCIDevice *d, uint32_t addr, int len)
++static void proxy_bar_write(void *opaque, hwaddr addr, uint64_t val,
++                            unsigned size)
 +{
-+    uint32_t val;
++    ProxyMemoryRegion *pmr = opaque;
 +
-+    config_op_send(PCI_PROXY_DEV(d), addr, &val, len, MPQEMU_CMD_PCI_CFGREAD);
++    send_bar_access_msg(pmr->dev, &pmr->mr, true, addr, &val, size,
++                        pmr->memory);
++}
++
++static uint64_t proxy_bar_read(void *opaque, hwaddr addr, unsigned size)
++{
++    ProxyMemoryRegion *pmr = opaque;
++    uint64_t val;
++
++    send_bar_access_msg(pmr->dev, &pmr->mr, false, addr, &val, size,
++                        pmr->memory);
 +
 +    return val;
 +}
 +
-+static void pci_proxy_write_config(PCIDevice *d, uint32_t addr, uint32_t val,
-+                                   int len)
-+{
-+    /*
-+     * Some of the functions access the copy of remote device's PCI config
-+     * space which is cached in the proxy device. Therefore, maintain
-+     * it updated.
-+     */
-+    pci_default_write_config(d, addr, val, len);
-+
-+    config_op_send(PCI_PROXY_DEV(d), addr, &val, len, MPQEMU_CMD_PCI_CFGWRITE);
-+}
-+
- static Property proxy_properties[] = {
-     DEFINE_PROP_STRING("fd", PCIProxyDev, fd),
-     DEFINE_PROP_END_OF_LIST(),
-@@ -77,6 +129,9 @@ static void pci_proxy_dev_class_init(ObjectClass *klass, void *data)
- 
-     k->realize = pci_proxy_dev_realize;
-     k->exit = pci_proxy_dev_exit;
-+    k->config_read = pci_proxy_read_config;
-+    k->config_write = pci_proxy_write_config;
-+
-     device_class_set_props(dc, proxy_properties);
- }
- 
++const MemoryRegionOps proxy_mr_ops = {
++    .read = proxy_bar_read,
++    .write = proxy_bar_write,
++    .endianness = DEVICE_NATIVE_ENDIAN,
++    .impl = {
++        .min_access_size = 1,
++        .max_access_size = 8,
++    },
++};
 -- 
 1.8.3.1
 
