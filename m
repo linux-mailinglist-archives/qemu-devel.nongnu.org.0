@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4280A308716
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:37:40 +0100 (CET)
-Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CCCC308718
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:39:24 +0100 (CET)
+Received: from localhost ([::1]:49340 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PHf-00017t-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:37:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35578)
+	id 1l5PJL-0002nK-DE
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:39:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35614)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PD3-000529-4N; Fri, 29 Jan 2021 03:32:53 -0500
-Received: from mout.kundenserver.de ([212.227.126.187]:34577)
+ id 1l5PD7-00056k-OL; Fri, 29 Jan 2021 03:32:57 -0500
+Received: from mout.kundenserver.de ([212.227.126.187]:55899)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PD1-0002Sz-0m; Fri, 29 Jan 2021 03:32:52 -0500
+ id 1l5PD5-0002Uo-K5; Fri, 29 Jan 2021 03:32:57 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1Mf3yk-1lbj9c3WHK-00gZKN; Fri, 29 Jan 2021 09:32:43 +0100
+ id 1MavF5-1lfpsu1tNb-00cSb4; Fri, 29 Jan 2021 09:32:43 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 3/4] net/slirp.c: Fix spelling error in error message
-Date: Fri, 29 Jan 2021 09:32:35 +0100
-Message-Id: <20210129083236.584238-4-laurent@vivier.eu>
+Subject: [PULL 4/4] target/rx: Fix compiler errors for build with sanitizers
+Date: Fri, 29 Jan 2021 09:32:36 +0100
+Message-Id: <20210129083236.584238-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129083236.584238-1-laurent@vivier.eu>
 References: <20210129083236.584238-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:PsrHh8FtWYObSHkcd8w+gUGuZHc8OibAGF6YNLrX0/x5LY8CAi7
- TpEJwjoXnVmK0YCG/WRUERwwnWFTqUgZ8YtOWE4pxXmepTYqA4ThCjpcGwY9lQ8bDGegznE
- jL0e43f80Ho/uiWGeSbX4hsxuYWmumbN7J3jndKbItAHBp6qUkkmCJxCoJGvBuSYPW/In10
- AYerTtrUrrd1WPEes2L+Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hmKZVSv3PS0=:QoBSNK+e9YbdDKjqMa+nMV
- Bx0277auU8VrYVIf0FyFZNY0a6qFI+eiY8CvDXUHGor4COaxh4QCsFm2NKbuWrEaxTOm91jLN
- VFY+H73s60o79Vz9feR00uCSoNTLdklMXMPdJa9/I61PFOOQJ4naZuiPXUdG9ME3Czc1yU8Wl
- j98pjOWCUnYPaFUNaDfJzuFGAA4AjX6Na9WUmZZMqXonz8w1mZ5klZywE4H8+qEtbuklB0FVF
- t+NPgN52y+EX8MKbohO8T102uQHOtx0sRORfje8ZgzzkGmmOos3rELU/QEkQJjUdBtbPO5B4+
- RW6UYoeueHV5XgFs5o63BH+S/HPglV9G7+e7BV0Slj7wstWv4Oew9v/Xh/5POz09x+ju8i5LL
- KuraWc7cmexlrX2z+cMh5ooM/qHb03cpatBmMZdD0TTUdW1M1WyAgcoSD9jIOL4iVb5e+gLS6
- ZdYbcikE7A==
+X-Provags-ID: V03:K1:BaYDGEebk0Ib9T0dj5uodmqiGbdl9jH8EHL4EwWBwwXZyKzxuRA
+ +nZsdSrhKjt92nft9HurvGIQqVEvxpe6ZOiJqWAAfs5BQTqFyMqiHWrdfTC6VG+KT5evcwD
+ cjtI46wRiLwIVmioQiJYuyzrQocmuY/l/Wh6CAwAnVIHMYVq9UrWVkDtNBMXlrS/fS2h38Y
+ 3RgMhOZiSnOBq5FRSbXDw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oBVT3JliVDs=:11x6MepuolRwEqMxtP0sXE
+ w7lDhGdb+Qnp9CMTWc6FWZXs13X80ax9odc/qT5pTyYrX3vnEbRq6kLBNHw/6oIFtQ/+V1eCe
+ PNhZdpP8+XuJ+1wu3qqUH+5hZk/fS6CxFf6DAH5X/RmhaMrGM410+6vvccx6qHliVXACqd2Ik
+ 7BD295U8YuJjFlzenZnYRr1C8oHPIXZJ8i5azsVw2RuXvevqn6qOAKr324EZ+AZ27xtO2ioVr
+ zJzKlxCR7D8rHbiIjoZ4bnaV96Ymjsk1XnrMULylXed3NsTlHsC+n0JTDbuW8ml6y2S6oX8HU
+ 8Srxb0u5ClxQnBvJrglLOt2hc1+afcA0C4pwdfAV8C9YtvHjcZwSZf+arfzj9ChcSwi4Kurxb
+ 4CQ1Cicme5I0PE8nUFT2a6jT0tqYpNB8cGZtgn4vdrR4WQHHuGfSGhExBqGZR
 Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
@@ -63,39 +62,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Doug Evans <dje@google.com>,
- Samuel Thibault <samuel.thibault@ens-lyon.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, Michael Tokarev <mjt@tls.msk.ru>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Doug Evans <dje@google.com>
+From: Stefan Weil <sw@weilnetz.de>
 
-DNS should be DHCP
+gcc (Debian 10.2.1-6) 10.2.1 20210110 aborts builds with enabled sanitizers:
 
-Signed-off-by: Doug Evans <dje@google.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Message-Id: <20210122004251.843837-1-dje@google.com>
+../../../target/rx/op_helper.c: In function ‘helper_scmpu’:
+../../../target/rx/op_helper.c:213:24: error: ‘tmp1’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  213 |     env->psw_c = (tmp0 >= tmp1);
+      |                  ~~~~~~^~~~~~~~
+../../../target/rx/op_helper.c:213:24: error: ‘tmp0’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+../../../target/rx/op_helper.c: In function ‘helper_suntil’:
+../../../target/rx/op_helper.c:299:23: error: ‘tmp’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  299 |     env->psw_c = (tmp <= env->regs[2]);
+      |                  ~~~~~^~~~~~~~~~~~~~~~
+../../../target/rx/op_helper.c: In function ‘helper_swhile’:
+../../../target/rx/op_helper.c:318:23: error: ‘tmp’ may be used uninitialized in this function [-Werror=maybe-uninitialized]
+  318 |     env->psw_c = (tmp <= env->regs[2]);
+      |                  ~~~~~^~~~~~~~~~~~~~~~
+
+Rewriting the code fixes those errors.
+
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20210128172127.46041-1-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- net/slirp.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/rx/op_helper.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/net/slirp.c b/net/slirp.c
-index 8350c6d45f70..be914c0be058 100644
---- a/net/slirp.c
-+++ b/net/slirp.c
-@@ -473,7 +473,7 @@ static int net_slirp_init(NetClientState *peer, const char *model,
-         return -1;
+diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
+index 59389f49921f..4d315b44492f 100644
+--- a/target/rx/op_helper.c
++++ b/target/rx/op_helper.c
+@@ -201,14 +201,14 @@ void helper_scmpu(CPURXState *env)
+     if (env->regs[3] == 0) {
+         return;
      }
-     if (dhcp.s_addr == host.s_addr || dhcp.s_addr == dns.s_addr) {
--        error_setg(errp, "DNS must be different from host and DNS");
-+        error_setg(errp, "DHCP must be different from host and DNS");
-         return -1;
+-    while (env->regs[3] != 0) {
++    do {
+         tmp0 = cpu_ldub_data_ra(env, env->regs[1]++, GETPC());
+         tmp1 = cpu_ldub_data_ra(env, env->regs[2]++, GETPC());
+         env->regs[3]--;
+         if (tmp0 != tmp1 || tmp0 == '\0') {
+             break;
+         }
+-    }
++    } while (env->regs[3] != 0);
+     env->psw_z = tmp0 - tmp1;
+     env->psw_c = (tmp0 >= tmp1);
+ }
+@@ -287,14 +287,14 @@ void helper_suntil(CPURXState *env, uint32_t sz)
+     if (env->regs[3] == 0) {
+         return ;
      }
- 
+-    while (env->regs[3] != 0) {
++    do {
+         tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+         env->regs[1] += 1 << sz;
+         env->regs[3]--;
+         if (tmp == env->regs[2]) {
+             break;
+         }
+-    }
++    } while (env->regs[3] != 0);
+     env->psw_z = tmp - env->regs[2];
+     env->psw_c = (tmp <= env->regs[2]);
+ }
+@@ -306,14 +306,14 @@ void helper_swhile(CPURXState *env, uint32_t sz)
+     if (env->regs[3] == 0) {
+         return ;
+     }
+-    while (env->regs[3] != 0) {
++    do {
+         tmp = cpu_ldufn[sz](env, env->regs[1], GETPC());
+         env->regs[1] += 1 << sz;
+         env->regs[3]--;
+         if (tmp != env->regs[2]) {
+             break;
+         }
+-    }
++    } while (env->regs[3] != 0);
+     env->psw_z = env->regs[3];
+     env->psw_c = (tmp <= env->regs[2]);
+ }
 -- 
 2.29.2
 
