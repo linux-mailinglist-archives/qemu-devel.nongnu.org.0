@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6CE830874C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:21:36 +0100 (CET)
-Received: from localhost ([::1]:41966 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E25330874D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:21:53 +0100 (CET)
+Received: from localhost ([::1]:42518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PyB-0008Lx-Jw
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:21:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43196)
+	id 1l5PyS-00009C-4A
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:21:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43194)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5Psf-0006TK-1d; Fri, 29 Jan 2021 04:15:53 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:35153)
+ id 1l5Pse-0006TJ-W2; Fri, 29 Jan 2021 04:15:53 -0500
+Received: from out5-smtp.messagingengine.com ([66.111.4.29]:52037)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5Psb-0003cW-Og; Fri, 29 Jan 2021 04:15:52 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 625085C015A;
+ id 1l5Psb-0003cX-KO; Fri, 29 Jan 2021 04:15:52 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id EAC885C01E9;
  Fri, 29 Jan 2021 04:15:46 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 29 Jan 2021 04:15:46 -0500
+ by compute3.internal (MEProxy); Fri, 29 Jan 2021 04:15:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:content-type:mime-version
- :content-transfer-encoding; s=fm2; bh=7qJd+CC/Lsu6U88MlRXSpG0FvZ
- 7kM16yA/MBpMOVF1M=; b=1pVbQMntYnBOvLNaCsON9KhYme9vWELtuFKi1csnzt
- 1Exrv9GRAVIBMVTD+0zhkyz59+lL6zZ2z8QXv5DuVY4/whzr0b18he88bo1GRKGx
- LSbDrKzvociAzBECRl/sfRduTTn1snWLJ2uwlXxXO4TN4I+luW11mo6UU/YBS8fD
- 4CB/HqxpQhiZlXS+4o1xR+8Ub26Tb5bOJW0pCXSw1HYGcq0kOkBcDdfE0DdgMRIm
- 04JAIlvbNyESgiPQwYHFbXg4hBhlofPBCnto3Sif9r8ZyVSaMhxkDX8Hakt4OKiv
- dgIJ9ejo8Pi90MXK4+S0stsyqowsqG3nAFZmJTtFTU3w==
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding; s=fm2; bh=Lo+4riIA8vp3O
+ aiYbYivYwogK1MChPVXI3VUQclJtHM=; b=RHTpinc2EiShUrwv1qcdEZCCbaop3
+ 7CiDNzogH52Iheeig3fByNwi+x9Rzrd44034QQK6IYsFokCMu2+56+bbjfG1xtH8
+ IOxiwIxgrN7E8V0suhOaABFDWVGNRPUhCDqWiNvo+DJPNfsvV377JAVT4Lcnvq3j
+ i+Gvou8OMI8qqtJONMtvkut4ndRW7IrotLkNhMLm3J6zSSeiQzO5faNkRTlAEH1z
+ +uIVb5JziLCYsHel6ks04JOVgK7ppHl0iWsrfEtFTnOiwK3+b9AA9QluMUD3z5N7
+ VraHaKt8tgA1gqg9LNlwqeRVcUgKs8PR6qg5jshqTgabRMiXbHS00rDtw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:content-type
- :date:from:message-id:mime-version:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7qJd+C
- C/Lsu6U88MlRXSpG0FvZ7kM16yA/MBpMOVF1M=; b=CHGbt3wwpyh1f8ZccNjO5Z
- C1VQ7XsTWXAl8/Z5RbRx3COS86nhHPLUX0ugVDhtDjZvSp2DUvgcmzkWeLJBw/Jz
- ZVcgyphMoCpn6VgVGG4pohp/SxSZ7twrzts2W0LGOf6uVhW656wVj2mknBLUXZbP
- xM/In8mnq/QI6xGSAhgNB5u0iabBnqu2FeiC81I78lqry+ve/gqn8aSVRIyFIW+j
- zV1IbWMAMGCkl7/nE+EMJvgI8j1VnA9gFld8LRFXbdTZBX6XmTZbti1l6EE3fGpg
- PRSEynEfILSaCFjAulSAa+OwPjJYtlqXnBUO5DNf0AKn++k07dgz005hs5CgE0Vg
- ==
-X-ME-Sender: <xms:QdITYJ-HVOiuySODPZhnh5QXXjNNB42I7W_B0EyA-l4mAtfv7MXEaA>
- <xme:QdITYCCEAmSCy6qStx0MtEhyY1JNWstoNiq6xbIUXU-rz936FPNArrB3kt9QfWLwl
- otYgWiBxUdnCQvBm7c>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvucetufdoteggodetrfdotffvucfrrh
- hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
- lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
- ephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepmfhlrghushculfgvnhhs
- vghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvghrnhephf
- egveekiefgkeevvdetjeejkeekudfgvdehieejfffgkeffvdevlefftedvgefhnecukfhp
- peektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
- hmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
-X-ME-Proxy: <xmx:QdITYGK020AUHQC6pG3o4n5h6BjeeX9KN3KIAg2ccpaenZLTX5rNRg>
- <xmx:QdITYFnRxfmkk_bZokURAMWEJuaKjMWdc8bHqrZTZyD7e3MbyzWK1Q>
- <xmx:QdITYEEh2nOivNA90MnEkKlCZRy0ovkTVvU2UvYVHkZkPh_miF3PPg>
- <xmx:QtITYBsMRjwnaUp2teUVA-BpdJtxhwQPPafENi0uZS2oVSkLTJ8Ubw>
+ messagingengine.com; h=cc:content-transfer-encoding:date:from
+ :in-reply-to:message-id:mime-version:references:subject:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm1; bh=Lo+4riIA8vp3OaiYbYivYwogK1MChPVXI3VUQclJtHM=; b=VFf3UXX/
+ iz0RjcWG6EzhOj3s6Pp0USxpTLwpNMAqSeMlqblt3gZrkyh+IU+4/efJabIFLKkS
+ KNlLWlxxo1+Nx+L6ma7AVX+KZilfjBwqsGrl7b8ykl6HdO3PqifvKCoFB6ZsfWbq
+ FwdGAVD6D9JK9tiFcQOcxSVqEaPb/KGNF9MiMEPf9DZTRgXo97IZ8FrfAP/iFnLd
+ 5KlnCyXdSyMYRh38EXl7XYORmksFYl5//yYWT3uvbNRRim5b4dAzcX9lPR/0f1l1
+ K04rOiTvwvnH9zycwJz2TwrhuDKIWcnojSZDt6OOsgfNpxcCDOZm30o+/45Hed6R
+ 5Beqbopgx/15NA==
+X-ME-Sender: <xms:QtITYNIgNulRhxEu5_Yx8IxSb7Ta34wm_QA1RQpQzfGq3XqOjrMPzg>
+ <xme:QtITYNaaRezfuDaSn7WSLIn-HgkpP-Fbf_rqJnmSi9-qF304Ty94-WM5RLAnHlI6Q
+ Xu1weQYcaCoaRFKMRM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvgddtudcutefuodetggdotefrodftvf
+ curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+ uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+ fjughrpefhvffufffkofgjfhgggfestdekredtredttdenucfhrhhomhepmfhlrghushcu
+ lfgvnhhsvghnuceoihhtshesihhrrhgvlhgvvhgrnhhtrdgukheqnecuggftrfgrthhtvg
+ hrnhepueelteegieeuhffgkeefgfevjeeigfetkeeitdfgtdeifefhtdfhfeeuffevgfek
+ necukfhppeektddrudeijedrleekrdduledtnecuvehluhhsthgvrhfuihiivgeptdenuc
+ frrghrrghmpehmrghilhhfrhhomhepihhtshesihhrrhgvlhgvvhgrnhhtrdgukh
+X-ME-Proxy: <xmx:QtITYAsesjUEGi205yzf-catKXwBE3ALEHNuVCmNDv00kzEzm7CKgQ>
+ <xmx:QtITYCu29y7U0uJoz2f3Ik6Sfb4DxW_I0qBrnjTmRSmNBmOFd2Dj9A>
+ <xmx:QtITYNfRWp-R6Vhdkfrgph5MGV7re365OjLh8g1239Rp7ebEpxe0Ag>
+ <xmx:QtITYMRIHKRDHm45aDp91Xv4PRb_wXh7T1-0PUgZbyAjUYsT-ZdTpA>
 Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
  [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 32A0324005C;
- Fri, 29 Jan 2021 04:15:44 -0500 (EST)
+ by mail.messagingengine.com (Postfix) with ESMTPA id 88BD5240069;
+ Fri, 29 Jan 2021 04:15:45 -0500 (EST)
 From: Klaus Jensen <its@irrelevant.dk>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 0/5] hw/block/nvme: add simple copy command
-Date: Fri, 29 Jan 2021 10:15:36 +0100
-Message-Id: <20210129091541.566330-1-its@irrelevant.dk>
+Subject: [PATCH v5 1/5] hw/block/nvme: remove unused parameter in check zone
+ write
+Date: Fri, 29 Jan 2021 10:15:37 +0100
+Message-Id: <20210129091541.566330-2-its@irrelevant.dk>
 X-Mailer: git-send-email 2.30.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20210129091541.566330-1-its@irrelevant.dk>
+References: <20210129091541.566330-1-its@irrelevant.dk>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
  helo=out5-smtp.messagingengine.com
 X-Spam_score_int: -27
@@ -98,48 +100,41 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>=0D
+From: Klaus Jensen <k.jensen@samsung.com>
 
-Add support for TP 4065 ("Simple Copy Command").=0D
-=0D
-Changes for v5=0D
-=0D
-  * rebased on nvme-next (support for zoned namespaces)=0D
-=0D
-Changes for v4=0D
-=0D
-  * merge for-loops (Keith)=0D
-=0D
-Changes for v3=0D
-=0D
-  * rebased on nvme-next=0D
-  * changed the default msrc value to a more reasonable 127 from 255 to=0D
-    better align with the default mcl value of 128.=0D
-=0D
-Changes for v2=0D
-=0D
-  * prefer style that aligns with existing NvmeIdCtrl field enums=0D
-    (Minwoo)=0D
-  * swapped elbat/elbatm fields in copy source range. I've kept the R-b=0D
-    and A-b from Minwoo and Stefan since this is a non-functional change=0D
-    (the device does not use these fields at all).=0D
-=0D
-Klaus Jensen (5):=0D
-  hw/block/nvme: remove unused parameter in check zone write=0D
-  hw/block/nvme: refactor zone resource management=0D
-  hw/block/nvme: pull write pointer advancement to separate function=0D
-  nvme: updated shared header for copy command=0D
-  hw/block/nvme: add simple copy command=0D
-=0D
- hw/block/nvme-ns.h    |   4 +=0D
- hw/block/nvme.h       |   1 +=0D
- include/block/nvme.h  |  45 +++-=0D
- hw/block/nvme-ns.c    |   8 +=0D
- hw/block/nvme.c       | 494 +++++++++++++++++++++++++++++++-----------=0D
- hw/block/trace-events |   7 +=0D
- 6 files changed, 431 insertions(+), 128 deletions(-)=0D
-=0D
--- =0D
-2.30.0=0D
-=0D
+Remove the unused NvmeCtrl parameter in nvme_check_zone_write.
+
+Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
+---
+ hw/block/nvme.c | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
+
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 8ac997735041..79d9563a17bd 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -1183,9 +1183,8 @@ static uint16_t nvme_check_zone_state_for_write(NvmeZone *zone)
+     }
+ }
+ 
+-static uint16_t nvme_check_zone_write(NvmeCtrl *n, NvmeNamespace *ns,
+-                                      NvmeZone *zone, uint64_t slba,
+-                                      uint32_t nlb)
++static uint16_t nvme_check_zone_write(NvmeNamespace *ns, NvmeZone *zone,
++                                      uint64_t slba, uint32_t nlb)
+ {
+     uint64_t zcap = nvme_zone_wr_boundary(zone);
+     uint16_t status;
+@@ -1748,7 +1747,7 @@ static uint16_t nvme_do_write(NvmeCtrl *n, NvmeRequest *req, bool append,
+             res->slba = cpu_to_le64(slba);
+         }
+ 
+-        status = nvme_check_zone_write(n, ns, zone, slba, nlb);
++        status = nvme_check_zone_write(ns, zone, slba, nlb);
+         if (status) {
+             goto invalid;
+         }
+-- 
+2.30.0
+
 
