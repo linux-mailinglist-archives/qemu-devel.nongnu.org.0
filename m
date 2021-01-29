@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25C19308DAC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:50:02 +0100 (CET)
-Received: from localhost ([::1]:36802 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B322308DAD
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:51:50 +0100 (CET)
+Received: from localhost ([::1]:40218 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5ZmK-0001wI-Um
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:50:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44338)
+	id 1l5Zo5-0003Z1-FZ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:51:49 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45234)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5ZhD-0006GG-FF; Fri, 29 Jan 2021 14:44:45 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:53176)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5ZmM-0002hf-GT
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:50:02 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635]:40128)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5ZhC-0005b2-3r; Fri, 29 Jan 2021 14:44:43 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id z16so5387895wml.2;
- Fri, 29 Jan 2021 11:44:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=BM2y2J4KyWJi5sMWebJJS4WoG9B526AOKXXQVUHBZlw=;
- b=TaUDDLqD7Z3Ndo3PPEk8aaFyX8c6QcgnXzsURV4mFR+jOf6oUCbYVs5w9y+rjgcJYc
- e/0CVH+wlQn0VoPPB2fOJ/Pq9aK42DYqrdEah3eTySPnvY27AqUXb6U5bQEDPmAZS5W/
- Xx3YRn/FvO8vaNT6cBr/G3ddUU3NrgBwKmOuYOyKNukX0t1Yx94EdWQVuox4ZXbngoQa
- 3MXZnbIk5QlqOXCHm4rfqn/1qxJoaAhZMT/k+iP4fqqnhzJ8fP6Yi+nMnvuEw1Uv+EPl
- +W0xeioTLhLzdBEQPY/GgXRe7z3NRFrHXedWgzDAECZIVoFPkU2bLRAr8gQi5wEDFmNJ
- LRZA==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5ZmK-0007hi-JE
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:50:02 -0500
+Received: by mail-ej1-x635.google.com with SMTP id gx5so14679802ejb.7
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 11:49:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=CSKfa+4ZbFwQK62PGx0EfnJOGa7xOJEVEjRRj8l90vQ=;
+ b=B+zxqGtYu+SMz9Uppissmxpcups3QbmXrCuHBq+Ajj+rCDpiLaFN1lJTPkrf0eON9X
+ HYLEG3j+U76LJwyVxrV2WNAJTxvw7UVbbyTSEBDgDvLEMjnURc/cZGkihAKKIGk+eevn
+ 7aktsdZ4davbvlPxzlsjclHW7zaEM3PV0aIqks43IzXDPBwIdBJBsgBLBMC4xwQX/Vym
+ 8fgIKcAf1tolIlVE/qbHekA0fpPOTBQg562g8pkAk9FFTWvzUOYgV+FIQojCchFVHkfd
+ /Jajdb4zufCKbJZGKIMXW6Yb1o02WIEGQkXPzHUSdyr/Pzx3TBkyumSQf5Vff7D4WC5t
+ DA5g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=BM2y2J4KyWJi5sMWebJJS4WoG9B526AOKXXQVUHBZlw=;
- b=YEbdoAyPgNCnVlHcpq068y9R6guiURlXdfJAi/FX60sGzNJkO1V2DfaQc/kTaN0Sk8
- +M+OGcvVkuXx4w1Emy5ClGVUaHhCiDtiIqgRGO7yvMxZjefxO9gDg7xCFMeDiMpQu3Tk
- 9KkjwsYkeL6GxBtaSedrkNdIYuVSysezvKsm0AbuQY+inJJ3r+iM+hZvIgP4dAuCo52e
- 38nhCK+OWpaS9ZLrAAw++AXBdAOKde42TNbV9FCyN67tT0hWJGDeY8Kea7Cu/AbjqQW/
- SihAwc0UyKFN+TUij35nScIRXSAdDmbruVVqnQwJHt3kyzqjJCT5xPp1qF1xRsGHZ+pr
- 1d1Q==
-X-Gm-Message-State: AOAM532dLZAlFoudosKuiuycAGVXZlPb/DzezDSJ8qeA6TCsd5krFpfp
- 2+a/fUnfwU5pGtpq9O701DqEkhpB92E=
-X-Google-Smtp-Source: ABdhPJwqnigiA/nIJHI0fcSWc5nmwSpoWMxpACaoJ9FpYDh6CnShvhAIypR354j5EUS/kAyOr0cNrg==
-X-Received: by 2002:a1c:7e15:: with SMTP id z21mr512555wmc.27.1611949480239;
- Fri, 29 Jan 2021 11:44:40 -0800 (PST)
-Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id d2sm15407260wre.39.2021.01.29.11.44.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 11:44:39 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-Subject: [RFC PATCH 4/4] hw/xen: Have the xenpv machine select 9pfs
-Date: Fri, 29 Jan 2021 20:44:15 +0100
-Message-Id: <20210129194415.3925153-5-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210129194415.3925153-1-f4bug@amsat.org>
-References: <20210129194415.3925153-1-f4bug@amsat.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=CSKfa+4ZbFwQK62PGx0EfnJOGa7xOJEVEjRRj8l90vQ=;
+ b=dm3+RsSMBWwALoKKOA9MwahcRDlQVlKIkrg25Z0lTPj2CM8A2BjyVtPHhxhDjNXdr3
+ M/CUTFk9altNUKPxISMKcqZZQ+pTyL5mCg0LqB4F9rEFvg/M93vkY/LwIeh/JdJBhXME
+ Wi7dz3BGVLKJ2M5zF/EMAGbFDa71dJInr24i9BUXffQzWHwW0dTcO5mk3PJkVQv/UhK+
+ Iw72ospDCYqHm2hmAxvU5CEMb/sr2/x8ce0RVWZkOxiOb0uniT+vd5ngjAwc0JWj8xAc
+ DnU2urZD0gmFnQH111tqIJLU6YKs6rc4HGh2CBchOnZ6vIbJkqjKzjZJ3+EQeBK0mWPK
+ NQBA==
+X-Gm-Message-State: AOAM531bx3bW6I9qKSbXeDe0JER6j/u64SpaCHvBz58qNQbybm3w7598
+ ygVuKQqbnynI+YsGTER/TSCI8nh2FMLcdsAngNw0iA==
+X-Google-Smtp-Source: ABdhPJws6E1oUTJQRKHqVnYAK16lKcOWPzdXlXBI6bvn9IH5bHcc8bAVlilX71abRgETBMwzeh6nQ1PUyiZoAxknViY=
+X-Received: by 2002:a17:906:4002:: with SMTP id
+ v2mr6264423ejj.85.1611949798730; 
+ Fri, 29 Jan 2021 11:49:58 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+References: <20210129111814.566629-1-pbonzini@redhat.com>
+In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 29 Jan 2021 19:49:47 +0000
+Message-ID: <CAFEAcA-CPcVyo2fzUX3sSdMoS6xJbxn7V4AwRFFSB+mU9bGGYQ@mail.gmail.com>
+Subject: Re: [PULL 00/36] Misc patches (buildsys, i386, fuzzing) for 2021-01-29
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,41 +77,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
- Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-9pfs is not an accelerator feature but a machine one.
+On Fri, 29 Jan 2021 at 11:33, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit 0bcd12fb1513bad44f05f2d3a8eef2a99b3077b6:
+>
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2021-01-28 12:30:30 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to 6c52f4644c9c8a18b8495e169e539632a897f135:
+>
+>   accel/kvm/kvm-all: Fix wrong return code handling in dirty log code (2021-01-29 10:38:38 +0100)
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- accel/Kconfig  | 1 -
- hw/xen/Kconfig | 1 +
- 2 files changed, 1 insertion(+), 1 deletion(-)
+Fails to build, OSX:
 
-diff --git a/accel/Kconfig b/accel/Kconfig
-index 461104c7715..b9e9a2d35b0 100644
---- a/accel/Kconfig
-+++ b/accel/Kconfig
-@@ -15,4 +15,3 @@ config KVM
- 
- config XEN
-     bool
--    select FSDEV_9P if VIRTFS
-diff --git a/hw/xen/Kconfig b/hw/xen/Kconfig
-index 15944144a17..14009cd6a05 100644
---- a/hw/xen/Kconfig
-+++ b/hw/xen/Kconfig
-@@ -4,3 +4,4 @@ config XEN_PV
-     select PCI
-     select USB
-     select IDE_PIIX
-+    select FSDEV_9P if VIRTFS
--- 
-2.26.2
+../../subprojects/libslirp/src/slirp.c:131:17: error: unused variable
+'old_stat' [-Werror,-Wunused-variable]
+    struct stat old_stat;
+                ^
+../../subprojects/libslirp/src/slirp.c:143:10: error: unused variable
+'buff' [-Werror,-Wunused-variable]
+    char buff[512];
+         ^
 
+thanks
+-- PMM
 
