@@ -2,94 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DB84308E61
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:29:45 +0100 (CET)
-Received: from localhost ([::1]:33896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C20308E66
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:31:40 +0100 (CET)
+Received: from localhost ([::1]:38680 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5aOm-0003d4-5E
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:29:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50688)
+	id 1l5aQd-0005cn-OK
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:31:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49328)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l5aCI-0004nA-0w
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:16:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22154)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l5aCE-0002U8-10
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:16:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611951404;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=kh6JoibPGK7sPnRMKy0LxXkZTWoEBghgV9GyNkIND90=;
- b=Iwt+htlI602nW2V6sTg52uDgVRP/NVkVtwFq2Ocu+aMFPvWTt6nkgYcuHBRF0dFHJOEopO
- jdQhu/7u8lLW7o6mSj+MdOCTrzQUvzsgKbgZJzL51oqLnvKobXADffjJ5YiN3htHJoUi6N
- VxjBBdVezKANtGqvk+EEE8AEV1mKjGs=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-111-2js0Yt3WN6ycgWRe4VbeBA-1; Fri, 29 Jan 2021 15:16:42 -0500
-X-MC-Unique: 2js0Yt3WN6ycgWRe4VbeBA-1
-Received: by mail-wr1-f70.google.com with SMTP id l13so5825949wrq.7
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:16:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l5a6n-00072f-G6
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:11:09 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:42266)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l5a6l-0008Cq-An
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:11:09 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id w18so6907904pfu.9
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:11:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=r9IaFnuOJyGGSYzX0XtrIiH13SIPJFOeAOWyCMY/qyI=;
+ b=tlRLb++M8wfCcjdvZw0IRfS0L29rCq76ghCuJVMupjfyeR1H5Pan0CKy4AsMcnyTdZ
+ /ASEJ+38wBkwGN1NzRU8h8GdW1PWH/RYLgMNQUgBtff/2jWXOY2BzDl0L75mLyc3AeeZ
+ EQzQIkzPzNBQpqwtS1cDiDAqR46BEBRVvSN+EWMwFFeGFScWzG8kMpNbtUZbkRH84VcN
+ p2bfoq1yJQkFsx2FSeJPACbGQ/Iquwl+UPg2Bt1EC+EEAVyLlknh55c4WeL6+37mgh4y
+ AHhyq+7flidfU8S/L8Pv5y1GAgw1/M0fyUJf/wJsr81ZL3iI8usKk0V6U+hWL/il1bYA
+ 7Hog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=kh6JoibPGK7sPnRMKy0LxXkZTWoEBghgV9GyNkIND90=;
- b=T5lw8/GZplEkzifr1wnCEh3t3u/jdKZ6Jpvtz09cN/IVJZjjm+7juQHaVxopJVxvwb
- IcEgpYmG3T6Sq18qjXvAOM8p/+/VuGbSHDjhEM9nBRVltsgfrLexuc/pPNXsv65rx4hg
- rsuBRpwx/PzSRD6FfYkVBjBhRuBVpccupC1xh8pkkAAjFUwtvmg6VwHH4FTfggnVC3wx
- QAyiWftmHCFUfOyKv1Xf5a/PGyYUwiADjM1s5GYlkPH6SybREMBC1UY+ig7jTx5V3d7s
- cYlB7ndg0bF179RQD/91oTvLdo5mZf4sQ8N1csZ3J8np0+nhlqIIzmBlfO5t3Vb8jDOL
- OGBw==
-X-Gm-Message-State: AOAM531nNjOn6zia7dxTMquLmYMYa2QfJVngi8ZBap5l2FUFet9hz9gl
- irWqVh/UYs9d7vaA2WEGO0AFpbhj1wnErHVVLsfkEMoFjQOnoakQOurx62KFuTSnmmnmQuku0fz
- /19ecQ/KZlDwCTWA=
-X-Received: by 2002:a5d:5411:: with SMTP id g17mr6444421wrv.54.1611951401423; 
- Fri, 29 Jan 2021 12:16:41 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxc2TE8iX1ujuXhiI22NL1r+jzfD/Ys4QaGB17u9O1EYhl3k+PpcmDYiElo3Xpy5D0rFUUGqA==
-X-Received: by 2002:a5d:5411:: with SMTP id g17mr6444412wrv.54.1611951401232; 
- Fri, 29 Jan 2021 12:16:41 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
- ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
- by smtp.gmail.com with ESMTPSA id t205sm11706451wmt.28.2021.01.29.12.16.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 29 Jan 2021 12:16:40 -0800 (PST)
-Subject: Re: [PATCH v2 2/2] pci: add romsize property
-To: BALATON Zoltan <balaton@eik.bme.hu>
-References: <20210129192838.582771-1-pbonzini@redhat.com>
- <20210129192838.582771-3-pbonzini@redhat.com>
- <ee924cca-8b90-df77-b544-c6405f6b761@eik.bme.hu>
- <9aae8014-8f86-ad1c-1a67-f08312aeb8d9@redhat.com>
- <dbff55a-3a-6873-32c1-2a1974b02f8e@eik.bme.hu>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <21978acc-179d-457a-18ee-1db0a9d4cd63@redhat.com>
-Date: Fri, 29 Jan 2021 21:16:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=r9IaFnuOJyGGSYzX0XtrIiH13SIPJFOeAOWyCMY/qyI=;
+ b=ZRTql/dJ2n9tE9b1dxSTn7VpltHVlCgLDeuWfwghF71qpxDU2CQ6JBGeA9XEKNHSvU
+ 9B+y+ukQa/rWLiIVTxsfxdnJUQo8F7a7MX6bsapJfqIdtiMewSoMzAY1+UeQvfKieyd7
+ an/PVWtaXXufHfm22puPI78zCK2aWjHCRCkiBx604COdeXrnkhfynvEoKHffZEYd/Bi3
+ OqbP4wk1DYM9/TGCouVuZ9eBoaD5aj9Jcco6c3RrvKmYw4gAgdEjnpBRTg2772A9NHGc
+ Q1qlCbQtFMpccic8sNXYP1C0ZGjeQ39MbOvMGYPlKsxvMRydUs8KCAFlwcxJYN/GdJp5
+ //9g==
+X-Gm-Message-State: AOAM5337YcwrOQ9S2RaSNGqqds0Pk8uUWe31kON2MzXjseveLD+cKxMY
+ MpwYO8v92VD8HnV6BMLr8I/dwAvGHh4xuQVo
+X-Google-Smtp-Source: ABdhPJxUfI5ibBb1w8BEANehpnfdvJPn0Icj7SrjpCwE/PPccN9AHhKPempxT08NyPrLqthdNRh9VQ==
+X-Received: by 2002:a63:724a:: with SMTP id c10mr6465601pgn.124.1611951066049; 
+ Fri, 29 Jan 2021 12:11:06 -0800 (PST)
+Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id d133sm9247265pfd.6.2021.01.29.12.11.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 12:11:05 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH v3 21/24] tcg/s390: Split out constraint sets to
+ tcg-target-con-set.h
+Date: Fri, 29 Jan 2021 10:10:25 -1000
+Message-Id: <20210129201028.787853-22-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20210129201028.787853-1-richard.henderson@linaro.org>
+References: <20210129201028.787853-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <dbff55a-3a-6873-32c1-2a1974b02f8e@eik.bme.hu>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,32 +84,268 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, lersek@redhat.com, qemu-devel@nongnu.org, peterx@redhat.com,
- dgilbert@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/01/21 21:06, BALATON Zoltan wrote:
->> The empty property value configures the device not to have a ROM file 
->> at all. The commit message says that ROM files (if they exist) cannot 
->> be empty, corresponding to this code in pci_add_option_rom:
->>
->>    } else if (size == 0) {
->>        error_setg(errp, "romfile \"%s\" is empty", pdev->romfile);
->>        g_free(path);
->>        return;
->>    }
-> 
-> OK, then it was just not clear to me that the commit message talks about 
-> the romfile itself and not the property.
-> 
-> By the way, does it make sense to compare uint32_t value to -1 and could 
-> that provoke some compiler/sanitiser warnings? Is it better to have a 
-> signed type or use UINT32_MAX or simlar instead?
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/s390/tcg-target-con-set.h |  29 ++++++++
+ tcg/s390/tcg-target.h         |   1 +
+ tcg/s390/tcg-target.c.inc     | 121 ++++++++++++++--------------------
+ 3 files changed, 81 insertions(+), 70 deletions(-)
+ create mode 100644 tcg/s390/tcg-target-con-set.h
 
-There is probably some warning for it but I think not even -Wextra 
-enables it by default.
-
-Paolo
+diff --git a/tcg/s390/tcg-target-con-set.h b/tcg/s390/tcg-target-con-set.h
+new file mode 100644
+index 0000000000..31985e4903
+--- /dev/null
++++ b/tcg/s390/tcg-target-con-set.h
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: MIT */
++/*
++ * Define S390 target-specific constraint sets.
++ * Copyright (c) 2021 Linaro
++ */
++
++/*
++ * C_On_Im(...) defines a constraint set with <n> outputs and <m> inputs.
++ * Each operand should be a sequence of constraint letters as defined by
++ * tcg-target-con-str.h; the constraint combination is inclusive or.
++ */
++C_O0_I1(r)
++C_O0_I2(L, L)
++C_O0_I2(r, r)
++C_O0_I2(r, ri)
++C_O1_I1(r, L)
++C_O1_I1(r, r)
++C_O1_I2(r, 0, ri)
++C_O1_I2(r, 0, rI)
++C_O1_I2(r, 0, rJ)
++C_O1_I2(r, r, ri)
++C_O1_I2(r, rZ, r)
++C_O1_I4(r, r, ri, r, 0)
++C_O1_I4(r, r, ri, rI, 0)
++C_O2_I2(b, a, 0, r)
++C_O2_I3(b, a, 0, 1, r)
++C_O2_I4(r, r, 0, 1, rA, r)
++C_O2_I4(r, r, 0, 1, ri, r)
++C_O2_I4(r, r, 0, 1, r, r)
+diff --git a/tcg/s390/tcg-target.h b/tcg/s390/tcg-target.h
+index 641464eea4..7aafd25a46 100644
+--- a/tcg/s390/tcg-target.h
++++ b/tcg/s390/tcg-target.h
+@@ -159,5 +159,6 @@ static inline void tb_target_set_jmp_target(uintptr_t tc_ptr, uintptr_t jmp_rx,
+ #define TCG_TARGET_NEED_LDST_LABELS
+ #endif
+ #define TCG_TARGET_NEED_POOL_LABELS
++#define TCG_TARGET_CON_SET_H
+ 
+ #endif
+diff --git a/tcg/s390/tcg-target.c.inc b/tcg/s390/tcg-target.c.inc
+index 3fec7fec5f..b67470137c 100644
+--- a/tcg/s390/tcg-target.c.inc
++++ b/tcg/s390/tcg-target.c.inc
+@@ -2274,27 +2274,11 @@ static inline void tcg_out_op(TCGContext *s, TCGOpcode opc,
+     }
+ }
+ 
+-static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
++static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+ {
+-    static const TCGTargetOpDef r = { .args_ct_str = { "r" } };
+-    static const TCGTargetOpDef r_r = { .args_ct_str = { "r", "r" } };
+-    static const TCGTargetOpDef r_L = { .args_ct_str = { "r", "L" } };
+-    static const TCGTargetOpDef L_L = { .args_ct_str = { "L", "L" } };
+-    static const TCGTargetOpDef r_ri = { .args_ct_str = { "r", "ri" } };
+-    static const TCGTargetOpDef r_r_ri = { .args_ct_str = { "r", "r", "ri" } };
+-    static const TCGTargetOpDef r_0_ri = { .args_ct_str = { "r", "0", "ri" } };
+-    static const TCGTargetOpDef r_0_rI = { .args_ct_str = { "r", "0", "rI" } };
+-    static const TCGTargetOpDef r_0_rJ = { .args_ct_str = { "r", "0", "rJ" } };
+-    static const TCGTargetOpDef a2_r
+-        = { .args_ct_str = { "r", "r", "0", "1", "r", "r" } };
+-    static const TCGTargetOpDef a2_ri
+-        = { .args_ct_str = { "r", "r", "0", "1", "ri", "r" } };
+-    static const TCGTargetOpDef a2_rA
+-        = { .args_ct_str = { "r", "r", "0", "1", "rA", "r" } };
+-
+     switch (op) {
+     case INDEX_op_goto_ptr:
+-        return &r;
++        return C_O0_I1(r);
+ 
+     case INDEX_op_ld8u_i32:
+     case INDEX_op_ld8u_i64:
+@@ -2308,6 +2292,8 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_ld32u_i64:
+     case INDEX_op_ld32s_i64:
+     case INDEX_op_ld_i64:
++        return C_O1_I1(r, r);
++
+     case INDEX_op_st8_i32:
+     case INDEX_op_st8_i64:
+     case INDEX_op_st16_i32:
+@@ -2315,11 +2301,22 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_st_i32:
+     case INDEX_op_st32_i64:
+     case INDEX_op_st_i64:
+-        return &r_r;
++        return C_O0_I2(r, r);
+ 
+     case INDEX_op_add_i32:
+     case INDEX_op_add_i64:
+-        return &r_r_ri;
++    case INDEX_op_shl_i64:
++    case INDEX_op_shr_i64:
++    case INDEX_op_sar_i64:
++    case INDEX_op_rotl_i32:
++    case INDEX_op_rotl_i64:
++    case INDEX_op_rotr_i32:
++    case INDEX_op_rotr_i64:
++    case INDEX_op_clz_i64:
++    case INDEX_op_setcond_i32:
++    case INDEX_op_setcond_i64:
++        return C_O1_I2(r, r, ri);
++
+     case INDEX_op_sub_i32:
+     case INDEX_op_sub_i64:
+     case INDEX_op_and_i32:
+@@ -2328,35 +2325,33 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_or_i64:
+     case INDEX_op_xor_i32:
+     case INDEX_op_xor_i64:
+-        return (s390_facilities & FACILITY_DISTINCT_OPS ? &r_r_ri : &r_0_ri);
++        return (s390_facilities & FACILITY_DISTINCT_OPS
++                ? C_O1_I2(r, r, ri)
++                : C_O1_I2(r, 0, ri));
+ 
+     case INDEX_op_mul_i32:
+         /* If we have the general-instruction-extensions, then we have
+            MULTIPLY SINGLE IMMEDIATE with a signed 32-bit, otherwise we
+            have only MULTIPLY HALFWORD IMMEDIATE, with a signed 16-bit.  */
+-        return (s390_facilities & FACILITY_GEN_INST_EXT ? &r_0_ri : &r_0_rI);
++        return (s390_facilities & FACILITY_GEN_INST_EXT
++                ? C_O1_I2(r, 0, ri)
++                : C_O1_I2(r, 0, rI));
++
+     case INDEX_op_mul_i64:
+-        return (s390_facilities & FACILITY_GEN_INST_EXT ? &r_0_rJ : &r_0_rI);
++        return (s390_facilities & FACILITY_GEN_INST_EXT
++                ? C_O1_I2(r, 0, rJ)
++                : C_O1_I2(r, 0, rI));
+ 
+     case INDEX_op_shl_i32:
+     case INDEX_op_shr_i32:
+     case INDEX_op_sar_i32:
+-        return (s390_facilities & FACILITY_DISTINCT_OPS ? &r_r_ri : &r_0_ri);
+-
+-    case INDEX_op_shl_i64:
+-    case INDEX_op_shr_i64:
+-    case INDEX_op_sar_i64:
+-        return &r_r_ri;
+-
+-    case INDEX_op_rotl_i32:
+-    case INDEX_op_rotl_i64:
+-    case INDEX_op_rotr_i32:
+-    case INDEX_op_rotr_i64:
+-        return &r_r_ri;
++        return (s390_facilities & FACILITY_DISTINCT_OPS
++                ? C_O1_I2(r, r, ri)
++                : C_O1_I2(r, 0, ri));
+ 
+     case INDEX_op_brcond_i32:
+     case INDEX_op_brcond_i64:
+-        return &r_ri;
++        return C_O0_I2(r, ri);
+ 
+     case INDEX_op_bswap16_i32:
+     case INDEX_op_bswap16_i64:
+@@ -2379,63 +2374,49 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_extu_i32_i64:
+     case INDEX_op_extract_i32:
+     case INDEX_op_extract_i64:
+-        return &r_r;
+-
+-    case INDEX_op_clz_i64:
+-    case INDEX_op_setcond_i32:
+-    case INDEX_op_setcond_i64:
+-        return &r_r_ri;
++        return C_O1_I1(r, r);
+ 
+     case INDEX_op_qemu_ld_i32:
+     case INDEX_op_qemu_ld_i64:
+-        return &r_L;
++        return C_O1_I1(r, L);
+     case INDEX_op_qemu_st_i64:
+     case INDEX_op_qemu_st_i32:
+-        return &L_L;
++        return C_O0_I2(L, L);
+ 
+     case INDEX_op_deposit_i32:
+     case INDEX_op_deposit_i64:
+-        {
+-            static const TCGTargetOpDef dep
+-                = { .args_ct_str = { "r", "rZ", "r" } };
+-            return &dep;
+-        }
++        return C_O1_I2(r, rZ, r);
++
+     case INDEX_op_movcond_i32:
+     case INDEX_op_movcond_i64:
+-        {
+-            static const TCGTargetOpDef movc
+-                = { .args_ct_str = { "r", "r", "ri", "r", "0" } };
+-            static const TCGTargetOpDef movc_l
+-                = { .args_ct_str = { "r", "r", "ri", "rI", "0" } };
+-            return (s390_facilities & FACILITY_LOAD_ON_COND2 ? &movc_l : &movc);
+-        }
++        return (s390_facilities & FACILITY_LOAD_ON_COND2
++                ? C_O1_I4(r, r, ri, rI, 0)
++                : C_O1_I4(r, r, ri, r, 0));
++
+     case INDEX_op_div2_i32:
+     case INDEX_op_div2_i64:
+     case INDEX_op_divu2_i32:
+     case INDEX_op_divu2_i64:
+-        {
+-            static const TCGTargetOpDef div2
+-                = { .args_ct_str = { "b", "a", "0", "1", "r" } };
+-            return &div2;
+-        }
++        return C_O2_I3(b, a, 0, 1, r);
++
+     case INDEX_op_mulu2_i64:
+-        {
+-            static const TCGTargetOpDef mul2
+-                = { .args_ct_str = { "b", "a", "0", "r" } };
+-            return &mul2;
+-        }
++        return C_O2_I2(b, a, 0, r);
+ 
+     case INDEX_op_add2_i32:
+     case INDEX_op_sub2_i32:
+-        return (s390_facilities & FACILITY_EXT_IMM ? &a2_ri : &a2_r);
++        return (s390_facilities & FACILITY_EXT_IMM
++                ? C_O2_I4(r, r, 0, 1, ri, r)
++                : C_O2_I4(r, r, 0, 1, r, r));
++
+     case INDEX_op_add2_i64:
+     case INDEX_op_sub2_i64:
+-        return (s390_facilities & FACILITY_EXT_IMM ? &a2_rA : &a2_r);
++        return (s390_facilities & FACILITY_EXT_IMM
++                ? C_O2_I4(r, r, 0, 1, rA, r)
++                : C_O2_I4(r, r, 0, 1, r, r));
+ 
+     default:
+-        break;
++        g_assert_not_reached();
+     }
+-    return NULL;
+ }
+ 
+ static void query_s390_facilities(void)
+-- 
+2.25.1
 
 
