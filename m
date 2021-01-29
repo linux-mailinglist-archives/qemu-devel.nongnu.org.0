@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0E3430880A
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:05:09 +0100 (CET)
-Received: from localhost ([::1]:43088 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B33308821
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:14:30 +0100 (CET)
+Received: from localhost ([::1]:48638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5RaP-0001Gj-0D
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:05:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59652)
+	id 1l5RjR-0006bu-Nq
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:14:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59676)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RW3-0004Pc-Un
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:39 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:43311)
+ id 1l5RW4-0004Qn-LU
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:40 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44965)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RVp-0006wr-KE
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:39 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id z6so8339079wrq.10
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:24 -0800 (PST)
+ id 1l5RVp-0006yJ-L8
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:40 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id d16so8349937wro.11
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iW8Ts76zOzAuSJ0IzcTQOSJYua+KNxe9xoQ6aMzjrVY=;
- b=KT5BrKcpDPmtWwQ/4kxdCsBhjTFwYfwOtl+N3Xax/It+IYSnTLT0AZU/W2Zr6StYdI
- j8UGai7pw4veE8eJgftB4Xbr3tWujxzvfDCAXaFG9mXQm0Jc2YdVi9zVAn5iJvJD8OWS
- FiS+HGeeMf2iiW6EfmfwdwHkoasozq5aFDBVC7mcDc+Yxs4Aqcw+3IwI+6FPdotJtjxS
- 8EPup0VekGQQYpceSQP/krTfBwl0Zqrm90RBoLayeGQZCU1hOuBi5hcU8IocXDk8ND7D
- hMNl5/Y16L3K5tYrFRmx+iA7IeKMSG3M1j+y3pys00CNw4GAD40hEaezWnwNaUcrrSnG
- frtg==
+ bh=dIU1+pzOEqhA9i3KvQhwnkFnGoZA70Rr7h7wCQWNREk=;
+ b=DtPju1WdLMuqO7D2fp8Vw5UzXRW8UyLMvDo009PBni6LdyIe7OMNLm1fy5dxpzH3ST
+ Ul9RJ+G2iJUsDOiQnI+jg8tqISGCLAor8JEInbaHMDHgfmrK+m3IVJLzlT7dqG0Hpb3g
+ b/LBORD3edeBOJ64nyYAFVmqOAL3f4Kr2poaWo7J8w2/KXH2H0z1s/5nFAQRkZWBxB/i
+ RRhgSYX6gdLi/EiZV4YNjmkuQ6c2GKg3FYcI34xsnEIcBoMFBjDPgmUrxiNvFiGiGjQz
+ MIk20mr4S2bZY6H3YlLyMVAcmZbIJaxNWOlJEigJWIb2iAkbv1xj5l9Ew7L1Eh6oVLph
+ oFVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iW8Ts76zOzAuSJ0IzcTQOSJYua+KNxe9xoQ6aMzjrVY=;
- b=dpnYV55CtSjL8bz3CgKlnYcY8mzYYTU3FVKu4lmTJJ1XmN6lI+42ySbl7okz58w+Vw
- GffpxCU1nxPhiyRAPu/TQVoPILJBbTuL39J1FPRCAPRh5xxQCN3RrkYCjpps3uzIejEE
- Zde2y8JlcNdeIx+6Xwqnq1Y6D+5HfjmN82BTFWu0fhcy1jOSH3DV4ZQhWcaAPYI/cP9x
- HsUu7fYQRunGScMnwlaUFFV4hm+PtxEB14zyRxF7EaYJni3ZKa9tcAtqdpC+MFWmCCeA
- 8T3LyVr+JCV6PPpHXTpTDZsydPQGCtilK2j8lRTgTaz5iPrJ9Co56Ajp1qGhATGvWq8A
- ljbA==
-X-Gm-Message-State: AOAM530gVMCPDesYAwJlIYnIxt5nEb8didcGdkIgRb1HF5lAYuzbkewl
- kRuddxScTmr4vH2lPuv2kYjQ1xXALBz2KQ==
-X-Google-Smtp-Source: ABdhPJw7e35JalF6YccQ9bWlfqwJn4g/zFlmXRRzg4n2HPSCS5Y5+Sm9+7MnrP+fj18m79g0ss81FQ==
-X-Received: by 2002:a5d:6189:: with SMTP id j9mr3852673wru.256.1611918023539; 
- Fri, 29 Jan 2021 03:00:23 -0800 (PST)
+ bh=dIU1+pzOEqhA9i3KvQhwnkFnGoZA70Rr7h7wCQWNREk=;
+ b=tCsAc9QklPJbV1MYMs3InXcF7KnCA40WVHRcrpOu5GFX9EbfnKdRas0RsYTZU/GJpz
+ 60xtJmxcktQTZoba2JQdKIDUJSt5ifqq+axEWP+P2ATmYFI6is9bLIy2Jd0Q4apWTReN
+ QxhoYfi10/+ZxeaN4Ga+v3XjTaQttVm5wzK5fKLMD9qHMVhDRuMGBmZQbP07bYBGQszz
+ A+bQTtvtji1gYN+DNHaiXeKXKq//AiDl4JDuVwK1sxZTWbYqSkkSAaUx8SORUvCCVx11
+ Mj8KpTCGXoM5X5RfNWmALKDH10b++faM5wLvNDIfXaRKh/P7sw6Z6jcxiSGPT1udXeom
+ vTYQ==
+X-Gm-Message-State: AOAM530/sIrJLcPAVuGgw+hbap18bv5azPMkzGItOesCf42FMNrZ1+M0
+ qYEQ6sCHp68ymvs3UlUjUhZzSNBdMsY3fQ==
+X-Google-Smtp-Source: ABdhPJzLvuD38YEBXpOAWKr/5u0bmuMtpdmsiXr4KZ/bXX42L1MK3jJOZruVL9B8E3gICbeY9VjDRg==
+X-Received: by 2002:a5d:6912:: with SMTP id t18mr3967409wru.268.1611918024392; 
+ Fri, 29 Jan 2021 03:00:24 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.22
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.23
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:00:22 -0800 (PST)
+ Fri, 29 Jan 2021 03:00:23 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/46] configure: Move preadv check to meson.build
-Date: Fri, 29 Jan 2021 10:59:35 +0000
-Message-Id: <20210129110012.8660-10-peter.maydell@linaro.org>
+Subject: [PULL 10/46] configure: cross-compiling with empty cross_prefix
+Date: Fri, 29 Jan 2021 10:59:36 +0000
+Message-Id: <20210129110012.8660-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
 References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,101 +87,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move the preadv availability check to meson.build.  This is what we
-want to be doing for host-OS-feature-checks anyway, but it also fixes
-a problem with building for macOS with the most recent XCode SDK on a
-Catalina host.
+From: Joelle van Dyne <j@getutm.app>
 
-On that configuration, 'preadv()' is provided as a weak symbol, so
-that programs can be built with optional support for it and make a
-runtime availability check to see whether the preadv() they have is a
-working one or one which they must not call because it will
-runtime-assert.  QEMU's configure test passes (unless you're building
-with --enable-werror) because the test program using preadv()
-compiles, but then QEMU crashes at runtime when preadv() is called,
-with errors like:
+The iOS toolchain does not use the host prefix naming convention. So we
+need to enable cross-compile options while allowing the PREFIX to be
+blank.
 
-  dyld: lazy symbol binding failed: Symbol not found: _preadv
-    Referenced from: /Users/pm215/src/qemu/./build/x86/tests/test-replication
-    Expected in: /usr/lib/libSystem.B.dylib
-
-  dyld: Symbol not found: _preadv
-    Referenced from: /Users/pm215/src/qemu/./build/x86/tests/test-replication
-    Expected in: /usr/lib/libSystem.B.dylib
-
-Meson's own function availability check has a special case for macOS
-which adds '-Wl,-no_weak_imports' to the compiler flags, which forces
-the test to require the real function, not the macOS-version-too-old
-stub.
-
-So this commit fixes the bug where macOS builds on Catalina currently
-require --disable-werror.
-
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Signed-off-by: Joelle van Dyne <j@getutm.app>
+Message-id: 20210126012457.39046-3-j@getutm.app
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20210126155846.17109-1-peter.maydell@linaro.org
 ---
- configure   | 16 ----------------
- meson.build |  4 +++-
- 2 files changed, 3 insertions(+), 17 deletions(-)
+ configure | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 87de49e2c21..8549c7b5ebe 100755
+index 8549c7b5ebe..997d83a2ad5 100755
 --- a/configure
 +++ b/configure
-@@ -3531,19 +3531,6 @@ if compile_prog "" "" ; then
-   iovec=yes
- fi
+@@ -238,6 +238,7 @@ cpu=""
+ iasl="iasl"
+ interp_prefix="/usr/gnemul/qemu-%M"
+ static="no"
++cross_compile="no"
+ cross_prefix=""
+ audio_drv_list=""
+ block_drv_rw_whitelist=""
+@@ -469,6 +470,7 @@ for opt do
+   optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
+   case "$opt" in
+   --cross-prefix=*) cross_prefix="$optarg"
++                    cross_compile="yes"
+   ;;
+   --cc=*) CC="$optarg"
+   ;;
+@@ -1691,7 +1693,7 @@ $(echo Deprecated targets: $deprecated_targets_list | \
+   --target-list-exclude=LIST exclude a set of targets from the default target-list
  
--##########################################
--# preadv probe
--cat > $TMPC <<EOF
--#include <sys/types.h>
--#include <sys/uio.h>
--#include <unistd.h>
--int main(void) { return preadv(0, 0, 0, 0); }
--EOF
--preadv=no
--if compile_prog "" "" ; then
--  preadv=yes
--fi
--
- ##########################################
- # fdt probe
- 
-@@ -5748,9 +5735,6 @@ fi
- if test "$iovec" = "yes" ; then
-   echo "CONFIG_IOVEC=y" >> $config_host_mak
+ Advanced options (experts only):
+-  --cross-prefix=PREFIX    use PREFIX for compile tools [$cross_prefix]
++  --cross-prefix=PREFIX    use PREFIX for compile tools, PREFIX can be blank [$cross_prefix]
+   --cc=CC                  use C compiler CC [$cc]
+   --iasl=IASL              use ACPI compiler IASL [$iasl]
+   --host-cc=CC             use C compiler CC [$host_cc] for code run at
+@@ -6290,7 +6292,7 @@ if has $sdl2_config; then
  fi
--if test "$preadv" = "yes" ; then
--  echo "CONFIG_PREADV=y" >> $config_host_mak
--fi
- if test "$membarrier" = "yes" ; then
-   echo "CONFIG_MEMBARRIER=y" >> $config_host_mak
- fi
-diff --git a/meson.build b/meson.build
-index a58c6f67854..27c31caa2d1 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1128,6 +1128,8 @@ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
- config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
- config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
- 
-+config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
-+
- ignored = ['CONFIG_QEMU_INTERP_PREFIX'] # actually per-target
- arrays = ['CONFIG_AUDIO_DRIVERS', 'CONFIG_BDRV_RW_WHITELIST', 'CONFIG_BDRV_RO_WHITELIST']
- strings = ['HOST_DSOSUF', 'CONFIG_IASL']
-@@ -2414,7 +2416,7 @@ summary_info += {'PIE':               get_option('b_pie')}
- summary_info += {'static build':      config_host.has_key('CONFIG_STATIC')}
- summary_info += {'malloc trim support': has_malloc_trim}
- summary_info += {'membarrier':        config_host.has_key('CONFIG_MEMBARRIER')}
--summary_info += {'preadv support':    config_host.has_key('CONFIG_PREADV')}
-+summary_info += {'preadv support':    config_host_data.get('CONFIG_PREADV')}
- summary_info += {'fdatasync':         config_host.has_key('CONFIG_FDATASYNC')}
- summary_info += {'madvise':           config_host.has_key('CONFIG_MADVISE')}
- summary_info += {'posix_madvise':     config_host.has_key('CONFIG_POSIX_MADVISE')}
+ echo "strip = [$(meson_quote $strip)]" >> $cross
+ echo "windres = [$(meson_quote $windres)]" >> $cross
+-if test -n "$cross_prefix"; then
++if test "$cross_compile" = "yes"; then
+     cross_arg="--cross-file config-meson.cross"
+     echo "[host_machine]" >> $cross
+     if test "$mingw32" = "yes" ; then
 -- 
 2.20.1
 
