@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99BED308843
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:29:05 +0100 (CET)
-Received: from localhost ([::1]:37194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7DCD308849
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:32:10 +0100 (CET)
+Received: from localhost ([::1]:47980 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5RxY-0008EB-Kz
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:29:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34958)
+	id 1l5S0W-0004Hs-A1
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:32:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60124)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5Rnb-0004uk-RW
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:47 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:37002)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5RWO-00059k-C4
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:01:01 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:38032)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnY-00066s-PV
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:47 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id g1so10129307edu.4
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=4JrZtYPxgRs4ilVvMy8sIfDqK151Z1Ipvx+lDlV63dY=;
- b=JB0K60ZAo0Nm6gljhnckNN9upE2pr8RZ0TKlCxh7GcuVj9zBOkQ/0erbPi623x7UI2
- y27F57WvYZ9aIKrkLamqfPHgBaxp9YOVsK7yrE9gOzlAqabkT68K5DW/X1VFgp3BH2yZ
- w6bcqG3YuQyVMkB1i8eCLUNBv+4jhw6WUt8qq2gFmbzmbDrbTOajpAd6+tCoyQ51nmJF
- jDQQV72avc8hJTo09FQj/35H6I3fDOuIFYuc0YqNpMeME2PpAgU6rdZKWaiKuQUNSmH2
- 7VUUVHQ/5z4RWdlJhnmKgrc65AemqhHJSUDzg6X7m9Ebs+e9I/vtyrOL6b1ZN5Xr0m+D
- UxJQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5RWF-00078t-3D
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:01:00 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id y187so6820757wmd.3
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+ :content-transfer-encoding;
+ bh=8Q/Zx+LStNTVndvw6F2NG1TWQc+T3iIwGsQdHvDIx/0=;
+ b=HfVbjkYTzqbcX0nMRtcelGrLtq+CiluMFUEtWKKDx/xsGIeS73m/o2+OzMITHKnYZv
+ atNlTGaYDOvdlc0eXPPWkSjMeC2rul4EBfyGSJWoO7/z4O1eSNGcTBcjqtLFLgLDs0vZ
+ 8dpmxbD3I0VseSmD3LZowQ6CWEr/FbFEceswHvCGTWRZQKkvoKXa1Eb0Tdm4ZJ8EdHw9
+ MnCjmG7lR9y7eBIMGWW0K6tnOkUwKe/ncfH0ks2mObTqWEfiI/9WGxf+HsJnxWV6ugUk
+ XWd9XVN1ZTuDR7GVvHCF+WM37YxLYPZbtpwT0cAZ6bBO5FoOwpGejxfDpilv7shaKBA2
+ i05A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=4JrZtYPxgRs4ilVvMy8sIfDqK151Z1Ipvx+lDlV63dY=;
- b=s7yph+BVmNh9QNA+ErohRpUlqTGEh9dVJXxuwT29l3qVFDniNNfnKZhkZwd960qMiz
- w2t0vU2wR5otiN7xlbmf/pvImKNAgQlPir9ZKJeZxeqjLNsvbvooyInaLo6YWrnJhCze
- iXH//5UGfbIcWYhjbvR5QEM0PmWSySlj2DK/CGqlVLzo8q2F+ntCl+DNeTuKT4uzM8iS
- pe7hjAoq5zJJG6+6I1lmw4JDL342z6lKHgYSArORdPINky0XUIyO3SakjVEfjW/vLVYw
- UKcCeDKrWk3dLhtMfkwsYcVzi8tje9hRSetQJ+T4nFkYXs6gefLwF49bISdcMW7AQchW
- kK6g==
-X-Gm-Message-State: AOAM532B5yiIl6IFTsI1cC6GMSGKflN9zddMP5FlDeSLxo/mUMScut2W
- so54gm7XCFM5uX5MTR78k9UTQ7GO1MVS2Q==
-X-Google-Smtp-Source: ABdhPJx1pq7SDDkILuZE0RpLvcQ3YbXg7o0RKH9nfdAeHGiL/zuRCg7/4CpsPdJLEvb+d5nKaltALg==
-X-Received: by 2002:a05:6402:1013:: with SMTP id
- c19mr4503773edu.298.1611919122210; 
- Fri, 29 Jan 2021 03:18:42 -0800 (PST)
-Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.41
+ h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+ :references:mime-version:content-transfer-encoding;
+ bh=8Q/Zx+LStNTVndvw6F2NG1TWQc+T3iIwGsQdHvDIx/0=;
+ b=g9uN1K8BWnTjh2oS2jMu0qTRq0Vr5t9GSh/tGjQWn1aBwBFeresMnN9IWJsdiSxRnO
+ elOy6mhGd3gFpzQcIQxe/MNYqfu6FxWmmjASxmKqXQkdFH1G1jKSKv86ufWKDKwTdQWT
+ 27nJixbQfGT9bSnYq/I3RZPKtHtnmNnJNkcPPDCvY8ItJ8iUI88ESyEk68rI3j10rImr
+ azhghdLcMTNjcWMO0+u9Rt8nMFMTWJVBiN7DRMBVxBbDfkBQME02QPK2k42h7GxfDcc3
+ b0stVbRS9AkYgKTbgP1p/tO0umMCBNHI/krKDBQoCBIssnHMMQJGbQaM9DXLxy1LEBv3
+ zkkg==
+X-Gm-Message-State: AOAM530RilXUEgfqZsembx1b1QF3iikAlRO8TpyAn8CzmuV5b6ZQko+g
+ OmVdYq44ZlQvPNrJyIdawbCUmK8hkJZkNw==
+X-Google-Smtp-Source: ABdhPJz/JGrerkvSJ10iK1q7cjoJrgxOzb465Yz4qf71IfJcsG0b2WkpTdF5WDuC5OCKb0W5hmnCDw==
+X-Received: by 2002:a1c:1d12:: with SMTP id d18mr3160744wmd.121.1611918049784; 
+ Fri, 29 Jan 2021 03:00:49 -0800 (PST)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.49
+ for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:18:41 -0800 (PST)
-From: Paolo Bonzini <pbonzini@redhat.com>
+ Fri, 29 Jan 2021 03:00:49 -0800 (PST)
+From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 30/36] meson: Restrict emulation code
-Date: Fri, 29 Jan 2021 12:18:08 +0100
-Message-Id: <20210129111814.566629-31-pbonzini@redhat.com>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
-References: <20210129111814.566629-1-pbonzini@redhat.com>
+Subject: [PULL 39/46] hw/timer/cmsdk-apb-timer: Convert to use Clock input
+Date: Fri, 29 Jan 2021 11:00:05 +0000
+Message-Id: <20210129110012.8660-40-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
+References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,50 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+Switch the CMSDK APB timer device over to using its Clock input; the
+pclk-frq property is now ignored.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210122204441.2145197-9-philmd@redhat.com>
-Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: Luc Michel <luc@lmichel.fr>
+Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-id: 20210128114145.20536-19-peter.maydell@linaro.org
+Message-id: 20210121190622.22000-19-peter.maydell@linaro.org
 ---
- meson.build | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ hw/timer/cmsdk-apb-timer.c | 18 ++++++++++++++----
+ 1 file changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/meson.build b/meson.build
-index a9dbd2a0db..2734d765e4 100644
---- a/meson.build
-+++ b/meson.build
-@@ -1784,16 +1784,18 @@ libqemuutil = static_library('qemuutil',
- qemuutil = declare_dependency(link_with: libqemuutil,
-                               sources: genh + version_res)
+diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
+index c63145ff553..f053146d88f 100644
+--- a/hw/timer/cmsdk-apb-timer.c
++++ b/hw/timer/cmsdk-apb-timer.c
+@@ -204,6 +204,15 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
+     ptimer_transaction_commit(s->timer);
+ }
  
--decodetree = generator(find_program('scripts/decodetree.py'),
--                       output: 'decode-@BASENAME@.c.inc',
--                       arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@OUTPUT@'])
-+if have_system or have_user
-+  decodetree = generator(find_program('scripts/decodetree.py'),
-+                         output: 'decode-@BASENAME@.c.inc',
-+                         arguments: ['@INPUT@', '@EXTRA_ARGS@', '-o', '@OUTPUT@'])
-+  subdir('libdecnumber')
-+  subdir('target')
-+endif
++static void cmsdk_apb_timer_clk_update(void *opaque)
++{
++    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
++
++    ptimer_transaction_begin(s->timer);
++    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
++    ptimer_transaction_commit(s->timer);
++}
++
+ static void cmsdk_apb_timer_init(Object *obj)
+ {
+     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
+@@ -213,15 +222,16 @@ static void cmsdk_apb_timer_init(Object *obj)
+                           s, "cmsdk-apb-timer", 0x1000);
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->timerint);
+-    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk", NULL, NULL);
++    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk",
++                                 cmsdk_apb_timer_clk_update, s);
+ }
  
- subdir('audio')
- subdir('io')
- subdir('chardev')
- subdir('fsdev')
--subdir('libdecnumber')
--subdir('target')
- subdir('dump')
+ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+ {
+     CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
  
- if have_block
+-    if (s->pclk_frq == 0) {
+-        error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
++    if (!clock_has_source(s->pclk)) {
++        error_setg(errp, "CMSDK APB timer: pclk clock must be connected");
+         return;
+     }
+ 
+@@ -232,7 +242,7 @@ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
+                            PTIMER_POLICY_NO_COUNTER_ROUND_DOWN);
+ 
+     ptimer_transaction_begin(s->timer);
+-    ptimer_set_freq(s->timer, s->pclk_frq);
++    ptimer_set_period_from_clock(s->timer, s->pclk, 1);
+     ptimer_transaction_commit(s->timer);
+ }
+ 
 -- 
-2.29.2
-
+2.20.1
 
 
