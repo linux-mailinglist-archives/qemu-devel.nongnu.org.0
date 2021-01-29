@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EF8C308E1F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:12:55 +0100 (CET)
-Received: from localhost ([::1]:40592 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C27D2308E20
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 21:14:13 +0100 (CET)
+Received: from localhost ([::1]:43986 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5a8U-0007m9-8K
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:12:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49004)
+	id 1l5a9k-0000pR-Ot
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 15:14:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49008)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5a6N-00060V-P8
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:10:43 -0500
-Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532]:43794)
+ id 1l5a6O-000610-2v
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:10:44 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f]:37790)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5a6J-0007zf-J8
+ id 1l5a6J-00080S-SS
  for qemu-devel@nongnu.org; Fri, 29 Jan 2021 15:10:43 -0500
-Received: by mail-pg1-x532.google.com with SMTP id n10so7392276pgl.10
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:10:38 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id q2so5896071plk.4
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 12:10:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=iOoIlpAzDYGxlsWXgbu6MecCT7nTlKWQqjPlQrCBgNU=;
- b=Vl5xMfqIIPPqj5495hG2ah2r9OX5PYkkHHBlmNE1a1aQleWt2W6lfz0Qd1jB8A7ExE
- fviF2MeH7Ce7mH1+MfMcZv/sQphLPBKgyXUfVM1jaZCCRG3Aei5LS1eK35Xp+CquR92q
- hTXI1uBA1VSkAEW1rEFllrRPwXgYeqbPedXu0N9UB1Fzk5N/V16kGw/1NOOcd4IPLCkF
- ED3y0OP0nH0DyPIeh59cbShCMtWhv+nfytaY5CbRKEfwsQdL0BDrnvqIB/dySTL5UbkB
- ZEL5Dzviwbx1ESGFNxStIuG97GL4oHT4+qdNuT0RrT6ZFoUIqv7Vl+HGQES1KBWoM6rb
- WslA==
+ bh=HBBO7QZPtUwrm35LTuZ36OrNAjYmk4o8xxojo1oe3Y4=;
+ b=piCzEltPqcsnGfT1rPl6QIF98ecXYtaSnEbFEpRsPdiwGMh47BYyf95/2aTGOOpjc7
+ S4ujmVdKpiBPl/CV4ocuNgF3dxqCNCrkhwT0VfQdwrGwQRk4yRSlPuQlSvWCIMW42glR
+ WVWqYYok/eqMs1aLKuCfVPVYjVbGL5dUMc6/aHcUIKIEynDi6zvHNnHVxf2ITHdKE7NB
+ EJQ78391VAnpYUYyLlW2xQCMva/h2r4xx2b4INNjOhgRPe5iS8cvR0vDkVeE2KmWUbnG
+ GCZSE/f+/rUqtjuR54i0fAvbX9eASZ2nUE9EhfIN8QVi/iIXLvmSzi10CUwEE+jXgFsc
+ 2+ng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=iOoIlpAzDYGxlsWXgbu6MecCT7nTlKWQqjPlQrCBgNU=;
- b=tVcKe1xhZE6gY4aRv0zMJUl3LZ/9Z4G2RSlAc5UspfpcUADU9Cqdoe6ZY+C7KR4KjW
- 02mhQvKx4B3SoWEl9H5tlM1W3IRM6fygOWvRNcs8t/HX7ZgXUUhVp+kxBtizpbifHokU
- JfcPJdGQlBqv6/dBhEhawfVAupkdyxtZq24YndDixG0+jtZhewS/4Z79KgqC/p+WYe8s
- M1QILboHrNBF3UUrglMJYftPB+qpa7XIS4vpdHGBKDlIqmD3v+2c3cstArYGkwduPnWm
- GAbDgOnqfanm5U6EHrfXcJcq2ifNMyaCrV6qeFK+73lIHxQG4z0xD79DrvqMd2OtHghS
- SprQ==
-X-Gm-Message-State: AOAM531QmklWGf7GUNbX2CiXUIPaHSB5gE14TIHnE1+GbhlF+UUJmfOn
- MD0cmb4E2evPlW+K7cbs8WW4fnc8FYptR60v
-X-Google-Smtp-Source: ABdhPJyDVSoxs7fOmj6swA1gw05dBZh1tv58FplB9ETb+kH5XlgwNp0FTEMUZpmVa6d5/kn2GKoWeg==
-X-Received: by 2002:a63:1e12:: with SMTP id e18mr6048158pge.173.1611951037069; 
- Fri, 29 Jan 2021 12:10:37 -0800 (PST)
+ bh=HBBO7QZPtUwrm35LTuZ36OrNAjYmk4o8xxojo1oe3Y4=;
+ b=JuowPQ67QsygNGH+YmlEn3Jg/7jGLaWTdgMWrjngl1F7ppmqwckYM3qqdojRjAQt0L
+ /aHEO2GBb9Fh0Um84qRxT2O4+zyafIezBzpgLQMk7IRo0P1rJE6P2aeDGezNogyy/dVS
+ fAgYPY2kUI5bBpEAybxIssINt0EN9VECiAxuXb/rebrPvEuv8MRC5bRXzV3fFGFxd+WR
+ WjwJXq3ICuq2VGMoOi9n/tS6FhlBJdG5ngpwNdrAkxdiJXfl85cYq+mQQwe/zmPkmR1I
+ SernQJR/wV2ssz/3q6yAf5unEcMWRTTuzQRQVzeMa3IawGlk5vyJZFj7gwAKRfaGsYoO
+ gFfA==
+X-Gm-Message-State: AOAM532xhX3Z83dIyZJ6GjemEYcXOlXbOmzp70rDtQXh9CF2i3eexPaC
+ fHGeshsqeqPgajvxmTvtJFQy0glD2kJCK+r3
+X-Google-Smtp-Source: ABdhPJy8kjrpub+iqbXIYBS9O3Opk7gFWxoHZdFLbHguI1KHcNnXVvZcZXpwWp+hmYybL9/pgmPFhA==
+X-Received: by 2002:a17:90a:4504:: with SMTP id
+ u4mr6141101pjg.218.1611951038551; 
+ Fri, 29 Jan 2021 12:10:38 -0800 (PST)
 Received: from localhost.localdomain (cpe-66-27-222-29.hawaii.res.rr.com.
  [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id d133sm9247265pfd.6.2021.01.29.12.10.35
+ by smtp.gmail.com with ESMTPSA id d133sm9247265pfd.6.2021.01.29.12.10.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 12:10:36 -0800 (PST)
+ Fri, 29 Jan 2021 12:10:38 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v3 03/24] tcg/i386: Move constraint type check to
- tcg_target_const_match
-Date: Fri, 29 Jan 2021 10:10:07 -1000
-Message-Id: <20210129201028.787853-4-richard.henderson@linaro.org>
+Subject: [PATCH v3 04/24] tcg/i386: Tidy register constraint definitions
+Date: Fri, 29 Jan 2021 10:10:08 -1000
+Message-Id: <20210129201028.787853-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20210129201028.787853-1-richard.henderson@linaro.org>
 References: <20210129201028.787853-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x532.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,65 +88,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rather than check the type when filling in the constraint,
-check it when matching the constant.  This removes the only
-use of the type argument to target_parse_constraint.
+Create symbolic constants for all low-byte-addressable
+and second-byte-addressable registers.  Create a symbol
+for the registers that need reserving for softmmu.
+
+There is no functional change for 's', as this letter is
+only used for i386.  The BYTEL name is correct for the
+action we wish from the constraint.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.c.inc | 28 +++++++++++++++++-----------
- 1 file changed, 17 insertions(+), 11 deletions(-)
+ tcg/i386/tcg-target.c.inc | 40 +++++++++++++++++++--------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
 diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-index 050f3cb0b1..540debdf34 100644
+index 540debdf34..4feb7e2aa1 100644
 --- a/tcg/i386/tcg-target.c.inc
 +++ b/tcg/i386/tcg-target.c.inc
-@@ -263,13 +263,13 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+@@ -132,6 +132,22 @@ static const int tcg_target_call_oarg_regs[] = {
+ # define TCG_REG_L1 TCG_REG_EDX
+ #endif
+ 
++#define ALL_BYTEH_REGS         0x0000000fu
++#if TCG_TARGET_REG_BITS == 64
++# define ALL_GENERAL_REGS      0x0000ffffu
++# define ALL_VECTOR_REGS       0xffff0000u
++# define ALL_BYTEL_REGS        ALL_GENERAL_REGS
++#else
++# define ALL_GENERAL_REGS      0x000000ffu
++# define ALL_VECTOR_REGS       0x00ff0000u
++# define ALL_BYTEL_REGS        ALL_BYTEH_REGS
++#endif
++#ifdef CONFIG_SOFTMMU
++# define SOFTMMU_RESERVE_REGS  ((1 << TCG_REG_L0) | (1 << TCG_REG_L1))
++#else
++# define SOFTMMU_RESERVE_REGS  0
++#endif
++
+ /* The host compiler should supply <cpuid.h> to enable runtime features
+    detection, as we're not going to go so far as our own inline assembly.
+    If not available, default values will be assumed.  */
+@@ -193,14 +209,6 @@ static bool patch_reloc(tcg_insn_unit *code_ptr, int type,
+     return true;
+ }
+ 
+-#if TCG_TARGET_REG_BITS == 64
+-#define ALL_GENERAL_REGS   0x0000ffffu
+-#define ALL_VECTOR_REGS    0xffff0000u
+-#else
+-#define ALL_GENERAL_REGS   0x000000ffu
+-#define ALL_VECTOR_REGS    0x00ff0000u
+-#endif
+-
+ /* parse target specific constraints */
+ static const char *target_parse_constraint(TCGArgConstraint *ct,
+                                            const char *ct_str, TCGType type)
+@@ -226,11 +234,11 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+         break;
+     case 'q':
+         /* A register that can be used as a byte operand.  */
+-        ct->regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xf;
++        ct->regs |= ALL_BYTEL_REGS;
+         break;
+     case 'Q':
+         /* A register with an addressable second byte (e.g. %ah).  */
+-        ct->regs = 0xf;
++        ct->regs |= ALL_BYTEH_REGS;
+         break;
+     case 'r':
+         /* A general register.  */
+@@ -247,19 +255,11 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
+ 
+     case 'L':
+         /* qemu_ld/st data+address constraint */
+-        ct->regs = TCG_TARGET_REG_BITS == 64 ? 0xffff : 0xff;
+-#ifdef CONFIG_SOFTMMU
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_L0);
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_L1);
+-#endif
++        ct->regs |= ALL_GENERAL_REGS & ~SOFTMMU_RESERVE_REGS;
+         break;
+     case 's':
+         /* qemu_st8_i32 data constraint */
+-        ct->regs = 0xf;
+-#ifdef CONFIG_SOFTMMU
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_L0);
+-        tcg_regset_reset_reg(ct->regs, TCG_REG_L1);
+-#endif
++        ct->regs |= ALL_BYTEL_REGS & ~SOFTMMU_RESERVE_REGS;
          break;
  
      case 'e':
--        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_S32);
-+        ct->ct |= TCG_CT_CONST_S32;
-         break;
-     case 'Z':
--        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_U32);
-+        ct->ct |= TCG_CT_CONST_U32;
-         break;
-     case 'I':
--        ct->ct |= (type == TCG_TYPE_I32 ? TCG_CT_CONST : TCG_CT_CONST_I32);
-+        ct->ct |= TCG_CT_CONST_I32;
-         break;
- 
-     default:
-@@ -286,14 +286,20 @@ static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
-     if (ct & TCG_CT_CONST) {
-         return 1;
-     }
--    if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
--        return 1;
--    }
--    if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
--        return 1;
--    }
--    if ((ct & TCG_CT_CONST_I32) && ~val == (int32_t)~val) {
--        return 1;
-+    if (type == TCG_TYPE_I32) {
-+        if (ct & (TCG_CT_CONST_S32 | TCG_CT_CONST_U32 | TCG_CT_CONST_I32)) {
-+            return 1;
-+        }
-+    } else {
-+        if ((ct & TCG_CT_CONST_S32) && val == (int32_t)val) {
-+            return 1;
-+        }
-+        if ((ct & TCG_CT_CONST_U32) && val == (uint32_t)val) {
-+            return 1;
-+        }
-+        if ((ct & TCG_CT_CONST_I32) && ~val == (int32_t)~val) {
-+            return 1;
-+        }
-     }
-     if ((ct & TCG_CT_CONST_WSZ) && val == (type == TCG_TYPE_I32 ? 32 : 64)) {
-         return 1;
 -- 
 2.25.1
 
