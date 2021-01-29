@@ -2,56 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45CED3081C0
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 00:17:37 +0100 (CET)
-Received: from localhost ([::1]:35854 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62FBF308245
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 01:14:49 +0100 (CET)
+Received: from localhost ([::1]:48656 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5GXf-00059d-PW
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 18:17:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39680)
+	id 1l5HR1-0005E5-SO
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 19:14:47 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l5GW9-0003y1-QZ; Thu, 28 Jan 2021 18:16:01 -0500
-Resent-Date: Thu, 28 Jan 2021 18:16:01 -0500
-Resent-Message-Id: <E1l5GW9-0003y1-QZ@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21385)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l5GW7-0002fG-A3; Thu, 28 Jan 2021 18:16:01 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1611875752; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=XY5X02W99KMu3YrFAxWS62/A6VDoGtBdSOEl+fDypwEz5SOFf+tNjiyhwyxcM4a2M5JTcEc3/HCZfBi3nbs006aq92I0oVlWyGnhLJhtNUCu/iF/5qOKsA8JM9gt8p+R2U3lCbx9GUVZOGvooZltdQ9/g2F0fDD+y3xldq1D5t8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1611875752;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=m1qk+03XEj5aHx6+c+tPT+lMfwvL+/K28AxQGnb05u0=; 
- b=DWXb7bWf40qIKZfdRObr7+/WBQihnWyY2WdYPgvk9PI+rmRE7mSujXZ9ATl3UjO9wylvFzmCC2yJUTDaxqE4rRuthkv736fmDC56GhrYXxwOeaA/55w0S6DRHkgHANyH7YV7aOlg+a/Ca8Dz3wAU/aLAZtUiq2DZE7TN89xxzPo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 1611875751355858.3459826711689;
- Thu, 28 Jan 2021 15:15:51 -0800 (PST)
-In-Reply-To: <20210128224141.638790-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH v4 00/23] target-arm: Implement ARMv8.5-MemTag, user mode
-Message-ID: <161187575010.13416.16830262547371739592@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l5HQE-0004nS-Hf
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 19:13:58 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536]:38161)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1l5HQC-0004aw-Q8
+ for qemu-devel@nongnu.org; Thu, 28 Jan 2021 19:13:58 -0500
+Received: by mail-pg1-x536.google.com with SMTP id o16so5430749pgg.5
+ for <qemu-devel@nongnu.org>; Thu, 28 Jan 2021 16:13:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=nYncgofx76HdpLmofPOmy74zIpIOXoy36K4mFliTzPQ=;
+ b=DzXOyPwkYR2ysbjx0x4iI5JvctEQFy/Kh3HCzgeCOTrxAzciyqJC0TOz9IP3Ranbol
+ OLh60sVQuqGAq2TA2VjF1m27hXiwwXMuw28CZI8fc8c0IA5o1sloG5hncMxixiWlfFQi
+ R8bo2Zd9T7sxRxPGoSlfel083GkgBUJLCZVFgdEavq8pW2fIvtGpVVI3E0qeqNsZQoIl
+ SbRqj2Ce9cqFI/oHFa50h67zK7cwAIiiF6efJnq5l7uwDRVZKvn84RTjgVcGiQcAoaEC
+ chznYlhtqHtFqP6ZSvBE9ilPa9O46NseDyrymThwKYmHxDGtd6JUEtp+FU1olZWswg7n
+ sxQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=nYncgofx76HdpLmofPOmy74zIpIOXoy36K4mFliTzPQ=;
+ b=Fu/uAHxc2DhmedbvuTGmGekoPezi+NLo3C0SouZ09b6M/0ImVbW/Xz6wI7iuytcer+
+ VZVn864B9WUpnS6I0Nu6lSTqdiFF6V9HsDoaItHysYnMt3Z8l50S8fD7xNoLGKil1z/T
+ 3Um7OQSMwf9FZ+xPffLDeEszf0X3EF4MQG63dnvnF7SW6Ps2m3CBR9Fbiv+mT2V49JdX
+ vK/S0STSZt+dAyuHKdkqAil+Ks0FcE8TzZFje4CfBgB8rUG/is2Zm0uQ0zv8dTWj6uiO
+ a+yZZjsvE+1LyU0YXP1jv+YJd1qW8wjFpIEp95W6p3yEk0CF7LcCaQYyrrOp2dgDysTa
+ 86QA==
+X-Gm-Message-State: AOAM5315IiYhWI7h1n76AqupMa5b9494oaO9ltlJyoilUNiuCtfJQNfz
+ ilSf4+zoDQCVdbTz2T/LJ9OSy8uOJvBQpEEI
+X-Google-Smtp-Source: ABdhPJzEeajjbAMxMAvt8D8ofLRJb+shL6RW79glB7IuWnY7hRycPNr4GhavL6gENU0qeahK2vlf7A==
+X-Received: by 2002:a63:4e08:: with SMTP id c8mr1811013pgb.87.1611879234807;
+ Thu, 28 Jan 2021 16:13:54 -0800 (PST)
+Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
+ [66.27.222.29])
+ by smtp.gmail.com with ESMTPSA id o1sm6680295pgq.1.2021.01.28.16.13.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 28 Jan 2021 16:13:54 -0800 (PST)
+Subject: Re: [PATCH v14 18/22] accel: introduce AccelCPUClass extending
+ CPUClass
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Claudio Fontana <cfontana@suse.de>
+References: <20210128092814.8676-1-cfontana@suse.de>
+ <20210128092814.8676-19-cfontana@suse.de>
+ <64d8385c-db22-b647-2402-3840b0e0e9b5@redhat.com>
+ <9a51a203-f6a8-686f-7859-475537b3607a@suse.de> <878s8dujj5.fsf@linaro.org>
+ <40ed971e-a4fe-77c5-94b9-28691874ee32@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <0943e736-6847-4b6a-8433-f28f4692a299@linaro.org>
+Date: Thu, 28 Jan 2021 14:13:49 -1000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richard.henderson@linaro.org
-Date: Thu, 28 Jan 2021 15:15:51 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+In-Reply-To: <40ed971e-a4fe-77c5-94b9-28691874ee32@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,104 +94,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Eduardo Habkost <ehabkost@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDEyODIyNDE0MS42Mzg3
-OTAtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNl
-ZW1zIHRvIGhhdmUgc29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cg
-Zm9yCm1vcmUgaW5mb3JtYXRpb246CgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAyMTAxMjgy
-MjQxNDEuNjM4NzkwLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZwpTdWJqZWN0OiBbUEFU
-Q0ggdjQgMDAvMjNdIHRhcmdldC1hcm06IEltcGxlbWVudCBBUk12OC41LU1lbVRhZywgdXNlciBt
-b2RlCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2Ug
-YmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1l
-bGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAt
-LWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAt
-LW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1
-YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcxMzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNv
-bS9wYXRjaGV3LXByb2plY3QvcWVtdQogKiBbbmV3IHRhZ10gICAgICAgICBwYXRjaGV3LzIwMjEw
-MTI4MjI0MTQxLjYzODc5MC0xLXJpY2hhcmQuaGVuZGVyc29uQGxpbmFyby5vcmcgLT4gcGF0Y2hl
-dy8yMDIxMDEyODIyNDE0MS42Mzg3OTAtMS1yaWNoYXJkLmhlbmRlcnNvbkBsaW5hcm8ub3JnClN3
-aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKNmMzNmNmYSB0ZXN0cy90Y2cvYWFyY2g2NDog
-QWRkIG10ZSBzbW9rZSB0ZXN0cwo5Mzg2OGRjIHRhcmdldC9hcm06IEVuYWJsZSBNVEUgZm9yIHVz
-ZXItb25seQo4OWM2N2JiIHRhcmdldC9hcm06IEFkZCBhbGxvY2F0aW9uIHRhZyBzdG9yYWdlIGZv
-ciB1c2VyIG1vZGUKOWU1NWJjZSBsaW51eC11c2VyL2FhcmNoNjQ6IFNpZ25hbCBTRUdWX01URUFF
-UlIgZm9yIGFzeW5jIHRhZyBjaGVjayBlcnJvcgo2NjJmMzA5IGxpbnV4LXVzZXIvYWFyY2g2NDog
-U2lnbmFsIFNFR1ZfTVRFU0VSUiBmb3Igc3luYyB0YWcgY2hlY2sgZmF1bHQKNDA1YzhiYyBsaW51
-eC11c2VyL2FhcmNoNjQ6IFBhc3Mgc3luZHJvbWUgdG8gRVhDXypfQUJPUlQKODUyYzg0NyB0YXJn
-ZXQvYXJtOiBTcGxpdCBvdXQgc3luZHJvbWUuaCBmcm9tIGludGVybmFscy5oCmFhZWEwOTEgbGlu
-dXgtdXNlci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJPVF9NVEUKNDBiNTk4OSBsaW51eC11c2VyL2Fh
-cmNoNjQ6IEltcGxlbWVudCBQUl9NVEVfVENGIGFuZCBQUl9NVEVfVEFHCmZmZTdjOWUgdGFyZ2V0
-L2FybTogVXNlIHRoZSBwcm9wZXIgVEJJIHNldHRpbmdzIGZvciBsaW51eC11c2VyCjc0OWIyMDcg
-dGFyZ2V0L2FybTogSW1wcm92ZSBnZW5fdG9wX2J5dGVfaWdub3JlCjRiMjVmN2YgbGludXgtdXNl
-ci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJfVEFHR0VEX0FERFJfRU5BQkxFCmQ5MDUzMzUgZXhlYzog
-QWRkIHN1cHBvcnQgZm9yIFRBUkdFVF9UQUdHRURfQUREUkVTU0VTCjA3NTdiMTkgbGludXgtdXNl
-cjogRml4IGd1ZXN0X2FkZHJfdmFsaWQgdnMgcmVzZXJ2ZWRfdmEKZjIyOTRjNSBsaW51eC11c2Vy
-OiBEbyBub3QgdXNlIGd1ZXN0X2FkZHJfdmFsaWQgZm9yIGgyZ192YWxpZAo2NzczMGVmIGJzZC11
-c2VyOiBUaWR5IFZFUklGWV9SRUFEL1ZFUklGWV9XUklURQpmNGNkNTRjIGxpbnV4LXVzZXI6IFRp
-ZHkgVkVSSUZZX1JFQUQvVkVSSUZZX1dSSVRFCjZjZjM4MDEgbGludXgtdXNlcjogQ2hlY2sgZm9y
-IG92ZXJmbG93IGluIGFjY2Vzc19vawpjZTQ3OWY2IGV4ZWM6IEltcHJvdmUgdHlwZXMgZm9yIGd1
-ZXN0X2FkZHJfdmFsaWQKOTlhNmM4MyBleGVjOiBVc2UgdWludHB0cl90IGluIGNwdV9sZHN0LmgK
-YjQzNjM5YyBleGVjOiBVc2UgdWludHB0cl90IGZvciBndWVzdF9iYXNlCjJjNzJmZGYgbGludXgt
-dXNlcjogSW50cm9kdWNlIFBBR0VfQU5PTgoyODUwNmY0MSB0Y2c6IEludHJvZHVjZSB0YXJnZXQt
-c3BlY2lmaWMgcGFnZSBkYXRhIGZvciB1c2VyLW9ubHkKCj09PSBPVVRQVVQgQkVHSU4gPT09CjEv
-MjMgQ2hlY2tpbmcgY29tbWl0IDI4NTA2ZjQxOGE0MyAodGNnOiBJbnRyb2R1Y2UgdGFyZ2V0LXNw
-ZWNpZmljIHBhZ2UgZGF0YSBmb3IgdXNlci1vbmx5KQoyLzIzIENoZWNraW5nIGNvbW1pdCAyYzcy
-ZmRmMjhkZTkgKGxpbnV4LXVzZXI6IEludHJvZHVjZSBQQUdFX0FOT04pCjMvMjMgQ2hlY2tpbmcg
-Y29tbWl0IGI0MzYzOWM3YTZmOSAoZXhlYzogVXNlIHVpbnRwdHJfdCBmb3IgZ3Vlc3RfYmFzZSkK
-NC8yMyBDaGVja2luZyBjb21taXQgOTlhNmM4Mzg4NTgzIChleGVjOiBVc2UgdWludHB0cl90IGlu
-IGNwdV9sZHN0LmgpCjUvMjMgQ2hlY2tpbmcgY29tbWl0IGNlNDc5ZjY3M2E2NiAoZXhlYzogSW1w
-cm92ZSB0eXBlcyBmb3IgZ3Vlc3RfYWRkcl92YWxpZCkKNi8yMyBDaGVja2luZyBjb21taXQgNmNm
-MzgwMTZkZTFjIChsaW51eC11c2VyOiBDaGVjayBmb3Igb3ZlcmZsb3cgaW4gYWNjZXNzX29rKQo3
-LzIzIENoZWNraW5nIGNvbW1pdCBmNGNkNTRjZTA2MDYgKGxpbnV4LXVzZXI6IFRpZHkgVkVSSUZZ
-X1JFQUQvVkVSSUZZX1dSSVRFKQo4LzIzIENoZWNraW5nIGNvbW1pdCA2NzczMGVmMDIxNGQgKGJz
-ZC11c2VyOiBUaWR5IFZFUklGWV9SRUFEL1ZFUklGWV9XUklURSkKOS8yMyBDaGVja2luZyBjb21t
-aXQgZjIyOTRjNWFlYjk1IChsaW51eC11c2VyOiBEbyBub3QgdXNlIGd1ZXN0X2FkZHJfdmFsaWQg
-Zm9yIGgyZ192YWxpZCkKMTAvMjMgQ2hlY2tpbmcgY29tbWl0IDA3NTdiMTkwMzZiNyAobGludXgt
-dXNlcjogRml4IGd1ZXN0X2FkZHJfdmFsaWQgdnMgcmVzZXJ2ZWRfdmEpCjExLzIzIENoZWNraW5n
-IGNvbW1pdCBkOTA1MzM1ZmI3YWEgKGV4ZWM6IEFkZCBzdXBwb3J0IGZvciBUQVJHRVRfVEFHR0VE
-X0FERFJFU1NFUykKMTIvMjMgQ2hlY2tpbmcgY29tbWl0IDRiMjVmN2Y0OTllMyAobGludXgtdXNl
-ci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJfVEFHR0VEX0FERFJfRU5BQkxFKQoxMy8yMyBDaGVja2lu
-ZyBjb21taXQgNzQ5YjIwN2E5OGUyICh0YXJnZXQvYXJtOiBJbXByb3ZlIGdlbl90b3BfYnl0ZV9p
-Z25vcmUpCjE0LzIzIENoZWNraW5nIGNvbW1pdCBmZmU3YzllNTkwYzMgKHRhcmdldC9hcm06IFVz
-ZSB0aGUgcHJvcGVyIFRCSSBzZXR0aW5ncyBmb3IgbGludXgtdXNlcikKMTUvMjMgQ2hlY2tpbmcg
-Y29tbWl0IDQwYjU5ODk3MGFjOCAobGludXgtdXNlci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJfTVRF
-X1RDRiBhbmQgUFJfTVRFX1RBRykKMTYvMjMgQ2hlY2tpbmcgY29tbWl0IGFhZWEwOTFjMjM0OSAo
-bGludXgtdXNlci9hYXJjaDY0OiBJbXBsZW1lbnQgUFJPVF9NVEUpCjE3LzIzIENoZWNraW5nIGNv
-bW1pdCA4NTJjODQ3MTQ3OTIgKHRhcmdldC9hcm06IFNwbGl0IG91dCBzeW5kcm9tZS5oIGZyb20g
-aW50ZXJuYWxzLmgpCldBUk5JTkc6IGFkZGVkLCBtb3ZlZCBvciBkZWxldGVkIGZpbGUocyksIGRv
-ZXMgTUFJTlRBSU5FUlMgbmVlZCB1cGRhdGluZz8KIzI4MTogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0
-Cgp0b3RhbDogMCBlcnJvcnMsIDEgd2FybmluZ3MsIDUzMCBsaW5lcyBjaGVja2VkCgpQYXRjaCAx
-Ny8yMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2Ug
-ZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIs
-IHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoxOC8yMyBDaGVja2luZyBjb21taXQgNDA1
-YzhiYzk0MDAyIChsaW51eC11c2VyL2FhcmNoNjQ6IFBhc3Mgc3luZHJvbWUgdG8gRVhDXypfQUJP
-UlQpCjE5LzIzIENoZWNraW5nIGNvbW1pdCA2NjJmMzA5MTViMTcgKGxpbnV4LXVzZXIvYWFyY2g2
-NDogU2lnbmFsIFNFR1ZfTVRFU0VSUiBmb3Igc3luYyB0YWcgY2hlY2sgZmF1bHQpCjIwLzIzIENo
-ZWNraW5nIGNvbW1pdCA5ZTU1YmNlYzUwNjkgKGxpbnV4LXVzZXIvYWFyY2g2NDogU2lnbmFsIFNF
-R1ZfTVRFQUVSUiBmb3IgYXN5bmMgdGFnIGNoZWNrIGVycm9yKQoyMS8yMyBDaGVja2luZyBjb21t
-aXQgODljNjdiYjA2NDNlICh0YXJnZXQvYXJtOiBBZGQgYWxsb2NhdGlvbiB0YWcgc3RvcmFnZSBm
-b3IgdXNlciBtb2RlKQoyMi8yMyBDaGVja2luZyBjb21taXQgOTM4NjhkYzYzMTE0ICh0YXJnZXQv
-YXJtOiBFbmFibGUgTVRFIGZvciB1c2VyLW9ubHkpCjIzLzIzIENoZWNraW5nIGNvbW1pdCA2YzM2
-Y2ZhYmJkOTYgKHRlc3RzL3RjZy9hYXJjaDY0OiBBZGQgbXRlIHNtb2tlIHRlc3RzKQpXQVJOSU5H
-OiBhZGRlZCwgbW92ZWQgb3IgZGVsZXRlZCBmaWxlKHMpLCBkb2VzIE1BSU5UQUlORVJTIG5lZWQg
-dXBkYXRpbmc/CiMzNzogCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CgpFUlJPUjogdHJhaWxpbmcgc3Rh
-dGVtZW50cyBzaG91bGQgYmUgb24gbmV4dCBsaW5lCiMxNzY6IEZJTEU6IHRlc3RzL3RjZy9hYXJj
-aDY0L210ZS0zLmM6NTA6CisgICAgd2hpbGUgKDEpOwoKRVJST1I6IGJyYWNlcyB7fSBhcmUgbmVj
-ZXNzYXJ5IGZvciBhbGwgYXJtcyBvZiB0aGlzIHN0YXRlbWVudAojMTc2OiBGSUxFOiB0ZXN0cy90
-Y2cvYWFyY2g2NC9tdGUtMy5jOjUwOgorICAgIHdoaWxlICgxKTsKWy4uLl0KCkVSUk9SOiB1c2Ug
-cWVtdV9yZWFsX2hvc3RfcGFnZV9zaXplIGluc3RlYWQgb2YgZ2V0cGFnZXNpemUoKQojMjE0OiBG
-SUxFOiB0ZXN0cy90Y2cvYWFyY2g2NC9tdGUtNC5jOjMxOgorICAgIHNpemVfdCBzaXplID0gZ2V0
-cGFnZXNpemUoKSAqIDQ7Cgp0b3RhbDogMyBlcnJvcnMsIDEgd2FybmluZ3MsIDI1MSBsaW5lcyBj
-aGVja2VkCgpQYXRjaCAyMy8yMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAxMjgyMjQxNDEu
-NjM4NzkwLTEtcmljaGFyZC5oZW5kZXJzb25AbGluYXJvLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gv
-P3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNo
-ZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBw
-YXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On 1/28/21 6:29 AM, Philippe Mathieu-Daudé wrote:
+> On 1/28/21 5:08 PM, Alex Bennée wrote:
+>>
+>> Claudio Fontana <cfontana@suse.de> writes:
+>>
+>>> On 1/28/21 2:03 PM, Philippe Mathieu-Daudé wrote:
+>>>> On 1/28/21 10:28 AM, Claudio Fontana wrote:
+>> <snip>
+>>>>> +
+>>>>> +#define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
+>>>>> +#define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
+>>>>> +typedef struct AccelCPUClass AccelCPUClass;
+>>>>> +DECLARE_CLASS_CHECKERS(AccelCPUClass, ACCEL_CPU, TYPE_ACCEL_CPU)
+>>>>> +
+>>>>> +typedef struct AccelCPUClass {
+>>>>> +    /*< private >*/
+>>>>> +    ObjectClass parent_class;
+>>>>> +    /*< public >*/
+>>>>> +
+>>>>> +    void (*cpu_class_init)(CPUClass *cc);
+>>>>> +    void (*cpu_instance_init)(CPUState *cpu);
+>>>>> +    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
+>>>>
+>>>> If we want callers to check errp, better have the prototype return
+>>>> a boolean.
+>>>
+>>> Good point, the whole errp thing is worth revisiting in the series,
+>>> there are many cases (which are basically reproduced in the refactoring from existing code),
+>>> where errp is passed but is really unused.
+>>>
+>>> I am constantly internally debating whether to remove the parameter altogether, or to keep it in there.
+>>>
+>>> What would you suggest?
+>>
+>> I think it really depends on if we can expect the realizefn to usefully
+>> return an error message that can be read and understood by the user. I
+>> guess this comes down to how much user config is going to be checked at
+>> the point we realize the CPU?
+> 
+> cpu_realize() is were various feature checks are, isn't it?
+> 
+>   -cpu mycpu,feat1=on,feat2=off
+>   CPU 'mycpu' can not disable feature 'feat2' because of REASON.
+
+Yes.  And while changing the return type of realize is probably a good idea, it
+should be a separate patch.
+
+
+r~
 
