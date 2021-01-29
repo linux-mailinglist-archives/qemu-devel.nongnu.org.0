@@ -2,84 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1091C308755
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:26:50 +0100 (CET)
-Received: from localhost ([::1]:49918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FABD308752
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:24:45 +0100 (CET)
+Received: from localhost ([::1]:48962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Q3E-0003KZ-FN
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:26:48 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43246)
+	id 1l5Q1D-0002vF-RB
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:24:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43626)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5Psk-0006UX-8P; Fri, 29 Jan 2021 04:15:58 -0500
-Received: from out5-smtp.messagingengine.com ([66.111.4.29]:59091)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l5Pse-0003eO-RE; Fri, 29 Jan 2021 04:15:58 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id EE4785C01E6;
- Fri, 29 Jan 2021 04:15:50 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Fri, 29 Jan 2021 04:15:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding; s=fm2; bh=c+LeO7/8pdWiy
- PjLgE3efXsKeJsrYDFeUSL8Ql5GOuI=; b=n0rnHGYYpLQ6R3jYDgZrEBmS9L/1B
- t3CnXLginrQRQ4iWQiBTXHtCpuZOHkZ9TepJ+jB2u6AdVHwAcQsbppJ2ZkI0rpCI
- 7mEgEX8Q3chzMJdMIdpF6AyyNyn2fPBYP3h5i2dhgMfIsGYilhJlfDQj5njDfkg1
- +A3Zj5I0lGHchpKrL/e0vG5F83/Bh/xwgJ4BsRT7aYmSG/5SddRqJo/UT4UIihmw
- 6iyfsC2N4bMts7Hz4dY70YNTG2wnG00NlxjGJ4Fp87Mbs4Y71KRc4vKg8zrITkto
- yny4I/u9Kow5vTALQYD0vwJIKyawkye3+hCTfZicWdunx62U7PjIW+pZQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-transfer-encoding:date:from
- :in-reply-to:message-id:mime-version:references:subject:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm1; bh=c+LeO7/8pdWiyPjLgE3efXsKeJsrYDFeUSL8Ql5GOuI=; b=MElYca93
- aRDgQ1EJzyk9YUA6zTffQheLBmCzclo6nst05woyvfYFy/NheY8PNhSsIxNp5ef5
- MqxHbchEV7zi26NNOibwkqN7/CijqLhay+CJpF4AMEoovRvJOqQ+RFoNSFyjTsIu
- Km9Gp8/GwmJrCN2OBq4bkhhs7WD9zVU/KuIfQl0wzXa9KgHbWlQLMXxoN9XnUQEr
- 74ZgiUFxNwgu0Y3l5yJJyKdsrcMJ9lBx4+qPsZBOYqxeP9f17awz7Uz1Dzp5NnXH
- NbduzhI0CxvY1hFuuKtqJytXyPX2u3EJNrxhRPfIxrr5gST/RyZf9eeu2MfM30KU
- EnxW0jB24uv+Kg==
-X-ME-Sender: <xms:RtITYEoq7NFNNiyZ6dG7T64bfVwqh6cls9aE3FxwH6SUzcQHtyAY1g>
- <xme:RtITYKqZuv_NRs2I-Hn-6QZhXYAPVC_EBbD7PDRsG3h-XIm7m1IDiCIut6PNguefl
- RBWVV4V4j417xkJOKE>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfedvucetufdoteggodetrfdotffvucfrrh
- hofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgenuceurghi
- lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
- ephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefmlhgruhhsucflvghn
- shgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtthgvrhhnpe
- euleetgeeiuefhgfekfefgveejiefgteekiedtgfdtieefhfdthfefueffvefgkeenucfk
- phepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtnecurfgrrh
- grmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:RtITYJOBmpSOjAy3nEzY-2n1mohhAV0JghYRqR5sQZQTrfnqXruJ9g>
- <xmx:RtITYL6pmkhEEXzaDMQJFdNZnbj_db6JUbmqduRGi0bTzt8en8lyDA>
- <xmx:RtITYD6-xln3lWpTLs4eg3TwSZl4TADupXuKORpAc-OJR2_XzkPkpg>
- <xmx:RtITYGbiBbf0NeTj9d5fsdFnbZEir9jdTej-FruFtVkl7opyl-PwIQ>
-Received: from apples.local (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id 946D324005B;
- Fri, 29 Jan 2021 04:15:49 -0500 (EST)
-From: Klaus Jensen <its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l5Pv3-0007j2-Ae
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:18:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28559)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l5Pv1-0004dN-Ls
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:18:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611911897;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9k9ttzpdc0ZZgPU37BNmKD/a9dVEm1P41CKaNPz4vMI=;
+ b=XILintGKzOT9F59uVgviQPGmdzqp/iddyxp2N6J7bCXpoxVkPg9DxMgETkSPuto5RhoJj5
+ bo7QEgdVb1dG2ksObQTcI48wU0qaNYwLfoYp53gn48T0oA0WsPhUz3W5UQxgeNn4KsH7wg
+ prtAYgtoKUHjUbrCfbBWI3MgY0jLLdo=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-439-WCJqzmNDOyygyow7k6em8A-1; Fri, 29 Jan 2021 04:18:13 -0500
+X-MC-Unique: WCJqzmNDOyygyow7k6em8A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 9E5FD81C4E6;
+ Fri, 29 Jan 2021 09:18:11 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-113-224.ams2.redhat.com
+ [10.36.113.224])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 21492105C720;
+ Fri, 29 Jan 2021 09:18:01 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6385C113865F; Fri, 29 Jan 2021 10:17:59 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 4/5] nvme: updated shared header for copy command
-Date: Fri, 29 Jan 2021 10:15:40 +0100
-Message-Id: <20210129091541.566330-5-its@irrelevant.dk>
-X-Mailer: git-send-email 2.30.0
-In-Reply-To: <20210129091541.566330-1-its@irrelevant.dk>
-References: <20210129091541.566330-1-its@irrelevant.dk>
+Subject: Re: [PATCH RFC 0/1] QOM type names and QAPI
+References: <20210129081519.3848145-1-armbru@redhat.com>
+Date: Fri, 29 Jan 2021 10:17:59 +0100
+In-Reply-To: <20210129081519.3848145-1-armbru@redhat.com> (Markus Armbruster's
+ message of "Fri, 29 Jan 2021 09:15:18 +0100")
+Message-ID: <87tur02jaw.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=66.111.4.29; envelope-from=its@irrelevant.dk;
- helo=out5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -92,131 +79,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Klaus Jensen <its@irrelevant.dk>,
- Minwoo Im <minwoo.im.dev@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: peter.maydell@linaro.org, mst@redhat.com, mark.cave-ayland@ilande.co.uk,
+ frederic.konrad@adacore.com, kraxel@redhat.com, edgar.iglesias@gmail.com,
+ jcd@tribudubois.net, qemu-block@nongnu.org, quintela@redhat.com,
+ andrew.smirnov@gmail.com, marcandre.lureau@redhat.com, atar4qemu@gmail.com,
+ ehabkost@redhat.com, alistair@alistair23.me, dgilbert@redhat.com,
+ chouteau@adacore.com, qemu-arm@nongnu.org, peter.chubb@nicta.com.au,
+ jsnow@redhat.com, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
+ pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Klaus Jensen <k.jensen@samsung.com>
+Forgot to mention:
 
-Add new data structures and types for the Simple Copy command.
-
-Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-Reviewed-by: Minwoo Im <minwoo.im.dev@gmail.com>
-Acked-by: Stefan Hajnoczi <stefanha@redhat.com>
----
- include/block/nvme.h | 45 ++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 43 insertions(+), 2 deletions(-)
-
-diff --git a/include/block/nvme.h b/include/block/nvme.h
-index e4b918064df9..5977bcf0308a 100644
---- a/include/block/nvme.h
-+++ b/include/block/nvme.h
-@@ -579,6 +579,7 @@ enum NvmeIoCommands {
-     NVME_CMD_COMPARE            = 0x05,
-     NVME_CMD_WRITE_ZEROES       = 0x08,
-     NVME_CMD_DSM                = 0x09,
-+    NVME_CMD_COPY               = 0x19,
-     NVME_CMD_ZONE_MGMT_SEND     = 0x79,
-     NVME_CMD_ZONE_MGMT_RECV     = 0x7a,
-     NVME_CMD_ZONE_APPEND        = 0x7d,
-@@ -724,6 +725,35 @@ typedef struct QEMU_PACKED NvmeDsmRange {
-     uint64_t    slba;
- } NvmeDsmRange;
- 
-+enum {
-+    NVME_COPY_FORMAT_0 = 0x0,
-+};
-+
-+typedef struct NvmeCopyCmd {
-+    uint8_t     opcode;
-+    uint8_t     flags;
-+    uint16_t    cid;
-+    uint32_t    nsid;
-+    uint32_t    rsvd2[4];
-+    NvmeCmdDptr dptr;
-+    uint64_t    sdlba;
-+    uint32_t    cdw12;
-+    uint32_t    cdw13;
-+    uint32_t    ilbrt;
-+    uint16_t    lbat;
-+    uint16_t    lbatm;
-+} NvmeCopyCmd;
-+
-+typedef struct NvmeCopySourceRange {
-+    uint8_t  rsvd0[8];
-+    uint64_t slba;
-+    uint16_t nlb;
-+    uint8_t  rsvd18[6];
-+    uint32_t eilbrt;
-+    uint16_t elbat;
-+    uint16_t elbatm;
-+} NvmeCopySourceRange;
-+
- enum NvmeAsyncEventRequest {
-     NVME_AER_TYPE_ERROR                     = 0,
-     NVME_AER_TYPE_SMART                     = 1,
-@@ -807,6 +837,7 @@ enum NvmeStatusCodes {
-     NVME_CONFLICTING_ATTRS      = 0x0180,
-     NVME_INVALID_PROT_INFO      = 0x0181,
-     NVME_WRITE_TO_RO            = 0x0182,
-+    NVME_CMD_SIZE_LIMIT         = 0x0183,
-     NVME_ZONE_BOUNDARY_ERROR    = 0x01b8,
-     NVME_ZONE_FULL              = 0x01b9,
-     NVME_ZONE_READ_ONLY         = 0x01ba,
-@@ -994,7 +1025,7 @@ typedef struct QEMU_PACKED NvmeIdCtrl {
-     uint8_t     nvscc;
-     uint8_t     rsvd531;
-     uint16_t    acwu;
--    uint8_t     rsvd534[2];
-+    uint16_t    ocfs;
-     uint32_t    sgls;
-     uint8_t     rsvd540[228];
-     uint8_t     subnqn[256];
-@@ -1022,6 +1053,11 @@ enum NvmeIdCtrlOncs {
-     NVME_ONCS_FEATURES      = 1 << 4,
-     NVME_ONCS_RESRVATIONS   = 1 << 5,
-     NVME_ONCS_TIMESTAMP     = 1 << 6,
-+    NVME_ONCS_COPY          = 1 << 8,
-+};
-+
-+enum NvmeIdCtrlOcfs {
-+    NVME_OCFS_COPY_FORMAT_0 = 1 << 0,
- };
- 
- enum NvmeIdCtrlFrmw {
-@@ -1171,7 +1207,10 @@ typedef struct QEMU_PACKED NvmeIdNs {
-     uint16_t    npdg;
-     uint16_t    npda;
-     uint16_t    nows;
--    uint8_t     rsvd74[30];
-+    uint16_t    mssrl;
-+    uint32_t    mcl;
-+    uint8_t     msrc;
-+    uint8_t     rsvd81[23];
-     uint8_t     nguid[16];
-     uint64_t    eui64;
-     NvmeLBAF    lbaf[16];
-@@ -1323,6 +1362,7 @@ static inline void _nvme_check_size(void)
-     QEMU_BUILD_BUG_ON(sizeof(NvmeZonedResult) != 8);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeCqe) != 16);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmRange) != 16);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeCopySourceRange) != 32);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeCmd) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeDeleteQ) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeCreateCq) != 64);
-@@ -1330,6 +1370,7 @@ static inline void _nvme_check_size(void)
-     QEMU_BUILD_BUG_ON(sizeof(NvmeIdentify) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeRwCmd) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeDsmCmd) != 64);
-+    QEMU_BUILD_BUG_ON(sizeof(NvmeCopyCmd) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeRangeType) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeErrorLog) != 64);
-     QEMU_BUILD_BUG_ON(sizeof(NvmeFwSlotInfoLog) != 512);
--- 
-2.30.0
+Based-on: <20210125162402.1807394-1-armbru@redhat.com>
+[PATCH 0/3] Drop deprecated floppy config & bogus -drive if=T
 
 
