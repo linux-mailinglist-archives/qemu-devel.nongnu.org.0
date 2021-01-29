@@ -2,54 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90551308AD8
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:06:56 +0100 (CET)
-Received: from localhost ([::1]:36718 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED1C7308B58
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 18:24:13 +0100 (CET)
+Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5XEV-00056L-I1
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:06:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42698)
+	id 1l5XVE-0006in-H8
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 12:24:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42700)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l5X06-0001UZ-S5; Fri, 29 Jan 2021 11:52:05 -0500
-Received: from mail-eopbgr60100.outbound.protection.outlook.com
- ([40.107.6.100]:29349 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ id 1l5X07-0001Uj-OK; Fri, 29 Jan 2021 11:52:07 -0500
+Received: from mail-eopbgr60091.outbound.protection.outlook.com
+ ([40.107.6.91]:6275 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
- id 1l5Wzr-0007OV-GV; Fri, 29 Jan 2021 11:51:54 -0500
+ id 1l5Wzv-0007Pt-HN; Fri, 29 Jan 2021 11:52:03 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Cd6eVUvfWmRXLI2eUMTj5/0Sj8OrzAhaixQD5aNzuEm8KmcEyUGRW7GSnFFfY4dnj973Qtg8N7FFwXcv2FcLD4yBjgek+uFWVAyH8hpwtL5P+S+ME9fna8/tKWSJiA7z96OzJB+CgZMb9/FO7/ChtAOVL+9iCBixffGPX4nNnN0txGzEjA3jbaQGmuHRwocSyp2U804hJcRYAoVFxfCWy2VlWOSJ0fYN+zBWFHrYBw0beqYHeK1FejHpc+AakPbu3XDjE6IoeHDkqsU1npzuiFtzKGHKuP26Zl+PQdrEoj50ZUPhiP+8RGHUJzXL8MuBbTRZ1S88z20fRlShifdnoA==
+ b=Yh9qRYH7NUYjNZVi4F1Idy3wMZ6xfOUm2N0Jlw1CPh4bskHuZL3/Sf+V1L35GGcovXRJk6QEBR7rZfQ4etngVzLzjhmmMCqgms7jfkxdFsvCbyAengk+sym5ouhv5/csTG6iOLHF3nE7H2AcXTycDzidCRNhchDMhs22kGLnF8pcyAcEXq9WfAgaeoQxQvuJKkEPUte9pK/mWXEnFdHupxHDVPaewcEdUJ5WCMObZonfBkoblpAceF8MS8p/ILV59H9BtMNTxwk5y4qBNUhIG3YKHEPxpq9fvXFF1EOYrJf/Fg1crE+8FhFeB+NJgW4EHe3/Gz+RMeZDeqfMXFWJbA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uO06OzUEZrJhVt/sLwyAlJVy/NU9snPAznbi6xw5H4k=;
- b=QfXRvaFkeGLa3vB5ltybS+NeHuOyKln7iXMt9PspPoxhypDkjQYJ/A8Ub4hlw8o8eZpMns1Bef7Bs/4nHZadeUJk5yMW0lqvQYLvw70wpH8eZEHS/mkk1BxuMsyKdL0LHvpEPiTfU0NprHooO6/Kczqf2HxkwdIX546tixHbMdZKV3h9zXNtdQObtNkhZiKVg57s8uM/YRBxVjC6lIKQ2OvbpHomqUpHbtmNaNqxWP/e+iVFUlb2g9qjlJouUC+0CTiUExg6QXJGvQ9kQybm4tpwHGfptay/fs7/lGujN2NnqE4e8lNIXywzAfHz6KmLF1DZIHe+KIKiujNMdIZj+g==
+ bh=7sACqhT3LC0le2qy95oJqyBeh8bjD+/wB/gzlkAwfxs=;
+ b=XwOLhKK+gMmf4lZKVG+2RkeHaKy+3tV8S89EVDfa9kywxlLMtHUiDGgHsQvYCYBzSn2PoXD02brSkH3AUrICRfxBMQBHntvT8Y/3z5uH8kCy4U0QORFEtNqYBoeFZ3CoYC6KUc8yFPiqxwIQA2XVn/lsTSwM1CSGTiRs/PcEuDEBCqg6XsP0m3jxvmcVsolGbkJwQQGL/Zq+r5UNVBF+rmmr561ZWQzCnJZudfqpibFdSLaR4wHNVR7ItePXYY7fPgov+L0fFO+ChwldIIveU8dxA+gD5ZQmXEjGK+kikdGQRU8lE2tlkqqFduAXpJ/6jKmJYIl8i665h8vwVjyrRg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
  header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uO06OzUEZrJhVt/sLwyAlJVy/NU9snPAznbi6xw5H4k=;
- b=LYn9Xg8NP3B3tmXhyX+dS84me2TyHxo0Zr90ocjIZTSLVep5N+SUyqjoclU1LSxR+De42aNFbwSghsZp96cQYDaObVG/0gISVD0MH8fmr7j0HHhcwo4QUAS1I0Iu8CV8LwUi1SKUfZzCJn7QMcUKl6w/B9Xz6VZuqElRg/iUQGc=
+ bh=7sACqhT3LC0le2qy95oJqyBeh8bjD+/wB/gzlkAwfxs=;
+ b=BD3MylcwV/ZawMROAKnWS4pJaeaPFmstPq9butVx+B77rJUQeA/t22Wlg6ktgH9v4IQhgjOTgUDGHtMyI6K6TvXAIwmrreuBF0/w6Z+20qqPnxjoYh2h9UwL2yegpOcz0jTxjEO8rnkxAKIS3guwsu2Y9M6hNcGfhWYCNsSI3vs=
 Authentication-Results: nongnu.org; dkim=none (message not signed)
  header.d=none;nongnu.org; dmarc=none action=none header.from=virtuozzo.com;
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
  by AM6PR08MB3621.eurprd08.prod.outlook.com (2603:10a6:20b:4b::31)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3784.17; Fri, 29 Jan
- 2021 16:51:40 +0000
+ 2021 16:51:42 +0000
 Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
  ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3784.019; Fri, 29 Jan 2021
- 16:51:40 +0000
+ 16:51:42 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Subject: [PATCH 0/7] qcow2: compressed write cache
-Date: Fri, 29 Jan 2021 19:50:23 +0300
-Message-Id: <20210129165030.640169-1-vsementsov@virtuozzo.com>
+Subject: [PATCH 1/7] qemu/queue: add some useful QLIST_ and QTAILQ_ macros
+Date: Fri, 29 Jan 2021 19:50:24 +0300
+Message-Id: <20210129165030.640169-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210129165030.640169-1-vsementsov@virtuozzo.com>
+References: <20210129165030.640169-1-vsementsov@virtuozzo.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [185.215.60.152]
@@ -61,50 +63,50 @@ X-MS-Exchange-MessageSentRepresentingType: 1
 Received: from kvm.sw.ru (185.215.60.152) by
  AM0PR02CA0001.eurprd02.prod.outlook.com (2603:10a6:208:3e::14) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3805.16 via Frontend Transport; Fri, 29 Jan 2021 16:51:39 +0000
+ 15.20.3805.16 via Frontend Transport; Fri, 29 Jan 2021 16:51:40 +0000
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 6cb273c9-4400-4886-7a34-08d8c4762679
+X-MS-Office365-Filtering-Correlation-Id: f3c58f20-dc11-4144-6899-08d8c47626fe
 X-MS-TrafficTypeDiagnostic: AM6PR08MB3621:
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM6PR08MB3621C9F7D29C3A80EC175B8BC1B99@AM6PR08MB3621.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-Microsoft-Antispam-PRVS: <AM6PR08MB3621E4626011F06088372E30C1B99@AM6PR08MB3621.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:110;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 6bzhXRxQbT8sq9JTIrp3FUfu0ZxpK49armzhDT24DNHUU6QFEYtCyGbvhlcP/aTOJ4ZO+Blw6F/YUM1CDdIU8fzVbW6Nif4UQlMBDsc/Njl+vCpy8i1iVJlABgo+eNya/KOr66xIfbkYzBKL0MfXcwlZp97YZZvP5kpRAESHl/t9M7uZn6DTKW/MgP/x8wSmp0uckQIhgfHJLGCPD+ld9ZtDAva6hkLPCJyLEl74S8mFLf+8fOp9kNl5tLR6/A8lBsPe2l2qOuTcV/EUCpzDyjwrwrRZvGNYBsQOU4oQ7HPTpuJafU/4PPLNOOIHm80b4dBNSCw3riNkJzzeGnYkkfdxyhER103Ww9Y2cUQmUE53xtERE62PihmaRywTXyeFcMiICwew9PWW9Iw7mLrq/ncRCCSQObFAGiKqm8flPFhBli8owA1wPB1JqIOhncfYdYlTbGPiGtQCelJw1BcVr2EefRK/RMqtmmew2c58VJ/R3kS0LA4ZXdyxkDgdt1WkLViTZHRbt4LzqkwzSyLLdw==
+X-Microsoft-Antispam-Message-Info: BeIsebOtuclbXDL5TkzTNuJt67ed8IBw60kJP5nFI7yWoDQaYo6nf9hWCsQ02V5rb44DYAGPEzD/WdsTJhBliFaOZGvMtoYPXVHkjcrKnpIS930OOMz+r82u0HEQuU6x4bCpe7a2b5R6EvxT6Yeh2cWBEEXGB63iLd3RzxDs//vrizllQXXFYF14ubEpfV7Yvhs3NLHM/hTYlKIJfA+pR9fBc/C8dXzWHnY7I+dgyFFwRU2en5BEhMjKN3bI948AZj76nMITqcRg+SjKWi3IP1+S6GP8sHPn9QfrAnvnmD9Xh6taDeiMc74DK1he0pyC5gfkhMcRplnTJCRFgh4zdN5jJreDu6cQaqJhxRN8+tqy3fxC+P96ZhlLICqKrb2tcxdUYYdSFMVifURYZfBaomupgJDMgtA+W4sByK5QPQ4pZ1NUGWlTVjBeRmXL8AJjl8UZ708wnLrqvs7d9Ofuuuk6Vx2CmHU48vI5sYaAEA0/xBI9pvbswgXXh1OLTJw0nfC5aeR6NXNQ618tO0ba7w==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
  SFS:(4636009)(346002)(366004)(396003)(136003)(39840400004)(376002)(66476007)(83380400001)(1076003)(86362001)(8936002)(6486002)(316002)(52116002)(6512007)(66946007)(8676002)(2616005)(2906002)(66556008)(36756003)(4326008)(16526019)(6506007)(26005)(186003)(107886003)(956004)(6916009)(6666004)(5660300002)(478600001);
  DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?9GOoTLuUIEQHPHg1TmNZJ7EWFf8dTcdy9Y5b8OvLhoANtfTOMGwb8hoN84JK?=
- =?us-ascii?Q?ZTFur1Z9Z+hg4imHDLh4kOuTMtEYYfnQ/rkqKJcptC0ZhQOlHxrjfG3Ki2vE?=
- =?us-ascii?Q?yVmXIYDiJEKc/rUUCJp83nqHycvyk48Gk1qDbMg3LO3ehx+uWX1Ys22Duw64?=
- =?us-ascii?Q?qe83WpX37W/ZyrVQ9VAXBwd3F9IPtmWa3tSgK73rmsUaMqMt2o1PAHYYp4mi?=
- =?us-ascii?Q?7qwjDeMpQ+NrxV7OkRIaVJwBMCshbA23UTCeOx24cme7nDi0B9SluRRARUgj?=
- =?us-ascii?Q?iqa8WjCtnmHvJC2uwWKeySUpv/OeUQHes8zAxVb6HGMn7/75X6z0poUirqGs?=
- =?us-ascii?Q?hA2NZ0BD+Hc1K0I4gUpfjn+p/alMmzsI4MVFbJ7M/LVh4fKYhrfb8gKe9dyF?=
- =?us-ascii?Q?lPgPwSL6QchcPRTd938PrZMmLVlo7H/Iyu5e7Bo7HUWdE0Mkjiilks24nhSZ?=
- =?us-ascii?Q?/xJMwf9SpLRlJC0+Ht1U4GGOzYNB0Gcr4tDAaUH5X/OTEf3anAUdCe8xj8eE?=
- =?us-ascii?Q?SsSeiu/yh6aXJ+smxgAI7+4K9R6aiL392gz0zm7uxqI5ABgI0SKbtEU3PPat?=
- =?us-ascii?Q?eKOssPvOPT8E1cIq8pklnzZQOHfEnq7zGezyZ9teyl4BIFbEaKMWql/4pnVu?=
- =?us-ascii?Q?FP56B365V2v8daTg9z+hLssmVoOX+g8il6fPnWOCj6MmmY0Nm12a7yQlTlqQ?=
- =?us-ascii?Q?5CB7yJD7jDwCmZCwbGqksOrZINWGw1OmOuBFgaHGiwbUCPsory2Y12rMwl/Y?=
- =?us-ascii?Q?7giNz/JTaz0nEzpslrbvdGB1WuYhUMRc5oe3A7B986PfMx1TAqlajTniJO4S?=
- =?us-ascii?Q?05Id2d5NkEkzKXx8/F7JOQbMZxMQP8lcpyfuzo7TcWEp7Z+n2KjjYTMlcwIN?=
- =?us-ascii?Q?5ttPf7KxkasuaeQWZC0dkzQrDbULfQX0ayB8uEU1ZpC9F1qJYqNcJBPvSwx4?=
- =?us-ascii?Q?ga4/VWRq6iGt7MPEImNAg3F3cjPGZDGzHG6JSXSjyF7uWKFsRE6yWXIgGUsG?=
- =?us-ascii?Q?SkxI3gfPFp5CvEoAH9L4JM8nvULw9I4l3Cj/9xFf0PkZtXP5lJtHUp0Bi6H0?=
- =?us-ascii?Q?7Ylu1Qs0hoV+WNXq7MlPD6aTsMt1BA=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?t/M2RQhvFuLbg3LiRTZ7zRoOhzq/dEaiICZP3Xq+llqIhAdq2YT6CS5TejLU?=
+ =?us-ascii?Q?KNgxSx1a8KzN9E5RQbuDSYo1XgQkioBPLqLdjR0H8FqcRs9V7O6LM2sGNnE5?=
+ =?us-ascii?Q?706PzzY0VPYzvqypywFrIOhZechvwXR6qoBzbvDYTETACKxHBFV/Hn7AiWeY?=
+ =?us-ascii?Q?noQVT662gFm3cDJqX8gW7wJh6L3tzMtmHclSzdqwSnpOU8yBnJLE0DG/ivFV?=
+ =?us-ascii?Q?gyu+W7IxHt6WRTNJ1jpCEnUqmwcm4XJjUjMmyMxmGS1iB2zGVwNbUxeXsZ3C?=
+ =?us-ascii?Q?ESmq01U/JtLY/SIttmOZd8ZO0SHVRBKoXNg3uuevbqkz4XYv+Fh19xTJ7DAN?=
+ =?us-ascii?Q?49Cbw2QIoYqg22Lg7bMtAnLNbHa+Is3YEAZXeNP475OC+vzZuBMpvT0sUHTH?=
+ =?us-ascii?Q?lC07s5fE10W4WkTjFysaQtV+hiGQ0a1UqOy2CZqE3RndP9UDUwUyz694mM2Y?=
+ =?us-ascii?Q?4tWGY9lHyr7M2WHaMvnSDKDcnxUepVTf7fo6Ht2qiFEadxw/OunPJpzGLomg?=
+ =?us-ascii?Q?6W4NAN7aOU2IcUR+zFR7pqSfRdP0wGuMr/7+CLq19t2AXV21lzy61OId2C5Y?=
+ =?us-ascii?Q?4neHdTxnX0LYuzh7nG4sdcs7Q65Fyp6szEcbiu2kQ0QKBHZs394zTulumqo8?=
+ =?us-ascii?Q?q7aHDZfH20B7Oo2NT9OKoL3GC4tMSFDA3QVpp03Nc8gQcA9ety+oRxoWQ1Gz?=
+ =?us-ascii?Q?RBEYpBbdloOqn64WvYxKES2uso4gjnAuG8ZacBSCl/7cWF4tjbM8Hxk6z6iO?=
+ =?us-ascii?Q?LRuToiYUo826t4QB12DUzC7adh01KYKJoIT3op2j30y4S7ho1LXp+lQASGZV?=
+ =?us-ascii?Q?z253le+z2/k4fTw0UR6WH4zYvWH1wkynBqUXjW+4BXtKXi43daaLisXoMX8a?=
+ =?us-ascii?Q?WEVXgfZKtcQb4zNSeIEi9MHoQP494qjrmYPl+/WE315sLW6UvF2Z+3VSyOWG?=
+ =?us-ascii?Q?wpm6zHUA69CNXspySBum3A8PcfvYxDJ6cwydyOaNKgX03ouKmNWHK/H/GA/5?=
+ =?us-ascii?Q?PUW4ijb6/DkRFNf8zJB9ictvqrC82eR59vPOZdj3S1i4aI7Pww3SspA8vMsV?=
+ =?us-ascii?Q?XcDkuh2i?=
 X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6cb273c9-4400-4886-7a34-08d8c4762679
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3c58f20-dc11-4144-6899-08d8c47626fe
 X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 16:51:40.6024 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Jan 2021 16:51:41.4836 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CVQaW5RbdYMmMoZ7mkvDE1cczvu9Dy7R8QQGdRNJqd/yF6zv1xj4oF2pSgwFeSf3KEsTHGhd2CTEeVkutJWsMvgUeM7blOQe6UIXruXvmB8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: vscyH4l1DVCHRJ87QfkR62vA3Dnk/k3qYHd9dsmOmlRP1gym32xETkzgtvtko2IW2wRurn1kDJ4mJcVIE4OdTGo6G0veT94tfFCvYX80Cig=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3621
-Received-SPF: pass client-ip=40.107.6.100;
+Received-SPF: pass client-ip=40.107.6.91;
  envelope-from=vsementsov@virtuozzo.com;
  helo=EUR04-DB3-obe.outbound.protection.outlook.com
 X-Spam_score_int: -27
@@ -131,67 +133,46 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi all!
+Add QLIST_FOREACH_FUNC_SAFE(), QTAILQ_FOREACH_FUNC_SAFE() and
+QTAILQ_POP_HEAD(), to be used in following commit.
 
-I know, I have several series waiting for a resend, but I had to switch
-to another task spawned from our customer's bug.
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ include/qemu/queue.h | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Original problem: we use O_DIRECT for all vm images in our product, it's
-the policy. The only exclusion is backup target qcow2 image for
-compressed backup, because compressed backup is extremely slow with
-O_DIRECT (due to unaligned writes). Customer complains that backup
-produces a lot of pagecache.
-
-So we can either implement some internal cache or use fadvise somehow.
-Backup has several async workes, which writes simultaneously, so in both
-ways we have to track host cluster filling (before dropping the cache
-corresponding to the cluster).  So, if we have to track anyway, let's
-try to implement the cache.
-
-Idea is simple: cache small unaligned write and flush the cluster when
-filled.
-
-Performance result is very good (results in a table is time of
-compressed backup of 1000M disk filled with ones in seconds):
-
----------------  -----------  -----------
-                 backup(old)  backup(new)
-ssd:hdd(direct)  3e+02        4.4
-                                -99%
-ssd:hdd(cached)  5.7          5.4
-                                -5%
----------------  -----------  -----------
-
-So, we have benefit even for cached mode! And the fastest thing is
-O_DIRECT with new implemented cache. So, I suggest to enable the new
-cache by default (which is done by the series).
-
-Command to generate performance comparison table:
-
- ./scripts/simplebench/bench-backup.py --compressed --target-cache both --dir ssd:/ssd --dir hdd:/work --test ssd:hdd --env old:/work/src/qemu/master/build/qemu-system-x86_64 new:/work/src/qemu/up/qcow2-compressed-write-cache/build/qemu-system-x86_6
-
-Vladimir Sementsov-Ogievskiy (7):
-  qemu/queue: add some useful QLIST_ and QTAILQ_ macros
-  block/qcow2: introduce cache for compressed writes
-  block/qcow2: use compressed write cache
-  simplebench: bench_one(): add slow_limit argument
-  simplebench: bench_one(): support count=1
-  simplebench/bench-backup: add --compressed option
-  simplebench/bench-backup: add target-cache argument
-
- qapi/block-core.json                   |   8 +-
- block/qcow2.h                          |  33 ++
- include/qemu/queue.h                   |  14 +
- block/qcow2-compressed-write-cache.c   | 770 +++++++++++++++++++++++++
- block/qcow2-refcount.c                 |  13 +
- block/qcow2.c                          |  87 ++-
- block/meson.build                      |   1 +
- scripts/simplebench/bench-backup.py    |  74 ++-
- scripts/simplebench/bench_block_job.py |  33 +-
- scripts/simplebench/simplebench.py     |  34 +-
- 10 files changed, 1039 insertions(+), 28 deletions(-)
- create mode 100644 block/qcow2-compressed-write-cache.c
-
+diff --git a/include/qemu/queue.h b/include/qemu/queue.h
+index e029e7bf66..03e1fce85f 100644
+--- a/include/qemu/queue.h
++++ b/include/qemu/queue.h
+@@ -173,6 +173,13 @@ struct {                                                                \
+                 (var) && ((next_var) = ((var)->field.le_next), 1);      \
+                 (var) = (next_var))
+ 
++#define QLIST_FOREACH_FUNC_SAFE(head, field, func) do {                 \
++    typeof(*QLIST_FIRST(head)) *qffs_var, *qffs_next_var;               \
++    QLIST_FOREACH_SAFE(qffs_var, (head), field, qffs_next_var) {        \
++        (func)(qffs_var);                                               \
++    }                                                                   \
++} while (/*CONSTCOND*/0)
++
+ /*
+  * List access methods.
+  */
+@@ -490,6 +497,13 @@ union {                                                                 \
+              (var) && ((prev_var) = QTAILQ_PREV(var, field), 1);        \
+              (var) = (prev_var))
+ 
++#define QTAILQ_FOREACH_FUNC_SAFE(head, field, func) do {                \
++    typeof(*QTAILQ_FIRST(head)) *qffs_var, *qffs_next_var;              \
++    QTAILQ_FOREACH_SAFE(qffs_var, (head), field, qffs_next_var) {       \
++        (func)(qffs_var);                                               \
++    }                                                                   \
++} while (/*CONSTCOND*/0)
++
+ /*
+  * Tail queue access methods.
+  */
 -- 
 2.29.2
 
