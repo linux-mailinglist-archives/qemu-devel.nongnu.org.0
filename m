@@ -2,83 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7044308987
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:26:41 +0100 (CET)
-Received: from localhost ([::1]:38938 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3943530898D
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:33:24 +0100 (CET)
+Received: from localhost ([::1]:45856 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5UjQ-0002EK-Vz
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:26:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42162)
+	id 1l5Upu-0005MJ-LW
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:33:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45408)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5UfE-0007Gv-W5
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:22:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:51717)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5Uf8-0007nx-1T
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:22:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611930133;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3+dLICsiyuOac3T6ONDT/ab/ff6jzzcMiW4oYnX6SHk=;
- b=NzMYiu8nzMHE6QVVoXmag7a/FROkllE6Tw02jBVl49bwEl4t5jq/3fJhxMVVokTVm/OBG+
- facSmiObt6EUHVHtoT12ynyVK3LP7AaHszXmwzPP1dodh/in6bbUTI/xcdNV/ZEtyzDQbI
- O4h1SWRtTGyvK7M+M/drWeF7sEakacc=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-385-wpFZAwCNNDKQYEMcW2ondw-1; Fri, 29 Jan 2021 09:22:11 -0500
-X-MC-Unique: wpFZAwCNNDKQYEMcW2ondw-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7058A39380;
- Fri, 29 Jan 2021 14:22:10 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
- [10.36.113.27])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3975A5D9C0;
- Fri, 29 Jan 2021 14:22:10 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
- id 813F318000A2; Fri, 29 Jan 2021 15:22:08 +0100 (CET)
-Date: Fri, 29 Jan 2021 15:22:08 +0100
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
-Subject: Re: [PATCH] spice: delay starting until display are initialized
-Message-ID: <20210129142208.jlmx5k3f2iptjcy4@sirius.home.kraxel.org>
-References: <20210128111319.329755-1-marcandre.lureau@redhat.com>
- <20210128114352.tvwnx435qbqcv4a4@sirius.home.kraxel.org>
- <CAMxuvazAToFV_uD3Q7whGymoY07eiq-hErToDPB41F2T9ZY7hg@mail.gmail.com>
- <CAMxuvazChfKDHyjP2o1ipfgquawMab9zc4p8J5wnNnmVMmJ1yw@mail.gmail.com>
- <20210128142625.vzdrehzw6mufja3s@sirius.home.kraxel.org>
- <CAJ+F1CJ0Z378KCLGDzLYOfBor7HkHM2YemRj5F-3kTSnVK7ADg@mail.gmail.com>
- <20210128144202.2pqjjn3epspfvlgk@sirius.home.kraxel.org>
- <CAJ+F1C+1LdY2gJp0trTx_pR7iLeJG9j7O+FjqF6pgnDZGUa=YA@mail.gmail.com>
- <20210128163426.lsd2y3w7htovfnfx@sirius.home.kraxel.org>
- <CAJ+F1CJR2HzRPDmRudCKimeyRq0OFJV8q8BrdY1xw9DK-y2a8A@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l5UnS-00045x-K9
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:30:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54964)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l5UnO-0003pR-0q
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:30:50 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l5UnM-000530-Bb
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:30:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 56E742E806B
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:30:44 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <CAJ+F1CJR2HzRPDmRudCKimeyRq0OFJV8q8BrdY1xw9DK-y2a8A@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.249,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 29 Jan 2021 14:20:12 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1911351@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: i386 tcg
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: charco pmaydell
+X-Launchpad-Bug-Reporter: Marco (charco)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <161049230444.13717.10732991676985431455.malonedeb@gac.canonical.com>
+Message-Id: <161193001310.13841.5891172422311955229.launchpad@wampee.canonical.com>
+Subject: [Bug 1911351] Re: x86-64 MTTCG Does not update page table entries
+ atomically
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: f88eebfd048f0fe86348c2e731001e1729e150ab
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,26 +73,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Bonzini, Paolo" <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Bug 1911351 <1911351@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> > >  void qemu_spice_display_init_done(void)
-> > >  {
-> > > -    spice_display_init_done = true;
-> > > +    qemu_add_vm_change_state_handler(vm_change_state_handler, NULL);
-> > >      vm_change_state_handler(NULL, runstate_is_running(), runstate_get());
-> >
-> > I'd just call qemu_spice_display_start() directly here, the need for
-> > runstate_get() goes away then.  Otherwise looks good to me.
-> 
-> Hmm, that could work, but it will behave differently as we will start
-> spice even if the VM is not running then.
+** Tags added: i386 tcg
 
-if (runstate_is_running())
-    qemu_spice_display_start()
+-- =
 
-take care,
-  Gerd
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1911351
 
+Title:
+  x86-64 MTTCG Does not update page table entries atomically
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  It seems like the qemu tcg code for x86-64 doesn't write the access
+  and dirty bits of the page table entries atomically. Instead, they
+  first read the entry, see if they need to set the page table entry,
+  and then write back the updated page table entry. So if you have two
+  threads running at the same time, one accessing the virtual address
+  over and over again, and the other modifying the page table entry, it
+  is possible that after the second thread modifies the page table
+  entry, qemu overwrites the value with the old page table entry value,
+  with the access/dirty flags set.
+
+  Here's a unit test that reproduces this behavior:
+
+  https://github.com/mvanotti/kvm-unit-
+  tests/commit/09f9722807271226a714b04f25174776454b19cd
+
+  You can run it with:
+
+  ```
+  /usr/bin/qemu-system-x86_64 --no-reboot -nodefaults \
+  -device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 \
+  -vnc none -serial stdio -device pci-testdev \
+  -smp 4 -machine q35 --accel tcg,thread=3Dmulti \
+  -kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
+  ```
+
+  Expected output (failure):
+
+  ```
+  kvm-unit-tests$ make && /usr/bin/qemu-system-x86_64 --no-reboot -nodefaul=
+ts -device pc-testdev -device isa-debug-exit,iobase=3D0xf4,iosize=3D0x4 -vn=
+c none -serial stdio -device pci-testdev -smp 4 -machine q35 --accel tcg,th=
+read=3Dmulti  -kernel x86/mmu-race.flat # -initrd /tmp/tmp.avvPpezMFf
+  enabling apic
+  enabling apic
+  enabling apic
+  enabling apic
+  paging enabled
+  cr0 =3D 80010011
+  cr3 =3D 627000
+  cr4 =3D 20
+  found 4 cpus
+  PASS: Need more than 1 CPU
+  Detected overwritten PTE:
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0want: 0x000000000062e007
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0got:  0x000000000062d027
+  FAIL: PTE not overwritten
+  PASS: All Reads were zero
+  SUMMARY: 3 tests, 1 unexpected failures
+  ```
+
+  This bug allows user-to-root privilege escalation inside the guest VM:
+  if the user is able overwrite an entry that belongs to a second-to-
+  last level page table, and is able to allocate the referenced page,
+  then the user would be in control of a last-level page table, being
+  able to map any memory they want. This is not uncommon in situations
+  where memory is being decomitted.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1911351/+subscriptions
 
