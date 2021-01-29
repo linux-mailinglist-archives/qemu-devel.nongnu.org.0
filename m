@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2D230870E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:34:36 +0100 (CET)
-Received: from localhost ([::1]:38350 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E3AD30870F
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:34:38 +0100 (CET)
+Received: from localhost ([::1]:38444 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5PEh-0006Zk-R2
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:34:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35552)
+	id 1l5PEj-0006c5-FS
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:34:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35562)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PCw-00050l-VA; Fri, 29 Jan 2021 03:32:47 -0500
-Received: from mout.kundenserver.de ([212.227.126.133]:40089)
+ id 1l5PCz-00051H-O2; Fri, 29 Jan 2021 03:32:51 -0500
+Received: from mout.kundenserver.de ([212.227.126.134]:54223)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1l5PCu-0002Pt-H4; Fri, 29 Jan 2021 03:32:46 -0500
+ id 1l5PCv-0002RP-Us; Fri, 29 Jan 2021 03:32:49 -0500
 Received: from localhost.localdomain ([82.252.149.54]) by
  mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis)
- id 1M60HD-1l2OP53XB5-007VYg; Fri, 29 Jan 2021 09:32:41 +0100
+ id 1MxHLs-1lto0H1vzs-00xXyr; Fri, 29 Jan 2021 09:32:41 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Subject: [PULL 0/4] Trivial branch for 6.0 patches
-Date: Fri, 29 Jan 2021 09:32:32 +0100
-Message-Id: <20210129083236.584238-1-laurent@vivier.eu>
+Subject: [PULL 1/4] MAINTAINERS: Update 9pfs tree URL
+Date: Fri, 29 Jan 2021 09:32:33 +0100
+Message-Id: <20210129083236.584238-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20210129083236.584238-1-laurent@vivier.eu>
+References: <20210129083236.584238-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:rnAQn+D2cj0SiB9PSDsQYFelovRNWiAmcszV47KErlFcVEe+iJa
- RgdwPy9ozahhqamP3udDtoRKflaAnR/1zygOtop0uW/TW6Obn/5nkDrE6fHEv9dpw9iEH9A
- Lx1sNaOU+ARtqyR9rNd5q1OGrErfS33ES/llVh3tV1Oc/G6kY+gvb+UMhPxIVaEz2eUpzd5
- jbEtMZULHJ5QUt8tY83nA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:2tBEqMPA/7k=:ze7wvtc3hdjs3AGl5GMrVC
- 4AaodRN2iHzHO12/R0TFdbCXoiAL0o2bzUyKSVGxb9L7V7SAteQTO8vLl7EUfT+p/ARI/EXVT
- 3N0bC4PskInDTlgUkDPr1T0io7O4Mu1yIYuc+pmQLAPZP2M1m9Ni1K9E0cEvbrCGtcV2INY2R
- flStj4OdCD+djjZY/Z2PG+HMwoqdQubfHPQcNm1UY62+HHvTOMxH9SUTdM6Z99g+b2rPgFRXz
- NzKsfPdX28FLoVGhMM28Qd89fz821d2NO9pXSVlwdtx7XMIWwkZUaIS9BYVymMfmRhlO9pTlk
- 7T5cFpZBfxj2WNYUlXKN1T89sCLwmA1Z4vA8zt0ACEav6nTXB2qQZStgykERCJriflOj2WIBG
- 3o6QrABJ3znPsjy6bmPL3P1xfts6tecue+5gKWP/+Cul01o9G1eeA+74bK1OyJTDsrvoziEur
- dUA4Km0AiQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:yvhI0fkZHNwhSXS/JG97y/oAuAg34XOkmIN7KWFkOGgUZ8A+smP
+ P/UvUWm1rkr4Xxn7G4jkwMSpUl61N9+YIrFm6F1nlZMNZo3wuav8EL1EYU7OZsPbkGOWKJ+
+ tu0YGgR8EOCeKvro8kERa2IYatJKy8bxNGx0AtCUBxtcoJ3aFHpz2ZVh1LOscNIjXFNBFRD
+ +RDYm3g6RbtVYpBL3uGgw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xAhx/aSGbk8=:E4A6xbHwd7GdkCFul46dS+
+ /e/N80SOFzgXvTra+pPhNkjEU1gv8tLs2qbrkqVQ90SAkSRkBAIaXZGYBFxprntK80MQ8r59K
+ 4MmNhNW7koWLmqdu3WfYjo1GXbVXwMFu+oU4QksYYWgHACXvcD0MXsa4XQmObv+VgbAsjJloI
+ qUHrRmvMADXy4XiJrhBvf+Aa/sN+4w0GYHoV/SvKi4W3SFtwoIWUNvCDXqXkMY6/MyXo1Ilng
+ ta9tSKCjRaqssf1Oik83EMUMtG2sLobNSIdfvqBJ9C5Qf1oMOA3Cv6LC+CnLT9dw0tHxJg0O0
+ tWTz1U/4Bj94eJPxZmXyjz6ZZSxrFFOXxfpMBOxG5ARqmDZeUfns96U4eT/8NXR/bOILDSMij
+ omPhLHF3k9a70pFqJXUZsO6YH1DrpO182XZHTmT9n6TWLECd/4z7Q9tZO4VgC
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -61,53 +61,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
+Cc: qemu-trivial@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ Michael Tokarev <mjt@tls.msk.ru>, Greg Kurz <groug@kaod.org>,
  Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 9cd69f1a270235b652766f00b94114f48a2d603f=
-:=0D
-=0D
-  Merge remote-tracking branch 'remotes/stefanberger/tags/pull-tpm-2021-01-=
-25=3D=0D
--1' into staging (2021-01-26 09:51:02 +0000)=0D
-=0D
-are available in the Git repository at:=0D
-=0D
-  git://github.com/vivier/qemu.git tags/trivial-branch-for-6.0-pull-request=
-=0D
-=0D
-for you to fetch changes up to 77182df19f874adfc4ac98248606c154764baaa8:=0D
-=0D
-  target/rx: Fix compiler errors for build with sanitizers (2021-01-29 09:3=
-1:=3D=0D
-53 +0100)=0D
-=0D
-----------------------------------------------------------------=0D
-Trivial patches 20210129=0D
-=0D
-----------------------------------------------------------------=0D
-=0D
-Doug Evans (1):=0D
-  net/slirp.c: Fix spelling error in error message=0D
-=0D
-Greg Kurz (1):=0D
-  MAINTAINERS: Update 9pfs tree URL=0D
-=0D
-Philippe Mathieu-Daud=3DC3=3DA9 (1):=0D
-  tcg/tci: Restrict tci_write_reg16() to 64-bit hosts=0D
-=0D
-Stefan Weil (1):=0D
-  target/rx: Fix compiler errors for build with sanitizers=0D
-=0D
- MAINTAINERS           |  2 +-=0D
- net/slirp.c           |  2 +-=0D
- target/rx/op_helper.c | 12 ++++++------=0D
- tcg/tci.c             |  2 ++=0D
- 4 files changed, 10 insertions(+), 8 deletions(-)=0D
-=0D
---=3D20=0D
-2.29.2=0D
-=0D
+From: Greg Kurz <groug@kaod.org>
+
+I've already moved my repositories to gitlab for extra CI coverage,
+and I won't use the ones at github anymore.
+
+Signed-off-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Message-Id: <161071814430.152031.14540382419012818908.stgit@bahia.lan>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 34359a99b8e7..fbb228ef2b34 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1828,7 +1828,7 @@ X: hw/9pfs/xen-9p*
+ F: fsdev/
+ F: docs/interop/virtfs-proxy-helper.rst
+ F: tests/qtest/virtio-9p-test.c
+-T: git https://github.com/gkurz/qemu.git 9p-next
++T: git https://gitlab.com/gkurz/qemu.git 9p-next
+ 
+ virtio-blk
+ M: Stefan Hajnoczi <stefanha@redhat.com>
+-- 
+2.29.2
+
 
