@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9823088FA
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:17:38 +0100 (CET)
-Received: from localhost ([::1]:45658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7046308906
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:20:57 +0100 (CET)
+Received: from localhost ([::1]:53430 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SiX-0008PU-Ma
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:17:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34990)
+	id 1l5Slk-0003AV-UJ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:20:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35000)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5Rnd-0004yT-0i
+ id 1l5Rnd-0004yh-81
  for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:49 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:38798)
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:34265)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnZ-00067D-R5
+ id 1l5Rna-00067s-IX
  for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:48 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id s11so10132044edd.5
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:45 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id d22so10136603edy.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=huvW24PZNK/dw5M5AF0YaNslMI2dHZzb2WGv43aBMTs=;
- b=iaGZ1w6QQy95kqBMbB8Fd/4aoNJrEYD3aK1ZGhltnepwM7RDdXkfPwTBbM9d7HYPGt
- eFiExBj+txG133CyrTIoKfdIU/3M2PEICgXtXhCS2ABb2rrCOfSQzF+B2KH4cMH+oZcp
- 1XM6VvcsgNDYOmzFIMZkPmLBtiMtD+3SGgf6dOc2SDUH4ww6rYlk1hODKDebtd86L870
- logWkS791gCmB7OQjquMUUy97PL6PvxVYMG3L3zPllzg1w7m1ZLPvTIJZM0n5w03POLb
- 5ua64I5FD7WgDCmcPQilkTI72LdzFhsEhX0WDotn1QVFJDM8UF/mDdu+bz2BWbrUVKDY
- raUw==
+ bh=sl3y6bEhy3bScnbFrCsAd6nm60IxHuqvmVxfBJKGBIE=;
+ b=G1ivR2O7I5i6tBBLFV5xVQnD/MBFuW/0V3kDWEPX4GRBsosHuRTRKcuvbowlskeire
+ OmhKygsRpeGnb5FtQL3EE/5eJSA+ClvhRukHzKwQsFtoRhKXarl4x0jRpRbx1+R39+Xe
+ +13SiWIkbXNgbH3Z8lfwywwUpUctZpSdNtAXQmEdWOqlVWh9QJdztC+3NfR33kPI8IWt
+ NnDzT8Y8hbuPx8kbHj10o4Xue6JMkhQOgHmBR8z9gPt3N83J0ihOsh8l4EjsGk9Yo6Xo
+ ZQtqPQ0bpCHj6wtd1yMoYeiSTnscWs9Jc6oLoybWUIY72jRR+IP7IkUubfvN4RwS7s0N
+ zW2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=huvW24PZNK/dw5M5AF0YaNslMI2dHZzb2WGv43aBMTs=;
- b=tsvReGYljMzRbQd5lZUHDQRc2HcYTTRK7ndEZaTu2rlUsm2o7MMGbxvfZVuigjQsaD
- 6DirWy91vjmbpsVYyv5PcF/fTvDeCU7Nm77whzsaZKH33NpuMwJ7Z9ShQfoa4Y9F/l9d
- NnfPgvLVLVvTGXuFqTw0ph7Wi8mrpEq82Mgj3fvP84/MGwFmAxBM+HXyit47Fr8ACe8f
- h1BOoValW1a/miUVbrg/fctkkfYQAjQMzeBTQIpcpEvFsJ7EG5Y2avOlybhqmKkvT/iF
- 5rLgMx9dOPrNX8WEhrJkYbvXflnjLZcNVux4QEs+TOkbMtCRGPggbibPqw3RDqE5eDx3
- Wisg==
-X-Gm-Message-State: AOAM533dlRFI2R9zIXhFJAqCvk7wrPW5+XbYJYiQIHY/LPQwbO6WMNtZ
- G4h5vNPACBdYfVyL8uh3rdnZM9b1+98E/Q==
-X-Google-Smtp-Source: ABdhPJx5Sy6132eCxxxLgMjaQfi7KsBAiJJSgjurOkSnzd35/TRiU6TbpC7nnpaPrLabixoenzMpwg==
-X-Received: by 2002:aa7:d4d2:: with SMTP id t18mr4645412edr.238.1611919124631; 
- Fri, 29 Jan 2021 03:18:44 -0800 (PST)
+ bh=sl3y6bEhy3bScnbFrCsAd6nm60IxHuqvmVxfBJKGBIE=;
+ b=WshiB+TdfZs1OC4pfkpAiW1CEASzcqjwmgea7/BBPOiGgvOGoPOQP+WLoGZeapxk4P
+ szK7+Ty0wJ+Pg+V2ymLVeQDyunOIHfQEc1wJJhyPnGiiGs2meFsvsQQtnRPcBCC4Cwwz
+ gIeLQiqtbicd05gKiz7tCY55Q4RZrvXIcvaMb2PC5c6B4kHQ69PAv/CKAEIyjZqT4QE/
+ PzX7FI66n2ImCD1LVUNZKLGAEQ1EtMCHN57F4P0FbyJA6xaPGPMFyOECiYjMZxifre3p
+ rdCTd9YQ5ibGvRXfnqkzTNkDM4mZ6ZZ1YfvKmuNMkqWvGTtUDUr9qjnVz5w8k3yVeLSV
+ 1yTw==
+X-Gm-Message-State: AOAM532dMa/Xhg396aeivo0TtG9pSSVo8TlKGCRLHPn30UsiXXE+4JQC
+ LO56kDJPq7iMz0zEobyo9RUIsozuP1MdwQ==
+X-Google-Smtp-Source: ABdhPJz5tLjpA6b/SLa+231Xht9LzKRdXPPjhwGvgtUj42vbldKJUDLCgLVBSmIxDRpe64p3CUGDdg==
+X-Received: by 2002:a05:6402:2d1:: with SMTP id
+ b17mr4462404edx.95.1611919125438; 
+ Fri, 29 Jan 2021 03:18:45 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.43
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 Jan 2021 03:18:44 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 33/36] qapi/meson: Restrict system-mode specific modules
-Date: Fri, 29 Jan 2021 12:18:11 +0100
-Message-Id: <20210129111814.566629-34-pbonzini@redhat.com>
+Subject: [PULL 34/36] qapi/meson: Restrict UI module to system emulation and
+ tools
+Date: Fri, 29 Jan 2021 12:18:12 +0100
+Message-Id: <20210129111814.566629-35-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
 References: <20210129111814.566629-1-pbonzini@redhat.com>
@@ -92,54 +94,36 @@ From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210122204441.2145197-12-philmd@redhat.com>
+Message-Id: <20210122204441.2145197-13-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- qapi/meson.build | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ qapi/meson.build | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/qapi/meson.build b/qapi/meson.build
-index b301a46f04..7aca8d5048 100644
+index 7aca8d5048..0652569bc4 100644
 --- a/qapi/meson.build
 +++ b/qapi/meson.build
-@@ -18,8 +18,6 @@ if have_system or have_tools
- endif
- 
- qapi_all_modules = [
--  'acpi',
--  'audio',
-   'authz',
-   'block',
-   'block-core',
-@@ -39,14 +37,10 @@ qapi_all_modules = [
-   'misc-target',
-   'net',
-   'pragma',
--  'pci',
-   'qom',
--  'rdma',
-   'replay',
--  'rocker',
-   'run-state',
+@@ -43,7 +43,6 @@ qapi_all_modules = [
    'sockets',
--  'tpm',
    'trace',
    'transaction',
-   'ui',
-@@ -54,7 +48,13 @@ qapi_all_modules = [
+-  'ui',
+   'yank',
  ]
  if have_system
-   qapi_all_modules += [
-+    'acpi',
-+    'audio',
-     'qdev',
-+    'pci',
-+    'rdma',
-+    'rocker',
-+    'tpm',
+@@ -57,6 +56,11 @@ if have_system
+     'tpm',
    ]
  endif
++if have_system or have_tools
++  qapi_all_modules += [
++    'ui',
++  ]
++endif
  
+ qapi_storage_daemon_modules = [
+   'block-core',
 -- 
 2.29.2
 
