@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A300430882C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:19:29 +0100 (CET)
-Received: from localhost ([::1]:35112 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32C930883A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:26:02 +0100 (CET)
+Received: from localhost ([::1]:54840 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5RoG-00047y-Mu
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:19:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59922)
+	id 1l5Rub-0003sV-NZ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:26:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60006)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RWF-0004q1-Cs
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:51 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:43313)
+ id 1l5RWJ-0004zZ-Bg
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:55 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:37922)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RW4-00074U-RO
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:51 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id z6so8339971wrq.10
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:40 -0800 (PST)
+ id 1l5RW5-00074n-Tc
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:55 -0500
+Received: by mail-wr1-x430.google.com with SMTP id s7so5398309wru.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=M46FLnPnSJOp6CKTMzh+U8svgpRWa1S8nofyLSZE57c=;
- b=FXBtirY4Ffs3ABiDmYDIfcEv5j6hPAeTEhyCTedRl4sBuVf0J5q5TJWtkcfcUp9JMd
- Qo508IWHvb/qfciIRqXpECia8SopyEmRlDKhpiMNdpJeQuecyoNkTrk5TV4e5DTZVZ2k
- JM2eG0c3jYN2a5u/LwccKNkHlKhKOSiqADm6ROCns0jVHwsaLpizuXXStUhmrG73rtls
- KS2gYS3QGbXxrnVgtVrYPYiXHkLEdsYa+65nMgEVqPgpqiMhzLlPcUNfk4IdON5RrCu1
- Ygya1xngVoc5h8QWGRJply6/yUkgjN2TauPYd9ValRnWPL/WHwJcujL3gsbEWSdCzu2a
- GUYA==
+ bh=kUOp22EsTKgUuurZMNtwMQiMUdVfM/wWPoj1JapbOFU=;
+ b=NYQn1FCr+JgqJYUVuqhqRx6Lslvl6jwgVblJ6U/ycAixOJkp4Zce3qFZeumt+JNUWQ
+ Pa8bbIWf6m24OFuqJys7VnlSIlgoS+G2dM3/mexIzFo0Y1V2aU96ZGcM5vPYMM/gZspO
+ H4cX6ZY9AG4c5XgLXk6GsmNIiS43jYJZB5bF9jOvWtrwRZo3GM4SExZikpOLZJhWolMb
+ UPYXt1TKU/Zntx92bmuUmGzUETOGxge3U+epPNIw0rfaA61JzwA8sh/jQR+pephhfa1Q
+ +t9M9RQyAhIoFiI401RWpAofz8YyPHOW+wPyoesdVvrR751nadLbEg91mH13ytEhBnLQ
+ I/zQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=M46FLnPnSJOp6CKTMzh+U8svgpRWa1S8nofyLSZE57c=;
- b=e7iyHIqLEuH0yJZ9XfRipWBTH4o1vIXWU1JAg615205nl1x2X4URZee9rFctGvXh8e
- ZdO96Y+9LrMqlUVptHKrLyPL2A7xnBYxS6dc0H8EDssKmjUmSG4rdqp8JKR3sr0gFmgm
- c+YGMVuIhVmupISMGC96kKbOrxzfhwLnR5s4ikqE8pgmYhYreOtCkWrBEV8atvAiPtoh
- 0fSYMxhtqigXok5v3LSg/T0h72ih3OfMv22GaE3WVTNhWa9MdA6chZ60xS1CwNLLEdu5
- HrH5RBGiQCFE9kqL4idiQN/zyXy9RNriq70afwPCuyBvgSp6/AS8rZ4McNQWNQlU7x1V
- LvnA==
-X-Gm-Message-State: AOAM530WAeuZ+6mfdJF2zhrtAeXBQchhHwHniWq3p1NCaCecHRSmWEwa
- lPTOZQkNORdGqzJpgptqRscGtYJTCf8nKw==
-X-Google-Smtp-Source: ABdhPJwQNEwBQ/xzkPkUMwy90fQcSSO9JdbFpEOgP2p0VQBsR5Nt6KxH+9tWGuAYz0k+FBalCIZc9Q==
-X-Received: by 2002:adf:b78d:: with SMTP id s13mr3948237wre.344.1611918039572; 
- Fri, 29 Jan 2021 03:00:39 -0800 (PST)
+ bh=kUOp22EsTKgUuurZMNtwMQiMUdVfM/wWPoj1JapbOFU=;
+ b=Zklqx1FRN1mRZDW6lJ3JD8KplTFCLeNMWc8YlXpNfdRvie2CIFDT7eIJTz35Tyyc+9
+ zfpFIEUelZ7W572gHmMbQu3Xo0zmbFtG/gfSgXIa5gkeIAEw7UxkaDwg350l9ZUP5asn
+ DP+SI34MGoAyGTvsOKEYZTy+DLQhFzQWWDQYUK6NFMgzk0W+Hnvtgq7963poo/KqhIiP
+ KsOoNL1QLXPaaD8jBGvEYYjmDfofX8mc64OxQzvaY4K7UOJym6HPZZfjALdpB6I+42K/
+ Uz3Cruu8bxiCOGNiS5+GntKSjuZdFV0Az0a2j6VQL/oSPvnI+hO/N+8+RSAwc+YlkytQ
+ JNmw==
+X-Gm-Message-State: AOAM533xf/cz8hBuDxczMAuy28h5Bu6HR+VnF4ZMSi6S2WZg0GXXEFz6
+ Wr4ScEg5XoVMfDuZJcIRFKGF4LSXomlZEA==
+X-Google-Smtp-Source: ABdhPJxIYHX/eUu8GDRElqAA2qzkFN6X1qOkhm9CXaLm3iDKjbywJFb6iHWvxwX814bpfra+czPgLg==
+X-Received: by 2002:a5d:4211:: with SMTP id n17mr3897967wrq.37.1611918040467; 
+ Fri, 29 Jan 2021 03:00:40 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.38
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.39
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 Jan 2021 03:00:39 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 27/46] hw/timer/cmsdk-apb-timer: Rename CMSDKAPBTIMER struct to
- CMSDKAPBTimer
-Date: Fri, 29 Jan 2021 10:59:53 +0000
-Message-Id: <20210129110012.8660-28-peter.maydell@linaro.org>
+Subject: [PULL 28/46] hw/timer/cmsdk-apb-timer: Add Clock input
+Date: Fri, 29 Jan 2021 10:59:54 +0000
+Message-Id: <20210129110012.8660-29-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
 References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x430.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,160 +87,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The state struct for the CMSDK APB timer device doesn't follow our
-usual naming convention of camelcase -- "CMSDK" and "APB" are both
-acronyms, but "TIMER" is not so should not be all-uppercase.
-Globally rename the struct to "CMSDKAPBTimer" (bringing it into line
-with CMSDKAPBWatchdog and CMSDKAPBDualTimer; CMSDKAPBUART remains
-as-is because "UART" is an acronym).
+As the first step in converting the CMSDK_APB_TIMER device to the
+Clock framework, add a Clock input.  For the moment we do nothing
+with this clock; we will change the behaviour from using the pclk-frq
+property to using the Clock once all the users of this device have
+been converted to wire up the Clock.
 
-Commit created with:
- perl -p -i -e 's/CMSDKAPBTIMER/CMSDKAPBTimer/g' hw/timer/cmsdk-apb-timer.c include/hw/arm/armsse.h include/hw/timer/cmsdk-apb-timer.h
+Since the device doesn't already have a doc comment for its "QEMU
+interface", we add one including the new Clock.
+
+This is a migration compatibility break for machines mps2-an505,
+mps2-an521, musca-a, musca-b1.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Reviewed-by: Luc Michel <luc@lmichel.fr>
 Tested-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-id: 20210128114145.20536-7-peter.maydell@linaro.org
-Message-id: 20210121190622.22000-7-peter.maydell@linaro.org
+Message-id: 20210128114145.20536-8-peter.maydell@linaro.org
+Message-id: 20210121190622.22000-8-peter.maydell@linaro.org
 ---
- include/hw/arm/armsse.h            |  6 +++---
- include/hw/timer/cmsdk-apb-timer.h |  4 ++--
- hw/timer/cmsdk-apb-timer.c         | 28 ++++++++++++++--------------
- 3 files changed, 19 insertions(+), 19 deletions(-)
+ include/hw/timer/cmsdk-apb-timer.h | 9 +++++++++
+ hw/timer/cmsdk-apb-timer.c         | 7 +++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 77f86771c30..83f5e28c16e 100644
---- a/include/hw/arm/armsse.h
-+++ b/include/hw/arm/armsse.h
-@@ -153,9 +153,9 @@ struct ARMSSE {
-     TZPPC apb_ppc0;
-     TZPPC apb_ppc1;
-     TZMPC mpc[IOTS_NUM_MPC];
--    CMSDKAPBTIMER timer0;
--    CMSDKAPBTIMER timer1;
--    CMSDKAPBTIMER s32ktimer;
-+    CMSDKAPBTimer timer0;
-+    CMSDKAPBTimer timer1;
-+    CMSDKAPBTimer s32ktimer;
-     qemu_or_irq ppc_irq_orgate;
-     SplitIRQ sec_resp_splitter;
-     SplitIRQ ppc_irq_splitter[NUM_PPCS];
 diff --git a/include/hw/timer/cmsdk-apb-timer.h b/include/hw/timer/cmsdk-apb-timer.h
-index 0d80b2a48cd..baa009bb2da 100644
+index baa009bb2da..fc2aa97acac 100644
 --- a/include/hw/timer/cmsdk-apb-timer.h
 +++ b/include/hw/timer/cmsdk-apb-timer.h
-@@ -18,9 +18,9 @@
+@@ -15,11 +15,19 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/sysbus.h"
+ #include "hw/ptimer.h"
++#include "hw/clock.h"
  #include "qom/object.h"
  
  #define TYPE_CMSDK_APB_TIMER "cmsdk-apb-timer"
--OBJECT_DECLARE_SIMPLE_TYPE(CMSDKAPBTIMER, CMSDK_APB_TIMER)
-+OBJECT_DECLARE_SIMPLE_TYPE(CMSDKAPBTimer, CMSDK_APB_TIMER)
+ OBJECT_DECLARE_SIMPLE_TYPE(CMSDKAPBTimer, CMSDK_APB_TIMER)
  
--struct CMSDKAPBTIMER {
-+struct CMSDKAPBTimer {
++/*
++ * QEMU interface:
++ *  + QOM property "pclk-frq": frequency at which the timer is clocked
++ *  + Clock input "pclk": clock for the timer
++ *  + sysbus MMIO region 0: the register bank
++ *  + sysbus IRQ 0: timer interrupt TIMERINT
++ */
+ struct CMSDKAPBTimer {
      /*< private >*/
      SysBusDevice parent_obj;
+@@ -29,6 +37,7 @@ struct CMSDKAPBTimer {
+     qemu_irq timerint;
+     uint32_t pclk_frq;
+     struct ptimer_state *timer;
++    Clock *pclk;
  
+     uint32_t ctrl;
+     uint32_t value;
 diff --git a/hw/timer/cmsdk-apb-timer.c b/hw/timer/cmsdk-apb-timer.c
-index f85f1309f37..ae9c5422540 100644
+index ae9c5422540..c63145ff553 100644
 --- a/hw/timer/cmsdk-apb-timer.c
 +++ b/hw/timer/cmsdk-apb-timer.c
-@@ -67,14 +67,14 @@ static const int timer_id[] = {
-     0x0d, 0xf0, 0x05, 0xb1, /* CID0..CID3 */
- };
+@@ -35,6 +35,7 @@
+ #include "hw/sysbus.h"
+ #include "hw/irq.h"
+ #include "hw/registerfields.h"
++#include "hw/qdev-clock.h"
+ #include "hw/timer/cmsdk-apb-timer.h"
+ #include "migration/vmstate.h"
  
--static void cmsdk_apb_timer_update(CMSDKAPBTIMER *s)
-+static void cmsdk_apb_timer_update(CMSDKAPBTimer *s)
- {
-     qemu_set_irq(s->timerint, !!(s->intstatus & R_INTSTATUS_IRQ_MASK));
+@@ -212,6 +213,7 @@ static void cmsdk_apb_timer_init(Object *obj)
+                           s, "cmsdk-apb-timer", 0x1000);
+     sysbus_init_mmio(sbd, &s->iomem);
+     sysbus_init_irq(sbd, &s->timerint);
++    s->pclk = qdev_init_clock_in(DEVICE(s), "pclk", NULL, NULL);
  }
  
- static uint64_t cmsdk_apb_timer_read(void *opaque, hwaddr offset, unsigned size)
- {
--    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(opaque);
-+    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
-     uint64_t r;
- 
-     switch (offset) {
-@@ -106,7 +106,7 @@ static uint64_t cmsdk_apb_timer_read(void *opaque, hwaddr offset, unsigned size)
- static void cmsdk_apb_timer_write(void *opaque, hwaddr offset, uint64_t value,
-                                   unsigned size)
- {
--    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(opaque);
-+    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
- 
-     trace_cmsdk_apb_timer_write(offset, value, size);
- 
-@@ -181,7 +181,7 @@ static const MemoryRegionOps cmsdk_apb_timer_ops = {
- 
- static void cmsdk_apb_timer_tick(void *opaque)
- {
--    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(opaque);
-+    CMSDKAPBTimer *s = CMSDK_APB_TIMER(opaque);
- 
-     if (s->ctrl & R_CTRL_IRQEN_MASK) {
-         s->intstatus |= R_INTSTATUS_IRQ_MASK;
-@@ -191,7 +191,7 @@ static void cmsdk_apb_timer_tick(void *opaque)
- 
- static void cmsdk_apb_timer_reset(DeviceState *dev)
- {
--    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(dev);
-+    CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
- 
-     trace_cmsdk_apb_timer_reset();
-     s->ctrl = 0;
-@@ -206,7 +206,7 @@ static void cmsdk_apb_timer_reset(DeviceState *dev)
- static void cmsdk_apb_timer_init(Object *obj)
- {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(obj);
--    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(obj);
-+    CMSDKAPBTimer *s = CMSDK_APB_TIMER(obj);
- 
-     memory_region_init_io(&s->iomem, obj, &cmsdk_apb_timer_ops,
-                           s, "cmsdk-apb-timer", 0x1000);
-@@ -216,7 +216,7 @@ static void cmsdk_apb_timer_init(Object *obj)
- 
  static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
- {
--    CMSDKAPBTIMER *s = CMSDK_APB_TIMER(dev);
-+    CMSDKAPBTimer *s = CMSDK_APB_TIMER(dev);
+@@ -236,10 +238,11 @@ static void cmsdk_apb_timer_realize(DeviceState *dev, Error **errp)
  
-     if (s->pclk_frq == 0) {
-         error_setg(errp, "CMSDK APB timer: pclk-frq property must be set");
-@@ -239,17 +239,17 @@ static const VMStateDescription cmsdk_apb_timer_vmstate = {
-     .version_id = 1,
-     .minimum_version_id = 1,
+ static const VMStateDescription cmsdk_apb_timer_vmstate = {
+     .name = "cmsdk-apb-timer",
+-    .version_id = 1,
+-    .minimum_version_id = 1,
++    .version_id = 2,
++    .minimum_version_id = 2,
      .fields = (VMStateField[]) {
--        VMSTATE_PTIMER(timer, CMSDKAPBTIMER),
--        VMSTATE_UINT32(ctrl, CMSDKAPBTIMER),
--        VMSTATE_UINT32(value, CMSDKAPBTIMER),
--        VMSTATE_UINT32(reload, CMSDKAPBTIMER),
--        VMSTATE_UINT32(intstatus, CMSDKAPBTIMER),
-+        VMSTATE_PTIMER(timer, CMSDKAPBTimer),
-+        VMSTATE_UINT32(ctrl, CMSDKAPBTimer),
-+        VMSTATE_UINT32(value, CMSDKAPBTimer),
-+        VMSTATE_UINT32(reload, CMSDKAPBTimer),
-+        VMSTATE_UINT32(intstatus, CMSDKAPBTimer),
-         VMSTATE_END_OF_LIST()
-     }
- };
- 
- static Property cmsdk_apb_timer_properties[] = {
--    DEFINE_PROP_UINT32("pclk-frq", CMSDKAPBTIMER, pclk_frq, 0),
-+    DEFINE_PROP_UINT32("pclk-frq", CMSDKAPBTimer, pclk_frq, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-@@ -266,7 +266,7 @@ static void cmsdk_apb_timer_class_init(ObjectClass *klass, void *data)
- static const TypeInfo cmsdk_apb_timer_info = {
-     .name = TYPE_CMSDK_APB_TIMER,
-     .parent = TYPE_SYS_BUS_DEVICE,
--    .instance_size = sizeof(CMSDKAPBTIMER),
-+    .instance_size = sizeof(CMSDKAPBTimer),
-     .instance_init = cmsdk_apb_timer_init,
-     .class_init = cmsdk_apb_timer_class_init,
- };
+         VMSTATE_PTIMER(timer, CMSDKAPBTimer),
++        VMSTATE_CLOCK(pclk, CMSDKAPBTimer),
+         VMSTATE_UINT32(ctrl, CMSDKAPBTimer),
+         VMSTATE_UINT32(value, CMSDKAPBTimer),
+         VMSTATE_UINT32(reload, CMSDKAPBTimer),
 -- 
 2.20.1
 
