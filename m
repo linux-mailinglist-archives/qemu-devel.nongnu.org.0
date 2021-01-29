@@ -2,59 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C4E30879C
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:58:44 +0100 (CET)
-Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFC4F3087A2
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 11:03:57 +0100 (CET)
+Received: from localhost ([::1]:41088 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5QY7-0006OW-MW
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:58:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
+	id 1l5QdA-00081n-Nd
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 05:03:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51244)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1l5QWs-0005qv-Sy; Fri, 29 Jan 2021 04:57:26 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37063)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1l5QWq-00051I-QS; Fri, 29 Jan 2021 04:57:26 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7694C8055D33;
- Fri, 29 Jan 2021 10:57:21 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 29 Jan
- 2021 10:57:20 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R00569b82ef3-5575-4c42-a44d-4bf3abc55604,
- F0B20D4B8DDBF51DA61C26A45925665B938B7F3E) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Fri, 29 Jan 2021 10:57:14 +0100
-From: Greg Kurz <groug@kaod.org>
-To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
-Subject: Re: [PATCH] pnv/ppc: Set default RAM size to 1 GB
-Message-ID: <20210129105714.54355dd1@bahia.lan>
-In-Reply-To: <20210129092936.769412-1-clg@kaod.org>
-References: <20210129092936.769412-1-clg@kaod.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l5Qbz-0007Xu-VD
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 05:02:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:25818)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1l5Qbw-0007c3-AK
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 05:02:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1611914556;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tuj2QxTlXChf1k6zSNCZTpbI1/Qd3/T77oxmpbNdEmI=;
+ b=Lngi3ofO8Yqp8g3WyZsYlAzKYUjpX2H8B+ouAXCiNgYZGgE100aH5WaBWVVd6bUxTIveAA
+ H2x1O2XtGItBr4E8FWrD/lF0UI5P3gvzpL1sdvPOJ381GKbKB2AmK5+jvO5XTzBrAHsNvf
+ KJwKcFjEU/lawStAnmVGp3rdKI0JYfE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-459-Ii8mqpt0NHWn1JlPEIz_OA-1; Fri, 29 Jan 2021 05:02:34 -0500
+X-MC-Unique: Ii8mqpt0NHWn1JlPEIz_OA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7D1DE107ACE3
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 10:02:33 +0000 (UTC)
+Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 90E5860BE2;
+ Fri, 29 Jan 2021 10:02:29 +0000 (UTC)
+Date: Fri, 29 Jan 2021 10:02:26 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laszlo Ersek <lersek@redhat.com>
+Subject: Re: vnc clipboard support
+Message-ID: <20210129100226.GD4001740@redhat.com>
+References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
+ <e5231182-aee5-a706-a261-1a5bab072402@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 2851f175-779f-4db3-98ff-3fd987e976a7
-X-Ovh-Tracer-Id: 15852952163528907171
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedvgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <e5231182-aee5-a706-a261-1a5bab072402@redhat.com>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -67,52 +82,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>,
- David Gibson <david@gibson.dropbear.id.au>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Jan 2021 10:29:36 +0100
-C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Thu, Jan 28, 2021 at 06:57:24PM +0100, Laszlo Ersek wrote:
+> On 01/28/21 18:12, Gerd Hoffmann wrote:
+> >   Hi folks,
+> > 
+> > I'm looking for a good way to implement cut+paste support for vnc.
+> > 
+> > The vnc core protocol has support for text/plain cut+paste, and there
+> > is an extension adding support for other formats.  That'll cover one
+> > part of the problem, exchanging cut+paste data between vnc client and
+> > qemu vnc server.
+> > 
+> > The tricky part is the second: the guest <=> qemu communication.
+> > I see basically two possible approaches here:
+> > 
+> >   (1) Have some guest agent (spice does it that way).
+> >       Advantage: more flexible, allows more features.
+> >       Disadvantage: requires agent in the guest.
+> >   
+> >   (2) Send text as key events.
+> >       Advantage: no guest agent needed.
+> >       Disadvantage: is translated by guests keyboard map, so qemu
+> >       needs to know the map for proper char -> key event translation.
+> >       Only works for text/plain and only for chars you can easily
+> >       type, anything needing input methods (emoji 😊 for example)
+> >       isn't going to fly.
+> > 
+> > I think that (1) is clearly the better way.  Given that the agent
+> > would need to run in user wayland/xorg session context the existing
+> > qemu-guest-agent will not work.  Also linking against some UI library
+> > like gtk3 for clipboard handling is not something we want for the
+> > qemu-guest-agent.  So we need another one, I'll name it
+> > qemu-clipboard-agent for the rest of this mail.  And we need a
+> > communication channel.
+> > 
+> > I'd tend to model the qemu-clipboard-agent simliar to the
+> > qemu-guest-agent, i.e. have some stream as communication path and run
+> > some stream protocol over it.
+> > 
+> > Stream options I see are (in order of personal preference):
+> > 
+> >   (1) New virtio-serial port.  virtio-serial likely is there anyway
+> >       for the qemu-guest-agent ...
+> > 
+> >   (2) Have qemu-clipboard-agent and qemu-guest-agent share the agent
+> >       channel, i.e. qemu-clipboard-agent will proxy everything through
+> >       qemu-guest-agent (spice does it that way).
+> > 
+> > Protocol options I see are (not sure yet which to prefer, need to have
+> > a closer look at the candidates):
+> > 
+> >   (1) Add clipboard commands to QMP and use these.
+> > 
+> >   (2) Reuse the clipboard bits of the vnc protocol (forward
+> >       VNC_MSG_CLIENT_CUT_TEXT messages to the guest agent)
+> > 
+> >   (3) Reuse the clipboard bits of the spice-agent protocol.
+> > 
+> >   (4) Reuse the clipboard bits of the wayland protocol.
+> > 
+> > Once we have sorted the qemu <-> guest communication path it should be
+> > possible to also hook up other UIs (specifically gtk) without too much
+> > effort.  Which probably makes (2) a rather poor choice.
+> > 
+> > Comments?
+> > Suggestions?
+> > Other ideas?
+> 
+> Just a random thought: the guest should not be able to sniff, steal, or
+> overwrite host-side clipboard (selection) content, without the host user
+> explicitly requesting a clipboard operation. I understand this is
+> generally a problem between X11 applications (not so on Wayland, if I
+> understand correctly), but I assume it becomes graver with
+> virtualization -- there shouldn't be an unintended channel between
+> host/guest, or even multiple guests. (Analogy: you can "ssh -X -Y" to
+> two remote machines at the same time, and assuming "xauth" etc on both
+> of those remote machines, you can run "gedit" on each of those remote
+> machines, and cut'n'paste will work between them, *even if* you don't
+> ask for it -- that's why ssh has a separate option called "-Y".
+> Cut'n'paste does not work without "-Y". So I believe this is something
+> to consider here.)
 
-> Any value below will result in a skiboot crash :
->=20
->     [    0.034949905,3] MEM: Partial overlap detected between regions:
->     [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a450000] =
-(new)
->     [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000-0x3=
-8400000]
->     [    0.034980367,3] Out of memory adding skiboot reserved areas
->     [    0.035074945,3] ***********************************************
->     [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
->     [    0.035104247,3]     .
->     [    0.035108025,3]      .
->     [    0.035111651,3]       .
->     [    0.035115231,3]         OO__)
->     [    0.035119198,3]        <"__/
->     [    0.035122980,3]         ^ ^
->=20
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
+Yes, that's a known risk. SPICE lets you disable clipboard synchronization
+in QEMU, and any client app should also support doing the same. Basically
+only want clipboard sync if you're using a trustworthy guest. eg where
+both host and guest admin are the same person, and even then you might
+not want it sometimes.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
 
->  hw/ppc/pnv.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
-> index 50810df83815..70ce12f6dc73 100644
-> --- a/hw/ppc/pnv.c
-> +++ b/hw/ppc/pnv.c
-> @@ -1994,7 +1994,7 @@ static void pnv_machine_class_init(ObjectClass *oc,=
- void *data)
->       * RAM defaults to less than 2048 for 32-bit hosts, and large
->       * enough to fit the maximum initrd size at it's load address
->       */
-> -    mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
-> +    mc->default_ram_size =3D 1 * GiB;
->      mc->default_ram_id =3D "pnv.ram";
->      ispc->print_info =3D pnv_pic_print_info;
->      nc->nmi_monitor_handler =3D pnv_nmi;
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
