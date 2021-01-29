@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061B63086FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:26:54 +0100 (CET)
-Received: from localhost ([::1]:58776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 250EA308709
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 09:30:17 +0100 (CET)
+Received: from localhost ([::1]:60984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5P7F-000324-3o
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:26:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34724)
+	id 1l5PAW-00042J-7C
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 03:30:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35082)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l5P6F-0002Un-Pb
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:25:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23137)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5P8g-0003ZV-Lq
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:28:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:43592)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1l5P6E-0007b5-7G
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:25:51 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1l5P8f-0000AY-6Q
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 03:28:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611908749;
+ s=mimecast20190719; t=1611908900;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4DToNQiR5q1SAlfYDSOAwQpIHZoSXbDNK8kwM2cbSAs=;
- b=dHn2qH3T/cE/6vGySZgcI65vF2HA8dnmz65ydjwwEPkGsZCxL5vGmXrw5WLDfW/FbFSm6T
- MBDhxwABMHb32rXcLrsYtWNKl43BxeK1Xm36N2Km+KHMva8abnCTaDRaO1TWmxamoaY+TO
- PqSWX9z6E1KtMybe0yxR8h8iGKpx8Cs=
+ bh=DenMBv8Jyc6rsPTLWorjVfD+Jjy8a2nzsWcQ6rN1YYc=;
+ b=a5i58Ey4XZUW5+o/gWRX/TaPyMBl0TBPvDit5hTJkgR7OZVotNOrmuatVxls7NVvNjGFcG
+ RO5qUWiuNY3JigNJ/J4Kn+5cxv+OaEqv8fM7zhLZjDgGYJiD4hcJ3WaAEtiGi9RRLzQknE
+ 0RcJQ1jPi8p00oapKNEvsMwkmx2m/C0=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-123-NIQfVQ-ZOgG65xA_4U0BUA-1; Fri, 29 Jan 2021 03:25:47 -0500
-X-MC-Unique: NIQfVQ-ZOgG65xA_4U0BUA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
+ us-mta-83-uG1Ql4W-Oae6kM6sft_a7w-1; Fri, 29 Jan 2021 03:28:18 -0500
+X-MC-Unique: uG1Ql4W-Oae6kM6sft_a7w-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+ [10.5.11.13])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 497E41800D42;
- Fri, 29 Jan 2021 08:25:46 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-112-110.ams2.redhat.com [10.36.112.110])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C9F9D10023AB;
- Fri, 29 Jan 2021 08:25:44 +0000 (UTC)
-Subject: Re: [PATCH] tests/Makefile.include: export PYTHON for check-block.sh
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-block@nongnu.org
-References: <20210129051346.56109-1-vsementsov@virtuozzo.com>
-From: Thomas Huth <thuth@redhat.com>
-Message-ID: <efc8bd97-9851-2a77-b6b4-92123e24db9a@redhat.com>
-Date: Fri, 29 Jan 2021 09:25:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.1
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D9CE6910E3;
+ Fri, 29 Jan 2021 08:28:00 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-113-27.ams2.redhat.com
+ [10.36.113.27])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 8A7B77771D;
+ Fri, 29 Jan 2021 08:28:00 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 99A6618000A2; Fri, 29 Jan 2021 09:27:58 +0100 (CET)
+Date: Fri, 29 Jan 2021 09:27:58 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: vnc clipboard support
+Message-ID: <20210129082758.vx6ebmqhk7e332g4@sirius.home.kraxel.org>
+References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
+ <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20210129051346.56109-1-vsementsov@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <CAJ+F1CJvJM0Vjdz1nU92H+x00+NdbqfoJ9TA--9-BuQ8SNmoFg@mail.gmail.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=thuth@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kraxel@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
+X-Spam_score_int: -29
+X-Spam_score: -3.0
 X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,57 +81,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pbonzini@redhat.com, qemu-devel@nongnu.org,
- mreitz@redhat.com
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/01/2021 06.13, Vladimir Sementsov-Ogievskiy wrote:
-> check-block.sh called by make check-block rely on PYTHON variable being
-> set.
-> 
-> Fixes: f203080bbd9f9e5b31041b1f2afcd6040c5aaec5
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
-> 
-> Hi! As Peter reported, build fails on platforms where python3 is not
-> /usr/bin/python3.. This patch should help. At least it works for me if
-> I move /usr/bin/python3 to another location and configure it with
-> --python=. And doesn't work without the patch.
-> Don't know how the thing seemed to work for me before :\
-> 
->   tests/Makefile.include | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 3a0524ce74..ceaf3f0d6e 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -138,6 +138,7 @@ check:
->   ifeq ($(CONFIG_TOOLS)$(CONFIG_POSIX),yy)
->   QEMU_IOTESTS_HELPERS-$(CONFIG_LINUX) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
->   check: check-block
-> +export PYTHON
->   check-block: $(SRC_PATH)/tests/check-block.sh qemu-img$(EXESUF) \
->   		qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y) \
->   		$(filter qemu-system-%, $(ninja-targets))
-> 
+  Hi,
 
-That makes the iotests starting again when running the NetBSD tests ("make 
-vm-build-netbsd"), but then some of the iotests are failing now, e.g.:
+> Some things I keep in mind:
+> - the spice protocol had a number of iterations to fix some races. It would
+> be great not to repeat the same mistakes, and I don't know if VNC have the
+> same flaws or not.
 
---- /home/qemu/qemu-test.N2qe9i/src/tests/qemu-iotests/040.out
-+++ 040.out.bad
-@@ -1,5 +1 @@
--.................................................................
------------------------------------------------------------------------
--Ran 65 tests
--
--OK
-+env: python3: No such file or directory
+Sure.  One of the reasons I've started this discussion ;)
 
-... so looks like this was not the complete fix yet?
+> - the GNOME desktop is working on remoting using RDP, and they are
+> implementing a DBus interface for it (
+> https://gitlab.gnome.org/jadahl/mutter/-/commits/wip/remote-desktop-clipboard
+> )
+> - it's not just about clipboard. We would also want to have some kind of
+> drag and drop (even if limited to files like Spice atm). We may want some
+> windowing integration. We may also want to have access to some desktop
+> services: apps, documents etc.. And what's not.
 
-  Thomas
+Well.  That is a completely different level of desktop integration.
+It surely makes sense to have that, and dbus-over-vsock looks like
+a reasonable choice.
+
+But I'm more after a solution for the "paste that long link into the
+guest firefox" problem, without putting everything upside-down 😊
+
+take care,
+  Gerd
 
 
