@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B45A3308996
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:40:19 +0100 (CET)
-Received: from localhost ([::1]:58678 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9487308995
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 15:39:53 +0100 (CET)
+Received: from localhost ([::1]:57024 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Uwc-0002MZ-RT
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:40:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45410)
+	id 1l5UwC-0001gq-MZ
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 09:39:52 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46282)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5UnS-00046H-QD
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:30:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54968)
+ id 1l5UsC-0007UD-Jo
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:35:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:55886)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5UnO-0003ph-0y
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:30:50 -0500
+ id 1l5Us7-0005p9-37
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 09:35:44 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l5UnL-0004wL-Ra
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:30:43 +0000
+ id 1l5Us3-0005mN-M2
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:35:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id C51EF2E8089
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:30:43 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id A57CD2E806B
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 14:35:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 29 Jan 2021 14:22:13 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1911666@bugs.launchpad.net>
+Date: Fri, 29 Jan 2021 14:27:21 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1913344@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
- assignee=groug@kaod.org; 
-X-Launchpad-Bug-Tags: security
-X-Launchpad-Bug-Information-Type: Public Security
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: arm
+X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: philmd pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: modwizcode
+X-Launchpad-Bug-Reporter: Iris Johnson (modwizcode)
 X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
  =?utf-8?q?=29?=
-References: <161062144281.6686.4298628422758083377.malonedeb@wampee.canonical.com>
-Message-Id: <161193013399.7323.17549152366630143131.malone@gac.canonical.com>
-Subject: [Bug 1911666] Re: ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU
- Privilege Escalation Vulnerability
+References: <161169274433.14547.17841565794451082949.malonedeb@wampee.canonical.com>
+Message-Id: <161193044160.7268.4466441732756286969.launchpad@gac.canonical.com>
+Subject: [Bug 1913344] Re:  Exynos4210 UART peripheral data loss
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: f28668bf3e6849faab3822adecd4c3942298abfb
+X-Launchpad-Hash: e50bbabf66b5655d496278330852ade2215606c6
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -73,129 +71,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1911666 <1911666@bugs.launchpad.net>
+Reply-To: Bug 1913344 <1913344@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixed by commit 89fbea8737e ("9pfs: Fully restart unreclaim loop
-(CVE-2021-20181)").
-
-
-** Changed in: qemu
-       Status: In Progress =3D> Fix Committed
+** Tags added: arm
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1911666
+https://bugs.launchpad.net/bugs/1913344
 
 Title:
-  ZDI-CAN-10904: QEMU Plan 9 File System TOCTOU Privilege Escalation
-  Vulnerability
+   Exynos4210 UART peripheral data loss
 
 Status in QEMU:
-  Fix Committed
+  New
 
 Bug description:
-  -- CVSS -----------------------------------------
+  Currently the Exynos4210 UART (hw/char/exynos4210_uart.c) incorrectly
+  reports however many empty bytes are available in the FIFO when
+  queried for receive capacity. However this peripheral supports a
+  polled mode where only a single byte can be submitted at a time and
+  the FIFO is unused, meaning that in polled mode data is lost since
+  it's written into the FIFO and the polling code in FIFO disabled mode
+  only returns the value in the RX data register.
 
-  7.5: AV:L/AC:H/PR:H/UI:N/S:C/C:H/I:H/A:H
+  Even worse, potentially enabling the FIFO without a FIFO reset will
+  create a weird situation where data is already in the FIFO whenever
+  data came in faster than the polling could pick it up (which is
+  basically always).
 
-  -- ABSTRACT -------------------------------------
+  This change obscured the issue in
+  https://bugs.launchpad.net/qemu/+bug/1913341, which instead presented
+  as strange data loss until I locally resolved this issue.
 
-  Trend Micro's Zero Day Initiative has identified a vulnerability affectin=
-g the following products:
-  QEMU - QEMU
-
-  -- VULNERABILITY DETAILS ------------------------
-
-  Version tested:5.0.0-rc3
-  Installer file:qemu-5.0.0-rc3.tar.xz
-  Platform tested:ubuntu 18.04 x64 desktop
-  Analysis Basically v9fs* functions called from guest kernel are executed =
-under specific thread(I call it main thread later). But when it calls some =
-file related system calls, qemu uses its own coroutine thread(worker thread=
-). Then it returns(yield return) without waiting result of system call and =
-start to execute next v9fs* function.
-
-  In v9fsmarkfidsunreclaim() function, it stores fidlist member (head of
-  singly linked list) to its stack.
-
-   ->
-  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
-7/hw/9pfs/9p.c#L506
-
-  And if it uses coroutine, it restore fid_list from stack and restart
-  whole loop.
-
-   ->
-  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
-7/hw/9pfs/9p.c#L526
-
-  v9fsclunk() function calls clunkfid() which unlink fid from list, and
-  free it.
-
-   ->
-  https://github.com/qemu/qemu/blob/f3bac27cc1e303e1860cc55b9b6889ba39dee58=
-7/hw/9pfs/9p.c#L2060-L2091
-
-  So if v9fsclunk() is called while v9fsmarkfidsunreclaim()'s coroutine
-  is being executed, it restores "FREED" fidp from stack and use it.
-
-  it can be reproduced with the qemu binary, which is given
-  it can also be reproduced with own ASAN build (5.0.0-rc3 and 4.2.0 are te=
-sted)
-
-  ../qemu-5.0.0-rc3/x86_64-softmmu/qemu-system-x86_64 -M pc -kernel
-  ./bzImage -initrd ./rootfs.cpio -append "root=3D/dev/ram console=3Dtty1
-  console=3DttyS0 rdinit=3D/bin/sh" -nographic -enable-kvm -fsdev
-  local,id=3Dtest_dev,path=3D/home/xxx/sandbox,security_model=3Dnone -device
-  virtio-9p-pci,fsdev=3Dtest_dev,mount_tag=3Dvictim_tag
-
-  $ ./do.sh
-  expected ASAN report is printed
-  the race is in coroutine, so the threads are the same one
-
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-   =3D=3D46645=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
- 0x610000047948 at pc 0x5563d8c28f0f bp0
-  READ of size 2 at 0x610000047948 thread T0
-
-     #0 0x5563d8c28f0e in v9fs_mark_fids_unreclaim hw/9pfs/9p.c:508
-     #1 0x5563d8c3e9e3 in v9fs_remove hw/9pfs/9p.c:2988
-     #2 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
-     #3 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
-
-     0x610000047948 is located 8 bytes inside of 192-byte region
-  [0x610000047940,0x610000047a00) freed by thread T0 here:
-
-    #0 0x7fadafa5f7a8 in __interceptor_free (/usr/lib/x86_64-linux-gnu/liba=
-san.so.4+0xde7a8)
-    #1 0x5563d8c27a60 in free_fid hw/9pfs/9p.c:371
-    #2 0x5563d8c27fcc in put_fid hw/9pfs/9p.c:396
-    #3 0x5563d8c37267 in v9fs_clunk hw/9pfs/9p.c:2085
-    #4 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
-    #5 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
-
-  previously allocated by thread T0 here:
-     #0 0x7fadafa5fd28 in __interceptor_calloc (/usr/lib/x86_64-linux-gnu/l=
-ibasan.so.4+0xded28)
-     #1 0x7fadaf0c8b10 in g_malloc0 (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
-so.0+0x51b10)
-     #2 0x5563d8c30ecc in v9fs_attach hw/9pfs/9p.c:1412
-     #3 0x5563d98d310d in coroutine_trampoline util/coroutine-ucontext.c:115
-     #4 0x7fadac6396af  (/lib/x86_64-linux-gnu/libc.so.6+0x586af)
-
-  =
-
-  This vulnerability was discovered by:
-
-  Ryota Shiga(@Garyo) of Flatt Security working with Trend Micro Zero
-  Day Initiative
+  I have a patch ready for the bug and will submit it later today, I'm
+  just filing for clarity.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1911666/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913344/+subscriptions
 
