@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F666308855
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:36:04 +0100 (CET)
-Received: from localhost ([::1]:60446 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38B330888A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:49:05 +0100 (CET)
+Received: from localhost ([::1]:40204 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5S4J-00010s-Mm
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:36:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34570)
+	id 1l5SGu-00082X-Vr
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:49:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34588)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnB-0004Bn-NI
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:21 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533]:45907)
+ id 1l5RnC-0004Dt-M9
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:22 -0500
+Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532]:33269)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5Rn9-0005tN-VF
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:21 -0500
-Received: by mail-ed1-x533.google.com with SMTP id f1so10084539edr.12
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:19 -0800 (PST)
+ id 1l5RnB-0005ta-3L
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:22 -0500
+Received: by mail-ed1-x532.google.com with SMTP id c6so10159809ede.0
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=vM/hCi4QzyBItSwDReV3rwOFjjrUHsJHgYVNtzBAOv8=;
- b=J4oisH4OEsj6iiXIMd16W/TcCSkSMTSXd+Y4VeVh0bFLibZkxB2WZ2v3qQf4gskDtq
- ghuXQ+DvqrNl30eJbhGPLHblLc8kRifE4KPNTkzqBDJU5w6W5a2kTGvJKBGBfwn44/gj
- e46tEfpXpqXtKddZLGa2q76tQceKW5f8WPjxSLgu66SiqXVgDR/VL8nTNn+nYccudQEF
- wcGU+GLMCZJNc2h2WQwfoqSfZc4cpJ7SQbH6T9FrgrVD0PMKcEMFCvSZWWNzWbWYR2HN
- DH5YS5Fj8NIoigvuMwdbVJQ6WwP0scou7FaopYRDZZ0ianJjiUIXP9hd5wNk8OKLAvit
- /zfg==
+ bh=p0gUq9l/dd+MCZ+Us772HwQOuGhCcjbbMzRDKa3bhUc=;
+ b=OWa/xB7MlHU1oS51y5C6PXk3vfdHU2nG06V304FaXI2+zWc3TMV+gxkjsELiLP9VjW
+ 90+pLHxWrFDs2E22HurS3/Ahx6tqP9tbPKzDIGy2EymXi+szYkZTBfRUnaB3ZN4yuFOm
+ xVwTjVT1BuW4mJ4Dx+6Ziqu0EPmVUVlCUoRW30pvvf9Aur2ufKQaKtwZVaWYMojr+83A
+ 95PXGmK5g7LQsSD01BTLG8gmZ7PyROH4V2kmgEOp+L10aKL44v1uIFbnbQhCzgwVBvrJ
+ iVL2WFpFY2aK9qukDkRxso9pwLvMsc20YQckBFK7E/LXENnSVy6TZs1qOCYc1Wj89gSk
+ ApqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=vM/hCi4QzyBItSwDReV3rwOFjjrUHsJHgYVNtzBAOv8=;
- b=adVITrX8YEFQuFzTtOK02WH2kdgAzXCUj6xFHAv2eZG5MWqShyTgqyyZYgBByb/wvt
- vahQBJAioE+azk6GqCcxCzvx0kYaWzPWDbXXHOYwqnhcOtBKYd7c4FAU5J1v6R/0U6pv
- x1n+RWWPYTuKBmiUxjXhM/WwhiYnrIQUe9qL2WhSFChdH5dYI9IXUd4Y28oCdP+FAIua
- ydt66hA+w2+oksawPwaPvgODb5Z4Zm+64tKGO72sN26+Yr/ESni6w41UU2ChMH827Gul
- 5TvI0PbSnr6StvSIWaS85dgKXVTeCBkGjlDdkGpc/HVgv/cZf8tuxttniXasuhpFjVch
- Kp4A==
-X-Gm-Message-State: AOAM530cnjnldTU5jUap1sTBYSJxGbkEqAY6lp9Po8iBeNPZV/Jxfv6l
- P4qKHUeatR+Q7fg0fCIUeOqJHM1uIMzBag==
-X-Google-Smtp-Source: ABdhPJycf5n9ZDweHokDLaCKA/0JQnx7NBJGNpIegNIwtkI5MyCyyMdq0OjtGfsOGtqpI71bQfvw4A==
-X-Received: by 2002:aa7:d4d2:: with SMTP id t18mr4643684edr.238.1611919098633; 
- Fri, 29 Jan 2021 03:18:18 -0800 (PST)
+ bh=p0gUq9l/dd+MCZ+Us772HwQOuGhCcjbbMzRDKa3bhUc=;
+ b=YW8wp+wqIP+XDRyOrrQXmR6/8nhkCMgT6FZuPqYJFyRZgU8IpiYNXSQdmpS5n4zeKG
+ LjkZep3IZXNGPyvgZMqHV1GeRUrx7XveARIJ9Bp7nYxI3ZY8d00BbodKVG1kIEUV1OM+
+ 7Zga9/daIo+rdSoewufF3bzrZko+6S1Le6xFZ33CuE8LrXm7xnfoH8I873XQgGZPdcpd
+ znUpPB/Jccc1ch+1xfReADKyEH/GnvPmNmKGtbb4NfvRlrwOyM9BMSCdx0EtHiFRbHak
+ M6nCCBWTqdbBQYCcPuWrGRCoJBiZsBQAQm3MGSNDvMfBamkFCex2MU5hiW2WavA1AyIr
+ ArdQ==
+X-Gm-Message-State: AOAM533rZ8cARxWTPT7FV9v12Yi8kMznKHzZ/znSZLG+rQTI493mqDik
+ +hc38rjUA8eOs5K0dJI160rEoFCWdtRVow==
+X-Google-Smtp-Source: ABdhPJz0GSkhO5kCqS9R4Y27c/Ide4jl+asg4o27I4cojSR9o/9A+okZHF7dJ+sGPgVY0IgWoYMj8w==
+X-Received: by 2002:a05:6402:20e:: with SMTP id
+ t14mr4509565edv.178.1611919099478; 
+ Fri, 29 Jan 2021 03:18:19 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.17
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 29 Jan 2021 03:18:18 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 03/36] docs/fuzz: fix pre-meson path
-Date: Fri, 29 Jan 2021 12:17:41 +0100
-Message-Id: <20210129111814.566629-4-pbonzini@redhat.com>
+Subject: [PULL 04/36] fuzz: log the arguments used to initialize QEMU
+Date: Fri, 29 Jan 2021 12:17:42 +0100
+Message-Id: <20210129111814.566629-5-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
 References: <20210129111814.566629-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x533.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::532;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x532.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,36 +90,52 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alexander Bulekov <alxndr@bu.edu>
 
+This is useful for building reproducers. Instead checking the code or
+the QEMU_FUZZ_ARGS, the arguments are at the top of the crash log.
+
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20210117201014.271610-2-alxndr@bu.edu>
+Message-Id: <20210117201014.271610-3-alxndr@bu.edu>
 ---
- docs/devel/fuzzing.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ tests/qtest/fuzz/fuzz.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/docs/devel/fuzzing.rst b/docs/devel/fuzzing.rst
-index 6096242d99..5f5200c843 100644
---- a/docs/devel/fuzzing.rst
-+++ b/docs/devel/fuzzing.rst
-@@ -119,7 +119,7 @@ Adding a new fuzzer
+diff --git a/tests/qtest/fuzz/fuzz.c b/tests/qtest/fuzz/fuzz.c
+index 238866a037..496d11a231 100644
+--- a/tests/qtest/fuzz/fuzz.c
++++ b/tests/qtest/fuzz/fuzz.c
+@@ -159,6 +159,8 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     char *target_name;
+     const char *bindir;
+     char *datadir;
++    GString *cmd_line;
++    gchar *pretty_cmd_line;
+     bool serialize = false;
  
- Coverage over virtual devices can be improved by adding additional fuzzers.
- Fuzzers are kept in ``tests/qtest/fuzz/`` and should be added to
--``tests/qtest/fuzz/Makefile.include``
-+``tests/qtest/fuzz/meson.build``
+     /* Initialize qgraph and modules */
+@@ -217,7 +219,7 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     }
  
- Fuzzers can rely on both qtest and libqos to communicate with virtual devices.
+     /* Run QEMU's softmmu main with the fuzz-target dependent arguments */
+-    GString *cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
++    cmd_line = fuzz_target->get_init_cmdline(fuzz_target);
+     g_string_append_printf(cmd_line, " %s -qtest /dev/null ",
+                            getenv("QTEST_LOG") ? "" : "-qtest-log none");
  
-@@ -128,8 +128,7 @@ Fuzzers can rely on both qtest and libqos to communicate with virtual devices.
- 2. Write the fuzzing code using the libqtest/libqos API. See existing fuzzers
-    for reference.
+@@ -226,6 +228,13 @@ int LLVMFuzzerInitialize(int *argc, char ***argv, char ***envp)
+     wordexp(cmd_line->str, &result, 0);
+     g_string_free(cmd_line, true);
  
--3. Register the fuzzer in ``tests/fuzz/Makefile.include`` by appending the
--   corresponding object to fuzz-obj-y
-+3. Add the fuzzer to ``tests/qtest/fuzz/meson.build``.
++    if (getenv("QTEST_LOG")) {
++        pretty_cmd_line  = g_strjoinv(" ", result.we_wordv + 1);
++        printf("Starting %s with Arguments: %s\n",
++                result.we_wordv[0], pretty_cmd_line);
++        g_free(pretty_cmd_line);
++    }
++
+     qemu_init(result.we_wordc, result.we_wordv, NULL);
  
- Fuzzers can be more-or-less thought of as special qtest programs which can
- modify the qtest commands and/or qtest command arguments based on inputs
+     /* re-enable the rcu atfork, which was previously disabled in qemu_init */
 -- 
 2.29.2
 
