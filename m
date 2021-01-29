@@ -2,69 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 850DE308D98
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:45:50 +0100 (CET)
-Received: from localhost ([::1]:54406 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 50D88308DA8
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 20:47:08 +0100 (CET)
+Received: from localhost ([::1]:57932 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5ZiH-0005pS-BC
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:45:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:44098)
+	id 1l5ZjX-0007Ms-B8
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 14:47:07 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:44272)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5Zfl-0005H2-U3
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:43:13 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:37385)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5Zgs-0005fD-Rl; Fri, 29 Jan 2021 14:44:22 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:34769)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5Zfk-000510-63
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 14:43:13 -0500
-Received: by mail-ed1-x529.google.com with SMTP id g1so11902880edu.4
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 11:43:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to;
- bh=l0VBKN5PZjFDNLH2W6CWvi2oVuMYx9slnlJt4jCEElw=;
- b=Wn6Q6Y7R9PYuSy1RN+BLUgrOMymcb8KGMSmvSFcrNG43kXDi6g0E7FziicWCK80uIs
- ZAZonWOFhH25wmFqOWGbYgKxOrw0hAGeWPc08JaGpOVVdoi+ZN7YSJJzVwLkaI34arQ8
- bnv+gpThB0mPztxnT9o1J1W7Asi/t3pdq8Z/S2/J2P7/1bieBMaUlwe8E30Ot9LrUxXk
- XNTmGv03ncmntm9ZXnx4dyeCln7wqNL5RBz0mqEA4gKjSEXC1hYEUt0d5UT7Vd0MYm4p
- HQYNqqwLIK/wiKb1YhelzT+5nQ68Bvzer/2rrLQ/5hIZOAqjSNk+xxxijli/ZOlYIn7e
- baZg==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5Zgr-0005R9-88; Fri, 29 Jan 2021 14:44:22 -0500
+Received: by mail-wm1-x335.google.com with SMTP id o10so7639839wmc.1;
+ Fri, 29 Jan 2021 11:44:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=l/SsznvUOPafmTl5qUYK0iZ5NhczZABOHV/F9XW5GoQ=;
+ b=sxrnsQuWeA96SXzdI19O0VPLqBtiUiE1AgCmUuJ72xn4sZzxOLNlx3EVbAy09NnIHS
+ S9TlJmYNYtxtMEqzUkcUXud5glpSUclAAFQiNfte1hT2vUP0OGLPxuSsSv+7MklkJcdP
+ uZnSQCyCwUXaegeDqkYW5evcU5p+6hfqlufQXAU/6C0xUn642S8kcVr59Cmw3N2r0Dsq
+ SAGBFx6TPIWX3PGTDZwEBIVn3aNUvvfhdqSsgb23sdTjElUWxXN1Un6WhtGCSSeomwkU
+ B7Yc3sAA2HENf52Sk/LHvo0fV8+PdzJM4nugiQk4QNeODLYvPOv5StUHB1WmGsq8kiVT
+ 8qcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to;
- bh=l0VBKN5PZjFDNLH2W6CWvi2oVuMYx9slnlJt4jCEElw=;
- b=ZmqaAVwffQvS5rJi7wYUUalgCm6Q3OggvTuSZOFI8rEwkTBjZOd3HK6hqbfSjVCsWm
- WdsTyGAeniczWTMUHD2miX/vkeDMq439AKnRE+kc7EQXiDM17R+Ip2eMHeDBxBVbYaWY
- Yasx+OtRd2u8jHZCrd3rOkGhQFYVDDmONUSzrR9PqEYRLkUZb4Puj8YK/YqpZC5ajH5B
- 8uerRbZSpyp40glxtbOfT5kcH+LNB2bRH0GKYfhrvUsAUwvX0J2QzZcPRVjiivlhUfY9
- aQHp/SnbLwI+CXsNdnHGIqpnyUEAByO2ATtDpu1Jdc95Xr6ldoIAEMQaaYCswGDZEa66
- s+3Q==
-X-Gm-Message-State: AOAM530BBV6F27cnuL/a2/EZHfbwrrpsfhgMg5hYzEYtXXuYoeeS4lbh
- TZvm+vsE5wPUaegeGhEiwEt5WY09CG0C7yVtJQKt/HTC8TE=
-X-Google-Smtp-Source: ABdhPJxu5nfaB6Z4LcRSSLvo3hGKmncDHzhDGxcIecG+EHjULalKauFBxqWWk/Y1rphDGomvQHCZUoUY9FWXseOHLlI=
-X-Received: by 2002:a05:6402:5107:: with SMTP id
- m7mr6959990edd.52.1611949389850; 
- Fri, 29 Jan 2021 11:43:09 -0800 (PST)
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=l/SsznvUOPafmTl5qUYK0iZ5NhczZABOHV/F9XW5GoQ=;
+ b=M+HqnKw5AK7VfYNlR9Vc6nZPLAkY3M3Keq7piZ/8YtVAfJcWX5JST27h8kOcY+NfKZ
+ HLwvivHPS3djPxnuCK7yLlnsWmiX0ap+34VsVjHCwHmzaPZEDmFljdaPypyz3UrveuII
+ M0nUB1BVwhg3S97riOqjAeC7UWzz0vEVZXx4LQqmcKW8glOOTclLNP7hY88d35OugzwI
+ LzdA/pog3w9pJ6wl78grGpr7AGmGE+cPc9zUll7HYdb56VqlvjVAmfKHuQFB5OteNZqS
+ qMHdaflog8RCTTURykdCsE1bt1vA4tWjfSvc15sjz/HrbIEIKJnWo78rPwdklJF5fMef
+ Tipg==
+X-Gm-Message-State: AOAM532suMRO1YjoEQVkiQd//e/pC4ClWARKmLWRUOnc62+4GqEAWPZ0
+ 7naQzlX8qHsqoXXWrHDmfwyECL+Xn/w=
+X-Google-Smtp-Source: ABdhPJzvrzKRqIhADka2PQRFgCwVG6hn1Fus6E0B9yfr96UGRFZgJAH7j5S3BTBcv9DcDB9ji13fTw==
+X-Received: by 2002:a7b:c3d8:: with SMTP id t24mr1052234wmj.35.1611949459188; 
+ Fri, 29 Jan 2021 11:44:19 -0800 (PST)
+Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id w129sm11691194wmb.11.2021.01.29.11.44.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 29 Jan 2021 11:44:18 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [RFC PATCH 0/4] hw/xen: Fixes to only build the XEN_PV machine
+Date: Fri, 29 Jan 2021 20:44:11 +0100
+Message-Id: <20210129194415.3925153-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-References: <20210129160854.11445-1-peter.maydell@linaro.org>
-In-Reply-To: <20210129160854.11445-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 29 Jan 2021 19:42:58 +0000
-Message-ID: <CAFEAcA9tMJ2ZjbGJXzAKkP3t1yt4-kmC4xZGi-3bKkWXWocQrQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/46] target-arm queue
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,48 +82,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
+ qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 29 Jan 2021 at 16:08, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> v2 update: fix memory leaks in pvpanic-pci test case spotted by
-> oss-fuzz gitlab CI run.
->
-> -- PMM
->
-> The following changes since commit 7e7eb9f852a46b51a71ae9d82590b2e4d28827ee:
->
->   Merge remote-tracking branch 'remotes/armbru/tags/pull-qapi-2021-01-28' into staging (2021-01-28 22:43:18 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20210129-1
->
-> for you to fetch changes up to 14711b6f54708b9583796db02b12ee7bd0331502:
->
->   hw/arm/stellaris: Remove board-creation reset of STELLARIS_SYS (2021-01-29 15:54:44 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Implement ID_PFR2
->  * Conditionalize DBGDIDR
->  * rename xlnx-zcu102.canbusN properties
->  * provide powerdown/reset mechanism for secure firmware on 'virt' board
->  * hw/misc: Fix arith overflow in NPCM7XX PWM module
->  * target/arm: Replace magic value by MMU_DATA_LOAD definition
->  * configure: fix preadv errors on Catalina macOS with new XCode
->  * Various configure and other cleanups in preparation for iOS support
->  * hvf: Add hypervisor entitlement to output binaries (needed for Big Sur)
->  * Implement pvpanic-pci device
->  * Convert the CMSDK timer devices to the Clock framework
->
-
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
-for any user-visible changes.
-
--- PMM
+Hi Alex,=0D
+=0D
+These are the Xen patches I'm carrying to build the xenpv=0D
+machine alone. I haven't tried to build the xenfv one.=0D
+=0D
+Tagged as RFC because this was part of a draft, so must be=0D
+think better, but I don't have much time to finish it.=0D
+Anyhow quick review appreciated.=0D
+=0D
+Missing (out of scope of this draft):=0D
+Possibility to build another config than the default-configs/=0D
+ones.=0D
+=0D
+Regards,=0D
+=0D
+Phil.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (4):=0D
+  hw/ide/Kconfig: IDE_ISA requires ISA_BUS=0D
+  hw/ide/Kconfig: IDE_PIIX requires IDE_ISA=0D
+  hw/xen/Kconfig: Introduce XEN_PV config=0D
+  hw/xen: Have the xenpv machine select 9pfs=0D
+=0D
+ accel/Kconfig  | 1 -=0D
+ hw/Kconfig     | 1 +=0D
+ hw/ide/Kconfig | 3 ++-=0D
+ hw/xen/Kconfig | 7 +++++++=0D
+ 4 files changed, 10 insertions(+), 2 deletions(-)=0D
+ create mode 100644 hw/xen/Kconfig=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
