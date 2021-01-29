@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C55D130866D
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 08:31:36 +0100 (CET)
-Received: from localhost ([::1]:36652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB221308688
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 08:37:13 +0100 (CET)
+Received: from localhost ([::1]:39752 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5OFj-0004rf-Ny
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 02:31:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54836)
+	id 1l5OLA-0006Yo-UX
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 02:37:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55758)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l5ODa-0004Qc-6O
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 02:29:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:25462)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l5ODX-0000Cr-Le
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 02:29:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611905358;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hIfvH7reqNsyZuGXtEIFkMtrLrzbMBAVGhAbNZBaNXA=;
- b=dWjmq+eFjAMscdwbJ7rM57KWg8CfasOYCRnG895T8fcG++aeh9ZHMOKMAsleCdP9iYU5ls
- sYke4AwF9MxsAsvkbfdZwRXG1uSKafaZW0sGgapxUEgSbT5QTHyT3Ml7l6b32Zpr7bC6BW
- YuVy6iNYu/vd6d31aeZvYx3PINeZibU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-160-Dw9hFwHIO5yK9E1kCOTKFA-1; Fri, 29 Jan 2021 02:29:16 -0500
-X-MC-Unique: Dw9hFwHIO5yK9E1kCOTKFA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 01A471800D41
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 07:29:16 +0000 (UTC)
-Received: from [10.72.14.10] (ovpn-14-10.pek2.redhat.com [10.72.14.10])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A9BCD6F44D;
- Fri, 29 Jan 2021 07:29:08 +0000 (UTC)
-Subject: Re: [PATCH] vhost-user: Check for iotlb callback in iotlb_miss
-To: Eugenio Perez Martin <eperezma@redhat.com>
-References: <20210127204449.745365-1-eperezma@redhat.com>
- <ad299544-8762-a5fd-e102-1cf9829131fb@redhat.com>
- <CAJaqyWfUaS9+xKJ8FM9JHnu7YBP9=p9FjNKG067X0waeiVhAXQ@mail.gmail.com>
- <f8e073ee-1d95-3ab9-0d86-ca2b64416026@redhat.com>
- <CAJaqyWdV=zrAz8VT4O3+Tyj-ct5Zr52Zj_qAPvs-1mWNk_5FHQ@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <3d5b7b31-59ea-0ed6-6bfe-0fa280d5a3af@redhat.com>
-Date: Fri, 29 Jan 2021 15:29:07 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1l5OJl-0005r7-8k; Fri, 29 Jan 2021 02:35:45 -0500
+Received: from forwardcorp1o.mail.yandex.net ([2a02:6b8:0:1a2d::193]:60170)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <rvkagan@yandex-team.ru>)
+ id 1l5OJf-00032w-Ii; Fri, 29 Jan 2021 02:35:43 -0500
+Received: from myt5-23f0be3aa648.qloud-c.yandex.net
+ (myt5-23f0be3aa648.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c12:3e29:0:640:23f0:be3a])
+ by forwardcorp1o.mail.yandex.net (Yandex) with ESMTP id CDCB72E2457;
+ Fri, 29 Jan 2021 10:35:31 +0300 (MSK)
+Received: from myt4-18a966dbd9be.qloud-c.yandex.net
+ (myt4-18a966dbd9be.qloud-c.yandex.net [2a02:6b8:c00:12ad:0:640:18a9:66db])
+ by myt5-23f0be3aa648.qloud-c.yandex.net (mxbackcorp/Yandex) with ESMTP id
+ rR40cTfnqK-ZVxajLUq; Fri, 29 Jan 2021 10:35:31 +0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1611905731; bh=eSy/hFtMjme0cKvjgfrHJGEgYTr1RcBHqENidzSSCvA=;
+ h=In-Reply-To:Message-ID:Subject:To:From:Cc:References:Date;
+ b=mgMFWu5KJmxlDoueEjQ6PpG39jO+YCYMA+SN0IXYWMgNcHGX28wW96x7VSmBddZux
+ rGL9n48mJXZXGKC99wtCx1sH6cFo7H1Jtqd59PN3ZY7bqjvEF3ZafM6tm/wonOFeIu
+ oNjNgQitdxVIypbJcj1FEjvo6qaaDa8MkdGHIUT4=
+Authentication-Results: myt5-23f0be3aa648.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Received: from dynamic-red3.dhcp.yndx.net (dynamic-red3.dhcp.yndx.net
+ [2a02:6b8:0:419:7359:4dc3:71d:4c5a])
+ by myt4-18a966dbd9be.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 16f3mkE43s-ZUmKJJTn; Fri, 29 Jan 2021 10:35:31 +0300
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
+ (Client certificate not present)
+Date: Fri, 29 Jan 2021 10:35:27 +0300
+From: Roman Kagan <rvkagan@yandex-team.ru>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Subject: Re: [PATCH 0/3] block/nbd: fix crashers in reconnect while migrating
+Message-ID: <20210129073527.GC3053@rvkaganb.lan>
+Mail-Followup-To: Roman Kagan <rvkagan@yandex-team.ru>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>
+References: <20210128201418.607640-1-rvkagan@yandex-team.ru>
+ <7555daaf-1e1b-1ef7-a5d1-24d98a18599d@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <CAJaqyWdV=zrAz8VT4O3+Tyj-ct5Zr52Zj_qAPvs-1mWNk_5FHQ@mail.gmail.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7555daaf-1e1b-1ef7-a5d1-24d98a18599d@virtuozzo.com>
+Received-SPF: pass client-ip=2a02:6b8:0:1a2d::193;
+ envelope-from=rvkagan@yandex-team.ru; helo=forwardcorp1o.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,133 +77,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Maxime Coquelin <maxime.coquelin@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, Jan 29, 2021 at 08:51:39AM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> 28.01.2021 23:14, Roman Kagan wrote:
+> > During the final phase of migration the NBD reconnection logic may
+> > encounter situations it doesn't expect during regular operation.
+> > 
+> > This series addresses some of them that make qemu crash.  They are
+> > reproducible when a vm with a secondary drive attached via nbd with
+> > non-zero "reconnect-delay" runs a stress load (fio with big queue depth)
+> > in the guest on that drive and is migrated (e.g. to a file), while the
+> > nbd server is SIGKILL-ed and restarted every second.
+> > 
+> > See the individual patches for specific crash conditions and more
+> > detailed explanations.
+> > 
+> > Roman Kagan (3):
+> >    block/nbd: only detach existing iochannel from aio_context
+> >    block/nbd: only enter connection coroutine if it's present
+> >    nbd: make nbd_read* return -EIO on error
+> > 
+> >   include/block/nbd.h |  7 ++++---
+> >   block/nbd.c         | 25 +++++++++++++++++--------
+> >   2 files changed, 21 insertions(+), 11 deletions(-)
+> > 
+> 
+> Thanks a lot for fixing!
+> 
+> Do you have some reproducer scripts? Could you post them or may be add
+> an iotest?
 
-On 2021/1/29 下午3:22, Eugenio Perez Martin wrote:
-> On Fri, Jan 29, 2021 at 4:29 AM Jason Wang <jasowang@redhat.com> wrote:
->>
->> On 2021/1/28 下午5:37, Eugenio Perez Martin wrote:
->>> Hi Jason.
->>>
->>> On Thu, Jan 28, 2021 at 3:32 AM Jason Wang <jasowang@redhat.com> wrote:
->>>> On 2021/1/28 上午4:44, Eugenio Pérez wrote:
->>>>> Not registering this can lead to vhost_backend_handle_iotlb_msg and
->>>>> vhost_device_iotlb_miss if backend issue a miss after qemu vhost device
->>>>> stop.
->>>>>
->>>>> This causes a try to access dev->vdev->dma_as with vdev == NULL.
->>>> Hi Eugenio:
->>>>
->>>> What condition can we get this? Did you mean we receive IOTLB_MISS
->>>> before vhost_dev_start()?
->>>>
->>> In the VM reboot case, yes, between vhost_dev_stop() and
->>> vhost_dev_start(). But I can reproduce the bug in VM shutdown too,
->>> with no vhost_dev_start expected.
->>>
->>> I didn't try to send IOTLB_MISS before starting vhost_dev, but this
->>> patch should solve that problem too.
->>>
->>> I think we can get this with whatever malicious/buggy vhost-user
->>> backend sending unexpected iotlb misses, but I didn't test so deeply.
->>
->> I see.
->>
->>
->>>> If yes, it looks to me a bug somewhere else.
->>> Where should I look for it?
->>
->> So I winder whether or not we can simply ignore IOTLB message if vhost
->> device is not started.
->>
-> Do you mean like an early return in vhost_device_iotlb_miss?
+I don't have it scripted, just ad hoc command lines.  I'll look into
+making up a test.  Can you perhaps suggest what existing test to base
+on?
 
-
-Yes or probably a little bit earlier in vhost_backend_handle_iotlb_msg() 
-which somehow a warn there.
-
-Anyhow it's meaningless to process IOTLB message in this case and we 
-don't need to introduce a dedicated variable for this.
-
-Thanks
-
-
-> That was
-> my first first option, but this seems cleaner to me. I'm ok with both
-> options.
->
-> Or do you mean not to return -EFAULT but 0 if !u->iotlb_enabled ?
->
-> Thanks!
->
->> Thanks
->>
->>
->>> Thanks!
->>>
->>>> Thanks
->>>>
->>>>
->>>>> Reproduced rebooting a guest with testpmd in txonly forward mode.
->>>>>     #0  0x0000559ffff94394 in vhost_device_iotlb_miss (
->>>>>         dev=dev@entry=0x55a0012f6680, iova=10245279744, write=1)
->>>>>         at ../hw/virtio/vhost.c:1013
->>>>>     #1  0x0000559ffff9ac31 in vhost_backend_handle_iotlb_msg (
->>>>>         imsg=0x7ffddcfd32c0, dev=0x55a0012f6680)
->>>>>         at ../hw/virtio/vhost-backend.c:411
->>>>>     #2  vhost_backend_handle_iotlb_msg (dev=dev@entry=0x55a0012f6680,
->>>>>         imsg=imsg@entry=0x7ffddcfd32c0)
->>>>>         at ../hw/virtio/vhost-backend.c:404
->>>>>     #3  0x0000559fffeded7b in slave_read (opaque=0x55a0012f6680)
->>>>>         at ../hw/virtio/vhost-user.c:1464
->>>>>     #4  0x000055a0000c541b in aio_dispatch_handler (
->>>>>         ctx=ctx@entry=0x55a0010a2120, node=0x55a0012d9e00)
->>>>>         at ../util/aio-posix.c:329
->>>>>
->>>>> Fixes: 6dcdd06e3b ("spec/vhost-user spec: Add IOMMU support")
->>>>> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
->>>>> ---
->>>>>     hw/virtio/vhost-user.c | 10 ++++++++--
->>>>>     1 file changed, 8 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/hw/virtio/vhost-user.c b/hw/virtio/vhost-user.c
->>>>> index 2fdd5daf74..a49b2229fb 100644
->>>>> --- a/hw/virtio/vhost-user.c
->>>>> +++ b/hw/virtio/vhost-user.c
->>>>> @@ -238,6 +238,7 @@ struct vhost_user {
->>>>>         /* Shared between vhost devs of the same virtio device */
->>>>>         VhostUserState *user;
->>>>>         int slave_fd;
->>>>> +    bool iotlb_enabled;
->>>>>         NotifierWithReturn postcopy_notifier;
->>>>>         struct PostCopyFD  postcopy_fd;
->>>>>         uint64_t           postcopy_client_bases[VHOST_USER_MAX_RAM_SLOTS];
->>>>> @@ -1461,7 +1462,11 @@ static void slave_read(void *opaque)
->>>>>
->>>>>         switch (hdr.request) {
->>>>>         case VHOST_USER_SLAVE_IOTLB_MSG:
->>>>> -        ret = vhost_backend_handle_iotlb_msg(dev, &payload.iotlb);
->>>>> +        if (likely(u->iotlb_enabled)) {
->>>>> +            ret = vhost_backend_handle_iotlb_msg(dev, &payload.iotlb);
->>>>> +        } else {
->>>>> +            ret = -EFAULT;
->>>>> +        }
->>>>>             break;
->>>>>         case VHOST_USER_SLAVE_CONFIG_CHANGE_MSG :
->>>>>             ret = vhost_user_slave_handle_config_change(dev);
->>>>> @@ -2044,7 +2049,8 @@ static int vhost_user_send_device_iotlb_msg(struct vhost_dev *dev,
->>>>>
->>>>>     static void vhost_user_set_iotlb_callback(struct vhost_dev *dev, int enabled)
->>>>>     {
->>>>> -    /* No-op as the receive channel is not dedicated to IOTLB messages. */
->>>>> +    struct vhost_user *u = dev->opaque;
->>>>> +    u->iotlb_enabled = enabled;
->>>>>     }
->>>>>
->>>>>     static int vhost_user_get_config(struct vhost_dev *dev, uint8_t *config,
-
+Thanks,
+Roman.
 
