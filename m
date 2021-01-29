@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDDDE3088DB
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:07:58 +0100 (CET)
-Received: from localhost ([::1]:54108 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30D593088C5
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 13:02:56 +0100 (CET)
+Received: from localhost ([::1]:43544 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SZB-0000BN-W2
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:07:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34800)
+	id 1l5SUJ-0004Jg-8d
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 07:02:55 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34820)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnP-0004aC-Jx
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:35 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633]:46219)
+ id 1l5RnQ-0004dX-Pe
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:36 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:39691)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnO-00061Q-47
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:35 -0500
-Received: by mail-ej1-x633.google.com with SMTP id rv9so12390864ejb.13
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:33 -0800 (PST)
+ id 1l5RnP-00061q-3N
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:36 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id b21so10123412edy.6
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=N1redxJJGMDjD8aDmJ5AuNIZ5p761sXDiGTCZxZj28U=;
- b=YHtJW/P02woH+bpIyTVUjjeTgMMKZb2chhYsLcxbEC0gwfAlqKRQufaNSSlgf/N/IY
- dZ0RxOBriUzupvgr/vCx9dnvKVuagdm4gkp74vVYQZpzRm2+KTPCV0MtqY1dpEpp/OLc
- sMNLDMRyNAKtjFuYNUdDztAqEWBeq4qNKQfC3pAK88p94prtffOQm0kheBhm751wghUd
- tq11+ln05KrWLVJyI+wgWRfxn5uQ76RJlVCCioQOPEHi6qSpvsgSKgQOqwiIuKH3DwIq
- W1TJpU1FzzbJCixxF/4ZZ3EAxPL41S6v+1tRcwy0tHhC40f5CYxFg6aIuQfURhDAiEIF
- v/ZQ==
+ bh=dXD7Fo2yC7I86y7CAeIND3a3JrzMld9M7rvgq9x0zxI=;
+ b=ATNbgjGcl0rFVREg1CSkfROb3x1pblYT6oVOvV6lupoQTjo3FP/euhTEMm8OKwKaD3
+ XG2CY5kJ1jbwBWqshtUlz8mIHJTZ2QFU5vcP8bfcZZOGO/JvhTD8rSxQWV82YCmiS3gq
+ EceCvup3vuvbGJ8kgGC+HkAQZPWPGGXVGiZwBgasErS3JohiBkPMOmBTPVBkURltvDsh
+ JPRpogaaUf3FfbjbvjxF1yV89snEO7H0zc4dDsn+YFLcTwhgN9Zxzw/1L6/LEBexgt0n
+ EtknXehtu0d8xtBkVFg0aNqLa+Mp9TUjqJ9ErW7QQ6nYVQrJ5OxxopHBAPg1SafQ2+sY
+ 4R3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=N1redxJJGMDjD8aDmJ5AuNIZ5p761sXDiGTCZxZj28U=;
- b=HxtboGgC029MtMNeomVlglvsY+zxfWPQKw7imW6RPcWw2DSPWSbrSdWou2BcOhDwfU
- 8dJJNlSA2OaZPhI4rly6Iwb/MGDamjeR0CNm2TFmjafhBSLeMgZ+u6nKvUHxE+/lpu01
- GDWpiBz482KhSUyB8Zjp+t00d0LUR5D6mA0PjCz4WWYb/1EjE9+3Y4/3I5hhBmUu8Zfy
- iNVfD/xXL3nZfXEAFSJcf32dki1nKRBzmvR1RKkOntMJW92gZJRdPxC1w3VkgQH+IWvI
- ke9qjg9lp0pIiEnw1BglpDz8U/t4D2Ra9W/0zKHVM9pRsb5Ui/nFFmU9AEHIdW8CCB/S
- jTqw==
-X-Gm-Message-State: AOAM530ZUvrJ5DPtSfxFWYO197JSuNA0IVt7Kq0IEA1qvnPuJ6XgVExy
- yRn5BR0aCdGkH3DyBb6M4XGPCUce2a4UsQ==
-X-Google-Smtp-Source: ABdhPJx+9O6wkbjPfUl5SKcZxyZ1jRjf1F3KxmUTwD7Is1LqIVuVLzT9Uwryl1JggolOHPvFXi/Caw==
-X-Received: by 2002:a17:906:1c0c:: with SMTP id
- k12mr4116341ejg.354.1611919112916; 
- Fri, 29 Jan 2021 03:18:32 -0800 (PST)
+ bh=dXD7Fo2yC7I86y7CAeIND3a3JrzMld9M7rvgq9x0zxI=;
+ b=A6gW0QDg+I74SYOBA3OPE3Va9zHfmcJWLLBZzfdt2w2x7wLPUOvDfmzwPlR1q5GsFA
+ vyWf6guR4d/94Hjj+oChkOdxQ+/IJppowvrecyIpqaihvf9Aka+CU7HE/QBe6FMtuEBJ
+ mMjEOUM6xbXwSZJFPj8xkuThae7Y8rUDCFM0twUQFpoRr7Q2Z9OCiK9nhP1bssIWB8Iq
+ /pTiNBT6UEbAPkYXn+bV8tJ1Z9V8SKzO/3d4oFao6eUPWTerhrsWb1qdZigU1Ws9rDsj
+ nTn0V31hSOG3JYNkExkOm8I0kYXqFOcOpxQlynZdO86hsm6mTn12DHsvHslE3Z38XUAc
+ zExw==
+X-Gm-Message-State: AOAM533iCMLCKT+qJBPoBZFZjqdEIw978L6/FxwRU9JUh9yignBeXH6I
+ pgbkJzgNY9WW3Aby9SriNZh0SEWXUrl8mw==
+X-Google-Smtp-Source: ABdhPJxYhMjbxdEhvA/KWIdiwQwvcin2imGYH5/YR+xaNCa4TLM7VSZ8Jejrfz/+vfAhRQy+IpL+ow==
+X-Received: by 2002:aa7:c308:: with SMTP id l8mr4584950edq.246.1611919113831; 
+ Fri, 29 Jan 2021 03:18:33 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.32
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:18:32 -0800 (PST)
+ Fri, 29 Jan 2021 03:18:33 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/36] configure: Fix --enable-tcg-interpreter
-Date: Fri, 29 Jan 2021 12:17:57 +0100
-Message-Id: <20210129111814.566629-20-pbonzini@redhat.com>
+Subject: [PULL 20/36] configure: Improve TCI feature description
+Date: Fri, 29 Jan 2021 12:17:58 +0100
+Message-Id: <20210129111814.566629-21-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
 References: <20210129111814.566629-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x52f.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,56 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Stefan Weil <sw@weilnetz.de>
+Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-The configure option was backward, and we failed to
-pass the value on to meson.
+Users might want to enable all features, without realizing some
+features have negative effect. Mention the TCI feature is slow
+and experimental, hoping it will be selected knowingly.
 
-Fixes: 23a77b2d18b ("build-system: clean up TCG/TCI configury")
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Message-Id: <20210124211119.35563-1-richard.henderson@linaro.org>
+Suggested-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Tested-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20210125144530.2837481-2-philmd@redhat.com>
+Message-Id: <20210125144530.2837481-3-philmd@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- configure | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ configure         | 2 +-
+ meson_options.txt | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/configure b/configure
-index 87de49e2c2..8f3c4a6a5c 100755
+index 8f3c4a6a5c..21369efc63 100755
 --- a/configure
 +++ b/configure
-@@ -1119,9 +1119,9 @@ for opt do
-   ;;
-   --enable-whpx) whpx="enabled"
-   ;;
--  --disable-tcg-interpreter) tcg_interpreter="true"
-+  --disable-tcg-interpreter) tcg_interpreter="false"
-   ;;
--  --enable-tcg-interpreter) tcg_interpreter="false"
-+  --enable-tcg-interpreter) tcg_interpreter="true"
-   ;;
-   --disable-cap-ng)  cap_ng="disabled"
-   ;;
-@@ -6367,6 +6367,7 @@ NINJA=$ninja $meson setup \
-         -Dmalloc=$malloc -Dmalloc_trim=$malloc_trim -Dsparse=$sparse \
-         -Dkvm=$kvm -Dhax=$hax -Dwhpx=$whpx -Dhvf=$hvf \
-         -Dxen=$xen -Dxen_pci_passthrough=$xen_pci_passthrough -Dtcg=$tcg \
-+        -Dtcg_interpreter=$tcg_interpreter \
-         -Dcocoa=$cocoa -Dgtk=$gtk -Dmpath=$mpath -Dsdl=$sdl -Dsdl_image=$sdl_image \
-         -Dvnc=$vnc -Dvnc_sasl=$vnc_sasl -Dvnc_jpeg=$vnc_jpeg -Dvnc_png=$vnc_png \
-         -Dgettext=$gettext -Dxkbcommon=$xkbcommon -Du2f=$u2f -Dvirtiofsd=$virtiofsd \
+@@ -1748,7 +1748,7 @@ Advanced options (experts only):
+   --with-trace-file=NAME   Full PATH,NAME of file to store traces
+                            Default:trace-<pid>
+   --disable-slirp          disable SLIRP userspace network connectivity
+-  --enable-tcg-interpreter enable TCG with bytecode interpreter (TCI)
++  --enable-tcg-interpreter enable TCI (TCG with bytecode interpreter, experimental and slow)
+   --enable-malloc-trim     enable libc malloc_trim() for memory optimization
+   --oss-lib                path to OSS library
+   --cpu=CPU                Build for host CPU [$cpu]
+diff --git a/meson_options.txt b/meson_options.txt
+index 95f1079829..675a9c500a 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -40,7 +40,7 @@ option('xen_pci_passthrough', type: 'feature', value: 'auto',
+ option('tcg', type: 'feature', value: 'auto',
+        description: 'TCG support')
+ option('tcg_interpreter', type: 'boolean', value: false,
+-       description: 'TCG bytecode interpreter (TCI)')
++       description: 'TCG with bytecode interpreter (experimental and slow)')
+ option('cfi', type: 'boolean', value: 'false',
+        description: 'Control-Flow Integrity (CFI)')
+ option('cfi_debug', type: 'boolean', value: 'false',
 -- 
 2.29.2
 
