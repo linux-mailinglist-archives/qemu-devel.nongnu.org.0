@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7056430882B
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:19:28 +0100 (CET)
-Received: from localhost ([::1]:35012 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0133308828
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:17:18 +0100 (CET)
+Received: from localhost ([::1]:56890 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5RoF-00045c-Fw
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:19:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59964)
+	id 1l5Rm9-0001XC-UB
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:17:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59840)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RWH-0004um-BW
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:53 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:34318)
+ id 1l5RWB-0004h9-NB
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:47 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:40605)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RVz-00070W-3d
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:53 -0500
-Received: by mail-wm1-x329.google.com with SMTP id o10so6795283wmc.1
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:34 -0800 (PST)
+ id 1l5RW0-00070g-8E
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:47 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id c12so8392018wrc.7
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=4xSrwZi/LBTckPDqAvRCIzHfsu5xqT3tP56Jtyc9pH4=;
- b=MnhpmToQcf4DC70KBjralQqwDnb6WT8+bb3WjOXTpDGB7OkL5Q8WuhE+Q/BrFsab3L
- xuecy7DcjEWrQ/4OyZCBF7rLbqa7K/ow5vT3ox0vhV9AqSNvI7y+2Ue4+0inyKTXVgkw
- cd4doj6XAEAHoV/gVq03tf+RBtNYkAG2EraucScNHs2dgOrdC4NR85M1w8/G4VQXWval
- 99Z89P0W+4HimBnP0IVUtVX5jE9nJkld/tEA6w07D2X/Vx5wrEwV6UQSRizfGkP9Hje6
- 4LnUZZuBnFFr793VENiHlzoxUZsisZ3Tf4EsgrVb5UBs20y+NRoevf6Zpj3vHbD32u89
- uQ1A==
+ bh=BoKvlH3Fhi46hE67ztwWlR+zE+on7dVPNfaSS14thSg=;
+ b=jKo/VjhhwdVzbZFRDLvM1njjYiXin0HD7F5x1r+oH62a2Qe3b0G117Ya41IZMEuIvf
+ h52/1ZdkRPVSBRf7vatSWoSh+20DhtNoihndVqM23hcBMviPXVgZEnaBxM4CCaMxZ7QA
+ 2c5wMfouUvgNPFTgm6qQFzVgehye0rvgeFmKQmsfUxTGXBompoy0Sxh6svy0FdXjpKSQ
+ C6VS7oO3H4ohoVe3zJoY29kugHqNe17251iEKoZtzspL5MaguQldfnzq8fmd3ZSdzjJu
+ xlw89KqZFsZU5yq7pTKIm6YO+J6jBX6fyMeGel5UmVPzZ3ut8lNDTEiM0f/K22HeXWwP
+ nn/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=4xSrwZi/LBTckPDqAvRCIzHfsu5xqT3tP56Jtyc9pH4=;
- b=qpOB09cy6IrQiFWRGmEPb0uV6h3Rd9s1OWQJgyZhghtC5JFQ7RA7MuSJeWDjTZaNig
- h3VDRJvCgY1pxr8OMx6GpsmztJmHXshMa7lHBU7+MlI5KQXZAo3V+e9tUIuGcqK3KobG
- 7eZLq2xP/ARQf4yCHgMaBaOJbJ1VvwDHJkhrERqaImgtY+lMDy+QSK2hEvy5/CTkY3io
- Kdd46z5FIqw8/PKUo7UbrHs7kNG9PDJOvXPLx/cSZqLp4Y0aliEwqR5pgo5Bi36wrn1d
- LJJbp7vXvhQVD7pUHdxWh/LhlOWaQ2eZ+enxXJnD9D9UkuSVeOif3FVMcWajaBDAPZLz
- Uq3w==
-X-Gm-Message-State: AOAM5326LW6m14HiPmX6KUKMPbXaYfXbMrfQz3oAmgNRt4QGQpNSxTx0
- Cz7YatvcgqHnn97m8XYtpv6dO+IjTcnugQ==
-X-Google-Smtp-Source: ABdhPJyOCOK1QsLzbS7MpHSt6NqGNrOLWIujIbDq2SyZzFb+pyjeztuyJQnO7ny7+et3r2B8Qgj/Rg==
-X-Received: by 2002:a7b:ce17:: with SMTP id m23mr3231240wmc.178.1611918033365; 
- Fri, 29 Jan 2021 03:00:33 -0800 (PST)
+ bh=BoKvlH3Fhi46hE67ztwWlR+zE+on7dVPNfaSS14thSg=;
+ b=Y3d5MFlsz64fRzr6Y1qJ5TfoeDqx+FE+mk9JFPGx6XWB/412zKCyqXcDVG8iNpmzkB
+ HlHiuqGJNaAzurPeLYWWEIu8URwW+upfTnMgYh3L4ZCO8xhesS7tkEw7z9N4ZUdMgoil
+ 3Yq5cOl97PKd+oLjIp/apsxyk3j4F3SYDi2gh19aBcqajEWMxm61ZVmx/1D8j0t4bBKY
+ cKee7vs9DswHBEbgIONKq6mJ8O3A6QKeRlPeRKt+al9jQXYIYBaGWjQSRiq7IvaVibfY
+ UvAOcdXfEBnjVVJfjQeNZPWY5ZatNqCUWmbUQ5hFmbEIqdxUFOuV0RwnhaRwbPqOO7ef
+ r3vg==
+X-Gm-Message-State: AOAM531CODE25NpXM6tFIPx10+mZmjLU8Sve9klkY97eO8208OwCn0ZW
+ 762BcgtkKTBHB7VGknQayFiTnWJRXixmng==
+X-Google-Smtp-Source: ABdhPJyTz9cgYboCJXvedwUGkWWnkVo90eduvkZHrInIZYvVj/m09yq+396Q+BEOJgU0LQcx7aYI+Q==
+X-Received: by 2002:a5d:58dc:: with SMTP id o28mr3875488wrf.414.1611918034248; 
+ Fri, 29 Jan 2021 03:00:34 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.32
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.33
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:00:32 -0800 (PST)
+ Fri, 29 Jan 2021 03:00:33 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 20/46] pvpanic : update pvpanic spec document
-Date: Fri, 29 Jan 2021 10:59:46 +0000
-Message-Id: <20210129110012.8660-21-peter.maydell@linaro.org>
+Subject: [PULL 21/46] tests/qtest: add a test case for pvpanic-pci
+Date: Fri, 29 Jan 2021 10:59:47 +0000
+Message-Id: <20210129110012.8660-22-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
 References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,53 +88,132 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mihai Carabas <mihai.carabas@oracle.com>
 
-Add pvpanic PCI device support details in docs/specs/pvpanic.txt.
+Add a test case for pvpanic-pci device. The scenario is the same as pvpanic
+ISA device, but is using the PCI bus.
 
 Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Mihai Carabas <mihai.carabas@oracle.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/specs/pvpanic.txt | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+ tests/qtest/pvpanic-pci-test.c | 94 ++++++++++++++++++++++++++++++++++
+ tests/qtest/meson.build        |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 tests/qtest/pvpanic-pci-test.c
 
-diff --git a/docs/specs/pvpanic.txt b/docs/specs/pvpanic.txt
-index a90fbca72b7..8afcde11cc8 100644
---- a/docs/specs/pvpanic.txt
-+++ b/docs/specs/pvpanic.txt
-@@ -1,7 +1,7 @@
- PVPANIC DEVICE
- ==============
- 
--pvpanic device is a simulated ISA device, through which a guest panic
-+pvpanic device is a simulated device, through which a guest panic
- event is sent to qemu, and a QMP event is generated. This allows
- management apps (e.g. libvirt) to be notified and respond to the event.
- 
-@@ -9,6 +9,9 @@ The management app has the option of waiting for GUEST_PANICKED events,
- and/or polling for guest-panicked RunState, to learn when the pvpanic
- device has fired a panic event.
- 
-+The pvpanic device can be implemented as an ISA device (using IOPORT) or as a
-+PCI device.
+diff --git a/tests/qtest/pvpanic-pci-test.c b/tests/qtest/pvpanic-pci-test.c
+new file mode 100644
+index 00000000000..24b33c64a0b
+--- /dev/null
++++ b/tests/qtest/pvpanic-pci-test.c
+@@ -0,0 +1,94 @@
++/*
++ * QTest testcase for PV Panic PCI device
++ *
++ * Copyright (C) 2020 Oracle
++ *
++ * Authors:
++ *     Mihai Carabas <mihai.carabas@oracle.com>
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ *
++ */
 +
- ISA Interface
- -------------
- 
-@@ -24,6 +27,14 @@ bit 1: a guest panic has happened and will be handled by the guest;
-        the host should record it or report it, but should not affect
-        the execution of the guest.
- 
-+PCI Interface
-+-------------
++#include "qemu/osdep.h"
++#include "libqos/libqtest.h"
++#include "qapi/qmp/qdict.h"
++#include "libqos/pci.h"
++#include "libqos/pci-pc.h"
++#include "hw/pci/pci_regs.h"
 +
-+The PCI interface is similar to the ISA interface except that it uses an MMIO
-+address space provided by its BAR0, 1 byte long. Any machine with a PCI bus
-+can enable a pvpanic device by adding '-device pvpanic-pci' to the command
-+line.
++static void test_panic_nopause(void)
++{
++    uint8_t val;
++    QDict *response, *data;
++    QTestState *qts;
++    QPCIBus *pcibus;
++    QPCIDevice *dev;
++    QPCIBar bar;
 +
- ACPI Interface
- --------------
- 
++    qts = qtest_init("-device pvpanic-pci,addr=04.0 -action panic=none");
++    pcibus = qpci_new_pc(qts, NULL);
++    dev = qpci_device_find(pcibus, QPCI_DEVFN(0x4, 0x0));
++    qpci_device_enable(dev);
++    bar = qpci_iomap(dev, 0, NULL);
++
++    qpci_memread(dev, bar, 0, &val, sizeof(val));
++    g_assert_cmpuint(val, ==, 3);
++
++    val = 1;
++    qpci_memwrite(dev, bar, 0, &val, sizeof(val));
++
++    response = qtest_qmp_eventwait_ref(qts, "GUEST_PANICKED");
++    g_assert(qdict_haskey(response, "data"));
++    data = qdict_get_qdict(response, "data");
++    g_assert(qdict_haskey(data, "action"));
++    g_assert_cmpstr(qdict_get_str(data, "action"), ==, "run");
++    qobject_unref(response);
++
++    qtest_quit(qts);
++}
++
++static void test_panic(void)
++{
++    uint8_t val;
++    QDict *response, *data;
++    QTestState *qts;
++    QPCIBus *pcibus;
++    QPCIDevice *dev;
++    QPCIBar bar;
++
++    qts = qtest_init("-device pvpanic-pci,addr=04.0 -action panic=pause");
++    pcibus = qpci_new_pc(qts, NULL);
++    dev = qpci_device_find(pcibus, QPCI_DEVFN(0x4, 0x0));
++    qpci_device_enable(dev);
++    bar = qpci_iomap(dev, 0, NULL);
++
++    qpci_memread(dev, bar, 0, &val, sizeof(val));
++    g_assert_cmpuint(val, ==, 3);
++
++    val = 1;
++    qpci_memwrite(dev, bar, 0, &val, sizeof(val));
++
++    response = qtest_qmp_eventwait_ref(qts, "GUEST_PANICKED");
++    g_assert(qdict_haskey(response, "data"));
++    data = qdict_get_qdict(response, "data");
++    g_assert(qdict_haskey(data, "action"));
++    g_assert_cmpstr(qdict_get_str(data, "action"), ==, "pause");
++    qobject_unref(response);
++
++    qtest_quit(qts);
++}
++
++int main(int argc, char **argv)
++{
++    int ret;
++
++    g_test_init(&argc, &argv, NULL);
++    qtest_add_func("/pvpanic-pci/panic", test_panic);
++    qtest_add_func("/pvpanic-pci/panic-nopause", test_panic_nopause);
++
++    ret = g_test_run();
++
++    return ret;
++}
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 0e85343b96b..7ccdf023111 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -34,6 +34,7 @@ qtests_i386 = \
+    config_all_devices.has_key('CONFIG_ISA_IPMI_BT') ? ['ipmi-bt-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_WDT_IB700') ? ['wdt_ib700-test'] : []) +              \
+   (config_all_devices.has_key('CONFIG_PVPANIC_ISA') ? ['pvpanic-test'] : []) +              \
++  (config_all_devices.has_key('CONFIG_PVPANIC_PCI') ? ['pvpanic-pci-test'] : []) +          \
+   (config_all_devices.has_key('CONFIG_HDA') ? ['intel-hda-test'] : []) +                    \
+   (config_all_devices.has_key('CONFIG_I82801B11') ? ['i82801b11-test'] : []) +             \
+   (config_all_devices.has_key('CONFIG_IOH3420') ? ['ioh3420-test'] : []) +                  \
 -- 
 2.20.1
 
