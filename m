@@ -2,43 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7F2030826F
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 01:36:21 +0100 (CET)
-Received: from localhost ([::1]:59150 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D54B308272
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 01:36:45 +0100 (CET)
+Received: from localhost ([::1]:60044 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5Hls-0003A1-Sj
-	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 19:36:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51344)
+	id 1l5HmG-0003WP-Ki
+	for lists+qemu-devel@lfdr.de; Thu, 28 Jan 2021 19:36:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51370)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l5Hk4-0001NI-6m; Thu, 28 Jan 2021 19:34:28 -0500
-Received: from ozlabs.org ([2401:3900:2:1::2]:54549)
+ id 1l5Hk5-0001OO-QW; Thu, 28 Jan 2021 19:34:29 -0500
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:35277 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
- id 1l5Hk1-0003Ip-K3; Thu, 28 Jan 2021 19:34:27 -0500
+ id 1l5Hk1-0003Iq-Pj; Thu, 28 Jan 2021 19:34:29 -0500
 Received: by ozlabs.org (Postfix, from userid 1007)
- id 4DRdd94rjHz9sWQ; Fri, 29 Jan 2021 11:34:21 +1100 (AEDT)
+ id 4DRdd95zNZz9sWV; Fri, 29 Jan 2021 11:34:21 +1100 (AEDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=gibson.dropbear.id.au; s=201602; t=1611880461;
- bh=aTIc4bSTeTp60jMr4GAQkVyVCF6DuJukcGFPbabpWJo=;
+ bh=cZAkCQJEXsHUrJDX2tYjDU7Yfai14T0P06p2LEd+qeM=;
  h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=jE4n8QGxXI1ltMK/fpsSQZdkKDnHCY5Tp5sGY9zWOyst94kTMr6hxBC/O5dua8SjE
- uGDZXItjT9gDvwo5zKjHbKVxm0sk1uncVzfK9LDaToNQKYmPJxeg5wLYi/SnsW+GSa
- KS8ksYsWF4CxoeUwTe0/rQD2b98ODWjg7+HQ+oNI=
-Date: Fri, 29 Jan 2021 10:56:39 +1100
+ b=HK5HxoUhjDb+/VVxiICxUR8HHJgd3dqysznPpP3zAbP8EyVouv/wutaF1IyHUvz6n
+ u5uBZft+7rUVlQb65Q8pWQQPmXvGkeCXjMjgHByY1pIAG4bUjIY3I3VLJRmGP9bYnd
+ KzxMTgmqotjquEqZMqu9dWaSzl6Oj2hTUbVjXb78=
+Date: Fri, 29 Jan 2021 11:05:57 +1100
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: Re: [PATCH 1/3] spapr: move spapr_machine_using_legacy_numa() to
- spapr_numa.c
-Message-ID: <20210128235639.GD6951@yekko.fritz.box>
-References: <20210128151731.1333664-1-danielhb413@gmail.com>
- <20210128151731.1333664-2-danielhb413@gmail.com>
+Subject: Re: [PATCH v2 2/3] spapr_numa.c: create
+ spapr_numa_initial_nvgpu_numa_id() helper
+Message-ID: <20210129000557.GE6951@yekko.fritz.box>
+References: <20210128174213.1349181-1-danielhb413@gmail.com>
+ <20210128174213.1349181-3-danielhb413@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="fOHHtNG4YXGJ0yqR"
+ protocol="application/pgp-signature"; boundary="u5E4XgoOPWr4PD9E"
 Content-Disposition: inline
-In-Reply-To: <20210128151731.1333664-2-danielhb413@gmail.com>
+In-Reply-To: <20210128174213.1349181-3-danielhb413@gmail.com>
 Received-SPF: pass client-ip=2401:3900:2:1::2; envelope-from=dgibson@ozlabs.org;
  helo=ozlabs.org
 X-Spam_score_int: -17
@@ -64,76 +64,93 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---fOHHtNG4YXGJ0yqR
-Content-Type: text/plain; charset=us-ascii
+--u5E4XgoOPWr4PD9E
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Jan 28, 2021 at 12:17:29PM -0300, Daniel Henrique Barboza wrote:
-> This function is used only in spapr_numa.c.
+On Thu, Jan 28, 2021 at 02:42:12PM -0300, Daniel Henrique Barboza wrote:
+> We'll need to check the initial value given to spapr->gpu_numa_id when
+> building the rtas DT, so put it in a helper for easier access and to
+> avoid repetition.
 >=20
+> Tested-by: C=E9dric Le Goater <clg@kaod.org>
+> Reviewed-by: Greg Kurz <groug@kaod.org>
 > Signed-off-by: Daniel Henrique Barboza <danielhb413@gmail.com>
 
 Applied to ppc-for-6.0, thanks.
 
 > ---
->  hw/ppc/spapr.c         | 9 ---------
->  hw/ppc/spapr_numa.c    | 9 +++++++++
->  include/hw/ppc/spapr.h | 1 -
->  3 files changed, 9 insertions(+), 10 deletions(-)
+>  hw/ppc/spapr.c              | 11 +----------
+>  hw/ppc/spapr_numa.c         | 14 ++++++++++++++
+>  include/hw/ppc/spapr_numa.h |  1 +
+>  3 files changed, 16 insertions(+), 10 deletions(-)
 >=20
 > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 6c47466fc2..2d60c6f594 100644
+> index 2d60c6f594..bc3fa276ff 100644
 > --- a/hw/ppc/spapr.c
 > +++ b/hw/ppc/spapr.c
-> @@ -295,15 +295,6 @@ static hwaddr spapr_node0_size(MachineState *machine)
->      return machine->ram_size;
->  }
+> @@ -2765,16 +2765,7 @@ static void spapr_machine_init(MachineState *machi=
+ne)
 > =20
-> -bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
-> -{
-> -    MachineState *machine =3D MACHINE(spapr);
-> -    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(machine);
-> -
-> -    return smc->pre_5_2_numa_associativity ||
-> -           machine->numa_state->num_nodes <=3D 1;
-> -}
-> -
->  static void add_str(GString *s, const gchar *s1)
->  {
->      g_string_append_len(s, s1, strlen(s1) + 1);
+>      }
+> =20
+> -    /*
+> -     * NVLink2-connected GPU RAM needs to be placed on a separate NUMA n=
+ode.
+> -     * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() whic=
+h is
+> -     * called from vPHB reset handler so we initialize the counter here.
+> -     * If no NUMA is configured from the QEMU side, we start from 1 as G=
+PU RAM
+> -     * must be equally distant from any other node.
+> -     * The final value of spapr->gpu_numa_id is going to be written to
+> -     * max-associativity-domains in spapr_build_fdt().
+> -     */
+> -    spapr->gpu_numa_id =3D MAX(1, machine->numa_state->num_nodes);
+> +    spapr->gpu_numa_id =3D spapr_numa_initial_nvgpu_numa_id(machine);
+> =20
+>      /* Init numa_assoc_array */
+>      spapr_numa_associativity_init(spapr, machine);
 > diff --git a/hw/ppc/spapr_numa.c b/hw/ppc/spapr_numa.c
-> index b50796bbe3..261810525b 100644
+> index 261810525b..a757dd88b8 100644
 > --- a/hw/ppc/spapr_numa.c
 > +++ b/hw/ppc/spapr_numa.c
-> @@ -19,6 +19,15 @@
->  /* Moved from hw/ppc/spapr_pci_nvlink2.c */
->  #define SPAPR_GPU_NUMA_ID           (cpu_to_be32(1))
+> @@ -46,6 +46,20 @@ static bool spapr_numa_is_symmetrical(MachineState *ms)
+>      return true;
+>  }
 > =20
-> +static bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr)
+> +/*
+> + * NVLink2-connected GPU RAM needs to be placed on a separate NUMA node.
+> + * We assign a new numa ID per GPU in spapr_pci_collect_nvgpu() which is
+> + * called from vPHB reset handler so we initialize the counter here.
+> + * If no NUMA is configured from the QEMU side, we start from 1 as GPU R=
+AM
+> + * must be equally distant from any other node.
+> + * The final value of spapr->gpu_numa_id is going to be written to
+> + * max-associativity-domains in spapr_build_fdt().
+> + */
+> +unsigned int spapr_numa_initial_nvgpu_numa_id(MachineState *machine)
 > +{
-> +    MachineState *machine =3D MACHINE(spapr);
-> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_GET_CLASS(machine);
-> +
-> +    return smc->pre_5_2_numa_associativity ||
-> +           machine->numa_state->num_nodes <=3D 1;
+> +    return MAX(1, machine->numa_state->num_nodes);
 > +}
 > +
->  static bool spapr_numa_is_symmetrical(MachineState *ms)
->  {
->      int src, dst;
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index c27c7ce515..ccbeeca1de 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -851,7 +851,6 @@ int spapr_max_server_number(SpaprMachineState *spapr);
->  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->                        uint64_t pte0, uint64_t pte1);
->  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
-> -bool spapr_machine_using_legacy_numa(SpaprMachineState *spapr);
+>  /*
+>   * This function will translate the user distances into
+>   * what the kernel understand as possible values: 10
+> diff --git a/include/hw/ppc/spapr_numa.h b/include/hw/ppc/spapr_numa.h
+> index b3fd950634..6f9f02d3de 100644
+> --- a/include/hw/ppc/spapr_numa.h
+> +++ b/include/hw/ppc/spapr_numa.h
+> @@ -31,5 +31,6 @@ int spapr_numa_fixup_cpu_dt(SpaprMachineState *spapr, v=
+oid *fdt,
+>                              int offset, PowerPCCPU *cpu);
+>  int spapr_numa_write_assoc_lookup_arrays(SpaprMachineState *spapr, void =
+*fdt,
+>                                           int offset);
+> +unsigned int spapr_numa_initial_nvgpu_numa_id(MachineState *machine);
 > =20
->  /* DRC callbacks. */
->  void spapr_core_release(DeviceState *dev);
+>  #endif /* HW_SPAPR_NUMA_H */
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -141,25 +158,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---fOHHtNG4YXGJ0yqR
+--u5E4XgoOPWr4PD9E
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmATTzUACgkQbDjKyiDZ
-s5I0VBAA5jegq+pMwSBngsTITZB5kWWfv4jDhJUGmybqBH7KN67pF4DXBEuanQOB
-IIZJmOEBr3nARP2w4PRw+2b36Fbo0KaQXTGcvGRGrGWaWjus78wNVKTsd0qQcVpS
-mWzhC4rWg7hROWem24PsrQAgqYuThVP6ty+40RO+DznNwao3tfkQKDfuWtAT1Cpq
-aLS+ifr666DieKfOoBk0dRnwF9E4iCpSxwarBr8FB5IvIvwbp4a9K3j6omlPWrLQ
-i238ZEE+ox0YKDASjlgbF+FpXER3O1fzdiMS2/cmCltzZver5ZukSs1up4OS6lmE
-97G2u2WOZD3RKjOZa1lF3s8JOouEe3Dm8AgPqlOTLfUMdDd5Dg4OGGZfqCasF6+g
-F45FtR9P817vioM7xou690HKeTjDKRT6GQHGTK5zy2jop+TLWVFNxt2SxPru3PVE
-ztUC5pckecjbZLweuoTkvqW5g5CxdZzTZevh89uixWEE4snL/RXmPhox30+/cmG1
-o2K38UMu0cMH73zDsKGW1hkN1bXHkf2awhw8LvvnSoyzUOeIbgK0+whD0Z8gHr6J
-BmO4iCdLfX8h56BpInYplFS9sW7sA9woJxPiSyDiU+tMfv7MPWwmF7A/wVv+HrvJ
-wBnuRgxbt1z7Jb3CcBF3ayWVAAe6QmXIVm315QUiu6gGcly8dX4=
-=YE3m
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmATUWUACgkQbDjKyiDZ
+s5KPQBAAvStS8S/0djspQPu6U7/HDDfYR93IPv5odXH/4/IKusz8iMfAk6dTX0UT
+YQktuHzq4uucqpu/SzdyPfaRfzN+Pqj5By2IE1Dnti3kqmfg/cXsARmfo+Zk6iyh
+toevYPAjKfDtSVJ79cFP5dt3NtUBIRzwbaCaIoV1wyi1qrunTbFANaHOZSvXBuRt
+HpCjQ+NCcnqJnv0uFpfXeu/pzhmNRcVC9mthMv4PEMGsFBTWB2rkMb3ExJkCvGyW
+pPnRtnSkSMWENkzHTKf8LCzsMtJN+W4LIN1QlazZP9Xhsvp2NTFAhR3PHPUGI/df
+pvJYi4+1/Zu6YkW0qicMGGne30GI38lx/LpkFWRRM+MMPBLeLHXrQq4VLCoGCMf6
+j0kM3V/qAh/2HYJhuZEtB3h2eq3xtKuyeyt/FWWgiH4PGL3W789L7CCAtg378cTN
+4IJWbk8D6RFWD5n4fWi9+TBwp1eQUf/IG7eh3gQO7SKSDObdaCVkRuw4I3Aztuf2
+jF5M5Jpp9RLcRvLz6HY0DgdFIqzzJpXIpo18Y1stz7nuViIUtz33Ae2k0a/+bxg7
+9rN41/Syo/qF6+2AeR/lORSWcj7AChNhURWbm3MZTLpHlNgwYx6MIeW5YIcuGlKG
+nzs5ToBzE2lJ76HfOXP/+PDgARVs2uyFp3xAB8Va8mubQsNa+sQ=
+=Een7
 -----END PGP SIGNATURE-----
 
---fOHHtNG4YXGJ0yqR--
+--u5E4XgoOPWr4PD9E--
 
