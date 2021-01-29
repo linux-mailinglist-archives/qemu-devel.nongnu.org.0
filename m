@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31162308792
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:54:36 +0100 (CET)
-Received: from localhost ([::1]:35188 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C4E30879C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 10:58:44 +0100 (CET)
+Received: from localhost ([::1]:38014 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5QU7-00050M-91
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:54:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49880)
+	id 1l5QY7-0006OW-MW
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 04:58:43 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50450)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5QTL-0004aY-44
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:53:47 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53661)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l5QTJ-0003PC-A3
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 04:53:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1611914024;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=l+5ypflzp11oJOOWvOuxz6LW6Y71tZOR0DB98Gy9+pI=;
- b=LLGlnI4swbDcBc3wRZ+/NaJFJGeSWL/l4EKENHD3mKLoI9FmkX6Rj9JzSbriPxxNhVE/Dt
- yMt30E9et9Uu3wMJMfNmkGwZNLbXwkGOVr8RHtMLcZgWtj/fQK/Iu8kU2law+Ohrw2slzL
- H5vcg39xYNJqVBk0bR7spQxTcqagTG4=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-590-V1ePHfxuMaKUGx4dWGDFcw-1; Fri, 29 Jan 2021 04:53:33 -0500
-X-MC-Unique: V1ePHfxuMaKUGx4dWGDFcw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 692ED94DC3;
- Fri, 29 Jan 2021 09:53:32 +0000 (UTC)
-Received: from redhat.com (ovpn-115-94.ams2.redhat.com [10.36.115.94])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C11F61DB;
- Fri, 29 Jan 2021 09:53:30 +0000 (UTC)
-Date: Fri, 29 Jan 2021 09:53:27 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Roman Bolshakov <r.bolshakov@yadro.com>
-Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
- test-crypto-tlscredsx509
-Message-ID: <20210129095327.GC4001740@redhat.com>
-References: <20210126163647.GJ3640294@redhat.com>
- <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
- <20210127121723.GI3653144@redhat.com>
- <0de4a2a8-577d-a46e-3a66-1f9a9e589a4d@weilnetz.de>
- <20210127165330.GT3653144@redhat.com>
- <72e44724-94ca-43f0-aea1-2554c43cc4c3@weilnetz.de>
- <20210127181731.GX3653144@redhat.com>
- <27c01eba-ebc1-9b8e-d7ea-38ad9b4350d9@weilnetz.de>
- <20210127185917.GB3653144@redhat.com>
- <YBPKtL3reYFm7bgy@SPB-NB-133.local>
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l5QWs-0005qv-Sy; Fri, 29 Jan 2021 04:57:26 -0500
+Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:37063)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>)
+ id 1l5QWq-00051I-QS; Fri, 29 Jan 2021 04:57:26 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.4.51])
+ by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 7694C8055D33;
+ Fri, 29 Jan 2021 10:57:21 +0100 (CET)
+Received: from kaod.org (37.59.142.104) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Fri, 29 Jan
+ 2021 10:57:20 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-104R00569b82ef3-5575-4c42-a44d-4bf3abc55604,
+ F0B20D4B8DDBF51DA61C26A45925665B938B7F3E) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Fri, 29 Jan 2021 10:57:14 +0100
+From: Greg Kurz <groug@kaod.org>
+To: =?UTF-8?B?Q8OpZHJpYw==?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH] pnv/ppc: Set default RAM size to 1 GB
+Message-ID: <20210129105714.54355dd1@bahia.lan>
+In-Reply-To: <20210129092936.769412-1-clg@kaod.org>
+References: <20210129092936.769412-1-clg@kaod.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <YBPKtL3reYFm7bgy@SPB-NB-133.local>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.252,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [37.59.142.104]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 2851f175-779f-4db3-98ff-3fd987e976a7
+X-Ovh-Tracer-Id: 15852952163528907171
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfedvgddtlecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthhqredtredtjeenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepveelhfdtudffhfeiveehhfelgeellefgteffteekudegheejfffghefhfeeuudffnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutdegnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopegtlhhgsehkrghougdrohhrgh
+Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
+ helo=smtpout1.mo529.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -91,72 +67,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Stefan Weil <sw@weilnetz.de>, Alexander Graf <agraf@csgraf.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Joel Stanley <joel@jms.id.au>,
+ David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Jan 29, 2021 at 11:43:32AM +0300, Roman Bolshakov wrote:
-> On Wed, Jan 27, 2021 at 06:59:17PM +0000, Daniel P. Berrangé wrote:
-> > On Wed, Jan 27, 2021 at 07:56:16PM +0100, Stefan Weil wrote:
-> > > Am 27.01.21 um 19:17 schrieb Daniel P. Berrangé:
-> > > 
-> > > > On Wed, Jan 27, 2021 at 06:05:08PM +0100, Stefan Weil wrote:
-> > > > > Am 27.01.21 um 17:53 schrieb Daniel P. Berrangé:
-> > > > > 
-> > > > > > In $QEMU.git/crypto/init.c can you uncomment the "#define DEBUG_GNUTLS"
-> > > > > > line and then re-build and re-run the test case.
-> > > > > > 
-> > > > > > There's a bunch of debug logs in code paths from gnutls_x509_crt_privkey_sign
-> > > > > > that might give us useful info.
-> > > > > > 
-> > > > > > Regards,
-> > > > > > Daniel
-> > > > > 
-> > > > > % LANG=C.UTF-8 tests/test-crypto-tlscredsx509
-> > > > > # random seed: R02S9b95072a368ad370cdd4c780b8074596
-> > > > > 3: ASSERT: mpi.c[wrap_nettle_mpi_print]:60
-> > > > > 3: ASSERT: mpi.c[wrap_nettle_mpi_print]:60
-> > > > > 2: signing structure using RSA-SHA256
-> > > > > 3: ASSERT: common.c[_gnutls_x509_der_encode]:855
-> > > > > 3: ASSERT: sign.c[_gnutls_x509_pkix_sign]:174
-> > > > > 3: ASSERT: x509_write.c[gnutls_x509_crt_privkey_sign]:1834
-> > > > > 3: ASSERT: x509_write.c[gnutls_x509_crt_sign2]:1152
-> > > > > Bail out! FATAL-CRITICAL: Failed to sign certificate ASN1 parser: Value is
-> > > > > not valid.
-> > > > So it shows its failing inside a asn1_der_coding call, but I can't see
-> > > > why it would fail, especially if the same test suite passes fine on
-> > > > macOS x86_64 hosts.
-> > > 
-> > > 
-> > > It returns ASN1_MEM_ERROR, so the input vector is too small.
-> > 
-> > Hmm, that's odd - "Value is not valid" corresponds to
-> > ASN1_VALUE_NOT_VALID error code.
-> > 
-> 
-> Hi Daniel, Stefan,
-> 
-> It's interesting that "make check" of libtasn1 fails with three tests
-> and two of them produce VALUE_NOT_VALID error.
-> 
-> The failing tests are:
->   FAIL: Test_parser
->   FAIL: Test_tree
->   FAIL: copynode
+On Fri, 29 Jan 2021 10:29:36 +0100
+C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 
-That's interesting. Assuming 'make check' for libtasn1 succeeeds on
-x86_64 macOS, then I'm inclined to blame this whole problem on
-libtasn1 not QEMU.
+> Any value below will result in a skiboot crash :
+>=20
+>     [    0.034949905,3] MEM: Partial overlap detected between regions:
+>     [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a450000] =
+(new)
+>     [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000-0x3=
+8400000]
+>     [    0.034980367,3] Out of memory adding skiboot reserved areas
+>     [    0.035074945,3] ***********************************************
+>     [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
+>     [    0.035104247,3]     .
+>     [    0.035108025,3]      .
+>     [    0.035111651,3]       .
+>     [    0.035115231,3]         OO__)
+>     [    0.035119198,3]        <"__/
+>     [    0.035122980,3]         ^ ^
+>=20
+> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
 
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+>  hw/ppc/pnv.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 50810df83815..70ce12f6dc73 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -1994,7 +1994,7 @@ static void pnv_machine_class_init(ObjectClass *oc,=
+ void *data)
+>       * RAM defaults to less than 2048 for 32-bit hosts, and large
+>       * enough to fit the maximum initrd size at it's load address
+>       */
+> -    mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
+> +    mc->default_ram_size =3D 1 * GiB;
+>      mc->default_ram_id =3D "pnv.ram";
+>      ispc->print_info =3D pnv_pic_print_info;
+>      nc->nmi_monitor_handler =3D pnv_nmi;
 
 
