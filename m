@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4B33308821
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:14:30 +0100 (CET)
-Received: from localhost ([::1]:48638 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C338630880E
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:07:20 +0100 (CET)
+Received: from localhost ([::1]:51380 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5RjR-0006bu-Nq
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:14:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59676)
+	id 1l5RcV-0004cy-QU
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:07:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59690)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RW4-0004Qn-LU
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:40 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:44965)
+ id 1l5RW4-0004RG-W2
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:41 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:37915)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5RVp-0006yJ-L8
+ id 1l5RVr-0006yX-Mg
  for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:00:40 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id d16so8349937wro.11
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:25 -0800 (PST)
+Received: by mail-wr1-x42b.google.com with SMTP id s7so5397447wru.5
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:subject:date:message-id:in-reply-to:references:mime-version
  :content-transfer-encoding;
- bh=dIU1+pzOEqhA9i3KvQhwnkFnGoZA70Rr7h7wCQWNREk=;
- b=DtPju1WdLMuqO7D2fp8Vw5UzXRW8UyLMvDo009PBni6LdyIe7OMNLm1fy5dxpzH3ST
- Ul9RJ+G2iJUsDOiQnI+jg8tqISGCLAor8JEInbaHMDHgfmrK+m3IVJLzlT7dqG0Hpb3g
- b/LBORD3edeBOJ64nyYAFVmqOAL3f4Kr2poaWo7J8w2/KXH2H0z1s/5nFAQRkZWBxB/i
- RRhgSYX6gdLi/EiZV4YNjmkuQ6c2GKg3FYcI34xsnEIcBoMFBjDPgmUrxiNvFiGiGjQz
- MIk20mr4S2bZY6H3YlLyMVAcmZbIJaxNWOlJEigJWIb2iAkbv1xj5l9Ew7L1Eh6oVLph
- oFVQ==
+ bh=wUKwKAR4mrxHk/aDOVAn0j/MLIPGv5LCN37QdLveryo=;
+ b=SmZ3tJYK8HHwcR+p+8matgsOpGA2MXXFKtUaIt+hhaWb5lnWlNwNznBge3Oek8a0F/
+ ln5ykOBEJliA4tdXxavCPasSZCvGWCSkhXOQOok3beytj0ogtAF/8nq6qnY9x4FjJLKv
+ tWQm/uEe+cIC7T3AaD4oPQND4QAMjrZ8/CjH+K/+6B2i/t6oo9Zj3MCREZW4K+kAHg5b
+ gDvwcYGIDDDJQvPiym045x52hW2To9AmvEGAPcSyS/HaY+XLVw5x8zh8xREor3XEcij5
+ HLo26Yx4OpoHIQ4x7huw0UKuA6/+fL1l3e8qTphwxY6N0zDv8pOdpdMc93soOkUbK7kP
+ pdwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=dIU1+pzOEqhA9i3KvQhwnkFnGoZA70Rr7h7wCQWNREk=;
- b=tCsAc9QklPJbV1MYMs3InXcF7KnCA40WVHRcrpOu5GFX9EbfnKdRas0RsYTZU/GJpz
- 60xtJmxcktQTZoba2JQdKIDUJSt5ifqq+axEWP+P2ATmYFI6is9bLIy2Jd0Q4apWTReN
- QxhoYfi10/+ZxeaN4Ga+v3XjTaQttVm5wzK5fKLMD9qHMVhDRuMGBmZQbP07bYBGQszz
- A+bQTtvtji1gYN+DNHaiXeKXKq//AiDl4JDuVwK1sxZTWbYqSkkSAaUx8SORUvCCVx11
- Mj8KpTCGXoM5X5RfNWmALKDH10b++faM5wLvNDIfXaRKh/P7sw6Z6jcxiSGPT1udXeom
- vTYQ==
-X-Gm-Message-State: AOAM530/sIrJLcPAVuGgw+hbap18bv5azPMkzGItOesCf42FMNrZ1+M0
- qYEQ6sCHp68ymvs3UlUjUhZzSNBdMsY3fQ==
-X-Google-Smtp-Source: ABdhPJzLvuD38YEBXpOAWKr/5u0bmuMtpdmsiXr4KZ/bXX42L1MK3jJOZruVL9B8E3gICbeY9VjDRg==
-X-Received: by 2002:a5d:6912:: with SMTP id t18mr3967409wru.268.1611918024392; 
- Fri, 29 Jan 2021 03:00:24 -0800 (PST)
+ bh=wUKwKAR4mrxHk/aDOVAn0j/MLIPGv5LCN37QdLveryo=;
+ b=MJzkcXtYROMCDr9GhTGUPjkK2dG7wg5aUDuj1IyQDXfFckH+V+s5BaoAlYb8gi0GY+
+ 9GFU8QMZEbIaVgiy1F8lXW6eMzGdjdwuwZm5gI6GOl1Pt4t+f60PEMU4eqxBpQEESyHU
+ li+CbE+tq5NNPC2kOwmgZUR2NejIi7Qyda8LCJ/qJjFu6gqLF/PE3TirdR86csZkb702
+ 3oemIkV4bNn/DxZ/MIOlXTEXWovbe60WOzn7cCUTkCckjhaQZkDM5oQtBaEeSd/DNmFB
+ UzH3/1M5xI3+IPG2sSCcGPWKgOh6Tbj/UXunmHk67SiSFt2cYWLRIZUQSlu0S2nNN6KG
+ xCnA==
+X-Gm-Message-State: AOAM531jq5asAUuQbx1Hze8zxWkBEQ2G69EA0gN15BE17LHzrMRngGCl
+ x8REHE3ug4jn4eROp2iw7kHGbv6ExP7/Hw==
+X-Google-Smtp-Source: ABdhPJza/WWcLi6S3aZ5qaA593ToT5yzglCGTLAFSv2xjypUa1mMKQKfa43XAakL/8P/x9KAjIzMtg==
+X-Received: by 2002:adf:b1da:: with SMTP id r26mr4129130wra.198.1611918025270; 
+ Fri, 29 Jan 2021 03:00:25 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.23
+ by smtp.gmail.com with ESMTPSA id w20sm9268761wmm.12.2021.01.29.03.00.24
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:00:23 -0800 (PST)
+ Fri, 29 Jan 2021 03:00:24 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/46] configure: cross-compiling with empty cross_prefix
-Date: Fri, 29 Jan 2021 10:59:36 +0000
-Message-Id: <20210129110012.8660-11-peter.maydell@linaro.org>
+Subject: [PULL 11/46] osdep: build with non-working system() function
+Date: Fri, 29 Jan 2021 10:59:37 +0000
+Message-Id: <20210129110012.8660-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210129110012.8660-1-peter.maydell@linaro.org>
 References: <20210129110012.8660-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,56 +88,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Joelle van Dyne <j@getutm.app>
 
-The iOS toolchain does not use the host prefix naming convention. So we
-need to enable cross-compile options while allowing the PREFIX to be
-blank.
+Build without error on hosts without a working system(). If system()
+is called, return -1 with ENOSYS.
 
-Reviewed-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 Signed-off-by: Joelle van Dyne <j@getutm.app>
-Message-id: 20210126012457.39046-3-j@getutm.app
+Message-id: 20210126012457.39046-6-j@getutm.app
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- configure | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ meson.build          |  1 +
+ include/qemu/osdep.h | 12 ++++++++++++
+ 2 files changed, 13 insertions(+)
 
-diff --git a/configure b/configure
-index 8549c7b5ebe..997d83a2ad5 100755
---- a/configure
-+++ b/configure
-@@ -238,6 +238,7 @@ cpu=""
- iasl="iasl"
- interp_prefix="/usr/gnemul/qemu-%M"
- static="no"
-+cross_compile="no"
- cross_prefix=""
- audio_drv_list=""
- block_drv_rw_whitelist=""
-@@ -469,6 +470,7 @@ for opt do
-   optarg=$(expr "x$opt" : 'x[^=]*=\(.*\)')
-   case "$opt" in
-   --cross-prefix=*) cross_prefix="$optarg"
-+                    cross_compile="yes"
-   ;;
-   --cc=*) CC="$optarg"
-   ;;
-@@ -1691,7 +1693,7 @@ $(echo Deprecated targets: $deprecated_targets_list | \
-   --target-list-exclude=LIST exclude a set of targets from the default target-list
+diff --git a/meson.build b/meson.build
+index 27c31caa2d1..9ecb09dfe21 100644
+--- a/meson.build
++++ b/meson.build
+@@ -1127,6 +1127,7 @@ config_host_data.set('HAVE_DRM_H', cc.has_header('libdrm/drm.h'))
+ config_host_data.set('HAVE_PTY_H', cc.has_header('pty.h'))
+ config_host_data.set('HAVE_SYS_IOCCOM_H', cc.has_header('sys/ioccom.h'))
+ config_host_data.set('HAVE_SYS_KCOV_H', cc.has_header('sys/kcov.h'))
++config_host_data.set('HAVE_SYSTEM_FUNCTION', cc.has_function('system', prefix: '#include <stdlib.h>'))
  
- Advanced options (experts only):
--  --cross-prefix=PREFIX    use PREFIX for compile tools [$cross_prefix]
-+  --cross-prefix=PREFIX    use PREFIX for compile tools, PREFIX can be blank [$cross_prefix]
-   --cc=CC                  use C compiler CC [$cc]
-   --iasl=IASL              use ACPI compiler IASL [$iasl]
-   --host-cc=CC             use C compiler CC [$host_cc] for code run at
-@@ -6290,7 +6292,7 @@ if has $sdl2_config; then
- fi
- echo "strip = [$(meson_quote $strip)]" >> $cross
- echo "windres = [$(meson_quote $windres)]" >> $cross
--if test -n "$cross_prefix"; then
-+if test "$cross_compile" = "yes"; then
-     cross_arg="--cross-file config-meson.cross"
-     echo "[host_machine]" >> $cross
-     if test "$mingw32" = "yes" ; then
+ config_host_data.set('CONFIG_PREADV', cc.has_function('preadv', prefix: '#include <sys/uio.h>'))
+ 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index b6ffdc15bf3..ba15be9c569 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -710,4 +710,16 @@ static inline void qemu_thread_jit_write(void) {}
+ static inline void qemu_thread_jit_execute(void) {}
+ #endif
+ 
++/**
++ * Platforms which do not support system() return ENOSYS
++ */
++#ifndef HAVE_SYSTEM_FUNCTION
++#define system platform_does_not_support_system
++static inline int platform_does_not_support_system(const char *command)
++{
++    errno = ENOSYS;
++    return -1;
++}
++#endif /* !HAVE_SYSTEM_FUNCTION */
++
+ #endif
 -- 
 2.20.1
 
