@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7F9D30888E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:50:30 +0100 (CET)
-Received: from localhost ([::1]:43734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7790830889A
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 12:53:18 +0100 (CET)
+Received: from localhost ([::1]:50026 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5SIH-00014c-NL
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:50:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34684)
+	id 1l5SKz-0003la-GS
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 06:53:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34740)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnK-0004NN-HV
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:30 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535]:44906)
+ id 1l5RnM-0004S7-DN
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:32 -0500
+Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629]:34129)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <paolo.bonzini@gmail.com>)
- id 1l5RnJ-0005xv-0X
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:30 -0500
-Received: by mail-ed1-x535.google.com with SMTP id c2so10093661edr.11
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:27 -0800 (PST)
+ id 1l5RnK-0005yw-Ld
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 06:18:32 -0500
+Received: by mail-ej1-x629.google.com with SMTP id hs11so12457776ejc.1
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 03:18:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=81Sp0+tQ+ruTtE13mZTcjfQrSJQnTdfakY5Xykhsupo=;
- b=vbHzndOyJcnj7SrC9Ivt0guUZVSWnwWgiNqMLRB0l9bEFd2zCyNnMnx72DLCGaGfsq
- pRhUYhs+B6d1aJhMQ34veQ3CuYkqJW1Hv8NXR5JtKeebV63IoTyofSbzktq4xx+CJlJy
- AccWg1BjhyNVgzu4h+vPpyra3lYxnkwvJrvsZeLMvrN1QHCzE0xb9CvGx8BH8PnSPII7
- InFbbBsTiqqBAjcLj6jIX9GU/hJuKzWw6DHLq4yyXbDF0O88Zoy/2XPhqOF6v/1MxdJN
- Aqmxz38gTDGEvb9eu2TKdhCKQpAoc0ue/5awW8nHr94ecB5jzBvuAR2jQEO6FtGEZu6L
- x7jg==
+ bh=+gYBA8EOP9voo6st9l/tKav/btWR7A0x68POX4fuYnY=;
+ b=XSLGuDFsCtuC2kyiBrfhrxAQO/ulbqz822K6yRmoY6sjzYL43QaNmteiaYHvvWGT7s
+ zkK8bBR210cGHTip9xtDi9gYua0kaq71uNPR0GRaAcsUDnu7TbvCU7omC0AR7OEyr2/Q
+ hHe4C/9OXP7LcUHKGgyVkD412a9eE4K+ycWgYCs3p/WL/uVNlCw+1A3vrDCTXQrRzME5
+ pUAsPOLjNKudDrccpNF5Z4Qbe5UF6WBSeCEoA2ewEcVBDeSaVsT+OMAxznSgrrXwR0+V
+ sNkUuE9dhMpneq2kiHQLFGim+3i22S9fJGrSto87Kt8F6IOg2/V2uv430Qc4jrq5WD8k
+ gIbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=81Sp0+tQ+ruTtE13mZTcjfQrSJQnTdfakY5Xykhsupo=;
- b=U/vabtDW9OXPA9GSrMTgR3TzR6Eda8OojudKHWGQuwaMprndgO8s2jn+hM4A4oho6v
- y4LyuTzZB2TvBFbmDOqqlMxXHT5uQCjRlDJFzPhxXXhNF71tx1Ygad33NnBwR7VOZWsU
- U6nRMXTDsLXy34rIl4Nj0UEJ/CGlNs9j2Luesj3oC4437SAnIAxORxVT0bCpav9ROOkh
- 4bqaY0XVd87p7WcB6lUfkGFjruZniSPs+NLDvW8B+j6ZHlGO6N4sQd3KMbS/YqgNrFf/
- T8zTvwbWMx78ChQph++d+YfNScJ9PogtBOOxhCtpWSVbaaWqKquirlQNynTRYeh+0K9D
- fewA==
-X-Gm-Message-State: AOAM533YVcoH7TVQDB0UW0aXW9jnhERu+wy9u2qmSW3/lCwWXwwaF+1t
- 4Oi6rv4b0dNpZg095exzGd+xyigFOax+Ig==
-X-Google-Smtp-Source: ABdhPJwGdvn34qEs23mveFCEDliRNRUayqDh7xAmdxG6BKsh7jf0OWhnw8qKfO+k/cV5S9DVeQMIJw==
-X-Received: by 2002:a05:6402:50ca:: with SMTP id
- h10mr4430087edb.181.1611919106784; 
- Fri, 29 Jan 2021 03:18:26 -0800 (PST)
+ bh=+gYBA8EOP9voo6st9l/tKav/btWR7A0x68POX4fuYnY=;
+ b=gq+Osdgz0JzUB0k8lHnaRBfh20A3L9tki7nuahVncaqu5fQnomW4gWE/+VWZvmjICq
+ WhpTFZ6CxCda6ngTxXZBPDZrfvhczypvQuNE/8R8Y4KDe2gIujgisrs/f34h7WGzkhej
+ qZ8drMr/GZ6iG617xhf6UO5xFj/zcVV6ruq8GktdIsKjU+rcjMmd65b1UHJVM3tMHV6n
+ OW9ugBMliXcSKb1CDZ2dA31ln/5oet84au9AINCpGsahV0D3Y2THTCFQ5Bzcppc8XXkV
+ xKm9k5uKETf/TYRjH9xCEQaNMZgMuiJZ9kyRNJpqCaPUrQXEe6o0hdUTbwLhMXSSs1fu
+ 5Ong==
+X-Gm-Message-State: AOAM532Bog1MLesu07uAoplJYp91ixbtvBZ3l2gOSPaAJAcIJYY7/q/g
+ c0nqoyRfd7NI9SpE05lUnx8cs2dQCDSFtw==
+X-Google-Smtp-Source: ABdhPJymsVZhrLpliz/XHMzaXvApLYQVkAfuke1PLOjRNZM04YVG164UwD8eniKW0N5c3glrGHM4+w==
+X-Received: by 2002:a17:906:5958:: with SMTP id
+ g24mr3940004ejr.377.1611919109409; 
+ Fri, 29 Jan 2021 03:18:29 -0800 (PST)
 Received: from avogadro.lan ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.26
+ by smtp.gmail.com with ESMTPSA id zg7sm3745296ejb.31.2021.01.29.03.18.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 03:18:26 -0800 (PST)
+ Fri, 29 Jan 2021 03:18:28 -0800 (PST)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 12/36] x86/cpu: Populate SVM CPUID feature bits
-Date: Fri, 29 Jan 2021 12:17:50 +0100
-Message-Id: <20210129111814.566629-13-pbonzini@redhat.com>
+Subject: [PULL 15/36] virtio-scsi: don't uninitialize queues that we didn't
+ initialize
+Date: Fri, 29 Jan 2021 12:17:53 +0100
+Message-Id: <20210129111814.566629-16-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20210129111814.566629-1-pbonzini@redhat.com>
 References: <20210129111814.566629-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=paolo.bonzini@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::629;
+ envelope-from=paolo.bonzini@gmail.com; helo=mail-ej1-x629.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -84,82 +85,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Wei Huang <wei.huang2@amd.com>
+Cc: Maxim Levitsky <mlevitsk@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Huang <wei.huang2@amd.com>
+From: Maxim Levitsky <mlevitsk@redhat.com>
 
-Newer AMD CPUs will add CPUID_0x8000000A_EDX[28] bit, which indicates
-that SVM instructions (VMRUN/VMSAVE/VMLOAD) will trigger #VMEXIT before
-CPU checking their EAX against reserved memory regions. This change will
-allow the hypervisor to avoid intercepting #GP and emulating SVM
-instructions. KVM turns on this CPUID bit for nested VMs. In order to
-support it, let us populate this bit, along with other SVM feature bits,
-in FEAT_SVM.
+Count number of queues that we initialized and only deinitialize these that we
+initialized successfully.
 
-Signed-off-by: Wei Huang <wei.huang2@amd.com>
-Message-Id: <20210126202456.589932-1-wei.huang2@amd.com>
+Signed-off-by: Maxim Levitsky <mlevitsk@redhat.com>
+Message-Id: <20201217150040.906961-3-mlevitsk@redhat.com>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- target/i386/cpu.c |  6 +++---
- target/i386/cpu.h | 24 ++++++++++++++----------
- 2 files changed, 17 insertions(+), 13 deletions(-)
+ hw/scsi/virtio-scsi-dataplane.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 2b2c1c5389..a8db1b415d 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -926,11 +926,11 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "npt", "lbrv", "svm-lock", "nrip-save",
-             "tsc-scale", "vmcb-clean",  "flushbyasid", "decodeassists",
-             NULL, NULL, "pause-filter", NULL,
--            "pfthreshold", NULL, NULL, NULL,
--            NULL, NULL, NULL, NULL,
--            NULL, NULL, NULL, NULL,
-+            "pfthreshold", "avic", NULL, "v-vmsave-vmload",
-+            "vgif", NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-             NULL, NULL, NULL, NULL,
-+            "svme-addr-chk", NULL, NULL, NULL,
-         },
-         .cpuid = { .eax = 0x8000000A, .reg = R_EDX, },
-         .tcg_features = TCG_SVM_FEATURES,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d23a5b340a..b39ec505de 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -670,16 +670,20 @@ typedef uint64_t FeatureWordArray[FEATURE_WORDS];
- #define CPUID_EXT3_PERFCORE (1U << 23)
- #define CPUID_EXT3_PERFNB  (1U << 24)
+diff --git a/hw/scsi/virtio-scsi-dataplane.c b/hw/scsi/virtio-scsi-dataplane.c
+index b995bab3a2..2c83a0ab1f 100644
+--- a/hw/scsi/virtio-scsi-dataplane.c
++++ b/hw/scsi/virtio-scsi-dataplane.c
+@@ -126,6 +126,7 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ {
+     int i;
+     int rc;
++    int vq_init_count = 0;
+     BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
+     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
+     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(vdev);
+@@ -153,17 +154,22 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+     if (rc) {
+         goto fail_vrings;
+     }
++
++    vq_init_count++;
+     rc = virtio_scsi_vring_init(s, vs->event_vq, 1,
+                                 virtio_scsi_data_plane_handle_event);
+     if (rc) {
+         goto fail_vrings;
+     }
++
++    vq_init_count++;
+     for (i = 0; i < vs->conf.num_queues; i++) {
+         rc = virtio_scsi_vring_init(s, vs->cmd_vqs[i], i + 2,
+                                     virtio_scsi_data_plane_handle_cmd);
+         if (rc) {
+             goto fail_vrings;
+         }
++        vq_init_count++;
+     }
  
--#define CPUID_SVM_NPT          (1U << 0)
--#define CPUID_SVM_LBRV         (1U << 1)
--#define CPUID_SVM_SVMLOCK      (1U << 2)
--#define CPUID_SVM_NRIPSAVE     (1U << 3)
--#define CPUID_SVM_TSCSCALE     (1U << 4)
--#define CPUID_SVM_VMCBCLEAN    (1U << 5)
--#define CPUID_SVM_FLUSHASID    (1U << 6)
--#define CPUID_SVM_DECODEASSIST (1U << 7)
--#define CPUID_SVM_PAUSEFILTER  (1U << 10)
--#define CPUID_SVM_PFTHRESHOLD  (1U << 12)
-+#define CPUID_SVM_NPT             (1U << 0)
-+#define CPUID_SVM_LBRV            (1U << 1)
-+#define CPUID_SVM_SVMLOCK         (1U << 2)
-+#define CPUID_SVM_NRIPSAVE        (1U << 3)
-+#define CPUID_SVM_TSCSCALE        (1U << 4)
-+#define CPUID_SVM_VMCBCLEAN       (1U << 5)
-+#define CPUID_SVM_FLUSHASID       (1U << 6)
-+#define CPUID_SVM_DECODEASSIST    (1U << 7)
-+#define CPUID_SVM_PAUSEFILTER     (1U << 10)
-+#define CPUID_SVM_PFTHRESHOLD     (1U << 12)
-+#define CPUID_SVM_AVIC            (1U << 13)
-+#define CPUID_SVM_V_VMSAVE_VMLOAD (1U << 15)
-+#define CPUID_SVM_VGIF            (1U << 16)
-+#define CPUID_SVM_SVME_ADDR_CHK   (1U << 28)
- 
- /* Support RDFSBASE/RDGSBASE/WRFSBASE/WRGSBASE */
- #define CPUID_7_0_EBX_FSGSBASE          (1U << 0)
+     s->dataplane_starting = false;
+@@ -174,7 +180,7 @@ int virtio_scsi_dataplane_start(VirtIODevice *vdev)
+ fail_vrings:
+     aio_wait_bh_oneshot(s->ctx, virtio_scsi_dataplane_stop_bh, s);
+     aio_context_release(s->ctx);
+-    for (i = 0; i < vs->conf.num_queues + 2; i++) {
++    for (i = 0; i < vq_init_count; i++) {
+         virtio_bus_set_host_notifier(VIRTIO_BUS(qbus), i, false);
+         virtio_bus_cleanup_host_notifier(VIRTIO_BUS(qbus), i);
+     }
 -- 
 2.29.2
 
