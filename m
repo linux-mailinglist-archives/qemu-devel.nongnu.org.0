@@ -2,77 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FBCB308C2E
-	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 19:14:41 +0100 (CET)
-Received: from localhost ([::1]:40468 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60D10308C4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 29 Jan 2021 19:24:43 +0100 (CET)
+Received: from localhost ([::1]:44166 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5YI3-0008IP-Tg
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 13:14:39 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58300)
+	id 1l5YRl-0001sD-Uf
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 13:24:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59522)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5YH3-0007Gb-SQ
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 13:13:37 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43322)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5YR0-0001T7-7y
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 13:23:54 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45950)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l5YGz-0007O5-39
- for qemu-devel@nongnu.org; Fri, 29 Jan 2021 13:13:37 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id z6so9721125wrq.10
- for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 10:13:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=zdmfvGuYJTDTydgoHUl776axD7+1d+L0GaH+C6UnN1Q=;
- b=mBJQ6nkTV0dcchXG5RWLxk3Vnrn6dvswGyIrEQm6o4VToE1XJ/OEpWd1yV/htOzZXm
- KRZAniTNx/NpckeLTK+sr2YOvAz7miq3TQmEqDyPYW6//zhREmlKmXh4zzZ3DmeN6c03
- 0mGM8kYWeCFYUT9rBuuOvLJHL3hf4o4y2V70hJlUazIN13rnwBeUYLbgfMeD5qKyGq59
- c/yKDDeiRmflV4LwgDLLK9g7V2RIsnM2c/Nfg+EYTQ3wVuqCMBO8+tyqgAS79UEPr0cW
- INvzKft0aa8YSUdron7AptCM94771SHCumjuym+/KWSWLvpsW0evtQ9f0lUKDu3AxUHf
- 9RQA==
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5YQy-0003VI-E3
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 13:23:54 -0500
+Received: by mail-wr1-x431.google.com with SMTP id m13so9789023wro.12
+ for <qemu-devel@nongnu.org>; Fri, 29 Jan 2021 10:23:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=MbiOT1NP/lR5jJAfYU5usJsxafD5y+8fq1q5o76e37c=;
+ b=lHFIONFXR4Srzt6fhj20q6HxJcl2WV0WlVcCpsaLzSbwfVCBmIsIs35/wKEB0ijA44
+ e0tuf3vomQk+F/2himJUbSqli/udfdNDBzIDLFZbqmoMo/rRbzRS1bXfCRtpe2+KLZhG
+ xtTTlokAMBqVHJdJaPqje0qEYtFPLAfVHcNcVwZQ5nOT4rcGYmKMeJMPOJhMajx+lmvP
+ XBCSpdHJIX+0CGrVJgs1wJfOCT5KDZ5DNxQ240lOoSeGAzRej7BPlMuN2FpEqy/TsiD+
+ GTTZpAGqs1WfLPjsu6N1FMMcM48POjlaZGYBx0yH2bkcGuQTkoeFnG4tUhLB+3Z5PZWn
+ O0Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=zdmfvGuYJTDTydgoHUl776axD7+1d+L0GaH+C6UnN1Q=;
- b=QFoI5oi+hSE1VcEPDg6UuXVHanjkkHvZaGINZ+sGIN0I6DTVhxSuRea+oyoX0+e6AK
- 3zQGE/OLTWZXfYNFzv6M0RLlD3rkRwx5Ql/BiYtnyy7xCg5Y8Tr6b9vMKHPuoP51X9lE
- o2/R0oHP0S2PVW5RUVHCNOXY/vOXs0QNCoiDPoZGwtBe+aPA6jmQvET5gehhDHdPwy/L
- 3huN3aSKK+2N71u8sl3aBO5LE+aNWPOAtScqkOxfLV323+e50555GkIkCt3YaRS4MBzl
- Z8P0uLz6wsQL5yZMK7rBp0D0H4Ek5HYBAPtpNJyWzHEAbPCYK3fJbtR9AtWYRQPLyzof
- HKzw==
-X-Gm-Message-State: AOAM533AIXeOo/vZ3vJQVaaxmYVj42dn8r3j/UAU7Fe5mOqfjypzdy8W
- HZtGVZFBCgo4Cy8I4TR7Z83zXQ==
-X-Google-Smtp-Source: ABdhPJwNQxI2kVJBC9oJMsrfPu1dfceaZLpwCiFtHbM8ddkA0zQoaFXG561bvIr26FKXIQubbC0Dbw==
-X-Received: by 2002:adf:fd52:: with SMTP id h18mr5973311wrs.295.1611944008477; 
- Fri, 29 Jan 2021 10:13:28 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id m10sm12337769wro.7.2021.01.29.10.13.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 10:13:27 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id CBCED1FF7E;
- Fri, 29 Jan 2021 18:13:26 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] docs/system: document an example booting the versatilepb
- machine
-Date: Fri, 29 Jan 2021 18:13:19 +0000
-Message-Id: <20210129181319.2992-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
+ bh=MbiOT1NP/lR5jJAfYU5usJsxafD5y+8fq1q5o76e37c=;
+ b=eqdFv8sz1fORRsN/Xe6PLKjO+KptRNFeNf0trg26v1u4JqY9nJXlM7gB9uOZqQYLFH
+ rOvJ4f09P/yoWdj2EQwiu/CuY8hJc+QGgZmKcEoaJKSFTJTy1is2uY/zgdF5UTLQYIvT
+ AVO8KAgb89S3ibZCcB74U8XVFqIICegPOSJI+LsSkgu5Y/wzU0k1uIm1SbdayDxkXWNb
+ CHUF7/rg8A5mEwshruW+QLdlQdvGWUzw+BW/NI3R5lBxcAkfZSkdNK07g5lyVykdJR5O
+ gUiuyy7z1o6wuc1x1/g7QLLGPTi9mgawBjpS35kbWjhkqPRKyZpXak6kEcHUXnGPC1ns
+ tBDA==
+X-Gm-Message-State: AOAM530FOrSA7oOiyVsHO0ZqajXSM91px+fO1vWHEdZsGNI0pZeEBwWl
+ y8Tq079af9UYee8h/dS+RW4=
+X-Google-Smtp-Source: ABdhPJzoFCsFQdAM/5gFztGizpTlSqflo+3Wz20AiCcsWef7SZIgUvk84KCSgqINpR2nCS7vzJqKvg==
+X-Received: by 2002:a05:6000:254:: with SMTP id
+ m20mr6077899wrz.300.1611944630926; 
+ Fri, 29 Jan 2021 10:23:50 -0800 (PST)
+Received: from [192.168.1.36] (13.red-83-57-169.dynamicip.rima-tde.net.
+ [83.57.169.13])
+ by smtp.gmail.com with ESMTPSA id l5sm13192380wrv.44.2021.01.29.10.23.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 29 Jan 2021 10:23:50 -0800 (PST)
+Subject: Re: [PULL 17/21] hw/adc: Add an ADC module for NPCM7XX
+To: Hao Wu <wuhaotsh@google.com>
+References: <20210112165750.30475-1-peter.maydell@linaro.org>
+ <20210112165750.30475-18-peter.maydell@linaro.org>
+ <461061a0-e516-9e98-308e-a8f270487d5c@amsat.org>
+ <CAGcCb10p1Q2vxjfOshYx101206jqrQ9L-KkONqOuAwZpdL77SQ@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c319a7d5-59d7-d75b-d857-71951ecc2fdb@amsat.org>
+Date: Fri, 29 Jan 2021 19:23:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <CAGcCb10p1Q2vxjfOshYx101206jqrQ9L-KkONqOuAwZpdL77SQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -85,70 +92,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Anders Roxell <anders.roxell@linaro.org>, qemu-arm@nongnu.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Peter Maydell <peter.maydell@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Havard Skinnemoen <hskinnemoen@google.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Tyrone Ting <kfting@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There is a bit more out there including Aurelien's excellent write up
-and older Debian images here:
+On 1/29/21 6:15 PM, wuhaotsh--- via wrote:
+> On Fri, Jan 29, 2021 at 6:41 AM Philippe Mathieu-Daudé <f4bug@amsat.org
+> <mailto:f4bug@amsat.org>> wrote:
+> 
+>     Hi Hao Wu,
+> 
+>     On 1/12/21 5:57 PM, Peter Maydell wrote:
+>     > From: Hao Wu <wuhaotsh@google.com <mailto:wuhaotsh@google.com>>
+>     >
+>     > The ADC is part of NPCM7XX Module. Its behavior is controled by the
+>     > ADC_CON register. It converts one of the eight analog inputs into a
+>     > digital input and stores it in the ADC_DATA register when enabled.
+>     >
+>     > Users can alter input value by using qom-set QMP command.
+>     >
+>     > Reviewed-by: Havard Skinnemoen <hskinnemoen@google.com
+>     <mailto:hskinnemoen@google.com>>
+>     > Reviewed-by: Tyrone Ting <kfting@nuvoton.com
+>     <mailto:kfting@nuvoton.com>>
+>     > Signed-off-by: Hao Wu <wuhaotsh@google.com
+>     <mailto:wuhaotsh@google.com>>
+>     > Message-id: 20210108190945.949196-4-wuhaotsh@google.com
+>     <mailto:20210108190945.949196-4-wuhaotsh@google.com>
+>     > [PMM: Added missing hw/adc/trace.h file]
+>     > Reviewed-by: Peter Maydell <peter.maydell@linaro.org
+>     <mailto:peter.maydell@linaro.org>>
+>     > Signed-off-by: Peter Maydell <peter.maydell@linaro.org
+>     <mailto:peter.maydell@linaro.org>>
+>     > ---
+>     >  docs/system/arm/nuvoton.rst    |   2 +-
+>     >  meson.build                    |   1 +
+>     >  hw/adc/trace.h                 |   1 +
+>     >  include/hw/adc/npcm7xx_adc.h   |  69 ++++++
+>     >  include/hw/arm/npcm7xx.h       |   2 +
+>     >  hw/adc/npcm7xx_adc.c           | 301 ++++++++++++++++++++++++++
+>     >  hw/arm/npcm7xx.c               |  24 ++-
+>     >  tests/qtest/npcm7xx_adc-test.c | 377
+>     +++++++++++++++++++++++++++++++++
+>     >  hw/adc/meson.build             |   1 +
+>     >  hw/adc/trace-events            |   5 +
+>     >  tests/qtest/meson.build        |   3 +-
+>     >  11 files changed, 783 insertions(+), 3 deletions(-)
+>     >  create mode 100644 hw/adc/trace.h
+>     >  create mode 100644 include/hw/adc/npcm7xx_adc.h
+>     >  create mode 100644 hw/adc/npcm7xx_adc.c
+>     >  create mode 100644 tests/qtest/npcm7xx_adc-test.c
+>     >  create mode 100644 hw/adc/trace-events
+>     ...
 
-  https://www.aurel32.net/info/debian_arm_qemu.php
-  https://people.debian.org/~aurel32/qemu/armel/
+>     > +
+>     > +REG32(NPCM7XX_ADC_CON, 0x0)
+>     > +REG32(NPCM7XX_ADC_DATA, 0x4)
+>     > +
+>     > +/* Register field definitions. */
+>     > +#define NPCM7XX_ADC_CON_MUX(rv) extract32(rv, 24, 4)
+>     > +#define NPCM7XX_ADC_CON_INT_EN  BIT(21)
+>     > +#define NPCM7XX_ADC_CON_REFSEL  BIT(19)
+>     > +#define NPCM7XX_ADC_CON_INT     BIT(18)
+>     > +#define NPCM7XX_ADC_CON_EN      BIT(17)
+>     > +#define NPCM7XX_ADC_CON_RST     BIT(16)
+>     > +#define NPCM7XX_ADC_CON_CONV    BIT(14)
+>     > +#define NPCM7XX_ADC_CON_DIV(rv) extract32(rv, 1, 8)
+>     > +
+>     > +#define NPCM7XX_ADC_MAX_RESULT      1023
+>     > +#define NPCM7XX_ADC_DEFAULT_IREF    2000000
+>     > +#define NPCM7XX_ADC_CONV_CYCLES     20
+>     > +#define NPCM7XX_ADC_RESET_CYCLES    10
+>     > +#define NPCM7XX_ADC_R0_INPUT        500000
+>     > +#define NPCM7XX_ADC_R1_INPUT        1500000
+>     > +
+>     > +static void npcm7xx_adc_reset(NPCM7xxADCState *s)
+>     > +{
+>     > +    timer_del(&s->conv_timer);
+>     > +    s->con = 0x000c0001;
+> 
+>     This initialize CON to:
+> 
+>     NPCM7XX_ADC_CON_REFSEL | NPCM7XX_ADC_CON_INT | BIT(0)
+> 
+>     What is bit 0?
+> 
+> This reset value is from h/w spec. The bit is reserved and not used
+> currently.
 
-However the web is transitory and git is forever so lets add something
-to the fine manual.
+OK thanks. Since the datasheet is not public, better document
+the reserved/unused bits to avoid further questioning later ;)
 
-Cc: Anders Roxell <anders.roxell@linaro.org>
-Cc: Aurelien Jarno <aurelien@aurel32.net>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- docs/system/arm/versatile.rst | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+Thanks,
 
-diff --git a/docs/system/arm/versatile.rst b/docs/system/arm/versatile.rst
-index 51221c30a4..d16f20ccae 100644
---- a/docs/system/arm/versatile.rst
-+++ b/docs/system/arm/versatile.rst
-@@ -27,3 +27,35 @@ The Arm Versatile baseboard is emulated with the following devices:
-    devices.
- 
- -  PL181 MultiMedia Card Interface with SD card.
-+
-+Booting a Linux kernel
-+----------------------
-+
-+Building a current Linux kernel with ``versatile_defconfig`` should be
-+enough to get something running.
-+
-+.. code-block:: bash
-+
-+  $ export ARCH=arm
-+  $ export CROSS_COMPILE=arm-linux-gnueabihf-
-+  $ make versatile_defconfig
-+  $ make
-+
-+You may want to enable some additional modules if you want to boot
-+something from the SCSI interface::
-+
-+  CONFIG_PCI=y
-+  CONFIG_PCI_VERSATILE=y
-+  CONFIG_SCSI=y
-+  CONFIG_SCSI_SYM53C8XX_2=y
-+
-+You can then boot with a command line like:
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-arm -machine type=versatilepb \
-+      -serial mon:stdio \
-+      -drive if=scsi,driver=file,filename=debian-buster-armel-rootfs.ext4 \
-+      -kernel zImage \
-+      -dtb versatile-pb.dtb  \
-+      -append "console=ttyAMA0 ro root=/dev/sda"
--- 
-2.20.1
-
+Phil.
 
