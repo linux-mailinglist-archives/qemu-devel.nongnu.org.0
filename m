@@ -2,54 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99B2309492
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 11:54:45 +0100 (CET)
-Received: from localhost ([::1]:33334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 602D53094AC
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 12:17:33 +0100 (CET)
+Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5nts-0006U1-Ce
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 05:54:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39948)
+	id 1l5oFv-0003qo-SG
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 06:17:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l5nsh-00061e-Mj
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 05:53:31 -0500
-Received: from mx2.suse.de ([195.135.220.15]:35472)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l5nsg-0001De-2s
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 05:53:31 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 7A939AC45;
- Sat, 30 Jan 2021 10:53:28 +0000 (UTC)
-Subject: Re: [PATCH v14 18/22] accel: introduce AccelCPUClass extending
- CPUClass
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210128092814.8676-1-cfontana@suse.de>
- <20210128092814.8676-19-cfontana@suse.de>
- <64d8385c-db22-b647-2402-3840b0e0e9b5@redhat.com>
- <9a51a203-f6a8-686f-7859-475537b3607a@suse.de> <878s8dujj5.fsf@linaro.org>
- <40ed971e-a4fe-77c5-94b9-28691874ee32@redhat.com>
- <0943e736-6847-4b6a-8433-f28f4692a299@linaro.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <aaafff05-f3c6-ef44-2d98-f6fcb74ccf64@suse.de>
-Date: Sat, 30 Jan 2021 11:53:27 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5oDK-0003At-U8
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 06:14:50 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42176)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l5oDJ-0002h7-34
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 06:14:50 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id r12so16771403ejb.9
+ for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 03:14:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=LDX33/GRzCkok44bm63Xj9zVLaWBSMkMcCDM9kUQDW0=;
+ b=TPiKH0uGDac4scfC3x259QHO9tT0EAOKAcj0Bgk5xESHAAqbtIaNliI/NildTmxgxH
+ rCEFjEpdloCiTIba/fbmscMA5+teA3b416xwiVdpRHhXBQEuwfo63JKZdF4qDML2wxk5
+ spOt0qyGpupqjCCv+KoxIVoMr6zz1H+zyjeH/UJMQ4h6B2Sxx9ljEEoS78MLELVi/q6K
+ XQZZ2CXVwA2vpJgS/8Jxl/sKhAM00INgjvghn5uSWhMIYuO0gzyUK0TRBjCkP1jfoZJj
+ 2zWoK1zLn4moz4EA2GBnPRFn3hD4QuIf4kLlK85xp+T2QFjXfkec/x8RMi0naY7ejetQ
+ X0Lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=LDX33/GRzCkok44bm63Xj9zVLaWBSMkMcCDM9kUQDW0=;
+ b=Ftv/Byo3abZTuNTU0uZeoHup2pWKlOnXUyHqhth5FwZFBu8jMOgx1bVtjzqq+sxZ3m
+ Sx1vWhDQDwK7MPQQEc+3bKW6BSMXpwHTMzxYjb36wu9ShtMkkvtK6BJMZt4DKIOqbd6B
+ c7JUSGgk1G5VNgzYIjvmJqcrwZLbZsOmQG85G+a+0dPMHmFJDpBEvWQyvkIBqMX4LBPi
+ RNcQnXJGYR8qxO6bUGlw47X2gc44Q2OllR06SPit9Eyw250DrT4fOmV1LVhRqEM/vuBJ
+ iFDdB5R1JDMmv+ZtqMgZT/GHYB7UpUt+K9EMKI4kkyb4fH49exmqfJIOBi+hWsLQLoE2
+ JZYA==
+X-Gm-Message-State: AOAM533CfzXlQksIC4bzAi3Rf5crWbiGMfKewpc0gvigbcRIQgrZLIys
+ dCvRPKL6NpRhgXTA0n1EkGklGnFxLJW7+vSDXjMixA==
+X-Google-Smtp-Source: ABdhPJx5/HHaE5S6Rvjm5MeJ3EXiV9OsZ3wTiHh324MiDmxYNchrKFh8X5KDfzAWCHgh1BEvlF39hS7TNgI0sJVg3pM=
+X-Received: by 2002:a17:906:4002:: with SMTP id
+ v2mr8699891ejj.85.1612005287054; 
+ Sat, 30 Jan 2021 03:14:47 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <0943e736-6847-4b6a-8433-f28f4692a299@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210129111814.566629-1-pbonzini@redhat.com>
+ <CAFEAcA-CPcVyo2fzUX3sSdMoS6xJbxn7V4AwRFFSB+mU9bGGYQ@mail.gmail.com>
+ <48eb40fc-8c5f-e2c8-3f51-9a45dc1ee128@redhat.com>
+ <CAJ+F1CKmVLWT4HVmcDRBGwQcGfWfpSbHyG_1HFdXfXTD4Z+SqQ@mail.gmail.com>
+In-Reply-To: <CAJ+F1CKmVLWT4HVmcDRBGwQcGfWfpSbHyG_1HFdXfXTD4Z+SqQ@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 30 Jan 2021 11:14:35 +0000
+Message-ID: <CAFEAcA9qsF9jvZxB9utLTFXJkPC0-x-w+iHUNe2Pn4M12MH8Jw@mail.gmail.com>
+Subject: Re: [PULL 00/36] Misc patches (buildsys, i386, fuzzing) for 2021-01-29
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -62,100 +82,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/21 1:13 AM, Richard Henderson wrote:
-> On 1/28/21 6:29 AM, Philippe Mathieu-Daudé wrote:
->> On 1/28/21 5:08 PM, Alex Bennée wrote:
->>>
->>> Claudio Fontana <cfontana@suse.de> writes:
->>>
->>>> On 1/28/21 2:03 PM, Philippe Mathieu-Daudé wrote:
->>>>> On 1/28/21 10:28 AM, Claudio Fontana wrote:
->>> <snip>
->>>>>> +
->>>>>> +#define TYPE_ACCEL_CPU "accel-" CPU_RESOLVING_TYPE
->>>>>> +#define ACCEL_CPU_NAME(name) (name "-" TYPE_ACCEL_CPU)
->>>>>> +typedef struct AccelCPUClass AccelCPUClass;
->>>>>> +DECLARE_CLASS_CHECKERS(AccelCPUClass, ACCEL_CPU, TYPE_ACCEL_CPU)
->>>>>> +
->>>>>> +typedef struct AccelCPUClass {
->>>>>> +    /*< private >*/
->>>>>> +    ObjectClass parent_class;
->>>>>> +    /*< public >*/
->>>>>> +
->>>>>> +    void (*cpu_class_init)(CPUClass *cc);
->>>>>> +    void (*cpu_instance_init)(CPUState *cpu);
->>>>>> +    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
->>>>>
->>>>> If we want callers to check errp, better have the prototype return
->>>>> a boolean.
->>>>
->>>> Good point, the whole errp thing is worth revisiting in the series,
->>>> there are many cases (which are basically reproduced in the refactoring from existing code),
->>>> where errp is passed but is really unused.
->>>>
->>>> I am constantly internally debating whether to remove the parameter altogether, or to keep it in there.
->>>>
->>>> What would you suggest?
->>>
->>> I think it really depends on if we can expect the realizefn to usefully
->>> return an error message that can be read and understood by the user. I
->>> guess this comes down to how much user config is going to be checked at
->>> the point we realize the CPU?
->>
->> cpu_realize() is were various feature checks are, isn't it?
->>
->>   -cpu mycpu,feat1=on,feat2=off
->>   CPU 'mycpu' can not disable feature 'feat2' because of REASON.
-> 
-> Yes.  And while changing the return type of realize is probably a good idea, it
-> should be a separate patch.
-> 
-> 
-> r~
-> 
+On Sat, 30 Jan 2021 at 10:11, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+> That's weird, https://patchew.org/QEMU/20210129111814.566629-1-pbonzini@r=
+edhat.com/20210129111814.566629-24-pbonzini@redhat.com/
+>
+> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
+> +Subproject commit 5dce846e3ee82d93462bc637bb0db2fd49f0fc5a
+>
+> I can't really explain why the submodule wasn't updated to include the fi=
+x.
+>
+> Peter, did this fail on various CI builds or during a manual build?
 
-To summarize:
+It failed on my usual pre-merge build (which is just make/make check).
 
-1) accel->cpu_realizefn extends the current cpu target-specific realize functions with accelerator-specific code,
-   which currently does not make use of errp at all (thus, the temptation to remove errp from the interface until it is actually needed by a target).
-
-2) Regarding the target-specific cpu realize functions themselves, registered with the pattern:
-
-   device_class_set_parent_realize(dc, x86_cpu_realizefn, &xcc->parent_realize);
-   device_class_set_parent_realize(dc, arm_cpu_realizefn, &acc->parent_realize);
-
-   ... etc ...
-
-   these currently all return void, and the code that realizes devices (f.e. in hw/core/qdev.c)
-   calls these callbacks like this:
-
-   static void device_set_realized(...)
-   {
-   ...
-        if (dc->realize) {
-            dc->realize(dev, &local_err);
-            if (local_err != NULL) {
-                goto fail;
-            }
-        }
-
-   Ie it does not expect a bool return type for realize().
-
-   So making realize return bool means changing all the realize functions for all devices in my view,
-   which I don't think should be crammed in here..
-
-Wdty?
-
-Thanks,
-
-Claudio
+thanks
+-- PMM
 
