@@ -2,74 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 602D53094AC
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 12:17:33 +0100 (CET)
-Received: from localhost ([::1]:42524 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA6E309546
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 14:21:13 +0100 (CET)
+Received: from localhost ([::1]:42488 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5oFv-0003qo-SG
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 06:17:31 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46986)
+	id 1l5qBc-0008CX-Gl
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 08:21:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45174)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5oDK-0003At-U8
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 06:14:50 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:42176)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l5oDJ-0002h7-34
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 06:14:50 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id r12so16771403ejb.9
- for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 03:14:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=LDX33/GRzCkok44bm63Xj9zVLaWBSMkMcCDM9kUQDW0=;
- b=TPiKH0uGDac4scfC3x259QHO9tT0EAOKAcj0Bgk5xESHAAqbtIaNliI/NildTmxgxH
- rCEFjEpdloCiTIba/fbmscMA5+teA3b416xwiVdpRHhXBQEuwfo63JKZdF4qDML2wxk5
- spOt0qyGpupqjCCv+KoxIVoMr6zz1H+zyjeH/UJMQ4h6B2Sxx9ljEEoS78MLELVi/q6K
- XQZZ2CXVwA2vpJgS/8Jxl/sKhAM00INgjvghn5uSWhMIYuO0gzyUK0TRBjCkP1jfoZJj
- 2zWoK1zLn4moz4EA2GBnPRFn3hD4QuIf4kLlK85xp+T2QFjXfkec/x8RMi0naY7ejetQ
- X0Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=LDX33/GRzCkok44bm63Xj9zVLaWBSMkMcCDM9kUQDW0=;
- b=Ftv/Byo3abZTuNTU0uZeoHup2pWKlOnXUyHqhth5FwZFBu8jMOgx1bVtjzqq+sxZ3m
- Sx1vWhDQDwK7MPQQEc+3bKW6BSMXpwHTMzxYjb36wu9ShtMkkvtK6BJMZt4DKIOqbd6B
- c7JUSGgk1G5VNgzYIjvmJqcrwZLbZsOmQG85G+a+0dPMHmFJDpBEvWQyvkIBqMX4LBPi
- RNcQnXJGYR8qxO6bUGlw47X2gc44Q2OllR06SPit9Eyw250DrT4fOmV1LVhRqEM/vuBJ
- iFDdB5R1JDMmv+ZtqMgZT/GHYB7UpUt+K9EMKI4kkyb4fH49exmqfJIOBi+hWsLQLoE2
- JZYA==
-X-Gm-Message-State: AOAM533CfzXlQksIC4bzAi3Rf5crWbiGMfKewpc0gvigbcRIQgrZLIys
- dCvRPKL6NpRhgXTA0n1EkGklGnFxLJW7+vSDXjMixA==
-X-Google-Smtp-Source: ABdhPJx5/HHaE5S6Rvjm5MeJ3EXiV9OsZ3wTiHh324MiDmxYNchrKFh8X5KDfzAWCHgh1BEvlF39hS7TNgI0sJVg3pM=
-X-Received: by 2002:a17:906:4002:: with SMTP id
- v2mr8699891ejj.85.1612005287054; 
- Sat, 30 Jan 2021 03:14:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l5q9q-0007ld-1c
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:19:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:42898)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l5q9k-0007Ia-TV
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:19:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612012753;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=7vu4z8M+bFjhFzEuAYsQG4i3APx7aMqv7tFxRRO5+8Q=;
+ b=egCsTdgVBnRlHnVN84HsSpNOUl/NkqEnGuv9rRdG2AZ1Fee5ZatpJm5zJ7YUW2HvzB4rtO
+ EaDIKaN1wzf/yHf0CsJ60TPGG3DqQSC/EsTSr2l/GNGq4prDYTXVrS3rXFu9ofByUVvzwU
+ q9Iy1X1Bh3S21m7jXY0AYx4Tu9Ikq9w=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-588-1JF7mzMfP1KpRpNKj4cAWQ-1; Sat, 30 Jan 2021 08:19:08 -0500
+X-MC-Unique: 1JF7mzMfP1KpRpNKj4cAWQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8F0F439380;
+ Sat, 30 Jan 2021 13:19:07 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.33.36.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 17D581002C11;
+ Sat, 30 Jan 2021 13:19:04 +0000 (UTC)
+From: P J P <ppandit@redhat.com>
+To: Dmitry Fleytman <dmitry.fleytman@gmail.com>
+Subject: [PATCH] net: vmxnet3: validate configuration values during activate
+ (CVE-2021-20203)
+Date: Sat, 30 Jan 2021 18:46:52 +0530
+Message-Id: <20210130131652.954143-1-ppandit@redhat.com>
 MIME-Version: 1.0
-References: <20210129111814.566629-1-pbonzini@redhat.com>
- <CAFEAcA-CPcVyo2fzUX3sSdMoS6xJbxn7V4AwRFFSB+mU9bGGYQ@mail.gmail.com>
- <48eb40fc-8c5f-e2c8-3f51-9a45dc1ee128@redhat.com>
- <CAJ+F1CKmVLWT4HVmcDRBGwQcGfWfpSbHyG_1HFdXfXTD4Z+SqQ@mail.gmail.com>
-In-Reply-To: <CAJ+F1CKmVLWT4HVmcDRBGwQcGfWfpSbHyG_1HFdXfXTD4Z+SqQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Sat, 30 Jan 2021 11:14:35 +0000
-Message-ID: <CAFEAcA9qsF9jvZxB9utLTFXJkPC0-x-w+iHUNe2Pn4M12MH8Jw@mail.gmail.com>
-Subject: Re: [PULL 00/36] Misc patches (buildsys, i386, fuzzing) for 2021-01-29
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -82,26 +76,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Gaoning Pan <pgn@zju.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>,
+ Prasad J Pandit <pjp@fedoraproject.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 30 Jan 2021 at 10:11, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
-> That's weird, https://patchew.org/QEMU/20210129111814.566629-1-pbonzini@r=
-edhat.com/20210129111814.566629-24-pbonzini@redhat.com/
->
-> -Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-> +Subproject commit 5dce846e3ee82d93462bc637bb0db2fd49f0fc5a
->
-> I can't really explain why the submodule wasn't updated to include the fi=
-x.
->
-> Peter, did this fail on various CI builds or during a manual build?
+From: Prasad J Pandit <pjp@fedoraproject.org>
 
-It failed on my usual pre-merge build (which is just make/make check).
+While activating device in vmxnet3_acticate_device(), it does not
+validate guest supplied configuration values against predefined
+minimum - maximum limits. This may lead to integer overflow or
+OOB access issues. Add checks to avoid it.
 
-thanks
--- PMM
+Fixes: CVE-2021-20203
+Buglink: https://bugs.launchpad.net/qemu/+bug/1913873
+Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+---
+ hw/net/vmxnet3.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index eff299f629..4a910ca971 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -1420,6 +1420,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+     vmxnet3_setup_rx_filtering(s);
+     /* Cache fields from shared memory */
+     s->mtu = VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.mtu);
++    assert(VMXNET3_MIN_MTU <= s->mtu && s->mtu < VMXNET3_MAX_MTU);
+     VMW_CFPRN("MTU is %u", s->mtu);
+ 
+     s->max_rx_frags =
+@@ -1473,6 +1474,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+         /* Read rings memory locations for TX queues */
+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.txRingBasePA);
+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.txRingSize);
++        if (size > VMXNET3_TX_RING_MAX_SIZE) {
++            size = VMXNET3_TX_RING_MAX_SIZE;
++        }
+ 
+         vmxnet3_ring_init(d, &s->txq_descr[i].tx_ring, pa, size,
+                           sizeof(struct Vmxnet3_TxDesc), false);
+@@ -1483,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+         /* TXC ring */
+         pa = VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.compRingBasePA);
+         size = VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.compRingSize);
++        if (size > VMXNET3_TC_RING_MAX_SIZE) {
++            size = VMXNET3_TC_RING_MAX_SIZE;
++        }
+         vmxnet3_ring_init(d, &s->txq_descr[i].comp_ring, pa, size,
+                           sizeof(struct Vmxnet3_TxCompDesc), true);
+         VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i, &s->txq_descr[i].comp_ring);
+@@ -1524,6 +1531,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+             /* RX rings */
+             pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.rxRingBasePA[j]);
+             size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.rxRingSize[j]);
++            if (size > VMXNET3_RX_RING_MAX_SIZE) {
++                size = VMXNET3_RX_RING_MAX_SIZE;
++            }
+             vmxnet3_ring_init(d, &s->rxq_descr[i].rx_ring[j], pa, size,
+                               sizeof(struct Vmxnet3_RxDesc), false);
+             VMW_CFPRN("RX queue %d:%d: Base: %" PRIx64 ", Size: %d",
+@@ -1533,6 +1543,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+         /* RXC ring */
+         pa = VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.compRingBasePA);
+         size = VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.compRingSize);
++        if (size > VMXNET3_RC_RING_MAX_SIZE) {
++            size = VMXNET3_RC_RING_MAX_SIZE;
++        }
+         vmxnet3_ring_init(d, &s->rxq_descr[i].comp_ring, pa, size,
+                           sizeof(struct Vmxnet3_RxCompDesc), true);
+         VMW_CFPRN("RXC queue %d: Base: %" PRIx64 ", Size: %d", i, pa, size);
+-- 
+2.29.2
+
 
