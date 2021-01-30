@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9BC6309170
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 03:04:43 +0100 (CET)
-Received: from localhost ([::1]:39760 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9215309172
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 03:06:34 +0100 (CET)
+Received: from localhost ([::1]:43936 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5fcw-0003ih-TC
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 21:04:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40598)
+	id 1l5fej-0005Wf-Pm
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 21:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40892)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fS6-00080p-4U; Fri, 29 Jan 2021 20:53:31 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:32824)
+ id 1l5fTz-0002ka-FC; Fri, 29 Jan 2021 20:55:27 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:37556)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fS4-0000I9-Ip; Fri, 29 Jan 2021 20:53:29 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id 7so10652170wrz.0;
- Fri, 29 Jan 2021 17:53:27 -0800 (PST)
+ id 1l5fTy-0000qn-2h; Fri, 29 Jan 2021 20:55:27 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id v15so10651638wrx.4;
+ Fri, 29 Jan 2021 17:55:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=dDZADzgKI5lXuqqUK6CV2RYB4kAOXUW22/2lumwj8o4=;
- b=e7psjHWNaDe5BRPalel5z+UrUPQyCYHO0ADPAqwnXvE6/jKDRHnq865wvhM3CvcziS
- 81EyjqLup5Sso5l2NVZ/0wY2xzImn5JfNEpSNIBoIBengxfy1LzI66lsP+ni/80f/evR
- U7QLC+B3eBq5pi+hy3v4oWie/DVjl15VvVl+DUC7b4bFZ82n+IBpLOg69cciuSH0bv0o
- ugmYLJK5GlHsO6ioN/+OP/utD5jbLp9Mf2b2fwCAn07n5bGBKAg2Ljhf/XruZU6V7ADq
- ieVbF8YOSHcYMgG6rdoDn8FpNs1Ulo8zayvnM2zRRrDOTV3lmjsv5yKhGHhUzizRmIXS
- CcDA==
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=juwQODmtdvn6bCkwoawWQSLQCGd025TFqesErnaNJGk=;
+ b=aXo/BvSNo1mvBU3NnkxeQi8TkxlnnlCBbz/JTlhSc1P2uBAB+GdYaWbRmPJz5Qo0hZ
+ bqP98JT7yZHWwWWG0Q0DnOjejVaHk/DnK8A7ScGdZyfc2kOrbmTDDDvSmakyhsFveVwa
+ dSNC13s6qE8DYs49ckmXtVma4e9CLG3h5wQQnOY7C3JJP2vMZf0Nt0heler6VZG/xE5+
+ 0nRfXqOfyozeweDklBeVEJQWir5aZkxCD2n663McgKgvLUQVJaGiS1hy6FArdD/tDkMo
+ kcWUmHE3oiv/fXS5or4ZsZFbS414WIwvbU/YhO+IVWpzhxkcwpDUtnvqeSkiqKIlHsa2
+ 8sqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=dDZADzgKI5lXuqqUK6CV2RYB4kAOXUW22/2lumwj8o4=;
- b=HpcuIS8zbKMlUrQswy8Ke0V1dIFhaN93nWdO/i0yCXV08ASnJVVjk2MbgrR42cOd/s
- xRe3mqE1AoMMxCftg3BQJUT9x1AKjTsEE9K7dQRIykO7PZcg7AFCqGBi3xJYtqRfBerx
- ju2i5kOzbwKGBNjm22HsqXHhE3yvZgL1H9JmqhvD79ubGOHmRwhpdaYbUB+G6RFyCMzF
- imMXEcv6aPgIwqSoy+caTAd8O416s/eAMcvrHxu3BCPyAGtxjVOnVO/oLZuB35WrsYVD
- HdJp7y+smIdksOgEAgNNDs6J/Dle4rlKPqQR7MUXQtQVmztXmrTMhgq60OIikrDnPUCk
- 2amw==
-X-Gm-Message-State: AOAM530ylYUx7Zyrb34+/Clbmx1Sm56ed64u43h/rQ/LB/esvyo1HVVz
- 9RMUR0Y9ti8y8pMs6ypULcxC5CWO6tg=
-X-Google-Smtp-Source: ABdhPJxaH/w2Fme7el93QIXUQzDffvAxEB63h7HSmXGa9jkoVnLMptaWM3d09a23cIwVkku9tHUZXg==
-X-Received: by 2002:a5d:5049:: with SMTP id h9mr7559886wrt.404.1611971606779; 
- Fri, 29 Jan 2021 17:53:26 -0800 (PST)
+ :mime-version:content-transfer-encoding;
+ bh=juwQODmtdvn6bCkwoawWQSLQCGd025TFqesErnaNJGk=;
+ b=TGS8v2kJikgstAnbTy8xBAjoBwGEh63f4VjxiPPz67/0lsDmoIZFZPC12MM8RGgiyK
+ aWAgLSsyvAb/NZ1fZA1Tt2PmCTWK7enJlukVxKic1r6y+57n1VoEA4glsS6IIovN5bXb
+ 6ekHS81ZJ/+/tMkhwaiZFZS4UnM7cdB7oSZfEhEPAAAUS9+1X104RQ+Fr8PMfj9kRxK6
+ jZd74LuBPfQRzxhDokean20KKEK5y+8If55AGa/F9c0kzD17nudM80aKv97J7a/eukSH
+ IaAHmCh3o3qe6rSiwSVk6JSDD/bHfYMY+LlkbGcEgxySGVfXXeL9jxigrztLUpsU42Y3
+ kf9w==
+X-Gm-Message-State: AOAM531DttIRhjzmppODCAKbToidT6/JKwAOBRuNECJ5OqmsKbf+yYSs
+ 8mWfG2RAyGqAnk0fyQZvlF8a+ggJ4fg=
+X-Google-Smtp-Source: ABdhPJwATqa7akZxhOTXvXQr704cZQzfALE6d38hH/ZEMByZ6nleBgH/5Nbdi1P3oeX/wJ6n+aKSzQ==
+X-Received: by 2002:adf:f452:: with SMTP id f18mr7158826wrp.11.1611971722179; 
+ Fri, 29 Jan 2021 17:55:22 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id d13sm14972889wrx.93.2021.01.29.17.53.25
+ by smtp.gmail.com with ESMTPSA id s25sm16116986wrs.49.2021.01.29.17.55.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 17:53:26 -0800 (PST)
+ Fri, 29 Jan 2021 17:55:21 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 11/11] .travis.yml: Add a KVM-only Aarch64 job
-Date: Sat, 30 Jan 2021 02:52:27 +0100
-Message-Id: <20210130015227.4071332-12-f4bug@amsat.org>
+Subject: [PATCH 0/3] hw/arm: Misc trivial fixes/cleanups
+Date: Sat, 30 Jan 2021 02:55:16 +0100
+Message-Id: <20210130015519.4072469-1-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210130015227.4071332-1-f4bug@amsat.org>
-References: <20210130015227.4071332-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,76 +81,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Antony Pavlov <antonynpavlov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-Add a job to build QEMU on Aarch64 with TCG disabled, so
-this configuration won't bitrot over time.
-
-We explicitly modify default-configs/aarch64-softmmu.mak to
-only select the 'virt' and 'SBSA-REF' machines.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
----
-Job ran for 7 min 30 sec
-https://travis-ci.org/github/philmd/qemu/jobs/731428859
----
- .travis.yml | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
-
-diff --git a/.travis.yml b/.travis.yml
-index 5f1dea873ec..4f1d662b5fc 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -264,6 +264,38 @@ jobs:
-         - CONFIG="--disable-containers --target-list=${MAIN_SOFTMMU_TARGETS}"
-         - UNRELIABLE=true
- 
-+    - name: "[aarch64] GCC (disable-tcg)"
-+      arch: arm64
-+      dist: focal
-+      addons:
-+        apt_packages:
-+          - libaio-dev
-+          - libattr1-dev
-+          - libbrlapi-dev
-+          - libcap-ng-dev
-+          - libgcrypt20-dev
-+          - libgnutls28-dev
-+          - libgtk-3-dev
-+          - libiscsi-dev
-+          - liblttng-ust-dev
-+          - libncurses5-dev
-+          - libnfs-dev
-+          - libnss3-dev
-+          - libpixman-1-dev
-+          - libpng-dev
-+          - librados-dev
-+          - libsdl2-dev
-+          - libseccomp-dev
-+          - liburcu-dev
-+          - libusb-1.0-0-dev
-+          - libvdeplug-dev
-+          - libvte-2.91-dev
-+          - ninja-build
-+      env:
-+        - CONFIG="--disable-containers --disable-tcg --enable-kvm --disable-xen --disable-tools --disable-docs"
-+        - TEST_CMD="make check-unit"
-+        - CACHE_NAME="${TRAVIS_BRANCH}-linux-gcc-aarch64"
-+
-     - name: "[ppc64] GCC check-tcg"
-       arch: ppc64le
-       dist: focal
--- 
-2.26.2
-
+A pair of bugfixes and cleanup patches noticed while=0D
+rebasing my "Support disabling TCG on ARM (part 2)" series.=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (3):=0D
+  hw/arm/Kconfig: Add missing dependency STM32F405 -> OR_IRQ=0D
+  hw/arm/Kconfig: Add missing dependency EXYNOS4210 -> OR_IRQ=0D
+  hw/arm: Display CPU type in machine description=0D
+=0D
+ hw/arm/digic_boards.c  | 2 +-=0D
+ hw/arm/microbit.c      | 2 +-=0D
+ hw/arm/netduino2.c     | 2 +-=0D
+ hw/arm/netduinoplus2.c | 2 +-=0D
+ hw/arm/orangepi.c      | 2 +-=0D
+ hw/arm/stellaris.c     | 4 ++--=0D
+ hw/arm/Kconfig         | 2 ++=0D
+ 7 files changed, 9 insertions(+), 7 deletions(-)=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
