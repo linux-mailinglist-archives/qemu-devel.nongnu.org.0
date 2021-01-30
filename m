@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B86C930915F
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 02:55:18 +0100 (CET)
-Received: from localhost ([::1]:42650 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5148309166
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 02:58:23 +0100 (CET)
+Received: from localhost ([::1]:51764 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5fTp-0001NZ-RN
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 20:55:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40574)
+	id 1l5fWo-0005Bf-T4
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 20:58:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40916)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fRw-0007s2-33; Fri, 29 Jan 2021 20:53:20 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:35800)
+ id 1l5fU8-0002oK-Oy; Fri, 29 Jan 2021 20:55:41 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43112)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fRu-0000F4-FX; Fri, 29 Jan 2021 20:53:19 -0500
-Received: by mail-wr1-x431.google.com with SMTP id l12so10637671wry.2;
- Fri, 29 Jan 2021 17:53:17 -0800 (PST)
+ id 1l5fU6-0000uG-RH; Fri, 29 Jan 2021 20:55:36 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z6so10572199wrq.10;
+ Fri, 29 Jan 2021 17:55:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=sHwmePAwBZnB/6MQG332p6aeurp1aOW9YUVHNzJgQQk=;
- b=HJZc1PSaje6m+L7668kBqPcK1wBm9CBsKO2kC1XrobpTcPPnHU6ITs11hbUl/YKjbc
- DzmcMbtXJnzP6jZlLgdJWwpTlE27nSIkIGsIVBfAmCGKQgMB/xWkVmaOqqSFYsifLlUd
- 43jJZWsgGnfdPJBE8xZg+aMXkJ51DSQ7epXkB4qfmO1Rp1YXYWGGo76hopz0wEqPZD4D
- B0dQ+lKuMROs0W/ZONElGdzV5hnhFvdWMUgJODm2C2Sdaq2e81ytYWHR/5xXLEXTV9v9
- iQCHMX91/noURZa+VVbdTq8Y8AIgbZ7bd2E4fXynsrlRzci32qoKpvpXMMtBXeUyxVrN
- GbZg==
+ bh=0V4s5H5BNAAAhx8ZOQKz6ZBT7eCkPLs40vaKE8q9iFo=;
+ b=APEse49A8zK0chpt6sp8oLYngL46dVofgjHcagLSV/788H7B+zhuhPJcbysfMy4nz9
+ 7yFpIwdiozY3UH6COinIyhLWTpcQyuvzJ8wPie3wcmipNmy++QCvOGM8jy5ppfP0aVCh
+ LXXOhE/eLhSK4PTnH1NziZ68dYjW9lPQtKcU9NtJQ+EKFa6KW/O9W9jB8H4FiOSAvQ9A
+ MmcVFLZIzI+mT2wQRMiUov1wW/WyonwMGHJigitn3RAud4MkwCZ9qSeIVBY8ER9rU+TS
+ QusOVR6pjG/Vvm74qn6i7z0nQDSZ6PvpSOJdCntz2V1WfFLlb6zT3piprJ2a4ApNa6aI
+ aw1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=sHwmePAwBZnB/6MQG332p6aeurp1aOW9YUVHNzJgQQk=;
- b=jaT4L8Tc/o6+N1E0kmmFfkfd1c/NxexiTu9gKKA2SinBECtvZFL7pB/KHym40NYtep
- V0UZiLLdwVm4bASl+ZuRHx1aaukFMH0TuBguuNtcaPDn/G0tXRj5uFTqXKWxAO1+bps/
- LoQbT48qGn2HRPgE90o9cB9BNQWAojof7F8h4dTrxUJkCmz0Ea4f9K5P9+2jTJObLbw+
- 8TXBRyiXXcMHm1jSPh1mUus/I9GeSoGnEDkLavpiaH5z25c+m9pi3mi7Gc/B6rGKKc2J
- n29dchB9FTaN/RegfYwOj+2Y7bzDzZo4v0QA6g17aP0bPcz8Mx6CDFMRg7AUxcrmCC6Z
- xIQg==
-X-Gm-Message-State: AOAM531aO7mL5H1FZ83hXaVQi11QPDi9XFevacKAblIG6o4c5ELlNuv2
- WlnPjIqEvHT/gPYY5Jac4nWs8n5YPTg=
-X-Google-Smtp-Source: ABdhPJytRdW5ApRmNTPnsqDHD7BiuYa2AbAtlk3vbvJPE6VBSMcsUQvRsWX8iwp2BHbkvB+QsXhcxg==
-X-Received: by 2002:adf:d4ce:: with SMTP id w14mr7095039wrk.89.1611971596601; 
- Fri, 29 Jan 2021 17:53:16 -0800 (PST)
+ bh=0V4s5H5BNAAAhx8ZOQKz6ZBT7eCkPLs40vaKE8q9iFo=;
+ b=PHpyYllOfj5ee7s2vs1qMKkGcwhWJnTPdW65ZfehZYoGmmDhuBxojqWlnhRbP8nfRM
+ 6/mEhNNDK7Ew6e9IYwLm5M/c5/fDMSyus92udXjW3SWWeGA2js5oPfekDBXbedakj2e8
+ E/3wiU79X+a0RWFVX/2lnoEiLlnpVHYzvuR+8UMbrJT3LX1z0hkuJipZHBveX7hf2MWM
+ kIh4qW4ipUFF0nsX1vKoYQLFInVWlbESJC8Uz2UFAF4MYb1Gh3yxoYWA02v03SSbrSj3
+ TkbxRLmhVztGXHodOVv5sBMZHWoRF5ZhL8T5RrlpT3xD/yGwh8hvRUfx2Ok1omo/7YpJ
+ mo5A==
+X-Gm-Message-State: AOAM532po/96k/zmTQ/lcEGyEkwjMSpT6KdbshfU6WtpWDIm4GfBrRt3
+ Ct3PRbSYvS/h/pW0qa7CEO0YMrkguOs=
+X-Google-Smtp-Source: ABdhPJztBFrHwR7cyMvGx0PTknqjLiLVu6pDu8HNJL0HmBuBrCqF9fW1FiCM4aLH3J/OEcBqHp8BTA==
+X-Received: by 2002:a5d:60c2:: with SMTP id x2mr7649542wrt.248.1611971732203; 
+ Fri, 29 Jan 2021 17:55:32 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id p18sm10429022wrx.84.2021.01.29.17.53.15
+ by smtp.gmail.com with ESMTPSA id s23sm11913258wmc.35.2021.01.29.17.55.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 17:53:16 -0800 (PST)
+ Fri, 29 Jan 2021 17:55:31 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 09/11] target/arm: Reorder meson.build rules
-Date: Sat, 30 Jan 2021 02:52:25 +0100
-Message-Id: <20210130015227.4071332-10-f4bug@amsat.org>
+Subject: [PATCH 2/3] hw/arm/Kconfig: Add missing dependency EXYNOS4210 ->
+ OR_IRQ
+Date: Sat, 30 Jan 2021 02:55:18 +0100
+Message-Id: <20210130015519.4072469-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210130015227.4071332-1-f4bug@amsat.org>
-References: <20210130015227.4071332-1-f4bug@amsat.org>
+In-Reply-To: <20210130015519.4072469-1-f4bug@amsat.org>
+References: <20210130015519.4072469-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -83,75 +84,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
+ Joel Stanley <joel@jms.id.au>, Antony Pavlov <antonynpavlov@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+The Exynos4210 SoC uses an OR gate on the PL330 IRQ lines.
 
-Reorder the rules to make this file easier to modify.
-No logical change introduced in this commit.
-
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: dab15fbe2ab ("hw/arm/exynos4210: Fix DMA initialization")
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- target/arm/meson.build | 19 ++++++++++++-------
- 1 file changed, 12 insertions(+), 7 deletions(-)
+ hw/arm/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/meson.build b/target/arm/meson.build
-index 6c6081966cd..aac9a383a61 100644
---- a/target/arm/meson.build
-+++ b/target/arm/meson.build
-@@ -14,31 +14,36 @@
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index a320a124855..223016bb4e8 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -52,6 +52,7 @@ config EXYNOS4
+     select PTIMER
+     select SDHCI
+     select USB_EHCI_SYSBUS
++    select OR_IRQ
  
- arm_ss = ss.source_set()
- arm_ss.add(gen)
-+arm_ss.add(zlib)
- arm_ss.add(files(
-   'cpu.c',
--  'crypto_helper.c',
--  'debug_helper.c',
-   'gdbstub.c',
-   'helper.c',
-+  'vfp_helper.c',
-+))
-+
-+arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
-+  'cpu64.c',
-+  'gdbstub64.c',
-+))
-+
-+arm_ss.add(files(
-+  'crypto_helper.c',
-+  'debug_helper.c',
-   'iwmmxt_helper.c',
-   'neon_helper.c',
-   'op_helper.c',
-   'tlb_helper.c',
-   'translate.c',
-   'vec_helper.c',
--  'vfp_helper.c',
-   'cpu_tcg.c',
- ))
--arm_ss.add(zlib)
--
- arm_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('m_helper.c'), if_false: files('m_helper-stub.c'))
- arm_ss.add(when: 'CONFIG_TCG', if_false: files('m_helper-stub.c'))
- 
- arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
- 
- arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
--  'cpu64.c',
--  'gdbstub64.c',
-   'helper-a64.c',
-   'mte_helper.c',
-   'pauth_helper.c',
+ config HIGHBANK
+     bool
 -- 
 2.26.2
 
