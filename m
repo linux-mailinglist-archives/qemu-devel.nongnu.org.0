@@ -2,66 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE49309420
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 11:13:03 +0100 (CET)
-Received: from localhost ([::1]:43846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDE730945A
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 11:22:18 +0100 (CET)
+Received: from localhost ([::1]:49652 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5nFW-00056d-BA
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 05:13:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33634)
+	id 1l5nOT-000829-En
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 05:22:17 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35910)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l5nEL-0004Qd-9K
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 05:11:49 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:41304)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l5nNC-0007XE-7t; Sat, 30 Jan 2021 05:20:58 -0500
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36]:36451)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
- id 1l5nEH-00081a-Rn
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 05:11:49 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id g12so16630812ejf.8
- for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 02:11:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1l5nNA-0003K2-FZ; Sat, 30 Jan 2021 05:20:57 -0500
+Received: by mail-yb1-xb36.google.com with SMTP id c3so1142778ybi.3;
+ Sat, 30 Jan 2021 02:20:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=2sKnqExdK8GF7+L9pscIGnQekSslaMdaTCx8hPm13xA=;
- b=MSJ6/GN2YfQibEMY+ZJ7rBfz07aL+oGWypZxNCoatSwSryjDadSqXtZEOrpe4t3p3P
- A/e/p8sDu/Hr9ei3y0Cn+SWFqBLHFjjLK57ZfNpuL7w7c8ekVIRZLd50m3dt3UVBc2wk
- GNvdpbhVSrmrjqzrjkMRi2xMrmtPBSMjNXBGUk9bE7+XAAhWaLeyuwrH3/+UhPu+JbwU
- eEgLN6BGo5clIkkpkDqyXK7UAsS+AfybMU9Bd8TZUmL7KOQRAdvw7ByWlaXbkLDgC6HA
- iqCkFdeID+SIawGYNAV8pfRjjRnGpzlcJQIQAySHD534KCqOsyYtf0fqnaSF6WjRhYut
- MULQ==
+ bh=99pWrdnAGBSVlE24tc2Z3Sd9L4W5Bt89BifejWOFq1U=;
+ b=VZhMdVfjZyAB+VP8qTxgkTsP/NC6xdmWdfW7eBaMZDfULfwPgFUGWvrELEkQE0ttfB
+ 0K2+ETEr+6uY41TF7XNC1NBrvHW6wJDeOy+xBvx+oorAlqXHLJHhJ5nXzKDW1AetDjrP
+ ZGp5aBHLYE91gSrop29HY4bl7KQ3DVDTughz5XYFuqUB9A/H9JOUVVreZwmlUyzlV90J
+ sCfkd+e0xEqzQIcZ5dktd87JDG1KN8l0DFSxUfhEtOk4qTfseJYtmcsnfOkqxn3NwpS/
+ bEUhjYrYpkmX/R2BTw0ujAm63P7xG012CUWolwt/ECWv6228bCVJAzoEvfYbcZZ/LS2m
+ jCZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=2sKnqExdK8GF7+L9pscIGnQekSslaMdaTCx8hPm13xA=;
- b=d1NJT9xB8JXTIpq+Z/pSmXNkIsMBRfo4ynYKzcWGqH/BAzQelbdSXS9Ct8tmumGxA2
- gu8oi2V5ItOF2iO8tTKy5btWZRiSElLcDAZBbl1HRqWOEZ0+5Xs1TSw9T/AwA+Pb/0ya
- MUf3ctL6uec3S7R32BrvufjdAPs571SW0bXHawyXgnY2aFhXxyipifor/SnGaYwjmwXw
- 1z5lDNHlJ/l2mwbDxypBHL4mk9qx0VqeUbxkRlHAr7XTcVOmEg2Nahi1P3wUeCvFYW5J
- 4O5/Wz1j8s/a5bIFqUxWK+ci80LLqdcKR9znidOLKivbSir7XP7mOgsCorTbnKPDWmdb
- dMVA==
-X-Gm-Message-State: AOAM533vi5fN+8sjSZxWDZpinfoVd+yirRD47rzVc7QhZYbWs3YtsAJK
- VWIOERnrSaOoP+AUKwfI61FyhYOJVOsH7UVqi9c=
-X-Google-Smtp-Source: ABdhPJwEp+hYX2JT95aQqxHycK/stVuN0qtRhN2NdRLbGG55W2D2kJAWSJ+OyoUoYmnoF8p2RWx87jWhwZzcYgh2NdI=
-X-Received: by 2002:a17:906:4d8f:: with SMTP id
- s15mr8507851eju.389.1612001502613; 
- Sat, 30 Jan 2021 02:11:42 -0800 (PST)
+ bh=99pWrdnAGBSVlE24tc2Z3Sd9L4W5Bt89BifejWOFq1U=;
+ b=k8zgGTe9jMWcM6chI9evbLuu+2BoVUcE6EjeJ2V8OU5So4MxbnRih9jiBC4hYB9YHL
+ EI5j+nGGgI5q428F3b3rslGZamXGClbi8G44MnP2D24srgrNGbErZ/H724p0zeeUiFFA
+ G105coIqFwNqFyVsBU61sc2r6TbqjkWuQlEjHa4yEJ99nfajc5d/vI3iWK+6uyuWiqYa
+ VX7eIgr+kwOW9EWdcCnepgpnboQ7yjZ/xDcwB9csNbUDUSITbC+nR92MvzpMY0VD4yUF
+ qyT6CTqIFjwgHjpaY3Rst3i8XNJ7Qo0l2JzrKYschBoFxoaZidlW74eDQHvoreNdtu1g
+ oAuA==
+X-Gm-Message-State: AOAM533gdvLhs7I4uO5dukwzAKNUYchsa0+HGEcByXvdB6gxD1sj+0or
+ fjLGxOoFiZex6yIkXDaGqiUnvmmixentheNT/Ak=
+X-Google-Smtp-Source: ABdhPJxb+vdsPdJgOUZ6hl0pyAaEOIGWR9i5tD+dsAv/QptpFNn1BBkPd022+ybTYuWEAdUInRHbExm1ptOUl/Ac0KY=
+X-Received: by 2002:a25:2041:: with SMTP id g62mr12393716ybg.152.1612002054793; 
+ Sat, 30 Jan 2021 02:20:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20210129111814.566629-1-pbonzini@redhat.com>
- <CAFEAcA-CPcVyo2fzUX3sSdMoS6xJbxn7V4AwRFFSB+mU9bGGYQ@mail.gmail.com>
- <48eb40fc-8c5f-e2c8-3f51-9a45dc1ee128@redhat.com>
-In-Reply-To: <48eb40fc-8c5f-e2c8-3f51-9a45dc1ee128@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Sat, 30 Jan 2021 14:11:30 +0400
-Message-ID: <CAJ+F1CKmVLWT4HVmcDRBGwQcGfWfpSbHyG_1HFdXfXTD4Z+SqQ@mail.gmail.com>
-Subject: Re: [PULL 00/36] Misc patches (buildsys, i386, fuzzing) for 2021-01-29
-To: Paolo Bonzini <pbonzini@redhat.com>
+References: <20210129085124.21525-1-bmeng.cn@gmail.com>
+ <9336f3ec-b500-052b-a8f8-e1b8ec2905b6@amsat.org>
+In-Reply-To: <9336f3ec-b500-052b-a8f8-e1b8ec2905b6@amsat.org>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sat, 30 Jan 2021 18:20:44 +0800
+Message-ID: <CAEUhbmWE5i_n1gC+UPdJPC9EsyTXkuPjoH78phSyoizwbf1P3w@mail.gmail.com>
+Subject: Re: [PATCH] hw/sd: sd: Bypass the RCA check for CMD13 in SPI mode
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=marcandre.lureau@gmail.com; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-yb1-xb36.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -81,64 +77,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: Bin Meng <bin.meng@windriver.com>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+Hi Philippe,
 
-On Fri, Jan 29, 2021 at 11:56 PM Paolo Bonzini <pbonzini@redhat.com> wrote:
+On Fri, Jan 29, 2021 at 10:11 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
 >
-> On 29/01/21 20:49, Peter Maydell wrote:
-> > On Fri, 29 Jan 2021 at 11:33, Paolo Bonzini <pbonzini@redhat.com> wrote=
-:
-> >>
-> >> The following changes since commit 0bcd12fb1513bad44f05f2d3a8eef2a99b3=
-077b6:
-> >>
-> >>    Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into=
- staging (2021-01-28 12:30:30 +0000)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>    https://gitlab.com/bonzini/qemu.git tags/for-upstream
-> >>
-> >> for you to fetch changes up to 6c52f4644c9c8a18b8495e169e539632a897f13=
-5:
-> >>
-> >>    accel/kvm/kvm-all: Fix wrong return code handling in dirty log code=
- (2021-01-29 10:38:38 +0100)
-> >>
-> >> ----------------------------------------------------------------
+> Hi Bin,
+>
+> On 1/29/21 9:51 AM, Bin Meng wrote:
+> > From: Bin Meng <bin.meng@windriver.com>
 > >
-> > Fails to build, OSX:
-> >
-> > ../../subprojects/libslirp/src/slirp.c:131:17: error: unused variable
-> > 'old_stat' [-Werror,-Wunused-variable]
-> >      struct stat old_stat;
-> >                  ^
-> > ../../subprojects/libslirp/src/slirp.c:143:10: error: unused variable
-> > 'buff' [-Werror,-Wunused-variable]
-> >      char buff[512];
-> >           ^
+> > Unlike SD mode, when SD card is working in SPI mode, the argument
+> > of CMD13 is stuff bits. Hence we should bypass the RCA check.
 >
-> Hmm this is the same slirp failure that in theory should have been fixed
-> by Marc-Andr=C3=A9.  I'll check again on Monday.
+> Is this for detecting events by polling? From spec v8:
 >
+>   5.7.5 Event Indication Method
+>   5.7.5.1 FX_EVENT (Bit06 of Card Status)
+>
+>     An event indication method is introduced from Version 4.20.
+>     Card may use Bit06 of R1 (R1b) response of any SD command
+>     to indicate event generation.
+>
+>   F.2 Concept of Event Detection Method
+>   F.2.2 Host Implementation to use Event Detection Method
 >
 
-That's weird, https://patchew.org/QEMU/20210129111814.566629-1-pbonzini@red=
-hat.com/20210129111814.566629-24-pbonzini@redhat.com/
+I think you looked at the wrong place. See spec v8
 
--Subproject commit 8f43a99191afb47ca3f3c6972f6306209f367ece
-+Subproject commit 5dce846e3ee82d93462bc637bb0db2fd49f0fc5a
+chapter 7.3.1.3 Detailed Command Description
 
-I can't really explain why the submodule wasn't updated to include the fix.
+"The card shall ignore stuff bits and reserved bits in an argument"
 
-Peter, did this fail on various CI builds or during a manual build?
+and Table 7-3 Commands and Arguments
 
+CMD13 Argument [31:0] stuff bits
 
---=20
-Marc-Andr=C3=A9 Lureau
+Regards,
+Bin
 
