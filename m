@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C34A9309167
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 02:58:58 +0100 (CET)
-Received: from localhost ([::1]:54910 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C173330915C
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 02:54:36 +0100 (CET)
+Received: from localhost ([::1]:39744 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5fXN-0006U8-Gu
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 20:58:57 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40446)
+	id 1l5fT9-0000CK-PS
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 20:54:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fRM-0006g0-CJ; Fri, 29 Jan 2021 20:52:44 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:39535)
+ id 1l5fRR-0006kF-4L; Fri, 29 Jan 2021 20:52:49 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:36445)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fRK-0008Us-Op; Fri, 29 Jan 2021 20:52:43 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id u14so8523868wmq.4;
- Fri, 29 Jan 2021 17:52:41 -0800 (PST)
+ id 1l5fRP-00004w-Lz; Fri, 29 Jan 2021 20:52:48 -0500
+Received: by mail-wm1-x332.google.com with SMTP id i9so8542671wmq.1;
+ Fri, 29 Jan 2021 17:52:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=G9dNmRIohMTgXAElzkQ+lpMLRmxhHG61au1rY6dJdIw=;
- b=PEjpazXUgk6kR6UqDmwU45UySoXQLcz5AUjh6P8ScUgFkBsPisn+Tm/qm9hBMUWlxU
- bXEcLJ8UugY9aEVPQbo6p4m/Hux6j9xRlGgX4nFBl3CdGdq2BBIrSjLEO86Z4aoFc8pO
- sOUDNxqSQ0sq11WskYH43JUY8ipQhlYj/w/bYvz/VXaBRpbw+O5FYEX3aiwba24dV37x
- eXoZz8Ukp5kBBqvvXXbiR7M0vIrCWLxvkVDzdRwwembHyYCl3SSmuG6HSoiE25+STMef
- fVEoHq1XKPD0QMR5koqBX/Yf7PEsrpn+QnhlP/GxxXqA9IDdom/mYPcwNcgu4Y2ATxaQ
- whbg==
+ bh=vcCVSF3XdYkCqqZi7utKwViQKx4YjOvtKjolDPxsZVA=;
+ b=uuOQE2bVc/AXhQEPhQ6gdsToWOMtR7/LcnPqZ5MlFP7kxA9NkXZRlPLIuIGcDAICaH
+ ssfdEX74NQKHWvbMKF1O0arKgDrgBDsd8FqdoI/5wNZzzclE5eRj9Kpm6bGoGr5+cZdI
+ Jg5zG6cmCMmNVfGLW3zUisi7sd7SUqp60e7Hpum16Q1olADlzRwBFv2K8f8X18j8D47y
+ 58iyx4+nB5prF66v4obJKkL3bwkP1u0ZTkyuBYVj1LfX8505z2oyoDPPp1zNI+EnKisD
+ o5O/sJHYTlK/TxPX7i+7nbbtSy/f7B6U9/cTk8WL2l7kXtk/9VzZhNismcBX99UrM8es
+ TVZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=G9dNmRIohMTgXAElzkQ+lpMLRmxhHG61au1rY6dJdIw=;
- b=KbV4sAiA36R4qUDTgcCl/qrBAkfis1jFNh/rcAMjxgSB2nH1ReOVRal3BJ484zuABf
- rW3KYIbOO67KIdGxADr7lmms6QrAAdUbvXk79rx1mKxHZ4VcwyJhvF+drk/N0nz/Ad4N
- MXP0IUT4rghtoeQq7IoLGI82aHWwlNPSHB2AOsP0I0GD8TirX95MbMPnamf7dGqGknR+
- 4T4s4FSvPc2GjGhgquqoF/dNjvGbHF54ftWtGYbolEXTZbzY682rHeLbMqpJ/pLTwy3M
- ys5xBhld1WMOIDVNdU/bfD+Z1Y6xGclyA7hGbkKCrwk6VWc9eelkbgR9al976KBM0Ah2
- tJVw==
-X-Gm-Message-State: AOAM530yW2rUUON9tCFsHw9uuCqAMcQjKL+sTrCxgrki/kgCZwwRXfwv
- 7dGvS2q8GhEEpNj8TdkiFWCDwrBN9M4=
-X-Google-Smtp-Source: ABdhPJwskto+f53o9TCaynYuVK8iQ1uBoTdTN+CKWcrz2acq5nnSN55h/BCj1DXRiUJLZD6Cr+Hp6Q==
-X-Received: by 2002:a1c:21c6:: with SMTP id h189mr5786718wmh.173.1611971560647; 
- Fri, 29 Jan 2021 17:52:40 -0800 (PST)
+ bh=vcCVSF3XdYkCqqZi7utKwViQKx4YjOvtKjolDPxsZVA=;
+ b=Zg3uu+5myc/fzr0l3DUaSSXqKCmUpKOo/SP0fSmKqERsvAokR6t5n/4MMMy5SbdifA
+ cBLAXANY9/GW22eV9kjO7ONITjfUx7jQbTTF0aPIgFfpKob7PLDDBSGW8dqxG75kH2ia
+ lQAX6Hx4CT1XjRfvSsUEtT8CXX0cPvhiKny+BzX6onie081N4tKNA6S6KDQcdOuGHJiQ
+ NZeTUVnxJxFHSOmS/HnXKVrw+OHyGlfzxxEp41y2tfzszStST+2HGGoTKRXcEgWHnhex
+ o9udw+/RJSp/S4RNUrOQr/lziCLtWjW5NXXwi27lQ+LrJIzT+8+Tb5TrNV/Ruds2xUl/
+ F9aA==
+X-Gm-Message-State: AOAM532GiD3YO8F5SOqLUV6d5VnVcqTmNX3bGqziazM2O8gNlVZWJ/r/
+ efQC7yGq4kCVJT8IzAAEytdYPbpKuXI=
+X-Google-Smtp-Source: ABdhPJxjjNgvntexhnAMkjHR5dHZDBe4a6Ehpw1OZ8B2xG9qLvuQMF7WDg1InhxkhCshzCAD0AspzA==
+X-Received: by 2002:a05:600c:154f:: with SMTP id
+ f15mr6167686wmg.46.1611971565884; 
+ Fri, 29 Jan 2021 17:52:45 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id w126sm12485133wma.43.2021.01.29.17.52.39
+ by smtp.gmail.com with ESMTPSA id b4sm15215041wrn.12.2021.01.29.17.52.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 17:52:40 -0800 (PST)
+ Fri, 29 Jan 2021 17:52:45 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 02/11] default-configs: Remove unnecessary SEMIHOSTING
- selection
-Date: Sat, 30 Jan 2021 02:52:18 +0100
-Message-Id: <20210130015227.4071332-3-f4bug@amsat.org>
+Subject: [PATCH v5 03/11] target/arm: Restrict ARMv4 cpus to TCG accel
+Date: Sat, 30 Jan 2021 02:52:19 +0100
+Message-Id: <20210130015227.4071332-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210130015227.4071332-1-f4bug@amsat.org>
 References: <20210130015227.4071332-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,26 +96,68 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 56b5170c87e ("semihosting: Move ARM semihosting code to
-shared directories") selected ARM_COMPATIBLE_SEMIHOSTING which
-already selects SEMIHOSTING. No need to select it again.
+KVM requires a cpu based on (at least) the ARMv7 architecture.
+
+Only enable the following ARMv4 CPUs when TCG is available:
+
+  - StrongARM (SA1100/1110)
+  - OMAP1510 (TI925T)
+
+The following machines are no more built when TCG is disabled:
+
+  - cheetah              Palm Tungsten|E aka. Cheetah PDA (OMAP310)
+  - sx1                  Siemens SX1 (OMAP310) V2
+  - sx1-v1               Siemens SX1 (OMAP310) V1
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- default-configs/devices/arm-softmmu.mak | 1 -
- 1 file changed, 1 deletion(-)
+ default-configs/devices/arm-softmmu.mak | 2 --
+ hw/arm/Kconfig                          | 8 ++++++++
+ 2 files changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-index 0500156a0c7..341d439de6f 100644
+index 341d439de6f..8a53e637d23 100644
 --- a/default-configs/devices/arm-softmmu.mak
 +++ b/default-configs/devices/arm-softmmu.mak
-@@ -41,6 +41,5 @@ CONFIG_MICROBIT=y
- CONFIG_FSL_IMX25=y
- CONFIG_FSL_IMX7=y
- CONFIG_FSL_IMX6UL=y
--CONFIG_SEMIHOSTING=y
- CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
- CONFIG_ALLWINNER_H3=y
+@@ -14,8 +14,6 @@ CONFIG_INTEGRATOR=y
+ CONFIG_FSL_IMX31=y
+ CONFIG_MUSICPAL=y
+ CONFIG_MUSCA=y
+-CONFIG_CHEETAH=y
+-CONFIG_SX1=y
+ CONFIG_NSERIES=y
+ CONFIG_STELLARIS=y
+ CONFIG_REALVIEW=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 223016bb4e8..7126d82f6ce 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -1,3 +1,7 @@
++config ARM_V4
++    bool
++    depends on TCG
++
+ config ARM_VIRT
+     bool
+     imply PCI_DEVICES
+@@ -31,6 +35,8 @@ config ARM_VIRT
+ 
+ config CHEETAH
+     bool
++    default y if TCG
++    select ARM_V4
+     select OMAP
+     select TSC210X
+ 
+@@ -249,6 +255,8 @@ config COLLIE
+ 
+ config SX1
+     bool
++    default y if TCG
++    select ARM_V4
+     select OMAP
+ 
+ config VERSATILE
 -- 
 2.26.2
 
