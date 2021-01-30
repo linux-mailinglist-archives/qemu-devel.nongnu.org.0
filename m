@@ -2,88 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFD63097C0
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 20:03:50 +0100 (CET)
-Received: from localhost ([::1]:38674 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 941B43097C3
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 20:06:07 +0100 (CET)
+Received: from localhost ([::1]:41394 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5vXB-0001q4-6R
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 14:03:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:54818)
+	id 1l5vZO-0003A7-Mg
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 14:06:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55216)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5vVa-0001NT-AE
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 14:02:10 -0500
-Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531]:38510)
+ (Exim 4.90_1) (envelope-from <iris@modwiz.com>) id 1l5vY4-0002b5-9s
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 14:04:44 -0500
+Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f]:32917)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1l5vVW-0006w2-Af
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 14:02:10 -0500
-Received: by mail-pg1-x531.google.com with SMTP id o16so9128231pgg.5
- for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 11:02:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=SB85d4ezlGZF3nl90aeqB2ymvhwUzFz6l3Nrngk8Wi8=;
- b=eWIFaQHSGTJyDPdW9lh79uaX3rTWJ/5h98KDv1CpCgGXfkk/86hOumiIgAOejaH9O6
- 71chVR3s6GejGwFkA9P0yAgU/LoJHDfqQ8r1GFv2F1bbY8qZWRAs1wsbpsYe3iDRXaZL
- yOxZ2ufeknYBWI06IbVdfzbF9/wZ3qOwTErxXLn2ty5x3IzRTsBs6bySLzgVtRNp3O6P
- BnBhW2j7C4II2OXSu++OtrAI6LddZtZzepWQ+yPmJPv3wyEybAI19noAxXFMg/okZC+P
- dbTxKluPxlEqHfhTspUyGJnyTB2FjJ1sSGemIwVLvfc9W0KuV0GhizpYvWTeuQd6Tmp9
- Ki6g==
+ (Exim 4.90_1) (envelope-from <iris@modwiz.com>) id 1l5vY1-0007zj-HB
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 14:04:43 -0500
+Received: by mail-ed1-x52f.google.com with SMTP id c6so14421671ede.0
+ for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 11:04:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=modwiz-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to:cc;
+ bh=g9ov0VVs1sCdcd4GwD2Rn1yejaNO5CuETR3oztC0Xkg=;
+ b=CIA8NvEulkN+vLw83eXXsBwWIUXXqW/Jpc4iD01+5FBwHdK2T5VfjHyP+Eel4YI+H8
+ JyXiJPCHNWsy2+J9t73XriTuRvntpXPDn2psNuxGy+UHs+ZiRFq53cadFtxKiogZfxgf
+ +m6Z+X8ThmF9W/97AQAP2l9V4xojFyH+XWGCeDAMXWLrH39EZav0J4BUVfPBQ2Uz9ii0
+ E2yn8EfRWja9XAC5wCWphCOBw/h70alSLIF6rxYWq1gdxKOwLbvRsZ1DyjvIDgfwOYdA
+ 2RbCFoBrlNi3OP7cWduVsnBoRmVgizuCBq+gdCItCQLuysNZgo3AMmuM2BoaQliWAp+X
+ jy0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=SB85d4ezlGZF3nl90aeqB2ymvhwUzFz6l3Nrngk8Wi8=;
- b=FP+KAkGEfGwAXJrQIf5FoOyG16W/Xjea9rpV2xY9J61r1BGGoZpzlMPHNMOVo6BBh1
- 9P/TOO/SfQYWJ9ppxS5pA2URFMnpBiJcYH76NWHmJVeknO54qt2iUN3S7OKh6fNz5okd
- wFbb0ot/tuwkN5Lmflj4sgZUW8u6+rutsGXHzmU9cecS4rkTgrMKook9SM/KwEK6xEkf
- b0hgypEOVtttJHfm4ztc8seEwZXBBdm6x1F8CDG+QWrCS/b6sH0mq8AI3L1A8oRuuHT7
- 46lV3OALl8A3wdqKR82h3ozXKcZ+wOWJ9ytMfeNr91QzlwZB1Wv6YTZC+KckurPN/anw
- USDQ==
-X-Gm-Message-State: AOAM532Degq1qWa/I9xd92hYMpMQa1fOW65fAlby4GgsDUL3CufymPQ5
- 5EOdsQm+PRUS/5IFHrIQKL3VLg==
-X-Google-Smtp-Source: ABdhPJzdrLUKNwAApKUYDFV/Nlhx95VahzvViitd6wngnG7J24JI1HiCOhwJErrlVceBQ4vX7Q1KQA==
-X-Received: by 2002:a63:5942:: with SMTP id j2mr9882947pgm.33.1612033319494;
- Sat, 30 Jan 2021 11:01:59 -0800 (PST)
-Received: from [192.168.3.43] (cpe-66-27-222-29.hawaii.res.rr.com.
- [66.27.222.29])
- by smtp.gmail.com with ESMTPSA id h10sm12267294pfn.213.2021.01.30.11.01.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 30 Jan 2021 11:01:58 -0800 (PST)
-Subject: Re: [PATCH v14 18/22] accel: introduce AccelCPUClass extending
- CPUClass
-To: Claudio Fontana <cfontana@suse.de>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210128092814.8676-1-cfontana@suse.de>
- <20210128092814.8676-19-cfontana@suse.de>
- <64d8385c-db22-b647-2402-3840b0e0e9b5@redhat.com>
- <9a51a203-f6a8-686f-7859-475537b3607a@suse.de> <878s8dujj5.fsf@linaro.org>
- <40ed971e-a4fe-77c5-94b9-28691874ee32@redhat.com>
- <0943e736-6847-4b6a-8433-f28f4692a299@linaro.org>
- <aaafff05-f3c6-ef44-2d98-f6fcb74ccf64@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <03ac58b2-619b-572f-85ae-0760c0c12bac@linaro.org>
-Date: Sat, 30 Jan 2021 09:01:53 -1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+ bh=g9ov0VVs1sCdcd4GwD2Rn1yejaNO5CuETR3oztC0Xkg=;
+ b=QvYrdgjwXQ6X3axZUCoN4vCTMolLVfuoNVM8pTHBr9NH92Sw35FQT8fjlHH9nrVh6S
+ d4O0b2y2fKuMpzfBIXlsdv584Oi5NspDFuYUmap6CRgr4dXqWwNNMRMY+Q7b6A/EeXFe
+ WhaimQFZ5CpMmUP434JyxyknrovaSo7JU6dIs7VArS0ii3I13Mx8C7YEsF9bFOfjzl1A
+ lVIzJJCdtLTFpSd4nz5iT5HByfu+mAtR76+QYKRpo9vwOJ4LHIEAFC40UD+sIpRZA5c5
+ wPA1psEvhrkqffql37EZ0uwa/7XsS9geCMjkpGi2J3LiH55r6nAhikING0Z4nU7qAQ/E
+ s3qQ==
+X-Gm-Message-State: AOAM531IIJIYsW9VOddwZHWJ7MM1ULYmu2Uj5zEEHRfL0NtDkYTh1dDO
+ IQhA8lbrb9tsZTYS6LgEcQ2F67WYc58i77LJoavKUV4o/5cQvtMwVi0=
+X-Google-Smtp-Source: ABdhPJzgGTWh2a39lrSBTZbk0IOWJW/yztogMklO1WEmrblNo0ijn5vT5vlpOseaCogKyqEPjKTkSDgWiGqoOOi6FAs=
+X-Received: by 2002:a05:6402:13c8:: with SMTP id
+ a8mr11164355edx.191.1612033479865; 
+ Sat, 30 Jan 2021 11:04:39 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <aaafff05-f3c6-ef44-2d98-f6fcb74ccf64@suse.de>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::531;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x531.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+From: Iris Johnson <iris@modwiz.com>
+Date: Sat, 30 Jan 2021 13:04:28 -0600
+Message-ID: <CAN6Exg2Kz9yu-9Ftx4V5QL31duVdNCvR3_Pn-4PG39_zRm+pzw@mail.gmail.com>
+Subject: Question: Adding emulated machine support for Apple M1 mac
+To: QEMU Arm <qemu-arm@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: none client-ip=2a00:1450:4864:20::52f;
+ envelope-from=iris@modwiz.com; helo=mail-ed1-x52f.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -96,24 +72,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Paolo Bonzini <pbonzini@redhat.com>
+Cc: QEMU devel <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/30/21 12:53 AM, Claudio Fontana wrote:
-> To summarize:
-> 
-> 1) accel->cpu_realizefn extends the current cpu target-specific realize functions with accelerator-specific code,
->    which currently does not make use of errp at all (thus, the temptation to remove errp from the interface until it is actually needed by a target).
+Hi all,
 
-No, arm does use errp in realizefn already.
-It's just that the void return value is hinky.
+In light of attempts to get Linux bootstrapped on the new M1 macs I've
+been working on supporting them in QEMU as a new machine type, I think
+this has benefits for testing and potentially there is desire for an
+M1 Mac running QEMU to natively support emulating an M1 Mac and
+potentially booting OS X under such a setup (although this is not
+something I can personally test).
 
+Adding a new machine type is hardly a straightforward process though
+and there's a lot of paths the existing code takes that aren't ideal.
+Constructing the memory map and how to handle initialization of the
+hardware before jumping into code that would expect to be loaded from
+firmware bootloaders are two examples of cases that are handled in a
+multitude of different ways.
 
-r~
+I'm looking for some feedback on the possible approaches, you can find
+the current progress of my work on what might (eventually) turn into a
+potential patch adding support here:
+https://github.com/modwizcode/qemu/tree/add_M1_test.
+
+Currently I'm focused on booting m1n1
+(https://github.com/AsahiLinux/m1n1/), a sort of linux loader, with
+the goal to have enough support to not need any qemu specific m1n1
+patches to handle qemu differences. This goal has been achieved well
+enough to start work on basic framebuffer and interrupt controller
+implementation.
+
+The most objectionable area at the moment is that I currently just
+modify the cortex-a72 to stub out a few Apple M1 specific MSRs,
+obviously a real coretype for the M1 should be added (probably two to
+account for differences between the two types of cores it has).
+
+Currently I have an "AppleM1SoC" object that will hold all the
+peripherals, and then I add a simple machine definition called
+"apple-m1" that (once more information is available) should simulate
+the hardware environment of an M1 based mac mini.
+
+Feedback would be appreciated on desire for this, implementation
+suggestions, critiques (although there's some cleanup I'm saving for
+later once I've decided on a more correct approach)
+
+Thanks
+Iris Johnson
 
