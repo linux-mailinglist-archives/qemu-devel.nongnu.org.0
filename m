@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F3A309563
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 14:34:09 +0100 (CET)
-Received: from localhost ([::1]:53034 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C327730956D
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 14:37:34 +0100 (CET)
+Received: from localhost ([::1]:59624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5qO8-00053h-42
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 08:34:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48964)
+	id 1l5qRR-0007ud-JI
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 08:37:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5qM4-000489-CJ
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:32:01 -0500
-Received: from indium.canonical.com ([91.189.90.7]:58536)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l5qKt-0004Dh-Mx
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:31:56 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l5qKn-0004oi-Ci
- for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 13:30:41 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 5D8EC2E813A
- for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 13:30:41 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l5qPe-0006cE-Cu
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:35:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60672)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
+ id 1l5qPX-00062y-QV
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:35:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612013732;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hyKukCMWu579tWCrxKqqZgNE7D0a38jLrhh8ud6jyRo=;
+ b=Kbb5aaEzdycI0coac/s+51TTrwzmpXK8nkNEfDpovMY+qZkeNVFKC6BqYbtM1g8iGnp5nd
+ ZqWRLOibyzwTI0wQNse8NdWDclhyGYrwXr/olydSpjQbZeZnunBscXK4j4huXTvAEYvhfY
+ W93p1YRraQqpT/gvoWFmrpgTzmFQZ+E=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-400-NY_OQinBMgmRHAJIdMWJfQ-1; Sat, 30 Jan 2021 08:35:27 -0500
+X-MC-Unique: NY_OQinBMgmRHAJIdMWJfQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46F1B18C89CF;
+ Sat, 30 Jan 2021 13:35:26 +0000 (UTC)
+Received: from kaapi (unknown [10.33.36.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D3D9810023B8;
+ Sat, 30 Jan 2021 13:35:22 +0000 (UTC)
+Date: Sat, 30 Jan 2021 19:05:08 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Subject: Re: [PATCH] fdc: check drive block device before usage
+ (CVE-2021-20196)
+In-Reply-To: <20210123100345.642933-1-ppandit@redhat.com>
+Message-ID: <n67p4r84-553r-os50-p98p-4sosq082s276@erqung.pbz>
+References: <20210123100345.642933-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 30 Jan 2021 13:21:06 -0000
-From: P J P <1913873@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: cve security
-X-Launchpad-Bug-Information-Type: Public Security
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: yes
-X-Launchpad-Bug-Commenters: pjps
-X-Launchpad-Bug-Reporter: P J P (pjps)
-X-Launchpad-Bug-Modifier: P J P (pjps)
-References: <161200949811.14050.15321983107539308514.malonedeb@wampee.canonical.com>
-Message-Id: <161201286723.32620.16263820378894875544.launchpad@chaenomeles.canonical.com>
-Subject: [Bug 1913873] Re: QEMU: net: vmxnet: integer overflow may crash guest
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 652f6978051e495974b9200e43767f5de006d8ad
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,102 +77,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913873 <1913873@bugs.launchpad.net>
+Cc: Gaoning Pan <pgn@zju.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Information type changed from Private Security to Public Security
++-- On Sat, 23 Jan 2021, P J P wrote --+
+| From: Prasad J Pandit <pjp@fedoraproject.org>
+| 
+| While processing ioport command in 'fdctrl_write_dor', device
+| controller may select a drive which is not initialised with a
+| block device. This may result in a NULL pointer dereference.
+| Add checks to avoid it.
+| 
+| Fixes: CVE-2021-20196
+| Reported-by: Gaoning Pan <pgn@zju.edu.cn>
+| Buglink: https://bugs.launchpad.net/qemu/+bug/1912780
+| Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+| ---
+|  hw/block/fdc.c | 11 +++++++++--
+|  1 file changed, 9 insertions(+), 2 deletions(-)
+| 
+| diff --git a/hw/block/fdc.c b/hw/block/fdc.c
+| index 3636874432..13a9470d19 100644
+| --- a/hw/block/fdc.c
+| +++ b/hw/block/fdc.c
+| @@ -1429,7 +1429,9 @@ static void fdctrl_write_dor(FDCtrl *fdctrl, uint32_t value)
+|          }
+|      }
+|      /* Selected drive */
+| -    fdctrl->cur_drv = value & FD_DOR_SELMASK;
+| +    if (fdctrl->drives[value & FD_DOR_SELMASK].blk) {
+| +        fdctrl->cur_drv = value & FD_DOR_SELMASK;
+| +    }
+|  
+|      fdctrl->dor = value;
+|  }
+| @@ -1894,6 +1896,10 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
+|      uint32_t pos;
+|  
+|      cur_drv = get_cur_drv(fdctrl);
+| +    if (!cur_drv->blk) {
+| +        FLOPPY_DPRINTF("No drive connected\n");
+| +        return 0;
+| +    }
+|      fdctrl->dsr &= ~FD_DSR_PWRDOWN;
+|      if (!(fdctrl->msr & FD_MSR_RQM) || !(fdctrl->msr & FD_MSR_DIO)) {
+|          FLOPPY_DPRINTF("error: controller not ready for reading\n");
+| @@ -2420,7 +2426,8 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
+|          if (pos == FD_SECTOR_LEN - 1 ||
+|              fdctrl->data_pos == fdctrl->data_len) {
+|              cur_drv = get_cur_drv(fdctrl);
+| -            if (blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+| +            if (cur_drv->blk == NULL
+| +                || blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
+|                             BDRV_SECTOR_SIZE, 0) < 0) {
+|                  FLOPPY_DPRINTF("error writing sector %d\n",
+|                                 fd_sector(cur_drv));
+| 
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913873
+Ping..!
+--
+Prasad J Pandit / Red Hat Product Security Team
+8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
 
-Title:
-  QEMU: net: vmxnet: integer overflow may crash guest
-
-Status in QEMU:
-  New
-
-Bug description:
-  * Gaoning Pan from Zhejiang University & Ant Security Light-Year Lab repo=
-rted a malloc failure
-    issue locates in vmxnet3_activate_device() of qemu/hw/net/vmxnet3.c NIC=
- emulator
-
-  * This issue is reproducible  because while activating the NIC device, vm=
-xnet3_activate_device
-    does not validate guest supplied configuration values against predefine=
-d min/max limits.
-
-  @@ -1420,6 +1420,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-       vmxnet3_setup_rx_filtering(s);
-       /* Cache fields from shared memory */
-       s->mtu =3D VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.m=
-tu);
-  +    assert(VMXNET3_MIN_MTU <=3D s->mtu && s->mtu < VMXNET3_MAX_MTU);    =
-<=3D Did not check if MTU is within range
-       VMW_CFPRN("MTU is %u", s->mtu);
-   =
-
-       s->max_rx_frags =3D
-  @@ -1473,6 +1474,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-           /* Read rings memory locations for TX queues */
-           pa =3D VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.txRingBa=
-sePA);
-           size =3D VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.txRing=
-Size);
-  +        if (size > VMXNET3_TX_RING_MAX_SIZE) {                      <=3D=
- Did not check TX ring size
-  +            size =3D VMXNET3_TX_RING_MAX_SIZE;
-  +        }
-   =
-
-           vmxnet3_ring_init(d, &s->txq_descr[i].tx_ring, pa, size,
-                             sizeof(struct Vmxnet3_TxDesc), false);
-  @@ -1483,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-           /* TXC ring */
-           pa =3D VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.compRing=
-BasePA);
-           size =3D VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.compRi=
-ngSize);
-  +        if (size > VMXNET3_TC_RING_MAX_SIZE) {                       <=
-=3D Did not check TC ring size =
-
-  +            size =3D VMXNET3_TC_RING_MAX_SIZE;
-  +        }
-           vmxnet3_ring_init(d, &s->txq_descr[i].comp_ring, pa, size,
-                             sizeof(struct Vmxnet3_TxCompDesc), true);
-           VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i, &s->txq_descr[i].comp_rin=
-g);
-  @@ -1524,6 +1531,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-               /* RX rings */
-               pa =3D VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.rxRingBa=
-sePA[j]);
-               size =3D VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.rxRing=
-Size[j]);
-  +            if (size > VMXNET3_RX_RING_MAX_SIZE) {                   <=
-=3D Did not check RX ring size
-  +                size =3D VMXNET3_RX_RING_MAX_SIZE;
-  +            }
-               vmxnet3_ring_init(d, &s->rxq_descr[i].rx_ring[j], pa, size,
-                                 sizeof(struct Vmxnet3_RxDesc), false);
-               VMW_CFPRN("RX queue %d:%d: Base: %" PRIx64 ", Size: %d",
-  @@ -1533,6 +1543,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
-           /* RXC ring */
-           pa =3D VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.compRingBase=
-PA);
-           size =3D VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.compRingSi=
-ze);
-  +        if (size > VMXNET3_RC_RING_MAX_SIZE) {                      <=3D=
- Did not check RC ring size
-  +            size =3D VMXNET3_RC_RING_MAX_SIZE;
-  +        }
-
-  This may lead to potential integer overflow OR OOB buffer access
-  issues.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913873/+subscriptions
 
