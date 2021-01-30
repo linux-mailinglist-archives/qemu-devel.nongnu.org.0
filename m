@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE95D309168
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 02:59:22 +0100 (CET)
-Received: from localhost ([::1]:56868 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ECA030915E
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 02:54:57 +0100 (CET)
+Received: from localhost ([::1]:41768 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5fXl-0007I6-TG
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 20:59:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40528)
+	id 1l5fTU-00011J-Ar
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 20:54:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40560)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fRg-0007Kv-Mj; Fri, 29 Jan 2021 20:53:04 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:33486)
+ id 1l5fRr-0007g5-7D; Fri, 29 Jan 2021 20:53:15 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:32826)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fRf-0000AC-8V; Fri, 29 Jan 2021 20:53:04 -0500
-Received: by mail-wm1-x331.google.com with SMTP id s24so7991082wmj.0;
- Fri, 29 Jan 2021 17:53:02 -0800 (PST)
+ id 1l5fRp-0000DU-Gu; Fri, 29 Jan 2021 20:53:14 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id 7so10651866wrz.0;
+ Fri, 29 Jan 2021 17:53:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=g1KU5IE9TGCZM/lU61E2LYHQF94GVZ2sjp5LehjcIJU=;
- b=mFXWLnEV2J7F5vMWemzgA7H5rDlvI6++w0fS0CrZkpYvnv+K+N3XgEO3GKqwwuaANV
- d0g2d43AkRHBIhnX13fL4uJHnEss03yuMlReAv0aU0IicAz94GcfWh5K7Snxt8N8VR2K
- m2+R3VOFvTNVyzdmxAUUMMumOrI7WSHzLPeDPs3BE1Awvg7fhIjOEoY+KbEEZ3F+6VdF
- 6FPqa4w4nqQkxvEZACD/7lmP+n2g0PSuWwn57rp18al9fjHH4i5rs8wkEYgX4/S1vteX
- co1K1JfSZCh937LeyFh7KfxD9XXT2OfA3b5Ooc/YPg83R/j8K/T+OOmAzvb9jg4OXvX5
- t53g==
+ bh=9aLdl19C96C3GXRdvC9mwI7cbyJbYzl+Xi4/pdqV71I=;
+ b=qxXJ6NS7gc+UGhx5DFTb2Xpax6DoUp1XDT6myxKlLWhft2T2JpgY0t/GcrbkAPA74S
+ BYKzJUMJSUVzfGy8ahib79MmmFBxyR4C51gAaIk+IKe1ruKX31rhr/sQZfQIyKw5wrU/
+ 1hK3oMV0KFDk+pOoGsgAUL+Hzg3rp9RQLtbIAqNNQSgjushYDTMLUHnbKDGjBim56g9o
+ NTH4trP5zRt4Djgg0ZMAiE0OskvRk8sUWZA13bfYoWDLJzMlRkxdTNC6X0pPEQosKjFj
+ ZGk1FnxF2wKo59dWkyxHUJ3YCi/wdcYYO+prik3UxDZMOGyh0yuE3NsD7O32wT0hwbKE
+ 1BUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=g1KU5IE9TGCZM/lU61E2LYHQF94GVZ2sjp5LehjcIJU=;
- b=pb+d6dAfGTL3/VtdGAtlkQpuOQI3CpyPIJbM35DDlrlwuKXKBLYVHIj+t89oRQCjoy
- cenJ7wCcXGD2z+Wkn24Fkc/u1Kof2A1k9SLzhpMqRwoQw4hGS49GT2mrn1yPpzGVzAna
- QJKdutcoJco4djgR1hzQv6WvjPeMyyilPKQSYkq4dQnA7uT6lSzt7+mVKTCDGkiMd9p9
- GUnD6E8elYeuDdrTyL4cwSxF8Ac/cQrnokhFbJuNOJiSjRXoo0w2XxM/mdsaKH1n8NyS
- iV7iALg7V4c0hIm0tDrme0enwsYl4i9r4jIo+qSjWX6t/nRNUQRbTFi3Z5kkXubRvtEg
- 9mHg==
-X-Gm-Message-State: AOAM530tFvBiK5P4W6e/mDLUROWj8XyZq1XLaMHDQOKExHOEO35xqn1Q
- xCAFkSPNDkqZgHwqkD+lv3pDXWNMs48=
-X-Google-Smtp-Source: ABdhPJyA4Coz/8piVvaPk4EIcoOTmtcPznXjAqGGyUN4FELubBKdNdl58zv0jN7k1O/K2eCj4Luk0Q==
-X-Received: by 2002:a1c:b78b:: with SMTP id h133mr6103963wmf.151.1611971581368; 
- Fri, 29 Jan 2021 17:53:01 -0800 (PST)
+ bh=9aLdl19C96C3GXRdvC9mwI7cbyJbYzl+Xi4/pdqV71I=;
+ b=jJsb9knr8yS8ItuvSwxsC+NgU6RbAIyiz0Uu+TobB8q5MMwhTVWzbaZOhJ8oUZNag4
+ 4WHZmMsB7OTasxnht/MBemZpwNmW/ZMVXK94xVbouU75pQzUqVu9SiFF3pbe2MmSxqUd
+ hfWl7IEJ6xW6VnIAo3TZL7SMt7EVK95nTFMpwrOmbJRFM1q3RyLqRVVoga82hNElZqqL
+ ILbhuJWJJvGrd8DGBr8QskgoyrFkYBkVAmbA8guWhzRjNJz/hc/eJqPD+IjqS9WNyWWj
+ Ob0zPRq3S6YnryjRJcoJQ0FGuJvPJxmw8vAzoMGL3U83SW8cocGdadfCRtzOpDvyLDKc
+ EuPA==
+X-Gm-Message-State: AOAM530X7A8QlwTwU5g22NbJS+agG2xltxVzI2d7JKOHBQvYwZcpl6GQ
+ 9PYrhrKTKOhmG0C23V3XVUO1RNjlbHs=
+X-Google-Smtp-Source: ABdhPJzhiN23pGf2VqmdiIvY6PxgrMl9QORmviZzT3M+r/7egpP7DCxDAaxeN5Yt/ZE6GzZQSHs8ew==
+X-Received: by 2002:a5d:5051:: with SMTP id h17mr7627630wrt.164.1611971591652; 
+ Fri, 29 Jan 2021 17:53:11 -0800 (PST)
 Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
  [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id w25sm12591514wmc.42.2021.01.29.17.52.59
+ by smtp.gmail.com with ESMTPSA id c18sm20017355wmk.0.2021.01.29.17.53.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 17:53:00 -0800 (PST)
+ Fri, 29 Jan 2021 17:53:11 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v5 06/11] target/arm: Restrict ARMv7 R-profile cpus to TCG
- accel
-Date: Sat, 30 Jan 2021 02:52:22 +0100
-Message-Id: <20210130015227.4071332-7-f4bug@amsat.org>
+Subject: [PATCH v5 08/11] target/arm: Make m_helper.c optional via
+ CONFIG_ARM_V7M
+Date: Sat, 30 Jan 2021 02:52:24 +0100
+Message-Id: <20210130015227.4071332-9-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210130015227.4071332-1-f4bug@amsat.org>
 References: <20210130015227.4071332-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,61 +96,211 @@ Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A KVM-only build won't be able to run R-profile cpus.
+From: Thomas Huth <thuth@redhat.com>
 
-Only enable the following ARMv7 R-Profile CPUs when TCG is available:
+We've already got the CONFIG_ARM_V7M switch, but it currently can
+not be disabled yet. The m_helper.c code should not be compiled
+into the binary if the switch is not enabled. We also have to
+provide some stubs in a separate file to make sure that we still
+can link the other code without CONFIG_ARM_V7M.
 
-  - Cortex-R5
-  - Cortex-R5F
-
-The following machine is no more built when TCG is disabled:
-
-  - xlnx-zcu102          Xilinx ZynqMP ZCU102 board with 4xA53s and 2xR5Fs
-
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190903154810.27365-4-thuth@redhat.com>
+[PMD: Keep m_helper-stub.c but extend it, rewrite the rest]
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+---
+Rewrite since v3, therefore removed Richard R-b tag.
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- default-configs/devices/aarch64-softmmu.mak | 1 -
- hw/arm/Kconfig                              | 7 +++++++
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ target/arm/cpu.h           | 12 -------
+ target/arm/cpu_tcg.c       |  4 ++-
+ target/arm/helper.c        |  7 ----
+ target/arm/m_helper-stub.c | 73 ++++++++++++++++++++++++++++++++++++++
+ target/arm/meson.build     |  4 ++-
+ 5 files changed, 79 insertions(+), 21 deletions(-)
+ create mode 100644 target/arm/m_helper-stub.c
 
-diff --git a/default-configs/devices/aarch64-softmmu.mak b/default-configs/devices/aarch64-softmmu.mak
-index 958b1e08e40..a4202f56817 100644
---- a/default-configs/devices/aarch64-softmmu.mak
-+++ b/default-configs/devices/aarch64-softmmu.mak
-@@ -3,6 +3,5 @@
- # We support all the 32 bit boards so need all their config
- include arm-softmmu.mak
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index d080239863c..0bd0e51e498 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -2281,12 +2281,6 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
+ /* Interface between CPU and Interrupt controller.  */
+ #ifndef CONFIG_USER_ONLY
+ bool armv7m_nvic_can_take_pending_exception(void *opaque);
+-#else
+-static inline bool armv7m_nvic_can_take_pending_exception(void *opaque)
+-{
+-    return true;
+-}
+-#endif
+ /**
+  * armv7m_nvic_set_pending: mark the specified exception as pending
+  * @opaque: the NVIC
+@@ -2392,13 +2386,7 @@ int armv7m_nvic_raw_execution_priority(void *opaque);
+  * @secure: the security state to test
+  * This corresponds to the pseudocode IsReqExecPriNeg().
+  */
+-#ifndef CONFIG_USER_ONLY
+ bool armv7m_nvic_neg_prio_requested(void *opaque, bool secure);
+-#else
+-static inline bool armv7m_nvic_neg_prio_requested(void *opaque, bool secure)
+-{
+-    return false;
+-}
+ #endif
  
--CONFIG_XLNX_ZYNQMP_ARM=y
- CONFIG_XLNX_VERSAL=y
- CONFIG_SBSA_REF=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index daab7081994..320428bf97e 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -11,6 +11,11 @@ config ARM_V6
-     depends on TCG
-     select ARM_COMPATIBLE_SEMIHOSTING
+ /* Interface for defining coprocessor registers.
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 98544db2df3..3e1c9b40353 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -15,6 +15,7 @@
+ /* CPU models. These are not needed for the AArch64 linux-user build. */
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
  
-+config ARM_V7R
-+    bool
-+    depends on TCG
-+    select ARM_COMPATIBLE_SEMIHOSTING
++#ifndef CONFIG_USER_ONLY
+ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+     CPUClass *cc = CPU_GET_CLASS(cs);
+@@ -38,6 +39,7 @@ static bool arm_v7m_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     }
+     return ret;
+ }
++#endif /* CONFIG_USER_ONLY */
+ 
+ static void arm926_initfn(Object *obj)
+ {
+@@ -666,9 +668,9 @@ static void arm_v7m_class_init(ObjectClass *oc, void *data)
+     acc->info = data;
+ #ifndef CONFIG_USER_ONLY
+     cc->do_interrupt = arm_v7m_cpu_do_interrupt;
++    cc->cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt;
+ #endif
+ 
+-    cc->cpu_exec_interrupt = arm_v7m_cpu_exec_interrupt;
+     cc->gdb_core_xml_file = "arm-m-profile.xml";
+ }
+ 
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 47e266d7e64..fe3d0291f9c 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -12825,13 +12825,6 @@ int arm_mmu_idx_to_el(ARMMMUIdx mmu_idx)
+     }
+ }
+ 
+-#ifndef CONFIG_TCG
+-ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
+-{
+-    g_assert_not_reached();
+-}
+-#endif
+-
+ ARMMMUIdx arm_mmu_idx_el(CPUARMState *env, int el)
+ {
+     ARMMMUIdx idx;
+diff --git a/target/arm/m_helper-stub.c b/target/arm/m_helper-stub.c
+new file mode 100644
+index 00000000000..6d751424e86
+--- /dev/null
++++ b/target/arm/m_helper-stub.c
+@@ -0,0 +1,73 @@
++/*
++ * ARM V7M related stubs.
++ *
++ * SPDX-License-Identifier: GPL-2.0-or-later
++ */
++#include "qemu/osdep.h"
++#include "cpu.h"
++#include "exec/helper-proto.h"
++#include "internals.h"
 +
- config ARM_VIRT
-     bool
-     imply PCI_DEVICES
-@@ -377,8 +382,10 @@ config STM32F405_SOC
++void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
++{
++    g_assert_not_reached();
++}
++
++void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
++{
++    g_assert_not_reached();
++}
++
++uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
++{
++    g_assert_not_reached();
++}
++
++void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
++{
++    g_assert_not_reached();
++}
++
++uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
++{
++    g_assert_not_reached();
++}
++
++void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
++{
++    g_assert_not_reached();
++}
++
++void write_v7m_exception(CPUARMState *env, uint32_t new_exc)
++{
++    g_assert_not_reached();
++}
++
++void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
++{
++    g_assert_not_reached();
++}
++
++void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
++{
++    g_assert_not_reached();
++}
++
++ARMMMUIdx arm_v7m_mmu_idx_for_secstate(CPUARMState *env, bool secstate)
++{
++    g_assert_not_reached();
++}
++
++#ifndef CONFIG_USER_ONLY
++
++bool armv7m_nvic_can_take_pending_exception(void *opaque)
++{
++    g_assert_not_reached();
++}
++
++void arm_v7m_cpu_do_interrupt(CPUState *cs)
++{
++    g_assert_not_reached();
++}
++
++#endif /* CONFIG_USER_ONLY */
+diff --git a/target/arm/meson.build b/target/arm/meson.build
+index 15b936c1010..6c6081966cd 100644
+--- a/target/arm/meson.build
++++ b/target/arm/meson.build
+@@ -21,7 +21,6 @@
+   'gdbstub.c',
+   'helper.c',
+   'iwmmxt_helper.c',
+-  'm_helper.c',
+   'neon_helper.c',
+   'op_helper.c',
+   'tlb_helper.c',
+@@ -32,6 +31,9 @@
+ ))
+ arm_ss.add(zlib)
  
- config XLNX_ZYNQMP_ARM
-     bool
-+    default y if TCG
-     select AHCI
-     select ARM_GIC
-+    select ARM_V7R
-     select CADENCE
-     select DDC
-     select DPCD
++arm_ss.add(when: 'CONFIG_ARM_V7M', if_true: files('m_helper.c'), if_false: files('m_helper-stub.c'))
++arm_ss.add(when: 'CONFIG_TCG', if_false: files('m_helper-stub.c'))
++
+ arm_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c', 'kvm64.c'), if_false: files('kvm-stub.c'))
+ 
+ arm_ss.add(when: 'TARGET_AARCH64', if_true: files(
 -- 
 2.26.2
 
