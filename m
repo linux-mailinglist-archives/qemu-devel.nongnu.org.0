@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA0F3309668
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 16:56:54 +0100 (CET)
-Received: from localhost ([::1]:37924 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8CA3096E2
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 17:49:02 +0100 (CET)
+Received: from localhost ([::1]:43542 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5scH-0004df-BU
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 10:56:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48454)
+	id 1l5tQi-0007jl-Vn
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 11:49:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36722)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iris@modwiz.com>) id 1l5saW-0003oS-Gt
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 10:55:04 -0500
-Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:35057)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l5tOf-0007BG-6e
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 11:46:54 -0500
+Received: from mail-qk1-x733.google.com ([2607:f8b0:4864:20::733]:37488)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <iris@modwiz.com>) id 1l5saU-0006rS-EL
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 10:55:04 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id ox12so17567111ejb.2
- for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 07:55:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1l5tOc-000526-2w
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 11:46:52 -0500
+Received: by mail-qk1-x733.google.com with SMTP id n7so11972281qkc.4
+ for <qemu-devel@nongnu.org>; Sat, 30 Jan 2021 08:46:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=modwiz-com.20150623.gappssmtp.com; s=20150623;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc; bh=5sB/0vt17zWySnPJQH2SFG/pvsoxDH/WZi3mPp7kvno=;
- b=RdJ9e4AVba4ol0FjunS/iN79ew39gJ9A+G0QIuMOSUPPRKyQDCc6W5Dj+FfY41pswe
- +yJ0cTc8GwgjW+yyIRZaIaM9fANT3G9z8weweYY+hutHuoSOWzkG7NjszBsgyFKCAL+p
- 3yl8Y4oeft2uEkEo3ct3i6KcauDjyiAGHg3eDb/KjeqzDT82eS4OAmRhZckSuy6UETUk
- 3owKTM9Xivm4Ce3R7UUNxGyjlcrsBzRevdqOQVZg7rPLeKw12vKw5F1zcIeyDWbOh9sX
- Sk9MnLvRCVKazGrpNgt0+evx/PVhx2exMjmhIFC8VIf1axvN6MHZIKhpX+2rrX2CnPbS
- MxOg==
+ d=bsdimp-com.20150623.gappssmtp.com; s=20150623;
+ h=mime-version:from:date:message-id:subject:to;
+ bh=yorm0WoB1wHqTvy0vDkemN4oya7bJMkQbGbpn8/8nps=;
+ b=mW2+nNlLnmFJnxJa0OZQAH5IP/ciyy23StzOjjP7GX5dHuSV7bkSwOweRPXU3jmxCH
+ rHp0l45Vks9JusawRL4AGOJ0CNABjxfyvQgU0FnBpTefiYtOW4uFjZEuvVN4pfe0+8XR
+ N99q1BlTG9yNpf1x9GwhTSAgZzoR9TJ9+H4YIQxU7wFdU23NB+GErSq2wsl5zI3N1ht/
+ /G5MKieugmY2t05Flm6nPGzys4axmEKgo538WAxd7ddvGqa3MBhmjRhgE5jniT7QTpQ7
+ 9B2Q8pVBpgclmUEevvMxIq6gF+aALC44u3QECD/8GFoAFRL+/J7BqPbAsgLQ17Q949m1
+ /dbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc;
- bh=5sB/0vt17zWySnPJQH2SFG/pvsoxDH/WZi3mPp7kvno=;
- b=AxxGZUUwCtc4alnvU0KEm2EeiHW4cJcDnacdvS8xXaC1LBmwQZ1X32rVUFNVccesH2
- 47UNFbcb6mRP7AvDiBo3Np8XZdjc7acVyW6TRH/V+zSrRc2WZkRSj+zwPvuD5on2x7FG
- WH92vYBFB8MCDcySODfCwIQ70AWeKvRuYr0Sro88MJ7gS2fdoKMFNRTfTIhhSIH40gRM
- A3Y1WjIvxazyPpR9Qf6dag2I6Gesdj//uUozaOHhD/NkFWQdHBJknol+Pk4id9FRrPGg
- g84OWRJ5PFvX3CoIRNsFuvu8raUtpQO4M3afEta4aL4s2sLIdi8SwK61SXZLGgbPSS1V
- k/lQ==
-X-Gm-Message-State: AOAM530LIJWnqorMAnR3qTaQ663hm0TCzQzMlWcq/h+PxmNSrX7o2JXC
- nVMZ3P8pydkw9TfemJ9GtNc1HwQGO/fr2xFYINj5gg==
-X-Google-Smtp-Source: ABdhPJyDX97PevDeoKo47gUH+ejmuw6K+O9n3r6n4kB/4WO8MIj4jgblH5kC3PyHRPASTGN3pAS6ZI1IcpooNc9ggps=
-X-Received: by 2002:a17:907:2da0:: with SMTP id
- gt32mr2137013ejc.78.1612022100316; 
- Sat, 30 Jan 2021 07:55:00 -0800 (PST)
+ h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+ bh=yorm0WoB1wHqTvy0vDkemN4oya7bJMkQbGbpn8/8nps=;
+ b=AS10odauyzGsmL3UYMCiUx05JYZOfPXVpNlWc8Ts9OfP+ZcTha1/JjGy8opTMzAbjA
+ Fg5/wvnJLjtmvgqZOpG8ZhQKXUJhKb/ZXTsunJonN+AA3B8LZD4de10LwJa1X2JOY81x
+ Vec1C64W9nkeNRaYDFoJ5aab+xRcx351vqvfNCfPDM+QwoAxNtNPkk7crtHfqPUK9xOM
+ JCcLhUIDAKsBbOSLnkLBMpLqyfaDih056zbE65VHzKsa4PS2dd/t7ogduAiACpS8+IFn
+ pbMYiHIe1n//+RbPytNsbFSwjmedxfrQrCIByfBoyz8966irUOFNXV7lp5cNcf9rH2gb
+ etOg==
+X-Gm-Message-State: AOAM532Y1r2CD8016w/XCEzqJAMcM9+93pvYspfHPcfSfWkURHa/e72r
+ rJ6VId+IIcrpJUGEI0a5/mDMeQRTWdDdxJREpWWJ+yGEpBiVaQ1L
+X-Google-Smtp-Source: ABdhPJx6WDfYg4lN+C++iPbq4EVp+ZtqmAJf+S8yXgLswkiYO7aB90enZan6peo9dI7+GQcRwPYp2WgprQVpEB7MEJ0=
+X-Received: by 2002:ae9:f813:: with SMTP id x19mr9079710qkh.359.1612025207337; 
+ Sat, 30 Jan 2021 08:46:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20210129195631.1577922-1-iris@modwiz.com>
- <CAJ+F1C+KgEqoNXP8mD=Ebbk=gZRHYOccYr_pxQs+HwyKcA6R+Q@mail.gmail.com>
-In-Reply-To: <CAJ+F1C+KgEqoNXP8mD=Ebbk=gZRHYOccYr_pxQs+HwyKcA6R+Q@mail.gmail.com>
-From: Iris Johnson <iris@modwiz.com>
-Date: Sat, 30 Jan 2021 09:54:49 -0600
-Message-ID: <CAN6Exg2gm935eoHcLvwMLZ3qd7LSXhx8YzYhXNBQG4r80guO_w@mail.gmail.com>
-Subject: Re: [PATCH] chardev/char-io: Fix polling by not removing polls when
- buffers are full
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000a8e75905ba2024d3"
-Received-SPF: none client-ip=2a00:1450:4864:20::62b;
- envelope-from=iris@modwiz.com; helo=mail-ej1-x62b.google.com
+From: Warner Losh <imp@bsdimp.com>
+Date: Sat, 30 Jan 2021 09:46:36 -0700
+Message-ID: <CANCZdfp7VDodG_-Po6r9t+-4YNWOMVQUOeoL1hTm4-C989qa0A@mail.gmail.com>
+Subject: [PATCH] MAINTAINERS: update bsd-user maintainers
+To: QEMU Developers <qemu-devel@nongnu.org>, Kyle Evans <kevans@freebsd.org>
+Content-Type: multipart/alternative; boundary="000000000000da476505ba20dde2"
+Received-SPF: none client-ip=2607:f8b0:4864:20::733;
+ envelope-from=wlosh@bsdimp.com; helo=mail-qk1-x733.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -77,113 +71,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- "open list:All patches CC here" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---000000000000a8e75905ba2024d3
+--000000000000da476505ba20dde2
 Content-Type: text/plain; charset="UTF-8"
 
->
-> > I don't think this works well enough: if the source isn't removed, but
+bsd-user: Add new mainatiners
 
-> fd_can_read() returns 0, there is a potential busy loop on the next
-> > fd_read().
->
+The FreeBSD project has a number of enhancements to bsd-user. Add myself
+as maintainer and Kyle Evans as a reviewer. Also add our github repo.
 
-This shouldn't happen. The sources all get set to non-blocking mode, the
-only
-blocking code is the poll itself. If fd_can_read() returns 0, then the next
-time
-fd_read() is called, it will attempt to read zero bytes. The backend logic
-checks the
-results of the same method that fd_can_read() calls and sets its read size
-to that amount, in the case of a full buffer it will read 0 bytes and
-return.
+Signed-off-by: Warner Losh <imp@bsdimp.com>
+---
+ MAINTAINERS | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-> My understanding is that if data is read from the frontend, the loop
-> > will be re-entered and io_watch_poll_prepare will set the callback
-> > again.
->
+diff --git a/MAINTAINERS b/MAINTAINERS
+index bcd88668bc..1b2c276eca 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2845,9 +2845,12 @@ F: thunk.c
+ F: accel/tcg/user-exec*.c
 
-This just doesn't happen. The issue is that between the poll being added
-(and
-some but not all data being read) and the frontend code getting triggered by
-the guest, the IO loop runs again and the poll is removed, it then runs
-again
-with the poll removed (since the poll is removed during setup) and it's now
-just going to block because the input fd in question has been "temporarily
-removed". Except that nothing in the fd set it polls on is now connected to
-the guest clearing the buffer.
+ BSD user
+-S: Orphan
++M: Warner Losh <imp@bsdimp.com>
++R: Kyle Evans <kevans@freebsd.org>
++S: Maintained
+ F: bsd-user/
+ F: default-configs/*-bsd-user.mak
++T: git https://github.com/qemu-bsd-user/qemu-bse-user bsd-user-rebase-3.1
 
-Meanwhile the guest reads the data during what can be a potentially
-infinite block (if nothing else sets the timeout, in my case something
-in the uart peripheral sets a 1000ms timeout so I could read a byte
-every second or so in the guest). The guest will now be spinning until
-the poll is re-added, meanwhile the poll is blocking on a timeout or another
-fd becoming ready because the buffers are small, the fd in question has
-already been removed from the set by the time the guest has a chance
-to clear the buffer.
+ Linux user
+ M: Laurent Vivier <laurent@vivier.eu>
+--
+2.22.0
 
-
-> > Could you provide a simple use-case or reproducer where we can
-> > evaluate how your patch improves the situation?
-
-
-I can do this, but I don't have anything ready immediately, my test case
-isn't
-ideal for others to reproduce. But I can attach one later today when I have
-that done.
-
-Thanks,
-Iris Johnson
-
---000000000000a8e75905ba2024d3
+--000000000000da476505ba20dde2
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div class=3D"gmail_quote"><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">&gt; I don&#39;t think this works well enough: if the so=
-urce isn&#39;t removed, but</blockquote><blockquote class=3D"gmail_quote" s=
-tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
-ding-left:1ex">&gt; fd_can_read() returns 0, there is a potential busy loop=
- on the next<br>&gt; fd_read().<br></blockquote><div>=C2=A0</div><div>This =
-shouldn&#39;t happen. The sources all get set to non-blocking mode, the onl=
-y=C2=A0</div><div>blocking code is the poll itself. If fd_can_read() return=
-s 0, then the next time</div><div>fd_read() is called, it will attempt to r=
-ead zero bytes. The backend=C2=A0logic checks the</div><div>results of the =
-same method that fd_can_read() calls and sets its read size</div><div>to th=
-at amount, in the case of a full buffer it will read 0 bytes and return.</d=
-iv><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px=
- 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">&gt; My=
- understanding is that if data is read from the frontend, the loop<br>&gt; =
-will be re-entered and io_watch_poll_prepare will set the callback<br>&gt; =
-again.<br></blockquote><div><br></div><div>This just doesn&#39;t happen. Th=
-e issue is that between the poll being added (and</div><div>some but not al=
-l data being read) and the frontend code getting triggered by</div><div>the=
- guest, the IO loop runs again and the poll is removed, it then runs again<=
-/div><div>with the poll removed (since the poll is removed during setup) an=
-d it&#39;s now</div><div>just going to block because the input fd in questi=
-on has been &quot;temporarily</div><div>removed&quot;. Except that nothing =
-in the fd set it polls on is now connected to</div><div>the guest clearing =
-the buffer.</div><div><br></div><div>Meanwhile the guest reads the data dur=
-ing what can be a potentially=C2=A0=C2=A0</div><div>infinite block (if noth=
-ing else sets the timeout, in my case something</div><div>in the uart perip=
-heral sets a 1000ms timeout so I could read a byte</div><div>every second o=
-r so in the guest). The guest will now be spinning until</div><div>the poll=
- is re-added, meanwhile the poll is blocking on a timeout or another</div><=
-div>fd becoming ready because the buffers are small, the fd in question has=
-</div><div>already been removed from the set by the time the guest has a ch=
-ance</div><div>to clear the buffer.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">&gt; Could you provide a simple use-case o=
-r reproducer where we can<br>&gt; evaluate how your patch improves the situ=
-ation?</blockquote><div>=C2=A0</div><div>I can do this, but I don&#39;t hav=
-e anything ready immediately, my test case isn&#39;t</div><div>ideal for ot=
-hers to reproduce. But I can attach one later today when I have that done.<=
-/div><div><br></div><div>Thanks,</div><div>Iris Johnson</div></div></div>
+<div dir=3D"ltr">bsd-user: Add new mainatiners<br><br><div>The FreeBSD proj=
+ect has a number of enhancements to bsd-user. Add myself<br>as maintainer a=
+nd Kyle Evans as a reviewer. Also add our github repo.<br><br>Signed-off-by=
+: Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt;<=
+br></div><div>---</div><div>=C2=A0MAINTAINERS | 5 ++++-<br>=C2=A01 file cha=
+nged, 4 insertions(+), 1 deletion(-)<br></div><div><br></div><div>diff --gi=
+t a/MAINTAINERS b/MAINTAINERS<br>index bcd88668bc..1b2c276eca 100644<br>---=
+ a/MAINTAINERS<br>+++ b/MAINTAINERS<br>@@ -2845,9 +2845,12 @@ F: thunk.c<br=
+>=C2=A0F: accel/tcg/user-exec*.c<br><br>=C2=A0BSD user<br>-S: Orphan<br>+M:=
+ Warner Losh &lt;<a href=3D"mailto:imp@bsdimp.com">imp@bsdimp.com</a>&gt;<b=
+r>+R: Kyle Evans &lt;<a href=3D"mailto:kevans@freebsd.org">kevans@freebsd.o=
+rg</a>&gt;<br>+S: Maintained<br>=C2=A0F: bsd-user/<br>=C2=A0F: default-conf=
+igs/*-bsd-user.mak<br>+T: git <a href=3D"https://github.com/qemu-bsd-user/q=
+emu-bse-user">https://github.com/qemu-bsd-user/qemu-bse-user</a> bsd-user-r=
+ebase-3.1<br><br>=C2=A0Linux user<br>=C2=A0M: Laurent Vivier &lt;<a href=3D=
+"mailto:laurent@vivier.eu">laurent@vivier.eu</a>&gt;<br></div><div>--</div>=
+<div>2.22.0</div><div><br></div><div><br></div></div>
 
---000000000000a8e75905ba2024d3--
+--000000000000da476505ba20dde2--
 
