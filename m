@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C327730956D
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 14:37:34 +0100 (CET)
-Received: from localhost ([::1]:59624 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DF93309610
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 15:54:00 +0100 (CET)
+Received: from localhost ([::1]:32782 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5qRR-0007ud-JI
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 08:37:33 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49612)
+	id 1l5rdN-00040J-LR
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 09:53:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38772)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l5qPe-0006cE-Cu
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:35:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:60672)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l5qPX-00062y-QV
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 08:35:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612013732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=hyKukCMWu579tWCrxKqqZgNE7D0a38jLrhh8ud6jyRo=;
- b=Kbb5aaEzdycI0coac/s+51TTrwzmpXK8nkNEfDpovMY+qZkeNVFKC6BqYbtM1g8iGnp5nd
- ZqWRLOibyzwTI0wQNse8NdWDclhyGYrwXr/olydSpjQbZeZnunBscXK4j4huXTvAEYvhfY
- W93p1YRraQqpT/gvoWFmrpgTzmFQZ+E=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-400-NY_OQinBMgmRHAJIdMWJfQ-1; Sat, 30 Jan 2021 08:35:27 -0500
-X-MC-Unique: NY_OQinBMgmRHAJIdMWJfQ-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
- [10.5.11.22])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 46F1B18C89CF;
- Sat, 30 Jan 2021 13:35:26 +0000 (UTC)
-Received: from kaapi (unknown [10.33.36.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D3D9810023B8;
- Sat, 30 Jan 2021 13:35:22 +0000 (UTC)
-Date: Sat, 30 Jan 2021 19:05:08 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Subject: Re: [PATCH] fdc: check drive block device before usage
- (CVE-2021-20196)
-In-Reply-To: <20210123100345.642933-1-ppandit@redhat.com>
-Message-ID: <n67p4r84-553r-os50-p98p-4sosq082s276@erqung.pbz>
-References: <20210123100345.642933-1-ppandit@redhat.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5rXn-0001lP-A5; Sat, 30 Jan 2021 09:48:11 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:37556)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l5rXl-0004Ty-P3; Sat, 30 Jan 2021 09:48:11 -0500
+Received: by mail-wr1-x433.google.com with SMTP id v15so11803175wrx.4;
+ Sat, 30 Jan 2021 06:48:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=GlgDHR3ZqZqWGwjAMNZSIHStR7gOfs1UN1h7d6dVVjA=;
+ b=WVUeCXW/DrQyxBNC0dV2M+zXhJprCPvF3rX8dxM6GE61Gd9pjyJPsux/WYUSLPsU3f
+ brfFGowIJbC1H0wT7zBYlscqqF6lAQBoRvVvfAC+FjmXq8RKrtDy7kaW4Jjpn14qEtsm
+ FObrStJiF4166Vpj+I9yzLm8+SMdBorTwUJ3vLxuYg7LriBN0oqmTcAc4rYYkSnRXyXI
+ ScxXum9So4d2fVh8nhyHwgXy1T3AILQPEvikuL/+gIdEEGVL9Gdt237B0/v5l2cVhgb2
+ DqEG+m+c/fqfuQsrg73OlP2VqbvkoYJxa8+SdU/JLnfe38m0hTg97pW/+aizmGTlhMqC
+ C1rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=GlgDHR3ZqZqWGwjAMNZSIHStR7gOfs1UN1h7d6dVVjA=;
+ b=AiYBlHfs46RTp9jLKr1je6tFXe2Ft1cLcRglNmwpxhd2fN27g3Ta7gpJ1YxjKVstEv
+ RKEdDBT+GzZWMZsZIKm/ij+SARnWLkjfiYP1a4xngIniYUCwlRSfu9uoutW7m4RDkFns
+ sJLbhWFo8LX1xzIVdC+5eFYz6780cfkgDBGJqs6xFdOe/cECqk4rbLXqlaa0VYIqVeBm
+ ma6K2gZXuDp8J1avJbrwBBJ/3IhsJRrGUX1EdwHZ5NGE6INByTacwsBBAqKIdWLMhD+B
+ OZbbK5J/hrbtz9DKlpK9RHd8cHT+VVxy58qQ4Ss1gHr5en+M7zgZt16Sf4YGEsr1FNDd
+ RG9Q==
+X-Gm-Message-State: AOAM530SMn+sxV0LwSpo0zYGNM4IEcIhAZg1wd/14UuVUOtReBudeFJb
+ ajcsOc39mb/kyBK1lZu5b4p/b1N719Q=
+X-Google-Smtp-Source: ABdhPJyXHSQk9hGaa07ZqC3MAbMC1wI3kpYj4cKTrV66w37uTSTBJ2RNMrzGc4nxVNR1fl9GP0/TVw==
+X-Received: by 2002:adf:ed45:: with SMTP id u5mr9773679wro.358.1612018087373; 
+ Sat, 30 Jan 2021 06:48:07 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id a17sm14650465wrx.63.2021.01.30.06.48.05
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 30 Jan 2021 06:48:06 -0800 (PST)
+Subject: Re: [PATCH v5 03/11] target/arm: Restrict ARMv4 cpus to TCG accel
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210130015227.4071332-1-f4bug@amsat.org>
+ <20210130015227.4071332-4-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <e8502280-5c49-a81a-a1f1-b677adb8d8b3@amsat.org>
+Date: Sat, 30 Jan 2021 15:48:05 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.255,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210130015227.4071332-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,68 +88,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gaoning Pan <pgn@zju.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-+-- On Sat, 23 Jan 2021, P J P wrote --+
-| From: Prasad J Pandit <pjp@fedoraproject.org>
-| 
-| While processing ioport command in 'fdctrl_write_dor', device
-| controller may select a drive which is not initialised with a
-| block device. This may result in a NULL pointer dereference.
-| Add checks to avoid it.
-| 
-| Fixes: CVE-2021-20196
-| Reported-by: Gaoning Pan <pgn@zju.edu.cn>
-| Buglink: https://bugs.launchpad.net/qemu/+bug/1912780
-| Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
-| ---
-|  hw/block/fdc.c | 11 +++++++++--
-|  1 file changed, 9 insertions(+), 2 deletions(-)
-| 
-| diff --git a/hw/block/fdc.c b/hw/block/fdc.c
-| index 3636874432..13a9470d19 100644
-| --- a/hw/block/fdc.c
-| +++ b/hw/block/fdc.c
-| @@ -1429,7 +1429,9 @@ static void fdctrl_write_dor(FDCtrl *fdctrl, uint32_t value)
-|          }
-|      }
-|      /* Selected drive */
-| -    fdctrl->cur_drv = value & FD_DOR_SELMASK;
-| +    if (fdctrl->drives[value & FD_DOR_SELMASK].blk) {
-| +        fdctrl->cur_drv = value & FD_DOR_SELMASK;
-| +    }
-|  
-|      fdctrl->dor = value;
-|  }
-| @@ -1894,6 +1896,10 @@ static uint32_t fdctrl_read_data(FDCtrl *fdctrl)
-|      uint32_t pos;
-|  
-|      cur_drv = get_cur_drv(fdctrl);
-| +    if (!cur_drv->blk) {
-| +        FLOPPY_DPRINTF("No drive connected\n");
-| +        return 0;
-| +    }
-|      fdctrl->dsr &= ~FD_DSR_PWRDOWN;
-|      if (!(fdctrl->msr & FD_MSR_RQM) || !(fdctrl->msr & FD_MSR_DIO)) {
-|          FLOPPY_DPRINTF("error: controller not ready for reading\n");
-| @@ -2420,7 +2426,8 @@ static void fdctrl_write_data(FDCtrl *fdctrl, uint32_t value)
-|          if (pos == FD_SECTOR_LEN - 1 ||
-|              fdctrl->data_pos == fdctrl->data_len) {
-|              cur_drv = get_cur_drv(fdctrl);
-| -            if (blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
-| +            if (cur_drv->blk == NULL
-| +                || blk_pwrite(cur_drv->blk, fd_offset(cur_drv), fdctrl->fifo,
-|                             BDRV_SECTOR_SIZE, 0) < 0) {
-|                  FLOPPY_DPRINTF("error writing sector %d\n",
-|                                 fd_sector(cur_drv));
-| 
+On 1/30/21 2:52 AM, Philippe Mathieu-Daudé wrote:
+> KVM requires a cpu based on (at least) the ARMv7 architecture.
+> 
+> Only enable the following ARMv4 CPUs when TCG is available:
+> 
+>   - StrongARM (SA1100/1110)
+>   - OMAP1510 (TI925T)
+> 
+> The following machines are no more built when TCG is disabled:
+> 
+>   - cheetah              Palm Tungsten|E aka. Cheetah PDA (OMAP310)
+>   - sx1                  Siemens SX1 (OMAP310) V2
+>   - sx1-v1               Siemens SX1 (OMAP310) V1
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  default-configs/devices/arm-softmmu.mak | 2 --
+>  hw/arm/Kconfig                          | 8 ++++++++
+>  2 files changed, 8 insertions(+), 2 deletions(-)
+> 
+> diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
+> index 341d439de6f..8a53e637d23 100644
+> --- a/default-configs/devices/arm-softmmu.mak
+> +++ b/default-configs/devices/arm-softmmu.mak
+> @@ -14,8 +14,6 @@ CONFIG_INTEGRATOR=y
+>  CONFIG_FSL_IMX31=y
+>  CONFIG_MUSICPAL=y
+>  CONFIG_MUSCA=y
+> -CONFIG_CHEETAH=y
+> -CONFIG_SX1=y
+>  CONFIG_NSERIES=y
+>  CONFIG_STELLARIS=y
+>  CONFIG_REALVIEW=y
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 223016bb4e8..7126d82f6ce 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -1,3 +1,7 @@
+> +config ARM_V4
+> +    bool
+> +    depends on TCG
+> +
+>  config ARM_VIRT
+>      bool
+>      imply PCI_DEVICES
+> @@ -31,6 +35,8 @@ config ARM_VIRT
+>  
+>  config CHEETAH
+>      bool
+> +    default y if TCG
 
+This doesn't work as being added to all targets...
 
-Ping..!
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
-
+> +    select ARM_V4
+>      select OMAP
+>      select TSC210X
 
