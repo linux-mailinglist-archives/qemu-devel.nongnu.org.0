@@ -2,75 +2,119 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28492309177
-	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 03:08:50 +0100 (CET)
-Received: from localhost ([::1]:48180 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28E203091B3
+	for <lists+qemu-devel@lfdr.de>; Sat, 30 Jan 2021 04:40:17 +0100 (CET)
+Received: from localhost ([::1]:58068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l5fgv-0007MM-7v
-	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 21:08:49 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40928)
+	id 1l5h7K-0007ou-Fd
+	for lists+qemu-devel@lfdr.de; Fri, 29 Jan 2021 22:40:10 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fUE-0002pH-Rp; Fri, 29 Jan 2021 20:55:44 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45629)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l5fUB-0000vF-Oh; Fri, 29 Jan 2021 20:55:41 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id m13so10621048wro.12;
- Fri, 29 Jan 2021 17:55:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZTEQksi03h84QrtUmTk444gEe+iL7OPLaC2gCq3Rbc4=;
- b=WgnMZojyiZx5lKB4qw0pSqL5QpZH65Z4MwQDqUMZM2RWGZuS8sMWrtFuGc1fN3KRJg
- sNkeEjdUsh/SrkrIgOvXF4INgjLmXB6aIjAoKfGSOSocLcCT57BSyM2BLnE6BkEttZ1j
- jP8CNfcpWinztNrSi0CKiCxb/ct6hX19JL4vBWUTf8e36Nl8sfbSmCP4blkpXvreGBw7
- w+A9hoe9ITYRaKwq+L0LHmSsvGdRFirk3gMT6R0PjZnZNVrw7npmu5W9pMUysT6OOqLp
- W7vswo4+kYSe+RX9bjPERa1OgmGGmJiH7vvLS1uzCX6/o9/LB9qpA8I7Gjpz6CpTk5XP
- UD5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZTEQksi03h84QrtUmTk444gEe+iL7OPLaC2gCq3Rbc4=;
- b=RGCEWpP5RBcmRVXfrdPEzCwCGbIbN2hDzwo/b+ZFMpPqiJV49lh8f90XRF+HLQ1nCf
- mrROlPUvHLohEWbubsv2nf8YMCe4VngJ974t1GExXy9jS9RVfwVvBp7cZbsZBumO/21c
- epaNQKVtFBiKqnfZar4L+rgURHUV4hwxT3y6Dyfkr3rLXl4i7k7ogZaXITK/KjQtLxXn
- XsGTqzJlMfif33f3U/pgT7DiAorhTIbwULI/OBeAQZN3Ru2sYmdAD41qpArPX8StdSI6
- 3YxE6skY2yqKRZ1PnDGnDGbcvGIDQKoT8WCsT46UND2KtBoWrSrJgaXJElZjBffSncRv
- Wh8Q==
-X-Gm-Message-State: AOAM531YuqsciM1g4Mbt7r3qhgmrvVl/cmTuHlQKKTDR93mh3QQXMM3B
- xSSVxRxjl9jFW9k/4OGSAg/oZeP3lWw=
-X-Google-Smtp-Source: ABdhPJwNDKiEtCsNKC4h5nbi85ikz6c+r19mxOIwcAsv4JOWkdlDVH6LMJvnFFPqPNw2qIfTu4RMrQ==
-X-Received: by 2002:adf:8464:: with SMTP id 91mr7164004wrf.188.1611971737537; 
- Fri, 29 Jan 2021 17:55:37 -0800 (PST)
-Received: from localhost.localdomain (13.red-83-57-169.dynamicip.rima-tde.net.
- [83.57.169.13])
- by smtp.gmail.com with ESMTPSA id f17sm15861336wrv.0.2021.01.29.17.55.36
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 29 Jan 2021 17:55:36 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1l5h6H-0007OA-Rw
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 22:39:06 -0500
+Received: from mail-eopbgr750117.outbound.protection.outlook.com
+ ([40.107.75.117]:39140 helo=NAM02-BL2-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1l5h6F-0000Z2-Ph
+ for qemu-devel@nongnu.org; Fri, 29 Jan 2021 22:39:05 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JhZB/ZPFqYJVa1OfcS/DQboxjiPjuGIfPe/uemiovBm9dh0mm8z9xCaSRzqjJAqxH3gxRZILvLF0TABu1uU4X2GLgZ+3UzNrEUawBjKS2DELXQVvDQmI/Q1Otr58m6g6mfIHXF2/p9ez0zelE6o0ReF9Dxb47FrhzSovYeQbqDdlUMciaGkLGtFjNrG2rXFdVN67fEdnWcUzY38oYWMg8zEDUUNShiPqGWoKAMxtLFeJAN2+8ay9o+8YQ6eqTZvLhmjnY0mATJgDwJK9Tkhp1ouMX2hcfPAV150PI/VRklWXrRa6RAwyH5q9LS7tVtRF4te1jv65xlqTWsipSIDSVA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PNv0Sd79rr3m3VFDUW9rb0t75Kovxm1XJceBp1DQooE=;
+ b=iAYGN2M4aU+XHbidLVMnGG5zRccgyajOAReZJcyOlGQuS1YctzdkYnCAurz2y/Hpm4JpvOjD1ILFagANcTUJoKyiaV7etF5FHUiJY8WnYGfCiqmrJAfhro9M+0juy7md2oqejG7h9gqb49Xdmz60KA3mPShsFe0FAjFGkGGfxyyQtHkUlFjv25FJVdqzomh0wfhOt/yBTI/AF5S8jM7PTcbkh3iEBYMmqgUWlBZEPZNms+li4Uu4jF/BPccWXDZIrtDVLTiQKYEqDCrw5fIJzNpa4nlRSMI8k3Qllnl8BChl0hxkTTjCabMx7cgBSFTio/vUYUw68Uvrvh3QYTD90w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PNv0Sd79rr3m3VFDUW9rb0t75Kovxm1XJceBp1DQooE=;
+ b=Qf17ilrvnxj5Dhy69dJ1/awt4y2RHc+RNZ1mVAvSrTCQmRtv3E12mdgycOY8AtQZsnl6Nqy6SyVA+6NpqiS9d3UiXNBdfKQ7gsp3/9dJLk7/tk+aIBOz64vYq95gsx3W+N4M4xgNR++/o7Kk9/l+w35kz3BfRBJGWKr18QDr9bA=
+Authentication-Results: nongnu.org; dkim=none (message not signed)
+ header.d=none;nongnu.org; dmarc=none action=none
+ header.from=os.amperecomputing.com;
+Received: from SN6PR01MB4304.prod.exchangelabs.com (2603:10b6:805:a6::23) by
+ SN6PR01MB5007.prod.exchangelabs.com (2603:10b6:805:bf::24) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.19; Sat, 30 Jan 2021 03:23:57 +0000
+Received: from SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c5d8:3c64:9f92:90d6]) by SN6PR01MB4304.prod.exchangelabs.com
+ ([fe80::c5d8:3c64:9f92:90d6%5]) with mapi id 15.20.3784.019; Sat, 30 Jan 2021
+ 03:23:57 +0000
+Date: Fri, 29 Jan 2021 22:23:52 -0500
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 3/3] hw/arm: Display CPU type in machine description
-Date: Sat, 30 Jan 2021 02:55:19 +0100
-Message-Id: <20210130015519.4072469-4-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210130015519.4072469-1-f4bug@amsat.org>
-References: <20210130015519.4072469-1-f4bug@amsat.org>
+Subject: Detecting Faulting Instructions From Plugins
+Message-ID: <YBTRSK4/F5KLH+FZ@strawberry.localdomain>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Originating-IP: [68.73.113.219]
+X-ClientProxiedBy: MN2PR12CA0019.namprd12.prod.outlook.com
+ (2603:10b6:208:a8::32) To SN6PR01MB4304.prod.exchangelabs.com
+ (2603:10b6:805:a6::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.248,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from strawberry.localdomain (68.73.113.219) by
+ MN2PR12CA0019.namprd12.prod.outlook.com (2603:10b6:208:a8::32) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3805.16 via Frontend Transport; Sat, 30 Jan 2021 03:23:56 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: abcac0f1-8b9d-48b1-6f74-08d8c4ce7a63
+X-MS-TrafficTypeDiagnostic: SN6PR01MB5007:
+X-Microsoft-Antispam-PRVS: <SN6PR01MB5007C777890A2653DF66BD5A8AB89@SN6PR01MB5007.prod.exchangelabs.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tf+IMwLb6BotzcBvOK+7x6j65NXwfxsdYyzRm3cCdXi3Q0+wWGcsqyWlAG8NGsavhC4TsjW2RxZA+Yo0EVa8GagPIhblqcLR7oJL4hiWpoj7Dk+OKmBgtDGcg2mCtsgomLCxPXn1hWrElV2na3YxbTy/6DiE+mw/l9/H/z8lGvwzemugrmhICkWMZsCrOyC6d8WsX5FVOD+FEQGNulViJRMoiYe8yanytEWp8tXN+2SRX5gGOD5PtDUhamx+tw5cWsK3+JxT7s0uQOpeqmTLSC8ZrCr4nF1ZlU3HX9iuudwBlMr69ohD36rXmT5lPZ99KjB8WrghRcVCDfxgBh+TCmDQ2PsqT58DtIZq6eOzr5ZNjtTifEx2MaJcCV2ERcEb5RbwXfAk8C2HM9DQ7ZrlNVm6WX4uWKgF5nnEhXHO4FYB195gJpRQBa+/QvFfXZoCiL2KDNqvGecQdNxngGvZHErJuEBj1AP1Hg9L9JirUHqrwkDnOOz8xGoNYrS/FFFEL/PzFloOdER2BTRHcmZlsQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:SN6PR01MB4304.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(366004)(136003)(396003)(346002)(376002)(6506007)(83380400001)(66476007)(9686003)(26005)(86362001)(4744005)(33656002)(8676002)(316002)(6666004)(66556008)(5660300002)(66946007)(2906002)(478600001)(186003)(4326008)(956004)(7696005)(16526019)(55016002)(6916009)(8936002)(52116002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?Bzc0nMmEh7tM4nxFeWX+SAP4g/21O7OD0YAIAMK8aG5hDRO446gdetcXeKpl?=
+ =?us-ascii?Q?MnL0jwGoNApJzZ8aWA9qR5Wqey/Ra+mzUW+eIhL61oaJVTZASD816vWCGdze?=
+ =?us-ascii?Q?1fCvwh4nASDTFAFAHqCNzekRROb9Z6x+bwoHpdjsRX9BwOoHcLrw6isG1tP8?=
+ =?us-ascii?Q?lF1X7U+XX2WQijTIl1Yy4l1R/CP2kzRwSZ5ijO3wOfN3wtmcdXYn4TawmbO9?=
+ =?us-ascii?Q?apgJU0BrmmX38dkVDXuoNTF1nVqDxpDldhnakBPpjDqjRiW87XLG/AU7a+C6?=
+ =?us-ascii?Q?5A4cSA8xzPm7vEf3OzT5ysgGve7eAqmjFkLdSFTU8YjeuPsGu24S9e0Wv+op?=
+ =?us-ascii?Q?KB6gHjskOEFp80TkuHUcx41kx38W1IDlQ9QTynEGeuT/V7MyxgICHo8Azksp?=
+ =?us-ascii?Q?9F6GQvVsDH8Mh9fw35U4MkYCvHcb8PuLK263Zivf5pkT+X2J172T3vD0BD86?=
+ =?us-ascii?Q?LDuwcgt0RUSv6jBcBByQo4BvS6b1w7weAVMuHkDo6higu1jWscYiwLgs7tUl?=
+ =?us-ascii?Q?MyXFx+Z9+yu3oI3j+Axx5mvc1wKviXSsv/6h0AS2n7E0FFOIUsaFsDIcWzc0?=
+ =?us-ascii?Q?aE6+Ro8djCmACESaIP+zC6Xi3igp3BZjqMFUMQbm+AQ5/jzV5+L1ITDqtR3X?=
+ =?us-ascii?Q?1l4i8a/nCYMehF048+pWk80dtDON+N7OrIE60NZL6GZlbgi7GapfubQZWjEn?=
+ =?us-ascii?Q?IDcqgA0IasRdT+GMbblcr+zLzoSjtWYrKZZEEKQV6R5BIBYeBBoDQbpEjbMi?=
+ =?us-ascii?Q?lsxGdgmVeMYP9/iiyasDPGl3p+eYxnNZFigDGeQwx8Shc/NjTazt1fwlXIjv?=
+ =?us-ascii?Q?suSzHXrCu9YQVtpMkIdRET3FizEetr9FXpZAmS4eLtYDOGMErLmZyojI4NZM?=
+ =?us-ascii?Q?CCyVnxV3IBNh3t2hTFR5he3GWAgfQxibLLAkr9o1qqEm/jjzAUkWTT2PpYJb?=
+ =?us-ascii?Q?v1Sp0l64l5SHyaNuKUA+dnhLhhB7nsQ0vSHLiiR6Y0dtPz+SZJbvMeuh2dZL?=
+ =?us-ascii?Q?HwuHA89l7GTHEodJlPsTuYnaJRfmYxs0G7WVNI+cS157XasKcnL8RxA814NP?=
+ =?us-ascii?Q?7zVXybOs?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: abcac0f1-8b9d-48b1-6f74-08d8c4ce7a63
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR01MB4304.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2021 03:23:57.0767 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h0ZSRgtA4BA50Zf4xUsaJIEnxfFL7kHHt73gGlXm557BmZIOtATIKWvZd3iYDJwcwsHlbMuyJOb8hciExMItymzJ827k7HCFJNTpPZonZvU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR01MB5007
+Received-SPF: pass client-ip=40.107.75.117;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM02-BL2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, MSGID_FROM_MTA_HEADER=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,117 +127,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Joel Stanley <joel@jms.id.au>, Antony Pavlov <antonynpavlov@gmail.com>
+Cc: richard.henderson@linaro.org, cota@braap.org,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of ARM machines display their CPU when QEMU list the available
-machines (-M help). Some machines do not. Fix to unify the help
-output.
+Hello,
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/digic_boards.c  | 2 +-
- hw/arm/microbit.c      | 2 +-
- hw/arm/netduino2.c     | 2 +-
- hw/arm/netduinoplus2.c | 2 +-
- hw/arm/orangepi.c      | 2 +-
- hw/arm/stellaris.c     | 4 ++--
- 6 files changed, 7 insertions(+), 7 deletions(-)
+I appear to be seeing that if I register a callback for an instruction
+via `qemu_plugin_register_vcpu_insn_exec_cb` I receive a callback even
+if the instruction faults. For example, if an instruction attempts to
+load memory from a page which isn't currently mapped by the OS, I
+receive two calls for that instruction - one before the page fault, and
+one afterwards when the load succeeds.
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index be12873673b..6cdc1d83fca 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -142,7 +142,7 @@ static void canon_a1100_init(MachineState *machine)
- 
- static void canon_a1100_machine_init(MachineClass *mc)
- {
--    mc->desc = "Canon PowerShot A1100 IS";
-+    mc->desc = "Canon PowerShot A1100 IS (ARM946)";
-     mc->init = &canon_a1100_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_ram_size = 64 * MiB;
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index 0947491cb97..e9494334ce7 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -64,7 +64,7 @@ static void microbit_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "BBC micro:bit";
-+    mc->desc = "BBC micro:bit (Cortex-M0)";
-     mc->init = microbit_init;
-     mc->max_cpus = 1;
- }
-diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-index 8f103341443..1733b71507c 100644
---- a/hw/arm/netduino2.c
-+++ b/hw/arm/netduino2.c
-@@ -54,7 +54,7 @@ static void netduino2_init(MachineState *machine)
- 
- static void netduino2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino 2 Machine";
-+    mc->desc = "Netduino 2 Machine (Cortex-M3)";
-     mc->init = netduino2_init;
-     mc->ignore_memory_transaction_failures = true;
- }
-diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
-index 68abd3ec69d..d3ad7a2b675 100644
---- a/hw/arm/netduinoplus2.c
-+++ b/hw/arm/netduinoplus2.c
-@@ -55,7 +55,7 @@ static void netduinoplus2_init(MachineState *machine)
- 
- static void netduinoplus2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino Plus 2 Machine";
-+    mc->desc = "Netduino Plus 2 Machine (Cortex-M4)";
-     mc->init = netduinoplus2_init;
- }
- 
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index d6306dfddae..40cdb5c6d2c 100644
---- a/hw/arm/orangepi.c
-+++ b/hw/arm/orangepi.c
-@@ -113,7 +113,7 @@ static void orangepi_init(MachineState *machine)
- 
- static void orangepi_machine_init(MachineClass *mc)
- {
--    mc->desc = "Orange Pi PC";
-+    mc->desc = "Orange Pi PC (Cortex-A7)";
-     mc->init = orangepi_init;
-     mc->block_default_type = IF_SD;
-     mc->units_per_default_bus = 1;
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index ad72c0959f1..27292ec4113 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -1538,7 +1538,7 @@ static void lm3s811evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S811EVB";
-+    mc->desc = "Stellaris LM3S811EVB (Cortex-M3)";
-     mc->init = lm3s811evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
-@@ -1554,7 +1554,7 @@ static void lm3s6965evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S6965EVB";
-+    mc->desc = "Stellaris LM3S6965EVB (Cortex-M3)";
-     mc->init = lm3s6965evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
--- 
-2.26.2
+Two questions:
+1. Is this considered a bug or a "feature"?
+2.a. If a bug, is there a good way to detect this from inside the
+	 tcg/plugin infrastructure and avoid calling the callback for the
+	 faulting execution of the instruction?
+2.b. If a "feature", is there a good way to detect this from my plugin?
 
+Thanks!
+
+-Aaron
 
