@@ -2,73 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DDC5309E40
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 19:56:12 +0100 (CET)
-Received: from localhost ([::1]:60926 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A970309E41
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 19:56:37 +0100 (CET)
+Received: from localhost ([::1]:34872 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6HtL-0001sF-LA
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 13:56:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55342)
+	id 1l6Htk-0002ts-Cr
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 13:56:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57356)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Hj0-00021k-60; Sun, 31 Jan 2021 13:45:31 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:36433)
+ id 1l6Hs3-0001VD-Qy
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 13:54:51 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:34633)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Hiw-0007fb-8Y; Sun, 31 Jan 2021 13:45:29 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id i9so11346153wmq.1;
- Sun, 31 Jan 2021 10:45:24 -0800 (PST)
+ id 1l6Hs2-0002HZ-C5
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 13:54:51 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id g10so14275513wrx.1
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 10:54:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZTEQksi03h84QrtUmTk444gEe+iL7OPLaC2gCq3Rbc4=;
- b=Xex9yBlF2YBcUJZkVQebz+LHHVE0PmtFKcD4mns2pqWsWtmf+WRdiGPDWVf4zj8u8V
- blPpNzVMbbh7TYy5sdVI9nfnPpa2QzMKq8r2rCm9qSD6AoscmPIkXiFreAOZnRk/2sie
- 1KjRrq+dfFFhFtcmwkrdhyxmk2svUeUrVPhD9eTEyBuPAqU0iQVQonwyeYH1E6P6v/wt
- kxij9zFc+z941w7GR6W2oYBYrhSYWQiOOW0/+1slbi+GyiVkD7nIWC8oAgbfhBuiHdh5
- 8r6+ebCXr7kFQr2A6NIDL9F0etJUN3P83WA+ghAu6Ie9IRygrBPan8fVHn16P9e61QUU
- ZuIw==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=FR1Qgn3KJQlZYF2cn6BPEB2wNOofYOMOINr06XrBFiY=;
+ b=GjTFCFkHrS2IgKKCd7vdSkEuYzQZIa01Miw6JpYkLB0r/vPHzlMFUexuGXOBLuz2sm
+ zYBj0l5sLm0kMQdXDq4BiM7Pq83FnjG4YkktMvWblRWBjqu3d87CVD93RRHCZFJ0kB+4
+ FDu5nv/PQbEAoEctMF7rlyPdZzeInG6bMk8QZgx0S2GMlGboWsTzkVVSOrZtpSnQU5/N
+ 9tCQfpZYAuRsKLYuuTadPa9Ax0KnlQQzUKpO8uPJ5Q7AlRsgLvZwjzV9z2XWOjF2BBgt
+ 5+vSeyUGv6NDj6h3ebTIGjpFN+ajHlFGdSNt1oGj7UOvLnACunHfD13HswWqvhs4dzkR
+ zxiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZTEQksi03h84QrtUmTk444gEe+iL7OPLaC2gCq3Rbc4=;
- b=IxTkO/zqt0ittEDoSFaUhKs8F9+wTZp8Nh91/t6B521elmk4Jc8N5PKlUr77VjBSNz
- iD9Y55MIbWgOqm1fd+cQMWMYcmviNIlEKAwM1xhHVVz7KHzlxV7TMppBZUPU6uzizhPX
- PXz56fW+NLJVt78NAAGV2o3rldW0MARYP9Pk9fZdPZW9d9GWn+0M/MyRaYDvQNWq5RLp
- lrm3CXUXhmeQeM50qlIwDAWyEF2bevBzoFdMTcD8yRxKdtLiLWX29rfnLKMSTwqXObgU
- EbC2ZA7JQw7RCIMui52OS9pPmaiSRGKI0/WPU6rbIaxNEDr/QmQh/0+L5jiKNYJMxlX6
- T92Q==
-X-Gm-Message-State: AOAM532QuEWGTjw9cLz2YlSonolXqbuXYT1rJm0kP/Dfa5J6E41p7wjk
- yNT+QtUcmPOXreJz/o4Sml6OtIZwRvA=
-X-Google-Smtp-Source: ABdhPJytmgX7NpBiYVAEOpecQTzLjVd7W9PQaVd3V+gt2o4Yoj3QRIztr6bT4LXUEIESEqZGnRXESQ==
-X-Received: by 2002:a1c:27c3:: with SMTP id n186mr12017398wmn.96.1612118723210; 
- Sun, 31 Jan 2021 10:45:23 -0800 (PST)
-Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=FR1Qgn3KJQlZYF2cn6BPEB2wNOofYOMOINr06XrBFiY=;
+ b=egWJP4Ft9y/l8ddUDgicn8Yt/+Qj/VYYGDZp76fUb72d+VOSmYhq99LyIMzzCoAsbv
+ RCyHJeIAe7b03cxc0COreRkP6vIF0jJ/AcBs46lQF9Qa+ksO3POyoBW4HswAgXr0tmlS
+ cxjwM0F5rbRySlw4I6sYKJIlt0uXhSDc9lCWsZg7W09olNcS4Jv7afckjy68oj28DbjT
+ LworVa38SXLEG2yfGNggatn3vL3RaYXikg/nRrvqofnb3OBGMxAhepN6beQmYkVFI1My
+ 6oxsrAqfwF1fOGVmtQINHh9k+X5wzxiq8Z8uzPxRvhiiynpwYKcyTk+snXCButh02Tr/
+ jlAA==
+X-Gm-Message-State: AOAM531VvUMwajwM4SNjfoTp6RPiUCF3UomlPXzdZM1YHuvgvDn8mPdJ
+ VKvcDvvp9KMSaHLub0WliPc=
+X-Google-Smtp-Source: ABdhPJzUkcPB+r3xOLKZAYbK/j8OsewAgS73QOlIP8attOclSPS7y7JkgnNYKWVwwvcwMJbgH5iDRw==
+X-Received: by 2002:adf:8145:: with SMTP id 63mr14199539wrm.8.1612119288945;
+ Sun, 31 Jan 2021 10:54:48 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id m16sm14368847wmq.36.2021.01.31.10.45.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 10:45:22 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v3 6/6] hw/arm: Display CPU type in machine description
-Date: Sun, 31 Jan 2021 19:44:49 +0100
-Message-Id: <20210131184449.382425-7-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210131184449.382425-1-f4bug@amsat.org>
-References: <20210131184449.382425-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id w129sm19274346wmb.11.2021.01.31.10.54.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 31 Jan 2021 10:54:47 -0800 (PST)
+Subject: Re: [PATCH v2 1/4] meson: Do not build Xen x86_64-softmmu on Aarch64
+To: Andrew Cooper <andrew.cooper3@citrix.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+References: <20210131141810.293186-1-f4bug@amsat.org>
+ <20210131141810.293186-2-f4bug@amsat.org>
+ <6ea50cf0-344d-cf9b-0a20-0444b3764f2d@citrix.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <c7e1fc51-bc83-9a1d-408b-5e0731c29f5e@amsat.org>
+Date: Sun, 31 Jan 2021 19:54:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <6ea50cf0-344d-cf9b-0a20-0444b3764f2d@citrix.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.079,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -83,117 +91,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>, Joel Stanley <joel@jms.id.au>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of ARM machines display their CPU when QEMU list the available
-machines (-M help). Some machines do not. Fix to unify the help
-output.
+On 1/31/21 3:45 PM, andrew.cooper3--- via wrote:
+> On 31/01/2021 14:18, Philippe Mathieu-Daudé wrote:
+>> The Xen on ARM documentation only mentions the i386-softmmu
+>> target. As the x86_64-softmmu doesn't seem used, remove it
+>> to avoid wasting cpu cycles building it.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> 
+> As far as I understand, it only gets used at all on ARM for the
+> blkback=>qcow path, and has nothing to do with I440FX or other boards. 
+> i.e. it is a paravirt disk and nothing else.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/digic_boards.c  | 2 +-
- hw/arm/microbit.c      | 2 +-
- hw/arm/netduino2.c     | 2 +-
- hw/arm/netduinoplus2.c | 2 +-
- hw/arm/orangepi.c      | 2 +-
- hw/arm/stellaris.c     | 4 ++--
- 6 files changed, 7 insertions(+), 7 deletions(-)
+Yeah the PIIX3 part is messy, this is easier to select I440FX which
+provides all the required dependencies. TBH I'd rather invest my
+time in other tasks, and the Xen folks don't seem interested in getting
+this improved. I only did that series to reply to Paolo and pass over
+to Alex Bennée.
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index be12873673b..6cdc1d83fca 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -142,7 +142,7 @@ static void canon_a1100_init(MachineState *machine)
- 
- static void canon_a1100_machine_init(MachineClass *mc)
- {
--    mc->desc = "Canon PowerShot A1100 IS";
-+    mc->desc = "Canon PowerShot A1100 IS (ARM946)";
-     mc->init = &canon_a1100_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_ram_size = 64 * MiB;
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index 0947491cb97..e9494334ce7 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -64,7 +64,7 @@ static void microbit_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "BBC micro:bit";
-+    mc->desc = "BBC micro:bit (Cortex-M0)";
-     mc->init = microbit_init;
-     mc->max_cpus = 1;
- }
-diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-index 8f103341443..1733b71507c 100644
---- a/hw/arm/netduino2.c
-+++ b/hw/arm/netduino2.c
-@@ -54,7 +54,7 @@ static void netduino2_init(MachineState *machine)
- 
- static void netduino2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino 2 Machine";
-+    mc->desc = "Netduino 2 Machine (Cortex-M3)";
-     mc->init = netduino2_init;
-     mc->ignore_memory_transaction_failures = true;
- }
-diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
-index 68abd3ec69d..d3ad7a2b675 100644
---- a/hw/arm/netduinoplus2.c
-+++ b/hw/arm/netduinoplus2.c
-@@ -55,7 +55,7 @@ static void netduinoplus2_init(MachineState *machine)
- 
- static void netduinoplus2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino Plus 2 Machine";
-+    mc->desc = "Netduino Plus 2 Machine (Cortex-M4)";
-     mc->init = netduinoplus2_init;
- }
- 
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index d6306dfddae..40cdb5c6d2c 100644
---- a/hw/arm/orangepi.c
-+++ b/hw/arm/orangepi.c
-@@ -113,7 +113,7 @@ static void orangepi_init(MachineState *machine)
- 
- static void orangepi_machine_init(MachineClass *mc)
- {
--    mc->desc = "Orange Pi PC";
-+    mc->desc = "Orange Pi PC (Cortex-A7)";
-     mc->init = orangepi_init;
-     mc->block_default_type = IF_SD;
-     mc->units_per_default_bus = 1;
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index ad72c0959f1..27292ec4113 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -1538,7 +1538,7 @@ static void lm3s811evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S811EVB";
-+    mc->desc = "Stellaris LM3S811EVB (Cortex-M3)";
-     mc->init = lm3s811evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
-@@ -1554,7 +1554,7 @@ static void lm3s6965evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S6965EVB";
-+    mc->desc = "Stellaris LM3S6965EVB (Cortex-M3)";
-     mc->init = lm3s6965evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
--- 
-2.26.2
+> xenpv should not be tied to i386-softmmu in the first place, and would
+> remove a very-WTF-worthy current state of things.  That said, I have no
+> idea how much effort that might be.
 
+Here the problem isn't much Xen but the rest of x86 machines in QEMU.
+
+Regards,
+
+Phil.
 
