@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9EB1309BBD
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:54:04 +0100 (CET)
-Received: from localhost ([::1]:34286 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1925309BBF
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:54:25 +0100 (CET)
+Received: from localhost ([::1]:35294 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6BIp-000489-Sx
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:54:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34210)
+	id 1l6BJA-0004ZO-ON
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:54:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34224)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6BFT-0001r2-Rq; Sun, 31 Jan 2021 06:50:35 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:32793)
+ id 1l6BFY-0001xJ-V1; Sun, 31 Jan 2021 06:50:40 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:34278)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6BFR-0005Fo-Uq; Sun, 31 Jan 2021 06:50:35 -0500
-Received: by mail-wr1-x429.google.com with SMTP id 7so13527428wrz.0;
- Sun, 31 Jan 2021 03:50:32 -0800 (PST)
+ id 1l6BFX-0005L7-7K; Sun, 31 Jan 2021 06:50:40 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id o10so9638786wmc.1;
+ Sun, 31 Jan 2021 03:50:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=NbTS4eSvhYMRXHU2vVjE8jfBdk95n+pM+UWftFmVvfU=;
- b=h1LzEJAXnr2fpxrCr74qTa92E0dAQb5YiEWfKSWN16Ei7mKBJSZQMVHDtkutWVDdYD
- QqYbWZZHSoxyuWQZ0pIEs9v6rLkDln3JPGHTftQ6RA5bwJSd93SlGR2L+ITnjWAutK0g
- tIS1BhDZkCAnE9y0tqhEZkdrRtZlLeW8E5mcViIcVkm0C6Wv07Py5VZXtuO1xTDY3Dc7
- mvaI5qvAC6+T8+Mvqn86Ru7LvFhZ9yPMrtGUe0qq02OGSlaFwVC0zKhpVON0ICphi4MA
- y3ISRBAX0Z+MYNv5DS5/to54WQKzMmf73GoOvsshWv3hWIjt2qa4xFrh33b18Zx6xf8E
- pYWA==
+ bh=VqrmhVxmrVpTinVk4e74EOokFJxAnJGleMWOvxObkGo=;
+ b=lyvsp3J4UkNurQZJVFz9o4JYa1UA1x5dEPXNh3rSqZoz/D+ftmCq5kSipCIzpP4yYJ
+ nSMUwmKcyyFsbqMKa8oxpCNGlXb93gGlqm4bjingFBgZuIWD7AbI0OZpdaMufJDvHG9c
+ qC5+dIBepWCX6LFsUMA77xsp6mvys75KRB+jURkPOHD/pN99OOtyoQ9btbVCGzoyfl6G
+ MxbJzJi5FBOYnndo2ohyVKrRVbQ75AEh0rEWOFzVWJCmjvCGgSofwmaqh36oRozeOnfA
+ jlgBJb1qNwvqao+3AOuUECbxkneAizqC36qIYrHOlMkRF5uKw5qN2ZdR2YCXPAzeFzfO
+ Mz/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=NbTS4eSvhYMRXHU2vVjE8jfBdk95n+pM+UWftFmVvfU=;
- b=V7bhBnT73P1G0o/xzmCyKwIMpdzF6NbD58/Yv2ZN5e273OOI2j/gnXe9ZmE5FR102R
- oKdej8wNN3S1hOQlJXE6JnufW3C81VoPFDT9SE1TVQK/bFZ1jlBZJVBr6WxxYGKDc7w3
- ea+1r1Dn7eZvtuJEpETkzs4l5yoPUwHG/W0E++kxtF8SkJNimGMoFLhZ/9+aOSW9WwXa
- 9cQZYl2NO73rdLh46dsEImpvD61q9uHVN6IHTYh3E7lyw5cp/HCJIEBsx0oqiTstGDMM
- vGtOCcQTc+3Q6pj294sD5jeMYMqEtTO4t68m9ilQBUuYRGpljXiy1kFRj3397a50JHgR
- SJqQ==
-X-Gm-Message-State: AOAM530s1Eos9kLUsRiA2Tu2n0XP71XtwPPQoZ1oXYe28IvIFaOcnaKY
- 2DmkQHEeyYaj2pxjJyepsZT47/zr33I=
-X-Google-Smtp-Source: ABdhPJzbicD1HJnXpjT27xzPC9x3I2AWZtVjzXvYLMRzjxZrSarnOD5x4M7qz2f/ytk+RI73IOJ3pg==
-X-Received: by 2002:a5d:458a:: with SMTP id p10mr13399523wrq.168.1612093831543; 
- Sun, 31 Jan 2021 03:50:31 -0800 (PST)
+ bh=VqrmhVxmrVpTinVk4e74EOokFJxAnJGleMWOvxObkGo=;
+ b=EoG4wdNPzLBSq8l8lcdNcy8JiNf9/lBxipdDmxgdwUqi+mE+RvDudawafxFPa6DFwN
+ xbysb5ajbH/MFqWIDZn0p3QDTOG4LZ6gmIgb9c4SVdEFOw9MUj81bxeTLCZ4kTsW3kwl
+ ZGyalTrHQJaVdAxNCeW30d5Puvum1FbaFtEpjbzn3V2UhHOJnyTTG/jM2lxqoDM46YDq
+ /UvWZdpFTGnFniBIJpPTp4CyT9ulT8N/57kWEG3fYPWW6vmD2rb8ybjryXvhn/AdlCUD
+ CBeLSJ0Q+Hyr02SGdTuxpcXoTsBk8gpiljH5jgLjvqwn+2bpkKOE0QRaqEcUCxP69ZsH
+ dJUg==
+X-Gm-Message-State: AOAM533Lov2XjxzLL7SzqnB+4rGORPMBqZiU4IlLCmepsIXVxvHP6i7b
+ /bKL74KFQWw0UpiB0MOy204FdMIY0ao=
+X-Google-Smtp-Source: ABdhPJzlUZ0PoftyMhnvPgCuDfPl7bBhNXVdBlytKA4JLNnnwx1y1kPvC5kny0EUlqDJX52wkKjIyA==
+X-Received: by 2002:a7b:c196:: with SMTP id y22mr10912502wmi.91.1612093836938; 
+ Sun, 31 Jan 2021 03:50:36 -0800 (PST)
 Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id c62sm5346752wmd.43.2021.01.31.03.50.29
+ by smtp.gmail.com with ESMTPSA id a17sm19517259wrx.63.2021.01.31.03.50.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 03:50:30 -0800 (PST)
+ Sun, 31 Jan 2021 03:50:36 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v6 01/11] sysemu/tcg: Introduce tcg_builtin() helper
-Date: Sun, 31 Jan 2021 12:50:12 +0100
-Message-Id: <20210131115022.242570-2-f4bug@amsat.org>
+Subject: [PATCH v6 02/11] exec: Restrict TCG specific headers
+Date: Sun, 31 Jan 2021 12:50:13 +0100
+Message-Id: <20210131115022.242570-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210131115022.242570-1-f4bug@amsat.org>
 References: <20210131115022.242570-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -89,48 +89,40 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
+ John Snow <jsnow@redhat.com>, qemu-arm@nongnu.org,
+ Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Modules are registered early with type_register_static().
+Fixes when building with --disable-tcg on ARM:
 
-We would like to call tcg_enabled() when registering QOM types,
-but tcg_enabled() returns tcg_allowed which is a runtime property
-initialized later (See commit 2f181fbd5a9 which introduced the
-MachineInitPhase in "hw/qdev-core.h" representing the different
-phases of machine initialization and commit 0427b6257e2 which
-document the initialization order).
-
-As we are only interested if the TCG accelerator is builtin,
-regardless of being enabled, introduce the tcg_builtin() helper.
+  In file included from target/arm/helper.c:16:
+  include/exec/helper-proto.h:42:10: fatal error: tcg-runtime.h: No such file or directory
+     42 | #include "tcg-runtime.h"
+        |          ^~~~~~~~~~~~~~~
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Markus Armbruster <armbru@redhat.com>
----
- include/sysemu/tcg.h | 2 ++
+ include/exec/helper-proto.h | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
-index 00349fb18a7..6ac5c2ca89d 100644
---- a/include/sysemu/tcg.h
-+++ b/include/sysemu/tcg.h
-@@ -13,8 +13,10 @@ void tcg_exec_init(unsigned long tb_size, int splitwx);
- #ifdef CONFIG_TCG
- extern bool tcg_allowed;
- #define tcg_enabled() (tcg_allowed)
-+#define tcg_builtin() 1
- #else
- #define tcg_enabled() 0
-+#define tcg_builtin() 0
- #endif
+diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
+index 659f9298e8f..740bff3bb4d 100644
+--- a/include/exec/helper-proto.h
++++ b/include/exec/helper-proto.h
+@@ -39,8 +39,10 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
  
- #endif
+ #include "helper.h"
+ #include "trace/generated-helpers.h"
++#ifdef CONFIG_TCG
+ #include "tcg-runtime.h"
+ #include "plugin-helpers.h"
++#endif /* CONFIG_TCG */
+ 
+ #undef IN_HELPER_PROTO
+ 
 -- 
 2.26.2
 
