@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0046309B83
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:12:57 +0100 (CET)
-Received: from localhost ([::1]:57340 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2128C309B85
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:15:03 +0100 (CET)
+Received: from localhost ([::1]:35184 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Af2-0000ca-UT
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:12:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58624)
+	id 1l6Ah4-0003Oy-3O
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:15:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58886)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6Ad0-0007qx-4e
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 06:10:50 -0500
-Received: from indium.canonical.com ([91.189.90.7]:54392)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6AfX-0001Y2-Jd; Sun, 31 Jan 2021 06:13:27 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:37539)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6Acy-00059a-CJ
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 06:10:49 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6Acv-0006XO-KS
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 11:10:45 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 97AF72E8137
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 11:10:45 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6AfV-0006G1-Uk; Sun, 31 Jan 2021 06:13:27 -0500
+Received: by mail-wm1-x333.google.com with SMTP id m1so7436850wml.2;
+ Sun, 31 Jan 2021 03:13:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:from:to:cc:subject:date:message-id:mime-version
+ :content-transfer-encoding;
+ bh=nu0fflOvwC9lnnocMvnUlxjUoWk9Y1oHXbnM2of1VNw=;
+ b=GMkP/wCfwoRMy/FW9sbsBrWn/UnFhGbUstPstPeXtbDB8+Zm7Jy9xM3uckHQcYl6LN
+ js7d+AieoC3plFBxVD7OMMSvrxFWsVOoasWl8xCaArJyZL5YrNhiwJ++BamyXysJA/S5
+ 2ts9RpOACFdLkspO7dxfR/tqpldF+PZw9fBRgmq5/QusxuCXuFIfEMqKyMgX5HGt0m7i
+ 5pKRAAFlhokVoJgiqWsPqx49QkmY1coTIzDZivTaXj0KBdHNJ0fT+oKuBu7F5LRXjCCa
+ FF9DcOyvgs6ojjt4RwNz3eyXPdA+1JGBXKTyWF1RCYB+hLR9JrVWiijHC+jflrAHGa8d
+ Ji3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+ :mime-version:content-transfer-encoding;
+ bh=nu0fflOvwC9lnnocMvnUlxjUoWk9Y1oHXbnM2of1VNw=;
+ b=bnq4yPedvfEUPX6ckM31kXkFe01VL0nD40TjIGwy0eANGR0q358Gyr0VQfT3rg+w06
+ vpgyH+5itwmanW6lcDIm3dq79YBSjfbZfaBKScuQ7xEUstL5JH5hgP9AYrTZ7NjXXLMR
+ bG4JIYIkO1mrIZtLHFn3dHWDCngs5xyboR0B7lAebZYVZbksTigLO8gW23I2pNHBFWHF
+ aSeYZNQcKmtnbVAtCKMQx6qd2dYFn1gvjDWBiPaVSvfsH8GHNunViqJBqc+moDLG9MgE
+ yHrCmcyrDkv4ulwm3x7VPPaVHB432r7ok3uiWcLAex68OHXRCOQO7BKuVUhLVB0EU7Ou
+ F3/w==
+X-Gm-Message-State: AOAM532PVbvkybT6ESJQqYx39alY3vU3d1orHND7o1oE6lLSM12CLkRE
+ ECLdJftBu7ljw6AN7TJ0bwTOfwjiWVc=
+X-Google-Smtp-Source: ABdhPJzIBt7iHlMIteL1B3eYUDHuKMn0E+lTKfVqdSXwgXiLDotBHQmkksvK0moPF44T2gKqd43rPQ==
+X-Received: by 2002:a1c:f417:: with SMTP id z23mr10316640wma.29.1612091600288; 
+ Sun, 31 Jan 2021 03:13:20 -0800 (PST)
+Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id l5sm22224061wrv.44.2021.01.31.03.13.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 31 Jan 2021 03:13:19 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Subject: [PATCH 00/10] target: Provide target-specific Kconfig
+Date: Sun, 31 Jan 2021 12:13:06 +0100
+Message-Id: <20210131111316.232778-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 31 Jan 2021 11:00:42 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1913917@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm fuzzer
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: a1xndr philmd
-X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
- =?utf-8?q?=29?=
-References: <161205975552.32077.17135502611991851570.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161209084247.3694.6659825625299522196.malone@soybean.canonical.com>
-Subject: [Bug 1913917] Re: aarch64-virt: heap-use-after-free in gic_dist_writeb
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: f1e9093e7589d99f8e1b36d797967f0aad8b7d18
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,82 +82,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913917 <1913917@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Cornelia Huck <cohuck@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix for this 13+ years old issue:
-https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07969.html
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913917
-
-Title:
-  aarch64-virt: heap-use-after-free in gic_dist_writeb
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  Reproducer:
-  cat << EOF | ./qemu-system-aarch64 \
-  -machine virt,accel=3Dqtest -qtest stdio
-  writel 0x8000f00 0x5affaf
-  write 0x8000eff 0x1 0x0
-  EOF
-
-  Stacktrace:
-  ../hw/intc/arm_gic.c:1419:17: runtime error: index 3068 out of bounds for=
- type 'gic_irq_state [1020]'
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gi=
-c.c:1419:17 in
-  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-  =3D=3D641550=3D=3DERROR: AddressSanitizer: heap-use-after-free on address=
- 0x629000023a85 at pc 0x55b5dfb0fbf8 bp 0x7fff95cb5870 sp 0x7fff95cb5868
-  WRITE of size 1 at 0x629000023a85 thread T0
-      #0 0x55b5dfb0fbf7 in gic_dist_writeb /home/alxndr/Development/qemu/bu=
-ild/../hw/intc/arm_gic.c:1419:17
-      #1 0x55b5dfb061e2 in gic_dist_write /home/alxndr/Development/qemu/bui=
-ld/../hw/intc/arm_gic.c
-      #2 0x55b5e0809ef4 in memory_region_write_with_attrs_accessor /home/al=
-xndr/Development/qemu/build/../softmmu/memory.c:511:12
-      #3 0x55b5e0808bfb in access_with_adjusted_size /home/alxndr/Developme=
-nt/qemu/build/../softmmu/memory.c:552:18
-      #4 0x55b5e0808467 in memory_region_dispatch_write /home/alxndr/Develo=
-pment/qemu/build/../softmmu/memory.c
-      #5 0x55b5e0b98ffb in flatview_write_continue /home/alxndr/Development=
-/qemu/build/../softmmu/physmem.c:2759:23
-      #6 0x55b5e0b8e71b in flatview_write /home/alxndr/Development/qemu/bui=
-ld/../softmmu/physmem.c:2799:14
-      #7 0x55b5e0b8e71b in address_space_write /home/alxndr/Development/qem=
-u/build/../softmmu/physmem.c:2891:18
-      #8 0x55b5e07fad35 in qtest_process_command /home/alxndr/Development/q=
-emu/build/../softmmu/qtest.c:654:9
-      #9 0x55b5e07f3b97 in qtest_process_inbuf /home/alxndr/Development/qem=
-u/build/../softmmu/qtest.c:797:9
-      #10 0x55b5e1044286 in fd_chr_read /home/alxndr/Development/qemu/build=
-/../chardev/char-fd.c:68:9
-      #11 0x7fa997b30aae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
-gnu/libglib-2.0.so.0+0x51aae)
-      #12 0x55b5e169f363 in glib_pollfds_poll /home/alxndr/Development/qemu=
-/build/../util/main-loop.c:232:9
-      #13 0x55b5e169f363 in os_host_main_loop_wait /home/alxndr/Development=
-/qemu/build/../util/main-loop.c:255:5
-      #14 0x55b5e169f363 in main_loop_wait /home/alxndr/Development/qemu/bu=
-ild/../util/main-loop.c:531:11
-      #15 0x55b5e075a599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
-ild/../softmmu/runstate.c:721:9
-      #16 0x55b5de9e71fd in main /home/alxndr/Development/qemu/build/../sof=
-tmmu/main.c:50:5
-      #17 0x7fa9975d5cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
-      #18 0x55b5de93abc9 in _start (/home/alxndr/Development/qemu/build/qem=
-u-system-aarch64+0x3350bc9)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913917/+subscriptions
+Hi,=0D
+=0D
+This series add a Kconfig file to each target, allowing=0D
+to select target-specific features there, instead of from=0D
+the hardware Kconfig.=0D
+=0D
+This simplifies managing multi-arch features such semihosting.=0D
+=0D
+Series organization:=0D
+=0D
+1/ Some targets use the architecture symbol to select boards and=0D
+peripherals (SH4 and LM32), we need to clean that first.=0D
+=0D
+2/ Introduce empty target Kconfig, update meson.=0D
+=0D
+3/ Move architectural features out of hardware:=0D
+   - x86 SEV=0D
+   - ARM v7m=0D
+   - generic semihosting=0D
+=0D
+[following only important to patchew, unrelated to this series]=0D
+Based-on: <20210131105918.228787-1-f4bug@amsat.org>=0D
+=0D
+Philippe Mathieu-Daud=C3=A9 (10):=0D
+  hw/sh4/Kconfig: Rename CONFIG_SH4 -> CONFIG_SH4_PERIPHERALS=0D
+  hw/lm32/Kconfig: Introduce CONFIG_LM32_EVR for lm32-evr/uclinux boards=0D
+  hw/sh4/Kconfig: Rename CONFIG_LM32 -> CONFIG_LM32_PERIPHERALS=0D
+  hw/lm32/Kconfig: Have MILKYMIST select LM32_PERIPHERALS=0D
+  meson: Introduce target-specific Kconfig=0D
+  target/i386: Move SEV feature to target Kconfig=0D
+  target/arm: Move V7M feature to target Kconfig=0D
+  default-configs: Remove unnecessary SEMIHOSTING selection=0D
+  target: Move ARM_COMPATIBLE_SEMIHOSTING feature to target Kconfig=0D
+  target: Move SEMIHOSTING feature to target Kconfig=0D
+=0D
+ default-configs/devices/arm-softmmu.mak       |  2 --=0D
+ default-configs/devices/lm32-softmmu.mak      |  4 +---=0D
+ default-configs/devices/m68k-softmmu.mak      |  2 --=0D
+ .../devices/mips-softmmu-common.mak           |  3 ---=0D
+ default-configs/devices/nios2-softmmu.mak     |  2 --=0D
+ default-configs/devices/riscv32-softmmu.mak   |  2 --=0D
+ default-configs/devices/riscv64-softmmu.mak   |  2 --=0D
+ default-configs/devices/unicore32-softmmu.mak |  1 -=0D
+ default-configs/devices/xtensa-softmmu.mak    |  2 --=0D
+ meson.build                                   |  3 ++-=0D
+ Kconfig                                       |  1 +=0D
+ hw/arm/Kconfig                                |  4 ----=0D
+ hw/block/meson.build                          |  2 +-=0D
+ hw/char/meson.build                           |  6 ++---=0D
+ hw/i386/Kconfig                               |  4 ----=0D
+ hw/intc/meson.build                           |  4 ++--=0D
+ hw/lm32/Kconfig                               | 10 +++++---=0D
+ hw/lm32/meson.build                           |  2 +-=0D
+ hw/sh4/Kconfig                                |  6 ++---=0D
+ hw/timer/meson.build                          |  4 ++--=0D
+ target/Kconfig                                | 23 +++++++++++++++++++=0D
+ target/alpha/Kconfig                          |  2 ++=0D
+ target/arm/Kconfig                            | 11 +++++++++=0D
+ target/avr/Kconfig                            |  2 ++=0D
+ target/cris/Kconfig                           |  2 ++=0D
+ target/hppa/Kconfig                           |  2 ++=0D
+ target/i386/Kconfig                           |  9 ++++++++=0D
+ target/lm32/Kconfig                           |  3 +++=0D
+ target/m68k/Kconfig                           |  3 +++=0D
+ target/microblaze/Kconfig                     |  2 ++=0D
+ target/mips/Kconfig                           |  7 ++++++=0D
+ target/moxie/Kconfig                          |  2 ++=0D
+ target/nios2/Kconfig                          |  3 +++=0D
+ target/openrisc/Kconfig                       |  2 ++=0D
+ target/ppc/Kconfig                            |  5 ++++=0D
+ target/riscv/Kconfig                          |  7 ++++++=0D
+ target/rx/Kconfig                             |  2 ++=0D
+ target/s390x/Kconfig                          |  2 ++=0D
+ target/sh4/Kconfig                            |  2 ++=0D
+ target/sparc/Kconfig                          |  5 ++++=0D
+ target/tilegx/Kconfig                         |  2 ++=0D
+ target/tricore/Kconfig                        |  2 ++=0D
+ target/unicore32/Kconfig                      |  3 +++=0D
+ target/xtensa/Kconfig                         |  3 +++=0D
+ 44 files changed, 129 insertions(+), 43 deletions(-)=0D
+ create mode 100644 target/Kconfig=0D
+ create mode 100644 target/alpha/Kconfig=0D
+ create mode 100644 target/arm/Kconfig=0D
+ create mode 100644 target/avr/Kconfig=0D
+ create mode 100644 target/cris/Kconfig=0D
+ create mode 100644 target/hppa/Kconfig=0D
+ create mode 100644 target/i386/Kconfig=0D
+ create mode 100644 target/lm32/Kconfig=0D
+ create mode 100644 target/m68k/Kconfig=0D
+ create mode 100644 target/microblaze/Kconfig=0D
+ create mode 100644 target/mips/Kconfig=0D
+ create mode 100644 target/moxie/Kconfig=0D
+ create mode 100644 target/nios2/Kconfig=0D
+ create mode 100644 target/openrisc/Kconfig=0D
+ create mode 100644 target/ppc/Kconfig=0D
+ create mode 100644 target/riscv/Kconfig=0D
+ create mode 100644 target/rx/Kconfig=0D
+ create mode 100644 target/s390x/Kconfig=0D
+ create mode 100644 target/sh4/Kconfig=0D
+ create mode 100644 target/sparc/Kconfig=0D
+ create mode 100644 target/tilegx/Kconfig=0D
+ create mode 100644 target/tricore/Kconfig=0D
+ create mode 100644 target/unicore32/Kconfig=0D
+ create mode 100644 target/xtensa/Kconfig=0D
+=0D
+-- =0D
+2.26.2=0D
+=0D
 
