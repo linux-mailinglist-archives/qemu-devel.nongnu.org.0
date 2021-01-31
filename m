@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A933B3099FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 03:21:53 +0100 (CET)
-Received: from localhost ([::1]:54890 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B984A3099FD
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 03:26:52 +0100 (CET)
+Received: from localhost ([::1]:58518 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l62N6-0005aE-7c
-	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 21:21:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41910)
+	id 1l62Rv-0007Ha-Qo
+	for lists+qemu-devel@lfdr.de; Sat, 30 Jan 2021 21:26:51 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l62Ly-00059p-F0
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 21:20:42 -0500
-Received: from indium.canonical.com ([91.189.90.7]:60192)
+ id 1l62Qp-0006MR-Lu
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 21:25:44 -0500
+Received: from indium.canonical.com ([91.189.90.7]:60440)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l62Lv-0006aq-Po
- for qemu-devel@nongnu.org; Sat, 30 Jan 2021 21:20:42 -0500
+ id 1l62Qn-00086H-Co
+ for qemu-devel@nongnu.org; Sat, 30 Jan 2021 21:25:43 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l62Lt-0003Rk-HT
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 02:20:37 +0000
+ id 1l62Qk-0003ds-Ek
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 02:25:38 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 806862E805B
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 02:20:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 69D592E813A
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 02:25:38 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 31 Jan 2021 02:14:57 -0000
-From: Alexander Bulekov <1913914@bugs.launchpad.net>
+Date: Sun, 31 Jan 2021 02:17:25 -0000
+From: Alexander Bulekov <1913915@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm fuzzer
+X-Launchpad-Bug-Tags: fuzzer virt
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: a1xndr
 X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
 X-Launchpad-Bug-Modifier: Alexander Bulekov (a1xndr)
-Message-Id: <161205929718.32217.11100602487224249758.malonedeb@chaenomeles.canonical.com>
-Subject: [Bug 1913914] [NEW] arm_gic: Abort in  gic_clear_pending_sgi
+Message-Id: <161205944589.3833.15789206648891646681.malonedeb@soybean.canonical.com>
+Subject: [Bug 1913915] [NEW] aarc64-virt: Null-ptr dereference through
+ virtio_write_config
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: e4ab28c8971c2af41c6d32b5eaa4c894e42cd5d6
+X-Launchpad-Hash: 3653290f1593ab881af7fc6f79e9ace465667f19
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -69,7 +70,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913914 <1913914@bugs.launchpad.net>
+Reply-To: Bug 1913915 <1913915@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
@@ -78,117 +79,98 @@ Public bug reported:
 Reproducer:
 cat << EOF | ./qemu-system-aarch64 \
 -machine virt,accel=3Dqtest -qtest stdio
-write 0x8000000 0x1 0x02
-write 0x8010000 0x1 0x03
-write 0x8010004 0x1 0x10
-write 0x8000f2f 0x1 0x0
-writel 0x8000f00 0x2065559
-write 0x8000d56 0x1 0x0
-readl 0x801000b
+writel 0x8000f00 0x81818191
+write 0x4010008004 0x1 0x06
 EOF
 
 Stacktrace:
-SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../qemu/hw/intc/arm=
-_gic.c:173:28 in
-../qemu/hw/intc/arm_gic.c:173:28: runtime error: load of misaligned address=
- 0x6290000215c1 for type 'uint32_t' (aka 'unsigned int'), which requires 16=
- byte alignment
-0x6290000215c1: note: pointer points here
- 00 00 00  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  20 1c 00 00 80=
- 60 00 00  00 00 00 00 00
-              ^
-SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../qemu/hw/intc/arm=
-_gic.c:173:28 in
-[R +0.117623] readl 0x8010015
-[R +0.117718] readl 0x801000b
-qemu-fuzz-aarch64: ../qemu/hw/intc/arm_gic.c:580: uint32_t gic_clear_pendin=
-g_sgi(GICState *, int, int): Assertion `s->sgi_pending[irq][cpu] !=3D 0' fa=
-iled.
-=3D=3D762=3D=3D ERROR: libFuzzer: deadly signal
-    #0 0x563d4e2371f1 in __sanitizer_print_stack_trace (/home/alxndr/build-=
-asan/qemu-fuzz-aarch64+0x350d1f1)
-    #1 0x563d4e182348 in fuzzer::PrintStackTrace() (/home/alxndr/build-asan=
-/qemu-fuzz-aarch64+0x3458348)
-    #2 0x563d4e167493 in fuzzer::Fuzzer::CrashCallback() (/home/alxndr/buil=
-d-asan/qemu-fuzz-aarch64+0x343d493)
-    #3 0x7feabe05350f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1350f)
-    #4 0x7feabde8e080 in __libc_signal_restore_set /build/glibc-suXNNi/glib=
-c-2.29/signal/../sysdeps/unix/sysv/linux/internal-signals.h:84:10
-    #5 0x7feabde8e080 in raise /build/glibc-suXNNi/glibc-2.29/signal/../sys=
-deps/unix/sysv/linux/raise.c:48:3
-    #6 0x7feabde79534 in abort /build/glibc-suXNNi/glibc-2.29/stdlib/abort.=
-c:79:7
-    #7 0x7feabde7940e in __assert_fail_base /build/glibc-suXNNi/glibc-2.29/=
-assert/assert.c:92:3
-    #8 0x7feabde86b91 in __assert_fail /build/glibc-suXNNi/glibc-2.29/asser=
-t/assert.c:101:3
-    #9 0x563d4eba2a3c in gic_clear_pending_sgi /home/alxndr/build-asan/../q=
-emu/hw/intc/arm_gic.c:580:9
-    #10 0x563d4eba2a3c in gic_acknowledge_irq /home/alxndr/build-asan/../qe=
-mu/hw/intc/arm_gic.c:630:19
-    #11 0x563d4ebb4ca4 in gic_cpu_read /home/alxndr/build-asan/../qemu/hw/i=
-ntc/arm_gic.c:1615:17
-    #12 0x563d4ebab538 in gic_thiscpu_read /home/alxndr/build-asan/../qemu/=
-hw/intc/arm_gic.c:1771:12
-    #13 0x563d5029ec2d in memory_region_read_with_attrs_accessor /home/alxn=
-dr/build-asan/../qemu/softmmu/memory.c:464:9
-    #14 0x563d502705f3 in access_with_adjusted_size /home/alxndr/build-asan=
-/../qemu/softmmu/memory.c:552:18
-    #15 0x563d5026eb44 in memory_region_dispatch_read1 /home/alxndr/build-a=
-san/../qemu/softmmu/memory.c
-    #16 0x563d5026eb44 in memory_region_dispatch_read /home/alxndr/build-as=
-an/../qemu/softmmu/memory.c:1449:9
-    #17 0x563d5048c5bf in flatview_read_continue /home/alxndr/build-asan/..=
-/qemu/softmmu/physmem.c:2822:23
-    #18 0x563d504a9a9b in address_space_read /home/alxndr/qemu/include/exec=
-/memory.h:2484:26
-    #19 0x563d504a9a9b in qtest_process_command /home/alxndr/build-asan/../=
-qemu/softmmu/qtest.c:568:13
-    #20 0x563d504a497f in qtest_process_inbuf /home/alxndr/build-asan/../qe=
-mu/softmmu/qtest.c:797:9
-    #21 0x563d504a46d5 in qtest_server_inproc_recv /home/alxndr/build-asan/=
-../qemu/softmmu/qtest.c:904:9
-    #22 0x563d50ce5cc8 in qtest_sendf /home/alxndr/build-asan/../qemu/tests=
-/qtest/libqtest.c:438:5
-    #23 0x563d50ce73a3 in qtest_read /home/alxndr/build-asan/../qemu/tests/=
-qtest/libqtest.c:1032:5
-    #24 0x563d4e264499 in __wrap_qtest_readl /home/alxndr/build-asan/../qem=
-u/tests/qtest/fuzz/qtest_wrappers.c:138:16
-    #25 0x563d4e26ee5b in op_read /home/alxndr/build-asan/../qemu/tests/qte=
-st/fuzz/generic_fuzz.c:432:13
-    #26 0x563d4e26dc46 in generic_fuzz /home/alxndr/build-asan/../qemu/test=
-s/qtest/fuzz/generic_fuzz.c:681:17
-    #27 0x563d4e261283 in LLVMFuzzerTestOneInput /home/alxndr/build-asan/..=
-/qemu/tests/qtest/fuzz/fuzz.c:151:5
-    #28 0x563d4e168b51 in fuzzer::Fuzzer::ExecuteCallback(unsigned char con=
-st*, unsigned long) (/home/alxndr/build-asan/qemu-fuzz-aarch64+0x343eb51)
-    #29 0x563d4e1542c2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*, =
-unsigned long) (/home/alxndr/build-asan/qemu-fuzz-aarch64+0x342a2c2)
-    #30 0x563d4e159d76 in fuzzer::FuzzerDriver(int*, char***, int (*)(unsig=
-ned char const*, unsigned long)) (/home/alxndr/build-asan/qemu-fuzz-aarch64=
-+0x342fd76)
-    #31 0x563d4e182a32 in main (/home/alxndr/build-asan/qemu-fuzz-aarch64+0=
-x3458a32)
-    #32 0x7feabde7abba in __libc_start_main /build/glibc-suXNNi/glibc-2.29/=
-csu/../csu/libc-start.c:308:16
-    #33 0x563d4e12e989 in _start (/home/alxndr/build-asan/qemu-fuzz-aarch64=
-+0x3404989)
+../hw/intc/arm_gic.c:1498:13: runtime error: index 401 out of bounds for ty=
+pe 'uint8_t [16][8]'
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gic.=
+c:1498:13 in
+OK
+[S +0.048579] OK
+[R +0.048593] write 0x4010008004 0x1 0x06
+../softmmu/memory.c:834:35: runtime error: member access within null pointe=
+r of type 'MemoryRegionIoeventfd' (aka 'struct MemoryRegionIoeventfd')
+SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../softmmu/memory.c=
+:834:35 in
+AddressSanitizer:DEADLYSIGNAL
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=3D=3D637204=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x000000=
+000000 (pc 0x55b2560417c1 bp 0x7ffefc928270 sp 0x7ffefc928020 T0)
+=3D=3D637204=3D=3DThe signal is caused by a READ memory access.
+=3D=3D637204=3D=3DHint: address points to the zero page.
+    #0 0x55b2560417c1 in addrrange_shift /home/alxndr/Development/qemu/buil=
+d/../softmmu/memory.c:80:44
+    #1 0x55b2560417c1 in address_space_update_ioeventfds /home/alxndr/Devel=
+opment/qemu/build/../softmmu/memory.c:834:19
+    #2 0x55b2560408c7 in memory_region_transaction_commit /home/alxndr/Deve=
+lopment/qemu/build/../softmmu/memory.c:1100:17
+    #3 0x55b25481e065 in pci_update_mappings /home/alxndr/Development/qemu/=
+build/../hw/pci/pci.c:1363:13
+    #4 0x55b25481cec7 in pci_default_write_config /home/alxndr/Development/=
+qemu/build/../hw/pci/pci.c:1423:9
+    #5 0x55b254806227 in virtio_write_config /home/alxndr/Development/qemu/=
+build/../hw/virtio/virtio-pci.c:608:5
+    #6 0x55b2551f6e65 in pci_host_config_write_common /home/alxndr/Developm=
+ent/qemu/build/../hw/pci/pci_host.c:83:5
+    #7 0x55b2560481fe in memory_region_write_accessor /home/alxndr/Developm=
+ent/qemu/build/../softmmu/memory.c:491:5
+    #8 0x55b256047bfb in access_with_adjusted_size /home/alxndr/Development=
+/qemu/build/../softmmu/memory.c:552:18
+    #9 0x55b256047467 in memory_region_dispatch_write /home/alxndr/Developm=
+ent/qemu/build/../softmmu/memory.c
+    #10 0x55b2563d7ffb in flatview_write_continue /home/alxndr/Development/=
+qemu/build/../softmmu/physmem.c:2759:23
+    #11 0x55b2563cd71b in flatview_write /home/alxndr/Development/qemu/buil=
+d/../softmmu/physmem.c:2799:14
+    #12 0x55b2563cd71b in address_space_write /home/alxndr/Development/qemu=
+/build/../softmmu/physmem.c:2891:18
+    #13 0x55b256039d35 in qtest_process_command /home/alxndr/Development/qe=
+mu/build/../softmmu/qtest.c:654:9
+    #14 0x55b256032b97 in qtest_process_inbuf /home/alxndr/Development/qemu=
+/build/../softmmu/qtest.c:797:9
+    #15 0x55b256883286 in fd_chr_read /home/alxndr/Development/qemu/build/.=
+./chardev/char-fd.c:68:9
+    #16 0x7f8d8faf5aae in g_main_context_dispatch (/usr/lib/x86_64-linux-gn=
+u/libglib-2.0.so.0+0x51aae)
+    #17 0x55b256ede363 in glib_pollfds_poll /home/alxndr/Development/qemu/b=
+uild/../util/main-loop.c:232:9
+    #18 0x55b256ede363 in os_host_main_loop_wait /home/alxndr/Development/q=
+emu/build/../util/main-loop.c:255:5
+    #19 0x55b256ede363 in main_loop_wait /home/alxndr/Development/qemu/buil=
+d/../util/main-loop.c:531:11
+    #20 0x55b255f99599 in qemu_main_loop /home/alxndr/Development/qemu/buil=
+d/../softmmu/runstate.c:721:9
+    #21 0x55b2542261fd in main /home/alxndr/Development/qemu/build/../softm=
+mu/main.c:50:5
+    #22 0x7f8d8f59acc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+    #23 0x55b254179bc9 in _start (/home/alxndr/Development/qemu/build/qemu-=
+system-aarch64+0x3350bc9)
+
+AddressSanitizer can not provide additional info.
+SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/build/../soft=
+mmu/memory.c:80:44 in addrrange_shift
+=3D=3D637204=3D=3DABORTING
 
 ** Affects: qemu
      Importance: Undecided
          Status: New
 
 
-** Tags: arm fuzzer
+** Tags: fuzzer virt
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913914
+https://bugs.launchpad.net/bugs/1913915
 
 Title:
-  arm_gic: Abort in  gic_clear_pending_sgi
+  aarc64-virt: Null-ptr dereference through virtio_write_config
 
 Status in QEMU:
   New
@@ -197,102 +179,83 @@ Bug description:
   Reproducer:
   cat << EOF | ./qemu-system-aarch64 \
   -machine virt,accel=3Dqtest -qtest stdio
-  write 0x8000000 0x1 0x02
-  write 0x8010000 0x1 0x03
-  write 0x8010004 0x1 0x10
-  write 0x8000f2f 0x1 0x0
-  writel 0x8000f00 0x2065559
-  write 0x8000d56 0x1 0x0
-  readl 0x801000b
+  writel 0x8000f00 0x81818191
+  write 0x4010008004 0x1 0x06
   EOF
 
   Stacktrace:
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../qemu/hw/intc/a=
-rm_gic.c:173:28 in
-  ../qemu/hw/intc/arm_gic.c:173:28: runtime error: load of misaligned addre=
-ss 0x6290000215c1 for type 'uint32_t' (aka 'unsigned int'), which requires =
-16 byte alignment
-  0x6290000215c1: note: pointer points here
-   00 00 00  01 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  20 1c 00 00 =
-80 60 00 00  00 00 00 00 00
-                ^
-  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../qemu/hw/intc/a=
-rm_gic.c:173:28 in
-  [R +0.117623] readl 0x8010015
-  [R +0.117718] readl 0x801000b
-  qemu-fuzz-aarch64: ../qemu/hw/intc/arm_gic.c:580: uint32_t gic_clear_pend=
-ing_sgi(GICState *, int, int): Assertion `s->sgi_pending[irq][cpu] !=3D 0' =
-failed.
-  =3D=3D762=3D=3D ERROR: libFuzzer: deadly signal
-      #0 0x563d4e2371f1 in __sanitizer_print_stack_trace (/home/alxndr/buil=
-d-asan/qemu-fuzz-aarch64+0x350d1f1)
-      #1 0x563d4e182348 in fuzzer::PrintStackTrace() (/home/alxndr/build-as=
-an/qemu-fuzz-aarch64+0x3458348)
-      #2 0x563d4e167493 in fuzzer::Fuzzer::CrashCallback() (/home/alxndr/bu=
-ild-asan/qemu-fuzz-aarch64+0x343d493)
-      #3 0x7feabe05350f  (/lib/x86_64-linux-gnu/libpthread.so.0+0x1350f)
-      #4 0x7feabde8e080 in __libc_signal_restore_set /build/glibc-suXNNi/gl=
-ibc-2.29/signal/../sysdeps/unix/sysv/linux/internal-signals.h:84:10
-      #5 0x7feabde8e080 in raise /build/glibc-suXNNi/glibc-2.29/signal/../s=
-ysdeps/unix/sysv/linux/raise.c:48:3
-      #6 0x7feabde79534 in abort /build/glibc-suXNNi/glibc-2.29/stdlib/abor=
-t.c:79:7
-      #7 0x7feabde7940e in __assert_fail_base /build/glibc-suXNNi/glibc-2.2=
-9/assert/assert.c:92:3
-      #8 0x7feabde86b91 in __assert_fail /build/glibc-suXNNi/glibc-2.29/ass=
-ert/assert.c:101:3
-      #9 0x563d4eba2a3c in gic_clear_pending_sgi /home/alxndr/build-asan/..=
-/qemu/hw/intc/arm_gic.c:580:9
-      #10 0x563d4eba2a3c in gic_acknowledge_irq /home/alxndr/build-asan/../=
-qemu/hw/intc/arm_gic.c:630:19
-      #11 0x563d4ebb4ca4 in gic_cpu_read /home/alxndr/build-asan/../qemu/hw=
-/intc/arm_gic.c:1615:17
-      #12 0x563d4ebab538 in gic_thiscpu_read /home/alxndr/build-asan/../qem=
-u/hw/intc/arm_gic.c:1771:12
-      #13 0x563d5029ec2d in memory_region_read_with_attrs_accessor /home/al=
-xndr/build-asan/../qemu/softmmu/memory.c:464:9
-      #14 0x563d502705f3 in access_with_adjusted_size /home/alxndr/build-as=
-an/../qemu/softmmu/memory.c:552:18
-      #15 0x563d5026eb44 in memory_region_dispatch_read1 /home/alxndr/build=
--asan/../qemu/softmmu/memory.c
-      #16 0x563d5026eb44 in memory_region_dispatch_read /home/alxndr/build-=
-asan/../qemu/softmmu/memory.c:1449:9
-      #17 0x563d5048c5bf in flatview_read_continue /home/alxndr/build-asan/=
-../qemu/softmmu/physmem.c:2822:23
-      #18 0x563d504a9a9b in address_space_read /home/alxndr/qemu/include/ex=
-ec/memory.h:2484:26
-      #19 0x563d504a9a9b in qtest_process_command /home/alxndr/build-asan/.=
-./qemu/softmmu/qtest.c:568:13
-      #20 0x563d504a497f in qtest_process_inbuf /home/alxndr/build-asan/../=
-qemu/softmmu/qtest.c:797:9
-      #21 0x563d504a46d5 in qtest_server_inproc_recv /home/alxndr/build-asa=
-n/../qemu/softmmu/qtest.c:904:9
-      #22 0x563d50ce5cc8 in qtest_sendf /home/alxndr/build-asan/../qemu/tes=
-ts/qtest/libqtest.c:438:5
-      #23 0x563d50ce73a3 in qtest_read /home/alxndr/build-asan/../qemu/test=
-s/qtest/libqtest.c:1032:5
-      #24 0x563d4e264499 in __wrap_qtest_readl /home/alxndr/build-asan/../q=
-emu/tests/qtest/fuzz/qtest_wrappers.c:138:16
-      #25 0x563d4e26ee5b in op_read /home/alxndr/build-asan/../qemu/tests/q=
-test/fuzz/generic_fuzz.c:432:13
-      #26 0x563d4e26dc46 in generic_fuzz /home/alxndr/build-asan/../qemu/te=
-sts/qtest/fuzz/generic_fuzz.c:681:17
-      #27 0x563d4e261283 in LLVMFuzzerTestOneInput /home/alxndr/build-asan/=
-../qemu/tests/qtest/fuzz/fuzz.c:151:5
-      #28 0x563d4e168b51 in fuzzer::Fuzzer::ExecuteCallback(unsigned char c=
-onst*, unsigned long) (/home/alxndr/build-asan/qemu-fuzz-aarch64+0x343eb51)
-      #29 0x563d4e1542c2 in fuzzer::RunOneTest(fuzzer::Fuzzer*, char const*=
-, unsigned long) (/home/alxndr/build-asan/qemu-fuzz-aarch64+0x342a2c2)
-      #30 0x563d4e159d76 in fuzzer::FuzzerDriver(int*, char***, int (*)(uns=
-igned char const*, unsigned long)) (/home/alxndr/build-asan/qemu-fuzz-aarch=
-64+0x342fd76)
-      #31 0x563d4e182a32 in main (/home/alxndr/build-asan/qemu-fuzz-aarch64=
-+0x3458a32)
-      #32 0x7feabde7abba in __libc_start_main /build/glibc-suXNNi/glibc-2.2=
-9/csu/../csu/libc-start.c:308:16
-      #33 0x563d4e12e989 in _start (/home/alxndr/build-asan/qemu-fuzz-aarch=
-64+0x3404989)
+  ../hw/intc/arm_gic.c:1498:13: runtime error: index 401 out of bounds for =
+type 'uint8_t [16][8]'
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gi=
+c.c:1498:13 in
+  OK
+  [S +0.048579] OK
+  [R +0.048593] write 0x4010008004 0x1 0x06
+  ../softmmu/memory.c:834:35: runtime error: member access within null poin=
+ter of type 'MemoryRegionIoeventfd' (aka 'struct MemoryRegionIoeventfd')
+  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../softmmu/memory=
+.c:834:35 in
+  AddressSanitizer:DEADLYSIGNAL
+  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+  =3D=3D637204=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0000=
+00000000 (pc 0x55b2560417c1 bp 0x7ffefc928270 sp 0x7ffefc928020 T0)
+  =3D=3D637204=3D=3DThe signal is caused by a READ memory access.
+  =3D=3D637204=3D=3DHint: address points to the zero page.
+      #0 0x55b2560417c1 in addrrange_shift /home/alxndr/Development/qemu/bu=
+ild/../softmmu/memory.c:80:44
+      #1 0x55b2560417c1 in address_space_update_ioeventfds /home/alxndr/Dev=
+elopment/qemu/build/../softmmu/memory.c:834:19
+      #2 0x55b2560408c7 in memory_region_transaction_commit /home/alxndr/De=
+velopment/qemu/build/../softmmu/memory.c:1100:17
+      #3 0x55b25481e065 in pci_update_mappings /home/alxndr/Development/qem=
+u/build/../hw/pci/pci.c:1363:13
+      #4 0x55b25481cec7 in pci_default_write_config /home/alxndr/Developmen=
+t/qemu/build/../hw/pci/pci.c:1423:9
+      #5 0x55b254806227 in virtio_write_config /home/alxndr/Development/qem=
+u/build/../hw/virtio/virtio-pci.c:608:5
+      #6 0x55b2551f6e65 in pci_host_config_write_common /home/alxndr/Develo=
+pment/qemu/build/../hw/pci/pci_host.c:83:5
+      #7 0x55b2560481fe in memory_region_write_accessor /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c:491:5
+      #8 0x55b256047bfb in access_with_adjusted_size /home/alxndr/Developme=
+nt/qemu/build/../softmmu/memory.c:552:18
+      #9 0x55b256047467 in memory_region_dispatch_write /home/alxndr/Develo=
+pment/qemu/build/../softmmu/memory.c
+      #10 0x55b2563d7ffb in flatview_write_continue /home/alxndr/Developmen=
+t/qemu/build/../softmmu/physmem.c:2759:23
+      #11 0x55b2563cd71b in flatview_write /home/alxndr/Development/qemu/bu=
+ild/../softmmu/physmem.c:2799:14
+      #12 0x55b2563cd71b in address_space_write /home/alxndr/Development/qe=
+mu/build/../softmmu/physmem.c:2891:18
+      #13 0x55b256039d35 in qtest_process_command /home/alxndr/Development/=
+qemu/build/../softmmu/qtest.c:654:9
+      #14 0x55b256032b97 in qtest_process_inbuf /home/alxndr/Development/qe=
+mu/build/../softmmu/qtest.c:797:9
+      #15 0x55b256883286 in fd_chr_read /home/alxndr/Development/qemu/build=
+/../chardev/char-fd.c:68:9
+      #16 0x7f8d8faf5aae in g_main_context_dispatch (/usr/lib/x86_64-linux-=
+gnu/libglib-2.0.so.0+0x51aae)
+      #17 0x55b256ede363 in glib_pollfds_poll /home/alxndr/Development/qemu=
+/build/../util/main-loop.c:232:9
+      #18 0x55b256ede363 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/build/../util/main-loop.c:255:5
+      #19 0x55b256ede363 in main_loop_wait /home/alxndr/Development/qemu/bu=
+ild/../util/main-loop.c:531:11
+      #20 0x55b255f99599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
+ild/../softmmu/runstate.c:721:9
+      #21 0x55b2542261fd in main /home/alxndr/Development/qemu/build/../sof=
+tmmu/main.c:50:5
+      #22 0x7f8d8f59acc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #23 0x55b254179bc9 in _start (/home/alxndr/Development/qemu/build/qem=
+u-system-aarch64+0x3350bc9)
+
+  AddressSanitizer can not provide additional info.
+  SUMMARY: AddressSanitizer: SEGV /home/alxndr/Development/qemu/build/../so=
+ftmmu/memory.c:80:44 in addrrange_shift
+  =3D=3D637204=3D=3DABORTING
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913914/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913915/+subscriptions
 
