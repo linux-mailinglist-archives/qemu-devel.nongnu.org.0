@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1896309D7F
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 16:26:15 +0100 (CET)
-Received: from localhost ([::1]:48248 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682EE309D80
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 16:27:34 +0100 (CET)
+Received: from localhost ([::1]:50580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6EcA-0002d6-3i
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 10:26:14 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56956)
+	id 1l6EdR-0003fR-DW
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 10:27:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57014)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6EZH-0001Ih-4Y; Sun, 31 Jan 2021 10:23:15 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41317)
+ id 1l6EZy-0001ef-Mz; Sun, 31 Jan 2021 10:23:58 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42031)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6EZF-0002UW-Bh; Sun, 31 Jan 2021 10:23:14 -0500
-Received: by mail-wr1-x436.google.com with SMTP id p15so13828202wrq.8;
- Sun, 31 Jan 2021 07:23:12 -0800 (PST)
+ id 1l6EZw-0002ml-E5; Sun, 31 Jan 2021 10:23:58 -0500
+Received: by mail-wr1-x433.google.com with SMTP id c4so11159764wru.9;
+ Sun, 31 Jan 2021 07:23:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=IlBA0xV68vxE5C5ct9JiYhm7IT1MEObF+rNNEQCxzM0=;
- b=N5QC32NJIPcvAJL62qyOJJi0CIMn/+eeOANJ4J366IyF2swlJQ+5aQAUbonTlT+mcf
- nFwxHWPoie6wSea1rMXw/484Wgntbb/3VdCOSV4sGPcaOWhUf80ExpfModyzg3zXnu1u
- KrERVi3EUYzhXajfTyzrzKP51iDg6VZC15U5XRy/UswLTmkdy3uigI0wzn4zO0dvGCdI
- zkYCqJxeTx0yjOtzYD+fcX3wtCeJdQRLpY0aKXJWa98YusX/QhrRzuWJQJzKcK+wR9/c
- /qtWr2q1nJKM+0awFprD8S5YnhkV2C+UwIiMCL76XMZc30X/KsAmk8ydVDFqsSGnQ7UA
- AFTg==
+ bh=N9YuyM8sxr9NPcEXWnKAb5THAcC1TmnrrWWYKnUD3jo=;
+ b=QBi5WIRtPEQ20BhqZCqNGroe7Kj3kTG7qijOUvw5YJ/tN4HHiqcSHyH5XGgJP+zAKt
+ gp8WG3M0WgVR0e4G/WMajghyQFC2LZ86rzXianKzBJdLw3RDkGNQ/qbLDYbtnFSFCxvd
+ hehhFMabetZWd5+OjZ4mkYb62tRGzEpgs1Z3D1OUwV4UwJACASy7jFm33cEaVynAQ1W9
+ Av3kuVXkszEVdiBhfW8OBSKhoha3psg+Meg82ohA3OEXNoiNcNdLLL2T3hg3e5lGdVDl
+ lxP67x33kOWmzCdiefkqMRvzwPnOlC2Hkp4fIoLNCjsVTFgtdn4xcwk5vwn+170OGb4r
+ rWzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=IlBA0xV68vxE5C5ct9JiYhm7IT1MEObF+rNNEQCxzM0=;
- b=Rg8FKNnCcFNX/EXu1BMclBJcJQTEgbVgKJxsabk3SZsI3P3fCLGOpjpEGNQJPC3zbk
- SLY/dTA7DF6haiiqH2bVdOD3VZ8IAwPjX2s9ze8ErgO0ksHi2wn8o1UFwNeYnqBBjMUh
- Vj7oe2HsPluInGsoAeQb5efi3Mvn9nregFj1rKMIQ59i3QEeqDh1km4TnS49cs/1+6Y/
- Of1+co5kee6mIlQhtNFleX5Ts2ty0AysPAGyaMX9aEGHGs+tkSgcAmGijlZq5GPbCD/d
- sW9tVuShpXxtrJBbTwfroRe4GXDcdUBZlDiKGcf0IRTsdxt6Im0/jzsxpZ7mYixQIZGl
- A7Hg==
-X-Gm-Message-State: AOAM530toJUmlry7wO20OWJQOdq9qftgBKcSL25jrwFN+GikYVmy3jyO
- wVpjHQyf3el3L+QV9KWQp4I=
-X-Google-Smtp-Source: ABdhPJwtjiQDaBDfckhvRQWpQImJ+jTDy28yTiQVjN19SY0g2CmQtFk7CetPl883mcXCmJ3WhY806g==
-X-Received: by 2002:adf:dfc3:: with SMTP id q3mr13517477wrn.223.1612106591243; 
- Sun, 31 Jan 2021 07:23:11 -0800 (PST)
+ bh=N9YuyM8sxr9NPcEXWnKAb5THAcC1TmnrrWWYKnUD3jo=;
+ b=BWBDFvF+bae4SZUS++stJmfvBLEkXEHqWw85vWvwkutzwKjHcs7SJq8gNzrX6llw0s
+ oejMosaXX/0sjc/FTlISf32HUrhsAyqqvQ8FpIkpf7fd58sl0D+68XQzfrCQF1wKaqOI
+ 2Wk/P0j+SPu4Vr5Y8XZbCIK4Q4rckFRL4jn80JVj2QnJpzWnzI+pNSUCy4MkTt9vNvUU
+ i/MDW46cdQqNISh7W8fe/FKel2GtJWv0r+5f7O7PZvgo1g626thZBqDQAjhUSUC2+yrx
+ sAkZdyH/9bdqPxnanUdzF49MjaBD4n8MwEPZ0rULjM0IINM6GMKhzLXM6nWNF/TK/uOp
+ OqlA==
+X-Gm-Message-State: AOAM532v25d4VRR/pE717bq5oZTKDzb6hYjMaY1fgIK+GfZqFcHwa7aI
+ sE67sr8NNv4W8z7xcldpwdA=
+X-Google-Smtp-Source: ABdhPJwncVqETyvOb+KhyNe7T0QWTADFBqIuV3MWSERnkmt6/qSkcUJk6CTvmLkvvF5XQK+vWk9HBA==
+X-Received: by 2002:a5d:6a45:: with SMTP id t5mr13717252wrw.252.1612106633502; 
+ Sun, 31 Jan 2021 07:23:53 -0800 (PST)
 Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id l7sm18733011wmg.41.2021.01.31.07.23.09
+ by smtp.gmail.com with ESMTPSA id d3sm26390267wrp.79.2021.01.31.07.23.51
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jan 2021 07:23:10 -0800 (PST)
-Subject: Re: [PATCH v6 00/11] Support disabling TCG on ARM (part 2)
-To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+ Sun, 31 Jan 2021 07:23:52 -0800 (PST)
+Subject: Re: [PATCH v6 01/11] sysemu/tcg: Introduce tcg_builtin() helper
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org,
+ Eduardo Habkost <ehabkost@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>
 References: <20210131115022.242570-1-f4bug@amsat.org>
- <9924223e-3aeb-5200-c7fa-f120a7ae30fe@suse.de>
+ <20210131115022.242570-2-f4bug@amsat.org>
+ <87d562ba-20e5-ee50-8793-59d77564f4da@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <9e3503ce-0d01-8958-9f36-6892dfe80e93@amsat.org>
-Date: Sun, 31 Jan 2021 16:23:09 +0100
+Message-ID: <009b3856-cc7d-af85-0094-69490aa6e824@amsat.org>
+Date: Sun, 31 Jan 2021 16:23:51 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <9924223e-3aeb-5200-c7fa-f120a7ae30fe@suse.de>
+In-Reply-To: <87d562ba-20e5-ee50-8793-59d77564f4da@suse.de>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -89,125 +92,164 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>, John Snow <jsnow@redhat.com>,
  qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/31/21 3:40 PM, Claudio Fontana wrote:
+On 1/31/21 3:18 PM, Claudio Fontana wrote:
 > On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
->> Cover from Samuel Ortiz from (part 1) [1]:
+>> Modules are registered early with type_register_static().
 >>
->>   This patchset allows for building and running ARM targets with TCG
->>   disabled. [...]
->>
->>   The rationale behind this work comes from the NEMU project where
->>   we're trying to only support x86 and ARM 64-bit architectures,
->>   without including the TCG code base. We can only do so if we can
->>   build and run ARM binaries with TCG disabled.
->>
->> Peter mentioned in v5 [6] that since 32-bit host has been removed,
->> we have to remove v7 targets. This is not done in this series, as
->> linking succeeds, and there is enough material to review (no need
->> to spend time on that extra patch if the current approach is not
->> accepted).
->>
->> CI: https://gitlab.com/philmd/qemu/-/pipelines/249272441
->>
->> v6:
->> - rebased on "target/arm/Kconfig" series
->> - introduce/use tcg_builtin() for realview machines
->>
->> v5:
->> - addressed Paolo/Richard/Thomas review comments from v4 [5].
->>
->> v4 almost 2 years later... [2]:
->> - Rebased on Meson
->> - Addressed Richard review comments
->> - Addressed Claudio review comments
->>
->> v3 almost 18 months later [3]:
->> - Rebased
->> - Addressed Thomas review comments
->> - Added Travis-CI job to keep building --disable-tcg on ARM
->>
->> v2 [4]:
->> - Addressed review comments from Richard and Thomas from v1 [1]
->>
->> Regards,
->>
->> Phil.
->>
->> [1]: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
->> [2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
->> [3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg641796.html
->> [4]: https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05003.html
->> [5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg746041.html
->> [6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg777669.html
->>
->> Based-on: <20210131111316.232778-1-f4bug@amsat.org>
->>           "target: Provide target-specific Kconfig"
->>
->> Philippe Mathieu-Daudé (9):
->>   sysemu/tcg: Introduce tcg_builtin() helper
->>   exec: Restrict TCG specific headers
->>   target/arm: Restrict ARMv4 cpus to TCG accel
->>   target/arm: Restrict ARMv5 cpus to TCG accel
->>   target/arm: Restrict ARMv6 cpus to TCG accel
->>   target/arm: Restrict ARMv7 R-profile cpus to TCG accel
->>   target/arm: Restrict ARMv7 M-profile cpus to TCG accel
->>   target/arm: Reorder meson.build rules
->>   .travis.yml: Add a KVM-only Aarch64 job
->>
->> Samuel Ortiz (1):
->>   target/arm: Do not build TCG objects when TCG is off
->>
->> Thomas Huth (1):
->>   target/arm: Make m_helper.c optional via CONFIG_ARM_V7M
->>
->>  default-configs/devices/aarch64-softmmu.mak |  1 -
->>  default-configs/devices/arm-softmmu.mak     | 27 --------
->>  include/exec/helper-proto.h                 |  2 +
->>  include/sysemu/tcg.h                        |  2 +
->>  target/arm/cpu.h                            | 12 ----
->>  hw/arm/realview.c                           |  7 +-
->>  target/arm/cpu_tcg.c                        |  4 +-
->>  target/arm/helper.c                         |  7 --
->>  target/arm/m_helper-stub.c                  | 73 +++++++++++++++++++++
->>  tests/qtest/cdrom-test.c                    |  6 +-
->>  .travis.yml                                 | 32 +++++++++
->>  hw/arm/Kconfig                              | 38 +++++++++++
->>  target/arm/Kconfig                          | 17 +++++
->>  target/arm/meson.build                      | 28 +++++---
->>  14 files changed, 196 insertions(+), 60 deletions(-)
->>  create mode 100644 target/arm/m_helper-stub.c
->>
+>> We would like to call tcg_enabled() when registering QOM types,
 > 
-> Looking at this series, just my 2 cents on how I would suggest to go forward:
-> I could again split my series in two parts, with only the TCG Ops in the first part.
 > 
-> Then this series could be merged, enabling --disable-tcg for ARM,
+> Hi Philippe,
 > 
-> then I could extend the second part of my series to include ARM as well.
+> could this not be controlled by meson at this stage?
+> On X86, I register the tcg-specific types in tcg/* in modules that are only built for TCG.
 > 
-> Wdyt? (Probably Richard?)
+> Maybe tcg_builtin() is useful anyway, thinking long term at loadable modules,
+> but there we are interested in whether tcg code is available or not, regardless of whether it's builtin,
+> or needs to be loaded via a .so plugin..
+> 
+> maybe tcg_available()?
 
-¯\_(ツ)_/¯
+The alternatives I found:
 
-I respun because Richard unqueue your series, and it looks
-there is no big clashing.
+- reorder things in vl.c?
 
-Anyhow meanwhile peer review is useful, and thanks for yours ;)
+- use ugly #ifdef'ry, see this patch:
+  https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg08037.html
+
+- this earlier approach I previously discarded:
+
+-- >8 --
+diff --git a/include/qom/object.h b/include/qom/object.h
+index d378f13a116..30590c6fac3 100644
+--- a/include/qom/object.h
++++ b/include/qom/object.h
+@@ -403,9 +403,12 @@ struct Object
+  *   parent class initialization has occurred, but before the class itself
+  *   is initialized.  This is the function to use to undo the effects of
+  *   memcpy from the parent class to the descendants.
+- * @class_data: Data to pass to the @class_init,
++ * @class_data: Data to pass to the @class_registerable, @class_init,
+  *   @class_base_init. This can be useful when building dynamic
+  *   classes.
++ * @registerable: This function is called when modules are registered,
++ *   prior to any class initialization. When present and returning %false,
++ *   the type is not registered, the class is not present (not usable).
+  * @interfaces: The list of interfaces associated with this type.  This
+  *   should point to a static array that's terminated with a zero filled
+  *   element.
+@@ -428,6 +431,7 @@ struct TypeInfo
+     void (*class_base_init)(ObjectClass *klass, void *data);
+     void *class_data;
+
++    bool (*registerable)(void *data);
+     InterfaceInfo *interfaces;
+ };
+
+diff --git a/qom/object.c b/qom/object.c
+index 2fa0119647c..0febaffa12e 100644
+--- a/qom/object.c
++++ b/qom/object.c
+@@ -138,6 +138,10 @@ static TypeImpl *type_new(const TypeInfo *info)
+ static TypeImpl *type_register_internal(const TypeInfo *info)
+ {
+     TypeImpl *ti;
++
++    if (info->registerable && !info->registerable(info->class_data)) {
++        return NULL;
++    }
+     ti = type_new(info);
+
+     type_table_add(ti);
+
+diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+index 990509d3852..1a2b1889da4 100644
+--- a/hw/arm/raspi.c
++++ b/hw/arm/raspi.c
+@@ -24,6 +24,7 @@
+ #include "hw/loader.h"
+ #include "hw/arm/boot.h"
+ #include "sysemu/sysemu.h"
++#include "sysemu/tcg.h"
+ #include "qom/object.h"
+
+ #define SMPBOOT_ADDR    0x300 /* this should leave enough space for
+ATAGS */
+@@ -368,18 +369,26 @@ static void raspi3b_machine_class_init(ObjectClass
+*oc, void *data)
+ };
+ #endif /* TARGET_AARCH64 */
+
++static bool raspi_machine_requiring_tcg_accel(void *data)
++{
++    return tcg_builtin();
++}
++
+ static const TypeInfo raspi_machine_types[] = {
+     {
+         .name           = MACHINE_TYPE_NAME("raspi0"),
+         .parent         = TYPE_RASPI_MACHINE,
++        .registerable   = raspi_machine_requiring_tcg_accel,
+         .class_init     = raspi0_machine_class_init,
+     }, {
+         .name           = MACHINE_TYPE_NAME("raspi1ap"),
+         .parent         = TYPE_RASPI_MACHINE,
++        .registerable   = raspi_machine_requiring_tcg_accel,
+         .class_init     = raspi1ap_machine_class_init,
+     }, {
+         .name           = MACHINE_TYPE_NAME("raspi2b"),
+         .parent         = TYPE_RASPI_MACHINE,
++        .registerable   = raspi_machine_requiring_tcg_accel,
+         .class_init     = raspi2b_machine_class_init,
+ #ifdef TARGET_AARCH64
+     }, {
+---
 
 > 
-> Thanks,
+> Ciao,
 > 
 > Claudio
 > 
-> 
-> 
+>> but tcg_enabled() returns tcg_allowed which is a runtime property
+>> initialized later (See commit 2f181fbd5a9 which introduced the
+>> MachineInitPhase in "hw/qdev-core.h" representing the different
+>> phases of machine initialization and commit 0427b6257e2 which
+>> document the initialization order).
+>>
+>> As we are only interested if the TCG accelerator is builtin,
+>> regardless of being enabled, introduce the tcg_builtin() helper.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+>> ---
+>> Cc: Markus Armbruster <armbru@redhat.com>
+>> ---
+>>  include/sysemu/tcg.h | 2 ++
+>>  1 file changed, 2 insertions(+)
+>>
+>> diff --git a/include/sysemu/tcg.h b/include/sysemu/tcg.h
+>> index 00349fb18a7..6ac5c2ca89d 100644
+>> --- a/include/sysemu/tcg.h
+>> +++ b/include/sysemu/tcg.h
+>> @@ -13,8 +13,10 @@ void tcg_exec_init(unsigned long tb_size, int splitwx);
+>>  #ifdef CONFIG_TCG
+>>  extern bool tcg_allowed;
+>>  #define tcg_enabled() (tcg_allowed)
+>> +#define tcg_builtin() 1
+>>  #else
+>>  #define tcg_enabled() 0
+>> +#define tcg_builtin() 0
+>>  #endif
+>>  
+>>  #endif
+>>
 > 
 
