@@ -2,86 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A51EC309C86
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:06:22 +0100 (CET)
-Received: from localhost ([::1]:55450 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 688F2309C9E
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:17:05 +0100 (CET)
+Received: from localhost ([::1]:58228 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6DMr-00062z-6D
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:06:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47302)
+	id 1l6DXE-0008Oz-5A
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:17:04 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48818)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6DLC-0004jX-4U; Sun, 31 Jan 2021 09:04:38 -0500
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44375)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6DVu-0007pH-Ha
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:15:42 -0500
+Received: from indium.canonical.com ([91.189.90.7]:38122)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6DL8-0001XZ-Iu; Sun, 31 Jan 2021 09:04:36 -0500
-Received: by mail-wr1-x42a.google.com with SMTP id d16so13689019wro.11;
- Sun, 31 Jan 2021 06:04:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=cJX72J3UvuKiu8Ak5/uZvAAJ3jzijZdbCsTVEmJPwmc=;
- b=OPDaQdcJ8UcTsiozKw+qoKX4BwChfhcngEiVLS0NRQcUmlWu6WnvSfSQmKRNsyK4jb
- pTvxU1kcrvxSlaE8cV5GdPCDAo7bOoe+1oAAgPo97OtQ6T5eI1/t2VxMEo+76k+v7Bkt
- eANX7FpSbCic/9DVZOncq5dqol3gQrlhDtghRKx5c4lV/QtBnDmt9WhhvYKj99704JvZ
- aXcBwmwdFetF8Ob6sdDEdUu84J6+u3ReYQAMnbuqGXX36X6rXUEbdcuhhRowsKbkQrsI
- akhYbk+G04YkF+YYz4S2EgdZu5qatfl0FvvfFyO86P9PijxuP+pPaDcarCvO3T+aiIQw
- P8tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=cJX72J3UvuKiu8Ak5/uZvAAJ3jzijZdbCsTVEmJPwmc=;
- b=Q2ls/1GRbbqZ+Apg6w+ve2uVIZLYWoM6AtNl/3WWzIggOABHBkuC56R+WnqUTkhQWD
- oWmTsLetMiyZO4G1SqR+xEZg4SzrFUxBN1DUMMcpExn+TzwDXadBm9KsNXd+Oyd+YU8j
- LLFwykfUkIkY1bK1C8xMIQ8dHeWMHEQtY7V1BgnY2VIwnmCo3Wvn06GfWSDk1PLpGRnS
- G63ku878xC1doi70YYMX90jEu6prL8kGbfmbCZB7oTwhdKT1z9Sf9VNcyAtfLlcE2vgO
- nXdHn9uEvypIOJq/Ej37e/epmHdBFZ6dz+jgZ2rs87B4rQnm81ldjj7grJ1yKuydxJ63
- me6w==
-X-Gm-Message-State: AOAM532seuGYP/eaEQFRmrEuaEJKviwDfur+4P5qia6NLjsGlxQa5hDV
- e/JlunnNPgtxrw2ovejzFCM=
-X-Google-Smtp-Source: ABdhPJxh3NHwQNS16/DxuqYzgsc99/H14QfN1Z7x2Fe/ZOiHOcS38/15IGemcneXbJ9eDWfs6+UVvw==
-X-Received: by 2002:a05:6000:1565:: with SMTP id
- 5mr14038383wrz.109.1612101872430; 
- Sun, 31 Jan 2021 06:04:32 -0800 (PST)
-Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id 9sm13768746wra.80.2021.01.31.06.04.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jan 2021 06:04:31 -0800 (PST)
-Subject: Re: [RFC PATCH 1/4] hw/ide/Kconfig: IDE_ISA requires ISA_BUS
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20210129194415.3925153-1-f4bug@amsat.org>
- <20210129194415.3925153-2-f4bug@amsat.org>
- <39ac2417-c4ee-49ca-0bc0-347981ec6fb3@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <f0653cf8-bf1a-48d4-7242-aaec4b31f6c5@amsat.org>
-Date: Sun, 31 Jan 2021 15:04:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6DVs-0006XS-FN
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:15:42 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6DVp-000390-1u
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 14:15:37 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id DAD902E813B
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 14:15:36 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <39ac2417-c4ee-49ca-0bc0-347981ec6fb3@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42a.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.079,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 31 Jan 2021 14:07:03 -0000
+From: Sergei Trofimovich <1913012@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ackalker trofi
+X-Launchpad-Bug-Reporter: Alain Kalker (ackalker)
+X-Launchpad-Bug-Modifier: Sergei Trofimovich (trofi)
+References: <161155449009.29442.6099473190703163302.malonedeb@soybean.canonical.com>
+Message-Id: <161210202365.4863.7892898009823070496.malone@soybean.canonical.com>
+Subject: [Bug 1913012] Re: Installed firmware descriptor files contain
+ (invalid) relative paths
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 5812a593f5f0dd8aec77359818a9c50d1c7c6e56
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,46 +70,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Stefano Stabellini <sstabellini@kernel.org>,
- qemu-block@nongnu.org, Paul Durrant <paul@xen.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org,
- John Snow <jsnow@redhat.com>
+Reply-To: Bug 1913012 <1913012@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/29/21 8:59 PM, Paolo Bonzini wrote:
-> On 29/01/21 20:44, Philippe Mathieu-Daudé wrote:
->> hw/ide/ioport.c has a strong dependency on hw/isa/isa-bus.c:
->>
->>    /usr/bin/ld: libcommon.fa.p/hw_ide_ioport.c.o: in function
->> `ide_init_ioport':
->>    /usr/bin/ld: hw/ide/ioport.c:61: undefined reference to
->> `isa_register_portio_list'
->>
->> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
->> ---
->>   hw/ide/Kconfig | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
->> index 5d9106b1ac2..41cdd9cbe03 100644
->> --- a/hw/ide/Kconfig
->> +++ b/hw/ide/Kconfig
->> @@ -12,7 +12,7 @@ config IDE_PCI
->>     config IDE_ISA
->>       bool
->> -    depends on ISA_BUS
->> +    select ISA_BUS
->>       select IDE_QDEV
->>     config IDE_PIIX
-> 
-> This is incorrect.  Buses are "depended on", not selected, and this is
-> documented in docs/devel/kconfig.rst.
+Gentoo also noticed the bug: https://bugs.gentoo.org/766743
 
-This is a kludge to deal with the current state of hw/i386/Kconfig.
+Jannik Gl=C3=BCckert proposed a fix:
 
-I tried to clean it twice (mostly because unused things are pulled
-in the MIPS targets), but I eventually gave up after accepting the
-PC machines are Frankenstein ones built for virtualization, and I've
-been told "if it ain't broke, don't fix it".
+```
+--- a/pc-bios/descriptors/meson.build
++++ b/pc-bios/descriptors/meson.build
+@@ -8,7 +8,7 @@ foreach f: [
+ ]
+   configure_file(input: files(f),
+                  output: f,
+-                 configuration: {'DATADIR': qemu_datadir},
++                 configuration: {'DATADIR': get_option('prefix') / qemu_da=
+tadir},
+                  install: get_option('install_blobs'),
+                  install_dir: qemu_datadir / 'firmware')
+ endforeach
+```
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913012
+
+Title:
+  Installed firmware descriptor files contain (invalid) relative paths
+
+Status in QEMU:
+  New
+
+Bug description:
+  After building and installing QEMU, the resulting installed firmware
+  descriptor files contain relative paths for their `mapping.filename`
+  properties. These relative paths are causing errors when using tools
+  based on `libvirt` like `virt-install`, resulting in the inability to
+  configure new VMs which reference these firmware descriptors.
+
+  # QEMU version
+  $ qemu-system-x86_64 -version
+  QEMU emulator version 5.2.0
+
+  (I've also reproduced the issue with QEMU built from Git master @
+  v5.2.0-1300-g0e32462630, see next comment.)
+
+  # OS version
+  Void Linux x86_64 (glibc)
+
+  Steps to reproduce (with results on my system):
+
+  # Verify the symptom
+
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  Using default --name vm4
+  WARNING  No operating system detected, VM performance may suffer. Specify=
+ an OS with --os-variant for optimal results.
+
+  Starting install...
+  ERROR    Failed to open file 'share/qemu/edk2-i386-vars.fd': No such file=
+ or directory
+  Domain installation does not appear to have been successful.
+  If it was, you can restart your domain by running:
+  =C2=A0=C2=A0virsh --connect qemu:///session start vm4
+  otherwise, please restart your installation.
+
+  # Verify that the file does exist on the system and is accessible
+
+  $ ls -l /usr/share/qemu/edk2-i386-vars.fd
+  -rw-r--r-- 1 root root 540672 12 dec 18:47 /usr/share/qemu/edk2-i386-vars=
+.fd
+
+  # Verify most likely cause
+
+  $ grep filename /usr/share/qemu/firmware/*i386*.json
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-secure-code.fd",
+  /usr/share/qemu/firmware/50-edk2-i386-secure.json:            "filename":=
+ "share/qemu/edk2-i386-vars.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-code.fd",
+  /usr/share/qemu/firmware/60-edk2-i386.json:            "filename": "share=
+/qemu/edk2-i386-vars.fd",
+
+  Note that all the paths are relative and are missing <prefix>, i.e.
+  `/usr`.
+
+  # Workaround
+
+  Manually editing the firmware descriptor files in
+  `/usr/share/qemu/firmware` to contain full absolute paths to the
+  firmware blobs resolves the issue:
+
+  $ sudo sed -i.bak -e 's,"share/qemu/,"/usr/share/qemu/,' /usr/share/qemu/=
+firmware/*.json
+  $ virt-install --boot firmware=3Defi --disk none --memory 2048
+  [...VM boots normally...]
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913012/+subscriptions
 
