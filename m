@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43CFB309CA9
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:23:56 +0100 (CET)
-Received: from localhost ([::1]:44860 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1D5309CAB
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:25:59 +0100 (CET)
+Received: from localhost ([::1]:49664 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Ddr-0006bR-Af
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:23:55 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49310)
+	id 1l6Dfq-0000FB-Fr
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:25:58 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l6DZr-00031S-Pc; Sun, 31 Jan 2021 09:19:49 -0500
-Received: from mx2.suse.de ([195.135.220.15]:54550)
+ id 1l6DbG-00042g-VN; Sun, 31 Jan 2021 09:21:15 -0500
+Received: from mx2.suse.de ([195.135.220.15]:54862)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l6DZq-00085q-7e; Sun, 31 Jan 2021 09:19:47 -0500
+ id 1l6DbF-0000EI-B1; Sun, 31 Jan 2021 09:21:14 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 57DB1AF13;
- Sun, 31 Jan 2021 14:19:44 +0000 (UTC)
-Subject: Re: [PATCH v6 02/11] exec: Restrict TCG specific headers
+ by mx2.suse.de (Postfix) with ESMTP id 01E3FB159;
+ Sun, 31 Jan 2021 14:21:11 +0000 (UTC)
+Subject: Re: [PATCH v6 03/11] target/arm: Restrict ARMv4 cpus to TCG accel
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210131115022.242570-1-f4bug@amsat.org>
- <20210131115022.242570-3-f4bug@amsat.org>
+ <20210131115022.242570-4-f4bug@amsat.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <7a8bedbb-7e76-61bc-f158-f550d78539fa@suse.de>
-Date: Sun, 31 Jan 2021 15:19:43 +0100
+Message-ID: <7798c062-b657-336d-ee51-e24465c5bd2c@suse.de>
+Date: Sun, 31 Jan 2021 15:21:10 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210131115022.242570-3-f4bug@amsat.org>
+In-Reply-To: <20210131115022.242570-4-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -68,40 +68,82 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
-> Fixes when building with --disable-tcg on ARM:
+> KVM requires the target cpu to be at least ARMv8 architecture
+> (support on ARMv7 has been dropped in commit 82bf7ae84ce:
+> "target/arm: Remove KVM support for 32-bit Arm hosts").
 > 
->   In file included from target/arm/helper.c:16:
->   include/exec/helper-proto.h:42:10: fatal error: tcg-runtime.h: No such file or directory
->      42 | #include "tcg-runtime.h"
->         |          ^~~~~~~~~~~~~~~
+> Only enable the following ARMv4 CPUs when TCG is available:
+> 
+>   - StrongARM (SA1100/1110)
+>   - OMAP1510 (TI925T)
+> 
+> The following machines are no more built when TCG is disabled:
+> 
+>   - cheetah              Palm Tungsten|E aka. Cheetah PDA (OMAP310)
+>   - sx1                  Siemens SX1 (OMAP310) V2
+>   - sx1-v1               Siemens SX1 (OMAP310) V1
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  include/exec/helper-proto.h | 2 ++
->  1 file changed, 2 insertions(+)
+>  default-configs/devices/arm-softmmu.mak | 2 --
+>  hw/arm/Kconfig                          | 4 ++++
+>  target/arm/Kconfig                      | 4 ++++
+>  3 files changed, 8 insertions(+), 2 deletions(-)
 > 
-> diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
-> index 659f9298e8f..740bff3bb4d 100644
-> --- a/include/exec/helper-proto.h
-> +++ b/include/exec/helper-proto.h
-> @@ -39,8 +39,10 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
+> diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
+> index 0824e9be795..6ae964c14fd 100644
+> --- a/default-configs/devices/arm-softmmu.mak
+> +++ b/default-configs/devices/arm-softmmu.mak
+> @@ -14,8 +14,6 @@ CONFIG_INTEGRATOR=y
+>  CONFIG_FSL_IMX31=y
+>  CONFIG_MUSICPAL=y
+>  CONFIG_MUSCA=y
+> -CONFIG_CHEETAH=y
+> -CONFIG_SX1=y
+>  CONFIG_NSERIES=y
+>  CONFIG_STELLARIS=y
+>  CONFIG_REALVIEW=y
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index f3ecb73a3d8..f2957b33bee 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -31,6 +31,8 @@ config ARM_VIRT
 >  
->  #include "helper.h"
->  #include "trace/generated-helpers.h"
-> +#ifdef CONFIG_TCG
->  #include "tcg-runtime.h"
->  #include "plugin-helpers.h"
-> +#endif /* CONFIG_TCG */
+>  config CHEETAH
+>      bool
+> +    default y if TCG && ARM
+> +    select ARM_V4
+>      select OMAP
+>      select TSC210X
 >  
->  #undef IN_HELPER_PROTO
+> @@ -249,6 +251,8 @@ config COLLIE
 >  
+>  config SX1
+>      bool
+> +    default y if TCG && ARM
+> +    select ARM_V4
+>      select OMAP
+>  
+>  config VERSATILE
+> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+> index ae89d05c7e5..811e1e81652 100644
+> --- a/target/arm/Kconfig
+> +++ b/target/arm/Kconfig
+> @@ -6,6 +6,10 @@ config AARCH64
+>      bool
+>      select ARM
+>  
+> +config ARM_V4
+> +    bool
+> +    depends on TCG && ARM
+> +
+>  config ARM_V7M
+>      bool
+>      select PTIMER
 > 
 
-Ok, this would go away when applying the refactoring to ARM though right?
+Looks good to me
 
-Ie the file should not need including at all later on right?
+Acked-by: Claudio Fontana <cfontana@suse.de>
 
-Anyway:
-
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
 
