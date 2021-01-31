@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0F74309BDE
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 13:10:18 +0100 (CET)
-Received: from localhost ([::1]:35652 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2FB3309BFA
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 13:33:38 +0100 (CET)
+Received: from localhost ([::1]:45624 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6BYX-0000O3-MK
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 07:10:17 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34866)
+	id 1l6Bv7-0006G4-6X
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 07:33:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l6BMN-00004z-Lq
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 06:57:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52197)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <ppandit@redhat.com>)
- id 1l6BMK-0008AE-Ff
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 06:57:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612094258;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=/eB22EK6Sxe6tquaW0oxDejbZSU1tflyFzbU5sPweqk=;
- b=ae9yjPMZtRufmN6sgXs7t0NcDYtg+/rdLV5fHnjj6tpjAfpL2kDsnIOYnOi4D/gZOaEZBq
- LffhVvGaxpoOE5MzFuexyq+0G5Xiy195Eyex8RWhvWsf4ZtPhwIuljR8MqxjBv0knEdPSH
- vDJkEa197+jTuj5GC6YwfMCd5IjnYFU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-460-B6ZazDrIP5C0GuiN5ReEGw-1; Sun, 31 Jan 2021 06:57:34 -0500
-X-MC-Unique: B6ZazDrIP5C0GuiN5ReEGw-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E086F801B16;
- Sun, 31 Jan 2021 11:57:32 +0000 (UTC)
-Received: from kaapi (ovpn-112-95.phx2.redhat.com [10.3.112.95])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05D0B5C3E0;
- Sun, 31 Jan 2021 11:57:26 +0000 (UTC)
-Date: Sun, 31 Jan 2021 17:27:20 +0530 (IST)
-From: P J P <ppandit@redhat.com>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH] hw/intc/arm_gic: Fix interrupt ID in GICD_SGIR
- register
-In-Reply-To: <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
-Message-ID: <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
-References: <20210131103401.217160-1-f4bug@amsat.org>
- <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6Bsr-0004zT-Oq; Sun, 31 Jan 2021 07:31:17 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:34892)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6Bsp-0005J4-Ib; Sun, 31 Jan 2021 07:31:17 -0500
+Received: by mail-wr1-x433.google.com with SMTP id l12so13585381wry.2;
+ Sun, 31 Jan 2021 04:31:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ArDxDd++XiL9ldRFmwikYY0GhMalIcaTHNsk/ofhIwM=;
+ b=hK3zHJiQXtURacBXGDySP+Z3SC/dAu9hf/955L2cPsAbu1YXQsxqYQG4djm3dkhBpC
+ HB06dFCsASoClqwQnLryiiOrJ6e5HF2g/7K1GSBSY/3Hxkpk0/pWjQLKTih82B0an3Y9
+ 7sXwUcENXuFJg/p/h5VCkZgJr2duuo7cM7vL71GEh9rIqDIOJfyXOUnU9dc3XD0/IDZB
+ /j7MeaZ5c/+r4K8hvT6A0DfwofBNdevrLPCsYGegEj2VhtN8a8+KZpQsKeFWXosG2Skw
+ noo92Kq2qSFEAHZHerrW+5OxxxM3TynUat+nnALhMCyxTd4iL9Cz5nFvxV5as9cRvEke
+ oZlw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ArDxDd++XiL9ldRFmwikYY0GhMalIcaTHNsk/ofhIwM=;
+ b=WyrIemGdQ26w6xbBCVv3JoT4Y81Idei7Pa5xm2X/SuTo00deIql9nxJu5X2F9djruZ
+ yTEMIr/GP5vXeLi3aTJZT0zZFJI0nxhHa03+bNqrQUEZmS3cePYiwouLjrIOC+bQixvA
+ s0MRvjQQKWIMfcGFEmSwiu5f/w0vPbv6/2HkVXzxBGAamk3TTa9Bpc4sXI4XbmPdxx7r
+ yXgC1EmrxjNwRDwj0ke2IK9AuzeuQW9gDc7W2ipO1hljnw0Dksks6lhJeLo/MTNguw+A
+ 8zLsujBil/E77jfey2Nis1G/wO4UAyZg0MZaNGpzx0s3dWW2ZCP+h65xR/CtB9o5wwuW
+ PExg==
+X-Gm-Message-State: AOAM531RKq1H6Gmyj4OaiNUZtRuR/ULH5mCx4dpq4birCObHNDpj+Ta7
+ HYS8DQq9/y8CHxwwNI7/GB8=
+X-Google-Smtp-Source: ABdhPJwAH327u5WJJs1N1sI1ZQhiCyqzbUp0JmJZObD5NbLIHvb/P2yffXwv8nWVonrbKUwV+Q2rqA==
+X-Received: by 2002:adf:f749:: with SMTP id z9mr13137870wrp.327.1612096272524; 
+ Sun, 31 Jan 2021 04:31:12 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id u206sm7468795wme.12.2021.01.31.04.31.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 31 Jan 2021 04:31:11 -0800 (PST)
+Subject: Re: [PATCH v2 5/7] hw/arm/sbsa-ref: Restrict SBSA-ref board to 64-bit
+ build
+To: qemu-devel@nongnu.org
+References: <20210131105918.228787-1-f4bug@amsat.org>
+ <20210131105918.228787-6-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <a741601e-8ad5-99ad-decf-14dc007900b8@amsat.org>
+Date: Sun, 31 Jan 2021 13:31:10 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ppandit@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/mixed;
- boundary="-1463811718-1923904730-1612094251=:1010257"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=ppandit@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210131105918.228787-6-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.079,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,79 +88,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Darren Kenny <darren.kenny@oracle.com>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Li Qiang <liq3ea@gmail.com>,
- qemu-stable@nongnu.org, qemu-devel@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>, qemu-arm@nongnu.org,
- Luc Michel <luc.michel@greensocs.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alistair Francis <alistair@alistair23.me>, qemu-trivial@nongnu.org,
+ Radoslaw Biernacki <rad@semihalf.com>, Michael Tokarev <mjt@tls.msk.ru>,
+ Laurent Vivier <laurent@vivier.eu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qemu-arm@nongnu.org, Antony Pavlov <antonynpavlov@gmail.com>,
+ Leif Lindholm <leif@nuviainc.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
----1463811718-1923904730-1612094251=:1010257
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8BIT
+On 1/31/21 11:59 AM, Philippe Mathieu-Daudé wrote:
+> The SBSA-ref board only use CPUs available in the 64-bit build,
+> it is pointless to have it available in the 32-bit build.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+> Cc: Radoslaw Biernacki <rad@semihalf.com>
+> Cc: Leif Lindholm <leif@nuviainc.com>
+> ---
+>  hw/arm/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+> index be39117b9b6..059ff7382f2 100644
+> --- a/hw/arm/meson.build
+> +++ b/hw/arm/meson.build
+> @@ -22,7 +22,7 @@
+>  arm_ss.add(when: 'CONFIG_TOSA', if_true: files('tosa.c'))
+>  arm_ss.add(when: 'CONFIG_Z2', if_true: files('z2.c'))
+>  arm_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview.c'))
+> -arm_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa-ref.c'))
+> +arm_ss.add(when: ['CONFIG_SBSA_REF', 'TARGET_AARCH64'], if_true: files('sbsa-ref.c'))
 
-+-- On Sun, 31 Jan 2021, Philippe Mathieu-Daudé wrote --+
-| On 1/31/21 11:34 AM, Philippe Mathieu-Daudé wrote:
-| > Per the ARM Generic Interrupt Controller Architecture specification
-| > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
-| > not 10:
-| > 
-| >     - Table 4-21 GICD_SGIR bit assignments
-| > 
-| >     The Interrupt ID of the SGI to forward to the specified CPU
-| >     interfaces. The value of this field is the Interrupt ID, in
-| >     the range 0-15, for example a value of 0b0011 specifies
-| >     Interrupt ID 3.
-| > 
-| > diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-| > index af41e2fb448..75316329516 100644
-| > --- a/hw/intc/arm_gic.c
-| > +++ b/hw/intc/arm_gic.c
-| > @@ -1476,7 +1476,7 @@ static void gic_dist_writel(void *opaque, hwaddr offset,
-| >          int target_cpu;
-| >  
-| >          cpu = gic_get_current_cpu(s);
-| > -        irq = value & 0x3ff;
-| > +        irq = value & 0xf;
-| >          switch ((value >> 24) & 3) {
-| >          case 0:
-| >              mask = (value >> 16) & ALL_CPU_MASK;
-| > 
+Please disregard this patch, it shows that my other patch
+"meson: Introduce target-specific Kconfig" is incorrect:
+https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07989.html
+Probably because per docs/devel/kconfig.rst "devices are usually
+``default y`` if and only if they have at least one ``depends on``".
 
-* Looks okay.
+I'll try another approach such:
 
+-- >8 --
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -227,6 +227,8 @@ config REALVIEW
 
-| > Correct the irq mask to fix an undefined behavior (which eventually
-| > lead to a heap-buffer-overflow, see [Buglink]):
-| > 
-| >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,accel=qtest -qtest stdio
-| >    [I 1612088147.116987] OPENED
-| >   [R +0.278293] writel 0x8000f00 0xff4affb0
-| >   ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds for type 'uint8_t [16][8]'
-| >   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gic.c:1498:13
-| > 
-| > Cc: qemu-stable@nongnu.org
-| > Fixes: 9ee6e8bb853 ("ARMv7 support.")
-| > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
-| > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
-| 
-| > ---
-| > Isnt it worth a CVE to help distributions track backports?
-| > ---
-
-* Please send such report(s) to 'qemu-security' list to be triaged as 
-  potential security ones.
-
-
-Thank you.
---
-Prasad J Pandit / Red Hat Product Security Team
-8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
----1463811718-1923904730-1612094251=:1010257--
-
+ config SBSA_REF
+     bool
++    default y
++    depends on AARCH64
+     imply PCI_DEVICES
+     select AHCI
+     select ARM_SMMUV3
+---
 
