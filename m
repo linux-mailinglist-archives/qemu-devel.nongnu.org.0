@@ -2,79 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15FE0309B7F
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:10:04 +0100 (CET)
-Received: from localhost ([::1]:52344 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61BCD309B84
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:14:12 +0100 (CET)
+Received: from localhost ([::1]:59520 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6AcF-0006lD-4q
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:10:03 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57262)
+	id 1l6AgF-0001Zz-CK
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:14:11 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57986)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6ASZ-0007ZD-2i; Sun, 31 Jan 2021 06:00:06 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:45330)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6AY8-0003MY-Vw
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 06:05:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:54098)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6ASX-0000Ua-5f; Sun, 31 Jan 2021 06:00:02 -0500
-Received: by mail-wr1-x431.google.com with SMTP id m13so13424601wro.12;
- Sun, 31 Jan 2021 03:00:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=ZTEQksi03h84QrtUmTk444gEe+iL7OPLaC2gCq3Rbc4=;
- b=CzQnvB+wAGG+ZM98ASAkFFlNd5GPT7S2Vr0TiFcZ9h1nMzE2O3ZNyjO7hWErIt03de
- fjSp7c3iPq/2WxBlx9/sTwl9uWSpjUMS8Z9R5+KnFlkYDqHVxfEqUkhcCYVpFHFpCZM1
- EyLsvmW25ZLIKF7VVERw6T5y147X8Rf21Oqsnijpb1ttu6lpZdu65CIdYeNp/l43ebJq
- RJ7CKc7F4X7q8342OojNpsZNi8u0rAVDJuaCUrkqntY654FYzosO++jtpr8e268GlFTh
- AyGqp9+70R1Y7OxX4WxOGP24+uK/tA6sDIaiCQa0aAFKIH0+jLBEBLgh6AcSBw5oR9Zo
- IKbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=ZTEQksi03h84QrtUmTk444gEe+iL7OPLaC2gCq3Rbc4=;
- b=rVSBvL4RML67YWRBJFHOe0+GzprMB3W40ijmMdqjeaZ9KVYg2NzGGfu/QLfOgBI8+B
- gYer0y8EJb33Wm2x4mxrmUnCU47H484NZpBZpoNrTzVEeshYL1BgM0PkzMRX5yKqHRFT
- qZo8GPECrCMfqRhBwbpShtdt0r/cHPVOxcDOFWH6UkIll+U0vXdM7kKU55I6IxQNwisz
- YXR1IxxneBYSlMKOqbxc12g7sRY1D512RHzAKuRPc6H6IGBW4L/75DI4UU/A9gIIKjl5
- 1u0c+NestB53nCGc+HW3z+WO118ipYT85/ma+rm0kP6cu7lkAI/DImI++I7FMZ3HDuTv
- HuVw==
-X-Gm-Message-State: AOAM530sk2v686e6jcH/HRg6cG1iPz+c4w7581MhkGJ4vc/AxfO+DmFD
- cEdhVPsez3DlKvToQi6dpaLWN/vhU2A=
-X-Google-Smtp-Source: ABdhPJyY553CHznXAkhgaIPNfhNT33w0WY2gzsrGRR8vsbuHKvEQywFza4gZYWFnvuBdxlbytBMrNA==
-X-Received: by 2002:adf:f747:: with SMTP id z7mr13068572wrp.384.1612090799066; 
- Sun, 31 Jan 2021 02:59:59 -0800 (PST)
-Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id e11sm22314803wrx.14.2021.01.31.02.59.57
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 02:59:58 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v2 7/7] hw/arm: Display CPU type in machine description
-Date: Sun, 31 Jan 2021 11:59:18 +0100
-Message-Id: <20210131105918.228787-8-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210131105918.228787-1-f4bug@amsat.org>
-References: <20210131105918.228787-1-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6AY2-0002yW-SX
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 06:05:48 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6AY0-0005sF-Ol
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 11:05:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 905892E813A
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 11:05:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x431.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 31 Jan 2021 11:00:20 -0000
+From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1913916@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+ assignee=None; 
+X-Launchpad-Bug-Tags: arm fuzzer
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: a1xndr philmd
+X-Launchpad-Bug-Reporter: Alexander Bulekov (a1xndr)
+X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
+ =?utf-8?q?=29?=
+References: <161205956490.4641.15990976871490483736.malonedeb@soybean.canonical.com>
+Message-Id: <161209082019.4326.13221009098412348729.malone@soybean.canonical.com>
+Subject: [Bug 1913916] Re: aarch64-virt: heap-buffer-overflow in
+ address_space_lookup_region
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 4fbf2853d97a015f7f321495738f466b97241211
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,117 +73,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>, Joel Stanley <joel@jms.id.au>
+Reply-To: Bug 1913916 <1913916@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of ARM machines display their CPU when QEMU list the available
-machines (-M help). Some machines do not. Fix to unify the help
-output.
+Fix for this 13+ years old issue:
+https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07969.html
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/digic_boards.c  | 2 +-
- hw/arm/microbit.c      | 2 +-
- hw/arm/netduino2.c     | 2 +-
- hw/arm/netduinoplus2.c | 2 +-
- hw/arm/orangepi.c      | 2 +-
- hw/arm/stellaris.c     | 4 ++--
- 6 files changed, 7 insertions(+), 7 deletions(-)
+-- =
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index be12873673b..6cdc1d83fca 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -142,7 +142,7 @@ static void canon_a1100_init(MachineState *machine)
- 
- static void canon_a1100_machine_init(MachineClass *mc)
- {
--    mc->desc = "Canon PowerShot A1100 IS";
-+    mc->desc = "Canon PowerShot A1100 IS (ARM946)";
-     mc->init = &canon_a1100_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_ram_size = 64 * MiB;
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index 0947491cb97..e9494334ce7 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -64,7 +64,7 @@ static void microbit_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "BBC micro:bit";
-+    mc->desc = "BBC micro:bit (Cortex-M0)";
-     mc->init = microbit_init;
-     mc->max_cpus = 1;
- }
-diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-index 8f103341443..1733b71507c 100644
---- a/hw/arm/netduino2.c
-+++ b/hw/arm/netduino2.c
-@@ -54,7 +54,7 @@ static void netduino2_init(MachineState *machine)
- 
- static void netduino2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino 2 Machine";
-+    mc->desc = "Netduino 2 Machine (Cortex-M3)";
-     mc->init = netduino2_init;
-     mc->ignore_memory_transaction_failures = true;
- }
-diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
-index 68abd3ec69d..d3ad7a2b675 100644
---- a/hw/arm/netduinoplus2.c
-+++ b/hw/arm/netduinoplus2.c
-@@ -55,7 +55,7 @@ static void netduinoplus2_init(MachineState *machine)
- 
- static void netduinoplus2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino Plus 2 Machine";
-+    mc->desc = "Netduino Plus 2 Machine (Cortex-M4)";
-     mc->init = netduinoplus2_init;
- }
- 
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index d6306dfddae..40cdb5c6d2c 100644
---- a/hw/arm/orangepi.c
-+++ b/hw/arm/orangepi.c
-@@ -113,7 +113,7 @@ static void orangepi_init(MachineState *machine)
- 
- static void orangepi_machine_init(MachineClass *mc)
- {
--    mc->desc = "Orange Pi PC";
-+    mc->desc = "Orange Pi PC (Cortex-A7)";
-     mc->init = orangepi_init;
-     mc->block_default_type = IF_SD;
-     mc->units_per_default_bus = 1;
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index ad72c0959f1..27292ec4113 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -1538,7 +1538,7 @@ static void lm3s811evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S811EVB";
-+    mc->desc = "Stellaris LM3S811EVB (Cortex-M3)";
-     mc->init = lm3s811evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
-@@ -1554,7 +1554,7 @@ static void lm3s6965evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S6965EVB";
-+    mc->desc = "Stellaris LM3S6965EVB (Cortex-M3)";
-     mc->init = lm3s6965evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
--- 
-2.26.2
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1913916
 
+Title:
+  aarch64-virt: heap-buffer-overflow in address_space_lookup_region
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  Reproducer:
+  cat << EOF | ./qemu-system-aarch64 \
+  -machine virt,accel=3Dqtest -qtest stdio
+  writel 0x8000f00 0xff4affb0
+  writel 0x8000f00 0xf2f8017f
+  writeq 0x801000e 0x5a5a5a6c8ff7004b
+  writeq 0x8010010 0x5a5a5a5a73ba2f00
+  writel 0x8000000 0x3bf5a03
+  writel 0x8000000 0x3bf5a03
+  writeq 0x8010000 0x10ffff03fbffffff
+  writel 0x8000f1f 0x5a55fc00
+  readl 0x8011f00
+  readl 0x80000d3
+  readl 0x80000d3
+  clock_step
+  writeq 0x4010008004 0x4604fffdffc54c01
+  writeq 0x4010008002 0xf7478b3f5aff5a55
+  writel 0x8000f00 0x2d6954
+  writel 0x800005a 0x2706fcf
+  readq 0x800002c
+  readw 0x9000004
+  readq 0x800002c
+  writeq 0x801000e 0x5555017f00017f00
+  writew 0x8010000 0x55
+  writew 0x8010000 0x465a
+  writew 0x8010000 0x55
+  writew 0x8010000 0xaf00
+  writeq 0x8010015 0x3b5a5a5555460000
+  writeq 0x8010015 0xd546002b2b000000
+  writeq 0x8010015 0xc44ea5aaaab9ffff
+  readq 0x8000a5a
+  EOF
+
+  Stacktrace:
+  =3D=3D638893=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
+s 0x629000022b84 at pc 0x55915c484d92 bp 0x7ffcde114a00 sp 0x7ffcde1149f8
+  READ of size 2 at 0x629000022b84 thread T0
+      #0 0x55915c484d91 in address_space_lookup_region /home/alxndr/Develop=
+ment/qemu/build/../softmmu/physmem.c:345:36
+      #1 0x55915c484d91 in address_space_translate_internal /home/alxndr/De=
+velopment/qemu/build/../softmmu/physmem.c:359:15
+      #2 0x55915c481d90 in flatview_do_translate /home/alxndr/Development/q=
+emu/build/../softmmu/physmem.c:497:15
+      #3 0x55915c48214e in flatview_translate /home/alxndr/Development/qemu=
+/build/../softmmu/physmem.c:563:15
+      #4 0x55915c107ff9 in address_space_read /home/alxndr/Development/qemu=
+/include/exec/memory.h:2477:18
+      #5 0x55915c107ff9 in qtest_process_command /home/alxndr/Development/q=
+emu/build/../softmmu/qtest.c:572:13
+      #6 0x55915c102b97 in qtest_process_inbuf /home/alxndr/Development/qem=
+u/build/../softmmu/qtest.c:797:9
+      #7 0x55915c953286 in fd_chr_read /home/alxndr/Development/qemu/build/=
+../chardev/char-fd.c:68:9
+      #8 0x7f02be25daae in g_main_context_dispatch (/usr/lib/x86_64-linux-g=
+nu/libglib-2.0.so.0+0x51aae)
+      #9 0x55915cfae363 in glib_pollfds_poll /home/alxndr/Development/qemu/=
+build/../util/main-loop.c:232:9
+      #10 0x55915cfae363 in os_host_main_loop_wait /home/alxndr/Development=
+/qemu/build/../util/main-loop.c:255:5
+      #11 0x55915cfae363 in main_loop_wait /home/alxndr/Development/qemu/bu=
+ild/../util/main-loop.c:531:11
+      #12 0x55915c069599 in qemu_main_loop /home/alxndr/Development/qemu/bu=
+ild/../softmmu/runstate.c:721:9
+      #13 0x55915a2f61fd in main /home/alxndr/Development/qemu/build/../sof=
+tmmu/main.c:50:5
+      #14 0x7f02bdd02cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+      #15 0x55915a249bc9 in _start (/home/alxndr/Development/qemu/build/qem=
+u-system-aarch64+0x3350bc9)
+
+  0x629000022b84 is located 660 bytes to the right of 18160-byte region [0x=
+62900001e200,0x6290000228f0)
+  allocated by thread T0 here:
+      #0 0x55915a2c3c3d in malloc (/home/alxndr/Development/qemu/build/qemu=
+-system-aarch64+0x33cac3d)
+      #1 0x7f02be263a88 in g_malloc (/usr/lib/x86_64-linux-gnu/libglib-2.0.=
+so.0+0x57a88)
+      #2 0x55915c932cbd in qdev_new /home/alxndr/Development/qemu/build/../=
+hw/core/qdev.c:153:19
+      #3 0x55915b559360 in create_gic /home/alxndr/Development/qemu/build/.=
+./hw/arm/virt.c:631:16
+      #4 0x55915b5449d2 in machvirt_init /home/alxndr/Development/qemu/buil=
+d/../hw/arm/virt.c:1966:5
+      #5 0x55915a62bac0 in machine_run_board_init /home/alxndr/Development/=
+qemu/build/../hw/core/machine.c:1169:5
+      #6 0x55915c02b8d8 in qemu_init_board /home/alxndr/Development/qemu/bu=
+ild/../softmmu/vl.c:2455:5
+      #7 0x55915c02b8d8 in qmp_x_exit_preconfig /home/alxndr/Development/qe=
+mu/build/../softmmu/vl.c:2526:5
+      #8 0x55915c035d91 in qemu_init /home/alxndr/Development/qemu/build/..=
+/softmmu/vl.c:3533:9
+      #9 0x55915a2f61f8 in main /home/alxndr/Development/qemu/build/../soft=
+mmu/main.c:49:5
+      #10 0x7f02bdd02cc9 in __libc_start_main csu/../csu/libc-start.c:308:16
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1913916/+subscriptions
 
