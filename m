@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05BD0309B72
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:06:28 +0100 (CET)
-Received: from localhost ([::1]:44272 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF72D309B78
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:08:41 +0100 (CET)
+Received: from localhost ([::1]:49110 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6AYk-0003Cf-Vk
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:06:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
+	id 1l6Aav-0005No-2N
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:08:41 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57170)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6AS7-0006t1-Sa; Sun, 31 Jan 2021 05:59:36 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51682)
+ id 1l6ASE-000752-7J; Sun, 31 Jan 2021 05:59:42 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:40793)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6AS6-0000IW-Hw; Sun, 31 Jan 2021 05:59:35 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id m2so10188410wmm.1;
- Sun, 31 Jan 2021 02:59:33 -0800 (PST)
+ id 1l6ASB-0000Kn-S2; Sun, 31 Jan 2021 05:59:41 -0500
+Received: by mail-wm1-x331.google.com with SMTP id c127so10676571wmf.5;
+ Sun, 31 Jan 2021 02:59:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=jtbqU34AXRgK7JucvFyMPpEvpdP/cEkbkCwJzoZsw+I=;
- b=vFB1SLLOVA8z1esZfr+efHXGjtpbRDRKqxEr0+XiTMYueGRRO8M/pprq+Ef4/KsxHa
- joocEje6xS3Gk3xC6E30gOMRzrg25mC0cajUE3Oi70BtKoSyMyAgZXUDlF7GBVlNCTq9
- 61Jna5sD+OuCCDAhBOrVn2jnnPRl3UW7giw3RR2JTeKFdDmda3b6dX+IBp/iCXfmzyrh
- qIaHGIih4ZZWSZ6qR98Bt+TagXa1f8hhSldfEor7JpNqQXRrgu+ys/aeMbrXyl9T5AYD
- md2NxvIiSejyxUSLM4Ub1722iSSAsNgCwb7WnJ9kgpk8ed/CM436mCELPCr7/Y9JcS+5
- HzAg==
+ bh=rhmZGh+lLqk8y/kN/amckU6sgJUtIz3ObCH4gQGYjHc=;
+ b=VdrvC+Wfqci72UDt7L8R8zMk3X+PU6jgBeh7dDJgh8GPVt9Dhat48Cu/EukJAsfawO
+ SARDR7W2ZMfcP+5j3FrTXZ74B3y4pG13g32phI6Xs2Rnr8k53VYVIebIZWSPn6J+i60L
+ wUJApDAa/m0I7kXEWm2xlmRlYyHqcXym4ODMGR6yz3b4T/6judTUaOxhZZ0rU5KO7ocN
+ UdaSx4/rmM3qzS4ScMIpiYhYOpUx1rNvV16KdKdOyn1//KSWeLwxSUXYcKfw8zxQ7rGK
+ JpJaOlfXNZHDSeeGLUWMleruP6ujuKIw+bBEPoLN0p6dDu2u4BdOPrTnFYaoHzno2Irv
+ Va9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=jtbqU34AXRgK7JucvFyMPpEvpdP/cEkbkCwJzoZsw+I=;
- b=Ca37G05hRpK3QJotXzcvu/+WSvrHZDDt3O7pvdpBP7ItgZJbaX3x9gt5NKz2T384XK
- 3TY4oWBonS+fOibt2r/eV1bbAfb4Wr4ZHv7SomU3FxW9akv2JaWZhOULSEexeeJiRWLj
- T2kEWNqSjZAOESzoVolUZFmzdZwKNcNg8YtSOaNrWvrnJeylUombvnSH0wk8wRbvdLNs
- vM1YuUcx8ThS6q1ISiLo6Vqc0GQ6hMALxmpYFwXHfQsJgnKBI4waSdyl70M5aa4Iwzs3
- ZML3KCoiWlIf1bqT++TWJ3RPES+QPP9e9buQRFAkAkVjcff7FyVRNkC0wi7NUeonMHI/
- 6J7A==
-X-Gm-Message-State: AOAM530O/7FoC3Zgc+XRusY2/dc1fV1fpBZ2E4vQ5gV+heHy2pkesikD
- lLc678xPUeTDs2cR5QHIoUuKhSOfdcU=
-X-Google-Smtp-Source: ABdhPJz3rL6GTv4/ZBU2bl7Dm4ct0pyORHXhWH4J37W9yNXtege8fVkTHrzGefx6WHdJKlLLjnHC0g==
-X-Received: by 2002:a1c:9d08:: with SMTP id g8mr10683440wme.112.1612090772413; 
- Sun, 31 Jan 2021 02:59:32 -0800 (PST)
+ bh=rhmZGh+lLqk8y/kN/amckU6sgJUtIz3ObCH4gQGYjHc=;
+ b=YJH18qPoq0hjGg+74WbcFombFGR+oxnnKqL0IMZHj+QEGvOi5fhWZk/YNuALGpdZRx
+ 6Q9yXr/GiDbbB7kNkLRahhFlpH3jvOPXUMZ5lsuAS2fePkh5v+HFDsUOv32U/5tF4wY8
+ DKlmy4XRe84kfZkKiDoHhoig5uUZZNIE/iT3FM5TRc5r/PPnFVVcpS299T3z9+JHqLf6
+ rHkjRyyywl0VKMOnnMe/45Av/W8yfTnLln8FihdGaBnoSJKfO4HPszS/DJ4OYf2srPp+
+ YwBuWGFzELumY2eWEv7wXkxKg6sEUkemaxKDxOFvttLxa8NMBKmqqMUT0bjzU6GkYE8b
+ a7Zw==
+X-Gm-Message-State: AOAM5316N4Tt0PneCoT+CnrO+Lm1SPzTyonffvVw1NN9M+bb/R8mr1uw
+ bCTMIAfcGPuEk1B1KQ59OZQSxMlrE8M=
+X-Google-Smtp-Source: ABdhPJyCgwincAAHTuwt7n13FPHmZr2kJpz6qcOW0mEG38XTaG2SXdOUjVex0Q/jy2LbXmtB7SKA5Q==
+X-Received: by 2002:a1c:4e05:: with SMTP id g5mr10841953wmh.105.1612090777586; 
+ Sun, 31 Jan 2021 02:59:37 -0800 (PST)
 Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id c18sm27417714wmk.0.2021.01.31.02.59.31
+ by smtp.gmail.com with ESMTPSA id h207sm15597265wme.18.2021.01.31.02.59.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 02:59:31 -0800 (PST)
+ Sun, 31 Jan 2021 02:59:37 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 2/7] hw/arm/exynos4210: Add missing dependency on OR_IRQ
-Date: Sun, 31 Jan 2021 11:59:13 +0100
-Message-Id: <20210131105918.228787-3-f4bug@amsat.org>
+Subject: [PATCH v2 3/7] hw/arm/xlnx-versal: Versal SoC requires ZDMA
+Date: Sun, 31 Jan 2021 11:59:14 +0100
+Message-Id: <20210131105918.228787-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210131105918.228787-1-f4bug@amsat.org>
 References: <20210131105918.228787-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,34 +87,76 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
  Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Igor Mitsyanko <i.mitsyanko@gmail.com>,
  Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
- Antony Pavlov <antonynpavlov@gmail.com>, Joel Stanley <joel@jms.id.au>
+ Antony Pavlov <antonynpavlov@gmail.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Exynos4210 SoC uses an OR gate on the PL330 IRQ lines.
+The Versal SoC instantiates the TYPE_XLNX_ZDMA object in
+versal_create_admas(). Introduce the XLNX_ZDMA configuration
+and select it to fix:
 
-Fixes: dab15fbe2ab ("hw/arm/exynos4210: Fix DMA initialization")
+  $ qemu-system-aarch64 -M xlnx-versal-virt ...
+  qemu-system-aarch64: missing object type 'xlnx.zdma'
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
+Cc: Alistair Francis <alistair@alistair23.me>
+Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 ---
- hw/arm/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+ hw/arm/Kconfig     | 2 ++
+ hw/dma/Kconfig     | 3 +++
+ hw/dma/meson.build | 2 +-
+ 3 files changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index a320a124855..223016bb4e8 100644
+index 223016bb4e8..09298881f2f 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -52,6 +52,7 @@ config EXYNOS4
-     select PTIMER
-     select SDHCI
-     select USB_EHCI_SYSBUS
-+    select OR_IRQ
+@@ -354,6 +354,7 @@ config XLNX_ZYNQMP_ARM
+     select XILINX_AXI
+     select XILINX_SPIPS
+     select XLNX_ZYNQMP
++    select XLNX_ZDMA
  
- config HIGHBANK
+ config XLNX_VERSAL
      bool
+@@ -362,6 +363,7 @@ config XLNX_VERSAL
+     select CADENCE
+     select VIRTIO_MMIO
+     select UNIMP
++    select XLNX_ZDMA
+ 
+ config NPCM7XX
+     bool
+diff --git a/hw/dma/Kconfig b/hw/dma/Kconfig
+index d67492d36c1..5d6be1a7a7a 100644
+--- a/hw/dma/Kconfig
++++ b/hw/dma/Kconfig
+@@ -18,6 +18,9 @@ config ZYNQ_DEVCFG
+     bool
+     select REGISTER
+ 
++config XLNX_ZDMA
++    bool
++
+ config STP2000
+     bool
+ 
+diff --git a/hw/dma/meson.build b/hw/dma/meson.build
+index b991d7698c7..47b4a7cb47b 100644
+--- a/hw/dma/meson.build
++++ b/hw/dma/meson.build
+@@ -9,7 +9,7 @@
+ softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_STP2000', if_true: files('sparc32_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx_dpdma.c'))
+-softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zdma.c'))
++softmmu_ss.add(when: 'CONFIG_XLNX_ZDMA', if_true: files('xlnx-zdma.c'))
+ softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dma.c', 'soc_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
+ softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
 -- 
 2.26.2
 
