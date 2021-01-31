@@ -2,92 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141C2309C18
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 13:48:54 +0100 (CET)
-Received: from localhost ([::1]:54704 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B257309C25
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 13:57:44 +0100 (CET)
+Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6C9s-0002lu-Rr
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 07:48:52 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39802)
+	id 1l6CIQ-0004T4-CW
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 07:57:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6C45-000190-UU
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 07:42:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:21638)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6C43-0001K0-Ov
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 07:42:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612096970;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=r+fgSsYmJt0f3GPKQSs64Hq+gfQen9Lha7MbKdEpdgY=;
- b=C9d3ycWZzthtencFEXyBArQqBMFUIM+7Uw84ewvjKbRVfyq5Z9ghtGVuAXWrNOADsQhz2/
- zzvW0siZmrwwjTxSe6jrVP51WOTkR+vRQSOzE5av8eQQ6BqcHv84lseCTMxaog2B5wo2Eu
- CKKznFSaH+lG3e0U0FUT/2APRwF7AbI=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-106-DYDNHma0MlGk84WYeCRQug-1; Sun, 31 Jan 2021 07:42:45 -0500
-X-MC-Unique: DYDNHma0MlGk84WYeCRQug-1
-Received: by mail-wm1-f70.google.com with SMTP id z25so491087wml.0
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 04:42:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=r+fgSsYmJt0f3GPKQSs64Hq+gfQen9Lha7MbKdEpdgY=;
- b=F0xLaZN4wsUBWxOBaHyLQ6MeOlgPQVV63hGKUND5Ot1OI0+z1YwRHMjplFB4HmWpW9
- EIpaFWwJK0k6IkppI9Ek9uuqRcZB7HCSa34kOsE7E8eEp1c83RnkFaLifWo8D+vlVU8g
- fVCt+6VlcC6EfqyqT8KVlY+vOa9UaB+2QialNFGEKNM2NZ3iLNlopRfWFgSEv+h4g+aN
- I5BXAqYA/94U91U+z6GfabCZZAHjhDZ0EaER/OYQkZF0BUDu5cx90weqkb52CfB3s6L9
- B8I3FuqyRiBV5+iAcAtBUqfMwaJFpYts5ZKXFuPOQXFKqYmDh6jBFbAZyq2Z99SJ7B/p
- sXVQ==
-X-Gm-Message-State: AOAM533k+AAc/DhgT32+hxISuDkVENBG+cXqZS3f2utHY4f8XPj4ajAO
- tEdpVnvMf9YNzUCxIdKLiaX/Ky6gwf8uYS4gbQMRJ5qfAgj5wk88BvQ4PP0OkCkDYFx+w1/2v1W
- aR6T4OGwicCEjG/c=
-X-Received: by 2002:a5d:4c84:: with SMTP id z4mr13064340wrs.289.1612096964651; 
- Sun, 31 Jan 2021 04:42:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzs9GPD9xtKflLpJnbdjV3KK6LBZIj+1CU+JafEN0VHboDucTozFmqLuwCNxpKvag0RcpZQhQ==
-X-Received: by 2002:a5d:4c84:: with SMTP id z4mr13064319wrs.289.1612096964476; 
- Sun, 31 Jan 2021 04:42:44 -0800 (PST)
-Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id h207sm15855648wme.18.2021.01.31.04.42.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jan 2021 04:42:43 -0800 (PST)
-Subject: Re: [PATCH v6 06/11] target/arm: Restrict ARMv7 R-profile cpus to TCG
- accel
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210131115022.242570-1-f4bug@amsat.org>
- <20210131115022.242570-7-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <80af7db7-2311-7cc5-93a0-f0609b0222d0@redhat.com>
-Date: Sun, 31 Jan 2021 13:42:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l6CH7-00040W-1j
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 07:56:21 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2]:41933)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l6CH3-0006nl-LM
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 07:56:20 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 41991746344;
+ Sun, 31 Jan 2021 13:56:13 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0A3227462BD; Sun, 31 Jan 2021 13:56:13 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 08BA17456B7;
+ Sun, 31 Jan 2021 13:56:13 +0100 (CET)
+Date: Sun, 31 Jan 2021 13:56:13 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 01/10] hw/sh4/Kconfig: Rename CONFIG_SH4 ->
+ CONFIG_SH4_PERIPHERALS
+In-Reply-To: <20210131111316.232778-2-f4bug@amsat.org>
+Message-ID: <86e44d2e-893-b1df-70a2-1fea0ed53c7@eik.bme.hu>
+References: <20210131111316.232778-1-f4bug@amsat.org>
+ <20210131111316.232778-2-f4bug@amsat.org>
 MIME-Version: 1.0
-In-Reply-To: <20210131115022.242570-7-f4bug@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.079, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: multipart/mixed;
+ boundary="3866299591-1798951406-1612097773=:74342"
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -100,86 +59,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <rth@twiddle.net>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
-> KVM requires the target cpu to be at least ARMv8 architecture
-> (support on ARMv7 has been dropped in commit 82bf7ae84ce:
-> "target/arm: Remove KVM support for 32-bit Arm hosts").
-> 
-> Beside, KVM only supports A-profile, thus won't be able to run
-> R-profile cpus.
-> 
-> Only enable the following ARMv7 R-Profile CPUs when TCG is available:
-> 
->   - Cortex-R5
->   - Cortex-R5F
-> 
-> The following machine is no more built when TCG is disabled:
-> 
->   - xlnx-zcu102          Xilinx ZynqMP ZCU102 board with 4xA53s and 2xR5Fs
-> 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-1798951406-1612097773=:74342
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Sun, 31 Jan 2021, Philippe Mathieu-Daudé wrote:
+> We want to be able to use the 'SH4' config for architecture
+> specific features. As CONFIG_SH4 is only used to select
+> peripherals, rename it CONFIG_SH4_PERIPHERALS.
+
+PERIPHERALS is a bit long and hard to write correctly. How about 
+CONFIG_SH4_DEVICES (also in other patches you do the same).
+
+Regards,
+BALATON Zoltan
+
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  default-configs/devices/aarch64-softmmu.mak | 1 -
->  hw/arm/Kconfig                              | 2 ++
->  target/arm/Kconfig                          | 4 ++++
->  3 files changed, 6 insertions(+), 1 deletion(-)
-> 
-> diff --git a/default-configs/devices/aarch64-softmmu.mak b/default-configs/devices/aarch64-softmmu.mak
-> index 958b1e08e40..a4202f56817 100644
-> --- a/default-configs/devices/aarch64-softmmu.mak
-> +++ b/default-configs/devices/aarch64-softmmu.mak
-> @@ -3,6 +3,5 @@
->  # We support all the 32 bit boards so need all their config
->  include arm-softmmu.mak
->  
-> -CONFIG_XLNX_ZYNQMP_ARM=y
->  CONFIG_XLNX_VERSAL=y
->  CONFIG_SBSA_REF=y
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 6c4bce4d637..4baf1f97694 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -360,8 +360,10 @@ config STM32F405_SOC
->  
->  config XLNX_ZYNQMP_ARM
->      bool
-> +    default y if TCG && ARM
-
-The correct line is:
-
-      "default y if TCG && AARCH64"
-
->      select AHCI
->      select ARM_GIC
-> +    select ARM_V7R
->      select CADENCE
->      select DDC
->      select DPCD
-> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-> index fbb7bba9018..4dc96c46520 100644
-> --- a/target/arm/Kconfig
-> +++ b/target/arm/Kconfig
-> @@ -18,6 +18,10 @@ config ARM_V6
->      bool
->      depends on TCG && ARM
->  
-> +config ARM_V7R
-> +    bool
-> +    depends on TCG && ARM
-> +
->  config ARM_V7M
->      bool
->      select PTIMER
-> 
-
+> hw/block/meson.build | 2 +-
+> hw/char/meson.build  | 2 +-
+> hw/intc/meson.build  | 2 +-
+> hw/sh4/Kconfig       | 6 +++---
+> hw/timer/meson.build | 2 +-
+> 5 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/block/meson.build b/hw/block/meson.build
+> index 602ca6c8541..7f24b42c283 100644
+> --- a/hw/block/meson.build
+> +++ b/hw/block/meson.build
+> @@ -12,7 +12,7 @@
+> softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80.c'))
+> softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
+> softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
+> -softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('tc58128.c'))
+> +softmmu_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('tc58128.c'))
+> softmmu_ss.add(when: 'CONFIG_NVME_PCI', if_true: files('nvme.c', 'nvme-ns.c'))
+>
+> specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
+> diff --git a/hw/char/meson.build b/hw/char/meson.build
+> index 196ac91fa29..3b8cb6a2f5b 100644
+> --- a/hw/char/meson.build
+> +++ b/hw/char/meson.build
+> @@ -31,7 +31,7 @@
+> softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
+> softmmu_ss.add(when: 'CONFIG_RENESAS_SCI', if_true: files('renesas_sci.c'))
+> softmmu_ss.add(when: 'CONFIG_SIFIVE_UART', if_true: files('sifive_uart.c'))
+> -softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
+> +softmmu_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('sh_serial.c'))
+> softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
+> softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmuart.c'))
+>
+> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+> index 53cba115690..b05bab2f4b6 100644
+> --- a/hw/intc/meson.build
+> +++ b/hw/intc/meson.build
+> @@ -47,7 +47,7 @@
+> specific_ss.add(when: 'CONFIG_RX_ICU', if_true: files('rx_icu.c'))
+> specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: files('s390_flic.c'))
+> specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
+> -specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
+> +specific_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('sh_intc.c'))
+> specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
+> specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
+> specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
+> diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
+> index 4cbce3a0ed5..fbac8c09152 100644
+> --- a/hw/sh4/Kconfig
+> +++ b/hw/sh4/Kconfig
+> @@ -9,16 +9,16 @@ config R2D
+>     select USB_OHCI_PCI
+>     select PCI
+>     select SM501
+> -    select SH4
+> +    select SH4_PERIPHERALS
+>
+> config SHIX
+>     bool
+>     select SH7750
+> -    select SH4
+> +    select SH4_PERIPHERALS
+>
+> config SH7750
+>     bool
+>
+> -config SH4
+> +config SH4_PERIPHERALS
+>     bool
+>     select PTIMER
+> diff --git a/hw/timer/meson.build b/hw/timer/meson.build
+> index be343f68fed..d3f53dce400 100644
+> --- a/hw/timer/meson.build
+> +++ b/hw/timer/meson.build
+> @@ -30,7 +30,7 @@
+> softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_ost.c'))
+> softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_timer.c'))
+> softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_systmr.c'))
+> -softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_timer.c'))
+> +softmmu_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('sh_timer.c'))
+> softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_timer.c'))
+> softmmu_ss.add(when: 'CONFIG_STM32F2XX_TIMER', if_true: files('stm32f2xx_timer.c'))
+> softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_timer.c'))
+>
+--3866299591-1798951406-1612097773=:74342--
 
