@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95A76309CDF
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:27:47 +0100 (CET)
-Received: from localhost ([::1]:53716 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41DE309CE1
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:31:19 +0100 (CET)
+Received: from localhost ([::1]:57034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Dha-0002Ae-Ms
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:27:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49642)
+	id 1l6Dl0-0003lM-OG
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:31:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:50266)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l6Dd3-0006O8-AI; Sun, 31 Jan 2021 09:23:05 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55226)
+ id 1l6Dj7-0002oQ-ME; Sun, 31 Jan 2021 09:29:21 -0500
+Received: from mx2.suse.de ([195.135.220.15]:56152)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l6Dcy-00010q-Lt; Sun, 31 Jan 2021 09:23:05 -0500
+ id 1l6Dj5-0003f4-LX; Sun, 31 Jan 2021 09:29:21 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id CBB57ABD6;
- Sun, 31 Jan 2021 14:22:58 +0000 (UTC)
-Subject: Re: [PATCH v6 04/11] target/arm: Restrict ARMv5 cpus to TCG accel
+ by mx2.suse.de (Postfix) with ESMTP id 86722AD37;
+ Sun, 31 Jan 2021 14:29:17 +0000 (UTC)
+Subject: Re: [PATCH v6 05/11] target/arm: Restrict ARMv6 cpus to TCG accel
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
  qemu-devel@nongnu.org
 References: <20210131115022.242570-1-f4bug@amsat.org>
- <20210131115022.242570-5-f4bug@amsat.org>
+ <20210131115022.242570-6-f4bug@amsat.org>
 From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <553ccc92-5188-0779-fed7-be77f9c160e8@suse.de>
-Date: Sun, 31 Jan 2021 15:22:57 +0100
+Message-ID: <795e5835-bd91-8857-11b5-7d366a0a84df@suse.de>
+Date: Sun, 31 Jan 2021 15:29:16 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20210131115022.242570-5-f4bug@amsat.org>
+In-Reply-To: <20210131115022.242570-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
@@ -60,7 +60,8 @@ Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
  Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, John Snow <jsnow@redhat.com>,
  qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
  Richard Henderson <rth@twiddle.net>
@@ -72,252 +73,117 @@ On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
 > (support on ARMv7 has been dropped in commit 82bf7ae84ce:
 > "target/arm: Remove KVM support for 32-bit Arm hosts").
 > 
-> Only enable the following ARMv5 CPUs when TCG is available:
+> Only enable the following ARMv6 CPUs when TCG is available:
 > 
->   - ARM926
->   - ARM946
->   - ARM1026
->   - XScale (PXA250/255/260/261/262/270)
+>   - ARM1136
+>   - ARM1176
+>   - ARM11MPCore
+>   - Cortex-M0
 > 
 > The following machines are no more built when TCG is disabled:
 > 
->   - akita                Sharp SL-C1000 (Akita) PDA (PXA270)
->   - ast2500-evb          Aspeed AST2500 EVB (ARM1176)
->   - ast2600-evb          Aspeed AST2600 EVB (Cortex A7)
->   - borzoi               Sharp SL-C3100 (Borzoi) PDA (PXA270)
->   - canon-a1100          Canon PowerShot A1100 IS (ARM946)
->   - collie               Sharp SL-5500 (Collie) PDA (SA-1110)
->   - connex               Gumstix Connex (PXA255)
->   - g220a-bmc            Bytedance G220A BMC (ARM1176)
->   - imx25-pdk            ARM i.MX25 PDK board (ARM926)
->   - integratorcp         ARM Integrator/CP (ARM926EJ-S)
->   - mainstone            Mainstone II (PXA27x)
->   - musicpal             Marvell 88w8618 / MusicPal (ARM926EJ-S)
->   - palmetto-bmc         OpenPOWER Palmetto BMC (ARM926EJ-S)
->   - realview-eb          ARM RealView Emulation Baseboard (ARM926EJ-S)
->   - romulus-bmc          OpenPOWER Romulus BMC (ARM1176)
->   - sonorapass-bmc       OCP SonoraPass BMC (ARM1176)
->   - spitz                Sharp SL-C3000 (Spitz) PDA (PXA270)
->   - supermicrox11-bmc    Supermicro X11 BMC (ARM926EJ-S)
->   - swift-bmc            OpenPOWER Swift BMC (ARM1176)
->   - tacoma-bmc           OpenPOWER Tacoma BMC (Cortex A7)
->   - terrier              Sharp SL-C3200 (Terrier) PDA (PXA270)
->   - tosa                 Sharp SL-6000 (Tosa) PDA (PXA255)
->   - verdex               Gumstix Verdex (PXA270)
->   - versatileab          ARM Versatile/AB (ARM926EJ-S)
->   - versatilepb          ARM Versatile/PB (ARM926EJ-S)
->   - witherspoon-bmc      OpenPOWER Witherspoon BMC (ARM1176)
->   - z2                   Zipit Z2 (PXA27x)
+>   - kzm                  ARM KZM Emulation Baseboard (ARM1136)
+>   - microbit             BBC micro:bit (Cortex-M0)
+>   - n800                 Nokia N800 tablet aka. RX-34 (OMAP2420)
+>   - n810                 Nokia N810 tablet aka. RX-44 (OMAP2420)
+>   - realview-eb-mpcore   ARM RealView Emulation Baseboard (ARM11MPCore)
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  default-configs/devices/arm-softmmu.mak | 12 ------------
->  hw/arm/realview.c                       |  5 ++++-
->  tests/qtest/cdrom-test.c                |  6 +++++-
->  hw/arm/Kconfig                          | 19 +++++++++++++++++++
->  target/arm/Kconfig                      |  4 ++++
->  5 files changed, 32 insertions(+), 14 deletions(-)
+>  default-configs/devices/arm-softmmu.mak | 2 --
+>  hw/arm/realview.c                       | 2 +-
+>  tests/qtest/cdrom-test.c                | 2 +-
+>  hw/arm/Kconfig                          | 6 ++++++
+>  target/arm/Kconfig                      | 4 ++++
+>  5 files changed, 12 insertions(+), 4 deletions(-)
 > 
 > diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-> index 6ae964c14fd..0aad35da0c4 100644
+> index 0aad35da0c4..175530595ce 100644
 > --- a/default-configs/devices/arm-softmmu.mak
 > +++ b/default-configs/devices/arm-softmmu.mak
-> @@ -10,33 +10,21 @@ CONFIG_ARM_VIRT=y
+> @@ -10,9 +10,7 @@ CONFIG_ARM_VIRT=y
 >  CONFIG_CUBIEBOARD=y
 >  CONFIG_EXYNOS4=y
 >  CONFIG_HIGHBANK=y
-> -CONFIG_INTEGRATOR=y
->  CONFIG_FSL_IMX31=y
-> -CONFIG_MUSICPAL=y
+> -CONFIG_FSL_IMX31=y
 >  CONFIG_MUSCA=y
->  CONFIG_NSERIES=y
+> -CONFIG_NSERIES=y
 >  CONFIG_STELLARIS=y
 >  CONFIG_REALVIEW=y
-> -CONFIG_VERSATILE=y
 >  CONFIG_VEXPRESS=y
->  CONFIG_ZYNQ=y
-> -CONFIG_MAINSTONE=y
-> -CONFIG_GUMSTIX=y
-> -CONFIG_SPITZ=y
-> -CONFIG_TOSA=y
-> -CONFIG_Z2=y
->  CONFIG_NPCM7XX=y
-> -CONFIG_COLLIE=y
-> -CONFIG_ASPEED_SOC=y
->  CONFIG_NETDUINO2=y
->  CONFIG_NETDUINOPLUS2=y
->  CONFIG_MPS2=y
->  CONFIG_RASPI=y
-> -CONFIG_DIGIC=y
->  CONFIG_SABRELITE=y
->  CONFIG_EMCRAFT_SF2=y
->  CONFIG_MICROBIT=y
-> -CONFIG_FSL_IMX25=y
->  CONFIG_FSL_IMX7=y
->  CONFIG_FSL_IMX6UL=y
->  CONFIG_ALLWINNER_H3=y
 > diff --git a/hw/arm/realview.c b/hw/arm/realview.c
-> index 0831159d158..2dcf0a4c23e 100644
+> index 2dcf0a4c23e..0606d22da14 100644
 > --- a/hw/arm/realview.c
 > +++ b/hw/arm/realview.c
-> @@ -18,6 +18,7 @@
->  #include "hw/pci/pci.h"
->  #include "net/net.h"
->  #include "sysemu/sysemu.h"
-> +#include "sysemu/tcg.h"
->  #include "hw/boards.h"
->  #include "hw/i2c/i2c.h"
->  #include "exec/address-spaces.h"
-> @@ -460,7 +461,9 @@ static const TypeInfo realview_pbx_a9_type = {
->  
->  static void realview_machine_init(void)
+> @@ -463,8 +463,8 @@ static void realview_machine_init(void)
 >  {
-> -    type_register_static(&realview_eb_type);
-> +    if (tcg_builtin()) {
-> +        type_register_static(&realview_eb_type);
-> +    }
->      type_register_static(&realview_eb_mpcore_type);
+>      if (tcg_builtin()) {
+>          type_register_static(&realview_eb_type);
+> +        type_register_static(&realview_eb_mpcore_type);
+>      }
+> -    type_register_static(&realview_eb_mpcore_type);
 >      type_register_static(&realview_pb_a8_type);
 >      type_register_static(&realview_pbx_a9_type);
+>  }
 > diff --git a/tests/qtest/cdrom-test.c b/tests/qtest/cdrom-test.c
-> index 5af944a5fb7..1f1bc26fa7a 100644
+> index 1f1bc26fa7a..cb0409c5a11 100644
 > --- a/tests/qtest/cdrom-test.c
 > +++ b/tests/qtest/cdrom-test.c
-> @@ -222,7 +222,11 @@ int main(int argc, char **argv)
->          add_cdrom_param_tests(mips64machines);
->      } else if (g_str_equal(arch, "arm") || g_str_equal(arch, "aarch64")) {
+> @@ -224,8 +224,8 @@ int main(int argc, char **argv)
 >          const char *armmachines[] = {
-> -            "realview-eb", "realview-eb-mpcore", "realview-pb-a8",
-> +#ifdef CONFIG_TCG
-> +            "realview-eb",
+>  #ifdef CONFIG_TCG
+>              "realview-eb",
+> -#endif /* CONFIG_TCG */
+>              "realview-eb-mpcore",
 > +#endif /* CONFIG_TCG */
-> +            "realview-eb-mpcore",
-> +            "realview-pb-a8",
+>              "realview-pb-a8",
 >              "realview-pbx-a9", "versatileab", "versatilepb", "vexpress-a15",
 >              "vexpress-a9", "virt", NULL
->          };
 > diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index f2957b33bee..560442bfc5c 100644
+> index 560442bfc5c..6c4bce4d637 100644
 > --- a/hw/arm/Kconfig
 > +++ b/hw/arm/Kconfig
-> @@ -42,6 +42,8 @@ config CUBIEBOARD
+> @@ -123,6 +123,8 @@ config NETDUINOPLUS2
 >  
->  config DIGIC
+>  config NSERIES
 >      bool
 > +    default y if TCG && ARM
-> +    select ARM_V5
->      select PTIMER
->      select PFLASH_CFI02
+> +    select ARM_V6
+>      select OMAP
+>      select TMP105   # tempature sensor
+>      select BLIZZARD # LCD/TV controller
+> @@ -401,6 +403,8 @@ config FSL_IMX25
 >  
-> @@ -72,6 +74,8 @@ config HIGHBANK
->  
->  config INTEGRATOR
+>  config FSL_IMX31
 >      bool
 > +    default y if TCG && ARM
-> +    select ARM_V5
->      select ARM_TIMER
->      select INTEGRATOR_DEBUG
->      select PL011 # UART
-> @@ -84,6 +88,7 @@ config INTEGRATOR
->  
->  config MAINSTONE
->      bool
-> +    default y if TCG && ARM
->      select PXA2XX
->      select PFLASH_CFI01
->      select SMC91C111
-> @@ -98,6 +103,8 @@ config MUSCA
->  
->  config MUSICPAL
->      bool
-> +    default y if TCG && ARM
-> +    select ARM_V5
->      select OR_IRQ
->      select BITBANG_I2C
->      select MARVELL_88W8618
-> @@ -138,6 +145,7 @@ config OMAP
->  
->  config PXA2XX
->      bool
-> +    select ARM_V5
->      select FRAMEBUFFER
->      select I2C
+> +    select ARM_V6
 >      select SERIAL
-> @@ -147,12 +155,14 @@ config PXA2XX
->  
->  config GUMSTIX
->      bool
-> +    default y if TCG && ARM
->      select PFLASH_CFI01
->      select SMC91C111
->      select PXA2XX
->  
->  config TOSA
->      bool
-> +    default y if TCG && ARM
->      select ZAURUS  # scoop
->      select MICRODRIVE
->      select PXA2XX
-> @@ -160,6 +170,7 @@ config TOSA
->  
->  config SPITZ
->      bool
-> +    default y if TCG && ARM
->      select ADS7846 # touch-screen controller
->      select MAX111X # A/D converter
->      select WM8750  # audio codec
-> @@ -172,6 +183,7 @@ config SPITZ
->  
->  config Z2
->      bool
-> +    default y if TCG && ARM
->      select PFLASH_CFI01
->      select WM8750
->      select PL011 # UART
-> @@ -245,6 +257,7 @@ config STRONGARM
->  
->  config COLLIE
->      bool
-> +    default y if TCG && ARM
->      select PFLASH_CFI01
->      select ZAURUS  # scoop
->      select STRONGARM
-> @@ -257,6 +270,8 @@ config SX1
->  
->  config VERSATILE
->      bool
-> +    default y if TCG && ARM
-> +    select ARM_V5
->      select ARM_TIMER # sp804
->      select PFLASH_CFI01
->      select LSI_SCSI_PCI
-> @@ -376,6 +391,8 @@ config NPCM7XX
->  
->  config FSL_IMX25
->      bool
-> +    default y if TCG && ARM
-> +    select ARM_V5
 >      select IMX
->      select IMX_FEC
 >      select IMX_I2C
-> @@ -402,6 +419,8 @@ config FSL_IMX6
+> @@ -478,11 +482,13 @@ config FSL_IMX6UL
 >  
->  config ASPEED_SOC
+>  config MICROBIT
 >      bool
 > +    default y if TCG && ARM
-> +    select ARM_V5
->      select DS1338
->      select FTGMAC100
+>      select NRF51_SOC
+>  
+>  config NRF51_SOC
+>      bool
 >      select I2C
+> +    select ARM_V6
+>      select ARM_V7M
+>      select UNIMP
+>  
 > diff --git a/target/arm/Kconfig b/target/arm/Kconfig
-> index 811e1e81652..9b3635617dc 100644
+> index 9b3635617dc..fbb7bba9018 100644
 > --- a/target/arm/Kconfig
 > +++ b/target/arm/Kconfig
-> @@ -10,6 +10,10 @@ config ARM_V4
+> @@ -14,6 +14,10 @@ config ARM_V5
 >      bool
 >      depends on TCG && ARM
 >  
-> +config ARM_V5
+> +config ARM_V6
 > +    bool
 > +    depends on TCG && ARM
 > +
@@ -326,7 +192,20 @@ On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
 >      select PTIMER
 > 
 
-Looks good to me
+Added Cc: Eduardo,
+
+Looks good to me in general,
 
 Acked-by: Claudio Fontana <cfontana@suse.de>
+
+I am just wondering about that if (tcg_builtin()) / (or _available() as I suggest elsewhere), 
+should we instead use the build system already at this stage, so no such check is necessary?
+
+It could be a successive change, but then tcg_builtin() would be introduced, only to become useless after the proper refactoring is done,
+and the build system is used to select the right modules to compile, which would do the registration.
+
+Ciao,
+
+Claudio
+
 
