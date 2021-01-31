@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7E4309D92
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 16:33:24 +0100 (CET)
-Received: from localhost ([::1]:35386 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E29309D98
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 16:36:39 +0100 (CET)
+Received: from localhost ([::1]:39098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Ej5-00011M-9Z
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 10:33:23 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58634)
+	id 1l6EmE-0002pD-6t
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 10:36:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59270)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Eh0-0008Ed-GO; Sun, 31 Jan 2021 10:31:14 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:39758)
+ id 1l6Ejw-0001ah-UK; Sun, 31 Jan 2021 10:34:17 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:33663)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Egy-0006Tr-Pt; Sun, 31 Jan 2021 10:31:14 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id u14so11054985wmq.4;
- Sun, 31 Jan 2021 07:31:11 -0800 (PST)
+ id 1l6Ejv-0007m5-C7; Sun, 31 Jan 2021 10:34:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id s24so9893225wmj.0;
+ Sun, 31 Jan 2021 07:34:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:from:to:cc:references:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=WbS215fq3M5FNOsNXG+850EpFpOkfDvezmq6L7LpRAY=;
- b=YAUM4UZmFHtZGRDkP+q2Z0Bps/Jf6VhDAJBusGF1hc9ZFxKz+qx0wJCjFVzYUpV2DG
- VtsdZXPxLYCkJixB5L9DTTeT7h6RgyqOG1zrjUxprI86StmpprKiD6MWY0m+oBxbu2iU
- vW2uBw4LADj2COpb7IUeZ6Mf5x20BoKCyt/gXyC9u644oXsEp+wB6e2aDtwC2hB9lan8
- FVSRp8LFJwG21o/XH7jYg9q2cYNf5npGMmcY4r8o5gz7LYD/nHXnDq3QKJsNwv1kcoNG
- 0jDz9E+JM06AdqaMqwcNg22dcWNWXlhNSX6/0LvwHoZnda/qpqbE3vQb483lVwfrpUWH
- dYJQ==
+ bh=7+lv5nqUTiSVBF2ev6X8VB7oA6fyYxN74cd6tEru69k=;
+ b=cmKy/aHaE9aodYH/b7bSiqfqQheo9E1sIjukxQBc1VgXxJRrY2wSB4YasMdMt2MPxl
+ +vF0HXh+MHaK4FNhldGLbGAsC1oMTohUJ80F39Vc1KNOjo10m8dEpAZhnIjqdLDZxCMO
+ iy5dX7mhDnJV80gMoTnDduUeHy08tYEqDjKy/hGkJm8M8ccBDudffksaRJsz+rPmu7/F
+ gq6Yhygq49vCtxSdKrLVwWcYmn4/Ifo9+uv++uB+rSmYqnnSUCfHrC+pc/otue+4qumz
+ EscINztxRJSl4D7Vw4JZHanxmBc7uVXedMsXCvqou+6iRVMY33VE0wYSfki9Ze2ByEQS
+ Y7wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:from:to:cc:references:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=WbS215fq3M5FNOsNXG+850EpFpOkfDvezmq6L7LpRAY=;
- b=GbvI6NcQ8mADs7oXrPFjUUQraqw2qLLQbsjn7nb9p3t+LsfUJGtrkXw3Ab/pMtIBts
- 8k0tGtE1S4onTVLMr5zRDIqRGAGa++9lb8FbiJ2EUPwQldzobz+MT7mgvRnojB7GYSDT
- LsaFlxeZYhDvS8Tb5map2uJZ8V/u0//GFP2zetHQqLMNN5PMvepHFhyDWNmYHgGAX5vz
- evvja3tBjibNRNDS/fRszele5dvzFN7CQ1A3EZtpntUoPQFHAcjZ+mDwmkfvCR/cDZ1o
- VDedZaKMFeGdrBck9ZtNXrJCAMcINsPpy1q5iRYvw7mdcUhjYMjguo11j3Q/C3PrxzUL
- 2VNA==
-X-Gm-Message-State: AOAM531liwiOixFNcQDuRr6ARO5BevmuaNLT4fXMnhSrPLor1bjMH8tQ
- mgK/SSHg9Tu55+fwTCp5vCw=
-X-Google-Smtp-Source: ABdhPJz3MewsfDe+l0bYnko3lOO37PYucIvII8K3CtXNGbVKvaPhW/PbNviSLWzlIaFcD1UgITGAAQ==
-X-Received: by 2002:a7b:c8cb:: with SMTP id f11mr11393681wml.157.1612107070657; 
- Sun, 31 Jan 2021 07:31:10 -0800 (PST)
+ bh=7+lv5nqUTiSVBF2ev6X8VB7oA6fyYxN74cd6tEru69k=;
+ b=RPBjY9AYT1kI73RJzh24CxPLJ4xg1cALD5kJcCA29JmnyxuLT56T3+DWVboGDUDPni
+ d0z6QG8beChvb9MAD3Hj8Ho2NYS+C+mkkQ1KwuMuxSZU0RyQ+UNCBajDavq6k7QpoBsC
+ hKsy5rGNSbCpyXy6Ns8zXLB1ZzQ/Xl0po4i/539yKU5IfybUZpKRieblEi4n8phJCH4p
+ F1C870P2VdMO8Uvw9ul+A8kZv7XlVzlFzV0G9caoDKXjyCGe4X3hT1mDjWtzD7mE6MoS
+ rejAiZ3uogEHDU2eJUWsvY/8B4Lw+j0SDHfBkDjHEv+CSQu4A658FJxv9ZXvd/xmLCyj
+ 6PfQ==
+X-Gm-Message-State: AOAM531yaeEvUjhbJVXrzKq63LHMJzrWJGTQjzkoGT6XXqoMrxiwNXrz
+ fT+OyeeKxCKJ3vev4AcWOLQ=
+X-Google-Smtp-Source: ABdhPJwblFkbqTQrHm/KyELTO/r8GF9dbjXukSaHHEtMp1Ri/kUmGIhs0RsWPhx3OEcLCVNH5fdEkw==
+X-Received: by 2002:a05:600c:4ed3:: with SMTP id
+ g19mr11191688wmq.95.1612107249712; 
+ Sun, 31 Jan 2021 07:34:09 -0800 (PST)
 Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id r15sm23820444wrq.1.2021.01.31.07.31.09
+ by smtp.gmail.com with ESMTPSA id q18sm23411770wrr.55.2021.01.31.07.34.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jan 2021 07:31:10 -0800 (PST)
-Subject: Re: [PATCH v2 5/7] hw/arm/sbsa-ref: Restrict SBSA-ref board to 64-bit
- build
+ Sun, 31 Jan 2021 07:34:08 -0800 (PST)
+Subject: Re: [PATCH 05/10] meson: Introduce target-specific Kconfig
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-References: <20210131105918.228787-1-f4bug@amsat.org>
- <20210131105918.228787-6-f4bug@amsat.org>
- <a741601e-8ad5-99ad-decf-14dc007900b8@amsat.org>
-Message-ID: <6a392fbc-edac-5cf6-0a26-c8df2e8c4469@amsat.org>
-Date: Sun, 31 Jan 2021 16:31:09 +0100
+To: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20210131111316.232778-1-f4bug@amsat.org>
+ <20210131111316.232778-6-f4bug@amsat.org>
+ <d4a706cb-11ac-1c79-9641-c061bffea829@amsat.org>
+Message-ID: <4e0131d8-80a4-a0ad-f911-cd3f1f521105@amsat.org>
+Date: Sun, 31 Jan 2021 16:34:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <a741601e-8ad5-99ad-decf-14dc007900b8@amsat.org>
+In-Reply-To: <d4a706cb-11ac-1c79-9641-c061bffea829@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -15
 X-Spam_score: -1.6
 X-Spam_bar: -
@@ -90,56 +91,119 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Radoslaw Biernacki <rad@semihalf.com>, qemu-trivial@nongnu.org,
- Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
- Laurent Vivier <laurent@vivier.eu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- qemu-arm@nongnu.org, Antony Pavlov <antonynpavlov@gmail.com>,
- Leif Lindholm <leif@nuviainc.com>, Joel Stanley <joel@jms.id.au>
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Cornelia Huck <cohuck@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Thomas Huth <thuth@redhat.com>, Max Filippov <jcmvbkbc@gmail.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>, Guan Xuetao <gxt@mprc.pku.edu.cn>,
+ Marek Vasut <marex@denx.de>, qemu-block@nongnu.org,
+ David Hildenbrand <david@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ qemu-ppc@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/31/21 1:31 PM, Philippe Mathieu-Daudé wrote:
-> On 1/31/21 11:59 AM, Philippe Mathieu-Daudé wrote:
->> The SBSA-ref board only use CPUs available in the 64-bit build,
->> it is pointless to have it available in the 32-bit build.
+On 1/31/21 1:36 PM, Philippe Mathieu-Daudé wrote:
+> On 1/31/21 12:13 PM, Philippe Mathieu-Daudé wrote:
+>> Add a target-specific Kconfig.
+>>
+>> Target foo now has CONFIG_FOO defined.
+>>
+>> Two architecture have a particularity, ARM and MIPS:
+>> their 64-bit version include the 32-bit subset.
 >>
 >> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 >> ---
->> Cc: Radoslaw Biernacki <rad@semihalf.com>
->> Cc: Leif Lindholm <leif@nuviainc.com>
->> ---
->>  hw/arm/meson.build | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
->> index be39117b9b6..059ff7382f2 100644
->> --- a/hw/arm/meson.build
->> +++ b/hw/arm/meson.build
->> @@ -22,7 +22,7 @@
->>  arm_ss.add(when: 'CONFIG_TOSA', if_true: files('tosa.c'))
->>  arm_ss.add(when: 'CONFIG_Z2', if_true: files('z2.c'))
->>  arm_ss.add(when: 'CONFIG_REALVIEW', if_true: files('realview.c'))
->> -arm_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('sbsa-ref.c'))
->> +arm_ss.add(when: ['CONFIG_SBSA_REF', 'TARGET_AARCH64'], if_true: files('sbsa-ref.c'))
+> ...
 > 
-> Please disregard this patch, it shows that my other patch
-> "meson: Introduce target-specific Kconfig" is incorrect:
-> https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg07989.html
-> Probably because per docs/devel/kconfig.rst "devices are usually
-> ``default y`` if and only if they have at least one ``depends on``".
+>> diff --git a/meson.build b/meson.build
+>> index f00b7754fd4..a2dda0ce95e 100644
+>> --- a/meson.build
+>> +++ b/meson.build
+>> @@ -1322,7 +1322,8 @@
+>>        command: [minikconf,
+>>                  get_option('default_devices') ? '--defconfig' : '--allnoconfig',
+>>                  config_devices_mak, '@DEPFILE@', '@INPUT@',
+>> -                host_kconfig, accel_kconfig])
+>> +                host_kconfig, accel_kconfig,
+>> +                'CONFIG_' + config_target['TARGET_ARCH'].to_upper() + '=y'])
+>>  
+>>      config_devices_data = configuration_data()
+>>      config_devices = keyval.load(config_devices_mak)
+>> diff --git a/Kconfig b/Kconfig
+>> index bf694c42afe..c01e261e4e9 100644
+>> --- a/Kconfig
+>> +++ b/Kconfig
+>> @@ -1,4 +1,5 @@
+>>  source Kconfig.host
+>>  source backends/Kconfig
+>>  source accel/Kconfig
+>> +source target/Kconfig
+>>  source hw/Kconfig
+>> diff --git a/target/Kconfig b/target/Kconfig
+>> new file mode 100644
+>> index 00000000000..a6f719f223a
+>> --- /dev/null
+>> +++ b/target/Kconfig
+>> @@ -0,0 +1,23 @@
+>> +source alpha/Kconfig
+>> +source arm/Kconfig
+>> +source avr/Kconfig
+>> +source cris/Kconfig
+>> +source hppa/Kconfig
+>> +source i386/Kconfig
+>> +source lm32/Kconfig
+>> +source m68k/Kconfig
+>> +source microblaze/Kconfig
+>> +source mips/Kconfig
+>> +source moxie/Kconfig
+>> +source nios2/Kconfig
+>> +source openrisc/Kconfig
+>> +source ppc/Kconfig
+>> +source riscv/Kconfig
+>> +source rx/Kconfig
+>> +source s390x/Kconfig
+>> +source sh4/Kconfig
+>> +source sparc/Kconfig
+>> +source tilegx/Kconfig
+>> +source tricore/Kconfig
+>> +source unicore32/Kconfig
+>> +source xtensa/Kconfig
+>> diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+>> new file mode 100644
+>> index 00000000000..3f3394a22b2
+>> --- /dev/null
+>> +++ b/target/arm/Kconfig
+>> @@ -0,0 +1,6 @@
+>> +config ARM
+>> +    bool
+>> +
+>> +config AARCH64
+>> +    bool
+>> +    select ARM
+> 
+> This isn't correct yet, as Kconfig is primarly designed for devices,
+> and per docs/devel/kconfig.rst:
+> 
+>   "devices are usually ``default y`` if and only if they have at
+>    least one ``depends on``;"
+> 
+> So having one machine "depends on AARCH64" selects AARCH64 on ARM :/
+> I'll see if explicit each arch as 'default n' helps...
 
-The problem is the XLNX_ZYNQMP_ARM was incorrectly selected,
-enabling AARCH64, pulling in CONFIG_SBSA_REF on 32-bit.
-https://lists.gnu.org/archive/html/qemu-devel/2021-01/msg08014.html
-
-With this change there is no problem (and this patch is not necessary):
-
- config XLNX_ZYNQMP_ARM
-     bool
--    default y if TCG && ARM
-+    default y if TCG && AARCH64
-
-Regards,
-
-Phil.
+Taking this comment back, the approach works but is fragile, as
+an incorrect dependency can select the wrong arch and it is hard
+to detect.
 
