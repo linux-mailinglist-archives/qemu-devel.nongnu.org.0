@@ -2,74 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD8C4309D4F
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 16:18:28 +0100 (CET)
-Received: from localhost ([::1]:37294 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1896309D7F
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 16:26:15 +0100 (CET)
+Received: from localhost ([::1]:48248 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6EUd-0006FG-Um
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 10:18:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55566)
+	id 1l6EcA-0002d6-3i
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 10:26:14 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:56956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6EQk-0002xq-SF; Sun, 31 Jan 2021 10:14:26 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:35717)
+ id 1l6EZH-0001Ih-4Y; Sun, 31 Jan 2021 10:23:15 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:41317)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6EQj-0006mv-7l; Sun, 31 Jan 2021 10:14:26 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id e15so11033207wme.0;
- Sun, 31 Jan 2021 07:14:24 -0800 (PST)
+ id 1l6EZF-0002UW-Bh; Sun, 31 Jan 2021 10:23:14 -0500
+Received: by mail-wr1-x436.google.com with SMTP id p15so13828202wrq.8;
+ Sun, 31 Jan 2021 07:23:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=r+g1tP1DkDesVdYhAnUOBWvR86/+XyTKbQQZsxh+ijo=;
- b=hSIFqsW4F8vJBfeIY+WbylKHqyBILO/QWN+oHD5gx2tRowQtjti8gFbzGRtW2PQzKu
- mHCciR6q/vLXCBJXLPTrg+JYVpTT8H5PRUXZp8S0hRmhRjztg6u2ohFMhv1uyQQmgxZn
- 7Ek+MdiIv/p3yf2VYrTzBWk38OKpGo5mHwvTMvcOnthRdZzodkHWp+7PtS3fO8vNQkEh
- eUzGHNUh5ddXDvUq3I+vzabRFbPyeeNWPhhqLOmQfdNAxZxZaocC8U7TjTHalL6ZaCn+
- xV1YNZ6QujS4GoCxx5h8GTHWhllqLFlrYKVn835J0+vY/sOfc4MsScjA9EotivNG9NlN
- xAeA==
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=IlBA0xV68vxE5C5ct9JiYhm7IT1MEObF+rNNEQCxzM0=;
+ b=N5QC32NJIPcvAJL62qyOJJi0CIMn/+eeOANJ4J366IyF2swlJQ+5aQAUbonTlT+mcf
+ nFwxHWPoie6wSea1rMXw/484Wgntbb/3VdCOSV4sGPcaOWhUf80ExpfModyzg3zXnu1u
+ KrERVi3EUYzhXajfTyzrzKP51iDg6VZC15U5XRy/UswLTmkdy3uigI0wzn4zO0dvGCdI
+ zkYCqJxeTx0yjOtzYD+fcX3wtCeJdQRLpY0aKXJWa98YusX/QhrRzuWJQJzKcK+wR9/c
+ /qtWr2q1nJKM+0awFprD8S5YnhkV2C+UwIiMCL76XMZc30X/KsAmk8ydVDFqsSGnQ7UA
+ AFTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=r+g1tP1DkDesVdYhAnUOBWvR86/+XyTKbQQZsxh+ijo=;
- b=clBWSr2z/5vLgurb63OwdrbZu79y7UdiOKnV/6sjNlaB5K+PzpjFhknX6W5KMtJm97
- k1Bg/s50HsHzhxSTN9sjdGosVjx5ntneOaqBoaHuS14kqY8wYB50XmvIF6SjbxYBXUgP
- N0lRcNXZopScW7JGZXXT3V98n3kOG8p3c9ZwNh1fGbkpBFZuTZe74nxlGF2x/k7Vde5O
- qFZ/zLkzp3hiOKJi602nGUbXxf4m4eMmLUAQ0ts7qNWyiv+jfMlB6yMiZWG/sL+HGU08
- rGFK3IZTWijSdQBcNTUSYlxQMKfrokWJkhJhHGjc48LrzE9POLGls9BipXUmhrrtEGj1
- b+dw==
-X-Gm-Message-State: AOAM531G/8dvwIAK5i6Npohi1z2jnIJ2iJqzHD2AaYqB2ViBQ7vV2hus
- NgInxEeK1wNpyv55AjvYhd/4izS4iLE=
-X-Google-Smtp-Source: ABdhPJxidqpTr3QzQlIyLmEZ1bbwOq7P/2eRvmnG+JeWWBFUdRv1yZstRnQY9MvACPPC5SLu2g+j9w==
-X-Received: by 2002:a05:600c:210b:: with SMTP id
- u11mr11676843wml.16.1612106062785; 
- Sun, 31 Jan 2021 07:14:22 -0800 (PST)
-Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=IlBA0xV68vxE5C5ct9JiYhm7IT1MEObF+rNNEQCxzM0=;
+ b=Rg8FKNnCcFNX/EXu1BMclBJcJQTEgbVgKJxsabk3SZsI3P3fCLGOpjpEGNQJPC3zbk
+ SLY/dTA7DF6haiiqH2bVdOD3VZ8IAwPjX2s9ze8ErgO0ksHi2wn8o1UFwNeYnqBBjMUh
+ Vj7oe2HsPluInGsoAeQb5efi3Mvn9nregFj1rKMIQ59i3QEeqDh1km4TnS49cs/1+6Y/
+ Of1+co5kee6mIlQhtNFleX5Ts2ty0AysPAGyaMX9aEGHGs+tkSgcAmGijlZq5GPbCD/d
+ sW9tVuShpXxtrJBbTwfroRe4GXDcdUBZlDiKGcf0IRTsdxt6Im0/jzsxpZ7mYixQIZGl
+ A7Hg==
+X-Gm-Message-State: AOAM530toJUmlry7wO20OWJQOdq9qftgBKcSL25jrwFN+GikYVmy3jyO
+ wVpjHQyf3el3L+QV9KWQp4I=
+X-Google-Smtp-Source: ABdhPJwtjiQDaBDfckhvRQWpQImJ+jTDy28yTiQVjN19SY0g2CmQtFk7CetPl883mcXCmJ3WhY806g==
+X-Received: by 2002:adf:dfc3:: with SMTP id q3mr13517477wrn.223.1612106591243; 
+ Sun, 31 Jan 2021 07:23:11 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id s4sm18304850wme.38.2021.01.31.07.14.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 07:14:22 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [RFC PATCH 2/2] hw/arm/raspi: Restrict BCM2835 / BCM2836 SoC to TCG
-Date: Sun, 31 Jan 2021 16:14:10 +0100
-Message-Id: <20210131151410.318649-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210131151410.318649-1-f4bug@amsat.org>
-References: <20210131151410.318649-1-f4bug@amsat.org>
+ by smtp.gmail.com with ESMTPSA id l7sm18733011wmg.41.2021.01.31.07.23.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 31 Jan 2021 07:23:10 -0800 (PST)
+Subject: Re: [PATCH v6 00/11] Support disabling TCG on ARM (part 2)
+To: Claudio Fontana <cfontana@suse.de>, qemu-devel@nongnu.org
+References: <20210131115022.242570-1-f4bug@amsat.org>
+ <9924223e-3aeb-5200-c7fa-f120a7ae30fe@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <9e3503ce-0d01-8958-9f36-6892dfe80e93@amsat.org>
+Date: Sun, 31 Jan 2021 16:23:09 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <9924223e-3aeb-5200-c7fa-f120a7ae30fe@suse.de>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32b.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.079,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
@@ -84,118 +87,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Luc Michel <luc@lmichel.fr>,
- qemu-trivial@nongnu.org, Michael Tokarev <mjt@tls.msk.ru>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM requires the target cpu to be at least ARMv8 architecture
-(support on ARMv7 has been dropped in commit 82bf7ae84ce:
-"target/arm: Remove KVM support for 32-bit Arm hosts").
+On 1/31/21 3:40 PM, Claudio Fontana wrote:
+> On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
+>> Cover from Samuel Ortiz from (part 1) [1]:
+>>
+>>   This patchset allows for building and running ARM targets with TCG
+>>   disabled. [...]
+>>
+>>   The rationale behind this work comes from the NEMU project where
+>>   we're trying to only support x86 and ARM 64-bit architectures,
+>>   without including the TCG code base. We can only do so if we can
+>>   build and run ARM binaries with TCG disabled.
+>>
+>> Peter mentioned in v5 [6] that since 32-bit host has been removed,
+>> we have to remove v7 targets. This is not done in this series, as
+>> linking succeeds, and there is enough material to review (no need
+>> to spend time on that extra patch if the current approach is not
+>> accepted).
+>>
+>> CI: https://gitlab.com/philmd/qemu/-/pipelines/249272441
+>>
+>> v6:
+>> - rebased on "target/arm/Kconfig" series
+>> - introduce/use tcg_builtin() for realview machines
+>>
+>> v5:
+>> - addressed Paolo/Richard/Thomas review comments from v4 [5].
+>>
+>> v4 almost 2 years later... [2]:
+>> - Rebased on Meson
+>> - Addressed Richard review comments
+>> - Addressed Claudio review comments
+>>
+>> v3 almost 18 months later [3]:
+>> - Rebased
+>> - Addressed Thomas review comments
+>> - Added Travis-CI job to keep building --disable-tcg on ARM
+>>
+>> v2 [4]:
+>> - Addressed review comments from Richard and Thomas from v1 [1]
+>>
+>> Regards,
+>>
+>> Phil.
+>>
+>> [1]: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
+>> [2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
+>> [3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg641796.html
+>> [4]: https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05003.html
+>> [5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg746041.html
+>> [6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg777669.html
+>>
+>> Based-on: <20210131111316.232778-1-f4bug@amsat.org>
+>>           "target: Provide target-specific Kconfig"
+>>
+>> Philippe Mathieu-Daudé (9):
+>>   sysemu/tcg: Introduce tcg_builtin() helper
+>>   exec: Restrict TCG specific headers
+>>   target/arm: Restrict ARMv4 cpus to TCG accel
+>>   target/arm: Restrict ARMv5 cpus to TCG accel
+>>   target/arm: Restrict ARMv6 cpus to TCG accel
+>>   target/arm: Restrict ARMv7 R-profile cpus to TCG accel
+>>   target/arm: Restrict ARMv7 M-profile cpus to TCG accel
+>>   target/arm: Reorder meson.build rules
+>>   .travis.yml: Add a KVM-only Aarch64 job
+>>
+>> Samuel Ortiz (1):
+>>   target/arm: Do not build TCG objects when TCG is off
+>>
+>> Thomas Huth (1):
+>>   target/arm: Make m_helper.c optional via CONFIG_ARM_V7M
+>>
+>>  default-configs/devices/aarch64-softmmu.mak |  1 -
+>>  default-configs/devices/arm-softmmu.mak     | 27 --------
+>>  include/exec/helper-proto.h                 |  2 +
+>>  include/sysemu/tcg.h                        |  2 +
+>>  target/arm/cpu.h                            | 12 ----
+>>  hw/arm/realview.c                           |  7 +-
+>>  target/arm/cpu_tcg.c                        |  4 +-
+>>  target/arm/helper.c                         |  7 --
+>>  target/arm/m_helper-stub.c                  | 73 +++++++++++++++++++++
+>>  tests/qtest/cdrom-test.c                    |  6 +-
+>>  .travis.yml                                 | 32 +++++++++
+>>  hw/arm/Kconfig                              | 38 +++++++++++
+>>  target/arm/Kconfig                          | 17 +++++
+>>  target/arm/meson.build                      | 28 +++++---
+>>  14 files changed, 196 insertions(+), 60 deletions(-)
+>>  create mode 100644 target/arm/m_helper-stub.c
+>>
+> 
+> Looking at this series, just my 2 cents on how I would suggest to go forward:
+> I could again split my series in two parts, with only the TCG Ops in the first part.
+> 
+> Then this series could be merged, enabling --disable-tcg for ARM,
+> 
+> then I could extend the second part of my series to include ARM as well.
+> 
+> Wdyt? (Probably Richard?)
 
-From the various SoC used by the Raspberry Pi machines, only
-the BCM2837 is an ARMv8 (Cortex-A53).
+¯\_(ツ)_/¯
 
-Restrict the BCM2835 (ARM1176) and BCM2836 (Cortex-A7) to TCG.
+I respun because Richard unqueue your series, and it looks
+there is no big clashing.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- hw/arm/bcm2836.c | 6 ++++++
- hw/arm/raspi.c   | 4 ++++
- 2 files changed, 10 insertions(+)
+Anyhow meanwhile peer review is useful, and thanks for yours ;)
 
-diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-index fd16ed87c40..3051764f2dc 100644
---- a/hw/arm/bcm2836.c
-+++ b/hw/arm/bcm2836.c
-@@ -89,6 +89,7 @@ static bool bcm283x_common_realize(DeviceState *dev, Error **errp)
-     return true;
- }
- 
-+#ifdef CONFIG_TCG
- static void bcm2835_realize(DeviceState *dev, Error **errp)
- {
-     BCM283XState *s = BCM283X(dev);
-@@ -107,6 +108,7 @@ static void bcm2835_realize(DeviceState *dev, Error **errp)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 1,
-             qdev_get_gpio_in(DEVICE(&s->cpu[0].core), ARM_CPU_FIQ));
- }
-+#endif /* CONFIG_TCG */
- 
- static void bcm2836_realize(DeviceState *dev, Error **errp)
- {
-@@ -178,6 +180,7 @@ static void bcm283x_class_init(ObjectClass *oc, void *data)
-     dc->user_creatable = false;
- }
- 
-+#ifdef CONFIG_TCG
- static void bcm2835_class_init(ObjectClass *oc, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(oc);
-@@ -201,6 +204,7 @@ static void bcm2836_class_init(ObjectClass *oc, void *data)
-     bc->clusterid = 0xf;
-     dc->realize = bcm2836_realize;
- };
-+#endif /* CONFIG_TCG */
- 
- #ifdef TARGET_AARCH64
- static void bcm2837_class_init(ObjectClass *oc, void *data)
-@@ -227,6 +231,7 @@ static const TypeInfo bcm283x_types[] = {
-         .class_init     = bcm283x_class_init,
-         .abstract       = true,
-     },
-+#ifdef CONFIG_TCG
-     {
-         .name           = TYPE_BCM2835,
-         .parent         = TYPE_BCM283X,
-@@ -236,6 +241,7 @@ static const TypeInfo bcm283x_types[] = {
-         .parent         = TYPE_BCM283X,
-         .class_init     = bcm2836_class_init,
-     },
-+#endif /* CONFIG_TCG */
- #ifdef TARGET_AARCH64
-     {
-         .name           = TYPE_BCM2837,
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index dce966a4dd8..cfa15504d9c 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -319,6 +319,7 @@ static void raspi_machine_class_common_init(MachineClass *mc,
-     mc->default_ram_id = "ram";
- };
- 
-+#ifdef CONFIG_TCG
- static void raspi0_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
-@@ -346,6 +347,7 @@ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
-     rmc->board_rev = 0xa21041;
-     raspi_machine_class_common_init(mc, rmc->board_rev);
- };
-+#endif /* CONFIG_TCG */
- 
- #ifdef TARGET_AARCH64
- static void raspi3ap_machine_class_init(ObjectClass *oc, void *data)
-@@ -376,6 +378,7 @@ static const TypeInfo raspi_machine_types[] = {
-         .class_size     = sizeof(RaspiMachineClass),
-         .abstract       = true,
-     },
-+#ifdef CONFIG_TCG
-     {
-         .name           = MACHINE_TYPE_NAME("raspi0"),
-         .parent         = TYPE_RASPI_MACHINE,
-@@ -389,6 +392,7 @@ static const TypeInfo raspi_machine_types[] = {
-         .parent         = TYPE_RASPI_MACHINE,
-         .class_init     = raspi2b_machine_class_init,
-     },
-+#endif /* CONFIG_TCG */
- #ifdef TARGET_AARCH64
-     {
-         .name           = MACHINE_TYPE_NAME("raspi3ap"),
--- 
-2.26.2
-
+> 
+> Thanks,
+> 
+> Claudio
+> 
+> 
+> 
+> 
 
