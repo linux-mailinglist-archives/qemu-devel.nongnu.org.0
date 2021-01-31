@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2AC6309DDC
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 17:48:14 +0100 (CET)
-Received: from localhost ([::1]:53050 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D9E309DE6
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 17:51:36 +0100 (CET)
+Received: from localhost ([::1]:60212 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6FtV-00026T-IO
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 11:48:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39194)
+	id 1l6Fwl-0005I6-Mi
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 11:51:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Fpo-0008KI-4g; Sun, 31 Jan 2021 11:44:24 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44239)
+ id 1l6Fpt-0008RP-9f; Sun, 31 Jan 2021 11:44:29 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46315)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Fpm-0001Vp-Et; Sun, 31 Jan 2021 11:44:23 -0500
-Received: by mail-wr1-x436.google.com with SMTP id d16so13985392wro.11;
- Sun, 31 Jan 2021 08:44:21 -0800 (PST)
+ id 1l6Fpr-0001X4-Sr; Sun, 31 Jan 2021 11:44:29 -0500
+Received: by mail-wr1-x429.google.com with SMTP id q7so13986419wre.13;
+ Sun, 31 Jan 2021 08:44:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=Ti3pGdZyEpwOiFw7/yoi3CPSUbET3rJXN1FI6GYYqTs=;
- b=WJZAC5oI/+0J1i4hjINE/PpdCPxgSq7PhS84z14HABHVkvXxR3dyxfxgnhG9k1VCic
- JOXkt/OvHylX/FFFtyd0WuN8m2gH+o0oaaqYP+TsUAXmujpFrnRf9V7KMKf2I7GE+tHD
- b5v3QIuxJEGs3lGQq7J1Vio0QlDrLgbr3foiv8c3KRrrZtJS80I22PhO6Qp1fJ3UmmQx
- fJEn4LithI/Mgz5y7kjyVQmvgaYk8yuCBOI2WjcjjLBpMryHfONwBK2auaZG1l3XkvtM
- 7sKPUJIYiRwuMkE+jGwI8cTwamVxs6EGugcyKEMgHb++Lz4l7VTxW50VCyd8MvLVZfqh
- MGig==
+ bh=A+TdNI5pWxQ6NaQfL/aha6oCVCEm83H0PFBTmvUQ5ms=;
+ b=SznLTWifMrDliGHi8VQAsrfbKvE0Mzhx+KuzQNsXJVmm0AVFRXm678y5WMozpfyPsO
+ dpCMEsUSlzErF6ULbuo316ffU54Q+hQZQ6H6Bhc7A8GDjif2ewnoH0MbDhiUwuvvOc7z
+ ULSxH3b5+EcfYFlnUbtRm3cvD5qwArsIiExEtovw1py5XOPeNSOfq+LL18CoB+TeHnK9
+ P+OTZm70y3ykKutL6f/IpwXiWhV0vdhzf5321HH0fiMhOJdB5cHDv9LXUdkV4vkGiHDc
+ XwbQ7Pp5pj+AVtNXcK0tKNI99Rjg4zg79JJ7ci9u+m46GX6wIaZBT9YkZ1YoZJKetGsD
+ ibfw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=Ti3pGdZyEpwOiFw7/yoi3CPSUbET3rJXN1FI6GYYqTs=;
- b=dj5IEltChSfF6bIB4vBwKEttYs5S1hRqXlldd/dhI1+99QB3fQK7EB21fAGlfk6W9Q
- wv2NocfbjOtqHXvWUxIzJqXSmuZlZ2vfAxtMmtvNuHLIJe5hSfnJAiZSjO7lVw5kTuX/
- dIolVtUfqPe5tFUB8rPLaEC1ppkPj1SYYah/5YiClaZPvsMWqSLGafKr/HJRpFXmTBSM
- 0YU1DolTIJgPQFrQYdTWsos1auqWcR/4WFiiZC1WS1YZ0w3wGR7NsaeRH7p6a1hYdgcg
- JUUcLdm4ltvUV5dPPIwt/9wddMmbddrIURP3bUkJPFylHKhhh9H3x/FdqkPy7o93VzrJ
- sYfg==
-X-Gm-Message-State: AOAM532EWBUBR7FFKdRskIirog4W7lI8ySi3AYWGAYBsMwVevKNmsnJ/
- QL8b6yoHNjCg+RSarYcdTqV/6sZpBzM=
-X-Google-Smtp-Source: ABdhPJyiPKUqMKiYoPKOERdZKupUQY1NbrLiW0EKYwuuOeb8WmWIw8PZQzp6KCcCGrvM0TsBOD28YQ==
-X-Received: by 2002:a05:6000:104:: with SMTP id
- o4mr14080822wrx.419.1612111460654; 
- Sun, 31 Jan 2021 08:44:20 -0800 (PST)
+ bh=A+TdNI5pWxQ6NaQfL/aha6oCVCEm83H0PFBTmvUQ5ms=;
+ b=dTMVTe2KGOQ0AjWNvitR/gwkRPK8QfFjwIRJyDHB0MkcQwaaueaDKSj9VNHppjdEfP
+ k1OWx/eG7CnSz/hT8zrunorbafhuPfFliD97uHOonKDb3PnInBB54Fde9oCvON9CbRVF
+ C+VmFhuRL+DnKwmzNWJ0zG08lsjQFkfkHMfJ7rcGnPVMrih0TxeU8W+XaJgRLjrJeaG9
+ V8gI75LGTfxkUt4J+BQKICAqjJrawNlY0Sr3kQrava8kbaQca0POt/G2T5LAopRWLG1V
+ NYBB+Jqe6NUB0Cj1kVjoVm7xHFcyO5TEBAIo8ReL+Fo6LrNPlPjsow8+ufUsHWVq/4Jc
+ SXPg==
+X-Gm-Message-State: AOAM532vh4//5LqPY8ZJlMFvBwsNs18++FbIhzOhoSpkEvpGK3tOTWt4
+ dnEFovBSm2KrBpodX/FP4Xzmd8uMUs8=
+X-Google-Smtp-Source: ABdhPJzxpKQQxeqoGJtXGTCcPmPkAx+MnA7m9uRujmV7nCTTG/OZNkeh6uHK+oiUqjtGd5j8HFKcAg==
+X-Received: by 2002:a5d:4242:: with SMTP id s2mr14449388wrr.108.1612111466023; 
+ Sun, 31 Jan 2021 08:44:26 -0800 (PST)
 Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id m184sm19779832wmf.12.2021.01.31.08.44.19
+ by smtp.gmail.com with ESMTPSA id v126sm19002105wma.22.2021.01.31.08.44.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 08:44:20 -0800 (PST)
+ Sun, 31 Jan 2021 08:44:25 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 2/5] hw/arm: Restrict ARMv7 A-profile cpus to TCG accel
-Date: Sun, 31 Jan 2021 17:44:03 +0100
-Message-Id: <20210131164406.349825-3-f4bug@amsat.org>
+Subject: [PATCH 3/5] target/arm: Restrict v8M IDAU to TCG
+Date: Sun, 31 Jan 2021 17:44:04 +0100
+Message-Id: <20210131164406.349825-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210131164406.349825-1-f4bug@amsat.org>
 References: <20210131164406.349825-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -90,144 +89,71 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-KVM requires the target cpu to be at least ARMv8 architecture
-(support on ARMv7 has been dropped in commit 82bf7ae84ce:
-"target/arm: Remove KVM support for 32-bit Arm hosts").
+IDAU is specific to M-profile. KVM only supports A-profile.
+Restrict this interface to TCG, as it is pointless (and
+confusing) on a KVM-only build.
 
-The following machines are no more built when TCG is disabled:
-
-  - cubieboard           cubietech cubieboard (Cortex-A8)
-  - mcimx6ul-evk         Freescale i.MX6UL Evaluation Kit (Cortex A7)
-  - mcimx7d-sabre        Freescale i.MX7 DUAL SABRE (Cortex A7)
-  - npcm750-evb          Nuvoton NPCM750 Evaluation Board (Cortex A9)
-  - nuri                 Samsung NURI board (Exynos4210)
-  - orangepi-pc          Orange Pi PC (Cortex-A7)
-  - quanta-gsj           Quanta GSJ (Cortex A9)
-  - realview-pb-a8       ARM RealView Platform Baseboard for Cortex-A8
-  - realview-pbx-a9      ARM RealView Platform Baseboard Explore for Cortex-A9
-  - sabrelite            Freescale i.MX6 Quad SABRE Lite Board (Cortex A9)
-  - smdkc210             Samsung SMDKC210 board (Exynos4210)
-  - vexpress-a15         ARM Versatile Express for Cortex-A15
-  - vexpress-a9          ARM Versatile Express for Cortex-A9
-  - xilinx-zynq-a9       Xilinx Zynq Platform Baseboard for Cortex-A9
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- default-configs/devices/arm-softmmu.mak | 10 ----------
- hw/arm/Kconfig                          | 11 +++++++++++
- 2 files changed, 11 insertions(+), 10 deletions(-)
+ target/arm/cpu.c     | 7 -------
+ target/arm/cpu_tcg.c | 8 ++++++++
+ 2 files changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/devices/arm-softmmu.mak
-index 7d55c156bab..1ffa3dbe4bf 100644
---- a/default-configs/devices/arm-softmmu.mak
-+++ b/default-configs/devices/arm-softmmu.mak
-@@ -3,13 +3,3 @@
- # CONFIG_PCI_DEVICES=n
- # CONFIG_TEST_DEVICES=n
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 40142ac141e..d0853fae5ae 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -2352,12 +2352,6 @@ static const TypeInfo arm_cpu_type_info = {
+     .class_init = arm_cpu_class_init,
+ };
  
--CONFIG_CUBIEBOARD=y
--CONFIG_EXYNOS4=y
--CONFIG_REALVIEW=y
--CONFIG_VEXPRESS=y
--CONFIG_ZYNQ=y
--CONFIG_NPCM7XX=y
--CONFIG_SABRELITE=y
--CONFIG_FSL_IMX7=y
--CONFIG_FSL_IMX6UL=y
--CONFIG_ALLWINNER_H3=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 043710be3df..263f22a80c1 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -39,6 +39,7 @@ config CHEETAH
+-static const TypeInfo idau_interface_type_info = {
+-    .name = TYPE_IDAU_INTERFACE,
+-    .parent = TYPE_INTERFACE,
+-    .class_size = sizeof(IDAUInterfaceClass),
+-};
+-
+ static void arm_cpu_register_types(void)
+ {
+     const size_t cpu_count = ARRAY_SIZE(arm_cpus);
+@@ -2371,7 +2365,6 @@ static void arm_cpu_register_types(void)
+     if (cpu_count) {
+         size_t i;
  
- config CUBIEBOARD
-     bool
-+    default y if TCG && ARM
-     select ALLWINNER_A10
+-        type_register_static(&idau_interface_type_info);
+         for (i = 0; i < cpu_count; ++i) {
+             arm_cpu_register(&arm_cpus[i]);
+         }
+diff --git a/target/arm/cpu_tcg.c b/target/arm/cpu_tcg.c
+index 3e1c9b40353..bddfbf5e3a9 100644
+--- a/target/arm/cpu_tcg.c
++++ b/target/arm/cpu_tcg.c
+@@ -11,6 +11,7 @@
+ #include "qemu/osdep.h"
+ #include "cpu.h"
+ #include "internals.h"
++#include "target/arm/idau.h"
  
- config DIGIC
-@@ -50,6 +51,7 @@ config DIGIC
+ /* CPU models. These are not needed for the AArch64 linux-user build. */
+ #if !defined(CONFIG_USER_ONLY) || !defined(TARGET_AARCH64)
+@@ -719,10 +720,17 @@ static const ARMCPUInfo arm_tcg_cpus[] = {
+     { .name = "pxa270-c5",   .initfn = pxa270c5_initfn },
+ };
  
- config EXYNOS4
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select I2C
-     select LAN9118
-@@ -198,6 +200,7 @@ config Z2
++static const TypeInfo idau_interface_type_info = {
++    .name = TYPE_IDAU_INTERFACE,
++    .parent = TYPE_INTERFACE,
++    .class_size = sizeof(IDAUInterfaceClass),
++};
++
+ static void arm_tcg_cpu_register_types(void)
+ {
+     size_t i;
  
- config REALVIEW
-     bool
-+    default y if TCG && ARM
-     imply PCI_DEVICES
-     imply PCI_TESTDEV
-     select SMC91C111
-@@ -241,6 +244,7 @@ config SBSA_REF
- 
- config SABRELITE
-     bool
-+    default y if TCG && ARM
-     select FSL_IMX6
-     select SSI_M25P80
- 
-@@ -292,6 +296,7 @@ config VERSATILE
- 
- config VEXPRESS
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select A15MPCORE
-     select ARM_MPTIMER
-@@ -307,6 +312,7 @@ config VEXPRESS
- 
- config ZYNQ
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select CADENCE # UART
-     select PFLASH_CFI02
-@@ -331,6 +337,7 @@ config ALLWINNER_A10
- 
- config ALLWINNER_H3
-     bool
-+    default y if TCG && ARM
-     select ALLWINNER_A10_PIT
-     select ALLWINNER_SUN8I_EMAC
-     select SERIAL
-@@ -395,6 +402,7 @@ config XLNX_VERSAL
- 
- config NPCM7XX
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select ARM_GIC
-     select PL310  # cache controller
-@@ -424,6 +432,7 @@ config FSL_IMX31
- 
- config FSL_IMX6
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select IMX
-     select IMX_FEC
-@@ -467,6 +476,7 @@ config MPS2
- 
- config FSL_IMX7
-     bool
-+    default y if TCG && ARM
-     imply PCI_DEVICES
-     imply TEST_DEVICES
-     select A15MPCORE
-@@ -484,6 +494,7 @@ config ARM_SMMUV3
- 
- config FSL_IMX6UL
-     bool
-+    default y if TCG && ARM
-     select A15MPCORE
-     select IMX
-     select IMX_FEC
++    type_register_static(&idau_interface_type_info);
+     for (i = 0; i < ARRAY_SIZE(arm_tcg_cpus); ++i) {
+         arm_cpu_register(&arm_tcg_cpus[i]);
+     }
 -- 
 2.26.2
 
