@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9D2309B70
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:03:52 +0100 (CET)
-Received: from localhost ([::1]:38598 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05BD0309B72
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 12:06:28 +0100 (CET)
+Received: from localhost ([::1]:44272 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6AWF-0000lZ-La
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:03:51 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57134)
+	id 1l6AYk-0003Cf-Vk
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 06:06:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57148)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6AS4-0006qY-7a; Sun, 31 Jan 2021 05:59:32 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:38078)
+ id 1l6AS7-0006t1-Sa; Sun, 31 Jan 2021 05:59:36 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51682)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6AS1-0000GF-Ff; Sun, 31 Jan 2021 05:59:30 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id y187so10699677wmd.3;
- Sun, 31 Jan 2021 02:59:28 -0800 (PST)
+ id 1l6AS6-0000IW-Hw; Sun, 31 Jan 2021 05:59:35 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id m2so10188410wmm.1;
+ Sun, 31 Jan 2021 02:59:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=KjWr4TKlwB/IJcVo6npcfvEPrPb22EOYTZC5O8IwCfc=;
- b=FBl+lcqUTya8HKBOBUjNAvbvJrnnQb2bBX6sxXCl1at2OWMR//TOqWUCih+ZBTl3Xi
- xTxv4V/T+AiwRAu3GeInds6GetaqebvE1Dd0u5YodgGI48B2/UmPZj2mhIkhOyJH2X8e
- N1DaicF/faZKL84596Vh3b/W1rX9uJn4SnsPssPsl0IkzI3jUqgbzeiD2jl43bhz9Fgk
- A9IXjeD330azawEpzc6mkoUKCn0+6A5KnnZ6zQOzvfxi/Rf5aSskVIbeHcVfajwj7IPq
- yYohMb+h3/M74a3nH5kE2AcoDETax5XPxnkxsYIqvdp9FYWNrsItyXgfApbM2t3WI6jl
- IbsQ==
+ bh=jtbqU34AXRgK7JucvFyMPpEvpdP/cEkbkCwJzoZsw+I=;
+ b=vFB1SLLOVA8z1esZfr+efHXGjtpbRDRKqxEr0+XiTMYueGRRO8M/pprq+Ef4/KsxHa
+ joocEje6xS3Gk3xC6E30gOMRzrg25mC0cajUE3Oi70BtKoSyMyAgZXUDlF7GBVlNCTq9
+ 61Jna5sD+OuCCDAhBOrVn2jnnPRl3UW7giw3RR2JTeKFdDmda3b6dX+IBp/iCXfmzyrh
+ qIaHGIih4ZZWSZ6qR98Bt+TagXa1f8hhSldfEor7JpNqQXRrgu+ys/aeMbrXyl9T5AYD
+ md2NxvIiSejyxUSLM4Ub1722iSSAsNgCwb7WnJ9kgpk8ed/CM436mCELPCr7/Y9JcS+5
+ HzAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=KjWr4TKlwB/IJcVo6npcfvEPrPb22EOYTZC5O8IwCfc=;
- b=kq6OjqxdUTaQjyXFKe3crQdQlSqjWRzzkyFlydvnMIlNGF28E4hCDTH6BG9et7rpq/
- 77Nqv9AfOyEImjSzC7QUkV3htO3sUbszwZdRfWfIJEfziVOlZNN0w3LLtrx6jBK8wb+U
- TJVmgTzHTog0/1V2P3Cw99Wf1FVZXVGm8eCDYSJ41M/EDdTiI2+CCzNyBB9zcq+Zt+e/
- ZVlRKjQ0iZJGsk0SyUYZRzxxhsGWWjChm9PXWtd9rzNOTGk8zkqPei4gRWemug/4y/Fg
- aA7DnDXpTCYOrM0Ub4wq9I69pPTGHHSivFkAbQEjwEe1T8ZV3kleBBatkdyaWM1HXe5F
- uI+w==
-X-Gm-Message-State: AOAM532x6mcEwWgLsxWFjBY1dIGWfRogGHH/v37GER98KyeR32TtFJVW
- kNkvcWsVLCEj3mpCpsQyc01jjZgN8VE=
-X-Google-Smtp-Source: ABdhPJxqYOpHB+boItZFAvhV6fqD5vG8CqOeRrEFqjLo/vhS4KwyQTd/ApVwIoRo88AouJIe9L0mlA==
-X-Received: by 2002:a1c:6402:: with SMTP id y2mr10534889wmb.43.1612090767213; 
- Sun, 31 Jan 2021 02:59:27 -0800 (PST)
+ bh=jtbqU34AXRgK7JucvFyMPpEvpdP/cEkbkCwJzoZsw+I=;
+ b=Ca37G05hRpK3QJotXzcvu/+WSvrHZDDt3O7pvdpBP7ItgZJbaX3x9gt5NKz2T384XK
+ 3TY4oWBonS+fOibt2r/eV1bbAfb4Wr4ZHv7SomU3FxW9akv2JaWZhOULSEexeeJiRWLj
+ T2kEWNqSjZAOESzoVolUZFmzdZwKNcNg8YtSOaNrWvrnJeylUombvnSH0wk8wRbvdLNs
+ vM1YuUcx8ThS6q1ISiLo6Vqc0GQ6hMALxmpYFwXHfQsJgnKBI4waSdyl70M5aa4Iwzs3
+ ZML3KCoiWlIf1bqT++TWJ3RPES+QPP9e9buQRFAkAkVjcff7FyVRNkC0wi7NUeonMHI/
+ 6J7A==
+X-Gm-Message-State: AOAM530O/7FoC3Zgc+XRusY2/dc1fV1fpBZ2E4vQ5gV+heHy2pkesikD
+ lLc678xPUeTDs2cR5QHIoUuKhSOfdcU=
+X-Google-Smtp-Source: ABdhPJz3rL6GTv4/ZBU2bl7Dm4ct0pyORHXhWH4J37W9yNXtege8fVkTHrzGefx6WHdJKlLLjnHC0g==
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr10683440wme.112.1612090772413; 
+ Sun, 31 Jan 2021 02:59:32 -0800 (PST)
 Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id h18sm22581661wru.65.2021.01.31.02.59.25
+ by smtp.gmail.com with ESMTPSA id c18sm27417714wmk.0.2021.01.31.02.59.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 02:59:26 -0800 (PST)
+ Sun, 31 Jan 2021 02:59:31 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v2 1/7] hw/arm/stm32f405_soc: Add missing dependency on OR_IRQ
-Date: Sun, 31 Jan 2021 11:59:12 +0100
-Message-Id: <20210131105918.228787-2-f4bug@amsat.org>
+Subject: [PATCH v2 2/7] hw/arm/exynos4210: Add missing dependency on OR_IRQ
+Date: Sun, 31 Jan 2021 11:59:13 +0100
+Message-Id: <20210131105918.228787-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210131105918.228787-1-f4bug@amsat.org>
 References: <20210131105918.228787-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -87,33 +87,34 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
  Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
  Laurent Vivier <laurent@vivier.eu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ Igor Mitsyanko <i.mitsyanko@gmail.com>,
  Niek Linnenbank <nieklinnenbank@gmail.com>, qemu-arm@nongnu.org,
  Antony Pavlov <antonynpavlov@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The STM32F405 SoC uses an OR gate on its ADC IRQs.
+The Exynos4210 SoC uses an OR gate on the PL330 IRQ lines.
 
-Fixes: 529fc5fd3e1 ("hw/arm: Add the STM32F4xx SoC")
+Fixes: dab15fbe2ab ("hw/arm/exynos4210: Fix DMA initialization")
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-Cc: alistair@alistair23.me
+Cc: Igor Mitsyanko <i.mitsyanko@gmail.com>
 ---
  hw/arm/Kconfig | 1 +
  1 file changed, 1 insertion(+)
 
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 13cc42dcc84..a320a124855 100644
+index a320a124855..223016bb4e8 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -336,6 +336,7 @@ config STM32F205_SOC
- config STM32F405_SOC
-     bool
-     select ARM_V7M
+@@ -52,6 +52,7 @@ config EXYNOS4
+     select PTIMER
+     select SDHCI
+     select USB_EHCI_SYSBUS
 +    select OR_IRQ
-     select STM32F4XX_SYSCFG
-     select STM32F4XX_EXTI
  
+ config HIGHBANK
+     bool
 -- 
 2.26.2
 
