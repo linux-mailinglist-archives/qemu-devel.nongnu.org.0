@@ -2,47 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A7F4309D08
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:42:11 +0100 (CET)
-Received: from localhost ([::1]:41552 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A69309D22
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:47:17 +0100 (CET)
+Received: from localhost ([::1]:43970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6DvW-0001ey-06
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:42:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51702)
+	id 1l6E0S-0003Fr-5a
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:47:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52294)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l6Dte-0000kw-W5; Sun, 31 Jan 2021 09:40:15 -0500
-Received: from mx2.suse.de ([195.135.220.15]:58140)
+ (Exim 4.90_1) (envelope-from <Andrew.Cooper3@citrix.com>)
+ id 1l6DzM-0002kU-1Z
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:46:09 -0500
+Received: from esa1.hc3370-68.iphmx.com ([216.71.145.142]:17438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>)
- id 1l6Dtc-0008Ru-Td; Sun, 31 Jan 2021 09:40:14 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id A668DAD2B;
- Sun, 31 Jan 2021 14:40:10 +0000 (UTC)
-Subject: Re: [PATCH v6 00/11] Support disabling TCG on ARM (part 2)
+ (Exim 4.90_1) (envelope-from <Andrew.Cooper3@citrix.com>)
+ id 1l6DzH-0002lQ-6T
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:46:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1612104363;
+ h=subject:to:cc:references:from:message-id:date:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=xRYnSXPYBibPJi+U9YBc7V4ek1oUjS+3e+O22NblTyI=;
+ b=Wk9wBezb60TeHcAtYqwolo+3gADu7tgS0ba/usmS5/m3AF4caC8ESnMa
+ lKfA+Il6RVw54853peInTM0mnz3faTbLRrUvDngmBU2F/D9nHhEOhJcdb
+ XqZSMHJNn+TXIZl87MWcun/4WHmcspQJeeacr/ltLmWxup7xGfjaJvAM5 4=;
+Authentication-Results: esa1.hc3370-68.iphmx.com;
+ dkim=pass (signature verified)
+ header.i=@citrix.onmicrosoft.com
+IronPort-SDR: QyjeHV3mBdF5z1vqk/bdp1ciVTJe+UiQhBcREfRFcO1JmStmvdIDg4HeHhwzFayatFisrALeuC
+ LNzImbSbvVjrEp52vlNQotLR5pg0krKLQDtgdW+XsDZzwXuZgQPY12ZhyCX0G9bgYkmbeyw3il
+ Sy7rVgBdaRi1l0m1rhEF9gFOfcREsykzycEl2/pqWd8yS/Ps9LBkvLI1Up+mTa7agPHrOl3gNo
+ LqCdsTqj/1aJeR8vfsGe7XKV/Z/dKiG3UZqFP9aDOXkjGn0tw3Vo2e8UBG6SwRxF31AnIhnG5V
+ t+8=
+X-SBRS: 5.2
+X-MesageID: 36608856
+X-Ironport-Server: esa1.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.83
+X-Policy: $RELAYED
+X-IronPort-AV: E=Sophos;i="5.79,390,1602561600"; d="scan'208";a="36608856"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=nn5zwYXNkb0ef6AeKir10oSGopnDnntn6uuwYjgfHT6R9U0JzXY1v6PKSGxgFHwt3h2dbu8xbE0sX0XLpXYFj4wAD9jni+vRL1T8pVyeXztqa4UQJvyJWda6Enw0aOBWyYmT56ykjnq+zemPM/Ku8+YlaKsmfz3aFYQJVVB8JYR0rNXsAkmZnmO/SUPMXkqxa7VC9rojMHXwY0fh/qOZD3XXN0InAp+Gr9oNN7cIwFBnMQn9q2GhGguGB1G57pyjUxnV202bBFSMASUMaiR9u/sljzfT7KNA/TCeNDxZxYvLJ+CBs9O1dAsTOCzlvwzcLip2OTCInlTEFBPFbb/Clg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xRYnSXPYBibPJi+U9YBc7V4ek1oUjS+3e+O22NblTyI=;
+ b=gZAStSSFytpiY+HazkpVyFYfJrA5k9Iz4/JOsgq67/1tZ7J9SgpvSo9GrL2G1lC7jzNHjpIydceXqY7KBBaqHe6tLlUUtUfNv9cITk4Wkf+hnm7jhfzkhz+nXDmjkO8LUJKb7mjm2D+xjrLjOeaPSQMDrspsKS09CLFz+j1F2M/dLggNyku5GduyiNMelKQRHqferPnHg7AM7tVGVxgFogqqFylPHXL+zCBx9sOPC3o++XSQgWgJ5QGwgP8ZLyBc8WlRE/lujEHNPDySKcKfuleIsq+dLozsinS/4RoUPw2WPAfVYIJOKju4Z57nprYcUMyBLd2dgaPXXmyNG6BGGA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=citrix.com; dmarc=pass action=none header.from=citrix.com;
+ dkim=pass header.d=citrix.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=citrix.onmicrosoft.com; s=selector2-citrix-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=xRYnSXPYBibPJi+U9YBc7V4ek1oUjS+3e+O22NblTyI=;
+ b=xhWhBzTYCxQfzS3V03pstpC39MJvnSCSbsfwl9554egcajrgqpJ8Fdqh04r6VrEmbUC8PAV9jDdI5OAwEGlfgV3VVkZfETkmatuQ5xEQgEvsP61vzytPnaFmJikwRVZMmpvl5sEry8wfsr0LZTOAajyZiyxiaTpQSNiUbcktc+U=
+Subject: Re: [PATCH v2 1/4] meson: Do not build Xen x86_64-softmmu on Aarch64
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- qemu-devel@nongnu.org
-References: <20210131115022.242570-1-f4bug@amsat.org>
-From: Claudio Fontana <cfontana@suse.de>
-Message-ID: <9924223e-3aeb-5200-c7fa-f120a7ae30fe@suse.de>
-Date: Sun, 31 Jan 2021 15:40:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20210131115022.242570-1-f4bug@amsat.org>
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ <qemu-devel@nongnu.org>
+References: <20210131141810.293186-1-f4bug@amsat.org>
+ <20210131141810.293186-2-f4bug@amsat.org>
+Message-ID: <6ea50cf0-344d-cf9b-0a20-0444b3764f2d@citrix.com>
+Date: Sun, 31 Jan 2021 14:45:41 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
+In-Reply-To: <20210131141810.293186-2-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.079,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Language: en-GB
+X-ClientProxiedBy: LO4P123CA0020.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:151::7) To BYAPR03MB4728.namprd03.prod.outlook.com
+ (2603:10b6:a03:13a::24)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 4cc97031-42b0-46d0-713e-08d8c5f6e667
+X-MS-TrafficTypeDiagnostic: BYAPR03MB4536:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BYAPR03MB45361DE73317E3CB0D99CED2BAB79@BYAPR03MB4536.namprd03.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:747;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: qf2yaeaHlEjAl/c9GN0/ec6NyVU1/2zSr30YmKay+IVHCEE8Il9CrI197efGjCl7QbnKgkg/YUdyO8yoNz0WLl1XNU7mEhSNR6ieEVYOTehO+X4LXmCOW3j44mldituxWPwVsF864YLSicPX+JaA9SHrcvyBp4m54rjRov3xlDCT5yTWa7+I8gtCdA2+Z/WRMci0EDOd5BwOwtX6B52bsk1MZvsx9Dpso/5S94IzputawOa2uk9Ex1Lz7aRWbjbbQ+g4zhCIgz8RySB4N2ljxT5RxBs0J2OSBibe0qLPwbrYtXzRuqD3Kj/3u96TjIAJUcvQ8gmEB1kDuaVH92GXisyd1mlRL0LvhRgOhEJjM6rv7RBPZctVU6jAFymoFjOEGYt6VnNt2q+6bGqP38zUaJwtDt4rYP40PaXjQKU46o+KNnibbTFQYbLyjfVTY9W81V8iENGD3lUdXKVkqujD3lkXVMUpnUsOMsZQqbnNXmh/9d1VmZR+Ab3xeHsX1fhPtTyfNoYMTUwTVNxNlMWA9v9uSy0L/znEHPg6og3sQkNfgQOMYN/XlZ5ytRI22KndK0hydCGGrFMDYzNTbciYyQLlPzAXwOpQcw6aXBGv4b4=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR03MB4728.namprd03.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(366004)(136003)(346002)(376002)(396003)(39850400004)(8936002)(31696002)(316002)(36756003)(7416002)(6666004)(478600001)(86362001)(66946007)(66556008)(66476007)(4326008)(5660300002)(4744005)(956004)(2616005)(16576012)(110136005)(54906003)(53546011)(26005)(186003)(16526019)(6486002)(2906002)(31686004)(8676002)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?M1c3WFpJa2VQVmxHbUE5L3lnMVpUcXEyNzAzWWxrUHkwaXdFdkxkb0U2WGpD?=
+ =?utf-8?B?TnM3TEx5bmlLUHhPSm1MNGdjTGFKU2t0TUxpcVM4MFZ6MWVidjR1Y2l6bmhr?=
+ =?utf-8?B?YzQ2ZVBxQWtKejhFNWZmeGN4MDN6ZC9mcC9PWXE4eUxjSUZ1aGdFN3FsRzNH?=
+ =?utf-8?B?b0g0NEFZVGRwY2JGaUlRaEZSVzdXckJFSS8xeDkraVFGMTZKTm50OVBIODBQ?=
+ =?utf-8?B?U1piYjBLUllJVCtJQmVBamNvdVNaQThLcU1HTVVLdFAxSkFwOXBXbHovODlC?=
+ =?utf-8?B?THhRVC8rZUFuSGN4endkbGNCd0ZaR0o3T1FEa2UzbzFXaThQT2lhbFFVbmZN?=
+ =?utf-8?B?R3ZCcHB0V0xxeFBqNXlaZis4dnU2bENpK21IcTFvMnJjb2FYbTBUVDhCOWpn?=
+ =?utf-8?B?bW9UTHpsdm1MWTZvQnRmMit4RzNoc0I4blZXYmV0dVBBRzVSek83WXlzcFpN?=
+ =?utf-8?B?ZFpDRW1rQkdPT0QxUC8rWWxtZ20zeWNvWU8wMFZLUDdHeW1UampWMmN3ZEhN?=
+ =?utf-8?B?eE43Qzd3TVdvNDN4cmNlUkpRYVl3d1laVXhIRkp6TFg4SXg5R2UxMkl5YkhG?=
+ =?utf-8?B?WEh4L05tWG12cWhGK2xZSFkweXZoODhWWGpZaTU3YzM3UkVPNXVUelhnNWZI?=
+ =?utf-8?B?WFArQzhHT0JacTEvek92QkZ1dkJYVE1rWDBXOGZIWlZsa3hheS9ENWZyRGJ6?=
+ =?utf-8?B?ZnpTeWVhUXJNcFEvV0tROEU0a0Q3M04zQ21VZy9qOW43U3lGNWg0ZGxESWpU?=
+ =?utf-8?B?YVpRSmJYNEk1ZFl4c3lJOFloOThNbEhsQkNKdGRtZlZhcnMxOVdsUEZhWTUx?=
+ =?utf-8?B?ZU96TUc2eFVnUUNVNmFFTjZHNHV5K3NpT0tRUk1oOVp5cXBOaVpPWmFCSE1v?=
+ =?utf-8?B?emhmQ09iUXF6S1dydlExc0J1ek0vZXFYWnFjMFZQaExlbHpRZXlNekxZNnZM?=
+ =?utf-8?B?T0xPcmRtRzRNSUh1c1pXWjh6bnErVHRHSTNybVlnMTNWcmxKYVRCLzBuam5Z?=
+ =?utf-8?B?N1VWYkRxYVBiU1ljeHIrS25PcDRzM1Vod0ZabjA2NkQwckVHSHdobXFtZVlh?=
+ =?utf-8?B?bzhnKzRnREtSNHpnQ1NnNEI0eHRNd2Fqc1diQzE4OFYwYU1xa1R4T1JIeUhW?=
+ =?utf-8?B?NSt3YU5JMFJ3Z1V5MlJDY2hRUzBDWDdWeVdhYUpkaXN4WWd2VllGbXZ6RUZY?=
+ =?utf-8?B?cHpWUVJlQmRwS0RUZUJpOXk5SURNZ2R6eERVWXE1VEJjc1BwbHI3cEpNZUNi?=
+ =?utf-8?B?UzVQMWpqVWsvRU1yZmZKcHl0QW9wNmhlS3kvWVg2REk0QzVRMVJOMnpYZWpn?=
+ =?utf-8?B?ZkdUNDJCa0dEeTNLeWhSbUJER292bzBLa3UrUkxsOFJnaXl5MjF0clBIVkxl?=
+ =?utf-8?B?NHNSZVdxT2tkMmNXYU9SSHNTRUJtZ3FWOWlWanZvMzBLdjl1RW1KckJ0YTNQ?=
+ =?utf-8?Q?vyzZs7+V?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4cc97031-42b0-46d0-713e-08d8c5f6e667
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR03MB4728.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2021 14:45:49.6177 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 335836de-42ef-43a2-b145-348c2ee9ca5b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: C8vrcQ8ldGMiBiFUK9uqzm56cEyrZxlDO/5JIHFgTjn3c0seHs+NY9BTTnesZgSzM29lXuHbTCDWmL3R8mQWLaFoHj1bOvAVG/Tfx5EwSc8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BYAPR03MB4536
+X-OriginatorOrg: citrix.com
+Received-SPF: pass client-ip=216.71.145.142;
+ envelope-from=Andrew.Cooper3@citrix.com; helo=esa1.hc3370-68.iphmx.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.079,
+ RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -55,118 +144,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- qemu-arm@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+ xen-devel@lists.xenproject.org, Anthony Perard <anthony.perard@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Andrew Cooper <andrew.cooper3@citrix.com>
+From: andrew.cooper3--- via <qemu-devel@nongnu.org>
 
-On 1/31/21 12:50 PM, Philippe Mathieu-Daudé wrote:
-> Cover from Samuel Ortiz from (part 1) [1]:
-> 
->   This patchset allows for building and running ARM targets with TCG
->   disabled. [...]
-> 
->   The rationale behind this work comes from the NEMU project where
->   we're trying to only support x86 and ARM 64-bit architectures,
->   without including the TCG code base. We can only do so if we can
->   build and run ARM binaries with TCG disabled.
-> 
-> Peter mentioned in v5 [6] that since 32-bit host has been removed,
-> we have to remove v7 targets. This is not done in this series, as
-> linking succeeds, and there is enough material to review (no need
-> to spend time on that extra patch if the current approach is not
-> accepted).
-> 
-> CI: https://gitlab.com/philmd/qemu/-/pipelines/249272441
-> 
-> v6:
-> - rebased on "target/arm/Kconfig" series
-> - introduce/use tcg_builtin() for realview machines
-> 
-> v5:
-> - addressed Paolo/Richard/Thomas review comments from v4 [5].
-> 
-> v4 almost 2 years later... [2]:
-> - Rebased on Meson
-> - Addressed Richard review comments
-> - Addressed Claudio review comments
-> 
-> v3 almost 18 months later [3]:
-> - Rebased
-> - Addressed Thomas review comments
-> - Added Travis-CI job to keep building --disable-tcg on ARM
-> 
-> v2 [4]:
-> - Addressed review comments from Richard and Thomas from v1 [1]
-> 
-> Regards,
-> 
-> Phil.
-> 
-> [1]: https://lists.gnu.org/archive/html/qemu-devel/2018-11/msg02451.html
-> [2]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg689168.html
-> [3]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg641796.html
-> [4]: https://lists.gnu.org/archive/html/qemu-devel/2019-08/msg05003.html
-> [5]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg746041.html
-> [6]: https://www.mail-archive.com/qemu-devel@nongnu.org/msg777669.html
-> 
-> Based-on: <20210131111316.232778-1-f4bug@amsat.org>
->           "target: Provide target-specific Kconfig"
-> 
-> Philippe Mathieu-Daudé (9):
->   sysemu/tcg: Introduce tcg_builtin() helper
->   exec: Restrict TCG specific headers
->   target/arm: Restrict ARMv4 cpus to TCG accel
->   target/arm: Restrict ARMv5 cpus to TCG accel
->   target/arm: Restrict ARMv6 cpus to TCG accel
->   target/arm: Restrict ARMv7 R-profile cpus to TCG accel
->   target/arm: Restrict ARMv7 M-profile cpus to TCG accel
->   target/arm: Reorder meson.build rules
->   .travis.yml: Add a KVM-only Aarch64 job
-> 
-> Samuel Ortiz (1):
->   target/arm: Do not build TCG objects when TCG is off
-> 
-> Thomas Huth (1):
->   target/arm: Make m_helper.c optional via CONFIG_ARM_V7M
-> 
->  default-configs/devices/aarch64-softmmu.mak |  1 -
->  default-configs/devices/arm-softmmu.mak     | 27 --------
->  include/exec/helper-proto.h                 |  2 +
->  include/sysemu/tcg.h                        |  2 +
->  target/arm/cpu.h                            | 12 ----
->  hw/arm/realview.c                           |  7 +-
->  target/arm/cpu_tcg.c                        |  4 +-
->  target/arm/helper.c                         |  7 --
->  target/arm/m_helper-stub.c                  | 73 +++++++++++++++++++++
->  tests/qtest/cdrom-test.c                    |  6 +-
->  .travis.yml                                 | 32 +++++++++
->  hw/arm/Kconfig                              | 38 +++++++++++
->  target/arm/Kconfig                          | 17 +++++
->  target/arm/meson.build                      | 28 +++++---
->  14 files changed, 196 insertions(+), 60 deletions(-)
->  create mode 100644 target/arm/m_helper-stub.c
-> 
+On 31/01/2021 14:18, Philippe Mathieu-Daudé wrote:
+> The Xen on ARM documentation only mentions the i386-softmmu
+> target. As the x86_64-softmmu doesn't seem used, remove it
+> to avoid wasting cpu cycles building it.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Looking at this series, just my 2 cents on how I would suggest to go forward:
-I could again split my series in two parts, with only the TCG Ops in the first part.
+As far as I understand, it only gets used at all on ARM for the
+blkback=>qcow path, and has nothing to do with I440FX or other boards. 
+i.e. it is a paravirt disk and nothing else.
 
-Then this series could be merged, enabling --disable-tcg for ARM,
+xenpv should not be tied to i386-softmmu in the first place, and would
+remove a very-WTF-worthy current state of things.  That said, I have no
+idea how much effort that might be.
 
-then I could extend the second part of my series to include ARM as well.
-
-Wdyt? (Probably Richard?)
-
-Thanks,
-
-Claudio
-
-
-
-
+~Andrew
 
