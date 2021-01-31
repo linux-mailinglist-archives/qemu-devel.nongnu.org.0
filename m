@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8309D309CA6
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:21:17 +0100 (CET)
-Received: from localhost ([::1]:35844 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B54A8309CAA
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 15:25:57 +0100 (CET)
+Received: from localhost ([::1]:49452 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6DbI-0002dR-IR
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:21:16 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49136)
+	id 1l6Dfo-00009I-NV
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 09:25:56 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49158)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6DYY-0001CL-Fk
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:18:26 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:43946)
+ id 1l6DYd-0001Mk-Ib
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:18:31 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:43938)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6DYW-0007f2-Rp
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:18:26 -0500
-Received: by mail-wr1-x436.google.com with SMTP id z6so13690418wrq.10
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 06:18:24 -0800 (PST)
+ id 1l6DYc-0007gd-01
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 09:18:31 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id z6so13690573wrq.10
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 06:18:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=8/C2wBPkOLksivQ3Qh5cM4Cv3DQhSM0tZyYKABIck3A=;
- b=Abi8vCCCegDWl0lzMRTsGHNbIjQZXLt7yDGK2fASYSfw1gYXYjzbtqPOq5/vFrtHBd
- wh+SKn4jnxhP9ASHbizjj6/R4j+Ft6eu9a86eox88G7VBG2l1qll1eYHrsKYO96CJeA6
- rrbf1my24DwKlk1dN/C4NYJGjm9UvCnTi2X/DzhEoV04wxiM4iVr8aCBCmaAO3mcyE+7
- LouxVucmK9u5Ejp8A8oC+jgZNA3fPSQhhIFgR4Ptxrddoi9MTCt8jqgAXmibqjnp4OML
- pEOGI8G+YEzTQzSdnt6oyN4sq+DmwcEQitTu/+ocEkiKUkYM/die06S1JGnZUKGLyD6F
- JnKw==
+ bh=1iUBKmTUYZTioyGS/rhl1Ra2yNWVBdikWriqZM/Im58=;
+ b=lXXSAE9J1Y5ZtYJKsoxwAqiFlt7+B7vFUBM09lA/IJOklFpMVJ+Dn4xC/d0qfON75d
+ 7d4LwlxtxhClhKgMvf1kP3SeqeEEqDvtrtPHjyymgq++vo6QXrCo/GfUPn37zmJs/dHB
+ b/5u+ElRBF2MimMqSynaekRNxCEU6RCnK7UocZpH2jyH0Brxb96rsIpaJJec3gkqhvux
+ yYPReeqiJWZtvpzXO082LrvouNKG/NveWCrLJhu2t6mUZOmNXiKRLEqfYFT0E4XZUgWW
+ WZcBcMM+duaItsh2IpskfWv5f0QELPjiKDYUE8XdX+aJwU3RaZT0qp+UVmQf81NSIUvj
+ iP7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=8/C2wBPkOLksivQ3Qh5cM4Cv3DQhSM0tZyYKABIck3A=;
- b=UAbT/6c4PiT2lKlNubp/aEelnognIHmbhEF8yX9D0rR3luAeOmYK+sFsOskf9txMfW
- 2zJhVd+HQpeR5JNafK2HOCyVPkQp9JdS/OY0+w7bychcq1/OPiqzczMsUpFB5daTVkHJ
- KqT0dnZGZXCzaE6hbyZPOk5mPAeDMgBBVHp2KWPbTzO5E1TmJyRMltpHN+zdODXnnrf/
- xGxMokdpk87ShXNVchusT8ErjLUJKhB19EWyTfVcoYU6FJvS3HI3GNYnizlIyhDRvsc2
- odUPqdsYM+DEXC7ArDyeaPFWTR1b5fVvGKzCjAXK5GDz193Df9c1zDDNiCHl6Of7pcAw
- XK1w==
-X-Gm-Message-State: AOAM530jklW5qUC292SE/7DgzoSOtF1ChdJ3MVMF2I1CMk9b7lv5k4G2
- CQDRyruhGRbLYv0je0qO3do=
-X-Google-Smtp-Source: ABdhPJwK6oVXD4xaBk7Pk7+dbYCtqWB53ps7AVQjh+jJoJfZDiB1Zi72R8clzFa9uSxh2oxJ3CzJHg==
-X-Received: by 2002:adf:f905:: with SMTP id b5mr13340084wrr.129.1612102703525; 
- Sun, 31 Jan 2021 06:18:23 -0800 (PST)
+ bh=1iUBKmTUYZTioyGS/rhl1Ra2yNWVBdikWriqZM/Im58=;
+ b=dmz0/YgyfS8pMGlz9L8JcRjBSn29DCywIcCdyDLt4YYvuS01a/75WOHXl11bgUnEUq
+ Lt0ZuYCkx+ml/+5kgzX3L/KQgGC3FK95DyzK6QpGJtDfm8okDTvw/Z3W6HApvOugdyzJ
+ GaxveLG5QiMTe9wVTP/93jqmYdvjvXNz7rfUZwbedB4BTj4fHhWAY3EHsiz2gZhLzyBU
+ AeKst5enPV/1fLLzaDMtcQ6XFJniXWZ6Wr5fg9rCN/3T7yPYmrkmW3qDUhjOTobCoY6E
+ JSPkxTBV5EJZtbFdih3rSZ2tKcvAdObS73L0j4DB/i5Gx7H3qizNnlkO04yGQa7lqsQz
+ uqxQ==
+X-Gm-Message-State: AOAM532oYJWdaq4RnMBneBHGb137ijtFNuJ/BsChJEWXcSNr/Zvaw2oJ
+ ysJyIyhX/2s0T3ZMORE4Fvg=
+X-Google-Smtp-Source: ABdhPJxIgwNKaEHdqAJauuf3Ui5v/VP5KSWum8cYT2MZ2lfxJraZueLa/5/ANCkzhVlAiuHFjqsB/A==
+X-Received: by 2002:adf:eccc:: with SMTP id s12mr7567416wro.383.1612102708748; 
+ Sun, 31 Jan 2021 06:18:28 -0800 (PST)
 Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id j11sm7388979wrt.26.2021.01.31.06.18.22
+ by smtp.gmail.com with ESMTPSA id y6sm18426517wma.19.2021.01.31.06.18.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 31 Jan 2021 06:18:22 -0800 (PST)
+ Sun, 31 Jan 2021 06:18:28 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 2/4] hw/i386/xen: Introduce XEN_FV Kconfig
-Date: Sun, 31 Jan 2021 15:18:08 +0100
-Message-Id: <20210131141810.293186-3-f4bug@amsat.org>
+Subject: [PATCH v2 3/4] hw/xen/Kconfig: Introduce XEN_PV config
+Date: Sun, 31 Jan 2021 15:18:09 +0100
+Message-Id: <20210131141810.293186-4-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210131141810.293186-1-f4bug@amsat.org>
 References: <20210131141810.293186-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -96,48 +96,50 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce XEN_FV to differency the machine from the accelerator.
+xenpv machine requires USB, IDE_PIIX and PCI:
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
+  /usr/bin/ld:
+  libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
+  hw/xen/xen-legacy-backend.c:757: undefined reference to `xen_usb_ops'
+  libqemu-i386-softmmu.fa.p/hw_i386_xen_xen_platform.c.o: in function `unplug_disks':
+  hw/i386/xen/xen_platform.c:153: undefined reference to `pci_piix3_xen_ide_unplug'
+  libqemu-i386-softmmu.fa.p/hw_i386_xen_xen_platform.c.o: in function `pci_unplug_nics':
+  hw/i386/xen/xen_platform.c:137: undefined reference to `pci_for_each_device'
+  libqemu-i386-softmmu.fa.p/hw_i386_xen_xen_platform.c.o: in function `xen_platform_realize':
+  hw/i386/xen/xen_platform.c:483: undefined reference to `pci_register_bar'
+
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/Kconfig         | 2 ++
- hw/i386/xen/Kconfig     | 5 +++++
- hw/i386/xen/meson.build | 2 +-
- 3 files changed, 8 insertions(+), 1 deletion(-)
- create mode 100644 hw/i386/xen/Kconfig
+ hw/Kconfig     | 1 +
+ hw/xen/Kconfig | 7 +++++++
+ 2 files changed, 8 insertions(+)
+ create mode 100644 hw/xen/Kconfig
 
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index 7f91f30877f..b4c8aa5c242 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -1,3 +1,5 @@
+diff --git a/hw/Kconfig b/hw/Kconfig
+index 5ad3c6b5a4b..f2a95591d94 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -39,6 +39,7 @@ source usb/Kconfig
+ source virtio/Kconfig
+ source vfio/Kconfig
+ source watchdog/Kconfig
 +source xen/Kconfig
-+
- config SEV
-     bool
-     depends on KVM
-diff --git a/hw/i386/xen/Kconfig b/hw/i386/xen/Kconfig
+ 
+ # arch Kconfig
+ source arm/Kconfig
+diff --git a/hw/xen/Kconfig b/hw/xen/Kconfig
 new file mode 100644
-index 00000000000..ad9d774b9ea
+index 00000000000..0b8427d6bd1
 --- /dev/null
-+++ b/hw/i386/xen/Kconfig
-@@ -0,0 +1,5 @@
-+config XEN_FV
++++ b/hw/xen/Kconfig
+@@ -0,0 +1,7 @@
++config XEN_PV
 +    bool
 +    default y if XEN
 +    depends on XEN
-+    select I440FX
-diff --git a/hw/i386/xen/meson.build b/hw/i386/xen/meson.build
-index be84130300c..082d0f02cf3 100644
---- a/hw/i386/xen/meson.build
-+++ b/hw/i386/xen/meson.build
-@@ -1,4 +1,4 @@
--i386_ss.add(when: 'CONFIG_XEN', if_true: files(
-+i386_ss.add(when: 'CONFIG_XEN_FV', if_true: files(
-   'xen-hvm.c',
-   'xen-mapcache.c',
-   'xen_apic.c',
++    select PCI
++    select USB
++    select IDE_PIIX
 -- 
 2.26.2
 
