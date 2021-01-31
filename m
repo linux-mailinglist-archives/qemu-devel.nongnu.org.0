@@ -2,51 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B257309C25
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 13:57:44 +0100 (CET)
-Received: from localhost ([::1]:57062 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 655B6309C4F
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 14:22:10 +0100 (CET)
+Received: from localhost ([::1]:41480 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6CIQ-0004T4-CW
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 07:57:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40992)
+	id 1l6Cg5-0003dU-03
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 08:22:09 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43372)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l6CH7-00040W-1j
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 07:56:21 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2]:41933)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l6CH3-0006nl-LM
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 07:56:20 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 41991746344;
- Sun, 31 Jan 2021 13:56:13 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 0A3227462BD; Sun, 31 Jan 2021 13:56:13 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 08BA17456B7;
- Sun, 31 Jan 2021 13:56:13 +0100 (CET)
-Date: Sun, 31 Jan 2021 13:56:13 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 01/10] hw/sh4/Kconfig: Rename CONFIG_SH4 ->
- CONFIG_SH4_PERIPHERALS
-In-Reply-To: <20210131111316.232778-2-f4bug@amsat.org>
-Message-ID: <86e44d2e-893-b1df-70a2-1fea0ed53c7@eik.bme.hu>
-References: <20210131111316.232778-1-f4bug@amsat.org>
- <20210131111316.232778-2-f4bug@amsat.org>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6CdW-0002o5-HO; Sun, 31 Jan 2021 08:19:30 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:56225)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6CdT-0007wn-Ub; Sun, 31 Jan 2021 08:19:29 -0500
+Received: by mail-wm1-x332.google.com with SMTP id f16so10353789wmq.5;
+ Sun, 31 Jan 2021 05:19:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=ZWVjQmOzOo31gjwOed15eO6KmnxJ4qYWXIj7LLayrKs=;
+ b=W/pXgnGjXVmVJ1Ovv9LKb66UxdvloCeXPt29gEVL7ZxIQpyMbcRgZ44EBO3PR7LH9d
+ wBzyub/L3X+V6VX90yM++kTXysHMiZhA/1kiua/5z8yFhB37HEwiXG3lIoQqWkOralgw
+ CxfHemUBD9jNbBpdd59m793Y1IR+3cS+FU2kFE7Vpvw1q5VtCoqTFhbaEeG8iI21R8DF
+ 05LCybsH9r/CtlS18DlIMFb5TWUERE8UEcjDn0W3K80qva/IgibgOPKCTvBB43xrbXgO
+ IkV8R3piXuqvBoBpUF35NbT7ohuCJSAnuHZGBe/YBz5l32q0d4TS8GHODNWl1rU6pP9G
+ iwXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=ZWVjQmOzOo31gjwOed15eO6KmnxJ4qYWXIj7LLayrKs=;
+ b=n+KP1dC0sHdP0kXBfXAF9ZCSWlb2x6vHjSsPWssy9jsQnHu0PiZ5tC9285afEh3CSp
+ esFiXiATNmIG9XykGUZvaKon8PZA1zvuKUQ5dh3KBDP5vFSU6CRhcEXn1ZuhZylisEab
+ A/3GUstvRJ0v0WuAAvK85//xPcyONUKW9aPkRR07sT5C8DLaeQGogzzgSNoCM0oN9ujG
+ FvY573NdhsuXMlUjoWZqLYqrcJtScoVohYAsD6TK0oRjWeuW6deQDQgkfEA9yCQFqpJS
+ I9btGH7ZcbXDUAlHtes7EIfDcWYmQhzDth4JvXhz+VRNyAv7vPE+gTgfZi9h3iCcAtKh
+ NyJg==
+X-Gm-Message-State: AOAM531iyS1OXkcVxgiQOpmpelp68ApEdq6VflkVXx6x6guGQeStZWW7
+ fOePuaXCNJPpFPMKlrCnJe0=
+X-Google-Smtp-Source: ABdhPJxlW3yTFwDLkdBa32CdmyF4M0bmTzYYm4ZlUdTVIE4Pv5cNIJtQCCtFDFb7I2ceoB1iZiVZFg==
+X-Received: by 2002:a1c:29c6:: with SMTP id
+ p189mr11264364wmp.110.1612099164914; 
+ Sun, 31 Jan 2021 05:19:24 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id h207sm15947682wme.18.2021.01.31.05.19.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 31 Jan 2021 05:19:23 -0800 (PST)
+Subject: Re: [PATCH] hw/intc/arm_gic: Fix interrupt ID in GICD_SGIR register
+To: P J P <ppandit@redhat.com>, QEMU Security <qemu-security@nongnu.org>
+References: <20210131103401.217160-1-f4bug@amsat.org>
+ <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
+ <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <6d29aa57-2e6e-e81d-831f-803d9aae798f@amsat.org>
+Date: Sun, 31 Jan 2021 14:19:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1798951406-1612097773=:74342"
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.079,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,113 +89,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ Peter Maydell <peter.maydell@linaro.org>, Alexander Bulekov <alxndr@bu.edu>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Li Qiang <liq3ea@gmail.com>,
+ qemu-stable@nongnu.org, qemu-devel@nongnu.org,
+ Darren Kenny <darren.kenny@oracle.com>, qemu-arm@nongnu.org,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Forwarding to qemu-security@ to see if this issue is worth a CVE.
 
---3866299591-1798951406-1612097773=:74342
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sun, 31 Jan 2021, Philippe Mathieu-Daudé wrote:
-> We want to be able to use the 'SH4' config for architecture
-> specific features. As CONFIG_SH4 is only used to select
-> peripherals, rename it CONFIG_SH4_PERIPHERALS.
-
-PERIPHERALS is a bit long and hard to write correctly. How about 
-CONFIG_SH4_DEVICES (also in other patches you do the same).
-
-Regards,
-BALATON Zoltan
-
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-> ---
-> hw/block/meson.build | 2 +-
-> hw/char/meson.build  | 2 +-
-> hw/intc/meson.build  | 2 +-
-> hw/sh4/Kconfig       | 6 +++---
-> hw/timer/meson.build | 2 +-
-> 5 files changed, 7 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/block/meson.build b/hw/block/meson.build
-> index 602ca6c8541..7f24b42c283 100644
-> --- a/hw/block/meson.build
-> +++ b/hw/block/meson.build
-> @@ -12,7 +12,7 @@
-> softmmu_ss.add(when: 'CONFIG_SSI_M25P80', if_true: files('m25p80.c'))
-> softmmu_ss.add(when: 'CONFIG_SWIM', if_true: files('swim.c'))
-> softmmu_ss.add(when: 'CONFIG_XEN', if_true: files('xen-block.c'))
-> -softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('tc58128.c'))
-> +softmmu_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('tc58128.c'))
-> softmmu_ss.add(when: 'CONFIG_NVME_PCI', if_true: files('nvme.c', 'nvme-ns.c'))
->
-> specific_ss.add(when: 'CONFIG_VIRTIO_BLK', if_true: files('virtio-blk.c'))
-> diff --git a/hw/char/meson.build b/hw/char/meson.build
-> index 196ac91fa29..3b8cb6a2f5b 100644
-> --- a/hw/char/meson.build
-> +++ b/hw/char/meson.build
-> @@ -31,7 +31,7 @@
-> softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_aux.c'))
-> softmmu_ss.add(when: 'CONFIG_RENESAS_SCI', if_true: files('renesas_sci.c'))
-> softmmu_ss.add(when: 'CONFIG_SIFIVE_UART', if_true: files('sifive_uart.c'))
-> -softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_serial.c'))
-> +softmmu_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('sh_serial.c'))
-> softmmu_ss.add(when: 'CONFIG_STM32F2XX_USART', if_true: files('stm32f2xx_usart.c'))
-> softmmu_ss.add(when: 'CONFIG_MCHP_PFSOC_MMUART', if_true: files('mchp_pfsoc_mmuart.c'))
->
-> diff --git a/hw/intc/meson.build b/hw/intc/meson.build
-> index 53cba115690..b05bab2f4b6 100644
-> --- a/hw/intc/meson.build
-> +++ b/hw/intc/meson.build
-> @@ -47,7 +47,7 @@
-> specific_ss.add(when: 'CONFIG_RX_ICU', if_true: files('rx_icu.c'))
-> specific_ss.add(when: 'CONFIG_S390_FLIC', if_true: files('s390_flic.c'))
-> specific_ss.add(when: 'CONFIG_S390_FLIC_KVM', if_true: files('s390_flic_kvm.c'))
-> -specific_ss.add(when: 'CONFIG_SH4', if_true: files('sh_intc.c'))
-> +specific_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('sh_intc.c'))
-> specific_ss.add(when: 'CONFIG_SIFIVE_CLINT', if_true: files('sifive_clint.c'))
-> specific_ss.add(when: 'CONFIG_SIFIVE_PLIC', if_true: files('sifive_plic.c'))
-> specific_ss.add(when: 'CONFIG_XICS', if_true: files('xics.c'))
-> diff --git a/hw/sh4/Kconfig b/hw/sh4/Kconfig
-> index 4cbce3a0ed5..fbac8c09152 100644
-> --- a/hw/sh4/Kconfig
-> +++ b/hw/sh4/Kconfig
-> @@ -9,16 +9,16 @@ config R2D
->     select USB_OHCI_PCI
->     select PCI
->     select SM501
-> -    select SH4
-> +    select SH4_PERIPHERALS
->
-> config SHIX
->     bool
->     select SH7750
-> -    select SH4
-> +    select SH4_PERIPHERALS
->
-> config SH7750
->     bool
->
-> -config SH4
-> +config SH4_PERIPHERALS
->     bool
->     select PTIMER
-> diff --git a/hw/timer/meson.build b/hw/timer/meson.build
-> index be343f68fed..d3f53dce400 100644
-> --- a/hw/timer/meson.build
-> +++ b/hw/timer/meson.build
-> @@ -30,7 +30,7 @@
-> softmmu_ss.add(when: 'CONFIG_PUV3', if_true: files('puv3_ost.c'))
-> softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_timer.c'))
-> softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_systmr.c'))
-> -softmmu_ss.add(when: 'CONFIG_SH4', if_true: files('sh_timer.c'))
-> +softmmu_ss.add(when: 'CONFIG_SH4_PERIPHERALS', if_true: files('sh_timer.c'))
-> softmmu_ss.add(when: 'CONFIG_SLAVIO', if_true: files('slavio_timer.c'))
-> softmmu_ss.add(when: 'CONFIG_STM32F2XX_TIMER', if_true: files('stm32f2xx_timer.c'))
-> softmmu_ss.add(when: 'CONFIG_XILINX', if_true: files('xilinx_timer.c'))
->
---3866299591-1798951406-1612097773=:74342--
+On 1/31/21 12:57 PM, P J P wrote:
+> +-- On Sun, 31 Jan 2021, Philippe Mathieu-Daudé wrote --+
+> | On 1/31/21 11:34 AM, Philippe Mathieu-Daudé wrote:
+> | > Per the ARM Generic Interrupt Controller Architecture specification
+> | > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
+> | > not 10:
+> | > 
+> | >     - Table 4-21 GICD_SGIR bit assignments
+> | > 
+> | >     The Interrupt ID of the SGI to forward to the specified CPU
+> | >     interfaces. The value of this field is the Interrupt ID, in
+> | >     the range 0-15, for example a value of 0b0011 specifies
+> | >     Interrupt ID 3.
+> | > 
+> | > diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
+> | > index af41e2fb448..75316329516 100644
+> | > --- a/hw/intc/arm_gic.c
+> | > +++ b/hw/intc/arm_gic.c
+> | > @@ -1476,7 +1476,7 @@ static void gic_dist_writel(void *opaque, hwaddr offset,
+> | >          int target_cpu;
+> | >  
+> | >          cpu = gic_get_current_cpu(s);
+> | > -        irq = value & 0x3ff;
+> | > +        irq = value & 0xf;
+> | >          switch ((value >> 24) & 3) {
+> | >          case 0:
+> | >              mask = (value >> 16) & ALL_CPU_MASK;
+> | > 
+> 
+> * Looks okay.
+> 
+> 
+> | > Correct the irq mask to fix an undefined behavior (which eventually
+> | > lead to a heap-buffer-overflow, see [Buglink]):
+> | > 
+> | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,accel=qtest -qtest stdio
+> | >    [I 1612088147.116987] OPENED
+> | >   [R +0.278293] writel 0x8000f00 0xff4affb0
+> | >   ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds for type 'uint8_t [16][8]'
+> | >   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gic.c:1498:13
+> | > 
+> | > Cc: qemu-stable@nongnu.org
+> | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
+> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
+> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+> | 
+> | > ---
+> | > Isnt it worth a CVE to help distributions track backports?
+> | > ---
+> 
+> * Please send such report(s) to 'qemu-security' list to be triaged as 
+>   potential security ones.
+> 
+> 
+> Thank you.
+> --
+> Prasad J Pandit / Red Hat Product Security Team
+> 8685 545E B54C 486B C6EB 271E E285 8B5A F050 DE8D
+> 
 
