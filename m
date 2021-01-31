@@ -2,53 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B73309A4F
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 06:07:37 +0100 (CET)
-Received: from localhost ([::1]:50358 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02ABF309AD6
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 07:29:13 +0100 (CET)
+Received: from localhost ([::1]:46058 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l64xU-0004Lq-8d
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 00:07:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52980)
+	id 1l66ER-0003b4-1S
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 01:29:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l64vg-0003la-TY
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 00:05:45 -0500
-Received: from indium.canonical.com ([91.189.90.7]:39870)
+ id 1l66BC-00028i-RS
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 01:25:50 -0500
+Received: from indium.canonical.com ([91.189.90.7]:41194)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l64vb-0002uP-RU
- for qemu-devel@nongnu.org; Sun, 31 Jan 2021 00:05:44 -0500
+ id 1l66B2-0004MW-Bi
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 01:25:50 -0500
 Received: from loganberry.canonical.com ([91.189.90.37])
  by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l64vZ-0000Bp-QC
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 05:05:37 +0000
+ id 1l66Ax-0004Bm-Cs
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 06:25:35 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id BE8152E8138
- for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 05:05:37 +0000 (UTC)
+ by loganberry.canonical.com (Postfix) with ESMTP id 481652E8137
+ for <qemu-devel@nongnu.org>; Sun, 31 Jan 2021 06:25:35 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Sun, 31 Jan 2021 04:59:04 -0000
-From: Connor Nolan <1913926@bugs.launchpad.net>
+Date: Sun, 31 Jan 2021 06:16:14 -0000
+From: P J P <1913873@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Tags: cve security
+X-Launchpad-Bug-Information-Type: Public Security
 X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: thebrokenrail
-X-Launchpad-Bug-Reporter: Connor Nolan (thebrokenrail)
-X-Launchpad-Bug-Modifier: Connor Nolan (thebrokenrail)
-Message-Id: <161206914438.15196.14441299741082258468.malonedeb@wampee.canonical.com>
-Subject: [Bug 1913926] [NEW] [QEMU User-Mode] Mesa Fails To Load RadeonSI
- Driver When In Docker Image
+X-Launchpad-Bug-Security-Vulnerability: yes
+X-Launchpad-Bug-Commenters: a1xndr pjps
+X-Launchpad-Bug-Reporter: P J P (pjps)
+X-Launchpad-Bug-Modifier: P J P (pjps)
+References: <161200949811.14050.15321983107539308514.malonedeb@wampee.canonical.com>
+Message-Id: <161207377455.4056.17067878918837190973.malone@soybean.canonical.com>
+Subject: [Bug 1913873] Re: QEMU: net: vmxnet: integer overflow may crash guest
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com);
  Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 15898757a99d5ea54194866f6988d5d69b42c6cb
+X-Launchpad-Hash: 3daac0534000b191e28de5f9b084df1a4586ac8a
 Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
  helo=indium.canonical.com
 X-Spam_score_int: -65
@@ -69,88 +70,102 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1913926 <1913926@bugs.launchpad.net>
+Reply-To: Bug 1913873 <1913873@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
-
-# System Details
-AMD Ryzen 7 3700U
-Ubuntu 20.04 Focal Focus
-
-# Dockerfile
-
-FROM arm32v7/debian:bullseye
-
-RUN apt-get update && apt-get install -y mesa-utils
-
-ENTRYPOINT glxgears
-
-# Instructions For Reproduction
-1. Install Docker
-2. Build Docker Image: docker build --tag mesa-arm-test .
-3. Run: docker run -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri:/dev/=
-dri -e "DISPLAY=3D${DISPLAY}" mesa-arm-test
-
-The Output Is:
-
-amdgpu_device_initialize: amdgpu_query_info(ACCEL_WORKING) failed (-38)
-amdgpu: amdgpu_device_initialize failed.
-libGL error: failed to create dri screen
-libGL error: failed to load driver: radeonsi
-libGL error: failed to get magic
-libGL error: failed to load driver: radeonsi
-
-It then appears to run using software rendering.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Yes, from the trace looks same.
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1913926
+https://bugs.launchpad.net/bugs/1913873
 
 Title:
-  [QEMU User-Mode] Mesa Fails To Load RadeonSI Driver When In Docker
-  Image
+  QEMU: net: vmxnet: integer overflow may crash guest
 
 Status in QEMU:
   New
 
 Bug description:
-  # System Details
-  AMD Ryzen 7 3700U
-  Ubuntu 20.04 Focal Focus
+  * Gaoning Pan from Zhejiang University & Ant Security Light-Year Lab repo=
+rted a malloc failure
+    issue locates in vmxnet3_activate_device() of qemu/hw/net/vmxnet3.c NIC=
+ emulator
 
-  # Dockerfile
+  * This issue is reproducible  because while activating the NIC device, vm=
+xnet3_activate_device
+    does not validate guest supplied configuration values against predefine=
+d min/max limits.
 
-  FROM arm32v7/debian:bullseye
+  @@ -1420,6 +1420,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+       vmxnet3_setup_rx_filtering(s);
+       /* Cache fields from shared memory */
+       s->mtu =3D VMXNET3_READ_DRV_SHARED32(d, s->drv_shmem, devRead.misc.m=
+tu);
+  +    assert(VMXNET3_MIN_MTU <=3D s->mtu && s->mtu < VMXNET3_MAX_MTU);    =
+<=3D Did not check if MTU is within range
+       VMW_CFPRN("MTU is %u", s->mtu);
+   =
 
-  RUN apt-get update && apt-get install -y mesa-utils
+       s->max_rx_frags =3D
+  @@ -1473,6 +1474,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+           /* Read rings memory locations for TX queues */
+           pa =3D VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.txRingBa=
+sePA);
+           size =3D VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.txRing=
+Size);
+  +        if (size > VMXNET3_TX_RING_MAX_SIZE) {                      <=3D=
+ Did not check TX ring size
+  +            size =3D VMXNET3_TX_RING_MAX_SIZE;
+  +        }
+   =
 
-  ENTRYPOINT glxgears
+           vmxnet3_ring_init(d, &s->txq_descr[i].tx_ring, pa, size,
+                             sizeof(struct Vmxnet3_TxDesc), false);
+  @@ -1483,6 +1487,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+           /* TXC ring */
+           pa =3D VMXNET3_READ_TX_QUEUE_DESCR64(d, qdescr_pa, conf.compRing=
+BasePA);
+           size =3D VMXNET3_READ_TX_QUEUE_DESCR32(d, qdescr_pa, conf.compRi=
+ngSize);
+  +        if (size > VMXNET3_TC_RING_MAX_SIZE) {                       <=
+=3D Did not check TC ring size =
 
-  # Instructions For Reproduction
-  1. Install Docker
-  2. Build Docker Image: docker build --tag mesa-arm-test .
-  3. Run: docker run -v /tmp/.X11-unix:/tmp/.X11-unix --device /dev/dri:/de=
-v/dri -e "DISPLAY=3D${DISPLAY}" mesa-arm-test
+  +            size =3D VMXNET3_TC_RING_MAX_SIZE;
+  +        }
+           vmxnet3_ring_init(d, &s->txq_descr[i].comp_ring, pa, size,
+                             sizeof(struct Vmxnet3_TxCompDesc), true);
+           VMXNET3_RING_DUMP(VMW_CFPRN, "TXC", i, &s->txq_descr[i].comp_rin=
+g);
+  @@ -1524,6 +1531,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+               /* RX rings */
+               pa =3D VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.rxRingBa=
+sePA[j]);
+               size =3D VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.rxRing=
+Size[j]);
+  +            if (size > VMXNET3_RX_RING_MAX_SIZE) {                   <=
+=3D Did not check RX ring size
+  +                size =3D VMXNET3_RX_RING_MAX_SIZE;
+  +            }
+               vmxnet3_ring_init(d, &s->rxq_descr[i].rx_ring[j], pa, size,
+                                 sizeof(struct Vmxnet3_RxDesc), false);
+               VMW_CFPRN("RX queue %d:%d: Base: %" PRIx64 ", Size: %d",
+  @@ -1533,6 +1543,9 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+           /* RXC ring */
+           pa =3D VMXNET3_READ_RX_QUEUE_DESCR64(d, qd_pa, conf.compRingBase=
+PA);
+           size =3D VMXNET3_READ_RX_QUEUE_DESCR32(d, qd_pa, conf.compRingSi=
+ze);
+  +        if (size > VMXNET3_RC_RING_MAX_SIZE) {                      <=3D=
+ Did not check RC ring size
+  +            size =3D VMXNET3_RC_RING_MAX_SIZE;
+  +        }
 
-  The Output Is:
-
-  amdgpu_device_initialize: amdgpu_query_info(ACCEL_WORKING) failed (-38)
-  amdgpu: amdgpu_device_initialize failed.
-  libGL error: failed to create dri screen
-  libGL error: failed to load driver: radeonsi
-  libGL error: failed to get magic
-  libGL error: failed to load driver: radeonsi
-
-  It then appears to run using software rendering.
+  This may lead to potential integer overflow OR OOB buffer access
+  issues.
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1913926/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/1913873/+subscriptions
 
