@@ -2,82 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE55B309DB4
-	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 16:40:30 +0100 (CET)
-Received: from localhost ([::1]:46420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C86F0309DD0
+	for <lists+qemu-devel@lfdr.de>; Sun, 31 Jan 2021 17:13:45 +0100 (CET)
+Received: from localhost ([::1]:33868 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Epx-00066p-KN
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 10:40:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59698)
+	id 1l6FM8-0007Wa-Ac
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 11:13:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35918)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Elf-0002ye-L6; Sun, 31 Jan 2021 10:36:03 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:44875)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Ele-0000HG-2g; Sun, 31 Jan 2021 10:36:03 -0500
-Received: by mail-wr1-x429.google.com with SMTP id d16so13855104wro.11;
- Sun, 31 Jan 2021 07:36:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:subject:to:cc:references:from:message-id:date:user-agent
- :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=Tj9ynb2vRPFjqtE44EpTjMkFQtoIUjhfjhxMTiCpavE=;
- b=bKISEXILOqbBKSyWxvRZTuqbFnMi0zbFX7AD4hLA5WBrs5OH0WAyfczzJO+CNwqZsH
- Px6aqJnUVVzUonDQ10/D4g69YH1ddYR09nffJI/ZWFikuSfuVxu3j6deINIQFetTavz5
- 7CB+cq5ySm37Y8rJ8MwxUmhoZdKCfu36fgGzfloOWPaLi22Cp9ygPjj8aGlQIaaQHq8p
- 2IHzfac/aVBfZIQQtBiotSnheZvuijwqcKpFhuI1E5CjikLGMbyONtbX/FkkDI2N54ec
- G0A6Ytwl9tirRcjmpbOsSElN5Jz/07qnnKLQNXGICM/tyABc8/kd8gkD8S3sorOVk8M9
- 9RCA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
- :date:user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=Tj9ynb2vRPFjqtE44EpTjMkFQtoIUjhfjhxMTiCpavE=;
- b=GW5R69zvX2Q2ttfrrb92E6G4zhACEEPDqUQkKrxHdyl0VKionuFkVERviFeae5ovii
- Q3p+xKA93v26wkYhY/AwdN8JEG4dbihNN56GU8OkDQ9wtkpllyjOgXIjLfZsABNfKMx3
- c48fBqgIgR0547fJNumI/jXt126vYNhHUEqS06Xj3bCQL4j7y5Wps/aiMPVSOSxN+KgC
- EpgC8kIFTRRgGHej2lZNwDHWfitM9uolr8sW3CoAAHVFI/y+Oms3Rx2/NRP1uy2nHDRH
- P0N/GPBa+7OLGaRWoIMjNJ9li4i+HjC+vgUJ/zUgpBALwPNRy0ISLYoOi8YkNWAoLEdu
- 6OoA==
-X-Gm-Message-State: AOAM531YeWTlYXccXS77fP/lA/YrTobl+lWAtFJVPFVXXzR6Da34roov
- FhlvlVf2eOqE5DW2L0UEQ2Uq2sWHqtE=
-X-Google-Smtp-Source: ABdhPJwxwfwJ1O3wZnQXDc1ZmYatUowqBlUM5eDlN14YoQfKfNZKRQ03jZH9GWmo0RCtIQi/fXcy0A==
-X-Received: by 2002:adf:ecc5:: with SMTP id s5mr13603929wro.423.1612107359885; 
- Sun, 31 Jan 2021 07:35:59 -0800 (PST)
-Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id f4sm23839332wrs.34.2021.01.31.07.35.58
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 31 Jan 2021 07:35:59 -0800 (PST)
-Subject: Re: [PATCH v5 03/11] target/arm: Restrict ARMv4 cpus to TCG accel
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20210130015227.4071332-1-f4bug@amsat.org>
- <20210130015227.4071332-4-f4bug@amsat.org>
- <CAFEAcA8UCFghGDb4oMujek_W_wsyYz+duiQ-d8JyN09NYoff-g@mail.gmail.com>
- <2871f7db-fe0a-51d6-312d-6d05ffa281a3@amsat.org>
- <CAFEAcA-W1tcRREaPTfMw98cNsHs7JHk4gjaJWaJNLpxZoVnKaw@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <40ca4720-7adf-8469-2593-6e6689d03fd6@amsat.org>
-Date: Sun, 31 Jan 2021 16:35:57 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1l6FKw-00072N-H9
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 11:12:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30414)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
+ id 1l6FKt-0007mV-P3
+ for qemu-devel@nongnu.org; Sun, 31 Jan 2021 11:12:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612109545;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=/j+Zjll2kbbDasMODKwZPcNmLazi6q4NpcAEHcCfmtQ=;
+ b=Xud0Pp5yHNV6/8Bf5+fTA1wwcpRqZVrRn6/yOOlz1pi2riCHljyCqwOLNRyMHWoIF84Qkh
+ wf63AmfFf1QW/sPjRQRjfsEDEWmWK+trZIu4sCUMcs3bmOBTGcnbQKAtfTFHHYCdlMhQ8A
+ RvcDH1gRy5MmBXBGU7LBFisRN0d2RlY=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-218-s84SLo8AODO0VSeRKqRARA-1; Sun, 31 Jan 2021 11:12:23 -0500
+X-MC-Unique: s84SLo8AODO0VSeRKqRARA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E63851005504;
+ Sun, 31 Jan 2021 16:12:21 +0000 (UTC)
+Received: from [10.36.114.62] (ovpn-114-62.ams2.redhat.com [10.36.114.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 771342BFEC;
+ Sun, 31 Jan 2021 16:12:19 +0000 (UTC)
+Subject: Re: [PATCH v2] hw/arm/smmuv3: Fix addr_mask for range-based
+ invalidation
+To: Zenghui Yu <yuzenghui@huawei.com>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, peter.maydell@linaro.org
+References: <20210130043220.1345-1-yuzenghui@huawei.com>
+From: Auger Eric <eric.auger@redhat.com>
+Message-ID: <da41fca5-c491-2279-1cbe-9d38add1ed0c@redhat.com>
+Date: Sun, 31 Jan 2021 17:12:18 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.5.0
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA-W1tcRREaPTfMw98cNsHs7JHk4gjaJWaJNLpxZoVnKaw@mail.gmail.com>
+In-Reply-To: <20210130043220.1345-1-yuzenghui@huawei.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eric.auger@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.079,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=eric.auger@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.079, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -90,49 +84,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
- kvm-devel <kvm@vger.kernel.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
- Claudio Fontana <cfontana@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: wanghaibin.wang@huawei.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 1/30/21 7:54 PM, Peter Maydell wrote:
-> On Sat, 30 Jan 2021 at 18:36, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>
->> Hi Peter,
->>
->> On 1/30/21 4:37 PM, Peter Maydell wrote:
->>> On Sat, 30 Jan 2021 at 01:52, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
->>>>
->>>> KVM requires a cpu based on (at least) the ARMv7 architecture.
->>>
->>> These days it requires ARMv8, because we dropped 32-bit host
->>> support, and all 64-bit host CPUs are v8.
->>
->> Oh, this comment is about the target, to justify it is pointless to
->> include pre-v7 target cpus/machines in a KVM-only binary.
->>
->> I'll update as:
->>
->> "KVM requires the target cpu based on (at least) the ARMv7
->> architecture."
+Hi Zenghui,
+
+On 1/30/21 5:32 AM, Zenghui Yu wrote:
+> When handling guest range-based IOTLB invalidation, we should decode the TG
+> field into the corresponding translation granule size so that we can pass
+> the correct invalidation range to backend. Set @granule to (tg * 2 + 10) to
+> properly emulate the architecture.
 > 
-> KVM requires the target CPU to be at least ARMv8, because
-> we only support the "host" cpu type, and all KVM host CPUs
-> are v8, which means you can't pass a v7 CPU as the target CPU.
-> (This used to not be true when we still supported running
-> KVM on a v7 CPU like the Cortex-A15, in which case you could
-> pass it to the guest.)
+> Fixes: d52915616c05 ("hw/arm/smmuv3: Get prepared for range invalidation")
+> Signed-off-by: Zenghui Yu <yuzenghui@huawei.com>
+> ---
+> * From v1:
+>   - Fix the compilation error
+> 
+>  hw/arm/smmuv3.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/smmuv3.c b/hw/arm/smmuv3.c
+> index bbca0e9f20..98b99d4fe8 100644
+> --- a/hw/arm/smmuv3.c
+> +++ b/hw/arm/smmuv3.c
+> @@ -801,7 +801,7 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
+>  {
+>      SMMUDevice *sdev = container_of(mr, SMMUDevice, iommu);
+>      IOMMUTLBEvent event;
+> -    uint8_t granule = tg;
+> +    uint8_t granule;
+>  
+>      if (!tg) {
+>          SMMUEventInfo event = {.inval_ste_allowed = true};
+> @@ -821,6 +821,8 @@ static void smmuv3_notify_iova(IOMMUMemoryRegion *mr,
+>              return;
+>          }
+>          granule = tt->granule_sz;
+> +    } else {
+> +        granule = tg * 2 + 10;
+>      }
+>  
+>      event.type = IOMMU_NOTIFIER_UNMAP;
+> 
+Acked-by: Eric Auger <eric.auger@redhat.com>
 
-Indeed:
+Thanks
 
-$ qemu-system-aarch64 -M xilinx-zynq-a9
-qemu-system-aarch64: KVM is not supported for this guest CPU type
-qemu-system-aarch64: kvm_init_vcpu: kvm_arch_init_vcpu failed (0):
-Invalid argument
+Eric
+
 
