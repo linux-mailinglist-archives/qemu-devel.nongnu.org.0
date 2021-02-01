@@ -2,55 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDB9030A07A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 04:13:45 +0100 (CET)
-Received: from localhost ([::1]:39814 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFBC830A0C3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 05:02:55 +0100 (CET)
+Received: from localhost ([::1]:45796 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Peq-00043n-Dc
-	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 22:13:44 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56196)
+	id 1l6QQQ-0002CT-DW
+	for lists+qemu-devel@lfdr.de; Sun, 31 Jan 2021 23:02:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60822)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1l6Pdm-0003VO-6M; Sun, 31 Jan 2021 22:12:38 -0500
-Received: from szxga06-in.huawei.com ([45.249.212.32]:2604)
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l6QPY-0001ee-WA; Sun, 31 Jan 2021 23:02:01 -0500
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44593 helo=ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lushenming@huawei.com>)
- id 1l6Pdi-0007tw-AT; Sun, 31 Jan 2021 22:12:37 -0500
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
- by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4DTXys5L03zjFs6;
- Mon,  1 Feb 2021 11:11:17 +0800 (CST)
-Received: from [10.174.184.214] (10.174.184.214) by
- DGGEMS414-HUB.china.huawei.com (10.3.19.214) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 1 Feb 2021 11:12:12 +0800
-Subject: Re: [RFC PATCH v2 3/3] vfio: Avoid disabling and enabling vectors
- repeatedly in VFIO migration
-To: Alex Williamson <alex.williamson@redhat.com>
-References: <20201209080919.156-1-lushenming@huawei.com>
- <20201209080919.156-4-lushenming@huawei.com>
- <20210126143614.175e271c@omen.home.shazbot.org>
- <7e61e7ae-e351-4228-d250-660251dcb0c0@huawei.com>
- <20210127072131.1c778247@x1.home.shazbot.org>
-From: Shenming Lu <lushenming@huawei.com>
-Message-ID: <2fc2db52-0677-c92e-f3c3-10fe9a77d75c@huawei.com>
-Date: Mon, 1 Feb 2021 11:12:12 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
- Thunderbird/78.2.2
+ (Exim 4.90_1) (envelope-from <dgibson@ozlabs.org>)
+ id 1l6QPV-0001VT-29; Sun, 31 Jan 2021 23:02:00 -0500
+Received: by ozlabs.org (Postfix, from userid 1007)
+ id 4DTZ500fLgz9t2g; Mon,  1 Feb 2021 15:01:39 +1100 (AEDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=gibson.dropbear.id.au; s=201602; t=1612152100;
+ bh=ygLJOgfVpsox/i3OBzci9Nph0wpBebtRQBeihnGbp+k=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZXMHv90N84Q5LC91UMU5F90XlRdi8GIy/jzDBzFwVFTtfuRff7BNQz2/4b352JIco
+ 3AkjihtN2N4OFcK0Pmozidh8m5X/BkxSsx7qQejycapQGNox1M0Uv1pD++6spGx6Nd
+ RnohDvnfGXmRolsu9YoFxXlfk4G+wgBx7cP0t5pA=
+Date: Mon, 1 Feb 2021 14:59:33 +1100
+From: David Gibson <david@gibson.dropbear.id.au>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Subject: Re: [PATCH v2] ppc/pnv: Set default RAM size to 1 GB
+Message-ID: <20210201035933.GA2251@yekko.fritz.box>
+References: <20210129111719.790692-1-clg@kaod.org>
 MIME-Version: 1.0
-In-Reply-To: <20210127072131.1c778247@x1.home.shazbot.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.214]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.32; envelope-from=lushenming@huawei.com;
- helo=szxga06-in.huawei.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.079,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3MwIy2ne0vdjdPXF"
+Content-Disposition: inline
+In-Reply-To: <20210129111719.790692-1-clg@kaod.org>
+Received-SPF: pass client-ip=203.11.71.1; envelope-from=dgibson@ozlabs.org;
+ helo=ozlabs.org
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -63,132 +57,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>, Neo Jia <cjia@nvidia.com>,
- mst@redhat.com, Marc Zyngier <maz@kernel.org>,
- Cornelia Huck <cohuck@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Eric Auger <eric.auger@redhat.com>, Kirti Wankhede <kwankhede@nvidia.com>,
- qemu-arm@nongnu.org, yuzenghui@huawei.com, wanghaibin.wang@huawei.com
+Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021/1/27 22:21, Alex Williamson wrote:
-> On Wed, 27 Jan 2021 19:27:35 +0800
-> Shenming Lu <lushenming@huawei.com> wrote:
-> 
->> On 2021/1/27 5:36, Alex Williamson wrote:
->>> On Wed, 9 Dec 2020 16:09:19 +0800
->>> Shenming Lu <lushenming@huawei.com> wrote:
->>>   
->>>> Different from the normal situation when the guest starts, we can
->>>> know the max unmasked vetctor (at the beginning) after msix_load()
->>>> in VFIO migration. So in order to avoid ineffectively disabling and  
->>>
->>> s/ineffectively/inefficiently/?  It's "effective" either way I think.  
->>
->> Yeah, I should say "inefficiently". :-)
->>
->>>   
->>>> enabling vectors repeatedly, let's allocate all needed vectors first
->>>> and then enable these unmasked vectors one by one without disabling.
->>>>
->>>> Signed-off-by: Shenming Lu <lushenming@huawei.com>
->>>> ---
->>>>  hw/pci/msix.c         | 17 +++++++++++++++++
->>>>  hw/vfio/pci.c         | 10 ++++++++--
->>>>  include/hw/pci/msix.h |  2 ++
->>>>  3 files changed, 27 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/hw/pci/msix.c b/hw/pci/msix.c
->>>> index 67e34f34d6..bf291d3ff8 100644
->>>> --- a/hw/pci/msix.c
->>>> +++ b/hw/pci/msix.c
->>>> @@ -557,6 +557,23 @@ unsigned int msix_nr_vectors_allocated(const PCIDevice *dev)
->>>>      return dev->msix_entries_nr;
->>>>  }
->>>>  
->>>> +int msix_get_max_unmasked_vector(PCIDevice *dev)
->>>> +{
->>>> +    int max_unmasked_vector = -1;
->>>> +    int vector;
->>>> +
->>>> +    if ((dev->config[dev->msix_cap + MSIX_CONTROL_OFFSET] &
->>>> +        (MSIX_ENABLE_MASK | MSIX_MASKALL_MASK)) == MSIX_ENABLE_MASK) {
->>>> +        for (vector = 0; vector < dev->msix_entries_nr; vector++) {
->>>> +            if (!msix_is_masked(dev, vector)) {
->>>> +                max_unmasked_vector = vector;
->>>> +            }
->>>> +        }
->>>> +    }
->>>> +
->>>> +    return max_unmasked_vector;
->>>> +}  
->>>
->>> Comments from QEMU PCI folks?
->>>   
->>>> +
->>>>  static int msix_set_notifier_for_vector(PCIDevice *dev, unsigned int vector)
->>>>  {
->>>>      MSIMessage msg;
->>>> diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
->>>> index 51dc373695..e755ed2514 100644
->>>> --- a/hw/vfio/pci.c
->>>> +++ b/hw/vfio/pci.c
->>>> @@ -568,6 +568,9 @@ static void vfio_msix_vector_release(PCIDevice *pdev, unsigned int nr)
->>>>  
->>>>  static void vfio_msix_enable(VFIOPCIDevice *vdev)
->>>>  {
->>>> +    int max_unmasked_vector = msix_get_max_unmasked_vector(&vdev->pdev);
->>>> +    unsigned int used_vector = MAX(max_unmasked_vector, 0);
->>>> +  
->>>
->>> The above PCI function could also be done inline here pretty easily too:
->>>
->>> unsigned int nr, max_vec = 0;
->>>
->>> if (!msix_masked(&vdev->pdev))
->>>     for (nr = 0; nr < msix_nr_vectors_allocated(&vdev->pdev); nr++) {
->>>         if (!msix_is_masked(&vdev->pdev, nr)) {
->>>             max_vec = nr;
->>>         }
->>>     }
->>> }
->>>
->>> It's a bit cleaner than the msix utility function, imo.  
->>
->> Yeah, it makes sense.
->>
->>>   
->>>>      vfio_disable_interrupts(vdev);
->>>>  
->>>>      vdev->msi_vectors = g_new0(VFIOMSIVector, vdev->msix->entries);
->>>> @@ -586,9 +589,12 @@ static void vfio_msix_enable(VFIOPCIDevice *vdev)
->>>>       * triggering to userspace, then immediately release the vector, leaving
->>>>       * the physical device with no vectors enabled, but MSI-X enabled, just
->>>>       * like the guest view.
->>>> +     * If there are unmasked vectors (such as in migration) which will be
->>>> +     * enabled soon, we can allocate them here to avoid ineffectively disabling
->>>> +     * and enabling vectors repeatedly later.  
->>>
->>> It just happens that migration triggers this usage model where the
->>> MSI-X enable bit is set with vectors unmasked in the vector table, but
->>> this is not unique to migration, guests can follow this pattern as well.
->>> Has this been tested with a variety of guests?  Logically it seems
->>> correct, but always good to prove so.  Thanks,  
->>
->> I have tested it in migration and normal guest startup (only the latest Linux).
->> And I can try to test with some other kernels, could you be more specific about this?
-> 
-> Minimally also Windows, ideally a BSD as well.  Thanks,
-> 
 
-Hi Alex,
+--3MwIy2ne0vdjdPXF
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I have tested this patch with a Windows guest (Windows Server 2012 R2 Datacenter, Intel
-X722 Ethernet controller (passthrough)) and nothing went wrong. And I found that it does
-trigger our usage model in the normal guest startup: has all needed vectors already unmasked
-in the vector table when calling vfio_msix_enable()...
+On Fri, Jan 29, 2021 at 12:17:19PM +0100, C=E9dric Le Goater wrote:
+65;6201;1c> The memory layout of the PowerNV machine is defined as :
+>=20
+>   #define KERNEL_LOAD_BASE	((void *)0x20000000)
+>   #define KERNEL_LOAD_SIZE	0x08000000
+>=20
+>   #define INITRAMFS_LOAD_BASE	KERNEL_LOAD_BASE + KERNEL_LOAD_SIZE
+>   #define INITRAMFS_LOAD_SIZE	0x08000000
+>=20
+>   #define SKIBOOT_BASE		0x30000000
+>   #define SKIBOOT_SIZE		0x01c10000
+>=20
+>   #define CPU_STACKS_BASE	(SKIBOOT_BASE + SKIBOOT_SIZE)
+>   #define STACK_SHIFT		15
+>   #define STACK_SIZE		(1 << STACK_SHIFT)
+>=20
+> The overall size of the CPU stacks is (max PIR + 1) * 32K and the
+> machine easily reaches 800MB of minimum required RAM.
+>=20
+> Any value below will result in a skiboot crash :
+>=20
+>     [    0.034949905,3] MEM: Partial overlap detected between regions:
+>     [    0.034959039,3] MEM: ibm,firmware-stacks [0x31c10000-0x3a450000] =
+(new)
+>     [    0.034968576,3] MEM: ibm,firmware-allocs-memory@0 [0x31c10000-0x3=
+8400000]
+>     [    0.034980367,3] Out of memory adding skiboot reserved areas
+>     [    0.035074945,3] ***********************************************
+>     [    0.035093627,3] < assert failed at core/mem_region.c:1129 >
+>     [    0.035104247,3]     .
+>     [    0.035108025,3]      .
+>     [    0.035111651,3]       .
+>     [    0.035115231,3]         OO__)
+>     [    0.035119198,3]        <"__/
+>     [    0.035122980,3]         ^ ^
+>=20
+> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
-Thanks,
-Shenming
+Applied to ppc-for-6.0, thanks.
+
+> ---
+>  hw/ppc/pnv.c | 10 +++++++---
+>  1 file changed, 7 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/hw/ppc/pnv.c b/hw/ppc/pnv.c
+> index 50810df83815..77af846cdfea 100644
+> --- a/hw/ppc/pnv.c
+> +++ b/hw/ppc/pnv.c
+> @@ -21,6 +21,7 @@
+>  #include "qemu-common.h"
+>  #include "qemu/datadir.h"
+>  #include "qemu/units.h"
+> +#include "qemu/cutils.h"
+>  #include "qapi/error.h"
+>  #include "sysemu/qtest.h"
+>  #include "sysemu/sysemu.h"
+> @@ -725,8 +726,11 @@ static void pnv_init(MachineState *machine)
+>      DeviceState *dev;
+> =20
+>      /* allocate RAM */
+> -    if (machine->ram_size < (1 * GiB)) {
+> -        warn_report("skiboot may not work with < 1GB of RAM");
+> +    if (machine->ram_size < mc->default_ram_size) {
+> +        char *sz =3D size_to_str(mc->default_ram_size);
+> +        error_report("Invalid RAM size, should be bigger than %s", sz);
+> +        g_free(sz);
+> +        exit(EXIT_FAILURE);
+>      }
+>      memory_region_add_subregion(get_system_memory(), 0, machine->ram);
+> =20
+> @@ -1994,7 +1998,7 @@ static void pnv_machine_class_init(ObjectClass *oc,=
+ void *data)
+>       * RAM defaults to less than 2048 for 32-bit hosts, and large
+>       * enough to fit the maximum initrd size at it's load address
+>       */
+> -    mc->default_ram_size =3D INITRD_LOAD_ADDR + INITRD_MAX_SIZE;
+> +    mc->default_ram_size =3D 1 * GiB;
+>      mc->default_ram_id =3D "pnv.ram";
+>      ispc->print_info =3D pnv_pic_print_info;
+>      nc->nmi_monitor_handler =3D pnv_nmi;
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--3MwIy2ne0vdjdPXF
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAmAXfKQACgkQbDjKyiDZ
+s5LwJw/+IuRqrvpOyclywbUBXVJp0UKWh1H2i47DMlDhaljUvUigAyxkbnVGpEP5
+iPkaiLljsBIKCR0sVlUALa6UUcdz7TnTfJ1g29/fcd4+YKqVNksTrwhjXddtJXw+
+gBfg8Q5zGZfS7fmThL63CZ2bknncE/TDnrfUjPA/BJtm5WsKU4nm2mFrp3Q462Jb
+RFkGoWEOTLUsqaNIvampd39/ajmCeHunKRbWNvYfW8FfCKScklsEJmzlmJ0AWPlb
+cB4fg2xMfpcJ6FJWKmcPB1Iyk1rrdYFUOZramnmuphqL/2IHqllNKzFa7YOW41B7
+6/q1pcoU6aIN68AgCraDXoWZ+Sfy2+jLgzjqhq0FGAw7QW6vV/qkFCbO2ymr+vA4
+C8+DtKbnthhFwRKCLqbDAze1eAREmcrMpYwnlyb8Abvbz0XXVcE6KO3LvWuwzFBC
+eInBaCVbdMjxb4U2OgrMR5ewiH/Ugj8nmQbg9oVe3z/Le3Q2KSsg/YgwU3AeMmHJ
+TXzw3r7kyBS25S425lw818GhKpHyYf+0VhlcxT8DM7enkoPSULijGbh2cnegF9g/
+uxI3QGtKkL2DAO1Axt4Ot/G0Tm0bHTDDTE/k8L3tgEZUKb4Yd5WyKubZ8RXC2Ib7
+bDB6zaMmWYdSLu2VFeDR7KTybopRoQ/4FTKBd3YcXhvw4A8ozC8=
+=MtlZ
+-----END PGP SIGNATURE-----
+
+--3MwIy2ne0vdjdPXF--
 
