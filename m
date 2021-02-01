@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8320B30A665
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:22:25 +0100 (CET)
-Received: from localhost ([::1]:34732 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B78B30A638
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:10:03 +0100 (CET)
+Received: from localhost ([::1]:52314 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6XHk-0006a7-Kz
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:22:24 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45768)
+	id 1l6X5m-0001HW-NQ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:10:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43018)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6XGX-00067J-NX
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:21:12 -0500
-Received: from indium.canonical.com ([91.189.90.7]:42628)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6XGR-0004Yd-Py
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:21:09 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6XGN-0002LW-LQ
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 11:20:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id A22C92E825C
- for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 11:20:52 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Feb 2021 11:05:49 -0000
-From: Peter Maydell <1914021@bugs.launchpad.net>
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l6X4S-0008VH-3Y; Mon, 01 Feb 2021 06:08:42 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229]:50609)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1l6X4O-0007JR-EQ; Mon, 01 Feb 2021 06:08:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=5jdSVpy/1KSbNdZK0RnYNaH3tEI5Tt5lBT5F+axQkIM=; b=jNR36+vZN7K4f6vizdCFhK0VWe
+ YjGK9XECVeAEJ++IMRmwxi9cb2qPQSh0U7EKjviF4ZDZIhqw2ey1FO1XWMyqGN2fHqCqTNPbuD2/7
+ D9GCO/7ef0hOVQDEK8uSJ7OaHOhqvp1rsFEFxPZAmkqINVNmSEs56E0rdg4jFx/nnZdjEnq8WOzrf
+ nDLXph6cixFF/dW9CoypGqlhhUnqs9vyPC4QpOo9HNwPxTONGsf8Pa+HRLXCR2VophTMcIysnlHAk
+ 6oDArMLcETJZPQTN5CqLZNSJ6B6S3slAHQvfBYAb3vjyz73013uR6dPFgm7u/cgDJjCx7NF67z+LL
+ elOUT367H+NQ72JVZ7wPqNoBoOXr2JXMUOqrbkMVd6+KKPQ/IeHfhaCyeykSPodQKFdnCws83YtEe
+ plfBKIAAZAdOT8F6qCEXmK69JX5P1U1qEle/pipoBMyarB8eJGu/1HoQTVhWRR1/MQLQMgBgyBJQ3
+ CQpCeQbt4bC5SCqeGZgBTHpC2S9ZA/coDewXtfD+3rmrmMt2mOcTspWaWtIfuq9bbm5KtyaRKoLDA
+ QTdZrgC6H+1IM4ZeEq62D63ozlAuEOlGYS85fC9vxNdGlO9r379AQfUtFqUQytTjiFgo4EGKwiYbd
+ tVkyqNpdHkmwihg3vJqHe3Z38Gj8aN6e4Q4KC7uIM=;
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: johndong pmaydell
-X-Launchpad-Bug-Reporter: Dong JianQiang (johndong)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161217038744.31620.11534855593258118024.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161217754978.7437.10927758930446903660.malone@gac.canonical.com>
-Subject: [Bug 1914021] Re: qemu: uncaught target signal 4 (Illegal
- instruction) but gdb remote-debug exited normally
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 1d3077609c1030236fc76b09916fa577f213c23b
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Subject: Re: [PATCH] MAINTAINERS: add my github tree URL
+Date: Mon, 01 Feb 2021 12:08:27 +0100
+Message-ID: <6250520.xprUBRPNkx@silver>
+In-Reply-To: <20210201110810.28b58ddc@bahia.lan>
+References: <E1l5rYG-0005sv-87@lizzy.crudebyte.com>
+ <20210201110810.28b58ddc@bahia.lan>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,71 +61,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914021 <1914021@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
+Reply-to:  Christian Schoenebeck <qemu_oss@crudebyte.com>
+From: qemu_oss--- via <qemu-devel@nongnu.org>
 
-For me, with current head-of-git QEMU, the program crashes with a
-SIGSEGV very early in execution, because:
+On Montag, 1. Februar 2021 11:08:10 CET Greg Kurz wrote:
+> On Sat, 30 Jan 2021 15:39:14 +0100
+> 
+> Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+> > I already used this github URL for PRs before and will continue to use it
+> > in foreseeable future.
+> > 
+> > Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> > ---
+> 
+> Reviewed-by: Greg Kurz <groug@kaod.org>
+> 
+> Unless you're planning to send a PR soon, I guess this can go
+> through the trivial tree.
 
-0x00008260:  e59f30f0  ldr      r3, [pc, #0xf0]
+Yes, I would appreciate if that's going through the trivial queue, as it will 
+indeed take a while for my next PR.
 
-loads 0 into r3, and then
+Thanks!
 
-0x00008270:  e1a0d003  mov      sp, r3
+Best regards,
+Christian Schoenebeck
 
-sets sp to 0, and then
 
-0x000087b0:  e92d4030  push     {r4, r5, lr}
-
-tries to write to addres 0, which causes a SEGV.
-
-This happens whether using the gdbstub or not.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914021
-
-Title:
-  qemu: uncaught target signal 4 (Illegal instruction) but gdb remote-
-  debug exited normally
-
-Status in QEMU:
-  New
-
-Bug description:
-  I'm getting Illegal instruction (core dumped) when running the
-  attached a.out_err binary in qemu, but when using Gdb to remote-debug
-  the program, it exited normally. will appreciate if you can help look
-  into this qemu issue.
-
-  readelf -h a.out_err
-  ELF Header:
-    Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
-    Class:                             ELF32
-    Data:                              2's complement, little endian
-    Version:                           1 (current)
-    OS/ABI:                            UNIX - System V
-    ABI Version:                       0
-    Type:                              EXEC (Executable file)
-    Machine:                           ARM
-    Version:                           0x1
-    Entry point address:               0x8220
-    Start of program headers:          52 (bytes into file)
-    Start of section headers:          54228 (bytes into file)
-    Flags:                             0x5000200, Version5 EABI, soft-float=
- ABI
-    Size of this header:               52 (bytes)
-    Size of program headers:           32 (bytes)
-    Number of program headers:         3
-    Size of section headers:           40 (bytes)
-    Number of section headers:         16
-    Section header string table index: 15
-
-  qemu-arm version 4.0.0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914021/+subscriptions
 
