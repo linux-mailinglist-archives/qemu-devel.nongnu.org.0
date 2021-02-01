@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E935630B1B5
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 21:48:46 +0100 (CET)
-Received: from localhost ([::1]:35564 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58BAB30B1B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 21:48:40 +0100 (CET)
+Received: from localhost ([::1]:35276 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6g7q-0004Pk-0i
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 15:48:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34530)
+	id 1l6g7i-0004Ir-SA
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 15:48:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34504)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l6g5E-0003Sf-Pk; Mon, 01 Feb 2021 15:46:04 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167]:40130
- helo=mail.default.ilande.uk0.bigv.io)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l6g5C-0002XO-TE; Mon, 01 Feb 2021 15:46:04 -0500
-Received: from host86-132-83-253.range86-132.btcentralplus.com
- ([86.132.83.253] helo=[192.168.1.65])
- by mail.default.ilande.uk0.bigv.io with esmtpsa
- (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.92)
- (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1l6g5F-0003Nu-Eu; Mon, 01 Feb 2021 20:46:05 +0000
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-References: <20210129081519.3848145-1-armbru@redhat.com>
- <20210129081519.3848145-2-armbru@redhat.com>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-ID: <c448e0cb-f0c4-57fb-20df-077b65e386c6@ilande.co.uk>
-Date: Mon, 1 Feb 2021 20:45:40 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.7.0
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1l6g56-0003OD-Ga
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 15:45:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28244)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <rjones@redhat.com>) id 1l6g53-0002XC-Mm
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 15:45:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612212352;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=pmV2+qo4lEbor/LqZxQtcTTHMbYW+j+YecyDQx7JrSs=;
+ b=TWt8ObVoWS4j+eN9SgQxCR8LMhHIhJRHR8gfQCNNnjKbQo5o+GNL+wAj/ZM6f0394EkXw8
+ 8iJfyCWnxlsShB/9oXiD9j7YAjeyreLg+6WKC0KEOAX/NPPQBxjafqiCUHFnUpwwRy4q8u
+ NlrEVMXykgxP/2Pgx+4+RUp8gHmarh8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-304-yLyst2GtO-qmK7-94_p3_g-1; Mon, 01 Feb 2021 15:45:49 -0500
+X-MC-Unique: yLyst2GtO-qmK7-94_p3_g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 89F478042A3;
+ Mon,  1 Feb 2021 20:45:48 +0000 (UTC)
+Received: from localhost (ovpn-114-98.ams2.redhat.com [10.36.114.98])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 213E127C3F;
+ Mon,  1 Feb 2021 20:45:47 +0000 (UTC)
+Date: Mon, 1 Feb 2021 20:45:47 +0000
+From: "Richard W.M. Jones" <rjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PULL 11/24] tcg/optimize: Use tcg_constant_internal with
+ constant folding
+Message-ID: <20210201204547.GD2673@redhat.com>
+References: <20210114021654.647242-1-richard.henderson@linaro.org>
+ <20210114021654.647242-12-richard.henderson@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210129081519.3848145-2-armbru@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 86.132.83.253
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH RFC 1/1] hw: Replace anti-social QOM type names
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk;
- helo=mail.default.ilande.uk0.bigv.io
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+In-Reply-To: <20210114021654.647242-12-richard.henderson@linaro.org>
+User-Agent: Mutt/1.5.21 (2010-09-15)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=rjones@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=rjones@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -62,52 +78,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com, frederic.konrad@adacore.com,
- kraxel@redhat.com, edgar.iglesias@gmail.com, mreitz@redhat.com,
- qemu-block@nongnu.org, quintela@redhat.com, andrew.smirnov@gmail.com,
- marcandre.lureau@redhat.com, atar4qemu@gmail.com, ehabkost@redhat.com,
- alistair@alistair23.me, dgilbert@redhat.com, chouteau@adacore.com,
- qemu-arm@nongnu.org, peter.chubb@nicta.com.au, jsnow@redhat.com,
- kwolf@redhat.com, berrange@redhat.com, jcd@tribudubois.net,
- pbonzini@redhat.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29/01/2021 08:15, Markus Armbruster wrote:
+This commit breaks running certain s390x binaries, at least
+the "mount" command (or a library it uses) breaks.
 
-> Several QOM type names contain ',':
-> 
->      ARM,bitband-memory
->      etraxfs,pic
->      etraxfs,serial
->      etraxfs,timer
->      fsl,imx25
->      fsl,imx31
->      fsl,imx6
->      fsl,imx6ul
->      fsl,imx7
->      grlib,ahbpnp
->      grlib,apbpnp
->      grlib,apbuart
->      grlib,gptimer
->      grlib,irqmp
->      qemu,register
->      SUNW,bpp
->      SUNW,CS4231
->      SUNW,DBRI
->      SUNW,DBRI.prom
->      SUNW,fdtwo
->      SUNW,sx
->      SUNW,tcx
+More details in this BZ:
 
-My personal preference for the SUNW prefix would be to either drop it completely or 
-change it to "sun-" instead. The reason being that the "SUNW," prefix is the standard 
-way to reference Sun devices/packages, and looking at the replacements which still 
-have a SUNW prefix in captials makes me thing the hyphen is either a typo or my 
-fingers go on autopilot and type a comma anyway...
+https://bugzilla.redhat.com/show_bug.cgi?id=1922248
 
+Could we revert this change since it seems to have caused other
+problems as well?
 
-ATB,
+Rich.
 
-Mark.
+-- 
+Richard Jones, Virtualization Group, Red Hat http://people.redhat.com/~rjones
+Read my programming and virtualization blog: http://rwmj.wordpress.com
+Fedora Windows cross-compiler. Compile Windows programs, test, and
+build Windows installers. Over 100 libraries supported.
+http://fedoraproject.org/wiki/MinGW
+
 
