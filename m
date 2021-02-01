@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8214C30AAFF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:20:51 +0100 (CET)
-Received: from localhost ([::1]:57594 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B93C730AAEE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:19:43 +0100 (CET)
+Received: from localhost ([::1]:54722 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6b0U-0002jU-9s
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:20:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35586)
+	id 1l6azO-0001SE-QI
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:19:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35748)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l6axI-0007jd-PK; Mon, 01 Feb 2021 10:17:32 -0500
-Received: from mail-io1-xd2a.google.com ([2607:f8b0:4864:20::d2a]:37697)
+ id 1l6ay1-0008Rp-MY; Mon, 01 Feb 2021 10:18:18 -0500
+Received: from mail-io1-xd33.google.com ([2607:f8b0:4864:20::d33]:46397)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l6axH-0001xr-2z; Mon, 01 Feb 2021 10:17:32 -0500
-Received: by mail-io1-xd2a.google.com with SMTP id d13so17711049ioy.4;
- Mon, 01 Feb 2021 07:17:30 -0800 (PST)
+ id 1l6axy-0002Gl-7m; Mon, 01 Feb 2021 10:18:17 -0500
+Received: by mail-io1-xd33.google.com with SMTP id u8so12615024ior.13;
+ Mon, 01 Feb 2021 07:18:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=gDOUEAMCOcVpC8+Ktm4REQG9jTibaj2y2OtvFFqaoR8=;
- b=vGLCRpkRI2eSE9Auyv/J9729gX4sJPjIiSV7eHDWY3CVBvl095cRaLupAmvY907rnt
- oPTrR512TdhLLtu8wsyHmzKE91oWLrDGdxDLtoOqi+Nx9awtoZ0zgpun+vCQGTVC0n+Q
- 7noYLo1OW53WXXzw7RkozppbwJu1p/El/OzDPpmBxa5T3MZS66Zz9DN+JHeinL2OX7/U
- gqUCzTwoWEs1jVbs1Bzm+YYOonn0vuRWCNifYcGGlZItzaZhMlbZJxrqhrV6vk/Lcm2v
- KrmOwnYQ+oMhE+2xoy0EU/vr6BrINPKvw8n7VvWPzHXW29zk/0iDsod7RpN1FhMLyLKy
- FLsw==
+ bh=rsBBNq0YNUibXzK6TlF3VCvzx6/0Sg0ag9aEiZUg1IQ=;
+ b=s+L7wAtoX/lkd1NN6++IQdEUyS5COw9aMmkYOVX30uxMMaE+HmhELtOqgBe4AEZguZ
+ 6Srff+KtYCf6sRNOxYJHUlppxdGfQuOKNR62F6GG5b8o7VO2YhpbpOXqhfwSca+9BWA4
+ 7cyzy2NKsjB7PRJmnmxPSFEeozDXLbknmcZgIVOK1B0BYw0naLTgnqJ9Gfj+njDSdzQg
+ t+MYljHW1WwiIj8y26t7S9sn0WG8cHhArCP3AxBGU8fS9HPj5OBLN76RDI66+DA1J/uo
+ ND4CSoPKMh1uETSx3krnEEQwPeDDR461gPZaNLvdQcl6BueGDv46qLaXlJBG4XX1nJUY
+ Dsmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=gDOUEAMCOcVpC8+Ktm4REQG9jTibaj2y2OtvFFqaoR8=;
- b=GYfOJZ1kE9F9j/6F8F70jm0IY8A+anrSfpbWxUZ1aqODF6KzhzJdQfFx2CwQ4LnYE3
- kjk3hdm26+Be2A9eb6xR+KduQhQ3yB90kPiqTP11+hX0XudvwAbNaa8FLTe8614SG+vD
- VSDTzYbzDkYnXX1eUKAQ97xGOLEHf1n92YwGxaSjX83iTH+CSxxhKfHi9iCVi9YeejfK
- y/PHynN3dBMPa1ToyQVKX7pP0prd9TK71hZYFIUKm+2ry8/iGWWVF9V/U07mrxQJPzNL
- w9vE7Adf5uxzKuFThA5yc5SS20vb1Fsp0yVJIcc0d3tQeM2vUgilmbQXhJy/vpWFzzs7
- 90Jw==
-X-Gm-Message-State: AOAM531+imsXNm6BVtN+QpbZy8GF2vM1uXaKnsdtVzK5K7F0V6ktwFXp
- y+/lEbFZdZ7ckLI/YXMfSzW/vh55XqPedN8wiuQ=
-X-Google-Smtp-Source: ABdhPJw9mNqq5ofLBS24C1TRmv4FdipR+keeYfFRk4zZvF0EV/eKgqKImB+4G1DFVRPP/WM1dHXDQGDQKsZWOD+95Yc=
-X-Received: by 2002:a02:3b6c:: with SMTP id i44mr15143360jaf.91.1612192648963; 
- Mon, 01 Feb 2021 07:17:28 -0800 (PST)
+ bh=rsBBNq0YNUibXzK6TlF3VCvzx6/0Sg0ag9aEiZUg1IQ=;
+ b=spF/xkggid+teLUh02hOSNSgNuNM5NwAqVLsOr/OOEatF4fUEwxad4Szbz9yKuTV1f
+ rJ+G0xxj68ks8WUHiPwr/dt3BOfv8JnQ0ml04NvwC95u1nI8F4bz7Qx62JsBnCUIZwKt
+ 19RqgfovYiOwKSSJIIdOLzDAMcyLbN6o4dXo3ucH2wkSwq8QSDOem9U66V2bFWgLolIN
+ Fz2bUyYXflDv2PcfDN9Se5lWO51RzABI+5fKxj9J/GdUv3O3q67KJU6w/RPoG3Erdn7u
+ 61lMCg9YRvlwElst/jcCC2mxwcyHp3Lle16Nn/W3g92ECJpCW374YE/qBQvvsrXklU0B
+ iboA==
+X-Gm-Message-State: AOAM530vps61ocZl4p0onU2gshtEZu5YVduW5/Kt4QxxaM/7xc+w0DKW
+ 6Kh6y7PxkIQp35W1whRTxnwCRW8ZTvcaXg2sjPM=
+X-Google-Smtp-Source: ABdhPJwz+RtsuuXnzBWOJW2O7I3qpJVQeqUsX1fun383WrAEZ/krnPpCF3WayNNa3W8QmGHysggNPBRJnRcsnCxo3fY=
+X-Received: by 2002:a6b:d30d:: with SMTP id s13mr13396022iob.175.1612192690146; 
+ Mon, 01 Feb 2021 07:18:10 -0800 (PST)
 MIME-Version: 1.0
 References: <20210131105918.228787-1-f4bug@amsat.org>
- <20210131105918.228787-4-f4bug@amsat.org>
-In-Reply-To: <20210131105918.228787-4-f4bug@amsat.org>
+ <20210131105918.228787-8-f4bug@amsat.org>
+In-Reply-To: <20210131105918.228787-8-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 1 Feb 2021 07:17:02 -0800
-Message-ID: <CAKmqyKOyoXVJ14i66LmsNoj9OZ69Txv_xssNSuHq+cy6-CysJw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/7] hw/arm/xlnx-versal: Versal SoC requires ZDMA
+Date: Mon, 1 Feb 2021 07:17:44 -0800
+Message-ID: <CAKmqyKNUtvJo_Y=3xKkvqsnw7t45A=PLR3Q1xTZx+XT42fzwMg@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] hw/arm: Display CPU type in machine description
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2a;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d33;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd33.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -84,19 +84,16 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Laurent Vivier <laurent@vivier.eu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
  qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Joel Stanley <joel@jms.id.au>
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Sun, Jan 31, 2021 at 3:08 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
 g> wrote:
 >
-> The Versal SoC instantiates the TYPE_XLNX_ZDMA object in
-> versal_create_admas(). Introduce the XLNX_ZDMA configuration
-> and select it to fix:
->
->   $ qemu-system-aarch64 -M xlnx-versal-virt ...
->   qemu-system-aarch64: missing object type 'xlnx.zdma'
+> Most of ARM machines display their CPU when QEMU list the available
+> machines (-M help). Some machines do not. Fix to unify the help
+> output.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -105,64 +102,104 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
-> Cc: Alistair Francis <alistair@alistair23.me>
-> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
-> ---
->  hw/arm/Kconfig     | 2 ++
->  hw/dma/Kconfig     | 3 +++
->  hw/dma/meson.build | 2 +-
->  3 files changed, 6 insertions(+), 1 deletion(-)
+>  hw/arm/digic_boards.c  | 2 +-
+>  hw/arm/microbit.c      | 2 +-
+>  hw/arm/netduino2.c     | 2 +-
+>  hw/arm/netduinoplus2.c | 2 +-
+>  hw/arm/orangepi.c      | 2 +-
+>  hw/arm/stellaris.c     | 4 ++--
+>  6 files changed, 7 insertions(+), 7 deletions(-)
 >
-> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-> index 223016bb4e8..09298881f2f 100644
-> --- a/hw/arm/Kconfig
-> +++ b/hw/arm/Kconfig
-> @@ -354,6 +354,7 @@ config XLNX_ZYNQMP_ARM
->      select XILINX_AXI
->      select XILINX_SPIPS
->      select XLNX_ZYNQMP
-> +    select XLNX_ZDMA
+> diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
+> index be12873673b..6cdc1d83fca 100644
+> --- a/hw/arm/digic_boards.c
+> +++ b/hw/arm/digic_boards.c
+> @@ -142,7 +142,7 @@ static void canon_a1100_init(MachineState *machine)
 >
->  config XLNX_VERSAL
->      bool
-> @@ -362,6 +363,7 @@ config XLNX_VERSAL
->      select CADENCE
->      select VIRTIO_MMIO
->      select UNIMP
-> +    select XLNX_ZDMA
+>  static void canon_a1100_machine_init(MachineClass *mc)
+>  {
+> -    mc->desc =3D "Canon PowerShot A1100 IS";
+> +    mc->desc =3D "Canon PowerShot A1100 IS (ARM946)";
+>      mc->init =3D &canon_a1100_init;
+>      mc->ignore_memory_transaction_failures =3D true;
+>      mc->default_ram_size =3D 64 * MiB;
+> diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
+> index 0947491cb97..e9494334ce7 100644
+> --- a/hw/arm/microbit.c
+> +++ b/hw/arm/microbit.c
+> @@ -64,7 +64,7 @@ static void microbit_machine_class_init(ObjectClass *oc=
+, void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
 >
->  config NPCM7XX
->      bool
-> diff --git a/hw/dma/Kconfig b/hw/dma/Kconfig
-> index d67492d36c1..5d6be1a7a7a 100644
-> --- a/hw/dma/Kconfig
-> +++ b/hw/dma/Kconfig
-> @@ -18,6 +18,9 @@ config ZYNQ_DEVCFG
->      bool
->      select REGISTER
+> -    mc->desc =3D "BBC micro:bit";
+> +    mc->desc =3D "BBC micro:bit (Cortex-M0)";
+>      mc->init =3D microbit_init;
+>      mc->max_cpus =3D 1;
+>  }
+> diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
+> index 8f103341443..1733b71507c 100644
+> --- a/hw/arm/netduino2.c
+> +++ b/hw/arm/netduino2.c
+> @@ -54,7 +54,7 @@ static void netduino2_init(MachineState *machine)
 >
-> +config XLNX_ZDMA
-> +    bool
-> +
->  config STP2000
->      bool
+>  static void netduino2_machine_init(MachineClass *mc)
+>  {
+> -    mc->desc =3D "Netduino 2 Machine";
+> +    mc->desc =3D "Netduino 2 Machine (Cortex-M3)";
+>      mc->init =3D netduino2_init;
+>      mc->ignore_memory_transaction_failures =3D true;
+>  }
+> diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
+> index 68abd3ec69d..d3ad7a2b675 100644
+> --- a/hw/arm/netduinoplus2.c
+> +++ b/hw/arm/netduinoplus2.c
+> @@ -55,7 +55,7 @@ static void netduinoplus2_init(MachineState *machine)
 >
-> diff --git a/hw/dma/meson.build b/hw/dma/meson.build
-> index b991d7698c7..47b4a7cb47b 100644
-> --- a/hw/dma/meson.build
-> +++ b/hw/dma/meson.build
-> @@ -9,7 +9,7 @@
->  softmmu_ss.add(when: 'CONFIG_ETRAXFS', if_true: files('etraxfs_dma.c'))
->  softmmu_ss.add(when: 'CONFIG_STP2000', if_true: files('sparc32_dma.c'))
->  softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx_dpdm=
-a.c'))
-> -softmmu_ss.add(when: 'CONFIG_XLNX_ZYNQMP_ARM', if_true: files('xlnx-zdma=
-.c'))
-> +softmmu_ss.add(when: 'CONFIG_XLNX_ZDMA', if_true: files('xlnx-zdma.c'))
->  softmmu_ss.add(when: 'CONFIG_OMAP', if_true: files('omap_dma.c', 'soc_dm=
-a.c'))
->  softmmu_ss.add(when: 'CONFIG_PXA2XX', if_true: files('pxa2xx_dma.c'))
->  softmmu_ss.add(when: 'CONFIG_RASPI', if_true: files('bcm2835_dma.c'))
+>  static void netduinoplus2_machine_init(MachineClass *mc)
+>  {
+> -    mc->desc =3D "Netduino Plus 2 Machine";
+> +    mc->desc =3D "Netduino Plus 2 Machine (Cortex-M4)";
+>      mc->init =3D netduinoplus2_init;
+>  }
+>
+> diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
+> index d6306dfddae..40cdb5c6d2c 100644
+> --- a/hw/arm/orangepi.c
+> +++ b/hw/arm/orangepi.c
+> @@ -113,7 +113,7 @@ static void orangepi_init(MachineState *machine)
+>
+>  static void orangepi_machine_init(MachineClass *mc)
+>  {
+> -    mc->desc =3D "Orange Pi PC";
+> +    mc->desc =3D "Orange Pi PC (Cortex-A7)";
+>      mc->init =3D orangepi_init;
+>      mc->block_default_type =3D IF_SD;
+>      mc->units_per_default_bus =3D 1;
+> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+> index ad72c0959f1..27292ec4113 100644
+> --- a/hw/arm/stellaris.c
+> +++ b/hw/arm/stellaris.c
+> @@ -1538,7 +1538,7 @@ static void lm3s811evb_class_init(ObjectClass *oc, =
+void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+>
+> -    mc->desc =3D "Stellaris LM3S811EVB";
+> +    mc->desc =3D "Stellaris LM3S811EVB (Cortex-M3)";
+>      mc->init =3D lm3s811evb_init;
+>      mc->ignore_memory_transaction_failures =3D true;
+>      mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m3");
+> @@ -1554,7 +1554,7 @@ static void lm3s6965evb_class_init(ObjectClass *oc,=
+ void *data)
+>  {
+>      MachineClass *mc =3D MACHINE_CLASS(oc);
+>
+> -    mc->desc =3D "Stellaris LM3S6965EVB";
+> +    mc->desc =3D "Stellaris LM3S6965EVB (Cortex-M3)";
+>      mc->init =3D lm3s6965evb_init;
+>      mc->ignore_memory_transaction_failures =3D true;
+>      mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m3");
 > --
 > 2.26.2
 >
