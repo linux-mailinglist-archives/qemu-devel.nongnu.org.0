@@ -2,66 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1A4C30A88E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:22:36 +0100 (CET)
-Received: from localhost ([::1]:38204 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACB4B30A858
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:10:03 +0100 (CET)
+Received: from localhost ([::1]:54714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6ZA3-00015B-UX
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:22:35 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41636)
+	id 1l6Yxu-0003jY-8H
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:10:02 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6Z8P-0000Ui-D6
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:20:54 -0500
-Received: from indium.canonical.com ([91.189.90.7]:40188)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6Z8I-0008U4-5q
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:20:53 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6Z8F-0002hu-S3
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 13:20:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id D1E722E813E
- for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 13:20:43 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l6Yvb-0002uE-QW
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:07:39 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35233)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1l6YvV-0003AS-LE
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:07:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612184851;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=yNzMxf+fTW4hamb1PZKuDHdfW3iofxV//N4sc7S+ygk=;
+ b=Srwgw4miURHyDpSDglrxWDLQKtSU/mI1O6v8I21gAUJNy7rqKC390a/26dx0ZEBZEgY7LG
+ znGtpzl6lWS6ksxQkxv4kQ+dRaF60LBR2xhTRCtpndIQtCF+zAixYVqbaSdjHLMKaFHbIb
+ IV8d7SnlaBboZr0pKWcJKtcD9ZQ/0FE=
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
+ [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-87-eEhlYMBKMsynVsVluWobyA-1; Mon, 01 Feb 2021 08:07:29 -0500
+X-MC-Unique: eEhlYMBKMsynVsVluWobyA-1
+Received: by mail-qk1-f197.google.com with SMTP id k126so13192977qkf.8
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 05:07:29 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=yNzMxf+fTW4hamb1PZKuDHdfW3iofxV//N4sc7S+ygk=;
+ b=QXM098B2hm+NRw2eBp2OXvNA8KKRULAsDDE4IodFJtIl7TKsdi8uVfquzktEWgiTP9
+ S6THrABM9oqFrJsrtQxjD++u87JSVlg/JzQ/9IFF+aQXijojBeEpsz/wZ8ngFE1yfoih
+ I864gshicqPeI9WMnloIhPsOsSwgUbpTGWdqjcZNGF4Qmf2NCceRM0BQXegqcLnzxY9I
+ E45rx82RL2mG4XYSLb3iOisG3lttgq8yiWgua5Hyzb+DPx3JxCtlgUJVMn5o38rBXC9e
+ BVM/T2QC/G3ISDkyaVYJHqcthYlIgMFa0M8aqbWr207jtirQkI4BYYt43G1kUBSYgpKw
+ FdzA==
+X-Gm-Message-State: AOAM530rBX62+24bQOvMA97ueokt+VPvHMSZlhaLlEm/s4EG5NzdQPin
+ 8HcrvWlBCpQcAtmuqgdkxeHLQ4kfYDyuBFtxUAqwd0rLajQJCEgNwdMySHD5IQQOOT8ajH1aVSu
+ TrroPIppTCdea81ex8inoVDvz4Hkj4Xo=
+X-Received: by 2002:a37:87c5:: with SMTP id
+ j188mr15521682qkd.210.1612184849479; 
+ Mon, 01 Feb 2021 05:07:29 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwmu3EYsjGmnGvjTXEbE5oJ0FXyiqnU6NHtQsyfMb9pd2wuKSRU5h+mbmOFl3sRhA7kr9jHNyednRl+Q7b++U0=
+X-Received: by 2002:a37:87c5:: with SMTP id
+ j188mr15521663qkd.210.1612184849222; 
+ Mon, 01 Feb 2021 05:07:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20210129090728.831208-1-eperezma@redhat.com>
+ <20210201115954.6v6ga7ledlumeby4@steredhat>
+In-Reply-To: <20210201115954.6v6ga7ledlumeby4@steredhat>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Mon, 1 Feb 2021 14:06:53 +0100
+Message-ID: <CAJaqyWferxXcOXftXz8Oz0VunZ7oSh6zc1QdrM8VOnNbFqN1Pw@mail.gmail.com>
+Subject: Re: [PATCH] vhost: Check for valid vdev in
+ vhost_backend_handle_iotlb_msg
+To: Stefano Garzarella <sgarzare@redhat.com>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eperezma@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Feb 2021 13:06:21 -0000
-From: Dong JianQiang <1914021@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: johndong pmaydell
-X-Launchpad-Bug-Reporter: Dong JianQiang (johndong)
-X-Launchpad-Bug-Modifier: Dong JianQiang (johndong)
-References: <161217038744.31620.11534855593258118024.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161218478149.32217.7084044306456782486.malone@chaenomeles.canonical.com>
-Subject: [Bug 1914021] Re: qemu: uncaught target signal 4 (Illegal
- instruction) but gdb remote-debug exited normally
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: 50ccb09e454a209acc7cdea5bf6048b988494a50
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -65
-X-Spam_score: -6.6
-X-Spam_bar: ------
-X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,70 +93,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914021 <1914021@bugs.launchpad.net>
+Cc: Jason Wang <jasowang@redhat.com>,
+ Maxime Coquelin <maxime.coquelin@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-level <qemu-devel@nongnu.org>,
+ qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-0x00008260 <+64>:    ldr     r3, [pc, #240]
-   0x00008264 <+68>:    cmp     r1, #0
-=3D> 0x00008268 <+72>:    beq     0x8270
-   0x0000826c <+76>:    mov     r3, r1
-   0x00008270 <+80>:    mov     sp, r3
+On Mon, Feb 1, 2021 at 1:00 PM Stefano Garzarella <sgarzare@redhat.com> wro=
+te:
+>
+> On Fri, Jan 29, 2021 at 10:07:28AM +0100, Eugenio P=C3=A9rez wrote:
+> >Not checking this can lead to invalid dev->vdev member access in
+> >vhost_device_iotlb_miss if backend issue an iotlb message in a bad
+> >timing, either maliciously or by a bug.
+> >
+> >Reproduced rebooting a guest with testpmd in txonly forward mode.
+> > #0  0x0000559ffff94394 in vhost_device_iotlb_miss (
+> >     dev=3Ddev@entry=3D0x55a0012f6680, iova=3D10245279744, write=3D1)
+> >     at ../hw/virtio/vhost.c:1013
+> > #1  0x0000559ffff9ac31 in vhost_backend_handle_iotlb_msg (
+> >     imsg=3D0x7ffddcfd32c0, dev=3D0x55a0012f6680)
+> >     at ../hw/virtio/vhost-backend.c:411
+> > #2  vhost_backend_handle_iotlb_msg (dev=3Ddev@entry=3D0x55a0012f6680,
+> >     imsg=3Dimsg@entry=3D0x7ffddcfd32c0)
+> >     at ../hw/virtio/vhost-backend.c:404
+> > #3  0x0000559fffeded7b in slave_read (opaque=3D0x55a0012f6680)
+> >     at ../hw/virtio/vhost-user.c:1464
+> > #4  0x000055a0000c541b in aio_dispatch_handler (
+> >     ctx=3Dctx@entry=3D0x55a0010a2120, node=3D0x55a0012d9e00)
+> >     at ../util/aio-posix.c:329
+> >
+> >Fixes: 6dcdd06e3b ("spec/vhost-user spec: Add IOMMU support")
+>
+> I'm not sure but IIUC vhost_backend_handle_iotlb_msg() was introduced by
+> commit 020e571b8b, so maybe is better this 'Fixes' line:
+>
+> Fixes: 020e571b8b ("vhost: rework IOTLB messaging")
+>
 
-(gdb) p/x $r1
-$2 =3D 0xfffef690
+Hi Stefano.
 
-But r1 is not zero when using Gdb remote-debug, so it will enter =
+Thanks for reviewing it :). Actually yes, you are right, I carried the
+previous Fixes line by mistake.
 
-   0x0000826c <+76>:    mov     r3, r1
+Should I send a new patch?
 
-QEMU 5.0.0.
-GNU gdb (GDB; SUSE Linux Enterprise 12) 8.0.1
+Thanks!
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914021
+> >Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >---
+> > hw/virtio/vhost-backend.c | 5 +++++
+> > 1 file changed, 5 insertions(+)
+> >
+> >diff --git a/hw/virtio/vhost-backend.c b/hw/virtio/vhost-backend.c
+> >index 222bbcc62d..31b33bde37 100644
+> >--- a/hw/virtio/vhost-backend.c
+> >+++ b/hw/virtio/vhost-backend.c
+> >@@ -406,6 +406,11 @@ int vhost_backend_handle_iotlb_msg(struct vhost_dev=
+ *dev,
+> > {
+> >     int ret =3D 0;
+> >
+> >+    if (unlikely(!dev->vdev)) {
+> >+        error_report("Unexpected IOTLB message when virtio device is st=
+opped");
+> >+        return -EINVAL;
+> >+    }
+> >+
+> >     switch (imsg->type) {
+> >     case VHOST_IOTLB_MISS:
+> >         ret =3D vhost_device_iotlb_miss(dev, imsg->iova,
+> >--
+> >2.27.0
+> >
+> >
+>
+> The patch LGTM:
+>
+> Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+>
 
-Title:
-  qemu: uncaught target signal 4 (Illegal instruction) but gdb remote-
-  debug exited normally
-
-Status in QEMU:
-  New
-
-Bug description:
-  I'm getting Illegal instruction (core dumped) when running the
-  attached a.out_err binary in qemu, but when using Gdb to remote-debug
-  the program, it exited normally. will appreciate if you can help look
-  into this qemu issue.
-
-  readelf -h a.out_err
-  ELF Header:
-    Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
-    Class:                             ELF32
-    Data:                              2's complement, little endian
-    Version:                           1 (current)
-    OS/ABI:                            UNIX - System V
-    ABI Version:                       0
-    Type:                              EXEC (Executable file)
-    Machine:                           ARM
-    Version:                           0x1
-    Entry point address:               0x8220
-    Start of program headers:          52 (bytes into file)
-    Start of section headers:          54228 (bytes into file)
-    Flags:                             0x5000200, Version5 EABI, soft-float=
- ABI
-    Size of this header:               52 (bytes)
-    Size of program headers:           32 (bytes)
-    Number of program headers:         3
-    Size of section headers:           40 (bytes)
-    Number of section headers:         16
-    Section header string table index: 15
-
-  qemu-arm version 4.0.0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914021/+subscriptions
 
