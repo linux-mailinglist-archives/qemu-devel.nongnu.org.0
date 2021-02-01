@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3C230B305
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 23:58:06 +0100 (CET)
-Received: from localhost ([::1]:39194 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 168B530B2FF
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 23:56:19 +0100 (CET)
+Received: from localhost ([::1]:33654 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6i8z-0001Ly-GP
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 17:58:05 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57792)
+	id 1l6i7G-0007Ns-5c
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 17:56:18 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l6i5I-000669-45
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:54:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:53906)
+ id 1l6i5G-00064G-Qd
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:54:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52534)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l6i5D-00023w-LL
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:54:15 -0500
+ id 1l6i5D-000245-DU
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:54:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612220049;
+ s=mimecast20190719; t=1612220050;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Qo23IpsmouVtYFANf8hB06wX8hRpbxsaH2QQcZUkvxQ=;
- b=Ehmg7y1lbZLKzY5YO6kFj9UjyUbYZLB9gUwITbunMFbX/9ZENiDlixPzrMLNaS6ny6fOme
- MsZV0I3qsp+2NMhDL+cMa1EmVTDanSpSkjZxlxfeXta/f9ZDzVO0Brmj8xJ64jXiDKJ2J8
- EC7/hfo1ncpIKJstGhduDhQvlaC8Q9o=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=az4sdLdgyiV9UN1GjEJmlcUXtom4ZZy7Mb5kEaY5AdI=;
+ b=A1jQkTnD5xBfgh8EmQ3WcZkN6XqYru6Wz4E1jX6gEnuMJ/oYggGKyx4pek8vbwdplTZ1lj
+ Nd1cm7HdxLaABvbkvhWA04xitTDdJFVZ/Y8P8sNsU1ad3Zn9XYDgzxITnyz11Pd4+woujH
+ fi0Qni9EN3CTnBKY7MFwWQpaT4mkCCI=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-536-7SIoBHbfOzm0HrbMvZ0G2A-1; Mon, 01 Feb 2021 17:54:07 -0500
-X-MC-Unique: 7SIoBHbfOzm0HrbMvZ0G2A-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
- [10.5.11.23])
+ us-mta-200--QQCP0EYMge3drSu5aY99g-1; Mon, 01 Feb 2021 17:54:08 -0500
+X-MC-Unique: -QQCP0EYMge3drSu5aY99g-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 7F022107ACE6;
- Mon,  1 Feb 2021 22:54:06 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B8D59;
+ Mon,  1 Feb 2021 22:54:07 +0000 (UTC)
 Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 387DA277C2;
- Mon,  1 Feb 2021 22:54:05 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 52A0D5C1A1;
+ Mon,  1 Feb 2021 22:54:07 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 0/3] i386: Ensure feature names are always defined
-Date: Mon,  1 Feb 2021 17:54:01 -0500
-Message-Id: <20210201225404.3941395-1-ehabkost@redhat.com>
+Subject: [PATCH 1/3] i386: Add missing "vmx-ept-wb" feature name
+Date: Mon,  1 Feb 2021 17:54:02 -0500
+Message-Id: <20210201225404.3941395-2-ehabkost@redhat.com>
+In-Reply-To: <20210201225404.3941395-1-ehabkost@redhat.com>
+References: <20210201225404.3941395-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
@@ -81,32 +84,30 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Forgetting to adding feature names to the feature array=0D
-seems to be a very common mistake.=0D
-=0D
-Examples:=0D
-=0D
-- Missing name for MSR_VMX_EPT_WB=0D
-  commit 0723cc8a5558 ("target/i386: add VMX features to named CPU models")=
-=0D
-- Missing name for "ibrs" at=0D
-  https://lore.kernel.org/qemu-devel/0ad4017d-e755-94a3-859e-800661bcd2d1@a=
-md.com=0D
-=0D
-This series fixes the MSR_VMX_EPT_WB problem and adds a runtime=0D
-check that should detect similar mistakes even before CPU model=0D
-classes are registered.=0D
-=0D
-Eduardo Habkost (3):=0D
-  i386: Add missing "vmx-ept-wb" feature name=0D
-  i386: Move asserts to separate x86_cpudef_validate() function=0D
-  i386: Sanity check CPU model feature sets=0D
-=0D
- target/i386/cpu.c | 31 +++++++++++++++++++++++++++----=0D
- 1 file changed, 27 insertions(+), 4 deletions(-)=0D
-=0D
---=20=0D
-2.28.0=0D
-=0D
+Not having a feature name in feature_word_info breaks error
+reporting and query-cpu-model-expansion.  Add the missing feature
+name to feature_word_info[FEAT_VMX_EPT_VPID_CAPS].feat_names[14].
+
+Fixes: 0723cc8a5558 ("target/i386: add VMX features to named CPU models")
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index ae89024d366..2bf3ab78056 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1262,7 +1262,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "vmx-ept-execonly", NULL, NULL, NULL,
+             NULL, NULL, "vmx-page-walk-4", "vmx-page-walk-5",
+             NULL, NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, NULL, "vmx-ept-wb", NULL,
+             "vmx-ept-2mb", "vmx-ept-1gb", NULL, NULL,
+             "vmx-invept", "vmx-eptad", "vmx-ept-advanced-exitinfo", NULL,
+             NULL, "vmx-invept-single-context", "vmx-invept-all-context", NULL,
+-- 
+2.28.0
 
 
