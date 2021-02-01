@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A528B30AD84
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:14:43 +0100 (CET)
-Received: from localhost ([::1]:59296 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1E6130AD89
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:15:53 +0100 (CET)
+Received: from localhost ([::1]:33850 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6cmg-0006Lt-MX
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:14:42 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34348)
+	id 1l6cnp-0007eQ-0I
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:15:53 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34524)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6cis-0004Rl-Kh
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:10:46 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:36337)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6cjY-0005bK-2K
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:11:29 -0500
+Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:33634)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6cio-0005Nv-Mo
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:10:46 -0500
-Received: by mail-wr1-x429.google.com with SMTP id 6so17422519wri.3
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:10:40 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6cjR-0005fY-RY
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:11:27 -0500
+Received: by mail-ed1-x529.google.com with SMTP id c6so19768655ede.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:11:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=uc51KV1Uicp82jgNC73/pa7OUeOjHlnVfQCmC5M7wRM=;
- b=AxN1fu/MP4e8N+10JbV8io2tXAuQ0uwtPU+n/khscslUV+PzRiuoGomGh75465kPpn
- WO+OeXDiufWq2NZE4pqKZd+1Hk/RNorETOnYrgmUIVsFnTlsmDc+PBt0p8tpZaf2KEVn
- FMu/MlS7/Isv2XPSxTucCwyG70jqpAfZvpBjCXih0YKSNypBEcIP4F49Sdc8nBEbY2o1
- JIJ7G1ZuSlWTH8unbCeAp3UCi22o86V2FNzogwfYQR9MKVAV2P7jwKwp/tw1u49ADTM1
- cDJp8hkc8hp5c4cLV3AqIjhiAKukLVuzO9RhiIjPzmfd5Hl2UUqrSh95BuBi4LPXZPsm
- 1HOA==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=IEESc4F3S0N5RVPdvkW6JAOxHzeW4SUzvkJlAr5AvO8=;
+ b=pvXoGfcMFkDKETsu/Rt4aaaORAJrxp0p9qdL1tRE/iueWrcCqfFxcmL3CMHmiiaaiU
+ sHPYpBymuvSoY6xmtIryIgg4OI9QdYjayJAILmLA5h/ttxzTQweyOACpG8ZzK/Q8jUrP
+ EEcWqxdENS1G6R7baMjzPejawF4gLQxwtVEoNSOxNQX5CGICqQ7gpU4pZyjm0x7r6i+p
+ y0G9L69bKgEBORPkV1e1To1jBHoJWUQaAPsQ0iWeJ5xul7xWxF8iewxvFgb5/OmiZo3h
+ Qi9jxwzzGKhEZWQ+fRG4PzCqpkZaDlQj8LulRmKSfCVQenIlUPgqrdxJQ3xEFkbDoO9k
+ Y8EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=uc51KV1Uicp82jgNC73/pa7OUeOjHlnVfQCmC5M7wRM=;
- b=CujGs12g/oOgjXgZx/hUSMhZ2zNCUsMWVXr0Y/eD4QkreSFS4s7e10u+gTu006n4me
- +pK7LuZftmOfE47GqFkpdoDuWVZAgMqXK4fhj6Y1e2XubeCLUzpEz7PxZPf1V3x8eg+D
- LlFF+WgEP3AAV6cxb5HASM5H3h58WgabSiDB/NRHRFNXZkQ6zmyJsfnP5MwZ2ale40ly
- jZgKfPhGjjNa1BOhkYs6NjUWB3s4Yh6n/6tbrY1IdAwyz/edypWzUuI5i+cfapmZ2ZL5
- +rr+PVhD8Q0wTh34OMlMhVp1tPkVTZ0nDpCWABNYbZYPVkrYCUoH7cySvtvTp80ursB1
- 7qvQ==
-X-Gm-Message-State: AOAM531vtZ3IaDl9t9aDUbjiz0F5xr7pFCl4G3P7rpUXU5wM9S+WDEzw
- lORUyL4atXhVuEOIdmx6yKY9YQ==
-X-Google-Smtp-Source: ABdhPJzW0+5MPR4jZiFi/k5fj29Kk9W5ktozhM0fVqMoMlvDmbMHtFjP7vlFdt6lAq20MKY5goBEDA==
-X-Received: by 2002:a05:6000:188c:: with SMTP id
- a12mr19830466wri.105.1612199439664; 
- Mon, 01 Feb 2021 09:10:39 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id a16sm27138510wrr.89.2021.02.01.09.10.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 09:10:38 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 9B4981FF7E;
- Mon,  1 Feb 2021 17:10:37 +0000 (GMT)
-References: <20210131115022.242570-1-f4bug@amsat.org>
- <20210131115022.242570-4-f4bug@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH v6 03/11] target/arm: Restrict ARMv4 cpus to TCG accel
-Date: Mon, 01 Feb 2021 17:10:30 +0000
-In-reply-to: <20210131115022.242570-4-f4bug@amsat.org>
-Message-ID: <87czxjvhma.fsf@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=IEESc4F3S0N5RVPdvkW6JAOxHzeW4SUzvkJlAr5AvO8=;
+ b=QpMHFJfHUORU9wyAp380V1xdEEsOq+sMBQRVJkZMa/h9NmbUbEdBXCyP1n9QILhEda
+ aGdu3bvV9E21zGnm4xjNpotLFwpA1BIbw2eFluqQSHLlkC3SuaoGpLaHa/AgSZ8GUOQh
+ HlLYzUB8qJFhJwmbw/gBH1tbi/H3MtS/dIGnck+Xa3LkOZpt1tRjxSYFYfRPBb8422KX
+ FnKRT4mdRPkDjxdeK20V2xpmKPLOK+TArkg3CqLRrRD/e5Edw783gAt387GVPxUldrL3
+ K4Azp2cj4dbmgd/QYvE264P8ZxMnhJT4w5t17yfWZjhNPqacaRUu0B8uoz7ZUj2o6AtZ
+ 9ZVA==
+X-Gm-Message-State: AOAM530VhtmXBK4mXTwi824QZhNr9q00BuFV9Lws57VNaqtCqjGt5Ywn
+ vCwNcLvbnMIcmEJ/oC29zOzaB10d6eExLevBI1lb7g==
+X-Google-Smtp-Source: ABdhPJwtMCLGNcAZ1CDkZMnwkNWGFrMiYsfqoy9FvbAJ+sf0+Xlc/AWSOPaSyUnNDRdwd3+bd59PXIbvM0nMGhLGCmk=
+X-Received: by 2002:aa7:c88a:: with SMTP id p10mr19781738eds.204.1612199480390; 
+ Mon, 01 Feb 2021 09:11:20 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x429.google.com
+References: <20210122003226.824488-1-dje@google.com>
+In-Reply-To: <20210122003226.824488-1-dje@google.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Feb 2021 17:11:09 +0000
+Message-ID: <CAFEAcA-YHn=SUM5X1ziB03iOw_YMi8BidF9kCU5crYf14zq1Aw@mail.gmail.com>
+Subject: Re: [PATCH] hw/net: Add npcm7xx emc model
+To: Doug Evans <dje@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::529;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,39 +76,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
- Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Richard Henderson <rth@twiddle.net>
+Cc: Hao Wu <wuhaotsh@google.com>, Jason Wang <jasowang@redhat.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Avi Fishman <avi.fishman@nuvoton.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 22 Jan 2021 at 00:34, dje--- via <qemu-devel@nongnu.org> wrote:
+>
+> This is a 10/100 ethernet device that has several features.
+> Only the ones needed by the Linux driver have been implemented.
+> See npcm7xx_emc.c for a list of unimplemented features.
+>
+> Reviewed-by: Hao Wu <wuhaotsh@google.com>
+> Reviewed-by: Avi Fishman <avi.fishman@nuvoton.com>
+> Signed-off-by: Doug Evans <dje@google.com>
+> ---
+>  docs/system/arm/nuvoton.rst    |   3 +-
+>  hw/arm/npcm7xx.c               |  50 +-
+>  hw/net/meson.build             |   1 +
+>  hw/net/npcm7xx_emc.c           | 852 +++++++++++++++++++++++++++++++++
+>  hw/net/trace-events            |  17 +
+>  include/hw/arm/npcm7xx.h       |   2 +
+>  include/hw/net/npcm7xx_emc.h   | 286 +++++++++++
+>  tests/qtest/meson.build        |   1 +
+>  tests/qtest/npcm7xx_emc-test.c | 793 ++++++++++++++++++++++++++++++
+>  9 files changed, 2002 insertions(+), 3 deletions(-)
+>  create mode 100644 hw/net/npcm7xx_emc.c
+>  create mode 100644 include/hw/net/npcm7xx_emc.h
+>  create mode 100644 tests/qtest/npcm7xx_emc-test.c
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+Hi; could you split this into a multi-patch series so it's
+a bit more digestible to review, please ?
+ patch 1: new device
+ patch 2: add new device to the npcm7xx board
+ patch 3: device test case
 
-> KVM requires the target cpu to be at least ARMv8 architecture
-> (support on ARMv7 has been dropped in commit 82bf7ae84ce:
-> "target/arm: Remove KVM support for 32-bit Arm hosts").
->
-> Only enable the following ARMv4 CPUs when TCG is available:
->
->   - StrongARM (SA1100/1110)
->   - OMAP1510 (TI925T)
->
-> The following machines are no more built when TCG is disabled:
->
->   - cheetah              Palm Tungsten|E aka. Cheetah PDA (OMAP310)
->   - sx1                  Siemens SX1 (OMAP310) V2
->   - sx1-v1               Siemens SX1 (OMAP310) V1
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
+thanks
+-- PMM
 
