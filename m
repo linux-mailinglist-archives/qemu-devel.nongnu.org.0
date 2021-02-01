@@ -2,71 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B249130AD68
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:08:00 +0100 (CET)
-Received: from localhost ([::1]:43036 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C4E30ADA6
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:22:02 +0100 (CET)
+Received: from localhost ([::1]:45504 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6cgA-0007TQ-WC
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:07:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
+	id 1l6ctl-0004jw-Re
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:22:01 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33670)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6cdU-0005MI-L7
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:05:12 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35450)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6cdS-0002WI-Ql
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:05:12 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id a9so7133897ejr.2
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:05:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=mime-version:references:in-reply-to:from:date:message-id:subject:to
- :cc:content-transfer-encoding;
- bh=RZoHEYVo0xh/lfhruzq5ozEj/oB5CoO8KyeG7Y+GapY=;
- b=kpvw560f/vnGrYUq7divnC6Wde73zRDbPq5q6qqWQKsiola07hpcZmU45cQu7fnMq6
- yYJVpAlIZd2bOiJXf3nc7ULRJyikDbxaP0yncg7/rd3N/2rpIk4ogj/KLtZBXaL9dtO4
- SdIK5iTmW6O0EUc1IhCmgC261NFBqNgz460daWwUk5tX1GjAOX5pJ1TEc5HmcrSWYbDE
- uEa8Wibl8lU2Vs0hrUsxTMtFoDjKO7UZqL0P+Uf+08IH31SWvSrk8q5yxqyQfQm3SuMQ
- Qjgd2mdbBnvtd2wjMpayXYUOX+KhAwWsdrPNKlVhbsyu15RWciQuJQ4AElbvhuoAixPG
- WoMg==
+ (Exim 4.90_1) (envelope-from <cdupontd@redhat.com>)
+ id 1l6cfs-0008V9-Oe
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:07:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30313)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <cdupontd@redhat.com>)
+ id 1l6cfn-0003kG-Kj
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:07:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612199253;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=CgyzMH3X/JTRmozoTjhird/tS7PoCfbCEjiYYVQw/50=;
+ b=LWdcdxz/3a8mvpNqwZmI3tSHyMleF+NtiKJoZDVo8tRLiEoethRMxP4adqq+pDMHFqI70c
+ 2Jvs/By4pOhbdsyOmB+akrjOTY4EfnFaMvCx9qd4NYiT6HqsySJLOsIa4aTPnOf/QR6ZIj
+ 7S4u+peu60ybZTUAsSJhxkEu83Rf/zw=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-486-fOz0Rmr4OaC3Y0YSvV__NQ-1; Mon, 01 Feb 2021 12:07:19 -0500
+X-MC-Unique: fOz0Rmr4OaC3Y0YSvV__NQ-1
+Received: by mail-wr1-f71.google.com with SMTP id h18so10775519wrr.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:07:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:references:in-reply-to:from:date
- :message-id:subject:to:cc:content-transfer-encoding;
- bh=RZoHEYVo0xh/lfhruzq5ozEj/oB5CoO8KyeG7Y+GapY=;
- b=HDdg1UYp0v2BeRW4jPsJbSOURnf77LMMbHvjgK9RgyDmq/+CuOlkP8wHvF2djjzGO5
- lIjCPUPq112nPTXHsMh6ovmuKPcuKaBDndjWuS9DuN0/oaZx/CjhL7r+zm31sr5WRFYO
- azx4I0PtueB7zn35qe9LLS+AqyYwRXW1cT91JMWVqIIW/mL4o33sREfMyO+Qb2hc9Mg4
- /z+VeGZocSjygb6r3No4S+z4x1gAmqAZixOs06wRe58B7DY3vOhQQdHkMAH97ZXf3e+k
- oJAxpv8kYotzPVWngtMK8lbuziXwcI0c0ATa8JUG2gHcSmur/ZyoFQ+XqlmmUsVlFHHU
- jQSA==
-X-Gm-Message-State: AOAM533Dxzhxg4+EWVvvRMesxNyoVw/vC8dTJP+oBJcPlv97C6D83Nst
- Wib3j8JsIVD51RgOLJYJWiD8RLziicQ2McAxRZ70hhbQFe0WZw==
-X-Google-Smtp-Source: ABdhPJxJRrTbm7z08l3lzbNTrUZw4CQ3TYMY4ZCWwtf+NWwwupspynbaeEwGsyKU9Zz0mQvdcsSK3jhP835PylmJGv4=
-X-Received: by 2002:a17:907:1b10:: with SMTP id
- mp16mr18684581ejc.482.1612199108593; 
- Mon, 01 Feb 2021 09:05:08 -0800 (PST)
-MIME-Version: 1.0
-References: <20210128185300.2875-1-alex.bennee@linaro.org>
-In-Reply-To: <20210128185300.2875-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Feb 2021 17:04:56 +0000
-Message-ID: <CAFEAcA_R3phXwOtj-v-6-oCN891SjGSyAGwcx3_zDf+GFPWLqg@mail.gmail.com>
-Subject: Re: [PATCH] docs/system: document an example vexpress-a15 invocation
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=xnhrKKYkEPpWgAPsmOWVz1UunuEtvF+bQqFS3G5wWCU=;
+ b=rIXNF0PaKWNiZaRkRCevJ+V8GATQEhBCZZOxIPlYBTfSwgt2VJb6qrWppxsbwYHn6J
+ 5AIkk2dG17dUSj/qRMROq59WniuZPeN40eQqfYl8c/6Lnr59VVTWrXuN79o7cB6iBMh2
+ sfxBMZedbgZpsmZLQ4W8GSZaH9+pG9FAcwX7EJnlM4OYEUjvOsuWZM8SELtBDIYgAqBJ
+ 6QPb7PDzgMOMm9UmUsVprx9rRC/X/taCBRBcOltt1KnQ7nOY6uqsbHskpe4ie/VpWYPr
+ 0WGeEq9aYPoaw5CfHnq1fl0WvzNO64xv/qgAjkjt3qkSjEPcJahTV8LYkQ8PL+qSs9rU
+ 2EAA==
+X-Gm-Message-State: AOAM5310hE6ZRBSKUQk3PDqxGbwone0GZrob331W+TBKawMrrfLbbWj9
+ N4rDzGJPmy4ooKnopOW65t4z60f+H8YUK2GbUXJIa15j9HHS4qMkA5LhOveu9YJxhMnjGnyAzOi
+ tTYNqlxPMnImC/3U=
+X-Received: by 2002:adf:dd45:: with SMTP id u5mr18988022wrm.392.1612199238386; 
+ Mon, 01 Feb 2021 09:07:18 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJwIDeljwivDOrsElWly+Q/WzVccRKZN1RAQPoCloFGWRVrwFqzmJx1j3QsuMUHhOyq0de3Q+w==
+X-Received: by 2002:adf:dd45:: with SMTP id u5mr18987991wrm.392.1612199238172; 
+ Mon, 01 Feb 2021 09:07:18 -0800 (PST)
+Received: from ?IPv6:2a01:e0a:466:71c0:f46f:cfeb:afa5:1898?
+ ([2a01:e0a:466:71c0:f46f:cfeb:afa5:1898])
+ by smtp.gmail.com with ESMTPSA id b138sm9073683wmb.35.2021.02.01.09.07.17
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Feb 2021 09:07:17 -0800 (PST)
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: vnc clipboard support
+From: Christophe de Dinechin <cdupontd@redhat.com>
+In-Reply-To: <20210129150454.fgfhrcrqao7aqee5@sirius.home.kraxel.org>
+Date: Mon, 1 Feb 2021 18:07:16 +0100
+Message-Id: <8701EE73-CA92-42F1-9F7E-C8E352531A1C@redhat.com>
+References: <20210128171224.exbklnwtyb232oe2@sirius.home.kraxel.org>
+ <C26A91E6-A5AE-4258-A470-91B6B5BC7C7F@redhat.com>
+ <20210129080323.xuvokq5kytoomx6j@sirius.home.kraxel.org>
+ <8E05F8C9-A60D-45A9-AFCB-79D866F57660@redhat.com>
+ <20210129110814.GF4001740@redhat.com>
+ <0F802343-19F8-487C-8BBE-5BBE2014BA1C@redhat.com>
+ <20210129150454.fgfhrcrqao7aqee5@sirius.home.kraxel.org>
+To: Gerd Hoffmann <kraxel@redhat.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=cdupontd@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain;
+	charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=cdupontd@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,71 +102,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, Anders Roxell <anders.roxell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jan 2021 at 18:53, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> The wiki and the web are curiously absent of the right runes to boot a
-> vexpress model so I had to work from first principles to work it out.
-> Use the more modern -drive notation so alternative backends can be
-> used (unlike the hardwired -sd mode).
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> Cc: Anders Roxell <anders.roxell@linaro.org>
-> ---
->  docs/system/arm/vexpress.rst | 26 ++++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->
-> diff --git a/docs/system/arm/vexpress.rst b/docs/system/arm/vexpress.rst
-> index 7f1bcbef07..30b1823b95 100644
-> --- a/docs/system/arm/vexpress.rst
-> +++ b/docs/system/arm/vexpress.rst
-> @@ -58,3 +58,29 @@ Other differences between the hardware and the QEMU mo=
-del:
->    ``vexpress-a15``, and have IRQs from 40 upwards. If a dtb is
->    provided on the command line then QEMU will edit it to include
->    suitable entries describing these transports for the guest.
-> +
-> +Booting a Linux kernel
-> +----------------------
-> +
-> +Building a current Linux kernel with ``multi_v7_defconfig`` should be
-> +enough to get something running.
-> +
-> +.. code-block:: bash
-> +
-> +  $ export ARCH=3Darm
-> +  $ export CROSS_COMPILE=3Darm-linux-gnueabihf-
-> +  $ make multi_v7_defconfig
-> +  $ make
 
-We probably shouldn't be recommending in-tree kernel builds, or
-polluting the user's environment with random variables. Try:
 
-$ make O=3Dbuilddir ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabihf- multi_v=
-7_defconfig
-$ make O=3Dbuilddir ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabihf-
+> On 29 Jan 2021, at 16:04, Gerd Hoffmann <kraxel@redhat.com> wrote:
+>=20
+>  Hi,
+>=20
+>> Unless we para-virtualize the keyboard?
+>=20
+> The main advantage of paste via key events is that it doesn't require
+> guest support.
 
-> +By default you will want to boot your rootfs of the sdcard interface.
+The main disadvantage, though, is that it does not work at all ;-)
 
-"off"
+Imagine pasting Ademar's favorite signature, :wq!
+Or pasting "ahs" to a guest that thinks the control key is down
+(a not uncommon occurence with VNC, in my personal experience).
+So now you pasted "Select All, Delete, Save" in many GUI apps.
 
-> +Your rootfs will need to be padded to the right size. With a suitable
-> +DTB you could also add devices to the virtio-mmio bus.
-> +
-> +.. code-block:: bash
-> +
-> +  $ qemu-system-arm -cpu cortex-a15 -smp 4 -m 4096 \
-> +      -machine type=3Dvexpress-a15 -serial mon:stdio \
-> +      -drive if=3Dsd,driver=3Dfile,filename=3Darmel-rootfs.ext4 \
-> +      -kernel zImage  \
-> +      -dtb vexpress-v2p-ca15-tc1.dtb \
-> +      -append "console=3DttyAMA0 root=3D/dev/mmcblk0 ro"
+(insert infinite variations on the "doom" theme here)
 
-thanks
--- PMM
+>  Requiring any kind of software in the guest (paravirt
+> keyboard driver, agent figuring the keymap, whatever else) kills that
+> advantage.
+
+Indeed. I was pointing out that any option that brought any modicum
+of reasonable paste behavior (ignoring copy for the moment) required
+some in-guest piece of software. So we might as well go for one that
+is known to work, and also deals with the copy-from-guest issue.
+
+
+>  And if we need guest cooperation anyway it is much better
+> to just read/write the guest clipboard directly.
+
+=E2=80=A6 which is exactly what VNC in the guest knows how to do in a
+reasonable way, on a large number of platforms. So I don't see
+any benefit to reinvent that wheel. I'd rather leverage the VNC
+code to build a solid, multi-platform agent. You can extract the
+clipboard code into some smaller agent that talks to a specific qemu
+character device if you think it's a worthy optimization.
+
+
+>=20
+> Standard keyboard seems to not be an option either.  The HID specs
+> (https://usb.org/document-library/hid-usage-tables-121) lists a
+> Unicode Page (Section 18), which looks like it could be used to
+> send unicode chars to the guest.  Problem is (a) this is 16bit
+> only (so no emoji) and (b) widely unimplemented in guest OSes.
+
+Some operating systems have a way to enter unicode code points.
+On Linux, you can sometimes type shift-control u (hex code), but it's a bit
+dependent on the some alignment of mysterious planets.
+On Windows, you can type <hex> alt-x. Sometimes. Or alt + <hex>.
+On macOS, you need to enable Unicode Hex Input, so unreliable.
+
+Not that I would recommend trying any of that ;-)
+
+
 
