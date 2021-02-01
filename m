@@ -2,76 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9E6D30AC28
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:00:31 +0100 (CET)
-Received: from localhost ([::1]:44932 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1CA430AC35
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:03:28 +0100 (CET)
+Received: from localhost ([::1]:50962 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6bcs-0004yZ-Nl
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:00:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43724)
+	id 1l6bfj-0007tf-Rz
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:03:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43902)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l6bVk-0005xE-AE
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:53:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59558)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l6bXH-0007fP-7g
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:54:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:32798)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1l6bVh-0000u7-Qp
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:53:08 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l6bXF-0001Y1-1z
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:54:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612194783;
+ s=mimecast20190719; t=1612194880;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=0I6X1Nnkt5dpnyYyQsMXNh0So54RZK/bg33t3v3zCt8=;
- b=GsWe5Z83vuyLszwUblHzvRkLEoavCFk0IoiyGlE3cAWoHusMJcMQo5Y9S8K1oqMivwCgCv
- /ehC22lBS7PIIDxrSqzMf18/+LjySIDrl3EWgk5dcZjnumdGRf9duC9oyGoCjFB0asYtWW
- JuxSjpECk+qjUZpPHjGeCqNoMNBbdFY=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-154-d4oE6zb1Ore9jNWRR2ZagQ-1; Mon, 01 Feb 2021 10:53:02 -0500
-X-MC-Unique: d4oE6zb1Ore9jNWRR2ZagQ-1
-Received: by mail-qk1-f200.google.com with SMTP id s66so13556015qkh.10
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 07:53:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:date:from:to:cc:subject:message-id:references
- :mime-version:content-disposition:in-reply-to;
- bh=0I6X1Nnkt5dpnyYyQsMXNh0So54RZK/bg33t3v3zCt8=;
- b=uIz4yEGzBgBSo5htb2iQYkWBL+OkM8vBH8P+d3aopXQfRN9Amo7Qq5xV9IgjE8V31Z
- KQgA53l2rSKWtKeyTY77gQ/TP8LsUTtlIPFCt/lpAptXWrLUUN/pLyKHpIGgD4Kuac/6
- yxmHC5UHQsfzKGy9gKdDQQA9jMZ8JhWawMqTG8szHPT9A5gPYLzSzI8Xz2ib7fC0hubL
- iPD1TydwjowBwRAUuArzMtBX09GHlf54uDsaywy698Ui9jdAi5iQUZ9uUH1IuUDd3Ny+
- IuPs7T7EQOsLzlVNFnHIAbktgAVqVs9Kls4S9/R9Q6kA9TlJP09a2M4uXMGmv3OAzbz2
- T+YQ==
-X-Gm-Message-State: AOAM531QC6RPDkan3a06wW8vL0i8toviCTYMjuWrawsmnI7IweANQzqc
- 6pXV8bjDect8QAAcgOwSnujHVoYfmrRXQPV5s2PuXrprg/okaAijTehYPGdPO0yllxNKqDMe5AR
- LKR3wnkNbkLs47c4=
-X-Received: by 2002:a37:7b02:: with SMTP id w2mr1920457qkc.291.1612194781333; 
- Mon, 01 Feb 2021 07:53:01 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJwrm1cdvwubYzWhLzBr1vuTWDaKGGiXrfmkIsbnjMWo88TN0QCxUWu0Ycx5Xab2QeMf3wxHIw==
-X-Received: by 2002:a37:7b02:: with SMTP id w2mr1920427qkc.291.1612194781009; 
- Mon, 01 Feb 2021 07:53:01 -0800 (PST)
-Received: from xz-x1 ([142.126.83.202])
- by smtp.gmail.com with ESMTPSA id 193sm14484270qki.28.2021.02.01.07.52.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 07:53:00 -0800 (PST)
-Date: Mon, 1 Feb 2021 10:52:59 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
+ bh=OlPiP7LP9XDaJ76tLZ7J1B/STRNjlroDMd0L12zdw9U=;
+ b=jM+MmlfBZiBp2Ed6DK26+/tr6UAXygX+h00Dj2wByOCMnDkkBmEtayfZhqUOOnUjXK5P2j
+ q7Ub/732zuXjWiiE6ron4GbZfpxmJTmGQijf3zrm74m/pYJHzUIUTb5bff8QZsZWvVnOb6
+ F3nyBSAC56vODFPzk3rVO5pLp4Z1fyE=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-410-FVPaDIHwNGiEXhw1095Z5A-1; Mon, 01 Feb 2021 10:54:37 -0500
+X-MC-Unique: FVPaDIHwNGiEXhw1095Z5A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id AA84E9CC02
+ for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 15:54:36 +0000 (UTC)
+Received: from work-vm (ovpn-115-16.ams2.redhat.com [10.36.115.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6C9EE1001281;
+ Mon,  1 Feb 2021 15:54:26 +0000 (UTC)
+Date: Mon, 1 Feb 2021 15:54:23 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
 Subject: Re: [PATCH v2 2/2] pci: add romsize property
-Message-ID: <20210201155259.GE260413@xz-x1>
+Message-ID: <20210201155423.GH3300@work-vm>
 References: <20210129192838.582771-1-pbonzini@redhat.com>
  <20210129192838.582771-3-pbonzini@redhat.com>
  <20210201075632.lfchwzrzr6aiuplu@sirius.home.kraxel.org>
+ <20210201155259.GE260413@xz-x1>
 MIME-Version: 1.0
-In-Reply-To: <20210201075632.lfchwzrzr6aiuplu@sirius.home.kraxel.org>
+In-Reply-To: <20210201155259.GE260413@xz-x1>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=peterx@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=peterx@redhat.com;
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -93,31 +82,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, mst@redhat.com, lersek@redhat.com,
- qemu-devel@nongnu.org, dgilbert@redhat.com
+ Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 01, 2021 at 08:56:32AM +0100, Gerd Hoffmann wrote:
->   Hi,
+* Peter Xu (peterx@redhat.com) wrote:
+> On Mon, Feb 01, 2021 at 08:56:32AM +0100, Gerd Hoffmann wrote:
+> >   Hi,
+> > 
+> > > +    DEFINE_PROP_UINT32("romsize", PCIDevice, romsize, -1),
+> > 
+> > IIRC we have a DEFINE_PROP_SIZE() which can parse units and therefore
+> > accepts -- for example -- "512k" or "1M".
 > 
-> > +    DEFINE_PROP_UINT32("romsize", PCIDevice, romsize, -1),
+> Actually IMHO there's some fair point to make it uint32: even 1 byte would
+> matter here or migration fails.  Hence, we don't need to worry about things
+> like 512KB or 512KiB, for example.
 > 
-> IIRC we have a DEFINE_PROP_SIZE() which can parse units and therefore
-> accepts -- for example -- "512k" or "1M".
+> Not to mention that I bet 99.99% qemu users won't really use this parameter,
+> only if we'd migrate across distros.  That's rare, we'd copy the exact byte
+> value of the source ROM size here (e.g. via "info ramblock", or "ls -l" the
+> romfile then round to pow2 and specify on dest) or we simply copy this param
+> over from another source VM.
 
-Actually IMHO there's some fair point to make it uint32: even 1 byte would
-matter here or migration fails.  Hence, we don't need to worry about things
-like 512KB or 512KiB, for example.
+Well, we should sometime, set it for the default upstream machine types,
+so that distros get a better chance of getting their rom images right
+and consistent.
 
-Not to mention that I bet 99.99% qemu users won't really use this parameter,
-only if we'd migrate across distros.  That's rare, we'd copy the exact byte
-value of the source ROM size here (e.g. via "info ramblock", or "ls -l" the
-romfile then round to pow2 and specify on dest) or we simply copy this param
-over from another source VM.
+Dave
 
-Thanks,
-
+> Thanks,
+> 
+> -- 
+> Peter Xu
+> 
 -- 
-Peter Xu
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
