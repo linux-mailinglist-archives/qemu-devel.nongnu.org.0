@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 189B330B0F3
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:58:03 +0100 (CET)
-Received: from localhost ([::1]:49834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9133C30B0F9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:58:40 +0100 (CET)
+Received: from localhost ([::1]:52642 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6fKk-0000nv-4q
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:58:02 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53612)
+	id 1l6fLL-0001yd-JS
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:58:39 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53674)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l6fJ3-0007lZ-E4; Mon, 01 Feb 2021 14:56:17 -0500
-Received: from mail-io1-xd2e.google.com ([2607:f8b0:4864:20::d2e]:35802)
+ id 1l6fJU-0000Em-Km; Mon, 01 Feb 2021 14:56:44 -0500
+Received: from mail-io1-xd2b.google.com ([2607:f8b0:4864:20::d2b]:35802)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l6fJ1-0005FE-4e; Mon, 01 Feb 2021 14:56:17 -0500
-Received: by mail-io1-xd2e.google.com with SMTP id y19so18759666iov.2;
- Mon, 01 Feb 2021 11:56:13 -0800 (PST)
+ id 1l6fJS-0005UL-V5; Mon, 01 Feb 2021 14:56:44 -0500
+Received: by mail-io1-xd2b.google.com with SMTP id y19so18761378iov.2;
+ Mon, 01 Feb 2021 11:56:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=OP2EWmjCbiDpjWViceOA9fmZyxGs7V0VIVK1IMMwVh8=;
- b=Umbl2I+s1X8Nvo7Ss6IBVgTzI3MBCSVs/IUeVU0dpptSNlnHz7E1MHnIiMJU39kjau
- /ZOePKVGckuyRigSWhGzd5ZniRsOOXIGa+olSg3mzvvqqtqefvve6S97DxA46G8VnTFn
- 4mQySrRTF4SnX534MVAYcDXsCmxKuz0iG542uIlyV2Wpaj4RbNDwEbzosj4hGO7nlGoQ
- CNcD/4EHZuOz3JtvYifDg5DNRw7INMN2MC+Sw60I4jxsAh0DppanAYKbipQfRCTi5nO7
- u+eOToMpyl/HBhR8zS80pkOvSFbs2ZaHdzuznsf8Bzc/6gvYu0JDZiP8TAWQP8h/6FYT
- NGIw==
+ bh=MJpC+ZhoVpPrt82JDN2+JYljtbRDmVTcwos129cyrEY=;
+ b=eXtLoe8a8JJSEVA7zc0HC8MGyIpGJodjCwSAA9/YRrCB09CwQQOUBsI+rLl/98mZmf
+ 5v7hiUCA5BQJsIdsiSPWL/ZGpqOAKiP5AVRaVep631lC4Y0b7wnjVk0OYh/1lKwJiQkP
+ Q/mTn2GACqe5uIMNKRsZ74IOsQhrF3PFAD1KmOgj8UM3Ib7F3J/kWemc3a3ImOsOcWM7
+ UNSQ5ABQ49Sa9cWil+lrC/kvvR4Oq3NIR1N4fMqxQSbmpiq55hLpz9L63LRVGruJcVKJ
+ t0/2WD39T2tvjTOUuHKGtL2O42CHhTCy1w/qfT31p0EbasO0MW5KLzpfR+kYx9s+cJGP
+ +5bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=OP2EWmjCbiDpjWViceOA9fmZyxGs7V0VIVK1IMMwVh8=;
- b=H7UzoOAlPkwH3DPY0qK5/JeGvKZqWWapApfdA9YOJwzLKmdFgnOulqehO5XdnX4OR0
- McQpffc2ViRDLmHdfIb54W5cQDf8KoPONdoyFVBpDuakd2D2eGlcwgEfsmPASiU+ZMFQ
- 4kHd93TxLqD6LHUtU7BvyYXvR+0RntCr9O9oBscGwzTWRP3AEn5YVLrSu/WWIYpfnRlq
- TBy8FXfei5kmKHwjc+ChoGH0iOXKNZY8pG7XMuuMcd84J7aOKiJuJi5cnDAZlAgMycYo
- yopGXoT3o6UMVilYp5mSQo4QyLOI7oeLhRv9yUybHV2PVZJ9C7FLTPcI1+jpXuwdtN0B
- D8dw==
-X-Gm-Message-State: AOAM533zY58ENyeQ1bMenPbIbrxOv7gvCPrCo6JVZVriAxh6Czex7Fl7
- gwtYw6Sle8K7E+LLVm4V5Q6NjC5+6HY/RhmDUG8=
-X-Google-Smtp-Source: ABdhPJyjWS+f4Qy5YmrKkG3VKMRGzDoy/3ZMjta6Ql14JwwSfEJAAPe85RiU1+mUTspQnmoXc3nJNZLIv0MS9Z2sdkI=
-X-Received: by 2002:a6b:7d42:: with SMTP id d2mr14198447ioq.176.1612209372988; 
- Mon, 01 Feb 2021 11:56:12 -0800 (PST)
+ bh=MJpC+ZhoVpPrt82JDN2+JYljtbRDmVTcwos129cyrEY=;
+ b=s8FJrXUEDxrWCBBTMzziEhwLNAFBNc3ujYV7erBrRrQ/GNMqw7T/y0KTn8JmJ3vJRj
+ UYWvAGuXyghFbPwevOERljeJGxzoZdlymi2zNILVgaYzyaK+cLddXfnistz+rrfKnbIg
+ rcWbgl0GhejjhzGDGflQYWjp95WDoCtmhYwWnLeRdJwoyPVmk4AdbrLcFoJSqfcG2Whb
+ jGev+cscW+33BsjcJ46b1HavrZuTpRuD/TP2hVNnRiw2D2dLuNTmwJmilq5EKUrtBrCY
+ ZfImxEXClKA+KqmRyGbywJ9DfCK2K1lLaNihz4AQoyL46ixTLFbjddmOmxicmr2Rj0Co
+ 7X+w==
+X-Gm-Message-State: AOAM532EYqFKwoXDrwIe0L/0v2Bkq8A66M4t2J5L20T0CpVnaM20FDo1
+ kYAn52ctx2FjyO0EBeOJcHQwHSRlyAvtqYpWCPKuRdx/OJ4=
+X-Google-Smtp-Source: ABdhPJy61HGXbLRiOIV0Eeipkjt5talYrG0D/4I/F5qR/aqvwZrEuHlmFeYimKysb7x5GjqcuJS6F9xb3dHmIrv+GxQ=
+X-Received: by 2002:a6b:4003:: with SMTP id k3mr13377175ioa.105.1612209401352; 
+ Mon, 01 Feb 2021 11:56:41 -0800 (PST)
 MIME-Version: 1.0
 References: <20210131184449.382425-1-f4bug@amsat.org>
- <20210131184449.382425-6-f4bug@amsat.org>
-In-Reply-To: <20210131184449.382425-6-f4bug@amsat.org>
+ <20210131184449.382425-5-f4bug@amsat.org>
+In-Reply-To: <20210131184449.382425-5-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 1 Feb 2021 11:55:45 -0800
-Message-ID: <CAKmqyKMbC0KhwFhc1dAWRX2ismR7uR1KJeFnqHqP07VUsGAPVg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] hw/net/can: ZynqMP CAN device requires PTIMER
+Date: Mon, 1 Feb 2021 11:56:14 -0800
+Message-ID: <CAKmqyKNRGf6jF_T6A_t=LK_kROa3Vg4tZjRo9+qeRXhJGM6Zpg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] hw/arm/xlnx-versal: Versal SoC requires ZynqMP
+ peripherals
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::d2e;
- envelope-from=alistair23@gmail.com; helo=mail-io1-xd2e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d2b;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd2b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -84,30 +85,21 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
  Laurent Vivier <laurent@vivier.eu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
  qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>,
- Joel Stanley <joel@jms.id.au>
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 31, 2021 at 10:49 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+On Sun, Jan 31, 2021 at 10:51 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
 rg> wrote:
 >
-> Add a dependency XLNX_ZYNQMP -> PTIMER to fix:
+> The Versal SoC instantiates the TYPE_XLNX_ZYNQMP_RTC object in
+> versal_create_rtc()(). Select CONFIG_XLNX_ZYNQMP to fix:
 >
->   /usr/bin/ld:
->   libcommon.fa.p/hw_net_can_xlnx-zynqmp-can.c.o: in function `xlnx_zynqmp=
-_can_realize':
->   hw/net/can/xlnx-zynqmp-can.c:1082: undefined reference to `ptimer_init'
->   hw/net/can/xlnx-zynqmp-can.c:1085: undefined reference to `ptimer_trans=
-action_begin'
->   hw/net/can/xlnx-zynqmp-can.c:1087: undefined reference to `ptimer_set_f=
-req'
->   hw/net/can/xlnx-zynqmp-can.c:1088: undefined reference to `ptimer_set_l=
-imit'
->   hw/net/can/xlnx-zynqmp-can.c:1089: undefined reference to `ptimer_run'
->   hw/net/can/xlnx-zynqmp-can.c:1090: undefined reference to `ptimer_trans=
-action_commit'
->   libcommon.fa.p/hw_net_can_xlnx-zynqmp-can.c.o:(.data.rel+0x2c8): undefi=
-ned reference to `vmstate_ptimer'
+>   $ make check-qtest-aarch64
+>   ...
+>   Running test qtest-aarch64/qom-test
+>   qemu-system-aarch64: missing object type 'xlnx-zynmp.rtc'
+>   Broken pipe
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -116,18 +108,24 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/Kconfig | 1 +
+> Cc: Alistair Francis <alistair@alistair23.me>
+> Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+> ---
+>  hw/arm/Kconfig | 1 +
 >  1 file changed, 1 insertion(+)
 >
-> diff --git a/hw/Kconfig b/hw/Kconfig
-> index 5ad3c6b5a4b..d4cec9e476c 100644
-> --- a/hw/Kconfig
-> +++ b/hw/Kconfig
-> @@ -81,3 +81,4 @@ config XLNX_ZYNQMP
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 09298881f2f..be017b997ab 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -364,6 +364,7 @@ config XLNX_VERSAL
+>      select VIRTIO_MMIO
+>      select UNIMP
+>      select XLNX_ZDMA
+> +    select XLNX_ZYNQMP
+>
+>  config NPCM7XX
 >      bool
->      select REGISTER
->      select CAN_BUS
-> +    select PTIMER
 > --
 > 2.26.2
 >
