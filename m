@@ -2,58 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1717130AC90
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:29:38 +0100 (CET)
-Received: from localhost ([::1]:43640 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3F830ACB6
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:35:25 +0100 (CET)
+Received: from localhost ([::1]:55958 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6c52-0005Jp-5N
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:29:36 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:51392)
+	id 1l6cAd-0002PR-Tl
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:35:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:51732)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l6c3X-000445-A0
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:28:04 -0500
-Resent-Date: Mon, 01 Feb 2021 11:28:03 -0500
-Resent-Message-Id: <E1l6c3X-000445-A0@lists.gnu.org>
-Received: from sender4-of-o53.zoho.com ([136.143.188.53]:21336)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l6c55-0006IE-K3; Mon, 01 Feb 2021 11:29:40 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:49174)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <no-reply@patchew.org>)
- id 1l6c3U-0000Vu-3t
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:28:03 -0500
-ARC-Seal: i=1; a=rsa-sha256; t=1612196867; cv=none; 
- d=zohomail.com; s=zohoarc; 
- b=Hq1eqXMZ1Pz18p+r3mLy/GPjvDN6ahqF33j3Ufp6ZBsSY/roYnxPKSmiyIcgkdLEsoNWGvI5YO8K96YbWDUAWgxDab5lJ+T1biexYjbx3huc17kLE++GejFi1+k6ZIp7P4z7UOEQAPGgvTO89x5YPgmBniyX1swYf2NM6Rm5ZAI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com;
- s=zohoarc; t=1612196867;
- h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To;
- bh=NXujyrgReoJd3wN/YcrxDTmxqfEaSnqsGCtH29G0bZ4=; 
- b=EOZFgk929agmPNU2Y+AkQ7vYiNdhREPA8NIdFXPbTDloEpzRIiBozRNVK6YLmMBzov1FlPXFhLV+b7hYn6YzxMQFDa5xaWY0RLYLleSbofZe2+eg6U3CId5TogAZRcPnb4t5W/fGEB18mQMFMONz1x877rveaOnvuHrN23m6p1U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
- spf=pass  smtp.mailfrom=no-reply@patchew.org;
- dmarc=pass header.from=<no-reply@patchew.org>
- header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
- mx.zohomail.com with SMTPS id 161219686529723.622005027802857;
- Mon, 1 Feb 2021 08:27:45 -0800 (PST)
-In-Reply-To: <20210201161504.1976989-1-armbru@redhat.com>
-Subject: Re: [PATCH 0/3] Maximize QMP availability for OOB commands
-Message-ID: <161219686405.10459.15588093804265181941@c667a6b167f6>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1l6c51-0001Co-It; Mon, 01 Feb 2021 11:29:38 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 105217462DB;
+ Mon,  1 Feb 2021 17:29:32 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id CC3147456B4; Mon,  1 Feb 2021 17:29:31 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id CA8A17456B7;
+ Mon,  1 Feb 2021 17:29:31 +0100 (CET)
+Date: Mon, 1 Feb 2021 17:29:31 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PULL 10/11] trace: document how to specify multiple --trace
+ patterns
+In-Reply-To: <20210201161352.GH13157@merkur.fritz.box>
+Message-ID: <cbab5846-b5d-d256-89d7-b2bf9f7c69f@eik.bme.hu>
+References: <20210201154703.180022-1-stefanha@redhat.com>
+ <20210201154703.180022-11-stefanha@redhat.com>
+ <d5e9b59a-f7df-5a7b-55bb-cc6066b18a70@eik.bme.hu>
+ <20210201161352.GH13157@merkur.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: armbru@redhat.com
-Date: Mon, 1 Feb 2021 08:27:45 -0800 (PST)
-X-ZohoMailClient: External
-Received-SPF: pass client-ip=136.143.188.53; envelope-from=no-reply@patchew.org;
- helo=sender4-of-o53.zoho.com
+Content-Type: multipart/mixed;
+ boundary="3866299591-568678945-1612196971=:91053"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,46 +59,67 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: kwolf@redhat.com, jsnow@redhat.com, qemu-devel@nongnu.org,
- peterx@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDIxMDIwMTE2MTUwNC4xOTc2
-OTg5LTEtYXJtYnJ1QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2
-ZSBzb21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBp
-bmZvcm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDIxMDIwMTE2MTUwNC4xOTc2
-OTg5LTEtYXJtYnJ1QHJlZGhhdC5jb20KU3ViamVjdDogW1BBVENIIDAvM10gTWF4aW1pemUgUU1Q
-IGF2YWlsYWJpbGl0eSBmb3IgT09CIGNvbW1hbmRzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09
-CiMhL2Jpbi9iYXNoCmdpdCByZXYtcGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0
-IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlm
-Zi5yZW5hbWVzIFRydWUKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3Jh
-bQouL3NjcmlwdHMvY2hlY2twYXRjaC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJ
-UFQgRU5EID09PQoKVXBkYXRpbmcgM2M4Y2Y1YTljMjFmZjg3ODIxNjRkMWRlZjdmNDRiZDg4ODcx
-MzM4NApGcm9tIGh0dHBzOi8vZ2l0aHViLmNvbS9wYXRjaGV3LXByb2plY3QvcWVtdQogLSBbdGFn
-IHVwZGF0ZV0gICAgICBwYXRjaGV3LzIwMjEwMjAxMTYxMDI0LjEyNzkyMS0xLWt3b2xmQHJlZGhh
-dC5jb20gLT4gcGF0Y2hldy8yMDIxMDIwMTE2MTAyNC4xMjc5MjEtMS1rd29sZkByZWRoYXQuY29t
-CiAqIFtuZXcgdGFnXSAgICAgICAgIHBhdGNoZXcvMjAyMTAyMDExNjE1MDQuMTk3Njk4OS0xLWFy
-bWJydUByZWRoYXQuY29tIC0+IHBhdGNoZXcvMjAyMTAyMDExNjE1MDQuMTk3Njk4OS0xLWFybWJy
-dUByZWRoYXQuY29tClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKZmFkZmIwNCBxbXA6
-IFJlc3VtZSBPT0ItZW5hYmxlZCBtb25pdG9yIGJlZm9yZSBwcm9jZXNzaW5nIHRoZSByZXF1ZXN0
-CjFhZDhmMDQgcW1wOiBBZGQgbW9yZSB0cmFjZXBvaW50cwplZTZkZjhmIHFtcDogRml4IHVwIGNv
-bW1lbnRzIGFmdGVyIGNvbW1pdCA5Y2U0NGUyY2UyCgo9PT0gT1VUUFVUIEJFR0lOID09PQoxLzMg
-Q2hlY2tpbmcgY29tbWl0IGVlNmRmOGYzNmFlZSAocW1wOiBGaXggdXAgY29tbWVudHMgYWZ0ZXIg
-Y29tbWl0IDljZTQ0ZTJjZTIpCjIvMyBDaGVja2luZyBjb21taXQgMWFkOGYwNGYxNWZlIChxbXA6
-IEFkZCBtb3JlIHRyYWNlcG9pbnRzKQozLzMgQ2hlY2tpbmcgY29tbWl0IGZhZGZiMDQwNTMwOCAo
-cW1wOiBSZXN1bWUgT09CLWVuYWJsZWQgbW9uaXRvciBiZWZvcmUgcHJvY2Vzc2luZyB0aGUgcmVx
-dWVzdCkKRVJST1I6IHRyYWlsaW5nIHdoaXRlc3BhY2UKIzYxOiBGSUxFOiBtb25pdG9yL3FtcC5j
-OjI4OToKKyAgICAgICAgICogICAgUmVzdW1lIG9ubHkgYWZ0ZXIgd2UncmUgZG9uZSBwcm9jZXNz
-aW5nIHRoZSByZXF1ZXN0LCAkCgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDU1IGxpbmVz
-IGNoZWNrZWQKClBhdGNoIDMvMyBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJ
-ZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8g
-dGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKPT09IE9VVFBV
-VCBFTkQgPT09CgpUZXN0IGNvbW1hbmQgZXhpdGVkIHdpdGggY29kZTogMQoKClRoZSBmdWxsIGxv
-ZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAyMTAyMDExNjE1MDQu
-MTk3Njk4OS0xLWFybWJydUByZWRoYXQuY29tL3Rlc3RpbmcuY2hlY2twYXRjaC8/dHlwZT1tZXNz
-YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
-Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
-ZWxAcmVkaGF0LmNvbQ==
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--3866299591-568678945-1612196971=:91053
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
+
+On Mon, 1 Feb 2021, Kevin Wolf wrote:
+> Am 01.02.2021 um 17:05 hat BALATON Zoltan geschrieben:
+>> On Mon, 1 Feb 2021, Stefan Hajnoczi wrote:
+>>> It is possible to repeat the --trace option to specify multiple
+>>> patterns. This may be preferrable to users who do not want to create a
+>>> file with a list of patterns.
+>>>
+>>> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>>> Message-id: 20210112165859.225534-2-stefanha@redhat.com
+>>> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+>>> ---
+>>> docs/devel/tracing.rst | 9 +++++++--
+>>> 1 file changed, 7 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
+>>> index af395e957d..e8f9b82c5e 100644
+>>> --- a/docs/devel/tracing.rst
+>>> +++ b/docs/devel/tracing.rst
+>>> @@ -22,10 +22,15 @@ events::
+>>> This output comes from the "log" trace backend that is enabled by default when
+>>> ``./configure --enable-trace-backends=BACKENDS`` was not explicitly specified.
+>>>
+>>> -More than one trace event pattern can be specified by providing a file
+>>> -instead::
+>>> +Multiple patterns can be specified by repeating the ``--trace`` option::
+>>> +
+>>> +    $ qemu --trace "kvm_*" --trace "virtio_*" ...
+>>
+>> Does that actually work? I've always used -trace enable="pattern1" -trace
+>> enable="pattern2" Not sure if omitting enable= is the same.
+>
+> qemu_trace_opts has .implied_opt_name = "enable", so without having
+> tested it, I assume this works.
+
+How does this option parsing work? Would then multiple patterns separated 
+by comma as in -trace pattern1,pattern2 also work? (Although quoting * in 
+that may be a challenge don't know if it should be "a*,b*" "a*","b*" or 
+a\*,b\* or any of these would be OK.) I've just found one way by repeating 
+-trace options that worked and then used that without ever trying to 
+explore other ways but if we're about to document it maybe somebody who 
+actually knows how it works could tell what is the best way.
+
+Regards,
+BALATON Zoltan
+--3866299591-568678945-1612196971=:91053--
 
