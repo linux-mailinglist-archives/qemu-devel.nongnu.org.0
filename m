@@ -2,60 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC0130B0DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:54:39 +0100 (CET)
-Received: from localhost ([::1]:42810 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CF230B0E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:54:41 +0100 (CET)
+Received: from localhost ([::1]:42906 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6fHS-0005xn-Rh
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:54:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49622)
+	id 1l6fHU-00060A-3F
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:54:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1r-0003Pu-8p
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:22343)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l6fGD-00055w-16
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:53:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58733)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1p-0005n1-1P
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:31 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1l6fG4-0003qm-Sj
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:53:20 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612208308;
+ s=mimecast20190719; t=1612209191;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=/UrbnJIoTY6N/WoRvNd17puFvkWDf9JkExS4pcXAahw=;
- b=OHAxJjJt3NCsMQYGLJN5pRG2eJyLp3BShcm7PR34MhfKqeSH5R1QXYBchlojUf+fpLZKuk
- Z/e9QOUD+o9Lzt8NElIuJ+dLrVVeEuyojmsNCGPr79i1vwAmGrY3UVjTy93pW6dUUjrNgH
- aXYTROOzOsSrQJNuvxYBUkjcpgLj7ic=
+ bh=3jMvAejVeJ5JN5fcmUSz0aSBAUCCwr+63hOBx2c5Pgs=;
+ b=dk8HSsDgGNMidaDI+kfZH8zcS4M7dq6dNWDSzCBClO4bUlOsWivdL7B1r3HvoFskSdYgz2
+ Fbh67sYWy4qdtqqFwSwsQ7NF+LLRMKqIlY+6RUFGgp4aE/pTgevocaHYSIPDLXwIdPJD0g
+ gQI6BUPsa+oAT/Y9PT1Ttlsn9kVRpB8=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-90-TCEcUh1xMoipKFOSVspMYw-1; Mon, 01 Feb 2021 14:38:26 -0500
-X-MC-Unique: TCEcUh1xMoipKFOSVspMYw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
+ us-mta-266-JqaaYKIIO-qDsfu00Mg5UA-1; Mon, 01 Feb 2021 14:52:37 -0500
+X-MC-Unique: JqaaYKIIO-qDsfu00Mg5UA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+ [10.5.11.16])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 992AD1800D41;
- Mon,  1 Feb 2021 19:38:25 +0000 (UTC)
-Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6888E60C05;
- Mon,  1 Feb 2021 19:38:24 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH v4 16/16] qapi: enable strict-optional checks
-Date: Mon,  1 Feb 2021 14:37:47 -0500
-Message-Id: <20210201193747.2169670-17-jsnow@redhat.com>
-In-Reply-To: <20210201193747.2169670-1-jsnow@redhat.com>
-References: <20210201193747.2169670-1-jsnow@redhat.com>
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BEA3801817;
+ Mon,  1 Feb 2021 19:52:36 +0000 (UTC)
+Received: from work-vm (ovpn-115-16.ams2.redhat.com [10.36.115.16])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id F09B85C1A1;
+ Mon,  1 Feb 2021 19:52:31 +0000 (UTC)
+Date: Mon, 1 Feb 2021 19:52:29 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Greg Kurz <groug@kaod.org>
+Subject: Re: [PATCH] virtiofsd: Add restart_syscall to the seccomp whitelist
+Message-ID: <20210201195229.GJ3300@work-vm>
+References: <20210201193305.136390-1-groug@kaod.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20210201193305.136390-1-groug@kaod.org>
+User-Agent: Mutt/1.14.6 (2020-07-11)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jsnow@redhat.com
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
 X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=jsnow@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
@@ -76,35 +78,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the modules that we are checking so far, we can be stricter about the
-difference between Optional[T] and T types. Enable that check.
+* Greg Kurz (groug@kaod.org) wrote:
+> This is how linux restarts some system calls after SIGSTOP/SIGCONT.
+> This is needed to avoid virtiofsd termination when resuming execution
+> under GDB for example.
 
-Enabling it now will assist review on further typing and cleanup work.
+Ah!
 
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- scripts/qapi/mypy.ini | 1 -
- 1 file changed, 1 deletion(-)
 
-diff --git a/scripts/qapi/mypy.ini b/scripts/qapi/mypy.ini
-index 74fc6c82153..04bd5db5278 100644
---- a/scripts/qapi/mypy.ini
-+++ b/scripts/qapi/mypy.ini
-@@ -1,6 +1,5 @@
- [mypy]
- strict = True
--strict_optional = False
- disallow_untyped_calls = False
- python_version = 3.6
- 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> Signed-off-by: Greg Kurz <groug@kaod.org>
+> ---
+> 
+> This has passed Travis and gitlab CI without errors.
+> 
+>  tools/virtiofsd/passthrough_seccomp.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
+> index a60d7da4b4e2..da03e97d35e4 100644
+> --- a/tools/virtiofsd/passthrough_seccomp.c
+> +++ b/tools/virtiofsd/passthrough_seccomp.c
+> @@ -88,6 +88,7 @@ static const int syscall_whitelist[] = {
+>      SCMP_SYS(renameat),
+>      SCMP_SYS(renameat2),
+>      SCMP_SYS(removexattr),
+> +    SCMP_SYS(restart_syscall),
+>      SCMP_SYS(rt_sigaction),
+>      SCMP_SYS(rt_sigprocmask),
+>      SCMP_SYS(rt_sigreturn),
+> -- 
+> 2.26.2
+> 
 -- 
-2.29.2
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
