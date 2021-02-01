@@ -2,95 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05F4030AAD2
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:16:45 +0100 (CET)
-Received: from localhost ([::1]:47734 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 051CD30AADE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:18:41 +0100 (CET)
+Received: from localhost ([::1]:50964 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6awV-0006e5-H6
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:16:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35014)
+	id 1l6ayO-0008FT-19
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:18:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35480)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6aus-0005mg-3B
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:15:02 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:57431)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <philmd@redhat.com>) id 1l6aun-0000mM-Nv
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:15:01 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612192495;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ozIpMqdD+iWDcSAqUu8JnyllJwpaDgaHUGFapFVXhs4=;
- b=RJjDFif06iWVHu7y0/ZwyIksGUjIJvw96qBJImcjxtA7iCjpov0XeViAvkhPdkp4zlGb87
- impQggHRPyW2DihDZ6s0jgT6K3Em2pVuo+FjUh0KJbccthe6AFrsLEVDyqWIs1TzDTD++O
- OQINHAisSCxNZowByyO2kQlD1Es+6x8=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-212-t919khUmOz2As2Vi-n10lg-1; Mon, 01 Feb 2021 10:14:51 -0500
-X-MC-Unique: t919khUmOz2As2Vi-n10lg-1
-Received: by mail-ej1-f69.google.com with SMTP id ar27so7309486ejc.22
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 07:14:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l6awg-00077g-4w; Mon, 01 Feb 2021 10:16:54 -0500
+Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:42077)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l6awa-0001dF-Su; Mon, 01 Feb 2021 10:16:53 -0500
+Received: by mail-io1-xd31.google.com with SMTP id u20so3606557iot.9;
+ Mon, 01 Feb 2021 07:16:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=Alq5OZIl9+U/IHBWXNwlGw8gVM/UVyqiUZrelU07SI8=;
+ b=tjCHp5CJgJs+qaWIUR6Yy/iipMxmAAnsAlXcnvDUSd124Hq5O0D23xiyIWS3tFdhow
+ EsEZvtl4M4p0rFgIHWOyZDdwS2oqVTjHiPQj/f3djxjwts4qRAB49N6c+DUq4y39CVLa
+ 5ha7J0xyTV/w0hyfVuaRCzZtzCKQvs+BUTcPnkb8HuRGcNn27ugCL16OiHYRvDUpfMGG
+ D4koz2Nc01Ir9s+/0g67VgnZg80vqwIzQ0uHJOLV+Rz2yybM77pb9s3qmJlUzhHHgq7S
+ /uYZ3gkexCFkovIUqscSRVQFXNxlJxMjVFClG1BSS/mo+qnCv/egRChhVJJPenUTTNOd
+ JwUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=ozIpMqdD+iWDcSAqUu8JnyllJwpaDgaHUGFapFVXhs4=;
- b=HFkMqc8C6xAfh4ZkXnI4jBHPrUMjKZaag9z/R4FKyRfXks468S92HuPuqtbCgdxqoH
- FFfZTEr1TLw07bJRgQYWRA2lY3qF3uRExxOMJ6G0qYAWL+eXXyGo62TVMR+J/12XcWYJ
- msm5G3tZfXkWX4ZRs7TurPUG0a7O3APcDrxpSYUbm0109DiOBSk60XcTMfjjIga9PrLP
- cQ11IyDG4fuMbzSTSPqrbn9G/ho+jbEGe0jCOoZtKk3eU49LhEeAJcdgH+6OzEuqy9rA
- IqlL/CQFfvwINMs3LRR5LxRqYu73ywuazDRGB4Pns7OUSgoJMGRJ1eV8tQvjA7VD7wHP
- h9Dg==
-X-Gm-Message-State: AOAM531YMlaMRP314Gr35KE7qUUHgisNd04T0TYx4DOUSg79yO0RaWRB
- j+9qWSsjKJl7ko1YAgb9Lf/WXf4kW80IAR/H0IJt6swEykNMMN6d00WE3w/0m0nqcUQ5hx/kzMh
- jwAHymAA7gqxJ8PE=
-X-Received: by 2002:a17:906:2b11:: with SMTP id
- a17mr2895249ejg.203.1612192490224; 
- Mon, 01 Feb 2021 07:14:50 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxXlZF+TW4mrA+26ATw+qpSwDnRGpGFo7oajB4U8h44xBqc8IK9tixzY7gowcJEeUW2K7C7fQ==
-X-Received: by 2002:a17:906:2b11:: with SMTP id
- a17mr2895213ejg.203.1612192489878; 
- Mon, 01 Feb 2021 07:14:49 -0800 (PST)
-Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id m26sm8014991ejr.54.2021.02.01.07.14.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Feb 2021 07:14:48 -0800 (PST)
-Subject: Re: [PATCH v2 2/2] accel: kvm: Add aligment assert for
- kvm_log_clear_one_slot
-To: Keqian Zhu <zhukeqian1@huawei.com>,
- Peter Maydell <peter.maydell@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Peter Xu <peterx@redhat.com>
-References: <20201217014941.22872-1-zhukeqian1@huawei.com>
- <20201217014941.22872-3-zhukeqian1@huawei.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Message-ID: <ef90fe8b-297d-0a57-bad0-ebc6e1d24333@redhat.com>
-Date: Mon, 1 Feb 2021 16:14:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=Alq5OZIl9+U/IHBWXNwlGw8gVM/UVyqiUZrelU07SI8=;
+ b=aWyZDWQB/A4+KbbKm12G4f/+Gadr+Ot8HNOXrvv8fX9bONiWX087zRB2Wt/a6yPBJG
+ DcMRfMYDQLGEfaZpT46Lq6pWVcl1hTdtLs2uDL/drKcZFKc4fQ17jblKYfo1dMvlOlHq
+ 7DchC9u3/PA9Ecd0+tHodxXD/t+rWHC1ij5EDwUntOPTKPK9PsCYa748/i+mZZpp5wvy
+ XSZWez5rTNr6dizlteZZF99MRbbIhh4jPrIMpw1sMCP8we8L63DGrweamTAJth0sulUV
+ EBXaFSWVdlRCknIIvrCvn1XVi/ICpIEGXH6sHAzBf0wyiY7z78lY2Ljiglc7C8k9WPAq
+ /bKA==
+X-Gm-Message-State: AOAM531KtuydPnCvO5HRI6g0vl28slksZ2KeaaJJAsWLqyGTwn24PMsz
+ J/Otsb9DeBb1MyFPbTzhpA2bGJgtpYxwUMk5eOI=
+X-Google-Smtp-Source: ABdhPJyr20fLldf41OBBeAwHwgNhQN48SXmO0mKrn4JOWNxmxKlxS+pvoYlNyIwZ4f/Oc4s9wz7FDBEqlcVN7qTVc1M=
+X-Received: by 2002:a02:cbad:: with SMTP id v13mr14624551jap.26.1612192606136; 
+ Mon, 01 Feb 2021 07:16:46 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201217014941.22872-3-zhukeqian1@huawei.com>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=philmd@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=philmd@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+References: <20210131105918.228787-1-f4bug@amsat.org>
+ <20210131105918.228787-2-f4bug@amsat.org>
+In-Reply-To: <20210131105918.228787-2-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 1 Feb 2021 07:16:19 -0800
+Message-ID: <CAKmqyKPPSJtTfAPKEaXt5MVrbf5r2ZyidHhzDynmS5+e14LpJw@mail.gmail.com>
+Subject: Re: [PATCH v2 1/7] hw/arm/stm32f405_soc: Add missing dependency on
+ OR_IRQ
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d31;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,57 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Zenghui Yu <yuzenghui@huawei.com>, wanghaibin.wang@huawei.com,
- jiangkunkun@huawei.com, qemu-devel@nongnu.org, qemu-arm@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+On Sun, Jan 31, 2021 at 3:00 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
+>
+> The STM32F405 SoC uses an OR gate on its ADC IRQs.
+>
+> Fixes: 529fc5fd3e1 ("hw/arm: Add the STM32F4xx SoC")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-On 12/17/20 2:49 AM, Keqian Zhu wrote:
-> The parameters start and size are transfered from QEMU memory
-> emulation layer. It can promise that they are TARGET_PAGE_SIZE
-> aligned. However, KVM needs they are qemu_real_page_size aligned.
-> 
-> Though no caller breaks this aligned requirement currently, we'd
-> better add an explicit assert to avoid future breaking.
-> 
-> Signed-off-by: Keqian Zhu <zhukeqian1@huawei.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->  accel/kvm/kvm-all.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
+> Cc: alistair@alistair23.me
 > ---
-> v2
->  - Address Andrew's commment (Use assert instead of return err).
-> 
-> diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> index f6b16a8df8..73b195cc41 100644
-> --- a/accel/kvm/kvm-all.c
-> +++ b/accel/kvm/kvm-all.c
-> @@ -692,6 +692,10 @@ out:
->  #define KVM_CLEAR_LOG_ALIGN  (qemu_real_host_page_size << KVM_CLEAR_LOG_SHIFT)
->  #define KVM_CLEAR_LOG_MASK   (-KVM_CLEAR_LOG_ALIGN)
->  
-> +/*
-> + * As the granule of kvm dirty log is qemu_real_host_page_size,
-> + * @start and @size are expected and restricted to align to it.
-> + */
->  static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->                                    uint64_t size)
->  {
-> @@ -701,6 +705,9 @@ static int kvm_log_clear_one_slot(KVMSlot *mem, int as_id, uint64_t start,
->      unsigned long *bmap_clear = NULL, psize = qemu_real_host_page_size;
->      int ret;
->  
-> +    /* Make sure start and size are qemu_real_host_page_size aligned */
-> +    assert(QEMU_IS_ALIGNED(start | size, psize));
-
-Why not return an error instead of aborting the VM?
-
->      /*
->       * We need to extend either the start or the size or both to
->       * satisfy the KVM interface requirement.  Firstly, do the start
-> 
-
+>  hw/arm/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 13cc42dcc84..a320a124855 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -336,6 +336,7 @@ config STM32F205_SOC
+>  config STM32F405_SOC
+>      bool
+>      select ARM_V7M
+> +    select OR_IRQ
+>      select STM32F4XX_SYSCFG
+>      select STM32F4XX_EXTI
+>
+> --
+> 2.26.2
+>
+>
 
