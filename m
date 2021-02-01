@@ -2,68 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6EFF30B290
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 23:08:16 +0100 (CET)
-Received: from localhost ([::1]:58202 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E32D930B2AA
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 23:17:36 +0100 (CET)
+Received: from localhost ([::1]:36776 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6hMl-0007GQ-Po
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 17:08:15 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50140)
+	id 1l6hVn-0002Ul-Ij
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 17:17:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:52246)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l6hLA-0006QJ-K7
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:06:36 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2]:44495)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l6hL8-0005CJ-EK
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:06:36 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.220])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 285F28171EDD;
- Mon,  1 Feb 2021 23:06:31 +0100 (CET)
-Received: from kaod.org (37.59.142.104) by DAG4EX1.mxp5.local (172.16.2.31)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Feb 2021
- 23:06:30 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-104R005c1082897-76ca-4904-ae8d-58bc1cf4aeae,
- 43AF5B79A33AC54A678EB738DB65E99D5FB7B3E2) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Subject: Re: eMMC support
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-To: Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>, 
- Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
-References: <BY5PR02MB6772761F83EDC56737969C18CA210@BY5PR02MB6772.namprd02.prod.outlook.com>
- <CACPK8XexXLYrwMenkyou0Xkc8Tx+p1SNi7jbFBj6aObAKHcBwQ@mail.gmail.com>
- <6a30107a-abf1-635b-c96f-af3d63f93bc8@kaod.org>
- <6c1e1335-887e-0459-f1c7-f37daa008c4d@kaod.org>
- <d0ef7bbd-2b2b-422f-9420-29ca620db130@xilinx.com>
- <BY5PR02MB677227AB2EE184B02E1E90B8CAB69@BY5PR02MB6772.namprd02.prod.outlook.com>
- <e401d119-402e-0edd-c2bf-28950ba48ccb@kaod.org>
-Message-ID: <13ff3712-e187-9555-057f-3612654d25c9@kaod.org>
-Date: Mon, 1 Feb 2021 23:06:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l6hUs-00024I-3d
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:16:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39760)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
+ id 1l6hUo-0001H9-7A
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:16:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612217792;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9cqxBe3ySBFl/9obe5kcwMlPo2iBMq260jgVfCS70WY=;
+ b=HrEY7LHvDSVCz2Ca6oNQoFeid1Q8hqekBG/9VIEdR6B0hse9J9b8882gJlo/X29pAPXpBE
+ Mc3AN2GanZLHTlnxa8MADnb+DuprmSgWRPCuBeeVInx852naCvosy59nyNBsPoQ3flGdZ1
+ h28UWmcQps7kU4ql/bKZyRF3ZaE5Fsw=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-556-k2uHv6-aNUqL7go5ESK5EA-1; Mon, 01 Feb 2021 17:16:30 -0500
+X-MC-Unique: k2uHv6-aNUqL7go5ESK5EA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+ [10.5.11.14])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8D731087D75;
+ Mon,  1 Feb 2021 22:16:28 +0000 (UTC)
+Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4098B5DA60;
+ Mon,  1 Feb 2021 22:16:28 +0000 (UTC)
+Date: Mon, 1 Feb 2021 17:16:27 -0500
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Babu Moger <babu.moger@amd.com>
+Subject: Re: [PATCH] i386: Add the support for AMD EPYC 3rd generation
+ processors
+Message-ID: <20210201221627.GH3872207@habkost.net>
+References: <161133338780.27536.17735339269843944966.stgit@bmoger-ubuntu>
 MIME-Version: 1.0
-In-Reply-To: <e401d119-402e-0edd-c2bf-28950ba48ccb@kaod.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [37.59.142.104]
-X-ClientProxiedBy: DAG1EX2.mxp5.local (172.16.2.2) To DAG4EX1.mxp5.local
- (172.16.2.31)
-X-Ovh-Tracer-GUID: 3e38e4ee-0dd8-4da0-abff-e5b9ff56f4be
-X-Ovh-Tracer-Id: 8891794517125991206
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfeekgdduhedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffhvfhfkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepvdelleeutefgveelveeiieehieelheelkeevgfejffdvgfdtjeejkedvleevtefgnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddruddtgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomheptghlgheskhgrohgurdhorhhgpdhrtghpthhtohepshgrihhprghvrgesgihilhhinhigrdgtohhm
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=clg@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <161133338780.27536.17735339269843944966.stgit@bmoger-ubuntu>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=ehabkost@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ WEIRD_PORT=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -76,51 +79,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Cc: pbonzini@redhat.com, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2/1/21 11:01 PM, Cédric Le Goater wrote:
-> Hello, 
+On Fri, Jan 22, 2021 at 10:36:27AM -0600, Babu Moger wrote:
+> Adds the support for AMD 3rd generation processors. The model
+> display for the new processor will be EPYC-Milan.
 > 
->>> FYI, aspeed machines successfully boot on top of 16G emmc disk images.
->>> I merged some of xilinx patches on top of the aspeed-6.0 branch to
->>> improve the model completeness but only the one fixing powerup was
->>> really necessary.
->>>  
->>> The initial diffstat is rather small.
->>>  
->>>  hw/sd/sd.c             |  168 ++++++++++++++++++++++++++++++++++++++++++-------
->>>  
->>> We can surely find a way to merge support in mainline without
->>> covering the whole specs. The Extended CSD register would be the
->>> big part.
->>
->> */[Sai Pavan Boddu] I’m revisiting eMMC now, made some patches on top of previous series sent by “Vincent Palatin”./*
->>
->> */Would you like to share your changes, which made aspeed machines to work ?/*
->>
->> */Regards,
->> Sai Pavan/*
+> Adds the following new feature bits on top of the feature bits from
+> the first and second generation EPYC models.
 > 
-> The patchset is in the aspeed-6.0 branch : 
+> pcid    : Process context identifiers support
+> ibrs    : Indirect Branch Restricted Speculation
+> ssbd    : Speculative Store Bypass Disable
+> erms    : Enhanced REP MOVSB/STOSB support
+> fsrm    : Fast Short REP MOVSB support
+> invpcid : Invalidate processor context ID
+> pku     : Protection keys support
 > 
->     df91d012672c Cédric Le Goater - hw/arm/aspeed: Load eMMC first boot area as a boot rom
->     27b75a7ad322 Cédric Le Goater - hw/arm/aspeed: Add eMMC property
->     2836cf5a15a1 Joel Stanley - hw/arm/aspeed: Set boot device to emmc
->     42c9d57f5cd0 Joel Stanley - sd: mmc: Subtract bootarea size from blk
->     218301406607 Joel Stanley - sd: mmc: Support boot area in emmc image
->     df0452923b56 Cédric Le Goater - sd: mmc: Add Extended CSD register definitions
->     416c02bbfd32 Sai Pavan Boddu - sd: mmc: Add mmc switch function support
->     a228aef1a209 Sai Pavan Boddu - sd: mmc: add CMD21 tuning sequence
->     9b177d7baf8e Sai Pavan Boddu - sd: mmc: Update CMD1 definition for MMC
->     6677e4eb6812 Vincent Palatin - sd: add eMMC support
+> Signed-off-by: Babu Moger <babu.moger@amd.com>
+[...]
+> @@ -4130,6 +4180,61 @@ static X86CPUDefinition builtin_x86_defs[] = {
+>          .model_id = "AMD EPYC-Rome Processor",
+>          .cache_info = &epyc_rome_cache_info,
+>      },
+> +    {
+> +        .name = "EPYC-Milan",
+[...]
+> +        .features[FEAT_8000_0008_EBX] =
+> +            CPUID_8000_0008_EBX_CLZERO | CPUID_8000_0008_EBX_XSAVEERPTR |
+> +            CPUID_8000_0008_EBX_WBNOINVD | CPUID_8000_0008_EBX_IBPB |
+> +            CPUID_8000_0008_EBX_IBRS | CPUID_8000_0008_EBX_STIBP |
+> +            CPUID_8000_0008_EBX_AMD_SSBD,
 
-here : 
+This breaks query-cpu-model-expansion, see:
+https://gitlab.com/ehabkost/qemu/-/jobs/1000347471#L350
 
-https://github.com/legoater/qemu/commits/aspeed-6.0
+20:11:28 ERROR| Reproduced traceback from: /builds/ehabkost/qemu/build/tests/venv/lib64/python3.6/site-packages/avocado/core/test.py:767
+20:11:28 ERROR| Traceback (most recent call last):
+20:11:28 ERROR|   File "/builds/ehabkost/qemu/build/tests/acceptance/cpu_queries.py", line 31, in test
+20:11:28 ERROR|     self.assertNotIn('', c['unavailable-features'], c['name'])
+20:11:28 ERROR|   File "/usr/lib64/python3.6/unittest/case.py", line 1096, in assertNotIn
+20:11:28 ERROR|     self.fail(self._formatMessage(msg, standardMsg))
+20:11:28 ERROR|   File "/builds/ehabkost/qemu/build/tests/venv/lib64/python3.6/site-packages/avocado/core/test.py", line 953, in fail
+20:11:28 ERROR|     raise exceptions.TestFail(message)
+20:11:28 ERROR| avocado.core.exceptions.TestFail: '' unexpectedly found in ['fma', 'pcid', 'avx', 'f16c', 'avx2', 'invpcid', 'rdseed', 'sha-ni', 'umip', 'rdpid', 'fsrm', 'fxsr-opt', 'misalignsse', '3dnowprefetch', 'osvw', 'topoext', 'perfctr-core', 'clzero', 'xsaveerptr', 'wbnoinvd', 'ibpb', '', 'amd-stibp', 'amd-ssbd', 'nrip-save', 'xsavec', 'xsaves'] : EPYC-Milan-v1
 
-C.
+The root cause is the lack of name for CPUID_8000_0008_EBX_IBRS at
+feature_word_info[CPUID_8000_0008_EBX_IBRS].feat_names[14].
+
+I'm applying the following fixup.
+
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 06c92650a17..8d4baf72e5b 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1033,7 +1033,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+             "clzero", NULL, "xsaveerptr", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, "wbnoinvd", NULL, NULL,
+-            "ibpb", NULL, NULL, "amd-stibp",
++            "ibpb", NULL, "ibrs", "amd-stibp",
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             "amd-ssbd", "virt-ssbd", "amd-no-ssb", NULL,
+
+-- 
+Eduardo
 
 
