@@ -2,97 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E87B30A556
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:30:39 +0100 (CET)
-Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80A8A30A56F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:36:01 +0100 (CET)
+Received: from localhost ([::1]:51000 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6WTe-0005Yp-K3
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:30:38 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:33830)
+	id 1l6WYq-0003E1-IK
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:36:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:34242)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l6WMf-0007rL-72
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:23:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27844)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l6WMY-0003Ii-Ns
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:23:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612174995;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5aJMOuyPSvjfhIQ04b1GIIwOFY3oexeLpV4TNKMqWiI=;
- b=Ig9VYT4nOehZv3vos89PLHQiUROwoBFC3GmOZTOLmVThxFAUppqdK+garDjTQuXq860h03
- lrTezMa/Wgvnz3t79nhbKzpQ/MBpxYN6NqIV5V6x/cRJQ5DB3sUgr5QrZIaMFqXkdgNx7v
- R7ZmsQJ8c6YaiTcdlNQ7r4gphhHRWow=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-540-5H_lgdZ6OUa5L-aaIvuvQw-1; Mon, 01 Feb 2021 05:23:14 -0500
-X-MC-Unique: 5H_lgdZ6OUa5L-aaIvuvQw-1
-Received: by mail-wm1-f70.google.com with SMTP id f6so237924wmj.5
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 02:23:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6WOd-0001E3-Dh
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:25:30 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:40791)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6WOa-0004D3-T4
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:25:27 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id c127so12653881wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 02:25:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=my+cruc2dBoFqSY8dVBluRTzfXBeNT8slTzI7l3tb5g=;
+ b=R81M8izZm8JJNbtnQ2EmhyMptb0d1vIvgZ4qptj1kNc9zo7ozCk9aL6ki8LSZGxseu
+ wpB0z8TXLUUMQwsOwuheeQaTzsVOM/5NAk8gSRyCIX/r0H7krM56RcyXalKEUhrHZlyd
+ kpPwa4guHb2MbH3yZ6PV90dDmbHIA58iJYBF2viRbC+JgMGCXeDHqYTiU2qv3RM+ONKy
+ +Tj5EC/SYEHwR9hxfJzlavXh45RxAzo5eR/PXHBxM55EGvybQ/S/QP15rCkjD4zaBE4X
+ CMUBa0C6j7njahF5bF8M1h0xkRzUwZY+STT9E/fgPuS61TjMpRAo7VDcVFA/WKfsONfC
+ upXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:subject:to:cc:references:from:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=5aJMOuyPSvjfhIQ04b1GIIwOFY3oexeLpV4TNKMqWiI=;
- b=De2LdFSAB4ffPjuZGO9SRXC30xi3yp4DNWlshzEjSeygSs/VGSRHktiuxhQ7AZUv4S
- SDAV9qbb7KJmYp+2q2SSmaFbMRATac62FStmUYU6Y313UxaxgFmBSCyi995vyn65eF5J
- onb6QtUBuJvEUMuNwX7IQkuvwQNlkMSRBRVMEbIsrGMnBwpTpju2OgtyGAYL/GVTylAI
- EMorcsUkvPt8iuuXUQuIePPj2LWCawEUzPvjJWpNCPkk5rDVdDMY2GbDePHXUoHnNaGp
- VEIA5I7ARUNBfMvc8IiJO+e9Df3a+1qb5Jqt2MBilTtqQZjfaZJ1gIyPScsxhobMIzVB
- fFqw==
-X-Gm-Message-State: AOAM531O08RM72fk6MlM1EeZf39o+5Uqz/1s/f7SNWlEHFui2BuPUeLJ
- ZAdrpb68n7LyAXNzAJJzR4dAxXBxq0cQF2dyoRoeSjcniyEtV/63ZjOoMaYQj1BzmXibjCuwQvm
- 1kHpkaOS+gq0KXfg=
-X-Received: by 2002:adf:8b47:: with SMTP id v7mr1554764wra.133.1612174993018; 
- Mon, 01 Feb 2021 02:23:13 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJxRiU0yK4wM7pHxMScsrUEJgrMLA/P5aBurhjGx5cZ0jxtB++LorBC//x8+uxwvN9hX5go09A==
-X-Received: by 2002:adf:8b47:: with SMTP id v7mr1554744wra.133.1612174992844; 
- Mon, 01 Feb 2021 02:23:12 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id x9sm4234865wmb.14.2021.02.01.02.23.11
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Feb 2021 02:23:12 -0800 (PST)
-Subject: Re: [PATCH v2 4/4] hw/xen: Have Xen machines select 9pfs
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <20210131141810.293186-1-f4bug@amsat.org>
- <20210131141810.293186-5-f4bug@amsat.org>
- <565bf0dd-a5de-352e-eec7-68b862ed09e4@redhat.com>
- <f6e1917a-f9cf-9ae3-50b1-9dc0ee4f65f3@amsat.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <50306fbf-c6f0-e281-248f-de1bc984b113@redhat.com>
-Date: Mon, 1 Feb 2021 11:23:11 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=my+cruc2dBoFqSY8dVBluRTzfXBeNT8slTzI7l3tb5g=;
+ b=MPfbQbufDk6IT+ZJIGsHKc3kXFusSSSuEPvMHtTvEUSgr9y1wTmv0xM8qep1g7K0U/
+ +slvt/ski/u/7jTXqGsJL3UBmFjSj5Qdrjas22/fZ6bME8zjaDiTAiiZc+A2d6XfP0Xw
+ WotyafO1OFY1H8MzGtoL3eFEAvvj2iIJuqXu8xBAS69XQlHyqXdLBiNx6CO+YVq8Ayyr
+ WRuGQmKMCI/13ZCzOCNUgQvTMutUeJVNoQ8RYORkyv9PTC1XcdH3xnMLugVbcpfoVzRi
+ 61p/xoxxlvkQ0PQ/wxPDwx+opBkkINqW+xxHTFX7I5ObXR5o+CQxwRz9jQq4RNb69Vd9
+ jp1w==
+X-Gm-Message-State: AOAM531Y8AHeDlTRxpnFdo6hyhBYxVzf9fZB4sIalXE9pz0Ifzh78Zm0
+ pvNKw6n9Jogch+l4QUZBz7wK8w==
+X-Google-Smtp-Source: ABdhPJyFa12/Qek6WRITj2IkgqpBYb5YP8V0uz0gUF3JlC5z8zRNpRtuCKni4PD8iafkuQM1e8yNfA==
+X-Received: by 2002:a7b:c854:: with SMTP id c20mr14024965wml.127.1612175122539; 
+ Mon, 01 Feb 2021 02:25:22 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id i6sm27017928wrs.71.2021.02.01.02.25.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Feb 2021 02:25:21 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 7DF5D1FF7E;
+ Mon,  1 Feb 2021 10:25:20 +0000 (GMT)
+References: <20210131111316.232778-1-f4bug@amsat.org>
+ <20210131111316.232778-2-f4bug@amsat.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH 01/10] hw/sh4/Kconfig: Rename CONFIG_SH4 ->
+ CONFIG_SH4_PERIPHERALS
+Date: Mon, 01 Feb 2021 10:24:40 +0000
+In-reply-to: <20210131111316.232778-2-f4bug@amsat.org>
+Message-ID: <87sg6gw0dr.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <f6e1917a-f9cf-9ae3-50b1-9dc0ee4f65f3@amsat.org>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.079, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
- RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -105,60 +88,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stefano Stabellini <sstabellini@kernel.org>,
- Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
- Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Cornelia Huck <cohuck@redhat.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Mar?= =?utf-8?Q?c-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
+ Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/02/21 10:18, Philippe Mathieu-Daudé wrote:
-> FYI using 'imply FSDEV_9P' instead I get:
-> 
-> /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function
-> `xen_be_register_common':
-> hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
 
-Ok, so then we have the case of a file (hw/xen/xen-legacy-backend.c) 
-brought in by CONFIG_XEN.  In that case this patch is incorrect...
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-> The function is:
-> 
->    void xen_be_register_common(void)
->    {
->        xen_set_dynamic_sysbus();
-> 
->        xen_be_register("console", &xen_console_ops);
->        xen_be_register("vkbd", &xen_kbdmouse_ops);
->    #ifdef CONFIG_VIRTFS
->        xen_be_register("9pfs", &xen_9pfs_ops);
->    #endif
->    #ifdef CONFIG_USB_LIBUSB
->        xen_be_register("qusb", &xen_usb_ops);
->    #endif
->    }
-> 
-> The object is compiled using:
-> 
-> -- >8 --
-> -#ifdef CONFIG_VIRTFS
-> +#ifdef CONFIG_FSDEV_9P
->       xen_be_register("9pfs", &xen_9pfs_ops);
->   #endif
-> ---
+> We want to be able to use the 'SH4' config for architecture
+> specific features. As CONFIG_SH4 is only used to select
+> peripherals, rename it CONFIG_SH4_PERIPHERALS.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-... and this is the best fix, together with:
+I agree with Balaton Zoltan that _DEVICES might be a bit shorter. Either
+way:
 
-- a "#include CONFIG_DEVICES" at the top (to get CONFIG_FSDEV_9P)
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-- moving xen-legacy-backend.c from softmmu_ss to specific_ss (to get 
-CONFIG_DEVICES)
-
-- changing "select" to "imply" in accel/Kconfig (otherwise the patch has 
-no effect)
-
-But really, doing nothing and just dropping this patch is perfectly fine.
-
-Paolo
-
+--=20
+Alex Benn=C3=A9e
 
