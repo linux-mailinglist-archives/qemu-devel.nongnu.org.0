@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E10C830AD6B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:09:51 +0100 (CET)
-Received: from localhost ([::1]:49908 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3D2830AD82
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:13:38 +0100 (CET)
+Received: from localhost ([::1]:58150 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6chy-00029V-Uq
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:09:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58246)
+	id 1l6cld-0005lF-PX
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:13:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58992)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6cX4-0006Vt-8y
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:58:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:51274)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6cX1-0006wM-Fs
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:58:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612198710;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=sJWoQyyFaCJd+8H4aAND/RJjk2Nr8Ve+WrVihDNOfx4=;
- b=A2mU5w882Jl/gB6zaLqtuN/3vVJJqbHX9u5blH4oLMMqVpQEhl/wk2SCMOYTjDPKNGbeYK
- U1OxkEjNffiNL05rg1ZDq4jxBrAsOFvfkJ4zBuo05WtSxWcp8MAHyfmNEfdAkVVsZdek6t
- MA6pHPKh0POUfEezG3t+jLvhXCI+OV8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-552-K34OJH_iOyysMNWyVO2Etg-1; Mon, 01 Feb 2021 11:58:27 -0500
-X-MC-Unique: K34OJH_iOyysMNWyVO2Etg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 57D07800D55;
- Mon,  1 Feb 2021 16:58:26 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0FD0C5C1A1;
- Mon,  1 Feb 2021 16:58:24 +0000 (UTC)
-Date: Mon, 1 Feb 2021 17:58:23 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] MAINTAINERS: suggest myself as co-maintainer for Block
- Jobs
-Message-ID: <20210201165823.GJ13157@merkur.fritz.box>
-References: <20210128144144.27617-1-vsementsov@virtuozzo.com>
- <878s8d85dz.fsf@dusky.pond.sub.org>
- <2651677f-aa5e-1937-0fb6-767c080fccdc@redhat.com>
- <094df33d-f944-7a68-c0b4-a7c509287a6b@virtuozzo.com>
- <20210201145056.GD13157@merkur.fritz.box>
- <304b3b7c-a58e-901d-7f52-b6efb1c1fbfe@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1l6cYC-00085K-LZ
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:59:44 -0500
+Received: from smtpbg704.qq.com ([203.205.195.105]:52220
+ helo=smtpproxy21.qq.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lrwei@bupt.edu.cn>) id 1l6cY6-0007O5-A2
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:59:43 -0500
+X-QQ-mid: bizesmtp8t1612198749t0igcrph0
+Received: from [192.168.0.105] (unknown [144.255.82.34])
+ by esmtp6.qq.com (ESMTP) with 
+ id ; Tue, 02 Feb 2021 00:59:08 +0800 (CST)
+X-QQ-SSF: 0140000000400070U000B00H0000000
+X-QQ-FEAT: nZfAq5E6KeixezhTa+dqgGwOKYaOnxYjYSg/ckGQXKY+qLNvSVQ0ab3UQrHFp
+ h+/UkkvCryCA4UaYW89kmVJb1hjaMQx/Kw1I+csnEgtwuSn6utnQ15vwTRWCq4DBare8qb0
+ qkkIzIFbfAEc3RyTua/vjTA3z/dTrZ5vFCh5SU+eLP5oaq34oYOEk0QmtwH/RLelMbElURm
+ i+2QDTDTJoCn4bVfqB8zgajYJB5fSqCj4m4pGCPi5TLxfnXSG8UYdGVdw50Oxvud1IkCpRa
+ HNJILLokutd7mv67Qx2hLLC6W6NuEr7aZL8YodMTVZTQjXe6CFvPNj5pb6/+dcpa7c/5pda
+ 1q9rmhU
+X-QQ-GoodBg: 2
+Subject: Re: [QUESTION] tcg: Is concurrent storing and code translation of the
+ same code page considered as racing in MTTCG?
+To: Richard Henderson <richard.henderson@linaro.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <60169742.1c69fb81.90ae8.cdc6SMTPIN_ADDED_BROKEN@mx.google.com>
+ <cebad06c-48f2-6dbd-6d7f-3a3cf5aebbe3@linaro.org>
+From: Liren Wei <lrwei@bupt.edu.cn>
+Message-ID: <8c7d31df-7a77-b7fa-6357-60b079f42a88@bupt.edu.cn>+F1B01F0F2D385E2E
+Date: Tue, 2 Feb 2021 00:59:08 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-In-Reply-To: <304b3b7c-a58e-901d-7f52-b6efb1c1fbfe@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <cebad06c-48f2-6dbd-6d7f-3a3cf5aebbe3@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-QQ-SENDSIZE: 520
+Feedback-ID: bizesmtp:bupt.edu.cn:qybgforeign:qybgforeign6
+X-QQ-Bgrelay: 1
+Received-SPF: pass client-ip=203.205.195.105; envelope-from=lrwei@bupt.edu.cn;
+ helo=smtpproxy21.qq.com
+X-Spam_score_int: 10
+X-Spam_score: 1.0
+X-Spam_bar: +
+X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, FORGED_MUA_MOZILLA=2.309,
+ INVALID_MSGID=0.568, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,76 +70,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.02.2021 um 17:20 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 01.02.2021 17:50, Kevin Wolf wrote:
-> > Am 01.02.2021 um 12:03 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> > > 28.01.2021 18:28, John Snow wrote:
-> > > > On 1/28/21 10:09 AM, Markus Armbruster wrote:
-> > > > > Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-> > > > > 
-> > > > > > I'm developing Qemu backup for several years, and finally new backup
-> > > > > > architecture, including block-copy generic engine and backup-top filter
-> > > > > > landed upstream, great thanks to reviewers and especially to
-> > > > > > Max Reitz!
-> > > > > > 
-> > > > > > I also have plans of moving other block-jobs onto block-copy, so that
-> > > > > > we finally have one generic block copying path, fast and well-formed.
-> > > > > > 
-> > > > > > So, now I suggest to bring all parts of backup architecture into
-> > > > > > "Block Jobs" subsystem (actually, aio_task is shared with qcow2 and
-> > > > > > qemu-co-shared-resource can be reused somewhere else, but I'd keep an
-> > > > > > eye on them in context of block-jobs) and add myself as co-maintainer.
-> > > > > > 
-> > > > > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > > > 
-> > > > > With pleasure:
-> > > > > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > > > > 
-> > > > 
-> > > > Absolutely! Glad to see it.
-> > > > 
-> > > > Reviewed-by: John Snow <jsnow@redhat.com>
-> > > > 
-> > > 
-> > > [..]
-> > > 
-> > > > Great!
-> > > > 
-> > > > Reviewed-by: Max Reitz <mreitz@redhat.com>
-> > > 
-> > > Thanks!
-> > > 
-> > > Could someone pull it?
-> > 
-> > I've put it in my block branch (with s/suggest myself/Add Vladimir/ in
-> > the subject line), but I don't know when I'll send the next pull
-> > request. If someone else sends one first, feel free to include it with:
-> > 
-> > Acked-by: Kevin Wolf <kwolf@redhat.com>
-> > 
-> > > I don't have any signed PGP key for now, to send pull requests :\
-> > > Interesting, could I get one while sitting in Moscow?
-> > 
-> > If you're planning to send pull requests, should a git tree of yours be
-> > added to the MAINTAINERS sections, too?
-> > 
-> 
-> I didn't add it because of signed key absence. As it turned out, Denis
-> Lunev (my boss) already has a signed key, so it's not a problem.
-> 
-> I think it's appropriate to add
-> 
-> T: git https://src.openvz.org/scm/~vsementsov/qemu.git jobs
+On 2/1/21 7:01 AM, Richard Henderson wrote:
+ > Yes, this is a bug, because we are trying to support e.g. x86 which 
+does not
+ > require an icache flush.
 
-I've added it to the patch in my queue. Now you just need to actually
-create that branch. :-)
+That is too bad :(
 
-Kevin
+I know nothing about the modern hardware, it's really hard to imagine what
+is done in CPU to maintain the coherence when this kind of cross-modifying
+scenario happens.
+
+ > I think the page lock, the TLB_NOTDIRTY setting, and a possible sync 
+on the
+ > setting, needs to happen before the bytes are read during translation.
+ > Otherwise we don't catch the case above, nor do we catch
+ >
+ >     CPU1                  CPU2
+ >     ------------------    --------------------------
+ >     TLB check -> fast
+ >                           tb_gen_code() -> all of it
+ >       write to ram
+ >
+ > Also because of x86 (and other architectures in which a single 
+instruction can
+ > span a page boundary), I think this lock+set+sync sequence needs to 
+happen on
+ > demand in something called from the function set defined in
+ > include/exec/translator.h
+ >
+ > That also means that any target/cpu/ which has not been converted to 
+use that
+ > interface remains broken, and should be converted or deprecated.
+
+I failed to figure out what do you mean by lock+set+sync, in particular:
+   - What is the use of the page lock here (Is this the lock of PageDesc?)
+   - Is the "possible sync" means some kind of wait so that TLB_NOTDIRTY is
+     definitely able to catch further "write to ram"?
+
+ > Are you planning to work on this?
+
+No, sorry for that.. Neither do I see myself qualified enough to do this 
+job,
+nor do I have enough time for it. But I did considered the following:
+
+Since "TLB check" and "fast path write to ram" are separate steps, it seems
+to me that CPU1 can always (in the extreme case) enter the fast path before
+CPU2 starts doing translation, and then write to already-translated code
+of CPU2 without informing it.
+
+Therefore maybe we can mark the RAM backing page in QEMU's page table as
+non-writable at an early stage in tb_gen_code() using the ability of the
+underlying OS, register a signal handler to intercept the first "write 
+to ram"
+happened, restore the page to be writable, and eventually inform the
+translating thread to do something about it. (e.g. queue_work_on_cpu() and
+cpu_exit() the translating vCPU so that it has chance to invalidate the TB
+after possibly running that TB for several times)
+
+But all these sounds very intrusive to the existing code base, and I'm not
+sure whether it make sense...
+
+Thanks
+Liren Wei
+
 
 
