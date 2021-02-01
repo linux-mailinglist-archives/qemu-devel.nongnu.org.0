@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A96130A1DB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 07:11:59 +0100 (CET)
-Received: from localhost ([::1]:40918 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B412030A1DE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 07:14:13 +0100 (CET)
+Received: from localhost ([::1]:44870 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6SRI-0006UT-KE
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 01:11:56 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48448)
+	id 1l6STU-00089r-RC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 01:14:12 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48880)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l6SQP-0005xG-Ap
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 01:11:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32958)
+ id 1l6SSS-0007iL-2y
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 01:13:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:31564)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1l6SQN-0000kr-P6
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 01:11:01 -0500
+ id 1l6SSQ-0001n2-Fd
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 01:13:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612159858;
+ s=mimecast20190719; t=1612159985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Fmf3/F4bar93epA9jgT+XZRxFS/bi7T0OzcismX32KQ=;
- b=g5fxPwfuPBtG7ElU4i9Xq0BDxjITN7d75pTwOefWxteoEkWMOWm8gvJQxlmU7in22nOMbE
- ZPNgaXAgFvDBBvatFsZpnrMCjBDF8y1q449FhLm7ISgqyIleLwRV8g6FjyYedG45xT91j6
- Xd+GRCm2bNvvDQLgCMfK8HIhJFNOISI=
+ bh=Z3Bypzo/VMSTxUaDET2qnn2SqjOz9+Ise9I8Thr+bDQ=;
+ b=H5PBdEbo81jbhgC2jglTidorhI5nsAGgL9eZg5B/jQM8uml4rSSFoDYSXD6aH6eUo0dP4K
+ wR6cqsD2hekJERUbiEskRSI65TKVRlUjM27L74rlOaSLUveRQ7pd26wL3K3czSBvdNugyq
+ PAOfrjjeX1EQnkoo01TU4xYl52Loz/k=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-43-Ndapx0jlNLWAIfVCrybtsA-1; Mon, 01 Feb 2021 01:10:55 -0500
-X-MC-Unique: Ndapx0jlNLWAIfVCrybtsA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
+ us-mta-371-VJTODLuqPCOtybfrL6ncYw-1; Mon, 01 Feb 2021 01:13:04 -0500
+X-MC-Unique: VJTODLuqPCOtybfrL6ncYw-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+ [10.5.11.11])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A8BB0190D344;
- Mon,  1 Feb 2021 06:10:53 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 802DF1006C81;
+ Mon,  1 Feb 2021 06:13:02 +0000 (UTC)
 Received: from [10.72.13.120] (ovpn-13-120.pek2.redhat.com [10.72.13.120])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9874E5D9DC;
- Mon,  1 Feb 2021 06:10:41 +0000 (UTC)
-Subject: Re: [RFC 03/10] virtio: Add virtio_queue_get_idx
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 959AD2BFF1;
+ Mon,  1 Feb 2021 06:12:48 +0000 (UTC)
+Subject: Re: [RFC 05/10] vhost: Add vhost_dev_from_virtio
 To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, qemu-devel@nongnu.org
 References: <20210129205415.876290-1-eperezma@redhat.com>
- <20210129205415.876290-4-eperezma@redhat.com>
+ <20210129205415.876290-6-eperezma@redhat.com>
 From: Jason Wang <jasowang@redhat.com>
-Message-ID: <f440260b-d970-548f-8d0d-5e3deb403773@redhat.com>
-Date: Mon, 1 Feb 2021 14:10:39 +0800
+Message-ID: <acf16fd6-2282-c220-e642-0868ac839b70@redhat.com>
+Date: Mon, 1 Feb 2021 14:12:46 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20210129205415.876290-4-eperezma@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+In-Reply-To: <20210129205415.876290-6-eperezma@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=jasowang@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -97,46 +97,57 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 2021/1/30 上午4:54, Eugenio Pérez wrote:
 > Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
 > ---
->   include/hw/virtio/virtio.h | 2 ++
->   hw/virtio/virtio.c         | 5 +++++
->   2 files changed, 7 insertions(+)
+>   include/hw/virtio/vhost.h |  1 +
+>   hw/virtio/vhost.c         | 17 +++++++++++++++++
+>   2 files changed, 18 insertions(+)
 >
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 9988c6d5c9..9013c03424 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -399,6 +399,8 @@ static inline bool virtio_device_disabled(VirtIODevice *vdev)
->       return unlikely(vdev->disabled || vdev->broken);
+> diff --git a/include/hw/virtio/vhost.h b/include/hw/virtio/vhost.h
+> index 4a8bc75415..fca076e3f0 100644
+> --- a/include/hw/virtio/vhost.h
+> +++ b/include/hw/virtio/vhost.h
+> @@ -123,6 +123,7 @@ uint64_t vhost_get_features(struct vhost_dev *hdev, const int *feature_bits,
+>   void vhost_ack_features(struct vhost_dev *hdev, const int *feature_bits,
+>                           uint64_t features);
+>   bool vhost_has_free_slot(void);
+> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev);
+>   
+>   int vhost_net_set_backend(struct vhost_dev *hdev,
+>                             struct vhost_vring_file *file);
+> diff --git a/hw/virtio/vhost.c b/hw/virtio/vhost.c
+> index 28c7d78172..8683d507f5 100644
+> --- a/hw/virtio/vhost.c
+> +++ b/hw/virtio/vhost.c
+> @@ -61,6 +61,23 @@ bool vhost_has_free_slot(void)
+>       return slots_limit > used_memslots;
 >   }
 >   
-> +unsigned virtio_queue_get_idx(const VirtIODevice *vdev, const VirtQueue *vq);
-> +
->   bool virtio_legacy_allowed(VirtIODevice *vdev);
->   bool virtio_legacy_check_disabled(VirtIODevice *vdev);
->   
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index ebb780fb42..3d14b0ef74 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -500,6 +500,11 @@ void virtio_queue_set_notification(VirtQueue *vq, int enable)
->       }
->   }
->   
-> +unsigned virtio_queue_get_idx(const VirtIODevice *vdev, const VirtQueue *vq)
+> +/*
+> + * Get the vhost device associated to a VirtIO device.
+> + */
+> +struct vhost_dev *vhost_dev_from_virtio(const VirtIODevice *vdev)
 > +{
-> +    return vq - vdev->vq;
+> +    struct vhost_dev *hdev;
+> +
+> +    QLIST_FOREACH(hdev, &vhost_devices, entry) {
+> +        if (hdev->vdev == vdev) {
+> +            return hdev;
+> +        }
+> +    }
+> +
+> +    assert(hdev);
+> +    return NULL;
 > +}
 
 
-It looks to me we had a dedicated index stored in VirtQueue: 
-vq->queue_index.
+I'm not sure this can work in the case of multiqueue. E.g vhost-net 
+multiqueue is a N:1 mapping between vhost devics and virtio devices.
 
 Thanks
 
 
 > +
->   int virtio_queue_ready(VirtQueue *vq)
->   {
->       return vq->vring.avail != 0;
+>   static void vhost_dev_sync_region(struct vhost_dev *dev,
+>                                     MemoryRegionSection *section,
+>                                     uint64_t mfirst, uint64_t mlast,
 
 
