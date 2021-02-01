@@ -2,69 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E20F330A740
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 13:09:44 +0100 (CET)
-Received: from localhost ([::1]:42044 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B651D30A776
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 13:21:45 +0100 (CET)
+Received: from localhost ([::1]:53450 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Y1X-0002ys-UY
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 07:09:43 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56108)
+	id 1l6YDA-0008MA-QM
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 07:21:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58104)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6Xyf-0001aS-1D
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:06:45 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:24480)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6Xyd-0001c0-IQ
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:06:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612181202;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=k3trAbtOf+34l7YzyCaK6AKk3gLGHa/yi/kgk+N5CRI=;
- b=VjZNeSBKNlLbJPKD4aIV/AhUci4qVaW5B0PULKPHOVbBz5sPWuJVGprFu9AqkmWGpykAWJ
- u32mEJ1UrQi96C+2jTM5K0wajC+PlCOOmYpdLBBre8KqnQky6sFtqKs0BvdzyeiIJGMCK8
- fO2Dn52fV7VVbo6poCcLXmQSbRjZ3lM=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-192-gfjRTTgIPC6TOcmQd4pITg-1; Mon, 01 Feb 2021 07:06:37 -0500
-X-MC-Unique: gfjRTTgIPC6TOcmQd4pITg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DF8F91800D50;
- Mon,  1 Feb 2021 12:06:36 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id C17695D735;
- Mon,  1 Feb 2021 12:06:32 +0000 (UTC)
-Date: Mon, 1 Feb 2021 13:06:31 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Sergio Lopez <slp@redhat.com>
-Subject: Re: [PATCH v3 1/2] block: Avoid processing BDS twice in
- bdrv_set_aio_context_ignore()
-Message-ID: <20210201120631.GA13157@merkur.fritz.box>
-References: <20210121170700.59734-1-slp@redhat.com>
- <20210121170700.59734-2-slp@redhat.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6YBF-0006uL-76
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:19:45 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a]:53966)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6YBD-0007K6-4Y
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:19:44 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id j18so12466869wmi.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 04:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=avgZriYDOqKoEcR/vPwtjNI1qkkfAZdmlsgr+6zNfUA=;
+ b=W25YrZpRIPjkkwpjY+fokHbQ3AMhuFkLpPW9hC3hZgZMxfTKFcbbKbyyGtF2AMP0MH
+ RjRtjzjl6W9rMaMhwVIe69LEXIEvNy9XtFk33x52/j84V3Dx1/EYikyNu8PdwaD28uT9
+ ETqbeYBDOR1vrJsxeEWAmhtg0M6MgIXufJDLA0UvgxbNVFxsUkEpPEnE4i/SMZoTgqwy
+ w+AX69Zc+7SBBwYrWqWdBK0f3SeVzC0vMzbOuIPGgiyOADZa2kOH0QkL3SDpFQd2OxUI
+ K/oWbNtBTP691Mq2hEFi3XkEwob6MXAGL2tYajNye8S2HASEVN8WfavNVlnNTNPxBOol
+ HlXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=avgZriYDOqKoEcR/vPwtjNI1qkkfAZdmlsgr+6zNfUA=;
+ b=M2wFyj0z/KJf3UYCvEuo+lXiQXDtu8kJ0yJDocfOThsg5d0TqYE3K7wpDB3HYSugTF
+ Gh6XjfWqGm2BLntjkQ4Li+sSuqZ9rDWRNdEyiq0GCHVtb5MxDj3RAFf6/eV8BbNvOmE2
+ 7B9CXxqyBkBrHO2rn1CqefUWvLxN7/YbmGGbLTIw2TOMvzhSbGKKaw48WJI7jo045YLH
+ jgJBfXZWJiP5a3Fz3hHUawHdDlTDMJ1DyGA/kG1qynKCaUJU0qZ7dfR4AFAqD84sD5jE
+ omfL5D9mbUnqUbAj5X4eNsx/236FGUERmvkH+X/NmsutqugDZyfmKttW/XS+FdYMZ2XD
+ kuag==
+X-Gm-Message-State: AOAM530yhhAfNbbZDR0xa3PvdyF5ritA9mU2Bo9btjLfAA6+yHtRgriM
+ noFeI39+dX/24nLU2iwltHx4YQ==
+X-Google-Smtp-Source: ABdhPJxw1KUg774S0GvjZhynGs7AVYMFQh05vMS1Q/WT0qosW9/eDC/ZNt5ZZSlEIU5ejZfE8awX3w==
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr14640405wme.112.1612181981321; 
+ Mon, 01 Feb 2021 04:19:41 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id r12sm26818287wrp.13.2021.02.01.04.19.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Feb 2021 04:19:40 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 806B41FF7E;
+ Mon,  1 Feb 2021 12:19:39 +0000 (GMT)
+References: <YBTRSK4/F5KLH+FZ@strawberry.localdomain>
+ <YBWrpHUgLqY/h6Da@tahini.localdomain>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: Re: Detecting Faulting Instructions From Plugins
+Date: Mon, 01 Feb 2021 12:07:13 +0000
+In-reply-to: <YBWrpHUgLqY/h6Da@tahini.localdomain>
+Message-ID: <87zh0ougis.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210121170700.59734-2-slp@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -77,47 +87,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: cota@braap.org, richard.henderson@linaro.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 21.01.2021 um 18:06 hat Sergio Lopez geschrieben:
-> Some graphs may contain an indirect reference to the first BDS in the
-> chain that can be reached while walking it bottom->up from one its
-> children.
-> 
-> Doubling-processing of a BDS is especially problematic for the
-> aio_notifiers, as they might attempt to work on both the old and the
-> new AIO contexts.
-> 
-> To avoid this problem, add every child and parent to the ignore list
-> before actually processing them.
-> 
-> Suggested-by: Kevin Wolf <kwolf@redhat.com>
-> Signed-off-by: Sergio Lopez <slp@redhat.com>
-> ---
->  block.c | 34 +++++++++++++++++++++++++++-------
->  1 file changed, 27 insertions(+), 7 deletions(-)
 
-The patch looks correct to me, I'm just wondering about one thing:
+Aaron Lindsay <aaron@os.amperecomputing.com> writes:
 
-> diff --git a/block.c b/block.c
-> index 8b9d457546..3da99312db 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -6414,7 +6414,10 @@ void bdrv_set_aio_context_ignore(BlockDriverState *bs,
->                                   AioContext *new_context, GSList **ignore)
->  {
->      AioContext *old_context = bdrv_get_aio_context(bs);
-> -    BdrvChild *child;
-> +    GSList *children_to_process = NULL;
-> +    GSList *parents_to_process = NULL;
+> On Jan 29 22:23, Aaron Lindsay wrote:
+>> 1. Is this considered a bug or a "feature"?
+>> 2.a. If a bug, is there a good way to detect this from inside the
+>> 	 tcg/plugin infrastructure and avoid calling the callback for the
+>> 	 faulting execution of the instruction?
+>> 2.b. If a "feature", is there a good way to detect this from my plugin?
+>
+> I think I've convinced myself the current behavior *is* a "feature", and
+> working as intended since the instruction can be considered
+> architecturally committed, even if it faults (ARM statement).
 
-Why do we need these separate lists? Can't we just iterate over
-bs->parents/children a second time? I don't think the graph can change
-between the first and the second loop (and if it could, the result would
-be broken anyway).
+Yes I think that's correct. I assume in between the page-fault handler
+has run and ensured the page is properly mapped and then returned to
+*re*-execute the instruction.
 
-Kevin
+> But I am
+> still unsure of the best way to detect whether a load/store instruction
+> has faulted from within the plugin interface, so I welcome thoughts
+> there.
 
+A hacky method would be to:
+
+  a) track last executed PC on a per-vCPU basis in the callbacks for
+  load/store
+  b) have a specific callback handler for the head of the vector table
+  for synchronous exceptions.
+
+It wouldn't be ideal because you need some knowledge of where the table
+is and depending on the architecture the entry may be shared between
+synchronous (i.e. the last instruction that attempted to execute) and
+asynchronous ones (e.g. a timer just happened to fire).
+
+If we get to the point we can expose the register values to the plugin
+then it becomes a much simpler operation because there will be state
+information exposed somewhere in the register state.
+
+>
+> -Aaron
+
+
+--=20
+Alex Benn=C3=A9e
 
