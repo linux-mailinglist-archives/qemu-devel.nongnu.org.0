@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E7230A647
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:14:14 +0100 (CET)
-Received: from localhost ([::1]:57792 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02FB530A673
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:25:45 +0100 (CET)
+Received: from localhost ([::1]:42132 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6X9p-0003qk-F1
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:14:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:43858)
+	id 1l6XKw-0001GL-TJ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:25:44 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46310)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6X7y-0002b6-Ge
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:12:19 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37880)
+ id 1l6XJE-0008Uq-VY
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:23:57 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:40686)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6X7k-0000Pm-JA
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:12:17 -0500
-Received: by mail-wm1-x329.google.com with SMTP id m1so9529941wml.2
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 03:12:01 -0800 (PST)
+ id 1l6XJD-0005nT-2b
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:23:56 -0500
+Received: by mail-wr1-x435.google.com with SMTP id c12so16155901wrc.7
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 03:23:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=references:user-agent:from:to:cc:subject:date:in-reply-to
  :message-id:mime-version:content-transfer-encoding;
- bh=ifXWw+fuSaZruoQc2hdEOrn5sC5jkN/Y0ScQhXiorQY=;
- b=V+4XnBaHKTHZtcSiJPfzpYuatny+M4LvZi8Jvn51auON/aCStPR/4XZoVwIu7ISm+4
- UkTi03jiyeDHMQLPh4wMAwtZAhiU2WQiesbOGi2IKmTIfgE7oly0oDZkCqgr6KQeR1ja
- FiL47SPNheTzyA5RYQJyM6lQiDbLTcdtPWMJYeqwjM1kOraEcaW9vS+0kdb4VFDDaARP
- set35xMYfKRARH+/APaQGp/05omm4lOlRAo+ouDVeMyKKs8SOnDjrx6DHoi1YCbSLmVo
- 4mpD/lraIC3KO9oOlSn9mKh/npuomRVcF9Qc2RL/PHD682ZUH3KRHDeu0qrnujvTxhCG
- bTsA==
+ bh=VG2MkLTxQ8I9Lh2My8ckgoRpl+QGsj89Svq3u+71jtM=;
+ b=uqhLBTJXxZ3pjNuqmMtA4g6zVtYAgI0jUn7/LjW/N48ZRU4eCupg9bC33xdJH2i8CE
+ e7yDcvj2QjqJ5I/8q/kf+1ZetXr1n3KGJCDF3+Ka3xe+mzSUMtFQnNtb8XPce19Xlc86
+ HYM11n4fpVvF0zvgYDZ0/ZtK17aGEFhJnR+PsuZ9mOwiwGbp/aBfFrAgcs85MF4wn4Un
+ W21I7UZf8KuwQv34WkxUhdFHVRclbshgEjn9vchDsiPo4G16RAwicRUN+ZTEMjLvtjBm
+ lUSCreb+RTcmu7mYiij77Yr5dU3xJBK+eiEtmZV/TW59KEjAOePru1kTchhQw400YQ16
+ BsGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
  :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=ifXWw+fuSaZruoQc2hdEOrn5sC5jkN/Y0ScQhXiorQY=;
- b=dNLqRm46qvzL9jeGGebw11mPRJCWoqmy7OEguLa6zqLd2oZN0FI40hPbwKXaDVVgK4
- 2q12clAzp5BtYAhczfg4Ju2st7vaSbkMgLR1iil/WeUEC1E3i9nh90dFF5Q+tQxySRUJ
- CUMAa8y7fYAMBuJn7L+F08IRsyll+lBQ1Qnt36CLqt37Htf+fE2CRxuCqg/chHdo4/iB
- 0YrhQMrrLQCEGp7OzcwTrLUbcMdsSFRiGD2KNdCiPZk32jmiFgDcxDLqs1UXTFjPFCNY
- VrETraaX6WXTaPZvNEtMjRDrKdV5JNRMidgLO89pmiEOfraHdLb5CqKpuL80mzmS250i
- TO0g==
-X-Gm-Message-State: AOAM530dgBHkRnVC1QSiVrGnktgbdPSAdKcD9M9vwDs7fEbxa7b7sfgB
- BR/WMnLXE5q0IWWA5kxGFvJdzA==
-X-Google-Smtp-Source: ABdhPJzUVW6c0CBbXvCir5HCZkhSJXm6vW4/5xgPkFp0jzqeLqr6PjXJqu9YtKQW4Jo79pEvTGD8pg==
-X-Received: by 2002:a1c:4b05:: with SMTP id y5mr2691502wma.37.1612177920161;
- Mon, 01 Feb 2021 03:12:00 -0800 (PST)
+ bh=VG2MkLTxQ8I9Lh2My8ckgoRpl+QGsj89Svq3u+71jtM=;
+ b=iQ7Eyg5vASeJmbmO8twKr1dTeOal7IWk44Ywhb2qAYVi/X3+rCfv7xcVgTCzwEpif8
+ m2BbmYjzre5+ur7B77V6Zkyla3YQ0C32JSPOw1ZdVPwX9gumFLR08JjBsfB2J4d/zvcU
+ OxAbaKu6vn4KEJAAI8UBTFqhQ0efD0cnv/xHISgEwoaXIbzUmjXT5/T4v+PtY3heFPnz
+ sFk4/SatEhE6caPfieo4ckWcJseRjGu8CVExNon4MiOMH03V2EF1xnxhgBylmggxVldv
+ iJs9I3wImQGdc2XLQT1mL79p+Mr41sThxyup3xisWLN7j+vaqNF2W95Sweug0JskZA1U
+ Bvaw==
+X-Gm-Message-State: AOAM5322678bQzj2fRead6+izrAxLiY8ZclNkjgn2Drbx8psbi+rKPl+
+ e5ci2SUaM+Hh2uFBG9ry85TWmw==
+X-Google-Smtp-Source: ABdhPJw6TPMyi3QFNqPL/uipqnujiOz6+tjmGAeo8OnvCOHoEflC3JwnExynghCm0BKPzq5/PNm5AA==
+X-Received: by 2002:adf:dd92:: with SMTP id x18mr17893772wrl.4.1612178633587; 
+ Mon, 01 Feb 2021 03:23:53 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id v4sm30395438wrw.42.2021.02.01.03.11.58
+ by smtp.gmail.com with ESMTPSA id u3sm28397960wre.54.2021.02.01.03.23.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 03:11:58 -0800 (PST)
+ Mon, 01 Feb 2021 03:23:52 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 13D1C1FF7E;
- Mon,  1 Feb 2021 11:11:58 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 93CBE1FF7E;
+ Mon,  1 Feb 2021 11:23:51 +0000 (GMT)
 References: <20210131111316.232778-1-f4bug@amsat.org>
- <20210131111316.232778-5-f4bug@amsat.org>
+ <20210131111316.232778-7-f4bug@amsat.org>
 User-agent: mu4e 1.5.7; emacs 28.0.50
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 04/10] hw/lm32/Kconfig: Have MILKYMIST select
- LM32_PERIPHERALS
-Date: Mon, 01 Feb 2021 11:11:52 +0000
-In-reply-to: <20210131111316.232778-5-f4bug@amsat.org>
-Message-ID: <87k0rsvy81.fsf@linaro.org>
+Subject: Re: [PATCH 06/10] target/i386: Move SEV feature to target Kconfig
+Date: Mon, 01 Feb 2021 11:20:31 +0000
+In-reply-to: <20210131111316.232778-7-f4bug@amsat.org>
+Message-ID: <87h7mwvxo8.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -118,34 +117,55 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-> The Milkymist board requires more than the PTIMER. Directly
-> select the LM32_PERIPHERALS. This fixes:
->
->   /usr/bin/ld:
->   libqemu-lm32-softmmu.fa.p/target_lm32_gdbstub.c.o: in function `lm32_cp=
-u_gdb_read_register':
->   target/lm32/gdbstub.c:46: undefined reference to `lm32_pic_get_im'
->   target/lm32/gdbstub.c:48: undefined reference to `lm32_pic_get_ip'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helpe=
-r_wcsr_im':
->   target/lm32/op_helper.c:107: undefined reference to `lm32_pic_set_im'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helpe=
-r_wcsr_ip':
->   target/lm32/op_helper.c:114: undefined reference to `lm32_pic_set_ip'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helpe=
-r_wcsr_jtx':
->   target/lm32/op_helper.c:120: undefined reference to `lm32_juart_set_jtx'
->   libqemu-lm32-softmmu.fa.p/target_lm32_op_helper.c.o: in function `helpe=
-r_wcsr_jrx':
->   target/lm32/op_helper.c:125: undefined reference to `lm32_juart_set_jrx'
->   libqemu-lm32-softmmu.fa.p/target_lm32_translate.c.o: in function `lm32_=
-cpu_dump_state':
->   target/lm32/translate.c:1161: undefined reference to `lm32_pic_get_ip'
->   target/lm32/translate.c:1161: undefined reference to `lm32_pic_get_im'
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> SEV is an architecture feature, move its declaration to target/i386/.
+
+In docs/devel/kconfig.rst we make the distinction between:
+
+  **subsystems**, of which **buses** are a special case
+  **devices**
+  **device groups**
+  **boards**
+  **internal elements**
+
+Are we treating architecture features as internal elements or should we
+add some additional words to the kconfig document before we starting to
+move stuff there. In fact I realise this is better directed at 5/10 so
+for this patch:
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  hw/i386/Kconfig     | 4 ----
+>  target/i386/Kconfig | 4 ++++
+>  2 files changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+> index 7f91f30877f..3d67c172dab 100644
+> --- a/hw/i386/Kconfig
+> +++ b/hw/i386/Kconfig
+> @@ -1,7 +1,3 @@
+> -config SEV
+> -    bool
+> -    depends on KVM
+> -
+>  config PC
+>      bool
+>      imply APPLESMC
+> diff --git a/target/i386/Kconfig b/target/i386/Kconfig
+> index ce6968906ee..27c76c554c7 100644
+> --- a/target/i386/Kconfig
+> +++ b/target/i386/Kconfig
+> @@ -3,3 +3,7 @@ config I386
+>=20=20
+>  config X86_64
+>      bool
+> +
+> +config SEV
+> +    bool
+> +    depends on KVM && I386
+
 
 --=20
 Alex Benn=C3=A9e
