@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A39830A7AB
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 13:32:21 +0100 (CET)
-Received: from localhost ([::1]:38178 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 800DD30A7B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 13:36:06 +0100 (CET)
+Received: from localhost ([::1]:47694 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6YNQ-00061N-HZ
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 07:32:20 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60326)
+	id 1l6YR3-0001ns-Jf
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 07:36:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60778)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6YLd-0004MM-VS
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:30:30 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:37474)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6YLW-0003dP-73
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:30:29 -0500
-Received: by mail-wr1-x432.google.com with SMTP id v15so16405359wrx.4
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 04:30:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:cc:subject:date:message-id:in-reply-to:references
- :mime-version:content-transfer-encoding;
- bh=YY2dYLpzPEZmUMsd2DlotMogla3jfIXn2uLwFzQxh4I=;
- b=Ke/wabyfdY9Op8KEqeGTif09hpEOu4FJrjF8lF4qstEFGR+lZd85j1sV00YcqdiavD
- Bj/YsJgcNUoKsrynIOZgAdWAYISf3JH4LriNRowp2+jsEGwxZ4KyXGKwQkc2bCZGJ4m5
- mXaViPNaSWmv+vLc2kNe+sH90qp0piioN9kyzZPoawi3BZEhDzppIDcIH6QlQuTQ5NsH
- 3Y8kSTBAEAG88YBAFP+1mU7eVjXDM4dSjrHtqLkEGS+AHOuI0tlTaycvP9ydYAV30iDZ
- yGXHsnZzNeE2xaNU3n8/2sK4F6QHWYgiErrxaoa2ym70ZNM2J3+A5grdrlmrnCTBIcYm
- J1Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=YY2dYLpzPEZmUMsd2DlotMogla3jfIXn2uLwFzQxh4I=;
- b=fJ0uZI+2FhQUdgXO6n1htCLSQ3q65tZ7pP2MalOCLqjwS4kD00T7oK0D+qmsIEk3gy
- JheOYP98vc/Ct2eneGEZaVjyXsd3oqSGooajBt44JDSUXVLGYQMP5RbIp26Xt3hi0Omf
- VK2eIwFwJ/NwPEaHuBBa2aTghnjOEtBMmCyAU82na3vfwv2/KXQSMqHFzWZlD1kfpUIb
- Vm3T83XFB1Mqzr/hdC9g1XgCG/MXhMdt2MXjtzOGOLimOQgY+XRXnTnc/pS5Y2BIujuE
- WZ91j6TQtPVtwNnxt7qa1USVB1BDsq71rGOgj8wHowZTl5s/a18XwAUtO9xMbskCY71O
- 1Jvw==
-X-Gm-Message-State: AOAM530xgAQMMy47jbJAvoSQUw7KaoXfh4bOZzZCOrbXTqMaiOnuiwSZ
- Sf2JDny2RYVjfQ6dYJjA/vPySw==
-X-Google-Smtp-Source: ABdhPJwuIwfxofd+MhKT7IpFQmPtDR1elUHBzPnPuc+EFIdZM80Z0jyRujStgpciLksdvCKbbyQp1w==
-X-Received: by 2002:a5d:6947:: with SMTP id r7mr17792852wrw.150.1612182620832; 
- Mon, 01 Feb 2021 04:30:20 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm20466278wmj.32.2021.02.01.04.30.19
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 04:30:20 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Subject: [RFC 4/4] hw/timer/npcm7xx_timer: Use new clock_ns_to_ticks()
-Date: Mon,  1 Feb 2021 12:30:13 +0000
-Message-Id: <20210201123013.32308-5-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210201123013.32308-1-peter.maydell@linaro.org>
-References: <20210201123013.32308-1-peter.maydell@linaro.org>
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l6YNp-0007Oz-T6
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:32:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:24138)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
+ id 1l6YNo-0004iE-66
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 07:32:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612182763;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KPF2edQmb0vE66ofWbPvF5wCqQistHFrM2yDFRVdZqM=;
+ b=OJbCUCM4Jh6fU1TengPpc4JOdvFYbD2q8gO0hO8wUGvrqLETVHpD8Ys6HeoUReeq8YlCV0
+ yZalBOfBX1H9bUmmejcJYqLBW66mYhQZXWeIH4pQn6G6uAucb0TcjL55dhthOQBeqjiiQd
+ gPKlv0vmId5zr/FWI2rsBquAtTn4Pg0=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-91-4_86D0xFMSGd6zyNtcZ-fQ-1; Mon, 01 Feb 2021 07:32:39 -0500
+X-MC-Unique: 4_86D0xFMSGd6zyNtcZ-fQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+ [10.5.11.12])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 4E3FE9CC31;
+ Mon,  1 Feb 2021 12:32:38 +0000 (UTC)
+Received: from wainer-laptop.localdomain (ovpn-116-207.gru2.redhat.com
+ [10.97.116.207])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3D45360C69;
+ Mon,  1 Feb 2021 12:32:31 +0000 (UTC)
+Subject: Re: [PATCH] gitlab-ci: Disable vhost-kernel in build-disable job
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ qemu-devel@nongnu.org
+References: <20210131104621.221602-1-f4bug@amsat.org>
+From: Wainer dos Santos Moschetta <wainersm@redhat.com>
+Message-ID: <d8b6b638-21af-6aa3-072e-1eccaf68bc27@redhat.com>
+Date: Mon, 1 Feb 2021 09:32:29 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.1
 MIME-Version: 1.0
+In-Reply-To: <20210131104621.221602-1-f4bug@amsat.org>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Language: en-US
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,37 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
- Luc Michel <luc@lmichel.fr>, Havard Skinnemoen <hskinnemoen@google.com>,
- Tyrone Ting <kfting@nuvoton.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the new clock_ns_to_ticks() function in npcm7xx_timer
-where appropriate.
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/timer/npcm7xx_timer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+On 1/31/21 7:46 AM, Philippe Mathieu-Daudé wrote:
+> Commit 299e6f19b3e ("vhost-net: revamp configure logic") added
+> the --enable-vhost-kernel option.
+> Disable it in the build-disable job.
+>
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>   .gitlab-ci.yml | 1 +
+>   1 file changed, 1 insertion(+)
 
-diff --git a/hw/timer/npcm7xx_timer.c b/hw/timer/npcm7xx_timer.c
-index 36e2c07db26..fc48d494151 100644
---- a/hw/timer/npcm7xx_timer.c
-+++ b/hw/timer/npcm7xx_timer.c
-@@ -138,8 +138,8 @@ static int64_t npcm7xx_timer_count_to_ns(NPCM7xxTimer *t, uint32_t count)
- /* Convert a time interval in nanoseconds to a timer cycle count. */
- static uint32_t npcm7xx_timer_ns_to_count(NPCM7xxTimer *t, int64_t ns)
- {
--    return ns / clock_ticks_to_ns(t->ctrl->clock,
--                                  npcm7xx_tcsr_prescaler(t->tcsr));
-+    return clock_ns_to_ticks(t->ctrl->clock, ns) /
-+        npcm7xx_tcsr_prescaler(t->tcsr);
- }
- 
- static uint32_t npcm7xx_watchdog_timer_prescaler(const NPCM7xxWatchdogTimer *t)
--- 
-2.20.1
+
+Reviewed-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
+
+
+>
+> diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+> index 7c0db64710b..e8390314d89 100644
+> --- a/.gitlab-ci.yml
+> +++ b/.gitlab-ci.yml
+> @@ -346,6 +346,7 @@ build-disabled:
+>         --disable-vhost-crypto
+>         --disable-vhost-net
+>         --disable-vhost-scsi
+> +      --disable-vhost-kernel
+>         --disable-vhost-user
+>         --disable-vhost-vdpa
+>         --disable-vhost-vsock
 
 
