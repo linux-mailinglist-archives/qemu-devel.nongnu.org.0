@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF01930AB0D
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:23:30 +0100 (CET)
-Received: from localhost ([::1]:37278 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65D8030AB0F
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:23:34 +0100 (CET)
+Received: from localhost ([::1]:37650 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6b33-0006Gi-H4
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:23:29 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
+	id 1l6b37-0006TZ-ED
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:23:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36548)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l6b11-0004SI-2O
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:21:23 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2085)
+ id 1l6b1Q-0004jB-1Q
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:21:48 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2086)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l6b0x-0003WJ-Ok
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:21:22 -0500
-Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DTs3n6lVzz67flr;
- Mon,  1 Feb 2021 23:16:37 +0800 (CST)
+ id 1l6b1N-0003ol-Br
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:21:47 -0500
+Received: from fraeml738-chm.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DTs4M6yP5z67jbT;
+ Mon,  1 Feb 2021 23:17:07 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
+ fraeml738-chm.china.huawei.com (10.206.15.219) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 1 Feb 2021 16:21:13 +0100
+ 15.1.2106.2; Mon, 1 Feb 2021 16:21:43 +0100
 Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 1 Feb 2021 15:21:13 +0000
+ 15.1.2106.2; Mon, 1 Feb 2021 15:21:43 +0000
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 3/4] hw/cxl/cxl-cdat: Initial CDAT implementation for use
- by CXL devices
-Date: Mon, 1 Feb 2021 23:16:28 +0800
-Message-ID: <20210201151629.29656-4-Jonathan.Cameron@huawei.com>
+Subject: [RFC PATCH 4/4] hw/mem/cxl_type3: Enabled DOE mailbox for access to
+ CDAT
+Date: Mon, 1 Feb 2021 23:16:29 +0800
+Message-ID: <20210201151629.29656-5-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
 References: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
@@ -75,398 +75,148 @@ Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-CDAT is an ACPI like format defined by the CXL consortium. It is
-available from
+This enables basic read back of CDAT entries via a DOE mailbox in
+the devices PCI config space.
 
-https://www.uefi.org/node/4093
-
-Here support for managing all the entires is introduced, along with
-an implementation of a callback for a DOE mailbox which may be
-used to read these values from CXL hardware by either firmware or
-an OS.
+Note that for now a few possible entries are provided that
+don't make a lot of sense for current instances of this device.
+It will need to be made somewhat dynamic and possibly require
+additional command line parameters.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/cxl/cxl-cdat.c         | 252 ++++++++++++++++++++++++++++++++++++++
- hw/cxl/meson.build        |   1 +
- include/hw/cxl/cxl_cdat.h | 101 +++++++++++++++
- 3 files changed, 354 insertions(+)
+ hw/mem/cxl_type3.c   | 49 ++++++++++++++++++++++++++++++++++++++++++--
+ include/hw/cxl/cxl.h |  1 +
+ 2 files changed, 48 insertions(+), 2 deletions(-)
 
-diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
-new file mode 100644
-index 0000000000..6ed4c15cc0
---- /dev/null
-+++ b/hw/cxl/cxl-cdat.c
-@@ -0,0 +1,252 @@
-+/*
-+ * Support for CDAT entires as defined in
-+ * Coherent Device Attribute Table (CDAT) Specification rev 1.02
-+ * Available from uefi.org.
-+ *
-+ * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "qemu/error-report.h"
-+#include "hw/mem/memory-device.h"
-+#include "hw/mem/pc-dimm.h"
-+#include "hw/pci/pci.h"
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index dee5a8884b..3449f02090 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -4,6 +4,7 @@
+ #include "hw/mem/memory-device.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/pci/pci.h"
 +#include "hw/pci/doe.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/log.h"
-+#include "qemu/module.h"
-+#include "qemu/range.h"
-+#include "qemu/rcu.h"
-+#include "sysemu/hostmem.h"
+ #include "hw/qdev-properties.h"
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+@@ -11,6 +12,7 @@
+ #include "qemu/range.h"
+ #include "qemu/rcu.h"
+ #include "sysemu/hostmem.h"
 +#include "sysemu/numa.h"
-+#include "hw/cxl/cxl.h"
+ #include "hw/cxl/cxl.h"
+ 
+ typedef struct cxl_type3_dev {
+@@ -21,6 +23,9 @@ typedef struct cxl_type3_dev {
+     uint64_t size;
+     HostMemoryBackend *hostmem;
+ 
++    PCIEDOE doe;
++    CXLCDAT cdat;
 +
-+void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
-+                    uint64_t dpa_base, uint64_t dpa_length)
+     /* State */
+     CXLComponentState cxl_cstate;
+     CXLDeviceState cxl_dstate;
+@@ -28,7 +33,7 @@ typedef struct cxl_type3_dev {
+ 
+ #define CT3(obj) OBJECT_CHECK(CXLType3Dev, (obj), TYPE_CXL_TYPE3_DEV)
+ 
+-static void build_dvsecs(CXLType3Dev *ct3d)
++static int build_dvsecs(CXLType3Dev *ct3d)
+ {
+     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
+     uint8_t *dvsec;
+@@ -55,6 +60,7 @@ static void build_dvsecs(CXLType3Dev *ct3d)
+     };
+     cxl_component_create_dvsec(cxl_cstate, REG_LOC_DVSEC_LENGTH, REG_LOC_DVSEC,
+                                REG_LOC_DVSEC_REVID, dvsec);
++    return cxl_cstate->dvsec_offset;
+ }
+ 
+ static void hdm_decoder_commit(CXLType3Dev *ct3d, int which)
+@@ -201,6 +207,7 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     ComponentRegisters *regs = &cxl_cstate->crb;
+     MemoryRegion *mr = &regs->component_registers;
+     uint8_t *pci_conf = pci_dev->config;
++    int offset;
+ 
+     if (!ct3d->cxl_dstate.pmem) {
+         cxl_setup_memory(ct3d, errp);
+@@ -213,7 +220,21 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     cxl_cstate->dvsec_offset = 0x100;
+ 
+     ct3d->cxl_cstate.pdev = pci_dev;
+-    build_dvsecs(ct3d);
++    offset = build_dvsecs(ct3d);
++
++    /* Build DOE - no interrupt for now */
++    offset = pcie_doe_ecap(&ct3d->doe, pci_dev, offset);
++    doe_add_message_handler(&ct3d->doe, 0x1e98, 0x2, &cxl_table_access,
++                            &ct3d->cdat);
++
++    /* Store entires of CDAT  for read back from DOE */
++    cdat_add_dsmas(&ct3d->cdat, 0, CDAT_DSMAS_FLAG_NV, 0x3345000000,
++                   0x0001000000);
++    cdat_add_dsmas(&ct3d->cdat, 1, 0, 0x33460000000, 0x00010000000);
++    cdat_add_dslbis(&ct3d->cdat, 0, HMAT_LB_MEM_MEMORY,
++                    (uint8_t)HMAT_LB_DATA_ACCESS_LATENCY,
++                    1000, /* microsecs */
++                    90, 0, 0);
+ 
+ #ifndef SET_PMEM_PADDR
+     regs->special_ops = g_new0(MemoryRegionOps, 1);
+@@ -287,6 +308,28 @@ static void pc_dimm_md_fill_device_info(const MemoryDeviceState *md,
+     info->type = MEMORY_DEVICE_INFO_KIND_CXL;
+ }
+ 
++static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val, int len)
 +{
-+    struct cxl_cdat_dsmas *dsmas = g_malloc0(sizeof(*dsmas));
-+    dsmas->dsmad_handle = dsmad_handle;
-+    dsmas->flags = flags;
-+    dsmas->dpa_base = dpa_base;
-+    dsmas->dpa_length = dpa_length;
-+    cdat->dsmas_list = g_list_append(cdat->dsmas_list, dsmas);
++    CXLType3Dev *ct3d = CT3(pci_dev);
++
++    pci_default_write_config(pci_dev, addr, val, len);
++    pcie_doe_write(&ct3d->doe, addr, val, len);
++
 +}
 +
-+void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
-+                     uint8_t data_type, uint64_t base_unit,
-+                     uint16_t entry0, uint16_t entry1, uint16_t entry2)
++static uint32_t ct3d_config_read(PCIDevice *pci_dev, uint32_t addr, int len)
 +{
-+    struct cxl_cdat_dslbis *dslbis = g_malloc0(sizeof(*dslbis));
-+    dslbis->handle = handle;
-+    dslbis->flags = flags;
-+    dslbis->data_type = data_type;
-+    dslbis->entry_base_unit = base_unit;
-+    dslbis->entries[0] = entry0;
-+    dslbis->entries[1] = entry1;
-+    dslbis->entries[2] = entry2;
-+    cdat->dslbis_list = g_list_append(cdat->dslbis_list, dslbis);
++    CXLType3Dev *ct3d = CT3(pci_dev);
++    int found = 0;
++    uint32_t val;
++
++    val = pcie_doe_read(&ct3d->doe, addr, len, &found);
++    if (found) {
++        return val;
++    }
++    return pci_default_read_config(pci_dev, addr, len);
 +}
 +
-+void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
-+                      uint64_t memory_sc_size, uint64_t cache_attrs)
-+{
-+    struct cxl_cdat_dsmscis *dsmscis = g_malloc(sizeof(*dsmscis));
-+    dsmscis->dsmas_handle = dsmas_handle;
-+    dsmscis->memory_side_cache_size = memory_sc_size;
-+    dsmscis->cache_attributes = cache_attrs;
-+    cdat->dsmscis_list = g_list_append(cdat->dsmscis_list, dsmscis);
-+}
-+
-+void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle)
-+{
-+    struct cxl_cdat_dsis *dsis = g_malloc(sizeof(*dsis));
-+    dsis->flags = flags;
-+    dsis->handle = handle;
-+    cdat->dsis_list = g_list_append(cdat->dsis_list, dsis);
-+}
-+
-+void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
-+                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
-+                     uint64_t dpa_length)
-+{
-+    struct cxl_cdat_dsemts *dsemts = g_malloc(sizeof(*dsemts));
-+    dsemts->dsmas_handle = dsmas_handle;
-+    dsemts->efi_mem_type_attr = efi_mem_type_attr;
-+    dsemts->dpa_offset = dpa_offset;
-+    dsemts->dpa_length = dpa_length;
-+    cdat->dsemts_list = g_list_append(cdat->dsemts_list, dsemts);
-+}
-+
-+struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
-+                                        uint8_t data_type, uint64_t base_unit)
-+{
-+    struct cxl_cdat_sslbis *sslbis =
-+        g_malloc(sizeof(*sslbis) + num_entries * sizeof(sslbis->entries[0]));
-+    sslbis->num_entries = num_entries;
-+    sslbis->data_type = data_type;
-+    sslbis->base_unit = base_unit;
-+    cdat->sslbis_list = g_list_append(cdat->sslbis_list, sslbis);
-+    return sslbis;
-+}
-+
-+int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
-+                           uint16_t portx, uint16_t porty, uint16_t val)
-+{
-+    struct cxl_cdat_sslbis_entry *entry;
-+    if (index >= sslbis->num_entries) {
-+        return -1;
-+    }
-+    entry = &sslbis->entries[index];
-+    entry->port_x_id = portx;
-+    entry->port_y_id = porty;
-+    entry->val = val;
-+    return 0;
-+}
-+
-+int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
-+                     void *priv)
-+{
-+    uint8_t table_type;
-+    int total_entries;
-+    uint16_t entry_handle;
-+    CXLCDAT *cdat = priv;
-+    uint16_t next_entry;
-+
-+    if (doe->req_length != 3) {
-+        /* optional error for unexpected command length */
-+        return -1;
-+    }
-+
-+    if ((doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_RCODE) != 0) {
-+        /*
-+         * Only table access code currently supported.
-+         * Error indication is lack of Data Object Ready
-+         */
-+        return -1;
-+    }
-+
-+    table_type = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_TYPE) >>
-+        ctz32(CXL_DOE_TABLE_ACCESS_DW2_TYPE);
-+    if (table_type != 0) {
-+        /* Unsuported table ID so just don't set Data Object Ready */
-+        return -1;
-+    }
-+    entry_handle = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE) >>
-+        ctz32(CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE);
-+
-+    /* Assume entry handle == CDAT structure index */
-+    total_entries = g_list_length(cdat->dsmas_list) +
-+        g_list_length(cdat->dslbis_list) +
-+        g_list_length(cdat->dsmscis_list) +
-+        g_list_length(cdat->dsis_list) +
-+        g_list_length(cdat->dsemts_list) +
-+        g_list_length(cdat->sslbis_list);
-+    if (entry_handle + 1 == total_entries) {
-+        next_entry = 0xFFFF;
-+    } else {
-+        next_entry = entry_handle + 1;
-+    }
-+
-+    if (entry_handle < g_list_length(cdat->dsmas_list)) {
-+        const int dsmas_len = 24;
-+        struct cxl_cdat_dsmas *dsmas =
-+            g_list_nth_data(cdat->dsmas_list, entry_handle);
-+
-+        doe->store[1] = 3 + dsmas_len / sizeof(uint32_t);
-+        doe->store[2] = next_entry << 16;
-+        doe->store[3] = (dsmas_len << 16) | CXL_CDAT_DSMAS_TYPE;
-+
-+        /* cxl version of proximity domain */
-+        doe->store[4] = dsmas->dsmad_handle;
-+        /* flags in 2nd byte of [4] (bit 2 is non volatile) */
-+        doe->store[4] |= (dsmas->flags << 8);
-+        doe->store[5] = dsmas->dpa_base & 0xFFFFFFFF;
-+        doe->store[6] = (dsmas->dpa_base >> 32) & 0xFFFFFFFF;
-+        doe->store[7] = dsmas->dpa_length & 0xFFFFFFFF;
-+        doe->store[8] = (dsmas->dpa_length >> 32) & 0xFFFFFFFF;
-+        return 0;
-+    }
-+    entry_handle -= g_list_length(cdat->dsmas_list);
-+    if (entry_handle < g_list_length(cdat->dslbis_list)) {
-+        const int dslbis_len = 24;
-+        struct cxl_cdat_dslbis *dslbis =
-+            g_list_nth_data(cdat->dslbis_list, entry_handle);
-+
-+        doe->store[1] = 3 + dslbis_len / sizeof(uint32_t);
-+        doe->store[2] = next_entry << 16;
-+        doe->store[3] = (dslbis_len << 16) | CXL_CDAT_DSLBIS_TYPE;
-+
-+        doe->store[4] = (dslbis->data_type << 24) | (dslbis->flags << 8) |
-+            dslbis->handle;
-+        doe->store[5] = dslbis->entry_base_unit & 0xFFFFFFFF;
-+        doe->store[6] = (dslbis->entry_base_unit >> 32) & 0xFFFFFFFF;
-+        doe->store[7] = (dslbis->entries[1] << 16) | dslbis->entries[0];
-+        doe->store[8] = dslbis->entries[2];
-+        return 0;
-+    }
-+    entry_handle -= g_list_length(cdat->dslbis_list);
-+    if (entry_handle < g_list_length(cdat->dsmscis_list)) {
-+        const int dsmscis_len = 20;
-+        struct cxl_cdat_dsmscis *dsmscis =
-+            g_list_nth_data(cdat->dsmscis_list, entry_handle);
-+
-+        doe->store[1] = 3 + dsmscis_len / sizeof(uint32_t);
-+        doe->store[2] = next_entry << 16;
-+        doe->store[3] = (dsmscis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
-+        doe->store[4] = dsmscis->dsmas_handle;
-+        doe->store[5] = dsmscis->memory_side_cache_size & 0xffffffff;
-+        doe->store[6] = (dsmscis->memory_side_cache_size >> 32) & 0xffffffff;
-+        doe->store[7] = dsmscis->cache_attributes;
-+    }
-+    entry_handle -= g_list_length(cdat->dsmscis_list);
-+    if (entry_handle < g_list_length(cdat->dsis_list)) {
-+        const int dsis_len = 8;
-+        struct cxl_cdat_dsis *dsis =
-+            g_list_nth_data(cdat->dsis_list, entry_handle);
-+
-+        doe->store[1] = 3 + dsis_len / sizeof(uint32_t);
-+        doe->store[2] = next_entry << 16;
-+        doe->store[3] = (dsis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
-+        doe->store[4] = (dsis->handle << 8) | dsis->flags;
-+    }
-+    entry_handle -= g_list_length(cdat->dsis_list);
-+    if (entry_handle < g_list_length(cdat->dsemts_list)) {
-+        const int dsemts_len = 24;
-+        struct cxl_cdat_dsemts *dsemts =
-+            g_list_nth_data(cdat->dsemts_list, entry_handle);
-+
-+        doe->store[1] = 3 + dsemts_len / sizeof(uint32_t);
-+        doe->store[2] = next_entry << 16;
-+        doe->store[3] = (dsemts_len << 16) | CXL_CDAT_DSEMTS_TYPE;
-+        doe->store[4] = (dsemts->efi_mem_type_attr << 8) | dsemts->dsmas_handle;
-+        doe->store[5] = dsemts->dpa_offset & 0xffffffff;
-+        doe->store[6] = (dsemts->dpa_offset >> 32) & 0xffffffff;
-+        doe->store[7] = dsemts->dpa_length & 0xffffffff;
-+        doe->store[8] = (dsemts->dpa_length >> 32) & 0xffffffff;
-+    }
-+    entry_handle -= g_list_length(cdat->dsemts_list);
-+    if (entry_handle < g_list_length(cdat->sslbis_list)) {
-+        struct cxl_cdat_sslbis *sslbis =
-+            g_list_nth_data(cdat->sslbis_list, entry_handle);
-+        int sslbis_len = 16 + 8 * sslbis->num_entries;
-+        int i;
-+
-+        doe->store[1] = 3 + sslbis_len / sizeof(uint32_t);
-+        doe->store[2] = next_entry << 16;
-+        doe->store[3] = (sslbis_len << 16) | CXL_CDAT_SSLBIS_TYPE;
-+        doe->store[4] = sslbis->data_type;
-+        doe->store[5] = sslbis->base_unit & 0xffffffff;
-+        doe->store[6] = (sslbis->base_unit >> 32) & 0xffffffff;
-+        for (i = 0; i < sslbis->num_entries; i++) {
-+            doe->store[7 + i * 2] = (sslbis->entries[i].port_y_id << 8) |
-+                sslbis->entries[i].port_x_id;
-+            doe->store[7 + i * 2 + 1] = sslbis->entries[i].val;
-+        }
-+    }
-+
-+    return -1;
-+}
-diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
-index 0eca715d10..9e2e5f4094 100644
---- a/hw/cxl/meson.build
-+++ b/hw/cxl/meson.build
-@@ -2,4 +2,5 @@ softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
-   'cxl-component-utils.c',
-   'cxl-device-utils.c',
-   'cxl-mailbox-utils.c',
-+  'cxl-cdat.c',
- ))
-diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
-new file mode 100644
-index 0000000000..d0226c463c
---- /dev/null
-+++ b/include/hw/cxl/cxl_cdat.h
-@@ -0,0 +1,101 @@
-+/*
-+ * Support for CDAT entires as defined in
-+ * Coherent Device Attribute Table (CDAT) Specification rev 1.02
-+ * Available from uefi.org.
-+ *
-+ * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+#ifndef QEMU_CXL_CDAT_H
-+#define QEMU_CXL_CDAT_H
-+#include "hw/pci/doe.h"
-+/* DW2 is common to the request and response */
-+#define CXL_DOE_TABLE_ACCESS_DW2_RCODE          0x000000ff
-+#define CXL_DOE_TABLE_ACCESS_DW2_TYPE           0x0000ff00
-+#define CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE    0xffff0000
-+
-+#define CXL_CDAT_DSMAS_TYPE     0
-+#define CXL_CDAT_DSLBIS_TYPE    1
-+#define CXL_CDAT_DSMSCIS_TYPE   2
-+#define CXL_CDAT_DSIS_TYPE      3
-+#define CXL_CDAT_DSEMTS_TYPE    4
-+#define CXL_CDAT_SSLBIS_TYPE    5
-+
-+struct cxl_cdat_dsmas {
-+    uint8_t dsmad_handle;
-+    uint8_t flags;
-+#define CDAT_DSMAS_FLAG_NV (1 << 2)
-+    uint64_t dpa_base;
-+    uint64_t dpa_length;
-+};
-+
-+struct cxl_cdat_dslbis {
-+    uint8_t handle;
-+    uint8_t flags;
-+    uint8_t data_type;
-+    uint64_t entry_base_unit;
-+    uint16_t entries[3]; /* 6 bytes */
-+};
-+
-+struct cxl_cdat_dsmscis {
-+    uint8_t dsmas_handle;
-+    uint64_t memory_side_cache_size;
-+    uint32_t cache_attributes;
-+};
-+
-+struct cxl_cdat_dsis {
-+    uint8_t flags;
-+#define CDAT_DSIS_MEMORY_ATTACHED 0x01
-+    uint8_t handle;
-+};
-+
-+struct cxl_cdat_dsemts {
-+    uint8_t dsmas_handle;
-+    uint8_t efi_mem_type_attr;
-+    uint64_t dpa_offset;
-+    uint64_t dpa_length;
-+};
-+
-+struct cxl_cdat_sslbis_entry {
-+    uint16_t port_x_id;
-+    uint16_t port_y_id;
-+    uint16_t val;
-+};
-+
-+struct cxl_cdat_sslbis {
-+    uint8_t num_entries; /* needed to compute length */
-+    uint8_t data_type;
-+    uint64_t base_unit;
-+    struct cxl_cdat_sslbis_entry entries[];
-+};
-+
-+typedef struct cxl_cdat {
-+    GList *dsmas_list;
-+    GList *dslbis_list;
-+    GList *dsmscis_list;
-+    GList *dsis_list;
-+    GList *dsemts_list;
-+    GList *sslbis_list;
-+} CXLCDAT;
-+
-+void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
-+                    uint64_t dpa_base, uint64_t dpa_length);
-+void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
-+                     uint8_t data_type, uint64_t base_unit,
-+                     uint16_t entry0, uint16_t entry1, uint16_t entry2);
-+void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
-+                      uint64_t memory_sc_size, uint64_t cache_attrs);
-+void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle);
-+void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
-+                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
-+                     uint64_t dpa_length);
-+struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
-+                                        uint8_t data_type, uint64_t base_unit);
-+int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
-+                           uint16_t portx, uint16_t pory, uint16_t val);
-+
-+int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
-+                     void *priv);
-+#endif
+ static void ct3_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+@@ -298,6 +341,8 @@ static void ct3_class_init(ObjectClass *oc, void *data)
+     pc->vendor_id = PCI_VENDOR_ID_INTEL;
+     pc->device_id = 0xd93; /* LVF for now */
+     pc->revision = 1;
++    pc->config_write = ct3d_config_write;
++    pc->config_read = ct3d_config_read;
+ 
+     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
+     dc->desc = "CXL PMEM Device (Type 3)";
+diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
+index 6961e47076..ec3b4d7398 100644
+--- a/include/hw/cxl/cxl.h
++++ b/include/hw/cxl/cxl.h
+@@ -13,6 +13,7 @@
+ #include "cxl_pci.h"
+ #include "cxl_component.h"
+ #include "cxl_device.h"
++#include "cxl_cdat.h"
+ 
+ #define COMPONENT_REG_BAR_IDX 0
+ #define DEVICE_REG_BAR_IDX 2
 -- 
 2.19.1
 
