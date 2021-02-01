@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04CF230B0E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:54:41 +0100 (CET)
-Received: from localhost ([::1]:42906 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32D9F30B0EC
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:57:28 +0100 (CET)
+Received: from localhost ([::1]:47984 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6fHU-00060A-3F
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:54:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:52992)
+	id 1l6fKB-0008Nk-6u
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:57:27 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:53390)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l6fGD-00055w-16
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:53:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:58733)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1l6fG4-0003qm-Sj
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:53:20 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612209191;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=3jMvAejVeJ5JN5fcmUSz0aSBAUCCwr+63hOBx2c5Pgs=;
- b=dk8HSsDgGNMidaDI+kfZH8zcS4M7dq6dNWDSzCBClO4bUlOsWivdL7B1r3HvoFskSdYgz2
- Fbh67sYWy4qdtqqFwSwsQ7NF+LLRMKqIlY+6RUFGgp4aE/pTgevocaHYSIPDLXwIdPJD0g
- gQI6BUPsa+oAT/Y9PT1Ttlsn9kVRpB8=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-266-JqaaYKIIO-qDsfu00Mg5UA-1; Mon, 01 Feb 2021 14:52:37 -0500
-X-MC-Unique: JqaaYKIIO-qDsfu00Mg5UA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 8BEA3801817;
- Mon,  1 Feb 2021 19:52:36 +0000 (UTC)
-Received: from work-vm (ovpn-115-16.ams2.redhat.com [10.36.115.16])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id F09B85C1A1;
- Mon,  1 Feb 2021 19:52:31 +0000 (UTC)
-Date: Mon, 1 Feb 2021 19:52:29 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH] virtiofsd: Add restart_syscall to the seccomp whitelist
-Message-ID: <20210201195229.GJ3300@work-vm>
-References: <20210201193305.136390-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l6fI8-00077F-Dv; Mon, 01 Feb 2021 14:55:20 -0500
+Received: from mail-io1-xd35.google.com ([2607:f8b0:4864:20::d35]:40265)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1l6fI6-0004ja-Cd; Mon, 01 Feb 2021 14:55:20 -0500
+Received: by mail-io1-xd35.google.com with SMTP id n2so18744562iom.7;
+ Mon, 01 Feb 2021 11:55:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=iFgdCd4i3qm6ycc3lZFNiqhev/tXTwMUNIvl1DVBxow=;
+ b=qGKOHJKkQYTJ13t1MEQLQTki0FMwz5IrUzkcu8XiKptS7oci7Tr5rntwWPbsW/FSI6
+ 5jGXVAwwDyQLV6woUn89R6/yKbwDEH8jTIsgPFycKdppiSNjYvuI1RqJe620G1By0usI
+ Xi3WTuSW2XZKRz/8twZq+cFFEHt5h6Mb+oFhvYqOTL7fUTxRjEg8nfluTw819QT7ROca
+ xbL12X5yrw8Nybp00OqDMaAUHG+h0bsl2y4JhenVtaejcXCBE9ziCQyPGlMxl9UPOVYl
+ 3/CL1lLa6z/WgZPpscIfZb/CvoMa5nI1ZJczsQhrp/2Yvdw32qUC/g0hR4za4b0m2Lj2
+ k4vw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=iFgdCd4i3qm6ycc3lZFNiqhev/tXTwMUNIvl1DVBxow=;
+ b=fRGi4HlR/vud6ax+v4pf7L9UIreI8PreJAcvuHpESbrQuMBMJGARZ7dRnuizVh16Dk
+ TeGgiV9XZ3E3YikUNZTy1RMxiYx2SLF76YNa6TzK3rnAcvjF1kJDHK55jf2LJsU7pWaM
+ k7JXKeRc4LKjcx+z+n3PWVGhet8EmqN0/Nqs4ZjB9tPyF3Q7WQFJ0ngd9h0HOiwC52tF
+ vWJjsDHzhALN7QmF1MTZDJzymF4RKud7ydb8aR6QhyppH2rS1Uw0AJIpKzkIBWeJqMxA
+ 6OgnhwaeK/Cbrus0+NrH4N9/VZOJ8SYHWFxBhrb0xzStAVUpR5butzo50DxiMhlTD3yO
+ +8AQ==
+X-Gm-Message-State: AOAM530sLCvVCZIoxXPKtR4E1DmEOJZ7a4go2fy+3TAEXlz3A5cs0KND
+ 45VGFC65c25NjtKqZ+o5ddZ1D6IEQgrw+0olnYg=
+X-Google-Smtp-Source: ABdhPJxXqnX9j+W9QDwsK/e38Ggv8yiyTUAGb1loils5z7d3/VzsmFM3av120A75uvplB0NQReDcVJwUF78wDJsohhU=
+X-Received: by 2002:a02:634b:: with SMTP id j72mr16886851jac.106.1612209316634; 
+ Mon, 01 Feb 2021 11:55:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210201193305.136390-1-groug@kaod.org>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=dgilbert@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210131184449.382425-1-f4bug@amsat.org>
+ <20210131184449.382425-2-f4bug@amsat.org>
+In-Reply-To: <20210131184449.382425-2-f4bug@amsat.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 1 Feb 2021 11:54:49 -0800
+Message-ID: <CAKmqyKNLSKQ6X5BjjPp1+6KsCRqnu4cVaT5hQEsftoZCF6sZkQ@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] hw/arm/stm32f405_soc: Add missing dependency on
+ OR_IRQ
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::d35;
+ envelope-from=alistair23@gmail.com; helo=mail-io1-xd35.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -78,44 +79,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Trivial <qemu-trivial@nongnu.org>,
+ Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
+ "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+ Laurent Vivier <laurent@vivier.eu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
+ qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>,
+ Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> This is how linux restarts some system calls after SIGSTOP/SIGCONT.
-> This is needed to avoid virtiofsd termination when resuming execution
-> under GDB for example.
+On Sun, Jan 31, 2021 at 10:46 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
+rg> wrote:
+>
+> The STM32F405 SoC uses an OR gate on its ADC IRQs.
+>
+> Fixes: 529fc5fd3e1 ("hw/arm: Add the STM32F4xx SoC")
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-Ah!
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
+Alistair
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
-> Signed-off-by: Greg Kurz <groug@kaod.org>
 > ---
-> 
-> This has passed Travis and gitlab CI without errors.
-> 
->  tools/virtiofsd/passthrough_seccomp.c | 1 +
+> Cc: alistair@alistair23.me
+> ---
+>  hw/arm/Kconfig | 1 +
 >  1 file changed, 1 insertion(+)
-> 
-> diff --git a/tools/virtiofsd/passthrough_seccomp.c b/tools/virtiofsd/passthrough_seccomp.c
-> index a60d7da4b4e2..da03e97d35e4 100644
-> --- a/tools/virtiofsd/passthrough_seccomp.c
-> +++ b/tools/virtiofsd/passthrough_seccomp.c
-> @@ -88,6 +88,7 @@ static const int syscall_whitelist[] = {
->      SCMP_SYS(renameat),
->      SCMP_SYS(renameat2),
->      SCMP_SYS(removexattr),
-> +    SCMP_SYS(restart_syscall),
->      SCMP_SYS(rt_sigaction),
->      SCMP_SYS(rt_sigprocmask),
->      SCMP_SYS(rt_sigreturn),
-> -- 
+>
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index 13cc42dcc84..a320a124855 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -336,6 +336,7 @@ config STM32F205_SOC
+>  config STM32F405_SOC
+>      bool
+>      select ARM_V7M
+> +    select OR_IRQ
+>      select STM32F4XX_SYSCFG
+>      select STM32F4XX_EXTI
+>
+> --
 > 2.26.2
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+>
+>
 
