@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC5A30A453
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 10:25:55 +0100 (CET)
-Received: from localhost ([::1]:40172 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB0230A4BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 10:56:52 +0100 (CET)
+Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6VT0-00010M-4h
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 04:25:54 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:50294)
+	id 1l6Vww-0008Eu-Nv
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 04:56:50 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:55590)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l6VRu-0000UG-10
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 04:24:46 -0500
-Received: from 3.mo52.mail-out.ovh.net ([178.33.254.192]:59801)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l6VRr-0002iq-L3
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 04:24:45 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.146.51])
- by mo52.mail-out.ovh.net (Postfix) with ESMTPS id D1CC0238B42;
- Mon,  1 Feb 2021 10:24:31 +0100 (CET)
-Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Feb 2021
- 10:24:28 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-97G002789abf96-a44b-4764-89ed-04ac3bc7d011,
- A925A526D972EDC30A5527F39256541BB2C63354) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Mon, 1 Feb 2021 10:24:26 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Subject: Re: 9pfs developers docs
-Message-ID: <20210201102426.3a3623c7@bahia.lan>
-In-Reply-To: <3475760.T70ipHyFzN@silver>
-References: <3475760.T70ipHyFzN@silver>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6Vvw-0007nf-3Y
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 04:55:49 -0500
+Received: from indium.canonical.com ([91.189.90.7]:47812)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6Vvp-0008Ax-B8
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 04:55:46 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6Vvn-00065g-2b
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:55:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 129AB2E8135
+ for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 09:55:39 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.97]
-X-ClientProxiedBy: DAG3EX1.mxp5.local (172.16.2.21) To DAG8EX1.mxp5.local
- (172.16.2.71)
-X-Ovh-Tracer-GUID: 84fc91c6-0251-4f09-8026-9eb24089d54d
-X-Ovh-Tracer-Id: 14469784128254613914
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: 0
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfeekgddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeehgeegvddvtefhtddtvdfhiedutedvgfejtddutefgveehieejieelveffgeekheenucffohhmrghinhepqhgvmhhurdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdeljeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
-Received-SPF: pass client-ip=178.33.254.192; envelope-from=groug@kaod.org;
- helo=3.mo52.mail-out.ovh.net
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, RCVD_IN_SBL=0.141, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Feb 2021 09:48:40 -0000
+From: Peter Maydell <1914021@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: johndong pmaydell
+X-Launchpad-Bug-Reporter: Dong JianQiang (johndong)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <161217038744.31620.11534855593258118024.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161217292077.7219.3390438478855870513.malone@gac.canonical.com>
+Subject: [Bug 1914021] Re: qemu: uncaught target signal 4 (Illegal
+ instruction) but gdb remote-debug exited normally
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: b890dd43b3e60fcf2d9669f02413900fbeaf64b3
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,48 +70,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Bug 1914021 <1914021@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, 31 Jan 2021 19:23:52 +0100
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+QEMU 4.0 is quite old now -- does this reproduce with a more recent
+QEMU?
 
-> Hi,
-> 
+-- =
 
-Hi Christian,
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914021
 
-> I started setting up some developer documentation for 9pfs:
-> 
-> 	https://wiki.qemu.org/Documentation/9p
-> 
-> Still quite a bunch that should be added (e.g. there should be a section about 
-> threads and coroutines), but at least it's a start ...
-> 
+Title:
+  qemu: uncaught target signal 4 (Illegal instruction) but gdb remote-
+  debug exited normally
 
-I agree that a bunch of other things should be documented, but that's
-definitely a great start. Thanks for doing this !
+Status in QEMU:
+  New
 
-Just one remark on the topology diagram:
+Bug description:
+  I'm getting Illegal instruction (core dumped) when running the
+  attached a.out_err binary in qemu, but when using Gdb to remote-debug
+  the program, it exited normally. will appreciate if you can help look
+  into this qemu issue.
 
-https://wiki.qemu.org/File:9pfs_topology.png
+  readelf -h a.out_err
+  ELF Header:
+    Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+    Class:                             ELF32
+    Data:                              2's complement, little endian
+    Version:                           1 (current)
+    OS/ABI:                            UNIX - System V
+    ABI Version:                       0
+    Type:                              EXEC (Executable file)
+    Machine:                           ARM
+    Version:                           0x1
+    Entry point address:               0x8220
+    Start of program headers:          52 (bytes into file)
+    Start of section headers:          54228 (bytes into file)
+    Flags:                             0x5000200, Version5 EABI, soft-float=
+ ABI
+    Size of this header:               52 (bytes)
+    Size of program headers:           32 (bytes)
+    Number of program headers:         3
+    Size of section headers:           40 (bytes)
+    Number of section headers:         16
+    Section header string table index: 15
 
-It gives the impression that the 9p transport and server can
-handle multiple guests, which they certainly don't : each
-9p server lives in exactly one device which is exposed to
-exactly one guest.
+  qemu-arm version 4.0.0
 
-Cheers,
-
---
-Greg
-
-> Best regards,
-> Christian Schoenebeck
-> 
-> 
-> 
-> 
-
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914021/+subscriptions
 
