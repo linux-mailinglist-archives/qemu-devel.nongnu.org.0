@@ -2,72 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2D9C30B02F
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:19:09 +0100 (CET)
-Received: from localhost ([::1]:35480 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B0730B041
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:22:42 +0100 (CET)
+Received: from localhost ([::1]:42274 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6ej6-00035D-He
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:19:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42006)
+	id 1l6emW-00069N-Q4
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:22:40 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45130)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6eYC-0003wX-TF
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:07:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:23938)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6eY7-0000Te-Cn
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:07:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612206466;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=E2W1HGEgCNWOCZS4CT3q/hTS9q/xlepHrVHCPnJh7Cs=;
- b=ZB38GLaFKGbIseIWateKkpKzZ6vBAk6BB3QDZ8kDQ0GB6kcBQsTup/GW+u29+csOafjDYh
- nYadaaqaZjwsMvHJ54D5T5Z4FalkemL5Ur15MB8Je438wLBoF1PVDt3CcqJPgUnrmW0VxC
- Orw+oX/P6jiwRupU9a/Hol/nCR5QfYs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-143-otynvm3sN3-Vi43tla98gw-1; Mon, 01 Feb 2021 14:07:44 -0500
-X-MC-Unique: otynvm3sN3-Vi43tla98gw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
- [10.5.11.12])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id EE0461800D41;
- Mon,  1 Feb 2021 19:07:42 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 004E960C05;
- Mon,  1 Feb 2021 19:07:41 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Subject: [PULL 6/6] iotests: Fix -makecheck output
-Date: Mon,  1 Feb 2021 20:07:20 +0100
-Message-Id: <20210201190720.245732-7-kwolf@redhat.com>
-In-Reply-To: <20210201190720.245732-1-kwolf@redhat.com>
-References: <20210201190720.245732-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6ekl-00057z-GC
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:20:51 -0500
+Received: from indium.canonical.com ([91.189.90.7]:48222)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6ekj-00068j-AD
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:20:51 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6ekf-0008Hb-49
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 19:20:45 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id EF3082E813C
+ for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 19:20:44 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 01 Feb 2021 19:08:19 -0000
+From: Thomas Huth <1893040@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: linux-user
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange davidhildenbrand gsalgaon
+X-Launchpad-Bug-Reporter: Guirish Salgaonkar (gsalgaon)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <159844225257.1396.12890490778938419036.malonedeb@wampee.canonical.com>
+Message-Id: <161220650046.4522.6772136519556770985.launchpad@chaenomeles.canonical.com>
+Subject: [Bug 1893040] Re: External modules retreval using Go1.15 on s390x
+ appears to have checksum and ECDSA verification issues
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="3d7abcb776ec05aa0a89112accc21bf8b41dfc24"; Instance="production"
+X-Launchpad-Hash: dfc2ef88fccf5a16dc7bdba77e878af4c4a4df11
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -65
+X-Spam_score: -6.6
+X-Spam_bar: ------
+X-Spam_report: (-6.6 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -76,49 +71,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Reply-To: Bug 1893040 <1893040@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For -makecheck, the old 'check' implementation skipped the output when
-starting a test. It only had the condensed output at the end of a test.
+** Changed in: qemu
+       Status: Incomplete =3D> New
 
-testrunner.py prints the normal output when starting a test even for
--makecheck. This output contains '\r' at the end so that it can be
-overwritten with the result at the end of the test. However, for
--makecheck this is shorter output in a different format, so effectively
-we end up with garbled output that mixes both output forms.
+-- =
 
-Revert to the old behaviour of only printing a message after the test
-had completed in -makecheck mode.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1893040
 
-Fixes: d74c754c924ca34e90b7c96ce2f5609d82c0e628
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20210201161024.127921-1-kwolf@redhat.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/testrunner.py | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Title:
+   External modules retreval using Go1.15 on s390x appears to have
+  checksum and ECDSA verification issues
 
-diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
-index 25754e9a09..1fc61fcaa3 100644
---- a/tests/qemu-iotests/testrunner.py
-+++ b/tests/qemu-iotests/testrunner.py
-@@ -301,8 +301,10 @@ class TestRunner(ContextManager['TestRunner']):
-         last_el = self.last_elapsed.get(test)
-         start = datetime.datetime.now().strftime('%H:%M:%S')
- 
--        self.test_print_one_line(test=test, starttime=start, lasttime=last_el,
--                                 end='\r', test_field_width=test_field_width)
-+        if not self.makecheck:
-+            self.test_print_one_line(test=test, starttime=start,
-+                                     lasttime=last_el, end='\r',
-+                                     test_field_width=test_field_width)
- 
-         res = self.do_run_test(test)
- 
--- 
-2.29.2
+Status in QEMU:
+  New
 
+Bug description:
+  We are observing issue while building go-runner image and we suspect it i=
+s due to QEMU version being used. As referred in below issue:
+  https://github.com/golang/go/issues/40949
+
+  We tried to build go-runner image using go1.15 and register QEMU
+  (docker run --rm --privileged multiarch/qemu-user-
+  static@sha256:c772ee1965aa0be9915ee1b018a0dd92ea361b4fa1bcab5bbc033517749=
+b2af4
+  --reset -p yes) as mentioned in PR
+  https://github.com/kubernetes/release/pull/1499. We observed below
+  failure during build:
+
+  -------------------------------------------------------------------------=
+--------
+  ERROR: executor failed running [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux G=
+OARCH=3D${ARCH}     go build -ldflags '-s -w -buildid=3D -extldflags "-stat=
+ic"'     -o go-runner ${package}]: buildkit-runc did not terminate successf=
+ully
+  ------
+  =C2=A0> [builder 7/7] RUN CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}  =
+   go build -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-ru=
+nner .:
+  ------
+  failed to solve: rpc error: code =3D Unknown desc =3D executor failed run=
+ning [/bin/sh -c CGO_ENABLED=3D0 GOOS=3Dlinux GOARCH=3D${ARCH}     go build=
+ -ldflags '-s -w -buildid=3D -extldflags "-static"'     -o go-runner ${pack=
+age}]: buildkit-runc did not terminate successfully
+  Makefile:52: recipe for target 'container' failed
+  make: *** [container] Error 1
+  -------------------------------------------------------------------------=
+--------
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1893040/+subscriptions
 
