@@ -2,48 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 699D930AC4A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:07:59 +0100 (CET)
-Received: from localhost ([::1]:35174 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCE8F30AC4E
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:09:49 +0100 (CET)
+Received: from localhost ([::1]:38190 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6bk6-0005SP-H8
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:07:58 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45942)
+	id 1l6bls-0006zl-Tt
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:09:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46122)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l6bi0-0003Qi-G1; Mon, 01 Feb 2021 11:05:49 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001]:13367)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1l6bhx-0006hl-5p; Mon, 01 Feb 2021 11:05:47 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9B6A37462DB;
- Mon,  1 Feb 2021 17:05:38 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 6646F7462BD; Mon,  1 Feb 2021 17:05:38 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 644B67456B4;
- Mon,  1 Feb 2021 17:05:38 +0100 (CET)
-Date: Mon, 1 Feb 2021 17:05:38 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Subject: Re: [PULL 10/11] trace: document how to specify multiple --trace
- patterns
-In-Reply-To: <20210201154703.180022-11-stefanha@redhat.com>
-Message-ID: <d5e9b59a-f7df-5a7b-55bb-cc6066b18a70@eik.bme.hu>
-References: <20210201154703.180022-1-stefanha@redhat.com>
- <20210201154703.180022-11-stefanha@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-590698333-1612195538=:91053"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1l6bip-0004Rn-Dy
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:06:39 -0500
+Received: from mail-qt1-x82a.google.com ([2607:f8b0:4864:20::82a]:34784)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
+ id 1l6bin-0007P6-TZ
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:06:39 -0500
+Received: by mail-qt1-x82a.google.com with SMTP id c1so12620864qtc.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 08:06:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=kO5BdTtbX1LhxK7BNKtOZY26vFRCnQUfUq6XqSh8d1E=;
+ b=hnXI7KuD+Pfu5Xe9eEK702JW7ljlRnCkJhLbDN6OiesrrUZtW/gd43mYsAZI+UolrT
+ /Si9r+MNxnjhevr+hxu67JuNxC7aUEdzR6fX2iyOKmuBrFJ9Fv7e8dFCPb9BNSSThnod
+ wgjJtD3IakgOE6bWtUOeSPF0JkKsEbFXEfcAGwaFZh5UsQjkpnOn1yawRazUcGknHNUc
+ 9i6x0Q2Fmnrmr9HssjQZs6g/7Sr4cqNmfJFDEwSO2gk/lqowrW/5crfdw7DizezLkJ71
+ ZAoWbuUWiB8bRVaF3IAryCkrQBFKUnyofW0iCk4rsT/i+vO+fWsU+LPEbSHLyFsdsQZM
+ 7Uvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
+ :content-transfer-encoding:message-id:references:to;
+ bh=kO5BdTtbX1LhxK7BNKtOZY26vFRCnQUfUq6XqSh8d1E=;
+ b=phduf+ZLjTtGwKxzLDkeD+dmlRhZZxXmutreByc8vee9PjovbjJcD/tUgG818ABji7
+ 5/kiMDPOUfYLWh/kC8daLtvxYyFv2LX49fAqad/1gmkvV0j7pAZc9HANipeSEI6cTAOU
+ CT+XShLGC96bNxblN4YEPe2Ao5v15zPbV72Vtill/OC4vN/XHwApXdb01GdE6jSack9R
+ l0/UxsolNt4PF51Fd1dlkiK/xvKGCrAMDk7ANwPMj5QOuwhkOvXRROn28iXpUaxaYJmz
+ lS42v5VRjJ3sdBqNp5P5eH9zxRc90pQlCLaA/GsaZvEppC+TRBtb0dl1odBjWBL6XWoI
+ SxHQ==
+X-Gm-Message-State: AOAM5312XxoKZgGghWdloY5j0tn1K09kSi3/FieIHgtnvzHABodAFmJ8
+ or6RAZJTscFJqhSmicALEN4=
+X-Google-Smtp-Source: ABdhPJwCWYVYtvfNiXCIHC6hjWvkcYPjMOJvdYlrbVenfAkiP95ySfEbO8ZKWR/hkV7JAZz4/4XQfg==
+X-Received: by 2002:aed:20a8:: with SMTP id 37mr16058984qtb.362.1612195597071; 
+ Mon, 01 Feb 2021 08:06:37 -0800 (PST)
+Received: from [192.168.0.16] (d149-67-30-58.try.wideopenwest.com.
+ [67.149.58.30])
+ by smtp.gmail.com with ESMTPSA id d16sm14675891qka.44.2021.02.01.08.06.36
+ (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+ Mon, 01 Feb 2021 08:06:36 -0800 (PST)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
+Subject: Re: Makefile has local changes that will be overwritten
+From: Programmingkid <programmingkidx@gmail.com>
+In-Reply-To: <20210201154652.GK4131462@redhat.com>
+Date: Mon, 1 Feb 2021 11:06:35 -0500
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <C4D69BB9-A711-4226-9688-9B824AA195FA@gmail.com>
+References: <B8D9E184-5C5A-4A15-BF48-927F0138F0DE@gmail.com>
+ <20210201154652.GK4131462@redhat.com>
+To: =?utf-8?B?IkRhbmllbCBQLiBCZXJyYW5nw6ki?= <berrange@redhat.com>
+X-Mailer: Apple Mail (2.3654.40.0.2.32)
+Received-SPF: pass client-ip=2607:f8b0:4864:20::82a;
+ envelope-from=programmingkidx@gmail.com; helo=mail-qt1-x82a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,65 +86,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@redhat.com>
+Cc: ddstreet@canonical.com, Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---3866299591-590698333-1612195538=:91053
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
 
-On Mon, 1 Feb 2021, Stefan Hajnoczi wrote:
-> It is possible to repeat the --trace option to specify multiple
-> patterns. This may be preferrable to users who do not want to create a
-> file with a list of patterns.
->
-> Suggested-by: BALATON Zoltan <balaton@eik.bme.hu>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Message-id: 20210112165859.225534-2-stefanha@redhat.com
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
-> docs/devel/tracing.rst | 9 +++++++--
-> 1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/docs/devel/tracing.rst b/docs/devel/tracing.rst
-> index af395e957d..e8f9b82c5e 100644
-> --- a/docs/devel/tracing.rst
-> +++ b/docs/devel/tracing.rst
-> @@ -22,10 +22,15 @@ events::
-> This output comes from the "log" trace backend that is enabled by default when
-> ``./configure --enable-trace-backends=BACKENDS`` was not explicitly specified.
-> 
-> -More than one trace event pattern can be specified by providing a file
-> -instead::
-> +Multiple patterns can be specified by repeating the ``--trace`` option::
-> +
-> +    $ qemu --trace "kvm_*" --trace "virtio_*" ...
+> On Feb 1, 2021, at 10:46 AM, Daniel P. Berrang=C3=A9 =
+<berrange@redhat.com> wrote:
+>=20
+> On Mon, Feb 01, 2021 at 09:23:24AM -0500, Programmingkid wrote:
+>> When trying to build QEMU I see this error:
+>>=20
+>> error: Your local changes to the following files would be overwritten =
+by checkout:
+>> 	Makefile
+>> Please commit your changes or stash them before you switch branches.
+>> Aborting
+>=20
+> This suggests you've made changes to "Makefile" in your local
+> checkout that aren't committed.  What does 'git diff Makefile"
+> say ?
 
-Does that actually work? I've always used -trace enable="pattern1" -trace 
-enable="pattern2" Not sure if omitting enable= is the same.
+It didn't say anything.
 
-Regards,
-BALATON Zoltan
 
-> +
-> +When patterns are used frequently it is more convenient to store them in a
-> +file to avoid long command-line options::
->
->     $ echo "memory_region_ops_*" >/tmp/events
-> +    $ echo "kvm_*" >>/tmp/events
->     $ qemu --trace events=/tmp/events ...
-> 
-> Trace events
-> -- 
-> 2.29.2
---3866299591-590698333-1612195538=:91053--
+>> What I do to see this error:
+>> ./configure --target-list=3Di386-softmmu
+>>=20
+>> I did some bisecting and found out this is the patch that causes the =
+problem:
+>>=20
+>> commit 7d7dbf9dc15be6e1465c756c2c5ae7f1ab104fc8
+>> Author: Dan Streetman <ddstreet@canonical.com>
+>> Date:   Tue Jan 19 12:20:46 2021 -0500
+>>=20
+>>    configure: replace --enable/disable-git-update with =
+--with-git-submodules
+>>=20
+>>    Replace the --enable-git-update and --disable-git-update configure =
+params
+>>    with the param --with-git-submodules=3D(update|validate|ignore) to
+>>    allow 3 options for building from a git repo.
+>=20
+> That commit includes changes to "Makefile", so if you have made local
+> changes to Makefile yourself, this will cause the message you see from
+> git. Either stash your changes, or rebase to resolve them.
+
+I didn't make any changes to the Makefile. I even deleted it and tried =
+configure again. Saw the same error about MakeFile again.
+
+
 
