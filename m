@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4913630AA39
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 15:52:00 +0100 (CET)
-Received: from localhost ([::1]:42764 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 920CA30AA47
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 15:53:21 +0100 (CET)
+Received: from localhost ([::1]:44956 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6aYZ-0007bi-9p
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 09:51:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:58512)
+	id 1l6aZs-00007N-KJ
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 09:53:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:58796)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6aXj-0006op-Cw
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 09:51:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:59056)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6aXg-0006eX-EM
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 09:51:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612191062;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=je5HvsK9gVeJ/SNHQKwMwsuigT9iPCCu3fbntLUG9F8=;
- b=NgeURnZ4cJNKxuxZLLGLDSNkgWWefyD//y+T6+1viTa6MjGL4+pdCBo8gZNoyQ2GCFyR1i
- w0dBhp2ZkG0WJ0vU6kWCJcoH/WbBwcwJyvP6oMnN+4Cw8yD6VvLU+/YOl8c/nYSqET/MwD
- DNzpcu5KN7i5MrIMTwsS0cdlYASjQZs=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-9-de9iDtBHPkW7ERi0XUT_ww-1; Mon, 01 Feb 2021 09:51:01 -0500
-X-MC-Unique: de9iDtBHPkW7ERi0XUT_ww-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id C9948190B2A1;
- Mon,  1 Feb 2021 14:50:59 +0000 (UTC)
-Received: from merkur.fritz.box (ovpn-112-72.ams2.redhat.com [10.36.112.72])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7FF3E5C1A1;
- Mon,  1 Feb 2021 14:50:58 +0000 (UTC)
-Date: Mon, 1 Feb 2021 15:50:56 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Subject: Re: [PATCH] MAINTAINERS: suggest myself as co-maintainer for Block
- Jobs
-Message-ID: <20210201145056.GD13157@merkur.fritz.box>
-References: <20210128144144.27617-1-vsementsov@virtuozzo.com>
- <878s8d85dz.fsf@dusky.pond.sub.org>
- <2651677f-aa5e-1937-0fb6-767c080fccdc@redhat.com>
- <094df33d-f944-7a68-c0b4-a7c509287a6b@virtuozzo.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6aYt-000899-8g
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 09:52:19 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c]:36446)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6aYr-0007Hk-Gn
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 09:52:18 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id d2so19198321edz.3
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 06:52:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=y5gSGF6gDifySwTz3ervnW4BZ7htYh7hmPq4CxD/T2w=;
+ b=DWcFXcnOcWRqWs0KcEu0xmtHaaF+EsM1Ge3zz293L54X6toeBnlpIhcGKkZqgVLQsN
+ Ap60S+jvhwV3fpowemK1z3urWWpIz/mC4bsmvJGj72HQcSBAR4hkgThnoNE3EoO65oxh
+ RSnDQJGYPDJt2KfCg6aMTmKk2VJ5F5oFhma93e7xN+Yk3PtkPhUpbaUsAibWWohhO9b8
+ pnOULeQKaWbISdcYrZWNh9QK7d/JDcYMKIWhnXIFLQL2Ii/6B7slx4piSB/faIBGzbFb
+ 2SgdrBErlvDCENS1PWMFlRF5f+uPfVtqaWhs8lqOaqTM3CCET/g4hf61MZ5Uutk1up9Z
+ ss7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=y5gSGF6gDifySwTz3ervnW4BZ7htYh7hmPq4CxD/T2w=;
+ b=OrnUX5RrpzjOeyH/6BLk0MW/k9prEOhkNmS0Rr9fYb2uj1szfuw6mL4UwSJ02fU6lD
+ wTaeUO5v/u8HNi5ooyKnpTY/XhjTP30nrKUDWtQsfVcMisIBAqf3eF1trelPLdUR2m6m
+ ReqAOJhbTx2Y4Nma2FIi4ahTX4Z19fKjkiuuAN5ekEBWtMF4SSHZpTTOThdYzDtvKFGB
+ JnJOMIONNxMbHhUHM/nWfNJkKtSxdqoECCRxZC9PmjsRImAHjskD7B2UrjEo2p1VO2f/
+ UyPy5A2tp3BAFaqJ3KSIT+idvREnqc7ANBpdtrHZAv8w7HGcrsO/O3TW+1RUVy42lAtd
+ ZbHw==
+X-Gm-Message-State: AOAM530LZEHBjTR/JZ5zmZ7DEIF4ZjER/sqd/JbW1+xHJh0G0T7Vsxo4
+ +MvLM0UnBIVztCo5hgc1jWhtblnP8opH+MsZzN3h/g==
+X-Google-Smtp-Source: ABdhPJxbyzMtsj7p9bJXtLpTx3pdbfLqxdBCdQ+4iyRMWZa3ypruWRiQfu1Q7dYh4fNw/Dx6ITVM8XSEOOTYBY8H98Q=
+X-Received: by 2002:a05:6402:31ac:: with SMTP id
+ dj12mr18874251edb.44.1612191136041; 
+ Mon, 01 Feb 2021 06:52:16 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <094df33d-f944-7a68-c0b4-a7c509287a6b@virtuozzo.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <B8D9E184-5C5A-4A15-BF48-927F0138F0DE@gmail.com>
+ <CAOZ2QJOq6GNXMWkk_1oxqtT_GYW8FmXT8jYGHzyROXC_yoWfxA@mail.gmail.com>
+In-Reply-To: <CAOZ2QJOq6GNXMWkk_1oxqtT_GYW8FmXT8jYGHzyROXC_yoWfxA@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Feb 2021 14:52:04 +0000
+Message-ID: <CAFEAcA_m3vbjh42_tox4h_9wS_BSEad=nJrc=v_it01FxVV=EQ@mail.gmail.com>
+Subject: Re: Makefile has local changes that will be overwritten
+To: Dan Streetman <ddstreet@canonical.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,63 +78,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, John Snow <jsnow@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org
+Cc: Programmingkid <programmingkidx@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 01.02.2021 um 12:03 hat Vladimir Sementsov-Ogievskiy geschrieben:
-> 28.01.2021 18:28, John Snow wrote:
-> > On 1/28/21 10:09 AM, Markus Armbruster wrote:
-> > > Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
-> > > 
-> > > > I'm developing Qemu backup for several years, and finally new backup
-> > > > architecture, including block-copy generic engine and backup-top filter
-> > > > landed upstream, great thanks to reviewers and especially to
-> > > > Max Reitz!
-> > > > 
-> > > > I also have plans of moving other block-jobs onto block-copy, so that
-> > > > we finally have one generic block copying path, fast and well-formed.
-> > > > 
-> > > > So, now I suggest to bring all parts of backup architecture into
-> > > > "Block Jobs" subsystem (actually, aio_task is shared with qcow2 and
-> > > > qemu-co-shared-resource can be reused somewhere else, but I'd keep an
-> > > > eye on them in context of block-jobs) and add myself as co-maintainer.
-> > > > 
-> > > > Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> > > 
-> > > With pleasure:
-> > > Reviewed-by: Markus Armbruster <armbru@redhat.com>
-> > > 
-> > 
-> > Absolutely! Glad to see it.
-> > 
-> > Reviewed-by: John Snow <jsnow@redhat.com>
-> > 
-> 
-> [..]
-> 
-> > Great!
-> > 
-> > Reviewed-by: Max Reitz <mreitz@redhat.com>
-> 
-> Thanks!
-> 
-> Could someone pull it?
+On Mon, 1 Feb 2021 at 14:49, Dan Streetman <ddstreet@canonical.com> wrote:
+>
+> On Mon, Feb 1, 2021 at 9:23 AM Programmingkid <programmingkidx@gmail.com> wrote:
+> >
+> > When trying to build QEMU I see this error:
+> >
+> > error: Your local changes to the following files would be overwritten by checkout:
+> >         Makefile
+> > Please commit your changes or stash them before you switch branches.
+> > Aborting
+> >
+> > What I do to see this error:
+> > ./configure --target-list=i386-softmmu
+>
+> Sorry, I don't see that error, what commit are you building from?
 
-I've put it in my block branch (with s/suggest myself/Add Vladimir/ in
-the subject line), but I don't know when I'll send the next pull
-request. If someone else sends one first, feel free to include it with:
+...and what does git think the local changes to Makefile are ?
 
-Acked-by: Kevin Wolf <kwolf@redhat.com>
-
-> I don't have any signed PGP key for now, to send pull requests :\
-> Interesting, could I get one while sitting in Moscow?
-
-If you're planning to send pull requests, should a git tree of yours be
-added to the MAINTAINERS sections, too?
-
-Kevin
-
+thanks
+-- PMM
 
