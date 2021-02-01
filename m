@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 656A430A6AA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:37:00 +0100 (CET)
-Received: from localhost ([::1]:39064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E122930A6AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:37:24 +0100 (CET)
+Received: from localhost ([::1]:41700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6XVr-0004NH-Gl
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:36:59 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47696)
+	id 1l6XWG-0005VR-0R
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:37:24 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47744)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6XOq-000726-Ce
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:44 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:33153)
+ id 1l6XOv-0007Ff-Qm
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:49 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:42284)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6XOo-0008Ut-PE
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:44 -0500
-Received: by mail-wr1-x429.google.com with SMTP id 7so16199621wrz.0
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 03:29:42 -0800 (PST)
+ id 1l6XOu-00005g-2g
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:49 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id c4so13457896wru.9
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 03:29:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=XRtUPL4N+Vif4bfdhtAFgCO/ETkuGGWOvk7Qu3281fs=;
- b=otz4MVF8iuJeP0O61dnQoLLdWj7yRHoLIPiCQts39X7Iz45omjLW6B5RPKA0Ji8grr
- TaSCvFwiR5a4nyf8A49BwsSX6wD8hGldzi9ObmoQMYTN4EcsB6LLt+JE4crwXoA/Qwkd
- +v/aCY2PpUQZdG6YBQvHtLAhEhdzr6vGVZBvJFEd3QWL7lxOeg367jIC8KtdxkJkEIGa
- bxhcoJZxJVW9PcUVwMCed91ItAi23w2JLJqvnxc4jq/89yFFL+RirWl9fRoTqM/UfJIp
- olTqK+WR7XOw/vm5aC5mEmtouWIpsAPYBPUMZAEJgGJKcfDsc2qwHnZvE6Gp86q3FH26
- Ljzg==
+ bh=s9rQaS8UMqNJGneEaOHvqNQyzFShTSgQ9o1efcMMfnw=;
+ b=vN5Dbc8LEBoxXzt4TOZpKQUfFP4d0DUrmJzsY8jZ30ugvsjqLnSTGDuzM7H5Fyrk3f
+ abS4D3Ay2zNaJBSGMTGCJOBMPB0RMUXJbL6yqIkQ/k8U3aKlUwIlyhW30wiOETsY+lUU
+ VJdwwEkBARJ7eV715aeJDCjTlEzuJ7ft/zc1y32IFpIdtIEhNETmDDSyBCzd5/cL7xO9
+ U50ggDjlwUQVizGN8vef1jmyXmIUVrOW/c4xcMiNqJGCJsnBZXQULkYBB67vLBH/7B24
+ jEj/VTilekOmxsfiANyo+i9GfbpLzhVXb7nSmdL0Jut2lRCZzFBDzUvdQG9EI5wxHfm6
+ AB0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
  :in-reply-to:references:mime-version:content-transfer-encoding;
- bh=XRtUPL4N+Vif4bfdhtAFgCO/ETkuGGWOvk7Qu3281fs=;
- b=V/UoaykV4xaN6SY1ifyXH7HQMSIo6wXzzJJizgMEq3gsk5Z6nJ0zkcgHcvGqBhH/ME
- 60mwtbCgpX5V8jLr28wrStaDGfxv6aRcfSQ7zb7FOWP0rdo+FpQGDwsAQcVLKDD7EVoz
- D6R6AgvrvHMx29hmyCrAuYlJqdmX5DlQ0iCCCyMNk+t5kyMNikLHaKDj64nsZp1ET0ZG
- aLh2258jOB5KyMeJP3M2F6n5SNmLraIIxLuSV4C97J5ZVnFE0pYVPJHfMA5j/L52CEbx
- Eq0ZCd1ZNurFh1Fj8vKjbZsIazz/qK8xdVnlccsAspE7YgieWwqDvqEpekhAfZXyNh36
- kNXQ==
-X-Gm-Message-State: AOAM531S4zHe+raPpX1iBzskdjpcJ9PkrtYVWUFLW2JetH6UmCoZXrBK
- nLLN+1Y+ooeUiWfZ7dO5PXM=
-X-Google-Smtp-Source: ABdhPJyOAdkL8yCg3T/QnJEGkqZccdLOHBM22xLPE323hR3HQAe/aPubKmDcduC4ijItMwsDSxlZ+w==
-X-Received: by 2002:a5d:6b47:: with SMTP id x7mr16884630wrw.170.1612178981514; 
- Mon, 01 Feb 2021 03:29:41 -0800 (PST)
+ bh=s9rQaS8UMqNJGneEaOHvqNQyzFShTSgQ9o1efcMMfnw=;
+ b=tVoMaDw/LrmQ+IpcJA/BFXLqyXVIXPbfuZCbXnkZbq85zDPlFK+O26Ss90pTjWDo28
+ bGGcPEhYxHJUpH9y1ARwiMlmqqDc9vmW8BNPFHgFHSqxKjM1IhyT2YC+0nakrWZcPPNw
+ SC1ffpUvxALicCXH6DjhaxyPd5ntLU4r5hXU6Z0R7G3c+P+TJ0EsWxDazg8fbotVF46E
+ 2hyjumw0P9a3z/Xa8rLZWEfDY4eVP+9E3LXMC5oFM3f2xcN9mFozJVOYEbG254IGV+Gu
+ /BToG7JGKqxl8JZeWL9HQaKHqPJHhEbSXmm2RG/VJtvZDYTYpKi4QCbhtU8MOL5rknBM
+ K66A==
+X-Gm-Message-State: AOAM530r8GG8x9OVOYVe+yaTn8zFcn85mZ/AGvAFHOFl02GT+moBkX3k
+ jZPyDnHk3sxDCFSsYkUeG0s=
+X-Google-Smtp-Source: ABdhPJzAYGwF+J2Ou4s+1HcJL36utLf3MJcMRSzDMAwMwQQaTKhKo5Am9QETvwv7os+GbvBC+C3N8g==
+X-Received: by 2002:adf:bc4b:: with SMTP id a11mr18119220wrh.260.1612178986887; 
+ Mon, 01 Feb 2021 03:29:46 -0800 (PST)
 Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id o12sm26789769wrx.82.2021.02.01.03.29.40
+ by smtp.gmail.com with ESMTPSA id r124sm21261633wmr.16.2021.02.01.03.29.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 03:29:40 -0800 (PST)
+ Mon, 01 Feb 2021 03:29:46 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH v3 6/7] hw/xen: Make qmp_xen_set_global_dirty_log() available
- out of X86 HVM
-Date: Mon,  1 Feb 2021 12:29:04 +0100
-Message-Id: <20210201112905.545144-7-f4bug@amsat.org>
+Subject: [PATCH v3 7/7] NOTFORMERGE hw/xen/Kconfig: Introduce XEN_PV config
+Date: Mon,  1 Feb 2021 12:29:05 +0100
+Message-Id: <20210201112905.545144-8-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210201112905.545144-1-f4bug@amsat.org>
 References: <20210201112905.545144-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -97,86 +96,75 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-qmp_xen_set_global_dirty_log() is also used by XEN_PV.
+xenpv machine requires USB, IDE_PIIX and PCI:
 
-This fixes when XEN_PV without XEN_FV:
-
-  /usr/bin/ld: libqemuutil.a(meson-generated_.._qapi_qapi-commands-migration.c.o): in function `qmp_marshal_xen_set_global_dirty_log':
-  qapi/qapi-commands-migration.c:626: undefined reference to `qmp_xen_set_global_dirty_log'
+  /usr/bin/ld:
+  libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function `xen_be_register_common':
+  hw/xen/xen-legacy-backend.c:757: undefined reference to `xen_usb_ops'
+  libqemu-i386-softmmu.fa.p/hw_i386_xen_xen_platform.c.o: in function `unplug_disks':
+  hw/i386/xen/xen_platform.c:153: undefined reference to `pci_piix3_xen_ide_unplug'
+  libqemu-i386-softmmu.fa.p/hw_i386_xen_xen_platform.c.o: in function `pci_unplug_nics':
+  hw/i386/xen/xen_platform.c:137: undefined reference to `pci_for_each_device'
+  libqemu-i386-softmmu.fa.p/hw_i386_xen_xen_platform.c.o: in function `xen_platform_realize':
+  hw/i386/xen/xen_platform.c:483: undefined reference to `pci_register_bar'
 
 Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
- hw/i386/xen/xen-hvm.c  | 10 ----------
- hw/xen/xen-migration.c | 22 ++++++++++++++++++++++
- hw/xen/meson.build     |  1 +
- 3 files changed, 23 insertions(+), 10 deletions(-)
- create mode 100644 hw/xen/xen-migration.c
+Unfinished:
 
-diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-index 69196754a30..85859ea0ba3 100644
---- a/hw/i386/xen/xen-hvm.c
-+++ b/hw/i386/xen/xen-hvm.c
-@@ -24,7 +24,6 @@
- #include "hw/xen/xen-bus.h"
- #include "hw/xen/xen-x86.h"
- #include "qapi/error.h"
--#include "qapi/qapi-commands-migration.h"
- #include "qemu/error-report.h"
- #include "qemu/main-loop.h"
- #include "qemu/range.h"
-@@ -1591,12 +1590,3 @@ void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
-         }
-     }
- }
--
--void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
--{
--    if (enable) {
--        memory_global_dirty_log_start();
--    } else {
--        memory_global_dirty_log_stop();
--    }
--}
-diff --git a/hw/xen/xen-migration.c b/hw/xen/xen-migration.c
-new file mode 100644
-index 00000000000..1c53f1af08d
---- /dev/null
-+++ b/hw/xen/xen-migration.c
-@@ -0,0 +1,22 @@
-+/*
-+ * Copyright (C) 2010       Citrix Ltd.
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2.  See
-+ * the COPYING file in the top-level directory.
-+ *
-+ * Contributions after 2012-01-13 are licensed under the terms of the
-+ * GNU GPL, version 2 or (at your option) any later version.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "exec/memory.h"
-+#include "qapi/qapi-commands-migration.h"
-+
-+void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
-+{
-+    if (enable) {
-+        memory_global_dirty_log_start();
-+    } else {
-+        memory_global_dirty_log_stop();
-+    }
-+}
-diff --git a/hw/xen/meson.build b/hw/xen/meson.build
-index 6c836ae06e4..21f94625dc7 100644
---- a/hw/xen/meson.build
-+++ b/hw/xen/meson.build
-@@ -4,6 +4,7 @@
-   'xen-bus.c',
-   'xen_devconfig.c',
-   'xen_pvdev.c',
-+  'xen-migration.c',
-   'xen-utils.c',
- ))
+/usr/bin/ld: libqemu-x86_64-softmmu.fa.p/softmmu_physmem.c.o: in
+function `cpu_physical_memory_set_dirty_range':
+include/exec/ram_addr.h:333: undefined reference to
+`xen_hvm_modified_memory'
+/usr/bin/ld: libqemu-x86_64-softmmu.fa.p/softmmu_physmem.c.o: in
+function `ram_block_add':
+softmmu/physmem.c:1873: undefined reference to `xen_ram_alloc'
+/usr/bin/ld: libqemu-x86_64-softmmu.fa.p/softmmu_physmem.c.o: in
+function `cpu_physical_memory_set_dirty_range':
+include/exec/ram_addr.h:333: undefined reference to
+`xen_hvm_modified_memory'
+/usr/bin/ld: include/exec/ram_addr.h:333: undefined reference to
+`xen_hvm_modified_memory'
+/usr/bin/ld: libqemu-x86_64-softmmu.fa.p/softmmu_memory.c.o: in function
+`cpu_physical_memory_set_dirty_range':
+include/exec/ram_addr.h:333: undefined reference to
+`xen_hvm_modified_memory'
+collect2: error: ld returned 1 exit status
+ninja: build stopped: subcommand failed.
+
+TODO another day: Paolo's suggestion:
+"modify xen_hvm_modified_memory to become a virtual function in AccelClass."
+---
+ hw/Kconfig     | 1 +
+ hw/xen/Kconfig | 7 +++++++
+ 2 files changed, 8 insertions(+)
+ create mode 100644 hw/xen/Kconfig
+
+diff --git a/hw/Kconfig b/hw/Kconfig
+index 5ad3c6b5a4b..f2a95591d94 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -39,6 +39,7 @@ source usb/Kconfig
+ source virtio/Kconfig
+ source vfio/Kconfig
+ source watchdog/Kconfig
++source xen/Kconfig
  
+ # arch Kconfig
+ source arm/Kconfig
+diff --git a/hw/xen/Kconfig b/hw/xen/Kconfig
+new file mode 100644
+index 00000000000..0b8427d6bd1
+--- /dev/null
++++ b/hw/xen/Kconfig
+@@ -0,0 +1,7 @@
++config XEN_PV
++    bool
++    default y if XEN
++    depends on XEN
++    select PCI
++    select USB
++    select IDE_PIIX
 -- 
 2.26.2
 
