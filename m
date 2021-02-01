@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4990930A526
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:15:09 +0100 (CET)
-Received: from localhost ([::1]:57688 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4BE130A532
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:17:38 +0100 (CET)
+Received: from localhost ([::1]:34830 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6WEe-0006qt-9x
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:15:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59574)
+	id 1l6WH3-0000k8-Qa
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:17:37 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59578)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l6W8z-00006c-Ch
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l6W8z-000084-VL
  for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:09:17 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55616)
+Received: from mx2.suse.de ([195.135.220.15]:55618)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l6W8u-0005pN-8v
+ (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l6W8u-0005pP-5E
  for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:09:17 -0500
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id 9160CB00D;
- Mon,  1 Feb 2021 10:09:09 +0000 (UTC)
+ by mx2.suse.de (Postfix) with ESMTP id 2D281B185;
+ Mon,  1 Feb 2021 10:09:10 +0000 (UTC)
 From: Claudio Fontana <cfontana@suse.de>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>,
@@ -28,9 +28,10 @@ To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Eduardo Habkost <ehabkost@redhat.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v15 07/23] cpu: Move debug_excp_handler to tcg_ops
-Date: Mon,  1 Feb 2021 11:08:47 +0100
-Message-Id: <20210201100903.17309-8-cfontana@suse.de>
+Subject: [PATCH v15 08/23] target/arm: do not use cc->do_interrupt for KVM
+ directly
+Date: Mon,  1 Feb 2021 11:08:48 +0100
+Message-Id: <20210201100903.17309-9-cfontana@suse.de>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <20210201100903.17309-1-cfontana@suse.de>
 References: <20210201100903.17309-1-cfontana@suse.de>
@@ -64,130 +65,95 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Eduardo Habkost <ehabkost@redhat.com>
+cc->do_interrupt is in theory a TCG callback used in accel/tcg only,
+to prepare the emulated architecture to take an interrupt as defined
+in the hardware specifications,
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+but in reality the _do_interrupt style of functions in targets are
+also occasionally reused by KVM to prepare the architecture state in a
+similar way where userspace code has identified that it needs to
+deliver an exception to the guest.
+
+In the case of ARM, that includes:
+
+1) the vcpu thread got a SIGBUS indicating a memory error,
+   and we need to deliver a Synchronous External Abort to the guest to
+   let it know about the error.
+2) the kernel told us about a debug exception (breakpoint, watchpoint)
+   but it is not for one of QEMU's own gdbstub breakpoints/watchpoints
+   so it must be a breakpoint the guest itself has set up, therefore
+   we need to deliver it to the guest.
+
+So in order to reuse code, the same arm_do_interrupt function is used.
+This is all fine, but we need to avoid calling it using the callback
+registered in CPUClass, since that one is now TCG-only.
+
+Fortunately this is easily solved by replacing calls to
+CPUClass::do_interrupt() with explicit calls to arm_do_interrupt().
+
 Signed-off-by: Claudio Fontana <cfontana@suse.de>
+Cc: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/hw/core/cpu.h     | 4 ++--
- accel/tcg/cpu-exec.c      | 4 ++--
- target/arm/cpu.c          | 2 +-
- target/i386/tcg/tcg-cpu.c | 2 +-
- target/lm32/cpu.c         | 2 +-
- target/s390x/cpu.c        | 2 +-
- target/xtensa/cpu.c       | 2 +-
- 7 files changed, 9 insertions(+), 9 deletions(-)
+ target/arm/helper.c | 4 ++++
+ target/arm/kvm64.c  | 6 ++----
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index aad98c3eb3..d7ffd585d7 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -115,6 +115,8 @@ typedef struct TcgCpuOperations {
-     bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
-                      MMUAccessType access_type, int mmu_idx,
-                      bool probe, uintptr_t retaddr);
-+    /** @debug_excp_handler: Callback for handling debug exceptions */
-+    void (*debug_excp_handler)(CPUState *cpu);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 47e266d7e6..1a64bd748c 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -9969,6 +9969,10 @@ static void handle_semihosting(CPUState *cs)
+  * Do any appropriate logging, handle PSCI calls, and then hand off
+  * to the AArch64-entry or AArch32-entry function depending on the
+  * target exception level's register width.
++ *
++ * Note: this is used for both TCG (as the do_interrupt tcg op),
++ *       and KVM to re-inject guest debug exceptions, and to
++ *       inject a Synchronous-External-Abort.
+  */
+ void arm_cpu_do_interrupt(CPUState *cs)
+ {
+diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
+index 3c37fc4fb6..dff85f6db9 100644
+--- a/target/arm/kvm64.c
++++ b/target/arm/kvm64.c
+@@ -946,7 +946,6 @@ static void kvm_inject_arm_sea(CPUState *c)
+ {
+     ARMCPU *cpu = ARM_CPU(c);
+     CPUARMState *env = &cpu->env;
+-    CPUClass *cc = CPU_GET_CLASS(c);
+     uint32_t esr;
+     bool same_el;
  
- } TcgCpuOperations;
+@@ -962,7 +961,7 @@ static void kvm_inject_arm_sea(CPUState *c)
  
-@@ -159,7 +161,6 @@ typedef struct TcgCpuOperations {
-  * @gdb_write_register: Callback for letting GDB write a register.
-  * @debug_check_watchpoint: Callback: return true if the architectural
-  *       watchpoint whose address has matched should really fire.
-- * @debug_excp_handler: Callback for handling debug exceptions.
-  * @write_elf64_note: Callback for writing a CPU-specific ELF note to a
-  * 64-bit VM coredump.
-  * @write_elf32_qemunote: Callback for writing a CPU- and QEMU-specific ELF
-@@ -222,7 +223,6 @@ struct CPUClass {
-     int (*gdb_read_register)(CPUState *cpu, GByteArray *buf, int reg);
-     int (*gdb_write_register)(CPUState *cpu, uint8_t *buf, int reg);
-     bool (*debug_check_watchpoint)(CPUState *cpu, CPUWatchpoint *wp);
--    void (*debug_excp_handler)(CPUState *cpu);
+     env->exception.syndrome = esr;
  
-     int (*write_elf64_note)(WriteCoreDumpFunction f, CPUState *cpu,
-                             int cpuid, void *opaque);
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 953f050698..e7e54fd75d 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -512,8 +512,8 @@ static inline void cpu_handle_debug_exception(CPUState *cpu)
-         }
-     }
- 
--    if (cc->debug_excp_handler) {
--        cc->debug_excp_handler(cpu);
-+    if (cc->tcg_ops.debug_excp_handler) {
-+        cc->tcg_ops.debug_excp_handler(cpu);
-     }
+-    cc->do_interrupt(c);
++    arm_cpu_do_interrupt(c);
  }
  
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 27a16c1950..66ac210b0c 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2280,7 +2280,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->tcg_ops.cpu_exec_interrupt = arm_cpu_exec_interrupt;
-     cc->tcg_ops.synchronize_from_tb = arm_cpu_synchronize_from_tb;
-     cc->tcg_ops.tlb_fill = arm_cpu_tlb_fill;
--    cc->debug_excp_handler = arm_debug_excp_handler;
-+    cc->tcg_ops.debug_excp_handler = arm_debug_excp_handler;
-     cc->debug_check_watchpoint = arm_debug_check_watchpoint;
-     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
- #if !defined(CONFIG_USER_ONLY)
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 85b69224a9..6c1ebbdcc6 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -67,6 +67,6 @@ void tcg_cpu_common_class_init(CPUClass *cc)
-     cc->tcg_ops.initialize = tcg_x86_init;
-     cc->tcg_ops.tlb_fill = x86_cpu_tlb_fill;
- #ifndef CONFIG_USER_ONLY
--    cc->debug_excp_handler = breakpoint_handler;
-+    cc->tcg_ops.debug_excp_handler = breakpoint_handler;
- #endif
- }
-diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
-index 76dc728858..bbe1405e32 100644
---- a/target/lm32/cpu.c
-+++ b/target/lm32/cpu.c
-@@ -235,7 +235,7 @@ static void lm32_cpu_class_init(ObjectClass *oc, void *data)
- #endif
-     cc->gdb_num_core_regs = 32 + 7;
-     cc->gdb_stop_before_watchpoint = true;
--    cc->debug_excp_handler = lm32_debug_excp_handler;
-+    cc->tcg_ops.debug_excp_handler = lm32_debug_excp_handler;
-     cc->disas_set_info = lm32_cpu_disas_set_info;
-     cc->tcg_ops.initialize = lm32_translate_init;
- }
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index ceee62ddca..8ade66178e 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -509,7 +509,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
-     cc->write_elf64_note = s390_cpu_write_elf64_note;
- #ifdef CONFIG_TCG
-     cc->tcg_ops.cpu_exec_interrupt = s390_cpu_exec_interrupt;
--    cc->debug_excp_handler = s390x_cpu_debug_excp_handler;
-+    cc->tcg_ops.debug_excp_handler = s390x_cpu_debug_excp_handler;
-     cc->do_unaligned_access = s390x_cpu_do_unaligned_access;
- #endif
- #endif
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index e764dbeb73..b6f13ceb32 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -207,7 +207,7 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
-     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
-     cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
- #endif
--    cc->debug_excp_handler = xtensa_breakpoint_handler;
-+    cc->tcg_ops.debug_excp_handler = xtensa_breakpoint_handler;
-     cc->disas_set_info = xtensa_cpu_disas_set_info;
-     cc->tcg_ops.initialize = xtensa_translate_init;
-     dc->vmsd = &vmstate_xtensa_cpu;
+ #define AARCH64_CORE_REG(x)   (KVM_REG_ARM64 | KVM_REG_SIZE_U64 | \
+@@ -1493,7 +1492,6 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit)
+ {
+     int hsr_ec = syn_get_ec(debug_exit->hsr);
+     ARMCPU *cpu = ARM_CPU(cs);
+-    CPUClass *cc = CPU_GET_CLASS(cs);
+     CPUARMState *env = &cpu->env;
+ 
+     /* Ensure PC is synchronised */
+@@ -1547,7 +1545,7 @@ bool kvm_arm_handle_debug(CPUState *cs, struct kvm_debug_exit_arch *debug_exit)
+     env->exception.vaddress = debug_exit->far;
+     env->exception.target_el = 1;
+     qemu_mutex_lock_iothread();
+-    cc->do_interrupt(cs);
++    arm_cpu_do_interrupt(cs);
+     qemu_mutex_unlock_iothread();
+ 
+     return false;
 -- 
 2.26.2
 
