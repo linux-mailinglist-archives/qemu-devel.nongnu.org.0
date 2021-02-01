@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 888C430A870
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:18:48 +0100 (CET)
-Received: from localhost ([::1]:35334 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B38D30A8B1
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:29:09 +0100 (CET)
+Received: from localhost ([::1]:43700 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Z6M-0007xL-IW
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:18:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41084)
+	id 1l6ZGO-0003wi-LR
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:29:08 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42574)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l6Z3g-0007TR-Kc
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:16:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:48537)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1l6Z3X-0006cA-8r
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:16:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612185349;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=e5CUShisQxH8FbDdakNNZlZK8JIA9SCWbkZu7G7DzP0=;
- b=BUemAgXOIGS6MT/FpGJK+FlfhRctEu0i1RDeGRCf+g6rbtvHNhcn7tzgSX/XlkU13eJ5DG
- AOgL9cEmv0kMPhtuiXlxISl8fpV0czjCXQcBb/t29eooDs7w0BotClzV2AsNwYpk8AYe4e
- rP3cRHMtPWe2o82GMYUxN7SwQw5trKI=
-Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
- [209.85.221.72]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-114-b2HxJYHPOZ64s_KBx8cSHA-1; Mon, 01 Feb 2021 08:15:45 -0500
-X-MC-Unique: b2HxJYHPOZ64s_KBx8cSHA-1
-Received: by mail-wr1-f72.google.com with SMTP id n18so10375154wrm.8
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 05:15:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6ZEi-0002sy-6Q
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:27:25 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:52110)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1l6ZEe-0002qv-Gm
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:27:23 -0500
+Received: by mail-wm1-x332.google.com with SMTP id m2so12654344wmm.1
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 05:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=references:user-agent:from:to:cc:subject:date:in-reply-to
+ :message-id:mime-version:content-transfer-encoding;
+ bh=HvbujE8LcPvc9pJFpBsNbteFOd26LsYh1R79wWODdwA=;
+ b=yx7wl7/3pHhKcCps6BCS5gbPOEJEvHMjJmYUm7OxhchS8sSHyEWSTQSjotaSa7JYgy
+ OegARIt3whM25MhKWtwUe99XRCL0ESLw4RCo9aCfuAJxavxBZcRdDba1gq+Ml1Clixe+
+ WXHxUuvY+qx4Sx4G4YmRB36q0iRImFsuq/ThINH9oqQjPEd8xLeyMKFyP8UNyksFSYig
+ ZpbgGb0uruTgFWncTtFMRqQOfYjSbKmVG5es8tqk+IpCoTcdI3prJXS9IRA7HGEupCQ8
+ x3zwVm9TNocUH16LKntF2Qs00NL+DF2xPrGDxnkGa9mJf52wrRFfoYsF/3sqAzmy5O9B
+ HeEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:to:cc:references:from:subject:message-id:date
- :user-agent:mime-version:in-reply-to:content-language
- :content-transfer-encoding;
- bh=e5CUShisQxH8FbDdakNNZlZK8JIA9SCWbkZu7G7DzP0=;
- b=qaX+ewhU3hL8DlsnUZHwGzugCXVh/pDRuucl31ehdZd/oW3f3EDRAU4fTE/NJvf/Dk
- f4AMad581QidjGuR50x8M7h8BACWCw3+AajYFlr8UmiBb9JR7JkNgyJDyVdHIJEib4+I
- 7mRb3I0tCPKl6ci5iNB3T3bI/CihKW5sCYWJ7cVJNNgBmSag0wieJd+4yYYhsdJS47ku
- s/ddcGZJRvnDrob3Vh5UKwtsmShWb9zaPoz/SdzWKFtqLZ+FOUCL12Zx/6qyIekIuEx3
- e9X4OckWE0K4xV7O7L/zjsAtUw71Ac7gIU9s8kLT0wUnzngjke3L1colG4QhnoGnBVY4
- hdkQ==
-X-Gm-Message-State: AOAM5336aH0Ca+P86f2eC2EQCChUaeTgw6NCIpkTegdJKB0rV05PhxTx
- 69DwLTcvGId9c382qJORSdpNNZ+mea86oPooLLy4FvmeMqZ0+QnW/mI0oBvyovpVPb6TnI/Gz/t
- OGyPckJYAWkU0QQs=
-X-Received: by 2002:adf:e642:: with SMTP id b2mr18273967wrn.221.1612185344599; 
- Mon, 01 Feb 2021 05:15:44 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJylkfzgBEKx8FLzJAF1Nkd5AhQnF/dke0N7LQ+GHHFfF5EXAnXCuXfltOL4HiQ/CT8haPgopg==
-X-Received: by 2002:adf:e642:: with SMTP id b2mr18273954wrn.221.1612185344419; 
- Mon, 01 Feb 2021 05:15:44 -0800 (PST)
-Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
- ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
- by smtp.gmail.com with ESMTPSA id o9sm27878349wrw.81.2021.02.01.05.15.42
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Feb 2021 05:15:43 -0800 (PST)
-To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <3475760.T70ipHyFzN@silver> <20210201102426.3a3623c7@bahia.lan>
- <3962897.vStEPALNoS@silver> <20210201132649.6db25cec@bahia.lan>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: 9pfs developers docs
-Message-ID: <ca497b43-bea4-14be-f49e-6b8c374da4d5@redhat.com>
-Date: Mon, 1 Feb 2021 14:15:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.6.0
+ h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
+ :in-reply-to:message-id:mime-version:content-transfer-encoding;
+ bh=HvbujE8LcPvc9pJFpBsNbteFOd26LsYh1R79wWODdwA=;
+ b=mkMms7Da8xQiylmIRuOfuIndC2ZaoF9bMJskZom8lor0Wd+8ZBXUxv2Eif40P4oWFm
+ dAun2I0Bj7MfZQIljqyHcxPJYZTqGr117+eUwascpgAkGaQAqFB24YSnQ5cchM7uqMEM
+ TlKH9U21H9KH7hCJCdYDeHsPU6wloVg1ePTrm3CDtcVuvtty2zpvIf7yRzU0YIOMeXf8
+ MNccRsv8lWpGEnI99m/IRMzd6J57voYC+EJSlkeCLSlZTUPDavbIOJxrVPub9NZLkIwT
+ 18voL7PPDA39QNjC24L4XaOAW7GHcQOnv3DFP1z4TF6WBi/qVYJppcSHQV4jEhi80cZv
+ FLNg==
+X-Gm-Message-State: AOAM531573SvBfIC8HlpP4jsJCqYtUoqi4R/oNa1lU7Hz8YYno2RgQBO
+ GqZdOgj93QWJGcNi34NHsNrsdA==
+X-Google-Smtp-Source: ABdhPJwpqBRa6a900It37e+ctecbYvLmcWJl80FIae8Wt9+OzUCRf7zSx49a67t4g/so8/kMlEZBtA==
+X-Received: by 2002:a1c:ac86:: with SMTP id v128mr14906303wme.76.1612186038751; 
+ Mon, 01 Feb 2021 05:27:18 -0800 (PST)
+Received: from zen.linaroharston ([51.148.130.216])
+ by smtp.gmail.com with ESMTPSA id n193sm21453367wmb.0.2021.02.01.05.27.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 01 Feb 2021 05:27:17 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E65CC1FF7E;
+ Mon,  1 Feb 2021 13:27:16 +0000 (GMT)
+References: <20210131115022.242570-1-f4bug@amsat.org>
+ <20210131115022.242570-3-f4bug@amsat.org>
+User-agent: mu4e 1.5.7; emacs 28.0.50
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [PATCH v6 02/11] exec: Restrict TCG specific headers
+Date: Mon, 01 Feb 2021 13:24:26 +0000
+In-reply-to: <20210131115022.242570-3-f4bug@amsat.org>
+Message-ID: <87wnvrvryj.fsf@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20210201132649.6db25cec@bahia.lan>
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,36 +87,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Laurent Vivier <lvivier@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, kvm@vger.kernel.org, qemu-block@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>, John Snow <jsnow@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org, Claudio Fontana <cfontana@suse.de>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/02/21 13:26, Greg Kurz wrote:
-> Is it that '-m slow' doesn't work when running 'qos-test' or
-> that 'make check-qtest SPEEP=slow' doesn't run the slow tests ?
-> 
-> The latter was discussed on IRC last year but I don't know if
-> anyone has tried to investigate this yet.
-> 
-> Nov 24 11:36:53 <groug>	th_huth, Hi. FYI it seems that the meson conversion kinda broke 'make check SPEED=slow'. Test programs aren't passed '-m slow'
-> Nov 24 11:51:42 <f4bug>	th_huth: do you know who uses/tests SPEED=slow?
-> Nov 24 11:52:03 <f4bug>	th_huth: I thought this was a block-related feature
-> Nov 24 11:52:44 <groug>	f4bug, it is supposedly used by gitlab CI
-> Nov 24 11:52:59 <groug>	.gitlab-ci.yml:    MAKE_CHECK_ARGS: check-qtest SPEED=slow
-> Nov 24 12:50:53 <th_huth>	groug, I'm also running make check SPEED=slow manually sometimes ... I guess that got lost in the conversion to ninja ... bonzini, did you ever try?
-> Nov 24 12:51:03 <bonzini>	no it shouldn't
-> Nov 24 12:51:21 <th_huth>	let me check...
-> Nov 24 12:51:40 <bonzini>	ah, the tests are chosen correctly but -m slow is lost
-> Nov 24 12:52:02 <groug>	yes that's what I see
-> Nov 24 12:54:04 <groug>	bonzini, missing bits in scripts/mtest2make.py ?
-> Nov 24 12:54:28 <bonzini>	groug: sort of, but assuming that all executables support -m slow wouldn't work
-> 
-> Cc'ing Thomas and Paolo for additional details.
 
-Basically what's in the IRC log is still true.  I'll look into using an 
-environment variable "SPEED" in addition to g_test_{slow,quick} in order 
-to restore SPEED=slow behavior.
+Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
 
-Paolo
+> Fixes when building with --disable-tcg on ARM:
+>
+>   In file included from target/arm/helper.c:16:
+>   include/exec/helper-proto.h:42:10: fatal error: tcg-runtime.h: No such =
+file or directory
+>      42 | #include "tcg-runtime.h"
+>         |          ^~~~~~~~~~~~~~~
 
+I think the problem here is that we have stuff in helper.c which is
+needed by non-TCG builds.
+
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+> ---
+>  include/exec/helper-proto.h | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
+> index 659f9298e8f..740bff3bb4d 100644
+> --- a/include/exec/helper-proto.h
+> +++ b/include/exec/helper-proto.h
+> @@ -39,8 +39,10 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2)=
+, dh_ctype(t3), \
+>=20=20
+>  #include "helper.h"
+>  #include "trace/generated-helpers.h"
+> +#ifdef CONFIG_TCG
+>  #include "tcg-runtime.h"
+>  #include "plugin-helpers.h"
+> +#endif /* CONFIG_TCG */
+
+If we are including helper-proto.h then we are defining helpers which
+are (should be) TCG only.
+
+>=20=20
+>  #undef IN_HELPER_PROTO
+
+
+--=20
+Alex Benn=C3=A9e
 
