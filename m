@@ -2,86 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95B4F30B24B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 22:50:07 +0100 (CET)
-Received: from localhost ([::1]:48896 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C33EE30B27A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 23:04:23 +0100 (CET)
+Received: from localhost ([::1]:54048 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6h5C-0001dG-II
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 16:50:06 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45800)
+	id 1l6hJ0-0005K0-D3
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 17:04:22 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48716)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l6h0Y-0000KF-0j; Mon, 01 Feb 2021 16:45:18 -0500
-Received: from out3-smtp.messagingengine.com ([66.111.4.27]:48843)
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l6hGv-0004gh-Gn
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:02:13 -0500
+Received: from 7.mo51.mail-out.ovh.net ([46.105.33.25]:33372)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1l6h0V-0003t9-Gy; Mon, 01 Feb 2021 16:45:17 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
- by mailout.nyi.internal (Postfix) with ESMTP id 59A745C01C4;
- Mon,  1 Feb 2021 16:45:10 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute4.internal (MEProxy); Mon, 01 Feb 2021 16:45:10 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=date:from:to:cc:subject:message-id:references:mime-version
- :content-type:in-reply-to; s=fm2; bh=7uOQwuwxQKHUxnJBCFR5CKGMz1o
- XXsPqpVy1q+QjULY=; b=zJVQ4b+lCg1GGsiOPpBIsG38q1VsVBMmPq034I4jml/
- 43zxFGFSd2iKjLNq3hCskwr2DlLYGEOOB1EzUDEQl9SfctqJftI6XCCbo/uGIfr4
- hHVHoxVg3cVZ2nPErYLBAgje85DwwnK/knaMHtVpIkiIYdp5B+kdwM9uHi4NKPaH
- SIfLIbuY8HqTDiFRKDybOOhV8RFHpRBvLz+YiQlI/LTCoL+7ud3+59EI+nL6SbEu
- Q8rAdE7d3Ls79ewhRMVxTvMbnk9NeOQEhVASJR5hHg8FIFIUJNedAV/0gXwTWB1A
- XkekOTn93vx+5ruR0wb/hwi22+ZXNr5CVK3UBRs1NQg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:content-type:date:from:in-reply-to
- :message-id:mime-version:references:subject:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=7uOQwu
- wxQKHUxnJBCFR5CKGMz1oXXsPqpVy1q+QjULY=; b=L2bxYR4NlnXDwaA7l+P+dA
- u7ai3d36JLpPa9qEpAUahKeJVIH3FlU0kIayA4NkPXGyACxxY6Bp3+niXZIPpsJn
- WfHYyyjyDNcA0bcJzjvsrXpuCOFbccUKgoQYx+6EEtxydV/S0YISrg+AIFWyyXfd
- uHsI2KhqbTADh+gnc8YuP+cHSloYybEuYCHQp1cinurHt+Ok9pGsVPh5Dap8ndWz
- Vkp4WMhncshZs9yxxT1PZuzbKWK0THnrtirkJY+aXLYrR26EsPsXTuecgC7gFBOL
- 726a6wf2nimLn2xlHSnIm5FmWTytO7A3JH2+bitjX+2wB5E92Tv2VxNd5M3MasZQ
- ==
-X-ME-Sender: <xms:ZHYYYBUVT14Rp8oyQwgoRQ2YyaV1K6NUXd52wbcQH-bW8TbfF47itg>
- <xme:ZHYYYBn07iHOUBMUgh7F9tHYL7oX8X6cEweQx20H9u4uhwNKlYQnDtVp6IvC_RxS7
- NmQxRFkLeixouGGAk0>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeduledrfeekgdduhedvucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvffukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgruhhs
- ucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrghtth
- gvrhhnpeejgeduffeuieetkeeileekvdeuleetveejudeileduffefjeegfffhuddvudff
- keenucfkphepkedtrdduieejrdelkedrudeltdenucevlhhushhtvghrufhiiigvpedtne
- curfgrrhgrmhepmhgrihhlfhhrohhmpehithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:ZHYYYNa8eM7LBMEvdU53ur5KbJ40uHeVmaCMlvs-jAd8QS3oUfQk7A>
- <xmx:ZHYYYEUXPFEKCOSNmijiEPKWmbEDLPIWaE_cbpamAHnLxLGLBJWg1A>
- <xmx:ZHYYYLmqXRmZ-vAxYIZja5tXFy2m-lmDfqqRCz_JX-nA2Ci5xPgg9Q>
- <xmx:ZnYYYJbpL6lSq_CPufVEgw4Ws5ZsuQK8QuMZj15zTciXTcsnsUrvoA>
-Received: from apples.localdomain (80-167-98-190-cable.dk.customer.tdc.net
- [80.167.98.190])
- by mail.messagingengine.com (Postfix) with ESMTPA id B49EF24005C;
- Mon,  1 Feb 2021 16:45:07 -0500 (EST)
-Date: Mon, 1 Feb 2021 22:45:05 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 5/5] hw/block/nvme: add simple copy command
-Message-ID: <YBh2YSkMwuhGbUUG@apples.localdomain>
-References: <20210129091541.566330-1-its@irrelevant.dk>
- <20210129091541.566330-6-its@irrelevant.dk>
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1l6hGs-00032h-MK
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:02:13 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.210])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 214EB25F9E5;
+ Mon,  1 Feb 2021 23:01:59 +0100 (CET)
+Received: from kaod.org (37.59.142.101) by DAG4EX1.mxp5.local (172.16.2.31)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Feb 2021
+ 23:01:58 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004bbe2e596-0884-4f8e-8922-2574fcae9cf1,
+ 43AF5B79A33AC54A678EB738DB65E99D5FB7B3E2) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Subject: Re: eMMC support
+To: Sai Pavan Boddu <saipava@xilinx.com>, Edgar Iglesias <edgari@xilinx.com>, 
+ Joel Stanley <joel@jms.id.au>, Andrew Jeffery <andrew@aj.id.au>
+References: <BY5PR02MB6772761F83EDC56737969C18CA210@BY5PR02MB6772.namprd02.prod.outlook.com>
+ <CACPK8XexXLYrwMenkyou0Xkc8Tx+p1SNi7jbFBj6aObAKHcBwQ@mail.gmail.com>
+ <6a30107a-abf1-635b-c96f-af3d63f93bc8@kaod.org>
+ <6c1e1335-887e-0459-f1c7-f37daa008c4d@kaod.org>
+ <d0ef7bbd-2b2b-422f-9420-29ca620db130@xilinx.com>
+ <BY5PR02MB677227AB2EE184B02E1E90B8CAB69@BY5PR02MB6772.namprd02.prod.outlook.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <e401d119-402e-0edd-c2bf-28950ba48ccb@kaod.org>
+Date: Mon, 1 Feb 2021 23:01:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="eq3gH16VZjUlboeh"
-Content-Disposition: inline
-In-Reply-To: <20210129091541.566330-6-its@irrelevant.dk>
-Received-SPF: pass client-ip=66.111.4.27; envelope-from=its@irrelevant.dk;
- helo=out3-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <BY5PR02MB677227AB2EE184B02E1E90B8CAB69@BY5PR02MB6772.namprd02.prod.outlook.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG4EX1.mxp5.local (172.16.2.31) To DAG4EX1.mxp5.local
+ (172.16.2.31)
+X-Ovh-Tracer-GUID: ee435516-ae03-42d6-b340-9dca021005f2
+X-Ovh-Tracer-Id: 8815233320766638886
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfeekgdduhedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepuffvfhfhkffffgggjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitggpnfgvpgfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnheptdekfeeugefftefffeegfeettdffhfejgfejveevkedtvdevleeuhfetvdeiledtnecuffhomhgrihhnpehophgvnhgsmhgtrdhorhhgnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpegtlhhgsehkrghougdrohhrghdprhgtphhtthhopehsrghiphgrvhgrseigihhlihhngidrtghomh
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo51.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -94,78 +75,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- qemu-block@nongnu.org, Klaus Jensen <k.jensen@samsung.com>,
- Max Reitz <mreitz@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Keith Busch <kbusch@kernel.org>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello, 
 
---eq3gH16VZjUlboeh
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> FYI, aspeed machines successfully boot on top of 16G emmc disk images.
+>> I merged some of xilinx patches on top of the aspeed-6.0 branch to
+>> improve the model completeness but only the one fixing powerup was
+>> really necessary.
+>> 
+>> The initial diffstat is rather small.
+>> 
+>>  hw/sd/sd.c             |  168 ++++++++++++++++++++++++++++++++++++++++++-------
+>> 
+>> We can surely find a way to merge support in mainline without
+>> covering the whole specs. The Extended CSD register would be the
+>> big part.
+> 
+> */[Sai Pavan Boddu] I’m revisiting eMMC now, made some patches on top of previous series sent by “Vincent Palatin”./*
+> 
+> */Would you like to share your changes, which made aspeed machines to work ?/*
+> 
+> */Regards,
+> Sai Pavan/*
 
-On Jan 29 10:15, Klaus Jensen wrote:
-> From: Klaus Jensen <k.jensen@samsung.com>
->=20
-> Add support for TP 4065a ("Simple Copy Command"), v2020.05.04
-> ("Ratified").
->=20
-> The implementation uses a bounce buffer to first read in the source
-> logical blocks, then issue a write of that bounce buffer. The default
-> maximum number of source logical blocks is 128, translating to 512 KiB
-> for 4k logical blocks which aligns with the default value of MDTS.
->=20
-> Signed-off-by: Klaus Jensen <k.jensen@samsung.com>
-> ---
->  hw/block/nvme-ns.h    |   4 +
->  hw/block/nvme.h       |   1 +
->  hw/block/nvme-ns.c    |   8 ++
->  hw/block/nvme.c       | 253 +++++++++++++++++++++++++++++++++++++++++-
->  hw/block/trace-events |   7 ++
->  5 files changed, 272 insertions(+), 1 deletion(-)
->=20
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index c083000b8c1f..b26866ba4338 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -43,12 +43,18 @@ pci_nvme_admin_cmd(uint16_t cid, uint16_t sqid, uint8=
-_t opcode, const char *opna
->  pci_nvme_read(uint16_t cid, uint32_t nsid, uint32_t nlb, uint64_t count,=
- uint64_t lba) "cid %"PRIu16" nsid %"PRIu32" nlb %"PRIu32" count %"PRIu64" =
-lba 0x%"PRIx64""
->  pci_nvme_write(uint16_t cid, const char *verb, uint32_t nsid, uint32_t n=
-lb, uint64_t count, uint64_t lba) "cid %"PRIu16" opname '%s' nsid %"PRIu32"=
- nlb %"PRIu32" count %"PRIu64" lba 0x%"PRIx64""
->  pci_nvme_rw_cb(uint16_t cid, const char *blkname) "cid %"PRIu16" blk '%s=
-'"
-> +pci_nvme_copy(uint16_t cid, uint32_t nsid, uint16_t nr, uint8_t format) =
-"cid %"PRIu16" nsid %"PRIu32" nr %"PRIu16" format 0x%"PRIx8""
-> +pci_nvme_copy_source_range(uint64_t slba, uint32_t nlb) "slba 0x%"PRIx64=
-" nlb %"PRIu32""
-> +pci_nvme_copy_in_complete(uint16_t cid) "cid %"PRIu16""
-> +pci_nvme_copy_cb(uint16_t cid) "cid %"PRIu16""
-> +pci_nvme_write_zeroes(uint16_t cid, uint32_t nsid, uint64_t slba, uint32=
-_t nlb) "cid %"PRIu16" nsid %"PRIu32" slba %"PRIu64" nlb %"PRIu32""
+The patchset is in the aspeed-6.0 branch : 
 
-Woops. An old trace event ended up in there when rebasing.
+    df91d012672c Cédric Le Goater - hw/arm/aspeed: Load eMMC first boot area as a boot rom
+    27b75a7ad322 Cédric Le Goater - hw/arm/aspeed: Add eMMC property
+    2836cf5a15a1 Joel Stanley - hw/arm/aspeed: Set boot device to emmc
+    42c9d57f5cd0 Joel Stanley - sd: mmc: Subtract bootarea size from blk
+    218301406607 Joel Stanley - sd: mmc: Support boot area in emmc image
+    df0452923b56 Cédric Le Goater - sd: mmc: Add Extended CSD register definitions
+    416c02bbfd32 Sai Pavan Boddu - sd: mmc: Add mmc switch function support
+    a228aef1a209 Sai Pavan Boddu - sd: mmc: add CMD21 tuning sequence
+    9b177d7baf8e Sai Pavan Boddu - sd: mmc: Update CMD1 definition for MMC
+    6677e4eb6812 Vincent Palatin - sd: add eMMC support
+    
+Also based on Vincent Palatin initial patches, reworked by Joel and I.
 
---eq3gH16VZjUlboeh
-Content-Type: application/pgp-signature; name="signature.asc"
+Booting an aspeed machine requires a bit of work since you need to build
+an eMMc disk image with uboot in the boot partitions. 
 
------BEGIN PGP SIGNATURE-----
+Here is a little script from Joel to get you going.
 
-iQEzBAEBCAAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmAYdl0ACgkQTeGvMW1P
-Denjagf/VZ020d9nB1UJRrAgCbkMotAR/lhwLd4ZRZwQrn2Hq+jowIVCDK4uz8R+
-rVBmX675pLQl6S1jZbxOpUDdT8/NOwKoQlYHah0VksDPFDVaQ8YQXxrxeb2fmdUD
-Jyyz2bUxhlRdOBOuf2+BK0K9FnWLw1OGNNoGQpW7yOSqX6qjm3GQ4KUkfZZJa6D3
-eMSLyk6ICSuKseJCqa8TJRmPDRYZKTJCAfcbXpOfhnQE3Nf1Ddl72/4S/qF8MA5v
-HKVZpJ3pZi+wm8Dqz6S+BdnbNoXl2yJ8aEvSUrc9ukivaPkhv2kQ+nLPR+qeI4V8
-5WK5FINMhbsuax/Dp1OxDV5AHToyfw==
-=OkMe
------END PGP SIGNATURE-----
+Thanks,
 
---eq3gH16VZjUlboeh--
+C.
+
+
+#!/bin/sh
+
+URLBASE=https://jenkins.openbmc.org/view/latest/job/latest-master/label=docker-builder,target=witherspoon-tacoma/lastSuccessfulBuild/artifact/openbmc/build/tmp/deploy/images/witherspoon-tacoma/
+
+IMAGESIZE=128
+OUTFILE=mmc.img
+
+FILES="u-boot.bin u-boot-spl.bin obmc-phosphor-image-witherspoon-tacoma.wic.xz"
+
+for file in ${FILES}; do
+
+	if test -f ${file}; then
+		echo "${file}: Already downloaded"
+	else
+		echo "${file}: Downloading"
+		wget -nv ${URLBASE}/${file}
+	fi
+done
+
+echo
+
+echo "Creating empty image..."
+dd status=none if=/dev/zero of=${OUTFILE} bs=1M count=${IMAGESIZE}
+echo "Adding SPL..."
+dd status=none if=u-boot-spl.bin of=${OUTFILE} conv=notrunc
+echo "Adding u-boot..."
+dd status=none if=u-boot.bin of=${OUTFILE} conv=notrunc bs=1K seek=64
+echo "Adding userdata..."
+unxz -c obmc-phosphor-image-witherspoon-tacoma.wic.xz | dd status=progress of=${OUTFILE} conv=notrunc bs=1M seek=2
+echo "Fixing size to keep qemu happy..."
+truncate --size 16G ${OUTFILE}
+
+echo "Done!"
+echo
+echo " qemu-system-arm -M tacoma-bmc -nographic -drive file=mmc.img,if=sd,index=2,format=raw"
+
 
