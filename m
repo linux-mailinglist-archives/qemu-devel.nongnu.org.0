@@ -2,47 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C856330A541
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:23:13 +0100 (CET)
-Received: from localhost ([::1]:48086 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E87B30A556
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:30:39 +0100 (CET)
+Received: from localhost ([::1]:36904 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6WMS-0006VX-RR
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:23:12 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:59784)
+	id 1l6WTe-0005Yp-K3
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:30:38 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:33830)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l6W9R-0000uO-PM
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:09:47 -0500
-Received: from mx2.suse.de ([195.135.220.15]:55902)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cfontana@suse.de>) id 1l6W9C-0005rn-3c
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:09:41 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
- by mx2.suse.de (Postfix) with ESMTP id D32ADB008;
- Mon,  1 Feb 2021 10:09:18 +0000 (UTC)
-From: Claudio Fontana <cfontana@suse.de>
-To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v15 23/23] accel-cpu: make cpu_realizefn return a bool
-Date: Mon,  1 Feb 2021 11:09:03 +0100
-Message-Id: <20210201100903.17309-24-cfontana@suse.de>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20210201100903.17309-1-cfontana@suse.de>
-References: <20210201100903.17309-1-cfontana@suse.de>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l6WMf-0007rL-72
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:23:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:27844)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l6WMY-0003Ii-Ns
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:23:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612174995;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5aJMOuyPSvjfhIQ04b1GIIwOFY3oexeLpV4TNKMqWiI=;
+ b=Ig9VYT4nOehZv3vos89PLHQiUROwoBFC3GmOZTOLmVThxFAUppqdK+garDjTQuXq860h03
+ lrTezMa/Wgvnz3t79nhbKzpQ/MBpxYN6NqIV5V6x/cRJQ5DB3sUgr5QrZIaMFqXkdgNx7v
+ R7ZmsQJ8c6YaiTcdlNQ7r4gphhHRWow=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-540-5H_lgdZ6OUa5L-aaIvuvQw-1; Mon, 01 Feb 2021 05:23:14 -0500
+X-MC-Unique: 5H_lgdZ6OUa5L-aaIvuvQw-1
+Received: by mail-wm1-f70.google.com with SMTP id f6so237924wmj.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 02:23:14 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=5aJMOuyPSvjfhIQ04b1GIIwOFY3oexeLpV4TNKMqWiI=;
+ b=De2LdFSAB4ffPjuZGO9SRXC30xi3yp4DNWlshzEjSeygSs/VGSRHktiuxhQ7AZUv4S
+ SDAV9qbb7KJmYp+2q2SSmaFbMRATac62FStmUYU6Y313UxaxgFmBSCyi995vyn65eF5J
+ onb6QtUBuJvEUMuNwX7IQkuvwQNlkMSRBRVMEbIsrGMnBwpTpju2OgtyGAYL/GVTylAI
+ EMorcsUkvPt8iuuXUQuIePPj2LWCawEUzPvjJWpNCPkk5rDVdDMY2GbDePHXUoHnNaGp
+ VEIA5I7ARUNBfMvc8IiJO+e9Df3a+1qb5Jqt2MBilTtqQZjfaZJ1gIyPScsxhobMIzVB
+ fFqw==
+X-Gm-Message-State: AOAM531O08RM72fk6MlM1EeZf39o+5Uqz/1s/f7SNWlEHFui2BuPUeLJ
+ ZAdrpb68n7LyAXNzAJJzR4dAxXBxq0cQF2dyoRoeSjcniyEtV/63ZjOoMaYQj1BzmXibjCuwQvm
+ 1kHpkaOS+gq0KXfg=
+X-Received: by 2002:adf:8b47:: with SMTP id v7mr1554764wra.133.1612174993018; 
+ Mon, 01 Feb 2021 02:23:13 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxRiU0yK4wM7pHxMScsrUEJgrMLA/P5aBurhjGx5cZ0jxtB++LorBC//x8+uxwvN9hX5go09A==
+X-Received: by 2002:adf:8b47:: with SMTP id v7mr1554744wra.133.1612174992844; 
+ Mon, 01 Feb 2021 02:23:12 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id x9sm4234865wmb.14.2021.02.01.02.23.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Feb 2021 02:23:12 -0800 (PST)
+Subject: Re: [PATCH v2 4/4] hw/xen: Have Xen machines select 9pfs
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20210131141810.293186-1-f4bug@amsat.org>
+ <20210131141810.293186-5-f4bug@amsat.org>
+ <565bf0dd-a5de-352e-eec7-68b862ed09e4@redhat.com>
+ <f6e1917a-f9cf-9ae3-50b1-9dc0ee4f65f3@amsat.org>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <50306fbf-c6f0-e281-248f-de1bc984b113@redhat.com>
+Date: Mon, 1 Feb 2021 11:23:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
+In-Reply-To: <f6e1917a-f9cf-9ae3-50b1-9dc0ee4f65f3@amsat.org>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.15; envelope-from=cfontana@suse.de;
- helo=mx2.suse.de
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.079, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -56,219 +105,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
- qemu-devel@nongnu.org, Roman Bolshakov <r.bolshakov@yadro.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Claudio Fontana <cfontana@suse.de>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-overall, all devices' realize functions take an Error **errp, but return void.
+On 01/02/21 10:18, Philippe Mathieu-Daudé wrote:
+> FYI using 'imply FSDEV_9P' instead I get:
+> 
+> /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function
+> `xen_be_register_common':
+> hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
 
-hw/core/qdev.c code, which realizes devices, therefore does:
+Ok, so then we have the case of a file (hw/xen/xen-legacy-backend.c) 
+brought in by CONFIG_XEN.  In that case this patch is incorrect...
 
-local_err = NULL;
-dc->realize(dev, &local_err);
-if (local_err != NULL) {
-    goto fail;
-}
+> The function is:
+> 
+>    void xen_be_register_common(void)
+>    {
+>        xen_set_dynamic_sysbus();
+> 
+>        xen_be_register("console", &xen_console_ops);
+>        xen_be_register("vkbd", &xen_kbdmouse_ops);
+>    #ifdef CONFIG_VIRTFS
+>        xen_be_register("9pfs", &xen_9pfs_ops);
+>    #endif
+>    #ifdef CONFIG_USB_LIBUSB
+>        xen_be_register("qusb", &xen_usb_ops);
+>    #endif
+>    }
+> 
+> The object is compiled using:
+> 
+> -- >8 --
+> -#ifdef CONFIG_VIRTFS
+> +#ifdef CONFIG_FSDEV_9P
+>       xen_be_register("9pfs", &xen_9pfs_ops);
+>   #endif
+> ---
 
-However, we can improve at least accel_cpu to return a meaningful bool value.
+... and this is the best fix, together with:
 
-Signed-off-by: Claudio Fontana <cfontana@suse.de>
----
- include/hw/core/accel-cpu.h |  2 +-
- include/qemu/accel.h        |  2 +-
- target/i386/host-cpu.h      |  2 +-
- accel/accel-common.c        |  6 +++---
- cpu.c                       |  5 +++--
- target/i386/host-cpu.c      | 25 ++++++++++++++-----------
- target/i386/kvm/kvm-cpu.c   |  4 ++--
- target/i386/tcg/tcg-cpu.c   |  6 ++++--
- 8 files changed, 29 insertions(+), 23 deletions(-)
+- a "#include CONFIG_DEVICES" at the top (to get CONFIG_FSDEV_9P)
 
-diff --git a/include/hw/core/accel-cpu.h b/include/hw/core/accel-cpu.h
-index 24a6697412..5dbfd79955 100644
---- a/include/hw/core/accel-cpu.h
-+++ b/include/hw/core/accel-cpu.h
-@@ -32,7 +32,7 @@ typedef struct AccelCPUClass {
- 
-     void (*cpu_class_init)(CPUClass *cc);
-     void (*cpu_instance_init)(CPUState *cpu);
--    void (*cpu_realizefn)(CPUState *cpu, Error **errp);
-+    bool (*cpu_realizefn)(CPUState *cpu, Error **errp);
- } AccelCPUClass;
- 
- #endif /* ACCEL_CPU_H */
-diff --git a/include/qemu/accel.h b/include/qemu/accel.h
-index da0c8ab523..4f4c283f6f 100644
---- a/include/qemu/accel.h
-+++ b/include/qemu/accel.h
-@@ -89,6 +89,6 @@ void accel_cpu_instance_init(CPUState *cpu);
-  * @cpu: The CPU that needs to call accel-specific cpu realization.
-  * @errp: currently unused.
-  */
--void accel_cpu_realizefn(CPUState *cpu, Error **errp);
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp);
- 
- #endif /* QEMU_ACCEL_H */
-diff --git a/target/i386/host-cpu.h b/target/i386/host-cpu.h
-index b47bc0943f..6a9bc918ba 100644
---- a/target/i386/host-cpu.h
-+++ b/target/i386/host-cpu.h
-@@ -12,7 +12,7 @@
- 
- void host_cpu_instance_init(X86CPU *cpu);
- void host_cpu_max_instance_init(X86CPU *cpu);
--void host_cpu_realizefn(CPUState *cs, Error **errp);
-+bool host_cpu_realizefn(CPUState *cs, Error **errp);
- 
- void host_cpu_vendor_fms(char *vendor, int *family, int *model, int *stepping);
- 
-diff --git a/accel/accel-common.c b/accel/accel-common.c
-index 0f6fb4fb66..d77c09d7b5 100644
---- a/accel/accel-common.c
-+++ b/accel/accel-common.c
-@@ -98,14 +98,14 @@ void accel_cpu_instance_init(CPUState *cpu)
-     }
- }
- 
--void accel_cpu_realizefn(CPUState *cpu, Error **errp)
-+bool accel_cpu_realizefn(CPUState *cpu, Error **errp)
- {
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     if (cc->accel_cpu && cc->accel_cpu->cpu_realizefn) {
--        /* NB: errp parameter is unused currently */
--        cc->accel_cpu->cpu_realizefn(cpu, errp);
-+        return cc->accel_cpu->cpu_realizefn(cpu, errp);
-     }
-+    return true;
- }
- 
- static const TypeInfo accel_cpu_type = {
-diff --git a/cpu.c b/cpu.c
-index 25e6fbfa2c..34a0484bf4 100644
---- a/cpu.c
-+++ b/cpu.c
-@@ -130,8 +130,9 @@ void cpu_exec_realizefn(CPUState *cpu, Error **errp)
-     CPUClass *cc = CPU_GET_CLASS(cpu);
- 
-     cpu_list_add(cpu);
--    accel_cpu_realizefn(cpu, errp);
--
-+    if (!accel_cpu_realizefn(cpu, errp)) {
-+        return;
-+    }
- #ifdef CONFIG_TCG
-     /* NB: errp parameter is unused currently */
-     if (tcg_enabled()) {
-diff --git a/target/i386/host-cpu.c b/target/i386/host-cpu.c
-index 9cfe56ce41..4ea9e354ea 100644
---- a/target/i386/host-cpu.c
-+++ b/target/i386/host-cpu.c
-@@ -50,7 +50,7 @@ static void host_cpu_enable_cpu_pm(X86CPU *cpu)
-     env->features[FEAT_1_ECX] |= CPUID_EXT_MONITOR;
- }
- 
--static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
-+static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu)
- {
-     uint32_t host_phys_bits = host_cpu_phys_bits();
-     uint32_t phys_bits = cpu->phys_bits;
-@@ -77,18 +77,10 @@ static uint32_t host_cpu_adjust_phys_bits(X86CPU *cpu, Error **errp)
-         }
-     }
- 
--    if (phys_bits &&
--        (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
--         phys_bits < 32)) {
--        error_setg(errp, "phys-bits should be between 32 and %u "
--                   " (but is %u)",
--                   TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
--    }
--
-     return phys_bits;
- }
- 
--void host_cpu_realizefn(CPUState *cs, Error **errp)
-+bool host_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -97,8 +89,19 @@ void host_cpu_realizefn(CPUState *cs, Error **errp)
-         host_cpu_enable_cpu_pm(cpu);
-     }
-     if (env->features[FEAT_8000_0001_EDX] & CPUID_EXT2_LM) {
--        cpu->phys_bits = host_cpu_adjust_phys_bits(cpu, errp);
-+        uint32_t phys_bits = host_cpu_adjust_phys_bits(cpu);
-+
-+        if (phys_bits &&
-+            (phys_bits > TARGET_PHYS_ADDR_SPACE_BITS ||
-+             phys_bits < 32)) {
-+            error_setg(errp, "phys-bits should be between 32 and %u "
-+                       " (but is %u)",
-+                       TARGET_PHYS_ADDR_SPACE_BITS, phys_bits);
-+            return false;
-+        }
-+        cpu->phys_bits = phys_bits;
-     }
-+    return true;
- }
- 
- #define CPUID_MODEL_ID_SZ 48
-diff --git a/target/i386/kvm/kvm-cpu.c b/target/i386/kvm/kvm-cpu.c
-index c23bbe6c50..c660ad4293 100644
---- a/target/i386/kvm/kvm-cpu.c
-+++ b/target/i386/kvm/kvm-cpu.c
-@@ -18,7 +18,7 @@
- #include "kvm_i386.h"
- #include "hw/core/accel-cpu.h"
- 
--static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool kvm_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
-     CPUX86State *env = &cpu->env;
-@@ -41,7 +41,7 @@ static void kvm_cpu_realizefn(CPUState *cs, Error **errp)
-                                                    MSR_IA32_UCODE_REV);
-         }
-     }
--    host_cpu_realizefn(cs, errp);
-+    return host_cpu_realizefn(cs, errp);
- }
- 
- /*
-diff --git a/target/i386/tcg/tcg-cpu.c b/target/i386/tcg/tcg-cpu.c
-index 1d3d6d1c6a..23e1f5f0c3 100644
---- a/target/i386/tcg/tcg-cpu.c
-+++ b/target/i386/tcg/tcg-cpu.c
-@@ -96,7 +96,7 @@ static void x86_cpu_machine_done(Notifier *n, void *unused)
-     }
- }
- 
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-     X86CPU *cpu = X86_CPU(cs);
- 
-@@ -132,12 +132,14 @@ static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-     /* ... SMRAM with higher priority, linked from /machine/smram.  */
-     cpu->machine_done.notify = x86_cpu_machine_done;
-     qemu_add_machine_init_done_notifier(&cpu->machine_done);
-+    return true;
- }
- 
- #else /* CONFIG_USER_ONLY */
- 
--static void tcg_cpu_realizefn(CPUState *cs, Error **errp)
-+static bool tcg_cpu_realizefn(CPUState *cs, Error **errp)
- {
-+    return true;
- }
- 
- #endif /* !CONFIG_USER_ONLY */
--- 
-2.26.2
+- moving xen-legacy-backend.c from softmmu_ss to specific_ss (to get 
+CONFIG_DEVICES)
+
+- changing "select" to "imply" in accel/Kconfig (otherwise the patch has 
+no effect)
+
+But really, doing nothing and just dropping this patch is perfectly fine.
+
+Paolo
 
 
