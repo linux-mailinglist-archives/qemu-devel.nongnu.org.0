@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC0AE30B1F4
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 22:17:29 +0100 (CET)
-Received: from localhost ([::1]:57066 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B8130B20A
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 22:24:01 +0100 (CET)
+Received: from localhost ([::1]:34106 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6gZc-0007Y5-JD
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 16:17:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41164)
+	id 1l6gfw-0001kE-JL
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 16:24:00 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42666)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l6gXX-0006Dj-Rg
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 16:15:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39565)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <wainersm@redhat.com>)
- id 1l6gXV-0007cN-NI
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 16:15:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612214117;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TeKzjrIymoXT0Ss6pSYaRzZ3tHoFOyPCmleOLCTvi5w=;
- b=IMrEKhgswe7b1ZbKCFlbwxKI4mfKuVDqNPrXcI2b/2wJlGm2JCzyhvQAkcibWM6kZUuUzE
- rX6D85G6uBWh1gYabH3NdY8KWGjrEo0UF+bfbKri6OvQKMIXxbsIsK4934Yns9ukPqIC2k
- qXdAcMCmQxtWGS8QFnpNg6j/TEQEuQk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-wZcjffFNP6KDestt0SQ3vA-1; Mon, 01 Feb 2021 16:15:12 -0500
-X-MC-Unique: wZcjffFNP6KDestt0SQ3vA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2A75281621;
- Mon,  1 Feb 2021 21:15:11 +0000 (UTC)
-Received: from wainer-laptop.localdomain.com (ovpn-116-207.gru2.redhat.com
- [10.97.116.207])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 70E275C1A1;
- Mon,  1 Feb 2021 21:15:06 +0000 (UTC)
-From: Wainer dos Santos Moschetta <wainersm@redhat.com>
-To: qemu-devel@nongnu.org
-Subject: [PATCH 1/1] virtiofsd: Allow to build it without the tools
-Date: Mon,  1 Feb 2021 18:14:56 -0300
-Message-Id: <20210201211456.1133364-2-wainersm@redhat.com>
-In-Reply-To: <20210201211456.1133364-1-wainersm@redhat.com>
-References: <20210201211456.1133364-1-wainersm@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6geT-00018K-3q
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 16:22:29 -0500
+Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a]:44455)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6geO-0002Kb-Ld
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 16:22:28 -0500
+Received: by mail-ed1-x52a.google.com with SMTP id c2so20551304edr.11
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 13:22:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=+SLzS31n4x1I/uO0eFE40WqwDzbQH4oIkzAyKgrFUsE=;
+ b=Uxp86bl/abfGZog3jBYBRN4C+Ufv8QbNrZJV4wZeGys6Z9rvWgDRQQogoHwkmUYMGa
+ /CfqyFQQd+IFHeIDbMW82yPpK1ho8t40EzkiwufMyGw3oIteALDaiikNzJmWWY8cjzOW
+ tYw2of3lHVa6zUsvGHFuiLa6ys9WLmf3fwcaP0Vfa0p0zDB5ZcYzm/nvgsOqfgAjsqkQ
+ SVSELOBptGF8HD7o1AbuQpe7j3Qd8UD6POQWzk4vOQ75Fo4awm8ql2y7o9qFnI4eQOfE
+ kBIajjAaqPiZzsUsNZNuE8QM+ya7JVVcRZHyGiD3omv2iVhcuLZyFcxGXafSflW/ZoTi
+ c6kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=+SLzS31n4x1I/uO0eFE40WqwDzbQH4oIkzAyKgrFUsE=;
+ b=QqY5RzDxxH5+s3WWlQ1mW3zFZgIXEO4fQmBK2cC4TgOIYy2/xHAuSXNxavNUx5tT+E
+ ZF3lwTZRj4X1Wi7txXzCVQk4FjdGFFJ/+UKo7Sr7OkqgJUjg1i9eUYWFSFiGtJmYNCN+
+ 2/0nc3LCytaf6UUb1FJsAgQJE/pnLh4AIA90HdGBqJymlET7Pe7yCG3jxdL2imXkFn5q
+ H47nL8U6wWykM0jRZFXchi1hQNLLU4U5hYZE8WdX/pUjo+9/7FgLhrpcBNu/2WRVd5ht
+ +FWRz8TKEbar4KESExX9QJukMW51oXKF3pqYoVKFlG1V77kdUA2CxUL1ySlwEPQ8oeQE
+ IKDw==
+X-Gm-Message-State: AOAM532yHYt4QOp54ZD7efltXkPQZBBuob8oA73BxOqeToAngKGoFCjN
+ 2fBVekQBys7DA45CVmcrHw8Pc454mFj8xCI9aDP1+Q==
+X-Google-Smtp-Source: ABdhPJzkNDWPkiOkmqZD09bl8WxqgLGYlJ0Mfv40b3RFGRDv3K6AlLtseFkGwgGeHEADwtxvN3ovR4W0v4GwV862aP8=
+X-Received: by 2002:aa7:dd12:: with SMTP id i18mr20851479edv.36.1612214542640; 
+ Mon, 01 Feb 2021 13:22:22 -0800 (PST)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=wainersm@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=wainersm@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210128185300.2875-1-alex.bennee@linaro.org>
+ <CAFEAcA_R3phXwOtj-v-6-oCN891SjGSyAGwcx3_zDf+GFPWLqg@mail.gmail.com>
+ <871rdzv9cf.fsf@linaro.org>
+In-Reply-To: <871rdzv9cf.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 1 Feb 2021 21:22:11 +0000
+Message-ID: <CAFEAcA8aLBFG9SjVqeDwbcGRU_chkt2s0E1i9BY+xDdXnrfO6Q@mail.gmail.com>
+Subject: Re: [PATCH] docs/system: document an example vexpress-a15 invocation
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x52a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,39 +80,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, dgilbert@redhat.com, stefanha@redhat.com,
- misono.tomohiro@jp.fujitsu.com
+Cc: qemu-arm <qemu-arm@nongnu.org>, Anders Roxell <anders.roxell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This changed the Meson build script to allow virtiofsd be built even
-though the tools build is disabled, thus honoring the --enable-virtiofsd
-option.
+On Mon, 1 Feb 2021 at 20:09, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Thu, 28 Jan 2021 at 18:53, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+> >>
+> >> The wiki and the web are curiously absent of the right runes to boot a
+> >> vexpress model so I had to work from first principles to work it out.
+> >> Use the more modern -drive notation so alternative backends can be
+> >> used (unlike the hardwired -sd mode).
+> >>
+> >> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> >> Cc: Anders Roxell <anders.roxell@linaro.org>
+> >> ---
+> >>  docs/system/arm/vexpress.rst | 26 ++++++++++++++++++++++++++
+> >>  1 file changed, 26 insertions(+)
+> >>
+> >> diff --git a/docs/system/arm/vexpress.rst b/docs/system/arm/vexpress.r=
+st
+> >> index 7f1bcbef07..30b1823b95 100644
+> >> --- a/docs/system/arm/vexpress.rst
+> >> +++ b/docs/system/arm/vexpress.rst
+> >> @@ -58,3 +58,29 @@ Other differences between the hardware and the QEMU=
+ model:
+> >>    ``vexpress-a15``, and have IRQs from 40 upwards. If a dtb is
+> >>    provided on the command line then QEMU will edit it to include
+> >>    suitable entries describing these transports for the guest.
+> >> +
+> >> +Booting a Linux kernel
+> >> +----------------------
+> >> +
+> >> +Building a current Linux kernel with ``multi_v7_defconfig`` should be
+> >> +enough to get something running.
+> >> +
+> >> +.. code-block:: bash
+> >> +
+> >> +  $ export ARCH=3Darm
+> >> +  $ export CROSS_COMPILE=3Darm-linux-gnueabihf-
+> >> +  $ make multi_v7_defconfig
+> >> +  $ make
+> >
+> > We probably shouldn't be recommending in-tree kernel builds, or
+> > polluting the user's environment with random variables. Try:
+> >
+> > $ make O=3Dbuilddir ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabihf- mul=
+ti_v7_defconfig
+> > $ make O=3Dbuilddir ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabihf-
 
-Signed-off-by: Wainer dos Santos Moschetta <wainersm@redhat.com>
----
- tools/meson.build | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+> Building a current Linux kernel with ``multi_v7_defconfig`` should be
+> enough to get something running. Nowadays an out-of-tree build is
+> recommended (and also useful if you build a lot of different targets).
+> $SRC points at root of the linux source tree.
+>
+> .. code-block:: bash
+>
+>   $ mkdir build; cd build
+>   $ make O=3D$(pwd) -C $SRC ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabih=
+f- multi_v7_defconfig
+>   $ make O=3D$(pwd) -C $SRC ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabih=
+f-
 
-diff --git a/tools/meson.build b/tools/meson.build
-index fdce66857d..3e5a0abfa2 100644
---- a/tools/meson.build
-+++ b/tools/meson.build
-@@ -10,8 +10,11 @@ if get_option('virtiofsd').enabled()
-       error('virtiofsd requires Linux')
-     elif not seccomp.found() or not libcap_ng.found()
-       error('virtiofsd requires libcap-ng-devel and seccomp-devel')
--    elif not have_tools or 'CONFIG_VHOST_USER' not in config_host
--      error('virtiofsd needs tools and vhost-user support')
-+    elif 'CONFIG_VHOST_USER' not in config_host
-+      error('virtiofsd needs vhost-user support')
-+    else
-+      # Disabled all the tools but virtiofsd.
-+      have_virtiofsd = true
-     endif
-   endif
- elif get_option('virtiofsd').disabled() or not have_system
--- 
-2.29.2
+That works, but do you really commonly cd into the build directory?
+I usually sit in the source tree...
 
+thanks
+-- PMM
 
