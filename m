@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097D330A85B
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:11:22 +0100 (CET)
-Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C7730A85D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:12:24 +0100 (CET)
+Received: from localhost ([::1]:32948 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6YzB-0004uk-1l
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:11:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39956)
+	id 1l6Z0B-0006ZK-6Y
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:12:23 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40026)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6Ywb-0003R4-NA
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:08:41 -0500
-Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43317)
+ id 1l6Yx4-0003e2-Nx
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:09:10 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b]:33248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6YwZ-0003aQ-68
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:08:40 -0500
-Received: by mail-ej1-x630.google.com with SMTP id y9so2667864ejp.10
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 05:08:38 -0800 (PST)
+ id 1l6Yx2-0003lB-WD
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:09:10 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id sa23so7963573ejb.0
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 05:09:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=sender:subject:to:cc:references:from:message-id:date:user-agent
  :mime-version:in-reply-to:content-language:content-transfer-encoding;
- bh=y4kRp1O9NSMOYw470pZIHLMK+3nXsZMTt27NrvtPWBY=;
- b=ovTBQDzeS7zCx9tL7P7Xk3plyacF02rVpLFtCjZKWXJUBgmWY1oXR1tK6yi8ng40B5
- 55ReqthCZais7QcdQGliDXTtSW6Ve6qAy21SGP3iZLIqSkZTlNYMSah1Bi46dayCHdjK
- b/cnTE77BDbBU4Cuor5oDH5bVMY+xi2Ixvg68G869jB0CKYCl4JQxA3tN8Yn3vd+0bzg
- /QsHl38bVof4umYD9LFZ2nQA9bBtcN00LME5YrZqFoUSoTnq05PcaRVzNL4/kH3pz4uU
- ocMtSZAuWY/JDke64T1h2LghIsMaEvWqgFTo2hFw91zvc1iSDT6SaLVAS5i5m4xJOVLR
- QVGQ==
+ bh=rP9I+61hg7LNIUhfLLrTy63wjzGJQeyog0qeGD9KQOk=;
+ b=PqljVBE7qJ3DWkvlnvaUln3090pAAuOSz/DQV8eqwDSLCduh6EOA+HKQcrTK05r7O7
+ wOhRqk2exJ1038aBtNY2ugNVEx5Ei7H6zj9E0YuLI786lxJ44EMzOVYuamswZPG/GWnW
+ u+mX0q0CPvkWkDXyWYjrTPeO8UwmavQSnDmcYCJHj20fvEG7FCo9FcrK28NH0h+JHESU
+ KSJEacavGpsmlcbRRSwC/6lnj5dPr9JHXGC7s6IwcPgr8nosYzQna+4/t+8P+xhE6GHg
+ 2pKpb+tdPYokxpZVdworJIEMcU4qE+hb+Q1kATfChus1ukNQZUYjiiMAPLS/EfUCu/t0
+ Ntfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
  :date:user-agent:mime-version:in-reply-to:content-language
  :content-transfer-encoding;
- bh=y4kRp1O9NSMOYw470pZIHLMK+3nXsZMTt27NrvtPWBY=;
- b=cdefp/w86waexe8Mb3txEw9QMfLvHbe7UIlpvBHj0Qk384vdzs87Xf1lnajvHDE7Vi
- DhEzyMFvtn6dIHjA6CoyOj3IQUwux7a2vcE55dXY2+22jdj+JLFq5fk/mArIYOGEdfZQ
- vD2Bk99w9BNy7Itf5CwR4JrFIv5l70swAJ+lG5Gun6qNvO8RGJrvrgIoBGCZM0kbr0+6
- qyCc0tTh+ZWimcQsDy9z4doybOXdcYCxGxcy8UVtN00Hy6OuH/kz/5wUpcxlHF8t2Dx9
- Ip25/iSaiQKYtJT2oEPgbqGjaQF/AeolRJBGuUONzixUaDc62zz0mgP7ONQIWKbnwMVA
- 8LIg==
-X-Gm-Message-State: AOAM532WKU6fC8NzTd8RspqtN5h3T0Wy2a6qniLjhRMhK70YilBUhqDX
- 4KALnH0frv/RThZy1JcxknY=
-X-Google-Smtp-Source: ABdhPJwTwiao55AEZH/q4YO3I6ip3slYCuygRAACBsntgWTgI4+6twqi5ufD5XR1Cd/PPfzw3vKE4w==
-X-Received: by 2002:a17:906:4d8f:: with SMTP id
- s15mr17815981eju.389.1612184917083; 
- Mon, 01 Feb 2021 05:08:37 -0800 (PST)
+ bh=rP9I+61hg7LNIUhfLLrTy63wjzGJQeyog0qeGD9KQOk=;
+ b=oNy8A1yc1OePH5Rejore0HGvZTcZXIRo00iwKVjuwDIOi7uuPeng3j3SvaQk3Qv7c1
+ 00MnKHgnP7x8NSrKhmZlKAtdsH+blWilGbFTMu/GRuXgLf6oB9gf3ZeXNsHNKK5DRqBl
+ p7KiG+ZGT26/VfiUS0j+u4zQ87EsHmjs9pS8udJ8N5/I0USYcFlVCX8bHWYCv2naPrrn
+ lzl1ZBpusYdPGgC5c1gu2hCxedEKwnlV1x0JMIpM3ZnDX//ifHcmxsL4Knfv3k9gT/gF
+ Mll5PipdmLYA0GNY0KxifwYWj0UrhyDnuZ44F7J/7I1AeNZ7k6IARPl0ljepHcp0n8LJ
+ K0QQ==
+X-Gm-Message-State: AOAM533DFrhS9mN5JE+W5kLRDzucaG96QXF2Ei1X1srosAcjOvQufYJZ
+ 9QCmvqDBkE0eYIHafxF+nUE=
+X-Google-Smtp-Source: ABdhPJw40nPrERTfiMARHLjmWXlD4UMilhu04GifoKIpMYQFjX66d7uewWoAbwIsEoqdkYi/phZtTg==
+X-Received: by 2002:a17:906:8410:: with SMTP id
+ n16mr17948338ejx.551.1612184947588; 
+ Mon, 01 Feb 2021 05:09:07 -0800 (PST)
 Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id r26sm9134948edc.95.2021.02.01.05.08.35
+ by smtp.gmail.com with ESMTPSA id jt8sm8070132ejc.40.2021.02.01.05.09.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 01 Feb 2021 05:08:36 -0800 (PST)
-Subject: Re: [PATCH v3 3/7] accel/xen: Incorporate xen-mapcache.c
+ Mon, 01 Feb 2021 05:09:06 -0800 (PST)
+Subject: Re: [PATCH v3 5/7] hw/xen: Make xen_shutdown_fatal_error() available
+ out of X86 HVM
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
 References: <20210201112905.545144-1-f4bug@amsat.org>
- <20210201112905.545144-4-f4bug@amsat.org>
+ <20210201112905.545144-6-f4bug@amsat.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
-Message-ID: <8c7281bb-5688-5ef4-4841-3181bdb02bfc@amsat.org>
-Date: Mon, 1 Feb 2021 14:08:34 +0100
+Message-ID: <a77a620d-beca-0d13-6ffe-861528c6cbc4@amsat.org>
+Date: Mon, 1 Feb 2021 14:09:05 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <20210201112905.545144-4-f4bug@amsat.org>
+In-Reply-To: <20210201112905.545144-6-f4bug@amsat.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::630;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x630.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -100,41 +101,42 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 2/1/21 12:29 PM, Philippe Mathieu-Daudé wrote:
-> xen-mapcache.c contains accelerator related routines,
-> not particular to the X86 HVM machine. Move this file
-> to accel/xen/ (adapting the buildsys machinery).
+> xen_shutdown_fatal_error() is also used by XEN_PV.
+> 
+> This fixes when XEN_PV without XEN_FV:
+> 
+>   /usr/bin/ld: libqemu-x86_64-softmmu.fa.p/hw_xen_xen_pt_config_init.c.o: in function `xen_pt_status_reg_init':
+>   hw/xen/xen_pt_config_init.c:281: undefined reference to `xen_shutdown_fatal_error'
+>   /usr/bin/ld: hw/xen/xen_pt_config_init.c:275: undefined reference to `xen_shutdown_fatal_error'
+>   /usr/bin/ld: libqemu-x86_64-softmmu.fa.p/hw_xen_xen_pt.c.o: in function `xen_pt_pci_read_config':
+>   hw/xen/xen_pt.c:220: undefined reference to `xen_shutdown_fatal_error'
+>   /usr/bin/ld: libqemu-x86_64-softmmu.fa.p/hw_xen_xen_pt.c.o: in function `xen_pt_pci_write_config':
+>   hw/xen/xen_pt.c:369: undefined reference to `xen_shutdown_fatal_error'
 > 
 > Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  meson.build                           |  3 +++
->  accel/xen/trace.h                     |  1 +
->  {hw/i386 => accel}/xen/xen-mapcache.c |  0
->  hw/i386/xen/xen-hvm.c                 |  1 -
->  accel/xen/meson.build                 |  5 ++++-
->  accel/xen/trace-events                | 10 ++++++++++
->  hw/i386/xen/meson.build               |  1 -
->  hw/i386/xen/trace-events              |  6 ------
->  8 files changed, 18 insertions(+), 9 deletions(-)
->  create mode 100644 accel/xen/trace.h
->  rename {hw/i386 => accel}/xen/xen-mapcache.c (100%)
->  create mode 100644 accel/xen/trace-events
-...
-> diff --git a/accel/xen/trace-events b/accel/xen/trace-events
-> new file mode 100644
-> index 00000000000..30bf4f42283
-> --- /dev/null
-> +++ b/accel/xen/trace-events
-> @@ -0,0 +1,10 @@
-> +# See docs/devel/tracing.txt for syntax documentation.
-> +
-> +# xen-hvm.c
-> +xen_ram_alloc(unsigned long ram_addr, unsigned long size) "requested: 0x%lx, size 0x%lx"
+>  hw/i386/xen/xen-hvm.c | 13 -------------
+>  hw/xen/xen-utils.c    | 25 +++++++++++++++++++++++++
+>  hw/xen/meson.build    |  1 +
+>  3 files changed, 26 insertions(+), 13 deletions(-)
+>  create mode 100644 hw/xen/xen-utils.c
+> 
+> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+> index 7156ab13329..69196754a30 100644
+> --- a/hw/i386/xen/xen-hvm.c
+> +++ b/hw/i386/xen/xen-hvm.c
+> @@ -28,7 +28,6 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/main-loop.h"
+>  #include "qemu/range.h"
+> -#include "sysemu/runstate.h"
 
-Self-Nack, this should not be here ^
+^ self-nack, was not supposed to remove this.
 
-> +
-> +# xen-mapcache.c
-> +xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
-> +xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
-> +xen_map_cache_return(void* ptr) "%p"
+>  #include "sysemu/sysemu.h"
+>  #include "sysemu/xen.h"
+>  #include "trace.h"
+> @@ -1570,18 +1569,6 @@ void xen_register_framebuffer(MemoryRegion *mr)
+>      framebuffer = mr;
+>  }
 
