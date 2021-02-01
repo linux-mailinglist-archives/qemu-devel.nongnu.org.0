@@ -2,72 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E79AD30A620
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:06:12 +0100 (CET)
-Received: from localhost ([::1]:43882 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12B7530A622
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:06:49 +0100 (CET)
+Received: from localhost ([::1]:45006 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6X23-0005xZ-Mg
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:06:11 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:41398)
+	id 1l6X2e-0006Qi-4j
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:06:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l6Wxv-0003YK-64
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:01:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:37626)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1l6Wxp-0004Lw-ER
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:01:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612177303;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=4IF7/GH0/OfspoQbBJx7s2i8nIDsZ2ah34lJegyBpa4=;
- b=E8SZig7oMSlbxyjesPjrxdfPL1JxOcnGVgXSCr1yfnHPE+ZkrnMYCcwsd7Ul9DaOpo6DYg
- Lv7yScoZNToRx6zULAX4ZDUSSrVy7APKXZG5t4XfL3sb0d1TKO7QaRcoQVuzCbhFwPUq6M
- BM7kvonTs5eL+anamLGTqPwJXZAaAXU=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-544-fnB4jnKMOMaB73u54S5xsA-1; Mon, 01 Feb 2021 06:01:40 -0500
-X-MC-Unique: fnB4jnKMOMaB73u54S5xsA-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
- [10.5.11.11])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E4CE3801B14;
- Mon,  1 Feb 2021 11:01:38 +0000 (UTC)
-Received: from localhost (ovpn-115-140.ams2.redhat.com [10.36.115.140])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4B8E72167;
- Mon,  1 Feb 2021 11:01:32 +0000 (UTC)
-Date: Mon, 1 Feb 2021 11:01:31 +0000
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: lagarcia@br.ibm.com
-Subject: Re: [PATCH] IOMMU and ATS not supported by vhost-user filesystem.
-Message-ID: <20210201110131.GC159493@stefanha-x1.localdomain>
-References: <e76462fdcfaa07208380e2a7df9b281b6e6717b8.1611685180.git.lagarcia@br.ibm.com>
- <20210127111938.GH299797@stefanha-x1.localdomain>
- <3c777954-b3c8-b4a9-2713-83245521f82e@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6Wzs-0004sW-JS
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:03:56 -0500
+Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:45705)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6Wzq-0005Eq-Ve
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:03:56 -0500
+Received: by mail-wr1-x430.google.com with SMTP id m13so16089427wro.12
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 03:03:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=QXz33jfF5o0HFplOhpdqHclk9wrcsV6HW630elwNatQ=;
+ b=uHaXw4TeOEO12kl+fnN0tUpC/LRsruyO4yk0HDjYL4Yv9dETsyq6wxTzk0WgoGZNj1
+ CtiTU3CxtCl5kqqOpCGgCP91x76CwFj1xYR2CgeaTSgpMI4GCcaisRg3eQHEH5jRTc8J
+ PrqVpIOzZWusI1BWVlvpAZ2t2OSlb632AsiI/rZM/XjY0N1XrACtobf8HH9iB/kf49Uf
+ L8MCkTGa2waSCkbgEYybsg91FFiSdouJFNXmZ1ZgIu4JQRBNRTpaYmav5I6QczuPJzyQ
+ txdg9t1drhSVcGzHsd5uy92C+zWleQvFXI/rCca5Oid+8jLWA2yOlWp2fJzTB2k/t9q5
+ CpUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=QXz33jfF5o0HFplOhpdqHclk9wrcsV6HW630elwNatQ=;
+ b=Y6OlpRq3RDbxBDyIQ3bbrDur1oDE901fpY2bO8tA5EBwYecjcdilzMBr52TPCRzrYa
+ UJCXfrNmxbomyuqWUVp9W9hp5OMmCSUr5IjYTe4R4eOI4swq+t0sxQZIsrvPMjMufF3e
+ 0J4tChXiIx1et8Fs7YlvQSwP4aV8gkZoAq8vNxhovBQJmKENzjKUsiJ33OiB6BZwOwFq
+ lvl8vkzP5tUghV4kAiVhpQk22g6FMOwJgH85OaftXDLApwcdONO/VUolboLKuF0Onw/P
+ jxU981m9P+1+S4oEjMLACzTtPDuIfuQrZ+YZHron+VK+Imp22EU8plXCw7HAI2X5+m/b
+ GH6g==
+X-Gm-Message-State: AOAM531hZ4+ZJw2jMUOZRhF5WLgAoS+qJYogzoLUpZ+rQZreZLViPlN1
+ bADzBRfpA8Yc1GGSoDCmkdk=
+X-Google-Smtp-Source: ABdhPJzITrIsCsiDN2VerxM6locxuBFFl/nz7JvgM8MlpL6o8XoP6uVy6xOEqzLJkVu4SwmLgPLOEA==
+X-Received: by 2002:adf:80c8:: with SMTP id 66mr2705174wrl.344.1612177433516; 
+ Mon, 01 Feb 2021 03:03:53 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id y24sm20162170wmi.47.2021.02.01.03.03.52
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Feb 2021 03:03:52 -0800 (PST)
+Subject: Re: [PATCH v2 4/4] hw/xen: Have Xen machines select 9pfs
+To: Paolo Bonzini <pbonzini@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20210131141810.293186-1-f4bug@amsat.org>
+ <20210131141810.293186-5-f4bug@amsat.org>
+ <565bf0dd-a5de-352e-eec7-68b862ed09e4@redhat.com>
+ <f6e1917a-f9cf-9ae3-50b1-9dc0ee4f65f3@amsat.org>
+ <50306fbf-c6f0-e281-248f-de1bc984b113@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <83a785a5-6050-a24b-c796-d427c3873a07@amsat.org>
+Date: Mon, 1 Feb 2021 12:03:51 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <3c777954-b3c8-b4a9-2713-83245521f82e@linux.ibm.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=stefanha@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="R+My9LyyhiUvIEro"
-Content-Disposition: inline
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01, RCVD_IN_MSPIKE_WL=-0.01,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <50306fbf-c6f0-e281-248f-de1bc984b113@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::430;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x430.google.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.079,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -80,85 +94,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, dgilbert@redhat.com,
- "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, Paul Durrant <paul@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---R+My9LyyhiUvIEro
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2/1/21 11:23 AM, Paolo Bonzini wrote:
+> On 01/02/21 10:18, Philippe Mathieu-Daudé wrote:
+>> FYI using 'imply FSDEV_9P' instead I get:
+>>
+>> /usr/bin/ld: libcommon.fa.p/hw_xen_xen-legacy-backend.c.o: in function
+>> `xen_be_register_common':
+>> hw/xen/xen-legacy-backend.c:754: undefined reference to `xen_9pfs_ops'
+> 
+> Ok, so then we have the case of a file (hw/xen/xen-legacy-backend.c)
+> brought in by CONFIG_XEN.  In that case this patch is incorrect...
+> 
+>> The function is:
+>>
+>>    void xen_be_register_common(void)
+>>    {
+>>        xen_set_dynamic_sysbus();
+>>
+>>        xen_be_register("console", &xen_console_ops);
+>>        xen_be_register("vkbd", &xen_kbdmouse_ops);
+>>    #ifdef CONFIG_VIRTFS
+>>        xen_be_register("9pfs", &xen_9pfs_ops);
+>>    #endif
+>>    #ifdef CONFIG_USB_LIBUSB
+>>        xen_be_register("qusb", &xen_usb_ops);
+>>    #endif
+>>    }
+>>
+>> The object is compiled using:
+>>
+>> -- >8 --
+>> -#ifdef CONFIG_VIRTFS
+>> +#ifdef CONFIG_FSDEV_9P
+>>       xen_be_register("9pfs", &xen_9pfs_ops);
+>>   #endif
+>> ---
+> 
+> ... and this is the best fix, together with:
+> 
+> - a "#include CONFIG_DEVICES" at the top (to get CONFIG_FSDEV_9P)
+> 
+> - moving xen-legacy-backend.c from softmmu_ss to specific_ss (to get
+> CONFIG_DEVICES)
+> 
+> - changing "select" to "imply" in accel/Kconfig (otherwise the patch has
+> no effect)
 
-On Thu, Jan 28, 2021 at 12:41:15PM -0300, Leonardo Augusto Guimar=E3es Garc=
-ia wrote:
-> On 1/27/21 8:19 AM, Stefan Hajnoczi wrote:
-> > On Tue, Jan 26, 2021 at 03:23:38PM -0300, lagarcia@linux.ibm.com wrote:
-> > +
-> > +   if (virtio_host_has_feature(vdev, VIRTIO_F_IOMMU_PLATFORM) &&
-> > +       !(fs->vhost_dev.hdev_features & (1ull << VIRTIO_F_IOMMU_PLATFOR=
-M))) {
-> > +       error_setg(errp, "IOMMU is not supported by the vhost-user devi=
-ce backend");
-> > +       goto err_iommu_needed;
-> > +   }
-> >=20
-> > Also, can this logic be made generic for all vhost-user devices? It's
-> > not really specific to vhost-user-fs.
->=20
->=20
-> I am afraid I will need some additional guidance on how to do that. If I =
-am
-> reading the code correctly, the vhost-user devices don't follow any speci=
-fic
-> pattern. Looking at the vhost-user-fs code path, we have:
->=20
-> vuf_device_realize -> vhost_dev_init -> vhost_user_backend_init
->=20
-> So, I thought that naturally, if the check was in vuf_device_realize on m=
-y
-> previous patch, I should move it to vhost_user_backend_init. However, in
-> order to check if the VirtIODevice has been specified with the
-> VIRTIO_F_IOMMU_PLATFORM option, I would need to have access to the
-> VirtIODevice inside vhost_user_backend_init, which currently is not
-> available and not one of the arguments of vhost_backend_init virtual
-> function it implements. vhost_dev_init doesn't have access to VirIODevice=
-s
-> as well. Looking at other device types that call vhost_dev_init, not all =
-of
-> them initialized the VirtIODevice by the time vhost_dev_init is called (e=
-.g.
-> cryptodev-host). Hence, adding a VirtIODevice as parameter to vhost_dev_i=
-nit
-> and vhost_backedn_init is not a feasible solution. vhost_dev_init does
-> receive structu vhost_dev which has a field VirtIODevice vdev. But as the
-> VirtIODevice hasn't been initialized by the time vhost_dev_init is called=
- on
-> all vhost-user devices today also makes this not a solution.
->=20
-> Any ideas on this? Is it correct for a virtio-user devices to call
-> vhost_dev_init before having VirtIODevice ready?
+OK.
 
-Maybe Michael Tsirkin has an idea. Otherwise let's go with a
-vhost-user-fs fix.
+> 
+> But really, doing nothing and just dropping this patch is perfectly fine.
 
-Stefan
-
---R+My9LyyhiUvIEro
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmAX34sACgkQnKSrs4Gr
-c8jhIggAvMxES78XDXBF7rWFwywlALT0D/SEYqojRoBsYAbBS1UIRw6hKwt1mIvE
-kg3z96NOPK3NX2U6ONRqsOjGBokEVzBFoAf2n/aDoIOsAstgC3Fvd0hZmzJPIuXf
-fxe2G4MYoY/4QNMkZk70tn11k8BXBeO5iLqANR9gJxi7fAbI1txv8Wd+nx24AnQ8
-pHO2NRXW3mvbT69xOLtDGKtD+wBUk7PmTm+b+1Gv9vEuB4/Sd5V1xi2+USbb8yLO
-WqR1F0jxIzwN0w0BJKSq8FUi7jAsAPmcrNhUR1w7TDOojzm5OnXOo1WpH3TGOJua
-2OP9nbNMFM7lkStDAgh9onWMj5ZcMA==
-=0D8O
------END PGP SIGNATURE-----
-
---R+My9LyyhiUvIEro--
-
+Yes, I'll respin what I have so far and continue when I find the
+time and motivation another week-end.
 
