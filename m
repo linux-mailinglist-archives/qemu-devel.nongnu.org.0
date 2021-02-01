@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BB0230A4BE
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 10:56:52 +0100 (CET)
-Received: from localhost ([::1]:51714 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7DA30A508
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:10:30 +0100 (CET)
+Received: from localhost ([::1]:42370 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Vww-0008Eu-Nv
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 04:56:50 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:55590)
+	id 1l6WA8-00008F-JT
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:10:28 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59284)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6Vvw-0007nf-3Y
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 04:55:49 -0500
-Received: from indium.canonical.com ([91.189.90.7]:47812)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
- id 1l6Vvp-0008Ax-B8
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 04:55:46 -0500
-Received: from loganberry.canonical.com ([91.189.90.37])
- by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
- id 1l6Vvn-00065g-2b
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:55:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
- by loganberry.canonical.com (Postfix) with ESMTP id 129AB2E8135
- for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 09:55:39 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l6W87-0007sQ-84
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:08:23 -0500
+Received: from 10.mo51.mail-out.ovh.net ([46.105.77.235]:37358)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l6W84-0005TY-Ev
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:08:22 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.10])
+ by mo51.mail-out.ovh.net (Postfix) with ESMTPS id 2F4DD2483B4;
+ Mon,  1 Feb 2021 11:08:16 +0100 (CET)
+Received: from kaod.org (37.59.142.97) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Mon, 1 Feb 2021
+ 11:08:12 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-97G0028438ea4f-28c5-4a75-8da1-b23abfb7f071,
+ A925A526D972EDC30A5527F39256541BB2C63354) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Mon, 1 Feb 2021 11:08:10 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Subject: Re: [PATCH] MAINTAINERS: add my github tree URL
+Message-ID: <20210201110810.28b58ddc@bahia.lan>
+In-Reply-To: <E1l5rYG-0005sv-87@lizzy.crudebyte.com>
+References: <E1l5rYG-0005sv-87@lizzy.crudebyte.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 01 Feb 2021 09:48:40 -0000
-From: Peter Maydell <1914021@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: johndong pmaydell
-X-Launchpad-Bug-Reporter: Dong JianQiang (johndong)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <161217038744.31620.11534855593258118024.malonedeb@chaenomeles.canonical.com>
-Message-Id: <161217292077.7219.3390438478855870513.malone@gac.canonical.com>
-Subject: [Bug 1914021] Re: qemu: uncaught target signal 4 (Illegal
- instruction) but gdb remote-debug exited normally
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
-X-Launchpad-Hash: b890dd43b3e60fcf2d9669f02413900fbeaf64b3
-Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
- helo=indium.canonical.com
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
- RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.97]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 1f868333-4bf2-4d8f-aa1d-ba5784fe7dd7
+X-Ovh-Tracer-Id: 15208655945768802781
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrfeekgdduvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecunecujfgurhepfffhvffukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpedvveegledvkeffheeuvdduieeludefudejteeuleetudegheehjeeileeitdegteenucffohhmrghinhepghhithhlrggsrdgtohhmpdhgihhthhhusgdrtghomhenucfkpheptddrtddrtddrtddpfeejrdehledrudegvddrleejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmohguvgepshhmthhpqdhouhhtpdhhvghlohepmhigphhlrghnhedrmhgrihhlrdhovhhhrdhnvghtpdhinhgvtheptddrtddrtddrtddpmhgrihhlfhhrohhmpehgrhhouhhgsehkrghougdrohhrghdprhgtphhtthhopehqvghmuhdqthhrihhvihgrlhesnhhonhhgnhhurdhorhhg
+Received-SPF: pass client-ip=46.105.77.235; envelope-from=groug@kaod.org;
+ helo=10.mo51.mail-out.ovh.net
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, RCVD_IN_SBL=0.141,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -70,57 +67,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1914021 <1914021@bugs.launchpad.net>
+Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-QEMU 4.0 is quite old now -- does this reproduce with a more recent
-QEMU?
+On Sat, 30 Jan 2021 15:39:14 +0100
+Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
 
--- =
+> I already used this github URL for PRs before and will continue to use it in
+> foreseeable future.
+> 
+> Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
+> ---
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1914021
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-Title:
-  qemu: uncaught target signal 4 (Illegal instruction) but gdb remote-
-  debug exited normally
+Unless you're planning to send a PR soon, I guess this can go
+through the trivial tree.
 
-Status in QEMU:
-  New
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index bcd88668bc..e8f49aeebd 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1832,6 +1832,7 @@ F: fsdev/
+>  F: docs/interop/virtfs-proxy-helper.rst
+>  F: tests/qtest/virtio-9p-test.c
+>  T: git https://gitlab.com/gkurz/qemu.git 9p-next
+> +T: git https://github.com/cschoenebeck/qemu.git 9p.next
+>  
+>  virtio-blk
+>  M: Stefan Hajnoczi <stefanha@redhat.com>
 
-Bug description:
-  I'm getting Illegal instruction (core dumped) when running the
-  attached a.out_err binary in qemu, but when using Gdb to remote-debug
-  the program, it exited normally. will appreciate if you can help look
-  into this qemu issue.
-
-  readelf -h a.out_err
-  ELF Header:
-    Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
-    Class:                             ELF32
-    Data:                              2's complement, little endian
-    Version:                           1 (current)
-    OS/ABI:                            UNIX - System V
-    ABI Version:                       0
-    Type:                              EXEC (Executable file)
-    Machine:                           ARM
-    Version:                           0x1
-    Entry point address:               0x8220
-    Start of program headers:          52 (bytes into file)
-    Start of section headers:          54228 (bytes into file)
-    Flags:                             0x5000200, Version5 EABI, soft-float=
- ABI
-    Size of this header:               52 (bytes)
-    Size of program headers:           32 (bytes)
-    Number of program headers:         3
-    Size of section headers:           40 (bytes)
-    Number of section headers:         16
-    Section header string table index: 15
-
-  qemu-arm version 4.0.0
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1914021/+subscriptions
 
