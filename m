@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C22FB30AD69
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:09:10 +0100 (CET)
-Received: from localhost ([::1]:47626 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B249130AD68
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 18:08:00 +0100 (CET)
+Received: from localhost ([::1]:43036 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6chJ-00012r-Rt
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:09:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60024)
+	id 1l6cgA-0007TQ-WC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 12:07:59 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:32858)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6caG-0002LA-Du
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:01:52 -0500
-Received: from mail-ed1-x529.google.com ([2a00:1450:4864:20::529]:43495)
+ id 1l6cdU-0005MI-L7
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:05:12 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f]:35450)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6caD-00010k-QF
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:01:52 -0500
-Received: by mail-ed1-x529.google.com with SMTP id n6so19665940edt.10
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:01:49 -0800 (PST)
+ id 1l6cdS-0002WI-Ql
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 12:05:12 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id a9so7133897ejr.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 09:05:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=QAW7ifalcqXdWdfDVvXtuF1viTQdpBmOEoOU3hkH4ok=;
- b=zmGsj6mlj+M/GF0KK5CHF2rpuRKMViKSI1fhGq5796v0YQ358Cj4SPUkAox6qJfplu
- 3LRzQkdIXoAelNJXT02emZZ2kilweBqfNnek6UCp47PFc5yl+SCWxuPQ3rjFeVzvskYB
- AUHBbQQQGPjHCcUZxgHTKabX45GEV8tnULHyjLnl0VryZm86DnxEl0BCiknWyUgbxVUt
- P0E6/UXW8vDulwWiFq4WFgq0CgNVXoyb3gwr/QA9wWBsQbAuAO4s35GtkPpLmuULVsh5
- SOrvg+5K7vSSuCQPPX+uJQOz45kmipRJvDr1u9OEmRRapmzI1mTpPnWRb6CRtgeZjtDR
- nwNg==
+ bh=RZoHEYVo0xh/lfhruzq5ozEj/oB5CoO8KyeG7Y+GapY=;
+ b=kpvw560f/vnGrYUq7divnC6Wde73zRDbPq5q6qqWQKsiola07hpcZmU45cQu7fnMq6
+ yYJVpAlIZd2bOiJXf3nc7ULRJyikDbxaP0yncg7/rd3N/2rpIk4ogj/KLtZBXaL9dtO4
+ SdIK5iTmW6O0EUc1IhCmgC261NFBqNgz460daWwUk5tX1GjAOX5pJ1TEc5HmcrSWYbDE
+ uEa8Wibl8lU2Vs0hrUsxTMtFoDjKO7UZqL0P+Uf+08IH31SWvSrk8q5yxqyQfQm3SuMQ
+ Qjgd2mdbBnvtd2wjMpayXYUOX+KhAwWsdrPNKlVhbsyu15RWciQuJQ4AElbvhuoAixPG
+ WoMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=QAW7ifalcqXdWdfDVvXtuF1viTQdpBmOEoOU3hkH4ok=;
- b=k1G3oxkF2Gx8TP45saidu2AFtQW5YNBRNmxgGlobMvJOHbUvvNtUKc8ur3otEszgbo
- IjXHfvaI0XFsZuvkB+to9DPctr4NIb1JE87OGzxF/UP/EcB3Sac2StJqILJOCR89QJ6v
- HnPZxXaV8wW6niIpCvRsnrz2skAwKux1bcB8utDEqgApXpB4Orrq2mqClXS33lo65fL8
- s41AL6Xcr//xnAqdaqzocwSh2ToixHDHYhHviKdJGXFN34vweoBnDd/2EAYjT9g6SNBv
- Q7bxo/q9SEmd1UtXyNicFLcd7AAOVlyTQC30C6P9+pP5vWg+4nyyUrUL7NqCeFbw0vQC
- Wozg==
-X-Gm-Message-State: AOAM531gXh6kbScUO2U9KHmxw/YE/fV73Vb5fmh69RuaiRUFaUj1bheu
- T7TZJa66pFiUhVJDr6MLOfzBrWK683klk/70VKBVww==
-X-Google-Smtp-Source: ABdhPJzEcJOe+tpxygBWKYCZYZsHQuqPMfilUCM2VqDecVoYA0RuTsxwKzuAr3ocUvK1NeVpPS+gm3AyNvqc2//Cn98=
-X-Received: by 2002:a05:6402:3494:: with SMTP id
- v20mr11777378edc.146.1612198907939; 
- Mon, 01 Feb 2021 09:01:47 -0800 (PST)
+ bh=RZoHEYVo0xh/lfhruzq5ozEj/oB5CoO8KyeG7Y+GapY=;
+ b=HDdg1UYp0v2BeRW4jPsJbSOURnf77LMMbHvjgK9RgyDmq/+CuOlkP8wHvF2djjzGO5
+ lIjCPUPq112nPTXHsMh6ovmuKPcuKaBDndjWuS9DuN0/oaZx/CjhL7r+zm31sr5WRFYO
+ azx4I0PtueB7zn35qe9LLS+AqyYwRXW1cT91JMWVqIIW/mL4o33sREfMyO+Qb2hc9Mg4
+ /z+VeGZocSjygb6r3No4S+z4x1gAmqAZixOs06wRe58B7DY3vOhQQdHkMAH97ZXf3e+k
+ oJAxpv8kYotzPVWngtMK8lbuziXwcI0c0ATa8JUG2gHcSmur/ZyoFQ+XqlmmUsVlFHHU
+ jQSA==
+X-Gm-Message-State: AOAM533Dxzhxg4+EWVvvRMesxNyoVw/vC8dTJP+oBJcPlv97C6D83Nst
+ Wib3j8JsIVD51RgOLJYJWiD8RLziicQ2McAxRZ70hhbQFe0WZw==
+X-Google-Smtp-Source: ABdhPJxJRrTbm7z08l3lzbNTrUZw4CQ3TYMY4ZCWwtf+NWwwupspynbaeEwGsyKU9Zz0mQvdcsSK3jhP835PylmJGv4=
+X-Received: by 2002:a17:907:1b10:: with SMTP id
+ mp16mr18684581ejc.482.1612199108593; 
+ Mon, 01 Feb 2021 09:05:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20210128161417.3726358-1-philmd@redhat.com>
-In-Reply-To: <20210128161417.3726358-1-philmd@redhat.com>
+References: <20210128185300.2875-1-alex.bennee@linaro.org>
+In-Reply-To: <20210128185300.2875-1-alex.bennee@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 1 Feb 2021 17:01:36 +0000
-Message-ID: <CAFEAcA9bfmSOPZErogT=z0PURd21K6q2n_67=sAwK+Cdko40kg@mail.gmail.com>
-Subject: Re: [PATCH] hw/intc/arm_gic: Allow to use QTest without crashing
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 1 Feb 2021 17:04:56 +0000
+Message-ID: <CAFEAcA_R3phXwOtj-v-6-oCN891SjGSyAGwcx3_zDf+GFPWLqg@mail.gmail.com>
+Subject: Re: [PATCH] docs/system: document an example vexpress-a15 invocation
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::529;
- envelope-from=peter.maydell@linaro.org; helo=mail-ed1-x529.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -79,70 +79,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Darren Kenny <darren.kenny@oracle.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Eric Auger <eric.auger@redhat.com>,
- qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, Anders Roxell <anders.roxell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 28 Jan 2021 at 16:14, Philippe Mathieu-Daud=C3=A9 <philmd@redhat.co=
-m> wrote:
+On Thu, 28 Jan 2021 at 18:53, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> Alexander reported an issue in gic_get_current_cpu() using the
-> fuzzer. Yet another "deref current_cpu with QTest" bug, reproducible
-> doing:
+> The wiki and the web are curiously absent of the right runes to boot a
+> vexpress model so I had to work from first principles to work it out.
+> Use the more modern -drive notation so alternative backends can be
+> used (unlike the hardwired -sd mode).
 >
->   $ echo readb 0xf03ff000 | qemu-system-arm -M npcm750-evb,accel=3Dqtest =
--qtest stdio
->   [I 1611849440.651452] OPENED
->   [R +0.242498] readb 0xf03ff000
->   hw/intc/arm_gic.c:63:29: runtime error: member access within null point=
-er of type 'CPUState' (aka 'struct CPUState')
->   SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior hw/intc/arm_gic=
-.c:63:29 in
->   AddressSanitizer:DEADLYSIGNAL
->   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->   =3D=3D3719691=3D=3DERROR: AddressSanitizer: SEGV on unknown address 0x0=
-000000082a0 (pc 0x5618790ac882 bp 0x7ffca946f4f0 sp 0x7ffca946f4a0 T0)
->   =3D=3D3719691=3D=3DThe signal is caused by a READ memory access.
->       #0 0x5618790ac882 in gic_get_current_cpu hw/intc/arm_gic.c:63:29
->       #1 0x5618790a8901 in gic_dist_readb hw/intc/arm_gic.c:955:11
->       #2 0x5618790a7489 in gic_dist_read hw/intc/arm_gic.c:1158:17
->       #3 0x56187adc573b in memory_region_read_with_attrs_accessor softmmu=
-/memory.c:464:9
->       #4 0x56187ad7903a in access_with_adjusted_size softmmu/memory.c:552=
-:18
->       #5 0x56187ad766d6 in memory_region_dispatch_read1 softmmu/memory.c:=
-1426:16
->       #6 0x56187ad758a8 in memory_region_dispatch_read softmmu/memory.c:1=
-449:9
->       #7 0x56187b09e84c in flatview_read_continue softmmu/physmem.c:2822:=
-23
->       #8 0x56187b0a0115 in flatview_read softmmu/physmem.c:2862:12
->       #9 0x56187b09fc9e in address_space_read_full softmmu/physmem.c:2875=
-:18
->       #10 0x56187aa88633 in address_space_read include/exec/memory.h:2489=
-:18
->       #11 0x56187aa88633 in qtest_process_command softmmu/qtest.c:558:13
->       #12 0x56187aa81881 in qtest_process_inbuf softmmu/qtest.c:797:9
->       #13 0x56187aa80e02 in qtest_read softmmu/qtest.c:809:5
->
-> current_cpu is NULL because QTest accelerator does not use CPU.
->
-> Fix by skipping the check and returning the first CPU index when
-> QTest accelerator is used, similarly to commit c781a2cc423
-> ("hw/i386/vmport: Allow QTest use without crashing").
->
-> Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Anders Roxell <anders.roxell@linaro.org>
 > ---
+>  docs/system/arm/vexpress.rst | 26 ++++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+>
+> diff --git a/docs/system/arm/vexpress.rst b/docs/system/arm/vexpress.rst
+> index 7f1bcbef07..30b1823b95 100644
+> --- a/docs/system/arm/vexpress.rst
+> +++ b/docs/system/arm/vexpress.rst
+> @@ -58,3 +58,29 @@ Other differences between the hardware and the QEMU mo=
+del:
+>    ``vexpress-a15``, and have IRQs from 40 upwards. If a dtb is
+>    provided on the command line then QEMU will edit it to include
+>    suitable entries describing these transports for the guest.
+> +
+> +Booting a Linux kernel
+> +----------------------
+> +
+> +Building a current Linux kernel with ``multi_v7_defconfig`` should be
+> +enough to get something running.
+> +
+> +.. code-block:: bash
+> +
+> +  $ export ARCH=3Darm
+> +  $ export CROSS_COMPILE=3Darm-linux-gnueabihf-
+> +  $ make multi_v7_defconfig
+> +  $ make
 
+We probably shouldn't be recommending in-tree kernel builds, or
+polluting the user's environment with random variables. Try:
 
+$ make O=3Dbuilddir ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabihf- multi_v=
+7_defconfig
+$ make O=3Dbuilddir ARCH=3Darm CROSS_COMPILE=3Darm-linux-gnueabihf-
 
-Applied to target-arm.next, thanks.
+> +By default you will want to boot your rootfs of the sdcard interface.
 
+"off"
+
+> +Your rootfs will need to be padded to the right size. With a suitable
+> +DTB you could also add devices to the virtio-mmio bus.
+> +
+> +.. code-block:: bash
+> +
+> +  $ qemu-system-arm -cpu cortex-a15 -smp 4 -m 4096 \
+> +      -machine type=3Dvexpress-a15 -serial mon:stdio \
+> +      -drive if=3Dsd,driver=3Dfile,filename=3Darmel-rootfs.ext4 \
+> +      -kernel zImage  \
+> +      -dtb vexpress-v2p-ca15-tc1.dtb \
+> +      -append "console=3DttyAMA0 root=3D/dev/mmcblk0 ro"
+
+thanks
 -- PMM
 
