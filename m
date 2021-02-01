@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BB6530B0C7
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:50:46 +0100 (CET)
-Received: from localhost ([::1]:59686 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20AD530B0B5
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:47:43 +0100 (CET)
+Received: from localhost ([::1]:52068 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6fDh-0000yz-2O
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:50:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49560)
+	id 1l6fAk-0006A1-5o
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:47:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49518)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1p-0003LX-7A
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:32012)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1k-0003KW-FB
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:54117)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1k-0005lY-8a
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:28 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1h-0005kE-On
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612208303;
+ s=mimecast20190719; t=1612208301;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a6kRdoDQslGi02rtVP1Hb8EutRkIXNdPPq5ld+jXAiw=;
- b=hdrFzw/ja8wt//Gldy4/oXHJgX1hgrhylfPsQT0VVUpssrUSGaQUdimXJAQ6uP0CA2IpUw
- f+Nh/MdWQNQhynVLt9tJ72Bfm5ZdWiEjdkF1xNT/Xou8J93T4OEubQ49qkQobGgIBbWRp2
- 7C1l1oGGUwUsttRtYnydxg98G2tQOwc=
+ bh=OTJGBfiuOP+Mhp/Tlw9eNzOAMYiV308J4dX0rCdyl7I=;
+ b=Zq1MNpTWnQw1yZuzI73qoVTy4wg7ffU08Rux/HW5g/DQsLrOtDgWY6BTjioOYA6u79Mlxs
+ 3w58TlMI3dLbmE5LeIkLaTr8a7NOHKps0MAKEQJ5OGs5V1BQdIzN5p78S0xmopGYd33SCp
+ J3jvCStmpLP8Q68ZD+PS+BGhbqvb6eU=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-477-Tp2Uqzt_N0SWv0jj5hdoxg-1; Mon, 01 Feb 2021 14:38:19 -0500
-X-MC-Unique: Tp2Uqzt_N0SWv0jj5hdoxg-1
+ us-mta-211-GG60HUOTP5ud7UnIkt2O3A-1; Mon, 01 Feb 2021 14:38:19 -0500
+X-MC-Unique: GG60HUOTP5ud7UnIkt2O3A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 696DAB8102;
- Mon,  1 Feb 2021 19:38:17 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 766E18145FB;
+ Mon,  1 Feb 2021 19:38:18 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1D20260C05;
- Mon,  1 Feb 2021 19:38:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 9277160C66;
+ Mon,  1 Feb 2021 19:38:17 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 09/16] qapi/gen: Combine ._add_[user|system]_module
-Date: Mon,  1 Feb 2021 14:37:40 -0500
-Message-Id: <20210201193747.2169670-10-jsnow@redhat.com>
+Subject: [PATCH v4 10/16] qapi: centralize the built-in module name definition
+Date: Mon,  1 Feb 2021 14:37:41 -0500
+Message-Id: <20210201193747.2169670-11-jsnow@redhat.com>
 In-Reply-To: <20210201193747.2169670-1-jsnow@redhat.com>
 References: <20210201193747.2169670-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -83,95 +83,63 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+Use a constant to make it obvious we're referring to a very specific thing.
 
-With callers to _add_system_module now explicitly using the './' prefix
-to indicate a system module, there is no longer any reason to have
-separate interfaces for adding system vs user modules; use a unified
-interface that differentiates based on the name.
-
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/commands.py |  2 +-
- scripts/qapi/events.py   |  2 +-
- scripts/qapi/gen.py      | 17 +++++------------
- 3 files changed, 7 insertions(+), 14 deletions(-)
+ scripts/qapi/schema.py | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
-index fc5fe27c472..49111663394 100644
---- a/scripts/qapi/commands.py
-+++ b/scripts/qapi/commands.py
-@@ -286,7 +286,7 @@ def _begin_user_module(self, name: str) -> None:
-                              types=types))
+diff --git a/scripts/qapi/schema.py b/scripts/qapi/schema.py
+index 14cf9da7842..353e8020a27 100644
+--- a/scripts/qapi/schema.py
++++ b/scripts/qapi/schema.py
+@@ -68,7 +68,7 @@ def check_doc(self):
  
-     def visit_end(self) -> None:
--        self._add_system_module('./init', ' * QAPI Commands initialization')
-+        self._add_module('./init', ' * QAPI Commands initialization')
-         self._genh.add(mcgen('''
- #include "qapi/qmp/dispatch.h"
+     def _set_module(self, schema, info):
+         assert self._checked
+-        fname = info.fname if info else './builtin'
++        fname = info.fname if info else QAPISchemaModule.BUILTIN_MODULE_NAME
+         self._module = schema.module_by_fname(fname)
+         self._module.add_entity(self)
  
-diff --git a/scripts/qapi/events.py b/scripts/qapi/events.py
-index 26faa829898..079c666ec69 100644
---- a/scripts/qapi/events.py
-+++ b/scripts/qapi/events.py
-@@ -191,7 +191,7 @@ def _begin_user_module(self, name: str) -> None:
-                              types=types))
+@@ -138,6 +138,9 @@ def visit_event(self, name, info, ifcond, features, arg_type, boxed):
  
-     def visit_end(self) -> None:
--        self._add_system_module('./emit', ' * QAPI Events emission')
-+        self._add_module('./emit', ' * QAPI Events emission')
-         self._genc.preamble_add(mcgen('''
- #include "qemu/osdep.h"
- #include "%(prefix)sqapi-emit-events.h"
-diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
-index 9352d79c3a4..8ded0f7e5ad 100644
---- a/scripts/qapi/gen.py
-+++ b/scripts/qapi/gen.py
-@@ -272,22 +272,15 @@ def _module_filename(self, what: str, name: str) -> str:
-                             self._module_basename(what, name))
  
-     def _add_module(self, name: str, blurb: str) -> None:
-+        if QAPISchemaModule.is_user_module(name):
-+            if self._main_module is None:
-+                self._main_module = name
-         basename = self._module_filename(self._what, name)
-         genc = QAPIGenC(basename + '.c', blurb, self._pydoc)
-         genh = QAPIGenH(basename + '.h', blurb, self._pydoc)
-         self._module[name] = (genc, genh)
-         self._genc, self._genh = self._module[name]
+ class QAPISchemaModule:
++
++    BUILTIN_MODULE_NAME = './builtin'
++
+     def __init__(self, name):
+         self.name = name
+         self._entity_list = []
+@@ -160,14 +163,14 @@ def is_user_module(cls, name: str) -> bool:
+         """
+         return not cls.is_system_module(name)
  
--    def _add_user_module(self, name: str, blurb: str) -> None:
--        assert QAPISchemaModule.is_user_module(name)
--        if self._main_module is None:
--            self._main_module = name
--        self._add_module(name, blurb)
--
--    def _add_system_module(self, name: str, blurb: str) -> None:
--        assert QAPISchemaModule.is_system_module(name)
--        self._add_module(name, blurb)
--
-     def write(self, output_dir: str, opt_builtins: bool = False) -> None:
-         for name in self._module:
-             if QAPISchemaModule.is_builtin_module(name) and not opt_builtins:
-@@ -305,7 +298,7 @@ def _begin_user_module(self, name: str) -> None:
-     def visit_module(self, name: str) -> None:
-         if QAPISchemaModule.is_builtin_module(name):
-             if self._builtin_blurb:
--                self._add_system_module(name, self._builtin_blurb)
-+                self._add_module(name, self._builtin_blurb)
-                 self._begin_builtin_module()
-             else:
-                 # The built-in module has not been created.  No code may
-@@ -314,7 +307,7 @@ def visit_module(self, name: str) -> None:
-                 self._genh = None
-         else:
-             assert QAPISchemaModule.is_user_module(name)
--            self._add_user_module(name, self._user_blurb)
-+            self._add_module(name, self._user_blurb)
-             self._begin_user_module(name)
+-    @staticmethod
+-    def is_builtin_module(name: str) -> bool:
++    @classmethod
++    def is_builtin_module(cls, name: str) -> bool:
+         """
+         The built-in module is a single System module for the built-in types.
  
-     def visit_include(self, name: str, info: QAPISourceInfo) -> None:
+         It is always "./builtin".
+         """
+-        return name == './builtin'
++        return name == cls.BUILTIN_MODULE_NAME
+ 
+     def add_entity(self, ent):
+         self._entity_list.append(ent)
+@@ -853,7 +856,7 @@ def __init__(self, fname):
+         self._entity_dict = {}
+         self._module_dict = OrderedDict()
+         self._schema_dir = os.path.dirname(fname)
+-        self._make_module('./builtin')
++        self._make_module(QAPISchemaModule.BUILTIN_MODULE_NAME)
+         self._make_module(fname)
+         self._predefining = True
+         self._def_predefineds()
 -- 
 2.29.2
 
