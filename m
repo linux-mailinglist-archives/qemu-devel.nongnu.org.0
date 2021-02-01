@@ -2,56 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73D1330A326
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 09:19:05 +0100 (CET)
-Received: from localhost ([::1]:34390 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5C6230A338
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 09:22:58 +0100 (CET)
+Received: from localhost ([::1]:36970 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6UQK-0003w1-H6
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 03:19:04 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37376)
+	id 1l6UU5-0005Wv-Rk
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 03:22:57 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37898)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l6UPO-0003P7-80; Mon, 01 Feb 2021 03:18:06 -0500
-Received: from pharaoh.lmichel.fr ([149.202.28.74]:37208)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
- id 1l6UPM-00069Q-9A; Mon, 01 Feb 2021 03:18:06 -0500
-Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
- by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 3433EC602E6;
- Mon,  1 Feb 2021 09:18:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
- t=1612167480;
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l6USx-0004qm-Sg
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 03:21:47 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:30603)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1l6USr-0007wJ-VC
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 03:21:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612167700;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=r0CltJWtYwRND/OpSTkq0nuwwoFHtGa7FKmGwICQdK4=;
- b=j39dMqTafjD423uZqunZV/Qrp1ydIz2+jW7S55DRG9z4iN9uY2Qd5aR5obfd//W/xc6WkO
- VTOjHcrhWWS9HWkhJ9wmiuxUIYIcfzNIrVbnpYrEBtb0cMPjsj2Iw6qGxwZWBlXhCupkzY
- B6Xhe2Dc88ZUG7Ua4ozgYorzVlvrLOdkxSTF0XJYA7cELLtubNktA1kTF8O//eOGoCMfcR
- ozO5eyKJILfEegR2t+h/Z/jRm7Ph+OIzePH+fzo/0GyulS7Sx8P0xKt1OGHYMD1PhIEKU9
- 4Kyy3idzjEC4hsn/IfTZ8PtDCLtgTr7DUiuI7wTduvoF6NnNe9OKd75xnS8HOQ==
-Date: Mon, 1 Feb 2021 09:18:26 +0100
-From: Luc Michel <luc@lmichel.fr>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [RFC PATCH 2/2] hw/arm/raspi: Restrict BCM2835 / BCM2836 SoC to
- TCG
-Message-ID: <20210201081826.yx34xjzbgsiwzcpd@sekoia-pc.home.lmichel.fr>
-References: <20210131151410.318649-1-f4bug@amsat.org>
- <20210131151410.318649-3-f4bug@amsat.org>
+ bh=q13utacNQXPL4O0xXXNBhiLTgIBbn+GkWsKsD7HIo4c=;
+ b=NddrDmH5eb3IMfJnty3J0vqitijOWOL2KkAjppmQv/Vz4T5v+8xtC12g4IgBlBwt0j9ovZ
+ FSnRVG3WQ0gePp7NRUzadSYqh3bAwF0T6++/Was1o+JKNiZB2XA1FTfEDOzQE9poptaC2f
+ BJA6pCZMoS0ojBTZhfolsOuqrqo1Dlc=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-190-2jZSiCIQNqCXu3WhQTktxQ-1; Mon, 01 Feb 2021 03:21:36 -0500
+X-MC-Unique: 2jZSiCIQNqCXu3WhQTktxQ-1
+Received: by mail-wr1-f70.google.com with SMTP id c1so9998767wrx.2
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 00:21:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+ :user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=q13utacNQXPL4O0xXXNBhiLTgIBbn+GkWsKsD7HIo4c=;
+ b=TSuPMu5kIPGLiHo7Rm5rGm6QDTYWNTDfF5TENAlSxAgWLrDrhtM/Y+cYhqZbJr2N0d
+ e7d/pLBt4hxuY3L6vWKqefu3cO5XSxJYB4n23pi8PQBxFXwfp2XjEOC1StZEH/cwds3x
+ YI2/NIQDaZfAFhCFvLxb8C5kDGSo6QDhvFxkgE4FqamPDeDF1GdreS4a30iRsC5Sq7RV
+ w3R+khzGawulDSXjVPfadBKL/WWBwjQnPOz3a7+COC8cGmVxBdr7/nz7iZIFXgqEQbPz
+ p+wWcg0ge6d/Jg/RIJ3BlMO3XaIZYwSj0FHO2nbACbl4EwWpbGdFzCTy635Qslt7qOjb
+ y1iw==
+X-Gm-Message-State: AOAM531XZayaLFbvpZWRZy8h31ZOvKAFI9e04Irb7bRwkrZ5s3ZEDkMi
+ HPQYhJ8W5zMiDh3a6WD7TAurfhL+EcbvNvJEh9xm2XHCfJeb84T11G9iTSB/QdNAWtJnRjs1HWs
+ ZOVwvB+hq2tJIaeI=
+X-Received: by 2002:adf:fc88:: with SMTP id g8mr16243662wrr.259.1612167695571; 
+ Mon, 01 Feb 2021 00:21:35 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJxQu7L76ybBHO3ct3rErE5SDP9hrYBJnue1eMvxiAahrfKMtGHpNRc9BlsQuZw+BxxrYiXbiw==
+X-Received: by 2002:adf:fc88:: with SMTP id g8mr16243646wrr.259.1612167695401; 
+ Mon, 01 Feb 2021 00:21:35 -0800 (PST)
+Received: from ?IPv6:2001:b07:6468:f312:c8dd:75d4:99ab:290a?
+ ([2001:b07:6468:f312:c8dd:75d4:99ab:290a])
+ by smtp.gmail.com with ESMTPSA id u14sm19799949wmq.45.2021.02.01.00.21.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Feb 2021 00:21:34 -0800 (PST)
+Subject: Re: [PATCH v2] replay: fix replay of the interrupts
+To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
+References: <161216312794.2030770.1709657858900983160.stgit@pasha-ThinkPad-X280>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <46d704c6-0724-b562-4279-23684d8ad7f8@redhat.com>
+Date: Mon, 1 Feb 2021 09:21:33 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20210131151410.318649-3-f4bug@amsat.org>
-Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
- helo=pharaoh.lmichel.fr
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+In-Reply-To: <161216312794.2030770.1709657858900983160.stgit@pasha-ThinkPad-X280>
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=pbonzini@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.079, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=-0.01,
+ RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,129 +99,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
- Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
- Andrew Baumann <Andrew.Baumann@microsoft.com>,
- Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org
+Cc: alex.bennee@linaro.org, cfontana@suse.de, richard.henderson@linaro.org,
+ f4bug@amsat.org, peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Philippe,
-
-On 16:14 Sun 31 Jan     , Philippe Mathieu-Daudé wrote:
-> KVM requires the target cpu to be at least ARMv8 architecture
-> (support on ARMv7 has been dropped in commit 82bf7ae84ce:
-> "target/arm: Remove KVM support for 32-bit Arm hosts").
-Wow, is there absolutely no way to do that then? What about using an
-ARMv8 and starting in AArch32 mode? Is that possible with KVM? I guess
-it might not be strictly identical as spawning the "real" CPU...
-
+On 01/02/21 08:05, Pavel Dovgalyuk wrote:
+> Sometimes interrupt event comes at the same time with
+> the virtual timers. In this case replay tries to proceed
+> the timers, because deadline for them is zero.
+> This patch allows processing interrupts and exceptions
+> by entering the vCPU execution loop, when deadline is zero,
+> but checkpoint associated with virtual timers is not ready
+> to be replayed.
 > 
-> From the various SoC used by the Raspberry Pi machines, only
-> the BCM2837 is an ARMv8 (Cortex-A53).
+> Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
 > 
-> Restrict the BCM2835 (ARM1176) and BCM2836 (Cortex-A7) to TCG.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 > ---
->  hw/arm/bcm2836.c | 6 ++++++
->  hw/arm/raspi.c   | 4 ++++
->  2 files changed, 10 insertions(+)
+> v2:
+>   - changed replay mode check condition
+> ---
+>   accel/tcg/tcg-cpus-icount.c |    8 +++++++-
+>   1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
-> index fd16ed87c40..3051764f2dc 100644
-> --- a/hw/arm/bcm2836.c
-> +++ b/hw/arm/bcm2836.c
-> @@ -89,6 +89,7 @@ static bool bcm283x_common_realize(DeviceState *dev, Error **errp)
->      return true;
->  }
->  
-> +#ifdef CONFIG_TCG
-I'm not sure it's enough. TCG and KVM can be enabled in the same
-binary. You'll have to perform a runtime check here I think.
-
->  static void bcm2835_realize(DeviceState *dev, Error **errp)
->  {
->      BCM283XState *s = BCM283X(dev);
-> @@ -107,6 +108,7 @@ static void bcm2835_realize(DeviceState *dev, Error **errp)
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->peripherals), 1,
->              qdev_get_gpio_in(DEVICE(&s->cpu[0].core), ARM_CPU_FIQ));
->  }
-> +#endif /* CONFIG_TCG */
->  
->  static void bcm2836_realize(DeviceState *dev, Error **errp)
->  {
-> @@ -178,6 +180,7 @@ static void bcm283x_class_init(ObjectClass *oc, void *data)
->      dc->user_creatable = false;
->  }
->  
-> +#ifdef CONFIG_TCG
->  static void bcm2835_class_init(ObjectClass *oc, void *data)
->  {
->      DeviceClass *dc = DEVICE_CLASS(oc);
-> @@ -201,6 +204,7 @@ static void bcm2836_class_init(ObjectClass *oc, void *data)
->      bc->clusterid = 0xf;
->      dc->realize = bcm2836_realize;
->  };
-> +#endif /* CONFIG_TCG */
->  
->  #ifdef TARGET_AARCH64
->  static void bcm2837_class_init(ObjectClass *oc, void *data)
-> @@ -227,6 +231,7 @@ static const TypeInfo bcm283x_types[] = {
->          .class_init     = bcm283x_class_init,
->          .abstract       = true,
->      },
-> +#ifdef CONFIG_TCG
->      {
->          .name           = TYPE_BCM2835,
->          .parent         = TYPE_BCM283X,
-> @@ -236,6 +241,7 @@ static const TypeInfo bcm283x_types[] = {
->          .parent         = TYPE_BCM283X,
->          .class_init     = bcm2836_class_init,
->      },
-> +#endif /* CONFIG_TCG */
->  #ifdef TARGET_AARCH64
->      {
->          .name           = TYPE_BCM2837,
-> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-> index dce966a4dd8..cfa15504d9c 100644
-> --- a/hw/arm/raspi.c
-> +++ b/hw/arm/raspi.c
-> @@ -319,6 +319,7 @@ static void raspi_machine_class_common_init(MachineClass *mc,
->      mc->default_ram_id = "ram";
->  };
->  
-> +#ifdef CONFIG_TCG
->  static void raspi0_machine_class_init(ObjectClass *oc, void *data)
->  {
->      MachineClass *mc = MACHINE_CLASS(oc);
-> @@ -346,6 +347,7 @@ static void raspi2b_machine_class_init(ObjectClass *oc, void *data)
->      rmc->board_rev = 0xa21041;
->      raspi_machine_class_common_init(mc, rmc->board_rev);
->  };
-> +#endif /* CONFIG_TCG */
->  
->  #ifdef TARGET_AARCH64
->  static void raspi3ap_machine_class_init(ObjectClass *oc, void *data)
-> @@ -376,6 +378,7 @@ static const TypeInfo raspi_machine_types[] = {
->          .class_size     = sizeof(RaspiMachineClass),
->          .abstract       = true,
->      },
-> +#ifdef CONFIG_TCG
->      {
->          .name           = MACHINE_TYPE_NAME("raspi0"),
->          .parent         = TYPE_RASPI_MACHINE,
-> @@ -389,6 +392,7 @@ static const TypeInfo raspi_machine_types[] = {
->          .parent         = TYPE_RASPI_MACHINE,
->          .class_init     = raspi2b_machine_class_init,
->      },
-> +#endif /* CONFIG_TCG */
->  #ifdef TARGET_AARCH64
->      {
->          .name           = MACHINE_TYPE_NAME("raspi3ap"),
-> -- 
-> 2.26.2
+> diff --git a/accel/tcg/tcg-cpus-icount.c b/accel/tcg/tcg-cpus-icount.c
+> index 9f45432275..8ed485db01 100644
+> --- a/accel/tcg/tcg-cpus-icount.c
+> +++ b/accel/tcg/tcg-cpus-icount.c
+> @@ -81,7 +81,13 @@ void icount_handle_deadline(void)
+>       int64_t deadline = qemu_clock_deadline_ns_all(QEMU_CLOCK_VIRTUAL,
+>                                                     QEMU_TIMER_ATTR_ALL);
+>   
+> -    if (deadline == 0) {
+> +    /*
+> +     * Instructions, interrupts, and exceptions are processed in cpu-exec.
+> +     * Don't interrupt cpu thread, when these events are waiting
+> +     * (i.e., there is no checkpoint)
+> +     */
+> +    if (deadline == 0
+> +        && (replay_mode != REPLAY_MODE_PLAY || replay_has_checkpoint())) {
+>           icount_notify_aio_contexts();
+>       }
+>   }
 > 
 
--- 
+Queued, thnks.
+
+Paolo
+
 
