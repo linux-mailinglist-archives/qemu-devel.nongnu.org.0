@@ -2,84 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6005E30A577
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:37:47 +0100 (CET)
-Received: from localhost ([::1]:55782 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBE130A5C9
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 11:52:09 +0100 (CET)
+Received: from localhost ([::1]:33050 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6WaY-0005LK-Gg
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:37:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35208)
+	id 1l6WoQ-00008d-8F
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 05:52:06 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:38860)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6WSw-0005zl-QO
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:29:55 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:35484)
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6WnE-00085W-Uz
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:50:52 -0500
+Received: from indium.canonical.com ([91.189.90.7]:34002)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6WSt-0006Ce-3L
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:29:54 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id l12so15987774wry.2
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 02:29:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=references:user-agent:from:to:cc:subject:date:in-reply-to
- :message-id:mime-version:content-transfer-encoding;
- bh=NcECgKC4E5kMYzbX8u5Nyim/8yrZcGmkSkDVIhQvIjE=;
- b=vIGcD2D/kiaMjuW9MM+K3GzQm4VqHGXXaZeJmaubEIQ2FOTNDtEi3zZTVW26UpJKJo
- 4u4KPimFxZq/BgtrLRSiVadMd13bhm80xx1R5j2lJaKbnbVB008z//bq/D/3tWD1vs1U
- Fb0xXKw9m+V0jZin0en2Yw0K5L+C03+X1etP582TJzwHy+ChE4CNouSUGRcXbGDgZ9nB
- ihMNz9KzX2shhbfY9bAcd7yCXDiPLN51XrBtljOuBFuqJ8T96CHpHCDrmbEM1Zy6bqRy
- fMR0iZ2vl+oDYNXiUfaqeb2rsGX4WCcIQZbmwe9W2Ouny1zirHG+vMfQBg/uPdEwY9qR
- co4A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:references:user-agent:from:to:cc:subject:date
- :in-reply-to:message-id:mime-version:content-transfer-encoding;
- bh=NcECgKC4E5kMYzbX8u5Nyim/8yrZcGmkSkDVIhQvIjE=;
- b=KgkgqIZTz3RGiTeZ8HD+vUK2n3LXPcbZ0PEyZYR02z7jKPLPiIXe6ciXnDe31ibcgZ
- OjBJFttKUycmm9GpWf/vtH+HuLScj3QoXwxflQd2sihr9isLYixfOEXkJ3qk8cPvJ1EY
- rB/PA/pPt4/P6GF56lXls0+J+nKBzdRPpzkci5uQw2kvOHGATjT+6gY7JavTF+zCA6+I
- spJlHbiLjjmZTi1M2F1cPl6Mg//7wQb/wiakbd0argzvcC10aHGSs+Xvly3s6FepjwuU
- Ob+oHKI0BP7aI52KrVjmDziyH3MF/XJ3YU28GRlNMbDHXsEO2noXgLQXDgcp68VjA/iZ
- euWw==
-X-Gm-Message-State: AOAM533iB9hllew5S2zqRI7q9ITZd4RFYeFzwKYr8xy/yrgpANSkABUN
- PtHVkdvxIa0CKoOtt5or7Dei+A==
-X-Google-Smtp-Source: ABdhPJzKOXOHkyoRivYEN8apkDCKIVhJ4BFOcTxTqqpRZBqiGpXaRZJFvFzdArasgPOeQ4REFOq8/Q==
-X-Received: by 2002:adf:f743:: with SMTP id z3mr17577539wrp.165.1612175389584; 
- Mon, 01 Feb 2021 02:29:49 -0800 (PST)
-Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id f4sm26791911wrs.34.2021.02.01.02.29.48
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 02:29:48 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id DF20B1FF7E;
- Mon,  1 Feb 2021 10:29:47 +0000 (GMT)
-References: <20210131111316.232778-1-f4bug@amsat.org>
- <20210131111316.232778-4-f4bug@amsat.org>
-User-agent: mu4e 1.5.7; emacs 28.0.50
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Subject: Re: [PATCH 03/10] hw/sh4/Kconfig: Rename CONFIG_LM32 ->
- CONFIG_LM32_PERIPHERALS
-Date: Mon, 01 Feb 2021 10:29:28 +0000
-In-reply-to: <20210131111316.232778-4-f4bug@amsat.org>
-Message-ID: <87mtwow06c.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <bounces@canonical.com>)
+ id 1l6WnC-0007gL-Sn
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 05:50:52 -0500
+Received: from loganberry.canonical.com ([91.189.90.37])
+ by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+ id 1l6WnA-0006UX-Ef
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 10:50:48 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+ by loganberry.canonical.com (Postfix) with ESMTP id 2C9A82E813B
+ for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 10:50:48 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Date: Mon, 01 Feb 2021 10:42:48 -0000
+From: Dong JianQiang <1914021@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: johndong pmaydell
+X-Launchpad-Bug-Reporter: Dong JianQiang (johndong)
+X-Launchpad-Bug-Modifier: Dong JianQiang (johndong)
+References: <161217038744.31620.11534855593258118024.malonedeb@chaenomeles.canonical.com>
+Message-Id: <161217616848.6922.17205232907557088889.malone@gac.canonical.com>
+Subject: [Bug 1914021] Re: qemu: uncaught target signal 4 (Illegal
+ instruction) but gdb remote-debug exited normally
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com);
+ Revision="e00fb96b2e64b75333d0178ec15cb78e5aadb64d"; Instance="production"
+X-Launchpad-Hash: 2966b59314bf5234889a142f7be60ec7a75d7f26
+Received-SPF: none client-ip=91.189.90.7; envelope-from=bounces@canonical.com;
+ helo=indium.canonical.com
+X-Spam_score_int: -66
+X-Spam_score: -6.7
+X-Spam_bar: ------
+X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.25, RCVD_IN_DNSWL_HI=-5,
+ RCVD_IN_MSPIKE_H3=-0.01, RCVD_IN_MSPIKE_WL=-0.01, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -88,46 +70,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Sarah Harris <S.E.Harris@kent.ac.uk>, Cornelia Huck <cohuck@redhat.com>,
- Sagar Karandikar <sagark@eecs.berkeley.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
- Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
- "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
- Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
- qemu-block@nongnu.org, David Hildenbrand <david@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?utf-8?Q?Mar?= =?utf-8?Q?c-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
- Artyom Tarasenko <atar4qemu@gmail.com>,
- Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
- Eduardo Habkost <ehabkost@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
- qemu-s390x@nongnu.org, qemu-arm@nongnu.org, Michael Rolnik <mrolnik@gmail.com>,
- Stafford Horne <shorne@gmail.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
- qemu-riscv@nongnu.org, Yoshinori Sato <ysato@users.sourceforge.jp>,
- Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
- Chris Wulff <crwulff@gmail.com>, Laurent Vivier <laurent@vivier.eu>,
- Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
- qemu-ppc@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>
+Reply-To: Bug 1914021 <1914021@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+yes, it reproduced on QEMU 5.0.0.
 
-Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org> writes:
+-- =
 
-> We want to be able to use the 'LM32' config for architecture
-> specific features. As CONFIG_LM32 is only used to select
-> peripherals, rename it CONFIG_LM32_PERIPHERALS.
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1914021
 
-_DEVICES if you want, either way:
+Title:
+  qemu: uncaught target signal 4 (Illegal instruction) but gdb remote-
+  debug exited normally
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Status in QEMU:
+  New
 
---=20
-Alex Benn=C3=A9e
+Bug description:
+  I'm getting Illegal instruction (core dumped) when running the
+  attached a.out_err binary in qemu, but when using Gdb to remote-debug
+  the program, it exited normally. will appreciate if you can help look
+  into this qemu issue.
+
+  readelf -h a.out_err
+  ELF Header:
+    Magic:   7f 45 4c 46 01 01 01 00 00 00 00 00 00 00 00 00
+    Class:                             ELF32
+    Data:                              2's complement, little endian
+    Version:                           1 (current)
+    OS/ABI:                            UNIX - System V
+    ABI Version:                       0
+    Type:                              EXEC (Executable file)
+    Machine:                           ARM
+    Version:                           0x1
+    Entry point address:               0x8220
+    Start of program headers:          52 (bytes into file)
+    Start of section headers:          54228 (bytes into file)
+    Flags:                             0x5000200, Version5 EABI, soft-float=
+ ABI
+    Size of this header:               52 (bytes)
+    Size of program headers:           32 (bytes)
+    Number of program headers:         3
+    Size of section headers:           40 (bytes)
+    Number of section headers:         16
+    Section header string table index: 15
+
+  qemu-arm version 4.0.0
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1914021/+subscriptions
 
