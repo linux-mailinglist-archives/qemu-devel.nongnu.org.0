@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F55A30A692
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:31:47 +0100 (CET)
-Received: from localhost ([::1]:56658 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78F4730A69D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 12:33:47 +0100 (CET)
+Received: from localhost ([::1]:33366 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6XQo-0007tY-6r
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:31:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47502)
+	id 1l6XSk-0001ht-GY
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 06:33:46 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47520)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6XOJ-0006G9-Jy
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:12 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:45005)
+ id 1l6XOO-0006Ik-TA
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:18 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:40295)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6XOI-0008Bp-04
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:11 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id d16so16131991wro.11
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 03:29:09 -0800 (PST)
+ id 1l6XON-0008Fq-C5
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 06:29:16 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id c127so12830581wmf.5
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 03:29:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=TX4T29tQMNqmDsICQt4DTx558hzr8lARDzNE3099YzQ=;
- b=cmfFtwCA+tgOSGKlnimSvXFLT15H8AxoX9KZP875N9P3SFSZc5jw8QxAHtF0UpmvUp
- i8mAwIklyL85PQE2+TqNbKMxp9S7e/K724ACw4np3/cgi/SLI/BsS1zMw9WR5WjX+/Ok
- RpgyUVbzxhIWeOdfC7lBP+BW38aXonPfyMCw2MLBDvP02Ef6Ha/PE/wKb0Wj9USH976u
- 3hO+qiXXjTmtrkTcN6AfzSrqUWoX0uIQP9VpV+e4TmKLu4b6kC8BTgKzr6IVeGdaDKvH
- 8L9LqVl3FU/ilIjd41mGqsykj/EcDtipVF4VsJ5uh0sHjamWoKv+CZU+tRMQfUBmuosN
- Fb2Q==
+ h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+ :mime-version:content-transfer-encoding;
+ bh=donqcXl7R+CymjCL8vc7v5IAilQU7H4mg0fNs68sCzA=;
+ b=e5igdUOKRu+nuBY0Zu2Ohn5JfnspcW8pqSPyZT4CaQx7HCrrRF6/uOf16FFra0u+BJ
+ Ip2eqn5lYrT8So/ZzTJBuOK58LV2uQ5OvMNgRK5m2cMRvTX/49GjhKxORVzEa4eJrH74
+ C4rzdb13gibI6wNTUMXHZhK73uON9FKBUZnBJhiYzLyhWkCmOv7h2ZqS35nM2cwMg30D
+ FH5wZcwae4yATnosrM5VXNPMx3HwFM9aanKYq4QURPzWTywVp1ERBuFqs6BnMYJqn7N5
+ PcaTnrymB0a7DiW8jS1VFjqewxxHRSRqy9WA89Acn/1D/R6X3o5X5PvPGCkMXM1ctXvg
+ FHgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=TX4T29tQMNqmDsICQt4DTx558hzr8lARDzNE3099YzQ=;
- b=HCiEofrRLlWM+ap5W5OcFJ0eCWSXORSZxkgfAldlZsTraEph1RWkM/BDwBSpBuTUnT
- lZxr5yYRXXj1cOVVHFlL1QrTNZ1nu4/HKwrvcm8fTEmF738cJN8i+i+0VcZK+w6x16n6
- eTjddWqOb6O/RklkCMex0ldth0wzM/FqgvwZPUOBGjeSHt7feotqsg0YCTkOjg/5Q+qz
- o9MPIwHl5lGsskeXFov3Nd2FLSd+JMSL1KVKwDjWcc9MdssS6yF6/z39Wu5ZdfE/Y6PO
- FEHc/gLTosNrae94k7Rev4GzPUdM/aXEkVR2jVGj6k0bj2SLXFfLoqRbVEMD7j3zvQ1P
- ZIpA==
-X-Gm-Message-State: AOAM530bWAR/q/zH/D1f081NK++swSRmibZjdX3zok3hiDy1BirnN8i8
- A4JEblvszfpHd/ESAhEu03c=
-X-Google-Smtp-Source: ABdhPJw0nJTtf9Bc1689UuS28OIRlRbCYYGpd67R1WBnjeVFdvngEGU5yH3pxA6EJNWEunMJWx8L4w==
-X-Received: by 2002:adf:f452:: with SMTP id f18mr17213716wrp.11.1612178948626; 
- Mon, 01 Feb 2021 03:29:08 -0800 (PST)
+ :in-reply-to:references:mime-version:content-transfer-encoding;
+ bh=donqcXl7R+CymjCL8vc7v5IAilQU7H4mg0fNs68sCzA=;
+ b=C0/+L2OWNEXRQJLrDBQeW6agIangXownkm9lyxofo2e1Pj2jLu7Qdr91g/lwmgtJOK
+ riY7y/5UwN1bJ7+ZOuK6ZLZuzHpDy5cAjydgw4a4qzCM1Ek4XvW+ZUVqLIvbt6c6Kwdc
+ i5fFlAssEa5Se95JOFyegGx+903Y++gic+jL50gFfZJz+M2T3NTobBHnBR4cu1iCZE8h
+ 6XDHvOMfadj9Sb5OeQjIjiww3zxu+g7bD94QZkEONl55Ty4nrEDjGuWswMnBeano7m4n
+ dvEEoQv9zo8Nj8ZRW1NLMQRhiLih7XFBC9htYQXvli9XQisAyTH4y82dFZ0Q1YtpuWzt
+ QuGg==
+X-Gm-Message-State: AOAM532mV04DbG44ICvqbVXBTQATMLuKJBUAGDbG8lOx/Qjr76hJLaFL
+ hW2CbEy+P9IYb+lu0PZLqqA=
+X-Google-Smtp-Source: ABdhPJx1pElW3YJm/WsOQahhG2HH5xZse6fgcEBep2dVSJwz1qWS4aDb1550CqyGQkCPJFpsp90m2g==
+X-Received: by 2002:a7b:c09a:: with SMTP id r26mr1225594wmh.60.1612178953873; 
+ Mon, 01 Feb 2021 03:29:13 -0800 (PST)
 Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
  [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id x81sm21819860wmg.40.2021.02.01.03.29.07
+ by smtp.gmail.com with ESMTPSA id f4sm26998449wrs.34.2021.02.01.03.29.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 03:29:07 -0800 (PST)
+ Mon, 01 Feb 2021 03:29:13 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Subject: [PATCH v3 0/7] hw/xen: Introduce XEN_FV/XEN_PV Kconfig
-Date: Mon,  1 Feb 2021 12:28:58 +0100
-Message-Id: <20210201112905.545144-1-f4bug@amsat.org>
+Subject: [PATCH v3 1/7] meson: Do not build Xen x86_64-softmmu on Aarch64
+Date: Mon,  1 Feb 2021 12:28:59 +0100
+Message-Id: <20210201112905.545144-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <20210201112905.545144-1-f4bug@amsat.org>
+References: <20210201112905.545144-1-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x42e.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -94,53 +96,41 @@ Cc: Stefano Stabellini <sstabellini@kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sort the Xen buildsys glue a bit.=0D
-=0D
-The first patches are probably ready now.=0D
-=0D
-Since v2:=0D
-- Addressed some of Paolo's comments=0D
-- More fixes=0D
-- XEN_PV still not buildable alone -> postponed=0D
-=0D
-v2: Considered Paolo's comments from v1=0D
-=0D
-Philippe Mathieu-Daud=C3=A9 (7):=0D
-  meson: Do not build Xen x86_64-softmmu on Aarch64=0D
-  hw/xen: Relax dependency on FSDEV_9P=0D
-  accel/xen: Incorporate xen-mapcache.c=0D
-  hw/i386/xen: Introduce XEN_FV Kconfig=0D
-  hw/xen: Make xen_shutdown_fatal_error() available out of X86 HVM=0D
-  hw/xen: Make qmp_xen_set_global_dirty_log() available out of X86 HVM=0D
-  NOTFORMERGE hw/xen/Kconfig: Introduce XEN_PV config=0D
-=0D
- meson.build                           |  8 ++++++--=0D
- accel/xen/trace.h                     |  1 +=0D
- {hw/i386 =3D> accel}/xen/xen-mapcache.c |  0=0D
- hw/i386/xen/xen-hvm.c                 | 24 ------------------------=0D
- hw/xen/xen-legacy-backend.c           |  3 ++-=0D
- hw/xen/xen-migration.c                | 22 ++++++++++++++++++++++=0D
- hw/xen/xen-utils.c                    | 25 +++++++++++++++++++++++++=0D
- accel/Kconfig                         |  2 +-=0D
- accel/xen/meson.build                 |  5 ++++-=0D
- accel/xen/trace-events                | 10 ++++++++++=0D
- hw/Kconfig                            |  1 +=0D
- hw/i386/Kconfig                       |  2 ++=0D
- hw/i386/xen/Kconfig                   |  5 +++++=0D
- hw/i386/xen/meson.build               |  3 +--=0D
- hw/i386/xen/trace-events              |  6 ------=0D
- hw/xen/Kconfig                        |  7 +++++++=0D
- hw/xen/meson.build                    |  4 +++-=0D
- 17 files changed, 90 insertions(+), 38 deletions(-)=0D
- create mode 100644 accel/xen/trace.h=0D
- rename {hw/i386 =3D> accel}/xen/xen-mapcache.c (100%)=0D
- create mode 100644 hw/xen/xen-migration.c=0D
- create mode 100644 hw/xen/xen-utils.c=0D
- create mode 100644 accel/xen/trace-events=0D
- create mode 100644 hw/i386/xen/Kconfig=0D
- create mode 100644 hw/xen/Kconfig=0D
-=0D
--- =0D
-2.26.2=0D
-=0D
+The Xen on ARM documentation only mentions the i386-softmmu
+target. As the x86_64-softmmu doesn't seem used, remove it
+to avoid wasting cpu cycles building it.
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ meson.build | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/meson.build b/meson.build
+index f00b7754fd4..97a577a7743 100644
+--- a/meson.build
++++ b/meson.build
+@@ -74,10 +74,10 @@
+ endif
+ 
+ accelerator_targets = { 'CONFIG_KVM': kvm_targets }
+-if cpu in ['x86', 'x86_64', 'arm', 'aarch64']
++if cpu in ['arm', 'aarch64']
+   # i368 emulator provides xenpv machine type for multiple architectures
+   accelerator_targets += {
+-    'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
++    'CONFIG_XEN': ['i386-softmmu'],
+   }
+ endif
+ if cpu in ['x86', 'x86_64']
+@@ -85,6 +85,7 @@
+     'CONFIG_HAX': ['i386-softmmu', 'x86_64-softmmu'],
+     'CONFIG_HVF': ['x86_64-softmmu'],
+     'CONFIG_WHPX': ['i386-softmmu', 'x86_64-softmmu'],
++    'CONFIG_XEN': ['i386-softmmu', 'x86_64-softmmu'],
+   }
+ endif
+ 
+-- 
+2.26.2
+
 
