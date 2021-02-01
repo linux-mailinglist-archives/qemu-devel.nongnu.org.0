@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AEF230B111
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 21:00:01 +0100 (CET)
-Received: from localhost ([::1]:59158 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 916DB30B113
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 21:00:38 +0100 (CET)
+Received: from localhost ([::1]:60020 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6fMe-0004gX-GK
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 15:00:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:53756)
+	id 1l6fNE-00052A-O0
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 15:00:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:54136)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l6fJt-0000r8-NK; Mon, 01 Feb 2021 14:57:10 -0500
-Received: from mail-il1-x12a.google.com ([2607:f8b0:4864:20::12a]:36004)
+ id 1l6fLh-0003kE-Cu; Mon, 01 Feb 2021 14:59:03 -0500
+Received: from mail-il1-x135.google.com ([2607:f8b0:4864:20::135]:38272)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1l6fJr-0005fi-SM; Mon, 01 Feb 2021 14:57:09 -0500
-Received: by mail-il1-x12a.google.com with SMTP id p8so16844044ilg.3;
- Mon, 01 Feb 2021 11:57:05 -0800 (PST)
+ id 1l6fLd-0006S7-Qo; Mon, 01 Feb 2021 14:59:01 -0500
+Received: by mail-il1-x135.google.com with SMTP id a1so16848191ilr.5;
+ Mon, 01 Feb 2021 11:58:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
  h=mime-version:references:in-reply-to:from:date:message-id:subject:to
  :cc:content-transfer-encoding;
- bh=W2dJn2sLoY9H+IKibEtw6/D6QgYv/E2xZxjVcAwjgmk=;
- b=LQIs2QwD80ymhtl44nrZgYq21K0dzZykpVIT/KU5HrBelc9HLidqOViek7clRNiJdY
- IIykWLdTHPR5fNR4jVOg8T8b88mMSYR7W8CspcfCrdkMBceQY2Xs3y/JjxzWfvVq0u/K
- 2lb4Yg2EzxleaWBWVguBQnzBUNOZXTuLTu0mn7+VKLuOSSgRzGKoukJsvtj7NpSdvkTT
- vwwqkAvm5FRxY20sEZmzMcjmJF/tajHPj9+KmQWh/ucMhljNmZPZiB4OcOUwmkZq9Ryb
- eoz1SLCbufzUV7SzUzBluxsZ5lAZE2YHWZr4UDcW87l8mkdCWsrYOsa2T/Y8/1jBavo9
- f3Hg==
+ bh=SKyyWMxTpIpg6K+Vsby9Djb/AwohucHSDi/F4Vwzhw4=;
+ b=tzTFUWGIt/jbJtBuJEOSSbOZaKaI/R57rNrNjA8YZkHq4YFzseAlCTndZHILaE0jjV
+ XcN+fRSEEU92OM/RtuReIeds9T4kTj6oMvCIeoFuqeugMhE8uPUxkDim8oGn5265kVhA
+ c/Mxax7i/l0tfw3u4UvkQPpCQGcEfcuhYCBs++N8aX6/TbdPfAHfBrtbHy3dwW5zU5r3
+ BIDo6KA5T/F4plzh1syDUlxXYmhjWkCT32nGWL2Qsg8t9wPW/bE4Y+Am7ejYW0ZieG3G
+ ncYPSJN9tTZ+uqV1pzdlxnqjDJTPP4reCJ32WdQeXHLsfdGd8ua5dpq6kASDikckmGi+
+ X2eQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:mime-version:references:in-reply-to:from:date
  :message-id:subject:to:cc:content-transfer-encoding;
- bh=W2dJn2sLoY9H+IKibEtw6/D6QgYv/E2xZxjVcAwjgmk=;
- b=shL6TlI38mbYFHhDHayd8V5KMRrbyCzo9hvawmBt/YAkiswYaz2EY85z1juToQli2Y
- 4zND9Gd8RfskRrNQuHtDgAh34YhGef+JME6kbKJygDkFnPXZchhKfCXAKbmRJv3/gKfW
- FjOUDF8hKzWxnmEhLr/sbhYG5LBp10+oVtAvdQOiJjBs8/lFtqEA0pBd4snjbbuy7SqS
- Q34k0gMYxyEnnubaXUtNYwzQ1w/i9W7X5zmh9S4wQiCseYVj/MnC18vpcT4aXrv9QNxg
- VlhND0ndSJjiqNAwyYL1wpfB0fncLW+tB4y/eeozHB/coF3MxJBXVa8AuTQb6oKAqrbp
- vnmg==
-X-Gm-Message-State: AOAM530iiTGd3X5N0UDEISlhJAAlBayd0Sfvfs+yrml5gjlOxr2AS3CA
- enJUrbjZFyfPIGJYGlcj6jxRKkD3dXctnD07mOVdv9XZZO8=
-X-Google-Smtp-Source: ABdhPJx1zl3+B8mfXw9T2LtJvLPDe/dwzmTi1pww9/h+qZV4GRota3Lmw7xoOvCpNgZzarnVAj0xr9G+aH2Wt1+PYjQ=
-X-Received: by 2002:a05:6e02:20e5:: with SMTP id
- q5mr14550714ilv.131.1612209425045; 
- Mon, 01 Feb 2021 11:57:05 -0800 (PST)
+ bh=SKyyWMxTpIpg6K+Vsby9Djb/AwohucHSDi/F4Vwzhw4=;
+ b=WLLlZ7Gj2WfmHEH2//2tm7rm+9Yjb2FQHivxwIxjwow53a55YRs9d5WV4vf6EBUATT
+ yZWwrBz8aAyQD/KCHJq5l0rUPBJJp03OWoxNxYjYbCpEFvrPorWrPHQ25KX0NP6LkzhU
+ MyTZcbA72sj4xneKiuAIzJryLXXUik95pd7c05nGjVdpzLM79v2FXylqe+Kwk/UXXjXs
+ A5tmY0DwW39JE7LcoF8lYO1cAld4zfj/6Dz66ypyvjHKH0451dnIublt3vDq49Sm6s7z
+ yS720KIbO4IGq2UtvuM9+n5qDlGOWj96o6M0M/x7EAunBU1V1CyDXF1i4AEE4LBaUKFJ
+ bLJQ==
+X-Gm-Message-State: AOAM530tQCjjNCV7rljLesAtwoejpXkktsu8DojwrE0MhFAvUZ8RYlTc
+ gk2B6WU8wFijO3QsKqaFh7iUjuMu6Y/ym04KvpU=
+X-Google-Smtp-Source: ABdhPJySdadrxzzwNF2ryS4eN2JSOOO0w7oSrLlIH48L7SH5Oad7lB269hmQan6Yq4xbgfKqAhNAqAnZAYBRgk3WZjk=
+X-Received: by 2002:a05:6e02:963:: with SMTP id
+ q3mr14399945ilt.227.1612209534947; 
+ Mon, 01 Feb 2021 11:58:54 -0800 (PST)
 MIME-Version: 1.0
-References: <20210131184449.382425-1-f4bug@amsat.org>
- <20210131184449.382425-7-f4bug@amsat.org>
-In-Reply-To: <20210131184449.382425-7-f4bug@amsat.org>
+References: <20210131111316.232778-1-f4bug@amsat.org>
+ <20210131111316.232778-9-f4bug@amsat.org>
+In-Reply-To: <20210131111316.232778-9-f4bug@amsat.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 1 Feb 2021 11:56:37 -0800
-Message-ID: <CAKmqyKN-Yg-XOPNh5BVyZG9WLZdmtLm6HPF3rCeRtNryhCwosQ@mail.gmail.com>
-Subject: Re: [PATCH v3 6/6] hw/arm: Display CPU type in machine description
+Date: Mon, 1 Feb 2021 11:58:27 -0800
+Message-ID: <CAKmqyKNLM9TRr9PhAOk+fqcW9d7T8P5BRE0YJrkGfE52t1Pg3A@mail.gmail.com>
+Subject: Re: [PATCH 08/10] default-configs: Remove unnecessary SEMIHOSTING
+ selection
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::12a;
- envelope-from=alistair23@gmail.com; helo=mail-il1-x12a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::135;
+ envelope-from=alistair23@gmail.com; helo=mail-il1-x135.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -80,21 +81,42 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- QEMU Trivial <qemu-trivial@nongnu.org>,
- Alistair Francis <alistair@alistair23.me>, Michael Tokarev <mjt@tls.msk.ru>,
+ Sarah Harris <S.E.Harris@kent.ac.uk>, Chris Wulff <crwulff@gmail.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Anthony Green <green@moxielogic.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
  "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
- Laurent Vivier <laurent@vivier.eu>, Niek Linnenbank <nieklinnenbank@gmail.com>,
- qemu-arm <qemu-arm@nongnu.org>, Antony Pavlov <antonynpavlov@gmail.com>,
- Joel Stanley <joel@jms.id.au>
+ Max Filippov <jcmvbkbc@gmail.com>, Alistair Francis <Alistair.Francis@wdc.com>,
+ "Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
+ Guan Xuetao <gxt@mprc.pku.edu.cn>, Marek Vasut <marex@denx.de>,
+ Qemu-block <qemu-block@nongnu.org>, David Hildenbrand <david@redhat.com>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+ Artyom Tarasenko <atar4qemu@gmail.com>,
+ Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Greg Kurz <groug@kaod.org>,
+ qemu-s390x <qemu-s390x@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>,
+ Michael Rolnik <mrolnik@gmail.com>,
+ "open list:New World" <qemu-ppc@nongnu.org>, Stafford Horne <shorne@gmail.com>,
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+ David Gibson <david@gibson.dropbear.id.au>, Kevin Wolf <kwolf@redhat.com>,
+ "open list:RISC-V" <qemu-riscv@nongnu.org>,
+ Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+ Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <laurent@vivier.eu>,
+ Max Reitz <mreitz@redhat.com>, Michael Walle <michael@walle.cc>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, Jan 31, 2021 at 10:54 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.o=
-rg> wrote:
+On Sun, Jan 31, 2021 at 3:24 AM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
+g> wrote:
 >
-> Most of ARM machines display their CPU when QEMU list the available
-> machines (-M help). Some machines do not. Fix to unify the help
-> output.
+> Commit 56b5170c87e ("semihosting: Move ARM semihosting code to
+> shared directories") selected ARM_COMPATIBLE_SEMIHOSTING which
+> already selects SEMIHOSTING. No need to select it again.
 >
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
@@ -103,104 +125,49 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/arm/digic_boards.c  | 2 +-
->  hw/arm/microbit.c      | 2 +-
->  hw/arm/netduino2.c     | 2 +-
->  hw/arm/netduinoplus2.c | 2 +-
->  hw/arm/orangepi.c      | 2 +-
->  hw/arm/stellaris.c     | 4 ++--
->  6 files changed, 7 insertions(+), 7 deletions(-)
+>  default-configs/devices/arm-softmmu.mak     | 1 -
+>  default-configs/devices/riscv32-softmmu.mak | 1 -
+>  default-configs/devices/riscv64-softmmu.mak | 1 -
+>  3 files changed, 3 deletions(-)
 >
-> diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-> index be12873673b..6cdc1d83fca 100644
-> --- a/hw/arm/digic_boards.c
-> +++ b/hw/arm/digic_boards.c
-> @@ -142,7 +142,7 @@ static void canon_a1100_init(MachineState *machine)
+> diff --git a/default-configs/devices/arm-softmmu.mak b/default-configs/de=
+vices/arm-softmmu.mak
+> index 0500156a0c7..341d439de6f 100644
+> --- a/default-configs/devices/arm-softmmu.mak
+> +++ b/default-configs/devices/arm-softmmu.mak
+> @@ -41,6 +41,5 @@ CONFIG_MICROBIT=3Dy
+>  CONFIG_FSL_IMX25=3Dy
+>  CONFIG_FSL_IMX7=3Dy
+>  CONFIG_FSL_IMX6UL=3Dy
+> -CONFIG_SEMIHOSTING=3Dy
+>  CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
+>  CONFIG_ALLWINNER_H3=3Dy
+> diff --git a/default-configs/devices/riscv32-softmmu.mak b/default-config=
+s/devices/riscv32-softmmu.mak
+> index d847bd5692e..5c9ad2590ef 100644
+> --- a/default-configs/devices/riscv32-softmmu.mak
+> +++ b/default-configs/devices/riscv32-softmmu.mak
+> @@ -3,7 +3,6 @@
+>  # Uncomment the following lines to disable these optional devices:
+>  #
+>  #CONFIG_PCI_DEVICES=3Dn
+> -CONFIG_SEMIHOSTING=3Dy
+>  CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
 >
->  static void canon_a1100_machine_init(MachineClass *mc)
->  {
-> -    mc->desc =3D "Canon PowerShot A1100 IS";
-> +    mc->desc =3D "Canon PowerShot A1100 IS (ARM946)";
->      mc->init =3D &canon_a1100_init;
->      mc->ignore_memory_transaction_failures =3D true;
->      mc->default_ram_size =3D 64 * MiB;
-> diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-> index 0947491cb97..e9494334ce7 100644
-> --- a/hw/arm/microbit.c
-> +++ b/hw/arm/microbit.c
-> @@ -64,7 +64,7 @@ static void microbit_machine_class_init(ObjectClass *oc=
-, void *data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
+>  # Boards:
+> diff --git a/default-configs/devices/riscv64-softmmu.mak b/default-config=
+s/devices/riscv64-softmmu.mak
+> index d5eec75f05e..d5b2e25b6df 100644
+> --- a/default-configs/devices/riscv64-softmmu.mak
+> +++ b/default-configs/devices/riscv64-softmmu.mak
+> @@ -3,7 +3,6 @@
+>  # Uncomment the following lines to disable these optional devices:
+>  #
+>  #CONFIG_PCI_DEVICES=3Dn
+> -CONFIG_SEMIHOSTING=3Dy
+>  CONFIG_ARM_COMPATIBLE_SEMIHOSTING=3Dy
 >
-> -    mc->desc =3D "BBC micro:bit";
-> +    mc->desc =3D "BBC micro:bit (Cortex-M0)";
->      mc->init =3D microbit_init;
->      mc->max_cpus =3D 1;
->  }
-> diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-> index 8f103341443..1733b71507c 100644
-> --- a/hw/arm/netduino2.c
-> +++ b/hw/arm/netduino2.c
-> @@ -54,7 +54,7 @@ static void netduino2_init(MachineState *machine)
->
->  static void netduino2_machine_init(MachineClass *mc)
->  {
-> -    mc->desc =3D "Netduino 2 Machine";
-> +    mc->desc =3D "Netduino 2 Machine (Cortex-M3)";
->      mc->init =3D netduino2_init;
->      mc->ignore_memory_transaction_failures =3D true;
->  }
-> diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
-> index 68abd3ec69d..d3ad7a2b675 100644
-> --- a/hw/arm/netduinoplus2.c
-> +++ b/hw/arm/netduinoplus2.c
-> @@ -55,7 +55,7 @@ static void netduinoplus2_init(MachineState *machine)
->
->  static void netduinoplus2_machine_init(MachineClass *mc)
->  {
-> -    mc->desc =3D "Netduino Plus 2 Machine";
-> +    mc->desc =3D "Netduino Plus 2 Machine (Cortex-M4)";
->      mc->init =3D netduinoplus2_init;
->  }
->
-> diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-> index d6306dfddae..40cdb5c6d2c 100644
-> --- a/hw/arm/orangepi.c
-> +++ b/hw/arm/orangepi.c
-> @@ -113,7 +113,7 @@ static void orangepi_init(MachineState *machine)
->
->  static void orangepi_machine_init(MachineClass *mc)
->  {
-> -    mc->desc =3D "Orange Pi PC";
-> +    mc->desc =3D "Orange Pi PC (Cortex-A7)";
->      mc->init =3D orangepi_init;
->      mc->block_default_type =3D IF_SD;
->      mc->units_per_default_bus =3D 1;
-> diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-> index ad72c0959f1..27292ec4113 100644
-> --- a/hw/arm/stellaris.c
-> +++ b/hw/arm/stellaris.c
-> @@ -1538,7 +1538,7 @@ static void lm3s811evb_class_init(ObjectClass *oc, =
-void *data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
->
-> -    mc->desc =3D "Stellaris LM3S811EVB";
-> +    mc->desc =3D "Stellaris LM3S811EVB (Cortex-M3)";
->      mc->init =3D lm3s811evb_init;
->      mc->ignore_memory_transaction_failures =3D true;
->      mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m3");
-> @@ -1554,7 +1554,7 @@ static void lm3s6965evb_class_init(ObjectClass *oc,=
- void *data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
->
-> -    mc->desc =3D "Stellaris LM3S6965EVB";
-> +    mc->desc =3D "Stellaris LM3S6965EVB (Cortex-M3)";
->      mc->init =3D lm3s6965evb_init;
->      mc->ignore_memory_transaction_failures =3D true;
->      mc->default_cpu_type =3D ARM_CPU_TYPE_NAME("cortex-m3");
+>  # Boards:
 > --
 > 2.26.2
 >
