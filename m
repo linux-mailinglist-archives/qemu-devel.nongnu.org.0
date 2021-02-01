@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B72430AC88
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:24:46 +0100 (CET)
-Received: from localhost ([::1]:35260 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C25C630AC7B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:19:06 +0100 (CET)
+Received: from localhost ([::1]:52588 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6c0L-0001UU-10
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:24:45 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:48204)
+	id 1l6bur-00050V-QC
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:19:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:48214)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6brR-0003iv-Kh
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:15:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:56740)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6brV-0003jJ-EG
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:15:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:28399)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6br7-0003Mr-V1
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:15:25 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6brC-0003My-K8
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:15:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1612196111;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ytDjdpmBImCbd01djVUeTFcpVxJ73yZSgduuGPqSE9o=;
- b=MyH04B7y8xV7ljaKlf/Tt7Aky0xzkVW3i7RiH00lGNsnuB+mUxd1yWhjE5Q/bODiejue9Z
- ISM9SYV8JV5d12mUiMDtj7nsasMYEZjL5suhvcUZ1odAj8TPz2OqfPUHVX6HhMkNWtYg9j
- 4y5rfxppwOdh1enLugirIpT/VoXdsM0=
+ bh=XVmegMPuhoq8IGCeJ0ybKSEiiWt/X1+46J/ZKUF93wc=;
+ b=P869HlNPm6+KnMz8QL89nyP9P6BdKEpgHWwGoSrzhmH6gCOHgJ8PqutS7Pg141OqsKKsyw
+ DjPAukf0Lzt00uSMu9jc3ClNZnqCO2QBE52jNVFfckcssxvL7+5eslDG3AZaTwmMOfukDo
+ if6mm/Jn+KAZ7BNd7LCSz/SHs6SmIdc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-406-86GmM3ivNqiaF8FdYCVULw-1; Mon, 01 Feb 2021 11:15:09 -0500
-X-MC-Unique: 86GmM3ivNqiaF8FdYCVULw-1
+ us-mta-426-SyL4ICNTOpmJanfOiQx-dQ-1; Mon, 01 Feb 2021 11:15:09 -0500
+X-MC-Unique: SyL4ICNTOpmJanfOiQx-dQ-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C4508030A7
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0C644195D567
  for <qemu-devel@nongnu.org>; Mon,  1 Feb 2021 16:15:09 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
  [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CBE7F5D756;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CC1C462460;
  Mon,  1 Feb 2021 16:15:05 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 433EC113861E; Mon,  1 Feb 2021 17:15:04 +0100 (CET)
+ id 461A31138461; Mon,  1 Feb 2021 17:15:04 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] qmp: Fix up comments after commit 9ce44e2ce2
-Date: Mon,  1 Feb 2021 17:15:02 +0100
-Message-Id: <20210201161504.1976989-2-armbru@redhat.com>
+Subject: [PATCH 2/3] qmp: Add more tracepoints
+Date: Mon,  1 Feb 2021 17:15:03 +0100
+Message-Id: <20210201161504.1976989-3-armbru@redhat.com>
 In-Reply-To: <20210201161504.1976989-1-armbru@redhat.com>
 References: <20210201161504.1976989-1-armbru@redhat.com>
 MIME-Version: 1.0
@@ -66,7 +66,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -83,37 +83,69 @@ Cc: kwolf@redhat.com, jsnow@redhat.com, peterx@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 9ce44e2ce2 "qmp: Move dispatcher to a coroutine" replaced
-monitor_qmp_bh_dispatcher() by monitor_qmp_dispatcher_co(), but
-neglected to update comments.  Do that now.
+Add tracepoints for in-band request enqueue and dequeue, processing of
+queued in-band errors, and responses.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- monitor/qmp.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ monitor/qmp.c        | 7 +++++++
+ monitor/trace-events | 4 ++++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/monitor/qmp.c b/monitor/qmp.c
-index 8f91af32be..f6a1e7783b 100644
+index f6a1e7783b..e37b047c8a 100644
 --- a/monitor/qmp.c
 +++ b/monitor/qmp.c
-@@ -79,7 +79,7 @@ static void monitor_qmp_cleanup_queue_and_resume(MonitorQMP *mon)
-     qemu_mutex_lock(&mon->qmp_queue_lock);
+@@ -113,6 +113,7 @@ void qmp_send_response(MonitorQMP *mon, const QDict *rsp)
  
-     /*
--     * Same condition as in monitor_qmp_bh_dispatcher(), but before
-+     * Same condition as in monitor_qmp_dispatcher_co(), but before
-      * removing an element from the queue (hence no `- 1`).
-      * Also, the queue should not be empty either, otherwise the
-      * monitor hasn't been suspended yet (or was already resumed).
-@@ -349,7 +349,7 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
+     json = qobject_to_json_pretty(data, mon->pretty);
+     assert(json != NULL);
++    trace_monitor_qmp_respond(mon, json->str);
  
-     /*
-      * Suspend the monitor when we can't queue more requests after
--     * this one.  Dequeuing in monitor_qmp_bh_dispatcher() or
-+     * this one.  Dequeuing in monitor_qmp_dispatcher_co() or
-      * monitor_qmp_cleanup_queue_and_resume() will resume it.
-      * Note that when OOB is disabled, we queue at most one command,
-      * for backward compatibility.
+     g_string_append_c(json, '\n');
+     monitor_puts(&mon->common, json->str);
+@@ -251,6 +252,9 @@ void coroutine_fn monitor_qmp_dispatcher_co(void *data)
+             }
+         }
+ 
++        trace_monitor_qmp_in_band_dequeue(req_obj,
++                                          req_obj->mon->qmp_requests->length);
++
+         if (qatomic_xchg(&qmp_dispatcher_co_busy, true) == true) {
+             /*
+              * Someone rescheduled us (probably because a new requests
+@@ -287,6 +291,7 @@ void coroutine_fn monitor_qmp_dispatcher_co(void *data)
+             monitor_qmp_dispatch(mon, req_obj->req);
+         } else {
+             assert(req_obj->err);
++            trace_monitor_qmp_err_in_band(error_get_pretty(req_obj->err));
+             rsp = qmp_error_response(req_obj->err);
+             req_obj->err = NULL;
+             monitor_qmp_respond(mon, rsp);
+@@ -364,6 +369,8 @@ static void handle_qmp_command(void *opaque, QObject *req, Error *err)
+      * handled in time order.  Ownership for req_obj, req,
+      * etc. will be delivered to the handler side.
+      */
++    trace_monitor_qmp_in_band_enqueue(req_obj, mon,
++                                      mon->qmp_requests->length);
+     assert(mon->qmp_requests->length < QMP_REQ_QUEUE_LEN_MAX);
+     g_queue_push_tail(mon->qmp_requests, req_obj);
+     qemu_mutex_unlock(&mon->qmp_queue_lock);
+diff --git a/monitor/trace-events b/monitor/trace-events
+index 0365ac4d99..348dcfca9b 100644
+--- a/monitor/trace-events
++++ b/monitor/trace-events
+@@ -10,6 +10,10 @@ monitor_protocol_event_queue(uint32_t event, void *qdict, uint64_t rate) "event=
+ monitor_suspend(void *ptr, int cnt) "mon %p: %d"
+ 
+ # qmp.c
++monitor_qmp_in_band_enqueue(void *req, void *mon, unsigned len) "%p mon %p len %u"
++monitor_qmp_in_band_dequeue(void *req, unsigned len) "%p len %u"
+ monitor_qmp_cmd_in_band(const char *id) "%s"
++monitor_qmp_err_in_band(const char *desc) "%s"
+ monitor_qmp_cmd_out_of_band(const char *id) "%s"
++monitor_qmp_respond(void *mon, const char *json) "mon %p resp: %s"
+ handle_qmp_command(void *mon, const char *req) "mon %p req: %s"
 -- 
 2.26.2
 
