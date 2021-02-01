@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 168B530B2FF
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 23:56:19 +0100 (CET)
-Received: from localhost ([::1]:33654 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 065C130B300
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 23:56:20 +0100 (CET)
+Received: from localhost ([::1]:33638 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6i7G-0007Ns-5c
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 17:56:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57780)
+	id 1l6i7G-0007NU-Vu
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 17:56:19 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57786)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l6i5G-00064G-Qd
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:54:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:52534)
+ id 1l6i5H-00064z-5H
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:54:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:29231)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <ehabkost@redhat.com>)
- id 1l6i5D-000245-DU
+ id 1l6i5D-00025a-R9
  for qemu-devel@nongnu.org; Mon, 01 Feb 2021 17:54:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612220050;
+ s=mimecast20190719; t=1612220051;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=az4sdLdgyiV9UN1GjEJmlcUXtom4ZZy7Mb5kEaY5AdI=;
- b=A1jQkTnD5xBfgh8EmQ3WcZkN6XqYru6Wz4E1jX6gEnuMJ/oYggGKyx4pek8vbwdplTZ1lj
- Nd1cm7HdxLaABvbkvhWA04xitTDdJFVZ/Y8P8sNsU1ad3Zn9XYDgzxITnyz11Pd4+woujH
- fi0Qni9EN3CTnBKY7MFwWQpaT4mkCCI=
+ bh=HJBXSoWEw+48AA0c3Z3hHaBYGhwzEtH/EGkiv/yCyiE=;
+ b=Ml4I92mcFEOVhGKxrcDDpx+kGY0K0ctKoEDcwBFkKK0Eq3s6OVImACTzMmAOnCAEQ15Hz4
+ IoEgzQWTcSuJQkBU2c5GUq5aiYgGCfbRO7hXLyn3MF2Fhlz1AkvlYbw5tECDcc7B/KKbDi
+ pJxzDupZOaXMt5Hc8p6e5IAo9f9uZ3c=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-200--QQCP0EYMge3drSu5aY99g-1; Mon, 01 Feb 2021 17:54:08 -0500
-X-MC-Unique: -QQCP0EYMge3drSu5aY99g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
- [10.5.11.16])
+ us-mta-582-kJaNM8q-PeS4Jaj1-JALdA-1; Mon, 01 Feb 2021 17:54:09 -0500
+X-MC-Unique: kJaNM8q-PeS4Jaj1-JALdA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 92B8D59;
- Mon,  1 Feb 2021 22:54:07 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 86AA710054FF;
+ Mon,  1 Feb 2021 22:54:08 +0000 (UTC)
 Received: from localhost (ovpn-3-197.rdu2.redhat.com [10.22.3.197])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 52A0D5C1A1;
- Mon,  1 Feb 2021 22:54:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4DE04E2E0;
+ Mon,  1 Feb 2021 22:54:08 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH 1/3] i386: Add missing "vmx-ept-wb" feature name
-Date: Mon,  1 Feb 2021 17:54:02 -0500
-Message-Id: <20210201225404.3941395-2-ehabkost@redhat.com>
+Subject: [PATCH 2/3] i386: Move asserts to separate x86_cpudef_validate()
+ function
+Date: Mon,  1 Feb 2021 17:54:03 -0500
+Message-Id: <20210201225404.3941395-3-ehabkost@redhat.com>
 In-Reply-To: <20210201225404.3941395-1-ehabkost@redhat.com>
 References: <20210201225404.3941395-1-ehabkost@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 Authentication-Results: relay.mimecast.com;
  auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=ehabkost@redhat.com
 X-Mimecast-Spam-Score: 0
@@ -84,29 +85,51 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Not having a feature name in feature_word_info breaks error
-reporting and query-cpu-model-expansion.  Add the missing feature
-name to feature_word_info[FEAT_VMX_EPT_VPID_CAPS].feat_names[14].
+Additional sanity checks will be added to the code, so move the
+existing asserts to a separate function.
 
-Fixes: 0723cc8a5558 ("target/i386: add VMX features to named CPU models")
+Wrap the whole function in `#ifndef NDEBUG` because the checks
+will become more complex than trivial assert() calls.
+
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- target/i386/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/i386/cpu.c | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index ae89024d366..2bf3ab78056 100644
+index 2bf3ab78056..6285fb00eb8 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -1262,7 +1262,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
-             "vmx-ept-execonly", NULL, NULL, NULL,
-             NULL, NULL, "vmx-page-walk-4", "vmx-page-walk-5",
-             NULL, NULL, NULL, NULL,
--            NULL, NULL, NULL, NULL,
-+            NULL, NULL, "vmx-ept-wb", NULL,
-             "vmx-ept-2mb", "vmx-ept-1gb", NULL, NULL,
-             "vmx-invept", "vmx-eptad", "vmx-ept-advanced-exitinfo", NULL,
-             NULL, "vmx-invept-single-context", "vmx-invept-all-context", NULL,
+@@ -5431,17 +5431,25 @@ static void x86_register_cpu_model_type(const char *name, X86CPUModel *model)
+     type_register(&ti);
+ }
+ 
+-static void x86_register_cpudef_types(X86CPUDefinition *def)
++/* Sanity check CPU model definition before registering it */
++static void x86_cpudef_validate(X86CPUDefinition *def)
+ {
+-    X86CPUModel *m;
+-    const X86CPUVersionDefinition *vdef;
+-
++#ifndef NDEBUG
+     /* AMD aliases are handled at runtime based on CPUID vendor, so
+      * they shouldn't be set on the CPU model table.
+      */
+     assert(!(def->features[FEAT_8000_0001_EDX] & CPUID_EXT2_AMD_ALIASES));
+     /* catch mistakes instead of silently truncating model_id when too long */
+     assert(def->model_id && strlen(def->model_id) <= 48);
++#endif
++}
++
++static void x86_register_cpudef_types(X86CPUDefinition *def)
++{
++    X86CPUModel *m;
++    const X86CPUVersionDefinition *vdef;
++
++    x86_cpudef_validate(def);
+ 
+     /* Unversioned model: */
+     m = g_new0(X86CPUModel, 1);
 -- 
 2.28.0
 
