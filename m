@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D5530AC55
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:12:41 +0100 (CET)
-Received: from localhost ([::1]:43220 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4BD30AC54
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 17:12:17 +0100 (CET)
+Received: from localhost ([::1]:42046 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6boe-0000pZ-Oy
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:12:40 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:46608)
+	id 1l6boG-0000Iz-OH
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 11:12:16 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:46932)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1l6bkv-0006qb-Em
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:08:53 -0500
-Received: from mail-qv1-xf31.google.com ([2607:f8b0:4864:20::f31]:33433)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <programmingkidx@gmail.com>)
- id 1l6bkt-0000G3-SY
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:08:49 -0500
-Received: by mail-qv1-xf31.google.com with SMTP id 2so8380150qvd.0
- for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 08:08:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=k/6hU/YRp/WRayf4kqQHviwm/7JIej3WiJ6ds5XzrOE=;
- b=Uh9++KPM2oSE5hwtXKx+ThJeTU/sVaoREIx+h0Z+CCxSVXOqacAg5UAYCiJD8OdDjG
- gCq5MlHHLWA7FUPmw2RED1hJSg0SDPRqBMRTbfZCtNpgU5F9FAF4lKd/UY8Y780RkxkL
- l1KTKlHxT1ioAi63gOnWZZo3GLF84PtGNVjRlCH8dh0Zp/NGg4ja6JxZlwzm/p4MRkBr
- en9ollDY1cs4PAqrLsnUqqXpO/dwk+pipnJBpaTfa27+7ftKDnlf25/bHG5sQYOLc9E5
- iNyvvSl5dQyGng1wQwQWy2SzAH5czBQzWwnsimh19mep2CoZF/Vw15v1SLPb+2rp/fsz
- SMSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:mime-version:subject:from:in-reply-to:date:cc
- :content-transfer-encoding:message-id:references:to;
- bh=k/6hU/YRp/WRayf4kqQHviwm/7JIej3WiJ6ds5XzrOE=;
- b=qd+oEYjWz4t6YV25s0rdPo/3h8DRYImfj1vtMDzxb4xWamCk+uLMjKX404/Og0y5pq
- YDyaMsEtus2pTpjbDRvHDHU4RGuPWFjFrKenVoCb4A51B0YpMcsNv0oP7I68bL0XDLsJ
- SArEboZ/8nAgXA09Oub0Mgrp+ursYwKaCmgAFtJyAufe9CoXbJIkzeCWVfrb1AbrVy+J
- SI671xOPAHsdai40LUUK7CaFEtulcstlqZvM2fo1/iMgMX7jVJmtVt0NPxQ4xJ0Gjspp
- MARnAtXNodpBhMBvi6PtQnjXpA7+1tmdV7dJf+rynYd1UZ3n6S4QMOUpaemHt9CVJnBa
- HMig==
-X-Gm-Message-State: AOAM531SLX4AxWSBHJJwX+nlgJkF6nMHsqI/1Mp922sAV/qpKnFD52XM
- 9UIc+w4h7uCaPtgWEGnwlA0=
-X-Google-Smtp-Source: ABdhPJw6SmxY8RIXdw4LivDt2RoABPbHFKIxo9oZdtC1otWzT9a3WCByvg5EAbuxXkYCyuevfw7lNA==
-X-Received: by 2002:a0c:9122:: with SMTP id q31mr15916507qvq.23.1612195726929; 
- Mon, 01 Feb 2021 08:08:46 -0800 (PST)
-Received: from [192.168.0.16] (d149-67-30-58.try.wideopenwest.com.
- [67.149.58.30])
- by smtp.gmail.com with ESMTPSA id z8sm14074619qtu.10.2021.02.01.08.08.45
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Mon, 01 Feb 2021 08:08:46 -0800 (PST)
-Content-Type: text/plain;
-	charset=us-ascii
-Mime-Version: 1.0 (Mac OS X Mail 14.0 \(3654.40.0.2.32\))
-Subject: Re: Makefile has local changes that will be overwritten
-From: Programmingkid <programmingkidx@gmail.com>
-In-Reply-To: <b8717d48-4ba3-7dbc-6848-4e2cbd8f8b38@weilnetz.de>
-Date: Mon, 1 Feb 2021 11:08:45 -0500
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <25F8D741-F0D3-42E0-8961-56F15D74C5A1@gmail.com>
-References: <B8D9E184-5C5A-4A15-BF48-927F0138F0DE@gmail.com>
- <e18f2bd3-fcfd-2804-91d0-b4ecdb450bdc@weilnetz.de>
- <03FB77FD-2C50-40E5-8BE3-2F005D5056AA@gmail.com>
- <b8717d48-4ba3-7dbc-6848-4e2cbd8f8b38@weilnetz.de>
-To: Stefan Weil <stefan.weil@weilnetz.de>
-X-Mailer: Apple Mail (2.3654.40.0.2.32)
-Received-SPF: pass client-ip=2607:f8b0:4864:20::f31;
- envelope-from=programmingkidx@gmail.com; helo=mail-qv1-xf31.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6bme-0007bl-ID
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:10:36 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:41670)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1l6bma-0000yF-5l
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 11:10:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612195830;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=0Z+hLznX0OAxLMUO/WoOWFUNhPAcYwQICJwAOBKsdf4=;
+ b=fUI/oj3dNaNT8PoQEn2TzpS7fgql+sxO36fAZt/Mns3yKkFwXcujlWs6yzAy8vWZeO9EB4
+ 9xa4V1pB0m93YrmINnViBC4CqBK2Y/qVmMp3mnf3pJsWnMAFmq+73cVzypVz7NVa7pM51G
+ 562gYNtfglaM84hB2Om6IXN6IKECEws=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-198-bVgc4chCM2KtC275e8h9UQ-1; Mon, 01 Feb 2021 11:10:28 -0500
+X-MC-Unique: bVgc4chCM2KtC275e8h9UQ-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+ [10.5.11.22])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 29A3E107ACE4;
+ Mon,  1 Feb 2021 16:10:27 +0000 (UTC)
+Received: from merkur.fritz.box (ovpn-112-72.ams2.redhat.com [10.36.112.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 30D8D10013C0;
+ Mon,  1 Feb 2021 16:10:26 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Subject: [PATCH] iotests: Fix -makecheck output
+Date: Mon,  1 Feb 2021 17:10:24 +0100
+Message-Id: <20210201161024.127921-1-kwolf@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=kwolf@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -30
+X-Spam_score: -3.1
+X-Spam_bar: ---
+X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -88,45 +73,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ddstreet@canonical.com, Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+For -makecheck, the old 'check' implementation skipped the output when
+starting a test. It only had the condensed output at the end of a test.
 
+testrunner.py prints the normal output when starting a test even for
+-makecheck. This output contains '\r' at the end so that it can be
+overwritten with the result at the end of the test. However, for
+-makecheck this is shorter output in a different format, so effectively
+we end up with garbled output that mixes both output forms.
 
-> On Feb 1, 2021, at 11:04 AM, Stefan Weil <stefan.weil@weilnetz.de> =
-wrote:
->=20
-> Am 01.02.21 um 16:36 schrieb Programmingkid:
->=20
->> Thank you for the suggestion. I tried it but didn't seem to help. I =
-should report this is what I see when I try to build QEMU:
->> Disabling PIE due to missing toolchain support
->> error: Your local changes to the following files would be overwritten =
-by checkout:
->> 	Makefile
->> Please commit your changes or stash them before you switch branches.
->> Aborting
->> Unable to checkout '85e5d839847af54efab170f2b1331b2a6421e647' in =
-submodule path 'dtc'
->> =
-/Users/john/Documents/Development/Projects/Qemu/qemu-git/scripts/git-submo=
-dule.sh: failed to update modules
->>=20
->> Unable to automatically checkout GIT submodules ' ui/keycodemapdb =
-tests/fp/berkeley-testfloat-3 tests/fp/berkeley-softfloat-3 meson dtc =
-capstone slirp'.
->=20
-> So dtc/Makefile is causing the problem.
->=20
-> What does "git -C dtc diff" show?
+Revert to the old behaviour of only printing a message after the test
+had completed in -makecheck mode.
 
-diff --git a/Makefile b/Makefile
-old mode 100644
-new mode 100755
+Fixes: d74c754c924ca34e90b7c96ce2f5609d82c0e628
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ tests/qemu-iotests/testrunner.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-> "git -C dtc reset --hard" might fix the problem for you.
+diff --git a/tests/qemu-iotests/testrunner.py b/tests/qemu-iotests/testrunner.py
+index 25754e9a09..1fc61fcaa3 100644
+--- a/tests/qemu-iotests/testrunner.py
++++ b/tests/qemu-iotests/testrunner.py
+@@ -301,8 +301,10 @@ class TestRunner(ContextManager['TestRunner']):
+         last_el = self.last_elapsed.get(test)
+         start = datetime.datetime.now().strftime('%H:%M:%S')
+ 
+-        self.test_print_one_line(test=test, starttime=start, lasttime=last_el,
+-                                 end='\r', test_field_width=test_field_width)
++        if not self.makecheck:
++            self.test_print_one_line(test=test, starttime=start,
++                                     lasttime=last_el, end='\r',
++                                     test_field_width=test_field_width)
+ 
+         res = self.do_run_test(test)
+ 
+-- 
+2.29.2
 
-This does make configure work now :)  Thank you.=
 
