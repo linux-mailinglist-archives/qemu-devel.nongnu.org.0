@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B2B30ABBA
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:43:29 +0100 (CET)
-Received: from localhost ([::1]:36634 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCA9130ABA3
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:41:37 +0100 (CET)
+Received: from localhost ([::1]:58620 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6bMO-0005Rg-Cm
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:43:28 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39986)
+	id 1l6bKa-0002hX-Uw
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:41:36 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39988)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6bFw-00069e-QA
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:36:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:36192)
+ id 1l6bFx-0006B8-9B
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:36:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33839)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6bFu-0001yQ-8N
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:36:48 -0500
+ id 1l6bFu-0001yY-LE
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:36:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612193804;
+ s=mimecast20190719; t=1612193805;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cQmf6Y9P+GDqVnu/dGTDDJ0xu42HmxVndw8BdoX6gO4=;
- b=M+ria2ajddbETghqHlslj9oB2aKQs5oY9LQIwUlk2T56bw/2Xq4l9rlUoP/09sPkvlsbQN
- Y3t09KIYG6fjT1sPFsTBqOBLAuzmaKRMWuf/GqeaIHpgHE6v97/D5Fp6RIduOzxUzYW2nN
- YJdujW9t0SKxlrzg8Oca9lGDy83IlHg=
+ bh=f2EJSODB5LAHljHyR+fSWCk101JbX5colyD/l0sZhgo=;
+ b=VEROJpvGgBH9Oir0Hu3CnVXCcLavSlsDMieQnPyIPEamHnIjolIKZkNCtVn0lN0DAKHceR
+ pTW9IF5qSTGYr/ZUDTYEqCfOplgwvXKCt6huPu8Cud5FIT1shxl/kAy9Oe9ah41I23W+rT
+ QjhP2Litt3nnQDsuz+9lBXJKxH9k8Ck=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-34-8y3CTZISNzitbWheG2V-JA-1; Mon, 01 Feb 2021 10:36:41 -0500
-X-MC-Unique: 8y3CTZISNzitbWheG2V-JA-1
+ us-mta-245-V03-vsoYNY-dwKls3e1uXA-1; Mon, 01 Feb 2021 10:36:44 -0500
+X-MC-Unique: V03-vsoYNY-dwKls3e1uXA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
  [10.5.11.15])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 801318049CA;
- Mon,  1 Feb 2021 15:36:40 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 07AB01800D50;
+ Mon,  1 Feb 2021 15:36:43 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-114-195.ams2.redhat.com
  [10.36.114.195])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 76C805D756;
- Mon,  1 Feb 2021 15:36:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id CC6925D6BA;
+ Mon,  1 Feb 2021 15:36:40 +0000 (UTC)
 From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH RFC 3/4] NOT FOR MERGE target/i386: use x86-64-abi1 CPU model
- as default on x86_64
-Date: Mon,  1 Feb 2021 15:36:05 +0000
-Message-Id: <20210201153606.4158076-4-berrange@redhat.com>
+Subject: [PATCH RFC 4/4] NOT FOR MERGE: script for CPU model stuff related to
+ x86-64 ABI levels
+Date: Mon,  1 Feb 2021 15:36:06 +0000
+Message-Id: <20210201153606.4158076-5-berrange@redhat.com>
 In-Reply-To: <20210201153606.4158076-1-berrange@redhat.com>
 References: <20210201153606.4158076-1-berrange@redhat.com>
 MIME-Version: 1.0
@@ -59,14 +59,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -30
 X-Spam_score: -3.1
 X-Spam_bar: ---
 X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,67 +88,218 @@ Cc: Florian Weimer <fweimer@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only differences between x86-64-abi1 and qemu64 is that the former
-does not have the 'vme' or 'svm' flags.
-
-In practice I don't think we should make this change, because it doesn't
-especially add any value as-is. The only possible case is around 'svm'
-because KVM already masks that feature, but TCG allows it. Thus using
-x86-64-abi1 would mean that KVM and TCG expose a more consistent feature
-set.
-
-Also note that while libvirt can cope with default CPUs changing now,
-it can't with the default CPU being a model name that it does not
-already know about.
+This script is something that I wrote in order to help with creation of
+the first two patches. Since those patches are essentially static data
+once created, I don't intend for this script to be called repeatedly
+in future. I've just included here as a reference to show how I came
+up with content.
 
 Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- hw/i386/pc_piix.c | 3 +++
- hw/i386/pc_q35.c  | 3 +++
- target/i386/cpu.h | 2 +-
- 3 files changed, 7 insertions(+), 1 deletion(-)
+ scripts/cpu-x86-uarch-abi.py | 194 +++++++++++++++++++++++++++++++++++
+ 1 file changed, 194 insertions(+)
+ create mode 100644 scripts/cpu-x86-uarch-abi.py
 
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 6188c3e97e..c4c003599f 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -445,6 +445,9 @@ static void pc_i440fx_5_2_machine_options(MachineClass *m)
-     m->is_default = false;
-     compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-     compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
-+#ifdef TARGET_X86_64
-+    m->default_cpu_type = X86_CPU_TYPE_NAME("qemu64");
-+#endif
- }
- 
- DEFINE_I440FX_MACHINE(v5_2, "pc-i440fx-5.2", NULL,
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 0a212443aa..606ac4f1f4 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -361,6 +361,9 @@ static void pc_q35_5_2_machine_options(MachineClass *m)
-     m->alias = NULL;
-     compat_props_add(m->compat_props, hw_compat_5_2, hw_compat_5_2_len);
-     compat_props_add(m->compat_props, pc_compat_5_2, pc_compat_5_2_len);
-+#ifdef TARGET_X86_64
-+    m->default_cpu_type = X86_CPU_TYPE_NAME("qemu64");
-+#endif
- }
- 
- DEFINE_Q35_MACHINE(v5_2, "pc-q35-5.2", NULL,
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index d23a5b340a..0a436b575f 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -1956,7 +1956,7 @@ uint64_t cpu_get_tsc(CPUX86State *env);
- #define CPU_RESOLVING_TYPE TYPE_X86_CPU
- 
- #ifdef TARGET_X86_64
--#define TARGET_DEFAULT_CPU_TYPE X86_CPU_TYPE_NAME("qemu64")
-+#define TARGET_DEFAULT_CPU_TYPE X86_CPU_TYPE_NAME("x86-64-abi1")
- #else
- #define TARGET_DEFAULT_CPU_TYPE X86_CPU_TYPE_NAME("qemu32")
- #endif
+diff --git a/scripts/cpu-x86-uarch-abi.py b/scripts/cpu-x86-uarch-abi.py
+new file mode 100644
+index 0000000000..8ef6d3ea08
+--- /dev/null
++++ b/scripts/cpu-x86-uarch-abi.py
+@@ -0,0 +1,194 @@
++#!/usr/bin/python3
++
++from qemu import qmp
++import sys
++
++# Mandatory CPUID features for each microarch ABI level
++levels = [
++    [ # x86-64 baseline
++        "cmov",
++        "cx8",
++        "fpu",
++        "fxsr",
++        "mmx",
++        "syscall",
++        "sse",
++        "sse2",
++    ],
++    [ # x86-64-v2
++        "cx16",
++        "lahf-lm",
++        "popcnt",
++        "pni",
++        "sse4.1",
++        "sse4.2",
++        "ssse3",
++    ],
++    [ # x86-64-v3
++        "avx",
++        "avx2",
++        "bmi1",
++        "bmi2",
++        "f16c",
++        "fma",
++        "abm",
++        "movbe",
++    ],
++    [ # x86-64-v4
++        "avx512f",
++        "avx512bw",
++        "avx512cd",
++        "avx512dq",
++        "avx512vl",
++    ],
++]
++
++# Assumes externally launched process such as
++#
++#   qemu-system-x86_64 -qmp unix:/tmp/qmp,server,nowait -display none -accel kvm
++#
++# Note different results will be obtained with TCG, as
++# TCG masks out certain features otherwise present in
++# the CPU model definitions, as does KVM.
++
++
++sock = sys.argv[1]
++cmd = sys.argv[2]
++shell = qmp.QEMUMonitorProtocol(sock)
++shell.connect()
++
++models = shell.cmd("query-cpu-definitions")
++
++# These QMP props don't correspond to CPUID fatures
++# so ignore them
++skip = [
++    "family",
++    "min-level",
++    "min-xlevel",
++    "vendor",
++    "model",
++    "model-id",
++    "stepping",
++]
++
++names = [model["name"] for model in models["return"]]
++
++models = {}
++
++for name in sorted(names):
++    cpu = shell.cmd("query-cpu-model-expansion",
++                     { "type": "static",
++                       "model": { "name": name }})
++
++    got = {}
++    for (feature, present) in cpu["return"]["model"]["props"].items():
++        if present and feature not in skip:
++            got[feature] = True
++
++    if name in ["host", "max", "base"]:
++        continue
++
++    models[name] = {
++        # Dict of all present features in this CPU model
++        "features": got,
++
++        # Whether each x86-64 ABI level is satisfied
++        "levels": [False, False, False, False],
++
++        # Number of extra CPUID features compared to the x86-64 ABI level
++        "distance":[-1, -1, -1, -1],
++
++        # CPUID features present in model, but not in ABI level
++        "delta":[[], [], [], []],
++    }
++
++
++# Calculate whether the CPU models satisfy each ABI level
++for name in models.keys():
++    for level in range(len(levels)):
++        match = True
++        for feat in levels[level]:
++            if feat not in models[name]["features"]:
++                match = False
++        models[name]["levels"][level] = match
++
++# Cache list of CPU models satisfying each ABI level
++abi_models = [
++    [],
++    [],
++    [],
++    [],
++]
++
++for name in models.keys():
++    for level in range(len(levels)):
++        if models[name]["levels"][level]:
++            abi_models[level].append(name)
++
++
++for level in range(len(abi_models)):
++    # Find the union of features in all CPU models satisfying this ABI
++    allfeatures = {}
++    for name in abi_models[level]:
++        for feat in models[name]["features"]:
++            allfeatures[feat] = True
++
++    # Find the intersection of features in all CPU models satisfying this ABI
++    commonfeatures = []
++    for feat in allfeatures:
++        present = True
++        for name in models.keys():
++            if not models[name]["levels"][level]:
++                continue
++            if feat not in models[name]["features"]:
++                present = False
++        if present:
++            commonfeatures.append(feat)
++
++    # Determine how many extra features are present compared to the lowest
++    # common denominator
++    for name in models.keys():
++        if not models[name]["levels"][level]:
++            continue
++
++        delta = set(models[name]["features"].keys()) - set(commonfeatures)
++        models[name]["distance"][level] = len(delta)
++        models[name]["delta"][level] = delta
++
++def print_uarch_abi_csv():
++    print("Model,baseline,v2,v3,v4")
++    for name in models.keys():
++        print(name, end="")
++        for level in range(len(levels)):
++            if models[name]["levels"][level]:
++                print(",✅", end="")
++            else:
++                print(",", end="")
++        print()
++
++def find_closest_abi_models():
++    for level in range(len(abi_models)):
++        # Determine which CPU model(s) are the "best" match for the lowest
++        # common denominator. One of these will be used as the basis for
++        # defining the generic CPU model for this ABI level
++        distance = -1
++        for name in models.keys():
++            if not models[name]["levels"][level]:
++                continue
++
++            this = models[name]["distance"][level]
++            if distance == -1 or this < distance:
++                distance = this
++                best = name
++
++        for name in models:
++            if models[name]["distance"][level] == distance:
++                print("  >> Level %d match %s (distance %d)" % (
++                    level, name, models[name]["distance"][level]))
++                print("     Remove features: %s" %
++                      " ".join(models[name]["delta"][level]))
++
++if cmd == "abi-table":
++    print_uarch_abi_csv()
++elif cmd == "abi-model":
++    find_closest_abi_models()
 -- 
 2.29.2
 
