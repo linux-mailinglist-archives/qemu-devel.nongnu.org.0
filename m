@@ -2,51 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82BC30A85A
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:11:19 +0100 (CET)
-Received: from localhost ([::1]:57498 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 097D330A85B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 14:11:22 +0100 (CET)
+Received: from localhost ([::1]:57534 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6Yz8-0004tp-T1
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:11:18 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39958)
+	id 1l6YzB-0004uk-1l
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 08:11:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:39956)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1l6Ywb-0003R8-O9; Mon, 01 Feb 2021 08:08:41 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:3302)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhukeqian1@huawei.com>)
- id 1l6YwT-0003Rt-23; Mon, 01 Feb 2021 08:08:41 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
- by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4DTp9m6XPhzlF09;
- Mon,  1 Feb 2021 21:06:36 +0800 (CST)
-Received: from [10.174.184.42] (10.174.184.42) by
- DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 1 Feb 2021 21:07:59 +0800
-Subject: Re: [PATCH v2 0/2] accel: kvm: Some bugfixes for kvm dirty log
-References: <20201217014941.22872-1-zhukeqian1@huawei.com>
- <b81889c3-2823-22b1-9087-75157abc414f@huawei.com>
-To: Paolo Bonzini <pbonzini@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-From: Keqian Zhu <zhukeqian1@huawei.com>
-Message-ID: <2be6b8cc-30ee-dcd4-87ca-215fc9161cfb@huawei.com>
-Date: Mon, 1 Feb 2021 21:07:59 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:45.0) Gecko/20100101
- Thunderbird/45.7.1
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6Ywb-0003R4-NA
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:08:41 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630]:43317)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
+ id 1l6YwZ-0003aQ-68
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 08:08:40 -0500
+Received: by mail-ej1-x630.google.com with SMTP id y9so2667864ejp.10
+ for <qemu-devel@nongnu.org>; Mon, 01 Feb 2021 05:08:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+ h=sender:subject:to:cc:references:from:message-id:date:user-agent
+ :mime-version:in-reply-to:content-language:content-transfer-encoding;
+ bh=y4kRp1O9NSMOYw470pZIHLMK+3nXsZMTt27NrvtPWBY=;
+ b=ovTBQDzeS7zCx9tL7P7Xk3plyacF02rVpLFtCjZKWXJUBgmWY1oXR1tK6yi8ng40B5
+ 55ReqthCZais7QcdQGliDXTtSW6Ve6qAy21SGP3iZLIqSkZTlNYMSah1Bi46dayCHdjK
+ b/cnTE77BDbBU4Cuor5oDH5bVMY+xi2Ixvg68G869jB0CKYCl4JQxA3tN8Yn3vd+0bzg
+ /QsHl38bVof4umYD9LFZ2nQA9bBtcN00LME5YrZqFoUSoTnq05PcaRVzNL4/kH3pz4uU
+ ocMtSZAuWY/JDke64T1h2LghIsMaEvWqgFTo2hFw91zvc1iSDT6SaLVAS5i5m4xJOVLR
+ QVGQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:sender:subject:to:cc:references:from:message-id
+ :date:user-agent:mime-version:in-reply-to:content-language
+ :content-transfer-encoding;
+ bh=y4kRp1O9NSMOYw470pZIHLMK+3nXsZMTt27NrvtPWBY=;
+ b=cdefp/w86waexe8Mb3txEw9QMfLvHbe7UIlpvBHj0Qk384vdzs87Xf1lnajvHDE7Vi
+ DhEzyMFvtn6dIHjA6CoyOj3IQUwux7a2vcE55dXY2+22jdj+JLFq5fk/mArIYOGEdfZQ
+ vD2Bk99w9BNy7Itf5CwR4JrFIv5l70swAJ+lG5Gun6qNvO8RGJrvrgIoBGCZM0kbr0+6
+ qyCc0tTh+ZWimcQsDy9z4doybOXdcYCxGxcy8UVtN00Hy6OuH/kz/5wUpcxlHF8t2Dx9
+ Ip25/iSaiQKYtJT2oEPgbqGjaQF/AeolRJBGuUONzixUaDc62zz0mgP7ONQIWKbnwMVA
+ 8LIg==
+X-Gm-Message-State: AOAM532WKU6fC8NzTd8RspqtN5h3T0Wy2a6qniLjhRMhK70YilBUhqDX
+ 4KALnH0frv/RThZy1JcxknY=
+X-Google-Smtp-Source: ABdhPJwTwiao55AEZH/q4YO3I6ip3slYCuygRAACBsntgWTgI4+6twqi5ufD5XR1Cd/PPfzw3vKE4w==
+X-Received: by 2002:a17:906:4d8f:: with SMTP id
+ s15mr17815981eju.389.1612184917083; 
+ Mon, 01 Feb 2021 05:08:37 -0800 (PST)
+Received: from [192.168.1.36] (7.red-83-57-171.dynamicip.rima-tde.net.
+ [83.57.171.7])
+ by smtp.gmail.com with ESMTPSA id r26sm9134948edc.95.2021.02.01.05.08.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 01 Feb 2021 05:08:36 -0800 (PST)
+Subject: Re: [PATCH v3 3/7] accel/xen: Incorporate xen-mapcache.c
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20210201112905.545144-1-f4bug@amsat.org>
+ <20210201112905.545144-4-f4bug@amsat.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <f4bug@amsat.org>
+Message-ID: <8c7281bb-5688-5ef4-4841-3181bdb02bfc@amsat.org>
+Date: Mon, 1 Feb 2021 14:08:34 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.6.0
 MIME-Version: 1.0
-In-Reply-To: <b81889c3-2823-22b1-9087-75157abc414f@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.184.42]
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.190;
- envelope-from=zhukeqian1@huawei.com; helo=szxga04-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.001,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <20210201112905.545144-4-f4bug@amsat.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-ej1-x630.google.com
+X-Spam_score_int: -14
+X-Spam_score: -1.5
+X-Spam_bar: -
+X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,38 +91,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, jiangkunkun@huawei.com,
- qemu-arm@nongnu.org, qemu-devel@nongnu.org, Peter Xu <peterx@redhat.com>
+Cc: Stefano Stabellini <sstabellini@kernel.org>,
+ Eduardo Habkost <ehabkost@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Paul Durrant <paul@xen.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Anthony Perard <anthony.perard@citrix.com>, xen-devel@lists.xenproject.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi All,
+On 2/1/21 12:29 PM, Philippe Mathieu-Daudé wrote:
+> xen-mapcache.c contains accelerator related routines,
+> not particular to the X86 HVM machine. Move this file
+> to accel/xen/ (adapting the buildsys machinery).
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+> ---
+>  meson.build                           |  3 +++
+>  accel/xen/trace.h                     |  1 +
+>  {hw/i386 => accel}/xen/xen-mapcache.c |  0
+>  hw/i386/xen/xen-hvm.c                 |  1 -
+>  accel/xen/meson.build                 |  5 ++++-
+>  accel/xen/trace-events                | 10 ++++++++++
+>  hw/i386/xen/meson.build               |  1 -
+>  hw/i386/xen/trace-events              |  6 ------
+>  8 files changed, 18 insertions(+), 9 deletions(-)
+>  create mode 100644 accel/xen/trace.h
+>  rename {hw/i386 => accel}/xen/xen-mapcache.c (100%)
+>  create mode 100644 accel/xen/trace-events
+...
+> diff --git a/accel/xen/trace-events b/accel/xen/trace-events
+> new file mode 100644
+> index 00000000000..30bf4f42283
+> --- /dev/null
+> +++ b/accel/xen/trace-events
+> @@ -0,0 +1,10 @@
+> +# See docs/devel/tracing.txt for syntax documentation.
+> +
+> +# xen-hvm.c
+> +xen_ram_alloc(unsigned long ram_addr, unsigned long size) "requested: 0x%lx, size 0x%lx"
 
-Kindly Ping ;-) ...
+Self-Nack, this should not be here ^
 
-On 2021/1/25 15:51, Keqian Zhu wrote:
-> Hi Paolo,
-> 
-> Any suggestions on this patch series :-) ? Thanks,
-> 
-> Keqian
-> 
-> On 2020/12/17 9:49, Keqian Zhu wrote:
->> Hi all,
->>
->> This series fixes memory waste and adds alignment check for unmatched
->> qemu_real_host_page_size and TARGET_PAGE_SIZE.
->>
->> Thanks.
->>
->> Keqian Zhu (2):
->>   accel: kvm: Fix memory waste under mismatch page size
->>   accel: kvm: Add aligment assert for kvm_log_clear_one_slot
->>
->>  accel/kvm/kvm-all.c | 13 ++++++++++++-
->>  1 file changed, 12 insertions(+), 1 deletion(-)
->>
-> 
-> .
-> 
+> +
+> +# xen-mapcache.c
+> +xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
+> +xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
+> +xen_map_cache_return(void* ptr) "%p"
 
