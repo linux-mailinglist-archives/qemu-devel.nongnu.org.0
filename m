@@ -2,73 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AB1C30A2F8
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 09:05:08 +0100 (CET)
-Received: from localhost ([::1]:56776 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9313130A30B
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 09:10:49 +0100 (CET)
+Received: from localhost ([::1]:59352 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6UCp-0000hb-Jz
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 03:05:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:35394)
+	id 1l6UIK-0001yW-Lm
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 03:10:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36004)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6UBe-00009O-W2; Mon, 01 Feb 2021 03:03:55 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:40659)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philippe.mathieu.daude@gmail.com>)
- id 1l6UBd-0007wQ-HN; Mon, 01 Feb 2021 03:03:54 -0500
-Received: by mail-wr1-x432.google.com with SMTP id c12so15491236wrc.7;
- Mon, 01 Feb 2021 00:03:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
- h=sender:from:to:cc:subject:date:message-id:mime-version
- :content-transfer-encoding;
- bh=heutC6rB2Jj4FFexObbfHYedqet2ADGcqJ4tiRcLAGw=;
- b=Xj/cCURNppsKTWvEkIN0lbZ4YDwe2nP0VuJrfZwbf+kSwj0VmiM4z2AYx00z1QffUh
- P5iFkPgudB0mK8TbM7qL+Mfqt2YnwMYyY3RjqGK0xQ2oQMw2xpkPVFr/CrD2ClgcRjvG
- PBZyqfJmzuQRG3sqEzRFxiz8IjGeXiTXIhssQ+wdKXWDehjIaRXc7P5W0L4o69vRBe1t
- PrA3JB/kAZ9COb0b6+KcElh2ozXnkZXFr5OBY5TuSWVM45wW+D+Cl94tRDztcZvA+UQN
- Q6banGwhDGOlSl2WI6D65h5ZYm/YCw1mW0OrpLx6+ET/F042Ii0GJicWI40euIQ9eYvB
- K/Ug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20161025;
- h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
- :mime-version:content-transfer-encoding;
- bh=heutC6rB2Jj4FFexObbfHYedqet2ADGcqJ4tiRcLAGw=;
- b=SN56WKPDtLaLQlNsSu8JsrNnq2OPgC61Z5X+PyjIW0o0JE6Nn6tIqtFPnIC7DjAqMn
- LgyTfeuM+xFH02iwcHM6/cOmjNhB/ZwWDPdqKhBAqNzp8QPN/i5bK1idSUOQHVO4/RRn
- wB0Y8EG7zYjqO29Tzc7nOY9WAkRPQW0+D4+OYPpTCPiNi2nooQrGXzutP11FUbCsIWy3
- Bf7JWb6lQHuSmg7j4/2XzpZg1xJZ5BcIdkOG1dzi5loiOJHa9hytNlFOdfDdFeuqzUdW
- Q1nLY4lYK+DLvHS+dA4wspNOwA536/wgN0w/32jnAwnAzKgGQHkfzuU7zPtaHY/d9M5P
- qQWw==
-X-Gm-Message-State: AOAM530HH6ygvr9GnB6AGBd/il0aHng67kgcLpqceFgXJK+4Sjjg9MKO
- fPdhKJN7Zs/DVg97HU6mnyA6VLYkbwU=
-X-Google-Smtp-Source: ABdhPJzO+HSjSYJEMGQLsjKgnv9HmTtj63q627jN1IMmLmEOkk7VfvL+84R1yh9c6TVaRiEKvUK98w==
-X-Received: by 2002:adf:9031:: with SMTP id h46mr16812679wrh.19.1612166631392; 
- Mon, 01 Feb 2021 00:03:51 -0800 (PST)
-Received: from localhost.localdomain (7.red-83-57-171.dynamicip.rima-tde.net.
- [83.57.171.7])
- by smtp.gmail.com with ESMTPSA id t18sm22059871wrr.56.2021.02.01.00.03.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 01 Feb 2021 00:03:50 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] target/avr/cpu: Use device_class_set_parent_realize()
-Date: Mon,  1 Feb 2021 09:03:48 +0100
-Message-Id: <20210201080348.438095-1-f4bug@amsat.org>
-X-Mailer: git-send-email 2.26.2
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l6UGs-0001SV-3d; Mon, 01 Feb 2021 03:09:18 -0500
+Received: from pharaoh.lmichel.fr ([149.202.28.74]:36804)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <luc@lmichel.fr>)
+ id 1l6UGp-0001wk-T4; Mon, 01 Feb 2021 03:09:17 -0500
+Received: from localhost (sekoia-pc.home.lmichel.fr [192.168.61.100])
+ by pharaoh.lmichel.fr (Postfix) with ESMTPSA id 51E99C602E6;
+ Mon,  1 Feb 2021 09:09:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lmichel.fr; s=pharaoh; 
+ t=1612166950;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=y2mbTAOSW43stHE3WluobYQIt2cFJmUioMvJ34X3NGQ=;
+ b=ROcyJhbzqO8pMz2tuSudK9D7F04DhJfx/1fNqLJw4YX+BxfSztUURM5oAG/u9fkdgciaeQ
+ HemU735u08jSJcjVQkj9IgQ7oNFijy7KN9O5voLDHDECwOCWIrnGEI2qCio8C357f+vZLK
+ DiuamlFluYsrcqP6NOcRgKRUJm2fpFd6zpiuz3tL1qa/JbLtx4oO9yjP9j0yIRsI+2mYoy
+ 9U1Xn2p4Il+W4lD/0t33JznjsUXgzffcJoTodaFBV4Nj45zZM2Du5f/8/T7TUJ2PBOnNt6
+ o+hOF6zNVNVa1n6wretDhCbTlCgSmarzO2gmvvp6Ax3VWSsegFbVS44iUWdTYQ==
+Date: Mon, 1 Feb 2021 09:09:36 +0100
+From: Luc Michel <luc@lmichel.fr>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Subject: Re: [RFC PATCH 1/2] hw/arm/raspi: Trivial code movement
+Message-ID: <20210201080936.wgoxywx6zkjpkeht@sekoia-pc.home.lmichel.fr>
+References: <20210131151410.318649-1-f4bug@amsat.org>
+ <20210131151410.318649-2-f4bug@amsat.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philippe.mathieu.daude@gmail.com; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.25,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+In-Reply-To: <20210131151410.318649-2-f4bug@amsat.org>
+Received-SPF: pass client-ip=149.202.28.74; envelope-from=luc@lmichel.fr;
+ helo=pharaoh.lmichel.fr
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,37 +64,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Sarah Harris <S.E.Harris@kent.ac.uk>,
- Michael Rolnik <mrolnik@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-trivial@nongnu.org,
+ Michael Tokarev <mjt@tls.msk.ru>, qemu-devel@nongnu.org,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Change generated automatically using the Coccinelle
-patch included in commit bf853881690 ("qdev: use
-device_class_set_parent_realize/unrealize/reset()")
+On 16:14 Sun 31 Jan     , Philippe Mathieu-Daudé wrote:
+> Move the abstract TYPE_BCM283X and TYPE_RASPI_MACHINE declarations
+> earlier to make the next commit easier to review.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- target/avr/cpu.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Reviewed-by: Luc Michel <luc@lmichel.fr>
 
-diff --git a/target/avr/cpu.c b/target/avr/cpu.c
-index 6f3d5a9e4a7..e60036e41ef 100644
---- a/target/avr/cpu.c
-+++ b/target/avr/cpu.c
-@@ -190,9 +190,7 @@ static void avr_cpu_class_init(ObjectClass *oc, void *data)
-     CPUClass *cc = CPU_CLASS(oc);
-     AVRCPUClass *mcc = AVR_CPU_CLASS(oc);
- 
--    mcc->parent_realize = dc->realize;
--    dc->realize = avr_cpu_realizefn;
--
-+    device_class_set_parent_realize(dc, avr_cpu_realizefn, &mcc->parent_realize);
-     device_class_set_parent_reset(dc, avr_cpu_reset, &mcc->parent_reset);
- 
-     cc->class_by_name = avr_cpu_class_by_name;
+> ---
+>  hw/arm/bcm2836.c | 32 +++++++++++++++++---------------
+>  hw/arm/raspi.c   | 18 ++++++++++--------
+>  2 files changed, 27 insertions(+), 23 deletions(-)
+> 
+> diff --git a/hw/arm/bcm2836.c b/hw/arm/bcm2836.c
+> index de7ade2878e..fd16ed87c40 100644
+> --- a/hw/arm/bcm2836.c
+> +++ b/hw/arm/bcm2836.c
+> @@ -219,20 +219,6 @@ static void bcm2837_class_init(ObjectClass *oc, void *data)
+>  
+>  static const TypeInfo bcm283x_types[] = {
+>      {
+> -        .name           = TYPE_BCM2835,
+> -        .parent         = TYPE_BCM283X,
+> -        .class_init     = bcm2835_class_init,
+> -    }, {
+> -        .name           = TYPE_BCM2836,
+> -        .parent         = TYPE_BCM283X,
+> -        .class_init     = bcm2836_class_init,
+> -#ifdef TARGET_AARCH64
+> -    }, {
+> -        .name           = TYPE_BCM2837,
+> -        .parent         = TYPE_BCM283X,
+> -        .class_init     = bcm2837_class_init,
+> -#endif
+> -    }, {
+>          .name           = TYPE_BCM283X,
+>          .parent         = TYPE_DEVICE,
+>          .instance_size  = sizeof(BCM283XState),
+> @@ -240,7 +226,23 @@ static const TypeInfo bcm283x_types[] = {
+>          .class_size     = sizeof(BCM283XClass),
+>          .class_init     = bcm283x_class_init,
+>          .abstract       = true,
+> -    }
+> +    },
+> +    {
+> +        .name           = TYPE_BCM2835,
+> +        .parent         = TYPE_BCM283X,
+> +        .class_init     = bcm2835_class_init,
+> +    }, {
+> +        .name           = TYPE_BCM2836,
+> +        .parent         = TYPE_BCM283X,
+> +        .class_init     = bcm2836_class_init,
+> +    },
+> +#ifdef TARGET_AARCH64
+> +    {
+> +        .name           = TYPE_BCM2837,
+> +        .parent         = TYPE_BCM283X,
+> +        .class_init     = bcm2837_class_init,
+> +    },
+> +#endif
+>  };
+>  
+>  DEFINE_TYPES(bcm283x_types)
+> diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
+> index 990509d3852..dce966a4dd8 100644
+> --- a/hw/arm/raspi.c
+> +++ b/hw/arm/raspi.c
+> @@ -369,6 +369,13 @@ static void raspi3b_machine_class_init(ObjectClass *oc, void *data)
+>  #endif /* TARGET_AARCH64 */
+>  
+>  static const TypeInfo raspi_machine_types[] = {
+> +    {
+> +        .name           = TYPE_RASPI_MACHINE,
+> +        .parent         = TYPE_MACHINE,
+> +        .instance_size  = sizeof(RaspiMachineState),
+> +        .class_size     = sizeof(RaspiMachineClass),
+> +        .abstract       = true,
+> +    },
+>      {
+>          .name           = MACHINE_TYPE_NAME("raspi0"),
+>          .parent         = TYPE_RASPI_MACHINE,
+> @@ -381,8 +388,9 @@ static const TypeInfo raspi_machine_types[] = {
+>          .name           = MACHINE_TYPE_NAME("raspi2b"),
+>          .parent         = TYPE_RASPI_MACHINE,
+>          .class_init     = raspi2b_machine_class_init,
+> +    },
+>  #ifdef TARGET_AARCH64
+> -    }, {
+> +    {
+>          .name           = MACHINE_TYPE_NAME("raspi3ap"),
+>          .parent         = TYPE_RASPI_MACHINE,
+>          .class_init     = raspi3ap_machine_class_init,
+> @@ -390,14 +398,8 @@ static const TypeInfo raspi_machine_types[] = {
+>          .name           = MACHINE_TYPE_NAME("raspi3b"),
+>          .parent         = TYPE_RASPI_MACHINE,
+>          .class_init     = raspi3b_machine_class_init,
+> +    },
+>  #endif
+> -    }, {
+> -        .name           = TYPE_RASPI_MACHINE,
+> -        .parent         = TYPE_MACHINE,
+> -        .instance_size  = sizeof(RaspiMachineState),
+> -        .class_size     = sizeof(RaspiMachineClass),
+> -        .abstract       = true,
+> -    }
+>  };
+>  
+>  DEFINE_TYPES(raspi_machine_types)
+> -- 
+> 2.26.2
+> 
+
 -- 
-2.26.2
-
 
