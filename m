@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B544C30AB24
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:25:47 +0100 (CET)
-Received: from localhost ([::1]:44364 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF01930AB0D
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 16:23:30 +0100 (CET)
+Received: from localhost ([::1]:37278 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6b5G-00010X-Ox
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:25:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36326)
+	id 1l6b33-0006Gi-H4
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 10:23:29 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:36472)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l6b0S-0003hI-I7
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:20:48 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2084)
+ id 1l6b11-0004SI-2O
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:21:23 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56]:2085)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l6b0P-0003JF-TX
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:20:48 -0500
-Received: from fraeml742-chm.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DTs4W6JZKz67jCc;
- Mon,  1 Feb 2021 23:17:15 +0800 (CST)
+ id 1l6b0x-0003WJ-Ok
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 10:21:22 -0500
+Received: from fraeml740-chm.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DTs3n6lVzz67flr;
+ Mon,  1 Feb 2021 23:16:37 +0800 (CST)
 Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml742-chm.china.huawei.com (10.206.15.223) with Microsoft SMTP Server
+ fraeml740-chm.china.huawei.com (10.206.15.221) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 1 Feb 2021 16:20:43 +0100
+ 15.1.2106.2; Mon, 1 Feb 2021 16:21:13 +0100
 Received: from lhrphicprd00229.huawei.com (10.123.41.22) by
  lhreml710-chm.china.huawei.com (10.201.108.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Mon, 1 Feb 2021 15:20:42 +0000
+ 15.1.2106.2; Mon, 1 Feb 2021 15:21:13 +0000
 From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 To: <qemu-devel@nongnu.org>
-Subject: [RFC PATCH 2/4] hw/pci/pcie_doe: Introduce utility functions for PCIe
- DOE
-Date: Mon, 1 Feb 2021 23:16:27 +0800
-Message-ID: <20210201151629.29656-3-Jonathan.Cameron@huawei.com>
+Subject: [RFC PATCH 3/4] hw/cxl/cxl-cdat: Initial CDAT implementation for use
+ by CXL devices
+Date: Mon, 1 Feb 2021 23:16:28 +0800
+Message-ID: <20210201151629.29656-4-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
 References: <20210201151629.29656-1-Jonathan.Cameron@huawei.com>
@@ -75,54 +75,44 @@ Cc: Thomas Huth <thuth@redhat.com>, Ben Widawsky <ben.widawsky@intel.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This implements the ECN to the PCI 5.0 specification available at
-https://members.pcisig.com/wg/PCI-SIG/document/14143
+CDAT is an ACPI like format defined by the CXL consortium. It is
+available from
 
-Does not currently support interrupts.
+https://www.uefi.org/node/4093
 
-Note that currently no attempt is made to clean up allocated memory.
+Here support for managing all the entires is introduced, along with
+an implementation of a callback for a DOE mailbox which may be
+used to read these values from CXL hardware by either firmware or
+an OS.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/pci/meson.build       |   2 +-
- hw/pci/pcie_doe.c        | 257 +++++++++++++++++++++++++++++++++++++++
- include/hw/pci/doe.h     |  40 ++++++
- include/hw/pci/pci_ids.h |   2 +
- 4 files changed, 300 insertions(+), 1 deletion(-)
+ hw/cxl/cxl-cdat.c         | 252 ++++++++++++++++++++++++++++++++++++++
+ hw/cxl/meson.build        |   1 +
+ include/hw/cxl/cxl_cdat.h | 101 +++++++++++++++
+ 3 files changed, 354 insertions(+)
 
-diff --git a/hw/pci/meson.build b/hw/pci/meson.build
-index 5c4bbac817..7336620ee3 100644
---- a/hw/pci/meson.build
-+++ b/hw/pci/meson.build
-@@ -11,7 +11,7 @@ pci_ss.add(files(
- # The functions in these modules can be used by devices too.  Since we
- # allow plugging PCIe devices into PCI buses, include them even if
- # CONFIG_PCI_EXPRESS=n.
--pci_ss.add(files('pcie.c', 'pcie_aer.c'))
-+pci_ss.add(files('pcie.c', 'pcie_aer.c',  'pcie_doe.c'))
- softmmu_ss.add(when: 'CONFIG_PCI_EXPRESS', if_true: files('pcie_port.c', 'pcie_host.c'))
- softmmu_ss.add_all(when: 'CONFIG_PCI', if_true: pci_ss)
- 
-diff --git a/hw/pci/pcie_doe.c b/hw/pci/pcie_doe.c
+diff --git a/hw/cxl/cxl-cdat.c b/hw/cxl/cxl-cdat.c
 new file mode 100644
-index 0000000000..8739c41280
+index 0000000000..6ed4c15cc0
 --- /dev/null
-+++ b/hw/pci/pcie_doe.c
-@@ -0,0 +1,257 @@
++++ b/hw/cxl/cxl-cdat.c
+@@ -0,0 +1,252 @@
 +/*
-+ * pcie_doe.c
-+ * utility functions for pci express data object exchange introduced
-+ * in PCI 5.0 Data Object Exchange (DOE) ECN
++ * Support for CDAT entires as defined in
++ * Coherent Device Attribute Table (CDAT) Specification rev 1.02
++ * Available from uefi.org.
 + *
 + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
-+
 +#include "qemu/osdep.h"
 +#include "qemu/units.h"
 +#include "qemu/error-report.h"
++#include "hw/mem/memory-device.h"
++#include "hw/mem/pc-dimm.h"
 +#include "hw/pci/pci.h"
 +#include "hw/pci/doe.h"
 +#include "hw/qdev-properties.h"
@@ -132,299 +122,351 @@ index 0000000000..8739c41280
 +#include "qemu/range.h"
 +#include "qemu/rcu.h"
 +#include "sysemu/hostmem.h"
++#include "sysemu/numa.h"
++#include "hw/cxl/cxl.h"
 +
-+struct doe_handler {
-+    uint16_t vendor_id;
-+    uint8_t object_type;
-+    doe_msg_handler_t handler;
-+    void *priv;
-+};
-+
-+static void doe_set_ctl(PCIEDOE *doe, uint32_t val)
++void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
++                    uint64_t dpa_base, uint64_t dpa_length)
 +{
-+    /* Abort */
-+    if (val & PCI_DOE_CTRL_DOE_ABORT) {
-+        doe->req_index = 0;
-+        doe->rsp_index = 0;
-+        doe->req_length = 0;
-+        doe->error = false;
-+        doe->data_object_ready = false;
-+    }
-+
-+    if (val & PCI_DOE_CTRL_DOE_GO) {
-+        GList *l;
-+        uint16_t vendor_id = doe->store[0] & PCI_DATA_OBJ_DW0_VID;
-+        uint8_t object_type = (doe->store[0] & PCI_DATA_OBJ_DW0_TYPE) >>
-+            ctz32(PCI_DATA_OBJ_DW0_TYPE);
-+        if ((doe->req_index != 3) || (doe->req_length != 3)) {
-+            /*
-+             * Not entirely clear what should happen if req_length is correct
-+             * buf insufficient data has been received.
-+             */
-+            doe->error = true;
-+            return;
-+        }
-+        /* Discovery protocol - DOE ECN */
-+        if (vendor_id == PCI_VENDOR_ID_PCI_SIG &&
-+            object_type == PCI_DOE_DIS_OBJ_TYPE) {
-+            uint8_t index = doe->store[2] & PCI_DOE_DIS_REQ_D0_DW0_INDEX;
-+            doe->store[1] = 3;
-+            if (index == 0) {
-+                /* First entry is this one, the discovery protocol itself */
-+                uint8_t next;
-+
-+                if (doe->cb_list) {
-+                    next = index + 1;
-+                } else {
-+                    next = 0;
-+                }
-+                doe->store[2] =
-+                    (next << ctz32(PCI_DOE_DIS_RSP_D0_DW0_NEXT_INDEX)) |
-+                    (0 << ctz32(PCI_DOE_DIS_RSP_D0_DW0_PROT)) |
-+                    0x0001;
-+            } else {
-+                /* Other entries based on register callbacks */
-+                uint8_t next;
-+                struct doe_handler *h;
-+
-+                h = g_list_nth_data(doe->cb_list, index - 1);
-+                /*
-+                 * Off end of list, Table 7-x4 in DOE ECN -
-+                 * Vendor ID 0xFFFF if no more indices
-+                 */
-+                if (h == NULL) {
-+                    doe->store[2] = 0xFFFF;
-+                } else {
-+                    if (g_list_nth(doe->cb_list, index)) {
-+                        next = index + 1;
-+                    } else {
-+                        next = 0;
-+                    }
-+                    doe->store[2] =
-+                        (next << ctz32(PCI_DOE_DIS_RSP_D0_DW0_NEXT_INDEX)) |
-+                        (h->object_type << ctz32(PCI_DOE_DIS_RSP_D0_DW0_PROT)) |
-+                        h->vendor_id;
-+                }
-+            }
-+            doe->data_object_ready = true;
-+            doe->rsp_index = 0;
-+        } else {
-+            for (l = doe->cb_list; l != NULL; l = l->next) {
-+                struct doe_handler *h = l->data;
-+                if (h->vendor_id == vendor_id &&
-+                    h->object_type == object_type) {
-+                    int ret = h->handler(doe, h->vendor_id, h->object_type,
-+                                         h->priv);
-+                    if (ret) {
-+                        /*
-+                         * No response so as per 6.xx.1 in DOE ECN
-+                         * "... within 1 second after the DOE Go bit was Set
-+                         *  in the DOE Control register, otherwise the DOE
-+                         *  instance must Set the DOE Error bit in the DOE
-+                         *  Status register.."
-+                         */
-+                         doe->error = true;
-+                        break;
-+                    }
-+                    doe->data_object_ready = true;
-+                    doe->rsp_index = 0;
-+                    break;
-+                }
-+            }
-+            /* Comamnd not handled */
-+            if (l == NULL) {
-+                doe->error = true;
-+            }
-+        }
-+        /* Reset input index to allow for a new message */
-+        doe->req_index = 0;
-+    }
++    struct cxl_cdat_dsmas *dsmas = g_malloc0(sizeof(*dsmas));
++    dsmas->dsmad_handle = dsmad_handle;
++    dsmas->flags = flags;
++    dsmas->dpa_base = dpa_base;
++    dsmas->dpa_length = dpa_length;
++    cdat->dsmas_list = g_list_append(cdat->dsmas_list, dsmas);
 +}
 +
-+static void doe_set_write_mailbox(PCIEDOE *doe, uint32_t val)
++void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
++                     uint8_t data_type, uint64_t base_unit,
++                     uint16_t entry0, uint16_t entry1, uint16_t entry2)
 +{
-+    if (doe->req_index == 1) {
-+        if (val & 0x3FFFF) {
-+            doe->req_length = val & PCI_DATA_OBJ_DW1_LEN;
-+        } else {
-+            doe->req_length = 1 << 18;
-+        }
++    struct cxl_cdat_dslbis *dslbis = g_malloc0(sizeof(*dslbis));
++    dslbis->handle = handle;
++    dslbis->flags = flags;
++    dslbis->data_type = data_type;
++    dslbis->entry_base_unit = base_unit;
++    dslbis->entries[0] = entry0;
++    dslbis->entries[1] = entry1;
++    dslbis->entries[2] = entry2;
++    cdat->dslbis_list = g_list_append(cdat->dslbis_list, dslbis);
++}
++
++void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
++                      uint64_t memory_sc_size, uint64_t cache_attrs)
++{
++    struct cxl_cdat_dsmscis *dsmscis = g_malloc(sizeof(*dsmscis));
++    dsmscis->dsmas_handle = dsmas_handle;
++    dsmscis->memory_side_cache_size = memory_sc_size;
++    dsmscis->cache_attributes = cache_attrs;
++    cdat->dsmscis_list = g_list_append(cdat->dsmscis_list, dsmscis);
++}
++
++void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle)
++{
++    struct cxl_cdat_dsis *dsis = g_malloc(sizeof(*dsis));
++    dsis->flags = flags;
++    dsis->handle = handle;
++    cdat->dsis_list = g_list_append(cdat->dsis_list, dsis);
++}
++
++void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
++                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
++                     uint64_t dpa_length)
++{
++    struct cxl_cdat_dsemts *dsemts = g_malloc(sizeof(*dsemts));
++    dsemts->dsmas_handle = dsmas_handle;
++    dsemts->efi_mem_type_attr = efi_mem_type_attr;
++    dsemts->dpa_offset = dpa_offset;
++    dsemts->dpa_length = dpa_length;
++    cdat->dsemts_list = g_list_append(cdat->dsemts_list, dsemts);
++}
++
++struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
++                                        uint8_t data_type, uint64_t base_unit)
++{
++    struct cxl_cdat_sslbis *sslbis =
++        g_malloc(sizeof(*sslbis) + num_entries * sizeof(sslbis->entries[0]));
++    sslbis->num_entries = num_entries;
++    sslbis->data_type = data_type;
++    sslbis->base_unit = base_unit;
++    cdat->sslbis_list = g_list_append(cdat->sslbis_list, sslbis);
++    return sslbis;
++}
++
++int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
++                           uint16_t portx, uint16_t porty, uint16_t val)
++{
++    struct cxl_cdat_sslbis_entry *entry;
++    if (index >= sslbis->num_entries) {
++        return -1;
 +    }
-+    if (doe->req_length && doe->req_index == doe->req_length) {
++    entry = &sslbis->entries[index];
++    entry->port_x_id = portx;
++    entry->port_y_id = porty;
++    entry->val = val;
++    return 0;
++}
++
++int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
++                     void *priv)
++{
++    uint8_t table_type;
++    int total_entries;
++    uint16_t entry_handle;
++    CXLCDAT *cdat = priv;
++    uint16_t next_entry;
++
++    if (doe->req_length != 3) {
++        /* optional error for unexpected command length */
++        return -1;
++    }
++
++    if ((doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_RCODE) != 0) {
 +        /*
-+         * 6.xx.1 Data Objects
-+         * If the DW transferred does not match the indicated Length
-+         * for a data object, then the data object must be
-+         * silently discarded
++         * Only table access code currently supported.
++         * Error indication is lack of Data Object Ready
 +         */
-+        return;
++        return -1;
 +    }
-+    doe->store[doe->req_index] = val;
-+    doe->req_index++;
-+}
 +
-+static uint32_t doe_get_read_mailbox(PCIEDOE *doe)
-+{
-+    uint32_t val;
-+
-+    if (doe->rsp_index == 0) {
-+        doe->rsp_length = doe->store[1] & PCI_DATA_OBJ_DW1_LEN;
++    table_type = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_TYPE) >>
++        ctz32(CXL_DOE_TABLE_ACCESS_DW2_TYPE);
++    if (table_type != 0) {
++        /* Unsuported table ID so just don't set Data Object Ready */
++        return -1;
 +    }
-+    if (!doe->data_object_ready) {
-+        /* Underflow of the Read Data Mailbox Mechanism */
-+        doe->error = true;
++    entry_handle = (doe->store[2] & CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE) >>
++        ctz32(CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE);
++
++    /* Assume entry handle == CDAT structure index */
++    total_entries = g_list_length(cdat->dsmas_list) +
++        g_list_length(cdat->dslbis_list) +
++        g_list_length(cdat->dsmscis_list) +
++        g_list_length(cdat->dsis_list) +
++        g_list_length(cdat->dsemts_list) +
++        g_list_length(cdat->sslbis_list);
++    if (entry_handle + 1 == total_entries) {
++        next_entry = 0xFFFF;
++    } else {
++        next_entry = entry_handle + 1;
++    }
++
++    if (entry_handle < g_list_length(cdat->dsmas_list)) {
++        const int dsmas_len = 24;
++        struct cxl_cdat_dsmas *dsmas =
++            g_list_nth_data(cdat->dsmas_list, entry_handle);
++
++        doe->store[1] = 3 + dsmas_len / sizeof(uint32_t);
++        doe->store[2] = next_entry << 16;
++        doe->store[3] = (dsmas_len << 16) | CXL_CDAT_DSMAS_TYPE;
++
++        /* cxl version of proximity domain */
++        doe->store[4] = dsmas->dsmad_handle;
++        /* flags in 2nd byte of [4] (bit 2 is non volatile) */
++        doe->store[4] |= (dsmas->flags << 8);
++        doe->store[5] = dsmas->dpa_base & 0xFFFFFFFF;
++        doe->store[6] = (dsmas->dpa_base >> 32) & 0xFFFFFFFF;
++        doe->store[7] = dsmas->dpa_length & 0xFFFFFFFF;
++        doe->store[8] = (dsmas->dpa_length >> 32) & 0xFFFFFFFF;
 +        return 0;
 +    }
++    entry_handle -= g_list_length(cdat->dsmas_list);
++    if (entry_handle < g_list_length(cdat->dslbis_list)) {
++        const int dslbis_len = 24;
++        struct cxl_cdat_dslbis *dslbis =
++            g_list_nth_data(cdat->dslbis_list, entry_handle);
 +
-+    val = doe->store[doe->rsp_index];
-+    doe->rsp_index++;
-+    if (doe->rsp_index == doe->rsp_length) {
-+        doe->rsp_index = -1;
-+        doe->data_object_ready = false;
-+    }
++        doe->store[1] = 3 + dslbis_len / sizeof(uint32_t);
++        doe->store[2] = next_entry << 16;
++        doe->store[3] = (dslbis_len << 16) | CXL_CDAT_DSLBIS_TYPE;
 +
-+    return val;
-+}
-+
-+static uint32_t doe_get_status(PCIEDOE *doe)
-+{
-+    uint32_t val = 0;
-+
-+    if (doe->busy) {
-+        val |= PCI_DOE_STATUS_DOE_BUSY;
-+    }
-+    /* bit 1: interrupt not yet supported */
-+    if (doe->error) {
-+        val |= PCI_DOE_STATUS_DOE_ERROR;
-+    }
-+    if (doe->data_object_ready) {
-+        val |= PCI_DOE_STATUS_DATA_OBJECT_READY;
-+    }
-+
-+    return val;
-+}
-+
-+void doe_add_message_handler(PCIEDOE *doe, uint16_t vendor_id,
-+                             uint8_t object_type,
-+                             const doe_msg_handler_t handler, void *priv)
-+{
-+    struct doe_handler *h = g_malloc0(sizeof(*handler));
-+
-+    h->vendor_id = vendor_id;
-+    h->object_type = object_type;
-+    h->handler = handler;
-+    h->priv = priv;
-+    doe->cb_list = g_list_append(doe->cb_list, h);
-+}
-+
-+uint32_t pcie_doe_ecap(PCIEDOE *doe, PCIDevice *d, uint16_t offset)
-+{
-+    doe->doe_base = offset;
-+    /* Length field is 18 bits and is in dwords */
-+    doe->store = g_malloc0((1 << 18) * sizeof(uint32_t));
-+
-+    pcie_add_capability(d, PCI_EXT_CAP_ID_DOE, 1, offset, 0x18);
-+    offset += 0x18;
-+
-+    return offset;
-+}
-+
-+void pcie_doe_write(PCIEDOE *doe, uint32_t addr, uint32_t val, int len)
-+{
-+    if (len != 4) {
-+        return;
-+    }
-+
-+    switch (addr - doe->doe_base) {
-+    case PCI_DOE_CTRL:
-+        doe_set_ctl(doe, val);
-+        break;
-+    case PCI_DOE_WRITE_MAILBOX:
-+        doe_set_write_mailbox(doe, val);
-+        break;
-+    }
-+}
-+
-+uint32_t pcie_doe_read(PCIEDOE *doe, uint32_t addr, int len, int *found)
-+{
-+    if (len != 4) {
-+        *found = 0;
++        doe->store[4] = (dslbis->data_type << 24) | (dslbis->flags << 8) |
++            dslbis->handle;
++        doe->store[5] = dslbis->entry_base_unit & 0xFFFFFFFF;
++        doe->store[6] = (dslbis->entry_base_unit >> 32) & 0xFFFFFFFF;
++        doe->store[7] = (dslbis->entries[1] << 16) | dslbis->entries[0];
++        doe->store[8] = dslbis->entries[2];
 +        return 0;
 +    }
++    entry_handle -= g_list_length(cdat->dslbis_list);
++    if (entry_handle < g_list_length(cdat->dsmscis_list)) {
++        const int dsmscis_len = 20;
++        struct cxl_cdat_dsmscis *dsmscis =
++            g_list_nth_data(cdat->dsmscis_list, entry_handle);
 +
-+    *found = 1;
-+    switch (addr - doe->doe_base) {
-+    case PCI_DOE_CAP:
-+        return 0; /* No interrupt support */
-+    case PCI_DOE_STATUS:
-+        return doe_get_status(doe);
-+    case PCI_DOE_READ_MAILBOX:
-+        return doe_get_read_mailbox(doe);
-+    default:
-+        *found = 0;
-+        return 0;
++        doe->store[1] = 3 + dsmscis_len / sizeof(uint32_t);
++        doe->store[2] = next_entry << 16;
++        doe->store[3] = (dsmscis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
++        doe->store[4] = dsmscis->dsmas_handle;
++        doe->store[5] = dsmscis->memory_side_cache_size & 0xffffffff;
++        doe->store[6] = (dsmscis->memory_side_cache_size >> 32) & 0xffffffff;
++        doe->store[7] = dsmscis->cache_attributes;
 +    }
-+}
++    entry_handle -= g_list_length(cdat->dsmscis_list);
++    if (entry_handle < g_list_length(cdat->dsis_list)) {
++        const int dsis_len = 8;
++        struct cxl_cdat_dsis *dsis =
++            g_list_nth_data(cdat->dsis_list, entry_handle);
 +
-diff --git a/include/hw/pci/doe.h b/include/hw/pci/doe.h
++        doe->store[1] = 3 + dsis_len / sizeof(uint32_t);
++        doe->store[2] = next_entry << 16;
++        doe->store[3] = (dsis_len << 16) | CXL_CDAT_DSMSCIS_TYPE;
++        doe->store[4] = (dsis->handle << 8) | dsis->flags;
++    }
++    entry_handle -= g_list_length(cdat->dsis_list);
++    if (entry_handle < g_list_length(cdat->dsemts_list)) {
++        const int dsemts_len = 24;
++        struct cxl_cdat_dsemts *dsemts =
++            g_list_nth_data(cdat->dsemts_list, entry_handle);
++
++        doe->store[1] = 3 + dsemts_len / sizeof(uint32_t);
++        doe->store[2] = next_entry << 16;
++        doe->store[3] = (dsemts_len << 16) | CXL_CDAT_DSEMTS_TYPE;
++        doe->store[4] = (dsemts->efi_mem_type_attr << 8) | dsemts->dsmas_handle;
++        doe->store[5] = dsemts->dpa_offset & 0xffffffff;
++        doe->store[6] = (dsemts->dpa_offset >> 32) & 0xffffffff;
++        doe->store[7] = dsemts->dpa_length & 0xffffffff;
++        doe->store[8] = (dsemts->dpa_length >> 32) & 0xffffffff;
++    }
++    entry_handle -= g_list_length(cdat->dsemts_list);
++    if (entry_handle < g_list_length(cdat->sslbis_list)) {
++        struct cxl_cdat_sslbis *sslbis =
++            g_list_nth_data(cdat->sslbis_list, entry_handle);
++        int sslbis_len = 16 + 8 * sslbis->num_entries;
++        int i;
++
++        doe->store[1] = 3 + sslbis_len / sizeof(uint32_t);
++        doe->store[2] = next_entry << 16;
++        doe->store[3] = (sslbis_len << 16) | CXL_CDAT_SSLBIS_TYPE;
++        doe->store[4] = sslbis->data_type;
++        doe->store[5] = sslbis->base_unit & 0xffffffff;
++        doe->store[6] = (sslbis->base_unit >> 32) & 0xffffffff;
++        for (i = 0; i < sslbis->num_entries; i++) {
++            doe->store[7 + i * 2] = (sslbis->entries[i].port_y_id << 8) |
++                sslbis->entries[i].port_x_id;
++            doe->store[7 + i * 2 + 1] = sslbis->entries[i].val;
++        }
++    }
++
++    return -1;
++}
+diff --git a/hw/cxl/meson.build b/hw/cxl/meson.build
+index 0eca715d10..9e2e5f4094 100644
+--- a/hw/cxl/meson.build
++++ b/hw/cxl/meson.build
+@@ -2,4 +2,5 @@ softmmu_ss.add(when: 'CONFIG_CXL', if_true: files(
+   'cxl-component-utils.c',
+   'cxl-device-utils.c',
+   'cxl-mailbox-utils.c',
++  'cxl-cdat.c',
+ ))
+diff --git a/include/hw/cxl/cxl_cdat.h b/include/hw/cxl/cxl_cdat.h
 new file mode 100644
-index 0000000000..364c866c53
+index 0000000000..d0226c463c
 --- /dev/null
-+++ b/include/hw/pci/doe.h
-@@ -0,0 +1,40 @@
++++ b/include/hw/cxl/cxl_cdat.h
+@@ -0,0 +1,101 @@
 +/*
-+ * PCIE DOE emulation.
++ * Support for CDAT entires as defined in
++ * Coherent Device Attribute Table (CDAT) Specification rev 1.02
++ * Available from uefi.org.
 + *
 + * Copyright (c) 2021 Jonathan Cameron <Jonathan.Cameron@huawei.com>
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
++#ifndef QEMU_CXL_CDAT_H
++#define QEMU_CXL_CDAT_H
++#include "hw/pci/doe.h"
++/* DW2 is common to the request and response */
++#define CXL_DOE_TABLE_ACCESS_DW2_RCODE          0x000000ff
++#define CXL_DOE_TABLE_ACCESS_DW2_TYPE           0x0000ff00
++#define CXL_DOE_TABLE_ACCESS_DW2_ENTRYHANDLE    0xffff0000
 +
-+#ifndef QEMU_PCIE_DOE_H_
-+#define QEMU_PCIE_DOE_H_
-+#include "qemu/osdep.h"
-+#include "qemu/units.h"
-+#include "hw/qdev-properties.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
++#define CXL_CDAT_DSMAS_TYPE     0
++#define CXL_CDAT_DSLBIS_TYPE    1
++#define CXL_CDAT_DSMSCIS_TYPE   2
++#define CXL_CDAT_DSIS_TYPE      3
++#define CXL_CDAT_DSEMTS_TYPE    4
++#define CXL_CDAT_SSLBIS_TYPE    5
 +
-+typedef struct pcie_doe {
-+    uint32_t doe_base;
-+    GList *cb_list;
-+    int req_index;
-+    int req_length;
-+    int rsp_index;
-+    int rsp_length;
-+    bool data_object_ready;
-+    bool error;
-+    bool busy;
-+    uint32_t *store;
-+} PCIEDOE;
++struct cxl_cdat_dsmas {
++    uint8_t dsmad_handle;
++    uint8_t flags;
++#define CDAT_DSMAS_FLAG_NV (1 << 2)
++    uint64_t dpa_base;
++    uint64_t dpa_length;
++};
 +
-+typedef int (*doe_msg_handler_t)(PCIEDOE *doe, uint16_t vendor_id,
-+                                 uint8_t object_type, void *priv);
++struct cxl_cdat_dslbis {
++    uint8_t handle;
++    uint8_t flags;
++    uint8_t data_type;
++    uint64_t entry_base_unit;
++    uint16_t entries[3]; /* 6 bytes */
++};
 +
-+uint32_t pcie_doe_ecap(PCIEDOE *doe, PCIDevice *d, uint16_t offset);
-+void doe_add_message_handler(PCIEDOE *doe, uint16_t vendor_id,
-+                             uint8_t object_type,
-+                             const doe_msg_handler_t handler, void *priv);
-+uint32_t pcie_doe_read(PCIEDOE *doe, uint32_t addr, int len, int *found);
-+void pcie_doe_write(PCIEDOE *doe, uint32_t addr, uint32_t val, int len);
++struct cxl_cdat_dsmscis {
++    uint8_t dsmas_handle;
++    uint64_t memory_side_cache_size;
++    uint32_t cache_attributes;
++};
++
++struct cxl_cdat_dsis {
++    uint8_t flags;
++#define CDAT_DSIS_MEMORY_ATTACHED 0x01
++    uint8_t handle;
++};
++
++struct cxl_cdat_dsemts {
++    uint8_t dsmas_handle;
++    uint8_t efi_mem_type_attr;
++    uint64_t dpa_offset;
++    uint64_t dpa_length;
++};
++
++struct cxl_cdat_sslbis_entry {
++    uint16_t port_x_id;
++    uint16_t port_y_id;
++    uint16_t val;
++};
++
++struct cxl_cdat_sslbis {
++    uint8_t num_entries; /* needed to compute length */
++    uint8_t data_type;
++    uint64_t base_unit;
++    struct cxl_cdat_sslbis_entry entries[];
++};
++
++typedef struct cxl_cdat {
++    GList *dsmas_list;
++    GList *dslbis_list;
++    GList *dsmscis_list;
++    GList *dsis_list;
++    GList *dsemts_list;
++    GList *sslbis_list;
++} CXLCDAT;
++
++void cdat_add_dsmas(CXLCDAT *cdat, uint8_t dsmad_handle, uint8_t flags,
++                    uint64_t dpa_base, uint64_t dpa_length);
++void cdat_add_dslbis(CXLCDAT *cdat, uint8_t handle, uint8_t flags,
++                     uint8_t data_type, uint64_t base_unit,
++                     uint16_t entry0, uint16_t entry1, uint16_t entry2);
++void cdat_add_dsmscis(CXLCDAT *cdat, uint8_t dsmas_handle,
++                      uint64_t memory_sc_size, uint64_t cache_attrs);
++void cdat_add_dsis(CXLCDAT *cdat, uint8_t flags, uint8_t handle);
++void cdat_add_dsemts(CXLCDAT *cdat, uint8_t dsmas_handle,
++                     uint8_t efi_mem_type_attr, uint64_t dpa_offset,
++                     uint64_t dpa_length);
++struct cxl_cdat_sslbis *cdat_add_sslbis(CXLCDAT *cdat, uint8_t num_entries,
++                                        uint8_t data_type, uint64_t base_unit);
++int cdata_sslbis_set_entry(struct cxl_cdat_sslbis *sslbis, uint8_t index,
++                           uint16_t portx, uint16_t pory, uint16_t val);
++
++int cxl_table_access(PCIEDOE *doe, uint16_t vendor_id, uint8_t object_type,
++                     void *priv);
 +#endif
-diff --git a/include/hw/pci/pci_ids.h b/include/hw/pci/pci_ids.h
-index 76bf3ed590..636b2e8017 100644
---- a/include/hw/pci/pci_ids.h
-+++ b/include/hw/pci/pci_ids.h
-@@ -157,6 +157,8 @@
- 
- /* Vendors and devices.  Sort key: vendor first, device next. */
- 
-+#define PCI_VENDOR_ID_PCI_SIG            0x0001
-+
- #define PCI_VENDOR_ID_LSI_LOGIC          0x1000
- #define PCI_DEVICE_ID_LSI_53C810         0x0001
- #define PCI_DEVICE_ID_LSI_53C895A        0x0012
 -- 
 2.19.1
 
