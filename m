@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54BAC30B07E
-	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:42:09 +0100 (CET)
-Received: from localhost ([::1]:36228 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9272330B0AB
+	for <lists+qemu-devel@lfdr.de>; Mon,  1 Feb 2021 20:45:43 +0100 (CET)
+Received: from localhost ([::1]:44828 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6f5M-0007oU-Bj
-	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:42:08 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:49382)
+	id 1l6f8o-00032K-HE
+	for lists+qemu-devel@lfdr.de; Mon, 01 Feb 2021 14:45:42 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:49416)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1U-000359-RA
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26529)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1V-00037e-Va
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35438)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1M-0005ZU-Jr
- for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:08 -0500
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1l6f1Q-0005ai-TK
+ for qemu-devel@nongnu.org; Mon, 01 Feb 2021 14:38:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612208278;
+ s=mimecast20190719; t=1612208281;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7DenN3noeLnUH/dWExOjt2h30O+qiuhQ342QMX9ClGw=;
- b=ZTwsdRiA+yGwuDN8uiRiJUdat67e5pXfdNLJWLZE5DakHwvxd5hiHAT7vvb9Zdbw1mYN4c
- O/uJsixSTAChhQbl+iZpRsvGvp3KlIO96x7CIxx7h5UuNOwUFqi163PqXFARylYFXsU0y7
- y8rgBTQ/d9adjeqqNDwWZhAPNjneS24=
+ bh=6+Vvr8ZNvaZB+B6btD6hQ5WPCE1cJBqkbTYpI07vXpc=;
+ b=R9HDkq0kZ13O5y1OlsmsqJOaZRzpySIcgNi+rHWWXSAQUF9vsG8c28NCdgoAiCBRsGPmHz
+ kfnGaeGS6QHWRxHCf7FgIMaI2yh3aIBPajT4u145SNTpdCJZnnGtAHbgEWlNHB9UITCVVn
+ DnclpKVAhbJg7Mu7pJiYNTqfD4PzgWc=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-233-7zR5r3CGPiGQ8OlZQFYU9w-1; Mon, 01 Feb 2021 14:37:56 -0500
-X-MC-Unique: 7zR5r3CGPiGQ8OlZQFYU9w-1
+ us-mta-395-ywvRlB-pOha3vQuIG3z8OA-1; Mon, 01 Feb 2021 14:37:58 -0500
+X-MC-Unique: ywvRlB-pOha3vQuIG3z8OA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
  [10.5.11.12])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D12DBB8102;
- Mon,  1 Feb 2021 19:37:55 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 14BA51005513;
+ Mon,  1 Feb 2021 19:37:57 +0000 (UTC)
 Received: from scv.redhat.com (ovpn-112-247.rdu2.redhat.com [10.10.112.247])
- by smtp.corp.redhat.com (Postfix) with ESMTP id E18D960C05;
- Mon,  1 Feb 2021 19:37:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 113AA60C05;
+ Mon,  1 Feb 2021 19:37:55 +0000 (UTC)
 From: John Snow <jsnow@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v4 03/16] qapi/main: handle theoretical None-return from
- re.match()
-Date: Mon,  1 Feb 2021 14:37:34 -0500
-Message-Id: <20210201193747.2169670-4-jsnow@redhat.com>
+Subject: [PATCH v4 04/16] qapi/gen: inline _wrap_ifcond into end_if()
+Date: Mon,  1 Feb 2021 14:37:35 -0500
+Message-Id: <20210201193747.2169670-5-jsnow@redhat.com>
 In-Reply-To: <20210201193747.2169670-1-jsnow@redhat.com>
 References: <20210201193747.2169670-1-jsnow@redhat.com>
 MIME-Version: 1.0
@@ -84,27 +83,36 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>, Michael Roth <michael.roth@amd.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mypy cannot understand that this match can never be None, so help it
-along.
+We assert _start_if is not None in end_if, but that's opaque to mypy.
+By inlining _wrap_ifcond, that constraint becomes provable to mypy.
 
 Signed-off-by: John Snow <jsnow@redhat.com>
 ---
- scripts/qapi/main.py | 2 ++
- 1 file changed, 2 insertions(+)
+ scripts/qapi/gen.py | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/qapi/main.py b/scripts/qapi/main.py
-index 42517210b80..703e7ed1ed5 100644
---- a/scripts/qapi/main.py
-+++ b/scripts/qapi/main.py
-@@ -23,6 +23,8 @@
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index b40f18eee3c..3d81b90ab71 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -130,15 +130,12 @@ def start_if(self, ifcond: List[str]) -> None:
+         self._start_if = (ifcond, self._body, self._preamble)
  
- def invalid_prefix_char(prefix: str) -> Optional[str]:
-     match = re.match(r'([A-Za-z_.-][A-Za-z0-9_.-]*)?', prefix)
-+    # match cannot be None, but mypy cannot infer that.
-+    assert match is not None
-     if match.end() != len(prefix):
-         return prefix[match.end()]
-     return None
+     def end_if(self) -> None:
+-        assert self._start_if
+-        self._wrap_ifcond()
+-        self._start_if = None
+-
+-    def _wrap_ifcond(self) -> None:
++        assert self._start_if is not None
+         self._body = _wrap_ifcond(self._start_if[0],
+                                   self._start_if[1], self._body)
+         self._preamble = _wrap_ifcond(self._start_if[0],
+                                       self._start_if[2], self._preamble)
++        self._start_if = None
+ 
+     def get_content(self) -> str:
+         assert self._start_if is None
 -- 
 2.29.2
 
