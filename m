@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D530C008
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:49:31 +0100 (CET)
-Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7431F30C063
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:56:49 +0100 (CET)
+Received: from localhost ([::1]:48130 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6w3e-0004t2-5S
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:49:30 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
+	id 1l6wAi-0004Zy-G5
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:56:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:59632)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6vus-0003rn-NE
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:26 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33342)
+ id 1l6w3B-0004xW-GO
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:49:01 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:50521)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6vuq-0007QR-UU
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:26 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id a16so1959477wmm.0
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:40:24 -0800 (PST)
+ id 1l6w38-0002ZT-SQ
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:49:01 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id 190so2538795wmz.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:48:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=EkuLK63yEXX5SW08QBjGa4Wz+OKzv7+Xm922jA3ia8k=;
- b=Ft35cCBGkrqz3Y9sMSNzYiHugOId5lMWmej468fnr9pQxQh9Cjgr2usjNpZiqqvPAw
- wY2FNxHTYjuVfShKpMtKXRcNDxz3N3CqqIHIuCi6rJXMIpu6uKzYthuHoLsrwU2rMtwV
- I94qwe6wBBgfeJmjENuYCVyGl8Ql7VqREA1AD+dtMULBVvdMZG2aD9MSjRh+bGxPLcSf
- DrNefvjcZRoxqwIuAAl04curl8qchfsIXhjp3pSDE3FGMjjTLKJzM3daQ9J0P2YZ4lvk
- vgWf5sgt/pbnFDDoJ2na9w6VCHIDkJOnqjMU3HwGaLNTF4AVIArC/at/yUjNEAB6zLl6
- guQg==
+ bh=7t4BNORgy1dae3kq2wXQigCulzaDzMkv3Wc+M7mZQsE=;
+ b=eOzdxj2Y6rhe3hsu1m0wFXVhYNMcMwB1fdPniua3PS2ux7Eloeek4n5hRPD70tZCec
+ UDASZt5o63fzVvsWAdRWBAEmnmHoSlEIumulMWx9cXnDar+mipHkh1bK+s/GWSU+njW+
+ 38++yMvFmAPyE6NFZU4uF6oAqZoFeauUmXXfyFvt2Z1lNIf+IN3Zw37vkvDmgh/oN+jf
+ jVtJWrotmUx6kNssNijst+Px6yeIYN/PbN5D7GkaYlaXOmTixKjhhjD+XTmOUO5ueILp
+ 9gZcC1Y52cM407ZCM/hU25fyOPtQH9WnztOasRJuSko6mFcPxj2GiyR/+95COFX0jbx+
+ 5N9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=EkuLK63yEXX5SW08QBjGa4Wz+OKzv7+Xm922jA3ia8k=;
- b=aK7vmFFjKade7r5Mu5UbpsQCTj3pnplQnqK66bWqOajnydxDvtKJi023qIG+1f/EhB
- ljoeW5XL8FR8fk/KWPdU2+b5xNjrXAjMzLnIPbf1YjbxFQNVjE7Z19m5g9oZ8crz6WAN
- g+GsijVqFLagkyXXz6rEi77yXv4qOFIQrYQZv6XEBHgEfs6jm143ku1JiLCF3BepfbVP
- 2y+mdf4a8cgtLXLpFegngf5QevvI89yEoFG4Wf+3QUalGlBKnVdvobHyNDSf2Ux6YF/z
- j8ydF4TWn5g1eW97ThRjKxp9NR2uyY8k0drmzWyenVXEg6K71S4N4d0n+8aiOoum+k9a
- KtnQ==
-X-Gm-Message-State: AOAM530LLz+B5w2ey8KAaxA/A/Wg8IwJgz+ejQl+DI9OOsqWs6m3Jw96
- gUV5I8MaRgVUwIrcu+hn5sbz0w==
-X-Google-Smtp-Source: ABdhPJwpLsEUOLomagVBtphOZV6NJl1EsDprqCtb6GSEeyyLgww1LgzGJxlxtIj+h41tZIOTi7+Gsw==
-X-Received: by 2002:a1c:2ec2:: with SMTP id u185mr3672580wmu.83.1612273223596; 
- Tue, 02 Feb 2021 05:40:23 -0800 (PST)
+ bh=7t4BNORgy1dae3kq2wXQigCulzaDzMkv3Wc+M7mZQsE=;
+ b=dbSA9aVoEKYuTkz1mE0bXeDDE3OGlk2msr3wtJyrHzq1H4ncxgQxavhd5c5z8jzfrH
+ K6MmAqivr3XHOxCDv/qns+6s5aebFrr3RpVXeclbx84YsQuHdIqZOlJh+w4kfnbmzo0W
+ S8WGCbqrPZEM6quGXK2/sEzezbgoQKyoQ0dRvCJwQvo/sUx/1HOupjBx/SU2NF3pJ8kw
+ i3Qm7eVgWQ0g1oNQGN3fM1PMpUwWN591ud/BvmSZwS3z1YUJ9N8Vs6Flr6I0um85cIIg
+ 82sXGjKxk9oGgnpUe1KMu6Rg4svedNUtM70OILgHk+7B2kqKPUnvw/vy+UQuQxEK7jCz
+ 5h5A==
+X-Gm-Message-State: AOAM533tOFA1OFIuU5/KQ6CfMO6dyZNS34GqZCvwKErx5EQJ+YgtTXOD
+ eCg2ukPsjDqKmv6xtmP5toZtow==
+X-Google-Smtp-Source: ABdhPJzXUMshn80AGdYrI/g5yE2ba4IzLRZ+m30Byu2P7SirOyzjmQweIzqthIqr3ZnSz0aEn/DN1A==
+X-Received: by 2002:a7b:c395:: with SMTP id s21mr3725774wmj.97.1612273737494; 
+ Tue, 02 Feb 2021 05:48:57 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id c18sm4744430wmk.0.2021.02.02.05.40.09
+ by smtp.gmail.com with ESMTPSA id m22sm33154710wrh.66.2021.02.02.05.48.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 05:40:15 -0800 (PST)
+ Tue, 02 Feb 2021 05:48:55 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3E0851FF9C;
+ by zen.linaroharston (Postfix) with ESMTP id 51B8D1FF9D;
  Tue,  2 Feb 2021 13:40:02 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 13/15] tests/Makefile.include: don't use TARGET_DIRS for
- check-tcg
-Date: Tue,  2 Feb 2021 13:39:58 +0000
-Message-Id: <20210202134001.25738-14-alex.bennee@linaro.org>
+Subject: [PATCH v1 14/15] docs/system: document an example vexpress-a15
+ invocation
+Date: Tue,  2 Feb 2021 13:39:59 +0000
+Message-Id: <20210202134001.25738-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210202134001.25738-1-alex.bennee@linaro.org>
 References: <20210202134001.25738-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -87,51 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Anders Roxell <anders.roxell@linaro.org>,
+ "open list:Versatile Express" <qemu-arm@nongnu.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-TARGET_DIRS reflects what we wanted to configure which in the normal
-case is all our targets. However once meson has pared-down our target
-list due to missing features we need to check the final list of
-ninja-targets. This prevents check-tcg barfing on a --disable-tcg
-build.
+The wiki and the web are curiously absent of the right runes to boot a
+vexpress model so I had to work from first principles to work it out.
+Use the more modern -drive notation so alternative backends can be
+used (unlike the hardwired -sd mode).
 
-Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Acked-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20210126145356.7860-3-alex.bennee@linaro.org>
+Cc: Anders Roxell <anders.roxell@linaro.org>
 
 ---
 v2
-  - move everything to Makefile.include
+  - reword kernel build.
 ---
- tests/Makefile.include | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ docs/system/arm/vexpress.rst | 28 ++++++++++++++++++++++++++++
+ 1 file changed, 28 insertions(+)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 17dafdfe98..d34254fb29 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -40,11 +40,13 @@ SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
- 
- SPEED = quick
- 
--# Per guest TCG tests
-+# Build up our target list from the filtered list of ninja targets
-+TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
- 
--BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
--CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGET_DIRS))
--RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
-+# Per guest TCG tests
-+BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGETS))
-+CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGETS))
-+RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGETS))
- 
- # Probe for the Docker Builds needed for each build
- $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
+diff --git a/docs/system/arm/vexpress.rst b/docs/system/arm/vexpress.rst
+index 7f1bcbef07..3e3839e923 100644
+--- a/docs/system/arm/vexpress.rst
++++ b/docs/system/arm/vexpress.rst
+@@ -58,3 +58,31 @@ Other differences between the hardware and the QEMU model:
+   ``vexpress-a15``, and have IRQs from 40 upwards. If a dtb is
+   provided on the command line then QEMU will edit it to include
+   suitable entries describing these transports for the guest.
++
++Booting a Linux kernel
++----------------------
++
++Building a current Linux kernel with ``multi_v7_defconfig`` should be
++enough to get something running. Nowadays an out-of-tree build is
++recommended (and also useful if you build a lot of different targets).
++In the following example $BLD points to the build directory and $SRC
++points to the root of the Linux source tree. You can drop $SRC if you
++are running from there.
++
++.. code-block:: bash
++
++  $ make O=$BLD -C $SRC ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- multi_v7_defconfig
++  $ make O=$BLD -C $SRC ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-
++
++By default you will want to boot your rootfs off the sdcard interface.
++Your rootfs will need to be padded to the right size. With a suitable
++DTB you could also add devices to the virtio-mmio bus.
++
++.. code-block:: bash
++
++  $ qemu-system-arm -cpu cortex-a15 -smp 4 -m 4096 \
++      -machine type=vexpress-a15 -serial mon:stdio \
++      -drive if=sd,driver=file,filename=armel-rootfs.ext4 \
++      -kernel zImage  \
++      -dtb vexpress-v2p-ca15-tc1.dtb \
++      -append "console=ttyAMA0 root=/dev/mmcblk0 ro"
 -- 
 2.20.1
 
