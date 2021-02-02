@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3082130CF5A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 23:51:10 +0100 (CET)
-Received: from localhost ([::1]:55420 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0F2F30CF51
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 23:48:46 +0100 (CET)
+Received: from localhost ([::1]:47098 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l74Vp-0004cg-5u
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 17:51:09 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:40464)
+	id 1l74TV-00017D-Lp
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 17:48:45 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40440)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74Qt-0007Z0-NL
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:35958)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74Qs-0007VN-EO
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:28338)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74Qd-0005th-FJ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:03 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l74Qd-0005tZ-3u
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 17:46:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1612305946;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CkgNGGGCbW6jGEmuUZWm70s6fIWw/oKgzH3bQagpJNQ=;
- b=h7ICnQ+eXZOqDVL5f3vLq4xlO4mutJbueYwDw5HVJz+lKPFhcholi5L2kdIQ+VeNd9d2db
- VID31VmLfY8axlUqML/XM+5h9VkXpjzfHMC5r8zjXjET05E77x6qEnka7C5m5y2us7X+Rc
- WfLGJic/7r9oiiqoXH777GHRm/sDWj4=
+ bh=Ll2aY3zeMbb3kpA44SvMxsG+djU3MzpEF5vW6TAC2bw=;
+ b=iQqE6yzXmcC/GMKeZ9H6C8NBk/zDqzq1biwrteigqh+INTvjp48NfufRdQBY7vGvV5dTks
+ YzT132kOJhCopHgFEGdn6f/+81ktRIYBo8E5Hpx8V/icgkABg/V3cqECTczddVyXk7lCMs
+ 9H6U3xAYn+xXR02LiM1ECc7h1Bx2y4I=
 Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
  [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-280-Uw_wwXPaMdiqC7Fn-c2W9g-1; Tue, 02 Feb 2021 17:45:43 -0500
-X-MC-Unique: Uw_wwXPaMdiqC7Fn-c2W9g-1
+ us-mta-171-KZz_BqbgMpGrYXi93tfouA-1; Tue, 02 Feb 2021 17:45:44 -0500
+X-MC-Unique: KZz_BqbgMpGrYXi93tfouA-1
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
  [10.5.11.22])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 3AEF4107ACE4;
- Tue,  2 Feb 2021 22:45:42 +0000 (UTC)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 0315A59;
+ Tue,  2 Feb 2021 22:45:43 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-112-103.phx2.redhat.com [10.3.112.103])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A458C10016F5;
- Tue,  2 Feb 2021 22:45:41 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6818510016F9;
+ Tue,  2 Feb 2021 22:45:42 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Subject: [PULL 09/20] block: use int64_t as bytes type in tracked requests
-Date: Tue,  2 Feb 2021 16:45:18 -0600
-Message-Id: <20210202224529.642055-10-eblake@redhat.com>
+Subject: [PULL 10/20] block/io: use int64_t bytes in driver wrappers
+Date: Tue,  2 Feb 2021 16:45:19 -0600
+Message-Id: <20210202224529.642055-11-eblake@redhat.com>
 In-Reply-To: <20210202224529.642055-1-eblake@redhat.com>
 References: <20210202224529.642055-1-eblake@redhat.com>
 MIME-Version: 1.0
@@ -55,14 +55,14 @@ X-Mimecast-Spam-Score: 0
 X-Mimecast-Originator: redhat.com
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain; charset="US-ASCII"
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=eblake@redhat.com;
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,139 +95,79 @@ We chose signed type, to be consistent with off_t (which is signed) and
 with possibility for signed return type (where negative value means
 error).
 
-All requests in block/io must not overflow BDRV_MAX_LENGTH, all
-external users of BdrvTrackedRequest already have corresponding
-assertions, so we are safe. Add some assertions still.
+So, convert driver wrappers parameters which are already 64bit to
+signed type.
+
+Requests in block/io.c must never exceed BDRV_MAX_LENGTH (which is less
+than INT64_MAX), which makes the conversion to signed 64bit type safe.
+
+Add corresponding assertions.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-Id: <20201211183934.169161-9-vsementsov@virtuozzo.com>
+Message-Id: <20201211183934.169161-10-vsementsov@virtuozzo.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
 ---
- include/block/block_int.h |  4 ++--
- block/io.c                | 14 +++++++----
- block/io.c.rej            | 50 ++++++++++-----------------------------
- 3 files changed, 24 insertions(+), 44 deletions(-)
+ block/io.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 5bbbf9ee0af9..7f41f0990cc0 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -79,12 +79,12 @@ enum BdrvTrackedRequestType {
- typedef struct BdrvTrackedRequest {
-     BlockDriverState *bs;
-     int64_t offset;
--    uint64_t bytes;
-+    int64_t bytes;
-     enum BdrvTrackedRequestType type;
-
-     bool serialising;
-     int64_t overlap_offset;
--    uint64_t overlap_bytes;
-+    int64_t overlap_bytes;
-
-     QLIST_ENTRY(BdrvTrackedRequest) list;
-     Coroutine *co; /* owner, used for deadlock detection */
 diff --git a/block/io.c b/block/io.c
-index b56db913da30..1c23587d18c6 100644
+index 1c23587d18c6..cb5064155b6a 100644
 --- a/block/io.c
 +++ b/block/io.c
-@@ -717,10 +717,10 @@ static void tracked_request_end(BdrvTrackedRequest *req)
- static void tracked_request_begin(BdrvTrackedRequest *req,
-                                   BlockDriverState *bs,
-                                   int64_t offset,
--                                  uint64_t bytes,
-+                                  int64_t bytes,
-                                   enum BdrvTrackedRequestType type)
- {
--    assert(bytes <= INT64_MAX && offset <= INT64_MAX - bytes);
-+    bdrv_check_request(offset, bytes, &error_abort);
-
-     *req = (BdrvTrackedRequest){
-         .bs = bs,
-@@ -741,8 +741,10 @@ static void tracked_request_begin(BdrvTrackedRequest *req,
+@@ -1125,7 +1125,7 @@ static void bdrv_co_io_em_complete(void *opaque, int ret)
  }
 
- static bool tracked_request_overlaps(BdrvTrackedRequest *req,
--                                     int64_t offset, uint64_t bytes)
-+                                     int64_t offset, int64_t bytes)
+ static int coroutine_fn bdrv_driver_preadv(BlockDriverState *bs,
+-                                           uint64_t offset, uint64_t bytes,
++                                           int64_t offset, int64_t bytes,
+                                            QEMUIOVector *qiov,
+                                            size_t qiov_offset, int flags)
  {
-+    bdrv_check_request(offset, bytes, &error_abort);
-+
-     /*        aaaa   bbbb */
-     if (offset >= req->overlap_offset + req->overlap_bytes) {
-         return false;
-@@ -810,8 +812,10 @@ static void tracked_request_set_serialising(BdrvTrackedRequest *req,
-                                             uint64_t align)
- {
-     int64_t overlap_offset = req->offset & ~(align - 1);
--    uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
--                               - overlap_offset;
-+    int64_t overlap_bytes =
-+        ROUND_UP(req->offset + req->bytes, align) - overlap_offset;
-+
-+    bdrv_check_request(req->offset, req->bytes, &error_abort);
+@@ -1135,6 +1135,7 @@ static int coroutine_fn bdrv_driver_preadv(BlockDriverState *bs,
+     QEMUIOVector local_qiov;
+     int ret;
 
-     if (!req->serialising) {
-         qatomic_inc(&req->bs->serialising_in_flight);
-diff --git a/block/io.c.rej b/block/io.c.rej
-index f52df016263b..ae2f972d1af9 100644
---- a/block/io.c.rej
-+++ b/block/io.c.rej
-@@ -1,40 +1,16 @@
- diff a/block/io.c b/block/io.c	(rejected hunks)
--@@ -2138,20 +2139,32 @@ int coroutine_fn bdrv_co_pwritev_part(BdrvChild *child,
--         return 0;
--     }
-+@@ -798,10 +800,12 @@ bool bdrv_mark_request_serialising(BdrvTrackedRequest *req, uint64_t align)
-+ {
-+     BlockDriverState *bs = req->bs;
-+     int64_t overlap_offset = req->offset & ~(align - 1);
-+-    uint64_t overlap_bytes = ROUND_UP(req->offset + req->bytes, align)
-+-                               - overlap_offset;
-++    int64_t overlap_bytes =
-++        ROUND_UP(req->offset + req->bytes, align) - overlap_offset;
-+     bool waited;
-  
--+    if (!(flags & BDRV_REQ_ZERO_WRITE)) {
--+        /*
--+         * Pad request for following read-modify-write cycle.
--+         * bdrv_co_do_zero_pwritev() does aligning by itself, so, we do
--+         * alignment only if there is no ZERO flag.
--+         */
--+        padded = bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes,
--+                                  &pad);
--+    }
-++    bdrv_check_request(req->offset, req->bytes, &error_abort);
- +
--     bdrv_inc_in_flight(bs);
---    /*
---     * Align write if necessary by performing a read-modify-write cycle.
---     * Pad qiov with the read parts and be sure to have a tracked request not
---     * only for bdrv_aligned_pwritev, but also for the reads of the RMW cycle.
---     */
--     tracked_request_begin(&req, bs, offset, bytes, BDRV_TRACKED_WRITE);
-- 
--     if (flags & BDRV_REQ_ZERO_WRITE) {
--+        assert(!padded);
--         ret = bdrv_co_do_zero_pwritev(child, offset, bytes, flags, &req);
--         goto out;
--     }
-- 
---    if (bdrv_pad_request(bs, &qiov, &qiov_offset, &offset, &bytes, &pad)) {
--+    if (padded) {
--+        /*
--+         * Request was unaligned to request_alignment and therefore padded.
--+         * We are going to do read-modify-write. User is not prepared to widened
--+         * request intersections with other requests, so we serialize the
--+         * request.
--+         */
--         bdrv_mark_request_serialising(&req, align);
--         bdrv_padding_rmw_read(child, &req, &pad, false);
--     }
-+     qemu_co_mutex_lock(&bs->reqs_lock);
-+     if (!req->serialising) {
-+         qatomic_inc(&req->bs->serialising_in_flight);
++    bdrv_check_qiov_request(offset, bytes, qiov, qiov_offset, &error_abort);
+     assert(!(flags & ~BDRV_REQ_MASK));
+     assert(!(flags & BDRV_REQ_NO_FALLBACK));
+
+@@ -1194,7 +1195,7 @@ out:
+ }
+
+ static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
+-                                            uint64_t offset, uint64_t bytes,
++                                            int64_t offset, int64_t bytes,
+                                             QEMUIOVector *qiov,
+                                             size_t qiov_offset, int flags)
+ {
+@@ -1204,6 +1205,7 @@ static int coroutine_fn bdrv_driver_pwritev(BlockDriverState *bs,
+     QEMUIOVector local_qiov;
+     int ret;
+
++    bdrv_check_qiov_request(offset, bytes, qiov, qiov_offset, &error_abort);
+     assert(!(flags & ~BDRV_REQ_MASK));
+     assert(!(flags & BDRV_REQ_NO_FALLBACK));
+
+@@ -1274,14 +1276,16 @@ emulate_flags:
+ }
+
+ static int coroutine_fn
+-bdrv_driver_pwritev_compressed(BlockDriverState *bs, uint64_t offset,
+-                               uint64_t bytes, QEMUIOVector *qiov,
++bdrv_driver_pwritev_compressed(BlockDriverState *bs, int64_t offset,
++                               int64_t bytes, QEMUIOVector *qiov,
+                                size_t qiov_offset)
+ {
+     BlockDriver *drv = bs->drv;
+     QEMUIOVector local_qiov;
+     int ret;
+
++    bdrv_check_qiov_request(offset, bytes, qiov, qiov_offset, &error_abort);
++
+     if (!drv) {
+         return -ENOMEDIUM;
+     }
 -- 
 2.30.0
 
