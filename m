@@ -2,51 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1954030CC28
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 20:47:12 +0100 (CET)
-Received: from localhost ([::1]:34064 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65BC830CCAF
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 21:06:35 +0100 (CET)
+Received: from localhost ([::1]:51580 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l71dm-0007q5-MU
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 14:47:10 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:39308)
+	id 1l71wX-00086g-7z
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 15:06:33 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:43452)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l71c5-0007Fq-01
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:45:27 -0500
-Received: from zangief.bwidawsk.net ([107.170.211.233]:48946
- helo=mail.bwidawsk.net)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l71tl-0006LT-6m; Tue, 02 Feb 2021 15:03:45 -0500
+Received: from mail-eopbgr150135.outbound.protection.outlook.com
+ ([40.107.15.135]:6020 helo=EUR01-DB5-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l71by-0007Of-RQ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 14:45:20 -0500
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id 84F911234A5; Tue,  2 Feb 2021 11:45:16 -0800 (PST)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id 18660122C69;
- Tue,  2 Feb 2021 11:45:07 -0800 (PST)
-Date: Tue, 2 Feb 2021 11:45:05 -0800
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [RFC PATCH v3 17/31] hw/cxl/component: Implement host bridge
- MMIO (8.2.5, table 142)
-Message-ID: <20210202194505.227fhhalahyhpmjy@mail.bwidawsk.net>
-References: <20210202005948.241655-1-ben.widawsky@intel.com>
- <20210202005948.241655-18-ben.widawsky@intel.com>
- <20210202192135.000035e9@Huawei.com>
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l71tc-0006uj-M1; Tue, 02 Feb 2021 15:03:40 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=O2RABx2/twnPQI+jVG5VzI6BkdyEljPnPIXpYPKfgP5npWphbHKqs6RZzKSAmITLgxECHCZDiunPOJhLjMGaAYSgHwiLPj/a7yrbm9uVDY8L+jwPHOjEDOYdv98R9Jbk3om9HCUnCsriNr1uumXKaiGQGtpXebE9Tcv5ro8lNxeAjmy+NwsGxEvMHeG+CKQfoP2tnJ4RvcG3OOpEaTreQ1R0CYc//laSEvVj03IC3zdzhKcILbqxwFYs5ElNsJQRvbKDFyZYdENDX40dxPfYFvP9x1Ge0TQJ7BLav0ej4so4sSrb8NaZw/nsmSgM8UsRLv9pouqoivpQLC5nSn1/fA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sWIp8kRscI1x+7DvWHb/YBm06/+B4UZmp+EDwQZC1DE=;
+ b=LmGNkLEJZEkDHeGDKNAIRM+jNH/TTE4sizNiJOmZb8+KwWvglv1EqFci0BTV6ZjuAfPRbvDVopaKtqIcvuDxJ2qO5S+OGrgZl5ObIctm0Smjdk2bw0bgZeKXoSdXwgLUmu3dlAaafBW/dA3CUr2TqW9yrz8RFMBKYdhL8oJStETm2cwR/lBZtnoEDjCN+OCgaYlzHZeOQopI09OUs6DBp3jhzjgLu3FYkoSLRJDICMWSj4dVedJLWSDzca+OdEW1CfPySlUQv+zKLUj+u951QSUoh/0WjvCWggtb37eTK6MiLwkc1WATtDaHG8wtdhZ+4zAoVjKEzmGdKvID4lWedQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sWIp8kRscI1x+7DvWHb/YBm06/+B4UZmp+EDwQZC1DE=;
+ b=krH4OnPoozkOZe4YXtpGtBhyzfxy/xpA6PEc7rRmWxAIbnNqwiH8Lj26QAXNWuLKTMNM3AJ+WeuE7fvXbLksbi5LpK+RSn4hjt9OhA3rdMgWPnkpGmfMpFdaoBqFRhXDG6m4XRMJLKQ/yAwugxkOX575S32qO+HJZb1d5kDD07w=
+Authentication-Results: redhat.com; dkim=none (message not signed)
+ header.d=none;redhat.com; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5079.eurprd08.prod.outlook.com (2603:10a6:20b:e8::21)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.23; Tue, 2 Feb
+ 2021 20:03:28 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Tue, 2 Feb 2021
+ 20:03:28 +0000
+Subject: Re: [PATCH] iotests: Fix expected whitespace for 185
+To: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org
+References: <20210202185914.614705-1-eblake@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <4c0fc5aa-d7a9-728c-24a8-e0aafc5a791c@virtuozzo.com>
+Date: Tue, 2 Feb 2021 23:03:25 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+In-Reply-To: <20210202185914.614705-1-eblake@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.137]
+X-ClientProxiedBy: AM0PR02CA0005.eurprd02.prod.outlook.com
+ (2603:10a6:208:3e::18) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20210202192135.000035e9@Huawei.com>
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.137) by
+ AM0PR02CA0005.eurprd02.prod.outlook.com (2603:10a6:208:3e::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3825.17 via Frontend Transport; Tue, 2 Feb 2021 20:03:27 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 10eb5918-fac8-47c0-fe0a-08d8c7b59b4d
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5079:
+X-Microsoft-Antispam-PRVS: <AM6PR08MB50796C387A2D11AAAD6D6EE2C1B59@AM6PR08MB5079.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 7AEdatlpAsTa3XVunqFOy3v6wyf1EeCWcD4yg5Z7ZLlb95KjBMg0n0lP08uGSUbO3CJoR6jHZOW1WwZFI9r3WZ3OedN6Q+q+bIVH8VEw7DpLji6HI4uT92vEgVt6FJlC1fkw3MqZEX4StL9BE0hzSIur9HxsPsJI1GJIL8xMGbNT+2IEeFq6jAnASVDStaQ2UoRCosEyxBmOL8agSi0Xk6rdtqkqeGeJuShJhwrd6VhptA+RIZQKGiKaO06jlL+icu+PcnIRqzJdbgGJS6Q9tytK2Z6IhRG2BgbDb94LziUnDMmPRrK6lgZacyvVkMmISQtpNM1yc86lnfy1Mjoe0DgsviWRJHuyPG5slQJOn/dwMXP3MGXpefRtCGFn1Q2tBSJtTyKDW7IGmSf24kflDStjguPPSyNM52/eHjH86Wqo1iiF02wjSxE0JUv5T7xnp29qjPfaKA7jPamqHYIx07giNlPJl5Jj5BUeNxal5vg9Dz07rsrzsocnIg6AALryuH7bECEMachvEx2Hm06S+VsTvesrP9448Zh38IW2XqhT/OMIPreSoBfh60js+YRbSaBJqYdKUwedFaXnjVakvCYpdx87K7vHKFsl6tEcgAY=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(396003)(346002)(376002)(366004)(39840400004)(136003)(26005)(31686004)(186003)(8676002)(66476007)(66946007)(16576012)(6486002)(956004)(66556008)(86362001)(16526019)(31696002)(5660300002)(2906002)(4326008)(8936002)(316002)(478600001)(54906003)(52116002)(2616005)(36756003)(83380400001)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?VW9SNG1vNVZFVWNLR1J0QWc4U0RRck5rMUtWZEczUDU2UUswSGVQUXpTbUts?=
+ =?utf-8?B?cHZsQkswcDh3STNPUEdNOHV6cS9QNFpyNTdxbEJJQWpnNmI3SU04VThGUi9r?=
+ =?utf-8?B?VnR3YWFwaFh4T3NsOE9VUTVDWnBycjg0N3BWWXZTUmd4My9nWnFHNzI4Tzk5?=
+ =?utf-8?B?dUZwTDFnRjhBMm1vZDRNY2dpMEhuME02WHkwdUw2cjB6aFg0eEwzbk5tczFK?=
+ =?utf-8?B?bU0vcDdJcmh0WmczbjRnS0d6cFhmcTNOSXFNdXNjbXcvTnNoeUdUSFA5Wk5I?=
+ =?utf-8?B?MjNsNHN1M3FiQmJSWjAzMGRCUm52NlhqUnZ4RGtGQUJMY2xBVnpkUXJMMk41?=
+ =?utf-8?B?ZHY0K1p3ZGhQZTREWG9Uc3ExKzNJb2dSVGY3TzdXWGs1cjVHMnRzaHYzRlFm?=
+ =?utf-8?B?anF5RXJUZG5kZ3RvQVhtL3FncEFRZWRGaU9TaklBZ0tTR3c4ZWZUL29WSmJN?=
+ =?utf-8?B?N0xrNGFPZUYwaDRTTzJUblVOc2RSVmNHTS80QXVpQnpVZnE5Z2szdHJxeG5n?=
+ =?utf-8?B?a3FKSnJhdEZ3MUphS0lzVlRqb3Qwcmw2TzZJNjFsejV2SVdHQzlsd08xR0Z4?=
+ =?utf-8?B?V2p2NjVjV2xwaTFxWFNjOW4zTUgvOFdCSzFhTmh5bFJXczZWQkMwcnRieW9k?=
+ =?utf-8?B?dzZ1RnFoY2JpNTZOemlXLzNjc3o2NU9BUVZWOS93NGlTZjhPOFNFODRZTEVm?=
+ =?utf-8?B?R3pqMGdNdlNrN1ZjY2VpdUN0UjZNdG5aYU5lOUo2L2FES3g3MUFlT3F0TU1W?=
+ =?utf-8?B?QU5CUThraWdCSzZJQ3VJMnIycHR2d2NWeThKOU9sZkZJWXdMS1JlZjloQVBD?=
+ =?utf-8?B?KzRwVFQ4NjU5UUtFeU5naThPK0JOWnN0MCtZMlhYcjBzdk5UbXN3MHRRNXdp?=
+ =?utf-8?B?bENBZGdhc0J4a0YwNEpWaEFvQnVKc1J3Y2ZwQm9CMGVQSTVlZGxYSVNOWi9V?=
+ =?utf-8?B?aXFCQ3MwVGxUeEI5b1RwbHFVWUZQTG1DbDhhSEVEKzNtUGFtNEdMQTdyb0Fs?=
+ =?utf-8?B?QVVXemp5OGNra1hlRVR4cnlBR3V3QTdXNTR6MUltY1pGL1VCOWxjb2lnR25l?=
+ =?utf-8?B?U0haRHY1MjA4NkhzNnVGUlB3TW05ckVjenNuZEJ6aHlSN285aTFVNmV3eHhX?=
+ =?utf-8?B?QkJGN2g2bjhKbkJDVFM2TGJOSDlTTDhUR2loQ2YxWDBCdUNyUEJSRzVFWnE4?=
+ =?utf-8?B?VjRycEVHQm5YbHBZMUhDNzV2OHR0N0pYZkFqVWFSZjVyYkdMcmlVdzJDbXFi?=
+ =?utf-8?B?ZENlUHdwR05kamFFdVd3c0NHNkNYREIwMGRZcFlYdEtyZTNNbXVWZiszdEFp?=
+ =?utf-8?B?Wmw2bGM4c3RwaUs3TTIyK1RzMkljeklOcGZUVUk3WnZUSDN5YkFGOU4vcGhp?=
+ =?utf-8?B?V0Z2eTdqc01kNGFDZnNHQjhtMDdTanVBZkEyRXFwN1p0eWttOCtyMzlydVRG?=
+ =?utf-8?B?Tm43MnJoZ2o5b1M5RXBnQ1FwSkxONktxQU5pdnB3PT0=?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 10eb5918-fac8-47c0-fe0a-08d8c7b59b4d
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2021 20:03:28.2757 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nAZ24qZoTHaX94vK3F355Ar+DRrFyXfsHBj1JB1+eY0YyU9A7AGQiMdcFIt880d7Do72IHazMEiJGxcmmm9cusa/lDN4gB40QxWTZzn0y2c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5079
+Received-SPF: pass client-ip=40.107.15.135;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR01-DB5-obe.outbound.protection.outlook.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -59,183 +136,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- "John Groves \(jgroves\)" <jgroves@micron.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "open list:Block layer core" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-02 19:21:35, Jonathan Cameron wrote:
-> On Mon, 1 Feb 2021 16:59:34 -0800
-> Ben Widawsky <ben.widawsky@intel.com> wrote:
-> 
-> > CXL host bridges themselves may have MMIO. Since host bridges don't have
-> > a BAR they are treated as special for MMIO.
-> > 
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > 
-> > --
-> > 
-> > It's arbitrarily chosen here to pick 0xD0000000 as the base for the host
-> > bridge MMIO. I'm not sure what the right way to find free space for
-> > platform hardcoded things like this is.
-> 
-> Seems like this needs to come from the machine definition.
-> This is fairly easy for arm/virt, where there is a clearly laid out memory map.
-> For hw/i386 I'm less sure on how to do it.
+02.02.2021 21:59, Eric Blake wrote:
+> Commit f93e19fb03b adjusted various iotest whitespace discrepancies,
+> but missed a test that is not part of default 'make check'.
 
-I think this is how to do it :D
+
+Actually, at point of f93e19fb03b there is no x-perf at all, so it's not a miss in f93e19fb03b...
+
+Let me bisect it...
+
+Hmm, seems, it's wrong since introducing this line in 61623f82153788e
+
+Why was it wrongly added - it's a question.. Looks like something was merged in a meantime, that changed how qmp log looks like.. And original patch was made before that. But I don't want to dig more :)
 
 > 
-> Having said that, for this particular magic device, we do have a PCI EP
-> associated with it.  How about putting all the host bridge MMIO into a
-> BAR of that rather than having it separate.   
-> That has the added advantage of making it discoverable from firmware.
+> Signed-off-by: Eric Blake <eblake@redhat.com>
+> ---
+>   tests/qemu-iotests/185.out | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Any normal system is going to have this is impdef for discovery anyway.
+> diff --git a/tests/qemu-iotests/185.out b/tests/qemu-iotests/185.out
+> index 9dedc8eacbed..754a64125865 100644
+> --- a/tests/qemu-iotests/185.out
+> +++ b/tests/qemu-iotests/185.out
+> @@ -89,7 +89,7 @@ Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off
+>                         'format': 'IMGFMT',
+>                         'sync': 'full',
+>                         'speed': 65536,
+> -                      'x-perf': { 'max-chunk': 65536 } } }
+> +                      'x-perf': {'max-chunk': 65536} } }
+>   Formatting 'TEST_DIR/t.qcow2.copy', fmt=qcow2 cluster_size=65536 extended_l2=off compression_type=zlib size=67108864 lazy_refcounts=off refcount_bits=16
+>   {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "created", "id": "disk"}}
+>   {"timestamp": {"seconds":  TIMESTAMP, "microseconds":  TIMESTAMP}, "event": "JOB_STATUS_CHANGE", "data": {"status": "running", "id": "disk"}}
 > 
 
-This is not how it's expected to work for Intel at least. If the device was
-discoverable you wouldn't need CEDT/CHBS. The magic host bridges are only
-advertised via the CEDT.
 
-When I build and run QEMU for x86_64, I do not see the host bridge in the pci
-topology, do you (it's meant to not be there)?
+for the patch itself:
 
-00:00.0 Host bridge: Intel Corporation 82G33/G31/P35/P31 Express DRAM Controller
-...
-34:00.0 PCI bridge: Intel Corporation Device 7075
-35:00.0 Memory controller [0502]: Intel Corporation Device 0d93 (rev 01)
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-That's Q35, Root Port, and Type 3 device respectively.
-
-> That would then let you drop the separate definition of CXLHost structure
-> though it needs a bit of figuring out what to do with the memory window
-> setup etc.
-> 
-> I tried hacking it together, but not gotten it working yet.
-> 
-> > ---
-> >  hw/pci-bridge/pci_expander_bridge.c | 53 ++++++++++++++++++++++++++++-
-> >  include/hw/cxl/cxl.h                |  2 ++
-> >  2 files changed, 54 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-> > index 5021b60435..226a8a5fff 100644
-> > --- a/hw/pci-bridge/pci_expander_bridge.c
-> > +++ b/hw/pci-bridge/pci_expander_bridge.c
-> > @@ -17,6 +17,7 @@
-> >  #include "hw/pci/pci_host.h"
-> >  #include "hw/qdev-properties.h"
-> >  #include "hw/pci/pci_bridge.h"
-> > +#include "hw/cxl/cxl.h"
-> >  #include "qemu/range.h"
-> >  #include "qemu/error-report.h"
-> >  #include "qemu/module.h"
-> > @@ -70,6 +71,12 @@ struct PXBDev {
-> >      int32_t uid;
-> >  };
-> >  
-> > +typedef struct CXLHost {
-> > +    PCIHostState parent_obj;
-> > +
-> > +    CXLComponentState cxl_cstate;
-> > +} CXLHost;
-> > +
-> >  static PXBDev *convert_to_pxb(PCIDevice *dev)
-> >  {
-> >      /* A CXL PXB's parent bus is PCIe, so the normal check won't work */
-> > @@ -85,6 +92,9 @@ static GList *pxb_dev_list;
-> >  
-> >  #define TYPE_PXB_HOST "pxb-host"
-> >  
-> > +#define TYPE_PXB_CXL_HOST "pxb-cxl-host"
-> > +#define PXB_CXL_HOST(obj) OBJECT_CHECK(CXLHost, (obj), TYPE_PXB_CXL_HOST)
-> > +
-> >  static int pxb_bus_num(PCIBus *bus)
-> >  {
-> >      PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-> > @@ -198,6 +208,46 @@ static const TypeInfo pxb_host_info = {
-> >      .class_init    = pxb_host_class_init,
-> >  };
-> >  
-> > +static void pxb_cxl_realize(DeviceState *dev, Error **errp)
-> > +{
-> > +    SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-> > +    PCIHostState *phb = PCI_HOST_BRIDGE(dev);
-> > +    CXLHost *cxl = PXB_CXL_HOST(dev);
-> > +    CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-> > +    struct MemoryRegion *mr = &cxl_cstate->crb.component_registers;
-> > +
-> > +    cxl_component_register_block_init(OBJECT(dev), cxl_cstate,
-> > +                                      TYPE_PXB_CXL_HOST);
-> > +    sysbus_init_mmio(sbd, mr);
-> > +
-> > +    /* FIXME: support multiple host bridges. */
-> > +    sysbus_mmio_map(sbd, 0, CXL_HOST_BASE +
-> > +                            memory_region_size(mr) * pci_bus_uid(phb->bus));
-> > +}
-> > +
-> > +static void pxb_cxl_host_class_init(ObjectClass *class, void *data)
-> > +{
-> > +    DeviceClass *dc = DEVICE_CLASS(class);
-> > +    PCIHostBridgeClass *hc = PCI_HOST_BRIDGE_CLASS(class);
-> > +
-> > +    hc->root_bus_path = pxb_host_root_bus_path;
-> > +    dc->fw_name = "cxl";
-> > +    dc->realize = pxb_cxl_realize;
-> > +    /* Reason: Internal part of the pxb/pxb-pcie device, not usable by itself */
-> > +    dc->user_creatable = false;
-> > +}
-> > +
-> > +/*
-> > + * This is a device to handle the MMIO for a CXL host bridge. It does nothing
-> > + * else.
-> > + */
-> > +static const TypeInfo cxl_host_info = {
-> > +    .name          = TYPE_PXB_CXL_HOST,
-> > +    .parent        = TYPE_PCI_HOST_BRIDGE,
-> > +    .instance_size = sizeof(CXLHost),
-> > +    .class_init    = pxb_cxl_host_class_init,
-> > +};
-> > +
-> >  /*
-> >   * Registers the PXB bus as a child of pci host root bus.
-> >   */
-> > @@ -272,7 +322,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-> >          dev_name = dev->qdev.id;
-> >      }
-> >  
-> > -    ds = qdev_new(TYPE_PXB_HOST);
-> > +    ds = qdev_new(type == CXL ? TYPE_PXB_CXL_HOST : TYPE_PXB_HOST);
-> >      if (type == PCIE) {
-> >          bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
-> >      } else if (type == CXL) {
-> > @@ -466,6 +516,7 @@ static void pxb_register_types(void)
-> >      type_register_static(&pxb_pcie_bus_info);
-> >      type_register_static(&pxb_cxl_bus_info);
-> >      type_register_static(&pxb_host_info);
-> > +    type_register_static(&cxl_host_info);
-> >      type_register_static(&pxb_dev_info);
-> >      type_register_static(&pxb_pcie_dev_info);
-> >      type_register_static(&pxb_cxl_dev_info);
-> > diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-> > index 362cda40de..6bc344f205 100644
-> > --- a/include/hw/cxl/cxl.h
-> > +++ b/include/hw/cxl/cxl.h
-> > @@ -17,5 +17,7 @@
-> >  #define COMPONENT_REG_BAR_IDX 0
-> >  #define DEVICE_REG_BAR_IDX 2
-> >  
-> > +#define CXL_HOST_BASE 0xD0000000
-> > +
-> >  #endif
-> >  
-> 
-> 
+-- 
+Best regards,
+Vladimir
 
