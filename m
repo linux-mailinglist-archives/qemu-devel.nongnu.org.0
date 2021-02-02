@@ -2,73 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A437230BAD3
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:23:47 +0100 (CET)
-Received: from localhost ([::1]:51972 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0970B30BAE8
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 10:28:06 +0100 (CET)
+Received: from localhost ([::1]:55712 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6ruT-0004Tv-19
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:23:46 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:36856)
+	id 1l6ryf-0006Lf-4P
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 04:28:05 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:37810)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6rsv-0003Mz-58
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:22:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:39325)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6rsq-0006x8-Vt
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:22:06 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612257722;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=qK8+nGc44OoBBNc/eOs2+qw6GyzNSQ4Azr5PWUoHAio=;
- b=KkLLMwPyYvfEslqQgp4dwafO6TqmR962K2liFZyVzqRbooVGSL5O7n9RPh6RJVyoh/Yqs5
- IABiOFrSMq8/ku93prqDuyjb4563l/EbpaLU5KVLRgVeY84hbWKccLzmUWe46aA/xR/7z2
- QBechwIYSpvMD/NNi5FvWCzo3t42lsk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-572-YfQSMdozPU2LaCOqlSKAjQ-1; Tue, 02 Feb 2021 04:22:01 -0500
-X-MC-Unique: YfQSMdozPU2LaCOqlSKAjQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
- [10.5.11.13])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 04B99107ACE3;
- Tue,  2 Feb 2021 09:21:59 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
- [10.36.115.51])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 042385F7D8;
- Tue,  2 Feb 2021 09:21:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6CDBB113865F; Tue,  2 Feb 2021 10:21:47 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH RFC 1/1] hw: Replace anti-social QOM type names
-References: <20210129081519.3848145-1-armbru@redhat.com>
- <20210129081519.3848145-2-armbru@redhat.com>
- <c448e0cb-f0c4-57fb-20df-077b65e386c6@ilande.co.uk>
-Date: Tue, 02 Feb 2021 10:21:47 +0100
-In-Reply-To: <c448e0cb-f0c4-57fb-20df-077b65e386c6@ilande.co.uk> (Mark
- Cave-Ayland's message of "Mon, 1 Feb 2021 20:45:40 +0000")
-Message-ID: <875z3ag6z8.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l6rxV-0005um-81
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:26:53 -0500
+Received: from 1.mo52.mail-out.ovh.net ([178.32.96.117]:47041)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1l6rxS-0000YU-Hi
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 04:26:53 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.173])
+ by mo52.mail-out.ovh.net (Postfix) with ESMTPS id 9557723BF32;
+ Tue,  2 Feb 2021 10:26:39 +0100 (CET)
+Received: from kaod.org (37.59.142.98) by DAG8EX1.mxp5.local (172.16.2.71)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 2 Feb 2021
+ 10:26:38 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-98R002a4c1bd17-bca2-4faf-a69a-142cfd9bb192,
+ DC0DBEB447F422121002C77F277C88083E2578C3) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Tue, 2 Feb 2021 10:26:36 +0100
+From: Greg Kurz <groug@kaod.org>
+To: Programmingkid <programmingkidx@gmail.com>
+Subject: Re: Makefile has local changes that will be overwritten
+Message-ID: <20210202102636.3b1474e5@bahia.lan>
+In-Reply-To: <E9865C2F-68A9-404F-896C-09C2A78C51A3@gmail.com>
+References: <B8D9E184-5C5A-4A15-BF48-927F0138F0DE@gmail.com>
+ <CAOZ2QJOq6GNXMWkk_1oxqtT_GYW8FmXT8jYGHzyROXC_yoWfxA@mail.gmail.com>
+ <CAFEAcA_m3vbjh42_tox4h_9wS_BSEad=nJrc=v_it01FxVV=EQ@mail.gmail.com>
+ <E9865C2F-68A9-404F-896C-09C2A78C51A3@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain
-Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -30
-X-Spam_score: -3.1
-X-Spam_bar: ---
-X-Spam_report: (-3.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.351,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.98]
+X-ClientProxiedBy: DAG2EX2.mxp5.local (172.16.2.12) To DAG8EX1.mxp5.local
+ (172.16.2.71)
+X-Ovh-Tracer-GUID: 257b891a-aea9-481e-99a5-8d13f78372f5
+X-Ovh-Tracer-Id: 1931762765334878688
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduledrgedtgddtfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepfedutdeijeejveehkeeileetgfelteekteehtedtieefffevhffflefftdefleejnecukfhppedtrddtrddtrddtpdefjedrheelrddugedvrdelkeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhhouggvpehsmhhtphdqohhuthdphhgvlhhopehmgihplhgrnhehrdhmrghilhdrohhvhhdrnhgvthdpihhnvghtpedtrddtrddtrddtpdhmrghilhhfrhhomhepghhrohhugheskhgrohgurdhorhhgpdhrtghpthhtohepqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrgh
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=groug@kaod.org;
+ helo=1.mo52.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,52 +70,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, mst@redhat.com, qemu-devel@nongnu.org,
- frederic.konrad@adacore.com, kraxel@redhat.com, edgar.iglesias@gmail.com,
- jcd@tribudubois.net, qemu-block@nongnu.org, quintela@redhat.com,
- andrew.smirnov@gmail.com, marcandre.lureau@redhat.com, atar4qemu@gmail.com,
- ehabkost@redhat.com, alistair@alistair23.me, dgilbert@redhat.com,
- chouteau@adacore.com, qemu-arm@nongnu.org, peter.chubb@nicta.com.au,
- jsnow@redhat.com, kwolf@redhat.com, berrange@redhat.com, mreitz@redhat.com,
- pbonzini@redhat.com
+Cc: Dan Streetman <ddstreet@canonical.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk> writes:
+On Mon, 1 Feb 2021 10:30:25 -0500
+Programmingkid <programmingkidx@gmail.com> wrote:
 
-> On 29/01/2021 08:15, Markus Armbruster wrote:
->
->> Several QOM type names contain ',':
->>      ARM,bitband-memory
->>      etraxfs,pic
->>      etraxfs,serial
->>      etraxfs,timer
->>      fsl,imx25
->>      fsl,imx31
->>      fsl,imx6
->>      fsl,imx6ul
->>      fsl,imx7
->>      grlib,ahbpnp
->>      grlib,apbpnp
->>      grlib,apbuart
->>      grlib,gptimer
->>      grlib,irqmp
->>      qemu,register
->>      SUNW,bpp
->>      SUNW,CS4231
->>      SUNW,DBRI
->>      SUNW,DBRI.prom
->>      SUNW,fdtwo
->>      SUNW,sx
->>      SUNW,tcx
->
-> My personal preference for the SUNW prefix would be to either drop it
-> completely or change it to "sun-" instead. The reason being that the
-> "SUNW," prefix is the standard way to reference Sun devices/packages,
-> and looking at the replacements which still have a SUNW prefix in
-> captials makes me thing the hyphen is either a typo or my fingers go
-> on autopilot and type a comma anyway...
+> 
+> 
+> > On Feb 1, 2021, at 9:52 AM, Peter Maydell <peter.maydell@linaro.org> wrote:
+> > 
+> > On Mon, 1 Feb 2021 at 14:49, Dan Streetman <ddstreet@canonical.com> wrote:
+> >> 
+> >> On Mon, Feb 1, 2021 at 9:23 AM Programmingkid <programmingkidx@gmail.com> wrote:
+> >>> 
+> >>> When trying to build QEMU I see this error:
+> >>> 
+> >>> error: Your local changes to the following files would be overwritten by checkout:
+> >>>        Makefile
+> >>> Please commit your changes or stash them before you switch branches.
+> >>> Aborting
+> >>> 
+> >>> What I do to see this error:
+> >>> ./configure --target-list=i386-softmmu
+> >> 
+> >> Sorry, I don't see that error, what commit are you building from?
+> > 
+> > ...and what does git think the local changes to Makefile are ?
+> 
+> This is the output of 'git status':
+> On branch master
+> Your branch is up to date with 'origin/master'.
+> 
+> Changes not staged for commit:
+>   (use "git add <file>..." to update what will be committed)
+>   (use "git restore <file>..." to discard changes in working directory)
+>   (commit or discard the untracked or modified content in submodules)
+> 	modified:   dtc (new commits, modified content)
+> 
+> Untracked files:
+>   (use "git add <file>..." to include in what will be committed)
+> 	pixman/
+> 
+> no changes added to commit (use "git add" and/or "git commit -a")
+> 
+> 
+> This is the output of 'git diff master':
+> diff --git a/dtc b/dtc
+> index 85e5d83984..88f18909db 160000
+> --- a/dtc
+> +++ b/dtc
+> @@ -1 +1 @@
+> -Subproject commit 85e5d839847af54efab170f2b1331b2a6421e647
+> +Subproject commit 88f18909db731a627456f26d779445f84e449536-dirty
+> 
 
-Works form me.
+This looks like you have a change in the dtc submodule based on
+an old commit:
+
+commit 88f18909db731a627456f26d779445f84e449536 (tag: v1.4.7)
+Author: David Gibson <david@gibson.dropbear.id.au>
+Date:   Mon Jul 23 13:00:50 2018 +1000
+
+    dtc: Bump version to v1.4.7
+    
+    We've accumulated a bunch of bugfixes, including considerable improvements
+    to libfdt's memory safety, so get ready for another release.
+    
+    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+while current head of dtc is:
+
+commit 85e5d839847af54efab170f2b1331b2a6421e647 (HEAD)
+Author: Claudio Fontana <cfontana@suse.de>
+Date:   Tue May 12 12:33:15 2020 +0200
+
+    Makefile: when building libfdt only, do not add unneeded deps
+    
+    implemented originally for the QEMU consumer of libfdt.
+    
+    Signed-off-by: Claudio Fontana <cfontana@suse.de>
+    Message-Id: <20200512103315.1926-1-cfontana@suse.de>
+    Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+
+> I have tried 'git clean -d -f', 'git reset --hard' and 'git pull'. I am now at 74208cd252c5da9d867270a178799abd802b9338 and still seeing the error with MakeFile.
+> 
+
+Since the change affects the dtc submodule, you should
+'cd dtc && git diff' to see what these differences are,
+and possibly 'git reset --hard' if you don't want them.
+Then go back to the QEMU source dir and update the dtc
+module with 'git submodule update dtc'.
+
+> 
 
 
