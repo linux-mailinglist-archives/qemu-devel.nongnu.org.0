@@ -2,103 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C767F30B7C6
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 07:23:30 +0100 (CET)
-Received: from localhost ([::1]:56846 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F8F30B805
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 07:51:55 +0100 (CET)
+Received: from localhost ([::1]:33942 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6p5z-00028f-IH
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 01:23:27 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:37094)
+	id 1l6pXW-0005ln-0S
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 01:51:54 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:40490)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1l6p53-0001jP-Bv
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 01:22:29 -0500
-Received: from sonic309-21.consmr.mail.sg3.yahoo.com ([106.10.244.84]:41695)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <pjp@fedoraproject.org>)
- id 1l6p51-00082l-8B
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 01:22:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1612246941; bh=4N7AlC5pczwVOPWxuv+EDuxjBJ1WJYk2Q/kXpm1jUyA=;
- h=Date:From:Reply-To:To:Cc:In-Reply-To:References:Subject:From:Subject:Reply-To;
- b=Uw7q5S3JSy/mmaEXrYUSbCa9l+UUJD+gjAfl9pTGr/5FiItA6Ey7lMQ0xIJ0uWwJAEd62Khnr0eqQa+biomIamXtulxflBmrFjqGhZSncCkhFMhJc3lK2CbPeaMFkJEmXZkGgz7PnVJ/RxvVWrYeTzxwX80rlyWJCcA46RT5eu87v6dJLJ01cHJOpn1DYVbloG+U6WdhbqgM1XsQPnYIpLiGBhI+z2y4mWCLcuTyiOxdYwnNzqhEsjhoPcpaqda+9GvUcQO8rP5dhRmPoGAVAk4BpT/6oiMnap4ZMinNHMKZEwv5G5j/ufxT5QN/6kmc9Xv86/JeyoHS9dixEFjSOw==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1612246941; bh=tT+71lRFpFlI6XdZ/CDeOQ86m0Z3arqyqtwaqCWbHfe=;
- h=Date:From:To:Subject:From:Subject:Reply-To;
- b=KxKfS9llmqx7QNJdYQ2df3hchhcJCmzWmz6T/uU5XKzzSxBhycvvoYvYih8DTnB8oNgp8c8t1dOgEgsH5tYn6NKi5CV/78bt8kvJaBd5nUXy/W5tXUIFEjgivUwIJm84aDSlvf+nln9A42B0HmB8NrgjvYiKdFnlq0SCJfo32tg/zNEAOmAYf4r2h1+Rl/V/2QAo3ivn0QO+7sLbx185CdrY2cx+0ZviJP56tUgyDV/Nv2RyMeiRIYXtK0+zoz2Eeiq7F3jQ7w+8QP2xvZBE38zmszIbK6lbUXi9t/2s8eYAEdUTvqWjiULDOMz10R/BHJDIjr2fSBDT2zpYv++Zjg==
-X-YMail-OSG: k9cn6BoVM1l4IPmTVmHVxXN7qQ4ifvvjr_GvT5ttMKG6CAD41oADtaJolkm2dZP
- qNhXfvjfWLybGlfbF6CsCavvEb7y8v3MfmmG5ECELxJ0OP1XzyTys_fG3aUSaEme3rwGoIOm_SvH
- renEJ5wdyAKnTA7xW_uBy1Up4lf85jRmaOwkpUrd7X4VnmQizCivn8dD_Efj0vZLVHGT4DTbJkb_
- 1sMf8Y2wOGRdN9cVhKgVorbLXwVhkFZWpkl6PugjZsTt5Uo4JLktSDDIdjHe0KsWs44CS5sh.UVm
- mFEHO53Im1.qd_TG.zXeSvpCTRa.CETfJVFzRtOf7ZXSA2TQfr.4ScefKaLu6SN2gGs99UnlwDmq
- ZI_2n.1HRcAs0b_lCpVW98EZXkhdlTwZiapctMkD1VaoUCqtwOA2BgMoN1iQmf7rATg8Dk2ZiiyG
- vfFuVETQTTLsSv5H4bjcNQlSMhf97JPJgDce.2JAcdIwDos0BdIuO5Qcq_fal6fOGZR3F5nm5XFL
- wrlcbleiMczUZ3xfM7QhsaO25PRTIZaTReTFdfLijay64sguS2OaCKlVDbTN6A8uTqcUggGV28Qb
- oXinVUxuq2kg7_a3wtNtxiq7cgm7kLnqrvZUjGL.3qlZCJR3tT8_lZsbyImryZQ_bUnyoTx_ui_f
- K0Ab4IFZVb.mRGA8PUu.u6zi21dO9l3FHGZdny5VdPA98zRNQGA3cenqaO4_yxkCGjJOPv3naBGR
- nRmwn9DkH5snTrOKQSwLyU6HNq7po6EE_HqrS6OLN2gS9ZJcq.IdzCoIB9boGK2kaEDN2fpaxkUG
- KbVMpLMQXT7S.gc6NEKrLLFCUNhWqSglo4QeYklTOb6rz.cwS0t6WTe5Xc5AH69K3d8.QAaeZ8Xk
- B8Q6QxpqaXrqKRXJMh7rJv4cDZOGrC5szIkWSZmzySB0wikvpF2R7NPJQCqh2XvA3JV7u7pfYSj8
- cB962oj8bISP9iFIV_wy1cspMTwT834HFbt1XdimvyHxzuxZUaZz404Nr5Dpdy1W3QE02emJ.iZ5
- iq2mG4wgPM7VeO3doAuVnYYS8kTeafNjSdi_VUoexwF8tmsVHj.hg4FquOWFwRJ1kjMXLOKKMtj4
- kkKXYX9hkQvS52IPbtbQCuCbd.jUsK9dHLQJR16dExVTfrvFfGhC3Sj81cA8voWdDwUOc0Lel4s8
- .E9X7DgPadiq.vYmnU.okVjDNzTxNTMUYf5Abpahz9GKog4EeG4kv7iP71awde5PWCUv9OqF3.Hu
- q0sHQqzmPQD3Pnw9EYtPNt90Vxds4H3YyFQFEUem24TSLz..U_z7SXnSqBtqvgnVC.iZ4hhziTle
- fOTW2lx6PDkT87xAO2gEhKutl1.WNWLRzX3ELtmSq8T4gfp7b0R1.Ru2M6bMaVGo2IEPTEu4HCNV
- 3tMBY9cT.eGSuWaFOYi.pBzqP5YsVtNp2Re3yi8.mwiW8e1EBOzrR4IZWjqGgqMwz3CSfeS3QRQ8
- n3MDcRlkQO9GjcxFMkOOVsdXR9PUfRMVhjb3iurN8T7exXf9HsZKqhK9jhzOytjZtmmhg51bnTT5
- S3EYT9gUwtCrPw0cOzvjt7tGsIFIA71sZq2_JcQaDuiTZcNo6bbZmbQasYZX0zfhpIUldrr3B0cS
- HsFarpV0DzitK8yPaN4RTqXYOluoYdLZZKuK95DhUIDMQxQ0hQPXpCpPTXrCaZtN3EPdtryMER.S
- 8XgBqjVq24mNmQfppi_Kzb4tItbrdw_S7iBQjgY66sng4e9x0D6uQWHpVdRW_CCLiN_drFGhN.QC
- ZCS.Kfscu54LA.rF_bUfliJbrtg4rl21AS0xvTZzHmtqciAzytJ0rnOgxpUsjYGK_DGqZtE3iHar
- dc3UMNyBpc4UPVPM0zWQK7gBID4UHqfUUXTO5vTOy6SZr2mBr3aYWWNXLowCOPHN2ZDHHj8hXFFn
- 0SHS1rxz02c8mulgEagIUuOQR4QYAXN1MCpzELX2CQ1h0vNRvMLOlsMKF0q1ko7k8DwoI2lQ4p91
- TJyPgjUWt23Emq_BANAI.AorGY442G6oKIhfIraksP5tV8lvOjImELHFKs576qL9P8jVAQZaPE3t
- _eg3XQJZkYzl3t2qTKuz6eGJZNSoQ6fRfD34P2wKapNFf8LMGhkCwlLrLp1xOHA71We5SR.DbBrI
- Id8jceMi7.26GEyY545erEaOmFi3rApbZSP2E47eTSZB4uXqTWTe0ASbQaltAkCYX5sF7wqSzWJo
- wk6ZKDtKO_ZgE615.K2n9yxAqiT5z5Tr96SxPrqOwPGxTODBZrjcr759mrOsz1J7TVwYQJyQa.1s
- HKLcDYYJzzAqHYTG3aqs0if_.9n9j2NTHSZc8P3IKR1.d.kfPycqcy0kmCGDkecmSOWWFT1IRpJA
- 0E_ZiIDpLBqpqV8Nln5xocsd5PQHiCOvwOByMuVtI.le3NPwe2Nmpqrw2o6EOFw2m.6z9zi5BkAw
- tA35x5xK91kZeN1cKTXTqDynhKopGTjwEbQl.U72D6kAkGx59vIbet2nqEiBlB71uE0PrjxgmrFL
- z.JibbshI_wnaa7dyZU9Ea_6Z_vIjBmkp1NGPFYRdbBKH6570o5PDp1svwdbWGKEmIGW71Af3LF1
- VQF4A7YKFVmfmBtQbwIFqqNIaW9SVsBH61VN3DmOvyA49lnUutPXoG0SmNAzwLBKH5urquAsFA0.
- QW_6oIOLmZfsRxzrXw.zQkzOfeDeobIF0RfW6lnbUW7MHqWLKWHm_1x4ve3Oeop8LvSShMg9C7rO
- WSwHsZIppSo44X7NuKs7KgXJ.1bo9EcLi4KdL.wIe4r.2jHgyZIR1p7ZdW7S9M6im7AEh9BCGOfX
- m8HxDlYtrk9pNxfqXt57yLNAdRhjZc552mPNMsFk5G9poi5ix.i_38a6q.5hrcjmK6fisHVND.Ny
- wzWTcszKgr7yi_FFBXLFVyU8kxl0Z8aU5j7WwJ5_QNcPbS5RE9BwaloFjq3LFhV2iVKSVdY90USj
- fgZgHqr890rMlw9BDgHIkOwcTRfqx.1gfc0cPkl2uI9coBGaZ1LKErcqqI5sfZ3bsZPx_bxnvWCl
- 8n7YD.WqNyk0lDaujZ3swHqzmxRE8s9etSxehT8kwiPa1b_QH03nOVAsG6FYk3FoOcin9NEfmn0s
- RhpTCX8YB.xJL1hTJ3g--
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic309.consmr.mail.sg3.yahoo.com with HTTP; Tue, 2 Feb 2021 06:22:21 +0000
-Date: Tue, 2 Feb 2021 06:21:57 +0000 (UTC)
-From: P J P <pjp@fedoraproject.org>
-To: P J P <ppandit@redhat.com>, QEMU Security <qemu-security@nongnu.org>, 
- =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-Message-ID: <787280826.1146023.1612246917145@mail.yahoo.com>
-In-Reply-To: <6d29aa57-2e6e-e81d-831f-803d9aae798f@amsat.org>
-References: <20210131103401.217160-1-f4bug@amsat.org>
- <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
- <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
- <6d29aa57-2e6e-e81d-831f-803d9aae798f@amsat.org>
-Subject: Re: [QEMU-SECURITY] [PATCH] hw/intc/arm_gic: Fix interrupt ID in
- GICD_SGIR register
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l6pW8-0005AE-K4; Tue, 02 Feb 2021 01:50:29 -0500
+Received: from mail-eopbgr60110.outbound.protection.outlook.com
+ ([40.107.6.110]:11167 helo=EUR04-DB3-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vsementsov@virtuozzo.com>)
+ id 1l6pW5-0004Lu-Bv; Tue, 02 Feb 2021 01:50:27 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IR4Pr2L5NVLC5SDSlBXjnPx5IKAEImyyFNF3drrWphJbYP2RXH05etxwqhWQqHjGOw1l8zPEXAggCSDctiWM+5vmr+huge6Q1Md6dlw3PqR1HuAu/tqG2TwmRja9tYnT15wGk0biU7S3FfKLYTXXOOf05ZI5KqjMbGXxRSfUIT4kb4n2jtEb0Xoc/F9UcPcGW4uW/5OpA/eUoZnMch5N1xkhPXq9zHi6t0FrvjLWQ3N1OahtaCJqqCSTNJ4B6mR+NVA7w8r1TPU3PzEMVbVHMyLk6SJ27m5T0X6Hdt5X2kzGFoLYNQ1e/0AEMRZv3Pfbyw85caMzdXbymHoNgqL7TA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nNsbrRChQrVjECk4WBrsL3wOljoFPKl2ZNOkX1FqOqs=;
+ b=mVt0pQ4amvUhKtIKX7rMfLH6IAvdPRiUeJ+ATDohvMhpHifzzpx4BGfm+0OnHg1xA+QI97faS5ZCYsfH5EIgNSA5a1L/1/0Mi6yBkSXf0/rTDl+5grhV1Mi4+GElYaTdlISRBZQpBdkUAcYx2/G5Ni52iXdTShI8DwQb7F1hcBGHhbeGx3nCM9KW+yowtqhbMtDGz5CqXDbSMHCChnu1CoXNA88bKZ0Q3Aji+HtRFGDRemGAWJxKadHV+JbNe/pa7ZkRjHQtkE0jODMlif/B2YcYdabAsxYsEy0BXFHP4p1JbuFNYYc11+2mjKyuc/85t8mqjCz1ChhB0teSlqRaYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=nNsbrRChQrVjECk4WBrsL3wOljoFPKl2ZNOkX1FqOqs=;
+ b=ucnuGO5ra9PRaJdPyp3SErmlqr0rRhgJHxdb5kOiFAOPiJtk8Y7ier7eoH56rX0wGWqVRYkBpUOTG62+veiiRhy1sW07n99oiDYqVuWhBJOI2oyHPD5BI7DAvjXKY702z1Zffx0kbnfixMOgZ9ZW0nbx1fGc2ntpREQxwNhTmH0=
+Authentication-Results: openvz.org; dkim=none (message not signed)
+ header.d=none;openvz.org; dmarc=none action=none header.from=virtuozzo.com;
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com (2603:10a6:20b:dc::15)
+ by AM6PR08MB5080.eurprd08.prod.outlook.com (2603:10a6:20b:e2::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.22; Tue, 2 Feb
+ 2021 06:50:20 +0000
+Received: from AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a]) by AM7PR08MB5494.eurprd08.prod.outlook.com
+ ([fe80::f1f0:6610:11f5:5e4a%8]) with mapi id 15.20.3805.028; Tue, 2 Feb 2021
+ 06:50:20 +0000
+Subject: Re: [PATCH v4 00/16] 64bit block-layer: part I
+To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
+References: <20201211183934.169161-1-vsementsov@virtuozzo.com>
+ <81abe7dc-6053-72d2-ddf7-352dc21e75b6@redhat.com>
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <b0d47a81-b3b5-f2e7-7601-543156f94956@virtuozzo.com>
+Date: Tue, 2 Feb 2021 09:50:18 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
+In-Reply-To: <81abe7dc-6053-72d2-ddf7-352dc21e75b6@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [185.215.60.137]
+X-ClientProxiedBy: AM0PR02CA0168.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28d::35) To AM7PR08MB5494.eurprd08.prod.outlook.com
+ (2603:10a6:20b:dc::15)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Mailer: WebService/1.1.17648 YMailNorrin Mozilla/5.0 (X11;
- Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko)
- Chrome/87.0.4280.88 Safari/537.36
-Received-SPF: neutral client-ip=106.10.244.84;
- envelope-from=pjp@fedoraproject.org;
- helo=sonic309-21.consmr.mail.sg3.yahoo.com
-X-Spam_score_int: 10
-X-Spam_score: 1.0
-X-Spam_bar: +
-X-Spam_report: (1.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- FREEMAIL_FORGED_REPLYTO=2.095, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NEUTRAL=0.779 autolearn=no autolearn_force=no
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [192.168.100.8] (185.215.60.137) by
+ AM0PR02CA0168.eurprd02.prod.outlook.com (2603:10a6:20b:28d::35) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3805.16 via Frontend
+ Transport; Tue, 2 Feb 2021 06:50:19 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 63eaeb13-0463-4be6-f34d-08d8c746ce8c
+X-MS-TrafficTypeDiagnostic: AM6PR08MB5080:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM6PR08MB5080DB649FAFEDB9CDBEF448C1B59@AM6PR08MB5080.eurprd08.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:1227;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: a55PGEVu1v2OC7L1adnk0cjVf8v7GPa0XQOvdPseWZZzXpUNh73LFIp95UZaUXxV0T67XR4D4GCEreLIBN3MlRR+pZl+eYmJ6MymaU3ePn5MAobu9V6n+wKCEOGLq88bwgEcnoBSwTPzbnLXvsGIvYyMzimojmWZP0wm/vUhRQeJ7xyce+6+mMD7XhnfEGdf4GT7+8UaFPbIFpCwFhbe9PE6/qzDV9KRRwnxvigw027sAuann2GmpnK/I47BvE7Wev/KaFjHiDdXrHooyrWAn5wNKe6G3mc2RNEjpNg5B2Wkyq95q1h0RWPJW6i6lSri2E+ZN31hVP0Dn/YQ/V2SbKIqiFma3T9zngtXqZby/o+vtaFXwqGbg3leySO+2WlYfUryOm7480FshWsL++3+5Qv2mfxcYJ6b4qoeFZlakLHcEb+6fU5tdTZW8BYEgGVtt2gA0pWa/qsAT3q5D+5djbgrBoo2epOrKvNmpSgDr1W3ykaR9BgeO8gMzWQ5Hz6HOWW6g1OqUWBuq/CiYpiiezKi5erYCRzfCRQUIPHUmc2NdWE2hKl8pk/l5fqBjUPAGTXdkkd6ug/bCU9D94z3ag5sMEZ+xnyYH6FK4XfEHXHUV+sE3twk/lcQV6A0Mo/5zA6BVrzDm2WSAnpLaeTFp+pWjSL7RAAL8JBj56aYfdERZ7QIpGl42smm8HEB1mBq
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AM7PR08MB5494.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(4636009)(39840400004)(136003)(396003)(376002)(366004)(346002)(66476007)(4326008)(8676002)(6486002)(66556008)(31686004)(36756003)(107886003)(2906002)(26005)(16576012)(966005)(5660300002)(8936002)(66946007)(186003)(52116002)(956004)(478600001)(83380400001)(16526019)(86362001)(2616005)(316002)(31696002)(53546011)(45980500001)(43740500002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?MkdyWjF3Z25ha204SXhJVjl4T1hkTFZXeWxsZGk0R283NG45RHRCTzR3eEI0?=
+ =?utf-8?B?VHNVU0pMSk9vNWRhQ3piSFkyZXJEWkltWjlCZXAzNmZYdnNoZVpYWnhXbE82?=
+ =?utf-8?B?M09mT0NFM2lYV1BhL1V1Y21QYno0RWxxanZ4L0JZQ29uTmRGRTFFL1htc0NP?=
+ =?utf-8?B?Nk1YODNRS0VGYWcreExLR0FGNnEyZEZVN0tpbStPdTR6QjlqM0NOMHZ2VDg1?=
+ =?utf-8?B?eGlEYkI2bkpoajN6a041RzhGK0dkbVlQakgzbEdEcjBkNzc5bXpod2I3aldv?=
+ =?utf-8?B?bnRVNXVxcVFlVVlBckVTZzZvam16K2NSRzdPMVl1cjUzMDc5azhtMlIzQ3ZD?=
+ =?utf-8?B?bjFDdTVKcCtzdFp5L0FWTlk5N0pSekVJOTdnd014THhaUEdMTkw2YnRwWjAr?=
+ =?utf-8?B?N3I2bDJXdkRMSFdmV0ppSGJ2RHZhU0xKRzFYc0RNWWFQZUFZRllqV25VeFQy?=
+ =?utf-8?B?cVJPc2ZidUJBbFJoa043T1RXU2NSVFVLVkpGbll4eWxNSTN0ZEppdUdYaXpB?=
+ =?utf-8?B?ancxc3M5OUIxMXZ0bUdTUStSSEU2bzYvYWZsVC9oTkdhRUVlczU1amZhWTR5?=
+ =?utf-8?B?WXZtZFlKOElmMnRUZkJTVXk4UTcvenN0WENoMUlvdWVJOCtPTi9PNGc1enNs?=
+ =?utf-8?B?WjZLL0NLd3g4OWtNQnR1dUVoUlNBWnF5K1ZRcDdJaXhVOXhPS3dSUEpFR05T?=
+ =?utf-8?B?bldOblZZQmJWWGs1WFZ2UGFxUmx4UDJWMzRVR2lGblZxcHBYTUZ2dWJqVmV5?=
+ =?utf-8?B?VUc3N1F0M3JpTXhJbm9CcHBNaFd3R3UzQUVLVHdMMVVHVmlObWwrcW1DN1No?=
+ =?utf-8?B?bkgxelJ4eVF0Q1RvejE4bnVNWTYvZ2cvaWR2NXZHVzZ2c1NmNERhelVKVlNz?=
+ =?utf-8?B?am50V0VZM1pnTjdvMU1WSytHTzJIMXQzcUNFV2RyVEJPL05uQ3dpN3I1aCtF?=
+ =?utf-8?B?N1JmWXJaQ0JON0xrSWhqTFVOSloreXZnS0xYVVBDV0FKeE5yR1lPNWkzR0RS?=
+ =?utf-8?B?U0pHeHQzVmtPYlg2SkUzSW5lbW9sWGFQT2kxSHpEQlFOOHBPK3FSL2x4NGtz?=
+ =?utf-8?B?d2hKZWdQNm1USTNqT2xSdDFlOGF1WE9raHVuR3R4dnpWZ1dhZ1l2UVF3M0p2?=
+ =?utf-8?B?ZmxpaC9yamp6YmtObWNBd3ZDcXlob3pLK3kxcTl2T0s3NVVtL1ZZNFVUYjho?=
+ =?utf-8?B?K21peWhoY2RXNXh5ckt6eGovNzRySlVGS040dTVuRW5uUjUydTB0Slg3OS92?=
+ =?utf-8?B?b2RHZkZOSWRsVGZZK0lIUWVHeGtuK2hHcWwvSVRzSHdSNHRzWUx3ZEhxWWRq?=
+ =?utf-8?B?b3orNitNVnBtNytSL0dPdHkwWnpONHQrcTNiMTFuaUg1Y1dnWHV2dE43UmpT?=
+ =?utf-8?B?NEhJbHJ3U0Fuc3VyTk1xQ1k0cklrTFovMld6VnhKZDR3ZUVlNDNtNW12VkRL?=
+ =?utf-8?Q?uiZ8Icmi?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 63eaeb13-0463-4be6-f34d-08d8c746ce8c
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR08MB5494.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2021 06:50:20.2376 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p2DB/TlTzM39whTjwDGekdU7kKQ2FlXqXKkXNDSwXvh5VwoRwlZZYWppW5XWW4QRpYBKBxFcF+hjXq73NuPr3clrz158Vl+PrEWpdxk9Ztw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5080
+Received-SPF: pass client-ip=40.107.6.110;
+ envelope-from=vsementsov@virtuozzo.com;
+ helo=EUR04-DB3-obe.outbound.protection.outlook.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ MSGID_FROM_MTA_HEADER=0.001, NICE_REPLY_A=-0.001, RCVD_IN_DNSWL_LOW=-0.7,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -111,87 +139,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: P J P <pj.pandit@yahoo.co.in>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
- Peter Maydell <peter.maydell@linaro.org>,
- Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>, Li Qiang <liq3ea@gmail.com>,
- "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- Alexander Bulekov <alxndr@bu.edu>, "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- Luc Michel <luc.michel@greensocs.com>
+Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-devel@nongnu.org,
+ mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sunday, 31 January, 2021, 08:48:26 pm IST, Philippe Mathieu-Daud=C3=A9 <=
-f4bug@amsat.org> wrote:=C2=A0
->Forwarding to qemu-security@ to see if this issue is worth a CVE.
->
-> | On 1/31/21 11:34 AM, Philippe Mathieu-Daud=C3=A9 wrote:
-> | > Per the ARM Generic Interrupt Controller Architecture specification
-> | > (document "ARM IHI 0048B.b (ID072613)"), the SGIINTID field is 4 bit,
-> | > not 10:
-> | >=C2=A0
-> | >=C2=A0 =C2=A0 - Table 4-21 GICD_SGIR bit assignments
-> | >=C2=A0
-> | >=C2=A0 =C2=A0 The Interrupt ID of the SGI to forward to the specified =
-CPU
-> | >=C2=A0 =C2=A0 interfaces. The value of this field is the Interrupt ID,=
- in
-> | >=C2=A0 =C2=A0 the range 0-15, for example a value of 0b0011 specifies
-> | >=C2=A0 =C2=A0 Interrupt ID 3.
-> | >=C2=A0
-> | > diff --git a/hw/intc/arm_gic.c b/hw/intc/arm_gic.c
-> | > index af41e2fb448..75316329516 100644
-> | > --- a/hw/intc/arm_gic.c
-> | > +++ b/hw/intc/arm_gic.c
-> | > @@ -1476,7 +1476,7 @@ static void gic_dist_writel(void *opaque, hwadd=
-r offset,
-> | >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 int target_cpu;
-> | >=C2=A0=C2=A0
-> | >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu =3D gic_get_current_cpu(s);
-> | > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 irq =3D value & 0x3ff;
-> | > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 irq =3D value & 0xf;
-> | >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 switch ((value >> 24) & 3) {
-> | >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 case 0:
-> | >=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 mask =3D (value >> 16=
-) & ALL_CPU_MASK;
-> | >=C2=A0
-> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
-> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+02.02.2021 05:56, Eric Blake wrote:
+> On 12/11/20 12:39 PM, Vladimir Sementsov-Ogievskiy wrote:
+>> Hi all!
+>>
+>> We want 64bit write-zeroes, and for this, convert all io functions to
+>> 64bit.
+>>
+>> We chose signed type, to be consistent with off_t (which is signed) and
+>> with possibility for signed return type (where negative value means
+>> error).
+>>
+>> Please refer to initial cover-letter
+>>   https://lists.gnu.org/archive/html/qemu-devel/2020-03/msg08723.html
+>> for more info.
+>>
+>> v4: I found, that some more work is needed for block/block-backend, so
+>> decided to make partI, converting block/io
+>>
+>> v4 is based on Kevin's block branch ([PULL 00/34] Block layer patches)
+>>     for BDRV_MAX_LENGTH
+>>
+>> changes:
+>> 01-05: new
+>> 06: add Alberto's r-b
+>> 07: new
+>> 08-16: rebase, add new-style request check, improve commit-msg, drop r-bs
+> 
+> I had planned to send a pull request for this series today, but ran into
+> a snag.  Without this series applied, './check -qcow2' fails 030, 185,
+> and 297.  With it applied, I now also get a failure in 206.  I'm trying
+> to bisect which patch caused the problem, but here's the failure:
+> 
+> 206   fail       [20:54:54] [20:55:01]   6.9s   (last: 6.7s)  output
+> mismatch (see 206.out.bad)
+> --- /home/eblake/qemu/tests/qemu-iotests/206.out
+> +++ 206.out.bad
+> @@ -180,7 +180,7 @@
+> 
+>   {"execute": "blockdev-create", "arguments": {"job-id": "job0",
+> "options": {"driver": "qcow2", "file": "node0", "size":
+> 9223372036854775296}}}
+>   {"return": {}}
+> -Job failed: Could not resize image: Required too big image size, it
+> must be not greater than 9223372035781033984
+> +Job failed: Could not resize image: offset(9223372036854775296) exceeds
+> maximum(9223372035781033984)
+>   {"execute": "job-dismiss", "arguments": {"id": "job0"}}
+>   {"return": {}}
+> 
+> Looks like it is just a changed error message, so I can touch up the
+> correct patch and then repackage the pull request tomorrow (it's too
+> late for me today).  Oh, and the 0 exit status of ./check when a test
+> fails is something I see you already plan on fixing...
+> 
 
-* Does above patch address both these bugs? For BZ#1913917 'irq' is derived=
- from 'offset' it seems.
+Yes, Kevin have already sent a pull with "iotests: check: return 1 on failure"
 
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Interrupt Configuration.=C2=A0 */=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 irq =3D (offset - 0xc00) * 4;
-
-
-> | > Correct the irq mask to fix an undefined behavior (which eventually
-> | > lead to a heap-buffer-overflow, see [Buglink]):
-> | >=C2=A0
-> | >=C2=A0 =C2=A0 $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch=
-64 -M virt,accel=3Dqtest -qtest stdio
-> | >=C2=A0 =C2=A0 [I 1612088147.116987] OPENED
-> | >=C2=A0 [R +0.278293] writel 0x8000f00 0xff4affb0
-> | >=C2=A0 ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of b=
-ounds for type 'uint8_t [16][8]'
-> | >=C2=A0 SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/i=
-ntc/arm_gic.c:1498:13
-> | >=C2=A0
-> | > Cc: qemu-stable@nongnu.org
-> | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
-> |
-> | > ---
-> | > Isnt it worth a CVE to help distributions track backports?
-> | > ---
-
-Thank you for reporting this issue. Will process further.
-
-
-Thank you.
----
-=C2=A0 -P J P
-http://feedmug.com
+-- 
+Best regards,
+Vladimir
 
