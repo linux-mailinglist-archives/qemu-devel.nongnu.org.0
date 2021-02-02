@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 097EE30C2CD
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:03:38 +0100 (CET)
-Received: from localhost ([::1]:46800 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A78230C2CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:02:50 +0100 (CET)
+Received: from localhost ([::1]:43938 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xDM-0002AT-W4
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:03:37 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:47226)
+	id 1l6xCa-0000zM-NQ
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:02:48 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:47220)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6wsA-0000zZ-4k
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6ws9-0000zX-Ss
  for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:41:42 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:58546)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6ws5-0000wA-AG
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634]:46688)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6ws7-0000wk-92
  for qemu-devel@nongnu.org; Tue, 02 Feb 2021 09:41:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612276896;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=tVKp+NYmZRUWUDowV6Rv75Vs8jdyFYVE2iAMtCnLEsA=;
- b=Jyl9ZAHWEC/JXJ3HvY416dPbEUmi5fZ1Z+1/4y5++yTBr/X/Xlu7hbMrRfg4mDUVgWe6/Q
- xxWDTQ4kjyGB3Asoxw5IK7E6Gw4C/k5VLPtWWKNOhugQOAxqZwohmo+TAZgSwHDoLqhu37
- As3E0AdrtFuvsJG4gM5XI1YzKHarLHk=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-41-KWF3m6ZfMFG0PwKMWnJurA-1; Tue, 02 Feb 2021 09:41:27 -0500
-X-MC-Unique: KWF3m6ZfMFG0PwKMWnJurA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
- [10.5.11.14])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id A180F5708B;
- Tue,  2 Feb 2021 14:41:25 +0000 (UTC)
-Received: from redhat.com (ovpn-112-202.ams2.redhat.com [10.36.112.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 2B8F75D9D5;
- Tue,  2 Feb 2021 14:41:23 +0000 (UTC)
-Date: Tue, 2 Feb 2021 14:41:21 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Subject: Re: [PATCH] iotests: Revert emulator selection to old behaviour
-Message-ID: <20210202144121.GL4168502@redhat.com>
-References: <20210202142802.119999-1-kwolf@redhat.com>
+Received: by mail-ej1-x634.google.com with SMTP id rv9so30295670ejb.13
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 06:41:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=yHnxhOqk/eWecdIgWfGTIuHn7pYl3vv+BgylfG2927A=;
+ b=RvlV1FfjwB4zjHW0LIO92VhNb75JQImSQ/cPsJEJHWa7k9+i90JUFVprhCpiO5yE0B
+ YIluFDeWoHGoTYnvbG56Y1kJCijgHnKw3yYQ7O9C2DIjAYx75XVyP0aMzMF3FpNjzdOn
+ L7WpgNncg6zX67raQzxmuzjLnA+5wE/6jiM5O37r8Ni4RU0P0ngy/ERPkJJcDKEoSHBx
+ Q8DFA9KMY8Kn0YjX66aM4B7ybqByLvmMXuh+8jNcoWMGiY1GBH/UvrB9xDADBEvwOzEE
+ SIHxA1XoHIcfyGtVNUCzyg5WsFEHqk5Xlb7gdxn85QVSBmLZHDtW4U1n7ZA94SMdxZM9
+ K8OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=yHnxhOqk/eWecdIgWfGTIuHn7pYl3vv+BgylfG2927A=;
+ b=ql1J/gU5Aa0nzl1Ndrr8VXSe6YRTgvi8F0/Hsuq9soDdTOjACFWeM4XTsj/Bk4YPAQ
+ rF6n+PpPtLFdEgvxnFDhTnAeyneAXtczRPDHinmc8cYcptP6XmPeGSqUwE+ryD40bTY/
+ YP97suHpvwaD3vt/wSgtXBNVID14uDtBUvX2NQjjZJA8RcNu2pl8Hg7Jbv5k7kBnTnO9
+ HGUH+BYo0c2y63Vm7zvvsqvwbkHnmbci+EbPLfAWyCLhdHB8plRadGY57DhvyMHQIC2e
+ 6xLALgvAnachVbK09hj0q1qErdICWpXxA+5UC2tAiap2RHifCcz0HuRouQpZfFEMIHY7
+ V0fA==
+X-Gm-Message-State: AOAM530ofc2ammBtsgsaBZbc7jT9XdBa5/SOQ1JrJOv3iJMr6k7rCzUi
+ d1oZi03TQmCH+gjZePt+/unidPbjUmm+yrCoXgDG/UZsL6M=
+X-Google-Smtp-Source: ABdhPJypkuZDB2wsj6XW+aqXIv5CE8RCJVqEnUtsGijLA8+Byy3Lm/1PwgLu7psefeINwT5In279D0bwsZH9wBKVqqY=
+X-Received: by 2002:a17:906:3603:: with SMTP id
+ q3mr21981811ejb.382.1612276897774; 
+ Tue, 02 Feb 2021 06:41:37 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210202142802.119999-1-kwolf@redhat.com>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20210128224141.638790-1-richard.henderson@linaro.org>
+ <20210128224141.638790-15-richard.henderson@linaro.org>
+In-Reply-To: <20210128224141.638790-15-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 14:41:26 +0000
+Message-ID: <CAFEAcA-Bo3F55iX_x4StXh=WUZAkKPq7K2zw0dRns1Lkpi5ouw@mail.gmail.com>
+Subject: Re: [PATCH v4 14/23] target/arm: Use the proper TBI settings for
+ linux-user
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -81,58 +79,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: peter.maydell@linaro.org, vsementsov@virtuozzo.com, qemu-devel@nongnu.org,
- qemu-block@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Feb 02, 2021 at 03:28:02PM +0100, Kevin Wolf wrote:
-> If the qemu-system-{arch} binary for the host architecture can't be
-> found, the old 'check' implementation selected the alphabetically first
-> system emulator binary that it could find. The new Python implementation
-> just uses the first result of glob.iglob(), which has an undefined
-> order.
-> 
-> This is a problem that breaks CI because the iotests aren't actually
-> prepared to run on any emulator. They should be, so this is really a bug
-> in the failing test cases that should be fixed there, but as a quick
-> fix, let's revert to the old behaviour to let CI runs succeed again.
-
-Deterministic CI is critically important.
-
-> 
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+On Thu, 28 Jan 2021 at 22:42, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> We were fudging TBI1 enabled to speed up the generated code.
+> Now that we've improved the code generation, remove this.
+> Also, tidy the comment to reflect the current code.
+>
+> The pauth test was testing a kernel address (-1) and making
+> incorrect assumptions about TBI1; stick to userland addresses.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  tests/qemu-iotests/testenv.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/arm/internals.h      |  4 ++--
+>  target/arm/cpu.c            | 10 +++-------
+>  tests/tcg/aarch64/pauth-2.c |  1 -
+>  3 files changed, 5 insertions(+), 10 deletions(-)
+>
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-
-> 
-> diff --git a/tests/qemu-iotests/testenv.py b/tests/qemu-iotests/testenv.py
-> index b31275f518..1fbec854c1 100644
-> --- a/tests/qemu-iotests/testenv.py
-> +++ b/tests/qemu-iotests/testenv.py
-> @@ -135,7 +135,7 @@ class TestEnv(ContextManager['TestEnv']):
->          if not os.path.exists(self.qemu_prog):
->              pattern = root('qemu-system-*')
->              try:
-> -                progs = glob.iglob(pattern)
-> +                progs = sorted(glob.iglob(pattern))
->                  self.qemu_prog = next(p for p in progs if isxfile(p))
->              except StopIteration:
->                  sys.exit("Not found any Qemu executable binary by pattern "
-> -- 
-> 2.29.2
-> 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
