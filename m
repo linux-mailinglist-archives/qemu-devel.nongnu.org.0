@@ -2,65 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B5A430C729
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:14:22 +0100 (CET)
-Received: from localhost ([::1]:37798 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8DC130C751
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 18:17:22 +0100 (CET)
+Received: from localhost ([::1]:46034 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6zFt-000268-HE
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:14:21 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:34854)
+	id 1l6zIn-0005oz-Mk
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 12:17:21 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:35378)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1l6zEa-0000tw-TV
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:13:00 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53684)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maz@kernel.org>) id 1l6zEX-0002sa-CQ
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:13:00 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org
- [51.254.78.96])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6zGd-0004IY-Qg
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:15:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:26764)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1l6zGW-0003tB-JV
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:15:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612286098;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8k8Qdfyg9SP7V9pPvp76NmJ0MxSzr/rfEOZHjNI4Jik=;
+ b=EQjWmZqEemdoJ2qAEeFvqfM/pNjGFwbWGV/Z9aiCMLybqt8wYdiCTn7t645V71Gs13OFaa
+ TkZj8fcQYXEQnUCZ7POMDMeVfe+pjUOppIaJEItPEVigMKItMSzAd7yGGt6Izdf4+gerKz
+ CXXyxsu9p9hhb2ngqIIpTul/v902Tv4=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-497-18jCmn10PRyXkI-lBss8aQ-1; Tue, 02 Feb 2021 12:14:53 -0500
+X-MC-Unique: 18jCmn10PRyXkI-lBss8aQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+ [10.5.11.15])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mail.kernel.org (Postfix) with ESMTPSA id AD5B864F87;
- Tue,  2 Feb 2021 17:12:55 +0000 (UTC)
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
- by disco-boy.misterjones.org with esmtpsa (TLS1.2) tls
- TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 (Exim 4.94)
- (envelope-from <maz@kernel.org>)
- id 1l6zET-00BYvb-E7; Tue, 02 Feb 2021 17:12:53 +0000
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id DE7671F766;
+ Tue,  2 Feb 2021 17:14:38 +0000 (UTC)
+Received: from [10.3.112.103] (ovpn-112-103.phx2.redhat.com [10.3.112.103])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4D1D65D749;
+ Tue,  2 Feb 2021 17:14:38 +0000 (UTC)
+To: Christian Schoenebeck <qemu_oss@crudebyte.com>, qemu-devel@nongnu.org
+References: <CAFEAcA88wwwK5RYDpkQ+KEGwS5Qon6wQc8UsuWjjkKtKM9egcA@mail.gmail.com>
+ <YBjg7ubtbw3OeQCd@SPB-NB-133.local>
+ <6d360ded-f8b6-d08b-b4fc-af8c52554a58@redhat.com> <4581723.kQ5iP5sz2Z@silver>
+From: Eric Blake <eblake@redhat.com>
+Organization: Red Hat, Inc.
+Subject: Re: macOS (Big Sur, Apple Silicon) 'make check' fails in
+ test-crypto-tlscredsx509
+Message-ID: <2aa107b3-b986-0788-4d2d-fcd90ad891a4@redhat.com>
+Date: Tue, 2 Feb 2021 11:14:37 -0600
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.7.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date: Tue, 02 Feb 2021 17:12:53 +0000
-From: Marc Zyngier <maz@kernel.org>
-To: Steven Price <steven.price@arm.com>
-Subject: Re: [PATCH v7 2/3] arm64: kvm: Introduce MTE VCPU feature
-In-Reply-To: <20210115152811.8398-3-steven.price@arm.com>
-References: <20210115152811.8398-1-steven.price@arm.com>
- <20210115152811.8398-3-steven.price@arm.com>
-User-Agent: Roundcube Webmail/1.4.10
-Message-ID: <0c0adbcd250690f703ac4a28faf99263@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: steven.price@arm.com, catalin.marinas@arm.com,
- will@kernel.org, james.morse@arm.com, julien.thierry.kdev@gmail.com,
- suzuki.poulose@arm.com, kvmarm@lists.cs.columbia.edu,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- Dave.Martin@arm.com, mark.rutland@arm.com, tglx@linutronix.de,
- qemu-devel@nongnu.org, quintela@redhat.com, dgilbert@redhat.com,
- richard.henderson@linaro.org, peter.maydell@linaro.org, Haibo.Xu@arm.com,
- drjones@redhat.com
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org);
- SAEximRunCond expanded to false
-Received-SPF: pass client-ip=198.145.29.99; envelope-from=maz@kernel.org;
- helo=mail.kernel.org
-X-Spam_score_int: -68
-X-Spam_score: -6.9
-X-Spam_bar: ------
-X-Spam_report: (-6.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_HI=-5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+In-Reply-To: <4581723.kQ5iP5sz2Z@silver>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=eblake@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=216.205.24.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
+X-Spam_bar: ---
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.155, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -73,292 +84,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>,
- Peter Maydell <peter.maydell@linaro.org>, "Dr. David Alan
- Gilbert" <dgilbert@redhat.com>, Andrew Jones <drjones@redhat.com>,
- Haibo Xu <Haibo.Xu@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- qemu-devel@nongnu.org, Catalin Marinas <catalin.marinas@arm.com>,
- Juan Quintela <quintela@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, linux-kernel@vger.kernel.org,
- Dave Martin <Dave.Martin@arm.com>, James Morse <james.morse@arm.com>,
- linux-arm-kernel@lists.infradead.org, Thomas Gleixner <tglx@linutronix.de>,
- Will Deacon <will@kernel.org>, kvmarm@lists.cs.columbia.edu,
- Julien Thierry <julien.thierry.kdev@gmail.com>
+Cc: Stefan Weil <sw@weilnetz.de>, Roman Bolshakov <r.bolshakov@yadro.com>,
+ Alexander Graf <agraf@csgraf.de>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 2021-01-15 15:28, Steven Price wrote:
-> Add a new VM feature 'KVM_ARM_CAP_MTE' which enables memory tagging
-> for a VM. This exposes the feature to the guest and automatically tags
-> memory pages touched by the VM as PG_mte_tagged (and clears the tags
-> storage) to ensure that the guest cannot see stale tags, and so that 
-> the
-> tags are correctly saved/restored across swap.
-> 
-> Signed-off-by: Steven Price <steven.price@arm.com>
-> ---
->  arch/arm64/include/asm/kvm_emulate.h |  3 +++
->  arch/arm64/include/asm/kvm_host.h    |  3 +++
->  arch/arm64/include/asm/pgtable.h     |  2 +-
->  arch/arm64/kernel/mte.c              | 36 +++++++++++++++++-----------
->  arch/arm64/kvm/arm.c                 |  9 +++++++
->  arch/arm64/kvm/hyp/exception.c       |  3 ++-
->  arch/arm64/kvm/mmu.c                 | 16 +++++++++++++
->  arch/arm64/kvm/sys_regs.c            |  6 ++++-
->  include/uapi/linux/kvm.h             |  1 +
->  9 files changed, 62 insertions(+), 17 deletions(-)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_emulate.h
-> b/arch/arm64/include/asm/kvm_emulate.h
-> index f612c090f2e4..6bf776c2399c 100644
-> --- a/arch/arm64/include/asm/kvm_emulate.h
-> +++ b/arch/arm64/include/asm/kvm_emulate.h
-> @@ -84,6 +84,9 @@ static inline void vcpu_reset_hcr(struct kvm_vcpu 
-> *vcpu)
->  	if (cpus_have_const_cap(ARM64_MISMATCHED_CACHE_TYPE) ||
->  	    vcpu_el1_is_32bit(vcpu))
->  		vcpu->arch.hcr_el2 |= HCR_TID2;
-> +
-> +	if (kvm_has_mte(vcpu->kvm))
-> +		vcpu->arch.hcr_el2 |= HCR_ATA;
->  }
-> 
->  static inline unsigned long *vcpu_hcr(struct kvm_vcpu *vcpu)
-> diff --git a/arch/arm64/include/asm/kvm_host.h
-> b/arch/arm64/include/asm/kvm_host.h
-> index 51590a397e4b..1ca5785fb0e9 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -132,6 +132,8 @@ struct kvm_arch {
-> 
->  	u8 pfr0_csv2;
->  	u8 pfr0_csv3;
-> +	/* Memory Tagging Extension enabled for the guest */
-> +	bool mte_enabled;
->  };
-> 
->  struct kvm_vcpu_fault_info {
-> @@ -749,6 +751,7 @@ bool kvm_arm_vcpu_is_finalized(struct kvm_vcpu 
-> *vcpu);
->  #define kvm_arm_vcpu_sve_finalized(vcpu) \
->  	((vcpu)->arch.flags & KVM_ARM64_VCPU_SVE_FINALIZED)
-> 
-> +#define kvm_has_mte(kvm) (system_supports_mte() && 
-> (kvm)->arch.mte_enabled)
->  #define kvm_vcpu_has_pmu(vcpu)					\
->  	(test_bit(KVM_ARM_VCPU_PMU_V3, (vcpu)->arch.features))
-> 
-> diff --git a/arch/arm64/include/asm/pgtable.h 
-> b/arch/arm64/include/asm/pgtable.h
-> index 501562793ce2..27416d52f6a9 100644
-> --- a/arch/arm64/include/asm/pgtable.h
-> +++ b/arch/arm64/include/asm/pgtable.h
-> @@ -312,7 +312,7 @@ static inline void set_pte_at(struct mm_struct
-> *mm, unsigned long addr,
->  		__sync_icache_dcache(pte);
-> 
->  	if (system_supports_mte() &&
-> -	    pte_present(pte) && pte_tagged(pte) && !pte_special(pte))
-> +	    pte_present(pte) && pte_valid_user(pte) && !pte_special(pte))
->  		mte_sync_tags(ptep, pte);
+On 2/2/21 10:35 AM, Christian Schoenebeck wrote:
 
-Care to elaborate on this change?
+>>> I've submitted the issue to Apple bugtracker:
+>>> FB8986815
+>>
+>> Yes, it's annoying that as compilers get smarter, it exposes the
+>> presence of unspecified code in weird ways.  But I don't see this as a
+>> bug in clang, but as a bug in libtasn1 for assuming undefined behavior
+>> produces a sane result.
+> 
+> You are right Eric, but nevertheless it's a very aggressive behaviour change 
+> being introduced way too silent, especially regarding backward compatibility 
+> like this case proofs.
+> 
+> Personally I find the new semantic NULL + n == NULL makes sense, as it adds 
+> safety, but I do consider it a bug that clang did not even throw a warning. 
+> Even when I add -Wnull-pointer-arithmetic it does not complain to me at all.
 
-> 
->  	__check_racy_pte_update(mm, ptep, pte);
-> diff --git a/arch/arm64/kernel/mte.c b/arch/arm64/kernel/mte.c
-> index dc9ada64feed..f9e089be1603 100644
-> --- a/arch/arm64/kernel/mte.c
-> +++ b/arch/arm64/kernel/mte.c
-> @@ -25,27 +25,33 @@
-> 
->  u64 gcr_kernel_excl __ro_after_init;
-> 
-> -static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool 
-> check_swap)
-> +static void mte_sync_page_tags(struct page *page, pte_t *ptep, bool 
-> check_swap,
-> +			       bool pte_is_tagged)
->  {
->  	pte_t old_pte = READ_ONCE(*ptep);
-> 
->  	if (check_swap && is_swap_pte(old_pte)) {
->  		swp_entry_t entry = pte_to_swp_entry(old_pte);
-> 
-> -		if (!non_swap_entry(entry) && mte_restore_tags(entry, page))
-> +		if (!non_swap_entry(entry) && mte_restore_tags(entry, page)) {
-> +			set_bit(PG_mte_tagged, &page->flags);
->  			return;
-> +		}
->  	}
-> 
-> -	page_kasan_tag_reset(page);
-> -	/*
-> -	 * We need smp_wmb() in between setting the flags and clearing the
-> -	 * tags because if another thread reads page->flags and builds a
-> -	 * tagged address out of it, there is an actual dependency to the
-> -	 * memory access, but on the current thread we do not guarantee that
-> -	 * the new page->flags are visible before the tags were updated.
-> -	 */
-> -	smp_wmb();
-> -	mte_clear_page_tags(page_address(page));
-> +	if (pte_is_tagged) {
-> +		set_bit(PG_mte_tagged, &page->flags);
-> +		page_kasan_tag_reset(page);
-> +		/*
-> +		 * We need smp_wmb() in between setting the flags and clearing the
-> +		 * tags because if another thread reads page->flags and builds a
-> +		 * tagged address out of it, there is an actual dependency to the
-> +		 * memory access, but on the current thread we do not guarantee that
-> +		 * the new page->flags are visible before the tags were updated.
-> +		 */
-> +		smp_wmb();
-> +		mte_clear_page_tags(page_address(page));
-> +	}
->  }
-> 
->  void mte_sync_tags(pte_t *ptep, pte_t pte)
-> @@ -53,11 +59,13 @@ void mte_sync_tags(pte_t *ptep, pte_t pte)
->  	struct page *page = pte_page(pte);
->  	long i, nr_pages = compound_nr(page);
->  	bool check_swap = nr_pages == 1;
-> +	bool pte_is_tagged = pte_tagged(pte);
-> 
->  	/* if PG_mte_tagged is set, tags have already been initialised */
->  	for (i = 0; i < nr_pages; i++, page++) {
-> -		if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-> -			mte_sync_page_tags(page, ptep, check_swap);
-> +		if (!test_bit(PG_mte_tagged, &page->flags))
-> +			mte_sync_page_tags(page, ptep, check_swap,
-> +					   pte_is_tagged);
->  	}
->  }
+Yes, you do have a valid argument: any compiler that is going to
+optimize on our undefined behavior, but fails to give us a -Wxyz option
+to ferret out those spots in our code in order to avoid them in the
+first place, has a poor QoI, and it is worth filing a bug against that
+compiler to have it not be so silent.  Or put another way, there is a
+subtle difference between arguing that "the compiler is miscompiling my
+program" (which is demonstrably false per the standard's permission for
+the compiler to do whatever it wants on undefined code, but if true
+would represent a regression) and "the compiler is not helping me
+eradicate undefined behavior from my dusty-deck code" (which is
+demonstrably true), and the latter is definitely worthy of being
+designated a clang bug (but not regression, rather, you just got lucky
+that your code previously did what you wanted in spite of its
+undefinedness).  And that applies whether or not we also pursue the
+parallel course of action of fixing the actual undefined-code bug in
+libtasn1 that triggered this discussion.
 
-This part really wants to have its own patch and be documented,
-explaining why it is still valid not to atomically test and set
-the PG_mte_tagged bit.
-
-> 
-> diff --git a/arch/arm64/kvm/arm.c b/arch/arm64/kvm/arm.c
-> index 6e637d2b4cfb..f4c2fd2e7c49 100644
-> --- a/arch/arm64/kvm/arm.c
-> +++ b/arch/arm64/kvm/arm.c
-> @@ -97,6 +97,12 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->  		r = 0;
->  		kvm->arch.return_nisv_io_abort_to_user = true;
->  		break;
-> +	case KVM_CAP_ARM_MTE:
-> +		if (!system_supports_mte() || kvm->created_vcpus)
-> +			return -EINVAL;
-> +		r = 0;
-> +		kvm->arch.mte_enabled = true;
-> +		break;
->  	default:
->  		r = -EINVAL;
->  		break;
-> @@ -238,6 +244,9 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, 
-> long ext)
->  		 */
->  		r = 1;
->  		break;
-> +	case KVM_CAP_ARM_MTE:
-> +		r = system_supports_mte();
-> +		break;
->  	case KVM_CAP_STEAL_TIME:
->  		r = kvm_arm_pvtime_supported();
->  		break;
-> diff --git a/arch/arm64/kvm/hyp/exception.c 
-> b/arch/arm64/kvm/hyp/exception.c
-> index 73629094f903..56426565600c 100644
-> --- a/arch/arm64/kvm/hyp/exception.c
-> +++ b/arch/arm64/kvm/hyp/exception.c
-> @@ -112,7 +112,8 @@ static void enter_exception64(struct kvm_vcpu
-> *vcpu, unsigned long target_mode,
->  	new |= (old & PSR_C_BIT);
->  	new |= (old & PSR_V_BIT);
-> 
-> -	// TODO: TCO (if/when ARMv8.5-MemTag is exposed to guests)
-> +	if (kvm_has_mte(vcpu->kvm))
-> +		new |= PSR_TCO_BIT;
-> 
->  	new |= (old & PSR_DIT_BIT);
-> 
-> diff --git a/arch/arm64/kvm/mmu.c b/arch/arm64/kvm/mmu.c
-> index 7d2257cc5438..b9f9fb462de6 100644
-> --- a/arch/arm64/kvm/mmu.c
-> +++ b/arch/arm64/kvm/mmu.c
-> @@ -879,6 +879,22 @@ static int user_mem_abort(struct kvm_vcpu *vcpu,
-> phys_addr_t fault_ipa,
->  	if (vma_pagesize == PAGE_SIZE && !force_pte)
->  		vma_pagesize = transparent_hugepage_adjust(memslot, hva,
->  							   &pfn, &fault_ipa);
-> +
-> +	if (kvm_has_mte(kvm) && pfn_valid(pfn)) {
-> +		/*
-> +		 * VM will be able to see the page's tags, so we must ensure
-> +		 * they have been initialised.
-> +		 */
-> +		struct page *page = pfn_to_page(pfn);
-> +		long i, nr_pages = compound_nr(page);
-
-"unsigned long" to match the return type of compound_nr().
-
-Also, shouldn't you cap nr_pages to vma_pagesize? It could well
-be that what we end-up mapping at S2 has nothing to do with
-the view the kernel has of that page.
-
-> +
-> +		/* if PG_mte_tagged is set, tags have already been initialised */
-> +		for (i = 0; i < nr_pages; i++, page++) {
-> +			if (!test_and_set_bit(PG_mte_tagged, &page->flags))
-> +				mte_clear_page_tags(page_address(page));
-> +		}
-> +	}
-> +
->  	if (writable) {
->  		prot |= KVM_PGTABLE_PROT_W;
->  		kvm_set_pfn_dirty(pfn);
-> diff --git a/arch/arm64/kvm/sys_regs.c b/arch/arm64/kvm/sys_regs.c
-> index 88d4f360949e..57e5be14f1cc 100644
-> --- a/arch/arm64/kvm/sys_regs.c
-> +++ b/arch/arm64/kvm/sys_regs.c
-> @@ -1029,7 +1029,8 @@ static u64 read_id_reg(const struct kvm_vcpu 
-> *vcpu,
->  		val &= ~(0xfUL << ID_AA64PFR0_CSV3_SHIFT);
->  		val |= ((u64)vcpu->kvm->arch.pfr0_csv3 << ID_AA64PFR0_CSV3_SHIFT);
->  	} else if (id == SYS_ID_AA64PFR1_EL1) {
-> -		val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
-> +		if (!kvm_has_mte(vcpu->kvm))
-> +			val &= ~(0xfUL << ID_AA64PFR1_MTE_SHIFT);
->  	} else if (id == SYS_ID_AA64ISAR1_EL1 && !vcpu_has_ptrauth(vcpu)) {
->  		val &= ~((0xfUL << ID_AA64ISAR1_APA_SHIFT) |
->  			 (0xfUL << ID_AA64ISAR1_API_SHIFT) |
-> @@ -1284,6 +1285,9 @@ static bool access_ccsidr(struct kvm_vcpu *vcpu,
-> struct sys_reg_params *p,
->  static unsigned int mte_visibility(const struct kvm_vcpu *vcpu,
->  				   const struct sys_reg_desc *rd)
->  {
-> +	if (kvm_has_mte(vcpu->kvm))
-> +		return 0;
-> +
->  	return REG_HIDDEN;
->  }
-> 
-> diff --git a/include/uapi/linux/kvm.h b/include/uapi/linux/kvm.h
-> index 886802b8ffba..de737d5102ca 100644
-> --- a/include/uapi/linux/kvm.h
-> +++ b/include/uapi/linux/kvm.h
-> @@ -1056,6 +1056,7 @@ struct kvm_ppc_resize_hpt {
->  #define KVM_CAP_ENFORCE_PV_FEATURE_CPUID 190
->  #define KVM_CAP_SYS_HYPERV_CPUID 191
->  #define KVM_CAP_DIRTY_LOG_RING 192
-> +#define KVM_CAP_ARM_MTE 193
-> 
->  #ifdef KVM_CAP_IRQ_ROUTING
-
-Thanks,
-
-         M.
 -- 
-Jazz is not dead. It just smells funny...
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
 
