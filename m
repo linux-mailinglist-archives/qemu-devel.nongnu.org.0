@@ -2,69 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FBB830C998
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:25:42 +0100 (CET)
-Received: from localhost ([::1]:55842 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F8B930C9BB
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 19:27:36 +0100 (CET)
+Received: from localhost ([::1]:60192 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l70Mv-0005re-Mz
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:25:41 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:45592)
+	id 1l70Ol-0007kp-II
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 13:27:35 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:45984)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6zu3-0005ed-AP
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:51 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331]:54465)
+ id 1l6zw1-00083v-PK
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:57:53 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:35057)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1l6ztw-0002Io-JG
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:55:50 -0500
-Received: by mail-wm1-x331.google.com with SMTP id w4so2004907wmi.4
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:55:40 -0800 (PST)
+ id 1l6zvx-0003Bw-FH
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 12:57:53 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id a9so12969624ejr.2
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 09:57:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=from:to:subject:date:message-id:in-reply-to:references:mime-version
- :content-transfer-encoding;
- bh=Nm5/v3GAFRWAcP6ZGflkMlT/2c75JEuKsAXc7vvx+2Y=;
- b=qW7dw+M6+S0YWhAbznoZocyEBhdmMKbDx0UEAVCDZervgwb8GfqlT/vB1nb2LXHswM
- HO+DWBZRi/QtjFiU1vLK8b8+khPekA8jCHqZ4OTza3/Kha0epeLxmOwJFARxhm3l+tJT
- vHDA+PDiJJ5JSvEEl/MDCajLbF5/UI09ndwvpga2D3cX0On19+kvysyeIBAUaiJcYaiC
- 3AvE4EtQxriYEtcyvex4ilnKS3LZCUmgGiebhVhG4msNzQOFtd4sQvi679VXyqTqNJrq
- 8X8gxNyGrwcwWFBuyhRn9cRgcV6EbPSCOVi/EfNpoOvaF1Mwt9+5DJxYWGrzkBcwfPmf
- up4w==
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc; bh=QH8MelJmbJex1cSJPOldYXUQwa89eGaqJciyUaFWMWM=;
+ b=dP0M6aVHYY/sEj4ujAFyW8+ajwFWNbePhrnm4uxNc9GnRHRdmkrFcwrK1uJFFJDY6S
+ SVGsADl0OUKUF5rL8vRaBWPBHKQFD9NNxk/VI2KiU9qz2guJPRC0LmF5rKVQ8onNTuus
+ fyQN4DqXU8QipqSk7kHOc61PM4L7nFg5dF60mfem1hcPS8dTfu1Pu6RnjmUXI3rW9Ltf
+ WpHCVFXjRRAI8Qw+Pvop9bXlthvmBklAvH/YGGH21LNJMli8Kn93TAvxJeC+ctnSSPsD
+ 75L8xX+qs0jW8O7uBug3Bd0xib74+a9xPtg0UI5LemNG58ZnnXKHnBJ8GTWQ0byt+YSM
+ SVuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
- h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
- :references:mime-version:content-transfer-encoding;
- bh=Nm5/v3GAFRWAcP6ZGflkMlT/2c75JEuKsAXc7vvx+2Y=;
- b=U8d8H8x4aN6mF1HPTnwsV8uVTroLeZPcAb/0w2CAeWunmkJq++mntJTGJRD2R12NmJ
- 6BSr1r+tWrsc+6ZwWEc0w3zU0cbWUAo8xbwhdUwYSt6DONHddtBqQgsgrFSyTkD66ZAF
- yY2S156C13Baa5n5le7SHOt+7D6Ef0q35k9PKtwjjCCN9YQsf/OkuqP5hMwl0l96N/Vh
- n8HqTjxBilBsCJP9p5qLoWXqzuib9gffGFG++R1IskyOjD77pcOuo7Q57wq9R/PljcS+
- mxFbQqkspvWFQIGwDjqhMLyxDqHOIzr1bwz1OIf9O/LMjR0BePxPtSgoFo++DKe62sU/
- 7uvw==
-X-Gm-Message-State: AOAM532u/HLBuPkPJi+OpTl4yKoTKl8zHoEKRgIpg/GKwpWXrBFAttD7
- emYRldiRlcTwq2yhh0rN9ihDdzr84a1Ddg==
-X-Google-Smtp-Source: ABdhPJwkPtTT8jPBnxo9Kl8QD02aFF+ojO5BAQnweAGia5hF5pMvEWrDL6DS7TkKxR3IB44I/tg/7Q==
-X-Received: by 2002:a1c:1f4d:: with SMTP id f74mr4850332wmf.12.1612288539384; 
- Tue, 02 Feb 2021 09:55:39 -0800 (PST)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
- by smtp.gmail.com with ESMTPSA id q6sm4142283wmj.32.2021.02.02.09.55.38
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 09:55:38 -0800 (PST)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PULL 21/21] hw/arm: Display CPU type in machine description
-Date: Tue,  2 Feb 2021 17:55:17 +0000
-Message-Id: <20210202175517.28729-22-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20210202175517.28729-1-peter.maydell@linaro.org>
-References: <20210202175517.28729-1-peter.maydell@linaro.org>
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc;
+ bh=QH8MelJmbJex1cSJPOldYXUQwa89eGaqJciyUaFWMWM=;
+ b=JVt5Aeki/ABP0v4D8Nh/H6N7rWHkGwP20fCXD+ZCuiDsaCRCqeIKiIB63uHeBVwSvx
+ m/33ps73zJeLIfDR1kgsOyNuEcGVSYIPBF+M7HDLIrnMDb4ToSjoy/HO1XsbNoRq1CYk
+ 5y1xyDv3dSLs6ugY1HG2Nv4LJ0VUM0ba/8s80DYj4DKa2/o0mUZnKub+pzIRIsl5bCGQ
+ TwdhMkc+VotCB692SZyJwObW+HQPRB++Ix2nnh3BPuDKab1g71TvKhi2zy+UEy8jpi88
+ 5CABNEVxJvGPUwY0K8a+iHbr8QyqHUYVNXADyxbBHBlP8G0wHZfNUpXFos3l0sMyp48i
+ kL/w==
+X-Gm-Message-State: AOAM533gaPYO+zhgQhh/k4iWpptFuwNDXFa0bZAmzoMP09F2UnCqOA+H
+ QUq+rtu0hm4/n+jXFu+/nT+H4pB9LihgURqG2SLiWQ==
+X-Google-Smtp-Source: ABdhPJzAQZDjROms7Lnmot6rUd1V15BHmBOCHRrcM+CS67QwWK1jpyzk9j/vIZtyymEzO9ltdK3NHXjJ6GB3iM4T7Hw=
+X-Received: by 2002:a17:906:1d51:: with SMTP id
+ o17mr2926983ejh.85.1612288667439; 
+ Tue, 02 Feb 2021 09:57:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x331.google.com
+References: <20210202162834.269789-1-kwolf@redhat.com>
+In-Reply-To: <20210202162834.269789-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 17:57:36 +0000
+Message-ID: <CAFEAcA8uFez0XQGCkhHZEVE1NuH--NBG-uYM6=sqmhiXYWJZCQ@mail.gmail.com>
+Subject: Re: [PULL v2 00/10] Block layer patches
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,118 +77,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+On Tue, 2 Feb 2021 at 16:28, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit cf7ca7d5b9faca13f1f8e3ea92cfb2f741eb0c0e:
+>
+>   Merge remote-tracking branch 'remotes/stefanha-gitlab/tags/tracing-pull-request' into staging (2021-02-01 16:28:00 +0000)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to 26513a01741f51650f5dd716681995359794ba6f:
+>
+>   block: Fix VM size column width in bdrv_snapshot_dump() (2021-02-02 17:23:55 +0100)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - Fix double processing of nodes in bdrv_set_aio_context()
+> - Fix potential hang in block export shutdown
+> - block/nvme: Minor tracing improvements
+> - iotests: Some more fixups for the 'check' rewrite
+> - MAINTAINERS: Add Vladimir as co-maintainer for Block Jobs
 
-Most of ARM machines display their CPU when QEMU list the available
-machines (-M help). Some machines do not. Fix to unify the help
-output.
+Yep, this has fixed the issues with the NetBSD VM setup.
 
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
-Reviewed-by: Niek Linnenbank <nieklinnenbank@gmail.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-id: 20210131184449.382425-7-f4bug@amsat.org
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/digic_boards.c  | 2 +-
- hw/arm/microbit.c      | 2 +-
- hw/arm/netduino2.c     | 2 +-
- hw/arm/netduinoplus2.c | 2 +-
- hw/arm/orangepi.c      | 2 +-
- hw/arm/stellaris.c     | 4 ++--
- 6 files changed, 7 insertions(+), 7 deletions(-)
+Applied, thanks.
 
-diff --git a/hw/arm/digic_boards.c b/hw/arm/digic_boards.c
-index be12873673b..6cdc1d83fca 100644
---- a/hw/arm/digic_boards.c
-+++ b/hw/arm/digic_boards.c
-@@ -142,7 +142,7 @@ static void canon_a1100_init(MachineState *machine)
- 
- static void canon_a1100_machine_init(MachineClass *mc)
- {
--    mc->desc = "Canon PowerShot A1100 IS";
-+    mc->desc = "Canon PowerShot A1100 IS (ARM946)";
-     mc->init = &canon_a1100_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_ram_size = 64 * MiB;
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index 0947491cb97..e9494334ce7 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -64,7 +64,7 @@ static void microbit_machine_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "BBC micro:bit";
-+    mc->desc = "BBC micro:bit (Cortex-M0)";
-     mc->init = microbit_init;
-     mc->max_cpus = 1;
- }
-diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-index 8f103341443..1733b71507c 100644
---- a/hw/arm/netduino2.c
-+++ b/hw/arm/netduino2.c
-@@ -54,7 +54,7 @@ static void netduino2_init(MachineState *machine)
- 
- static void netduino2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino 2 Machine";
-+    mc->desc = "Netduino 2 Machine (Cortex-M3)";
-     mc->init = netduino2_init;
-     mc->ignore_memory_transaction_failures = true;
- }
-diff --git a/hw/arm/netduinoplus2.c b/hw/arm/netduinoplus2.c
-index 68abd3ec69d..d3ad7a2b675 100644
---- a/hw/arm/netduinoplus2.c
-+++ b/hw/arm/netduinoplus2.c
-@@ -55,7 +55,7 @@ static void netduinoplus2_init(MachineState *machine)
- 
- static void netduinoplus2_machine_init(MachineClass *mc)
- {
--    mc->desc = "Netduino Plus 2 Machine";
-+    mc->desc = "Netduino Plus 2 Machine (Cortex-M4)";
-     mc->init = netduinoplus2_init;
- }
- 
-diff --git a/hw/arm/orangepi.c b/hw/arm/orangepi.c
-index d6306dfddae..40cdb5c6d2c 100644
---- a/hw/arm/orangepi.c
-+++ b/hw/arm/orangepi.c
-@@ -113,7 +113,7 @@ static void orangepi_init(MachineState *machine)
- 
- static void orangepi_machine_init(MachineClass *mc)
- {
--    mc->desc = "Orange Pi PC";
-+    mc->desc = "Orange Pi PC (Cortex-A7)";
-     mc->init = orangepi_init;
-     mc->block_default_type = IF_SD;
-     mc->units_per_default_bus = 1;
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index ad72c0959f1..27292ec4113 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -1538,7 +1538,7 @@ static void lm3s811evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S811EVB";
-+    mc->desc = "Stellaris LM3S811EVB (Cortex-M3)";
-     mc->init = lm3s811evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
-@@ -1554,7 +1554,7 @@ static void lm3s6965evb_class_init(ObjectClass *oc, void *data)
- {
-     MachineClass *mc = MACHINE_CLASS(oc);
- 
--    mc->desc = "Stellaris LM3S6965EVB";
-+    mc->desc = "Stellaris LM3S6965EVB (Cortex-M3)";
-     mc->init = lm3s6965evb_init;
-     mc->ignore_memory_transaction_failures = true;
-     mc->default_cpu_type = ARM_CPU_TYPE_NAME("cortex-m3");
--- 
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/6.0
+for any user-visible changes.
 
+-- PMM
 
