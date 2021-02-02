@@ -2,76 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 079A530BE22
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:26:54 +0100 (CET)
-Received: from localhost ([::1]:55700 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4A5330BE28
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 13:29:22 +0100 (CET)
+Received: from localhost ([::1]:33470 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6ulh-0000NV-1s
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:26:53 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:42424)
+	id 1l6uo4-00031W-38
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 07:29:20 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:42544)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6ujy-0007oP-3L
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:25:07 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:39207)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1l6ujv-0007Ku-J9
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:25:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1612268702;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=qkPMzKss0vsAk855Cf4f4EZw8tPvL6D2jgjyHCxs2WY=;
- b=KirNgfNgJry8Noy83dwNLHjraZStbLDLTAk8yFBnl7apK+lGYp8WyTTR+7OmwBA4dOSXrz
- bSUYQMy6lqnuOiHblbUHy3scQNYSs+QQ0H/2cpC+XNwLCDT5cLbRo/4CNIpGoOl1Kap4xH
- VhiwoFQ/S1MW/N0crqpBudqNNVNgY4U=
-Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
- [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-475-Y1tUTHt5NVuGWCmsfEJh6Q-1; Tue, 02 Feb 2021 07:25:00 -0500
-X-MC-Unique: Y1tUTHt5NVuGWCmsfEJh6Q-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
- [10.5.11.15])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx01.redhat.com (Postfix) with ESMTPS id E5E59106BAE3;
- Tue,  2 Feb 2021 12:24:59 +0000 (UTC)
-Received: from redhat.com (ovpn-112-202.ams2.redhat.com [10.36.112.202])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 347745D6CF;
- Tue,  2 Feb 2021 12:24:54 +0000 (UTC)
-Date: Tue, 2 Feb 2021 12:24:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Subject: Re: [PATCH RFC 1/4] docs: add a table showing x86-64 ABI
- compatibility levels
-Message-ID: <20210202122452.GD4168502@redhat.com>
-References: <20210201153606.4158076-1-berrange@redhat.com>
- <20210201153606.4158076-2-berrange@redhat.com>
- <20210201182851.GC3872207@habkost.net>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6uky-0008RS-87
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:26:09 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e]:42463)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1l6uks-0007rW-8n
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 07:26:06 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id r12so29644950ejb.9
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 04:26:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+ :cc:content-transfer-encoding;
+ bh=c+G3TuuZdddZdLSCiu835Rng3C9zacytq1wS/2XqQGs=;
+ b=WD0UkueDxddiNwGrR4Li13eT6HazdV+08hsBCGr7OWeKjM88OcpAKDVzK2EKu50Wqz
+ DOVPj6xUY2WFgDoYNd5xp3FPzuMKc7OBItoY8J+oJQiPxQDoO8HRzNzNqVKeOxS205TZ
+ Ng69ptkB25NDbWyWYBDkOpUhzCS1pTlAt2RoSknB1IJKKfcJGsYQfsvlUpBidFCGBNBO
+ 5oAX8usOrJWRUe5xTEeLqg5buxCwXYjj64CyjkdgWMsFQJR0Y2LZ1vZ9k56f8DxOnWo5
+ WHsMPbe6R01O0Eg1tR243HL7Tip4H0v9NLQ50TvAvEHpAtVS75jDNUDuxvjtomPtI7/0
+ SabA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20161025;
+ h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+ :message-id:subject:to:cc:content-transfer-encoding;
+ bh=c+G3TuuZdddZdLSCiu835Rng3C9zacytq1wS/2XqQGs=;
+ b=GUK0vb21TodNRKf4ZHaPxc/qzMmeIM/0/4VFUdemJW17uJSUwkCxGW6No885h7MR7r
+ IOLsTWxIJoTCAXM7n5meQxeMgV4kfV6Hbgd0c5q/v9raxFKH9IqN/QMSSAxp2Hxzm2RW
+ 8FjnEKksMVkq+ciY+SoToyX2yaeRYb2YwTSOo1GBrLMq0hwEna7uViCO/dnvZtgLTkSw
+ ejZ7ZmEQ7NnrmJd2XZ1ya0RIoWVEZdUaCMt6q6vB+qU0An9jnxKr5FxPkzG6qQGTHm6D
+ D85P3yuXF+RpVHu2lcbxLURSGRig8lngibKJDBqgeVkHbJCC444Hv3tWFaooOae4Cihn
+ hNzQ==
+X-Gm-Message-State: AOAM530lbv7f+8HWHLI0tlQGGmXRr2SxVPQKDX15+4dopzAXRkWPF6aT
+ KX+4wMBw5fk1LmqTb4ntAA6xes7nC/645MiZXbw0jQ==
+X-Google-Smtp-Source: ABdhPJz/F9P4dymntHAHNyzhoex0P0d7gQnrLmzEzULTZN3oyItL4iR/4l6ytYhCldnOQsJdthEgsMeAs7mBbjZf9lw=
+X-Received: by 2002:a17:907:1b10:: with SMTP id
+ mp16mr22242179ejc.482.1612268760281; 
+ Tue, 02 Feb 2021 04:26:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20210201182851.GC3872207@habkost.net>
-User-Agent: Mutt/1.14.6 (2020-07-11)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-Authentication-Results: relay.mimecast.com;
- auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=berrange@redhat.com
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: redhat.com
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=216.205.24.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20210131151410.318649-1-f4bug@amsat.org>
+In-Reply-To: <20210131151410.318649-1-f4bug@amsat.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 2 Feb 2021 12:25:49 +0000
+Message-ID: <CAFEAcA9WEmiePw_SipgUZwGFNcMPi4ejoXDT5v3mhYQhxX_rcg@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/2] hw/arm/raspi: Restrict BCM2835 / BCM2836 SoC to
+ TCG
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -84,60 +80,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Florian Weimer <fweimer@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- Cleber Rosa <crosa@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Luc Michel <luc@lmichel.fr>, QEMU Trivial <qemu-trivial@nongnu.org>,
+ Michael Tokarev <mjt@tls.msk.ru>, QEMU Developers <qemu-devel@nongnu.org>,
+ Andrew Baumann <Andrew.Baumann@microsoft.com>,
+ Laurent Vivier <laurent@vivier.eu>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Feb 01, 2021 at 01:28:51PM -0500, Eduardo Habkost wrote:
-> On Mon, Feb 01, 2021 at 03:36:03PM +0000, Daniel P. Berrangé wrote:
-> > It is useful to know which CPUs satisfy each x86-64 ABI
-> > compatibility level, when dealing with guest OS that require
-> > something newer than the baseline ABI.
-> > 
-> > These ABI levels are defined in:
-> > 
-> >   https://gitlab.com/x86-psABIs/x86-64-ABI/
-> > 
-> > and supported by GCC, CLang, GLibC and more.
-> > 
-> > Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-> [...]
-> > diff --git a/docs/system/cpu-models-x86-abi.csv b/docs/system/cpu-models-x86-abi.csv
-> > new file mode 100644
-> > index 0000000000..4565e6a535
-> > --- /dev/null
-> > +++ b/docs/system/cpu-models-x86-abi.csv
-> > @@ -0,0 +1,121 @@
-> > +Model,baseline,v2,v3,v4
-> > +486,,,,
-> > +486-v1,,,,
-> > +Broadwell,✅,✅,✅,
-> > +Broadwell-IBRS,✅,✅,✅,
-> > +Broadwell-noTSX,✅,✅,✅,
-> > +Broadwell-noTSX-IBRS,✅,✅,✅,
-> > +Broadwell-v1,✅,✅,✅,
-> > +Broadwell-v2,✅,✅,✅,
-> > +Broadwell-v3,✅,✅,✅,
-> > +Broadwell-v4,✅,✅,✅,
-> 
-> Unversioned names like "Broadwell" are machine-type-dependent
-> aliases.  I don't think they should be present in the table.
-> 
-> Models with suffixes like -IBRS, -noTSX, etc. are also aliases to
-> specific versions.  Maybe they could appear in the table for
-> completeness, but I'm not sure.
+On Sun, 31 Jan 2021 at 15:14, Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>=
+ wrote:
+>
+> Peter mentioned [*] KVM only support ARMv8 targets. Restrict the
+> non-ARMv8 machines to TCG.
+>
+> While this is still not enough to boot a raspi3 image using KVM:
+>
+>   $ qemu-system-aarch64 -M raspi3b -enable-kvm ...
+>   qemu-system-aarch64: ../../softmmu/physmem.c:745: cpu_address_space_ini=
+t: A=3D
+> ssertion `asidx =3D3D=3D3D 0 || !kvm_enabled()' failed.
+>   Aborted (core dumped)
 
-I guess just skip the CPUs with "alias-of" reported is easiest
+Side note: this assertion isn't specific to the raspi3b -- it's
+caused because we don't correctly screen out "tried to use KVM
+on a CPU type with EL3 enabled", which should cause an error
+but instead gets far enough through CPU init to hit this assertion.
 
-
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+thanks
+-- PMM
 
