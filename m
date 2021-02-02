@@ -2,50 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0730E30C32A
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:14:08 +0100 (CET)
-Received: from localhost ([::1]:52834 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A535E30C357
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 16:17:32 +0100 (CET)
+Received: from localhost ([::1]:33514 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6xNX-00085C-2V
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:14:07 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:56022)
+	id 1l6xQp-0003TR-O9
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 10:17:31 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57458)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l6xGC-00076m-6F
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:06:33 -0500
-Received: from zangief.bwidawsk.net ([107.170.211.233]:46034
- helo=mail.bwidawsk.net)
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l6xLJ-0006MJ-7y; Tue, 02 Feb 2021 10:11:49 -0500
+Received: from relay64.bu.edu ([128.197.228.104]:49248)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ben@bwidawsk.net>) id 1l6xGA-0003ne-My
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 10:06:31 -0500
-Received: by mail.bwidawsk.net (Postfix, from userid 5001)
- id 65B641234A4; Tue,  2 Feb 2021 07:06:28 -0800 (PST)
-Received: from mail.bwidawsk.net (c-73-37-61-164.hsd1.or.comcast.net
- [73.37.61.164])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits) server-digest
- SHA256) (Client did not present a certificate)
- by mail.bwidawsk.net (Postfix) with ESMTPSA id D9FAF122C69;
- Tue,  2 Feb 2021 07:06:17 -0800 (PST)
-Date: Tue, 2 Feb 2021 07:06:16 -0800
-From: Ben Widawsky <ben@bwidawsk.net>
-To: Eric Blake <eblake@redhat.com>
-Subject: Re: [RFC PATCH v3 21/31] hw/cxl/device: Add a memory device (8.2.8.5)
-Message-ID: <20210202150616.s6nvpbmozsosewgm@mail.bwidawsk.net>
-References: <20210202005948.241655-1-ben.widawsky@intel.com>
- <20210202005948.241655-22-ben.widawsky@intel.com>
- <ec610f0d-4719-43fd-9293-e5a18e00a7d3@redhat.com>
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>)
+ id 1l6xLH-0006GF-3J; Tue, 02 Feb 2021 10:11:48 -0500
+X-Envelope-From: alxndr@bu.edu
+X-BU-AUTH: mozz.bu.edu [128.197.127.33]
+Received: from BU-AUTH (localhost.localdomain [127.0.0.1]) (authenticated
+ bits=0)
+ by relay64.bu.edu (8.14.3/8.14.3) with ESMTP id 112FAcgJ017602
+ (version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256 verify=NO);
+ Tue, 2 Feb 2021 10:10:42 -0500
+Date: Tue, 2 Feb 2021 10:10:38 -0500
+From: Alexander Bulekov <alxndr@bu.edu>
+To: Peter Maydell <peter.maydell@linaro.org>
+Subject: Re: [QEMU-SECURITY] [PATCH] hw/intc/arm_gic: Fix interrupt ID in
+ GICD_SGIR register
+Message-ID: <20210202151038.tk6luxvgashnrpit@mozz.bu.edu>
+References: <20210131103401.217160-1-f4bug@amsat.org>
+ <3a94e327-0454-bf43-552a-1c84407e1d7d@amsat.org>
+ <20p82p5p-ns25-n434-37os-n55013s6313@erqung.pbz>
+ <6d29aa57-2e6e-e81d-831f-803d9aae798f@amsat.org>
+ <787280826.1146023.1612246917145@mail.yahoo.com>
+ <3bd70da2-39ec-6e6b-d46d-6052f1b8f0b0@amsat.org>
+ <CAFEAcA-Q8swS84GVd20wo4Pp41UUPdDknxbCMn=pchgi96UgRQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <ec610f0d-4719-43fd-9293-e5a18e00a7d3@redhat.com>
-Received-SPF: none client-ip=107.170.211.233; envelope-from=ben@bwidawsk.net;
- helo=mail.bwidawsk.net
-X-Spam_score_int: -14
-X-Spam_score: -1.5
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAFEAcA-Q8swS84GVd20wo4Pp41UUPdDknxbCMn=pchgi96UgRQ@mail.gmail.com>
+Received-SPF: pass client-ip=128.197.228.104; envelope-from=alxndr@bu.edu;
+ helo=relay64.bu.edu
+X-Spam_score_int: -15
+X-Spam_score: -1.6
 X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, KHOP_HELO_FCRDNS=0.399,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, HK_RANDOM_ENVFROM=0.001,
+ HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.23
@@ -58,74 +62,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>,
- Vishal Verma <vishal.l.verma@intel.com>,
- "John Groves \(jgroves\)" <jgroves@micron.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Igor Mammedov <imammedo@redhat.com>, Dan Williams <dan.j.williams@intel.com>,
- Ira Weiny <ira.weiny@intel.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@xilinx.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Sai Pavan Boddu <sai.pavan.boddu@xilinx.com>,
+ "qemu-stable@nongnu.org" <qemu-stable@nongnu.org>, Li Qiang <liq3ea@gmail.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+ QEMU Security <qemu-security@nongnu.org>, P J P <ppandit@redhat.com>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>, P J P <pj.pandit@yahoo.co.in>,
+ Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21-02-02 08:26:14, Eric Blake wrote:
-> On 2/1/21 6:59 PM, Ben Widawsky wrote:
-> > A CXL memory device (AKA Type 3) is a CXL component that contains some
-> > combination of volatile and persistent memory. It also implements the
-> > previously defined mailbox interface as well as the memory device
-> > firmware interface.
-> > 
-> > Although the memory device is configured like a normal PCIe device, the
-> > memory traffic is on an entirely separate bus conceptually (using the
-> > same physical wires as PCIe, but different protocol).
-> > 
-> > The guest physical address for the memory device is part of a larger
-> > window which is owned by the platform. Currently, this is hardcoded as
-> > an object property on host bridge (PXB) creation, but that will need to
-> > change for interleaving.
-> > 
-> > The following example will create a 256M device in a 512M window:
-> > -object "memory-backend-file,id=cxl-mem1,share,mem-path=cxl-type3,size=512M"
-> > -device "cxl-type3,bus=rp0,memdev=cxl-mem1,id=cxl-pmem0,size=256M"
-> > 
-> > Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-> > ---
+On 210202 1221, Peter Maydell wrote:
+> On Tue, 2 Feb 2021 at 09:32, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+> >
+> > On 2/2/21 7:21 AM, P J P wrote:
+> > > On Sunday, 31 January, 2021, 08:48:26 pm IST, Philippe Mathieu-Daudé <f4bug@amsat.org> wrote:
+> > >> Forwarding to qemu-security@ to see if this issue is worth a CVE.
+> > >>
+> > >> | On 1/31/21 11:34 AM, Philippe Mathieu-Daudé wrote:
+> > >> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913916
+> > >> | > Buglink: https://bugs.launchpad.net/qemu/+bug/1913917
+> > >
+> > > * Does above patch address both these bugs? For BZ#1913917 'irq' is derived from 'offset' it seems.
+> > >
+> > >         /* Interrupt Configuration.  */
+> > >         irq = (offset - 0xc00) * 4;
+> >
+> > I haven't done a thorough analysis, simply tried to fixed this
+> > bug ASAP as it is public so many users are exposed.
+> >
+> > I had the impression the first call (writel 0x8000f00 0x5affaf)
+> > break the heap, so the memory is inconsistent when the second
+> > call (write 0x8000eff 0x1 0x0) is done, but better have developers
+> > familiar with GIC and security auditing this again.
 > 
-> > +++ b/qapi/machine.json
-> > @@ -1394,6 +1394,7 @@
-> >  { 'union': 'MemoryDeviceInfo',
-> >    'data': { 'dimm': 'PCDIMMDeviceInfo',
-> >              'nvdimm': 'PCDIMMDeviceInfo',
-> > +            'cxl': 'PCDIMMDeviceInfo',
-> >              'virtio-pmem': 'VirtioPMEMDeviceInfo',
-> >              'virtio-mem': 'VirtioMEMDeviceInfo'
-> >            }
-> 
-> Missing documentation that 'cxl' was introduced in 6.0.  Also, is it
-> worth keeping the branches of this union in lexicographic order?
+> Philippe is correct here. In both cases the overrun is on the
+> first writel to 0x8000f00, but the fuzzer has for some reason not
+> reported that but instead blundered on until it happens to trigger
+> some other issue that resulted from the memory corruption it induced
+> with the first write.
 > 
 
-Sure.
+It happens in the standalone reproducer build with
+ASAN/--enable-sanitizers, so it seems like an oversight/bug in the
+Sanitizers, rather than the fuzzer. It is strange that UBSan seemed to
+detect an OOB index, but proceeded as normal. I should start paying
+closer attention to those non-fatal UBSan errors.
 
-As discussed on the list previously, I think more thought needs to be put in
-here, and I could really use some input.
-
-A CXL type3 memory device can have both persistent and volatile capacity. As
-such a single PCDIMMDeviceInfo I believe is insufficient. The current code
-supports persistent memory only, so this is fine for now.
-
-I'd guess my best bet is to create a new CXLType3DeviceInfo, but I'm not
-entirely sure of all the implications that has.
-
-Any advice?
-
-> -- 
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
+> > >> | > Correct the irq mask to fix an undefined behavior (which eventually
+> > >> | > lead to a heap-buffer-overflow, see [Buglink]):
+> > >> | >
+> > >> | >    $ echo 'writel 0x8000f00 0xff4affb0' | qemu-system-aarch64 -M virt,accel=qtest -qtest stdio
+> > >> | >    [I 1612088147.116987] OPENED
+> > >> | >  [R +0.278293] writel 0x8000f00 0xff4affb0
+> > >> | >  ../hw/intc/arm_gic.c:1498:13: runtime error: index 944 out of bounds for type 'uint8_t [16][8]'
+> > >> | >  SUMMARY: UndefinedBehaviorSanitizer: undefined-behavior ../hw/intc/arm_gic.c:1498:13
+> > >> | >
+> > >> | > Cc: qemu-stable@nongnu.org
+> > >> | > Fixes: 9ee6e8bb853 ("ARMv7 support.")
+> > >> |
+> > >> | > ---
+> > >> | > Isnt it worth a CVE to help distributions track backports?
+> > >> | > ---
+> > >
+> > > Thank you for reporting this issue. Will process further.
 > 
+> On the CVE:
 > 
+> Since this can affect systems using KVM, this is a security bug for
+> us. However, it only affects an uncommon configuration:
+> you are only vulnerable if you are using "kernel-irqchip=off"
+> (the default is 'on', and turning it off is an odd thing to do).
+> 
+> I've applied this patch to target-arm.next.
+>
+
+Ah I had a gut feeling there was a GIC in kvm. CVE or no CVE, --n_bugs
+-Alex
+
+> thanks
+> -- PMM
 
