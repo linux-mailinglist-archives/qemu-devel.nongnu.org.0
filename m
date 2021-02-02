@@ -2,57 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1F6330C09D
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:03:14 +0100 (CET)
-Received: from localhost ([::1]:33878 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14FAE30C09F
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 15:04:16 +0100 (CET)
+Received: from localhost ([::1]:36420 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6wGv-0002Ly-Rm
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:03:13 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:60384)
+	id 1l6wHv-0003RM-27
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 09:04:15 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:60344)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l6w5l-0000L9-Qy
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6w5g-0000Js-FA
  for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:51:41 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56]:2095)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1l6w5h-0003pJ-68
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:51:41 -0500
-Received: from fraeml744-chm.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4DVR026ZkDz67h9N;
- Tue,  2 Feb 2021 21:45:22 +0800 (CST)
-Received: from lhreml710-chm.china.huawei.com (10.201.108.61) by
- fraeml744-chm.china.huawei.com (10.206.15.225) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2106.2; Tue, 2 Feb 2021 14:51:33 +0100
-Received: from localhost (10.47.79.68) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2106.2; Tue, 2 Feb 2021
- 13:51:32 +0000
-Date: Tue, 2 Feb 2021 13:50:46 +0000
-From: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To: Ben Widawsky <ben.widawsky@intel.com>
-Subject: Re: [RFC PATCH v3 10/31] hw/pxb: Use a type for realizing expanders
-Message-ID: <20210202135046.000017ca@Huawei.com>
-In-Reply-To: <20210202005948.241655-11-ben.widawsky@intel.com>
-References: <20210202005948.241655-1-ben.widawsky@intel.com>
- <20210202005948.241655-11-ben.widawsky@intel.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:23055)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_CBC_SHA1:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1l6w5b-0003iy-1h
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:51:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1612273889;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=WnxS4jt5T6guIdC3nTCnXCLcCtAMqYqF3/Xpa6LRGp8=;
+ b=ilXBhOfUWouUK5yaK3dVkuuGyE1BQ99dovIw2siT8HixGWw0hl5OaJOQt1QNnMUenqrRip
+ EywVXRuXVpD7YBtb2+rPPGPldmU4BVrlaTH/u3fhBwINviKxZfRAqz81XwDAo/UtKiixUZ
+ aRAY/EXLGA4/rbogyCukI1FU3TacQtk=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-258-2lhfB9e9MkOrWqRaYOoWaA-1; Tue, 02 Feb 2021 08:51:28 -0500
+X-MC-Unique: 2lhfB9e9MkOrWqRaYOoWaA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+ [10.5.11.23])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 203F79CC08
+ for <qemu-devel@nongnu.org>; Tue,  2 Feb 2021 13:51:27 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-115-51.ams2.redhat.com
+ [10.36.115.51])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BB8C9E165;
+ Tue,  2 Feb 2021 13:51:26 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 4FB45113865F; Tue,  2 Feb 2021 14:51:25 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH 1/6] qapi: Add interfaces for alias support to Visitor
+References: <20201112172850.401925-1-kwolf@redhat.com>
+ <20201112172850.401925-2-kwolf@redhat.com>
+ <87czxqr19m.fsf@dusky.pond.sub.org>
+ <20210127203136.GE6090@merkur.fritz.box>
+Date: Tue, 02 Feb 2021 14:51:25 +0100
+In-Reply-To: <20210127203136.GE6090@merkur.fritz.box> (Kevin Wolf's message of
+ "Wed, 27 Jan 2021 21:31:36 +0100")
+Message-ID: <87czxi8tnm.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/27.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.47.79.68]
-X-ClientProxiedBy: lhreml745-chm.china.huawei.com (10.201.108.195) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_MSPIKE_H2=-0.001,
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Authentication-Results: relay.mimecast.com;
+ auth=pass smtp.auth=CUSA124A263 smtp.mailfrom=armbru@redhat.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: redhat.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=63.128.21.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.386,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H4=0.001, RCVD_IN_MSPIKE_WL=0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,85 +82,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David
- Hildenbrand <david@redhat.com>, Vishal Verma <vishal.l.verma@intel.com>,
- "John Groves \(jgroves\)" <jgroves@micron.com>,
- Chris Browy <cbrowy@avery-design.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, Markus Armbruster <armbru@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Dan Williams <dan.j.williams@intel.com>, Ira Weiny <ira.weiny@intel.com>,
- Philippe =?ISO-8859-1?Q?Mathieu-Da?= =?ISO-8859-1?Q?ud=E9?= <f4bug@amsat.org>
+Cc: jsnow@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 1 Feb 2021 16:59:27 -0800
-Ben Widawsky <ben.widawsky@intel.com> wrote:
+Kevin Wolf <kwolf@redhat.com> writes:
 
-> This opens up the possibility for more types of expanders (other than
-> PCI and PCIe). We'll need this to create a CXL expander.
-> 
-> Signed-off-by: Ben Widawsky <ben.widawsky@intel.com>
-Minor suggestion inline but nothing important if you don't want to change it.
+> Am 27.01.2021 um 13:51 hat Markus Armbruster geschrieben:
+>> Kevin Wolf <kwolf@redhat.com> writes:
+>> 
+>> > This adds functions to the Visitor interface that can be used to define
+>> > aliases and alias scopes.
+>> >
+>> > Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+>> > ---
+>> >  include/qapi/visitor-impl.h | 12 ++++++++++++
+>> >  include/qapi/visitor.h      | 37 +++++++++++++++++++++++++++++++++++++
+>> >  qapi/qapi-visit-core.c      | 21 +++++++++++++++++++++
+>> >  3 files changed, 70 insertions(+)
+>> >
+>> > diff --git a/include/qapi/visitor-impl.h b/include/qapi/visitor-impl.h
+>> > index 7362c043be..e30da2599c 100644
+>> > --- a/include/qapi/visitor-impl.h
+>> > +++ b/include/qapi/visitor-impl.h
+>> > @@ -113,6 +113,18 @@ struct Visitor
+>> >         The core takes care of the return type in the public interface. */
+>> >      void (*optional)(Visitor *v, const char *name, bool *present);
+>> >  
+>> > +    /*
+>> > +     * Optional; intended for input visitors. If not given, aliases are
+>> > +     * ignored.
+>> > +     */
+>> > +    void (*define_alias)(Visitor *v, const char *alias, const char **source);
+>> > +
+>> > +    /* Must be set if define_alias is set */
+>> > +    void (*start_alias_scope)(Visitor *v);
+>> > +
+>> > +    /* Must be set if define_alias is set */
+>> > +    void (*end_alias_scope)(Visitor *v);
+>> > +
+>> >      /* Must be set */
+>> >      VisitorType type;
+>> >  
+>> > diff --git a/include/qapi/visitor.h b/include/qapi/visitor.h
+>> > index ebc19ede7f..9bdc0ee03d 100644
+>> > --- a/include/qapi/visitor.h
+>> > +++ b/include/qapi/visitor.h
+>> > @@ -459,6 +459,43 @@ void visit_end_alternate(Visitor *v, void **obj);
+>> >   */
+>> >  bool visit_optional(Visitor *v, const char *name, bool *present);
+>> >  
+>> > +/*
+>> > + * Defines a new alias rule.
+>> > + *
+>> > + * If @alias is non-NULL, the member named @alias in the external
+>> > + * representation of the current struct is defined as an alias for the
+>> 
+>> Terminology: the big comment uses "object".  See also the FIXME in
+>> visit_start_struct()'s contract.
+>
+> Ok. Maybe the FIXME should be resolved to avoid this kind of problem.
 
-Jonathan
+True.  Checking... the churn outside tests/ looks quite tolerable.  Feel
+free to stick a suitable patch into v2.
 
-> ---
->  hw/pci-bridge/pci_expander_bridge.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-> index aedded1064..232b7ce305 100644
-> --- a/hw/pci-bridge/pci_expander_bridge.c
-> +++ b/hw/pci-bridge/pci_expander_bridge.c
-> @@ -24,6 +24,8 @@
->  #include "hw/boards.h"
->  #include "qom/object.h"
->  
-> +enum BusType { PCI, PCIE };
-> +
->  #define TYPE_PXB_BUS "pxb-bus"
->  typedef struct PXBBus PXBBus;
->  DECLARE_INSTANCE_CHECKER(PXBBus, PXB_BUS,
-> @@ -214,7 +216,8 @@ static gint pxb_compare(gconstpointer a, gconstpointer b)
->             0;
->  }
->  
-> -static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
-> +static void pxb_dev_realize_common(PCIDevice *dev, enum BusType type,
-> +                                   Error **errp)
->  {
->      PXBDev *pxb = convert_to_pxb(dev);
->      DeviceState *ds, *bds = NULL;
-> @@ -239,7 +242,7 @@ static void pxb_dev_realize_common(PCIDevice *dev, bool pcie, Error **errp)
->      }
->  
->      ds = qdev_new(TYPE_PXB_HOST);
-> -    if (pcie) {
-> +    if (type == PCIE) {
+>> > + * member described by @source.
+>> > + *
+>> > + * If @alias is NULL, all members of the struct described by @source are
+>> > + * considered to have alias members with the same key in the current
+>> > + * struct.
+>> 
+>> Define "the current struct".  I believe it's the object being visited.
+>
+> Yes.
+>
+>> What happens if we're currently visiting something other than an object,
+>> i.e. the root of a tree, or a list?
+>
+> Then you (= the generated code) shouldn't call the function. Aliases
+> only make sense for objects (because everything else doesn't have keys).
+>
+> If you call it anyway, it depends on how you visit the elements of the
+> list. Currently, I think they are always visited with a NULL name. In
+> this case the alias should just never apply, but it looks like
+> propagate_aliases() might actually crash because it doesn't check for
+> NULL names.
+>
+> We don't have such callers and I don't think we want to have them, so
+> I'm not sure if we want to fix anything, and if we do, if the fix should
+> be tolerating and effectively ignoring such alias definitions or if we
+> should explicitly assert that the name is non-NULL.
 
-I'd make this a switch statement now given we are about to the 3 entries and may well
-get more in the future.
+I'm like putting "no nonsense" into the contract, then enforce it with
+an assertion if practical.
 
->          bus = pci_root_bus_new(ds, dev_name, NULL, NULL, 0, TYPE_PXB_PCIE_BUS);
->      } else {
->          bus = pci_root_bus_new(ds, "pxb-internal", NULL, NULL, 0, TYPE_PXB_BUS);
-> @@ -287,7 +290,7 @@ static void pxb_dev_realize(PCIDevice *dev, Error **errp)
->          return;
->      }
->  
-> -    pxb_dev_realize_common(dev, false, errp);
-> +    pxb_dev_realize_common(dev, PCI, errp);
->  }
->  
->  static void pxb_dev_exitfn(PCIDevice *pci_dev)
-> @@ -339,7 +342,7 @@ static void pxb_pcie_dev_realize(PCIDevice *dev, Error **errp)
->          return;
->      }
->  
-> -    pxb_dev_realize_common(dev, true, errp);
-> +    pxb_dev_realize_common(dev, PCIE, errp);
->  }
->  
->  static void pxb_pcie_dev_class_init(ObjectClass *klass, void *data)
+>> > + *
+>> > + * @source is a NULL-terminated array of names that describe the path to
+>> > + * a member, starting from the currently visited struct.
+>> 
+>> I'm afraid "describe the path to a member" is too vague.  How?
+>> 
+>> I figure this is what you have in mind:
+>> 
+>>     cur = the currently visited object
+>>     for s in source:
+>>         cur = the member of cur denoted by s
+>> 
+>> When @cur is indeed an object, then "the member denoted by @s" makes
+>> sense: you must pass a name when visiting object members, and whatever
+>> is visited with name @s is the member denoted by @s.
+>> 
+>> "Must pass a name" is documented in the big comment:
+>> 
+>>  * The @name parameter of visit_type_FOO() describes the relation
+>>  * between this QAPI value and its parent container.  When visiting
+>>  * the root of a tree, @name is ignored; when visiting a member of an
+>>  * object, @name is the key associated with the value; when visiting a
+>>  * member of a list, @name is NULL; and when visiting the member of an
+>>  * alternate, @name should equal the name used for visiting the
+>>  * alternate.
+>> 
+>> But what if @cur is a list?  I guess that makes no sense.  Say so
+>> explicitly, please.
+>
+> Yes, everything but the last element in the path must be an object.
+
+Got it, thanks.
 
 
