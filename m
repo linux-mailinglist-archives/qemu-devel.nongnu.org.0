@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BAEB30C047
-	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:54:01 +0100 (CET)
-Received: from localhost ([::1]:43076 helo=lists1p.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2D530C008
+	for <lists+qemu-devel@lfdr.de>; Tue,  2 Feb 2021 14:49:31 +0100 (CET)
+Received: from localhost ([::1]:57244 helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1l6w80-0002Ui-DY
-	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:54:00 -0500
-Received: from eggs.gnu.org ([2001:470:142:3::10]:57202)
+	id 1l6w3e-0004t2-5S
+	for lists+qemu-devel@lfdr.de; Tue, 02 Feb 2021 08:49:30 -0500
+Received: from eggs.gnu.org ([2001:470:142:3::10]:57230)
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6vuq-0003pI-RE
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:24 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:33532)
+ id 1l6vus-0003rn-NE
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:26 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:33342)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1l6vun-0007MU-IA
- for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:24 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id 7so20520236wrz.0
- for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:40:21 -0800 (PST)
+ id 1l6vuq-0007QR-UU
+ for qemu-devel@nongnu.org; Tue, 02 Feb 2021 08:40:26 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id a16so1959477wmm.0
+ for <qemu-devel@nongnu.org>; Tue, 02 Feb 2021 05:40:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=from:to:cc:subject:date:message-id:in-reply-to:references
  :mime-version:content-transfer-encoding;
- bh=ryuNxTXwDSUiKM7x6VXFmXXC0IegaYuuOajUh/vALXs=;
- b=YrOWF3W8+Qy9oR8z/qozm+KRraHUIw+aDxMV350X8w38caVsFSDNIoW/dQDLqujUga
- 2ITyC5n8ScAuWEvCNrpBXwm4p5R52fAQy3oG6ogI9J8Jx9c6sbWquWLyOTJOMorMQ54O
- 7XMtMqwJZqrT+0QzkRbnAN3UoWAwet7WxenTi4fMtFlmI7+FMHwNqdSH6YHG+dvtxwuD
- O9vshKksI9jRBNVIqIHcUq1tSwTwGPScqXiVQZIgr2oyP9rFtUOdM7U29cnPQuVDsz+W
- 0WFesRWkRdeh20ZRHx5noh7ZTBpHNtCAsFFlCLqsM7WjbTpVBjUaW5fNXwkBX/LkPWcK
- LOYg==
+ bh=EkuLK63yEXX5SW08QBjGa4Wz+OKzv7+Xm922jA3ia8k=;
+ b=Ft35cCBGkrqz3Y9sMSNzYiHugOId5lMWmej468fnr9pQxQh9Cjgr2usjNpZiqqvPAw
+ wY2FNxHTYjuVfShKpMtKXRcNDxz3N3CqqIHIuCi6rJXMIpu6uKzYthuHoLsrwU2rMtwV
+ I94qwe6wBBgfeJmjENuYCVyGl8Ql7VqREA1AD+dtMULBVvdMZG2aD9MSjRh+bGxPLcSf
+ DrNefvjcZRoxqwIuAAl04curl8qchfsIXhjp3pSDE3FGMjjTLKJzM3daQ9J0P2YZ4lvk
+ vgWf5sgt/pbnFDDoJ2na9w6VCHIDkJOnqjMU3HwGaLNTF4AVIArC/at/yUjNEAB6zLl6
+ guQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20161025;
  h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
  :references:mime-version:content-transfer-encoding;
- bh=ryuNxTXwDSUiKM7x6VXFmXXC0IegaYuuOajUh/vALXs=;
- b=Pf6J7g2VJdQ1D3lPMl3KVei4/PQ26oNCML6JUn8uaDoe0dpuhx9huazfXHIi/SfDiZ
- Gz2EoaMt6N0zO/HsxTRQiW70o3yqVxZjUs1NoJzdgbPyJw4/iFSsM9TJTCAyr6dlYisL
- aeRnJluAGop0Al48nGItZRgi73Umxk9t4S3UDOYsJ+oES5p5GZTwMmKJPAmaYkDh0Mvt
- pLyUTOcRQ6CaaJrIR2Lkd0BuNmptso1osE5FabokG3s4vWRZ2TIuCIxfqONXO9wmb+o4
- fAU0BfaCAQ6kq6Mx+eRQWL2OkjSY+qLnRzw2PxDDa2r0yaHNbMAsezuM3i1YVEwRc5D/
- J0jg==
-X-Gm-Message-State: AOAM5317eiU4iCUJiiitqsNMWmNZPrIjRlHf2bvokIPM67QBADBftVYL
- gsOBTbsU3bDXYknvThTRZtqcng==
-X-Google-Smtp-Source: ABdhPJyjyXv9+D/c8KbafawCBdcfoAkORmiTIRvQkGQKYWZfxKyCQNgXhAsu+kLM+wbe6C98Q/UtIg==
-X-Received: by 2002:a5d:55c3:: with SMTP id i3mr23507687wrw.190.1612273220092; 
- Tue, 02 Feb 2021 05:40:20 -0800 (PST)
+ bh=EkuLK63yEXX5SW08QBjGa4Wz+OKzv7+Xm922jA3ia8k=;
+ b=aK7vmFFjKade7r5Mu5UbpsQCTj3pnplQnqK66bWqOajnydxDvtKJi023qIG+1f/EhB
+ ljoeW5XL8FR8fk/KWPdU2+b5xNjrXAjMzLnIPbf1YjbxFQNVjE7Z19m5g9oZ8crz6WAN
+ g+GsijVqFLagkyXXz6rEi77yXv4qOFIQrYQZv6XEBHgEfs6jm143ku1JiLCF3BepfbVP
+ 2y+mdf4a8cgtLXLpFegngf5QevvI89yEoFG4Wf+3QUalGlBKnVdvobHyNDSf2Ux6YF/z
+ j8ydF4TWn5g1eW97ThRjKxp9NR2uyY8k0drmzWyenVXEg6K71S4N4d0n+8aiOoum+k9a
+ KtnQ==
+X-Gm-Message-State: AOAM530LLz+B5w2ey8KAaxA/A/Wg8IwJgz+ejQl+DI9OOsqWs6m3Jw96
+ gUV5I8MaRgVUwIrcu+hn5sbz0w==
+X-Google-Smtp-Source: ABdhPJwpLsEUOLomagVBtphOZV6NJl1EsDprqCtb6GSEeyyLgww1LgzGJxlxtIj+h41tZIOTi7+Gsw==
+X-Received: by 2002:a1c:2ec2:: with SMTP id u185mr3672580wmu.83.1612273223596; 
+ Tue, 02 Feb 2021 05:40:23 -0800 (PST)
 Received: from zen.linaroharston ([51.148.130.216])
- by smtp.gmail.com with ESMTPSA id g1sm32160549wrq.30.2021.02.02.05.40.07
+ by smtp.gmail.com with ESMTPSA id c18sm4744430wmk.0.2021.02.02.05.40.09
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 02 Feb 2021 05:40:12 -0800 (PST)
+ Tue, 02 Feb 2021 05:40:15 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 291F71FF9B;
+ by zen.linaroharston (Postfix) with ESMTP id 3E0851FF9C;
  Tue,  2 Feb 2021 13:40:02 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PATCH v1 12/15] scripts/mtest2make.py: export all-%s-targets
- variable and use it
-Date: Tue,  2 Feb 2021 13:39:57 +0000
-Message-Id: <20210202134001.25738-13-alex.bennee@linaro.org>
+Subject: [PATCH v1 13/15] tests/Makefile.include: don't use TARGET_DIRS for
+ check-tcg
+Date: Tue,  2 Feb 2021 13:39:58 +0000
+Message-Id: <20210202134001.25738-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20210202134001.25738-1-alex.bennee@linaro.org>
 References: <20210202134001.25738-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,51 +88,50 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Eduardo Habkost <ehabkost@redhat.com>, Cleber Rosa <crosa@redhat.com>
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There are some places where the conditional makefile support is the
-simplest solution. Now we don't expose CONFIG_TCG as a variable create
-a new one that can be checked for the check-help output.
+TARGET_DIRS reflects what we wanted to configure which in the normal
+case is all our targets. However once meson has pared-down our target
+list due to missing features we need to check the final list of
+ninja-targets. This prevents check-tcg barfing on a --disable-tcg
+build.
 
-As check-tcg is a PHONY target we re-use check-softfloat to gate that
-as well.
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20210126145356.7860-2-alex.bennee@linaro.org>
 Acked-by: Paolo Bonzini <pbonzini@redhat.com>
----
- scripts/mtest2make.py  | 1 +
- tests/Makefile.include | 2 +-
- 2 files changed, 2 insertions(+), 1 deletion(-)
+Message-Id: <20210126145356.7860-3-alex.bennee@linaro.org>
 
-diff --git a/scripts/mtest2make.py b/scripts/mtest2make.py
-index 25ee6887cf..cbbcba100d 100644
---- a/scripts/mtest2make.py
-+++ b/scripts/mtest2make.py
-@@ -110,6 +110,7 @@ def emit_suite(name, suite, prefix):
-     print('ifneq ($(filter %s %s, $(MAKECMDGOALS)),)' % (target, prefix))
-     print('.tests += $(.test.$(SPEED).%s)' % (target, ))
-     print('endif')
-+    print('all-%s-targets += %s' % (prefix, target))
- 
- targets = {t['id']: [os.path.relpath(f) for f in t['filename']]
-            for t in introspect['targets']}
+---
+v2
+  - move everything to Makefile.include
+---
+ tests/Makefile.include | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
+
 diff --git a/tests/Makefile.include b/tests/Makefile.include
-index ceaf3f0d6e..17dafdfe98 100644
+index 17dafdfe98..d34254fb29 100644
 --- a/tests/Makefile.include
 +++ b/tests/Makefile.include
-@@ -12,7 +12,7 @@ check-help:
- 	@echo " $(MAKE) check-speed          Run qobject speed tests"
- 	@echo " $(MAKE) check-qapi-schema    Run QAPI schema tests"
- 	@echo " $(MAKE) check-block          Run block tests"
--ifeq ($(CONFIG_TCG),y)
-+ifneq ($(filter $(all-check-targets), check-softfloat),)
- 	@echo " $(MAKE) check-tcg            Run TCG tests"
- 	@echo " $(MAKE) check-softfloat      Run FPU emulation tests"
- endif
+@@ -40,11 +40,13 @@ SYSEMU_TARGET_LIST := $(subst -softmmu.mak,,$(notdir \
+ 
+ SPEED = quick
+ 
+-# Per guest TCG tests
++# Build up our target list from the filtered list of ninja targets
++TARGETS=$(patsubst libqemu-%.fa, %, $(filter libqemu-%.fa, $(ninja-targets)))
+ 
+-BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGET_DIRS))
+-CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGET_DIRS))
+-RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGET_DIRS))
++# Per guest TCG tests
++BUILD_TCG_TARGET_RULES=$(patsubst %,build-tcg-tests-%, $(TARGETS))
++CLEAN_TCG_TARGET_RULES=$(patsubst %,clean-tcg-tests-%, $(TARGETS))
++RUN_TCG_TARGET_RULES=$(patsubst %,run-tcg-tests-%, $(TARGETS))
+ 
+ # Probe for the Docker Builds needed for each build
+ $(foreach PROBE_TARGET,$(TARGET_DIRS), 				\
 -- 
 2.20.1
 
